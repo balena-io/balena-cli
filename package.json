@@ -1,0 +1,24 @@
+{
+  "name": "resin",
+  "version": "0.0.1",
+  "description": "Git Push to your devices",
+  "main": "bin/resin",
+  "scripts": {
+    "test": "cult test"
+  },
+  "keywords": [
+    "resin",
+    "git"
+  ],
+  "author": "Juan Cruz Viotti <juanchiviotti@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "~1.9.2",
+    "mocha": "~2.0.1",
+    "cult": "~2.0.0",
+    "gulp-mocha": "~1.1.1",
+    "gulp": "~3.8.9",
+    "coffee-script": "~1.8.0",
+    "mocha-notifier-reporter": "~0.1.0"
+  }
+}
