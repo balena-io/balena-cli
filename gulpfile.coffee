@@ -25,5 +25,4 @@ gulp.task 'lint', ->
 		.pipe(coffeelint.reporter())
 
 gulp.task 'watch', [ 'test', 'lint' ], ->
-	gulp.watch(OPTIONS.files.tests, [ 'test' ])
-	gulp.watch(OPTIONS.files.coffee, [ 'lint' ])
+	gulp.watch(OPTIONS.files.coffee, [ 'test', 'lint' ])
