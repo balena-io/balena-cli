@@ -8,12 +8,14 @@ TEST_URI = config.baseUrl
 URI =
 	ok: '/ok'
 	nojson: '/nojson'
+	error: '/error'
 
 RESPONSE =
 	nojson: 'NO JSON RESPONSE'
 
 STATUS =
 	ok: 'ok'
+	error: 'error'
 
 METHODS = [
 	'GET'
@@ -27,11 +29,12 @@ METHODS = [
 describe 'Server', ->
 
 	beforeEach ->
-		nock(TEST_URI).get('/nojson').reply(200, RESPONSE.nojson)
+		nock(TEST_URI).get(URI.nojson).reply(200, RESPONSE.nojson)
+		nock(TEST_URI).get(URI.error).reply(400, status: STATUS.error)
 
 		for method in METHODS
 			lowercaseMethod = method.toLowerCase()
-			nock(TEST_URI)[lowercaseMethod]('/ok').reply(200, status: STATUS.ok)
+			nock(TEST_URI)[lowercaseMethod](URI.ok).reply(200, status: STATUS.ok)
 
 	describe '#request()', ->
 
@@ -74,6 +77,12 @@ describe 'Server', ->
 
 		it 'should throw an error if method is unknown', (done) ->
 			server.request 'FOO', URI.ok, null, (error, response) ->
+				expect(error).to.exist
+				expect(error).to.be.an.instanceof(Error)
+				done()
+
+		it 'should throw an error if the status code is >= 400', (done) ->
+			server.request 'GET', URI.error, null, (error, response) ->
 				expect(error).to.exist
 				expect(error).to.be.an.instanceof(Error)
 				done()

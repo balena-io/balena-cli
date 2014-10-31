@@ -14,6 +14,9 @@ exports.request = (method = 'GET', uri, json, callback) ->
 		try
 			response.body = JSON.parse(response.body)
 
+		if response?.statusCode >= 400
+			error = new Error(response.body)
+
 		return callback?.call(null, error, response, body)
 
 exports.get = (uri, callback) ->
