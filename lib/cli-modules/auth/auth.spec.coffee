@@ -2,7 +2,7 @@ expect = require('chai').expect
 nock = require('nock')
 auth = require('./auth')
 config = require('../../config')
-johnDoeFixture = require('./fixtures/johndoe')
+johnDoeFixture = require('../../../tests/fixtures/johndoe')
 
 describe 'Auth', ->
 
