@@ -19,6 +19,7 @@
     "gulp-mocha": "~1.1.1",
     "gulp": "~3.8.9",
     "coffee-script": "~1.8.0",
-    "mocha-notifier-reporter": "~0.1.0"
+    "mocha-notifier-reporter": "~0.1.0",
+    "gulp-coffeelint": "~0.4.0"
   }
 }
