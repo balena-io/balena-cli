@@ -1,0 +1,7 @@
+{
+	"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Imp2aW90dGkiLCJlbWFpbCI6Imp1YW5jaGl2aW90dGlAZ21haWwuY29tIiwiZ2l0bGFiX2lkIjoxNjUsImhhc1Bhc3N3b3JkU2V0Ijp0cnVlLCJwdWJsaWNfa2V5Ijp0cnVlLCJmZWF0dXJlcyI6W10sImlkIjoxNzUsInBlcm1pc3Npb25zIjpbImV3YS5kZXZpY2UuZ2V0IiwiYWRtaW4uY3JlYXRlX2ludml0ZXMiLCJhZG1pbi5ob21lIiwiYWRtaW4ubG9naW5fYXNfdXNlciJdLCJpYXQiOjE0MTQ3NzMyMTN9.j4gMqZlnVohJt8jLpzpJWZS6rFUpNCWDwa13woo58aY",
+	"credentials": {
+		"username": "johndoe",
+		"password": "mysecret"
+	}
+}
