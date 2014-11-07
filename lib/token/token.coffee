@@ -1,15 +1,18 @@
 # TODO: Persist token in a secure manner
+data = require('../data/data')
 
 token = null
 
-exports.saveToken = (newToken) ->
+exports.saveToken = (newToken, callback) ->
 	token = newToken
+	return callback(null, token)
 
-exports.hasToken = ->
-	return token?
+exports.hasToken = (callback) ->
+	return callback(token?)
 
-exports.getToken = ->
-	return token or undefined
+exports.getToken = (callback) ->
+	return callback(null, token or undefined)
 
-exports.clearToken = ->
+exports.clearToken = (callback) ->
 	token = null
+	return callback?(null)
