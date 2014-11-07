@@ -7,7 +7,7 @@ PREFIXES =
 	new: '~/.resin-new'
 	invalid: { path: '~/.resin' }
 
-describe 'DataPrefix', ->
+describe 'DataPrefix:', ->
 
 	describe 'given no prefix', ->
 

@@ -4,7 +4,7 @@ auth = require('./auth')
 config = require('../../config')
 johnDoeFixture = require('../../../tests/fixtures/johndoe')
 
-describe 'Auth', ->
+describe 'Auth:', ->
 
 	describe 'given valid credentials', ->
 

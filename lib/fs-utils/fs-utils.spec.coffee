@@ -12,7 +12,7 @@ PATHS =
 		name: '/tmp/dir'
 		contents: mockFs.directory()
 
-describe 'FsUtils', ->
+describe 'FsUtils:', ->
 
 	describe '#isValidPath()', ->
 

@@ -26,7 +26,7 @@ METHODS = [
 	'PATCH'
 ]
 
-describe 'Server', ->
+describe 'Server:', ->
 
 	beforeEach ->
 		nock(TEST_URI).get(URI.nojson).reply(200, RESPONSE.nojson)

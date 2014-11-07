@@ -4,7 +4,7 @@ token = require('./token')
 johnDoeFixture = require('../../tests/fixtures/johndoe.json')
 janeDoeFixture = require('../../tests/fixtures/janedoe.json')
 
-describe 'Token', ->
+describe 'Token:', ->
 
 	describe 'given a user that is logged in', ->
 
