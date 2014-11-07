@@ -56,7 +56,7 @@ describe 'FsUtils', ->
 
 		it 'should return false if file doesn\'t exists', (done) ->
 			fsUtils.isFile '/nonexistentfile', (error, isFile) ->
-				expect(error).to.exist
+				expect(error).to.not.exist
 				expect(isFile).to.be.false
 				done()
 
