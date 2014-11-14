@@ -22,7 +22,10 @@ constructPath = (key) ->
 exports.get = haltIfNoPrefix (key, options, callback) ->
 	exports.has key, (hasKey) ->
 		if not hasKey
-			return callback?(null)
+
+			# Pass undefined explicitly, otherwise
+			# async gets confused
+			return callback?(null, undefined)
 
 		keyPath = constructPath(key)
 		fs.readFile(keyPath, options, callback)
