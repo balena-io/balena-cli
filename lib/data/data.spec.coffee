@@ -97,6 +97,12 @@ describe 'Data:', ->
 					expect(value).to.not.exist
 					done()
 
+			it 'should return undefined if key doesn\'t exists', (done) ->
+				data.get 'nontexistantkey', encoding: 'utf8', (error, value) ->
+					expect(error).to.not.exist
+					expect(value).to.be.undefined
+					done()
+
 		describe '#has()', ->
 
 			it 'should return true if a file exists', (done) ->

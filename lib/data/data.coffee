@@ -20,8 +20,12 @@ constructPath = (key) ->
 	return result
 
 exports.get = haltIfNoPrefix (key, options, callback) ->
-	keyPath = constructPath(key)
-	fs.readFile(keyPath, options, callback)
+	exports.has key, (hasKey) ->
+		if not hasKey
+			return callback?(null)
+
+		keyPath = constructPath(key)
+		fs.readFile(keyPath, options, callback)
 
 exports.set = haltIfNoPrefix (key, value, options, callback) ->
 	keyPath = constructPath(key)
