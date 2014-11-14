@@ -14,7 +14,7 @@ OPTIONS =
 gulp.task 'test', ->
 	gulp.src(OPTIONS.files.tests, read: false)
 		.pipe(mocha({
-			reporter: mochaNotifierReporter.decorate('list')
+			reporter: mochaNotifierReporter.decorate('landing')
 		}))
 
 gulp.task 'lint', ->
