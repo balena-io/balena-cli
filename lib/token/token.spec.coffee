@@ -86,7 +86,7 @@ describe 'Token:', ->
 					(callback) ->
 						token.saveToken(johnDoeFixture.token, callback)
 
-					(savedToken, callback) ->
+					(callback) ->
 						token.getToken(callback)
 
 					(savedToken, callback) ->
