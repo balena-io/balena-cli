@@ -1,4 +1,3 @@
-# TODO: Persist token in a secure manner
 data = require('../data/data')
 
 TOKEN_KEY = 'token'
