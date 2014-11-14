@@ -156,9 +156,8 @@ describe 'Server:', ->
 
 			it 'should not send the Authorization header', (done) ->
 				server.request 'GET', URI.ok, null, (error, response) ->
-					authorizationHeader = response.request.headers.Authorization
-
 					expect(error).to.not.exist
+					authorizationHeader = response.request.headers.Authorization
 					expect(authorizationHeader).to.not.exist
 					done()
 

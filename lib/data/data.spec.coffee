@@ -85,10 +85,10 @@ describe 'Data:', ->
 					expect(value).to.equal(FILESYSTEM.nested.contents)
 					done()
 
-			it 'should return an error if reading an invalid key', (done) ->
+			it 'should return undefined if reading an invalid key', (done) ->
 				data.get 'nonexistantkey', encoding: 'utf8', (error, value) ->
-					expect(error).to.be.an.instanceof(Error)
-					expect(value).to.not.exist
+					expect(error).to.not.exist
+					expect(value).to.be.undefined
 					done()
 
 			it 'should return an error if not reading a file', (done) ->
@@ -131,8 +131,8 @@ describe 'Data:', ->
 
 						(callback) ->
 							data.get filename, encoding: 'utf8', (error, value) ->
-								expect(error).to.be.an.instanceof(Error)
-								expect(value).to.not.exist
+								expect(error).to.not.exist
+								expect(value).to.be.undefined
 								return callback()
 
 						(callback) ->
@@ -169,8 +169,8 @@ describe 'Data:', ->
 
 						(callback) ->
 							data.get key, encoding: 'utf8', (error, value) ->
-								expect(error).to.be.an.instanceof(Error)
-								expect(value).to.not.exist
+								expect(error).to.not.exist
+								expect(value).to.be.undefined
 								return callback()
 
 					], (error) ->
