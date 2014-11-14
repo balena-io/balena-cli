@@ -1,6 +1,8 @@
 expect = require('chai').expect
-mockFs = require('mock-fs')
+mock = require('../../tests/utils/mock')
 fsUtils = require('./fs-utils')
+config = require('../config')
+data = require('../data/data')
 
 FILESYSTEM =
 	text:
@@ -8,7 +10,7 @@ FILESYSTEM =
 		contents: 'Hello World'
 	directory:
 		name: '/tmp/directory'
-		contents: mockFs.directory()
+		contents: {}
 
 describe 'FsUtils:', ->
 
@@ -28,8 +30,8 @@ describe 'FsUtils:', ->
 		it 'should return true for valid paths', ->
 
 			for validPath in [
+				config.dataPrefix
 				'/Users/johndoe'
-				'~/.resin'
 				'../parent'
 				'./file/../file2'
 			]
@@ -38,13 +40,11 @@ describe 'FsUtils:', ->
 	describe '#isDirectory()', ->
 
 		beforeEach ->
-			mockFsOptions = {}
-			for key, value of FILESYSTEM
-				mockFsOptions[value.name] = value.contents
-			mockFs(mockFsOptions)
+			mock.fs.init(FILESYSTEM)
+			data.prefix.set(config.dataPrefix)
 
 		afterEach ->
-			mockFs.restore()
+			mock.fs.restore()
 
 		it 'should return true if directory', (done) ->
 			fsUtils.isDirectory FILESYSTEM.directory.name, (error, isDirectory) ->

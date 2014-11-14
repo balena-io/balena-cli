@@ -1,11 +1,18 @@
 expect = require('chai').expect
 async = require('async')
 token = require('./token')
+mock = require('../../tests/utils/mock')
 
 johnDoeFixture = require('../../tests/fixtures/johndoe.json')
 janeDoeFixture = require('../../tests/fixtures/janedoe.json')
 
 describe 'Token:', ->
+
+	beforeEach ->
+		mock.fs.init()
+
+	afterEach ->
+		mock.fs.restore()
 
 	describe 'given a user that is logged in', ->
 

@@ -3,10 +3,17 @@ nock = require('nock')
 async = require('async')
 auth = require('./auth')
 config = require('../../config')
+mock = require('../../../tests/utils/mock')
 johnDoeFixture = require('../../../tests/fixtures/johndoe')
 janeDoeFixture = require('../../../tests/fixtures/janedoe')
 
 describe 'Auth:', ->
+
+	beforeEach ->
+		mock.fs.init()
+
+	afterEach ->
+		mock.fs.restore()
 
 	describe 'given valid credentials', ->
 

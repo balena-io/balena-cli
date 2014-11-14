@@ -1,11 +1,10 @@
 expect = require('chai').expect
 _ = require('lodash')
 fsUtils = require('../fs-utils/fs-utils')
+mock = require('../../tests/utils/mock')
 async = require('async')
-mockFs = require('mock-fs')
+config = require('../config')
 data = require('./data')
-
-PREFIX = '~/.resin'
 
 FILES_FIXTURES =
 	hello:
@@ -17,15 +16,15 @@ FILES_FIXTURES =
 
 FILESYSTEM =
 	text:
-		name: "#{PREFIX}/text"
+		name: "#{config.dataPrefix}/text"
 		contents: 'Hello World'
 		key: 'text'
 	directory:
-		name: "#{PREFIX}/directory"
-		contents: mockFs.directory()
+		name: "#{config.dataPrefix}/directory"
+		contents: {}
 		key: 'directory'
 	nested:
-		name: "#{PREFIX}/nested/text"
+		name: "#{config.dataPrefix}/nested/text"
 		contents: 'Nested Hello World'
 		key: 'nested/text'
 
@@ -60,15 +59,11 @@ describe 'Data:', ->
 	describe 'given a prefix', ->
 
 		beforeEach ->
-			mockFsOptions = {}
-			for key, value of FILESYSTEM
-				mockFsOptions[value.name] = value.contents
-			mockFs(mockFsOptions)
-
-			data.prefix.set(PREFIX)
+			mock.fs.init(FILESYSTEM)
+			data.prefix.set(config.dataPrefix)
 
 		afterEach ->
-			mockFs.restore()
+			mock.fs.restore()
 			data.prefix.clear()
 
 		describe '#get()', ->

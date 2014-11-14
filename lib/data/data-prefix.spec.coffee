@@ -1,11 +1,12 @@
 expect = require('chai').expect
 _ = require('lodash')
 dataPrefix = require('./data-prefix')
+config = require('../config')
 
 PREFIXES =
-	main: '~/.resin'
-	new: '~/.resin-new'
-	invalid: { path: '~/.resin' }
+	main: config.dataPrefix
+	new: "#{config.dataPrefix}-new"
+	invalid: { path: '/abc' }
 
 describe 'DataPrefix:', ->
 

@@ -3,6 +3,7 @@ nock = require('nock')
 server = require('./server')
 config = require('../config')
 token = require('../token/token')
+mock = require('../../tests/utils/mock')
 johnDoeFixture = require('../../tests/fixtures/johndoe.json')
 
 TEST_URI = config.baseUrl
@@ -37,6 +38,11 @@ describe 'Server:', ->
 		for method in METHODS
 			lowercaseMethod = method.toLowerCase()
 			nock(TEST_URI)[lowercaseMethod](URI.ok).reply(200, status: STATUS.ok)
+
+		mock.fs.init()
+
+	afterEach ->
+		mock.fs.restore()
 
 	describe '#request()', ->
 
