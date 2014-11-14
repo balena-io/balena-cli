@@ -2,6 +2,8 @@ expect = require('chai').expect
 nock = require('nock')
 server = require('./server')
 config = require('../config')
+token = require('../token/token')
+johnDoeFixture = require('../../tests/fixtures/johndoe.json')
 
 TEST_URI = config.baseUrl
 
@@ -120,3 +122,36 @@ describe 'Server:', ->
 
 	describe '#patch()', ->
 		it('should be a facade to request()', checkRequestTypeWithBody('PATCH', { hello: 'world' }))
+
+	describe 'given there is a token', ->
+
+		beforeEach (done) ->
+			token.saveToken(johnDoeFixture.token, done)
+
+		describe '#request()', ->
+
+			it 'should send the Authorization header', (done) ->
+
+				server.request 'GET', URI.ok, null, (error, response) ->
+					authorizationHeader = response.request.headers.Authorization
+
+					expect(error).to.not.exist
+					expect(authorizationHeader).to.exist
+					expect(authorizationHeader).to.equal("Bearer #{johnDoeFixture.token}")
+					done()
+
+	describe 'given there is not a token', ->
+
+		beforeEach (done) ->
+			token.clearToken(done)
+
+		describe '#request()', ->
+
+			it 'should not send the Authorization header', (done) ->
+				server.request 'GET', URI.ok, null, (error, response) ->
+					authorizationHeader = response.request.headers.Authorization
+
+					expect(error).to.not.exist
+					expect(authorizationHeader).to.not.exist
+					done()
+

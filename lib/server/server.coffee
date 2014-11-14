@@ -1,38 +1,56 @@
 request = require('request')
 urljoin = require('url-join')
+async = require('async')
 config = require('../config')
+token = require('../token/token')
 
-exports.request = (method = 'GET', uri, json, callback) ->
+exports.request = (method = 'GET', url, json, callback) ->
 	method = method.toUpperCase()
-	uri = urljoin(config.baseUrl, uri)
+	url = urljoin(config.baseUrl, url)
 
-	request {
-		uri
-		method
-		json
-	}, (error, response, body) ->
-		try
-			response.body = JSON.parse(response.body)
+	async.waterfall [
 
-		if response?.statusCode >= 400
-			error = new Error(response.body)
+		(callback) ->
+			token.getToken(callback)
 
-		return callback?.call(null, error, response, body)
+		(savedToken, callback) ->
+			requestOptions = {
+				url
+				method
+				json
+			}
 
-exports.get = (uri, callback) ->
-	return exports.request('GET', uri, null, callback)
+			if savedToken?
+				requestOptions.headers =
+					'Authorization': "Bearer #{savedToken}"
 
-exports.head = (uri, callback) ->
-	return exports.request('HEAD', uri, null, callback)
+			request(requestOptions, callback)
 
-exports.delete = (uri, callback) ->
-	return exports.request('DELETE', uri, null, callback)
+		(response, body, callback) ->
+			try
+				response.body = JSON.parse(response.body)
 
-exports.post = (uri, json, callback) ->
-	return exports.request('POST', uri, json, callback)
+			if response?.statusCode >= 400
+				error = new Error(response.body)
 
-exports.put = (uri, json, callback) ->
-	return exports.request('PUT', uri, json, callback)
+			return callback(error, response, body)
 
-exports.patch = (uri, json, callback) ->
-	return exports.request('PATCH', uri, json, callback)
+	], callback
+
+exports.get = (url, callback) ->
+	return exports.request('GET', url, null, callback)
+
+exports.head = (url, callback) ->
+	return exports.request('HEAD', url, null, callback)
+
+exports.delete = (url, callback) ->
+	return exports.request('DELETE', url, null, callback)
+
+exports.post = (url, json, callback) ->
+	return exports.request('POST', url, json, callback)
+
+exports.put = (url, json, callback) ->
+	return exports.request('PUT', url, json, callback)
+
+exports.patch = (url, json, callback) ->
+	return exports.request('PATCH', url, json, callback)
