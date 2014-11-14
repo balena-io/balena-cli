@@ -16,4 +16,4 @@ exports.clearToken = (callback) ->
 		if hasToken
 			return data.remove(TOKEN_KEY, callback)
 		else
-			return callback?()
+			return callback?(null)
