@@ -1,5 +1,8 @@
 expect = require('chai').expect
 _ = require('lodash')
+fsUtils = require('../fs-utils/fs-utils')
+fs = require('fs')
+async = require('async')
 mockFs = require('mock-fs')
 data = require('./data')
 
@@ -43,6 +46,12 @@ describe 'Data:', ->
 				setDataKey = _.partial(data.set, 'foobar', 'Foo Bar!')
 				expect(setDataKey).to.throw(Error)
 
+		describe '#remove()', ->
+
+			it 'should throw an error', ->
+				removeDataKey = _.partial(data.remove, 'foobar')
+				expect(removeDataKey).to.throw(Error)
+
 	describe 'given a prefix', ->
 
 		beforeEach ->
@@ -85,34 +94,84 @@ describe 'Data:', ->
 
 		describe '#set()', ->
 
-			it 'should be able to write a file', (done) ->
-				filename = FILES_FIXTURES.hello.filename
-				contents = FILES_FIXTURES.hello.contents
+			writeAndCheckFixture = (fixture) ->
+				return (done) ->
+					filename = fixture.filename
+					contents = fixture.contents
 
-				data.get filename, encoding: 'utf8', (error, value) ->
-					expect(error).to.be.an.instanceof(Error)
-					expect(value).to.not.exist
+					async.waterfall [
 
-					data.set filename, contents, encoding: 'utf8', (error) ->
-						expect(error).to.not.exist
+						(callback) ->
+							data.get filename, encoding: 'utf8', (error, value) ->
+								expect(error).to.be.an.instanceof(Error)
+								expect(value).to.not.exist
+								return callback()
 
-						data.get filename, encoding: 'utf8', (error, value) ->
-							expect(error).to.not.exist
+						(callback) ->
+							data.set(filename, contents, encoding: 'utf8', callback)
+
+						(callback) ->
+							data.get(filename, encoding: 'utf8', callback)
+
+						(value, callback) ->
 							expect(value).to.equal(contents)
-							done()
+							return callback()
 
-			it 'should be able to write a nested file', (done) ->
-				filename = FILES_FIXTURES.nested.filename
-				contents = FILES_FIXTURES.nested.contents
-
-				data.get filename, encoding: 'utf8', (error, value) ->
-					expect(error).to.be.an.instanceof(Error)
-					expect(value).to.not.exist
-
-					data.set filename, contents, encoding: 'utf8', (error) ->
+					], (error) ->
 						expect(error).to.not.exist
+						done()
 
-						data.get filename, encoding: 'utf8', (error, value) ->
-							expect(error).to.not.exist
-							expect(value).to.equal(contents)
-							done()
+			it('should be able to write a file', writeAndCheckFixture(FILES_FIXTURES.hello))
+			it('should be able to write a nested file', writeAndCheckFixture(FILES_FIXTURES.nested))
+
+		describe '#remove()', ->
+
+			removeAndCheckFile = (file) ->
+				return (done) ->
+					key = file.key
+
+					async.waterfall [
+
+						(callback) ->
+							data.get(key, encoding: 'utf8', callback)
+
+						(value, callback) ->
+							expect(value).to.equal(file.contents)
+							data.remove(key, callback)
+
+						(callback) ->
+							data.get key, encoding: 'utf8', (error, value) ->
+								expect(error).to.be.an.instanceof(Error)
+								expect(value).to.not.exist
+								return callback()
+
+					], (error) ->
+						expect(error).to.not.exist
+						done()
+
+			it('should be able to remove a file', removeAndCheckFile(FILESYSTEM.text))
+
+			it('should be able to remove a nested file', removeAndCheckFile(FILESYSTEM.nested))
+
+			it 'should be able to remove a directory', (done) ->
+				directory = FILESYSTEM.directory
+
+				async.waterfall [
+
+					(callback) ->
+						fsUtils.isDirectory(directory.name, callback)
+
+					(isDirectory, callback) ->
+						expect(isDirectory).to.be.true
+						data.remove(directory.key, callback)
+
+					(callback) ->
+
+						# TODO: Implement data.has() to abstract this
+						fs.exists directory.name, (exists) ->
+							expect(exists).to.be.false
+							return callback()
+
+				], (error) ->
+					expect(error).to.not.exist
+					done()

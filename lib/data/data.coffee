@@ -1,5 +1,6 @@
 fs = require('fs')
 path = require('path')
+rimraf = require('rimraf')
 fsUtils = require('../fs-utils/fs-utils')
 exports.prefix = require('./data-prefix')
 
@@ -25,3 +26,12 @@ exports.get = haltIfNoPrefix (key, options, callback) ->
 exports.set = haltIfNoPrefix (key, value, options, callback) ->
 	keyPath = constructPath(key)
 	fs.writeFile(keyPath, value, options, callback)
+
+exports.remove = haltIfNoPrefix (key, callback) ->
+	keyPath = constructPath(key)
+
+	fsUtils.isDirectory keyPath, (error, isDirectory) ->
+		return callback(error) if error?
+
+		removeFunction = if isDirectory then rimraf else fs.unlink
+		removeFunction(keyPath, callback)
