@@ -1,18 +1,20 @@
 # TODO: Persist token in a secure manner
 data = require('../data/data')
 
-token = null
+TOKEN_KEY = 'token'
 
 exports.saveToken = (newToken, callback) ->
-	token = newToken
-	return callback(null, token)
+	data.set(TOKEN_KEY, newToken, encoding: 'utf8', callback)
 
 exports.hasToken = (callback) ->
-	return callback(token?)
+	data.has(TOKEN_KEY, callback)
 
 exports.getToken = (callback) ->
-	return callback(null, token or undefined)
+	data.get(TOKEN_KEY, encoding: 'utf8', callback)
 
 exports.clearToken = (callback) ->
-	token = null
-	return callback?(null)
+	data.has TOKEN_KEY, (hasToken) ->
+		if hasToken
+			return data.remove(TOKEN_KEY, callback)
+		else
+			return callback?()
