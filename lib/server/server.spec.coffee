@@ -69,6 +69,13 @@ describe 'Server:', ->
 				expect(response.body).to.equal(RESPONSE.nojson)
 				done()
 
+		it 'should parse the body', (done) ->
+			server.request 'GET', URI.ok, null, (error, response, body) ->
+				expect(error).to.not.exist
+				expect(body).to.be.an.object
+				expect(body).not.to.be.a.string
+				done()
+
 		it 'should be able to send data in the body', (done) ->
 			body = { hello: 'world' }
 

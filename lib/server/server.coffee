@@ -33,7 +33,7 @@ exports.request = (method = 'GET', url, json, callback) ->
 			if response?.statusCode >= 400
 				error = new Error(response.body)
 
-			return callback(error, response, body)
+			return callback(error, response, response.body)
 
 	], callback
 
