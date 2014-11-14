@@ -1,7 +1,6 @@
 expect = require('chai').expect
 _ = require('lodash')
 fsUtils = require('../fs-utils/fs-utils')
-fs = require('fs')
 async = require('async')
 mockFs = require('mock-fs')
 data = require('./data')
@@ -52,6 +51,12 @@ describe 'Data:', ->
 				removeDataKey = _.partial(data.remove, 'foobar')
 				expect(removeDataKey).to.throw(Error)
 
+		describe '#has()', ->
+
+			it 'should throw an error', ->
+				hasDataKey = _.partial(data.has, 'foobar')
+				expect(hasDataKey).to.throw(Error)
+
 	describe 'given a prefix', ->
 
 		beforeEach ->
@@ -90,6 +95,23 @@ describe 'Data:', ->
 				data.get FILESYSTEM.directory.key, encoding: 'utf8', (error, value) ->
 					expect(error).to.be.an.instanceof(Error)
 					expect(value).to.not.exist
+					done()
+
+		describe '#has()', ->
+
+			it 'should return true if a file exists', (done) ->
+				data.has FILESYSTEM.text.key, (hasKey) ->
+					expect(hasKey).to.be.true
+					done()
+
+			it 'should return true if a directory exists', (done) ->
+				data.has FILESYSTEM.directory.key, (hasKey) ->
+					expect(hasKey).to.be.true
+					done()
+
+			it 'should return false if the file doesn\'t exists', (done) ->
+				data.has 'foobar', (hasKey) ->
+					expect(hasKey).to.be.false
 					done()
 
 		describe '#set()', ->
@@ -166,10 +188,8 @@ describe 'Data:', ->
 						data.remove(directory.key, callback)
 
 					(callback) ->
-
-						# TODO: Implement data.has() to abstract this
-						fs.exists directory.name, (exists) ->
-							expect(exists).to.be.false
+						data.has directory.key, (hasKey) ->
+							expect(hasKey).to.be.false
 							return callback()
 
 				], (error) ->

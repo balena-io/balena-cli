@@ -27,6 +27,10 @@ exports.set = haltIfNoPrefix (key, value, options, callback) ->
 	keyPath = constructPath(key)
 	fs.writeFile(keyPath, value, options, callback)
 
+exports.has = haltIfNoPrefix (key, callback) ->
+	keyPath = constructPath(key)
+	fs.exists(keyPath, callback)
+
 exports.remove = haltIfNoPrefix (key, callback) ->
 	keyPath = constructPath(key)
 
