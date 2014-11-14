@@ -24,7 +24,7 @@ describe 'Token:', ->
 						expect(savedToken).to.equal(johnDoeFixture.token)
 						token.saveToken(janeDoeFixture.token, callback)
 
-					(savedToken, callback) ->
+					(callback) ->
 						token.getToken(callback)
 
 					(savedToken, callback) ->

@@ -37,8 +37,7 @@ describe 'Auth:', ->
 						expect(isLoggedIn).to.be.false
 						auth.login(johnDoeFixture.credentials, callback)
 
-					(authToken, callback) ->
-						expect(authToken).to.be.a.string
+					(callback) ->
 						auth.isLoggedIn (isLoggedIn) ->
 							return callback(null, isLoggedIn)
 
@@ -100,8 +99,7 @@ describe 'Auth:', ->
 						expect(token).to.equal(johnDoeFixture.token)
 						auth.login(janeDoeFixture.credentials, callback)
 
-					(token, callback) ->
-						expect(token).to.be.a.string
+					(callback) ->
 						auth.getToken(callback)
 
 					(token, callback) ->
