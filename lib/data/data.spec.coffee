@@ -58,9 +58,9 @@ describe 'Data:', ->
 
 	describe 'given a prefix', ->
 
-		beforeEach ->
+		beforeEach (done) ->
 			mock.fs.init(FILESYSTEM)
-			data.prefix.set(config.dataPrefix)
+			data.prefix.set(config.dataPrefix, done)
 
 		afterEach ->
 			mock.fs.restore()

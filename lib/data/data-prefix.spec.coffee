@@ -22,19 +22,22 @@ describe 'DataPrefix:', ->
 
 		describe '#set()', ->
 
-			it 'should be able to set a prefix', ->
+			it 'should be able to set a prefix', (done) ->
 				expect(dataPrefix.get()).to.not.exist
-				dataPrefix.set(PREFIXES.main)
-				expect(dataPrefix.get()).to.equal(PREFIXES.main)
+				dataPrefix.set PREFIXES.main, (error) ->
+					expect(error).to.not.exist
+					expect(dataPrefix.get()).to.equal(PREFIXES.main)
+					done()
 
-			it 'should throw an error if passing an invalid path', ->
-				setInvalidPrefix = _.partial(dataPrefix.set, PREFIXES.invalid)
-				expect(setInvalidPrefix).to.throw(Error)
+			it 'should throw an error if passing an invalid path', (done) ->
+				dataPrefix.set PREFIXES.invalid, (error) ->
+					expect(error).to.be.an.instanceof(Error)
+					done()
 
 	describe 'given a prefix', ->
 
-		beforeEach ->
-			dataPrefix.set(PREFIXES.main)
+		beforeEach (done) ->
+			dataPrefix.set(PREFIXES.main, done)
 
 		describe '#get()', ->
 
@@ -43,10 +46,12 @@ describe 'DataPrefix:', ->
 
 		describe '#set()', ->
 
-			it 'should be able to override the prefix', ->
+			it 'should be able to override the prefix', (done) ->
 				expect(dataPrefix.get()).to.equal(PREFIXES.main)
-				dataPrefix.set(PREFIXES.new)
-				expect(dataPrefix.get()).to.equal(PREFIXES.new)
+				dataPrefix.set PREFIXES.new, (error) ->
+					expect(error).to.not.exist
+					expect(dataPrefix.get()).to.equal(PREFIXES.new)
+					done()
 
 		describe '#clear()', ->
 

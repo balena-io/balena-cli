@@ -5,11 +5,12 @@ prefix = null
 exports.get = ->
 	return prefix
 
-exports.set = (newPrefix) ->
+exports.set = (newPrefix, callback) ->
 	if not fsUtils.isValidPath(newPrefix)
-		throw new Error('Invalid path')
+		return callback?(new Error('Invalid path'))
 
 	prefix = newPrefix
+	return callback?(null, prefix)
 
 exports.clear = ->
 	prefix = null
