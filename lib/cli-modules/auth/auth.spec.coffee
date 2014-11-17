@@ -1,5 +1,6 @@
 expect = require('chai').expect
 nock = require('nock')
+_ = require('lodash')
 async = require('async')
 auth = require('./auth')
 config = require('../../config')
@@ -160,3 +161,30 @@ describe 'Auth:', ->
 				], (error) ->
 					expect(error).to.not.exist
 					done()
+
+	describe '#parseCredentials', ->
+
+		describe 'given colon separated credentials', ->
+
+			username = null
+			password = null
+
+			beforeEach ->
+				username = 'johndoe'
+				password = 'mysecret'
+
+			it 'should parse the credentials correctly', ->
+				parsedCredentials = auth.parseCredentials("#{username}:#{password}")
+				expect(parsedCredentials.username).to.equal(username)
+				expect(parsedCredentials.password).to.equal(password)
+
+			it 'should throw an error if it has two or more colons', ->
+				parseFunction = _.partial(auth.parseCredentials, "#{username}:#{password}:#{username}")
+				expect(parseFunction).to.throw(Error)
+
+				parseFunction = _.partial(auth.parseCredentials, "#{username}:#{password}:#{username}:#{password}")
+				expect(parseFunction).to.throw(Error)
+
+			it 'should throw an error if only the username is passed', ->
+				parseFunction = _.partial(auth.parseCredentials, username)
+				expect(parseFunction).to.throw(Error)

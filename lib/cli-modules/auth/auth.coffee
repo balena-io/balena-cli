@@ -1,4 +1,5 @@
 async = require('async')
+_ = require('lodash')
 
 server = require('../../server/server')
 token = require('../../token/token')
@@ -25,3 +26,14 @@ exports.getToken = token.getToken
 # TODO: Maybe we should post to /logout or something
 # like that to invalidate the token on the server?
 exports.logout = token.clearToken
+
+exports.parseCredentials = (credentials) ->
+	result = credentials.split(':')
+
+	if result.length isnt 2
+		throw new Error('Invalid credentials')
+
+	return {
+		username: _.first(result)
+		password: _.last(result)
+	}
