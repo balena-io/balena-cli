@@ -31,7 +31,7 @@ exports.parseCredentials = (credentials) ->
 	result = credentials.split(':')
 
 	if result.length isnt 2
-		throw new Error('Invalid credentials')
+		throw new Error('Invalid credentials. The expected input is username:password.')
 
 	return {
 		username: _.first(result)
