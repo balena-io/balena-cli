@@ -10,7 +10,7 @@ program.version(packageJSON.version)
 auth = require('./actions/auth')
 
 program
-	.command('login <username:password>')
+	.command('login [username:password]')
 	.description('Login with your resin.io account')
 	.action(auth.login)
 
