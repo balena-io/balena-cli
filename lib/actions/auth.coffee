@@ -1,6 +1,7 @@
 open = require('open')
 async = require('async')
 auth = require('../auth/auth')
+authHooks = require('../hooks/auth')
 widgets = require('../widgets/widgets')
 config = require('../config')
 
@@ -19,7 +20,7 @@ exports.login	= (credentials) ->
 	], (error) ->
 		throw error if error?
 
-exports.logout = ->
+exports.logout = authHooks.failIfNotLoggedIn ->
 	auth.logout()
 
 exports.signup = ->
