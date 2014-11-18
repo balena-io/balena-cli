@@ -27,13 +27,13 @@ exports.getToken = token.getToken
 # like that to invalidate the token on the server?
 exports.logout = token.clearToken
 
-exports.parseCredentials = (credentials) ->
+exports.parseCredentials = (credentials, callback) ->
 	result = credentials.split(':')
 
 	if result.length isnt 2
-		throw new Error('Invalid credentials. The expected input is username:password.')
+		error = new Error('Invalid credentials. The expected input is username:password.')
+		return callback?(error)
 
-	return {
+	callback? null,
 		username: _.first(result)
 		password: _.last(result)
-	}

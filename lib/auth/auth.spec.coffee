@@ -175,18 +175,21 @@ describe 'Auth:', ->
 				username = 'johndoe'
 				password = 'mysecret'
 
-			it 'should parse the credentials correctly', ->
-				parsedCredentials = auth.parseCredentials("#{username}:#{password}")
-				expect(parsedCredentials.username).to.equal(username)
-				expect(parsedCredentials.password).to.equal(password)
+			it 'should parse the credentials correctly', (done) ->
+				auth.parseCredentials "#{username}:#{password}", (error, credentials) ->
+					expect(error).to.not.exist
+					expect(credentials.username).to.equal(username)
+					expect(credentials.password).to.equal(password)
+					done()
 
-			it 'should throw an error if it has two or more colons', ->
-				parseFunction = _.partial(auth.parseCredentials, "#{username}:#{password}:#{username}")
-				expect(parseFunction).to.throw(Error)
+			it 'should throw an error if it has two or more colons', (done) ->
+				auth.parseCredentials "#{username}:#{password}:#{username}", (error, credentials) ->
+					expect(error).to.be.an.instanceof(Error)
+					expect(credentials).to.not.exist
+					done()
 
-				parseFunction = _.partial(auth.parseCredentials, "#{username}:#{password}:#{username}:#{password}")
-				expect(parseFunction).to.throw(Error)
-
-			it 'should throw an error if only the username is passed', ->
-				parseFunction = _.partial(auth.parseCredentials, username)
-				expect(parseFunction).to.throw(Error)
+			it 'should throw an error if only the username is passed', (done) ->
+				auth.parseCredentials username, (error, credentials) ->
+					expect(error).to.be.an.instanceof(Error)
+					expect(credentials).to.not.exist
+					done()
