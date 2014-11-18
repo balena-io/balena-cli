@@ -43,41 +43,27 @@ exports.request = (options = {}, callback) ->
 
 	], callback
 
-exports.get = (url, callback) ->
-	return exports.request {
-		method: 'GET'
-		url: url
-	}, callback
+createFacadeFunction = (method) ->
+	lowerCaseMethod = method.toLowerCase()
+	exports[lowerCaseMethod] = (url, body, callback) ->
+		options = {
+			method
+			url
+		}
 
-exports.head = (url, callback) ->
-	return exports.request {
-		method: 'HEAD'
-		url: url
-	}, callback
+		if _.isFunction(body)
+			callback = body
+		else
+			options.json = body
 
-exports.delete = (url, callback) ->
-	return exports.request {
-		method: 'DELETE'
-		url: url
-	}, callback
+		return exports.request(options, callback)
 
-exports.post = (url, json, callback) ->
-	return exports.request {
-		method: 'POST'
-		url: url
-		json: json
-	}, callback
-
-exports.put = (url, json, callback) ->
-	return exports.request {
-		method: 'PUT'
-		url: url
-		json: json
-	}, callback
-
-exports.patch = (url, json, callback) ->
-	return exports.request {
-		method: 'PATCH'
-		url: url
-		json: json
-	}, callback
+for method in [
+	'GET'
+	'HEAD'
+	'POST'
+	'PATCH'
+	'PUT'
+	'DELETE'
+]
+	createFacadeFunction(method)
