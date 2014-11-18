@@ -23,10 +23,10 @@ exports.request = (options = {}, callback) ->
 
 			_.defaults options,
 				method: 'GET'
-				headers: {}
 
 			if savedToken?
-				options.headers = _.extend options.headers,
+				options.headers ?= {}
+				_.extend options.headers,
 					'Authorization': "Bearer #{savedToken}"
 
 			request(options, callback)
