@@ -1,9 +1,8 @@
 server = require('../server/server')
+applicationModel = require('../models/application')
 
 exports.list = ->
 
-	# TODO: The details of requesting the API should be handled
-	# by the models. Make use of them once they are implemented
-	server.get '/ewa/application?$orderby=app_name%20asc&$expand=device', (error, response) ->
-		for app in response.body.d
+	applicationModel.getAll().then (applications) ->
+		for app in applications
 			console.log "#{app.id} - #{app.app_name}"
