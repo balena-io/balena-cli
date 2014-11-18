@@ -1,12 +1,12 @@
 request = require('request')
-urljoin = require('url-join')
+urlResolve = require('url').resolve
 async = require('async')
 config = require('../config')
 token = require('../token/token')
 
 exports.request = (method = 'GET', url, json, callback) ->
 	method = method.toUpperCase()
-	url = urljoin(config.remoteUrl, url)
+	url = urlResolve(config.remoteUrl, url)
 
 	async.waterfall [
 
