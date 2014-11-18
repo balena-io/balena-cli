@@ -3,12 +3,11 @@ packageJSON = require('../package.json')
 data = require('./data/data')
 config = require('./config')
 
-auth = require('./actions/auth')
-app = require('./actions/app')
-
 program.version(packageJSON.version)
 
 # ---------- Auth Module ----------
+
+auth = require('./actions/auth')
 
 program
 	.command('login <username:password>')
@@ -21,6 +20,8 @@ program
 	.action(auth.signup)
 
 # ---------- App Module ----------
+
+app = require('./actions/app')
 
 program
 	.command('apps')
