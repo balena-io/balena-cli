@@ -1,10 +1,10 @@
 program = require('commander')
-packageJSON = require('../../package.json')
+packageJSON = require('../package.json')
 
-auth = require('../auth/auth')
-data = require('../data/data')
-server = require('../server/server')
-config = require('../config')
+auth = require('./auth/auth')
+data = require('./data/data')
+server = require('./server/server')
+config = require('./config')
 
 program.version(packageJSON.version)
 
