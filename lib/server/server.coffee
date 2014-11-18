@@ -23,6 +23,7 @@ exports.request = (options = {}, callback) ->
 
 			_.defaults options,
 				method: 'GET'
+				gzip: true
 
 			if savedToken?
 				options.headers ?= {}
