@@ -7,5 +7,8 @@ exports.login	= (credentials) ->
 	auth.login parsedCredentials, (error) ->
 		throw error if error?
 
+exports.logout = ->
+	auth.logout()
+
 exports.signup = ->
 	open(config.urls.signup)

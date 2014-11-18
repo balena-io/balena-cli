@@ -15,6 +15,11 @@ program
 	.action(auth.login)
 
 program
+	.command('logout')
+	.description('Logout from your resin.io account')
+	.action(auth.logout)
+
+program
 	.command('signup')
 	.description('Open signup form')
 	.action(auth.signup)
