@@ -47,21 +47,29 @@ describe 'Server:', ->
 	describe '#request()', ->
 
 		it 'should make a real HTTP request', (done) ->
-			server.request 'GET', URI.ok, null, (error, response) ->
+			server.request {
+				method: 'GET'
+				url: URI.ok
+			}, (error, response) ->
 				return done(error) if error?
 				expect(response.body.status).to.equal(STATUS.ok)
 				expect(response.statusCode).to.equal(200)
 				done()
 
 		it 'should make a GET request if method is omitted', (done) ->
-			server.request undefined, URI.ok, null, (error, response) ->
+			server.request {
+				url: URI.ok
+			}, (error, response) ->
 				return done(error) if error?
 				expect(response.request.method).to.equal('GET')
 				done()
 
 		checkRequestType = (type) ->
 			return (done) ->
-				server.request type, URI.ok, null, (error, response) ->
+				server.request {
+					method: type
+					url: URI.ok
+				}, (error, response) ->
 					return done(error) if error?
 					expect(response.request.method).to.equal(type)
 					done()
@@ -70,13 +78,19 @@ describe 'Server:', ->
 			it("should make a #{method} request if method is #{method}", checkRequestType(method))
 
 		it 'should get a raw response of response is not JSON', (done) ->
-			server.request 'GET', URI.nojson, null, (error, response) ->
+			server.request {
+				method: 'GET'
+				url: URI.nojson
+			}, (error, response) ->
 				return done(error) if error?
 				expect(response.body).to.equal(RESPONSE.nojson)
 				done()
 
 		it 'should parse the body', (done) ->
-			server.request 'GET', URI.ok, null, (error, response, body) ->
+			server.request {
+				method: 'GET'
+				url: URI.ok
+			}, (error, response, body) ->
 				expect(error).to.not.exist
 				expect(body).to.be.an.object
 				expect(body).not.to.be.a.string
@@ -85,19 +99,29 @@ describe 'Server:', ->
 		it 'should be able to send data in the body', (done) ->
 			body = { hello: 'world' }
 
-			server.request 'POST', URI.ok, body, (error, response) ->
+			server.request {
+				method: 'POST'
+				url: URI.ok
+				json: body
+			}, (error, response) ->
 				return done(error) if error?
 				expect(response.request.body.toString()).to.equal(JSON.stringify(body))
 				done()
 
 		it 'should throw an error if method is unknown', (done) ->
-			server.request 'FOO', URI.ok, null, (error, response) ->
+			server.request {
+				method: 'FOO'
+				url: URI.ok
+			}, (error, response) ->
 				expect(error).to.exist
 				expect(error).to.be.an.instanceof(Error)
 				done()
 
 		it 'should throw an error if the status code is >= 400', (done) ->
-			server.request 'GET', URI.error, null, (error, response) ->
+			server.request {
+				method: 'GET'
+				url: URI.error
+			}, (error, response) ->
 				expect(error).to.exist
 				expect(error).to.be.an.instanceof(Error)
 				done()
@@ -145,7 +169,10 @@ describe 'Server:', ->
 
 			it 'should send the Authorization header', (done) ->
 
-				server.request 'GET', URI.ok, null, (error, response) ->
+				server.request {
+					method: 'GET'
+					url: URI.ok
+				}, (error, response) ->
 					authorizationHeader = response.request.headers.Authorization
 
 					expect(error).to.not.exist
@@ -161,7 +188,10 @@ describe 'Server:', ->
 		describe '#request()', ->
 
 			it 'should not send the Authorization header', (done) ->
-				server.request 'GET', URI.ok, null, (error, response) ->
+				server.request {
+					method: 'GET'
+					url: URI.ok
+				}, (error, response) ->
 					expect(error).to.not.exist
 					authorizationHeader = response.request.headers.Authorization
 					expect(authorizationHeader).to.not.exist

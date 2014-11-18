@@ -1,12 +1,14 @@
+_ = require('lodash')
 request = require('request')
 urlResolve = require('url').resolve
 async = require('async')
 config = require('../config')
 token = require('../token/token')
 
-exports.request = (method = 'GET', url, json, callback) ->
-	method = method.toUpperCase()
-	url = urlResolve(config.remoteUrl, url)
+exports.request = (options = {}, callback) ->
+
+	if not options.url?
+		throw new Error('Missing URL')
 
 	async.waterfall [
 
@@ -14,17 +16,20 @@ exports.request = (method = 'GET', url, json, callback) ->
 			token.getToken(callback)
 
 		(savedToken, callback) ->
-			requestOptions = {
-				url
-				method
-				json
-			}
+			options.url = urlResolve(config.remoteUrl, options.url)
+
+			if options.method?
+				options.method = options.method.toUpperCase()
+
+			_.defaults options,
+				method: 'GET'
+				headers: {}
 
 			if savedToken?
-				requestOptions.headers =
+				options.headers = _.extend options.headers,
 					'Authorization': "Bearer #{savedToken}"
 
-			request(requestOptions, callback)
+			request(options, callback)
 
 		(response, body, callback) ->
 			try
@@ -38,19 +43,40 @@ exports.request = (method = 'GET', url, json, callback) ->
 	], callback
 
 exports.get = (url, callback) ->
-	return exports.request('GET', url, null, callback)
+	return exports.request {
+		method: 'GET'
+		url: url
+	}, callback
 
 exports.head = (url, callback) ->
-	return exports.request('HEAD', url, null, callback)
+	return exports.request {
+		method: 'HEAD'
+		url: url
+	}, callback
 
 exports.delete = (url, callback) ->
-	return exports.request('DELETE', url, null, callback)
+	return exports.request {
+		method: 'DELETE'
+		url: url
+	}, callback
 
 exports.post = (url, json, callback) ->
-	return exports.request('POST', url, json, callback)
+	return exports.request {
+		method: 'POST'
+		url: url
+		json: json
+	}, callback
 
 exports.put = (url, json, callback) ->
-	return exports.request('PUT', url, json, callback)
+	return exports.request {
+		method: 'PUT'
+		url: url
+		json: json
+	}, callback
 
 exports.patch = (url, json, callback) ->
-	return exports.request('PATCH', url, json, callback)
+	return exports.request {
+		method: 'PATCH'
+		url: url
+		json: json
+	}, callback
