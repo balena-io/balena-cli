@@ -1,8 +1,19 @@
+_ = require('lodash')
+url = require('url')
 path = require('path')
 
-module.exports =
+config =
 
 	# TODO: Should be configurable
 	remoteUrl: 'https://staging.resin.io'
 	apiPrefix: '/ewa/'
 	dataPrefix: path.join(process.env.HOME, '.resin')
+
+config.urls =
+	signup: '/signup'
+
+# Append config.remoteUrl before every url
+config.urls = _.object _.map config.urls, (value, key, object) ->
+	return [ key, url.resolve(config.remoteUrl, value) ]
+
+module.exports = config

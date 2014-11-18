@@ -8,10 +8,19 @@ app = require('./actions/app')
 
 program.version(packageJSON.version)
 
+# ---------- Auth Module ----------
+
 program
 	.command('login <username:password>')
 	.description('Login with your resin.io account')
 	.action(auth.login)
+
+program
+	.command('signup')
+	.description('Open signup form')
+	.action(auth.signup)
+
+# ---------- App Module ----------
 
 program
 	.command('apps')
