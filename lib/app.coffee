@@ -33,8 +33,6 @@ program
 	.description('Show a list of your apps')
 	.action(app.list)
 
-# TODO: Check if not running on UNIX environment
-# and add a custom path accordingly
 data.prefix.set config.dataPrefix, (error) ->
 	throw error if error?
 	program.parse(process.argv)

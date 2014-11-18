@@ -7,6 +7,9 @@ config =
 	# TODO: Should be configurable
 	remoteUrl: 'https://staging.resin.io'
 	apiPrefix: '/ewa/'
+
+	# TODO: Check if not running on UNIX environment
+	# and add a custom path accordingly
 	dataPrefix: path.join(process.env.HOME, '.resin')
 
 config.urls =
