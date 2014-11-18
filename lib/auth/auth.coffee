@@ -1,8 +1,8 @@
 async = require('async')
 _ = require('lodash')
 
-server = require('../../server/server')
-token = require('../../token/token')
+server = require('../server/server')
+token = require('../token/token')
 
 exports.authenticate = (credentials, callback) ->
 	server.post '/login_', credentials, (error, response) ->

@@ -1,7 +1,7 @@
 program = require('commander')
 packageJSON = require('../../package.json')
 
-auth = require('../cli-modules/auth/auth')
+auth = require('../auth/auth')
 data = require('../data/data')
 server = require('../server/server')
 config = require('../config')

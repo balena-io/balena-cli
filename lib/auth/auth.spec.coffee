@@ -3,15 +3,17 @@ nock = require('nock')
 _ = require('lodash')
 async = require('async')
 auth = require('./auth')
-config = require('../../config')
-mock = require('../../../tests/utils/mock')
-johnDoeFixture = require('../../../tests/fixtures/johndoe')
-janeDoeFixture = require('../../../tests/fixtures/janedoe')
+data = require('../data/data')
+config = require('../config')
+mock = require('../../tests/utils/mock')
+johnDoeFixture = require('../../tests/fixtures/johndoe')
+janeDoeFixture = require('../../tests/fixtures/janedoe')
 
 describe 'Auth:', ->
 
-	beforeEach ->
+	beforeEach (done) ->
 		mock.fs.init()
+		data.prefix.set(config.dataPrefix, done)
 
 	afterEach ->
 		mock.fs.restore()
