@@ -6,7 +6,7 @@ token = require('../token/token')
 
 exports.request = (method = 'GET', url, json, callback) ->
 	method = method.toUpperCase()
-	url = urljoin(config.baseUrl, url)
+	url = urljoin(config.remoteUrl, url)
 
 	async.waterfall [
 

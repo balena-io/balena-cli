@@ -21,7 +21,7 @@ describe 'Auth:', ->
 	describe 'given valid credentials', ->
 
 		beforeEach ->
-			nock(config.baseUrl)
+			nock(config.remoteUrl)
 				.post('/login_', johnDoeFixture.credentials)
 				.reply(200, johnDoeFixture.token)
 
@@ -62,7 +62,7 @@ describe 'Auth:', ->
 	describe 'given invalid credentials', ->
 
 		beforeEach ->
-			nock(config.baseUrl)
+			nock(config.remoteUrl)
 				.post('/login_')
 				.reply(401)
 
@@ -87,11 +87,11 @@ describe 'Auth:', ->
 	describe 'given a logged in user', ->
 
 		beforeEach (done) ->
-			nock(config.baseUrl)
+			nock(config.remoteUrl)
 				.post('/login_', johnDoeFixture.credentials)
 				.reply(200, johnDoeFixture.token)
 
-			nock(config.baseUrl)
+			nock(config.remoteUrl)
 				.post('/login_', janeDoeFixture.credentials)
 				.reply(200, janeDoeFixture.token)
 

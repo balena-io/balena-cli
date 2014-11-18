@@ -6,7 +6,7 @@ token = require('../token/token')
 mock = require('../../tests/utils/mock')
 johnDoeFixture = require('../../tests/fixtures/johndoe.json')
 
-TEST_URI = config.baseUrl
+TEST_URI = config.remoteUrl
 
 URI =
 	ok: '/ok'
