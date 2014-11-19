@@ -10,6 +10,7 @@ OPTIONS =
 	files:
 		coffee: [ 'lib/**/*.coffee', 'gulpfile.coffee' ]
 		tests: 'lib/**/*.spec.coffee'
+		json: 'lib/**/*.json'
 
 gulp.task 'test', ->
 	gulp.src(OPTIONS.files.tests, read: false)
@@ -25,4 +26,4 @@ gulp.task 'lint', ->
 		.pipe(coffeelint.reporter())
 
 gulp.task 'watch', [ 'test', 'lint' ], ->
-	gulp.watch(OPTIONS.files.coffee, [ 'test', 'lint' ])
+	gulp.watch([ OPTIONS.files.coffee, OPTIONS.files.json ], [ 'test', 'lint' ])
