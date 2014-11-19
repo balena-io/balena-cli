@@ -16,6 +16,9 @@ exports.list = authHooks.failIfNotLoggedIn ->
 			return application
 		, [ 'ID', 'Name', 'Device Type', 'Online Devices', 'All Devices' ]
 
+	.catch (error) ->
+		throw error
+
 exports.info = authHooks.failIfNotLoggedIn (id) ->
 	applicationModel.get(id).then (application) ->
 
