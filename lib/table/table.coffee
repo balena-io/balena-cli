@@ -1,4 +1,5 @@
 _ = require('lodash')
+cliff = require('cliff')
 
 KEY_DISPLAY_MAP =
 	commit: 'Commit'
@@ -33,3 +34,11 @@ exports.prepareObject = (object) ->
 		return _.isEmpty(value) and not _.isNumber(value)
 
 	return object
+
+# TODO: Maybe there is a (sane) way to test this, given
+# that the result is not automatically printed by cliff?
+exports.horizontal = (contents, map, ordering, colours) ->
+	contents = _.map(contents, map or _.noop)
+	contents = _.map(contents, exports.prepareObject)
+	ordering ?= _.keys(_.first(contents))
+	return cliff.stringifyObjectRows(contents, ordering, colours)

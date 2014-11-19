@@ -2,22 +2,21 @@ _ = require('lodash')
 cliff = require('cliff')
 server = require('../server/server')
 device = require('../device/device')
+table = require('../table/table')
 applicationModel = require('../models/application')
 authHooks = require('../hooks/auth')
 
 exports.list = authHooks.failIfNotLoggedIn ->
 	applicationModel.getAll().then (applications) ->
 
-		applications = _.map applications, (application) ->
-			return {
-				ID: application.id
-				Name: application.app_name
-				'Device Type': device.getDisplayName(application.device_type)
-				'Online Devices': _.where(application.device, is_online: 1).length
-				'All Devices': application.device?.length or 0
-			}
-
-		console.log cliff.stringifyObjectRows(applications, _.keys _.first applications)
+		console.log table.horizontal applications, (application) ->
+			application.device_type = device.getDisplayName(application.device_type)
+			application['Online Devices'] = _.where(application.device, is_online: 1).length
+			application['All Devices'] = application.device?.length or 0
+			delete application.git_repository
+			delete application.device
+			return application
+		, [ 'ID', 'Name', 'Device Type', 'Online Devices', 'All Devices' ]
 
 exports.info = authHooks.failIfNotLoggedIn (id) ->
 	applicationModel.get(id).then (application) ->
