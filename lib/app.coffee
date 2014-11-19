@@ -33,6 +33,15 @@ program
 	.description('Show a list of your apps')
 	.action(app.list)
 
+# ---------- Preferences Module ----------
+
+preferences = require('./actions/preferences')
+
+program
+	.command('preferences')
+	.description('Open preferences in your web browser')
+	.action(preferences.preferences)
+
 data.prefix.set config.dataPrefix, (error) ->
 	throw error if error?
 	program.parse(process.argv)

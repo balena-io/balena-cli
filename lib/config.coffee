@@ -14,6 +14,7 @@ config =
 
 config.urls =
 	signup: '/signup'
+	preferences: '/preferences'
 
 # Append config.remoteUrl before every url
 config.urls = _.object _.map config.urls, (value, key, object) ->
