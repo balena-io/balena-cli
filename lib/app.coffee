@@ -38,6 +38,15 @@ program
 	.description('Show an application')
 	.action(app.info)
 
+# ---------- Device Module ----------
+
+device = require('./actions/device')
+
+program
+	.command('devices <id>')
+	.description('Show devices for an application')
+	.action(device.list)
+
 # ---------- Preferences Module ----------
 
 preferences = require('./actions/preferences')
