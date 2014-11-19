@@ -1,6 +1,4 @@
 _ = require('lodash')
-cliff = require('cliff')
-server = require('../server/server')
 device = require('../device/device')
 table = require('../table/table')
 applicationModel = require('../models/application')
