@@ -21,11 +21,11 @@ exports.list = authHooks.failIfNotLoggedIn ->
 exports.info = authHooks.failIfNotLoggedIn (id) ->
 	applicationModel.get(id).then (application) ->
 
-		console.log("ID: #{application.id}")
-		console.log("Name: #{application.app_name}")
-		console.log("Device Type: #{device.getDisplayName(application.device_type)}")
-		console.log("Git Repository: #{application.git_repository}")
-		console.log("Commit: #{application.commit}")
+		console.log table.vertical application, (application) ->
+			application.device_type = device.getDisplayName(application.device_type)
+			delete application.device
+			return application
+		, [ 'ID', 'Name', 'Device Type', 'Git Repository', 'Commit' ]
 
 	.catch (error) ->
 		throw error

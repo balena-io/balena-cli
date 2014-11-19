@@ -35,10 +35,40 @@ exports.prepareObject = (object) ->
 
 	return object
 
+exports.processTableContents = (contents, map) ->
+
+	# Allows us to simplify the algorithm by not
+	# concerning about different input types
+	if not _.isArray(contents)
+		contents = [ contents ]
+
+	contents = _.map(contents, map or _.identity)
+	contents = _.map(contents, exports.prepareObject)
+	return contents
+
+isRealObject = (object) ->
+	return false if _.isArray(object) or _.isFunction(object)
+	return _.isObject(object)
+
+exports.getDefaultContentsOrdering = (contents) ->
+	return if _.isEmpty(contents)
+	firstContentEntry = _.first(contents)
+	return if not isRealObject(firstContentEntry)
+	return _.keys(firstContentEntry)
+
 # TODO: Maybe there is a (sane) way to test this, given
 # that the result is not automatically printed by cliff?
 exports.horizontal = (contents, map, ordering, colours) ->
-	contents = _.map(contents, map or _.noop)
-	contents = _.map(contents, exports.prepareObject)
-	ordering ?= _.keys(_.first(contents))
+	contents = exports.processTableContents(contents, map)
+	ordering ?= exports.getDefaultContentsOrdering(contents)
 	return cliff.stringifyObjectRows(contents, ordering, colours)
+
+exports.vertical = (contents, map, ordering) ->
+	contents = exports.processTableContents(contents, map)
+	ordering ?= exports.getDefaultContentsOrdering(contents)
+
+	result = []
+	for item in contents
+		for next in ordering
+			result.push("#{next}: #{item[next]}")
+	return result.join('\n')
