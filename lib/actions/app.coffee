@@ -1,6 +1,7 @@
 _ = require('lodash')
 cliff = require('cliff')
 server = require('../server/server')
+device = require('../device/device')
 applicationModel = require('../models/application')
 authHooks = require('../hooks/auth')
 
@@ -12,7 +13,7 @@ exports.list = authHooks.failIfNotLoggedIn ->
 			return {
 				ID: application.id
 				Name: application.app_name
-				'Device Type': application.device_type
+				'Device Type': device.getDisplayName(application.device_type)
 				'Online Devices': _.where(application.device, is_online: 1).length
 				'All Devices': application.device?.length or 0
 			}
