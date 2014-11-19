@@ -6,8 +6,6 @@ describe 'Device:', ->
 	describe '#getDisplayName()', ->
 
 		it 'should return Raspberry Pi for that device', ->
-			displayName = 'Raspberry Pi'
-
 			possibleNames = [
 				'raspberry-pi'
 				'raspberrypi'
@@ -15,4 +13,15 @@ describe 'Device:', ->
 			]
 
 			for name in possibleNames
-				expect(device.getDisplayName(name)).to.equal(displayName)
+				expect(device.getDisplayName(name)).to.equal('Raspberry Pi')
+
+		it 'should return unknown if no matches', ->
+			unknownNames = [
+				'hello'
+				'foobar'
+				{}
+				123
+			]
+
+			for name in unknownNames
+				expect(device.getDisplayName(name)).to.equal('Unknown')
