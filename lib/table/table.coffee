@@ -20,7 +20,7 @@ exports.prepareObject = (object) ->
 		return not startsWithLetter(key)
 
 	for key, value of object
-		if _.isObject(value)
+		if _.isObject(value) and not _.isArray(value)
 			object[key] = exports.prepareObject(value)
 
 		displayKey = KEY_DISPLAY_MAP[key]

@@ -56,3 +56,7 @@ describe 'Table:', ->
 				'Git Repository': 'git@git.staging.resin.io:jviotti/helloresin.git'
 				Commit: '1234'
 				'Device Type': 'raspberry-pi'
+
+		it 'should not remove not empty arrays', ->
+			object = { array: [ 1, 2, 3 ] }
+			expect(table.prepareObject(object)).to.deep.equal(object)
