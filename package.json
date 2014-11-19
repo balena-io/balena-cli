@@ -36,6 +36,7 @@
     "bluebird": "~2.3.11",
     "open": "0.0.5",
     "inquirer": "~0.8.0",
-    "cliff": "~0.1.9"
+    "cliff": "~0.1.9",
+    "underscore.string": "~2.4.0"
   }
 }
