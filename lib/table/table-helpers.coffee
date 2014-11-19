@@ -19,6 +19,16 @@ renameObjectKey = (object, key, newKey) ->
 exports.getKeyName = (key) ->
 	nameFromMap = KEY_DISPLAY_MAP[key]
 	return nameFromMap if nameFromMap?
+
+	# Prevent modifying a value that is part of
+	# the map values.
+	# This is really an heuristic, as making sure
+	# the client actually refers to that value means
+	# converting the value to lowercase-underscore-cased
+	# and do the check, but that seems overkill.
+	if _.values(KEY_DISPLAY_MAP).indexOf(key) isnt -1
+		return key
+
 	key = key.replace('_', ' ')
 	return _.str.titleize(key)
 
@@ -63,5 +73,5 @@ exports.getDefaultContentsOrdering = (contents) ->
 
 exports.normaliseOrdering = (ordering, contents) ->
 	if not _.isEmpty(ordering)
-		return _.map(ordering, _.str.titleize)
+		return _.map(ordering, exports.getKeyName)
 	return exports.getDefaultContentsOrdering(contents)

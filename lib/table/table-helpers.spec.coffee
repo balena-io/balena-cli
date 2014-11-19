@@ -146,3 +146,13 @@ describe 'Table Helpers:', ->
 			result = tableHelpers.normaliseOrdering(null, [ OBJECTS.valid ])
 			for key, value of OBJECTS.valid
 				expect(result.indexOf(key)).to.not.equal(-1)
+
+		it 'should not give precendence to names from the map', ->
+			ordering = [ 'id', 'ip_address', 'name' ]
+			result = tableHelpers.normaliseOrdering(ordering, {})
+			expect(result).to.deep.equal([ 'ID', 'IP Address', 'Name' ])
+
+		it 'should preverse a string that is the result of a map lookup', ->
+			ordering = [ 'ID', 'IP Address' ]
+			result = tableHelpers.normaliseOrdering(ordering, {})
+			expect(result).to.deep.equal(ordering)
