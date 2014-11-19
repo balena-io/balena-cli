@@ -32,6 +32,14 @@ exports.getKeyName = (key) ->
 	key = key.replace('_', ' ')
 	return _.str.titleize(key)
 
+isReallyEmpty = (value) ->
+
+	# For some reason, _.isEmpty returns
+	# true for numbers and booleans
+	return false if _.isNumber(value) or _.isBoolean(value)
+
+	return _.isEmpty(value)
+
 exports.prepareObject = (object) ->
 	object = _.omit object, (value, key) ->
 		return not startsWithLetter(key)
@@ -44,9 +52,7 @@ exports.prepareObject = (object) ->
 		renameObjectKey(object, key, newKeyName)
 
 	object = _.omit object, (value, key) ->
-
-		# For some reason, _.isEmpty returns true for numbers
-		return _.isEmpty(value) and not _.isNumber(value)
+		return isReallyEmpty(value)
 
 	return object
 

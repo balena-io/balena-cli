@@ -80,6 +80,10 @@ describe 'Table Helpers:', ->
 			object = { Array: [ 1, 2, 3 ] }
 			expect(tableHelpers.prepareObject(object)).to.deep.equal(object)
 
+		it 'should preserve false fields', ->
+			object = { Test: false }
+			expect(tableHelpers.prepareObject(object)).to.deep.equal(object)
+
 	describe '#processTableContents()', ->
 
 		checkIfArray = (input) ->

@@ -15,7 +15,7 @@ exports.list = authHooks.failIfNotLoggedIn (applicationId) ->
 			delete device.uuid
 			delete device.download_progress
 			return device
-		, [ 'ID', 'Name', 'Device Type', 'IP Address', 'Application', 'Status', 'Last Seen' ]
+		, [ 'ID', 'Name', 'Device Type', 'Is Online', 'IP Address', 'Application', 'Status', 'Last Seen' ]
 
 	.catch (error) ->
 		throw error
