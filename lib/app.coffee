@@ -33,6 +33,11 @@ program
 	.description('Show a list of your apps')
 	.action(app.list)
 
+program
+	.command('app <id>')
+	.description('Show an application')
+	.action(app.info)
+
 # ---------- Preferences Module ----------
 
 preferences = require('./actions/preferences')
