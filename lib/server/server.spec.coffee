@@ -1,5 +1,6 @@
 expect = require('chai').expect
 nock = require('nock')
+url = require('url')
 server = require('./server')
 config = require('../config')
 token = require('../token/token')
@@ -124,6 +125,15 @@ describe 'Server:', ->
 			}, (error, response) ->
 				expect(error).to.exist
 				expect(error).to.be.an.instanceof(Error)
+				done()
+
+		it 'should accept a full url', (done) ->
+			server.request {
+				method: 'GET'
+				url: url.resolve(config.remoteUrl, URI.ok)
+			}, (error, response) ->
+				expect(error).to.not.exist
+				expect(response.body.status).to.equal(STATUS.ok)
 				done()
 
 	checkRequestTypeWithoutBody = (type) ->
