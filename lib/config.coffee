@@ -11,6 +11,7 @@ config =
 	# TODO: Check if not running on UNIX environment
 	# and add a custom path accordingly
 	dataPrefix: path.join(process.env.HOME, '.resin')
+	sshKeyWidth: 43
 
 config.urls =
 	signup: '/signup'

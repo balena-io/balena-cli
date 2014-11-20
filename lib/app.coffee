@@ -35,6 +35,7 @@ yargs.command('version', version.version)
 # ---------- Keys Module ----------
 keys = require('./actions/keys')
 yargs.command('keys', keys.list)
+yargs.command('key <id>', keys.info)
 
 data.prefix.set config.dataPrefix, (error) ->
 	throw error if error?
