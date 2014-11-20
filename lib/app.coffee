@@ -1,4 +1,3 @@
-packageJSON = require('../package.json')
 data = require('./data/data')
 config = require('./config')
 
@@ -27,6 +26,10 @@ yargs.command('devices <id>', device.list)
 # ---------- Preferences Module ----------
 preferences = require('./actions/preferences')
 yargs.command('preferences', preferences.preferences)
+
+# ---------- Version Module ----------
+version = require('./actions/version')
+yargs.command('version', version.version)
 
 data.prefix.set config.dataPrefix, (error) ->
 	throw error if error?
