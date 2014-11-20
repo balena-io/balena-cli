@@ -25,9 +25,9 @@ ARGS =
 	noMatch:
 		_: [ 'foo', 'bar', 'baz' ]
 
-# Hacky way to check that both functions are equal based
-# on what they returns, as mocha crashes when trying equal
-# or deep equal directly on the functions for some reason
+# Hacky way to check that both functions are equal
+# as mocha crashes when trying equal or deep equal
+# directly on the functions for some reason
 areFunctionsEqual = (fn1, fn2) ->
 	return fn1.toString() is fn2.toString()
 
