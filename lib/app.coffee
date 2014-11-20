@@ -32,6 +32,10 @@ yargs.command('preferences', preferences.preferences)
 version = require('./actions/version')
 yargs.command('version', version.version)
 
+# ---------- Keys Module ----------
+keys = require('./actions/keys')
+yargs.command('keys', keys.list)
+
 data.prefix.set config.dataPrefix, (error) ->
 	throw error if error?
 	yargs.command.run()
