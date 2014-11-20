@@ -110,6 +110,6 @@ describe 'Yargs Command:', ->
 			expect(callback).to.have.been.calledWith(_.last(ARGS.appList._))
 
 		it 'should print help if no matches', ->
-			helpSpy = sinon.spy(yargs, 'help')
+			helpSpy = sinon.spy(yargs, 'showHelp')
 			yargs.command.run()
 			expect(helpSpy).to.have.been.called
