@@ -26,6 +26,8 @@ commandApplies = (command, args) ->
 	return true
 
 run = ->
+	if not @command._matchedCommand?
+		return console.log(@help())
 	signature = splitSignature(@command._matchedCommand.signature)
 	parameters = _.difference(@argv._, signature)
 	@command._matchedCommand.action.apply(this, parameters)

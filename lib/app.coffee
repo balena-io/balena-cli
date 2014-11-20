@@ -5,6 +5,8 @@ config = require('./config')
 yargs = require('yargs')
 yargs.command = require('./yargs-command/yargs-command')
 
+yargs.usage('$0 [options] <command>')
+
 # ---------- Auth Module ----------
 auth = require('./actions/auth')
 
