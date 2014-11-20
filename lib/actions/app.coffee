@@ -4,6 +4,7 @@ table = require('../table/table')
 server = require('../server/server')
 applicationModel = require('../models/application')
 authHooks = require('../hooks/auth')
+config = require('../config')
 
 exports.list = authHooks.failIfNotLoggedIn ->
 	applicationModel.getAll().then (applications) ->
@@ -33,5 +34,7 @@ exports.info = authHooks.failIfNotLoggedIn (id) ->
 		throw error
 
 exports.restart = authHooks.failIfNotLoggedIn (id) ->
+
+	# TODO: Move this URL to config
 	server.post "/application/#{id}/restart", (error) ->
 		throw error if error?
