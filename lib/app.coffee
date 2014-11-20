@@ -18,6 +18,7 @@ yargs.command('signup', auth.signup)
 app = require('./actions/app')
 yargs.command('apps', app.list)
 yargs.command('app <id>', app.info)
+yargs.command('app restart <id>', app.restart)
 
 # ---------- Device Module ----------
 device = require('./actions/device')

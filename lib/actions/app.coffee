@@ -1,6 +1,7 @@
 _ = require('lodash')
 device = require('../device/device')
 table = require('../table/table')
+server = require('../server/server')
 applicationModel = require('../models/application')
 authHooks = require('../hooks/auth')
 
@@ -30,3 +31,7 @@ exports.info = authHooks.failIfNotLoggedIn (id) ->
 
 	.catch (error) ->
 		throw error
+
+exports.restart = authHooks.failIfNotLoggedIn (id) ->
+	server.post "/application/#{id}/restart", (error) ->
+		throw error if error?
