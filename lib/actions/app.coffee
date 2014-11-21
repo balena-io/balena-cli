@@ -1,4 +1,5 @@
 _ = require('lodash')
+async = require('async')
 device = require('../device/device')
 table = require('../table/table')
 server = require('../server/server')
@@ -41,7 +42,17 @@ exports.restart = authHooks.failIfNotLoggedIn (id) ->
 		throw error if error?
 
 exports.remove = authHooks.failIfNotLoggedIn (id) ->
-	widgets.confirmRemoval 'application', (error, confirmed) ->
-		return if not confirmed
-		applicationModel.remove(id).catch (error) ->
-			throw error if error?
+	async.waterfall [
+
+		(callback) ->
+			widgets.confirmRemoval('application', callback)
+
+		(confirmed, callback) ->
+			return callback() if not confirmed
+
+			applicationModel.remove(id).then ->
+				return callback()
+			.catch(callback)
+
+	], (error) ->
+		throw error if error?
