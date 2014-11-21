@@ -59,6 +59,11 @@ program
 	.description('Show devices for an application')
 	.action(device.list)
 
+program
+	.command('device:rm <id>')
+	.description('Remove a device')
+	.action(device.remove)
+
 # ---------- Preferences Module ----------
 preferences = require('./actions/preferences')
 

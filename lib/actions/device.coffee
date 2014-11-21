@@ -3,6 +3,8 @@ deviceModel = require('../models/device')
 getDeviceDisplayName = require('../device/device').getDisplayName
 log = require('../log/log')
 table = require('../table/table')
+widgets = require('../widgets/widgets')
+patterns = require('../patterns/patterns')
 authHooks = require('../hooks/auth')
 
 exports.list = authHooks.failIfNotLoggedIn (applicationId) ->
@@ -20,3 +22,11 @@ exports.list = authHooks.failIfNotLoggedIn (applicationId) ->
 
 	.catch (error) ->
 		throw error
+
+exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
+	patterns.remove 'device', program.parent.yes, (callback) ->
+		deviceModel.remove(id).then ->
+			return callback()
+		.catch(callback)
+	, (error) ->
+		throw error if error?

@@ -8,3 +8,8 @@ exports.getAll = (applicationId) ->
 				application: applicationId
 			expand: 'application'
 			orderby: 'name asc'
+
+exports.remove = (id) ->
+	return canvas.delete
+		resource: 'device'
+		id: id

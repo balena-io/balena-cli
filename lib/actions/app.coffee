@@ -4,7 +4,7 @@ device = require('../device/device')
 table = require('../table/table')
 log = require('../log/log')
 server = require('../server/server')
-widgets = require('../widgets/widgets')
+patterns = require('../patterns/patterns')
 applicationModel = require('../models/application')
 authHooks = require('../hooks/auth')
 config = require('../config')
@@ -43,20 +43,9 @@ exports.restart = authHooks.failIfNotLoggedIn (id) ->
 		throw error if error?
 
 exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
-	async.waterfall [
-
-		(callback) ->
-			if program.parent.yes
-				return callback(null, true)
-
-			widgets.confirmRemoval('application', callback)
-
-		(confirmed, callback) ->
-			return callback() if not confirmed
-
-			applicationModel.remove(id).then ->
-				return callback()
-			.catch(callback)
-
-	], (error) ->
+	patterns.remove 'application', program.parent.yes, (callback) ->
+		applicationModel.remove(id).then ->
+			return callback()
+		.catch(callback)
+	, (error) ->
 		throw error if error?
