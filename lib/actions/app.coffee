@@ -2,6 +2,7 @@ _ = require('lodash')
 async = require('async')
 device = require('../device/device')
 table = require('../table/table')
+log = require('../log/log')
 server = require('../server/server')
 widgets = require('../widgets/widgets')
 applicationModel = require('../models/application')
@@ -11,7 +12,7 @@ config = require('../config')
 exports.list = authHooks.failIfNotLoggedIn ->
 	applicationModel.getAll().then (applications) ->
 
-		console.log table.horizontal applications, (application) ->
+		log.out table.horizontal applications, (application) ->
 			application.device_type = device.getDisplayName(application.device_type)
 			application['Online Devices'] = _.where(application.device, is_online: 1).length
 			application['All Devices'] = application.device?.length or 0
@@ -26,7 +27,7 @@ exports.list = authHooks.failIfNotLoggedIn ->
 exports.info = authHooks.failIfNotLoggedIn (id) ->
 	applicationModel.get(id).then (application) ->
 
-		console.log table.vertical application, (application) ->
+		log.out table.vertical application, (application) ->
 			application.device_type = device.getDisplayName(application.device_type)
 			delete application.device
 			return application

@@ -1,4 +1,5 @@
 data = require('./data/data')
+log = require('./log/log')
 config = require('./config')
 packageJSON = require('../package.json')
 
@@ -70,7 +71,7 @@ program
 	.command('version')
 	.description('Show version')
 	.action ->
-		console.log(packageJSON.version)
+		log.out(packageJSON.version)
 
 # ---------- Keys Module ----------
 keys = require('./actions/keys')
