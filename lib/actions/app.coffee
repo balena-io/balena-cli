@@ -41,10 +41,13 @@ exports.restart = authHooks.failIfNotLoggedIn (id) ->
 	server.post "/application/#{id}/restart", (error) ->
 		throw error if error?
 
-exports.remove = authHooks.failIfNotLoggedIn (id) ->
+exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
 	async.waterfall [
 
 		(callback) ->
+			if program.parent.yes
+				return callback(null, true)
+
 			widgets.confirmRemoval('application', callback)
 
 		(confirmed, callback) ->

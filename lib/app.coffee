@@ -5,6 +5,9 @@ packageJSON = require('../package.json')
 program = require('commander')
 program.version(packageJSON.version)
 
+# ---------- Options ----------
+program.option('-y, --yes', 'Confirm non interactively')
+
 # ---------- Auth Module ----------
 auth = require('./actions/auth')
 
