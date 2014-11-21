@@ -18,3 +18,8 @@ exports.get = (id) ->
 			Promise.reject(new Error('Not found'))
 
 		return application
+
+exports.remove = (id) ->
+	return canvas.delete
+		resource: 'application'
+		id: id

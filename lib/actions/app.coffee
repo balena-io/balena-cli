@@ -2,6 +2,7 @@ _ = require('lodash')
 device = require('../device/device')
 table = require('../table/table')
 server = require('../server/server')
+widgets = require('../widgets/widgets')
 applicationModel = require('../models/application')
 authHooks = require('../hooks/auth')
 config = require('../config')
@@ -38,3 +39,9 @@ exports.restart = authHooks.failIfNotLoggedIn (id) ->
 	# TODO: Move this URL to config
 	server.post "/application/#{id}/restart", (error) ->
 		throw error if error?
+
+exports.remove = authHooks.failIfNotLoggedIn (id) ->
+	widgets.confirmRemoval 'application', (error, confirmed) ->
+		return if not confirmed
+		applicationModel.remove(id).catch (error) ->
+			throw error if error?

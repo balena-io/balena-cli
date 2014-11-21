@@ -41,6 +41,11 @@ program
 	.description('Restart an application')
 	.action(app.restart)
 
+program
+	.command('app:rm <id>')
+	.description('Remove an application')
+	.action(app.remove)
+
 # ---------- Device Module ----------
 device = require('./actions/device')
 
