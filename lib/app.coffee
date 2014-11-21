@@ -64,6 +64,11 @@ program
 	.description('Remove a device')
 	.action(device.remove)
 
+program
+	.command('device:identify <uuid>')
+	.description('Identify a device with a UUID')
+	.action(device.identify)
+
 # ---------- Preferences Module ----------
 preferences = require('./actions/preferences')
 

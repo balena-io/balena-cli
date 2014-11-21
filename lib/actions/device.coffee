@@ -2,6 +2,7 @@ deviceModel = require('../models/device')
 getDeviceDisplayName = require('../device/device').getDisplayName
 log = require('../log/log')
 table = require('../table/table')
+server = require('../server/server')
 widgets = require('../widgets/widgets')
 patterns = require('../patterns/patterns')
 authHooks = require('../hooks/auth')
@@ -28,4 +29,8 @@ exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
 			return callback()
 		.catch(callback)
 	, (error) ->
+		throw error if error?
+
+exports.identify = authHooks.failIfNotLoggedIn (uuid) ->
+	server.post '/blink', { uuid }, (error) ->
 		throw error if error?
