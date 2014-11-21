@@ -15,6 +15,7 @@ exports.list = authHooks.failIfNotLoggedIn ->
 		, [ 'ID', 'Title' ]
 
 exports.info = authHooks.failIfNotLoggedIn (id) ->
+	id = _.parseInt(id)
 
 	# TODO: We don't have a way to query a single ssh key yet.
 	# As a workaround, we request all of them, and filter

@@ -1,42 +1,83 @@
 data = require('./data/data')
 config = require('./config')
+packageJSON = require('../package.json')
 
-yargs = require('yargs')
-yargs.command = require('./yargs-command/yargs-command')
-
-yargs.usage('$0 [options] <command>')
+program = require('commander')
+program.version(packageJSON.version)
 
 # ---------- Auth Module ----------
 auth = require('./actions/auth')
 
-# TODO: Re enable optional interactivity
-yargs.command('login [username:password]', auth.login)
-yargs.command('logout', auth.logout)
-yargs.command('signup', auth.signup)
+program
+	.command('login [username:password]')
+	.description('Login to resin.io')
+	.action(auth.login)
+
+program
+	.command('logout')
+	.description('Logout from resin.io')
+	.action(auth.logout)
+
+program
+	.command('signup')
+	.description('Signup to resin.io')
+	.action(auth.signup)
 
 # ---------- App Module ----------
 app = require('./actions/app')
-yargs.command('apps', app.list)
-yargs.command('app <id>', app.info)
-yargs.command('app restart <id>', app.restart)
+
+program
+	.command('apps')
+	.description('List your applications')
+	.action(app.list)
+
+program
+	.command('app <id>')
+	.description('List a single application')
+	.action(app.info)
+
+program
+	.command('app:restart <id>')
+	.description('Restart an application')
+	.action(app.restart)
 
 # ---------- Device Module ----------
 device = require('./actions/device')
-yargs.command('devices <id>', device.list)
+
+program
+	.command('devices <id>')
+	.description('Show devices for an application')
+	.action(device.list)
 
 # ---------- Preferences Module ----------
 preferences = require('./actions/preferences')
-yargs.command('preferences', preferences.preferences)
+
+program
+	.command('preferences')
+	.description('Open preferences form')
+	.action(preferences.preferences)
 
 # ---------- Version Module ----------
 version = require('./actions/version')
-yargs.command('version', version.version)
+
+program
+	.command('version')
+	.description('Show version')
+	.action(version.version)
 
 # ---------- Keys Module ----------
 keys = require('./actions/keys')
-yargs.command('keys', keys.list)
-yargs.command('key <id>', keys.info)
+
+program
+	.command('keys')
+	.description('List all SSH keys')
+	.action(keys.list)
+
+program
+	.command('key <id>')
+	.description('List a single SSH key')
+	.action(keys.info)
 
 data.prefix.set config.dataPrefix, (error) ->
 	throw error if error?
-	yargs.command.run()
+	program.parse(process.argv)
