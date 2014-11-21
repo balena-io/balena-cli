@@ -57,13 +57,12 @@ program
 	.description('Open preferences form')
 	.action(preferences.preferences)
 
-# ---------- Version Module ----------
-version = require('./actions/version')
-
+# ---------- Info Module ----------
 program
 	.command('version')
 	.description('Show version')
-	.action(version.version)
+	.action ->
+		console.log(packageJSON.version)
 
 # ---------- Keys Module ----------
 keys = require('./actions/keys')
