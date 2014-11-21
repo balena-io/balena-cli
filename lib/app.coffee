@@ -8,6 +8,7 @@ program.version(packageJSON.version)
 
 # ---------- Options ----------
 program.option('-y, --yes', 'Confirm non interactively')
+program.option('-q, --quiet', 'quiet (no output)')
 
 # ---------- Auth Module ----------
 auth = require('./actions/auth')
@@ -89,3 +90,4 @@ program
 data.prefix.set config.dataPrefix, (error) ->
 	throw error if error?
 	program.parse(process.argv)
+	log.setQuiet(program.quiet)
