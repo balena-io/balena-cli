@@ -6,6 +6,7 @@ KEY_DISPLAY_MAP =
 	last_seen_time: 'Last Seen'
 	ip_address: 'IP Address'
 	id: 'ID'
+	uuid: 'UUID'
 
 startsWithLetter = (string) ->
 	firstLetter = _.first(string)
