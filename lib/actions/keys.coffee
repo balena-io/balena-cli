@@ -2,6 +2,7 @@ _ = require('lodash')
 server = require('../server/server')
 authHooks = require('../hooks/auth')
 log = require('../log/log')
+patterns = require('../patterns/patterns')
 table = require('../table/table')
 helpers = require('../helpers/helpers')
 keyModel = require('../models/key')
@@ -29,3 +30,9 @@ exports.info = authHooks.failIfNotLoggedIn (id) ->
 
 		key.public_key = '\n' + helpers.formatLongString(key.public_key, config.sshKeyWidth)
 		log.out(table.vertical(key, _.identity, [ 'ID', 'Title', 'Public Key' ]))
+
+exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
+	patterns.remove 'key', program.parent.yes, (callback) ->
+		server.delete("/user/keys/#{id}", callback)
+	, (error) ->
+		throw error if error?

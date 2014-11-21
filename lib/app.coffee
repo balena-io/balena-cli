@@ -92,6 +92,11 @@ program
 	.description('List a single SSH key')
 	.action(keys.info)
 
+program
+	.command('key:rm <id>')
+	.description('Remove a SSH key')
+	.action(keys.remove)
+
 data.prefix.set config.dataPrefix, (error) ->
 	throw error if error?
 	program.parse(process.argv)
