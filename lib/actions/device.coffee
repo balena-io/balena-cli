@@ -1,4 +1,3 @@
-_ = require('lodash')
 deviceModel = require('../models/device')
 getDeviceDisplayName = require('../device/device').getDisplayName
 log = require('../log/log')
