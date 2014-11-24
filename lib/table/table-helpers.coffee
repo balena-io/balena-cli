@@ -58,6 +58,7 @@ exports.prepareObject = (object) ->
 	return object
 
 exports.processTableContents = (contents, map) ->
+	return if not contents?
 
 	# Allows us to simplify the algorithm by not
 	# concerning about different input types

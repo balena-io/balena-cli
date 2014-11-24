@@ -1,4 +1,5 @@
 expect = require('chai').expect
+sinon = require('sinon')
 _ = require('lodash')
 tableHelpers = require('./table-helpers')
 
@@ -101,6 +102,12 @@ describe 'Table Helpers:', ->
 				return item
 
 			expect(result).to.deep.equal([ Hey: 'yo' ])
+
+		it 'should not call map if contents does not exist', ->
+			map = sinon.spy()
+			tableHelpers.processTableContents(null, map)
+			tableHelpers.processTableContents(undefined, map)
+			expect(map).to.not.have.been.called
 
 		it 'should get rid of keys not starting with letters', ->
 			result = tableHelpers.processTableContents(OBJECTS.basic, _.identity)
