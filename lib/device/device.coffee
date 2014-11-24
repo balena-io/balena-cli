@@ -7,6 +7,9 @@ exports.getDisplayName = (device) ->
 			return key
 	return 'Unknown'
 
+exports.getDeviceSlug = (device) ->
+	displayName = exports.getDisplayName(device)
+	return DEVICES[displayName]?.slug or 'unknown'
+
 exports.getSupportedDevices = ->
-	return _.map DEVICES, (device) ->
-		return device.slug
+	return _.keys(DEVICES)

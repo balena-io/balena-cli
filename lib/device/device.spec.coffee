@@ -1,3 +1,4 @@
+_ = require('lodash')
 expect = require('chai').expect
 device = require('./device')
 DEVICES = require('./device-data.json')
@@ -27,16 +28,27 @@ describe 'Device:', ->
 			for name in unknownNames
 				expect(device.getDisplayName(name)).to.equal('Unknown')
 
+	describe '#getDeviceSlug()', ->
+
+		it 'should return valid slugs', ->
+			for key, value in DEVICES
+				expect(device.getDeviceSlug(key)).to.equal(value.slug)
+
+		it 'should return unknown if not valid device', ->
+			result = device.getDeviceSlug('Foo Bar')
+			expect(result).to.equal('unknown')
+
+		it 'should return a valid slug if using an alternative name', ->
+			for key, value in DEVICES
+				name = _.first(value.names)
+				expect(device.getDeviceSlug(name)).to.equal(value.slug)
+
 	describe '#getSupportedDevices()', ->
 
-		result = null
-
-		beforeEach ->
-			result = device.getSupportedDevices()
-
 		it 'should return an array', ->
-			expect(result).to.be.an.instanceof(Array)
+			expect(device.getSupportedDevices()).to.be.an.instanceof(Array)
 
-		it 'should return all slugs', ->
-			for device in DEVICES
-				expect(result.indexOf(device.slug)).to.not.equal(-1)
+		it 'should have every supported device', ->
+			supportedDevices = device.getSupportedDevices()
+			for key, value in DEVICES
+				expect(supportedDevices.indexOf(key)).to.not.equal(-1)
