@@ -32,3 +32,11 @@ describe 'Table:', ->
 
 			for line in expected
 				expect(result.indexOf(line)).to.not.equal(-1)
+
+		it 'should return undefined if contents does not exist', ->
+			expect(table.vertical(undefined)).to.be.undefined
+
+	describe '#horizontal()', ->
+
+		it 'should return undefined if contents does not exist', ->
+			expect(table.horizontal(undefined)).to.be.undefined
