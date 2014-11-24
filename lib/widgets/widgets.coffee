@@ -15,6 +15,17 @@ exports.login = (callback) ->
 		}
 	], _.partial(callback, null))
 
+exports.select = (message, list, callback) ->
+	inquirer.prompt [
+		{
+			type: 'list'
+			name: 'option'
+			message: message or 'Select an option'
+			choices: list
+		}
+	], (response) ->
+		return callback(null, response.option)
+
 exports.confirmRemoval = (name, callback) ->
 	inquirer.prompt [
 		{
