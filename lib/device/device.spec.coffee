@@ -28,6 +28,11 @@ describe 'Device:', ->
 			for name in unknownNames
 				expect(device.getDisplayName(name)).to.equal('Unknown')
 
+		it 'should return the name itself if passing the display name', ->
+			for supportedDevice in device.getSupportedDevices()
+				displayName = device.getDisplayName(supportedDevice)
+				expect(displayName).to.equal(supportedDevice)
+
 	describe '#getDeviceSlug()', ->
 
 		it 'should return valid slugs', ->
