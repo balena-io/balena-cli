@@ -10,15 +10,24 @@ applicationModel = require('../models/application')
 authHooks = require('../hooks/auth')
 config = require('../config')
 
-exports.create = authHooks.failIfNotLoggedIn (name) ->
+exports.create = authHooks.failIfNotLoggedIn (name, program) ->
 	async.waterfall [
 
 		(callback) ->
-			deviceTypes = device.getSupportedDevices()
-			widgets.select('Select a type', deviceTypes, callback)
+			deviceType = program.parent.type
+
+			if deviceType?
+				return callback(null, deviceType)
+			else
+				deviceTypes = device.getSupportedDevices()
+				widgets.select('Select a type', deviceTypes, callback)
 
 		(type, callback) ->
+
+			# TODO: Currently returns 'unknown'.
+			# Maybe we should break or handle better?
 			slugifiedType = device.getDeviceSlug(type)
+
 			applicationModel.create(name, slugifiedType).then ->
 				return callback()
 			.catch(callback)

@@ -9,6 +9,7 @@ program.version(packageJSON.version)
 # ---------- Options ----------
 program.option('-y, --yes', 'Confirm non interactively')
 program.option('-q, --quiet', 'quiet (no output)')
+program.option('-t, --type <type>', 'specify a type when creating an application')
 
 # ---------- Auth Module ----------
 auth = require('./actions/auth')
