@@ -13,3 +13,8 @@ exports.getAll = (applicationId) ->
 		if not environmentVariables?
 			return Promise.reject(new Error('Not found'))
 		return environmentVariables
+
+exports.remove = (id) ->
+	return canvas.delete
+		resource: 'environment_variable'
+		id: id

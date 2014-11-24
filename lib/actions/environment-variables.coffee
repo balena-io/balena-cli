@@ -1,5 +1,6 @@
 _ = require('lodash')
 table = require('../table/table')
+patterns = require('../patterns/patterns')
 log = require('../log/log')
 environemtVariablesModel = require('../models/environment-variables')
 authHooks = require('../hooks/auth')
@@ -23,3 +24,11 @@ exports.list = authHooks.failIfNotLoggedIn (program) ->
 		log.out(table.horizontal(environmentVariables))
 	.catch (error) ->
 		throw error
+
+exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
+	patterns.remove 'environment variable', program.parent.yes, (callback) ->
+		environemtVariablesModel.remove(id).then ->
+			return callback()
+		.catch(callback)
+	, (error) ->
+		throw error if error?

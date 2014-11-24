@@ -122,6 +122,11 @@ program
 	.description('List all environment variables')
 	.action(env.list)
 
+program
+	.command('env:rm <id>')
+	.description('Remove environment variable')
+	.action(env.remove)
+
 data.prefix.set config.dataPrefix, (error) ->
 	throw error if error?
 	program.parse(process.argv)
