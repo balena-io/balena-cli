@@ -1,3 +1,4 @@
+_ = require('lodash')
 data = require('./data/data')
 log = require('./log/log')
 config = require('./config')
@@ -10,6 +11,10 @@ program.version(packageJSON.version)
 program.option('-y, --yes', 'Confirm non interactively')
 program.option('-q, --quiet', 'quiet (no output)')
 program.option('-t, --type <type>', 'specify a type when creating an application')
+
+# TODO: I have to use 'application' instead of 'app' here
+# as Commander gets confused with the app command
+program.option('-a, --application <app>', 'application id', _.parseInt)
 
 # ---------- Auth Module ----------
 auth = require('./actions/auth')
@@ -107,6 +112,14 @@ program
 	.command('key:rm <id>')
 	.description('Remove a SSH key')
 	.action(keys.remove)
+
+# ---------- Env Module ----------
+env = require('./actions/environment-variables')
+
+program
+	.command('envs')
+	.description('List all environment variables')
+	.action(env.list)
 
 data.prefix.set config.dataPrefix, (error) ->
 	throw error if error?
