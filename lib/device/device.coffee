@@ -1,11 +1,12 @@
 _ = require('lodash')
-DEVICE_NAMES = require('./device-names.json')
+DEVICES = require('./device-data.json')
 
 exports.getDisplayName = (device) ->
-	for key, value of DEVICE_NAMES
-		if _.indexOf(value, device) isnt -1
+	for key, value of DEVICES
+		if _.indexOf(value.names, device) isnt -1
 			return key
 	return 'Unknown'
 
 exports.getSupportedDevices = ->
-	return _.keys(DEVICE_NAMES)
+	return _.map DEVICES, (device) ->
+		return device.slug

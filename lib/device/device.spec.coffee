@@ -1,5 +1,6 @@
 expect = require('chai').expect
 device = require('./device')
+DEVICES = require('./device-data.json')
 
 describe 'Device:', ->
 
@@ -28,6 +29,14 @@ describe 'Device:', ->
 
 	describe '#getSupportedDevices()', ->
 
-		it 'should return an array', ->
+		result = null
+
+		beforeEach ->
 			result = device.getSupportedDevices()
+
+		it 'should return an array', ->
 			expect(result).to.be.an.instanceof(Array)
+
+		it 'should return all slugs', ->
+			for device in DEVICES
+				expect(result.indexOf(device.slug)).to.not.equal(-1)
