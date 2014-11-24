@@ -26,7 +26,10 @@
     "chai-as-promised": "~4.1.1",
     "chai-things": "~0.2.0",
     "sinon": "~1.12.1",
-    "sinon-chai": "~2.6.0"
+    "sinon-chai": "~2.6.0",
+    "gulp-coffee": "~2.2.0",
+    "gulp-util": "~3.0.1",
+    "run-sequence": "~1.0.2"
   },
   "dependencies": {
     "request": "~2.47.0",
