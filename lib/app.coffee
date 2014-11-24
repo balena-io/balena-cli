@@ -8,7 +8,8 @@ program = require('commander')
 program.version(packageJSON.version)
 
 # ---------- Options ----------
-program.option('-y, --yes', 'Confirm non interactively')
+program.option('-y, --yes', 'confirm non interactively')
+program.option('-v, --verbose', 'increase verbosity')
 program.option('-q, --quiet', 'quiet (no output)')
 program.option('-t, --type <type>', 'specify a type when creating an application')
 
