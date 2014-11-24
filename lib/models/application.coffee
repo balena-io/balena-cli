@@ -15,7 +15,7 @@ exports.get = (id) ->
 
 	.then (application) ->
 		if not application?
-			Promise.reject(new Error('Not found'))
+			return Promise.reject(new Error('Not found'))
 
 		return application
 
