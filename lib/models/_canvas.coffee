@@ -7,7 +7,7 @@ promisifiedServerRequest = Promise.promisify(server.request, server)
 
 class CanvasRequestService extends Canvas(_, Promise)
 	_request: (params) ->
-		params.json = true
+		params.json = params.data
 		params.gzip ?= true
 		promisifiedServerRequest(params).spread (response, body) ->
 			if 200 <= response.statusCode < 300
