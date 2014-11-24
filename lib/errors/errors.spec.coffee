@@ -47,3 +47,11 @@ describe 'Errors:', ->
 		it 'should not exit if the last parameter is false', ->
 			checkProcessExitOption false, (processExitStub) ->
 				expect(processExitStub).to.not.have.been.called
+
+	describe 'NotFound', ->
+
+		it 'should get a custom message', ->
+			message = 'Foo'
+			error = new errors.NotFound(message)
+			expect(error.message).to.not.equal(message)
+			expect(error.message).to.contain(message)
