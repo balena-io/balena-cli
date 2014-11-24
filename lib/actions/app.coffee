@@ -2,6 +2,7 @@ _ = require('lodash')
 async = require('async')
 device = require('../device/device')
 table = require('../table/table')
+errors = require('../errors/errors')
 log = require('../log/log')
 server = require('../server/server')
 widgets = require('../widgets/widgets')
@@ -32,8 +33,7 @@ exports.create = authHooks.failIfNotLoggedIn (name, program) ->
 				return callback()
 			.catch(callback)
 
-	], (error) ->
-		throw error if error?
+	], errors.handle
 
 exports.list = authHooks.failIfNotLoggedIn ->
 	applicationModel.getAll().then (applications) ->
@@ -47,8 +47,7 @@ exports.list = authHooks.failIfNotLoggedIn ->
 			return application
 		, [ 'ID', 'Name', 'Device Type', 'Online Devices', 'All Devices' ]
 
-	.catch (error) ->
-		throw error
+	.catch(errors.handle)
 
 exports.info = authHooks.failIfNotLoggedIn (id) ->
 	applicationModel.get(id).then (application) ->
@@ -59,19 +58,16 @@ exports.info = authHooks.failIfNotLoggedIn (id) ->
 			return application
 		, [ 'ID', 'Name', 'Device Type', 'Git Repository', 'Commit' ]
 
-	.catch (error) ->
-		throw error
+	.catch(errors.handle)
 
 exports.restart = authHooks.failIfNotLoggedIn (id) ->
 
 	# TODO: Move this URL to config
-	server.post "/application/#{id}/restart", (error) ->
-		throw error if error?
+	server.post("/application/#{id}/restart", errors.handle)
 
 exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
 	patterns.remove 'application', program.parent.yes, (callback) ->
 		applicationModel.remove(id).then ->
 			return callback()
 		.catch(callback)
-	, (error) ->
-		throw error if error?
+	, errors.handle

@@ -2,6 +2,7 @@ deviceModel = require('../models/device')
 getDeviceDisplayName = require('../device/device').getDisplayName
 log = require('../log/log')
 table = require('../table/table')
+errors = require('../errors/errors')
 server = require('../server/server')
 widgets = require('../widgets/widgets')
 patterns = require('../patterns/patterns')
@@ -21,17 +22,14 @@ exports.list = authHooks.failIfNotLoggedIn (applicationId) ->
 			return device
 		, [ 'ID', 'Name', 'Device Type', 'Is Online', 'IP Address', 'Application', 'Status', 'Last Seen' ]
 
-	.catch (error) ->
-		throw error
+	.catch(errors.handle)
 
 exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
 	patterns.remove 'device', program.parent.yes, (callback) ->
 		deviceModel.remove(id).then ->
 			return callback()
 		.catch(callback)
-	, (error) ->
-		throw error if error?
+	, errors.handle
 
 exports.identify = authHooks.failIfNotLoggedIn (uuid) ->
-	server.post config.urls.identify, { uuid }, (error) ->
-		throw error if error?
+	server.post(config.urls.identify, { uuid }, errors.handle)

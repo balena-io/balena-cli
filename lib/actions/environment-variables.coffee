@@ -1,5 +1,6 @@
 _ = require('lodash')
 table = require('../table/table')
+errors = require('../errors/errors')
 patterns = require('../patterns/patterns')
 log = require('../log/log')
 environemtVariablesModel = require('../models/environment-variables')
@@ -14,7 +15,7 @@ exports.list = authHooks.failIfNotLoggedIn (program) ->
 	applicationId = program.parent.application
 
 	if not applicationId?
-		throw new Error('You have to specify an application')
+		errors.handle(new Error('You have to specify an application'))
 
 	environemtVariablesModel.getAll(applicationId).then (environmentVariables) ->
 
@@ -22,13 +23,11 @@ exports.list = authHooks.failIfNotLoggedIn (program) ->
 			environmentVariables = _.reject(environmentVariables, isSystemVariable)
 
 		log.out(table.horizontal(environmentVariables))
-	.catch (error) ->
-		throw error
+	.catch(errors.handle)
 
 exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
 	patterns.remove 'environment variable', program.parent.yes, (callback) ->
 		environemtVariablesModel.remove(id).then ->
 			return callback()
 		.catch(callback)
-	, (error) ->
-		throw error if error?
+	, errors.handle
