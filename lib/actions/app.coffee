@@ -4,10 +4,27 @@ device = require('../device/device')
 table = require('../table/table')
 log = require('../log/log')
 server = require('../server/server')
+widgets = require('../widgets/widgets')
 patterns = require('../patterns/patterns')
 applicationModel = require('../models/application')
 authHooks = require('../hooks/auth')
 config = require('../config')
+
+exports.create = authHooks.failIfNotLoggedIn (name) ->
+	async.waterfall [
+
+		(callback) ->
+			deviceTypes = device.getSupportedDevices()
+			widgets.select('Select a type', deviceTypes, callback)
+
+		(type, callback) ->
+			slugifiedType = device.getDeviceSlug(type)
+			applicationModel.create(name, slugifiedType).then ->
+				return callback()
+			.catch(callback)
+
+	], (error) ->
+		throw error if error?
 
 exports.list = authHooks.failIfNotLoggedIn ->
 	applicationModel.getAll().then (applications) ->

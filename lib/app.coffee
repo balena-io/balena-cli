@@ -32,6 +32,11 @@ program
 app = require('./actions/app')
 
 program
+	.command('app:create <name>')
+	.description('Create a resin.io application')
+	.action(app.create)
+
+program
 	.command('apps')
 	.description('List your applications')
 	.action(app.list)

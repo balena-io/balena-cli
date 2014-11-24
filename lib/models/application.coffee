@@ -19,6 +19,21 @@ exports.get = (id) ->
 
 		return application
 
+exports.create = (name, deviceType) ->
+	return canvas.post
+		resource: 'application'
+		data:
+			app_name: name
+			device_type: deviceType
+
+	.then (res) ->
+		id = res?.id
+
+		if not id?
+			return Promise.reject(new Error('Could not find created application id.'))
+
+		return id
+
 exports.remove = (id) ->
 	return canvas.delete
 		resource: 'application'
