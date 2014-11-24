@@ -6,6 +6,7 @@ server = require('../server/server')
 widgets = require('../widgets/widgets')
 patterns = require('../patterns/patterns')
 authHooks = require('../hooks/auth')
+config = require('../config')
 
 exports.list = authHooks.failIfNotLoggedIn (applicationId) ->
 	deviceModel.getAll(applicationId).then (devices) ->
@@ -32,5 +33,5 @@ exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
 		throw error if error?
 
 exports.identify = authHooks.failIfNotLoggedIn (uuid) ->
-	server.post '/blink', { uuid }, (error) ->
+	server.post config.urls.identify, { uuid }, (error) ->
 		throw error if error?
