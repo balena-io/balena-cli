@@ -43,6 +43,7 @@
     "open": "0.0.5",
     "inquirer": "~0.8.0",
     "cliff": "~0.1.9",
-    "underscore.string": "~2.4.0"
+    "underscore.string": "~2.4.0",
+    "typed-error": "~0.1.0"
   }
 }
