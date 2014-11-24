@@ -9,7 +9,7 @@ exports.getAll = (applicationId) ->
 				application: applicationId
 			orderby: 'name asc'
 
-	.then (environmentVariables) =>
+	.then (environmentVariables) ->
 		if not environmentVariables?
 			return Promise.reject(new Error('Not found'))
 		return environmentVariables
