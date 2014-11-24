@@ -27,7 +27,7 @@ exports.info = authHooks.failIfNotLoggedIn (id) ->
 		errors.handle(error) if error?
 		key = _.findWhere(keys, { id })
 		if not key?
-			errors.handle(new Error("Key #{id} doesn't exists"))
+			errors.handle(new errors.NotFound("key #{id}"))
 
 		key.public_key = '\n' + helpers.formatLongString(key.public_key, config.sshKeyWidth)
 		log.out(table.vertical(key, _.identity, [ 'ID', 'Title', 'Public Key' ]))

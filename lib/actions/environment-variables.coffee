@@ -12,7 +12,7 @@ isSystemVariable = (environmentVariable) ->
 	SYSTEM_VAR_REGEX.test(environmentVariable.name)
 
 exports.list = authHooks.failIfNotLoggedIn (program) ->
-	applicationId = program.parent.application
+	applicationId = program.parent?.application
 
 	if not applicationId?
 		errors.handle(new Error('You have to specify an application'))

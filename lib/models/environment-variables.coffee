@@ -1,5 +1,6 @@
 Promise = require('bluebird')
 canvas = require('./_canvas')
+errors = require('../errors/errors')
 
 exports.getAll = (applicationId) ->
 	return canvas.get
@@ -11,7 +12,7 @@ exports.getAll = (applicationId) ->
 
 	.then (environmentVariables) ->
 		if not environmentVariables?
-			return Promise.reject(new Error('Not found'))
+			return Promise.reject(new errors.NotFound('environment variables'))
 		return environmentVariables
 
 exports.remove = (id) ->

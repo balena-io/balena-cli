@@ -1,5 +1,6 @@
 Promise = require('bluebird')
 canvas = require('./_canvas')
+errors = require('../errors/errors')
 
 exports.getAll = ->
 	return canvas.get
@@ -15,7 +16,7 @@ exports.get = (id) ->
 
 	.then (application) ->
 		if not application?
-			return Promise.reject(new Error('Not found'))
+			return Promise.reject(new errors.NotFound("application #{id}"))
 
 		return application
 
@@ -30,7 +31,7 @@ exports.create = (name, deviceType) ->
 		id = res?.id
 
 		if not id?
-			return Promise.reject(new Error('Could not find created application id.'))
+			return Promise.reject(new errors.NotFound('created application id'))
 
 		return id
 
