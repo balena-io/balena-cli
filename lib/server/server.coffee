@@ -2,6 +2,7 @@ _ = require('lodash')
 request = require('request')
 urlResolve = require('url').resolve
 async = require('async')
+connection = require('../connection/connection')
 config = require('../config')
 token = require('../token/token')
 
@@ -13,6 +14,12 @@ exports.request = (options = {}, callback) ->
 	async.waterfall [
 
 		(callback) ->
+			connection.isOnline(callback)
+
+		(isOnline, callback) ->
+			if not isOnline
+				return callback(new Error('You need internet connection to perform this task'))
+
 			token.getToken(callback)
 
 		(savedToken, callback) ->

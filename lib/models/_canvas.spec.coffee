@@ -6,6 +6,7 @@ chaiAsPromised = require('chai-as-promised')
 expect = chai.expect
 chai.use(chaiAsPromised)
 
+mock = require('../../tests/utils/mock')
 canvas = require('./_canvas')
 config = require('../config')
 
@@ -20,6 +21,12 @@ RESPONSE =
 		]
 
 describe 'Canvas:', ->
+
+	before ->
+		mock.connection.init()
+
+	after ->
+		mock.connection.restore()
 
 	beforeEach ->
 		nock(config.remoteUrl)

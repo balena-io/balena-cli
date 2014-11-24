@@ -11,6 +11,12 @@ janeDoeFixture = require('../../tests/fixtures/janedoe')
 
 describe 'Auth:', ->
 
+	before ->
+		mock.connection.init()
+
+	after ->
+		mock.connection.restore()
+
 	beforeEach (done) ->
 		mock.fs.init()
 		data.prefix.set(config.dataPrefix, done)

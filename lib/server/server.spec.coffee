@@ -4,6 +4,7 @@ url = require('url')
 server = require('./server')
 config = require('../config')
 token = require('../token/token')
+data = require('../data/data')
 mock = require('../../tests/utils/mock')
 johnDoeFixture = require('../../tests/fixtures/johndoe.json')
 
@@ -32,7 +33,13 @@ METHODS = [
 
 describe 'Server:', ->
 
-	beforeEach ->
+	before ->
+		mock.connection.init()
+
+	after ->
+		mock.connection.restore()
+
+	beforeEach (done) ->
 		nock(TEST_URI).get(URI.nojson).reply(200, RESPONSE.nojson)
 		nock(TEST_URI).get(URI.error).reply(400, status: STATUS.error)
 
@@ -41,6 +48,7 @@ describe 'Server:', ->
 			nock(TEST_URI)[lowercaseMethod](URI.ok).reply(200, status: STATUS.ok)
 
 		mock.fs.init()
+		data.prefix.set(config.dataPrefix, done)
 
 	afterEach ->
 		mock.fs.restore()
@@ -183,7 +191,7 @@ describe 'Server:', ->
 					method: 'GET'
 					url: URI.ok
 				}, (error, response) ->
-					authorizationHeader = response.request.headers.Authorization
+					authorizationHeader = response?.request.headers.Authorization
 
 					expect(error).to.not.exist
 					expect(authorizationHeader).to.exist
@@ -203,7 +211,7 @@ describe 'Server:', ->
 					url: URI.ok
 				}, (error, response) ->
 					expect(error).to.not.exist
-					authorizationHeader = response.request.headers.Authorization
+					authorizationHeader = response?.request.headers.Authorization
 					expect(authorizationHeader).to.not.exist
 					done()
 
