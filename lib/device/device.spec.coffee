@@ -25,3 +25,9 @@ describe 'Device:', ->
 
 			for name in unknownNames
 				expect(device.getDisplayName(name)).to.equal('Unknown')
+
+	describe '#getSupportedDevices()', ->
+
+		it 'should return an array', ->
+			result = device.getSupportedDevices()
+			expect(result).to.be.an.instanceof(Array)

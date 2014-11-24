@@ -6,3 +6,6 @@ exports.getDisplayName = (device) ->
 		if _.indexOf(value, device) isnt -1
 			return key
 	return 'Unknown'
+
+exports.getSupportedDevices = ->
+	return _.keys(DEVICE_NAMES)
