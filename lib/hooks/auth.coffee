@@ -1,11 +1,14 @@
+_ = require('lodash')
 auth = require('../auth/auth')
 messages = require('../messages/messages')
 
-exports.failIfNotLoggedIn = (fn) ->
+exports.failIfNotLoggedIn = (fn, onError) ->
 	return ->
 		args = arguments
 		auth.isLoggedIn (isLoggedIn) ->
+
 			if not isLoggedIn
-				throw new Error(messages.errors.loginRequired)
+				error = new Error(messages.errors.loginRequired)
+				return onError?(error) or throw error
 
 			fn.apply(null, args)
