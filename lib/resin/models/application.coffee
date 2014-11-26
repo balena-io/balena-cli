@@ -1,9 +1,9 @@
 _ = require('lodash')
-Promise = require('bluebird')
 canvas = require('./_canvas')
 errors = require('../errors/errors')
+server = require('../server/server')
 
-exports.getAll = ->
+exports.getAll = (callback) ->
 	return canvas.get
 		resource: 'application'
 		options:
@@ -11,22 +11,28 @@ exports.getAll = ->
 			expand: 'device'
 	.then (applications) ->
 		if _.isEmpty(applications)
-			return Promise.reject(new errors.NotAny('applications'))
+			return callback(new errors.NotAny('applications'))
 
-		return applications
+		return callback(null, applications)
 
-exports.get = (id) ->
+	.catch (error) ->
+		return callback(error)
+
+exports.get = (id, callback) ->
 	return canvas.get
 		resource: 'application'
 		id: id
 
 	.then (application) ->
 		if not application?
-			return Promise.reject(new errors.NotFound("application #{id}"))
+			return callback(new errors.NotFound("application #{id}"))
 
-		return application
+		return callback(null, application)
 
-exports.create = (name, deviceType) ->
+	.catch (error) ->
+		return callback(error)
+
+exports.create = (name, deviceType, callback) ->
 	return canvas.post
 		resource: 'application'
 		data:
@@ -37,11 +43,23 @@ exports.create = (name, deviceType) ->
 		id = res?.id
 
 		if not id?
-			return Promise.reject(new errors.NotFound('created application id'))
+			return callback(new errors.NotFound('created application id'))
 
-		return id
+		return callback(null, id)
 
-exports.remove = (id) ->
+	.catch (error) ->
+		return callback(error)
+
+exports.remove = (id, callback) ->
 	return canvas.delete
 		resource: 'application'
 		id: id
+	.then ->
+		return callback()
+	.catch (error) ->
+		return callback(error)
+
+exports.restart = (id, callback) ->
+
+	# TODO: Move this URL to config
+	server.post("/application/#{id}/restart", callback)

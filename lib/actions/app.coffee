@@ -21,14 +21,13 @@ exports.create = authHooks.failIfNotLoggedIn (name, program) ->
 			# Maybe we should break or handle better?
 			slugifiedType = resin.device.getDeviceSlug(type)
 
-			resin.models.application.create(name, slugifiedType).then ->
-				return callback()
-			.catch(callback)
+			resin.models.application.create(name, slugifiedType, callback)
 
 	], resin.errors.handle
 
 exports.list = authHooks.failIfNotLoggedIn ->
-	resin.models.application.getAll().then (applications) ->
+	resin.models.application.getAll (error, applications) ->
+		resin.errors.handle(error) if error?
 
 		resin.log.out resin.ui.widgets.table.horizontal applications, (application) ->
 			application.device_type = resin.device.getDisplayName(application.device_type)
@@ -39,10 +38,9 @@ exports.list = authHooks.failIfNotLoggedIn ->
 			return application
 		, [ 'ID', 'Name', 'Device Type', 'Online Devices', 'All Devices' ]
 
-	.catch(resin.errors.handle)
-
 exports.info = authHooks.failIfNotLoggedIn (id) ->
-	resin.models.application.get(id).then (application) ->
+	resin.models.application.get id, (error, application) ->
+		resin.errors.handle(error) if error?
 
 		resin.log.out resin.ui.widgets.table.vertical application, (application) ->
 			application.device_type = resin.device.getDisplayName(application.device_type)
@@ -50,16 +48,12 @@ exports.info = authHooks.failIfNotLoggedIn (id) ->
 			return application
 		, [ 'ID', 'Name', 'Device Type', 'Git Repository', 'Commit' ]
 
-	.catch(resin.errors.handle)
-
 exports.restart = authHooks.failIfNotLoggedIn (id) ->
 
-	# TODO: Move this URL to config
-	resin.server.post("/application/#{id}/restart", resin.errors.handle)
+	resin.models.application.restart id, (error) ->
+		resin.errors.handle(error) if error?
 
 exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
 	resin.ui.patterns.remove 'application', program.parent.yes, (callback) ->
-		resin.models.application.remove(id).then ->
-			return callback()
-		.catch(callback)
+		resin.models.application.remove(id, callback)
 	, resin.errors.handle
