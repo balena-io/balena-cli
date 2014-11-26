@@ -1,11 +1,11 @@
 async = require('async')
 _ = require('lodash')
 
-server = require('../server/server')
+resin = require('../resin')
 token = require('../token/token')
 
 exports.authenticate = (credentials, callback) ->
-	server.post '/login_', credentials, (error, response) ->
+	resin.server.post '/login_', credentials, (error, response) ->
 		return callback(error, response?.body)
 
 exports.login = (credentials, callback) ->

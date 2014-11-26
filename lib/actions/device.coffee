@@ -3,7 +3,7 @@ getDeviceDisplayName = require('../device/device').getDisplayName
 log = require('../log/log')
 table = require('../table/table')
 errors = require('../errors/errors')
-server = require('../server/server')
+resin = require('../resin')
 widgets = require('../widgets/widgets')
 patterns = require('../patterns/patterns')
 authHooks = require('../hooks/auth')
@@ -32,4 +32,4 @@ exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
 	, errors.handle
 
 exports.identify = authHooks.failIfNotLoggedIn (uuid) ->
-	server.post(config.urls.identify, { uuid }, errors.handle)
+	resin.server.post(config.urls.identify, { uuid }, errors.handle)

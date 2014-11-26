@@ -2,11 +2,11 @@ expect = require('chai').expect
 nock = require('nock')
 url = require('url')
 server = require('./server')
-config = require('../config')
-token = require('../token/token')
-data = require('../data/data')
-mock = require('../../tests/utils/mock')
-johnDoeFixture = require('../../tests/fixtures/johndoe.json')
+config = require('../../config')
+token = require('../../token/token')
+data = require('../../data/data')
+mock = require('../../../tests/utils/mock')
+johnDoeFixture = require('../../../tests/fixtures/johndoe.json')
 
 TEST_URI = config.remoteUrl
 

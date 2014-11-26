@@ -1,5 +1,5 @@
 _ = require('lodash')
-server = require('../server/server')
+resin = require('../resin')
 authHooks = require('../hooks/auth')
 log = require('../log/log')
 patterns = require('../patterns/patterns')
@@ -10,7 +10,7 @@ keyModel = require('../models/key')
 config = require('../config')
 
 exports.list = authHooks.failIfNotLoggedIn ->
-	server.get config.urls.keys, (error, response, keys) ->
+	resin.server.get config.urls.keys, (error, response, keys) ->
 		errors.handle(error) if error?
 		log.out table.horizontal keys, (key) ->
 			delete key.public_key
@@ -23,7 +23,7 @@ exports.info = authHooks.failIfNotLoggedIn (id) ->
 	# TODO: We don't have a way to query a single ssh key yet.
 	# As a workaround, we request all of them, and filter
 	# the one we need. Fix once we have a better way.
-	server.get config.urls.keys, (error, response, keys) ->
+	resin.server.get config.urls.keys, (error, response, keys) ->
 		errors.handle(error) if error?
 		key = _.findWhere(keys, { id })
 		if not key?
@@ -34,5 +34,5 @@ exports.info = authHooks.failIfNotLoggedIn (id) ->
 
 exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
 	patterns.remove 'key', program.parent.yes, (callback) ->
-		server.delete("/user/keys/#{id}", callback)
+		resin.server.delete("/user/keys/#{id}", callback)
 	, errors.handle

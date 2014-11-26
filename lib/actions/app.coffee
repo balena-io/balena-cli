@@ -4,7 +4,7 @@ device = require('../device/device')
 table = require('../table/table')
 errors = require('../errors/errors')
 log = require('../log/log')
-server = require('../server/server')
+resin = require('../resin')
 widgets = require('../widgets/widgets')
 patterns = require('../patterns/patterns')
 applicationModel = require('../models/application')
@@ -63,7 +63,7 @@ exports.info = authHooks.failIfNotLoggedIn (id) ->
 exports.restart = authHooks.failIfNotLoggedIn (id) ->
 
 	# TODO: Move this URL to config
-	server.post("/application/#{id}/restart", errors.handle)
+	resin.server.post("/application/#{id}/restart", errors.handle)
 
 exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
 	patterns.remove 'application', program.parent.yes, (callback) ->

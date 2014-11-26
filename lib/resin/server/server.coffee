@@ -2,9 +2,9 @@ _ = require('lodash')
 request = require('request')
 urlResolve = require('url').resolve
 async = require('async')
-connection = require('../connection/connection')
-config = require('../config')
-token = require('../token/token')
+connection = require('../../connection/connection')
+config = require('../../config')
+token = require('../../token/token')
 
 exports.request = (options = {}, callback) ->
 
