@@ -6,7 +6,6 @@ patterns = require('../patterns/patterns')
 table = require('../table/table')
 helpers = require('../helpers/helpers')
 errors = require('../errors/errors')
-keyModel = require('../models/key')
 config = require('../config')
 
 exports.list = authHooks.failIfNotLoggedIn ->

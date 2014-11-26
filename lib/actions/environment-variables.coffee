@@ -3,7 +3,7 @@ table = require('../table/table')
 errors = require('../errors/errors')
 patterns = require('../patterns/patterns')
 log = require('../log/log')
-environemtVariablesModel = require('../models/environment-variables')
+resin = require('../resin')
 authHooks = require('../hooks/auth')
 
 SYSTEM_VAR_REGEX = /^RESIN_/
@@ -17,7 +17,7 @@ exports.list = authHooks.failIfNotLoggedIn (program) ->
 	if not applicationId?
 		errors.handle(new Error('You have to specify an application'))
 
-	environemtVariablesModel.getAll(applicationId).then (environmentVariables) ->
+	resin.models.environmentVariables.getAll(applicationId).then (environmentVariables) ->
 
 		if not program.parent.verbose?
 			environmentVariables = _.reject(environmentVariables, isSystemVariable)
@@ -27,7 +27,7 @@ exports.list = authHooks.failIfNotLoggedIn (program) ->
 
 exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
 	patterns.remove 'environment variable', program.parent.yes, (callback) ->
-		environemtVariablesModel.remove(id).then ->
+		resin.models.environmentVariables.remove(id).then ->
 			return callback()
 		.catch(callback)
 	, errors.handle

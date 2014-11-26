@@ -1,6 +1,6 @@
 Promise = require('bluebird')
 canvas = require('./_canvas')
-errors = require('../errors/errors')
+errors = require('../../errors/errors')
 
 exports.getAll = (applicationId) ->
 	return canvas.get

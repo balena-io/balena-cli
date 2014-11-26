@@ -7,7 +7,6 @@ log = require('../log/log')
 resin = require('../resin')
 widgets = require('../widgets/widgets')
 patterns = require('../patterns/patterns')
-applicationModel = require('../models/application')
 authHooks = require('../hooks/auth')
 config = require('../config')
 
@@ -29,14 +28,14 @@ exports.create = authHooks.failIfNotLoggedIn (name, program) ->
 			# Maybe we should break or handle better?
 			slugifiedType = device.getDeviceSlug(type)
 
-			applicationModel.create(name, slugifiedType).then ->
+			resin.models.application.create(name, slugifiedType).then ->
 				return callback()
 			.catch(callback)
 
 	], errors.handle
 
 exports.list = authHooks.failIfNotLoggedIn ->
-	applicationModel.getAll().then (applications) ->
+	resin.models.application.getAll().then (applications) ->
 
 		log.out table.horizontal applications, (application) ->
 			application.device_type = device.getDisplayName(application.device_type)
@@ -50,7 +49,7 @@ exports.list = authHooks.failIfNotLoggedIn ->
 	.catch(errors.handle)
 
 exports.info = authHooks.failIfNotLoggedIn (id) ->
-	applicationModel.get(id).then (application) ->
+	resin.models.application.get(id).then (application) ->
 
 		log.out table.vertical application, (application) ->
 			application.device_type = device.getDisplayName(application.device_type)
@@ -67,7 +66,7 @@ exports.restart = authHooks.failIfNotLoggedIn (id) ->
 
 exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
 	patterns.remove 'application', program.parent.yes, (callback) ->
-		applicationModel.remove(id).then ->
+		resin.models.application.remove(id).then ->
 			return callback()
 		.catch(callback)
 	, errors.handle

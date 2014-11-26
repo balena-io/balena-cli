@@ -1,4 +1,3 @@
-deviceModel = require('../models/device')
 getDeviceDisplayName = require('../device/device').getDisplayName
 log = require('../log/log')
 table = require('../table/table')
@@ -10,7 +9,7 @@ authHooks = require('../hooks/auth')
 config = require('../config')
 
 exports.list = authHooks.failIfNotLoggedIn (applicationId) ->
-	deviceModel.getAll(applicationId).then (devices) ->
+	resin.models.device.getAll(applicationId).then (devices) ->
 
 		log.out table.horizontal devices, (device) ->
 			device.application = device.application[0].app_name
@@ -26,7 +25,7 @@ exports.list = authHooks.failIfNotLoggedIn (applicationId) ->
 
 exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
 	patterns.remove 'device', program.parent.yes, (callback) ->
-		deviceModel.remove(id).then ->
+		resin.models.device.remove(id).then ->
 			return callback()
 		.catch(callback)
 	, errors.handle

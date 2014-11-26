@@ -6,9 +6,9 @@ chaiAsPromised = require('chai-as-promised')
 expect = chai.expect
 chai.use(chaiAsPromised)
 
-mock = require('../../tests/utils/mock')
+mock = require('../../../tests/utils/mock')
 canvas = require('./_canvas')
-config = require('../config')
+config = require('../../config')
 
 URI =
 	application: url.resolve(config.apiPrefix, 'application')
