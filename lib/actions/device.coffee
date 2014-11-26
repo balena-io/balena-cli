@@ -1,4 +1,3 @@
-getDeviceDisplayName = require('../device/device').getDisplayName
 table = require('../table/table')
 resin = require('../resin')
 widgets = require('../widgets/widgets')
@@ -11,7 +10,7 @@ exports.list = authHooks.failIfNotLoggedIn (applicationId) ->
 
 		resin.log.out table.horizontal devices, (device) ->
 			device.application = device.application[0].app_name
-			device.device_type = getDeviceDisplayName(device.device_type)
+			device.device_type = resin.device.getDisplayName(device.device_type)
 			delete device.note
 			delete device.supervisor_version
 			delete device.uuid

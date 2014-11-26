@@ -1,4 +1,6 @@
 _ = require('lodash')
+
+# TODO: This should be fetch from the server
 DEVICES = require('./device-data.json')
 
 exports.getDisplayName = (device) ->

@@ -1,6 +1,5 @@
 _ = require('lodash')
 async = require('async')
-device = require('../device/device')
 table = require('../table/table')
 resin = require('../resin')
 widgets = require('../widgets/widgets')
@@ -17,14 +16,14 @@ exports.create = authHooks.failIfNotLoggedIn (name, program) ->
 			if deviceType?
 				return callback(null, deviceType)
 			else
-				deviceTypes = device.getSupportedDevices()
+				deviceTypes = resin.device.getSupportedDevices()
 				widgets.select('Select a type', deviceTypes, callback)
 
 		(type, callback) ->
 
 			# TODO: Currently returns 'unknown'.
 			# Maybe we should break or handle better?
-			slugifiedType = device.getDeviceSlug(type)
+			slugifiedType = resin.device.getDeviceSlug(type)
 
 			resin.models.application.create(name, slugifiedType).then ->
 				return callback()
@@ -36,7 +35,7 @@ exports.list = authHooks.failIfNotLoggedIn ->
 	resin.models.application.getAll().then (applications) ->
 
 		resin.log.out table.horizontal applications, (application) ->
-			application.device_type = device.getDisplayName(application.device_type)
+			application.device_type = resin.device.getDisplayName(application.device_type)
 			application['Online Devices'] = _.where(application.device, is_online: 1).length
 			application['All Devices'] = application.device?.length or 0
 			delete application.git_repository
@@ -50,7 +49,7 @@ exports.info = authHooks.failIfNotLoggedIn (id) ->
 	resin.models.application.get(id).then (application) ->
 
 		resin.log.out table.vertical application, (application) ->
-			application.device_type = device.getDisplayName(application.device_type)
+			application.device_type = resin.device.getDisplayName(application.device_type)
 			delete application.device
 			return application
 		, [ 'ID', 'Name', 'Device Type', 'Git Repository', 'Commit' ]

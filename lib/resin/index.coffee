@@ -6,3 +6,4 @@ module.exports =
 	token: require('./token/token')
 	data: require('./data/data')
 	auth: require('./auth/auth')
+	device: require('./device/device')
