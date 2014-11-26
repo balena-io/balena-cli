@@ -1,10 +1,10 @@
 expect = require('chai').expect
 async = require('async')
 token = require('./token')
-mock = require('../../tests/utils/mock')
+mock = require('../../../tests/utils/mock')
 
-johnDoeFixture = require('../../tests/fixtures/johndoe.json')
-janeDoeFixture = require('../../tests/fixtures/janedoe.json')
+johnDoeFixture = require('../../../tests/fixtures/johndoe.json')
+janeDoeFixture = require('../../../tests/fixtures/janedoe.json')
 
 describe 'Token:', ->
 

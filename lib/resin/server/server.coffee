@@ -4,7 +4,7 @@ urlResolve = require('url').resolve
 async = require('async')
 connection = require('../../connection/connection')
 config = require('../../config')
-token = require('../../token/token')
+token = require('../token/token')
 
 exports.request = (options = {}, callback) ->
 

@@ -2,7 +2,6 @@ async = require('async')
 _ = require('lodash')
 
 resin = require('../resin')
-token = require('../token/token')
 
 exports.authenticate = (credentials, callback) ->
 	resin.server.post '/login_', credentials, (error, response) ->
@@ -15,17 +14,17 @@ exports.login = (credentials, callback) ->
 			exports.authenticate(credentials, callback)
 
 		(authToken, callback) ->
-			token.saveToken(authToken, callback)
+			resin.token.saveToken(authToken, callback)
 
 	], callback)
 
 # Handy aliases
-exports.isLoggedIn = token.hasToken
-exports.getToken = token.getToken
+exports.isLoggedIn = resin.token.hasToken
+exports.getToken = resin.token.getToken
 
 # TODO: Maybe we should post to /logout or something
 # like that to invalidate the token on the server?
-exports.logout = token.clearToken
+exports.logout = resin.token.clearToken
 
 exports.parseCredentials = (credentials, callback) ->
 	result = credentials.split(':')
