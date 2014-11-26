@@ -126,6 +126,6 @@ program
 	.action(env.remove)
 
 resin.data.prefix.set resin.config.dataPrefix, (error) ->
-	throw error if error?
+	resin.errors.handle(error) if error?
 	program.parse(process.argv)
 	resin.log.setQuiet(program.quiet)
