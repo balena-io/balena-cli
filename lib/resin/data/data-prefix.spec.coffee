@@ -5,7 +5,7 @@ fs = require('fs')
 fsUtils = require('../../fs-utils/fs-utils')
 rimraf = require('rimraf')
 dataPrefix = require('./data-prefix')
-config = require('../../config')
+config = require('../config')
 mock = require('../../../tests/utils/mock')
 
 PREFIXES =

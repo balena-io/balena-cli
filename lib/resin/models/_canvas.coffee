@@ -1,7 +1,7 @@
 _ = require('lodash')
 Canvas = require('resin-platform-api')
 Promise = require('bluebird')
-config = require('../../config')
+config = require('../config')
 server = require('../server/server')
 promisifiedServerRequest = Promise.promisify(server.request, server)
 

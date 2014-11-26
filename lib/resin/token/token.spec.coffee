@@ -1,7 +1,7 @@
 expect = require('chai').expect
 async = require('async')
 token = require('./token')
-config = require('../../config')
+config = require('../config')
 data = require('../data/data')
 mock = require('../../../tests/utils/mock')
 

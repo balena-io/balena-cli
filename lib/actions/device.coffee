@@ -1,6 +1,5 @@
 resin = require('../resin')
 authHooks = require('../hooks/auth')
-config = require('../config')
 
 exports.list = authHooks.failIfNotLoggedIn (applicationId) ->
 	resin.models.device.getAll(applicationId).then (devices) ->
@@ -25,4 +24,4 @@ exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
 	, resin.errors.handle
 
 exports.identify = authHooks.failIfNotLoggedIn (uuid) ->
-	resin.server.post(config.urls.identify, { uuid }, resin.errors.handle)
+	resin.server.post(resin.config.urls.identify, { uuid }, resin.errors.handle)

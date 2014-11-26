@@ -2,7 +2,6 @@ _ = require('lodash')
 async = require('async')
 resin = require('../resin')
 authHooks = require('../hooks/auth')
-config = require('../config')
 
 exports.create = authHooks.failIfNotLoggedIn (name, program) ->
 	async.waterfall [

@@ -8,3 +8,4 @@ module.exports =
 	auth: require('./auth/auth')
 	device: require('./device/device')
 	ui: require('./ui')
+	config: require('./config')

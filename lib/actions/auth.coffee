@@ -2,7 +2,6 @@ open = require('open')
 async = require('async')
 resin = require('../resin')
 authHooks = require('../hooks/auth')
-config = require('../config')
 
 exports.login	= (credentials) ->
 	async.waterfall [
@@ -22,4 +21,4 @@ exports.logout = authHooks.failIfNotLoggedIn ->
 	resin.auth.logout()
 
 exports.signup = ->
-	open(config.urls.signup)
+	open(resin.config.urls.signup)

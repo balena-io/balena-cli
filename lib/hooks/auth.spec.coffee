@@ -2,7 +2,6 @@ _ = require('lodash')
 nock = require('nock')
 sinon = require('sinon')
 expect = require('chai').expect
-config = require('../config')
 resin = require('../resin')
 authHooks = require('./auth')
 johnDoeFixture = require('../../tests/fixtures/johndoe')
@@ -20,7 +19,7 @@ describe 'Auth Hooks:', ->
 
 		beforeEach (done) ->
 			mock.fs.init()
-			resin.data.prefix.set(config.dataPrefix, done)
+			resin.data.prefix.set(resin.config.dataPrefix, done)
 
 		afterEach ->
 			mock.fs.restore()
@@ -58,7 +57,7 @@ describe 'Auth Hooks:', ->
 		describe 'if logged in', ->
 
 			beforeEach (done) ->
-				nock(config.remoteUrl)
+				nock(resin.config.remoteUrl)
 					.post('/login_', johnDoeFixture.credentials)
 					.reply(200, johnDoeFixture.token)
 

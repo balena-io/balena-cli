@@ -1,6 +1,6 @@
 mockFs = require('mock-fs')
 sinon = require('sinon')
-config = require('../../lib/config')
+resin = require('../../lib/resin')
 connection = require('../../lib/connection/connection')
 
 exports.fs =
@@ -10,7 +10,7 @@ exports.fs =
 
 		# Mock data prefix automatically to remove
 		# duplication in most of the tests
-		mockFsOptions[config.dataPrefix] = mockFs.directory()
+		mockFsOptions[resin.config.dataPrefix] = mockFs.directory()
 
 		for key, value of filesystemConfig
 			mockFsOptions[value.name] = value.contents
