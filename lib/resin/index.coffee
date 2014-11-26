@@ -8,4 +8,5 @@ module.exports =
 	auth: require('./auth/auth')
 	device: require('./device/device')
 	ui: require('./ui')
+	cli: require('./cli/cli')
 	config: require('./config')

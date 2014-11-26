@@ -2,130 +2,63 @@ _ = require('lodash')
 resin = require('./resin')
 packageJSON = require('../package.json')
 
-program = require('commander')
-program.version(packageJSON.version)
+resin.cli.setVersion(packageJSON.version)
 
 # ---------- Options ----------
-program.option('-y, --yes', 'confirm non interactively')
-program.option('-v, --verbose', 'increase verbosity')
-program.option('-q, --quiet', 'quiet (no output)')
-program.option('-t, --type <type>', 'specify a type when creating an application')
+resin.cli.addOption('-y, --yes', 'confirm non interactively')
+resin.cli.addOption('-v, --verbose', 'increase verbosity')
+resin.cli.addOption('-q, --quiet', 'quiet (no output)')
+resin.cli.addOption('-t, --type <type>', 'specify a type when creating an application')
 
 # TODO: I have to use 'application' instead of 'app' here
 # as Commander gets confused with the app command
-program.option('-a, --application <app>', 'application id', _.parseInt)
+resin.cli.addOption('-a, --application <app>', 'application id', _.parseInt)
 
 # ---------- Auth Module ----------
 auth = require('./actions/auth')
 
-program
-	.command('login [username:password]')
-	.description('Login to resin.io')
-	.action(auth.login)
-
-program
-	.command('logout')
-	.description('Logout from resin.io')
-	.action(auth.logout)
-
-program
-	.command('signup')
-	.description('Signup to resin.io')
-	.action(auth.signup)
+resin.cli.addCommand('login [username:password]', 'login to resin.io', auth.login)
+resin.cli.addCommand('logout', 'logout from resin.io', auth.logout)
+resin.cli.addCommand('signup', 'signup to resin.io', auth.signup)
 
 # ---------- App Module ----------
 app = require('./actions/app')
 
-program
-	.command('app:create <name>')
-	.description('Create a resin.io application')
-	.action(app.create)
-
-program
-	.command('apps')
-	.description('List your applications')
-	.action(app.list)
-
-program
-	.command('app <id>')
-	.description('List a single application')
-	.action(app.info)
-
-program
-	.command('app:restart <id>')
-	.description('Restart an application')
-	.action(app.restart)
-
-program
-	.command('app:rm <id>')
-	.description('Remove an application')
-	.action(app.remove)
+resin.cli.addCommand('app:create <name>', 'create a resin.io application', app.create)
+resin.cli.addCommand('apps', 'list your applications', app.list)
+resin.cli.addCommand('app <id>', 'list a single application', app.info)
+resin.cli.addCommand('app:restart <id>', 'restart an application', app.restart)
+resin.cli.addCommand('app:rm <id>', 'remove an application', app.remove)
 
 # ---------- Device Module ----------
 device = require('./actions/device')
 
-program
-	.command('devices <id>')
-	.description('Show devices for an application')
-	.action(device.list)
-
-program
-	.command('device:rm <id>')
-	.description('Remove a device')
-	.action(device.remove)
-
-program
-	.command('device:identify <uuid>')
-	.description('Identify a device with a UUID')
-	.action(device.identify)
+resin.cli.addCommand('devices <id>', 'show devices for an application', device.list)
+resin.cli.addCommand('device:rm <id>', 'remove a device', device.remove)
+resin.cli.addCommand('device:identify <uuid>', 'identify a device with a UUID', device.identify)
 
 # ---------- Preferences Module ----------
 preferences = require('./actions/preferences')
 
-program
-	.command('preferences')
-	.description('Open preferences form')
-	.action(preferences.preferences)
-
-# ---------- Info Module ----------
-program
-	.command('version')
-	.description('Show version')
-	.action ->
-		resin.log.out(packageJSON.version)
+resin.cli.addCommand('preferences', 'open preferences form', preferences.preferences)
 
 # ---------- Keys Module ----------
 keys = require('./actions/keys')
 
-program
-	.command('keys')
-	.description('List all SSH keys')
-	.action(keys.list)
-
-program
-	.command('key <id>')
-	.description('List a single SSH key')
-	.action(keys.info)
-
-program
-	.command('key:rm <id>')
-	.description('Remove a SSH key')
-	.action(keys.remove)
+resin.cli.addCommand('keys', 'list all SSH keys', keys.list)
+resin.cli.addCommand('key <id>', 'list a single SSH key', keys.info)
+resin.cli.addCommand('key:rm <id>', 'remove a SSH key', keys.remove)
 
 # ---------- Env Module ----------
 env = require('./actions/environment-variables')
 
-program
-	.command('envs')
-	.description('List all environment variables')
-	.action(env.list)
-
-program
-	.command('env:rm <id>')
-	.description('Remove environment variable')
-	.action(env.remove)
+resin.cli.addCommand('envs', 'list all environment variables', env.list)
+resin.cli.addCommand('env:rm <id>', 'remove environment variable', env.remove)
 
 resin.data.prefix.set resin.config.dataPrefix, (error) ->
 	resin.errors.handle(error) if error?
-	program.parse(process.argv)
-	resin.log.setQuiet(program.quiet)
+
+	resin.cli.parse(process.argv)
+
+	quiet = resin.cli.getArgument('quiet')
+	resin.log.setQuiet(quiet)
