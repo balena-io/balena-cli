@@ -2,14 +2,14 @@ _ = require('lodash')
 resin = require('../resin')
 authHooks = require('../hooks/auth')
 patterns = require('../patterns/patterns')
-table = require('../table/table')
+widgets = require('../widgets/widgets')
 helpers = require('../helpers/helpers')
 config = require('../config')
 
 exports.list = authHooks.failIfNotLoggedIn ->
 	resin.server.get config.urls.keys, (error, response, keys) ->
 		resin.errors.handle(error) if error?
-		resin.log.out table.horizontal keys, (key) ->
+		resin.log.out widgets.table.horizontal keys, (key) ->
 			delete key.public_key
 			return key
 		, [ 'ID', 'Title' ]
@@ -27,7 +27,7 @@ exports.info = authHooks.failIfNotLoggedIn (id) ->
 			resin.errors.handle(new resin.errors.NotFound("key #{id}"))
 
 		key.public_key = '\n' + helpers.formatLongString(key.public_key, config.sshKeyWidth)
-		resin.log.out(table.vertical(key, _.identity, [ 'ID', 'Title', 'Public Key' ]))
+		resin.log.out(widgets.table.vertical(key, _.identity, [ 'ID', 'Title', 'Public Key' ]))
 
 exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
 	patterns.remove 'key', program.parent.yes, (callback) ->

@@ -1,6 +1,5 @@
 _ = require('lodash')
 async = require('async')
-table = require('../table/table')
 resin = require('../resin')
 widgets = require('../widgets/widgets')
 patterns = require('../patterns/patterns')
@@ -34,7 +33,7 @@ exports.create = authHooks.failIfNotLoggedIn (name, program) ->
 exports.list = authHooks.failIfNotLoggedIn ->
 	resin.models.application.getAll().then (applications) ->
 
-		resin.log.out table.horizontal applications, (application) ->
+		resin.log.out widgets.table.horizontal applications, (application) ->
 			application.device_type = resin.device.getDisplayName(application.device_type)
 			application['Online Devices'] = _.where(application.device, is_online: 1).length
 			application['All Devices'] = application.device?.length or 0
@@ -48,7 +47,7 @@ exports.list = authHooks.failIfNotLoggedIn ->
 exports.info = authHooks.failIfNotLoggedIn (id) ->
 	resin.models.application.get(id).then (application) ->
 
-		resin.log.out table.vertical application, (application) ->
+		resin.log.out widgets.table.vertical application, (application) ->
 			application.device_type = resin.device.getDisplayName(application.device_type)
 			delete application.device
 			return application

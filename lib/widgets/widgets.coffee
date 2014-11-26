@@ -1,6 +1,8 @@
 _ = require('lodash')
 inquirer = require('inquirer')
 
+exports.table = require('./table/table')
+
 exports.login = (callback) ->
 	inquirer.prompt([
 		{

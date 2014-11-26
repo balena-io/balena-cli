@@ -1,4 +1,3 @@
-table = require('../table/table')
 resin = require('../resin')
 widgets = require('../widgets/widgets')
 patterns = require('../patterns/patterns')
@@ -8,7 +7,7 @@ config = require('../config')
 exports.list = authHooks.failIfNotLoggedIn (applicationId) ->
 	resin.models.device.getAll(applicationId).then (devices) ->
 
-		resin.log.out table.horizontal devices, (device) ->
+		resin.log.out widgets.table.horizontal devices, (device) ->
 			device.application = device.application[0].app_name
 			device.device_type = resin.device.getDisplayName(device.device_type)
 			delete device.note
