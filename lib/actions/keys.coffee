@@ -1,7 +1,6 @@
 _ = require('lodash')
 resin = require('../resin')
 authHooks = require('../hooks/auth')
-patterns = require('../patterns/patterns')
 helpers = require('../helpers/helpers')
 config = require('../config')
 
@@ -29,6 +28,6 @@ exports.info = authHooks.failIfNotLoggedIn (id) ->
 		resin.log.out(resin.ui.widgets.table.vertical(key, _.identity, [ 'ID', 'Title', 'Public Key' ]))
 
 exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
-	patterns.remove 'key', program.parent.yes, (callback) ->
+	resin.ui.patterns.remove 'key', program.parent.yes, (callback) ->
 		resin.server.delete("/user/keys/#{id}", callback)
 	, resin.errors.handle

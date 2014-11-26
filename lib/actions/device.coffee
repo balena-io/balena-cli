@@ -1,5 +1,4 @@
 resin = require('../resin')
-patterns = require('../patterns/patterns')
 authHooks = require('../hooks/auth')
 config = require('../config')
 
@@ -19,7 +18,7 @@ exports.list = authHooks.failIfNotLoggedIn (applicationId) ->
 	.catch(resin.errors.handle)
 
 exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
-	patterns.remove 'device', program.parent.yes, (callback) ->
+	resin.ui.patterns.remove 'device', program.parent.yes, (callback) ->
 		resin.models.device.remove(id).then ->
 			return callback()
 		.catch(callback)

@@ -1,5 +1,4 @@
 _ = require('lodash')
-patterns = require('../patterns/patterns')
 resin = require('../resin')
 authHooks = require('../hooks/auth')
 
@@ -23,7 +22,7 @@ exports.list = authHooks.failIfNotLoggedIn (program) ->
 	.catch(resin.errors.handle)
 
 exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
-	patterns.remove 'environment variable', program.parent.yes, (callback) ->
+	resin.ui.patterns.remove 'environment variable', program.parent.yes, (callback) ->
 		resin.models.environmentVariables.remove(id).then ->
 			return callback()
 		.catch(callback)

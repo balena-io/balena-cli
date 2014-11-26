@@ -1,5 +1,5 @@
 async = require('async')
-resin = require('../resin')
+widgets = require('../widgets/widgets')
 
 exports.remove = (name, confirmAttribute, deleteFunction, outerCallback) ->
 	async.waterfall([
@@ -8,7 +8,7 @@ exports.remove = (name, confirmAttribute, deleteFunction, outerCallback) ->
 			if confirmAttribute
 				return callback(null, true)
 
-			resin.ui.widgets.confirmRemoval(name, callback)
+			widgets.confirmRemoval(name, callback)
 
 		(confirmed, callback) ->
 			return callback() if not confirmed
