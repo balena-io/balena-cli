@@ -13,17 +13,15 @@ exports.list = authHooks.failIfNotLoggedIn (program) ->
 	if not applicationId?
 		resin.errors.handle(new Error('You have to specify an application'))
 
-	resin.models.environmentVariables.getAll(applicationId).then (environmentVariables) ->
+	resin.models.environmentVariables.getAll applicationId, (error, environmentVariables) ->
+		resin.errors.handle(error) if error?
 
 		if not program.parent.verbose?
 			environmentVariables = _.reject(environmentVariables, isSystemVariable)
 
 		resin.log.out(resin.ui.widgets.table.horizontal(environmentVariables))
-	.catch(resin.errors.handle)
 
 exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
 	resin.ui.patterns.remove 'environment variable', program.parent.yes, (callback) ->
-		resin.models.environmentVariables.remove(id).then ->
-			return callback()
-		.catch(callback)
+		resin.models.environmentVariables.remove(id, callback)
 	, resin.errors.handle

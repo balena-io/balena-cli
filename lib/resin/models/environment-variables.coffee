@@ -1,8 +1,7 @@
-Promise = require('bluebird')
 canvas = require('./_canvas')
 errors = require('../errors/errors')
 
-exports.getAll = (applicationId) ->
+exports.getAll = (applicationId, callback) ->
 	return canvas.get
 		resource: 'environment_variable'
 		options:
@@ -12,10 +11,18 @@ exports.getAll = (applicationId) ->
 
 	.then (environmentVariables) ->
 		if not environmentVariables?
-			return Promise.reject(new errors.NotFound('environment variables'))
-		return environmentVariables
+			return callback(new errors.NotFound('environment variables'))
 
-exports.remove = (id) ->
+		return callback(null, environmentVariables)
+
+	.catch (error) ->
+		return callback(error)
+
+exports.remove = (id, callback) ->
 	return canvas.delete
 		resource: 'environment_variable'
 		id: id
+	.then ->
+		return callback()
+	.catch (error) ->
+		return callback(error)
