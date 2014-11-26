@@ -1,5 +1,4 @@
 _ = require('lodash')
-widgets = require('../widgets/widgets')
 patterns = require('../patterns/patterns')
 resin = require('../resin')
 authHooks = require('../hooks/auth')
@@ -20,7 +19,7 @@ exports.list = authHooks.failIfNotLoggedIn (program) ->
 		if not program.parent.verbose?
 			environmentVariables = _.reject(environmentVariables, isSystemVariable)
 
-		resin.log.out(widgets.table.horizontal(environmentVariables))
+		resin.log.out(resin.ui.widgets.table.horizontal(environmentVariables))
 	.catch(resin.errors.handle)
 
 exports.remove = authHooks.failIfNotLoggedIn (id, program) ->

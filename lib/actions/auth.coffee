@@ -2,7 +2,6 @@ open = require('open')
 async = require('async')
 resin = require('../resin')
 authHooks = require('../hooks/auth')
-widgets = require('../widgets/widgets')
 config = require('../config')
 
 exports.login	= (credentials) ->
@@ -12,7 +11,7 @@ exports.login	= (credentials) ->
 			if credentials?
 				return resin.auth.parseCredentials(credentials, callback)
 			else
-				return widgets.login(callback)
+				return resin.ui.widgets.login(callback)
 
 		(credentials, callback) ->
 			resin.auth.login(credentials, callback)

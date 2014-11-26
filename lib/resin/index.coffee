@@ -7,3 +7,4 @@ module.exports =
 	data: require('./data/data')
 	auth: require('./auth/auth')
 	device: require('./device/device')
+	ui: require('./ui')
