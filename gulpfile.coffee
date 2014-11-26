@@ -12,7 +12,7 @@ OPTIONS =
 		coffeelint: path.join(__dirname, 'coffeelint.json')
 	files:
 		coffee: [ 'lib/**/*.coffee', 'gulpfile.coffee' ]
-		app: [ 'lib/**/*.coffee' ]
+		app: [ 'lib/**/*.coffee', '!lib/**/*.spec.coffee' ]
 		tests: 'lib/**/*.spec.coffee'
 		json: 'lib/**/*.json'
 	dirs:

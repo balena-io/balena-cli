@@ -2,7 +2,10 @@
   "name": "resin",
   "version": "0.0.1",
   "description": "Git Push to your devices",
-  "main": "bin/resin",
+  "main": "./lib/app.js",
+	"bin": {
+		"resin": "./bin/resin"
+	},
   "scripts": {
     "test": "cult test"
   },
@@ -38,7 +41,7 @@
     "rimraf": "~2.2.8",
     "commander": "~2.5.0",
     "mkdirp": "~0.5.0",
-    "resin-platform-api": "git+ssh://git@bitbucket.org/rulemotion/resin-platform-api.git#master",
+    "resin-platform-api": "git+ssh://git@bitbucket.org/rulemotion/resin-platform-api.git#6dbc6de",
     "bluebird": "~2.3.11",
     "open": "0.0.5",
     "inquirer": "~0.8.0",
