@@ -1,9 +1,10 @@
 canvas = require('./_canvas')
 _ = require('lodash')
-Promise = require('bluebird')
 errors = require('../errors/errors')
+server = require('../server/server')
+config = require('../config')
 
-exports.getAll = (applicationId) ->
+exports.getAll = (applicationId, callback) ->
 	return canvas.get
 		resource: 'device'
 		options:
@@ -13,11 +14,21 @@ exports.getAll = (applicationId) ->
 			orderby: 'name asc'
 	.then (devices) ->
 		if _.isEmpty(devices)
-			return Promise.reject(new errors.NotAny('devices'))
+			return callback(new errors.NotAny('devices'))
 
-		return devices
+		return callback(null, devices)
 
-exports.remove = (id) ->
+	.catch (error) ->
+		return callback(error)
+
+exports.remove = (id, callback) ->
 	return canvas.delete
 		resource: 'device'
 		id: id
+	.then ->
+		return callback()
+	.catch (error) ->
+		return callback(error)
+
+exports.identify = (uuid, callback) ->
+	server.post(config.urls.identify, { uuid }, callback)
