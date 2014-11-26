@@ -1,6 +1,6 @@
 expect = require('chai').expect
 _ = require('lodash')
-fsUtils = require('../../fs-utils/fs-utils')
+fsUtils = require('./fs-utils/fs-utils')
 mock = require('../../../tests/utils/mock')
 async = require('async')
 config = require('../config')
