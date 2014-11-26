@@ -9,6 +9,9 @@ exports.failIfNotLoggedIn = (fn, onError) ->
 
 			if not isLoggedIn
 				error = new Error(messages.errors.loginRequired)
-				return onError?(error) or throw error
+				if onError?
+					return onError(error)
+				else
+					throw error
 
 			fn.apply(null, args)

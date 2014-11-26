@@ -4,6 +4,7 @@ sinon = require('sinon')
 expect = require('chai').expect
 config = require('../config')
 auth = require('../auth/auth')
+data = require('../data/data')
 authHooks = require('./auth')
 johnDoeFixture = require('../../tests/fixtures/johndoe')
 mock = require('../../tests/utils/mock')
@@ -17,6 +18,13 @@ describe 'Auth Hooks:', ->
 
 		after ->
 			mock.connection.restore()
+
+		beforeEach (done) ->
+			mock.fs.init()
+			data.prefix.set(config.dataPrefix, done)
+
+		afterEach ->
+			mock.fs.restore()
 
 		describe 'if not logged in', ->
 
