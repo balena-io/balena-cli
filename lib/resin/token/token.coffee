@@ -1,4 +1,4 @@
-data = require('../../data/data')
+data = require('../data/data')
 
 TOKEN_KEY = 'token'
 

@@ -4,3 +4,4 @@ module.exports =
 	log: require('./log/log')
 	errors: require('./errors/errors')
 	token: require('./token/token')
+	data: require('./data/data')

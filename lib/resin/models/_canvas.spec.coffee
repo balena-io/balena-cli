@@ -6,6 +6,7 @@ chaiAsPromised = require('chai-as-promised')
 expect = chai.expect
 chai.use(chaiAsPromised)
 
+data = require('../data/data')
 mock = require('../../../tests/utils/mock')
 canvas = require('./_canvas')
 config = require('../../config')
@@ -21,6 +22,13 @@ RESPONSE =
 		]
 
 describe 'Canvas:', ->
+
+	beforeEach (done) ->
+		mock.fs.init()
+		data.prefix.set(config.dataPrefix, done)
+
+	afterEach ->
+		mock.fs.restore()
 
 	before ->
 		mock.connection.init()

@@ -1,6 +1,8 @@
 expect = require('chai').expect
 async = require('async')
 token = require('./token')
+config = require('../../config')
+data = require('../data/data')
 mock = require('../../../tests/utils/mock')
 
 johnDoeFixture = require('../../../tests/fixtures/johndoe.json')
@@ -8,8 +10,9 @@ janeDoeFixture = require('../../../tests/fixtures/janedoe.json')
 
 describe 'Token:', ->
 
-	beforeEach ->
+	beforeEach (done) ->
 		mock.fs.init()
+		data.prefix.set(config.dataPrefix, done)
 
 	afterEach ->
 		mock.fs.restore()

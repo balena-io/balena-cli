@@ -1,7 +1,7 @@
 fs = require('fs')
 path = require('path')
 rimraf = require('rimraf')
-fsUtils = require('../fs-utils/fs-utils')
+fsUtils = require('../../fs-utils/fs-utils')
 exports.prefix = require('./data-prefix')
 
 haltIfNoPrefix = (callback) ->

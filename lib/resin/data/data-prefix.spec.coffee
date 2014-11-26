@@ -2,11 +2,11 @@ expect = require('chai').expect
 _ = require('lodash')
 async = require('async')
 fs = require('fs')
-fsUtils = require('../fs-utils/fs-utils')
+fsUtils = require('../../fs-utils/fs-utils')
 rimraf = require('rimraf')
 dataPrefix = require('./data-prefix')
-config = require('../config')
-mock = require('../../tests/utils/mock')
+config = require('../../config')
+mock = require('../../../tests/utils/mock')
 
 PREFIXES =
 	main: config.dataPrefix

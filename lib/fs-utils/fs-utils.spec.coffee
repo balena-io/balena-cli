@@ -2,7 +2,7 @@ expect = require('chai').expect
 mock = require('../../tests/utils/mock')
 fsUtils = require('./fs-utils')
 config = require('../config')
-data = require('../data/data')
+resin = require('../resin')
 
 FILESYSTEM =
 	text:
@@ -41,7 +41,7 @@ describe 'FsUtils:', ->
 
 		beforeEach (done) ->
 			mock.fs.init(FILESYSTEM)
-			data.prefix.set(config.dataPrefix, done)
+			resin.data.prefix.set(config.dataPrefix, done)
 
 		afterEach ->
 			mock.fs.restore()

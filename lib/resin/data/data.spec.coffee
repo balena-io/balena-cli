@@ -1,9 +1,9 @@
 expect = require('chai').expect
 _ = require('lodash')
-fsUtils = require('../fs-utils/fs-utils')
-mock = require('../../tests/utils/mock')
+fsUtils = require('../../fs-utils/fs-utils')
+mock = require('../../../tests/utils/mock')
 async = require('async')
-config = require('../config')
+config = require('../../config')
 data = require('./data')
 
 FILES_FIXTURES =

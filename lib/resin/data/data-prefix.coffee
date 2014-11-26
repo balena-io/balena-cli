@@ -1,5 +1,5 @@
 mkdirp = require('mkdirp')
-fsUtils = require('../fs-utils/fs-utils')
+fsUtils = require('../../fs-utils/fs-utils')
 
 prefix = null
 

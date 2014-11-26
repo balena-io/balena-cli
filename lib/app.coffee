@@ -1,5 +1,4 @@
 _ = require('lodash')
-data = require('./data/data')
 resin = require('./resin')
 config = require('./config')
 packageJSON = require('../package.json')
@@ -127,7 +126,7 @@ program
 	.description('Remove environment variable')
 	.action(env.remove)
 
-data.prefix.set config.dataPrefix, (error) ->
+resin.data.prefix.set config.dataPrefix, (error) ->
 	throw error if error?
 	program.parse(process.argv)
 	resin.log.setQuiet(program.quiet)

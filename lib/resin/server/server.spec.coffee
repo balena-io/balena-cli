@@ -4,7 +4,7 @@ url = require('url')
 server = require('./server')
 config = require('../../config')
 token = require('../token/token')
-data = require('../../data/data')
+data = require('../data/data')
 mock = require('../../../tests/utils/mock')
 johnDoeFixture = require('../../../tests/fixtures/johndoe.json')
 
