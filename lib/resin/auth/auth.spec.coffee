@@ -3,11 +3,11 @@ nock = require('nock')
 _ = require('lodash')
 async = require('async')
 auth = require('./auth')
-resin = require('../resin')
-config = require('../config')
-mock = require('../../tests/utils/mock')
-johnDoeFixture = require('../../tests/fixtures/johndoe')
-janeDoeFixture = require('../../tests/fixtures/janedoe')
+data = require('../data/data')
+config = require('../../config')
+mock = require('../../../tests/utils/mock')
+johnDoeFixture = require('../../../tests/fixtures/johndoe')
+janeDoeFixture = require('../../../tests/fixtures/janedoe')
 
 describe 'Auth:', ->
 
@@ -19,7 +19,7 @@ describe 'Auth:', ->
 
 	beforeEach (done) ->
 		mock.fs.init()
-		resin.data.prefix.set(config.dataPrefix, done)
+		data.prefix.set(config.dataPrefix, done)
 
 	afterEach ->
 		mock.fs.restore()

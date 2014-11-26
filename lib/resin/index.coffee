@@ -5,3 +5,4 @@ module.exports =
 	errors: require('./errors/errors')
 	token: require('./token/token')
 	data: require('./data/data')
+	auth: require('./auth/auth')

@@ -1,6 +1,6 @@
 open = require('open')
 async = require('async')
-auth = require('../auth/auth')
+resin = require('../resin')
 authHooks = require('../hooks/auth')
 widgets = require('../widgets/widgets')
 config = require('../config')
@@ -10,17 +10,17 @@ exports.login	= (credentials) ->
 
 		(callback) ->
 			if credentials?
-				return auth.parseCredentials(credentials, callback)
+				return resin.auth.parseCredentials(credentials, callback)
 			else
 				return widgets.login(callback)
 
 		(credentials, callback) ->
-			auth.login(credentials, callback)
+			resin.auth.login(credentials, callback)
 
 	], resin.errors.handle
 
 exports.logout = authHooks.failIfNotLoggedIn ->
-	auth.logout()
+	resin.auth.logout()
 
 exports.signup = ->
 	open(config.urls.signup)

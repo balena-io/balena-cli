@@ -3,7 +3,6 @@ nock = require('nock')
 sinon = require('sinon')
 expect = require('chai').expect
 config = require('../config')
-auth = require('../auth/auth')
 resin = require('../resin')
 authHooks = require('./auth')
 johnDoeFixture = require('../../tests/fixtures/johndoe')
@@ -29,7 +28,7 @@ describe 'Auth Hooks:', ->
 		describe 'if not logged in', ->
 
 			beforeEach (done) ->
-				auth.logout(done)
+				resin.auth.logout(done)
 
 			it 'should not call the function', (done) ->
 				spy = sinon.spy()
@@ -63,7 +62,7 @@ describe 'Auth Hooks:', ->
 					.post('/login_', johnDoeFixture.credentials)
 					.reply(200, johnDoeFixture.token)
 
-				auth.login(johnDoeFixture.credentials, done)
+				resin.auth.login(johnDoeFixture.credentials, done)
 
 			it 'should call the function with the correct arguments', (done) ->
 				args = [ 1, 2, 3, 'foo', 'bar' ]

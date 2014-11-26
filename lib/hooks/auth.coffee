@@ -1,11 +1,11 @@
 _ = require('lodash')
-auth = require('../auth/auth')
+resin = require('../resin')
 messages = require('../messages/messages')
 
 exports.failIfNotLoggedIn = (fn, onError) ->
 	return ->
 		args = arguments
-		auth.isLoggedIn (isLoggedIn) ->
+		resin.auth.isLoggedIn (isLoggedIn) ->
 
 			if not isLoggedIn
 				error = new Error(messages.errors.loginRequired)
