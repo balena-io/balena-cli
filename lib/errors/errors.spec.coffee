@@ -32,21 +32,29 @@ describe 'Errors:', ->
 			expect(logErrorStub).to.not.have.been.called
 			logErrorStub.restore()
 
-		checkProcessExitOption = (value, expectations) ->
+		checkProcessExitOption = (error, value, expectations) ->
 			processExitStub = sinon.stub(process, 'exit')
 			logErrorStub = sinon.stub(log, 'error')
-			errors.handle(new Error(MESSAGES.helloWorld), value)
+			errors.handle(error, value)
 			expectations(processExitStub)
 			processExitStub.restore()
 			logErrorStub.restore()
 
 		it 'should exit if the last parameter is true', ->
-			checkProcessExitOption true, (processExitStub) ->
-				expect(processExitStub).to.have.been.called
+			error = new Error(MESSAGES.helloWorld)
+			checkProcessExitOption error, true, (processExitStub) ->
+				expect(processExitStub).to.have.been.calledWith(1)
 
 		it 'should not exit if the last parameter is false', ->
-			checkProcessExitOption false, (processExitStub) ->
+			error = new Error(MESSAGES.helloWorld)
+			checkProcessExitOption error, false, (processExitStub) ->
 				expect(processExitStub).to.not.have.been.called
+
+		it 'should handle a custom error code from the error instance', ->
+			error = new Error()
+			error.code = 123
+			checkProcessExitOption error, true, (processExitStub) ->
+				expect(processExitStub).to.have.been.calledWith(123)
 
 	describe 'NotFound', ->
 

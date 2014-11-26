@@ -1,3 +1,4 @@
+_ = require('lodash')
 Promise = require('bluebird')
 canvas = require('./_canvas')
 errors = require('../errors/errors')
@@ -8,6 +9,11 @@ exports.getAll = ->
 		options:
 			orderby: 'app_name asc'
 			expand: 'device'
+	.then (applications) ->
+		if _.isEmpty(applications)
+			return Promise.reject(new errors.NotAny('applications'))
+
+		return applications
 
 exports.get = (id) ->
 	return canvas.get
