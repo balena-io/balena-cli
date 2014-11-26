@@ -1,6 +1,6 @@
 _ = require('lodash')
 data = require('./data/data')
-log = require('./log/log')
+resin = require('./resin')
 config = require('./config')
 packageJSON = require('../package.json')
 
@@ -94,7 +94,7 @@ program
 	.command('version')
 	.description('Show version')
 	.action ->
-		log.out(packageJSON.version)
+		resin.log.out(packageJSON.version)
 
 # ---------- Keys Module ----------
 keys = require('./actions/keys')
@@ -130,4 +130,4 @@ program
 data.prefix.set config.dataPrefix, (error) ->
 	throw error if error?
 	program.parse(process.argv)
-	log.setQuiet(program.quiet)
+	resin.log.setQuiet(program.quiet)

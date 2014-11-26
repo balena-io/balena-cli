@@ -1,7 +1,7 @@
 canvas = require('./_canvas')
 _ = require('lodash')
 Promise = require('bluebird')
-errors = require('../../errors/errors')
+errors = require('../errors/errors')
 
 exports.getAll = (applicationId) ->
 	return canvas.get

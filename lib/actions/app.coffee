@@ -2,8 +2,6 @@ _ = require('lodash')
 async = require('async')
 device = require('../device/device')
 table = require('../table/table')
-errors = require('../errors/errors')
-log = require('../log/log')
 resin = require('../resin')
 widgets = require('../widgets/widgets')
 patterns = require('../patterns/patterns')
@@ -32,12 +30,12 @@ exports.create = authHooks.failIfNotLoggedIn (name, program) ->
 				return callback()
 			.catch(callback)
 
-	], errors.handle
+	], resin.errors.handle
 
 exports.list = authHooks.failIfNotLoggedIn ->
 	resin.models.application.getAll().then (applications) ->
 
-		log.out table.horizontal applications, (application) ->
+		resin.log.out table.horizontal applications, (application) ->
 			application.device_type = device.getDisplayName(application.device_type)
 			application['Online Devices'] = _.where(application.device, is_online: 1).length
 			application['All Devices'] = application.device?.length or 0
@@ -46,27 +44,27 @@ exports.list = authHooks.failIfNotLoggedIn ->
 			return application
 		, [ 'ID', 'Name', 'Device Type', 'Online Devices', 'All Devices' ]
 
-	.catch(errors.handle)
+	.catch(resin.errors.handle)
 
 exports.info = authHooks.failIfNotLoggedIn (id) ->
 	resin.models.application.get(id).then (application) ->
 
-		log.out table.vertical application, (application) ->
+		resin.log.out table.vertical application, (application) ->
 			application.device_type = device.getDisplayName(application.device_type)
 			delete application.device
 			return application
 		, [ 'ID', 'Name', 'Device Type', 'Git Repository', 'Commit' ]
 
-	.catch(errors.handle)
+	.catch(resin.errors.handle)
 
 exports.restart = authHooks.failIfNotLoggedIn (id) ->
 
 	# TODO: Move this URL to config
-	resin.server.post("/application/#{id}/restart", errors.handle)
+	resin.server.post("/application/#{id}/restart", resin.errors.handle)
 
 exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
 	patterns.remove 'application', program.parent.yes, (callback) ->
 		resin.models.application.remove(id).then ->
 			return callback()
 		.catch(callback)
-	, errors.handle
+	, resin.errors.handle
