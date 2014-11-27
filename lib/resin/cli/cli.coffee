@@ -3,6 +3,7 @@ program = require('commander')
 pluralize = require('pluralize')
 indefiniteArticle = require('indefinite-article')
 log = require('../log/log')
+errors = require('../errors/errors')
 cliPermissions = require('./cli-permissions')
 
 exports.getArgument = (name) ->
@@ -25,6 +26,9 @@ applyPermissions = (permission, action, onError) ->
 	return permissionFunction(action, onError)
 
 exports.addCommand = (options = {}) ->
+
+	_.defaults options,
+		onError: errors.handle
 
 	if options.permission?
 		action = applyPermissions(options.permission, options.action, options.onError)
