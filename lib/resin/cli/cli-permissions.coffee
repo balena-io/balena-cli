@@ -1,10 +1,9 @@
-_ = require('lodash')
-resin = require('../resin')
+auth = require('../auth/auth')
 
-exports.failIfNotLoggedIn = (fn, onError) ->
+exports.user = (fn, onError) ->
 	return ->
 		args = arguments
-		resin.auth.isLoggedIn (isLoggedIn) ->
+		auth.isLoggedIn (isLoggedIn) ->
 
 			if not isLoggedIn
 				error = new Error('You have to log in')

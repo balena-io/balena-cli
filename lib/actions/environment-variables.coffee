@@ -1,13 +1,12 @@
 _ = require('lodash')
 resin = require('../resin')
-authHooks = require('../hooks/auth')
 
 SYSTEM_VAR_REGEX = /^RESIN_/
 
 isSystemVariable = (environmentVariable) ->
 	SYSTEM_VAR_REGEX.test(environmentVariable.name)
 
-exports.list = authHooks.failIfNotLoggedIn (program) ->
+exports.list = (program) ->
 	applicationId = program.parent?.application
 
 	if not applicationId?
@@ -21,7 +20,7 @@ exports.list = authHooks.failIfNotLoggedIn (program) ->
 
 		resin.log.out(resin.ui.widgets.table.horizontal(environmentVariables))
 
-exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
+exports.remove = (id, program) ->
 	resin.ui.patterns.remove 'environment variable', program.parent.yes, (callback) ->
 		resin.models.environmentVariables.remove(id, callback)
 	, resin.errors.handle

@@ -1,9 +1,8 @@
 _ = require('lodash')
 async = require('async')
 resin = require('../resin')
-authHooks = require('../hooks/auth')
 
-exports.create = authHooks.failIfNotLoggedIn (name, program) ->
+exports.create = (name, program) ->
 	async.waterfall [
 
 		(callback) ->
@@ -25,7 +24,7 @@ exports.create = authHooks.failIfNotLoggedIn (name, program) ->
 
 	], resin.errors.handle
 
-exports.list = authHooks.failIfNotLoggedIn ->
+exports.list = ->
 	resin.models.application.getAll (error, applications) ->
 		resin.errors.handle(error) if error?
 
@@ -38,7 +37,7 @@ exports.list = authHooks.failIfNotLoggedIn ->
 			return application
 		, [ 'ID', 'Name', 'Device Type', 'Online Devices', 'All Devices' ]
 
-exports.info = authHooks.failIfNotLoggedIn (id) ->
+exports.info = (id) ->
 	resin.models.application.get id, (error, application) ->
 		resin.errors.handle(error) if error?
 
@@ -48,12 +47,12 @@ exports.info = authHooks.failIfNotLoggedIn (id) ->
 			return application
 		, [ 'ID', 'Name', 'Device Type', 'Git Repository', 'Commit' ]
 
-exports.restart = authHooks.failIfNotLoggedIn (id) ->
+exports.restart = (id) ->
 
 	resin.models.application.restart id, (error) ->
 		resin.errors.handle(error) if error?
 
-exports.remove = authHooks.failIfNotLoggedIn (id, program) ->
+exports.remove = (id, program) ->
 	resin.ui.patterns.remove 'application', program.parent.yes, (callback) ->
 		resin.models.application.remove(id, callback)
 	, resin.errors.handle

@@ -1,5 +1,5 @@
 open = require('open')
-authHooks = require('../hooks/auth')
+resin = require('../resin')
 
-exports.preferences = authHooks.failIfNotLoggedIn ->
+exports.preferences = ->
 	open(resin.config.urls.preferences)

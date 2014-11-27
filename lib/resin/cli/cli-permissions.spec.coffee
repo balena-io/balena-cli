@@ -2,14 +2,16 @@ _ = require('lodash')
 nock = require('nock')
 sinon = require('sinon')
 expect = require('chai').expect
-resin = require('../resin')
-authHooks = require('./auth')
-johnDoeFixture = require('../../tests/fixtures/johndoe')
-mock = require('../../tests/utils/mock')
+data = require('../data/data')
+auth = require('../auth/auth')
+config = require('../config')
+cliPermissions = require('./cli-permissions')
+johnDoeFixture = require('../../../tests/fixtures/johndoe')
+mock = require('../../../tests/utils/mock')
 
-describe 'Auth Hooks:', ->
+describe 'CLI Permissions:', ->
 
-	describe '#failIfNotLoggedIn()', ->
+	describe '#user()', ->
 
 		before ->
 			mock.connection.init()
@@ -19,7 +21,7 @@ describe 'Auth Hooks:', ->
 
 		beforeEach (done) ->
 			mock.fs.init()
-			resin.data.prefix.set(resin.config.dataPrefix, done)
+			data.prefix.set(config.dataPrefix, done)
 
 		afterEach ->
 			mock.fs.restore()
@@ -27,18 +29,18 @@ describe 'Auth Hooks:', ->
 		describe 'if not logged in', ->
 
 			beforeEach (done) ->
-				resin.auth.logout(done)
+				auth.logout(done)
 
 			it 'should not call the function', (done) ->
 				spy = sinon.spy()
-				authHooks.failIfNotLoggedIn(spy, _.noop)()
+				cliPermissions.user(spy, _.noop)()
 
 				_.defer ->
 					expect(spy).to.not.have.been.called
 					done()
 
 			it 'it should call the second function with an error', (done) ->
-				func = authHooks.failIfNotLoggedIn _.noop, (error) ->
+				func = cliPermissions.user _.noop, (error) ->
 					expect(error).to.be.an.instanceof(Error)
 					done()
 				func()
@@ -48,7 +50,7 @@ describe 'Auth Hooks:', ->
 			# (auth.isLoggedIn). A try/catch works, but it still results
 			# in the error being printed in Mocha reporter.
 			xit 'should throw an error if no error handler function', ->
-				func = authHooks.failIfNotLoggedIn(_.noop)
+				func = cliPermissions.user(_.noop)
 				try
 					func()
 				catch error
@@ -57,17 +59,17 @@ describe 'Auth Hooks:', ->
 		describe 'if logged in', ->
 
 			beforeEach (done) ->
-				nock(resin.config.remoteUrl)
+				nock(config.remoteUrl)
 					.post('/login_', johnDoeFixture.credentials)
 					.reply(200, johnDoeFixture.token)
 
-				resin.auth.login(johnDoeFixture.credentials, done)
+				auth.login(johnDoeFixture.credentials, done)
 
 			it 'should call the function with the correct arguments', (done) ->
 				args = [ 1, 2, 3, 'foo', 'bar' ]
 
 				spy = sinon.spy()
-				authHooks.failIfNotLoggedIn(spy, _.noop).apply(null, args)
+				cliPermissions.user(spy, _.noop).apply(null, args)
 
 				_.defer ->
 					expect(spy).to.have.been.calledWith(args...)
@@ -75,7 +77,7 @@ describe 'Auth Hooks:', ->
 
 			it 'should not call the second function', (done) ->
 				spy = sinon.spy()
-				authHooks.failIfNotLoggedIn(_.noop, spy)()
+				cliPermissions.user(_.noop, spy)()
 
 				_.defer ->
 					expect(spy).to.not.have.been.called
