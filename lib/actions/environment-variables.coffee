@@ -6,8 +6,8 @@ SYSTEM_VAR_REGEX = /^RESIN_/
 isSystemVariable = (environmentVariable) ->
 	SYSTEM_VAR_REGEX.test(environmentVariable.name)
 
-exports.list = (program) ->
-	applicationId = program.parent?.application
+exports.list = ->
+	applicationId = resin.cli.getArgument('application')
 
 	if not applicationId?
 		resin.errors.handle(new Error('You have to specify an application'))
@@ -15,12 +15,13 @@ exports.list = (program) ->
 	resin.models.environmentVariables.getAll applicationId, (error, environmentVariables) ->
 		resin.errors.handle(error) if error?
 
-		if not program.parent.verbose?
+		if not resin.cli.getArgument('verbose')?
 			environmentVariables = _.reject(environmentVariables, isSystemVariable)
 
 		resin.log.out(resin.ui.widgets.table.horizontal(environmentVariables))
 
-exports.remove = (id, program) ->
-	resin.ui.patterns.remove 'environment variable', program.parent.yes, (callback) ->
+exports.remove = (id) ->
+	confirmArgument = resin.cli.getArgument('yes')
+	resin.ui.patterns.remove 'environment variable', confirmArgument, (callback) ->
 		resin.models.environmentVariables.remove(id, callback)
 	, resin.errors.handle

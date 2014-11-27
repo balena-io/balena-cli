@@ -14,8 +14,9 @@ exports.list = (applicationId) ->
 			return device
 		, [ 'ID', 'Name', 'Device Type', 'Is Online', 'IP Address', 'Application', 'Status', 'Last Seen' ]
 
-exports.remove = (id, program) ->
-	resin.ui.patterns.remove 'device', program.parent.yes, (callback) ->
+exports.remove = (id) ->
+	confirmArgument = resin.cli.getArgument('yes')
+	resin.ui.patterns.remove 'device', confirmArgument, (callback) ->
 		resin.models.device.remove(id, callback)
 	, resin.errors.handle
 

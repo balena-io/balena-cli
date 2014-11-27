@@ -2,6 +2,7 @@ _ = require('lodash')
 resin = require('./resin')
 packageJSON = require('../package.json')
 actions = require('./actions')
+pluginLoader = require('./plugin-loader/plugin-loader')
 
 resin.cli.setVersion(packageJSON.version)
 
@@ -73,11 +74,7 @@ resin.cli.addCommand
 	permission: 'user'
 
 # ---------- Preferences Module ----------
-resin.cli.addCommand
-	command: 'preferences'
-	description: 'open preferences form'
-	action: actions.preferences.preferences
-	permission: 'user'
+pluginLoader.use(require('./actions/preferences'))
 
 # ---------- Keys Module ----------
 resin.cli.addResource

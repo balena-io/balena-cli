@@ -25,7 +25,8 @@ exports.info = (id) ->
 		key.public_key = '\n' + helpers.formatLongString(key.public_key, resin.config.sshKeyWidth)
 		resin.log.out(resin.ui.widgets.table.vertical(key, _.identity, [ 'ID', 'Title', 'Public Key' ]))
 
-exports.remove = (id, program) ->
-	resin.ui.patterns.remove 'key', program.parent.yes, (callback) ->
+exports.remove = (id) ->
+	confirmArgument = resin.cli.getArgument('yes')
+	resin.ui.patterns.remove 'key', confirmArgument, (callback) ->
 		resin.server.delete("/user/keys/#{id}", callback)
 	, resin.errors.handle

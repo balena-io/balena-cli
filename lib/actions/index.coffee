@@ -4,4 +4,3 @@ module.exports =
 	device: require('./device')
 	env: require('./environment-variables')
 	keys: require('./keys')
-	preferences: require('./preferences')
