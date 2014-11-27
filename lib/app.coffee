@@ -74,7 +74,11 @@ resin.cli.addCommand
 	permission: 'user'
 
 # ---------- Preferences Module ----------
-pluginLoader.use(require('./actions/preferences'))
+resin.cli.addCommand
+	command: 'preferences'
+	description: 'open preferences form'
+	action: actions.preferences.preferences
+	permission: 'user'
 
 # ---------- Keys Module ----------
 resin.cli.addResource
