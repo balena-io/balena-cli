@@ -13,6 +13,8 @@ config =
 	dataPrefix: path.join(process.env.HOME, '.resin')
 	sshKeyWidth: 43
 
+config.pluginsDirectory = path.join(config.dataPrefix, 'plugins')
+
 config.urls =
 	signup: '/signup'
 	preferences: '/preferences'

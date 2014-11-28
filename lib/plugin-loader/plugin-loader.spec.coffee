@@ -1,7 +1,9 @@
 _ = require('lodash')
 chai = require('chai')
 chai.use(require('sinon-chai'))
+chai.use(require('chai-things'))
 expect = chai.expect
+path = require('path')
 sinon = require('sinon')
 mock = require('../../tests/utils/mock')
 resin = require('../resin')
@@ -32,6 +34,24 @@ FILESYSTEM =
 				name: 'myPackage'
 				main: 'app.js'
 			'app.js': 'module.exports = {};'
+
+FILESYSTEM.pluginsDirectory =
+	name: 'pluginsDirectory'
+	contents:
+		firstPlugin: FILESYSTEM.validPackage.contents
+		secondPlugin: FILESYSTEM.validPackage.contents
+		thirdPlugin: FILESYSTEM.validPackage.contents
+FILESYSTEM.invalidPluginsDirectory =
+	name: 'invalidPluginsDirectory'
+	contents:
+		firstPlugin: FILESYSTEM.validPackage.contents
+		secondPlugin: FILESYSTEM.validPackage.contents
+		thirdPlugin: 'Hello World'
+
+compareArrays = (arr1, arr2) ->
+	expect(arr1.length).to.equal(arr2.length)
+	for item in arr2
+		expect(arr1).to.include(item)
 
 describe 'Plugin Loader:', ->
 
@@ -99,4 +119,40 @@ describe 'Plugin Loader:', ->
 			pluginLoader.loadPackage pluginPackage.name, (error, plugin) ->
 				expect(error).to.be.an.instanceof(Error)
 				expect(plugin).to.not.exist
+				done()
+
+	describe '#readPluginsDirectory()', ->
+
+		it 'should fail if input is not a directory', (done) ->
+			pluginsDirectory = FILESYSTEM.text.name
+			pluginLoader.readPluginsDirectory pluginsDirectory, (error, plugins) ->
+				expect(error).to.be.an.instanceof(Error)
+				expect(plugins).to.not.exist
+				done()
+
+		it 'should return a list of all files inside plugins directory', (done) ->
+			pluginsDirectory = FILESYSTEM.pluginsDirectory
+			pluginLoader.readPluginsDirectory pluginsDirectory.name, (error, plugins) ->
+				expect(error).to.not.exist
+
+				expectedPlugins = _.keys(pluginsDirectory.contents)
+
+				expectedPlugins = _.map expectedPlugins, (value) ->
+					return path.join(pluginsDirectory.name, value)
+
+				compareArrays(plugins, expectedPlugins)
+				done()
+
+		it 'should return omit files inside plugins directory', (done) ->
+			pluginsDirectory = FILESYSTEM.invalidPluginsDirectory
+			pluginLoader.readPluginsDirectory pluginsDirectory.name, (error, plugins) ->
+				expect(error).to.not.exist
+
+				expectedPlugins = _.keys _.omit pluginsDirectory.contents, (value, key) ->
+					return _.isString(value)
+
+				expectedPlugins = _.map expectedPlugins, (value) ->
+					return path.join(pluginsDirectory.name, value)
+
+				compareArrays(plugins, expectedPlugins)
 				done()

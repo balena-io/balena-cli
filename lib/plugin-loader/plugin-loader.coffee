@@ -13,7 +13,7 @@ exports.use = (plugin) ->
 exports.loadPackage = (pluginPath, callback) ->
 	pluginPackageJSON = path.join(pluginPath, 'package.json')
 
-	async.waterfall [
+	async.waterfall([
 
 		(callback) ->
 			fs.exists pluginPackageJSON, (exists) ->
@@ -53,4 +53,25 @@ exports.loadPackage = (pluginPath, callback) ->
 
 			return callback(null, mainFile)
 
-	], callback
+	], callback)
+
+isDirectory = (directory, callback) ->
+	fs.stat directory, (error, stats) ->
+		return callback(false) if error?
+		return callback(stats.isDirectory())
+
+exports.readPluginsDirectory = (directory, callback) ->
+
+	async.waterfall([
+
+		(callback) ->
+			fs.readdir(directory, callback)
+
+		(plugins, callback) ->
+			fullPathPlugins = _.map plugins, (plugin) ->
+				return path.join(directory, plugin)
+
+			async.filter fullPathPlugins, isDirectory, (results) ->
+				return callback(null, results)
+
+	], callback)
