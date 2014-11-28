@@ -1,15 +1,15 @@
 _ = require('lodash')
 PubNub = require('pubnub')
 resin = require('../resin')
+helpers = require('../helpers/helpers')
 
 LOGS_HISTORY_COUNT = 200
 
 exports.logs = (uuid) ->
-	resin.models.device.getAll (error, devices) ->
+	helpers.isDeviceUUIDValid uuid, (error, isValidUUID) ->
 		resin.errors.handle(error) if error?
 
-		uuidExists = _.findWhere(devices, { uuid })?
-		if not uuidExists
+		if not isValidUUID
 			return resin.errors.handle(new Error('Invalid UUID'))
 
 		# PubNub needs to be initialised after logs
