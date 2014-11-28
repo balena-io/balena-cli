@@ -156,3 +156,29 @@ describe 'Plugin Loader:', ->
 
 				compareArrays(plugins, expectedPlugins)
 				done()
+
+	describe '#loadPluginsDirectory()', ->
+
+		it 'should not return an error for all valid plugins', (done) ->
+			pluginsDirectory = FILESYSTEM.pluginsDirectory
+			pluginLoader.loadPluginsDirectory pluginsDirectory.name, (error) ->
+				expect(error).to.not.exist
+				done()
+
+		it 'should call use for all plugins', (done) ->
+			pluginsDirectory = FILESYSTEM.pluginsDirectory
+			numberOfPlugins = _.keys(pluginsDirectory.contents).length
+
+			mock.fs.restore()
+			useSpy = sinon.spy(pluginLoader, 'use')
+			mock.fs.init(FILESYSTEM)
+
+			pluginLoader.loadPluginsDirectory pluginsDirectory.name, (error) ->
+				expect(error).to.not.exist
+				expect(useSpy.callCount).to.equal(numberOfPlugins)
+
+				for arg in _.flatten(useSpy.args)
+					expect(_.isFunction(arg)).to.be.true
+
+				useSpy.restore()
+				done()

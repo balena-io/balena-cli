@@ -4,6 +4,8 @@ path = require('path')
 fs = require('fs')
 resin = require('../resin')
 
+PLUGINS_LOAD_PARALLEL_LIMIT = 5
+
 exports.use = (plugin) ->
 	if not _.isFunction(plugin)
 		throw new Error('Plugin should be a function')
@@ -73,5 +75,28 @@ exports.readPluginsDirectory = (directory, callback) ->
 
 			async.filter fullPathPlugins, isDirectory, (results) ->
 				return callback(null, results)
+
+	], callback)
+
+exports.loadPluginsDirectory = (directory, callback, limit) ->
+
+	limit ?= PLUGINS_LOAD_PARALLEL_LIMIT
+
+	async.waterfall([
+
+		(callback) ->
+			exports.readPluginsDirectory(directory, callback)
+
+		(plugins, callback) ->
+			async.mapLimit(plugins, limit, exports.loadPlugin, callback)
+
+		(loadedPlugins, callback) ->
+			for plugin in loadedPlugins
+				try
+					exports.use(plugin)
+				catch error
+					return callback(error)
+
+			return callback()
 
 	], callback)
