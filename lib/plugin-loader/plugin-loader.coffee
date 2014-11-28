@@ -10,7 +10,7 @@ exports.use = (plugin) ->
 
 	plugin.call(null, resin)
 
-exports.loadPackage = (pluginPath, callback) ->
+exports.loadPlugin = (pluginPath, callback) ->
 	pluginPackageJSON = path.join(pluginPath, 'package.json')
 
 	async.waterfall([

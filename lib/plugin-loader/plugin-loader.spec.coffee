@@ -80,43 +80,43 @@ describe 'Plugin Loader:', ->
 				func = _.partial(pluginLoader.use, nonFunction)
 				expect(func).to.throw(Error)
 
-	describe '#loadPackage()', ->
+	describe '#loadPlugin()', ->
 
 		it 'should return an error if path doesn\'t exist', (done) ->
-			pluginLoader.loadPackage 'foobar', (error, plugin) ->
+			pluginLoader.loadPlugin 'foobar', (error, plugin) ->
 				expect(error).to.be.an.instanceof(Error)
 				expect(plugin).to.not.exist
 				done()
 
 		it 'should return an error if path is not a directory', (done) ->
-			pluginLoader.loadPackage FILESYSTEM.text.name, (error, plugin) ->
+			pluginLoader.loadPlugin FILESYSTEM.text.name, (error, plugin) ->
 				expect(error).to.be.an.instanceof(Error)
 				expect(plugin).to.not.exist
 				done()
 
 		it 'should return an error if there is no package.json', (done) ->
-			pluginLoader.loadPackage FILESYSTEM.invalidPackage.name, (error, plugin) ->
+			pluginLoader.loadPlugin FILESYSTEM.invalidPackage.name, (error, plugin) ->
 				expect(error).to.be.an.instanceof(Error)
 				expect(plugin).to.not.exist
 				done()
 
 		it 'should return an error if package.json is missing main', (done) ->
 			pluginPackage = FILESYSTEM.invalidPackageWithPackageJSON
-			pluginLoader.loadPackage pluginPackage.name, (error, plugin) ->
+			pluginLoader.loadPlugin pluginPackage.name, (error, plugin) ->
 				expect(error).to.be.an.instanceof(Error)
 				expect(plugin).to.not.exist
 				done()
 
 		it 'should return the entry point if package is valid', (done) ->
 			pluginPackage = FILESYSTEM.validPackage
-			pluginLoader.loadPackage pluginPackage.name, (error, plugin) ->
+			pluginLoader.loadPlugin pluginPackage.name, (error, plugin) ->
 				expect(error).to.not.exist
 				expect(_.isFunction(plugin)).to.be.true
 				done()
 
 		it 'should return the entry point is not a function', (done) ->
 			pluginPackage = FILESYSTEM.validPackageNoFunction
-			pluginLoader.loadPackage pluginPackage.name, (error, plugin) ->
+			pluginLoader.loadPlugin pluginPackage.name, (error, plugin) ->
 				expect(error).to.be.an.instanceof(Error)
 				expect(plugin).to.not.exist
 				done()
