@@ -1,7 +1,7 @@
 resin = require('../resin')
 
 exports.list = (applicationId) ->
-	resin.models.device.getAll applicationId, (error, devices) ->
+	resin.models.device.getAllByApplication applicationId, (error, devices) ->
 		resin.errors.handle(error) if error?
 
 		resin.log.out resin.ui.widgets.table.horizontal devices, (device) ->

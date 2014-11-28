@@ -4,7 +4,22 @@ errors = require('../errors/errors')
 server = require('../server/server')
 config = require('../config')
 
-exports.getAll = (applicationId, callback) ->
+exports.getAll = (callback) ->
+	return canvas.get
+		resource: 'device'
+		options:
+			expand: 'application'
+			orderby: 'name asc'
+	.then (devices) ->
+		if _.isEmpty(devices)
+			return callback(new errors.NotAny('devices'))
+
+		return callback(null, devices)
+
+	.catch (error) ->
+		return callback(error)
+
+exports.getAllByApplication = (applicationId, callback) ->
 	return canvas.get
 		resource: 'device'
 		options:

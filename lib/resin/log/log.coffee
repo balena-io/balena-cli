@@ -1,3 +1,5 @@
+_ = require('lodash')
+
 isQuiet = false
 
 exports.setQuiet = (quiet) ->
@@ -20,3 +22,15 @@ exports.info = (args...) ->
 
 exports.out = (args...) ->
 	console.log.apply(null, args)
+
+exports.array = (array, logFunction) ->
+	return if not array?
+
+	if not _.isFunction(logFunction)
+		throw new Error('Invalid log function')
+
+	if not _.isArray(array)
+		return logFunction(array)
+
+	for item in array
+		logFunction(item)

@@ -13,6 +13,11 @@ config =
 	dataPrefix: path.join(process.env.HOME, '.resin')
 	sshKeyWidth: 43
 
+	pubnub:
+		subscribe_key: 'sub-c-bbc12eba-ce4a-11e3-9782-02ee2ddab7fe'
+		publish_key: 'pub-c-6cbce8db-bfd1-4fdf-a8c8-53671ae2b226'
+		ssl: true
+
 config.pluginsDirectory = path.join(config.dataPrefix, 'plugins')
 
 config.urls =

@@ -50,6 +50,7 @@
     "typed-error": "~0.1.0",
     "is-online": "~3.0.0",
     "pluralize": "~1.1.0",
-    "indefinite-article": "0.0.2"
+    "indefinite-article": "0.0.2",
+    "pubnub": "~3.7.0"
   }
 }

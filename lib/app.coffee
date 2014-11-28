@@ -94,6 +94,13 @@ resin.cli.addResource
 	actions: actions.env
 	permission: 'user'
 
+# ---------- Logs Module ----------
+resin.cli.addCommand
+	command: 'logs <uuid>'
+	description: 'show device logs'
+	action: actions.logs.logs
+	permission: 'user'
+
 resin.data.prefix.set resin.config.dataPrefix, (error) ->
 	resin.errors.handle(error) if error?
 
