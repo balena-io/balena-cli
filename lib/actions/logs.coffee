@@ -19,8 +19,18 @@ exports.logs = (uuid) ->
 
 		channel = "device-#{uuid}-logs"
 
+		numberOfLines = resin.cli.getArgument('num', _.parseInt)
+		if numberOfLines? and not _.isNumber(numberOfLines)
+			resin.errors.handle(new Error('n/num should be a number'))
+
 		printLogs = (logs) ->
 			logs = logs[0] if _.isArray(logs)
+
+			if numberOfLines?
+				logs = _.last(logs, numberOfLines)
+				resin.log.array(logs, resin.log.out)
+				process.exit(0)
+
 			resin.log.array(logs, resin.log.out)
 
 		pubnub.history
@@ -28,6 +38,7 @@ exports.logs = (uuid) ->
 			channel: channel
 			callback: printLogs
 
-		pubnub.subscribe
-			channel: channel
-			callback: printLogs
+		if not numberOfLines?
+			pubnub.subscribe
+				channel: channel
+				callback: printLogs

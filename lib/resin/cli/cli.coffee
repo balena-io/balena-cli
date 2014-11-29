@@ -6,8 +6,17 @@ log = require('../log/log')
 errors = require('../errors/errors')
 cliPermissions = require('./cli-permissions')
 
-exports.getArgument = (name) ->
-	return program[name]
+exports.getArgument = (name, coerceFunction) ->
+	argument = program[name]
+	return if not argument?
+
+	if _.isFunction(coerceFunction)
+		argument = coerceFunction(argument)
+
+	if not argument? or _.isNaN(argument)
+		throw new Error('Coerce function failed')
+
+	return argument
 
 exports.setVersion = (version) ->
 	program.version(version)

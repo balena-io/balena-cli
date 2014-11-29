@@ -23,6 +23,10 @@ resin.cli.addOption
 	option: '-t, --type <type>'
 	description: 'specify a type when creating an application'
 
+resin.cli.addOption
+	option: '-n, --num <num>'
+	description: 'number of lines to display'
+
 # TODO: I have to use 'application' instead of 'app' here
 # as Commander gets confused with the app command
 resin.cli.addOption
