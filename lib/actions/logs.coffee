@@ -5,7 +5,22 @@ helpers = require('../helpers/helpers')
 
 LOGS_HISTORY_COUNT = 200
 
+getLogData = (logs) ->
+	return logs[0] if _.isArray(logs)
+	return logs
+
+printLogs = (logs, number) ->
+	logs = getLogData(logs)
+	logs = _.last(logs, number) if _.isNumber(number)
+	resin.log.array(logs, resin.log.out)
+
 exports.logs = (uuid) ->
+	numberOfLines = resin.cli.getArgument('num', _.parseInt)
+	tailOutput = resin.cli.getArgument('tail') or false
+
+	if numberOfLines? and not _.isNumber(numberOfLines)
+		resin.errors.handle(new Error('n/num should be a number'))
+
 	helpers.isDeviceUUIDValid uuid, (error, isValidUUID) ->
 		resin.errors.handle(error) if error?
 
@@ -19,26 +34,15 @@ exports.logs = (uuid) ->
 
 		channel = "device-#{uuid}-logs"
 
-		numberOfLines = resin.cli.getArgument('num', _.parseInt)
-		if numberOfLines? and not _.isNumber(numberOfLines)
-			resin.errors.handle(new Error('n/num should be a number'))
-
-		printLogs = (logs) ->
-			logs = logs[0] if _.isArray(logs)
-
-			if numberOfLines?
-				logs = _.last(logs, numberOfLines)
-				resin.log.array(logs, resin.log.out)
-				process.exit(0)
-
-			resin.log.array(logs, resin.log.out)
-
 		pubnub.history
 			count: LOGS_HISTORY_COUNT
 			channel: channel
-			callback: printLogs
+			callback: (logs) ->
+				printLogs(logs, numberOfLines)
+				if not tailOutput or numberOfLines?
+					process.exit(0)
 
-		if not numberOfLines?
+		if tailOutput
 			pubnub.subscribe
 				channel: channel
 				callback: printLogs

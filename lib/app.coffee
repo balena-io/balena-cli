@@ -27,6 +27,10 @@ resin.cli.addOption
 	option: '-n, --num <num>'
 	description: 'number of lines to display'
 
+resin.cli.addOption
+	option: '--tail'
+	description: 'continuously stream output'
+
 # TODO: I have to use 'application' instead of 'app' here
 # as Commander gets confused with the app command
 resin.cli.addOption

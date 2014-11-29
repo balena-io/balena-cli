@@ -13,9 +13,6 @@ exports.getArgument = (name, coerceFunction) ->
 	if _.isFunction(coerceFunction)
 		argument = coerceFunction(argument)
 
-	if not argument? or _.isNaN(argument)
-		throw new Error('Coerce function failed')
-
 	return argument
 
 exports.setVersion = (version) ->
