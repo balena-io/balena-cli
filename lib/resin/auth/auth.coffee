@@ -3,6 +3,7 @@ _ = require('lodash')
 
 token = require('../token/token')
 server = require('../server/server')
+errors = require('../errors/errors')
 config = require('../config')
 
 exports.authenticate = (credentials, callback) ->
@@ -32,7 +33,7 @@ exports.parseCredentials = (credentials, callback) ->
 	result = credentials.split(':')
 
 	if result.length isnt 2
-		error = new Error('Invalid credentials. The expected input is username:password.')
+		error = new errors.InvalidCredentials()
 		return callback?(error)
 
 	callback? null,
