@@ -3,9 +3,10 @@ _ = require('lodash')
 
 token = require('../token/token')
 server = require('../server/server')
+config = require('../config')
 
 exports.authenticate = (credentials, callback) ->
-	server.post '/login_', credentials, (error, response) ->
+	server.post config.urls.authenticate, credentials, (error, response) ->
 		return callback(error, response?.body)
 
 exports.login = (credentials, callback) ->

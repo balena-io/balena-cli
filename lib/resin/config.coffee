@@ -28,6 +28,7 @@ config.urls =
 	preferences: '/preferences'
 	keys: '/user/keys'
 	identify: '/blink'
+	authenticate: '/login_'
 
 # Append config.remoteUrl before every url
 config.urls = _.object _.map config.urls, (value, key, object) ->
