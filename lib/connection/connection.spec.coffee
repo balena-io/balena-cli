@@ -12,17 +12,21 @@ CONNECTION_PARAMETERS =
 		hello: 'world'
 	validWifi:
 		network: 'wifi'
-		wifiEssid: 'myEssid'
+		wifiSsid: 'mySsid'
 		wifiKey: 'mySecret'
 	ethernetAndWifiOptions:
 		network: 'ethernet'
-		wifiEssid: 'myEssid'
+		wifiSsid: 'mySsid'
 		wifiKey: 'mySecret'
+	ethernetAndUndefinedWifi:
+		network: 'ethernet'
+		wifiSsid: undefined
+		wifiKey: undefined
 	wifiWithoutOptions:
 		network: 'wifi'
 	unknownWithOptions:
 		network: 'foobar'
-		wifiEssid: 'myEssid'
+		wifiSsid: 'mySsid'
 		wifiKey: 'mySecret'
 	unknownWithoutOptions:
 		network: 'foobar'
@@ -108,6 +112,13 @@ describe 'Connection:', ->
 			it 'should fail if it has wifi options', (done) ->
 				params = CONNECTION_PARAMETERS.ethernetAndWifiOptions
 				checkParamsFailure(params, done)
+
+			it 'should discard undefined wifi related options', (done) ->
+				params = CONNECTION_PARAMETERS.ethernetAndUndefinedWifi
+				connection.parseConnectionParameters params, (error, result) ->
+					expect(error).to.not.exist
+					expect(result).to.deep.equal(network: 'ethernet')
+					done()
 
 		describe 'if network is wifi', ->
 
