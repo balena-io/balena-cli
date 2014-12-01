@@ -63,3 +63,19 @@ describe 'Helpers:', ->
 				expect(error).to.not.exist
 				expect(isValid).to.be.false
 				done()
+
+	describe '#constructRemoteUrl', ->
+
+		URL =
+			base: 'http://google.com'
+			path: '/search'
+			query:
+				foo: 'bar'
+
+		it 'should concatenate a url and a path', ->
+			result = helpers.constructRemoteUrl(URL.base, URL.path)
+			expect(result).to.equal(URL.base + URL.path)
+
+		it 'should add url queries', ->
+			result = helpers.constructRemoteUrl(URL.base, URL.path, URL.query)
+			expect(result).to.equal("#{URL.base}#{URL.path}?foo=bar")

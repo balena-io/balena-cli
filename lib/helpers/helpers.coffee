@@ -1,3 +1,4 @@
+url = require('url')
 _ = require('lodash')
 resin = require('../resin')
 
@@ -12,3 +13,10 @@ exports.isDeviceUUIDValid = (uuid, callback) ->
 		return callback?(error) if error?
 		uuidExists = _.findWhere(devices, { uuid })?
 		return callback(null, uuidExists)
+
+exports.constructRemoteUrl = (base, path, query) ->
+	if not _.isEmpty(query)
+		formattedQuery = url.format({ query })
+		path = url.resolve(path, formattedQuery)
+
+	return url.resolve(base, path)
