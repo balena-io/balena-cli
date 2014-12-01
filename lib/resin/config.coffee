@@ -27,6 +27,7 @@ config =
 		authenticate: '/login_'
 		applicationRestart: '/application/<%= id %>/restart'
 		sshKey: '/user/keys/<%= id %>'
+		download: '/download'
 
 config.pluginsDirectory = path.join(config.dataPrefix, 'plugins')
 
