@@ -12,3 +12,6 @@ exports.isDeviceUUIDValid = (uuid, callback) ->
 		return callback?(error) if error?
 		uuidExists = _.findWhere(devices, { uuid })?
 		return callback(null, uuidExists)
+
+exports.template = (template, data) ->
+	return _.template(template, data)

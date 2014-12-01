@@ -18,6 +18,9 @@ config =
 		publish_key: 'pub-c-6cbce8db-bfd1-4fdf-a8c8-53671ae2b226'
 		ssl: true
 
+	events:
+		deviceLogs: 'device-<%= uuid %>-logs'
+
 config.pluginsDirectory = path.join(config.dataPrefix, 'plugins')
 
 config.urls =
