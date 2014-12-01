@@ -38,6 +38,18 @@ resin.cli.addOption
 	description: 'application id'
 	coerce: _.parseInt
 
+resin.cli.addOption
+	option: '-w, --network <network>'
+	description: 'network type when downloading OS'
+
+resin.cli.addOption
+	option: '-s, --wifi-ssid <wifiSsid>'
+	description: 'wifi ssid, if network is wifi'
+
+resin.cli.addOption
+	option: '-k, --wifi-key <wifiKey>'
+	description: 'wifi key, if network is wifi'
+
 # ---------- Auth Module ----------
 resin.cli.addCommand
 	command: 'login [username:password]'
