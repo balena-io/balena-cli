@@ -1,6 +1,7 @@
 expect = require('chai').expect
 nock = require('nock')
 url = require('url')
+sinon = require('sinon')
 server = require('./server')
 config = require('../config')
 token = require('../token/token')
@@ -144,13 +145,28 @@ describe 'Server:', ->
 				expect(response.body.status).to.equal(STATUS.ok)
 				done()
 
+		it 'should accept an onProgress function', (done) ->
+			spy = sinon.spy()
+
+			server.request {
+				method: 'GET'
+				url: URI.ok
+			}, (error, response, body) ->
+				expect(error).to.not.exist
+				expect(spy).to.have.been.called
+				done()
+			, spy
+
 	checkRequestTypeWithoutBody = (type) ->
 		return (done) ->
+			spy = sinon.spy()
 			lowercaseType = type.toLowerCase()
 			server[lowercaseType] URI.ok, (error, response) ->
 				return done(error) if error?
 				expect(response.request.method).to.equal(type)
+				expect(spy).to.have.been.called
 				done()
+			, spy
 
 	describe '#get()', ->
 		it('should be a facade to request()', checkRequestTypeWithoutBody('GET'))
@@ -163,11 +179,14 @@ describe 'Server:', ->
 
 	checkRequestTypeWithBody = (type, body) ->
 		return (done) ->
+			spy = sinon.spy()
 			lowercaseType = type.toLowerCase()
 			server[lowercaseType] URI.ok, body, (error, response) ->
 				return done(error) if error?
 				expect(response.request.method).to.equal(type)
+				expect(spy).to.have.been.called
 				done()
+			, spy
 
 	describe '#post()', ->
 		it('should be a facade to request()', checkRequestTypeWithBody('POST', { hello: 'world' }))

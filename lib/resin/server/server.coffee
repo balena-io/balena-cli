@@ -1,12 +1,15 @@
 _ = require('lodash')
 request = require('request')
+progress = require('request-progress')
 urlResolve = require('url').resolve
 async = require('async')
 connection = require('../../connection/connection')
 config = require('../config')
 token = require('../token/token')
 
-exports.request = (options = {}, callback) ->
+exports.request = (options = {}, callback, onProgress) ->
+
+	onProgress ?= _.noop
 
 	if not options.url?
 		throw new Error('Missing URL')
@@ -37,7 +40,10 @@ exports.request = (options = {}, callback) ->
 				_.extend options.headers,
 					'Authorization': "Bearer #{savedToken}"
 
-			request(options, callback)
+			progress(request(options, callback))
+				.on('progress', onProgress)
+				.on('error', callback)
+				.on('end', onProgress)
 
 		(response, body, callback) ->
 			try
@@ -52,18 +58,19 @@ exports.request = (options = {}, callback) ->
 
 createFacadeFunction = (method) ->
 	lowerCaseMethod = method.toLowerCase()
-	exports[lowerCaseMethod] = (url, body, callback) ->
+	exports[lowerCaseMethod] = (url, body, callback, onProgress) ->
 		options = {
 			method
 			url
 		}
 
 		if _.isFunction(body)
+			onProgress = callback
 			callback = body
 		else
 			options.json = body
 
-		return exports.request(options, callback)
+		return exports.request(options, callback, onProgress)
 
 for method in [
 	'GET'
