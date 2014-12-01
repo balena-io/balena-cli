@@ -29,9 +29,12 @@ config.urls =
 	keys: '/user/keys'
 	identify: '/blink'
 	authenticate: '/login_'
+	applicationRestart: '/application/<%= id %>/restart'
+	sshKey: '/user/keys/<%= id %>'
 
 # Append config.remoteUrl before every url
 config.urls = _.object _.map config.urls, (value, key, object) ->
-	return [ key, url.resolve(config.remoteUrl, value) ]
+	absUrl = url.resolve(config.remoteUrl, value)
+	return [ key, unescape(absUrl) ]
 
 module.exports = config

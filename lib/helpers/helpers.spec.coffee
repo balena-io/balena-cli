@@ -63,22 +63,3 @@ describe 'Helpers:', ->
 				expect(error).to.not.exist
 				expect(isValid).to.be.false
 				done()
-
-	describe '#template()', ->
-
-		templateString = 'Hello, <%= name %>'
-		templateData = name: 'John Doe'
-
-		it 'should call _.template', ->
-			templateSpy = sinon.spy(_, 'template')
-			helpers.template(templateString, templateData)
-
-			expect(templateSpy).to.have.been.calledOnce
-			expect(templateSpy).to.have.been.calledWithExactly(templateString, templateData)
-
-			templateSpy.restore()
-
-		it 'should correctly compute the result', ->
-			result = helpers.template(templateString, templateData)
-			expectedResult = _.template(templateString, templateData)
-			expect(result).to.equal(expectedResult)

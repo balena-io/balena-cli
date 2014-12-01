@@ -2,6 +2,7 @@ _ = require('lodash')
 canvas = require('./_canvas')
 errors = require('../errors/errors')
 server = require('../server/server')
+config = require('../config')
 
 exports.getAll = (callback) ->
 	return canvas.get
@@ -60,6 +61,5 @@ exports.remove = (id, callback) ->
 		return callback(error)
 
 exports.restart = (id, callback) ->
-
-	# TODO: Move this URL to config
-	server.post("/application/#{id}/restart", callback)
+	url = _.template(config.urls.applicationRestart, { id })
+	server.post(url, callback)

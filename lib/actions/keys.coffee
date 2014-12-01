@@ -28,5 +28,6 @@ exports.info = (id) ->
 exports.remove = (id) ->
 	confirmArgument = resin.cli.getArgument('yes')
 	resin.ui.patterns.remove 'key', confirmArgument, (callback) ->
-		resin.server.delete("/user/keys/#{id}", callback)
+		url = _.template(resin.config.urls.sshKey, { id })
+		resin.server.delete(url, callback)
 	, resin.errors.handle

@@ -32,7 +32,7 @@ exports.logs = (uuid) ->
 		# all other actions from exiting on completion
 		pubnub = PubNub.init(resin.config.pubnub)
 
-		channel = helpers.template(resin.config.events.deviceLogs, { uuid })
+		channel = _.template(resin.config.events.deviceLogs, { uuid })
 
 		pubnub.history
 			count: LOGS_HISTORY_COUNT
