@@ -1,5 +1,3 @@
-_ = require('lodash')
-url = require('url')
 path = require('path')
 
 config =
@@ -21,20 +19,15 @@ config =
 	events:
 		deviceLogs: 'device-<%= uuid %>-logs'
 
+	urls:
+		signup: '/signup'
+		preferences: '/preferences'
+		keys: '/user/keys'
+		identify: '/blink'
+		authenticate: '/login_'
+		applicationRestart: '/application/<%= id %>/restart'
+		sshKey: '/user/keys/<%= id %>'
+
 config.pluginsDirectory = path.join(config.dataPrefix, 'plugins')
-
-config.urls =
-	signup: '/signup'
-	preferences: '/preferences'
-	keys: '/user/keys'
-	identify: '/blink'
-	authenticate: '/login_'
-	applicationRestart: '/application/<%= id %>/restart'
-	sshKey: '/user/keys/<%= id %>'
-
-# Append config.remoteUrl before every url
-config.urls = _.object _.map config.urls, (value, key, object) ->
-	absUrl = url.resolve(config.remoteUrl, value)
-	return [ key, unescape(absUrl) ]
 
 module.exports = config

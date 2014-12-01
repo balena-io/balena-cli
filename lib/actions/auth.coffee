@@ -1,3 +1,4 @@
+url = require('url')
 open = require('open')
 async = require('async')
 resin = require('../resin')
@@ -20,4 +21,6 @@ exports.logout = ->
 	resin.auth.logout()
 
 exports.signup = ->
-	open(resin.config.urls.signup)
+	signupUrl = resin.config.urls.signup
+	absUrl = url.resolve(resin.config.remoteUrl, signupUrl)
+	open(absUrl)
