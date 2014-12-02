@@ -50,6 +50,10 @@ resin.cli.addOption
 	option: '-k, --wifi-key <wifiKey>'
 	description: 'wifi key, if network is wifi'
 
+resin.cli.addOption
+	option: '-o, --output <output>'
+	description: 'output file'
+
 # ---------- Auth Module ----------
 resin.cli.addCommand
 	command: 'login [username:password]'

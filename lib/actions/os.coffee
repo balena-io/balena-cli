@@ -13,14 +13,14 @@ exports.download = (id) ->
 		wifiKey: resin.cli.getArgument('wifiKey')
 
 	fileName = resin.os.generateCacheName(id, params)
-	outputFile = path.join(resin.config.osDirectory, fileName)
+	outputFile = resin.cli.getArgument('output') or path.join(resin.config.osDirectory, fileName)
 
 	async.waterfall [
 
 		(callback) ->
 
 			# We need to ensure this directory exists
-			mkdirp resin.config.osDirectory, (error) ->
+			mkdirp path.dirname(outputFile), (error) ->
 				return callback(error)
 
 		(callback) ->
