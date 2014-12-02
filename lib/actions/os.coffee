@@ -7,8 +7,12 @@ resin = require('../resin')
 connection = require('../connection/connection')
 
 exports.download = (id) ->
+	params =
+		network: resin.cli.getArgument('network')
+		wifiSsid: resin.cli.getArgument('wifiSsid')
+		wifiKey: resin.cli.getArgument('wifiKey')
 
-	fileName = "#{id}-#{Date.now()}"
+	fileName = resin.os.generateCacheName(id, params)
 	outputFile = path.join(resin.config.osDirectory, fileName)
 
 	async.waterfall [
@@ -20,11 +24,6 @@ exports.download = (id) ->
 				return callback(error)
 
 		(callback) ->
-			params =
-				network: resin.cli.getArgument('network')
-				wifiSsid: resin.cli.getArgument('wifiSsid')
-				wifiKey: resin.cli.getArgument('wifiKey')
-
 			connection.parseConnectionParameters(params, callback)
 
 		(parameters, callback) ->
