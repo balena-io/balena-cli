@@ -7,7 +7,7 @@ connection = require('../../connection/connection')
 config = require('../config')
 token = require('../token/token')
 
-exports.request = (options = {}, callback, onProgress) ->
+exports.request = (options = {}, outerCallback, onProgress) ->
 
 	onProgress ?= _.noop
 
@@ -40,10 +40,16 @@ exports.request = (options = {}, callback, onProgress) ->
 				_.extend options.headers,
 					'Authorization': "Bearer #{savedToken}"
 
-			progress(request(options, callback))
-				.on('progress', onProgress)
-				.on('error', callback)
-				.on('end', onProgress)
+			if options.pipe?
+				progress(request(options))
+					.on('progress', onProgress)
+					.on('error', outerCallback)
+					.on('end', onProgress)
+					.pipe(options.pipe)
+					.on('error', outerCallback)
+					.on('close', outerCallback)
+			else
+				return request(options, callback)
 
 		(response, body, callback) ->
 			try
@@ -54,7 +60,7 @@ exports.request = (options = {}, callback, onProgress) ->
 
 			return callback(error, response, response.body)
 
-	], callback
+	], outerCallback
 
 createFacadeFunction = (method) ->
 	lowerCaseMethod = method.toLowerCase()

@@ -1,4 +1,5 @@
 expect = require('chai').expect
+fs = require('fs')
 nock = require('nock')
 url = require('url')
 sinon = require('sinon')
@@ -145,28 +146,31 @@ describe 'Server:', ->
 				expect(response.body.status).to.equal(STATUS.ok)
 				done()
 
-		it 'should accept an onProgress function', (done) ->
-			spy = sinon.spy()
+		it 'should allow piping files', (done) ->
+			onProgressSpy = sinon.spy()
+			outputFile = '/hello'
 
 			server.request {
 				method: 'GET'
-				url: URI.ok
-			}, (error, response, body) ->
+				url: URI.nojson
+				pipe: fs.createWriteStream(outputFile)
+			}, (error) ->
 				expect(error).to.not.exist
-				expect(spy).to.have.been.called
-				done()
-			, spy
+				expect(onProgressSpy).to.have.been.called
+
+				fs.readFile outputFile, { encoding: 'utf8' }, (error, contents) ->
+					expect(error).to.not.exist
+					expect(contents).to.equal(RESPONSE.nojson)
+					done()
+			, onProgressSpy
 
 	checkRequestTypeWithoutBody = (type) ->
 		return (done) ->
-			spy = sinon.spy()
 			lowercaseType = type.toLowerCase()
 			server[lowercaseType] URI.ok, (error, response) ->
 				return done(error) if error?
 				expect(response.request.method).to.equal(type)
-				expect(spy).to.have.been.called
 				done()
-			, spy
 
 	describe '#get()', ->
 		it('should be a facade to request()', checkRequestTypeWithoutBody('GET'))
@@ -179,14 +183,11 @@ describe 'Server:', ->
 
 	checkRequestTypeWithBody = (type, body) ->
 		return (done) ->
-			spy = sinon.spy()
 			lowercaseType = type.toLowerCase()
 			server[lowercaseType] URI.ok, body, (error, response) ->
 				return done(error) if error?
 				expect(response.request.method).to.equal(type)
-				expect(spy).to.have.been.called
 				done()
-			, spy
 
 	describe '#post()', ->
 		it('should be a facade to request()', checkRequestTypeWithBody('POST', { hello: 'world' }))
