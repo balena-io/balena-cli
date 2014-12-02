@@ -1,8 +1,8 @@
 async = require('async')
-pace = require('pace')
 fs = require('fs')
 widgets = require('../widgets/widgets')
 server = require('../../server/server')
+ProgressBar = require('progress')
 
 exports.remove = (name, confirmAttribute, deleteFunction, outerCallback) ->
 	async.waterfall([
@@ -21,6 +21,8 @@ exports.remove = (name, confirmAttribute, deleteFunction, outerCallback) ->
 
 exports.downloadFile = (url, dest, callback) ->
 	bar = null
+	received = 0
+
 	server.request
 		method: 'GET'
 		url: url
@@ -28,6 +30,14 @@ exports.downloadFile = (url, dest, callback) ->
 	, (error) ->
 		return callback(error)
 	, (state) ->
-		return if not state?
-		bar ?= pace(state.total)
-		bar.op(state.received)
+
+		bar ?= new ProgressBar 'Downloading device OS [:bar] :percent :etas',
+			complete: '='
+			incomplete: ' '
+			width: 40
+			total: state.total
+
+		return if bar.complete or not state?
+
+		bar.tick(state.received - received)
+		received = state.received

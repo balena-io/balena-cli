@@ -39,4 +39,4 @@ exports.download = (id) ->
 
 	], (error) ->
 		resin.errors.handle(error) if error?
-		console.log "\n\nFinished downloading #{outputFile}"
+		resin.log.info("\nFinished downloading #{outputFile}")
