@@ -9,4 +9,5 @@ module.exports =
 	device: require('./device/device')
 	ui: require('./ui')
 	cli: require('./cli/cli')
+	os: require('./os/os')
 	config: require('./config')
