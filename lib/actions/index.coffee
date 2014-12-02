@@ -6,3 +6,4 @@ module.exports =
 	keys: require('./keys')
 	logs: require('./logs')
 	preferences: require('./preferences')
+	os: require('./os')

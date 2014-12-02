@@ -52,6 +52,8 @@
     "pluralize": "~1.1.0",
     "indefinite-article": "0.0.2",
     "pubnub": "~3.7.0",
-    "request-progress": "~0.3.1"
+    "request-progress": "~0.3.1",
+    "progress-bar": "~0.1.1",
+    "pace": "0.0.4"
   }
 }

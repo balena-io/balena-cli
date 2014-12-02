@@ -121,6 +121,13 @@ resin.cli.addCommand
 	action: actions.logs.logs
 	permission: 'user'
 
+# ---------- OS Module ----------
+resin.cli.addCommand
+	command: 'os:download <id>'
+	description: 'download device OS'
+	action: actions.os.download
+	permission: 'user'
+
 resin.data.prefix.set resin.config.dataPrefix, (error) ->
 	resin.errors.handle(error) if error?
 

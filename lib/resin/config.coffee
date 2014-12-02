@@ -30,5 +30,6 @@ config =
 		download: '/download'
 
 config.pluginsDirectory = path.join(config.dataPrefix, 'plugins')
+config.osDirectory = path.join(config.dataPrefix, 'os')
 
 module.exports = config
