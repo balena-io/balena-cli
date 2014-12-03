@@ -31,6 +31,7 @@ exports.downloadFile = (url, dest, callback) ->
 		return callback(error)
 	, (state) ->
 
+		# TODO: Allow quieting this progress bar
 		bar ?= new ProgressBar 'Downloading device OS [:bar] :percent :etas',
 			complete: '='
 			incomplete: ' '
