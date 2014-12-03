@@ -13,7 +13,7 @@ exports.download = (id) ->
 		wifiKey: resin.cli.getArgument('wifiKey')
 
 	fileName = resin.os.generateCacheName(id, params)
-	outputFile = resin.cli.getArgument('output') or path.join(resin.config.osDirectory, fileName)
+	outputFile = resin.cli.getArgument('output') or path.join(resin.config.directories.os, fileName)
 
 	async.waterfall [
 

@@ -1,3 +1,4 @@
+_ = require('lodash')
 path = require('path')
 
 config =
@@ -10,6 +11,10 @@ config =
 	# and add a custom path accordingly
 	dataPrefix: path.join(process.env.HOME, '.resin')
 	sshKeyWidth: 43
+
+	directories:
+		plugins: 'plugins'
+		os: 'os'
 
 	pubnub:
 		subscribe_key: 'sub-c-bbc12eba-ce4a-11e3-9782-02ee2ddab7fe'
@@ -29,7 +34,7 @@ config =
 		sshKey: '/user/keys/<%= id %>'
 		download: '/download'
 
-config.pluginsDirectory = path.join(config.dataPrefix, 'plugins')
-config.osDirectory = path.join(config.dataPrefix, 'os')
+config.directories = _.object _.map config.directories, (value, key) ->
+	return [ key, path.join(config.dataPrefix, value) ]
 
 module.exports = config
