@@ -2,7 +2,7 @@ canvas = require('./_canvas')
 _ = require('lodash')
 errors = require('../errors/errors')
 server = require('../server/server')
-config = require('../config')
+settings = require('../settings')
 
 exports.getAll = (callback) ->
 	return canvas.get
@@ -46,4 +46,4 @@ exports.remove = (id, callback) ->
 		return callback(error)
 
 exports.identify = (uuid, callback) ->
-	server.post(config.urls.identify, { uuid }, callback)
+	server.post(settings.urls.identify, { uuid }, callback)

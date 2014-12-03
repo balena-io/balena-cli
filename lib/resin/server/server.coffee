@@ -4,7 +4,7 @@ progress = require('request-progress')
 urlResolve = require('url').resolve
 async = require('async')
 connection = require('../../connection/connection')
-config = require('../config')
+settings = require('../settings')
 token = require('../token/token')
 
 exports.request = (options = {}, outerCallback, onProgress) ->
@@ -26,7 +26,7 @@ exports.request = (options = {}, outerCallback, onProgress) ->
 			token.getToken(callback)
 
 		(savedToken, callback) ->
-			options.url = urlResolve(config.remoteUrl, options.url)
+			options.url = urlResolve(settings.remoteUrl, options.url)
 
 			if options.method?
 				options.method = options.method.toUpperCase()

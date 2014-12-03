@@ -7,6 +7,11 @@ exports.NotFound = class NotFound extends TypedError
 		@message = "Couldn't find #{name}"
 		@code = 1
 
+exports.InvalidConfigFile = class NotFound extends TypedError
+	constructor: (file) ->
+		@message = "Invalid configuration file: #{file}"
+		@code = 1
+
 exports.InvalidCredentials = class InvalidCredentials extends TypedError
 	constructor: ->
 		@message = 'Invalid credentials'

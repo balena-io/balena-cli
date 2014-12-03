@@ -5,12 +5,12 @@ fs = require('fs')
 fsUtils = require('./fs-utils/fs-utils')
 rimraf = require('rimraf')
 dataPrefix = require('./data-prefix')
-config = require('../config')
+settings = require('../settings')
 mock = require('../../../tests/utils/mock')
 
 PREFIXES =
-	main: config.dataPrefix
-	new: "#{config.dataPrefix}-new"
+	main: settings.dataPrefix
+	new: "#{settings.dataPrefix}-new"
 	invalid: { path: '/abc' }
 
 describe 'DataPrefix:', ->

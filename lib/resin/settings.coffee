@@ -1,10 +1,12 @@
 _ = require('lodash')
 path = require('path')
+fs = require('fs')
 userHome = require('user-home')
+helpers = require('./helpers/helpers')
+errors = require('./errors/errors')
+config = require('./config/config')
 
-config =
-
-	# TODO: Should be configurable
+settings =
 	remoteUrl: 'https://staging.resin.io'
 	apiPrefix: '/ewa/'
 
@@ -15,6 +17,11 @@ config =
 	directories:
 		plugins: 'plugins'
 		os: 'os'
+
+	files:
+
+		# TODO: Accept an option that overrides this
+		config: 'config'
 
 	pubnub:
 		subscribe_key: 'sub-c-bbc12eba-ce4a-11e3-9782-02ee2ddab7fe'
@@ -34,7 +41,10 @@ config =
 		sshKey: '/user/keys/<%= id %>'
 		download: '/download'
 
-config.directories = _.object _.map config.directories, (value, key) ->
-	return [ key, path.join(config.dataPrefix, value) ]
+settings.directories = helpers.prefixObjectValuesWithPath(settings.dataPrefix, settings.directories)
+settings.files = helpers.prefixObjectValuesWithPath(settings.dataPrefix, settings.files)
 
-module.exports = config
+# Attempt to load user configuration
+_.extend(settings, config.loadUserConfig(settings.files.config) or {})
+
+module.exports = settings

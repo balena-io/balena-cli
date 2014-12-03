@@ -9,10 +9,10 @@ chai.use(chaiAsPromised)
 data = require('../data/data')
 mock = require('../../../tests/utils/mock')
 canvas = require('./_canvas')
-config = require('../config')
+settings = require('../settings')
 
 URI =
-	application: url.resolve(config.apiPrefix, 'application')
+	application: url.resolve(settings.apiPrefix, 'application')
 
 RESPONSE =
 	applications:
@@ -25,7 +25,7 @@ describe 'Canvas:', ->
 
 	beforeEach (done) ->
 		mock.fs.init()
-		data.prefix.set(config.dataPrefix, done)
+		data.prefix.set(settings.dataPrefix, done)
 
 	afterEach ->
 		mock.fs.restore()
@@ -37,7 +37,7 @@ describe 'Canvas:', ->
 		mock.connection.restore()
 
 	beforeEach ->
-		nock(config.remoteUrl)
+		nock(settings.remoteUrl)
 			.get(URI.application)
 			.reply(200, RESPONSE.applications)
 

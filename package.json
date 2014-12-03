@@ -32,7 +32,8 @@
     "sinon-chai": "~2.6.0",
     "gulp-coffee": "~2.2.0",
     "gulp-util": "~3.0.1",
-    "run-sequence": "~1.0.2"
+    "run-sequence": "~1.0.2",
+    "chai-string": "~1.1.0"
   },
   "dependencies": {
     "request": "~2.47.0",

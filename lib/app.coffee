@@ -132,7 +132,7 @@ resin.cli.addCommand
 	action: actions.os.download
 	permission: 'user'
 
-resin.data.prefix.set resin.config.dataPrefix, (error) ->
+resin.data.prefix.set resin.settings.dataPrefix, (error) ->
 	resin.errors.handle(error) if error?
 
 	resin.cli.parse(process.argv)

@@ -10,4 +10,4 @@ module.exports =
 	ui: require('./ui')
 	cli: require('./cli/cli')
 	os: require('./os/os')
-	config: require('./config')
+	settings: require('./settings')

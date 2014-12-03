@@ -3,7 +3,7 @@ _ = require('lodash')
 fsUtils = require('./fs-utils/fs-utils')
 mock = require('../../../tests/utils/mock')
 async = require('async')
-config = require('../config')
+settings = require('../settings')
 data = require('./data')
 
 FILES_FIXTURES =
@@ -16,15 +16,15 @@ FILES_FIXTURES =
 
 FILESYSTEM =
 	text:
-		name: "#{config.dataPrefix}/text"
+		name: "#{settings.dataPrefix}/text"
 		contents: 'Hello World'
 		key: 'text'
 	directory:
-		name: "#{config.dataPrefix}/directory"
+		name: "#{settings.dataPrefix}/directory"
 		contents: {}
 		key: 'directory'
 	nested:
-		name: "#{config.dataPrefix}/nested/text"
+		name: "#{settings.dataPrefix}/nested/text"
 		contents: 'Nested Hello World'
 		key: 'nested/text'
 
@@ -60,7 +60,7 @@ describe 'Data:', ->
 
 		beforeEach (done) ->
 			mock.fs.init(FILESYSTEM)
-			data.prefix.set(config.dataPrefix, done)
+			data.prefix.set(settings.dataPrefix, done)
 
 		afterEach ->
 			mock.fs.restore()

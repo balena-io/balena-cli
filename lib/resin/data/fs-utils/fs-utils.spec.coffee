@@ -1,7 +1,7 @@
 expect = require('chai').expect
 mock = require('../../../../tests/utils/mock')
 fsUtils = require('./fs-utils')
-config = require('../../config')
+settings = require('../../settings')
 data = require('../../data/data')
 
 FILESYSTEM =
@@ -30,7 +30,7 @@ describe 'FsUtils:', ->
 		it 'should return true for valid paths', ->
 
 			for validPath in [
-				config.dataPrefix
+				settings.dataPrefix
 				'/Users/johndoe'
 				'../parent'
 				'./file/../file2'
@@ -41,7 +41,7 @@ describe 'FsUtils:', ->
 
 		beforeEach (done) ->
 			mock.fs.init(FILESYSTEM)
-			data.prefix.set(config.dataPrefix, done)
+			data.prefix.set(settings.dataPrefix, done)
 
 		afterEach ->
 			mock.fs.restore()

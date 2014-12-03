@@ -1,7 +1,7 @@
 expect = require('chai').expect
 async = require('async')
 token = require('./token')
-config = require('../config')
+settings = require('../settings')
 data = require('../data/data')
 mock = require('../../../tests/utils/mock')
 
@@ -12,7 +12,7 @@ describe 'Token:', ->
 
 	beforeEach (done) ->
 		mock.fs.init()
-		data.prefix.set(config.dataPrefix, done)
+		data.prefix.set(settings.dataPrefix, done)
 
 	afterEach ->
 		mock.fs.restore()

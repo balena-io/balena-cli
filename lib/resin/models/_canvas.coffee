@@ -1,7 +1,7 @@
 _ = require('lodash')
 Canvas = require('resin-platform-api')
 Promise = require('bluebird')
-config = require('../config')
+settings = require('../settings')
 server = require('../server/server')
 promisifiedServerRequest = Promise.promisify(server.request, server)
 
@@ -15,6 +15,6 @@ class CanvasRequestService extends Canvas(_, Promise)
 			throw new Error(body)
 
 module.exports = new CanvasRequestService
-	url: config.remoteUrl
-	apiPrefix: config.apiPrefix
+	url: settings.remoteUrl
+	apiPrefix: settings.apiPrefix
 	withCredentials: true

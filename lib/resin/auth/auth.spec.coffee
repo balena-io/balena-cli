@@ -4,7 +4,7 @@ _ = require('lodash')
 async = require('async')
 auth = require('./auth')
 data = require('../data/data')
-config = require('../config')
+settings = require('../settings')
 mock = require('../../../tests/utils/mock')
 johnDoeFixture = require('../../../tests/fixtures/johndoe')
 janeDoeFixture = require('../../../tests/fixtures/janedoe')
@@ -19,7 +19,7 @@ describe 'Auth:', ->
 
 	beforeEach (done) ->
 		mock.fs.init()
-		data.prefix.set(config.dataPrefix, done)
+		data.prefix.set(settings.dataPrefix, done)
 
 	afterEach ->
 		mock.fs.restore()
@@ -27,7 +27,7 @@ describe 'Auth:', ->
 	describe 'given valid credentials', ->
 
 		beforeEach ->
-			nock(config.remoteUrl)
+			nock(settings.remoteUrl)
 				.post('/login_', johnDoeFixture.credentials)
 				.reply(200, johnDoeFixture.token)
 
@@ -68,7 +68,7 @@ describe 'Auth:', ->
 	describe 'given invalid credentials', ->
 
 		beforeEach ->
-			nock(config.remoteUrl)
+			nock(settings.remoteUrl)
 				.post('/login_')
 				.reply(401)
 
@@ -93,11 +93,11 @@ describe 'Auth:', ->
 	describe 'given a logged in user', ->
 
 		beforeEach (done) ->
-			nock(config.remoteUrl)
+			nock(settings.remoteUrl)
 				.post('/login_', johnDoeFixture.credentials)
 				.reply(200, johnDoeFixture.token)
 
-			nock(config.remoteUrl)
+			nock(settings.remoteUrl)
 				.post('/login_', janeDoeFixture.credentials)
 				.reply(200, janeDoeFixture.token)
 

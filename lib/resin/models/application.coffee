@@ -2,7 +2,7 @@ _ = require('lodash')
 canvas = require('./_canvas')
 errors = require('../errors/errors')
 server = require('../server/server')
-config = require('../config')
+settings = require('../settings')
 
 exports.getAll = (callback) ->
 	return canvas.get
@@ -61,5 +61,5 @@ exports.remove = (id, callback) ->
 		return callback(error)
 
 exports.restart = (id, callback) ->
-	url = _.template(config.urls.applicationRestart, { id })
+	url = _.template(settings.urls.applicationRestart, { id })
 	server.post(url, callback)

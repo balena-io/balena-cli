@@ -4,7 +4,7 @@ sinon = require('sinon')
 expect = require('chai').expect
 data = require('../data/data')
 auth = require('../auth/auth')
-config = require('../config')
+settings = require('../settings')
 cliPermissions = require('./cli-permissions')
 johnDoeFixture = require('../../../tests/fixtures/johndoe')
 mock = require('../../../tests/utils/mock')
@@ -21,7 +21,7 @@ describe 'CLI Permissions:', ->
 
 		beforeEach (done) ->
 			mock.fs.init()
-			data.prefix.set(config.dataPrefix, done)
+			data.prefix.set(settings.dataPrefix, done)
 
 		afterEach ->
 			mock.fs.restore()
@@ -59,7 +59,7 @@ describe 'CLI Permissions:', ->
 		describe 'if logged in', ->
 
 			beforeEach (done) ->
-				nock(config.remoteUrl)
+				nock(settings.remoteUrl)
 					.post('/login_', johnDoeFixture.credentials)
 					.reply(200, johnDoeFixture.token)
 
