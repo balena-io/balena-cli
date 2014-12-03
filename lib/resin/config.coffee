@@ -1,5 +1,6 @@
 _ = require('lodash')
 path = require('path')
+userHome = require('user-home')
 
 config =
 
@@ -7,9 +8,8 @@ config =
 	remoteUrl: 'https://staging.resin.io'
 	apiPrefix: '/ewa/'
 
-	# TODO: Check if not running on UNIX environment
-	# and add a custom path accordingly
-	dataPrefix: path.join(process.env.HOME, '.resin')
+	dataPrefix: path.join(userHome, '.resin')
+
 	sshKeyWidth: 43
 
 	directories:

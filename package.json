@@ -54,6 +54,7 @@
     "pubnub": "~3.7.0",
     "request-progress": "~0.3.1",
     "progress-bar": "~0.1.1",
-    "progress": "~1.1.8"
+    "progress": "~1.1.8",
+    "user-home": "~1.1.0"
   }
 }
