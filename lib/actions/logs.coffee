@@ -30,9 +30,9 @@ exports.logs = (uuid) ->
 		# PubNub needs to be initialised after logs
 		# action was called, otherwise it prevents
 		# all other actions from exiting on completion
-		pubnub = PubNub.init(resin.settings.pubnub)
+		pubnub = PubNub.init(resin.settings.get('pubnub'))
 
-		channel = _.template(resin.settings.events.deviceLogs, { uuid })
+		channel = _.template(resin.settings.get('events.deviceLogs'), { uuid })
 
 		pubnub.history
 			count: LOGS_HISTORY_COUNT

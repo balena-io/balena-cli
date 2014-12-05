@@ -26,7 +26,7 @@ exports.request = (options = {}, outerCallback, onProgress) ->
 			token.getToken(callback)
 
 		(savedToken, callback) ->
-			options.url = urlResolve(settings.remoteUrl, options.url)
+			options.url = urlResolve(settings.get('remoteUrl'), options.url)
 
 			if options.method?
 				options.method = options.method.toUpperCase()

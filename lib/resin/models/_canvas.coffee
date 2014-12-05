@@ -15,6 +15,6 @@ class CanvasRequestService extends Canvas(_, Promise)
 			throw new Error(body)
 
 module.exports = new CanvasRequestService
-	url: settings.remoteUrl
-	apiPrefix: settings.apiPrefix
+	url: settings.get('remoteUrl')
+	apiPrefix: settings.get('apiPrefix')
 	withCredentials: true

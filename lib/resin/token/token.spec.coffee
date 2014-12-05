@@ -12,7 +12,7 @@ describe 'Token:', ->
 
 	beforeEach (done) ->
 		mock.fs.init()
-		data.prefix.set(settings.dataPrefix, done)
+		data.prefix.set(settings.get('dataPrefix'), done)
 
 	afterEach ->
 		mock.fs.restore()

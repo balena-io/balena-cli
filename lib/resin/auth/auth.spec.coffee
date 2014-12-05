@@ -19,7 +19,7 @@ describe 'Auth:', ->
 
 	beforeEach (done) ->
 		mock.fs.init()
-		data.prefix.set(settings.dataPrefix, done)
+		data.prefix.set(settings.get('dataPrefix'), done)
 
 	afterEach ->
 		mock.fs.restore()
@@ -27,7 +27,7 @@ describe 'Auth:', ->
 	describe 'given valid credentials', ->
 
 		beforeEach ->
-			nock(settings.remoteUrl)
+			nock(settings.get('remoteUrl'))
 				.post('/login_', johnDoeFixture.credentials)
 				.reply(200, johnDoeFixture.token)
 
@@ -68,7 +68,7 @@ describe 'Auth:', ->
 	describe 'given invalid credentials', ->
 
 		beforeEach ->
-			nock(settings.remoteUrl)
+			nock(settings.get('remoteUrl'))
 				.post('/login_')
 				.reply(401)
 
@@ -93,11 +93,11 @@ describe 'Auth:', ->
 	describe 'given a logged in user', ->
 
 		beforeEach (done) ->
-			nock(settings.remoteUrl)
+			nock(settings.get('remoteUrl'))
 				.post('/login_', johnDoeFixture.credentials)
 				.reply(200, johnDoeFixture.token)
 
-			nock(settings.remoteUrl)
+			nock(settings.get('remoteUrl'))
 				.post('/login_', janeDoeFixture.credentials)
 				.reply(200, janeDoeFixture.token)
 

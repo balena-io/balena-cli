@@ -30,7 +30,7 @@ describe 'FsUtils:', ->
 		it 'should return true for valid paths', ->
 
 			for validPath in [
-				settings.dataPrefix
+				settings.get('dataPrefix')
 				'/Users/johndoe'
 				'../parent'
 				'./file/../file2'
@@ -41,7 +41,7 @@ describe 'FsUtils:', ->
 
 		beforeEach (done) ->
 			mock.fs.init(FILESYSTEM)
-			data.prefix.set(settings.dataPrefix, done)
+			data.prefix.set(settings.get('dataPrefix'), done)
 
 		afterEach ->
 			mock.fs.restore()

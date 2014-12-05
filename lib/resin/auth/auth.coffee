@@ -7,7 +7,7 @@ errors = require('../errors/errors')
 settings = require('../settings')
 
 exports.authenticate = (credentials, callback) ->
-	server.post settings.urls.authenticate, credentials, (error, response) ->
+	server.post settings.get('urls.authenticate'), credentials, (error, response) ->
 		return callback(error, response?.body)
 
 exports.login = (credentials, callback) ->

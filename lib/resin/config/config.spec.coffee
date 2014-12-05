@@ -2,7 +2,6 @@ _ = require('lodash')
 chai = require('chai')
 expect = chai.expect
 config = require('./config')
-settings = require('../settings')
 mock = require('../../../tests/utils/mock')
 
 FILESYSTEM =

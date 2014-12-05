@@ -10,7 +10,7 @@ data = require('../data/data')
 mock = require('../../../tests/utils/mock')
 johnDoeFixture = require('../../../tests/fixtures/johndoe.json')
 
-TEST_URI = settings.remoteUrl
+TEST_URI = settings.get('remoteUrl')
 
 URI =
 	ok: '/ok'
@@ -50,7 +50,7 @@ describe 'Server:', ->
 			nock(TEST_URI)[lowercaseMethod](URI.ok).reply(200, status: STATUS.ok)
 
 		mock.fs.init()
-		data.prefix.set(settings.dataPrefix, done)
+		data.prefix.set(settings.get('dataPrefix'), done)
 
 	afterEach ->
 		mock.fs.restore()
@@ -140,7 +140,7 @@ describe 'Server:', ->
 		it 'should accept a full url', (done) ->
 			server.request {
 				method: 'GET'
-				url: url.resolve(settings.remoteUrl, URI.ok)
+				url: url.resolve(settings.get('remoteUrl'), URI.ok)
 			}, (error, response) ->
 				expect(error).to.not.exist
 				expect(response.body.status).to.equal(STATUS.ok)

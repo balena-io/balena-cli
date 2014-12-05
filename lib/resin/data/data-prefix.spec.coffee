@@ -9,8 +9,8 @@ settings = require('../settings')
 mock = require('../../../tests/utils/mock')
 
 PREFIXES =
-	main: settings.dataPrefix
-	new: "#{settings.dataPrefix}-new"
+	main: settings.get('dataPrefix')
+	new: "#{settings.get('dataPrefix')}-new"
 	invalid: { path: '/abc' }
 
 describe 'DataPrefix:', ->

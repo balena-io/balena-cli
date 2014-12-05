@@ -21,7 +21,7 @@ describe 'CLI Permissions:', ->
 
 		beforeEach (done) ->
 			mock.fs.init()
-			data.prefix.set(settings.dataPrefix, done)
+			data.prefix.set(settings.get('dataPrefix'), done)
 
 		afterEach ->
 			mock.fs.restore()
@@ -59,7 +59,7 @@ describe 'CLI Permissions:', ->
 		describe 'if logged in', ->
 
 			beforeEach (done) ->
-				nock(settings.remoteUrl)
+				nock(settings.get('remoteUrl'))
 					.post('/login_', johnDoeFixture.credentials)
 					.reply(200, johnDoeFixture.token)
 

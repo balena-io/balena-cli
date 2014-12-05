@@ -61,5 +61,5 @@ exports.remove = (id, callback) ->
 		return callback(error)
 
 exports.restart = (id, callback) ->
-	url = _.template(settings.urls.applicationRestart, { id })
+	url = _.template(settings.get('urls.applicationRestart'), { id })
 	server.post(url, callback)

@@ -46,4 +46,4 @@ exports.remove = (id, callback) ->
 		return callback(error)
 
 exports.identify = (uuid, callback) ->
-	server.post(settings.urls.identify, { uuid }, callback)
+	server.post(settings.get('urls.identify'), { uuid }, callback)

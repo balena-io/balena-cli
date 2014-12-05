@@ -239,7 +239,7 @@ describe 'CliConf:', ->
 				result = @conf._getOptionKey('nonexistentkey')
 				expect(result).to.be.undefined
 
-	describe.only 'given a user config that changes the local config file name', ->
+	describe 'given a user config that changes the local config file name', ->
 		options =
 			keys:
 				userConfig: 'config.user'

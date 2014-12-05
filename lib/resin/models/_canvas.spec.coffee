@@ -12,7 +12,7 @@ canvas = require('./_canvas')
 settings = require('../settings')
 
 URI =
-	application: url.resolve(settings.apiPrefix, 'application')
+	application: url.resolve(settings.get('apiPrefix'), 'application')
 
 RESPONSE =
 	applications:
@@ -25,7 +25,7 @@ describe 'Canvas:', ->
 
 	beforeEach (done) ->
 		mock.fs.init()
-		data.prefix.set(settings.dataPrefix, done)
+		data.prefix.set(settings.get('dataPrefix'), done)
 
 	afterEach ->
 		mock.fs.restore()
@@ -37,7 +37,7 @@ describe 'Canvas:', ->
 		mock.connection.restore()
 
 	beforeEach ->
-		nock(settings.remoteUrl)
+		nock(settings.get('remoteUrl'))
 			.get(URI.application)
 			.reply(200, RESPONSE.applications)
 

@@ -16,15 +16,15 @@ FILES_FIXTURES =
 
 FILESYSTEM =
 	text:
-		name: "#{settings.dataPrefix}/text"
+		name: "#{settings.get('dataPrefix')}/text"
 		contents: 'Hello World'
 		key: 'text'
 	directory:
-		name: "#{settings.dataPrefix}/directory"
+		name: "#{settings.get('dataPrefix')}/directory"
 		contents: {}
 		key: 'directory'
 	nested:
-		name: "#{settings.dataPrefix}/nested/text"
+		name: "#{settings.get('dataPrefix')}/nested/text"
 		contents: 'Nested Hello World'
 		key: 'nested/text'
 
@@ -60,7 +60,7 @@ describe 'Data:', ->
 
 		beforeEach (done) ->
 			mock.fs.init(FILESYSTEM)
-			data.prefix.set(settings.dataPrefix, done)
+			data.prefix.set(settings.get('dataPrefix'), done)
 
 		afterEach ->
 			mock.fs.restore()

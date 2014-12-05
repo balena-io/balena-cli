@@ -21,6 +21,6 @@ exports.logout = ->
 	resin.auth.logout()
 
 exports.signup = ->
-	signupUrl = resin.settings.urls.signup
-	absUrl = url.resolve(resin.settings.remoteUrl, signupUrl)
+	signupUrl = resin.settings.get('urls.signup')
+	absUrl = url.resolve(resin.settings.get('remoteUrl'), signupUrl)
 	open(absUrl)

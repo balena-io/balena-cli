@@ -1,10 +1,8 @@
-_ = require('lodash')
 path = require('path')
-fs = require('fs')
 userHome = require('user-home')
 helpers = require('./helpers/helpers')
-errors = require('./errors/errors')
-config = require('./config/config')
+
+CliConf = require('../cli-conf/cli-conf')
 
 settings =
 	remoteUrl: 'https://staging.resin.io'
@@ -18,9 +16,9 @@ settings =
 		plugins: 'plugins'
 		os: 'os'
 
-	files:
+	localConfig: '.resinconf'
 
-		# TODO: Accept an option that overrides this
+	files:
 		config: 'config'
 
 	pubnub:
@@ -44,7 +42,8 @@ settings =
 settings.directories = helpers.prefixObjectValuesWithPath(settings.dataPrefix, settings.directories)
 settings.files = helpers.prefixObjectValuesWithPath(settings.dataPrefix, settings.files)
 
-# Attempt to load user configuration
-_.extend(settings, config.loadUserConfig(settings.files.config) or {})
-
-module.exports = settings
+module.exports = new CliConf
+	keys:
+		userConfig: 'files.config'
+		localConfig: 'localConfig'
+	default: settings
