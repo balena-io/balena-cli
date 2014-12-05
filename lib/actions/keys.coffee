@@ -1,6 +1,7 @@
 _ = require('lodash')
 resin = require('../resin')
 helpers = require('../helpers/helpers')
+cli = require('../cli/cli')
 
 exports.list = ->
 	resin.server.get resin.settings.get('urls.keys'), (error, response, keys) ->
@@ -26,7 +27,7 @@ exports.info = (id) ->
 		resin.log.out(resin.ui.widgets.table.vertical(key, _.identity, [ 'ID', 'Title', 'Public Key' ]))
 
 exports.remove = (id) ->
-	confirmArgument = resin.cli.getArgument('yes')
+	confirmArgument = cli.getArgument('yes')
 	resin.ui.patterns.remove 'key', confirmArgument, (callback) ->
 		url = _.template(resin.settings.get('urls.sshKey'), { id })
 		resin.server.delete(url, callback)

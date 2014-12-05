@@ -2,12 +2,10 @@ _ = require('lodash')
 nock = require('nock')
 sinon = require('sinon')
 expect = require('chai').expect
-data = require('../data/data')
-auth = require('../auth/auth')
-settings = require('../settings')
+resin = require('../resin')
 cliPermissions = require('./cli-permissions')
-johnDoeFixture = require('../../../tests/fixtures/johndoe')
-mock = require('../../../tests/utils/mock')
+johnDoeFixture = require('../../tests/fixtures/johndoe')
+mock = require('../../tests/utils/mock')
 
 describe 'CLI Permissions:', ->
 
@@ -21,7 +19,7 @@ describe 'CLI Permissions:', ->
 
 		beforeEach (done) ->
 			mock.fs.init()
-			data.prefix.set(settings.get('dataPrefix'), done)
+			resin.data.prefix.set(resin.settings.get('dataPrefix'), done)
 
 		afterEach ->
 			mock.fs.restore()
@@ -29,7 +27,7 @@ describe 'CLI Permissions:', ->
 		describe 'if not logged in', ->
 
 			beforeEach (done) ->
-				auth.logout(done)
+				resin.auth.logout(done)
 
 			it 'should not call the function', (done) ->
 				spy = sinon.spy()
@@ -47,7 +45,7 @@ describe 'CLI Permissions:', ->
 
 			# TODO: expect(func).to.throw(Error) doesn't catches
 			# the error as it's being thrown inside an async function
-			# (auth.isLoggedIn). A try/catch works, but it still results
+			# (resin.auth.isLoggedIn). A try/catch works, but it still results
 			# in the error being printed in Mocha reporter.
 			xit 'should throw an error if no error handler function', ->
 				func = cliPermissions.user(_.noop)
@@ -59,11 +57,11 @@ describe 'CLI Permissions:', ->
 		describe 'if logged in', ->
 
 			beforeEach (done) ->
-				nock(settings.get('remoteUrl'))
+				nock(resin.settings.get('remoteUrl'))
 					.post('/login_', johnDoeFixture.credentials)
 					.reply(200, johnDoeFixture.token)
 
-				auth.login(johnDoeFixture.credentials, done)
+				resin.auth.login(johnDoeFixture.credentials, done)
 
 			it 'should call the function with the correct arguments', (done) ->
 				args = [ 1, 2, 3, 'foo', 'bar' ]

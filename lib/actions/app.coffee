@@ -1,12 +1,13 @@
 _ = require('lodash')
 async = require('async')
 resin = require('../resin')
+cli = require('../cli/cli')
 
 exports.create = (name) ->
 	async.waterfall [
 
 		(callback) ->
-			deviceType = resin.cli.getArgument('type')
+			deviceType = cli.getArgument('type')
 
 			if deviceType?
 				return callback(null, deviceType)
@@ -53,7 +54,7 @@ exports.restart = (id) ->
 		resin.errors.handle(error) if error?
 
 exports.remove = (id) ->
-	confirmArgument = resin.cli.getArgument('yes')
+	confirmArgument = cli.getArgument('yes')
 	resin.ui.patterns.remove 'application', confirmArgument, (callback) ->
 		resin.models.application.remove(id, callback)
 	, resin.errors.handle

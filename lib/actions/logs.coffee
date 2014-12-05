@@ -2,6 +2,7 @@ _ = require('lodash')
 PubNub = require('pubnub')
 resin = require('../resin')
 helpers = require('../helpers/helpers')
+cli = require('../cli/cli')
 
 LOGS_HISTORY_COUNT = 200
 
@@ -15,8 +16,8 @@ printLogs = (logs, number) ->
 	resin.log.array(logs, resin.log.out)
 
 exports.logs = (uuid) ->
-	numberOfLines = resin.cli.getArgument('num', _.parseInt)
-	tailOutput = resin.cli.getArgument('tail') or false
+	numberOfLines = cli.getArgument('num', _.parseInt)
+	tailOutput = cli.getArgument('tail') or false
 
 	if numberOfLines? and not _.isNumber(numberOfLines)
 		resin.errors.handle(new Error('n/num should be a number'))

@@ -5,15 +5,16 @@ mkdirp = require('mkdirp')
 url = require('url')
 resin = require('../resin')
 connection = require('../connection/connection')
+cli = require('../cli/cli')
 
 exports.download = (id) ->
 	params =
-		network: resin.cli.getArgument('network')
-		wifiSsid: resin.cli.getArgument('wifiSsid')
-		wifiKey: resin.cli.getArgument('wifiKey')
+		network: cli.getArgument('network')
+		wifiSsid: cli.getArgument('wifiSsid')
+		wifiKey: cli.getArgument('wifiKey')
 
 	fileName = resin.os.generateCacheName(id, params)
-	outputFile = resin.cli.getArgument('output') or path.join(resin.settings.get('directories.os'), fileName)
+	outputFile = cli.getArgument('output') or path.join(resin.settings.get('directories.os'), fileName)
 
 	async.waterfall [
 

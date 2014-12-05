@@ -2,8 +2,7 @@ _ = require('lodash')
 program = require('commander')
 pluralize = require('pluralize')
 indefiniteArticle = require('indefinite-article')
-log = require('../log/log')
-errors = require('../errors/errors')
+resin = require('../resin')
 cliPermissions = require('./cli-permissions')
 
 exports.getArgument = (name, coerceFunction) ->
@@ -23,7 +22,7 @@ exports.setVersion = (version) ->
 		command: 'version'
 		description: 'show version'
 		action: ->
-			log.out(version)
+			resin.log.out(version)
 
 applyPermissions = (permission, action, onError) ->
 	permissionFunction = cliPermissions[permission]
@@ -34,7 +33,7 @@ applyPermissions = (permission, action, onError) ->
 exports.addCommand = (options = {}) ->
 
 	_.defaults options,
-		onError: errors.handle
+		onError: resin.errors.handle
 
 	if options.permission?
 		action = applyPermissions(options.permission, options.action, options.onError)

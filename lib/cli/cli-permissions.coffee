@@ -1,9 +1,9 @@
-auth = require('../auth/auth')
+resin = require('../resin')
 
 exports.user = (fn, onError) ->
 	return ->
 		args = arguments
-		auth.isLoggedIn (isLoggedIn) ->
+		resin.auth.isLoggedIn (isLoggedIn) ->
 
 			if not isLoggedIn
 				error = new Error('You have to log in')

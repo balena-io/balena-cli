@@ -1,4 +1,5 @@
 resin = require('../resin')
+cli = require('../cli/cli')
 
 exports.list = (applicationId) ->
 	resin.models.device.getAllByApplication applicationId, (error, devices) ->
@@ -39,7 +40,7 @@ exports.info = (deviceId) ->
 		]
 
 exports.remove = (id) ->
-	confirmArgument = resin.cli.getArgument('yes')
+	confirmArgument = cli.getArgument('yes')
 	resin.ui.patterns.remove 'device', confirmArgument, (callback) ->
 		resin.models.device.remove(id, callback)
 	, resin.errors.handle
