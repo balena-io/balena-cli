@@ -54,6 +54,7 @@ describe 'Table Helpers:', ->
 		it 'should remove underscores', ->
 			expect(tableHelpers.getKeyName('git_repository')).to.equal('Git Repository')
 			expect(tableHelpers.getKeyName('device_type')).to.equal('Device Type')
+			expect(tableHelpers.getKeyName('is_web_accessible')).to.equal('Is Web Accessible')
 
 	describe '#prepareObject()', ->
 

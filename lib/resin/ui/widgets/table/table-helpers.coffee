@@ -30,7 +30,7 @@ exports.getKeyName = (key) ->
 	if _.values(KEY_DISPLAY_MAP).indexOf(key) isnt -1
 		return key
 
-	key = key.replace('_', ' ')
+	key = _.str.humanize(key)
 	return _.str.titleize(key)
 
 isReallyEmpty = (value) ->
