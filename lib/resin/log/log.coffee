@@ -75,7 +75,7 @@ exports.out = (args...) ->
 # @param {Array} array array
 # @param {Function} logFunction log function (e.g: resin.log.info)
 #
-# @throw Will throw if logFunction is not a function
+# @throw {Error} Will throw if logFunction is not a function
 #
 exports.array = (array, logFunction) ->
 	return if not array?
