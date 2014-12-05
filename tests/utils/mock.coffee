@@ -10,7 +10,7 @@ exports.fs =
 
 		# Mock data prefix automatically to remove
 		# duplication in most of the tests
-		mockFsOptions[resin.settings.dataPrefix] = mockFs.directory()
+		mockFsOptions[resin.settings.get('dataPrefix')] = mockFs.directory()
 
 		for key, value of filesystemConfig
 			mockFsOptions[value.name] = value.contents
