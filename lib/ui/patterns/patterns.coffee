@@ -1,7 +1,7 @@
 async = require('async')
 fs = require('fs')
 widgets = require('../widgets/widgets')
-server = require('../../server/server')
+resin = require('../../resin')
 ProgressBar = require('progress')
 
 exports.remove = (name, confirmAttribute, deleteFunction, outerCallback) ->
@@ -23,7 +23,7 @@ exports.downloadFile = (url, dest, callback) ->
 	bar = null
 	received = 0
 
-	server.request
+	resin.server.request
 		method: 'GET'
 		url: url
 		pipe: fs.createWriteStream(dest)

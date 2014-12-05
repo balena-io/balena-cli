@@ -2,6 +2,7 @@ _ = require('lodash')
 async = require('async')
 resin = require('../resin')
 cli = require('../cli/cli')
+ui = require('../ui')
 
 exports.create = (name) ->
 	async.waterfall [
@@ -13,7 +14,7 @@ exports.create = (name) ->
 				return callback(null, deviceType)
 			else
 				deviceTypes = resin.device.getSupportedDevices()
-				resin.ui.widgets.select('Select a type', deviceTypes, callback)
+				ui.widgets.select('Select a type', deviceTypes, callback)
 
 		(type, callback) ->
 
@@ -29,7 +30,7 @@ exports.list = ->
 	resin.models.application.getAll (error, applications) ->
 		resin.errors.handle(error) if error?
 
-		resin.log.out resin.ui.widgets.table.horizontal applications, (application) ->
+		resin.log.out ui.widgets.table.horizontal applications, (application) ->
 			application.device_type = resin.device.getDisplayName(application.device_type)
 			application['Online Devices'] = _.where(application.device, is_online: 1).length
 			application['All Devices'] = application.device?.length or 0
@@ -42,7 +43,7 @@ exports.info = (id) ->
 	resin.models.application.get id, (error, application) ->
 		resin.errors.handle(error) if error?
 
-		resin.log.out resin.ui.widgets.table.vertical application, (application) ->
+		resin.log.out ui.widgets.table.vertical application, (application) ->
 			application.device_type = resin.device.getDisplayName(application.device_type)
 			delete application.device
 			return application
@@ -55,6 +56,6 @@ exports.restart = (id) ->
 
 exports.remove = (id) ->
 	confirmArgument = cli.getArgument('yes')
-	resin.ui.patterns.remove 'application', confirmArgument, (callback) ->
+	ui.patterns.remove 'application', confirmArgument, (callback) ->
 		resin.models.application.remove(id, callback)
 	, resin.errors.handle

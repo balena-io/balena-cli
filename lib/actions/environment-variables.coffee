@@ -1,6 +1,7 @@
 _ = require('lodash')
 resin = require('../resin')
 cli = require('../cli/cli')
+ui = require('../ui')
 
 SYSTEM_VAR_REGEX = /^RESIN_/
 
@@ -19,10 +20,10 @@ exports.list = ->
 		if not cli.getArgument('verbose')?
 			environmentVariables = _.reject(environmentVariables, isSystemVariable)
 
-		resin.log.out(resin.ui.widgets.table.horizontal(environmentVariables))
+		resin.log.out(ui.widgets.table.horizontal(environmentVariables))
 
 exports.remove = (id) ->
 	confirmArgument = cli.getArgument('yes')
-	resin.ui.patterns.remove 'environment variable', confirmArgument, (callback) ->
+	ui.patterns.remove 'environment variable', confirmArgument, (callback) ->
 		resin.models.environmentVariables.remove(id, callback)
 	, resin.errors.handle

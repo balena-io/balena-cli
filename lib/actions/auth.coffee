@@ -2,6 +2,7 @@ url = require('url')
 open = require('open')
 async = require('async')
 resin = require('../resin')
+ui = require('../ui')
 
 exports.login	= (credentials) ->
 	async.waterfall [
@@ -10,7 +11,7 @@ exports.login	= (credentials) ->
 			if credentials?
 				return resin.auth.parseCredentials(credentials, callback)
 			else
-				return resin.ui.widgets.login(callback)
+				return ui.widgets.login(callback)
 
 		(credentials, callback) ->
 			resin.auth.login(credentials, callback)

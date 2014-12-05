@@ -6,6 +6,7 @@ url = require('url')
 resin = require('../resin')
 connection = require('../connection/connection')
 cli = require('../cli/cli')
+ui = require('../ui')
 
 exports.download = (id) ->
 	params =
@@ -36,7 +37,7 @@ exports.download = (id) ->
 			return callback(null, downloadUrl)
 
 		(downloadUrl, callback) ->
-			resin.ui.patterns.downloadFile(downloadUrl, outputFile, callback)
+			ui.patterns.downloadFile(downloadUrl, outputFile, callback)
 
 	], (error) ->
 		resin.errors.handle(error) if error?
