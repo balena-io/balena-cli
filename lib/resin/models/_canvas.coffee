@@ -1,11 +1,21 @@
 _ = require('lodash')
-Canvas = require('resin-platform-api')
 Promise = require('bluebird')
+Canvas = require('resin-platform-api')(_, Promise)
 settings = require('../settings')
 server = require('../server/server')
 promisifiedServerRequest = Promise.promisify(server.request, server)
 
-class CanvasRequestService extends Canvas(_, Promise)
+class CanvasRequestService extends Canvas
+
+	# Trigger a request to the resin.io API
+	#
+	# Makes use of [pinejs-client](https://bitbucket.org/rulemotion/pinejs-client-js)
+	#
+	# @private
+	#
+	# @param {Object} params request params (same as node-request params)
+	#
+	# @note You shouldn't make use of this method directly, but through models
 	_request: (params) ->
 		params.json = params.data
 		params.gzip ?= true
