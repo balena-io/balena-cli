@@ -13,7 +13,7 @@ settings = require('../settings')
 # @param {Object} credentials in the form of username, password
 # @option credentials {String} username the username
 # @option credentials {String} password user password
-# @param {Function} callback (error, token)
+# @param {Function} callback callback (error, token)
 #
 # @note You should use login() when possible, as it takes care of saving the token as well.
 #
@@ -33,7 +33,7 @@ exports.authenticate = (credentials, callback) ->
 # @param {Object} credentials in the form of username, password
 # @option credentials {String} username the username
 # @option credentials {String} password user password
-# @param {Function} callback (error)
+# @param {Function} callback callback (error)
 #
 # @note This function saves the token to the directory configured in dataPrefix
 #
@@ -55,7 +55,7 @@ exports.login = (credentials, callback) ->
 
 # Check if you're logged in
 #
-# @param {Function} callback (isLoggedIn)
+# @param {Function} callback callback (isLoggedIn)
 #
 # @example Check if logged in
 #		resin.auth.isLoggedIn (isLoggedIn) ->
@@ -69,7 +69,7 @@ exports.isLoggedIn = (callback) ->
 
 # Get current logged in user's token
 #
-# @param {Function} callback (error, isLoggedIn)
+# @param {Function} callback callback (error, isLoggedIn)
 #
 # @note This function simply delegates to resin.token.getToken() for convenience
 #
@@ -83,7 +83,7 @@ exports.getToken = (callback) ->
 
 # Logout from Resin.io
 #
-# @param {Function} callback (error)
+# @param {Function} callback callback (error)
 #
 # @example Logout from Resin.io
 #		resin.auth.logout (error) ->
@@ -100,7 +100,7 @@ exports.logout = (callback) ->
 # @private
 #
 # @param {String} colon separated credentials (username:password)
-# @param {Function} callback (error, credentials)
+# @param {Function} callback callback (error, credentials)
 #
 #	@example Parse credentials
 #		resin.auth.parseCredentials 'johndoe:secret', (error, credentials) ->
