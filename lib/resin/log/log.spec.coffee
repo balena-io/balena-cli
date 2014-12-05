@@ -5,14 +5,6 @@ expect = chai.expect
 sinon = require('sinon')
 log = require('./log')
 
-MESSAGE =
-	foobar: 'Foo Bar'
-
-	# Very handy to check that the real console functions
-	# were called without printing anything, and preventing
-	# us from having to mock console, which is used by Mocha
-	empty: ''
-
 describe 'Log:', ->
 
 	testConsoleFunction = (logName, consoleName, message, assertions) ->
@@ -38,22 +30,22 @@ describe 'Log:', ->
 		describe '#error()', ->
 
 			it 'should output to console.error', ->
-				testConsoleFunctionBeingCalled('error', 'error', MESSAGE.empty)
+				testConsoleFunctionBeingCalled('error', 'error', '')
 
 		describe '#warning()', ->
 
 			it 'should output to console.warn', ->
-				testConsoleFunctionBeingCalled('warning', 'warn', MESSAGE.empty)
+				testConsoleFunctionBeingCalled('warning', 'warn', '')
 
 		describe '#info()', ->
 
 			it 'should output to console.info', ->
-				testConsoleFunctionBeingCalled('info', 'info', MESSAGE.empty)
+				testConsoleFunctionBeingCalled('info', 'info', '')
 
 		describe '#out()', ->
 
 			it 'should output to console.log', ->
-				testConsoleFunctionBeingCalled('out', 'log', MESSAGE.empty)
+				testConsoleFunctionBeingCalled('out', 'log', '')
 
 		describe '#array()', ->
 
@@ -123,19 +115,19 @@ describe 'Log:', ->
 		describe '#error()', ->
 
 			it 'should still output to console.error', ->
-				testConsoleFunctionBeingCalled('error', 'error', MESSAGE.empty)
+				testConsoleFunctionBeingCalled('error', 'error', '')
 
 		describe '#warning()', ->
 
 			it 'should still output to console.warn', ->
-				testConsoleFunctionBeingCalled('warning', 'warn', MESSAGE.empty)
+				testConsoleFunctionBeingCalled('warning', 'warn', '')
 
 		describe '#info()', ->
 
 			it 'should not call console.info', ->
-				testConsoleFunctionNotBeingCalled('info', 'info', MESSAGE.empty)
+				testConsoleFunctionNotBeingCalled('info', 'info', '')
 
 		describe '#out()', ->
 
 			it 'should not call console.log', ->
-				testConsoleFunctionBeingCalled('out', 'log', MESSAGE.empty)
+				testConsoleFunctionBeingCalled('out', 'log', '')

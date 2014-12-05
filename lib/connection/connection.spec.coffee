@@ -3,34 +3,6 @@ _ = require('lodash')
 sinon = require('sinon')
 connection = require('./connection')
 
-CONNECTION_PARAMETERS =
-	validEthernet:
-		network: 'ethernet'
-	validEthernetPlusExtra:
-		network: 'ethernet'
-		foo: 'bar'
-		hello: 'world'
-	validWifi:
-		network: 'wifi'
-		wifiSsid: 'mySsid'
-		wifiKey: 'mySecret'
-	ethernetAndWifiOptions:
-		network: 'ethernet'
-		wifiSsid: 'mySsid'
-		wifiKey: 'mySecret'
-	ethernetAndUndefinedWifi:
-		network: 'ethernet'
-		wifiSsid: undefined
-		wifiKey: undefined
-	wifiWithoutOptions:
-		network: 'wifi'
-	unknownWithOptions:
-		network: 'foobar'
-		wifiSsid: 'mySsid'
-		wifiKey: 'mySecret'
-	unknownWithoutOptions:
-		network: 'foobar'
-
 describe 'Connection:', ->
 
 	describe '#isOnline()', ->
@@ -94,27 +66,43 @@ describe 'Connection:', ->
 		describe 'if it succeeds', ->
 
 			it 'should pass the parameters as the second argument', ->
-				params = CONNECTION_PARAMETERS.validEthernet
+				params =
+					network: 'ethernet'
+
 				connection.parseConnectionParameters params, (error, parameters) ->
 					expect(parameters).to.deep.equal(params)
 
 			it 'should discard extra parameters', ->
-				params = CONNECTION_PARAMETERS.validEthernetPlusExtra
+				params =
+					network: 'ethernet'
+					foo: 'bar'
+					hello: 'world'
+
 				connection.parseConnectionParameters params, (error, parameters) ->
-					expect(parameters).to.deep.equal(CONNECTION_PARAMETERS.validEthernet)
+					expect(parameters).to.deep.equal(network: 'ethernet')
 
 		describe 'if network is ethernet', ->
 
 			it 'should succeed if no wifi options', (done) ->
-				params = CONNECTION_PARAMETERS.validEthernet
+				params =
+					network: 'ethernet'
+
 				checkParamsSuccess(params, done)
 
 			it 'should fail if it has wifi options', (done) ->
-				params = CONNECTION_PARAMETERS.ethernetAndWifiOptions
+				params =
+					network: 'ethernet'
+					wifiSsid: 'mySsid'
+					wifiKey: 'mySecret'
+
 				checkParamsFailure(params, done)
 
 			it 'should discard undefined wifi related options', (done) ->
-				params = CONNECTION_PARAMETERS.ethernetAndUndefinedWifi
+				params =
+					network: 'ethernet'
+					wifiSsid: undefined
+					wifiKey: undefined
+
 				connection.parseConnectionParameters params, (error, result) ->
 					expect(error).to.not.exist
 					expect(result).to.deep.equal(network: 'ethernet')
@@ -123,19 +111,31 @@ describe 'Connection:', ->
 		describe 'if network is wifi', ->
 
 			it 'should succeed if has options', (done) ->
-				params = CONNECTION_PARAMETERS.validWifi
+				params =
+					network: 'wifi'
+					wifiSsid: 'mySsid'
+					wifiKey: 'mySecret'
+
 				checkParamsSuccess(params, done)
 
 			it 'should fail if missing options', (done) ->
-				params = CONNECTION_PARAMETERS.wifiWithoutOptions
+				params =
+					network: 'wifi'
+
 				checkParamsFailure(params, done)
 
 		describe 'if network is unknown', ->
 
 			it 'should fail with options', (done) ->
-				params = CONNECTION_PARAMETERS.unknownWithOptions
+				params =
+					network: 'foobar'
+					wifiSsid: 'mySsid'
+					wifiKey: 'mySecret'
+
 				checkParamsFailure(params, done)
 
 			it 'should fail without options', (done) ->
-				params = CONNECTION_PARAMETERS.unknownWithoutOptions
+				params =
+					network: 'foobar'
+
 				checkParamsFailure(params, done)

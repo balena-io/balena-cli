@@ -11,20 +11,25 @@ mock = require('../../../tests/utils/mock')
 canvas = require('./_canvas')
 settings = require('../settings')
 
-URI =
-	application: url.resolve(settings.get('apiPrefix'), 'application')
-
-RESPONSE =
-	applications:
-		d: [
-			{ id: 1 }
-			{ id: 2 }
-		]
-
 describe 'Canvas:', ->
+
+	URI =
+		application: url.resolve(settings.get('apiPrefix'), 'application')
+
+	RESPONSE =
+		applications:
+			d: [
+				{ id: 1 }
+				{ id: 2 }
+			]
 
 	beforeEach (done) ->
 		mock.fs.init()
+
+		nock(settings.get('remoteUrl'))
+			.get(URI.application)
+			.reply(200, RESPONSE.applications)
+
 		data.prefix.set(settings.get('dataPrefix'), done)
 
 	afterEach ->
@@ -35,11 +40,6 @@ describe 'Canvas:', ->
 
 	after ->
 		mock.connection.restore()
-
-	beforeEach ->
-		nock(settings.get('remoteUrl'))
-			.get(URI.application)
-			.reply(200, RESPONSE.applications)
 
 	it 'should construct the correct url', ->
 		promise = canvas.get

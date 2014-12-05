@@ -3,18 +3,16 @@ sinon = require('sinon')
 log = require('../log/log')
 errors = require('./errors')
 
-MESSAGES =
-	helloWorld: 'Hello World'
-
 describe 'Errors:', ->
 
 	describe '#handle()', ->
 
 		it 'should log the error message to stderr', ->
+			message = 'Hello World'
 			logErrorStub = sinon.stub(log, 'error')
-			error = new Error(MESSAGES.helloWorld)
+			error = new Error(message)
 			errors.handle(error, false)
-			expect(logErrorStub).to.have.been.calledWith(MESSAGES.helloWorld)
+			expect(logErrorStub).to.have.been.calledWith(message)
 			logErrorStub.restore()
 
 		it 'should do nothing if error is not an instance of Error', ->
@@ -41,12 +39,12 @@ describe 'Errors:', ->
 			logErrorStub.restore()
 
 		it 'should exit if the last parameter is true', ->
-			error = new Error(MESSAGES.helloWorld)
+			error = new Error()
 			checkProcessExitOption error, true, (processExitStub) ->
 				expect(processExitStub).to.have.been.calledWith(1)
 
 		it 'should not exit if the last parameter is false', ->
-			error = new Error(MESSAGES.helloWorld)
+			error = new Error()
 			checkProcessExitOption error, false, (processExitStub) ->
 				expect(processExitStub).to.not.have.been.called
 

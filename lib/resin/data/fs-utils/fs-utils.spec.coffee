@@ -4,14 +4,6 @@ fsUtils = require('./fs-utils')
 settings = require('../../settings')
 data = require('../../data/data')
 
-FILESYSTEM =
-	text:
-		name: '/tmp/text'
-		contents: 'Hello World'
-	directory:
-		name: '/tmp/directory'
-		contents: {}
-
 describe 'FsUtils:', ->
 
 	describe '#isValidPath()', ->
@@ -38,6 +30,14 @@ describe 'FsUtils:', ->
 				expect(fsUtils.isValidPath(validPath)).to.be.true
 
 	describe '#isDirectory()', ->
+
+		FILESYSTEM =
+			text:
+				name: '/tmp/text'
+				contents: 'Hello World'
+			directory:
+				name: '/tmp/directory'
+				contents: {}
 
 		beforeEach (done) ->
 			mock.fs.init(FILESYSTEM)

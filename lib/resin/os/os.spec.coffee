@@ -1,22 +1,8 @@
 _ = require('lodash')
 chai = require('chai')
+chai.use(require('chai-string'))
 expect = chai.expect
 os = require('./os')
-
-APPS =
-	validEthernet:
-		id: 91
-		params:
-			network: 'ethernet'
-	invalidNetworkType:
-		id: 91
-		params:
-			network: 'foobar'
-	validWifi:
-		id: 91
-		params:
-			network: 'wifi'
-			wifiSsid: 'MYSSID'
 
 describe 'OS:', ->
 
@@ -25,12 +11,21 @@ describe 'OS:', ->
 		describe 'given network is ethernet', ->
 
 			it 'should construct a correct name', ->
-				application = APPS.validEthernet
+				application =
+					id: 91
+					params:
+						network: 'ethernet'
+
 				result = os.generateCacheName(application.id, application.params)
-				expect(result).to.equal("#{application.id}-ethernet-#{Date.now()}")
+				expect(result).to.match(new RegExp("#{application.id}-ethernet-\\d\+\$"))
 
 		describe 'given network is wifi', ->
 			it 'should construct a correct name', ->
-				application = APPS.validWifi
+				application =
+					id: 91
+					params:
+						network: 'wifi'
+						wifiSsid: 'MYSSID'
+
 				result = os.generateCacheName(application.id, application.params)
-				expect(result).to.equal("#{application.id}-wifi-#{application.params.wifiSsid}-#{Date.now()}")
+				expect(result).to.match(new RegExp("#{application.id}-wifi-#{application.params.wifiSsid}-\\d\+\$"))

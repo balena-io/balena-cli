@@ -8,14 +8,10 @@ dataPrefix = require('./data-prefix')
 settings = require('../settings')
 mock = require('../../../tests/utils/mock')
 
-PREFIXES =
-	main: settings.get('dataPrefix')
-	new: "#{settings.get('dataPrefix')}-new"
-	invalid: { path: '/abc' }
-
 describe 'DataPrefix:', ->
 
 	beforeEach ->
+		@prefix = settings.get('dataPrefix')
 		mock.fs.init()
 
 	afterEach ->
@@ -34,17 +30,17 @@ describe 'DataPrefix:', ->
 		describe '#set()', ->
 
 			beforeEach (done) ->
-				rimraf(PREFIXES.main, done)
+				rimraf(@prefix, done)
 
 			it 'should be able to set a prefix', (done) ->
 				expect(dataPrefix.get()).to.not.exist
-				dataPrefix.set PREFIXES.main, (error) ->
+				dataPrefix.set @prefix, (error) =>
 					expect(error).to.not.exist
-					expect(dataPrefix.get()).to.equal(PREFIXES.main)
+					expect(dataPrefix.get()).to.equal(@prefix)
 					done()
 
 			it 'should throw an error if passing an invalid path', (done) ->
-				dataPrefix.set PREFIXES.invalid, (error) ->
+				dataPrefix.set { path: '/abc' }, (error) ->
 					expect(error).to.be.an.instanceof(Error)
 					done()
 
@@ -53,15 +49,15 @@ describe 'DataPrefix:', ->
 				async.waterfall [
 
 					(callback) ->
-						fs.exists PREFIXES.main, (exists) ->
+						fs.exists @prefix, (exists) ->
 							return callback(null, exists)
 
-					(exists, callback) ->
+					(exists, callback) =>
 						expect(exists).to.be.false
-						dataPrefix.set(PREFIXES.main, callback)
+						dataPrefix.set(@prefix, callback)
 
-					(callback) ->
-						fsUtils.isDirectory(PREFIXES.main, callback)
+					(callback) =>
+						fsUtils.isDirectory(@prefix, callback)
 
 					(isDirectory, callback) ->
 						expect(isDirectory).to.be.true
@@ -74,25 +70,26 @@ describe 'DataPrefix:', ->
 	describe 'given a prefix', ->
 
 		beforeEach (done) ->
-			dataPrefix.set(PREFIXES.main, done)
+			dataPrefix.set(@prefix, done)
 
 		describe '#get()', ->
 
 			it 'should return the saved prefix', ->
-				expect(dataPrefix.get()).to.equal(PREFIXES.main)
+				expect(dataPrefix.get()).to.equal(@prefix)
 
 		describe '#set()', ->
 
 			it 'should be able to override the prefix', (done) ->
-				expect(dataPrefix.get()).to.equal(PREFIXES.main)
-				dataPrefix.set PREFIXES.new, (error) ->
+				newPrefix = "#{settings.get('dataPrefix')}-new"
+				expect(dataPrefix.get()).to.equal(@prefix)
+				dataPrefix.set newPrefix, (error) ->
 					expect(error).to.not.exist
-					expect(dataPrefix.get()).to.equal(PREFIXES.new)
+					expect(dataPrefix.get()).to.equal(newPrefix)
 					done()
 
 		describe '#clear()', ->
 
 			it 'should clear the prefix', ->
-				expect(dataPrefix.get()).to.equal(PREFIXES.main)
+				expect(dataPrefix.get()).to.equal(@prefix)
 				dataPrefix.clear()
 				expect(dataPrefix.get()).to.not.exist

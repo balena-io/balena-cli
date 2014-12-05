@@ -6,28 +6,6 @@ async = require('async')
 settings = require('../settings')
 data = require('./data')
 
-FILES_FIXTURES =
-	hello:
-		filename: 'hello_world.test'
-		contents: 'Hello World!'
-	nested:
-		filename: 'nested/hello_world.test'
-		contents: 'Nested Hello World!'
-
-FILESYSTEM =
-	text:
-		name: "#{settings.get('dataPrefix')}/text"
-		contents: 'Hello World'
-		key: 'text'
-	directory:
-		name: "#{settings.get('dataPrefix')}/directory"
-		contents: {}
-		key: 'directory'
-	nested:
-		name: "#{settings.get('dataPrefix')}/nested/text"
-		contents: 'Nested Hello World'
-		key: 'nested/text'
-
 describe 'Data:', ->
 
 	describe 'given no prefix', ->
@@ -57,6 +35,20 @@ describe 'Data:', ->
 				expect(hasDataKey).to.throw(Error)
 
 	describe 'given a prefix', ->
+
+		FILESYSTEM =
+			text:
+				name: "#{settings.get('dataPrefix')}/text"
+				contents: 'Hello World'
+				key: 'text'
+			directory:
+				name: "#{settings.get('dataPrefix')}/directory"
+				contents: {}
+				key: 'directory'
+			nested:
+				name: "#{settings.get('dataPrefix')}/nested/text"
+				contents: 'Nested Hello World'
+				key: 'nested/text'
 
 		beforeEach (done) ->
 			mock.fs.init(FILESYSTEM)
@@ -143,6 +135,14 @@ describe 'Data:', ->
 					], (error) ->
 						expect(error).to.not.exist
 						done()
+
+			FILES_FIXTURES =
+				hello:
+					filename: 'hello_world.test'
+					contents: 'Hello World!'
+				nested:
+					filename: 'nested/hello_world.test'
+					contents: 'Nested Hello World!'
 
 			it('should be able to write a file', writeAndCheckFixture(FILES_FIXTURES.hello))
 			it('should be able to write a nested file', writeAndCheckFixture(FILES_FIXTURES.nested))
