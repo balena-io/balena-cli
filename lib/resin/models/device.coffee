@@ -36,6 +36,22 @@ exports.getAllByApplication = (applicationId, callback) ->
 	.catch (error) ->
 		return callback(error)
 
+exports.get = (deviceId, callback) ->
+	return canvas.get
+		resource: 'device'
+		id: deviceId
+		options:
+			expand: 'application'
+
+	.then (device) ->
+		if not device?
+			return callback(new errors.NotFound("device #{id}"))
+
+		return callback(null, device)
+
+	.catch (error) ->
+		return callback(error)
+
 exports.remove = (id, callback) ->
 	return canvas.delete
 		resource: 'device'
