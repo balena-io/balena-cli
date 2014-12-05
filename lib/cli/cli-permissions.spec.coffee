@@ -43,17 +43,6 @@ describe 'CLI Permissions:', ->
 					done()
 				func()
 
-			# TODO: expect(func).to.throw(Error) doesn't catches
-			# the error as it's being thrown inside an async function
-			# (resin.auth.isLoggedIn). A try/catch works, but it still results
-			# in the error being printed in Mocha reporter.
-			xit 'should throw an error if no error handler function', ->
-				func = cliPermissions.user(_.noop)
-				try
-					func()
-				catch error
-					expect(error).to.be.an.instanceof(Error)
-
 		describe 'if logged in', ->
 
 			beforeEach (done) ->
