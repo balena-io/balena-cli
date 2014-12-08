@@ -14,7 +14,7 @@ exports.list = ->
 	if not applicationId?
 		resin.errors.handle(new Error('You have to specify an application'))
 
-	resin.models.environmentVariables.getAll applicationId, (error, environmentVariables) ->
+	resin.models.environmentVariables.getAllByApplication applicationId, (error, environmentVariables) ->
 		resin.errors.handle(error) if error?
 
 		if not cli.getArgument('verbose')?

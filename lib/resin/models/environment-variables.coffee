@@ -8,14 +8,12 @@ errors = require('../errors/errors')
 #
 # @throw {NotFound} Will throw if no environment variable was found
 #
-# @todo Rename this to getAllByApplication
-#
 # @example Get all environment variables by application
 #		resin.models.environmentVariables.getAll (error, environmentVariables) ->
 #			throw error if error?
 #			console.log(environmentVariables)
 #
-exports.getAll = (applicationId, callback) ->
+exports.getAllByApplication = (applicationId, callback) ->
 	return canvas.get
 		resource: 'environment_variable'
 		options:
