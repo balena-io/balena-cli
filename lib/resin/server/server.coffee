@@ -1,12 +1,61 @@
 _ = require('lodash')
 request = require('request')
 progress = require('request-progress')
-urlResolve = require('url').resolve
 async = require('async')
 connection = require('../../connection/connection')
 settings = require('../settings')
 token = require('../token/token')
 
+# @nodoc
+urlResolve = require('url').resolve
+
+# Send an HTTP request to resin.io
+#
+# @param {Object} options request options
+# @option options {String} url relative url
+# @option options {String} json request body
+# @option options {String} method HTTP method
+# @option options {Object} headers custom HTTP headers
+# @option options {Function} pipe define this function if you want to stream the response
+#
+# @param {Function} callback callback(error, response, body)
+# @param {Function} onProgress on progress callback(state) (optional)
+#
+# @note If the user is logged in, the token gets automatically added to Authorization header
+# @note If the response is JSON, it will attempt to parse it
+#
+# @throw {Error} Will throw if you don't have internet connection
+#
+# @example GET request
+#		resin.server.request {
+#			method: 'GET'
+#			url: '/foobar'
+#		}, (error, response, body) ->
+#			throw error if error?
+#			console.log(body)
+#
+#	@example POST request with body
+#		resin.server.request {
+#			method: 'POST'
+#			url: '/foobar'
+#			json:
+#				name: 'My FooBar'
+#		}, (error, response, body) ->
+#			throw error if error?
+#			assert(response.statusCode is 201)
+#
+#	@example Stream download
+#		resin.server.request {
+#			method: 'GET'
+#			url: '/download'
+#			pipe: fs.createWriteStream('/tmp/download')
+#		}, (error) ->
+#			throw error if error?
+#		, (state) ->
+#			console.log("Received: #{state.received}")
+#			console.log("Total: #{state.total}")
+#			console.log("Is Complete? #{state.complete}")
+#
 exports.request = (options = {}, outerCallback, onProgress) ->
 
 	onProgress ?= _.noop
@@ -62,6 +111,12 @@ exports.request = (options = {}, outerCallback, onProgress) ->
 
 	], outerCallback
 
+# Generate shorthand functions for every method
+#
+# @private
+#
+# @todo Find a way to document all of the methods directly
+#
 createFacadeFunction = (method) ->
 	lowerCaseMethod = method.toLowerCase()
 	exports[lowerCaseMethod] = (url, body, callback, onProgress) ->
