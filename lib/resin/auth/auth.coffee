@@ -24,7 +24,8 @@ settings = require('../settings')
 #
 exports.authenticate = (credentials, callback) ->
 	server.post settings.get('urls.authenticate'), credentials, (error, response) ->
-		return callback(error, response?.body)
+		savedToken = response?.body
+		return callback(error, savedToken)
 
 # Login to Resin.io
 #
