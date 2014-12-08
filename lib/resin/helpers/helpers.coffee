@@ -1,19 +1,6 @@
 _ = require('lodash')
+fsPlus = require('fs-plus')
 path = require('path')
-
-# Check is path is absolute
-#
-# @private
-#
-# @param {String} path path
-# @return {Boolean} is absolute
-#
-# @example Is path absolute?
-#		console.log isAbsolutePath('/usr') # True
-#		console.log isAbsolutePath('../Music') # False
-#
-exports.isAbsolutePath = (p) ->
-	return path.resolve(p) is p
 
 # Prefix relative value paths with another path
 #
@@ -35,7 +22,7 @@ exports.prefixObjectValuesWithPath = (prefix, object) ->
 	return _.object _.map object, (value, key) ->
 		result = [ key ]
 
-		if exports.isAbsolutePath(value)
+		if fsPlus.isAbsolute(value)
 			result.push(value)
 		else
 			result.push(path.join(prefix, value))
