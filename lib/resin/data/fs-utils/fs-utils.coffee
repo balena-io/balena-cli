@@ -16,26 +16,3 @@ _ = require('lodash')
 #
 exports.isValidPath = (p) ->
 	return _.isString(p)
-
-# Check if path is directory
-#
-# @private
-#
-# @param {String} directory directory
-# @param {Function} callback callback(error, isDirectory)
-#
-# @example Is directory?
-#		isDirectory '/usr/local/share', (error, isDirectory) ->
-#			throw error if error?
-#			console.log(isDirectory)
-#			# True
-#
-#		isDirectory '/Users/me/app.js', (error, isDirectory) ->
-#			throw error if error?
-#			console.log(isDirectory)
-#			# False
-#
-exports.isDirectory = (directory, callback) ->
-	fs.stat directory, (error, stats) ->
-		return callback?(error) if error?
-		return callback?(null, stats.isDirectory())

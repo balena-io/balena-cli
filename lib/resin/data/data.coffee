@@ -1,4 +1,5 @@
 fs = require('fs')
+fsPlus = require('fs-plus')
 path = require('path')
 rimraf = require('rimraf')
 fsUtils = require('./fs-utils/fs-utils')
@@ -110,8 +111,6 @@ exports.has = haltIfNoPrefix (key, callback) ->
 exports.remove = haltIfNoPrefix (key, callback) ->
 	keyPath = constructPath(key)
 
-	fsUtils.isDirectory keyPath, (error, isDirectory) ->
-		return callback(error) if error?
-
+	fsPlus.isDirectory keyPath, (isDirectory) ->
 		removeFunction = if isDirectory then rimraf else fs.unlink
 		removeFunction(keyPath, callback)

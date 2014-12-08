@@ -1,6 +1,6 @@
 expect = require('chai').expect
 _ = require('lodash')
-fsUtils = require('./fs-utils/fs-utils')
+fsPlus = require('fs-plus')
 mock = require('../../../tests/utils/mock')
 async = require('async')
 settings = require('../settings')
@@ -182,7 +182,8 @@ describe 'Data:', ->
 				async.waterfall [
 
 					(callback) ->
-						fsUtils.isDirectory(directory.name, callback)
+						fsPlus.isDirectory directory.name, (isDirectory) ->
+							return callback(null, isDirectory)
 
 					(isDirectory, callback) ->
 						expect(isDirectory).to.be.true

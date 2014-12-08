@@ -2,7 +2,7 @@ expect = require('chai').expect
 _ = require('lodash')
 async = require('async')
 fs = require('fs')
-fsUtils = require('./fs-utils/fs-utils')
+fsPlus = require('fs-plus')
 rimraf = require('rimraf')
 dataPrefix = require('./data-prefix')
 settings = require('../settings')
@@ -57,7 +57,8 @@ describe 'DataPrefix:', ->
 						dataPrefix.set(@prefix, callback)
 
 					(callback) =>
-						fsUtils.isDirectory(@prefix, callback)
+						fsPlus.isDirectory @prefix, (isDirectory) ->
+							return callback(null, isDirectory)
 
 					(isDirectory, callback) ->
 						expect(isDirectory).to.be.true

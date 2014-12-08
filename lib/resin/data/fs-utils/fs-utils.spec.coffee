@@ -45,21 +45,3 @@ describe 'FsUtils:', ->
 
 		afterEach ->
 			mock.fs.restore()
-
-		it 'should return true if directory', (done) ->
-			fsUtils.isDirectory FILESYSTEM.directory.name, (error, isDirectory) ->
-				expect(error).to.not.exist
-				expect(isDirectory).to.be.true
-				done()
-
-		it 'should return false if not a directory', (done) ->
-			fsUtils.isDirectory FILESYSTEM.text.name, (error, isDirectory) ->
-				expect(error).to.not.exist
-				expect(isDirectory).to.be.false
-				done()
-
-		it 'should return an error if the path doesn\'t exists', (done) ->
-			fsUtils.isDirectory '/nonexistantpath', (error, isDirectory) ->
-				expect(error).to.exist
-				expect(isDirectory).to.be.undefined
-				done()
