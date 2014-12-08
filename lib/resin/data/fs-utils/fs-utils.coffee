@@ -25,8 +25,15 @@ exports.isValidPath = (p) ->
 # @param {Function} callback callback(error, isDirectory)
 #
 # @example Is directory?
-#		console.log isDirectory('/usr/local/share') # True
-#		console.log isDirectory('/Users/me/app.js') # False
+#		isDirectory '/usr/local/share', (error, isDirectory) ->
+#			throw error if error?
+#			console.log(isDirectory)
+#			# True
+#
+#		isDirectory '/Users/me/app.js', (error, isDirectory) ->
+#			throw error if error?
+#			console.log(isDirectory)
+#			# False
 #
 exports.isDirectory = (directory, callback) ->
 	fs.stat directory, (error, stats) ->
