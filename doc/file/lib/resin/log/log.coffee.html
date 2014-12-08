@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset='UTF-8'>
+  <title>CoffeeScript API Documentation</title>
+  <script src='../../../../javascript/application.js'></script>
+  <script src='../../../../javascript/search.js'></script>
+  <link rel='stylesheet' href='../../../../stylesheets/application.css' type='text/css'>
+</head>
+  <body>
+    <div id='base' data-path='../../../../'></div>
+<div id='header'>
+  <div id='menu'>
+    <a href='../../../../alphabetical_index.html' title='Index'>
+      Index
+    </a>
+    &raquo;
+    <span class='title'>lib</span>
+    &raquo;
+    <span class='title'>resin</span>
+    &raquo;
+    <span class='title'>log</span>
+    &raquo;
+    <span class='title'>log.coffee</span>
+  </div>
+</div>
+    <div id='content'>
+      <h1>
+        File:
+        log.coffee
+      </h1>
+      <table class='box'>
+        <tr>
+          <td>Defined in:</td>
+          <td>lib&#47;resin&#47;log</td>
+        </tr>
+      </table>
+      <h2>Method Summary</h2>
+      <ul class='summary'>
+  <li>
+    <span class='signature'>
+      <a href='#setQuiet-'>
+        ~
+(void)
+<b>setQuiet</b><span>(quiet)</span>
+      </a>
+    </span>
+    <span class='desc'>
+      Change log quietness <pre><code>resin.log.setQuiet(true)
+</code></pre>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#isQuiet-'>
+        ~
+(Boolean)
+<b>isQuiet</b><span>()</span>
+      </a>
+    </span>
+    <span class='desc'>
+      Check quietness <pre><code>resin.log.isQuiet()
+</code></pre>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#error-'>
+        ~
+(void)
+<b>error</b><span>(args...)</span>
+      </a>
+    </span>
+    <span class='desc'>
+      Log an error <pre><code>resin.log.error(&#39;Something went wrong!&#39;)
+</code></pre>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#warning-'>
+        ~
+(void)
+<b>warning</b><span>(args...)</span>
+      </a>
+    </span>
+    <span class='desc'>
+      Log a warning <pre><code>resin.log.warning(&#39;Something might happened!&#39;)
+</code></pre>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#info-'>
+        ~
+(void)
+<b>info</b><span>(args...)</span>
+      </a>
+    </span>
+    <span class='desc'>
+      Log info <pre><code>resin.log.info(&#39;Look!&#39;)
+</code></pre>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#out-'>
+        ~
+(void)
+<b>out</b><span>(args...)</span>
+      </a>
+    </span>
+    <span class='desc'>
+      Log out <pre><code>resin.log.out(&#39;Hello World!&#39;)
+</code></pre>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#array-'>
+        ~
+(void)
+<b>array</b><span>(array, logFunction)</span>
+      </a>
+    </span>
+    <span class='desc'>
+      Log an array <p>It will iterate trough the array, calling logFunction for every item</p>
+    </span>
+  </li>
+</ul>
+      <h2>Method Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='setQuiet-'>
+      ~
+(void)
+<b>setQuiet</b><span>(quiet)</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <div class='note'>
+    <strong>Note:</strong>
+    If quiet is true, only resin.log.info will be quieted 
+  </div>
+  <p>Change log quietness</p><pre><code>resin.log.setQuiet(true)
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>quiet</span>
+      <span class='type'>
+        (
+          <tt>Boolean</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>quietness </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='isQuiet-'>
+      ~
+(Boolean)
+<b>isQuiet</b><span>()</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Check quietness</p><pre><code>resin.log.isQuiet()
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (
+        <tt>Boolean</tt>
+      )
+      &mdash;
+      <span class='desc'>is quiet </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='error-'>
+      ~
+(void)
+<b>error</b><span>(args...)</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Log an error</p><pre><code>resin.log.error(&#39;Something went wrong!&#39;)
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>message</span>
+      <span class='type'>
+        (
+          <tt>...String</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>message </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='warning-'>
+      ~
+(void)
+<b>warning</b><span>(args...)</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Log a warning</p><pre><code>resin.log.warning(&#39;Something might happened!&#39;)
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>message</span>
+      <span class='type'>
+        (
+          <tt>...String</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>message </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='info-'>
+      ~
+(void)
+<b>info</b><span>(args...)</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Log info</p><pre><code>resin.log.info(&#39;Look!&#39;)
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>message</span>
+      <span class='type'>
+        (
+          <tt>...String</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>message </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='out-'>
+      ~
+(void)
+<b>out</b><span>(args...)</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <div class='note'>
+    <strong>Note:</strong>
+    This will not be quieted even if setQuiet is set to true 
+  </div>
+  <p>Log out</p><pre><code>resin.log.out(&#39;Hello World!&#39;)
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>message</span>
+      <span class='type'>
+        (
+          <tt>...String</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>message </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='array-'>
+      ~
+(void)
+<b>array</b><span>(array, logFunction)</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Log an array</p><p>It will iterate trough the array, calling logFunction for every item</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>array</span>
+      <span class='type'>
+        (
+          <tt>Array</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>array </span>
+    </li>
+    <li>
+      <span class='name'>logFunction</span>
+      <span class='type'>
+        (
+          <tt>Function</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>log function (e.g: resin.log.info) </span>
+    </li>
+  </ul>
+  <h3>Throws:</h3>
+  <ul class='throw'>
+    <li>
+      <span class='type'></span>
+      (
+        <tt>Error</tt>
+      )
+      &mdash;
+      <span class='desc'>Will throw if logFunction is not a function </span>
+    </li>
+  </ul>
+</div>
+  </div>
+</div>
+    </div>
+    <div id='footer'>
+  December 08, 14 08:46:53 by
+  <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
+    Codo
+  </a>
+  2.0.9
+  &#10034;
+  Press H to see the keyboard shortcuts
+  &#10034;
+  <a href='http://twitter.com/netzpirat' target='_parent'>@netzpirat</a>
+  &#10034;
+  <a href='http://twitter.com/_inossidabile' target='_parent'>@_inossidabile</a>
+</div>
+<iframe id='search_frame'></iframe>
+<div id='fuzzySearch'>
+  <input type='text'>
+  <ol></ol>
+</div>
+<div id='help'>
+  <p>
+    Quickly fuzzy find classes, mixins, methods, file:
+  </p>
+  <ul>
+    <li>
+      <span>T</span>
+      Open fuzzy finder dialog
+    </li>
+  </ul>
+  <p>
+    Control the navigation frame:
+  </p>
+  <ul>
+    <li>
+      <span>L</span>
+      Toggle list view
+    </li>
+    <li>
+      <span>C</span>
+      Show class list
+    </li>
+    <li>
+      <span>I</span>
+      Show mixin list
+    </li>
+    <li>
+      <span>F</span>
+      Show file list
+    </li>
+    <li>
+      <span>M</span>
+      Show method list
+    </li>
+    <li>
+      <span>E</span>
+      Show extras list
+    </li>
+  </ul>
+  <p>
+    You can focus and blur the search input:
+  </p>
+  <ul>
+    <li>
+      <span>S</span>
+      Focus search input
+    </li>
+    <li>
+      <span>Esc</span>
+      Blur search input
+    </li>
+  </ul>
+</div>
+  </body>
+</html>

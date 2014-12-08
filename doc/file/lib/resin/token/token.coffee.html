@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset='UTF-8'>
+  <title>CoffeeScript API Documentation</title>
+  <script src='../../../../javascript/application.js'></script>
+  <script src='../../../../javascript/search.js'></script>
+  <link rel='stylesheet' href='../../../../stylesheets/application.css' type='text/css'>
+</head>
+  <body>
+    <div id='base' data-path='../../../../'></div>
+<div id='header'>
+  <div id='menu'>
+    <a href='../../../../alphabetical_index.html' title='Index'>
+      Index
+    </a>
+    &raquo;
+    <span class='title'>lib</span>
+    &raquo;
+    <span class='title'>resin</span>
+    &raquo;
+    <span class='title'>token</span>
+    &raquo;
+    <span class='title'>token.coffee</span>
+  </div>
+</div>
+    <div id='content'>
+      <h1>
+        File:
+        token.coffee
+      </h1>
+      <table class='box'>
+        <tr>
+          <td>Defined in:</td>
+          <td>lib&#47;resin&#47;token</td>
+        </tr>
+      </table>
+      <h2>Method Summary</h2>
+      <ul class='summary'>
+  <li>
+    <span class='signature'>
+      <a href='#saveToken-'>
+        ~
+(void)
+<b>saveToken</b><span>(newToken, callback)</span>
+      </a>
+    </span>
+    <span class='desc'>
+      Save token <p>The token is saved to $(dataPrefix)/token, which usually equals to $HOME/.resin/token</p><pre><code>resin.token.saveToken myToken, (error) -&gt;    throw error if error?
+</code></pre>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#hasToken-'>
+        ~
+(void)
+<b>hasToken</b><span>(callback)</span>
+      </a>
+    </span>
+    <span class='desc'>
+      Check if we have any token saved <pre><code>resin.token.hasToken (hasToken) -&gt;    if hasToken
+        console.log(&#39;It\&#39;s there!&#39;)    else
+        console.log(&#39;It\&#39;s not there!&#39;)
+</code></pre>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#getToken-'>
+        ~
+(void)
+<b>getToken</b><span>(callback)</span>
+      </a>
+    </span>
+    <span class='desc'>
+      Get saved token value <pre><code>resin.token.getToken (error, token) -&gt;    throw error if error?    if token?
+        console.log(&quot;My token is: #{token}&quot;)
+</code></pre>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#clearToken-'>
+        ~
+(void)
+<b>clearToken</b><span>(callback)</span>
+      </a>
+    </span>
+    <span class='desc'>
+      Remove token from the filesystem <pre><code>resin.token.clearToken (error) -&gt;    throw error if error?
+</code></pre>
+    </span>
+  </li>
+</ul>
+      <h2>Method Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='saveToken-'>
+      ~
+(void)
+<b>saveToken</b><span>(newToken, callback)</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <div class='note todo'>
+    <strong>TODO:</strong>
+    We should make the token more secure 
+  </div>
+  <div class='note'>
+    <strong>Note:</strong>
+    The token is saved as plain text. 
+  </div>
+  <p>Save token</p><p>The token is saved to $(dataPrefix)/token, which usually equals to $HOME/.resin/token</p><pre><code>resin.token.saveToken myToken, (error) -&gt;    throw error if error?
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>newToken</span>
+      <span class='type'>
+        (
+          <tt>String</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>the token </span>
+    </li>
+    <li>
+      <span class='name'>callback</span>
+      <span class='type'>
+        (
+          <tt>Function</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>callback(error) </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='hasToken-'>
+      ~
+(void)
+<b>hasToken</b><span>(callback)</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Check if we have any token saved</p><pre><code>resin.token.hasToken (hasToken) -&gt;    if hasToken
+        console.log(&#39;It\&#39;s there!&#39;)    else
+        console.log(&#39;It\&#39;s not there!&#39;)
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>callback</span>
+      <span class='type'>
+        (
+          <tt>Function</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>callback(hasToken) </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='getToken-'>
+      ~
+(void)
+<b>getToken</b><span>(callback)</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <div class='note'>
+    <strong>Note:</strong>
+    If the key doesn&#39;t exist, undefined and no error is returned 
+  </div>
+  <p>Get saved token value</p><pre><code>resin.token.getToken (error, token) -&gt;    throw error if error?    if token?
+        console.log(&quot;My token is: #{token}&quot;)
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>callback</span>
+      <span class='type'>
+        (
+          <tt>Function</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>callback(error, token) </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='clearToken-'>
+      ~
+(void)
+<b>clearToken</b><span>(callback)</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <div class='note'>
+    <strong>Note:</strong>
+    If the token doesn&#39;t exist, no action is performed 
+  </div>
+  <p>Remove token from the filesystem</p><pre><code>resin.token.clearToken (error) -&gt;    throw error if error?
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>callback</span>
+      <span class='type'>
+        (
+          <tt>Function</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>callback(error) </span>
+    </li>
+  </ul>
+</div>
+  </div>
+</div>
+    </div>
+    <div id='footer'>
+  December 08, 14 08:46:53 by
+  <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
+    Codo
+  </a>
+  2.0.9
+  &#10034;
+  Press H to see the keyboard shortcuts
+  &#10034;
+  <a href='http://twitter.com/netzpirat' target='_parent'>@netzpirat</a>
+  &#10034;
+  <a href='http://twitter.com/_inossidabile' target='_parent'>@_inossidabile</a>
+</div>
+<iframe id='search_frame'></iframe>
+<div id='fuzzySearch'>
+  <input type='text'>
+  <ol></ol>
+</div>
+<div id='help'>
+  <p>
+    Quickly fuzzy find classes, mixins, methods, file:
+  </p>
+  <ul>
+    <li>
+      <span>T</span>
+      Open fuzzy finder dialog
+    </li>
+  </ul>
+  <p>
+    Control the navigation frame:
+  </p>
+  <ul>
+    <li>
+      <span>L</span>
+      Toggle list view
+    </li>
+    <li>
+      <span>C</span>
+      Show class list
+    </li>
+    <li>
+      <span>I</span>
+      Show mixin list
+    </li>
+    <li>
+      <span>F</span>
+      Show file list
+    </li>
+    <li>
+      <span>M</span>
+      Show method list
+    </li>
+    <li>
+      <span>E</span>
+      Show extras list
+    </li>
+  </ul>
+  <p>
+    You can focus and blur the search input:
+  </p>
+  <ul>
+    <li>
+      <span>S</span>
+      Focus search input
+    </li>
+    <li>
+      <span>Esc</span>
+      Blur search input
+    </li>
+  </ul>
+</div>
+  </body>
+</html>
