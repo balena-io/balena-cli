@@ -103,6 +103,8 @@ exports.logout = (callback) ->
 # @param {String} colon separated credentials (username:password)
 # @param {Function} callback callback (error, credentials)
 #
+# @todo This should be moved somewhere else, as it only used by the auth actions
+#
 #	@example Parse credentials
 #		resin.auth.parseCredentials 'johndoe:secret', (error, credentials) ->
 #			throw error if error?
