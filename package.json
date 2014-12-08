@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "cult test",
-    "doc": "codo `find lib -name \"*.coffee\" | grep -v \"spec.coffee$\"`"
+    "doc": "codo `find lib/resin -name \"*.coffee\" | grep -v \"spec.coffee$\"`"
   },
   "keywords": [
     "resin",
