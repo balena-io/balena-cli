@@ -7,7 +7,8 @@
     "resin": "./bin/resin"
   },
   "scripts": {
-    "test": "cult test"
+    "test": "cult test",
+    "doc": "codo `find lib -name \"*.coffee\" | grep -v \"spec.coffee$\"`"
   },
   "keywords": [
     "resin",
@@ -33,7 +34,8 @@
     "gulp-coffee": "~2.2.0",
     "gulp-util": "~3.0.1",
     "run-sequence": "~1.0.2",
-    "chai-string": "~1.1.0"
+    "chai-string": "~1.1.0",
+    "codo": "~2.0.9"
   },
   "dependencies": {
     "request": "~2.47.0",
