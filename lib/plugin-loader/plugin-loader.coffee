@@ -2,6 +2,7 @@ _ = require('lodash')
 async = require('async')
 path = require('path')
 fs = require('fs')
+fsPlus = require('fs-plus')
 resin = require('../resin')
 
 PLUGINS_LOAD_PARALLEL_LIMIT = 5
@@ -57,11 +58,6 @@ exports.loadPlugin = (pluginPath, callback) ->
 
 	], callback)
 
-isDirectory = (directory, callback) ->
-	fs.stat directory, (error, stats) ->
-		return callback(false) if error?
-		return callback(stats.isDirectory())
-
 exports.readPluginsDirectory = (directory, callback) ->
 
 	async.waterfall([
@@ -73,7 +69,7 @@ exports.readPluginsDirectory = (directory, callback) ->
 			fullPathPlugins = _.map plugins, (plugin) ->
 				return path.join(directory, plugin)
 
-			async.filter fullPathPlugins, isDirectory, (results) ->
+			async.filter fullPathPlugins, fsPlus.isDirectory, (results) ->
 				return callback(null, results)
 
 	], callback)
