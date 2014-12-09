@@ -6,33 +6,6 @@ resin = require('../resin')
 
 describe 'Helpers:', ->
 
-	describe '#formatLongString()', ->
-
-		it 'should format a string', ->
-			result = helpers.formatLongString('1234567812345678', 4)
-			expect(result).to.equal('1234\n5678\n1234\n5678')
-
-		it 'should return the same string if n is null/undefined', ->
-			for value in [ undefined, null ]
-				result = helpers.formatLongString('1234567890', value)
-				expect(result).to.equal('1234567890')
-
-		it 'should throw an error if input is not a string', ->
-			for value in [
-				undefined
-				null
-				[]
-				{}
-				123
-			]
-				fn = _.partial(helpers.formatLongString, value, 4)
-				expect(fn).to.throw
-
-		it 'should return the same string if n > string.length', ->
-			string = '1234567812345678'
-			result = helpers.formatLongString(string, string.length + 1)
-			expect(result).to.equal(string)
-
 	describe '#isDeviceUUIDValid()', ->
 
 		devices = [

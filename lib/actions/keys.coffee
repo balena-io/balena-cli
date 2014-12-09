@@ -1,4 +1,5 @@
 _ = require('lodash')
+_.str = require('underscore.string')
 resin = require('../resin')
 helpers = require('../helpers/helpers')
 cli = require('../cli/cli')
@@ -24,7 +25,7 @@ exports.info = (id) ->
 		if not key?
 			resin.errors.handle(new resin.errors.NotFound("key #{id}"))
 
-		key.public_key = '\n' + helpers.formatLongString(key.public_key, resin.settings.get('sshKeyWidth'))
+		key.public_key = '\n' + _.chop(key.public_key, resin.settings.get('sshKeyWidth')).join('\n')
 		resin.log.out(ui.widgets.table.vertical(key, _.identity, [ 'ID', 'Title', 'Public Key' ]))
 
 exports.remove = (id) ->

@@ -1,13 +1,5 @@
-url = require('url')
 _ = require('lodash')
 resin = require('../resin')
-
-# TODO: Use _.chop from underscore.string
-exports.formatLongString = (string, n) ->
-	return string if not n?
-	splitRegexp = new RegExp(".{1,#{n}}", 'g')
-	splittedString = string.match(splitRegexp)
-	return splittedString.join('\n')
 
 exports.isDeviceUUIDValid = (uuid, callback) ->
 	resin.models.device.getAll (error, devices) ->
