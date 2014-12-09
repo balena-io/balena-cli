@@ -8,10 +8,10 @@ chai.use(chaiAsPromised)
 
 data = require('../data/data')
 mock = require('../../../tests/utils/mock')
-canvas = require('./_canvas')
+pine = require('./_pine')
 settings = require('../settings')
 
-describe 'Canvas:', ->
+describe 'Pine:', ->
 
 	URI =
 		application: url.resolve(settings.get('apiPrefix'), 'application')
@@ -42,7 +42,7 @@ describe 'Canvas:', ->
 		mock.connection.restore()
 
 	it 'should construct the correct url', ->
-		promise = canvas.get
+		promise = pine.get
 			resource: 'application'
 
 		expect(promise).to.become(RESPONSE.applications.d)

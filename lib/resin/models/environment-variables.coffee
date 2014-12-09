@@ -1,4 +1,4 @@
-canvas = require('./_canvas')
+pine = require('./_pine')
 errors = require('../errors/errors')
 
 # Get all environment variables by application
@@ -14,7 +14,7 @@ errors = require('../errors/errors')
 #			console.log(environmentVariables)
 #
 exports.getAllByApplication = (applicationId, callback) ->
-	return canvas.get
+	return pine.get
 		resource: 'environment_variable'
 		options:
 			filter:
@@ -40,7 +40,7 @@ exports.getAllByApplication = (applicationId, callback) ->
 #			throw error if error?
 #
 exports.remove = (id, callback) ->
-	return canvas.delete
+	return pine.delete
 		resource: 'environment_variable'
 		id: id
 	.then ->

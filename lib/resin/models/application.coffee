@@ -1,5 +1,5 @@
 _ = require('lodash-contrib')
-canvas = require('./_canvas')
+pine = require('./_pine')
 errors = require('../errors/errors')
 server = require('../server/server')
 settings = require('../settings')
@@ -16,7 +16,7 @@ settings = require('../settings')
 #			console.log(applications)
 #
 exports.getAll = (callback) ->
-	return canvas.get
+	return pine.get
 		resource: 'application'
 		options:
 			orderby: 'app_name asc'
@@ -43,7 +43,7 @@ exports.getAll = (callback) ->
 #			console.log(application)
 #
 exports.get = (id, callback) ->
-	return canvas.get
+	return pine.get
 		resource: 'application'
 		id: id
 
@@ -70,7 +70,7 @@ exports.get = (id, callback) ->
 #			console.log(id)
 #
 exports.create = (name, deviceType, callback) ->
-	return canvas.post
+	return pine.post
 		resource: 'application'
 		data:
 			app_name: name
@@ -97,7 +97,7 @@ exports.create = (name, deviceType, callback) ->
 #			throw error if error?
 #
 exports.remove = (id, callback) ->
-	return canvas.delete
+	return pine.delete
 		resource: 'application'
 		id: id
 	.then ->

@@ -44,7 +44,7 @@
     "rimraf": "~2.2.8",
     "commander": "~2.5.0",
     "mkdirp": "~0.5.0",
-    "resin-platform-api": "git+ssh://git@bitbucket.org/rulemotion/pinejs-client-js.git#6dbc6de",
+    "pinejs-client-js": "git+ssh://git@bitbucket.org/rulemotion/pinejs-client-js.git",
     "bluebird": "~2.3.11",
     "open": "0.0.5",
     "inquirer": "~0.8.0",
