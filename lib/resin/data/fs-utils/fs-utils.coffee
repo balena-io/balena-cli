@@ -1,4 +1,3 @@
-fs = require('fs')
 _ = require('lodash')
 
 # Check if valid path
