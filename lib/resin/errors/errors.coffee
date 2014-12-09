@@ -48,6 +48,36 @@ exports.InvalidCredentials = class InvalidCredentials extends TypedError
 	# Error code
 	code: 1
 
+exports.InvalidKey = class InvalidKey extends TypedError
+
+	# Construct an Invalid Key error
+	#
+	# @example Invalid key error
+	#		throw new resin.errors.InvalidKey()
+	#		Error: Invalid key
+	#
+	constructor: ->
+		@message = 'Invalid key'
+
+	# Error code
+	code: 1
+
+exports.InvalidPath = class InvalidPath extends TypedError
+
+	# Construct an Invalid Path error
+	#
+	# @param {String} path the name of the invalid path
+	#
+	# @example Invalid path error
+	#		throw new resin.errors.InvalidPath('/tmp')
+	#		Error: Invalid path: /tmp
+	#
+	constructor: (path) ->
+		@message = "Invalid path: #{path}"
+
+	# Error code
+	code: 1
+
 exports.NotAny = class NotAny extends TypedError
 
 	# Construct an Not Any error

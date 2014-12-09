@@ -239,3 +239,8 @@ describe 'Data:', ->
 				], (error) ->
 					expect(error).to.not.exist
 					done()
+
+			it 'should return an error if key is invalid', (done) ->
+				data.remove [ 1, 2, 3 ], (error) ->
+					expect(error).to.be.an.instanceof(Error)
+					done()

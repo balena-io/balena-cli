@@ -1,7 +1,8 @@
+_ = require('lodash')
 fs = require('fs')
 path = require('path')
 rimraf = require('rimraf')
-fsUtils = require('./fs-utils/fs-utils')
+errors = require('../errors/errors')
 exports.prefix = require('./data-prefix')
 
 # TODO: codo doesn't recognises functions in this file
@@ -16,13 +17,11 @@ haltIfNoPrefix = (callback) ->
 
 # @nodoc
 constructPath = (key) ->
+	if not _.isString(key)
+		throw new errors.InvalidKey()
+
 	prefix = exports.prefix.get()
-	result = path.join(prefix, key)
-
-	if not fsUtils.isValidPath(result)
-		throw new Error('Invalid path')
-
-	return result
+	return path.join(prefix, key)
 
 # Get data by key
 #
@@ -142,5 +141,9 @@ exports.has = haltIfNoPrefix (key, callback) ->
 #			throw error if error?
 #
 exports.remove = haltIfNoPrefix (key, callback) ->
-	keyPath = constructPath(key)
+	try
+		keyPath = constructPath(key)
+	catch error
+		return callback(error)
+
 	rimraf(keyPath, callback)

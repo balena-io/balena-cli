@@ -1,5 +1,6 @@
+_ = require('lodash')
 mkdirp = require('mkdirp')
-fsUtils = require('./fs-utils/fs-utils')
+errors = require('../errors/errors')
 
 # @nodoc
 prefix = null
@@ -26,8 +27,8 @@ exports.get = ->
 #			throw error if error?
 #
 exports.set = (newPrefix, callback) ->
-	if not fsUtils.isValidPath(newPrefix)
-		return callback?(new Error('Invalid path'))
+	if not _.isString(newPrefix)
+		return callback?(new errors.InvalidPath(newPrefix))
 
 	mkdirp newPrefix, (error) ->
 		return callback?(error) if error?
