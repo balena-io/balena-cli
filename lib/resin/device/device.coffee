@@ -23,6 +23,8 @@ exports.getDisplayName = (device) ->
 			return key
 	return 'Unknown'
 
+# TODO: Use _.slugify
+
 # Get device slug
 #
 # @param {String} device device name

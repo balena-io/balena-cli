@@ -2,6 +2,7 @@ url = require('url')
 _ = require('lodash')
 resin = require('../resin')
 
+# TODO: Use _.chop from underscore.string
 exports.formatLongString = (string, n) ->
 	return string if not n?
 	splitRegexp = new RegExp(".{1,#{n}}", 'g')
