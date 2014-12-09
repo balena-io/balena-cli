@@ -1,6 +1,8 @@
+os = require('os')
 chai = require('chai')
 chai.use(require('chai-string'))
 expect = chai.expect
+path = require('path')
 helpers = require('./helpers')
 
 describe 'Helpers:', ->
@@ -8,10 +10,10 @@ describe 'Helpers:', ->
 	describe '#prefixObjectWithPath()', ->
 
 		it 'should add the path to every value', ->
-			prefix = '/resin'
+			prefix = "#{path.sep}resin"
 			object =
 				first: 'first'
-				second: './second'
+				second: ".#{path.sep}second"
 
 			result = helpers.prefixObjectValuesWithPath(prefix, object)
 
@@ -19,12 +21,20 @@ describe 'Helpers:', ->
 				expect(value).to.startsWith(prefix)
 
 		it 'should not add the prefix if the paths are absolute', ->
-			prefix = '/resin'
-			object =
-				first: '/first'
-				second: '/home/second'
-				third: '/usr/share/resin'
-				fourth: '/'
+			prefix = "#{path.sep}resin"
+
+			if os.platform() is 'win32'
+				object =
+					first: 'C:\\first'
+					second: 'C:\\Users\\me'
+					third: 'C:\\'
+
+			else
+				object =
+					first: '/first'
+					second: '/home/second'
+					third: '/usr/share/resin'
+					fourth: '/'
 
 			result = helpers.prefixObjectValuesWithPath(prefix, object)
 			expect(result).to.deep.equal(object)
