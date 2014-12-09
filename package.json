@@ -44,7 +44,7 @@
     "rimraf": "~2.2.8",
     "commander": "~2.5.0",
     "mkdirp": "~0.5.0",
-    "resin-platform-api": "git+ssh://git@bitbucket.org/rulemotion/resin-platform-api.git#6dbc6de",
+    "resin-platform-api": "git+ssh://git@bitbucket.org/rulemotion/pinejs-client-js.git#6dbc6de",
     "bluebird": "~2.3.11",
     "open": "0.0.5",
     "inquirer": "~0.8.0",
@@ -59,6 +59,7 @@
     "progress-bar": "~0.1.1",
     "progress": "~1.1.8",
     "user-home": "~1.1.0",
-    "fs-plus": "~2.3.2"
+    "fs-plus": "~2.3.2",
+    "lodash-contrib": "~241.4.14"
   }
 }
