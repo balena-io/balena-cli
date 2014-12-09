@@ -2,7 +2,6 @@ _ = require('lodash')
 resin = require('./resin')
 packageJSON = require('../package.json')
 actions = require('./actions')
-pluginLoader = require('./plugin-loader/plugin-loader')
 cli = require('./cli/cli')
 
 cli.setVersion(packageJSON.version)
