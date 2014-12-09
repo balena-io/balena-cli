@@ -1,4 +1,5 @@
 _ = require('lodash')
+sinon = require('sinon')
 chai = require('chai')
 chai.use(require('chai-string'))
 expect = chai.expect

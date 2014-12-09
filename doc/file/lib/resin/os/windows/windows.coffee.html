@@ -3,15 +3,15 @@
   <head>
   <meta charset='UTF-8'>
   <title>CoffeeScript API Documentation</title>
-  <script src='../../../../javascript/application.js'></script>
-  <script src='../../../../javascript/search.js'></script>
-  <link rel='stylesheet' href='../../../../stylesheets/application.css' type='text/css'>
+  <script src='../../../../../javascript/application.js'></script>
+  <script src='../../../../../javascript/search.js'></script>
+  <link rel='stylesheet' href='../../../../../stylesheets/application.css' type='text/css'>
 </head>
   <body>
-    <div id='base' data-path='../../../../'></div>
+    <div id='base' data-path='../../../../../'></div>
 <div id='header'>
   <div id='menu'>
-    <a href='../../../../alphabetical_index.html' title='Index'>
+    <a href='../../../../../alphabetical_index.html' title='Index'>
       Index
     </a>
     &raquo;
@@ -19,38 +19,38 @@
     &raquo;
     <span class='title'>resin</span>
     &raquo;
-    <span class='title'>helpers</span>
+    <span class='title'>os</span>
     &raquo;
-    <span class='title'>helpers.coffee</span>
+    <span class='title'>windows</span>
+    &raquo;
+    <span class='title'>windows.coffee</span>
   </div>
 </div>
     <div id='content'>
       <h1>
         File:
-        helpers.coffee
+        windows.coffee
       </h1>
       <table class='box'>
         <tr>
           <td>Defined in:</td>
-          <td>lib&#47;resin&#47;helpers</td>
+          <td>lib&#47;resin&#47;os&#47;windows</td>
         </tr>
       </table>
       <h2>Method Summary</h2>
       <ul class='summary'>
   <li>
     <span class='signature'>
-      <a href='#prefixObjectValuesWithPath-'>
+      <a href='#parseWmicDiskDriveGet-'>
         ~
-(void)
-<b>prefixObjectValuesWithPath</b><span>(prefix, object)</span>
+(Object)
+<b>parseWmicDiskDriveGet</b><span>(output)</span>
       </a>
     </span>
     <span class='note private title'>Private</span>
     <span class='desc'>
-      Prefix relative value paths with another path <pre><code>object =    dataPrefix: &#39;resin&#39;
-
-object = prefixObjectValuesWithPath(&#39;/opt&#39;, object)
-console.log(object.dataPrefix)
+      Parse wmic diskdrive get output <pre><code>result = resin.os.windows.parseWmicDiskDriveGet(output)
+for item in result    console.log(&quot;#{item.id} - #{item.caption}&quot;)
 </code></pre>
     </span>
   </li>
@@ -58,46 +58,45 @@ console.log(object.dataPrefix)
       <h2>Method Details</h2>
       <div class='methods'>
   <div class='method_details'>
-    <p class='signature' id='prefixObjectValuesWithPath-'>
+    <p class='signature' id='parseWmicDiskDriveGet-'>
       ~
-(void)
-<b>prefixObjectValuesWithPath</b><span>(prefix, object)</span>
+(Object)
+<b>parseWmicDiskDriveGet</b><span>(output)</span>
       <span class='note private'>Private</span>
       <br>
     </p>
     <div class='docstring'>
   <div class='note'>
     <strong>Note:</strong>
-    Absolute values will be omitted 
+    This only parses output from <code>wmic diskdrive get DeviceID, Caption</code> 
   </div>
-  <p>Prefix relative value paths with another path</p><pre><code>object =    dataPrefix: &#39;resin&#39;
-
-object = prefixObjectValuesWithPath(&#39;/opt&#39;, object)
-console.log(object.dataPrefix) # /opt/resin
+  <p>Parse wmic diskdrive get output</p><pre><code>result = resin.os.windows.parseWmicDiskDriveGet(output)
+for item in result    console.log(&quot;#{item.id} - #{item.caption}&quot;)
 </code></pre>
 </div>
 <div class='tags'>
   <h3>Parameters:</h3>
   <ul class='param'>
     <li>
-      <span class='name'>prefix</span>
+      <span class='name'>output</span>
       <span class='type'>
         (
           <tt>String</tt>
         )
       </span>
       &mdash;
-      <span class='desc'>path prefix </span>
+      <span class='desc'>wmic diskdrive get DeviceID, Caption output </span>
     </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
     <li>
-      <span class='name'>object</span>
-      <span class='type'>
-        (
-          <tt>Object</tt>
-        )
-      </span>
+      <span class='type'></span>
+      (
+        <tt>Object</tt>
+      )
       &mdash;
-      <span class='desc'>object containing relative paths as values </span>
+      <span class='desc'>parsed result containing id and caption </span>
     </li>
   </ul>
 </div>
