@@ -19,10 +19,14 @@ $ npm install -g
 ### If you want to run it locally:
 
 ```sh
-$ coffee lib/app.coffee
+$ ./bin/resin
 ```
 
-**Note:** Alternatively, you can run `bin/resin`. In that case, you first need to compile the project with `gulp build`. This will change in the future.
+Or:
+
+```sh
+$ coffee lib/app.coffee
+```
 
 ## Tests
 

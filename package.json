@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Git Push to your devices",
   "main": "./lib/app.js",
+	"preferGlobal": true,
   "bin": {
     "resin": "./bin/resin"
   },
@@ -60,6 +61,7 @@
     "progress": "~1.1.8",
     "user-home": "~1.1.0",
     "fs-plus": "~2.3.2",
-    "lodash-contrib": "~241.4.14"
+    "lodash-contrib": "~241.4.14",
+    "coffee-script": "~1.8.0"
   }
 }

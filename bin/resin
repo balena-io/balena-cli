@@ -1,2 +1,5 @@
 #!/usr/bin/env node
-require('../build/app');
+
+// http://coffeescript.org/documentation/docs/register.html
+require('coffee-script/register')
+require('../lib/app.coffee')
