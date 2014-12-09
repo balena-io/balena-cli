@@ -3,7 +3,11 @@
   "version": "0.0.1",
   "description": "Git Push to your devices",
   "main": "./lib/app.js",
-	"preferGlobal": true,
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:rulemotion/resin-cli.git"
+  },
+  "preferGlobal": true,
   "bin": {
     "resin": "./bin/resin"
   },
