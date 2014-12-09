@@ -19,7 +19,7 @@ TOKEN_KEY = 'token'
 #			throw error if error?
 #
 exports.saveToken = (newToken, callback) ->
-	data.set(TOKEN_KEY, newToken, encoding: 'utf8', callback)
+	data.setText(TOKEN_KEY, newToken, callback)
 
 # Check if we have any token saved
 #
@@ -48,7 +48,7 @@ exports.hasToken = (callback) ->
 #				console.log("My token is: #{token}")
 #
 exports.getToken = (callback) ->
-	data.get(TOKEN_KEY, encoding: 'utf8', callback)
+	data.getText(TOKEN_KEY, callback)
 
 # Remove token from the filesystem
 #

@@ -47,9 +47,8 @@
     </span>
     <span class='note private title'>Private</span>
     <span class='desc'>
-      Authenticate with the server <p>resin.auth.authenticate credentials, (error, token) -&gt;
-    throw error if error?
-    console.log(token)</p>
+      Authenticate with the server <pre><code>resin.auth.authenticate credentials, (error, token) -&gt;    throw error if error?    console.log(token)
+</code></pre>
     </span>
   </li>
   <li>
@@ -135,9 +134,8 @@
     <strong>Note:</strong>
     You should use login() when possible, as it takes care of saving the token as well. 
   </div>
-  <p>Authenticate with the server</p><p>resin.auth.authenticate credentials, (error, token) -&gt;
-    throw error if error?
-    console.log(token)</p>
+  <p>Authenticate with the server</p><pre><code>resin.auth.authenticate credentials, (error, token) -&gt;    throw error if error?    console.log(token)
+</code></pre>
 </div>
 <div class='tags'>
   <h3>Parameters:</h3>
@@ -358,6 +356,10 @@
       <br>
     </p>
     <div class='docstring'>
+  <div class='note todo'>
+    <strong>TODO:</strong>
+    This should be moved somewhere else, as it only used by the auth actions 
+  </div>
   <p>Parse colon separated credentials</p><pre><code>resin.auth.parseCredentials &#39;johndoe:secret&#39;, (error, credentials) -&gt;    throw error if error?    console.log(credentials.username)    console.log(credentials.password)
 </code></pre>
 </div>
@@ -390,7 +392,7 @@
 </div>
     </div>
     <div id='footer'>
-  December 08, 14 10:08:42 by
+  December 09, 14 08:42:54 by
   <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
     Codo
   </a>

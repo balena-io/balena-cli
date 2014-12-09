@@ -1,6 +1,7 @@
 expect = require('chai').expect
 _ = require('lodash')
 fsPlus = require('fs-plus')
+sinon = require('sinon')
 mock = require('../../../tests/utils/mock')
 async = require('async')
 settings = require('../settings')
@@ -90,6 +91,29 @@ describe 'Data:', ->
 					expect(value).to.be.undefined
 					done()
 
+		describe '#getText()', ->
+
+			it 'should be able to read a valid key', (done) ->
+				data.getText FILESYSTEM.text.key, (error, value) ->
+					expect(error).to.not.exist
+					expect(value).to.equal(FILESYSTEM.text.contents)
+					done()
+
+			it 'should call get(), assumming utf8 encoding', (done) ->
+				mock.fs.restore()
+				dataGetSpy = sinon.spy(data, 'get')
+				mock.fs.init(FILESYSTEM)
+
+				key = FILESYSTEM.text.key
+
+				callback = (error, value) ->
+					expect(dataGetSpy).to.have.been.called
+					expect(dataGetSpy).to.have.been.calledWith(key, encoding: 'utf8', callback)
+					dataGetSpy.restore()
+					done()
+
+				data.getText(key, callback)
+
 		describe '#has()', ->
 
 			it 'should return true if a file exists', (done) ->
@@ -146,6 +170,24 @@ describe 'Data:', ->
 
 			it('should be able to write a file', writeAndCheckFixture(FILES_FIXTURES.hello))
 			it('should be able to write a nested file', writeAndCheckFixture(FILES_FIXTURES.nested))
+
+		describe '#setText()', ->
+
+			it 'should call set(), assumming utf8 encoding', (done) ->
+				mock.fs.restore()
+				dataSetSpy = sinon.spy(data, 'set')
+				mock.fs.init(FILESYSTEM)
+
+				key = FILESYSTEM.text.key
+				contents = 'Hello World'
+
+				callback = (error, value) ->
+					expect(dataSetSpy).to.have.been.called
+					expect(dataSetSpy).to.have.been.calledWith(key, contents, encoding: 'utf8', callback)
+					dataSetSpy.restore()
+					done()
+
+				data.setText(key, contents, callback)
 
 		describe '#remove()', ->
 

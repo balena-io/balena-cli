@@ -59,6 +59,23 @@ exports.get = haltIfNoPrefix (key, options, callback) ->
 		keyPath = constructPath(key)
 		fs.readFile(keyPath, options, callback)
 
+# Get data by key as text
+#
+# @param {String} key path relative to dataPrefix
+# @param {Function} callback callback(error, value)
+#
+# @throw {Error} Will throw if data prefix was not previously set
+#
+# @note This is the same as get(), however it assumes utf8 encoding.
+#
+# @example Get text data
+#		resin.data.getText 'myTextFile', (error, data) ->
+#			throw error if error?
+#			console.log(data)
+#
+exports.getText = haltIfNoPrefix (key, callback) ->
+	exports.get(key, encoding: 'utf8', callback)
+
 # Set/Update a data resource
 #
 # @param {String} key path relative to dataPrefix
@@ -78,6 +95,23 @@ exports.get = haltIfNoPrefix (key, options, callback) ->
 exports.set = haltIfNoPrefix (key, value, options, callback) ->
 	keyPath = constructPath(key)
 	fs.writeFile(keyPath, value, options, callback)
+
+# Set/Update a data resource as text
+#
+# @param {String} key path relative to dataPrefix
+# @param {String, Buffer} value key value
+# @param {Function} callback callback(error)
+#
+# @throw {Error} Will throw if data prefix was not previously set
+#
+# @note This is the same as set(), however it assumes utf8 encoding.
+#
+# @example Set text data
+#		resin.data.setText 'greeting/en', 'Hello World!', (error) ->
+#			throw error if error?
+#
+exports.setText = haltIfNoPrefix (key, value, callback) ->
+	exports.set(key, value, encoding: 'utf8', callback)
 
 # Check if value exists
 #
