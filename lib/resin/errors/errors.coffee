@@ -109,8 +109,11 @@ exports.NotAny = class NotAny extends TypedError
 exports.handle = (error, exit = true) ->
 	return if not error? or error not instanceof Error
 
-	if error.message?
-		log.error(error.message)
+	if process.env.DEBUG
+		log.error(error.stack)
+	else
+		if error.message?
+			log.error(error.message)
 
 	if _.isNumber(error.code)
 		errorCode = error.code

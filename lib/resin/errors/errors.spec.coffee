@@ -34,7 +34,7 @@ describe 'Errors:', ->
 			processExitStub = sinon.stub(process, 'exit')
 			logErrorStub = sinon.stub(log, 'error')
 			errors.handle(error, value)
-			expectations(processExitStub)
+			expectations(processExitStub, logErrorStub)
 			processExitStub.restore()
 			logErrorStub.restore()
 
@@ -53,6 +53,14 @@ describe 'Errors:', ->
 			error.code = 123
 			checkProcessExitOption error, true, (processExitStub) ->
 				expect(processExitStub).to.have.been.calledWith(123)
+
+		it 'should print stack trace if DEBUG is set', ->
+			process.env.DEBUG = true
+			error = new Error()
+			checkProcessExitOption error, false, (processExitStub, logErrorStub) ->
+				expect(logErrorStub).to.have.been.calledOnce
+				expect(logErrorStub).to.have.been.calledWith(error.stack)
+				delete process.env.DEBUG
 
 	describe 'NotFound', ->
 

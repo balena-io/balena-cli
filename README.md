@@ -44,6 +44,12 @@ The following command will watch for any changes and will run a linter and the w
 $ gulp watch
 ```
 
+If you set `DEBUG` environment variable, errors will print with a stack trace:
+
+```sh
+$ DEBUG=true resin ...
+```
+
 ## Documentation
 
 You can renegerate the documentation with:
