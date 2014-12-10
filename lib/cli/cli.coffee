@@ -90,6 +90,7 @@ exports.parse = (argv) ->
 	# Matches unknown commands
 	exports.addCommand
 		command: '*'
+		description: ''
 		action: ->
 			program.outputHelp()
 
