@@ -244,3 +244,7 @@ describe 'Data:', ->
 				data.remove [ 1, 2, 3 ], (error) ->
 					expect(error).to.be.an.instanceof(Error)
 					done()
+
+			it 'should not throw an error if no callback is passed', ->
+				func = _.partial(data.remove, FILESYSTEM.directory.key)
+				expect(func).to.not.throw(Error)

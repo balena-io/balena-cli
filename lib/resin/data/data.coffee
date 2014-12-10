@@ -140,7 +140,7 @@ exports.has = haltIfNoPrefix (key, callback) ->
 #		resin.data.remove 'token', (error) ->
 #			throw error if error?
 #
-exports.remove = haltIfNoPrefix (key, callback) ->
+exports.remove = haltIfNoPrefix (key, callback = _.noop) ->
 	try
 		keyPath = constructPath(key)
 	catch error
