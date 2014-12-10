@@ -87,9 +87,14 @@ exports.addResource = (options = {}) ->
 
 exports.parse = (argv) ->
 
+	# Matches unknown commands
 	exports.addCommand
 		command: '*'
 		action: ->
 			program.outputHelp()
 
 	program.parse(argv)
+
+	# Show help if no command is passed
+	if _.isEmpty(program.args)
+		program.outputHelp()

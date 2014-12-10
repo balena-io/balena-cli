@@ -58,4 +58,3 @@ This should ideally be part of `gulp`, however there doesn't seems to be any plu
 
 - Some interactive widgets don't work on [Cygwin](https://cygwin.com/). If you're running Windows, it's preferrable that you use `cmd.exe`.
 - Most commands require an `<id>` argument, however [Commander](https://github.com/tj/commander.js) refuses to show that in the help page. This will be fixed soon.
-- If you make a typo when writing a command, or run the app without any command, nothing is shown. This will be fixed soon.
