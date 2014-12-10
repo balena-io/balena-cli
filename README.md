@@ -58,7 +58,17 @@ You can renegerate the documentation with:
 $ npm run-script doc
 ```
 
-This should ideally be part of `gulp`, however there doesn't seems to be any plugin for the documentation generation tool that we're using at the moment ([codo](https://github.com/coffeedoc/codo)).
+## Manual pages
+
+UNIX manual pages reside in `doc/`
+
+You can regenerate UNIX `roff` manual pages from markdown with:
+
+```sh
+$ npm run-script man
+```
+
+If you add a new `man` page, remember to add the `roff` filename to the `man` array in `package.json`.
 
 ## Caveats
 

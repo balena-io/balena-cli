@@ -8,11 +8,15 @@
     "url": "git@bitbucket.org:rulemotion/resin-cli.git"
   },
   "preferGlobal": true,
+  "man": [
+    "./doc/resin.1.roff"
+  ],
   "bin": {
     "resin": "./bin/resin"
   },
   "scripts": {
     "test": "cult test",
+    "man": "ronn --build --roff doc/*.md",
     "doc": "codo -o ./doc/codo `find lib/resin -name \"*.coffee\" | grep -v \"spec.coffee$\"`"
   },
   "keywords": [
@@ -40,7 +44,8 @@
     "gulp-util": "~3.0.1",
     "run-sequence": "~1.0.2",
     "chai-string": "~1.1.0",
-    "codo": "~2.0.9"
+    "codo": "~2.0.9",
+    "ronn": "~0.4.0"
   },
   "dependencies": {
     "request": "~2.47.0",
