@@ -86,4 +86,10 @@ exports.addResource = (options = {}) ->
 			permission: options.permission
 
 exports.parse = (argv) ->
+
+	exports.addCommand
+		command: '*'
+		action: ->
+			program.outputHelp()
+
 	program.parse(argv)
