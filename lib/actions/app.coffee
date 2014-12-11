@@ -1,5 +1,6 @@
 _ = require('lodash')
 async = require('async')
+gitCli = require('git-cli')
 resin = require('../resin')
 cli = require('../cli/cli')
 ui = require('../ui')
@@ -59,3 +60,18 @@ exports.remove = (id) ->
 	ui.patterns.remove 'application', confirmArgument, (callback) ->
 		resin.models.application.remove(id, callback)
 	, resin.errors.handle
+
+exports.init = (id) ->
+
+	async.waterfall [
+
+		(callback) ->
+			resin.models.application.get(id, callback)
+
+		(application, callback) ->
+			path = require('path')
+			repository = new gitCli.Repository(path.join(process.cwd(), '.git'))
+			repository.addRemote('resin', application.git_repository, callback)
+
+	], (error) ->
+		resin.errors.handle(error) if error?

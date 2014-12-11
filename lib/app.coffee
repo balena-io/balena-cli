@@ -84,6 +84,12 @@ cli.addCommand
 	action: actions.app.restart
 	permission: 'user'
 
+cli.addCommand
+	command: 'init <id>'
+	description: 'init an application'
+	action: actions.app.init
+	permission: 'user'
+
 # ---------- Device Module ----------
 cli.addResource
 	name: 'device'
