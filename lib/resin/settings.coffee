@@ -2,7 +2,7 @@ path = require('path')
 userHome = require('user-home')
 helpers = require('./helpers/helpers')
 
-CliConf = require('../cli-conf/cli-conf')
+ConfJS = require('conf.js')
 
 settings =
 	remoteUrl: 'https://staging.resin.io'
@@ -42,7 +42,7 @@ settings =
 settings.directories = helpers.prefixObjectValuesWithPath(settings.dataPrefix, settings.directories)
 settings.files = helpers.prefixObjectValuesWithPath(settings.dataPrefix, settings.files)
 
-module.exports = new CliConf
+module.exports = new ConfJS
 	keys:
 		userConfig: 'files.config'
 		localConfig: 'localConfig'
