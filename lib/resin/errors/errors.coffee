@@ -78,6 +78,22 @@ exports.InvalidPath = class InvalidPath extends TypedError
 	# Error code
 	code: 1
 
+exports.DirectoryDoesntExist = class DirectoryDoesntExist extends TypedError
+
+	# Construct a Directory Doesn't Exist error
+	#
+	# @param {String} directory the name of the directory that doesn't exist
+	#
+	# @example Directory doesn't exist error
+	#		throw new resin.errors.DirectoryDoesntExist('/tmp')
+	#		Error: Directory doesn't exist: /tmp
+	#
+	constructor: (directory) ->
+		@message = "Directory doesn't exist: #{directory}"
+
+	# Error code
+	code: 1
+
 exports.NotAny = class NotAny extends TypedError
 
 	# Construct an Not Any error

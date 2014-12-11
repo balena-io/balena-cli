@@ -11,6 +11,7 @@ settings =
 	dataPrefix: path.join(userHome, '.resin')
 
 	sshKeyWidth: 43
+	gitRemote: 'resin'
 
 	directories:
 		plugins: 'plugins'

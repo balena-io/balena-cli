@@ -8,4 +8,5 @@ module.exports =
 	auth: require('./auth/auth')
 	device: require('./device/device')
 	os: require('./os/os')
+	vcs: require('./vcs/vcs')
 	settings: require('./settings')
