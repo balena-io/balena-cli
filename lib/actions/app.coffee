@@ -63,15 +63,24 @@ exports.remove = (id) ->
 
 exports.init = (id) ->
 
+	currentDirectory = process.cwd()
+
 	async.waterfall [
+
+		(callback) ->
+			resin.vcs.wasInitialized(currentDirectory, callback)
+
+		(wasInitialized, callback) ->
+			if wasInitialized
+				error = new Error('Project is already a resin application.')
+				return callback(error)
+			return callback()
 
 		(callback) ->
 			resin.models.application.get(id, callback)
 
 		(application, callback) ->
-			path = require('path')
-			repository = new gitCli.Repository(path.join(process.cwd(), '.git'))
-			repository.addRemote('resin', application.git_repository, callback)
+			resin.vcs.initApplication(application, currentDirectory, callback)
 
 	], (error) ->
 		resin.errors.handle(error) if error?
