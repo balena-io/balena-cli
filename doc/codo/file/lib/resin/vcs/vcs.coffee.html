@@ -23,124 +23,69 @@
     &raquo;
     <span class='title'>resin</span>
     &raquo;
-    <span class='title'>models</span>
+    <span class='title'>vcs</span>
     &raquo;
-    <span class='title'>environment-variables.coffee</span>
+    <span class='title'>vcs.coffee</span>
   </div>
 </div>
     <div id='content'>
       <h1>
         File:
-        environment-variables.coffee
+        vcs.coffee
       </h1>
       <table class='box'>
         <tr>
           <td>Defined in:</td>
-          <td>lib&#47;resin&#47;models</td>
+          <td>lib&#47;resin&#47;vcs</td>
         </tr>
       </table>
-      <h2>Method Summary</h2>
-      <ul class='summary'>
-  <li>
-    <span class='signature'>
-      <a href='#getAllByApplication-'>
-        ~
-(void)
-<b>getAllByApplication</b><span>(applicationId, callback)</span>
-      </a>
-    </span>
-    <span class='desc'>
-      Get all environment variables by application <pre><code>resin.models.environmentVariables.getAll (error, environmentVariables) -&gt;    throw error if error?    console.log(environmentVariables)
-</code></pre>
-    </span>
-  </li>
-  <li>
-    <span class='signature'>
-      <a href='#remove-'>
-        ~
-(void)
-<b>remove</b><span>(id, callback)</span>
-      </a>
-    </span>
-    <span class='desc'>
-      Remove environment variable <pre><code>resin.models.environmentVariables.remove 51, (error) -&gt;    throw error if error?
-</code></pre>
-    </span>
-  </li>
-</ul>
-      <h2>Method Details</h2>
-      <div class='methods'>
-  <div class='method_details'>
-    <p class='signature' id='getAllByApplication-'>
-      ~
-(void)
-<b>getAllByApplication</b><span>(applicationId, callback)</span>
-      <br>
-    </p>
+      <h2>Variables Summary</h2>
+      <dl class='constants'>
+  <dt id='exports.initProjectWithApplication-variable'>
+    exports.initProjectWithApplication
+    =
+  </dt>
+  <dd>
+    <pre><code class='coffeescript'>git</code></pre>
     <div class='docstring'>
-  <p>Get all environment variables by application</p><pre><code>resin.models.environmentVariables.getAll (error, environmentVariables) -&gt;    throw error if error?    console.log(environmentVariables)
-</code></pre>
-</div>
-<div class='tags'>
-  <h3>Parameters:</h3>
-  <ul class='param'>
-    <li>
-      <span class='name'>applicationId</span>
-      <span class='type'>
-        (
-          <tt>String, Number</tt>
-        )
-      </span>
-      &mdash;
-      <span class='desc'>application id </span>
-    </li>
-    <li>
-      <span class='name'>callback</span>
-      <span class='type'>
-        (
-          <tt>Function</tt>
-        )
-      </span>
-      &mdash;
-      <span class='desc'>callback(error, environmentVariables) </span>
-    </li>
-  </ul>
-  <h3>Throws:</h3>
-  <ul class='throw'>
-    <li>
-      <span class='type'></span>
-      (
-        <tt><a href='../../../../class/NotFound.html'>NotFound</a></tt>
-      )
-      &mdash;
-      <span class='desc'>Will throw if no environment variable was found </span>
-    </li>
-  </ul>
-</div>
+  <div class='note todo'>
+    <strong>TODO:</strong>
+    This function should be better tested 
   </div>
-  <div class='method_details'>
-    <p class='signature' id='remove-'>
-      ~
-(void)
-<b>remove</b><span>(id, callback)</span>
-      <br>
-    </p>
-    <div class='docstring'>
-  <p>Remove environment variable</p><pre><code>resin.models.environmentVariables.remove 51, (error) -&gt;    throw error if error?
+  <div class='note'>
+    <strong>Note:</strong>
+    The directory should already be a git repo (maybe we should take care of git init as well here if necessary?) 
+  </div>
+  <p>Initialize an application project</p><ul>
+<li>Add the corresponding git remote.</li>
+</ul>
+<pre><code>resin.models.application.get 91, (error, application) -&gt;    throw error if error?
+resin.vcs.initProjectWithApplication application, &#39;my/new/project&#39;, (error) -&gt;
+        throw error if error?
 </code></pre>
 </div>
 <div class='tags'>
   <h3>Parameters:</h3>
   <ul class='param'>
     <li>
-      <span class='name'>id</span>
+      <span class='name'>application</span>
       <span class='type'>
         (
-          <tt>String, Number</tt>
+          <tt>Object</tt>
         )
       </span>
       &mdash;
-      <span class='desc'>environment variable id </span>
+      <span class='desc'>an application from resin API </span>
+    </li>
+    <li>
+      <span class='name'>directory</span>
+      <span class='type'>
+        (
+          <tt>String</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>the directory to initialize </span>
     </li>
     <li>
       <span class='name'>callback</span>
@@ -153,9 +98,62 @@
       <span class='desc'>callback(error) </span>
     </li>
   </ul>
+  <h3>Throws:</h3>
+  <ul class='throw'>
+    <li>
+      <span class='type'></span>
+      (
+        <tt>Error</tt>
+      )
+      &mdash;
+      <span class='desc'>Will throw if application is not a valid application </span>
+    </li>
+  </ul>
 </div>
+  </dd>
+  <dt id='exports.isResinProject-variable'>
+    exports.isResinProject
+    =
+  </dt>
+  <dd>
+    <pre><code class='coffeescript'>git</code></pre>
+    <div class='docstring'>
+  <div class='note todo'>
+    <strong>TODO:</strong>
+    Find a way to test this function 
   </div>
+  <p>Check if an application was already initialized</p><p>It checks if we have a resin remote added already.</p><pre><code>resin.vcs.isResinProject &#39;my/resin/app&#39;, (error, initialized) -&gt;    if initialized
+        console.log(&#39;It\&#39;s already a resin app!&#39;)    else
+        console.log(&#39;It\&#39;s just a boring project! It should be resinified!&#39;)
+</code></pre>
 </div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>directory</span>
+      <span class='type'>
+        (
+          <tt>String</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>the directory </span>
+    </li>
+    <li>
+      <span class='name'>callback</span>
+      <span class='type'>
+        (
+          <tt>Function</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>callback(error, isResinProject) </span>
+    </li>
+  </ul>
+</div>
+  </dd>
+</dl>
     </div>
     <div id='footer'>
   December 12, 14 09:26:32 by

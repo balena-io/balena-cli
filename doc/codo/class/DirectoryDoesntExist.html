@@ -3,83 +3,88 @@
   <head>
   <meta charset='UTF-8'>
   <title>CoffeeScript API Documentation</title>
-  <script src='../../../javascript/application.js'></script>
-  <script src='../../../javascript/search.js'></script>
-  <link rel='stylesheet' href='../../../stylesheets/application.css' type='text/css'>
+  <script src='../javascript/application.js'></script>
+  <script src='../javascript/search.js'></script>
+  <link rel='stylesheet' href='../stylesheets/application.css' type='text/css'>
 </head>
   <body>
-    <div id='base' data-path='../../../'></div>
+    <div id='base' data-path='../'></div>
 <div id='header'>
   <div id='menu'>
-    <a href='../../../extra/README.md.html' title='Resin'>
+    <a href='../extra/README.md.html' title='Resin'>
       Resin
     </a>
     &raquo;
-    <a href='../../../alphabetical_index.html' title='Index'>
+    <a href='../alphabetical_index.html' title='Index'>
       Index
     </a>
     &raquo;
-    <span class='title'>lib</span>
-    &raquo;
-    <span class='title'>resin</span>
-    &raquo;
-    <span class='title'>settings.coffee</span>
+    <span class='title'>DirectoryDoesntExist</span>
   </div>
 </div>
     <div id='content'>
       <h1>
-        File:
-        settings.coffee
+        Class:
+        DirectoryDoesntExist
       </h1>
       <table class='box'>
         <tr>
           <td>Defined in:</td>
-          <td>lib&#47;resin</td>
+          <td>lib&#47;resin&#47;errors&#47;errors.coffee</td>
+        </tr>
+        <tr>
+          <td>Inherits:</td>
+          <td>
+            TypedError
+          </td>
         </tr>
       </table>
       <h2>Variables Summary</h2>
       <dl class='constants'>
-  <dt id='settings-variable'>
-    settings
+  <dt id='code-variable'>
+    code
     =
   </dt>
   <dd>
-    <pre><code class='coffeescript'>{
-  remoteUrl: &#39;https:&#47;&#47;staging.resin.io&#39;,
-  apiPrefix: &#39;&#47;ewa&#47;&#39;,
-  dataPrefix: path.join(userHome, &#39;.resin&#39;),
-  sshKeyWidth: 43,
-  gitRemote: &#39;resin&#39;,
-  directories: {
-    plugins: &#39;plugins&#39;,
-    os: &#39;os&#39;
-  },
-  localConfig: &#39;.resinconf&#39;,
-  files: {
-    config: &#39;config&#39;
-  },
-  pubnub: {
-    subscribe_key: &#39;sub-c-bbc12eba-ce4a-11e3-9782-02ee2ddab7fe&#39;,
-    publish_key: &#39;pub-c-6cbce8db-bfd1-4fdf-a8c8-53671ae2b226&#39;,
-    ssl: true
-  },
-  events: {
-    deviceLogs: &#39;device-&lt;%= uuid %&gt;-logs&#39;
-  },
-  urls: {
-    signup: &#39;&#47;signup&#39;,
-    preferences: &#39;&#47;preferences&#39;,
-    keys: &#39;&#47;user&#47;keys&#39;,
-    identify: &#39;&#47;blink&#39;,
-    authenticate: &#39;&#47;login_&#39;,
-    applicationRestart: &#39;&#47;application&#47;&lt;%= id %&gt;&#47;restart&#39;,
-    sshKey: &#39;&#47;user&#47;keys&#47;&lt;%= id %&gt;&#39;,
-    download: &#39;&#47;download&#39;
-  }
-}</code></pre>
-    
+    <pre><code class='coffeescript'>1</code></pre>
+    <div class='docstring'>
+  <p>Error code</p>
+</div>
+<div class='tags'>
+</div>
   </dd>
 </dl>
+      <h2>Constructor Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='constructor-dynamic'>
+      #
+(void)
+<b>constructor</b><span>(directory)</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Construct a Directory Doesn&#39;t Exist error</p><pre><code>throw new resin.errors.DirectoryDoesntExist(&#39;/tmp&#39;)
+Error: Directory doesn&#39;t exist: /tmp
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>directory</span>
+      <span class='type'>
+        (
+          <tt>String</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>the name of the directory that doesn&#39;t exist </span>
+    </li>
+  </ul>
+</div>
+  </div>
+</div>
     </div>
     <div id='footer'>
   December 12, 14 09:26:32 by

@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset='UTF-8'>
+  <title>CoffeeScript API Documentation</title>
+  <script src='../../../../../javascript/application.js'></script>
+  <script src='../../../../../javascript/search.js'></script>
+  <link rel='stylesheet' href='../../../../../stylesheets/application.css' type='text/css'>
+</head>
+  <body>
+    <div id='base' data-path='../../../../../'></div>
+<div id='header'>
+  <div id='menu'>
+    <a href='../../../../../extra/README.md.html' title='Resin'>
+      Resin
+    </a>
+    &raquo;
+    <a href='../../../../../alphabetical_index.html' title='Index'>
+      Index
+    </a>
+    &raquo;
+    <span class='title'>lib</span>
+    &raquo;
+    <span class='title'>resin</span>
+    &raquo;
+    <span class='title'>vcs</span>
+    &raquo;
+    <span class='title'>git</span>
+    &raquo;
+    <span class='title'>git.coffee</span>
+  </div>
+</div>
+    <div id='content'>
+      <h1>
+        File:
+        git.coffee
+      </h1>
+      <table class='box'>
+        <tr>
+          <td>Defined in:</td>
+          <td>lib&#47;resin&#47;vcs&#47;git</td>
+        </tr>
+      </table>
+      <h2>Method Summary</h2>
+      <ul class='summary'>
+  <li>
+    <span class='signature'>
+      <a href='#getGitDirectory-'>
+        ~
+(String)
+<b>getGitDirectory</b><span>(directory)</span>
+      </a>
+    </span>
+    <span class='note private title'>Private</span>
+    <span class='desc'>
+      Get git directory for a certain path <p>By git directory, we mean the hidden .git folder that every git repository have</p><pre><code>result = getGitDirectory(&#39;/opt/projects/myapp&#39;)
+console.log(result)
+</code></pre>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#getCurrentGitDirectory-'>
+        ~
+(String)
+<b>getCurrentGitDirectory</b><span>()</span>
+      </a>
+    </span>
+    <span class='note private title'>Private</span>
+    <span class='desc'>
+      Get current git directory <p>Get the path to the .git directory in the current directory</p><pre><code>$ cd /Users/me/Projects/foobar &amp;&amp; resin ...
+</code></pre>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#isGitRepository-'>
+        ~
+(void)
+<b>isGitRepository</b><span>(directory, callback)</span>
+      </a>
+    </span>
+    <span class='note private title'>Private</span>
+    <span class='desc'>
+      Check if a directory is a git repository <pre><code>isGitRepository &#39;my/git/repo&#39;, (error, isGitRepository) -&gt;    throw error if error?    if isGitRepository
+        console.log(&#39;Yes, it\&#39;s a git repo!&#39;)    else
+        console.log(&#39;I should use git here!&#39;)
+</code></pre>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#getRepositoryInstance-'>
+        ~
+(void)
+<b>getRepositoryInstance</b><span>(directory, callback)</span>
+      </a>
+    </span>
+    <span class='note private title'>Private</span>
+    <span class='desc'>
+      Get repository instance <p>An instance of a <a href="https://github.com/tuvistavie/node-git-cli">gitCli</a> repository, for internal usage.</p>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#isValidGitApplication-'>
+        ~
+(Boolean)
+<b>isValidGitApplication</b><span>(application)</span>
+      </a>
+    </span>
+    <span class='note private title'>Private</span>
+    <span class='desc'>
+      Check if an application is a git app <pre><code>resin.models.application.get 91, (error, application) -&gt;    throw error if error?    result = isValidGitApplication(application)    console.log(result)
+</code></pre>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#hasRemote-'>
+        ~
+(void)
+<b>hasRemote</b><span>(repository, name, callback)</span>
+      </a>
+    </span>
+    <span class='note private title'>Private</span>
+    <span class='desc'>
+      Check if a repository has a certain remote <pre><code>repository = getRepositoryInstance(&#39;my/git/repo&#39;)
+hasRemote repository, &#39;origin&#39;, (error, hasRemote) -&gt;    throw error if error?    if hasRemote
+        console.log(&#39;It has an origin remote!&#39;)    else
+        console.log(&#39;It doesn\&#39;t has an origin remote!&#39;)
+</code></pre>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#addRemote-'>
+        ~
+(void)
+<b>addRemote</b><span>(repository, name, url, callback)</span>
+      </a>
+    </span>
+    <span class='note private title'>Private</span>
+    <span class='desc'>
+      Add a remote to a git repository <pre><code>repository = getRepositoryInstance(&#39;my/git/repo&#39;)
+addRemote repository, &#39;resin&#39;, &#39;git@git.resin.io:johndoe/app.git&#39;, (error) -&gt;    throw error if error?
+
+$ cd my/git/repo &amp;&amp; git remote -v
+resin    git@git.resin.io:johndoe/app.git (fetch)
+resin    git@git.resin.io:johndoe/app.git (push)
+</code></pre>
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#initProjectWithApplication-'>
+        ~
+(void)
+<b>initProjectWithApplication</b><span>(application, directory, callback)</span>
+      </a>
+    </span>
+    <span class='desc'>
+      Initialize an application project <ul>
+<li>Add the corresponding git remote.</li>
+</ul>
+
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#isResinProject-'>
+        ~
+(void)
+<b>isResinProject</b><span>(directory, callback)</span>
+      </a>
+    </span>
+    <span class='desc'>
+      Check if an application was already initialized <p>It checks if we have a resin remote added already.</p>
+    </span>
+  </li>
+</ul>
+      <h2>Method Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='getGitDirectory-'>
+      ~
+(String)
+<b>getGitDirectory</b><span>(directory)</span>
+      <span class='note private'>Private</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <div class='note'>
+    <strong>Note:</strong>
+    This function doesn&#39;t check if the path is valid, it only constructs it. 
+  </div>
+  <p>Get git directory for a certain path</p><p>By git directory, we mean the hidden .git folder that every git repository have</p><pre><code>result = getGitDirectory(&#39;/opt/projects/myapp&#39;)
+console.log(result)
+# /opt/projects/myapp/.git
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>directory</span>
+      <span class='type'>
+        (
+          <tt>String</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>the directory path </span>
+    </li>
+  </ul>
+  <h3>Throws:</h3>
+  <ul class='throw'>
+    <li>
+      <span class='type'></span>
+      (
+        <tt>Error</tt>
+      )
+      &mdash;
+      <span class='desc'>Will throw if directory is not a string </span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (
+        <tt>String</tt>
+      )
+      &mdash;
+      <span class='desc'>the absolute path to the child .git directory </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='getCurrentGitDirectory-'>
+      ~
+(String)
+<b>getCurrentGitDirectory</b><span>()</span>
+      <span class='note private'>Private</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <div class='note'>
+    <strong>Note:</strong>
+    The current directory is determined by from where you ran the app 
+  </div>
+  <p>Get current git directory</p><p>Get the path to the .git directory in the current directory</p><pre><code>$ cd /Users/me/Projects/foobar &amp;&amp; resin ...
+result = getCurrentGitDirectory()
+console.log(result)
+# /Users/me/Projects/foobar/.git
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (
+        <tt>String</tt>
+      )
+      &mdash;
+      <span class='desc'>the absolute path to the current directory&#39;s .git folder </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='isGitRepository-'>
+      ~
+(void)
+<b>isGitRepository</b><span>(directory, callback)</span>
+      <span class='note private'>Private</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Check if a directory is a git repository</p><pre><code>isGitRepository &#39;my/git/repo&#39;, (error, isGitRepository) -&gt;    throw error if error?    if isGitRepository
+        console.log(&#39;Yes, it\&#39;s a git repo!&#39;)    else
+        console.log(&#39;I should use git here!&#39;)
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>directory</span>
+      <span class='type'>
+        (
+          <tt>String</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>the directory </span>
+    </li>
+    <li>
+      <span class='name'>callback</span>
+      <span class='type'>
+        (
+          <tt>Function</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>callback(error, isGitRepository) </span>
+    </li>
+  </ul>
+  <h3>Throws:</h3>
+  <ul class='throw'>
+    <li>
+      <span class='type'></span>
+      (
+        <tt><a href='../../../../../class/DirectoryDoesntExist.html'>DirectoryDoesntExist</a></tt>
+      )
+      &mdash;
+      <span class='desc'>Will throw if directory doesn&#39;t exist </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='getRepositoryInstance-'>
+      ~
+(void)
+<b>getRepositoryInstance</b><span>(directory, callback)</span>
+      <span class='note private'>Private</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Get repository instance</p><p>An instance of a <a href="https://github.com/tuvistavie/node-git-cli">gitCli</a> repository, for internal usage.</p><pre><code>getRepositoryInstance &#39;my/git/repo&#39;, (error, repository) -&gt;    throw error if error?    # I can now use gitCli functions on `repository`
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>directory</span>
+      <span class='type'>
+        (
+          <tt>String</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>the directory </span>
+    </li>
+    <li>
+      <span class='name'>callback</span>
+      <span class='type'>
+        (
+          <tt>Function</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>callback(error, repository) </span>
+    </li>
+  </ul>
+  <h3>Throws:</h3>
+  <ul class='throw'>
+    <li>
+      <span class='type'></span>
+      (
+        <tt>Error</tt>
+      )
+      &mdash;
+      <span class='desc'>Will throw if directory is not a git repository. </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='isValidGitApplication-'>
+      ~
+(Boolean)
+<b>isValidGitApplication</b><span>(application)</span>
+      <span class='note private'>Private</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <div class='note todo'>
+    <strong>TODO:</strong>
+    We should also test that the string contained in git_repository is a valid url. 
+  </div>
+  <div class='note'>
+    <strong>Note:</strong>
+    All it does is check if the application object contains a valid git_repository field. 
+  </div>
+  <p>Check if an application is a git app</p><pre><code>resin.models.application.get 91, (error, application) -&gt;    throw error if error?    result = isValidGitApplication(application)    console.log(result)    # True
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>application</span>
+      <span class='type'>
+        (
+          <tt>Object</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>an application from resin API </span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (
+        <tt>Boolean</tt>
+      )
+      &mdash;
+      <span class='desc'>wheter is a valid git application or not </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='hasRemote-'>
+      ~
+(void)
+<b>hasRemote</b><span>(repository, name, callback)</span>
+      <span class='note private'>Private</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <div class='note todo'>
+    <strong>TODO:</strong>
+    We should extract the logic that lists all remotes into a separate function. 
+  </div>
+  <p>Check if a repository has a certain remote</p><pre><code>repository = getRepositoryInstance(&#39;my/git/repo&#39;)
+hasRemote repository, &#39;origin&#39;, (error, hasRemote) -&gt;    throw error if error?    if hasRemote
+        console.log(&#39;It has an origin remote!&#39;)    else
+        console.log(&#39;It doesn\&#39;t has an origin remote!&#39;)
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>repository</span>
+      <span class='type'>
+        (
+          <tt>Object</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>a repository instance from getRepositoryInstance() </span>
+    </li>
+    <li>
+      <span class='name'>name</span>
+      <span class='type'>
+        (
+          <tt>String</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>the name of the remote to check for </span>
+    </li>
+    <li>
+      <span class='name'>callback</span>
+      <span class='type'>
+        (
+          <tt>Function</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>callback(error, hasRemote) </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='addRemote-'>
+      ~
+(void)
+<b>addRemote</b><span>(repository, name, url, callback)</span>
+      <span class='note private'>Private</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <div class='note todo'>
+    <strong>TODO:</strong>
+    We should check the validity of all arguments. 
+  </div>
+  <div class='note todo'>
+    <strong>TODO:</strong>
+    This function should be better tested 
+  </div>
+  <p>Add a remote to a git repository</p><pre><code>repository = getRepositoryInstance(&#39;my/git/repo&#39;)
+addRemote repository, &#39;resin&#39;, &#39;git@git.resin.io:johndoe/app.git&#39;, (error) -&gt;    throw error if error?
+
+$ cd my/git/repo &amp;&amp; git remote -v
+resin    git@git.resin.io:johndoe/app.git (fetch)
+resin    git@git.resin.io:johndoe/app.git (push)
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>repository</span>
+      <span class='type'>
+        (
+          <tt>Object</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>a repository instance from getRepositoryInstance() </span>
+    </li>
+    <li>
+      <span class='name'>name</span>
+      <span class='type'>
+        (
+          <tt>String</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>the name of the remote to add </span>
+    </li>
+    <li>
+      <span class='name'>url</span>
+      <span class='type'>
+        (
+          <tt>String</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>url of the new remote </span>
+    </li>
+    <li>
+      <span class='name'>callback</span>
+      <span class='type'>
+        (
+          <tt>Function</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>callback(error) </span>
+    </li>
+  </ul>
+  <h3>Throws:</h3>
+  <ul class='throw'>
+    <li>
+      <span class='type'></span>
+      (
+        <tt>Error</tt>
+      )
+      &mdash;
+      <span class='desc'>Will throw if name is not a string </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='initProjectWithApplication-'>
+      ~
+(void)
+<b>initProjectWithApplication</b><span>(application, directory, callback)</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <div class='note todo'>
+    <strong>TODO:</strong>
+    This function should be better tested 
+  </div>
+  <div class='note'>
+    <strong>Note:</strong>
+    The directory should already be a git repo (maybe we should take care of git init as well here if necessary?) 
+  </div>
+  <p>Initialize an application project</p><ul>
+<li>Add the corresponding git remote.</li>
+</ul>
+<pre><code>resin.models.application.get 91, (error, application) -&gt;    throw error if error?
+initProjectWithApplication application, &#39;my/new/project&#39;, (error) -&gt;
+        throw error if error?
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>application</span>
+      <span class='type'>
+        (
+          <tt>Object</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>an application from resin API </span>
+    </li>
+    <li>
+      <span class='name'>directory</span>
+      <span class='type'>
+        (
+          <tt>String</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>the directory to initialize </span>
+    </li>
+    <li>
+      <span class='name'>callback</span>
+      <span class='type'>
+        (
+          <tt>Function</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>callback(error) </span>
+    </li>
+  </ul>
+  <h3>Throws:</h3>
+  <ul class='throw'>
+    <li>
+      <span class='type'></span>
+      (
+        <tt>Error</tt>
+      )
+      &mdash;
+      <span class='desc'>Will throw if application is not a valid application </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='isResinProject-'>
+      ~
+(void)
+<b>isResinProject</b><span>(directory, callback)</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <div class='note todo'>
+    <strong>TODO:</strong>
+    Find a way to test this function 
+  </div>
+  <p>Check if an application was already initialized</p><p>It checks if we have a resin remote added already.</p><pre><code>isResinProject &#39;my/resin/app&#39;, (error, initialized) -&gt;    if initialized
+        console.log(&#39;It\&#39;s already a resin app!&#39;)    else
+        console.log(&#39;It\&#39;s just a boring project! It should be resinified!&#39;)
+</code></pre>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>directory</span>
+      <span class='type'>
+        (
+          <tt>String</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>the directory </span>
+    </li>
+    <li>
+      <span class='name'>callback</span>
+      <span class='type'>
+        (
+          <tt>Function</tt>
+        )
+      </span>
+      &mdash;
+      <span class='desc'>callback(error, isResinProject) </span>
+    </li>
+  </ul>
+</div>
+  </div>
+</div>
+    </div>
+    <div id='footer'>
+  December 12, 14 09:26:32 by
+  <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
+    Codo
+  </a>
+  2.0.9
+  &#10034;
+  Press H to see the keyboard shortcuts
+  &#10034;
+  <a href='http://twitter.com/netzpirat' target='_parent'>@netzpirat</a>
+  &#10034;
+  <a href='http://twitter.com/_inossidabile' target='_parent'>@_inossidabile</a>
+</div>
+<iframe id='search_frame'></iframe>
+<div id='fuzzySearch'>
+  <input type='text'>
+  <ol></ol>
+</div>
+<div id='help'>
+  <p>
+    Quickly fuzzy find classes, mixins, methods, file:
+  </p>
+  <ul>
+    <li>
+      <span>T</span>
+      Open fuzzy finder dialog
+    </li>
+  </ul>
+  <p>
+    Control the navigation frame:
+  </p>
+  <ul>
+    <li>
+      <span>L</span>
+      Toggle list view
+    </li>
+    <li>
+      <span>C</span>
+      Show class list
+    </li>
+    <li>
+      <span>I</span>
+      Show mixin list
+    </li>
+    <li>
+      <span>F</span>
+      Show file list
+    </li>
+    <li>
+      <span>M</span>
+      Show method list
+    </li>
+    <li>
+      <span>E</span>
+      Show extras list
+    </li>
+  </ul>
+  <p>
+    You can focus and blur the search input:
+  </p>
+  <ul>
+    <li>
+      <span>S</span>
+      Focus search input
+    </li>
+    <li>
+      <span>Esc</span>
+      Blur search input
+    </li>
+  </ul>
+</div>
+  </body>
+</html>

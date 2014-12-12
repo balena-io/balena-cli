@@ -52,7 +52,9 @@ $ npm install
 </code></pre><p>If you set <code>DEBUG</code> environment variable, errors will print with a stack trace:</p><pre><code class="lang-sh">$ DEBUG=true resin ...
 </code></pre>
 <h2 id="documentation">Documentation</h2><p>You can renegerate the documentation with:</p><pre><code class="lang-sh">$ npm run-script doc
-</code></pre><p>This should ideally be part of <code>gulp</code>, however there doesn&#39;t seems to be any plugin for the documentation generation tool that we&#39;re using at the moment (<a href="https://github.com/coffeedoc/codo">codo</a>).</p><h2 id="caveats">Caveats</h2>
+</code></pre>
+<h2 id="manual-pages">Manual pages</h2><p>UNIX manual pages reside in <code>doc/</code></p><p>You can regenerate UNIX <code>roff</code> manual pages from markdown with:</p><pre><code class="lang-sh">$ npm run-script man
+</code></pre><p>If you add a new <code>man</code> page, remember to add the <code>roff</code> filename to the <code>man</code> array in <code>package.json</code>.</p><h2 id="caveats">Caveats</h2>
 <ul>
 <li>Some interactive widgets don&#39;t work on <a href="https://cygwin.com/">Cygwin</a>. If you&#39;re running Windows, it&#39;s preferrable that you use <code>cmd.exe</code>.</li>
 <li>Most commands require an <code>&lt;id&gt;</code> argument, however <a href="https://github.com/tj/commander.js">Commander</a> refuses to show that in the help page. This will be fixed soon.</li>
@@ -61,7 +63,7 @@ $ npm install
       </div>
     </div>
     <div id='footer'>
-  December 10, 14 14:47:17 by
+  December 12, 14 09:26:32 by
   <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
     Codo
   </a>
