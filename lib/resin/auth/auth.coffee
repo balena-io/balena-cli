@@ -120,7 +120,7 @@ exports.getToken = (callback) ->
 #
 # @todo Maybe we should post to /logout or something to invalidate the token on the server?
 #
-exports.logout = (callback) ->
+exports.logout = (callback = _.noop) ->
 	async.parallel([
 
 		(callback) ->

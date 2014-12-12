@@ -71,6 +71,11 @@ cli.addCommand
 	description: 'signup to resin.io'
 	action: actions.auth.signup
 
+cli.addCommand
+	command: 'whoami'
+	description: 'get current username'
+	action: actions.auth.whoami
+
 # ---------- App Module ----------
 cli.addResource
 	name: 'app'

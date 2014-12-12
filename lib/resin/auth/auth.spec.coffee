@@ -249,6 +249,9 @@ describe 'Auth:', ->
 					expect(error).to.not.exist
 					done()
 
+			it 'should not throw an error if callback is not passed', ->
+				expect(auth.logout).to.not.throw(Error)
+
 	describe '#parseCredentials', ->
 
 		describe 'given colon separated credentials', ->
