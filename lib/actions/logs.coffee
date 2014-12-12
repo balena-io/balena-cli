@@ -2,7 +2,7 @@ _ = require('lodash')
 PubNub = require('pubnub')
 resin = require('../resin')
 helpers = require('../helpers/helpers')
-cli = require('../cli/cli')
+permissions = require('../permissions/permissions')
 
 LOGS_HISTORY_COUNT = 200
 
@@ -15,14 +15,15 @@ printLogs = (logs, number) ->
 	logs = _.last(logs, number) if _.isNumber(number)
 	resin.log.array(logs, resin.log.out)
 
-exports.logs = (uuid) ->
-	numberOfLines = cli.getArgument('num', _.parseInt)
-	tailOutput = cli.getArgument('tail') or false
+exports.logs = permissions.user (params, options) ->
+
+	numberOfLines = options.num
+	tailOutput = options.tail or false
 
 	if numberOfLines? and not _.isNumber(numberOfLines)
 		resin.errors.handle(new Error('n/num should be a number'))
 
-	helpers.isDeviceUUIDValid uuid, (error, isValidUUID) ->
+	helpers.isDeviceUUIDValid params.uuid, (error, isValidUUID) ->
 		resin.errors.handle(error) if error?
 
 		if not isValidUUID
@@ -33,7 +34,7 @@ exports.logs = (uuid) ->
 		# all other actions from exiting on completion
 		pubnub = PubNub.init(resin.settings.get('pubnub'))
 
-		channel = _.template(resin.settings.get('events.deviceLogs'), { uuid })
+		channel = _.template(resin.settings.get('events.deviceLogs'), uuid: params.uuid)
 
 		pubnub.history
 			count: LOGS_HISTORY_COUNT

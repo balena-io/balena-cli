@@ -3,13 +3,14 @@ open = require('open')
 async = require('async')
 resin = require('../resin')
 ui = require('../ui')
+permissions = require('../permissions/permissions')
 
-exports.login	= (credentials) ->
+exports.login	= (params) ->
 	async.waterfall [
 
 		(callback) ->
-			if credentials?
-				return resin.auth.parseCredentials(credentials, callback)
+			if params.credentials?
+				return resin.auth.parseCredentials(params.credentials, callback)
 			else
 				return ui.widgets.login(callback)
 
@@ -18,7 +19,7 @@ exports.login	= (credentials) ->
 
 	], resin.errors.handle
 
-exports.logout = ->
+exports.logout = permissions.user ->
 	resin.auth.logout()
 
 exports.signup = ->
@@ -26,7 +27,7 @@ exports.signup = ->
 	absUrl = url.resolve(resin.settings.get('remoteUrl'), signupUrl)
 	open(absUrl)
 
-exports.whoami = ->
+exports.whoami = permissions.user ->
 	resin.auth.whoami (error, username) ->
 		resin.errors.handle(error) if error?
 

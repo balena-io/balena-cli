@@ -3,11 +3,11 @@ nock = require('nock')
 sinon = require('sinon')
 expect = require('chai').expect
 resin = require('../resin')
-cliPermissions = require('./cli-permissions')
+permissions = require('./permissions')
 johnDoeFixture = require('../../tests/fixtures/johndoe')
 mock = require('../../tests/utils/mock')
 
-describe 'CLI Permissions:', ->
+describe 'Permissions:', ->
 
 	describe '#user()', ->
 
@@ -31,14 +31,14 @@ describe 'CLI Permissions:', ->
 
 			it 'should not call the function', (done) ->
 				spy = sinon.spy()
-				cliPermissions.user(spy, _.noop)()
+				permissions.user(spy, _.noop)()
 
 				_.defer ->
 					expect(spy).to.not.have.been.called
 					done()
 
 			it 'it should call the second function with an error', (done) ->
-				func = cliPermissions.user _.noop, (error) ->
+				func = permissions.user _.noop, (error) ->
 					expect(error).to.be.an.instanceof(Error)
 					done()
 				func()
@@ -56,7 +56,7 @@ describe 'CLI Permissions:', ->
 				args = [ 1, 2, 3, 'foo', 'bar' ]
 
 				spy = sinon.spy()
-				cliPermissions.user(spy, _.noop).apply(null, args)
+				permissions.user(spy, _.noop).apply(null, args)
 
 				_.defer ->
 					expect(spy).to.have.been.calledWith(args...)
@@ -64,7 +64,7 @@ describe 'CLI Permissions:', ->
 
 			it 'should not call the second function', (done) ->
 				spy = sinon.spy()
-				cliPermissions.user(_.noop, spy)()
+				permissions.user(_.noop, spy)()
 
 				_.defer ->
 					expect(spy).to.not.have.been.called

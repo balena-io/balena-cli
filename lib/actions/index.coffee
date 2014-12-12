@@ -7,3 +7,4 @@ module.exports =
 	logs: require('./logs')
 	preferences: require('./preferences')
 	os: require('./os')
+	help: require('./help')

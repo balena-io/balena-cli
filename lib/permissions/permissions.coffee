@@ -10,6 +10,7 @@ exports.user = (fn, onError) ->
 				if onError?
 					return onError(error)
 				else
-					throw error
+					console.error(error.message)
+					process.exit(1)
 
 			fn.apply(null, args)

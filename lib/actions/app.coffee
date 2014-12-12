@@ -2,14 +2,14 @@ _ = require('lodash')
 async = require('async')
 gitCli = require('git-cli')
 resin = require('../resin')
-cli = require('../cli/cli')
 ui = require('../ui')
+permissions = require('../permissions/permissions')
 
-exports.create = (name) ->
+exports.create = permissions.user (params, options) ->
 	async.waterfall [
 
 		(callback) ->
-			deviceType = cli.getArgument('type')
+			deviceType = options.type
 
 			if deviceType?
 				return callback(null, deviceType)
@@ -23,11 +23,11 @@ exports.create = (name) ->
 			# Maybe we should break or handle better?
 			slugifiedType = resin.device.getDeviceSlug(type)
 
-			resin.models.application.create(name, slugifiedType, callback)
+			resin.models.application.create(params.name, slugifiedType, callback)
 
 	], resin.errors.handle
 
-exports.list = ->
+exports.list = permissions.user ->
 	resin.models.application.getAll (error, applications) ->
 		resin.errors.handle(error) if error?
 
@@ -40,8 +40,8 @@ exports.list = ->
 			return application
 		, [ 'ID', 'Name', 'Device Type', 'Online Devices', 'All Devices' ]
 
-exports.info = (id) ->
-	resin.models.application.get id, (error, application) ->
+exports.info = permissions.user (params) ->
+	resin.models.application.get params.id, (error, application) ->
 		resin.errors.handle(error) if error?
 
 		resin.log.out ui.widgets.table.vertical application, (application) ->
@@ -50,18 +50,16 @@ exports.info = (id) ->
 			return application
 		, [ 'ID', 'Name', 'Device Type', 'Git Repository', 'Commit' ]
 
-exports.restart = (id) ->
-
-	resin.models.application.restart id, (error) ->
+exports.restart = permissions.user (params) ->
+	resin.models.application.restart params.id, (error) ->
 		resin.errors.handle(error) if error?
 
-exports.remove = (id) ->
-	confirmArgument = cli.getArgument('yes')
-	ui.patterns.remove 'application', confirmArgument, (callback) ->
-		resin.models.application.remove(id, callback)
+exports.remove = permissions.user (params, options) ->
+	ui.patterns.remove 'application', options.yes, (callback) ->
+		resin.models.application.remove(params.id, callback)
 	, resin.errors.handle
 
-exports.init = (id) ->
+exports.init = permissions.user (params) ->
 
 	currentDirectory = process.cwd()
 
@@ -77,7 +75,7 @@ exports.init = (id) ->
 			return callback()
 
 		(callback) ->
-			resin.models.application.get(id, callback)
+			resin.models.application.get(params.id, callback)
 
 		(application, callback) ->
 			resin.vcs.initProjectWithApplication(application, currentDirectory, callback)

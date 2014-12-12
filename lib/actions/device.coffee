@@ -1,9 +1,9 @@
 resin = require('../resin')
-cli = require('../cli/cli')
 ui = require('../ui')
+permissions = require('../permissions/permissions')
 
-exports.list = (applicationId) ->
-	resin.models.device.getAllByApplication applicationId, (error, devices) ->
+exports.list = permissions.user (params) ->
+	resin.models.device.getAllByApplication params.id, (error, devices) ->
 		resin.errors.handle(error) if error?
 
 		resin.log.out ui.widgets.table.horizontal devices, (device) ->
@@ -16,8 +16,8 @@ exports.list = (applicationId) ->
 			return device
 		, [ 'ID', 'Name', 'Device Type', 'Is Online', 'IP Address', 'Application', 'Status', 'Last Seen' ]
 
-exports.info = (deviceId) ->
-	resin.models.device.get deviceId, (error, device) ->
+exports.info = permissions.user (params) ->
+	resin.models.device.get params.id, (error, device) ->
 		resin.errors.handle(error) if error?
 
 		resin.log.out ui.widgets.table.vertical device, (device) ->
@@ -40,12 +40,11 @@ exports.info = (deviceId) ->
 			'Note'
 		]
 
-exports.remove = (id) ->
-	confirmArgument = cli.getArgument('yes')
-	ui.patterns.remove 'device', confirmArgument, (callback) ->
-		resin.models.device.remove(id, callback)
+exports.remove = permissions.user (params, options) ->
+	ui.patterns.remove 'device', options.yes, (callback) ->
+		resin.models.device.remove(params.id, callback)
 	, resin.errors.handle
 
-exports.identify = (uuid) ->
-	resin.models.device.identify uuid, (error) ->
+exports.identify = permissions.user (params) ->
+	resin.models.device.identify params.uuid, (error) ->
 		resin.errors.handle(error) if error?
