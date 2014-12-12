@@ -1,6 +1,7 @@
 data = require('../data/data')
 
 # @nodoc
+# TODO: Move to settings
 TOKEN_KEY = 'token'
 
 # Save token

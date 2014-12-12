@@ -34,10 +34,11 @@ describe 'Auth:', ->
 		describe '#authenticate()', ->
 
 			it 'should return a token string', (done) ->
-				auth.authenticate johnDoeFixture.credentials, (error, token) ->
+				auth.authenticate johnDoeFixture.credentials, (error, token, username) ->
 					return done(error) if error?
 					expect(token).to.be.a('string')
 					expect(token).to.equal(johnDoeFixture.token)
+					expect(username).to.equal(johnDoeFixture.credentials.username)
 					done()
 
 		describe '#login()', ->
@@ -65,6 +66,27 @@ describe 'Auth:', ->
 					expect(error).to.not.exist
 					done()
 
+			it 'should save the username', (done) ->
+				async.waterfall [
+
+					(callback) ->
+						auth.whoami(callback)
+
+					(username, callback) ->
+						expect(username).to.be.undefined
+						auth.login(johnDoeFixture.credentials, callback)
+
+					(callback) ->
+						auth.whoami(callback)
+
+					(username, callback) ->
+						expect(username).to.equal(johnDoeFixture.credentials.username)
+						return callback()
+
+				], (error) ->
+					expect(error).to.not.exist
+					done()
+
 	describe 'given invalid credentials', ->
 
 		beforeEach ->
@@ -75,10 +97,11 @@ describe 'Auth:', ->
 		describe '#authenticate()', ->
 
 			it 'should return an error', (done) ->
-				auth.authenticate johnDoeFixture.credentials, (error, token) ->
+				auth.authenticate johnDoeFixture.credentials, (error, token, username) ->
 					expect(error).to.exist
 					expect(error).to.be.an.instanceof(Error)
 					expect(token).to.be.undefined
+					expect(username).to.be.undefined
 					done()
 
 		describe '#login()', ->
@@ -88,6 +111,16 @@ describe 'Auth:', ->
 					expect(error).to.exist
 					expect(error).to.be.an.instanceof(Error)
 					expect(token).to.be.undefined
+					done()
+
+	describe 'given a not logged in user', ->
+
+		describe '#whoami()', ->
+
+			it 'should return undefined', (done) ->
+				auth.whoami (error, username) ->
+					expect(error).to.not.exist
+					expect(username).to.be.undefined
 					done()
 
 	describe 'given a logged in user', ->
@@ -102,6 +135,14 @@ describe 'Auth:', ->
 				.reply(200, janeDoeFixture.token)
 
 			auth.login(johnDoeFixture.credentials, done)
+
+		describe '#whoami()', ->
+
+			it 'should return the username', (done) ->
+				auth.whoami (error, username) ->
+					expect(error).to.not.exist
+					expect(username).to.equal(johnDoeFixture.credentials.username)
+					done()
 
 		describe '#login()', ->
 
@@ -160,11 +201,49 @@ describe 'Auth:', ->
 
 					(isLoggedIn, callback) ->
 						expect(isLoggedIn).to.be.false
+						return callback()
+
+				], (error) ->
+					expect(error).to.not.exist
+					done()
+
+			it 'should clear the token', (done) ->
+				async.waterfall [
+
+					(callback) ->
 						auth.getToken(callback)
 
-					(token, callback) ->
-						expect(token).to.be.undefined
-						return callback(null)
+					(savedToken, callback) ->
+						expect(savedToken).to.be.a.string
+						auth.logout(callback)
+
+					(callback) ->
+						auth.getToken(callback)
+
+					(savedToken, callback) ->
+						expect(savedToken).to.be.undefined
+						return callback()
+
+				], (error) ->
+					expect(error).to.not.exist
+					done()
+
+			it 'should clear the username', (done) ->
+				async.waterfall [
+
+					(callback) ->
+						auth.whoami(callback)
+
+					(username, callback) ->
+						expect(username).to.be.a.string
+						auth.logout(callback)
+
+					(callback) ->
+						auth.whoami(callback)
+
+					(username, callback) ->
+						expect(username).to.be.undefined
+						return callback()
 
 				], (error) ->
 					expect(error).to.not.exist

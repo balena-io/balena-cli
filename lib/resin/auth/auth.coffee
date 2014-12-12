@@ -1,10 +1,30 @@
 async = require('async')
-_ = require('lodash')
+_ = require('lodash-contrib')
 
 token = require('../token/token')
 server = require('../server/server')
+data = require('../data/data')
 errors = require('../errors/errors')
 settings = require('../settings')
+
+# Return current logged in username
+#
+# @param {Function} callback callback (error, username)
+#
+# @note This will only work if you used login() to log in.
+#
+# @example Who am I?
+#		resin.auth.whoami (error, username) ->
+#			throw error if error?
+#
+#			if not username?
+#				console.log('I\'m not logged in!')
+#			else
+#				console.log("My username is: #{username}")
+#
+exports.whoami = (callback) ->
+	usernameKey = settings.get('keys.username')
+	data.getText(usernameKey, callback)
 
 # Authenticate with the server
 #
@@ -13,19 +33,21 @@ settings = require('../settings')
 # @param {Object} credentials in the form of username, password
 # @option credentials {String} username the username
 # @option credentials {String} password user password
-# @param {Function} callback callback (error, token)
+# @param {Function} callback callback (error, token, username)
 #
-# @note You should use login() when possible, as it takes care of saving the token as well.
+# @note You should use login() when possible, as it takes care of saving the token and username as well.
 #
 # @example Authenticate
-#		resin.auth.authenticate credentials, (error, token) ->
+#		resin.auth.authenticate credentials, (error, token, username) ->
 #			throw error if error?
-#			console.log(token)
+#			console.log("My username is: #{username}")
+#			console.log("My token is: #{token}")
 #
 exports.authenticate = (credentials, callback) ->
 	server.post settings.get('urls.authenticate'), credentials, (error, response) ->
+		return callback(error) if error?
 		savedToken = response?.body
-		return callback(error, savedToken)
+		return callback(null, savedToken, credentials.username)
 
 # Login to Resin.io
 #
@@ -49,8 +71,12 @@ exports.login = (credentials, callback) ->
 		(callback) ->
 			exports.authenticate(credentials, callback)
 
-		(authToken, callback) ->
+		(authToken, username, callback) ->
 			token.saveToken(authToken, callback)
+
+		(callback) ->
+			usernameKey = settings.get('keys.username')
+			data.setText(usernameKey, credentials.username, callback)
 
 	], callback)
 
@@ -72,7 +98,8 @@ exports.isLoggedIn = (callback) ->
 #
 # @param {Function} callback callback (error, isLoggedIn)
 #
-# @note This function simply delegates to resin.token.getToken() for convenience
+# @note This function simply delegates to resin.token.getToken() for convenience.
+# @note This will only work if you used login() to log in.
 #
 # @example Get curren token
 #		resin.auth.getToken (error, token) ->
@@ -94,7 +121,16 @@ exports.getToken = (callback) ->
 # @todo Maybe we should post to /logout or something to invalidate the token on the server?
 #
 exports.logout = (callback) ->
-	token.clearToken(callback)
+	async.parallel([
+
+		(callback) ->
+			token.clearToken(callback)
+
+		(callback) ->
+			usernameKey = settings.get('keys.username')
+			data.remove(usernameKey, callback)
+
+	], _.unary(callback))
 
 # Parse colon separated credentials
 #

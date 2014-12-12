@@ -19,6 +19,9 @@ settings =
 
 	localConfig: '.resinconf'
 
+	keys:
+		username: 'username'
+
 	files:
 		config: 'config'
 
