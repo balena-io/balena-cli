@@ -39,7 +39,7 @@ describe 'VCS Git:', ->
 			expectedResult = path.join(process.cwd(), '.git')
 			expect(result).to.equal(expectedResult)
 
-	describe '#getRepository()', ->
+	describe '#getRepositoryInstance()', ->
 
 		filesystem =
 			gitRepo:
@@ -54,14 +54,14 @@ describe 'VCS Git:', ->
 			mock.fs.restore()
 
 		it 'should throw an error if directory does not exist', (done) ->
-			git.getRepository '/foobar', (error, repository) ->
+			git.getRepositoryInstance '/foobar', (error, repository) ->
 				expect(error).to.be.an.instanceof(Error)
 				expect(repository).to.not.exist
 				done()
 
 		it 'should return a repository', (done) ->
 			repo = filesystem.gitRepo
-			git.getRepository repo.name, (error, repository) ->
+			git.getRepositoryInstance repo.name, (error, repository) ->
 				expect(error).to.not.exist
 				expect(repository).to.exist
 
@@ -181,7 +181,7 @@ describe 'VCS Git:', ->
 				expect(isGitRepo).to.be.false
 				done()
 
-	describe '#initApplication()', ->
+	describe '#initProjectWithApplication()', ->
 
 		filesystem =
 			gitRepo:
@@ -202,12 +202,12 @@ describe 'VCS Git:', ->
 			mock.fs.restore()
 
 		it 'should return an error if directory is not a git repo', (done) ->
-			git.initApplication @application, filesystem.notGitRepo.name, (error) ->
+			git.initProjectWithApplication @application, filesystem.notGitRepo.name, (error) ->
 				expect(error).to.be.an.instanceof(Error)
 				done()
 
 		it 'should return an error if application does not contain a git repo url', (done) ->
-			git.initApplication {}, filesystem.gitRepo.name, (error) ->
+			git.initProjectWithApplication {}, filesystem.gitRepo.name, (error) ->
 				expect(error).to.be.an.instanceof(Error)
 				done()
 
@@ -217,7 +217,7 @@ describe 'VCS Git:', ->
 			addRemoteStub.yields(null)
 			mock.fs.init(filesystem)
 
-			git.initApplication @application, filesystem.gitRepo.name, (error) =>
+			git.initProjectWithApplication @application, filesystem.gitRepo.name, (error) =>
 				expect(error).to.not.exist
 				expect(addRemoteStub).to.have.been.calledOnce
 

@@ -68,10 +68,10 @@ exports.init = (id) ->
 	async.waterfall [
 
 		(callback) ->
-			resin.vcs.wasInitialized(currentDirectory, callback)
+			resin.vcs.isResinProject(currentDirectory, callback)
 
-		(wasInitialized, callback) ->
-			if wasInitialized
+		(isResinProject, callback) ->
+			if isResinProject
 				error = new Error('Project is already a resin application.')
 				return callback(error)
 			return callback()
@@ -80,7 +80,7 @@ exports.init = (id) ->
 			resin.models.application.get(id, callback)
 
 		(application, callback) ->
-			resin.vcs.initApplication(application, currentDirectory, callback)
+			resin.vcs.initProjectWithApplication(application, currentDirectory, callback)
 
 	], (error) ->
 		resin.errors.handle(error) if error?
