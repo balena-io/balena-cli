@@ -110,6 +110,22 @@ exports.NotAny = class NotAny extends TypedError
 	# Error code
 	code: 0
 
+exports.FileNotFound = class FileNotFound extends TypedError
+
+	# Construct an File Not Found error
+	#
+	# @param {String} filename name of the file that was not found
+	#
+	# @example File Not Found error
+	#		throw new resin.errors.FileNotFound('/foo')
+	#		Error: File not found: /foo
+	#
+	constructor: (filename) ->
+		@message = "File not found: #{filename}"
+
+	# Error code
+	code: 1
+
 # Handle error instances
 #
 # Prints the message to stderr and aborts the program with the corresponding error code, or 0 if none.

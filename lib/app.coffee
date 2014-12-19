@@ -277,6 +277,11 @@ capitano.command
 	action: actions.keys.list
 
 capitano.command
+	signature: 'key add <name> <path>'
+	description: 'add a SSH key to resin.io'
+	action: actions.keys.add
+
+capitano.command
 	signature: 'key <id>'
 	description: 'list a single ssh key'
 	help: '''

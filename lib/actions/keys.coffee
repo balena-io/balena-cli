@@ -1,5 +1,7 @@
 _ = require('lodash')
 _.str = require('underscore.string')
+async = require('async')
+fs = require('fs')
 resin = require('../resin')
 helpers = require('../helpers/helpers')
 ui = require('../ui')
@@ -32,3 +34,32 @@ exports.remove = permissions.user (params, options) ->
 		url = _.template(resin.settings.get('urls.sshKey'), id: params.id)
 		resin.server.delete(url, callback)
 	, resin.errors.handle
+
+exports.add = permissions.user (params) ->
+	async.waterfall [
+
+		(callback) ->
+			fs.readFile(params.path, encoding: 'utf8', callback)
+
+		(contents, callback) ->
+			contents = contents.trim()
+
+			url = resin.settings.get('urls.keys')
+			data =
+				title: params.name
+				key: contents
+			resin.server.post(url, data, callback)
+
+	], (error) ->
+		return if not error?
+
+		# TODO: Make handle() check the error type
+		# and accomodate as most as possible to prevent
+		# this types of checks in client code.
+		if error.code is 'EISDIR'
+			error.message = "File is a directory: #{params.path}"
+
+		if error.code is 'ENOENT'
+			error = new resin.errors.FileNotFound(params.path)
+
+		resin.errors.handle(error)
