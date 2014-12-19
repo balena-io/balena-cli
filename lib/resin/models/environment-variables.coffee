@@ -55,6 +55,29 @@ exports.create = (applicationId, name, value, callback) ->
 	.catch (error) ->
 		return callback(error)
 
+# Update an environment variable value from an application
+#
+# @param {String, Number} applicationId application id
+# @param {String} value environment variable value
+# @param {Function} callback callback(error)
+#
+# @example Update an environment variable
+#		resin.models.environmentVariables.update 317, 'vim', (error) ->
+#			throw error if error?
+#
+exports.update = (id, value, callback) ->
+	return pine.patch
+		resource: 'environment_variable'
+		id: id
+		data:
+			value: value
+
+	.then ->
+		return callback()
+
+	.catch (error) ->
+		return callback(error)
+
 # Remove environment variable
 #
 # @param {String, Number} id environment variable id

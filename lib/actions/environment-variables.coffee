@@ -39,3 +39,7 @@ exports.add = permissions.user (params, options) ->
 
 	resin.models.environmentVariables.create options.application, params.key, params.value, (error) ->
 		resin.errors.handle(error) if error?
+
+exports.rename = permissions.user (params, options) ->
+	resin.models.environmentVariables.update params.id, params.value, (error) ->
+		resin.errors.handle(error) if error?

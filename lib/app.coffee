@@ -364,6 +364,17 @@ capitano.command
 	action: actions.env.add
 
 capitano.command
+	signature: 'env rename <id> <value>'
+	description: 'rename an environment variable'
+	help: '''
+		Use this command to rename an enviroment variable from an application.
+
+		Examples:
+			$ resin env rename 376 emacs
+	'''
+	action: actions.env.rename
+
+capitano.command
 	signature: 'env rm <id>'
 	description: 'remove an environment variable'
 	help: '''
