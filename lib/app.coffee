@@ -37,6 +37,12 @@ yesOption =
 	boolean: true
 	alias: 'y'
 
+applicationOption =
+	signature: 'application'
+	parameter: 'application'
+	description: 'application id'
+	alias: [ 'a', 'app' ]
+
 # ---------- Auth Module ----------
 capitano.command
 	signature: 'login [credentials]'
@@ -326,12 +332,8 @@ capitano.command
 	'''
 	action: actions.env.list
 	options: [
-		{
-			signature: 'application'
-			parameter: 'application'
-			description: 'application id'
-			alias: [ 'a', 'app' ]
-		}
+		applicationOption
+
 		{
 			signature: 'verbose'
 			description: 'show private environment variables'
@@ -339,6 +341,27 @@ capitano.command
 			alias: 'v'
 		}
 	]
+
+capitano.command
+	signature: 'env add <key> [value]'
+	description: 'add an environment variable'
+	help: '''
+		Use this command to add an enviroment variable to an application.
+
+		You need to pass the `--application` option.
+
+		If value is omitted, the tool will attempt to use the variable's value
+		as defined in your host machine.
+
+		If the value is grabbed from the environment, a warning message will be printed.
+		Use `--quiet` to remove it.
+
+		Examples:
+			$ resin env add EDITOR vim -a 91
+			$ resin env add TERM -a 91
+	'''
+	options: [ applicationOption ]
+	action: actions.env.add
 
 capitano.command
 	signature: 'env rm <id>'

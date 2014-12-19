@@ -30,6 +30,31 @@ exports.getAllByApplication = (applicationId, callback) ->
 	.catch (error) ->
 		return callback(error)
 
+# Create an environment variable for an application
+#
+# @param {String, Number} applicationId application id
+# @param {String} name environment variable name
+# @param {String} value environment variable value
+# @param {Function} callback callback(error)
+#
+# @example Create an environment variable
+#		resin.models.environmentVariables.create 91, 'EDITOR', 'vim', (error) ->
+#			throw error if error?
+#
+exports.create = (applicationId, name, value, callback) ->
+	return pine.post
+		resource: 'environment_variable'
+		data:
+			name: name
+			value: value
+			application: applicationId
+
+	.then ->
+		return callback()
+
+	.catch (error) ->
+		return callback(error)
+
 # Remove environment variable
 #
 # @param {String, Number} id environment variable id
