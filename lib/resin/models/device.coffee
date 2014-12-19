@@ -116,3 +116,27 @@ exports.remove = (id, callback) ->
 #
 exports.identify = (uuid, callback) ->
 	server.post(settings.get('urls.identify'), { uuid }, _.unary(callback))
+
+# Rename device
+#
+# @param {String, Number} id device id
+# @param {String} name the device new name
+# @param {Function} callback callback(error)
+#
+# @example Rename device
+#		resin.models.device.rename 317, 'NewName', (error) ->
+#			throw error if error?
+#			console.log("Device has been renamed!")
+#
+exports.rename = (id, name, callback) ->
+	return pine.patch
+		resource: 'device'
+		id: id
+		data:
+			name: name
+
+	.then ->
+		return callback()
+
+	.catch (error) ->
+		return callback(error)

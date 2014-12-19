@@ -1,3 +1,5 @@
+_ = require('lodash')
+async = require('async')
 resin = require('../resin')
 ui = require('../ui')
 permissions = require('../permissions/permissions')
@@ -47,4 +49,21 @@ exports.remove = permissions.user (params, options) ->
 
 exports.identify = permissions.user (params) ->
 	resin.models.device.identify params.uuid, (error) ->
+		resin.errors.handle(error) if error?
+
+# TODO: This action doesn't return any error
+# if trying to rename a device that does not
+# exists. This is being fixed server side.
+exports.rename = permissions.user (params) ->
+	async.waterfall [
+
+		(callback) ->
+			if params.name? and not _.isEmpty(params.name)
+				return callback(null, params.name)
+			ui.widgets.ask('How do you want to name this device?', callback)
+
+		(name, callback) ->
+			resin.models.device.rename(params.id, name, callback)
+
+	], (error) ->
 		resin.errors.handle(error) if error?

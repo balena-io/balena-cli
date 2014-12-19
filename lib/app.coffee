@@ -196,6 +196,20 @@ capitano.command
 	action: actions.device.list
 
 capitano.command
+	signature: 'device rename <id> [name]'
+	description: 'rename a resin device'
+	help: '''
+		Use this command to rename a device.
+
+		If you omit the name, you'll get asked for it interactively.
+
+		Examples:
+			$ resin device rename 317 MyPi
+			$ resin device rename 317
+	'''
+	action: actions.device.rename
+
+capitano.command
 	signature: 'device <id>'
 	description: 'list a single device'
 	help: '''

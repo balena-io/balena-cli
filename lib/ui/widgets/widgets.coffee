@@ -38,3 +38,15 @@ exports.confirmRemoval = (name, callback) ->
 		}
 	], (response) ->
 		return callback(null, response.confirmed)
+
+exports.ask = (question, callback) ->
+	inquirer.prompt [
+		{
+			type: 'input'
+			name: 'answer'
+			message: question
+			validate: (input) ->
+				return _.isString(input) and not _.isEmpty(input)
+		}
+	], (response) ->
+		return callback(null, response.answer)
