@@ -1,5 +1,3 @@
-exports.windows = require('./windows/windows')
-
 # Generate os cache name
 #
 # It generates an unique name for a certain instance of the os
