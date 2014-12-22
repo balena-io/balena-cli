@@ -31,6 +31,12 @@ capitano.globalOption
 	boolean: true
 	alias: 'q'
 
+capitano.globalOption
+	signature: 'project'
+	parameter: 'path'
+	description: 'project path'
+	alias: 'p'
+
 yesOption =
 	signature: 'yes'
 	description: 'confirm non interactively'
@@ -479,9 +485,18 @@ capitano.command
 
 cli = capitano.parse(process.argv)
 
+changeProjectDirectory = (directory) ->
+	try
+		process.chdir(directory)
+	catch
+		resin.errors.handle(new Error("Invalid project: #{directory}"))
+
 resin.data.prefix.set resin.settings.get('dataPrefix'), (error) ->
 	resin.errors.handle(error) if error?
 
 	resin.log.setQuiet(cli.global.quiet)
+
+	if cli.global.project?
+		changeProjectDirectory(cli.global.project)
 
 	capitano.execute(cli)
