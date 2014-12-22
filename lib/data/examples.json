@@ -1,0 +1,82 @@
+[
+	{
+		"name": "Node.js Starter Project",
+		"repository": "https://github.com/resin-io/basic-resin-node-project",
+		"description": "This is a simple Hello, World project for node.js designed to act as a basis for future work. It demonstrates how to install native Linux packages and configure your application."
+	},
+	{
+		"name": "Cimon",
+		"repository": "https://bitbucket.org/efwe/cimon",
+		"description": "A simple tool for reading temperatures from a USB-enabled thermometer. This project is used as the backend to efwe's awesome temperature visualisation at 123k.de.",
+		"author": "efwe"
+	},
+	{
+		"name": "Digital Temperature Logger",
+		"repository": "https://github.com/shaunmulligan/firebaseDTL",
+		"description": "A Firebase-backed Digital Temperature Logger allowing you to connect devices with multiple temperature sensors to a central cloud-based datastore.",
+		"author": "Shaun Mulligan"
+	},
+	{
+		"name": "Digitiser",
+		"repository": "https://github.com/shaunmulligan/digitiser",
+		"description": "A tool for displaying integer values from a JSON endpoint on a MAX7219 7-segment display.",
+		"author": "Shaun Mulligan"
+	},
+	{
+		"name": "Example Pi Pins Application",
+		"repository": "https://github.com/shaunmulligan/basic-gpio",
+		"description": "A simple application which demonstrates the use of the Pi Pins library to interface with GPIO.",
+		"author": "Shaun Mulligan"
+	},
+	{
+		"name": "Google Coder",
+		"repository": "https://github.com/resin-io/coder",
+		"description": "Resin.io-enabled version of Google's excellent Coder project which makes it easy to develop web projects on your device."
+	},
+	{
+		"name": "Hoversnap",
+		"repository": "https://github.com/resin-io/hoversnap",
+		"description": "A tool for controlling a camera using a foot switch in order to capture shots in which people appear to be flying."
+	},
+	{
+		"name": "Pi Miner",
+		"repository": "https://github.com/csquared/resin-piminer",
+		"description": "A bitcoin miner for the Raspberry Pi.",
+		"author": "Chris Continanza"
+	},
+	{
+		"name": "Resin CCTV",
+		"repository": "https://github.com/abresas/resin-cctv",
+		"description": "A project which allows you to use your devices as a CCTV camera system which hooks into Dropbox.",
+		"author": "Aleksis Brezas"
+	},
+	{
+		"name": "Resin Player",
+		"repository": "https://bitbucket.org/lifeeth/resin_player/",
+		"description": "A project which allows you to play squeezebox media through your devices.",
+		"author": "Praneeth Bodduluri"
+	},
+	{
+		"name": "Salesforce Temperature Probe",
+		"repository": "https://github.com/shaunmulligan/salesforceTemp",
+		"description": "Example application for interfacing with a temperature probe using Salesforce.com.",
+		"author": "Shaun Mulligan"
+	},
+	{
+		"name": "SMS to Speech",
+		"repository": "https://github.com/alexandrosm/sms2speech",
+		"description": "A simple tool which uses Twillio to read out incoming SMS messages.",
+		"author": "Alexandros Marinos"
+	},
+	{
+		"name": "Simple Digitiser Kiosk",
+		"repository": "https://bitbucket.org/lifeeth/resin-kiosk",
+		"description": "Displays values from a JSON endpoint on your browser in kiosk mode",
+		"author": "Praneeth Bodduluri"
+	},
+	{
+		"name": "Text to Speech Converter",
+		"repository": "https://github.com/resin-io/text2speech",
+		"description": "A simple application that makes your device speak out loud."
+	}
+]
