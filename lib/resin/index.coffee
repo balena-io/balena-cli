@@ -2,7 +2,6 @@ module.exports =
 	server: require('./server/server')
 	models: require('./models')
 	errors: require('./errors/errors')
-	token: require('./token/token')
 	data: require('./data/data')
 	auth: require('./auth/auth')
 	device: require('./device/device')

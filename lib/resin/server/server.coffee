@@ -4,7 +4,7 @@ progress = require('request-progress')
 async = require('async')
 connection = require('../../connection/connection')
 settings = require('../settings')
-token = require('../token/token')
+auth = require('../auth/auth')
 
 # @nodoc
 urlResolve = require('url').resolve
@@ -72,7 +72,7 @@ exports.request = (options = {}, outerCallback, onProgress) ->
 			if not isOnline
 				return callback(new Error('You need internet connection to perform this task'))
 
-			token.getToken(callback)
+			auth.getToken(callback)
 
 		(savedToken, callback) ->
 			options.url = urlResolve(settings.get('remoteUrl'), options.url)

@@ -1,7 +1,7 @@
 async = require('async')
 _ = require('lodash-contrib')
 
-token = require('../token/token')
+token = require('./token/token')
 server = require('../server/server')
 data = require('../data/data')
 errors = require('../errors/errors')

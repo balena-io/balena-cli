@@ -1,4 +1,4 @@
-data = require('../data/data')
+data = require('../../data/data')
 
 # @nodoc
 # TODO: Move to settings

@@ -5,7 +5,7 @@ url = require('url')
 sinon = require('sinon')
 server = require('./server')
 settings = require('../settings')
-token = require('../token/token')
+auth = require('../auth/auth')
 data = require('../data/data')
 mock = require('../../../tests/utils/mock')
 johnDoeFixture = require('../../../tests/fixtures/johndoe.json')
@@ -200,7 +200,11 @@ describe 'Server:', ->
 	describe 'given there is a token', ->
 
 		beforeEach (done) ->
-			token.saveToken(johnDoeFixture.token, done)
+			nock(settings.get('remoteUrl'))
+				.post('/login_', johnDoeFixture.credentials)
+				.reply(200, johnDoeFixture.token)
+
+			auth.login(johnDoeFixture.credentials, done)
 
 		describe '#request()', ->
 
@@ -220,7 +224,7 @@ describe 'Server:', ->
 	describe 'given there is not a token', ->
 
 		beforeEach (done) ->
-			token.clearToken(done)
+			auth.logout(done)
 
 		describe '#request()', ->
 
