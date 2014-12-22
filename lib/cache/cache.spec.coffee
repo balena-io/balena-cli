@@ -3,9 +3,9 @@ sinon = require('sinon')
 chai = require('chai')
 chai.use(require('chai-string'))
 expect = chai.expect
-os = require('./os')
+cache = require('./cache')
 
-describe 'OS:', ->
+describe 'Cache:', ->
 
 	describe '#generateCacheName()', ->
 
@@ -17,7 +17,7 @@ describe 'OS:', ->
 					params:
 						network: 'ethernet'
 
-				result = os.generateCacheName(application.id, application.params)
+				result = cache.generateCacheName(application.id, application.params)
 				expect(result).to.match(new RegExp("#{application.id}-ethernet-\\d\+\$"))
 
 		describe 'given network is wifi', ->
@@ -28,5 +28,5 @@ describe 'OS:', ->
 						network: 'wifi'
 						wifiSsid: 'MYSSID'
 
-				result = os.generateCacheName(application.id, application.params)
+				result = cache.generateCacheName(application.id, application.params)
 				expect(result).to.match(new RegExp("#{application.id}-wifi-#{application.params.wifiSsid}-\\d\+\$"))

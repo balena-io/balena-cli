@@ -9,6 +9,7 @@ ui = require('../ui')
 log = require('../log/log')
 permissions = require('../permissions/permissions')
 errors = require('../errors/errors')
+cache = require('../cache/cache')
 
 exports.download = (params, options) ->
 	networkParams =
@@ -16,7 +17,7 @@ exports.download = (params, options) ->
 		wifiSsid: options.ssid
 		wifiKey: options.key
 
-	fileName = resin.os.generateCacheName(params.id, networkParams)
+	fileName = cache.generateCacheName(params.id, networkParams)
 	outputFile = options.output or path.join(resin.settings.get('directories.os'), fileName)
 
 	async.waterfall [
