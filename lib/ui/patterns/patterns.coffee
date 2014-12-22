@@ -18,27 +18,3 @@ exports.remove = (name, confirmAttribute, deleteFunction, outerCallback) ->
 			deleteFunction(callback)
 
 	], outerCallback)
-
-exports.downloadFile = (url, dest, callback) ->
-	bar = null
-	received = 0
-
-	resin.server.request
-		method: 'GET'
-		url: url
-		pipe: fs.createWriteStream(dest)
-	, (error) ->
-		return callback(error)
-	, (state) ->
-
-		# TODO: Allow quieting this progress bar
-		bar ?= new ProgressBar 'Downloading device OS [:bar] :percent :etas',
-			complete: '='
-			incomplete: ' '
-			width: 40
-			total: state.total
-
-		return if bar.complete or not state?
-
-		bar.tick(state.received - received)
-		received = state.received

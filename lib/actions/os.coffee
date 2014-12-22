@@ -2,14 +2,14 @@ _ = require('lodash')
 async = require('async')
 path = require('path')
 mkdirp = require('mkdirp')
-url = require('url')
+ProgressBar = require('progress')
 resin = require('../resin')
 connection = require('../connection/connection')
-ui = require('../ui')
 log = require('../log/log')
 permissions = require('../permissions/permissions')
 errors = require('../errors/errors')
 cache = require('../cache/cache')
+resin = require('../resin')
 
 exports.download = (params, options) ->
 	networkParams =
@@ -34,13 +34,22 @@ exports.download = (params, options) ->
 		(parameters, callback) ->
 			parameters.appId = params.id
 
-			query = url.format(query: parameters)
-			downloadUrl = url.resolve(resin.settings.get('urls.download'), query)
+			bar = null
+			received = 0
 
-			return callback(null, downloadUrl)
+			resin.models.os.download parameters, outputFile, callback, (state) ->
 
-		(downloadUrl, callback) ->
-			ui.patterns.downloadFile(downloadUrl, outputFile, callback)
+				# TODO: Allow quieting this progress bar
+				bar ?= new ProgressBar 'Downloading device OS [:bar] :percent :etas',
+					complete: '='
+					incomplete: ' '
+					width: 40
+					total: state.total
+
+				return if bar.complete or not state?
+
+				bar.tick(state.received - received)
+				received = state.received
 
 	], (error) ->
 		errors.handle(error) if error?
