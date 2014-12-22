@@ -4,6 +4,7 @@ resin = require('./resin')
 packageJSON = require('../package.json')
 actions = require('./actions')
 log = require('./log/log')
+errors = require('./errors/errors')
 
 capitano.command
 	signature: 'version'
@@ -538,10 +539,10 @@ changeProjectDirectory = (directory) ->
 	try
 		process.chdir(directory)
 	catch
-		resin.errors.handle(new Error("Invalid project: #{directory}"))
+		errors.handle(new Error("Invalid project: #{directory}"))
 
 resin.data.prefix.set resin.settings.get('dataPrefix'), (error) ->
-	resin.errors.handle(error) if error?
+	errors.handle(error) if error?
 
 	log.setQuiet(cli.global.quiet)
 
