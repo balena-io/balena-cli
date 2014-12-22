@@ -3,11 +3,12 @@ async = require('async')
 resin = require('../resin')
 ui = require('../ui')
 log = require('../log/log')
+errors = require('../errors/errors')
 permissions = require('../permissions/permissions')
 
 exports.list = permissions.user (params) ->
 	resin.models.device.getAllByApplication params.id, (error, devices) ->
-		resin.errors.handle(error) if error?
+		errors.handle(error) if error?
 
 		log.out ui.widgets.table.horizontal devices, (device) ->
 			device.application = device.application[0].app_name
@@ -21,7 +22,7 @@ exports.list = permissions.user (params) ->
 
 exports.info = permissions.user (params) ->
 	resin.models.device.get params.id, (error, device) ->
-		resin.errors.handle(error) if error?
+		errors.handle(error) if error?
 
 		log.out ui.widgets.table.vertical device, (device) ->
 			device.device_type = resin.device.getDisplayName(device.device_type)
@@ -46,11 +47,11 @@ exports.info = permissions.user (params) ->
 exports.remove = permissions.user (params, options) ->
 	ui.patterns.remove 'device', options.yes, (callback) ->
 		resin.models.device.remove(params.id, callback)
-	, resin.errors.handle
+	, errors.handle
 
 exports.identify = permissions.user (params) ->
 	resin.models.device.identify params.uuid, (error) ->
-		resin.errors.handle(error) if error?
+		errors.handle(error) if error?
 
 # TODO: This action doesn't return any error
 # if trying to rename a device that does not
@@ -67,4 +68,4 @@ exports.rename = permissions.user (params) ->
 			resin.models.device.rename(params.id, name, callback)
 
 	], (error) ->
-		resin.errors.handle(error) if error?
+		errors.handle(error) if error?

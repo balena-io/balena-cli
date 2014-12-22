@@ -7,6 +7,7 @@ resin = require('../resin')
 permissions = require('../permissions/permissions')
 ui = require('../ui')
 log = require('../log/log')
+errors = require('../errors/errors')
 examplesData = require('../data/examples.json')
 
 exports.list = permissions.user ->
@@ -28,7 +29,7 @@ exports.info = permissions.user (params) ->
 
 	if not example?
 		error = new Error("Unknown example: #{id}")
-		resin.errors.handle(error)
+		errors.handle(error)
 
 	log.out ui.widgets.table.vertical example, (example) ->
 		delete example.name
@@ -48,7 +49,7 @@ exports.clone = permissions.user (params) ->
 
 	if not example?
 		error = new Error("Unknown example: #{id}")
-		resin.errors.handle(error)
+		errors.handle(error)
 
 	async.waterfall [
 
@@ -65,4 +66,4 @@ exports.clone = permissions.user (params) ->
 			gitCli.Repository.clone(example.repository, example.name, callback)
 
 	], (error) ->
-		resin.errors.handle(error) if error?
+		errors.handle(error) if error?

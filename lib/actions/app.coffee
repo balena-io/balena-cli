@@ -4,6 +4,7 @@ gitCli = require('git-cli')
 resin = require('../resin')
 ui = require('../ui')
 log = require('../log/log')
+errors = require('../errors/errors')
 permissions = require('../permissions/permissions')
 
 exports.create = permissions.user (params, options) ->
@@ -26,11 +27,11 @@ exports.create = permissions.user (params, options) ->
 
 			resin.models.application.create(params.name, slugifiedType, callback)
 
-	], resin.errors.handle
+	], errors.handle
 
 exports.list = permissions.user ->
 	resin.models.application.getAll (error, applications) ->
-		resin.errors.handle(error) if error?
+		errors.handle(error) if error?
 
 		log.out ui.widgets.table.horizontal applications, (application) ->
 			application.device_type = resin.device.getDisplayName(application.device_type)
@@ -43,7 +44,7 @@ exports.list = permissions.user ->
 
 exports.info = permissions.user (params) ->
 	resin.models.application.get params.id, (error, application) ->
-		resin.errors.handle(error) if error?
+		errors.handle(error) if error?
 
 		log.out ui.widgets.table.vertical application, (application) ->
 			application.device_type = resin.device.getDisplayName(application.device_type)
@@ -53,12 +54,12 @@ exports.info = permissions.user (params) ->
 
 exports.restart = permissions.user (params) ->
 	resin.models.application.restart params.id, (error) ->
-		resin.errors.handle(error) if error?
+		errors.handle(error) if error?
 
 exports.remove = permissions.user (params, options) ->
 	ui.patterns.remove 'application', options.yes, (callback) ->
 		resin.models.application.remove(params.id, callback)
-	, resin.errors.handle
+	, errors.handle
 
 exports.init = permissions.user (params) ->
 
@@ -82,4 +83,4 @@ exports.init = permissions.user (params) ->
 			resin.vcs.initProjectWithApplication(application, currentDirectory, callback)
 
 	], (error) ->
-		resin.errors.handle(error) if error?
+		errors.handle(error) if error?

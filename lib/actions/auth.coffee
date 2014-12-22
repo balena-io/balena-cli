@@ -4,6 +4,7 @@ async = require('async')
 resin = require('../resin')
 ui = require('../ui')
 log = require('../log/log')
+errors = require('../errors/errors')
 permissions = require('../permissions/permissions')
 
 exports.login	= (params) ->
@@ -18,7 +19,7 @@ exports.login	= (params) ->
 		(credentials, callback) ->
 			resin.auth.login(credentials, callback)
 
-	], resin.errors.handle
+	], errors.handle
 
 exports.logout = permissions.user ->
 	resin.auth.logout()
@@ -30,10 +31,10 @@ exports.signup = ->
 
 exports.whoami = permissions.user ->
 	resin.auth.whoami (error, username) ->
-		resin.errors.handle(error) if error?
+		errors.handle(error) if error?
 
 		if not username?
 			error = new Error('Username not found')
-			resin.errors.handle(error)
+			errors.handle(error)
 
 		log.out(username)

@@ -3,12 +3,13 @@ capitano = require('capitano')
 resin = require('./resin')
 packageJSON = require('../package.json')
 actions = require('./actions')
+log = require('./log/log')
 
 capitano.command
 	signature: 'version'
 	description: 'output the version number'
 	action: ->
-		resin.log.out(packageJSON.version)
+		log.out(packageJSON.version)
 
 capitano.command
 	signature: 'help [command...]'
@@ -542,7 +543,7 @@ changeProjectDirectory = (directory) ->
 resin.data.prefix.set resin.settings.get('dataPrefix'), (error) ->
 	resin.errors.handle(error) if error?
 
-	resin.log.setQuiet(cli.global.quiet)
+	log.setQuiet(cli.global.quiet)
 
 	if cli.global.project?
 		changeProjectDirectory(cli.global.project)

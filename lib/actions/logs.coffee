@@ -4,6 +4,7 @@ resin = require('../resin')
 helpers = require('../helpers/helpers')
 permissions = require('../permissions/permissions')
 log = require('../log/log')
+errors = require('../errors/errors')
 
 LOGS_HISTORY_COUNT = 200
 
@@ -22,13 +23,13 @@ exports.logs = permissions.user (params, options) ->
 	tailOutput = options.tail or false
 
 	if numberOfLines? and not _.isNumber(numberOfLines)
-		resin.errors.handle(new Error('n/num should be a number'))
+		errors.handle(new Error('n/num should be a number'))
 
 	helpers.isDeviceUUIDValid params.uuid, (error, isValidUUID) ->
-		resin.errors.handle(error) if error?
+		errors.handle(error) if error?
 
 		if not isValidUUID
-			return resin.errors.handle(new Error('Invalid UUID'))
+			return errors.handle(new Error('Invalid UUID'))
 
 		# PubNub needs to be initialised after logs
 		# action was called, otherwise it prevents

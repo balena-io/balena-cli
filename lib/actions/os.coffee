@@ -8,6 +8,7 @@ connection = require('../connection/connection')
 ui = require('../ui')
 log = require('../log/log')
 permissions = require('../permissions/permissions')
+errors = require('../errors/errors')
 
 exports.download = (params, options) ->
 	networkParams =
@@ -41,5 +42,5 @@ exports.download = (params, options) ->
 			ui.patterns.downloadFile(downloadUrl, outputFile, callback)
 
 	], (error) ->
-		resin.errors.handle(error) if error?
+		errors.handle(error) if error?
 		log.info("\nFinished downloading #{outputFile}")

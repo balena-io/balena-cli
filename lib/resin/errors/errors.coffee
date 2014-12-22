@@ -1,6 +1,4 @@
-_ = require('lodash')
 TypedError = require('typed-error')
-log = require('../../log/log')
 
 exports.NotFound = class NotFound extends TypedError
 
@@ -125,31 +123,3 @@ exports.FileNotFound = class FileNotFound extends TypedError
 
 	# Error code
 	code: 1
-
-# Handle error instances
-#
-# Prints the message to stderr and aborts the program with the corresponding error code, or 0 if none.
-#
-# @param {Error} error the error instance
-# @param {Boolean} exit whether to exit or not (defaults to true)
-#
-# @example Handle error
-#		error = new Error('My Error')
-#		shouldExit = false
-#		resin.errors.handle(error, shouldExit)
-#
-exports.handle = (error, exit = true) ->
-	return if not error? or error not instanceof Error
-
-	if process.env.DEBUG
-		log.error(error.stack)
-	else
-		if error.message?
-			log.error(error.message)
-
-	if _.isNumber(error.code)
-		errorCode = error.code
-	else
-		errorCode = 1
-
-	process.exit(errorCode) if exit

@@ -7,10 +7,11 @@ helpers = require('../helpers/helpers')
 ui = require('../ui')
 log = require('../log/log')
 permissions = require('../permissions/permissions')
+errors = require('../errors/errors')
 
 exports.list = permissions.user ->
 	resin.server.get resin.settings.get('urls.keys'), (error, response, keys) ->
-		resin.errors.handle(error) if error?
+		errors.handle(error) if error?
 		log.out ui.widgets.table.horizontal keys, (key) ->
 			delete key.public_key
 			return key
@@ -22,10 +23,10 @@ exports.info = permissions.user (params) ->
 	# As a workaround, we request all of them, and filter
 	# the one we need. Fix once we have a better way.
 	resin.server.get resin.settings.get('urls.keys'), (error, response, keys) ->
-		resin.errors.handle(error) if error?
+		errors.handle(error) if error?
 		key = _.findWhere(keys, id: params.id)
 		if not key?
-			resin.errors.handle(new resin.errors.NotFound("key #{params.id}"))
+			errors.handle(new resin.errors.NotFound("key #{params.id}"))
 
 		key.public_key = '\n' + _.str.chop(key.public_key, resin.settings.get('sshKeyWidth')).join('\n')
 		log.out(ui.widgets.table.vertical(key, _.identity, [ 'ID', 'Title', 'Public Key' ]))
@@ -34,7 +35,7 @@ exports.remove = permissions.user (params, options) ->
 	ui.patterns.remove 'key', options.yes, (callback) ->
 		url = _.template(resin.settings.get('urls.sshKey'), id: params.id)
 		resin.server.delete(url, callback)
-	, resin.errors.handle
+	, errors.handle
 
 exports.add = permissions.user (params) ->
 	async.waterfall [
@@ -66,4 +67,4 @@ exports.add = permissions.user (params) ->
 		if error.code is 'ENOENT'
 			error = new resin.errors.FileNotFound(params.path)
 
-		resin.errors.handle(error)
+		errors.handle(error)
