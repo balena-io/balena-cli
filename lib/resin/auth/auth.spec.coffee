@@ -251,33 +251,3 @@ describe 'Auth:', ->
 
 			it 'should not throw an error if callback is not passed', ->
 				expect(auth.logout).to.not.throw(Error)
-
-	describe '#parseCredentials', ->
-
-		describe 'given colon separated credentials', ->
-
-			username = null
-			password = null
-
-			beforeEach ->
-				username = 'johndoe'
-				password = 'mysecret'
-
-			it 'should parse the credentials correctly', (done) ->
-				auth.parseCredentials "#{username}:#{password}", (error, credentials) ->
-					expect(error).to.not.exist
-					expect(credentials.username).to.equal(username)
-					expect(credentials.password).to.equal(password)
-					done()
-
-			it 'should throw an error if it has two or more colons', (done) ->
-				auth.parseCredentials "#{username}:#{password}:#{username}", (error, credentials) ->
-					expect(error).to.be.an.instanceof(Error)
-					expect(credentials).to.not.exist
-					done()
-
-			it 'should throw an error if only the username is passed', (done) ->
-				auth.parseCredentials username, (error, credentials) ->
-					expect(error).to.be.an.instanceof(Error)
-					expect(credentials).to.not.exist
-					done()

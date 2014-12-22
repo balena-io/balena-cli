@@ -131,29 +131,3 @@ exports.logout = (callback = _.noop) ->
 			data.remove(usernameKey, callback)
 
 	], _.unary(callback))
-
-# Parse colon separated credentials
-#
-# @private
-#
-# @param {String} colon separated credentials (username:password)
-# @param {Function} callback callback (error, credentials)
-#
-# @todo This should be moved somewhere else, as it only used by the auth actions
-#
-#	@example Parse credentials
-#		resin.auth.parseCredentials 'johndoe:secret', (error, credentials) ->
-#			throw error if error?
-#			console.log(credentials.username)
-#			console.log(credentials.password)
-#
-exports.parseCredentials = (credentials, callback) ->
-	result = credentials.split(':')
-
-	if result.length isnt 2
-		error = new errors.InvalidCredentials()
-		return callback?(error)
-
-	callback? null,
-		username: _.first(result)
-		password: _.last(result)

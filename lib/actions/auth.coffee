@@ -6,13 +6,14 @@ ui = require('../ui')
 log = require('../log/log')
 errors = require('../errors/errors')
 permissions = require('../permissions/permissions')
+helpers = require('../helpers/helpers')
 
 exports.login	= (params) ->
 	async.waterfall [
 
 		(callback) ->
 			if params.credentials?
-				return resin.auth.parseCredentials(params.credentials, callback)
+				return helpers.parseCredentials(params.credentials, callback)
 			else
 				return ui.widgets.login(callback)
 
