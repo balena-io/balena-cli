@@ -8,3 +8,4 @@ module.exports =
 	preferences: require('./preferences')
 	os: require('./os')
 	help: require('./help')
+	examples: require('./examples')

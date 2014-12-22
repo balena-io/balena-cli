@@ -494,6 +494,29 @@ capitano.command
 		}
 	]
 
+# ---------- Examples Module ----------
+capitano.command
+	signature: 'examples'
+	description: 'list all example applications'
+	help: '''
+		Use this command to list available example applications from resin.io
+
+		Example:
+			$ resin examples
+	'''
+	action: actions.examples.list
+
+capitano.command
+	signature: 'example <id>'
+	description: 'list a single example application'
+	help: '''
+		Use this command to show information of a single example application
+
+		Example:
+			$ resin example 3
+	'''
+	action: actions.examples.info
+
 cli = capitano.parse(process.argv)
 
 changeProjectDirectory = (directory) ->
