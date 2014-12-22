@@ -29,7 +29,7 @@ describe 'Device:', ->
 				expect(device.getDisplayName(name)).to.equal('Unknown')
 
 		it 'should return the name itself if passing the display name', ->
-			for supportedDevice in device.getSupportedDevices()
+			for supportedDevice in device.getSupportedDeviceTypes()
 				displayName = device.getDisplayName(supportedDevice)
 				expect(displayName).to.equal(supportedDevice)
 
@@ -48,12 +48,12 @@ describe 'Device:', ->
 				name = _.first(value.names)
 				expect(device.getDeviceSlug(name)).to.equal(value.slug)
 
-	describe '#getSupportedDevices()', ->
+	describe '#getSupportedDeviceTypes()', ->
 
 		it 'should return an array', ->
-			expect(device.getSupportedDevices()).to.be.an.instanceof(Array)
+			expect(device.getSupportedDeviceTypes()).to.be.an.instanceof(Array)
 
 		it 'should have every supported device', ->
-			supportedDevices = device.getSupportedDevices()
+			supportedDevices = device.getSupportedDeviceTypes()
 			for key, value in DEVICES
 				expect(supportedDevices.indexOf(key)).to.not.equal(-1)

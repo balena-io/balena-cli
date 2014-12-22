@@ -3,6 +3,7 @@ _ = require('lodash-contrib')
 errors = require('../errors/errors')
 server = require('../server/server')
 settings = require('../settings')
+DEVICES = require('./device-data.json')
 
 # Get all devices
 #
@@ -140,3 +141,46 @@ exports.rename = (id, name, callback) ->
 
 	.catch (error) ->
 		return callback(error)
+
+# Get display name for a device
+#
+# For a list of supported devices, see getSupportedDeviceTypes()
+#
+# @param {String} device device name
+# @return {String} device display name or 'Unknown'
+#
+# @example Get display name
+#		console.log resin.models.device.getDisplayName('raspberry-pi') # Raspberry Pi
+#		console.log resin.models.device.getDisplayName('rpi') # Raspberry Pi
+#
+exports.getDisplayName = (device) ->
+	if _.indexOf(exports.getSupportedDeviceTypes(), device) isnt -1
+		return device
+
+	for key, value of DEVICES
+		if _.indexOf(value.names, device) isnt -1
+			return key
+	return 'Unknown'
+
+# Get device slug
+#
+# @param {String} device device name
+# @return {String} device slug or 'unknown'
+#
+# @example Get device slug
+#		console.log resin.models.device.getDeviceSlug('Raspberry Pi') # raspberry-pi
+#
+exports.getDeviceSlug = (device) ->
+	displayName = exports.getDisplayName(device)
+	return DEVICES[displayName]?.slug or 'unknown'
+
+# Get a list of supported device types
+#
+# @return {Array<String>} a list of all supported devices, by their display names
+#
+# @example Get all supported devices
+#		devices = resin.models.device.getSupportedDevicesTypes()
+#		console.log(devices)
+#
+exports.getSupportedDeviceTypes = ->
+	return _.keys(DEVICES)

@@ -12,7 +12,7 @@ exports.list = permissions.user (params) ->
 
 		log.out ui.widgets.table.horizontal devices, (device) ->
 			device.application = device.application[0].app_name
-			device.device_type = resin.device.getDisplayName(device.device_type)
+			device.device_type = resin.models.device.getDisplayName(device.device_type)
 			delete device.note
 			delete device.supervisor_version
 			delete device.uuid
@@ -25,7 +25,7 @@ exports.info = permissions.user (params) ->
 		errors.handle(error) if error?
 
 		log.out ui.widgets.table.vertical device, (device) ->
-			device.device_type = resin.device.getDisplayName(device.device_type)
+			device.device_type = resin.device.models.getDisplayName(device.device_type)
 			device.application = device.application[0].app_name
 			return device
 		, [

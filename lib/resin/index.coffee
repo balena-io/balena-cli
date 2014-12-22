@@ -4,6 +4,5 @@ module.exports =
 	errors: require('./errors/errors')
 	data: require('./data/data')
 	auth: require('./auth/auth')
-	device: require('./device/device')
 	vcs: require('./vcs/vcs')
 	settings: require('./settings')

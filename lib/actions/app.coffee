@@ -16,14 +16,14 @@ exports.create = permissions.user (params, options) ->
 			if deviceType?
 				return callback(null, deviceType)
 			else
-				deviceTypes = resin.device.getSupportedDevices()
+				deviceTypes = resin.models.device.getSupportedDeviceTypes()
 				ui.widgets.select('Select a type', deviceTypes, callback)
 
 		(type, callback) ->
 
 			# TODO: Currently returns 'unknown'.
 			# Maybe we should break or handle better?
-			slugifiedType = resin.device.getDeviceSlug(type)
+			slugifiedType = resin.models.device.getDeviceSlug(type)
 
 			resin.models.application.create(params.name, slugifiedType, callback)
 
@@ -34,7 +34,7 @@ exports.list = permissions.user ->
 		errors.handle(error) if error?
 
 		log.out ui.widgets.table.horizontal applications, (application) ->
-			application.device_type = resin.device.getDisplayName(application.device_type)
+			application.device_type = resin.models.device.getDisplayName(application.device_type)
 			application['Online Devices'] = _.where(application.device, is_online: 1).length
 			application['All Devices'] = application.device?.length or 0
 			delete application.git_repository
@@ -47,7 +47,7 @@ exports.info = permissions.user (params) ->
 		errors.handle(error) if error?
 
 		log.out ui.widgets.table.vertical application, (application) ->
-			application.device_type = resin.device.getDisplayName(application.device_type)
+			application.device_type = resin.models.device.getDisplayName(application.device_type)
 			delete application.device
 			return application
 		, [ 'ID', 'Name', 'Device Type', 'Git Repository', 'Commit' ]
