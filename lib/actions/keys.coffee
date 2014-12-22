@@ -53,6 +53,6 @@ exports.add = permissions.user (params) ->
 			error.message = "File is a directory: #{params.path}"
 
 		if error.code is 'ENOENT'
-			error = new resin.errors.FileNotFound(params.path)
+			error = new Error("File not found: #{params.path}")
 
 		errors.handle(error)
