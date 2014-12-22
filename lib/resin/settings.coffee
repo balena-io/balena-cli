@@ -1,6 +1,6 @@
 path = require('path')
 userHome = require('user-home')
-helpers = require('./helpers/helpers')
+helpers = require('./_helpers/helpers')
 
 ConfJS = require('conf.js')
 
