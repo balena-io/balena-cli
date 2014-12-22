@@ -1,7 +1,7 @@
 pine = require('./_pine')
 _ = require('lodash-contrib')
 errors = require('../_errors/errors')
-server = require('../server/server')
+server = require('../_server/server')
 settings = require('../settings')
 DEVICES = require('./device-data.json')
 

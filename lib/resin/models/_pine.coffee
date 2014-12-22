@@ -2,7 +2,7 @@ _ = require('lodash')
 Promise = require('bluebird')
 PinejsClientCore = require('pinejs-client-js')(_, Promise)
 settings = require('../settings')
-server = require('../server/server')
+server = require('../_server/server')
 promisifiedServerRequest = Promise.promisify(server.request, server)
 
 class PinejsClientRequest extends PinejsClientCore

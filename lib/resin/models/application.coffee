@@ -1,7 +1,7 @@
 _ = require('lodash-contrib')
 pine = require('./_pine')
 errors = require('../_errors/errors')
-server = require('../server/server')
+server = require('../_server/server')
 settings = require('../settings')
 
 # Get all applications

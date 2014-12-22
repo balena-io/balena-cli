@@ -1,5 +1,4 @@
 module.exports =
-	server: require('./server/server')
 	models: require('./models')
 	data: require('./data/data')
 	auth: require('./auth/auth')

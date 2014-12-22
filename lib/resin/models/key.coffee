@@ -1,5 +1,5 @@
 _ = require('lodash-contrib')
-server = require('../server/server')
+server = require('../_server/server')
 settings = require('../settings')
 errors = require('../_errors/errors')
 

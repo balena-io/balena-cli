@@ -1,6 +1,6 @@
 url = require('url')
 fs = require('fs')
-server = require('../server/server')
+server = require('../_server/server')
 settings = require('../settings')
 
 exports.download = (parameters, destination, callback, onProgress) ->
