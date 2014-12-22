@@ -39,15 +39,18 @@ exports.add = permissions.user (params) ->
 	async.waterfall [
 
 		(callback) ->
-			fs.readFile(params.path, encoding: 'utf8', callback)
+			if params.path?
+				fs.readFile(params.path, encoding: 'utf8', callback)
+			else
+				helpers.readStdin(callback)
 
-		(contents, callback) ->
-			contents = contents.trim()
+		(key, callback) ->
+			key = key.trim()
 
 			url = resin.settings.get('urls.keys')
 			data =
 				title: params.name
-				key: contents
+				key: key
 			resin.server.post(url, data, callback)
 
 	], (error) ->

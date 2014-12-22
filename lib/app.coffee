@@ -288,9 +288,20 @@ capitano.command
 	'''
 	action: actions.keys.list
 
+# TODO: Write help page for this command
 capitano.command
-	signature: 'key add <name> <path>'
+	signature: 'key add <name> [path]'
 	description: 'add a SSH key to resin.io'
+	help: '''
+		Use this command to associate a new SSH key with your account.
+
+		If `path` is omitted, the command will attempt
+		to read the SSH key from stdin.
+
+		Examples:
+			$ resin key add Main ~/.ssh/id_rsa.pub
+			$ cat ~/.ssh/id_rsa.pub | resin key add Main
+	'''
 	action: actions.keys.add
 
 capitano.command
