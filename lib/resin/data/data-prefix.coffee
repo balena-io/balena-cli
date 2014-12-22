@@ -1,6 +1,6 @@
 _ = require('lodash')
 mkdirp = require('mkdirp')
-errors = require('../errors/errors')
+errors = require('../_errors/errors')
 
 # @nodoc
 prefix = null

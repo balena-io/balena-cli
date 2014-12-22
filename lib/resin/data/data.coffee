@@ -2,7 +2,7 @@ _ = require('lodash')
 fs = require('fs')
 path = require('path')
 rimraf = require('rimraf')
-errors = require('../errors/errors')
+errors = require('../_errors/errors')
 exports.prefix = require('./data-prefix')
 
 # TODO: codo doesn't recognises functions in this file

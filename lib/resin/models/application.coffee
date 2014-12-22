@@ -1,6 +1,6 @@
 _ = require('lodash-contrib')
 pine = require('./_pine')
-errors = require('../errors/errors')
+errors = require('../_errors/errors')
 server = require('../server/server')
 settings = require('../settings')
 

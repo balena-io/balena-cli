@@ -1,5 +1,5 @@
 pine = require('./_pine')
-errors = require('../errors/errors')
+errors = require('../_errors/errors')
 
 # Get all environment variables by application
 #

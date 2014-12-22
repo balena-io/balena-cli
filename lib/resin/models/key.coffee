@@ -1,7 +1,7 @@
 _ = require('lodash-contrib')
 server = require('../server/server')
 settings = require('../settings')
-errors = require('../errors/errors')
+errors = require('../_errors/errors')
 
 # TODO: Do this with pinejs once it's exposed as an OData API
 

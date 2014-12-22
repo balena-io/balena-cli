@@ -4,7 +4,7 @@ _ = require('lodash')
 async = require('async')
 path = require('path')
 gitCli = require('git-cli')
-errors = require('../../errors/errors')
+errors = require('../../_errors/errors')
 settings = require('../../settings')
 
 # TODO: Refactor somewhere else and reuse trough all modules
