@@ -6,6 +6,7 @@ gitCli = require('git-cli')
 resin = require('../resin')
 permissions = require('../permissions/permissions')
 ui = require('../ui')
+log = require('../log/log')
 examplesData = require('../data/examples.json')
 
 exports.list = permissions.user ->
@@ -14,7 +15,7 @@ exports.list = permissions.user ->
 		example.id = index + 1
 		return example
 
-	resin.log.out ui.widgets.table.horizontal examplesData, (example) ->
+	log.out ui.widgets.table.horizontal examplesData, (example) ->
 		delete example.description
 		delete example.name
 		example.author ?= 'Unknown'
@@ -29,7 +30,7 @@ exports.info = permissions.user (params) ->
 		error = new Error("Unknown example: #{id}")
 		resin.errors.handle(error)
 
-	resin.log.out ui.widgets.table.vertical example, (example) ->
+	log.out ui.widgets.table.vertical example, (example) ->
 		delete example.name
 		example.id = id
 		example.author ?= 'Unknown'
@@ -60,7 +61,7 @@ exports.clone = permissions.user (params) ->
 				return callback(error)
 
 		(callback) ->
-			resin.log.info("Cloning #{example.display_name} to #{example.name}")
+			log.info("Cloning #{example.display_name} to #{example.name}")
 			gitCli.Repository.clone(example.repository, example.name, callback)
 
 	], (error) ->

@@ -5,12 +5,13 @@ fs = require('fs')
 resin = require('../resin')
 helpers = require('../helpers/helpers')
 ui = require('../ui')
+log = require('../log/log')
 permissions = require('../permissions/permissions')
 
 exports.list = permissions.user ->
 	resin.server.get resin.settings.get('urls.keys'), (error, response, keys) ->
 		resin.errors.handle(error) if error?
-		resin.log.out ui.widgets.table.horizontal keys, (key) ->
+		log.out ui.widgets.table.horizontal keys, (key) ->
 			delete key.public_key
 			return key
 		, [ 'ID', 'Title' ]
@@ -27,7 +28,7 @@ exports.info = permissions.user (params) ->
 			resin.errors.handle(new resin.errors.NotFound("key #{params.id}"))
 
 		key.public_key = '\n' + _.str.chop(key.public_key, resin.settings.get('sshKeyWidth')).join('\n')
-		resin.log.out(ui.widgets.table.vertical(key, _.identity, [ 'ID', 'Title', 'Public Key' ]))
+		log.out(ui.widgets.table.vertical(key, _.identity, [ 'ID', 'Title', 'Public Key' ]))
 
 exports.remove = permissions.user (params, options) ->
 	ui.patterns.remove 'key', options.yes, (callback) ->

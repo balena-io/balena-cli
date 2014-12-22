@@ -2,13 +2,14 @@ _ = require('lodash')
 async = require('async')
 resin = require('../resin')
 ui = require('../ui')
+log = require('../log/log')
 permissions = require('../permissions/permissions')
 
 exports.list = permissions.user (params) ->
 	resin.models.device.getAllByApplication params.id, (error, devices) ->
 		resin.errors.handle(error) if error?
 
-		resin.log.out ui.widgets.table.horizontal devices, (device) ->
+		log.out ui.widgets.table.horizontal devices, (device) ->
 			device.application = device.application[0].app_name
 			device.device_type = resin.device.getDisplayName(device.device_type)
 			delete device.note
@@ -22,7 +23,7 @@ exports.info = permissions.user (params) ->
 	resin.models.device.get params.id, (error, device) ->
 		resin.errors.handle(error) if error?
 
-		resin.log.out ui.widgets.table.vertical device, (device) ->
+		log.out ui.widgets.table.vertical device, (device) ->
 			device.device_type = resin.device.getDisplayName(device.device_type)
 			device.application = device.application[0].app_name
 			return device

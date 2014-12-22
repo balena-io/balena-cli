@@ -1,6 +1,6 @@
 _ = require('lodash')
 TypedError = require('typed-error')
-log = require('../log/log')
+log = require('../../log/log')
 
 exports.NotFound = class NotFound extends TypedError
 

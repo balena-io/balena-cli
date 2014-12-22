@@ -3,6 +3,7 @@ async = require('async')
 gitCli = require('git-cli')
 resin = require('../resin')
 ui = require('../ui')
+log = require('../log/log')
 permissions = require('../permissions/permissions')
 
 exports.create = permissions.user (params, options) ->
@@ -31,7 +32,7 @@ exports.list = permissions.user ->
 	resin.models.application.getAll (error, applications) ->
 		resin.errors.handle(error) if error?
 
-		resin.log.out ui.widgets.table.horizontal applications, (application) ->
+		log.out ui.widgets.table.horizontal applications, (application) ->
 			application.device_type = resin.device.getDisplayName(application.device_type)
 			application['Online Devices'] = _.where(application.device, is_online: 1).length
 			application['All Devices'] = application.device?.length or 0
@@ -44,7 +45,7 @@ exports.info = permissions.user (params) ->
 	resin.models.application.get params.id, (error, application) ->
 		resin.errors.handle(error) if error?
 
-		resin.log.out ui.widgets.table.vertical application, (application) ->
+		log.out ui.widgets.table.vertical application, (application) ->
 			application.device_type = resin.device.getDisplayName(application.device_type)
 			delete application.device
 			return application

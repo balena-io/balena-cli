@@ -3,6 +3,7 @@ open = require('open')
 async = require('async')
 resin = require('../resin')
 ui = require('../ui')
+log = require('../log/log')
 permissions = require('../permissions/permissions')
 
 exports.login	= (params) ->
@@ -35,4 +36,4 @@ exports.whoami = permissions.user ->
 			error = new Error('Username not found')
 			resin.errors.handle(error)
 
-		resin.log.out(username)
+		log.out(username)

@@ -6,6 +6,7 @@ url = require('url')
 resin = require('../resin')
 connection = require('../connection/connection')
 ui = require('../ui')
+log = require('../log/log')
 permissions = require('../permissions/permissions')
 
 exports.download = (params, options) ->
@@ -41,4 +42,4 @@ exports.download = (params, options) ->
 
 	], (error) ->
 		resin.errors.handle(error) if error?
-		resin.log.info("\nFinished downloading #{outputFile}")
+		log.info("\nFinished downloading #{outputFile}")

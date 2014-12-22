@@ -1,6 +1,6 @@
 expect = require('chai').expect
 sinon = require('sinon')
-log = require('../log/log')
+log = require('../../log/log')
 errors = require('./errors')
 
 describe 'Errors:', ->

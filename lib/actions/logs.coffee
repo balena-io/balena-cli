@@ -3,6 +3,7 @@ PubNub = require('pubnub')
 resin = require('../resin')
 helpers = require('../helpers/helpers')
 permissions = require('../permissions/permissions')
+log = require('../log/log')
 
 LOGS_HISTORY_COUNT = 200
 
@@ -13,7 +14,7 @@ getLogData = (logs) ->
 printLogs = (logs, number) ->
 	logs = getLogData(logs)
 	logs = _.last(logs, number) if _.isNumber(number)
-	resin.log.array(logs, resin.log.out)
+	log.array(logs, log.out)
 
 exports.logs = permissions.user (params, options) ->
 

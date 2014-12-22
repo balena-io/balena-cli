@@ -2,6 +2,7 @@ _ = require('lodash')
 resin = require('../resin')
 ui = require('../ui')
 permissions = require('../permissions/permissions')
+log = require('../log/log')
 
 SYSTEM_VAR_REGEX = /^RESIN_/
 
@@ -18,7 +19,7 @@ exports.list = permissions.user (params, options) ->
 		if not options.verbose
 			environmentVariables = _.reject(environmentVariables, isSystemVariable)
 
-		resin.log.out(ui.widgets.table.horizontal(environmentVariables))
+		log.out(ui.widgets.table.horizontal(environmentVariables))
 
 exports.remove = permissions.user (params, options) ->
 	ui.patterns.remove 'environment variable', options.yes, (callback) ->
@@ -35,7 +36,7 @@ exports.add = permissions.user (params, options) ->
 		if not params.value?
 			resin.errors.handle(new Error("Environment value not found for key: #{params.key}"))
 		else
-			resin.log.info("Warning: using #{params.key}=#{params.value} from host environment")
+			log.info("Warning: using #{params.key}=#{params.value} from host environment")
 
 	resin.models.environmentVariables.create options.application, params.key, params.value, (error) ->
 		resin.errors.handle(error) if error?

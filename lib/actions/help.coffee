@@ -2,6 +2,7 @@ _ = require('lodash')
 _.str = require('underscore.string')
 resin = require('../resin')
 capitano = require('capitano')
+log = require('../log/log')
 
 # TODO: Refactor this terrible mess
 
@@ -61,14 +62,14 @@ getOptionHelp = (option, maxLength) ->
 	return result
 
 exports.general = ->
-	resin.log.out("Usage: #{process.argv[0]} [COMMAND] [OPTIONS]\n")
-	resin.log.out('Commands:\n')
+	log.out("Usage: #{process.argv[0]} [COMMAND] [OPTIONS]\n")
+	log.out('Commands:\n')
 
 	for command in capitano.state.commands
 		continue if command.isWildcard()
-		resin.log.out(getCommandHelp(command))
+		log.out(getCommandHelp(command))
 
-	resin.log.out('\nGlobal Options:\n')
+	log.out('\nGlobal Options:\n')
 
 	options = _.map capitano.state.globalOptions, (option) ->
 		option.signature = buildOptionSignatureHelp(option)
@@ -78,9 +79,9 @@ exports.general = ->
 		return option.signature.length
 
 	for option in options
-		resin.log.out(getOptionHelp(option, optionSignatureMaxLength))
+		log.out(getOptionHelp(option, optionSignatureMaxLength))
 
-	resin.log.out()
+	log.out()
 
 exports.command = (params) ->
 	command = capitano.state.getMatchCommand(params.command)
@@ -88,15 +89,15 @@ exports.command = (params) ->
 	if not command? or command.isWildcard()
 		return capitano.defaults.actions.commandNotFound(params.command)
 
-	resin.log.out("Usage: #{command.signature}")
+	log.out("Usage: #{command.signature}")
 
 	if command.help?
-		resin.log.out("\n#{command.help}")
+		log.out("\n#{command.help}")
 	else if command.description?
-		resin.log.out("\n#{_.str.humanize(command.description)}")
+		log.out("\n#{_.str.humanize(command.description)}")
 
 	if not _.isEmpty(command.options)
-		resin.log.out('\nOptions:\n')
+		log.out('\nOptions:\n')
 
 		options = _.map command.options, (option) ->
 			option.signature = buildOptionSignatureHelp(option)
@@ -106,6 +107,6 @@ exports.command = (params) ->
 			return option.signature.toString().length
 
 		for option in options
-			resin.log.out(getOptionHelp(option, optionSignatureMaxLength))
+			log.out(getOptionHelp(option, optionSignatureMaxLength))
 
-		resin.log.out()
+		log.out()
