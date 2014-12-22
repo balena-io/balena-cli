@@ -10,31 +10,24 @@ permissions = require('../permissions/permissions')
 errors = require('../errors/errors')
 
 exports.list = permissions.user ->
-	resin.server.get resin.settings.get('urls.keys'), (error, response, keys) ->
+	resin.models.key.getAll (error, keys) ->
 		errors.handle(error) if error?
+
 		log.out ui.widgets.table.horizontal keys, (key) ->
 			delete key.public_key
 			return key
 		, [ 'ID', 'Title' ]
 
 exports.info = permissions.user (params) ->
-
-	# TODO: We don't have a way to query a single ssh key yet.
-	# As a workaround, we request all of them, and filter
-	# the one we need. Fix once we have a better way.
-	resin.server.get resin.settings.get('urls.keys'), (error, response, keys) ->
+	resin.models.key.get params.id, (error, key) ->
 		errors.handle(error) if error?
-		key = _.findWhere(keys, id: params.id)
-		if not key?
-			errors.handle(new resin.errors.NotFound("key #{params.id}"))
 
 		key.public_key = '\n' + _.str.chop(key.public_key, resin.settings.get('sshKeyWidth')).join('\n')
 		log.out(ui.widgets.table.vertical(key, _.identity, [ 'ID', 'Title', 'Public Key' ]))
 
 exports.remove = permissions.user (params, options) ->
 	ui.patterns.remove 'key', options.yes, (callback) ->
-		url = _.template(resin.settings.get('urls.sshKey'), id: params.id)
-		resin.server.delete(url, callback)
+		resin.models.key.remove(params.id, callback)
 	, errors.handle
 
 exports.add = permissions.user (params) ->
@@ -48,12 +41,7 @@ exports.add = permissions.user (params) ->
 
 		(key, callback) ->
 			key = key.trim()
-
-			url = resin.settings.get('urls.keys')
-			data =
-				title: params.name
-				key: key
-			resin.server.post(url, data, callback)
+			resin.models.key.create(params.name, key, callback)
 
 	], (error) ->
 		return if not error?
