@@ -1,4 +1,8 @@
+async = require('async')
+fs = require('fs')
+path = require('path')
 _ = require('lodash')
+gitCli = require('git-cli')
 resin = require('../resin')
 permissions = require('../permissions/permissions')
 ui = require('../ui')
@@ -12,9 +16,10 @@ exports.list = permissions.user ->
 
 	resin.log.out ui.widgets.table.horizontal examplesData, (example) ->
 		delete example.description
+		delete example.name
 		example.author ?= 'Unknown'
 		return example
-	, [ 'ID', 'Name', 'Repository', 'Author' ]
+	, [ 'ID', 'Display Name', 'Repository', 'Author' ]
 
 exports.info = permissions.user (params) ->
 	id = params.id - 1
@@ -25,13 +30,38 @@ exports.info = permissions.user (params) ->
 		resin.errors.handle(error)
 
 	resin.log.out ui.widgets.table.vertical example, (example) ->
+		delete example.name
 		example.id = id
 		example.author ?= 'Unknown'
 		return example
 	, [
 		'ID'
-		'Name'
+		'Display Name'
 		'Description'
 		'Author'
 		'Repository'
 	]
+
+exports.clone = permissions.user (params) ->
+	example = examplesData[params.id - 1]
+
+	if not example?
+		error = new Error("Unknown example: #{id}")
+		resin.errors.handle(error)
+
+	async.waterfall [
+
+		(callback) ->
+			exampleAbsolutePath = path.join(process.cwd(), example.name)
+
+			fs.exists exampleAbsolutePath, (exists) ->
+				return callback() if not exists
+				error = new Error("Directory exists: #{example.name}")
+				return callback(error)
+
+		(callback) ->
+			resin.log.info("Cloning #{example.display_name} to #{example.name}")
+			gitCli.Repository.clone(example.repository, example.name, callback)
+
+	], (error) ->
+		resin.errors.handle(error) if error?

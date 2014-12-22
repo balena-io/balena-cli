@@ -507,6 +507,20 @@ capitano.command
 	action: actions.examples.list
 
 capitano.command
+	signature: 'example clone <id>'
+	description: 'clone an example application'
+	help: '''
+		Use this command to clone an example application to the current directory
+
+		This command outputs information about the cloning process.
+		Use `--quiet` to remove that output.
+
+		Example:
+			$ resin example clone 3
+	'''
+	action: actions.examples.clone
+
+capitano.command
 	signature: 'example <id>'
 	description: 'list a single example application'
 	help: '''
