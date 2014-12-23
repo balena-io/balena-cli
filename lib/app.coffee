@@ -199,15 +199,16 @@ capitano.command
 
 # ---------- Device Module ----------
 capitano.command
-	signature: 'devices <id>'
+	signature: 'devices'
 	description: 'list all devices'
 	help: '''
 		Use this command to list all devices that belong to a certain application.
 
 		Examples:
-			$ resin devices 91
+			$ resin devices --application 91
 	'''
 	action: actions.device.list
+	options: [ applicationOption ]
 
 capitano.command
 	signature: 'device rename <id> [name]'
