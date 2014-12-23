@@ -18,7 +18,7 @@ exports.list = permissions.user (params) ->
 			delete device.uuid
 			delete device.download_progress
 			return device
-		, [ 'ID', 'Name', 'Device Type', 'Is Online', 'IP Address', 'Application', 'Status', 'Last Seen' ]
+		, [ 'ID', 'Name', 'Device Type', 'Is Online', 'Application', 'Status', 'Last Seen' ]
 
 exports.info = permissions.user (params) ->
 	resin.models.device.get params.id, (error, device) ->
