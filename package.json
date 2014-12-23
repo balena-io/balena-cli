@@ -73,6 +73,6 @@
     "conf.js": "~0.1.1",
     "coffee-script": "~1.8.0",
     "git-cli": "~0.8.2",
-    "capitano": "~1.0.1"
+    "capitano": "~1.0.2"
   }
 }
