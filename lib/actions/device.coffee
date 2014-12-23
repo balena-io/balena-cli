@@ -28,7 +28,7 @@ exports.info = permissions.user (params) ->
 		errors.handle(error) if error?
 
 		log.out ui.widgets.table.vertical device, (device) ->
-			device.device_type = resin.device.models.getDisplayName(device.device_type)
+			device.device_type = resin.models.device.getDisplayName(device.device_type)
 			device.application = device.application[0].app_name
 			return device
 		, [
