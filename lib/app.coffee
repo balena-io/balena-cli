@@ -39,6 +39,14 @@ capitano.globalOption
 	description: 'project path'
 	alias: 'p'
 
+# We don't do anything in response to this options
+# explicitly. We use InquirerJS to provide CLI widgets,
+# and that module understands --no-color automatically.
+capitano.globalOption
+	signature: 'no-color'
+	description: 'disable colour highlighting'
+	boolean: true
+
 yesOption =
 	signature: 'yes'
 	description: 'confirm non interactively'
