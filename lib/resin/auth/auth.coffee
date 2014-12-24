@@ -131,3 +131,41 @@ exports.logout = (callback = _.noop) ->
 			data.remove(usernameKey, callback)
 
 	], _.unary(callback))
+
+# Register to Resin.io
+#
+# @param {Object} credentials in the form of username, password and email
+# @option credentials {String} username the username
+# @option credentials {String} password user password
+# @option credentials {String} email the user email
+# @param {Function} callback callback (error, token)
+#
+# @example Register to Resin.io
+#		resin.auth.register {
+#			username: 'johndoe'
+#			password: 'secret'
+#			email: 'johndoe@gmail.com'
+#		}, (error, token) ->
+#			throw error if error?
+#			console.log(token)
+#
+exports.register = (credentials = {}, callback) ->
+	if not credentials.username?
+		return callback(new Error('Missing username'))
+
+	if not credentials.password?
+		return callback(new Error('Missing password'))
+
+	if not credentials.email?
+		return callback(new Error('Missing email'))
+
+	async.waterfall([
+
+		(callback) ->
+			url = settings.get('urls.register')
+			server.post(url, credentials, callback)
+
+		(response, body, callback) ->
+			return callback(null, body)
+
+	], callback)

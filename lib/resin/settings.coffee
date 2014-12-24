@@ -36,6 +36,7 @@ settings =
 	urls:
 		signup: '/signup'
 		preferences: '/preferences'
+		register: '/user/register'
 		keys: '/user/keys'
 		identify: '/blink'
 		authenticate: '/login_'

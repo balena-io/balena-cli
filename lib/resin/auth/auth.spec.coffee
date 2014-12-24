@@ -24,6 +24,46 @@ describe 'Auth:', ->
 	afterEach ->
 		mock.fs.restore()
 
+	describe '#register()', ->
+
+		beforeEach ->
+			@credentials =
+				username: johnDoeFixture.credentials.username
+				password: johnDoeFixture.credentials.password
+				email: 'johndoe@gmail.com'
+
+			nock(settings.get('remoteUrl'))
+				.post(settings.get('urls.register'), @credentials)
+				.reply(201, johnDoeFixture.token)
+
+		describe 'given invalid credentials', ->
+
+			it 'should fail if no email', (done) ->
+				auth.register _.omit(@credentials, 'email'), (error, token) ->
+					expect(error).to.be.an.instanceof(Error)
+					expect(token).to.not.exist
+					done()
+
+			it 'should fail if no username', (done) ->
+				auth.register _.omit(@credentials, 'username'), (error, token) ->
+					expect(error).to.be.an.instanceof(Error)
+					expect(token).to.not.exist
+					done()
+
+			it 'should fail if no password', (done) ->
+				auth.register _.omit(@credentials, 'password'), (error, token) ->
+					expect(error).to.be.an.instanceof(Error)
+					expect(token).to.not.exist
+					done()
+
+		describe 'given valid credentials', ->
+
+			it 'should be able to register a username', (done) ->
+				auth.register @credentials, (error, token) ->
+					expect(error).to.not.exist
+					expect(token).to.equal(johnDoeFixture.token)
+					done()
+
 	describe 'given valid credentials', ->
 
 		beforeEach ->
