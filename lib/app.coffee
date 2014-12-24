@@ -330,7 +330,6 @@ capitano.command
 	'''
 	action: actions.keys.list
 
-# TODO: Write help page for this command
 capitano.command
 	signature: 'key add <name> [path]'
 	description: 'add a SSH key to resin.io'
