@@ -9,7 +9,8 @@
   },
   "preferGlobal": true,
   "man": [
-    "./doc/resin.1.roff"
+    "./doc/resin.1.roff",
+    "./doc/resin-completion.1.roff"
   ],
   "bin": {
     "resin": "./bin/resin"
