@@ -136,7 +136,8 @@ capitano.command
 		You can specify the application type with the `--type` option.
 		Otherwise, an interactive dropdown will be shown for you to select from.
 
-		TODO: We should support a command to list all supported device types.
+		You can see a list of supported device types with
+			$ resin devices supported
 
 		Examples:
 			$ resin app create MyApp
@@ -230,6 +231,17 @@ capitano.command
 	'''
 	action: actions.device.list
 	options: [ applicationOption ]
+
+capitano.command
+	signature: 'devices supported'
+	description: 'list all supported devices'
+	help: '''
+		Use this command to get the list of all supported devices
+
+		Examples:
+			$ resin devices supported
+	'''
+	action: actions.device.supported
 
 capitano.command
 	signature: 'device rename <id> [name]'

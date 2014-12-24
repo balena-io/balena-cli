@@ -10,6 +10,10 @@ _resin() {
 			local subcommands="create rm restart"
 			COMPREPLY=( $(compgen -W "${subcommands}" -- ${current}) )
 			return 0 ;;
+		devices)
+			local subcommands="supported"
+			COMPREPLY=( $(compgen -W "${subcommands}" -- ${current}) )
+			return 0 ;;
 		device)
 			local subcommands="rename rm identify"
 			COMPREPLY=( $(compgen -W "${subcommands}" -- ${current}) )

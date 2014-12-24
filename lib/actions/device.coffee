@@ -1,4 +1,4 @@
-_ = require('lodash')
+_ = require('lodash-contrib')
 async = require('async')
 resin = require('../resin')
 ui = require('../ui')
@@ -72,3 +72,7 @@ exports.rename = permissions.user (params) ->
 
 	], (error) ->
 		errors.handle(error) if error?
+
+exports.supported = permissions.user ->
+	devices = resin.models.device.getSupportedDeviceTypes()
+	_.each(devices, _.unary(log.out))
