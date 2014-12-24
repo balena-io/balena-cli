@@ -3,7 +3,7 @@ _resin() {
 
 	local current="${COMP_WORDS[COMP_CWORD]}"
 	local previous="${COMP_WORDS[COMP_CWORD-1]}"
-	local options="app device key envs os example"
+	local options="version help login logout signup whoami app apps init devices device note preferences keys key envs env logs os examples example"
 
 	case "${previous}" in
 		app)
@@ -18,7 +18,7 @@ _resin() {
 			local subcommands="add rm"
 			COMPREPLY=( $(compgen -W "${subcommands}" -- ${current}) )
 			return 0 ;;
-		envs)
+		env)
 			local subcommands="add rename rm"
 			COMPREPLY=( $(compgen -W "${subcommands}" -- ${current}) )
 			return 0 ;;
