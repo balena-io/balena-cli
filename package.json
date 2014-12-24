@@ -2,7 +2,7 @@
   "name": "resin",
   "version": "0.0.1",
   "description": "Git Push to your devices",
-  "main": "./lib/app.js",
+  "main": "./lib/app.coffee",
   "repository": {
     "type": "git",
     "url": "git@bitbucket.org:rulemotion/resin-cli.git"
