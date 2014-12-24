@@ -59,6 +59,12 @@ applicationOption =
 	description: 'application id'
 	alias: [ 'a', 'app' ]
 
+deviceOption =
+	signature: 'device'
+	parameter: 'device'
+	description: 'device id'
+	alias: [ 'd', 'dev' ]
+
 # ---------- Auth Module ----------
 capitano.command
 	signature: 'login [credentials]'
@@ -278,6 +284,24 @@ capitano.command
 			$ resin device identify 23c73a12e3527df55c60b9ce647640c1b7da1b32d71e6a39849ac0f00db828
 	'''
 	action: actions.device.identify
+
+# ---------- Device Module ----------
+capitano.command
+	signature: 'note [note]'
+	description: 'set a device note'
+	help: '''
+		Use this command to set or update a device note.
+
+		If note command isn't passed, the tool attempts to read from `stdin`.
+
+		To view the notes, use $ resin device <id>.
+
+		Examples:
+			$ resin note "My useful note" --device 317
+			$ cat note.txt | resin note --device 317
+	'''
+	action: actions.notes.set
+	options: [ deviceOption ]
 
 # ---------- Preferences Module ----------
 capitano.command

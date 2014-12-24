@@ -5,6 +5,7 @@ module.exports =
 	env: require('./environment-variables')
 	keys: require('./keys')
 	logs: require('./logs')
+	notes: require('./notes')
 	preferences: require('./preferences')
 	os: require('./os')
 	help: require('./help')

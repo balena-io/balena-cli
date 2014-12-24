@@ -142,6 +142,30 @@ exports.rename = (id, name, callback) ->
 	.catch (error) ->
 		return callback(error)
 
+# Note a device
+#
+# @param {String, Number} id device id
+# @param {String} note the note
+# @param {Function} callback callback(error)
+#
+# @example Note device
+#		resin.models.device.note 317, 'My useful note', (error) ->
+#			throw error if error?
+#			console.log("Device has been noted!")
+#
+exports.note = (id, note, callback) ->
+	return pine.patch
+		resource: 'device'
+		id: id
+		data:
+			note: note
+
+	.then ->
+		return callback()
+
+	.catch (error) ->
+		return callback(error)
+
 # Get display name for a device
 #
 # For a list of supported devices, see getSupportedDeviceTypes()
