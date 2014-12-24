@@ -16,7 +16,8 @@
     "resin": "./bin/resin"
   },
   "scripts": {
-    "test": "cult test",
+    "prepublish": "gulp build",
+    "test": "gult test",
     "doc": "codo -o ./doc/codo `find lib/resin -name \"*.coffee\" | grep -v \"spec.coffee$\"`"
   },
   "keywords": [
@@ -28,7 +29,6 @@
   "devDependencies": {
     "chai": "~1.9.2",
     "mocha": "~2.0.1",
-    "cult": "~2.0.0",
     "gulp-mocha": "~1.1.1",
     "gulp": "~3.8.9",
     "coffee-script": "~1.8.0",
