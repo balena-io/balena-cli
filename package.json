@@ -9,15 +9,14 @@
   },
   "preferGlobal": true,
   "man": [
-    "./doc/resin.1.roff",
-    "./doc/resin-completion.1.roff"
+    "./man/resin.1",
+    "./man/resin-completion.1"
   ],
   "bin": {
     "resin": "./bin/resin"
   },
   "scripts": {
     "test": "cult test",
-    "man": "ronn --build --roff doc/*.md",
     "doc": "codo -o ./doc/codo `find lib/resin -name \"*.coffee\" | grep -v \"spec.coffee$\"`"
   },
   "keywords": [
@@ -46,7 +45,9 @@
     "run-sequence": "~1.0.2",
     "chai-string": "~1.1.0",
     "codo": "~2.0.9",
-    "ronn": "~0.4.0"
+    "ronn": "~0.4.0",
+    "through2": "~0.6.3",
+    "gulp-marked-man": "~0.3.1"
   },
   "dependencies": {
     "request": "~2.47.0",

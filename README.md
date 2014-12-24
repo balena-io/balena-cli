@@ -60,15 +60,15 @@ $ npm run-script doc
 
 ## Manual pages
 
-UNIX manual pages reside in `doc/`
+UNIX manual pages reside in `man/`
 
 You can regenerate UNIX `roff` manual pages from markdown with:
 
 ```sh
-$ npm run-script man
+$ gulp man
 ```
 
-If you add a new `man` page, remember to add the `roff` filename to the `man` array in `package.json`.
+If you add a new `man` page, remember to add the generated filename to the `man` array in `package.json`.
 
 ## Caveats
 

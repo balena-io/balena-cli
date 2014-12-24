@@ -1,69 +1,48 @@
-.\" Generated with Ronnjs 0.4.0
-.\" http://github.com/kapouer/ronnjs
-.
 .TH "RESIN" "1" "December 2014" "" ""
-.
 .SH "NAME"
-\fBresin\fR \-\- tab completion for resin
-.
-.SH "DESCRIPTION"
-It provides basic completion capabilities for \fBzsh\fR and \fBbash\fR\|\.o
-.
+\fBresin\fR \- tab completion for resin
+.SH DESCRIPTION
 .P
-If you\'re using \fBbash\fR, add the following line to your \fB~/\.bashrc\fR:
-.
-.IP "" 4
-.
+It provides basic completion capabilities for \fBzsh\fR and \fBbash\fR\|\.o
+.P
+If you're using \fBbash\fR, add the following line to your \fB~/\.bashrc\fR:
+.P
+.RS 2
 .nf
 \|\. /path/to/resin/completion/resin\.sh\.
-.
 .fi
-.
-.IP "" 0
-.
+.RE
 .P
 or create a symlink like this if you have automatic bash completion set up:
-.
-.IP "" 4
-.
+.P
+.RS 2
 .nf
 ln \- /path/to/resin/completion/resin\.sh /etc/bash\-completion\.d/resin
-.
 .fi
-.
-.IP "" 0
-.
+.RE
 .P
 or, perhaps:
-.
-.IP "" 4
-.
+.P
+.RS 2
 .nf
 ln \- /path/to/resin/completion/resin\.sh /usr/local/etc/bash\-completion\.d/resin
-.
 .fi
-.
-.IP "" 0
-.
+.RE
 .P
-If you\'re using \fBzsh\fR, add the following to your \fB~/\.zshrc\fR:
-.
-.IP "" 4
-.
+If you're using \fBzsh\fR, add the following to your \fB~/\.zshrc\fR:
+.P
+.RS 2
 .nf
 autoload bashcompinit
 bashcompinit
 source /path/to/resin/completion/resin\.sh
-.
 .fi
-.
-.IP "" 0
-.
-.SH "RESIN PATH"
+.RE
+.SH RESIN PATH
+.P
 \fB/path/to/resin\fR refers to the place where resin was globally installed in your system\.
-.
 .P
 This is usually something like \fB/usr/lib/node_modules/resin\fR, or \fBC:\\Users\\AppData\\Roaming\\npm\\node_modules\\resin\fR on Windows\.
-.
-.SH "COPYRIGHT"
-resin is Copyright (C) 2014 Resin\.io \fIhttps://resin\.io\fR
+.SH COPYRIGHT
+.P
+resin is Copyright (C) 2014 Resin\.io https://resin\.io
