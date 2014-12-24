@@ -1,5 +1,5 @@
+_ = require('lodash')
 url = require('url')
-open = require('open')
 async = require('async')
 resin = require('../resin')
 ui = require('../ui')
@@ -26,9 +26,20 @@ exports.logout = permissions.user ->
 	resin.auth.logout()
 
 exports.signup = ->
-	signupUrl = resin.settings.get('urls.signup')
-	absUrl = url.resolve(resin.settings.get('remoteUrl'), signupUrl)
-	open(absUrl)
+	async.waterfall([
+
+		(callback) ->
+			ui.widgets.register(callback)
+
+		(credentials, callback) ->
+			resin.auth.register credentials, (error, token) ->
+				return callback(error, credentials)
+
+		(credentials, callback) ->
+			credentials = _.omit(credentials, 'email')
+			resin.auth.login(credentials, callback)
+
+	], errors.handle)
 
 exports.whoami = permissions.user ->
 	resin.auth.whoami (error, username) ->

@@ -93,12 +93,19 @@ capitano.command
 	help: '''
 		Use this command to signup for a resin.io account.
 
-		In the future, this command may display a form in the terminal and handle
-		the registration purely from the command line, but for reasons of simplicity,
-		it opens your default web browser at the web based signup form.
+		If signup is successful, you'll be logged in to your new user automatically.
+
+		TODO: We need to provide a non interactive way to use this command,
+		however it's not clear to me how to do it easily for now.
 
 		Examples:
 			$ resin signup
+			Email: me@mycompany.com
+			Username: johndoe
+			Password: ***********
+
+			$ resin whoami
+			johndoe
 	'''
 	action: actions.auth.signup
 

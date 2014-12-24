@@ -3,6 +3,30 @@ inquirer = require('inquirer')
 
 exports.table = require('./table/table')
 
+exports.register = (callback) ->
+	inquirer.prompt([
+		{
+			type: 'input'
+			name: 'email'
+			message: 'Email'
+		}
+		{
+			type: 'input'
+			name: 'username'
+			message: 'Username'
+		}
+		{
+			type: 'password'
+			name: 'password'
+			message: 'Password'
+			validate: (input) ->
+				if input.length < 8
+					return 'Password should be 8 characters long'
+
+				return true
+		}
+	], _.partial(callback, null))
+
 exports.login = (callback) ->
 	inquirer.prompt([
 		{
