@@ -1,10 +1,13 @@
+mkdirp = require('mkdirp')
 path = require('path')
 gulp = require('gulp')
 mocha = require('gulp-mocha')
 coffee = require('gulp-coffee')
 markedMan = require('gulp-marked-man')
 coffeelint = require('gulp-coffeelint')
+shell = require('gulp-shell')
 mochaNotifierReporter = require('mocha-notifier-reporter')
+packageJSON = require('./package.json')
 
 OPTIONS =
 	config:
@@ -30,7 +33,7 @@ gulp.task 'test', ->
 			reporter: mochaNotifierReporter.decorate('landing')
 		}))
 
-gulp.task 'coffee', ->
+gulp.task 'coffee', [ 'test', 'lint' ], ->
 	gulp.src(OPTIONS.files.app)
 		.pipe(coffee())
 		.pipe(gulp.dest(OPTIONS.directories.build))
@@ -46,10 +49,12 @@ gulp.task 'lint', ->
 		}))
 		.pipe(coffeelint.reporter())
 
-gulp.task 'compile', [
-	'coffee'
-	'json'
-]
+gulp.task 'release', [ 'coffee', 'json' ], ->
+	mkdirp.sync('build/Release')
+	gulp.src('')
+		.pipe(shell "jx package app.js Release/#{packageJSON.name} -native", {
+			cwd: path.join(process.cwd(), OPTIONS.directories.build)
+		})
 
 gulp.task 'build', [
 	'lint'

@@ -38,6 +38,7 @@
     "gulp-coffeelint": "~0.4.0",
     "gulp-marked-man": "~0.3.1",
     "gulp-mocha": "~1.1.1",
+    "gulp-shell": "^0.2.11",
     "gulp-util": "~3.0.1",
     "mocha": "~2.0.1",
     "mocha-notifier-reporter": "~0.1.0",
@@ -46,8 +47,7 @@
     "ronn": "~0.4.0",
     "run-sequence": "~1.0.2",
     "sinon": "~1.12.1",
-    "sinon-chai": "~2.6.0",
-    "through2": "~0.6.3"
+    "sinon-chai": "~2.6.0"
   },
   "dependencies": {
     "request": "~2.47.0",
