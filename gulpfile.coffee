@@ -13,7 +13,7 @@ OPTIONS =
 		coffee: [ 'lib/**/*.coffee', 'gulpfile.coffee' ]
 		app: [ 'lib/**/*.coffee', '!lib/**/*.spec.coffee' ]
 		tests: 'lib/**/*.spec.coffee'
-		json: 'lib/**/*.json'
+		json: [ 'lib/**/*.json', 'package.json' ]
 		man: 'man/**/*.md'
 	directories:
 		man: 'man/'
