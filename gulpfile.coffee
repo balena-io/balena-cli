@@ -1,6 +1,7 @@
 path = require('path')
 gulp = require('gulp')
 mocha = require('gulp-mocha')
+coffee = require('gulp-coffee')
 markedMan = require('gulp-marked-man')
 coffeelint = require('gulp-coffeelint')
 mochaNotifierReporter = require('mocha-notifier-reporter')
@@ -16,6 +17,7 @@ OPTIONS =
 		man: 'man/**/*.md'
 	directories:
 		man: 'man/'
+		build: 'build/'
 
 gulp.task 'man', ->
 	gulp.src(OPTIONS.files.man)
@@ -28,12 +30,26 @@ gulp.task 'test', ->
 			reporter: mochaNotifierReporter.decorate('landing')
 		}))
 
+gulp.task 'coffee', ->
+	gulp.src(OPTIONS.files.app)
+		.pipe(coffee())
+		.pipe(gulp.dest(OPTIONS.directories.build))
+
+gulp.task 'json', ->
+	gulp.src(OPTIONS.files.json)
+		.pipe(gulp.dest(OPTIONS.directories.build))
+
 gulp.task 'lint', ->
 	gulp.src(OPTIONS.files.coffee)
 		.pipe(coffeelint({
 			optFile: OPTIONS.config.coffeelint
 		}))
 		.pipe(coffeelint.reporter())
+
+gulp.task 'compile', [
+	'coffee'
+	'json'
+]
 
 gulp.task 'build', [
 	'lint'
