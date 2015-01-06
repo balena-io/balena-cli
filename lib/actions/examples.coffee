@@ -16,10 +16,16 @@ exports.list = permissions.user ->
 		example.id = index + 1
 		return example
 
-	log.out ui.widgets.table.horizontal examplesData, (example) ->
+	examplesData = _.map examplesData, (example) ->
 		example.author ?= 'Unknown'
 		return example
-	, [ 'ID', 'Display Name', 'Repository', 'Author' ]
+
+	log.out ui.widgets.table.horizontal examplesData, _.identity, [
+		'ID'
+		'Display Name'
+		'Repository'
+		'Author'
+	]
 
 exports.info = permissions.user (params) ->
 	id = params.id - 1
@@ -29,11 +35,10 @@ exports.info = permissions.user (params) ->
 		error = new Error("Unknown example: #{id}")
 		errors.handle(error)
 
-	log.out ui.widgets.table.vertical example, (example) ->
-		example.id = id
-		example.author ?= 'Unknown'
-		return example
-	, [
+	example.id = id
+	example.author ?= 'Unknown'
+
+	log.out ui.widgets.table.vertical example, _.identity, [
 		'ID'
 		'Display Name'
 		'Description'

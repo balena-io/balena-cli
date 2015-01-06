@@ -33,20 +33,25 @@ exports.list = permissions.user ->
 	resin.models.application.getAll (error, applications) ->
 		errors.handle(error) if error?
 
-		log.out ui.widgets.table.horizontal applications, (application) ->
-			application.device_type = application.device_display_name
-			application.all_devices = application.devices_length
-			return application
-		, [ 'ID', 'Name', 'Device Type', 'Online Devices', 'All Devices' ]
+		log.out ui.widgets.table.horizontal applications, _.identity, [
+			'ID'
+			'Name'
+			'Device Display Name'
+			'Online Devices'
+			'Devices Length'
+		]
 
 exports.info = permissions.user (params) ->
 	resin.models.application.get params.id, (error, application) ->
 		errors.handle(error) if error?
 
-		log.out ui.widgets.table.vertical application, (application) ->
-			application.device_type = application.device_display_name
-			return application
-		, [ 'ID', 'Name', 'Device Type', 'Git Repository', 'Commit' ]
+		log.out ui.widgets.table.vertical application, _.identity, [
+			'ID'
+			'Name'
+			'Device Display Name'
+			'Git Repository'
+			'Commit'
+		]
 
 exports.restart = permissions.user (params) ->
 	resin.models.application.restart params.id, (error) ->
