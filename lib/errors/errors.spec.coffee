@@ -48,9 +48,9 @@ describe 'Errors:', ->
 			checkProcessExitOption error, false, (processExitStub) ->
 				expect(processExitStub).to.not.have.been.called
 
-		it 'should handle a custom error code from the error instance', ->
+		it 'should handle a custom error exit code from the error instance', ->
 			error = new Error()
-			error.code = 123
+			error.exitCode = 123
 			checkProcessExitOption error, true, (processExitStub) ->
 				expect(processExitStub).to.have.been.calledWith(123)
 

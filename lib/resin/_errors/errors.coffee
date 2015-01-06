@@ -13,8 +13,8 @@ exports.NotFound = class NotFound extends TypedError
 	constructor: (name) ->
 		@message = "Couldn't find #{name}"
 
-	# Error code
-	code: 1
+	# Error exit code
+	exitCode: 1
 
 exports.InvalidConfigFile = class InvalidConfigFile extends TypedError
 
@@ -29,8 +29,8 @@ exports.InvalidConfigFile = class InvalidConfigFile extends TypedError
 	constructor: (file) ->
 		@message = "Invalid configuration file: #{file}"
 
-	# Error code
-	code: 1
+	# Error exit code
+	exitCode: 1
 
 exports.InvalidCredentials = class InvalidCredentials extends TypedError
 
@@ -43,8 +43,8 @@ exports.InvalidCredentials = class InvalidCredentials extends TypedError
 	constructor: ->
 		@message = 'Invalid credentials'
 
-	# Error code
-	code: 1
+	# Error exit code
+	exitCode: 1
 
 exports.InvalidKey = class InvalidKey extends TypedError
 
@@ -57,8 +57,8 @@ exports.InvalidKey = class InvalidKey extends TypedError
 	constructor: ->
 		@message = 'Invalid key'
 
-	# Error code
-	code: 1
+	# Error exit code
+	exitCode: 1
 
 exports.InvalidPath = class InvalidPath extends TypedError
 
@@ -73,8 +73,8 @@ exports.InvalidPath = class InvalidPath extends TypedError
 	constructor: (path) ->
 		@message = "Invalid path: #{path}"
 
-	# Error code
-	code: 1
+	# Error exit code
+	exitCode: 1
 
 exports.DirectoryDoesntExist = class DirectoryDoesntExist extends TypedError
 
@@ -89,8 +89,8 @@ exports.DirectoryDoesntExist = class DirectoryDoesntExist extends TypedError
 	constructor: (directory) ->
 		@message = "Directory doesn't exist: #{directory}"
 
-	# Error code
-	code: 1
+	# Error exit code
+	exitCode: 1
 
 exports.NotAny = class NotAny extends TypedError
 
@@ -105,8 +105,8 @@ exports.NotAny = class NotAny extends TypedError
 	constructor: (name) ->
 		@message = "You don't have any #{name}"
 
-	# Error code
-	code: 0
+	# Error exit code
+	exitCode: 0
 
 exports.FileNotFound = class FileNotFound extends TypedError
 
@@ -121,5 +121,5 @@ exports.FileNotFound = class FileNotFound extends TypedError
 	constructor: (filename) ->
 		@message = "File not found: #{filename}"
 
-	# Error code
-	code: 1
+	# Error exit code
+	exitCode: 1

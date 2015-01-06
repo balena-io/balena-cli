@@ -47,9 +47,9 @@ exports.add = permissions.user (params) ->
 		# and accomodate as most as possible to prevent
 		# this types of checks in client code.
 		if error.code is 'EISDIR'
-			error.message = "File is a directory: #{params.path}"
+			error.message = "File is a directory: #{error.path}"
 
 		if error.code is 'ENOENT'
-			error = new Error("File not found: #{params.path}")
+			error = new Error("File not found: #{error.path}")
 
 		errors.handle(error)

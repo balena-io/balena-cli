@@ -10,8 +10,8 @@ exports.handle = (error, exit = true) ->
 		if error.message?
 			log.error(error.message)
 
-	if _.isNumber(error.code)
-		errorCode = error.code
+	if _.isNumber(error.exitCode)
+		errorCode = error.exitCode
 	else
 		errorCode = 1
 
