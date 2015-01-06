@@ -60,6 +60,8 @@ exports.get = (id, callback) ->
 		if not application?
 			return callback(new errors.NotFound("application #{id}"))
 
+		application.device_display_name = deviceModel.getDisplayName(application.device_type)
+
 		return callback(null, application)
 
 	.catch (error) ->

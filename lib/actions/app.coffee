@@ -44,7 +44,7 @@ exports.info = permissions.user (params) ->
 		errors.handle(error) if error?
 
 		log.out ui.widgets.table.vertical application, (application) ->
-			application.device_type = resin.models.device.getDisplayName(application.device_type)
+			application.device_type = application.device_display_name
 			return application
 		, [ 'ID', 'Name', 'Device Type', 'Git Repository', 'Commit' ]
 
