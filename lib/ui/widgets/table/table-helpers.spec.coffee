@@ -97,19 +97,6 @@ describe 'Table Helpers:', ->
 			checkIfArray([ OBJECTS.basic ])
 			checkIfArray([ 'contents' ])
 
-		it 'should be able to manipulate the contents', ->
-			result = tableHelpers.processTableContents { hey: 'there' }, (item) ->
-				item.hey = 'yo'
-				return item
-
-			expect(result).to.deep.equal([ Hey: 'yo' ])
-
-		it 'should not call map if contents does not exist', ->
-			map = sinon.spy()
-			tableHelpers.processTableContents(null, map)
-			tableHelpers.processTableContents(undefined, map)
-			expect(map).to.not.have.been.called
-
 		it 'should get rid of keys not starting with letters', ->
 			result = tableHelpers.processTableContents(OBJECTS.basic, _.identity)
 			expect(result).to.deep.equal [

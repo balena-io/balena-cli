@@ -13,14 +13,14 @@ exports.list = permissions.user ->
 	resin.models.key.getAll (error, keys) ->
 		errors.handle(error) if error?
 
-		log.out ui.widgets.table.horizontal keys, _.identity, [ 'ID', 'Title' ]
+		log.out ui.widgets.table.horizontal keys, [ 'ID', 'Title' ]
 
 exports.info = permissions.user (params) ->
 	resin.models.key.get params.id, (error, key) ->
 		errors.handle(error) if error?
 
 		key.public_key = '\n' + _.str.chop(key.public_key, resin.settings.get('sshKeyWidth')).join('\n')
-		log.out(ui.widgets.table.vertical(key, _.identity, [ 'ID', 'Title', 'Public Key' ]))
+		log.out(ui.widgets.table.vertical(key, [ 'ID', 'Title', 'Public Key' ]))
 
 exports.remove = permissions.user (params, options) ->
 	ui.patterns.remove 'key', options.yes, (callback) ->

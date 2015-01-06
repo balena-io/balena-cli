@@ -62,7 +62,7 @@ describe 'Errors:', ->
 				expect(logErrorStub).to.have.been.calledWith(error.stack)
 				delete process.env.DEBUG
 
-		it.only 'should handle EISDIR', ->
+		it 'should handle EISDIR', ->
 			error = new Error()
 			error.code = 'EISDIR'
 			error.path = 'hello'
@@ -70,7 +70,7 @@ describe 'Errors:', ->
 				expect(logErrorStub).to.have.been.calledOnce
 				expect(logErrorStub).to.have.been.calledWith('File is a directory: hello')
 
-		it.only 'should handle ENOENT', ->
+		it 'should handle ENOENT', ->
 			error = new Error()
 			error.code = 'ENOENT'
 			error.path = 'hello'

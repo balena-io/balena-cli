@@ -20,7 +20,7 @@ exports.list = permissions.user ->
 		example.author ?= 'Unknown'
 		return example
 
-	log.out ui.widgets.table.horizontal examplesData, _.identity, [
+	log.out ui.widgets.table.horizontal examplesData, [
 		'ID'
 		'Display Name'
 		'Repository'
@@ -38,7 +38,7 @@ exports.info = permissions.user (params) ->
 	example.id = id
 	example.author ?= 'Unknown'
 
-	log.out ui.widgets.table.vertical example, _.identity, [
+	log.out ui.widgets.table.vertical example, [
 		'ID'
 		'Display Name'
 		'Description'

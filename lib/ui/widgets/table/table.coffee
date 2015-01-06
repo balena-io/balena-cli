@@ -3,15 +3,15 @@ tableHelpers = require('./table-helpers')
 
 # TODO: Maybe there is a (sane) way to test this, given
 # that the result is not automatically printed by cliff?
-exports.horizontal = (contents, map, ordering, colours) ->
+exports.horizontal = (contents, ordering, colours) ->
 	return if not contents?
-	contents = tableHelpers.processTableContents(contents, map)
+	contents = tableHelpers.processTableContents(contents)
 	ordering = tableHelpers.normaliseOrdering(ordering, contents)
 	return cliff.stringifyObjectRows(contents, ordering, colours)
 
-exports.vertical = (contents, map, ordering) ->
+exports.vertical = (contents, ordering) ->
 	return if not contents?
-	contents = tableHelpers.processTableContents(contents, map)
+	contents = tableHelpers.processTableContents(contents)
 	ordering = tableHelpers.normaliseOrdering(ordering, contents)
 
 	# TODO: Add some kind of separator to make clear

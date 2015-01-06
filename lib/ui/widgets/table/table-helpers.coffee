@@ -57,7 +57,7 @@ exports.prepareObject = (object) ->
 
 	return object
 
-exports.processTableContents = (contents, map) ->
+exports.processTableContents = (contents) ->
 	return if not contents?
 
 	# Allows us to simplify the algorithm by not
@@ -65,9 +65,7 @@ exports.processTableContents = (contents, map) ->
 	if not _.isArray(contents)
 		contents = [ contents ]
 
-	contents = _.map(contents, map or _.identity)
-	contents = _.map(contents, exports.prepareObject)
-	return contents
+	return _.map(contents, exports.prepareObject)
 
 isRealObject = (object) ->
 	return false if _.isArray(object) or _.isFunction(object)

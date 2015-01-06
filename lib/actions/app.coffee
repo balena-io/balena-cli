@@ -33,7 +33,7 @@ exports.list = permissions.user ->
 	resin.models.application.getAll (error, applications) ->
 		errors.handle(error) if error?
 
-		log.out ui.widgets.table.horizontal applications, _.identity, [
+		log.out ui.widgets.table.horizontal applications, [
 			'ID'
 			'Name'
 			'Device Display Name'
@@ -45,7 +45,7 @@ exports.info = permissions.user (params) ->
 	resin.models.application.get params.id, (error, application) ->
 		errors.handle(error) if error?
 
-		log.out ui.widgets.table.vertical application, _.identity, [
+		log.out ui.widgets.table.vertical application, [
 			'ID'
 			'Name'
 			'Device Display Name'
