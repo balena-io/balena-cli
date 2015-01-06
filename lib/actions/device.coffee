@@ -59,7 +59,7 @@ exports.rename = permissions.user (params) ->
 	async.waterfall [
 
 		(callback) ->
-			if params.name? and not _.isEmpty(params.name)
+			if not _.isEmpty(params.name)
 				return callback(null, params.name)
 			ui.widgets.ask('How do you want to name this device?', callback)
 
