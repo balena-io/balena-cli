@@ -1,15 +1,10 @@
 _ = require('lodash')
-isOnline = require('is-online')
 
 CONNECTION_PARAMETERS = [
 	'network'
 	'wifiSsid'
 	'wifiKey'
 ]
-
-# A wrapper around isOnline in order
-# to be able to stub it with Sinon
-exports.isOnline = isOnline
 
 validateEthernetConnectionParameters = (parameters = {}) ->
 	return if not parameters.wifiSsid? and not parameters.wifiKey?

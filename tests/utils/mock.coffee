@@ -1,7 +1,7 @@
 mockFs = require('mock-fs')
 sinon = require('sinon')
 resin = require('../../lib/resin')
-connection = require('../../lib/connection/connection')
+connection = require('../../lib/resin/_connection/connection')
 
 exports.fs =
 

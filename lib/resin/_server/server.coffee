@@ -2,7 +2,7 @@ _ = require('lodash')
 request = require('request')
 progress = require('request-progress')
 async = require('async')
-connection = require('../../connection/connection')
+connection = require('../_connection/connection')
 settings = require('../settings')
 auth = require('../auth/auth')
 
