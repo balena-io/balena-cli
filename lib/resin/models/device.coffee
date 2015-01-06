@@ -55,6 +55,12 @@ exports.getAllByApplication = (applicationId, callback) ->
 		if _.isEmpty(devices)
 			return callback(new errors.NotAny('devices'))
 
+		# TODO: Move to server
+		devices = _.map devices, (device) ->
+			device.application_name = device.application[0].app_name
+			device.device_display_name = exports.getDisplayName(device.device_type)
+			return device
+
 		return callback(null, devices)
 
 	.catch (error) ->
@@ -82,6 +88,10 @@ exports.get = (deviceId, callback) ->
 	.then (device) ->
 		if not device?
 			return callback(new errors.NotFound("device #{id}"))
+
+		# TODO: Move to server
+		device.application_name = device.application[0].app_name
+		device.device_display_name = exports.getDisplayName(device.device_type)
 
 		return callback(null, device)
 

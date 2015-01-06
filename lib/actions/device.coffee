@@ -13,27 +13,27 @@ exports.list = permissions.user (params, options) ->
 	resin.models.device.getAllByApplication options.application, (error, devices) ->
 		errors.handle(error) if error?
 
-		log.out ui.widgets.table.horizontal devices, (device) ->
-			device.application = device.application[0].app_name
-			device.device_type = resin.models.device.getDisplayName(device.device_type)
-			return device
-		, [ 'ID', 'Name', 'Device Type', 'Is Online', 'Application', 'Status', 'Last Seen' ]
+		log.out ui.widgets.table.horizontal devices, _.identity, [
+			'ID'
+			'Name'
+			'Device Display Name'
+			'Is Online'
+			'Application Name'
+			'Status'
+			'Last Seen'
+		]
 
 exports.info = permissions.user (params) ->
 	resin.models.device.get params.id, (error, device) ->
 		errors.handle(error) if error?
 
-		log.out ui.widgets.table.vertical device, (device) ->
-			device.device_type = resin.models.device.getDisplayName(device.device_type)
-			device.application = device.application[0].app_name
-			return device
-		, [
+		log.out ui.widgets.table.vertical device, _.identity, [
 			'ID'
 			'Name'
-			'Device Type'
+			'Device Display Name'
 			'Is Online'
 			'IP Address'
-			'Application'
+			'Application Name'
 			'Status'
 			'Last Seen'
 			'UUID'
