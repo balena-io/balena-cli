@@ -40,16 +40,4 @@ exports.add = permissions.user (params) ->
 			key = key.trim()
 			resin.models.key.create(params.name, key, callback)
 
-	], (error) ->
-		return if not error?
-
-		# TODO: Make handle() check the error type
-		# and accomodate as most as possible to prevent
-		# this types of checks in client code.
-		if error.code is 'EISDIR'
-			error.message = "File is a directory: #{error.path}"
-
-		if error.code is 'ENOENT'
-			error = new Error("File not found: #{error.path}")
-
-		errors.handle(error)
+	], errors.handle

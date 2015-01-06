@@ -61,3 +61,19 @@ describe 'Errors:', ->
 				expect(logErrorStub).to.have.been.calledOnce
 				expect(logErrorStub).to.have.been.calledWith(error.stack)
 				delete process.env.DEBUG
+
+		it.only 'should handle EISDIR', ->
+			error = new Error()
+			error.code = 'EISDIR'
+			error.path = 'hello'
+			checkProcessExitOption error, false, (processExitStub, logErrorStub) ->
+				expect(logErrorStub).to.have.been.calledOnce
+				expect(logErrorStub).to.have.been.calledWith('File is a directory: hello')
+
+		it.only 'should handle ENOENT', ->
+			error = new Error()
+			error.code = 'ENOENT'
+			error.path = 'hello'
+			checkProcessExitOption error, false, (processExitStub, logErrorStub) ->
+				expect(logErrorStub).to.have.been.calledOnce
+				expect(logErrorStub).to.have.been.calledWith('No such file or directory: hello')
