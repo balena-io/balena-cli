@@ -17,8 +17,6 @@ exports.list = permissions.user ->
 		return example
 
 	log.out ui.widgets.table.horizontal examplesData, (example) ->
-		delete example.description
-		delete example.name
 		example.author ?= 'Unknown'
 		return example
 	, [ 'ID', 'Display Name', 'Repository', 'Author' ]
@@ -32,7 +30,6 @@ exports.info = permissions.user (params) ->
 		errors.handle(error)
 
 	log.out ui.widgets.table.vertical example, (example) ->
-		delete example.name
 		example.id = id
 		example.author ?= 'Unknown'
 		return example

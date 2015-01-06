@@ -13,10 +13,7 @@ exports.list = permissions.user ->
 	resin.models.key.getAll (error, keys) ->
 		errors.handle(error) if error?
 
-		log.out ui.widgets.table.horizontal keys, (key) ->
-			delete key.public_key
-			return key
-		, [ 'ID', 'Title' ]
+		log.out ui.widgets.table.horizontal keys, _.identity, [ 'ID', 'Title' ]
 
 exports.info = permissions.user (params) ->
 	resin.models.key.get params.id, (error, key) ->

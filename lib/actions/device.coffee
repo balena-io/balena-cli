@@ -16,10 +16,6 @@ exports.list = permissions.user (params, options) ->
 		log.out ui.widgets.table.horizontal devices, (device) ->
 			device.application = device.application[0].app_name
 			device.device_type = resin.models.device.getDisplayName(device.device_type)
-			delete device.note
-			delete device.supervisor_version
-			delete device.uuid
-			delete device.download_progress
 			return device
 		, [ 'ID', 'Name', 'Device Type', 'Is Online', 'Application', 'Status', 'Last Seen' ]
 

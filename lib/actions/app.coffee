@@ -37,8 +37,6 @@ exports.list = permissions.user ->
 			application.device_type = resin.models.device.getDisplayName(application.device_type)
 			application['Online Devices'] = _.where(application.device, is_online: 1).length
 			application['All Devices'] = application.device?.length or 0
-			delete application.git_repository
-			delete application.device
 			return application
 		, [ 'ID', 'Name', 'Device Type', 'Online Devices', 'All Devices' ]
 
@@ -48,7 +46,6 @@ exports.info = permissions.user (params) ->
 
 		log.out ui.widgets.table.vertical application, (application) ->
 			application.device_type = resin.models.device.getDisplayName(application.device_type)
-			delete application.device
 			return application
 		, [ 'ID', 'Name', 'Device Type', 'Git Repository', 'Commit' ]
 
