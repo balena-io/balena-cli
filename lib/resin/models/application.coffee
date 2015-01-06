@@ -1,5 +1,6 @@
 _ = require('lodash-contrib')
 pine = require('./_pine')
+deviceModel = require('./device')
 errors = require('../_errors/errors')
 server = require('../_server/server')
 settings = require('../settings')
@@ -24,6 +25,14 @@ exports.getAll = (callback) ->
 	.then (applications) ->
 		if _.isEmpty(applications)
 			return callback(new errors.NotAny('applications'))
+
+		# TODO: It might be worth to do all these handy
+		# manipulations server side directly.
+		applications = _.map applications, (application) ->
+			application.device_display_name = deviceModel.getDisplayName(application.device_type)
+			application.online_devices = _.where(application.device, is_online: 1).length
+			application.devices_length = application.device?.length or 0
+			return application
 
 		return callback(null, applications)
 

@@ -34,9 +34,8 @@ exports.list = permissions.user ->
 		errors.handle(error) if error?
 
 		log.out ui.widgets.table.horizontal applications, (application) ->
-			application.device_type = resin.models.device.getDisplayName(application.device_type)
-			application['Online Devices'] = _.where(application.device, is_online: 1).length
-			application['All Devices'] = application.device?.length or 0
+			application.device_type = application.device_display_name
+			application.all_devices = application.devices_length
 			return application
 		, [ 'ID', 'Name', 'Device Type', 'Online Devices', 'All Devices' ]
 
