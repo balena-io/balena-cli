@@ -5,9 +5,6 @@ helpers = require('../helpers/helpers')
 resin = require('resin-sdk')
 
 exports.set = permissions.user (params, options) ->
-	if not options.device?
-		errors.handle(new Error('You have to specify a device'))
-
 	async.waterfall([
 
 		(callback) ->

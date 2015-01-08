@@ -65,6 +65,7 @@ deviceOption =
 	parameter: 'device'
 	description: 'device id'
 	alias: [ 'd', 'dev' ]
+	required: 'You have to specify a device'
 
 # ---------- Auth Module ----------
 capitano.command
