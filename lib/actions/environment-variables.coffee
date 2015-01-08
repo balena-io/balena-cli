@@ -5,17 +5,12 @@ permissions = require('../permissions/permissions')
 log = require('../log/log')
 errors = require('../errors/errors')
 
-SYSTEM_VAR_REGEX = /^RESIN_/
-
-isSystemVariable = (environmentVariable) ->
-	SYSTEM_VAR_REGEX.test(environmentVariable.name)
-
 exports.list = permissions.user (params, options) ->
 	resin.models.environmentVariables.getAllByApplication options.application, (error, environmentVariables) ->
 		errors.handle(error) if error?
 
 		if not options.verbose
-			environmentVariables = _.reject(environmentVariables, isSystemVariable)
+			environmentVariables = _.reject(environmentVariables, resin.models.environmentVariables.isSystemVariable)
 
 		log.out(ui.widgets.table.horizontal(environmentVariables))
 
