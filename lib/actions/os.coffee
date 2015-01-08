@@ -9,15 +9,23 @@ log = require('../log/log')
 permissions = require('../permissions/permissions')
 errors = require('../errors/errors')
 cache = require('../cache/cache')
-resin = require('../resin')
 
 exports.download = (params, options) ->
-	networkParams =
+
+	# TODO: Evaluate if ConnectionParams is a good name for this object
+	# as it includes an application id, which is not connection related
+	# Maybe we should move appId outside this class?
+	connectionParams = new resin.connection.ConnectionParams
 		network: options.network
 		wifiSsid: options.ssid
 		wifiKey: options.key
+		appId: params.id
 
-	fileName = cache.generateCacheName(params.id, networkParams)
+	# TODO: Change cache.generateCacheName to accept a ConnectionParams instance
+	# to avoid the complication of having to omit it from the object and pass
+	# as another parameter
+	fileName = cache.generateCacheName(params.id, _.omit(connectionParams, 'appId'))
+
 	outputFile = options.output or path.join(resin.settings.get('directories.os'), fileName)
 
 	async.waterfall [
@@ -29,15 +37,11 @@ exports.download = (params, options) ->
 				return callback(error)
 
 		(callback) ->
-			connection.parseConnectionParameters(networkParams, callback)
-
-		(parameters, callback) ->
-			parameters.appId = params.id
 
 			bar = null
 			received = 0
 
-			resin.models.os.download parameters, outputFile, callback, (state) ->
+			resin.models.os.download connectionParams, outputFile, callback, (state) ->
 
 				# TODO: Allow quieting this progress bar
 				bar ?= new ProgressBar 'Downloading device OS [:bar] :percent :etas',
