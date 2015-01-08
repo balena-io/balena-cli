@@ -7,9 +7,6 @@ errors = require('../errors/errors')
 permissions = require('../permissions/permissions')
 
 exports.list = permissions.user (params, options) ->
-	if not options.application?
-		errors.handle(new Error('You have to specify an application'))
-
 	resin.models.device.getAllByApplication options.application, (error, devices) ->
 		errors.handle(error) if error?
 

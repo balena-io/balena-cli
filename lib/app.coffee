@@ -58,6 +58,7 @@ applicationOption =
 	parameter: 'application'
 	description: 'application id'
 	alias: [ 'a', 'app' ]
+	required: 'You have to specify an application'
 
 deviceOption =
 	signature: 'device'

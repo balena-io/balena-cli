@@ -11,9 +11,6 @@ isSystemVariable = (environmentVariable) ->
 	SYSTEM_VAR_REGEX.test(environmentVariable.name)
 
 exports.list = permissions.user (params, options) ->
-	if not options.application?
-		errors.handle(new Error('You have to specify an application'))
-
 	resin.models.environmentVariables.getAllByApplication options.application, (error, environmentVariables) ->
 		errors.handle(error) if error?
 
@@ -28,9 +25,6 @@ exports.remove = permissions.user (params, options) ->
 	, errors.handle
 
 exports.add = permissions.user (params, options) ->
-	if not options.application?
-		errors.handle(new Error('You have to specify an application'))
-
 	if not params.value?
 		params.value = process.env[params.key]
 
