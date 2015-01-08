@@ -20,7 +20,7 @@ exports.create = permissions.user (params, options) ->
 
 		(type, callback) ->
 
-			# TODO: Currently returns 'unknown'.
+			# TODO: Currently returns 'unknown' if device is not recognised.
 			# Maybe we should break or handle better?
 			slugifiedType = resin.models.device.getDeviceSlug(type)
 
