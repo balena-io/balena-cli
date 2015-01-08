@@ -1,6 +1,6 @@
 open = require('open')
 url = require('url')
-resin = require('../resin')
+resin = require('resin-sdk')
 permissions = require('../permissions/permissions')
 
 exports.preferences = permissions.user ->

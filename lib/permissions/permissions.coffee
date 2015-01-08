@@ -1,4 +1,4 @@
-resin = require('../resin')
+resin = require('resin-sdk')
 
 exports.user = (fn, onError) ->
 	return ->

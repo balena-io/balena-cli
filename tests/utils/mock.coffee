@@ -1,7 +1,6 @@
 mockFs = require('mock-fs')
 sinon = require('sinon')
-resin = require('../../lib/resin')
-connection = require('../../lib/resin/_connection/connection')
+resin = require('resin-sdk')
 
 exports.fs =
 
@@ -24,7 +23,7 @@ isOnlineStub = null
 exports.connection =
 
 	init: ->
-		isOnlineStub = sinon.stub(connection, 'isOnline')
+		isOnlineStub = sinon.stub(resin.connection, 'isOnline')
 		isOnlineStub.yields(null, true)
 
 	restore: ->

@@ -1,5 +1,5 @@
 _ = require('lodash')
-resin = require('../resin')
+resin = require('resin-sdk')
 ui = require('../ui')
 permissions = require('../permissions/permissions')
 log = require('../log/log')

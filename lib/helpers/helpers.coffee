@@ -1,5 +1,5 @@
 _ = require('lodash')
-resin = require('../resin')
+resin = require('resin-sdk')
 
 exports.isDeviceUUIDValid = (uuid, callback) ->
 	resin.models.device.getAll (error, devices) ->

@@ -1,6 +1,6 @@
 _ = require('lodash')
 _.str = require('underscore.string')
-resin = require('../resin')
+resin = require('resin-sdk')
 capitano = require('capitano')
 log = require('../log/log')
 

@@ -1,6 +1,6 @@
 _ = require('lodash')
 capitano = require('capitano')
-resin = require('./resin')
+resin = require('resin-sdk')
 packageJSON = require('../package.json')
 actions = require('./actions')
 log = require('./log/log')

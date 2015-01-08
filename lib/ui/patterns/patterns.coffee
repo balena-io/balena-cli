@@ -1,7 +1,6 @@
 async = require('async')
 fs = require('fs')
 widgets = require('../widgets/widgets')
-resin = require('../../resin')
 ProgressBar = require('progress')
 
 exports.remove = (name, confirmAttribute, deleteFunction, outerCallback) ->

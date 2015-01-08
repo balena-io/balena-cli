@@ -2,7 +2,7 @@ expect = require('chai').expect
 sinon = require('sinon')
 _ = require('lodash')
 helpers = require('./helpers')
-resin = require('../resin')
+resin = require('resin-sdk')
 
 describe 'Helpers:', ->
 

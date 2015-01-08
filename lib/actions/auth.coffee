@@ -1,7 +1,7 @@
 _ = require('lodash')
 url = require('url')
 async = require('async')
-resin = require('../resin')
+resin = require('resin-sdk')
 ui = require('../ui')
 log = require('../log/log')
 errors = require('../errors/errors')

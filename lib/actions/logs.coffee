@@ -1,6 +1,6 @@
 _ = require('lodash')
 PubNub = require('pubnub')
-resin = require('../resin')
+resin = require('resin-sdk')
 helpers = require('../helpers/helpers')
 permissions = require('../permissions/permissions')
 log = require('../log/log')
