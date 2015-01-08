@@ -1,28 +1,32 @@
 _ = require('lodash')
 nock = require('nock')
 sinon = require('sinon')
+mockFs = require('mock-fs')
 expect = require('chai').expect
 resin = require('resin-sdk')
 permissions = require('./permissions')
 johnDoeFixture = require('../../tests/fixtures/johndoe')
-mock = require('../../tests/utils/mock')
 
 describe 'Permissions:', ->
 
 	describe '#user()', ->
 
 		before ->
-			mock.connection.init()
+			@isOnlineStub = sinon.stub(resin.connection, 'isOnline')
+			@isOnlineStub.yields(null, true)
 
 		after ->
-			mock.connection.restore()
+			@isOnlineStub.restore()
 
 		beforeEach (done) ->
-			mock.fs.init()
+			mockFsOptions = {}
+			mockFsOptions[resin.settings.get('dataPrefix')] = mockFs.directory()
+			mockFs(mockFsOptions)
+
 			resin.data.prefix.set(resin.settings.get('dataPrefix'), done)
 
 		afterEach ->
-			mock.fs.restore()
+			mockFs.restore()
 
 		describe 'if not logged in', ->
 
