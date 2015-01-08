@@ -1,6 +1,5 @@
 _ = require('lodash')
 async = require('async')
-gitCli = require('git-cli')
 resin = require('resin-sdk')
 ui = require('../ui')
 log = require('../log/log')
