@@ -23,7 +23,8 @@ exports.login	= (params) ->
 	], errors.handle
 
 exports.logout = permissions.user ->
-	resin.auth.logout()
+	resin.auth.logout (error) ->
+		errors.handle(error) if error?
 
 exports.signup = ->
 	async.waterfall([
