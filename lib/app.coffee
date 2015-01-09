@@ -478,6 +478,11 @@ capitano.command
 
 		To continuously stream output, and see new logs in real time, use the `--tail` option.
 
+		Note that for now you need to provide the whole UUID for this command to work correctly,
+		and the tool won't notice if you're using an invalid UUID.
+
+		This is due to some technical limitations that we plan to address soon.
+
 		Examples:
 			$ resin logs 23c73a12e3527df55c60b9ce647640c1b7da1b32d71e6a39849ac0f00db828
 			$ resin logs 23c73a12e3527df55c60b9ce647640c1b7da1b32d71e6a39849ac0f00db828 --num 20
