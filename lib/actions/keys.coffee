@@ -33,7 +33,6 @@ exports.add = permissions.user (params) ->
 				helpers.readStdin(callback)
 
 		(key, callback) ->
-			key = key.trim()
 			resin.models.key.create(params.name, key, callback)
 
 	], errors.handle
