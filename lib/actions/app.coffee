@@ -19,12 +19,7 @@ exports.create = permissions.user (params, options) ->
 				ui.widgets.select('Select a type', deviceTypes, callback)
 
 		(type, callback) ->
-
-			# TODO: Currently returns 'unknown' if device is not recognised.
-			# Maybe we should break or handle better?
-			slugifiedType = resin.models.device.getDeviceSlug(type)
-
-			resin.models.application.create(params.name, slugifiedType, callback)
+			resin.models.application.create(params.name, type, callback)
 
 	], errors.handle
 
