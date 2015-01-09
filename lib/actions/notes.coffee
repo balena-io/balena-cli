@@ -9,7 +9,7 @@ exports.set = permissions.user (params, options) ->
 
 		(callback) ->
 			if not params.note?
-				helpers.readStdin(callback)
+				return helpers.readStdin(callback)
 			return callback(null, params.note)
 
 		(note, callback) ->
