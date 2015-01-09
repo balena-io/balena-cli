@@ -54,19 +54,13 @@
     "fs-plus": "~2.3.2",
     "git-cli": "~0.8.2",
     "inquirer": "~0.8.0",
-    "is-online": "~3.0.0",
     "lodash": "~2.4.1",
     "lodash-contrib": "~241.4.14",
     "mkdirp": "~0.5.0",
     "open": "0.0.5",
     "progress": "~1.1.8",
     "progress-bar": "~0.1.1",
-    "pubnub": "~3.7.0",
-    "request-progress": "^0.3.1",
     "resin-sdk": "git+ssh://git@bitbucket.org/rulemotion/resin-sdk.git",
-    "rimraf": "^2.2.8",
-    "typed-error": "^0.1.0",
-    "underscore.string": "~2.4.0",
-    "user-home": "^1.1.0"
+    "underscore.string": "~2.4.0"
   }
 }
