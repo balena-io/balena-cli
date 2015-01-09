@@ -7,7 +7,6 @@ resin = require('resin-sdk')
 log = require('../log/log')
 permissions = require('../permissions/permissions')
 errors = require('../errors/errors')
-cache = require('../cache/cache')
 
 exports.download = (params, options) ->
 
@@ -20,10 +19,7 @@ exports.download = (params, options) ->
 		wifiKey: options.key
 		appId: params.id
 
-	# TODO: Change cache.generateCacheName to accept a ConnectionParams instance
-	# to avoid the complication of having to omit it from the object and pass
-	# as another parameter
-	fileName = cache.generateCacheName(params.id, _.omit(connectionParams, 'appId'))
+	fileName = resin.models.os.generateCacheName(connectionParams)
 
 	outputFile = options.output or path.join(resin.settings.get('directories.os'), fileName)
 
@@ -36,6 +32,7 @@ exports.download = (params, options) ->
 				return callback(error)
 
 		(callback) ->
+			log.info("Destination file: #{outputFile}")
 
 			bar = null
 			received = 0
