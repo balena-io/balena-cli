@@ -36,7 +36,6 @@ exports.signup = ->
 				return callback(error, credentials)
 
 		(credentials, callback) ->
-			credentials = _.omit(credentials, 'email')
 			resin.auth.login(credentials, callback)
 
 	], errors.handle)
