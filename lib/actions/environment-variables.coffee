@@ -1,4 +1,4 @@
-_ = require('lodash')
+_ = require('lodash-contrib')
 resin = require('resin-sdk')
 ui = require('../ui')
 permissions = require('../permissions/permissions')
@@ -6,9 +6,7 @@ log = require('../log/log')
 errors = require('../errors/errors')
 
 exports.list = permissions.user (params, options) ->
-	resin.models.environmentVariables.getAllByApplication options.application, (error, environmentVariables) ->
-		errors.handle(error) if error?
-
+	resin.models.environmentVariables.getAllByApplication options.application, errors.handleCallback (environmentVariables) ->
 		if not options.verbose
 			environmentVariables = _.reject(environmentVariables, resin.models.environmentVariables.isSystemVariable)
 
@@ -28,9 +26,7 @@ exports.add = permissions.user (params, options) ->
 		else
 			log.info("Warning: using #{params.key}=#{params.value} from host environment")
 
-	resin.models.environmentVariables.create options.application, params.key, params.value, (error) ->
-		errors.handle(error) if error?
+	resin.models.environmentVariables.create(options.application, params.key, params.value, _.unary(errors.handle))
 
 exports.rename = permissions.user (params, options) ->
-	resin.models.environmentVariables.update params.id, params.value, (error) ->
-		errors.handle(error) if error?
+	resin.models.environmentVariables.update(params.id, params.value, _.unary(errors.handle))

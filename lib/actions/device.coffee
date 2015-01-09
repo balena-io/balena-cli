@@ -7,9 +7,7 @@ errors = require('../errors/errors')
 permissions = require('../permissions/permissions')
 
 exports.list = permissions.user (params, options) ->
-	resin.models.device.getAllByApplication options.application, (error, devices) ->
-		errors.handle(error) if error?
-
+	resin.models.device.getAllByApplication options.application, errors.handleCallback (devices) ->
 		log.out ui.widgets.table.horizontal devices, [
 			'ID'
 			'Name'
@@ -21,9 +19,7 @@ exports.list = permissions.user (params, options) ->
 		]
 
 exports.info = permissions.user (params) ->
-	resin.models.device.get params.id, (error, device) ->
-		errors.handle(error) if error?
-
+	resin.models.device.get params.id, errors.handleCallback (device) ->
 		log.out ui.widgets.table.vertical device, [
 			'ID'
 			'Name'
@@ -46,8 +42,7 @@ exports.remove = permissions.user (params, options) ->
 	, errors.handle
 
 exports.identify = permissions.user (params) ->
-	resin.models.device.identify params.uuid, (error) ->
-		errors.handle(error) if error?
+	resin.models.device.identify(params.uuid, _.unary(errors.handle))
 
 exports.rename = permissions.user (params) ->
 	async.waterfall [

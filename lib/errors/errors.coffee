@@ -22,3 +22,11 @@ exports.handle = (error, exit = true) ->
 		errorCode = 1
 
 	process.exit(errorCode) if exit
+
+exports.handleCallback = (callback, context, exit) ->
+	if not _.isFunction(callback)
+		throw new Error('Callback is not a function')
+
+	return (error, args...) ->
+		exports.handle(error, exit) if error?
+		return callback.apply(context, args)

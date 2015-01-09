@@ -54,6 +54,5 @@ exports.download = (params, options) ->
 				bar.tick(state.received - received)
 				received = state.received
 
-	], (error) ->
-		errors.handle(error) if error?
+	], errors.handleCallback ->
 		log.info("\nFinished downloading #{outputFile}")

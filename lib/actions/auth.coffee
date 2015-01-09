@@ -1,4 +1,4 @@
-_ = require('lodash')
+_ = require('lodash-contrib')
 url = require('url')
 async = require('async')
 resin = require('resin-sdk')
@@ -23,8 +23,7 @@ exports.login	= (params) ->
 	], errors.handle
 
 exports.logout = permissions.user ->
-	resin.auth.logout (error) ->
-		errors.handle(error) if error?
+	resin.auth.logout(_.unary(errors.handle))
 
 exports.signup = ->
 	async.waterfall([
@@ -43,8 +42,7 @@ exports.signup = ->
 	], errors.handle)
 
 exports.whoami = permissions.user ->
-	resin.auth.whoami (error, username) ->
-		errors.handle(error) if error?
+	resin.auth.whoami errors.handleCallback (username) ->
 
 		if not username?
 			error = new Error('Username not found')

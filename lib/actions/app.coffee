@@ -1,4 +1,4 @@
-_ = require('lodash')
+_ = require('lodash-contrib')
 async = require('async')
 resin = require('resin-sdk')
 ui = require('../ui')
@@ -29,9 +29,7 @@ exports.create = permissions.user (params, options) ->
 	], errors.handle
 
 exports.list = permissions.user ->
-	resin.models.application.getAll (error, applications) ->
-		errors.handle(error) if error?
-
+	resin.models.application.getAll errors.handleCallback (applications) ->
 		log.out ui.widgets.table.horizontal applications, [
 			'ID'
 			'Name'
@@ -41,9 +39,7 @@ exports.list = permissions.user ->
 		]
 
 exports.info = permissions.user (params) ->
-	resin.models.application.get params.id, (error, application) ->
-		errors.handle(error) if error?
-
+	resin.models.application.get params.id, errors.handleCallback (application) ->
 		log.out ui.widgets.table.vertical application, [
 			'ID'
 			'Name'
@@ -53,8 +49,7 @@ exports.info = permissions.user (params) ->
 		]
 
 exports.restart = permissions.user (params) ->
-	resin.models.application.restart params.id, (error) ->
-		errors.handle(error) if error?
+	resin.models.application.restart(params.id, _.unary(errors.handle))
 
 exports.remove = permissions.user (params, options) ->
 	ui.patterns.remove 'application', options.yes, (callback) ->
@@ -82,5 +77,4 @@ exports.init = permissions.user (params) ->
 		(application, callback) ->
 			resin.vcs.initProjectWithApplication(application, currentDirectory, callback)
 
-	], (error) ->
-		errors.handle(error) if error?
+	], errors.handle

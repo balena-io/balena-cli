@@ -10,6 +10,5 @@ exports.logs = permissions.user (params, options) ->
 	resin.logs.subscribe params.uuid, {
 		history: options.num or LOGS_HISTORY_COUNT
 		tail: options.tail
-	}, (error, message) ->
-		errors.handle(error) if error?
+	}, errors.handleCallback (message) ->
 		log.array(message, log.out)

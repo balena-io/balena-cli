@@ -10,15 +10,11 @@ permissions = require('../permissions/permissions')
 errors = require('../errors/errors')
 
 exports.list = permissions.user ->
-	resin.models.key.getAll (error, keys) ->
-		errors.handle(error) if error?
-
+	resin.models.key.getAll errors.handleCallback (keys) ->
 		log.out ui.widgets.table.horizontal keys, [ 'ID', 'Title' ]
 
 exports.info = permissions.user (params) ->
-	resin.models.key.get params.id, (error, key) ->
-		errors.handle(error) if error?
-
+	resin.models.key.get params.id, errors.handleCallback (key) ->
 		key.public_key = '\n' + _.str.chop(key.public_key, resin.settings.get('sshKeyWidth')).join('\n')
 		log.out(ui.widgets.table.vertical(key, [ 'ID', 'Title', 'Public Key' ]))
 
