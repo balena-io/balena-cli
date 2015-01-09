@@ -49,9 +49,6 @@ exports.identify = permissions.user (params) ->
 	resin.models.device.identify params.uuid, (error) ->
 		errors.handle(error) if error?
 
-# TODO: This action doesn't return any error
-# if trying to rename a device that does not
-# exists. This is being fixed server side.
 exports.rename = permissions.user (params) ->
 	async.waterfall [
 
