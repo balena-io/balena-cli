@@ -10,16 +10,13 @@ errors = require('../errors/errors')
 
 exports.download = (params, options) ->
 
-	# TODO: Evaluate if ConnectionParams is a good name for this object
-	# as it includes an application id, which is not connection related
-	# Maybe we should move appId outside this class?
-	connectionParams = new resin.connection.ConnectionParams
+	osParams =
 		network: options.network
 		wifiSsid: options.ssid
 		wifiKey: options.key
 		appId: params.id
 
-	fileName = resin.models.os.generateCacheName(connectionParams)
+	fileName = resin.models.os.generateCacheName(osParams)
 
 	outputFile = options.output or path.join(resin.settings.get('directories.os'), fileName)
 
@@ -37,7 +34,7 @@ exports.download = (params, options) ->
 			bar = null
 			received = 0
 
-			resin.models.os.download connectionParams, outputFile, callback, (state) ->
+			resin.models.os.download osParams, outputFile, callback, (state) ->
 
 				# TODO: Allow quieting this progress bar
 				bar ?= new ProgressBar 'Downloading device OS [:bar] :percent :etas',
