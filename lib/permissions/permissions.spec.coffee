@@ -1,37 +1,21 @@
 _ = require('lodash')
-nock = require('nock')
 sinon = require('sinon')
-mockFs = require('mock-fs')
 expect = require('chai').expect
 resin = require('resin-sdk')
 permissions = require('./permissions')
-johnDoeFixture = require('../../tests/fixtures/johndoe')
 
 describe 'Permissions:', ->
 
 	describe '#user()', ->
 
-		before ->
-			@isOnlineStub = sinon.stub(resin.connection, 'isOnline')
-			@isOnlineStub.yields(null, true)
-
-		after ->
-			@isOnlineStub.restore()
-
-		beforeEach (done) ->
-			mockFsOptions = {}
-			mockFsOptions[resin.settings.get('dataPrefix')] = mockFs.directory()
-			mockFs(mockFsOptions)
-
-			resin.data.prefix.set(resin.settings.get('dataPrefix'), done)
-
-		afterEach ->
-			mockFs.restore()
-
 		describe 'if not logged in', ->
 
-			beforeEach (done) ->
-				resin.auth.logout(done)
+			beforeEach ->
+				@isLoggedInStub = sinon.stub(resin.auth, 'isLoggedIn')
+				@isLoggedInStub.yields(false)
+
+			afterEach ->
+				@isLoggedInStub.restore()
 
 			it 'should not call the function', (done) ->
 				spy = sinon.spy()
@@ -49,12 +33,12 @@ describe 'Permissions:', ->
 
 		describe 'if logged in', ->
 
-			beforeEach (done) ->
-				nock(resin.settings.get('remoteUrl'))
-					.post('/login_', johnDoeFixture.credentials)
-					.reply(200, johnDoeFixture.token)
+			beforeEach ->
+				@isLoggedInStub = sinon.stub(resin.auth, 'isLoggedIn')
+				@isLoggedInStub.yields(true)
 
-				resin.auth.login(johnDoeFixture.credentials, done)
+			afterEach ->
+				@isLoggedInStub.restore()
 
 			it 'should call the function with the correct arguments', (done) ->
 				args = [ 1, 2, 3, 'foo', 'bar' ]
