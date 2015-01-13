@@ -49,7 +49,6 @@
     "cliff": "~0.1.9",
     "coffee-script": "~1.8.0",
     "conf.js": "^0.1.1",
-    "fs-plus": "~2.3.2",
     "git-cli": "~0.8.2",
     "inquirer": "~0.8.0",
     "lodash": "~2.4.1",
