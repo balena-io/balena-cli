@@ -1,10 +1,12 @@
 _ = require('lodash')
+path = require('path')
 capitano = require('capitano')
 resin = require('resin-sdk')
 packageJSON = require('../package.json')
 actions = require('./actions')
 log = require('./log/log')
 errors = require('./errors/errors')
+plugin = require('./plugin/plugin')
 
 capitano.command
 	signature: 'version'
@@ -590,6 +592,21 @@ capitano.command
 			$ resin example 3
 	'''
 	action: actions.examples.info
+
+try
+	for pluginPath in plugin.getPluginsPathsByGlob('resin-plugin-*')
+		pluginCommands = plugin.getPluginMeta(pluginPath).resin or []
+		pluginCommands = _.map pluginCommands, (command) ->
+			pluginCommandActionPath = path.join(pluginPath, command.action)
+			command.action = require(pluginCommandActionPath)
+			return command
+
+		_.each(pluginCommands, capitano.command)
+
+# In case of an error, we log it to stderr, but we don't
+# allow plugins to crash the main process.
+catch error
+	errors.handle(error)
 
 cli = capitano.parse(process.argv)
 
