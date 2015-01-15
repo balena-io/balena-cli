@@ -2,7 +2,6 @@ _ = require('lodash')
 path = require('path')
 capitano = require('capitano')
 resin = require('resin-sdk')
-packageJSON = require('../package.json')
 actions = require('./actions')
 log = require('./log/log')
 errors = require('./errors/errors')
@@ -11,8 +10,7 @@ plugin = require('./plugin/plugin')
 capitano.command
 	signature: 'version'
 	description: 'output the version number'
-	action: ->
-		log.out(packageJSON.version)
+	action: actions.info.version
 
 capitano.command
 	signature: 'help [command...]'
