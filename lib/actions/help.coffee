@@ -2,7 +2,6 @@ _ = require('lodash')
 _.str = require('underscore.string')
 resin = require('resin-sdk')
 capitano = require('capitano')
-log = require('../log/log')
 
 # TODO: Refactor this terrible mess
 
@@ -62,14 +61,14 @@ getOptionHelp = (option, maxLength) ->
 	return result
 
 exports.general = ->
-	log.out("Usage: #{process.argv[0]} [COMMAND] [OPTIONS]\n")
-	log.out('Commands:\n')
+	console.log("Usage: #{process.argv[0]} [COMMAND] [OPTIONS]\n")
+	console.log('Commands:\n')
 
 	for command in capitano.state.commands
 		continue if command.isWildcard()
-		log.out(getCommandHelp(command))
+		console.log(getCommandHelp(command))
 
-	log.out('\nGlobal Options:\n')
+	console.log('\nGlobal Options:\n')
 
 	options = _.map capitano.state.globalOptions, (option) ->
 		option.signature = buildOptionSignatureHelp(option)
@@ -79,9 +78,9 @@ exports.general = ->
 		return option.signature.length
 
 	for option in options
-		log.out(getOptionHelp(option, optionSignatureMaxLength))
+		console.log(getOptionHelp(option, optionSignatureMaxLength))
 
-	log.out()
+	console.log()
 
 exports.command = (params) ->
 	command = capitano.state.getMatchCommand(params.command)
@@ -89,15 +88,15 @@ exports.command = (params) ->
 	if not command? or command.isWildcard()
 		return capitano.defaults.actions.commandNotFound(params.command)
 
-	log.out("Usage: #{command.signature}")
+	console.log("Usage: #{command.signature}")
 
 	if command.help?
-		log.out("\n#{command.help}")
+		console.log("\n#{command.help}")
 	else if command.description?
-		log.out("\n#{_.str.humanize(command.description)}")
+		console.log("\n#{_.str.humanize(command.description)}")
 
 	if not _.isEmpty(command.options)
-		log.out('\nOptions:\n')
+		console.log('\nOptions:\n')
 
 		options = _.map command.options, (option) ->
 			option.signature = buildOptionSignatureHelp(option)
@@ -107,9 +106,9 @@ exports.command = (params) ->
 			return option.signature.toString().length
 
 		for option in options
-			log.out(getOptionHelp(option, optionSignatureMaxLength))
+			console.log(getOptionHelp(option, optionSignatureMaxLength))
 
-		log.out()
+		console.log()
 
 exports.help = (params) ->
 	if params.command?

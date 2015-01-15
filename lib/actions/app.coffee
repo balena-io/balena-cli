@@ -2,7 +2,6 @@ _ = require('lodash-contrib')
 async = require('async')
 resin = require('resin-sdk')
 ui = require('../ui')
-log = require('../log/log')
 permissions = require('../permissions/permissions')
 
 exports.create = permissions.user (params, options, done) ->
@@ -25,7 +24,7 @@ exports.create = permissions.user (params, options, done) ->
 exports.list = permissions.user (params, options, done) ->
 	resin.models.application.getAll (error, applications) ->
 		return done(error) if error?
-		log.out ui.widgets.table.horizontal applications, [
+		console.log ui.widgets.table.horizontal applications, [
 			'ID'
 			'Name'
 			'Device Display Name'
@@ -37,7 +36,7 @@ exports.list = permissions.user (params, options, done) ->
 exports.info = permissions.user (params, options, done) ->
 	resin.models.application.get params.id, (error, application) ->
 		return done(error) if error?
-		log.out ui.widgets.table.vertical application, [
+		console.log ui.widgets.table.vertical application, [
 			'ID'
 			'Name'
 			'Device Display Name'

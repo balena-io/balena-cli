@@ -3,7 +3,6 @@ url = require('url')
 async = require('async')
 resin = require('resin-sdk')
 ui = require('../ui')
-log = require('../log/log')
 permissions = require('../permissions/permissions')
 helpers = require('../helpers/helpers')
 
@@ -45,4 +44,4 @@ exports.whoami = permissions.user (params, options, done) ->
 		if not username?
 			return done(new Error('Username not found'))
 
-		log.out(username)
+		console.log(username)

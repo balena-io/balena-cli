@@ -1,6 +1,6 @@
+_ = require('lodash')
 resin = require('resin-sdk')
 permissions = require('../permissions/permissions')
-log = require('../log/log')
 
 LOGS_HISTORY_COUNT = 200
 
@@ -11,5 +11,5 @@ exports.logs = permissions.user (params, options, done) ->
 		tail: options.tail
 	}, (error, message) ->
 		return done(error) if error?
-		log.array(message, log.out)
+		_.each(message, console.log)
 		return done()

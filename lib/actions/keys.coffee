@@ -5,20 +5,19 @@ fs = require('fs')
 resin = require('resin-sdk')
 helpers = require('../helpers/helpers')
 ui = require('../ui')
-log = require('../log/log')
 permissions = require('../permissions/permissions')
 
 exports.list = permissions.user (params, options, done) ->
 	resin.models.key.getAll (error, keys) ->
 		return done(error) if error?
-		log.out ui.widgets.table.horizontal keys, [ 'ID', 'Title' ]
+		console.log ui.widgets.table.horizontal keys, [ 'ID', 'Title' ]
 		return done()
 
 exports.info = permissions.user (params, options, done) ->
 	resin.models.key.get params.id, (error, key) ->
 		return done(error) if error?
 		key.public_key = '\n' + _.str.chop(key.public_key, resin.settings.get('sshKeyWidth')).join('\n')
-		log.out(ui.widgets.table.vertical(key, [ 'ID', 'Title', 'Public Key' ]))
+		console.log(ui.widgets.table.vertical(key, [ 'ID', 'Title', 'Public Key' ]))
 		return done()
 
 exports.remove = permissions.user (params, options, done) ->

@@ -3,7 +3,6 @@ path = require('path')
 capitano = require('capitano')
 resin = require('resin-sdk')
 actions = require('./actions')
-log = require('./log/log')
 errors = require('./errors/errors')
 plugin = require('./plugin/plugin')
 
@@ -611,7 +610,8 @@ changeProjectDirectory = (directory) ->
 resin.data.prefix.set resin.settings.get('dataPrefix'), (error) ->
 	errors.handle(error) if error?
 
-	log.setQuiet(cli.global.quiet)
+	if cli.global.quiet
+		console.info = _.noop
 
 	if cli.global.project?
 		changeProjectDirectory(cli.global.project)

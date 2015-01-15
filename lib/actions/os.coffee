@@ -4,7 +4,6 @@ path = require('path')
 mkdirp = require('mkdirp')
 ProgressBar = require('progress')
 resin = require('resin-sdk')
-log = require('../log/log')
 permissions = require('../permissions/permissions')
 
 exports.download = (params, options, done) ->
@@ -28,7 +27,7 @@ exports.download = (params, options, done) ->
 				return callback(error)
 
 		(callback) ->
-			log.info("Destination file: #{outputFile}")
+			console.info("Destination file: #{outputFile}")
 
 			bar = null
 			received = 0
@@ -49,5 +48,5 @@ exports.download = (params, options, done) ->
 
 	], (error) ->
 		return done(error) if error?
-		log.info("\nFinished downloading #{outputFile}")
+		console.info("\nFinished downloading #{outputFile}")
 		return done()

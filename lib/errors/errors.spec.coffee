@@ -1,7 +1,6 @@
 _ = require('lodash')
 expect = require('chai').expect
 sinon = require('sinon')
-log = require('../log/log')
 errors = require('./errors')
 
 describe 'Errors:', ->
@@ -10,14 +9,14 @@ describe 'Errors:', ->
 
 		it 'should log the error message to stderr', ->
 			message = 'Hello World'
-			logErrorStub = sinon.stub(log, 'error')
+			logErrorStub = sinon.stub(console, 'error')
 			error = new Error(message)
 			errors.handle(error, false)
 			expect(logErrorStub).to.have.been.calledWith(message)
 			logErrorStub.restore()
 
 		it 'should do nothing if error is not an instance of Error', ->
-			logErrorStub = sinon.stub(log, 'error')
+			logErrorStub = sinon.stub(console, 'error')
 
 			for item in [
 				undefined
@@ -33,7 +32,7 @@ describe 'Errors:', ->
 
 		checkProcessExitOption = (error, value, expectations) ->
 			processExitStub = sinon.stub(process, 'exit')
-			logErrorStub = sinon.stub(log, 'error')
+			logErrorStub = sinon.stub(console, 'error')
 			errors.handle(error, value)
 			expectations(processExitStub, logErrorStub)
 			processExitStub.restore()

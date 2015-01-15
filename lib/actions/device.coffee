@@ -2,13 +2,12 @@ _ = require('lodash-contrib')
 async = require('async')
 resin = require('resin-sdk')
 ui = require('../ui')
-log = require('../log/log')
 permissions = require('../permissions/permissions')
 
 exports.list = permissions.user (params, options, done) ->
 	resin.models.device.getAllByApplication options.application, (error, devices) ->
 		return done(error) if error?
-		log.out ui.widgets.table.horizontal devices, [
+		console.log ui.widgets.table.horizontal devices, [
 			'ID'
 			'Name'
 			'Device Display Name'
@@ -23,7 +22,7 @@ exports.list = permissions.user (params, options, done) ->
 exports.info = permissions.user (params, options, done) ->
 	resin.models.device.get params.id, (error, device) ->
 		return done(error) if error?
-		log.out ui.widgets.table.vertical device, [
+		console.log ui.widgets.table.vertical device, [
 			'ID'
 			'Name'
 			'Device Display Name'
@@ -64,4 +63,4 @@ exports.rename = permissions.user (params, options, done) ->
 
 exports.supported = permissions.user ->
 	devices = resin.models.device.getSupportedDeviceTypes()
-	_.each(devices, _.unary(log.out))
+	_.each(devices, _.unary(console.log))

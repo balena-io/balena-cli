@@ -6,7 +6,6 @@ gitCli = require('git-cli')
 resin = require('resin-sdk')
 permissions = require('../permissions/permissions')
 ui = require('../ui')
-log = require('../log/log')
 examplesData = require('../data/examples.json')
 
 exports.list = permissions.user ->
@@ -19,7 +18,7 @@ exports.list = permissions.user ->
 		example.author ?= 'Unknown'
 		return example
 
-	log.out ui.widgets.table.horizontal examplesData, [
+	console.log ui.widgets.table.horizontal examplesData, [
 		'ID'
 		'Display Name'
 		'Repository'
@@ -36,7 +35,7 @@ exports.info = permissions.user (params, options, done) ->
 	example.id = id
 	example.author ?= 'Unknown'
 
-	log.out ui.widgets.table.vertical example, [
+	console.log ui.widgets.table.vertical example, [
 		'ID'
 		'Display Name'
 		'Description'
@@ -63,7 +62,7 @@ exports.clone = permissions.user (params, options, done) ->
 				return callback(error)
 
 		(callback) ->
-			log.info("Cloning #{example.display_name} to #{example.name}")
+			console.info("Cloning #{example.display_name} to #{example.name}")
 			gitCli.Repository.clone(example.repository, example.name, callback)
 
 	], done
