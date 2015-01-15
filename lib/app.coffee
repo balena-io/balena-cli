@@ -15,11 +15,7 @@ capitano.command
 capitano.command
 	signature: 'help [command...]'
 	description: 'show help'
-	action: (params) ->
-		if params.command?
-			actions.help.command(params)
-		else
-			actions.help.general()
+	action: actions.help.help
 
 capitano.command
 	signature: '*'

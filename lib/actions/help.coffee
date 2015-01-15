@@ -110,3 +110,9 @@ exports.command = (params) ->
 			log.out(getOptionHelp(option, optionSignatureMaxLength))
 
 		log.out()
+
+exports.help = (params) ->
+	if params.command?
+		exports.command(arguments...)
+	else
+		exports.general(arguments...)
