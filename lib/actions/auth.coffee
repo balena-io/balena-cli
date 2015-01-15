@@ -4,11 +4,10 @@ async = require('async')
 resin = require('resin-sdk')
 ui = require('../ui')
 log = require('../log/log')
-errors = require('../errors/errors')
 permissions = require('../permissions/permissions')
 helpers = require('../helpers/helpers')
 
-exports.login	= (params) ->
+exports.login	= (params, options, done) ->
 	async.waterfall [
 
 		(callback) ->
@@ -20,12 +19,12 @@ exports.login	= (params) ->
 		(credentials, callback) ->
 			resin.auth.login(credentials, callback)
 
-	], errors.handle
+	], done
 
-exports.logout = permissions.user ->
-	resin.auth.logout(_.unary(errors.handle))
+exports.logout = permissions.user (params, options, done) ->
+	resin.auth.logout(done)
 
-exports.signup = ->
+exports.signup = (params, options, done) ->
 	async.waterfall([
 
 		(callback) ->
@@ -38,13 +37,12 @@ exports.signup = ->
 		(credentials, callback) ->
 			resin.auth.login(credentials, callback)
 
-	], errors.handle)
+	], done)
 
-exports.whoami = permissions.user ->
-	resin.auth.whoami errors.handleCallback (username) ->
+exports.whoami = permissions.user (params, options, done) ->
+	resin.auth.whoami (error, username) ->
 
 		if not username?
-			error = new Error('Username not found')
-			errors.handle(error)
+			return done(new Error('Username not found'))
 
 		log.out(username)

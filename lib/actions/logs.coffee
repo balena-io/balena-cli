@@ -1,14 +1,15 @@
 resin = require('resin-sdk')
 permissions = require('../permissions/permissions')
 log = require('../log/log')
-errors = require('../errors/errors')
 
 LOGS_HISTORY_COUNT = 200
 
-exports.logs = permissions.user (params, options) ->
+exports.logs = permissions.user (params, options, done) ->
 
 	resin.logs.subscribe params.uuid, {
 		history: options.num or LOGS_HISTORY_COUNT
 		tail: options.tail
-	}, errors.handleCallback (message) ->
+	}, (error, message) ->
+		return done(error) if error?
 		log.array(message, log.out)
+		return done()

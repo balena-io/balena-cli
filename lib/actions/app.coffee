@@ -3,11 +3,10 @@ async = require('async')
 resin = require('resin-sdk')
 ui = require('../ui')
 log = require('../log/log')
-errors = require('../errors/errors')
 permissions = require('../permissions/permissions')
 
-exports.create = permissions.user (params, options) ->
-	async.waterfall [
+exports.create = permissions.user (params, options, done) ->
+	async.waterfall([
 
 		(callback) ->
 			deviceType = options.type
@@ -21,10 +20,11 @@ exports.create = permissions.user (params, options) ->
 		(type, callback) ->
 			resin.models.application.create(params.name, type, callback)
 
-	], errors.handle
+	], done)
 
-exports.list = permissions.user ->
-	resin.models.application.getAll errors.handleCallback (applications) ->
+exports.list = permissions.user (params, options, done) ->
+	resin.models.application.getAll (error, applications) ->
+		return done(error) if error?
 		log.out ui.widgets.table.horizontal applications, [
 			'ID'
 			'Name'
@@ -32,9 +32,11 @@ exports.list = permissions.user ->
 			'Online Devices'
 			'Devices Length'
 		]
+		return done()
 
-exports.info = permissions.user (params) ->
-	resin.models.application.get params.id, errors.handleCallback (application) ->
+exports.info = permissions.user (params, options, done) ->
+	resin.models.application.get params.id, (error, application) ->
+		return done(error) if error?
 		log.out ui.widgets.table.vertical application, [
 			'ID'
 			'Name'
@@ -42,16 +44,17 @@ exports.info = permissions.user (params) ->
 			'Git Repository'
 			'Commit'
 		]
+		return done()
 
-exports.restart = permissions.user (params) ->
-	resin.models.application.restart(params.id, _.unary(errors.handle))
+exports.restart = permissions.user (params, options, done) ->
+	resin.models.application.restart(params.id, done)
 
-exports.remove = permissions.user (params, options) ->
+exports.remove = permissions.user (params, options, done) ->
 	ui.patterns.remove 'application', options.yes, (callback) ->
 		resin.models.application.remove(params.id, callback)
-	, errors.handle
+	, done
 
-exports.init = permissions.user (params) ->
+exports.init = permissions.user (params, options, done) ->
 
 	currentDirectory = process.cwd()
 
@@ -72,4 +75,4 @@ exports.init = permissions.user (params) ->
 		(application, callback) ->
 			resin.vcs.initProjectWithApplication(application, currentDirectory, callback)
 
-	], errors.handle
+	], done

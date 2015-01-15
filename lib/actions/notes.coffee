@@ -1,10 +1,9 @@
 async = require('async')
 permissions = require('../permissions/permissions')
-errors = require('../errors/errors')
 helpers = require('../helpers/helpers')
 resin = require('resin-sdk')
 
-exports.set = permissions.user (params, options) ->
+exports.set = permissions.user (params, options, done) ->
 	async.waterfall([
 
 		(callback) ->
@@ -15,4 +14,4 @@ exports.set = permissions.user (params, options) ->
 		(note, callback) ->
 			resin.models.device.note(options.device, note, callback)
 
-	], errors.handle)
+	], done)

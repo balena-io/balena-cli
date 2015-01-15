@@ -7,7 +7,6 @@ resin = require('resin-sdk')
 permissions = require('../permissions/permissions')
 ui = require('../ui')
 log = require('../log/log')
-errors = require('../errors/errors')
 examplesData = require('../data/examples.json')
 
 exports.list = permissions.user ->
@@ -27,13 +26,12 @@ exports.list = permissions.user ->
 		'Author'
 	]
 
-exports.info = permissions.user (params) ->
+exports.info = permissions.user (params, options, done) ->
 	id = params.id - 1
 	example = examplesData[id]
 
 	if not example?
-		error = new Error("Unknown example: #{id}")
-		errors.handle(error)
+		return done(new Error("Unknown example: #{id}"))
 
 	example.id = id
 	example.author ?= 'Unknown'
@@ -46,12 +44,13 @@ exports.info = permissions.user (params) ->
 		'Repository'
 	]
 
-exports.clone = permissions.user (params) ->
+	return done()
+
+exports.clone = permissions.user (params, options, done) ->
 	example = examplesData[params.id - 1]
 
 	if not example?
-		error = new Error("Unknown example: #{id}")
-		errors.handle(error)
+		return done(new Error("Unknown example: #{id}"))
 
 	async.waterfall [
 
@@ -67,5 +66,4 @@ exports.clone = permissions.user (params) ->
 			log.info("Cloning #{example.display_name} to #{example.name}")
 			gitCli.Repository.clone(example.repository, example.name, callback)
 
-	], (error) ->
-		errors.handle(error) if error?
+	], done

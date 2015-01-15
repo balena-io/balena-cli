@@ -3,11 +3,11 @@ async = require('async')
 resin = require('resin-sdk')
 ui = require('../ui')
 log = require('../log/log')
-errors = require('../errors/errors')
 permissions = require('../permissions/permissions')
 
-exports.list = permissions.user (params, options) ->
-	resin.models.device.getAllByApplication options.application, errors.handleCallback (devices) ->
+exports.list = permissions.user (params, options, done) ->
+	resin.models.device.getAllByApplication options.application, (error, devices) ->
+		return done(error) if error?
 		log.out ui.widgets.table.horizontal devices, [
 			'ID'
 			'Name'
@@ -18,8 +18,11 @@ exports.list = permissions.user (params, options) ->
 			'Last Seen'
 		]
 
-exports.info = permissions.user (params) ->
-	resin.models.device.get params.id, errors.handleCallback (device) ->
+		return done()
+
+exports.info = permissions.user (params, options, done) ->
+	resin.models.device.get params.id, (error, device) ->
+		return done(error) if error?
 		log.out ui.widgets.table.vertical device, [
 			'ID'
 			'Name'
@@ -36,15 +39,17 @@ exports.info = permissions.user (params) ->
 			'Note'
 		]
 
-exports.remove = permissions.user (params, options) ->
+		return done()
+
+exports.remove = permissions.user (params, options, done) ->
 	ui.patterns.remove 'device', options.yes, (callback) ->
 		resin.models.device.remove(params.id, callback)
-	, errors.handle
+	, done
 
-exports.identify = permissions.user (params) ->
-	resin.models.device.identify(params.uuid, _.unary(errors.handle))
+exports.identify = permissions.user (params, options, done) ->
+	resin.models.device.identify(params.uuid, done)
 
-exports.rename = permissions.user (params) ->
+exports.rename = permissions.user (params, options, done) ->
 	async.waterfall [
 
 		(callback) ->
@@ -55,8 +60,7 @@ exports.rename = permissions.user (params) ->
 		(name, callback) ->
 			resin.models.device.rename(params.id, name, callback)
 
-	], (error) ->
-		errors.handle(error) if error?
+	], done
 
 exports.supported = permissions.user ->
 	devices = resin.models.device.getSupportedDeviceTypes()

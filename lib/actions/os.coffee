@@ -6,9 +6,8 @@ ProgressBar = require('progress')
 resin = require('resin-sdk')
 log = require('../log/log')
 permissions = require('../permissions/permissions')
-errors = require('../errors/errors')
 
-exports.download = (params, options) ->
+exports.download = (params, options, done) ->
 
 	osParams =
 		network: options.network
@@ -48,5 +47,7 @@ exports.download = (params, options) ->
 				bar.tick(state.received - received)
 				received = state.received
 
-	], errors.handleCallback ->
+	], (error) ->
+		return done(error) if error?
 		log.info("\nFinished downloading #{outputFile}")
+		return done()

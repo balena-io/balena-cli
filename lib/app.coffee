@@ -624,4 +624,5 @@ resin.data.prefix.set resin.settings.get('dataPrefix'), (error) ->
 	if cli.global.project?
 		changeProjectDirectory(cli.global.project)
 
-	capitano.execute(cli)
+	capitano.execute cli, (error) ->
+		errors.handle(error) if error?
