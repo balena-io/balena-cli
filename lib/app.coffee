@@ -603,8 +603,6 @@ try
 
 		_.each(pluginCommands, capitano.command)
 
-# In case of an error, we log it to stderr, but we don't
-# allow plugins to crash the main process.
 catch error
 	errors.handle(error)
 
