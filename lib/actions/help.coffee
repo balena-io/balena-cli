@@ -110,8 +110,11 @@ exports.command = (params) ->
 
 		console.log()
 
-exports.help = (params) ->
-	if params.command?
-		exports.command(arguments...)
-	else
-		exports.general(arguments...)
+exports.help =
+	signature: 'help [command...]'
+	description: 'show help'
+	action: (params) ->
+		if params.command?
+			exports.command(arguments...)
+		else
+			exports.general(arguments...)

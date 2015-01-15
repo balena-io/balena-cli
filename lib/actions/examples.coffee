@@ -8,61 +8,90 @@ permissions = require('../permissions/permissions')
 ui = require('../ui')
 examplesData = require('../data/examples.json')
 
-exports.list = permissions.user ->
+exports.list =
+	signature: 'examples'
+	description: 'list all example applications'
+	help: '''
+		Use this command to list available example applications from resin.io
 
-	examplesData = _.map examplesData, (example, index) ->
-		example.id = index + 1
-		return example
+		Example:
+			$ resin examples
+	'''
+	action: permissions.user ->
+		examplesData = _.map examplesData, (example, index) ->
+			example.id = index + 1
+			return example
 
-	examplesData = _.map examplesData, (example) ->
+		examplesData = _.map examplesData, (example) ->
+			example.author ?= 'Unknown'
+			return example
+
+		console.log ui.widgets.table.horizontal examplesData, [
+			'ID'
+			'Display Name'
+			'Repository'
+			'Author'
+		]
+
+exports.info =
+	signature: 'example <id>'
+	description: 'list a single example application'
+	help: '''
+		Use this command to show information of a single example application
+
+		Example:
+			$ resin example 3
+	'''
+	action: permissions.user (params, options, done) ->
+		id = params.id - 1
+		example = examplesData[id]
+
+		if not example?
+			return done(new Error("Unknown example: #{id}"))
+
+		example.id = id
 		example.author ?= 'Unknown'
-		return example
 
-	console.log ui.widgets.table.horizontal examplesData, [
-		'ID'
-		'Display Name'
-		'Repository'
-		'Author'
-	]
+		console.log ui.widgets.table.vertical example, [
+			'ID'
+			'Display Name'
+			'Description'
+			'Author'
+			'Repository'
+		]
 
-exports.info = permissions.user (params, options, done) ->
-	id = params.id - 1
-	example = examplesData[id]
+		return done()
 
-	if not example?
-		return done(new Error("Unknown example: #{id}"))
+exports.clone =
+	signature: 'example clone <id>'
+	description: 'clone an example application'
+	help: '''
+		Use this command to clone an example application to the current directory
 
-	example.id = id
-	example.author ?= 'Unknown'
+		This command outputs information about the cloning process.
+		Use `--quiet` to remove that output.
 
-	console.log ui.widgets.table.vertical example, [
-		'ID'
-		'Display Name'
-		'Description'
-		'Author'
-		'Repository'
-	]
+		Example:
+			$ resin example clone 3
+	'''
+	action: permissions.user (params, options, done) ->
+		example = examplesData[params.id - 1]
 
-	return done()
+		if not example?
+			return done(new Error("Unknown example: #{id}"))
 
-exports.clone = permissions.user (params, options, done) ->
-	example = examplesData[params.id - 1]
+		async.waterfall [
 
-	if not example?
-		return done(new Error("Unknown example: #{id}"))
+			(callback) ->
+				exampleAbsolutePath = path.join(process.cwd(), example.name)
 
-	async.waterfall [
+				fs.exists exampleAbsolutePath, (exists) ->
+					return callback() if not exists
+					error = new Error("Directory exists: #{example.name}")
+					return callback(error)
 
-		(callback) ->
-			exampleAbsolutePath = path.join(process.cwd(), example.name)
+			(callback) ->
+				console.info("Cloning #{example.display_name} to #{example.name}")
+				gitCli.Repository.clone(example.repository, example.name, callback)
 
-			fs.exists exampleAbsolutePath, (exists) ->
-				return callback() if not exists
-				error = new Error("Directory exists: #{example.name}")
-				return callback(error)
-
-		(callback) ->
-			console.info("Cloning #{example.display_name} to #{example.name}")
-			gitCli.Repository.clone(example.repository, example.name, callback)
-
-	], done
+		], done
