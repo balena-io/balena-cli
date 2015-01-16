@@ -3,7 +3,7 @@ resin(1) - tab completion for resin
 
 ## DESCRIPTION
 
-It provides basic completion capabilities for `zsh` and `bash`.o
+It provides basic completion capabilities for `zsh` and `bash`.
 
 If you're using `bash`, add the following line to your `~/.bashrc`:
 
