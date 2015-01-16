@@ -100,7 +100,11 @@ for pluginPath in plugin.getPluginsPathsByGlob('resin-plugin-*')
 		pluginMeta = plugin.getPluginMeta(pluginPath)
 		pluginMain = path.join(pluginPath, pluginMeta.main)
 		pluginCommands = require(pluginMain)
-		_.each(pluginCommands, capitano.command)
+
+		if _.isArray(pluginCommands)
+			_.each(pluginCommands, capitano.command)
+		else
+			capitano.command(pluginCommands)
 
 	catch error
 		errors.handle(error)
