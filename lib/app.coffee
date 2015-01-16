@@ -6,6 +6,12 @@ actions = require('./actions')
 errors = require('./errors/errors')
 plugin = require('./plugin/plugin')
 
+capitano.permission 'user', (done) ->
+	resin.auth.isLoggedIn (isLoggedIn) ->
+		if not isLoggedIn
+			return done(new Error('You have to log in'))
+		return done()
+
 capitano.command
 	signature: '*'
 	action: ->

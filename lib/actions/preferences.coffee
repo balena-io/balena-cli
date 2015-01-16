@@ -1,7 +1,6 @@
 open = require('open')
 url = require('url')
 resin = require('resin-sdk')
-permissions = require('../permissions/permissions')
 
 exports.preferences =
 	signature: 'preferences'
@@ -15,7 +14,8 @@ exports.preferences =
 		Examples:
 			$ resin preferences
 	'''
-	action: permissions.user ->
+	permission: 'user'
+	action: ->
 		preferencesUrl = resin.settings.get('urls.preferences')
 		absUrl = url.resolve(resin.settings.get('remoteUrl'), preferencesUrl)
 		open(absUrl)

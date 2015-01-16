@@ -3,7 +3,6 @@ url = require('url')
 async = require('async')
 resin = require('resin-sdk')
 ui = require('../ui')
-permissions = require('../permissions/permissions')
 helpers = require('../helpers/helpers')
 
 exports.login	=
@@ -43,7 +42,8 @@ exports.logout =
 		Examples:
 			$ resin logout
 	'''
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		resin.auth.logout(done)
 
 exports.signup =
@@ -90,7 +90,8 @@ exports.whoami =
 		Examples:
 			$ resin whoami
 	'''
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		resin.auth.whoami (error, username) ->
 
 			if not username?

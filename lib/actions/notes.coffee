@@ -1,5 +1,4 @@
 async = require('async')
-permissions = require('../permissions/permissions')
 helpers = require('../helpers/helpers')
 resin = require('resin-sdk')
 
@@ -24,7 +23,8 @@ exports.set =
 		alias: [ 'd', 'dev' ]
 		required: 'You have to specify a device'
 	]
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		async.waterfall([
 
 			(callback) ->

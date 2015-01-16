@@ -4,7 +4,6 @@ path = require('path')
 _ = require('lodash')
 gitCli = require('git-cli')
 resin = require('resin-sdk')
-permissions = require('../permissions/permissions')
 ui = require('../ui')
 examplesData = require('../data/examples.json')
 
@@ -17,7 +16,8 @@ exports.list =
 		Example:
 			$ resin examples
 	'''
-	action: permissions.user ->
+	permission: 'user'
+	action: ->
 		examplesData = _.map examplesData, (example, index) ->
 			example.id = index + 1
 			return example
@@ -42,7 +42,8 @@ exports.info =
 		Example:
 			$ resin example 3
 	'''
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		id = params.id - 1
 		example = examplesData[id]
 
@@ -74,7 +75,8 @@ exports.clone =
 		Example:
 			$ resin example clone 3
 	'''
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		example = examplesData[params.id - 1]
 
 		if not example?

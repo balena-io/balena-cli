@@ -4,7 +4,6 @@ path = require('path')
 mkdirp = require('mkdirp')
 ProgressBar = require('progress')
 resin = require('resin-sdk')
-permissions = require('../permissions/permissions')
 
 exports.download =
 	signature: 'os download <id>'
@@ -53,6 +52,7 @@ exports.download =
 			alias: 'o'
 		}
 	]
+	permission: 'user'
 	action: (params, options, done) ->
 		osParams =
 			network: options.network

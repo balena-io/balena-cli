@@ -1,7 +1,6 @@
 _ = require('lodash-contrib')
 resin = require('resin-sdk')
 ui = require('../ui')
-permissions = require('../permissions/permissions')
 commandOptions = require('./command-options')
 
 exports.list =
@@ -29,7 +28,8 @@ exports.list =
 			alias: 'v'
 		}
 	]
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		resin.models.environmentVariables.getAllByApplication options.application, (error, environmentVariables) ->
 			return done(error) if error?
 
@@ -55,7 +55,8 @@ exports.remove =
 			$ resin env rm 215 --yes
 	'''
 	options: [ commandOptions.yes ]
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		ui.patterns.remove 'environment variable', options.yes, (callback) ->
 			resin.models.environmentVariables.remove(params.id, callback)
 		, done
@@ -79,7 +80,8 @@ exports.add =
 			$ resin env add TERM -a 91
 	'''
 	options: [ commandOptions.application ]
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		if not params.value?
 			params.value = process.env[params.key]
 
@@ -99,5 +101,6 @@ exports.rename =
 		Examples:
 			$ resin env rename 376 emacs
 	'''
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		resin.models.environmentVariables.update(params.id, params.value, done)

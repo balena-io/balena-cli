@@ -2,7 +2,6 @@ _ = require('lodash-contrib')
 async = require('async')
 resin = require('resin-sdk')
 ui = require('../ui')
-permissions = require('../permissions/permissions')
 commandOptions = require('./command-options')
 
 exports.list =
@@ -15,7 +14,8 @@ exports.list =
 			$ resin devices --application 91
 	'''
 	options: [ commandOptions.application ]
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		resin.models.device.getAllByApplication options.application, (error, devices) ->
 			return done(error) if error?
 			console.log ui.widgets.table.horizontal devices, [
@@ -39,7 +39,8 @@ exports.info =
 		Examples:
 			$ resin device 317
 	'''
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		resin.models.device.get params.id, (error, device) ->
 			return done(error) if error?
 			console.log ui.widgets.table.vertical device, [
@@ -74,7 +75,8 @@ exports.remove =
 			$ resin device rm 317 --yes
 	'''
 	options: [ commandOptions.yes ]
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		ui.patterns.remove 'device', options.yes, (callback) ->
 			resin.models.device.remove(params.id, callback)
 		, done
@@ -90,7 +92,8 @@ exports.identify =
 		Examples:
 			$ resin device identify 23c73a12e3527df55c60b9ce647640c1b7da1b32d71e6a39849ac0f00db828
 	'''
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		resin.models.device.identify(params.uuid, done)
 
 exports.rename =
@@ -105,7 +108,8 @@ exports.rename =
 			$ resin device rename 317 MyPi
 			$ resin device rename 317
 	'''
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		async.waterfall [
 
 			(callback) ->
@@ -127,6 +131,7 @@ exports.supported =
 		Examples:
 			$ resin devices supported
 	'''
-	action: permissions.user ->
+	permission: 'user'
+	action: ->
 		devices = resin.models.device.getSupportedDeviceTypes()
 		_.each(devices, _.unary(console.log))

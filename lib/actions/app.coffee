@@ -2,7 +2,6 @@ _ = require('lodash-contrib')
 async = require('async')
 resin = require('resin-sdk')
 ui = require('../ui')
-permissions = require('../permissions/permissions')
 commandOptions = require('./command-options')
 
 exports.create =
@@ -29,7 +28,8 @@ exports.create =
 			alias: 't'
 		}
 	]
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		async.waterfall([
 
 			(callback) ->
@@ -58,7 +58,8 @@ exports.list =
 		Examples:
 			$ resin apps
 	'''
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		resin.models.application.getAll (error, applications) ->
 			return done(error) if error?
 			console.log ui.widgets.table.horizontal applications, [
@@ -79,7 +80,8 @@ exports.info =
 		Examples:
 			$ resin app 91
 	'''
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		resin.models.application.get params.id, (error, application) ->
 			return done(error) if error?
 			console.log ui.widgets.table.vertical application, [
@@ -100,7 +102,8 @@ exports.restart =
 		Examples:
 			$ resin app restart 91
 	'''
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		resin.models.application.restart(params.id, done)
 
 exports.remove =
@@ -117,7 +120,8 @@ exports.remove =
 			$ resin app rm 91 --yes
 	'''
 	options: [ commandOptions.yes ]
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		ui.patterns.remove 'application', options.yes, (callback) ->
 			resin.models.application.remove(params.id, callback)
 		, done
@@ -134,7 +138,8 @@ exports.init =
 		Examples:
 			$ cd myApp && resin init 91
 	'''
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		currentDirectory = process.cwd()
 
 		async.waterfall [

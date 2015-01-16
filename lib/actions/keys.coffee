@@ -5,7 +5,6 @@ fs = require('fs')
 resin = require('resin-sdk')
 helpers = require('../helpers/helpers')
 ui = require('../ui')
-permissions = require('../permissions/permissions')
 commandOptions = require('./command-options')
 
 exports.list =
@@ -17,7 +16,8 @@ exports.list =
 		Examples:
 			$ resin keys
 	'''
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		resin.models.key.getAll (error, keys) ->
 			return done(error) if error?
 			console.log ui.widgets.table.horizontal keys, [ 'ID', 'Title' ]
@@ -32,7 +32,8 @@ exports.info =
 		Examples:
 			$ resin key 17
 	'''
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		resin.models.key.get params.id, (error, key) ->
 			return done(error) if error?
 			key.public_key = '\n' + _.str.chop(key.public_key, resin.settings.get('sshKeyWidth')).join('\n')
@@ -53,7 +54,8 @@ exports.remove =
 			$ resin key rm 17 --yes
 	'''
 	options: [ commandOptions.yes ]
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		ui.patterns.remove 'key', options.yes, (callback) ->
 			resin.models.key.remove(params.id, callback)
 		, done
@@ -71,7 +73,8 @@ exports.add =
 			$ resin key add Main ~/.ssh/id_rsa.pub
 			$ cat ~/.ssh/id_rsa.pub | resin key add Main
 	'''
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		async.waterfall [
 
 			(callback) ->

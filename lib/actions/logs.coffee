@@ -1,6 +1,5 @@
 _ = require('lodash')
 resin = require('resin-sdk')
-permissions = require('../permissions/permissions')
 
 LOGS_HISTORY_COUNT = 200
 
@@ -41,7 +40,8 @@ exports.logs =
 			alias: 't'
 		}
 	]
-	action: permissions.user (params, options, done) ->
+	permission: 'user'
+	action: (params, options, done) ->
 		resin.logs.subscribe params.uuid, {
 			history: options.num or LOGS_HISTORY_COUNT
 			tail: options.tail
