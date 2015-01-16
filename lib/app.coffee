@@ -95,18 +95,15 @@ capitano.command(actions.examples.list)
 capitano.command(actions.examples.clone)
 capitano.command(actions.examples.info)
 
-try
-	for pluginPath in plugin.getPluginsPathsByGlob('resin-plugin-*')
-		pluginCommands = plugin.getPluginMeta(pluginPath).resin or []
-		pluginCommands = _.map pluginCommands, (command) ->
-			pluginCommandActionPath = path.join(pluginPath, command.action)
-			command.action = require(pluginCommandActionPath)
-			return command
-
+for pluginPath in plugin.getPluginsPathsByGlob('resin-plugin-*')
+	try
+		pluginMeta = plugin.getPluginMeta(pluginPath)
+		pluginMain = path.join(pluginPath, pluginMeta.main)
+		pluginCommands = require(pluginMain)
 		_.each(pluginCommands, capitano.command)
 
-catch error
-	errors.handle(error)
+	catch error
+		errors.handle(error)
 
 cli = capitano.parse(process.argv)
 
