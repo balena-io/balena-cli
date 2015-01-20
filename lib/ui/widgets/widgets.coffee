@@ -64,6 +64,17 @@ exports.confirmRemoval = (name, callback) ->
 	], (response) ->
 		return callback(null, response.confirmed)
 
+exports.confirm = (message, callback) ->
+	inquirer.prompt [
+		{
+			type: 'confirm'
+			name: 'confirmed'
+			message: message
+			default: false
+		}
+	], (response) ->
+		return callback(null, response.confirmed)
+
 exports.ask = (question, callback) ->
 	inquirer.prompt [
 		{

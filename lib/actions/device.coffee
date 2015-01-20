@@ -1,6 +1,9 @@
 _ = require('lodash-contrib')
 async = require('async')
 resin = require('resin-sdk')
+os = require('os')
+fs = require('fs')
+progressStream = require('progress-stream')
 ui = require('../ui')
 commandOptions = require('./command-options')
 
@@ -135,3 +138,78 @@ exports.supported =
 	action: ->
 		devices = resin.models.device.getSupportedDeviceTypes()
 		_.each(devices, _.unary(console.log))
+
+exports.init =
+	signature: 'device init <image> <device>'
+	description: 'write an operating system image to a device'
+	help: '''
+		Use this command to write an operating system image to a device.
+
+		Note that this command requires admin privileges.
+
+		Notice this command asks for confirmation interactively.
+		You can avoid this by passing the `--yes` boolean option.
+
+		You can quiet the progress bar by passing the `--quiet` boolean option.
+
+		You may have to unmount the device before attempting this operation.
+
+		In Mac OS X:
+			$ sudo diskutil unmount /dev/xxx
+
+		In GNU/Linux:
+			$ sudo umount /dev/xxx
+
+		Examples:
+			$ resin device init rpi.iso /dev/disk2
+	'''
+	options: [ commandOptions.yes ]
+	permission: 'user'
+	action: (params, options, done) ->
+		if os.platform() is 'win32'
+			error = new Error('This functionality is only available on UNIX based systems for now.')
+			return done(error)
+
+		if not fs.existsSync(params.image)
+			error = new Error("Invalid OS image: #{params.image}")
+			return done(error)
+
+		if not fs.existsSync(params.device)
+			error = new Error("Invalid device: #{params.device}")
+			return done(error)
+
+		async.waterfall([
+
+			(callback) ->
+				if options.yes
+					return callback(null, true)
+				else
+					ui.widgets.confirm("This will completely erase #{params.device}. Are you sure you want to continue?", callback)
+
+			(confirmed, callback) ->
+				return done() if not confirmed
+
+				imageFile = fs.createReadStream(params.image)
+				deviceFile = fs.createWriteStream(params.device)
+				imageFileSize = fs.statSync(params.image).size
+
+				progress = progressStream
+					length: imageFileSize
+					time: 500
+
+				if not options.quiet
+					progressBar = new ui.widgets.Progress('Writing device OS', imageFileSize)
+					progress.on 'progress', (status) ->
+						progressBar.tick(status.delta)
+
+				imageFile
+					.pipe(progress)
+					.pipe(deviceFile)
+					.on 'error', (error) ->
+						if error.code is 'EBUSY'
+							error.message = "Try umounting #{error.path} first."
+						return callback(error)
+					.on('close', callback)
+
+		], done)
+
