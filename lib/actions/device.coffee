@@ -155,7 +155,7 @@ exports.init =
 		You may have to unmount the device before attempting this operation.
 
 		In Mac OS X:
-			$ sudo diskutil unmount /dev/xxx
+			$ sudo diskutil unmountDisk /dev/xxx
 
 		In GNU/Linux:
 			$ sudo umount /dev/xxx
