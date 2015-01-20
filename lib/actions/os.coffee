@@ -2,8 +2,8 @@ _ = require('lodash')
 async = require('async')
 path = require('path')
 mkdirp = require('mkdirp')
-ProgressBar = require('progress')
 resin = require('resin-sdk')
+ui = require('../ui')
 
 exports.download =
 	signature: 'os download <id>'
@@ -81,11 +81,7 @@ exports.download =
 				resin.models.os.download osParams, outputFile, callback, (state) ->
 
 					# TODO: Allow quieting this progress bar
-					bar ?= new ProgressBar 'Downloading device OS [:bar] :percent :etas',
-						complete: '='
-						incomplete: ' '
-						width: 40
-						total: state.total
+					bar ?= new ui.widgets.Progress('Downloading device OS', state.total)
 
 					return if bar.complete or not state?
 

@@ -1,5 +1,6 @@
 _ = require('lodash')
 inquirer = require('inquirer')
+ProgressBar = require('progress')
 
 exports.table = require('./table/table')
 
@@ -74,3 +75,14 @@ exports.ask = (question, callback) ->
 		}
 	], (response) ->
 		return callback(null, response.answer)
+
+exports.Progress = class Progress extends ProgressBar
+	constructor: (message, size) ->
+		message = "#{message} [:bar] :percent :etas"
+		options =
+			complete: '='
+			incomplete: ' '
+			width: 40
+			total: size
+
+		super(message, options)
