@@ -77,3 +77,10 @@ describe 'Errors:', ->
 			checkProcessExitOption error, false, (processExitStub, logErrorStub) ->
 				expect(logErrorStub).to.have.been.calledOnce
 				expect(logErrorStub).to.have.been.calledWith('No such file or directory: hello')
+
+		it 'should handle EACCES', ->
+			error = new Error()
+			error.code = 'EACCES'
+			checkProcessExitOption error, false, (processExitStub, logErrorStub) ->
+				expect(logErrorStub).to.have.been.calledOnce
+				expect(logErrorStub).to.have.been.calledWith('You don\'t have enough privileges to run this operation.')

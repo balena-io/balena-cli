@@ -12,6 +12,9 @@ exports.handle = (error, exit = true) ->
 		else if error.code is 'ENOENT'
 			console.error("No such file or directory: #{error.path}")
 
+		else if error.code is 'EACCES'
+			console.error('You don\'t have enough privileges to run this operation.')
+
 		else if error.message?
 			console.error(error.message)
 
