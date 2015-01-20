@@ -62,10 +62,10 @@ capitano.command(actions.app.init)
 capitano.command(actions.device.list)
 capitano.command(actions.device.supported)
 capitano.command(actions.device.rename)
+capitano.command(actions.device.init)
 capitano.command(actions.device.info)
 capitano.command(actions.device.remove)
 capitano.command(actions.device.identify)
-capitano.command(actions.device.init)
 
 # ---------- Device Module ----------
 capitano.command(actions.notes.set)
