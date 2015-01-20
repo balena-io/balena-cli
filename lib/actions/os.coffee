@@ -79,8 +79,8 @@ exports.download =
 				received = 0
 
 				resin.models.os.download osParams, outputFile, callback, (state) ->
+					return if options.quiet
 
-					# TODO: Allow quieting this progress bar
 					bar ?= new ui.widgets.Progress('Downloading device OS', state.total)
 
 					return if bar.complete or not state?
