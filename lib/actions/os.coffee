@@ -3,7 +3,7 @@ async = require('async')
 path = require('path')
 mkdirp = require('mkdirp')
 resin = require('resin-sdk')
-ui = require('../ui')
+visuals = require('resin-cli-visuals')
 
 exports.download =
 	signature: 'os download <id>'
@@ -81,7 +81,7 @@ exports.download =
 				resin.models.os.download osParams, outputFile, callback, (state) ->
 					return if options.quiet
 
-					bar ?= new ui.widgets.Progress('Downloading device OS', state.total)
+					bar ?= new visuals.widgets.Progress('Downloading device OS', state.total)
 
 					return if bar.complete or not state?
 

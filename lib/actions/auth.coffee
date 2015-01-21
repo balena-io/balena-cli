@@ -2,7 +2,7 @@ _ = require('lodash-contrib')
 url = require('url')
 async = require('async')
 resin = require('resin-sdk')
-ui = require('../ui')
+visuals = require('resin-cli-visuals')
 helpers = require('../helpers/helpers')
 
 exports.login	=
@@ -26,7 +26,7 @@ exports.login	=
 				if params.credentials?
 					return helpers.parseCredentials(params.credentials, callback)
 				else
-					return ui.widgets.login(callback)
+					return visuals.widgets.login(callback)
 
 			(credentials, callback) ->
 				resin.auth.login(credentials, callback)
@@ -70,7 +70,7 @@ exports.signup =
 		async.waterfall([
 
 			(callback) ->
-				ui.widgets.register(callback)
+				visuals.widgets.register(callback)
 
 			(credentials, callback) ->
 				resin.auth.register credentials, (error, token) ->

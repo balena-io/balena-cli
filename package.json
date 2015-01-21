@@ -62,6 +62,7 @@
     "progress-bar": "~0.1.1",
     "progress-stream": "^0.5.0",
     "resin-sdk": "git+ssh://git@bitbucket.org/rulemotion/resin-sdk.git",
+		"resin-cli-visuals": "git+ssh://git@bitbucket.org/rulemotion/resin-cli-visuals.git",
     "underscore.string": "~2.4.0",
     "yeoman-environment": "^1.2.0"
   }

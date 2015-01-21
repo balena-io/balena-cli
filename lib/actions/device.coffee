@@ -4,7 +4,7 @@ resin = require('resin-sdk')
 os = require('os')
 fs = require('fs')
 progressStream = require('progress-stream')
-ui = require('../ui')
+visuals = require('resin-cli-visuals')
 commandOptions = require('./command-options')
 
 exports.list =
@@ -21,7 +21,7 @@ exports.list =
 	action: (params, options, done) ->
 		resin.models.device.getAllByApplication options.application, (error, devices) ->
 			return done(error) if error?
-			console.log ui.widgets.table.horizontal devices, [
+			console.log visuals.widgets.table.horizontal devices, [
 				'ID'
 				'Name'
 				'Device Display Name'
@@ -46,7 +46,7 @@ exports.info =
 	action: (params, options, done) ->
 		resin.models.device.get params.id, (error, device) ->
 			return done(error) if error?
-			console.log ui.widgets.table.vertical device, [
+			console.log visuals.widgets.table.vertical device, [
 				'ID'
 				'Name'
 				'Device Display Name'
@@ -80,7 +80,7 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		ui.patterns.remove 'device', options.yes, (callback) ->
+		visuals.patterns.remove 'device', options.yes, (callback) ->
 			resin.models.device.remove(params.id, callback)
 		, done
 
@@ -118,7 +118,7 @@ exports.rename =
 			(callback) ->
 				if not _.isEmpty(params.name)
 					return callback(null, params.name)
-				ui.widgets.ask('How do you want to name this device?', callback)
+				visuals.widgets.ask('How do you want to name this device?', callback)
 
 			(name, callback) ->
 				resin.models.device.rename(params.id, name, callback)
@@ -184,7 +184,8 @@ exports.init =
 				if options.yes
 					return callback(null, true)
 				else
-					ui.widgets.confirm("This will completely erase #{params.device}. Are you sure you want to continue?", callback)
+					confirmMessage = "This will completely erase #{params.device}. Are you sure you want to continue?"
+					visuals.widgets.confirm(confirmMessage, callback)
 
 			(confirmed, callback) ->
 				return done() if not confirmed
@@ -198,7 +199,7 @@ exports.init =
 					time: 500
 
 				if not options.quiet
-					progressBar = new ui.widgets.Progress('Writing device OS', imageFileSize)
+					progressBar = new visuals.widgets.Progress('Writing device OS', imageFileSize)
 					progress.on 'progress', (status) ->
 						progressBar.tick(status.delta)
 

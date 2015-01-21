@@ -1,6 +1,6 @@
 _ = require('lodash-contrib')
 resin = require('resin-sdk')
-ui = require('../ui')
+visuals = require('resin-cli-visuals')
 commandOptions = require('./command-options')
 
 exports.list =
@@ -36,7 +36,7 @@ exports.list =
 			if not options.verbose
 				environmentVariables = _.reject(environmentVariables, resin.models.environmentVariables.isSystemVariable)
 
-			console.log(ui.widgets.table.horizontal(environmentVariables))
+			console.log(visuals.widgets.table.horizontal(environmentVariables))
 			return done()
 
 exports.remove =
@@ -57,7 +57,7 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		ui.patterns.remove 'environment variable', options.yes, (callback) ->
+		visuals.patterns.remove 'environment variable', options.yes, (callback) ->
 			resin.models.environmentVariables.remove(params.id, callback)
 		, done
 

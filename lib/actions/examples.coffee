@@ -4,7 +4,7 @@ path = require('path')
 _ = require('lodash')
 gitCli = require('git-cli')
 resin = require('resin-sdk')
-ui = require('../ui')
+visuals = require('resin-cli-visuals')
 examplesData = require('../data/examples.json')
 
 exports.list =
@@ -26,7 +26,7 @@ exports.list =
 			example.author ?= 'Unknown'
 			return example
 
-		console.log ui.widgets.table.horizontal examplesData, [
+		console.log visuals.widgets.table.horizontal examplesData, [
 			'ID'
 			'Display Name'
 			'Repository'
@@ -53,7 +53,7 @@ exports.info =
 		example.id = id
 		example.author ?= 'Unknown'
 
-		console.log ui.widgets.table.vertical example, [
+		console.log visuals.widgets.table.vertical example, [
 			'ID'
 			'Display Name'
 			'Description'

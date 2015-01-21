@@ -4,7 +4,7 @@ async = require('async')
 fs = require('fs')
 resin = require('resin-sdk')
 helpers = require('../helpers/helpers')
-ui = require('../ui')
+visuals = require('resin-cli-visuals')
 commandOptions = require('./command-options')
 
 exports.list =
@@ -20,7 +20,7 @@ exports.list =
 	action: (params, options, done) ->
 		resin.models.key.getAll (error, keys) ->
 			return done(error) if error?
-			console.log ui.widgets.table.horizontal keys, [ 'ID', 'Title' ]
+			console.log visuals.widgets.table.horizontal keys, [ 'ID', 'Title' ]
 			return done()
 
 exports.info =
@@ -37,7 +37,7 @@ exports.info =
 		resin.models.key.get params.id, (error, key) ->
 			return done(error) if error?
 			key.public_key = '\n' + _.str.chop(key.public_key, resin.settings.get('sshKeyWidth')).join('\n')
-			console.log(ui.widgets.table.vertical(key, [ 'ID', 'Title', 'Public Key' ]))
+			console.log(visuals.widgets.table.vertical(key, [ 'ID', 'Title', 'Public Key' ]))
 			return done()
 
 exports.remove =
@@ -56,7 +56,7 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		ui.patterns.remove 'key', options.yes, (callback) ->
+		visuals.patterns.remove 'key', options.yes, (callback) ->
 			resin.models.key.remove(params.id, callback)
 		, done
 
