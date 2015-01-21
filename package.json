@@ -10,7 +10,8 @@
   "preferGlobal": true,
   "man": [
     "./man/resin.1",
-    "./man/resin-completion.1"
+    "./man/resin-completion.1",
+    "./man/resin-plugins.1"
   ],
   "bin": {
     "resin": "./bin/resin"
