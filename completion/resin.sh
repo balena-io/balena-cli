@@ -15,7 +15,7 @@ _resin() {
 			COMPREPLY=( $(compgen -W "${subcommands}" -- ${current}) )
 			return 0 ;;
 		device)
-			local subcommands="rename rm identify"
+			local subcommands="rename rm identify init"
 			COMPREPLY=( $(compgen -W "${subcommands}" -- ${current}) )
 			return 0 ;;
 		key)
