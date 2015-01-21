@@ -1,3 +1,4 @@
+os = require('os')
 _ = require('lodash')
 path = require('path')
 sinon = require('sinon')
@@ -46,7 +47,11 @@ describe 'Plugin:', ->
 
 			beforeEach ->
 				@getNpmPathsStub = sinon.stub(plugin, 'getNpmPaths')
-				@getNpmPathsStub.returns([ '/usr/lib/node_modules' ])
+
+				if os.platform() is 'win32'
+					@getNpmPathsStub.returns([ 'C:\\node_modules' ])
+				else
+					@getNpmPathsStub.returns([ '/usr/lib/node_modules' ])
 
 				@globSyncStub = sinon.stub(glob, 'sync')
 				@globSyncStub.returns [
@@ -72,9 +77,14 @@ describe 'Plugin:', ->
 					expect(fsPlus.isAbsolute(pluginPath)).to.be.true
 
 			it 'should return the appropriate paths', ->
-				expect(@plugins[0]).to.equal('/usr/lib/node_modules/one')
-				expect(@plugins[1]).to.equal('/usr/lib/node_modules/two')
-				expect(@plugins[2]).to.equal('/usr/lib/node_modules/three')
+				if os.platform() is 'win32'
+					expect(@plugins[0]).to.equal('C:\\node_modules\\one')
+					expect(@plugins[1]).to.equal('C:\\node_modules\\two')
+					expect(@plugins[2]).to.equal('C:\\node_modules\\three')
+				else
+					expect(@plugins[0]).to.equal('/usr/lib/node_modules/one')
+					expect(@plugins[1]).to.equal('/usr/lib/node_modules/two')
+					expect(@plugins[2]).to.equal('/usr/lib/node_modules/three')
 
 	describe '#getNpmPaths()', ->
 
@@ -104,9 +114,11 @@ describe 'Plugin:', ->
 				mockFs.restore()
 
 			it 'should throw an error', ->
+				pluginPath = path.join('/', 'hello', 'world')
+				pluginPathPackageJSON = path.join(pluginPath, 'package.json')
 				expect ->
-					plugin.getPluginMeta('/hello/world')
-				.to.throw('Invalid package.json: /hello/world/package.json')
+					plugin.getPluginMeta(pluginPath)
+				.to.throw("Invalid package.json: #{pluginPathPackageJSON}")
 
 		describe 'given a plugin that exists', ->
 
