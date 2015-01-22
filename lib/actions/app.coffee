@@ -65,7 +65,7 @@ exports.list =
 			console.log visuals.widgets.table.horizontal applications, [
 				'id'
 				'app_name'
-				'device_display_name'
+				'device_type'
 				'online_devices'
 				'devices_length'
 			]
@@ -87,7 +87,7 @@ exports.info =
 			console.log visuals.widgets.table.vertical application, [
 				'id'
 				'app_name'
-				'device_display_name'
+				'device_type'
 				'git_repository'
 				'commit'
 			]

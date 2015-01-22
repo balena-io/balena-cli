@@ -24,7 +24,7 @@ exports.list =
 			console.log visuals.widgets.table.horizontal devices, [
 				'id'
 				'name'
-				'device_display_name'
+				'device_type'
 				'is_online'
 				'application_name'
 				'status'
@@ -49,7 +49,7 @@ exports.info =
 			console.log visuals.widgets.table.vertical device, [
 				'id'
 				'name'
-				'device_display_name'
+				'device_type'
 				'is_online'
 				'ip_address'
 				'application_name'
