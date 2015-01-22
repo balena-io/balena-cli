@@ -20,7 +20,7 @@ exports.list =
 	action: (params, options, done) ->
 		resin.models.key.getAll (error, keys) ->
 			return done(error) if error?
-			console.log visuals.widgets.table.horizontal keys, [ 'ID', 'Title' ]
+			console.log visuals.widgets.table.horizontal keys, [ 'id', 'title' ]
 			return done()
 
 exports.info =
@@ -37,7 +37,7 @@ exports.info =
 		resin.models.key.get params.id, (error, key) ->
 			return done(error) if error?
 			key.public_key = '\n' + _.str.chop(key.public_key, resin.settings.get('sshKeyWidth')).join('\n')
-			console.log(visuals.widgets.table.vertical(key, [ 'ID', 'Title', 'Public Key' ]))
+			console.log(visuals.widgets.table.vertical(key, [ 'id', 'title', 'public_key' ]))
 			return done()
 
 exports.remove =

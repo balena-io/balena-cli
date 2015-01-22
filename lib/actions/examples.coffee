@@ -27,10 +27,10 @@ exports.list =
 			return example
 
 		console.log visuals.widgets.table.horizontal examplesData, [
-			'ID'
-			'Display Name'
-			'Repository'
-			'Author'
+			'id'
+			'display_name'
+			'repository'
+			'author'
 		]
 
 exports.info =
@@ -54,11 +54,11 @@ exports.info =
 		example.author ?= 'Unknown'
 
 		console.log visuals.widgets.table.vertical example, [
-			'ID'
-			'Display Name'
-			'Description'
-			'Author'
-			'Repository'
+			'id'
+			'display_name'
+			'description'
+			'author'
+			'repository'
 		]
 
 		return done()

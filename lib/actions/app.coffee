@@ -63,11 +63,11 @@ exports.list =
 		resin.models.application.getAll (error, applications) ->
 			return done(error) if error?
 			console.log visuals.widgets.table.horizontal applications, [
-				'ID'
-				'Name'
-				'Device Display Name'
-				'Online Devices'
-				'Devices Length'
+				'id'
+				'app_name'
+				'device_display_name'
+				'online_devices'
+				'devices_length'
 			]
 			return done()
 
@@ -85,11 +85,11 @@ exports.info =
 		resin.models.application.get params.id, (error, application) ->
 			return done(error) if error?
 			console.log visuals.widgets.table.vertical application, [
-				'ID'
-				'Name'
-				'Device Display Name'
-				'Git Repository'
-				'Commit'
+				'id'
+				'app_name'
+				'device_display_name'
+				'git_repository'
+				'commit'
 			]
 			return done()
 

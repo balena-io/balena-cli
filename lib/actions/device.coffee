@@ -22,13 +22,13 @@ exports.list =
 		resin.models.device.getAllByApplication options.application, (error, devices) ->
 			return done(error) if error?
 			console.log visuals.widgets.table.horizontal devices, [
-				'ID'
-				'Name'
-				'Device Display Name'
-				'Is Online'
-				'Application Name'
-				'Status'
-				'Last Seen'
+				'id'
+				'name'
+				'device_display_name'
+				'is_online'
+				'application_name'
+				'status'
+				'last_seen'
 			]
 
 			return done()
@@ -47,19 +47,19 @@ exports.info =
 		resin.models.device.get params.id, (error, device) ->
 			return done(error) if error?
 			console.log visuals.widgets.table.vertical device, [
-				'ID'
-				'Name'
-				'Device Display Name'
-				'Is Online'
-				'IP Address'
-				'Application Name'
-				'Status'
-				'Last Seen'
-				'UUID'
-				'Commit'
-				'Supervisor Version'
-				'Is Web Accessible'
-				'Note'
+				'id'
+				'name'
+				'device_display_name'
+				'is_online'
+				'ip_address'
+				'application_name'
+				'status'
+				'last_seen'
+				'uuid'
+				'commit'
+				'supervisor_version'
+				'is_web_accessible'
+				'note'
 			]
 
 			return done()

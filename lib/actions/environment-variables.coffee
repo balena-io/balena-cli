@@ -36,7 +36,12 @@ exports.list =
 			if not options.verbose
 				environmentVariables = _.reject(environmentVariables, resin.models.environmentVariables.isSystemVariable)
 
-			console.log(visuals.widgets.table.horizontal(environmentVariables))
+			console.log visuals.widgets.table.horizontal environmentVariables, [
+				'id'
+				'name'
+				'value'
+			]
+
 			return done()
 
 exports.remove =
