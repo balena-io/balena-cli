@@ -96,19 +96,15 @@ capitano.command(actions.examples.list)
 capitano.command(actions.examples.clone)
 capitano.command(actions.examples.info)
 
-for pluginPath in nplugm.getPluginsPathsByGlob('resin-plugin-*')
-	try
-		pluginMeta = nplugm.getPluginMeta(pluginPath)
-		pluginMain = path.join(pluginPath, pluginMeta.main)
-		pluginCommands = require(pluginMain)
+registerPlugin = (plugin) ->
+	return capitano.command(plugin) if not _.isArray(plugin)
+	return _.each(plugin, capitano.command)
 
-		if _.isArray(pluginCommands)
-			_.each(pluginCommands, capitano.command)
-		else
-			capitano.command(pluginCommands)
-
-	catch error
-		errors.handle(error)
+try
+	for plugin in nplugm.getPluginsByGlob('resin-plugin-*')
+		registerPlugin(plugin.require())
+catch error
+	errors.handle(error)
 
 cli = capitano.parse(process.argv)
 
