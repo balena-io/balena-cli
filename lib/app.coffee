@@ -100,6 +100,12 @@ registerPlugin = (plugin) ->
 	return capitano.command(plugin) if not _.isArray(plugin)
 	return _.each(plugin, capitano.command)
 
+changeProjectDirectory = (directory) ->
+	try
+		process.chdir(directory)
+	catch
+		errors.handle(new Error("Invalid project: #{directory}"))
+
 nplugm.load 'resin-plugin-*', (error, plugin) ->
 	return console.error(error.message) if error?
 	registerPlugin(plugin.require())
@@ -107,12 +113,6 @@ nplugm.load 'resin-plugin-*', (error, plugin) ->
 	errors.handle(error) if error?
 
 	cli = capitano.parse(process.argv)
-
-	changeProjectDirectory = (directory) ->
-		try
-			process.chdir(directory)
-		catch
-			errors.handle(new Error("Invalid project: #{directory}"))
 
 	resin.data.prefix.set resin.settings.get('dataPrefix'), (error) ->
 		errors.handle(error) if error?
