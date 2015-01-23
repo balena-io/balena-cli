@@ -2,9 +2,9 @@ _ = require('lodash')
 path = require('path')
 capitano = require('capitano')
 resin = require('resin-sdk')
+nplugm = require('nplugm')
 actions = require('./actions')
 errors = require('./errors/errors')
-plugin = require('./plugin/plugin')
 
 capitano.permission 'user', (done) ->
 	resin.auth.isLoggedIn (isLoggedIn) ->
@@ -96,9 +96,9 @@ capitano.command(actions.examples.list)
 capitano.command(actions.examples.clone)
 capitano.command(actions.examples.info)
 
-for pluginPath in plugin.getPluginsPathsByGlob('resin-plugin-*')
+for pluginPath in nplugm.getPluginsPathsByGlob('resin-plugin-*')
 	try
-		pluginMeta = plugin.getPluginMeta(pluginPath)
+		pluginMeta = nplugm.getPluginMeta(pluginPath)
 		pluginMain = path.join(pluginPath, pluginMeta.main)
 		pluginCommands = require(pluginMain)
 
