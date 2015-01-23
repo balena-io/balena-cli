@@ -1,5 +1,7 @@
+chai = require('chai')
+expect = chai.expect
+chai.use(require('sinon-chai'))
 _ = require('lodash')
-expect = require('chai').expect
 sinon = require('sinon')
 errors = require('./errors')
 
