@@ -1,5 +1,6 @@
 os = require('os')
 fs = require('fs')
+_ = require('lodash-contrib')
 async = require('async')
 childProcess = require('child_process')
 progressStream = require('progress-stream')
@@ -47,12 +48,10 @@ exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 	if not IS_WINDOWS and not fs.existsSync(devicePath)
 		return callback(new Error("Invalid device: #{devicePath}"))
 
-	imageFile = fs.createReadStream(imagePath)
+	imageFileStream = fs.createReadStream(imagePath)
 
-	deviceFile = fs.createWriteStream devicePath,
-
-		# Required by Windows to work correctly
-		flags: 'rs+'
+	deviceFileStream = fs.createWriteStream(devicePath, flags: 'rs+')
+	deviceFileStream.on('error', callback)
 
 	imageFileSize = fs.statSync(imagePath).size
 
@@ -63,7 +62,7 @@ exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 	if options.progress
 		progress.on('progress', options.onProgress)
 
-	async.waterfall([
+	async.waterfall [
 
 		(callback) ->
 			exports.eraseMBR(devicePath, callback)
@@ -72,22 +71,23 @@ exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 			exports.rescanDrives(callback)
 
 		(callback) ->
-			imageFile
+			imageFileStream
 				.pipe(progress)
-				.pipe(deviceFile)
+				.pipe(deviceFileStream)
 
 				# TODO: We should make use of nodewindows.elevate()
 				# if we get an EPERM error.
-				.on 'error', (error) ->
-					if error.code is 'EBUSY'
-						error.message = "Try umounting #{error.path} first."
-					return callback(error)
+				.on('error', _.unary(callback))
 
-				.on('close', callback)
+				.on('close', _.unary(callback))
 
 		(callback) ->
 			exports.rescanDrives(callback)
 
-	], callback)
+	], (error) ->
+		return callback() if not error?
 
+		if error.code is 'EBUSY'
+			error.message = "Try umounting #{error.path} first."
 
+		return callback(error)
