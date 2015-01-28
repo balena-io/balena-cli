@@ -92,4 +92,11 @@ exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 		if error.code is 'EBUSY'
 			error.message = "Try umounting #{error.path} first."
 
+		if error.code is 'ENOENT'
+			error.message = "Invalid device #{error.path}"
+
+			# Prevents outer handler to take
+			# it as an usual ENOENT error
+			delete error.code
+
 		return callback(error)
