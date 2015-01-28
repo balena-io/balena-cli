@@ -6,6 +6,7 @@ childProcess = require('child_process')
 progressStream = require('progress-stream')
 
 IS_WINDOWS = os.platform() is 'win32'
+DISK_IO_FLAGS = 'rs+'
 
 exports.rescanDrives = (callback) ->
 	return callback() if not IS_WINDOWS
@@ -22,7 +23,7 @@ exports.eraseMBR = (devicePath, callback) ->
 	async.waterfall([
 
 		(callback) ->
-			fs.open(devicePath, 'rs+', null, callback)
+			fs.open(devicePath, DISK_IO_FLAGS, null, callback)
 
 		(fd, callback) ->
 			buffer = new Buffer(bufferSize)
@@ -48,12 +49,10 @@ exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 	if not IS_WINDOWS and not fs.existsSync(devicePath)
 		return callback(new Error("Invalid device: #{devicePath}"))
 
-	imageFileStream = fs.createReadStream(imagePath)
-
-	deviceFileStream = fs.createWriteStream(devicePath, flags: 'rs+')
-	deviceFileStream.on('error', callback)
-
 	imageFileSize = fs.statSync(imagePath).size
+
+	if imageFileSize is 0
+		return callback(new Error("Invalid OS image: #{imagePath}. The image is 0 bytes."))
 
 	progress = progressStream
 		length: imageFileSize
@@ -71,6 +70,10 @@ exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 			exports.rescanDrives(callback)
 
 		(callback) ->
+			deviceFileStream = fs.createWriteStream(devicePath, flags: DISK_IO_FLAGS)
+			deviceFileStream.on('error', callback)
+
+			imageFileStream = fs.createReadStream(imagePath)
 			imageFileStream
 				.pipe(progress)
 				.pipe(deviceFileStream)
