@@ -1,5 +1,6 @@
 os = require('os')
 fs = require('fs')
+path = require('path')
 _ = require('lodash-contrib')
 async = require('async')
 childProcess = require('child_process')
