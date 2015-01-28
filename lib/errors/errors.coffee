@@ -12,7 +12,7 @@ exports.handle = (error, exit = true) ->
 		else if error.code is 'ENOENT'
 			console.error("No such file or directory: #{error.path}")
 
-		else if error.code is 'EACCES'
+		else if error.code is 'EACCES' or error.code is 'EPERM'
 			console.error('You don\'t have enough privileges to run this operation.')
 
 		else if error.message?
