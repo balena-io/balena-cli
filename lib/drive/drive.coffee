@@ -13,6 +13,32 @@ exports.rescanDrives = (callback) ->
 		console.log("DISKPART RESULT: #{arguments}")
 		return callback(error)
 
+exports.eraseMBR = (devicePath, callback) ->
+	return callback() if not IS_WINDOWS
+
+	bufferSize = 512
+
+	async.waterfall([
+
+		(callback) ->
+			fs.open(devicePath, 'rs+', null, callback)
+
+		(fd, callback) ->
+			buffer = new Buffer(bufferSize)
+			buffer.fill(0)
+			fs.write fd, buffer, 0, bufferSize, 0, (error, bytesWritten) ->
+				return callback(error) if error?
+				return callback(null, bytesWritten, fd)
+
+		(bytesWritten, fd, callback) ->
+			if bytesWritten isnt bufferSize
+				error = "Bytes written: #{bytesWritten}, expected #{bufferSize}"
+				return callback(error)
+
+			fs.close(fd, callback)
+
+	], callback)
+
 exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 
 	if not fs.existsSync(imagePath)
@@ -38,6 +64,9 @@ exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 		progress.on('progress', options.onProgress)
 
 	async.waterfall([
+
+		(callback) ->
+			exports.eraseMBR(devicePath, callback)
 
 		(callback) ->
 			exports.rescanDrives(callback)
