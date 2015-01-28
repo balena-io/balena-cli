@@ -2,10 +2,9 @@ _ = require('lodash-contrib')
 async = require('async')
 resin = require('resin-sdk')
 os = require('os')
-fs = require('fs')
-progressStream = require('progress-stream')
 visuals = require('resin-cli-visuals')
 commandOptions = require('./command-options')
+drive = require('../drive/drive')
 
 exports.list =
 	signature: 'devices'
@@ -166,18 +165,6 @@ exports.init =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		if os.platform() is 'win32'
-			error = new Error('This functionality is only available on UNIX based systems for now.')
-			return done(error)
-
-		if not fs.existsSync(params.image)
-			error = new Error("Invalid OS image: #{params.image}")
-			return done(error)
-
-		if not fs.existsSync(params.device)
-			error = new Error("Invalid device: #{params.device}")
-			return done(error)
-
 		async.waterfall([
 
 			(callback) ->
@@ -190,27 +177,14 @@ exports.init =
 			(confirmed, callback) ->
 				return done() if not confirmed
 
-				imageFile = fs.createReadStream(params.image)
-				deviceFile = fs.createWriteStream(params.device)
-				imageFileSize = fs.statSync(params.image).size
+				progressBar = null
 
-				progress = progressStream
-					length: imageFileSize
-					time: 500
-
-				if not options.quiet
-					progressBar = new visuals.widgets.Progress('Writing device OS', imageFileSize)
-					progress.on 'progress', (status) ->
+				drive.writeImage params.device, params.image,
+					progress: not options.quiet
+					onProgress: (status) ->
+						progressBar ?= new visuals.widgets.Progress('Writing device OS', status.length)
 						progressBar.tick(status.delta)
-
-				imageFile
-					.pipe(progress)
-					.pipe(deviceFile)
-					.on 'error', (error) ->
-						if error.code is 'EBUSY'
-							error.message = "Try umounting #{error.path} first."
-						return callback(error)
-					.on('close', callback)
+				, callback
 
 		], done)
 
