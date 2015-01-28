@@ -1,31 +1,32 @@
+os = require('os')
 fs = require('fs')
+childProcess = require('child_process')
 eventStream = require('event-stream')
 progressStream = require('progress-stream')
 
-blockAligner = (blockSize) ->
-	return eventStream.through (chunk) ->
-		size = chunk.length % blockSize
+IS_WINDOWS = os.platform() is 'win32'
 
-		if size isnt 0
-			newChunk = new Buffer(chunk.length + (blockSize - size))
-			chunk.copy(newChunk)
-			chunk = newChunk
-
-		@emit('data', chunk)
+exports.rescanDrives = (callback) ->
+	return callback() if not IS_WINDOWS
+	diskpartRescanScriptPath = path.join(__dirname, 'scripts', 'diskpart_rescan')
+	childProcess.exec "diskpart /s #{diskpartRescanScriptPath}", {}, (error) ->
+		console.log("DISKPART RESULT: #{arguments}")
+		return callback(error)
 
 exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 
 	if not fs.existsSync(imagePath)
 		return callback(new Error("Invalid OS image: #{imagePath}"))
 
-	if not fs.existsSync(devicePath)
+	if not IS_WINDOWS and not fs.existsSync(devicePath)
 		return callback(new Error("Invalid device: #{devicePath}"))
 
 	imageFile = fs.createReadStream(imagePath)
 
 	deviceFile = fs.createWriteStream devicePath,
+
 		# Required by Windows to work correctly
-		flags: 'r+'
+		flags: 'rs+'
 
 	imageFileSize = fs.statSync(imagePath).size
 
@@ -36,16 +37,28 @@ exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 	if options.progress
 		progress.on('progress', options.onProgress)
 
-	imageFile
-		.pipe(blockAligner(512))
-		.pipe(progress)
-		.pipe(deviceFile)
+	async.waterfall([
 
-		# TODO: We should make use of nodewindows.elevate()
-		# if we get an EPERM error.
-		.on 'error', (error) ->
-			if error.code is 'EBUSY'
-				error.message = "Try umounting #{error.path} first."
-			return callback(error)
+		(callback) ->
+			exports.rescanDrives(callback)
 
-		.on('close', callback)
+		(callback) ->
+			imageFile
+				.pipe(progress)
+				.pipe(deviceFile)
+
+				# TODO: We should make use of nodewindows.elevate()
+				# if we get an EPERM error.
+				.on 'error', (error) ->
+					if error.code is 'EBUSY'
+						error.message = "Try umounting #{error.path} first."
+					return callback(error)
+
+				.on('close', callback)
+
+		(callback) ->
+			exports.rescanDrives(callback)
+
+	], callback)
+
+
