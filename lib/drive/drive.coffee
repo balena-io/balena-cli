@@ -1,7 +1,7 @@
 os = require('os')
 fs = require('fs')
+async = require('async')
 childProcess = require('child_process')
-eventStream = require('event-stream')
 progressStream = require('progress-stream')
 
 IS_WINDOWS = os.platform() is 'win32'
