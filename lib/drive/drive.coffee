@@ -12,7 +12,7 @@ DISK_IO_FLAGS = 'rs+'
 exports.rescanDrives = (callback) ->
 	return callback() if not IS_WINDOWS
 	diskpartRescanScriptPath = path.join(__dirname, 'scripts', 'diskpart_rescan')
-	childProcess.exec "diskpart /s #{diskpartRescanScriptPath}", {}, (error) ->
+	childProcess.exec "diskpart /s \"#{diskpartRescanScriptPath}\"", {}, (error) ->
 		console.log("DISKPART RESULT: #{arguments}")
 		return callback(error)
 
