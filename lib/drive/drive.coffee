@@ -1,5 +1,17 @@
 fs = require('fs')
+eventStream = require('event-stream')
 progressStream = require('progress-stream')
+
+blockAligner = (blockSize) ->
+	return eventStream.through (chunk) ->
+		size = chunk.length % blockSize
+
+		if size isnt 0
+			newChunk = new Buffer(chunk.length + (blockSize - size))
+			chunk.copy(newChunk)
+			chunk = newChunk
+
+		@emit('data', chunk)
 
 exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 
@@ -25,6 +37,7 @@ exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 		progress.on('progress', options.onProgress)
 
 	imageFile
+		.pipe(blockAligner(512))
 		.pipe(progress)
 		.pipe(deviceFile)
 
