@@ -4,6 +4,7 @@ async = require('async')
 resin = require('resin-sdk')
 os = require('os')
 visuals = require('resin-cli-visuals')
+ProgressBarFormatter = require('progress-bar-formatter')
 commandOptions = require('./command-options')
 drive = require('../drive/drive')
 
@@ -178,14 +179,12 @@ exports.init =
 			(confirmed, callback) ->
 				return done() if not confirmed
 
-				progressBar = null
+				bar = new ProgressBarFormatter()
 
 				drive.writeImage params.device, params.image,
 					progress: not options.quiet
 					onProgress: (status) ->
-						console.log(status)
-						progressBar ?= new visuals.widgets.Progress('Writing device OS', status.length)
-						progressBar.tick(status.delta)
+						console.log("#{bar.format(status.percentage / 100)} #{status.percentage}% eta #{status.eta}s")
 				, callback
 
 		], (error) ->
