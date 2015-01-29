@@ -85,4 +85,4 @@ describe 'Errors:', ->
 			error.code = 'EACCES'
 			checkProcessExitOption error, false, (processExitStub, logErrorStub) ->
 				expect(logErrorStub).to.have.been.calledOnce
-				expect(logErrorStub).to.have.been.calledWith('You don\'t have enough privileges to run this operation.')
+				expect(logErrorStub.getCall(0).args[0]).to.match(/^You don\'t have enough privileges to run this operation./)
