@@ -184,7 +184,7 @@ exports.init =
 				drive.writeImage params.device, params.image,
 					progress: not options.quiet
 					onProgress: (status) ->
-						console.log("#{bar.format(status.percentage / 100)} #{status.percentage}% eta #{status.eta}s")
+						console.log("#{bar.format(status.percentage / 100)} #{Math.floor(status.percentage)}% eta #{status.eta}s")
 				, callback
 
 		], (error) ->
