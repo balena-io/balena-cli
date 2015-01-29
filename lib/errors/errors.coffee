@@ -1,4 +1,5 @@
 _ = require('lodash')
+os = require('os')
 
 exports.handle = (error, exit = true) ->
 	return if not error? or error not instanceof Error
@@ -13,7 +14,14 @@ exports.handle = (error, exit = true) ->
 			console.error("No such file or directory: #{error.path}")
 
 		else if error.code is 'EACCES' or error.code is 'EPERM'
-			console.error('You don\'t have enough privileges to run this operation.')
+			message = 'You don\'t have enough privileges to run this operation.\n'
+
+			if os.platform() is 'win32'
+				message += 'Run a new Command Prompt as administrator and try running this command again.'
+			else
+				message += 'Try running this command again prefixing it with `sudo`.'
+
+			console.error(message)
 
 		else if error.message?
 			console.error(error.message)
