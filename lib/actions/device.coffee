@@ -190,7 +190,7 @@ exports.init =
 
 		], (error) ->
 			return done(error) if os.platform() isnt 'win32'
-			if error? and error.code isnt 'EPERM'
+			if error? and (error.code is 'EPERM' or error.code is 'EACCES')
 				windosu = require('windosu')
 
 				# Need to escape everypath to avoid errors
