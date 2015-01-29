@@ -76,11 +76,7 @@ exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 			imageFileStream
 				.pipe(progress)
 				.pipe(deviceFileStream)
-
-				# TODO: We should make use of nodewindows.elevate()
-				# if we get an EPERM error.
 				.on('error', _.unary(callback))
-
 				.on('close', _.unary(callback))
 
 		(callback) ->

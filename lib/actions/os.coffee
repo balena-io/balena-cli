@@ -73,20 +73,26 @@ exports.download =
 					return callback(error)
 
 			(callback) ->
-				console.info("Destination file: #{outputFile}")
+				console.info("Destination file: #{outputFile}\n")
 
-				bar = null
+				bar = new visuals.widgets.Progress('Downloading Device OS')
+				time = new Date().getTime()
 				received = 0
 
 				resin.models.os.download osParams, outputFile, callback, (state) ->
-					return if options.quiet
+					return if options.quiet or not state?
 
-					bar ?= new visuals.widgets.Progress('Downloading device OS', state.total)
+					newTime = new Date().getTime()
+					timeDelta = newTime - time
+					receivedDelta = state.received - received
 
-					return if bar.complete or not state?
+					remaining = state.total - state.received
+					remainingTicks = remaining / receivedDelta
 
-					bar.tick(state.received - received)
-					received = state.received
+					eta = Math.floor(remainingTicks * timeDelta)
+
+					console.log(bar.tick(state.percent, eta))
+					time = newTime
 
 		], (error) ->
 			return done(error) if error?
