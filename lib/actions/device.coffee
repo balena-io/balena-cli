@@ -194,7 +194,6 @@ exports.init =
 
 				# Need to escape everypath to avoid errors
 				resinWritePath = "\"#{path.join(__dirname, '..', '..', 'bin', 'resin-write')}\""
-				windosu.exec("node #{resinWritePath} \"#{params.image}\" \"#{params.device}\"").then ->
-					console.log 'Done'
+				windosu.exec("node #{resinWritePath} \"#{params.image}\" \"#{params.device}\"")
 			else
 				return done(error)
