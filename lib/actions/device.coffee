@@ -183,15 +183,19 @@ exports.init =
 				drive.writeImage params.device, params.image,
 					progress: not options.quiet
 					onProgress: (status) ->
+						console.log(status)
 						progressBar ?= new visuals.widgets.Progress('Writing device OS', status.length)
 						progressBar.tick(status.delta)
 				, callback
 
 		], (error) ->
 			return done(error) if os.platform() isnt 'win32'
-			windosu = require('windosu')
+			if error? and error.code isnt 'EPERM'
+				windosu = require('windosu')
 
-			# Need to escape everypath to avoid errors
-			resinWritePath = "\"#{path.join(__dirname, '..', '..', 'bin', 'resin-write')}\""
-			windosu.exec("node #{resinWritePath} \"#{params.image}\" \"#{params.device}\"").then ->
-				console.log 'Done'
+				# Need to escape everypath to avoid errors
+				resinWritePath = "\"#{path.join(__dirname, '..', '..', 'bin', 'resin-write')}\""
+				windosu.exec("node #{resinWritePath} \"#{params.image}\" \"#{params.device}\"").then ->
+					console.log 'Done'
+			else
+				return done(error)
