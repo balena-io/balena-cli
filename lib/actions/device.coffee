@@ -1,4 +1,5 @@
 _ = require('lodash-contrib')
+path = require('path')
 async = require('async')
 resin = require('resin-sdk')
 os = require('os')
@@ -165,7 +166,7 @@ exports.init =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		async.waterfall([
+		async.waterfall [
 
 			(callback) ->
 				if options.yes
@@ -186,5 +187,11 @@ exports.init =
 						progressBar.tick(status.delta)
 				, callback
 
-		], done)
+		], (error) ->
+			return done(error) if os.platform() isnt 'win32'
+			windosu = require('windosu')
 
+			# Need to escape everypath to avoid errors
+			resinWritePath = "\"#{path.join(__dirname, '..', '..', 'bin', 'resin-write')}\""
+			windosu.exec("node #{resinWritePath} \"#{params.image}\" \"#{params.device}\"").then ->
+				console.log 'Done'

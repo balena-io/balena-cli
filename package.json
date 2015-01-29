@@ -26,6 +26,9 @@
   ],
   "author": "Juan Cruz Viotti <juanchiviotti@gmail.com>",
   "license": "MIT",
+	"optionalDependencies": {
+    "windosu": "^0.1.3"
+	},
   "devDependencies": {
     "chai": "~1.9.2",
     "gulp": "~3.8.9",

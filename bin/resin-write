@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+
+// http://coffeescript.org/documentation/docs/register.html
+require('coffee-script/register');
+
+var device = require('../lib/actions/device.coffee');
+var errors = require('../lib/errors/errors');
+
+device.init.action({
+	image: process.argv[2],
+	device: process.argv[3]
+}, {
+	yes: true
+}, function(error) {
+	return errors.handle(error);
+});

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
 // http://coffeescript.org/documentation/docs/register.html
-require('coffee-script/register')
-require('../lib/app.coffee')
+require('coffee-script/register');
+require('../lib/app.coffee');
