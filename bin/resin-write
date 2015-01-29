@@ -6,6 +6,8 @@ require('coffee-script/register');
 var device = require('../lib/actions/device.coffee');
 var errors = require('../lib/errors/errors');
 
+// TODO: Do some error handling when image or device are incorrect
+
 device.init.action({
 	image: process.argv[2],
 	device: process.argv[3]
