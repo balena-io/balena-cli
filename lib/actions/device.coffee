@@ -4,6 +4,7 @@ async = require('async')
 resin = require('resin-sdk')
 os = require('os')
 visuals = require('resin-cli-visuals')
+drivelist = require('drivelist')
 commandOptions = require('./command-options')
 drive = require('../drive/drive')
 
@@ -140,12 +141,14 @@ exports.supported =
 		_.each(devices, _.unary(console.log))
 
 exports.init =
-	signature: 'device init <image> <device>'
+	signature: 'device init <image> [device]'
 	description: 'write an operating system image to a device'
 	help: '''
 		Use this command to write an operating system image to a device.
 
 		Note that this command requires admin privileges.
+
+		If `device` is omitted, you will be prompted to select a device interactively.
 
 		Notice this command asks for confirmation interactively.
 		You can avoid this by passing the `--yes` boolean option.
@@ -171,6 +174,22 @@ exports.init =
 		async.waterfall [
 
 			(callback) ->
+				return callback(null, params.device) if params.device?
+
+				drivelist.list (error, drives) ->
+					return callback(error) if error?
+
+					drives = _.map drives, (item) ->
+						return {
+							name: "#{item.device} (#{item.size}) - #{item.description}"
+							value: item.device
+						}
+
+					visuals.widgets.select('Select a drive', drives, callback)
+
+			(device, callback) ->
+				params.device = device
+
 				if options.yes
 					return callback(null, true)
 				else
