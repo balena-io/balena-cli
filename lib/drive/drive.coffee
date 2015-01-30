@@ -1,6 +1,6 @@
 os = require('os')
 fs = require('fs')
-_ = require('lodash')
+_ = require('lodash-contrib')
 async = require('async')
 
 IS_WINDOWS = os.platform() is 'win32'
@@ -29,7 +29,7 @@ exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 
 		(callback) ->
 			return callback() if not IS_WINDOWS
-			win32.rescanDrives(callback)
+			win32.rescanDrives(_.unary(callback))
 
 		(callback) ->
 			if not options.progress
@@ -39,7 +39,7 @@ exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 
 		(callback) ->
 			return callback() if not IS_WINDOWS
-			win32.rescanDrives(callback)
+			win32.rescanDrives(_.unary(callback))
 
 	], (error) ->
 		return callback() if not error?
