@@ -30,10 +30,10 @@ describe 'Drive OSX:', ->
 			@childProcessStub.restore()
 
 		it 'should extract the necessary information', (done) ->
-			osx.list (error, stdout) ->
+			osx.list (error, drives) ->
 				expect(error).to.not.exist
 
-				expect(stdout).to.deep.equal [
+				expect(drives).to.deep.equal [
 					{
 						device: '/dev/disk0'
 						description: 'GUID_partition_scheme'

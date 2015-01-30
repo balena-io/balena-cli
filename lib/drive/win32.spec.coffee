@@ -21,10 +21,10 @@ describe 'Drive WIN32:', ->
 			@childProcessStub.restore()
 
 		it 'should extract the necessary information', (done) ->
-			win32.list (error, stdout) ->
+			win32.list (error, drives) ->
 				expect(error).to.not.exist
 
-				expect(stdout).to.deep.equal [
+				expect(drives).to.deep.equal [
 					{
 						device: '\\\\.\\PHYSICALDRIVE0'
 						description: 'WDC WD10JPVX-75JC3T0'
