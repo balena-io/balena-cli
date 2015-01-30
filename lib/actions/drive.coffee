@@ -1,5 +1,5 @@
 visuals = require('resin-cli-visuals')
-drive = require('../drive/drive')
+drivelist = require('drivelist')
 
 exports.list =
 	signature: 'drives'
@@ -12,7 +12,7 @@ exports.list =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		drive.listDrives (error, drives) ->
+		drivelist.list (error, drives) ->
 			return done(error) if error?
 
 			console.log visuals.widgets.table.horizontal drives, [

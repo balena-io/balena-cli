@@ -1,13 +1,11 @@
 os = require('os')
 fs = require('fs')
-_ = require('lodash-contrib')
+_ = require('lodash')
 async = require('async')
 
 IS_WINDOWS = os.platform() is 'win32'
 
 win32 = require('./win32')
-osx = require('./osx')
-linux = require('./linux')
 agnostic = require('./agnostic')
 
 exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
@@ -57,11 +55,3 @@ exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 			delete error.code
 
 		return callback(error)
-
-exports.listDrives = (callback) ->
-	switch os.platform()
-		when 'darwin' then osx.list(callback)
-		when 'win32' then win32.list(callback)
-		when 'linux' then linux.list(callback)
-		else
-			throw new Error('Your OS is not supported by this module')
