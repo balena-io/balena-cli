@@ -24,6 +24,9 @@ describe 'Drive OSX:', ->
 																				 Logical Volume on disk0s2
 																				 3D74D961-80FB-4DB1-808F-8B5800C53E3A
 																				 Unlocked Encrypted
+				/dev/disk2
+					 #:                       TYPE NAME                    SIZE       IDENTIFIER
+					 0:                            elementary OS          *15.7 GB    disk2
 			''', undefined
 
 		afterEach ->
@@ -43,6 +46,11 @@ describe 'Drive OSX:', ->
 						device: '/dev/disk1'
 						description: 'Apple_HFS Macintosh HD'
 						size: '*748.9 GB'
+					}
+					{
+						device: '/dev/disk2'
+						description: 'elementary OS'
+						size: '*15.7 GB'
 					}
 				]
 
