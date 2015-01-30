@@ -7,6 +7,7 @@ IS_WINDOWS = os.platform() is 'win32'
 
 win32 = require('./win32')
 osx = require('./osx')
+linux = require('./linux')
 agnostic = require('./agnostic')
 
 exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
@@ -58,9 +59,12 @@ exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 		return callback(error)
 
 exports.listDrives = (callback) ->
-	if os.platform() is 'darwin'
-		osx.list(callback)
-	else if os.platform() is 'win32'
-		win32.list(callback)
-	else
-		throw new Error('Your OS is not supported by this module')
+	switch os.platform()
+		when 'darwin' then
+			osx.list(callback)
+		when 'win32' then
+			win32.list(callback)
+		when 'linux' then
+			linux.list(callback)
+		else
+			throw new Error('Your OS is not supported by this module')
