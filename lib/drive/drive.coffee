@@ -5,6 +5,7 @@ _ = require('lodash-contrib')
 async = require('async')
 childProcess = require('child_process')
 progressStream = require('progress-stream')
+DriveOSX = require('./osx')
 
 IS_WINDOWS = os.platform() is 'win32'
 DISK_IO_FLAGS = 'rs+'
@@ -95,4 +96,11 @@ exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 			# it as an usual ENOENT error
 			delete error.code
 
+		return callback(error)
+
+exports.listDrives = (callback) ->
+	if os.platform() is 'darwin'
+		DriveOSX.list(callback)
+	else
+		error = new Error('Your OS does not yet support this command')
 		return callback(error)

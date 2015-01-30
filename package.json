@@ -58,6 +58,7 @@
     "progress-stream": "^0.5.0",
     "resin-cli-visuals": "0.0.3",
     "resin-sdk": "git+https://git@github.com/resin-io/resin-sdk.git",
+    "table-parser": "0.0.3",
     "underscore.string": "~2.4.0"
   }
 }
