@@ -60,5 +60,7 @@ exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 exports.listDrives = (callback) ->
 	if os.platform() is 'darwin'
 		osx.list(callback)
+	else if os.platform() is 'win32'
+		win32.list(callback)
 	else
 		throw new Error('Your OS is not supported by this module')
