@@ -29,7 +29,7 @@ exports.list = (callback) ->
 
 			return {
 				device: "/dev/#{device}"
-				size: "#{size}#{sizeMeasure}"
+				size: "#{size} #{sizeMeasure}"
 				description: row.join(' ')
 			}
 
