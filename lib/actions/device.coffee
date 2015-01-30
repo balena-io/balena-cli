@@ -154,6 +154,8 @@ exports.init =
 
 		You may have to unmount the device before attempting this operation.
 
+		See the `drives` command to get a list of all connected devices to your machine and their respective ids.
+
 		In Mac OS X:
 			$ sudo diskutil unmountDisk /dev/xxx
 
