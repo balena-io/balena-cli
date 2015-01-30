@@ -3,7 +3,7 @@ path = require('path')
 _ = require('lodash-contrib')
 async = require('async')
 fs = require('fs')
-diskpart = require('./diskpart')
+diskpart = require('diskpart')
 
 exports.rescanDrives = (callback) ->
 	diskpart.evaluate([ 'rescan' ], callback)
