@@ -4,37 +4,33 @@ childProcess = require('child_process')
 tableParser = require('table-parser')
 
 exports.list = (callback) ->
-	if os.platform() is 'darwin'
-		childProcess.exec 'diskutil list', {}, (error, stdout, stderr) ->
-			return callback(error) if error?
+	childProcess.exec 'diskutil list', {}, (error, stdout, stderr) ->
+		return callback(error) if error?
 
-			if not _.isEmpty(stderr)
-				return callback(new Error(stderr))
+		if not _.isEmpty(stderr)
+			return callback(new Error(stderr))
 
-			result = tableParser.parse(stdout)
+		result = tableParser.parse(stdout)
 
-			result = _.map result, (row) ->
-				return _.compact _.flatten _.values(row)
+		result = _.map result, (row) ->
+			return _.compact _.flatten _.values(row)
 
-			result = _.filter result, (row) ->
-				return row[0] is '0:'
+		result = _.filter result, (row) ->
+			return row[0] is '0:'
 
-			result = _.map result, (row) ->
-				return _.rest(row)
+		result = _.map result, (row) ->
+			return _.rest(row)
 
-			result = _.map result, (row) ->
+		result = _.map result, (row) ->
 
-				device = row.pop()
-				sizeMeasure = row.pop()
-				size = row.pop()
+			device = row.pop()
+			sizeMeasure = row.pop()
+			size = row.pop()
 
-				return {
-					device: "/dev/#{device}"
-					size: "#{size}#{sizeMeasure}"
-					description: row.join(' ')
-				}
+			return {
+				device: "/dev/#{device}"
+				size: "#{size}#{sizeMeasure}"
+				description: row.join(' ')
+			}
 
-			return callback(null, result)
-	else
-		error = new Error('Your OS does not yet support this command')
-		return callback(error)
+		return callback(null, result)

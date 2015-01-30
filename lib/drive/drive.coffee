@@ -1,87 +1,46 @@
 os = require('os')
 fs = require('fs')
-path = require('path')
 _ = require('lodash-contrib')
 async = require('async')
-childProcess = require('child_process')
-progressStream = require('progress-stream')
-DriveOSX = require('./osx')
 
 IS_WINDOWS = os.platform() is 'win32'
-DISK_IO_FLAGS = 'rs+'
 
-exports.rescanDrives = (callback) ->
-	return callback() if not IS_WINDOWS
-	diskpartRescanScriptPath = path.join(__dirname, 'scripts', 'diskpart_rescan')
-	childProcess.exec("diskpart /s \"#{diskpartRescanScriptPath}\"", {}, _.unary(callback))
-
-exports.eraseMBR = (devicePath, callback) ->
-	return callback() if not IS_WINDOWS
-
-	bufferSize = 512
-
-	async.waterfall([
-
-		(callback) ->
-			fs.open(devicePath, DISK_IO_FLAGS, null, callback)
-
-		(fd, callback) ->
-			buffer = new Buffer(bufferSize)
-			buffer.fill(0)
-			fs.write fd, buffer, 0, bufferSize, 0, (error, bytesWritten) ->
-				return callback(error) if error?
-				return callback(null, bytesWritten, fd)
-
-		(bytesWritten, fd, callback) ->
-			if bytesWritten isnt bufferSize
-				error = "Bytes written: #{bytesWritten}, expected #{bufferSize}"
-				return callback(error)
-
-			fs.close(fd, callback)
-
-	], callback)
+win32 = require('./win32')
+osx = require('./osx')
+agnostic = require('./agnostic')
 
 exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
-
-	if not fs.existsSync(imagePath)
-		return callback(new Error("Invalid OS image: #{imagePath}"))
-
-	if not IS_WINDOWS and not fs.existsSync(devicePath)
-		return callback(new Error("Invalid device: #{devicePath}"))
-
-	imageFileSize = fs.statSync(imagePath).size
-
-	if imageFileSize is 0
-		return callback(new Error("Invalid OS image: #{imagePath}. The image is 0 bytes."))
-
-	progress = progressStream
-		length: imageFileSize
-		time: 500
-
-	if options.progress
-		progress.on('progress', options.onProgress)
 
 	async.waterfall [
 
 		(callback) ->
-			exports.eraseMBR(devicePath, callback)
+			fs.exists imagePath, (exists) ->
+				return callback() if exists
+				return callback(new Error("Invalid OS image: #{imagePath}"))
 
 		(callback) ->
-			exports.rescanDrives(callback)
+			return callback() if IS_WINDOWS
+			fs.exists devicePath, (exists) ->
+				return callback() if exists
+				return callback(new Error("Invalid device: #{devicePath}"))
 
 		(callback) ->
-			deviceFileStream = fs.createWriteStream(devicePath, flags: DISK_IO_FLAGS)
-			deviceFileStream.on('error', callback)
-
-			imageFileStream = fs.createReadStream(imagePath)
-			imageFileStream
-				.pipe(progress)
-				.pipe(deviceFileStream)
-				.on('error', _.unary(callback))
-				.on('close', _.unary(callback))
+			return callback() if not IS_WINDOWS
+			win32.eraseMBR(devicePath, callback)
 
 		(callback) ->
-			exports.rescanDrives(callback)
+			return callback() if not IS_WINDOWS
+			win32.rescanDrives(callback)
+
+		(callback) ->
+			if not options.progress
+				options.onProgress = _.noop
+
+			agnostic.writeImage(imagePath, devicePath, options.onProgress, callback)
+
+		(callback) ->
+			return callback() if not IS_WINDOWS
+			win32.rescanDrives(callback)
 
 	], (error) ->
 		return callback() if not error?
@@ -100,7 +59,6 @@ exports.writeImage = (devicePath, imagePath, options = {}, callback = _.noop) ->
 
 exports.listDrives = (callback) ->
 	if os.platform() is 'darwin'
-		DriveOSX.list(callback)
+		osx.list(callback)
 	else
-		error = new Error('Your OS does not yet support this command')
-		return callback(error)
+		throw new Error('Your OS is not supported by this module')
