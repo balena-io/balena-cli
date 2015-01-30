@@ -3,13 +3,10 @@ path = require('path')
 _ = require('lodash-contrib')
 async = require('async')
 fs = require('fs')
-
-scriptsPath = path.join(__dirname, 'scripts')
-diskpartRescanScriptPath = path.join(scriptsPath, 'diskpart_rescan')
-diskpartRescanCommand = "diskpart /s \"#{diskpartRescanScriptPath}\""
+diskpart = require('./diskpart')
 
 exports.rescanDrives = (callback) ->
-	childProcess.exec(diskpartRescanCommand, {}, _.unary(callback))
+	diskpart.evaluate([ 'rescan' ], callback)
 
 exports.eraseMBR = (devicePath, callback) ->
 	bufferSize = 512
