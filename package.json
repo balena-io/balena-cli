@@ -27,8 +27,7 @@
   "author": "Juan Cruz Viotti <juanchiviotti@gmail.com>",
   "license": "MIT",
   "optionalDependencies": {
-    "windosu": "^0.1.3",
-    "diskpart": "^1.0.0"
+    "windosu": "^0.1.3"
   },
   "devDependencies": {
     "chai": "~1.9.2",
