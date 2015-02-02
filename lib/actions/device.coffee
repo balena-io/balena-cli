@@ -4,9 +4,11 @@ async = require('async')
 resin = require('resin-sdk')
 os = require('os')
 visuals = require('resin-cli-visuals')
+fs = require('fs')
+progressStream = require('progress-stream')
 drivelist = require('drivelist')
+diskio = require('diskio')
 commandOptions = require('./command-options')
-drive = require('../drive/drive')
 
 exports.list =
 	signature: 'devices'
@@ -199,13 +201,25 @@ exports.init =
 			(confirmed, callback) ->
 				return done() if not confirmed
 
-				bar = new visuals.widgets.Progress('Writing Device OS')
+				imageFileSize = fs.statSync(params.image).size
 
-				drive.writeImage params.device, params.image,
-					progress: not options.quiet
-					onProgress: (status) ->
+				if imageFileSize is 0
+					error = new Error("Invalid OS image: #{params.image}. The image is 0 bytes.")
+					return callback(error)
+
+				progress = progressStream
+					length: imageFileSize
+					time: 500
+
+				if not options.quiet
+					bar = new visuals.widgets.Progress('Writing Device OS')
+
+					progress.on 'progress', (status) ->
 						console.log(bar.tick(status.percentage, status.eta))
-				, callback
+
+				imageFileStream = fs.createReadStream(params.image).pipe(progress)
+
+				diskio.writeStream(params.device, imageFileStream, callback)
 
 		], (error) ->
 			if os.platform() is 'win32' and error? and (error.code is 'EPERM' or error.code is 'EACCES')
