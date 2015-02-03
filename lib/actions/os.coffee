@@ -33,24 +33,10 @@ exports.download =
 			$ resin os download 91 --network ethernet --output ~/MyResinOS.zip
 	'''
 	options: [
-		{
-			signature: 'network'
-			parameter: 'network'
-			description: 'network type'
-			alias: 'n'
-		}
-		{
-			signature: 'ssid'
-			parameter: 'ssid'
-			description: 'wifi ssid, if network is wifi'
-			alias: 's'
-		}
-		{
-			signature: 'key'
-			parameter: 'key'
-			description: 'wifi key, if network is wifi'
-			alias: 'k'
-		}
+		commandOptions.network
+		commandOptions.wifiSsid
+		commandOptions.wifiKey
+
 		{
 			signature: 'output'
 			parameter: 'output'
