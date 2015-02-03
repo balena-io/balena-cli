@@ -33,13 +33,8 @@ exports.create =
 		async.waterfall([
 
 			(callback) ->
-				deviceType = options.type
-
-				if deviceType?
-					return callback(null, deviceType)
-				else
-					deviceTypes = resin.models.device.getSupportedDeviceTypes()
-					visuals.widgets.select('Select a type', deviceTypes, callback)
+				return callback(null, options.type) if options.type?
+				visuals.patterns.selectDeviceType(callback)
 
 			(type, callback) ->
 				resin.models.application.create(params.name, type, callback)

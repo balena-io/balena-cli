@@ -7,7 +7,6 @@ mkdirp = require('mkdirp')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
 progressStream = require('progress-stream')
-drivelist = require('drivelist')
 diskio = require('diskio')
 commandOptions = require('./command-options')
 
@@ -114,26 +113,11 @@ exports.install =
 
 			(callback) ->
 				return callback(null, params.device) if params.device?
-
-				drivelist.list (error, drives) ->
-					return callback(error) if error?
-
-					drives = _.map drives, (item) ->
-						return {
-							name: "#{item.device} (#{item.size}) - #{item.description}"
-							value: item.device
-						}
-
-					visuals.widgets.select('Select a drive', drives, callback)
+				visuals.patterns.selectDrive(callback)
 
 			(device, callback) ->
 				params.device = device
-
-				if options.yes
-					return callback(null, true)
-				else
-					confirmMessage = "This will completely erase #{params.device}. Are you sure you want to continue?"
-					visuals.widgets.confirm(confirmMessage, callback)
+				visuals.patterns.confirm(options.yes, "This will completely erase #{params.device}. Are you sure you want to continue?", callback)
 
 			(confirmed, callback) ->
 				return done() if not confirmed
