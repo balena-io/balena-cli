@@ -91,7 +91,7 @@ exports.download =
 		], (error) ->
 			return done(error) if error?
 			console.info("\nFinished downloading #{outputFile}")
-			return done()
+			return done(null, outputFile)
 
 exports.install =
 	signature: 'os install <image> [device]'
