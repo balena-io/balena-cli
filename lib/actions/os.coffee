@@ -60,7 +60,10 @@ exports.download =
 			wifiKey: options.key
 			appId: params.id
 
-		fileName = resin.models.os.generateCacheName(osParams)
+		try
+			fileName = resin.models.os.generateCacheName(osParams)
+		catch error
+			return done(error)
 
 		outputFile = options.output or path.join(resin.settings.get('directories.os'), fileName)
 
