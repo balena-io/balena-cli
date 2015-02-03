@@ -62,7 +62,6 @@ capitano.command(actions.app.init)
 capitano.command(actions.device.list)
 capitano.command(actions.device.supported)
 capitano.command(actions.device.rename)
-capitano.command(actions.device.init)
 capitano.command(actions.device.info)
 capitano.command(actions.device.remove)
 capitano.command(actions.device.identify)
@@ -93,6 +92,7 @@ capitano.command(actions.logs.logs)
 
 # ---------- OS Module ----------
 capitano.command(actions.os.download)
+capitano.command(actions.os.install)
 
 # ---------- Examples Module ----------
 capitano.command(actions.examples.list)

@@ -1,9 +1,15 @@
 _ = require('lodash-contrib')
+fs = require('fs')
+os = require('os')
 async = require('async')
 path = require('path')
 mkdirp = require('mkdirp')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
+progressStream = require('progress-stream')
+drivelist = require('drivelist')
+diskio = require('diskio')
+commandOptions = require('./command-options')
 
 exports.download =
 	signature: 'os download <id>'
@@ -86,3 +92,92 @@ exports.download =
 			return done(error) if error?
 			console.info("\nFinished downloading #{outputFile}")
 			return done()
+
+exports.install =
+	signature: 'os install <image> [device]'
+	description: 'write an operating system image to a device'
+	help: '''
+		Use this command to write an operating system image to a device.
+
+		Note that this command requires admin privileges.
+
+		If `device` is omitted, you will be prompted to select a device interactively.
+
+		Notice this command asks for confirmation interactively.
+		You can avoid this by passing the `--yes` boolean option.
+
+		You can quiet the progress bar by passing the `--quiet` boolean option.
+
+		You may have to unmount the device before attempting this operation.
+
+		See the `drives` command to get a list of all connected devices to your machine and their respective ids.
+
+		In Mac OS X:
+			$ sudo diskutil unmountDisk /dev/xxx
+
+		In GNU/Linux:
+			$ sudo umount /dev/xxx
+
+		Examples:
+			$ resin os install rpi.iso /dev/disk2
+	'''
+	options: [ commandOptions.yes ]
+	permission: 'user'
+	action: (params, options, done) ->
+		async.waterfall [
+
+			(callback) ->
+				return callback(null, params.device) if params.device?
+
+				drivelist.list (error, drives) ->
+					return callback(error) if error?
+
+					drives = _.map drives, (item) ->
+						return {
+							name: "#{item.device} (#{item.size}) - #{item.description}"
+							value: item.device
+						}
+
+					visuals.widgets.select('Select a drive', drives, callback)
+
+			(device, callback) ->
+				params.device = device
+
+				if options.yes
+					return callback(null, true)
+				else
+					confirmMessage = "This will completely erase #{params.device}. Are you sure you want to continue?"
+					visuals.widgets.confirm(confirmMessage, callback)
+
+			(confirmed, callback) ->
+				return done() if not confirmed
+
+				imageFileSize = fs.statSync(params.image).size
+
+				if imageFileSize is 0
+					error = new Error("Invalid OS image: #{params.image}. The image is 0 bytes.")
+					return callback(error)
+
+				progress = progressStream
+					length: imageFileSize
+					time: 500
+
+				if not options.quiet
+					bar = new visuals.widgets.Progress('Writing Device OS')
+
+					progress.on 'progress', (status) ->
+						console.log(bar.tick(status.percentage, status.eta))
+
+				imageFileStream = fs.createReadStream(params.image).pipe(progress)
+
+				diskio.writeStream(params.device, imageFileStream, callback)
+
+		], (error) ->
+			if os.platform() is 'win32' and error? and (error.code is 'EPERM' or error.code is 'EACCES')
+				windosu = require('windosu')
+
+				# Need to escape everypath to avoid errors
+				resinWritePath = "\"#{path.join(__dirname, '..', '..', 'bin', 'resin-write')}\""
+				windosu.exec("node #{resinWritePath} \"#{params.image}\" \"#{params.device}\"")
+			else
+				return done(error)
