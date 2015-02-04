@@ -1,4 +1,4 @@
-_ = require('lodash')
+_ = require('lodash-contrib')
 async = require('async')
 path = require('path')
 mkdirp = require('mkdirp')
@@ -72,8 +72,7 @@ exports.download =
 			(callback) ->
 
 				# We need to ensure this directory exists
-				mkdirp path.dirname(outputFile), (error) ->
-					return callback(error)
+				mkdirp(path.dirname(outputFile), _.unary(callback))
 
 			(callback) ->
 				console.info("Destination file: #{outputFile}\n")
