@@ -4,6 +4,7 @@ async = require('async')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
 commandOptions = require('./command-options')
+osAction = require('./os')
 
 exports.list =
 	signature: 'devices'
@@ -136,3 +137,43 @@ exports.supported =
 	action: ->
 		devices = resin.models.device.getSupportedDeviceTypes()
 		_.each(devices, _.unary(console.log))
+
+exports.init =
+	signature: 'device init [device]'
+	description: 'initialise a device with resin os'
+	help: '''
+		Device init.
+
+		TODO: Help page
+	'''
+	options: [
+		commandOptions.application
+		commandOptions.network
+		commandOptions.wifiSsid
+		commandOptions.wifiKey
+	]
+	permission: 'user'
+	action: (params, options, done) ->
+
+		params.id = options.application
+
+		async.waterfall([
+
+			(callback) ->
+				return callback(null, params.device) if params.device?
+				visuals.patterns.selectDrive(callback)
+
+			(device, callback) ->
+				params.device = device
+				visuals.patterns.confirm(options.yes, "This will completely erase #{params.device}. Are you sure you want to continue?", callback)
+
+			(confirmed, callback) ->
+				return done() if not confirmed
+				options.yes = confirmed
+				osAction.download.action(params, options, callback)
+
+			(outputFile, callback) ->
+				params.image = outputFile
+				osAction.install.action(params, options, callback)
+
+		], done)
