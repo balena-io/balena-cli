@@ -1,21 +1,8 @@
 _ = require('lodash')
+getStdin = require('get-stdin')
 
-# TODO: Find a sane way to test streams
 exports.readStdin = (callback) ->
-	stdin = process.stdin
-
-	stdin.resume()
-	stdin.setEncoding('utf8')
-
-	result = []
-
-	stdin.on('error', callback)
-
-	stdin.on 'data', (chunk) ->
-		result.push(chunk)
-
-	stdin.on 'end', ->
-		result = result.join()
+	getStdin (result) ->
 		return callback(null, result)
 
 exports.parseCredentials = (credentials, callback) ->
