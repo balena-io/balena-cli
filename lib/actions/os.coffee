@@ -142,7 +142,7 @@ exports.install =
 			if os.platform() is 'win32' and error? and (error.code is 'EPERM' or error.code is 'EACCES')
 				windosu = require('windosu')
 
-				# Need to escape everypath to avoid errors
+				# Need to escape every path to avoid errors
 				resinWritePath = "\"#{path.join(__dirname, '..', '..', 'bin', 'resin-write')}\""
 				windosu.exec("node #{resinWritePath} \"#{params.image}\" \"#{params.device}\"")
 			else
