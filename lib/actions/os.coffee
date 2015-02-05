@@ -52,27 +52,27 @@ exports.download =
 			appId: params.id
 
 		fileName = resin.models.os.generateCacheName(osParams)
-		outputFile = options.output or path.join(resin.settings.get('directories.os'), fileName)
+		options.output ?= path.join(resin.settings.get('directories.os'), fileName)
 
 		async.waterfall [
 
 			(callback) ->
 
 				# We need to ensure this directory exists
-				mkdirp(path.dirname(outputFile), _.unary(callback))
+				mkdirp(path.dirname(options.output), _.unary(callback))
 
 			(callback) ->
-				console.info("Destination file: #{outputFile}\n")
+				console.info("Destination file: #{options.output}\n")
 
 				bar = new visuals.widgets.Progress('Downloading Device OS')
 
-				resin.models.os.download osParams, outputFile, callback, (state) ->
+				resin.models.os.download osParams, options.output, callback, (state) ->
 					console.log(bar.tick(state.percentage, state.eta))
 
 		], (error) ->
 			return done(error) if error?
-			console.info("\nFinished downloading #{outputFile}")
-			return done(null, outputFile)
+			console.info("\nFinished downloading #{options.output}")
+			return done(null, options.output)
 
 exports.install =
 	signature: 'os install <image> [device]'
