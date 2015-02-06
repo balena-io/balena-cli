@@ -37,8 +37,9 @@ exports.info =
 		resin.models.key.get params.id, (error, key) ->
 			return done(error) if error?
 
-			# TODO: Move this chop functionality to resin.models.key
-			key.public_key = '\n' + _.str.chop(key.public_key, resin.settings.get('sshKeyWidth')).join('\n')
+			sshKeyWidth = resin.settings.get('sshKeyWidth')
+			key.public_key = '\n' + visuals.helpers.chop(key.public_key, sshKeyWidth)
+
 			console.log(visuals.widgets.table.vertical(key, [ 'id', 'title', 'public_key' ]))
 			return done()
 
