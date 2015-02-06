@@ -50,7 +50,7 @@
     "coffee-script": "~1.8.0",
     "conf.js": "^0.1.1",
     "diskio": "^1.0.0",
-    "drivelist": "^1.1.0",
+    "drivelist": "^1.1.1",
     "get-stdin": "^4.0.1",
     "git-cli": "~0.8.2",
     "lodash": "~2.4.1",
