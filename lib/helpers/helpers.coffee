@@ -1,4 +1,3 @@
-os = require('os')
 _ = require('lodash')
 getStdin = require('get-stdin')
 
