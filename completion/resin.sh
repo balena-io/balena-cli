@@ -3,11 +3,15 @@ _resin() {
 
 	local current="${COMP_WORDS[COMP_CWORD]}"
 	local previous="${COMP_WORDS[COMP_CWORD-1]}"
-	local options="version help login logout signup whoami app apps init devices device note preferences keys key envs env logs os examples example"
+	local options="version help login logout signup drive whoami app apps init devices device note preferences keys key envs env logs os examples example"
 
 	case "${previous}" in
 		app)
 			local subcommands="create rm restart"
+			COMPREPLY=( $(compgen -W "${subcommands}" -- ${current}) )
+			return 0 ;;
+		drive)
+			local subcommands="list"
 			COMPREPLY=( $(compgen -W "${subcommands}" -- ${current}) )
 			return 0 ;;
 		devices)
@@ -27,7 +31,7 @@ _resin() {
 			COMPREPLY=( $(compgen -W "${subcommands}" -- ${current}) )
 			return 0 ;;
 		os)
-			local subcommands="download"
+			local subcommands="download install"
 			COMPREPLY=( $(compgen -W "${subcommands}" -- ${current}) )
 			return 0 ;;
 		example)
