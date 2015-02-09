@@ -3,28 +3,52 @@ url = require('url')
 async = require('async')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
-helpers = require('../helpers/helpers')
 
 exports.login	=
-	signature: 'login [credentials]'
+	signature: 'login'
 	description: 'login to resin.io'
 	help: '''
 		Use this command to login to your resin.io account.
 		You need to login before you can use most of the commands this tool provides.
 
-		You can pass your credentials as a colon separated string, or you can omit the
+		You can pass your credentials as `--username` and `--password` options, or you can omit the
 		credentials, in which case the tool will present you with an interactive login form.
 
 		Examples:
-			$ resin login username:password
+			$ resin login --username <username> --password <password>
 			$ resin login
 	'''
+	options: [
+		{
+			signature: 'username'
+			parameter: 'username'
+			description: 'user name'
+			alias: 'u'
+		}
+		{
+			signature: 'password'
+			parameter: 'user password'
+			description: 'user password'
+			alias: 'p'
+		}
+	]
 	action: (params, options, done) ->
+
+		hasOptionCredentials = not _.isEmpty(options)
+
+		if hasOptionCredentials
+
+			if not options.username
+				return done(new Error('Missing username'))
+
+			if not options.password
+				return done(new Error('Missing password'))
+
 		async.waterfall [
 
 			(callback) ->
-				if params.credentials?
-					return helpers.parseCredentials(params.credentials, callback)
+				if hasOptionCredentials
+					return callback(null, options)
 				else
 					return visuals.widgets.login(callback)
 

@@ -28,7 +28,7 @@ capitano.globalOption
 	signature: 'project'
 	parameter: 'path'
 	description: 'project path'
-	alias: 'p'
+	alias: 'j'
 
 # We don't do anything in response to this options
 # explicitly. We use InquirerJS to provide CLI widgets,
