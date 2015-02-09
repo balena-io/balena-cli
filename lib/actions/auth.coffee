@@ -54,22 +54,56 @@ exports.signup =
 
 		If signup is successful, you'll be logged in to your new user automatically.
 
-		TODO: We need to provide a non interactive way to use this command,
-		however it's not clear to me how to do it easily for now.
-
 		Examples:
 			$ resin signup
 			Email: me@mycompany.com
 			Username: johndoe
 			Password: ***********
 
+			$ resin signup --email me@mycompany.com --username johndoe --password ***********
+
 			$ resin whoami
 			johndoe
 	'''
+	options: [
+		{
+			signature: 'email'
+			parameter: 'email'
+			description: 'user email'
+			alias: 'e'
+		}
+		{
+			signature: 'username'
+			parameter: 'username'
+			description: 'user name'
+			alias: 'u'
+		}
+		{
+			signature: 'password'
+			parameter: 'user password'
+			description: 'user password'
+			alias: 'p'
+		}
+	]
 	action: (params, options, done) ->
+
+		hasOptionCredentials = not _.isEmpty(options)
+
+		if hasOptionCredentials
+
+			if not options.email?
+				return done(new Error('Missing email'))
+
+			if not options.username?
+				return done(new Error('Missing username'))
+
+			if not options.password?
+				return done(new Error('Missing password'))
+
 		async.waterfall([
 
 			(callback) ->
+				return callback(null, options) if hasOptionCredentials
 				visuals.widgets.register(callback)
 
 			(credentials, callback) ->
