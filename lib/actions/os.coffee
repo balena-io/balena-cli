@@ -67,7 +67,7 @@ exports.download =
 				bar = new visuals.widgets.Progress('Downloading Device OS')
 
 				resin.models.os.download osParams, options.output, callback, (state) ->
-					console.log(bar.tick(state))
+					bar.update(state)
 
 		], (error) ->
 			return done(error) if error?
@@ -133,7 +133,7 @@ exports.install =
 					bar = new visuals.widgets.Progress('Writing Device OS')
 
 					progress.on 'progress', (status) ->
-						console.log(bar.tick(status))
+						bar.update(status)
 
 				imageFileStream = fs.createReadStream(params.image).pipe(progress)
 
