@@ -3,7 +3,7 @@ expect = chai.expect
 chai.use(require('sinon-chai'))
 _ = require('lodash')
 sinon = require('sinon')
-errors = require('./errors')
+errors = require('../lib/errors')
 
 describe 'Errors:', ->
 

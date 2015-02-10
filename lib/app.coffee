@@ -4,7 +4,7 @@ capitano = require('capitano')
 resin = require('resin-sdk')
 nplugm = require('nplugm')
 actions = require('./actions')
-errors = require('./errors/errors')
+errors = require('./errors')
 
 capitano.permission 'user', (done) ->
 	resin.auth.isLoggedIn (isLoggedIn) ->
