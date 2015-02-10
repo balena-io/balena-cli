@@ -82,39 +82,42 @@ exports.general = ->
 
 	console.log()
 
-exports.command = (params) ->
-	command = capitano.state.getMatchCommand(params.command)
+exports.command = (params, options, done) ->
+	capitano.state.getMatchCommand params.command, (error, command) ->
+		return done(error) if error?
 
-	if not command? or command.isWildcard()
-		return capitano.defaults.actions.commandNotFound(params.command)
+		if not command? or command.isWildcard()
+			return capitano.defaults.actions.commandNotFound(params.command)
 
-	console.log("Usage: #{command.signature}")
+		console.log("Usage: #{command.signature}")
 
-	if command.help?
-		console.log("\n#{command.help}")
-	else if command.description?
-		console.log("\n#{_.str.humanize(command.description)}")
+		if command.help?
+			console.log("\n#{command.help}")
+		else if command.description?
+			console.log("\n#{_.str.humanize(command.description)}")
 
-	if not _.isEmpty(command.options)
-		console.log('\nOptions:\n')
+		if not _.isEmpty(command.options)
+			console.log('\nOptions:\n')
 
-		options = _.map command.options, (option) ->
-			option.signature = buildOptionSignatureHelp(option)
-			return option
+			options = _.map command.options, (option) ->
+				option.signature = buildOptionSignatureHelp(option)
+				return option
 
-		optionSignatureMaxLength = _.max _.map options, (option) ->
-			return option.signature.toString().length
+			optionSignatureMaxLength = _.max _.map options, (option) ->
+				return option.signature.toString().length
 
-		for option in options
-			console.log(getOptionHelp(option, optionSignatureMaxLength))
+			for option in options
+				console.log(getOptionHelp(option, optionSignatureMaxLength))
 
-		console.log()
+			console.log()
+
+		return done()
 
 exports.help =
 	signature: 'help [command...]'
 	description: 'show help'
-	action: (params) ->
+	action: (params, options, done) ->
 		if params.command?
-			exports.command(arguments...)
+			exports.command(params, options, done)
 		else
-			exports.general(arguments...)
+			exports.general(params, options, done)
