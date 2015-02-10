@@ -47,5 +47,9 @@ exports.logs =
 			tail: options.tail
 		}, (error, message) ->
 			return done(error) if error?
-			_.each(message, console.log)
+			if _.isArray(message)
+				_.each message, (line) ->
+					console.log(line)
+			else
+				console.log(message)
 			return done()
