@@ -1,8 +1,7 @@
 _ = require('lodash')
-path = require('path')
+async = require('async')
 capitano = require('capitano')
 resin = require('resin-sdk')
-nplugm = require('nplugm')
 actions = require('./actions')
 errors = require('./errors')
 plugins = require('./plugins')
@@ -107,14 +106,17 @@ changeProjectDirectory = (directory) ->
 	catch
 		errors.handle(new Error("Invalid project: #{directory}"))
 
-plugins.register 'resin-plugin-*', (error, loadedPlugins) ->
+async.waterfall([
 
-	errors.handle(error) if error?
+	(callback) ->
+		plugins.register('resin-plugin-*', callback)
 
-	cli = capitano.parse(process.argv)
+	(loadedPlugins, callback) ->
+		dataPrefix = resin.settings.get('dataPrefix')
+		resin.data.prefix.set(dataPrefix, callback)
 
-	resin.data.prefix.set resin.settings.get('dataPrefix'), (error) ->
-		errors.handle(error) if error?
+	(callback) ->
+		cli = capitano.parse(process.argv)
 
 		if cli.global.quiet
 			console.info = _.noop
@@ -122,5 +124,6 @@ plugins.register 'resin-plugin-*', (error, loadedPlugins) ->
 		if cli.global.project?
 			changeProjectDirectory(cli.global.project)
 
-		capitano.execute cli, (error) ->
-			errors.handle(error) if error?
+		capitano.execute(cli, callback)
+
+], errors.handle)
