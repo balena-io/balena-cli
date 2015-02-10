@@ -5,6 +5,7 @@ resin = require('resin-sdk')
 nplugm = require('nplugm')
 actions = require('./actions')
 errors = require('./errors')
+plugins = require('./plugins')
 
 capitano.permission 'user', (done) ->
 	resin.auth.isLoggedIn (isLoggedIn) ->
@@ -100,20 +101,14 @@ capitano.command(actions.examples.list)
 capitano.command(actions.examples.clone)
 capitano.command(actions.examples.info)
 
-registerPlugin = (plugin) ->
-	return capitano.command(plugin) if not _.isArray(plugin)
-	return _.each(plugin, capitano.command)
-
 changeProjectDirectory = (directory) ->
 	try
 		process.chdir(directory)
 	catch
 		errors.handle(new Error("Invalid project: #{directory}"))
 
-nplugm.load 'resin-plugin-*', (error, plugin) ->
-	return console.error(error.message) if error?
-	registerPlugin(plugin.require())
-, (error, loadedPlugins) ->
+plugins.register 'resin-plugin-*', (error, loadedPlugins) ->
+
 	errors.handle(error) if error?
 
 	cli = capitano.parse(process.argv)
