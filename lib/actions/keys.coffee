@@ -3,7 +3,7 @@ _.str = require('underscore.string')
 async = require('async')
 fs = require('fs')
 resin = require('resin-sdk')
-helpers = require('../helpers/helpers')
+capitano = require('capitano')
 visuals = require('resin-cli-visuals')
 commandOptions = require('./command-options')
 
@@ -84,7 +84,8 @@ exports.add =
 				if params.path?
 					fs.readFile(params.path, encoding: 'utf8', callback)
 				else
-					helpers.readStdin(callback)
+					capitano.utils.getStdin (data) ->
+						return callback(null, data)
 
 			(key, callback) ->
 				resin.models.key.create(params.name, key, callback)

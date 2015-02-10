@@ -1,9 +1,8 @@
 async = require('async')
-helpers = require('../helpers/helpers')
 resin = require('resin-sdk')
 
 exports.set =
-	signature: 'note [note]'
+	signature: 'note <|note>'
 	description: 'set a device note'
 	help: '''
 		Use this command to set or update a device note.
@@ -25,14 +24,4 @@ exports.set =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
-		async.waterfall([
-
-			(callback) ->
-				if not params.note?
-					return helpers.readStdin(callback)
-				return callback(null, params.note)
-
-			(note, callback) ->
-				resin.models.device.note(options.device, note, callback)
-
-		], done)
+		resin.models.device.note(options.device, params.note, done)
