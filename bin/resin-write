@@ -3,12 +3,12 @@
 // http://coffeescript.org/documentation/docs/register.html
 require('coffee-script/register');
 
-var device = require('../lib/actions/device.coffee');
+var os = require('../lib/actions/os.coffee');
 var errors = require('../lib/errors');
 
 // TODO: Do some error handling when image or device are incorrect
 
-device.init.action({
+os.install.action({
 	image: process.argv[2],
 	device: process.argv[3]
 }, {
