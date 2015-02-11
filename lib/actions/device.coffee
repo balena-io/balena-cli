@@ -134,9 +134,11 @@ exports.supported =
 			$ resin devices supported
 	'''
 	permission: 'user'
-	action: ->
-		devices = resin.models.device.getSupportedDeviceTypes()
-		_.each(devices, _.unary(console.log))
+	action: (params, options, done) ->
+		resin.models.device.getSupportedDeviceTypes (error, devices) ->
+			return done(error) if error?
+			_.each(devices, _.unary(console.log))
+			done()
 
 exports.init =
 	signature: 'device init [device]'
