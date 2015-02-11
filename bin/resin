@@ -38,7 +38,13 @@ fi
 NODE_PATH="./bin/node/$NODE_BIN"
 
 if [ ! -x $NODE_PATH  ]; then
-	unsupported_platform
+
+	# As a last resource, try to use an already available node
+	if command -v node >/dev/null 2>&1; then
+		NODE_PATH="node"
+	else
+		unsupported_platform
+	fi
 fi
 
 $NODE_PATH "./lib/resin.js" "$@"
