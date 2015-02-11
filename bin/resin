@@ -1,5 +1,44 @@
-#!/usr/bin/env node
+#!/bin/bash
 
-// http://coffeescript.org/documentation/docs/register.html
-require('coffee-script/register');
-require('../lib/app.coffee');
+NODE_VERSION="v0.12.0"
+
+function unsupported_platform() {
+  echo "Your platform (`uname -a`) is not supported." && exit 1
+}
+
+# Detect CPU arch.
+ARCHITECTURE=`uname -m`
+case "$ARCHITECTURE" in
+  i?86)   ARCHITECTURE="x86" ;;
+  x86_64) ARCHITECTURE="x64" ;;
+esac
+
+# Detect current OS, see http://stackoverflow.com/q/3466166/682252.
+
+# Darwin
+if [ "`uname`" == "Darwin" ]; then
+  NODE_BIN="node-$NODE_VERSION-darwin-$ARCHITECTURE.bin"
+
+# Linux
+elif [ "`expr substr $(uname -s) 1 5`" == "Linux" ]; then
+	NODE_BIN="node-$NODE_VERSION-linux-$ARCHITECTURE.bin"
+
+# Win32
+elif [ "`expr substr $(uname -s) 1 10`" == "MINGW32_NT" ]; then
+	NODE_BIN="node-$NODE_VERSION-win32-$ARCHITECTURE.exe"
+
+# SunOS
+elif [ "`uname`" == "SunOS" ]; then
+	NODE_BIN="node-$NODE_VERSION-sunos-$ARCHITECTURE.exe"
+
+else
+	unsupported_platform
+fi
+
+NODE_PATH="./bin/node/$NODE_BIN"
+
+if [ ! -x $NODE_PATH  ]; then
+	unsupported_platform
+fi
+
+$NODE_PATH "./lib/resin.js" "$@"
