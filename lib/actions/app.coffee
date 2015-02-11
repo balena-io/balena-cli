@@ -34,7 +34,10 @@ exports.create =
 
 			(callback) ->
 				return callback(null, options.type) if options.type?
-				visuals.patterns.selectDeviceType(callback)
+
+				resin.models.device.getSupportedDeviceTypes (error, deviceTypes) ->
+					return callback(error) if error?
+					visuals.widgets.select('Select a type', deviceTypes, callback)
 
 			(type, callback) ->
 				resin.models.application.create(params.name, type, callback)
