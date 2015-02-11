@@ -1,5 +1,5 @@
 {
-  "name": "resin",
+  "name": "resin-cli",
   "version": "0.0.1",
   "description": "Git Push to your devices",
   "main": "./lib/actions/index.coffee",
