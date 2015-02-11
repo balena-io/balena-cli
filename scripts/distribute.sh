@@ -45,19 +45,6 @@ function download_node() {
 	fi
 }
 
-function download_npm() {
-	local version=$1
-	local output=$2
-
-	print_banner "Downloading npm@$version"
-
-	mkdir -p $output
-
-	# http://stackoverflow.com/questions/11497457/git-clone-without-git-directory
-	git clone --depth=1 --branch $version --single-branch git@github.com:npm/npm.git $output
-	rm -rf $output/.git
-}
-
 function distribute() {
 	local os=$1
 	local arch=$2
@@ -73,7 +60,6 @@ function distribute() {
 	cp -vrf package.json build/$package
 
 	download_node $os $arch v0.12.0 build/$package/bin/node
-	download_npm v2.5.1 build/$package/bin/npm
 
 	print_banner "Running npm install"
 
@@ -97,15 +83,15 @@ function distribute() {
 }
 
 distribute "darwin" "x64"
-distribute "darwin" "x86"
+# distribute "darwin" "x86"
 
-distribute "linux" "x64"
-distribute "linux" "x86"
+# distribute "linux" "x64"
+# distribute "linux" "x86"
 
-distribute "win32" "x64"
-distribute "win32" "x86"
+# distribute "win32" "x64"
+# distribute "win32" "x86"
 
-distribute "sunos" "x64"
-distribute "sunos" "x86"
+# distribute "sunos" "x64"
+# distribute "sunos" "x86"
 
 tree build/distrib
