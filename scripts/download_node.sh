@@ -21,6 +21,8 @@ echo ""
 echo "Downloading $PACKAGE"
 echo ""
 
+mkdir -p $OUTPUT
+
 if [ "$OS" == "win32" ]; then
 	if [ "$arch" == "x86" ]; then
 		$CURL $NODE_DIST_URL/$NODE_VERSION/node.exe -o $OUTPUT/$PACKAGE.exe
