@@ -27,7 +27,7 @@ exports.login	=
 		}
 		{
 			signature: 'password'
-			parameter: 'user password'
+			parameter: 'password'
 			description: 'user password'
 			alias: 'p'
 		}
