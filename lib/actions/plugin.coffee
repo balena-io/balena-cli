@@ -14,7 +14,7 @@ exports.list =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		plugins.list 'resin-plugin', (error, resinPlugins) ->
+		plugins.list 'resin-plugin-', (error, resinPlugins) ->
 			return done(error) if error?
 
 			if _.isEmpty(resinPlugins)
