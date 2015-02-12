@@ -73,7 +73,11 @@ exports.install =
 					"resin-plugin-#{params.name}"
 				], callback)
 
-				# TODO: Print installed plugins names
+			(installedModules, modules, lite, callback) ->
+				for installedModule in installedModules
+					console.info("Plugin installed: #{_.first(installedModule)}")
+
+				return callback()
 
 		], (error) ->
 			return done() if not error?
