@@ -15,6 +15,8 @@ exports.register = (glob, callback) ->
 		registerPlugin(plugin.require())
 	, callback
 
+# TODO: Move all this npm interaction functionality to nplugm
+
 exports.install = (name, callback) ->
 	async.waterfall [
 
