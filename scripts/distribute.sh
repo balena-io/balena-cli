@@ -11,6 +11,7 @@ function parse_json() {
 PACKAGE_JSON=`cat package.json`
 VERSION=$(parse_json "$PACKAGE_JSON" version)
 NAME=$(parse_json "$PACKAGE_JSON" name)
+NODE_VERSION=$(parse_json "$PACKAGE_JSON" bundled_engine)
 
 function print_banner() {
 	local message=$1
@@ -26,9 +27,10 @@ function download_node() {
 	local version=$3
 	local output=$4
 
-	local package="node-$version-$os-$arch"
+	local remote_package="node-$version-$os-$arch"
+	local package="node-$os-$arch"
 
-	print_banner "Downloading $package"
+	print_banner "Downloading $remote_package"
 
 	mkdir -p $output
 
@@ -39,9 +41,9 @@ function download_node() {
 			$CURL $NODE_DIST_URL/$version/$arch/node.exe -o $output/$package.exe
 		fi
 	else
-		$CURL $NODE_DIST_URL/$version/$package.tar.gz | tar xz -C $output/
-		cp $output/$package/bin/node $output/$package.bin
-		rm -rf $output/$package
+		$CURL $NODE_DIST_URL/$version/$remote_package.tar.gz | tar xz -C $output/
+		cp $output/$remote_package/bin/node $output/$package.bin
+		rm -rf $output/$remote_package
 	fi
 }
 
@@ -59,7 +61,7 @@ function distribute() {
 	cp -vrf lib build/$package
 	cp -vrf package.json build/$package
 
-	download_node $os $arch v0.12.0 build/$package/bin/node
+	download_node $os $arch $NODE_VERSION build/$package/bin/node
 
 	print_banner "Running npm install"
 
