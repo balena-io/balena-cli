@@ -67,7 +67,11 @@ function distribute() {
 
 	cd build/$package
 	npm install --production --force
-	npm dedupe
+
+	# Leaving this enabled causes
+	# Path too long issues in Windows.
+	# npm dedupe
+
 	cd ..
 
 	mkdir -p distrib
