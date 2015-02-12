@@ -27,7 +27,7 @@ elif [ "`expr substr $(uname -s) 1 10`" == "MINGW32_NT" ]; then
 
 # SunOS
 elif [ "`uname`" == "SunOS" ]; then
-	NODE_BIN="node-sunos-$ARCHITECTURE.exe"
+	NODE_BIN="node-sunos-$ARCHITECTURE.bin"
 
 else
 	unsupported_platform
