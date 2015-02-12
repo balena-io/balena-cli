@@ -19,10 +19,6 @@ exports.list =
 
 			(callback) ->
 				npm.load
-
-					# TODO: Maybe we should check the local modules as well?
-					global: true
-
 					depth: 0
 					parseable: true
 				, callback
@@ -36,6 +32,10 @@ exports.list =
 					# TODO: Reuse plugin glob from app.coffee
 					return _.str.startsWith(resinModule.name, 'resin-plugin')
 
+				if _.isEmpty(resinModules)
+					console.log('You don\'t have any plugins yet')
+					return done()
+
 				console.log visuals.widgets.table.horizontal resinModules, [
 					'name'
 					'version'
@@ -46,3 +46,36 @@ exports.list =
 				return callback()
 
 		], done)
+
+exports.install =
+	signature: 'plugin install <name>'
+	description: 'install a plugin'
+	help: '''
+		Use this command to install a resin plugin
+
+		Examples:
+			$ resin plugin install hello
+	'''
+	permission: 'user'
+	action: (params, options, done) ->
+		async.waterfall [
+
+			(callback) ->
+				npm.load({}, callback)
+
+			(data, callback) ->
+
+				# TODO: This action outputs installation information that cannot
+				# be quieted neither with --quiet nor --silent:
+				# https://github.com/npm/npm/issues/2040
+				npm.commands.install([
+					"resin-plugin-#{params.name}"
+				], callback)
+
+		], (error) ->
+			return done() if not error?
+
+			if error.code is 'E404'
+				error.message = "Plugin not found: #{params.name}"
+
+			return done(error) if error?
