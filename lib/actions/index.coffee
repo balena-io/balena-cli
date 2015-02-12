@@ -12,3 +12,4 @@ module.exports =
 	os: require('./os')
 	help: require('./help')
 	examples: require('./examples')
+	plugin: require('./plugin')

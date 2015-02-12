@@ -100,6 +100,9 @@ capitano.command(actions.examples.list)
 capitano.command(actions.examples.clone)
 capitano.command(actions.examples.info)
 
+# ---------- Plugins Module ----------
+capitano.command(actions.plugin.list)
+
 changeProjectDirectory = (directory) ->
 	try
 		process.chdir(directory)
