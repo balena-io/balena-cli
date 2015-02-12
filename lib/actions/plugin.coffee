@@ -1,9 +1,7 @@
 _ = require('lodash')
-_.str = require('underscore.string')
-async = require('async')
-npm = require('npm')
 visuals = require('resin-cli-visuals')
 commandOptions = require('./command-options')
+plugins = require('../plugins')
 
 exports.list =
 	signature: 'plugins'
@@ -16,37 +14,21 @@ exports.list =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		async.waterfall([
+		plugins.list 'resin-plugin', (error, resinPlugins) ->
+			return done(error) if error?
 
-			(callback) ->
-				npm.load
-					depth: 0
-					parseable: true
-				, callback
+			if _.isEmpty(resinPlugins)
+				console.log('You don\'t have any plugins yet')
+				return done()
 
-			(data, callback) ->
-				npm.commands.list([], true, callback)
+			console.log visuals.widgets.table.horizontal resinPlugins, [
+				'name'
+				'version'
+				'description'
+				'license'
+			]
 
-			(data, lite, callback) ->
-				resinModules = _.filter _.values(data.dependencies), (resinModule) ->
-
-					# TODO: Reuse plugin glob from app.coffee
-					return _.str.startsWith(resinModule.name, 'resin-plugin')
-
-				if _.isEmpty(resinModules)
-					console.log('You don\'t have any plugins yet')
-					return done()
-
-				console.log visuals.widgets.table.horizontal resinModules, [
-					'name'
-					'version'
-					'description'
-					'license'
-				]
-
-				return callback()
-
-		], done)
+			return done()
 
 exports.install =
 	signature: 'plugin install <name>'
@@ -59,33 +41,13 @@ exports.install =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		async.waterfall [
-
-			(callback) ->
-				npm.load({}, callback)
-
-			(data, callback) ->
-
-				# TODO: This action outputs installation information that cannot
-				# be quieted neither with --quiet nor --silent:
-				# https://github.com/npm/npm/issues/2040
-				npm.commands.install([
-					"resin-plugin-#{params.name}"
-				], callback)
-
-			(installedModules, modules, lite, callback) ->
-				for installedModule in installedModules
-					console.info("Plugin installed: #{_.first(installedModule)}")
-
-				return callback()
-
-		], (error) ->
-			return done() if not error?
-
-			if error.code is 'E404'
-				error.message = "Plugin not found: #{params.name}"
-
+		plugins.install "resin-plugin-#{params.name}", (error, installedModules) ->
 			return done(error) if error?
+
+			for installedModule in installedModules
+				console.info("Plugin installed: #{installedModule}")
+
+			return done()
 
 exports.remove =
 	signature: 'plugin rm <name>'
@@ -103,22 +65,11 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		async.waterfall([
+		visuals.patterns.remove 'plugin', options.yes, (callback) ->
+			plugins.remove("resin-plugin-#{params.name}", callback)
+		, (error, uninstalledPlugin) ->
+			return done(error) if error?
 
-			(callback) ->
-				npm.load(loglevel: 'silent', callback)
+			console.info("Plugin removed: #{uninstalledPlugin}")
 
-			(data, callback) ->
-				visuals.patterns.remove 'plugin', options.yes, (callback) ->
-					npm.commands.uninstall([
-						"resin-plugin-#{params.name}"
-					], callback)
-				, callback
-
-			(uninstalledPlugins, callback) ->
-				if _.isEmpty(uninstalledPlugins)
-					return callback(new Error("Plugin not found: #{params.name}"))
-				console.info("Plugin removed: #{params.name}")
-				return callback()
-
-		], done)
+			return done()
