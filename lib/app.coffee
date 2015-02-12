@@ -103,6 +103,7 @@ capitano.command(actions.examples.info)
 # ---------- Plugins Module ----------
 capitano.command(actions.plugin.list)
 capitano.command(actions.plugin.install)
+capitano.command(actions.plugin.remove)
 
 changeProjectDirectory = (directory) ->
 	try

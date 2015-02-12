@@ -3,6 +3,7 @@ _.str = require('underscore.string')
 async = require('async')
 npm = require('npm')
 visuals = require('resin-cli-visuals')
+commandOptions = require('./command-options')
 
 exports.list =
 	signature: 'plugins'
@@ -72,6 +73,8 @@ exports.install =
 					"resin-plugin-#{params.name}"
 				], callback)
 
+				# TODO: Print installed plugins names
+
 		], (error) ->
 			return done() if not error?
 
@@ -79,3 +82,39 @@ exports.install =
 				error.message = "Plugin not found: #{params.name}"
 
 			return done(error) if error?
+
+exports.remove =
+	signature: 'plugin rm <name>'
+	description: 'remove a plugin'
+	help: '''
+		Use this command to remove a resin.io plugin.
+
+		Notice this command asks for confirmation interactively.
+		You can avoid this by passing the `--yes` boolean option.
+
+		Examples:
+			$ resin plugin rm hello
+			$ resin plugin rm hello --yes
+	'''
+	options: [ commandOptions.yes ]
+	permission: 'user'
+	action: (params, options, done) ->
+		async.waterfall([
+
+			(callback) ->
+				npm.load(loglevel: 'silent', callback)
+
+			(data, callback) ->
+				visuals.patterns.remove 'plugin', options.yes, (callback) ->
+					npm.commands.uninstall([
+						"resin-plugin-#{params.name}"
+					], callback)
+				, callback
+
+			(uninstalledPlugins, callback) ->
+				if _.isEmpty(uninstalledPlugins)
+					return callback(new Error("Plugin not found: #{params.name}"))
+				console.info("Plugin removed: #{params.name}")
+				return callback()
+
+		], done)
