@@ -19,7 +19,7 @@ exports.install = (name, callback) ->
 	async.waterfall [
 
 		(callback) ->
-			npm.load({}, callback)
+			npm.load(loglevel: 'silent', callback)
 
 		(data, callback) ->
 
