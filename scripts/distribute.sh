@@ -61,7 +61,7 @@ function distribute() {
 	cp -vrf lib build/$package
 	cp -vrf package.json build/$package
 
-	download_node $os $arch $NODE_VERSION build/$package/bin/node
+	node ./node_modules/node-binary/bin/cli.js download $NODE_VERSION build/$package/bin/node --arch $arch --os $os
 
 	print_banner "Running npm install"
 

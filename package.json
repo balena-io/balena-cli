@@ -7,7 +7,6 @@
     "type": "git",
     "url": "git@bitbucket.org:rulemotion/resin-cli.git"
   },
-  "bundled_engine": "v0.12.0",
   "preferGlobal": true,
   "man": [
     "./man/resin.1",
@@ -17,9 +16,11 @@
   "bin": {
     "resin": "./bin/resin"
   },
+	"bundled_engine": "v0.12.0",
   "scripts": {
     "prepublish": "gulp build",
-    "test": "gult test"
+    "test": "gult test",
+    "install": "node-binary download v0.12.0 ./bin/node --arch `node -e 'console.log(process.arch)'` --os `node -e 'console.log(process.platform)'`"
   },
   "keywords": [
     "resin",
@@ -56,6 +57,7 @@
     "lodash": "~2.4.1",
     "lodash-contrib": "~241.4.14",
     "mkdirp": "~0.5.0",
+    "node-binary": "^1.0.0",
     "nplugm": "^1.0.1",
     "npm": "^2.5.1",
     "open": "0.0.5",
