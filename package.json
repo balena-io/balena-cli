@@ -16,7 +16,6 @@
   "bin": {
     "resin": "./bin/resin"
   },
-	"bundled_engine": "v0.12.0",
   "scripts": {
     "prepublish": "gulp build",
     "test": "gult test",
