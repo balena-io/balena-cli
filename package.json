@@ -19,7 +19,7 @@
   "scripts": {
     "prepublish": "gulp build",
     "test": "gult test",
-    "install": "node-binary download v0.12.0 ./bin/node --arch `node -e 'console.log(process.arch)'` --os `node -e 'console.log(process.platform)'`"
+    "install": "node bin/install-node.js"
   },
   "keywords": [
     "resin",
