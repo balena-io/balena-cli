@@ -8,6 +8,7 @@
     "url": "git@bitbucket.org:rulemotion/resin-cli.git"
   },
   "preferGlobal": true,
+	"bundled_engine": "v0.12.0",
   "man": [
     "./man/resin.1",
     "./man/resin-completion.1",
