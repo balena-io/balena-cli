@@ -17,6 +17,11 @@ binary.download({
 	}
 
 	var output = path.join(destination, 'node-' + process.platform + '-' + process.arch);
+
+	if(process.platform === 'win32') {
+		output += '.exe';
+	}
+
 	fs.renameSync(binaryPath, output);
 
 	console.log('NodeJS downloaded to ' + output);
