@@ -35,8 +35,6 @@ fi
 
 NODE_PATH="./bin/node/$NODE_BIN"
 
-echo $NODE_PATH
-
 if [ ! -x $NODE_PATH  ]; then
 
 	# As a last resource, try to use an already available node
