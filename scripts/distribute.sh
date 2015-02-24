@@ -27,14 +27,18 @@ function distribute() {
 
 	# Copy all needed files
 	mkdir -p build/$package
+
+	# TODO: Omit bin/node
 	cp -vrf bin build/$package
+
 	cp -vrf lib build/$package
 	cp -vrf package.json build/$package
 
 	print_banner "Running npm install"
 
 	cd build/$package
-	npm install --production --force
+
+	RESIN_OS=$os RESIN_ARCH=$arch npm install --production --force
 
 	# Leaving this enabled causes
 	# Path too long issues in Windows.
@@ -56,14 +60,14 @@ function distribute() {
 	cd ..
 }
 
-distribute "darwin" "x64"
+# distribute "darwin" "x64"
 # distribute "darwin" "x86"
 
 # distribute "linux" "x64"
 # distribute "linux" "x86"
 
-# distribute "win32" "x64"
-# distribute "win32" "x86"
+distribute "win32" "x64"
+distribute "win32" "x86"
 
 # distribute "sunos" "x64"
 # distribute "sunos" "x86"

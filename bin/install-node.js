@@ -4,11 +4,14 @@ var path = require('path');
 var nodeVersion = require('../package.json').bundled_engine;
 var destination = './bin/node';
 
-console.log('Downloading node-' + nodeVersion + '-' + process.platform + '-' + process.arch);
+var os = process.env.RESIN_OS || process.platform;
+var arch = process.env.RESIN_ARCH || process.arch;
+
+console.log('Downloading node-' + nodeVersion + '-' + os + '-' + arch);
 
 binary.download({
-	os: process.platform,
-	arch: process.arch,
+	os: os,
+	arch: arch,
 	version: nodeVersion
 }, destination, function(error, binaryPath) {
 	if(error) {
@@ -16,7 +19,7 @@ binary.download({
 		process.exit(1);
 	}
 
-	var output = path.join(destination, 'node-' + process.platform + '-' + process.arch);
+	var output = path.join(destination, 'node-' + os + '-' + arch);
 
 	if(process.platform === 'win32') {
 		output += '.exe';
