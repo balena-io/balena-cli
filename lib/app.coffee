@@ -114,9 +114,9 @@ changeProjectDirectory = (directory) ->
 async.waterfall([
 
 	(callback) ->
-		plugins.register('resin-plugin-*', callback)
+		plugins.register('resin-plugin-', callback)
 
-	(loadedPlugins, callback) ->
+	(callback) ->
 		dataPrefix = resin.settings.get('dataPrefix')
 		resin.data.prefix.set(dataPrefix, callback)
 

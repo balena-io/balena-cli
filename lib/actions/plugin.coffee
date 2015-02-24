@@ -14,7 +14,7 @@ exports.list =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		plugins.list 'resin-plugin-', (error, resinPlugins) ->
+		plugins.list (error, resinPlugins) ->
 			return done(error) if error?
 
 			if _.isEmpty(resinPlugins)
@@ -41,12 +41,9 @@ exports.install =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		plugins.install "resin-plugin-#{params.name}", (error, installedModules) ->
+		plugins.install params.name, (error) ->
 			return done(error) if error?
-
-			for installedModule in installedModules
-				console.info("Plugin installed: #{installedModule}")
-
+			console.info("Plugin installed: #{params.name}")
 			return done()
 
 exports.remove =
@@ -66,10 +63,8 @@ exports.remove =
 	permission: 'user'
 	action: (params, options, done) ->
 		visuals.patterns.remove 'plugin', options.yes, (callback) ->
-			plugins.remove("resin-plugin-#{params.name}", callback)
-		, (error, uninstalledPlugin) ->
+			plugins.remove(params.name, callback)
+		, (error) ->
 			return done(error) if error?
-
-			console.info("Plugin removed: #{uninstalledPlugin}")
-
+			console.info("Plugin removed: #{params.name}")
 			return done()
