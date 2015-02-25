@@ -1,3 +1,5 @@
+_ = require('lodash')
+async = require('async')
 visuals = require('resin-cli-visuals')
 drivelist = require('drivelist')
 
@@ -15,10 +17,15 @@ exports.list =
 		drivelist.list (error, drives) ->
 			return done(error) if error?
 
-			console.log visuals.widgets.table.horizontal drives, [
-				'device'
-				'description'
-				'size'
-			]
+			async.reject drives, drivelist.isSystem, (removableDrives) ->
 
-			return done()
+				if _.isEmpty(removableDrives)
+					return done(new Error('No removable devices available'))
+
+				console.log visuals.widgets.table.horizontal removableDrives, [
+					'device'
+					'description'
+					'size'
+				]
+
+				return done()

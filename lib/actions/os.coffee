@@ -109,7 +109,15 @@ exports.install =
 
 			(callback) ->
 				return callback(null, params.device) if params.device?
-				visuals.patterns.selectDrive(callback)
+
+				# TODO: See if we can reuse the drives action somehow here
+				visuals.patterns.selectDrive (error, device) ->
+					return callback(error) if error?
+
+					if not device?
+						return callback(new Error('No removable devices available'))
+
+					return callback(null, device)
 
 			(device, callback) ->
 				params.device = device
