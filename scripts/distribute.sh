@@ -28,8 +28,10 @@ function distribute() {
 	# Copy all needed files
 	mkdir -p build/$package
 
-	# TODO: Omit bin/node
 	cp -vrf bin build/$package
+
+	# TODO: Omit bin/node in a better way
+	rm -vrf build/$package/bin/node
 
 	cp -vrf lib build/$package
 	cp -vrf package.json build/$package
