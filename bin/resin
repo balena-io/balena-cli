@@ -47,7 +47,7 @@ fi
 
 # Support calling bin/resin from within bin/
 if [ `dirname $0` == '.' ]; then
-	$NODE_PATH "../lib/resin.js" "$@"
+	$NODE_PATH "../build/app.js" "$@"
 else
-	$NODE_PATH "./lib/resin.js" "$@"
+	$NODE_PATH "./build/app.js" "$@"
 fi

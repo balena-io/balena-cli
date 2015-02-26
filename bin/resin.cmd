@@ -9,4 +9,4 @@ set NODE_PATH="%~dp0\node\node-win32-%ARCH%.exe"
 	set NODE_PATH="node.exe"
 )
 
-%NODE_PATH% "%~dp0\..\lib\resin.js" %*
+%NODE_PATH% "%~dp0\..\build\app.js" %*

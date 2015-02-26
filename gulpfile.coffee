@@ -33,7 +33,7 @@ gulp.task 'test', ->
 			reporter: mochaNotifierReporter.decorate('landing')
 		}))
 
-gulp.task 'coffee', [ 'test', 'lint' ], ->
+gulp.task 'coffee', [ 'test', 'lint', 'json' ], ->
 	gulp.src(OPTIONS.files.app)
 		.pipe(coffee())
 		.pipe(gulp.dest(OPTIONS.directories.build))
@@ -49,19 +49,11 @@ gulp.task 'lint', ->
 		}))
 		.pipe(coffeelint.reporter())
 
-gulp.task 'release', [ 'coffee', 'json' ], ->
-	mkdirp.sync('build/Release')
-	gulp.src('')
-		.pipe(shell "jx package app.js Release/#{packageJSON.name} -native", {
-			cwd: path.join(process.cwd(), OPTIONS.directories.build)
-		})
-
 gulp.task 'build', [
-	'lint'
-	'test'
+	'coffee'
 	'man'
 ]
 
 gulp.task 'watch', [ 'test', 'lint' ], ->
-	gulp.watch([ OPTIONS.files.coffee, OPTIONS.files.json ], [ 'test', 'lint' ])
+	gulp.watch([ OPTIONS.files.coffee, OPTIONS.files.json ], [ 'coffee' ])
 	gulp.watch([ OPTIONS.files.man ], [ 'man' ])

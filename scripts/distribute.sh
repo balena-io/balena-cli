@@ -32,19 +32,19 @@ function distribute() {
 	print_banner "Copying necessary files"
 
 	# Copy all needed files
-	mkdir -p build/$package
+	mkdir -p release/$package
 
-	cp -rf bin build/$package
+	cp -rf bin release/$package
 
 	# TODO: Omit bin/node in a better way
-	rm -rf build/$package/bin/node
+	rm -rf release/$package/bin/node
 
-	cp -rf lib build/$package
-	cp -rf package.json build/$package
+	cp -rf build release/$package
+	cp -rf package.json release/$package
 
 	print_banner "Running npm install"
 
-	cd build/$package
+	cd release/$package
 
 	RESIN_BUNDLE=$os npm install --production --force
 	flatten-packages .
@@ -70,4 +70,4 @@ function distribute() {
 distribute "win32"
 # distribute "sunos"
 
-tree build/distrib
+tree release/distrib
