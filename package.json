@@ -20,7 +20,7 @@
   "scripts": {
     "prepublish": "gulp build",
     "test": "gult test",
-    "install": "node bin/install-node.js"
+    "install": "coffee lib/install-node.coffee bin/node"
   },
   "keywords": [
     "resin",

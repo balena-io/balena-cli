@@ -19,32 +19,27 @@ function print_banner() {
 
 function distribute() {
 	local os=$1
-	local arch=$2
 
-	local package="$NAME-$VERSION-$os-$arch"
+	local package="$NAME-$VERSION-$os"
 
 	print_banner "Copying necessary files"
 
 	# Copy all needed files
 	mkdir -p build/$package
 
-	cp -vrf bin build/$package
+	cp -rf bin build/$package
 
 	# TODO: Omit bin/node in a better way
-	rm -vrf build/$package/bin/node
+	rm -rf build/$package/bin/node
 
-	cp -vrf lib build/$package
-	cp -vrf package.json build/$package
+	cp -rf lib build/$package
+	cp -rf package.json build/$package
 
 	print_banner "Running npm install"
 
 	cd build/$package
 
-	RESIN_OS=$os RESIN_ARCH=$arch npm install --production --force
-
-	# Leaving this enabled causes
-	# Path too long issues in Windows.
-	# npm dedupe
+	RESIN_BUNDLE=$os npm install --production --force
 
 	cd ..
 
@@ -55,23 +50,16 @@ function distribute() {
 	if [ "$os" == "win32" ]; then
 		zip -r distrib/$package.zip $package
 	else
-		tar fvcz distrib/$package.tar.gz $package
-		tar fvcj distrib/$package.tar.bz2 $package
+		tar fcz distrib/$package.tar.gz $package
+		tar fcj distrib/$package.tar.bz2 $package
 	fi
 
 	cd ..
 }
 
-# distribute "darwin" "x64"
-# distribute "darwin" "x86"
-
-# distribute "linux" "x64"
-# distribute "linux" "x86"
-
-distribute "win32" "x64"
-distribute "win32" "x86"
-
-# distribute "sunos" "x64"
-# distribute "sunos" "x86"
+# distribute "darwin"
+# distribute "linux"
+distribute "win32"
+# distribute "sunos"
 
 tree build/distrib
