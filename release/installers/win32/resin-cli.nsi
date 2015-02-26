@@ -6,7 +6,7 @@
 !include "zipdll.nsh"
 
 Name "Resin CLI"
-OutFile "..\..\build\distrib\setup-resin-cli.exe"
+OutFile "..\..\build\distrib\resin-cli-setup.exe"
 BrandingText "Resin.io"
 
 InstallDir "$PROGRAMFILES\Resin.io\resin-cli"
@@ -31,14 +31,14 @@ InstallDir "$PROGRAMFILES\Resin.io\resin-cli"
 
 Section "Install"
         SetOutPath $INSTDIR
-        File "..\..\build\distrib\resin-cli-0.0.1-win32.zip"
-        !insertmacro ZIPDLL_EXTRACT "$INSTDIR\resin-cli-0.0.1-win32.zip" "$INSTDIR" "<ALL>"
-        Delete "$INSTDIR\resin-cli-0.0.1-win32.zip"
-        ${EnvVarUpdate} $0 "PATH" "A" "HKLM" "$INSTDIR\resin-cli-0.0.1-win32\bin"
+        File "..\..\build\distrib\resin-cli-win32.zip"
+        !insertmacro ZIPDLL_EXTRACT "$INSTDIR\resin-cli-win32.zip" "$INSTDIR" "<ALL>"
+        Delete "$INSTDIR\resin-cli-win32.zip"
+        ${EnvVarUpdate} $0 "PATH" "A" "HKLM" "$INSTDIR\resin-cli-win32\bin"
         WriteUninstaller "$INSTDIR\Uninstall.exe"
 SectionEnd
 
 Section "Uninstall"
         RMDir /r "$INSTDIR"
-        ${un.EnvVarUpdate} $0 "PATH" "R" "HKLM" "$INSTDIR\resin-cli-0.0.1-win32\bin"
+        ${un.EnvVarUpdate} $0 "PATH" "R" "HKLM" "$INSTDIR\resin-cli-win32\bin"
 SectionEnd
