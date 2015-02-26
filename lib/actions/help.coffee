@@ -61,7 +61,7 @@ getOptionHelp = (option, maxLength) ->
 	return result
 
 exports.general = ->
-	console.log("Usage: #{process.argv[0]} [COMMAND] [OPTIONS]\n")
+	console.log("Usage: resin [COMMAND] [OPTIONS]\n")
 	console.log('Commands:\n')
 
 	for command in capitano.state.commands
