@@ -8,6 +8,7 @@ function parse_json() {
 PACKAGE_JSON=`cat package.json`
 VERSION=$(parse_json "$PACKAGE_JSON" version)
 NAME=$(parse_json "$PACKAGE_JSON" name)
+OUTPUT=release/build
 
 if [ -z flatten-packages ]; then
   echo "Missing flatten-packages npm module."
@@ -32,19 +33,19 @@ function distribute() {
 	print_banner "Copying necessary files"
 
 	# Copy all needed files
-	mkdir -p release/$package
+	mkdir -p $OUTPUT/$package
 
-	cp -rf bin release/$package
+	cp -rf bin $OUTPUT/$package
 
 	# TODO: Omit bin/node in a better way
-	rm -rf release/$package/bin/node
+	rm -rf $OUTPUT/$package/bin/node
 
-	cp -rf build release/$package
-	cp -rf package.json release/$package
+	cp -rf build $OUTPUT/$package
+	cp -rf package.json $OUTPUT/$package
 
 	print_banner "Running npm install"
 
-	cd release/$package
+	cd $OUTPUT/$package
 
 	RESIN_BUNDLE=$os npm install --production --force
 	flatten-packages .
@@ -70,4 +71,4 @@ function distribute() {
 distribute "win32"
 # distribute "sunos"
 
-tree release/distrib
+tree $OUTPUT/distrib

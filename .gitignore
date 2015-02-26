@@ -29,4 +29,4 @@ node_modules
 
 bin/node
 
-release/
+release/build
