@@ -9,6 +9,13 @@ PACKAGE_JSON=`cat package.json`
 VERSION=$(parse_json "$PACKAGE_JSON" version)
 NAME=$(parse_json "$PACKAGE_JSON" name)
 
+if [ -z flatten-packages ]; then
+  echo "Missing flatten-packages npm module."
+	echo "Install it with:"
+	echo "	$ npm install -g flatten-packages"
+  exit 1
+fi
+
 function print_banner() {
 	local message=$1
 
@@ -40,6 +47,7 @@ function distribute() {
 	cd build/$package
 
 	RESIN_BUNDLE=$os npm install --production --force
+	flatten-packages .
 
 	cd ..
 
