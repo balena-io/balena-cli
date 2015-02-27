@@ -37,6 +37,7 @@ release/build/cli.pkg: release/build/resin-cli-darwin
 		$@
 
 release/build/distrib/resin-cli-setup.pkg: release/build/cli.pkg release/installers/osx/distribution.xml
+	mkdir -p `dirname $@`
 	productbuild --distribution $(word 2, $^) \
 		--resources release/installers/osx/resources \
 		--package-path `dirname $<` \
