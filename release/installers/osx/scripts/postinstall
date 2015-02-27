@@ -1,2 +1,4 @@
+#!/bin/sh
+
 # Add binary symbolic link to /usr/local/bin
 ln -s /opt/resin.io/cli/bin/resin /usr/local/bin/resin
