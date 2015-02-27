@@ -45,4 +45,10 @@ if [ ! -x $NODE_PATH  ]; then
 	fi
 fi
 
-$NODE_PATH "$0/../../build/app.js" "$@"
+BIN_RESIN=$0
+
+while [ -L "$BIN_RESIN" ]; do
+  BIN_RESIN=`readlink "$BIN_RESIN"`
+done
+
+$NODE_PATH "$BIN_RESIN/../../build/app.js" "$@"
