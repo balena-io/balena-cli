@@ -33,9 +33,19 @@ else
 	unsupported_platform
 fi
 
-NODE_PATH="./bin/node/$NODE_BIN"
+BIN_RESIN=$0
+
+while [ -L "$BIN_RESIN" ]; do
+  BIN_RESIN=`readlink "$BIN_RESIN"`
+done
+
+BIN_DIRECTORY=`dirname $BIN_RESIN`
+
+NODE_PATH=$BIN_DIRECTORY/node/$NODE_BIN
 
 if [ ! -x $NODE_PATH  ]; then
+
+	echo "$NODE_PATH does not exist"
 
 	# As a last resource, try to use an already available node
 	if command -v node >/dev/null 2>&1; then
@@ -45,10 +55,4 @@ if [ ! -x $NODE_PATH  ]; then
 	fi
 fi
 
-BIN_RESIN=$0
-
-while [ -L "$BIN_RESIN" ]; do
-  BIN_RESIN=`readlink "$BIN_RESIN"`
-done
-
-$NODE_PATH "$BIN_RESIN/../../build/app.js" "$@"
+$NODE_PATH "$BIN_DIRECTORY/../build/app.js" "$@"
