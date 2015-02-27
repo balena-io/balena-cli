@@ -22,6 +22,7 @@
 
 		<!-- Define each choice above -->
 		<choice
+				customLocation="/opt/resin.io/cli"
 				id="io.resin.cli"
 				visible="false"
 				title="Resin CLI"
