@@ -31,6 +31,7 @@ release/build/distrib/resin-cli-setup.exe: release/installers/win32/resin-cli.ns
 release/build/cli.pkg: release/build/resin-cli-darwin
 	pkgbuild --root $< \
 		--identifier io.resin.cli \
+		--scripts release/installers/osx/scripts \
 		--version $(VERSION) \
 		--ownership recommended \
 		$@
