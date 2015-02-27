@@ -1,1 +1,3 @@
 Welcome to the installation of the Resin CLI tool, an advanced way to communicate with Resin.io
+
+The Resin.io CLI tool will be installed in /opt/resin.io/cli.
