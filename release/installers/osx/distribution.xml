@@ -5,6 +5,8 @@
 		<domains enable_localSystem="true" />
 		<options customize="never" require-scripts="true" />
 
+		<background file="background.png" alignment="bottomleft" mime-type="image/png" />
+
 		<!-- Define documents displayed at various steps -->
 		<welcome file="welcome.txt"	mime-type="text/plain" />
 		<license file="license.txt" mime-type="text/plain" />
