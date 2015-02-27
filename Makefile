@@ -3,6 +3,9 @@ distribute-darwin: release/build/distrib/resin-cli-darwin.tar.gz
 distribute-linux: release/build/distrib/resin-cli-linux.tar.gz
 
 installer-win32: release/build/distrib/resin-cli-setup.exe
+installer-osx: release/build/distrib/resin-cli-setup.pkg
+
+VERSION=0.0.1
 
 release/build/resin-cli-%:
 	mkdir -p $@
@@ -24,6 +27,20 @@ release/build/distrib/resin-cli-linux.tar.gz: release/build/resin-cli-linux
 
 release/build/distrib/resin-cli-setup.exe: release/installers/win32/resin-cli.nsi release/build/distrib/resin-cli-win32.zip
 	makensis $<
+
+release/build/cli.pkg: release/build/resin-cli-darwin
+	pkgbuild --root $< \
+		--identifier io.resin.cli \
+		--version $(VERSION) \
+		--ownership recommended \
+		$@
+
+release/build/distrib/resin-cli-setup.pkg: release/build/cli.pkg release/installers/osx/distribution.xml
+	productbuild --distribution $(word 2, $^) \
+		--resources release/installers/osx/resources \
+		--package-path `dirname $<` \
+		--version $(VERSION) \
+		$@
 
 clean:
 	rm -rf release/build
