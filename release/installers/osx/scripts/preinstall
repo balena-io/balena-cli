@@ -4,4 +4,4 @@
 rm -rf /opt/resin.io/cli
 
 # Remove previous symbolic link
-rm -f /usr/local/bin/resin
+rm -f /usr/bin/resin
