@@ -45,6 +45,22 @@
     }
   };
 
+  exports.update = {
+    signature: 'plugin update <name>',
+    description: 'update a plugin',
+    help: 'Use this command to update a resin plugin\n\nUse `--quiet` to prevent information logging.\n\nExamples:\n	$ resin plugin update hello',
+    permission: 'user',
+    action: function(params, options, done) {
+      return plugins.update(params.name, function(error, version) {
+        if (error != null) {
+          return done(error);
+        }
+        console.info("Plugin updated: " + params.name + "@" + version);
+        return done();
+      });
+    }
+  };
+
   exports.remove = {
     signature: 'plugin rm <name>',
     description: 'remove a plugin',

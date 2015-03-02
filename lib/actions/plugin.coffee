@@ -46,6 +46,24 @@ exports.install =
 			console.info("Plugin installed: #{params.name}")
 			return done()
 
+exports.update =
+	signature: 'plugin update <name>'
+	description: 'update a plugin'
+	help: '''
+		Use this command to update a resin plugin
+
+		Use `--quiet` to prevent information logging.
+
+		Examples:
+			$ resin plugin update hello
+	'''
+	permission: 'user'
+	action: (params, options, done) ->
+		plugins.update params.name, (error, version) ->
+			return done(error) if error?
+			console.info("Plugin updated: #{params.name}@#{version}")
+			return done()
+
 exports.remove =
 	signature: 'plugin rm <name>'
 	description: 'remove a plugin'

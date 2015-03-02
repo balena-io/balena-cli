@@ -27,5 +27,8 @@ exports.list = ->
 exports.install = ->
 	nplugm.install.apply(nplugm, arguments)
 
+exports.update = ->
+	nplugm.update.apply(nplugm, arguments)
+
 exports.remove = ->
 	nplugm.remove.apply(nplugm, arguments)

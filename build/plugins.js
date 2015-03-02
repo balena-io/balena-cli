@@ -44,6 +44,10 @@
     return nplugm.install.apply(nplugm, arguments);
   };
 
+  exports.update = function() {
+    return nplugm.update.apply(nplugm, arguments);
+  };
+
   exports.remove = function() {
     return nplugm.remove.apply(nplugm, arguments);
   };

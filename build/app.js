@@ -129,6 +129,8 @@
 
   capitano.command(actions.plugin.install);
 
+  capitano.command(actions.plugin.update);
+
   capitano.command(actions.plugin.remove);
 
   changeProjectDirectory = function(directory) {
