@@ -5,7 +5,7 @@ Take a look at the spec for features, roadmap and progress [https://docs.google.
 ## Installing
 
 ```sh
-$ git clone git@bitbucket.org:rulemotion/resin-cli.git
+$ git clone git@github.com:resin-io/resin-cli.git
 $ cd resin-cli
 $ npm install
 ```
