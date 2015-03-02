@@ -1,5 +1,8 @@
 # Resin CLI
 
+[![dependencies](https://david-dm.org/resin-io/resin-cli.png)](https://david-dm.org/resin-io/resin-cli.png)
+[![Build Status](https://travis-ci.org/resin-io/resin-cli.svg?branch=master)](https://travis-ci.org/resin-io/resin-cli)
+
 Take a look at the spec for features, roadmap and progress [https://docs.google.com/a/resin.io/document/d/1mPBWy9wwLiNd25VcIvp3HEWJNjoXkALfMLMblXaGoh8/edit?usp=sharing](https://docs.google.com/a/resin.io/document/d/1mPBWy9wwLiNd25VcIvp3HEWJNjoXkALfMLMblXaGoh8/edit?usp=sharing).
 
 ## Installing
