@@ -25,7 +25,7 @@ $ ./bin/resin
 Or:
 
 ```sh
-$ coffee lib/app.coffee
+$ node build/app.js
 ```
 
 ## Tests
