@@ -56,21 +56,25 @@ for bundle in bundles
 	console.info "- #{getNodeName(bundle)}"
 
 nodeDownload = (destination, options, callback) ->
-	binary.download options, destination, (error, binaryPath) ->
-		return callback(error) if error?
-		output = path.join(destination, getNodeName(options))
-		fs.rename binaryPath, output, (error) ->
+	try
+		binary.download options, destination, (error, binaryPath) ->
 			return callback(error) if error?
-			return callback(null, output)
+			output = path.join(destination, getNodeName(options))
+			fs.rename binaryPath, output, (error) ->
+				return callback(error) if error?
+				return callback(null, output)
+	catch error
+		return callback(error)
 
 async.eachLimit bundles, 2, (bundle, callback) ->
 	console.info("Downloading: #{getNodeName(bundle)} to #{DESTINATION}")
 	return nodeDownload DESTINATION, bundle, (error, output) ->
 		return callback(error) if error?
 		console.info("Downloaded: #{getNodeName(bundle)} to #{output}")
-		return callback(null, output)
+		return callback()
 , (error) ->
 	if error?
-		console.error(error)
-		process.exit(1)
-	console.info('All NodeJS bundles downloaded')
+		console.error(error.message)
+		console.error('Error: Couldn\'t get the required node bundle. Omitting.')
+	else
+		console.info('All NodeJS bundles downloaded')

@@ -86,19 +86,25 @@
   }
 
   nodeDownload = function(destination, options, callback) {
-    return binary.download(options, destination, function(error, binaryPath) {
-      var output;
-      if (error != null) {
-        return callback(error);
-      }
-      output = path.join(destination, getNodeName(options));
-      return fs.rename(binaryPath, output, function(error) {
+    var error;
+    try {
+      return binary.download(options, destination, function(error, binaryPath) {
+        var output;
         if (error != null) {
           return callback(error);
         }
-        return callback(null, output);
+        output = path.join(destination, getNodeName(options));
+        return fs.rename(binaryPath, output, function(error) {
+          if (error != null) {
+            return callback(error);
+          }
+          return callback(null, output);
+        });
       });
-    });
+    } catch (_error) {
+      error = _error;
+      return callback(error);
+    }
   };
 
   async.eachLimit(bundles, 2, function(bundle, callback) {
@@ -108,14 +114,15 @@
         return callback(error);
       }
       console.info("Downloaded: " + (getNodeName(bundle)) + " to " + output);
-      return callback(null, output);
+      return callback();
     });
   }, function(error) {
     if (error != null) {
-      console.error(error);
-      process.exit(1);
+      console.error(error.message);
+      return console.error('Error: Couldn\'t get the required node bundle. Omitting.');
+    } else {
+      return console.info('All NodeJS bundles downloaded');
     }
-    return console.info('All NodeJS bundles downloaded');
   });
 
 }).call(this);
