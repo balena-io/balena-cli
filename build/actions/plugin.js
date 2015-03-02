@@ -32,7 +32,7 @@
   exports.install = {
     signature: 'plugin install <name>',
     description: 'install a plugin',
-    help: 'Use this command to install a resin plugin\n\nExamples:\n	$ resin plugin install hello',
+    help: 'Use this command to install a resin plugin\n\nUse `--quiet` to prevent information logging.\n\nExamples:\n	$ resin plugin install hello',
     permission: 'user',
     action: function(params, options, done) {
       return plugins.install(params.name, function(error) {

@@ -36,6 +36,8 @@ exports.install =
 	help: '''
 		Use this command to install a resin plugin
 
+		Use `--quiet` to prevent information logging.
+
 		Examples:
 			$ resin plugin install hello
 	'''
