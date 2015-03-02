@@ -83,4 +83,3 @@ If you add a new `man` page, remember to add the generated filename to the `man`
 ## Caveats
 
 - Some interactive widgets don't work on [Cygwin](https://cygwin.com/). If you're running Windows, it's preferrable that you use `cmd.exe`, as `Cygwin` is [not official supported by Node.js](https://github.com/chjj/blessed/issues/56#issuecomment-42671945).
-- Most commands require an `<id>` argument, however [Commander](https://github.com/tj/commander.js) refuses to show that in the help page. This will be fixed soon.
