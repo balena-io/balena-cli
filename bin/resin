@@ -39,13 +39,19 @@ while [ -L "$BIN_RESIN" ]; do
   BIN_RESIN=`readlink "$BIN_RESIN"`
 done
 
+# If a link was resolved (ie BIN_RESIN != $0) and the resolved link is relative,
+# we assume the link is relative to the dirname of the link location
+if [[ "$BIN_RESIN" != "$0" ]] && [[ "$BIN_RESIN" != /* ]]; then
+	BIN_RESIN=`dirname $0`/$BIN_RESIN
+fi
+
 BIN_DIRECTORY=`dirname $BIN_RESIN`
 
 NODE_PATH=$BIN_DIRECTORY/node/$NODE_BIN
 
 if [ ! -x $NODE_PATH  ]; then
 
-	echo "$NODE_PATH does not exist"
+	echo "Warning: $NODE_PATH does not exist"
 
 	# As a last resource, try to use an already available node
 	if command -v node >/dev/null 2>&1; then
