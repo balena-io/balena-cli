@@ -19,7 +19,7 @@
     "resin": "./bin/resin"
   },
   "scripts": {
-    "prepublish": "gulp build",
+    "prepublish": "gulp build && npm run-script doc",
     "test": "gult test",
     "install": "node build/install-node.js bin/node",
     "doc": "./scripts/extract-documentation.sh doc lib/actions"
