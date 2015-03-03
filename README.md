@@ -9,27 +9,13 @@ The official Resin CLI tool.
 ## Installing
 
 ```sh
-$ git clone git@github.com:resin-io/resin-cli.git
-$ cd resin-cli
-$ npm install
+$ npm install -g resin-cli
 ```
 
-### If you want to have resin on your PATH:
-
-```sh
-$ npm install -g
-```
-
-### If you want to run it locally:
+### Running locally
 
 ```sh
 $ ./bin/resin
-```
-
-Or:
-
-```sh
-$ node build/app.js
 ```
 
 ## Tests
