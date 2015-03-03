@@ -120,7 +120,10 @@
         }
       ], function(error) {
         var resinWritePath, windosu;
-        if (os.platform() === 'win32' && (error != null) && (error.code === 'EPERM' || error.code === 'EACCES')) {
+        if (error == null) {
+          return done();
+        }
+        if (_.all([os.platform() === 'win32', error.code === 'EPERM' || error.code === 'EACCES', !options.fromScript])) {
           windosu = require('windosu');
           resinWritePath = "\"" + (path.join(__dirname, '..', '..', 'bin', 'resin-write')) + "\"";
           return windosu.exec("\"" + process.argv[0] + "\" " + resinWritePath + " \"" + params.image + "\" \"" + params.device + "\"");

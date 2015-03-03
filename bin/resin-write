@@ -1,10 +1,7 @@
 #!/usr/bin/env node
 
-// http://coffeescript.org/documentation/docs/register.html
-require('coffee-script/register');
-
-var os = require('../lib/actions/os.coffee');
-var errors = require('../lib/errors');
+var os = require('../build/actions/os');
+var errors = require('../build/errors');
 
 // TODO: Do some error handling when image or device are incorrect
 
@@ -12,7 +9,8 @@ os.install.action({
 	image: process.argv[2],
 	device: process.argv[3]
 }, {
-	yes: true
+	yes: true,
+	fromScript: true
 }, function(error) {
 	return errors.handle(error);
 });
