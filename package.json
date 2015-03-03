@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "description": "Git Push to your devices",
   "main": "./lib/actions/index.coffee",
+  "homepage": "https://github.com/resin-io/resin-cli",
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:rulemotion/resin-cli.git"
+    "url": "git@github.com:resin-io/resin-cli.git"
   },
   "preferGlobal": true,
   "bundled_engine": "v0.12.0",
