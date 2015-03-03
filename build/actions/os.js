@@ -123,7 +123,7 @@
         if (os.platform() === 'win32' && (error != null) && (error.code === 'EPERM' || error.code === 'EACCES')) {
           windosu = require('windosu');
           resinWritePath = "\"" + (path.join(__dirname, '..', '..', 'bin', 'resin-write')) + "\"";
-          return windosu.exec("node " + resinWritePath + " \"" + params.image + "\" \"" + params.device + "\"");
+          return windosu.exec("\"" + process.argv[0] + "\" " + resinWritePath + " \"" + params.image + "\" \"" + params.device + "\"");
         } else {
           return done(error);
         }

@@ -157,6 +157,6 @@ exports.install =
 
 				# Need to escape every path to avoid errors
 				resinWritePath = "\"#{path.join(__dirname, '..', '..', 'bin', 'resin-write')}\""
-				windosu.exec("node #{resinWritePath} \"#{params.image}\" \"#{params.device}\"")
+				windosu.exec("\"#{process.argv[0]}\" #{resinWritePath} \"#{params.image}\" \"#{params.device}\"")
 			else
 				return done(error)
