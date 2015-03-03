@@ -20,7 +20,7 @@
   },
   "scripts": {
     "prepublish": "gulp build && npm run-script doc",
-    "test": "gult test",
+    "test": "gulp test",
     "install": "node build/install-node.js bin/node",
     "doc": "./scripts/extract-documentation.sh doc lib/actions"
   },
