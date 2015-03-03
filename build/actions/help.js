@@ -1,5 +1,5 @@
 (function() {
-  var PADDING_INITIAL, PADDING_MIDDLE, _, addAlias, addOptionPrefix, buildHelpString, buildOptionSignatureHelp, capitano, getCommandHelp, getFieldMaxLength, getOptionHelp, getOptionsParsedSignatures, resin;
+  var PADDING_INITIAL, PADDING_MIDDLE, _, addAlias, addOptionPrefix, buildHelpString, buildOptionSignatureHelp, capitano, command, general, getCommandHelp, getFieldMaxLength, getOptionHelp, getOptionsParsedSignatures, resin;
 
   _ = require('lodash');
 
@@ -85,7 +85,7 @@
     return result;
   };
 
-  exports.general = function() {
+  general = function() {
     var command, i, j, len, len1, option, optionSignatureMaxLength, options, ref;
     console.log('Usage: resin [COMMAND] [OPTIONS]\n');
     console.log('Commands:\n');
@@ -112,7 +112,7 @@
     return console.log();
   };
 
-  exports.command = function(params, options, done) {
+  command = function(params, options, done) {
     return capitano.state.getMatchCommand(params.command, function(error, command) {
       var i, len, option, optionSignatureMaxLength;
       if (error != null) {
@@ -149,11 +149,12 @@
   exports.help = {
     signature: 'help [command...]',
     description: 'show help',
+    help: 'Get detailed help for an specific command.\n\nExamples:\n\n	$ resin help apps\n	$ resin help os download',
     action: function(params, options, done) {
       if (params.command != null) {
-        return exports.command(params, options, done);
+        return command(params, options, done);
       } else {
-        return exports.general(params, options, done);
+        return general(params, options, done);
       }
     }
   };

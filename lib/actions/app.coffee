@@ -14,9 +14,11 @@ exports.create =
 		Otherwise, an interactive dropdown will be shown for you to select from.
 
 		You can see a list of supported device types with
+
 			$ resin devices supported
 
 		Examples:
+
 			$ resin app create MyApp
 			$ resin app create MyApp --type raspberry-pi
 	'''
@@ -54,6 +56,7 @@ exports.list =
 		If you want detailed information, use resin app <id> instead.
 
 		Examples:
+
 			$ resin apps
 	'''
 	permission: 'user'
@@ -76,6 +79,7 @@ exports.info =
 		Use this command to show detailed information for a single application.
 
 		Examples:
+
 			$ resin app 91
 	'''
 	permission: 'user'
@@ -98,6 +102,7 @@ exports.restart =
 		Use this command to restart all devices that belongs to a certain application.
 
 		Examples:
+
 			$ resin app restart 91
 	'''
 	permission: 'user'
@@ -114,6 +119,7 @@ exports.remove =
 		You can avoid this by passing the `--yes` boolean option.
 
 		Examples:
+
 			$ resin app rm 91
 			$ resin app rm 91 --yes
 	'''
@@ -134,6 +140,7 @@ exports.init =
 		Notice this command adds a `resin` git remote to your application.
 
 		Examples:
+
 			$ cd myApp && resin init 91
 	'''
 	permission: 'user'

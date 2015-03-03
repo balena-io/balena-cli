@@ -15,6 +15,7 @@ exports.login	=
 		credentials, in which case the tool will present you with an interactive login form.
 
 		Examples:
+
 			$ resin login --username <username> --password <password>
 			$ resin login
 	'''
@@ -64,6 +65,7 @@ exports.logout =
 		Use this command to logout from your resin.io account.o
 
 		Examples:
+
 			$ resin logout
 	'''
 	permission: 'user'
@@ -79,6 +81,7 @@ exports.signup =
 		If signup is successful, you'll be logged in to your new user automatically.
 
 		Examples:
+
 			$ resin signup
 			Email: me@mycompany.com
 			Username: johndoe
@@ -146,6 +149,7 @@ exports.whoami =
 		Use this command to find out the current logged in username.
 
 		Examples:
+
 			$ resin whoami
 	'''
 	permission: 'user'

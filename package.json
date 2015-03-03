@@ -20,7 +20,8 @@
   "scripts": {
     "prepublish": "gulp build",
     "test": "gult test",
-    "install": "node build/install-node.js bin/node"
+    "install": "node build/install-node.js bin/node",
+    "doc": "./scripts/extract-documentation.sh doc lib/actions"
   },
   "keywords": [
     "resin",
@@ -40,6 +41,7 @@
     "gulp-mocha": "~1.1.1",
     "gulp-shell": "^0.2.11",
     "gulp-util": "~3.0.1",
+    "mkdirp": "^0.5.0",
     "mocha": "~2.0.1",
     "mocha-notifier-reporter": "~0.1.0",
     "run-sequence": "~1.0.2",

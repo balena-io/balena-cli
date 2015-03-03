@@ -12,7 +12,7 @@
   exports.list = {
     signature: 'drives',
     description: 'list available drives',
-    help: 'Use this command to list all drives that are connected to your machine.\n\nExamples:\n	$ resin drives',
+    help: 'Use this command to list all drives that are connected to your machine.\n\nExamples:\n\n	$ resin drives',
     permission: 'user',
     action: function(params, options, done) {
       return drivelist.list(function(error, drives) {

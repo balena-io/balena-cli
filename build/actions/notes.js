@@ -8,7 +8,7 @@
   exports.set = {
     signature: 'note <|note>',
     description: 'set a device note',
-    help: 'Use this command to set or update a device note.\n\nIf note command isn\'t passed, the tool attempts to read from `stdin`.\n\nTo view the notes, use $ resin device <id>.\n\nExamples:\n	$ resin note "My useful note" --device 317\n	$ cat note.txt | resin note --device 317',
+    help: 'Use this command to set or update a device note.\n\nIf note command isn\'t passed, the tool attempts to read from `stdin`.\n\nTo view the notes, use $ resin device <id>.\n\nExamples:\n\n	$ resin note "My useful note" --device 317\n	$ cat note.txt | resin note --device 317',
     options: [
       {
         signature: 'device',

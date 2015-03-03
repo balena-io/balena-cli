@@ -12,6 +12,7 @@ exports.set =
 		To view the notes, use $ resin device <id>.
 
 		Examples:
+
 			$ resin note "My useful note" --device 317
 			$ cat note.txt | resin note --device 317
 	'''

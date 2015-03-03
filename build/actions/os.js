@@ -26,7 +26,7 @@
   exports.download = {
     signature: 'os download <id>',
     description: 'download device OS',
-    help: 'Use this command to download the device OS configured to a specific network.\n\nEthernet:\n	You can setup the device OS to use ethernet by setting the `--network` option to "ethernet".\n\nWifi:\n	You can setup the device OS to use wifi by setting the `--network` option to "wifi".\n	If you set "network" to "wifi", you will need to specify the `--ssid` and `--key` option as well.\n\nBy default, this command saved the downloaded image into a resin specific directory.\nYou can save it to a custom location by specifying the `--output` option.\n\nExamples:\n	$ resin os download 91 --network ethernet\n	$ resin os download 91 --network wifi --ssid MyNetwork --key secreykey123\n	$ resin os download 91 --network ethernet --output ~/MyResinOS.zip',
+    help: 'Use this command to download the device OS configured to a specific network.\n\nEthernet:\n	You can setup the device OS to use ethernet by setting the `--network` option to "ethernet".\n\nWifi:\n	You can setup the device OS to use wifi by setting the `--network` option to "wifi".\n	If you set "network" to "wifi", you will need to specify the `--ssid` and `--key` option as well.\n\nBy default, this command saved the downloaded image into a resin specific directory.\nYou can save it to a custom location by specifying the `--output` option.\n\nExamples:\n\n	$ resin os download 91 --network ethernet\n	$ resin os download 91 --network wifi --ssid MyNetwork --key secreykey123\n	$ resin os download 91 --network ethernet --output ~/MyResinOS.zip',
     options: [
       commandOptions.network, commandOptions.wifiSsid, commandOptions.wifiKey, {
         signature: 'output',
@@ -72,7 +72,7 @@
   exports.install = {
     signature: 'os install <image> [device]',
     description: 'write an operating system image to a device',
-    help: 'Use this command to write an operating system image to a device.\n\nNote that this command requires admin privileges.\n\nIf `device` is omitted, you will be prompted to select a device interactively.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nYou can quiet the progress bar by passing the `--quiet` boolean option.\n\nYou may have to unmount the device before attempting this operation.\n\nSee the `drives` command to get a list of all connected devices to your machine and their respective ids.\n\nIn Mac OS X:\n	$ sudo diskutil unmountDisk /dev/xxx\n\nIn GNU/Linux:\n	$ sudo umount /dev/xxx\n\nExamples:\n	$ resin os install rpi.iso /dev/disk2',
+    help: 'Use this command to write an operating system image to a device.\n\nNote that this command requires admin privileges.\n\nIf `device` is omitted, you will be prompted to select a device interactively.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nYou can quiet the progress bar by passing the `--quiet` boolean option.\n\nYou may have to unmount the device before attempting this operation.\n\nSee the `drives` command to get a list of all connected devices to your machine and their respective ids.\n\nIn Mac OS X:\n\n	$ sudo diskutil unmountDisk /dev/xxx\n\nIn GNU/Linux:\n\n	$ sudo umount /dev/xxx\n\nExamples:\n\n	$ resin os install rpi.iso /dev/disk2',
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {

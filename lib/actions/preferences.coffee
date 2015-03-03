@@ -12,6 +12,7 @@ exports.preferences =
 		For now, we open your default web browser and point it to the web based preferences form.
 
 		Examples:
+
 			$ resin preferences
 	'''
 	permission: 'user'

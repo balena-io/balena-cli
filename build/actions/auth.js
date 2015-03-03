@@ -14,7 +14,7 @@
   exports.login = {
     signature: 'login',
     description: 'login to resin.io',
-    help: 'Use this command to login to your resin.io account.\nYou need to login before you can use most of the commands this tool provides.\n\nYou can pass your credentials as `--username` and `--password` options, or you can omit the\ncredentials, in which case the tool will present you with an interactive login form.\n\nExamples:\n	$ resin login --username <username> --password <password>\n	$ resin login',
+    help: 'Use this command to login to your resin.io account.\nYou need to login before you can use most of the commands this tool provides.\n\nYou can pass your credentials as `--username` and `--password` options, or you can omit the\ncredentials, in which case the tool will present you with an interactive login form.\n\nExamples:\n\n	$ resin login --username <username> --password <password>\n	$ resin login',
     options: [
       {
         signature: 'username',
@@ -56,7 +56,7 @@
   exports.logout = {
     signature: 'logout',
     description: 'logout from resin.io',
-    help: 'Use this command to logout from your resin.io account.o\n\nExamples:\n	$ resin logout',
+    help: 'Use this command to logout from your resin.io account.o\n\nExamples:\n\n	$ resin logout',
     permission: 'user',
     action: function(params, options, done) {
       return resin.auth.logout(done);
@@ -66,7 +66,7 @@
   exports.signup = {
     signature: 'signup',
     description: 'signup to resin.io',
-    help: 'Use this command to signup for a resin.io account.\n\nIf signup is successful, you\'ll be logged in to your new user automatically.\n\nExamples:\n	$ resin signup\n	Email: me@mycompany.com\n	Username: johndoe\n	Password: ***********\n\n	$ resin signup --email me@mycompany.com --username johndoe --password ***********\n\n	$ resin whoami\n	johndoe',
+    help: 'Use this command to signup for a resin.io account.\n\nIf signup is successful, you\'ll be logged in to your new user automatically.\n\nExamples:\n\n	$ resin signup\n	Email: me@mycompany.com\n	Username: johndoe\n	Password: ***********\n\n	$ resin signup --email me@mycompany.com --username johndoe --password ***********\n\n	$ resin whoami\n	johndoe',
     options: [
       {
         signature: 'email',
@@ -119,7 +119,7 @@
   exports.whoami = {
     signature: 'whoami',
     description: 'get current username',
-    help: 'Use this command to find out the current logged in username.\n\nExamples:\n	$ resin whoami',
+    help: 'Use this command to find out the current logged in username.\n\nExamples:\n\n	$ resin whoami',
     permission: 'user',
     action: function(params, options, done) {
       return resin.auth.whoami(function(error, username) {

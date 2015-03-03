@@ -12,7 +12,7 @@
   exports.list = {
     signature: 'plugins',
     description: 'list all plugins',
-    help: 'Use this command to list all the installed resin plugins.\n\nExamples:\n	$ resin plugins',
+    help: 'Use this command to list all the installed resin plugins.\n\nExamples:\n\n	$ resin plugins',
     permission: 'user',
     action: function(params, options, done) {
       return plugins.list(function(error, resinPlugins) {
@@ -32,7 +32,7 @@
   exports.install = {
     signature: 'plugin install <name>',
     description: 'install a plugin',
-    help: 'Use this command to install a resin plugin\n\nUse `--quiet` to prevent information logging.\n\nExamples:\n	$ resin plugin install hello',
+    help: 'Use this command to install a resin plugin\n\nUse `--quiet` to prevent information logging.\n\nExamples:\n\n	$ resin plugin install hello',
     permission: 'user',
     action: function(params, options, done) {
       return plugins.install(params.name, function(error) {
@@ -48,7 +48,7 @@
   exports.update = {
     signature: 'plugin update <name>',
     description: 'update a plugin',
-    help: 'Use this command to update a resin plugin\n\nUse `--quiet` to prevent information logging.\n\nExamples:\n	$ resin plugin update hello',
+    help: 'Use this command to update a resin plugin\n\nUse `--quiet` to prevent information logging.\n\nExamples:\n\n	$ resin plugin update hello',
     permission: 'user',
     action: function(params, options, done) {
       return plugins.update(params.name, function(error, version) {
@@ -64,7 +64,7 @@
   exports.remove = {
     signature: 'plugin rm <name>',
     description: 'remove a plugin',
-    help: 'Use this command to remove a resin.io plugin.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nExamples:\n	$ resin plugin rm hello\n	$ resin plugin rm hello --yes',
+    help: 'Use this command to remove a resin.io plugin.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nExamples:\n\n	$ resin plugin rm hello\n	$ resin plugin rm hello --yes',
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {

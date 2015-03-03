@@ -15,6 +15,7 @@ exports.list =
 		ones used by resin, use the verbose option.
 
 		Example:
+
 			$ resin envs --application 91
 			$ resin envs --application 91 --verbose
 	'''
@@ -56,6 +57,7 @@ exports.remove =
 		You can avoid this by passing the `--yes` boolean option.
 
 		Examples:
+
 			$ resin env rm 215
 			$ resin env rm 215 --yes
 	'''
@@ -81,6 +83,7 @@ exports.add =
 		Use `--quiet` to remove it.
 
 		Examples:
+
 			$ resin env add EDITOR vim -a 91
 			$ resin env add TERM -a 91
 	'''
@@ -104,6 +107,7 @@ exports.rename =
 		Use this command to rename an enviroment variable from an application.
 
 		Examples:
+
 			$ resin env rename 376 emacs
 	'''
 	permission: 'user'

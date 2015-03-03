@@ -20,7 +20,7 @@
   exports.list = {
     signature: 'examples',
     description: 'list all example applications',
-    help: 'Use this command to list available example applications from resin.io\n\nExample:\n	$ resin examples',
+    help: 'Use this command to list available example applications from resin.io\n\nExample:\n\n	$ resin examples',
     permission: 'user',
     action: function() {
       examplesData = _.map(examplesData, function(example, index) {
@@ -40,7 +40,7 @@
   exports.info = {
     signature: 'example <id>',
     description: 'list a single example application',
-    help: 'Use this command to show information of a single example application\n\nExample:\n	$ resin example 3',
+    help: 'Use this command to show information of a single example application\n\nExample:\n\n	$ resin example 3',
     permission: 'user',
     action: function(params, options, done) {
       var example, id;
@@ -61,7 +61,7 @@
   exports.clone = {
     signature: 'example clone <id>',
     description: 'clone an example application',
-    help: 'Use this command to clone an example application to the current directory\n\nThis command outputs information about the cloning process.\nUse `--quiet` to remove that output.\n\nExample:\n	$ resin example clone 3',
+    help: 'Use this command to clone an example application to the current directory\n\nThis command outputs information about the cloning process.\nUse `--quiet` to remove that output.\n\nExample:\n\n	$ resin example clone 3',
     permission: 'user',
     action: function(params, options, done) {
       var example;

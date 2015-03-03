@@ -27,6 +27,7 @@ exports.download =
 		You can save it to a custom location by specifying the `--output` option.
 
 		Examples:
+
 			$ resin os download 91 --network ethernet
 			$ resin os download 91 --network wifi --ssid MyNetwork --key secreykey123
 			$ resin os download 91 --network ethernet --output ~/MyResinOS.zip
@@ -94,12 +95,15 @@ exports.install =
 		See the `drives` command to get a list of all connected devices to your machine and their respective ids.
 
 		In Mac OS X:
+
 			$ sudo diskutil unmountDisk /dev/xxx
 
 		In GNU/Linux:
+
 			$ sudo umount /dev/xxx
 
 		Examples:
+
 			$ resin os install rpi.iso /dev/disk2
 	'''
 	options: [ commandOptions.yes ]

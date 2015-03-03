@@ -14,6 +14,7 @@ exports.list =
 		Use this command to list available example applications from resin.io
 
 		Example:
+
 			$ resin examples
 	'''
 	permission: 'user'
@@ -40,6 +41,7 @@ exports.info =
 		Use this command to show information of a single example application
 
 		Example:
+
 			$ resin example 3
 	'''
 	permission: 'user'
@@ -73,6 +75,7 @@ exports.clone =
 		Use `--quiet` to remove that output.
 
 		Example:
+
 			$ resin example clone 3
 	'''
 	permission: 'user'

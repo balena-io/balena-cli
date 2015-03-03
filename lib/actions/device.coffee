@@ -13,6 +13,7 @@ exports.list =
 		Use this command to list all devices that belong to a certain application.
 
 		Examples:
+
 			$ resin devices --application 91
 	'''
 	options: [ commandOptions.application ]
@@ -39,6 +40,7 @@ exports.info =
 		Use this command to show information about a single device.
 
 		Examples:
+
 			$ resin device 317
 	'''
 	permission: 'user'
@@ -73,6 +75,7 @@ exports.remove =
 		You can avoid this by passing the `--yes` boolean option.
 
 		Examples:
+
 			$ resin device rm 317
 			$ resin device rm 317 --yes
 	'''
@@ -92,6 +95,7 @@ exports.identify =
 		In the Raspberry Pi, the ACT led is blinked several times.
 
 		Examples:
+
 			$ resin device identify 23c73a12e3527df55c60b9ce647640c1b7da1b32d71e6a39849ac0f00db828
 	'''
 	permission: 'user'
@@ -107,6 +111,7 @@ exports.rename =
 		If you omit the name, you'll get asked for it interactively.
 
 		Examples:
+
 			$ resin device rename 317 MyPi
 			$ resin device rename 317
 	'''
@@ -131,6 +136,7 @@ exports.supported =
 		Use this command to get the list of all supported devices
 
 		Examples:
+
 			$ resin devices supported
 	'''
 	permission: 'user'
@@ -160,13 +166,14 @@ exports.init =
 		You need to configure the network type and other settings:
 
 		Ethernet:
-			You can setup the device OS to use ethernet by setting the `--network` option to "ethernet".
+		  You can setup the device OS to use ethernet by setting the `--network` option to "ethernet".
 
 		Wifi:
-			You can setup the device OS to use wifi by setting the `--network` option to "wifi".
-			If you set "network" to "wifi", you will need to specify the `--ssid` and `--key` option as well.
+		  You can setup the device OS to use wifi by setting the `--network` option to "wifi".
+		  If you set "network" to "wifi", you will need to specify the `--ssid` and `--key` option as well.
 
 		Examples:
+
 			$ resin device init --application 91 --network ethernet
 			$ resin device init /dev/disk2 --application 91 --network wifi --ssid MyNetwork --key secret
 	'''

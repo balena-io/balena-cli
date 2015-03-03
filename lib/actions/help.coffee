@@ -60,7 +60,7 @@ getOptionHelp = (option, maxLength) ->
 	result += option.description
 	return result
 
-exports.general = ->
+general = ->
 	console.log('Usage: resin [COMMAND] [OPTIONS]\n')
 	console.log('Commands:\n')
 
@@ -82,7 +82,7 @@ exports.general = ->
 
 	console.log()
 
-exports.command = (params, options, done) ->
+command = (params, options, done) ->
 	capitano.state.getMatchCommand params.command, (error, command) ->
 		return done(error) if error?
 
@@ -116,8 +116,16 @@ exports.command = (params, options, done) ->
 exports.help =
 	signature: 'help [command...]'
 	description: 'show help'
+	help: '''
+		Get detailed help for an specific command.
+
+		Examples:
+
+			$ resin help apps
+			$ resin help os download
+	'''
 	action: (params, options, done) ->
 		if params.command?
-			exports.command(params, options, done)
+			command(params, options, done)
 		else
-			exports.general(params, options, done)
+			general(params, options, done)

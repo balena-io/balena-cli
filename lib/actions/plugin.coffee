@@ -10,6 +10,7 @@ exports.list =
 		Use this command to list all the installed resin plugins.
 
 		Examples:
+
 			$ resin plugins
 	'''
 	permission: 'user'
@@ -39,6 +40,7 @@ exports.install =
 		Use `--quiet` to prevent information logging.
 
 		Examples:
+
 			$ resin plugin install hello
 	'''
 	permission: 'user'
@@ -57,6 +59,7 @@ exports.update =
 		Use `--quiet` to prevent information logging.
 
 		Examples:
+
 			$ resin plugin update hello
 	'''
 	permission: 'user'
@@ -76,6 +79,7 @@ exports.remove =
 		You can avoid this by passing the `--yes` boolean option.
 
 		Examples:
+
 			$ resin plugin rm hello
 			$ resin plugin rm hello --yes
 	'''

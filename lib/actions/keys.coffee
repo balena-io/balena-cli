@@ -14,6 +14,7 @@ exports.list =
 		Use this command to list all your SSH keys.
 
 		Examples:
+
 			$ resin keys
 	'''
 	permission: 'user'
@@ -30,6 +31,7 @@ exports.info =
 		Use this command to show information about a single SSH key.
 
 		Examples:
+
 			$ resin key 17
 	'''
 	permission: 'user'
@@ -53,6 +55,7 @@ exports.remove =
 		You can avoid this by passing the `--yes` boolean option.
 
 		Examples:
+
 			$ resin key rm 17
 			$ resin key rm 17 --yes
 	'''
@@ -73,6 +76,7 @@ exports.add =
 		to read the SSH key from stdin.
 
 		Examples:
+
 			$ resin key add Main ~/.ssh/id_rsa.pub
 			$ cat ~/.ssh/id_rsa.pub | resin key add Main
 	'''
