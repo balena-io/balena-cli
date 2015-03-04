@@ -35,9 +35,11 @@ exports.update =
 
 			(data, lite, callback) ->
 				if _.isEmpty(data)
-					return done(new Error('You are already running the latest version'))
+					return callback(new Error('You are already running the latest version'))
 
 				newVersion = _.last(_.first(_.last(data)).split('@'))
 				console.info("Upgraded #{packageJSON.name} to v#{newVersion}.")
+
+				return callback()
 
 		], done)
