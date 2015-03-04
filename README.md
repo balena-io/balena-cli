@@ -40,16 +40,6 @@ If you set `DEBUG` environment variable, errors will print with a stack trace:
 $ DEBUG=true resin ...
 ```
 
-## Release
-
-The following command will compile the application into a single executable for the current platform (supports Mac OS X, GNU/Linux and Windows > XP):
-
-```sh
-$ gulp release
-```
-
-The binary will be located at `build/Release`.
-
 ## Documentation
 
 You can renegerate the documentation with:

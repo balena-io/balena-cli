@@ -9,7 +9,6 @@
     "url": "git@github.com:resin-io/resin-cli.git"
   },
   "preferGlobal": true,
-  "bundled_engine": "v0.12.0",
   "man": [
     "./man/resin.1",
     "./man/resin-completion.1",
@@ -21,7 +20,6 @@
   "scripts": {
     "prepublish": "gulp build",
     "test": "gulp test",
-    "install": "node build/install-node.js bin/node",
     "doc": "./scripts/extract-documentation.sh doc lib/actions"
   },
   "keywords": [
@@ -59,7 +57,6 @@
     "lodash": "~2.4.1",
     "lodash-contrib": "~241.4.14",
     "mkdirp": "~0.5.0",
-    "node-binary": "^1.1.0",
     "nplugm": "^2.1.0",
     "open": "0.0.5",
     "progress-stream": "^0.5.0",
