@@ -31,9 +31,10 @@ exports.update =
 				npm.load(options, _.unary(callback))
 
 			(callback) ->
-				npm.commands.update([ packageJSON.name ], callback)
+				npm.commands.update [ packageJSON.name ], (error, data) ->
+					return callback(error, data)
 
-			(data, lite, callback) ->
+			(data, callback) ->
 				if _.isEmpty(data)
 					return callback(new Error('You are already running the latest version'))
 

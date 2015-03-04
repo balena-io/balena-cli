@@ -22,8 +22,10 @@
           };
           return npm.load(options, _.unary(callback));
         }, function(callback) {
-          return npm.commands.update([packageJSON.name], callback);
-        }, function(data, lite, callback) {
+          return npm.commands.update([packageJSON.name], function(error, data) {
+            return callback(error, data);
+          });
+        }, function(data, callback) {
           var newVersion;
           if (_.isEmpty(data)) {
             return callback(new Error('You are already running the latest version'));
