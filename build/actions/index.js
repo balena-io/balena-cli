@@ -13,7 +13,8 @@
     os: require('./os'),
     help: require('./help'),
     examples: require('./examples'),
-    plugin: require('./plugin')
+    plugin: require('./plugin'),
+    update: require('./update')
   };
 
 }).call(this);

@@ -133,6 +133,8 @@
 
   capitano.command(actions.plugin.remove);
 
+  capitano.command(actions.update.update);
+
   changeProjectDirectory = function(directory) {
     try {
       return process.chdir(directory);

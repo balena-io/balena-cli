@@ -106,6 +106,9 @@ capitano.command(actions.plugin.install)
 capitano.command(actions.plugin.update)
 capitano.command(actions.plugin.remove)
 
+# ---------- Update Module ----------
+capitano.command(actions.update.update)
+
 changeProjectDirectory = (directory) ->
 	try
 		process.chdir(directory)
