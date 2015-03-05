@@ -1,1 +1,0 @@
-Thanks for installing the Resin CLI. Enjoy!

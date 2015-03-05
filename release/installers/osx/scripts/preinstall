@@ -1,7 +1,0 @@
-#!/bin/sh
-
-# Remove previous installations of the CLI
-rm -rf /opt/resin.io/cli
-
-# Remove previous symbolic link
-rm -f /usr/bin/resin
