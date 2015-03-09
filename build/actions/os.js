@@ -32,22 +32,19 @@
         signature: 'output',
         parameter: 'output',
         description: 'output file',
-        alias: 'o'
+        alias: 'o',
+        required: 'You need to specify an output file'
       }
     ],
     permission: 'user',
     action: function(params, options, done) {
-      var fileName, osParams;
+      var osParams;
       osParams = {
         network: options.network,
         wifiSsid: options.ssid,
         wifiKey: options.key,
         appId: params.id
       };
-      fileName = resin.models.os.generateCacheName(osParams);
-      if (options.output == null) {
-        options.output = path.join(resin.settings.get('directories.os'), fileName);
-      }
       return async.waterfall([
         function(callback) {
           return mkdirp(path.dirname(options.output), _.unary(callback));

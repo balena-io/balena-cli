@@ -42,6 +42,7 @@ exports.download =
 			parameter: 'output'
 			description: 'output file'
 			alias: 'o'
+			required: 'You need to specify an output file'
 		}
 	]
 	permission: 'user'
@@ -51,9 +52,6 @@ exports.download =
 			wifiSsid: options.ssid
 			wifiKey: options.key
 			appId: params.id
-
-		fileName = resin.models.os.generateCacheName(osParams)
-		options.output ?= path.join(resin.settings.get('directories.os'), fileName)
 
 		async.waterfall [
 
