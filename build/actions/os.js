@@ -47,6 +47,17 @@
       };
       return async.waterfall([
         function(callback) {
+          if (osParams.network != null) {
+            return callback();
+          }
+          return visuals.patterns.selectNetworkParameters(function(error, parameters) {
+            if (error != null) {
+              return callback(error);
+            }
+            _.extend(osParams, parameters);
+            return callback();
+          });
+        }, function(callback) {
           return mkdirp(path.dirname(options.output), _.unary(callback));
         }, function(callback) {
           var bar;

@@ -56,6 +56,13 @@ exports.download =
 		async.waterfall [
 
 			(callback) ->
+				return callback() if osParams.network?
+				visuals.patterns.selectNetworkParameters (error, parameters) ->
+					return callback(error) if error?
+					_.extend(osParams, parameters)
+					return callback()
+
+			(callback) ->
 
 				# We need to ensure this directory exists
 				mkdirp(path.dirname(options.output), _.unary(callback))
