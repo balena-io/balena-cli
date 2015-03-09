@@ -1,10 +1,13 @@
-# init <id>
+# init
 
-Use this command to associate a local project to an existing resin.io application.
+Use this command to initialise a directory as a resin application.
 
-The application should be a git repository before issuing this command.
-Notice this command adds a `resin` git remote to your application.
+This command performs the following steps:
+	- Create a resin.io application.
+	- Initialize the current directory as a git repository.
+	- Add the corresponding git remote to the application.
 
 Examples:
 
-	$ cd myApp && resin init 91
+	$ resin init
+	$ resin init --project my/app/directory
