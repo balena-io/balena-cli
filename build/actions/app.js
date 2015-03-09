@@ -1,5 +1,7 @@
 (function() {
-  var _, async, commandOptions, resin, visuals;
+  var _, async, commandOptions, git, path, resin, visuals;
+
+  path = require('path');
 
   _ = require('lodash-contrib');
 
@@ -10,6 +12,8 @@
   visuals = require('resin-cli-visuals');
 
   commandOptions = require('./command-options');
+
+  git = require('../git');
 
   exports.create = {
     signature: 'app create <name>',
@@ -98,28 +102,58 @@
     }
   };
 
-  exports.init = {
-    signature: 'init <id>',
-    description: 'init an application',
-    help: 'Use this command to associate a local project to an existing resin.io application.\n\nThe application should be a git repository before issuing this command.\nNotice this command adds a `resin` git remote to your application.\n\nExamples:\n\n	$ cd myApp && resin init 91',
+  exports.associate = {
+    signature: 'app associate <id>',
+    description: 'associate a resin project',
+    help: 'Use this command to associate a project directory with a resin application.\n\nThis command adds a \'resin\' git remote to the directory and runs git init if necessary.\n\nExamples:\n\n	$ resin app associate 91\n	$ resin app associate 91 --project my/app/directory',
     permission: 'user',
     action: function(params, options, done) {
       var currentDirectory;
       currentDirectory = process.cwd();
       return async.waterfall([
         function(callback) {
-          return resin.vcs.isResinProject(currentDirectory, callback);
-        }, function(isResinProject, callback) {
-          var error;
-          if (isResinProject) {
-            error = new Error('Project is already a resin application.');
-            return callback(error);
+          return git.isGitDirectory(currentDirectory, callback);
+        }, function(isGitDirectory, callback) {
+          if (isGitDirectory) {
+            return callback();
           }
-          return callback();
+          return git.execute('init', currentDirectory, _.unary(callback));
         }, function(callback) {
           return resin.models.application.get(params.id, callback);
         }, function(application, callback) {
-          return resin.vcs.initProjectWithApplication(application, currentDirectory, callback);
+          return git.execute("remote add resin " + application.git_repository, currentDirectory, function(error) {
+            if (error != null) {
+              return callback(error);
+            }
+            console.info("git repository added: " + application.git_repository);
+            return callback(null, application.git_repository);
+          });
+        }
+      ], done);
+    }
+  };
+
+  exports.init = {
+    signature: 'init',
+    description: 'init an application',
+    help: 'Use this command to initialise a directory as a resin application.\n\nThis command performs the following steps:\n	- Create a resin.io application.\n	- Initialize the current directory as a git repository.\n	- Add the corresponding git remote to the application.\n\nExamples:\n\n	$ resin init\n	$ resin init --project my/app/directory',
+    permission: 'user',
+    action: function(params, options, done) {
+      var currentDirectory;
+      currentDirectory = process.cwd();
+      return async.waterfall([
+        function(callback) {
+          var currentDirectoryBasename;
+          currentDirectoryBasename = path.basename(currentDirectory);
+          return visuals.widgets.ask('What is the name of your application?', currentDirectoryBasename, callback);
+        }, function(applicationName, callback) {
+          return exports.create.action({
+            name: applicationName
+          }, options, callback);
+        }, function(applicationId, callback) {
+          return exports.associate.action({
+            id: applicationId
+          }, options, callback);
         }
       ], done);
     }

@@ -1,8 +1,10 @@
+path = require('path')
 _ = require('lodash-contrib')
 async = require('async')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
 commandOptions = require('./command-options')
+git = require('../git')
 
 exports.create =
 	signature: 'app create <name>'
@@ -130,38 +132,74 @@ exports.remove =
 			resin.models.application.remove(params.id, callback)
 		, done
 
-exports.init =
-	signature: 'init <id>'
-	description: 'init an application'
+exports.associate =
+	signature: 'app associate <id>'
+	description: 'associate a resin project'
 	help: '''
-		Use this command to associate a local project to an existing resin.io application.
+		Use this command to associate a project directory with a resin application.
 
-		The application should be a git repository before issuing this command.
-		Notice this command adds a `resin` git remote to your application.
+		This command adds a 'resin' git remote to the directory and runs git init if necessary.
 
 		Examples:
 
-			$ cd myApp && resin init 91
+			$ resin app associate 91
+			$ resin app associate 91 --project my/app/directory
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
 		currentDirectory = process.cwd()
 
-		async.waterfall [
+		async.waterfall([
 
 			(callback) ->
-				resin.vcs.isResinProject(currentDirectory, callback)
+				git.isGitDirectory(currentDirectory, callback)
 
-			(isResinProject, callback) ->
-				if isResinProject
-					error = new Error('Project is already a resin application.')
-					return callback(error)
-				return callback()
+			(isGitDirectory, callback) ->
+				return callback() if isGitDirectory
+				git.execute('init', currentDirectory, _.unary(callback))
 
 			(callback) ->
 				resin.models.application.get(params.id, callback)
 
 			(application, callback) ->
-				resin.vcs.initProjectWithApplication(application, currentDirectory, callback)
+				git.execute "remote add resin #{application.git_repository}", currentDirectory, (error) ->
+					return callback(error) if error?
+					console.info("git repository added: #{application.git_repository}")
+					return callback(null, application.git_repository)
 
-		], done
+		], done)
+
+exports.init =
+	signature: 'init'
+	description: 'init an application'
+	help: '''
+		Use this command to initialise a directory as a resin application.
+
+		This command performs the following steps:
+			- Create a resin.io application.
+			- Initialize the current directory as a git repository.
+			- Add the corresponding git remote to the application.
+
+		Examples:
+
+			$ resin init
+			$ resin init --project my/app/directory
+	'''
+	permission: 'user'
+	action: (params, options, done) ->
+
+		currentDirectory = process.cwd()
+
+		async.waterfall([
+
+			(callback) ->
+				currentDirectoryBasename = path.basename(currentDirectory)
+				visuals.widgets.ask('What is the name of your application?', currentDirectoryBasename, callback)
+
+			(applicationName, callback) ->
+				exports.create.action(name: applicationName, options, callback)
+
+			(applicationId, callback) ->
+				exports.associate.action(id: applicationId, options, callback)
+
+		], done)

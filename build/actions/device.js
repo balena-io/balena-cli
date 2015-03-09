@@ -82,7 +82,7 @@
           if (!_.isEmpty(params.name)) {
             return callback(null, params.name);
           }
-          return visuals.widgets.ask('How do you want to name this device?', callback);
+          return visuals.widgets.ask('How do you want to name this device?', null, callback);
         }, function(name, callback) {
           return resin.models.device.rename(params.id, name, callback);
         }

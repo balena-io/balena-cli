@@ -122,7 +122,7 @@ exports.rename =
 			(callback) ->
 				if not _.isEmpty(params.name)
 					return callback(null, params.name)
-				visuals.widgets.ask('How do you want to name this device?', callback)
+				visuals.widgets.ask('How do you want to name this device?', null, callback)
 
 			(name, callback) ->
 				resin.models.device.rename(params.id, name, callback)
