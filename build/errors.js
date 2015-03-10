@@ -28,6 +28,8 @@
           message += 'Try running this command again prefixing it with `sudo`.';
         }
         console.error(message);
+      } else if (error.code === 'ENOGIT') {
+        console.error('Git is not installed on this system.\nHead over to http://git-scm.com to install it and run this command again.');
       } else if (error.message != null) {
         console.error(error.message);
       }

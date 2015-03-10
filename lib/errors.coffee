@@ -23,6 +23,12 @@ exports.handle = (error, exit = true) ->
 
 			console.error(message)
 
+		else if error.code is 'ENOGIT'
+			console.error '''
+				Git is not installed on this system.
+				Head over to http://git-scm.com to install it and run this command again.
+			'''
+
 		else if error.message?
 			console.error(error.message)
 
