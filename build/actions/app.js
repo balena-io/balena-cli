@@ -1,5 +1,5 @@
 (function() {
-  var _, async, commandOptions, git, path, resin, visuals;
+  var _, async, commandOptions, gitwrap, path, resin, visuals;
 
   path = require('path');
 
@@ -13,7 +13,7 @@
 
   commandOptions = require('./command-options');
 
-  git = require('../git');
+  gitwrap = require('gitwrap');
 
   exports.create = {
     signature: 'app create <name>',
@@ -108,20 +108,22 @@
     help: 'Use this command to associate a project directory with a resin application.\n\nThis command adds a \'resin\' git remote to the directory and runs git init if necessary.\n\nExamples:\n\n	$ resin app associate 91\n	$ resin app associate 91 --project my/app/directory',
     permission: 'user',
     action: function(params, options, done) {
-      var currentDirectory;
-      currentDirectory = process.cwd();
+      var git;
+      git = gitwrap.create(process.cwd());
       return async.waterfall([
         function(callback) {
-          return git.isGitDirectory(currentDirectory, callback);
+          return git.isGitRepository(function(isGitDirectory) {
+            return callback(null, isGitDirectory);
+          });
         }, function(isGitDirectory, callback) {
           if (isGitDirectory) {
             return callback();
           }
-          return git.execute('init', currentDirectory, _.unary(callback));
+          return git.execute('init', _.unary(callback));
         }, function(callback) {
           return resin.models.application.get(params.id, callback);
         }, function(application, callback) {
-          return git.execute("remote add resin " + application.git_repository, currentDirectory, function(error) {
+          return git.execute("remote add resin " + application.git_repository, function(error) {
             if (error != null) {
               return callback(error);
             }
