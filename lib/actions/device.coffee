@@ -172,8 +172,11 @@ exports.init =
 		  You can setup the device OS to use wifi by setting the `--network` option to "wifi".
 		  If you set "network" to "wifi", you will need to specify the `--ssid` and `--key` option as well.
 
+		You can omit network related options to be asked about them interactively.
+
 		Examples:
 
+			$ resin device init --application 91
 			$ resin device init --application 91 --network ethernet
 			$ resin device init /dev/disk2 --application 91 --network wifi --ssid MyNetwork --key secret
 	'''
