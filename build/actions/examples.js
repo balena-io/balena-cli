@@ -1,5 +1,5 @@
 (function() {
-  var _, async, examplesData, fs, gitCli, path, resin, visuals;
+  var _, async, examplesData, fs, gitwrap, path, resin, visuals;
 
   async = require('async');
 
@@ -9,11 +9,11 @@
 
   _ = require('lodash');
 
-  gitCli = require('git-cli');
-
   resin = require('resin-sdk');
 
   visuals = require('resin-cli-visuals');
+
+  gitwrap = require('gitwrap');
 
   examplesData = require('../data/examples.json');
 
@@ -82,8 +82,11 @@
             return callback(error);
           });
         }, function(callback) {
-          console.info("Cloning " + example.display_name + " to " + example.name);
-          return gitCli.Repository.clone(example.repository, example.name, callback);
+          var currentDirectory, git;
+          currentDirectory = process.cwd();
+          console.info("Cloning " + example.display_name + " to " + currentDirectory);
+          git = gitwrap.create(currentDirectory);
+          return git.execute("clone " + example.repository, callback);
         }
       ], done);
     }

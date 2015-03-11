@@ -2,9 +2,9 @@ async = require('async')
 fs = require('fs')
 path = require('path')
 _ = require('lodash')
-gitCli = require('git-cli')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
+gitwrap = require('gitwrap')
 examplesData = require('../data/examples.json')
 
 exports.list =
@@ -96,7 +96,11 @@ exports.clone =
 					return callback(error)
 
 			(callback) ->
-				console.info("Cloning #{example.display_name} to #{example.name}")
-				gitCli.Repository.clone(example.repository, example.name, callback)
+				currentDirectory = process.cwd()
+
+				console.info("Cloning #{example.display_name} to #{currentDirectory}")
+
+				git = gitwrap.create(currentDirectory)
+				git.execute("clone #{example.repository}", callback)
 
 		], done
