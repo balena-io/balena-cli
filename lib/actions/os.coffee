@@ -9,6 +9,9 @@ visuals = require('resin-cli-visuals')
 progressStream = require('progress-stream')
 diskio = require('diskio')
 commandOptions = require('./command-options')
+npm = require('../npm')
+packageJSON = require('../../package.json')
+updateActions = require('./update')
 
 exports.download =
 	signature: 'os download <id>'
@@ -117,6 +120,23 @@ exports.install =
 	permission: 'user'
 	action: (params, options, done) ->
 		async.waterfall [
+
+			(callback) ->
+				npm.isUpdated(packageJSON.name, packageJSON.version, callback)
+
+			(isUpdated, callback) ->
+				return callback() if isUpdated
+
+				console.info '''
+					Resin CLI is outdated.
+
+					In order to avoid device compatibility issues, this command
+					requires that you have the Resin CLI updated.
+
+					Updating now...
+				'''
+
+				updateActions.update.action(params, options, _.unary(done))
 
 			(callback) ->
 				return callback(null, params.device) if params.device?

@@ -1,5 +1,5 @@
 (function() {
-  var _, async, commandOptions, diskio, fs, mkdirp, os, path, progressStream, resin, visuals;
+  var _, async, commandOptions, diskio, fs, mkdirp, npm, os, packageJSON, path, progressStream, resin, updateActions, visuals;
 
   _ = require('lodash-contrib');
 
@@ -22,6 +22,12 @@
   diskio = require('diskio');
 
   commandOptions = require('./command-options');
+
+  npm = require('../npm');
+
+  packageJSON = require('../../package.json');
+
+  updateActions = require('./update');
 
   exports.download = {
     signature: 'os download <id>',
@@ -86,6 +92,14 @@
     action: function(params, options, done) {
       return async.waterfall([
         function(callback) {
+          return npm.isUpdated(packageJSON.name, packageJSON.version, callback);
+        }, function(isUpdated, callback) {
+          if (isUpdated) {
+            return callback();
+          }
+          console.info('Resin CLI is outdated.\n\nIn order to avoid device compatibility issues, this command\nrequires that you have the Resin CLI updated.\n\nUpdating now...');
+          return updateActions.update.action(params, options, _.unary(done));
+        }, function(callback) {
           if (params.device != null) {
             return callback(null, params.device);
           }
