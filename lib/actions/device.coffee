@@ -3,6 +3,7 @@ path = require('path')
 async = require('async')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
+vcs = require('resin-vcs')
 commandOptions = require('./command-options')
 osAction = require('./os')
 
@@ -181,7 +182,7 @@ exports.init =
 			$ resin device init /dev/disk2 --application 91 --network wifi --ssid MyNetwork --key secret
 	'''
 	options: [
-		commandOptions.application
+		commandOptions.optionalApplication
 		commandOptions.network
 		commandOptions.wifiSsid
 		commandOptions.wifiKey
@@ -194,6 +195,11 @@ exports.init =
 		async.waterfall([
 
 			(callback) ->
+				return callback(null, options.application) if options.application?
+				vcs.getApplicationId(process.cwd(), callback)
+
+			(applicationId, callback) ->
+				params.id = applicationId
 				return callback(null, params.device) if params.device?
 				visuals.patterns.selectDrive(callback)
 

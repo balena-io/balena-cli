@@ -1,4 +1,8 @@
 (function() {
+  var _;
+
+  _ = require('lodash');
+
   exports.yes = {
     signature: 'yes',
     description: 'confirm non interactively',
@@ -6,13 +10,16 @@
     alias: 'y'
   };
 
-  exports.application = {
+  exports.optionalApplication = {
     signature: 'application',
     parameter: 'application',
     description: 'application id',
-    alias: ['a', 'app'],
-    required: 'You have to specify an application'
+    alias: ['a', 'app']
   };
+
+  exports.application = _.defaults({
+    required: 'You have to specify an application'
+  }, exports.optionalApplication);
 
   exports.network = {
     signature: 'network',
