@@ -62,7 +62,7 @@
     "progress-stream": "^0.5.0",
     "resin-cli-visuals": "^0.0.8",
     "resin-sdk": "^0.0.2",
-    "resin-vcs": "git://github.com/resin-io/resin-vcs",
+    "resin-vcs": "^1.0.0",
     "underscore.string": "~2.4.0",
     "update-notifier": "^0.3.1"
   }
