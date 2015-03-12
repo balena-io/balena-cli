@@ -1,5 +1,5 @@
 (function() {
-  var _, async, commandOptions, gitwrap, path, resin, visuals;
+  var _, async, commandOptions, path, resin, vcs, visuals;
 
   path = require('path');
 
@@ -13,7 +13,7 @@
 
   commandOptions = require('./command-options');
 
-  gitwrap = require('gitwrap');
+  vcs = require('resin-vcs');
 
   exports.create = {
     signature: 'app create <name>',
@@ -108,30 +108,23 @@
     help: 'Use this command to associate a project directory with a resin application.\n\nThis command adds a \'resin\' git remote to the directory and runs git init if necessary.\n\nExamples:\n\n	$ resin app associate 91\n	$ resin app associate 91 --project my/app/directory',
     permission: 'user',
     action: function(params, options, done) {
-      var git;
-      git = gitwrap.create(process.cwd());
+      var currentDirectory;
+      currentDirectory = process.cwd();
       return async.waterfall([
         function(callback) {
-          return git.isGitRepository(function(isGitDirectory) {
-            return callback(null, isGitDirectory);
-          });
-        }, function(isGitDirectory, callback) {
-          if (isGitDirectory) {
-            return callback();
-          }
-          return git.execute('init', _.unary(callback));
+          return vcs.initialize(currentDirectory, callback);
         }, function(callback) {
           return resin.models.application.get(params.id, callback);
         }, function(application, callback) {
-          return git.execute("remote add resin " + application.git_repository, function(error) {
-            if (error != null) {
-              return callback(error);
-            }
-            console.info("git repository added: " + application.git_repository);
-            return callback(null, application.git_repository);
-          });
+          return vcs.addRemote(currentDirectory, application.git_repository, callback);
         }
-      ], done);
+      ], function(error, remoteUrl) {
+        if (error != null) {
+          return done(error);
+        }
+        console.info("git repository added: " + remoteUrl);
+        return done(null, remoteUrl);
+      });
     }
   };
 

@@ -1,5 +1,5 @@
 (function() {
-  var _, async, examplesData, fs, gitwrap, path, resin, visuals;
+  var _, async, examplesData, fs, path, resin, vcs, visuals;
 
   async = require('async');
 
@@ -13,7 +13,7 @@
 
   visuals = require('resin-cli-visuals');
 
-  gitwrap = require('gitwrap');
+  vcs = require('resin-vcs');
 
   examplesData = require('../data/examples.json');
 
@@ -64,31 +64,14 @@
     help: 'Use this command to clone an example application to the current directory\n\nThis command outputs information about the cloning process.\nUse `--quiet` to remove that output.\n\nExample:\n\n	$ resin example clone 3',
     permission: 'user',
     action: function(params, options, done) {
-      var example;
+      var currentDirectory, example;
       example = examplesData[params.id - 1];
       if (example == null) {
         return done(new Error("Unknown example: " + id));
       }
-      return async.waterfall([
-        function(callback) {
-          var exampleAbsolutePath;
-          exampleAbsolutePath = path.join(process.cwd(), example.name);
-          return fs.exists(exampleAbsolutePath, function(exists) {
-            var error;
-            if (!exists) {
-              return callback();
-            }
-            error = new Error("Directory exists: " + example.name);
-            return callback(error);
-          });
-        }, function(callback) {
-          var currentDirectory, git;
-          currentDirectory = process.cwd();
-          console.info("Cloning " + example.display_name + " to " + currentDirectory);
-          git = gitwrap.create(currentDirectory);
-          return git.execute("clone " + example.repository, callback);
-        }
-      ], done);
+      currentDirectory = process.cwd();
+      console.info("Cloning " + example.display_name + " to " + currentDirectory);
+      return vcs.clone(example.repository, currentDirectory, done);
     }
   };
 

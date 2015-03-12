@@ -4,7 +4,7 @@ async = require('async')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
 commandOptions = require('./command-options')
-gitwrap = require('gitwrap')
+vcs = require('resin-vcs')
 
 exports.create =
 	signature: 'app create <name>'
@@ -147,28 +147,23 @@ exports.associate =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		git = gitwrap.create(process.cwd())
+		currentDirectory = process.cwd()
 
-		async.waterfall([
+		async.waterfall [
 
 			(callback) ->
-				git.isGitRepository (isGitDirectory) ->
-					return callback(null, isGitDirectory)
-
-			(isGitDirectory, callback) ->
-				return callback() if isGitDirectory
-				git.execute('init', _.unary(callback))
+				vcs.initialize(currentDirectory, callback)
 
 			(callback) ->
 				resin.models.application.get(params.id, callback)
 
 			(application, callback) ->
-				git.execute "remote add resin #{application.git_repository}", (error) ->
-					return callback(error) if error?
-					console.info("git repository added: #{application.git_repository}")
-					return callback(null, application.git_repository)
+				vcs.addRemote(currentDirectory, application.git_repository, callback)
 
-		], done)
+		], (error, remoteUrl) ->
+			return done(error) if error?
+			console.info("git repository added: #{remoteUrl}")
+			return done(null, remoteUrl)
 
 exports.init =
 	signature: 'init'

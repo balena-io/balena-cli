@@ -4,7 +4,7 @@ path = require('path')
 _ = require('lodash')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
-gitwrap = require('gitwrap')
+vcs = require('resin-vcs')
 examplesData = require('../data/examples.json')
 
 exports.list =
@@ -85,22 +85,6 @@ exports.clone =
 		if not example?
 			return done(new Error("Unknown example: #{id}"))
 
-		async.waterfall [
-
-			(callback) ->
-				exampleAbsolutePath = path.join(process.cwd(), example.name)
-
-				fs.exists exampleAbsolutePath, (exists) ->
-					return callback() if not exists
-					error = new Error("Directory exists: #{example.name}")
-					return callback(error)
-
-			(callback) ->
-				currentDirectory = process.cwd()
-
-				console.info("Cloning #{example.display_name} to #{currentDirectory}")
-
-				git = gitwrap.create(currentDirectory)
-				git.execute("clone #{example.repository}", callback)
-
-		], done
+		currentDirectory = process.cwd()
+		console.info("Cloning #{example.display_name} to #{currentDirectory}")
+		vcs.clone(example.repository, currentDirectory, done)

@@ -53,7 +53,6 @@
     "conf.js": "^0.1.1",
     "diskio": "^1.0.0",
     "drivelist": "^1.2.1",
-    "gitwrap": "^1.1.0",
     "lodash": "~2.4.1",
     "lodash-contrib": "~241.4.14",
     "mkdirp": "~0.5.0",
@@ -63,6 +62,7 @@
     "progress-stream": "^0.5.0",
     "resin-cli-visuals": "^0.0.8",
     "resin-sdk": "^0.0.2",
+    "resin-vcs": "git://github.com/resin-io/resin-vcs",
     "underscore.string": "~2.4.0",
     "update-notifier": "^0.3.1"
   }
