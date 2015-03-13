@@ -1,3 +1,4 @@
+open = require('open')
 _ = require('lodash-contrib')
 url = require('url')
 async = require('async')
@@ -21,23 +22,42 @@ exports.whoami =
 			console.log(username)
 			return done()
 
+TOKEN_URL = 'https://dashboard.resin.io/preferences?tab=details'
+
 exports.login	=
 	signature: 'login [token]'
 	description: 'login to resin.io'
-	help: '''
+	help: """
 		Use this command to login to your resin.io account.
 
 		To login, you need your token, which is accesible from the preferences page:
 
-			https://dashboard.resin.io/preferences?tab=details
+			#{TOKEN_URL}
 
 		Examples:
 
 			$ resin login
 			$ resin login "eyJ0eXAiOiJKV1Qi..."
-	'''
+	"""
 	action: (params, options, done) ->
+
+		console.info """
+			To login to the Resin CLI, you need your unique token, which is accesible from
+			the preferences page at #{TOKEN_URL}
+
+			Attempting to open a browser at such location...
+		"""
+
 		async.waterfall([
+
+			(callback) ->
+				open TOKEN_URL, (error) ->
+					if error?
+						console.error """
+							Unable to open a web browser in the current environment.
+							Please visit #{TOKEN_URL} manually.
+						"""
+					return callback()
 
 			(callback) ->
 				return callback(null, params.token) if params.token?
