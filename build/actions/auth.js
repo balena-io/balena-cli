@@ -29,7 +29,7 @@
     }
   };
 
-  TOKEN_URL = 'https://dashboard.resin.io/preferences?tab=details';
+  TOKEN_URL = 'https://dashboard.resin.io/preferences';
 
   exports.login = {
     signature: 'login [token]',
