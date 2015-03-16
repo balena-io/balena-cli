@@ -98,7 +98,7 @@
             return callback();
           }
           console.info('Resin CLI is outdated.\n\nIn order to avoid device compatibility issues, this command\nrequires that you have the Resin CLI updated.\n\nUpdating now...');
-          return updateActions.update.action(params, options, _.unary(done));
+          return updateActions.update.action(params, options, _.unary(callback));
         }, function(callback) {
           if (params.device != null) {
             return callback(null, params.device);

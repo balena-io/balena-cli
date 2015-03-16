@@ -136,7 +136,7 @@ exports.install =
 					Updating now...
 				'''
 
-				updateActions.update.action(params, options, _.unary(done))
+				updateActions.update.action(params, options, _.unary(callback))
 
 			(callback) ->
 				return callback(null, params.device) if params.device?
