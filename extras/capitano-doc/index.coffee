@@ -12,7 +12,7 @@ capitano.command
 		action = require(params.file)
 
 		for actionName, actionCommand of action
-			output = path.join(params.output, "#{actionName}.md")
+			output = path.join(params.output, "#{actionName}.markdown")
 			fs.writeFileSync(output, markdown.command(actionCommand))
 
 		return done()
