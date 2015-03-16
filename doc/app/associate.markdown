@@ -1,4 +1,4 @@
-# app associate <id>
+# app associate &#60;id&#62;
 
 Use this command to associate a project directory with a resin application.
 

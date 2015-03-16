@@ -1,4 +1,4 @@
-# env rm <id>
+# env rm &#60;id&#62;
 
 Use this command to remove an environment variable from an application.
 

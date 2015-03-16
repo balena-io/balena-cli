@@ -1,4 +1,4 @@
-# device identify <uuid>
+# device identify &#60;uuid&#62;
 
 Use this command to identify a device.
 

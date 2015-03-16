@@ -1,4 +1,4 @@
-# key add <name> [path]
+# key add &#60;name&#62; [path]
 
 Use this command to associate a new SSH key with your account.
 

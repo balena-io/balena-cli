@@ -1,4 +1,4 @@
-# app rm <id>
+# app rm &#60;id&#62;
 
 Use this command to remove a resin.io application.
 

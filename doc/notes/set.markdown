@@ -1,4 +1,4 @@
-# note <|note>
+# note &#60;|note&#62;
 
 Use this command to set or update a device note.
 
@@ -13,6 +13,6 @@ Examples:
 
 ## Options
 
-### --device, --d,dev, --d,dev <device>
+### --device, --d,dev, --d,dev &#60;device&#62;
 
 device id

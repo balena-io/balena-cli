@@ -1,4 +1,4 @@
-# env add <key> [value]
+# env add &#60;key&#62; [value]
 
 Use this command to add an enviroment variable to an application.
 
@@ -17,6 +17,6 @@ Examples:
 
 ## Options
 
-### --application, --a,app, --a,app <application>
+### --application, --a,app, --a,app &#60;application&#62;
 
 application id

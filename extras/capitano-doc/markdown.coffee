@@ -1,4 +1,5 @@
 _ = require('lodash')
+ent = require('ent')
 utils = require('./utils')
 
 exports.option = (option) ->
@@ -6,7 +7,7 @@ exports.option = (option) ->
 
 exports.command = (command) ->
 	result = """
-		# #{command.signature}
+		# #{ent.encode(command.signature)}
 
 		#{command.help}\n
 	"""

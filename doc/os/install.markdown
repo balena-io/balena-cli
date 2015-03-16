@@ -1,4 +1,4 @@
-# os install <image> [device]
+# os install &#60;image&#62; [device]
 
 Use this command to write an operating system image to a device.
 

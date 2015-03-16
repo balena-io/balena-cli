@@ -1,4 +1,4 @@
-# key rm <id>
+# key rm &#60;id&#62;
 
 Use this command to remove a SSH key from resin.io.
 

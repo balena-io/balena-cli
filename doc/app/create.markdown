@@ -1,4 +1,4 @@
-# app create <name>
+# app create &#60;name&#62;
 
 Use this command to create a new resin.io application.
 
@@ -16,6 +16,6 @@ Examples:
 
 ## Options
 
-### --type, -t <type>
+### --type, -t &#60;type&#62;
 
 application type

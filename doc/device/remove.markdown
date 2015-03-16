@@ -1,4 +1,4 @@
-# device rm <id>
+# device rm &#60;id&#62;
 
 Use this command to remove a device from resin.io.
 

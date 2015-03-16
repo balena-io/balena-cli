@@ -1,4 +1,4 @@
-# os download <id>
+# os download &#60;id&#62;
 
 Use this command to download the device OS configured to a specific network.
 
@@ -22,18 +22,18 @@ Examples:
 
 ## Options
 
-### --network, -n <network>
+### --network, -n &#60;network&#62;
 
 network type
 
-### --ssid, -s <ssid>
+### --ssid, -s &#60;ssid&#62;
 
 wifi ssid, if network is wifi
 
-### --key, -k <key>
+### --key, -k &#60;key&#62;
 
 wifi key, if network is wifi
 
-### --output, -o <output>
+### --output, -o &#60;output&#62;
 
 output file

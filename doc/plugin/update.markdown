@@ -1,4 +1,4 @@
-# plugin update <name>
+# plugin update &#60;name&#62;
 
 Use this command to update a resin plugin
 

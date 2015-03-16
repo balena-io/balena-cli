@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "chai": "~1.9.2",
+    "ent": "^2.2.0",
     "gulp": "~3.8.9",
     "gulp-coffee": "^2.2.0",
     "gulp-coffeelint": "~0.4.0",

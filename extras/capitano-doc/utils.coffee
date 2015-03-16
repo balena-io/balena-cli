@@ -1,4 +1,5 @@
 _ = require('lodash')
+ent = require('ent')
 
 exports.getOptionPrefix = (signature) ->
 	if signature.length > 1
@@ -22,4 +23,4 @@ exports.parseSignature = (option) ->
 	if option.parameter?
 		result += " <#{option.parameter}>"
 
-	return result
+	return ent.encode(result)

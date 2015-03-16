@@ -18,14 +18,14 @@ Examples:
 
 ## Options
 
-### --email, -e <email>
+### --email, -e &#60;email&#62;
 
 user email
 
-### --username, -u <username>
+### --username, -u &#60;username&#62;
 
 user name
 
-### --password, -p <user password>
+### --password, -p &#60;user password&#62;
 
 user password

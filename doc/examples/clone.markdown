@@ -1,4 +1,4 @@
-# example clone <id>
+# example clone &#60;id&#62;
 
 Use this command to clone an example application to the current directory
 

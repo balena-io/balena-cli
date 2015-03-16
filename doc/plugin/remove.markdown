@@ -1,4 +1,4 @@
-# plugin rm <name>
+# plugin rm &#60;name&#62;
 
 Use this command to remove a resin.io plugin.
 

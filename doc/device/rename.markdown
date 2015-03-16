@@ -1,4 +1,4 @@
-# device rename <id> [name]
+# device rename &#60;id&#62; [name]
 
 Use this command to rename a device.
 

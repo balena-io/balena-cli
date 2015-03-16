@@ -13,10 +13,10 @@ Examples:
 
 ## Options
 
-### --username, -u <username>
+### --username, -u &#60;username&#62;
 
 user name
 
-### --password, -p <password>
+### --password, -p &#60;password&#62;
 
 user password

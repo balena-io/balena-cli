@@ -32,18 +32,18 @@ Examples:
 
 ## Options
 
-### --application, --a,app, --a,app <application>
+### --application, --a,app, --a,app &#60;application&#62;
 
 application id
 
-### --network, -n <network>
+### --network, -n &#60;network&#62;
 
 network type
 
-### --ssid, -s <ssid>
+### --ssid, -s &#60;ssid&#62;
 
 wifi ssid, if network is wifi
 
-### --key, -k <key>
+### --key, -k &#60;key&#62;
 
 wifi key, if network is wifi
