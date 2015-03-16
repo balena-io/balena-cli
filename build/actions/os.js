@@ -66,11 +66,21 @@
         }, function(callback) {
           return mkdirp(path.dirname(options.output), _.unary(callback));
         }, function(callback) {
-          var bar;
+          var bar, spinner;
           console.info("Destination file: " + options.output + "\n");
           bar = new visuals.widgets.Progress('Downloading Device OS');
-          return resin.models.os.download(osParams, options.output, callback, function(state) {
-            return bar.update(state);
+          spinner = new visuals.widgets.Spinner('Downloading Device OS (size unknown)');
+          return resin.models.os.download(osParams, options.output, function(error) {
+            spinner.stop();
+            if (error != null) {
+              return callback(error);
+            }
+          }, function(state) {
+            if (state != null) {
+              return bar.update(state);
+            } else {
+              return spinner.start();
+            }
           });
         }
       ], function(error) {

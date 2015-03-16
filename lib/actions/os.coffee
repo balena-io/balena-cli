@@ -76,9 +76,16 @@ exports.download =
 				console.info("Destination file: #{options.output}\n")
 
 				bar = new visuals.widgets.Progress('Downloading Device OS')
+				spinner = new visuals.widgets.Spinner('Downloading Device OS (size unknown)')
 
-				resin.models.os.download osParams, options.output, callback, (state) ->
-					bar.update(state)
+				resin.models.os.download osParams, options.output, (error) ->
+					spinner.stop()
+					return callback(error) if error?
+				, (state) ->
+					if state?
+						bar.update(state)
+					else
+						spinner.start()
 
 		], (error) ->
 			return done(error) if error?
