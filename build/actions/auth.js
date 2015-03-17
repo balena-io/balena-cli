@@ -29,7 +29,7 @@
     }
   };
 
-  TOKEN_URL = 'https://dashboard.resin.io/preferences';
+  TOKEN_URL = url.resolve(resin.settings.get('remoteUrl'), resin.settings.get('urls.preferences'));
 
   exports.login = {
     signature: 'login [token]',
