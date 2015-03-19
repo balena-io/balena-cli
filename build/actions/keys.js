@@ -1,5 +1,5 @@
 (function() {
-  var _, async, capitano, commandOptions, fs, resin, visuals;
+  var SSH_KEY_WIDTH, _, async, capitano, commandOptions, fs, resin, visuals;
 
   _ = require('lodash');
 
@@ -33,6 +33,8 @@
     }
   };
 
+  SSH_KEY_WIDTH = 43;
+
   exports.info = {
     signature: 'key <id>',
     description: 'list a single ssh key',
@@ -40,12 +42,10 @@
     permission: 'user',
     action: function(params, options, done) {
       return resin.models.key.get(params.id, function(error, key) {
-        var sshKeyWidth;
         if (error != null) {
           return done(error);
         }
-        sshKeyWidth = resin.settings.get('sshKeyWidth');
-        key.public_key = '\n' + visuals.helpers.chop(key.public_key, sshKeyWidth);
+        key.public_key = '\n' + visuals.helpers.chop(key.public_key, SSH_KEY_WIDTH);
         console.log(visuals.widgets.table.vertical(key, ['id', 'title', 'public_key']));
         return done();
       });

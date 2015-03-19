@@ -126,10 +126,6 @@ async.waterfall([
 		plugins.register('resin-plugin-', callback)
 
 	(callback) ->
-		dataPrefix = resin.settings.get('dataPrefix')
-		resin.data.prefix.set(dataPrefix, callback)
-
-	(callback) ->
 		cli = capitano.parse(process.argv)
 
 		if cli.global.quiet

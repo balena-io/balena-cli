@@ -153,10 +153,6 @@
     }, function(callback) {
       return plugins.register('resin-plugin-', callback);
     }, function(callback) {
-      var dataPrefix;
-      dataPrefix = resin.settings.get('dataPrefix');
-      return resin.data.prefix.set(dataPrefix, callback);
-    }, function(callback) {
       var cli;
       cli = capitano.parse(process.argv);
       if (cli.global.quiet) {

@@ -24,6 +24,8 @@ exports.list =
 			console.log visuals.widgets.table.horizontal keys, [ 'id', 'title' ]
 			return done()
 
+SSH_KEY_WIDTH = 43
+
 exports.info =
 	signature: 'key <id>'
 	description: 'list a single ssh key'
@@ -39,8 +41,7 @@ exports.info =
 		resin.models.key.get params.id, (error, key) ->
 			return done(error) if error?
 
-			sshKeyWidth = resin.settings.get('sshKeyWidth')
-			key.public_key = '\n' + visuals.helpers.chop(key.public_key, sshKeyWidth)
+			key.public_key = '\n' + visuals.helpers.chop(key.public_key, SSH_KEY_WIDTH)
 
 			console.log(visuals.widgets.table.vertical(key, [ 'id', 'title', 'public_key' ]))
 			return done()
