@@ -4,6 +4,23 @@ async = require('async')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
 
+exports.whoami =
+	signature: 'whoami'
+	description: 'whoami'
+	help: '''
+		Use this command to get the logged in user name.
+
+		Examples:
+
+			$ resin whoami
+	'''
+	permission: 'user'
+	action: (params, options, done) ->
+		resin.auth.whoami (error, username) ->
+			return done(error) if error?
+			console.log(username)
+			return done()
+
 exports.login	=
 	signature: 'login'
 	description: 'login to resin.io'
