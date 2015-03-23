@@ -26,6 +26,7 @@ You can omit network related options to be asked about them interactively.
 
 Examples:
 
+	$ resin device init
 	$ resin device init --application 91
 	$ resin device init --application 91 --network ethernet
 	$ resin device init /dev/disk2 --application 91 --network wifi --ssid MyNetwork --key secret
@@ -34,7 +35,7 @@ Examples:
 
 ### --application, --a,app, --a,app &#60;application&#62;
 
-application id
+application name
 
 ### --network, -n &#60;network&#62;
 

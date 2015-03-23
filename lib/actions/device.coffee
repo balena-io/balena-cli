@@ -177,6 +177,7 @@ exports.init =
 
 		Examples:
 
+			$ resin device init
 			$ resin device init --application 91
 			$ resin device init --application 91 --network ethernet
 			$ resin device init /dev/disk2 --application 91 --network wifi --ssid MyNetwork --key secret

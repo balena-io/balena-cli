@@ -19,4 +19,4 @@ Examples:
 
 ### --application, --a,app, --a,app &#60;application&#62;
 
-application id
+application name

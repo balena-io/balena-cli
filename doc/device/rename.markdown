@@ -1,4 +1,4 @@
-# device rename &#60;id&#62; [name]
+# device rename &#60;name&#62; [newName]
 
 Use this command to rename a device.
 
@@ -6,5 +6,5 @@ If you omit the name, you'll get asked for it interactively.
 
 Examples:
 
-	$ resin device rename 317 MyPi
-	$ resin device rename 317
+	$ resin device rename MyDevice MyPi
+	$ resin device rename MyDevice

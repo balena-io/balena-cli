@@ -1,7 +1,7 @@
-# app &#60;id&#62;
+# app &#60;name&#62;
 
 Use this command to show detailed information for a single application.
 
 Examples:
 
-	$ resin app 91
+	$ resin app MyApp
