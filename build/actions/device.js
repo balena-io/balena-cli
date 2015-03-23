@@ -129,8 +129,10 @@
           }
           return visuals.patterns.selectDrive(callback);
         }, function(device, callback) {
+          var message;
           params.device = device;
-          return visuals.patterns.confirm(options.yes, "This will completely erase " + params.device + ". Are you sure you want to continue?", callback);
+          message = "This will completely erase " + params.device + ". Are you sure you want to continue?";
+          return visuals.patterns.confirm(options.yes, message, callback);
         }, function(confirmed, callback) {
           if (!confirmed) {
             return done();

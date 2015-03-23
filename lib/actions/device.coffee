@@ -206,7 +206,8 @@ exports.init =
 
 			(device, callback) ->
 				params.device = device
-				visuals.patterns.confirm(options.yes, "This will completely erase #{params.device}. Are you sure you want to continue?", callback)
+				message = "This will completely erase #{params.device}. Are you sure you want to continue?"
+				visuals.patterns.confirm(options.yes, message, callback)
 
 			(confirmed, callback) ->
 				return done() if not confirmed
