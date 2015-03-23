@@ -9,17 +9,17 @@ exports.set =
 
 		If note command isn't passed, the tool attempts to read from `stdin`.
 
-		To view the notes, use $ resin device <id>.
+		To view the notes, use $ resin device <name>.
 
 		Examples:
 
-			$ resin note "My useful note" --device 317
-			$ cat note.txt | resin note --device 317
+			$ resin note "My useful note" --device MyDevice
+			$ cat note.txt | resin note --device MyDevice
 	'''
 	options: [
 		signature: 'device'
 		parameter: 'device'
-		description: 'device id'
+		description: 'device name'
 		alias: [ 'd', 'dev' ]
 		required: 'You have to specify a device'
 	]

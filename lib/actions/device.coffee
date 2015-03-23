@@ -15,7 +15,7 @@ exports.list =
 
 		Examples:
 
-			$ resin devices --application 91
+			$ resin devices --application MyApp
 	'''
 	options: [ commandOptions.application ]
 	permission: 'user'
@@ -35,18 +35,18 @@ exports.list =
 			return done()
 
 exports.info =
-	signature: 'device <id>'
+	signature: 'device <name>'
 	description: 'list a single device'
 	help: '''
 		Use this command to show information about a single device.
 
 		Examples:
 
-			$ resin device 317
+			$ resin device MyDevice
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin.models.device.get params.id, (error, device) ->
+		resin.models.device.get params.name, (error, device) ->
 			return done(error) if error?
 			console.log visuals.widgets.table.vertical device, [
 				'id'
@@ -67,7 +67,7 @@ exports.info =
 			return done()
 
 exports.remove =
-	signature: 'device rm <id>'
+	signature: 'device rm <name>'
 	description: 'remove a device'
 	help: '''
 		Use this command to remove a device from resin.io.
@@ -77,14 +77,14 @@ exports.remove =
 
 		Examples:
 
-			$ resin device rm 317
-			$ resin device rm 317 --yes
+			$ resin device rm MyDevice
+			$ resin device rm MyDevice --yes
 	'''
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
 		visuals.patterns.remove 'device', options.yes, (callback) ->
-			resin.models.device.remove(params.id, callback)
+			resin.models.device.remove(params.name, callback)
 		, done
 
 exports.identify =
@@ -104,7 +104,7 @@ exports.identify =
 		resin.models.device.identify(params.uuid, done)
 
 exports.rename =
-	signature: 'device rename <id> [name]'
+	signature: 'device rename <name> [newName]'
 	description: 'rename a resin device'
 	help: '''
 		Use this command to rename a device.
@@ -113,20 +113,20 @@ exports.rename =
 
 		Examples:
 
-			$ resin device rename 317 MyPi
-			$ resin device rename 317
+			$ resin device rename MyDevice MyPi
+			$ resin device rename MyDevice
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
 		async.waterfall [
 
 			(callback) ->
-				if not _.isEmpty(params.name)
-					return callback(null, params.name)
+				if not _.isEmpty(params.newName)
+					return callback(null, params.newName)
 				visuals.widgets.ask('How do you want to name this device?', null, callback)
 
-			(name, callback) ->
-				resin.models.device.rename(params.id, name, callback)
+			(newName, callback) ->
+				resin.models.device.rename(params.name, newName, callback)
 
 		], done
 

@@ -13,7 +13,7 @@
   exports.optionalApplication = {
     signature: 'application',
     parameter: 'application',
-    description: 'application id',
+    description: 'application name',
     alias: ['a', 'app']
   };
 

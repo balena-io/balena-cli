@@ -9,7 +9,7 @@ exports.yes =
 exports.optionalApplication =
 	signature: 'application'
 	parameter: 'application'
-	description: 'application id'
+	description: 'application name'
 	alias: [ 'a', 'app' ]
 
 exports.application = _.defaults

@@ -20,7 +20,7 @@
   exports.list = {
     signature: 'devices',
     description: 'list all devices',
-    help: 'Use this command to list all devices that belong to a certain application.\n\nExamples:\n\n	$ resin devices --application 91',
+    help: 'Use this command to list all devices that belong to a certain application.\n\nExamples:\n\n	$ resin devices --application MyApp',
     options: [commandOptions.application],
     permission: 'user',
     action: function(params, options, done) {
@@ -35,12 +35,12 @@
   };
 
   exports.info = {
-    signature: 'device <id>',
+    signature: 'device <name>',
     description: 'list a single device',
-    help: 'Use this command to show information about a single device.\n\nExamples:\n\n	$ resin device 317',
+    help: 'Use this command to show information about a single device.\n\nExamples:\n\n	$ resin device MyDevice',
     permission: 'user',
     action: function(params, options, done) {
-      return resin.models.device.get(params.id, function(error, device) {
+      return resin.models.device.get(params.name, function(error, device) {
         if (error != null) {
           return done(error);
         }
@@ -51,14 +51,14 @@
   };
 
   exports.remove = {
-    signature: 'device rm <id>',
+    signature: 'device rm <name>',
     description: 'remove a device',
-    help: 'Use this command to remove a device from resin.io.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nExamples:\n\n	$ resin device rm 317\n	$ resin device rm 317 --yes',
+    help: 'Use this command to remove a device from resin.io.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nExamples:\n\n	$ resin device rm MyDevice\n	$ resin device rm MyDevice --yes',
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
       return visuals.patterns.remove('device', options.yes, function(callback) {
-        return resin.models.device.remove(params.id, callback);
+        return resin.models.device.remove(params.name, callback);
       }, done);
     }
   };
@@ -74,19 +74,19 @@
   };
 
   exports.rename = {
-    signature: 'device rename <id> [name]',
+    signature: 'device rename <name> [newName]',
     description: 'rename a resin device',
-    help: 'Use this command to rename a device.\n\nIf you omit the name, you\'ll get asked for it interactively.\n\nExamples:\n\n	$ resin device rename 317 MyPi\n	$ resin device rename 317',
+    help: 'Use this command to rename a device.\n\nIf you omit the name, you\'ll get asked for it interactively.\n\nExamples:\n\n	$ resin device rename MyDevice MyPi\n	$ resin device rename MyDevice',
     permission: 'user',
     action: function(params, options, done) {
       return async.waterfall([
         function(callback) {
-          if (!_.isEmpty(params.name)) {
-            return callback(null, params.name);
+          if (!_.isEmpty(params.newName)) {
+            return callback(null, params.newName);
           }
           return visuals.widgets.ask('How do you want to name this device?', null, callback);
-        }, function(name, callback) {
-          return resin.models.device.rename(params.id, name, callback);
+        }, function(newName, callback) {
+          return resin.models.device.rename(params.name, newName, callback);
         }
       ], done);
     }

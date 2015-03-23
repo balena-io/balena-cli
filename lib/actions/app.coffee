@@ -55,7 +55,7 @@ exports.list =
 		Use this command to list all your applications.
 
 		Notice this command only shows the most important bits of information for each app.
-		If you want detailed information, use resin app <id> instead.
+		If you want detailed information, use resin app <name> instead.
 
 		Examples:
 
@@ -75,18 +75,18 @@ exports.list =
 			return done()
 
 exports.info =
-	signature: 'app <id>'
+	signature: 'app <name>'
 	description: 'list a single application'
 	help: '''
 		Use this command to show detailed information for a single application.
 
 		Examples:
 
-			$ resin app 91
+			$ resin app MyApp
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin.models.application.get params.id, (error, application) ->
+		resin.models.application.get params.name, (error, application) ->
 			return done(error) if error?
 			console.log visuals.widgets.table.vertical application, [
 				'id'
@@ -98,21 +98,21 @@ exports.info =
 			return done()
 
 exports.restart =
-	signature: 'app restart <id>'
+	signature: 'app restart <name>'
 	description: 'restart an application'
 	help: '''
 		Use this command to restart all devices that belongs to a certain application.
 
 		Examples:
 
-			$ resin app restart 91
+			$ resin app restart MyApp
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin.models.application.restart(params.id, done)
+		resin.models.application.restart(params.name, done)
 
 exports.remove =
-	signature: 'app rm <id>'
+	signature: 'app rm <name>'
 	description: 'remove an application'
 	help: '''
 		Use this command to remove a resin.io application.
@@ -122,18 +122,18 @@ exports.remove =
 
 		Examples:
 
-			$ resin app rm 91
-			$ resin app rm 91 --yes
+			$ resin app rm MyApp
+			$ resin app rm MyApp --yes
 	'''
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
 		visuals.patterns.remove 'application', options.yes, (callback) ->
-			resin.models.application.remove(params.id, callback)
+			resin.models.application.remove(params.name, callback)
 		, done
 
 exports.associate =
-	signature: 'app associate <id>'
+	signature: 'app associate <name>'
 	description: 'associate a resin project'
 	help: '''
 		Use this command to associate a project directory with a resin application.
@@ -142,8 +142,8 @@ exports.associate =
 
 		Examples:
 
-			$ resin app associate 91
-			$ resin app associate 91 --project my/app/directory
+			$ resin app associate MyApp
+			$ resin app associate MyApp --project my/app/directory
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
@@ -155,7 +155,7 @@ exports.associate =
 				vcs.initialize(currentDirectory, callback)
 
 			(callback) ->
-				resin.models.application.get(params.id, callback)
+				resin.models.application.get(params.name, callback)
 
 			(application, callback) ->
 				vcs.addRemote(currentDirectory, application.git_repository, callback)
@@ -193,9 +193,14 @@ exports.init =
 				visuals.widgets.ask('What is the name of your application?', currentDirectoryBasename, callback)
 
 			(applicationName, callback) ->
-				exports.create.action(name: applicationName, options, callback)
 
-			(applicationId, callback) ->
-				exports.associate.action(id: applicationId, options, callback)
+				# TODO: Make resin.models.application.create return
+				# the whole application instead of just the id
+				exports.create.action name: applicationName, options, (error) ->
+					return callback(error) if error?
+					return callback(null, applicationName)
+
+			(applicationName, callback) ->
+				exports.associate.action(name: applicationName, options, callback)
 
 		], done)

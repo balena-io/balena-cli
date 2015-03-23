@@ -50,7 +50,7 @@
   exports.list = {
     signature: 'apps',
     description: 'list all applications',
-    help: 'Use this command to list all your applications.\n\nNotice this command only shows the most important bits of information for each app.\nIf you want detailed information, use resin app <id> instead.\n\nExamples:\n\n	$ resin apps',
+    help: 'Use this command to list all your applications.\n\nNotice this command only shows the most important bits of information for each app.\nIf you want detailed information, use resin app <name> instead.\n\nExamples:\n\n	$ resin apps',
     permission: 'user',
     action: function(params, options, done) {
       return resin.models.application.getAll(function(error, applications) {
@@ -64,12 +64,12 @@
   };
 
   exports.info = {
-    signature: 'app <id>',
+    signature: 'app <name>',
     description: 'list a single application',
-    help: 'Use this command to show detailed information for a single application.\n\nExamples:\n\n	$ resin app 91',
+    help: 'Use this command to show detailed information for a single application.\n\nExamples:\n\n	$ resin app MyApp',
     permission: 'user',
     action: function(params, options, done) {
-      return resin.models.application.get(params.id, function(error, application) {
+      return resin.models.application.get(params.name, function(error, application) {
         if (error != null) {
           return done(error);
         }
@@ -80,32 +80,32 @@
   };
 
   exports.restart = {
-    signature: 'app restart <id>',
+    signature: 'app restart <name>',
     description: 'restart an application',
-    help: 'Use this command to restart all devices that belongs to a certain application.\n\nExamples:\n\n	$ resin app restart 91',
+    help: 'Use this command to restart all devices that belongs to a certain application.\n\nExamples:\n\n	$ resin app restart MyApp',
     permission: 'user',
     action: function(params, options, done) {
-      return resin.models.application.restart(params.id, done);
+      return resin.models.application.restart(params.name, done);
     }
   };
 
   exports.remove = {
-    signature: 'app rm <id>',
+    signature: 'app rm <name>',
     description: 'remove an application',
-    help: 'Use this command to remove a resin.io application.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nExamples:\n\n	$ resin app rm 91\n	$ resin app rm 91 --yes',
+    help: 'Use this command to remove a resin.io application.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nExamples:\n\n	$ resin app rm MyApp\n	$ resin app rm MyApp --yes',
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
       return visuals.patterns.remove('application', options.yes, function(callback) {
-        return resin.models.application.remove(params.id, callback);
+        return resin.models.application.remove(params.name, callback);
       }, done);
     }
   };
 
   exports.associate = {
-    signature: 'app associate <id>',
+    signature: 'app associate <name>',
     description: 'associate a resin project',
-    help: 'Use this command to associate a project directory with a resin application.\n\nThis command adds a \'resin\' git remote to the directory and runs git init if necessary.\n\nExamples:\n\n	$ resin app associate 91\n	$ resin app associate 91 --project my/app/directory',
+    help: 'Use this command to associate a project directory with a resin application.\n\nThis command adds a \'resin\' git remote to the directory and runs git init if necessary.\n\nExamples:\n\n	$ resin app associate MyApp\n	$ resin app associate MyApp --project my/app/directory',
     permission: 'user',
     action: function(params, options, done) {
       var currentDirectory;
@@ -114,7 +114,7 @@
         function(callback) {
           return vcs.initialize(currentDirectory, callback);
         }, function(callback) {
-          return resin.models.application.get(params.id, callback);
+          return resin.models.application.get(params.name, callback);
         }, function(application, callback) {
           return vcs.addRemote(currentDirectory, application.git_repository, callback);
         }
@@ -144,10 +144,15 @@
         }, function(applicationName, callback) {
           return exports.create.action({
             name: applicationName
-          }, options, callback);
-        }, function(applicationId, callback) {
+          }, options, function(error) {
+            if (error != null) {
+              return callback(error);
+            }
+            return callback(null, applicationName);
+          });
+        }, function(applicationName, callback) {
           return exports.associate.action({
-            id: applicationId
+            name: applicationName
           }, options, callback);
         }
       ], done);
