@@ -1,3 +1,4 @@
+child_process = require('child_process')
 npm = require('../npm')
 packageJSON = require('../../package.json')
 
@@ -20,7 +21,19 @@ exports.update =
 			$ resin update
 	'''
 	action: (params, options, done) ->
-		npm.update packageJSON.name, (error, version) ->
+		npm.isUpdated packageJSON.name, packageJSON.version, (error, isUpdated) ->
 			return done(error) if error?
-			console.info("Upgraded #{packageJSON.name} to v#{version}.")
-			return done(null, version)
+
+			if isUpdated
+				return done(new Error('You\'re already running the latest version.'))
+
+			# Attempting to self update using the NPM API was not considered safe.
+			# A safer thing to do is to call npm as a child process
+			# https://github.com/npm/npm/issues/7723
+			child_process.exec "npm install -g #{packageJSON.name}", (error, stdout, stderr) ->
+				return done(error) if error?
+				return done(new Error(stderr)) if not _.isEmpty(stderr)
+
+				console.info("Upgraded #{packageJSON.name}.")
+
+				return done()
