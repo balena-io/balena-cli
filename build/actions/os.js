@@ -1,5 +1,5 @@
 (function() {
-  var _, async, commandOptions, diskio, fs, mkdirp, npm, os, packageJSON, path, progressStream, resin, updateActions, visuals;
+  var _, async, commandOptions, diskio, elevate, fs, mkdirp, npm, os, packageJSON, path, progressStream, resin, updateActions, visuals;
 
   _ = require('lodash-contrib');
 
@@ -28,6 +28,8 @@
   packageJSON = require('../../package.json');
 
   updateActions = require('./update');
+
+  elevate = require('../elevate');
 
   exports.download = {
     signature: 'os download <id>',
@@ -151,14 +153,13 @@
           return diskio.writeStream(params.device, imageFileStream, callback);
         }
       ], function(error) {
-        var resinWritePath, windosu;
+        var resinWritePath;
         if (error == null) {
           return done();
         }
-        if (_.all([os.platform() === 'win32', error.code === 'EPERM' || error.code === 'EACCES', !options.fromScript])) {
-          windosu = require('windosu');
+        if (elevate.shouldElevate(error) && !options.fromScript) {
           resinWritePath = "\"" + (path.join(__dirname, '..', '..', 'bin', 'resin-write')) + "\"";
-          return windosu.exec("\"" + process.argv[0] + "\" " + resinWritePath + " \"" + params.image + "\" \"" + params.device + "\"");
+          return elevate.run("\"" + process.argv[0] + "\" " + resinWritePath + " \"" + params.image + "\" \"" + params.device + "\"");
         } else {
           return done(error);
         }

@@ -12,6 +12,7 @@ commandOptions = require('./command-options')
 npm = require('../npm')
 packageJSON = require('../../package.json')
 updateActions = require('./update')
+elevate = require('../elevate')
 
 exports.download =
 	signature: 'os download <id>'
@@ -188,18 +189,10 @@ exports.install =
 		], (error) ->
 			return done() if not error?
 
-			if _.all [
-				os.platform() is 'win32'
-				error.code is 'EPERM' or error.code is 'EACCES'
+			if elevate.shouldElevate(error) and not options.fromScript
 
-				# Prevent re-running resin-write infinitely
-				# If we have an EPERM or EACCES even after running
-				# windosu, we throw it as there is not much we can do
-				not options.fromScript
-			]
-				windosu = require('windosu')
 				# Need to escape every path to avoid errors
 				resinWritePath = "\"#{path.join(__dirname, '..', '..', 'bin', 'resin-write')}\""
-				windosu.exec("\"#{process.argv[0]}\" #{resinWritePath} \"#{params.image}\" \"#{params.device}\"")
+				elevate.run("\"#{process.argv[0]}\" #{resinWritePath} \"#{params.image}\" \"#{params.device}\"")
 			else
 				return done(error)
