@@ -1,9 +1,7 @@
 (function() {
-  var _, async, commandOptions, diskio, elevate, fs, mkdirp, npm, os, packageJSON, path, progressStream, resin, updateActions, visuals;
+  var _, async, commandOptions, elevate, mkdirp, npm, os, packageJSON, path, resin, updateActions, visuals;
 
   _ = require('lodash-contrib');
-
-  fs = require('fs');
 
   os = require('os');
 
@@ -16,10 +14,6 @@
   resin = require('resin-sdk');
 
   visuals = require('resin-cli-visuals');
-
-  progressStream = require('progress-stream');
-
-  diskio = require('diskio');
 
   commandOptions = require('./command-options');
 
@@ -102,6 +96,8 @@
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
+      var bundle;
+      bundle = require('../devices/raspberry-pi');
       return async.waterfall([
         function(callback) {
           return npm.isUpdated(packageJSON.name, packageJSON.version, callback);
@@ -130,27 +126,13 @@
           message = "This will completely erase " + params.device + ". Are you sure you want to continue?";
           return visuals.patterns.confirm(options.yes, message, callback);
         }, function(confirmed, callback) {
-          var bar, error, imageFileSize, imageFileStream, progress;
+          var bar;
           if (!confirmed) {
             return done();
           }
-          imageFileSize = fs.statSync(params.image).size;
-          if (imageFileSize === 0) {
-            error = new Error("Invalid OS image: " + params.image + ". The image is 0 bytes.");
-            return callback(error);
-          }
-          progress = progressStream({
-            length: imageFileSize,
-            time: 500
-          });
-          if (!options.quiet) {
-            bar = new visuals.widgets.Progress('Writing Device OS');
-            progress.on('progress', function(status) {
-              return bar.update(status);
-            });
-          }
-          imageFileStream = fs.createReadStream(params.image).pipe(progress);
-          return diskio.writeStream(params.device, imageFileStream, callback);
+          bar = new visuals.widgets.Progress('Writing Device OS');
+          params.progress = bar.update;
+          return bundle.write(params, callback);
         }
       ], function(error) {
         var resinWritePath;
