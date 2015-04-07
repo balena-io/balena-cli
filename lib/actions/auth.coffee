@@ -45,7 +45,7 @@ exports.login	=
 			To login to the Resin CLI, you need your unique token, which is accesible from
 			the preferences page at #{TOKEN_URL}
 
-			Attempting to open a browser at such location...
+			Attempting to open a browser at that location...
 		"""
 
 		async.waterfall([
