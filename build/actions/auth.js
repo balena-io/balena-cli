@@ -1,5 +1,7 @@
 (function() {
-  var _, async, resin, url, visuals;
+  var TOKEN_URL, _, async, open, resin, url, visuals;
+
+  open = require('open');
 
   _ = require('lodash-contrib');
 
@@ -27,43 +29,29 @@
     }
   };
 
+  TOKEN_URL = url.resolve(resin.settings.get('remoteUrl'), resin.settings.get('urls.preferences'));
+
   exports.login = {
-    signature: 'login',
+    signature: 'login [token]',
     description: 'login to resin.io',
-    help: 'Use this command to login to your resin.io account.\nYou need to login before you can use most of the commands this tool provides.\n\nYou can pass your credentials as `--username` and `--password` options, or you can omit the\ncredentials, in which case the tool will present you with an interactive login form.\n\nExamples:\n\n	$ resin login --username <username> --password <password>\n	$ resin login',
-    options: [
-      {
-        signature: 'username',
-        parameter: 'username',
-        description: 'user name',
-        alias: 'u'
-      }, {
-        signature: 'password',
-        parameter: 'password',
-        description: 'user password',
-        alias: 'p'
-      }
-    ],
+    help: "Use this command to login to your resin.io account.\n\nTo login, you need your token, which is accesible from the preferences page:\n\n	" + TOKEN_URL + "\n\nExamples:\n\n	$ resin login\n	$ resin login \"eyJ0eXAiOiJKV1Qi...\"",
     action: function(params, options, done) {
-      var hasOptionCredentials;
-      hasOptionCredentials = !_.isEmpty(options);
-      if (hasOptionCredentials) {
-        if (!options.username) {
-          return done(new Error('Missing username'));
-        }
-        if (!options.password) {
-          return done(new Error('Missing password'));
-        }
-      }
+      console.info("To login to the Resin CLI, you need your unique token, which is accesible from\nthe preferences page at " + TOKEN_URL + "\n\nAttempting to open a browser at that location...");
       return async.waterfall([
         function(callback) {
-          if (hasOptionCredentials) {
-            return callback(null, options);
-          } else {
-            return visuals.widgets.login(callback);
+          return open(TOKEN_URL, function(error) {
+            if (error != null) {
+              console.error("Unable to open a web browser in the current environment.\nPlease visit " + TOKEN_URL + " manually.");
+            }
+            return callback();
+          });
+        }, function(callback) {
+          if (params.token != null) {
+            return callback(null, params.token);
           }
-        }, function(credentials, callback) {
-          return resin.auth.login(credentials, callback);
+          return visuals.widgets.ask('What\'s your token? (visible in the preferences page)', null, callback);
+        }, function(token, callback) {
+          return resin.auth.loginWithToken(token, done);
         }
       ], done);
     }

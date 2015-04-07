@@ -1,3 +1,4 @@
+open = require('open')
 _ = require('lodash-contrib')
 url = require('url')
 async = require('async')
@@ -21,59 +22,51 @@ exports.whoami =
 			console.log(username)
 			return done()
 
-exports.login	=
-	signature: 'login'
-	description: 'login to resin.io'
-	help: '''
-		Use this command to login to your resin.io account.
-		You need to login before you can use most of the commands this tool provides.
+TOKEN_URL = url.resolve(resin.settings.get('remoteUrl'), resin.settings.get('urls.preferences'))
 
-		You can pass your credentials as `--username` and `--password` options, or you can omit the
-		credentials, in which case the tool will present you with an interactive login form.
+exports.login	=
+	signature: 'login [token]'
+	description: 'login to resin.io'
+	help: """
+		Use this command to login to your resin.io account.
+
+		To login, you need your token, which is accesible from the preferences page:
+
+			#{TOKEN_URL}
 
 		Examples:
 
-			$ resin login --username <username> --password <password>
 			$ resin login
-	'''
-	options: [
-		{
-			signature: 'username'
-			parameter: 'username'
-			description: 'user name'
-			alias: 'u'
-		}
-		{
-			signature: 'password'
-			parameter: 'password'
-			description: 'user password'
-			alias: 'p'
-		}
-	]
+			$ resin login "eyJ0eXAiOiJKV1Qi..."
+	"""
 	action: (params, options, done) ->
 
-		hasOptionCredentials = not _.isEmpty(options)
+		console.info """
+			To login to the Resin CLI, you need your unique token, which is accesible from
+			the preferences page at #{TOKEN_URL}
 
-		if hasOptionCredentials
+			Attempting to open a browser at that location...
+		"""
 
-			if not options.username
-				return done(new Error('Missing username'))
-
-			if not options.password
-				return done(new Error('Missing password'))
-
-		async.waterfall [
+		async.waterfall([
 
 			(callback) ->
-				if hasOptionCredentials
-					return callback(null, options)
-				else
-					return visuals.widgets.login(callback)
+				open TOKEN_URL, (error) ->
+					if error?
+						console.error """
+							Unable to open a web browser in the current environment.
+							Please visit #{TOKEN_URL} manually.
+						"""
+					return callback()
 
-			(credentials, callback) ->
-				resin.auth.login(credentials, callback)
+			(callback) ->
+				return callback(null, params.token) if params.token?
+				visuals.widgets.ask('What\'s your token? (visible in the preferences page)', null, callback)
 
-		], done
+			(token, callback) ->
+				resin.auth.loginWithToken(token, done)
+
+		], done)
 
 exports.logout =
 	signature: 'logout'

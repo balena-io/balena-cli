@@ -32,3 +32,4 @@ bin/node
 release/build
 
 npm-shrinkwrap.json
+.resinconf
