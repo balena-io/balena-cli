@@ -1,5 +1,5 @@
 (function() {
-  var TOKEN_URL, _, async, open, resin, url, visuals;
+  var TOKEN_URL, _, async, open, resin, settings, url, visuals;
 
   open = require('open');
 
@@ -10,6 +10,8 @@
   async = require('async');
 
   resin = require('resin-sdk');
+
+  settings = require('resin-settings-client');
 
   visuals = require('resin-cli-visuals');
 
@@ -29,7 +31,7 @@
     }
   };
 
-  TOKEN_URL = url.resolve(resin.settings.get('remoteUrl'), resin.settings.get('urls.preferences'));
+  TOKEN_URL = url.resolve(settings.get('remoteUrl'), '/preferences');
 
   exports.login = {
     signature: 'login [token]',

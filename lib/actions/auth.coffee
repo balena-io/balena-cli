@@ -3,6 +3,7 @@ _ = require('lodash-contrib')
 url = require('url')
 async = require('async')
 resin = require('resin-sdk')
+settings = require('resin-settings-client')
 visuals = require('resin-cli-visuals')
 
 exports.whoami =
@@ -22,7 +23,7 @@ exports.whoami =
 			console.log(username)
 			return done()
 
-TOKEN_URL = url.resolve(resin.settings.get('remoteUrl'), resin.settings.get('urls.preferences'))
+TOKEN_URL = url.resolve(settings.get('remoteUrl'), '/preferences')
 
 exports.login	=
 	signature: 'login [token]'
