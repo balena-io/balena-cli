@@ -23,7 +23,23 @@ for commandCategory in capitanodoc.categories
 result.toc = _.cloneDeep(result.categories)
 result.toc = _.map result.toc, (category) ->
 	category.commands = _.map category.commands, (command) ->
-		return command.signature
+		return {
+			signature: command.signature
+
+			# TODO: Make anchor prefix a configurable setting
+			# in capitanodoc.json
+			anchor: '#/pages/using/cli.md#' + command.signature
+								.replace(/\s/g,'-')
+								.replace(/</g, '60-')
+								.replace(/>/g, '-62-')
+								.replace(/\[/g, '')
+								.replace(/\]/g, '-')
+								.replace(/--/g, '-')
+								.replace(/\.\.\./g, '')
+								.replace(/\|/g, '')
+								.toLowerCase()
+		}
+
 	return category
 
 console.log(markdown.display(result))

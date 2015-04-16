@@ -25,7 +25,7 @@ exports.command = (command) ->
 
 exports.category = (category) ->
 	result = """
-		# #{category.title}
+		# #{category.title}\n
 	"""
 
 	for command in category.commands
@@ -46,7 +46,7 @@ exports.toc = (toc) ->
 
 		for command in category.commands
 			result += """
-				\t- #{command}\n
+				\t- [#{ent.encode(command.signature)}](#{command.anchor})\n
 			"""
 
 	return result

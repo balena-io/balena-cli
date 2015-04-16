@@ -16,92 +16,93 @@ Now you have access to all the commands referenced below.
 
 - Application
 
-	- app create <name>
-	- apps
-	- app <name>
-	- app restart <name>
-	- app rm <name>
-	- app associate <name>
-	- init
+	- [app create &#60;name&#62;](#/pages/using/cli.md#app-create-60-name-62-)
+	- [apps](#/pages/using/cli.md#apps)
+	- [app &#60;name&#62;](#/pages/using/cli.md#app-60-name-62-)
+	- [app restart &#60;name&#62;](#/pages/using/cli.md#app-restart-60-name-62-)
+	- [app rm &#60;name&#62;](#/pages/using/cli.md#app-rm-60-name-62-)
+	- [app associate &#60;name&#62;](#/pages/using/cli.md#app-associate-60-name-62-)
+	- [init](#/pages/using/cli.md#init)
 
 - Authentication
 
-	- whoami
-	- login [token]
-	- logout
-	- signup
+	- [whoami](#/pages/using/cli.md#whoami)
+	- [login [token]](#/pages/using/cli.md#login-token-)
+	- [logout](#/pages/using/cli.md#logout)
+	- [signup](#/pages/using/cli.md#signup)
 
 - Device
 
-	- devices
-	- device <name>
-	- device rm <name>
-	- device identify <uuid>
-	- device rename <name> [newName]
-	- devices supported
-	- device init [device]
+	- [devices](#/pages/using/cli.md#devices)
+	- [device &#60;name&#62;](#/pages/using/cli.md#device-60-name-62-)
+	- [device rm &#60;name&#62;](#/pages/using/cli.md#device-rm-60-name-62-)
+	- [device identify &#60;uuid&#62;](#/pages/using/cli.md#device-identify-60-uuid-62-)
+	- [device rename &#60;name&#62; [newName]](#/pages/using/cli.md#device-rename-60-name-62-newname-)
+	- [devices supported](#/pages/using/cli.md#devices-supported)
+	- [device init [device]](#/pages/using/cli.md#device-init-device-)
 
 - Drive
 
-	- drives
+	- [drives](#/pages/using/cli.md#drives)
 
 - Environment Variables
 
-	- envs
-	- env rm <id>
-	- env add <key> [value]
-	- env rename <id> <value>
+	- [envs](#/pages/using/cli.md#envs)
+	- [env rm &#60;id&#62;](#/pages/using/cli.md#env-rm-60-id-62-)
+	- [env add &#60;key&#62; [value]](#/pages/using/cli.md#env-add-60-key-62-value-)
+	- [env rename &#60;id&#62; &#60;value&#62;](#/pages/using/cli.md#env-rename-60-id-62-60-value-62-)
 
 - Examples
 
-	- examples
-	- example <id>
-	- example clone <id>
+	- [examples](#/pages/using/cli.md#examples)
+	- [example &#60;id&#62;](#/pages/using/cli.md#example-60-id-62-)
+	- [example clone &#60;id&#62;](#/pages/using/cli.md#example-clone-60-id-62-)
 
 - Help
 
-	- help [command...]
+	- [help [command...]](#/pages/using/cli.md#help-command-)
 
 - Information
 
-	- version
+	- [version](#/pages/using/cli.md#version)
 
 - Keys
 
-	- keys
-	- key <id>
-	- key rm <id>
-	- key add <name> [path]
+	- [keys](#/pages/using/cli.md#keys)
+	- [key &#60;id&#62;](#/pages/using/cli.md#key-60-id-62-)
+	- [key rm &#60;id&#62;](#/pages/using/cli.md#key-rm-60-id-62-)
+	- [key add &#60;name&#62; [path]](#/pages/using/cli.md#key-add-60-name-62-path-)
 
 - Logs
 
-	- logs <uuid>
+	- [logs &#60;uuid&#62;](#/pages/using/cli.md#logs-60-uuid-62-)
 
 - Notes
 
-	- note <|note>
+	- [note &#60;|note&#62;](#/pages/using/cli.md#note-60-note-62-)
 
 - OS
 
-	- os download <id>
-	- os install <image> [device]
+	- [os download &#60;id&#62;](#/pages/using/cli.md#os-download-60-id-62-)
+	- [os install &#60;image&#62; [device]](#/pages/using/cli.md#os-install-60-image-62-device-)
 
 - Plugin
 
-	- plugins
-	- plugin install <name>
-	- plugin update <name>
-	- plugin rm <name>
+	- [plugins](#/pages/using/cli.md#plugins)
+	- [plugin install &#60;name&#62;](#/pages/using/cli.md#plugin-install-60-name-62-)
+	- [plugin update &#60;name&#62;](#/pages/using/cli.md#plugin-update-60-name-62-)
+	- [plugin rm &#60;name&#62;](#/pages/using/cli.md#plugin-rm-60-name-62-)
 
 - Preferences
 
-	- preferences
+	- [preferences](#/pages/using/cli.md#preferences)
 
 - Update
 
-	- update
+	- [update](#/pages/using/cli.md#update)
 
 # Application
+
 ## app create &#60;name&#62;
 
 Use this command to create a new resin.io application.
@@ -195,6 +196,7 @@ Examples:
 	$ resin init --project my/app/directory
 
 # Authentication
+
 ## whoami
 
 Use this command to find out the current logged in username.
@@ -257,6 +259,7 @@ user name
 user password
 
 # Device
+
 ## devices
 
 Use this command to list all devices that belong to a certain application.
@@ -378,6 +381,7 @@ wifi ssid, if network is wifi
 wifi key, if network is wifi
 
 # Drive
+
 ## drives
 
 Use this command to list all drives that are connected to your machine.
@@ -387,6 +391,7 @@ Examples:
 	$ resin drives
 
 # Environment Variables
+
 ## envs
 
 Use this command to list all environment variables for a particular application.
@@ -463,6 +468,7 @@ Examples:
 	$ resin env rename 376 emacs
 
 # Examples
+
 ## examples
 
 Use this command to list available example applications from resin.io
@@ -491,6 +497,7 @@ Example:
 	$ resin example clone 3
 
 # Help
+
 ## help [command...]
 
 Get detailed help for an specific command.
@@ -501,11 +508,13 @@ Examples:
 	$ resin help os download
 
 # Information
+
 ## version
 
 Display the Resin CLI version.
 
 # Keys
+
 ## keys
 
 Use this command to list all your SSH keys.
@@ -553,6 +562,7 @@ Examples:
 	$ cat ~/.ssh/id_rsa.pub | resin key add Main
 
 # Logs
+
 ## logs &#60;uuid&#62;
 
 Use this command to show logs for a specific device.
@@ -586,6 +596,7 @@ number of lines to display
 continuously stream output
 
 # Notes
+
 ## note &#60;|note&#62;
 
 Use this command to set or update a device note.
@@ -606,6 +617,7 @@ Examples:
 device name
 
 # OS
+
 ## os download &#60;id&#62;
 
 Use this command to download the device OS configured to a specific network.
@@ -682,6 +694,7 @@ Examples:
 confirm non interactively
 
 # Plugin
+
 ## plugins
 
 Use this command to list all the installed resin plugins.
@@ -729,6 +742,7 @@ Examples:
 confirm non interactively
 
 # Preferences
+
 ## preferences
 
 Use this command to open the preferences form.
@@ -741,6 +755,7 @@ Examples:
 	$ resin preferences
 
 # Update
+
 ## update
 
 Use this command to update the Resin CLI
