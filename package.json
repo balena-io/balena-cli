@@ -20,7 +20,7 @@
   "scripts": {
     "prepublish": "gulp build",
     "test": "gulp test",
-    "doc": "./scripts/extract-documentation.sh doc lib/actions"
+    "doc": "mkdir -p doc/ && coffee extras/capitanodoc/index.coffee > doc/cli.markdown"
   },
   "keywords": [
     "resin",
