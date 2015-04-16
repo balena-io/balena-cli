@@ -1,0 +1,96 @@
+{
+	"title": "Resin CLI Documentation",
+	"introduction": "This tool allows you to interact with the resin.io api from the comfort of your command line.\n\nTo get started download the CLI from npm.\n\n\t$ npm install resin-cli -g\n\nThen authenticate yourself:\n\n\t$ resin login\n\nNow you have access to all the commands referenced below.",
+	"categories": [
+		{
+			"title": "Application",
+			"files": [
+				"lib/actions/app.coffee"
+			]
+		},
+		{
+			"title": "Authentication",
+			"files": [
+				"lib/actions/auth.coffee"
+			]
+		},
+		{
+			"title": "Device",
+			"files": [
+				"lib/actions/device.coffee"
+			]
+		},
+		{
+			"title": "Drive",
+			"files": [
+				"lib/actions/drive.coffee"
+			]
+		},
+		{
+			"title": "Environment Variables",
+			"files": [
+				"lib/actions/environment-variables.coffee"
+			]
+		},
+		{
+			"title": "Examples",
+			"files": [
+				"lib/actions/examples.coffee"
+			]
+		},
+		{
+			"title": "Help",
+			"files": [
+				"lib/actions/help.coffee"
+			]
+		},
+		{
+			"title": "Information",
+			"files": [
+				"lib/actions/info.coffee"
+			]
+		},
+		{
+			"title": "Keys",
+			"files": [
+				"lib/actions/keys.coffee"
+			]
+		},
+		{
+			"title": "Logs",
+			"files": [
+				"lib/actions/logs.coffee"
+			]
+		},
+		{
+			"title": "Notes",
+			"files": [
+				"lib/actions/notes.coffee"
+			]
+		},
+		{
+			"title": "OS",
+			"files": [
+				"lib/actions/os.coffee"
+			]
+		},
+		{
+			"title": "Plugin",
+			"files": [
+				"lib/actions/plugin.coffee"
+			]
+		},
+		{
+			"title": "Preferences",
+			"files": [
+				"lib/actions/preferences.coffee"
+			]
+		},
+		{
+			"title": "Update",
+			"files": [
+				"lib/actions/update.coffee"
+			]
+		}
+	]
+}
