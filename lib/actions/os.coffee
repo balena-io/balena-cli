@@ -167,7 +167,7 @@ exports.install =
 				return done() if not confirmed
 
 				bar = new visuals.widgets.Progress('Writing Device OS')
-				params.progress = bar.update
+				params.progress = _.bind(bar.update, bar)
 				bundle.write(params, callback)
 
 		], (error) ->
