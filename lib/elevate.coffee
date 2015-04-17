@@ -1,3 +1,4 @@
+_ = require('lodash')
 os = require('os')
 path = require('path')
 

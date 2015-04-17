@@ -1,5 +1,7 @@
 (function() {
-  var isWindows, os, path;
+  var _, isWindows, os, path;
+
+  _ = require('lodash');
 
   os = require('os');
 
