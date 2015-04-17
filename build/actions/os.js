@@ -131,7 +131,7 @@
             return done();
           }
           bar = new visuals.widgets.Progress('Writing Device OS');
-          params.progress = bar.update;
+          params.progress = _.bind(bar.update, bar);
           return bundle.write(params, callback);
         }
       ], function(error) {
