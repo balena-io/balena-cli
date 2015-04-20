@@ -36,7 +36,7 @@
         };
         command = "npm install --global " + packageJSON.name;
         return child_process.exec(command, function(error, stdout, stderr) {
-          if (error != null) {
+          if (error == null) {
             return onUpdate(null, stdout, stderr);
           }
           if (_.any([error.code === 3, error.code === 'EPERM', error.code === 'ACCES'])) {
