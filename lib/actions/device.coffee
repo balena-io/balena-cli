@@ -178,9 +178,9 @@ exports.init =
 		Examples:
 
 			$ resin device init
-			$ resin device init --application 91
-			$ resin device init --application 91 --network ethernet
-			$ resin device init /dev/disk2 --application 91 --network wifi --ssid MyNetwork --key secret
+			$ resin device init --application MyApp
+			$ resin device init --application MyApp --network ethernet
+			$ resin device init /dev/disk2 --application MyApp --network wifi --ssid MyNetwork --key secret
 	'''
 	options: [
 		commandOptions.optionalApplication
@@ -191,16 +191,20 @@ exports.init =
 	permission: 'user'
 	action: (params, options, done) ->
 
-		params.id = options.application
-
 		async.waterfall([
 
 			(callback) ->
 				return callback(null, options.application) if options.application?
-				vcs.getApplicationId(process.cwd(), callback)
 
-			(applicationId, callback) ->
-				params.id = applicationId
+				# TODO: Extract this to vcs.getApplicationName()
+				vcs.getApplicationId process.cwd(), (error, applicationId) ->
+					return callback(error) if error?
+					resin.models.application.getById applicationId, (error, application) ->
+						return callback(error) if error?
+						return callback(null, application.app_name)
+
+			(applicationName, callback) ->
+				params.name = applicationName
 				return callback(null, params.device) if params.device?
 				visuals.patterns.selectDrive(callback)
 

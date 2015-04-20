@@ -111,19 +111,28 @@
   exports.init = {
     signature: 'device init [device]',
     description: 'initialise a device with resin os',
-    help: 'Use this command to download the OS image of a certain application and write it to an SD Card.\n\nNote that this command requires admin privileges.\n\nIf `device` is omitted, you will be prompted to select a device interactively.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nYou can quiet the progress bar by passing the `--quiet` boolean option.\n\nYou may have to unmount the device before attempting this operation.\n\nYou need to configure the network type and other settings:\n\nEthernet:\n  You can setup the device OS to use ethernet by setting the `--network` option to "ethernet".\n\nWifi:\n  You can setup the device OS to use wifi by setting the `--network` option to "wifi".\n  If you set "network" to "wifi", you will need to specify the `--ssid` and `--key` option as well.\n\nYou can omit network related options to be asked about them interactively.\n\nExamples:\n\n	$ resin device init\n	$ resin device init --application 91\n	$ resin device init --application 91 --network ethernet\n	$ resin device init /dev/disk2 --application 91 --network wifi --ssid MyNetwork --key secret',
+    help: 'Use this command to download the OS image of a certain application and write it to an SD Card.\n\nNote that this command requires admin privileges.\n\nIf `device` is omitted, you will be prompted to select a device interactively.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nYou can quiet the progress bar by passing the `--quiet` boolean option.\n\nYou may have to unmount the device before attempting this operation.\n\nYou need to configure the network type and other settings:\n\nEthernet:\n  You can setup the device OS to use ethernet by setting the `--network` option to "ethernet".\n\nWifi:\n  You can setup the device OS to use wifi by setting the `--network` option to "wifi".\n  If you set "network" to "wifi", you will need to specify the `--ssid` and `--key` option as well.\n\nYou can omit network related options to be asked about them interactively.\n\nExamples:\n\n	$ resin device init\n	$ resin device init --application MyApp\n	$ resin device init --application MyApp --network ethernet\n	$ resin device init /dev/disk2 --application MyApp --network wifi --ssid MyNetwork --key secret',
     options: [commandOptions.optionalApplication, commandOptions.network, commandOptions.wifiSsid, commandOptions.wifiKey],
     permission: 'user',
     action: function(params, options, done) {
-      params.id = options.application;
       return async.waterfall([
         function(callback) {
           if (options.application != null) {
             return callback(null, options.application);
           }
-          return vcs.getApplicationId(process.cwd(), callback);
-        }, function(applicationId, callback) {
-          params.id = applicationId;
+          return vcs.getApplicationId(process.cwd(), function(error, applicationId) {
+            if (error != null) {
+              return callback(error);
+            }
+            return resin.models.application.getById(applicationId, function(error, application) {
+              if (error != null) {
+                return callback(error);
+              }
+              return callback(null, application.app_name);
+            });
+          });
+        }, function(applicationName, callback) {
+          params.name = applicationName;
           if (params.device != null) {
             return callback(null, params.device);
           }
