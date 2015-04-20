@@ -195,13 +195,7 @@ exports.init =
 
 			(callback) ->
 				return callback(null, options.application) if options.application?
-
-				# TODO: Extract this to vcs.getApplicationName()
-				vcs.getApplicationId process.cwd(), (error, applicationId) ->
-					return callback(error) if error?
-					resin.models.application.getById applicationId, (error, application) ->
-						return callback(error) if error?
-						return callback(null, application.app_name)
+				vcs.getApplicationName(process.cwd(), callback)
 
 			(applicationName, callback) ->
 				params.name = applicationName

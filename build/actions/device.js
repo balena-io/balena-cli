@@ -120,17 +120,7 @@
           if (options.application != null) {
             return callback(null, options.application);
           }
-          return vcs.getApplicationId(process.cwd(), function(error, applicationId) {
-            if (error != null) {
-              return callback(error);
-            }
-            return resin.models.application.getById(applicationId, function(error, application) {
-              if (error != null) {
-                return callback(error);
-              }
-              return callback(null, application.app_name);
-            });
-          });
+          return vcs.getApplicationName(process.cwd(), callback);
         }, function(applicationName, callback) {
           params.name = applicationName;
           if (params.device != null) {
