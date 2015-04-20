@@ -41,7 +41,7 @@ exports.update =
 			# A safer thing to do is to call npm as a child process
 			# https://github.com/npm/npm/issues/7723
 			child_process.exec command, (error, stdout, stderr) ->
-				return onUpdate(null, stdout, stderr) if error?
+				return onUpdate(null, stdout, stderr) if not error?
 
 				if _.any [
 
