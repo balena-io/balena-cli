@@ -83,7 +83,7 @@ Now you have access to all the commands referenced below.
 
 - OS
 
-	- [os download &#60;id&#62;](#/pages/using/cli.md#os-download-60-id-62-)
+	- [os download &#60;name&#62;](#/pages/using/cli.md#os-download-60-name-62-)
 	- [os install &#60;image&#62; [device]](#/pages/using/cli.md#os-install-60-image-62-device-)
 
 - Plugin
@@ -211,7 +211,7 @@ Use this command to login to your resin.io account.
 
 To login, you need your token, which is accesible from the preferences page:
 
-	https://staging.resin.io/preferences
+	https://dashboard.resin.io/preferences
 
 Examples:
 
@@ -358,9 +358,9 @@ You can omit network related options to be asked about them interactively.
 Examples:
 
 	$ resin device init
-	$ resin device init --application 91
-	$ resin device init --application 91 --network ethernet
-	$ resin device init /dev/disk2 --application 91 --network wifi --ssid MyNetwork --key secret
+	$ resin device init --application MyApp
+	$ resin device init --application MyApp --network ethernet
+	$ resin device init /dev/disk2 --application MyApp --network wifi --ssid MyNetwork --key secret
 
 ### Options
 
@@ -618,7 +618,7 @@ device name
 
 # OS
 
-## os download &#60;id&#62;
+## os download &#60;name&#62;
 
 Use this command to download the device OS configured to a specific network.
 
@@ -635,10 +635,10 @@ You have to specify an output location with the `--output` option.
 
 Examples:
 
-	$ resin os download 91 --output ~/MyResinOS.zip
-	$ resin os download 91 --network ethernet --output ~/MyResinOS.zip
-	$ resin os download 91 --network wifi --ssid MyNetwork --key secreykey123 --output ~/MyResinOS.zip
-	$ resin os download 91 --network ethernet --output ~/MyResinOS.zip
+	$ resin os download MyApp --output ~/MyResinOS.zip
+	$ resin os download MyApp --network ethernet --output ~/MyResinOS.zip
+	$ resin os download MyApp --network wifi --ssid MyNetwork --key secreykey123 --output ~/MyResinOS.zip
+	$ resin os download MyApp --network ethernet --output ~/MyResinOS.zip
 
 ### Options
 
