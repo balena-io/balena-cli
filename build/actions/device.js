@@ -1,5 +1,5 @@
 (function() {
-  var _, async, commandOptions, osAction, path, resin, vcs, visuals;
+  var _, async, commandOptions, osAction, path, resin, tmp, vcs, visuals;
 
   _ = require('lodash-contrib');
 
@@ -12,6 +12,10 @@
   visuals = require('resin-cli-visuals');
 
   vcs = require('resin-vcs');
+
+  tmp = require('tmp');
+
+  tmp.setGracefulCleanup();
 
   commandOptions = require('./command-options');
 
@@ -137,10 +141,27 @@
             return done();
           }
           options.yes = confirmed;
-          return osAction.download.action(params, options, callback);
-        }, function(outputFile, callback) {
+          return tmp.file({
+            prefix: 'resin-image-',
+            postfix: '.img'
+          }, callback);
+        }, function(tmpPath, tmpFd, cleanupCallback, callback) {
+          options.output = tmpPath;
+          return osAction.download.action(params, options, function(error, outputFile) {
+            if (error != null) {
+              return callback(error);
+            }
+            return callback(null, outputFile, cleanupCallback);
+          });
+        }, function(outputFile, cleanupCallback, callback) {
           params.image = outputFile;
-          return osAction.install.action(params, options, callback);
+          return osAction.install.action(params, options, function(error) {
+            if (error != null) {
+              return callback(error);
+            }
+            cleanupCallback();
+            return callback();
+          });
         }
       ], done);
     }
