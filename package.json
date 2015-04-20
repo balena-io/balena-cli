@@ -65,7 +65,7 @@
     "resin-cli-visuals": "^0.1.0",
     "resin-sdk": "^1.2.0",
     "resin-settings-client": "^1.0.0",
-    "resin-vcs": "^1.1.0",
+    "resin-vcs": "^1.2.0",
     "underscore.string": "~2.4.0",
     "update-notifier": "^0.3.1"
   }
