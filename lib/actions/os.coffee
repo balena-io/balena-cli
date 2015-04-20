@@ -12,7 +12,7 @@ updateActions = require('./update')
 elevate = require('../elevate')
 
 exports.download =
-	signature: 'os download <id>'
+	signature: 'os download <name>'
 	description: 'download device OS'
 	help: '''
 		Use this command to download the device OS configured to a specific network.
@@ -30,10 +30,10 @@ exports.download =
 
 		Examples:
 
-			$ resin os download 91 --output ~/MyResinOS.zip
-			$ resin os download 91 --network ethernet --output ~/MyResinOS.zip
-			$ resin os download 91 --network wifi --ssid MyNetwork --key secreykey123 --output ~/MyResinOS.zip
-			$ resin os download 91 --network ethernet --output ~/MyResinOS.zip
+			$ resin os download MyApp --output ~/MyResinOS.zip
+			$ resin os download MyApp --network ethernet --output ~/MyResinOS.zip
+			$ resin os download MyApp --network wifi --ssid MyNetwork --key secreykey123 --output ~/MyResinOS.zip
+			$ resin os download MyApp --network ethernet --output ~/MyResinOS.zip
 	'''
 	options: [
 		commandOptions.network
@@ -50,45 +50,48 @@ exports.download =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
-		osParams =
-			network: options.network
-			wifiSsid: options.ssid
-			wifiKey: options.key
-			appId: params.id
-
-		async.waterfall [
-
-			(callback) ->
-				return callback() if osParams.network?
-				visuals.patterns.selectNetworkParameters (error, parameters) ->
-					return callback(error) if error?
-					_.extend(osParams, parameters)
-					return callback()
-
-			(callback) ->
-
-				# We need to ensure this directory exists
-				mkdirp(path.dirname(options.output), _.unary(callback))
-
-			(callback) ->
-				console.info("Destination file: #{options.output}\n")
-
-				bar = new visuals.widgets.Progress('Downloading Device OS')
-				spinner = new visuals.widgets.Spinner('Downloading Device OS (size unknown)')
-
-				resin.models.os.download osParams, options.output, (error) ->
-					spinner.stop()
-					return callback(error) if error?
-				, (state) ->
-					if state?
-						bar.update(state)
-					else
-						spinner.start()
-
-		], (error) ->
+		resin.models.application.get params.name, (error, application) ->
 			return done(error) if error?
-			console.info("\nFinished downloading #{options.output}")
-			return done(null, options.output)
+
+			osParams =
+				network: options.network
+				wifiSsid: options.ssid
+				wifiKey: options.key
+				appId: application.id
+
+			async.waterfall [
+
+				(callback) ->
+					return callback() if osParams.network?
+					visuals.patterns.selectNetworkParameters (error, parameters) ->
+						return callback(error) if error?
+						_.extend(osParams, parameters)
+						return callback()
+
+				(callback) ->
+
+					# We need to ensure this directory exists
+					mkdirp(path.dirname(options.output), _.unary(callback))
+
+				(callback) ->
+					console.info("Destination file: #{options.output}\n")
+
+					bar = new visuals.widgets.Progress('Downloading Device OS')
+					spinner = new visuals.widgets.Spinner('Downloading Device OS (size unknown)')
+
+					resin.models.os.download osParams, options.output, (error) ->
+						spinner.stop()
+						return callback(error) if error?
+					, (state) ->
+						if state?
+							bar.update(state)
+						else
+							spinner.start()
+
+			], (error) ->
+				return done(error) if error?
+				console.info("\nFinished downloading #{options.output}")
+				return done(null, options.output)
 
 exports.install =
 	signature: 'os install <image> [device]'
