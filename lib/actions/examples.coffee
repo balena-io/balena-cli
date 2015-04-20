@@ -1,3 +1,4 @@
+mkdirp = require('mkdirp')
 async = require('async')
 fs = require('fs')
 path = require('path')
@@ -86,5 +87,10 @@ exports.clone =
 			return done(new Error("Unknown example: #{id}"))
 
 		currentDirectory = process.cwd()
-		console.info("Cloning #{example.display_name} to #{currentDirectory}")
-		vcs.clone(example.repository, currentDirectory, done)
+		destination = path.join(currentDirectory, example.name)
+
+		mkdirp destination, (error) ->
+			return done(error) if error?
+			console.info("Cloning #{example.display_name} to #{destination}")
+			vcs.clone(example.repository, destination, done)
+			return done()
