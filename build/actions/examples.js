@@ -1,5 +1,7 @@
 (function() {
-  var _, async, examplesData, fs, path, resin, vcs, visuals;
+  var _, async, examplesData, fs, mkdirp, path, resin, vcs, visuals;
+
+  mkdirp = require('mkdirp');
 
   async = require('async');
 
@@ -64,14 +66,21 @@
     help: 'Use this command to clone an example application to the current directory\n\nThis command outputs information about the cloning process.\nUse `--quiet` to remove that output.\n\nExample:\n\n	$ resin example clone 3',
     permission: 'user',
     action: function(params, options, done) {
-      var currentDirectory, example;
+      var currentDirectory, destination, example;
       example = examplesData[params.id - 1];
       if (example == null) {
         return done(new Error("Unknown example: " + id));
       }
       currentDirectory = process.cwd();
-      console.info("Cloning " + example.display_name + " to " + currentDirectory);
-      return vcs.clone(example.repository, currentDirectory, done);
+      destination = path.join(currentDirectory, example.name);
+      return mkdirp(destination, function(error) {
+        if (error != null) {
+          return done(error);
+        }
+        console.info("Cloning " + example.display_name + " to " + destination);
+        vcs.clone(example.repository, destination, done);
+        return done();
+      });
     }
   };
 
