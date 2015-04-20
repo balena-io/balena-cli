@@ -1,6 +1,6 @@
 {
   "name": "resin-cli",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "description": "Git Push to your devices",
   "main": "./lib/actions/index.coffee",
   "homepage": "https://github.com/resin-io/resin-cli",
