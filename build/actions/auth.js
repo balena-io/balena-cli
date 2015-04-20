@@ -15,22 +15,6 @@
 
   visuals = require('resin-cli-visuals');
 
-  exports.whoami = {
-    signature: 'whoami',
-    description: 'whoami',
-    help: 'Use this command to get the logged in user name.\n\nExamples:\n\n	$ resin whoami',
-    permission: 'user',
-    action: function(params, options, done) {
-      return resin.auth.whoami(function(error, username) {
-        if (error != null) {
-          return done(error);
-        }
-        console.log(username);
-        return done();
-      });
-    }
-  };
-
   TOKEN_URL = url.resolve(settings.get('remoteUrl'), '/preferences');
 
   exports.login = {
@@ -129,10 +113,14 @@
     permission: 'user',
     action: function(params, options, done) {
       return resin.auth.whoami(function(error, username) {
+        if (error != null) {
+          return done(error);
+        }
         if (username == null) {
           return done(new Error('Username not found'));
         }
-        return console.log(username);
+        console.log(username);
+        return done();
       });
     }
   };

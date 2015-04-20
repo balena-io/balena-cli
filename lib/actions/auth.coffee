@@ -6,23 +6,6 @@ resin = require('resin-sdk')
 settings = require('resin-settings-client')
 visuals = require('resin-cli-visuals')
 
-exports.whoami =
-	signature: 'whoami'
-	description: 'whoami'
-	help: '''
-		Use this command to get the logged in user name.
-
-		Examples:
-
-			$ resin whoami
-	'''
-	permission: 'user'
-	action: (params, options, done) ->
-		resin.auth.whoami (error, username) ->
-			return done(error) if error?
-			console.log(username)
-			return done()
-
 TOKEN_URL = url.resolve(settings.get('remoteUrl'), '/preferences')
 
 exports.login	=
@@ -166,8 +149,10 @@ exports.whoami =
 	permission: 'user'
 	action: (params, options, done) ->
 		resin.auth.whoami (error, username) ->
+			return done(error) if error?
 
 			if not username?
 				return done(new Error('Username not found'))
 
 			console.log(username)
+			return done()
