@@ -4,6 +4,11 @@ async = require('async')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
 vcs = require('resin-vcs')
+tmp = require('tmp')
+
+# Cleanup the temporary files even when an uncaught exception occurs
+tmp.setGracefulCleanup()
+
 commandOptions = require('./command-options')
 osAction = require('./os')
 
@@ -210,10 +215,23 @@ exports.init =
 			(confirmed, callback) ->
 				return done() if not confirmed
 				options.yes = confirmed
-				osAction.download.action(params, options, callback)
 
-			(outputFile, callback) ->
+				tmp.file
+					prefix: 'resin-image-'
+					postfix: '.img'
+				, callback
+
+			(tmpPath, tmpFd, cleanupCallback, callback) ->
+				options.output = tmpPath
+				osAction.download.action params, options, (error, outputFile) ->
+					return callback(error) if error?
+					return callback(null, outputFile, cleanupCallback)
+
+			(outputFile, cleanupCallback, callback) ->
 				params.image = outputFile
-				osAction.install.action(params, options, callback)
+				osAction.install.action params, options, (error) ->
+					return callback(error) if error?
+					cleanupCallback()
+					return callback()
 
 		], done)
