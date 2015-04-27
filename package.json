@@ -63,7 +63,7 @@
     "president": "^1.0.0",
     "progress-stream": "^0.5.0",
     "resin-cli-visuals": "^0.1.0",
-    "resin-sdk": "^1.2.1",
+    "resin-sdk": "^1.3.0",
     "resin-settings-client": "^1.0.0",
     "resin-vcs": "^1.2.0",
     "tmp": "^0.0.25",
