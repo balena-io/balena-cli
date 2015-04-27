@@ -35,10 +35,10 @@
         }
         if (_.isArray(message)) {
           _.each(message, function(line) {
-            return console.log(line);
+            return console.log(line.message);
           });
         } else {
-          console.log(message);
+          console.log(message.message);
         }
         return done();
       });
