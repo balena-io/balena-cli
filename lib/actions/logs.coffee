@@ -50,7 +50,7 @@ exports.logs =
 			return done(error) if error?
 			if _.isArray(message)
 				_.each message, (line) ->
-					console.log(line)
+					console.log(line.message)
 			else
-				console.log(message)
+				console.log(message.message)
 			return done()
