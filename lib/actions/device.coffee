@@ -16,16 +16,27 @@ exports.list =
 	signature: 'devices'
 	description: 'list all devices'
 	help: '''
-		Use this command to list all devices that belong to a certain application.
+		Use this command to list all devices that belong to you.
+
+		You can filter the devices by application by using the `--application` option.
 
 		Examples:
 
+			$ resin devices
 			$ resin devices --application MyApp
+			$ resin devices --app MyApp
+			$ resin devices -a MyApp
 	'''
-	options: [ commandOptions.application ]
+	options: [ commandOptions.optionalApplication ]
 	permission: 'user'
 	action: (params, options, done) ->
-		resin.models.device.getAllByApplication options.application, (error, devices) ->
+
+		if options.application?
+			getFunction = _.partial(resin.models.device.getAllByApplication, options.application)
+		else
+			getFunction = resin.models.device.getAll
+
+		getFunction (error, devices) ->
 			return done(error) if error?
 			console.log visuals.widgets.table.horizontal devices, [
 				'id'
