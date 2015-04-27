@@ -16,8 +16,7 @@ exports.logs =
 
 		To continuously stream output, and see new logs in real time, use the `--tail` option.
 
-		Note that for now you need to provide the whole UUID for this command to work correctly,
-		and the tool won't notice if you're using an invalid UUID.
+		Note that for now you need to provide the whole UUID for this command to work correctly.
 
 		This is due to some technical limitations that we plan to address soon.
 

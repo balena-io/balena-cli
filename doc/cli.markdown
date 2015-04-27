@@ -26,10 +26,10 @@ Now you have access to all the commands referenced below.
 
 - Authentication
 
-	- [whoami](#/pages/using/cli.md#whoami)
 	- [login [token]](#/pages/using/cli.md#login-token-)
 	- [logout](#/pages/using/cli.md#logout)
 	- [signup](#/pages/using/cli.md#signup)
+	- [whoami](#/pages/using/cli.md#whoami)
 
 - Device
 
@@ -197,14 +197,6 @@ Examples:
 
 # Authentication
 
-## whoami
-
-Use this command to find out the current logged in username.
-
-Examples:
-
-	$ resin whoami
-
 ## login [token]
 
 Use this command to login to your resin.io account.
@@ -257,6 +249,14 @@ user name
 #### --password, -p &#60;user password&#62;
 
 user password
+
+## whoami
+
+Use this command to find out the current logged in username.
+
+Examples:
+
+	$ resin whoami
 
 # Device
 
@@ -574,8 +574,7 @@ This is similar to doing `resin logs <uuid> | tail -n X`.
 
 To continuously stream output, and see new logs in real time, use the `--tail` option.
 
-Note that for now you need to provide the whole UUID for this command to work correctly,
-and the tool won't notice if you're using an invalid UUID.
+Note that for now you need to provide the whole UUID for this command to work correctly.
 
 This is due to some technical limitations that we plan to address soon.
 
