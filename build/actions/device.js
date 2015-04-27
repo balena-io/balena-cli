@@ -24,11 +24,17 @@
   exports.list = {
     signature: 'devices',
     description: 'list all devices',
-    help: 'Use this command to list all devices that belong to a certain application.\n\nExamples:\n\n	$ resin devices --application MyApp',
-    options: [commandOptions.application],
+    help: 'Use this command to list all devices that belong to you.\n\nYou can filter the devices by application by using the `--application` option.\n\nExamples:\n\n	$ resin devices\n	$ resin devices --application MyApp\n	$ resin devices --app MyApp\n	$ resin devices -a MyApp',
+    options: [commandOptions.optionalApplication],
     permission: 'user',
     action: function(params, options, done) {
-      return resin.models.device.getAllByApplication(options.application, function(error, devices) {
+      var getFunction;
+      if (options.application != null) {
+        getFunction = _.partial(resin.models.device.getAllByApplication, options.application);
+      } else {
+        getFunction = resin.models.device.getAll;
+      }
+      return getFunction(function(error, devices) {
         if (error != null) {
           return done(error);
         }

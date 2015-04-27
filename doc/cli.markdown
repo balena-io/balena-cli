@@ -262,11 +262,16 @@ Examples:
 
 ## devices
 
-Use this command to list all devices that belong to a certain application.
+Use this command to list all devices that belong to you.
+
+You can filter the devices by application by using the `--application` option.
 
 Examples:
 
+	$ resin devices
 	$ resin devices --application MyApp
+	$ resin devices --app MyApp
+	$ resin devices -a MyApp
 
 ### Options
 
