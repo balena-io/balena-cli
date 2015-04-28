@@ -31,6 +31,11 @@
     action: function(params, options, done) {
       return async.waterfall([
         function(callback) {
+          return resin.models.application.has(params.name, callback);
+        }, function(hasApplication, callback) {
+          if (hasApplication) {
+            return callback(new Error('You already have an application with that name!'));
+          }
           if (options.type != null) {
             return callback(null, options.type);
           }
