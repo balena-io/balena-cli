@@ -37,6 +37,12 @@ exports.create =
 		async.waterfall([
 
 			(callback) ->
+				resin.models.application.has(params.name, callback)
+
+			(hasApplication, callback) ->
+				if hasApplication
+					return callback(new Error('You already have an application with that name!'))
+
 				return callback(null, options.type) if options.type?
 
 				resin.models.device.getSupportedDeviceTypes (error, deviceTypes) ->
