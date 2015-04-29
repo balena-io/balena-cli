@@ -1,3 +1,4 @@
+_ = require('lodash')
 async = require('async')
 resin = require('resin-sdk')
 
@@ -25,4 +26,8 @@ exports.set =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
+
+		if _.isEmpty(params.note)
+			return done(new Error('Missing note content'))
+
 		resin.models.device.note(options.device, params.note, done)
