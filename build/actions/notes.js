@@ -1,5 +1,7 @@
 (function() {
-  var async, resin;
+  var _, async, resin;
+
+  _ = require('lodash');
 
   async = require('async');
 
@@ -20,6 +22,9 @@
     ],
     permission: 'user',
     action: function(params, options, done) {
+      if (_.isEmpty(params.note)) {
+        return done(new Error('Missing note content'));
+      }
       return resin.models.device.note(options.device, params.note, done);
     }
   };
