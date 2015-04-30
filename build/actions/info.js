@@ -7,8 +7,9 @@
     signature: 'version',
     description: 'output the version number',
     help: 'Display the Resin CLI version.',
-    action: function() {
-      return console.log(packageJSON.version);
+    action: function(params, options, done) {
+      console.log(packageJSON.version);
+      return done();
     }
   };
 

@@ -31,6 +31,12 @@ capitano.globalOption
 	description: 'project path'
 	alias: 'j'
 
+capitano.globalOption
+	signature: 'version'
+	description: actions.info.version.description
+	boolean: true
+	alias: 'v'
+
 # We don't do anything in response to this options
 # explicitly. We use InquirerJS to provide CLI widgets,
 # and that module understands --no-color automatically.
@@ -134,6 +140,9 @@ async.waterfall([
 		if cli.global.project?
 			changeProjectDirectory(cli.global.project)
 
-		capitano.execute(cli, callback)
+		if cli.global.version
+			actions.info.version.action(null, null, callback)
+		else
+			capitano.execute(cli, callback)
 
 ], errors.handle)
