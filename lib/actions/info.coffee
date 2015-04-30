@@ -6,5 +6,6 @@ exports.version =
 	help: '''
 		Display the Resin CLI version.
 	'''
-	action: ->
+	action: (params, options, done) ->
 		console.log(packageJSON.version)
+		return done()

@@ -50,6 +50,13 @@
   });
 
   capitano.globalOption({
+    signature: 'version',
+    description: actions.info.version.description,
+    boolean: true,
+    alias: 'v'
+  });
+
+  capitano.globalOption({
     signature: 'no-color',
     description: 'disable colour highlighting',
     boolean: true
@@ -161,7 +168,11 @@
       if (cli.global.project != null) {
         changeProjectDirectory(cli.global.project);
       }
-      return capitano.execute(cli, callback);
+      if (cli.global.version) {
+        return actions.info.version.action(null, null, callback);
+      } else {
+        return capitano.execute(cli, callback);
+      }
     }
   ], errors.handle);
 
