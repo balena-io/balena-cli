@@ -1,3 +1,4 @@
+capitano = require('capitano')
 _ = require('lodash-contrib')
 path = require('path')
 async = require('async')
@@ -234,13 +235,16 @@ exports.init =
 
 			(tmpPath, tmpFd, cleanupCallback, callback) ->
 				options.output = tmpPath
+
+				# TODO: Figure out how to make use of capitano.run()
+				# here given the complexity of converting network
+				# params object to string options
 				osAction.download.action params, options, (error, outputFile) ->
 					return callback(error) if error?
 					return callback(null, outputFile, cleanupCallback)
 
 			(outputFile, cleanupCallback, callback) ->
-				params.image = outputFile
-				osAction.install.action params, options, (error) ->
+				capitano.run "os install #{outputFile} #{params.device}", (error) ->
 					return callback(error) if error?
 					cleanupCallback()
 					return callback()
