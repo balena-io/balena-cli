@@ -54,6 +54,6 @@ gulp.task 'build', [
 	'man'
 ]
 
-gulp.task 'watch', [ 'test', 'lint' ], ->
+gulp.task 'watch', [ 'test', 'lint', 'coffee' ], ->
 	gulp.watch([ OPTIONS.files.coffee, OPTIONS.files.json ], [ 'coffee' ])
 	gulp.watch([ OPTIONS.files.man ], [ 'man' ])
