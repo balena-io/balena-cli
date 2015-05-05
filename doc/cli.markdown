@@ -39,6 +39,7 @@ Now you have access to all the commands referenced below.
 	- [device identify &#60;uuid&#62;](#/pages/using/cli.md#device-identify-60-uuid-62-)
 	- [device rename &#60;name&#62; [newName]](#/pages/using/cli.md#device-rename-60-name-62-newname-)
 	- [devices supported](#/pages/using/cli.md#devices-supported)
+	- [device await &#60;name&#62;](#/pages/using/cli.md#device-await-60-name-62-)
 	- [device init [device]](#/pages/using/cli.md#device-init-device-)
 
 - Drive
@@ -333,6 +334,27 @@ Use this command to get the list of all supported devices
 Examples:
 
 	$ resin devices supported
+
+## device await &#60;name&#62;
+
+Use this command to await for a device to become online.
+
+The process will exit when the device becomes online.
+
+Notice that there is no time limit for this command, so it might run forever.
+
+You can configure the poll interval with the --interval option (defaults to 3000ms).
+
+Examples:
+
+	$ resin device await MyDevice
+	$ resin device await MyDevice --interval 1000
+
+### Options
+
+#### --interval, -i &#60;interval&#62;
+
+poll interval
 
 ## device init [device]
 

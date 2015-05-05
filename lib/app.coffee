@@ -74,6 +74,7 @@ capitano.command(actions.device.init)
 capitano.command(actions.device.info)
 capitano.command(actions.device.remove)
 capitano.command(actions.device.identify)
+capitano.command(actions.device.await)
 
 # ---------- Drive Module ----------
 capitano.command(actions.drive.list)
