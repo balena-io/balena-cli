@@ -5,6 +5,7 @@ path = require('path')
 mkdirp = require('mkdirp')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
+umount = require('umount').umount
 commandOptions = require('./command-options')
 npm = require('../npm')
 packageJSON = require('../../package.json')
@@ -108,18 +109,6 @@ exports.install =
 
 		You can quiet the progress bar by passing the `--quiet` boolean option.
 
-		You may have to unmount the device before attempting this operation.
-
-		See the `drives` command to get a list of all connected devices to your machine and their respective ids.
-
-		In Mac OS X:
-
-			$ sudo diskutil unmountDisk /dev/xxx
-
-		In GNU/Linux:
-
-			$ sudo umount /dev/xxx
-
 		Examples:
 
 			$ resin os install rpi.iso /dev/disk2
@@ -168,7 +157,9 @@ exports.install =
 
 			(confirmed, callback) ->
 				return done() if not confirmed
+				umount(params.device, _.unary(callback))
 
+			(callback) ->
 				bar = new visuals.widgets.Progress('Writing Device OS')
 				params.progress = _.bind(bar.update, bar)
 				bundle.write(params, callback)

@@ -1,5 +1,5 @@
 (function() {
-  var _, async, commandOptions, elevate, mkdirp, npm, os, packageJSON, path, resin, updateActions, visuals;
+  var _, async, commandOptions, elevate, mkdirp, npm, os, packageJSON, path, resin, umount, updateActions, visuals;
 
   _ = require('lodash-contrib');
 
@@ -14,6 +14,8 @@
   resin = require('resin-sdk');
 
   visuals = require('resin-cli-visuals');
+
+  umount = require('umount').umount;
 
   commandOptions = require('./command-options');
 
@@ -97,7 +99,7 @@
   exports.install = {
     signature: 'os install <image> [device]',
     description: 'write an operating system image to a device',
-    help: 'Use this command to write an operating system image to a device.\n\nNote that this command requires admin privileges.\n\nIf `device` is omitted, you will be prompted to select a device interactively.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nYou can quiet the progress bar by passing the `--quiet` boolean option.\n\nYou may have to unmount the device before attempting this operation.\n\nSee the `drives` command to get a list of all connected devices to your machine and their respective ids.\n\nIn Mac OS X:\n\n	$ sudo diskutil unmountDisk /dev/xxx\n\nIn GNU/Linux:\n\n	$ sudo umount /dev/xxx\n\nExamples:\n\n	$ resin os install rpi.iso /dev/disk2',
+    help: 'Use this command to write an operating system image to a device.\n\nNote that this command requires admin privileges.\n\nIf `device` is omitted, you will be prompted to select a device interactively.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nYou can quiet the progress bar by passing the `--quiet` boolean option.\n\nExamples:\n\n	$ resin os install rpi.iso /dev/disk2',
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
@@ -131,10 +133,12 @@
           message = "This will completely erase " + params.device + ". Are you sure you want to continue?";
           return visuals.patterns.confirm(options.yes, message, callback);
         }, function(confirmed, callback) {
-          var bar;
           if (!confirmed) {
             return done();
           }
+          return umount(params.device, _.unary(callback));
+        }, function(callback) {
+          var bar;
           bar = new visuals.widgets.Progress('Writing Device OS');
           params.progress = _.bind(bar.update, bar);
           return bundle.write(params, callback);
