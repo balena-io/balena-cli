@@ -52,7 +52,6 @@
     "capitano": "~1.5.0",
     "coffee-script": "~1.8.0",
     "conf.js": "^0.1.1",
-    "diskio": "^1.0.0",
     "drivelist": "^1.2.1",
     "lodash": "~2.4.1",
     "lodash-contrib": "~241.4.14",
@@ -61,13 +60,12 @@
     "npm": "^2.6.1",
     "open": "0.0.5",
     "president": "^1.0.0",
-    "progress-stream": "^0.5.0",
     "resin-cli-visuals": "^0.1.0",
     "resin-sdk": "^1.4.1",
+    "resin-image": "^1.1.1",
     "resin-settings-client": "^1.0.0",
     "resin-vcs": "^1.2.0",
     "tmp": "^0.0.25",
-    "umount": "^1.0.0",
     "underscore.string": "~2.4.0",
     "update-notifier": "^0.3.1"
   }

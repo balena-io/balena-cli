@@ -5,8 +5,8 @@ async = require('async')
 path = require('path')
 mkdirp = require('mkdirp')
 resin = require('resin-sdk')
+image = require('resin-image')
 visuals = require('resin-cli-visuals')
-umount = require('umount').umount
 commandOptions = require('./command-options')
 npm = require('../npm')
 packageJSON = require('../../package.json')
@@ -117,8 +117,6 @@ exports.install =
 	permission: 'user'
 	action: (params, options, done) ->
 
-		bundle = require('../devices/raspberry-pi')
-
 		async.waterfall [
 
 			(callback) ->
@@ -157,12 +155,9 @@ exports.install =
 
 			(confirmed, callback) ->
 				return done() if not confirmed
-				umount(params.device, _.unary(callback))
-
-			(callback) ->
 				bar = new visuals.widgets.Progress('Writing Device OS')
 				params.progress = _.bind(bar.update, bar)
-				bundle.write(params, callback)
+				image.write(params, callback)
 
 		], (error) ->
 			return done() if not error?

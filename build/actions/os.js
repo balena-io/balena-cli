@@ -1,5 +1,5 @@
 (function() {
-  var _, async, capitano, commandOptions, elevate, mkdirp, npm, os, packageJSON, path, resin, umount, visuals;
+  var _, async, capitano, commandOptions, elevate, image, mkdirp, npm, os, packageJSON, path, resin, visuals;
 
   capitano = require('capitano');
 
@@ -15,9 +15,9 @@
 
   resin = require('resin-sdk');
 
-  visuals = require('resin-cli-visuals');
+  image = require('resin-image');
 
-  umount = require('umount').umount;
+  visuals = require('resin-cli-visuals');
 
   commandOptions = require('./command-options');
 
@@ -103,8 +103,6 @@
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
-      var bundle;
-      bundle = require('../devices/raspberry-pi');
       return async.waterfall([
         function(callback) {
           return npm.isUpdated(packageJSON.name, packageJSON.version, callback);
@@ -133,15 +131,13 @@
           message = "This will completely erase " + params.device + ". Are you sure you want to continue?";
           return visuals.patterns.confirm(options.yes, message, callback);
         }, function(confirmed, callback) {
+          var bar;
           if (!confirmed) {
             return done();
           }
-          return umount(params.device, _.unary(callback));
-        }, function(callback) {
-          var bar;
           bar = new visuals.widgets.Progress('Writing Device OS');
           params.progress = _.bind(bar.update, bar);
-          return bundle.write(params, callback);
+          return image.write(params, callback);
         }
       ], function(error) {
         var resinWritePath;
