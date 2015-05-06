@@ -163,6 +163,46 @@ exports.supported =
 			_.each(devices, _.unary(console.log))
 			done()
 
+exports.await =
+	signature: 'device await <name>'
+	description: 'await for a device to become online'
+	help: '''
+		Use this command to await for a device to become online.
+
+		The process will exit when the device becomes online.
+
+		Notice that there is no time limit for this command, so it might run forever.
+
+		You can configure the poll interval with the --interval option (defaults to 3000ms).
+
+		Examples:
+
+			$ resin device await MyDevice
+			$ resin device await MyDevice --interval 1000
+	'''
+	options: [
+		signature: 'interval'
+		parameter: 'interval'
+		description: 'poll interval'
+		alias: 'i'
+	]
+	permission: 'user'
+	action: (params, options, done) ->
+		options.interval ?= 3000
+
+		poll = ->
+			resin.models.device.isOnline params.name, (error, isOnline) ->
+				return done(error) if error?
+
+				if isOnline
+					console.info("Device became online: #{params.name}")
+					return done()
+				else
+					console.info("Polling device network status: #{params.name}")
+					setTimeout(poll, options.interval)
+
+		poll()
+
 exports.init =
 	signature: 'device init [device]'
 	description: 'initialise a device with resin os'

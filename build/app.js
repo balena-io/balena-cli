@@ -102,6 +102,8 @@
 
   capitano.command(actions.device.identify);
 
+  capitano.command(actions.device.await);
+
   capitano.command(actions.drive.list);
 
   capitano.command(actions.notes.set);
