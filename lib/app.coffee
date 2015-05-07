@@ -51,6 +51,9 @@ capitano.command(actions.info.config)
 # ---------- Help Module ----------
 capitano.command(actions.help.help)
 
+# ---------- Wizard Module ----------
+capitano.command(actions.wizard.wizard)
+
 # ---------- Auth Module ----------
 capitano.command(actions.auth.login)
 capitano.command(actions.auth.logout)

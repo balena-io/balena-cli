@@ -45,11 +45,17 @@ exports.create =
 					return callback(new Error('You already have an application with that name!'))
 
 				return callback(null, options.type) if options.type?
-				resin.models.device.getSupportedDeviceTypes().then (supportedDeviceTypes) ->
-					form.ask
-						message: 'Device Type'
-						type: 'list'
-						choices: supportedDeviceTypes
+				form.ask
+					message: 'Device Type'
+					type: 'list'
+					choices: [
+
+						# Lock to specific devices until we support
+						# the rest with device specs.
+						'Raspberry Pi'
+						'Raspberry Pi 2'
+						'BeagleBone Black'
+					]
 				.nodeify(callback)
 
 			(type, callback) ->

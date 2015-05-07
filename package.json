@@ -42,11 +42,13 @@
   },
   "dependencies": {
     "async": "^1.3.0",
-    "capitano": "~1.6.0",
+    "bluebird": "^2.9.34",
+    "capitano": "~1.6.1",
     "coffee-script": "^1.9.3",
     "conf.js": "^0.1.1",
     "drivelist": "^1.2.2",
     "fs-extra": "^0.22.1",
+    "html-to-text": "^1.3.1",
     "lodash": "^3.10.0",
     "lodash-contrib": "^393.0.1",
     "mkdirp": "~0.5.0",
@@ -57,8 +59,8 @@
     "resin-cli-visuals": "^1.0.0",
     "resin-config-inject": "^2.0.0",
     "resin-device-config": "^1.0.0",
-    "resin-image": "^1.1.3",
-    "resin-image-manager": "^1.1.0",
+    "resin-image": "^1.1.4",
+    "resin-image-manager": "^2.0.0",
     "resin-pine": "^1.3.0",
     "resin-register-device": "^1.0.1",
     "resin-sdk": "^2.2.0",
@@ -67,6 +69,8 @@
     "selfupdate": "^1.1.0",
     "through2": "^2.0.0",
     "tmp": "0.0.26",
-    "underscore.string": "^3.1.1"
+    "underscore.string": "^3.1.1",
+    "update-notifier": "^0.3.1",
+    "user-home": "^2.0.0"
   }
 }
