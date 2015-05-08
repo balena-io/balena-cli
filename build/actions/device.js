@@ -1,5 +1,7 @@
 (function() {
-  var _, async, commandOptions, osAction, path, resin, tmp, vcs, visuals;
+  var _, async, capitano, commandOptions, osAction, path, resin, tmp, vcs, visuals;
+
+  capitano = require('capitano');
 
   _ = require('lodash-contrib');
 
@@ -196,8 +198,7 @@
             return callback(null, outputFile, cleanupCallback);
           });
         }, function(outputFile, cleanupCallback, callback) {
-          params.image = outputFile;
-          return osAction.install.action(params, options, function(error) {
+          return capitano.run("os install " + outputFile + " " + params.device, function(error) {
             if (error != null) {
               return callback(error);
             }

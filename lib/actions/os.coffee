@@ -1,3 +1,4 @@
+capitano = require('capitano')
 _ = require('lodash-contrib')
 os = require('os')
 async = require('async')
@@ -9,7 +10,6 @@ umount = require('umount').umount
 commandOptions = require('./command-options')
 npm = require('../npm')
 packageJSON = require('../../package.json')
-updateActions = require('./update')
 elevate = require('../elevate')
 
 exports.download =
@@ -136,7 +136,7 @@ exports.install =
 					Updating now...
 				'''
 
-				updateActions.update.action(params, options, _.unary(callback))
+				capitano.run('update', _.unary(callback))
 
 			(callback) ->
 				return callback(null, params.device) if params.device?

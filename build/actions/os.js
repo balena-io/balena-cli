@@ -1,5 +1,7 @@
 (function() {
-  var _, async, commandOptions, elevate, mkdirp, npm, os, packageJSON, path, resin, umount, updateActions, visuals;
+  var _, async, capitano, commandOptions, elevate, mkdirp, npm, os, packageJSON, path, resin, umount, visuals;
+
+  capitano = require('capitano');
 
   _ = require('lodash-contrib');
 
@@ -22,8 +24,6 @@
   npm = require('../npm');
 
   packageJSON = require('../../package.json');
-
-  updateActions = require('./update');
 
   elevate = require('../elevate');
 
@@ -113,7 +113,7 @@
             return callback();
           }
           console.info('Resin CLI is outdated.\n\nIn order to avoid device compatibility issues, this command\nrequires that you have the Resin CLI updated.\n\nUpdating now...');
-          return updateActions.update.action(params, options, _.unary(callback));
+          return capitano.run('update', _.unary(callback));
         }, function(callback) {
           if (params.device != null) {
             return callback(null, params.device);
