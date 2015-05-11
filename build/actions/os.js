@@ -74,9 +74,7 @@
             spinner = new visuals.widgets.Spinner('Downloading Device OS (size unknown)');
             return resin.models.os.download(osParams, options.output, function(error) {
               spinner.stop();
-              if (error != null) {
-                return callback(error);
-              }
+              return callback(error);
             }, function(state) {
               if (state != null) {
                 return bar.update(state);
