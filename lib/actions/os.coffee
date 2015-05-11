@@ -82,7 +82,7 @@ exports.download =
 
 					resin.models.os.download osParams, options.output, (error) ->
 						spinner.stop()
-						return callback(error) if error?
+						return callback(error)
 					, (state) ->
 						if state?
 							bar.update(state)
