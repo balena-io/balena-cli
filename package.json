@@ -61,7 +61,7 @@
     "open": "0.0.5",
     "president": "^1.0.0",
     "resin-cli-visuals": "^0.1.0",
-    "resin-sdk": "^1.4.2",
+    "resin-sdk": "^1.4.3",
     "resin-image": "^1.1.2",
     "resin-settings-client": "^1.0.0",
     "resin-vcs": "^1.2.0",
