@@ -22,20 +22,18 @@
     description: 'login to resin.io',
     help: "Use this command to login to your resin.io account.\n\nTo login, you need your token, which is accesible from the preferences page:\n\n	" + TOKEN_URL + "\n\nExamples:\n\n	$ resin login\n	$ resin login \"eyJ0eXAiOiJKV1Qi...\"",
     action: function(params, options, done) {
-      console.info("To login to the Resin CLI, you need your unique token, which is accesible from\nthe preferences page at " + TOKEN_URL + "\n\nAttempting to open a browser at that location...");
       return async.waterfall([
         function(callback) {
+          if (params.token != null) {
+            return callback(null, params.token);
+          }
+          console.info("To login to the Resin CLI, you need your unique token, which is accesible from\nthe preferences page at " + TOKEN_URL + "\n\nAttempting to open a browser at that location...");
           return open(TOKEN_URL, function(error) {
             if (error != null) {
               console.error("Unable to open a web browser in the current environment.\nPlease visit " + TOKEN_URL + " manually.");
             }
-            return callback();
+            return visuals.widgets.ask('What\'s your token? (visible in the preferences page)', null, callback);
           });
-        }, function(callback) {
-          if (params.token != null) {
-            return callback(null, params.token);
-          }
-          return visuals.widgets.ask('What\'s your token? (visible in the preferences page)', null, callback);
         }, function(token, callback) {
           return resin.auth.loginWithToken(token, done);
         }
