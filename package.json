@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "async": "~0.9.0",
-    "capitano": "~1.5.0",
+    "capitano": "~1.6.0",
     "coffee-script": "~1.8.0",
     "conf.js": "^0.1.1",
     "drivelist": "^1.2.1",
