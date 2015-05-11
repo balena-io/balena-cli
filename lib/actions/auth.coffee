@@ -25,27 +25,26 @@ exports.login	=
 	"""
 	action: (params, options, done) ->
 
-		console.info """
-			To login to the Resin CLI, you need your unique token, which is accesible from
-			the preferences page at #{TOKEN_URL}
-
-			Attempting to open a browser at that location...
-		"""
-
 		async.waterfall([
 
 			(callback) ->
+				return callback(null, params.token) if params.token?
+
+				console.info """
+					To login to the Resin CLI, you need your unique token, which is accesible from
+					the preferences page at #{TOKEN_URL}
+
+					Attempting to open a browser at that location...
+				"""
+
 				open TOKEN_URL, (error) ->
 					if error?
 						console.error """
 							Unable to open a web browser in the current environment.
 							Please visit #{TOKEN_URL} manually.
 						"""
-					return callback()
 
-			(callback) ->
-				return callback(null, params.token) if params.token?
-				visuals.widgets.ask('What\'s your token? (visible in the preferences page)', null, callback)
+					visuals.widgets.ask('What\'s your token? (visible in the preferences page)', null, callback)
 
 			(token, callback) ->
 				resin.auth.loginWithToken(token, done)
