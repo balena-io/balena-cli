@@ -66,6 +66,7 @@
     "resin-settings-client": "^1.0.0",
     "resin-vcs": "^1.2.0",
     "tmp": "^0.0.25",
+    "umount": "^1.0.0",
     "underscore.string": "~2.4.0",
     "update-notifier": "^0.3.1"
   }
