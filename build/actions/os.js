@@ -1,5 +1,5 @@
 (function() {
-  var _, async, capitano, commandOptions, elevate, image, mkdirp, npm, os, packageJSON, path, resin, umount, visuals;
+  var _, async, capitano, commandOptions, elevate, image, mkdirp, npm, os, packageJSON, path, resin, visuals;
 
   capitano = require('capitano');
 
@@ -18,8 +18,6 @@
   image = require('resin-image');
 
   visuals = require('resin-cli-visuals');
-
-  umount = require('umount').umount;
 
   commandOptions = require('./command-options');
 
@@ -133,12 +131,10 @@
           message = "This will completely erase " + params.device + ". Are you sure you want to continue?";
           return visuals.patterns.confirm(options.yes, message, callback);
         }, function(confirmed, callback) {
+          var bar;
           if (!confirmed) {
             return done();
           }
-          return umount(params.device, _.unary(callback));
-        }, function(callback) {
-          var bar;
           bar = new visuals.widgets.Progress('Writing Device OS');
           params.progress = _.bind(bar.update, bar);
           return image.write(params, callback);
