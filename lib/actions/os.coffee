@@ -7,8 +7,8 @@ mkdirp = require('mkdirp')
 resin = require('resin-sdk')
 image = require('resin-image')
 visuals = require('resin-cli-visuals')
+selfupdate = require('selfupdate')
 commandOptions = require('./command-options')
-npm = require('../npm')
 packageJSON = require('../../package.json')
 elevate = require('../elevate')
 
@@ -120,7 +120,7 @@ exports.install =
 		async.waterfall [
 
 			(callback) ->
-				npm.isUpdated(packageJSON.name, packageJSON.version, callback)
+				selfupdate.isUpdated(packageJSON, callback)
 
 			(isUpdated, callback) ->
 				return callback() if isUpdated
