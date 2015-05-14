@@ -1,5 +1,5 @@
 (function() {
-  var _, async, capitano, commandOptions, elevate, image, mkdirp, npm, os, packageJSON, path, resin, visuals;
+  var _, async, capitano, commandOptions, elevate, image, mkdirp, os, packageJSON, path, resin, selfupdate, visuals;
 
   capitano = require('capitano');
 
@@ -19,9 +19,9 @@
 
   visuals = require('resin-cli-visuals');
 
-  commandOptions = require('./command-options');
+  selfupdate = require('selfupdate');
 
-  npm = require('../npm');
+  commandOptions = require('./command-options');
 
   packageJSON = require('../../package.json');
 
@@ -103,7 +103,7 @@
     action: function(params, options, done) {
       return async.waterfall([
         function(callback) {
-          return npm.isUpdated(packageJSON.name, packageJSON.version, callback);
+          return selfupdate.isUpdated(packageJSON, callback);
         }, function(isUpdated, callback) {
           if (isUpdated) {
             return callback();
