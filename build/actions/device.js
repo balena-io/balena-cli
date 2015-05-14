@@ -41,7 +41,7 @@
           return done(error);
         }
         console.log(visuals.widgets.table.horizontal(devices, ['id', 'name', 'device_type', 'is_online', 'application_name', 'status', 'last_seen']));
-        return done();
+        return done(null, devices);
       });
     }
   };
