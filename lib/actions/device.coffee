@@ -49,7 +49,7 @@ exports.list =
 				'last_seen'
 			]
 
-			return done()
+			return done(null, devices)
 
 exports.info =
 	signature: 'device <name>'
