@@ -1,6 +1,6 @@
 {
   "name": "resin-cli",
-  "version": "0.10.6",
+  "version": "0.10.7",
   "description": "Git Push to your devices",
   "main": "./build/actions/index.js",
   "homepage": "https://github.com/resin-io/resin-cli",
