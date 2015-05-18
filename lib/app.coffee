@@ -100,10 +100,6 @@ capitano.command(actions.env.remove)
 # ---------- Logs Module ----------
 capitano.command(actions.logs)
 
-# ---------- OS Module ----------
-capitano.command(actions.os.download)
-capitano.command(actions.os.install)
-
 # ---------- Examples Module ----------
 capitano.command(actions.examples.list)
 capitano.command(actions.examples.clone)

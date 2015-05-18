@@ -1,5 +1,7 @@
 (function() {
-  var _, async, capitano, commandOptions, osAction, path, resin, tmp, vcs, visuals;
+  var _, async, capitano, commandOptions, fse, image, inject, manager, path, resin, tmp, vcs, visuals;
+
+  fse = require('fs-extra');
 
   capitano = require('capitano');
 
@@ -15,13 +17,17 @@
 
   vcs = require('resin-vcs');
 
+  manager = require('resin-image-manager');
+
+  image = require('resin-image');
+
+  inject = require('resin-config-inject');
+
   tmp = require('tmp');
 
   tmp.setGracefulCleanup();
 
   commandOptions = require('./command-options');
-
-  osAction = require('./os');
 
   exports.list = {
     signature: 'devices',
@@ -159,10 +165,17 @@
   exports.init = {
     signature: 'device init [device]',
     description: 'initialise a device with resin os',
-    help: 'Use this command to download the OS image of a certain application and write it to an SD Card.\n\nNote that this command requires admin privileges.\n\nIf `device` is omitted, you will be prompted to select a device interactively.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nYou can quiet the progress bar by passing the `--quiet` boolean option.\n\nYou may have to unmount the device before attempting this operation.\n\nYou need to configure the network type and other settings:\n\nEthernet:\n  You can setup the device OS to use ethernet by setting the `--network` option to "ethernet".\n\nWifi:\n  You can setup the device OS to use wifi by setting the `--network` option to "wifi".\n  If you set "network" to "wifi", you will need to specify the `--ssid` and `--key` option as well.\n\nYou can omit network related options to be asked about them interactively.\n\nExamples:\n\n	$ resin device init\n	$ resin device init --application MyApp\n	$ resin device init --application MyApp --network ethernet\n	$ resin device init /dev/disk2 --application MyApp --network wifi --ssid MyNetwork --key secret',
+    help: 'Use this command to download the OS image of a certain application and write it to an SD Card.\n\nNote that this command requires admin privileges.\n\nIf `device` is omitted, you will be prompted to select a device interactively.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nYou can quiet the progress bar and other logging information by passing the `--quiet` boolean option.\n\nYou need to configure the network type and other settings:\n\nEthernet:\n  You can setup the device OS to use ethernet by setting the `--network` option to "ethernet".\n\nWifi:\n  You can setup the device OS to use wifi by setting the `--network` option to "wifi".\n  If you set "network" to "wifi", you will need to specify the `--ssid` and `--key` option as well.\n\nYou can omit network related options to be asked about them interactively.\n\nExamples:\n\n	$ resin device init\n	$ resin device init --application MyApp\n	$ resin device init --application MyApp --network ethernet\n	$ resin device init /dev/disk2 --application MyApp --network wifi --ssid MyNetwork --key secret',
     options: [commandOptions.optionalApplication, commandOptions.network, commandOptions.wifiSsid, commandOptions.wifiKey],
     permission: 'user',
+    root: true,
     action: function(params, options, done) {
+      var networkOptions;
+      networkOptions = {
+        network: options.network,
+        wifiSsid: options.ssid,
+        wifiKey: options.key
+      };
       return async.waterfall([
         function(callback) {
           if (options.application != null) {
@@ -170,7 +183,7 @@
           }
           return vcs.getApplicationName(process.cwd(), callback);
         }, function(applicationName, callback) {
-          params.name = applicationName;
+          options.application = applicationName;
           if (params.device != null) {
             return callback(null, params.device);
           }
@@ -184,27 +197,61 @@
           if (!confirmed) {
             return done();
           }
-          options.yes = confirmed;
-          return tmp.file({
-            prefix: 'resin-image-',
-            postfix: '.img'
-          }, callback);
-        }, function(tmpPath, tmpFd, cleanupCallback, callback) {
-          options.output = tmpPath;
-          return osAction.download.action(params, options, function(error, outputFile) {
+          if (networkOptions.network != null) {
+            return callback();
+          }
+          return visuals.patterns.selectNetworkParameters(function(error, parameters) {
             if (error != null) {
               return callback(error);
             }
-            return callback(null, outputFile, cleanupCallback);
-          });
-        }, function(outputFile, cleanupCallback, callback) {
-          return capitano.run("os install " + outputFile + " " + params.device, function(error) {
-            if (error != null) {
-              return callback(error);
-            }
-            cleanupCallback();
+            _.extend(networkOptions, parameters);
             return callback();
           });
+        }, function(callback) {
+          console.info("Checking application: " + options.application);
+          return resin.models.application.get(options.application, callback);
+        }, function(application, callback) {
+          console.info('Getting device manifest for the application');
+          return resin.models.device.getManifestBySlug(application.device_type, callback);
+        }, function(manifest, callback) {
+          var bar, spinner;
+          params.manifest = manifest;
+          bar = new visuals.widgets.Progress('Downloading Device OS');
+          spinner = new visuals.widgets.Spinner('Downloading Device OS (size unknown)');
+          console.info('Fetching application configuration');
+          return resin.models.application.getConfiguration(options.application, networkOptions, function(error, config) {
+            if (error != null) {
+              return callback(error);
+            }
+            console.info('Configuring device operating system image');
+            return manager.configure(params.manifest, config, function(error, imagePath, removeCallback) {
+              spinner.stop();
+              return callback(error, imagePath, removeCallback);
+            }, function(state) {
+              if (state != null) {
+                return bar.update(state);
+              } else {
+                return spinner.start();
+              }
+            });
+          });
+        }, function(configuredImagePath, removeCallback, callback) {
+          var bar;
+          console.info('Attempting to write operating system image to drive');
+          bar = new visuals.widgets.Progress('Writing Device OS');
+          return image.write({
+            device: params.device,
+            image: configuredImagePath,
+            progress: _.bind(bar.update, bar)
+          }, function(error) {
+            if (error != null) {
+              return callback(error);
+            }
+            return callback(null, configuredImagePath, removeCallback);
+          });
+        }, function(temporalImagePath, removeCallback, callback) {
+          console.info('Image written successfully');
+          return removeCallback(callback);
         }
       ], done);
     }
