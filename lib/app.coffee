@@ -98,7 +98,7 @@ capitano.command(actions.env.rename)
 capitano.command(actions.env.remove)
 
 # ---------- Logs Module ----------
-capitano.command(actions.logs.logs)
+capitano.command(actions.logs)
 
 # ---------- OS Module ----------
 capitano.command(actions.os.download)

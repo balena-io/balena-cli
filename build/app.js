@@ -126,7 +126,7 @@
 
   capitano.command(actions.env.remove);
 
-  capitano.command(actions.logs.logs);
+  capitano.command(actions.logs);
 
   capitano.command(actions.os.download);
 
