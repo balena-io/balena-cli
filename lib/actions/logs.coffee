@@ -3,7 +3,7 @@ resin = require('resin-sdk')
 
 LOGS_HISTORY_COUNT = 200
 
-exports.logs =
+module.exports =
 	signature: 'logs <uuid>'
 	description: 'show device logs'
 	help: '''
