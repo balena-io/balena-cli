@@ -6,7 +6,6 @@ coffee = require('gulp-coffee')
 markedMan = require('gulp-marked-man')
 coffeelint = require('gulp-coffeelint')
 shell = require('gulp-shell')
-mochaNotifierReporter = require('mocha-notifier-reporter')
 packageJSON = require('./package.json')
 
 OPTIONS =
@@ -30,7 +29,7 @@ gulp.task 'man', ->
 gulp.task 'test', ->
 	gulp.src(OPTIONS.files.tests, read: false)
 		.pipe(mocha({
-			reporter: mochaNotifierReporter.decorate('landing')
+			reporter: 'landing'
 		}))
 
 gulp.task 'coffee', [ 'test', 'lint', 'json' ], ->
