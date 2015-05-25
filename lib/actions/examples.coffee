@@ -30,34 +30,33 @@ exports.list =
 
 		console.log visuals.widgets.table.horizontal examplesData, [
 			'id'
+			'name'
 			'display_name'
 			'repository'
 			'author'
 		]
 
 exports.info =
-	signature: 'example <id>'
+	signature: 'example <name>'
 	description: 'list a single example application'
 	help: '''
 		Use this command to show information of a single example application
 
 		Example:
 
-			$ resin example 3
+			$ resin example cimon
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		id = params.id - 1
-		example = examplesData[id]
+		example = _.findWhere(examplesData, name: params.name)
 
 		if not example?
-			return done(new Error("Unknown example: #{id}"))
+			return done(new Error("Unknown example: #{params.name}"))
 
-		example.id = id
 		example.author ?= 'Unknown'
 
 		console.log visuals.widgets.table.vertical example, [
-			'id'
+			'name'
 			'display_name'
 			'description'
 			'author'
@@ -67,7 +66,7 @@ exports.info =
 		return done()
 
 exports.clone =
-	signature: 'example clone <id>'
+	signature: 'example clone <name>'
 	description: 'clone an example application'
 	help: '''
 		Use this command to clone an example application to the current directory
@@ -77,14 +76,14 @@ exports.clone =
 
 		Example:
 
-			$ resin example clone 3
+			$ resin example clone cimon
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		example = examplesData[params.id - 1]
+		example = _.findWhere(examplesData, name: params.name)
 
 		if not example?
-			return done(new Error("Unknown example: #{id}"))
+			return done(new Error("Unknown example: #{params.name}"))
 
 		currentDirectory = process.cwd()
 		destination = path.join(currentDirectory, example.name)

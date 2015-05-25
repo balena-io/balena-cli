@@ -35,41 +35,43 @@
         }
         return example;
       });
-      return console.log(visuals.widgets.table.horizontal(examplesData, ['id', 'display_name', 'repository', 'author']));
+      return console.log(visuals.widgets.table.horizontal(examplesData, ['id', 'name', 'display_name', 'repository', 'author']));
     }
   };
 
   exports.info = {
-    signature: 'example <id>',
+    signature: 'example <name>',
     description: 'list a single example application',
-    help: 'Use this command to show information of a single example application\n\nExample:\n\n	$ resin example 3',
+    help: 'Use this command to show information of a single example application\n\nExample:\n\n	$ resin example cimon',
     permission: 'user',
     action: function(params, options, done) {
-      var example, id;
-      id = params.id - 1;
-      example = examplesData[id];
+      var example;
+      example = _.findWhere(examplesData, {
+        name: params.name
+      });
       if (example == null) {
-        return done(new Error("Unknown example: " + id));
+        return done(new Error("Unknown example: " + params.name));
       }
-      example.id = id;
       if (example.author == null) {
         example.author = 'Unknown';
       }
-      console.log(visuals.widgets.table.vertical(example, ['id', 'display_name', 'description', 'author', 'repository']));
+      console.log(visuals.widgets.table.vertical(example, ['name', 'display_name', 'description', 'author', 'repository']));
       return done();
     }
   };
 
   exports.clone = {
-    signature: 'example clone <id>',
+    signature: 'example clone <name>',
     description: 'clone an example application',
-    help: 'Use this command to clone an example application to the current directory\n\nThis command outputs information about the cloning process.\nUse `--quiet` to remove that output.\n\nExample:\n\n	$ resin example clone 3',
+    help: 'Use this command to clone an example application to the current directory\n\nThis command outputs information about the cloning process.\nUse `--quiet` to remove that output.\n\nExample:\n\n	$ resin example clone cimon',
     permission: 'user',
     action: function(params, options, done) {
       var currentDirectory, destination, example;
-      example = examplesData[params.id - 1];
+      example = _.findWhere(examplesData, {
+        name: params.name
+      });
       if (example == null) {
-        return done(new Error("Unknown example: " + id));
+        return done(new Error("Unknown example: " + params.name));
       }
       currentDirectory = process.cwd();
       destination = path.join(currentDirectory, example.name);
