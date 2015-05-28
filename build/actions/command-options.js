@@ -21,6 +21,20 @@
     required: 'You have to specify an application'
   }, exports.optionalApplication);
 
+  exports.optionalDevice = {
+    signature: 'device',
+    parameter: 'device',
+    description: 'device name',
+    alias: 'd'
+  };
+
+  exports.booleanDevice = {
+    signature: 'device',
+    description: 'device name',
+    boolean: true,
+    alias: 'd'
+  };
+
   exports.network = {
     signature: 'network',
     parameter: 'network',

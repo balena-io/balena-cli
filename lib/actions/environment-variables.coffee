@@ -1,3 +1,4 @@
+async = require('async')
 _ = require('lodash-contrib')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
@@ -7,20 +8,22 @@ exports.list =
 	signature: 'envs'
 	description: 'list all environment variables'
 	help: '''
-		Use this command to list all environment variables for a particular application.
-		Notice we will support per-device environment variables soon.
+		Use this command to list all environment variables for
+		a particular application or device.
 
-		This command lists all custom environment variables set on the devices running
-		the application. If you want to see all environment variables, including private
+		This command lists all custom environment variables.
+		If you want to see all environment variables, including private
 		ones used by resin, use the verbose option.
 
 		Example:
 
-			$ resin envs --application 91
-			$ resin envs --application 91 --verbose
+			$ resin envs --application MyApp
+			$ resin envs --application MyApp --verbose
+			$ resin envs --device MyDevice
 	'''
 	options: [
-		commandOptions.application
+		commandOptions.optionalApplication
+		commandOptions.optionalDevice
 
 		{
 			signature: 'verbose'
@@ -31,19 +34,31 @@ exports.list =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
-		resin.models.environmentVariables.getAllByApplication options.application, (error, environmentVariables) ->
-			return done(error) if error?
+		async.waterfall([
 
-			if not options.verbose
-				environmentVariables = _.reject(environmentVariables, resin.models.environmentVariables.isSystemVariable)
+			(callback) ->
+				if options.application?
+					resin.models.environmentVariables.getAllByApplication(options.application, callback)
+				else if options.device?
+					resin.models.environmentVariables.device.getAll(options.device, callback)
+				else
+					return callback(new Error('You must specify an application or device'))
 
-			console.log visuals.widgets.table.horizontal environmentVariables, [
-				'id'
-				'name'
-				'value'
-			]
+			(environmentVariables, callback) ->
 
-			return done()
+				if not options.verbose
+					isSystemVariable = resin.models.environmentVariables.isSystemVariable
+					environmentVariables = _.reject(environmentVariables, isSystemVariable)
+
+				console.log visuals.widgets.table.horizontal environmentVariables, [
+					'id'
+					'name'
+					'value'
+				]
+
+				return callback()
+
+		], done)
 
 exports.remove =
 	signature: 'env rm <id>'
@@ -56,16 +71,25 @@ exports.remove =
 		Notice this command asks for confirmation interactively.
 		You can avoid this by passing the `--yes` boolean option.
 
+		If you want to eliminate a device environment variable, pass the `--device` boolean option.
+
 		Examples:
 
 			$ resin env rm 215
 			$ resin env rm 215 --yes
+			$ resin env rm 215 --device
 	'''
-	options: [ commandOptions.yes ]
+	options: [
+		commandOptions.yes
+		commandOptions.booleanDevice
+	]
 	permission: 'user'
 	action: (params, options, done) ->
 		visuals.patterns.remove 'environment variable', options.yes, (callback) ->
-			resin.models.environmentVariables.remove(params.id, callback)
+			if options.device
+				resin.models.environmentVariables.device.remove(params.id, callback)
+			else
+				resin.models.environmentVariables.remove(params.id, callback)
 		, done
 
 exports.add =
@@ -74,20 +98,25 @@ exports.add =
 	help: '''
 		Use this command to add an enviroment variable to an application.
 
-		You need to pass the `--application` option.
-
 		If value is omitted, the tool will attempt to use the variable's value
 		as defined in your host machine.
+
+		Use the `--device` option if you want to assign the environment variable
+		to a specific device.
 
 		If the value is grabbed from the environment, a warning message will be printed.
 		Use `--quiet` to remove it.
 
 		Examples:
 
-			$ resin env add EDITOR vim -a 91
-			$ resin env add TERM -a 91
+			$ resin env add EDITOR vim --application MyApp
+			$ resin env add TERM --application MyApp
+			$ resin env add EDITOR vim --device MyDevice
 	'''
-	options: [ commandOptions.application ]
+	options: [
+		commandOptions.optionalApplication
+		commandOptions.optionalDevice
+	]
 	permission: 'user'
 	action: (params, options, done) ->
 		if not params.value?
@@ -98,7 +127,12 @@ exports.add =
 			else
 				console.info("Warning: using #{params.key}=#{params.value} from host environment")
 
-		resin.models.environmentVariables.create(options.application, params.key, params.value, done)
+		if options.application?
+			resin.models.environmentVariables.create(options.application, params.key, params.value, done)
+		else if options.device?
+			resin.models.environmentVariables.device.create(options.device, params.key, params.value, done)
+		else
+			return done(new Error('You must specify an application or device'))
 
 exports.rename =
 	signature: 'env rename <id> <value>'
@@ -106,10 +140,17 @@ exports.rename =
 	help: '''
 		Use this command to rename an enviroment variable from an application.
 
+		Pass the `--device` boolean option if you want to rename a device environment variable.
+
 		Examples:
 
 			$ resin env rename 376 emacs
+			$ resin env rename 376 emacs --device
 	'''
 	permission: 'user'
+	options: [ commandOptions.booleanDevice ]
 	action: (params, options, done) ->
-		resin.models.environmentVariables.update(params.id, params.value, done)
+		if options.device
+			resin.models.environmentVariables.device.update(params.id, params.value, done)
+		else
+			resin.models.environmentVariables.update(params.id, params.value, done)
