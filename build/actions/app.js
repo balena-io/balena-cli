@@ -46,7 +46,11 @@
             return visuals.widgets.select('Select a type', deviceTypes, callback);
           });
         }, function(type, callback) {
-          return resin.models.application.create(params.name, type, callback);
+          options.type = type;
+          return resin.models.application.create(params.name, options.type, callback);
+        }, function(applicationId, callback) {
+          console.info("Application created: " + params.name + " (" + options.type + ", id " + applicationId + ")");
+          return callback();
         }
       ], done);
     }
