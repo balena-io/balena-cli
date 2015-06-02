@@ -135,7 +135,7 @@ async.waterfall([
 	(callback) ->
 		cli = capitano.parse(process.argv)
 
-		if cli.global.quiet
+		if cli.global.quiet or not process.stdout.isTTY
 			console.info = _.noop
 
 		if cli.global.project?
