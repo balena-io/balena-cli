@@ -164,7 +164,7 @@
     }, function(callback) {
       var cli;
       cli = capitano.parse(process.argv);
-      if (cli.global.quiet) {
+      if (cli.global.quiet || !process.stdout.isTTY) {
         console.info = _.noop;
       }
       if (cli.global.project != null) {
