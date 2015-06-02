@@ -47,7 +47,14 @@ exports.login	=
 					visuals.widgets.ask('What\'s your token? (visible in the preferences page)', null, callback)
 
 			(token, callback) ->
-				resin.auth.loginWithToken(token, done)
+				resin.auth.loginWithToken(token, callback)
+
+			(callback) ->
+				resin.auth.whoami(callback)
+
+			(username, callback) ->
+				console.info("Successfully logged in as: #{username}")
+				return callback()
 
 		], done)
 

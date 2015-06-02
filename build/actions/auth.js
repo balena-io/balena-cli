@@ -35,7 +35,12 @@
             return visuals.widgets.ask('What\'s your token? (visible in the preferences page)', null, callback);
           });
         }, function(token, callback) {
-          return resin.auth.loginWithToken(token, done);
+          return resin.auth.loginWithToken(token, callback);
+        }, function(callback) {
+          return resin.auth.whoami(callback);
+        }, function(username, callback) {
+          console.info("Successfully logged in as: " + username);
+          return callback();
         }
       ], done);
     }
