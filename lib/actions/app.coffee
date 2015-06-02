@@ -50,7 +50,12 @@ exports.create =
 					visuals.widgets.select('Select a type', deviceTypes, callback)
 
 			(type, callback) ->
-				resin.models.application.create(params.name, type, callback)
+				options.type = type
+				resin.models.application.create(params.name, options.type, callback)
+
+			(applicationId, callback) ->
+				console.info("Application created: #{params.name} (#{options.type}, id #{applicationId})")
+				return callback()
 
 		], done)
 
