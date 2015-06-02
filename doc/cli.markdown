@@ -177,6 +177,9 @@ Use this command to associate a project directory with a resin application.
 
 This command adds a 'resin' git remote to the directory and runs git init if necessary.
 
+Notice this command asks for confirmation interactively.
+You can avoid this by passing the `--yes` boolean option.
+
 Examples:
 
 	$ resin app associate MyApp

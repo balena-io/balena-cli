@@ -146,11 +146,15 @@ exports.associate =
 
 		This command adds a 'resin' git remote to the directory and runs git init if necessary.
 
+		Notice this command asks for confirmation interactively.
+		You can avoid this by passing the `--yes` boolean option.
+
 		Examples:
 
 			$ resin app associate MyApp
 			$ resin app associate MyApp --project my/app/directory
 	'''
+	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
 		currentDirectory = process.cwd()
@@ -158,6 +162,17 @@ exports.associate =
 		async.waterfall [
 
 			(callback) ->
+				resin.models.application.has(params.name, callback)
+
+			(hasApp, callback) ->
+				if not hasApp
+					return callback(new Error("Invalid application: #{params.name}"))
+
+				message = "Are you sure you want to associate #{currentDirectory} with #{params.name}?"
+				visuals.patterns.confirm(options.yes, message, callback)
+
+			(confirmed, callback) ->
+				return done() if not confirmed
 				vcs.initialize(currentDirectory, callback)
 
 			(callback) ->

@@ -110,13 +110,26 @@
   exports.associate = {
     signature: 'app associate <name>',
     description: 'associate a resin project',
-    help: 'Use this command to associate a project directory with a resin application.\n\nThis command adds a \'resin\' git remote to the directory and runs git init if necessary.\n\nExamples:\n\n	$ resin app associate MyApp\n	$ resin app associate MyApp --project my/app/directory',
+    help: 'Use this command to associate a project directory with a resin application.\n\nThis command adds a \'resin\' git remote to the directory and runs git init if necessary.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nExamples:\n\n	$ resin app associate MyApp\n	$ resin app associate MyApp --project my/app/directory',
+    options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
       var currentDirectory;
       currentDirectory = process.cwd();
       return async.waterfall([
         function(callback) {
+          return resin.models.application.has(params.name, callback);
+        }, function(hasApp, callback) {
+          var message;
+          if (!hasApp) {
+            return callback(new Error("Invalid application: " + params.name));
+          }
+          message = "Are you sure you want to associate " + currentDirectory + " with " + params.name + "?";
+          return visuals.patterns.confirm(options.yes, message, callback);
+        }, function(confirmed, callback) {
+          if (!confirmed) {
+            return done();
+          }
           return vcs.initialize(currentDirectory, callback);
         }, function(callback) {
           return resin.models.application.get(params.name, callback);
