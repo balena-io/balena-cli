@@ -60,7 +60,7 @@
     "open": "0.0.5",
     "resin-cli-visuals": "^0.1.0",
     "resin-image": "^1.1.3",
-    "resin-sdk": "^1.4.3",
+    "resin-sdk": "^1.7.3",
     "resin-settings-client": "^1.0.0",
     "resin-vcs": "^1.2.0",
     "selfupdate": "^1.1.0",
