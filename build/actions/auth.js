@@ -15,7 +15,7 @@
 
   visuals = require('resin-cli-visuals');
 
-  TOKEN_URL = url.resolve(settings.get('remoteUrl'), '/preferences');
+  TOKEN_URL = url.resolve(settings.get('dashboardUrl'), '/preferences');
 
   exports.login = {
     signature: 'login [token]',
