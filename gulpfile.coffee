@@ -29,7 +29,7 @@ gulp.task 'man', ->
 gulp.task 'test', ->
 	gulp.src(OPTIONS.files.tests, read: false)
 		.pipe(mocha({
-			reporter: 'landing'
+			reporter: 'min'
 		}))
 
 gulp.task 'coffee', [ 'test', 'lint', 'json' ], ->
