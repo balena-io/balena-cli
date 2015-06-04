@@ -78,8 +78,6 @@
 
   capitano.command(actions.app.list);
 
-  capitano.command(actions.app.info);
-
   capitano.command(actions.app.remove);
 
   capitano.command(actions.app.restart);
@@ -87,6 +85,8 @@
   capitano.command(actions.app.associate);
 
   capitano.command(actions.app.init);
+
+  capitano.command(actions.app.info);
 
   capitano.command(actions.device.list);
 
