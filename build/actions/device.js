@@ -1,5 +1,5 @@
 (function() {
-  var _, async, capitano, commandOptions, fse, image, inject, manager, path, resin, tmp, vcs, visuals;
+  var _, async, capitano, commandOptions, fse, image, inject, manager, path, pine, registerDevice, resin, tmp, vcs, visuals;
 
   fse = require('fs-extra');
 
@@ -22,6 +22,10 @@
   image = require('resin-image');
 
   inject = require('resin-config-inject');
+
+  registerDevice = require('resin-register-device');
+
+  pine = require('resin-pine');
 
   tmp = require('tmp');
 
@@ -211,29 +215,44 @@
           console.info("Checking application: " + options.application);
           return resin.models.application.get(options.application, callback);
         }, function(application, callback) {
-          console.info('Getting device manifest for the application');
-          return resin.models.device.getManifestBySlug(application.device_type, callback);
-        }, function(manifest, callback) {
-          var bar, spinner;
-          params.manifest = manifest;
-          bar = new visuals.widgets.Progress('Downloading Device OS');
-          spinner = new visuals.widgets.Spinner('Downloading Device OS (size unknown)');
-          console.info('Fetching application configuration');
-          return resin.models.application.getConfiguration(options.application, networkOptions, function(error, config) {
+          return async.parallel({
+            manifest: function(callback) {
+              console.info('Getting device manifest for the application');
+              return resin.models.device.getManifestBySlug(application.device_type, callback);
+            },
+            config: function(callback) {
+              console.info('Fetching application configuration');
+              return resin.models.application.getConfiguration(options.application, networkOptions, callback);
+            }
+          }, callback);
+        }, function(results, callback) {
+          console.info('Associating the device');
+          return registerDevice.register(pine, results.config, function(error, device) {
             if (error != null) {
               return callback(error);
             }
-            console.info('Configuring device operating system image');
-            return manager.configure(params.manifest, config, function(error, imagePath, removeCallback) {
-              spinner.stop();
-              return callback(error, imagePath, removeCallback);
-            }, function(state) {
-              if (state != null) {
-                return bar.update(state);
-              } else {
-                return spinner.start();
-              }
-            });
+            results.config.deviceId = device.id;
+            results.config.uuid = device.uuid;
+            params.uuid = results.config.uuid;
+            return callback(null, results);
+          });
+        }, function(results, callback) {
+          var bar, spinner;
+          console.info('Configuring device operating system image');
+          if (process.env.DEBUG) {
+            console.log(results.config);
+          }
+          bar = new visuals.widgets.Progress('Downloading Device OS');
+          spinner = new visuals.widgets.Spinner('Downloading Device OS (size unknown)');
+          return manager.configure(results.manifest, results.config, function(error, imagePath, removeCallback) {
+            spinner.stop();
+            return callback(error, imagePath, removeCallback);
+          }, function(state) {
+            if (state != null) {
+              return bar.update(state);
+            } else {
+              return spinner.start();
+            }
           });
         }, function(configuredImagePath, removeCallback, callback) {
           var bar;
@@ -252,6 +271,11 @@
         }, function(temporalImagePath, removeCallback, callback) {
           console.info('Image written successfully');
           return removeCallback(callback);
+        }, function(callback) {
+          return resin.models.device.getByUUID(params.uuid, callback);
+        }, function(device, callback) {
+          console.info("Device created: " + device.name);
+          return callback(null, device.name);
         }
       ], done);
     }

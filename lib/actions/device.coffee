@@ -9,6 +9,8 @@ vcs = require('resin-vcs')
 manager = require('resin-image-manager')
 image = require('resin-image')
 inject = require('resin-config-inject')
+registerDevice = require('resin-register-device')
+pine = require('resin-pine')
 tmp = require('tmp')
 
 # Cleanup the temporary files even when an uncaught exception occurs
@@ -284,29 +286,49 @@ exports.init =
 				resin.models.application.get(options.application, callback)
 
 			(application, callback) ->
-				console.info('Getting device manifest for the application')
-				resin.models.device.getManifestBySlug(application.device_type, callback)
+				async.parallel
 
-			(manifest, callback) ->
-				params.manifest = manifest
+					manifest: (callback) ->
+						console.info('Getting device manifest for the application')
+						resin.models.device.getManifestBySlug(application.device_type, callback)
+
+					config: (callback) ->
+						console.info('Fetching application configuration')
+						resin.models.application.getConfiguration(options.application, networkOptions, callback)
+
+				, callback
+
+			(results, callback) ->
+				console.info('Associating the device')
+
+				registerDevice.register pine, results.config, (error, device) ->
+					return callback(error) if error?
+
+					# Associate a device
+					results.config.deviceId = device.id
+					results.config.uuid = device.uuid
+
+					params.uuid = results.config.uuid
+
+					return callback(null, results)
+
+			(results, callback) ->
+				console.info('Configuring device operating system image')
+
+				if process.env.DEBUG
+					console.log(results.config)
+
 				bar = new visuals.widgets.Progress('Downloading Device OS')
 				spinner = new visuals.widgets.Spinner('Downloading Device OS (size unknown)')
 
-				console.info('Fetching application configuration')
-
-				resin.models.application.getConfiguration options.application, networkOptions, (error, config) ->
-					return callback(error) if error?
-
-					console.info('Configuring device operating system image')
-
-					manager.configure params.manifest, config, (error, imagePath, removeCallback) ->
-						spinner.stop()
-						return callback(error, imagePath, removeCallback)
-					, (state) ->
-						if state?
-							bar.update(state)
-						else
-							spinner.start()
+				manager.configure results.manifest, results.config, (error, imagePath, removeCallback) ->
+					spinner.stop()
+					return callback(error, imagePath, removeCallback)
+				, (state) ->
+					if state?
+						bar.update(state)
+					else
+						spinner.start()
 
 			(configuredImagePath, removeCallback, callback) ->
 				console.info('Attempting to write operating system image to drive')
@@ -323,5 +345,12 @@ exports.init =
 			(temporalImagePath, removeCallback, callback) ->
 				console.info('Image written successfully')
 				removeCallback(callback)
+
+			(callback) ->
+				resin.models.device.getByUUID(params.uuid, callback)
+
+			(device, callback) ->
+				console.info("Device created: #{device.name}")
+				return callback(null, device.name)
 
 		], done)
