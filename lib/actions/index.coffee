@@ -9,7 +9,6 @@ module.exports =
 	logs: require('./logs')
 	notes: require('./notes')
 	preferences: require('./preferences')
-	os: require('./os')
 	help: require('./help')
 	examples: require('./examples')
 	plugin: require('./plugin')

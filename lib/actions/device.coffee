@@ -1,3 +1,4 @@
+fse = require('fs-extra')
 capitano = require('capitano')
 _ = require('lodash-contrib')
 path = require('path')
@@ -5,13 +6,17 @@ async = require('async')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
 vcs = require('resin-vcs')
+manager = require('resin-image-manager')
+image = require('resin-image')
+inject = require('resin-config-inject')
+registerDevice = require('resin-register-device')
+pine = require('resin-pine')
 tmp = require('tmp')
 
 # Cleanup the temporary files even when an uncaught exception occurs
 tmp.setGracefulCleanup()
 
 commandOptions = require('./command-options')
-osAction = require('./os')
 
 exports.list =
 	signature: 'devices'
@@ -217,9 +222,7 @@ exports.init =
 		Notice this command asks for confirmation interactively.
 		You can avoid this by passing the `--yes` boolean option.
 
-		You can quiet the progress bar by passing the `--quiet` boolean option.
-
-		You may have to unmount the device before attempting this operation.
+		You can quiet the progress bar and other logging information by passing the `--quiet` boolean option.
 
 		You need to configure the network type and other settings:
 
@@ -246,7 +249,13 @@ exports.init =
 		commandOptions.wifiKey
 	]
 	permission: 'user'
+	root: true
 	action: (params, options, done) ->
+
+		networkOptions =
+			network: options.network
+			wifiSsid: options.ssid
+			wifiKey: options.key
 
 		async.waterfall([
 
@@ -255,7 +264,7 @@ exports.init =
 				vcs.getApplicationName(process.cwd(), callback)
 
 			(applicationName, callback) ->
-				params.name = applicationName
+				options.application = applicationName
 				return callback(null, params.device) if params.device?
 				visuals.patterns.selectDrive(callback)
 
@@ -266,27 +275,82 @@ exports.init =
 
 			(confirmed, callback) ->
 				return done() if not confirmed
-				options.yes = confirmed
+				return callback() if networkOptions.network?
+				visuals.patterns.selectNetworkParameters (error, parameters) ->
+					return callback(error) if error?
+					_.extend(networkOptions, parameters)
+					return callback()
 
-				tmp.file
-					prefix: 'resin-image-'
-					postfix: '.img'
+			(callback) ->
+				console.info("Checking application: #{options.application}")
+				resin.models.application.get(options.application, callback)
+
+			(application, callback) ->
+				async.parallel
+
+					manifest: (callback) ->
+						console.info('Getting device manifest for the application')
+						resin.models.device.getManifestBySlug(application.device_type, callback)
+
+					config: (callback) ->
+						console.info('Fetching application configuration')
+						resin.models.application.getConfiguration(options.application, networkOptions, callback)
+
 				, callback
 
-			(tmpPath, tmpFd, cleanupCallback, callback) ->
-				options.output = tmpPath
+			(results, callback) ->
+				console.info('Associating the device')
 
-				# TODO: Figure out how to make use of capitano.run()
-				# here given the complexity of converting network
-				# params object to string options
-				osAction.download.action params, options, (error, outputFile) ->
+				registerDevice.register pine, results.config, (error, device) ->
 					return callback(error) if error?
-					return callback(null, outputFile, cleanupCallback)
 
-			(outputFile, cleanupCallback, callback) ->
-				capitano.run "os install #{outputFile} #{params.device}", (error) ->
+					# Associate a device
+					results.config.deviceId = device.id
+					results.config.uuid = device.uuid
+
+					params.uuid = results.config.uuid
+
+					return callback(null, results)
+
+			(results, callback) ->
+				console.info('Configuring device operating system image')
+
+				if process.env.DEBUG
+					console.log(results.config)
+
+				bar = new visuals.widgets.Progress('Downloading Device OS')
+				spinner = new visuals.widgets.Spinner('Downloading Device OS (size unknown)')
+
+				manager.configure results.manifest, results.config, (error, imagePath, removeCallback) ->
+					spinner.stop()
+					return callback(error, imagePath, removeCallback)
+				, (state) ->
+					if state?
+						bar.update(state)
+					else
+						spinner.start()
+
+			(configuredImagePath, removeCallback, callback) ->
+				console.info('Attempting to write operating system image to drive')
+
+				bar = new visuals.widgets.Progress('Writing Device OS')
+				image.write
+					device: params.device
+					image: configuredImagePath
+					progress: _.bind(bar.update, bar)
+				, (error) ->
 					return callback(error) if error?
-					cleanupCallback()
-					return callback()
+					return callback(null, configuredImagePath, removeCallback)
+
+			(temporalImagePath, removeCallback, callback) ->
+				console.info('Image written successfully')
+				removeCallback(callback)
+
+			(callback) ->
+				resin.models.device.getByUUID(params.uuid, callback)
+
+			(device, callback) ->
+				console.info("Device created: #{device.name}")
+				return callback(null, device.name)
 
 		], done)

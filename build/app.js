@@ -128,10 +128,6 @@
 
   capitano.command(actions.logs);
 
-  capitano.command(actions.os.download);
-
-  capitano.command(actions.os.install);
-
   capitano.command(actions.examples.list);
 
   capitano.command(actions.examples.clone);
