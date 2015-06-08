@@ -265,6 +265,12 @@ exports.init =
 
 			(applicationName, callback) ->
 				options.application = applicationName
+				resin.models.application.has(options.application, callback)
+
+			(hasApplication, callback) ->
+				if not hasApplication
+					return callback(new Error("Invalid application: #{options.application}"))
+
 				return callback(null, params.device) if params.device?
 				visuals.patterns.selectDrive(callback)
 
