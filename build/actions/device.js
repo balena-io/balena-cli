@@ -188,6 +188,11 @@
           return vcs.getApplicationName(process.cwd(), callback);
         }, function(applicationName, callback) {
           options.application = applicationName;
+          return resin.models.application.has(options.application, callback);
+        }, function(hasApplication, callback) {
+          if (!hasApplication) {
+            return callback(new Error("Invalid application: " + options.application));
+          }
           if (params.device != null) {
             return callback(null, params.device);
           }
