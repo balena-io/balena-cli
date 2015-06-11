@@ -106,7 +106,11 @@
           if (!_.isEmpty(params.newName)) {
             return callback(null, params.newName);
           }
-          return visuals.widgets.ask('How do you want to name this device?', null, callback);
+          return visuals.form.ask({
+            label: 'How do you want to name this device?',
+            name: 'device',
+            type: 'text'
+          }, callback);
         }, function(newName, callback) {
           return resin.models.device.rename(params.name, newName, callback);
         }
