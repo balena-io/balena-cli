@@ -40,9 +40,6 @@ exports.info =
 	action: (params, options, done) ->
 		resin.models.key.get params.id, (error, key) ->
 			return done(error) if error?
-
-			key.public_key = '\n' + visuals.helpers.chop(key.public_key, SSH_KEY_WIDTH)
-
 			console.log(visuals.widgets.table.vertical(key, [ 'id', 'title', 'public_key' ]))
 			return done()
 

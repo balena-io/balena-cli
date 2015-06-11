@@ -45,7 +45,6 @@
         if (error != null) {
           return done(error);
         }
-        key.public_key = '\n' + visuals.helpers.chop(key.public_key, SSH_KEY_WIDTH);
         console.log(visuals.widgets.table.vertical(key, ['id', 'title', 'public_key']));
         return done();
       });
