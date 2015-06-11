@@ -47,6 +47,7 @@ capitano.globalOption
 
 # ---------- Info Module ----------
 capitano.command(actions.info.version)
+capitano.command(actions.info.config)
 
 # ---------- Help Module ----------
 capitano.command(actions.help.help)

@@ -64,6 +64,8 @@
 
   capitano.command(actions.info.version);
 
+  capitano.command(actions.info.config);
+
   capitano.command(actions.help.help);
 
   capitano.command(actions.auth.login);
