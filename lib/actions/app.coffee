@@ -44,10 +44,7 @@ exports.create =
 					return callback(new Error('You already have an application with that name!'))
 
 				return callback(null, options.type) if options.type?
-
-				resin.models.device.getSupportedDeviceTypes (error, deviceTypes) ->
-					return callback(error) if error?
-					visuals.widgets.select('Select a type', deviceTypes, callback)
+				visuals.patterns.selectDeviceType(callback)
 
 			(type, callback) ->
 				options.type = type
@@ -216,7 +213,12 @@ exports.init =
 
 			(callback) ->
 				currentDirectoryBasename = path.basename(currentDirectory)
-				visuals.widgets.ask('What is the name of your application?', currentDirectoryBasename, callback)
+				visuals.form.ask
+					label: 'What is the name of your application?'
+					name: 'application'
+					type: 'text'
+					value: currentDirectoryBasename
+				, callback
 
 			(applicationName, callback) ->
 

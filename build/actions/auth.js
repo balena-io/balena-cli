@@ -32,7 +32,7 @@
             if (error != null) {
               console.error("Unable to open a web browser in the current environment.\nPlease visit " + TOKEN_URL + " manually.");
             }
-            return visuals.widgets.ask('What\'s your token? (visible in the preferences page)', null, callback);
+            return visuals.patterns.loginWithToken(callback);
           });
         }, function(token, callback) {
           return resin.auth.loginWithToken(token, callback);
@@ -97,7 +97,7 @@
           if (hasOptionCredentials) {
             return callback(null, options);
           }
-          return visuals.widgets.register(callback);
+          return visuals.patterns.register(callback);
         }, function(credentials, callback) {
           return resin.auth.register(credentials, function(error, token) {
             return callback(error, credentials);

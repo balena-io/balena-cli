@@ -44,7 +44,7 @@ exports.login	=
 							Please visit #{TOKEN_URL} manually.
 						"""
 
-					visuals.widgets.ask('What\'s your token? (visible in the preferences page)', null, callback)
+					visuals.patterns.loginWithToken(callback)
 
 			(token, callback) ->
 				resin.auth.loginWithToken(token, callback)
@@ -131,7 +131,7 @@ exports.signup =
 
 			(callback) ->
 				return callback(null, options) if hasOptionCredentials
-				visuals.widgets.register(callback)
+				visuals.patterns.register(callback)
 
 			(credentials, callback) ->
 				resin.auth.register credentials, (error, token) ->

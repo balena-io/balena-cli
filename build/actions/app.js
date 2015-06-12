@@ -39,12 +39,7 @@
           if (options.type != null) {
             return callback(null, options.type);
           }
-          return resin.models.device.getSupportedDeviceTypes(function(error, deviceTypes) {
-            if (error != null) {
-              return callback(error);
-            }
-            return visuals.widgets.select('Select a type', deviceTypes, callback);
-          });
+          return visuals.patterns.selectDeviceType(callback);
         }, function(type, callback) {
           options.type = type;
           return resin.models.application.create(params.name, options.type, callback);
@@ -162,7 +157,12 @@
         function(callback) {
           var currentDirectoryBasename;
           currentDirectoryBasename = path.basename(currentDirectory);
-          return visuals.widgets.ask('What is the name of your application?', currentDirectoryBasename, callback);
+          return visuals.form.ask({
+            label: 'What is the name of your application?',
+            name: 'application',
+            type: 'text',
+            value: currentDirectoryBasename
+          }, callback);
         }, function(applicationName, callback) {
           return exports.create.action({
             name: applicationName
