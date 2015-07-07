@@ -69,12 +69,6 @@
 			]
 		},
 		{
-			"title": "OS",
-			"files": [
-				"lib/actions/os.coffee"
-			]
-		},
-		{
 			"title": "Plugin",
 			"files": [
 				"lib/actions/plugin.coffee"

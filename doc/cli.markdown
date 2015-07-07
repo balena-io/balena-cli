@@ -16,91 +16,87 @@ Now you have access to all the commands referenced below.
 
 - Application
 
-	- [app create &#60;name&#62;](#/pages/using/cli.md#app-create-60-name-62-)
-	- [apps](#/pages/using/cli.md#apps)
-	- [app &#60;name&#62;](#/pages/using/cli.md#app-60-name-62-)
-	- [app restart &#60;name&#62;](#/pages/using/cli.md#app-restart-60-name-62-)
-	- [app rm &#60;name&#62;](#/pages/using/cli.md#app-rm-60-name-62-)
-	- [app associate &#60;name&#62;](#/pages/using/cli.md#app-associate-60-name-62-)
-	- [init](#/pages/using/cli.md#init)
+	- [app create &#60;name&#62;](#app-create-60-name-62-)
+	- [apps](#apps)
+	- [app &#60;name&#62;](#app-60-name-62-)
+	- [app restart &#60;name&#62;](#app-restart-60-name-62-)
+	- [app rm &#60;name&#62;](#app-rm-60-name-62-)
+	- [app associate &#60;name&#62;](#app-associate-60-name-62-)
+	- [init](#init)
 
 - Authentication
 
-	- [login [token]](#/pages/using/cli.md#login-token-)
-	- [logout](#/pages/using/cli.md#logout)
-	- [signup](#/pages/using/cli.md#signup)
-	- [whoami](#/pages/using/cli.md#whoami)
+	- [login [token]](#login-token-)
+	- [logout](#logout)
+	- [signup](#signup)
+	- [whoami](#whoami)
 
 - Device
 
-	- [devices](#/pages/using/cli.md#devices)
-	- [device &#60;name&#62;](#/pages/using/cli.md#device-60-name-62-)
-	- [device rm &#60;name&#62;](#/pages/using/cli.md#device-rm-60-name-62-)
-	- [device identify &#60;uuid&#62;](#/pages/using/cli.md#device-identify-60-uuid-62-)
-	- [device rename &#60;name&#62; [newName]](#/pages/using/cli.md#device-rename-60-name-62-newname-)
-	- [devices supported](#/pages/using/cli.md#devices-supported)
-	- [device await &#60;name&#62;](#/pages/using/cli.md#device-await-60-name-62-)
-	- [device init [device]](#/pages/using/cli.md#device-init-device-)
+	- [devices](#devices)
+	- [device &#60;name&#62;](#device-60-name-62-)
+	- [device rm &#60;name&#62;](#device-rm-60-name-62-)
+	- [device identify &#60;uuid&#62;](#device-identify-60-uuid-62-)
+	- [device rename &#60;name&#62; [newName]](#device-rename-60-name-62-newname-)
+	- [devices supported](#devices-supported)
+	- [device await &#60;name&#62;](#device-await-60-name-62-)
+	- [device init [device]](#device-init-device-)
 
 - Drive
 
-	- [drives](#/pages/using/cli.md#drives)
+	- [drives](#drives)
 
 - Environment Variables
 
-	- [envs](#/pages/using/cli.md#envs)
-	- [env rm &#60;id&#62;](#/pages/using/cli.md#env-rm-60-id-62-)
-	- [env add &#60;key&#62; [value]](#/pages/using/cli.md#env-add-60-key-62-value-)
-	- [env rename &#60;id&#62; &#60;value&#62;](#/pages/using/cli.md#env-rename-60-id-62-60-value-62-)
+	- [envs](#envs)
+	- [env rm &#60;id&#62;](#env-rm-60-id-62-)
+	- [env add &#60;key&#62; [value]](#env-add-60-key-62-value-)
+	- [env rename &#60;id&#62; &#60;value&#62;](#env-rename-60-id-62-60-value-62-)
 
 - Examples
 
-	- [examples](#/pages/using/cli.md#examples)
-	- [example &#60;id&#62;](#/pages/using/cli.md#example-60-id-62-)
-	- [example clone &#60;id&#62;](#/pages/using/cli.md#example-clone-60-id-62-)
+	- [examples](#examples)
+	- [example &#60;name&#62;](#example-60-name-62-)
+	- [example clone &#60;name&#62;](#example-clone-60-name-62-)
 
 - Help
 
-	- [help [command...]](#/pages/using/cli.md#help-command-)
+	- [help [command...]](#help-command-)
 
 - Information
 
-	- [version](#/pages/using/cli.md#version)
+	- [version](#version)
+	- [config](#config)
 
 - Keys
 
-	- [keys](#/pages/using/cli.md#keys)
-	- [key &#60;id&#62;](#/pages/using/cli.md#key-60-id-62-)
-	- [key rm &#60;id&#62;](#/pages/using/cli.md#key-rm-60-id-62-)
-	- [key add &#60;name&#62; [path]](#/pages/using/cli.md#key-add-60-name-62-path-)
+	- [keys](#keys)
+	- [key &#60;id&#62;](#key-60-id-62-)
+	- [key rm &#60;id&#62;](#key-rm-60-id-62-)
+	- [key add &#60;name&#62; [path]](#key-add-60-name-62-path-)
 
 - Logs
 
-	- [logs &#60;uuid&#62;](#/pages/using/cli.md#logs-60-uuid-62-)
+	- [logs &#60;uuid&#62;](#logs-60-uuid-62-)
 
 - Notes
 
-	- [note &#60;|note&#62;](#/pages/using/cli.md#note-60-note-62-)
-
-- OS
-
-	- [os download &#60;name&#62;](#/pages/using/cli.md#os-download-60-name-62-)
-	- [os install &#60;image&#62; [device]](#/pages/using/cli.md#os-install-60-image-62-device-)
+	- [note &#60;|note&#62;](#note-60-note-62-)
 
 - Plugin
 
-	- [plugins](#/pages/using/cli.md#plugins)
-	- [plugin install &#60;name&#62;](#/pages/using/cli.md#plugin-install-60-name-62-)
-	- [plugin update &#60;name&#62;](#/pages/using/cli.md#plugin-update-60-name-62-)
-	- [plugin rm &#60;name&#62;](#/pages/using/cli.md#plugin-rm-60-name-62-)
+	- [plugins](#plugins)
+	- [plugin install &#60;name&#62;](#plugin-install-60-name-62-)
+	- [plugin update &#60;name&#62;](#plugin-update-60-name-62-)
+	- [plugin rm &#60;name&#62;](#plugin-rm-60-name-62-)
 
 - Preferences
 
-	- [preferences](#/pages/using/cli.md#preferences)
+	- [preferences](#preferences)
 
 - Update
 
-	- [update](#/pages/using/cli.md#update)
+	- [update](#update)
 
 # Application
 
@@ -184,6 +180,12 @@ Examples:
 
 	$ resin app associate MyApp
 	$ resin app associate MyApp --project my/app/directory
+
+### Options
+
+#### --yes, -y
+
+confirm non interactively
 
 ## init
 
@@ -370,9 +372,7 @@ If `device` is omitted, you will be prompted to select a device interactively.
 Notice this command asks for confirmation interactively.
 You can avoid this by passing the `--yes` boolean option.
 
-You can quiet the progress bar by passing the `--quiet` boolean option.
-
-You may have to unmount the device before attempting this operation.
+You can quiet the progress bar and other logging information by passing the `--quiet` boolean option.
 
 You need to configure the network type and other settings:
 
@@ -424,23 +424,28 @@ Examples:
 
 ## envs
 
-Use this command to list all environment variables for a particular application.
-Notice we will support per-device environment variables soon.
+Use this command to list all environment variables for
+a particular application or device.
 
-This command lists all custom environment variables set on the devices running
-the application. If you want to see all environment variables, including private
+This command lists all custom environment variables.
+If you want to see all environment variables, including private
 ones used by resin, use the verbose option.
 
 Example:
 
-	$ resin envs --application 91
-	$ resin envs --application 91 --verbose
+	$ resin envs --application MyApp
+	$ resin envs --application MyApp --verbose
+	$ resin envs --device MyDevice
 
 ### Options
 
 #### --application, --a,app, --a,app &#60;application&#62;
 
 application name
+
+#### --device, -d &#60;device&#62;
+
+device name
 
 #### --verbose, -v
 
@@ -455,10 +460,13 @@ Don't remove resin specific variables, as things might not work as expected.
 Notice this command asks for confirmation interactively.
 You can avoid this by passing the `--yes` boolean option.
 
+If you want to eliminate a device environment variable, pass the `--device` boolean option.
+
 Examples:
 
 	$ resin env rm 215
 	$ resin env rm 215 --yes
+	$ resin env rm 215 --device
 
 ### Options
 
@@ -466,22 +474,28 @@ Examples:
 
 confirm non interactively
 
+#### --device, -d
+
+device name
+
 ## env add &#60;key&#62; [value]
 
 Use this command to add an enviroment variable to an application.
 
-You need to pass the `--application` option.
-
 If value is omitted, the tool will attempt to use the variable's value
 as defined in your host machine.
+
+Use the `--device` option if you want to assign the environment variable
+to a specific device.
 
 If the value is grabbed from the environment, a warning message will be printed.
 Use `--quiet` to remove it.
 
 Examples:
 
-	$ resin env add EDITOR vim -a 91
-	$ resin env add TERM -a 91
+	$ resin env add EDITOR vim --application MyApp
+	$ resin env add TERM --application MyApp
+	$ resin env add EDITOR vim --device MyDevice
 
 ### Options
 
@@ -489,13 +503,26 @@ Examples:
 
 application name
 
+#### --device, -d &#60;device&#62;
+
+device name
+
 ## env rename &#60;id&#62; &#60;value&#62;
 
 Use this command to rename an enviroment variable from an application.
 
+Pass the `--device` boolean option if you want to rename a device environment variable.
+
 Examples:
 
 	$ resin env rename 376 emacs
+	$ resin env rename 376 emacs --device
+
+### Options
+
+#### --device, -d
+
+device name
 
 # Examples
 
@@ -507,15 +534,15 @@ Example:
 
 	$ resin examples
 
-## example &#60;id&#62;
+## example &#60;name&#62;
 
 Use this command to show information of a single example application
 
 Example:
 
-	$ resin example 3
+	$ resin example cimon
 
-## example clone &#60;id&#62;
+## example clone &#60;name&#62;
 
 Use this command to clone an example application to the current directory
 
@@ -524,7 +551,7 @@ Use `--quiet` to remove that output.
 
 Example:
 
-	$ resin example clone 3
+	$ resin example clone cimon
 
 # Help
 
@@ -542,6 +569,12 @@ Examples:
 ## version
 
 Display the Resin CLI version.
+
+## config
+
+See your current Resin CLI configuration.
+
+Configuration lives in $HOME/.resin/config.
 
 # Keys
 
@@ -644,71 +677,6 @@ Examples:
 #### --device, --d,dev, --d,dev &#60;device&#62;
 
 device name
-
-# OS
-
-## os download &#60;name&#62;
-
-Use this command to download the device OS configured to a specific network.
-
-Ethernet:
-	You can setup the device OS to use ethernet by setting the `--network` option to "ethernet".
-
-Wifi:
-	You can setup the device OS to use wifi by setting the `--network` option to "wifi".
-	If you set "network" to "wifi", you will need to specify the `--ssid` and `--key` option as well.
-
-Alternatively, you can omit all kind of network configuration options to configure interactively.
-
-You have to specify an output location with the `--output` option.
-
-Examples:
-
-	$ resin os download MyApp --output ~/MyResinOS.zip
-	$ resin os download MyApp --network ethernet --output ~/MyResinOS.zip
-	$ resin os download MyApp --network wifi --ssid MyNetwork --key secreykey123 --output ~/MyResinOS.zip
-	$ resin os download MyApp --network ethernet --output ~/MyResinOS.zip
-
-### Options
-
-#### --network, -n &#60;network&#62;
-
-network type
-
-#### --ssid, -s &#60;ssid&#62;
-
-wifi ssid, if network is wifi
-
-#### --key, -k &#60;key&#62;
-
-wifi key, if network is wifi
-
-#### --output, -o &#60;output&#62;
-
-output file
-
-## os install &#60;image&#62; [device]
-
-Use this command to write an operating system image to a device.
-
-Note that this command requires admin privileges.
-
-If `device` is omitted, you will be prompted to select a device interactively.
-
-Notice this command asks for confirmation interactively.
-You can avoid this by passing the `--yes` boolean option.
-
-You can quiet the progress bar by passing the `--quiet` boolean option.
-
-Examples:
-
-	$ resin os install rpi.iso /dev/disk2
-
-### Options
-
-#### --yes, -y
-
-confirm non interactively
 
 # Plugin
 
