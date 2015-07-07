@@ -1,4 +1,5 @@
 _ = require('lodash')
+path = require('path')
 capitanodoc = require('../../capitanodoc.json')
 markdown = require('./markdown')
 
@@ -13,10 +14,13 @@ for commandCategory in capitanodoc.categories
 	category.commands = []
 
 	for file in commandCategory.files
-		actions = require(file)
+		actions = require(path.join(process.cwd(), file))
 
-		for actionName, actionCommand of actions
-			category.commands.push(_.omit(actionCommand, 'action'))
+		if actions.signature?
+			category.commands.push(_.omit(actions, 'action'))
+		else
+			for actionName, actionCommand of actions
+				category.commands.push(_.omit(actionCommand, 'action'))
 
 	result.categories.push(category)
 
@@ -25,10 +29,7 @@ result.toc = _.map result.toc, (category) ->
 	category.commands = _.map category.commands, (command) ->
 		return {
 			signature: command.signature
-
-			# TODO: Make anchor prefix a configurable setting
-			# in capitanodoc.json
-			anchor: '#/pages/using/cli.md#' + command.signature
+			anchor: '#' + command.signature
 								.replace(/\s/g,'-')
 								.replace(/</g, '60-')
 								.replace(/>/g, '-62-')
