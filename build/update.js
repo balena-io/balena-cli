@@ -1,21 +1,19 @@
 (function() {
-  var packageJSON, updateAction, updateNotifier;
+  var _, packageJSON, updateNotifier;
 
   updateNotifier = require('update-notifier');
 
+  _ = require('lodash');
+
+  _.str = require('underscore.string');
+
   packageJSON = require('../package.json');
-
-  updateAction = require('./actions/update');
-
-  exports.perform = function(callback) {
-    return updateAction.update.action(null, null, callback);
-  };
 
   exports.notify = function(update) {
     if (!process.stdout.isTTY) {
       return;
     }
-    return console.log("> Major update available: " + update.current + " -> " + update.latest + "\n> Run resin update to update.\n> Beware that a major release might introduce breaking changes.\n");
+    return console.log("> " + (_.str.capitalize(update.type)) + " update available: " + update.current + " -> " + update.latest + "\n> Run:\n>		$ resin update");
   };
 
   exports.check = function(callback) {
@@ -23,15 +21,10 @@
     notifier = updateNotifier({
       pkg: packageJSON
     });
-    if (notifier.update == null) {
-      return callback();
-    }
-    if (notifier.update.type === 'major') {
+    if (notifier.update != null) {
       exports.notify(notifier.update);
-      return callback();
     }
-    console.log("Performing " + notifier.update.type + " update, hold tight...");
-    return exports.perform(callback);
+    return callback();
   };
 
 }).call(this);
