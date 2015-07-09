@@ -70,6 +70,12 @@ exports.info =
 	action: (params, options, done) ->
 		resin.models.device.get params.name, (error, device) ->
 			return done(error) if error?
+
+			# TODO: We should outsource this logic and probably
+			# other last_seen edge cases to either Resin CLI Visuals
+			# or have it parsed appropriately in the SDK.
+			device.last_seen ?= 'Not seen'
+
 			console.log visuals.widgets.table.vertical device, [
 				'id'
 				'name'
