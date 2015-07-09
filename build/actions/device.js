@@ -66,6 +66,9 @@
         if (error != null) {
           return done(error);
         }
+        if (device.last_seen == null) {
+          device.last_seen = 'Not seen';
+        }
         console.log(visuals.widgets.table.vertical(device, ['id', 'name', 'device_type', 'is_online', 'ip_address', 'application_name', 'status', 'last_seen', 'uuid', 'commit', 'supervisor_version', 'is_web_accessible', 'note']));
         return done();
       });
