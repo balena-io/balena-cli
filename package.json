@@ -67,7 +67,7 @@
     "resin-register-device": "^1.0.1",
     "resin-sdk": "^1.7.4",
     "resin-settings-client": "^1.2.0",
-    "resin-vcs": "^1.2.0",
+    "resin-vcs": "^2.0.0",
     "selfupdate": "^1.1.0",
     "tmp": "^0.0.25",
     "underscore.string": "~2.4.0",

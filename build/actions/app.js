@@ -129,11 +129,11 @@
           if (!confirmed) {
             return done();
           }
-          return vcs.initialize(currentDirectory, callback);
+          return vcs.initialize(currentDirectory).nodeify(callback);
         }, function(callback) {
           return resin.models.application.get(params.name, callback);
         }, function(application, callback) {
-          return vcs.addRemote(currentDirectory, application.git_repository, callback);
+          return vcs.associate(currentDirectory, application.git_repository).nodeify(callback);
         }
       ], function(error, remoteUrl) {
         if (error != null) {
