@@ -272,7 +272,7 @@ exports.init =
 
 			(callback) ->
 				return callback(null, options.application) if options.application?
-				vcs.getApplicationName(process.cwd(), callback)
+				vcs.getApplicationName(process.cwd()).nodeify(callback)
 
 			(applicationName, callback) ->
 				options.application = applicationName

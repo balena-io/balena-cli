@@ -192,7 +192,7 @@
           if (options.application != null) {
             return callback(null, options.application);
           }
-          return vcs.getApplicationName(process.cwd(), callback);
+          return vcs.getApplicationName(process.cwd()).nodeify(callback);
         }, function(applicationName, callback) {
           options.application = applicationName;
           return resin.models.application.has(options.application, callback);

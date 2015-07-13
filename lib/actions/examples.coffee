@@ -91,5 +91,4 @@ exports.clone =
 		mkdirp destination, (error) ->
 			return done(error) if error?
 			console.info("Cloning #{example.display_name} to #{destination}")
-			vcs.clone(example.repository, destination, done)
-			return done()
+			vcs.clone(example.repository, destination).nodeify(done)

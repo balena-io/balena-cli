@@ -175,13 +175,13 @@ exports.associate =
 
 			(confirmed, callback) ->
 				return done() if not confirmed
-				vcs.initialize(currentDirectory, callback)
+				vcs.initialize(currentDirectory).nodeify(callback)
 
 			(callback) ->
 				resin.models.application.get(params.name, callback)
 
 			(application, callback) ->
-				vcs.addRemote(currentDirectory, application.git_repository, callback)
+				vcs.associate(currentDirectory, application.git_repository).nodeify(callback)
 
 		], (error, remoteUrl) ->
 			return done(error) if error?
