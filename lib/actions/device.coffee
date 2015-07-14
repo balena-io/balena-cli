@@ -324,6 +324,7 @@ exports.init =
 					# Associate a device
 					results.config.deviceId = device.id
 					results.config.uuid = device.uuid
+					results.config.registered_at = Math.floor(Date.now() / 1000)
 
 					params.uuid = results.config.uuid
 
