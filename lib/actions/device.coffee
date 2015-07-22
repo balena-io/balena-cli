@@ -12,6 +12,7 @@ inject = require('resin-config-inject')
 registerDevice = require('resin-register-device')
 pine = require('resin-pine')
 tmp = require('tmp')
+deviceConfig = require('resin-device-config')
 
 # Cleanup the temporary files even when an uncaught exception occurs
 tmp.setGracefulCleanup()
@@ -36,7 +37,6 @@ exports.list =
 	options: [ commandOptions.optionalApplication ]
 	permission: 'user'
 	action: (params, options, done) ->
-
 		if options.application?
 			getFunction = _.partial(resin.models.device.getAllByApplication, options.application)
 		else
@@ -57,19 +57,18 @@ exports.list =
 			return done(null, devices)
 
 exports.info =
-	signature: 'device <name>'
+	signature: 'device <uuid>'
 	description: 'list a single device'
 	help: '''
 		Use this command to show information about a single device.
 
 		Examples:
 
-			$ resin device MyDevice
+			$ resin device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin.models.device.get params.name, (error, device) ->
-			return done(error) if error?
+		resin.models.device.get(params.uuid).then (device) ->
 
 			# TODO: We should outsource this logic and probably
 			# other last_seen edge cases to either Resin CLI Visuals
@@ -92,10 +91,10 @@ exports.info =
 				'note'
 			]
 
-			return done()
+		.nodeify(done)
 
 exports.remove =
-	signature: 'device rm <name>'
+	signature: 'device rm <uuid>'
 	description: 'remove a device'
 	help: '''
 		Use this command to remove a device from resin.io.
@@ -105,14 +104,14 @@ exports.remove =
 
 		Examples:
 
-			$ resin device rm MyDevice
-			$ resin device rm MyDevice --yes
+			$ resin device rm 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
+			$ resin device rm 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 --yes
 	'''
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
 		visuals.patterns.remove 'device', options.yes, (callback) ->
-			resin.models.device.remove(params.name, callback)
+			resin.models.device.remove(params.uuid).nodeify(callback)
 		, done
 
 exports.identify =
@@ -129,10 +128,10 @@ exports.identify =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin.models.device.identify(params.uuid, done)
+		resin.models.device.identify(params.uuid).nodeify(done)
 
 exports.rename =
-	signature: 'device rename <name> [newName]'
+	signature: 'device rename <uuid> [newName]'
 	description: 'rename a resin device'
 	help: '''
 		Use this command to rename a device.
@@ -141,8 +140,8 @@ exports.rename =
 
 		Examples:
 
-			$ resin device rename MyDevice MyPi
-			$ resin device rename MyDevice
+			$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 MyPi
+			$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
@@ -159,7 +158,7 @@ exports.rename =
 				, callback
 
 			(newName, callback) ->
-				resin.models.device.rename(params.name, newName, callback)
+				resin.models.device.rename(params.uuid, newName).nodeify(callback)
 
 		], done
 
@@ -175,13 +174,12 @@ exports.supported =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin.models.device.getSupportedDeviceTypes (error, devices) ->
-			return done(error) if error?
-			_.each(devices, _.unary(console.log))
-			done()
+		resin.models.device.getSupportedDeviceTypes().each (device) ->
+			console.log(device)
+		.nodeify(done)
 
 exports.await =
-	signature: 'device await <name>'
+	signature: 'device await <uuid>'
 	description: 'await for a device to become online'
 	help: '''
 		Use this command to await for a device to become online.
@@ -194,8 +192,8 @@ exports.await =
 
 		Examples:
 
-			$ resin device await MyDevice
-			$ resin device await MyDevice --interval 1000
+			$ resin device await 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
+			$ resin device await 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 --interval 1000
 	'''
 	options: [
 		signature: 'interval'
@@ -208,17 +206,14 @@ exports.await =
 		options.interval ?= 3000
 
 		poll = ->
-			resin.models.device.isOnline params.name, (error, isOnline) ->
-				return done(error) if error?
-
+			resin.models.device.isOnline(params.uuid).then (isOnline) ->
 				if isOnline
-					console.info("Device became online: #{params.name}")
-					return done()
+					console.info("Device became online: #{params.uuid}")
+					return
 				else
-					console.info("Polling device network status: #{params.name}")
-					setTimeout(poll, options.interval)
-
-		poll()
+					console.info("Polling device network status: #{params.uuid}")
+					return Promise.delay(options.interval).then(poll)
+    poll().nodeify(done)
 
 exports.init =
 	signature: 'device init [device]'
@@ -276,7 +271,7 @@ exports.init =
 
 			(applicationName, callback) ->
 				options.application = applicationName
-				resin.models.application.has(options.application, callback)
+				resin.models.application.has(options.application).nodeify(callback)
 
 			(hasApplication, callback) ->
 				if not hasApplication
@@ -300,18 +295,18 @@ exports.init =
 
 			(callback) ->
 				console.info("Checking application: #{options.application}")
-				resin.models.application.get(options.application, callback)
+				resin.models.application.get(options.application).nodeify(callback)
 
 			(application, callback) ->
 				async.parallel
 
 					manifest: (callback) ->
 						console.info('Getting device manifest for the application')
-						resin.models.device.getManifestBySlug(application.device_type, callback)
+						resin.models.device.getManifestBySlug(application.device_type).nodeify(callback)
 
 					config: (callback) ->
 						console.info('Fetching application configuration')
-						resin.models.application.getConfiguration(options.application, networkOptions, callback)
+						deviceConfig.get(options.application, networkOptions).nodeify(callback)
 
 				, callback
 
@@ -364,7 +359,7 @@ exports.init =
 				removeCallback(callback)
 
 			(callback) ->
-				resin.models.device.getByUUID(params.uuid, callback)
+				resin.models.device.get(params.uuid).nodeify(callback)
 
 			(device, callback) ->
 				console.info("Device created: #{device.name}")

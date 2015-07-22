@@ -23,13 +23,9 @@
     help: 'Use this command to list all your SSH keys.\n\nExamples:\n\n	$ resin keys',
     permission: 'user',
     action: function(params, options, done) {
-      return resin.models.key.getAll(function(error, keys) {
-        if (error != null) {
-          return done(error);
-        }
-        console.log(visuals.widgets.table.horizontal(keys, ['id', 'title']));
-        return done();
-      });
+      return resin.models.key.getAll().then(function(keys) {
+        return console.log(visuals.widgets.table.horizontal(keys, ['id', 'title']));
+      }).nodeify(done);
     }
   };
 
@@ -41,13 +37,9 @@
     help: 'Use this command to show information about a single SSH key.\n\nExamples:\n\n	$ resin key 17',
     permission: 'user',
     action: function(params, options, done) {
-      return resin.models.key.get(params.id, function(error, key) {
-        if (error != null) {
-          return done(error);
-        }
-        console.log(visuals.widgets.table.vertical(key, ['id', 'title', 'public_key']));
-        return done();
-      });
+      return resin.models.key.get(params.id).then(function(key) {
+        return console.log(visuals.widgets.table.vertical(key, ['id', 'title', 'public_key']));
+      }).nodeify(done);
     }
   };
 
@@ -59,7 +51,7 @@
     permission: 'user',
     action: function(params, options, done) {
       return visuals.patterns.remove('key', options.yes, function(callback) {
-        return resin.models.key.remove(params.id, callback);
+        return resin.models.key.remove(params.id).nodeify(callback);
       }, done);
     }
   };
@@ -82,7 +74,7 @@
             });
           }
         }, function(key, callback) {
-          return resin.models.key.create(params.name, key, callback);
+          return resin.models.key.create(params.name, key).nodeify(callback);
         }
       ], done);
     }

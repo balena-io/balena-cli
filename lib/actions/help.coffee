@@ -1,6 +1,5 @@
 _ = require('lodash')
 _.str = require('underscore.string')
-resin = require('resin-sdk')
 capitano = require('capitano')
 
 # TODO: Refactor this terrible mess

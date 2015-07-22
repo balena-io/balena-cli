@@ -37,7 +37,7 @@ exports.create =
 		async.waterfall([
 
 			(callback) ->
-				resin.models.application.has(params.name, callback)
+				resin.models.application.has(params.name).nodeify(callback)
 
 			(hasApplication, callback) ->
 				if hasApplication
@@ -48,7 +48,7 @@ exports.create =
 
 			(type, callback) ->
 				options.type = type
-				resin.models.application.create(params.name, options.type, callback)
+				resin.models.application.create(params.name, options.type).nodeify(callback)
 
 			(applicationId, callback) ->
 				console.info("Application created: #{params.name} (#{options.type}, id #{applicationId})")
@@ -71,8 +71,7 @@ exports.list =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin.models.application.getAll (error, applications) ->
-			return done(error) if error?
+		resin.models.application.getAll().then (applications) ->
 			console.log visuals.widgets.table.horizontal applications, [
 				'id'
 				'app_name'
@@ -80,7 +79,7 @@ exports.list =
 				'online_devices'
 				'devices_length'
 			]
-			return done()
+		.nodeify(done)
 
 exports.info =
 	signature: 'app <name>'
@@ -94,8 +93,7 @@ exports.info =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin.models.application.get params.name, (error, application) ->
-			return done(error) if error?
+		resin.models.application.get(params.name).then (application) ->
 			console.log visuals.widgets.table.vertical application, [
 				'id'
 				'app_name'
@@ -103,7 +101,7 @@ exports.info =
 				'git_repository'
 				'commit'
 			]
-			return done()
+		.nodeify(done)
 
 exports.restart =
 	signature: 'app restart <name>'
@@ -117,7 +115,7 @@ exports.restart =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin.models.application.restart(params.name, done)
+		resin.models.application.restart(params.name).nodeify(done)
 
 exports.remove =
 	signature: 'app rm <name>'
@@ -137,7 +135,7 @@ exports.remove =
 	permission: 'user'
 	action: (params, options, done) ->
 		visuals.patterns.remove 'application', options.yes, (callback) ->
-			resin.models.application.remove(params.name, callback)
+			resin.models.application.remove(params.name).nodeify(callback)
 		, done
 
 exports.associate =
@@ -164,7 +162,7 @@ exports.associate =
 		async.waterfall [
 
 			(callback) ->
-				resin.models.application.has(params.name, callback)
+				resin.models.application.has(params.name).nodeify(callback)
 
 			(hasApp, callback) ->
 				if not hasApp
@@ -178,7 +176,7 @@ exports.associate =
 				vcs.initialize(currentDirectory).nodeify(callback)
 
 			(callback) ->
-				resin.models.application.get(params.name, callback)
+				resin.models.application.get(params.name).nodeify(callback)
 
 			(application, callback) ->
 				vcs.associate(currentDirectory, application.git_repository).nodeify(callback)

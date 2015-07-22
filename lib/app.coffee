@@ -8,11 +8,10 @@ plugins = require('./plugins')
 update = require('./update')
 
 capitano.permission 'user', (done) ->
-	resin.auth.isLoggedIn (error, isLoggedIn) ->
-		return done(error) if error?
+	resin.auth.isLoggedIn().then (isLoggedIn) ->
 		if not isLoggedIn
-			return done(new Error('You have to log in'))
-		return done()
+			throw new Error ('You have to log in')
+	.nodeify(done)
 
 capitano.command
 	signature: '*'

@@ -28,9 +28,9 @@
       return async.waterfall([
         function(callback) {
           if (options.application != null) {
-            return resin.models.environmentVariables.getAllByApplication(options.application, callback);
+            return resin.models.environmentVariables.getAllByApplication(options.application).nodeify(callback);
           } else if (options.device != null) {
-            return resin.models.environmentVariables.device.getAll(options.device, callback);
+            return resin.models.environmentVariables.device.getAll(options.device).nodeify(callback);
           } else {
             return callback(new Error('You must specify an application or device'));
           }
@@ -56,9 +56,9 @@
     action: function(params, options, done) {
       return visuals.patterns.remove('environment variable', options.yes, function(callback) {
         if (options.device) {
-          return resin.models.environmentVariables.device.remove(params.id, callback);
+          return resin.models.environmentVariables.device.remove(params.id).nodeify(callback);
         } else {
-          return resin.models.environmentVariables.remove(params.id, callback);
+          return resin.models.environmentVariables.remove(params.id).nodeify(callback);
         }
       }, done);
     }
@@ -80,9 +80,9 @@
         }
       }
       if (options.application != null) {
-        return resin.models.environmentVariables.create(options.application, params.key, params.value, done);
+        return resin.models.environmentVariables.create(options.application, params.key, params.value).nodeify(done);
       } else if (options.device != null) {
-        return resin.models.environmentVariables.device.create(options.device, params.key, params.value, done);
+        return resin.models.environmentVariables.device.create(options.device, params.key, params.value).nodeify(done);
       } else {
         return done(new Error('You must specify an application or device'));
       }
@@ -97,9 +97,9 @@
     options: [commandOptions.booleanDevice],
     action: function(params, options, done) {
       if (options.device) {
-        return resin.models.environmentVariables.device.update(params.id, params.value, done);
+        return resin.models.environmentVariables.device.update(params.id, params.value).nodeify(done);
       } else {
-        return resin.models.environmentVariables.update(params.id, params.value, done);
+        return resin.models.environmentVariables.update(params.id, params.value).nodeify(done);
       }
     }
   };

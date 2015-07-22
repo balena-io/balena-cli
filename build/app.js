@@ -18,15 +18,11 @@
   update = require('./update');
 
   capitano.permission('user', function(done) {
-    return resin.auth.isLoggedIn(function(error, isLoggedIn) {
-      if (error != null) {
-        return done(error);
-      }
+    return resin.auth.isLoggedIn().then(function(isLoggedIn) {
       if (!isLoggedIn) {
-        return done(new Error('You have to log in'));
+        throw new Error('You have to log in');
       }
-      return done();
-    });
+    }).nodeify(done);
   });
 
   capitano.command({

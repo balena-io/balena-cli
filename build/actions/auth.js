@@ -35,9 +35,9 @@
             return visuals.patterns.loginWithToken(callback);
           });
         }, function(token, callback) {
-          return resin.auth.loginWithToken(token, callback);
+          return resin.auth.loginWithToken(token).nodeify(callback);
         }, function(callback) {
-          return resin.auth.whoami(callback);
+          return resin.auth.whoami().nodeify(callback);
         }, function(username, callback) {
           console.info("Successfully logged in as: " + username);
           return callback();
@@ -52,7 +52,7 @@
     help: 'Use this command to logout from your resin.io account.o\n\nExamples:\n\n	$ resin logout',
     permission: 'user',
     action: function(params, options, done) {
-      return resin.auth.logout(done);
+      return resin.auth.logout().nodeify(done);
     }
   };
 
@@ -99,11 +99,9 @@
           }
           return visuals.patterns.register(callback);
         }, function(credentials, callback) {
-          return resin.auth.register(credentials, function(error, token) {
-            return callback(error, credentials);
-          });
+          return resin.auth.register(credentials)["return"](credentials).nodeify(callback);
         }, function(credentials, callback) {
-          return resin.auth.login(credentials, callback);
+          return resin.auth.login(credentials).nodeify(callback);
         }
       ], done);
     }
@@ -115,16 +113,12 @@
     help: 'Use this command to find out the current logged in username.\n\nExamples:\n\n	$ resin whoami',
     permission: 'user',
     action: function(params, options, done) {
-      return resin.auth.whoami(function(error, username) {
-        if (error != null) {
-          return done(error);
-        }
+      return resin.auth.whoami().then(function(username) {
         if (username == null) {
-          return done(new Error('Username not found'));
+          throw new Error('Username not found');
         }
-        console.log(username);
-        return done();
-      });
+        return console.log(username);
+      }).nodeify(done);
     }
   };
 

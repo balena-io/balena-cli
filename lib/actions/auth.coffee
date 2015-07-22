@@ -47,10 +47,10 @@ exports.login	=
 					visuals.patterns.loginWithToken(callback)
 
 			(token, callback) ->
-				resin.auth.loginWithToken(token, callback)
+				resin.auth.loginWithToken(token).nodeify(callback)
 
 			(callback) ->
-				resin.auth.whoami(callback)
+				resin.auth.whoami().nodeify(callback)
 
 			(username, callback) ->
 				console.info("Successfully logged in as: #{username}")
@@ -70,7 +70,7 @@ exports.logout =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin.auth.logout(done)
+		resin.auth.logout().nodeify(done)
 
 exports.signup =
 	signature: 'signup'
@@ -134,11 +134,10 @@ exports.signup =
 				visuals.patterns.register(callback)
 
 			(credentials, callback) ->
-				resin.auth.register credentials, (error, token) ->
-					return callback(error, credentials)
+				resin.auth.register(credentials).return(credentials).nodeify(callback)
 
 			(credentials, callback) ->
-				resin.auth.login(credentials, callback)
+				resin.auth.login(credentials).nodeify(callback)
 
 		], done)
 
@@ -154,11 +153,8 @@ exports.whoami =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin.auth.whoami (error, username) ->
-			return done(error) if error?
-
+		resin.auth.whoami().then (username) ->
 			if not username?
-				return done(new Error('Username not found'))
-
+				throw new Error('Username not found')
 			console.log(username)
-			return done()
+		.nodeify(done)

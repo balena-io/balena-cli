@@ -1,5 +1,5 @@
 (function() {
-  var _, async, capitano, commandOptions, fse, image, inject, manager, path, pine, registerDevice, resin, tmp, vcs, visuals;
+  var _, async, capitano, commandOptions, deviceConfig, fse, image, inject, manager, path, pine, registerDevice, resin, tmp, vcs, visuals;
 
   fse = require('fs-extra');
 
@@ -29,6 +29,8 @@
 
   tmp = require('tmp');
 
+  deviceConfig = require('resin-device-config');
+
   tmp.setGracefulCleanup();
 
   commandOptions = require('./command-options');
@@ -57,33 +59,29 @@
   };
 
   exports.info = {
-    signature: 'device <name>',
+    signature: 'device <uuid>',
     description: 'list a single device',
-    help: 'Use this command to show information about a single device.\n\nExamples:\n\n	$ resin device MyDevice',
+    help: 'Use this command to show information about a single device.\n\nExamples:\n\n	$ resin device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9',
     permission: 'user',
     action: function(params, options, done) {
-      return resin.models.device.get(params.name, function(error, device) {
-        if (error != null) {
-          return done(error);
-        }
+      return resin.models.device.get(params.uuid).then(function(device) {
         if (device.last_seen == null) {
           device.last_seen = 'Not seen';
         }
-        console.log(visuals.widgets.table.vertical(device, ['id', 'name', 'device_type', 'is_online', 'ip_address', 'application_name', 'status', 'last_seen', 'uuid', 'commit', 'supervisor_version', 'is_web_accessible', 'note']));
-        return done();
-      });
+        return console.log(visuals.widgets.table.vertical(device, ['id', 'name', 'device_type', 'is_online', 'ip_address', 'application_name', 'status', 'last_seen', 'uuid', 'commit', 'supervisor_version', 'is_web_accessible', 'note']));
+      }).nodeify(done);
     }
   };
 
   exports.remove = {
-    signature: 'device rm <name>',
+    signature: 'device rm <uuid>',
     description: 'remove a device',
-    help: 'Use this command to remove a device from resin.io.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nExamples:\n\n	$ resin device rm MyDevice\n	$ resin device rm MyDevice --yes',
+    help: 'Use this command to remove a device from resin.io.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nExamples:\n\n	$ resin device rm 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9\n	$ resin device rm 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 --yes',
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
       return visuals.patterns.remove('device', options.yes, function(callback) {
-        return resin.models.device.remove(params.name, callback);
+        return resin.models.device.remove(params.uuid).nodeify(callback);
       }, done);
     }
   };
@@ -94,14 +92,14 @@
     help: 'Use this command to identify a device.\n\nIn the Raspberry Pi, the ACT led is blinked several times.\n\nExamples:\n\n	$ resin device identify 23c73a12e3527df55c60b9ce647640c1b7da1b32d71e6a39849ac0f00db828',
     permission: 'user',
     action: function(params, options, done) {
-      return resin.models.device.identify(params.uuid, done);
+      return resin.models.device.identify(params.uuid).nodeify(done);
     }
   };
 
   exports.rename = {
-    signature: 'device rename <name> [newName]',
+    signature: 'device rename <uuid> [newName]',
     description: 'rename a resin device',
-    help: 'Use this command to rename a device.\n\nIf you omit the name, you\'ll get asked for it interactively.\n\nExamples:\n\n	$ resin device rename MyDevice MyPi\n	$ resin device rename MyDevice',
+    help: 'Use this command to rename a device.\n\nIf you omit the name, you\'ll get asked for it interactively.\n\nExamples:\n\n	$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 MyPi\n	$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9',
     permission: 'user',
     action: function(params, options, done) {
       return async.waterfall([
@@ -115,7 +113,7 @@
             type: 'text'
           }, callback);
         }, function(newName, callback) {
-          return resin.models.device.rename(params.name, newName, callback);
+          return resin.models.device.rename(params.uuid, newName).nodeify(callback);
         }
       ], done);
     }
@@ -127,20 +125,16 @@
     help: 'Use this command to get the list of all supported devices\n\nExamples:\n\n	$ resin devices supported',
     permission: 'user',
     action: function(params, options, done) {
-      return resin.models.device.getSupportedDeviceTypes(function(error, devices) {
-        if (error != null) {
-          return done(error);
-        }
-        _.each(devices, _.unary(console.log));
-        return done();
-      });
+      return resin.models.device.getSupportedDeviceTypes().each(function(device) {
+        return console.log(device);
+      }).nodeify(done);
     }
   };
 
   exports.await = {
-    signature: 'device await <name>',
+    signature: 'device await <uuid>',
     description: 'await for a device to become online',
-    help: 'Use this command to await for a device to become online.\n\nThe process will exit when the device becomes online.\n\nNotice that there is no time limit for this command, so it might run forever.\n\nYou can configure the poll interval with the --interval option (defaults to 3000ms).\n\nExamples:\n\n	$ resin device await MyDevice\n	$ resin device await MyDevice --interval 1000',
+    help: 'Use this command to await for a device to become online.\n\nThe process will exit when the device becomes online.\n\nNotice that there is no time limit for this command, so it might run forever.\n\nYou can configure the poll interval with the --interval option (defaults to 3000ms).\n\nExamples:\n\n	$ resin device await 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9\n	$ resin device await 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 --interval 1000',
     options: [
       {
         signature: 'interval',
@@ -155,21 +149,18 @@
       if (options.interval == null) {
         options.interval = 3000;
       }
-      poll = function() {
-        return resin.models.device.isOnline(params.name, function(error, isOnline) {
-          if (error != null) {
-            return done(error);
-          }
+      return poll = function() {
+        return resin.models.device.isOnline(params.uuid).then(function(isOnline) {
           if (isOnline) {
-            console.info("Device became online: " + params.name);
-            return done();
+            console.info("Device became online: " + params.uuid);
+            return;
           } else {
-            console.info("Polling device network status: " + params.name);
-            return setTimeout(poll, options.interval);
+            console.info("Polling device network status: " + params.uuid);
+            return Promise.delay(options.interval).then(poll);
           }
+          return poll().nodeify(done);
         });
       };
-      return poll();
     }
   };
 
@@ -195,7 +186,7 @@
           return vcs.getApplicationName(process.cwd()).nodeify(callback);
         }, function(applicationName, callback) {
           options.application = applicationName;
-          return resin.models.application.has(options.application, callback);
+          return resin.models.application.has(options.application).nodeify(callback);
         }, function(hasApplication, callback) {
           if (!hasApplication) {
             return callback(new Error("Invalid application: " + options.application));
@@ -225,16 +216,16 @@
           });
         }, function(callback) {
           console.info("Checking application: " + options.application);
-          return resin.models.application.get(options.application, callback);
+          return resin.models.application.get(options.application).nodeify(callback);
         }, function(application, callback) {
           return async.parallel({
             manifest: function(callback) {
               console.info('Getting device manifest for the application');
-              return resin.models.device.getManifestBySlug(application.device_type, callback);
+              return resin.models.device.getManifestBySlug(application.device_type).nodeify(callback);
             },
             config: function(callback) {
               console.info('Fetching application configuration');
-              return resin.models.application.getConfiguration(options.application, networkOptions, callback);
+              return deviceConfig.get(options.application, networkOptions).nodeify(callback);
             }
           }, callback);
         }, function(results, callback) {
@@ -284,7 +275,7 @@
           console.info('Image written successfully');
           return removeCallback(callback);
         }, function(callback) {
-          return resin.models.device.getByUUID(params.uuid, callback);
+          return resin.models.device.get(params.uuid).nodeify(callback);
         }, function(device, callback) {
           console.info("Device created: " + device.name);
           return callback(null, device.name);
