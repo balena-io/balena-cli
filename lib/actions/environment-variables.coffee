@@ -38,9 +38,9 @@ exports.list =
 
 			(callback) ->
 				if options.application?
-					resin.models.environmentVariables.getAllByApplication(options.application, callback)
+					resin.models.environmentVariables.getAllByApplication(options.application).nodeify(callback)
 				else if options.device?
-					resin.models.environmentVariables.device.getAll(options.device, callback)
+					resin.models.environmentVariables.device.getAll(options.device).nodeify(callback)
 				else
 					return callback(new Error('You must specify an application or device'))
 
@@ -87,9 +87,9 @@ exports.remove =
 	action: (params, options, done) ->
 		visuals.patterns.remove 'environment variable', options.yes, (callback) ->
 			if options.device
-				resin.models.environmentVariables.device.remove(params.id, callback)
+				resin.models.environmentVariables.device.remove(params.id).nodeify(callback)
 			else
-				resin.models.environmentVariables.remove(params.id, callback)
+				resin.models.environmentVariables.remove(params.id).nodeify(callback)
 		, done
 
 exports.add =
@@ -128,9 +128,9 @@ exports.add =
 				console.info("Warning: using #{params.key}=#{params.value} from host environment")
 
 		if options.application?
-			resin.models.environmentVariables.create(options.application, params.key, params.value, done)
+			resin.models.environmentVariables.create(options.application, params.key, params.value).nodeify(done)
 		else if options.device?
-			resin.models.environmentVariables.device.create(options.device, params.key, params.value, done)
+			resin.models.environmentVariables.device.create(options.device, params.key, params.value).nodeify(done)
 		else
 			return done(new Error('You must specify an application or device'))
 
@@ -151,6 +151,6 @@ exports.rename =
 	options: [ commandOptions.booleanDevice ]
 	action: (params, options, done) ->
 		if options.device
-			resin.models.environmentVariables.device.update(params.id, params.value, done)
+			resin.models.environmentVariables.device.update(params.id, params.value).nodeify(done)
 		else
-			resin.models.environmentVariables.update(params.id, params.value, done)
+			resin.models.environmentVariables.update(params.id, params.value).nodeify(done)

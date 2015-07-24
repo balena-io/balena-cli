@@ -31,7 +31,7 @@
     action: function(params, options, done) {
       return async.waterfall([
         function(callback) {
-          return resin.models.application.has(params.name, callback);
+          return resin.models.application.has(params.name).nodeify(callback);
         }, function(hasApplication, callback) {
           if (hasApplication) {
             return callback(new Error('You already have an application with that name!'));
@@ -42,7 +42,7 @@
           return visuals.patterns.selectDeviceType(callback);
         }, function(type, callback) {
           options.type = type;
-          return resin.models.application.create(params.name, options.type, callback);
+          return resin.models.application.create(params.name, options.type).nodeify(callback);
         }, function(applicationId, callback) {
           console.info("Application created: " + params.name + " (" + options.type + ", id " + applicationId + ")");
           return callback();
@@ -57,13 +57,9 @@
     help: 'Use this command to list all your applications.\n\nNotice this command only shows the most important bits of information for each app.\nIf you want detailed information, use resin app <name> instead.\n\nExamples:\n\n	$ resin apps',
     permission: 'user',
     action: function(params, options, done) {
-      return resin.models.application.getAll(function(error, applications) {
-        if (error != null) {
-          return done(error);
-        }
-        console.log(visuals.widgets.table.horizontal(applications, ['id', 'app_name', 'device_type', 'online_devices', 'devices_length']));
-        return done();
-      });
+      return resin.models.application.getAll().then(function(applications) {
+        return console.log(visuals.widgets.table.horizontal(applications, ['id', 'app_name', 'device_type', 'online_devices', 'devices_length']));
+      }).nodeify(done);
     }
   };
 
@@ -73,13 +69,9 @@
     help: 'Use this command to show detailed information for a single application.\n\nExamples:\n\n	$ resin app MyApp',
     permission: 'user',
     action: function(params, options, done) {
-      return resin.models.application.get(params.name, function(error, application) {
-        if (error != null) {
-          return done(error);
-        }
-        console.log(visuals.widgets.table.vertical(application, ['id', 'app_name', 'device_type', 'git_repository', 'commit']));
-        return done();
-      });
+      return resin.models.application.get(params.name).then(function(application) {
+        return console.log(visuals.widgets.table.vertical(application, ['id', 'app_name', 'device_type', 'git_repository', 'commit']));
+      }).nodeify(done);
     }
   };
 
@@ -89,7 +81,7 @@
     help: 'Use this command to restart all devices that belongs to a certain application.\n\nExamples:\n\n	$ resin app restart MyApp',
     permission: 'user',
     action: function(params, options, done) {
-      return resin.models.application.restart(params.name, done);
+      return resin.models.application.restart(params.name).nodeify(done);
     }
   };
 
@@ -101,7 +93,7 @@
     permission: 'user',
     action: function(params, options, done) {
       return visuals.patterns.remove('application', options.yes, function(callback) {
-        return resin.models.application.remove(params.name, callback);
+        return resin.models.application.remove(params.name).nodeify(callback);
       }, done);
     }
   };
@@ -117,7 +109,7 @@
       currentDirectory = process.cwd();
       return async.waterfall([
         function(callback) {
-          return resin.models.application.has(params.name, callback);
+          return resin.models.application.has(params.name).nodeify(callback);
         }, function(hasApp, callback) {
           var message;
           if (!hasApp) {
@@ -131,7 +123,7 @@
           }
           return vcs.initialize(currentDirectory).nodeify(callback);
         }, function(callback) {
-          return resin.models.application.get(params.name, callback);
+          return resin.models.application.get(params.name).nodeify(callback);
         }, function(application, callback) {
           return vcs.associate(currentDirectory, application.git_repository).nodeify(callback);
         }

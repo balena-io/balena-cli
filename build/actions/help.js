@@ -1,11 +1,9 @@
 (function() {
-  var PADDING_INITIAL, PADDING_MIDDLE, _, addAlias, addOptionPrefix, buildHelpString, buildOptionSignatureHelp, capitano, command, general, getCommandHelp, getFieldMaxLength, getOptionHelp, getOptionsParsedSignatures, resin;
+  var PADDING_INITIAL, PADDING_MIDDLE, _, addAlias, addOptionPrefix, buildHelpString, buildOptionSignatureHelp, capitano, command, general, getCommandHelp, getFieldMaxLength, getOptionHelp, getOptionsParsedSignatures;
 
   _ = require('lodash');
 
   _.str = require('underscore.string');
-
-  resin = require('resin-sdk');
 
   capitano = require('capitano');
 

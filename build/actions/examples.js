@@ -1,5 +1,5 @@
 (function() {
-  var _, async, examplesData, fs, mkdirp, path, resin, vcs, visuals;
+  var _, async, examplesData, fs, mkdirp, path, vcs, visuals;
 
   mkdirp = require('mkdirp');
 
@@ -10,8 +10,6 @@
   path = require('path');
 
   _ = require('lodash');
-
-  resin = require('resin-sdk');
 
   visuals = require('resin-cli-visuals');
 

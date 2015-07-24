@@ -19,10 +19,9 @@ exports.list =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin.models.key.getAll (error, keys) ->
-			return done(error) if error?
+		resin.models.key.getAll().then (keys) ->
 			console.log visuals.widgets.table.horizontal keys, [ 'id', 'title' ]
-			return done()
+		.nodeify(done)
 
 SSH_KEY_WIDTH = 43
 
@@ -38,10 +37,9 @@ exports.info =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin.models.key.get params.id, (error, key) ->
-			return done(error) if error?
+		resin.models.key.get(params.id).then (key) ->
 			console.log(visuals.widgets.table.vertical(key, [ 'id', 'title', 'public_key' ]))
-			return done()
+		.nodeify(done)
 
 exports.remove =
 	signature: 'key rm <id>'
@@ -61,7 +59,7 @@ exports.remove =
 	permission: 'user'
 	action: (params, options, done) ->
 		visuals.patterns.remove 'key', options.yes, (callback) ->
-			resin.models.key.remove(params.id, callback)
+			resin.models.key.remove(params.id).nodeify(callback)
 		, done
 
 exports.add =
@@ -90,6 +88,6 @@ exports.add =
 						return callback(null, data)
 
 			(key, callback) ->
-				resin.models.key.create(params.name, key, callback)
+				resin.models.key.create(params.name, key).nodeify(callback)
 
 		], done
