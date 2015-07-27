@@ -1,5 +1,5 @@
 (function() {
-  var SSH_KEY_WIDTH, _, async, capitano, commandOptions, fs, resin, visuals;
+  var SSH_KEY_WIDTH, _, async, capitano, commandOptions, form, fs, resin, visuals;
 
   _ = require('lodash');
 
@@ -16,6 +16,8 @@
   visuals = require('resin-cli-visuals');
 
   commandOptions = require('./command-options');
+
+  form = require('resin-cli-form');
 
   exports.list = {
     signature: 'keys',
@@ -50,9 +52,24 @@
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
-      return visuals.patterns.remove('key', options.yes, function(callback) {
-        return resin.models.key.remove(params.id).nodeify(callback);
-      }, done);
+      return async.waterfall([
+        function(callback) {
+          if (options.yes) {
+            return callback(null, true);
+          } else {
+            return form.ask({
+              message: 'Are you sure you want to delete the key?',
+              type: 'confirm',
+              "default": false
+            }).nodeify(callback);
+          }
+        }, function(confirmed, callback) {
+          if (!confirmed) {
+            return callback();
+          }
+          return resin.models.key.remove(params.id).nodeify(callback);
+        }
+      ], done);
     }
   };
 

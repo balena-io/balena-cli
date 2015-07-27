@@ -1,5 +1,5 @@
 (function() {
-  var _, async, commandOptions, path, resin, vcs, visuals;
+  var _, async, commandOptions, form, path, resin, vcs, visuals;
 
   path = require('path');
 
@@ -14,6 +14,8 @@
   commandOptions = require('./command-options');
 
   vcs = require('resin-vcs');
+
+  form = require('resin-cli-form');
 
   exports.create = {
     signature: 'app create <name>',
@@ -39,7 +41,13 @@
           if (options.type != null) {
             return callback(null, options.type);
           }
-          return visuals.patterns.selectDeviceType(callback);
+          return resin.models.device.getSupportedDeviceTypes().then(function(supportedDeviceTypes) {
+            return form.ask({
+              message: 'Device Type',
+              type: 'list',
+              choices: supportedDeviceTypes
+            });
+          }).nodeify(callback);
         }, function(type, callback) {
           options.type = type;
           return resin.models.application.create(params.name, options.type).nodeify(callback);
@@ -92,9 +100,24 @@
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
-      return visuals.patterns.remove('application', options.yes, function(callback) {
-        return resin.models.application.remove(params.name).nodeify(callback);
-      }, done);
+      return async.waterfall([
+        function(callback) {
+          if (options.yes) {
+            return callback(null, true);
+          } else {
+            return form.ask({
+              message: 'Are you sure you want to delete the application?',
+              type: 'confirm',
+              "default": false
+            }).nodeify(callback);
+          }
+        }, function(confirmed, callback) {
+          if (!confirmed) {
+            return callback();
+          }
+          return resin.models.application.remove(params.name).nodeify(callback);
+        }
+      ], done);
     }
   };
 
@@ -116,7 +139,15 @@
             return callback(new Error("Invalid application: " + params.name));
           }
           message = "Are you sure you want to associate " + currentDirectory + " with " + params.name + "?";
-          return visuals.patterns.confirm(options.yes, message, callback);
+          if (options.yes) {
+            return callback(null, true);
+          } else {
+            return form.ask({
+              message: message,
+              type: 'confirm',
+              "default": false
+            }).nodeify(callback);
+          }
         }, function(confirmed, callback) {
           if (!confirmed) {
             return done();
@@ -149,12 +180,11 @@
         function(callback) {
           var currentDirectoryBasename;
           currentDirectoryBasename = path.basename(currentDirectory);
-          return visuals.form.ask({
-            label: 'What is the name of your application?',
-            name: 'application',
-            type: 'text',
-            value: currentDirectoryBasename
-          }, callback);
+          return form.ask({
+            message: 'What is the name of your application?',
+            type: 'input',
+            "default": currentDirectoryBasename
+          }).nodeify(callback);
         }, function(applicationName, callback) {
           return exports.create.action({
             name: applicationName

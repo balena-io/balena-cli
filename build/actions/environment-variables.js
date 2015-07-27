@@ -54,13 +54,28 @@
     options: [commandOptions.yes, commandOptions.booleanDevice],
     permission: 'user',
     action: function(params, options, done) {
-      return visuals.patterns.remove('environment variable', options.yes, function(callback) {
-        if (options.device) {
-          return resin.models.environmentVariables.device.remove(params.id).nodeify(callback);
-        } else {
-          return resin.models.environmentVariables.remove(params.id).nodeify(callback);
+      return async.waterfall([
+        function(callback) {
+          if (options.yes) {
+            return callback(null, true);
+          } else {
+            return form.ask({
+              message: 'Are you sure you want to delete the environment variable?',
+              type: 'confirm',
+              "default": false
+            }).nodeify(callback);
+          }
+        }, function(confirmed, callback) {
+          if (!confirmed) {
+            return callback();
+          }
+          if (options.device) {
+            return resin.models.environmentVariables.device.remove(params.id).nodeify(callback);
+          } else {
+            return resin.models.environmentVariables.remove(params.id).nodeify(callback);
+          }
         }
-      }, done);
+      ], done);
     }
   };
 

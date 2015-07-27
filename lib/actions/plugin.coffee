@@ -2,6 +2,8 @@ _ = require('lodash')
 visuals = require('resin-cli-visuals')
 commandOptions = require('./command-options')
 plugins = require('../plugins')
+form = require('resin-cli-form')
+async = require('async')
 
 exports.list =
 	signature: 'plugins'
@@ -86,9 +88,23 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		visuals.patterns.remove 'plugin', options.yes, (callback) ->
-			plugins.remove(params.name, callback)
+		async.waterfall [
+
+			(callback) ->
+				if options.yes
+					return callback(null, true)
+				else
+					form.ask
+						message: 'Are you sure you want to delete the plugin?'
+						type: 'confirm'
+						default: false
+					.nodeify(callback)
+
+			(confirmed, callback) ->
+				return callback() if not confirmed
+				plugins.remove(params.name, callback)
 		, (error) ->
 			return done(error) if error?
 			console.info("Plugin removed: #{params.name}")
 			return done()
+		]

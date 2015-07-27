@@ -34,7 +34,7 @@ exports.list =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
-		async.waterfall([
+		async.waterfall [
 
 			(callback) ->
 				if options.application?
@@ -58,7 +58,7 @@ exports.list =
 
 				return callback()
 
-		], done)
+		], done
 
 exports.remove =
 	signature: 'env rm <id>'
@@ -85,12 +85,25 @@ exports.remove =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
-		visuals.patterns.remove 'environment variable', options.yes, (callback) ->
-			if options.device
-				resin.models.environmentVariables.device.remove(params.id).nodeify(callback)
-			else
-				resin.models.environmentVariables.remove(params.id).nodeify(callback)
-		, done
+		async.waterfall [
+
+			(callback) ->
+				if options.yes
+					return callback(null, true)
+				else
+					form.ask
+						message: 'Are you sure you want to delete the environment variable?'
+						type: 'confirm'
+						default: false
+					.nodeify(callback)
+
+			(confirmed, callback) ->
+				return callback() if not confirmed
+				if options.device
+					resin.models.environmentVariables.device.remove(params.id).nodeify(callback)
+				else
+					resin.models.environmentVariables.remove(params.id).nodeify(callback)
+		], done
 
 exports.add =
 	signature: 'env add <key> [value]'

@@ -5,6 +5,7 @@ resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
 commandOptions = require('./command-options')
 vcs = require('resin-vcs')
+form = require('resin-cli-form')
 
 exports.create =
 	signature: 'app create <name>'
@@ -34,7 +35,7 @@ exports.create =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
-		async.waterfall([
+		async.waterfall [
 
 			(callback) ->
 				resin.models.application.has(params.name).nodeify(callback)
@@ -44,7 +45,12 @@ exports.create =
 					return callback(new Error('You already have an application with that name!'))
 
 				return callback(null, options.type) if options.type?
-				visuals.patterns.selectDeviceType(callback)
+				resin.models.device.getSupportedDeviceTypes().then (supportedDeviceTypes) ->
+					form.ask
+						message: 'Device Type'
+						type: 'list'
+						choices: supportedDeviceTypes
+				.nodeify(callback)
 
 			(type, callback) ->
 				options.type = type
@@ -54,7 +60,7 @@ exports.create =
 				console.info("Application created: #{params.name} (#{options.type}, id #{applicationId})")
 				return callback()
 
-		], done)
+		], done
 
 exports.list =
 	signature: 'apps'
@@ -134,9 +140,22 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		visuals.patterns.remove 'application', options.yes, (callback) ->
-			resin.models.application.remove(params.name).nodeify(callback)
-		, done
+		async.waterfall [
+
+			(callback) ->
+				if options.yes
+					return callback(null, true)
+				else
+					form.ask
+						message: 'Are you sure you want to delete the application?'
+						type: 'confirm'
+						default: false
+					.nodeify(callback)
+
+			(confirmed, callback) ->
+				return callback() if not confirmed
+				resin.models.application.remove(params.name).nodeify(callback)
+		], done
 
 exports.associate =
 	signature: 'app associate <name>'
@@ -169,7 +188,14 @@ exports.associate =
 					return callback(new Error("Invalid application: #{params.name}"))
 
 				message = "Are you sure you want to associate #{currentDirectory} with #{params.name}?"
-				visuals.patterns.confirm(options.yes, message, callback)
+				if options.yes
+					return callback(null, true)
+				else
+					form.ask
+						message: message
+						type: 'confirm'
+						default: false
+					.nodeify(callback)
 
 			(confirmed, callback) ->
 				return done() if not confirmed
@@ -207,16 +233,15 @@ exports.init =
 
 		currentDirectory = process.cwd()
 
-		async.waterfall([
+		async.waterfall [
 
 			(callback) ->
 				currentDirectoryBasename = path.basename(currentDirectory)
-				visuals.form.ask
-					label: 'What is the name of your application?'
-					name: 'application'
-					type: 'text'
-					value: currentDirectoryBasename
-				, callback
+				form.ask
+					message: 'What is the name of your application?'
+					type: 'input'
+					default: currentDirectoryBasename
+				.nodeify(callback)
 
 			(applicationName, callback) ->
 
@@ -229,4 +254,4 @@ exports.init =
 			(applicationName, callback) ->
 				exports.associate.action(name: applicationName, options, callback)
 
-		], done)
+		], done

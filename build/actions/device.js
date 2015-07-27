@@ -1,5 +1,5 @@
 (function() {
-  var _, async, capitano, commandOptions, deviceConfig, fse, image, inject, manager, path, pine, registerDevice, resin, tmp, vcs, visuals;
+  var _, async, capitano, commandOptions, deviceConfig, form, fse, image, inject, manager, path, pine, registerDevice, resin, tmp, vcs, visuals;
 
   fse = require('fs-extra');
 
@@ -30,6 +30,8 @@
   tmp = require('tmp');
 
   deviceConfig = require('resin-device-config');
+
+  form = require('resin-cli-form');
 
   tmp.setGracefulCleanup();
 
@@ -80,9 +82,24 @@
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
-      return visuals.patterns.remove('device', options.yes, function(callback) {
-        return resin.models.device.remove(params.uuid).nodeify(callback);
-      }, done);
+      return async.waterfall([
+        function(callback) {
+          if (options.yes) {
+            return callback(null, true);
+          } else {
+            return form.ask({
+              message: 'Are you sure you want to delete the device?',
+              type: 'confirm',
+              "default": false
+            }).nodeify(callback);
+          }
+        }, function(confirmed, callback) {
+          if (!confirmed) {
+            return callback();
+          }
+          return resin.models.device.remove(params.uuid).nodeify(callback);
+        }
+      ], done);
     }
   };
 
@@ -107,11 +124,10 @@
           if (!_.isEmpty(params.newName)) {
             return callback(null, params.newName);
           }
-          return visuals.form.ask({
-            label: 'How do you want to name this device?',
-            name: 'device',
-            type: 'text'
-          }, callback);
+          return form.ask({
+            message: 'How do you want to name this device?',
+            type: 'input'
+          }).nodeify(callback);
         }, function(newName, callback) {
           return resin.models.device.rename(params.uuid, newName).nodeify(callback);
         }
@@ -194,12 +210,39 @@
           if (params.device != null) {
             return callback(null, params.device);
           }
-          return visuals.patterns.selectDrive(callback);
+          return drivelist.list(function(error, drives) {
+            if (error != null) {
+              return callback(error);
+            }
+            return async.reject(drives, drivelist.isSystem, function(removableDrives) {
+              if (_.isEmpty(removableDrives)) {
+                return callback(new Error('No available drives'));
+              }
+              return form.ask({
+                message: 'Drive',
+                type: 'list',
+                choices: _.map(removableDrives, function(item) {
+                  return {
+                    name: item.device + " (" + item.size + ") - " + item.description,
+                    value: item.device
+                  };
+                })
+              }).nodeify(callback);
+            });
+          });
         }, function(device, callback) {
           var message;
           params.device = device;
           message = "This will completely erase " + params.device + ". Are you sure you want to continue?";
-          return visuals.patterns.confirm(options.yes, message, callback);
+          if (options.yes) {
+            return callback(null, true);
+          } else {
+            return form.ask({
+              message: message,
+              type: 'confirm',
+              "default": false
+            }).nodeify(callback);
+          }
         }, function(confirmed, callback) {
           if (!confirmed) {
             return done();
@@ -207,13 +250,30 @@
           if (networkOptions.network != null) {
             return callback();
           }
-          return visuals.patterns.selectNetworkParameters(function(error, parameters) {
-            if (error != null) {
-              return callback(error);
+          return form.run([
+            {
+              message: 'Network Type',
+              name: 'network',
+              type: 'list',
+              choices: ['ethernet', 'wifi']
+            }, {
+              message: 'Wifi Ssid',
+              name: 'wifiSsid',
+              type: 'input',
+              when: {
+                network: 'wifi'
+              }
+            }, {
+              message: 'Wifi Key',
+              name: 'wifiKey',
+              type: 'input',
+              when: {
+                network: 'wifi'
+              }
             }
-            _.extend(networkOptions, parameters);
-            return callback();
-          });
+          ]).then(function(parameters) {
+            return _.extend(networkOptions, parameters);
+          }).nodeify(callback);
         }, function(callback) {
           console.info("Checking application: " + options.application);
           return resin.models.application.get(options.application).nodeify(callback);

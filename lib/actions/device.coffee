@@ -13,6 +13,7 @@ registerDevice = require('resin-register-device')
 pine = require('resin-pine')
 tmp = require('tmp')
 deviceConfig = require('resin-device-config')
+form = require('resin-cli-form')
 
 # Cleanup the temporary files even when an uncaught exception occurs
 tmp.setGracefulCleanup()
@@ -110,9 +111,22 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		visuals.patterns.remove 'device', options.yes, (callback) ->
-			resin.models.device.remove(params.uuid).nodeify(callback)
-		, done
+		async.waterfall [
+
+			(callback) ->
+				if options.yes
+					return callback(null, true)
+				else
+					form.ask
+						message: 'Are you sure you want to delete the device?'
+						type: 'confirm'
+						default: false
+					.nodeify(callback)
+
+			(confirmed, callback) ->
+				return callback() if not confirmed
+				resin.models.device.remove(params.uuid).nodeify(callback)
+		], done
 
 exports.identify =
 	signature: 'device identify <uuid>'
@@ -151,11 +165,10 @@ exports.rename =
 				if not _.isEmpty(params.newName)
 					return callback(null, params.newName)
 
-				visuals.form.ask
-					label: 'How do you want to name this device?'
-					name: 'device'
-					type: 'text'
-				, callback
+				form.ask
+					message: 'How do you want to name this device?'
+					type: 'input'
+				.nodeify(callback)
 
 			(newName, callback) ->
 				resin.models.device.rename(params.uuid, newName).nodeify(callback)
@@ -263,7 +276,7 @@ exports.init =
 			wifiSsid: options.ssid
 			wifiKey: options.key
 
-		async.waterfall([
+		async.waterfall [
 
 			(callback) ->
 				return callback(null, options.application) if options.application?
@@ -278,20 +291,60 @@ exports.init =
 					return callback(new Error("Invalid application: #{options.application}"))
 
 				return callback(null, params.device) if params.device?
-				visuals.patterns.selectDrive(callback)
+				drivelist.list (error, drives) ->
+					return callback(error) if error?
+
+					async.reject drives, drivelist.isSystem, (removableDrives) ->
+
+						if _.isEmpty(removableDrives)
+							return callback(new Error('No available drives'))
+
+						form.ask
+							message: 'Drive'
+							type: 'list'
+							choices: _.map removableDrives, (item) ->
+								return {
+									name: "#{item.device} (#{item.size}) - #{item.description}"
+									value: item.device
+								}
+						.nodeify(callback)
 
 			(device, callback) ->
 				params.device = device
 				message = "This will completely erase #{params.device}. Are you sure you want to continue?"
-				visuals.patterns.confirm(options.yes, message, callback)
+				if options.yes
+					return callback(null, true)
+				else
+					form.ask
+						message: message
+						type: 'confirm'
+						default: false
+					.nodeify(callback)
 
 			(confirmed, callback) ->
 				return done() if not confirmed
 				return callback() if networkOptions.network?
-				visuals.patterns.selectNetworkParameters (error, parameters) ->
-					return callback(error) if error?
+				form.run [
+					message: 'Network Type'
+					name: 'network'
+					type: 'list'
+					choices: [ 'ethernet', 'wifi' ]
+				,
+					message: 'Wifi Ssid'
+					name: 'wifiSsid'
+					type: 'input'
+					when:
+						network: 'wifi'
+				,
+					message: 'Wifi Key'
+					name: 'wifiKey'
+					type: 'input'
+					when:
+						network: 'wifi'
+				]
+				.then (parameters) ->
 					_.extend(networkOptions, parameters)
-					return callback()
+				.nodeify(callback)
 
 			(callback) ->
 				console.info("Checking application: #{options.application}")
@@ -366,4 +419,4 @@ exports.init =
 				console.info("Device created: #{device.name}")
 				return callback(null, device.name)
 
-		], done)
+		], done

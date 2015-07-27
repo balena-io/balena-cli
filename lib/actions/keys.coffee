@@ -6,6 +6,7 @@ resin = require('resin-sdk')
 capitano = require('capitano')
 visuals = require('resin-cli-visuals')
 commandOptions = require('./command-options')
+form = require('resin-cli-form')
 
 exports.list =
 	signature: 'keys'
@@ -58,9 +59,22 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		visuals.patterns.remove 'key', options.yes, (callback) ->
-			resin.models.key.remove(params.id).nodeify(callback)
-		, done
+		async.waterfall [
+
+			(callback) ->
+				if options.yes
+					return callback(null, true)
+				else
+					form.ask
+						message: 'Are you sure you want to delete the key?'
+						type: 'confirm'
+						default: false
+					.nodeify(callback)
+
+			(confirmed, callback) ->
+				return callback() if not confirmed
+				resin.models.key.remove(params.id).nodeify(callback)
+		], done
 
 exports.add =
 	signature: 'key add <name> [path]'
