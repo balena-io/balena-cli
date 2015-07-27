@@ -1,5 +1,5 @@
 (function() {
-  var TOKEN_URL, _, async, open, resin, settings, url, visuals;
+  var TOKEN_URL, _, async, form, open, resin, settings, url;
 
   open = require('open');
 
@@ -13,7 +13,7 @@
 
   settings = require('resin-settings-client');
 
-  visuals = require('resin-cli-visuals');
+  form = require('resin-cli-form');
 
   TOKEN_URL = url.resolve(settings.get('dashboardUrl'), '/preferences');
 
@@ -32,7 +32,10 @@
             if (error != null) {
               console.error("Unable to open a web browser in the current environment.\nPlease visit " + TOKEN_URL + " manually.");
             }
-            return visuals.patterns.loginWithToken(callback);
+            return form.ask({
+              message: 'What\'s your token? (visible in the preferences page)',
+              type: 'input'
+            }).nodeify(callback);
           });
         }, function(token, callback) {
           return resin.auth.loginWithToken(token).nodeify(callback);
@@ -97,7 +100,27 @@
           if (hasOptionCredentials) {
             return callback(null, options);
           }
-          return visuals.patterns.register(callback);
+          return form.run([
+            {
+              message: 'Email:',
+              name: 'email',
+              type: 'input'
+            }, {
+              message: 'Username:',
+              name: 'username',
+              type: 'input'
+            }, {
+              message: 'Password:',
+              name: 'password',
+              type: 'password',
+              validate: function(input) {
+                if (input.length < 8) {
+                  return 'Password should be 8 characters long';
+                }
+                return true;
+              }
+            }
+          ]).nodeify(callback);
         }, function(credentials, callback) {
           return resin.auth.register(credentials)["return"](credentials).nodeify(callback);
         }, function(credentials, callback) {

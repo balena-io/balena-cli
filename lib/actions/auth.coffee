@@ -4,7 +4,7 @@ url = require('url')
 async = require('async')
 resin = require('resin-sdk')
 settings = require('resin-settings-client')
-visuals = require('resin-cli-visuals')
+form = require('resin-cli-form')
 
 TOKEN_URL = url.resolve(settings.get('dashboardUrl'), '/preferences')
 
@@ -25,7 +25,7 @@ exports.login	=
 	"""
 	action: (params, options, done) ->
 
-		async.waterfall([
+		async.waterfall [
 
 			(callback) ->
 				return callback(null, params.token) if params.token?
@@ -44,7 +44,10 @@ exports.login	=
 							Please visit #{TOKEN_URL} manually.
 						"""
 
-					visuals.patterns.loginWithToken(callback)
+					form.ask
+						message: 'What\'s your token? (visible in the preferences page)'
+						type: 'input'
+					.nodeify(callback)
 
 			(token, callback) ->
 				resin.auth.loginWithToken(token).nodeify(callback)
@@ -56,7 +59,7 @@ exports.login	=
 				console.info("Successfully logged in as: #{username}")
 				return callback()
 
-		], done)
+		], done
 
 exports.logout =
 	signature: 'logout'
@@ -127,11 +130,29 @@ exports.signup =
 			if not options.password?
 				return done(new Error('Missing password'))
 
-		async.waterfall([
+		async.waterfall [
 
 			(callback) ->
 				return callback(null, options) if hasOptionCredentials
-				visuals.patterns.register(callback)
+				form.run [
+					message: 'Email:'
+					name: 'email'
+					type: 'input'
+				,
+					message: 'Username:'
+					name: 'username'
+					type: 'input'
+				,
+					message: 'Password:'
+					name: 'password'
+					type: 'password',
+					validate: (input) ->
+						if input.length < 8
+							return 'Password should be 8 characters long'
+
+						return true
+				]
+				.nodeify(callback)
 
 			(credentials, callback) ->
 				resin.auth.register(credentials).return(credentials).nodeify(callback)
@@ -139,7 +160,7 @@ exports.signup =
 			(credentials, callback) ->
 				resin.auth.login(credentials).nodeify(callback)
 
-		], done)
+		], done
 
 exports.whoami =
 	signature: 'whoami'

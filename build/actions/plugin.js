@@ -1,5 +1,5 @@
 (function() {
-  var _, commandOptions, plugins, visuals;
+  var _, async, commandOptions, form, plugins, visuals;
 
   _ = require('lodash');
 
@@ -8,6 +8,10 @@
   commandOptions = require('./command-options');
 
   plugins = require('../plugins');
+
+  form = require('resin-cli-form');
+
+  async = require('async');
 
   exports.list = {
     signature: 'plugins',
@@ -68,15 +72,30 @@
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
-      return visuals.patterns.remove('plugin', options.yes, function(callback) {
-        return plugins.remove(params.name, callback);
-      }, function(error) {
-        if (error != null) {
-          return done(error);
+      return async.waterfall([
+        function(callback) {
+          if (options.yes) {
+            return callback(null, true);
+          } else {
+            return form.ask({
+              message: 'Are you sure you want to delete the plugin?',
+              type: 'confirm',
+              "default": false
+            }).nodeify(callback);
+          }
+        }, function(confirmed, callback) {
+          if (!confirmed) {
+            return callback();
+          }
+          return plugins.remove(params.name, callback);
+        }, function(error) {
+          if (error != null) {
+            return done(error);
+          }
+          console.info("Plugin removed: " + params.name);
+          return done();
         }
-        console.info("Plugin removed: " + params.name);
-        return done();
-      });
+      ]);
     }
   };
 
