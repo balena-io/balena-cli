@@ -19,7 +19,7 @@ exports.list =
 
 			$ resin envs --application MyApp
 			$ resin envs --application MyApp --verbose
-			$ resin envs --device MyDevice
+			$ resin envs --device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
 	'''
 	options: [
 		commandOptions.optionalApplication
