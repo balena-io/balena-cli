@@ -14,7 +14,7 @@
   exports.list = {
     signature: 'envs',
     description: 'list all environment variables',
-    help: 'Use this command to list all environment variables for\na particular application or device.\n\nThis command lists all custom environment variables.\nIf you want to see all environment variables, including private\nones used by resin, use the verbose option.\n\nExample:\n\n	$ resin envs --application MyApp\n	$ resin envs --application MyApp --verbose\n	$ resin envs --device MyDevice',
+    help: 'Use this command to list all environment variables for\na particular application or device.\n\nThis command lists all custom environment variables.\nIf you want to see all environment variables, including private\nones used by resin, use the verbose option.\n\nExample:\n\n	$ resin envs --application MyApp\n	$ resin envs --application MyApp --verbose\n	$ resin envs --device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9',
     options: [
       commandOptions.optionalApplication, commandOptions.optionalDevice, {
         signature: 'verbose',
