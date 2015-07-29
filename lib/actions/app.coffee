@@ -56,8 +56,8 @@ exports.create =
 				options.type = type
 				resin.models.application.create(params.name, options.type).nodeify(callback)
 
-			(applicationId, callback) ->
-				console.info("Application created: #{params.name} (#{options.type}, id #{applicationId})")
+			(application, callback) ->
+				console.info("Application created: #{params.name} (#{options.type}, id #{application.id})")
 				return callback()
 
 		], done
