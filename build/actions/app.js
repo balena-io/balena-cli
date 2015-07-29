@@ -51,8 +51,8 @@
         }, function(type, callback) {
           options.type = type;
           return resin.models.application.create(params.name, options.type).nodeify(callback);
-        }, function(applicationId, callback) {
-          console.info("Application created: " + params.name + " (" + options.type + ", id " + applicationId + ")");
+        }, function(application, callback) {
+          console.info("Application created: " + params.name + " (" + options.type + ", id " + application.id + ")");
           return callback();
         }
       ], done);
