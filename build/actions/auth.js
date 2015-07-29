@@ -140,7 +140,12 @@
         if (username == null) {
           throw new Error('Username not found');
         }
-        return console.log(username);
+        return resin.auth.getEmail().then(function(email) {
+          if (email == null) {
+            throw new Error('Email not found');
+          }
+          return console.log(("Username: " + username) + '\n' + ("Email: " + email));
+        });
       }).nodeify(done);
     }
   };

@@ -177,5 +177,8 @@ exports.whoami =
 		resin.auth.whoami().then (username) ->
 			if not username?
 				throw new Error('Username not found')
-			console.log(username)
+			resin.auth.getEmail().then (email) ->
+				if not email?
+					throw new Error('Email not found')
+				console.log "Username: #{username}" + '\n' + "Email: #{email}"
 		.nodeify(done)
