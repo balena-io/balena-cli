@@ -14,6 +14,7 @@ pine = require('resin-pine')
 tmp = require('tmp')
 deviceConfig = require('resin-device-config')
 form = require('resin-cli-form')
+drivelist = require('drivelist')
 
 # Cleanup the temporary files even when an uncaught exception occurs
 tmp.setGracefulCleanup()
@@ -45,7 +46,7 @@ exports.list =
 
 		getFunction (error, devices) ->
 			return done(error) if error?
-			console.log visuals.widgets.table.horizontal devices, [
+			console.log visuals.table.horizontal devices, [
 				'id'
 				'name'
 				'device_type'
@@ -76,9 +77,9 @@ exports.info =
 			# or have it parsed appropriately in the SDK.
 			device.last_seen ?= 'Not seen'
 
-			console.log visuals.widgets.table.vertical device, [
+			console.log visuals.table.vertical device, [
+				"$#{device.name}$"
 				'id'
-				'name'
 				'device_type'
 				'is_online'
 				'ip_address'
@@ -384,8 +385,8 @@ exports.init =
 				if process.env.DEBUG
 					console.log(results.config)
 
-				bar = new visuals.widgets.Progress('Downloading Device OS')
-				spinner = new visuals.widgets.Spinner('Downloading Device OS (size unknown)')
+				bar = new visuals.Progress('Downloading Device OS')
+				spinner = new visuals.Spinner('Downloading Device OS (size unknown)')
 
 				manager.configure results.manifest, results.config, (error, imagePath, removeCallback) ->
 					spinner.stop()
@@ -399,7 +400,7 @@ exports.init =
 			(configuredImagePath, removeCallback, callback) ->
 				console.info('Attempting to write operating system image to drive')
 
-				bar = new visuals.widgets.Progress('Writing Device OS')
+				bar = new visuals.Progress('Writing Device OS')
 				image.write
 					device: params.device
 					image: configuredImagePath

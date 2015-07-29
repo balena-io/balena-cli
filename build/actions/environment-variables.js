@@ -40,7 +40,7 @@
             isSystemVariable = resin.models.environmentVariables.isSystemVariable;
             environmentVariables = _.reject(environmentVariables, isSystemVariable);
           }
-          console.log(visuals.widgets.table.horizontal(environmentVariables, ['id', 'name', 'value']));
+          console.log(visuals.table.horizontal(environmentVariables, ['id', 'name', 'value']));
           return callback();
         }
       ], done);

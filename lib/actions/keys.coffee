@@ -21,7 +21,7 @@ exports.list =
 	permission: 'user'
 	action: (params, options, done) ->
 		resin.models.key.getAll().then (keys) ->
-			console.log visuals.widgets.table.horizontal keys, [ 'id', 'title' ]
+			console.log visuals.table.horizontal keys, [ 'id', 'title' ]
 		.nodeify(done)
 
 SSH_KEY_WIDTH = 43
@@ -39,7 +39,7 @@ exports.info =
 	permission: 'user'
 	action: (params, options, done) ->
 		resin.models.key.get(params.id).then (key) ->
-			console.log(visuals.widgets.table.vertical(key, [ 'id', 'title', 'public_key' ]))
+			console.log visuals.table.vertical key, [ 'id', 'title', 'public_key' ]
 		.nodeify(done)
 
 exports.remove =

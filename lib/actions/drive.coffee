@@ -23,7 +23,7 @@ exports.list =
 				if _.isEmpty(removableDrives)
 					return done(new Error('No removable devices available'))
 
-				console.log visuals.widgets.table.horizontal removableDrives, [
+				console.log visuals.table.horizontal removableDrives, [
 					'device'
 					'description'
 					'size'
