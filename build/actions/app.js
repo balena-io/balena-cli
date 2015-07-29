@@ -66,7 +66,7 @@
     permission: 'user',
     action: function(params, options, done) {
       return resin.models.application.getAll().then(function(applications) {
-        return console.log(visuals.widgets.table.horizontal(applications, ['id', 'app_name', 'device_type', 'online_devices', 'devices_length']));
+        return console.log(visuals.table.horizontal(applications, ['id', 'app_name', 'device_type', 'online_devices', 'devices_length']));
       }).nodeify(done);
     }
   };
@@ -78,7 +78,7 @@
     permission: 'user',
     action: function(params, options, done) {
       return resin.models.application.get(params.name).then(function(application) {
-        return console.log(visuals.widgets.table.vertical(application, ['id', 'app_name', 'device_type', 'git_repository', 'commit']));
+        return console.log(visuals.table.vertical(application, ["$" + application.app_name + "$", 'id', 'device_type', 'git_repository', 'commit']));
       }).nodeify(done);
     }
   };

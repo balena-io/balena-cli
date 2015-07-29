@@ -1,5 +1,5 @@
 (function() {
-  var _, async, capitano, commandOptions, deviceConfig, form, fse, image, inject, manager, path, pine, registerDevice, resin, tmp, vcs, visuals;
+  var _, async, capitano, commandOptions, deviceConfig, drivelist, form, fse, image, inject, manager, path, pine, registerDevice, resin, tmp, vcs, visuals;
 
   fse = require('fs-extra');
 
@@ -33,6 +33,8 @@
 
   form = require('resin-cli-form');
 
+  drivelist = require('drivelist');
+
   tmp.setGracefulCleanup();
 
   commandOptions = require('./command-options');
@@ -54,7 +56,7 @@
         if (error != null) {
           return done(error);
         }
-        console.log(visuals.widgets.table.horizontal(devices, ['id', 'name', 'device_type', 'is_online', 'application_name', 'status', 'last_seen']));
+        console.log(visuals.table.horizontal(devices, ['id', 'name', 'device_type', 'is_online', 'application_name', 'status', 'last_seen']));
         return done(null, devices);
       });
     }
@@ -70,7 +72,7 @@
         if (device.last_seen == null) {
           device.last_seen = 'Not seen';
         }
-        return console.log(visuals.widgets.table.vertical(device, ['id', 'name', 'device_type', 'is_online', 'ip_address', 'application_name', 'status', 'last_seen', 'uuid', 'commit', 'supervisor_version', 'is_web_accessible', 'note']));
+        return console.log(visuals.table.vertical(device, ["$" + device.name + "$", 'id', 'device_type', 'is_online', 'ip_address', 'application_name', 'status', 'last_seen', 'uuid', 'commit', 'supervisor_version', 'is_web_accessible', 'note']));
       }).nodeify(done);
     }
   };
@@ -306,8 +308,8 @@
           if (process.env.DEBUG) {
             console.log(results.config);
           }
-          bar = new visuals.widgets.Progress('Downloading Device OS');
-          spinner = new visuals.widgets.Spinner('Downloading Device OS (size unknown)');
+          bar = new visuals.Progress('Downloading Device OS');
+          spinner = new visuals.Spinner('Downloading Device OS (size unknown)');
           return manager.configure(results.manifest, results.config, function(error, imagePath, removeCallback) {
             spinner.stop();
             return callback(error, imagePath, removeCallback);
@@ -321,7 +323,7 @@
         }, function(configuredImagePath, removeCallback, callback) {
           var bar;
           console.info('Attempting to write operating system image to drive');
-          bar = new visuals.widgets.Progress('Writing Device OS');
+          bar = new visuals.Progress('Writing Device OS');
           return image.write({
             device: params.device,
             image: configuredImagePath,

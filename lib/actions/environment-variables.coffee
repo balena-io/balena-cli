@@ -50,7 +50,7 @@ exports.list =
 					isSystemVariable = resin.models.environmentVariables.isSystemVariable
 					environmentVariables = _.reject(environmentVariables, isSystemVariable)
 
-				console.log visuals.widgets.table.horizontal environmentVariables, [
+				console.log visuals.table.horizontal environmentVariables, [
 					'id'
 					'name'
 					'value'

@@ -27,11 +27,9 @@ exports.list =
 			example.author ?= 'Unknown'
 			return example
 
-		console.log visuals.widgets.table.horizontal examplesData, [
-			'id'
+		console.log visuals.table.horizontal examplesData, [
 			'name'
 			'display_name'
-			'repository'
 			'author'
 		]
 
@@ -54,9 +52,8 @@ exports.info =
 
 		example.author ?= 'Unknown'
 
-		console.log visuals.widgets.table.vertical example, [
-			'name'
-			'display_name'
+		console.log visuals.table.vertical example, [
+			"$#{example.display_name}$"
 			'description'
 			'author'
 			'repository'

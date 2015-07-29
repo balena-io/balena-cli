@@ -33,7 +33,7 @@
         }
         return example;
       });
-      return console.log(visuals.widgets.table.horizontal(examplesData, ['id', 'name', 'display_name', 'repository', 'author']));
+      return console.log(visuals.table.horizontal(examplesData, ['name', 'display_name', 'author']));
     }
   };
 
@@ -53,7 +53,7 @@
       if (example.author == null) {
         example.author = 'Unknown';
       }
-      console.log(visuals.widgets.table.vertical(example, ['name', 'display_name', 'description', 'author', 'repository']));
+      console.log(visuals.table.vertical(example, ["$" + example.display_name + "$", 'description', 'author', 'repository']));
       return done();
     }
   };

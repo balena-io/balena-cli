@@ -24,7 +24,7 @@ exports.list =
 				console.log('You don\'t have any plugins yet')
 				return done()
 
-			console.log visuals.widgets.table.horizontal resinPlugins, [
+			console.log visuals.table.horizontal resinPlugins, [
 				'name'
 				'version'
 				'description'

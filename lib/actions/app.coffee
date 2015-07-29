@@ -78,7 +78,7 @@ exports.list =
 	permission: 'user'
 	action: (params, options, done) ->
 		resin.models.application.getAll().then (applications) ->
-			console.log visuals.widgets.table.horizontal applications, [
+			console.log visuals.table.horizontal applications, [
 				'id'
 				'app_name'
 				'device_type'
@@ -100,9 +100,9 @@ exports.info =
 	permission: 'user'
 	action: (params, options, done) ->
 		resin.models.application.get(params.name).then (application) ->
-			console.log visuals.widgets.table.vertical application, [
+			console.log visuals.table.vertical application, [
+				"$#{application.app_name}$"
 				'id'
-				'app_name'
 				'device_type'
 				'git_repository'
 				'commit'

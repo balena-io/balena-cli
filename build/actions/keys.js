@@ -26,7 +26,7 @@
     permission: 'user',
     action: function(params, options, done) {
       return resin.models.key.getAll().then(function(keys) {
-        return console.log(visuals.widgets.table.horizontal(keys, ['id', 'title']));
+        return console.log(visuals.table.horizontal(keys, ['id', 'title']));
       }).nodeify(done);
     }
   };
@@ -40,7 +40,7 @@
     permission: 'user',
     action: function(params, options, done) {
       return resin.models.key.get(params.id).then(function(key) {
-        return console.log(visuals.widgets.table.vertical(key, ['id', 'title', 'public_key']));
+        return console.log(visuals.table.vertical(key, ['id', 'title', 'public_key']));
       }).nodeify(done);
     }
   };
