@@ -99,7 +99,9 @@
           if (!confirmed) {
             return callback();
           }
-          return resin.models.device.remove(params.uuid).nodeify(callback);
+          return resin.models.device.get(params.uuid).then(function(device) {
+            return resin.models.device.remove(params.uuid);
+          }).nodeify(callback);
         }
       ], done);
     }
