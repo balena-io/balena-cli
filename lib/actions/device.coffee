@@ -126,7 +126,9 @@ exports.remove =
 
 			(confirmed, callback) ->
 				return callback() if not confirmed
-				resin.models.device.remove(params.uuid).nodeify(callback)
+				resin.models.device.get(params.uuid).then (device) ->
+					resin.models.device.remove(params.uuid)
+				.nodeify(callback)
 		], done
 
 exports.identify =
