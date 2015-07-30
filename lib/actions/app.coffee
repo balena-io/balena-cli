@@ -154,7 +154,9 @@ exports.remove =
 
 			(confirmed, callback) ->
 				return callback() if not confirmed
-				resin.models.application.remove(params.name).nodeify(callback)
+				resin.models.application.get(params.name).then (application) ->
+					resin.models.application.remove(params.name)
+				.nodeify(callback)
 		], done
 
 exports.associate =

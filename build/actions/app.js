@@ -115,7 +115,9 @@
           if (!confirmed) {
             return callback();
           }
-          return resin.models.application.remove(params.name).nodeify(callback);
+          return resin.models.application.get(params.name).then(function(application) {
+            return resin.models.application.remove(params.name);
+          }).nodeify(callback);
         }
       ], done);
     }
