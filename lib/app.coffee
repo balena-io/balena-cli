@@ -5,7 +5,6 @@ resin = require('resin-sdk')
 actions = require('./actions')
 errors = require('./errors')
 plugins = require('./plugins')
-update = require('./update')
 
 capitano.permission 'user', (done) ->
 	resin.auth.isLoggedIn().then (isLoggedIn) ->
@@ -112,9 +111,6 @@ capitano.command(actions.plugin.install)
 capitano.command(actions.plugin.update)
 capitano.command(actions.plugin.remove)
 
-# ---------- Update Module ----------
-capitano.command(actions.update.update)
-
 changeProjectDirectory = (directory) ->
 	try
 		process.chdir(directory)
@@ -122,9 +118,6 @@ changeProjectDirectory = (directory) ->
 		errors.handle(new Error("Invalid project: #{directory}"))
 
 async.waterfall([
-
-	(callback) ->
-		update.check(callback)
 
 	(callback) ->
 		plugins.register('resin-plugin-', callback)
