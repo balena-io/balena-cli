@@ -3,7 +3,6 @@ path = require('path')
 gulp = require('gulp')
 mocha = require('gulp-mocha')
 coffee = require('gulp-coffee')
-markedMan = require('gulp-marked-man')
 coffeelint = require('gulp-coffeelint')
 shell = require('gulp-shell')
 packageJSON = require('./package.json')
@@ -16,15 +15,8 @@ OPTIONS =
 		app: [ 'lib/**/*.coffee', '!lib/**/*.spec.coffee' ]
 		tests: 'tests/**/*.spec.coffee'
 		json: [ 'lib/**/*.json' ]
-		man: 'man/**/*.md'
 	directories:
-		man: 'man/'
 		build: 'build/'
-
-gulp.task 'man', ->
-	gulp.src(OPTIONS.files.man)
-		.pipe(markedMan())
-		.pipe(gulp.dest(OPTIONS.directories.man))
 
 gulp.task 'test', ->
 	gulp.src(OPTIONS.files.tests, read: false)
@@ -50,9 +42,7 @@ gulp.task 'lint', ->
 
 gulp.task 'build', [
 	'coffee'
-	'man'
 ]
 
 gulp.task 'watch', [ 'test', 'lint', 'coffee' ], ->
 	gulp.watch([ OPTIONS.files.coffee, OPTIONS.files.json ], [ 'coffee' ])
-	gulp.watch([ OPTIONS.files.man ], [ 'man' ])
