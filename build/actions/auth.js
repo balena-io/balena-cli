@@ -1,5 +1,5 @@
 (function() {
-  var TOKEN_URL, _, async, form, open, resin, settings, url;
+  var TOKEN_URL, _, async, form, open, resin, settings, url, visuals;
 
   open = require('open');
 
@@ -14,6 +14,8 @@
   settings = require('resin-settings-client');
 
   form = require('resin-cli-form');
+
+  visuals = require('resin-cli-visuals');
 
   TOKEN_URL = url.resolve(settings.get('dashboardUrl'), '/preferences');
 
@@ -140,7 +142,12 @@
         if (username == null) {
           throw new Error('Username not found');
         }
-        return console.log(username);
+        return resin.auth.getEmail().then(function(email) {
+          return console.log(visuals.table.vertical({
+            username: username,
+            email: email
+          }, ['$account information$', 'username', 'email']));
+        });
       }).nodeify(done);
     }
   };

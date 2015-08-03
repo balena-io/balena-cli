@@ -5,6 +5,7 @@ async = require('async')
 resin = require('resin-sdk')
 settings = require('resin-settings-client')
 form = require('resin-cli-form')
+visuals = require('resin-cli-visuals')
 
 TOKEN_URL = url.resolve(settings.get('dashboardUrl'), '/preferences')
 
@@ -177,5 +178,10 @@ exports.whoami =
 		resin.auth.whoami().then (username) ->
 			if not username?
 				throw new Error('Username not found')
-			console.log(username)
+			resin.auth.getEmail().then (email) ->
+				console.log visuals.table.vertical { username, email }, [
+					'$account information$'
+					'username'
+					'email'
+				]
 		.nodeify(done)
