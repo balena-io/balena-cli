@@ -14,7 +14,6 @@ OPTIONS =
 		coffee: [ 'lib/**/*.coffee', 'gulpfile.coffee' ]
 		app: [ 'lib/**/*.coffee', '!lib/**/*.spec.coffee' ]
 		tests: 'tests/**/*.spec.coffee'
-		json: [ 'lib/**/*.json' ]
 	directories:
 		build: 'build/'
 
@@ -24,13 +23,9 @@ gulp.task 'test', ->
 			reporter: 'min'
 		}))
 
-gulp.task 'coffee', [ 'test', 'lint', 'json' ], ->
+gulp.task 'coffee', [ 'test', 'lint' ], ->
 	gulp.src(OPTIONS.files.app)
 		.pipe(coffee())
-		.pipe(gulp.dest(OPTIONS.directories.build))
-
-gulp.task 'json', ->
-	gulp.src(OPTIONS.files.json)
 		.pipe(gulp.dest(OPTIONS.directories.build))
 
 gulp.task 'lint', ->
@@ -45,4 +40,4 @@ gulp.task 'build', [
 ]
 
 gulp.task 'watch', [ 'test', 'lint', 'coffee' ], ->
-	gulp.watch([ OPTIONS.files.coffee, OPTIONS.files.json ], [ 'coffee' ])
+	gulp.watch([ OPTIONS.files.coffee ], [ 'coffee' ])

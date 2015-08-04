@@ -33,12 +33,6 @@
 			]
 		},
 		{
-			"title": "Examples",
-			"files": [
-				"lib/actions/examples.coffee"
-			]
-		},
-		{
 			"title": "Help",
 			"files": [
 				"lib/actions/help.coffee"
@@ -78,12 +72,6 @@
 			"title": "Preferences",
 			"files": [
 				"lib/actions/preferences.coffee"
-			]
-		},
-		{
-			"title": "Update",
-			"files": [
-				"lib/actions/update.coffee"
 			]
 		}
 	]

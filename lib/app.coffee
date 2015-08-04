@@ -100,11 +100,6 @@ capitano.command(actions.env.remove)
 # ---------- Logs Module ----------
 capitano.command(actions.logs)
 
-# ---------- Examples Module ----------
-capitano.command(actions.examples.list)
-capitano.command(actions.examples.clone)
-capitano.command(actions.examples.info)
-
 # ---------- Plugins Module ----------
 capitano.command(actions.plugin.list)
 capitano.command(actions.plugin.install)
