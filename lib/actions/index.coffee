@@ -12,4 +12,3 @@ module.exports =
 	help: require('./help')
 	examples: require('./examples')
 	plugin: require('./plugin')
-	update: require('./update')

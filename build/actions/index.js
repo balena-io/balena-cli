@@ -12,8 +12,7 @@
     preferences: require('./preferences'),
     help: require('./help'),
     examples: require('./examples'),
-    plugin: require('./plugin'),
-    update: require('./update')
+    plugin: require('./plugin')
   };
 
 }).call(this);

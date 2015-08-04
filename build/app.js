@@ -1,5 +1,5 @@
 (function() {
-  var _, actions, async, capitano, changeProjectDirectory, errors, plugins, resin, update;
+  var _, actions, async, capitano, changeProjectDirectory, errors, plugins, resin;
 
   _ = require('lodash');
 
@@ -14,8 +14,6 @@
   errors = require('./errors');
 
   plugins = require('./plugins');
-
-  update = require('./update');
 
   capitano.permission('user', function(done) {
     return resin.auth.isLoggedIn().then(function(isLoggedIn) {
@@ -143,8 +141,6 @@
 
   capitano.command(actions.plugin.remove);
 
-  capitano.command(actions.update.update);
-
   changeProjectDirectory = function(directory) {
     try {
       return process.chdir(directory);
@@ -155,8 +151,6 @@
 
   async.waterfall([
     function(callback) {
-      return update.check(callback);
-    }, function(callback) {
       return plugins.register('resin-plugin-', callback);
     }, function(callback) {
       var cli;

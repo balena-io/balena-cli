@@ -67,7 +67,6 @@
     "selfupdate": "^1.1.0",
     "through2": "^2.0.0",
     "tmp": "0.0.26",
-    "underscore.string": "^3.1.1",
-    "update-notifier": "^0.5.0"
+    "underscore.string": "^3.1.1"
   }
 }
