@@ -103,8 +103,6 @@
 
   capitano.command(actions.device.identify);
 
-  capitano.command(actions.drive.list);
-
   capitano.command(actions.notes.set);
 
   capitano.command(actions.preferences.preferences);

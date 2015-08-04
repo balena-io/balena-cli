@@ -21,12 +21,6 @@
 			]
 		},
 		{
-			"title": "Drive",
-			"files": [
-				"lib/actions/drive.coffee"
-			]
-		},
-		{
 			"title": "Environment Variables",
 			"files": [
 				"lib/actions/environment-variables.coffee"
@@ -78,12 +72,6 @@
 			"title": "Preferences",
 			"files": [
 				"lib/actions/preferences.coffee"
-			]
-		},
-		{
-			"title": "Update",
-			"files": [
-				"lib/actions/update.coffee"
 			]
 		}
 	]

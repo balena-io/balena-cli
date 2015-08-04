@@ -34,17 +34,13 @@ Now you have access to all the commands referenced below.
 - Device
 
 	- [devices](#devices)
-	- [device &#60;name&#62;](#device-60-name-62-)
-	- [device rm &#60;name&#62;](#device-rm-60-name-62-)
+	- [device &#60;uuid&#62;](#device-60-uuid-62-)
+	- [device rm &#60;uuid&#62;](#device-rm-60-uuid-62-)
 	- [device identify &#60;uuid&#62;](#device-identify-60-uuid-62-)
-	- [device rename &#60;name&#62; [newName]](#device-rename-60-name-62-newname-)
+	- [device rename &#60;uuid&#62; [newName]](#device-rename-60-uuid-62-newname-)
 	- [devices supported](#devices-supported)
-	- [device await &#60;name&#62;](#device-await-60-name-62-)
+	- [device await &#60;uuid&#62;](#device-await-60-uuid-62-)
 	- [device init [device]](#device-init-device-)
-
-- Drive
-
-	- [drives](#drives)
 
 - Environment Variables
 
@@ -93,10 +89,6 @@ Now you have access to all the commands referenced below.
 - Preferences
 
 	- [preferences](#preferences)
-
-- Update
-
-	- [update](#update)
 
 # Application
 
@@ -285,15 +277,15 @@ Examples:
 
 application name
 
-## device &#60;name&#62;
+## device &#60;uuid&#62;
 
 Use this command to show information about a single device.
 
 Examples:
 
-	$ resin device MyDevice
+	$ resin device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
 
-## device rm &#60;name&#62;
+## device rm &#60;uuid&#62;
 
 Use this command to remove a device from resin.io.
 
@@ -302,8 +294,8 @@ You can avoid this by passing the `--yes` boolean option.
 
 Examples:
 
-	$ resin device rm MyDevice
-	$ resin device rm MyDevice --yes
+	$ resin device rm 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
+	$ resin device rm 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 --yes
 
 ### Options
 
@@ -321,7 +313,7 @@ Examples:
 
 	$ resin device identify 23c73a12e3527df55c60b9ce647640c1b7da1b32d71e6a39849ac0f00db828
 
-## device rename &#60;name&#62; [newName]
+## device rename &#60;uuid&#62; [newName]
 
 Use this command to rename a device.
 
@@ -329,8 +321,8 @@ If you omit the name, you'll get asked for it interactively.
 
 Examples:
 
-	$ resin device rename MyDevice MyPi
-	$ resin device rename MyDevice
+	$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 MyPi
+	$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
 
 ## devices supported
 
@@ -340,7 +332,7 @@ Examples:
 
 	$ resin devices supported
 
-## device await &#60;name&#62;
+## device await &#60;uuid&#62;
 
 Use this command to await for a device to become online.
 
@@ -352,8 +344,8 @@ You can configure the poll interval with the --interval option (defaults to 3000
 
 Examples:
 
-	$ resin device await MyDevice
-	$ resin device await MyDevice --interval 1000
+	$ resin device await 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
+	$ resin device await 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 --interval 1000
 
 ### Options
 
@@ -410,16 +402,6 @@ wifi ssid, if network is wifi
 
 wifi key, if network is wifi
 
-# Drive
-
-## drives
-
-Use this command to list all drives that are connected to your machine.
-
-Examples:
-
-	$ resin drives
-
 # Environment Variables
 
 ## envs
@@ -435,7 +417,7 @@ Example:
 
 	$ resin envs --application MyApp
 	$ resin envs --application MyApp --verbose
-	$ resin envs --device MyDevice
+	$ resin envs --device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
 
 ### Options
 
@@ -632,9 +614,6 @@ Use this command to show logs for a specific device.
 
 By default, the command prints all log messages and exit.
 
-To limit the output to the n last lines, use the `--num` option along with a number.
-This is similar to doing `resin logs <uuid> | tail -n X`.
-
 To continuously stream output, and see new logs in real time, use the `--tail` option.
 
 Note that for now you need to provide the whole UUID for this command to work correctly.
@@ -644,14 +623,9 @@ This is due to some technical limitations that we plan to address soon.
 Examples:
 
 	$ resin logs 23c73a12e3527df55c60b9ce647640c1b7da1b32d71e6a39849ac0f00db828
-	$ resin logs 23c73a12e3527df55c60b9ce647640c1b7da1b32d71e6a39849ac0f00db828 --num 20
 	$ resin logs 23c73a12e3527df55c60b9ce647640c1b7da1b32d71e6a39849ac0f00db828 --tail
 
 ### Options
-
-#### --num, -n &#60;num&#62;
-
-number of lines to display
 
 #### --tail, -t
 
@@ -665,18 +639,18 @@ Use this command to set or update a device note.
 
 If note command isn't passed, the tool attempts to read from `stdin`.
 
-To view the notes, use $ resin device <name>.
+To view the notes, use $ resin device <uuid>.
 
 Examples:
 
-	$ resin note "My useful note" --device MyDevice
-	$ cat note.txt | resin note --device MyDevice
+	$ resin note "My useful note" --device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
+	$ cat note.txt | resin note --device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
 
 ### Options
 
 #### --device, --d,dev, --d,dev &#60;device&#62;
 
-device name
+device uuid
 
 # Plugin
 
@@ -738,22 +712,4 @@ For now, we open your default web browser and point it to the web based preferen
 Examples:
 
 	$ resin preferences
-
-# Update
-
-## update
-
-Use this command to update the Resin CLI
-
-This command outputs information about the update process.
-Use `--quiet` to remove that output.
-
-The Resin CLI checks for updates once per day.
-
-Major updates require a manual update with this update command,
-while minor updates are applied automatically.
-
-Examples:
-
-	$ resin update
 
