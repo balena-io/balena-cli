@@ -1,4 +1,5 @@
 module.exports =
+	wizard: require('./wizard')
 	app: require('./app')
 	info: require('./info')
 	auth: require('./auth')

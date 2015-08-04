@@ -15,6 +15,8 @@ tmp = require('tmp')
 deviceConfig = require('resin-device-config')
 form = require('resin-cli-form')
 drivelist = require('drivelist')
+htmlToText = require('html-to-text')
+os = require('os')
 
 # Cleanup the temporary files even when an uncaught exception occurs
 tmp.setGracefulCleanup()
@@ -365,6 +367,7 @@ exports.init =
 				, callback
 
 			(results, callback) ->
+				params.manifest = results.manifest
 				console.info('Associating the device')
 
 				registerDevice.register pine, results.config, (error, device) ->
@@ -388,7 +391,7 @@ exports.init =
 				bar = new visuals.Progress('Downloading Device OS')
 				spinner = new visuals.Spinner('Downloading Device OS (size unknown)')
 
-				manager.configure results.manifest, results.config, (error, imagePath, removeCallback) ->
+				manager.configure params.manifest, results.config, (error, imagePath, removeCallback) ->
 					spinner.stop()
 					return callback(error, imagePath, removeCallback)
 				, (state) ->
@@ -398,6 +401,8 @@ exports.init =
 						spinner.start()
 
 			(configuredImagePath, removeCallback, callback) ->
+				console.info('The base image was cached to improve initialization time of similar devices')
+
 				console.info('Attempting to write operating system image to drive')
 
 				bar = new visuals.Progress('Writing Device OS')
@@ -419,5 +424,27 @@ exports.init =
 			(device, callback) ->
 				console.info("Device created: #{device.name}")
 				return callback(null, device.name)
+
+			(deviceName, callback) ->
+				instructions = '' if not params.manifest.instructions?
+
+				if _.isArray(params.manifest.instructions)
+					instructions = htmlToText.fromString(params.manifest.instructions.join('\n'))
+
+				platformHash =
+					darwin: 'osx'
+					linux: 'linux'
+					win32: 'windows'
+
+				platform = platformHash[os.platform()]
+				osSpecificInstructions = params.manifest.instructions[platform]
+
+				if not osSpecificInstructions?
+					instructions =  ''
+				else
+					instructions = htmlToText.fromString(osSpecificInstructions.join('\n'))
+
+				console.log('\n' + instructions)
+				return callback(null, params.uuid)
 
 		], done

@@ -65,6 +65,8 @@
 
   capitano.command(actions.help.help);
 
+  capitano.command(actions.wizard.wizard);
+
   capitano.command(actions.auth.login);
 
   capitano.command(actions.auth.logout);

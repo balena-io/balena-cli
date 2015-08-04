@@ -1,5 +1,5 @@
 (function() {
-  var _, async, capitano, commandOptions, deviceConfig, drivelist, form, fse, image, inject, manager, path, pine, registerDevice, resin, tmp, vcs, visuals;
+  var _, async, capitano, commandOptions, deviceConfig, drivelist, form, fse, htmlToText, image, inject, manager, os, path, pine, registerDevice, resin, tmp, vcs, visuals;
 
   fse = require('fs-extra');
 
@@ -34,6 +34,10 @@
   form = require('resin-cli-form');
 
   drivelist = require('drivelist');
+
+  htmlToText = require('html-to-text');
+
+  os = require('os');
 
   tmp.setGracefulCleanup();
 
@@ -291,6 +295,7 @@
             }
           }, callback);
         }, function(results, callback) {
+          params.manifest = results.manifest;
           console.info('Associating the device');
           return registerDevice.register(pine, results.config, function(error, device) {
             if (error != null) {
@@ -310,7 +315,7 @@
           }
           bar = new visuals.Progress('Downloading Device OS');
           spinner = new visuals.Spinner('Downloading Device OS (size unknown)');
-          return manager.configure(results.manifest, results.config, function(error, imagePath, removeCallback) {
+          return manager.configure(params.manifest, results.config, function(error, imagePath, removeCallback) {
             spinner.stop();
             return callback(error, imagePath, removeCallback);
           }, function(state) {
@@ -322,6 +327,7 @@
           });
         }, function(configuredImagePath, removeCallback, callback) {
           var bar;
+          console.info('The base image was cached to improve initialization time of similar devices');
           console.info('Attempting to write operating system image to drive');
           bar = new visuals.Progress('Writing Device OS');
           return image.write({
@@ -342,6 +348,28 @@
         }, function(device, callback) {
           console.info("Device created: " + device.name);
           return callback(null, device.name);
+        }, function(deviceName, callback) {
+          var instructions, osSpecificInstructions, platform, platformHash;
+          if (params.manifest.instructions == null) {
+            instructions = '';
+          }
+          if (_.isArray(params.manifest.instructions)) {
+            instructions = htmlToText.fromString(params.manifest.instructions.join('\n'));
+          }
+          platformHash = {
+            darwin: 'osx',
+            linux: 'linux',
+            win32: 'windows'
+          };
+          platform = platformHash[os.platform()];
+          osSpecificInstructions = params.manifest.instructions[platform];
+          if (osSpecificInstructions == null) {
+            instructions = '';
+          } else {
+            instructions = htmlToText.fromString(osSpecificInstructions.join('\n'));
+          }
+          console.log('\n' + instructions);
+          return callback(null, params.uuid);
         }
       ], done);
     }

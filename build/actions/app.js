@@ -41,12 +41,10 @@
           if (options.type != null) {
             return callback(null, options.type);
           }
-          return resin.models.device.getSupportedDeviceTypes().then(function(supportedDeviceTypes) {
-            return form.ask({
-              message: 'Device Type',
-              type: 'list',
-              choices: supportedDeviceTypes
-            });
+          return form.ask({
+            message: 'Device Type',
+            type: 'list',
+            choices: ['Raspberry Pi', 'Raspberry Pi 2', 'BeagleBone Black']
           }).nodeify(callback);
         }, function(type, callback) {
           options.type = type;
