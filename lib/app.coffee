@@ -79,9 +79,6 @@ capitano.command(actions.device.info)
 capitano.command(actions.device.remove)
 capitano.command(actions.device.identify)
 
-# ---------- Drive Module ----------
-capitano.command(actions.drive.list)
-
 # ---------- Notes Module ----------
 capitano.command(actions.notes.set)
 

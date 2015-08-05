@@ -21,12 +21,6 @@
 			]
 		},
 		{
-			"title": "Drive",
-			"files": [
-				"lib/actions/drive.coffee"
-			]
-		},
-		{
 			"title": "Environment Variables",
 			"files": [
 				"lib/actions/environment-variables.coffee"

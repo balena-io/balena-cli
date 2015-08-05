@@ -42,10 +42,6 @@ Now you have access to all the commands referenced below.
 	- [device await &#60;uuid&#62;](#device-await-60-uuid-62-)
 	- [device init [device]](#device-init-device-)
 
-- Drive
-
-	- [drives](#drives)
-
 - Environment Variables
 
 	- [envs](#envs)
@@ -399,16 +395,6 @@ wifi ssid, if network is wifi
 #### --key, -k &#60;key&#62;
 
 wifi key, if network is wifi
-
-# Drive
-
-## drives
-
-Use this command to list all drives that are connected to your machine.
-
-Examples:
-
-	$ resin drives
 
 # Environment Variables
 
