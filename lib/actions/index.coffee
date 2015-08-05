@@ -11,5 +11,4 @@ module.exports =
 	notes: require('./notes')
 	preferences: require('./preferences')
 	help: require('./help')
-	examples: require('./examples')
 	plugin: require('./plugin')

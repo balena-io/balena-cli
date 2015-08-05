@@ -129,12 +129,6 @@
 
   capitano.command(actions.logs);
 
-  capitano.command(actions.examples.list);
-
-  capitano.command(actions.examples.clone);
-
-  capitano.command(actions.examples.info);
-
   capitano.command(actions.plugin.list);
 
   capitano.command(actions.plugin.install);
