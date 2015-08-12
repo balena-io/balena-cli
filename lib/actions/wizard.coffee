@@ -1,4 +1,4 @@
-_ = require('lodash-contrib')
+_ = require('lodash')
 Promise = require('bluebird')
 capitano = Promise.promisifyAll(require('capitano'))
 path = require('path')
@@ -112,7 +112,7 @@ exports.wizard =
 			(made, callback) ->
 				console.log("Associating #{params.name} with #{params.directory}...")
 				process.chdir(params.directory)
-				capitano.run("app associate #{params.name} --project #{params.directory}", callback)
+				capitano.run("app associate #{params.name}", callback)
 
 			(remoteUrl, callback) ->
 				console.log("Resin git remote added: #{remoteUrl}")

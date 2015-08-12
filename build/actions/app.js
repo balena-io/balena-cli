@@ -1,9 +1,5 @@
 (function() {
-  var _, async, commandOptions, form, path, resin, vcs, visuals;
-
-  path = require('path');
-
-  _ = require('lodash-contrib');
+  var async, commandOptions, form, resin, vcs, visuals;
 
   async = require('async');
 
@@ -122,7 +118,7 @@
   exports.associate = {
     signature: 'app associate <name>',
     description: 'associate a resin project',
-    help: 'Use this command to associate a project directory with a resin application.\n\nThis command adds a \'resin\' git remote to the directory and runs git init if necessary.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nExamples:\n\n	$ resin app associate MyApp\n	$ resin app associate MyApp --project my/app/directory',
+    help: 'Use this command to associate a project directory with a resin application.\n\nThis command adds a \'resin\' git remote to the directory and runs git init if necessary.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nExamples:\n\n	$ resin app associate MyApp',
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
@@ -163,41 +159,6 @@
         console.info("git repository added: " + remoteUrl);
         return done(null, remoteUrl);
       });
-    }
-  };
-
-  exports.init = {
-    signature: 'init',
-    description: 'init an application',
-    help: 'Use this command to initialise a directory as a resin application.\n\nThis command performs the following steps:\n	- Create a resin.io application.\n	- Initialize the current directory as a git repository.\n	- Add the corresponding git remote to the application.\n\nExamples:\n\n	$ resin init\n	$ resin init --project my/app/directory',
-    permission: 'user',
-    action: function(params, options, done) {
-      var currentDirectory;
-      currentDirectory = process.cwd();
-      return async.waterfall([
-        function(callback) {
-          var currentDirectoryBasename;
-          currentDirectoryBasename = path.basename(currentDirectory);
-          return form.ask({
-            message: 'What is the name of your application?',
-            type: 'input',
-            "default": currentDirectoryBasename
-          }).nodeify(callback);
-        }, function(applicationName, callback) {
-          return exports.create.action({
-            name: applicationName
-          }, options, function(error) {
-            if (error != null) {
-              return callback(error);
-            }
-            return callback(null, applicationName);
-          });
-        }, function(applicationName, callback) {
-          return exports.associate.action({
-            name: applicationName
-          }, options, callback);
-        }
-      ], done);
     }
   };
 

@@ -3,7 +3,7 @@
 
   open = require('open');
 
-  _ = require('lodash-contrib');
+  _ = require('lodash');
 
   url = require('url');
 
