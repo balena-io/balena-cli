@@ -1,13 +1,13 @@
 (function() {
-  var TOKEN_URL, _, async, form, open, resin, settings, url, validEmail, visuals;
+  var Promise, TOKEN_URL, _, form, open, resin, settings, url, validEmail, visuals;
 
-  open = require('open');
+  Promise = require('bluebird');
+
+  open = Promise.promisify(require('open'));
 
   _ = require('lodash');
 
   url = require('url');
-
-  async = require('async');
 
   resin = require('resin-sdk');
 
@@ -26,30 +26,22 @@
     description: 'login to resin.io',
     help: "Use this command to login to your resin.io account.\n\nTo login, you need your token, which is accesible from the preferences page:\n\n	" + TOKEN_URL + "\n\nExamples:\n\n	$ resin login\n	$ resin login \"eyJ0eXAiOiJKV1Qi...\"",
     action: function(params, options, done) {
-      return async.waterfall([
-        function(callback) {
-          if (params.token != null) {
-            return callback(null, params.token);
-          }
-          console.info("To login to the Resin CLI, you need your unique token, which is accesible from\nthe preferences page at " + TOKEN_URL + "\n\nAttempting to open a browser at that location...");
-          return open(TOKEN_URL, function(error) {
-            if (error != null) {
-              console.error("Unable to open a web browser in the current environment.\nPlease visit " + TOKEN_URL + " manually.");
-            }
-            return form.ask({
-              message: 'What\'s your token? (visible in the preferences page)',
-              type: 'input'
-            }).nodeify(callback);
-          });
-        }, function(token, callback) {
-          return resin.auth.loginWithToken(token).nodeify(callback);
-        }, function(callback) {
-          return resin.auth.whoami().nodeify(callback);
-        }, function(username, callback) {
-          console.info("Successfully logged in as: " + username);
-          return callback();
+      return Promise["try"](function() {
+        if (params.token != null) {
+          return params.token;
         }
-      ], done);
+        console.info("To login to the Resin CLI, you need your unique token, which is accesible from\nthe preferences page at " + TOKEN_URL + "\n\nAttempting to open a browser at that location...");
+        return open(TOKEN_URL)["catch"](function() {
+          return console.error("Unable to open a web browser in the current environment.\nPlease visit " + TOKEN_URL + " manually.");
+        }).then(function() {
+          return form.ask({
+            message: 'What\'s your token? (visible in the preferences page)',
+            type: 'input'
+          });
+        });
+      }).then(resin.auth.loginWithToken).then(resin.auth.whoami).tap(function(username) {
+        return console.info("Successfully logged in as: " + username);
+      }).nodeify(done);
     }
   };
 
@@ -66,96 +58,49 @@
   exports.signup = {
     signature: 'signup',
     description: 'signup to resin.io',
-    help: 'Use this command to signup for a resin.io account.\n\nIf signup is successful, you\'ll be logged in to your new user automatically.\n\nExamples:\n\n	$ resin signup\n	Email: me@mycompany.com\n	Username: johndoe\n	Password: ***********\n\n	$ resin signup --email me@mycompany.com --username johndoe --password ***********\n\n	$ resin whoami\n	johndoe',
-    options: [
-      {
-        signature: 'email',
-        parameter: 'email',
-        description: 'user email',
-        alias: 'e'
-      }, {
-        signature: 'username',
-        parameter: 'username',
-        description: 'user name',
-        alias: 'u'
-      }, {
-        signature: 'password',
-        parameter: 'user password',
-        description: 'user password',
-        alias: 'p'
-      }
-    ],
+    help: 'Use this command to signup for a resin.io account.\n\nIf signup is successful, you\'ll be logged in to your new user automatically.\n\nExamples:\n\n	$ resin signup\n	Email: me@mycompany.com\n	Username: johndoe\n	Password: ***********\n\n	$ resin whoami\n	johndoe',
     action: function(params, options, done) {
-      var hasOptionCredentials;
-      hasOptionCredentials = !_.isEmpty(options);
-      if (hasOptionCredentials) {
-        if (options.email == null) {
-          return done(new Error('Missing email'));
-        }
-        if (options.username == null) {
-          return done(new Error('Missing username'));
-        }
-        if (options.password == null) {
-          return done(new Error('Missing password'));
-        }
-      }
-      return async.waterfall([
-        function(callback) {
-          if (hasOptionCredentials) {
-            return callback(null, options);
-          }
-          return form.run([
-            {
-              message: 'Email:',
-              name: 'email',
-              type: 'input',
-              validate: function(input) {
-                if (!validEmail(input)) {
-                  return 'Email is not valid';
-                }
-                return true;
-              }
-            }, {
-              message: 'Username:',
-              name: 'username',
-              type: 'input'
-            }, {
-              message: 'Password:',
-              name: 'password',
-              type: 'password',
-              validate: function(input) {
-                if (input.length < 8) {
-                  return 'Password should be 8 characters long';
-                }
-                return true;
-              }
+      return form.run([
+        {
+          message: 'Email:',
+          name: 'email',
+          type: 'input',
+          validate: function(input) {
+            if (!validEmail(input)) {
+              return 'Email is not valid';
             }
-          ]).nodeify(callback);
-        }, function(credentials, callback) {
-          return resin.auth.register(credentials)["return"](credentials).nodeify(callback);
-        }, function(credentials, callback) {
-          return resin.auth.login(credentials).nodeify(callback);
+            return true;
+          }
+        }, {
+          message: 'Username:',
+          name: 'username',
+          type: 'input'
+        }, {
+          message: 'Password:',
+          name: 'password',
+          type: 'password',
+          validate: function(input) {
+            if (input.length < 8) {
+              return 'Password should be 8 characters long';
+            }
+            return true;
+          }
         }
-      ], done);
+      ]).then(resin.auth.register).then(resin.auth.loginWithToken).nodeify(done);
     }
   };
 
   exports.whoami = {
     signature: 'whoami',
-    description: 'get current username',
-    help: 'Use this command to find out the current logged in username.\n\nExamples:\n\n	$ resin whoami',
+    description: 'get current username and email address',
+    help: 'Use this command to find out the current logged in username and email address.\n\nExamples:\n\n	$ resin whoami',
     permission: 'user',
     action: function(params, options, done) {
-      return resin.auth.whoami().then(function(username) {
-        if (username == null) {
-          throw new Error('Username not found');
-        }
-        return resin.auth.getEmail().then(function(email) {
-          return console.log(visuals.table.vertical({
-            username: username,
-            email: email
-          }, ['$account information$', 'username', 'email']));
-        });
+      return Promise.props({
+        username: resin.auth.whoami(),
+        email: resin.auth.getEmail()
+      }).then(function(results) {
+        return console.log(visuals.table.vertical(results, ['$account information$', 'username', 'email']));
       }).nodeify(done);
     }
   };

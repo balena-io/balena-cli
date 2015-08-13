@@ -1,7 +1,7 @@
-open = require('open')
+Promise = require('bluebird')
+open = Promise.promisify(require('open'))
 _ = require('lodash')
 url = require('url')
-async = require('async')
 resin = require('resin-sdk')
 settings = require('resin-settings-client')
 form = require('resin-cli-form')
@@ -26,42 +26,31 @@ exports.login	=
 			$ resin login "eyJ0eXAiOiJKV1Qi..."
 	"""
 	action: (params, options, done) ->
+		Promise.try ->
+			return params.token if params.token?
 
-		async.waterfall [
+			console.info """
+				To login to the Resin CLI, you need your unique token, which is accesible from
+				the preferences page at #{TOKEN_URL}
 
-			(callback) ->
-				return callback(null, params.token) if params.token?
+				Attempting to open a browser at that location...
+			"""
 
-				console.info """
-					To login to the Resin CLI, you need your unique token, which is accesible from
-					the preferences page at #{TOKEN_URL}
-
-					Attempting to open a browser at that location...
+			open(TOKEN_URL).catch ->
+				console.error """
+					Unable to open a web browser in the current environment.
+					Please visit #{TOKEN_URL} manually.
 				"""
+			.then ->
+				form.ask
+					message: 'What\'s your token? (visible in the preferences page)'
+					type: 'input'
 
-				open TOKEN_URL, (error) ->
-					if error?
-						console.error """
-							Unable to open a web browser in the current environment.
-							Please visit #{TOKEN_URL} manually.
-						"""
-
-					form.ask
-						message: 'What\'s your token? (visible in the preferences page)'
-						type: 'input'
-					.nodeify(callback)
-
-			(token, callback) ->
-				resin.auth.loginWithToken(token).nodeify(callback)
-
-			(callback) ->
-				resin.auth.whoami().nodeify(callback)
-
-			(username, callback) ->
-				console.info("Successfully logged in as: #{username}")
-				return callback()
-
-		], done
+		.then(resin.auth.loginWithToken)
+		.then(resin.auth.whoami)
+		.tap (username) ->
+			console.info("Successfully logged in as: #{username}")
+		.nodeify(done)
 
 exports.logout =
 	signature: 'logout'
@@ -92,88 +81,43 @@ exports.signup =
 			Username: johndoe
 			Password: ***********
 
-			$ resin signup --email me@mycompany.com --username johndoe --password ***********
-
 			$ resin whoami
 			johndoe
 	'''
-	options: [
-		{
-			signature: 'email'
-			parameter: 'email'
-			description: 'user email'
-			alias: 'e'
-		}
-		{
-			signature: 'username'
-			parameter: 'username'
-			description: 'user name'
-			alias: 'u'
-		}
-		{
-			signature: 'password'
-			parameter: 'user password'
-			description: 'user password'
-			alias: 'p'
-		}
-	]
 	action: (params, options, done) ->
+		form.run [
+			message: 'Email:'
+			name: 'email'
+			type: 'input'
+			validate: (input) ->
+				if not validEmail(input)
+					return 'Email is not valid'
 
-		hasOptionCredentials = not _.isEmpty(options)
+				return true
+		,
+			message: 'Username:'
+			name: 'username'
+			type: 'input'
+		,
+			message: 'Password:'
+			name: 'password'
+			type: 'password',
+			validate: (input) ->
+				if input.length < 8
+					return 'Password should be 8 characters long'
 
-		if hasOptionCredentials
+				return true
+		]
 
-			if not options.email?
-				return done(new Error('Missing email'))
-
-			if not options.username?
-				return done(new Error('Missing username'))
-
-			if not options.password?
-				return done(new Error('Missing password'))
-
-		async.waterfall [
-
-			(callback) ->
-				return callback(null, options) if hasOptionCredentials
-				form.run [
-					message: 'Email:'
-					name: 'email'
-					type: 'input'
-					validate: (input) ->
-						if not validEmail(input)
-							return 'Email is not valid'
-
-						return true
-				,
-					message: 'Username:'
-					name: 'username'
-					type: 'input'
-				,
-					message: 'Password:'
-					name: 'password'
-					type: 'password',
-					validate: (input) ->
-						if input.length < 8
-							return 'Password should be 8 characters long'
-
-						return true
-				]
-				.nodeify(callback)
-
-			(credentials, callback) ->
-				resin.auth.register(credentials).return(credentials).nodeify(callback)
-
-			(credentials, callback) ->
-				resin.auth.login(credentials).nodeify(callback)
-
-		], done
+		.then(resin.auth.register)
+		.then(resin.auth.loginWithToken)
+		.nodeify(done)
 
 exports.whoami =
 	signature: 'whoami'
-	description: 'get current username'
+	description: 'get current username and email address'
 	help: '''
-		Use this command to find out the current logged in username.
+		Use this command to find out the current logged in username and email address.
 
 		Examples:
 
@@ -181,13 +125,13 @@ exports.whoami =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin.auth.whoami().then (username) ->
-			if not username?
-				throw new Error('Username not found')
-			resin.auth.getEmail().then (email) ->
-				console.log visuals.table.vertical { username, email }, [
-					'$account information$'
-					'username'
-					'email'
-				]
+		Promise.props
+			username: resin.auth.whoami()
+			email: resin.auth.getEmail()
+		.then (results) ->
+			console.log visuals.table.vertical results, [
+				'$account information$'
+				'username'
+				'email'
+			]
 		.nodeify(done)
