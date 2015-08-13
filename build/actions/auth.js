@@ -1,5 +1,5 @@
 (function() {
-  var TOKEN_URL, _, async, form, open, resin, settings, url, visuals;
+  var TOKEN_URL, _, async, form, open, resin, settings, url, validEmail, visuals;
 
   open = require('open');
 
@@ -16,6 +16,8 @@
   form = require('resin-cli-form');
 
   visuals = require('resin-cli-visuals');
+
+  validEmail = require('valid-email');
 
   TOKEN_URL = url.resolve(settings.get('dashboardUrl'), '/preferences');
 
@@ -106,7 +108,13 @@
             {
               message: 'Email:',
               name: 'email',
-              type: 'input'
+              type: 'input',
+              validate: function(input) {
+                if (!validEmail(input)) {
+                  return 'Email is not valid';
+                }
+                return true;
+              }
             }, {
               message: 'Username:',
               name: 'username',

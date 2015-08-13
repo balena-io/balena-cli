@@ -6,6 +6,7 @@ resin = require('resin-sdk')
 settings = require('resin-settings-client')
 form = require('resin-cli-form')
 visuals = require('resin-cli-visuals')
+validEmail = require('valid-email')
 
 TOKEN_URL = url.resolve(settings.get('dashboardUrl'), '/preferences')
 
@@ -139,6 +140,11 @@ exports.signup =
 					message: 'Email:'
 					name: 'email'
 					type: 'input'
+					validate: (input) ->
+						if not validEmail(input)
+							return 'Email is not valid'
+
+						return true
 				,
 					message: 'Username:'
 					name: 'username'
