@@ -1,10 +1,9 @@
 _ = require('lodash')
-Promise = require('bluebird')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
 commandOptions = require('./command-options')
 vcs = require('resin-vcs')
-form = require('resin-cli-form')
+helpers = require('../utils/helpers')
 
 exports.create =
 	signature: 'app create <name>'
@@ -42,19 +41,9 @@ exports.create =
 			if hasApplication
 				throw new Error('You already have an application with that name!')
 
-		.then ->
-			form.ask
-				message: 'Device Type'
-				type: 'list'
-				choices: [
-
-					# Lock to specific devices until we support
-					# the rest with device specs.
-					'Raspberry Pi'
-					'Raspberry Pi 2'
-					'BeagleBone Black'
-				]
-		.then(_.partial(resin.models.application.create, params.name)).then (application) ->
+		.then(helpers.selectDeviceType).then (deviceType) ->
+			return resin.models.application.create(params.name, deviceType)
+		.then (application) ->
 			console.info("Application created: #{application.app_name} (#{application.device_type}, id #{application.id})")
 		.nodeify(done)
 
@@ -136,14 +125,7 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		Promise.try ->
-			return true if options.yes
-
-			form.ask
-				message: 'Are you sure you want to delete the application?'
-				type: 'confirm'
-				default: false
-		.then (confirmed) ->
+		helpers.confirm(option.yes, 'Are you sure you want to delete the application?').then (confirmed) ->
 			return if not confirmed
 			resin.models.application.remove(params.name)
 		.nodeify(done)
@@ -173,13 +155,8 @@ exports.associate =
 				throw new Error("Invalid application: #{params.name}")
 
 		.then ->
-			return true if options.yes
-
 			message = "Are you sure you want to associate #{currentDirectory} with #{params.name}?"
-			form.ask
-				message: message
-				type: 'confirm'
-				default: false
+			helpers.confirm(options.yes, message)
 
 		.then (confirmed) ->
 			return if not confirmed

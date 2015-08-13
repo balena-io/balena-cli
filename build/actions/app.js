@@ -1,9 +1,7 @@
 (function() {
-  var Promise, _, commandOptions, form, resin, vcs, visuals;
+  var _, commandOptions, helpers, resin, vcs, visuals;
 
   _ = require('lodash');
-
-  Promise = require('bluebird');
 
   resin = require('resin-sdk');
 
@@ -13,7 +11,7 @@
 
   vcs = require('resin-vcs');
 
-  form = require('resin-cli-form');
+  helpers = require('../utils/helpers');
 
   exports.create = {
     signature: 'app create <name>',
@@ -33,13 +31,9 @@
         if (hasApplication) {
           throw new Error('You already have an application with that name!');
         }
-      }).then(function() {
-        return form.ask({
-          message: 'Device Type',
-          type: 'list',
-          choices: ['Raspberry Pi', 'Raspberry Pi 2', 'BeagleBone Black']
-        });
-      }).then(_.partial(resin.models.application.create, params.name)).then(function(application) {
+      }).then(helpers.selectDeviceType).then(function(deviceType) {
+        return resin.models.application.create(params.name, deviceType);
+      }).then(function(application) {
         return console.info("Application created: " + application.app_name + " (" + application.device_type + ", id " + application.id + ")");
       }).nodeify(done);
     }
@@ -86,16 +80,7 @@
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
-      return Promise["try"](function() {
-        if (options.yes) {
-          return true;
-        }
-        return form.ask({
-          message: 'Are you sure you want to delete the application?',
-          type: 'confirm',
-          "default": false
-        });
-      }).then(function(confirmed) {
+      return helpers.confirm(option.yes, 'Are you sure you want to delete the application?').then(function(confirmed) {
         if (!confirmed) {
           return;
         }
@@ -119,15 +104,8 @@
         }
       }).then(function() {
         var message;
-        if (options.yes) {
-          return true;
-        }
         message = "Are you sure you want to associate " + currentDirectory + " with " + params.name + "?";
-        return form.ask({
-          message: message,
-          type: 'confirm',
-          "default": false
-        });
+        return helpers.confirm(options.yes, message);
       }).then(function(confirmed) {
         if (!confirmed) {
           return;
