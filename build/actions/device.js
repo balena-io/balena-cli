@@ -1,11 +1,9 @@
 (function() {
-  var _, async, capitano, commandOptions, deviceConfig, form, htmlToText, image, inject, manager, os, path, pine, registerDevice, resin, vcs, visuals;
+  var _, async, capitano, commandOptions, deviceConfig, form, htmlToText, image, inject, manager, pine, registerDevice, resin, vcs, visuals;
 
   capitano = require('capitano');
 
   _ = require('lodash');
-
-  path = require('path');
 
   async = require('async');
 
@@ -30,8 +28,6 @@
   form = require('resin-cli-form');
 
   htmlToText = require('html-to-text');
-
-  os = require('os');
 
   commandOptions = require('./command-options');
 

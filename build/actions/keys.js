@@ -1,5 +1,5 @@
 (function() {
-  var SSH_KEY_WIDTH, _, async, capitano, commandOptions, form, fs, resin, visuals;
+  var _, async, capitano, commandOptions, form, fs, resin, visuals;
 
   _ = require('lodash');
 
@@ -30,8 +30,6 @@
       }).nodeify(done);
     }
   };
-
-  SSH_KEY_WIDTH = 43;
 
   exports.info = {
     signature: 'key <id>',

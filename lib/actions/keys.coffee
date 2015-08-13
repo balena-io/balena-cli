@@ -24,8 +24,6 @@ exports.list =
 			console.log visuals.table.horizontal keys, [ 'id', 'title' ]
 		.nodeify(done)
 
-SSH_KEY_WIDTH = 43
-
 exports.info =
 	signature: 'key <id>'
 	description: 'list a single ssh key'
