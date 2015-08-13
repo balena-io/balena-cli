@@ -1,5 +1,5 @@
 (function() {
-  var _, actions, async, capitano, changeProjectDirectory, errors, plugins, resin;
+  var _, actions, async, capitano, errors, plugins, resin;
 
   _ = require('lodash');
 
@@ -32,36 +32,7 @@
     }
   });
 
-  capitano.globalOption({
-    signature: 'quiet',
-    description: 'quiet (no output)',
-    boolean: true,
-    alias: 'q'
-  });
-
-  capitano.globalOption({
-    signature: 'project',
-    parameter: 'path',
-    description: 'project path',
-    alias: 'j'
-  });
-
-  capitano.globalOption({
-    signature: 'version',
-    description: actions.info.version.description,
-    boolean: true,
-    alias: 'v'
-  });
-
-  capitano.globalOption({
-    signature: 'no-color',
-    description: 'disable colour highlighting',
-    boolean: true
-  });
-
   capitano.command(actions.info.version);
-
-  capitano.command(actions.info.config);
 
   capitano.command(actions.help.help);
 
@@ -84,8 +55,6 @@
   capitano.command(actions.app.restart);
 
   capitano.command(actions.app.associate);
-
-  capitano.command(actions.app.init);
 
   capitano.command(actions.app.info);
 
@@ -135,31 +104,13 @@
 
   capitano.command(actions.plugin.remove);
 
-  changeProjectDirectory = function(directory) {
-    try {
-      return process.chdir(directory);
-    } catch (_error) {
-      return errors.handle(new Error("Invalid project: " + directory));
-    }
-  };
-
   async.waterfall([
     function(callback) {
       return plugins.register('resin-plugin-', callback);
     }, function(callback) {
       var cli;
       cli = capitano.parse(process.argv);
-      if (cli.global.quiet || !process.stdout.isTTY) {
-        console.info = _.noop;
-      }
-      if (cli.global.project != null) {
-        changeProjectDirectory(cli.global.project);
-      }
-      if (cli.global.version) {
-        return actions.info.version.action(null, null, callback);
-      } else {
-        return capitano.execute(cli, callback);
-      }
+      return capitano.execute(cli, callback);
     }
   ], errors.handle);
 

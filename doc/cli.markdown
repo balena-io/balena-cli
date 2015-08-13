@@ -22,7 +22,6 @@ Now you have access to all the commands referenced below.
 	- [app restart &#60;name&#62;](#app-restart-60-name-62-)
 	- [app rm &#60;name&#62;](#app-rm-60-name-62-)
 	- [app associate &#60;name&#62;](#app-associate-60-name-62-)
-	- [init](#init)
 
 - Authentication
 
@@ -56,7 +55,6 @@ Now you have access to all the commands referenced below.
 - Information
 
 	- [version](#version)
-	- [config](#config)
 
 - Keys
 
@@ -165,27 +163,12 @@ You can avoid this by passing the `--yes` boolean option.
 Examples:
 
 	$ resin app associate MyApp
-	$ resin app associate MyApp --project my/app/directory
 
 ### Options
 
 #### --yes, -y
 
 confirm non interactively
-
-## init
-
-Use this command to initialise a directory as a resin application.
-
-This command performs the following steps:
-	- Create a resin.io application.
-	- Initialize the current directory as a git repository.
-	- Add the corresponding git remote to the application.
-
-Examples:
-
-	$ resin init
-	$ resin init --project my/app/directory
 
 # Authentication
 
@@ -195,7 +178,7 @@ Use this command to login to your resin.io account.
 
 To login, you need your token, which is accesible from the preferences page:
 
-	https://dashboard.resin.io/preferences
+	https://dashboard.resinstaging.io/preferences
 
 Examples:
 
@@ -516,12 +499,6 @@ Examples:
 ## version
 
 Display the Resin CLI version.
-
-## config
-
-See your current Resin CLI configuration.
-
-Configuration lives in $HOME/.resin/config.
 
 # Keys
 

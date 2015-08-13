@@ -1,6 +1,5 @@
-fse = require('fs-extra')
 capitano = require('capitano')
-_ = require('lodash-contrib')
+_ = require('lodash')
 path = require('path')
 async = require('async')
 resin = require('resin-sdk')
@@ -11,15 +10,11 @@ image = require('resin-image')
 inject = require('resin-config-inject')
 registerDevice = require('resin-register-device')
 pine = require('resin-pine')
-tmp = require('tmp')
 deviceConfig = require('resin-device-config')
 form = require('resin-cli-form')
 drivelist = require('drivelist')
 htmlToText = require('html-to-text')
 os = require('os')
-
-# Cleanup the temporary files even when an uncaught exception occurs
-tmp.setGracefulCleanup()
 
 commandOptions = require('./command-options')
 
@@ -423,28 +418,6 @@ exports.init =
 
 			(device, callback) ->
 				console.info("Device created: #{device.name}")
-				return callback(null, device.name)
-
-			(deviceName, callback) ->
-				instructions = '' if not params.manifest.instructions?
-
-				if _.isArray(params.manifest.instructions)
-					instructions = htmlToText.fromString(params.manifest.instructions.join('\n'))
-
-				platformHash =
-					darwin: 'osx'
-					linux: 'linux'
-					win32: 'windows'
-
-				platform = platformHash[os.platform()]
-				osSpecificInstructions = params.manifest.instructions[platform]
-
-				if not osSpecificInstructions?
-					instructions =  ''
-				else
-					instructions = htmlToText.fromString(osSpecificInstructions.join('\n'))
-
-				console.log('\n' + instructions)
 				return callback(null, params.uuid)
 
 		], done

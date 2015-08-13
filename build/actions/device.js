@@ -1,11 +1,9 @@
 (function() {
-  var _, async, capitano, commandOptions, deviceConfig, drivelist, form, fse, htmlToText, image, inject, manager, os, path, pine, registerDevice, resin, tmp, vcs, visuals;
-
-  fse = require('fs-extra');
+  var _, async, capitano, commandOptions, deviceConfig, drivelist, form, htmlToText, image, inject, manager, os, path, pine, registerDevice, resin, vcs, visuals;
 
   capitano = require('capitano');
 
-  _ = require('lodash-contrib');
+  _ = require('lodash');
 
   path = require('path');
 
@@ -27,8 +25,6 @@
 
   pine = require('resin-pine');
 
-  tmp = require('tmp');
-
   deviceConfig = require('resin-device-config');
 
   form = require('resin-cli-form');
@@ -38,8 +34,6 @@
   htmlToText = require('html-to-text');
 
   os = require('os');
-
-  tmp.setGracefulCleanup();
 
   commandOptions = require('./command-options');
 
@@ -347,28 +341,6 @@
           return resin.models.device.get(params.uuid).nodeify(callback);
         }, function(device, callback) {
           console.info("Device created: " + device.name);
-          return callback(null, device.name);
-        }, function(deviceName, callback) {
-          var instructions, osSpecificInstructions, platform, platformHash;
-          if (params.manifest.instructions == null) {
-            instructions = '';
-          }
-          if (_.isArray(params.manifest.instructions)) {
-            instructions = htmlToText.fromString(params.manifest.instructions.join('\n'));
-          }
-          platformHash = {
-            darwin: 'osx',
-            linux: 'linux',
-            win32: 'windows'
-          };
-          platform = platformHash[os.platform()];
-          osSpecificInstructions = params.manifest.instructions[platform];
-          if (osSpecificInstructions == null) {
-            instructions = '';
-          } else {
-            instructions = htmlToText.fromString(osSpecificInstructions.join('\n'));
-          }
-          console.log('\n' + instructions);
           return callback(null, params.uuid);
         }
       ], done);

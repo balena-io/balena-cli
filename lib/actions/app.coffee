@@ -1,5 +1,3 @@
-path = require('path')
-_ = require('lodash-contrib')
 async = require('async')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
@@ -177,7 +175,6 @@ exports.associate =
 		Examples:
 
 			$ resin app associate MyApp
-			$ resin app associate MyApp --project my/app/directory
 	'''
 	options: [ commandOptions.yes ]
 	permission: 'user'
@@ -217,47 +214,3 @@ exports.associate =
 			return done(error) if error?
 			console.info("git repository added: #{remoteUrl}")
 			return done(null, remoteUrl)
-
-exports.init =
-	signature: 'init'
-	description: 'init an application'
-	help: '''
-		Use this command to initialise a directory as a resin application.
-
-		This command performs the following steps:
-			- Create a resin.io application.
-			- Initialize the current directory as a git repository.
-			- Add the corresponding git remote to the application.
-
-		Examples:
-
-			$ resin init
-			$ resin init --project my/app/directory
-	'''
-	permission: 'user'
-	action: (params, options, done) ->
-
-		currentDirectory = process.cwd()
-
-		async.waterfall [
-
-			(callback) ->
-				currentDirectoryBasename = path.basename(currentDirectory)
-				form.ask
-					message: 'What is the name of your application?'
-					type: 'input'
-					default: currentDirectoryBasename
-				.nodeify(callback)
-
-			(applicationName, callback) ->
-
-				# TODO: Make resin.models.application.create return
-				# the whole application instead of just the id
-				exports.create.action name: applicationName, options, (error) ->
-					return callback(error) if error?
-					return callback(null, applicationName)
-
-			(applicationName, callback) ->
-				exports.associate.action(name: applicationName, options, callback)
-
-		], done

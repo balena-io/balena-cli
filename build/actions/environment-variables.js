@@ -3,7 +3,7 @@
 
   async = require('async');
 
-  _ = require('lodash-contrib');
+  _ = require('lodash');
 
   resin = require('resin-sdk');
 

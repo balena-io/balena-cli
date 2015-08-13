@@ -67,7 +67,8 @@ general = ->
 		continue if command.isWildcard()
 		console.log(getCommandHelp(command))
 
-	console.log('\nGlobal Options:\n')
+	if not _.isEmpty(capitano.state.globalOptions)
+		console.log('\nGlobal Options:\n')
 
 	options = _.map capitano.state.globalOptions, (option) ->
 		option.signature = buildOptionSignatureHelp(option)

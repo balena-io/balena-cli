@@ -95,7 +95,9 @@
       }
       console.log(getCommandHelp(command));
     }
-    console.log('\nGlobal Options:\n');
+    if (!_.isEmpty(capitano.state.globalOptions)) {
+      console.log('\nGlobal Options:\n');
+    }
     options = _.map(capitano.state.globalOptions, function(option) {
       option.signature = buildOptionSignatureHelp(option);
       return option;

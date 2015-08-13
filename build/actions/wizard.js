@@ -1,7 +1,7 @@
 (function() {
   var Promise, _, async, capitano, form, mkdirp, path, resin, userHome, visuals;
 
-  _ = require('lodash-contrib');
+  _ = require('lodash');
 
   Promise = require('bluebird');
 
@@ -97,7 +97,7 @@
         }, function(made, callback) {
           console.log("Associating " + params.name + " with " + params.directory + "...");
           process.chdir(params.directory);
-          return capitano.run("app associate " + params.name + " --project " + params.directory, callback);
+          return capitano.run("app associate " + params.name, callback);
         }, function(remoteUrl, callback) {
           console.log("Resin git remote added: " + remoteUrl);
           console.log('Please type "git push resin master" into your project directory now!');
