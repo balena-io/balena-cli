@@ -1,7 +1,9 @@
 (function() {
-  var async, commandOptions, form, resin, vcs, visuals;
+  var Promise, _, commandOptions, form, resin, vcs, visuals;
 
-  async = require('async');
+  _ = require('lodash');
+
+  Promise = require('bluebird');
 
   resin = require('resin-sdk');
 
@@ -27,29 +29,19 @@
     ],
     permission: 'user',
     action: function(params, options, done) {
-      return async.waterfall([
-        function(callback) {
-          return resin.models.application.has(params.name).nodeify(callback);
-        }, function(hasApplication, callback) {
-          if (hasApplication) {
-            return callback(new Error('You already have an application with that name!'));
-          }
-          if (options.type != null) {
-            return callback(null, options.type);
-          }
-          return form.ask({
-            message: 'Device Type',
-            type: 'list',
-            choices: ['Raspberry Pi', 'Raspberry Pi 2', 'BeagleBone Black']
-          }).nodeify(callback);
-        }, function(type, callback) {
-          options.type = type;
-          return resin.models.application.create(params.name, options.type).nodeify(callback);
-        }, function(application, callback) {
-          console.info("Application created: " + params.name + " (" + options.type + ", id " + application.id + ")");
-          return callback();
+      return resin.models.application.has(params.name).then(function(hasApplication) {
+        if (hasApplication) {
+          throw new Error('You already have an application with that name!');
         }
-      ], done);
+      }).then(function() {
+        return form.ask({
+          message: 'Device Type',
+          type: 'list',
+          choices: ['Raspberry Pi', 'Raspberry Pi 2', 'BeagleBone Black']
+        });
+      }).then(_.partial(resin.models.application.create, params.name)).then(function(application) {
+        return console.info("Application created: " + application.app_name + " (" + application.device_type + ", id " + application.id + ")");
+      }).nodeify(done);
     }
   };
 
@@ -94,24 +86,21 @@
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
-      return async.waterfall([
-        function(callback) {
-          if (options.yes) {
-            return callback(null, true);
-          } else {
-            return form.ask({
-              message: 'Are you sure you want to delete the application?',
-              type: 'confirm',
-              "default": false
-            }).nodeify(callback);
-          }
-        }, function(confirmed, callback) {
-          if (!confirmed) {
-            return callback();
-          }
-          return resin.models.application.remove(params.name).nodeify(callback);
+      return Promise["try"](function() {
+        if (options.yes) {
+          return true;
         }
-      ], done);
+        return form.ask({
+          message: 'Are you sure you want to delete the application?',
+          type: 'confirm',
+          "default": false
+        });
+      }).then(function(confirmed) {
+        if (!confirmed) {
+          return;
+        }
+        return resin.models.application.remove(params.name);
+      }).nodeify(done);
     }
   };
 
@@ -124,41 +113,34 @@
     action: function(params, options, done) {
       var currentDirectory;
       currentDirectory = process.cwd();
-      return async.waterfall([
-        function(callback) {
-          return resin.models.application.has(params.name).nodeify(callback);
-        }, function(hasApp, callback) {
-          var message;
-          if (!hasApp) {
-            return callback(new Error("Invalid application: " + params.name));
-          }
-          message = "Are you sure you want to associate " + currentDirectory + " with " + params.name + "?";
-          if (options.yes) {
-            return callback(null, true);
-          } else {
-            return form.ask({
-              message: message,
-              type: 'confirm',
-              "default": false
-            }).nodeify(callback);
-          }
-        }, function(confirmed, callback) {
-          if (!confirmed) {
-            return done();
-          }
-          return vcs.initialize(currentDirectory).nodeify(callback);
-        }, function(callback) {
-          return resin.models.application.get(params.name).nodeify(callback);
-        }, function(application, callback) {
-          return vcs.associate(currentDirectory, application.git_repository).nodeify(callback);
+      return resin.models.application.has(params.name).then(function(hasApplication) {
+        if (!hasApplication) {
+          throw new Error("Invalid application: " + params.name);
         }
-      ], function(error, remoteUrl) {
-        if (error != null) {
-          return done(error);
+      }).then(function() {
+        var message;
+        if (options.yes) {
+          return true;
         }
-        console.info("git repository added: " + remoteUrl);
-        return done(null, remoteUrl);
-      });
+        message = "Are you sure you want to associate " + currentDirectory + " with " + params.name + "?";
+        return form.ask({
+          message: message,
+          type: 'confirm',
+          "default": false
+        });
+      }).then(function(confirmed) {
+        if (!confirmed) {
+          return;
+        }
+        return resin.models.application.get(params.name).get('git_repository').then(function(gitRepository) {
+          return vcs.initialize(currentDirectory).then(function() {
+            return vcs.associate(currentDirectory, gitRepository);
+          }).then(function() {
+            console.info("git repository added: " + gitRepository);
+            return gitRepository;
+          });
+        });
+      }).nodeify(done);
     }
   };
 

@@ -1,4 +1,5 @@
-async = require('async')
+_ = require('lodash')
+Promise = require('bluebird')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
 commandOptions = require('./command-options')
@@ -33,38 +34,29 @@ exports.create =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
-		async.waterfall [
 
-			(callback) ->
-				resin.models.application.has(params.name).nodeify(callback)
+		# Validate the the application name is available
+		# before asking the device type.
+		# https://github.com/resin-io/resin-cli/issues/30
+		resin.models.application.has(params.name).then (hasApplication) ->
+			if hasApplication
+				throw new Error('You already have an application with that name!')
 
-			(hasApplication, callback) ->
-				if hasApplication
-					return callback(new Error('You already have an application with that name!'))
+		.then ->
+			form.ask
+				message: 'Device Type'
+				type: 'list'
+				choices: [
 
-				return callback(null, options.type) if options.type?
-				form.ask
-					message: 'Device Type'
-					type: 'list'
-					choices: [
-
-						# Lock to specific devices until we support
-						# the rest with device specs.
-						'Raspberry Pi'
-						'Raspberry Pi 2'
-						'BeagleBone Black'
-					]
-				.nodeify(callback)
-
-			(type, callback) ->
-				options.type = type
-				resin.models.application.create(params.name, options.type).nodeify(callback)
-
-			(application, callback) ->
-				console.info("Application created: #{params.name} (#{options.type}, id #{application.id})")
-				return callback()
-
-		], done
+					# Lock to specific devices until we support
+					# the rest with device specs.
+					'Raspberry Pi'
+					'Raspberry Pi 2'
+					'BeagleBone Black'
+				]
+		.then(_.partial(resin.models.application.create, params.name)).then (application) ->
+			console.info("Application created: #{application.app_name} (#{application.device_type}, id #{application.id})")
+		.nodeify(done)
 
 exports.list =
 	signature: 'apps'
@@ -144,22 +136,17 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		async.waterfall [
+		Promise.try ->
+			return true if options.yes
 
-			(callback) ->
-				if options.yes
-					return callback(null, true)
-				else
-					form.ask
-						message: 'Are you sure you want to delete the application?'
-						type: 'confirm'
-						default: false
-					.nodeify(callback)
-
-			(confirmed, callback) ->
-				return callback() if not confirmed
-				resin.models.application.remove(params.name).nodeify(callback)
-		], done
+			form.ask
+				message: 'Are you sure you want to delete the application?'
+				type: 'confirm'
+				default: false
+		.then (confirmed) ->
+			return if not confirmed
+			resin.models.application.remove(params.name)
+		.nodeify(done)
 
 exports.associate =
 	signature: 'app associate <name>'
@@ -181,36 +168,27 @@ exports.associate =
 	action: (params, options, done) ->
 		currentDirectory = process.cwd()
 
-		async.waterfall [
+		resin.models.application.has(params.name).then (hasApplication) ->
+			if not hasApplication
+				throw new Error("Invalid application: #{params.name}")
 
-			(callback) ->
-				resin.models.application.has(params.name).nodeify(callback)
+		.then ->
+			return true if options.yes
 
-			(hasApp, callback) ->
-				if not hasApp
-					return callback(new Error("Invalid application: #{params.name}"))
+			message = "Are you sure you want to associate #{currentDirectory} with #{params.name}?"
+			form.ask
+				message: message
+				type: 'confirm'
+				default: false
 
-				message = "Are you sure you want to associate #{currentDirectory} with #{params.name}?"
-				if options.yes
-					return callback(null, true)
-				else
-					form.ask
-						message: message
-						type: 'confirm'
-						default: false
-					.nodeify(callback)
+		.then (confirmed) ->
+			return if not confirmed
 
-			(confirmed, callback) ->
-				return done() if not confirmed
-				vcs.initialize(currentDirectory).nodeify(callback)
+			resin.models.application.get(params.name).get('git_repository').then (gitRepository) ->
+				vcs.initialize(currentDirectory).then ->
+					return vcs.associate(currentDirectory, gitRepository)
+				.then ->
+					console.info("git repository added: #{gitRepository}")
+					return gitRepository
 
-			(callback) ->
-				resin.models.application.get(params.name).nodeify(callback)
-
-			(application, callback) ->
-				vcs.associate(currentDirectory, application.git_repository).nodeify(callback)
-
-		], (error, remoteUrl) ->
-			return done(error) if error?
-			console.info("git repository added: #{remoteUrl}")
-			return done(null, remoteUrl)
+		.nodeify(done)
