@@ -53,9 +53,6 @@ capitano.command(actions.device.identify)
 # ---------- Notes Module ----------
 capitano.command(actions.notes.set)
 
-# ---------- Preferences Module ----------
-capitano.command(actions.preferences.preferences)
-
 # ---------- Keys Module ----------
 capitano.command(actions.keys.list)
 capitano.command(actions.keys.add)
