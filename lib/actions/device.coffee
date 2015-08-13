@@ -12,7 +12,6 @@ registerDevice = require('resin-register-device')
 pine = require('resin-pine')
 deviceConfig = require('resin-device-config')
 form = require('resin-cli-form')
-drivelist = require('drivelist')
 htmlToText = require('html-to-text')
 os = require('os')
 
@@ -289,23 +288,7 @@ exports.init =
 					return callback(new Error("Invalid application: #{options.application}"))
 
 				return callback(null, params.device) if params.device?
-				drivelist.list (error, drives) ->
-					return callback(error) if error?
-
-					async.reject drives, drivelist.isSystem, (removableDrives) ->
-
-						if _.isEmpty(removableDrives)
-							return callback(new Error('No available drives'))
-
-						form.ask
-							message: 'Drive'
-							type: 'list'
-							choices: _.map removableDrives, (item) ->
-								return {
-									name: "#{item.device} (#{item.size}) - #{item.description}"
-									value: item.device
-								}
-						.nodeify(callback)
+				visuals.drive().nodeify(callback)
 
 			(device, callback) ->
 				params.device = device

@@ -1,5 +1,5 @@
 (function() {
-  var _, async, capitano, commandOptions, deviceConfig, drivelist, form, htmlToText, image, inject, manager, os, path, pine, registerDevice, resin, vcs, visuals;
+  var _, async, capitano, commandOptions, deviceConfig, form, htmlToText, image, inject, manager, os, path, pine, registerDevice, resin, vcs, visuals;
 
   capitano = require('capitano');
 
@@ -28,8 +28,6 @@
   deviceConfig = require('resin-device-config');
 
   form = require('resin-cli-form');
-
-  drivelist = require('drivelist');
 
   htmlToText = require('html-to-text');
 
@@ -210,26 +208,7 @@
           if (params.device != null) {
             return callback(null, params.device);
           }
-          return drivelist.list(function(error, drives) {
-            if (error != null) {
-              return callback(error);
-            }
-            return async.reject(drives, drivelist.isSystem, function(removableDrives) {
-              if (_.isEmpty(removableDrives)) {
-                return callback(new Error('No available drives'));
-              }
-              return form.ask({
-                message: 'Drive',
-                type: 'list',
-                choices: _.map(removableDrives, function(item) {
-                  return {
-                    name: item.device + " (" + item.size + ") - " + item.description,
-                    value: item.device
-                  };
-                })
-              }).nodeify(callback);
-            });
-          });
+          return visuals.drive().nodeify(callback);
         }, function(device, callback) {
           var message;
           params.device = device;
