@@ -1,9 +1,7 @@
 (function() {
-  var _, async, resin;
+  var _, resin;
 
   _ = require('lodash');
-
-  async = require('async');
 
   resin = require('resin-sdk');
 

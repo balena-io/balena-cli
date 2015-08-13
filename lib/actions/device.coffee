@@ -1,6 +1,5 @@
 capitano = require('capitano')
 _ = require('lodash')
-path = require('path')
 async = require('async')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
@@ -13,7 +12,6 @@ pine = require('resin-pine')
 deviceConfig = require('resin-device-config')
 form = require('resin-cli-form')
 htmlToText = require('html-to-text')
-os = require('os')
 
 commandOptions = require('./command-options')
 

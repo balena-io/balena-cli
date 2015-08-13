@@ -1,5 +1,4 @@
 _ = require('lodash')
-async = require('async')
 resin = require('resin-sdk')
 
 exports.set =
