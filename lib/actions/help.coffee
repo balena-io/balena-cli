@@ -1,93 +1,56 @@
 _ = require('lodash')
 _.str = require('underscore.string')
 capitano = require('capitano')
+columnify = require('columnify')
 
-# TODO: Refactor this terrible mess
+parse = (object) ->
+	return _.object _.map object, (item) ->
 
-PADDING_INITIAL = '    '
-PADDING_MIDDLE = '\t'
+		# Hacky way to determine if an object is
+		# a function or a command
+		if item.alias?
+			signature = item.toString()
+		else
+			signature = item.signature.toString()
 
-getFieldMaxLength = (array, field) ->
-	return _.max _.map array, (item) ->
-		return item[field].toString().length
+		return [
+			signature
+			item.description
+		]
 
-buildHelpString = (firstColumn, secondColumn) ->
-	result = "#{PADDING_INITIAL}#{firstColumn}"
-	result += "#{PADDING_MIDDLE}#{secondColumn}"
-	return result
+indent = (text) ->
+	text = _.map _.str.lines(text), (line) ->
+		return '    ' + line
+	return text.join('\n')
 
-addOptionPrefix = (option) ->
-	return if option.length <= 0
-	if option.length is 1
-		return "-#{option}"
-	else
-		return "--#{option}"
+print = (data) ->
+	console.log indent columnify data,
+		showHeaders: false
+		minWidth: 35
 
-addAlias = (alias) ->
-	return ", #{addOptionPrefix(alias)}"
-
-buildOptionSignatureHelp = (option) ->
-	result = addOptionPrefix(option.signature.toString())
-
-	if _.isString(option.alias)
-		result += addAlias(option.alias)
-	else if _.isArray(option.alias)
-		for alias in option.alias
-			result += addAlias(alias)
-
-	if option.parameter?
-		result += " <#{option.parameter}>"
-
-	return result
-
-getCommandHelp = (command) ->
-	maxSignatureLength = getFieldMaxLength(capitano.state.commands, 'signature')
-	commandSignature = _.str.rpad(command.signature.toString(), maxSignatureLength, ' ')
-	return buildHelpString(commandSignature, command.description)
-
-getOptionsParsedSignatures = (optionsHelp) ->
-	maxLength = _.max _.map optionsHelp, (signature) ->
-		return signature.length
-
-	return _.map optionsHelp, (signature) ->
-		return _.str.rpad(signature, maxLength, ' ')
-
-getOptionHelp = (option, maxLength) ->
-	result = PADDING_INITIAL
-	result += _.str.rpad(option.signature, maxLength, ' ')
-	result += PADDING_MIDDLE
-	result += option.description
-	return result
-
-general = ->
+general = (params, options, done) ->
 	console.log('Usage: resin [COMMAND] [OPTIONS]\n')
 	console.log('Commands:\n')
 
-	for command in capitano.state.commands
-		continue if command.isWildcard()
-		console.log(getCommandHelp(command))
+	# We do not want the wildcard command
+	# to be printed in the help screen.
+	commands = _.reject capitano.state.commands, (command) ->
+		return command.isWildcard()
+
+	print(parse(commands))
 
 	if not _.isEmpty(capitano.state.globalOptions)
 		console.log('\nGlobal Options:\n')
+		print(parse(capitano.state.globalOptions))
 
-	options = _.map capitano.state.globalOptions, (option) ->
-		option.signature = buildOptionSignatureHelp(option)
-		return option
-
-	optionSignatureMaxLength = _.max _.map options, (option) ->
-		return option.signature.length
-
-	for option in options
-		console.log(getOptionHelp(option, optionSignatureMaxLength))
-
-	console.log()
+	return done()
 
 command = (params, options, done) ->
 	capitano.state.getMatchCommand params.command, (error, command) ->
 		return done(error) if error?
 
 		if not command? or command.isWildcard()
-			return capitano.defaults.actions.commandNotFound(params.command)
+			return done(new Error("Command not found: #{params.command}"))
 
 		console.log("Usage: #{command.signature}")
 
@@ -98,18 +61,7 @@ command = (params, options, done) ->
 
 		if not _.isEmpty(command.options)
 			console.log('\nOptions:\n')
-
-			options = _.map command.options, (option) ->
-				option.signature = buildOptionSignatureHelp(option)
-				return option
-
-			optionSignatureMaxLength = _.max _.map options, (option) ->
-				return option.signature.toString().length
-
-			for option in options
-				console.log(getOptionHelp(option, optionSignatureMaxLength))
-
-			console.log()
+			print(parse(command.options))
 
 		return done()
 
