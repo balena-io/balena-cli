@@ -56,7 +56,7 @@
     "resin-image-manager": "^2.0.0",
     "resin-pine": "^1.3.0",
     "resin-register-device": "^1.0.1",
-    "resin-sdk": "^2.2.0",
+    "resin-sdk": "^2.4.0",
     "resin-settings-client": "^1.4.0",
     "resin-vcs": "^2.0.0",
     "selfupdate": "^1.1.0",
