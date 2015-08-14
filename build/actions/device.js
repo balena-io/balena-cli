@@ -1,5 +1,7 @@
 (function() {
-  var _, async, capitano, commandOptions, deviceConfig, form, htmlToText, image, inject, manager, pine, registerDevice, resin, vcs, visuals;
+  var Promise, _, async, capitano, commandOptions, deviceConfig, form, htmlToText, image, inject, manager, pine, registerDevice, resin, vcs, visuals;
+
+  Promise = require('bluebird');
 
   capitano = require('capitano');
 
@@ -159,18 +161,17 @@
       if (options.interval == null) {
         options.interval = 3000;
       }
-      return poll = function() {
+      poll = function() {
         return resin.models.device.isOnline(params.uuid).then(function(isOnline) {
           if (isOnline) {
             console.info("Device became online: " + params.uuid);
-            return;
           } else {
             console.info("Polling device network status: " + params.uuid);
             return Promise.delay(options.interval).then(poll);
           }
-          return poll().nodeify(done);
         });
       };
+      return poll().nodeify(done);
     }
   };
 
