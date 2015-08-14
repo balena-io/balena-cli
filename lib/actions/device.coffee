@@ -1,3 +1,4 @@
+Promise = require('bluebird')
 capitano = require('capitano')
 _ = require('lodash')
 async = require('async')
@@ -221,7 +222,7 @@ exports.await =
 				else
 					console.info("Polling device network status: #{params.uuid}")
 					return Promise.delay(options.interval).then(poll)
-    poll().nodeify(done)
+		poll().nodeify(done)
 
 exports.init =
 	signature: 'device init [device]'
