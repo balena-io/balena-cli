@@ -9,7 +9,6 @@
     keys: require('./keys'),
     logs: require('./logs'),
     notes: require('./notes'),
-    preferences: require('./preferences'),
     help: require('./help'),
     plugin: require('./plugin')
   };

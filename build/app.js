@@ -76,8 +76,6 @@
 
   capitano.command(actions.notes.set);
 
-  capitano.command(actions.preferences.preferences);
-
   capitano.command(actions.keys.list);
 
   capitano.command(actions.keys.add);
