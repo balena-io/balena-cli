@@ -157,16 +157,18 @@
     ],
     permission: 'user',
     action: function(params, options, done) {
-      var poll;
+      var poll, spinner;
       if (options.interval == null) {
         options.interval = 3000;
       }
+      spinner = new visuals.Spinner("Awaiting device: " + params.uuid);
       poll = function() {
         return resin.models.device.isOnline(params.uuid).then(function(isOnline) {
           if (isOnline) {
+            spinner.stop();
             console.info("Device became online: " + params.uuid);
           } else {
-            console.info("Polling device network status: " + params.uuid);
+            spinner.start();
             return Promise.delay(options.interval).then(poll);
           }
         });
