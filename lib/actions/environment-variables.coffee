@@ -40,7 +40,15 @@ exports.list =
 				if options.application?
 					resin.models.environmentVariables.getAllByApplication(options.application).nodeify(callback)
 				else if options.device?
-					resin.models.environmentVariables.device.getAll(options.device).nodeify(callback)
+					resin.models.environmentVariables.device.getAll(options.device).map (envVar) ->
+
+						# Device environment variables object contain the name
+						# as `env_var_name` instead of `name`, as the application
+						# environment variables.
+						envVar.name = envVar.env_var_name
+
+						return envVar
+					.nodeify(callback)
 				else
 					return callback(new Error('You must specify an application or device'))
 

@@ -30,7 +30,10 @@
           if (options.application != null) {
             return resin.models.environmentVariables.getAllByApplication(options.application).nodeify(callback);
           } else if (options.device != null) {
-            return resin.models.environmentVariables.device.getAll(options.device).nodeify(callback);
+            return resin.models.environmentVariables.device.getAll(options.device).map(function(envVar) {
+              envVar.name = envVar.env_var_name;
+              return envVar;
+            }).nodeify(callback);
           } else {
             return callback(new Error('You must specify an application or device'));
           }
