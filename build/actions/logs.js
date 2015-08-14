@@ -24,7 +24,9 @@
         return console.log(line.message);
       });
       if (!options.tail) {
-        return promise.nodeify(done);
+        return promise["catch"](done)["finally"](function() {
+          return process.exit(0);
+        });
       }
       return promise.then(function() {
         return resin.logs.subscribe(params.uuid).then(function(logs) {

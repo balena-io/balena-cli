@@ -34,7 +34,12 @@ module.exports =
 			console.log(line.message)
 
 		if not options.tail
-			return promise.nodeify(done)
+
+			# PubNub keeps the process alive after a history query.
+			# Until this is fixed, we force the process to exit.
+			# This of course prevents this command to be used programatically
+			return promise.catch(done).finally ->
+				process.exit(0)
 
 		promise.then ->
 			resin.logs.subscribe(params.uuid).then (logs) ->
