@@ -37,7 +37,15 @@ exports.info =
 	permission: 'user'
 	action: (params, options, done) ->
 		resin.models.key.get(params.id).then (key) ->
-			console.log visuals.table.vertical key, [ 'id', 'title', 'public_key' ]
+			console.log visuals.table.vertical key, [
+				'id'
+				'title'
+			]
+
+			# Since the public key string is long, it might
+			# wrap to lines below, causing the table layout to break.
+			# See https://github.com/resin-io/resin-cli/issues/151
+			console.log('\n' + key.public_key)
 		.nodeify(done)
 
 exports.remove =

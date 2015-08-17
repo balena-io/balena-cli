@@ -38,7 +38,8 @@
     permission: 'user',
     action: function(params, options, done) {
       return resin.models.key.get(params.id).then(function(key) {
-        return console.log(visuals.table.vertical(key, ['id', 'title', 'public_key']));
+        console.log(visuals.table.vertical(key, ['id', 'title']));
+        return console.log('\n' + key.public_key);
       }).nodeify(done);
     }
   };
