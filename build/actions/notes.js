@@ -1,5 +1,7 @@
 (function() {
-  var _, resin;
+  var Promise, _, resin;
+
+  Promise = require('bluebird');
 
   _ = require('lodash');
 
@@ -20,10 +22,12 @@
     ],
     permission: 'user',
     action: function(params, options, done) {
-      if (_.isEmpty(params.note)) {
-        return done(new Error('Missing note content'));
-      }
-      return resin.models.device.note(options.device, params.note).nodeify(done);
+      return Promise["try"](function() {
+        if (_.isEmpty(params.note)) {
+          throw new Error('Missing note content');
+        }
+        return resin.models.device.note(options.device, params.note);
+      }).nodeify(done);
     }
   };
 

@@ -1,3 +1,4 @@
+Promise = require('bluebird')
 _ = require('lodash')
 resin = require('resin-sdk')
 
@@ -25,8 +26,9 @@ exports.set =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
+		Promise.try ->
+			if _.isEmpty(params.note)
+				throw new Error('Missing note content')
 
-		if _.isEmpty(params.note)
-			return done(new Error('Missing note content'))
-
-		resin.models.device.note(options.device, params.note).nodeify(done)
+			resin.models.device.note(options.device, params.note)
+		.nodeify(done)
