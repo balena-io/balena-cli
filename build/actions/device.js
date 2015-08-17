@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, async, capitano, commandOptions, deviceConfig, form, htmlToText, image, inject, manager, pine, registerDevice, resin, vcs, visuals;
+  var Promise, _, async, capitano, commandOptions, deviceConfig, form, helpers, htmlToText, image, inject, manager, pine, registerDevice, resin, vcs, visuals;
 
   Promise = require('bluebird');
 
@@ -31,6 +31,8 @@
 
   htmlToText = require('html-to-text');
 
+  helpers = require('../utils/helpers');
+
   commandOptions = require('./command-options');
 
   exports.list = {
@@ -40,19 +42,14 @@
     options: [commandOptions.optionalApplication],
     permission: 'user',
     action: function(params, options, done) {
-      var getFunction;
-      if (options.application != null) {
-        getFunction = _.partial(resin.models.device.getAllByApplication, options.application);
-      } else {
-        getFunction = resin.models.device.getAll;
-      }
-      return getFunction(function(error, devices) {
-        if (error != null) {
-          return done(error);
+      return Promise["try"](function() {
+        if (options.application != null) {
+          return resin.models.device.getAllByApplication(options.application);
         }
-        console.log(visuals.table.horizontal(devices, ['id', 'name', 'device_type', 'is_online', 'application_name', 'status', 'last_seen']));
-        return done(null, devices);
-      });
+        return resin.models.device.getAll();
+      }).tap(function(devices) {
+        return console.log(visuals.table.horizontal(devices, ['id', 'name', 'device_type', 'is_online', 'application_name', 'status', 'last_seen']));
+      }).nodeify(done);
     }
   };
 
@@ -78,24 +75,12 @@
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
-      return async.waterfall([
-        function(callback) {
-          if (options.yes) {
-            return callback(null, true);
-          } else {
-            return form.ask({
-              message: 'Are you sure you want to delete the device?',
-              type: 'confirm',
-              "default": false
-            }).nodeify(callback);
-          }
-        }, function(confirmed, callback) {
-          if (!confirmed) {
-            return callback();
-          }
-          return resin.models.device.remove(params.uuid).nodeify(callback);
+      return helpers.confirm(options.yes, 'Are you sure you want to delete the device?').then(function(confirmed) {
+        if (!confirmed) {
+          return;
         }
-      ], done);
+        return resin.models.device.remove(params.uuid);
+      }).nodeify(done);
     }
   };
 
@@ -115,19 +100,15 @@
     help: 'Use this command to rename a device.\n\nIf you omit the name, you\'ll get asked for it interactively.\n\nExamples:\n\n	$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 MyPi\n	$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9',
     permission: 'user',
     action: function(params, options, done) {
-      return async.waterfall([
-        function(callback) {
-          if (!_.isEmpty(params.newName)) {
-            return callback(null, params.newName);
-          }
-          return form.ask({
-            message: 'How do you want to name this device?',
-            type: 'input'
-          }).nodeify(callback);
-        }, function(newName, callback) {
-          return resin.models.device.rename(params.uuid, newName).nodeify(callback);
+      return Promise["try"](function() {
+        if (!_.isEmpty(params.newName)) {
+          return params.newName;
         }
-      ], done);
+        return form.ask({
+          message: 'How do you want to name this device?',
+          type: 'input'
+        });
+      }).then(_.partial(resin.models.device.rename, params.uuid)).nodeify(done);
     }
   };
 
@@ -137,9 +118,7 @@
     help: 'Use this command to get the list of all supported devices\n\nExamples:\n\n	$ resin devices supported',
     permission: 'user',
     action: function(params, options, done) {
-      return resin.models.device.getSupportedDeviceTypes().each(function(device) {
-        return console.log(device);
-      }).nodeify(done);
+      return resin.models.device.getSupportedDeviceTypes().each(console.log).nodeify(done);
     }
   };
 
