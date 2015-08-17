@@ -214,13 +214,20 @@ exports.await =
 	action: (params, options, done) ->
 		options.interval ?= 3000
 
+		spinner = new visuals.Spinner("Awaiting device: #{params.uuid}")
+
 		poll = ->
 			resin.models.device.isOnline(params.uuid).then (isOnline) ->
 				if isOnline
+					spinner.stop()
 					console.info("Device became online: #{params.uuid}")
 					return
 				else
-					console.info("Polling device network status: #{params.uuid}")
+
+					# Spinner implementation is smart enough to
+					# not start again if it was already started
+					spinner.start()
+
 					return Promise.delay(options.interval).then(poll)
 		poll().nodeify(done)
 
