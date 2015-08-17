@@ -1,13 +1,11 @@
 (function() {
-  var _, async, capitano, commandOptions, form, fs, resin, visuals;
+  var Promise, _, capitano, commandOptions, fs, helpers, resin, visuals;
+
+  Promise = require('bluebird');
+
+  fs = Promise.promisifyAll(require('fs'));
 
   _ = require('lodash');
-
-  _.str = require('underscore.string');
-
-  async = require('async');
-
-  fs = require('fs');
 
   resin = require('resin-sdk');
 
@@ -17,7 +15,7 @@
 
   commandOptions = require('./command-options');
 
-  form = require('resin-cli-form');
+  helpers = require('../utils/helpers');
 
   exports.list = {
     signature: 'keys',
@@ -51,24 +49,12 @@
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
-      return async.waterfall([
-        function(callback) {
-          if (options.yes) {
-            return callback(null, true);
-          } else {
-            return form.ask({
-              message: 'Are you sure you want to delete the key?',
-              type: 'confirm',
-              "default": false
-            }).nodeify(callback);
-          }
-        }, function(confirmed, callback) {
-          if (!confirmed) {
-            return callback();
-          }
-          return resin.models.key.remove(params.id).nodeify(callback);
+      return helpers.confirm(options.yes, 'Are you sure you want to delete the key?').then(function(confirmed) {
+        if (!confirmed) {
+          return;
         }
-      ], done);
+        return resin.models.key.remove(params.id);
+      }).nodeify(done);
     }
   };
 
@@ -78,21 +64,18 @@
     help: 'Use this command to associate a new SSH key with your account.\n\nIf `path` is omitted, the command will attempt\nto read the SSH key from stdin.\n\nExamples:\n\n	$ resin key add Main ~/.ssh/id_rsa.pub\n	$ cat ~/.ssh/id_rsa.pub | resin key add Main',
     permission: 'user',
     action: function(params, options, done) {
-      return async.waterfall([
-        function(callback) {
-          if (params.path != null) {
-            return fs.readFile(params.path, {
-              encoding: 'utf8'
-            }, callback);
-          } else {
-            return capitano.utils.getStdin(function(data) {
-              return callback(null, data);
-            });
-          }
-        }, function(key, callback) {
-          return resin.models.key.create(params.name, key).nodeify(callback);
+      return Promise["try"](function() {
+        if (params.path != null) {
+          return fs.readFileAsync(params.path, {
+            encoding: 'utf8'
+          });
         }
-      ], done);
+        return Promise.fromNode(function(callback) {
+          return capitano.utils.getStdin(function(data) {
+            return callback(null, data);
+          });
+        });
+      }).then(_.partial(resin.models.key.create, params.name)).nodeify(done);
     }
   };
 
