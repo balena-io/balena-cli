@@ -1,12 +1,11 @@
+Promise = require('bluebird')
+fs = Promise.promisifyAll(require('fs'))
 _ = require('lodash')
-_.str = require('underscore.string')
-async = require('async')
-fs = require('fs')
 resin = require('resin-sdk')
 capitano = require('capitano')
 visuals = require('resin-cli-visuals')
 commandOptions = require('./command-options')
-form = require('resin-cli-form')
+helpers = require('../utils/helpers')
 
 exports.list =
 	signature: 'keys'
@@ -21,7 +20,10 @@ exports.list =
 	permission: 'user'
 	action: (params, options, done) ->
 		resin.models.key.getAll().then (keys) ->
-			console.log visuals.table.horizontal keys, [ 'id', 'title' ]
+			console.log visuals.table.horizontal keys, [
+				'id'
+				'title'
+			]
 		.nodeify(done)
 
 exports.info =
@@ -65,22 +67,10 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		async.waterfall [
-
-			(callback) ->
-				if options.yes
-					return callback(null, true)
-				else
-					form.ask
-						message: 'Are you sure you want to delete the key?'
-						type: 'confirm'
-						default: false
-					.nodeify(callback)
-
-			(confirmed, callback) ->
-				return callback() if not confirmed
-				resin.models.key.remove(params.id).nodeify(callback)
-		], done
+		helpers.confirm(options.yes, 'Are you sure you want to delete the key?').then (confirmed) ->
+			return if not confirmed
+			resin.models.key.remove(params.id)
+		.nodeify(done)
 
 exports.add =
 	signature: 'key add <name> [path]'
@@ -98,16 +88,12 @@ exports.add =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		async.waterfall [
+		Promise.try ->
+			return fs.readFileAsync(params.path, encoding: 'utf8') if params.path?
 
-			(callback) ->
-				if params.path?
-					fs.readFile(params.path, encoding: 'utf8', callback)
-				else
-					capitano.utils.getStdin (data) ->
-						return callback(null, data)
+			Promise.fromNode (callback) ->
+				capitano.utils.getStdin (data) ->
+					return callback(null, data)
 
-			(key, callback) ->
-				resin.models.key.create(params.name, key).nodeify(callback)
-
-		], done
+		.then(_.partial(resin.models.key.create, params.name))
+		.nodeify(done)
