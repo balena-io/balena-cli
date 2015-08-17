@@ -13,6 +13,7 @@ pine = require('resin-pine')
 deviceConfig = require('resin-device-config')
 form = require('resin-cli-form')
 htmlToText = require('html-to-text')
+helpers = require('../utils/helpers')
 
 commandOptions = require('./command-options')
 
@@ -34,13 +35,12 @@ exports.list =
 	options: [ commandOptions.optionalApplication ]
 	permission: 'user'
 	action: (params, options, done) ->
-		if options.application?
-			getFunction = _.partial(resin.models.device.getAllByApplication, options.application)
-		else
-			getFunction = resin.models.device.getAll
+		Promise.try ->
+			if options.application?
+				return resin.models.device.getAllByApplication(options.application)
+			return resin.models.device.getAll()
 
-		getFunction (error, devices) ->
-			return done(error) if error?
+		.tap (devices) ->
 			console.log visuals.table.horizontal devices, [
 				'id'
 				'name'
@@ -50,8 +50,7 @@ exports.list =
 				'status'
 				'last_seen'
 			]
-
-			return done(null, devices)
+		.nodeify(done)
 
 exports.info =
 	signature: 'device <uuid>'
@@ -87,7 +86,6 @@ exports.info =
 				'is_web_accessible'
 				'note'
 			]
-
 		.nodeify(done)
 
 exports.remove =
@@ -107,22 +105,10 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		async.waterfall [
-
-			(callback) ->
-				if options.yes
-					return callback(null, true)
-				else
-					form.ask
-						message: 'Are you sure you want to delete the device?'
-						type: 'confirm'
-						default: false
-					.nodeify(callback)
-
-			(confirmed, callback) ->
-				return callback() if not confirmed
-				resin.models.device.remove(params.uuid).nodeify(callback)
-		], done
+		helpers.confirm(options.yes, 'Are you sure you want to delete the device?').then (confirmed) ->
+			return if not confirmed
+			resin.models.device.remove(params.uuid)
+		.nodeify(done)
 
 exports.identify =
 	signature: 'device identify <uuid>'
@@ -155,21 +141,15 @@ exports.rename =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		async.waterfall [
+		Promise.try ->
+			return params.newName if not _.isEmpty(params.newName)
 
-			(callback) ->
-				if not _.isEmpty(params.newName)
-					return callback(null, params.newName)
+			form.ask
+				message: 'How do you want to name this device?'
+				type: 'input'
 
-				form.ask
-					message: 'How do you want to name this device?'
-					type: 'input'
-				.nodeify(callback)
-
-			(newName, callback) ->
-				resin.models.device.rename(params.uuid, newName).nodeify(callback)
-
-		], done
+		.then(_.partial(resin.models.device.rename, params.uuid))
+		.nodeify(done)
 
 exports.supported =
 	signature: 'devices supported'
@@ -183,9 +163,7 @@ exports.supported =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin.models.device.getSupportedDeviceTypes().each (device) ->
-			console.log(device)
-		.nodeify(done)
+		resin.models.device.getSupportedDeviceTypes().each(console.log).nodeify(done)
 
 exports.await =
 	signature: 'device await <uuid>'
