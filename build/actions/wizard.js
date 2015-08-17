@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, async, capitano, form, mkdirp, path, resin, userHome, visuals;
+  var Promise, _, async, capitano, form, mkdirp, resin, visuals;
 
   _ = require('lodash');
 
@@ -7,11 +7,7 @@
 
   capitano = Promise.promisifyAll(require('capitano'));
 
-  path = require('path');
-
   mkdirp = require('mkdirp');
-
-  userHome = require('user-home');
 
   visuals = require('resin-cli-visuals');
 
@@ -86,10 +82,12 @@
           return capitano.run("device " + params.uuid, callback);
         }, function(callback) {
           console.log('Your device is ready, lets start pushing some code!');
-          return form.ask({
-            message: 'Please choose a directory for your code',
-            type: 'input',
-            "default": path.join(userHome, 'ResinProjects', params.name)
+          return resin.settings.get('projectsDirectory').then(function(projectsDirectory) {
+            return form.ask({
+              message: 'Please choose a directory for your code',
+              type: 'input',
+              "default": projectsDirectory
+            });
           }).nodeify(callback);
         }, function(directoryName, callback) {
           params.directory = directoryName;

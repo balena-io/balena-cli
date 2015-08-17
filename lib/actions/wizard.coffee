@@ -1,9 +1,7 @@
 _ = require('lodash')
 Promise = require('bluebird')
 capitano = Promise.promisifyAll(require('capitano'))
-path = require('path')
 mkdirp = require('mkdirp')
-userHome = require('user-home')
 visuals = require('resin-cli-visuals')
 async = require('async')
 resin = require('resin-sdk')
@@ -97,12 +95,11 @@ exports.wizard =
 
 			(callback) ->
 				console.log('Your device is ready, lets start pushing some code!')
-				form.ask
-					message: 'Please choose a directory for your code'
-					type: 'input'
-
-					# TODO: Move this to resin-settings-client.
-					default: path.join(userHome, 'ResinProjects', params.name)
+				resin.settings.get('projectsDirectory').then (projectsDirectory) ->
+					form.ask
+						message: 'Please choose a directory for your code'
+						type: 'input'
+						default: projectsDirectory
 				.nodeify(callback)
 
 			(directoryName, callback) ->
