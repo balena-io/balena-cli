@@ -1,7 +1,7 @@
 (function() {
-  var _, async, commandOptions, resin, visuals;
+  var Promise, _, commandOptions, helpers, resin, visuals;
 
-  async = require('async');
+  Promise = require('bluebird');
 
   _ = require('lodash');
 
@@ -10,6 +10,8 @@
   visuals = require('resin-cli-visuals');
 
   commandOptions = require('./command-options');
+
+  helpers = require('../utils/helpers');
 
   exports.list = {
     signature: 'envs',
@@ -25,25 +27,22 @@
     ],
     permission: 'user',
     action: function(params, options, done) {
-      return async.waterfall([
-        function(callback) {
-          if (options.application != null) {
-            return resin.models.environmentVariables.getAllByApplication(options.application).nodeify(callback);
-          } else if (options.device != null) {
-            return resin.models.environmentVariables.device.getAll(options.device).nodeify(callback);
-          } else {
-            return callback(new Error('You must specify an application or device'));
-          }
-        }, function(environmentVariables, callback) {
-          var isSystemVariable;
-          if (!options.verbose) {
-            isSystemVariable = resin.models.environmentVariables.isSystemVariable;
-            environmentVariables = _.reject(environmentVariables, isSystemVariable);
-          }
-          console.log(visuals.table.horizontal(environmentVariables, ['id', 'name', 'value']));
-          return callback();
+      return Promise["try"](function() {
+        if (options.application != null) {
+          return resin.models.environmentVariables.getAllByApplication(options.application);
+        } else if (options.device != null) {
+          return resin.models.environmentVariables.device.getAll(options.device);
+        } else {
+          throw new Error('You must specify an application or device');
         }
-      ], done);
+      }).tap(function(environmentVariables) {
+        var isSystemVariable;
+        if (!options.verbose) {
+          isSystemVariable = resin.models.environmentVariables.isSystemVariable;
+          environmentVariables = _.reject(environmentVariables, isSystemVariable);
+        }
+        return console.log(visuals.table.horizontal(environmentVariables, ['id', 'name', 'value']));
+      }).nodeify(done);
     }
   };
 
@@ -54,28 +53,16 @@
     options: [commandOptions.yes, commandOptions.booleanDevice],
     permission: 'user',
     action: function(params, options, done) {
-      return async.waterfall([
-        function(callback) {
-          if (options.yes) {
-            return callback(null, true);
-          } else {
-            return form.ask({
-              message: 'Are you sure you want to delete the environment variable?',
-              type: 'confirm',
-              "default": false
-            }).nodeify(callback);
-          }
-        }, function(confirmed, callback) {
-          if (!confirmed) {
-            return callback();
-          }
-          if (options.device) {
-            return resin.models.environmentVariables.device.remove(params.id).nodeify(callback);
-          } else {
-            return resin.models.environmentVariables.remove(params.id).nodeify(callback);
-          }
+      return helpers.confirm(options.yes, 'Are you sure you want to delete the environment variable?').then(function(confirmed) {
+        if (!confirmed) {
+          return;
         }
-      ], done);
+        if (options.device) {
+          return resin.models.environmentVariables.device.remove(params.id);
+        } else {
+          return resin.models.environmentVariables.remove(params.id);
+        }
+      }).nodeify(done);
     }
   };
 
@@ -86,21 +73,23 @@
     options: [commandOptions.optionalApplication, commandOptions.optionalDevice],
     permission: 'user',
     action: function(params, options, done) {
-      if (params.value == null) {
-        params.value = process.env[params.key];
+      return Promise["try"](function() {
         if (params.value == null) {
-          return done(new Error("Environment value not found for key: " + params.key));
-        } else {
-          console.info("Warning: using " + params.key + "=" + params.value + " from host environment");
+          params.value = process.env[params.key];
+          if (params.value == null) {
+            throw new Error("Environment value not found for key: " + params.key);
+          } else {
+            console.info("Warning: using " + params.key + "=" + params.value + " from host environment");
+          }
         }
-      }
-      if (options.application != null) {
-        return resin.models.environmentVariables.create(options.application, params.key, params.value).nodeify(done);
-      } else if (options.device != null) {
-        return resin.models.environmentVariables.device.create(options.device, params.key, params.value).nodeify(done);
-      } else {
-        return done(new Error('You must specify an application or device'));
-      }
+        if (options.application != null) {
+          return resin.models.environmentVariables.create(options.application, params.key, params.value);
+        } else if (options.device != null) {
+          return resin.models.environmentVariables.device.create(options.device, params.key, params.value);
+        } else {
+          throw new Error('You must specify an application or device');
+        }
+      }).nodeify(done);
     }
   };
 
@@ -111,11 +100,13 @@
     permission: 'user',
     options: [commandOptions.booleanDevice],
     action: function(params, options, done) {
-      if (options.device) {
-        return resin.models.environmentVariables.device.update(params.id, params.value).nodeify(done);
-      } else {
-        return resin.models.environmentVariables.update(params.id, params.value).nodeify(done);
-      }
+      return Promise["try"](function() {
+        if (options.device) {
+          return resin.models.environmentVariables.device.update(params.id, params.value);
+        } else {
+          return resin.models.environmentVariables.update(params.id, params.value);
+        }
+      }).nodeify(done);
     }
   };
 

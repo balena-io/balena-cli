@@ -1,8 +1,9 @@
-async = require('async')
+Promise = require('bluebird')
 _ = require('lodash')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
 commandOptions = require('./command-options')
+helpers = require('../utils/helpers')
 
 exports.list =
 	signature: 'envs'
@@ -34,31 +35,25 @@ exports.list =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
-		async.waterfall [
+		Promise.try ->
+			if options.application?
+				return resin.models.environmentVariables.getAllByApplication(options.application)
+			else if options.device?
+				return resin.models.environmentVariables.device.getAll(options.device)
+			else
+				throw new Error('You must specify an application or device')
 
-			(callback) ->
-				if options.application?
-					resin.models.environmentVariables.getAllByApplication(options.application).nodeify(callback)
-				else if options.device?
-					resin.models.environmentVariables.device.getAll(options.device).nodeify(callback)
-				else
-					return callback(new Error('You must specify an application or device'))
+		.tap (environmentVariables) ->
+			if not options.verbose
+				isSystemVariable = resin.models.environmentVariables.isSystemVariable
+				environmentVariables = _.reject(environmentVariables, isSystemVariable)
 
-			(environmentVariables, callback) ->
-
-				if not options.verbose
-					isSystemVariable = resin.models.environmentVariables.isSystemVariable
-					environmentVariables = _.reject(environmentVariables, isSystemVariable)
-
-				console.log visuals.table.horizontal environmentVariables, [
-					'id'
-					'name'
-					'value'
-				]
-
-				return callback()
-
-		], done
+			console.log visuals.table.horizontal environmentVariables, [
+				'id'
+				'name'
+				'value'
+			]
+		.nodeify(done)
 
 exports.remove =
 	signature: 'env rm <id>'
@@ -85,25 +80,14 @@ exports.remove =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
-		async.waterfall [
+		helpers.confirm(options.yes, 'Are you sure you want to delete the environment variable?').then (confirmed) ->
+			return if not confirmed
 
-			(callback) ->
-				if options.yes
-					return callback(null, true)
-				else
-					form.ask
-						message: 'Are you sure you want to delete the environment variable?'
-						type: 'confirm'
-						default: false
-					.nodeify(callback)
-
-			(confirmed, callback) ->
-				return callback() if not confirmed
-				if options.device
-					resin.models.environmentVariables.device.remove(params.id).nodeify(callback)
-				else
-					resin.models.environmentVariables.remove(params.id).nodeify(callback)
-		], done
+			if options.device
+				resin.models.environmentVariables.device.remove(params.id)
+			else
+				resin.models.environmentVariables.remove(params.id)
+		.nodeify(done)
 
 exports.add =
 	signature: 'env add <key> [value]'
@@ -132,20 +116,22 @@ exports.add =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
-		if not params.value?
-			params.value = process.env[params.key]
-
+		Promise.try ->
 			if not params.value?
-				return done(new Error("Environment value not found for key: #{params.key}"))
-			else
-				console.info("Warning: using #{params.key}=#{params.value} from host environment")
+				params.value = process.env[params.key]
 
-		if options.application?
-			resin.models.environmentVariables.create(options.application, params.key, params.value).nodeify(done)
-		else if options.device?
-			resin.models.environmentVariables.device.create(options.device, params.key, params.value).nodeify(done)
-		else
-			return done(new Error('You must specify an application or device'))
+				if not params.value?
+					throw new Error("Environment value not found for key: #{params.key}")
+				else
+					console.info("Warning: using #{params.key}=#{params.value} from host environment")
+
+			if options.application?
+				resin.models.environmentVariables.create(options.application, params.key, params.value)
+			else if options.device?
+				resin.models.environmentVariables.device.create(options.device, params.key, params.value)
+			else
+				throw new Error('You must specify an application or device')
+		.nodeify(done)
 
 exports.rename =
 	signature: 'env rename <id> <value>'
@@ -163,7 +149,9 @@ exports.rename =
 	permission: 'user'
 	options: [ commandOptions.booleanDevice ]
 	action: (params, options, done) ->
-		if options.device
-			resin.models.environmentVariables.device.update(params.id, params.value).nodeify(done)
-		else
-			resin.models.environmentVariables.update(params.id, params.value).nodeify(done)
+		Promise.try ->
+			if options.device
+				resin.models.environmentVariables.device.update(params.id, params.value)
+			else
+				resin.models.environmentVariables.update(params.id, params.value)
+		.nodeify(done)
