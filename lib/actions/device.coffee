@@ -151,20 +151,6 @@ exports.rename =
 		.then(_.partial(resin.models.device.rename, params.uuid))
 		.nodeify(done)
 
-exports.supported =
-	signature: 'devices supported'
-	description: 'list all supported devices'
-	help: '''
-		Use this command to get the list of all supported devices
-
-		Examples:
-
-			$ resin devices supported
-	'''
-	permission: 'user'
-	action: (params, options, done) ->
-		resin.models.device.getSupportedDeviceTypes().each(console.log).nodeify(done)
-
 exports.await =
 	signature: 'device await <uuid>'
 	description: 'await for a device to become online'
