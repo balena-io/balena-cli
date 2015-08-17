@@ -1,5 +1,5 @@
 (function() {
-  var PADDING_INITIAL, PADDING_MIDDLE, _, addAlias, addOptionPrefix, buildHelpString, buildOptionSignatureHelp, capitano, command, general, getCommandHelp, getFieldMaxLength, getOptionHelp, getOptionsParsedSignatures;
+  var _, capitano, columnify, command, general, indent, parse, print;
 
   _ = require('lodash');
 
@@ -7,119 +7,56 @@
 
   capitano = require('capitano');
 
-  PADDING_INITIAL = '    ';
+  columnify = require('columnify');
 
-  PADDING_MIDDLE = '\t';
-
-  getFieldMaxLength = function(array, field) {
-    return _.max(_.map(array, function(item) {
-      return item[field].toString().length;
-    }));
-  };
-
-  buildHelpString = function(firstColumn, secondColumn) {
-    var result;
-    result = "" + PADDING_INITIAL + firstColumn;
-    result += "" + PADDING_MIDDLE + secondColumn;
-    return result;
-  };
-
-  addOptionPrefix = function(option) {
-    if (option.length <= 0) {
-      return;
-    }
-    if (option.length === 1) {
-      return "-" + option;
-    } else {
-      return "--" + option;
-    }
-  };
-
-  addAlias = function(alias) {
-    return ", " + (addOptionPrefix(alias));
-  };
-
-  buildOptionSignatureHelp = function(option) {
-    var alias, i, len, ref, result;
-    result = addOptionPrefix(option.signature.toString());
-    if (_.isString(option.alias)) {
-      result += addAlias(option.alias);
-    } else if (_.isArray(option.alias)) {
-      ref = option.alias;
-      for (i = 0, len = ref.length; i < len; i++) {
-        alias = ref[i];
-        result += addAlias(alias);
+  parse = function(object) {
+    return _.object(_.map(object, function(item) {
+      var signature;
+      if (item.alias != null) {
+        signature = item.toString();
+      } else {
+        signature = item.signature.toString();
       }
-    }
-    if (option.parameter != null) {
-      result += " <" + option.parameter + ">";
-    }
-    return result;
-  };
-
-  getCommandHelp = function(command) {
-    var commandSignature, maxSignatureLength;
-    maxSignatureLength = getFieldMaxLength(capitano.state.commands, 'signature');
-    commandSignature = _.str.rpad(command.signature.toString(), maxSignatureLength, ' ');
-    return buildHelpString(commandSignature, command.description);
-  };
-
-  getOptionsParsedSignatures = function(optionsHelp) {
-    var maxLength;
-    maxLength = _.max(_.map(optionsHelp, function(signature) {
-      return signature.length;
+      return [signature, item.description];
     }));
-    return _.map(optionsHelp, function(signature) {
-      return _.str.rpad(signature, maxLength, ' ');
+  };
+
+  indent = function(text) {
+    text = _.map(_.str.lines(text), function(line) {
+      return '    ' + line;
     });
+    return text.join('\n');
   };
 
-  getOptionHelp = function(option, maxLength) {
-    var result;
-    result = PADDING_INITIAL;
-    result += _.str.rpad(option.signature, maxLength, ' ');
-    result += PADDING_MIDDLE;
-    result += option.description;
-    return result;
+  print = function(data) {
+    return console.log(indent(columnify(data, {
+      showHeaders: false,
+      minWidth: 35
+    })));
   };
 
-  general = function() {
-    var command, i, j, len, len1, option, optionSignatureMaxLength, options, ref;
+  general = function(params, options, done) {
+    var commands;
     console.log('Usage: resin [COMMAND] [OPTIONS]\n');
     console.log('Commands:\n');
-    ref = capitano.state.commands;
-    for (i = 0, len = ref.length; i < len; i++) {
-      command = ref[i];
-      if (command.isWildcard()) {
-        continue;
-      }
-      console.log(getCommandHelp(command));
-    }
+    commands = _.reject(capitano.state.commands, function(command) {
+      return command.isWildcard();
+    });
+    print(parse(commands));
     if (!_.isEmpty(capitano.state.globalOptions)) {
       console.log('\nGlobal Options:\n');
+      print(parse(capitano.state.globalOptions));
     }
-    options = _.map(capitano.state.globalOptions, function(option) {
-      option.signature = buildOptionSignatureHelp(option);
-      return option;
-    });
-    optionSignatureMaxLength = _.max(_.map(options, function(option) {
-      return option.signature.length;
-    }));
-    for (j = 0, len1 = options.length; j < len1; j++) {
-      option = options[j];
-      console.log(getOptionHelp(option, optionSignatureMaxLength));
-    }
-    return console.log();
+    return done();
   };
 
   command = function(params, options, done) {
     return capitano.state.getMatchCommand(params.command, function(error, command) {
-      var i, len, option, optionSignatureMaxLength;
       if (error != null) {
         return done(error);
       }
       if ((command == null) || command.isWildcard()) {
-        return capitano.defaults.actions.commandNotFound(params.command);
+        return done(new Error("Command not found: " + params.command));
       }
       console.log("Usage: " + command.signature);
       if (command.help != null) {
@@ -129,18 +66,7 @@
       }
       if (!_.isEmpty(command.options)) {
         console.log('\nOptions:\n');
-        options = _.map(command.options, function(option) {
-          option.signature = buildOptionSignatureHelp(option);
-          return option;
-        });
-        optionSignatureMaxLength = _.max(_.map(options, function(option) {
-          return option.signature.toString().length;
-        }));
-        for (i = 0, len = options.length; i < len; i++) {
-          option = options[i];
-          console.log(getOptionHelp(option, optionSignatureMaxLength));
-        }
-        console.log();
+        print(parse(command.options));
       }
       return done();
     });
