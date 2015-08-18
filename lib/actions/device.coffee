@@ -332,6 +332,7 @@ exports.init =
 
 			(results, callback) ->
 				console.info('Initializing device operating system image')
+				console.info('This may take a few minutes')
 
 				if process.env.DEBUG
 					console.log(results.config)
