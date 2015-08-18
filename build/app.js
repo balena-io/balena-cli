@@ -1,5 +1,5 @@
 (function() {
-  var _, actions, async, capitano, errors, plugins, resin;
+  var _, actions, async, capitano, errors, plugins, resin, update;
 
   _ = require('lodash');
 
@@ -14,6 +14,8 @@
   errors = require('./errors');
 
   plugins = require('./plugins');
+
+  update = require('./utils/update');
 
   capitano.permission('user', function(done) {
     return resin.auth.isLoggedIn().then(function(isLoggedIn) {
@@ -99,6 +101,8 @@
   capitano.command(actions.plugin.update);
 
   capitano.command(actions.plugin.remove);
+
+  update.notify();
 
   async.waterfall([
     function(callback) {
