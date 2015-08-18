@@ -250,7 +250,7 @@
           });
         }, function(results, callback) {
           var bar, spinner;
-          console.info('Configuring device operating system image');
+          console.info('Initializing device operating system image');
           if (process.env.DEBUG) {
             console.log(results.config);
           }
