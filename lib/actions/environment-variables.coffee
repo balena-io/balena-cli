@@ -44,6 +44,8 @@ exports.list =
 				throw new Error('You must specify an application or device')
 
 		.tap (environmentVariables) ->
+			if _.isEmpty(environmentVariables)
+				throw new Error('No environment variables found')
 			if not options.verbose
 				isSystemVariable = resin.models.environmentVariables.isSystemVariable
 				environmentVariables = _.reject(environmentVariables, isSystemVariable)

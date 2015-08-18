@@ -37,6 +37,9 @@
         }
       }).tap(function(environmentVariables) {
         var isSystemVariable;
+        if (_.isEmpty(environmentVariables)) {
+          throw new Error('No environment variables found');
+        }
         if (!options.verbose) {
           isSystemVariable = resin.models.environmentVariables.isSystemVariable;
           environmentVariables = _.reject(environmentVariables, isSystemVariable);
