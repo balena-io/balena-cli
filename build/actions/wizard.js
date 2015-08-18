@@ -98,7 +98,7 @@
           return capitano.run("app associate " + params.name, callback);
         }, function(remoteUrl, callback) {
           console.log("Resin git remote added: " + remoteUrl);
-          console.log('Please type "git push resin master" into your project directory now!');
+          console.log("Please type:\n\n	$ cd " + params.directory + " && git push resin master\n\nTo push your project to resin.io.");
           return callback();
         }
       ], done);
