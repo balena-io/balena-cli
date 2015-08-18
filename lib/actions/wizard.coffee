@@ -113,7 +113,13 @@ exports.wizard =
 
 			(remoteUrl, callback) ->
 				console.log("Resin git remote added: #{remoteUrl}")
-				console.log('Please type "git push resin master" into your project directory now!')
+				console.log """
+					Please type:
+
+						$ cd #{params.directory} && git push resin master
+
+					To push your project to resin.io.
+				"""
 				return callback()
 
 		], done
