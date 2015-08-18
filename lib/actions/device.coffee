@@ -331,7 +331,7 @@ exports.init =
 					return callback(null, results)
 
 			(results, callback) ->
-				console.info('Configuring device operating system image')
+				console.info('Initializing device operating system image')
 
 				if process.env.DEBUG
 					console.log(results.config)
