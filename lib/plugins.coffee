@@ -20,15 +20,3 @@ exports.register = (prefix, callback) ->
 				console.error(error.message)
 
 		return callback()
-
-exports.list = ->
-	nplugm.list.apply(nplugm, arguments)
-
-exports.install = ->
-	nplugm.install.apply(nplugm, arguments)
-
-exports.update = ->
-	nplugm.update.apply(nplugm, arguments)
-
-exports.remove = ->
-	nplugm.remove.apply(nplugm, arguments)

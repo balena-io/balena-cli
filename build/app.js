@@ -94,14 +94,6 @@
 
   capitano.command(actions.logs);
 
-  capitano.command(actions.plugin.list);
-
-  capitano.command(actions.plugin.install);
-
-  capitano.command(actions.plugin.update);
-
-  capitano.command(actions.plugin.remove);
-
   update.notify();
 
   async.waterfall([
