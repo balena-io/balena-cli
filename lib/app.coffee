@@ -68,12 +68,6 @@ capitano.command(actions.env.remove)
 # ---------- Logs Module ----------
 capitano.command(actions.logs)
 
-# ---------- Plugins Module ----------
-capitano.command(actions.plugin.list)
-capitano.command(actions.plugin.install)
-capitano.command(actions.plugin.update)
-capitano.command(actions.plugin.remove)
-
 update.notify()
 
 async.waterfall([
