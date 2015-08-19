@@ -1,10 +1,10 @@
 _ = require('lodash')
-async = require('async')
-capitano = require('capitano')
+Promise = require('bluebird')
+capitano = Promise.promisifyAll(require('capitano'))
 resin = require('resin-sdk')
 actions = require('./actions')
 errors = require('./errors')
-plugins = require('./plugins')
+plugins = require('./utils/plugins')
 update = require('./utils/update')
 
 capitano.permission 'user', (done) ->
@@ -70,13 +70,7 @@ capitano.command(actions.logs)
 
 update.notify()
 
-async.waterfall([
-
-	(callback) ->
-		plugins.register('resin-plugin-', callback)
-
-	(callback) ->
-		cli = capitano.parse(process.argv)
-		capitano.execute(cli, callback)
-
-], errors.handle)
+plugins.register(/^resin-plugin-(.+)$/).then ->
+	cli = capitano.parse(process.argv)
+	capitano.executeAsync(cli)
+.catch(errors.handle)
