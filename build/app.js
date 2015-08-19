@@ -1,11 +1,11 @@
 (function() {
-  var _, actions, async, capitano, errors, plugins, resin, update;
+  var Promise, _, actions, capitano, errors, plugins, resin, update;
 
   _ = require('lodash');
 
-  async = require('async');
+  Promise = require('bluebird');
 
-  capitano = require('capitano');
+  capitano = Promise.promisifyAll(require('capitano'));
 
   resin = require('resin-sdk');
 
@@ -13,7 +13,7 @@
 
   errors = require('./errors');
 
-  plugins = require('./plugins');
+  plugins = require('./utils/plugins');
 
   update = require('./utils/update');
 
@@ -96,14 +96,10 @@
 
   update.notify();
 
-  async.waterfall([
-    function(callback) {
-      return plugins.register('resin-plugin-', callback);
-    }, function(callback) {
-      var cli;
-      cli = capitano.parse(process.argv);
-      return capitano.execute(cli, callback);
-    }
-  ], errors.handle);
+  plugins.register(/^resin-plugin-(.+)$/).then(function() {
+    var cli;
+    cli = capitano.parse(process.argv);
+    return capitano.executeAsync(cli);
+  })["catch"](errors.handle);
 
 }).call(this);
