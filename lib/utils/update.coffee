@@ -1,7 +1,12 @@
 updateNotifier = require('update-notifier')
+isRoot = require('is-root')
 packageJSON = require('../../package.json')
 
-notifier = updateNotifier(pkg: packageJSON)
+# `update-notifier` creates files to make the next
+# running time ask for updated, however this can lead
+# to ugly EPERM issues if those files are created as root.
+if not isRoot()
+	notifier = updateNotifier(pkg: packageJSON)
 
 exports.hasAvailableUpdate = ->
 	return notifier?
