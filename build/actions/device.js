@@ -176,7 +176,10 @@
           if (params.device != null) {
             return callback(null, params.device);
           }
-          return visuals.drive().nodeify(callback);
+          return form.ask({
+            type: 'drive',
+            message: 'Select a drive'
+          }).nodeify(callback);
         }, function(device, callback) {
           var message;
           params.device = device;
