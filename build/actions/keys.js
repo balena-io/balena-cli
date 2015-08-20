@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, capitano, commandOptions, events, fs, helpers, resin, visuals;
+  var Promise, _, capitano, commandOptions, events, fs, patterns, resin, visuals;
 
   Promise = require('bluebird');
 
@@ -17,7 +17,7 @@
 
   commandOptions = require('./command-options');
 
-  helpers = require('../utils/helpers');
+  patterns = require('../utils/patterns');
 
   exports.list = {
     signature: 'keys',
@@ -51,7 +51,7 @@
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
-      return helpers.confirm(options.yes, 'Are you sure you want to delete the key?').then(function() {
+      return patterns.confirm(options.yes, 'Are you sure you want to delete the key?').then(function() {
         return resin.models.key.remove(params.id);
       }).tap(function() {
         return events.send('publicKey.delete', {

@@ -5,6 +5,7 @@ commandOptions = require('./command-options')
 vcs = require('resin-vcs')
 events = require('resin-cli-events')
 helpers = require('../utils/helpers')
+patterns = require('../utils/patterns')
 
 exports.create =
 	signature: 'app create <name>'
@@ -42,7 +43,7 @@ exports.create =
 			if hasApplication
 				throw new Error('You already have an application with that name!')
 
-		.then(helpers.selectDeviceType).then (deviceType) ->
+		.then(patterns.selectDeviceType).then (deviceType) ->
 			return resin.models.application.create(params.name, deviceType)
 		.then (application) ->
 			console.info("Application created: #{application.app_name} (#{application.device_type}, id #{application.id})")
@@ -128,7 +129,7 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		helpers.confirm(options.yes, 'Are you sure you want to delete the application?').then ->
+		patterns.confirm(options.yes, 'Are you sure you want to delete the application?').then ->
 			resin.models.application.remove(params.name)
 		.tap ->
 			resin.models.application.get(params.name).then (application) ->
@@ -162,7 +163,7 @@ exports.associate =
 
 		.then ->
 			message = "Are you sure you want to associate #{currentDirectory} with #{params.name}?"
-			helpers.confirm(options.yes, message)
+			patterns.confirm(options.yes, message)
 		.then ->
 
 			resin.models.application.get(params.name).get('git_repository').then (gitRepository) ->

@@ -1,19 +1,16 @@
 Promise = require('bluebird')
 capitano = require('capitano')
 _ = require('lodash')
-async = require('async')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
 vcs = require('resin-vcs')
-manager = require('resin-image-manager')
-image = require('resin-image')
-inject = require('resin-config-inject')
-registerDevice = require('resin-register-device')
-pine = require('resin-pine')
-deviceConfig = require('resin-device-config')
 form = require('resin-cli-form')
 events = require('resin-cli-events')
-htmlToText = require('html-to-text')
+init = require('resin-device-init')
+fs = Promise.promisifyAll(require('fs'))
+rimraf = Promise.promisify(require('rimraf'))
+umount = Promise.promisifyAll(require('umount'))
+patterns = require('../utils/patterns')
 helpers = require('../utils/helpers')
 
 commandOptions = require('./command-options')
@@ -107,7 +104,7 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		helpers.confirm(options.yes, 'Are you sure you want to delete the device?').then ->
+		patterns.confirm(options.yes, 'Are you sure you want to delete the device?').then ->
 			resin.models.device.remove(params.uuid)
 		.tap ->
 			events.send('device.delete', device: params.uuid)
@@ -156,186 +153,84 @@ exports.rename =
 			events.send('device.rename', device: params.uuid)
 		.nodeify(done)
 
+stepHandler = (step) ->
+
+	step.on('stdout', _.bind(process.stdout.write, process.stdout))
+	step.on('stderr', _.bind(process.stderr.write, process.stderr))
+
+	step.on 'state', (state) ->
+		return if state.operation.command is 'burn'
+		console.log(helpers.stateToString(state))
+
+	bar = new visuals.Progress('Writing Device OS')
+
+	step.on('burn', _.bind(bar.update, bar))
+
+	return new Promise (resolve, reject) ->
+		step.on('error', reject)
+		step.on('end', resolve)
+
 exports.init =
-	signature: 'device init [device]'
+	signature: 'device init'
 	description: 'initialise a device with resin os'
 	help: '''
 		Use this command to download the OS image of a certain application and write it to an SD Card.
 
-		Note that this command requires admin privileges.
-
-		If `device` is omitted, you will be prompted to select a device interactively.
-
-		Notice this command asks for confirmation interactively.
+		Notice this command may ask for confirmation interactively.
 		You can avoid this by passing the `--yes` boolean option.
-
-		You can quiet the progress bar and other logging information by passing the `--quiet` boolean option.
-
-		You need to configure the network type and other settings:
-
-		Ethernet:
-		  You can setup the device OS to use ethernet by setting the `--network` option to "ethernet".
-
-		Wifi:
-		  You can setup the device OS to use wifi by setting the `--network` option to "wifi".
-		  If you set "network" to "wifi", you will need to specify the `--ssid` and `--key` option as well.
-
-		You can omit network related options to be asked about them interactively.
 
 		Examples:
 
 			$ resin device init
 			$ resin device init --application MyApp
-			$ resin device init --application MyApp --network ethernet
-			$ resin device init /dev/disk2 --application MyApp --network wifi --ssid MyNetwork --key secret
 	'''
 	options: [
 		commandOptions.optionalApplication
-		commandOptions.network
-		commandOptions.wifiSsid
-		commandOptions.wifiKey
+		commandOptions.yes
 	]
 	permission: 'user'
 	root: true
 	action: (params, options, done) ->
+		Promise.try ->
+			return options.application if options.application?
+			return vcs.getApplicationName(process.cwd())
+		.then(resin.models.application.get)
+		.then (application) ->
 
-		networkOptions =
-			network: options.network
-			wifiSsid: options.ssid
-			wifiKey: options.key
+			console.info('Getting configuration options')
+			patterns.askDeviceOptions(application.device_type).tap (answers) ->
+				if answers.drive?
+					message = "This will erase #{answers.drive}. Are you sure?"
+					patterns.confirm(options.yes, message)
+						.return(answers.drive)
+						.then(umount.umountAsync)
+			.then (answers) ->
+				console.info('Getting device operating system')
+				patterns.download(application.device_type).then (temporalPath) ->
+					uuid = resin.models.device.generateUUID()
+					console.log("Registering to #{application.app_name}: #{uuid}")
+					resin.models.device.register(application.app_name, uuid).tap (device) ->
+						console.log('Configuring operating system')
+						init.configure(temporalPath, device.uuid, answers).then(stepHandler).then ->
+							console.log('Initializing device')
+							init.initialize(temporalPath, device.uuid, answers).then(stepHandler)
+						.tap ->
+							return if not answers.drive?
+							umount.umountAsync(answers.drive).tap ->
+								console.log("You can safely remove #{answers.drive} now")
+					.then (device) ->
+						console.log('Done')
+						return device.uuid
 
-		async.waterfall [
+					.finally ->
+						fs.statAsync(temporalPath).then (stat) ->
+							return rimraf(temporalPath) if stat.isDirectory()
+							return fs.unlinkAsync(temporalPath)
+						.catch (error) ->
 
-			(callback) ->
-				return callback(null, options.application) if options.application?
-				vcs.getApplicationName(process.cwd()).nodeify(callback)
+							# Ignore errors if temporary file does not exist
+							return if error.code is 'ENOENT'
 
-			(applicationName, callback) ->
-				options.application = applicationName
-				resin.models.application.has(options.application).nodeify(callback)
+							throw error
 
-			(hasApplication, callback) ->
-				if not hasApplication
-					return callback(new Error("Invalid application: #{options.application}"))
-
-				return callback(null, params.device) if params.device?
-				form.ask
-					type: 'drive'
-					message: 'Select a drive'
-				.nodeify(callback)
-
-			(device, callback) ->
-				params.device = device
-				message = "This will completely erase #{params.device}. Are you sure you want to continue?"
-				if options.yes
-					return callback(null, true)
-				else
-					form.ask
-						message: message
-						type: 'confirm'
-						default: false
-					.nodeify(callback)
-
-			(confirmed, callback) ->
-				return done() if not confirmed
-				return callback() if networkOptions.network?
-				form.run [
-					message: 'Network Type'
-					name: 'network'
-					type: 'list'
-					choices: [ 'ethernet', 'wifi' ]
-				,
-					message: 'Wifi Ssid'
-					name: 'wifiSsid'
-					type: 'input'
-					when:
-						network: 'wifi'
-				,
-					message: 'Wifi Key'
-					name: 'wifiKey'
-					type: 'input'
-					when:
-						network: 'wifi'
-				]
-				.then (parameters) ->
-					_.extend(networkOptions, parameters)
-				.nodeify(callback)
-
-			(callback) ->
-				console.info("Checking application: #{options.application}")
-				resin.models.application.get(options.application).nodeify(callback)
-
-			(application, callback) ->
-				async.parallel
-
-					manifest: (callback) ->
-						console.info('Getting device manifest for the application')
-						resin.models.device.getManifestBySlug(application.device_type).nodeify(callback)
-
-					config: (callback) ->
-						console.info('Fetching application configuration')
-						deviceConfig.get(options.application, networkOptions).nodeify(callback)
-
-				, callback
-
-			(results, callback) ->
-				params.manifest = results.manifest
-				console.info('Associating the device')
-
-				registerDevice.register pine, results.config, (error, device) ->
-					return callback(error) if error?
-
-					# Associate a device
-					results.config.deviceId = device.id
-					results.config.uuid = device.uuid
-					results.config.registered_at = Math.floor(Date.now() / 1000)
-
-					params.uuid = results.config.uuid
-
-					return callback(null, results)
-
-			(results, callback) ->
-				console.info('Initializing device operating system image')
-				console.info('This may take a few minutes')
-
-				if process.env.DEBUG
-					console.log(results.config)
-
-				bar = new visuals.Progress('Downloading Device OS')
-				spinner = new visuals.Spinner('Downloading Device OS (size unknown)')
-
-				manager.configure params.manifest, results.config, (error, imagePath, removeCallback) ->
-					spinner.stop()
-					return callback(error, imagePath, removeCallback)
-				, (state) ->
-					if state?
-						bar.update(state)
-					else
-						spinner.start()
-
-			(configuredImagePath, removeCallback, callback) ->
-				console.info('The base image was cached to improve initialization time of similar devices')
-
-				console.info('Attempting to write operating system image to drive')
-
-				bar = new visuals.Progress('Writing Device OS')
-				image.write
-					device: params.device
-					image: configuredImagePath
-					progress: _.bind(bar.update, bar)
-				, (error) ->
-					return callback(error) if error?
-					return callback(null, configuredImagePath, removeCallback)
-
-			(temporalImagePath, removeCallback, callback) ->
-				console.info('Image written successfully')
-				removeCallback(callback)
-
-			(callback) ->
-				resin.models.device.get(params.uuid).nodeify(callback)
-
-			(device, callback) ->
-				console.info("Device created: #{device.name}")
-				return callback(null, params.uuid)
-
-		], done
+		.nodeify(done)

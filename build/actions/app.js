@@ -1,5 +1,5 @@
 (function() {
-  var _, commandOptions, events, helpers, resin, vcs, visuals;
+  var _, commandOptions, events, helpers, patterns, resin, vcs, visuals;
 
   _ = require('lodash');
 
@@ -14,6 +14,8 @@
   events = require('resin-cli-events');
 
   helpers = require('../utils/helpers');
+
+  patterns = require('../utils/patterns');
 
   exports.create = {
     signature: 'app create <name>',
@@ -33,7 +35,7 @@
         if (hasApplication) {
           throw new Error('You already have an application with that name!');
         }
-      }).then(helpers.selectDeviceType).then(function(deviceType) {
+      }).then(patterns.selectDeviceType).then(function(deviceType) {
         return resin.models.application.create(params.name, deviceType);
       }).then(function(application) {
         console.info("Application created: " + application.app_name + " (" + application.device_type + ", id " + application.id + ")");
@@ -88,7 +90,7 @@
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
-      return helpers.confirm(options.yes, 'Are you sure you want to delete the application?').then(function() {
+      return patterns.confirm(options.yes, 'Are you sure you want to delete the application?').then(function() {
         return resin.models.application.remove(params.name);
       }).tap(function() {
         return resin.models.application.get(params.name).then(function(application) {
@@ -117,7 +119,7 @@
       }).then(function() {
         var message;
         message = "Are you sure you want to associate " + currentDirectory + " with " + params.name + "?";
-        return helpers.confirm(options.yes, message);
+        return patterns.confirm(options.yes, message);
       }).then(function() {
         return resin.models.application.get(params.name).get('git_repository').then(function(gitRepository) {
           return vcs.initialize(currentDirectory).then(function() {

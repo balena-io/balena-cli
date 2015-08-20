@@ -3,7 +3,7 @@ capitano = Promise.promisifyAll(require('capitano'))
 mkdirp = Promise.promisify(require('mkdirp'))
 resin = require('resin-sdk')
 form = require('resin-cli-form')
-helpers = require('../utils/helpers')
+patterns = require('../utils/patterns')
 
 exports.wizard =
 	signature: 'quickstart [name]'
@@ -28,18 +28,18 @@ exports.wizard =
 	action: (params, options, done) ->
 		Promise.try ->
 			return if params.name?
-			helpers.selectApplication().tap (applicationName) ->
+			patterns.selectApplication().tap (applicationName) ->
 				capitano.runAsync("app create #{applicationName}")
 			.then (applicationName) ->
 				params.name = applicationName
 		.then ->
 			return capitano.runAsync("device init --application #{params.name}")
-		.tap(helpers.awaitDevice)
+		.tap(patterns.awaitDevice)
 		.then (uuid) ->
 			return capitano.runAsync("device #{uuid}")
 		.tap ->
 			console.log('Your device is ready, lets start pushing some code!')
-		.then(helpers.selectProjectDirectory)
+		.then(patterns.selectProjectDirectory)
 		.tap(mkdirp)
 		.tap(process.chdir)
 		.then ->
