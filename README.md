@@ -49,18 +49,6 @@ You can renegerate the documentation with:
 $ npm run-script doc
 ```
 
-## Manual pages
-
-UNIX manual pages reside in `man/`
-
-You can regenerate UNIX `roff` manual pages from markdown with:
-
-```sh
-$ gulp man
-```
-
-If you add a new `man` page, remember to add the generated filename to the `man` array in `package.json`.
-
 ## Caveats
 
 - Some interactive widgets don't work on [Cygwin](https://cygwin.com/). If you're running Windows, it's preferrable that you use `cmd.exe`, as `Cygwin` is [not official supported by Node.js](https://github.com/chjj/blessed/issues/56#issuecomment-42671945).
