@@ -258,7 +258,10 @@ exports.init =
 					return callback(new Error("Invalid application: #{options.application}"))
 
 				return callback(null, params.device) if params.device?
-				visuals.drive().nodeify(callback)
+				form.ask
+					type: 'drive'
+					message: 'Select a drive'
+				.nodeify(callback)
 
 			(device, callback) ->
 				params.device = device
