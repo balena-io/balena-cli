@@ -21,3 +21,6 @@ exports.confirm = (yesOption, message) ->
 			message: message
 			type: 'confirm'
 			default: false
+	.then (confirmed) ->
+		if not confirmed
+			throw new Error('Aborted')

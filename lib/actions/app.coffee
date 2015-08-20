@@ -125,8 +125,7 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		helpers.confirm(option.yes, 'Are you sure you want to delete the application?').then (confirmed) ->
-			return if not confirmed
+		helpers.confirm(options.yes, 'Are you sure you want to delete the application?').then ->
 			resin.models.application.remove(params.name)
 		.nodeify(done)
 
@@ -157,9 +156,7 @@ exports.associate =
 		.then ->
 			message = "Are you sure you want to associate #{currentDirectory} with #{params.name}?"
 			helpers.confirm(options.yes, message)
-
-		.then (confirmed) ->
-			return if not confirmed
+		.then ->
 
 			resin.models.application.get(params.name).get('git_repository').then (gitRepository) ->
 				vcs.initialize(currentDirectory).then ->
