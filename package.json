@@ -49,7 +49,7 @@
     "nplugm": "^3.0.0",
     "npm": "^2.13.0",
     "open": "0.0.5",
-    "resin-cli-form": "^1.2.0",
+    "resin-cli-form": "^1.2.1",
     "resin-cli-visuals": "^1.1.0",
     "resin-config-inject": "^2.0.0",
     "resin-device-config": "^1.0.0",
