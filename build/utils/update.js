@@ -1,13 +1,17 @@
 (function() {
-  var notifier, packageJSON, updateNotifier;
+  var isRoot, notifier, packageJSON, updateNotifier;
 
   updateNotifier = require('update-notifier');
 
+  isRoot = require('is-root');
+
   packageJSON = require('../../package.json');
 
-  notifier = updateNotifier({
-    pkg: packageJSON
-  });
+  if (!isRoot()) {
+    notifier = updateNotifier({
+      pkg: packageJSON
+    });
+  }
 
   exports.hasAvailableUpdate = function() {
     return notifier != null;
