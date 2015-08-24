@@ -49,10 +49,7 @@
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
-      return helpers.confirm(options.yes, 'Are you sure you want to delete the key?').then(function(confirmed) {
-        if (!confirmed) {
-          return;
-        }
+      return helpers.confirm(options.yes, 'Are you sure you want to delete the key?').then(function() {
         return resin.models.key.remove(params.id);
       }).nodeify(done);
     }

@@ -75,10 +75,7 @@
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
-      return helpers.confirm(options.yes, 'Are you sure you want to delete the device?').then(function(confirmed) {
-        if (!confirmed) {
-          return;
-        }
+      return helpers.confirm(options.yes, 'Are you sure you want to delete the device?').then(function() {
         return resin.models.device.remove(params.uuid);
       }).nodeify(done);
     }

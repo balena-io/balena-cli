@@ -80,10 +80,7 @@
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
-      return helpers.confirm(option.yes, 'Are you sure you want to delete the application?').then(function(confirmed) {
-        if (!confirmed) {
-          return;
-        }
+      return helpers.confirm(options.yes, 'Are you sure you want to delete the application?').then(function() {
         return resin.models.application.remove(params.name);
       }).nodeify(done);
     }
@@ -106,10 +103,7 @@
         var message;
         message = "Are you sure you want to associate " + currentDirectory + " with " + params.name + "?";
         return helpers.confirm(options.yes, message);
-      }).then(function(confirmed) {
-        if (!confirmed) {
-          return;
-        }
+      }).then(function() {
         return resin.models.application.get(params.name).get('git_repository').then(function(gitRepository) {
           return vcs.initialize(currentDirectory).then(function() {
             return vcs.associate(currentDirectory, gitRepository);

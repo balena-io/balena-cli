@@ -56,10 +56,7 @@
     options: [commandOptions.yes, commandOptions.booleanDevice],
     permission: 'user',
     action: function(params, options, done) {
-      return helpers.confirm(options.yes, 'Are you sure you want to delete the environment variable?').then(function(confirmed) {
-        if (!confirmed) {
-          return;
-        }
+      return helpers.confirm(options.yes, 'Are you sure you want to delete the environment variable?').then(function() {
         if (options.device) {
           return resin.models.environmentVariables.device.remove(params.id);
         } else {

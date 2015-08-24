@@ -67,8 +67,7 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		helpers.confirm(options.yes, 'Are you sure you want to delete the key?').then (confirmed) ->
-			return if not confirmed
+		helpers.confirm(options.yes, 'Are you sure you want to delete the key?').then ->
 			resin.models.key.remove(params.id)
 		.nodeify(done)
 

@@ -23,6 +23,10 @@
         type: 'confirm',
         "default": false
       });
+    }).then(function(confirmed) {
+      if (!confirmed) {
+        throw new Error('Aborted');
+      }
     });
   };
 

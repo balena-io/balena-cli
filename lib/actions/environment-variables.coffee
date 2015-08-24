@@ -82,9 +82,7 @@ exports.remove =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
-		helpers.confirm(options.yes, 'Are you sure you want to delete the environment variable?').then (confirmed) ->
-			return if not confirmed
-
+		helpers.confirm(options.yes, 'Are you sure you want to delete the environment variable?').then ->
 			if options.device
 				resin.models.environmentVariables.device.remove(params.id)
 			else

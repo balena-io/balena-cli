@@ -105,8 +105,7 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		helpers.confirm(options.yes, 'Are you sure you want to delete the device?').then (confirmed) ->
-			return if not confirmed
+		helpers.confirm(options.yes, 'Are you sure you want to delete the device?').then ->
 			resin.models.device.remove(params.uuid)
 		.nodeify(done)
 
