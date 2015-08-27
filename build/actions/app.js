@@ -95,6 +95,7 @@
     action: function(params, options, done) {
       var currentDirectory;
       currentDirectory = process.cwd();
+      console.info("Associating " + params.name + " with " + currentDirectory);
       return resin.models.application.has(params.name).then(function(hasApplication) {
         if (!hasApplication) {
           throw new Error("Invalid application: " + params.name);

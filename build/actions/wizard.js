@@ -1,21 +1,17 @@
 (function() {
-  var Promise, _, async, capitano, form, mkdirp, resin, visuals;
-
-  _ = require('lodash');
+  var Promise, capitano, form, helpers, mkdirp, resin;
 
   Promise = require('bluebird');
 
   capitano = Promise.promisifyAll(require('capitano'));
 
-  mkdirp = require('mkdirp');
-
-  visuals = require('resin-cli-visuals');
-
-  async = require('async');
+  mkdirp = Promise.promisify(require('mkdirp'));
 
   resin = require('resin-sdk');
 
   form = require('resin-cli-form');
+
+  helpers = require('../utils/helpers');
 
   exports.wizard = {
     signature: 'quickstart [name]',
@@ -24,84 +20,27 @@
     root: true,
     permission: 'user',
     action: function(params, options, done) {
-      return async.waterfall([
-        function(callback) {
-          if (params.name != null) {
-            return callback();
-          }
-          return async.waterfall([
-            function(callback) {
-              return resin.models.application.hasAny().nodeify(callback);
-            }, function(hasAnyApplications, callback) {
-              if (!hasAnyApplications) {
-                return callback(null, null);
-              }
-              return async.waterfall([
-                function(callback) {
-                  return resin.models.application.getAll().nodeify(callback);
-                }, function(applications, callback) {
-                  applications = _.pluck(applications, 'app_name');
-                  applications.unshift({
-                    name: 'Create a new application',
-                    value: null
-                  });
-                  return form.ask({
-                    message: 'Select an application',
-                    type: 'list',
-                    choices: applications
-                  }).nodeify(callback);
-                }
-              ], callback);
-            }, function(application, callback) {
-              if (application != null) {
-                return callback(null, application);
-              }
-              return form.ask({
-                message: 'Choose a Name for your new application',
-                type: 'input'
-              }).then(function(applicationName) {
-                return capitano.runAsync("app create " + applicationName)["return"](applicationName);
-              }).nodeify(callback);
-            }, function(applicationName, callback) {
-              params.name = applicationName;
-              return callback();
-            }
-          ], callback);
-        }, function(callback) {
-          return capitano.run("device init --application " + params.name, callback);
-        }, function(deviceUuid, callback) {
-          params.uuid = deviceUuid;
-          return resin.models.device.getName(params.uuid).then(function(deviceName) {
-            params.deviceName = deviceName;
-            console.log("Waiting for " + params.deviceName + " to connect to resin...");
-            return capitano.runAsync("device await " + params.uuid)["return"](callback);
-          }).nodeify(callback);
-        }, function(callback) {
-          console.log("The device " + params.deviceName + " successfully connected to resin!");
-          console.log('');
-          return capitano.run("device " + params.uuid, callback);
-        }, function(callback) {
-          console.log('Your device is ready, lets start pushing some code!');
-          return resin.settings.get('projectsDirectory').then(function(projectsDirectory) {
-            return form.ask({
-              message: 'Please choose a directory for your code',
-              type: 'input',
-              "default": projectsDirectory
-            });
-          }).nodeify(callback);
-        }, function(directoryName, callback) {
-          params.directory = directoryName;
-          return mkdirp(directoryName, callback);
-        }, function(made, callback) {
-          console.log("Associating " + params.name + " with " + params.directory + "...");
-          process.chdir(params.directory);
-          return capitano.run("app associate " + params.name, callback);
-        }, function(remoteUrl, callback) {
-          console.log("Resin git remote added: " + remoteUrl);
-          console.log("Please type:\n\n	$ cd " + params.directory + " && git push resin master\n\nTo push your project to resin.io.");
-          return callback();
+      return Promise["try"](function() {
+        if (params.name != null) {
+          return;
         }
-      ], done);
+        return helpers.selectApplication().tap(function(applicationName) {
+          return capitano.runAsync("app create " + applicationName);
+        }).then(function(applicationName) {
+          return params.name = applicationName;
+        });
+      }).then(function() {
+        return capitano.runAsync("device init --application " + params.name);
+      }).tap(helpers.awaitDevice).then(function(uuid) {
+        return capitano.runAsync("device " + uuid);
+      }).tap(function() {
+        return console.log('Your device is ready, lets start pushing some code!');
+      }).then(helpers.selectProjectDirectory).tap(mkdirp).tap(process.chdir).then(function() {
+        return capitano.runAsync("app associate " + params.name);
+      }).then(function(remoteUrl) {
+        console.log("Resin git remote added: " + remoteUrl);
+        return console.log("Please type:\n\n	$ cd " + (process.cwd()) + " && git push resin master\n\nTo push your project to resin.io.");
+      }).nodeify(done);
     }
   };
 
