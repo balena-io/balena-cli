@@ -57,15 +57,9 @@
 			]
 		},
 		{
-			"title": "Plugin",
+			"title": "Wizard",
 			"files": [
-				"lib/actions/plugin.coffee"
-			]
-		},
-		{
-			"title": "Preferences",
-			"files": [
-				"lib/actions/preferences.coffee"
+				"lib/actions/wizard.coffee"
 			]
 		}
 	]
