@@ -148,6 +148,7 @@ exports.associate =
 	permission: 'user'
 	action: (params, options, done) ->
 		currentDirectory = process.cwd()
+		console.info("Associating #{params.name} with #{currentDirectory}")
 
 		resin.models.application.has(params.name).then (hasApplication) ->
 			if not hasApplication

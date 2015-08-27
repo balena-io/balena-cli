@@ -1,11 +1,9 @@
-_ = require('lodash')
 Promise = require('bluebird')
 capitano = Promise.promisifyAll(require('capitano'))
-mkdirp = require('mkdirp')
-visuals = require('resin-cli-visuals')
-async = require('async')
+mkdirp = Promise.promisify(require('mkdirp'))
 resin = require('resin-sdk')
 form = require('resin-cli-form')
+helpers = require('../utils/helpers')
 
 exports.wizard =
 	signature: 'quickstart [name]'
@@ -28,98 +26,31 @@ exports.wizard =
 	root: true
 	permission: 'user'
 	action: (params, options, done) ->
-		async.waterfall [
+		Promise.try ->
+			return if params.name?
+			helpers.selectApplication().tap (applicationName) ->
+				capitano.runAsync("app create #{applicationName}")
+			.then (applicationName) ->
+				params.name = applicationName
+		.then ->
+			return capitano.runAsync("device init --application #{params.name}")
+		.tap(helpers.awaitDevice)
+		.then (uuid) ->
+			return capitano.runAsync("device #{uuid}")
+		.tap ->
+			console.log('Your device is ready, lets start pushing some code!')
+		.then(helpers.selectProjectDirectory)
+		.tap(mkdirp)
+		.tap(process.chdir)
+		.then ->
+			return capitano.runAsync("app associate #{params.name}")
+		.then (remoteUrl) ->
+			console.log("Resin git remote added: #{remoteUrl}")
+			console.log """
+				Please type:
 
-			(callback) ->
-				return callback() if params.name?
+					$ cd #{process.cwd()} && git push resin master
 
-				# TODO: Move this whole routine to Resin CLI Visuals
-				async.waterfall [
-
-					(callback) ->
-						resin.models.application.hasAny().nodeify(callback)
-
-					(hasAnyApplications, callback) ->
-						return callback(null, null) if not hasAnyApplications
-
-						async.waterfall [
-
-							(callback) ->
-								resin.models.application.getAll().nodeify(callback)
-
-							(applications, callback) ->
-								applications = _.pluck(applications, 'app_name')
-								applications.unshift
-									name: 'Create a new application'
-									value: null
-
-								form.ask
-									message: 'Select an application'
-									type: 'list'
-									choices: applications
-								.nodeify(callback)
-
-						], callback
-
-					(application, callback) ->
-						return callback(null, application) if application?
-
-						form.ask
-							message: 'Choose a Name for your new application'
-							type: 'input'
-						.then (applicationName) ->
-							capitano.runAsync("app create #{applicationName}").return(applicationName)
-						.nodeify(callback)
-
-					(applicationName, callback) ->
-						params.name = applicationName
-						return callback()
-
-				], callback
-
-			(callback) ->
-				capitano.run("device init --application #{params.name}", callback)
-
-			(deviceUuid, callback) ->
-				params.uuid = deviceUuid
-				resin.models.device.getName(params.uuid).then (deviceName) ->
-					params.deviceName = deviceName
-					console.log("Waiting for #{params.deviceName} to connect to resin...")
-					capitano.runAsync("device await #{params.uuid}").return(callback)
-				.nodeify(callback)
-
-			(callback) ->
-				console.log("The device #{params.deviceName} successfully connected to resin!")
-				console.log('')
-				capitano.run("device #{params.uuid}", callback)
-
-			(callback) ->
-				console.log('Your device is ready, lets start pushing some code!')
-				resin.settings.get('projectsDirectory').then (projectsDirectory) ->
-					form.ask
-						message: 'Please choose a directory for your code'
-						type: 'input'
-						default: projectsDirectory
-				.nodeify(callback)
-
-			(directoryName, callback) ->
-				params.directory = directoryName
-				mkdirp(directoryName, callback)
-
-			(made, callback) ->
-				console.log("Associating #{params.name} with #{params.directory}...")
-				process.chdir(params.directory)
-				capitano.run("app associate #{params.name}", callback)
-
-			(remoteUrl, callback) ->
-				console.log("Resin git remote added: #{remoteUrl}")
-				console.log """
-					Please type:
-
-						$ cd #{params.directory} && git push resin master
-
-					To push your project to resin.io.
-				"""
-				return callback()
-
-		], done
+				To push your project to resin.io.
+			"""
+		.nodeify(done)
