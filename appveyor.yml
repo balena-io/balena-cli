@@ -4,6 +4,10 @@
 init:
   - git config --global core.autocrlf input
 
+cache:
+  - C:\Users\appveyor\.node-gyp
+  - '%AppData%\npm-cache'
+
 # what combinations to test
 environment:
   matrix:
