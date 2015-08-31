@@ -3,6 +3,7 @@ resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
 commandOptions = require('./command-options')
 vcs = require('resin-vcs')
+events = require('resin-cli-events')
 helpers = require('../utils/helpers')
 
 exports.create =
@@ -45,6 +46,7 @@ exports.create =
 			return resin.models.application.create(params.name, deviceType)
 		.then (application) ->
 			console.info("Application created: #{application.app_name} (#{application.device_type}, id #{application.id})")
+			events.send('application.create', application: application.id)
 		.nodeify(done)
 
 exports.list =
@@ -92,6 +94,7 @@ exports.info =
 				'git_repository'
 				'commit'
 			]
+			events.send('application.open', application: application.id)
 		.nodeify(done)
 
 exports.restart =
@@ -127,6 +130,9 @@ exports.remove =
 	action: (params, options, done) ->
 		helpers.confirm(options.yes, 'Are you sure you want to delete the application?').then ->
 			resin.models.application.remove(params.name)
+		.tap ->
+			resin.models.application.get(params.name).then (application) ->
+				events.send('application.delete', application: application.id)
 		.nodeify(done)
 
 exports.associate =

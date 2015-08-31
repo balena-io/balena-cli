@@ -4,6 +4,7 @@ _ = require('lodash')
 resin = require('resin-sdk')
 capitano = require('capitano')
 visuals = require('resin-cli-visuals')
+events = require('resin-cli-events')
 commandOptions = require('./command-options')
 helpers = require('../utils/helpers')
 
@@ -69,6 +70,8 @@ exports.remove =
 	action: (params, options, done) ->
 		helpers.confirm(options.yes, 'Are you sure you want to delete the key?').then ->
 			resin.models.key.remove(params.id)
+		.tap ->
+			events.send('publicKey.delete', id: params.id)
 		.nodeify(done)
 
 exports.add =
@@ -95,4 +98,6 @@ exports.add =
 					return callback(null, data)
 
 		.then(_.partial(resin.models.key.create, params.name))
+		.tap ->
+			events.send('publicKey.create')
 		.nodeify(done)

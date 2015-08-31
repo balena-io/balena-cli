@@ -2,6 +2,7 @@ Promise = require('bluebird')
 _ = require('lodash')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
+events = require('resin-cli-events')
 commandOptions = require('./command-options')
 helpers = require('../utils/helpers')
 
@@ -85,8 +86,10 @@ exports.remove =
 		helpers.confirm(options.yes, 'Are you sure you want to delete the environment variable?').then ->
 			if options.device
 				resin.models.environmentVariables.device.remove(params.id)
+				events.send('deviceEnvironmentVariable.delete', id: params.id)
 			else
 				resin.models.environmentVariables.remove(params.id)
+				events.send('environmentVariable.delete', id: params.id)
 		.nodeify(done)
 
 exports.add =
@@ -126,9 +129,12 @@ exports.add =
 					console.info("Warning: using #{params.key}=#{params.value} from host environment")
 
 			if options.application?
-				resin.models.environmentVariables.create(options.application, params.key, params.value)
+				resin.models.environmentVariables.create(options.application, params.key, params.value).then ->
+					resin.models.application.get(options.application).then (application) ->
+						events.send('environmentVariable.create', application: application.id)
 			else if options.device?
-				resin.models.environmentVariables.device.create(options.device, params.key, params.value)
+				resin.models.environmentVariables.device.create(options.device, params.key, params.value).then ->
+					events.send('deviceEnvironmentVariable.create', device: options.device)
 			else
 				throw new Error('You must specify an application or device')
 		.nodeify(done)
@@ -151,7 +157,9 @@ exports.rename =
 	action: (params, options, done) ->
 		Promise.try ->
 			if options.device
-				resin.models.environmentVariables.device.update(params.id, params.value)
+				resin.models.environmentVariables.device.update(params.id, params.value).then ->
+					events.send('deviceEnvironmentVariable.edit', id: params.id)
 			else
-				resin.models.environmentVariables.update(params.id, params.value)
+				resin.models.environmentVariables.update(params.id, params.value).then ->
+					events.send('environmentVariable.edit', id: params.id)
 		.nodeify(done)

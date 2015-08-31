@@ -7,6 +7,7 @@ settings = require('resin-settings-client')
 form = require('resin-cli-form')
 visuals = require('resin-cli-visuals')
 validEmail = require('valid-email')
+events = require('resin-cli-events')
 
 TOKEN_URL = url.resolve(settings.get('dashboardUrl'), '/preferences')
 
@@ -50,6 +51,7 @@ exports.login	=
 		.then(resin.auth.whoami)
 		.tap (username) ->
 			console.info("Successfully logged in as: #{username}")
+			events.send('user.login')
 		.nodeify(done)
 
 exports.logout =
@@ -64,7 +66,9 @@ exports.logout =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin.auth.logout().nodeify(done)
+		resin.auth.logout().then ->
+			events.send('user.logout')
+		.nodeify(done)
 
 exports.signup =
 	signature: 'signup'
@@ -111,6 +115,8 @@ exports.signup =
 
 		.then(resin.auth.register)
 		.then(resin.auth.loginWithToken)
+		.tap ->
+			events.send('user.signup')
 		.nodeify(done)
 
 exports.whoami =
