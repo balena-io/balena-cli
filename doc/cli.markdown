@@ -37,8 +37,6 @@ Now you have access to all the commands referenced below.
 	- [device rm &#60;uuid&#62;](#device-rm-60-uuid-62-)
 	- [device identify &#60;uuid&#62;](#device-identify-60-uuid-62-)
 	- [device rename &#60;uuid&#62; [newName]](#device-rename-60-uuid-62-newname-)
-	- [devices supported](#devices-supported)
-	- [device await &#60;uuid&#62;](#device-await-60-uuid-62-)
 	- [device init [device]](#device-init-device-)
 
 - Environment Variables
@@ -71,16 +69,9 @@ Now you have access to all the commands referenced below.
 
 	- [note &#60;|note&#62;](#note-60-note-62-)
 
-- Plugin
+- Wizard
 
-	- [plugins](#plugins)
-	- [plugin install &#60;name&#62;](#plugin-install-60-name-62-)
-	- [plugin update &#60;name&#62;](#plugin-update-60-name-62-)
-	- [plugin rm &#60;name&#62;](#plugin-rm-60-name-62-)
-
-- Preferences
-
-	- [preferences](#preferences)
+	- [quickstart [name]](#quickstart-name-)
 
 # Application
 
@@ -178,7 +169,7 @@ Use this command to login to your resin.io account.
 
 To login, you need your token, which is accesible from the preferences page:
 
-	https://dashboard.resinstaging.io/preferences
+	https://dashboard.resin.io/preferences
 
 Examples:
 
@@ -206,28 +197,12 @@ Examples:
 	Username: johndoe
 	Password: ***********
 
-	$ resin signup --email me@mycompany.com --username johndoe --password ***********
-
 	$ resin whoami
 	johndoe
 
-### Options
-
-#### --email, -e &#60;email&#62;
-
-user email
-
-#### --username, -u &#60;username&#62;
-
-user name
-
-#### --password, -p &#60;user password&#62;
-
-user password
-
 ## whoami
 
-Use this command to find out the current logged in username.
+Use this command to find out the current logged in username and email address.
 
 Examples:
 
@@ -300,35 +275,6 @@ Examples:
 
 	$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 MyPi
 	$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
-
-## devices supported
-
-Use this command to get the list of all supported devices
-
-Examples:
-
-	$ resin devices supported
-
-## device await &#60;uuid&#62;
-
-Use this command to await for a device to become online.
-
-The process will exit when the device becomes online.
-
-Notice that there is no time limit for this command, so it might run forever.
-
-You can configure the poll interval with the --interval option (defaults to 3000ms).
-
-Examples:
-
-	$ resin device await 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
-	$ resin device await 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 --interval 1000
-
-### Options
-
-#### --interval, -i &#60;interval&#62;
-
-poll interval
 
 ## device init [device]
 
@@ -594,64 +540,21 @@ Examples:
 
 device uuid
 
-# Plugin
+# Wizard
 
-## plugins
+## quickstart [name]
 
-Use this command to list all the installed resin plugins.
+Use this command to run a friendly wizard to get started with resin.io.
 
-Examples:
+The wizard will guide you through:
 
-	$ resin plugins
-
-## plugin install &#60;name&#62;
-
-Use this command to install a resin plugin
-
-Use `--quiet` to prevent information logging.
+	- Create an application.
+	- Initialise an SDCard with the resin.io operating system.
+	- Associate an existing project directory with your resin.io application.
+	- Push your project to your devices.
 
 Examples:
 
-	$ resin plugin install hello
-
-## plugin update &#60;name&#62;
-
-Use this command to update a resin plugin
-
-Use `--quiet` to prevent information logging.
-
-Examples:
-
-	$ resin plugin update hello
-
-## plugin rm &#60;name&#62;
-
-Use this command to remove a resin.io plugin.
-
-Notice this command asks for confirmation interactively.
-You can avoid this by passing the `--yes` boolean option.
-
-Examples:
-
-	$ resin plugin rm hello
-	$ resin plugin rm hello --yes
-
-### Options
-
-#### --yes, -y
-
-confirm non interactively
-
-# Preferences
-
-## preferences
-
-Use this command to open the preferences form.
-
-In the future, we will allow changing all preferences directly from the terminal.
-For now, we open your default web browser and point it to the web based preferences form.
-
-Examples:
-
-	$ resin preferences
+	$ sudo resin quickstart
+	$ sudo resin quickstart MyApp
 
