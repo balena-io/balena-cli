@@ -48,6 +48,10 @@ exports.login	=
 					type: 'input'
 
 		.then(resin.auth.loginWithToken)
+		.then (token) ->
+			resin.auth.isLoggedIn().then (isLoggedIn) ->
+				return token if isLoggedIn
+				throw new Error('Authentication failed')
 		.then(resin.auth.whoami)
 		.tap (username) ->
 			console.info("Successfully logged in as: #{username}")
