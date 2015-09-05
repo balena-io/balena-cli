@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, capitano, commandOptions, fs, helpers, resin, visuals;
+  var Promise, _, capitano, commandOptions, events, fs, helpers, resin, visuals;
 
   Promise = require('bluebird');
 
@@ -12,6 +12,8 @@
   capitano = require('capitano');
 
   visuals = require('resin-cli-visuals');
+
+  events = require('resin-cli-events');
 
   commandOptions = require('./command-options');
 
@@ -51,6 +53,10 @@
     action: function(params, options, done) {
       return helpers.confirm(options.yes, 'Are you sure you want to delete the key?').then(function() {
         return resin.models.key.remove(params.id);
+      }).tap(function() {
+        return events.send('publicKey.delete', {
+          id: params.id
+        });
       }).nodeify(done);
     }
   };
@@ -72,7 +78,9 @@
             return callback(null, data);
           });
         });
-      }).then(_.partial(resin.models.key.create, params.name)).nodeify(done);
+      }).then(_.partial(resin.models.key.create, params.name)).tap(function() {
+        return events.send('publicKey.create');
+      }).nodeify(done);
     }
   };
 

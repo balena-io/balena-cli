@@ -12,6 +12,7 @@ registerDevice = require('resin-register-device')
 pine = require('resin-pine')
 deviceConfig = require('resin-device-config')
 form = require('resin-cli-form')
+events = require('resin-cli-events')
 htmlToText = require('html-to-text')
 helpers = require('../utils/helpers')
 
@@ -86,6 +87,7 @@ exports.info =
 				'is_web_accessible'
 				'note'
 			]
+			events.send('device.open', device: device.uuid)
 		.nodeify(done)
 
 exports.remove =
@@ -107,6 +109,8 @@ exports.remove =
 	action: (params, options, done) ->
 		helpers.confirm(options.yes, 'Are you sure you want to delete the device?').then ->
 			resin.models.device.remove(params.uuid)
+		.tap ->
+			events.send('device.delete', device: params.uuid)
 		.nodeify(done)
 
 exports.identify =
@@ -148,6 +152,8 @@ exports.rename =
 				type: 'input'
 
 		.then(_.partial(resin.models.device.rename, params.uuid))
+		.tap ->
+			events.send('device.rename', device: params.uuid)
 		.nodeify(done)
 
 exports.init =

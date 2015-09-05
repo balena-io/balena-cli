@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, async, capitano, commandOptions, deviceConfig, form, helpers, htmlToText, image, inject, manager, pine, registerDevice, resin, vcs, visuals;
+  var Promise, _, async, capitano, commandOptions, deviceConfig, events, form, helpers, htmlToText, image, inject, manager, pine, registerDevice, resin, vcs, visuals;
 
   Promise = require('bluebird');
 
@@ -28,6 +28,8 @@
   deviceConfig = require('resin-device-config');
 
   form = require('resin-cli-form');
+
+  events = require('resin-cli-events');
 
   htmlToText = require('html-to-text');
 
@@ -63,7 +65,10 @@
         if (device.last_seen == null) {
           device.last_seen = 'Not seen';
         }
-        return console.log(visuals.table.vertical(device, ["$" + device.name + "$", 'id', 'device_type', 'is_online', 'ip_address', 'application_name', 'status', 'last_seen', 'uuid', 'commit', 'supervisor_version', 'is_web_accessible', 'note']));
+        console.log(visuals.table.vertical(device, ["$" + device.name + "$", 'id', 'device_type', 'is_online', 'ip_address', 'application_name', 'status', 'last_seen', 'uuid', 'commit', 'supervisor_version', 'is_web_accessible', 'note']));
+        return events.send('device.open', {
+          device: device.uuid
+        });
       }).nodeify(done);
     }
   };
@@ -77,6 +82,10 @@
     action: function(params, options, done) {
       return helpers.confirm(options.yes, 'Are you sure you want to delete the device?').then(function() {
         return resin.models.device.remove(params.uuid);
+      }).tap(function() {
+        return events.send('device.delete', {
+          device: params.uuid
+        });
       }).nodeify(done);
     }
   };
@@ -105,7 +114,11 @@
           message: 'How do you want to name this device?',
           type: 'input'
         });
-      }).then(_.partial(resin.models.device.rename, params.uuid)).nodeify(done);
+      }).then(_.partial(resin.models.device.rename, params.uuid)).tap(function() {
+        return events.send('device.rename', {
+          device: params.uuid
+        });
+      }).nodeify(done);
     }
   };
 

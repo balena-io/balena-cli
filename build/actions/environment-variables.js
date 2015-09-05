@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, commandOptions, helpers, resin, visuals;
+  var Promise, _, commandOptions, events, helpers, resin, visuals;
 
   Promise = require('bluebird');
 
@@ -8,6 +8,8 @@
   resin = require('resin-sdk');
 
   visuals = require('resin-cli-visuals');
+
+  events = require('resin-cli-events');
 
   commandOptions = require('./command-options');
 
@@ -58,9 +60,15 @@
     action: function(params, options, done) {
       return helpers.confirm(options.yes, 'Are you sure you want to delete the environment variable?').then(function() {
         if (options.device) {
-          return resin.models.environmentVariables.device.remove(params.id);
+          resin.models.environmentVariables.device.remove(params.id);
+          return events.send('deviceEnvironmentVariable.delete', {
+            id: params.id
+          });
         } else {
-          return resin.models.environmentVariables.remove(params.id);
+          resin.models.environmentVariables.remove(params.id);
+          return events.send('environmentVariable.delete', {
+            id: params.id
+          });
         }
       }).nodeify(done);
     }
@@ -83,9 +91,19 @@
           }
         }
         if (options.application != null) {
-          return resin.models.environmentVariables.create(options.application, params.key, params.value);
+          return resin.models.environmentVariables.create(options.application, params.key, params.value).then(function() {
+            return resin.models.application.get(options.application).then(function(application) {
+              return events.send('environmentVariable.create', {
+                application: application.id
+              });
+            });
+          });
         } else if (options.device != null) {
-          return resin.models.environmentVariables.device.create(options.device, params.key, params.value);
+          return resin.models.environmentVariables.device.create(options.device, params.key, params.value).then(function() {
+            return events.send('deviceEnvironmentVariable.create', {
+              device: options.device
+            });
+          });
         } else {
           throw new Error('You must specify an application or device');
         }
@@ -102,9 +120,17 @@
     action: function(params, options, done) {
       return Promise["try"](function() {
         if (options.device) {
-          return resin.models.environmentVariables.device.update(params.id, params.value);
+          return resin.models.environmentVariables.device.update(params.id, params.value).then(function() {
+            return events.send('deviceEnvironmentVariable.edit', {
+              id: params.id
+            });
+          });
         } else {
-          return resin.models.environmentVariables.update(params.id, params.value);
+          return resin.models.environmentVariables.update(params.id, params.value).then(function() {
+            return events.send('environmentVariable.edit', {
+              id: params.id
+            });
+          });
         }
       }).nodeify(done);
     }

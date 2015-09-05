@@ -1,5 +1,5 @@
 (function() {
-  var _, commandOptions, helpers, resin, vcs, visuals;
+  var _, commandOptions, events, helpers, resin, vcs, visuals;
 
   _ = require('lodash');
 
@@ -10,6 +10,8 @@
   commandOptions = require('./command-options');
 
   vcs = require('resin-vcs');
+
+  events = require('resin-cli-events');
 
   helpers = require('../utils/helpers');
 
@@ -34,7 +36,10 @@
       }).then(helpers.selectDeviceType).then(function(deviceType) {
         return resin.models.application.create(params.name, deviceType);
       }).then(function(application) {
-        return console.info("Application created: " + application.app_name + " (" + application.device_type + ", id " + application.id + ")");
+        console.info("Application created: " + application.app_name + " (" + application.device_type + ", id " + application.id + ")");
+        return events.send('application.create', {
+          application: application.id
+        });
       }).nodeify(done);
     }
   };
@@ -58,7 +63,10 @@
     permission: 'user',
     action: function(params, options, done) {
       return resin.models.application.get(params.name).then(function(application) {
-        return console.log(visuals.table.vertical(application, ["$" + application.app_name + "$", 'id', 'device_type', 'git_repository', 'commit']));
+        console.log(visuals.table.vertical(application, ["$" + application.app_name + "$", 'id', 'device_type', 'git_repository', 'commit']));
+        return events.send('application.open', {
+          application: application.id
+        });
       }).nodeify(done);
     }
   };
@@ -82,6 +90,12 @@
     action: function(params, options, done) {
       return helpers.confirm(options.yes, 'Are you sure you want to delete the application?').then(function() {
         return resin.models.application.remove(params.name);
+      }).tap(function() {
+        return resin.models.application.get(params.name).then(function(application) {
+          return events.send('application.delete', {
+            application: application.id
+          });
+        });
       }).nodeify(done);
     }
   };

@@ -1,5 +1,5 @@
 (function() {
-  var Promise, TOKEN_URL, _, form, open, resin, settings, url, validEmail, visuals;
+  var Promise, TOKEN_URL, _, events, form, open, resin, settings, url, validEmail, visuals;
 
   Promise = require('bluebird');
 
@@ -18,6 +18,8 @@
   visuals = require('resin-cli-visuals');
 
   validEmail = require('valid-email');
+
+  events = require('resin-cli-events');
 
   TOKEN_URL = url.resolve(settings.get('dashboardUrl'), '/preferences');
 
@@ -40,7 +42,8 @@
           });
         });
       }).then(resin.auth.loginWithToken).then(resin.auth.whoami).tap(function(username) {
-        return console.info("Successfully logged in as: " + username);
+        console.info("Successfully logged in as: " + username);
+        return events.send('user.login');
       }).nodeify(done);
     }
   };
@@ -51,7 +54,9 @@
     help: 'Use this command to logout from your resin.io account.o\n\nExamples:\n\n	$ resin logout',
     permission: 'user',
     action: function(params, options, done) {
-      return resin.auth.logout().nodeify(done);
+      return resin.auth.logout().then(function() {
+        return events.send('user.logout');
+      }).nodeify(done);
     }
   };
 
@@ -86,7 +91,9 @@
             return true;
           }
         }
-      ]).then(resin.auth.register).then(resin.auth.loginWithToken).nodeify(done);
+      ]).then(resin.auth.register).then(resin.auth.loginWithToken).tap(function() {
+        return events.send('user.signup');
+      }).nodeify(done);
     }
   };
 
