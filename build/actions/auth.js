@@ -41,7 +41,14 @@
             type: 'input'
           });
         });
-      }).then(resin.auth.loginWithToken).then(resin.auth.whoami).tap(function(username) {
+      }).then(resin.auth.loginWithToken).then(function(token) {
+        return resin.auth.isLoggedIn().then(function(isLoggedIn) {
+          if (isLoggedIn) {
+            return token;
+          }
+          throw new Error('Authentication failed');
+        });
+      }).then(resin.auth.whoami).tap(function(username) {
         console.info("Successfully logged in as: " + username);
         return events.send('user.login');
       }).nodeify(done);
