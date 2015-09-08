@@ -3,44 +3,41 @@ open = Promise.promisify(require('open'))
 _ = require('lodash')
 url = require('url')
 resin = require('resin-sdk')
-settings = require('resin-settings-client')
 form = require('resin-cli-form')
 visuals = require('resin-cli-visuals')
 validEmail = require('valid-email')
 events = require('resin-cli-events')
 
-TOKEN_URL = url.resolve(settings.get('dashboardUrl'), '/preferences')
-
 exports.login	=
 	signature: 'login [token]'
 	description: 'login to resin.io'
-	help: """
+	help: '''
 		Use this command to login to your resin.io account.
 
-		To login, you need your token, which is accesible from the preferences page:
-
-			#{TOKEN_URL}
+		To login, you need your token, which is accesible from the preferences page.
 
 		Examples:
 
 			$ resin login
 			$ resin login "eyJ0eXAiOiJKV1Qi..."
-	"""
+	'''
 	action: (params, options, done) ->
-		Promise.try ->
+		resin.settings.get('dashboardUrl').then (dashboardUrl) ->
+			return url.resolve(dashboardUrl, '/preferences')
+		.then (preferencesUrl) ->
 			return params.token if params.token?
 
 			console.info """
 				To login to the Resin CLI, you need your unique token, which is accesible from
-				the preferences page at #{TOKEN_URL}
+				the preferences page at #{preferencesUrl}
 
 				Attempting to open a browser at that location...
 			"""
 
-			open(TOKEN_URL).catch ->
+			open(preferencesUrl).catch ->
 				console.error """
 					Unable to open a web browser in the current environment.
-					Please visit #{TOKEN_URL} manually.
+					Please visit #{preferencesUrl} manually.
 				"""
 			.then ->
 				form.ask

@@ -1,5 +1,5 @@
 (function() {
-  var Promise, TOKEN_URL, _, events, form, open, resin, settings, url, validEmail, visuals;
+  var Promise, _, events, form, open, resin, url, validEmail, visuals;
 
   Promise = require('bluebird');
 
@@ -11,8 +11,6 @@
 
   resin = require('resin-sdk');
 
-  settings = require('resin-settings-client');
-
   form = require('resin-cli-form');
 
   visuals = require('resin-cli-visuals');
@@ -21,20 +19,20 @@
 
   events = require('resin-cli-events');
 
-  TOKEN_URL = url.resolve(settings.get('dashboardUrl'), '/preferences');
-
   exports.login = {
     signature: 'login [token]',
     description: 'login to resin.io',
-    help: "Use this command to login to your resin.io account.\n\nTo login, you need your token, which is accesible from the preferences page:\n\n	" + TOKEN_URL + "\n\nExamples:\n\n	$ resin login\n	$ resin login \"eyJ0eXAiOiJKV1Qi...\"",
+    help: 'Use this command to login to your resin.io account.\n\nTo login, you need your token, which is accesible from the preferences page.\n\nExamples:\n\n	$ resin login\n	$ resin login "eyJ0eXAiOiJKV1Qi..."',
     action: function(params, options, done) {
-      return Promise["try"](function() {
+      return resin.settings.get('dashboardUrl').then(function(dashboardUrl) {
+        return url.resolve(dashboardUrl, '/preferences');
+      }).then(function(preferencesUrl) {
         if (params.token != null) {
           return params.token;
         }
-        console.info("To login to the Resin CLI, you need your unique token, which is accesible from\nthe preferences page at " + TOKEN_URL + "\n\nAttempting to open a browser at that location...");
-        return open(TOKEN_URL)["catch"](function() {
-          return console.error("Unable to open a web browser in the current environment.\nPlease visit " + TOKEN_URL + " manually.");
+        console.info("To login to the Resin CLI, you need your unique token, which is accesible from\nthe preferences page at " + preferencesUrl + "\n\nAttempting to open a browser at that location...");
+        return open(preferencesUrl)["catch"](function() {
+          return console.error("Unable to open a web browser in the current environment.\nPlease visit " + preferencesUrl + " manually.");
         }).then(function() {
           return form.ask({
             message: 'What\'s your token? (visible in the preferences page)',
