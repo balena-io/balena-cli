@@ -33,3 +33,4 @@ release/build
 
 npm-shrinkwrap.json
 .resinconf
+resinrc.yml
