@@ -82,7 +82,7 @@
 
   exports.awaitDevice = function(uuid) {
     var poll, spinner;
-    spinner = new visuals.Spinner("Awaiting device: " + uuid);
+    spinner = new visuals.Spinner("Waiting for your device to come online: " + uuid);
     poll = function() {
       return resin.models.device.isOnline(uuid).then(function(isOnline) {
         if (isOnline) {
