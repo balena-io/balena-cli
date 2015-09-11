@@ -25,7 +25,12 @@
           return;
         }
         return patterns.selectApplication().tap(function(applicationName) {
-          return capitano.runAsync("app create " + applicationName);
+          return resin.models.application.has(applicationName).then(function(hasApplication) {
+            if (hasApplication) {
+              return applicationName;
+            }
+            return capitano.runAsync("app create " + applicationName);
+          });
         }).then(function(applicationName) {
           return params.name = applicationName;
         });
