@@ -1,97 +1,37 @@
 (function() {
-  var Promise, _, form, resin, visuals;
+  var _, chalk, os;
 
   _ = require('lodash');
 
-  Promise = require('bluebird');
+  _.str = require('underscore.string');
 
-  form = require('resin-cli-form');
+  os = require('os');
 
-  visuals = require('resin-cli-visuals');
+  chalk = require('chalk');
 
-  resin = require('resin-sdk');
-
-  exports.selectDeviceType = function() {
-    return form.ask({
-      message: 'Device Type',
-      type: 'list',
-      choices: ['Raspberry Pi', 'Raspberry Pi 2', 'BeagleBone Black']
-    });
+  exports.getOperatingSystem = function() {
+    var platform;
+    platform = os.platform();
+    if (platform === 'darwin') {
+      platform = 'osx';
+    }
+    return platform;
   };
 
-  exports.confirm = function(yesOption, message) {
-    return Promise["try"](function() {
-      if (yesOption) {
-        return true;
-      }
-      return form.ask({
-        message: message,
-        type: 'confirm',
-        "default": false
-      });
-    }).then(function(confirmed) {
-      if (!confirmed) {
-        throw new Error('Aborted');
-      }
-    });
-  };
-
-  exports.selectApplication = function() {
-    return resin.models.application.hasAny().then(function(hasAnyApplications) {
-      if (!hasAnyApplications) {
-        return;
-      }
-      return resin.models.application.getAll().then(function(applications) {
-        applications = _.pluck(applications, 'app_name');
-        applications.unshift({
-          name: 'Create a new application',
-          value: null
-        });
-        return form.ask({
-          message: 'Select an application',
-          type: 'list',
-          choices: applications
-        });
-      });
-    }).then(function(application) {
-      if (application != null) {
-        return application;
-      }
-      return form.ask({
-        message: 'Choose a Name for your new application',
-        type: 'input'
-      });
-    });
-  };
-
-  exports.selectProjectDirectory = function() {
-    return resin.settings.get('projectsDirectory').then(function(projectsDirectory) {
-      return form.ask({
-        message: 'Please choose a directory for your code',
-        type: 'input',
-        "default": projectsDirectory
-      });
-    });
-  };
-
-  exports.awaitDevice = function(uuid) {
-    var poll, spinner;
-    spinner = new visuals.Spinner("Awaiting device: " + uuid);
-    poll = function() {
-      return resin.models.device.isOnline(uuid).then(function(isOnline) {
-        if (isOnline) {
-          spinner.stop();
-          console.info("Device became online: " + uuid);
-        } else {
-          spinner.start();
-          return Promise.delay(3000).then(poll);
-        }
-      });
-    };
-    return resin.models.device.getName(uuid).then(function(deviceName) {
-      console.info("Waiting for " + deviceName + " to connect to resin...");
-      return poll()["return"](uuid);
-    });
+  exports.stateToString = function(state) {
+    var percentage, result;
+    percentage = _.str.lpad(state.percentage, 3, '0') + '%';
+    result = (chalk.blue(percentage)) + " " + (chalk.cyan(state.operation.command));
+    switch (state.operation.command) {
+      case 'copy':
+        return result + " " + state.operation.from.path + " -> " + state.operation.to.path;
+      case 'replace':
+        return result + " " + state.operation.file.path + ", " + state.operation.copy + " -> " + state.operation.replace;
+      case 'run-script':
+        return result + " " + state.operation.script;
+      default:
+        throw new Error("Unsupported operation: " + state.operation.type);
+    }
   };
 
 }).call(this);

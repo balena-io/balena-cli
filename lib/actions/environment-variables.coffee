@@ -4,7 +4,7 @@ resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
 events = require('resin-cli-events')
 commandOptions = require('./command-options')
-helpers = require('../utils/helpers')
+patterns = require('../utils/patterns')
 
 exports.list =
 	signature: 'envs'
@@ -83,7 +83,7 @@ exports.remove =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
-		helpers.confirm(options.yes, 'Are you sure you want to delete the environment variable?').then ->
+		patterns.confirm(options.yes, 'Are you sure you want to delete the environment variable?').then ->
 			if options.device
 				resin.models.environmentVariables.device.remove(params.id)
 				events.send('deviceEnvironmentVariable.delete', id: params.id)

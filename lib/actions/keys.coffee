@@ -6,7 +6,7 @@ capitano = require('capitano')
 visuals = require('resin-cli-visuals')
 events = require('resin-cli-events')
 commandOptions = require('./command-options')
-helpers = require('../utils/helpers')
+patterns = require('../utils/patterns')
 
 exports.list =
 	signature: 'keys'
@@ -68,7 +68,7 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		helpers.confirm(options.yes, 'Are you sure you want to delete the key?').then ->
+		patterns.confirm(options.yes, 'Are you sure you want to delete the key?').then ->
 			resin.models.key.remove(params.id)
 		.tap ->
 			events.send('publicKey.delete', id: params.id)

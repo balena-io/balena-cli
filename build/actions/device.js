@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, async, capitano, commandOptions, deviceConfig, events, form, helpers, htmlToText, image, inject, manager, pine, registerDevice, resin, vcs, visuals;
+  var Promise, _, capitano, commandOptions, events, form, fs, helpers, init, patterns, resin, rimraf, stepHandler, umount, vcs, visuals;
 
   Promise = require('bluebird');
 
@@ -7,31 +7,25 @@
 
   _ = require('lodash');
 
-  async = require('async');
-
   resin = require('resin-sdk');
 
   visuals = require('resin-cli-visuals');
 
   vcs = require('resin-vcs');
 
-  manager = require('resin-image-manager');
-
-  image = require('resin-image');
-
-  inject = require('resin-config-inject');
-
-  registerDevice = require('resin-register-device');
-
-  pine = require('resin-pine');
-
-  deviceConfig = require('resin-device-config');
-
   form = require('resin-cli-form');
 
   events = require('resin-cli-events');
 
-  htmlToText = require('html-to-text');
+  init = require('resin-device-init');
+
+  fs = Promise.promisifyAll(require('fs'));
+
+  rimraf = Promise.promisify(require('rimraf'));
+
+  umount = Promise.promisifyAll(require('umount'));
+
+  patterns = require('../utils/patterns');
 
   helpers = require('../utils/helpers');
 
@@ -80,7 +74,7 @@
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
-      return helpers.confirm(options.yes, 'Are you sure you want to delete the device?').then(function() {
+      return patterns.confirm(options.yes, 'Are you sure you want to delete the device?').then(function() {
         return resin.models.device.remove(params.uuid);
       }).tap(function() {
         return events.send('device.delete', {
@@ -122,155 +116,83 @@
     }
   };
 
+  stepHandler = function(step) {
+    var bar;
+    step.on('stdout', _.bind(process.stdout.write, process.stdout));
+    step.on('stderr', _.bind(process.stderr.write, process.stderr));
+    step.on('state', function(state) {
+      if (state.operation.command === 'burn') {
+        return;
+      }
+      return console.log(helpers.stateToString(state));
+    });
+    bar = new visuals.Progress('Writing Device OS');
+    step.on('burn', _.bind(bar.update, bar));
+    return new Promise(function(resolve, reject) {
+      step.on('error', reject);
+      return step.on('end', resolve);
+    });
+  };
+
   exports.init = {
-    signature: 'device init [device]',
+    signature: 'device init',
     description: 'initialise a device with resin os',
-    help: 'Use this command to download the OS image of a certain application and write it to an SD Card.\n\nNote that this command requires admin privileges.\n\nIf `device` is omitted, you will be prompted to select a device interactively.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nYou can quiet the progress bar and other logging information by passing the `--quiet` boolean option.\n\nYou need to configure the network type and other settings:\n\nEthernet:\n  You can setup the device OS to use ethernet by setting the `--network` option to "ethernet".\n\nWifi:\n  You can setup the device OS to use wifi by setting the `--network` option to "wifi".\n  If you set "network" to "wifi", you will need to specify the `--ssid` and `--key` option as well.\n\nYou can omit network related options to be asked about them interactively.\n\nExamples:\n\n	$ resin device init\n	$ resin device init --application MyApp\n	$ resin device init --application MyApp --network ethernet\n	$ resin device init /dev/disk2 --application MyApp --network wifi --ssid MyNetwork --key secret',
-    options: [commandOptions.optionalApplication, commandOptions.network, commandOptions.wifiSsid, commandOptions.wifiKey],
+    help: 'Use this command to download the OS image of a certain application and write it to an SD Card.\n\nNotice this command may ask for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nExamples:\n\n	$ resin device init\n	$ resin device init --application MyApp',
+    options: [commandOptions.optionalApplication, commandOptions.yes],
     permission: 'user',
     root: true,
     action: function(params, options, done) {
-      var networkOptions;
-      networkOptions = {
-        network: options.network,
-        wifiSsid: options.ssid,
-        wifiKey: options.key
-      };
-      return async.waterfall([
-        function(callback) {
-          if (options.application != null) {
-            return callback(null, options.application);
-          }
-          return vcs.getApplicationName(process.cwd()).nodeify(callback);
-        }, function(applicationName, callback) {
-          options.application = applicationName;
-          return resin.models.application.has(options.application).nodeify(callback);
-        }, function(hasApplication, callback) {
-          if (!hasApplication) {
-            return callback(new Error("Invalid application: " + options.application));
-          }
-          if (params.device != null) {
-            return callback(null, params.device);
-          }
-          return form.ask({
-            type: 'drive',
-            message: 'Select a drive'
-          }).nodeify(callback);
-        }, function(device, callback) {
-          var message;
-          params.device = device;
-          message = "This will completely erase " + params.device + ". Are you sure you want to continue?";
-          if (options.yes) {
-            return callback(null, true);
-          } else {
-            return form.ask({
-              message: message,
-              type: 'confirm',
-              "default": false
-            }).nodeify(callback);
-          }
-        }, function(confirmed, callback) {
-          if (!confirmed) {
-            return done();
-          }
-          if (networkOptions.network != null) {
-            return callback();
-          }
-          return form.run([
-            {
-              message: 'Network Type',
-              name: 'network',
-              type: 'list',
-              choices: ['ethernet', 'wifi']
-            }, {
-              message: 'Wifi Ssid',
-              name: 'wifiSsid',
-              type: 'input',
-              when: {
-                network: 'wifi'
-              }
-            }, {
-              message: 'Wifi Key',
-              name: 'wifiKey',
-              type: 'input',
-              when: {
-                network: 'wifi'
-              }
-            }
-          ]).then(function(parameters) {
-            return _.extend(networkOptions, parameters);
-          }).nodeify(callback);
-        }, function(callback) {
-          console.info("Checking application: " + options.application);
-          return resin.models.application.get(options.application).nodeify(callback);
-        }, function(application, callback) {
-          return async.parallel({
-            manifest: function(callback) {
-              console.info('Getting device manifest for the application');
-              return resin.models.device.getManifestBySlug(application.device_type).nodeify(callback);
-            },
-            config: function(callback) {
-              console.info('Fetching application configuration');
-              return deviceConfig.get(options.application, networkOptions).nodeify(callback);
-            }
-          }, callback);
-        }, function(results, callback) {
-          params.manifest = results.manifest;
-          console.info('Associating the device');
-          return registerDevice.register(pine, results.config, function(error, device) {
-            if (error != null) {
-              return callback(error);
-            }
-            results.config.deviceId = device.id;
-            results.config.uuid = device.uuid;
-            results.config.registered_at = Math.floor(Date.now() / 1000);
-            params.uuid = results.config.uuid;
-            return callback(null, results);
-          });
-        }, function(results, callback) {
-          var bar, spinner;
-          console.info('Initializing device operating system image');
-          console.info('This may take a few minutes');
-          if (process.env.DEBUG) {
-            console.log(results.config);
-          }
-          bar = new visuals.Progress('Downloading Device OS');
-          spinner = new visuals.Spinner('Downloading Device OS (size unknown)');
-          return manager.configure(params.manifest, results.config, function(error, imagePath, removeCallback) {
-            spinner.stop();
-            return callback(error, imagePath, removeCallback);
-          }, function(state) {
-            if (state != null) {
-              return bar.update(state);
-            } else {
-              return spinner.start();
-            }
-          });
-        }, function(configuredImagePath, removeCallback, callback) {
-          var bar;
-          console.info('The base image was cached to improve initialization time of similar devices');
-          console.info('Attempting to write operating system image to drive');
-          bar = new visuals.Progress('Writing Device OS');
-          return image.write({
-            device: params.device,
-            image: configuredImagePath,
-            progress: _.bind(bar.update, bar)
-          }, function(error) {
-            if (error != null) {
-              return callback(error);
-            }
-            return callback(null, configuredImagePath, removeCallback);
-          });
-        }, function(temporalImagePath, removeCallback, callback) {
-          console.info('Image written successfully');
-          return removeCallback(callback);
-        }, function(callback) {
-          return resin.models.device.get(params.uuid).nodeify(callback);
-        }, function(device, callback) {
-          console.info("Device created: " + device.name);
-          return callback(null, params.uuid);
+      return Promise["try"](function() {
+        if (options.application != null) {
+          return options.application;
         }
-      ], done);
+        return vcs.getApplicationName(process.cwd());
+      }).then(resin.models.application.get).then(function(application) {
+        console.info('Getting configuration options');
+        return patterns.askDeviceOptions(application.device_type).tap(function(answers) {
+          var message;
+          if (answers.drive != null) {
+            message = "This will erase " + answers.drive + ". Are you sure?";
+            return patterns.confirm(options.yes, message)["return"](answers.drive).then(umount.umountAsync);
+          }
+        }).then(function(answers) {
+          console.info('Getting device operating system');
+          return patterns.download(application.device_type).then(function(temporalPath) {
+            var uuid;
+            uuid = resin.models.device.generateUUID();
+            console.log("Registering to " + application.app_name + ": " + uuid);
+            return resin.models.device.register(application.app_name, uuid).tap(function(device) {
+              console.log('Configuring operating system');
+              return init.configure(temporalPath, device.uuid, answers).then(stepHandler).then(function() {
+                console.log('Initializing device');
+                return init.initialize(temporalPath, device.uuid, answers).then(stepHandler);
+              }).tap(function() {
+                if (answers.drive == null) {
+                  return;
+                }
+                return umount.umountAsync(answers.drive).tap(function() {
+                  return console.log("You can safely remove " + answers.drive + " now");
+                });
+              });
+            }).then(function(device) {
+              console.log('Done');
+              return device.uuid;
+            })["finally"](function() {
+              return fs.statAsync(temporalPath).then(function(stat) {
+                if (stat.isDirectory()) {
+                  return rimraf(temporalPath);
+                }
+                return fs.unlinkAsync(temporalPath);
+              })["catch"](function(error) {
+                if (error.code === 'ENOENT') {
+                  return;
+                }
+                throw error;
+              });
+            });
+          });
+        });
+      }).nodeify(done);
     }
   };
 

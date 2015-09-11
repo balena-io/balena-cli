@@ -1,5 +1,5 @@
 (function() {
-  var Promise, capitano, form, helpers, mkdirp, resin;
+  var Promise, capitano, form, mkdirp, patterns, resin;
 
   Promise = require('bluebird');
 
@@ -11,7 +11,7 @@
 
   form = require('resin-cli-form');
 
-  helpers = require('../utils/helpers');
+  patterns = require('../utils/patterns');
 
   exports.wizard = {
     signature: 'quickstart [name]',
@@ -24,18 +24,18 @@
         if (params.name != null) {
           return;
         }
-        return helpers.selectApplication().tap(function(applicationName) {
+        return patterns.selectApplication().tap(function(applicationName) {
           return capitano.runAsync("app create " + applicationName);
         }).then(function(applicationName) {
           return params.name = applicationName;
         });
       }).then(function() {
         return capitano.runAsync("device init --application " + params.name);
-      }).tap(helpers.awaitDevice).then(function(uuid) {
+      }).tap(patterns.awaitDevice).then(function(uuid) {
         return capitano.runAsync("device " + uuid);
       }).tap(function() {
         return console.log('Your device is ready, lets start pushing some code!');
-      }).then(helpers.selectProjectDirectory).tap(mkdirp).tap(process.chdir).then(function() {
+      }).then(patterns.selectProjectDirectory).tap(mkdirp).tap(process.chdir).then(function() {
         return capitano.runAsync("app associate " + params.name);
       }).then(function(remoteUrl) {
         console.log("Resin git remote added: " + remoteUrl);
