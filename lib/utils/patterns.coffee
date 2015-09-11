@@ -51,7 +51,7 @@ exports.selectProjectDirectory = ->
 			default: projectsDirectory
 
 exports.awaitDevice = (uuid) ->
-	spinner = new visuals.Spinner("Awaiting device: #{uuid}")
+	spinner = new visuals.Spinner("Waiting for your device to come online: #{uuid}")
 
 	poll = ->
 		resin.models.device.isOnline(uuid).then (isOnline) ->
