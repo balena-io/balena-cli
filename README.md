@@ -1,4 +1,5 @@
-# Resin CLI
+Resin CLI
+=========
 
 [![npm version](https://badge.fury.io/js/resin-cli.svg)](http://badge.fury.io/js/resin-cli)
 [![dependencies](https://david-dm.org/resin-io/resin-cli.png)](https://david-dm.org/resin-io/resin-cli.png)
@@ -7,48 +8,54 @@
 
 The official Resin CLI tool.
 
-## Installing
+Requisites
+----------
+
+- [NodeJS](https://nodejs.org) (at least v0.10)
+- [Git](https://git-scm.com)
+
+Getting Started
+---------------
+
+### Installing
+
+This might require elevated privileges in some environments.
 
 ```sh
 $ npm install -g resin-cli
 ```
 
-### Running locally
+### Login
 
 ```sh
-$ ./bin/resin
+$ resin login
 ```
 
-## Tests
-
-You can run the [Mocha](http://mochajs.org/) test suite, you can do:
+### List available commands
 
 ```sh
-$ gulp test
+$ resin help
 ```
 
-## Development mode
+### Run the quickstart wizard
 
-The following command will watch for any changes and will run a linter and the whole test suite:
+Run as `root` on UNIX based systems, and in an administrator command line prompt in Windows.
 
 ```sh
-$ gulp watch
+$ resin quickstart
 ```
 
-If you set `DEBUG` environment variable, errors will print with a stack trace:
-
-```sh
-$ DEBUG=true resin ...
-```
-
-## Documentation
-
-You can renegerate the documentation with:
-
-```sh
-$ npm run-script doc
-```
-
-## Caveats
+Caveats
+-------
 
 - Some interactive widgets don't work on [Cygwin](https://cygwin.com/). If you're running Windows, it's preferrable that you use `cmd.exe`, as `Cygwin` is [not official supported by Node.js](https://github.com/chjj/blessed/issues/56#issuecomment-42671945).
+
+Support
+-------
+
+If you're having any problem, please [raise an issue](https://github.com/resin-io/resin-cli/issues/new) on GitHub and the Resin.io team will be happy to help.
+
+License
+-------
+
+The project is licensed under the MIT license.
