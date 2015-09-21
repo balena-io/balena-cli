@@ -21,7 +21,7 @@
     "resin",
     "git"
   ],
-  "author": "Juan Cruz Viotti <juanchiviotti@gmail.com>",
+  "author": "Juan Cruz Viotti <juan@resin.io>",
   "license": "MIT",
   "devDependencies": {
     "chai": "^3.0.0",
