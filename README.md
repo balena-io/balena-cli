@@ -45,11 +45,6 @@ Run as `root` on UNIX based systems, and in an administrator command line prompt
 $ resin quickstart
 ```
 
-Caveats
--------
-
-- Some interactive widgets don't work on [Cygwin](https://cygwin.com/). If you're running Windows, it's preferrable that you use `cmd.exe`, as `Cygwin` is [not official supported by Node.js](https://github.com/chjj/blessed/issues/56#issuecomment-42671945).
-
 Support
 -------
 
