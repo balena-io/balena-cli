@@ -24,6 +24,10 @@ install:
 
 build: off
 
+# to run your custom scripts instead of automatic MSBuild
+build_script:
+	- call
+
 test_script:
   - node --version
   - npm --version
