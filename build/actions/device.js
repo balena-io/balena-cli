@@ -143,9 +143,20 @@
         }
         return vcs.getApplicationName(process.cwd());
       }).then(resin.models.application.get).then(function(application) {
-        return tmp.tmpNameAsync().then(function(temporalPath) {
-          return capitano.runAsync("os download --output " + temporalPath);
-        }).then(function(temporalPath) {
+        var download;
+        download = function() {
+          return tmp.tmpNameAsync().then(function(temporalPath) {
+            return capitano.runAsync("os download --output " + temporalPath);
+          }).disposer(function(temporalPath) {
+            return fs.statAsync(temporalPath).then(function(stat) {
+              if (stat.isDirectory()) {
+                return rimraf(temporalPath);
+              }
+              return fs.unlinkAsync(temporalPath);
+            });
+          });
+        };
+        return Promise.using(download()).then(function(temporalPath) {
           return capitano.runAsync("device register " + application.app_name).then(resin.models.device.get).tap(function(device) {
             return capitano.runAsync("os configure " + temporalPath + " " + device.uuid).then(function() {
               return capitano.runAsync("os initialize " + temporalPath + " " + device.uuid);
@@ -153,18 +164,6 @@
           }).then(function(device) {
             console.log('Done');
             return device.uuid;
-          })["finally"](function() {
-            return fs.statAsync(temporalPath).then(function(stat) {
-              if (stat.isDirectory()) {
-                return rimraf(temporalPath);
-              }
-              return fs.unlinkAsync(temporalPath);
-            })["catch"](function(error) {
-              if (error.code === 'ENOENT') {
-                return;
-              }
-              throw error;
-            });
           });
         });
       }).nodeify(done);

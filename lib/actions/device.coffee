@@ -197,9 +197,16 @@ exports.init =
 			return vcs.getApplicationName(process.cwd())
 		.then(resin.models.application.get)
 		.then (application) ->
-			tmp.tmpNameAsync().then (temporalPath) ->
-				return capitano.runAsync("os download --output #{temporalPath}")
-			.then (temporalPath) ->
+
+			download = ->
+				tmp.tmpNameAsync().then (temporalPath) ->
+					capitano.runAsync("os download --output #{temporalPath}")
+				.disposer (temporalPath) ->
+					fs.statAsync(temporalPath).then (stat) ->
+						return rimraf(temporalPath) if stat.isDirectory()
+						return fs.unlinkAsync(temporalPath)
+
+			Promise.using(download()).then (temporalPath) ->
 				capitano.runAsync("device register #{application.app_name}")
 					.then(resin.models.device.get)
 					.tap (device) ->
@@ -208,16 +215,5 @@ exports.init =
 					.then (device) ->
 						console.log('Done')
 						return device.uuid
-
-					.finally ->
-						fs.statAsync(temporalPath).then (stat) ->
-							return rimraf(temporalPath) if stat.isDirectory()
-							return fs.unlinkAsync(temporalPath)
-						.catch (error) ->
-
-							# Ignore errors if temporary file does not exist
-							return if error.code is 'ENOENT'
-
-							throw error
 
 		.nodeify(done)
