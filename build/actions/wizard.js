@@ -24,7 +24,7 @@
         if (params.name != null) {
           return;
         }
-        return patterns.selectApplication().tap(function(applicationName) {
+        return patterns.selectOrCreateApplication().tap(function(applicationName) {
           return resin.models.application.has(applicationName).then(function(hasApplication) {
             if (hasApplication) {
               return applicationName;

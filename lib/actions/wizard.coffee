@@ -28,7 +28,7 @@ exports.wizard =
 	action: (params, options, done) ->
 		Promise.try ->
 			return if params.name?
-			patterns.selectApplication().tap (applicationName) ->
+			patterns.selectOrCreateApplication().tap (applicationName) ->
 				resin.models.application.has(applicationName).then (hasApplication) ->
 					return applicationName if hasApplication
 					capitano.runAsync("app create #{applicationName}")
