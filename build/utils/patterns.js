@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, form, helpers, manager, resin, visuals;
+  var Promise, _, form, helpers, resin, visuals;
 
   _ = require('lodash');
 
@@ -10,8 +10,6 @@
   visuals = require('resin-cli-visuals');
 
   resin = require('resin-sdk');
-
-  manager = require('resin-image-manager');
 
   helpers = require('./helpers');
 
@@ -106,25 +104,6 @@
         answers.os = helpers.getOperatingSystem();
       }
       return answers;
-    });
-  };
-
-  exports.download = function(deviceType) {
-    return manager.get(deviceType).then(function(stream) {
-      var bar, spinner;
-      bar = new visuals.Progress('Downloading Device OS');
-      spinner = new visuals.Spinner('Downloading Device OS (size unknown)');
-      stream.on('progress', function(state) {
-        if (state != null) {
-          return bar.update(state);
-        } else {
-          return spinner.start();
-        }
-      });
-      stream.on('end', function() {
-        return spinner.stop();
-      });
-      return manager.pipeTemporal(stream);
     });
   };
 

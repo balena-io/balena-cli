@@ -69,6 +69,10 @@ Now you have access to all the commands referenced below.
 
 	- [note &#60;|note&#62;](#note-60-note-62-)
 
+- OS
+
+	- [os download &#60;type&#62;](#os-download-60-type-62-)
+
 - Wizard
 
 	- [quickstart [name]](#quickstart-name-)
@@ -539,6 +543,22 @@ Examples:
 #### --device, --d,dev, --d,dev &#60;device&#62;
 
 device uuid
+
+# OS
+
+## os download &#60;type&#62;
+
+Use this command to download an unconfigured os image for a certain device type.
+
+Examples:
+
+	$ resin os download parallella -o ../foo/bar/parallella.img
+
+### Options
+
+#### --output, -o &#60;output&#62;
+
+output path
 
 # Wizard
 

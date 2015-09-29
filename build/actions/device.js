@@ -1,9 +1,9 @@
 (function() {
-  var Promise, _, capitano, commandOptions, events, form, fs, helpers, init, patterns, resin, rimraf, stepHandler, umount, vcs, visuals;
+  var Promise, _, capitano, commandOptions, events, form, fs, helpers, init, patterns, resin, rimraf, stepHandler, tmp, umount, vcs, visuals;
 
   Promise = require('bluebird');
 
-  capitano = require('capitano');
+  capitano = Promise.promisifyAll(require('capitano'));
 
   _ = require('lodash');
 
@@ -28,6 +28,10 @@
   patterns = require('../utils/patterns');
 
   helpers = require('../utils/helpers');
+
+  tmp = Promise.promisifyAll(require('tmp'));
+
+  tmp.setGracefulCleanup();
 
   commandOptions = require('./command-options');
 
@@ -156,8 +160,9 @@
             return patterns.confirm(options.yes, message)["return"](answers.drive).then(umount.umountAsync);
           }
         }).then(function(answers) {
-          console.info('Getting device operating system');
-          return patterns.download(application.device_type).then(function(temporalPath) {
+          return tmp.tmpNameAsync().then(function(temporalPath) {
+            return capitano.runAsync("os download --output " + temporalPath);
+          }).then(function(temporalPath) {
             var uuid;
             uuid = resin.models.device.generateUUID();
             console.log("Registering to " + application.app_name + ": " + uuid);
