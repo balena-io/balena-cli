@@ -43,6 +43,21 @@
   exports.selectApplication = function() {
     return resin.models.application.hasAny().then(function(hasAnyApplications) {
       if (!hasAnyApplications) {
+        throw new Error('You don\'t have any applications');
+      }
+      return resin.models.application.getAll().then(function(applications) {
+        return form.ask({
+          message: 'Select an application',
+          type: 'list',
+          choices: _.pluck(applications, 'app_name')
+        });
+      });
+    });
+  };
+
+  exports.selectOrCreateApplication = function() {
+    return resin.models.application.hasAny().then(function(hasAnyApplications) {
+      if (!hasAnyApplications) {
         return;
       }
       return resin.models.application.getAll().then(function(applications) {

@@ -25,6 +25,17 @@ exports.confirm = (yesOption, message) ->
 
 exports.selectApplication = ->
 	resin.models.application.hasAny().then (hasAnyApplications) ->
+		if not hasAnyApplications
+			throw new Error('You don\'t have any applications')
+
+		resin.models.application.getAll().then (applications) ->
+			return form.ask
+				message: 'Select an application'
+				type: 'list'
+				choices: _.pluck(applications, 'app_name')
+
+exports.selectOrCreateApplication = ->
+	resin.models.application.hasAny().then (hasAnyApplications) ->
 		return if not hasAnyApplications
 		resin.models.application.getAll().then (applications) ->
 			applications = _.pluck(applications, 'app_name')

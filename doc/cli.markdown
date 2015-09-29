@@ -38,7 +38,7 @@ Now you have access to all the commands referenced below.
 	- [device rm &#60;uuid&#62;](#device-rm-60-uuid-62-)
 	- [device identify &#60;uuid&#62;](#device-identify-60-uuid-62-)
 	- [device rename &#60;uuid&#62; [newName]](#device-rename-60-uuid-62-newname-)
-	- [device init [device]](#device-init-device-)
+	- [device init](#device-init)
 
 - Environment Variables
 
@@ -291,36 +291,17 @@ Examples:
 	$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 MyPi
 	$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
 
-## device init [device]
+## device init
 
 Use this command to download the OS image of a certain application and write it to an SD Card.
 
-Note that this command requires admin privileges.
-
-If `device` is omitted, you will be prompted to select a device interactively.
-
-Notice this command asks for confirmation interactively.
+Notice this command may ask for confirmation interactively.
 You can avoid this by passing the `--yes` boolean option.
-
-You can quiet the progress bar and other logging information by passing the `--quiet` boolean option.
-
-You need to configure the network type and other settings:
-
-Ethernet:
-  You can setup the device OS to use ethernet by setting the `--network` option to "ethernet".
-
-Wifi:
-  You can setup the device OS to use wifi by setting the `--network` option to "wifi".
-  If you set "network" to "wifi", you will need to specify the `--ssid` and `--key` option as well.
-
-You can omit network related options to be asked about them interactively.
 
 Examples:
 
 	$ resin device init
 	$ resin device init --application MyApp
-	$ resin device init --application MyApp --network ethernet
-	$ resin device init /dev/disk2 --application MyApp --network wifi --ssid MyNetwork --key secret
 
 ### Options
 
@@ -328,17 +309,9 @@ Examples:
 
 application name
 
-#### --network, -n &#60;network&#62;
+#### --yes, -y
 
-network type
-
-#### --ssid, -s &#60;ssid&#62;
-
-wifi ssid, if network is wifi
-
-#### --key, -k &#60;key&#62;
-
-wifi key, if network is wifi
+confirm non interactively
 
 # Environment Variables
 

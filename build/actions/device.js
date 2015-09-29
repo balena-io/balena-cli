@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, capitano, commandOptions, events, form, fs, patterns, resin, rimraf, tmp, vcs, visuals;
+  var Promise, _, capitano, commandOptions, events, form, fs, patterns, resin, rimraf, tmp, visuals;
 
   Promise = require('bluebird');
 
@@ -10,8 +10,6 @@
   resin = require('resin-sdk');
 
   visuals = require('resin-cli-visuals');
-
-  vcs = require('resin-vcs');
 
   form = require('resin-cli-form');
 
@@ -141,7 +139,7 @@
         if (options.application != null) {
           return options.application;
         }
-        return vcs.getApplicationName(process.cwd());
+        return patterns.selectApplication();
       }).then(resin.models.application.get).then(function(application) {
         var download;
         download = function() {

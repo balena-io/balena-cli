@@ -3,7 +3,6 @@ capitano = Promise.promisifyAll(require('capitano'))
 _ = require('lodash')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
-vcs = require('resin-vcs')
 form = require('resin-cli-form')
 events = require('resin-cli-events')
 fs = Promise.promisifyAll(require('fs'))
@@ -194,7 +193,7 @@ exports.init =
 	action: (params, options, done) ->
 		Promise.try ->
 			return options.application if options.application?
-			return vcs.getApplicationName(process.cwd())
+			return patterns.selectApplication()
 		.then(resin.models.application.get)
 		.then (application) ->
 
