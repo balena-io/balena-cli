@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, capitano, commandOptions, events, form, fs, helpers, init, patterns, resin, rimraf, stepHandler, tmp, umount, vcs, visuals;
+  var Promise, _, capitano, commandOptions, events, form, fs, patterns, resin, rimraf, tmp, vcs, visuals;
 
   Promise = require('bluebird');
 
@@ -17,17 +17,11 @@
 
   events = require('resin-cli-events');
 
-  init = require('resin-device-init');
-
   fs = Promise.promisifyAll(require('fs'));
 
   rimraf = Promise.promisify(require('rimraf'));
 
-  umount = Promise.promisifyAll(require('umount'));
-
   patterns = require('../utils/patterns');
-
-  helpers = require('../utils/helpers');
 
   tmp = Promise.promisifyAll(require('tmp'));
 
@@ -135,24 +129,6 @@
     }
   };
 
-  stepHandler = function(step) {
-    var bar;
-    step.on('stdout', _.bind(process.stdout.write, process.stdout));
-    step.on('stderr', _.bind(process.stderr.write, process.stderr));
-    step.on('state', function(state) {
-      if (state.operation.command === 'burn') {
-        return;
-      }
-      return console.log(helpers.stateToString(state));
-    });
-    bar = new visuals.Progress('Writing Device OS');
-    step.on('burn', _.bind(bar.update, bar));
-    return new Promise(function(resolve, reject) {
-      step.on('error', reject);
-      return step.on('end', resolve);
-    });
-  };
-
   exports.init = {
     signature: 'device init',
     description: 'initialise a device with resin os',
@@ -171,28 +147,8 @@
           return capitano.runAsync("os download --output " + temporalPath);
         }).then(function(temporalPath) {
           return capitano.runAsync("device register " + application.app_name).then(resin.models.device.get).tap(function(device) {
-            console.log('Configuring operating system');
-            return capitano.runAsync("os configure " + temporalPath + " " + uuid).then(function() {
-              console.log('Initializing device');
-              return resin.models.device.getManifestBySlug(application.device_type).then(function(manifest) {
-                var ref;
-                return form.run((ref = manifest.initialization) != null ? ref.options : void 0);
-              }).tap(function(answers) {
-                var message;
-                if (answers.drive != null) {
-                  message = "This will erase " + answers.drive + ". Are you sure?";
-                  return patterns.confirm(options.yes, message)["return"](answers.drive).then(umount.umountAsync);
-                }
-              }).then(function(answers) {
-                return init.initialize(temporalPath, device.uuid, answers).then(stepHandler)["return"](answers);
-              }).tap(function(answers) {
-                if (answers.drive == null) {
-                  return;
-                }
-                return umount.umountAsync(answers.drive).tap(function() {
-                  return console.log("You can safely remove " + answers.drive + " now");
-                });
-              });
+            return capitano.runAsync("os configure " + temporalPath + " " + device.uuid).then(function() {
+              return capitano.runAsync("os initialize " + temporalPath + " " + device.uuid);
             });
           }).then(function(device) {
             console.log('Done');

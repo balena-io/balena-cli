@@ -6,12 +6,9 @@ visuals = require('resin-cli-visuals')
 vcs = require('resin-vcs')
 form = require('resin-cli-form')
 events = require('resin-cli-events')
-init = require('resin-device-init')
 fs = Promise.promisifyAll(require('fs'))
 rimraf = Promise.promisify(require('rimraf'))
-umount = Promise.promisifyAll(require('umount'))
 patterns = require('../utils/patterns')
-helpers = require('../utils/helpers')
 tmp = Promise.promisifyAll(require('tmp'))
 tmp.setGracefulCleanup()
 
@@ -174,23 +171,6 @@ exports.rename =
 			events.send('device.rename', device: params.uuid)
 		.nodeify(done)
 
-stepHandler = (step) ->
-
-	step.on('stdout', _.bind(process.stdout.write, process.stdout))
-	step.on('stderr', _.bind(process.stderr.write, process.stderr))
-
-	step.on 'state', (state) ->
-		return if state.operation.command is 'burn'
-		console.log(helpers.stateToString(state))
-
-	bar = new visuals.Progress('Writing Device OS')
-
-	step.on('burn', _.bind(bar.update, bar))
-
-	return new Promise (resolve, reject) ->
-		step.on('error', reject)
-		step.on('end', resolve)
-
 exports.init =
 	signature: 'device init'
 	description: 'initialise a device with resin os'
@@ -223,25 +203,8 @@ exports.init =
 				capitano.runAsync("device register #{application.app_name}")
 					.then(resin.models.device.get)
 					.tap (device) ->
-						console.log('Configuring operating system')
-						capitano.runAsync("os configure #{temporalPath} #{uuid}").then ->
-							console.log('Initializing device')
-							resin.models.device.getManifestBySlug(application.device_type).then (manifest) ->
-								return form.run(manifest.initialization?.options)
-							.tap (answers) ->
-								if answers.drive?
-									message = "This will erase #{answers.drive}. Are you sure?"
-									patterns.confirm(options.yes, message)
-										.return(answers.drive)
-										.then(umount.umountAsync)
-							.then (answers) ->
-								init.initialize(temporalPath, device.uuid, answers)
-									.then(stepHandler)
-									.return(answers)
-							.tap (answers) ->
-								return if not answers.drive?
-								umount.umountAsync(answers.drive).tap ->
-									console.log("You can safely remove #{answers.drive} now")
+						capitano.runAsync("os configure #{temporalPath} #{device.uuid}").then ->
+							capitano.runAsync("os initialize #{temporalPath} #{device.uuid}")
 					.then (device) ->
 						console.log('Done')
 						return device.uuid
