@@ -39,6 +39,7 @@
   exports.waitStream = function(stream) {
     return new Promise(function(resolve, reject) {
       stream.on('close', resolve);
+      stream.on('end', resolve);
       return stream.on('error', reject);
     });
   };

@@ -66,6 +66,7 @@ capitano.command(actions.env.remove)
 
 # ---------- OS Module ----------
 capitano.command(actions.os.download)
+capitano.command(actions.os.configure)
 
 # ---------- Logs Module ----------
 capitano.command(actions.logs)

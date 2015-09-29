@@ -26,4 +26,5 @@ exports.stateToString = (state) ->
 exports.waitStream = (stream) ->
 	return new Promise (resolve, reject) ->
 		stream.on('close', resolve)
+		stream.on('end', resolve)
 		stream.on('error', reject)

@@ -98,13 +98,4 @@
     });
   };
 
-  exports.askDeviceOptions = function(deviceType) {
-    return resin.models.config.getDeviceOptions(deviceType).then(form.run).then(function(answers) {
-      if (answers.os == null) {
-        answers.os = helpers.getOperatingSystem();
-      }
-      return answers;
-    });
-  };
-
 }).call(this);
