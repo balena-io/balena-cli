@@ -69,9 +69,3 @@ exports.awaitDevice = (uuid) ->
 	resin.models.device.getName(uuid).then (deviceName) ->
 		console.info("Waiting for #{deviceName} to connect to resin...")
 		poll().return(uuid)
-
-exports.askDeviceOptions = (deviceType) ->
-	resin.models.config.getDeviceOptions(deviceType).then(form.run)
-	.then (answers) ->
-		answers.os ?= helpers.getOperatingSystem()
-		return answers

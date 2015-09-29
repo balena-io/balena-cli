@@ -152,26 +152,28 @@
         }
         return vcs.getApplicationName(process.cwd());
       }).then(resin.models.application.get).then(function(application) {
-        console.info('Getting configuration options');
-        return patterns.askDeviceOptions(application.device_type).tap(function(answers) {
-          var message;
-          if (answers.drive != null) {
-            message = "This will erase " + answers.drive + ". Are you sure?";
-            return patterns.confirm(options.yes, message)["return"](answers.drive).then(umount.umountAsync);
-          }
-        }).then(function(answers) {
-          return tmp.tmpNameAsync().then(function(temporalPath) {
-            return capitano.runAsync("os download --output " + temporalPath);
-          }).then(function(temporalPath) {
-            var uuid;
-            uuid = resin.models.device.generateUUID();
-            console.log("Registering to " + application.app_name + ": " + uuid);
-            return resin.models.device.register(application.app_name, uuid).tap(function(device) {
-              console.log('Configuring operating system');
-              return init.configure(temporalPath, device.uuid, answers).then(stepHandler).then(function() {
-                console.log('Initializing device');
-                return init.initialize(temporalPath, device.uuid, answers).then(stepHandler);
-              }).tap(function() {
+        return tmp.tmpNameAsync().then(function(temporalPath) {
+          return capitano.runAsync("os download --output " + temporalPath);
+        }).then(function(temporalPath) {
+          var uuid;
+          uuid = resin.models.device.generateUUID();
+          console.log("Registering to " + application.app_name + ": " + uuid);
+          return resin.models.device.register(application.app_name, uuid).tap(function(device) {
+            console.log('Configuring operating system');
+            return capitano.runAsync("os configure " + temporalPath + " " + uuid).then(function() {
+              console.log('Initializing device');
+              return resin.models.device.getManifestBySlug(application.device_type).then(function(manifest) {
+                var ref;
+                return form.run((ref = manifest.initialization) != null ? ref.options : void 0);
+              }).tap(function(answers) {
+                var message;
+                if (answers.drive != null) {
+                  message = "This will erase " + answers.drive + ". Are you sure?";
+                  return patterns.confirm(options.yes, message)["return"](answers.drive).then(umount.umountAsync);
+                }
+              }).then(function(answers) {
+                return init.initialize(temporalPath, device.uuid, answers).then(stepHandler)["return"](answers);
+              }).tap(function(answers) {
                 if (answers.drive == null) {
                   return;
                 }
@@ -179,21 +181,21 @@
                   return console.log("You can safely remove " + answers.drive + " now");
                 });
               });
-            }).then(function(device) {
-              console.log('Done');
-              return device.uuid;
-            })["finally"](function() {
-              return fs.statAsync(temporalPath).then(function(stat) {
-                if (stat.isDirectory()) {
-                  return rimraf(temporalPath);
-                }
-                return fs.unlinkAsync(temporalPath);
-              })["catch"](function(error) {
-                if (error.code === 'ENOENT') {
-                  return;
-                }
-                throw error;
-              });
+            });
+          }).then(function(device) {
+            console.log('Done');
+            return device.uuid;
+          })["finally"](function() {
+            return fs.statAsync(temporalPath).then(function(stat) {
+              if (stat.isDirectory()) {
+                return rimraf(temporalPath);
+              }
+              return fs.unlinkAsync(temporalPath);
+            })["catch"](function(error) {
+              if (error.code === 'ENOENT') {
+                return;
+              }
+              throw error;
             });
           });
         });
