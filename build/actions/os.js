@@ -56,7 +56,7 @@
         output = fs.createWriteStream(options.output);
         return helpers.waitStream(stream.pipe(output))["return"](options.output);
       }).tap(function(output) {
-        return console.log("The image was downloaded to " + output);
+        return console.info("The image was downloaded to " + output);
       }).nodeify(done);
     }
   };
