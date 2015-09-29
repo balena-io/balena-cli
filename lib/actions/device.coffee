@@ -5,7 +5,6 @@ resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
 form = require('resin-cli-form')
 events = require('resin-cli-events')
-fs = Promise.promisifyAll(require('fs'))
 rimraf = Promise.promisify(require('rimraf'))
 patterns = require('../utils/patterns')
 tmp = Promise.promisifyAll(require('tmp'))
@@ -200,10 +199,7 @@ exports.init =
 			download = ->
 				tmp.tmpNameAsync().then (temporalPath) ->
 					capitano.runAsync("os download --output #{temporalPath}")
-				.disposer (temporalPath) ->
-					fs.statAsync(temporalPath).then (stat) ->
-						return rimraf(temporalPath) if stat.isDirectory()
-						return fs.unlinkAsync(temporalPath)
+				.disposer(_.ary(rimraf, 1))
 
 			Promise.using(download()).then (temporalPath) ->
 				capitano.runAsync("device register #{application.app_name}")
