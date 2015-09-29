@@ -34,6 +34,7 @@ Now you have access to all the commands referenced below.
 
 	- [devices](#devices)
 	- [device &#60;uuid&#62;](#device-60-uuid-62-)
+	- [device register &#60;application&#62;](#device-register-60-application-62-)
 	- [device rm &#60;uuid&#62;](#device-rm-60-uuid-62-)
 	- [device identify &#60;uuid&#62;](#device-identify-60-uuid-62-)
 	- [device rename &#60;uuid&#62; [newName]](#device-rename-60-uuid-62-newname-)
@@ -241,6 +242,14 @@ Use this command to show information about a single device.
 Examples:
 
 	$ resin device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
+
+## device register &#60;application&#62;
+
+Use this command to register a device to an application.
+
+Examples:
+
+	$ resin device register MyApp
 
 ## device rm &#60;uuid&#62;
 

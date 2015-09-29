@@ -89,6 +89,25 @@ exports.info =
 			events.send('device.open', device: device.uuid)
 		.nodeify(done)
 
+exports.register =
+	signature: 'device register <application>'
+	description: 'register a device'
+	help: '''
+		Use this command to register a device to an application.
+
+		Examples:
+
+			$ resin device register MyApp
+	'''
+	permission: 'user'
+	action: (params, options, done) ->
+		resin.models.application.get(params.application).then (application) ->
+			uuid = resin.models.device.generateUUID()
+			console.info("Registering to #{application.app_name}: #{uuid}")
+			return resin.models.device.register(application.app_name, uuid)
+		.get('uuid')
+		.nodeify(done)
+
 exports.remove =
 	signature: 'device rm <uuid>'
 	description: 'remove a device'
@@ -201,41 +220,41 @@ exports.init =
 			tmp.tmpNameAsync().then (temporalPath) ->
 				return capitano.runAsync("os download --output #{temporalPath}")
 			.then (temporalPath) ->
-				uuid = resin.models.device.generateUUID()
-				console.log("Registering to #{application.app_name}: #{uuid}")
-				resin.models.device.register(application.app_name, uuid).tap (device) ->
-					console.log('Configuring operating system')
-					capitano.runAsync("os configure #{temporalPath} #{uuid}").then ->
-						console.log('Initializing device')
-						resin.models.device.getManifestBySlug(application.device_type).then (manifest) ->
-							return form.run(manifest.initialization?.options)
-						.tap (answers) ->
-							if answers.drive?
-								message = "This will erase #{answers.drive}. Are you sure?"
-								patterns.confirm(options.yes, message)
-									.return(answers.drive)
-									.then(umount.umountAsync)
-						.then (answers) ->
-							init.initialize(temporalPath, device.uuid, answers)
-								.then(stepHandler)
-								.return(answers)
-						.tap (answers) ->
-							return if not answers.drive?
-							umount.umountAsync(answers.drive).tap ->
-								console.log("You can safely remove #{answers.drive} now")
-				.then (device) ->
-					console.log('Done')
-					return device.uuid
+				capitano.runAsync("device register #{application.app_name}")
+					.then(resin.models.device.get)
+					.tap (device) ->
+						console.log('Configuring operating system')
+						capitano.runAsync("os configure #{temporalPath} #{uuid}").then ->
+							console.log('Initializing device')
+							resin.models.device.getManifestBySlug(application.device_type).then (manifest) ->
+								return form.run(manifest.initialization?.options)
+							.tap (answers) ->
+								if answers.drive?
+									message = "This will erase #{answers.drive}. Are you sure?"
+									patterns.confirm(options.yes, message)
+										.return(answers.drive)
+										.then(umount.umountAsync)
+							.then (answers) ->
+								init.initialize(temporalPath, device.uuid, answers)
+									.then(stepHandler)
+									.return(answers)
+							.tap (answers) ->
+								return if not answers.drive?
+								umount.umountAsync(answers.drive).tap ->
+									console.log("You can safely remove #{answers.drive} now")
+					.then (device) ->
+						console.log('Done')
+						return device.uuid
 
-				.finally ->
-					fs.statAsync(temporalPath).then (stat) ->
-						return rimraf(temporalPath) if stat.isDirectory()
-						return fs.unlinkAsync(temporalPath)
-					.catch (error) ->
+					.finally ->
+						fs.statAsync(temporalPath).then (stat) ->
+							return rimraf(temporalPath) if stat.isDirectory()
+							return fs.unlinkAsync(temporalPath)
+						.catch (error) ->
 
-						# Ignore errors if temporary file does not exist
-						return if error.code is 'ENOENT'
+							# Ignore errors if temporary file does not exist
+							return if error.code is 'ENOENT'
 
-						throw error
+							throw error
 
 		.nodeify(done)

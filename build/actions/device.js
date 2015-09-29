@@ -71,6 +71,21 @@
     }
   };
 
+  exports.register = {
+    signature: 'device register <application>',
+    description: 'register a device',
+    help: 'Use this command to register a device to an application.\n\nExamples:\n\n	$ resin device register MyApp',
+    permission: 'user',
+    action: function(params, options, done) {
+      return resin.models.application.get(params.application).then(function(application) {
+        var uuid;
+        uuid = resin.models.device.generateUUID();
+        console.info("Registering to " + application.app_name + ": " + uuid);
+        return resin.models.device.register(application.app_name, uuid);
+      }).get('uuid').nodeify(done);
+    }
+  };
+
   exports.remove = {
     signature: 'device rm <uuid>',
     description: 'remove a device',
@@ -155,10 +170,7 @@
         return tmp.tmpNameAsync().then(function(temporalPath) {
           return capitano.runAsync("os download --output " + temporalPath);
         }).then(function(temporalPath) {
-          var uuid;
-          uuid = resin.models.device.generateUUID();
-          console.log("Registering to " + application.app_name + ": " + uuid);
-          return resin.models.device.register(application.app_name, uuid).tap(function(device) {
+          return capitano.runAsync("device register " + application.app_name).then(resin.models.device.get).tap(function(device) {
             console.log('Configuring operating system');
             return capitano.runAsync("os configure " + temporalPath + " " + uuid).then(function() {
               console.log('Initializing device');
