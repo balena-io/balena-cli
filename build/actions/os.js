@@ -1,9 +1,13 @@
 (function() {
-  var _, form, fs, helpers, init, manager, resin, stepHandler, visuals;
+  var Promise, _, form, fs, helpers, init, manager, patterns, resin, stepHandler, umount, visuals;
 
   fs = require('fs');
 
   _ = require('lodash');
+
+  Promise = require('bluebird');
+
+  umount = Promise.promisifyAll(require('umount'));
 
   resin = require('resin-sdk');
 
@@ -16,6 +20,8 @@
   init = require('resin-device-init');
 
   helpers = require('../utils/helpers');
+
+  patterns = require('../utils/patterns');
 
   exports.download = {
     signature: 'os download <type>',
@@ -79,6 +85,36 @@
       console.info('Configuring operating system image');
       return resin.models.device.get(params.uuid).get('device_type').then(resin.models.device.getManifestBySlug).get('options').then(form.run).then(function(answers) {
         return init.configure(params.image, params.uuid, answers).then(stepHandler);
+      }).nodeify(done);
+    }
+  };
+
+  exports.initialize = {
+    signature: 'os initialize <image> <uuid>',
+    description: 'initialize an os image',
+    help: 'Use this command to initialize a previously configured operating system image.\n\nExamples:\n\n	$ resin os initialize ../path/rpi.img 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9',
+    permission: 'user',
+    action: function(params, options, done) {
+      console.info('Initializing device');
+      return resin.models.device.get(params.uuid).then(resin.models.device.getManifestBySlug).then(function(manifest) {
+        var ref;
+        return (ref = manifest.initialization) != null ? ref.options : void 0;
+      }).then(form.run).tap(function(answers) {
+        var message;
+        if (answers.drive == null) {
+          return;
+        }
+        message = "This will erase " + answers.drive + ". Are you sure?";
+        return patterns.confirm(options.yes, message)["return"](answers.drive).then(umount.umountAsync);
+      }).tap(function(answers) {
+        return init.initialize(params.image, params.uuid, answers).then(stepHandler);
+      }).then(function(answers) {
+        if (answers.drive == null) {
+          return;
+        }
+        return umount.umountAsync(answers.drive).tap(function() {
+          return console.info("You can safely remove " + answers.drive + " now");
+        });
       }).nodeify(done);
     }
   };

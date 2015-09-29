@@ -96,6 +96,8 @@
 
   capitano.command(actions.os.configure);
 
+  capitano.command(actions.os.initialize);
+
   capitano.command(actions.logs);
 
   update.notify();
