@@ -72,6 +72,8 @@
 
   capitano.command(actions.device.identify);
 
+  capitano.command(actions.device.register);
+
   capitano.command(actions.notes.set);
 
   capitano.command(actions.keys.list);
