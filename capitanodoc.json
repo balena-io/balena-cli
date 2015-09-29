@@ -57,6 +57,12 @@
 			]
 		},
 		{
+			"title": "OS",
+			"files": [
+				"lib/actions/os.coffee"
+			]
+		},
+		{
 			"title": "Wizard",
 			"files": [
 				"lib/actions/wizard.coffee"

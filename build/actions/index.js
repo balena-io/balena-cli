@@ -9,7 +9,8 @@
     keys: require('./keys'),
     logs: require('./logs'),
     notes: require('./notes'),
-    help: require('./help')
+    help: require('./help'),
+    os: require('./os')
   };
 
 }).call(this);

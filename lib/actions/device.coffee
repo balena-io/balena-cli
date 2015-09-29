@@ -1,5 +1,5 @@
 Promise = require('bluebird')
-capitano = require('capitano')
+capitano = Promise.promisifyAll(require('capitano'))
 _ = require('lodash')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
@@ -12,6 +12,8 @@ rimraf = Promise.promisify(require('rimraf'))
 umount = Promise.promisifyAll(require('umount'))
 patterns = require('../utils/patterns')
 helpers = require('../utils/helpers')
+tmp = Promise.promisifyAll(require('tmp'))
+tmp.setGracefulCleanup()
 
 commandOptions = require('./command-options')
 
@@ -205,8 +207,9 @@ exports.init =
 						.return(answers.drive)
 						.then(umount.umountAsync)
 			.then (answers) ->
-				console.info('Getting device operating system')
-				patterns.download(application.device_type).then (temporalPath) ->
+				tmp.tmpNameAsync().then (temporalPath) ->
+					return capitano.runAsync("os download --output #{temporalPath}")
+				.then (temporalPath) ->
 					uuid = resin.models.device.generateUUID()
 					console.log("Registering to #{application.app_name}: #{uuid}")
 					resin.models.device.register(application.app_name, uuid).tap (device) ->

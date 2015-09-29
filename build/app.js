@@ -90,6 +90,8 @@
 
   capitano.command(actions.env.remove);
 
+  capitano.command(actions.os.download);
+
   capitano.command(actions.logs);
 
   update.notify();

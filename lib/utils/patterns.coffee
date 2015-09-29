@@ -3,7 +3,6 @@ Promise = require('bluebird')
 form = require('resin-cli-form')
 visuals = require('resin-cli-visuals')
 resin = require('resin-sdk')
-manager = require('resin-image-manager')
 helpers = require('./helpers')
 
 exports.selectDeviceType = ->
@@ -76,19 +75,3 @@ exports.askDeviceOptions = (deviceType) ->
 	.then (answers) ->
 		answers.os ?= helpers.getOperatingSystem()
 		return answers
-
-exports.download = (deviceType) ->
-	manager.get(deviceType).then (stream) ->
-		bar = new visuals.Progress('Downloading Device OS')
-		spinner = new visuals.Spinner('Downloading Device OS (size unknown)')
-
-		stream.on 'progress', (state) ->
-			if state?
-				bar.update(state)
-			else
-				spinner.start()
-
-		stream.on 'end', ->
-			spinner.stop()
-
-		return manager.pipeTemporal(stream)

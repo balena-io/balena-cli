@@ -1,5 +1,7 @@
 (function() {
-  var _, chalk, os;
+  var Promise, _, chalk, os;
+
+  Promise = require('bluebird');
 
   _ = require('lodash');
 
@@ -32,6 +34,13 @@
       default:
         throw new Error("Unsupported operation: " + state.operation.type);
     }
+  };
+
+  exports.waitStream = function(stream) {
+    return new Promise(function(resolve, reject) {
+      stream.on('close', resolve);
+      return stream.on('error', reject);
+    });
   };
 
 }).call(this);

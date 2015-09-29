@@ -9,3 +9,4 @@ module.exports =
 	logs: require('./logs')
 	notes: require('./notes')
 	help: require('./help')
+	os: require('./os')

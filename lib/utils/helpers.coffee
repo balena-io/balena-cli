@@ -1,3 +1,4 @@
+Promise = require('bluebird')
 _ = require('lodash')
 _.str = require('underscore.string')
 os = require('os')
@@ -21,3 +22,8 @@ exports.stateToString = (state) ->
 			return "#{result} #{state.operation.script}"
 		else
 			throw new Error("Unsupported operation: #{state.operation.type}")
+
+exports.waitStream = (stream) ->
+	return new Promise (resolve, reject) ->
+		stream.on('close', resolve)
+		stream.on('error', reject)
