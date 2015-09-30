@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, form, fs, helpers, init, manager, patterns, resin, stepHandler, umount, visuals;
+  var Promise, _, form, fs, helpers, init, manager, patterns, resin, stepHandler, umount, unzip, visuals;
 
   fs = require('fs');
 
@@ -8,6 +8,8 @@
   Promise = require('bluebird');
 
   umount = Promise.promisifyAll(require('umount'));
+
+  unzip = require('unzip2');
 
   resin = require('resin-sdk');
 
@@ -53,7 +55,13 @@
         stream.on('end', function() {
           return spinner.stop();
         });
-        output = fs.createWriteStream(options.output);
+        if (stream.mime === 'application/zip') {
+          output = unzip.Extract({
+            path: options.output
+          });
+        } else {
+          output = fs.createWriteStream(options.output);
+        }
         return helpers.waitStream(stream.pipe(output))["return"](options.output);
       }).tap(function(output) {
         return console.info("The image was downloaded to " + output);

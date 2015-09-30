@@ -2,6 +2,7 @@ fs = require('fs')
 _ = require('lodash')
 Promise = require('bluebird')
 umount = Promise.promisifyAll(require('umount'))
+unzip = require('unzip2')
 resin = require('resin-sdk')
 manager = require('resin-image-manager')
 visuals = require('resin-cli-visuals')
@@ -44,7 +45,13 @@ exports.download =
 			stream.on 'end', ->
 				spinner.stop()
 
-			output = fs.createWriteStream(options.output)
+			# We completely rely on the `mime` custom property
+			# to make this decision.
+			# The actual stream should be checked instead.
+			if stream.mime is 'application/zip'
+				output = unzip.Extract(path: options.output)
+			else
+				output = fs.createWriteStream(options.output)
 
 			return helpers.waitStream(stream.pipe(output)).return(options.output)
 		.tap (output) ->
