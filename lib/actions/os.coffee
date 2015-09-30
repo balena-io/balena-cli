@@ -95,21 +95,19 @@ exports.configure =
 		.nodeify(done)
 
 exports.initialize =
-	signature: 'os initialize <image> <uuid>'
+	signature: 'os initialize <image> <type>'
 	description: 'initialize an os image'
 	help: '''
 		Use this command to initialize a previously configured operating system image.
 
 		Examples:
 
-			$ resin os initialize ../path/rpi.img 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
+			$ resin os initialize ../path/rpi.img 'raspberry-pi'
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
 		console.info('Initializing device')
-		resin.models.device.get(params.uuid)
-			.get('device_type')
-			.then(resin.models.device.getManifestBySlug)
+		resin.models.device.getManifestBySlug(params.type)
 			.then (manifest) ->
 				return manifest.initialization?.options
 			.then(form.run)
@@ -120,7 +118,7 @@ exports.initialize =
 					.return(answers.drive)
 					.then(umount.umountAsync)
 			.tap (answers) ->
-				return init.initialize(params.image, params.uuid, answers).then(stepHandler)
+				return init.initialize(params.image, params.type, answers).then(stepHandler)
 			.then (answers) ->
 				return if not answers.drive?
 				umount.umountAsync(answers.drive).tap ->

@@ -206,7 +206,7 @@ exports.init =
 					.then(resin.models.device.get)
 					.tap (device) ->
 						capitano.runAsync("os configure #{temporalPath} #{device.uuid}").then ->
-							capitano.runAsync("os initialize #{temporalPath} #{device.uuid}")
+							capitano.runAsync("os initialize #{temporalPath} #{application.device_type}")
 			.then (device) ->
 				console.log('Done')
 				return device.uuid
