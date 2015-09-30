@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, capitano, commandOptions, events, form, fs, patterns, resin, rimraf, tmp, visuals;
+  var Promise, _, capitano, commandOptions, events, form, patterns, resin, rimraf, tmp, visuals;
 
   Promise = require('bluebird');
 
@@ -14,8 +14,6 @@
   form = require('resin-cli-form');
 
   events = require('resin-cli-events');
-
-  fs = Promise.promisifyAll(require('fs'));
 
   rimraf = Promise.promisify(require('rimraf'));
 
@@ -145,14 +143,7 @@
         download = function() {
           return tmp.tmpNameAsync().then(function(temporalPath) {
             return capitano.runAsync("os download --output " + temporalPath);
-          }).disposer(function(temporalPath) {
-            return fs.statAsync(temporalPath).then(function(stat) {
-              if (stat.isDirectory()) {
-                return rimraf(temporalPath);
-              }
-              return fs.unlinkAsync(temporalPath);
-            });
-          });
+          }).disposer(_.ary(rimraf, 1));
         };
         return Promise.using(download()).then(function(temporalPath) {
           return capitano.runAsync("device register " + application.app_name).then(resin.models.device.get).tap(function(device) {
