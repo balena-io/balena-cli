@@ -174,9 +174,7 @@ confirm non interactively
 
 Use this command to login to your resin.io account.
 
-To login, you need your token, which is accesible from the preferences page:
-
-	https://dashboard.resin.io/preferences
+To login, you need your token, which is accesible from the preferences page.
 
 Examples:
 
@@ -388,7 +386,7 @@ Examples:
 
 	$ resin env add EDITOR vim --application MyApp
 	$ resin env add TERM --application MyApp
-	$ resin env add EDITOR vim --device MyDevice
+	$ resin env add EDITOR vim --device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
 
 ### Options
 
