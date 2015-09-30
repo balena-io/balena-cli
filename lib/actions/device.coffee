@@ -198,17 +198,17 @@ exports.init =
 
 			download = ->
 				tmp.tmpNameAsync().then (temporalPath) ->
-					capitano.runAsync("os download --output #{temporalPath}")
+					capitano.runAsync("os download #{application.device_type} --output #{temporalPath}")
 				.disposer(_.ary(rimraf, 1))
 
-			Promise.using(download()).then (temporalPath) ->
+			Promise.using download(), (temporalPath) ->
 				capitano.runAsync("device register #{application.app_name}")
 					.then(resin.models.device.get)
 					.tap (device) ->
 						capitano.runAsync("os configure #{temporalPath} #{device.uuid}").then ->
 							capitano.runAsync("os initialize #{temporalPath} #{device.uuid}")
-					.then (device) ->
-						console.log('Done')
-						return device.uuid
+			.then (device) ->
+				console.log('Done')
+				return device.uuid
 
 		.nodeify(done)

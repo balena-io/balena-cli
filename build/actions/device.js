@@ -142,18 +142,18 @@
         var download;
         download = function() {
           return tmp.tmpNameAsync().then(function(temporalPath) {
-            return capitano.runAsync("os download --output " + temporalPath);
+            return capitano.runAsync("os download " + application.device_type + " --output " + temporalPath);
           }).disposer(_.ary(rimraf, 1));
         };
-        return Promise.using(download()).then(function(temporalPath) {
+        return Promise.using(download(), function(temporalPath) {
           return capitano.runAsync("device register " + application.app_name).then(resin.models.device.get).tap(function(device) {
             return capitano.runAsync("os configure " + temporalPath + " " + device.uuid).then(function() {
               return capitano.runAsync("os initialize " + temporalPath + " " + device.uuid);
             });
-          }).then(function(device) {
-            console.log('Done');
-            return device.uuid;
           });
+        }).then(function(device) {
+          console.log('Done');
+          return device.uuid;
         });
       }).nodeify(done);
     }
