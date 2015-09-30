@@ -48,7 +48,7 @@ exports.download =
 
 			return helpers.waitStream(stream.pipe(output)).return(options.output)
 		.tap (output) ->
-			console.log("The image was downloaded to #{output}")
+			console.info("The image was downloaded to #{output}")
 		.nodeify(done)
 
 stepHandler = (step) ->
