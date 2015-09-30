@@ -148,7 +148,7 @@
         return Promise.using(download(), function(temporalPath) {
           return capitano.runAsync("device register " + application.app_name).then(resin.models.device.get).tap(function(device) {
             return capitano.runAsync("os configure " + temporalPath + " " + device.uuid).then(function() {
-              return capitano.runAsync("os initialize " + temporalPath + " " + device.uuid);
+              return capitano.runAsync("os initialize " + temporalPath + " " + application.device_type);
             });
           });
         }).then(function(device) {
