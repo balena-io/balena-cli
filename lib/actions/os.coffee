@@ -108,6 +108,7 @@ exports.initialize =
 	action: (params, options, done) ->
 		console.info('Initializing device')
 		resin.models.device.get(params.uuid)
+			.get('device_type')
 			.then(resin.models.device.getManifestBySlug)
 			.then (manifest) ->
 				return manifest.initialization?.options
