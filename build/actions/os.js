@@ -104,7 +104,7 @@
     permission: 'user',
     action: function(params, options, done) {
       console.info('Initializing device');
-      return resin.models.device.get(params.uuid).then(resin.models.device.getManifestBySlug).then(function(manifest) {
+      return resin.models.device.get(params.uuid).get('device_type').then(resin.models.device.getManifestBySlug).then(function(manifest) {
         var ref;
         return (ref = manifest.initialization) != null ? ref.options : void 0;
       }).then(form.run).tap(function(answers) {
