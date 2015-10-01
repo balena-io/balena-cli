@@ -30,6 +30,7 @@ exports.list =
 	'''
 	options: [ commandOptions.optionalApplication ]
 	permission: 'user'
+	primary: true
 	action: (params, options, done) ->
 		Promise.try ->
 			if options.application?
@@ -59,6 +60,7 @@ exports.info =
 			$ resin device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
 	'''
 	permission: 'user'
+	primary: true
 	action: (params, options, done) ->
 		resin.models.device.get(params.uuid).then (device) ->
 
@@ -189,6 +191,7 @@ exports.init =
 		commandOptions.yes
 	]
 	permission: 'user'
+	primary: true
 	action: (params, options, done) ->
 		Promise.try ->
 			return options.application if options.application?

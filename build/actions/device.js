@@ -33,6 +33,7 @@
     help: 'Use this command to list all devices that belong to you.\n\nYou can filter the devices by application by using the `--application` option.\n\nExamples:\n\n	$ resin devices\n	$ resin devices --application MyApp\n	$ resin devices --app MyApp\n	$ resin devices -a MyApp',
     options: [commandOptions.optionalApplication],
     permission: 'user',
+    primary: true,
     action: function(params, options, done) {
       return Promise["try"](function() {
         if (options.application != null) {
@@ -50,6 +51,7 @@
     description: 'list a single device',
     help: 'Use this command to show information about a single device.\n\nExamples:\n\n	$ resin device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9',
     permission: 'user',
+    primary: true,
     action: function(params, options, done) {
       return resin.models.device.get(params.uuid).then(function(device) {
         if (device.last_seen == null) {
@@ -133,6 +135,7 @@
     help: 'Use this command to download the OS image of a certain application and write it to an SD Card.\n\nNotice this command may ask for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nExamples:\n\n	$ resin device init\n	$ resin device init --application MyApp',
     options: [commandOptions.optionalApplication, commandOptions.yes],
     permission: 'user',
+    primary: true,
     action: function(params, options, done) {
       return Promise["try"](function() {
         if (options.application != null) {

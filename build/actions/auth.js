@@ -23,6 +23,7 @@
     signature: 'login [token]',
     description: 'login to resin.io',
     help: 'Use this command to login to your resin.io account.\n\nTo login, you need your token, which is accesible from the preferences page.\n\nExamples:\n\n	$ resin login\n	$ resin login "eyJ0eXAiOiJKV1Qi..."',
+    primary: true,
     action: function(params, options, done) {
       return resin.settings.get('dashboardUrl').then(function(dashboardUrl) {
         return url.resolve(dashboardUrl, '/preferences');

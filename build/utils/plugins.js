@@ -11,6 +11,7 @@
     return nplugm.list(regex).map(function(plugin) {
       var command;
       command = require(plugin);
+      command.plugin = true;
       if (!_.isArray(command)) {
         return capitano.command(command);
       }

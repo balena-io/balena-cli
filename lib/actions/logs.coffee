@@ -29,6 +29,7 @@ module.exports =
 		}
 	]
 	permission: 'user'
+	primary: true
 	action: (params, options, done) ->
 		promise = resin.logs.history(params.uuid).each (line) ->
 			console.log(line.message)
