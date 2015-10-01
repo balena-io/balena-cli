@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, capitano, commandOptions, events, form, patterns, resin, rimraf, tmp, visuals;
+  var Promise, _, capitano, commandOptions, events, form, helpers, patterns, resin, rimraf, tmp, visuals;
 
   Promise = require('bluebird');
 
@@ -18,6 +18,8 @@
   rimraf = Promise.promisify(require('rimraf'));
 
   patterns = require('../utils/patterns');
+
+  helpers = require('../utils/helpers');
 
   tmp = Promise.promisifyAll(require('tmp'));
 
@@ -131,7 +133,6 @@
     help: 'Use this command to download the OS image of a certain application and write it to an SD Card.\n\nNotice this command may ask for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nExamples:\n\n	$ resin device init\n	$ resin device init --application MyApp',
     options: [commandOptions.optionalApplication, commandOptions.yes],
     permission: 'user',
-    root: true,
     action: function(params, options, done) {
       return Promise["try"](function() {
         if (options.application != null) {
@@ -148,7 +149,7 @@
         return Promise.using(download(), function(temporalPath) {
           return capitano.runAsync("device register " + application.app_name).then(resin.models.device.get).tap(function(device) {
             return capitano.runAsync("os configure " + temporalPath + " " + device.uuid).then(function() {
-              return capitano.runAsync("os initialize " + temporalPath + " " + application.device_type);
+              return helpers.sudo(['os', 'initialize', temporalPath, application.device_type]);
             });
           });
         }).then(function(device) {

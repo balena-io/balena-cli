@@ -7,6 +7,7 @@ form = require('resin-cli-form')
 events = require('resin-cli-events')
 rimraf = Promise.promisify(require('rimraf'))
 patterns = require('../utils/patterns')
+helpers = require('../utils/helpers')
 tmp = Promise.promisifyAll(require('tmp'))
 tmp.setGracefulCleanup()
 
@@ -188,7 +189,6 @@ exports.init =
 		commandOptions.yes
 	]
 	permission: 'user'
-	root: true
 	action: (params, options, done) ->
 		Promise.try ->
 			return options.application if options.application?
@@ -206,7 +206,7 @@ exports.init =
 					.then(resin.models.device.get)
 					.tap (device) ->
 						capitano.runAsync("os configure #{temporalPath} #{device.uuid}").then ->
-							capitano.runAsync("os initialize #{temporalPath} #{application.device_type}")
+							helpers.sudo([ 'os', 'initialize', temporalPath, application.device_type ])
 			.then (device) ->
 				console.log('Done')
 				return device.uuid

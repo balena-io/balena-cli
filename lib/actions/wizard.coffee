@@ -23,7 +23,6 @@ exports.wizard =
 			$ sudo resin quickstart
 			$ sudo resin quickstart MyApp
 	'''
-	root: true
 	permission: 'user'
 	action: (params, options, done) ->
 		Promise.try ->

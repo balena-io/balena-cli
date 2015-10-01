@@ -102,6 +102,7 @@
     description: 'initialize an os image',
     help: 'Use this command to initialize a previously configured operating system image.\n\nExamples:\n\n	$ resin os initialize ../path/rpi.img \'raspberry-pi\'',
     permission: 'user',
+    root: true,
     action: function(params, options, done) {
       console.info('Initializing device');
       return resin.models.device.getManifestBySlug(params.type).then(function(manifest) {
