@@ -105,6 +105,7 @@ exports.initialize =
 			$ resin os initialize ../path/rpi.img 'raspberry-pi'
 	'''
 	permission: 'user'
+	root: true
 	action: (params, options, done) ->
 		console.info('Initializing device')
 		resin.models.device.getManifestBySlug(params.type)

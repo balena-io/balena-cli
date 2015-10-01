@@ -1,11 +1,15 @@
 (function() {
-  var Promise, _, chalk, os;
+  var Promise, _, capitano, chalk, child_process, os;
 
   Promise = require('bluebird');
+
+  capitano = Promise.promisifyAll(require('capitano'));
 
   _ = require('lodash');
 
   _.str = require('underscore.string');
+
+  child_process = require('child_process');
 
   os = require('os');
 
@@ -42,6 +46,18 @@
       stream.on('end', resolve);
       return stream.on('error', reject);
     });
+  };
+
+  exports.sudo = function(command) {
+    var spawn;
+    if (os.platform() === 'win32') {
+      return capitano.runAsync(command.join(' '));
+    }
+    command = _.union(_.take(process.argv, 2), command);
+    spawn = child_process.spawn('sudo', command, {
+      stdio: 'inherit'
+    });
+    return exports.waitStream(spawn);
   };
 
 }).call(this);

@@ -17,7 +17,6 @@
     signature: 'quickstart [name]',
     description: 'getting started with resin.io',
     help: 'Use this command to run a friendly wizard to get started with resin.io.\n\nThe wizard will guide you through:\n\n	- Create an application.\n	- Initialise an SDCard with the resin.io operating system.\n	- Associate an existing project directory with your resin.io application.\n	- Push your project to your devices.\n\nExamples:\n\n	$ sudo resin quickstart\n	$ sudo resin quickstart MyApp',
-    root: true,
     permission: 'user',
     action: function(params, options, done) {
       return Promise["try"](function() {
