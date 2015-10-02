@@ -21,6 +21,7 @@ exports.login	=
 			$ resin login
 			$ resin login "eyJ0eXAiOiJKV1Qi..."
 	'''
+	primary: true
 	action: (params, options, done) ->
 		resin.settings.get('dashboardUrl').then (dashboardUrl) ->
 			return url.resolve(dashboardUrl, '/preferences')

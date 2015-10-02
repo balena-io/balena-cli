@@ -18,6 +18,7 @@
       }
     ],
     permission: 'user',
+    primary: true,
     action: function(params, options, done) {
       var promise;
       promise = resin.logs.history(params.uuid).each(function(line) {

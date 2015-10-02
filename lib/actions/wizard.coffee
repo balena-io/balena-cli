@@ -24,6 +24,7 @@ exports.wizard =
 			$ sudo resin quickstart MyApp
 	'''
 	permission: 'user'
+	primary: true
 	action: (params, options, done) ->
 		Promise.try ->
 			return if params.name?

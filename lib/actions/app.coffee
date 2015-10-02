@@ -34,6 +34,7 @@ exports.create =
 		}
 	]
 	permission: 'user'
+	primary: true
 	action: (params, options, done) ->
 
 		# Validate the the application name is available
@@ -64,6 +65,7 @@ exports.list =
 			$ resin apps
 	'''
 	permission: 'user'
+	primary: true
 	action: (params, options, done) ->
 		resin.models.application.getAll().then (applications) ->
 			console.log visuals.table.horizontal applications, [
@@ -86,6 +88,7 @@ exports.info =
 			$ resin app MyApp
 	'''
 	permission: 'user'
+	primary: true
 	action: (params, options, done) ->
 		resin.models.application.get(params.name).then (application) ->
 			console.log visuals.table.vertical application, [

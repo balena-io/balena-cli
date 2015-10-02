@@ -30,14 +30,31 @@ print = (data) ->
 
 general = (params, options, done) ->
 	console.log('Usage: resin [COMMAND] [OPTIONS]\n')
-	console.log('Commands:\n')
+	console.log('Primary commands:\n')
 
 	# We do not want the wildcard command
 	# to be printed in the help screen.
 	commands = _.reject capitano.state.commands, (command) ->
 		return command.isWildcard()
 
-	print(parse(commands))
+	groupedCommands = _.groupBy commands, (command) ->
+		if command.plugin
+			return 'plugins'
+		else if command.primary
+			return 'primary'
+		return 'secondary'
+
+	print(parse(groupedCommands.primary))
+
+	if options.verbose
+		if not _.isEmpty(groupedCommands.plugins)
+			console.log('\nInstalled plugins:\n')
+			print(parse(groupedCommands.plugins))
+
+		console.log('\nAdditional commands:\n')
+		print(parse(groupedCommands.secondary))
+	else
+		console.log('\nRun `resin help --verbose` to list additional commands')
 
 	if not _.isEmpty(capitano.state.globalOptions)
 		console.log('\nGlobal Options:\n')
@@ -76,6 +93,13 @@ exports.help =
 			$ resin help apps
 			$ resin help os download
 	'''
+	primary: true
+	options: [
+		signature: 'verbose'
+		description: 'show additional commands'
+		boolean: true
+		alias: 'v'
+	]
 	action: (params, options, done) ->
 		if params.command?
 			command(params, options, done)

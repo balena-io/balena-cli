@@ -30,6 +30,7 @@
       }
     ],
     permission: 'user',
+    primary: true,
     action: function(params, options, done) {
       return resin.models.application.has(params.name).then(function(hasApplication) {
         if (hasApplication) {
@@ -51,6 +52,7 @@
     description: 'list all applications',
     help: 'Use this command to list all your applications.\n\nNotice this command only shows the most important bits of information for each app.\nIf you want detailed information, use resin app <name> instead.\n\nExamples:\n\n	$ resin apps',
     permission: 'user',
+    primary: true,
     action: function(params, options, done) {
       return resin.models.application.getAll().then(function(applications) {
         return console.log(visuals.table.horizontal(applications, ['id', 'app_name', 'device_type', 'online_devices', 'devices_length']));
@@ -63,6 +65,7 @@
     description: 'list a single application',
     help: 'Use this command to show detailed information for a single application.\n\nExamples:\n\n	$ resin app MyApp',
     permission: 'user',
+    primary: true,
     action: function(params, options, done) {
       return resin.models.application.get(params.name).then(function(application) {
         console.log(visuals.table.vertical(application, ["$" + application.app_name + "$", 'id', 'device_type', 'git_repository', 'commit']));
