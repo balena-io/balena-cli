@@ -3,6 +3,7 @@ Promise = require('bluebird')
 form = require('resin-cli-form')
 visuals = require('resin-cli-visuals')
 resin = require('resin-sdk')
+chalk = require('chalk')
 helpers = require('./helpers')
 
 exports.selectDeviceType = ->
@@ -80,3 +81,6 @@ exports.awaitDevice = (uuid) ->
 	resin.models.device.getName(uuid).then (deviceName) ->
 		console.info("Waiting for #{deviceName} to connect to resin...")
 		poll().return(uuid)
+
+exports.printErrorMessage = (message) ->
+	console.error(chalk.red(message))

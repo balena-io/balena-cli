@@ -1,11 +1,13 @@
 (function() {
-  var _, capitano, nplugm;
+  var _, capitano, nplugm, patterns;
 
   nplugm = require('nplugm');
 
   _ = require('lodash');
 
   capitano = require('capitano');
+
+  patterns = require('./patterns');
 
   exports.register = function(regex) {
     return nplugm.list(regex).map(function(plugin) {
@@ -16,7 +18,7 @@
       }
       return _.each(command, capitano.command);
     })["catch"](function(error) {
-      return console.error(error.message);
+      return patterns.printErrorMessage(error.message);
     });
   };
 
