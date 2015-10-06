@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, form, helpers, resin, visuals;
+  var Promise, _, chalk, form, helpers, resin, visuals;
 
   _ = require('lodash');
 
@@ -10,6 +10,8 @@
   visuals = require('resin-cli-visuals');
 
   resin = require('resin-sdk');
+
+  chalk = require('chalk');
 
   helpers = require('./helpers');
 
@@ -111,6 +113,10 @@
       console.info("Waiting for " + deviceName + " to connect to resin...");
       return poll()["return"](uuid);
     });
+  };
+
+  exports.printErrorMessage = function(message) {
+    return console.error(chalk.red(message));
   };
 
 }).call(this);

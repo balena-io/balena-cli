@@ -1,6 +1,7 @@
 nplugm = require('nplugm')
 _ = require('lodash')
 capitano = require('capitano')
+patterns = require('./patterns')
 
 exports.register = (regex) ->
 	nplugm.list(regex).map (plugin) ->
@@ -9,4 +10,4 @@ exports.register = (regex) ->
 		return capitano.command(command) if not _.isArray(command)
 		return _.each(command, capitano.command)
 	.catch (error) ->
-		console.error(error.message)
+		patterns.printErrorMessage(error.message)
