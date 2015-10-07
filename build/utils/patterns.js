@@ -96,20 +96,20 @@
   };
 
   exports.awaitDevice = function(uuid) {
-    var poll, spinner;
-    spinner = new visuals.Spinner("Waiting for your device to come online: " + uuid);
-    poll = function() {
-      return resin.models.device.isOnline(uuid).then(function(isOnline) {
-        if (isOnline) {
-          spinner.stop();
-          console.info("Device became online: " + uuid);
-        } else {
-          spinner.start();
-          return Promise.delay(3000).then(poll);
-        }
-      });
-    };
     return resin.models.device.getName(uuid).then(function(deviceName) {
+      var poll, spinner;
+      spinner = new visuals.Spinner("Waiting for " + deviceName + " to come online");
+      poll = function() {
+        return resin.models.device.isOnline(uuid).then(function(isOnline) {
+          if (isOnline) {
+            spinner.stop();
+            console.info("Device became online: " + deviceName);
+          } else {
+            spinner.start();
+            return Promise.delay(3000).then(poll);
+          }
+        });
+      };
       console.info("Waiting for " + deviceName + " to connect to resin...");
       return poll()["return"](uuid);
     });

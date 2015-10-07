@@ -62,23 +62,23 @@ exports.selectProjectDirectory = ->
 			default: projectsDirectory
 
 exports.awaitDevice = (uuid) ->
-	spinner = new visuals.Spinner("Waiting for your device to come online: #{uuid}")
-
-	poll = ->
-		resin.models.device.isOnline(uuid).then (isOnline) ->
-			if isOnline
-				spinner.stop()
-				console.info("Device became online: #{uuid}")
-				return
-			else
-
-				# Spinner implementation is smart enough to
-				# not start again if it was already started
-				spinner.start()
-
-				return Promise.delay(3000).then(poll)
-
 	resin.models.device.getName(uuid).then (deviceName) ->
+		spinner = new visuals.Spinner("Waiting for #{deviceName} to come online")
+
+		poll = ->
+			resin.models.device.isOnline(uuid).then (isOnline) ->
+				if isOnline
+					spinner.stop()
+					console.info("Device became online: #{deviceName}")
+					return
+				else
+
+					# Spinner implementation is smart enough to
+					# not start again if it was already started
+					spinner.start()
+
+					return Promise.delay(3000).then(poll)
+
 		console.info("Waiting for #{deviceName} to connect to resin...")
 		poll().return(uuid)
 
