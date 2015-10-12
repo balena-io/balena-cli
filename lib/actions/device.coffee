@@ -203,7 +203,8 @@ exports.init =
 			download = ->
 				tmp.tmpNameAsync().then (temporalPath) ->
 					capitano.runAsync("os download #{application.device_type} --output #{temporalPath}")
-				.disposer(_.ary(rimraf, 1))
+				.disposer (temporalPath) ->
+					return rimraf(temporalPath)
 
 			Promise.using download(), (temporalPath) ->
 				capitano.runAsync("device register #{application.app_name}")
