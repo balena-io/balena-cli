@@ -100,9 +100,10 @@ exports.register =
 	permission: 'user'
 	action: (params, options, done) ->
 		resin.models.application.get(params.application).then (application) ->
-			uuid = resin.models.device.generateUUID()
-			console.info("Registering to #{application.app_name}: #{uuid}")
-			return resin.models.device.register(application.app_name, uuid)
+
+			resin.models.device.generateUUID().then (uuid) ->
+				console.info("Registering to #{application.app_name}: #{uuid}")
+				return resin.models.device.register(application.app_name, uuid)
 		.get('uuid')
 		.nodeify(done)
 

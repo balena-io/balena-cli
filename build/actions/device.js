@@ -72,10 +72,10 @@
     permission: 'user',
     action: function(params, options, done) {
       return resin.models.application.get(params.application).then(function(application) {
-        var uuid;
-        uuid = resin.models.device.generateUUID();
-        console.info("Registering to " + application.app_name + ": " + uuid);
-        return resin.models.device.register(application.app_name, uuid);
+        return resin.models.device.generateUUID().then(function(uuid) {
+          console.info("Registering to " + application.app_name + ": " + uuid);
+          return resin.models.device.register(application.app_name, uuid);
+        });
       }).get('uuid').nodeify(done);
     }
   };
