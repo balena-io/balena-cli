@@ -147,7 +147,9 @@
         download = function() {
           return tmp.tmpNameAsync().then(function(temporalPath) {
             return capitano.runAsync("os download " + application.device_type + " --output " + temporalPath);
-          }).disposer(_.ary(rimraf, 1));
+          }).disposer(function(temporalPath) {
+            return rimraf(temporalPath);
+          });
         };
         return Promise.using(download(), function(temporalPath) {
           return capitano.runAsync("device register " + application.app_name).then(resin.models.device.get).tap(function(device) {
