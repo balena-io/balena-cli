@@ -11,7 +11,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Implement `os configure` command.
 - Implement `os initialize` command.
 - Implement `device register` command.
-
 - Add TROUBLESHOOTING guide.
 - Add a dynamic widget for selecting connected drives.
 
@@ -27,7 +26,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Upgrade Resin SDK to v3.0.0.
 - Check that a directory is a `git` repository before attempting to run `git` operations on it.
 - Improve plugin scanning mechanism.
-
 - Fix `EPERM` issue in Windows after a successfull `device init`.
 - Fix SDCard burning issues in Windows 10.
 - Fix plugins not being loaded in Windows 10.
