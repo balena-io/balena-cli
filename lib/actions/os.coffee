@@ -8,6 +8,7 @@ manager = require('resin-image-manager')
 visuals = require('resin-cli-visuals')
 form = require('resin-cli-form')
 init = require('resin-device-init')
+commandOptions = require('./command-options')
 helpers = require('../utils/helpers')
 patterns = require('../utils/patterns')
 
@@ -105,6 +106,7 @@ exports.initialize =
 			$ resin os initialize ../path/rpi.img 'raspberry-pi'
 	'''
 	permission: 'user'
+	options: [ commandOptions.yes ]
 	root: true
 	action: (params, options, done) ->
 		console.info('Initializing device')
