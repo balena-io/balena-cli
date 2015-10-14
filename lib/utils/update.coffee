@@ -14,3 +14,4 @@ exports.hasAvailableUpdate = ->
 exports.notify = ->
 	return if not exports.hasAvailableUpdate()
 	notifier.notify()
+	console.log('Notice that you might need administrator privileges depending on your setup')
