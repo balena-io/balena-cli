@@ -21,7 +21,8 @@
     if (!exports.hasAvailableUpdate()) {
       return;
     }
-    return notifier.notify();
+    notifier.notify();
+    return console.log('Notice that you might need administrator privileges depending on your setup');
   };
 
 }).call(this);
