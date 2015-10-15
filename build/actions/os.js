@@ -104,14 +104,27 @@
     description: 'initialize an os image',
     help: 'Use this command to initialize a previously configured operating system image.\n\nExamples:\n\n	$ resin os initialize ../path/rpi.img \'raspberry-pi\'',
     permission: 'user',
-    options: [commandOptions.yes],
+    options: [
+      commandOptions.yes, {
+        signature: 'drive',
+        description: 'drive',
+        parameter: 'drive',
+        alias: 'd'
+      }
+    ],
     root: true,
     action: function(params, options, done) {
       console.info('Initializing device');
       return resin.models.device.getManifestBySlug(params.type).then(function(manifest) {
         var ref;
         return (ref = manifest.initialization) != null ? ref.options : void 0;
-      }).then(form.run).tap(function(answers) {
+      }).then(function(questions) {
+        return form.run(questions, {
+          override: {
+            drive: options.drive
+          }
+        });
+      }).tap(function(answers) {
         var message;
         if (answers.drive == null) {
           return;

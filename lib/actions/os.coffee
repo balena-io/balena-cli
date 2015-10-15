@@ -106,14 +106,25 @@ exports.initialize =
 			$ resin os initialize ../path/rpi.img 'raspberry-pi'
 	'''
 	permission: 'user'
-	options: [ commandOptions.yes ]
+	options: [
+		commandOptions.yes
+		{
+			signature: 'drive'
+			description: 'drive'
+			parameter: 'drive'
+			alias: 'd'
+		}
+	]
 	root: true
 	action: (params, options, done) ->
 		console.info('Initializing device')
 		resin.models.device.getManifestBySlug(params.type)
 			.then (manifest) ->
 				return manifest.initialization?.options
-			.then(form.run)
+			.then (questions) ->
+				return form.run questions,
+					override:
+						drive: options.drive
 			.tap (answers) ->
 				return if not answers.drive?
 				message = "This will erase #{answers.drive}. Are you sure?"
