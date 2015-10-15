@@ -100,12 +100,18 @@
   };
 
   exports.initialize = {
-    signature: 'os initialize <image> <type>',
+    signature: 'os initialize <image>',
     description: 'initialize an os image',
-    help: 'Use this command to initialize a previously configured operating system image.\n\nExamples:\n\n	$ resin os initialize ../path/rpi.img \'raspberry-pi\'',
+    help: 'Use this command to initialize a previously configured operating system image.\n\nExamples:\n\n	$ resin os initialize ../path/rpi.img --type \'raspberry-pi\'',
     permission: 'user',
     options: [
       commandOptions.yes, {
+        signature: 'type',
+        description: 'device type',
+        parameter: 'type',
+        alias: 't',
+        required: 'You have to specify a device type'
+      }, {
         signature: 'drive',
         description: 'drive',
         parameter: 'drive',
@@ -115,7 +121,7 @@
     root: true,
     action: function(params, options, done) {
       console.info('Initializing device');
-      return resin.models.device.getManifestBySlug(params.type).then(function(manifest) {
+      return resin.models.device.getManifestBySlug(options.type).then(function(manifest) {
         var ref;
         return (ref = manifest.initialization) != null ? ref.options : void 0;
       }).then(function(questions) {
@@ -132,7 +138,7 @@
         message = "This will erase " + answers.drive + ". Are you sure?";
         return patterns.confirm(options.yes, message)["return"](answers.drive).then(umount.umountAsync);
       }).tap(function(answers) {
-        return init.initialize(params.image, params.type, answers).then(stepHandler);
+        return init.initialize(params.image, options.type, answers).then(stepHandler);
       }).then(function(answers) {
         if (answers.drive == null) {
           return;

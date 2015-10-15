@@ -74,7 +74,7 @@ Now you have access to all the commands referenced below.
 
 	- [os download &#60;type&#62;](#os-download-60-type-62-)
 	- [os configure &#60;image&#62; &#60;uuid&#62;](#os-configure-60-image-62-60-uuid-62-)
-	- [os initialize &#60;image&#62; &#60;type&#62;](#os-initialize-60-image-62-60-type-62-)
+	- [os initialize &#60;image&#62;](#os-initialize-60-image-62-)
 
 - Wizard
 
@@ -426,6 +426,12 @@ Examples:
 	$ resin help apps
 	$ resin help os download
 
+### Options
+
+#### --verbose, -v
+
+show additional commands
+
 # Information
 
 ## version
@@ -550,13 +556,23 @@ Examples:
 
 	$ resin os configure ../path/rpi.img 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
 
-## os initialize &#60;image&#62; &#60;type&#62;
+## os initialize &#60;image&#62;
 
 Use this command to initialize a previously configured operating system image.
 
 Examples:
 
-	$ resin os initialize ../path/rpi.img 'raspberry-pi'
+	$ resin os initialize ../path/rpi.img --type 'raspberry-pi'
+
+### Options
+
+#### --yes, -y
+
+confirm non interactively
+
+#### --type, -t &#60;type&#62;
+
+device type
 
 # Wizard
 
