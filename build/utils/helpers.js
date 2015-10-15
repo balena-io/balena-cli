@@ -1,13 +1,13 @@
 (function() {
-  var Promise, _, capitano, chalk, child_process, os;
+  var Promise, _, chalk, child_process, os, windosu;
 
   Promise = require('bluebird');
-
-  capitano = Promise.promisifyAll(require('capitano'));
 
   _ = require('lodash');
 
   _.str = require('underscore.string');
+
+  windosu = Promise.promisifyAll(require('windosu'));
 
   child_process = require('child_process');
 
@@ -50,10 +50,10 @@
 
   exports.sudo = function(command) {
     var spawn;
-    if (os.platform() === 'win32') {
-      return capitano.runAsync(command.join(' '));
-    }
     command = _.union(_.take(process.argv, 2), command);
+    if (os.platform() === 'win32') {
+      return windosu.execAsync(command.join(' '), null);
+    }
     spawn = child_process.spawn('sudo', command, {
       stdio: 'inherit'
     });

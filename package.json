@@ -68,6 +68,7 @@
     "underscore.string": "^3.1.1",
     "unzip2": "^0.2.5",
     "update-notifier": "^0.5.0",
-    "valid-email": "0.0.2"
+    "valid-email": "0.0.2",
+    "windosu": "^0.1.3"
   }
 }
