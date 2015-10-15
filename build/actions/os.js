@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, form, fs, helpers, init, manager, patterns, resin, stepHandler, umount, unzip, visuals;
+  var Promise, _, commandOptions, form, fs, helpers, init, manager, patterns, resin, stepHandler, umount, unzip, visuals;
 
   fs = require('fs');
 
@@ -20,6 +20,8 @@
   form = require('resin-cli-form');
 
   init = require('resin-device-init');
+
+  commandOptions = require('./command-options');
 
   helpers = require('../utils/helpers');
 
@@ -102,6 +104,7 @@
     description: 'initialize an os image',
     help: 'Use this command to initialize a previously configured operating system image.\n\nExamples:\n\n	$ resin os initialize ../path/rpi.img \'raspberry-pi\'',
     permission: 'user',
+    options: [commandOptions.yes],
     root: true,
     action: function(params, options, done) {
       console.info('Initializing device');
