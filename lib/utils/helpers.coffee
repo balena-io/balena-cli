@@ -1,7 +1,7 @@
 Promise = require('bluebird')
-capitano = Promise.promisifyAll(require('capitano'))
 _ = require('lodash')
 _.str = require('underscore.string')
+windosu = Promise.promisifyAll(require('windosu'))
 child_process = require('child_process')
 os = require('os')
 chalk = require('chalk')
@@ -32,13 +32,10 @@ exports.waitStream = (stream) ->
 		stream.on('error', reject)
 
 exports.sudo = (command) ->
-
-	# Bypass privilege elevation for Windows for now.
-	# We should use `windosu` in this case.
-	if os.platform() is 'win32'
-		return capitano.runAsync(command.join(' '))
-
 	command = _.union(_.take(process.argv, 2), command)
+
+	if os.platform() is 'win32'
+		return windosu.execAsync(command.join(' '), null)
 
 	spawn = child_process.spawn 'sudo', command,
 		stdio: 'inherit'
