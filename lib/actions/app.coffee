@@ -44,7 +44,9 @@ exports.create =
 			if hasApplication
 				throw new Error('You already have an application with that name!')
 
-		.then(patterns.selectDeviceType).then (deviceType) ->
+		.then ->
+			return options.type or patterns.selectDeviceType()
+		.then (deviceType) ->
 			return resin.models.application.create(params.name, deviceType)
 		.then (application) ->
 			console.info("Application created: #{application.app_name} (#{application.device_type}, id #{application.id})")

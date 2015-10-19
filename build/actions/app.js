@@ -36,7 +36,9 @@
         if (hasApplication) {
           throw new Error('You already have an application with that name!');
         }
-      }).then(patterns.selectDeviceType).then(function(deviceType) {
+      }).then(function() {
+        return options.type || patterns.selectDeviceType();
+      }).then(function(deviceType) {
         return resin.models.application.create(params.name, deviceType);
       }).then(function(application) {
         console.info("Application created: " + application.app_name + " (" + application.device_type + ", id " + application.id + ")");
