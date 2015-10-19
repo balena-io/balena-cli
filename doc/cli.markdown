@@ -250,6 +250,12 @@ Examples:
 
 	$ resin device register MyApp
 
+### Options
+
+#### --uuid, -u &#60;uuid&#62;
+
+custom uuid
+
 ## device rm &#60;uuid&#62;
 
 Use this command to remove a device from resin.io.
