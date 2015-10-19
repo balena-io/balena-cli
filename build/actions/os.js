@@ -91,9 +91,31 @@
     description: 'configure an os image',
     help: 'Use this command to configure a previously download operating system image with a device.\n\nExamples:\n\n	$ resin os configure ../path/rpi.img 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9',
     permission: 'user',
+    options: [
+      {
+        signature: 'advanced',
+        description: 'show advanced commands',
+        boolean: true,
+        alias: 'v'
+      }
+    ],
     action: function(params, options, done) {
       console.info('Configuring operating system image');
-      return resin.models.device.get(params.uuid).get('device_type').then(resin.models.device.getManifestBySlug).get('options').then(form.run).then(function(answers) {
+      return resin.models.device.get(params.uuid).get('device_type').then(resin.models.device.getManifestBySlug).get('options').then(function(questions) {
+        var advancedGroup, override;
+        if (!options.advanced) {
+          advancedGroup = _.findWhere(questions, {
+            name: 'advanced',
+            isGroup: true
+          });
+          if (advancedGroup != null) {
+            override = helpers.getGroupDefaults(advancedGroup);
+          }
+        }
+        return form.run(questions, {
+          override: override
+        });
+      }).then(function(answers) {
         return init.configure(params.image, params.uuid, answers).then(stepHandler);
       }).nodeify(done);
     }

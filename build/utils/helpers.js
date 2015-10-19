@@ -15,6 +15,12 @@
 
   chalk = require('chalk');
 
+  exports.getGroupDefaults = function(group) {
+    return _.chain(group).get('options').map(function(question) {
+      return [question.name, question["default"]];
+    }).object().value();
+  };
+
   exports.getOperatingSystem = function() {
     var platform;
     platform = os.platform();

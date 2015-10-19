@@ -84,13 +84,29 @@ exports.configure =
 			$ resin os configure ../path/rpi.img 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
 	'''
 	permission: 'user'
+	options: [
+		signature: 'advanced'
+		description: 'show advanced commands'
+		boolean: true
+		alias: 'v'
+	]
 	action: (params, options, done) ->
 		console.info('Configuring operating system image')
 		resin.models.device.get(params.uuid)
 			.get('device_type')
 			.then(resin.models.device.getManifestBySlug)
 			.get('options')
-			.then(form.run)
+			.then (questions) ->
+
+				if not options.advanced
+					advancedGroup = _.findWhere questions,
+						name: 'advanced'
+						isGroup: true
+
+					if advancedGroup?
+						override = helpers.getGroupDefaults(advancedGroup)
+
+				return form.run(questions, { override })
 			.then (answers) ->
 				init.configure(params.image, params.uuid, answers).then(stepHandler)
 		.nodeify(done)

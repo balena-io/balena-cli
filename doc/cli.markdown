@@ -556,6 +556,12 @@ Examples:
 
 	$ resin os configure ../path/rpi.img 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
 
+### Options
+
+#### --advanced, -v
+
+show advanced commands
+
 ## os initialize &#60;image&#62;
 
 Use this command to initialize a previously configured operating system image.
