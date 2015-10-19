@@ -80,7 +80,13 @@
       }
       return form.ask({
         message: 'Choose a Name for your new application',
-        type: 'input'
+        type: 'input',
+        validate: function(input) {
+          if (input.length < 4) {
+            return 'The application name should be at least 4 characters';
+          }
+          return true;
+        }
       });
     });
   };

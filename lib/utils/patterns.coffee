@@ -53,6 +53,11 @@ exports.selectOrCreateApplication = ->
 		form.ask
 			message: 'Choose a Name for your new application'
 			type: 'input'
+			validate: (input) ->
+				if input.length < 4
+					return 'The application name should be at least 4 characters'
+
+				return true
 
 exports.selectProjectDirectory = ->
 	resin.settings.get('projectsDirectory').then (projectsDirectory) ->
