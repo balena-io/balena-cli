@@ -45,10 +45,10 @@ capitano.command(actions.app.info)
 capitano.command(actions.device.list)
 capitano.command(actions.device.rename)
 capitano.command(actions.device.init)
-capitano.command(actions.device.info)
 capitano.command(actions.device.remove)
 capitano.command(actions.device.identify)
 capitano.command(actions.device.register)
+capitano.command(actions.device.info)
 
 # ---------- Notes Module ----------
 capitano.command(actions.notes.set)
