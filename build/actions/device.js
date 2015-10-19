@@ -70,9 +70,19 @@
     description: 'register a device',
     help: 'Use this command to register a device to an application.\n\nExamples:\n\n	$ resin device register MyApp',
     permission: 'user',
+    options: [
+      {
+        signature: 'uuid',
+        description: 'custom uuid',
+        parameter: 'uuid',
+        alias: 'u'
+      }
+    ],
     action: function(params, options, done) {
       return resin.models.application.get(params.application).then(function(application) {
-        return resin.models.device.generateUUID().then(function(uuid) {
+        return Promise["try"](function() {
+          return options.uuid || resin.models.device.generateUUID();
+        }).then(function(uuid) {
           console.info("Registering to " + application.app_name + ": " + uuid);
           return resin.models.device.register(application.app_name, uuid);
         });
