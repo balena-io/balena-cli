@@ -54,7 +54,6 @@
     "resin-cli-form": "^1.3.0",
     "resin-cli-visuals": "^1.2.2",
     "resin-config-inject": "^2.0.0",
-    "resin-device-config": "^1.0.0",
     "resin-device-init": "^2.0.0",
     "resin-image": "^1.1.4",
     "resin-image-manager": "^3.2.2",
