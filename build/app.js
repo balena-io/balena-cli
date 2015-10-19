@@ -66,13 +66,13 @@
 
   capitano.command(actions.device.init);
 
-  capitano.command(actions.device.info);
-
   capitano.command(actions.device.remove);
 
   capitano.command(actions.device.identify);
 
   capitano.command(actions.device.register);
+
+  capitano.command(actions.device.info);
 
   capitano.command(actions.notes.set);
 
