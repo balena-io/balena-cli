@@ -317,6 +317,10 @@ application name
 
 confirm non interactively
 
+#### --advanced, -v
+
+enable advanced configuration
+
 # Environment Variables
 
 ## envs

@@ -143,7 +143,14 @@
     signature: 'device init',
     description: 'initialise a device with resin os',
     help: 'Use this command to download the OS image of a certain application and write it to an SD Card.\n\nNotice this command may ask for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nExamples:\n\n	$ resin device init\n	$ resin device init --application MyApp',
-    options: [commandOptions.optionalApplication, commandOptions.yes],
+    options: [
+      commandOptions.optionalApplication, commandOptions.yes, {
+        signature: 'advanced',
+        description: 'enable advanced configuration',
+        boolean: true,
+        alias: 'v'
+      }
+    ],
     permission: 'user',
     primary: true,
     action: function(params, options, done) {
@@ -163,7 +170,12 @@
         };
         return Promise.using(download(), function(temporalPath) {
           return capitano.runAsync("device register " + application.app_name).then(resin.models.device.get).tap(function(device) {
-            return capitano.runAsync("os configure " + temporalPath + " " + device.uuid).then(function() {
+            var configure;
+            configure = "os configure " + temporalPath + " " + device.uuid;
+            if (options.advanced) {
+              configure += ' --advanced';
+            }
+            return capitano.runAsync(configure).then(function() {
               return helpers.sudo(['os', 'initialize', temporalPath, '--type', application.device_type]);
             });
           });
