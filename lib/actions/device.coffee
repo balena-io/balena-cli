@@ -198,6 +198,12 @@ exports.init =
 	options: [
 		commandOptions.optionalApplication
 		commandOptions.yes
+		{
+			signature: 'advanced'
+			description: 'enable advanced configuration'
+			boolean: true
+			alias: 'v'
+		}
 	]
 	permission: 'user'
 	primary: true
@@ -218,7 +224,10 @@ exports.init =
 				capitano.runAsync("device register #{application.app_name}")
 					.then(resin.models.device.get)
 					.tap (device) ->
-						capitano.runAsync("os configure #{temporalPath} #{device.uuid}").then ->
+						configure = "os configure #{temporalPath} #{device.uuid}"
+						configure += ' --advanced' if options.advanced
+						capitano.runAsync(configure).then ->
+
 							helpers.sudo([ 'os', 'initialize', temporalPath, '--type', application.device_type ])
 			.then (device) ->
 				console.log('Done')
