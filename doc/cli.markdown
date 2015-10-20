@@ -590,6 +590,10 @@ confirm non interactively
 
 device type
 
+#### --drive, -d &#60;drive&#62;
+
+drive
+
 # Wizard
 
 ## quickstart [name]
