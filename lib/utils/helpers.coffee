@@ -6,6 +6,14 @@ child_process = require('child_process')
 os = require('os')
 chalk = require('chalk')
 
+exports.getGroupDefaults = (group) ->
+	return _.chain(group)
+		.get('options')
+		.map (question) ->
+			return [ question.name, question.default ]
+		.object()
+		.value()
+
 exports.getOperatingSystem = ->
 	platform = os.platform()
 	platform = 'osx' if platform is 'darwin'
