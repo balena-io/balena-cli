@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, commandOptions, form, fs, helpers, init, manager, patterns, resin, stepHandler, umount, unzip, visuals;
+  var Promise, _, commandOptions, form, fs, helpers, init, manager, patterns, resin, rindle, stepHandler, umount, unzip, visuals;
 
   fs = require('fs');
 
@@ -10,6 +10,8 @@
   umount = Promise.promisifyAll(require('umount'));
 
   unzip = require('unzip2');
+
+  rindle = require('rindle');
 
   resin = require('resin-sdk');
 
@@ -64,7 +66,7 @@
         } else {
           output = fs.createWriteStream(options.output);
         }
-        return helpers.waitStream(stream.pipe(output))["return"](options.output);
+        return rindle.wait(stream.pipe(output))["return"](options.output);
       }).tap(function(output) {
         return console.info("The image was downloaded to " + output);
       }).nodeify(done);
@@ -83,7 +85,7 @@
     });
     bar = new visuals.Progress('Writing Device OS');
     step.on('burn', _.bind(bar.update, bar));
-    return helpers.waitStream(step);
+    return rindle.wait(step);
   };
 
   exports.configure = {

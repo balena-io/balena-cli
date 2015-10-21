@@ -33,12 +33,6 @@ exports.stateToString = (state) ->
 		else
 			throw new Error("Unsupported operation: #{state.operation.type}")
 
-exports.waitStream = (stream) ->
-	return new Promise (resolve, reject) ->
-		stream.on('close', resolve)
-		stream.on('end', resolve)
-		stream.on('error', reject)
-
 exports.sudo = (command) ->
 
 	# Bypass privilege elevation for Windows for now.
