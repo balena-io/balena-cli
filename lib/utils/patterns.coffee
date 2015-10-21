@@ -55,13 +55,6 @@ exports.selectOrCreateApplication = ->
 			type: 'input'
 			validate: validation.validateApplicationName
 
-exports.selectProjectDirectory = ->
-	resin.settings.get('projectsDirectory').then (projectsDirectory) ->
-		return form.ask
-			message: 'Please choose a directory for your code'
-			type: 'input'
-			default: projectsDirectory
-
 exports.awaitDevice = (uuid) ->
 	resin.models.device.getName(uuid).then (deviceName) ->
 		spinner = new visuals.Spinner("Waiting for #{deviceName} to come online")

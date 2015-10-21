@@ -1,8 +1,6 @@
 Promise = require('bluebird')
 capitano = Promise.promisifyAll(require('capitano'))
-mkdirp = Promise.promisify(require('mkdirp'))
 resin = require('resin-sdk')
-form = require('resin-cli-form')
 patterns = require('../utils/patterns')
 
 exports.wizard =
@@ -39,20 +37,6 @@ exports.wizard =
 		.tap(patterns.awaitDevice)
 		.then (uuid) ->
 			return capitano.runAsync("device #{uuid}")
-		.tap ->
-			console.log('Your device is ready, lets start pushing some code!')
-		.then(patterns.selectProjectDirectory)
-		.tap(mkdirp)
-		.tap(process.chdir)
 		.then ->
-			return capitano.runAsync("app associate #{params.name}")
-		.then (remoteUrl) ->
-			console.log("Resin git remote added: #{remoteUrl}")
-			console.log """
-				Please type:
-
-					$ cd #{process.cwd()} && git push resin master
-
-				To push your project to resin.io.
-			"""
+			console.log('Your device is ready, start pushing some code!')
 		.nodeify(done)
