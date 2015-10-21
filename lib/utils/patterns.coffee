@@ -4,7 +4,7 @@ form = require('resin-cli-form')
 visuals = require('resin-cli-visuals')
 resin = require('resin-sdk')
 chalk = require('chalk')
-validations = require('./validations')
+validation = require('./validation')
 
 exports.selectDeviceType = ->
 	resin.models.device.getSupportedDeviceTypes().then (deviceTypes) ->

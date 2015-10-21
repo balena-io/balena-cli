@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, chalk, form, resin, validations, visuals;
+  var Promise, _, chalk, form, resin, validation, visuals;
 
   _ = require('lodash');
 
@@ -13,7 +13,7 @@
 
   chalk = require('chalk');
 
-  validations = require('./validations');
+  validation = require('./validation');
 
   exports.selectDeviceType = function() {
     return resin.models.device.getSupportedDeviceTypes().then(function(deviceTypes) {
