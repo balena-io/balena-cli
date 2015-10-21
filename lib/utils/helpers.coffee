@@ -14,11 +14,6 @@ exports.getGroupDefaults = (group) ->
 		.object()
 		.value()
 
-exports.getOperatingSystem = ->
-	platform = os.platform()
-	platform = 'osx' if platform is 'darwin'
-	return platform
-
 exports.stateToString = (state) ->
 	percentage = _.str.lpad(state.percentage, 3, '0') + '%'
 	result = "#{chalk.blue(percentage)} #{chalk.cyan(state.operation.command)}"
