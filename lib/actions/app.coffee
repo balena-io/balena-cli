@@ -1,10 +1,7 @@
-_ = require('lodash')
 resin = require('resin-sdk')
 visuals = require('resin-cli-visuals')
 commandOptions = require('./command-options')
-vcs = require('resin-vcs')
 events = require('resin-cli-events')
-helpers = require('../utils/helpers')
 patterns = require('../utils/patterns')
 
 exports.create =
@@ -139,43 +136,4 @@ exports.remove =
 		.tap ->
 			resin.models.application.get(params.name).then (application) ->
 				events.send('application.delete', application: application.id)
-		.nodeify(done)
-
-exports.associate =
-	signature: 'app associate <name>'
-	description: 'associate a resin project'
-	help: '''
-		Use this command to associate a project directory with a resin application.
-
-		This command adds a 'resin' git remote to the directory and runs git init if necessary.
-
-		Notice this command asks for confirmation interactively.
-		You can avoid this by passing the `--yes` boolean option.
-
-		Examples:
-
-			$ resin app associate MyApp
-	'''
-	options: [ commandOptions.yes ]
-	permission: 'user'
-	action: (params, options, done) ->
-		currentDirectory = process.cwd()
-		console.info("Associating #{params.name} with #{currentDirectory}")
-
-		resin.models.application.has(params.name).then (hasApplication) ->
-			if not hasApplication
-				throw new Error("Invalid application: #{params.name}")
-
-		.then ->
-			message = "Are you sure you want to associate #{currentDirectory} with #{params.name}?"
-			patterns.confirm(options.yes, message)
-		.then ->
-
-			resin.models.application.get(params.name).get('git_repository').then (gitRepository) ->
-				vcs.initialize(currentDirectory).then ->
-					return vcs.associate(currentDirectory, gitRepository)
-				.then ->
-					console.info("git repository added: #{gitRepository}")
-					return gitRepository
-
 		.nodeify(done)

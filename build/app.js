@@ -56,8 +56,6 @@
 
   capitano.command(actions.app.restart);
 
-  capitano.command(actions.app.associate);
-
   capitano.command(actions.app.info);
 
   capitano.command(actions.device.list);
