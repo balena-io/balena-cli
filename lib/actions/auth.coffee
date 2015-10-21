@@ -4,7 +4,7 @@ resin = require('resin-sdk')
 form = require('resin-cli-form')
 visuals = require('resin-cli-visuals')
 events = require('resin-cli-events')
-helpers = require('../utils/helpers')
+validation = require('../utils/validation')
 
 exports.login	=
 	signature: 'login'
@@ -36,7 +36,7 @@ exports.login	=
 				message: 'Email:'
 				name: 'email'
 				type: 'input'
-				validate: helpers.validateEmail
+				validate: validation.validateEmail
 			,
 				message: 'Password:'
 				name: 'password'
@@ -100,7 +100,7 @@ exports.signup =
 			message: 'Email:'
 			name: 'email'
 			type: 'input'
-			validate: helpers.validateEmail
+			validate: validation.validateEmail
 		,
 			message: 'Username:'
 			name: 'username'
@@ -109,11 +109,7 @@ exports.signup =
 			message: 'Password:'
 			name: 'password'
 			type: 'password',
-			validate: (input) ->
-				if input.length < 8
-					return 'Password should be 8 characters long'
-
-				return true
+			validate: validation.validatePassword
 		]
 
 		.then(resin.auth.register)

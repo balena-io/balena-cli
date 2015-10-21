@@ -4,7 +4,7 @@ form = require('resin-cli-form')
 visuals = require('resin-cli-visuals')
 resin = require('resin-sdk')
 chalk = require('chalk')
-helpers = require('./helpers')
+validations = require('./validations')
 
 exports.selectDeviceType = ->
 	resin.models.device.getSupportedDeviceTypes().then (deviceTypes) ->
@@ -53,11 +53,7 @@ exports.selectOrCreateApplication = ->
 		form.ask
 			message: 'Choose a Name for your new application'
 			type: 'input'
-			validate: (input) ->
-				if input.length < 4
-					return 'The application name should be at least 4 characters'
-
-				return true
+			validate: validation.validateApplicationName
 
 exports.selectProjectDirectory = ->
 	resin.settings.get('projectsDirectory').then (projectsDirectory) ->

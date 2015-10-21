@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, events, form, helpers, resin, visuals;
+  var Promise, _, events, form, resin, validation, visuals;
 
   Promise = require('bluebird');
 
@@ -13,7 +13,7 @@
 
   events = require('resin-cli-events');
 
-  helpers = require('../utils/helpers');
+  validation = require('../utils/validation');
 
   exports.login = {
     signature: 'login',
@@ -39,7 +39,7 @@
           message: 'Email:',
           name: 'email',
           type: 'input',
-          validate: helpers.validateEmail
+          validate: validation.validateEmail
         }, {
           message: 'Password:',
           name: 'password',
@@ -89,7 +89,7 @@
           message: 'Email:',
           name: 'email',
           type: 'input',
-          validate: helpers.validateEmail
+          validate: validation.validateEmail
         }, {
           message: 'Username:',
           name: 'username',
@@ -98,12 +98,7 @@
           message: 'Password:',
           name: 'password',
           type: 'password',
-          validate: function(input) {
-            if (input.length < 8) {
-              return 'Password should be 8 characters long';
-            }
-            return true;
-          }
+          validate: validation.validatePassword
         }
       ]).then(resin.auth.register).then(resin.auth.loginWithToken).tap(function() {
         return events.send('user.signup');

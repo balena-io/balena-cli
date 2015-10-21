@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, chalk, form, helpers, resin, visuals;
+  var Promise, _, chalk, form, resin, validations, visuals;
 
   _ = require('lodash');
 
@@ -13,7 +13,7 @@
 
   chalk = require('chalk');
 
-  helpers = require('./helpers');
+  validations = require('./validations');
 
   exports.selectDeviceType = function() {
     return resin.models.device.getSupportedDeviceTypes().then(function(deviceTypes) {
@@ -81,12 +81,7 @@
       return form.ask({
         message: 'Choose a Name for your new application',
         type: 'input',
-        validate: function(input) {
-          if (input.length < 4) {
-            return 'The application name should be at least 4 characters';
-          }
-          return true;
-        }
+        validate: validation.validateApplicationName
       });
     });
   };
