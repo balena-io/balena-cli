@@ -21,15 +21,6 @@
     }).object().value();
   };
 
-  exports.getOperatingSystem = function() {
-    var platform;
-    platform = os.platform();
-    if (platform === 'darwin') {
-      platform = 'osx';
-    }
-    return platform;
-  };
-
   exports.stateToString = function(state) {
     var percentage, result;
     percentage = _.str.lpad(state.percentage, 3, '0') + '%';
