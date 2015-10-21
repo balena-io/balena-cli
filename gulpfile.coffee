@@ -1,4 +1,3 @@
-mkdirp = require('mkdirp')
 path = require('path')
 gulp = require('gulp')
 mocha = require('gulp-mocha')

@@ -86,16 +86,6 @@
     });
   };
 
-  exports.selectProjectDirectory = function() {
-    return resin.settings.get('projectsDirectory').then(function(projectsDirectory) {
-      return form.ask({
-        message: 'Please choose a directory for your code',
-        type: 'input',
-        "default": projectsDirectory
-      });
-    });
-  };
-
   exports.awaitDevice = function(uuid) {
     return resin.models.device.getName(uuid).then(function(deviceName) {
       var poll, spinner;

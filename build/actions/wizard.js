@@ -1,15 +1,11 @@
 (function() {
-  var Promise, capitano, form, mkdirp, patterns, resin;
+  var Promise, capitano, patterns, resin;
 
   Promise = require('bluebird');
 
   capitano = Promise.promisifyAll(require('capitano'));
 
-  mkdirp = Promise.promisify(require('mkdirp'));
-
   resin = require('resin-sdk');
-
-  form = require('resin-cli-form');
 
   patterns = require('../utils/patterns');
 
@@ -38,13 +34,8 @@
         return capitano.runAsync("device init --application " + params.name);
       }).tap(patterns.awaitDevice).then(function(uuid) {
         return capitano.runAsync("device " + uuid);
-      }).tap(function() {
-        return console.log('Your device is ready, lets start pushing some code!');
-      }).then(patterns.selectProjectDirectory).tap(mkdirp).tap(process.chdir).then(function() {
-        return capitano.runAsync("app associate " + params.name);
-      }).then(function(remoteUrl) {
-        console.log("Resin git remote added: " + remoteUrl);
-        return console.log("Please type:\n\n	$ cd " + (process.cwd()) + " && git push resin master\n\nTo push your project to resin.io.");
+      }).then(function() {
+        return console.log('Your device is ready, start pushing some code!');
       }).nodeify(done);
     }
   };
