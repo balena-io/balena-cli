@@ -5,7 +5,6 @@ _.str = require('underscore.string')
 child_process = require('child_process')
 os = require('os')
 chalk = require('chalk')
-validEmail = require('valid-email')
 
 exports.getGroupDefaults = (group) ->
 	return _.chain(group)
@@ -14,12 +13,6 @@ exports.getGroupDefaults = (group) ->
 			return [ question.name, question.default ]
 		.object()
 		.value()
-
-exports.validateEmail = (input) ->
-	if not validEmail(input)
-		return 'Email is not valid'
-
-	return true
 
 exports.getOperatingSystem = ->
 	platform = os.platform()
