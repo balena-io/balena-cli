@@ -1,13 +1,9 @@
 (function() {
-  var Promise, _, events, form, open, resin, url, validEmail, visuals;
+  var Promise, _, events, form, helpers, resin, visuals;
 
   Promise = require('bluebird');
 
-  open = Promise.promisify(require('open'));
-
   _ = require('lodash');
-
-  url = require('url');
 
   resin = require('resin-sdk');
 
@@ -15,37 +11,54 @@
 
   visuals = require('resin-cli-visuals');
 
-  validEmail = require('valid-email');
-
   events = require('resin-cli-events');
 
+  helpers = require('../utils/helpers');
+
   exports.login = {
-    signature: 'login [token]',
+    signature: 'login',
     description: 'login to resin.io',
-    help: 'Use this command to login to your resin.io account.\n\nTo login, you need your token, which is accesible from the preferences page.\n\nExamples:\n\n	$ resin login\n	$ resin login "eyJ0eXAiOiJKV1Qi..."',
+    help: 'Use this command to login to your resin.io account.\n\nExamples:\n\n	$ resin login',
+    options: [
+      {
+        signature: 'email',
+        parameter: 'email',
+        description: 'email',
+        alias: ['e', 'u']
+      }, {
+        signature: 'password',
+        parameter: 'password',
+        description: 'password',
+        alias: 'p'
+      }
+    ],
     primary: true,
     action: function(params, options, done) {
-      return resin.settings.get('dashboardUrl').then(function(dashboardUrl) {
-        return url.resolve(dashboardUrl, '/preferences');
-      }).then(function(preferencesUrl) {
-        if (params.token != null) {
-          return params.token;
+      return form.run([
+        {
+          message: 'Email:',
+          name: 'email',
+          type: 'input',
+          validate: helpers.validateEmail
+        }, {
+          message: 'Password:',
+          name: 'password',
+          type: 'password'
         }
-        console.info("To login to the Resin CLI, you need your unique token, which is accesible from\nthe preferences page at " + preferencesUrl + "\n\nAttempting to open a browser at that location...");
-        return open(preferencesUrl)["catch"](function() {
-          return console.error("Unable to open a web browser in the current environment.\nPlease visit " + preferencesUrl + " manually.");
-        }).then(function() {
-          return form.ask({
-            message: 'What\'s your token? (visible in the preferences page)',
-            type: 'input'
+      ], {
+        override: options
+      }).then(resin.auth.login).then(resin.auth.twoFactor.isPassed).then(function(isTwoFactorAuthPassed) {
+        if (isTwoFactorAuthPassed) {
+          return;
+        }
+        return form.ask({
+          message: 'Two factor auth challenge:',
+          name: 'code',
+          type: 'input'
+        }).then(resin.auth.twoFactor.challenge)["catch"](function() {
+          return resin.auth.logout().then(function() {
+            throw new Error('Invalid two factor authentication code');
           });
-        });
-      }).then(resin.auth.loginWithToken).then(function(token) {
-        return resin.auth.isLoggedIn().then(function(isLoggedIn) {
-          if (isLoggedIn) {
-            return token;
-          }
-          throw new Error('Authentication failed');
         });
       }).then(resin.auth.whoami).tap(function(username) {
         console.info("Successfully logged in as: " + username);
@@ -76,12 +89,7 @@
           message: 'Email:',
           name: 'email',
           type: 'input',
-          validate: function(input) {
-            if (!validEmail(input)) {
-              return 'Email is not valid';
-            }
-            return true;
-          }
+          validate: helpers.validateEmail
         }, {
           message: 'Username:',
           name: 'username',
