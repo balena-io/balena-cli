@@ -3,6 +3,7 @@ _ = require('lodash')
 Promise = require('bluebird')
 umount = Promise.promisifyAll(require('umount'))
 unzip = require('unzip2')
+rindle = require('rindle')
 resin = require('resin-sdk')
 manager = require('resin-image-manager')
 visuals = require('resin-cli-visuals')
@@ -54,7 +55,7 @@ exports.download =
 			else
 				output = fs.createWriteStream(options.output)
 
-			return helpers.waitStream(stream.pipe(output)).return(options.output)
+			return rindle.wait(stream.pipe(output)).return(options.output)
 		.tap (output) ->
 			console.info("The image was downloaded to #{output}")
 		.nodeify(done)
@@ -71,7 +72,7 @@ stepHandler = (step) ->
 
 	step.on('burn', _.bind(bar.update, bar))
 
-	return helpers.waitStream(step)
+	return rindle.wait(step)
 
 exports.configure =
 	signature: 'os configure <image> <uuid>'
