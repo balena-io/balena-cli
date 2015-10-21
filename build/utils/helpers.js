@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, capitano, chalk, child_process, os;
+  var Promise, _, capitano, chalk, child_process, os, validEmail;
 
   Promise = require('bluebird');
 
@@ -15,10 +15,19 @@
 
   chalk = require('chalk');
 
+  validEmail = require('valid-email');
+
   exports.getGroupDefaults = function(group) {
     return _.chain(group).get('options').map(function(question) {
       return [question.name, question["default"]];
     }).object().value();
+  };
+
+  exports.validateEmail = function(input) {
+    if (!validEmail(input)) {
+      return 'Email is not valid';
+    }
+    return true;
   };
 
   exports.getOperatingSystem = function() {
