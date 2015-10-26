@@ -3,6 +3,7 @@ capitano = Promise.promisifyAll(require('capitano'))
 _ = require('lodash')
 _.str = require('underscore.string')
 child_process = require('child_process')
+rindle = require('rindle')
 os = require('os')
 chalk = require('chalk')
 
@@ -40,4 +41,4 @@ exports.sudo = (command) ->
 	spawn = child_process.spawn 'sudo', command,
 		stdio: 'inherit'
 
-	return exports.waitStream(spawn)
+	return rindle.wait(spawn)
