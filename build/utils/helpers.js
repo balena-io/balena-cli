@@ -44,6 +44,7 @@
     if (os.platform() === 'win32') {
       return capitano.runAsync(command.join(' '));
     }
+    console.log('Type your computer password to continue');
     command = _.union(_.take(process.argv, 2), command);
     spawn = child_process.spawn('sudo', command, {
       stdio: 'inherit'
