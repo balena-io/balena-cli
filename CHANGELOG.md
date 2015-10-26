@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.0] - 2015-10-26
+
+### Added
+
+- Add `drive` option to `os initialize`.
+- Add application name length validation.
+- Allow passing a custom uuid to `device register`.
+- Add `advanced` option in `device init`.
+- Implement user/password login form with 2FA support.
+
+### Changed
+
+- Clarify the need for admin privileges on update.
+- Fix non working `yes` option in `os initialize`.
+- Fix non working `type` option in `app create`.
+- Take device type as an option in `os initialize`.
+- Improve the way the update notifier is shown.
+- Ignore advanced configuration options by default.
+- Fix	`device info` shadowing other command help pages.
+
+### Removed
+
+- Remove login with token functionality.
+- Remove project directory creation logic in `device init`.
+- Remove `app associate` command.
+
 ## [1.1.0] - 2015-10-13
 
 ### Added
@@ -37,4 +63,5 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[2.0.0]: https://github.com/resin-io/resin-cli/compare/v1.1.0...v2.0.0
 [1.1.0]: https://github.com/resin-io/resin-cli/compare/v1.0.0...v1.1.0
