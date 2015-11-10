@@ -63,6 +63,12 @@
 			]
 		},
 		{
+			"title": "Config",
+			"files": [
+				"lib/actions/config.coffee"
+			]
+		},
+		{
 			"title": "Wizard",
 			"files": [
 				"lib/actions/wizard.coffee"

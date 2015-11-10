@@ -69,6 +69,9 @@ capitano.command(actions.os.download)
 capitano.command(actions.os.configure)
 capitano.command(actions.os.initialize)
 
+# ---------- Config Module ----------
+capitano.command(actions.config.read)
+
 # ---------- Logs Module ----------
 capitano.command(actions.logs)
 
