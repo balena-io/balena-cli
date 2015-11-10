@@ -10,3 +10,4 @@ module.exports =
 	notes: require('./notes')
 	help: require('./help')
 	os: require('./os')
+	config: require('./config')

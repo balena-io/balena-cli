@@ -76,6 +76,10 @@ Now you have access to all the commands referenced below.
 	- [os configure &#60;image&#62; &#60;uuid&#62;](#os-configure-60-image-62-60-uuid-62-)
 	- [os initialize &#60;image&#62;](#os-initialize-60-image-62-)
 
+- Config
+
+	- [config read](#config-read)
+
 - Wizard
 
 	- [quickstart [name]](#quickstart-name-)
@@ -585,6 +589,27 @@ Examples:
 #### --yes, -y
 
 confirm non interactively
+
+#### --type, -t &#60;type&#62;
+
+device type
+
+#### --drive, -d &#60;drive&#62;
+
+drive
+
+# Config
+
+## config read
+
+Use this command to read the config.json file from a provisioned device
+
+Example:
+
+	$ resin config read --type raspberry-pi
+	$ resin config read --type raspberry-pi --drive /dev/disk2
+
+### Options
 
 #### --type, -t &#60;type&#62;
 
