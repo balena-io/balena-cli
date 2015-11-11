@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, getConfigPartitionInformationByType, imagefs, prettyjson, readConfigJSON, resin, rindle, stringToStream, umount, visuals, writeConfigJSON;
+  var Promise, _, config, prettyjson, umount, visuals;
 
   _ = require('lodash');
 
@@ -7,48 +7,11 @@
 
   umount = Promise.promisifyAll(require('umount'));
 
-  stringToStream = require('string-to-stream');
-
-  resin = require('resin-sdk');
-
-  imagefs = require('resin-image-fs');
-
   visuals = require('resin-cli-visuals');
 
+  config = require('resin-config-json');
+
   prettyjson = require('prettyjson');
-
-  rindle = require('rindle');
-
-  getConfigPartitionInformationByType = function(type) {
-    return resin.models.device.getManifestBySlug(type).then(function(manifest) {
-      var config, ref;
-      config = (ref = manifest.configuration) != null ? ref.config : void 0;
-      if (config == null) {
-        throw new Error("Unsupported device type: " + type);
-      }
-      return config;
-    });
-  };
-
-  readConfigJSON = function(drive, type) {
-    return getConfigPartitionInformationByType(type).then(function(configuration) {
-      return imagefs.read({
-        image: drive,
-        partition: configuration.partition,
-        path: configuration.path
-      });
-    }).then(rindle.extract).then(JSON.parse);
-  };
-
-  writeConfigJSON = function(drive, type, config) {
-    return getConfigPartitionInformationByType(type).then(function(configuration) {
-      return imagefs.write({
-        image: drive,
-        partition: configuration.partition,
-        path: configuration.path
-      }, stringToStream(config));
-    }).then(rindle.wait);
-  };
 
   exports.read = {
     signature: 'config read',
@@ -74,9 +37,9 @@
       return Promise["try"](function() {
         return options.drive || visuals.drive('Select the device drive');
       }).tap(umount.umountAsync).then(function(drive) {
-        return readConfigJSON(drive, options.type);
-      }).tap(function(config) {
-        return console.info(prettyjson.render(config));
+        return config.read(drive, options.type);
+      }).tap(function(configJSON) {
+        return console.info(prettyjson.render(configJSON));
       }).nodeify(done);
     }
   };
@@ -105,14 +68,14 @@
       return Promise["try"](function() {
         return options.drive || visuals.drive('Select the device drive');
       }).tap(umount.umountAsync).then(function(drive) {
-        return readConfigJSON(drive, options.type).then(function(config) {
+        return config.read(drive, options.type).then(function(configJSON) {
           console.info("Setting " + params.key + " to " + params.value);
-          _.set(config, params.key, params.value);
-          return JSON.stringify(config);
+          _.set(configJSON, params.key, params.value);
+          return configJSON;
         }).tap(function() {
           return umount.umountAsync(drive);
-        }).then(function(config) {
-          return writeConfigJSON(drive, options.type, config);
+        }).then(function(configJSON) {
+          return config.write(drive, options.type, configJSON);
         });
       }).tap(function() {
         return console.info('Done');
