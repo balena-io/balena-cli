@@ -1,39 +1,9 @@
 _ = require('lodash')
 Promise = require('bluebird')
 umount = Promise.promisifyAll(require('umount'))
-stringToStream = require('string-to-stream')
-resin = require('resin-sdk')
-imagefs = require('resin-image-fs')
 visuals = require('resin-cli-visuals')
+config = require('resin-config-json')
 prettyjson = require('prettyjson')
-rindle = require('rindle')
-
-getConfigPartitionInformationByType = (type) ->
-	return resin.models.device.getManifestBySlug(type).then (manifest) ->
-		config = manifest.configuration?.config
-
-		if not config?
-			throw new Error("Unsupported device type: #{type}")
-
-		return config
-
-readConfigJSON = (drive, type) ->
-	return getConfigPartitionInformationByType(type).then (configuration) ->
-		return imagefs.read
-			image: drive
-			partition: configuration.partition
-			path: configuration.path
-	.then(rindle.extract)
-	.then(JSON.parse)
-
-writeConfigJSON = (drive, type, config) ->
-	return getConfigPartitionInformationByType(type).then (configuration) ->
-		return imagefs.write
-			image: drive
-			partition: configuration.partition
-			path: configuration.path
-		, stringToStream(config)
-	.then(rindle.wait)
 
 exports.read =
 	signature: 'config read'
@@ -68,9 +38,9 @@ exports.read =
 			return options.drive or visuals.drive('Select the device drive')
 		.tap(umount.umountAsync)
 		.then (drive) ->
-			return readConfigJSON(drive, options.type)
-		.tap (config) ->
-			console.info(prettyjson.render(config))
+			return config.read(drive, options.type)
+		.tap (configJSON) ->
+			console.info(prettyjson.render(configJSON))
 		.nodeify(done)
 
 exports.write =
@@ -107,14 +77,14 @@ exports.write =
 			return options.drive or visuals.drive('Select the device drive')
 		.tap(umount.umountAsync)
 		.then (drive) ->
-			readConfigJSON(drive, options.type).then (config) ->
+			config.read(drive, options.type).then (configJSON) ->
 				console.info("Setting #{params.key} to #{params.value}")
-				_.set(config, params.key, params.value)
-				return JSON.stringify(config)
+				_.set(configJSON, params.key, params.value)
+				return configJSON
 			.tap ->
 				return umount.umountAsync(drive)
-			.then (config) ->
-				return writeConfigJSON(drive, options.type, config)
+			.then (configJSON) ->
+				return config.write(drive, options.type, configJSON)
 		.tap ->
 			console.info('Done')
 		.nodeify(done)
