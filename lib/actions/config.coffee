@@ -1,5 +1,6 @@
 _ = require('lodash')
 Promise = require('bluebird')
+capitano = Promise.promisifyAll(require('capitano'))
 umount = Promise.promisifyAll(require('umount'))
 visuals = require('resin-cli-visuals')
 config = require('resin-config-json')
@@ -86,5 +87,57 @@ exports.write =
 			.then (configJSON) ->
 				return config.write(drive, options.type, configJSON)
 		.tap ->
+			console.info('Done')
+		.nodeify(done)
+
+exports.reconfigure =
+	signature: 'config reconfigure'
+	description: 'reconfigure a provisioned device'
+	help: '''
+		Use this command to reconfigure a provisioned device
+
+		Examples:
+
+			$ resin config reconfigure --type raspberry-pi
+			$ resin config reconfigure --type raspberry-pi --advanced
+			$ resin config reconfigure --type raspberry-pi --drive /dev/disk2
+	'''
+	options: [
+		{
+			signature: 'type'
+			description: 'device type'
+			parameter: 'type'
+			alias: 't'
+			required: 'You have to specify a device type'
+		}
+		{
+			signature: 'drive'
+			description: 'drive'
+			parameter: 'drive'
+			alias: 'd'
+		}
+		{
+			signature: 'advanced'
+			description: 'show advanced commands'
+			boolean: true
+			alias: 'v'
+		}
+	]
+	permission: 'user'
+	root: true
+	action: (params, options, done) ->
+		Promise.try ->
+			return options.drive or visuals.drive('Select the device drive')
+		.tap(umount.umountAsync)
+		.then (drive) ->
+			config.read(drive, options.type).get('uuid')
+				.tap ->
+					umount.umountAsync(drive)
+				.then (uuid) ->
+					configureCommand = "os configure #{drive} #{uuid}"
+					if options.advanced
+						configureCommand += ' --advanced'
+					return capitano.runAsync(configureCommand)
+		.then ->
 			console.info('Done')
 		.nodeify(done)

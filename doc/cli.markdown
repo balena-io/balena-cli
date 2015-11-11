@@ -79,6 +79,7 @@ Now you have access to all the commands referenced below.
 
 	- [config read](#config-read)
 	- [config write &#60;key&#62; &#60;value&#62;](#config-write-60-key-62-60-value-62-)
+	- [config reconfigure](#config-reconfigure)
 
 - Wizard
 
@@ -626,6 +627,30 @@ device type
 #### --drive, -d &#60;drive&#62;
 
 drive
+
+## config reconfigure
+
+Use this command to reconfigure a provisioned device
+
+Examples:
+
+	$ resin config reconfigure --type raspberry-pi
+	$ resin config reconfigure --type raspberry-pi --advanced
+	$ resin config reconfigure --type raspberry-pi --drive /dev/disk2
+
+### Options
+
+#### --type, -t &#60;type&#62;
+
+device type
+
+#### --drive, -d &#60;drive&#62;
+
+drive
+
+#### --advanced, -v
+
+show advanced commands
 
 # Wizard
 
