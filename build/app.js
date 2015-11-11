@@ -98,6 +98,8 @@
 
   capitano.command(actions.config.read);
 
+  capitano.command(actions.config.write);
+
   capitano.command(actions.logs);
 
   update.notify();

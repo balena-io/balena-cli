@@ -79,6 +79,7 @@ Now you have access to all the commands referenced below.
 - Config
 
 	- [config read](#config-read)
+	- [config write &#60;key&#62; &#60;value&#62;](#config-write-60-key-62-60-value-62-)
 
 - Wizard
 
@@ -604,10 +605,30 @@ drive
 
 Use this command to read the config.json file from a provisioned device
 
-Example:
+Examples:
 
 	$ resin config read --type raspberry-pi
 	$ resin config read --type raspberry-pi --drive /dev/disk2
+
+### Options
+
+#### --type, -t &#60;type&#62;
+
+device type
+
+#### --drive, -d &#60;drive&#62;
+
+drive
+
+## config write &#60;key&#62; &#60;value&#62;
+
+Use this command to write the config.json file of a provisioned device
+
+Examples:
+
+	$ resin config write --type raspberry-pi username johndoe
+	$ resin config write --type raspberry-pi --drive /dev/disk2 username johndoe
+	$ resin config write --type raspberry-pi files.network/settings "..."
 
 ### Options
 
