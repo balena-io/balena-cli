@@ -24,16 +24,18 @@ exports.confirm = (yesOption, message) ->
 		if not confirmed
 			throw new Error('Aborted')
 
-exports.selectApplication = ->
+exports.selectApplication = (filter) ->
 	resin.models.application.hasAny().then (hasAnyApplications) ->
 		if not hasAnyApplications
 			throw new Error('You don\'t have any applications')
 
-		resin.models.application.getAll().then (applications) ->
-			return form.ask
-				message: 'Select an application'
-				type: 'list'
-				choices: _.pluck(applications, 'app_name')
+		return resin.models.application.getAll()
+	.filter(filter or _.constant(true))
+	.then (applications) ->
+		return form.ask
+			message: 'Select an application'
+			type: 'list'
+			choices: _.pluck(applications, 'app_name')
 
 exports.selectOrCreateApplication = ->
 	resin.models.application.hasAny().then (hasAnyApplications) ->

@@ -37,6 +37,7 @@ Now you have access to all the commands referenced below.
 	- [device rm &#60;uuid&#62;](#device-rm-60-uuid-62-)
 	- [device identify &#60;uuid&#62;](#device-identify-60-uuid-62-)
 	- [device rename &#60;uuid&#62; [newName]](#device-rename-60-uuid-62-newname-)
+	- [device move &#60;uuid&#62;](#device-move-60-uuid-62-)
 	- [device init](#device-init)
 
 - Environment Variables
@@ -287,6 +288,23 @@ Examples:
 
 	$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 MyPi
 	$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
+
+## device move &#60;uuid&#62;
+
+Use this command to move a device to another application you own.
+
+If you omit the application, you'll get asked for it interactively.
+
+Examples:
+
+	$ resin device move 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
+	$ resin device move 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 --application MyNewApp
+
+### Options
+
+#### --application, --a,app, --a,app &#60;application&#62;
+
+application name
 
 ## device init
 

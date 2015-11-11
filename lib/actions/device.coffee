@@ -181,6 +181,34 @@ exports.rename =
 			events.send('device.rename', device: params.uuid)
 		.nodeify(done)
 
+exports.move =
+	signature: 'device move <uuid>'
+	description: 'move a device to another application'
+	help: '''
+		Use this command to move a device to another application you own.
+
+		If you omit the application, you'll get asked for it interactively.
+
+		Examples:
+
+			$ resin device move 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
+			$ resin device move 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 --application MyNewApp
+	'''
+	permission: 'user'
+	options: [ commandOptions.optionalApplication ]
+	action: (params, options, done) ->
+		resin.models.device.get(params.uuid).then (device) ->
+			return options.application or patterns.selectApplication (application) ->
+				return _.all [
+					application.device_type is device.device_type
+					device.application_name isnt application.app_name
+				]
+		.tap (application) ->
+			return resin.models.device.move(params.uuid, application)
+		.then (application) ->
+			console.info("#{params.uuid} was moved to #{application}")
+		.nodeify(done)
+
 exports.init =
 	signature: 'device init'
 	description: 'initialise a device with resin os'
