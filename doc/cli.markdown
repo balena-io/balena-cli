@@ -21,11 +21,10 @@ Now you have access to all the commands referenced below.
 	- [app &#60;name&#62;](#app-60-name-62-)
 	- [app restart &#60;name&#62;](#app-restart-60-name-62-)
 	- [app rm &#60;name&#62;](#app-rm-60-name-62-)
-	- [app associate &#60;name&#62;](#app-associate-60-name-62-)
 
 - Authentication
 
-	- [login [token]](#login-token-)
+	- [login](#login)
 	- [logout](#logout)
 	- [signup](#signup)
 	- [whoami](#whoami)
@@ -154,37 +153,25 @@ Examples:
 
 confirm non interactively
 
-## app associate &#60;name&#62;
-
-Use this command to associate a project directory with a resin application.
-
-This command adds a 'resin' git remote to the directory and runs git init if necessary.
-
-Notice this command asks for confirmation interactively.
-You can avoid this by passing the `--yes` boolean option.
-
-Examples:
-
-	$ resin app associate MyApp
-
-### Options
-
-#### --yes, -y
-
-confirm non interactively
-
 # Authentication
 
-## login [token]
+## login
 
 Use this command to login to your resin.io account.
-
-To login, you need your token, which is accesible from the preferences page.
 
 Examples:
 
 	$ resin login
-	$ resin login "eyJ0eXAiOiJKV1Qi..."
+
+### Options
+
+#### --email, --e,u, --e,u &#60;email&#62;
+
+email
+
+#### --password, -p &#60;password&#62;
+
+password
 
 ## logout
 
