@@ -72,6 +72,7 @@ capitano.command(actions.os.initialize)
 # ---------- Config Module ----------
 capitano.command(actions.config.read)
 capitano.command(actions.config.write)
+capitano.command(actions.config.reconfigure)
 
 # ---------- Logs Module ----------
 capitano.command(actions.logs)

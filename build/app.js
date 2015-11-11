@@ -100,6 +100,8 @@
 
   capitano.command(actions.config.write);
 
+  capitano.command(actions.config.reconfigure);
+
   capitano.command(actions.logs);
 
   update.notify();
