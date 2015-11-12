@@ -38,11 +38,10 @@
   };
 
   exports.sudo = function(command) {
-    if (os.platform() === 'win32') {
-      return capitano.runAsync(command.join(' '));
-    }
     command = _.union(_.take(process.argv, 2), command);
-    console.log('Type your computer password to continue');
+    if (os.platform() !== 'win32') {
+      console.log('Type your computer password to continue');
+    }
     return president.executeAsync(command);
   };
 
