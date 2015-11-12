@@ -139,6 +139,25 @@
     }
   };
 
+  exports.move = {
+    signature: 'device move <uuid>',
+    description: 'move a device to another application',
+    help: 'Use this command to move a device to another application you own.\n\nIf you omit the application, you\'ll get asked for it interactively.\n\nExamples:\n\n	$ resin device move 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9\n	$ resin device move 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 --application MyNewApp',
+    permission: 'user',
+    options: [commandOptions.optionalApplication],
+    action: function(params, options, done) {
+      return resin.models.device.get(params.uuid).then(function(device) {
+        return options.application || patterns.selectApplication(function(application) {
+          return _.all([application.device_type === device.device_type, device.application_name !== application.app_name]);
+        });
+      }).tap(function(application) {
+        return resin.models.device.move(params.uuid, application);
+      }).then(function(application) {
+        return console.info(params.uuid + " was moved to " + application);
+      }).nodeify(done);
+    }
+  };
+
   exports.init = {
     signature: 'device init',
     description: 'initialise a device with resin os',

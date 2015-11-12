@@ -70,6 +70,8 @@
 
   capitano.command(actions.device.register);
 
+  capitano.command(actions.device.move);
+
   capitano.command(actions.device.info);
 
   capitano.command(actions.notes.set);
