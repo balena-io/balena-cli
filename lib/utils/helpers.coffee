@@ -29,13 +29,9 @@ exports.stateToString = (state) ->
 			throw new Error("Unsupported operation: #{state.operation.type}")
 
 exports.sudo = (command) ->
-
-	# Bypass privilege elevation for Windows for now.
-	# We should use `windosu` in this case.
-	if os.platform() is 'win32'
-		return capitano.runAsync(command.join(' '))
-
 	command = _.union(_.take(process.argv, 2), command)
 
-	console.log('Type your computer password to continue')
+	if os.platform() isnt 'win32'
+		console.log('Type your computer password to continue')
+
 	return president.executeAsync(command)
