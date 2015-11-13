@@ -39,13 +39,11 @@ exports.list =
 
 		.tap (devices) ->
 			console.log visuals.table.horizontal devices, [
-				'id'
+				'uuid'
 				'name'
 				'device_type'
-				'is_online'
 				'application_name'
 				'status'
-				'last_seen'
 			]
 		.nodeify(done)
 
