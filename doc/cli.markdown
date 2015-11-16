@@ -82,6 +82,10 @@ Now you have access to all the commands referenced below.
 	- [config write &#60;key&#62; &#60;value&#62;](#config-write-60-key-62-60-value-62-)
 	- [config reconfigure](#config-reconfigure)
 
+- Settings
+
+	- [settings](#settings)
+
 - Wizard
 
 	- [quickstart [name]](#quickstart-name-)
@@ -669,6 +673,16 @@ drive
 #### --advanced, -v
 
 show advanced commands
+
+# Settings
+
+## settings
+
+Use this command to display detected settings
+
+Examples:
+
+	$ resin settings
 
 # Wizard
 
