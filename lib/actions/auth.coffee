@@ -32,17 +32,21 @@ exports.login	=
 	]
 	primary: true
 	action: (params, options, done) ->
-		form.run [
-				message: 'Email:'
-				name: 'email'
-				type: 'input'
-				validate: validation.validateEmail
-			,
-				message: 'Password:'
-				name: 'password'
-				type: 'password'
-		],
-			override: options
+		resin.settings.get('resinUrl')
+		.then (resinUrl) ->
+			console.log("Logging in to #{resinUrl}")
+
+			return form.run [
+					message: 'Email:'
+					name: 'email'
+					type: 'input'
+					validate: validation.validateEmail
+				,
+					message: 'Password:'
+					name: 'password'
+					type: 'password'
+			],
+				override: options
 		.then(resin.auth.login)
 		.then(resin.auth.twoFactor.isPassed)
 		.then (isTwoFactorAuthPassed) ->
@@ -133,10 +137,12 @@ exports.whoami =
 		Promise.props
 			username: resin.auth.whoami()
 			email: resin.auth.getEmail()
+			url: resin.settings.get('resinUrl')
 		.then (results) ->
 			console.log visuals.table.vertical results, [
 				'$account information$'
 				'username'
 				'email'
+				'url'
 			]
 		.nodeify(done)
