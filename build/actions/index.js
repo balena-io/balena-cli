@@ -11,6 +11,7 @@
     notes: require('./notes'),
     help: require('./help'),
     os: require('./os'),
+    settings: require('./settings'),
     config: require('./config')
   };
 
