@@ -34,19 +34,22 @@
     ],
     primary: true,
     action: function(params, options, done) {
-      return form.run([
-        {
-          message: 'Email:',
-          name: 'email',
-          type: 'input',
-          validate: validation.validateEmail
-        }, {
-          message: 'Password:',
-          name: 'password',
-          type: 'password'
-        }
-      ], {
-        override: options
+      return resin.settings.get('resinUrl').then(function(resinUrl) {
+        console.log("Logging in to " + resinUrl);
+        return form.run([
+          {
+            message: 'Email:',
+            name: 'email',
+            type: 'input',
+            validate: validation.validateEmail
+          }, {
+            message: 'Password:',
+            name: 'password',
+            type: 'password'
+          }
+        ], {
+          override: options
+        });
       }).then(resin.auth.login).then(resin.auth.twoFactor.isPassed).then(function(isTwoFactorAuthPassed) {
         if (isTwoFactorAuthPassed) {
           return;
@@ -114,9 +117,10 @@
     action: function(params, options, done) {
       return Promise.props({
         username: resin.auth.whoami(),
-        email: resin.auth.getEmail()
+        email: resin.auth.getEmail(),
+        url: resin.settings.get('resinUrl')
       }).then(function(results) {
-        return console.log(visuals.table.vertical(results, ['$account information$', 'username', 'email']));
+        return console.log(visuals.table.vertical(results, ['$account information$', 'username', 'email', 'url']));
       }).nodeify(done);
     }
   };
