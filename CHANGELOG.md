@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.3.0] - 2015-11-20
+
+### Added
+
+- Implement `settings` command.
+- Handle Windows elevation automatically.
+
+### Changed
+
+- Show uuids in `devices` command.
+- Clarify resin url in `login` and `whoami`.
+
 ## [2.2.0] - 2015-11-12
 
 ### Added
@@ -86,6 +98,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[2.3.0]: https://github.com/resin-io/resin-cli/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/resin-io/resin-cli/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/resin-io/resin-cli/compare/v2.0.1...v2.1.0
 [2.0.1]: https://github.com/resin-io/resin-cli/compare/v2.0.0...v2.0.1
