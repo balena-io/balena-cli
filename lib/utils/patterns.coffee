@@ -35,13 +35,22 @@ exports.selectApplication = (filter) ->
 		return form.ask
 			message: 'Select an application'
 			type: 'list'
-			choices: _.pluck(applications, 'app_name')
+			choices: _.map applications, (application) ->
+				return {
+					name: "#{application.app_name} (#{application.device_type})"
+					value: application.app_name
+				}
 
 exports.selectOrCreateApplication = ->
 	resin.models.application.hasAny().then (hasAnyApplications) ->
 		return if not hasAnyApplications
 		resin.models.application.getAll().then (applications) ->
-			applications = _.pluck(applications, 'app_name')
+			applications = _.map applications, (application) ->
+				return {
+					name: "#{application.app_name} (#{application.device_type})"
+					value: application.app_name
+				}
+
 			applications.unshift
 				name: 'Create a new application'
 				value: null

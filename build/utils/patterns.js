@@ -52,7 +52,12 @@
       return form.ask({
         message: 'Select an application',
         type: 'list',
-        choices: _.pluck(applications, 'app_name')
+        choices: _.map(applications, function(application) {
+          return {
+            name: application.app_name + " (" + application.device_type + ")",
+            value: application.app_name
+          };
+        })
       });
     });
   };
@@ -63,7 +68,12 @@
         return;
       }
       return resin.models.application.getAll().then(function(applications) {
-        applications = _.pluck(applications, 'app_name');
+        applications = _.map(applications, function(application) {
+          return {
+            name: application.app_name + " (" + application.device_type + ")",
+            value: application.app_name
+          };
+        });
         applications.unshift({
           name: 'Create a new application',
           value: null
