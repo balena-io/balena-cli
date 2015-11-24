@@ -68,7 +68,7 @@
         }
         return rindle.wait(stream.pipe(output))["return"](options.output);
       }).tap(function(output) {
-        return console.info("The image was downloaded to " + output);
+        return console.info('The image was downloaded successfully');
       }).nodeify(done);
     }
   };
