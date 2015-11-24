@@ -57,7 +57,7 @@ exports.download =
 
 			return rindle.wait(stream.pipe(output)).return(options.output)
 		.tap (output) ->
-			console.info("The image was downloaded to #{output}")
+			console.info('The image was downloaded successfully')
 		.nodeify(done)
 
 stepHandler = (step) ->
