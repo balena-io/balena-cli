@@ -4,6 +4,7 @@ resin = require('resin-sdk')
 form = require('resin-cli-form')
 visuals = require('resin-cli-visuals')
 events = require('resin-cli-events')
+auth = require('resin-cli-auth')
 validation = require('../utils/validation')
 
 exports.login	=
@@ -16,49 +17,10 @@ exports.login	=
 
 			$ resin login
 	'''
-	options: [
-		{
-			signature: 'email'
-			parameter: 'email'
-			description: 'email'
-			alias: [ 'e', 'u' ]
-		}
-		{
-			signature: 'password'
-			parameter: 'password'
-			description: 'password'
-			alias: 'p'
-		}
-	]
 	primary: true
 	action: (params, options, done) ->
-		resin.settings.get('resinUrl')
-		.then (resinUrl) ->
-			console.log("Logging in to #{resinUrl}")
-
-			return form.run [
-					message: 'Email:'
-					name: 'email'
-					type: 'input'
-					validate: validation.validateEmail
-				,
-					message: 'Password:'
-					name: 'password'
-					type: 'password'
-			],
-				override: options
-		.then(resin.auth.login)
-		.then(resin.auth.twoFactor.isPassed)
-		.then (isTwoFactorAuthPassed) ->
-			return if isTwoFactorAuthPassed
-			return form.ask
-				message: 'Two factor auth challenge:'
-				name: 'code'
-				type: 'input'
-			.then(resin.auth.twoFactor.challenge)
-			.catch ->
-				resin.auth.logout().then ->
-					throw new Error('Invalid two factor authentication code')
+		console.info('Connecting to the web dashboard')
+		auth.login()
 		.then(resin.auth.whoami)
 		.tap (username) ->
 			console.info("Successfully logged in as: #{username}")

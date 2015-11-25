@@ -48,6 +48,7 @@
     "nplugm": "^3.0.0",
     "president": "^2.0.1",
     "prettyjson": "^1.1.3",
+    "resin-cli-auth": "^1.0.0",
     "resin-cli-errors": "^1.0.0",
     "resin-cli-events": "^1.0.2",
     "resin-cli-form": "^1.3.0",
