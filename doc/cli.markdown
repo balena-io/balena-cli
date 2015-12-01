@@ -169,16 +169,6 @@ Examples:
 
 	$ resin login
 
-### Options
-
-#### --email, --e,u, --e,u &#60;email&#62;
-
-email
-
-#### --password, -p &#60;password&#62;
-
-password
-
 ## logout
 
 Use this command to logout from your resin.io account.o
