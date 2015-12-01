@@ -1,5 +1,5 @@
 (function() {
-  var Promise, _, events, form, resin, validation, visuals;
+  var Promise, _, auth, events, form, resin, validation, visuals;
 
   Promise = require('bluebird');
 
@@ -13,57 +13,18 @@
 
   events = require('resin-cli-events');
 
+  auth = require('resin-cli-auth');
+
   validation = require('../utils/validation');
 
   exports.login = {
     signature: 'login',
     description: 'login to resin.io',
     help: 'Use this command to login to your resin.io account.\n\nExamples:\n\n	$ resin login',
-    options: [
-      {
-        signature: 'email',
-        parameter: 'email',
-        description: 'email',
-        alias: ['e', 'u']
-      }, {
-        signature: 'password',
-        parameter: 'password',
-        description: 'password',
-        alias: 'p'
-      }
-    ],
     primary: true,
     action: function(params, options, done) {
-      return resin.settings.get('resinUrl').then(function(resinUrl) {
-        console.log("Logging in to " + resinUrl);
-        return form.run([
-          {
-            message: 'Email:',
-            name: 'email',
-            type: 'input',
-            validate: validation.validateEmail
-          }, {
-            message: 'Password:',
-            name: 'password',
-            type: 'password'
-          }
-        ], {
-          override: options
-        });
-      }).then(resin.auth.login).then(resin.auth.twoFactor.isPassed).then(function(isTwoFactorAuthPassed) {
-        if (isTwoFactorAuthPassed) {
-          return;
-        }
-        return form.ask({
-          message: 'Two factor auth challenge:',
-          name: 'code',
-          type: 'input'
-        }).then(resin.auth.twoFactor.challenge)["catch"](function() {
-          return resin.auth.logout().then(function() {
-            throw new Error('Invalid two factor authentication code');
-          });
-        });
-      }).then(resin.auth.whoami).tap(function(username) {
+      console.info('Connecting to the web dashboard');
+      return auth.login().then(resin.auth.whoami).tap(function(username) {
         console.info("Successfully logged in as: " + username);
         return events.send('user.login');
       }).nodeify(done);
