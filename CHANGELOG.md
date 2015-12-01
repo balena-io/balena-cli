@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.4.0] - 2015-12-01
+
+### Added
+
+- Show device types when selecting applications.
+- Automatic token exchange login with the web dashboard.
+
+### Changed
+
+- Simplify download output messages.
+
 ## [2.3.0] - 2015-11-20
 
 ### Added
@@ -98,6 +109,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[2.4.0]: https://github.com/resin-io/resin-cli/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/resin-io/resin-cli/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/resin-io/resin-cli/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/resin-io/resin-cli/compare/v2.0.1...v2.1.0
