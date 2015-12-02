@@ -38,5 +38,18 @@ exports.wizard =
 		.then (uuid) ->
 			return capitano.runAsync("device #{uuid}")
 		.then ->
-			console.log('Your device is ready, start pushing some code!')
+			return resin.models.application.get(params.name)
+		.then (application) ->
+			console.log """
+				Your device is ready to start pushing some code!
+
+				Check our official documentation for more information:
+
+				    http://docs.resin.io/#/pages/introduction/introduction.md
+
+				Clone an example or go to an existing application directory and run:
+
+				    $ git remote add resin #{application.git_repository}
+				    $ git push resin master
+			"""
 		.nodeify(done)

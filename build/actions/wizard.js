@@ -35,7 +35,9 @@
       }).tap(patterns.awaitDevice).then(function(uuid) {
         return capitano.runAsync("device " + uuid);
       }).then(function() {
-        return console.log('Your device is ready, start pushing some code!');
+        return resin.models.application.get(params.name);
+      }).then(function(application) {
+        return console.log("Your device is ready to start pushing some code!\n\nCheck our official documentation for more information:\n\n    http://docs.resin.io/#/pages/introduction/introduction.md\n\nClone an example or go to an existing application directory and run:\n\n    $ git remote add resin " + application.git_repository + "\n    $ git push resin master");
       }).nodeify(done);
     }
   };
