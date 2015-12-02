@@ -39,6 +39,7 @@ exports.list =
 
 		.tap (devices) ->
 			console.log visuals.table.horizontal devices, [
+				'id'
 				'uuid'
 				'name'
 				'device_type'
