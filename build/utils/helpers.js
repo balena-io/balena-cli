@@ -37,8 +37,9 @@
     }
   };
 
-  exports.sudo = function(command) {
+  exports.sudo = function(command, message) {
     command = _.union(_.take(process.argv, 2), command);
+    console.log(message);
     if (os.platform() !== 'win32') {
       console.log('Type your computer password to continue');
     }

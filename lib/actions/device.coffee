@@ -254,8 +254,13 @@ exports.init =
 						configure = "os configure #{temporalPath} #{device.uuid}"
 						configure += ' --advanced' if options.advanced
 						capitano.runAsync(configure).then ->
+							message = '''
+								Initializing a device requires administration permissions
+								given that we need to access raw devices directly.
 
-							helpers.sudo([ 'os', 'initialize', temporalPath, '--type', application.device_type ])
+							'''
+
+							helpers.sudo([ 'os', 'initialize', temporalPath, '--type', application.device_type ], message)
 			.then (device) ->
 				console.log('Done')
 				return device.uuid
