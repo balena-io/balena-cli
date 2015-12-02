@@ -41,7 +41,7 @@
         }
         return resin.models.device.getAll();
       }).tap(function(devices) {
-        return console.log(visuals.table.horizontal(devices, ['uuid', 'name', 'device_type', 'application_name', 'status']));
+        return console.log(visuals.table.horizontal(devices, ['id', 'uuid', 'name', 'device_type', 'application_name', 'status']));
       }).nodeify(done);
     }
   };
