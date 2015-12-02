@@ -195,7 +195,9 @@
               configure += ' --advanced';
             }
             return capitano.runAsync(configure).then(function() {
-              return helpers.sudo(['os', 'initialize', temporalPath, '--type', application.device_type]);
+              var message;
+              message = 'Initializing a device requires administration permissions\ngiven that we need to access raw devices directly.\n';
+              return helpers.sudo(['os', 'initialize', temporalPath, '--type', application.device_type], message);
             });
           });
         }).then(function(device) {

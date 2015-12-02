@@ -28,8 +28,9 @@ exports.stateToString = (state) ->
 		else
 			throw new Error("Unsupported operation: #{state.operation.type}")
 
-exports.sudo = (command) ->
+exports.sudo = (command, message) ->
 	command = _.union(_.take(process.argv, 2), command)
+	console.log(message)
 
 	if os.platform() isnt 'win32'
 		console.log('Type your computer password to continue')
