@@ -20,11 +20,24 @@
   exports.login = {
     signature: 'login',
     description: 'login to resin.io',
-    help: 'Use this command to login to your resin.io account.\n\nExamples:\n\n	$ resin login',
+    help: 'Use this command to login to your resin.io account.\n\nThis command will open your web browser and prompt you to authorize the CLI\nfrom the dashboard.\n\nIf you don\'t have access to a web browser (e.g: running in a headless server),\nyou can fetch your authentication token from the preferences page and pass\nthe token option.\n\nExamples:\n\n	$ resin login\n	$ resin login --token "..."',
+    options: [
+      {
+        signature: 'token',
+        description: 'auth token',
+        parameter: 'token',
+        alias: 't'
+      }
+    ],
     primary: true,
     action: function(params, options, done) {
-      console.info('Connecting to the web dashboard');
-      return auth.login().then(resin.auth.whoami).tap(function(username) {
+      return Promise["try"](function() {
+        if (options.token != null) {
+          return resin.auth.loginWithToken(options.token);
+        }
+        console.info('Connecting to the web dashboard');
+        return auth.login();
+      }).then(resin.auth.whoami).tap(function(username) {
         console.info("Successfully logged in as: " + username);
         return events.send('user.login');
       }).nodeify(done);

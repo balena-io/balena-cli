@@ -165,9 +165,23 @@ confirm non interactively
 
 Use this command to login to your resin.io account.
 
+This command will open your web browser and prompt you to authorize the CLI
+from the dashboard.
+
+If you don't have access to a web browser (e.g: running in a headless server),
+you can fetch your authentication token from the preferences page and pass
+the token option.
+
 Examples:
 
 	$ resin login
+	$ resin login --token "..."
+
+### Options
+
+#### --token, -t &#60;token&#62;
+
+auth token
 
 ## logout
 
