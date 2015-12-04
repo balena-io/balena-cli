@@ -13,14 +13,32 @@ exports.login	=
 	help: '''
 		Use this command to login to your resin.io account.
 
+		This command will open your web browser and prompt you to authorize the CLI
+		from the dashboard.
+
+		If you don't have access to a web browser (e.g: running in a headless server),
+		you can fetch your authentication token from the preferences page and pass
+		the token option.
+
 		Examples:
 
 			$ resin login
+			$ resin login --token "..."
 	'''
+	options: [
+		signature: 'token'
+		description: 'auth token'
+		parameter: 'token'
+		alias: 't'
+	]
 	primary: true
 	action: (params, options, done) ->
-		console.info('Connecting to the web dashboard')
-		auth.login()
+		Promise.try ->
+			if options.token?
+				return resin.auth.loginWithToken(options.token)
+
+			console.info('Connecting to the web dashboard')
+			return auth.login()
 		.then(resin.auth.whoami)
 		.tap (username) ->
 			console.info("Successfully logged in as: #{username}")
