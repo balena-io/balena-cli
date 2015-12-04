@@ -22,7 +22,7 @@ Getting Started
 This might require elevated privileges in some environments.
 
 ```sh
-$ npm install -g resin-cli
+$ npm install --global --production resin-cli
 ```
 
 ### Login
