@@ -1,7 +1,3 @@
-Promise = require('bluebird')
-_ = require('lodash')
-resin = require('resin-sdk')
-
 exports.set =
 	signature: 'note <|note>'
 	description: 'set a device note'
@@ -26,6 +22,10 @@ exports.set =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
+		Promise = require('bluebird')
+		_ = require('lodash')
+		resin = require('resin-sdk')
+
 		Promise.try ->
 			if _.isEmpty(params.note)
 				throw new Error('Missing note content')

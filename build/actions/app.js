@@ -1,15 +1,7 @@
 (function() {
-  var commandOptions, events, patterns, resin, visuals;
-
-  resin = require('resin-sdk');
-
-  visuals = require('resin-cli-visuals');
+  var commandOptions;
 
   commandOptions = require('./command-options');
-
-  events = require('resin-cli-events');
-
-  patterns = require('../utils/patterns');
 
   exports.create = {
     signature: 'app create <name>',
@@ -26,6 +18,10 @@
     permission: 'user',
     primary: true,
     action: function(params, options, done) {
+      var events, patterns, resin;
+      resin = require('resin-sdk');
+      events = require('resin-cli-events');
+      patterns = require('../utils/patterns');
       return resin.models.application.has(params.name).then(function(hasApplication) {
         if (hasApplication) {
           throw new Error('You already have an application with that name!');
@@ -50,6 +46,9 @@
     permission: 'user',
     primary: true,
     action: function(params, options, done) {
+      var resin, visuals;
+      resin = require('resin-sdk');
+      visuals = require('resin-cli-visuals');
       return resin.models.application.getAll().then(function(applications) {
         return console.log(visuals.table.horizontal(applications, ['id', 'app_name', 'device_type', 'online_devices', 'devices_length']));
       }).nodeify(done);
@@ -63,6 +62,10 @@
     permission: 'user',
     primary: true,
     action: function(params, options, done) {
+      var events, resin, visuals;
+      resin = require('resin-sdk');
+      visuals = require('resin-cli-visuals');
+      events = require('resin-cli-events');
       return resin.models.application.get(params.name).then(function(application) {
         console.log(visuals.table.vertical(application, ["$" + application.app_name + "$", 'id', 'device_type', 'git_repository', 'commit']));
         return events.send('application.open', {
@@ -78,6 +81,8 @@
     help: 'Use this command to restart all devices that belongs to a certain application.\n\nExamples:\n\n	$ resin app restart MyApp',
     permission: 'user',
     action: function(params, options, done) {
+      var resin;
+      resin = require('resin-sdk');
       return resin.models.application.restart(params.name).nodeify(done);
     }
   };
@@ -89,6 +94,10 @@
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
+      var events, patterns, resin;
+      resin = require('resin-sdk');
+      events = require('resin-cli-events');
+      patterns = require('../utils/patterns');
       return patterns.confirm(options.yes, 'Are you sure you want to delete the application?').then(function() {
         return resin.models.application.remove(params.name);
       }).tap(function() {

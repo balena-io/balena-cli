@@ -1,11 +1,3 @@
-_ = require('lodash')
-Promise = require('bluebird')
-capitano = Promise.promisifyAll(require('capitano'))
-umount = Promise.promisifyAll(require('umount'))
-visuals = require('resin-cli-visuals')
-config = require('resin-config-json')
-prettyjson = require('prettyjson')
-
 exports.read =
 	signature: 'config read'
 	description: 'read a device configuration'
@@ -35,6 +27,12 @@ exports.read =
 	permission: 'user'
 	root: true
 	action: (params, options, done) ->
+		Promise = require('bluebird')
+		config = require('resin-config-json')
+		visuals = require('resin-cli-visuals')
+		umount = Promise.promisifyAll(require('umount'))
+		prettyjson = require('prettyjson')
+
 		Promise.try ->
 			return options.drive or visuals.drive('Select the device drive')
 		.tap(umount.umountAsync)
@@ -74,6 +72,12 @@ exports.write =
 	permission: 'user'
 	root: true
 	action: (params, options, done) ->
+		Promise = require('bluebird')
+		_ = require('lodash')
+		config = require('resin-config-json')
+		visuals = require('resin-cli-visuals')
+		umount = Promise.promisifyAll(require('umount'))
+
 		Promise.try ->
 			return options.drive or visuals.drive('Select the device drive')
 		.tap(umount.umountAsync)
@@ -126,6 +130,12 @@ exports.reconfigure =
 	permission: 'user'
 	root: true
 	action: (params, options, done) ->
+		Promise = require('bluebird')
+		config = require('resin-config-json')
+		visuals = require('resin-cli-visuals')
+		capitano = Promise.promisifyAll(require('capitano'))
+		umount = Promise.promisifyAll(require('umount'))
+
 		Promise.try ->
 			return options.drive or visuals.drive('Select the device drive')
 		.tap(umount.umountAsync)

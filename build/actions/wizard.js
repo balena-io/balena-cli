@@ -1,14 +1,4 @@
 (function() {
-  var Promise, capitano, patterns, resin;
-
-  Promise = require('bluebird');
-
-  capitano = Promise.promisifyAll(require('capitano'));
-
-  resin = require('resin-sdk');
-
-  patterns = require('../utils/patterns');
-
   exports.wizard = {
     signature: 'quickstart [name]',
     description: 'getting started with resin.io',
@@ -16,6 +6,11 @@
     permission: 'user',
     primary: true,
     action: function(params, options, done) {
+      var Promise, capitano, patterns, resin;
+      Promise = require('bluebird');
+      capitano = Promise.promisifyAll(require('capitano'));
+      resin = require('resin-sdk');
+      patterns = require('../utils/patterns');
       return Promise["try"](function() {
         if (params.name != null) {
           return;

@@ -1,12 +1,4 @@
 (function() {
-  var Promise, _, resin;
-
-  Promise = require('bluebird');
-
-  _ = require('lodash');
-
-  resin = require('resin-sdk');
-
   exports.set = {
     signature: 'note <|note>',
     description: 'set a device note',
@@ -22,6 +14,10 @@
     ],
     permission: 'user',
     action: function(params, options, done) {
+      var Promise, _, resin;
+      Promise = require('bluebird');
+      _ = require('lodash');
+      resin = require('resin-sdk');
       return Promise["try"](function() {
         if (_.isEmpty(params.note)) {
           throw new Error('Missing note content');

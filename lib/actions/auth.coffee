@@ -1,12 +1,3 @@
-Promise = require('bluebird')
-_ = require('lodash')
-resin = require('resin-sdk')
-form = require('resin-cli-form')
-visuals = require('resin-cli-visuals')
-events = require('resin-cli-events')
-auth = require('resin-cli-auth')
-validation = require('../utils/validation')
-
 exports.login	=
 	signature: 'login'
 	description: 'login to resin.io'
@@ -33,6 +24,11 @@ exports.login	=
 	]
 	primary: true
 	action: (params, options, done) ->
+		Promise = require('bluebird')
+		resin = require('resin-sdk')
+		events = require('resin-cli-events')
+		auth = require('resin-cli-auth')
+
 		Promise.try ->
 			if options.token?
 				return resin.auth.loginWithToken(options.token)
@@ -57,6 +53,9 @@ exports.logout =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
+		resin = require('resin-sdk')
+		events = require('resin-cli-events')
+
 		resin.auth.logout().then ->
 			events.send('user.logout')
 		.nodeify(done)
@@ -80,6 +79,11 @@ exports.signup =
 			johndoe
 	'''
 	action: (params, options, done) ->
+		resin = require('resin-sdk')
+		form = require('resin-cli-form')
+		events = require('resin-cli-events')
+		validation = require('../utils/validation')
+
 		form.run [
 			message: 'Email:'
 			name: 'email'
@@ -114,6 +118,10 @@ exports.whoami =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
+		Promise = require('bluebird')
+		resin = require('resin-sdk')
+		visuals = require('resin-cli-visuals')
+
 		Promise.props
 			username: resin.auth.whoami()
 			email: resin.auth.getEmail()

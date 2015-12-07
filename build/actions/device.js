@@ -1,29 +1,5 @@
 (function() {
-  var Promise, _, capitano, commandOptions, events, form, helpers, patterns, resin, rimraf, tmp, visuals;
-
-  Promise = require('bluebird');
-
-  capitano = Promise.promisifyAll(require('capitano'));
-
-  _ = require('lodash');
-
-  resin = require('resin-sdk');
-
-  visuals = require('resin-cli-visuals');
-
-  form = require('resin-cli-form');
-
-  events = require('resin-cli-events');
-
-  rimraf = Promise.promisify(require('rimraf'));
-
-  patterns = require('../utils/patterns');
-
-  helpers = require('../utils/helpers');
-
-  tmp = Promise.promisifyAll(require('tmp'));
-
-  tmp.setGracefulCleanup();
+  var commandOptions;
 
   commandOptions = require('./command-options');
 
@@ -35,6 +11,10 @@
     permission: 'user',
     primary: true,
     action: function(params, options, done) {
+      var Promise, resin, visuals;
+      Promise = require('bluebird');
+      resin = require('resin-sdk');
+      visuals = require('resin-cli-visuals');
       return Promise["try"](function() {
         if (options.application != null) {
           return resin.models.device.getAllByApplication(options.application);
@@ -53,6 +33,10 @@
     permission: 'user',
     primary: true,
     action: function(params, options, done) {
+      var events, resin, visuals;
+      resin = require('resin-sdk');
+      visuals = require('resin-cli-visuals');
+      events = require('resin-cli-events');
       return resin.models.device.get(params.uuid).then(function(device) {
         if (device.last_seen == null) {
           device.last_seen = 'Not seen';
@@ -79,6 +63,9 @@
       }
     ],
     action: function(params, options, done) {
+      var Promise, resin;
+      Promise = require('bluebird');
+      resin = require('resin-sdk');
       return resin.models.application.get(params.application).then(function(application) {
         return Promise["try"](function() {
           return options.uuid || resin.models.device.generateUUID();
@@ -97,6 +84,10 @@
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
+      var events, patterns, resin;
+      resin = require('resin-sdk');
+      events = require('resin-cli-events');
+      patterns = require('../utils/patterns');
       return patterns.confirm(options.yes, 'Are you sure you want to delete the device?').then(function() {
         return resin.models.device.remove(params.uuid);
       }).tap(function() {
@@ -113,6 +104,8 @@
     help: 'Use this command to identify a device.\n\nIn the Raspberry Pi, the ACT led is blinked several times.\n\nExamples:\n\n	$ resin device identify 23c73a12e3527df55c60b9ce647640c1b7da1b32d71e6a39849ac0f00db828',
     permission: 'user',
     action: function(params, options, done) {
+      var resin;
+      resin = require('resin-sdk');
       return resin.models.device.identify(params.uuid).nodeify(done);
     }
   };
@@ -123,6 +116,12 @@
     help: 'Use this command to rename a device.\n\nIf you omit the name, you\'ll get asked for it interactively.\n\nExamples:\n\n	$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 MyPi\n	$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9',
     permission: 'user',
     action: function(params, options, done) {
+      var Promise, _, events, form, resin;
+      Promise = require('bluebird');
+      _ = require('lodash');
+      resin = require('resin-sdk');
+      events = require('resin-cli-events');
+      form = require('resin-cli-form');
       return Promise["try"](function() {
         if (!_.isEmpty(params.newName)) {
           return params.newName;
@@ -146,6 +145,10 @@
     permission: 'user',
     options: [commandOptions.optionalApplication],
     action: function(params, options, done) {
+      var _, patterns, resin;
+      resin = require('resin-sdk');
+      _ = require('lodash');
+      patterns = require('../utils/patterns');
       return resin.models.device.get(params.uuid).then(function(device) {
         return options.application || patterns.selectApplication(function(application) {
           return _.all([application.device_type === device.device_type, device.application_name !== application.app_name]);
@@ -173,6 +176,15 @@
     permission: 'user',
     primary: true,
     action: function(params, options, done) {
+      var Promise, capitano, helpers, patterns, resin, rimraf, tmp;
+      Promise = require('bluebird');
+      capitano = Promise.promisifyAll(require('capitano'));
+      rimraf = Promise.promisify(require('rimraf'));
+      tmp = Promise.promisifyAll(require('tmp'));
+      tmp.setGracefulCleanup();
+      resin = require('resin-sdk');
+      helpers = require('../utils/helpers');
+      patterns = require('../utils/patterns');
       return Promise["try"](function() {
         if (options.application != null) {
           return options.application;

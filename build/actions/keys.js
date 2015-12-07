@@ -1,23 +1,7 @@
 (function() {
-  var Promise, _, capitano, commandOptions, events, fs, patterns, resin, visuals;
-
-  Promise = require('bluebird');
-
-  fs = Promise.promisifyAll(require('fs'));
-
-  _ = require('lodash');
-
-  resin = require('resin-sdk');
-
-  capitano = require('capitano');
-
-  visuals = require('resin-cli-visuals');
-
-  events = require('resin-cli-events');
+  var commandOptions;
 
   commandOptions = require('./command-options');
-
-  patterns = require('../utils/patterns');
 
   exports.list = {
     signature: 'keys',
@@ -25,6 +9,9 @@
     help: 'Use this command to list all your SSH keys.\n\nExamples:\n\n	$ resin keys',
     permission: 'user',
     action: function(params, options, done) {
+      var resin, visuals;
+      resin = require('resin-sdk');
+      visuals = require('resin-cli-visuals');
       return resin.models.key.getAll().then(function(keys) {
         return console.log(visuals.table.horizontal(keys, ['id', 'title']));
       }).nodeify(done);
@@ -37,6 +24,9 @@
     help: 'Use this command to show information about a single SSH key.\n\nExamples:\n\n	$ resin key 17',
     permission: 'user',
     action: function(params, options, done) {
+      var resin, visuals;
+      resin = require('resin-sdk');
+      visuals = require('resin-cli-visuals');
       return resin.models.key.get(params.id).then(function(key) {
         console.log(visuals.table.vertical(key, ['id', 'title']));
         return console.log('\n' + key.public_key);
@@ -51,6 +41,10 @@
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
+      var events, patterns, resin;
+      resin = require('resin-sdk');
+      events = require('resin-cli-events');
+      patterns = require('../utils/patterns');
       return patterns.confirm(options.yes, 'Are you sure you want to delete the key?').then(function() {
         return resin.models.key.remove(params.id);
       }).tap(function() {
@@ -67,6 +61,13 @@
     help: 'Use this command to associate a new SSH key with your account.\n\nIf `path` is omitted, the command will attempt\nto read the SSH key from stdin.\n\nExamples:\n\n	$ resin key add Main ~/.ssh/id_rsa.pub\n	$ cat ~/.ssh/id_rsa.pub | resin key add Main',
     permission: 'user',
     action: function(params, options, done) {
+      var Promise, _, capitano, events, fs, resin;
+      _ = require('lodash');
+      Promise = require('bluebird');
+      fs = Promise.promisifyAll(require('fs'));
+      capitano = require('capitano');
+      resin = require('resin-sdk');
+      events = require('resin-cli-events');
       return Promise["try"](function() {
         if (params.path != null) {
           return fs.readFileAsync(params.path, {

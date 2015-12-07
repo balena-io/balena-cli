@@ -1,8 +1,4 @@
-resin = require('resin-sdk')
-visuals = require('resin-cli-visuals')
 commandOptions = require('./command-options')
-events = require('resin-cli-events')
-patterns = require('../utils/patterns')
 
 exports.create =
 	signature: 'app create <name>'
@@ -33,6 +29,9 @@ exports.create =
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
+		resin = require('resin-sdk')
+		events = require('resin-cli-events')
+		patterns = require('../utils/patterns')
 
 		# Validate the the application name is available
 		# before asking the device type.
@@ -66,6 +65,9 @@ exports.list =
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
+		resin = require('resin-sdk')
+		visuals = require('resin-cli-visuals')
+
 		resin.models.application.getAll().then (applications) ->
 			console.log visuals.table.horizontal applications, [
 				'id'
@@ -89,6 +91,10 @@ exports.info =
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
+		resin = require('resin-sdk')
+		visuals = require('resin-cli-visuals')
+		events = require('resin-cli-events')
+
 		resin.models.application.get(params.name).then (application) ->
 			console.log visuals.table.vertical application, [
 				"$#{application.app_name}$"
@@ -112,6 +118,7 @@ exports.restart =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
+		resin = require('resin-sdk')
 		resin.models.application.restart(params.name).nodeify(done)
 
 exports.remove =
@@ -131,6 +138,10 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
+		resin = require('resin-sdk')
+		events = require('resin-cli-events')
+		patterns = require('../utils/patterns')
+
 		patterns.confirm(options.yes, 'Are you sure you want to delete the application?').then ->
 			resin.models.application.remove(params.name)
 		.tap ->
