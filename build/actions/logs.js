@@ -1,10 +1,4 @@
 (function() {
-  var _, resin;
-
-  _ = require('lodash');
-
-  resin = require('resin-sdk');
-
   module.exports = {
     signature: 'logs <uuid>',
     description: 'show device logs',
@@ -20,7 +14,9 @@
     permission: 'user',
     primary: true,
     action: function(params, options, done) {
-      var promise;
+      var _, promise, resin;
+      _ = require('lodash');
+      resin = require('resin-sdk');
       promise = resin.logs.history(params.uuid).each(function(line) {
         return console.log(line.message);
       });

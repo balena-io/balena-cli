@@ -1,6 +1,3 @@
-resin = require('resin-sdk')
-prettyjson = require('prettyjson')
-
 exports.list =
 	signature: 'settings'
 	description: 'print current settings'
@@ -12,6 +9,9 @@ exports.list =
 			$ resin settings
 	'''
 	action: (params, options, done) ->
+		resin = require('resin-sdk')
+		prettyjson = require('prettyjson')
+
 		resin.settings.getAll()
 			.then(prettyjson.render)
 			.then(console.log)

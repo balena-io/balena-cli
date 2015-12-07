@@ -1,8 +1,3 @@
-Promise = require('bluebird')
-capitano = Promise.promisifyAll(require('capitano'))
-resin = require('resin-sdk')
-patterns = require('../utils/patterns')
-
 exports.wizard =
 	signature: 'quickstart [name]'
 	description: 'getting started with resin.io'
@@ -24,6 +19,11 @@ exports.wizard =
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
+		Promise = require('bluebird')
+		capitano = Promise.promisifyAll(require('capitano'))
+		resin = require('resin-sdk')
+		patterns = require('../utils/patterns')
+
 		Promise.try ->
 			return if params.name?
 			patterns.selectOrCreateApplication().tap (applicationName) ->

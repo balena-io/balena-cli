@@ -1,20 +1,4 @@
 (function() {
-  var Promise, _, capitano, config, prettyjson, umount, visuals;
-
-  _ = require('lodash');
-
-  Promise = require('bluebird');
-
-  capitano = Promise.promisifyAll(require('capitano'));
-
-  umount = Promise.promisifyAll(require('umount'));
-
-  visuals = require('resin-cli-visuals');
-
-  config = require('resin-config-json');
-
-  prettyjson = require('prettyjson');
-
   exports.read = {
     signature: 'config read',
     description: 'read a device configuration',
@@ -36,6 +20,12 @@
     permission: 'user',
     root: true,
     action: function(params, options, done) {
+      var Promise, config, prettyjson, umount, visuals;
+      Promise = require('bluebird');
+      config = require('resin-config-json');
+      visuals = require('resin-cli-visuals');
+      umount = Promise.promisifyAll(require('umount'));
+      prettyjson = require('prettyjson');
       return Promise["try"](function() {
         return options.drive || visuals.drive('Select the device drive');
       }).tap(umount.umountAsync).then(function(drive) {
@@ -67,6 +57,12 @@
     permission: 'user',
     root: true,
     action: function(params, options, done) {
+      var Promise, _, config, umount, visuals;
+      Promise = require('bluebird');
+      _ = require('lodash');
+      config = require('resin-config-json');
+      visuals = require('resin-cli-visuals');
+      umount = Promise.promisifyAll(require('umount'));
       return Promise["try"](function() {
         return options.drive || visuals.drive('Select the device drive');
       }).tap(umount.umountAsync).then(function(drive) {
@@ -111,6 +107,12 @@
     permission: 'user',
     root: true,
     action: function(params, options, done) {
+      var Promise, capitano, config, umount, visuals;
+      Promise = require('bluebird');
+      config = require('resin-config-json');
+      visuals = require('resin-cli-visuals');
+      capitano = Promise.promisifyAll(require('capitano'));
+      umount = Promise.promisifyAll(require('umount'));
       return Promise["try"](function() {
         return options.drive || visuals.drive('Select the device drive');
       }).tap(umount.umountAsync).then(function(drive) {

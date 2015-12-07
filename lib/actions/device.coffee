@@ -1,16 +1,3 @@
-Promise = require('bluebird')
-capitano = Promise.promisifyAll(require('capitano'))
-_ = require('lodash')
-resin = require('resin-sdk')
-visuals = require('resin-cli-visuals')
-form = require('resin-cli-form')
-events = require('resin-cli-events')
-rimraf = Promise.promisify(require('rimraf'))
-patterns = require('../utils/patterns')
-helpers = require('../utils/helpers')
-tmp = Promise.promisifyAll(require('tmp'))
-tmp.setGracefulCleanup()
-
 commandOptions = require('./command-options')
 
 exports.list =
@@ -32,6 +19,10 @@ exports.list =
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
+		Promise = require('bluebird')
+		resin = require('resin-sdk')
+		visuals = require('resin-cli-visuals')
+
 		Promise.try ->
 			if options.application?
 				return resin.models.device.getAllByApplication(options.application)
@@ -61,6 +52,10 @@ exports.info =
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
+		resin = require('resin-sdk')
+		visuals = require('resin-cli-visuals')
+		events = require('resin-cli-events')
+
 		resin.models.device.get(params.uuid).then (device) ->
 
 			# TODO: We should outsource this logic and probably
@@ -104,6 +99,9 @@ exports.register =
 		alias: 'u'
 	]
 	action: (params, options, done) ->
+		Promise = require('bluebird')
+		resin = require('resin-sdk')
+
 		resin.models.application.get(params.application).then (application) ->
 
 			Promise.try ->
@@ -131,6 +129,10 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
+		resin = require('resin-sdk')
+		events = require('resin-cli-events')
+		patterns = require('../utils/patterns')
+
 		patterns.confirm(options.yes, 'Are you sure you want to delete the device?').then ->
 			resin.models.device.remove(params.uuid)
 		.tap ->
@@ -151,6 +153,7 @@ exports.identify =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
+		resin = require('resin-sdk')
 		resin.models.device.identify(params.uuid).nodeify(done)
 
 exports.rename =
@@ -168,6 +171,12 @@ exports.rename =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
+		Promise = require('bluebird')
+		_ = require('lodash')
+		resin = require('resin-sdk')
+		events = require('resin-cli-events')
+		form = require('resin-cli-form')
+
 		Promise.try ->
 			return params.newName if not _.isEmpty(params.newName)
 
@@ -196,6 +205,10 @@ exports.move =
 	permission: 'user'
 	options: [ commandOptions.optionalApplication ]
 	action: (params, options, done) ->
+		resin = require('resin-sdk')
+		_ = require('lodash')
+		patterns = require('../utils/patterns')
+
 		resin.models.device.get(params.uuid).then (device) ->
 			return options.application or patterns.selectApplication (application) ->
 				return _.all [
@@ -235,6 +248,16 @@ exports.init =
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
+		Promise = require('bluebird')
+		capitano = Promise.promisifyAll(require('capitano'))
+		rimraf = Promise.promisify(require('rimraf'))
+		tmp = Promise.promisifyAll(require('tmp'))
+		tmp.setGracefulCleanup()
+
+		resin = require('resin-sdk')
+		helpers = require('../utils/helpers')
+		patterns = require('../utils/patterns')
+
 		Promise.try ->
 			return options.application if options.application?
 			return patterns.selectApplication()

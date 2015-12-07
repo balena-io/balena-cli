@@ -1,12 +1,4 @@
-Promise = require('bluebird')
-fs = Promise.promisifyAll(require('fs'))
-_ = require('lodash')
-resin = require('resin-sdk')
-capitano = require('capitano')
-visuals = require('resin-cli-visuals')
-events = require('resin-cli-events')
 commandOptions = require('./command-options')
-patterns = require('../utils/patterns')
 
 exports.list =
 	signature: 'keys'
@@ -20,6 +12,9 @@ exports.list =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
+		resin = require('resin-sdk')
+		visuals = require('resin-cli-visuals')
+
 		resin.models.key.getAll().then (keys) ->
 			console.log visuals.table.horizontal keys, [
 				'id'
@@ -39,6 +34,9 @@ exports.info =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
+		resin = require('resin-sdk')
+		visuals = require('resin-cli-visuals')
+
 		resin.models.key.get(params.id).then (key) ->
 			console.log visuals.table.vertical key, [
 				'id'
@@ -68,6 +66,10 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
+		resin = require('resin-sdk')
+		events = require('resin-cli-events')
+		patterns = require('../utils/patterns')
+
 		patterns.confirm(options.yes, 'Are you sure you want to delete the key?').then ->
 			resin.models.key.remove(params.id)
 		.tap ->
@@ -90,6 +92,13 @@ exports.add =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
+		_ = require('lodash')
+		Promise = require('bluebird')
+		fs = Promise.promisifyAll(require('fs'))
+		capitano = require('capitano')
+		resin = require('resin-sdk')
+		events = require('resin-cli-events')
+
 		Promise.try ->
 			return fs.readFileAsync(params.path, encoding: 'utf8') if params.path?
 

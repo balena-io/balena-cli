@@ -1,17 +1,4 @@
-fs = require('fs')
-_ = require('lodash')
-Promise = require('bluebird')
-umount = Promise.promisifyAll(require('umount'))
-unzip = require('unzip2')
-rindle = require('rindle')
-resin = require('resin-sdk')
-manager = require('resin-image-manager')
-visuals = require('resin-cli-visuals')
-form = require('resin-cli-form')
-init = require('resin-device-init')
 commandOptions = require('./command-options')
-helpers = require('../utils/helpers')
-patterns = require('../utils/patterns')
 
 exports.download =
 	signature: 'os download <type>'
@@ -32,6 +19,12 @@ exports.download =
 		required: 'You have to specify an output location'
 	]
 	action: (params, options, done) ->
+		unzip = require('unzip2')
+		fs = require('fs')
+		rindle = require('rindle')
+		manager = require('resin-image-manager')
+		visuals = require('resin-cli-visuals')
+
 		console.info("Getting device operating system for #{params.type}")
 
 		manager.get(params.type).then (stream) ->
@@ -61,6 +54,11 @@ exports.download =
 		.nodeify(done)
 
 stepHandler = (step) ->
+	_ = require('lodash')
+	rindle = require('rindle')
+	visuals = require('resin-cli-visuals')
+	helpers = require('../utils/helpers')
+
 	step.on('stdout', _.bind(process.stdout.write, process.stdout))
 	step.on('stderr', _.bind(process.stderr.write, process.stderr))
 
@@ -92,6 +90,12 @@ exports.configure =
 		alias: 'v'
 	]
 	action: (params, options, done) ->
+		_ = require('lodash')
+		resin = require('resin-sdk')
+		form = require('resin-cli-form')
+		init = require('resin-device-init')
+		helpers = require('../utils/helpers')
+
 		console.info('Configuring operating system image')
 		resin.models.device.get(params.uuid)
 			.get('device_type')
@@ -141,6 +145,13 @@ exports.initialize =
 	]
 	root: true
 	action: (params, options, done) ->
+		Promise = require('bluebird')
+		umount = Promise.promisifyAll(require('umount'))
+		resin = require('resin-sdk')
+		form = require('resin-cli-form')
+		init = require('resin-device-init')
+		patterns = require('../utils/patterns')
+
 		console.info('Initializing device')
 		resin.models.device.getManifestBySlug(options.type)
 			.then (manifest) ->

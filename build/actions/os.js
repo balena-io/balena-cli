@@ -1,33 +1,7 @@
 (function() {
-  var Promise, _, commandOptions, form, fs, helpers, init, manager, patterns, resin, rindle, stepHandler, umount, unzip, visuals;
-
-  fs = require('fs');
-
-  _ = require('lodash');
-
-  Promise = require('bluebird');
-
-  umount = Promise.promisifyAll(require('umount'));
-
-  unzip = require('unzip2');
-
-  rindle = require('rindle');
-
-  resin = require('resin-sdk');
-
-  manager = require('resin-image-manager');
-
-  visuals = require('resin-cli-visuals');
-
-  form = require('resin-cli-form');
-
-  init = require('resin-device-init');
+  var commandOptions, stepHandler;
 
   commandOptions = require('./command-options');
-
-  helpers = require('../utils/helpers');
-
-  patterns = require('../utils/patterns');
 
   exports.download = {
     signature: 'os download <type>',
@@ -44,6 +18,12 @@
       }
     ],
     action: function(params, options, done) {
+      var fs, manager, rindle, unzip, visuals;
+      unzip = require('unzip2');
+      fs = require('fs');
+      rindle = require('rindle');
+      manager = require('resin-image-manager');
+      visuals = require('resin-cli-visuals');
       console.info("Getting device operating system for " + params.type);
       return manager.get(params.type).then(function(stream) {
         var bar, output, spinner;
@@ -74,7 +54,11 @@
   };
 
   stepHandler = function(step) {
-    var bar;
+    var _, bar, helpers, rindle, visuals;
+    _ = require('lodash');
+    rindle = require('rindle');
+    visuals = require('resin-cli-visuals');
+    helpers = require('../utils/helpers');
     step.on('stdout', _.bind(process.stdout.write, process.stdout));
     step.on('stderr', _.bind(process.stderr.write, process.stderr));
     step.on('state', function(state) {
@@ -102,6 +86,12 @@
       }
     ],
     action: function(params, options, done) {
+      var _, form, helpers, init, resin;
+      _ = require('lodash');
+      resin = require('resin-sdk');
+      form = require('resin-cli-form');
+      init = require('resin-device-init');
+      helpers = require('../utils/helpers');
       console.info('Configuring operating system image');
       return resin.models.device.get(params.uuid).get('device_type').then(resin.models.device.getManifestBySlug).get('options').then(function(questions) {
         var advancedGroup, override;
@@ -144,6 +134,13 @@
     ],
     root: true,
     action: function(params, options, done) {
+      var Promise, form, init, patterns, resin, umount;
+      Promise = require('bluebird');
+      umount = Promise.promisifyAll(require('umount'));
+      resin = require('resin-sdk');
+      form = require('resin-cli-form');
+      init = require('resin-device-init');
+      patterns = require('../utils/patterns');
       console.info('Initializing device');
       return resin.models.device.getManifestBySlug(options.type).then(function(manifest) {
         var ref;

@@ -1,6 +1,3 @@
-_ = require('lodash')
-resin = require('resin-sdk')
-
 module.exports =
 	signature: 'logs <uuid>'
 	description: 'show device logs'
@@ -31,6 +28,9 @@ module.exports =
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
+		_ = require('lodash')
+		resin = require('resin-sdk')
+
 		promise = resin.logs.history(params.uuid).each (line) ->
 			console.log(line.message)
 

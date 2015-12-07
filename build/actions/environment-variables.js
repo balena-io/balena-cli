@@ -1,19 +1,7 @@
 (function() {
-  var Promise, _, commandOptions, events, patterns, resin, visuals;
-
-  Promise = require('bluebird');
-
-  _ = require('lodash');
-
-  resin = require('resin-sdk');
-
-  visuals = require('resin-cli-visuals');
-
-  events = require('resin-cli-events');
+  var commandOptions;
 
   commandOptions = require('./command-options');
-
-  patterns = require('../utils/patterns');
 
   exports.list = {
     signature: 'envs',
@@ -29,6 +17,11 @@
     ],
     permission: 'user',
     action: function(params, options, done) {
+      var Promise, _, resin, visuals;
+      Promise = require('bluebird');
+      _ = require('lodash');
+      resin = require('resin-sdk');
+      visuals = require('resin-cli-visuals');
       return Promise["try"](function() {
         if (options.application != null) {
           return resin.models.environmentVariables.getAllByApplication(options.application);
@@ -58,6 +51,10 @@
     options: [commandOptions.yes, commandOptions.booleanDevice],
     permission: 'user',
     action: function(params, options, done) {
+      var events, patterns, resin;
+      resin = require('resin-sdk');
+      events = require('resin-cli-events');
+      patterns = require('../utils/patterns');
       return patterns.confirm(options.yes, 'Are you sure you want to delete the environment variable?').then(function() {
         if (options.device) {
           resin.models.environmentVariables.device.remove(params.id);
@@ -81,6 +78,10 @@
     options: [commandOptions.optionalApplication, commandOptions.optionalDevice],
     permission: 'user',
     action: function(params, options, done) {
+      var Promise, events, resin;
+      Promise = require('bluebird');
+      resin = require('resin-sdk');
+      events = require('resin-cli-events');
       return Promise["try"](function() {
         if (params.value == null) {
           params.value = process.env[params.key];
@@ -118,6 +119,10 @@
     permission: 'user',
     options: [commandOptions.booleanDevice],
     action: function(params, options, done) {
+      var Promise, events, resin;
+      Promise = require('bluebird');
+      resin = require('resin-sdk');
+      events = require('resin-cli-events');
       return Promise["try"](function() {
         if (options.device) {
           return resin.models.environmentVariables.device.update(params.id, params.value).then(function() {

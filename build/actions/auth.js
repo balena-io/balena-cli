@@ -1,22 +1,4 @@
 (function() {
-  var Promise, _, auth, events, form, resin, validation, visuals;
-
-  Promise = require('bluebird');
-
-  _ = require('lodash');
-
-  resin = require('resin-sdk');
-
-  form = require('resin-cli-form');
-
-  visuals = require('resin-cli-visuals');
-
-  events = require('resin-cli-events');
-
-  auth = require('resin-cli-auth');
-
-  validation = require('../utils/validation');
-
   exports.login = {
     signature: 'login',
     description: 'login to resin.io',
@@ -31,6 +13,11 @@
     ],
     primary: true,
     action: function(params, options, done) {
+      var Promise, auth, events, resin;
+      Promise = require('bluebird');
+      resin = require('resin-sdk');
+      events = require('resin-cli-events');
+      auth = require('resin-cli-auth');
       return Promise["try"](function() {
         if (options.token != null) {
           return resin.auth.loginWithToken(options.token);
@@ -50,6 +37,9 @@
     help: 'Use this command to logout from your resin.io account.o\n\nExamples:\n\n	$ resin logout',
     permission: 'user',
     action: function(params, options, done) {
+      var events, resin;
+      resin = require('resin-sdk');
+      events = require('resin-cli-events');
       return resin.auth.logout().then(function() {
         return events.send('user.logout');
       }).nodeify(done);
@@ -61,6 +51,11 @@
     description: 'signup to resin.io',
     help: 'Use this command to signup for a resin.io account.\n\nIf signup is successful, you\'ll be logged in to your new user automatically.\n\nExamples:\n\n	$ resin signup\n	Email: me@mycompany.com\n	Username: johndoe\n	Password: ***********\n\n	$ resin whoami\n	johndoe',
     action: function(params, options, done) {
+      var events, form, resin, validation;
+      resin = require('resin-sdk');
+      form = require('resin-cli-form');
+      events = require('resin-cli-events');
+      validation = require('../utils/validation');
       return form.run([
         {
           message: 'Email:',
@@ -89,6 +84,10 @@
     help: 'Use this command to find out the current logged in username and email address.\n\nExamples:\n\n	$ resin whoami',
     permission: 'user',
     action: function(params, options, done) {
+      var Promise, resin, visuals;
+      Promise = require('bluebird');
+      resin = require('resin-sdk');
+      visuals = require('resin-cli-visuals');
       return Promise.props({
         username: resin.auth.whoami(),
         email: resin.auth.getEmail(),
