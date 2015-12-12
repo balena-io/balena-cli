@@ -11,27 +11,81 @@ exports.login	=
 		you can fetch your authentication token from the preferences page and pass
 		the token option.
 
+		Alternatively, you can pass the `--credentials` boolean option to perform
+		a credential-based authentication, with optional `--email` and `--password`
+		options to avoid interactive behaviour (unless you have 2FA enabled).
+
 		Examples:
 
 			$ resin login
 			$ resin login --token "..."
+			$ resin login --credentials
+			$ resin login --credentials --email johndoe@gmail.com --password secret
 	'''
 	options: [
-		signature: 'token'
-		description: 'auth token'
-		parameter: 'token'
-		alias: 't'
+		{
+			signature: 'token'
+			description: 'auth token'
+			parameter: 'token'
+			alias: 't'
+		}
+		{
+			signature: 'credentials'
+			description: 'credential-based login'
+			boolean: true
+			alias: 'c'
+		}
+		{
+ 			signature: 'email'
+ 			parameter: 'email'
+ 			description: 'email'
+ 			alias: [ 'e', 'u' ]
+ 		}
+ 		{
+ 			signature: 'password'
+ 			parameter: 'password'
+ 			description: 'password'
+ 			alias: 'p'
+ 		}
 	]
 	primary: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
 		resin = require('resin-sdk')
 		events = require('resin-cli-events')
+		form = require('resin-cli-form')
 		auth = require('resin-cli-auth')
+		validation = require('../utils/validation')
 
-		Promise.try ->
+		resin.settings.get('resinUrl').then (resinUrl) ->
+			console.log("Logging in to #{resinUrl}")
+
 			if options.token?
 				return resin.auth.loginWithToken(options.token)
+			else if options.credentials
+				return form.run [
+						message: 'Email:'
+						name: 'email'
+						type: 'input'
+						validate: validation.validateEmail
+					,
+						message: 'Password:'
+						name: 'password'
+						type: 'password'
+				],
+					override: options
+				.then(resin.auth.login)
+				.then(resin.auth.twoFactor.isPassed)
+				.then (isTwoFactorAuthPassed) ->
+					return if isTwoFactorAuthPassed
+					return form.ask
+						message: 'Two factor auth challenge:'
+						name: 'code'
+						type: 'input'
+					.then(resin.auth.twoFactor.challenge)
+					.catch ->
+						resin.auth.logout().then ->
+							throw new Error('Invalid two factor authentication code')
 
 			console.info('Connecting to the web dashboard')
 			return auth.login()

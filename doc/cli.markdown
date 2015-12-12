@@ -172,16 +172,34 @@ If you don't have access to a web browser (e.g: running in a headless server),
 you can fetch your authentication token from the preferences page and pass
 the token option.
 
+Alternatively, you can pass the `--credentials` boolean option to perform
+a credential-based authentication, with optional `--email` and `--password`
+options to avoid interactive behaviour (unless you have 2FA enabled).
+
 Examples:
 
 	$ resin login
 	$ resin login --token "..."
+	$ resin login --credentials
+	$ resin login --credentials --email johndoe@gmail.com --password secret
 
 ### Options
 
 #### --token, -t &#60;token&#62;
 
 auth token
+
+#### --credentials, -c
+
+credential-based login
+
+#### --email, --e,u, --e,u &#60;email&#62;
+
+email
+
+#### --password, -p &#60;password&#62;
+
+password
 
 ## logout
 
