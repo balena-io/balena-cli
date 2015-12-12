@@ -30,9 +30,13 @@ module.exports =
 	action: (params, options, done) ->
 		_ = require('lodash')
 		resin = require('resin-sdk')
+		moment = require('moment')
 
-		promise = resin.logs.history(params.uuid).each (line) ->
-			console.log(line.message)
+		printLine = (line) ->
+			timestamp = moment(line.timestamp).format('DD.MM.YY HH:mm:ss (ZZ)')
+			console.log("#{timestamp} #{line.message}")
+
+		promise = resin.logs.history(params.uuid).each(printLine)
 
 		if not options.tail
 
@@ -44,7 +48,6 @@ module.exports =
 
 		promise.then ->
 			resin.logs.subscribe(params.uuid).then (logs) ->
-				logs.on 'line', (line) ->
-					console.log(line.message)
+				logs.on('line', printLine)
 				logs.on('error', done)
 		.catch(done)
