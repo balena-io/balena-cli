@@ -14,12 +14,16 @@
     permission: 'user',
     primary: true,
     action: function(params, options, done) {
-      var _, promise, resin;
+      var _, moment, printLine, promise, resin;
       _ = require('lodash');
       resin = require('resin-sdk');
-      promise = resin.logs.history(params.uuid).each(function(line) {
-        return console.log(line.message);
-      });
+      moment = require('moment');
+      printLine = function(line) {
+        var timestamp;
+        timestamp = moment(line.timestamp).format('DD.MM.YY HH:mm:ss (ZZ)');
+        return console.log(timestamp + " " + line.message);
+      };
+      promise = resin.logs.history(params.uuid).each(printLine);
       if (!options.tail) {
         return promise["catch"](done)["finally"](function() {
           return process.exit(0);
@@ -27,9 +31,7 @@
       }
       return promise.then(function() {
         return resin.logs.subscribe(params.uuid).then(function(logs) {
-          logs.on('line', function(line) {
-            return console.log(line.message);
-          });
+          logs.on('line', printLine);
           return logs.on('error', done);
         });
       })["catch"](done);

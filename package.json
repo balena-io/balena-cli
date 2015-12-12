@@ -45,6 +45,7 @@
     "columnify": "^1.5.2",
     "is-root": "^1.0.0",
     "lodash": "^3.10.0",
+    "moment": "^2.10.6",
     "nplugm": "^3.0.0",
     "president": "^2.0.1",
     "prettyjson": "^1.1.3",
