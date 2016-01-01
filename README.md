@@ -45,6 +45,15 @@ Run as `root` on UNIX based systems, and in an administrator command line prompt
 $ resin quickstart
 ```
 
+Documentation
+-------------
+
+### How to point the Resin CLI to staging?
+
+The easiest way is to set the `RESINRC_RESIN_URL=resinstaging.io` environment variable.
+
+Alternatively, you can edit your `$HOME/.resinrc.yml` or `%UserProfile%\_resinrc.yml` and set `resinUrl: resinstaging.io` to persist this setting.
+
 Support
 -------
 
