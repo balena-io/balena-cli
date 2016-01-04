@@ -62,4 +62,4 @@ If you're having any problem, check our [troubleshooting guide](https://github.c
 License
 -------
 
-The project is licensed under the MIT license.
+The project is licensed under the Apache 2.0 license.

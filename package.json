@@ -22,7 +22,7 @@
     "git"
   ],
   "author": "Juan Cruz Viotti <juan@resin.io>",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "devDependencies": {
     "chai": "^3.0.0",
     "ent": "^2.2.0",
