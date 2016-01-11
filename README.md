@@ -6,6 +6,8 @@ Resin CLI
 [![Build Status](https://travis-ci.org/resin-io/resin-cli.svg?branch=master)](https://travis-ci.org/resin-io/resin-cli)
 [![Build status](https://ci.appveyor.com/api/projects/status/45i7d0m0patxj420?svg=true)](https://ci.appveyor.com/project/jviotti/resin-cli)
 
+Join our online chat at [![Gitter chat](https://badges.gitter.im/resin-io/chat.png)](https://gitter.im/resin-io/chat)
+
 The official Resin CLI tool.
 
 Requisites
