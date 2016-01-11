@@ -191,7 +191,6 @@ limitations under the License.
       }
     ],
     permission: 'user',
-    primary: true,
     action: function(params, options, done) {
       var Promise, capitano, helpers, patterns, resin, rimraf, tmp;
       Promise = require('bluebird');
