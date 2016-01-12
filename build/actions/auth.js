@@ -86,8 +86,9 @@ limitations under the License.
         console.log("\nLogging in to " + resinUrl);
         return login(options);
       }).then(resin.auth.whoami).tap(function(username) {
+        events.send('user.login');
         console.info("Successfully logged in as: " + username);
-        return events.send('user.login');
+        return console.info('\nNow what?\n\nRun the following command to get a device started with Resin.io\n\n  $ resin quickstart\n\nFind out about more super powers by running:\n\n  $ resin help\n\nIf you need help, or just want to say hi, don\'t hesitate in reaching out at:\n\n  GitHub: https://github.com/resin-io/resin-cli/issues/new\n  Gitter: https://gitter.im/resin-io/chat');
       }).nodeify(done);
     }
   };

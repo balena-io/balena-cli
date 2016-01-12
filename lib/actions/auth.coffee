@@ -112,8 +112,26 @@ exports.login	=
 			return login(options)
 		.then(resin.auth.whoami)
 		.tap (username) ->
-			console.info("Successfully logged in as: #{username}")
 			events.send('user.login')
+
+			console.info("Successfully logged in as: #{username}")
+			console.info '''
+
+				Now what?
+
+				Run the following command to get a device started with Resin.io
+
+				  $ resin quickstart
+
+				Find out about more super powers by running:
+
+				  $ resin help
+
+				If you need help, or just want to say hi, don't hesitate in reaching out at:
+
+				  GitHub: https://github.com/resin-io/resin-cli/issues/new
+				  Gitter: https://gitter.im/resin-io/chat
+			'''
 		.nodeify(done)
 
 exports.logout =
