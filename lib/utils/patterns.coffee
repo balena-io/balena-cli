@@ -22,6 +22,47 @@ resin = require('resin-sdk')
 chalk = require('chalk')
 validation = require('./validation')
 
+exports.authenticate = (options) ->
+	return form.run [
+			message: 'Email:'
+			name: 'email'
+			type: 'input'
+			validate: validation.validateEmail
+		,
+			message: 'Password:'
+			name: 'password'
+			type: 'password'
+	],
+		override: options
+	.then(resin.auth.login)
+	.then(resin.auth.twoFactor.isPassed)
+	.then (isTwoFactorAuthPassed) ->
+		return if isTwoFactorAuthPassed
+		return form.ask
+			message: 'Two factor auth challenge:'
+			name: 'code'
+			type: 'input'
+		.then(resin.auth.twoFactor.challenge)
+		.catch ->
+			resin.auth.logout().then ->
+				throw new Error('Invalid two factor authentication code')
+
+exports.askLoginType = ->
+	return form.ask
+		message: 'How would you like to login?'
+		name: 'loginType'
+		type: 'list'
+		choices: [
+				name: 'Web authorization (recommended)'
+				value: 'web'
+			,
+				name: 'Credentials'
+				value: 'credentials'
+			,
+				name: 'Authentication token'
+				value: 'token'
+		]
+
 exports.selectDeviceType = ->
 	resin.models.device.getSupportedDeviceTypes().then (deviceTypes) ->
 		return form.ask

@@ -32,6 +32,56 @@ limitations under the License.
 
   validation = require('./validation');
 
+  exports.authenticate = function(options) {
+    return form.run([
+      {
+        message: 'Email:',
+        name: 'email',
+        type: 'input',
+        validate: validation.validateEmail
+      }, {
+        message: 'Password:',
+        name: 'password',
+        type: 'password'
+      }
+    ], {
+      override: options
+    }).then(resin.auth.login).then(resin.auth.twoFactor.isPassed).then(function(isTwoFactorAuthPassed) {
+      if (isTwoFactorAuthPassed) {
+        return;
+      }
+      return form.ask({
+        message: 'Two factor auth challenge:',
+        name: 'code',
+        type: 'input'
+      }).then(resin.auth.twoFactor.challenge)["catch"](function() {
+        return resin.auth.logout().then(function() {
+          throw new Error('Invalid two factor authentication code');
+        });
+      });
+    });
+  };
+
+  exports.askLoginType = function() {
+    return form.ask({
+      message: 'How would you like to login?',
+      name: 'loginType',
+      type: 'list',
+      choices: [
+        {
+          name: 'Web authorization (recommended)',
+          value: 'web'
+        }, {
+          name: 'Credentials',
+          value: 'credentials'
+        }, {
+          name: 'Authentication token',
+          value: 'token'
+        }
+      ]
+    });
+  };
+
   exports.selectDeviceType = function() {
     return resin.models.device.getSupportedDeviceTypes().then(function(deviceTypes) {
       return form.ask({

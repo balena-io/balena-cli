@@ -165,20 +165,19 @@ confirm non interactively
 
 Use this command to login to your resin.io account.
 
-This command will open your web browser and prompt you to authorize the CLI
+This command will prompt you to login using the following login types:
+
+- Web authorization: open your web browser and prompt you to authorize the CLI
 from the dashboard.
 
-If you don't have access to a web browser (e.g: running in a headless server),
-you can fetch your authentication token from the preferences page and pass
-the token option.
+- Credentials: using email/password and 2FA.
 
-Alternatively, you can pass the `--credentials` boolean option to perform
-a credential-based authentication, with optional `--email` and `--password`
-options to avoid interactive behaviour (unless you have 2FA enabled).
+- Token: using the authentication token from the preferences page.
 
 Examples:
 
 	$ resin login
+	$ resin login --web
 	$ resin login --token "..."
 	$ resin login --credentials
 	$ resin login --credentials --email johndoe@gmail.com --password secret
@@ -188,6 +187,10 @@ Examples:
 #### --token, -t &#60;token&#62;
 
 auth token
+
+#### --web, -w
+
+web-based login
 
 #### --credentials, -c
 

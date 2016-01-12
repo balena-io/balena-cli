@@ -20,20 +20,19 @@ exports.login	=
 	help: '''
 		Use this command to login to your resin.io account.
 
-		This command will open your web browser and prompt you to authorize the CLI
+		This command will prompt you to login using the following login types:
+
+		- Web authorization: open your web browser and prompt you to authorize the CLI
 		from the dashboard.
 
-		If you don't have access to a web browser (e.g: running in a headless server),
-		you can fetch your authentication token from the preferences page and pass
-		the token option.
+		- Credentials: using email/password and 2FA.
 
-		Alternatively, you can pass the `--credentials` boolean option to perform
-		a credential-based authentication, with optional `--email` and `--password`
-		options to avoid interactive behaviour (unless you have 2FA enabled).
+		- Token: using the authentication token from the preferences page.
 
 		Examples:
 
 			$ resin login
+			$ resin login --web
 			$ resin login --token "..."
 			$ resin login --credentials
 			$ resin login --credentials --email johndoe@gmail.com --password secret
@@ -44,6 +43,12 @@ exports.login	=
 			description: 'auth token'
 			parameter: 'token'
 			alias: 't'
+		}
+		{
+			signature: 'web'
+			description: 'web-based login'
+			boolean: true
+			alias: 'w'
 		}
 		{
 			signature: 'credentials'
@@ -66,45 +71,36 @@ exports.login	=
 	]
 	primary: true
 	action: (params, options, done) ->
+		_ = require('lodash')
 		Promise = require('bluebird')
 		resin = require('resin-sdk')
 		events = require('resin-cli-events')
-		form = require('resin-cli-form')
 		auth = require('resin-cli-auth')
-		validation = require('../utils/validation')
+		form = require('resin-cli-form')
+		patterns = require('../utils/patterns')
+
+		login = (options) ->
+			if options.token?
+				return Promise.try ->
+					return options.token if _.isString(options.token)
+					return form.ask
+						message: 'Token (from the preferences page)'
+						name: 'token'
+						type: 'input'
+				.then(resin.auth.loginWithToken)
+			else if options.credentials
+				return patterns.authenticate(options)
+			else if options.web
+				console.info('Connecting to the web dashboard')
+				return auth.login()
+
+			return patterns.askLoginType().then (loginType) ->
+				options[loginType] = true
+				return login(options)
 
 		resin.settings.get('resinUrl').then (resinUrl) ->
 			console.log("Logging in to #{resinUrl}")
-
-			if options.token?
-				return resin.auth.loginWithToken(options.token)
-			else if options.credentials
-				return form.run [
-						message: 'Email:'
-						name: 'email'
-						type: 'input'
-						validate: validation.validateEmail
-					,
-						message: 'Password:'
-						name: 'password'
-						type: 'password'
-				],
-					override: options
-				.then(resin.auth.login)
-				.then(resin.auth.twoFactor.isPassed)
-				.then (isTwoFactorAuthPassed) ->
-					return if isTwoFactorAuthPassed
-					return form.ask
-						message: 'Two factor auth challenge:'
-						name: 'code'
-						type: 'input'
-					.then(resin.auth.twoFactor.challenge)
-					.catch ->
-						resin.auth.logout().then ->
-							throw new Error('Invalid two factor authentication code')
-
-			console.info('Connecting to the web dashboard')
-			return auth.login()
+			return login(options)
 		.then(resin.auth.whoami)
 		.tap (username) ->
 			console.info("Successfully logged in as: #{username}")
