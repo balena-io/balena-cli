@@ -105,3 +105,11 @@ exports.awaitDevice = (uuid) ->
 
 exports.printErrorMessage = (message) ->
 	console.error(chalk.red(message))
+	console.error chalk.red '''
+
+		If you need help, don't hesitate in contacting us at:
+
+		  GitHub: https://github.com/resin-io/resin-cli/issues/new
+		  Gitter: https://gitter.im/resin-io/chat
+
+	'''

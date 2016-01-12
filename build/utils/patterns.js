@@ -134,7 +134,8 @@ limitations under the License.
   };
 
   exports.printErrorMessage = function(message) {
-    return console.error(chalk.red(message));
+    console.error(chalk.red(message));
+    return console.error(chalk.red('\nIf you need help, don\'t hesitate in contacting us at:\n\n  GitHub: https://github.com/resin-io/resin-cli/issues/new\n  Gitter: https://gitter.im/resin-io/chat\n'));
   };
 
 }).call(this);
