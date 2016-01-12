@@ -262,7 +262,6 @@ exports.init =
 		}
 	]
 	permission: 'user'
-	primary: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
 		capitano = Promise.promisifyAll(require('capitano'))
