@@ -27,12 +27,6 @@ This might require elevated privileges in some environments.
 $ npm install --global --production resin-cli
 ```
 
-### Login
-
-```sh
-$ resin login
-```
-
 ### List available commands
 
 ```sh

@@ -16,7 +16,7 @@ limitations under the License.
  */
 
 (function() {
-  var Promise, _, chalk, form, resin, validation, visuals;
+  var Promise, _, chalk, form, messages, resin, validation, visuals;
 
   _ = require('lodash');
 
@@ -31,6 +31,58 @@ limitations under the License.
   chalk = require('chalk');
 
   validation = require('./validation');
+
+  messages = require('./messages');
+
+  exports.authenticate = function(options) {
+    return form.run([
+      {
+        message: 'Email:',
+        name: 'email',
+        type: 'input',
+        validate: validation.validateEmail
+      }, {
+        message: 'Password:',
+        name: 'password',
+        type: 'password'
+      }
+    ], {
+      override: options
+    }).then(resin.auth.login).then(resin.auth.twoFactor.isPassed).then(function(isTwoFactorAuthPassed) {
+      if (isTwoFactorAuthPassed) {
+        return;
+      }
+      return form.ask({
+        message: 'Two factor auth challenge:',
+        name: 'code',
+        type: 'input'
+      }).then(resin.auth.twoFactor.challenge)["catch"](function() {
+        return resin.auth.logout().then(function() {
+          throw new Error('Invalid two factor authentication code');
+        });
+      });
+    });
+  };
+
+  exports.askLoginType = function() {
+    return form.ask({
+      message: 'How would you like to login?',
+      name: 'loginType',
+      type: 'list',
+      choices: [
+        {
+          name: 'Web authorization (recommended)',
+          value: 'web'
+        }, {
+          name: 'Credentials',
+          value: 'credentials'
+        }, {
+          name: 'Authentication token',
+          value: 'token'
+        }
+      ]
+    });
+  };
 
   exports.selectDeviceType = function() {
     return resin.models.device.getSupportedDeviceTypes().then(function(deviceTypes) {
@@ -134,7 +186,8 @@ limitations under the License.
   };
 
   exports.printErrorMessage = function(message) {
-    return console.error(chalk.red(message));
+    console.error(chalk.red(message));
+    return console.error(chalk.red("\n" + messages.getHelp + "\n"));
   };
 
 }).call(this);

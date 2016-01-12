@@ -32,7 +32,6 @@ exports.wizard =
 			$ resin quickstart
 			$ resin quickstart MyApp
 	'''
-	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
@@ -40,7 +39,13 @@ exports.wizard =
 		resin = require('resin-sdk')
 		patterns = require('../utils/patterns')
 
-		Promise.try ->
+		resin.auth.isLoggedIn().then (isLoggedIn) ->
+			return if isLoggedIn
+			console.info('Looks like you\'re not logged in yet!')
+			console.info('Lets go through a quick wizard to get you started.\n')
+			return capitano.runAsync('login').then ->
+				require('fs').readdirSync('/Users/jviotti/.resin')
+		.then ->
 			return if params.name?
 			patterns.selectOrCreateApplication().tap (applicationName) ->
 				resin.models.application.has(applicationName).then (hasApplication) ->

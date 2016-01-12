@@ -16,7 +16,7 @@ limitations under the License.
  */
 
 (function() {
-  var _, capitano, columnify, command, general, indent, parse, print;
+  var _, capitano, columnify, command, general, indent, messages, parse, print;
 
   _ = require('lodash');
 
@@ -25,6 +25,8 @@ limitations under the License.
   capitano = require('capitano');
 
   columnify = require('columnify');
+
+  messages = require('../utils/messages');
 
   parse = function(object) {
     return _.object(_.map(object, function(item) {
@@ -55,7 +57,9 @@ limitations under the License.
   general = function(params, options, done) {
     var commands, groupedCommands;
     console.log('Usage: resin [COMMAND] [OPTIONS]\n');
-    console.log('Primary commands:\n');
+    console.log(messages.gettingStarted + "\n");
+    console.log(messages.reachingOut);
+    console.log('\nPrimary commands:\n');
     commands = _.reject(capitano.state.commands, function(command) {
       return command.isWildcard();
     });

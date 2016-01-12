@@ -19,13 +19,18 @@ limitations under the License.
   exports.login = {
     signature: 'login',
     description: 'login to resin.io',
-    help: 'Use this command to login to your resin.io account.\n\nThis command will open your web browser and prompt you to authorize the CLI\nfrom the dashboard.\n\nIf you don\'t have access to a web browser (e.g: running in a headless server),\nyou can fetch your authentication token from the preferences page and pass\nthe token option.\n\nAlternatively, you can pass the `--credentials` boolean option to perform\na credential-based authentication, with optional `--email` and `--password`\noptions to avoid interactive behaviour (unless you have 2FA enabled).\n\nExamples:\n\n	$ resin login\n	$ resin login --token "..."\n	$ resin login --credentials\n	$ resin login --credentials --email johndoe@gmail.com --password secret',
+    help: 'Use this command to login to your resin.io account.\n\nThis command will prompt you to login using the following login types:\n\n- Web authorization: open your web browser and prompt you to authorize the CLI\nfrom the dashboard.\n\n- Credentials: using email/password and 2FA.\n\n- Token: using the authentication token from the preferences page.\n\nExamples:\n\n	$ resin login\n	$ resin login --web\n	$ resin login --token "..."\n	$ resin login --credentials\n	$ resin login --credentials --email johndoe@gmail.com --password secret',
     options: [
       {
         signature: 'token',
         description: 'auth token',
         parameter: 'token',
         alias: 't'
+      }, {
+        signature: 'web',
+        description: 'web-based login',
+        boolean: true,
+        alias: 'w'
       }, {
         signature: 'credentials',
         description: 'credential-based login',
@@ -45,51 +50,46 @@ limitations under the License.
     ],
     primary: true,
     action: function(params, options, done) {
-      var Promise, auth, events, form, resin, validation;
+      var Promise, _, auth, events, form, login, messages, patterns, resin;
+      _ = require('lodash');
       Promise = require('bluebird');
       resin = require('resin-sdk');
       events = require('resin-cli-events');
-      form = require('resin-cli-form');
       auth = require('resin-cli-auth');
-      validation = require('../utils/validation');
-      return resin.settings.get('resinUrl').then(function(resinUrl) {
-        console.log("Logging in to " + resinUrl);
+      form = require('resin-cli-form');
+      patterns = require('../utils/patterns');
+      messages = require('../utils/messages');
+      login = function(options) {
         if (options.token != null) {
-          return resin.auth.loginWithToken(options.token);
-        } else if (options.credentials) {
-          return form.run([
-            {
-              message: 'Email:',
-              name: 'email',
-              type: 'input',
-              validate: validation.validateEmail
-            }, {
-              message: 'Password:',
-              name: 'password',
-              type: 'password'
-            }
-          ], {
-            override: options
-          }).then(resin.auth.login).then(resin.auth.twoFactor.isPassed).then(function(isTwoFactorAuthPassed) {
-            if (isTwoFactorAuthPassed) {
-              return;
+          return Promise["try"](function() {
+            if (_.isString(options.token)) {
+              return options.token;
             }
             return form.ask({
-              message: 'Two factor auth challenge:',
-              name: 'code',
+              message: 'Token (from the preferences page)',
+              name: 'token',
               type: 'input'
-            }).then(resin.auth.twoFactor.challenge)["catch"](function() {
-              return resin.auth.logout().then(function() {
-                throw new Error('Invalid two factor authentication code');
-              });
             });
-          });
+          }).then(resin.auth.loginWithToken);
+        } else if (options.credentials) {
+          return patterns.authenticate(options);
+        } else if (options.web) {
+          console.info('Connecting to the web dashboard');
+          return auth.login();
         }
-        console.info('Connecting to the web dashboard');
-        return auth.login();
+        return patterns.askLoginType().then(function(loginType) {
+          options[loginType] = true;
+          return login(options);
+        });
+      };
+      return resin.settings.get('resinUrl').then(function(resinUrl) {
+        console.log(messages.resinAsciiArt);
+        console.log("\nLogging in to " + resinUrl);
+        return login(options);
       }).then(resin.auth.whoami).tap(function(username) {
+        events.send('user.login');
         console.info("Successfully logged in as: " + username);
-        return events.send('user.login');
+        return console.info("\nNow what?\n\n" + messages.gettingStarted + "\n\nFind out about more super powers by running:\n\n  $ resin help\n\n" + messages.reachingOut);
       }).nodeify(done);
     }
   };

@@ -18,6 +18,7 @@ _ = require('lodash')
 _.str = require('underscore.string')
 capitano = require('capitano')
 columnify = require('columnify')
+messages = require('../utils/messages')
 
 parse = (object) ->
 	return _.object _.map object, (item) ->
@@ -46,7 +47,9 @@ print = (data) ->
 
 general = (params, options, done) ->
 	console.log('Usage: resin [COMMAND] [OPTIONS]\n')
-	console.log('Primary commands:\n')
+	console.log("#{messages.gettingStarted}\n")
+	console.log(messages.reachingOut)
+	console.log('\nPrimary commands:\n')
 
 	# We do not want the wildcard command
 	# to be printed in the help screen.
