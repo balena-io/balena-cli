@@ -78,6 +78,7 @@ exports.login	=
 		auth = require('resin-cli-auth')
 		form = require('resin-cli-form')
 		patterns = require('../utils/patterns')
+		messages = require('../utils/messages')
 
 		login = (options) ->
 			if options.token?
@@ -99,15 +100,7 @@ exports.login	=
 				return login(options)
 
 		resin.settings.get('resinUrl').then (resinUrl) ->
-			console.log '''
-				______          _         _
-				| ___ \\        (_)       (_)
-				| |_/ /___  ___ _ _ __    _  ___
-				|    // _ \\/ __| | '_ \\  | |/ _ \\
-				| |\\ \\  __/\\__ \\ | | | |_| | (_) |
-				\\_| \\_\\___||___/_|_| |_(_)_|\\___/
-			'''
-
+			console.log(messages.resinAsciiArt)
 			console.log("\nLogging in to #{resinUrl}")
 			return login(options)
 		.then(resin.auth.whoami)
@@ -115,23 +108,18 @@ exports.login	=
 			events.send('user.login')
 
 			console.info("Successfully logged in as: #{username}")
-			console.info '''
+			console.info """
 
 				Now what?
 
-				Run the following command to get a device started with Resin.io
-
-				  $ resin quickstart
+				#{messages.gettingStarted}
 
 				Find out about more super powers by running:
 
 				  $ resin help
 
-				If you need help, or just want to say hi, don't hesitate in reaching out at:
-
-				  GitHub: https://github.com/resin-io/resin-cli/issues/new
-				  Gitter: https://gitter.im/resin-io/chat
-			'''
+				#{messages.reachingOut}
+			"""
 		.nodeify(done)
 
 exports.logout =

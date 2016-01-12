@@ -50,7 +50,7 @@ limitations under the License.
     ],
     primary: true,
     action: function(params, options, done) {
-      var Promise, _, auth, events, form, login, patterns, resin;
+      var Promise, _, auth, events, form, login, messages, patterns, resin;
       _ = require('lodash');
       Promise = require('bluebird');
       resin = require('resin-sdk');
@@ -58,6 +58,7 @@ limitations under the License.
       auth = require('resin-cli-auth');
       form = require('resin-cli-form');
       patterns = require('../utils/patterns');
+      messages = require('../utils/messages');
       login = function(options) {
         if (options.token != null) {
           return Promise["try"](function() {
@@ -82,13 +83,13 @@ limitations under the License.
         });
       };
       return resin.settings.get('resinUrl').then(function(resinUrl) {
-        console.log('______          _         _\n| ___ \\        (_)       (_)\n| |_/ /___  ___ _ _ __    _  ___\n|    // _ \\/ __| | \'_ \\  | |/ _ \\\n| |\\ \\  __/\\__ \\ | | | |_| | (_) |\n\\_| \\_\\___||___/_|_| |_(_)_|\\___/');
+        console.log(messages.resinAsciiArt);
         console.log("\nLogging in to " + resinUrl);
         return login(options);
       }).then(resin.auth.whoami).tap(function(username) {
         events.send('user.login');
         console.info("Successfully logged in as: " + username);
-        return console.info('\nNow what?\n\nRun the following command to get a device started with Resin.io\n\n  $ resin quickstart\n\nFind out about more super powers by running:\n\n  $ resin help\n\nIf you need help, or just want to say hi, don\'t hesitate in reaching out at:\n\n  GitHub: https://github.com/resin-io/resin-cli/issues/new\n  Gitter: https://gitter.im/resin-io/chat');
+        return console.info("\nNow what?\n\n" + messages.gettingStarted + "\n\nFind out about more super powers by running:\n\n  $ resin help\n\n" + messages.reachingOut);
       }).nodeify(done);
     }
   };

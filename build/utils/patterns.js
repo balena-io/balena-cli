@@ -16,7 +16,7 @@ limitations under the License.
  */
 
 (function() {
-  var Promise, _, chalk, form, resin, validation, visuals;
+  var Promise, _, chalk, form, messages, resin, validation, visuals;
 
   _ = require('lodash');
 
@@ -31,6 +31,8 @@ limitations under the License.
   chalk = require('chalk');
 
   validation = require('./validation');
+
+  messages = require('./messages');
 
   exports.authenticate = function(options) {
     return form.run([
@@ -185,7 +187,7 @@ limitations under the License.
 
   exports.printErrorMessage = function(message) {
     console.error(chalk.red(message));
-    return console.error(chalk.red('\nIf you need help, don\'t hesitate in contacting us at:\n\n  GitHub: https://github.com/resin-io/resin-cli/issues/new\n  Gitter: https://gitter.im/resin-io/chat\n'));
+    return console.error(chalk.red("\n" + messages.getHelp + "\n"));
   };
 
 }).call(this);

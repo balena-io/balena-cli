@@ -10,3 +10,19 @@ exports.reachingOut = '''
 	  GitHub: https://github.com/resin-io/resin-cli/issues/new
 	  Gitter: https://gitter.im/resin-io/chat
 '''
+
+exports.getHelp = '''
+	If you need help, don't hesitate in contacting us at:
+
+	  GitHub: https://github.com/resin-io/resin-cli/issues/new
+	  Gitter: https://gitter.im/resin-io/chat
+'''
+
+exports.resinAsciiArt = '''
+	______          _         _
+	| ___ \\        (_)       (_)
+	| |_/ /___  ___ _ _ __    _  ___
+	|    // _ \\/ __| | '_ \\  | |/ _ \\
+	| |\\ \\  __/\\__ \\ | | | |_| | (_) |
+	\\_| \\_\\___||___/_|_| |_(_)_|\\___/
+'''

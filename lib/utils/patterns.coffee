@@ -21,6 +21,7 @@ visuals = require('resin-cli-visuals')
 resin = require('resin-sdk')
 chalk = require('chalk')
 validation = require('./validation')
+messages = require('./messages')
 
 exports.authenticate = (options) ->
 	return form.run [
@@ -146,11 +147,4 @@ exports.awaitDevice = (uuid) ->
 
 exports.printErrorMessage = (message) ->
 	console.error(chalk.red(message))
-	console.error chalk.red '''
-
-		If you need help, don't hesitate in contacting us at:
-
-		  GitHub: https://github.com/resin-io/resin-cli/issues/new
-		  Gitter: https://gitter.im/resin-io/chat
-
-	'''
+	console.error(chalk.red("\n#{messages.getHelp}\n"))
