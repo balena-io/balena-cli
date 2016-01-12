@@ -20,7 +20,6 @@ limitations under the License.
     signature: 'quickstart [name]',
     description: 'getting started with resin.io',
     help: 'Use this command to run a friendly wizard to get started with resin.io.\n\nThe wizard will guide you through:\n\n	- Create an application.\n	- Initialise an SDCard with the resin.io operating system.\n	- Associate an existing project directory with your resin.io application.\n	- Push your project to your devices.\n\nExamples:\n\n	$ resin quickstart\n	$ resin quickstart MyApp',
-    permission: 'user',
     primary: true,
     action: function(params, options, done) {
       var Promise, capitano, patterns, resin;
@@ -28,7 +27,16 @@ limitations under the License.
       capitano = Promise.promisifyAll(require('capitano'));
       resin = require('resin-sdk');
       patterns = require('../utils/patterns');
-      return Promise["try"](function() {
+      return resin.auth.isLoggedIn().then(function(isLoggedIn) {
+        if (isLoggedIn) {
+          return;
+        }
+        console.info('Looks like you\'re not logged in yet!');
+        console.info('Lets go through a quick wizard to get you started.\n');
+        return capitano.runAsync('login').then(function() {
+          return require('fs').readdirSync('/Users/jviotti/.resin');
+        });
+      }).then(function() {
         if (params.name != null) {
           return;
         }
