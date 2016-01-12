@@ -721,6 +721,6 @@ The wizard will guide you through:
 
 Examples:
 
-	$ sudo resin quickstart
-	$ sudo resin quickstart MyApp
+	$ resin quickstart
+	$ resin quickstart MyApp
 

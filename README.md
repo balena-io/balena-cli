@@ -41,8 +41,6 @@ $ resin help
 
 ### Run the quickstart wizard
 
-Run as `root` on UNIX based systems, and in an administrator command line prompt in Windows.
-
 ```sh
 $ resin quickstart
 ```

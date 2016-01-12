@@ -29,8 +29,8 @@ exports.wizard =
 
 		Examples:
 
-			$ sudo resin quickstart
-			$ sudo resin quickstart MyApp
+			$ resin quickstart
+			$ resin quickstart MyApp
 	'''
 	permission: 'user'
 	primary: true
