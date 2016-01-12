@@ -99,7 +99,16 @@ exports.login	=
 				return login(options)
 
 		resin.settings.get('resinUrl').then (resinUrl) ->
-			console.log("Logging in to #{resinUrl}")
+			console.log '''
+				______          _         _
+				| ___ \\        (_)       (_)
+				| |_/ /___  ___ _ _ __    _  ___
+				|    // _ \\/ __| | '_ \\  | |/ _ \\
+				| |\\ \\  __/\\__ \\ | | | |_| | (_) |
+				\\_| \\_\\___||___/_|_| |_(_)_|\\___/
+			'''
+
+			console.log("\nLogging in to #{resinUrl}")
 			return login(options)
 		.then(resin.auth.whoami)
 		.tap (username) ->

@@ -82,7 +82,8 @@ limitations under the License.
         });
       };
       return resin.settings.get('resinUrl').then(function(resinUrl) {
-        console.log("Logging in to " + resinUrl);
+        console.log('______          _         _\n| ___ \\        (_)       (_)\n| |_/ /___  ___ _ _ __    _  ___\n|    // _ \\/ __| | \'_ \\  | |/ _ \\\n| |\\ \\  __/\\__ \\ | | | |_| | (_) |\n\\_| \\_\\___||___/_|_| |_(_)_|\\___/');
+        console.log("\nLogging in to " + resinUrl);
         return login(options);
       }).then(resin.auth.whoami).tap(function(username) {
         console.info("Successfully logged in as: " + username);
