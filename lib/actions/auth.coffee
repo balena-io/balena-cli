@@ -73,6 +73,7 @@ exports.login	=
 	action: (params, options, done) ->
 		_ = require('lodash')
 		Promise = require('bluebird')
+		capitano = Promise.promisifyAll(require('capitano'))
 		resin = require('resin-sdk')
 		events = require('resin-cli-events')
 		auth = require('resin-cli-auth')
@@ -96,6 +97,10 @@ exports.login	=
 				return auth.login()
 
 			return patterns.askLoginType().then (loginType) ->
+
+				if loginType is 'register'
+					return capitano.runAsync('signup')
+
 				options[loginType] = true
 				return login(options)
 
@@ -165,21 +170,24 @@ exports.signup =
 		events = require('resin-cli-events')
 		validation = require('../utils/validation')
 
-		form.run [
-			message: 'Email:'
-			name: 'email'
-			type: 'input'
-			validate: validation.validateEmail
-		,
-			message: 'Username:'
-			name: 'username'
-			type: 'input'
-		,
-			message: 'Password:'
-			name: 'password'
-			type: 'password',
-			validate: validation.validatePassword
-		]
+		resin.settings.get('resinUrl').then (resinUrl) ->
+			console.log("\nRegistering to #{resinUrl}")
+
+			form.run [
+				message: 'Email:'
+				name: 'email'
+				type: 'input'
+				validate: validation.validateEmail
+			,
+				message: 'Username:'
+				name: 'username'
+				type: 'input'
+			,
+				message: 'Password:'
+				name: 'password'
+				type: 'password',
+				validate: validation.validatePassword
+			]
 
 		.then(resin.auth.register)
 		.then(resin.auth.loginWithToken)
