@@ -42,11 +42,25 @@ $ resin quickstart
 FAQ
 ---
 
+### Where is my configuration file?
+
+The per-user configuration file lives in `$HOME/.resinrc.yml` or `%UserProfile%\_resinrc.yml`, in Unix based operating systems and Windows respectively.
+
+The Resin CLI also attempts to read a `resinrc.yml` file in the current directory, which takes precedence over the per-user configuration file.
+
 ### How do I point the Resin CLI to staging?
 
 The easiest way is to set the `RESINRC_RESIN_URL=resinstaging.io` environment variable.
 
-Alternatively, you can edit your `$HOME/.resinrc.yml` or `%UserProfile%\_resinrc.yml` and set `resinUrl: resinstaging.io` to persist this setting.
+Alternatively, you can edit your configuration file and set `resinUrl: resinstaging.io` to persist this setting.
+
+### How do I make the Resin CLI persist data in another directory?
+
+The Resin CLI persists your session token, as well as cached images in `$HOME/.resin` or `%UserProfile%\_resin`.
+
+Pointing the Resin CLI to persist data in another location is necessary in certain environments, like a server, where there is no home directory, or a device running Resin OS, which erases all data after a restart.
+
+You can accomplish this by setting `RESINRC_DATA_DIRECTORY=/opt/resin` or adding `dataDirectory: /opt/resin` to your configuration file, replacing `/opt/resin` with your desired directory.
 
 Support
 -------
