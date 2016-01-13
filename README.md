@@ -42,7 +42,7 @@ $ resin quickstart
 FAQ
 ---
 
-### How to point the Resin CLI to staging?
+### How do I point the Resin CLI to staging?
 
 The easiest way is to set the `RESINRC_RESIN_URL=resinstaging.io` environment variable.
 
