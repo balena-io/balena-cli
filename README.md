@@ -39,8 +39,8 @@ $ resin help
 $ resin quickstart
 ```
 
-Documentation
--------------
+FAQ
+---
 
 ### How to point the Resin CLI to staging?
 
