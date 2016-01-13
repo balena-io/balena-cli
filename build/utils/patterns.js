@@ -79,6 +79,9 @@ limitations under the License.
         }, {
           name: 'Authentication token',
           value: 'token'
+        }, {
+          name: 'I don\'t have a Resin account!',
+          value: 'register'
         }
       ]
     });

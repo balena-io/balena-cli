@@ -50,9 +50,10 @@ limitations under the License.
     ],
     primary: true,
     action: function(params, options, done) {
-      var Promise, _, auth, events, form, login, messages, patterns, resin;
+      var Promise, _, auth, capitano, events, form, login, messages, patterns, resin;
       _ = require('lodash');
       Promise = require('bluebird');
+      capitano = Promise.promisifyAll(require('capitano'));
       resin = require('resin-sdk');
       events = require('resin-cli-events');
       auth = require('resin-cli-auth');
@@ -78,6 +79,9 @@ limitations under the License.
           return auth.login();
         }
         return patterns.askLoginType().then(function(loginType) {
+          if (loginType === 'register') {
+            return capitano.runAsync('signup');
+          }
           options[loginType] = true;
           return login(options);
         });
@@ -119,23 +123,26 @@ limitations under the License.
       form = require('resin-cli-form');
       events = require('resin-cli-events');
       validation = require('../utils/validation');
-      return form.run([
-        {
-          message: 'Email:',
-          name: 'email',
-          type: 'input',
-          validate: validation.validateEmail
-        }, {
-          message: 'Username:',
-          name: 'username',
-          type: 'input'
-        }, {
-          message: 'Password:',
-          name: 'password',
-          type: 'password',
-          validate: validation.validatePassword
-        }
-      ]).then(resin.auth.register).then(resin.auth.loginWithToken).tap(function() {
+      return resin.settings.get('resinUrl').then(function(resinUrl) {
+        console.log("\nRegistering to " + resinUrl);
+        return form.run([
+          {
+            message: 'Email:',
+            name: 'email',
+            type: 'input',
+            validate: validation.validateEmail
+          }, {
+            message: 'Username:',
+            name: 'username',
+            type: 'input'
+          }, {
+            message: 'Password:',
+            name: 'password',
+            type: 'password',
+            validate: validation.validatePassword
+          }
+        ]);
+      }).then(resin.auth.register).then(resin.auth.loginWithToken).tap(function() {
         return events.send('user.signup');
       }).nodeify(done);
     }
