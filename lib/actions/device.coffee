@@ -299,6 +299,12 @@ exports.init =
 							'''
 
 							helpers.sudo([ 'os', 'initialize', temporalPath, '--type', application.device_type ], message)
+
+						# Make sure the device resource is removed if there is an
+						# error when configuring or initializing a device image
+						.catch (error) ->
+							resin.models.device.remove(device.uuid).finally ->
+								throw error
 			.then (device) ->
 				console.log('Done')
 				return device.uuid
