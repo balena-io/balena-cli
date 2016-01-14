@@ -226,6 +226,10 @@ limitations under the License.
               var message;
               message = 'Initializing a device requires administration permissions\ngiven that we need to access raw devices directly.\n';
               return helpers.sudo(['os', 'initialize', temporalPath, '--type', application.device_type], message);
+            })["catch"](function(error) {
+              return resin.models.device.remove(device.uuid)["finally"](function() {
+                throw error;
+              });
             });
           });
         }).then(function(device) {
