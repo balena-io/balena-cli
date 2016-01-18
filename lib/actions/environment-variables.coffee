@@ -152,11 +152,11 @@ exports.add =
 					console.info("Warning: using #{params.key}=#{params.value} from host environment")
 
 			if options.application?
-				resin.models.environmentVariables.create(options.application, params.key, params.value).then ->
+				resin.models.environmentVariables.create(options.application, params.key, String(params.value)).then ->
 					resin.models.application.get(options.application).then (application) ->
 						events.send('environmentVariable.create', application: application.id)
 			else if options.device?
-				resin.models.environmentVariables.device.create(options.device, params.key, params.value).then ->
+				resin.models.environmentVariables.device.create(options.device, params.key, String(params.value)).then ->
 					events.send('deviceEnvironmentVariable.create', device: options.device)
 			else
 				throw new Error('You must specify an application or device')
