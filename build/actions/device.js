@@ -28,8 +28,9 @@ limitations under the License.
     permission: 'user',
     primary: true,
     action: function(params, options, done) {
-      var Promise, resin, visuals;
+      var Promise, _, resin, visuals;
       Promise = require('bluebird');
+      _ = require('lodash');
       resin = require('resin-sdk');
       visuals = require('resin-cli-visuals');
       return Promise["try"](function() {
@@ -38,6 +39,10 @@ limitations under the License.
         }
         return resin.models.device.getAll();
       }).tap(function(devices) {
+        devices = _.map(devices, function(device) {
+          device.uuid = device.uuid.slice(0, 7);
+          return device;
+        });
         return console.log(visuals.table.horizontal(devices, ['id', 'uuid', 'name', 'device_type', 'application_name', 'status']));
       }).nodeify(done);
     }

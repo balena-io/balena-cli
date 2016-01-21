@@ -36,6 +36,7 @@ exports.list =
 	primary: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
+		_ = require('lodash')
 		resin = require('resin-sdk')
 		visuals = require('resin-cli-visuals')
 
@@ -45,6 +46,10 @@ exports.list =
 			return resin.models.device.getAll()
 
 		.tap (devices) ->
+			devices = _.map devices, (device) ->
+				device.uuid = device.uuid.slice(0, 7)
+				return device
+
 			console.log visuals.table.horizontal devices, [
 				'id'
 				'uuid'
