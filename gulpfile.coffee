@@ -1,6 +1,5 @@
 path = require('path')
 gulp = require('gulp')
-mocha = require('gulp-mocha')
 coffee = require('gulp-coffee')
 coffeelint = require('gulp-coffeelint')
 shell = require('gulp-shell')
@@ -12,17 +11,10 @@ OPTIONS =
 	files:
 		coffee: [ 'lib/**/*.coffee', 'gulpfile.coffee' ]
 		app: [ 'lib/**/*.coffee', '!lib/**/*.spec.coffee' ]
-		tests: 'tests/**/*.spec.coffee'
 	directories:
 		build: 'build/'
 
-gulp.task 'test', ->
-	gulp.src(OPTIONS.files.tests, read: false)
-		.pipe(mocha({
-			reporter: 'min'
-		}))
-
-gulp.task 'coffee', [ 'test', 'lint' ], ->
+gulp.task 'coffee', [ 'lint' ], ->
 	gulp.src(OPTIONS.files.app)
 		.pipe(coffee())
 		.pipe(gulp.dest(OPTIONS.directories.build))
@@ -38,5 +30,5 @@ gulp.task 'build', [
 	'coffee'
 ]
 
-gulp.task 'watch', [ 'test', 'lint', 'coffee' ], ->
+gulp.task 'watch', [ 'lint', 'coffee' ], ->
 	gulp.watch([ OPTIONS.files.coffee ], [ 'coffee' ])
