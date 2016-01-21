@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.6.0] - 2016-01-21
+
+### Added
+
+- Add support for credential-based authentication.
+- Redirect users to GitHub and Gitter in case of errors.
+- Add Resin.io ASCII art header on `login`.
+- Print an informative next-steps message after `login`.
+- Print informative verbose help to `resin help`.
+- Support for shorter uuids in all commands.
+
+### Changed
+
+- Change license to Apache 2.0.
+- Don't make `device init` a primary command.
+- Stop instructing users to run `quickstart` as root.
+- Make `login` command purely interactive.
+- Handle authentication in `quickstart` if user is not logged in.
+- Redirect to `signup` from `login` if user doesn't have an account.
+- Make sure to remove registered device resource in case of errors in `quickstart`.
+- Upgrade Resin SDK to v5.0.1.
+- Upgrade Resin Image Manager to v3.2.6.
+- Make `devices` output shorter uuids.
+
 ## [2.5.0] - 2015-12-11
 
 ### Added
@@ -121,6 +145,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[2.6.0]: https://github.com/resin-io/resin-cli/compare/v2.5.0...v2.6.0
 [2.5.0]: https://github.com/resin-io/resin-cli/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/resin-io/resin-cli/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/resin-io/resin-cli/compare/v2.2.0...v2.3.0
