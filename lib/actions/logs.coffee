@@ -30,8 +30,8 @@ module.exports =
 
 		Examples:
 
-			$ resin logs 23c73a12e3527df55c60b9ce647640c1b7da1b32d71e6a39849ac0f00db828
-			$ resin logs 23c73a12e3527df55c60b9ce647640c1b7da1b32d71e6a39849ac0f00db828 --tail
+			$ resin logs 23c73a1
+			$ resin logs 23c73a1
 	'''
 	options: [
 		{
