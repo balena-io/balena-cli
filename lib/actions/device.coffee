@@ -36,6 +36,7 @@ exports.list =
 	primary: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
+		_ = require('lodash')
 		resin = require('resin-sdk')
 		visuals = require('resin-cli-visuals')
 
@@ -45,6 +46,10 @@ exports.list =
 			return resin.models.device.getAll()
 
 		.tap (devices) ->
+			devices = _.map devices, (device) ->
+				device.uuid = device.uuid.slice(0, 7)
+				return device
+
 			console.log visuals.table.horizontal devices, [
 				'id'
 				'uuid'
@@ -63,7 +68,7 @@ exports.info =
 
 		Examples:
 
-			$ resin device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
+			$ resin device 7cf02a6
 	'''
 	permission: 'user'
 	primary: true
@@ -139,8 +144,8 @@ exports.remove =
 
 		Examples:
 
-			$ resin device rm 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
-			$ resin device rm 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 --yes
+			$ resin device rm 7cf02a6
+			$ resin device rm 7cf02a6 --yes
 	'''
 	options: [ commandOptions.yes ]
 	permission: 'user'
@@ -165,7 +170,7 @@ exports.identify =
 
 		Examples:
 
-			$ resin device identify 23c73a12e3527df55c60b9ce647640c1b7da1b32d71e6a39849ac0f00db828
+			$ resin device identify 23c73a1
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
@@ -182,8 +187,8 @@ exports.rename =
 
 		Examples:
 
-			$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 MyPi
-			$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
+			$ resin device rename 7cf02a6
+			$ resin device rename 7cf02a6 MyPi
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
@@ -215,8 +220,8 @@ exports.move =
 
 		Examples:
 
-			$ resin device move 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
-			$ resin device move 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 --application MyNewApp
+			$ resin device move 7cf02a6
+			$ resin device move 7cf02a6 --application MyNewApp
 	'''
 	permission: 'user'
 	options: [ commandOptions.optionalApplication ]

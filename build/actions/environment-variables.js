@@ -23,7 +23,7 @@ limitations under the License.
   exports.list = {
     signature: 'envs',
     description: 'list all environment variables',
-    help: 'Use this command to list all environment variables for\na particular application or device.\n\nThis command lists all custom environment variables.\nIf you want to see all environment variables, including private\nones used by resin, use the verbose option.\n\nExample:\n\n	$ resin envs --application MyApp\n	$ resin envs --application MyApp --verbose\n	$ resin envs --device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9',
+    help: 'Use this command to list all environment variables for\na particular application or device.\n\nThis command lists all custom environment variables.\nIf you want to see all environment variables, including private\nones used by resin, use the verbose option.\n\nExample:\n\n	$ resin envs --application MyApp\n	$ resin envs --application MyApp --verbose\n	$ resin envs --device 7cf02a6',
     options: [
       commandOptions.optionalApplication, commandOptions.optionalDevice, {
         signature: 'verbose',
@@ -91,7 +91,7 @@ limitations under the License.
   exports.add = {
     signature: 'env add <key> [value]',
     description: 'add an environment variable',
-    help: 'Use this command to add an enviroment variable to an application.\n\nIf value is omitted, the tool will attempt to use the variable\'s value\nas defined in your host machine.\n\nUse the `--device` option if you want to assign the environment variable\nto a specific device.\n\nIf the value is grabbed from the environment, a warning message will be printed.\nUse `--quiet` to remove it.\n\nExamples:\n\n	$ resin env add EDITOR vim --application MyApp\n	$ resin env add TERM --application MyApp\n	$ resin env add EDITOR vim --device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9',
+    help: 'Use this command to add an enviroment variable to an application.\n\nIf value is omitted, the tool will attempt to use the variable\'s value\nas defined in your host machine.\n\nUse the `--device` option if you want to assign the environment variable\nto a specific device.\n\nIf the value is grabbed from the environment, a warning message will be printed.\nUse `--quiet` to remove it.\n\nExamples:\n\n	$ resin env add EDITOR vim --application MyApp\n	$ resin env add TERM --application MyApp\n	$ resin env add EDITOR vim --device 7cf02a6',
     options: [commandOptions.optionalApplication, commandOptions.optionalDevice],
     permission: 'user',
     action: function(params, options, done) {

@@ -28,8 +28,9 @@ limitations under the License.
     permission: 'user',
     primary: true,
     action: function(params, options, done) {
-      var Promise, resin, visuals;
+      var Promise, _, resin, visuals;
       Promise = require('bluebird');
+      _ = require('lodash');
       resin = require('resin-sdk');
       visuals = require('resin-cli-visuals');
       return Promise["try"](function() {
@@ -38,6 +39,10 @@ limitations under the License.
         }
         return resin.models.device.getAll();
       }).tap(function(devices) {
+        devices = _.map(devices, function(device) {
+          device.uuid = device.uuid.slice(0, 7);
+          return device;
+        });
         return console.log(visuals.table.horizontal(devices, ['id', 'uuid', 'name', 'device_type', 'application_name', 'status']));
       }).nodeify(done);
     }
@@ -46,7 +51,7 @@ limitations under the License.
   exports.info = {
     signature: 'device <uuid>',
     description: 'list a single device',
-    help: 'Use this command to show information about a single device.\n\nExamples:\n\n	$ resin device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9',
+    help: 'Use this command to show information about a single device.\n\nExamples:\n\n	$ resin device 7cf02a6',
     permission: 'user',
     primary: true,
     action: function(params, options, done) {
@@ -97,7 +102,7 @@ limitations under the License.
   exports.remove = {
     signature: 'device rm <uuid>',
     description: 'remove a device',
-    help: 'Use this command to remove a device from resin.io.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nExamples:\n\n	$ resin device rm 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9\n	$ resin device rm 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 --yes',
+    help: 'Use this command to remove a device from resin.io.\n\nNotice this command asks for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nExamples:\n\n	$ resin device rm 7cf02a6\n	$ resin device rm 7cf02a6 --yes',
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
@@ -118,7 +123,7 @@ limitations under the License.
   exports.identify = {
     signature: 'device identify <uuid>',
     description: 'identify a device with a UUID',
-    help: 'Use this command to identify a device.\n\nIn the Raspberry Pi, the ACT led is blinked several times.\n\nExamples:\n\n	$ resin device identify 23c73a12e3527df55c60b9ce647640c1b7da1b32d71e6a39849ac0f00db828',
+    help: 'Use this command to identify a device.\n\nIn the Raspberry Pi, the ACT led is blinked several times.\n\nExamples:\n\n	$ resin device identify 23c73a1',
     permission: 'user',
     action: function(params, options, done) {
       var resin;
@@ -130,7 +135,7 @@ limitations under the License.
   exports.rename = {
     signature: 'device rename <uuid> [newName]',
     description: 'rename a resin device',
-    help: 'Use this command to rename a device.\n\nIf you omit the name, you\'ll get asked for it interactively.\n\nExamples:\n\n	$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 MyPi\n	$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9',
+    help: 'Use this command to rename a device.\n\nIf you omit the name, you\'ll get asked for it interactively.\n\nExamples:\n\n	$ resin device rename 7cf02a6\n	$ resin device rename 7cf02a6 MyPi',
     permission: 'user',
     action: function(params, options, done) {
       var Promise, _, events, form, resin;
@@ -158,7 +163,7 @@ limitations under the License.
   exports.move = {
     signature: 'device move <uuid>',
     description: 'move a device to another application',
-    help: 'Use this command to move a device to another application you own.\n\nIf you omit the application, you\'ll get asked for it interactively.\n\nExamples:\n\n	$ resin device move 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9\n	$ resin device move 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 --application MyNewApp',
+    help: 'Use this command to move a device to another application you own.\n\nIf you omit the application, you\'ll get asked for it interactively.\n\nExamples:\n\n	$ resin device move 7cf02a6\n	$ resin device move 7cf02a6 --application MyNewApp',
     permission: 'user',
     options: [commandOptions.optionalApplication],
     action: function(params, options, done) {

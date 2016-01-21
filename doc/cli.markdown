@@ -263,7 +263,7 @@ Use this command to show information about a single device.
 
 Examples:
 
-	$ resin device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
+	$ resin device 7cf02a6
 
 ## device register &#60;application&#62;
 
@@ -288,8 +288,8 @@ You can avoid this by passing the `--yes` boolean option.
 
 Examples:
 
-	$ resin device rm 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
-	$ resin device rm 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 --yes
+	$ resin device rm 7cf02a6
+	$ resin device rm 7cf02a6 --yes
 
 ### Options
 
@@ -305,7 +305,7 @@ In the Raspberry Pi, the ACT led is blinked several times.
 
 Examples:
 
-	$ resin device identify 23c73a12e3527df55c60b9ce647640c1b7da1b32d71e6a39849ac0f00db828
+	$ resin device identify 23c73a1
 
 ## device rename &#60;uuid&#62; [newName]
 
@@ -315,8 +315,8 @@ If you omit the name, you'll get asked for it interactively.
 
 Examples:
 
-	$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 MyPi
-	$ resin device rename 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
+	$ resin device rename 7cf02a6
+	$ resin device rename 7cf02a6 MyPi
 
 ## device move &#60;uuid&#62;
 
@@ -326,8 +326,8 @@ If you omit the application, you'll get asked for it interactively.
 
 Examples:
 
-	$ resin device move 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
-	$ resin device move 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9 --application MyNewApp
+	$ resin device move 7cf02a6
+	$ resin device move 7cf02a6 --application MyNewApp
 
 ### Options
 
@@ -376,7 +376,7 @@ Example:
 
 	$ resin envs --application MyApp
 	$ resin envs --application MyApp --verbose
-	$ resin envs --device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
+	$ resin envs --device 7cf02a6
 
 ### Options
 
@@ -436,7 +436,7 @@ Examples:
 
 	$ resin env add EDITOR vim --application MyApp
 	$ resin env add TERM --application MyApp
-	$ resin env add EDITOR vim --device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
+	$ resin env add EDITOR vim --device 7cf02a6
 
 ### Options
 
@@ -552,8 +552,8 @@ This is due to some technical limitations that we plan to address soon.
 
 Examples:
 
-	$ resin logs 23c73a12e3527df55c60b9ce647640c1b7da1b32d71e6a39849ac0f00db828
-	$ resin logs 23c73a12e3527df55c60b9ce647640c1b7da1b32d71e6a39849ac0f00db828 --tail
+	$ resin logs 23c73a1
+	$ resin logs 23c73a1
 
 ### Options
 
@@ -573,8 +573,8 @@ To view the notes, use $ resin device <uuid>.
 
 Examples:
 
-	$ resin note "My useful note" --device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
-	$ cat note.txt | resin note --device 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
+	$ resin note "My useful note" --device 7cf02a6
+	$ cat note.txt | resin note --device 7cf02a6
 
 ### Options
 
@@ -604,7 +604,7 @@ Use this command to configure a previously download operating system image with 
 
 Examples:
 
-	$ resin os configure ../path/rpi.img 7cf02a62a3a84440b1bb5579a3d57469148943278630b17e7fc6c4f7b465c9
+	$ resin os configure ../path/rpi.img 7cf02a6
 
 ### Options
 
