@@ -37,7 +37,7 @@ limitations under the License.
   capitano.permission('user', function(done) {
     return resin.auth.isLoggedIn().then(function(isLoggedIn) {
       if (!isLoggedIn) {
-        throw new Error('You have to log in');
+        throw new Error('You have to log in to continue\n\nRun the following command to go through the login wizard:\n\n  $ resin login');
       }
     }).nodeify(done);
   });

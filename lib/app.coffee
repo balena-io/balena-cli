@@ -26,7 +26,13 @@ update = require('./utils/update')
 capitano.permission 'user', (done) ->
 	resin.auth.isLoggedIn().then (isLoggedIn) ->
 		if not isLoggedIn
-			throw new Error ('You have to log in')
+			throw new Error '''
+				You have to log in to continue
+
+				Run the following command to go through the login wizard:
+
+				  $ resin login
+			'''
 	.nodeify(done)
 
 capitano.command
