@@ -59,6 +59,22 @@ Pointing the Resin CLI to persist data in another location is necessary in certa
 
 You can accomplish this by setting `RESINRC_DATA_DIRECTORY=/opt/resin` or adding `dataDirectory: /opt/resin` to your configuration file, replacing `/opt/resin` with your desired directory.
 
+### Why do I get `Invalid MBR boot signature` when configuring a device?
+
+This error, accompanied with something like: `Expected 0xAA55, but saw 0x29FE` usually indicates a corrupted device operating system image in the cache, due to bad a internet connection during the download process.
+
+Try clearing the cache with the following command and trying again:
+
+```sh
+$ rm -rf $HOME/.resin/cache
+```
+
+Or in Windows:
+
+```sh
+> del /s /q %UserProfile%\_resin\cache
+```
+
 Support
 -------
 
