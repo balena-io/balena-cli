@@ -229,7 +229,7 @@ limitations under the License.
             }
             return capitano.runAsync(configure).then(function() {
               var message;
-              message = 'Initializing a device requires administration permissions\ngiven that we need to access raw devices directly.\n';
+              message = 'Initializing a device requires administrative permissions\ngiven that we need to access raw devices directly.\n';
               return helpers.sudo(['os', 'initialize', temporalPath, '--type', application.device_type], message);
             })["catch"](function(error) {
               return resin.models.device.remove(device.uuid)["finally"](function() {

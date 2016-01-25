@@ -135,7 +135,7 @@ exports.awaitDevice = (uuid) ->
 			resin.models.device.isOnline(uuid).then (isOnline) ->
 				if isOnline
 					spinner.stop()
-					console.info("Device became online: #{deviceName}")
+					console.info("The device **#{deviceName}** is online!")
 					return
 				else
 
