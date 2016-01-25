@@ -176,7 +176,7 @@ limitations under the License.
         return resin.models.device.isOnline(uuid).then(function(isOnline) {
           if (isOnline) {
             spinner.stop();
-            console.info("Device became online: " + deviceName);
+            console.info("The device **" + deviceName + "** is online!");
           } else {
             spinner.start();
             return Promise.delay(3000).then(poll);
