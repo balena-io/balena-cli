@@ -298,7 +298,7 @@ exports.init =
 						configure += ' --advanced' if options.advanced
 						capitano.runAsync(configure).then ->
 							message = '''
-								Initializing a device requires administration permissions
+								Initializing a device requires administrative permissions
 								given that we need to access raw devices directly.
 
 							'''
