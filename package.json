@@ -51,7 +51,7 @@
     "resin-device-init": "^2.0.0",
     "resin-image-manager": "^3.2.6",
     "resin-pine": "^1.3.0",
-    "resin-sdk": "^5.0.1",
+    "resin-sdk": "^5.1.0",
     "resin-settings-client": "^3.1.0",
     "resin-vcs": "^2.0.0",
     "rimraf": "^2.4.3",

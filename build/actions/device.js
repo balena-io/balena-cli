@@ -60,12 +60,12 @@ limitations under the License.
       visuals = require('resin-cli-visuals');
       events = require('resin-cli-events');
       return resin.models.device.get(params.uuid).then(function(device) {
-        if (device.last_seen == null) {
-          device.last_seen = 'Not seen';
-        }
-        console.log(visuals.table.vertical(device, ["$" + device.name + "$", 'id', 'device_type', 'is_online', 'ip_address', 'application_name', 'status', 'last_seen', 'uuid', 'commit', 'supervisor_version', 'is_web_accessible', 'note']));
-        return events.send('device.open', {
-          device: device.uuid
+        return resin.models.device.getStatus(device).then(function(status) {
+          device.status = status;
+          console.log(visuals.table.vertical(device, ["$" + device.name + "$", 'id', 'device_type', 'status', 'is_online', 'ip_address', 'application_name', 'last_seen', 'uuid', 'commit', 'supervisor_version', 'is_web_accessible', 'note']));
+          return events.send('device.open', {
+            device: device.uuid
+          });
         });
       }).nodeify(done);
     }

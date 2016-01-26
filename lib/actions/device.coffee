@@ -79,27 +79,26 @@ exports.info =
 
 		resin.models.device.get(params.uuid).then (device) ->
 
-			# TODO: We should outsource this logic and probably
-			# other last_seen edge cases to either Resin CLI Visuals
-			# or have it parsed appropriately in the SDK.
-			device.last_seen ?= 'Not seen'
+			resin.models.device.getStatus(device).then (status) ->
+				device.status = status
 
-			console.log visuals.table.vertical device, [
-				"$#{device.name}$"
-				'id'
-				'device_type'
-				'is_online'
-				'ip_address'
-				'application_name'
-				'status'
-				'last_seen'
-				'uuid'
-				'commit'
-				'supervisor_version'
-				'is_web_accessible'
-				'note'
-			]
-			events.send('device.open', device: device.uuid)
+				console.log visuals.table.vertical device, [
+					"$#{device.name}$"
+					'id'
+					'device_type'
+					'status'
+					'is_online'
+					'ip_address'
+					'application_name'
+					'last_seen'
+					'uuid'
+					'commit'
+					'supervisor_version'
+					'is_web_accessible'
+					'note'
+				]
+
+				events.send('device.open', device: device.uuid)
 		.nodeify(done)
 
 exports.register =
