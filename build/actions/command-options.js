@@ -41,13 +41,13 @@ limitations under the License.
   exports.optionalDevice = {
     signature: 'device',
     parameter: 'device',
-    description: 'device name',
+    description: 'device uuid',
     alias: 'd'
   };
 
   exports.booleanDevice = {
     signature: 'device',
-    description: 'device name',
+    description: 'device',
     boolean: true,
     alias: 'd'
   };
