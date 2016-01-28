@@ -35,12 +35,12 @@ exports.application = _.defaults
 exports.optionalDevice =
 	signature: 'device'
 	parameter: 'device'
-	description: 'device name'
+	description: 'device uuid'
 	alias: 'd'
 
 exports.booleanDevice =
 	signature: 'device'
-	description: 'device name'
+	description: 'device'
 	boolean: true
 	alias: 'd'
 
