@@ -57,6 +57,7 @@ exports.list =
 				'device_type'
 				'application_name'
 				'status'
+				'is_online'
 			]
 		.nodeify(done)
 
