@@ -43,7 +43,7 @@ limitations under the License.
           device.uuid = device.uuid.slice(0, 7);
           return device;
         });
-        return console.log(visuals.table.horizontal(devices, ['id', 'uuid', 'name', 'device_type', 'application_name', 'status']));
+        return console.log(visuals.table.horizontal(devices, ['id', 'uuid', 'name', 'device_type', 'application_name', 'status', 'is_online']));
       }).nodeify(done);
     }
   };
