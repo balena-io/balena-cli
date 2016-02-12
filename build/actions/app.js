@@ -35,9 +35,8 @@ limitations under the License.
     permission: 'user',
     primary: true,
     action: function(params, options, done) {
-      var events, patterns, resin;
+      var patterns, resin;
       resin = require('resin-sdk');
-      events = require('resin-cli-events');
       patterns = require('../utils/patterns');
       return resin.models.application.has(params.name).then(function(hasApplication) {
         if (hasApplication) {
@@ -48,10 +47,7 @@ limitations under the License.
       }).then(function(deviceType) {
         return resin.models.application.create(params.name, deviceType);
       }).then(function(application) {
-        console.info("Application created: " + application.app_name + " (" + application.device_type + ", id " + application.id + ")");
-        return events.send('application.create', {
-          application: application.id
-        });
+        return console.info("Application created: " + application.app_name + " (" + application.device_type + ", id " + application.id + ")");
       }).nodeify(done);
     }
   };
@@ -79,15 +75,11 @@ limitations under the License.
     permission: 'user',
     primary: true,
     action: function(params, options, done) {
-      var events, resin, visuals;
+      var resin, visuals;
       resin = require('resin-sdk');
       visuals = require('resin-cli-visuals');
-      events = require('resin-cli-events');
       return resin.models.application.get(params.name).then(function(application) {
-        console.log(visuals.table.vertical(application, ["$" + application.app_name + "$", 'id', 'device_type', 'git_repository', 'commit']));
-        return events.send('application.open', {
-          application: application.id
-        });
+        return console.log(visuals.table.vertical(application, ["$" + application.app_name + "$", 'id', 'device_type', 'git_repository', 'commit']));
       }).nodeify(done);
     }
   };
@@ -111,18 +103,11 @@ limitations under the License.
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
-      var events, patterns, resin;
+      var patterns, resin;
       resin = require('resin-sdk');
-      events = require('resin-cli-events');
       patterns = require('../utils/patterns');
       return patterns.confirm(options.yes, 'Are you sure you want to delete the application?').then(function() {
         return resin.models.application.remove(params.name);
-      }).tap(function() {
-        return resin.models.application.get(params.name).then(function(application) {
-          return events.send('application.delete', {
-            application: application.id
-          });
-        });
       }).nodeify(done);
     }
   };

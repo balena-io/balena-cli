@@ -75,7 +75,6 @@ exports.login	=
 		Promise = require('bluebird')
 		capitano = Promise.promisifyAll(require('capitano'))
 		resin = require('resin-sdk')
-		events = require('resin-cli-events')
 		auth = require('resin-cli-auth')
 		form = require('resin-cli-form')
 		patterns = require('../utils/patterns')
@@ -110,8 +109,6 @@ exports.login	=
 			return login(options)
 		.then(resin.auth.whoami)
 		.tap (username) ->
-			events.send('user.login')
-
 			console.info("Successfully logged in as: #{username}")
 			console.info """
 
@@ -140,11 +137,7 @@ exports.logout =
 	permission: 'user'
 	action: (params, options, done) ->
 		resin = require('resin-sdk')
-		events = require('resin-cli-events')
-
-		resin.auth.logout().then ->
-			events.send('user.logout')
-		.nodeify(done)
+		resin.auth.logout().nodeify(done)
 
 exports.signup =
 	signature: 'signup'
@@ -167,7 +160,6 @@ exports.signup =
 	action: (params, options, done) ->
 		resin = require('resin-sdk')
 		form = require('resin-cli-form')
-		events = require('resin-cli-events')
 		validation = require('../utils/validation')
 
 		resin.settings.get('resinUrl').then (resinUrl) ->
@@ -191,8 +183,6 @@ exports.signup =
 
 		.then(resin.auth.register)
 		.then(resin.auth.loginWithToken)
-		.tap ->
-			events.send('user.signup')
 		.nodeify(done)
 
 exports.whoami =

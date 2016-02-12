@@ -83,13 +83,10 @@ exports.remove =
 	permission: 'user'
 	action: (params, options, done) ->
 		resin = require('resin-sdk')
-		events = require('resin-cli-events')
 		patterns = require('../utils/patterns')
 
 		patterns.confirm(options.yes, 'Are you sure you want to delete the key?').then ->
 			resin.models.key.remove(params.id)
-		.tap ->
-			events.send('publicKey.delete', id: params.id)
 		.nodeify(done)
 
 exports.add =
@@ -113,7 +110,6 @@ exports.add =
 		fs = Promise.promisifyAll(require('fs'))
 		capitano = require('capitano')
 		resin = require('resin-sdk')
-		events = require('resin-cli-events')
 
 		Promise.try ->
 			return fs.readFileAsync(params.path, encoding: 'utf8') if params.path?
@@ -123,6 +119,4 @@ exports.add =
 					return callback(null, data)
 
 		.then(_.partial(resin.models.key.create, params.name))
-		.tap ->
-			events.send('publicKey.create')
 		.nodeify(done)

@@ -16,7 +16,7 @@ limitations under the License.
  */
 
 (function() {
-  var Promise, _, actions, capitano, errors, plugins, resin, update;
+  var Promise, _, actions, capitano, errors, events, plugins, resin, update;
 
   _ = require('lodash');
 
@@ -29,6 +29,8 @@ limitations under the License.
   actions = require('./actions');
 
   errors = require('./errors');
+
+  events = require('./events');
 
   plugins = require('./utils/plugins');
 
@@ -130,7 +132,9 @@ limitations under the License.
   plugins.register(/^resin-plugin-(.+)$/).then(function() {
     var cli;
     cli = capitano.parse(process.argv);
-    return capitano.executeAsync(cli);
+    return events.trackCommand(cli).then(function() {
+      return capitano.executeAsync(cli);
+    });
   })["catch"](errors.handle);
 
 }).call(this);

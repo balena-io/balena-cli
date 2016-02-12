@@ -55,17 +55,13 @@ limitations under the License.
     permission: 'user',
     primary: true,
     action: function(params, options, done) {
-      var events, resin, visuals;
+      var resin, visuals;
       resin = require('resin-sdk');
       visuals = require('resin-cli-visuals');
-      events = require('resin-cli-events');
       return resin.models.device.get(params.uuid).then(function(device) {
         return resin.models.device.getStatus(device).then(function(status) {
           device.status = status;
-          console.log(visuals.table.vertical(device, ["$" + device.name + "$", 'id', 'device_type', 'status', 'is_online', 'ip_address', 'application_name', 'last_seen', 'uuid', 'commit', 'supervisor_version', 'is_web_accessible', 'note']));
-          return events.send('device.open', {
-            device: device.uuid
-          });
+          return console.log(visuals.table.vertical(device, ["$" + device.name + "$", 'id', 'device_type', 'status', 'is_online', 'ip_address', 'application_name', 'last_seen', 'uuid', 'commit', 'supervisor_version', 'is_web_accessible', 'note']));
         });
       }).nodeify(done);
     }
@@ -106,16 +102,11 @@ limitations under the License.
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
-      var events, patterns, resin;
+      var patterns, resin;
       resin = require('resin-sdk');
-      events = require('resin-cli-events');
       patterns = require('../utils/patterns');
       return patterns.confirm(options.yes, 'Are you sure you want to delete the device?').then(function() {
         return resin.models.device.remove(params.uuid);
-      }).tap(function() {
-        return events.send('device.delete', {
-          device: params.uuid
-        });
       }).nodeify(done);
     }
   };
@@ -138,11 +129,10 @@ limitations under the License.
     help: 'Use this command to rename a device.\n\nIf you omit the name, you\'ll get asked for it interactively.\n\nExamples:\n\n	$ resin device rename 7cf02a6\n	$ resin device rename 7cf02a6 MyPi',
     permission: 'user',
     action: function(params, options, done) {
-      var Promise, _, events, form, resin;
+      var Promise, _, form, resin;
       Promise = require('bluebird');
       _ = require('lodash');
       resin = require('resin-sdk');
-      events = require('resin-cli-events');
       form = require('resin-cli-form');
       return Promise["try"](function() {
         if (!_.isEmpty(params.newName)) {
@@ -152,11 +142,7 @@ limitations under the License.
           message: 'How do you want to name this device?',
           type: 'input'
         });
-      }).then(_.partial(resin.models.device.rename, params.uuid)).tap(function() {
-        return events.send('device.rename', {
-          device: params.uuid
-        });
-      }).nodeify(done);
+      }).then(_.partial(resin.models.device.rename, params.uuid)).nodeify(done);
     }
   };
 

@@ -46,7 +46,6 @@ exports.create =
 	primary: true
 	action: (params, options, done) ->
 		resin = require('resin-sdk')
-		events = require('resin-cli-events')
 		patterns = require('../utils/patterns')
 
 		# Validate the the application name is available
@@ -62,7 +61,6 @@ exports.create =
 			return resin.models.application.create(params.name, deviceType)
 		.then (application) ->
 			console.info("Application created: #{application.app_name} (#{application.device_type}, id #{application.id})")
-			events.send('application.create', application: application.id)
 		.nodeify(done)
 
 exports.list =
@@ -109,7 +107,6 @@ exports.info =
 	action: (params, options, done) ->
 		resin = require('resin-sdk')
 		visuals = require('resin-cli-visuals')
-		events = require('resin-cli-events')
 
 		resin.models.application.get(params.name).then (application) ->
 			console.log visuals.table.vertical application, [
@@ -119,7 +116,6 @@ exports.info =
 				'git_repository'
 				'commit'
 			]
-			events.send('application.open', application: application.id)
 		.nodeify(done)
 
 exports.restart =
@@ -155,12 +151,8 @@ exports.remove =
 	permission: 'user'
 	action: (params, options, done) ->
 		resin = require('resin-sdk')
-		events = require('resin-cli-events')
 		patterns = require('../utils/patterns')
 
 		patterns.confirm(options.yes, 'Are you sure you want to delete the application?').then ->
 			resin.models.application.remove(params.name)
-		.tap ->
-			resin.models.application.get(params.name).then (application) ->
-				events.send('application.delete', application: application.id)
 		.nodeify(done)

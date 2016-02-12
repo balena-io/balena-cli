@@ -68,21 +68,14 @@ limitations under the License.
     options: [commandOptions.yes, commandOptions.booleanDevice],
     permission: 'user',
     action: function(params, options, done) {
-      var events, patterns, resin;
+      var patterns, resin;
       resin = require('resin-sdk');
-      events = require('resin-cli-events');
       patterns = require('../utils/patterns');
       return patterns.confirm(options.yes, 'Are you sure you want to delete the environment variable?').then(function() {
         if (options.device) {
-          resin.models.environmentVariables.device.remove(params.id);
-          return events.send('deviceEnvironmentVariable.delete', {
-            id: params.id
-          });
+          return resin.models.environmentVariables.device.remove(params.id);
         } else {
-          resin.models.environmentVariables.remove(params.id);
-          return events.send('environmentVariable.delete', {
-            id: params.id
-          });
+          return resin.models.environmentVariables.remove(params.id);
         }
       }).nodeify(done);
     }
@@ -95,10 +88,9 @@ limitations under the License.
     options: [commandOptions.optionalApplication, commandOptions.optionalDevice],
     permission: 'user',
     action: function(params, options, done) {
-      var Promise, events, resin;
+      var Promise, resin;
       Promise = require('bluebird');
       resin = require('resin-sdk');
-      events = require('resin-cli-events');
       return Promise["try"](function() {
         if (params.value == null) {
           params.value = process.env[params.key];
@@ -109,19 +101,9 @@ limitations under the License.
           }
         }
         if (options.application != null) {
-          return resin.models.environmentVariables.create(options.application, params.key, params.value).then(function() {
-            return resin.models.application.get(options.application).then(function(application) {
-              return events.send('environmentVariable.create', {
-                application: application.id
-              });
-            });
-          });
+          return resin.models.environmentVariables.create(options.application, params.key, params.value);
         } else if (options.device != null) {
-          return resin.models.environmentVariables.device.create(options.device, params.key, params.value).then(function() {
-            return events.send('deviceEnvironmentVariable.create', {
-              device: options.device
-            });
-          });
+          return resin.models.environmentVariables.device.create(options.device, params.key, params.value);
         } else {
           throw new Error('You must specify an application or device');
         }
@@ -136,23 +118,14 @@ limitations under the License.
     permission: 'user',
     options: [commandOptions.booleanDevice],
     action: function(params, options, done) {
-      var Promise, events, resin;
+      var Promise, resin;
       Promise = require('bluebird');
       resin = require('resin-sdk');
-      events = require('resin-cli-events');
       return Promise["try"](function() {
         if (options.device) {
-          return resin.models.environmentVariables.device.update(params.id, params.value).then(function() {
-            return events.send('deviceEnvironmentVariable.edit', {
-              id: params.id
-            });
-          });
+          return resin.models.environmentVariables.device.update(params.id, params.value);
         } else {
-          return resin.models.environmentVariables.update(params.id, params.value).then(function() {
-            return events.send('environmentVariable.edit', {
-              id: params.id
-            });
-          });
+          return resin.models.environmentVariables.update(params.id, params.value);
         }
       }).nodeify(done);
     }
