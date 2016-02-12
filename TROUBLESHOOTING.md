@@ -31,3 +31,19 @@ Error: EINVAL, invalid argument
 ```
 
 - Some interactive widgets don't work on `Cygwin`. If you're running Windows, it's preferrable that you use `cmd.exe`, as `Cygwin` is [not official supported by Node.js](https://github.com/chjj/blessed/issues/56#issuecomment-42671945).
+
+### I get `Invalid MBR boot signature` when configuring a device
+
+This error, accompanied with something like: `Expected 0xAA55, but saw 0x29FE` usually indicates a corrupted device operating system image in the cache, due to bad a internet connection during the download process.
+
+Try clearing the cache with the following command and trying again:
+
+```sh
+$ rm -rf $HOME/.resin/cache
+```
+
+Or in Windows:
+
+```sh
+> del /s /q %UserProfile%\_resin\cache
+```
