@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.6.1] - 2016-02-12
+
+### Added
+
+- Documented corrupted image MBR error.
+- Show parser device status in `device` command.
+- Show id a device is online in `devices` command.
+- Make use of static images.
+
+### Changed
+
+- Improve analytics.
+- Improve `quickstart` messages.
+- Fix `device` example.
+
 ## [2.6.0] - 2016-01-21
 
 ### Added
@@ -145,6 +160,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[2.6.1]: https://github.com/resin-io/resin-cli/compare/v2.6.0...v2.6.1
 [2.6.0]: https://github.com/resin-io/resin-cli/compare/v2.5.0...v2.6.0
 [2.5.0]: https://github.com/resin-io/resin-cli/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/resin-io/resin-cli/compare/v2.3.0...v2.4.0
