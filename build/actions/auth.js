@@ -50,12 +50,11 @@ limitations under the License.
     ],
     primary: true,
     action: function(params, options, done) {
-      var Promise, _, auth, capitano, events, form, login, messages, patterns, resin;
+      var Promise, _, auth, capitano, form, login, messages, patterns, resin;
       _ = require('lodash');
       Promise = require('bluebird');
       capitano = Promise.promisifyAll(require('capitano'));
       resin = require('resin-sdk');
-      events = require('resin-cli-events');
       auth = require('resin-cli-auth');
       form = require('resin-cli-form');
       patterns = require('../utils/patterns');
@@ -91,7 +90,6 @@ limitations under the License.
         console.log("\nLogging in to " + resinUrl);
         return login(options);
       }).then(resin.auth.whoami).tap(function(username) {
-        events.send('user.login');
         console.info("Successfully logged in as: " + username);
         return console.info("\nNow what?\n\n" + messages.gettingStarted + "\n\nFind out about more super powers by running:\n\n  $ resin help\n\n" + messages.reachingOut);
       }).nodeify(done);
@@ -104,12 +102,9 @@ limitations under the License.
     help: 'Use this command to logout from your resin.io account.o\n\nExamples:\n\n	$ resin logout',
     permission: 'user',
     action: function(params, options, done) {
-      var events, resin;
+      var resin;
       resin = require('resin-sdk');
-      events = require('resin-cli-events');
-      return resin.auth.logout().then(function() {
-        return events.send('user.logout');
-      }).nodeify(done);
+      return resin.auth.logout().nodeify(done);
     }
   };
 
@@ -118,10 +113,9 @@ limitations under the License.
     description: 'signup to resin.io',
     help: 'Use this command to signup for a resin.io account.\n\nIf signup is successful, you\'ll be logged in to your new user automatically.\n\nExamples:\n\n	$ resin signup\n	Email: me@mycompany.com\n	Username: johndoe\n	Password: ***********\n\n	$ resin whoami\n	johndoe',
     action: function(params, options, done) {
-      var events, form, resin, validation;
+      var form, resin, validation;
       resin = require('resin-sdk');
       form = require('resin-cli-form');
-      events = require('resin-cli-events');
       validation = require('../utils/validation');
       return resin.settings.get('resinUrl').then(function(resinUrl) {
         console.log("\nRegistering to " + resinUrl);
@@ -142,9 +136,7 @@ limitations under the License.
             validate: validation.validatePassword
           }
         ]);
-      }).then(resin.auth.register).then(resin.auth.loginWithToken).tap(function() {
-        return events.send('user.signup');
-      }).nodeify(done);
+      }).then(resin.auth.register).then(resin.auth.loginWithToken).nodeify(done);
     }
   };
 

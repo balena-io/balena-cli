@@ -58,16 +58,11 @@ limitations under the License.
     options: [commandOptions.yes],
     permission: 'user',
     action: function(params, options, done) {
-      var events, patterns, resin;
+      var patterns, resin;
       resin = require('resin-sdk');
-      events = require('resin-cli-events');
       patterns = require('../utils/patterns');
       return patterns.confirm(options.yes, 'Are you sure you want to delete the key?').then(function() {
         return resin.models.key.remove(params.id);
-      }).tap(function() {
-        return events.send('publicKey.delete', {
-          id: params.id
-        });
       }).nodeify(done);
     }
   };
@@ -78,13 +73,12 @@ limitations under the License.
     help: 'Use this command to associate a new SSH key with your account.\n\nIf `path` is omitted, the command will attempt\nto read the SSH key from stdin.\n\nExamples:\n\n	$ resin key add Main ~/.ssh/id_rsa.pub\n	$ cat ~/.ssh/id_rsa.pub | resin key add Main',
     permission: 'user',
     action: function(params, options, done) {
-      var Promise, _, capitano, events, fs, resin;
+      var Promise, _, capitano, fs, resin;
       _ = require('lodash');
       Promise = require('bluebird');
       fs = Promise.promisifyAll(require('fs'));
       capitano = require('capitano');
       resin = require('resin-sdk');
-      events = require('resin-cli-events');
       return Promise["try"](function() {
         if (params.path != null) {
           return fs.readFileAsync(params.path, {
@@ -96,9 +90,7 @@ limitations under the License.
             return callback(null, data);
           });
         });
-      }).then(_.partial(resin.models.key.create, params.name)).tap(function() {
-        return events.send('publicKey.create');
-      }).nodeify(done);
+      }).then(_.partial(resin.models.key.create, params.name)).nodeify(done);
     }
   };
 

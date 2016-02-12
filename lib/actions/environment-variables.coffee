@@ -99,16 +99,13 @@ exports.remove =
 	permission: 'user'
 	action: (params, options, done) ->
 		resin = require('resin-sdk')
-		events = require('resin-cli-events')
 		patterns = require('../utils/patterns')
 
 		patterns.confirm(options.yes, 'Are you sure you want to delete the environment variable?').then ->
 			if options.device
 				resin.models.environmentVariables.device.remove(params.id)
-				events.send('deviceEnvironmentVariable.delete', id: params.id)
 			else
 				resin.models.environmentVariables.remove(params.id)
-				events.send('environmentVariable.delete', id: params.id)
 		.nodeify(done)
 
 exports.add =
@@ -140,7 +137,6 @@ exports.add =
 	action: (params, options, done) ->
 		Promise = require('bluebird')
 		resin = require('resin-sdk')
-		events = require('resin-cli-events')
 
 		Promise.try ->
 			if not params.value?
@@ -152,12 +148,9 @@ exports.add =
 					console.info("Warning: using #{params.key}=#{params.value} from host environment")
 
 			if options.application?
-				resin.models.environmentVariables.create(options.application, params.key, params.value).then ->
-					resin.models.application.get(options.application).then (application) ->
-						events.send('environmentVariable.create', application: application.id)
+				resin.models.environmentVariables.create(options.application, params.key, params.value)
 			else if options.device?
-				resin.models.environmentVariables.device.create(options.device, params.key, params.value).then ->
-					events.send('deviceEnvironmentVariable.create', device: options.device)
+				resin.models.environmentVariables.device.create(options.device, params.key, params.value)
 			else
 				throw new Error('You must specify an application or device')
 		.nodeify(done)
@@ -180,13 +173,10 @@ exports.rename =
 	action: (params, options, done) ->
 		Promise = require('bluebird')
 		resin = require('resin-sdk')
-		events = require('resin-cli-events')
 
 		Promise.try ->
 			if options.device
-				resin.models.environmentVariables.device.update(params.id, params.value).then ->
-					events.send('deviceEnvironmentVariable.edit', id: params.id)
+				resin.models.environmentVariables.device.update(params.id, params.value)
 			else
-				resin.models.environmentVariables.update(params.id, params.value).then ->
-					events.send('environmentVariable.edit', id: params.id)
+				resin.models.environmentVariables.update(params.id, params.value)
 		.nodeify(done)

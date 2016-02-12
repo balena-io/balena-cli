@@ -76,7 +76,6 @@ exports.info =
 	action: (params, options, done) ->
 		resin = require('resin-sdk')
 		visuals = require('resin-cli-visuals')
-		events = require('resin-cli-events')
 
 		resin.models.device.get(params.uuid).then (device) ->
 
@@ -98,8 +97,6 @@ exports.info =
 					'is_web_accessible'
 					'note'
 				]
-
-				events.send('device.open', device: device.uuid)
 		.nodeify(done)
 
 exports.register =
@@ -151,13 +148,10 @@ exports.remove =
 	permission: 'user'
 	action: (params, options, done) ->
 		resin = require('resin-sdk')
-		events = require('resin-cli-events')
 		patterns = require('../utils/patterns')
 
 		patterns.confirm(options.yes, 'Are you sure you want to delete the device?').then ->
 			resin.models.device.remove(params.uuid)
-		.tap ->
-			events.send('device.delete', device: params.uuid)
 		.nodeify(done)
 
 exports.identify =
@@ -195,7 +189,6 @@ exports.rename =
 		Promise = require('bluebird')
 		_ = require('lodash')
 		resin = require('resin-sdk')
-		events = require('resin-cli-events')
 		form = require('resin-cli-form')
 
 		Promise.try ->
@@ -206,8 +199,6 @@ exports.rename =
 				type: 'input'
 
 		.then(_.partial(resin.models.device.rename, params.uuid))
-		.tap ->
-			events.send('device.rename', device: params.uuid)
 		.nodeify(done)
 
 exports.move =

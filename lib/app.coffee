@@ -20,6 +20,7 @@ capitano = Promise.promisifyAll(require('capitano'))
 resin = require('resin-sdk')
 actions = require('./actions')
 errors = require('./errors')
+events = require('./events')
 plugins = require('./utils/plugins')
 update = require('./utils/update')
 
@@ -107,5 +108,8 @@ update.notify()
 
 plugins.register(/^resin-plugin-(.+)$/).then ->
 	cli = capitano.parse(process.argv)
-	capitano.executeAsync(cli)
+
+	events.trackCommand(cli).then ->
+		capitano.executeAsync(cli)
+
 .catch(errors.handle)
