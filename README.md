@@ -5,7 +5,7 @@ Resin CLI
 
 [![npm version](https://badge.fury.io/js/resin-cli.svg)](http://badge.fury.io/js/resin-cli)
 [![dependencies](https://david-dm.org/resin-io/resin-cli.svg)](https://david-dm.org/resin-io/resin-cli)
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/resin-io/chat)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/resin-io/chat)
 
 Requisites
 ----------
