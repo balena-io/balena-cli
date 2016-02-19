@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.6.2] - 2016-02-19
+
+### Removed
+
+- Remove debugging statement in `quickstart`.
+
 ## [2.6.1] - 2016-02-12
 
 ### Added
@@ -160,6 +166,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[2.6.2]: https://github.com/resin-io/resin-cli/compare/v2.6.1...v2.6.2
 [2.6.1]: https://github.com/resin-io/resin-cli/compare/v2.6.0...v2.6.1
 [2.6.0]: https://github.com/resin-io/resin-cli/compare/v2.5.0...v2.6.0
 [2.5.0]: https://github.com/resin-io/resin-cli/compare/v2.4.0...v2.5.0
