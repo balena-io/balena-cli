@@ -33,9 +33,7 @@ limitations under the License.
         }
         console.info('Looks like you\'re not logged in yet!');
         console.info('Lets go through a quick wizard to get you started.\n');
-        return capitano.runAsync('login').then(function() {
-          return require('fs').readdirSync('/Users/jviotti/.resin');
-        });
+        return capitano.runAsync('login');
       }).then(function() {
         if (params.name != null) {
           return;

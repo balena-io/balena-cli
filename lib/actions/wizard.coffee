@@ -43,8 +43,7 @@ exports.wizard =
 			return if isLoggedIn
 			console.info('Looks like you\'re not logged in yet!')
 			console.info('Lets go through a quick wizard to get you started.\n')
-			return capitano.runAsync('login').then ->
-				require('fs').readdirSync('/Users/jviotti/.resin')
+			return capitano.runAsync('login')
 		.then ->
 			return if params.name?
 			patterns.selectOrCreateApplication().tap (applicationName) ->
