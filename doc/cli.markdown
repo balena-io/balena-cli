@@ -81,6 +81,7 @@ Now you have access to all the commands referenced below.
 	- [config read](#config-read)
 	- [config write &#60;key&#62; &#60;value&#62;](#config-write-60-key-62-60-value-62-)
 	- [config reconfigure](#config-reconfigure)
+	- [config generate &#60;uuid&#62;](#config-generate-60-uuid-62-)
 
 - Settings
 
@@ -698,6 +699,21 @@ drive
 #### --advanced, -v
 
 show advanced commands
+
+## config generate &#60;uuid&#62;
+
+Use this command to generate a config.json for a device
+
+Examples:
+
+	$ resin config generate 7cf02a6
+	$ resin config generate 7cf02a6 --output config.json
+
+### Options
+
+#### --output, -o &#60;output&#62;
+
+output
 
 # Settings
 

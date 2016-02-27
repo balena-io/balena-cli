@@ -167,3 +167,44 @@ exports.reconfigure =
 		.then ->
 			console.info('Done')
 		.nodeify(done)
+
+exports.generate =
+	signature: 'config generate <uuid>'
+	description: 'generate a config.json file'
+	help: '''
+		Use this command to generate a config.json for a device
+
+		Examples:
+
+			$ resin config generate 7cf02a6
+			$ resin config generate 7cf02a6 --output config.json
+	'''
+	options: [
+		{
+			signature: 'output'
+			description: 'output'
+			parameter: 'output'
+			alias: 'o'
+		}
+	]
+	permission: 'user'
+	action: (params, options, done) ->
+		Promise = require('bluebird')
+		fs = Promise.promisifyAll(require('fs'))
+		resin = require('resin-sdk')
+		_ = require('lodash')
+		form = require('resin-cli-form')
+		deviceConfig = require('resin-device-config')
+		prettyjson = require('prettyjson')
+
+		resin.models.device.get(params.uuid).then (device) ->
+			resin.models.device.getManifestBySlug(device.device_type)
+				.get('options')
+				.then(form.run)
+				.then(_.partial(deviceConfig.get, device.uuid))
+		.then (config) ->
+			if options.output?
+				return fs.writeFileAsync(options.output, JSON.stringify(config))
+
+			console.log(prettyjson.render(config))
+		.nodeify(done)

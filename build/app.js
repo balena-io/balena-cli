@@ -123,6 +123,8 @@ limitations under the License.
 
   capitano.command(actions.config.reconfigure);
 
+  capitano.command(actions.config.generate);
+
   capitano.command(actions.settings.list);
 
   capitano.command(actions.logs);

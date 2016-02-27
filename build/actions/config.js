@@ -149,4 +149,37 @@ limitations under the License.
     }
   };
 
+  exports.generate = {
+    signature: 'config generate <uuid>',
+    description: 'generate a config.json file',
+    help: 'Use this command to generate a config.json for a device\n\nExamples:\n\n	$ resin config generate 7cf02a6\n	$ resin config generate 7cf02a6 --output config.json',
+    options: [
+      {
+        signature: 'output',
+        description: 'output',
+        parameter: 'output',
+        alias: 'o'
+      }
+    ],
+    permission: 'user',
+    action: function(params, options, done) {
+      var Promise, _, deviceConfig, form, fs, prettyjson, resin;
+      Promise = require('bluebird');
+      fs = Promise.promisifyAll(require('fs'));
+      resin = require('resin-sdk');
+      _ = require('lodash');
+      form = require('resin-cli-form');
+      deviceConfig = require('resin-device-config');
+      prettyjson = require('prettyjson');
+      return resin.models.device.get(params.uuid).then(function(device) {
+        return resin.models.device.getManifestBySlug(device.device_type).get('options').then(form.run).then(_.partial(deviceConfig.get, device.uuid));
+      }).then(function(config) {
+        if (options.output != null) {
+          return fs.writeFileAsync(options.output, JSON.stringify(config));
+        }
+        return console.log(prettyjson.render(config));
+      }).nodeify(done);
+    }
+  };
+
 }).call(this);
