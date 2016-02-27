@@ -386,7 +386,7 @@ application name
 
 #### --device, -d &#60;device&#62;
 
-device name
+device uuid
 
 #### --verbose, -v
 
@@ -417,7 +417,7 @@ confirm non interactively
 
 #### --device, -d
 
-device name
+device
 
 ## env add &#60;key&#62; [value]
 
@@ -446,7 +446,7 @@ application name
 
 #### --device, -d &#60;device&#62;
 
-device name
+device uuid
 
 ## env rename &#60;id&#62; &#60;value&#62;
 
@@ -463,7 +463,7 @@ Examples:
 
 #### --device, -d
 
-device name
+device
 
 # Help
 
