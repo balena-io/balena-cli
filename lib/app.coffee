@@ -97,6 +97,7 @@ capitano.command(actions.os.initialize)
 capitano.command(actions.config.read)
 capitano.command(actions.config.write)
 capitano.command(actions.config.reconfigure)
+capitano.command(actions.config.generate)
 
 # ---------- Settings Module ----------
 capitano.command(actions.settings.list)
