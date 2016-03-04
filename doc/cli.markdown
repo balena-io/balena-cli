@@ -36,6 +36,7 @@ Now you have access to all the commands referenced below.
 	- [device register &#60;application&#62;](#device-register-60-application-62-)
 	- [device rm &#60;uuid&#62;](#device-rm-60-uuid-62-)
 	- [device identify &#60;uuid&#62;](#device-identify-60-uuid-62-)
+	- [device reboot &#60;uuid&#62;](#device-reboot-60-uuid-62-)
 	- [device rename &#60;uuid&#62; [newName]](#device-rename-60-uuid-62-newname-)
 	- [device move &#60;uuid&#62;](#device-move-60-uuid-62-)
 	- [device init](#device-init)
@@ -307,6 +308,14 @@ In the Raspberry Pi, the ACT led is blinked several times.
 Examples:
 
 	$ resin device identify 23c73a1
+
+## device reboot &#60;uuid&#62;
+
+Use this command to remotely reboot a device
+
+Examples:
+
+	$ resin device reboot 23c73a1
 
 ## device rename &#60;uuid&#62; [newName]
 

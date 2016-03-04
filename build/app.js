@@ -87,6 +87,8 @@ limitations under the License.
 
   capitano.command(actions.device.identify);
 
+  capitano.command(actions.device.reboot);
+
   capitano.command(actions.device.register);
 
   capitano.command(actions.device.move);

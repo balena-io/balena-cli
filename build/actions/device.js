@@ -123,6 +123,18 @@ limitations under the License.
     }
   };
 
+  exports.reboot = {
+    signature: 'device reboot <uuid>',
+    description: 'restart a device',
+    help: 'Use this command to remotely reboot a device\n\nExamples:\n\n	$ resin device reboot 23c73a1',
+    permission: 'user',
+    action: function(params, options, done) {
+      var resin;
+      resin = require('resin-sdk');
+      return resin.models.device.reboot(params.uuid).nodeify(done);
+    }
+  };
+
   exports.rename = {
     signature: 'device rename <uuid> [newName]',
     description: 'rename a resin device',
