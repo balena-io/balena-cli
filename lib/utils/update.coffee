@@ -22,7 +22,13 @@ packageJSON = require('../../package.json')
 # running time ask for updated, however this can lead
 # to ugly EPERM issues if those files are created as root.
 if not isRoot()
-	notifier = updateNotifier(pkg: packageJSON)
+	notifier = updateNotifier
+		pkg: packageJSON
+
+		# Force update notification alert
+		# to be shown every time there is
+		# an update.
+		updateCheckInterval: 0
 
 exports.hasAvailableUpdate = ->
 	return notifier?
