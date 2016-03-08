@@ -26,7 +26,8 @@ limitations under the License.
 
   if (!isRoot()) {
     notifier = updateNotifier({
-      pkg: packageJSON
+      pkg: packageJSON,
+      updateCheckInterval: 0
     });
   }
 
