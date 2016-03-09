@@ -47,3 +47,13 @@ Or in Windows:
 ```sh
 > del /s /q %UserProfile%\_resin\cache
 ```
+
+### I get `EACCES: permission denied` when logging in
+
+The Resin CLI stores the session token in `$HOME/.resin` or `C:\Users\<user>\_resin` in UNIX based operating systems and Windows respectively. This error usually indicates that the user doesn't have permissions over that directory, which can happen if you ran the Resin CLI as `root`, and thus the directory got owned by him.
+
+Try resetting the ownership by running:
+
+```sh
+$ sudo chown -R <user> $HOME/.resin
+```
