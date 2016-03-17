@@ -44,9 +44,11 @@ exports.authenticate = (options) ->
 			name: 'code'
 			type: 'input'
 		.then(resin.auth.twoFactor.challenge)
-		.catch ->
+		.catch (error) ->
 			resin.auth.logout().then ->
-				throw new Error('Invalid two factor authentication code')
+				if error.name is 'ResinRequestError' and error.statusCode is 401
+					throw new Error('Invalid two factor authentication code')
+				throw error
 
 exports.askLoginType = ->
 	return form.ask

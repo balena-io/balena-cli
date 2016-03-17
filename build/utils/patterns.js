@@ -56,9 +56,12 @@ limitations under the License.
         message: 'Two factor auth challenge:',
         name: 'code',
         type: 'input'
-      }).then(resin.auth.twoFactor.challenge)["catch"](function() {
+      }).then(resin.auth.twoFactor.challenge)["catch"](function(error) {
         return resin.auth.logout().then(function() {
-          throw new Error('Invalid two factor authentication code');
+          if (error.name === 'ResinRequestError' && error.statusCode === 401) {
+            throw new Error('Invalid two factor authentication code');
+          }
+          throw error;
         });
       });
     });
