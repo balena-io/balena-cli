@@ -81,6 +81,7 @@ Now you have access to all the commands referenced below.
 
 	- [config read](#config-read)
 	- [config write &#60;key&#62; &#60;value&#62;](#config-write-60-key-62-60-value-62-)
+	- [config inject &#60;file&#62;](#config-inject-60-file-62-)
 	- [config reconfigure](#config-reconfigure)
 	- [config generate &#60;uuid&#62;](#config-generate-60-uuid-62-)
 
@@ -674,6 +675,25 @@ Examples:
 	$ resin config write --type raspberry-pi username johndoe
 	$ resin config write --type raspberry-pi --drive /dev/disk2 username johndoe
 	$ resin config write --type raspberry-pi files.network/settings "..."
+
+### Options
+
+#### --type, -t &#60;type&#62;
+
+device type
+
+#### --drive, -d &#60;drive&#62;
+
+drive
+
+## config inject &#60;file&#62;
+
+Use this command to inject a config.json file to a provisioned device
+
+Examples:
+
+	$ resin config inject my/config.json --type raspberry-pi
+	$ resin config inject my/config.json --type raspberry-pi --drive /dev/disk2
 
 ### Options
 
