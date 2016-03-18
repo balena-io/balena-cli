@@ -110,6 +110,51 @@ exports.write =
 			console.info('Done')
 		.nodeify(done)
 
+exports.inject =
+	signature: 'config inject <file>'
+	description: 'inject a device configuration file'
+	help: '''
+		Use this command to inject a config.json file to a provisioned device
+
+		Examples:
+
+			$ resin config inject my/config.json --type raspberry-pi
+			$ resin config inject my/config.json --type raspberry-pi --drive /dev/disk2
+	'''
+	options: [
+		{
+			signature: 'type'
+			description: 'device type'
+			parameter: 'type'
+			alias: 't'
+			required: 'You have to specify a device type'
+		}
+		{
+			signature: 'drive'
+			description: 'drive'
+			parameter: 'drive'
+			alias: 'd'
+		}
+	]
+	permission: 'user'
+	root: true
+	action: (params, options, done) ->
+		Promise = require('bluebird')
+		config = require('resin-config-json')
+		visuals = require('resin-cli-visuals')
+		umount = Promise.promisifyAll(require('umount'))
+		fs = Promise.promisifyAll(require('fs'))
+
+		Promise.try ->
+			return options.drive or visuals.drive('Select the device drive')
+		.tap(umount.umountAsync)
+		.then (drive) ->
+			fs.readFileAsync(params.file, 'utf8').then(JSON.parse).then (configJSON) ->
+				return config.write(drive, options.type, configJSON)
+		.tap ->
+			console.info('Done')
+		.nodeify(done)
+
 exports.reconfigure =
 	signature: 'config reconfigure'
 	description: 'reconfigure a provisioned device'
