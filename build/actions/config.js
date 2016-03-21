@@ -16,6 +16,10 @@ limitations under the License.
  */
 
 (function() {
+  var commandOptions;
+
+  commandOptions = require('./command-options');
+
   exports.read = {
     signature: 'config read',
     description: 'read a device configuration',
@@ -189,11 +193,11 @@ limitations under the License.
   };
 
   exports.generate = {
-    signature: 'config generate <uuid>',
+    signature: 'config generate',
     description: 'generate a config.json file',
-    help: 'Use this command to generate a config.json for a device\n\nExamples:\n\n	$ resin config generate 7cf02a6\n	$ resin config generate 7cf02a6 --output config.json',
+    help: 'Use this command to generate a config.json for a device or application\n\nExamples:\n\n	$ resin config generate --device 7cf02a6\n	$ resin config generate --device 7cf02a6 --output config.json\n	$ resin config generate --app MyApp\n	$ resin config generate --app MyApp --output config.json',
     options: [
-      {
+      commandOptions.optionalApplication, commandOptions.optionalDevice, {
         signature: 'output',
         description: 'output',
         parameter: 'output',
@@ -210,8 +214,21 @@ limitations under the License.
       form = require('resin-cli-form');
       deviceConfig = require('resin-device-config');
       prettyjson = require('prettyjson');
-      return resin.models.device.get(params.uuid).then(function(device) {
-        return resin.models.device.getManifestBySlug(device.device_type).get('options').then(form.run).then(_.partial(deviceConfig.getByDevice, device.uuid));
+      if ((options.device == null) && (options.application == null)) {
+        throw new Error('You have to pass either a device or an application.\n\nSee the help page for examples:\n\n  $ resin help config generate');
+      }
+      return Promise["try"](function() {
+        if (options.device != null) {
+          return resin.models.device.get(options.device);
+        }
+        return resin.models.application.get(options.application);
+      }).then(function(resource) {
+        return resin.models.device.getManifestBySlug(resource.device_type).get('options').then(form.run).then(function(answers) {
+          if (resource.uuid != null) {
+            return deviceConfig.getByDevice(resource.uuid, answers);
+          }
+          return deviceConfig.getByApplication(resource.app_name, answers);
+        });
       }).then(function(config) {
         if (options.output != null) {
           return fs.writeFileAsync(options.output, JSON.stringify(config));
