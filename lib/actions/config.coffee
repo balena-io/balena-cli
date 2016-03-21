@@ -246,7 +246,7 @@ exports.generate =
 			resin.models.device.getManifestBySlug(device.device_type)
 				.get('options')
 				.then(form.run)
-				.then(_.partial(deviceConfig.get, device.uuid))
+				.then(_.partial(deviceConfig.getByDevice, device.uuid))
 		.then (config) ->
 			if options.output?
 				return fs.writeFileAsync(options.output, JSON.stringify(config))

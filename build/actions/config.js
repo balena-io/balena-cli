@@ -211,7 +211,7 @@ limitations under the License.
       deviceConfig = require('resin-device-config');
       prettyjson = require('prettyjson');
       return resin.models.device.get(params.uuid).then(function(device) {
-        return resin.models.device.getManifestBySlug(device.device_type).get('options').then(form.run).then(_.partial(deviceConfig.get, device.uuid));
+        return resin.models.device.getManifestBySlug(device.device_type).get('options').then(form.run).then(_.partial(deviceConfig.getByDevice, device.uuid));
       }).then(function(config) {
         if (options.output != null) {
           return fs.writeFileAsync(options.output, JSON.stringify(config));
