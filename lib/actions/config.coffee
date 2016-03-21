@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
+commandOptions = require('./command-options')
+
 exports.read =
 	signature: 'config read'
 	description: 'read a device configuration'
@@ -214,17 +216,21 @@ exports.reconfigure =
 		.nodeify(done)
 
 exports.generate =
-	signature: 'config generate <uuid>'
+	signature: 'config generate'
 	description: 'generate a config.json file'
 	help: '''
-		Use this command to generate a config.json for a device
+		Use this command to generate a config.json for a device or application
 
 		Examples:
 
-			$ resin config generate 7cf02a6
-			$ resin config generate 7cf02a6 --output config.json
+			$ resin config generate --device 7cf02a6
+			$ resin config generate --device 7cf02a6 --output config.json
+			$ resin config generate --app MyApp
+			$ resin config generate --app MyApp --output config.json
 	'''
 	options: [
+		commandOptions.optionalApplication
+		commandOptions.optionalDevice
 		{
 			signature: 'output'
 			description: 'output'
@@ -242,11 +248,27 @@ exports.generate =
 		deviceConfig = require('resin-device-config')
 		prettyjson = require('prettyjson')
 
-		resin.models.device.get(params.uuid).then (device) ->
-			resin.models.device.getManifestBySlug(device.device_type)
+		if not options.device? and not options.application?
+			throw new Error '''
+				You have to pass either a device or an application.
+
+				See the help page for examples:
+
+				  $ resin help config generate
+			'''
+
+		Promise.try ->
+			if options.device?
+				return resin.models.device.get(options.device)
+			return resin.models.application.get(options.application)
+		.then (resource) ->
+			resin.models.device.getManifestBySlug(resource.device_type)
 				.get('options')
 				.then(form.run)
-				.then(_.partial(deviceConfig.getByDevice, device.uuid))
+				.then (answers) ->
+					if resource.uuid?
+						return deviceConfig.getByDevice(resource.uuid, answers)
+					return deviceConfig.getByApplication(resource.app_name, answers)
 		.then (config) ->
 			if options.output?
 				return fs.writeFileAsync(options.output, JSON.stringify(config))
