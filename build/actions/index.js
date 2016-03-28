@@ -29,7 +29,8 @@ limitations under the License.
     help: require('./help'),
     os: require('./os'),
     settings: require('./settings'),
-    config: require('./config')
+    config: require('./config'),
+    sync: require('./sync')
   };
 
 }).call(this);
