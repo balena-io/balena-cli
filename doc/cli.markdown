@@ -67,6 +67,10 @@ Now you have access to all the commands referenced below.
 
 	- [logs &#60;uuid&#62;](#logs-60-uuid-62-)
 
+- Sync
+
+	- [sync &#60;uuid&#62;](#sync-60-uuid-62-)
+
 - Notes
 
 	- [note &#60;|note&#62;](#note-60-note-62-)
@@ -83,7 +87,7 @@ Now you have access to all the commands referenced below.
 	- [config write &#60;key&#62; &#60;value&#62;](#config-write-60-key-62-60-value-62-)
 	- [config inject &#60;file&#62;](#config-inject-60-file-62-)
 	- [config reconfigure](#config-reconfigure)
-	- [config generate &#60;uuid&#62;](#config-generate-60-uuid-62-)
+	- [config generate](#config-generate)
 
 - Settings
 
@@ -572,6 +576,58 @@ Examples:
 
 continuously stream output
 
+# Sync
+
+## sync &#60;uuid&#62;
+
+Use this command to sync your local changes to a certain device on the fly.
+
+You can save all the options mentioned below in a `resin-sync.yml` file,
+by using the same option names as keys. For example:
+
+	$ cat $PWD/resin-sync.yml
+	source: src/
+	before: 'echo Hello'
+	exec: 'python main.py'
+	ignore:
+		- .git
+		- node_modules/
+	progress: true
+
+Notice that explicitly passed command options override the ones set in the configuration file.
+
+Examples:
+
+	$ resin sync 7cf02a6
+	$ resin sync 7cf02a6 --port 8080
+	$ resin sync 7cf02a6 --ignore foo,bar
+
+### Options
+
+#### --source, -s &#60;path&#62;
+
+custom source path
+
+#### --ignore, -i &#60;paths&#62;
+
+comma delimited paths to ignore when syncing
+
+#### --before, -b &#60;command&#62;
+
+execute a command before syncing
+
+#### --exec, -x &#60;command&#62;
+
+execute a command after syncing (on the device)
+
+#### --progress, -p
+
+show progress
+
+#### --port, -t &#60;port&#62;
+
+ssh port
+
 # Notes
 
 ## note &#60;|note&#62;
@@ -729,16 +785,26 @@ drive
 
 show advanced commands
 
-## config generate &#60;uuid&#62;
+## config generate
 
-Use this command to generate a config.json for a device
+Use this command to generate a config.json for a device or application
 
 Examples:
 
-	$ resin config generate 7cf02a6
-	$ resin config generate 7cf02a6 --output config.json
+	$ resin config generate --device 7cf02a6
+	$ resin config generate --device 7cf02a6 --output config.json
+	$ resin config generate --app MyApp
+	$ resin config generate --app MyApp --output config.json
 
 ### Options
+
+#### --application, --a,app, --a,app &#60;application&#62;
+
+application name
+
+#### --device, -d &#60;device&#62;
+
+device uuid
 
 #### --output, -o &#60;output&#62;
 
