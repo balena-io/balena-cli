@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.0] - 2016-03-28
+
+### Added
+
+- Implement `config inject` command.
+- Document the case where `EACCES` is thrown during login because of an expired token.
+- Integrate `resin-plugin-sync` as a build-in command.
+
+### Changed
+
+- Allow `config generate` to generate a `config.json` for an application.
+- Force update alert to always be shown.
+- Only throw "Invalid 2FA code" if we're sure that's the cause during `login`.
+
 ## [2.7.0] - 2016-03-07
 
 ### Added
@@ -173,6 +187,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[3.0.0]: https://github.com/resin-io/resin-cli/compare/v2.7.0...v3.0.0
 [2.7.0]: https://github.com/resin-io/resin-cli/compare/v2.6.2...v2.7.0
 [2.6.2]: https://github.com/resin-io/resin-cli/compare/v2.6.1...v2.6.2
 [2.6.1]: https://github.com/resin-io/resin-cli/compare/v2.6.0...v2.6.1
