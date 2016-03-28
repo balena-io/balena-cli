@@ -51,6 +51,12 @@
 			]
 		},
 		{
+			"title": "Sync",
+			"files": [
+				"lib/actions/sync.coffee"
+			]
+		},
+		{
 			"title": "Notes",
 			"files": [
 				"lib/actions/notes.coffee"
