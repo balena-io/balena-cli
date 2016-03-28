@@ -133,6 +133,8 @@ limitations under the License.
 
   capitano.command(actions.logs);
 
+  capitano.command(actions.sync);
+
   update.notify();
 
   plugins.register(/^resin-plugin-(.+)$/).then(function() {

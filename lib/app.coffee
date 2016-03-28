@@ -107,6 +107,9 @@ capitano.command(actions.settings.list)
 # ---------- Logs Module ----------
 capitano.command(actions.logs)
 
+# ---------- Sync Module ----------
+capitano.command(actions.sync)
+
 update.notify()
 
 plugins.register(/^resin-plugin-(.+)$/).then ->

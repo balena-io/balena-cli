@@ -28,3 +28,4 @@ module.exports =
 	os: require('./os')
 	settings: require('./settings')
 	config: require('./config')
+	sync: require('./sync')
