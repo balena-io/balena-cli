@@ -36,6 +36,11 @@ $ resin help
 $ resin quickstart
 ```
 
+Plugins
+-------
+
+The Resin CLI can be extended with plugins to automate laborious tasks and overall provide a better experience when working with Resin.io. Check the [plugin development tutorial](https://github.com/resin-io/resin-plugin-hello) to learn how to build your own!
+
 FAQ
 ---
 
