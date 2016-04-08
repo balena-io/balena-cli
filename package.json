@@ -49,7 +49,7 @@
     "resin-cli-visuals": "^1.2.2",
     "resin-config-json": "^1.0.0",
     "resin-device-config": "^3.0.0",
-    "resin-device-init": "^2.0.0",
+    "resin-device-init": "^2.0.4",
     "resin-image-manager": "^4.0.0",
     "resin-pine": "^1.3.0",
     "resin-sdk": "^5.2.0",
