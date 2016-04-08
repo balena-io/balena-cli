@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.2] - 2016-04-08
+
+### Changed
+
+- Fix `os configure` command not working with shorter uuids.
+
 ## [3.0.1] - 2016-03-29
 
 ### Changed
@@ -193,6 +199,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[3.0.2]: https://github.com/resin-io/resin-cli/compare/v3.0.1...v3.0.2
 [3.0.1]: https://github.com/resin-io/resin-cli/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/resin-io/resin-cli/compare/v2.7.0...v3.0.0
 [2.7.0]: https://github.com/resin-io/resin-cli/compare/v2.6.2...v2.7.0
