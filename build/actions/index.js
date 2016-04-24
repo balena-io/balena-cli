@@ -30,7 +30,8 @@ limitations under the License.
     os: require('./os'),
     settings: require('./settings'),
     config: require('./config'),
-    sync: require('./sync')
+    sync: require('./sync'),
+    ssh: require('./ssh')
   };
 
 }).call(this);

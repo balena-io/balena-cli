@@ -135,6 +135,8 @@ limitations under the License.
 
   capitano.command(actions.sync);
 
+  capitano.command(actions.ssh);
+
   update.notify();
 
   plugins.register(/^resin-plugin-(.+)$/).then(function() {

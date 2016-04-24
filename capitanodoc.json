@@ -57,6 +57,12 @@
 			]
 		},
 		{
+			"title": "SSH",
+			"files": [
+				"lib/actions/ssh.coffee"
+			]
+		},
+		{
 			"title": "Notes",
 			"files": [
 				"lib/actions/notes.coffee"
