@@ -19,7 +19,7 @@ limitations under the License.
   module.exports = {
     signature: 'sync <uuid>',
     description: '(beta) sync your changes with a device',
-    help: 'Use this command to sync your local changes to a certain device on the fly.\n\nYou can save all the options mentioned below in a `resin-sync.yml` file,\nby using the same option names as keys. For example:\n\n	$ cat $PWD/resin-sync.yml\n	source: src/\n	before: \'echo Hello\'\n	exec: \'python main.py\'\n	ignore:\n		- .git\n		- node_modules/\n	progress: true\n\nNotice that explicitly passed command options override the ones set in the configuration file.\n\nExamples:\n\n	$ resin sync 7cf02a6\n	$ resin sync 7cf02a6 --port 8080\n	$ resin sync 7cf02a6 --ignore foo,bar',
+    help: 'Use this command to sync your local changes to a certain device on the fly.\n\nYou can save all the options mentioned below in a `resin-sync.yml` file,\nby using the same option names as keys. For example:\n\n	$ cat $PWD/resin-sync.yml\n	source: src/\n	before: \'echo Hello\'\n	ignore:\n		- .git\n		- node_modules/\n	progress: true\n\nNotice that explicitly passed command options override the ones set in the configuration file.\n\nExamples:\n\n	$ resin sync 7cf02a6\n	$ resin sync 7cf02a6 --port 8080\n	$ resin sync 7cf02a6 --ignore foo,bar',
     permission: 'user',
     primary: true,
     options: [
@@ -38,11 +38,6 @@ limitations under the License.
         parameter: 'command',
         description: 'execute a command before syncing',
         alias: 'b'
-      }, {
-        signature: 'exec',
-        parameter: 'command',
-        description: 'execute a command after syncing (on the device)',
-        alias: 'x'
       }, {
         signature: 'progress',
         boolean: true,

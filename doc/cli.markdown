@@ -588,7 +588,6 @@ by using the same option names as keys. For example:
 	$ cat $PWD/resin-sync.yml
 	source: src/
 	before: 'echo Hello'
-	exec: 'python main.py'
 	ignore:
 		- .git
 		- node_modules/
@@ -615,10 +614,6 @@ comma delimited paths to ignore when syncing
 #### --before, -b &#60;command&#62;
 
 execute a command before syncing
-
-#### --exec, -x &#60;command&#62;
-
-execute a command after syncing (on the device)
 
 #### --progress, -p
 

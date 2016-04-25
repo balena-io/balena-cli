@@ -26,7 +26,6 @@ module.exports =
 			$ cat $PWD/resin-sync.yml
 			source: src/
 			before: 'echo Hello'
-			exec: 'python main.py'
 			ignore:
 				- .git
 				- node_modules/
@@ -57,11 +56,6 @@ module.exports =
 			parameter: 'command'
 			description: 'execute a command before syncing'
 			alias: 'b'
-		,
-			signature: 'exec'
-			parameter: 'command'
-			description: 'execute a command after syncing (on the device)'
-			alias: 'x'
 		,
 			signature: 'progress'
 			boolean: true
