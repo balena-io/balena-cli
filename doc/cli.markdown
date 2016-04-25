@@ -69,7 +69,7 @@ Now you have access to all the commands referenced below.
 
 - Sync
 
-	- [sync &#60;uuid&#62;](#sync-60-uuid-62-)
+	- [sync [source]](#sync-source-)
 
 - Notes
 
@@ -578,9 +578,11 @@ continuously stream output
 
 # Sync
 
-## sync &#60;uuid&#62;
+## sync [source]
 
 Use this command to sync your local changes to a certain device on the fly.
+
+The `source` argument can be either a device uuid or an application name.
 
 You can save all the options mentioned below in a `resin-sync.yml` file,
 by using the same option names as keys. For example:
@@ -597,6 +599,7 @@ Notice that explicitly passed command options override the ones set in the confi
 
 Examples:
 
+	$ resin sync MyApp
 	$ resin sync 7cf02a6
 	$ resin sync 7cf02a6 --port 8080
 	$ resin sync 7cf02a6 --ignore foo,bar
