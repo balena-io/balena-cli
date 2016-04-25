@@ -191,6 +191,32 @@ limitations under the License.
     });
   };
 
+  exports.inferOrSelectDevice = function(applicationName) {
+    return Promise["try"](function() {
+      if (applicationName != null) {
+        return resin.models.device.getAllByApplication(applicationName);
+      }
+      return resin.models.device.getAll();
+    }).then(function(devices) {
+      if (_.isEmpty(devices)) {
+        throw new Error('You don\'t have any devices');
+      }
+      if (devices.length === 1) {
+        return _.first(devices).uuid;
+      }
+      return form.ask({
+        message: 'Select a device',
+        type: 'list',
+        choices: _.map(devices, function(device) {
+          return {
+            name: (device.name || 'Untitled') + " (" + (device.uuid.slice(0, 7)) + ")",
+            value: device.uuid
+          };
+        })
+      });
+    });
+  };
+
   exports.printErrorMessage = function(message) {
     console.error(chalk.red(message));
     return console.error(chalk.red("\n" + messages.getHelp + "\n"));

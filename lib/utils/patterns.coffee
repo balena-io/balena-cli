@@ -150,6 +150,27 @@ exports.awaitDevice = (uuid) ->
 		console.info("Waiting for #{deviceName} to connect to resin...")
 		poll().return(uuid)
 
+exports.inferOrSelectDevice = (applicationName) ->
+	Promise.try ->
+		if applicationName?
+			return resin.models.device.getAllByApplication(applicationName)
+		return resin.models.device.getAll()
+	.then (devices) ->
+		if _.isEmpty(devices)
+			throw new Error('You don\'t have any devices')
+
+		if devices.length is 1
+			return _.first(devices).uuid
+
+		return form.ask
+			message: 'Select a device'
+			type: 'list'
+			choices: _.map devices, (device) ->
+				return {
+					name: "#{device.name or 'Untitled'} (#{device.uuid.slice(0, 7)})"
+					value: device.uuid
+				}
+
 exports.printErrorMessage = (message) ->
 	console.error(chalk.red(message))
 	console.error(chalk.red("\n#{messages.getHelp}\n"))
