@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.0.0] - 2016-04-26
+
+### Added
+
+- Implement `resin ssh` command
+
+### Changed
+
+- `resin sync` no longer supports the `exec after rsync` feature
+- Upgraded `resin-sync` and `resin-settings-client`
+
 ## [3.0.2] - 2016-04-08
 
 ### Changed
