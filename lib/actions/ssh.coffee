@@ -75,3 +75,4 @@ module.exports =
 				subShellCommand = getSubShellCommand(command)
 				spawn = child_process.spawn subShellCommand.program, subShellCommand.args,
 					stdio: 'inherit'
+		.nodeify(done)

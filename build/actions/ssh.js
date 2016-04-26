@@ -80,7 +80,7 @@ limitations under the License.
             stdio: 'inherit'
           });
         });
-      });
+      }).nodeify(done);
     }
   };
 
