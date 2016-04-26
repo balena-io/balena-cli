@@ -71,6 +71,10 @@ Now you have access to all the commands referenced below.
 
 	- [sync [source]](#sync-source-)
 
+- SSH
+
+	- [enter &#60;uuid&#62;](#enter-60-uuid-62-)
+
 - Notes
 
 	- [note &#60;|note&#62;](#note-60-note-62-)
@@ -621,6 +625,24 @@ execute a command before syncing
 #### --progress, -p
 
 show progress
+
+#### --port, -t &#60;port&#62;
+
+ssh port
+
+# SSH
+
+## enter &#60;uuid&#62;
+
+Use this command to get a shell into the running application container of
+your device.
+
+Examples:
+
+	$ resin enter 7cf02a6
+	$ resin enter 7cf02a6 --port 8080
+
+### Options
 
 #### --port, -t &#60;port&#62;
 

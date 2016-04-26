@@ -29,3 +29,4 @@ module.exports =
 	settings: require('./settings')
 	config: require('./config')
 	sync: require('./sync')
+	ssh: require('./ssh')

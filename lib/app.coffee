@@ -110,6 +110,9 @@ capitano.command(actions.logs)
 # ---------- Sync Module ----------
 capitano.command(actions.sync)
 
+# ---------- SSH Module ----------
+capitano.command(actions.ssh)
+
 update.notify()
 
 plugins.register(/^resin-plugin-(.+)$/).then ->
