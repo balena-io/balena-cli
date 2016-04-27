@@ -15,8 +15,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- `resin sync` no longer supports the `exec after rsync` feature
-- Upgraded `resin-sync` and `resin-settings-client`
+- Remove `resin sync` `exec` option.
+- Upgrade `resin-sync` to v2.0.1.
+- Upgrade `resin-sdk` to v5.3.0.
 
 ## [3.0.2] - 2016-04-08
 
