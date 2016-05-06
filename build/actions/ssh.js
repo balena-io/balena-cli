@@ -23,8 +23,8 @@ limitations under the License.
     os = require('os');
     if (os.platform() === 'win32') {
       return {
-        program: 'sh',
-        args: ['-c', command]
+        program: 'cmd.exe',
+        args: ['/s', '/c', command]
       };
     } else {
       return {

@@ -14,14 +14,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
+# TODO: A function to reliably execute a command
+# in all supported operating systems, including
+# different Windows environments like `cmd.exe`
+# and `Cygwin` should be encapsulated in a
+# re-usable package.
+# This is literally copy-pasted from the `resin-sync`
+# module.
 getSubShellCommand = (command) ->
 	os = require('os')
 
-	# Assume Cygwin
 	if os.platform() is 'win32'
 		return {
-			program: 'sh'
-			args: [ '-c', command ]
+			program: 'cmd.exe'
+			args: [ '/s', '/c', command ]
 		}
 	else
 		return {
