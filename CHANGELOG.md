@@ -3,11 +3,21 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.0.3] - 2016-05-17
+
+### Changed
+
+- Fix `resin ssh` errors when running in `cmd.exe`.
+
 ## [4.0.2] - 2016-04-27
+
+### Changed
 
 - Upgrade `resin-sync` to v2.0.2.
 
 ## [4.0.1] - 2016-04-26
+
+### Changed
 
 - Fix unhandled exceptions in the `resin ssh` command.
 
@@ -219,6 +229,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[4.0.3]: https://github.com/resin-io/resin-cli/compare/v4.0.2...v4.0.3
 [4.0.2]: https://github.com/resin-io/resin-cli/compare/v4.0.1...v4.0.2
 [4.0.1]: https://github.com/resin-io/resin-cli/compare/v4.0.0...v4.0.1
 [4.0.0]: https://github.com/resin-io/resin-cli/compare/v3.0.2...v4.0.0
