@@ -37,7 +37,7 @@ limitations under the License.
   module.exports = {
     signature: 'ssh <uuid>',
     description: '(beta) get a shell into the running app container of a device',
-    help: 'Use this command to get a shell into the running application container of\nyour device.\n\nExamples:\n\n	$ resin ssh 7cf02a6\n	$ resin ssh 7cf02a6 --port 8080',
+    help: 'WARNING: If you\'re running Windows, this command only supports `cmd.exe`.\n\nUse this command to get a shell into the running application container of\nyour device.\n\nExamples:\n\n	$ resin ssh 7cf02a6\n	$ resin ssh 7cf02a6 --port 8080',
     permission: 'user',
     primary: true,
     options: [

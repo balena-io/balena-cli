@@ -73,7 +73,7 @@ Now you have access to all the commands referenced below.
 
 - SSH
 
-	- [enter &#60;uuid&#62;](#enter-60-uuid-62-)
+	- [ssh &#60;uuid&#62;](#ssh-60-uuid-62-)
 
 - Notes
 
@@ -584,6 +584,8 @@ continuously stream output
 
 ## sync [source]
 
+WARNING: If you're running Windows, this command only supports `cmd.exe`.
+
 Use this command to sync your local changes to a certain device on the fly.
 
 The `source` argument can be either a device uuid or an application name.
@@ -632,21 +634,23 @@ ssh port
 
 # SSH
 
-## enter &#60;uuid&#62;
+## ssh &#60;uuid&#62;
+
+WARNING: If you're running Windows, this command only supports `cmd.exe`.
 
 Use this command to get a shell into the running application container of
 your device.
 
 Examples:
 
-	$ resin enter 7cf02a6
-	$ resin enter 7cf02a6 --port 8080
+	$ resin ssh 7cf02a6
+	$ resin ssh 7cf02a6 --port 8080
 
 ### Options
 
 #### --port, -t &#60;port&#62;
 
-ssh port
+ssh gateway port
 
 # Notes
 
