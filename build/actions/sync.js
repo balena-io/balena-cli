@@ -19,7 +19,7 @@ limitations under the License.
   module.exports = {
     signature: 'sync [source]',
     description: '(beta) sync your changes with a device',
-    help: 'Use this command to sync your local changes to a certain device on the fly.\n\nThe `source` argument can be either a device uuid or an application name.\n\nYou can save all the options mentioned below in a `resin-sync.yml` file,\nby using the same option names as keys. For example:\n\n	$ cat $PWD/resin-sync.yml\n	source: src/\n	before: \'echo Hello\'\n	ignore:\n		- .git\n		- node_modules/\n	progress: true\n\nNotice that explicitly passed command options override the ones set in the configuration file.\n\nExamples:\n\n	$ resin sync MyApp\n	$ resin sync 7cf02a6\n	$ resin sync 7cf02a6 --port 8080\n	$ resin sync 7cf02a6 --ignore foo,bar',
+    help: 'WARNING: If you\'re running Windows, this command only supports `cmd.exe`.\n\nUse this command to sync your local changes to a certain device on the fly.\n\nThe `source` argument can be either a device uuid or an application name.\n\nYou can save all the options mentioned below in a `resin-sync.yml` file,\nby using the same option names as keys. For example:\n\n	$ cat $PWD/resin-sync.yml\n	source: src/\n	before: \'echo Hello\'\n	ignore:\n		- .git\n		- node_modules/\n	progress: true\n\nNotice that explicitly passed command options override the ones set in the configuration file.\n\nExamples:\n\n	$ resin sync MyApp\n	$ resin sync 7cf02a6\n	$ resin sync 7cf02a6 --port 8080\n	$ resin sync 7cf02a6 --ignore foo,bar',
     permission: 'user',
     primary: true,
     options: [

@@ -39,6 +39,8 @@ module.exports =
 	signature: 'ssh <uuid>'
 	description: '(beta) get a shell into the running app container of a device'
 	help: '''
+		WARNING: If you're running Windows, this command only supports `cmd.exe`.
+
 		Use this command to get a shell into the running application container of
 		your device.
 

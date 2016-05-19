@@ -18,6 +18,8 @@ module.exports =
 	signature: 'sync [source]'
 	description: '(beta) sync your changes with a device'
 	help: '''
+		WARNING: If you're running Windows, this command only supports `cmd.exe`.
+
 		Use this command to sync your local changes to a certain device on the fly.
 
 		The `source` argument can be either a device uuid or an application name.
