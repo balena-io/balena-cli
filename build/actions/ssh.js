@@ -74,7 +74,7 @@ limitations under the License.
         }
         return Promise["try"](function() {
           var command, spawn, subShellCommand;
-          command = "ssh -t -o LogLevel=QUIET -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p " + options.port + " " + username + "@ssh." + (settings.get('proxyUrl')) + " enter " + uuid + " " + containerId;
+          command = "ssh -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p " + options.port + " " + username + "@ssh." + (settings.get('proxyUrl')) + " enter " + uuid + " " + containerId;
           subShellCommand = getSubShellCommand(command);
           return spawn = child_process.spawn(subShellCommand.program, subShellCommand.args, {
             stdio: 'inherit'

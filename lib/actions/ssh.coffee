@@ -75,7 +75,7 @@ module.exports =
 			throw new Error('Device is not online') if not isOnline
 			throw new Error('Did not find running application container') if not containerId?
 			Promise.try ->
-				command = "ssh -t -o LogLevel=QUIET -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+				command = "ssh -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
 					-p #{options.port} #{username}@ssh.#{settings.get('proxyUrl')} enter #{uuid} #{containerId}"
 
 				subShellCommand = getSubShellCommand(command)
