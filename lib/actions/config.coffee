@@ -20,7 +20,7 @@ exports.read =
 	signature: 'config read'
 	description: 'read a device configuration'
 	help: '''
-		Use this command to read the config.json file from a provisioned device
+		Use this command to read the config.json file from the mounted filesystem (e.g. SD card) of a provisioned device"
 
 		Examples:
 
@@ -64,7 +64,7 @@ exports.write =
 	signature: 'config write <key> <value>'
 	description: 'write a device configuration'
 	help: '''
-		Use this command to write the config.json file of a provisioned device
+		Use this command to write the config.json file to the mounted filesystem (e.g. SD card) of a provisioned device
 
 		Examples:
 
@@ -116,7 +116,7 @@ exports.inject =
 	signature: 'config inject <file>'
 	description: 'inject a device configuration file'
 	help: '''
-		Use this command to inject a config.json file to a provisioned device
+		Use this command to inject a config.json file to the mounted filesystem (e.g. SD card) of a provisioned device"
 
 		Examples:
 

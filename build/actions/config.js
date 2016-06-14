@@ -23,7 +23,7 @@ limitations under the License.
   exports.read = {
     signature: 'config read',
     description: 'read a device configuration',
-    help: 'Use this command to read the config.json file from a provisioned device\n\nExamples:\n\n	$ resin config read --type raspberry-pi\n	$ resin config read --type raspberry-pi --drive /dev/disk2',
+    help: 'Use this command to read the config.json file from the mounted filesystem (e.g. SD card) of a provisioned device"\n\nExamples:\n\n	$ resin config read --type raspberry-pi\n	$ resin config read --type raspberry-pi --drive /dev/disk2',
     options: [
       {
         signature: 'type',
@@ -60,7 +60,7 @@ limitations under the License.
   exports.write = {
     signature: 'config write <key> <value>',
     description: 'write a device configuration',
-    help: 'Use this command to write the config.json file of a provisioned device\n\nExamples:\n\n	$ resin config write --type raspberry-pi username johndoe\n	$ resin config write --type raspberry-pi --drive /dev/disk2 username johndoe\n	$ resin config write --type raspberry-pi files.network/settings "..."',
+    help: 'Use this command to write the config.json file to the mounted filesystem (e.g. SD card) of a provisioned device\n\nExamples:\n\n	$ resin config write --type raspberry-pi username johndoe\n	$ resin config write --type raspberry-pi --drive /dev/disk2 username johndoe\n	$ resin config write --type raspberry-pi files.network/settings "..."',
     options: [
       {
         signature: 'type',
@@ -105,7 +105,7 @@ limitations under the License.
   exports.inject = {
     signature: 'config inject <file>',
     description: 'inject a device configuration file',
-    help: 'Use this command to inject a config.json file to a provisioned device\n\nExamples:\n\n	$ resin config inject my/config.json --type raspberry-pi\n	$ resin config inject my/config.json --type raspberry-pi --drive /dev/disk2',
+    help: 'Use this command to inject a config.json file to the mounted filesystem (e.g. SD card) of a provisioned device"\n\nExamples:\n\n	$ resin config inject my/config.json --type raspberry-pi\n	$ resin config inject my/config.json --type raspberry-pi --drive /dev/disk2',
     options: [
       {
         signature: 'type',
