@@ -48,6 +48,7 @@ module.exports =
 
 			$ resin ssh 7cf02a6
 			$ resin ssh 7cf02a6 --port 8080
+			$ resin ssh 7cf02a6 -v
 	'''
 	permission: 'user'
 	primary: true
@@ -56,6 +57,11 @@ module.exports =
 			parameter: 'port'
 			description: 'ssh gateway port'
 			alias: 't'
+	,
+			signature: 'verbose'
+			boolean: true
+			description: 'increase verbosity'
+			alias: 'v'
 	]
 	action: (params, options, done) ->
 		child_process = require('child_process')
@@ -65,6 +71,8 @@ module.exports =
 
 		if not options.port?
 			options.port = 22
+
+		verbose = if options.verbose then '-vvv' else ''
 
 		console.info("Connecting with: #{params.uuid}")
 
@@ -77,7 +85,7 @@ module.exports =
 			throw new Error('Device is not online') if not isOnline
 			throw new Error('Did not find running application container') if not containerId?
 			Promise.try ->
-				command = "ssh -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+				command = "ssh #{verbose} -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
 					-p #{options.port} #{username}@ssh.#{settings.get('proxyUrl')} enter #{uuid} #{containerId}"
 
 				subShellCommand = getSubShellCommand(command)
