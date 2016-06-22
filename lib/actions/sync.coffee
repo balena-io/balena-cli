@@ -34,6 +34,7 @@ module.exports =
 				- .git
 				- node_modules/
 			progress: true
+			verbose: false
 
 		Notice that explicitly passed command options override the ones set in the configuration file.
 
@@ -43,6 +44,7 @@ module.exports =
 			$ resin sync 7cf02a6
 			$ resin sync 7cf02a6 --port 8080
 			$ resin sync 7cf02a6 --ignore foo,bar
+			$ resin sync 7cf02a6 -v
 	'''
 	permission: 'user'
 	primary: true
@@ -71,6 +73,12 @@ module.exports =
 			parameter: 'port'
 			description: 'ssh port'
 			alias: 't'
+		,
+			signature: 'verbose'
+			boolean: true
+			description: 'increase verbosity'
+			alias: 'v'
+		,
 	]
 	action: (params, options, done) ->
 		resin = require('resin-sdk')
