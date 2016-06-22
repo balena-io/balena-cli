@@ -600,6 +600,7 @@ by using the same option names as keys. For example:
 		- .git
 		- node_modules/
 	progress: true
+	verbose: false
 
 Notice that explicitly passed command options override the ones set in the configuration file.
 
@@ -609,6 +610,7 @@ Examples:
 	$ resin sync 7cf02a6
 	$ resin sync 7cf02a6 --port 8080
 	$ resin sync 7cf02a6 --ignore foo,bar
+	$ resin sync 7cf02a6 -v
 
 ### Options
 
@@ -631,6 +633,10 @@ show progress
 #### --port, -t &#60;port&#62;
 
 ssh port
+
+#### --verbose, -v
+
+increase verbosity
 
 # SSH
 

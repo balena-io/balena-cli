@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.2.0] - 2016-06-22
+
+### Added
+
+- Add `verbose` option to `resin sync`.
+
 ## [4.1.0] - 2016-06-22
 
 ### Added
@@ -235,6 +241,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[4.2.0]: https://github.com/resin-io/resin-cli/compare/v4.1.0...v4.2.0
 [4.1.0]: https://github.com/resin-io/resin-cli/compare/v4.0.3...v4.1.0
 [4.0.3]: https://github.com/resin-io/resin-cli/compare/v4.0.2...v4.0.3
 [4.0.2]: https://github.com/resin-io/resin-cli/compare/v4.0.1...v4.0.2
