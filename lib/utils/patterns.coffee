@@ -155,6 +155,8 @@ exports.inferOrSelectDevice = (applicationName) ->
 		if applicationName?
 			return resin.models.device.getAllByApplication(applicationName)
 		return resin.models.device.getAll()
+	.filter (device) ->
+		device.is_online
 	.then (devices) ->
 		if _.isEmpty(devices)
 			throw new Error('You don\'t have any devices')
