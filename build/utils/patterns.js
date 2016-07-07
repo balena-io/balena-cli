@@ -197,6 +197,8 @@ limitations under the License.
         return resin.models.device.getAllByApplication(applicationName);
       }
       return resin.models.device.getAll();
+    }).filter(function(device) {
+      return device.is_online;
     }).then(function(devices) {
       if (_.isEmpty(devices)) {
         throw new Error('You don\'t have any devices');
