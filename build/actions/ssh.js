@@ -35,9 +35,9 @@ limitations under the License.
   };
 
   module.exports = {
-    signature: 'ssh <uuid>',
+    signature: 'ssh [destination]',
     description: '(beta) get a shell into the running app container of a device',
-    help: 'WARNING: If you\'re running Windows, this command only supports `cmd.exe`.\n\nUse this command to get a shell into the running application container of\nyour device.\n\nExamples:\n\n	$ resin ssh 7cf02a6\n	$ resin ssh 7cf02a6 --port 8080\n	$ resin ssh 7cf02a6 -v',
+    help: 'WARNING: If you\'re running Windows, this command only supports `cmd.exe`.\n\nUse this command to get a shell into the running application container of\nyour device.\n\nThe `destination` argument can be either a device uuid or an application name.\n\nExamples:\n\n	$ resin ssh MyApp\n	$ resin ssh 7cf02a6\n	$ resin ssh 7cf02a6 --port 8080\n	$ resin ssh 7cf02a6 -v',
     permission: 'user',
     primary: true,
     options: [
@@ -54,36 +54,45 @@ limitations under the License.
       }
     ],
     action: function(params, options, done) {
-      var Promise, child_process, resin, settings, verbose;
+      var Promise, child_process, patterns, resin, settings, verbose;
       child_process = require('child_process');
       Promise = require('bluebird');
       resin = require('resin-sdk');
       settings = require('resin-settings-client');
+      patterns = require('../utils/patterns');
       if (options.port == null) {
         options.port = 22;
       }
       verbose = options.verbose ? '-vvv' : '';
-      console.info("Connecting with: " + params.uuid);
-      return Promise.props({
-        isOnline: resin.models.device.isOnline(params.uuid),
-        username: resin.auth.whoami(),
-        uuid: resin.models.device.get(params.uuid).get('uuid'),
-        containerId: resin.models.device.getApplicationInfo(params.uuid).get('containerId')
-      }).then(function(arg) {
-        var containerId, isOnline, username, uuid;
-        isOnline = arg.isOnline, username = arg.username, uuid = arg.uuid, containerId = arg.containerId;
-        if (!isOnline) {
+      return resin.models.device.has(params.destination).then(function(isValidUUID) {
+        if (isValidUUID) {
+          return params.destination;
+        }
+        return patterns.inferOrSelectDevice(params.destination);
+      }).then(function(uuid) {
+        console.info("Connecting with: " + uuid);
+        return resin.models.device.get(uuid);
+      }).then(function(device) {
+        if (!device.is_online) {
           throw new Error('Device is not online');
         }
-        if (containerId == null) {
-          throw new Error('Did not find running application container');
-        }
-        return Promise["try"](function() {
-          var command, spawn, subShellCommand;
-          command = "ssh " + verbose + " -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p " + options.port + " " + username + "@ssh." + (settings.get('proxyUrl')) + " enter " + uuid + " " + containerId;
-          subShellCommand = getSubShellCommand(command);
-          return spawn = child_process.spawn(subShellCommand.program, subShellCommand.args, {
-            stdio: 'inherit'
+        return Promise.props({
+          username: resin.auth.whoami(),
+          uuid: device.uuid,
+          containerId: resin.models.device.getApplicationInfo(device.uuid).get('containerId')
+        }).then(function(arg) {
+          var containerId, username, uuid;
+          username = arg.username, uuid = arg.uuid, containerId = arg.containerId;
+          if (containerId == null) {
+            throw new Error('Did not find running application container');
+          }
+          return Promise["try"](function() {
+            var command, spawn, subShellCommand;
+            command = "ssh " + verbose + " -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p " + options.port + " " + username + "@ssh." + (settings.get('proxyUrl')) + " enter " + uuid + " " + containerId;
+            subShellCommand = getSubShellCommand(command);
+            return spawn = child_process.spawn(subShellCommand.program, subShellCommand.args, {
+              stdio: 'inherit'
+            });
           });
         });
       }).nodeify(done);
