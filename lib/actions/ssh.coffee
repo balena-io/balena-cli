@@ -36,7 +36,7 @@ getSubShellCommand = (command) ->
 		}
 
 module.exports =
-	signature: 'ssh <uuid>'
+	signature: 'ssh [destination]'
 	description: '(beta) get a shell into the running app container of a device'
 	help: '''
 		WARNING: If you're running Windows, this command only supports `cmd.exe`.
@@ -44,8 +44,11 @@ module.exports =
 		Use this command to get a shell into the running application container of
 		your device.
 
+		The `destination` argument can be either a device uuid or an application name.
+
 		Examples:
 
+			$ resin ssh MyApp
 			$ resin ssh 7cf02a6
 			$ resin ssh 7cf02a6 --port 8080
 			$ resin ssh 7cf02a6 -v
@@ -68,27 +71,35 @@ module.exports =
 		Promise = require 'bluebird'
 		resin = require('resin-sdk')
 		settings = require('resin-settings-client')
+		patterns = require('../utils/patterns')
 
 		if not options.port?
 			options.port = 22
 
 		verbose = if options.verbose then '-vvv' else ''
 
-		console.info("Connecting with: #{params.uuid}")
+		resin.models.device.has(params.destination).then (isValidUUID) ->
+			if isValidUUID
+				return params.destination
 
-		Promise.props
-			isOnline: resin.models.device.isOnline(params.uuid)
-			username: resin.auth.whoami()
-			uuid: resin.models.device.get(params.uuid).get('uuid') # get full uuid
-			containerId: resin.models.device.getApplicationInfo(params.uuid).get('containerId')
-		.then ({ isOnline, username, uuid, containerId }) ->
-			throw new Error('Device is not online') if not isOnline
-			throw new Error('Did not find running application container') if not containerId?
-			Promise.try ->
-				command = "ssh #{verbose} -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-					-p #{options.port} #{username}@ssh.#{settings.get('proxyUrl')} enter #{uuid} #{containerId}"
+			return patterns.inferOrSelectDevice(params.destination)
+		.then (uuid) ->
+			console.info("Connecting with: #{uuid}")
+			resin.models.device.get(uuid)
+		.then (device) ->
+			throw new Error('Device is not online') if not device.is_online
 
-				subShellCommand = getSubShellCommand(command)
-				spawn = child_process.spawn subShellCommand.program, subShellCommand.args,
-					stdio: 'inherit'
+			Promise.props
+				username: resin.auth.whoami()
+				uuid: device.uuid		# get full uuid
+				containerId: resin.models.device.getApplicationInfo(device.uuid).get('containerId')
+			.then ({ username, uuid, containerId }) ->
+				throw new Error('Did not find running application container') if not containerId?
+				Promise.try ->
+					command = "ssh #{verbose} -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+						-p #{options.port} #{username}@ssh.#{settings.get('proxyUrl')} enter #{uuid} #{containerId}"
+
+					subShellCommand = getSubShellCommand(command)
+					spawn = child_process.spawn subShellCommand.program, subShellCommand.args,
+						stdio: 'inherit'
 		.nodeify(done)

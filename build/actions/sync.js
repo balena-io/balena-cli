@@ -17,9 +17,9 @@ limitations under the License.
 
 (function() {
   module.exports = {
-    signature: 'sync [source]',
+    signature: 'sync [destination]',
     description: '(beta) sync your changes with a device',
-    help: 'WARNING: If you\'re running Windows, this command only supports `cmd.exe`.\n\nUse this command to sync your local changes to a certain device on the fly.\n\nThe `source` argument can be either a device uuid or an application name.\n\nYou can save all the options mentioned below in a `resin-sync.yml` file,\nby using the same option names as keys. For example:\n\n	$ cat $PWD/resin-sync.yml\n	source: src/\n	before: \'echo Hello\'\n	ignore:\n		- .git\n		- node_modules/\n	progress: true\n	verbose: false\n\nNotice that explicitly passed command options override the ones set in the configuration file.\n\nExamples:\n\n	$ resin sync MyApp\n	$ resin sync 7cf02a6\n	$ resin sync 7cf02a6 --port 8080\n	$ resin sync 7cf02a6 --ignore foo,bar\n	$ resin sync 7cf02a6 -v',
+    help: 'WARNING: If you\'re running Windows, this command only supports `cmd.exe`.\n\nUse this command to sync your local changes to a certain device on the fly.\n\nThe `destination` argument can be either a device uuid or an application name.\n\nYou can save all the options mentioned below in a `resin-sync.yml` file,\nby using the same option names as keys. For example:\n\n	$ cat $PWD/resin-sync.yml\n	source: src/\n	before: \'echo Hello\'\n	ignore:\n		- .git\n		- node_modules/\n	progress: true\n	verbose: false\n\nNotice that explicitly passed command options override the ones set in the configuration file.\n\nExamples:\n\n	$ resin sync MyApp\n	$ resin sync 7cf02a6\n	$ resin sync 7cf02a6 --port 8080\n	$ resin sync 7cf02a6 --ignore foo,bar\n	$ resin sync 7cf02a6 -v',
     permission: 'user',
     primary: true,
     options: [
@@ -63,11 +63,11 @@ limitations under the License.
       if (options.ignore != null) {
         options.ignore = options.ignore.split(',');
       }
-      return resin.models.device.has(params.source).then(function(isValidUUID) {
+      return resin.models.device.has(params.destination).then(function(isValidUUID) {
         if (isValidUUID) {
-          return params.source;
+          return params.destination;
         }
-        return patterns.inferOrSelectDevice(params.source);
+        return patterns.inferOrSelectDevice(params.destination);
       }).then(function(uuid) {
         return resinSync.sync(uuid, options);
       }).nodeify(done);
