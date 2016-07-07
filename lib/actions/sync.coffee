@@ -15,14 +15,14 @@ limitations under the License.
 ###
 
 module.exports =
-	signature: 'sync [source]'
+	signature: 'sync [destination]'
 	description: '(beta) sync your changes with a device'
 	help: '''
 		WARNING: If you're running Windows, this command only supports `cmd.exe`.
 
 		Use this command to sync your local changes to a certain device on the fly.
 
-		The `source` argument can be either a device uuid or an application name.
+		The `destination` argument can be either a device uuid or an application name.
 
 		You can save all the options mentioned below in a `resin-sync.yml` file,
 		by using the same option names as keys. For example:
@@ -89,11 +89,11 @@ module.exports =
 		if options.ignore?
 			options.ignore = options.ignore.split(',')
 
-		resin.models.device.has(params.source).then (isValidUUID) ->
+		resin.models.device.has(params.destination).then (isValidUUID) ->
 			if isValidUUID
-				return params.source
+				return params.destination
 
-			return patterns.inferOrSelectDevice(params.source)
+			return patterns.inferOrSelectDevice(params.destination)
 		.then (uuid) ->
 			resinSync.sync(uuid, options)
 		.nodeify(done)
