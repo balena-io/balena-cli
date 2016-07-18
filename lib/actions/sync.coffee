@@ -16,17 +16,21 @@ limitations under the License.
 
 module.exports =
 	signature: 'sync [uuid]'
-	description: '(beta) sync your changes with a device'
+	description: '(beta) sync your changes to a device'
 	help: '''
 		WARNING: If you're running Windows, this command only supports `cmd.exe`.
 
 		Use this command to sync your local changes to a certain device on the fly.
 
-		You can save all the options mentioned below in a `resin-sync.yml` file,
-		by using the same option names as keys. For example:
+		After every 'resin sync' the updated settings will be saved in
+		'<source>/.resin-sync.yml' and will be used in later invocations. You can
+		also change any option by editing '.resin-sync.yml' directly.
 
-			$ cat $PWD/resin-sync.yml
-			source: src/
+		Here is an example '.resin-sync.yml' :
+
+			$ cat $PWD/.resin-sync.yml
+			uuid: 7cf02a6
+			destination: '/usr/src/app'
 			before: 'echo Hello'
 			ignore:
 				- .git
@@ -36,21 +40,29 @@ module.exports =
 
 		Notice that explicitly passed command options override the ones set in the configuration file.
 
+		Also, if '.gitignore' is found in the source directory then all explicitly listed files will be
+		excluded from the syncing process.
+
 		Examples:
 
-			$ resin sync MyApp
-			$ resin sync 7cf02a6
-			$ resin sync 7cf02a6 --port 8080
-			$ resin sync 7cf02a6 --ignore foo,bar
-			$ resin sync 7cf02a6 -v
+			$ resin sync 7cf02a6 --source '.' --destination '/usr/src/app'
+			$ resin sync 7cf02a6 -s '/home/user/myResinProject' -d '/usr/src/app' --before 'echo Hello'
+			$ resin sync --ignore 'lib/'
+			$ resin sync --verbose false
+			$ resin sync
 	'''
 	permission: 'user'
 	primary: true
 	options: [
 			signature: 'source'
 			parameter: 'path'
-			description: 'custom source path'
+			description: 'local directory path to synchronize to device'
 			alias: 's'
+		,
+			signature: 'destination'
+			parameter: 'path'
+			description: 'destination path on device'
+			alias: 'd'
 		,
 			signature: 'ignore'
 			parameter: 'paths'
@@ -79,6 +91,8 @@ module.exports =
 		,
 	]
 	action: (params, options, done) ->
+		fs = require('fs')
+		path = require('path')
 		resin = require('resin-sdk')
 		Promise = require('bluebird')
 		resinSync = require('resin-sync')
