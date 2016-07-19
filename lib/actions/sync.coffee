@@ -15,14 +15,12 @@ limitations under the License.
 ###
 
 module.exports =
-	signature: 'sync [destination]'
+	signature: 'sync [uuid]'
 	description: '(beta) sync your changes with a device'
 	help: '''
 		WARNING: If you're running Windows, this command only supports `cmd.exe`.
 
 		Use this command to sync your local changes to a certain device on the fly.
-
-		The `destination` argument can be either a device uuid or an application name.
 
 		You can save all the options mentioned below in a `resin-sync.yml` file,
 		by using the same option names as keys. For example:
@@ -82,18 +80,34 @@ module.exports =
 	]
 	action: (params, options, done) ->
 		resin = require('resin-sdk')
+		Promise = require('bluebird')
 		resinSync = require('resin-sync')
 		patterns = require('../utils/patterns')
+		{ loadConfig } = require('../utils/helpers')
 
-		# TODO: Add comma separated options to Capitano
-		if options.ignore?
-			options.ignore = options.ignore.split(',')
+		Promise.try ->
+			try
+				fs.accessSync(path.join(process.cwd(), '.resin-sync.yml'))
+			catch
+				if not options.source?
+					throw new Error('No --source option passed and no \'.resin-sync.yml\' file found in current directory.')
 
-		resin.models.device.has(params.destination).then (isValidUUID) ->
-			if isValidUUID
-				return params.destination
+			options.source ?= process.cwd()
 
-			return patterns.inferOrSelectDevice(params.destination)
-		.then (uuid) ->
-			resinSync.sync(uuid, options)
+			# TODO: Add comma separated options to Capitano
+			if options.ignore?
+				options.ignore = options.ignore.split(',')
+
+			Promise.resolve(params.uuid ? loadConfig(options.source).uuid)
+			.then (uuid) ->
+				if not uuid?
+					return patterns.inferOrSelectDevice()
+
+				resin.models.device.has(uuid)
+				.then (hasDevice) ->
+					if not hasDevice
+						throw new Error("Device not found: #{uuid}")
+					return uuid
+			.then (uuid) ->
+				resinSync.sync(uuid, options)
 		.nodeify(done)

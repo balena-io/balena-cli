@@ -36,15 +36,13 @@ getSubShellCommand = (command) ->
 		}
 
 module.exports =
-	signature: 'ssh [destination]'
+	signature: 'ssh [uuid]'
 	description: '(beta) get a shell into the running app container of a device'
 	help: '''
 		WARNING: If you're running Windows, this command only supports `cmd.exe`.
 
 		Use this command to get a shell into the running application container of
 		your device.
-
-		The `destination` argument can be either a device uuid or an application name.
 
 		Examples:
 
@@ -59,7 +57,7 @@ module.exports =
 			signature: 'port'
 			parameter: 'port'
 			description: 'ssh gateway port'
-			alias: 't'
+			alias: 'p'
 	,
 			signature: 'verbose'
 			boolean: true
@@ -78,11 +76,11 @@ module.exports =
 
 		verbose = if options.verbose then '-vvv' else ''
 
-		resin.models.device.has(params.destination).then (isValidUUID) ->
+		resin.models.device.has(params.uuid).then (isValidUUID) ->
 			if isValidUUID
-				return params.destination
+				return params.uuid
 
-			return patterns.inferOrSelectDevice(params.destination)
+			return patterns.inferOrSelectDevice()
 		.then (uuid) ->
 			console.info("Connecting with: #{uuid}")
 			resin.models.device.get(uuid)
