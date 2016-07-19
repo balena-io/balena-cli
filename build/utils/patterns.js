@@ -16,7 +16,8 @@ limitations under the License.
  */
 
 (function() {
-  var Promise, _, chalk, form, messages, resin, validation, visuals;
+  var Promise, _, chalk, form, messages, resin, validation, visuals,
+    indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   _ = require('lodash');
 
@@ -191,25 +192,18 @@ limitations under the License.
     });
   };
 
-  exports.inferOrSelectDevice = function(applicationName) {
-    return Promise["try"](function() {
-      if (applicationName != null) {
-        return resin.models.device.getAllByApplication(applicationName);
-      }
-      return resin.models.device.getAll();
-    }).filter(function(device) {
+  exports.inferOrSelectDevice = function(preferredUuid) {
+    return resin.models.device.getAll().filter(function(device) {
       return device.is_online;
-    }).then(function(devices) {
-      if (_.isEmpty(devices)) {
-        throw new Error('You don\'t have any devices');
-      }
-      if (devices.length === 1) {
-        return _.first(devices).uuid;
+    }).then(function(onlineDevices) {
+      if (_.isEmpty(onlineDevices)) {
+        throw new Error('You don\'t have any devices online');
       }
       return form.ask({
         message: 'Select a device',
         type: 'list',
-        choices: _.map(devices, function(device) {
+        "default": indexOf.call(_.map(onlineDevices, 'uuid'), preferredUuid) >= 0 ? preferredUuid : onlineDevices[0].uuid,
+        choices: _.map(onlineDevices, function(device) {
           return {
             name: (device.name || 'Untitled') + " (" + (device.uuid.slice(0, 7)) + ")",
             value: device.uuid

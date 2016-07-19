@@ -35,9 +35,9 @@ limitations under the License.
   };
 
   module.exports = {
-    signature: 'ssh [destination]',
+    signature: 'ssh [uuid]',
     description: '(beta) get a shell into the running app container of a device',
-    help: 'WARNING: If you\'re running Windows, this command only supports `cmd.exe`.\n\nUse this command to get a shell into the running application container of\nyour device.\n\nThe `destination` argument can be either a device uuid or an application name.\n\nExamples:\n\n	$ resin ssh MyApp\n	$ resin ssh 7cf02a6\n	$ resin ssh 7cf02a6 --port 8080\n	$ resin ssh 7cf02a6 -v',
+    help: 'WARNING: If you\'re running Windows, this command only supports `cmd.exe`.\n\nUse this command to get a shell into the running application container of\nyour device.\n\nExamples:\n\n	$ resin ssh MyApp\n	$ resin ssh 7cf02a6\n	$ resin ssh 7cf02a6 --port 8080\n	$ resin ssh 7cf02a6 -v',
     permission: 'user',
     primary: true,
     options: [
@@ -45,7 +45,7 @@ limitations under the License.
         signature: 'port',
         parameter: 'port',
         description: 'ssh gateway port',
-        alias: 't'
+        alias: 'p'
       }, {
         signature: 'verbose',
         boolean: true,
@@ -64,11 +64,11 @@ limitations under the License.
         options.port = 22;
       }
       verbose = options.verbose ? '-vvv' : '';
-      return resin.models.device.has(params.destination).then(function(isValidUUID) {
+      return resin.models.device.has(params.uuid).then(function(isValidUUID) {
         if (isValidUUID) {
-          return params.destination;
+          return params.uuid;
         }
-        return patterns.inferOrSelectDevice(params.destination);
+        return patterns.inferOrSelectDevice();
       }).then(function(uuid) {
         console.info("Connecting with: " + uuid);
         return resin.models.device.get(uuid);
@@ -88,7 +88,7 @@ limitations under the License.
           }
           return Promise["try"](function() {
             var command, spawn, subShellCommand;
-            command = "ssh " + verbose + " -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p " + options.port + " " + username + "@ssh." + (settings.get('proxyUrl')) + " enter " + uuid + " " + containerId;
+            command = "ssh " + verbose + " -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ControlMaster=no -p " + options.port + " " + username + "@ssh." + (settings.get('proxyUrl')) + " enter " + uuid + " " + containerId;
             subShellCommand = getSubShellCommand(command);
             return spawn = child_process.spawn(subShellCommand.program, subShellCommand.args, {
               stdio: 'inherit'
