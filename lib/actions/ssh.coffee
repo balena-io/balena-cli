@@ -94,7 +94,11 @@ module.exports =
 			.then ({ username, uuid, containerId }) ->
 				throw new Error('Did not find running application container') if not containerId?
 				Promise.try ->
-					command = "ssh #{verbose} -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+					command = "ssh #{verbose} -t \
+						-o LogLevel=ERROR \
+						-o StrictHostKeyChecking=no \
+						-o UserKnownHostsFile=/dev/null \
+						-o ControlMaster=no \
 						-p #{options.port} #{username}@ssh.#{settings.get('proxyUrl')} enter #{uuid} #{containerId}"
 
 					subShellCommand = getSubShellCommand(command)
