@@ -61,13 +61,12 @@ module.exports =
 			ignore:
 				- .git
 				- node_modules/
-			progress: true
-			verbose: false
 
-		Notice that explicitly passed command options override the ones set in the configuration file.
+		Command line options have precedence over the ones saved in '.resin-sync.yml'.
 
-		Also, if '.gitignore' is found in the source directory then all explicitly listed files will be
-		excluded from the syncing process.
+		If '.gitignore' is found in the source directory then all explicitly listed files will be
+		excluded from the syncing process. You can choose to change this default behavior with the
+		'--skip-gitignore' option.
 
 		Examples:
 
@@ -95,20 +94,24 @@ module.exports =
 			description: 'comma delimited paths to ignore when syncing'
 			alias: 'i'
 		,
+			signature: 'skip-gitignore'
+			boolean: true
+			description: 'do not parse excluded/included files from .gitignore'
+		,
 			signature: 'before'
 			parameter: 'command'
 			description: 'execute a command before syncing'
 			alias: 'b'
 		,
-			signature: 'progress'
-			boolean: true
-			description: 'show progress'
-			alias: 'p'
-		,
 			signature: 'port'
 			parameter: 'port'
 			description: 'ssh port'
 			alias: 't'
+		,
+			signature: 'progress'
+			boolean: true
+			description: 'show progress'
+			alias: 'p'
 		,
 			signature: 'verbose'
 			boolean: true
