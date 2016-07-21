@@ -14,6 +14,32 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
+# Loads '.resin-sync.yml' configuration from 'source' directory.
+# Returns the configuration object on success
+#
+# TODO: Use 'config.load()' method from `resin sync` when resin sync gets
+# integrated into resin CLI
+loadConfig = (source) ->
+	fs = require('fs')
+	path = require('path')
+	_ = require('lodash')
+	jsYaml = require('js-yaml')
+
+	configPath = path.join(source, '.resin-sync.yml')
+	try
+		config = fs.readFileSync(configPath, encoding: 'utf8')
+		result = jsYaml.safeLoad(config)
+	catch error
+		# return empty object if '.resin-sync.yml' is missing
+		if error.code is 'ENOENT'
+			return {}
+		throw error
+
+	if not _.isPlainObject(result)
+		throw new Error("Invalid configuration file: #{configPath}")
+
+	return result
+
 module.exports =
 	signature: 'sync [uuid]'
 	description: '(beta) sync your changes to a device'
@@ -97,7 +123,6 @@ module.exports =
 		Promise = require('bluebird')
 		resinSync = require('resin-sync')
 		patterns = require('../utils/patterns')
-		{ loadConfig } = require('../utils/helpers')
 
 		Promise.try ->
 			try
