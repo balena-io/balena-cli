@@ -58,6 +58,7 @@ module.exports =
 			uuid: 7cf02a6
 			destination: '/usr/src/app'
 			before: 'echo Hello'
+			after: 'echo Done'
 			ignore:
 				- .git
 				- node_modules/
@@ -71,7 +72,7 @@ module.exports =
 		Examples:
 
 			$ resin sync 7cf02a6 --source '.' --destination '/usr/src/app'
-			$ resin sync 7cf02a6 -s '/home/user/myResinProject' -d '/usr/src/app' --before 'echo Hello'
+			$ resin sync 7cf02a6 -s '/home/user/myResinProject' -d '/usr/src/app' --before 'echo Hello' --after 'echo Done'
 			$ resin sync --ignore 'lib/'
 			$ resin sync --verbose false
 			$ resin sync
@@ -102,6 +103,11 @@ module.exports =
 			parameter: 'command'
 			description: 'execute a command before syncing'
 			alias: 'b'
+		,
+			signature: 'after'
+			parameter: 'command'
+			description: 'execute a command after syncing'
+			alias: 'a'
 		,
 			signature: 'port'
 			parameter: 'port'
