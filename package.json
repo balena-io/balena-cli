@@ -52,7 +52,7 @@
     "resin-device-init": "^2.0.4",
     "resin-image-manager": "^4.0.0",
     "resin-pine": "^1.3.0",
-    "resin-sdk": "^5.3.0",
+    "resin-sdk": "^5.3.5",
     "resin-settings-client": "^3.5.0",
     "resin-sync": "^2.0.2",
     "resin-vcs": "^2.0.0",
