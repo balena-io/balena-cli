@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.2.1] - 2016-07-26
+
+### Changed
+
+- Fix log messages being `undefined`.
+
 ## [4.2.0] - 2016-06-22
 
 ### Added
@@ -241,6 +247,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[4.2.1]: https://github.com/resin-io/resin-cli/compare/v4.2.0...v4.2.1
 [4.2.0]: https://github.com/resin-io/resin-cli/compare/v4.1.0...v4.2.0
 [4.1.0]: https://github.com/resin-io/resin-cli/compare/v4.0.3...v4.1.0
 [4.0.3]: https://github.com/resin-io/resin-cli/compare/v4.0.2...v4.0.3
