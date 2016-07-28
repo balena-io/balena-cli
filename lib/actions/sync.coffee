@@ -71,9 +71,9 @@ module.exports =
 
 		Examples:
 
-			$ resin sync 7cf02a6 --source '.' --destination '/usr/src/app'
-			$ resin sync 7cf02a6 -s '/home/user/myResinProject' -d '/usr/src/app' --before 'echo Hello' --after 'echo Done'
-			$ resin sync --ignore 'lib/'
+			$ resin sync 7cf02a6 --source . --destination /usr/src/app
+			$ resin sync 7cf02a6 -s /home/user/myResinProject -d /usr/src/app --before 'echo Hello' --after 'echo Done'
+			$ resin sync --ignore lib/
 			$ resin sync --verbose false
 			$ resin sync
 	'''
