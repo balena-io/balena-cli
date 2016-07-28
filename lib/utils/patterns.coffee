@@ -161,9 +161,6 @@ exports.inferOrSelectDevice = (applicationName) ->
 		if _.isEmpty(devices)
 			throw new Error('You don\'t have any devices')
 
-		if devices.length is 1
-			return _.first(devices).uuid
-
 		return form.ask
 			message: 'Select a device'
 			type: 'list'
