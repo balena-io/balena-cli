@@ -53,6 +53,12 @@ limitations under the License.
     }
   });
 
+  capitano.globalOption({
+    signature: 'help',
+    boolean: true,
+    alias: 'h'
+  });
+
   capitano.command(actions.info.version);
 
   capitano.command(actions.help.help);
@@ -143,6 +149,12 @@ limitations under the License.
     var cli;
     cli = capitano.parse(process.argv);
     return events.trackCommand(cli).then(function() {
+      var ref, ref1;
+      if ((ref = cli.global) != null ? ref.help : void 0) {
+        return capitano.executeAsync({
+          command: "help " + ((ref1 = cli.command) != null ? ref1 : '')
+        });
+      }
       return capitano.executeAsync(cli);
     });
   })["catch"](errors.handle);
