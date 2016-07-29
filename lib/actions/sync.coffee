@@ -146,10 +146,11 @@ module.exports =
 			if options.ignore?
 				options.ignore = options.ignore.split(',')
 
-			Promise.resolve(params.uuid ? loadConfig(options.source).uuid)
+			Promise.resolve(params.uuid)
 			.then (uuid) ->
 				if not uuid?
-					return patterns.inferOrSelectDevice()
+					savedUuid = loadConfig(options.source).uuid
+					return patterns.inferOrSelectDevice(savedUuid)
 
 				resin.models.device.has(uuid)
 				.then (hasDevice) ->

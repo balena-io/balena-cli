@@ -150,21 +150,19 @@ exports.awaitDevice = (uuid) ->
 		console.info("Waiting for #{deviceName} to connect to resin...")
 		poll().return(uuid)
 
-exports.inferOrSelectDevice = (applicationName) ->
-	Promise.try ->
-		if applicationName?
-			return resin.models.device.getAllByApplication(applicationName)
-		return resin.models.device.getAll()
+exports.inferOrSelectDevice = (preferredUuid) ->
+	resin.models.device.getAll()
 	.filter (device) ->
 		device.is_online
-	.then (devices) ->
-		if _.isEmpty(devices)
-			throw new Error('You don\'t have any devices')
+	.then (onlineDevices) ->
+		if _.isEmpty(onlineDevices)
+			throw new Error('You don\'t have any devices online')
 
 		return form.ask
 			message: 'Select a device'
 			type: 'list'
-			choices: _.map devices, (device) ->
+			default: if preferredUuid in _.map(onlineDevices, 'uuid') then preferredUuid else onlineDevices[0].uuid
+			choices: _.map onlineDevices, (device) ->
 				return {
 					name: "#{device.name or 'Untitled'} (#{device.uuid.slice(0, 7)})"
 					value: device.uuid
