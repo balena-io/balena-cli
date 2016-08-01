@@ -41,6 +41,11 @@ capitano.command
 	action: ->
 		capitano.execute(command: 'help')
 
+capitano.globalOption
+	signature: 'help'
+	boolean: true
+	alias: 'h'
+
 # ---------- Info Module ----------
 capitano.command(actions.info.version)
 
@@ -119,6 +124,8 @@ plugins.register(/^resin-plugin-(.+)$/).then ->
 	cli = capitano.parse(process.argv)
 
 	events.trackCommand(cli).then ->
+		if cli.global?.help
+			return capitano.executeAsync(command: "help #{cli.command ? ''}")
 		capitano.executeAsync(cli)
 
 .catch(errors.handle)
