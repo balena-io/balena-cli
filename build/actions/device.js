@@ -136,9 +136,9 @@ limitations under the License.
   };
 
   exports.enableDeviceUrl = {
-    signature: 'device enableDeviceUrl <uuid>',
-    description: 'enable device URL for a device',
-    help: 'Use this command to enable device URL for a device\n\nExamples:\n\n	$ resin device enableDeviceUrl 23c73a1',
+    signature: 'device public-url enable <uuid>',
+    description: 'enable public URL for a device',
+    help: 'Use this command to enable public URL for a device\n\nExamples:\n\n	$ resin device public-url enable 23c73a1',
     permission: 'user',
     action: function(params, options, done) {
       var resin;
@@ -148,9 +148,9 @@ limitations under the License.
   };
 
   exports.disableDeviceUrl = {
-    signature: 'device disableDeviceUrl <uuid>',
-    description: 'disable device URL for a device',
-    help: 'Use this command to disable device URL for a device\n\nExamples:\n\n	$ resin device disableDeviceUrl 23c73a1',
+    signature: 'device public-url disable <uuid>',
+    description: 'disable public URL for a device',
+    help: 'Use this command to disable public URL for a device\n\nExamples:\n\n	$ resin device public-url disable 23c73a1',
     permission: 'user',
     action: function(params, options, done) {
       var resin;
@@ -160,9 +160,9 @@ limitations under the License.
   };
 
   exports.getDeviceUrl = {
-    signature: 'device getDeviceUrl <uuid>',
-    description: 'gets the device URL of a device',
-    help: 'Use this command to get the device URL of a device\n\nExamples:\n\n	$ resin device getDeviceUrl 23c73a1',
+    signature: 'device public-url <uuid>',
+    description: 'gets the public URL of a device',
+    help: 'Use this command to get the public URL of a device\n\nExamples:\n\n	$ resin device public-url 23c73a1',
     permission: 'user',
     action: function(params, options, done) {
       var resin;
@@ -174,9 +174,9 @@ limitations under the License.
   };
 
   exports.hasDeviceUrl = {
-    signature: 'device hasDeviceUrl <uuid>',
-    description: 'Returns true if device URL is enabled for a device',
-    help: 'Use this command to determine if device URL is enabled for a device\n\nExamples:\n\n	$ resin device hasDeviceUrl 23c73a1',
+    signature: 'device public-url status <uuid>',
+    description: 'Returns true if public URL is enabled for a device',
+    help: 'Use this command to determine if public URL is enabled for a device\n\nExamples:\n\n	$ resin device public-url status 23c73a1',
     permission: 'user',
     action: function(params, options, done) {
       var resin;

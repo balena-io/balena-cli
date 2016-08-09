@@ -187,14 +187,14 @@ exports.reboot =
 		resin.models.device.reboot(params.uuid).nodeify(done)
 
 exports.enableDeviceUrl =
-	signature: 'device enableDeviceUrl <uuid>'
-	description: 'enable device URL for a device'
+	signature: 'device public-url enable <uuid>'
+	description: 'enable public URL for a device'
 	help: '''
-		Use this command to enable device URL for a device
+		Use this command to enable public URL for a device
 
 		Examples:
 
-			$ resin device enableDeviceUrl 23c73a1
+			$ resin device public-url enable 23c73a1
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
@@ -202,14 +202,14 @@ exports.enableDeviceUrl =
 		resin.models.device.enableDeviceUrl(params.uuid).nodeify(done)
 
 exports.disableDeviceUrl =
-	signature: 'device disableDeviceUrl <uuid>'
-	description: 'disable device URL for a device'
+	signature: 'device public-url disable <uuid>'
+	description: 'disable public URL for a device'
 	help: '''
-		Use this command to disable device URL for a device
+		Use this command to disable public URL for a device
 
 		Examples:
 
-			$ resin device disableDeviceUrl 23c73a1
+			$ resin device public-url disable 23c73a1
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
@@ -217,14 +217,14 @@ exports.disableDeviceUrl =
 		resin.models.device.disableDeviceUrl(params.uuid).nodeify(done)
 
 exports.getDeviceUrl =
-	signature: 'device getDeviceUrl <uuid>'
-	description: 'gets the device URL of a device'
+	signature: 'device public-url <uuid>'
+	description: 'gets the public URL of a device'
 	help: '''
-		Use this command to get the device URL of a device
+		Use this command to get the public URL of a device
 
 		Examples:
 
-			$ resin device getDeviceUrl 23c73a1
+			$ resin device public-url 23c73a1
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
@@ -234,14 +234,14 @@ exports.getDeviceUrl =
 		.nodeify(done)
 
 exports.hasDeviceUrl =
-	signature: 'device hasDeviceUrl <uuid>'
-	description: 'Returns true if device URL is enabled for a device'
+	signature: 'device public-url status <uuid>'
+	description: 'Returns true if public URL is enabled for a device'
 	help: '''
-		Use this command to determine if device URL is enabled for a device
+		Use this command to determine if public URL is enabled for a device
 
 		Examples:
 
-			$ resin device hasDeviceUrl 23c73a1
+			$ resin device public-url status 23c73a1
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
