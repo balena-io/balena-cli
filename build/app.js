@@ -95,6 +95,14 @@ limitations under the License.
 
   capitano.command(actions.device.reboot);
 
+  capitano.command(actions.device.enableDeviceUrl);
+
+  capitano.command(actions.device.disableDeviceUrl);
+
+  capitano.command(actions.device.getDeviceUrl);
+
+  capitano.command(actions.device.hasDeviceUrl);
+
   capitano.command(actions.device.register);
 
   capitano.command(actions.device.move);

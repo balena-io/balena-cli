@@ -186,6 +186,70 @@ exports.reboot =
 		resin = require('resin-sdk')
 		resin.models.device.reboot(params.uuid).nodeify(done)
 
+exports.enableDeviceUrl =
+	signature: 'device public-url enable <uuid>'
+	description: 'enable public URL for a device'
+	help: '''
+		Use this command to enable public URL for a device
+
+		Examples:
+
+			$ resin device public-url enable 23c73a1
+	'''
+	permission: 'user'
+	action: (params, options, done) ->
+		resin = require('resin-sdk')
+		resin.models.device.enableDeviceUrl(params.uuid).nodeify(done)
+
+exports.disableDeviceUrl =
+	signature: 'device public-url disable <uuid>'
+	description: 'disable public URL for a device'
+	help: '''
+		Use this command to disable public URL for a device
+
+		Examples:
+
+			$ resin device public-url disable 23c73a1
+	'''
+	permission: 'user'
+	action: (params, options, done) ->
+		resin = require('resin-sdk')
+		resin.models.device.disableDeviceUrl(params.uuid).nodeify(done)
+
+exports.getDeviceUrl =
+	signature: 'device public-url <uuid>'
+	description: 'gets the public URL of a device'
+	help: '''
+		Use this command to get the public URL of a device
+
+		Examples:
+
+			$ resin device public-url 23c73a1
+	'''
+	permission: 'user'
+	action: (params, options, done) ->
+		resin = require('resin-sdk')
+		resin.models.device.getDeviceUrl(params.uuid).then (url) ->
+			console.log(url)
+		.nodeify(done)
+
+exports.hasDeviceUrl =
+	signature: 'device public-url status <uuid>'
+	description: 'Returns true if public URL is enabled for a device'
+	help: '''
+		Use this command to determine if public URL is enabled for a device
+
+		Examples:
+
+			$ resin device public-url status 23c73a1
+	'''
+	permission: 'user'
+	action: (params, options, done) ->
+		resin = require('resin-sdk')
+		resin.models.device.hasDeviceUrl(params.uuid).then (hasDeviceUrl) ->
+			console.log(hasDeviceUrl)
+		.nodeify(done)
+
 exports.rename =
 	signature: 'device rename <uuid> [newName]'
 	description: 'rename a resin device'
