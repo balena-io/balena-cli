@@ -135,6 +135,58 @@ limitations under the License.
     }
   };
 
+  exports.enableDeviceUrl = {
+    signature: 'device enableDeviceUrl <uuid>',
+    description: 'enable device URL for a device',
+    help: 'Use this command to enable device URL for a device\n\nExamples:\n\n	$ resin device enableDeviceUrl 23c73a1',
+    permission: 'user',
+    action: function(params, options, done) {
+      var resin;
+      resin = require('resin-sdk');
+      return resin.models.device.enableDeviceUrl(params.uuid).nodeify(done);
+    }
+  };
+
+  exports.disableDeviceUrl = {
+    signature: 'device disableDeviceUrl <uuid>',
+    description: 'disable device URL for a device',
+    help: 'Use this command to disable device URL for a device\n\nExamples:\n\n	$ resin device disableDeviceUrl 23c73a1',
+    permission: 'user',
+    action: function(params, options, done) {
+      var resin;
+      resin = require('resin-sdk');
+      return resin.models.device.disableDeviceUrl(params.uuid).nodeify(done);
+    }
+  };
+
+  exports.getDeviceUrl = {
+    signature: 'device getDeviceUrl <uuid>',
+    description: 'gets the device URL of a device',
+    help: 'Use this command to get the device URL of a device\n\nExamples:\n\n	$ resin device getDeviceUrl 23c73a1',
+    permission: 'user',
+    action: function(params, options, done) {
+      var resin;
+      resin = require('resin-sdk');
+      return resin.models.device.getDeviceUrl(params.uuid).then(function(url) {
+        return console.log(url);
+      }).nodeify(done);
+    }
+  };
+
+  exports.hasDeviceUrl = {
+    signature: 'device hasDeviceUrl <uuid>',
+    description: 'Returns true if device URL is enabled for a device',
+    help: 'Use this command to determine if device URL is enabled for a device\n\nExamples:\n\n	$ resin device hasDeviceUrl 23c73a1',
+    permission: 'user',
+    action: function(params, options, done) {
+      var resin;
+      resin = require('resin-sdk');
+      return resin.models.device.hasDeviceUrl(params.uuid).then(function(hasDeviceUrl) {
+        return console.log(hasDeviceUrl);
+      }).nodeify(done);
+    }
+  };
+
   exports.rename = {
     signature: 'device rename <uuid> [newName]',
     description: 'rename a resin device',
