@@ -58,6 +58,8 @@ exports.list =
 				'application_name'
 				'status'
 				'is_online'
+				'supervisor_version'
+				'os_version'
 			]
 		.nodeify(done)
 
@@ -96,6 +98,7 @@ exports.info =
 					'supervisor_version'
 					'is_web_accessible'
 					'note'
+					'os_version'
 				]
 		.nodeify(done)
 
