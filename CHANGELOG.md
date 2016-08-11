@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.3.0] - 2016-08-11
+
+### Added
+
+- Implement `device public-url enable` command.
+- Implement `device public-url disable` command.
+- Implement `device public-url status` command.
+- Implement `device public-url` command.
+- Add global `--help` option.
+
 ## [4.2.1] - 2016-07-26
 
 ### Changed
@@ -247,6 +257,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[4.3.0]: https://github.com/resin-io/resin-cli/compare/v4.2.1...v4.3.0
 [4.2.1]: https://github.com/resin-io/resin-cli/compare/v4.2.0...v4.2.1
 [4.2.0]: https://github.com/resin-io/resin-cli/compare/v4.1.0...v4.2.0
 [4.1.0]: https://github.com/resin-io/resin-cli/compare/v4.0.3...v4.1.0
