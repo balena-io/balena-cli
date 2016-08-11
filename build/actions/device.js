@@ -43,7 +43,7 @@ limitations under the License.
           device.uuid = device.uuid.slice(0, 7);
           return device;
         });
-        return console.log(visuals.table.horizontal(devices, ['id', 'uuid', 'name', 'device_type', 'application_name', 'status', 'is_online']));
+        return console.log(visuals.table.horizontal(devices, ['id', 'uuid', 'name', 'device_type', 'application_name', 'status', 'is_online', 'supervisor_version', 'os_version']));
       }).nodeify(done);
     }
   };
@@ -61,7 +61,7 @@ limitations under the License.
       return resin.models.device.get(params.uuid).then(function(device) {
         return resin.models.device.getStatus(device).then(function(status) {
           device.status = status;
-          return console.log(visuals.table.vertical(device, ["$" + device.name + "$", 'id', 'device_type', 'status', 'is_online', 'ip_address', 'application_name', 'last_seen', 'uuid', 'commit', 'supervisor_version', 'is_web_accessible', 'note']));
+          return console.log(visuals.table.vertical(device, ["$" + device.name + "$", 'id', 'device_type', 'status', 'is_online', 'ip_address', 'application_name', 'last_seen', 'uuid', 'commit', 'supervisor_version', 'is_web_accessible', 'note', 'os_version']));
         });
       }).nodeify(done);
     }
