@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.4.0] - 2016-08-11
+
+### Changed
+
+- Display OS and Supervisor version in `devices` and `device` commands.
+
 ## [4.3.0] - 2016-08-11
 
 ### Added
@@ -257,6 +263,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[4.4.0]: https://github.com/resin-io/resin-cli/compare/v4.3.0...v4.4.0
 [4.3.0]: https://github.com/resin-io/resin-cli/compare/v4.2.1...v4.3.0
 [4.2.1]: https://github.com/resin-io/resin-cli/compare/v4.2.0...v4.2.1
 [4.2.0]: https://github.com/resin-io/resin-cli/compare/v4.1.0...v4.2.0
