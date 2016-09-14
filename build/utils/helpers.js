@@ -16,7 +16,7 @@ limitations under the License.
  */
 
 (function() {
-  var Promise, _, capitano, chalk, os, president;
+  var Promise, _, capitano, chalk, imagefs, os, president, resin, rindle;
 
   Promise = require('bluebird');
 
@@ -27,6 +27,12 @@ limitations under the License.
   _.str = require('underscore.string');
 
   president = Promise.promisifyAll(require('president'));
+
+  resin = require('resin-sdk');
+
+  imagefs = require('resin-image-fs');
+
+  rindle = require('rindle');
 
   os = require('os');
 
@@ -61,6 +67,18 @@ limitations under the License.
       console.log('Type your computer password to continue');
     }
     return president.executeAsync(command);
+  };
+
+  exports.getManifest = function(image, deviceType) {
+    return imagefs.read({
+      image: image,
+      partition: {
+        primary: 1
+      },
+      path: '/device-type.json'
+    }).then(rindle.extractAsync).then(JSON.parse)["catch"](function() {
+      return resin.models.device.getManifestBySlug(deviceType);
+    });
   };
 
 }).call(this);

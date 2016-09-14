@@ -113,9 +113,8 @@ exports.configure =
 		helpers = require('../utils/helpers')
 
 		console.info('Configuring operating system image')
-		resin.models.device.get(params.uuid)
-			.get('device_type')
-			.then(resin.models.device.getManifestBySlug)
+		resin.models.device.get(params.uuid).then (device) ->
+			helpers.getManifest(params.image, device.device_type)
 			.get('options')
 			.then (questions) ->
 
@@ -163,13 +162,13 @@ exports.initialize =
 	action: (params, options, done) ->
 		Promise = require('bluebird')
 		umount = Promise.promisifyAll(require('umount'))
-		resin = require('resin-sdk')
 		form = require('resin-cli-form')
 		init = require('resin-device-init')
 		patterns = require('../utils/patterns')
+		helpers = require('../utils/helpers')
 
 		console.info('Initializing device')
-		resin.models.device.getManifestBySlug(options.type)
+		helpers.getManifest(params.image, options.type)
 			.then (manifest) ->
 				return manifest.initialization?.options
 			.then (questions) ->
