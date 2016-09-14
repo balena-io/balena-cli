@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.5.0] - 2016-09-14
+
+### Added
+
+- Attempt to retrieve device type from the image's first partition.
+
 ## [4.4.0] - 2016-08-11
 
 ### Changed
@@ -263,6 +269,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[4.5.0]: https://github.com/resin-io/resin-cli/compare/v4.4.0...v4.5.0
 [4.4.0]: https://github.com/resin-io/resin-cli/compare/v4.3.0...v4.4.0
 [4.3.0]: https://github.com/resin-io/resin-cli/compare/v4.2.1...v4.3.0
 [4.2.1]: https://github.com/resin-io/resin-cli/compare/v4.2.0...v4.2.1
