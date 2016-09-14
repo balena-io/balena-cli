@@ -110,22 +110,24 @@ limitations under the License.
       init = require('resin-device-init');
       helpers = require('../utils/helpers');
       console.info('Configuring operating system image');
-      return resin.models.device.get(params.uuid).get('device_type').then(resin.models.device.getManifestBySlug).get('options').then(function(questions) {
-        var advancedGroup, override;
-        if (!options.advanced) {
-          advancedGroup = _.findWhere(questions, {
-            name: 'advanced',
-            isGroup: true
-          });
-          if (advancedGroup != null) {
-            override = helpers.getGroupDefaults(advancedGroup);
+      return resin.models.device.get(params.uuid).then(function(device) {
+        return helpers.getManifest(params.image, device.device_type).get('options').then(function(questions) {
+          var advancedGroup, override;
+          if (!options.advanced) {
+            advancedGroup = _.findWhere(questions, {
+              name: 'advanced',
+              isGroup: true
+            });
+            if (advancedGroup != null) {
+              override = helpers.getGroupDefaults(advancedGroup);
+            }
           }
-        }
-        return form.run(questions, {
-          override: override
+          return form.run(questions, {
+            override: override
+          });
+        }).then(function(answers) {
+          return init.configure(params.image, params.uuid, answers).then(stepHandler);
         });
-      }).then(function(answers) {
-        return init.configure(params.image, params.uuid, answers).then(stepHandler);
       }).nodeify(done);
     }
   };
@@ -151,15 +153,15 @@ limitations under the License.
     ],
     root: true,
     action: function(params, options, done) {
-      var Promise, form, init, patterns, resin, umount;
+      var Promise, form, helpers, init, patterns, umount;
       Promise = require('bluebird');
       umount = Promise.promisifyAll(require('umount'));
-      resin = require('resin-sdk');
       form = require('resin-cli-form');
       init = require('resin-device-init');
       patterns = require('../utils/patterns');
+      helpers = require('../utils/helpers');
       console.info('Initializing device');
-      return resin.models.device.getManifestBySlug(options.type).then(function(manifest) {
+      return helpers.getManifest(params.image, options.type).then(function(manifest) {
         var ref;
         return (ref = manifest.initialization) != null ? ref.options : void 0;
       }).then(function(questions) {
