@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.0.0] - 2016-09-15
+
+### Added
+
+- Automatically parse '.gitignore' for file inclusions/exclusions from resin sync by default. Skip parsing with `--skip-gitignore`.
+- Automatically save options to `<sourceDirectory>/.resin-sync.yml` after every run.
+- Support user-specified destination directories with `--destination/-d` option.
+- Implement `--after` option to perform actions local (e.g. cleanup) after resin sync has finished.
+- Implement interactive dialog for destination directory, with `/usr/src/app` being the default choice.
+
+### Changed
+
+- Require `resin sync` `--source/-s` option if a `.resin-sync.yml` file is not found in the current directory.
+- Require `uuid` as an argument in `resin sync/ssh` (`appName` has been removed).
+- Always display interactive device selection dialog when uuid is not passed as an argument.
+- Disable ControlMaster ssh option (as reported in support).
+
 ## [4.5.0] - 2016-09-14
 
 ### Added
@@ -269,6 +286,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[5.0.0]: https://github.com/resin-io/resin-cli/compare/v5.0.0...v4.5.0
 [4.5.0]: https://github.com/resin-io/resin-cli/compare/v4.4.0...v4.5.0
 [4.4.0]: https://github.com/resin-io/resin-cli/compare/v4.3.0...v4.4.0
 [4.3.0]: https://github.com/resin-io/resin-cli/compare/v4.2.1...v4.3.0
