@@ -69,11 +69,11 @@ Now you have access to all the commands referenced below.
 
 - Sync
 
-	- [sync [source]](#sync-source-)
+	- [sync [uuid]](#sync-uuid-)
 
 - SSH
 
-	- [ssh &#60;uuid&#62;](#ssh-60-uuid-62-)
+	- [ssh [uuid]](#ssh-uuid-)
 
 - Notes
 
@@ -582,57 +582,74 @@ continuously stream output
 
 # Sync
 
-## sync [source]
+## sync [uuid]
 
 WARNING: If you're running Windows, this command only supports `cmd.exe`.
 
 Use this command to sync your local changes to a certain device on the fly.
 
-The `source` argument can be either a device uuid or an application name.
+After every 'resin sync' the updated settings will be saved in
+'<source>/.resin-sync.yml' and will be used in later invocations. You can
+also change any option by editing '.resin-sync.yml' directly.
 
-You can save all the options mentioned below in a `resin-sync.yml` file,
-by using the same option names as keys. For example:
+Here is an example '.resin-sync.yml' :
 
-	$ cat $PWD/resin-sync.yml
-	source: src/
+	$ cat $PWD/.resin-sync.yml
+	uuid: 7cf02a6
+	destination: '/usr/src/app'
 	before: 'echo Hello'
+	after: 'echo Done'
 	ignore:
 		- .git
 		- node_modules/
-	progress: true
-	verbose: false
 
-Notice that explicitly passed command options override the ones set in the configuration file.
+Command line options have precedence over the ones saved in '.resin-sync.yml'.
+
+If '.gitignore' is found in the source directory then all explicitly listed files will be
+excluded from the syncing process. You can choose to change this default behavior with the
+'--skip-gitignore' option.
 
 Examples:
 
-	$ resin sync MyApp
-	$ resin sync 7cf02a6
-	$ resin sync 7cf02a6 --port 8080
-	$ resin sync 7cf02a6 --ignore foo,bar
-	$ resin sync 7cf02a6 -v
+	$ resin sync 7cf02a6 --source . --destination /usr/src/app
+	$ resin sync 7cf02a6 -s /home/user/myResinProject -d /usr/src/app --before 'echo Hello' --after 'echo Done'
+	$ resin sync --ignore lib/
+	$ resin sync --verbose false
+	$ resin sync
 
 ### Options
 
 #### --source, -s &#60;path&#62;
 
-custom source path
+local directory path to synchronize to device
+
+#### --destination, -d &#60;path&#62;
+
+destination path on device
 
 #### --ignore, -i &#60;paths&#62;
 
 comma delimited paths to ignore when syncing
 
+#### --skip-gitignore
+
+do not parse excluded/included files from .gitignore
+
 #### --before, -b &#60;command&#62;
 
 execute a command before syncing
 
-#### --progress, -p
+#### --after, -a &#60;command&#62;
 
-show progress
+execute a command after syncing
 
 #### --port, -t &#60;port&#62;
 
 ssh port
+
+#### --progress, -p
+
+show progress
 
 #### --verbose, -v
 
@@ -640,7 +657,7 @@ increase verbosity
 
 # SSH
 
-## ssh &#60;uuid&#62;
+## ssh [uuid]
 
 WARNING: If you're running Windows, this command only supports `cmd.exe`.
 
@@ -649,13 +666,14 @@ your device.
 
 Examples:
 
+	$ resin ssh MyApp
 	$ resin ssh 7cf02a6
 	$ resin ssh 7cf02a6 --port 8080
 	$ resin ssh 7cf02a6 -v
 
 ### Options
 
-#### --port, -t &#60;port&#62;
+#### --port, -p &#60;port&#62;
 
 ssh gateway port
 

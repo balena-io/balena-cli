@@ -14,65 +14,110 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
+# Loads '.resin-sync.yml' configuration from 'source' directory.
+# Returns the configuration object on success
+#
+# TODO: Use 'config.load()' method from `resin sync` when resin sync gets
+# integrated into resin CLI
+loadConfig = (source) ->
+	fs = require('fs')
+	path = require('path')
+	_ = require('lodash')
+	jsYaml = require('js-yaml')
+
+	configPath = path.join(source, '.resin-sync.yml')
+	try
+		config = fs.readFileSync(configPath, encoding: 'utf8')
+		result = jsYaml.safeLoad(config)
+	catch error
+		# return empty object if '.resin-sync.yml' is missing
+		if error.code is 'ENOENT'
+			return {}
+		throw error
+
+	if not _.isPlainObject(result)
+		throw new Error("Invalid configuration file: #{configPath}")
+
+	return result
+
 module.exports =
-	signature: 'sync [destination]'
-	description: '(beta) sync your changes with a device'
+	signature: 'sync [uuid]'
+	description: '(beta) sync your changes to a device'
 	help: '''
 		WARNING: If you're running Windows, this command only supports `cmd.exe`.
 
 		Use this command to sync your local changes to a certain device on the fly.
 
-		The `destination` argument can be either a device uuid or an application name.
+		After every 'resin sync' the updated settings will be saved in
+		'<source>/.resin-sync.yml' and will be used in later invocations. You can
+		also change any option by editing '.resin-sync.yml' directly.
 
-		You can save all the options mentioned below in a `resin-sync.yml` file,
-		by using the same option names as keys. For example:
+		Here is an example '.resin-sync.yml' :
 
-			$ cat $PWD/resin-sync.yml
-			source: src/
+			$ cat $PWD/.resin-sync.yml
+			uuid: 7cf02a6
+			destination: '/usr/src/app'
 			before: 'echo Hello'
+			after: 'echo Done'
 			ignore:
 				- .git
 				- node_modules/
-			progress: true
-			verbose: false
 
-		Notice that explicitly passed command options override the ones set in the configuration file.
+		Command line options have precedence over the ones saved in '.resin-sync.yml'.
+
+		If '.gitignore' is found in the source directory then all explicitly listed files will be
+		excluded from the syncing process. You can choose to change this default behavior with the
+		'--skip-gitignore' option.
 
 		Examples:
 
-			$ resin sync MyApp
-			$ resin sync 7cf02a6
-			$ resin sync 7cf02a6 --port 8080
-			$ resin sync 7cf02a6 --ignore foo,bar
-			$ resin sync 7cf02a6 -v
+			$ resin sync 7cf02a6 --source . --destination /usr/src/app
+			$ resin sync 7cf02a6 -s /home/user/myResinProject -d /usr/src/app --before 'echo Hello' --after 'echo Done'
+			$ resin sync --ignore lib/
+			$ resin sync --verbose false
+			$ resin sync
 	'''
 	permission: 'user'
 	primary: true
 	options: [
 			signature: 'source'
 			parameter: 'path'
-			description: 'custom source path'
+			description: 'local directory path to synchronize to device'
 			alias: 's'
+		,
+			signature: 'destination'
+			parameter: 'path'
+			description: 'destination path on device'
+			alias: 'd'
 		,
 			signature: 'ignore'
 			parameter: 'paths'
 			description: 'comma delimited paths to ignore when syncing'
 			alias: 'i'
 		,
+			signature: 'skip-gitignore'
+			boolean: true
+			description: 'do not parse excluded/included files from .gitignore'
+		,
 			signature: 'before'
 			parameter: 'command'
 			description: 'execute a command before syncing'
 			alias: 'b'
 		,
-			signature: 'progress'
-			boolean: true
-			description: 'show progress'
-			alias: 'p'
+			signature: 'after'
+			parameter: 'command'
+			description: 'execute a command after syncing'
+			alias: 'a'
 		,
 			signature: 'port'
 			parameter: 'port'
 			description: 'ssh port'
 			alias: 't'
+		,
+			signature: 'progress'
+			boolean: true
+			description: 'show progress'
+			alias: 'p'
 		,
 			signature: 'verbose'
 			boolean: true
@@ -81,19 +126,37 @@ module.exports =
 		,
 	]
 	action: (params, options, done) ->
+		fs = require('fs')
+		path = require('path')
 		resin = require('resin-sdk')
+		Promise = require('bluebird')
 		resinSync = require('resin-sync')
 		patterns = require('../utils/patterns')
 
-		# TODO: Add comma separated options to Capitano
-		if options.ignore?
-			options.ignore = options.ignore.split(',')
+		Promise.try ->
+			try
+				fs.accessSync(path.join(process.cwd(), '.resin-sync.yml'))
+			catch
+				if not options.source?
+					throw new Error('No --source option passed and no \'.resin-sync.yml\' file found in current directory.')
 
-		resin.models.device.has(params.destination).then (isValidUUID) ->
-			if isValidUUID
-				return params.destination
+			options.source ?= process.cwd()
 
-			return patterns.inferOrSelectDevice(params.destination)
-		.then (uuid) ->
-			resinSync.sync(uuid, options)
+			# TODO: Add comma separated options to Capitano
+			if options.ignore?
+				options.ignore = options.ignore.split(',')
+
+			Promise.resolve(params.uuid)
+			.then (uuid) ->
+				if not uuid?
+					savedUuid = loadConfig(options.source).uuid
+					return patterns.inferOrSelectDevice(savedUuid)
+
+				resin.models.device.has(uuid)
+				.then (hasDevice) ->
+					if not hasDevice
+						throw new Error("Device not found: #{uuid}")
+					return uuid
+			.then (uuid) ->
+				resinSync.sync(uuid, options)
 		.nodeify(done)
