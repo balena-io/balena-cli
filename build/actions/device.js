@@ -67,6 +67,20 @@ limitations under the License.
     }
   };
 
+  exports.supported = {
+    signature: 'devices supported',
+    description: 'list all supported devices',
+    help: 'Use this command to get the list of all supported devices\n\nExamples:\n\n	$ resin devices supported',
+    permission: 'user',
+    action: function(params, options, done) {
+      var resin;
+      resin = require('resin-sdk');
+      return resin.models.config.getDeviceTypes().each(function(deviceType) {
+        return console.log(deviceType.slug);
+      }).nodeify(done);
+    }
+  };
+
   exports.register = {
     signature: 'device register <application>',
     description: 'register a device',

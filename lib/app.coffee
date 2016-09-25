@@ -70,6 +70,7 @@ capitano.command(actions.app.info)
 
 # ---------- Device Module ----------
 capitano.command(actions.device.list)
+capitano.command(actions.device.supported)
 capitano.command(actions.device.rename)
 capitano.command(actions.device.init)
 capitano.command(actions.device.remove)
