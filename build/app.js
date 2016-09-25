@@ -85,6 +85,8 @@ limitations under the License.
 
   capitano.command(actions.device.list);
 
+  capitano.command(actions.device.supported);
+
   capitano.command(actions.device.rename);
 
   capitano.command(actions.device.init);

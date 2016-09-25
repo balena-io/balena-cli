@@ -102,6 +102,23 @@ exports.info =
 				]
 		.nodeify(done)
 
+exports.supported =
+	signature: 'devices supported'
+	description: 'list all supported devices'
+	help: '''
+		Use this command to get the list of all supported devices
+
+		Examples:
+
+			$ resin devices supported
+	'''
+	permission: 'user'
+	action: (params, options, done) ->
+		resin = require('resin-sdk')
+		resin.models.config.getDeviceTypes().each (deviceType) ->
+			console.log(deviceType.slug)
+		.nodeify(done)
+
 exports.register =
 	signature: 'device register <application>'
 	description: 'register a device'
