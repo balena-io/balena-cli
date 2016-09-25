@@ -33,10 +33,15 @@ Now you have access to all the commands referenced below.
 
 	- [devices](#devices)
 	- [device &#60;uuid&#62;](#device-60-uuid-62-)
+	- [devices supported](#devices-supported)
 	- [device register &#60;application&#62;](#device-register-60-application-62-)
 	- [device rm &#60;uuid&#62;](#device-rm-60-uuid-62-)
 	- [device identify &#60;uuid&#62;](#device-identify-60-uuid-62-)
 	- [device reboot &#60;uuid&#62;](#device-reboot-60-uuid-62-)
+	- [device public-url enable &#60;uuid&#62;](#device-public-url-enable-60-uuid-62-)
+	- [device public-url disable &#60;uuid&#62;](#device-public-url-disable-60-uuid-62-)
+	- [device public-url &#60;uuid&#62;](#device-public-url-60-uuid-62-)
+	- [device public-url status &#60;uuid&#62;](#device-public-url-status-60-uuid-62-)
 	- [device rename &#60;uuid&#62; [newName]](#device-rename-60-uuid-62-newname-)
 	- [device move &#60;uuid&#62;](#device-move-60-uuid-62-)
 	- [device init](#device-init)
@@ -276,6 +281,14 @@ Examples:
 
 	$ resin device 7cf02a6
 
+## devices supported
+
+Use this command to get the list of all supported devices
+
+Examples:
+
+	$ resin devices supported
+
 ## device register &#60;application&#62;
 
 Use this command to register a device to an application.
@@ -325,6 +338,38 @@ Use this command to remotely reboot a device
 Examples:
 
 	$ resin device reboot 23c73a1
+
+## device public-url enable &#60;uuid&#62;
+
+Use this command to enable public URL for a device
+
+Examples:
+
+	$ resin device public-url enable 23c73a1
+
+## device public-url disable &#60;uuid&#62;
+
+Use this command to disable public URL for a device
+
+Examples:
+
+	$ resin device public-url disable 23c73a1
+
+## device public-url &#60;uuid&#62;
+
+Use this command to get the public URL of a device
+
+Examples:
+
+	$ resin device public-url 23c73a1
+
+## device public-url status &#60;uuid&#62;
+
+Use this command to determine if public URL is enabled for a device
+
+Examples:
+
+	$ resin device public-url status 23c73a1
 
 ## device rename &#60;uuid&#62; [newName]
 
