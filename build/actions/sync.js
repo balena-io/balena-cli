@@ -19,7 +19,7 @@ limitations under the License.
   var loadConfig;
 
   loadConfig = function(source) {
-    var _, config, configPath, error, error1, fs, jsYaml, path, result;
+    var _, config, configPath, error, fs, jsYaml, path, result;
     fs = require('fs');
     path = require('path');
     _ = require('lodash');
@@ -105,7 +105,6 @@ limitations under the License.
       resinSync = require('resin-sync');
       patterns = require('../utils/patterns');
       return Promise["try"](function() {
-        var error1;
         try {
           fs.accessSync(path.join(process.cwd(), '.resin-sync.yml'));
         } catch (error1) {
