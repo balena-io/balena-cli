@@ -38,6 +38,7 @@ Now you have access to all the commands referenced below.
 	- [device rm &#60;uuid&#62;](#device-rm-60-uuid-62-)
 	- [device identify &#60;uuid&#62;](#device-identify-60-uuid-62-)
 	- [device reboot &#60;uuid&#62;](#device-reboot-60-uuid-62-)
+	- [device shutdown &#60;uuid&#62;](#device-shutdown-60-uuid-62-)
 	- [device public-url enable &#60;uuid&#62;](#device-public-url-enable-60-uuid-62-)
 	- [device public-url disable &#60;uuid&#62;](#device-public-url-disable-60-uuid-62-)
 	- [device public-url &#60;uuid&#62;](#device-public-url-60-uuid-62-)
@@ -338,6 +339,26 @@ Use this command to remotely reboot a device
 Examples:
 
 	$ resin device reboot 23c73a1
+
+### Options
+
+#### --force, -f &#60;force&#62;
+
+force action if the update lock is set
+
+## device shutdown &#60;uuid&#62;
+
+Use this command to remotely shutdown a device
+
+Examples:
+
+	$ resin device shutdown 23c73a1
+
+### Options
+
+#### --force, -f &#60;force&#62;
+
+force action if the update lock is set
 
 ## device public-url enable &#60;uuid&#62;
 

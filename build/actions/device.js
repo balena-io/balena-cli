@@ -141,11 +141,25 @@ limitations under the License.
     signature: 'device reboot <uuid>',
     description: 'restart a device',
     help: 'Use this command to remotely reboot a device\n\nExamples:\n\n	$ resin device reboot 23c73a1',
+    options: [commandOptions.forceUpdateLock],
     permission: 'user',
     action: function(params, options, done) {
       var resin;
       resin = require('resin-sdk');
-      return resin.models.device.reboot(params.uuid).nodeify(done);
+      return resin.models.device.reboot(params.uuid, options).nodeify(done);
+    }
+  };
+
+  exports.shutdown = {
+    signature: 'device shutdown <uuid>',
+    description: 'shutdown a device',
+    help: 'Use this command to remotely shutdown a device\n\nExamples:\n\n	$ resin device shutdown 23c73a1',
+    options: [commandOptions.forceUpdateLock],
+    permission: 'user',
+    action: function(params, options, done) {
+      var resin;
+      resin = require('resin-sdk');
+      return resin.models.device.shutdown(params.uuid, options).nodeify(done);
     }
   };
 
