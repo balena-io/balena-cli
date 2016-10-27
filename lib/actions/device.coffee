@@ -201,10 +201,27 @@ exports.reboot =
 
 			$ resin device reboot 23c73a1
 	'''
+	options: [ commandOptions.forceUpdateLock ]
 	permission: 'user'
 	action: (params, options, done) ->
 		resin = require('resin-sdk')
-		resin.models.device.reboot(params.uuid).nodeify(done)
+		resin.models.device.reboot(params.uuid, options).nodeify(done)
+
+exports.shutdown =
+	signature: 'device shutdown <uuid>'
+	description: 'shutdown a device'
+	help: '''
+		Use this command to remotely shutdown a device
+
+		Examples:
+
+			$ resin device shutdown 23c73a1
+	'''
+	options: [ commandOptions.forceUpdateLock ]
+	permission: 'user'
+	action: (params, options, done) ->
+		resin = require('resin-sdk')
+		resin.models.device.shutdown(params.uuid, options).nodeify(done)
 
 exports.enableDeviceUrl =
 	signature: 'device public-url enable <uuid>'
