@@ -53,7 +53,7 @@
     "resin-image-fs": "^2.1.2",
     "resin-image-manager": "^4.0.0",
     "resin-pine": "^1.3.0",
-    "resin-sdk": "^5.3.5",
+    "resin-sdk": "^5.4.0",
     "resin-settings-client": "^3.5.0",
     "resin-sync": "^3.0.0",
     "resin-vcs": "^2.0.0",
