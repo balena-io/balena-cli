@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.2.0] - 2016-10-27
+
+### Added
+
+- Add `shutdown` command.
+- Add `--force` option to `device reboot` command.
+
 ## [5.1.0] - 2016-09-25
 
 ### Added
@@ -292,6 +299,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[5.2.0]: https://github.com/resin-io/resin-cli/compare/v5.1.0...v5.2.0
 [5.1.0]: https://github.com/resin-io/resin-cli/compare/v5.0.0...v5.1.0
 [5.0.0]: https://github.com/resin-io/resin-cli/compare/v4.5.0...v5.0.0
 [4.5.0]: https://github.com/resin-io/resin-cli/compare/v4.4.0...v4.5.0
