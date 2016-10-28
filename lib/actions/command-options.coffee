@@ -64,7 +64,6 @@ exports.wifiKey =
 
 exports.forceUpdateLock =
 	signature: 'force'
-	parameter: 'force'
 	description: 'force action if the update lock is set'
 	boolean: true
 	alias: 'f'
