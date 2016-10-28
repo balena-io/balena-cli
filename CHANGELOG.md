@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.2.1] - 2016-10-28
+
+### Changed
+
+- Fix `Boolean options can't have parameters` error in every command.
+
 ## [5.2.0] - 2016-10-27
 
 ### Added
@@ -299,6 +305,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[5.2.1]: https://github.com/resin-io/resin-cli/compare/v5.2.0...v5.2.1
 [5.2.0]: https://github.com/resin-io/resin-cli/compare/v5.1.0...v5.2.0
 [5.1.0]: https://github.com/resin-io/resin-cli/compare/v5.0.0...v5.1.0
 [5.0.0]: https://github.com/resin-io/resin-cli/compare/v4.5.0...v5.0.0
