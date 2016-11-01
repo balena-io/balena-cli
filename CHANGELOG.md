@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.2.2] - 2016-11-01
+
+### Changed
+
+- Fix `shutdown` command not being available.
+
 ## [5.2.1] - 2016-10-28
 
 ### Changed
@@ -305,6 +311,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[5.2.2]: https://github.com/resin-io/resin-cli/compare/v5.2.1...v5.2.2
 [5.2.1]: https://github.com/resin-io/resin-cli/compare/v5.2.0...v5.2.1
 [5.2.0]: https://github.com/resin-io/resin-cli/compare/v5.1.0...v5.2.0
 [5.1.0]: https://github.com/resin-io/resin-cli/compare/v5.0.0...v5.1.0
