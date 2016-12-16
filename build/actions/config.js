@@ -210,7 +210,7 @@ limitations under the License.
       var Promise, _, deviceConfig, form, fs, prettyjson, resin;
       Promise = require('bluebird');
       fs = Promise.promisifyAll(require('fs'));
-      resin = require('resin-sdk');
+      resin = require('../resin-sdk');
       _ = require('lodash');
       form = require('resin-cli-form');
       deviceConfig = require('resin-device-config');

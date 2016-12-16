@@ -55,7 +55,7 @@ limitations under the License.
       _ = require('lodash');
       Promise = require('bluebird');
       capitano = Promise.promisifyAll(require('capitano'));
-      resin = require('resin-sdk');
+      resin = require('../resin-sdk');
       auth = require('resin-cli-auth');
       form = require('resin-cli-form');
       patterns = require('../utils/patterns');
@@ -104,7 +104,7 @@ limitations under the License.
     permission: 'user',
     action: function(params, options, done) {
       var resin;
-      resin = require('resin-sdk');
+      resin = require('../resin-sdk');
       return resin.auth.logout().nodeify(done);
     }
   };
@@ -115,7 +115,7 @@ limitations under the License.
     help: 'Use this command to signup for a resin.io account.\n\nIf signup is successful, you\'ll be logged in to your new user automatically.\n\nExamples:\n\n	$ resin signup\n	Email: me@mycompany.com\n	Username: johndoe\n	Password: ***********\n\n	$ resin whoami\n	johndoe',
     action: function(params, options, done) {
       var form, resin, validation;
-      resin = require('resin-sdk');
+      resin = require('../resin-sdk');
       form = require('resin-cli-form');
       validation = require('../utils/validation');
       return resin.settings.get('resinUrl').then(function(resinUrl) {
@@ -149,7 +149,7 @@ limitations under the License.
     action: function(params, options, done) {
       var Promise, resin, visuals;
       Promise = require('bluebird');
-      resin = require('resin-sdk');
+      resin = require('../resin-sdk');
       visuals = require('resin-cli-visuals');
       return Promise.props({
         username: resin.auth.whoami(),

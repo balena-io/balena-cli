@@ -28,7 +28,7 @@ limitations under the License.
 
   visuals = require('resin-cli-visuals');
 
-  resin = require('resin-sdk');
+  resin = require('./resin-sdk');
 
   chalk = require('chalk');
 

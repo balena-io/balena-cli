@@ -38,7 +38,7 @@ limitations under the License.
       var Promise, _, resin, visuals;
       Promise = require('bluebird');
       _ = require('lodash');
-      resin = require('resin-sdk');
+      resin = require('../resin-sdk');
       visuals = require('resin-cli-visuals');
       return Promise["try"](function() {
         if (options.application != null) {
@@ -70,7 +70,7 @@ limitations under the License.
     permission: 'user',
     action: function(params, options, done) {
       var patterns, resin;
-      resin = require('resin-sdk');
+      resin = require('../resin-sdk');
       patterns = require('../utils/patterns');
       return patterns.confirm(options.yes, 'Are you sure you want to delete the environment variable?').then(function() {
         if (options.device) {
@@ -91,7 +91,7 @@ limitations under the License.
     action: function(params, options, done) {
       var Promise, resin;
       Promise = require('bluebird');
-      resin = require('resin-sdk');
+      resin = require('../resin-sdk');
       return Promise["try"](function() {
         if (params.value == null) {
           params.value = process.env[params.key];
@@ -121,7 +121,7 @@ limitations under the License.
     action: function(params, options, done) {
       var Promise, resin;
       Promise = require('bluebird');
-      resin = require('resin-sdk');
+      resin = require('../resin-sdk');
       return Promise["try"](function() {
         if (options.device) {
           return resin.models.environmentVariables.device.update(params.id, params.value);

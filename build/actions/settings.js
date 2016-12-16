@@ -23,7 +23,7 @@ limitations under the License.
     help: 'Use this command to display detected settings\n\nExamples:\n\n	$ resin settings',
     action: function(params, options, done) {
       var prettyjson, resin;
-      resin = require('resin-sdk');
+      resin = require('../resin-sdk');
       prettyjson = require('prettyjson');
       return resin.settings.getAll().then(prettyjson.render).then(console.log).nodeify(done);
     }

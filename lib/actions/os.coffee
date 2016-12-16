@@ -107,7 +107,7 @@ exports.configure =
 	]
 	action: (params, options, done) ->
 		_ = require('lodash')
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		form = require('resin-cli-form')
 		init = require('resin-device-init')
 		helpers = require('../utils/helpers')

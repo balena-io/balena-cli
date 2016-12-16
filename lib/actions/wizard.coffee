@@ -36,7 +36,7 @@ exports.wizard =
 	action: (params, options, done) ->
 		Promise = require('bluebird')
 		capitano = Promise.promisifyAll(require('capitano'))
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		patterns = require('../utils/patterns')
 
 		resin.auth.isLoggedIn().then (isLoggedIn) ->

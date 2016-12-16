@@ -74,7 +74,7 @@ exports.login	=
 		_ = require('lodash')
 		Promise = require('bluebird')
 		capitano = Promise.promisifyAll(require('capitano'))
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		auth = require('resin-cli-auth')
 		form = require('resin-cli-form')
 		patterns = require('../utils/patterns')
@@ -136,7 +136,7 @@ exports.logout =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		resin.auth.logout().nodeify(done)
 
 exports.signup =
@@ -158,7 +158,7 @@ exports.signup =
 			johndoe
 	'''
 	action: (params, options, done) ->
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		form = require('resin-cli-form')
 		validation = require('../utils/validation')
 
@@ -198,7 +198,7 @@ exports.whoami =
 	permission: 'user'
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		visuals = require('resin-cli-visuals')
 
 		Promise.props

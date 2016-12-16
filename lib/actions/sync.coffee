@@ -130,7 +130,7 @@ module.exports =
 	action: (params, options, done) ->
 		fs = require('fs')
 		path = require('path')
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		Promise = require('bluebird')
 		resinSync = require('resin-sync')
 		patterns = require('../utils/patterns')

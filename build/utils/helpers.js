@@ -29,7 +29,7 @@ limitations under the License.
 
   president = Promise.promisifyAll(require('president'));
 
-  resin = require('resin-sdk');
+  resin = require('./resin-sdk');
 
   imagefs = require('resin-image-fs');
 

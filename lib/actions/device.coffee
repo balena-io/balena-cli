@@ -37,7 +37,7 @@ exports.list =
 	action: (params, options, done) ->
 		Promise = require('bluebird')
 		_ = require('lodash')
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		visuals = require('resin-cli-visuals')
 
 		Promise.try ->
@@ -76,7 +76,7 @@ exports.info =
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		visuals = require('resin-cli-visuals')
 
 		resin.models.device.get(params.uuid).then (device) ->
@@ -114,7 +114,7 @@ exports.supported =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		resin.models.config.getDeviceTypes().each (deviceType) ->
 			console.log(deviceType.slug)
 		.nodeify(done)
@@ -138,7 +138,7 @@ exports.register =
 	]
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 
 		resin.models.application.get(params.application).then (application) ->
 
@@ -167,7 +167,7 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		patterns = require('../utils/patterns')
 
 		patterns.confirm(options.yes, 'Are you sure you want to delete the device?').then ->
@@ -188,7 +188,7 @@ exports.identify =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		resin.models.device.identify(params.uuid).nodeify(done)
 
 exports.reboot =
@@ -204,7 +204,7 @@ exports.reboot =
 	options: [ commandOptions.forceUpdateLock ]
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		resin.models.device.reboot(params.uuid, options).nodeify(done)
 
 exports.shutdown =
@@ -220,7 +220,7 @@ exports.shutdown =
 	options: [ commandOptions.forceUpdateLock ]
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		resin.models.device.shutdown(params.uuid, options).nodeify(done)
 
 exports.enableDeviceUrl =
@@ -235,7 +235,7 @@ exports.enableDeviceUrl =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		resin.models.device.enableDeviceUrl(params.uuid).nodeify(done)
 
 exports.disableDeviceUrl =
@@ -250,7 +250,7 @@ exports.disableDeviceUrl =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		resin.models.device.disableDeviceUrl(params.uuid).nodeify(done)
 
 exports.getDeviceUrl =
@@ -265,7 +265,7 @@ exports.getDeviceUrl =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		resin.models.device.getDeviceUrl(params.uuid).then (url) ->
 			console.log(url)
 		.nodeify(done)
@@ -282,7 +282,7 @@ exports.hasDeviceUrl =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		resin.models.device.hasDeviceUrl(params.uuid).then (hasDeviceUrl) ->
 			console.log(hasDeviceUrl)
 		.nodeify(done)
@@ -304,7 +304,7 @@ exports.rename =
 	action: (params, options, done) ->
 		Promise = require('bluebird')
 		_ = require('lodash')
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		form = require('resin-cli-form')
 
 		Promise.try ->
@@ -333,7 +333,7 @@ exports.move =
 	permission: 'user'
 	options: [ commandOptions.optionalApplication ]
 	action: (params, options, done) ->
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		_ = require('lodash')
 		patterns = require('../utils/patterns')
 
@@ -381,7 +381,7 @@ exports.init =
 		tmp = Promise.promisifyAll(require('tmp'))
 		tmp.setGracefulCleanup()
 
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		helpers = require('../utils/helpers')
 		patterns = require('../utils/patterns')
 

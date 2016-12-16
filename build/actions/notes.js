@@ -35,7 +35,7 @@ limitations under the License.
       var Promise, _, resin;
       Promise = require('bluebird');
       _ = require('lodash');
-      resin = require('resin-sdk');
+      resin = require('../resin-sdk');
       return Promise["try"](function() {
         if (_.isEmpty(params.note)) {
           throw new Error('Missing note content');

@@ -8,7 +8,7 @@
 
   Promise = require('bluebird');
 
-  resin = require('resin-sdk');
+  resin = require('./resin-sdk');
 
   capitanoState = Promise.promisifyAll(require('capitano').state);
 

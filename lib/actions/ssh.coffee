@@ -69,7 +69,7 @@ module.exports =
 	action: (params, options, done) ->
 		child_process = require('child_process')
 		Promise = require 'bluebird'
-		resin = require('resin-sdk')
+		resin = require('../resin-sdk')
 		settings = require('resin-settings-client')
 		patterns = require('../utils/patterns')
 
