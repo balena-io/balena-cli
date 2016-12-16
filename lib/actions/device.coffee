@@ -143,7 +143,7 @@ exports.register =
 		resin.models.application.get(params.application).then (application) ->
 
 			Promise.try ->
-				return options.uuid or resin.models.device.generateUUID()
+				return options.uuid or resin.models.device.generateUniqueKey()
 			.then (uuid) ->
 				console.info("Registering to #{application.app_name}: #{uuid}")
 				return resin.models.device.register(application.app_name, uuid)
