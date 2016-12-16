@@ -13,7 +13,8 @@
     "resin": "./bin/resin"
   },
   "scripts": {
-    "prepublish": "gulp build",
+    "build": "gulp build",
+    "prepublish": "npm run build",
     "doc": "mkdir -p doc/ && coffee extras/capitanodoc/index.coffee > doc/cli.markdown"
   },
   "keywords": [
@@ -27,14 +28,13 @@
     "gulp": "^3.9.0",
     "gulp-coffee": "^2.2.0",
     "gulp-coffeelint": "^0.6.0",
-    "gulp-shell": "^0.5.2",
-    "gulp-util": "^3.0.6"
+    "gulp-shell": "^0.5.2"
   },
   "dependencies": {
     "bluebird": "^3.3.3",
     "capitano": "~1.7.0",
     "chalk": "^1.1.1",
-    "coffee-script": "^1.11.1",
+    "coffee-script": "~1.12.2",
     "columnify": "^1.5.2",
     "is-root": "^1.0.0",
     "js-yaml": "^3.7.0",
@@ -53,14 +53,12 @@
     "resin-device-init": "^2.1.0",
     "resin-image-fs": "^2.1.2",
     "resin-image-manager": "^4.0.0",
-    "resin-pine": "^1.3.0",
-    "resin-sdk": "^5.4.0",
+    "resin-sdk": "resin-io/resin-sdk#sdk-browser",
     "resin-settings-client": "^3.5.0",
-    "resin-sync": "^3.0.0",
-    "resin-vcs": "^2.0.0",
+    "resin-sync": "^2.0.2",
     "rimraf": "^2.4.3",
     "rindle": "^1.0.0",
-    "tmp": "0.0.28",
+    "tmp": "^0.0.31",
     "umount": "^1.1.1",
     "underscore.string": "^3.1.1",
     "unzip2": "^0.2.5",
