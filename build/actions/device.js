@@ -101,7 +101,7 @@ limitations under the License.
       resin = require('../resin-sdk');
       return resin.models.application.get(params.application).then(function(application) {
         return Promise["try"](function() {
-          return options.uuid || resin.models.device.generateUUID();
+          return options.uuid || resin.models.device.generateUniqueKey();
         }).then(function(uuid) {
           console.info("Registering to " + application.app_name + ": " + uuid);
           return resin.models.device.register(application.app_name, uuid);
