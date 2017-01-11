@@ -53,7 +53,7 @@
     "resin-device-init": "^2.1.0",
     "resin-image-fs": "^2.1.2",
     "resin-image-manager": "^4.0.0",
-    "resin-sdk": "resin-io/resin-sdk#sdk-browser",
+    "resin-sdk": "6.0.0-beta1",
     "resin-settings-client": "^3.5.0",
     "resin-sync": "^2.0.2",
     "rimraf": "^2.4.3",
