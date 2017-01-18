@@ -18,7 +18,7 @@ Requisites
 
 ##### Windows Support
 
-`resin sync` and `resin ssh` have not been thoroughly tested on the standard Windows cmd.exe shell. We recommend using bash (or a similar) shell, like Bash for Windows 10 or Git Bash.
+`resin sync` and `resin ssh` have not been thoroughly tested on the standard Windows cmd.exe shell. We recommend using bash (or a similar) shell, like Bash for Windows 10 or [Git for Windows](https://git-for-windows.github.io/).
 
 If you still want to use `cmd.exe` you will have to use a package manager like MinGW or chocolatey. For MinGW the steps are:
 
