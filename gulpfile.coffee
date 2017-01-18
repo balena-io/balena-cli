@@ -16,7 +16,7 @@ OPTIONS =
 
 gulp.task 'coffee', [ 'lint' ], ->
 	gulp.src(OPTIONS.files.app)
-		.pipe(coffee())
+		.pipe(coffee(header: true))
 		.pipe(gulp.dest(OPTIONS.directories.build))
 
 gulp.task 'lint', ->
