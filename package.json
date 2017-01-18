@@ -55,7 +55,7 @@
     "resin-image-manager": "^4.0.0",
     "resin-sdk-preconfigured": "^0.1.0",
     "resin-settings-client": "^3.5.0",
-    "resin-sync": "^2.0.2",
+    "resin-sync": "^6.1.0",
     "rimraf": "^2.4.3",
     "rindle": "^1.0.0",
     "tmp": "^0.0.31",
