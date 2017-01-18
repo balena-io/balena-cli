@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.2.4] - 2017-01-18
+
+### Changed
+
+- Fix documented requirements for resin ssh and resin sync
+
 ## [5.2.3] - 2017-01-04
 
 ### Changed
@@ -317,6 +323,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[5.2.4]: https://github.com/resin-io/resin-cli/compare/5.2.3...5.2.4
 [5.2.3]: https://github.com/resin-io/resin-cli/compare/v5.2.2...v5.2.3
 [5.2.2]: https://github.com/resin-io/resin-cli/compare/v5.2.1...v5.2.2
 [5.2.1]: https://github.com/resin-io/resin-cli/compare/v5.2.0...v5.2.1
