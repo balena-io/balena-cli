@@ -12,6 +12,20 @@ Requisites
 
 - [NodeJS](https://nodejs.org) (at least v0.10)
 - [Git](https://git-scm.com)
+- The following executables should be correctly installed in your shell environment:
+  - `ssh`: Any recent version of the OpenSSH ssh client (required by `resin sync` and `resin ssh`)
+  - `rsync`: >= 2.6.9 (required by `resin sync`)
+
+##### Windows Support
+
+`resin sync` and `resin ssh` have not been thoroughly tested on the standard Windows cmd.exe shell. We recommend using bash (or a similar) shell, like Bash for Windows 10 or Git Bash.
+
+If you still want to use `cmd.exe` you will have to use a package manager like MinGW or chocolatey. For MinGW the steps are:
+
+1. Install [MinGW](http://www.mingw.org).
+2. Install the `msys-rsync` and `msys-openssh` packages.
+3. Add MinGW to the `%PATH%` if this hasn't been done by the installer already. The location where the binaries are places is usually `C:\MinGW\msys\1.0\bin`, but it can vary if you selected a different location in the installer.
+4. Copy your SSH keys to `%homedrive%%homepath\.ssh`.
 
 Getting Started
 ---------------

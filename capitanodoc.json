@@ -1,6 +1,6 @@
 {
 	"title": "Resin CLI Documentation",
-	"introduction": "This tool allows you to interact with the resin.io api from the comfort of your command line.\n\nTo get started download the CLI from npm.\n\n\t$ npm install resin-cli -g\n\nThen authenticate yourself:\n\n\t$ resin login\n\nNow you have access to all the commands referenced below.",
+	"introduction": "This tool allows you to interact with the resin.io api from the comfort of your command line.\n\nPlease make sure your system meets the requirements as specified in the [README](https://github.com/resin-io/resin-cli).\n\nTo get started download the CLI from npm.\n\n\t$ npm install resin-cli -g\n\nThen authenticate yourself:\n\n\t$ resin login\n\nNow you have access to all the commands referenced below.",
 	"categories": [
 		{
 			"title": "Application",

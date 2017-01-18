@@ -2,6 +2,8 @@
 
 This tool allows you to interact with the resin.io api from the comfort of your command line.
 
+Please make sure your system meets the requirements as specified in the [README](https://github.com/resin-io/resin-cli).
+
 To get started download the CLI from npm.
 
 	$ npm install resin-cli -g
@@ -342,7 +344,7 @@ Examples:
 
 ### Options
 
-#### --force, -f &#60;force&#62;
+#### --force, -f
 
 force action if the update lock is set
 
@@ -356,7 +358,7 @@ Examples:
 
 ### Options
 
-#### --force, -f &#60;force&#62;
+#### --force, -f
 
 force action if the update lock is set
 
@@ -650,7 +652,9 @@ continuously stream output
 
 ## sync [uuid]
 
-WARNING: If you're running Windows, this command only supports `cmd.exe`.
+Warning: 'resin sync' requires an openssh-compatible client and 'rsync' to
+be correctly installed in your shell environment. For more information (including
+Windows support) please check the README here: https://github.com/resin-io/resin-cli
 
 Use this command to sync your local changes to a certain device on the fly.
 
@@ -725,7 +729,9 @@ increase verbosity
 
 ## ssh [uuid]
 
-WARNING: If you're running Windows, this command only supports `cmd.exe`.
+Warning: 'resin ssh' requires an openssh-compatible client to be correctly
+installed in your shell environment. For more information (including Windows
+support) please check the README here: https://github.com/resin-io/resin-cli
 
 Use this command to get a shell into the running application container of
 your device.
