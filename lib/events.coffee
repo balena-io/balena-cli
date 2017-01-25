@@ -1,7 +1,7 @@
 _ = require('lodash')
 Mixpanel = require('mixpanel')
 Promise = require('bluebird')
-resin = require('./resin-sdk')
+resin = require('resin-sdk-preconfigured')
 capitanoState = Promise.promisifyAll(require('capitano').state)
 packageJSON = require('../package.json')
 

@@ -25,7 +25,7 @@ exports.list =
 			$ resin settings
 	'''
 	action: (params, options, done) ->
-		resin = require('../resin-sdk')
+		resin = require('resin-sdk-preconfigured')
 		prettyjson = require('prettyjson')
 
 		resin.settings.getAll()

@@ -101,7 +101,7 @@ limitations under the License.
       var Promise, fs, path, patterns, resin, resinSync;
       fs = require('fs');
       path = require('path');
-      resin = require('../resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       Promise = require('bluebird');
       resinSync = require('resin-sync');
       patterns = require('../utils/patterns');

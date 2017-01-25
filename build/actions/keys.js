@@ -28,7 +28,7 @@ limitations under the License.
     permission: 'user',
     action: function(params, options, done) {
       var resin, visuals;
-      resin = require('../resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       visuals = require('resin-cli-visuals');
       return resin.models.key.getAll().then(function(keys) {
         return console.log(visuals.table.horizontal(keys, ['id', 'title']));
@@ -43,7 +43,7 @@ limitations under the License.
     permission: 'user',
     action: function(params, options, done) {
       var resin, visuals;
-      resin = require('../resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       visuals = require('resin-cli-visuals');
       return resin.models.key.get(params.id).then(function(key) {
         console.log(visuals.table.vertical(key, ['id', 'title']));
@@ -60,7 +60,7 @@ limitations under the License.
     permission: 'user',
     action: function(params, options, done) {
       var patterns, resin;
-      resin = require('../resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       patterns = require('../utils/patterns');
       return patterns.confirm(options.yes, 'Are you sure you want to delete the key?').then(function() {
         return resin.models.key.remove(params.id);
@@ -79,7 +79,7 @@ limitations under the License.
       Promise = require('bluebird');
       fs = Promise.promisifyAll(require('fs'));
       capitano = require('capitano');
-      resin = require('../resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       return Promise["try"](function() {
         if (params.path != null) {
           return fs.readFileAsync(params.path, {

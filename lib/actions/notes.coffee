@@ -40,7 +40,7 @@ exports.set =
 	action: (params, options, done) ->
 		Promise = require('bluebird')
 		_ = require('lodash')
-		resin = require('../resin-sdk')
+		resin = require('resin-sdk-preconfigured')
 
 		Promise.try ->
 			if _.isEmpty(params.note)

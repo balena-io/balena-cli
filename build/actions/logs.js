@@ -34,7 +34,7 @@ limitations under the License.
     action: function(params, options, done) {
       var _, moment, printLine, promise, resin;
       _ = require('lodash');
-      resin = require('../resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       moment = require('moment');
       printLine = function(line) {
         var timestamp;
