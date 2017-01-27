@@ -26,7 +26,7 @@ limitations under the License.
       var Promise, capitano, patterns, resin;
       Promise = require('bluebird');
       capitano = Promise.promisifyAll(require('capitano'));
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       patterns = require('../utils/patterns');
       return resin.auth.isLoggedIn().then(function(isLoggedIn) {
         if (isLoggedIn) {

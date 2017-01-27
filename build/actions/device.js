@@ -32,7 +32,7 @@ limitations under the License.
       var Promise, _, resin, visuals;
       Promise = require('bluebird');
       _ = require('lodash');
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       visuals = require('resin-cli-visuals');
       return Promise["try"](function() {
         if (options.application != null) {
@@ -57,7 +57,7 @@ limitations under the License.
     primary: true,
     action: function(params, options, done) {
       var resin, visuals;
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       visuals = require('resin-cli-visuals');
       return resin.models.device.get(params.uuid).then(function(device) {
         return resin.models.device.getStatus(device).then(function(status) {
@@ -75,7 +75,7 @@ limitations under the License.
     permission: 'user',
     action: function(params, options, done) {
       var resin;
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       return resin.models.config.getDeviceTypes().each(function(deviceType) {
         return console.log(deviceType.slug);
       }).nodeify(done);
@@ -98,10 +98,10 @@ limitations under the License.
     action: function(params, options, done) {
       var Promise, resin;
       Promise = require('bluebird');
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       return resin.models.application.get(params.application).then(function(application) {
         return Promise["try"](function() {
-          return options.uuid || resin.models.device.generateUUID();
+          return options.uuid || resin.models.device.generateUniqueKey();
         }).then(function(uuid) {
           console.info("Registering to " + application.app_name + ": " + uuid);
           return resin.models.device.register(application.app_name, uuid);
@@ -118,7 +118,7 @@ limitations under the License.
     permission: 'user',
     action: function(params, options, done) {
       var patterns, resin;
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       patterns = require('../utils/patterns');
       return patterns.confirm(options.yes, 'Are you sure you want to delete the device?').then(function() {
         return resin.models.device.remove(params.uuid);
@@ -133,7 +133,7 @@ limitations under the License.
     permission: 'user',
     action: function(params, options, done) {
       var resin;
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       return resin.models.device.identify(params.uuid).nodeify(done);
     }
   };
@@ -146,7 +146,7 @@ limitations under the License.
     permission: 'user',
     action: function(params, options, done) {
       var resin;
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       return resin.models.device.reboot(params.uuid, options).nodeify(done);
     }
   };
@@ -159,7 +159,7 @@ limitations under the License.
     permission: 'user',
     action: function(params, options, done) {
       var resin;
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       return resin.models.device.shutdown(params.uuid, options).nodeify(done);
     }
   };
@@ -171,7 +171,7 @@ limitations under the License.
     permission: 'user',
     action: function(params, options, done) {
       var resin;
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       return resin.models.device.enableDeviceUrl(params.uuid).nodeify(done);
     }
   };
@@ -183,7 +183,7 @@ limitations under the License.
     permission: 'user',
     action: function(params, options, done) {
       var resin;
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       return resin.models.device.disableDeviceUrl(params.uuid).nodeify(done);
     }
   };
@@ -195,7 +195,7 @@ limitations under the License.
     permission: 'user',
     action: function(params, options, done) {
       var resin;
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       return resin.models.device.getDeviceUrl(params.uuid).then(function(url) {
         return console.log(url);
       }).nodeify(done);
@@ -209,7 +209,7 @@ limitations under the License.
     permission: 'user',
     action: function(params, options, done) {
       var resin;
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       return resin.models.device.hasDeviceUrl(params.uuid).then(function(hasDeviceUrl) {
         return console.log(hasDeviceUrl);
       }).nodeify(done);
@@ -225,7 +225,7 @@ limitations under the License.
       var Promise, _, form, resin;
       Promise = require('bluebird');
       _ = require('lodash');
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       form = require('resin-cli-form');
       return Promise["try"](function() {
         if (!_.isEmpty(params.newName)) {
@@ -247,7 +247,7 @@ limitations under the License.
     options: [commandOptions.optionalApplication],
     action: function(params, options, done) {
       var _, patterns, resin;
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       _ = require('lodash');
       patterns = require('../utils/patterns');
       return resin.models.device.get(params.uuid).then(function(device) {
@@ -282,7 +282,7 @@ limitations under the License.
       rimraf = Promise.promisify(require('rimraf'));
       tmp = Promise.promisifyAll(require('tmp'));
       tmp.setGracefulCleanup();
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       helpers = require('../utils/helpers');
       patterns = require('../utils/patterns');
       return Promise["try"](function() {

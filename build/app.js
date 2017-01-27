@@ -25,7 +25,7 @@ limitations under the License.
 
   capitano = Promise.promisifyAll(require('capitano'));
 
-  resin = require('resin-sdk');
+  resin = require('resin-sdk-preconfigured');
 
   actions = require('./actions');
 

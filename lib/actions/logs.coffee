@@ -45,7 +45,7 @@ module.exports =
 	primary: true
 	action: (params, options, done) ->
 		_ = require('lodash')
-		resin = require('resin-sdk')
+		resin = require('resin-sdk-preconfigured')
 		moment = require('moment')
 
 		printLine = (line) ->

@@ -106,7 +106,7 @@ limitations under the License.
     action: function(params, options, done) {
       var _, form, helpers, init, resin;
       _ = require('lodash');
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       form = require('resin-cli-form');
       init = require('resin-device-init');
       helpers = require('../utils/helpers');

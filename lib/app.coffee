@@ -17,7 +17,7 @@ limitations under the License.
 _ = require('lodash')
 Promise = require('bluebird')
 capitano = Promise.promisifyAll(require('capitano'))
-resin = require('resin-sdk')
+resin = require('resin-sdk-preconfigured')
 actions = require('./actions')
 errors = require('./errors')
 events = require('./events')

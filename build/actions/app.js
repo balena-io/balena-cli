@@ -37,7 +37,7 @@ limitations under the License.
     primary: true,
     action: function(params, options, done) {
       var patterns, resin;
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       patterns = require('../utils/patterns');
       return resin.models.application.has(params.name).then(function(hasApplication) {
         if (hasApplication) {
@@ -61,7 +61,7 @@ limitations under the License.
     primary: true,
     action: function(params, options, done) {
       var resin, visuals;
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       visuals = require('resin-cli-visuals');
       return resin.models.application.getAll().then(function(applications) {
         return console.log(visuals.table.horizontal(applications, ['id', 'app_name', 'device_type', 'online_devices', 'devices_length']));
@@ -77,7 +77,7 @@ limitations under the License.
     primary: true,
     action: function(params, options, done) {
       var resin, visuals;
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       visuals = require('resin-cli-visuals');
       return resin.models.application.get(params.name).then(function(application) {
         return console.log(visuals.table.vertical(application, ["$" + application.app_name + "$", 'id', 'device_type', 'git_repository', 'commit']));
@@ -92,7 +92,7 @@ limitations under the License.
     permission: 'user',
     action: function(params, options, done) {
       var resin;
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       return resin.models.application.restart(params.name).nodeify(done);
     }
   };
@@ -105,7 +105,7 @@ limitations under the License.
     permission: 'user',
     action: function(params, options, done) {
       var patterns, resin;
-      resin = require('resin-sdk');
+      resin = require('resin-sdk-preconfigured');
       patterns = require('../utils/patterns');
       return patterns.confirm(options.yes, 'Are you sure you want to delete the application?').then(function() {
         return resin.models.application.remove(params.name);

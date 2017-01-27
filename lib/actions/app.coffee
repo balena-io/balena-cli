@@ -45,7 +45,7 @@ exports.create =
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
-		resin = require('resin-sdk')
+		resin = require('resin-sdk-preconfigured')
 		patterns = require('../utils/patterns')
 
 		# Validate the the application name is available
@@ -79,7 +79,7 @@ exports.list =
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
-		resin = require('resin-sdk')
+		resin = require('resin-sdk-preconfigured')
 		visuals = require('resin-cli-visuals')
 
 		resin.models.application.getAll().then (applications) ->
@@ -105,7 +105,7 @@ exports.info =
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
-		resin = require('resin-sdk')
+		resin = require('resin-sdk-preconfigured')
 		visuals = require('resin-cli-visuals')
 
 		resin.models.application.get(params.name).then (application) ->
@@ -130,7 +130,7 @@ exports.restart =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk')
+		resin = require('resin-sdk-preconfigured')
 		resin.models.application.restart(params.name).nodeify(done)
 
 exports.remove =
@@ -150,7 +150,7 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk')
+		resin = require('resin-sdk-preconfigured')
 		patterns = require('../utils/patterns')
 
 		patterns.confirm(options.yes, 'Are you sure you want to delete the application?').then ->

@@ -242,7 +242,7 @@ exports.generate =
 	action: (params, options, done) ->
 		Promise = require('bluebird')
 		fs = Promise.promisifyAll(require('fs'))
-		resin = require('resin-sdk')
+		resin = require('resin-sdk-preconfigured')
 		_ = require('lodash')
 		form = require('resin-cli-form')
 		deviceConfig = require('resin-device-config')

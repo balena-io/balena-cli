@@ -48,7 +48,7 @@ exports.list =
 	action: (params, options, done) ->
 		Promise = require('bluebird')
 		_ = require('lodash')
-		resin = require('resin-sdk')
+		resin = require('resin-sdk-preconfigured')
 		visuals = require('resin-cli-visuals')
 
 		Promise.try ->
@@ -98,7 +98,7 @@ exports.remove =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk')
+		resin = require('resin-sdk-preconfigured')
 		patterns = require('../utils/patterns')
 
 		patterns.confirm(options.yes, 'Are you sure you want to delete the environment variable?').then ->
@@ -136,7 +136,7 @@ exports.add =
 	permission: 'user'
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		resin = require('resin-sdk')
+		resin = require('resin-sdk-preconfigured')
 
 		Promise.try ->
 			if not params.value?
@@ -172,7 +172,7 @@ exports.rename =
 	options: [ commandOptions.booleanDevice ]
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		resin = require('resin-sdk')
+		resin = require('resin-sdk-preconfigured')
 
 		Promise.try ->
 			if options.device
