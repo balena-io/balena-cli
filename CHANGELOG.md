@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.3.0] - 2017-03-03
+
+### Added
+
+- `resin sync` AUFS device support
+
 ### Changed
 
 - Moved to the new version of `resin-sdk` (via `resin-sdk-preconfigured`)
@@ -327,6 +333,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[5.3.0]: https://github.com/resin-io/resin-cli/compare/5.2.4...5.3.0
 [5.2.4]: https://github.com/resin-io/resin-cli/compare/5.2.3...5.2.4
 [5.2.3]: https://github.com/resin-io/resin-cli/compare/v5.2.2...v5.2.3
 [5.2.2]: https://github.com/resin-io/resin-cli/compare/v5.2.1...v5.2.2
