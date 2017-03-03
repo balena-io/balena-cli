@@ -78,10 +78,11 @@ module.exports =
 
 		verbose = if options.verbose then '-vvv' else ''
 
-		resin.models.device.has(params.uuid).then (isValidUUID) ->
-			if isValidUUID
-				return params.uuid
-
+		Promise.try ->
+			return false if not params.uuid
+			return resin.models.device.has(params.uuid)
+		.then (uuidExists) ->
+			return params.uuid if uuidExists
 			return patterns.inferOrSelectDevice()
 		.then (uuid) ->
 			console.info("Connecting with: #{uuid}")
@@ -104,6 +105,6 @@ module.exports =
 						-p #{options.port} #{username}@ssh.#{settings.get('proxyUrl')} enter #{uuid} #{containerId}"
 
 					subShellCommand = getSubShellCommand(command)
-					spawn = child_process.spawn subShellCommand.program, subShellCommand.args,
+					child_process.spawn subShellCommand.program, subShellCommand.args,
 						stdio: 'inherit'
 		.nodeify(done)
