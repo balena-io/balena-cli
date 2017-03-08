@@ -23,6 +23,7 @@ module.exports =
 	env: require('./environment-variables')
 	keys: require('./keys')
 	logs: require('./logs')
+	local: require('./local')
 	notes: require('./notes')
 	help: require('./help')
 	os: require('./os')
