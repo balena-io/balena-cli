@@ -16,3 +16,4 @@ limitations under the License.
 
 exports.configure = require('./configure')
 exports.flash = require('./flash')
+exports.logs = require('./logs')
