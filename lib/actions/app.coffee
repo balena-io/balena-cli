@@ -43,7 +43,6 @@ exports.create =
 		}
 	]
 	permission: 'user'
-	primary: true
 	action: (params, options, done) ->
 		resin = require('resin-sdk-preconfigured')
 		patterns = require('../utils/patterns')

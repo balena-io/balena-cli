@@ -1,5 +1,5 @@
 ###
-Copyright 2016 Resin.io
+Copyright 2017 Resin.io
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,20 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
-module.exports =
-	wizard: require('./wizard')
-	app: require('./app')
-	info: require('./info')
-	auth: require('./auth')
-	device: require('./device')
-	env: require('./environment-variables')
-	keys: require('./keys')
-	logs: require('./logs')
-	local: require('./local')
-	notes: require('./notes')
-	help: require('./help')
-	os: require('./os')
-	settings: require('./settings')
-	config: require('./config')
-	sync: require('./sync')
-	ssh: require('./ssh')
+exports.configure = require('./configure')
+exports.flash = require('./flash')
+exports.logs = require('./logs')
+exports.promote = require('./promote')
+exports.scan = require('./scan')
+exports.ssh = require('./ssh')
+exports.push = require('./push')
