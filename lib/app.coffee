@@ -124,6 +124,15 @@ capitano.command(actions.sync)
 # ---------- SSH Module ----------
 capitano.command(actions.ssh)
 
+# ---------- Local ResinOS Module ----------
+capitano.command(actions.local.configure)
+capitano.command(actions.local.flash)
+capitano.command(actions.local.logs)
+capitano.command(actions.local.promote)
+capitano.command(actions.local.push)
+capitano.command(actions.local.ssh)
+capitano.command(actions.local.scan)
+
 update.notify()
 
 plugins.register(/^resin-plugin-(.+)$/).then ->
