@@ -170,6 +170,8 @@ limitations under the License.
 
   capitano.command(actions.local.scan);
 
+  capitano.command(actions.local.stop);
+
   update.notify();
 
   plugins.register(/^resin-plugin-(.+)$/).then(function() {

@@ -31,4 +31,6 @@ limitations under the License.
 
   exports.push = require('./push');
 
+  exports.stop = require('./stop');
+
 }).call(this);

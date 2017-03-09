@@ -132,6 +132,7 @@ capitano.command(actions.local.promote)
 capitano.command(actions.local.push)
 capitano.command(actions.local.ssh)
 capitano.command(actions.local.scan)
+capitano.command(actions.local.stop)
 
 update.notify()
 
