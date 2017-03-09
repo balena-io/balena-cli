@@ -58,6 +58,14 @@ limitations under the License.
           startMessage: 'Scanning for local resinOS devices..',
           stopMessage: 'Reporting scan results'
         });
+      }).filter(function(arg) {
+        var address, docker;
+        address = arg.address;
+        docker = new Docker({
+          host: address,
+          port: 2375
+        });
+        return docker.infoAsync()["return"](true).catchReturn(false);
       }).tap(function(devices) {
         if (_.isEmpty(devices)) {
           throw new Error('Could not find any resinOS devices in the local network');
