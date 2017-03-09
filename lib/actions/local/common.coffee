@@ -4,13 +4,23 @@ Docker = require('docker-toolbelt')
 form = require('resin-cli-form')
 chalk = require('chalk')
 
+filterOutSupervisorContainer = (container) ->
+	for name in container.Names
+		return false if name.includes('resin_supervisor')
+	return true
+
 module.exports =
 
-	selectContainerFromDevice: Promise.method (deviceIp) ->
+	filterOutSupervisorContainer: filterOutSupervisorContainer
+
+	selectContainerFromDevice: Promise.method (deviceIp, filterSupervisor = false) ->
 		docker = new Docker(host: deviceIp, port: 2375)
 
 		# List all containers, including those not running
 		docker.listContainersAsync(all: true)
+		.filter (container) ->
+			return true if not filterSupervisor
+			filterOutSupervisorContainer(container)
 		.then (containers) ->
 			if _.isEmpty(containers)
 				throw new Error("No containers found in #{deviceIp}")
