@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.4.0] - 2017-03-09
+
+### Added
+
+- Implement 'resin local stop'
+- Implement 'resin local'
+- Implement 'resin local push'
+- Implement 'resin local ssh'
+- Implement 'resin local scan'
+- Implement 'resin local promote'
+- Implement 'resin local logs'
+- Implement 'resin local flash'
+- Implement 'resin local configure'
+
+### Changed
+
+- Remove app create from primary commands
+
 ## [5.3.0] - 2017-03-03
 
 ### Added
