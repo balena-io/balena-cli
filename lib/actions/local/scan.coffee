@@ -72,6 +72,9 @@ module.exports =
 				promise: discover.discoverLocalResinOsDevices(options.timeout)
 				startMessage: 'Scanning for local resinOS devices..'
 				stopMessage: 'Reporting scan results'
+		.filter ({ address }) ->
+			docker = new Docker(host: address, port: 2375)
+			docker.infoAsync().return(true).catchReturn(false)
 		.tap (devices) ->
 			if _.isEmpty(devices)
 				throw new Error('Could not find any resinOS devices in the local network')
