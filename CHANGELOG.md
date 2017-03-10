@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.5.0] - 2017-03-10
+
+### Added
+
+- Require superuser for scan commands, also introduce docker timeout
+- Bump resin-sync@7.0.0: use experimental rds which requires superuser permissions
+
 ## [5.4.0] - 2017-03-09
 
 ### Added
