@@ -29,6 +29,8 @@ limitations under the License.
 
   resinPush.primary = true;
 
+  resinPush.root = true;
+
   module.exports = resinPush;
 
 }).call(this);

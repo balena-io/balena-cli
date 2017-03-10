@@ -45,6 +45,7 @@ limitations under the License.
         alias: 'p'
       }
     ],
+    root: true,
     action: function(params, options, done) {
       var Promise, _, child_process, forms, getSubShellCommand, ref, selectContainerFromDevice, verbose;
       child_process = require('child_process');
