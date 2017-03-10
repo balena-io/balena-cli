@@ -44,6 +44,7 @@ module.exports =
 			description: 'name of container to get logs from'
 			alias: 'a'
 	]
+	root: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
 		{ forms } = require('resin-sync')

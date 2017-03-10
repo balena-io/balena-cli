@@ -44,6 +44,7 @@ module.exports =
 				description: 'ssh port number (default: 22222)'
 				alias: 'p'
 		]
+	root: true
 	action: (params, options, done) ->
 		child_process = require('child_process')
 		Promise = require 'bluebird'

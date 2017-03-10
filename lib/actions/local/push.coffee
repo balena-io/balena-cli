@@ -66,4 +66,5 @@ resinPush.help =
 			$ resin local push 192.168.2.10 -s /home/user/myResinProject -d /usr/src/app --before 'echo Hello' --after 'echo Done'
 	'''
 resinPush.primary = true
+resinPush.root = true
 module.exports = resinPush

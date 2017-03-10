@@ -56,6 +56,7 @@ module.exports =
 		alias: 't'
 	]
 	primary: true
+	root: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
 		_ = require('lodash')
