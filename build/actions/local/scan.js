@@ -41,14 +41,16 @@ limitations under the License.
       }
     ],
     primary: true,
+    root: true,
     action: function(params, options, done) {
-      var Docker, Promise, SpinnerPromise, _, discover, prettyjson;
+      var Docker, Promise, SpinnerPromise, _, discover, dockerPort, dockerTimeout, prettyjson, ref;
       Promise = require('bluebird');
       _ = require('lodash');
       prettyjson = require('prettyjson');
       Docker = require('docker-toolbelt');
       discover = require('resin-sync').discover;
       SpinnerPromise = require('resin-cli-visuals').SpinnerPromise;
+      ref = require('./common'), dockerPort = ref.dockerPort, dockerTimeout = ref.dockerTimeout;
       if (options.timeout != null) {
         options.timeout *= 1000;
       }
@@ -59,13 +61,17 @@ limitations under the License.
           stopMessage: 'Reporting scan results'
         });
       }).filter(function(arg) {
-        var address, docker;
+        var address;
         address = arg.address;
-        docker = new Docker({
-          host: address,
-          port: 2375
-        });
-        return docker.infoAsync()["return"](true).catchReturn(false);
+        return Promise["try"](function() {
+          var docker;
+          docker = new Docker({
+            host: address,
+            port: dockerPort,
+            timeout: dockerTimeout
+          });
+          return docker.pingAsync();
+        })["return"](true).catchReturn(false);
       }).tap(function(devices) {
         if (_.isEmpty(devices)) {
           throw new Error('Could not find any resinOS devices in the local network');
@@ -75,7 +81,8 @@ limitations under the License.
         host = arg.host, address = arg.address;
         docker = new Docker({
           host: address,
-          port: 2375
+          port: dockerPort,
+          timeout: dockerTimeout
         });
         return Promise.props({
           dockerInfo: docker.infoAsync().catchReturn('Could not get Docker info'),

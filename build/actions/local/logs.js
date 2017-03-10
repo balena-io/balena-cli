@@ -34,6 +34,7 @@ limitations under the License.
         alias: 'a'
       }
     ],
+    root: true,
     action: function(params, options, done) {
       var Promise, forms, pipeContainerStream, ref, selectContainerFromDevice;
       Promise = require('bluebird');

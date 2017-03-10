@@ -33,6 +33,7 @@ limitations under the License.
         alias: 'a'
       }
     ],
+    root: true,
     action: function(params, options, done) {
       var Promise, ResinLocalDockerUtils, chalk, config, filterOutSupervisorContainer, forms, ref, ref1, selectContainerFromDevice;
       Promise = require('bluebird');

@@ -43,6 +43,7 @@ module.exports =
 			description: 'name of container to stop'
 			alias: 'a'
 	]
+	root: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
 		chalk = require('chalk')
