@@ -14,7 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
-
 dockerInfoProperties = [
 	'Containers'
 	'ContainersRunning'
@@ -64,6 +63,7 @@ module.exports =
 		Docker = require('docker-toolbelt')
 		{ discover } = require('resin-sync')
 		{ SpinnerPromise } = require('resin-cli-visuals')
+		{ dockerPort, dockerTimeout } = require('./common')
 
 		if options.timeout?
 			options.timeout *= 1000
@@ -74,13 +74,16 @@ module.exports =
 				startMessage: 'Scanning for local resinOS devices..'
 				stopMessage: 'Reporting scan results'
 		.filter ({ address }) ->
-			docker = new Docker(host: address, port: 2375)
-			docker.infoAsync().return(true).catchReturn(false)
+			Promise.try ->
+				docker = new Docker(host: address, port: dockerPort, timeout: dockerTimeout)
+				docker.pingAsync()
+			.return(true)
+			.catchReturn(false)
 		.tap (devices) ->
 			if _.isEmpty(devices)
 				throw new Error('Could not find any resinOS devices in the local network')
 		.map ({ host, address }) ->
-			docker = new Docker(host: address, port: 2375)
+			docker = new Docker(host: address, port: dockerPort, timeout: dockerTimeout)
 			Promise.props
 				dockerInfo: docker.infoAsync().catchReturn('Could not get Docker info')
 				dockerVersion: docker.versionAsync().catchReturn('Could not get Docker version')
