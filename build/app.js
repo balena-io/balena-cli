@@ -15,7 +15,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var Promise, _, actions, capitano, errors, events, plugins, resin, update;
+var Promise, Raven, _, actions, capitano, errors, events, plugins, resin, update;
+
+Raven = require('raven');
+
+Raven.disableConsoleAlerts();
+
+Raven.config('https://56d2a46124614b01b0f4086897e96110:6e175465accc41b595a96947155f61fb@sentry.io/149239', {
+  captureUnhandledRejections: true,
+  release: require('../package.json').version
+}).install();
 
 _ = require('lodash');
 

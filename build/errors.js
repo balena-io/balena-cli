@@ -15,13 +15,19 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var chalk, errors, patterns;
+var Promise, Raven, captureException, chalk, errors, patterns;
 
 chalk = require('chalk');
 
 errors = require('resin-cli-errors');
 
 patterns = require('./utils/patterns');
+
+Raven = require('raven');
+
+Promise = require('bluebird');
+
+captureException = Promise.promisify(Raven.captureException.bind(Raven));
 
 exports.handle = function(error) {
   var message;
@@ -33,5 +39,7 @@ exports.handle = function(error) {
     message = error.stack;
   }
   patterns.printErrorMessage(message);
-  return process.exit(error.exitCode || 1);
+  return captureException(error).timeout(1000)["catch"](function() {})["finally"](function() {
+    return process.exit(error.exitCode || 1);
+  });
 };

@@ -14,6 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
+Raven = require('raven')
+Raven.disableConsoleAlerts()
+Raven.config(
+	'https://56d2a46124614b01b0f4086897e96110:6e175465accc41b595a96947155f61fb@sentry.io/149239'
+	captureUnhandledRejections: true
+	release: require('../package.json').version
+).install()
+
 _ = require('lodash')
 Promise = require('bluebird')
 capitano = Promise.promisifyAll(require('capitano'))
