@@ -14,8 +14,10 @@
   },
   "scripts": {
     "build": "gulp build",
-    "prepublish": "npm run build",
-    "doc": "mkdir -p doc/ && coffee extras/capitanodoc/index.coffee > doc/cli.markdown"
+    "doc": "mkdir -p doc/ && coffee extras/capitanodoc/index.coffee > doc/cli.markdown",
+    "watch": "gulp watch",
+    "lint": "gulp lint",
+    "prepublish": "npm run build && npm run doc"
   },
   "keywords": [
     "resin",
