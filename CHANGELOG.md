@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.6.0] - 2017-03-23
+
+### Added
+
+- The `--version` option to the `os download` command. Check `resin help os download` for details.
+
 ## [5.5.0] - 2017-03-10
 
 ### Added
@@ -358,8 +364,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
-[5.3.0]: https://github.com/resin-io/resin-cli/compare/5.2.4...5.3.0
-[5.2.4]: https://github.com/resin-io/resin-cli/compare/5.2.3...5.2.4
+[5.6.0]: https://github.com/resin-io/resin-cli/compare/v5.5.0...v5.6.0
+[5.5.0]: https://github.com/resin-io/resin-cli/compare/v5.4.0...v5.5.0
+[5.4.0]: https://github.com/resin-io/resin-cli/compare/v5.3.0...v5.4.0
+[5.3.0]: https://github.com/resin-io/resin-cli/compare/v5.2.4...v5.3.0
+[5.2.4]: https://github.com/resin-io/resin-cli/compare/v5.2.3...v5.2.4
 [5.2.3]: https://github.com/resin-io/resin-cli/compare/v5.2.2...v5.2.3
 [5.2.2]: https://github.com/resin-io/resin-cli/compare/v5.2.1...v5.2.2
 [5.2.1]: https://github.com/resin-io/resin-cli/compare/v5.2.0...v5.2.1
