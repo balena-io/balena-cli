@@ -16,14 +16,43 @@ limitations under the License.
 
 commandOptions = require('./command-options')
 
+formatVersion = (v, isRecommended) ->
+	result = "v#{v}"
+	if isRecommended
+		result += ' (recommended)'
+	return result
+
+resolveVersion = (deviceType, version) ->
+	if version isnt 'menu'
+		return Promise.resolve(version)
+
+	form = require('resin-cli-form')
+	resin = require('resin-sdk-preconfigured')
+
+	resin.models.os.getSupportedVersions(deviceType)
+	.then ({ versions, recommended }) ->
+		choices = versions.map (v) ->
+			value: v
+			name: formatVersion(v, v is recommended)
+
+		return form.ask
+			message: 'Select the OS version:'
+			type: 'list'
+			choices: choices
+			default: recommended
+
 exports.download =
 	signature: 'os download <type>'
 	description: 'download an unconfigured os image'
 	help: '''
 		Use this command to download an unconfigured os image for a certain device type.
+
 		If version is not specified the newest stable (non-pre-release) version of OS
 		is downloaded if available, or the newest version otherwise (if all existing
 		versions for the given device type are pre-release).
+
+		You can pass `--version menu` to pick the OS version from the interactive menu
+		of all available versions.
 
 		Examples:
 
@@ -32,6 +61,7 @@ exports.download =
 			$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^1.20.0
 			$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest
 			$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default
+			$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu
 	'''
 	permission: 'user'
 	options: [
@@ -48,12 +78,14 @@ exports.download =
 				exact version number, or a valid semver range,
 				or 'latest' (includes pre-releases),
 				or 'default' (excludes pre-releases if at least one stable version is available),
-				or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available)
+				or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
+				or 'menu' (will show the interactive menu)
 			"""
 			parameter: 'version'
 		}
 	]
 	action: (params, options, done) ->
+		Promise = require('bluebird')
 		unzip = require('unzip2')
 		fs = require('fs')
 		rindle = require('rindle')
@@ -62,18 +94,20 @@ exports.download =
 
 		console.info("Getting device operating system for #{params.type}")
 
-		version = options.version
-		if not version
-			version = 'default'
-			displayVersion = ''
-			console.warn('OS version is not specified, using the default version:
-				the newest stable (non-pre-release) version if available,
-				or the newest version otherwise (if all existing
-				versions for the given device type are pre-release)')
-		else
-			displayVersion = " #{version}"
-
-		manager.get(params.type, version).then (stream) ->
+		displayVersion = ''
+		Promise.try ->
+			if not options.version
+				console.warn('OS version is not specified, using the default version:
+					the newest stable (non-pre-release) version if available,
+					or the newest version otherwise (if all existing
+					versions for the given device type are pre-release).')
+				return 'default'
+			return resolveVersion(params.type, options.version)
+		.then (version) ->
+			if version isnt 'default'
+				displayVersion = " #{version}"
+			return manager.get(params.type, version)
+		.then (stream) ->
 			bar = new visuals.Progress("Downloading Device OS#{displayVersion}")
 			spinner = new visuals.Spinner("Downloading Device OS#{displayVersion} (size unknown)")
 

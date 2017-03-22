@@ -784,15 +784,35 @@ device uuid
 
 Use this command to download an unconfigured os image for a certain device type.
 
+If version is not specified the newest stable (non-pre-release) version of OS
+is downloaded if available, or the newest version otherwise (if all existing
+versions for the given device type are pre-release).
+
+You can pass `--version menu` to pick the OS version from the interactive menu
+of all available versions.
+
 Examples:
 
-	$ resin os download parallella -o ../foo/bar/parallella.img
+	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img
+	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 1.24.1
+	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^1.20.0
+	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest
+	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default
+	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu
 
 ### Options
 
 #### --output, -o &#60;output&#62;
 
 output path
+
+#### --version &#60;version&#62;
+
+exact version number, or a valid semver range,
+or 'latest' (includes pre-releases),
+or 'default' (excludes pre-releases if at least one stable version is available),
+or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
+or 'menu' (will show the interactive menu)
 
 ## os configure &#60;image&#62; &#60;uuid&#62;
 

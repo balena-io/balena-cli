@@ -15,14 +15,48 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var commandOptions, stepHandler;
+var commandOptions, formatVersion, resolveVersion, stepHandler;
 
 commandOptions = require('./command-options');
+
+formatVersion = function(v, isRecommended) {
+  var result;
+  result = "v" + v;
+  if (isRecommended) {
+    result += ' (recommended)';
+  }
+  return result;
+};
+
+resolveVersion = function(deviceType, version) {
+  var form, resin;
+  if (version !== 'menu') {
+    return Promise.resolve(version);
+  }
+  form = require('resin-cli-form');
+  resin = require('resin-sdk-preconfigured');
+  return resin.models.os.getSupportedVersions(deviceType).then(function(arg) {
+    var choices, recommended, versions;
+    versions = arg.versions, recommended = arg.recommended;
+    choices = versions.map(function(v) {
+      return {
+        value: v,
+        name: formatVersion(v, v === recommended)
+      };
+    });
+    return form.ask({
+      message: 'Select the OS version:',
+      type: 'list',
+      choices: choices,
+      "default": recommended
+    });
+  });
+};
 
 exports.download = {
   signature: 'os download <type>',
   description: 'download an unconfigured os image',
-  help: 'Use this command to download an unconfigured os image for a certain device type.\nIf version is not specified the newest stable (non-pre-release) version of OS\nis downloaded if available, or the newest version otherwise (if all existing\nversions for the given device type are pre-release).\n\nExamples:\n\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 1.24.1\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^1.20.0\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default',
+  help: 'Use this command to download an unconfigured os image for a certain device type.\n\nIf version is not specified the newest stable (non-pre-release) version of OS\nis downloaded if available, or the newest version otherwise (if all existing\nversions for the given device type are pre-release).\n\nYou can pass `--version menu` to pick the OS version from the interactive menu\nof all available versions.\n\nExamples:\n\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 1.24.1\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^1.20.0\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu',
   permission: 'user',
   options: [
     {
@@ -33,27 +67,32 @@ exports.download = {
       required: 'You have to specify the output location'
     }, {
       signature: 'version',
-      description: "exact version number, or a valid semver range,\nor 'latest' (includes pre-releases),\nor 'default' (excludes pre-releases if at least one stable version is available),\nor 'recommended' (excludes pre-releases, will fail if only pre-release versions are available)",
+      description: "exact version number, or a valid semver range,\nor 'latest' (includes pre-releases),\nor 'default' (excludes pre-releases if at least one stable version is available),\nor 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),\nor 'menu' (will show the interactive menu)",
       parameter: 'version'
     }
   ],
   action: function(params, options, done) {
-    var displayVersion, fs, manager, rindle, unzip, version, visuals;
+    var Promise, displayVersion, fs, manager, rindle, unzip, visuals;
+    Promise = require('bluebird');
     unzip = require('unzip2');
     fs = require('fs');
     rindle = require('rindle');
     manager = require('resin-image-manager');
     visuals = require('resin-cli-visuals');
     console.info("Getting device operating system for " + params.type);
-    version = options.version;
-    if (!version) {
-      version = 'default';
-      displayVersion = '';
-      console.warn('OS version is not specified, using the default version: the newest stable (non-pre-release) version if available, or the newest version otherwise (if all existing versions for the given device type are pre-release)');
-    } else {
-      displayVersion = " " + version;
-    }
-    return manager.get(params.type, version).then(function(stream) {
+    displayVersion = '';
+    return Promise["try"](function() {
+      if (!options.version) {
+        console.warn('OS version is not specified, using the default version: the newest stable (non-pre-release) version if available, or the newest version otherwise (if all existing versions for the given device type are pre-release).');
+        return 'default';
+      }
+      return resolveVersion(params.type, options.version);
+    }).then(function(version) {
+      if (version !== 'default') {
+        displayVersion = " " + version;
+      }
+      return manager.get(params.type, version);
+    }).then(function(stream) {
       var bar, output, spinner;
       bar = new visuals.Progress("Downloading Device OS" + displayVersion);
       spinner = new visuals.Spinner("Downloading Device OS" + displayVersion + " (size unknown)");
