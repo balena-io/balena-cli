@@ -21,18 +21,37 @@ exports.download =
 	description: 'download an unconfigured os image'
 	help: '''
 		Use this command to download an unconfigured os image for a certain device type.
+		If version is not specified the newest stable (non-pre-release) version of OS
+		is downloaded if available, or the newest version otherwise (if all existing
+		versions for the given device type are pre-release).
 
 		Examples:
 
-			$ resin os download parallella -o ../foo/bar/parallella.img
+			$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img
+			$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 1.24.1
+			$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^1.20.0
+			$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest
+			$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default
 	'''
 	permission: 'user'
 	options: [
-		signature: 'output'
-		description: 'output path'
-		parameter: 'output'
-		alias: 'o'
-		required: 'You have to specify the output location'
+		{
+			signature: 'output'
+			description: 'output path'
+			parameter: 'output'
+			alias: 'o'
+			required: 'You have to specify the output location'
+		}
+		{
+			signature: 'version'
+			description: """
+				exact version number, or a valid semver range,
+				or 'latest' (includes pre-releases),
+				or 'default' (excludes pre-releases if at least one stable version is available),
+				or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available)
+			"""
+			parameter: 'version'
+		}
 	]
 	action: (params, options, done) ->
 		unzip = require('unzip2')
@@ -43,9 +62,20 @@ exports.download =
 
 		console.info("Getting device operating system for #{params.type}")
 
-		manager.get(params.type, 'default').then (stream) ->
-			bar = new visuals.Progress('Downloading Device OS')
-			spinner = new visuals.Spinner('Downloading Device OS (size unknown)')
+		version = options.version
+		if not version
+			version = 'default'
+			displayVersion = ''
+			console.warn('OS version is not specified, using the default version:
+				the newest stable (non-pre-release) version if available,
+				or the newest version otherwise (if all existing
+				versions for the given device type are pre-release)')
+		else
+			displayVersion = " #{version}"
+
+		manager.get(params.type, version).then (stream) ->
+			bar = new visuals.Progress("Downloading Device OS#{displayVersion}")
+			spinner = new visuals.Spinner("Downloading Device OS#{displayVersion} (size unknown)")
 
 			stream.on 'progress', (state) ->
 				if state?
