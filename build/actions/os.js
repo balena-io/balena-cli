@@ -41,7 +41,7 @@ exports.download = {
     manager = require('resin-image-manager');
     visuals = require('resin-cli-visuals');
     console.info("Getting device operating system for " + params.type);
-    return manager.get(params.type).then(function(stream) {
+    return manager.get(params.type, 'default').then(function(stream) {
       var bar, output, spinner;
       bar = new visuals.Progress('Downloading Device OS');
       spinner = new visuals.Spinner('Downloading Device OS (size unknown)');

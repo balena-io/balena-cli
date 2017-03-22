@@ -43,7 +43,7 @@ exports.download =
 
 		console.info("Getting device operating system for #{params.type}")
 
-		manager.get(params.type).then (stream) ->
+		manager.get(params.type, 'default').then (stream) ->
 			bar = new visuals.Progress('Downloading Device OS')
 			spinner = new visuals.Spinner('Downloading Device OS (size unknown)')
 
