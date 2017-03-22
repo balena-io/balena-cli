@@ -15,37 +15,33 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
+var isRoot, notifier, packageJSON, updateNotifier;
 
-(function() {
-  var isRoot, notifier, packageJSON, updateNotifier;
+updateNotifier = require('update-notifier');
 
-  updateNotifier = require('update-notifier');
+isRoot = require('is-root');
 
-  isRoot = require('is-root');
+packageJSON = require('../../package.json');
 
-  packageJSON = require('../../package.json');
+if (!isRoot()) {
+  notifier = updateNotifier({
+    pkg: packageJSON,
+    updateCheckInterval: 0
+  });
+}
 
-  if (!isRoot()) {
-    notifier = updateNotifier({
-      pkg: packageJSON,
-      updateCheckInterval: 0
-    });
+exports.hasAvailableUpdate = function() {
+  return notifier != null;
+};
+
+exports.notify = function() {
+  if (!exports.hasAvailableUpdate()) {
+    return;
   }
-
-  exports.hasAvailableUpdate = function() {
-    return notifier != null;
-  };
-
-  exports.notify = function() {
-    if (!exports.hasAvailableUpdate()) {
-      return;
-    }
-    notifier.notify({
-      defer: false
-    });
-    if (notifier.update != null) {
-      return console.log('Notice that you might need administrator privileges depending on your setup\n');
-    }
-  };
-
-}).call(this);
+  notifier.notify({
+    defer: false
+  });
+  if (notifier.update != null) {
+    return console.log('Notice that you might need administrator privileges depending on your setup\n');
+  }
+};

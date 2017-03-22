@@ -16,7 +16,7 @@ OPTIONS =
 
 gulp.task 'coffee', [ 'lint' ], ->
 	gulp.src(OPTIONS.files.app)
-		.pipe(coffee(header: true))
+		.pipe(coffee(bare: true, header: true))
 		.pipe(gulp.dest(OPTIONS.directories.build))
 
 gulp.task 'lint', ->
@@ -30,5 +30,5 @@ gulp.task 'build', [
 	'coffee'
 ]
 
-gulp.task 'watch', [ 'lint', 'coffee' ], ->
-	gulp.watch([ OPTIONS.files.coffee ], [ 'coffee' ])
+gulp.task 'watch', [ 'build' ], ->
+	gulp.watch([ OPTIONS.files.coffee ], [ 'build' ])

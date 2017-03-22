@@ -15,25 +15,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-
-(function() {
-  module.exports = {
-    wizard: require('./wizard'),
-    app: require('./app'),
-    info: require('./info'),
-    auth: require('./auth'),
-    device: require('./device'),
-    env: require('./environment-variables'),
-    keys: require('./keys'),
-    logs: require('./logs'),
-    local: require('./local'),
-    notes: require('./notes'),
-    help: require('./help'),
-    os: require('./os'),
-    settings: require('./settings'),
-    config: require('./config'),
-    sync: require('./sync'),
-    ssh: require('./ssh')
-  };
-
-}).call(this);
+module.exports = {
+  wizard: require('./wizard'),
+  app: require('./app'),
+  info: require('./info'),
+  auth: require('./auth'),
+  device: require('./device'),
+  env: require('./environment-variables'),
+  keys: require('./keys'),
+  logs: require('./logs'),
+  local: require('./local'),
+  notes: require('./notes'),
+  help: require('./help'),
+  os: require('./os'),
+  settings: require('./settings'),
+  config: require('./config'),
+  sync: require('./sync'),
+  ssh: require('./ssh')
+};

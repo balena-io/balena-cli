@@ -15,18 +15,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-
-(function() {
-  exports.list = {
-    signature: 'settings',
-    description: 'print current settings',
-    help: 'Use this command to display detected settings\n\nExamples:\n\n	$ resin settings',
-    action: function(params, options, done) {
-      var prettyjson, resin;
-      resin = require('resin-sdk-preconfigured');
-      prettyjson = require('prettyjson');
-      return resin.settings.getAll().then(prettyjson.render).then(console.log).nodeify(done);
-    }
-  };
-
-}).call(this);
+exports.list = {
+  signature: 'settings',
+  description: 'print current settings',
+  help: 'Use this command to display detected settings\n\nExamples:\n\n	$ resin settings',
+  action: function(params, options, done) {
+    var prettyjson, resin;
+    resin = require('resin-sdk-preconfigured');
+    prettyjson = require('prettyjson');
+    return resin.settings.getAll().then(prettyjson.render).then(console.log).nodeify(done);
+  }
+};

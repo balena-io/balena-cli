@@ -15,27 +15,23 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
+var chalk, errors, patterns;
 
-(function() {
-  var chalk, errors, patterns;
+chalk = require('chalk');
 
-  chalk = require('chalk');
+errors = require('resin-cli-errors');
 
-  errors = require('resin-cli-errors');
+patterns = require('./utils/patterns');
 
-  patterns = require('./utils/patterns');
-
-  exports.handle = function(error) {
-    var message;
-    message = errors.interpret(error);
-    if (message == null) {
-      return;
-    }
-    if (process.env.DEBUG) {
-      message = error.stack;
-    }
-    patterns.printErrorMessage(message);
-    return process.exit(error.exitCode || 1);
-  };
-
-}).call(this);
+exports.handle = function(error) {
+  var message;
+  message = errors.interpret(error);
+  if (message == null) {
+    return;
+  }
+  if (process.env.DEBUG) {
+    message = error.stack;
+  }
+  patterns.printErrorMessage(message);
+  return process.exit(error.exitCode || 1);
+};

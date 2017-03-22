@@ -15,94 +15,90 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
+var getSubShellCommand;
 
-(function() {
-  var getSubShellCommand;
+getSubShellCommand = function(command) {
+  var os;
+  os = require('os');
+  if (os.platform() === 'win32') {
+    return {
+      program: 'cmd.exe',
+      args: ['/s', '/c', command]
+    };
+  } else {
+    return {
+      program: '/bin/sh',
+      args: ['-c', command]
+    };
+  }
+};
 
-  getSubShellCommand = function(command) {
-    var os;
-    os = require('os');
-    if (os.platform() === 'win32') {
-      return {
-        program: 'cmd.exe',
-        args: ['/s', '/c', command]
-      };
-    } else {
-      return {
-        program: '/bin/sh',
-        args: ['-c', command]
-      };
+module.exports = {
+  signature: 'ssh [uuid]',
+  description: '(beta) get a shell into the running app container of a device',
+  help: 'Warning: \'resin ssh\' requires an openssh-compatible client to be correctly\ninstalled in your shell environment. For more information (including Windows\nsupport) please check the README here: https://github.com/resin-io/resin-cli\n\nUse this command to get a shell into the running application container of\nyour device.\n\nExamples:\n\n	$ resin ssh MyApp\n	$ resin ssh 7cf02a6\n	$ resin ssh 7cf02a6 --port 8080\n	$ resin ssh 7cf02a6 -v',
+  permission: 'user',
+  primary: true,
+  options: [
+    {
+      signature: 'port',
+      parameter: 'port',
+      description: 'ssh gateway port',
+      alias: 'p'
+    }, {
+      signature: 'verbose',
+      boolean: true,
+      description: 'increase verbosity',
+      alias: 'v'
     }
-  };
-
-  module.exports = {
-    signature: 'ssh [uuid]',
-    description: '(beta) get a shell into the running app container of a device',
-    help: 'Warning: \'resin ssh\' requires an openssh-compatible client to be correctly\ninstalled in your shell environment. For more information (including Windows\nsupport) please check the README here: https://github.com/resin-io/resin-cli\n\nUse this command to get a shell into the running application container of\nyour device.\n\nExamples:\n\n	$ resin ssh MyApp\n	$ resin ssh 7cf02a6\n	$ resin ssh 7cf02a6 --port 8080\n	$ resin ssh 7cf02a6 -v',
-    permission: 'user',
-    primary: true,
-    options: [
-      {
-        signature: 'port',
-        parameter: 'port',
-        description: 'ssh gateway port',
-        alias: 'p'
-      }, {
-        signature: 'verbose',
-        boolean: true,
-        description: 'increase verbosity',
-        alias: 'v'
+  ],
+  action: function(params, options, done) {
+    var Promise, child_process, patterns, resin, settings, verbose;
+    child_process = require('child_process');
+    Promise = require('bluebird');
+    resin = require('resin-sdk-preconfigured');
+    settings = require('resin-settings-client');
+    patterns = require('../utils/patterns');
+    if (options.port == null) {
+      options.port = 22;
+    }
+    verbose = options.verbose ? '-vvv' : '';
+    return Promise["try"](function() {
+      if (!params.uuid) {
+        return false;
       }
-    ],
-    action: function(params, options, done) {
-      var Promise, child_process, patterns, resin, settings, verbose;
-      child_process = require('child_process');
-      Promise = require('bluebird');
-      resin = require('resin-sdk-preconfigured');
-      settings = require('resin-settings-client');
-      patterns = require('../utils/patterns');
-      if (options.port == null) {
-        options.port = 22;
+      return resin.models.device.has(params.uuid);
+    }).then(function(uuidExists) {
+      if (uuidExists) {
+        return params.uuid;
       }
-      verbose = options.verbose ? '-vvv' : '';
-      return Promise["try"](function() {
-        if (!params.uuid) {
-          return false;
+      return patterns.inferOrSelectDevice();
+    }).then(function(uuid) {
+      console.info("Connecting with: " + uuid);
+      return resin.models.device.get(uuid);
+    }).then(function(device) {
+      if (!device.is_online) {
+        throw new Error('Device is not online');
+      }
+      return Promise.props({
+        username: resin.auth.whoami(),
+        uuid: device.uuid,
+        containerId: resin.models.device.getApplicationInfo(device.uuid).get('containerId')
+      }).then(function(arg) {
+        var containerId, username, uuid;
+        username = arg.username, uuid = arg.uuid, containerId = arg.containerId;
+        if (containerId == null) {
+          throw new Error('Did not find running application container');
         }
-        return resin.models.device.has(params.uuid);
-      }).then(function(uuidExists) {
-        if (uuidExists) {
-          return params.uuid;
-        }
-        return patterns.inferOrSelectDevice();
-      }).then(function(uuid) {
-        console.info("Connecting with: " + uuid);
-        return resin.models.device.get(uuid);
-      }).then(function(device) {
-        if (!device.is_online) {
-          throw new Error('Device is not online');
-        }
-        return Promise.props({
-          username: resin.auth.whoami(),
-          uuid: device.uuid,
-          containerId: resin.models.device.getApplicationInfo(device.uuid).get('containerId')
-        }).then(function(arg) {
-          var containerId, username, uuid;
-          username = arg.username, uuid = arg.uuid, containerId = arg.containerId;
-          if (containerId == null) {
-            throw new Error('Did not find running application container');
-          }
-          return Promise["try"](function() {
-            var command, subShellCommand;
-            command = "ssh " + verbose + " -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ControlMaster=no -p " + options.port + " " + username + "@ssh." + (settings.get('proxyUrl')) + " enter " + uuid + " " + containerId;
-            subShellCommand = getSubShellCommand(command);
-            return child_process.spawn(subShellCommand.program, subShellCommand.args, {
-              stdio: 'inherit'
-            });
+        return Promise["try"](function() {
+          var command, subShellCommand;
+          command = "ssh " + verbose + " -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ControlMaster=no -p " + options.port + " " + username + "@ssh." + (settings.get('proxyUrl')) + " enter " + uuid + " " + containerId;
+          subShellCommand = getSubShellCommand(command);
+          return child_process.spawn(subShellCommand.program, subShellCommand.args, {
+            stdio: 'inherit'
           });
         });
-      }).nodeify(done);
-    }
-  };
-
-}).call(this);
+      });
+    }).nodeify(done);
+  }
+};

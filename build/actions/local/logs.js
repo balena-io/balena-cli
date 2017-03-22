@@ -15,55 +15,51 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-
-(function() {
-  module.exports = {
-    signature: 'local logs [deviceIp]',
-    description: 'Get or attach to logs of a running container on a resinOS device',
-    help: '\nExamples:\n\n	$ resin local logs\n	$ resin local logs -f\n	$ resin local logs 192.168.1.10\n	$ resin local logs 192.168.1.10 -f\n	$ resin local logs 192.168.1.10 -f --app-name myapp',
-    options: [
-      {
-        signature: 'follow',
-        boolean: true,
-        description: 'follow log',
-        alias: 'f'
-      }, {
-        signature: 'app-name',
-        parameter: 'name',
-        description: 'name of container to get logs from',
-        alias: 'a'
-      }
-    ],
-    root: true,
-    action: function(params, options, done) {
-      var Promise, forms, pipeContainerStream, ref, selectContainerFromDevice;
-      Promise = require('bluebird');
-      forms = require('resin-sync').forms;
-      ref = require('./common'), selectContainerFromDevice = ref.selectContainerFromDevice, pipeContainerStream = ref.pipeContainerStream;
-      return Promise["try"](function() {
-        if (params.deviceIp == null) {
-          return forms.selectLocalResinOsDevice();
-        }
-        return params.deviceIp;
-      }).then((function(_this) {
-        return function(deviceIp) {
-          _this.deviceIp = deviceIp;
-          if (options['app-name'] == null) {
-            return selectContainerFromDevice(_this.deviceIp);
-          }
-          return options['app-name'];
-        };
-      })(this)).then((function(_this) {
-        return function(appName) {
-          return pipeContainerStream({
-            deviceIp: _this.deviceIp,
-            name: appName,
-            outStream: process.stdout,
-            follow: options['follow']
-          });
-        };
-      })(this));
+module.exports = {
+  signature: 'local logs [deviceIp]',
+  description: 'Get or attach to logs of a running container on a resinOS device',
+  help: '\nExamples:\n\n	$ resin local logs\n	$ resin local logs -f\n	$ resin local logs 192.168.1.10\n	$ resin local logs 192.168.1.10 -f\n	$ resin local logs 192.168.1.10 -f --app-name myapp',
+  options: [
+    {
+      signature: 'follow',
+      boolean: true,
+      description: 'follow log',
+      alias: 'f'
+    }, {
+      signature: 'app-name',
+      parameter: 'name',
+      description: 'name of container to get logs from',
+      alias: 'a'
     }
-  };
-
-}).call(this);
+  ],
+  root: true,
+  action: function(params, options, done) {
+    var Promise, forms, pipeContainerStream, ref, selectContainerFromDevice;
+    Promise = require('bluebird');
+    forms = require('resin-sync').forms;
+    ref = require('./common'), selectContainerFromDevice = ref.selectContainerFromDevice, pipeContainerStream = ref.pipeContainerStream;
+    return Promise["try"](function() {
+      if (params.deviceIp == null) {
+        return forms.selectLocalResinOsDevice();
+      }
+      return params.deviceIp;
+    }).then((function(_this) {
+      return function(deviceIp) {
+        _this.deviceIp = deviceIp;
+        if (options['app-name'] == null) {
+          return selectContainerFromDevice(_this.deviceIp);
+        }
+        return options['app-name'];
+      };
+    })(this)).then((function(_this) {
+      return function(appName) {
+        return pipeContainerStream({
+          deviceIp: _this.deviceIp,
+          name: appName,
+          outStream: process.stdout,
+          follow: options['follow']
+        });
+      };
+    })(this));
+  }
+};

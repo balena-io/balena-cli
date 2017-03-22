@@ -15,180 +15,227 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
+var commandOptions, formatVersion, resolveVersion, stepHandler;
 
-(function() {
-  var commandOptions, stepHandler;
+commandOptions = require('./command-options');
 
-  commandOptions = require('./command-options');
+formatVersion = function(v, isRecommended) {
+  var result;
+  result = "v" + v;
+  if (isRecommended) {
+    result += ' (recommended)';
+  }
+  return result;
+};
 
-  exports.download = {
-    signature: 'os download <type>',
-    description: 'download an unconfigured os image',
-    help: 'Use this command to download an unconfigured os image for a certain device type.\n\nExamples:\n\n	$ resin os download parallella -o ../foo/bar/parallella.img',
-    permission: 'user',
-    options: [
-      {
-        signature: 'output',
-        description: 'output path',
-        parameter: 'output',
-        alias: 'o',
-        required: 'You have to specify an output location'
-      }
-    ],
-    action: function(params, options, done) {
-      var fs, manager, rindle, unzip, visuals;
-      unzip = require('unzip2');
-      fs = require('fs');
-      rindle = require('rindle');
-      manager = require('resin-image-manager');
-      visuals = require('resin-cli-visuals');
-      console.info("Getting device operating system for " + params.type);
-      return manager.get(params.type).then(function(stream) {
-        var bar, output, spinner;
-        bar = new visuals.Progress('Downloading Device OS');
-        spinner = new visuals.Spinner('Downloading Device OS (size unknown)');
-        stream.on('progress', function(state) {
-          if (state != null) {
-            return bar.update(state);
-          } else {
-            return spinner.start();
-          }
-        });
-        stream.on('end', function() {
-          return spinner.stop();
-        });
-        if (stream.mime === 'application/zip') {
-          output = unzip.Extract({
-            path: options.output
-          });
-        } else {
-          output = fs.createWriteStream(options.output);
-        }
-        return rindle.wait(stream.pipe(output))["return"](options.output);
-      }).tap(function(output) {
-        return console.info('The image was downloaded successfully');
-      }).nodeify(done);
+resolveVersion = function(deviceType, version) {
+  var form, resin;
+  if (version !== 'menu') {
+    return Promise.resolve(version);
+  }
+  form = require('resin-cli-form');
+  resin = require('resin-sdk-preconfigured');
+  return resin.models.os.getSupportedVersions(deviceType).then(function(arg) {
+    var choices, recommended, versions;
+    versions = arg.versions, recommended = arg.recommended;
+    choices = versions.map(function(v) {
+      return {
+        value: v,
+        name: formatVersion(v, v === recommended)
+      };
+    });
+    return form.ask({
+      message: 'Select the OS version:',
+      type: 'list',
+      choices: choices,
+      "default": recommended
+    });
+  });
+};
+
+exports.download = {
+  signature: 'os download <type>',
+  description: 'download an unconfigured os image',
+  help: 'Use this command to download an unconfigured os image for a certain device type.\n\nIf version is not specified the newest stable (non-pre-release) version of OS\nis downloaded if available, or the newest version otherwise (if all existing\nversions for the given device type are pre-release).\n\nYou can pass `--version menu` to pick the OS version from the interactive menu\nof all available versions.\n\nExamples:\n\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 1.24.1\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^1.20.0\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu',
+  permission: 'user',
+  options: [
+    {
+      signature: 'output',
+      description: 'output path',
+      parameter: 'output',
+      alias: 'o',
+      required: 'You have to specify the output location'
+    }, {
+      signature: 'version',
+      description: "exact version number, or a valid semver range,\nor 'latest' (includes pre-releases),\nor 'default' (excludes pre-releases if at least one stable version is available),\nor 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),\nor 'menu' (will show the interactive menu)",
+      parameter: 'version'
     }
-  };
-
-  stepHandler = function(step) {
-    var _, bar, helpers, rindle, visuals;
-    _ = require('lodash');
+  ],
+  action: function(params, options, done) {
+    var Promise, displayVersion, fs, manager, rindle, unzip, visuals;
+    Promise = require('bluebird');
+    unzip = require('unzip2');
+    fs = require('fs');
     rindle = require('rindle');
+    manager = require('resin-image-manager');
     visuals = require('resin-cli-visuals');
+    console.info("Getting device operating system for " + params.type);
+    displayVersion = '';
+    return Promise["try"](function() {
+      if (!options.version) {
+        console.warn('OS version is not specified, using the default version: the newest stable (non-pre-release) version if available, or the newest version otherwise (if all existing versions for the given device type are pre-release).');
+        return 'default';
+      }
+      return resolveVersion(params.type, options.version);
+    }).then(function(version) {
+      if (version !== 'default') {
+        displayVersion = " " + version;
+      }
+      return manager.get(params.type, version);
+    }).then(function(stream) {
+      var bar, output, spinner;
+      bar = new visuals.Progress("Downloading Device OS" + displayVersion);
+      spinner = new visuals.Spinner("Downloading Device OS" + displayVersion + " (size unknown)");
+      stream.on('progress', function(state) {
+        if (state != null) {
+          return bar.update(state);
+        } else {
+          return spinner.start();
+        }
+      });
+      stream.on('end', function() {
+        return spinner.stop();
+      });
+      if (stream.mime === 'application/zip') {
+        output = unzip.Extract({
+          path: options.output
+        });
+      } else {
+        output = fs.createWriteStream(options.output);
+      }
+      return rindle.wait(stream.pipe(output))["return"](options.output);
+    }).tap(function(output) {
+      return console.info('The image was downloaded successfully');
+    }).nodeify(done);
+  }
+};
+
+stepHandler = function(step) {
+  var _, bar, helpers, rindle, visuals;
+  _ = require('lodash');
+  rindle = require('rindle');
+  visuals = require('resin-cli-visuals');
+  helpers = require('../utils/helpers');
+  step.on('stdout', _.bind(process.stdout.write, process.stdout));
+  step.on('stderr', _.bind(process.stderr.write, process.stderr));
+  step.on('state', function(state) {
+    if (state.operation.command === 'burn') {
+      return;
+    }
+    return console.log(helpers.stateToString(state));
+  });
+  bar = new visuals.Progress('Writing Device OS');
+  step.on('burn', _.bind(bar.update, bar));
+  return rindle.wait(step);
+};
+
+exports.configure = {
+  signature: 'os configure <image> <uuid>',
+  description: 'configure an os image',
+  help: 'Use this command to configure a previously download operating system image with a device.\n\nExamples:\n\n	$ resin os configure ../path/rpi.img 7cf02a6',
+  permission: 'user',
+  options: [
+    {
+      signature: 'advanced',
+      description: 'show advanced commands',
+      boolean: true,
+      alias: 'v'
+    }
+  ],
+  action: function(params, options, done) {
+    var _, form, helpers, init, resin;
+    _ = require('lodash');
+    resin = require('resin-sdk-preconfigured');
+    form = require('resin-cli-form');
+    init = require('resin-device-init');
     helpers = require('../utils/helpers');
-    step.on('stdout', _.bind(process.stdout.write, process.stdout));
-    step.on('stderr', _.bind(process.stderr.write, process.stderr));
-    step.on('state', function(state) {
-      if (state.operation.command === 'burn') {
+    console.info('Configuring operating system image');
+    return resin.models.device.get(params.uuid).then(function(device) {
+      return helpers.getManifest(params.image, device.device_type).get('options').then(function(questions) {
+        var advancedGroup, override;
+        if (!options.advanced) {
+          advancedGroup = _.findWhere(questions, {
+            name: 'advanced',
+            isGroup: true
+          });
+          if (advancedGroup != null) {
+            override = helpers.getGroupDefaults(advancedGroup);
+          }
+        }
+        return form.run(questions, {
+          override: override
+        });
+      }).then(function(answers) {
+        return init.configure(params.image, params.uuid, answers).then(stepHandler);
+      });
+    }).nodeify(done);
+  }
+};
+
+exports.initialize = {
+  signature: 'os initialize <image>',
+  description: 'initialize an os image',
+  help: 'Use this command to initialize a previously configured operating system image.\n\nExamples:\n\n	$ resin os initialize ../path/rpi.img --type \'raspberry-pi\'',
+  permission: 'user',
+  options: [
+    commandOptions.yes, {
+      signature: 'type',
+      description: 'device type',
+      parameter: 'type',
+      alias: 't',
+      required: 'You have to specify a device type'
+    }, {
+      signature: 'drive',
+      description: 'drive',
+      parameter: 'drive',
+      alias: 'd'
+    }
+  ],
+  root: true,
+  action: function(params, options, done) {
+    var Promise, form, helpers, init, patterns, umount;
+    Promise = require('bluebird');
+    umount = Promise.promisifyAll(require('umount'));
+    form = require('resin-cli-form');
+    init = require('resin-device-init');
+    patterns = require('../utils/patterns');
+    helpers = require('../utils/helpers');
+    console.info('Initializing device');
+    return helpers.getManifest(params.image, options.type).then(function(manifest) {
+      var ref;
+      return (ref = manifest.initialization) != null ? ref.options : void 0;
+    }).then(function(questions) {
+      return form.run(questions, {
+        override: {
+          drive: options.drive
+        }
+      });
+    }).tap(function(answers) {
+      var message;
+      if (answers.drive == null) {
         return;
       }
-      return console.log(helpers.stateToString(state));
-    });
-    bar = new visuals.Progress('Writing Device OS');
-    step.on('burn', _.bind(bar.update, bar));
-    return rindle.wait(step);
-  };
-
-  exports.configure = {
-    signature: 'os configure <image> <uuid>',
-    description: 'configure an os image',
-    help: 'Use this command to configure a previously download operating system image with a device.\n\nExamples:\n\n	$ resin os configure ../path/rpi.img 7cf02a6',
-    permission: 'user',
-    options: [
-      {
-        signature: 'advanced',
-        description: 'show advanced commands',
-        boolean: true,
-        alias: 'v'
+      message = "This will erase " + answers.drive + ". Are you sure?";
+      return patterns.confirm(options.yes, message)["return"](answers.drive).then(umount.umountAsync);
+    }).tap(function(answers) {
+      return init.initialize(params.image, options.type, answers).then(stepHandler);
+    }).then(function(answers) {
+      if (answers.drive == null) {
+        return;
       }
-    ],
-    action: function(params, options, done) {
-      var _, form, helpers, init, resin;
-      _ = require('lodash');
-      resin = require('resin-sdk-preconfigured');
-      form = require('resin-cli-form');
-      init = require('resin-device-init');
-      helpers = require('../utils/helpers');
-      console.info('Configuring operating system image');
-      return resin.models.device.get(params.uuid).then(function(device) {
-        return helpers.getManifest(params.image, device.device_type).get('options').then(function(questions) {
-          var advancedGroup, override;
-          if (!options.advanced) {
-            advancedGroup = _.findWhere(questions, {
-              name: 'advanced',
-              isGroup: true
-            });
-            if (advancedGroup != null) {
-              override = helpers.getGroupDefaults(advancedGroup);
-            }
-          }
-          return form.run(questions, {
-            override: override
-          });
-        }).then(function(answers) {
-          return init.configure(params.image, params.uuid, answers).then(stepHandler);
-        });
-      }).nodeify(done);
-    }
-  };
-
-  exports.initialize = {
-    signature: 'os initialize <image>',
-    description: 'initialize an os image',
-    help: 'Use this command to initialize a previously configured operating system image.\n\nExamples:\n\n	$ resin os initialize ../path/rpi.img --type \'raspberry-pi\'',
-    permission: 'user',
-    options: [
-      commandOptions.yes, {
-        signature: 'type',
-        description: 'device type',
-        parameter: 'type',
-        alias: 't',
-        required: 'You have to specify a device type'
-      }, {
-        signature: 'drive',
-        description: 'drive',
-        parameter: 'drive',
-        alias: 'd'
-      }
-    ],
-    root: true,
-    action: function(params, options, done) {
-      var Promise, form, helpers, init, patterns, umount;
-      Promise = require('bluebird');
-      umount = Promise.promisifyAll(require('umount'));
-      form = require('resin-cli-form');
-      init = require('resin-device-init');
-      patterns = require('../utils/patterns');
-      helpers = require('../utils/helpers');
-      console.info('Initializing device');
-      return helpers.getManifest(params.image, options.type).then(function(manifest) {
-        var ref;
-        return (ref = manifest.initialization) != null ? ref.options : void 0;
-      }).then(function(questions) {
-        return form.run(questions, {
-          override: {
-            drive: options.drive
-          }
-        });
-      }).tap(function(answers) {
-        var message;
-        if (answers.drive == null) {
-          return;
-        }
-        message = "This will erase " + answers.drive + ". Are you sure?";
-        return patterns.confirm(options.yes, message)["return"](answers.drive).then(umount.umountAsync);
-      }).tap(function(answers) {
-        return init.initialize(params.image, options.type, answers).then(stepHandler);
-      }).then(function(answers) {
-        if (answers.drive == null) {
-          return;
-        }
-        return umount.umountAsync(answers.drive).tap(function() {
-          return console.info("You can safely remove " + answers.drive + " now");
-        });
-      }).nodeify(done);
-    }
-  };
-
-}).call(this);
+      return umount.umountAsync(answers.drive).tap(function() {
+        return console.info("You can safely remove " + answers.drive + " now");
+      });
+    }).nodeify(done);
+  }
+};
