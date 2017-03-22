@@ -15,70 +15,66 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
+var _;
 
-(function() {
-  var _;
+_ = require('lodash');
 
-  _ = require('lodash');
+exports.yes = {
+  signature: 'yes',
+  description: 'confirm non interactively',
+  boolean: true,
+  alias: 'y'
+};
 
-  exports.yes = {
-    signature: 'yes',
-    description: 'confirm non interactively',
-    boolean: true,
-    alias: 'y'
-  };
+exports.optionalApplication = {
+  signature: 'application',
+  parameter: 'application',
+  description: 'application name',
+  alias: ['a', 'app']
+};
 
-  exports.optionalApplication = {
-    signature: 'application',
-    parameter: 'application',
-    description: 'application name',
-    alias: ['a', 'app']
-  };
+exports.application = _.defaults({
+  required: 'You have to specify an application'
+}, exports.optionalApplication);
 
-  exports.application = _.defaults({
-    required: 'You have to specify an application'
-  }, exports.optionalApplication);
+exports.optionalDevice = {
+  signature: 'device',
+  parameter: 'device',
+  description: 'device uuid',
+  alias: 'd'
+};
 
-  exports.optionalDevice = {
-    signature: 'device',
-    parameter: 'device',
-    description: 'device uuid',
-    alias: 'd'
-  };
+exports.booleanDevice = {
+  signature: 'device',
+  description: 'device',
+  boolean: true,
+  alias: 'd'
+};
 
-  exports.booleanDevice = {
-    signature: 'device',
-    description: 'device',
-    boolean: true,
-    alias: 'd'
-  };
+exports.network = {
+  signature: 'network',
+  parameter: 'network',
+  description: 'network type',
+  alias: 'n'
+};
 
-  exports.network = {
-    signature: 'network',
-    parameter: 'network',
-    description: 'network type',
-    alias: 'n'
-  };
+exports.wifiSsid = {
+  signature: 'ssid',
+  parameter: 'ssid',
+  description: 'wifi ssid, if network is wifi',
+  alias: 's'
+};
 
-  exports.wifiSsid = {
-    signature: 'ssid',
-    parameter: 'ssid',
-    description: 'wifi ssid, if network is wifi',
-    alias: 's'
-  };
+exports.wifiKey = {
+  signature: 'key',
+  parameter: 'key',
+  description: 'wifi key, if network is wifi',
+  alias: 'k'
+};
 
-  exports.wifiKey = {
-    signature: 'key',
-    parameter: 'key',
-    description: 'wifi key, if network is wifi',
-    alias: 'k'
-  };
-
-  exports.forceUpdateLock = {
-    signature: 'force',
-    description: 'force action if the update lock is set',
-    boolean: true,
-    alias: 'f'
-  };
-
-}).call(this);
+exports.forceUpdateLock = {
+  signature: 'force',
+  description: 'force action if the update lock is set',
+  boolean: true,
+  alias: 'f'
+};

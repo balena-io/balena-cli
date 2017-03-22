@@ -32,7 +32,7 @@ exports.download =
 		description: 'output path'
 		parameter: 'output'
 		alias: 'o'
-		required: 'You have to specify an output location'
+		required: 'You have to specify the output location'
 	]
 	action: (params, options, done) ->
 		unzip = require('unzip2')

@@ -15,22 +15,18 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
+exports.configure = require('./configure');
 
-(function() {
-  exports.configure = require('./configure');
+exports.flash = require('./flash');
 
-  exports.flash = require('./flash');
+exports.logs = require('./logs');
 
-  exports.logs = require('./logs');
+exports.promote = require('./promote');
 
-  exports.promote = require('./promote');
+exports.scan = require('./scan');
 
-  exports.scan = require('./scan');
+exports.ssh = require('./ssh');
 
-  exports.ssh = require('./ssh');
+exports.push = require('./push');
 
-  exports.push = require('./push');
-
-  exports.stop = require('./stop');
-
-}).call(this);
+exports.stop = require('./stop');

@@ -15,30 +15,26 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
+var _, capitano, nplugm, patterns;
 
-(function() {
-  var _, capitano, nplugm, patterns;
+nplugm = require('nplugm');
 
-  nplugm = require('nplugm');
+_ = require('lodash');
 
-  _ = require('lodash');
+capitano = require('capitano');
 
-  capitano = require('capitano');
+patterns = require('./patterns');
 
-  patterns = require('./patterns');
-
-  exports.register = function(regex) {
-    return nplugm.list(regex).map(function(plugin) {
-      var command;
-      command = require(plugin);
-      command.plugin = true;
-      if (!_.isArray(command)) {
-        return capitano.command(command);
-      }
-      return _.each(command, capitano.command);
-    })["catch"](function(error) {
-      return patterns.printErrorMessage(error.message);
-    });
-  };
-
-}).call(this);
+exports.register = function(regex) {
+  return nplugm.list(regex).map(function(plugin) {
+    var command;
+    command = require(plugin);
+    command.plugin = true;
+    if (!_.isArray(command)) {
+      return capitano.command(command);
+    }
+    return _.each(command, capitano.command);
+  })["catch"](function(error) {
+    return patterns.printErrorMessage(error.message);
+  });
+};

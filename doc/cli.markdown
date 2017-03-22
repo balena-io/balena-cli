@@ -705,6 +705,10 @@ comma delimited paths to ignore when syncing
 
 do not parse excluded/included files from .gitignore
 
+#### --skip-restart
+
+do not restart container after syncing
+
 #### --before, -b &#60;command&#62;
 
 execute a command before syncing

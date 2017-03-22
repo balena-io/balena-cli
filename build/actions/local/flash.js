@@ -15,115 +15,111 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-
-(function() {
-  module.exports = {
-    signature: 'local flash <image>',
-    description: 'Flash an image to a drive',
-    help: 'Use this command to flash a resinOS image to a drive.\n\nExamples:\n\n	$ resin local flash path/to/resinos.img\n	$ resin local flash path/to/resinos.img --drive /dev/disk2\n	$ resin local flash path/to/resinos.img --drive /dev/disk2 --yes',
-    options: [
-      {
-        signature: 'yes',
-        boolean: true,
-        description: 'confirm non-interactively',
-        alias: 'y'
-      }, {
-        signature: 'drive',
-        parameter: 'drive',
-        description: 'drive',
-        alias: 'd'
-      }
-    ],
-    root: true,
-    action: function(params, options, done) {
-      var Promise, _, chalk, drivelist, form, fs, imageWrite, os, umount, visuals;
-      _ = require('lodash');
-      os = require('os');
-      Promise = require('bluebird');
-      umount = Promise.promisifyAll(require('umount'));
-      fs = Promise.promisifyAll(require('fs'));
-      drivelist = Promise.promisifyAll(require('drivelist'));
-      chalk = require('chalk');
-      visuals = require('resin-cli-visuals');
-      form = require('resin-cli-form');
-      require('babel-register')({
-        only: /etcher-image-write|bmapflash/,
-        presets: ['es2015'],
-        compact: true
-      });
-      imageWrite = require('etcher-image-write');
-      return form.run([
-        {
-          message: 'Select drive',
-          type: 'drive',
-          name: 'drive'
-        }, {
-          message: 'This will erase the selected drive. Are you sure?',
-          type: 'confirm',
-          name: 'yes',
-          "default": false
-        }
-      ], {
-        override: {
-          drive: options.drive,
-          yes: options.yes || void 0
-        }
-      }).then(function(answers) {
-        if (answers.yes !== true) {
-          console.log(chalk.red.bold('Aborted image flash'));
-          process.exit(0);
-        }
-        return drivelist.listAsync().then(function(drives) {
-          var selectedDrive;
-          selectedDrive = _.find(drives, {
-            device: answers.drive
-          });
-          if (selectedDrive == null) {
-            throw new Error("Drive not found: " + answers.drive);
-          }
-          return selectedDrive;
-        });
-      }).then(function(selectedDrive) {
-        var progressBars;
-        progressBars = {
-          write: new visuals.Progress('Flashing'),
-          check: new visuals.Progress('Validating')
-        };
-        return umount.umountAsync(selectedDrive.device).then(function() {
-          return Promise.props({
-            imageSize: fs.statAsync(params.image).get('size'),
-            imageStream: Promise.resolve(fs.createReadStream(params.image)),
-            driveFileDescriptor: fs.openAsync(selectedDrive.raw, 'rs+')
-          });
-        }).then(function(results) {
-          return imageWrite.write({
-            fd: results.driveFileDescriptor,
-            device: selectedDrive.raw,
-            size: selectedDrive.size
-          }, {
-            stream: results.imageStream,
-            size: results.imageSize
-          }, {
-            check: true
-          });
-        }).then(function(writer) {
-          return new Promise(function(resolve, reject) {
-            writer.on('progress', function(state) {
-              return progressBars[state.type].update(state);
-            });
-            writer.on('error', reject);
-            return writer.on('done', resolve);
-          });
-        }).then(function() {
-          var removedrive;
-          if ((os.platform() === 'win32') && (selectedDrive.mountpoint != null)) {
-            removedrive = Promise.promisifyAll(require('removedrive'));
-            return removedrive.ejectAsync(selectedDrive.mountpoint);
-          }
-          return umount.umountAsync(selectedDrive.device);
-        });
-      }).asCallback(done);
+module.exports = {
+  signature: 'local flash <image>',
+  description: 'Flash an image to a drive',
+  help: 'Use this command to flash a resinOS image to a drive.\n\nExamples:\n\n	$ resin local flash path/to/resinos.img\n	$ resin local flash path/to/resinos.img --drive /dev/disk2\n	$ resin local flash path/to/resinos.img --drive /dev/disk2 --yes',
+  options: [
+    {
+      signature: 'yes',
+      boolean: true,
+      description: 'confirm non-interactively',
+      alias: 'y'
+    }, {
+      signature: 'drive',
+      parameter: 'drive',
+      description: 'drive',
+      alias: 'd'
     }
-  };
-
-}).call(this);
+  ],
+  root: true,
+  action: function(params, options, done) {
+    var Promise, _, chalk, drivelist, form, fs, imageWrite, os, umount, visuals;
+    _ = require('lodash');
+    os = require('os');
+    Promise = require('bluebird');
+    umount = Promise.promisifyAll(require('umount'));
+    fs = Promise.promisifyAll(require('fs'));
+    drivelist = Promise.promisifyAll(require('drivelist'));
+    chalk = require('chalk');
+    visuals = require('resin-cli-visuals');
+    form = require('resin-cli-form');
+    require('babel-register')({
+      only: /etcher-image-write|bmapflash/,
+      presets: ['es2015'],
+      compact: true
+    });
+    imageWrite = require('etcher-image-write');
+    return form.run([
+      {
+        message: 'Select drive',
+        type: 'drive',
+        name: 'drive'
+      }, {
+        message: 'This will erase the selected drive. Are you sure?',
+        type: 'confirm',
+        name: 'yes',
+        "default": false
+      }
+    ], {
+      override: {
+        drive: options.drive,
+        yes: options.yes || void 0
+      }
+    }).then(function(answers) {
+      if (answers.yes !== true) {
+        console.log(chalk.red.bold('Aborted image flash'));
+        process.exit(0);
+      }
+      return drivelist.listAsync().then(function(drives) {
+        var selectedDrive;
+        selectedDrive = _.find(drives, {
+          device: answers.drive
+        });
+        if (selectedDrive == null) {
+          throw new Error("Drive not found: " + answers.drive);
+        }
+        return selectedDrive;
+      });
+    }).then(function(selectedDrive) {
+      var progressBars;
+      progressBars = {
+        write: new visuals.Progress('Flashing'),
+        check: new visuals.Progress('Validating')
+      };
+      return umount.umountAsync(selectedDrive.device).then(function() {
+        return Promise.props({
+          imageSize: fs.statAsync(params.image).get('size'),
+          imageStream: Promise.resolve(fs.createReadStream(params.image)),
+          driveFileDescriptor: fs.openAsync(selectedDrive.raw, 'rs+')
+        });
+      }).then(function(results) {
+        return imageWrite.write({
+          fd: results.driveFileDescriptor,
+          device: selectedDrive.raw,
+          size: selectedDrive.size
+        }, {
+          stream: results.imageStream,
+          size: results.imageSize
+        }, {
+          check: true
+        });
+      }).then(function(writer) {
+        return new Promise(function(resolve, reject) {
+          writer.on('progress', function(state) {
+            return progressBars[state.type].update(state);
+          });
+          writer.on('error', reject);
+          return writer.on('done', resolve);
+        });
+      }).then(function() {
+        var removedrive;
+        if ((os.platform() === 'win32') && (selectedDrive.mountpoint != null)) {
+          removedrive = Promise.promisifyAll(require('removedrive'));
+          return removedrive.ejectAsync(selectedDrive.mountpoint);
+        }
+        return umount.umountAsync(selectedDrive.device);
+      });
+    }).asCallback(done);
+  }
+};
