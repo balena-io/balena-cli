@@ -81,9 +81,9 @@ You can accomplish this by setting `RESINRC_DATA_DIRECTORY=/opt/resin` or adding
 Support
 -------
 
-If you're having any problem, check our [troubleshooting guide](https://github.com/resin-io/resin-cli/blob/master/TROUBLESHOOTING.md) and if your problem is not addressed there, please [raise an issue](https://github.com/resin-io/resin-cli/issues/new) on GitHub and the Resin.io team will be happy to help.
+If you're having any problems, check our [troubleshooting guide](https://github.com/resin-io/resin-cli/blob/master/TROUBLESHOOTING.md) and if your problem is not addressed there, please [raise an issue](https://github.com/resin-io/resin-cli/issues/new) on GitHub and the resin.io team will be happy to help.
 
-You can also get in touch with us at our public [Gitter chat channel](https://gitter.im/resin-io/chat).
+You can also get in touch with us in the resin.io [forums](https://forums.resin.io/).
 
 License
 -------
