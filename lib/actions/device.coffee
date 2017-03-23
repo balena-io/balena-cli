@@ -393,7 +393,8 @@ exports.init =
 
 			download = ->
 				tmp.tmpNameAsync().then (temporalPath) ->
-					capitano.runAsync("os download #{application.device_type} --output #{temporalPath}")
+					# TODO: allow version selection
+					capitano.runAsync("os download #{application.device_type} --output #{temporalPath} --version default")
 				.disposer (temporalPath) ->
 					return rimraf(temporalPath)
 
