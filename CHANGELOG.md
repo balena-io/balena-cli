@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.6.1] - 2017-03-23
+
 ### Added
 
 - Add Sentry error tracking
@@ -373,6 +375,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[5.6.1]: https://github.com/resin-io/resin-cli/compare/v5.6.0...v5.6.1
 [5.6.0]: https://github.com/resin-io/resin-cli/compare/v5.5.0...v5.6.0
 [5.5.0]: https://github.com/resin-io/resin-cli/compare/v5.4.0...v5.5.0
 [5.4.0]: https://github.com/resin-io/resin-cli/compare/v5.3.0...v5.4.0
