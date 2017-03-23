@@ -292,7 +292,7 @@ exports.init = {
       var download;
       download = function() {
         return tmp.tmpNameAsync().then(function(temporalPath) {
-          return capitano.runAsync("os download " + application.device_type + " --output " + temporalPath);
+          return capitano.runAsync("os download " + application.device_type + " --output " + temporalPath + " --version default");
         }).disposer(function(temporalPath) {
           return rimraf(temporalPath);
         });

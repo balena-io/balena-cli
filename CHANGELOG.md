@@ -3,7 +3,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### Added
+
 - Add Sentry error tracking
+
+### Fixed
+
+- The unneeded warning about the default OS version download from the `device init` command.
+- Changed the help references from gitter to forums.
 
 ## [5.6.0] - 2017-03-23
 
