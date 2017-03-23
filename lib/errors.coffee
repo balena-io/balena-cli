@@ -17,6 +17,10 @@ limitations under the License.
 chalk = require('chalk')
 errors = require('resin-cli-errors')
 patterns = require('./utils/patterns')
+Raven = require('raven')
+Promise = require('bluebird')
+
+captureException = Promise.promisify(Raven.captureException.bind(Raven))
 
 exports.handle = (error) ->
 	message = errors.interpret(error)
@@ -26,4 +30,9 @@ exports.handle = (error) ->
 		message = error.stack
 
 	patterns.printErrorMessage(message)
-	process.exit(error.exitCode or 1)
+
+	captureException(error)
+	.timeout(1000)
+	.catch(-> # Ignore any errors (from error logging, or timeouts)
+	).finally ->
+		process.exit(error.exitCode or 1)

@@ -54,6 +54,7 @@
     "president": "^2.0.1",
     "prettyjson": "^1.1.3",
     "reconfix": "^0.0.3",
+    "raven": "^1.2.0",
     "resin-cli-auth": "^1.0.0",
     "resin-cli-errors": "^1.2.0",
     "resin-cli-form": "^1.4.1",
