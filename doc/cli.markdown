@@ -830,7 +830,10 @@ show advanced commands
 
 ## os initialize &#60;image&#62;
 
-Use this command to initialize a previously configured operating system image.
+Use this command to initialize a device with previously configured operating system image.
+
+Note: Initializing the device may ask for administrative permissions
+because we need to access the raw devices directly.
 
 Examples:
 

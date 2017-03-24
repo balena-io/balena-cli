@@ -16,16 +16,11 @@ limitations under the License.
 
 Promise = require('bluebird')
 capitano = Promise.promisifyAll(require('capitano'))
-_ = require('lodash')
-_.str = require('underscore.string')
 president = Promise.promisifyAll(require('president'))
-resin = require('resin-sdk-preconfigured')
-imagefs = require('resin-image-fs')
-rindle = require('rindle')
-os = require('os')
-chalk = require('chalk')
 
 exports.getGroupDefaults = (group) ->
+	_ = require('lodash')
+
 	return _.chain(group)
 		.get('options')
 		.map (question) ->
@@ -34,7 +29,10 @@ exports.getGroupDefaults = (group) ->
 		.value()
 
 exports.stateToString = (state) ->
-	percentage = _.str.lpad(state.percentage, 3, '0') + '%'
+	_str = require('underscore.string')
+	chalk = require('chalk')
+
+	percentage = _str.lpad(state.percentage, 3, '0') + '%'
 	result = "#{chalk.blue(percentage)} #{chalk.cyan(state.operation.command)}"
 
 	switch state.operation.command
@@ -47,16 +45,20 @@ exports.stateToString = (state) ->
 		else
 			throw new Error("Unsupported operation: #{state.operation.type}")
 
-exports.sudo = (command, message) ->
-	command = _.union(_.take(process.argv, 2), command)
-	console.log(message)
+exports.sudo = (command) ->
+	_ = require('lodash')
+	os = require('os')
 
 	if os.platform() isnt 'win32'
-		console.log('Type your computer password to continue')
+		console.log('If asked please type your computer password to continue')
 
+	command = _.union(_.take(process.argv, 2), command)
 	return president.executeAsync(command)
 
 exports.getManifest = (image, deviceType) ->
+	rindle = require('rindle')
+	imagefs = require('resin-image-fs')
+	resin = require('resin-sdk-preconfigured')
 
 	# Attempt to read manifest from the first
 	# partition, but fallback to the API if
@@ -70,3 +72,20 @@ exports.getManifest = (image, deviceType) ->
 	.then(JSON.parse)
 	.catch ->
 		resin.models.device.getManifestBySlug(deviceType)
+
+exports.osProgressHandler = (step) ->
+	rindle = require('rindle')
+	visuals = require('resin-cli-visuals')
+
+	step.on('stdout', process.stdout.write.bind(process.stdout))
+	step.on('stderr', process.stderr.write.bind(process.stderr))
+
+	step.on 'state', (state) ->
+		return if state.operation.command is 'burn'
+		console.log(exports.stateToString(state))
+
+	bar = new visuals.Progress('Writing Device OS')
+
+	step.on('burn', bar.update.bind(bar))
+
+	return rindle.wait(step)

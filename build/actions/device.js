@@ -291,23 +291,23 @@ exports.init = {
     }).then(resin.models.application.get).then(function(application) {
       var download;
       download = function() {
-        return tmp.tmpNameAsync().then(function(temporalPath) {
-          return capitano.runAsync("os download " + application.device_type + " --output " + temporalPath + " --version default");
-        }).disposer(function(temporalPath) {
-          return rimraf(temporalPath);
+        return tmp.tmpNameAsync().then(function(tempPath) {
+          return capitano.runAsync("os download " + application.device_type + " --output '" + tempPath + "' --version default");
+        }).disposer(function(tempPath) {
+          return rimraf(tempPath);
         });
       };
-      return Promise.using(download(), function(temporalPath) {
+      return Promise.using(download(), function(tempPath) {
         return capitano.runAsync("device register " + application.app_name).then(resin.models.device.get).tap(function(device) {
-          var configure;
-          configure = "os configure " + temporalPath + " " + device.uuid;
+          var configureCommand;
+          configureCommand = "os configure '" + tempPath + "' " + device.uuid;
           if (options.advanced) {
-            configure += ' --advanced';
+            configureCommand += ' --advanced';
           }
-          return capitano.runAsync(configure).then(function() {
-            var message;
-            message = 'Initializing a device requires administrative permissions\ngiven that we need to access raw devices directly.\n';
-            return helpers.sudo(['os', 'initialize', temporalPath, '--type', application.device_type], message);
+          return capitano.runAsync(configureCommand).then(function() {
+            var osInitCommand;
+            osInitCommand = "os initialize '" + tempPath + "' --type " + application.device_type;
+            return capitano.runAsync(osInitCommand);
           })["catch"](function(error) {
             return resin.models.device.remove(device.uuid)["finally"](function() {
               throw error;

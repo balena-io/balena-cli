@@ -179,6 +179,8 @@ capitano.command(actions.local.scan);
 
 capitano.command(actions.local.stop);
 
+capitano.command(actions.internal.osInit);
+
 update.notify();
 
 plugins.register(/^resin-plugin-(.+)$/).then(function() {

@@ -392,27 +392,23 @@ exports.init =
 		.then (application) ->
 
 			download = ->
-				tmp.tmpNameAsync().then (temporalPath) ->
+				tmp.tmpNameAsync().then (tempPath) ->
 					# TODO: allow version selection
-					capitano.runAsync("os download #{application.device_type} --output #{temporalPath} --version default")
-				.disposer (temporalPath) ->
-					return rimraf(temporalPath)
+					capitano.runAsync("os download #{application.device_type} --output '#{tempPath}' --version default")
+				.disposer (tempPath) ->
+					return rimraf(tempPath)
 
-			Promise.using download(), (temporalPath) ->
+			Promise.using download(), (tempPath) ->
 				capitano.runAsync("device register #{application.app_name}")
 					.then(resin.models.device.get)
 					.tap (device) ->
-						configure = "os configure #{temporalPath} #{device.uuid}"
-						configure += ' --advanced' if options.advanced
-						capitano.runAsync(configure).then ->
-							message = '''
-								Initializing a device requires administrative permissions
-								given that we need to access raw devices directly.
-
-							'''
-
-							helpers.sudo([ 'os', 'initialize', temporalPath, '--type', application.device_type ], message)
-
+						configureCommand = "os configure '#{tempPath}' #{device.uuid}"
+						if options.advanced
+							configureCommand += ' --advanced'
+						capitano.runAsync(configureCommand)
+						.then ->
+							osInitCommand = "os initialize '#{tempPath}' --type #{application.device_type}"
+							capitano.runAsync(osInitCommand)
 						# Make sure the device resource is removed if there is an
 						# error when configuring or initializing a device image
 						.catch (error) ->
