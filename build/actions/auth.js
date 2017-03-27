@@ -49,10 +49,9 @@ exports.login = {
   ],
   primary: true,
   action: function(params, options, done) {
-    var Promise, _, auth, capitano, form, login, messages, patterns, resin;
+    var Promise, _, auth, form, login, messages, patterns, resin;
     _ = require('lodash');
     Promise = require('bluebird');
-    capitano = Promise.promisifyAll(require('capitano'));
     resin = require('resin-sdk-preconfigured');
     auth = require('resin-cli-auth');
     form = require('resin-cli-form');
@@ -77,8 +76,10 @@ exports.login = {
         return auth.login();
       }
       return patterns.askLoginType().then(function(loginType) {
+        var capitanoRunAsync;
         if (loginType === 'register') {
-          return capitano.runAsync('signup');
+          capitanoRunAsync = Promise.promisify(require('capitano').run);
+          return capitanoRunAsync('signup');
         }
         options[loginType] = true;
         return login(options);

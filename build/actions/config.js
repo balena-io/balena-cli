@@ -40,15 +40,15 @@ exports.read = {
   permission: 'user',
   root: true,
   action: function(params, options, done) {
-    var Promise, config, prettyjson, umount, visuals;
+    var Promise, config, prettyjson, umountAsync, visuals;
     Promise = require('bluebird');
     config = require('resin-config-json');
     visuals = require('resin-cli-visuals');
-    umount = Promise.promisifyAll(require('umount'));
+    umountAsync = Promise.promisify(require('umount').umount);
     prettyjson = require('prettyjson');
     return Promise["try"](function() {
       return options.drive || visuals.drive('Select the device drive');
-    }).tap(umount.umountAsync).then(function(drive) {
+    }).tap(umountAsync).then(function(drive) {
       return config.read(drive, options.type);
     }).tap(function(configJSON) {
       return console.info(prettyjson.render(configJSON));
@@ -77,21 +77,21 @@ exports.write = {
   permission: 'user',
   root: true,
   action: function(params, options, done) {
-    var Promise, _, config, umount, visuals;
+    var Promise, _, config, umountAsync, visuals;
     Promise = require('bluebird');
     _ = require('lodash');
     config = require('resin-config-json');
     visuals = require('resin-cli-visuals');
-    umount = Promise.promisifyAll(require('umount'));
+    umountAsync = Promise.promisify(require('umount').umount);
     return Promise["try"](function() {
       return options.drive || visuals.drive('Select the device drive');
-    }).tap(umount.umountAsync).then(function(drive) {
+    }).tap(umountAsync).then(function(drive) {
       return config.read(drive, options.type).then(function(configJSON) {
         console.info("Setting " + params.key + " to " + params.value);
         _.set(configJSON, params.key, params.value);
         return configJSON;
       }).tap(function() {
-        return umount.umountAsync(drive);
+        return umountAsync(drive);
       }).then(function(configJSON) {
         return config.write(drive, options.type, configJSON);
       });
@@ -122,16 +122,16 @@ exports.inject = {
   permission: 'user',
   root: true,
   action: function(params, options, done) {
-    var Promise, config, fs, umount, visuals;
+    var Promise, config, readFileAsync, umountAsync, visuals;
     Promise = require('bluebird');
     config = require('resin-config-json');
     visuals = require('resin-cli-visuals');
-    umount = Promise.promisifyAll(require('umount'));
-    fs = Promise.promisifyAll(require('fs'));
+    umountAsync = Promise.promisify(require('umount').umount);
+    readFileAsync = Promise.promisify(require('fs').readFile);
     return Promise["try"](function() {
       return options.drive || visuals.drive('Select the device drive');
-    }).tap(umount.umountAsync).then(function(drive) {
-      return fs.readFileAsync(params.file, 'utf8').then(JSON.parse).then(function(configJSON) {
+    }).tap(umountAsync).then(function(drive) {
+      return readFileAsync(params.file, 'utf8').then(JSON.parse).then(function(configJSON) {
         return config.write(drive, options.type, configJSON);
       });
     }).tap(function() {
@@ -166,24 +166,24 @@ exports.reconfigure = {
   permission: 'user',
   root: true,
   action: function(params, options, done) {
-    var Promise, capitano, config, umount, visuals;
+    var Promise, capitanoRunAsync, config, umountAsync, visuals;
     Promise = require('bluebird');
     config = require('resin-config-json');
     visuals = require('resin-cli-visuals');
-    capitano = Promise.promisifyAll(require('capitano'));
-    umount = Promise.promisifyAll(require('umount'));
+    capitanoRunAsync = Promise.promisify(require('capitano').run);
+    umountAsync = Promise.promisify(require('umount').umount);
     return Promise["try"](function() {
       return options.drive || visuals.drive('Select the device drive');
-    }).tap(umount.umountAsync).then(function(drive) {
+    }).tap(umountAsync).then(function(drive) {
       return config.read(drive, options.type).get('uuid').tap(function() {
-        return umount.umountAsync(drive);
+        return umountAsync(drive);
       }).then(function(uuid) {
         var configureCommand;
         configureCommand = "os configure " + drive + " " + uuid;
         if (options.advanced) {
           configureCommand += ' --advanced';
         }
-        return capitano.runAsync(configureCommand);
+        return capitanoRunAsync(configureCommand);
       });
     }).then(function() {
       return console.info('Done');
@@ -205,9 +205,9 @@ exports.generate = {
   ],
   permission: 'user',
   action: function(params, options, done) {
-    var Promise, _, deviceConfig, form, fs, prettyjson, resin;
+    var Promise, _, deviceConfig, form, prettyjson, resin, writeFileAsync;
     Promise = require('bluebird');
-    fs = Promise.promisifyAll(require('fs'));
+    writeFileAsync = Promise.promisify(require('fs').writeFile);
     resin = require('resin-sdk-preconfigured');
     _ = require('lodash');
     form = require('resin-cli-form');
@@ -230,7 +230,7 @@ exports.generate = {
       });
     }).then(function(config) {
       if (options.output != null) {
-        return fs.writeFileAsync(options.output, JSON.stringify(config));
+        return writeFileAsync(options.output, JSON.stringify(config));
       }
       return console.log(prettyjson.render(config));
     }).nodeify(done);

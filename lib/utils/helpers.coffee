@@ -15,8 +15,6 @@ limitations under the License.
 ###
 
 Promise = require('bluebird')
-capitano = Promise.promisifyAll(require('capitano'))
-president = Promise.promisifyAll(require('president'))
 
 exports.getGroupDefaults = (group) ->
 	_ = require('lodash')
@@ -53,7 +51,8 @@ exports.sudo = (command) ->
 		console.log('If asked please type your computer password to continue')
 
 	command = _.union(_.take(process.argv, 2), command)
-	return president.executeAsync(command)
+	presidentExecuteAsync = Promise.promisify(require('president').execute)
+	return presidentExecuteAsync(command)
 
 exports.getManifest = (image, deviceType) ->
 	rindle = require('rindle')

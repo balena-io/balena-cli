@@ -73,7 +73,6 @@ exports.login	=
 	action: (params, options, done) ->
 		_ = require('lodash')
 		Promise = require('bluebird')
-		capitano = Promise.promisifyAll(require('capitano'))
 		resin = require('resin-sdk-preconfigured')
 		auth = require('resin-cli-auth')
 		form = require('resin-cli-form')
@@ -98,7 +97,8 @@ exports.login	=
 			return patterns.askLoginType().then (loginType) ->
 
 				if loginType is 'register'
-					return capitano.runAsync('signup')
+					capitanoRunAsync = Promise.promisify(require('capitano').run)
+					return capitanoRunAsync('signup')
 
 				options[loginType] = true
 				return login(options)

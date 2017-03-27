@@ -21,9 +21,9 @@ exports.wizard = {
   help: 'Use this command to run a friendly wizard to get started with resin.io.\n\nThe wizard will guide you through:\n\n	- Create an application.\n	- Initialise an SDCard with the resin.io operating system.\n	- Associate an existing project directory with your resin.io application.\n	- Push your project to your devices.\n\nExamples:\n\n	$ resin quickstart\n	$ resin quickstart MyApp',
   primary: true,
   action: function(params, options, done) {
-    var Promise, capitano, patterns, resin;
+    var Promise, capitanoRunAsync, patterns, resin;
     Promise = require('bluebird');
-    capitano = Promise.promisifyAll(require('capitano'));
+    capitanoRunAsync = Promise.promisify(require('capitano').run);
     resin = require('resin-sdk-preconfigured');
     patterns = require('../utils/patterns');
     return resin.auth.isLoggedIn().then(function(isLoggedIn) {
@@ -32,7 +32,7 @@ exports.wizard = {
       }
       console.info('Looks like you\'re not logged in yet!');
       console.info('Lets go through a quick wizard to get you started.\n');
-      return capitano.runAsync('login');
+      return capitanoRunAsync('login');
     }).then(function() {
       if (params.name != null) {
         return;
@@ -42,15 +42,15 @@ exports.wizard = {
           if (hasApplication) {
             return applicationName;
           }
-          return capitano.runAsync("app create " + applicationName);
+          return capitanoRunAsync("app create " + applicationName);
         });
       }).then(function(applicationName) {
         return params.name = applicationName;
       });
     }).then(function() {
-      return capitano.runAsync("device init --application " + params.name);
+      return capitanoRunAsync("device init --application " + params.name);
     }).tap(patterns.awaitDevice).then(function(uuid) {
-      return capitano.runAsync("device " + uuid);
+      return capitanoRunAsync("device " + uuid);
     }).then(function() {
       return resin.models.application.get(params.name);
     }).then(function(application) {

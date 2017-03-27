@@ -185,9 +185,9 @@ exports.initialize = {
     }
   ],
   action: function(params, options, done) {
-    var Promise, form, helpers, patterns, umount;
+    var Promise, form, helpers, patterns, umountAsync;
     Promise = require('bluebird');
-    umount = Promise.promisifyAll(require('umount'));
+    umountAsync = Promise.promisify(require('umount').umount);
     form = require('resin-cli-form');
     patterns = require('../utils/patterns');
     helpers = require('../utils/helpers');
@@ -207,14 +207,14 @@ exports.initialize = {
         return;
       }
       message = "This will erase " + answers.drive + ". Are you sure?";
-      return patterns.confirm(options.yes, message)["return"](answers.drive).then(umount.umountAsync);
+      return patterns.confirm(options.yes, message)["return"](answers.drive).then(umountAsync);
     }).tap(function(answers) {
       return helpers.sudo(['internal', 'osinit', params.image, options.type, JSON.stringify(answers)]);
     }).then(function(answers) {
       if (answers.drive == null) {
         return;
       }
-      return umount.umountAsync(answers.drive).tap(function() {
+      return umountAsync(answers.drive).tap(function() {
         return console.info("You can safely remove " + answers.drive + " now");
       });
     }).nodeify(done);

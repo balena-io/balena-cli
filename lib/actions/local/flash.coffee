@@ -43,15 +43,15 @@ module.exports =
 		_ = require('lodash')
 		os = require('os')
 		Promise = require('bluebird')
-		umount = Promise.promisifyAll(require('umount'))
+		umountAsync = Promise.promisify(require('umount').umount)
 		fs = Promise.promisifyAll(require('fs'))
-		drivelist = Promise.promisifyAll(require('drivelist'))
+		driveListAsync = Promise.promisify(require('drivelist').list)
 		chalk = require('chalk')
 		visuals = require('resin-cli-visuals')
 		form = require('resin-cli-form')
 
 
-		# XXX: Find a better ES6 module loading story/contract between resin.io modules
+		# TODO: Find a better ES6 module loading story/contract between resin.io modules
 		require('babel-register')({
 			only: /etcher-image-write|bmapflash/
 			presets: ['es2015']
@@ -84,7 +84,7 @@ module.exports =
 				console.log(chalk.red.bold('Aborted image flash'))
 				process.exit(0)
 
-			drivelist.listAsync().then (drives) ->
+			driveListAsync().then (drives) ->
 				selectedDrive = _.find(drives, device: answers.drive)
 
 				if not selectedDrive?
@@ -96,7 +96,7 @@ module.exports =
 				write: new visuals.Progress('Flashing')
 				check: new visuals.Progress('Validating')
 
-			umount.umountAsync(selectedDrive.device).then ->
+			umountAsync(selectedDrive.device).then ->
 				Promise.props
 					imageSize: fs.statAsync(params.image).get('size'),
 					imageStream: Promise.resolve(fs.createReadStream(params.image))
@@ -119,8 +119,8 @@ module.exports =
 					writer.on('done', resolve)
 			.then ->
 				if (os.platform() is 'win32') and selectedDrive.mountpoint?
-					removedrive = Promise.promisifyAll(require('removedrive'))
-					return removedrive.ejectAsync(selectedDrive.mountpoint)
+					ejectAsync = Promise.promisify(require('removedrive').eject)
+					return ejectAsync(selectedDrive.mountpoint)
 
-				return umount.umountAsync(selectedDrive.device)
+				return umountAsync(selectedDrive.device)
 		.asCallback(done)

@@ -24,7 +24,8 @@ Raven.config(
 
 _ = require('lodash')
 Promise = require('bluebird')
-capitano = Promise.promisifyAll(require('capitano'))
+capitano = require('capitano')
+capitanoExecuteAsync = Promise.promisify(capitano.execute)
 resin = require('resin-sdk-preconfigured')
 actions = require('./actions')
 errors = require('./errors')
@@ -152,7 +153,7 @@ plugins.register(/^resin-plugin-(.+)$/).then ->
 
 	events.trackCommand(cli).then ->
 		if cli.global?.help
-			return capitano.executeAsync(command: "help #{cli.command ? ''}")
-		capitano.executeAsync(cli)
+			return capitanoExecuteAsync(command: "help #{cli.command ? ''}")
+		capitanoExecuteAsync(cli)
 
 .catch(errors.handle)

@@ -34,13 +34,13 @@ module.exports = {
   ],
   root: true,
   action: function(params, options, done) {
-    var Promise, _, chalk, drivelist, form, fs, imageWrite, os, umount, visuals;
+    var Promise, _, chalk, driveListAsync, form, fs, imageWrite, os, umountAsync, visuals;
     _ = require('lodash');
     os = require('os');
     Promise = require('bluebird');
-    umount = Promise.promisifyAll(require('umount'));
+    umountAsync = Promise.promisify(require('umount').umount);
     fs = Promise.promisifyAll(require('fs'));
-    drivelist = Promise.promisifyAll(require('drivelist'));
+    driveListAsync = Promise.promisify(require('drivelist').list);
     chalk = require('chalk');
     visuals = require('resin-cli-visuals');
     form = require('resin-cli-form');
@@ -71,7 +71,7 @@ module.exports = {
         console.log(chalk.red.bold('Aborted image flash'));
         process.exit(0);
       }
-      return drivelist.listAsync().then(function(drives) {
+      return driveListAsync().then(function(drives) {
         var selectedDrive;
         selectedDrive = _.find(drives, {
           device: answers.drive
@@ -87,7 +87,7 @@ module.exports = {
         write: new visuals.Progress('Flashing'),
         check: new visuals.Progress('Validating')
       };
-      return umount.umountAsync(selectedDrive.device).then(function() {
+      return umountAsync(selectedDrive.device).then(function() {
         return Promise.props({
           imageSize: fs.statAsync(params.image).get('size'),
           imageStream: Promise.resolve(fs.createReadStream(params.image)),
@@ -113,12 +113,12 @@ module.exports = {
           return writer.on('done', resolve);
         });
       }).then(function() {
-        var removedrive;
+        var ejectAsync;
         if ((os.platform() === 'win32') && (selectedDrive.mountpoint != null)) {
-          removedrive = Promise.promisifyAll(require('removedrive'));
-          return removedrive.ejectAsync(selectedDrive.mountpoint);
+          ejectAsync = Promise.promisify(require('removedrive').eject);
+          return ejectAsync(selectedDrive.mountpoint);
         }
-        return umount.umountAsync(selectedDrive.device);
+        return umountAsync(selectedDrive.device);
       });
     }).asCallback(done);
   }

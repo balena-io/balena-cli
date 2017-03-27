@@ -15,13 +15,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var Promise, capitano, president;
+var Promise;
 
 Promise = require('bluebird');
-
-capitano = Promise.promisifyAll(require('capitano'));
-
-president = Promise.promisifyAll(require('president'));
 
 exports.getGroupDefaults = function(group) {
   var _;
@@ -50,14 +46,15 @@ exports.stateToString = function(state) {
 };
 
 exports.sudo = function(command) {
-  var _, os;
+  var _, os, presidentExecuteAsync;
   _ = require('lodash');
   os = require('os');
   if (os.platform() !== 'win32') {
     console.log('If asked please type your computer password to continue');
   }
   command = _.union(_.take(process.argv, 2), command);
-  return president.executeAsync(command);
+  presidentExecuteAsync = Promise.promisify(require('president').execute);
+  return presidentExecuteAsync(command);
 };
 
 exports.getManifest = function(image, deviceType) {

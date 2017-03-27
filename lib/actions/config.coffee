@@ -48,12 +48,12 @@ exports.read =
 		Promise = require('bluebird')
 		config = require('resin-config-json')
 		visuals = require('resin-cli-visuals')
-		umount = Promise.promisifyAll(require('umount'))
+		umountAsync = Promise.promisify(require('umount').umount)
 		prettyjson = require('prettyjson')
 
 		Promise.try ->
 			return options.drive or visuals.drive('Select the device drive')
-		.tap(umount.umountAsync)
+		.tap(umountAsync)
 		.then (drive) ->
 			return config.read(drive, options.type)
 		.tap (configJSON) ->
@@ -94,18 +94,18 @@ exports.write =
 		_ = require('lodash')
 		config = require('resin-config-json')
 		visuals = require('resin-cli-visuals')
-		umount = Promise.promisifyAll(require('umount'))
+		umountAsync = Promise.promisify(require('umount').umount)
 
 		Promise.try ->
 			return options.drive or visuals.drive('Select the device drive')
-		.tap(umount.umountAsync)
+		.tap(umountAsync)
 		.then (drive) ->
 			config.read(drive, options.type).then (configJSON) ->
 				console.info("Setting #{params.key} to #{params.value}")
 				_.set(configJSON, params.key, params.value)
 				return configJSON
 			.tap ->
-				return umount.umountAsync(drive)
+				return umountAsync(drive)
 			.then (configJSON) ->
 				return config.write(drive, options.type, configJSON)
 		.tap ->
@@ -144,14 +144,14 @@ exports.inject =
 		Promise = require('bluebird')
 		config = require('resin-config-json')
 		visuals = require('resin-cli-visuals')
-		umount = Promise.promisifyAll(require('umount'))
-		fs = Promise.promisifyAll(require('fs'))
+		umountAsync = Promise.promisify(require('umount').umount)
+		readFileAsync = Promise.promisify(require('fs').readFile)
 
 		Promise.try ->
 			return options.drive or visuals.drive('Select the device drive')
-		.tap(umount.umountAsync)
+		.tap(umountAsync)
 		.then (drive) ->
-			fs.readFileAsync(params.file, 'utf8').then(JSON.parse).then (configJSON) ->
+			readFileAsync(params.file, 'utf8').then(JSON.parse).then (configJSON) ->
 				return config.write(drive, options.type, configJSON)
 		.tap ->
 			console.info('Done')
@@ -196,21 +196,21 @@ exports.reconfigure =
 		Promise = require('bluebird')
 		config = require('resin-config-json')
 		visuals = require('resin-cli-visuals')
-		capitano = Promise.promisifyAll(require('capitano'))
-		umount = Promise.promisifyAll(require('umount'))
+		capitanoRunAsync = Promise.promisify(require('capitano').run)
+		umountAsync = Promise.promisify(require('umount').umount)
 
 		Promise.try ->
 			return options.drive or visuals.drive('Select the device drive')
-		.tap(umount.umountAsync)
+		.tap(umountAsync)
 		.then (drive) ->
 			config.read(drive, options.type).get('uuid')
 				.tap ->
-					umount.umountAsync(drive)
+					umountAsync(drive)
 				.then (uuid) ->
 					configureCommand = "os configure #{drive} #{uuid}"
 					if options.advanced
 						configureCommand += ' --advanced'
-					return capitano.runAsync(configureCommand)
+					return capitanoRunAsync(configureCommand)
 		.then ->
 			console.info('Done')
 		.nodeify(done)
@@ -241,7 +241,7 @@ exports.generate =
 	permission: 'user'
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		fs = Promise.promisifyAll(require('fs'))
+		writeFileAsync = Promise.promisify(require('fs').writeFile)
 		resin = require('resin-sdk-preconfigured')
 		_ = require('lodash')
 		form = require('resin-cli-form')
@@ -271,7 +271,7 @@ exports.generate =
 					return deviceConfig.getByApplication(resource.app_name, answers)
 		.then (config) ->
 			if options.output?
-				return fs.writeFileAsync(options.output, JSON.stringify(config))
+				return writeFileAsync(options.output, JSON.stringify(config))
 
 			console.log(prettyjson.render(config))
 		.nodeify(done)

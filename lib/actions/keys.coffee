@@ -107,13 +107,14 @@ exports.add =
 	action: (params, options, done) ->
 		_ = require('lodash')
 		Promise = require('bluebird')
-		fs = Promise.promisifyAll(require('fs'))
+		readFileAsync = Promise.promisify(require('fs').readFile)
 		capitano = require('capitano')
 		resin = require('resin-sdk-preconfigured')
 
 		Promise.try ->
-			return fs.readFileAsync(params.path, encoding: 'utf8') if params.path?
+			return readFileAsync(params.path, encoding: 'utf8') if params.path?
 
+			# TODO: should this be promisified for consistency?
 			Promise.fromNode (callback) ->
 				capitano.utils.getStdin (data) ->
 					return callback(null, data)

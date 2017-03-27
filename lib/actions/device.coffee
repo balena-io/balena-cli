@@ -376,9 +376,10 @@ exports.init =
 	permission: 'user'
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		capitano = Promise.promisifyAll(require('capitano'))
+		capitanoRunAsync = Promise.promisify(require('capitano').run)
 		rimraf = Promise.promisify(require('rimraf'))
-		tmp = Promise.promisifyAll(require('tmp'))
+		tmp = require('tmp')
+		tmpNameAsync = Promise.promisify(tmp.tmpName)
 		tmp.setGracefulCleanup()
 
 		resin = require('resin-sdk-preconfigured')
@@ -392,23 +393,23 @@ exports.init =
 		.then (application) ->
 
 			download = ->
-				tmp.tmpNameAsync().then (tempPath) ->
+				tmpNameAsync().then (tempPath) ->
 					# TODO: allow version selection
-					capitano.runAsync("os download #{application.device_type} --output '#{tempPath}' --version default")
+					capitanoRunAsync("os download #{application.device_type} --output '#{tempPath}' --version default")
 				.disposer (tempPath) ->
 					return rimraf(tempPath)
 
 			Promise.using download(), (tempPath) ->
-				capitano.runAsync("device register #{application.app_name}")
+				capitanoRunAsync("device register #{application.app_name}")
 					.then(resin.models.device.get)
 					.tap (device) ->
 						configureCommand = "os configure '#{tempPath}' #{device.uuid}"
 						if options.advanced
 							configureCommand += ' --advanced'
-						capitano.runAsync(configureCommand)
+						capitanoRunAsync(configureCommand)
 						.then ->
 							osInitCommand = "os initialize '#{tempPath}' --type #{application.device_type}"
-							capitano.runAsync(osInitCommand)
+							capitanoRunAsync(osInitCommand)
 						# Make sure the device resource is removed if there is an
 						# error when configuring or initializing a device image
 						.catch (error) ->

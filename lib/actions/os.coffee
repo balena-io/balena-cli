@@ -212,7 +212,7 @@ exports.initialize =
 	]
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		umount = Promise.promisifyAll(require('umount'))
+		umountAsync = Promise.promisify(require('umount').umount)
 		form = require('resin-cli-form')
 		patterns = require('../utils/patterns')
 		helpers = require('../utils/helpers')
@@ -234,7 +234,7 @@ exports.initialize =
 				message = "This will erase #{answers.drive}. Are you sure?"
 				patterns.confirm(options.yes, message)
 					.return(answers.drive)
-					.then(umount.umountAsync)
+					.then(umountAsync)
 			.tap (answers) ->
 				return helpers.sudo([
 					'internal'
@@ -245,6 +245,6 @@ exports.initialize =
 				])
 			.then (answers) ->
 				return if not answers.drive?
-				umount.umountAsync(answers.drive).tap ->
+				umountAsync(answers.drive).tap ->
 					console.info("You can safely remove #{answers.drive} now")
 		.nodeify(done)

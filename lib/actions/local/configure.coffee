@@ -67,14 +67,16 @@ module.exports =
 	action: (params, options, done) ->
 		_ = require('lodash')
 		Promise = require('bluebird')
-		umount = Promise.promisifyAll(require('umount'))
+		umount = require('umount')
+		umountAsync = Promise.promisify(umount.umount)
+		isMountedAsync = Promise.promisify(umount.isMounted)
 		inquirer = require('inquirer')
 		reconfix = require('reconfix')
 		denymount = Promise.promisify(require('denymount'))
 
-		umount.isMountedAsync(params.target).then (isMounted) ->
+		isMountedAsync(params.target).then (isMounted) ->
 			return if not isMounted
-			umount.umountAsync(params.target)
+			umountAsync(params.target)
 		.then ->
 			denymount params.target, (cb) ->
 				reconfix.readConfiguration(CONFIGURATION_SCHEMA, params.target).then (data) ->

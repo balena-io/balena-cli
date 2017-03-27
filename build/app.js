@@ -15,7 +15,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var Promise, Raven, _, actions, capitano, errors, events, plugins, resin, update;
+var Promise, Raven, _, actions, capitano, capitanoExecuteAsync, errors, events, plugins, resin, update;
 
 Raven = require('raven');
 
@@ -30,7 +30,9 @@ _ = require('lodash');
 
 Promise = require('bluebird');
 
-capitano = Promise.promisifyAll(require('capitano'));
+capitano = require('capitano');
+
+capitanoExecuteAsync = Promise.promisify(capitano.execute);
 
 resin = require('resin-sdk-preconfigured');
 
@@ -189,10 +191,10 @@ plugins.register(/^resin-plugin-(.+)$/).then(function() {
   return events.trackCommand(cli).then(function() {
     var ref, ref1;
     if ((ref = cli.global) != null ? ref.help : void 0) {
-      return capitano.executeAsync({
+      return capitanoExecuteAsync({
         command: "help " + ((ref1 = cli.command) != null ? ref1 : '')
       });
     }
-    return capitano.executeAsync(cli);
+    return capitanoExecuteAsync(cli);
   });
 })["catch"](errors.handle);
