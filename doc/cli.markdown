@@ -240,8 +240,7 @@ If signup is successful, you'll be logged in to your new user automatically.
 Examples:
 
 	$ resin signup
-	Email: me@mycompany.com
-	Username: johndoe
+	Email: johndoe@acme.com
 	Password: ***********
 
 	$ resin whoami

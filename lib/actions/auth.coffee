@@ -150,8 +150,7 @@ exports.signup =
 		Examples:
 
 			$ resin signup
-			Email: me@mycompany.com
-			Username: johndoe
+			Email: johndoe@acme.com
 			Password: ***********
 
 			$ resin whoami
@@ -170,10 +169,6 @@ exports.signup =
 				name: 'email'
 				type: 'input'
 				validate: validation.validateEmail
-			,
-				message: 'Username:'
-				name: 'username'
-				type: 'input'
 			,
 				message: 'Password:'
 				name: 'password'

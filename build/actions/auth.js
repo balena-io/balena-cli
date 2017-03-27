@@ -111,7 +111,7 @@ exports.logout = {
 exports.signup = {
   signature: 'signup',
   description: 'signup to resin.io',
-  help: 'Use this command to signup for a resin.io account.\n\nIf signup is successful, you\'ll be logged in to your new user automatically.\n\nExamples:\n\n	$ resin signup\n	Email: me@mycompany.com\n	Username: johndoe\n	Password: ***********\n\n	$ resin whoami\n	johndoe',
+  help: 'Use this command to signup for a resin.io account.\n\nIf signup is successful, you\'ll be logged in to your new user automatically.\n\nExamples:\n\n	$ resin signup\n	Email: johndoe@acme.com\n	Password: ***********\n\n	$ resin whoami\n	johndoe',
   action: function(params, options, done) {
     var form, resin, validation;
     resin = require('resin-sdk-preconfigured');
@@ -125,10 +125,6 @@ exports.signup = {
           name: 'email',
           type: 'input',
           validate: validation.validateEmail
-        }, {
-          message: 'Username:',
-          name: 'username',
-          type: 'input'
         }, {
           message: 'Password:',
           name: 'password',
