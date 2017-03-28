@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.7.0] - 2017-03-28
+
+### Fixed
+
+- The OS init issues:
+	* failing to get the superuser resin auth (tried to look into `/root/.resin`)
+	* failing to write to the drive
+
 ## [5.6.1] - 2017-03-23
 
 ### Added
@@ -375,6 +383,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[5.7.0]: https://github.com/resin-io/resin-cli/compare/v5.6.1...v5.7.0
 [5.6.1]: https://github.com/resin-io/resin-cli/compare/v5.6.0...v5.6.1
 [5.6.0]: https://github.com/resin-io/resin-cli/compare/v5.5.0...v5.6.0
 [5.5.0]: https://github.com/resin-io/resin-cli/compare/v5.4.0...v5.5.0
