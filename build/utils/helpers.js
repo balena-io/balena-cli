@@ -15,37 +15,23 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var Promise, _, capitano, chalk, imagefs, os, president, resin, rindle;
+var Promise;
 
 Promise = require('bluebird');
 
-capitano = Promise.promisifyAll(require('capitano'));
-
-_ = require('lodash');
-
-_.str = require('underscore.string');
-
-president = Promise.promisifyAll(require('president'));
-
-resin = require('resin-sdk-preconfigured');
-
-imagefs = require('resin-image-fs');
-
-rindle = require('rindle');
-
-os = require('os');
-
-chalk = require('chalk');
-
 exports.getGroupDefaults = function(group) {
+  var _;
+  _ = require('lodash');
   return _.chain(group).get('options').map(function(question) {
     return [question.name, question["default"]];
   }).object().value();
 };
 
 exports.stateToString = function(state) {
-  var percentage, result;
-  percentage = _.str.lpad(state.percentage, 3, '0') + '%';
+  var _str, chalk, percentage, result;
+  _str = require('underscore.string');
+  chalk = require('chalk');
+  percentage = _str.lpad(state.percentage, 3, '0') + '%';
   result = (chalk.blue(percentage)) + " " + (chalk.cyan(state.operation.command));
   switch (state.operation.command) {
     case 'copy':
@@ -59,16 +45,23 @@ exports.stateToString = function(state) {
   }
 };
 
-exports.sudo = function(command, message) {
-  command = _.union(_.take(process.argv, 2), command);
-  console.log(message);
+exports.sudo = function(command) {
+  var _, os, presidentExecuteAsync;
+  _ = require('lodash');
+  os = require('os');
   if (os.platform() !== 'win32') {
-    console.log('Type your computer password to continue');
+    console.log('If asked please type your computer password to continue');
   }
-  return president.executeAsync(command);
+  command = _.union(_.take(process.argv, 2), command);
+  presidentExecuteAsync = Promise.promisify(require('president').execute);
+  return presidentExecuteAsync(command);
 };
 
 exports.getManifest = function(image, deviceType) {
+  var imagefs, resin, rindle;
+  rindle = require('rindle');
+  imagefs = require('resin-image-fs');
+  resin = require('resin-sdk-preconfigured');
   return imagefs.read({
     image: image,
     partition: {
@@ -78,4 +71,26 @@ exports.getManifest = function(image, deviceType) {
   }).then(rindle.extractAsync).then(JSON.parse)["catch"](function() {
     return resin.models.device.getManifestBySlug(deviceType);
   });
+};
+
+exports.osProgressHandler = function(step) {
+  var progressBars, rindle, visuals;
+  rindle = require('rindle');
+  visuals = require('resin-cli-visuals');
+  step.on('stdout', process.stdout.write.bind(process.stdout));
+  step.on('stderr', process.stderr.write.bind(process.stderr));
+  step.on('state', function(state) {
+    if (state.operation.command === 'burn') {
+      return;
+    }
+    return console.log(exports.stateToString(state));
+  });
+  progressBars = {
+    write: new visuals.Progress('Writing Device OS'),
+    check: new visuals.Progress('Validating Device OS')
+  };
+  step.on('burn', function(state) {
+    return progressBars[state.type].update(state);
+  });
+  return rindle.wait(step);
 };

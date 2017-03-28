@@ -49,10 +49,9 @@ exports.login = {
   ],
   primary: true,
   action: function(params, options, done) {
-    var Promise, _, auth, capitano, form, login, messages, patterns, resin;
+    var Promise, _, auth, form, login, messages, patterns, resin;
     _ = require('lodash');
     Promise = require('bluebird');
-    capitano = Promise.promisifyAll(require('capitano'));
     resin = require('resin-sdk-preconfigured');
     auth = require('resin-cli-auth');
     form = require('resin-cli-form');
@@ -77,8 +76,10 @@ exports.login = {
         return auth.login();
       }
       return patterns.askLoginType().then(function(loginType) {
+        var capitanoRunAsync;
         if (loginType === 'register') {
-          return capitano.runAsync('signup');
+          capitanoRunAsync = Promise.promisify(require('capitano').run);
+          return capitanoRunAsync('signup');
         }
         options[loginType] = true;
         return login(options);
@@ -110,7 +111,7 @@ exports.logout = {
 exports.signup = {
   signature: 'signup',
   description: 'signup to resin.io',
-  help: 'Use this command to signup for a resin.io account.\n\nIf signup is successful, you\'ll be logged in to your new user automatically.\n\nExamples:\n\n	$ resin signup\n	Email: me@mycompany.com\n	Username: johndoe\n	Password: ***********\n\n	$ resin whoami\n	johndoe',
+  help: 'Use this command to signup for a resin.io account.\n\nIf signup is successful, you\'ll be logged in to your new user automatically.\n\nExamples:\n\n	$ resin signup\n	Email: johndoe@acme.com\n	Password: ***********\n\n	$ resin whoami\n	johndoe',
   action: function(params, options, done) {
     var form, resin, validation;
     resin = require('resin-sdk-preconfigured');
@@ -124,10 +125,6 @@ exports.signup = {
           name: 'email',
           type: 'input',
           validate: validation.validateEmail
-        }, {
-          message: 'Username:',
-          name: 'username',
-          type: 'input'
         }, {
           message: 'Password:',
           name: 'password',

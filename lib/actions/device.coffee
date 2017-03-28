@@ -376,9 +376,10 @@ exports.init =
 	permission: 'user'
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		capitano = Promise.promisifyAll(require('capitano'))
+		capitanoRunAsync = Promise.promisify(require('capitano').run)
 		rimraf = Promise.promisify(require('rimraf'))
-		tmp = Promise.promisifyAll(require('tmp'))
+		tmp = require('tmp')
+		tmpNameAsync = Promise.promisify(tmp.tmpName)
 		tmp.setGracefulCleanup()
 
 		resin = require('resin-sdk-preconfigured')
@@ -392,27 +393,23 @@ exports.init =
 		.then (application) ->
 
 			download = ->
-				tmp.tmpNameAsync().then (temporalPath) ->
+				tmpNameAsync().then (tempPath) ->
 					# TODO: allow version selection
-					capitano.runAsync("os download #{application.device_type} --output #{temporalPath} --version default")
-				.disposer (temporalPath) ->
-					return rimraf(temporalPath)
+					capitanoRunAsync("os download #{application.device_type} --output '#{tempPath}' --version default")
+				.disposer (tempPath) ->
+					return rimraf(tempPath)
 
-			Promise.using download(), (temporalPath) ->
-				capitano.runAsync("device register #{application.app_name}")
+			Promise.using download(), (tempPath) ->
+				capitanoRunAsync("device register #{application.app_name}")
 					.then(resin.models.device.get)
 					.tap (device) ->
-						configure = "os configure #{temporalPath} #{device.uuid}"
-						configure += ' --advanced' if options.advanced
-						capitano.runAsync(configure).then ->
-							message = '''
-								Initializing a device requires administrative permissions
-								given that we need to access raw devices directly.
-
-							'''
-
-							helpers.sudo([ 'os', 'initialize', temporalPath, '--type', application.device_type ], message)
-
+						configureCommand = "os configure '#{tempPath}' #{device.uuid}"
+						if options.advanced
+							configureCommand += ' --advanced'
+						capitanoRunAsync(configureCommand)
+						.then ->
+							osInitCommand = "os initialize '#{tempPath}' --type #{application.device_type}"
+							capitanoRunAsync(osInitCommand)
 						# Make sure the device resource is removed if there is an
 						# error when configuring or initializing a device image
 						.catch (error) ->

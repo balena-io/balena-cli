@@ -54,12 +54,12 @@ general = (params, options, done) ->
 	# We do not want the wildcard command
 	# to be printed in the help screen.
 	commands = _.reject capitano.state.commands, (command) ->
-		return command.isWildcard()
+		return command.hidden or command.isWildcard()
 
 	groupedCommands = _.groupBy commands, (command) ->
 		if command.plugin
 			return 'plugins'
-		else if command.primary
+		if command.primary
 			return 'primary'
 		return 'secondary'
 

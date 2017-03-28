@@ -66,18 +66,20 @@ module.exports = {
   help: 'Use this command to configure or reconfigure a resinOS drive or image.\n\nExamples:\n\n	$ resin local configure /dev/sdc\n	$ resin local configure path/to/image.img',
   root: true,
   action: function(params, options, done) {
-    var Promise, _, denymount, inquirer, reconfix, umount;
+    var Promise, _, denymount, inquirer, isMountedAsync, reconfix, umount, umountAsync;
     _ = require('lodash');
     Promise = require('bluebird');
-    umount = Promise.promisifyAll(require('umount'));
+    umount = require('umount');
+    umountAsync = Promise.promisify(umount.umount);
+    isMountedAsync = Promise.promisify(umount.isMounted);
     inquirer = require('inquirer');
     reconfix = require('reconfix');
     denymount = Promise.promisify(require('denymount'));
-    return umount.isMountedAsync(params.target).then(function(isMounted) {
+    return isMountedAsync(params.target).then(function(isMounted) {
       if (!isMounted) {
         return;
       }
-      return umount.umountAsync(params.target);
+      return umountAsync(params.target);
     }).then(function() {
       return denymount(params.target, function(cb) {
         return reconfix.readConfiguration(CONFIGURATION_SCHEMA, params.target).then(function(data) {

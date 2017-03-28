@@ -15,7 +15,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var commandOptions, formatVersion, resolveVersion, stepHandler;
+var commandOptions, formatVersion, initWarningMessage, resolveVersion;
 
 commandOptions = require('./command-options');
 
@@ -120,25 +120,6 @@ exports.download = {
   }
 };
 
-stepHandler = function(step) {
-  var _, bar, helpers, rindle, visuals;
-  _ = require('lodash');
-  rindle = require('rindle');
-  visuals = require('resin-cli-visuals');
-  helpers = require('../utils/helpers');
-  step.on('stdout', _.bind(process.stdout.write, process.stdout));
-  step.on('stderr', _.bind(process.stderr.write, process.stderr));
-  step.on('state', function(state) {
-    if (state.operation.command === 'burn') {
-      return;
-    }
-    return console.log(helpers.stateToString(state));
-  });
-  bar = new visuals.Progress('Writing Device OS');
-  step.on('burn', _.bind(bar.update, bar));
-  return rindle.wait(step);
-};
-
 exports.configure = {
   signature: 'os configure <image> <uuid>',
   description: 'configure an os image',
@@ -176,16 +157,18 @@ exports.configure = {
           override: override
         });
       }).then(function(answers) {
-        return init.configure(params.image, params.uuid, answers).then(stepHandler);
+        return init.configure(params.image, params.uuid, answers).then(helpers.osProgressHandler);
       });
     }).nodeify(done);
   }
 };
 
+initWarningMessage = 'Note: Initializing the device may ask for administrative permissions\nbecause we need to access the raw devices directly.';
+
 exports.initialize = {
   signature: 'os initialize <image>',
   description: 'initialize an os image',
-  help: 'Use this command to initialize a previously configured operating system image.\n\nExamples:\n\n	$ resin os initialize ../path/rpi.img --type \'raspberry-pi\'',
+  help: "Use this command to initialize a device with previously configured operating system image.\n\n" + initWarningMessage + "\n\nExamples:\n\n	$ resin os initialize ../path/rpi.img --type 'raspberry-pi'",
   permission: 'user',
   options: [
     commandOptions.yes, {
@@ -201,16 +184,14 @@ exports.initialize = {
       alias: 'd'
     }
   ],
-  root: true,
   action: function(params, options, done) {
-    var Promise, form, helpers, init, patterns, umount;
+    var Promise, form, helpers, patterns, umountAsync;
     Promise = require('bluebird');
-    umount = Promise.promisifyAll(require('umount'));
+    umountAsync = Promise.promisify(require('umount').umount);
     form = require('resin-cli-form');
-    init = require('resin-device-init');
     patterns = require('../utils/patterns');
     helpers = require('../utils/helpers');
-    console.info('Initializing device');
+    console.info("Initializing device\n\n" + initWarningMessage);
     return helpers.getManifest(params.image, options.type).then(function(manifest) {
       var ref;
       return (ref = manifest.initialization) != null ? ref.options : void 0;
@@ -226,14 +207,14 @@ exports.initialize = {
         return;
       }
       message = "This will erase " + answers.drive + ". Are you sure?";
-      return patterns.confirm(options.yes, message)["return"](answers.drive).then(umount.umountAsync);
+      return patterns.confirm(options.yes, message)["return"](answers.drive).then(umountAsync);
     }).tap(function(answers) {
-      return init.initialize(params.image, options.type, answers).then(stepHandler);
+      return helpers.sudo(['internal', 'osinit', params.image, options.type, JSON.stringify(answers)]);
     }).then(function(answers) {
       if (answers.drive == null) {
         return;
       }
-      return umount.umountAsync(answers.drive).tap(function() {
+      return umountAsync(answers.drive).tap(function() {
         return console.info("You can safely remove " + answers.drive + " now");
       });
     }).nodeify(done);

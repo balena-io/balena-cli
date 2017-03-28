@@ -274,11 +274,12 @@ exports.init = {
   ],
   permission: 'user',
   action: function(params, options, done) {
-    var Promise, capitano, helpers, patterns, resin, rimraf, tmp;
+    var Promise, capitanoRunAsync, helpers, patterns, resin, rimraf, tmp, tmpNameAsync;
     Promise = require('bluebird');
-    capitano = Promise.promisifyAll(require('capitano'));
+    capitanoRunAsync = Promise.promisify(require('capitano').run);
     rimraf = Promise.promisify(require('rimraf'));
-    tmp = Promise.promisifyAll(require('tmp'));
+    tmp = require('tmp');
+    tmpNameAsync = Promise.promisify(tmp.tmpName);
     tmp.setGracefulCleanup();
     resin = require('resin-sdk-preconfigured');
     helpers = require('../utils/helpers');
@@ -291,23 +292,23 @@ exports.init = {
     }).then(resin.models.application.get).then(function(application) {
       var download;
       download = function() {
-        return tmp.tmpNameAsync().then(function(temporalPath) {
-          return capitano.runAsync("os download " + application.device_type + " --output " + temporalPath + " --version default");
-        }).disposer(function(temporalPath) {
-          return rimraf(temporalPath);
+        return tmpNameAsync().then(function(tempPath) {
+          return capitanoRunAsync("os download " + application.device_type + " --output '" + tempPath + "' --version default");
+        }).disposer(function(tempPath) {
+          return rimraf(tempPath);
         });
       };
-      return Promise.using(download(), function(temporalPath) {
-        return capitano.runAsync("device register " + application.app_name).then(resin.models.device.get).tap(function(device) {
-          var configure;
-          configure = "os configure " + temporalPath + " " + device.uuid;
+      return Promise.using(download(), function(tempPath) {
+        return capitanoRunAsync("device register " + application.app_name).then(resin.models.device.get).tap(function(device) {
+          var configureCommand;
+          configureCommand = "os configure '" + tempPath + "' " + device.uuid;
           if (options.advanced) {
-            configure += ' --advanced';
+            configureCommand += ' --advanced';
           }
-          return capitano.runAsync(configure).then(function() {
-            var message;
-            message = 'Initializing a device requires administrative permissions\ngiven that we need to access raw devices directly.\n';
-            return helpers.sudo(['os', 'initialize', temporalPath, '--type', application.device_type], message);
+          return capitanoRunAsync(configureCommand).then(function() {
+            var osInitCommand;
+            osInitCommand = "os initialize '" + tempPath + "' --type " + application.device_type;
+            return capitanoRunAsync(osInitCommand);
           })["catch"](function(error) {
             return resin.models.device.remove(device.uuid)["finally"](function() {
               throw error;

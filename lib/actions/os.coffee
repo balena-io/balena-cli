@@ -133,25 +133,6 @@ exports.download =
 			console.info('The image was downloaded successfully')
 		.nodeify(done)
 
-stepHandler = (step) ->
-	_ = require('lodash')
-	rindle = require('rindle')
-	visuals = require('resin-cli-visuals')
-	helpers = require('../utils/helpers')
-
-	step.on('stdout', _.bind(process.stdout.write, process.stdout))
-	step.on('stderr', _.bind(process.stderr.write, process.stderr))
-
-	step.on 'state', (state) ->
-		return if state.operation.command is 'burn'
-		console.log(helpers.stateToString(state))
-
-	bar = new visuals.Progress('Writing Device OS')
-
-	step.on('burn', _.bind(bar.update, bar))
-
-	return rindle.wait(step)
-
 exports.configure =
 	signature: 'os configure <image> <uuid>'
 	description: 'configure an os image'
@@ -192,19 +173,26 @@ exports.configure =
 
 				return form.run(questions, { override })
 			.then (answers) ->
-				init.configure(params.image, params.uuid, answers).then(stepHandler)
+				init.configure(params.image, params.uuid, answers).then(helpers.osProgressHandler)
 		.nodeify(done)
+
+initWarningMessage = '''
+	Note: Initializing the device may ask for administrative permissions
+	because we need to access the raw devices directly.
+'''
 
 exports.initialize =
 	signature: 'os initialize <image>'
 	description: 'initialize an os image'
-	help: '''
-		Use this command to initialize a previously configured operating system image.
+	help: """
+		Use this command to initialize a device with previously configured operating system image.
+
+		#{initWarningMessage}
 
 		Examples:
 
 			$ resin os initialize ../path/rpi.img --type 'raspberry-pi'
-	'''
+	"""
 	permission: 'user'
 	options: [
 		commandOptions.yes
@@ -222,16 +210,18 @@ exports.initialize =
 			alias: 'd'
 		}
 	]
-	root: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		umount = Promise.promisifyAll(require('umount'))
+		umountAsync = Promise.promisify(require('umount').umount)
 		form = require('resin-cli-form')
-		init = require('resin-device-init')
 		patterns = require('../utils/patterns')
 		helpers = require('../utils/helpers')
 
-		console.info('Initializing device')
+		console.info("""
+			Initializing device
+
+			#{initWarningMessage}
+		""")
 		helpers.getManifest(params.image, options.type)
 			.then (manifest) ->
 				return manifest.initialization?.options
@@ -244,11 +234,33 @@ exports.initialize =
 				message = "This will erase #{answers.drive}. Are you sure?"
 				patterns.confirm(options.yes, message)
 					.return(answers.drive)
-					.then(umount.umountAsync)
+					.then(umountAsync)
 			.tap (answers) ->
-				return init.initialize(params.image, options.type, answers).then(stepHandler)
+				return helpers.sudo([
+					'internal'
+					'osinit'
+					params.image
+					options.type
+					JSON.stringify(answers)
+				])
 			.then (answers) ->
 				return if not answers.drive?
-				umount.umountAsync(answers.drive).tap ->
+
+				# TODO: resin local makes use of ejectAsync, see below
+				# DO we need this / should we do that here?
+
+				# getDrive = (drive) ->
+				# 	driveListAsync().then (drives) ->
+				# 		selectedDrive = _.find(drives, device: drive)
+
+				# 		if not selectedDrive?
+				# 			throw new Error("Drive not found: #{drive}")
+
+				# 		return selectedDrive
+				# if (os.platform() is 'win32') and selectedDrive.mountpoint?
+				# 	ejectAsync = Promise.promisify(require('removedrive').eject)
+				# 	return ejectAsync(selectedDrive.mountpoint)
+
+				umountAsync(answers.drive).tap ->
 					console.info("You can safely remove #{answers.drive} now")
 		.nodeify(done)

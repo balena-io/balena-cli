@@ -72,15 +72,15 @@ exports.add = {
   help: 'Use this command to associate a new SSH key with your account.\n\nIf `path` is omitted, the command will attempt\nto read the SSH key from stdin.\n\nExamples:\n\n	$ resin key add Main ~/.ssh/id_rsa.pub\n	$ cat ~/.ssh/id_rsa.pub | resin key add Main',
   permission: 'user',
   action: function(params, options, done) {
-    var Promise, _, capitano, fs, resin;
+    var Promise, _, capitano, readFileAsync, resin;
     _ = require('lodash');
     Promise = require('bluebird');
-    fs = Promise.promisifyAll(require('fs'));
+    readFileAsync = Promise.promisify(require('fs').readFile);
     capitano = require('capitano');
     resin = require('resin-sdk-preconfigured');
     return Promise["try"](function() {
       if (params.path != null) {
-        return fs.readFileAsync(params.path, {
+        return readFileAsync(params.path, {
           encoding: 'utf8'
         });
       }

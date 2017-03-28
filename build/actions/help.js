@@ -60,12 +60,13 @@ general = function(params, options, done) {
   console.log(messages.reachingOut);
   console.log('\nPrimary commands:\n');
   commands = _.reject(capitano.state.commands, function(command) {
-    return command.isWildcard();
+    return command.hidden || command.isWildcard();
   });
   groupedCommands = _.groupBy(commands, function(command) {
     if (command.plugin) {
       return 'plugins';
-    } else if (command.primary) {
+    }
+    if (command.primary) {
       return 'primary';
     }
     return 'secondary';
