@@ -74,7 +74,7 @@ exports.getManifest = function(image, deviceType) {
 };
 
 exports.osProgressHandler = function(step) {
-  var bar, rindle, visuals;
+  var progressBars, rindle, visuals;
   rindle = require('rindle');
   visuals = require('resin-cli-visuals');
   step.on('stdout', process.stdout.write.bind(process.stdout));
@@ -85,7 +85,12 @@ exports.osProgressHandler = function(step) {
     }
     return console.log(exports.stateToString(state));
   });
-  bar = new visuals.Progress('Writing Device OS');
-  step.on('burn', bar.update.bind(bar));
+  progressBars = {
+    write: new visuals.Progress('Writing Device OS'),
+    check: new visuals.Progress('Validating Device OS')
+  };
+  step.on('burn', function(state) {
+    return progressBars[state.type].update(state);
+  });
   return rindle.wait(step);
 };

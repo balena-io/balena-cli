@@ -83,8 +83,11 @@ exports.osProgressHandler = (step) ->
 		return if state.operation.command is 'burn'
 		console.log(exports.stateToString(state))
 
-	bar = new visuals.Progress('Writing Device OS')
+	progressBars =
+		write: new visuals.Progress('Writing Device OS')
+		check: new visuals.Progress('Validating Device OS')
 
-	step.on('burn', bar.update.bind(bar))
+	step.on 'burn', (state) ->
+		progressBars[state.type].update(state)
 
 	return rindle.wait(step)

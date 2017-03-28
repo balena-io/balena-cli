@@ -79,6 +79,8 @@ module.exports =
 				# otherwise the question will not be asked because
 				# `false` is a defined value.
 				yes: options.yes || undefined
+
+		# TODO: dedupe with the resin-device-operations
 		.then (answers) ->
 			if answers.yes isnt true
 				console.log(chalk.red.bold('Aborted image flash'))

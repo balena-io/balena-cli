@@ -245,6 +245,22 @@ exports.initialize =
 				])
 			.then (answers) ->
 				return if not answers.drive?
+
+				# TODO: resin local makes use of ejectAsync, see below
+				# DO we need this / should we do that here?
+
+				# getDrive = (drive) ->
+				# 	driveListAsync().then (drives) ->
+				# 		selectedDrive = _.find(drives, device: drive)
+
+				# 		if not selectedDrive?
+				# 			throw new Error("Drive not found: #{drive}")
+
+				# 		return selectedDrive
+				# if (os.platform() is 'win32') and selectedDrive.mountpoint?
+				# 	ejectAsync = Promise.promisify(require('removedrive').eject)
+				# 	return ejectAsync(selectedDrive.mountpoint)
+
 				umountAsync(answers.drive).tap ->
 					console.info("You can safely remove #{answers.drive} now")
 		.nodeify(done)
