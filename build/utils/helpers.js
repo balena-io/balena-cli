@@ -94,3 +94,19 @@ exports.osProgressHandler = function(step) {
   });
   return rindle.wait(step);
 };
+
+exports.getAppInfo = function(application) {
+  var _, resin;
+  resin = require('resin-sdk-preconfigured');
+  _ = require('lodash');
+  return Promise.join(resin.models.application.get(application), resin.models.config.getDeviceTypes(), function(app, config) {
+    config = _.find(config, {
+      'slug': app.device_type
+    });
+    if (config == null) {
+      throw new Error('Could not read application information!');
+    }
+    app.arch = config.arch;
+    return app;
+  });
+};
