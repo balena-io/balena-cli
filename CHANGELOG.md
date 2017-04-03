@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### Fixed
+
+- Add basic support for the new ResinOS version format
+
 ## [5.7.0] - 2017-03-28
 
 ### Fixed
