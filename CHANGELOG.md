@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### Fixed
+
+- Fixed warning on NPM install due to dependency conflicts
+
 ## [5.7.1] - 2017-04-03
 
 ### Fixed
