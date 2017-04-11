@@ -91,6 +91,12 @@
 			"files": [
 				"lib/actions/wizard.coffee"
 			]
+		},
+		{
+			"title": "Local",
+			"files": [
+				"lib/actions/local/index.coffee"
+			]
 		}
 	]
 }

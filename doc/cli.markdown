@@ -109,6 +109,17 @@ Now you have access to all the commands referenced below.
 
 	- [quickstart [name]](#quickstart-name-)
 
+- Local
+
+	- [local configure &#60;target&#62;](#local-configure-60-target-62-)
+	- [local flash &#60;image&#62;](#local-flash-60-image-62-)
+	- [local logs [deviceIp]](#local-logs-deviceip-)
+	- [local promote [deviceIp]](#local-promote-deviceip-)
+	- [local scan](#local-scan)
+	- [local ssh [deviceIp]](#local-ssh-deviceip-)
+	- [local push [deviceIp]](#local-push-deviceip-)
+	- [local stop [deviceIp]](#local-stop-deviceip-)
+
 # Application
 
 ## app create &#60;name&#62;
@@ -988,4 +999,259 @@ Examples:
 
 	$ resin quickstart
 	$ resin quickstart MyApp
+
+# Local
+
+## local configure &#60;target&#62;
+
+Use this command to configure or reconfigure a resinOS drive or image.
+
+Examples:
+
+	$ resin local configure /dev/sdc
+	$ resin local configure path/to/image.img
+
+## local flash &#60;image&#62;
+
+Use this command to flash a resinOS image to a drive.
+
+Examples:
+
+	$ resin local flash path/to/resinos.img
+	$ resin local flash path/to/resinos.img --drive /dev/disk2
+	$ resin local flash path/to/resinos.img --drive /dev/disk2 --yes
+
+### Options
+
+#### --yes, -y
+
+confirm non-interactively
+
+#### --drive, -d &#60;drive&#62;
+
+drive
+
+## local logs [deviceIp]
+
+
+Examples:
+
+	$ resin local logs
+	$ resin local logs -f
+	$ resin local logs 192.168.1.10
+	$ resin local logs 192.168.1.10 -f
+	$ resin local logs 192.168.1.10 -f --app-name myapp
+
+### Options
+
+#### --follow, -f
+
+follow log
+
+#### --app-name, -a &#60;name&#62;
+
+name of container to get logs from
+
+## local promote [deviceIp]
+
+Warning: 'resin promote' requires an openssh-compatible client to be correctly
+installed in your shell environment. For more information (including Windows
+support) please check the README here: https://github.com/resin-io/resin-cli
+
+Use this command to promote your device.
+
+Promoting a device will provision it onto the Resin platform,
+converting it from an unmanaged device to a managed device.
+
+Examples:
+
+	$ resin local promote
+	$ resin local promote --port 22222
+	$ resin local promote --verbose
+
+### Options
+
+#### --verbose, -v
+
+increase verbosity
+
+#### --port, -p &#60;port&#62;
+
+ssh port number (default: 22222)
+
+## local scan
+
+
+Examples:
+
+	$ resin local scan
+	$ resin local scan --timeout 120
+	$ resin local scan --verbose
+
+### Options
+
+#### --verbose, -v
+
+Display full info
+
+#### --timeout, -t &#60;timeout&#62;
+
+Scan timeout in seconds
+
+## local ssh [deviceIp]
+
+Warning: 'resin local ssh' requires an openssh-compatible client to be correctly
+installed in your shell environment. For more information (including Windows
+support) please check the README here: https://github.com/resin-io/resin-cli
+
+Use this command to get a shell into the running application container of
+your device.
+
+The '--host' option will get you a shell into the Host OS of the resinOS device.
+No option will return a list of containers to enter or you can explicitly select
+one by passing its name to the --container option
+
+Examples:
+
+	$ resin local ssh
+	$ resin local ssh --host
+	$ resin local ssh --container chaotic_water
+	$ resin local ssh --container chaotic_water --port 22222
+	$ resin local ssh --verbose
+
+### Options
+
+#### --verbose, -v
+
+increase verbosity
+
+#### --host, -s
+
+get a shell into the host OS
+
+#### --container, -c &#60;container&#62;
+
+name of container to access
+
+#### --port, -p &#60;port&#62;
+
+ssh port number (default: 22222)
+
+## local push [deviceIp]
+
+Warning: 'resin local push' requires an openssh-compatible client and 'rsync' to
+be correctly installed in your shell environment. For more information (including
+Windows support) please check the README here: https://github.com/resin-io/resin-cli
+
+Use this command to push your local changes to a container on a LAN-accessible resinOS device on the fly.
+
+If `Dockerfile` or any file in the 'build-triggers' list is changed,
+a new container will be built and run on your device.
+If not, changes will simply be synced with `rsync` into the application container.
+
+After every 'resin local push' the updated settings will be saved in
+'<source>/.resin-sync.yml' and will be used in later invocations. You can
+also change any option by editing '.resin-sync.yml' directly.
+
+Here is an example '.resin-sync.yml' :
+
+	$ cat $PWD/.resin-sync.yml
+	destination: '/usr/src/app'
+	before: 'echo Hello'
+	after: 'echo Done'
+	ignore:
+		- .git
+		- node_modules/
+
+Command line options have precedence over the ones saved in '.resin-sync.yml'.
+
+If '.gitignore' is found in the source directory then all explicitly listed files will be
+excluded when using rsync to update the container. You can choose to change this default behavior with the
+'--skip-gitignore' option.
+
+Examples:
+
+	$ resin local push
+	$ resin local push --app-name test-server --build-triggers package.json,requirements.txt
+	$ resin local push --force-build
+	$ resin local push --force-build --skip-logs
+	$ resin local push --ignore lib/
+	$ resin local push --verbose false
+	$ resin local push 192.168.2.10 --source . --destination /usr/src/app
+	$ resin local push 192.168.2.10 -s /home/user/myResinProject -d /usr/src/app --before 'echo Hello' --after 'echo Done'
+
+### Options
+
+#### --source, -s &#60;path&#62;
+
+root of project directory to push
+
+#### --destination, -d &#60;path&#62;
+
+destination path on device container
+
+#### --ignore, -i &#60;paths&#62;
+
+comma delimited paths to ignore when syncing with 'rsync'
+
+#### --skip-gitignore
+
+do not parse excluded/included files from .gitignore
+
+#### --before, -b &#60;command&#62;
+
+execute a command before pushing
+
+#### --after, -a &#60;command&#62;
+
+execute a command after pushing
+
+#### --progress, -p
+
+show progress
+
+#### --skip-logs
+
+do not stream logs after push
+
+#### --verbose, -v
+
+increase verbosity
+
+#### --app-name, -n &#60;name&#62;
+
+application name - may contain lowercase characters, digits and one or more dashes. It may not start or end with a dash.
+
+#### --build-triggers, -r &#60;files&#62;
+
+comma delimited file list that will trigger a container rebuild if changed
+
+#### --force-build, -f
+
+force a container build and run
+
+#### --env, -e &#60;env&#62;
+
+environment variable (e.g. --env 'ENV=value'). Multiple --env parameters are supported.
+
+## local stop [deviceIp]
+
+
+Examples:
+
+	$ resin local stop
+	$ resin local stop --app-name myapp
+	$ resin local stop --all
+	$ resin local stop 192.168.1.10
+	$ resin local stop 192.168.1.10 --app-name myapp
+
+### Options
+
+#### --all
+
+stop all containers
+
+#### --app-name, -a &#60;name&#62;
+
+name of container to stop
 
