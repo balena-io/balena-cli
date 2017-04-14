@@ -49,14 +49,6 @@ module.exports =
 		chalk = require('chalk')
 		visuals = require('resin-cli-visuals')
 		form = require('resin-cli-form')
-
-
-		# TODO: Find a better ES6 module loading story/contract between resin.io modules
-		require('babel-register')({
-			only: /etcher-image-write|bmapflash/
-			presets: ['es2015']
-			compact: true
-		})
 		imageWrite = require('etcher-image-write')
 
 		form.run [

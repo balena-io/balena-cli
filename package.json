@@ -33,8 +33,6 @@
     "gulp-shell": "^0.5.2"
   },
   "dependencies": {
-    "babel-preset-es2015": "^6.16.0",
-    "babel-register": "^6.16.3",
     "bluebird": "^3.3.3",
     "capitano": "^1.7.0",
     "chalk": "^1.1.3",
@@ -43,7 +41,7 @@
     "denymount": "^2.2.0",
     "docker-toolbelt": "^1.3.3",
     "drivelist": "^5.0.16",
-    "etcher-image-write": "^9.0.1",
+    "etcher-image-write": "^9.0.3",
     "inquirer": "^3.0.6",
     "is-root": "^1.0.0",
     "js-yaml": "^3.7.0",
@@ -61,7 +59,7 @@
     "resin-cli-visuals": "^1.3.0",
     "resin-config-json": "^1.0.0",
     "resin-device-config": "^3.0.0",
-    "resin-device-init": "^2.2.0",
+    "resin-device-init": "^2.2.1",
     "resin-image-fs": "^2.1.2",
     "resin-image-manager": "^4.1.1",
     "resin-sdk-preconfigured": "^6.0.0",
