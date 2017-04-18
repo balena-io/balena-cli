@@ -10,7 +10,7 @@ Resin CLI
 Requisites
 ----------
 
-- [NodeJS](https://nodejs.org) (at least v0.10)
+- [NodeJS](https://nodejs.org) (>= v4)
 - [Git](https://git-scm.com)
 - The following executables should be correctly installed in your shell environment:
   - `ssh`: Any recent version of the OpenSSH ssh client (required by `resin sync` and `resin ssh`)
