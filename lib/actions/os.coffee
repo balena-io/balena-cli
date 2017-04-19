@@ -196,7 +196,7 @@ exports.buildConfig =
 		.nodeify(done)
 
 exports.configure =
-	signature: 'os configure <image> <uuid>'
+	signature: 'os configure <image> <uuid> [deviceApiKey]'
 	description: 'configure an os image'
 	help: '''
 		Use this command to configure a previously downloaded operating system image for the specific device.
@@ -204,6 +204,7 @@ exports.configure =
 		Examples:
 
 			$ resin os configure ../path/rpi.img 7cf02a6
+			$ resin os configure ../path/rpi.img 7cf02a6 <existingDeviceKey>
 	'''
 	permission: 'user'
 	options: [
@@ -223,13 +224,19 @@ exports.configure =
 		helpers = require('../utils/helpers')
 
 		console.info('Configuring operating system image')
-		resin.models.device.get(params.uuid).then (device) ->
-			if options.config
-				return readFileAsync(options.config, 'utf8')
-					.then(JSON.parse)
-			return buildConfig(params.image, device.device_type, options.advanced)
-		.then (answers) ->
-			init.configure(params.image, params.uuid, answers).then(helpers.osProgressHandler)
+		Promise.all [
+			resin.models.device.get(params.uuid)
+			.then (device) ->
+				if options.config
+					return readFileAsync(options.config, 'utf8')
+						.then(JSON.parse)
+				return buildConfig(params.image, device.device_type, options.advanced)
+		,
+			Promise.resolve(params.deviceApiKey ? resin.models.device.generateDeviceKey(params.uuid))
+		]
+		.spread (answers, deviceApiKey) ->
+			init.configure(params.image, params.uuid, deviceApiKey, answers)
+		.then(helpers.osProgressHandler)
 		.nodeify(done)
 
 INIT_WARNING_MESSAGE = '''

@@ -106,7 +106,7 @@ environment variable (in the same standard URL format).
 	- [os versions &#60;type&#62;](#os-versions-60-type-62-)
 	- [os download &#60;type&#62;](#os-download-60-type-62-)
 	- [os build-config &#60;image&#62; &#60;device-type&#62;](#os-build-config-60-image-62-60-device-type-62-)
-	- [os configure &#60;image&#62; &#60;uuid&#62;](#os-configure-60-image-62-60-uuid-62-)
+	- [os configure &#60;image&#62; &#60;uuid&#62; [deviceApiKey]](#os-configure-60-image-62-60-uuid-62-deviceapikey-)
 	- [os initialize &#60;image&#62;](#os-initialize-60-image-62-)
 
 - Config
@@ -904,13 +904,14 @@ show advanced configuration options
 
 the path to the output JSON file
 
-## os configure &#60;image&#62; &#60;uuid&#62;
+## os configure &#60;image&#62; &#60;uuid&#62; [deviceApiKey]
 
 Use this command to configure a previously downloaded operating system image for the specific device.
 
 Examples:
 
 	$ resin os configure ../path/rpi.img 7cf02a6
+	$ resin os configure ../path/rpi.img 7cf02a6 <existingDeviceKey>
 
 ### Options
 
