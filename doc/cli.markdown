@@ -1038,6 +1038,7 @@ Use this command to generate a config.json for a device or application
 Examples:
 
 	$ resin config generate --device 7cf02a6
+	$ resin config generate --device 7cf02a6 --device-api-key <existingDeviceKey>
 	$ resin config generate --device 7cf02a6 --output config.json
 	$ resin config generate --app MyApp
 	$ resin config generate --app MyApp --output config.json
@@ -1051,6 +1052,10 @@ application name
 #### --device, -d &#60;device&#62;
 
 device uuid
+
+#### --deviceApiKey, -k &#60;device-api-key&#62;
+
+custom device key
 
 #### --output, -o &#60;output&#62;
 

@@ -224,6 +224,7 @@ exports.generate =
 		Examples:
 
 			$ resin config generate --device 7cf02a6
+			$ resin config generate --device 7cf02a6 --device-api-key <existingDeviceKey>
 			$ resin config generate --device 7cf02a6 --output config.json
 			$ resin config generate --app MyApp
 			$ resin config generate --app MyApp --output config.json
@@ -231,6 +232,12 @@ exports.generate =
 	options: [
 		commandOptions.optionalApplication
 		commandOptions.optionalDevice
+		{
+			signature: 'deviceApiKey'
+			description: 'custom device key'
+			parameter: 'device-api-key'
+			alias: 'k'
+		}
 		{
 			signature: 'output'
 			description: 'output'
@@ -267,7 +274,9 @@ exports.generate =
 				.then(form.run)
 				.then (answers) ->
 					if resource.uuid?
-						return deviceConfig.getByDevice(resource.uuid, answers)
+						return Promise.resolve(options.deviceApiKey ? resin.models.device.generateDeviceKey(resource.uuid))
+						.then (deviceApiKey) ->
+							deviceConfig.getByDevice(resource.uuid, deviceApiKey, answers)
 					return deviceConfig.getByApplication(resource.app_name, answers)
 		.then (config) ->
 			if options.output?
