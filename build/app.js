@@ -24,7 +24,10 @@ Raven.disableConsoleAlerts();
 Raven.config(require('./config').sentryDsn, {
   captureUnhandledRejections: true,
   release: require('../package.json').version
-}).install();
+}).install(function(logged, error) {
+  console.error(error);
+  return process.exit(1);
+});
 
 _ = require('lodash');
 
