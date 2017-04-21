@@ -53,12 +53,12 @@ module.exports = {
     }
   ],
   action: function(params, options, done) {
-    var Promise, child_process, patterns, resin, settings, verbose;
+    var Promise, child_process, patterns, proxyUrl, resin, verbose;
     child_process = require('child_process');
     Promise = require('bluebird');
     resin = require('resin-sdk-preconfigured');
-    settings = require('resin-settings-client');
     patterns = require('../utils/patterns');
+    proxyUrl = resin.settings.get('proxyUrl');
     if (options.port == null) {
       options.port = 22;
     }
@@ -92,7 +92,7 @@ module.exports = {
         }
         return Promise["try"](function() {
           var command, subShellCommand;
-          command = "ssh " + verbose + " -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ControlMaster=no -p " + options.port + " " + username + "@ssh." + (settings.get('proxyUrl')) + " enter " + uuid + " " + containerId;
+          command = "ssh " + verbose + " -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ControlMaster=no -p " + options.port + " " + username + "@ssh." + proxyUrl + " enter " + uuid + " " + containerId;
           subShellCommand = getSubShellCommand(command);
           return child_process.spawn(subShellCommand.program, subShellCommand.args, {
             stdio: 'inherit'

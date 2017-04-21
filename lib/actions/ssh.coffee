@@ -70,8 +70,8 @@ module.exports =
 		child_process = require('child_process')
 		Promise = require 'bluebird'
 		resin = require('resin-sdk-preconfigured')
-		settings = require('resin-settings-client')
 		patterns = require('../utils/patterns')
+		proxyUrl = resin.settings.get('proxyUrl')
 
 		if not options.port?
 			options.port = 22
@@ -92,7 +92,8 @@ module.exports =
 
 			Promise.props
 				username: resin.auth.whoami()
-				uuid: device.uuid		# get full uuid
+				uuid: device.uuid
+				# get full uuid
 				containerId: resin.models.device.getApplicationInfo(device.uuid).get('containerId')
 			.then ({ username, uuid, containerId }) ->
 				throw new Error('Did not find running application container') if not containerId?
@@ -102,7 +103,7 @@ module.exports =
 						-o StrictHostKeyChecking=no \
 						-o UserKnownHostsFile=/dev/null \
 						-o ControlMaster=no \
-						-p #{options.port} #{username}@ssh.#{settings.get('proxyUrl')} enter #{uuid} #{containerId}"
+						-p #{options.port} #{username}@ssh.#{proxyUrl} enter #{uuid} #{containerId}"
 
 					subShellCommand = getSubShellCommand(command)
 					child_process.spawn subShellCommand.program, subShellCommand.args,

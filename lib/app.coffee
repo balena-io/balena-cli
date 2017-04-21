@@ -16,11 +16,12 @@ limitations under the License.
 
 Raven = require('raven')
 Raven.disableConsoleAlerts()
-Raven.config(
-	require('./config').sentryDsn
+Raven.config require('./config').sentryDsn,
 	captureUnhandledRejections: true
 	release: require('../package.json').version
-).install()
+.install (logged, error) ->
+	console.error(error)
+	process.exit(1)
 
 _ = require('lodash')
 Promise = require('bluebird')
