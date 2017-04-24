@@ -37,12 +37,14 @@ parseInput = Promise.method(function(params, options) {
   return [appName, options.build, source, image];
 });
 
-pushProgress = function(imageSize, request, timeout) {
-  var progressReporter;
+pushProgress = function(imageSize, request, logStreams, timeout) {
+  var ansiEscapes, logging, progressReporter;
   if (timeout == null) {
     timeout = 250;
   }
-  process.stdout.write('Initialising...');
+  logging = require('../utils/logging');
+  ansiEscapes = require('ansi-escapes');
+  logging.logInfo(logStreams, 'Initialising...');
   return progressReporter = setInterval(function() {
     var percent, sent;
     sent = request.req.connection._bytesDispatched;
@@ -51,12 +53,10 @@ pushProgress = function(imageSize, request, timeout) {
       clearInterval(progressReporter);
       percent = 100;
     }
+    process.stdout.write(ansiEscapes.cursorUp(1));
     process.stdout.clearLine();
     process.stdout.cursorTo(0);
-    process.stdout.write("Uploaded " + (percent.toFixed(1)) + "%");
-    if (percent === 100) {
-      return console.log();
-    }
+    return logging.logInfo(logStreams, "Uploaded " + (percent.toFixed(1)) + "%");
   }, timeout);
 };
 
@@ -68,7 +68,7 @@ getBundleInfo = function(options) {
   });
 };
 
-performUpload = function(image, token, username, url, size, appName) {
+performUpload = function(image, token, username, url, size, appName, logStreams) {
   var post, request;
   request = require('request');
   url = url || process.env.RESINRC_RESIN_URL;
@@ -79,18 +79,18 @@ performUpload = function(image, token, username, url, size, appName) {
     },
     body: image
   });
-  return uploadToPromise(post, size);
+  return uploadToPromise(post, size, logStreams);
 };
 
-uploadToPromise = function(request, size) {
+uploadToPromise = function(request, size, logStreams) {
+  var logging;
+  logging = require('../utils/logging');
   return new Promise(function(resolve, reject) {
     var handleMessage;
     handleMessage = function(data) {
       var obj;
       data = data.toString();
-      if (process.env.DEBUG) {
-        console.log("Received data: " + data);
-      }
+      logging.logDebug(logStreams, "Received data: " + data);
       obj = JSON.parse(data);
       if (obj.type != null) {
         switch (obj.type) {
@@ -99,7 +99,7 @@ uploadToPromise = function(request, size) {
           case 'success':
             return resolve(obj.image);
           case 'status':
-            return console.log("Remote: " + obj.message);
+            return logging.logInfo(logStreams, "Remote: " + obj.message);
           default:
             return reject(new Error("Received unexpected reply from remote: " + data));
         }
@@ -108,7 +108,7 @@ uploadToPromise = function(request, size) {
       }
     };
     request.on('error', reject).on('data', handleMessage);
-    return pushProgress(size, request);
+    return pushProgress(size, request, logStreams);
   });
 };
 
@@ -131,11 +131,13 @@ module.exports = {
     }
   ]),
   action: function(params, options, done) {
-    var _, docker, resin, tmp, tmpNameAsync;
+    var _, docker, logStreams, logging, resin, tmp, tmpNameAsync;
     _ = require('lodash');
     tmp = require('tmp');
     tmpNameAsync = Promise.promisify(tmp.tmpName);
     resin = require('resin-sdk-preconfigured');
+    logging = require('../utils/logging');
+    logStreams = logging.getLogStreams();
     tmp.setGracefulCleanup();
     docker = dockerUtils.getDocker(options);
     return parseInput(params, options).then(function(arg) {
@@ -150,18 +152,18 @@ module.exports = {
         });
         return Promise["try"](function() {
           if (build) {
-            return dockerUtils.runBuild(params, options, getBundleInfo);
+            return dockerUtils.runBuild(params, options, getBundleInfo, logStreams);
           } else {
             return imageName;
           }
         }).then(function(imageName) {
-          return Promise.join(dockerUtils.bufferImage(docker, imageName, tmpPath), resin.auth.getToken(), resin.auth.whoami(), resin.settings.get('resinUrl'), dockerUtils.getImageSize(docker, imageName), params.appName, performUpload);
+          return Promise.join(dockerUtils.bufferImage(docker, imageName, tmpPath), resin.auth.getToken(), resin.auth.whoami(), resin.settings.get('resinUrl'), dockerUtils.getImageSize(docker, imageName), params.appName, logStreams, performUpload);
         })["finally"](function() {
           return require('fs').unlink(tmpPath);
         });
       });
     }).then(function(imageName) {
-      return console.log("Successfully deployed image: " + (formatImageName(imageName)));
+      return logging.logSuccess(logStreams, "Successfully deployed image: " + (formatImageName(imageName)));
     }).asCallback(done);
   }
 };

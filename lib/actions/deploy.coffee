@@ -26,18 +26,21 @@ parseInput = Promise.method (params, options) ->
 
 	return [appName, options.build, source, image]
 
-pushProgress = (imageSize, request, timeout = 250) ->
-	process.stdout.write('Initialising...')
+pushProgress = (imageSize, request, logStreams, timeout = 250) ->
+	logging = require('../utils/logging')
+	ansiEscapes = require('ansi-escapes')
+
+	logging.logInfo(logStreams, 'Initialising...')
 	progressReporter = setInterval ->
 		sent = request.req.connection._bytesDispatched
 		percent = (sent / imageSize) * 100
 		if percent >= 100
 			clearInterval(progressReporter)
 			percent = 100
+		process.stdout.write(ansiEscapes.cursorUp(1))
 		process.stdout.clearLine()
 		process.stdout.cursorTo(0)
-		process.stdout.write("Uploaded #{percent.toFixed(1)}%")
-		console.log() if percent == 100
+		logging.logInfo(logStreams, "Uploaded #{percent.toFixed(1)}%")
 	, timeout
 
 getBundleInfo = (options) ->
@@ -47,7 +50,7 @@ getBundleInfo = (options) ->
 	.then (app) ->
 		[app.arch, app.device_type]
 
-performUpload = (image, token, username, url, size, appName) ->
+performUpload = (image, token, username, url, size, appName, logStreams) ->
 	request = require('request')
 	url = url || process.env.RESINRC_RESIN_URL
 	post = request.post
@@ -56,22 +59,22 @@ performUpload = (image, token, username, url, size, appName) ->
 			bearer: token
 		body: image
 
-	uploadToPromise(post, size)
+	uploadToPromise(post, size, logStreams)
 
-uploadToPromise = (request, size) ->
+uploadToPromise = (request, size, logStreams) ->
+	logging = require('../utils/logging')
 	new Promise (resolve, reject) ->
 
 		handleMessage = (data) ->
 			data = data.toString()
-			if process.env.DEBUG
-				console.log("Received data: #{data}")
+			logging.logDebug(logStreams, "Received data: #{data}")
 
 			obj = JSON.parse(data)
 			if obj.type?
 				switch obj.type
 					when 'error' then reject(new Error("Remote error: #{obj.error}"))
 					when 'success' then resolve(obj.image)
-					when 'status' then console.log("Remote: #{obj.message}")
+					when 'status' then logging.logInfo(logStreams, "Remote: #{obj.message}")
 					else reject(new Error("Received unexpected reply from remote: #{data}"))
 			else
 				reject(new Error("Received unexpected reply from remote: #{data}"))
@@ -81,7 +84,7 @@ uploadToPromise = (request, size) ->
 		.on('data', handleMessage)
 
 		# Set up upload reporting
-		pushProgress(size, request)
+		pushProgress(size, request, logStreams)
 
 
 module.exports =
@@ -120,6 +123,10 @@ module.exports =
 		tmpNameAsync = Promise.promisify(tmp.tmpName)
 		resin = require('resin-sdk-preconfigured')
 
+		logging = require('../utils/logging')
+
+		logStreams = logging.getLogStreams()
+
 		# Ensure the tmp files gets deleted
 		tmp.setGracefulCleanup()
 
@@ -136,7 +143,7 @@ module.exports =
 
 				Promise.try ->
 					if build
-						dockerUtils.runBuild(params, options, getBundleInfo)
+						dockerUtils.runBuild(params, options, getBundleInfo, logStreams)
 					else
 						imageName
 				.then (imageName) ->
@@ -147,10 +154,11 @@ module.exports =
 						resin.settings.get('resinUrl')
 						dockerUtils.getImageSize(docker, imageName)
 						params.appName
+						logStreams
 						performUpload
 					)
 				.finally ->
 					require('fs').unlink(tmpPath)
 		.then (imageName) ->
-			console.log("Successfully deployed image: #{formatImageName(imageName)}")
+			logging.logSuccess(logStreams, "Successfully deployed image: #{formatImageName(imageName)}")
 		.asCallback(done)
