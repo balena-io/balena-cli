@@ -94,10 +94,10 @@ exports.runBuild = function(params, options, getBundleInfo) {
   Promise = require('bluebird');
   dockerBuild = require('resin-docker-build');
   resolver = require('resin-bundle-resolve');
-  if (params.context == null) {
-    params.context = '.';
+  if (params.source == null) {
+    params.source = '.';
   }
-  return tarDirectory(params.context).then(function(tarStream) {
+  return tarDirectory(params.source).then(function(tarStream) {
     return new Promise(function(resolve, reject) {
       var builder, connectOpts, hooks, opts;
       hooks = {

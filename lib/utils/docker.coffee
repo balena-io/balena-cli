@@ -107,10 +107,10 @@ exports.runBuild = (params, options, getBundleInfo) ->
 	resolver = require('resin-bundle-resolve')
 
 	# The default build context is the current directory
-	params.context ?= '.'
+	params.source ?= '.'
 
 	# Tar up the directory, ready for the build stream
-	tarDirectory(params.context)
+	tarDirectory(params.source)
 	.then (tarStream) ->
 		new Promise (resolve, reject) ->
 			hooks =

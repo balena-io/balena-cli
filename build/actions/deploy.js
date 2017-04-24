@@ -15,7 +15,7 @@ formatImageName = function(image) {
 };
 
 parseInput = Promise.method(function(params, options) {
-  var appName, context, image;
+  var appName, image, source;
   if (params.appName == null) {
     throw new Error('Need an application to deploy to!');
   }
@@ -28,11 +28,11 @@ parseInput = Promise.method(function(params, options) {
     options.build = false;
     image = params.image;
   } else if (options.build) {
-    context = options.source || '.';
+    source = options.source || '.';
   } else {
     throw new Error('Need either an image or a build flag!');
   }
-  return [appName, options.build, context, image];
+  return [appName, options.build, source, image];
 });
 
 pushProgress = function(imageSize, request, timeout) {
@@ -138,14 +138,14 @@ module.exports = {
     tmp.setGracefulCleanup();
     docker = dockerUtils.getDocker(options);
     return parseInput(params, options).then(function(arg) {
-      var appName, build, context, imageName;
-      appName = arg[0], build = arg[1], context = arg[2], imageName = arg[3];
+      var appName, build, imageName, source;
+      appName = arg[0], build = arg[1], source = arg[2], imageName = arg[3];
       return tmpNameAsync().then(function(tmpPath) {
         options = _.assign({}, options, {
           appName: appName
         });
         params = _.assign({}, params, {
-          context: context
+          source: source
         });
         return Promise["try"](function() {
           if (build) {
