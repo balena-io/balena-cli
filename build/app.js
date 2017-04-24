@@ -49,6 +49,8 @@ plugins = require('./utils/plugins');
 
 update = require('./utils/update');
 
+require('any-promise/register/bluebird');
+
 capitano.permission('user', function(done) {
   return resin.auth.isLoggedIn().then(function(isLoggedIn) {
     if (!isLoggedIn) {
@@ -185,6 +187,10 @@ capitano.command(actions.local.scan);
 capitano.command(actions.local.stop);
 
 capitano.command(actions.internal.osInit);
+
+capitano.command(actions.build);
+
+capitano.command(actions.deploy);
 
 update.notify();
 

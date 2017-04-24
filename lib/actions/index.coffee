@@ -32,3 +32,5 @@ module.exports =
 	sync: require('./sync')
 	ssh: require('./ssh')
 	internal: require('./internal')
+	build: require('./build')
+	deploy: require('./deploy')

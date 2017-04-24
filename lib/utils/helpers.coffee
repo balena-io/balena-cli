@@ -91,3 +91,17 @@ exports.osProgressHandler = (step) ->
 		progressBars[state.type].update(state)
 
 	return rindle.wait(step)
+
+exports.getAppInfo = (application) ->
+	resin = require('resin-sdk-preconfigured')
+	_ = require('lodash')
+	Promise.join(
+		resin.models.application.get(application),
+		resin.models.config.getDeviceTypes(),
+		(app, config) ->
+			config = _.find(config, 'slug': app.device_type)
+			if !config?
+				throw new Error('Could not read application information!')
+			app.arch = config.arch
+			return app
+	)

@@ -34,6 +34,12 @@ events = require('./events')
 plugins = require('./utils/plugins')
 update = require('./utils/update')
 
+# Assign bluebird as the global promise library
+# stream-to-promise will produce native promises if not
+# for this module, which could wreak havoc in this
+# bluebird-only codebase.
+require('any-promise/register/bluebird')
+
 capitano.permission 'user', (done) ->
 	resin.auth.isLoggedIn().then (isLoggedIn) ->
 		if not isLoggedIn
@@ -146,6 +152,10 @@ capitano.command(actions.local.stop)
 
 # ---------- Internal utils ----------
 capitano.command(actions.internal.osInit)
+
+#------------ Local build and deploy -------
+capitano.command(actions.build)
+capitano.command(actions.deploy)
 
 update.notify()
 
