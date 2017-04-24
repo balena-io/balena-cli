@@ -99,14 +99,16 @@ exports.tarDirectory = tarDirectory = function(dir) {
 };
 
 exports.runBuild = function(params, options, getBundleInfo, logStreams) {
-  var Promise, dockerBuild, logging, resolver;
+  var Promise, dockerBuild, es, logging, logs, resolver;
   Promise = require('bluebird');
   dockerBuild = require('resin-docker-build');
   resolver = require('resin-bundle-resolve');
+  es = require('event-stream');
   logging = require('../utils/logging');
   if (params.source == null) {
     params.source = '.';
   }
+  logs = '';
   return tarDirectory(params.source).then(function(tarStream) {
     return new Promise(function(resolve, reject) {
       var builder, connectOpts, hooks, opts;
@@ -115,10 +117,14 @@ exports.runBuild = function(params, options, getBundleInfo, logStreams) {
           if (options.tag != null) {
             console.log("Tagging image as " + options.tag);
           }
-          return resolve(image);
+          return resolve({
+            image: image,
+            log: logs
+          });
         },
         buildFailure: reject,
         buildStream: function(stream) {
+          var throughStream;
           getBundleInfo(options).then(function(info) {
             var arch, bundle, deviceType;
             if (info == null) {
@@ -133,7 +139,11 @@ exports.runBuild = function(params, options, getBundleInfo, logStreams) {
               });
             }
           })["catch"](reject);
-          return stream.pipe(logStreams.build);
+          throughStream = es.through(function(data) {
+            logs += data.toString();
+            return this.emit('data', data);
+          });
+          return stream.pipe(es.pipe(throughStream, logStreams.build));
         }
       };
       connectOpts = generateConnectOpts(options);
@@ -160,12 +170,7 @@ exports.bufferImage = function(docker, imageId, tmpFile) {
   image = docker.getImage(imageId);
   return image.get().then(function(img) {
     return new Promise(function(resolve, reject) {
-      return img.on('error', reject).on('data', function(data) {
-        return stream.write(data);
-      }).on('end', function() {
-        stream.close();
-        return resolve();
-      });
+      return img.on('error', reject).on('end', resolve).pipe(stream);
     });
   }).then(function() {
     return new Promise(function(resolve, reject) {

@@ -2,9 +2,14 @@ Promise = require('bluebird')
 dockerUtils = require('../utils/docker')
 
 getBuilderPushEndpoint = (baseUrl, owner, app) ->
-	escOwner = encodeURIComponent(owner)
-	escApp = encodeURIComponent(app)
-	"https://builder.#{baseUrl}/v1/push?owner=#{escOwner}&app=#{escApp}"
+	querystring = require('querystring')
+	args = querystring.stringify({ owner, app })
+	"https://builder.#{baseUrl}/v1/push?#{args}"
+
+getBuilderLogPushEndpoint = (baseUrl, buildId, owner, app) ->
+	querystring = require('querystring')
+	args = querystring.stringify({ owner, app, buildId })
+	"https://builder.#{baseUrl}/v1/pushLogs?#{args}"
 
 formatImageName = (image) ->
 	image.split('/').pop()
@@ -52,7 +57,6 @@ getBundleInfo = (options) ->
 
 performUpload = (image, token, username, url, size, appName, logStreams) ->
 	request = require('request')
-	url = url || process.env.RESINRC_RESIN_URL
 	post = request.post
 		url: getBuilderPushEndpoint(url, username, appName)
 		auth:
@@ -61,19 +65,35 @@ performUpload = (image, token, username, url, size, appName, logStreams) ->
 
 	uploadToPromise(post, size, logStreams)
 
+uploadLogs = (logs, token, url, buildId, username, appName) ->
+	request = require('request')
+	request.post
+		json: true
+		url: getBuilderLogPushEndpoint(url, buildId, username, appName)
+		auth:
+			bearer: token
+		body: Buffer.from(logs)
+
 uploadToPromise = (request, size, logStreams) ->
 	logging = require('../utils/logging')
+
 	new Promise (resolve, reject) ->
 
 		handleMessage = (data) ->
 			data = data.toString()
 			logging.logDebug(logStreams, "Received data: #{data}")
 
-			obj = JSON.parse(data)
+			try
+				obj = JSON.parse(data)
+			catch e
+				logging.logError(logStreams, 'Error parsing reply from remote side')
+				reject(e)
+				return
+
 			if obj.type?
 				switch obj.type
 					when 'error' then reject(new Error("Remote error: #{obj.error}"))
-					when 'success' then resolve(obj.image)
+					when 'success' then resolve(obj)
 					when 'status' then logging.logInfo(logStreams, "Remote: #{obj.message}")
 					else reject(new Error("Received unexpected reply from remote: #{data}"))
 			else
@@ -115,6 +135,11 @@ module.exports =
 			parameter: 'source'
 			description: 'The source directory to use when building the image'
 			alias: 's'
+		},
+		{
+			signature: 'nologupload'
+			description: "Don't upload build logs to the dashboard with image (if building)"
+			boolean: true
 		}
 	]
 	action: (params, options, done) ->
@@ -130,35 +155,69 @@ module.exports =
 		# Ensure the tmp files gets deleted
 		tmp.setGracefulCleanup()
 
-		docker = dockerUtils.getDocker(options)
-		# Check input parameters
-		parseInput(params, options)
-		.then ([appName, build, source, imageName]) ->
-			tmpNameAsync()
-			.then (tmpPath) ->
+		logs = ''
 
-				# Setup the build args for how the build routine expects them
-				options = _.assign({}, options, { appName })
-				params = _.assign({}, params, { source })
+		upload = (token, username, url) ->
+			docker = dockerUtils.getDocker(options)
+			# Check input parameters
+			parseInput(params, options)
+			.then ([appName, build, source, imageName]) ->
+				tmpNameAsync()
+				.then (tmpPath) ->
 
-				Promise.try ->
-					if build
-						dockerUtils.runBuild(params, options, getBundleInfo, logStreams)
-					else
-						imageName
-				.then (imageName) ->
-					Promise.join(
-						dockerUtils.bufferImage(docker, imageName, tmpPath)
-						resin.auth.getToken()
-						resin.auth.whoami()
-						resin.settings.get('resinUrl')
-						dockerUtils.getImageSize(docker, imageName)
-						params.appName
-						logStreams
-						performUpload
-					)
-				.finally ->
-					require('fs').unlink(tmpPath)
-		.then (imageName) ->
-			logging.logSuccess(logStreams, "Successfully deployed image: #{formatImageName(imageName)}")
-		.asCallback(done)
+					# Setup the build args for how the build routine expects them
+					options = _.assign({}, options, { appName })
+					params = _.assign({}, params, { source })
+
+					Promise.try ->
+						if build
+							dockerUtils.runBuild(params, options, getBundleInfo, logStreams)
+						else
+							{ image: imageName, log: '' }
+					.then ({ image: imageName, log: buildLogs }) ->
+						logs = buildLogs
+						Promise.join(
+							dockerUtils.bufferImage(docker, imageName, tmpPath)
+							token
+							username
+							url
+							dockerUtils.getImageSize(docker, imageName)
+							params.appName
+							logStreams
+							performUpload
+						)
+					.finally ->
+						# If the file was never written to (for instance because an error
+						# has occured before any data was written) this call will throw an
+						# ugly error, just suppress it
+						require('mz/fs').unlink(tmpPath)
+						.catch(_.noop)
+			.tap ({ image: imageName, buildId }) ->
+				logging.logSuccess(logStreams, "Successfully deployed image: #{formatImageName(imageName)}")
+				return buildId
+			.then ({ image: imageName, buildId }) ->
+				if logs is '' or options.nologupload?
+					return ''
+
+				logging.logInfo(logStreams, 'Uploading logs to dashboard...')
+
+				Promise.join(
+					logs
+					token
+					url
+					buildId
+					username
+					params.appName
+					uploadLogs
+				)
+				.return('Successfully uploaded logs')
+			.then (msg) ->
+				logging.logSuccess(logStreams, msg) if msg isnt ''
+			.asCallback(done)
+
+		Promise.join(
+			resin.auth.getToken()
+			resin.auth.whoami()
+			resin.settings.get('resinUrl')
+			upload
+		)
