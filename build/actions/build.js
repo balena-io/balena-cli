@@ -40,15 +40,6 @@ module.exports = {
       parameter: 'application',
       description: 'The target resin.io application this build is for',
       alias: 'a'
-    }, {
-      signature: 'tag',
-      parameter: 'tag',
-      description: 'The alias to the generated image',
-      alias: 't'
-    }, {
-      signature: 'nocache',
-      description: "Don't use docker layer caching when building",
-      boolean: true
     }
   ]),
   action: function(params, options, done) {

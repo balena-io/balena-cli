@@ -1,4 +1,5 @@
 Promise = require('bluebird')
+dockerUtils = require('../utils/docker')
 
 getBuilderPushEndpoint = (baseUrl, owner, app) ->
 	escOwner = encodeURIComponent(owner)
@@ -99,7 +100,7 @@ module.exports =
 		$ resin deploy myApp myApp/myImage
 	'''
 	permission: 'user'
-	options: [
+	options: dockerUtils.appendOptions [
 		{
 			signature: 'build'
 			boolean: true
@@ -118,8 +119,6 @@ module.exports =
 		tmp = require('tmp')
 		tmpNameAsync = Promise.promisify(tmp.tmpName)
 		resin = require('resin-sdk-preconfigured')
-
-		dockerUtils = require('../utils/docker')
 
 		# Ensure the tmp files gets deleted
 		tmp.setGracefulCleanup()
