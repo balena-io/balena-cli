@@ -19,11 +19,11 @@ parseInput = Promise.method (params, options) ->
 		options.build = false
 		image = params.image
 	else if options.build
-		context = options.source || '.'
+		source = options.source || '.'
 	else
 		throw new Error('Need either an image or a build flag!')
 
-	return [appName, options.build, context, image]
+	return [appName, options.build, source, image]
 
 pushProgress = (imageSize, request, timeout = 250) ->
 	process.stdout.write('Initialising...')
@@ -127,13 +127,13 @@ module.exports =
 		docker = dockerUtils.getDocker(options)
 		# Check input parameters
 		parseInput(params, options)
-		.then ([appName, build, context, imageName]) ->
+		.then ([appName, build, source, imageName]) ->
 			tmpNameAsync()
 			.then (tmpPath) ->
 
 				# Setup the build args for how the build routine expects them
 				options = _.assign({}, options, { appName })
-				params = _.assign({}, params, { context })
+				params = _.assign({}, params, { source })
 
 				Promise.try ->
 					if build
