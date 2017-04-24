@@ -30,6 +30,15 @@ exports.appendOptions = function(opts) {
       signature: 'key',
       parameter: 'key',
       description: 'Docker host TLS key file'
+    }, {
+      signature: 'tag',
+      parameter: 'tag',
+      description: 'The alias to the generated image',
+      alias: 't'
+    }, {
+      signature: 'nocache',
+      description: "Don't use docker layer caching when building",
+      boolean: true
     }
   ]);
 };
