@@ -98,11 +98,12 @@ exports.tarDirectory = tarDirectory = function(dir) {
   });
 };
 
-exports.runBuild = function(params, options, getBundleInfo) {
-  var Promise, dockerBuild, resolver;
+exports.runBuild = function(params, options, getBundleInfo, logStreams) {
+  var Promise, dockerBuild, logging, resolver;
   Promise = require('bluebird');
   dockerBuild = require('resin-docker-build');
   resolver = require('resin-bundle-resolve');
+  logging = require('../utils/logging');
   if (params.source == null) {
     params.source = '.';
   }
@@ -121,25 +122,23 @@ exports.runBuild = function(params, options, getBundleInfo) {
           getBundleInfo(options).then(function(info) {
             var arch, bundle, deviceType;
             if (info == null) {
-              console.log('Warning: No architecture/device type or application information provided.\n	Dockerfile/project pre-processing will not be performed.');
+              logging.logWarn(logStreams, 'Warning: No architecture/device type or application information provided.\n	Dockerfile/project pre-processing will not be performed.');
               return tarStream.pipe(stream);
             } else {
               arch = info[0], deviceType = info[1];
               bundle = new resolver.Bundle(tarStream, deviceType, arch);
               return resolver.resolveBundle(bundle, resolver.getDefaultResolvers()).then(function(resolved) {
-                console.log("Building " + resolved.projectType + " project");
+                logging.logInfo(logStreams, "Building " + resolved.projectType + " project");
                 return resolved.tarStream.pipe(stream);
               });
             }
           })["catch"](reject);
-          return stream.pipe(process.stdout);
+          return stream.pipe(logStreams.build);
         }
       };
       connectOpts = generateConnectOpts(options);
-      if (process.env.DEBUG != null) {
-        console.log('Connecting with the following options:');
-        console.log(JSON.stringify(connectOpts, null, '  '));
-      }
+      logging.logDebug(logStreams, 'Connecting with the following options:');
+      logging.logDebug(logStreams, JSON.stringify(connectOpts, null, '  '));
       builder = new dockerBuild.Builder(connectOpts);
       opts = {};
       if (options.tag != null) {

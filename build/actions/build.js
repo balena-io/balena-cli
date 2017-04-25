@@ -43,6 +43,8 @@ module.exports = {
     }
   ]),
   action: function(params, options, done) {
-    return dockerUtils.runBuild(params, options, getBundleInfo).asCallback(done);
+    var logging;
+    logging = require('../utils/logging');
+    return dockerUtils.runBuild(params, options, getBundleInfo, logging.getLogStreams()).asCallback(done);
   }
 };

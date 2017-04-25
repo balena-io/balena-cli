@@ -112,10 +112,12 @@ exports.tarDirectory = tarDirectory = (dir) ->
 
 # Pass in the command line parameters and options and also
 # a function which will return the information about the bundle
-exports.runBuild = (params, options, getBundleInfo) ->
+exports.runBuild = (params, options, getBundleInfo, logStreams) ->
+
 	Promise = require('bluebird')
 	dockerBuild = require('resin-docker-build')
 	resolver = require('resin-bundle-resolve')
+	logging = require('../utils/logging')
 
 	# The default build context is the current directory
 	params.source ?= '.'
@@ -134,7 +136,7 @@ exports.runBuild = (params, options, getBundleInfo) ->
 					getBundleInfo(options)
 					.then (info) ->
 						if !info?
-							console.log '''
+							logging.logWarn logStreams, '''
 								Warning: No architecture/device type or application information provided.
 									Dockerfile/project pre-processing will not be performed.
 							'''
@@ -145,21 +147,19 @@ exports.runBuild = (params, options, getBundleInfo) ->
 							bundle = new resolver.Bundle(tarStream, deviceType, arch)
 							resolver.resolveBundle(bundle, resolver.getDefaultResolvers())
 							.then (resolved) ->
-								console.log("Building #{resolved.projectType} project")
+								logging.logInfo(logStreams, "Building #{resolved.projectType} project")
 								# Send the resolved tar stream to the docker daemon
 								resolved.tarStream.pipe(stream)
 					.catch(reject)
 
-					# And print the output
-					stream.pipe(process.stdout)
+					stream.pipe(logStreams.build)
 
 			# Create a builder
 			connectOpts = generateConnectOpts(options)
 
 			# Allow degugging output, hidden behind an env var
-			if process.env.DEBUG?
-				console.log('Connecting with the following options:')
-				console.log(JSON.stringify(connectOpts, null, '  '))
+			logging.logDebug(logStreams, 'Connecting with the following options:')
+			logging.logDebug(logStreams, JSON.stringify(connectOpts, null, '  '))
 
 			builder = new dockerBuild.Builder(connectOpts)
 			opts = {}
