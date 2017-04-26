@@ -1,6 +1,6 @@
 _ = require('lodash')
 path = require('path')
-capitanodoc = require('../../capitanodoc.json')
+capitanodoc = require('../../capitanodoc')
 markdown = require('./markdown')
 
 result = {}

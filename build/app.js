@@ -15,7 +15,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var Promise, Raven, _, actions, capitano, capitanoExecuteAsync, errors, events, plugins, resin, update;
+var Promise, Raven, _, actions, capitano, capitanoExecuteAsync, errors, events, globalTunnel, plugins, proxy, resin, settings, update;
 
 Raven = require('raven');
 
@@ -28,6 +28,18 @@ Raven.config(require('./config').sentryDsn, {
   console.error(error);
   return process.exit(1);
 });
+
+globalTunnel = require('global-tunnel-ng');
+
+settings = require('resin-settings-client');
+
+try {
+  proxy = settings.get('proxy') || null;
+} catch (error1) {
+  proxy = null;
+}
+
+globalTunnel.initialize(proxy);
 
 _ = require('lodash');
 

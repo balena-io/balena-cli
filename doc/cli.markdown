@@ -14,6 +14,20 @@ Then authenticate yourself:
 
 Now you have access to all the commands referenced below.
 
+## Proxy support
+
+The CLI does support HTTP(S) proxies.
+
+You can configure the proxy using several methods (in order of their precedence):
+
+* set the `RESINRC_PROXY` environment variable in the URL format (with protocol, host, port, and optionally the basic auth),
+* use the [resin config file](https://www.npmjs.com/package/resin-settings-client#documentation) (project-specific or user-level)
+and set the `proxy` setting. This can be:
+	* a string in the URL format,
+	* or an object following [this format](https://www.npmjs.com/package/global-tunnel-ng#options), which allows more control,
+* or set the conventional `https_proxy` / `HTTPS_PROXY` / `http_proxy` / `HTTP_PROXY`
+environment variable (in the same standard URL format).
+
 # Table of contents
 
 - Application
