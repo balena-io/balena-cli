@@ -3,8 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.8.0] - 2017-04-26
+
 ### Added
 
+- Add cloud builder output to local build
+- Add nocache and tag options to resin deploy
 - Add ability to build and deploy an image to resin's infrastructure
 
 ### Fixed
@@ -404,6 +408,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[5.8.0]: https://github.com/resin-io/resin-cli/compare/v5.7.2...v5.8.0
 [5.7.2]: https://github.com/resin-io/resin-cli/compare/v5.7.1...v5.7.2
 [5.7.1]: https://github.com/resin-io/resin-cli/compare/v5.7.0...v5.7.1
 [5.7.0]: https://github.com/resin-io/resin-cli/compare/v5.6.1...v5.7.0
