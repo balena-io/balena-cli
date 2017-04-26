@@ -97,6 +97,13 @@
 			"files": [
 				"lib/actions/local/index.coffee"
 			]
+		},
+		{
+			"title": "Deploy",
+			"files": [
+				"lib/actions/build.coffee",
+				"lib/actions/deploy.coffee"
+			]
 		}
 	]
 }

@@ -96,11 +96,11 @@ module.exports =
 		Usage: deploy <appName> ([image] | --build [--source build-dir])
 
 		Note: If building with this command, all options supported by `resin build`
-		are also support with this command.
+		are also supported with this command.
 
 		Examples:
-		$ resin deploy myApp --build --source myBuildDir/
-		$ resin deploy myApp myApp/myImage
+			$ resin deploy myApp --build --source myBuildDir/
+			$ resin deploy myApp myApp/myImage
 	'''
 	permission: 'user'
 	options: dockerUtils.appendOptions [

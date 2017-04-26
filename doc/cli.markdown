@@ -120,6 +120,11 @@ Now you have access to all the commands referenced below.
 	- [local push [deviceIp]](#local-push-deviceip-)
 	- [local stop [deviceIp]](#local-stop-deviceip-)
 
+- Deploy
+
+	- [build [source]](#build-source-)
+	- [deploy &#60;appName&#62; [image]](#deploy-60-appname-62-image-)
+
 # Application
 
 ## app create &#60;name&#62;
@@ -1254,4 +1259,124 @@ stop all containers
 #### --app-name, -a &#60;name&#62;
 
 name of container to stop
+
+# Deploy
+
+## build [source]
+
+Use this command to build a container with a provided docker daemon.
+
+You must provide either an application or a device-type/architecture
+pair to use the resin Dockerfile pre-processor
+(e.g. Dockerfile.template -> Dockerfile).
+
+Examples:
+
+	$ resin build
+	$ resin build ./source/
+	$ resin build --deviceType raspberrypi3 --arch armhf
+	$ resin build --application MyApp ./source/
+	$ resin build --docker '/var/run/docker.sock'
+	$ resin build --dockerHost my.docker.host --dockerPort 2376 --ca ca.pem --key key.pem --cert cert.pem
+
+### Options
+
+#### --arch, -A &#60;arch&#62;
+
+The architecture to build for
+
+#### --devicetype, -d &#60;deviceType&#62;
+
+The type of device this build is for
+
+#### --application, -a &#60;application&#62;
+
+The target resin.io application this build is for
+
+#### --docker, -P &#60;docker&#62;
+
+Path to a local docker socket
+
+#### --dockerHost, -h &#60;dockerHost&#62;
+
+The address of the host containing the docker daemon
+
+#### --dockerPort, -p &#60;dockerPort&#62;
+
+The port on which the host docker daemon is listening
+
+#### --ca &#60;ca&#62;
+
+Docker host TLS certificate authority file
+
+#### --cert &#60;cert&#62;
+
+Docker host TLS certificate file
+
+#### --key &#60;key&#62;
+
+Docker host TLS key file
+
+#### --tag, -t &#60;tag&#62;
+
+The alias to the generated image
+
+#### --nocache
+
+Don't use docker layer caching when building
+
+## deploy &#60;appName&#62; [image]
+
+Use this command to deploy and optionally build an image to an application.
+
+Usage: deploy <appName> ([image] | --build [--source build-dir])
+
+Note: If building with this command, all options supported by `resin build`
+are also supported with this command.
+
+Examples:
+	$ resin deploy myApp --build --source myBuildDir/
+	$ resin deploy myApp myApp/myImage
+
+### Options
+
+#### --build, -b
+
+Build image then deploy
+
+#### --source, -s &#60;source&#62;
+
+The source directory to use when building the image
+
+#### --docker, -P &#60;docker&#62;
+
+Path to a local docker socket
+
+#### --dockerHost, -h &#60;dockerHost&#62;
+
+The address of the host containing the docker daemon
+
+#### --dockerPort, -p &#60;dockerPort&#62;
+
+The port on which the host docker daemon is listening
+
+#### --ca &#60;ca&#62;
+
+Docker host TLS certificate authority file
+
+#### --cert &#60;cert&#62;
+
+Docker host TLS certificate file
+
+#### --key &#60;key&#62;
+
+Docker host TLS key file
+
+#### --tag, -t &#60;tag&#62;
+
+The alias to the generated image
+
+#### --nocache
+
+Don't use docker layer caching when building
 
