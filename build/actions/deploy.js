@@ -115,7 +115,7 @@ uploadToPromise = function(request, size, logStreams) {
 module.exports = {
   signature: 'deploy <appName> [image]',
   description: 'Deploy a container to a resin.io application',
-  help: 'Use this command to deploy and optionally build an image to an application.\n\nUsage: deploy <appName> ([image] | --build [--source build-dir])\n\nNote: If building with this command, all options supported by `resin build`\nare also support with this command.\n\nExamples:\n$ resin deploy myApp --build --source myBuildDir/\n$ resin deploy myApp myApp/myImage',
+  help: 'Use this command to deploy and optionally build an image to an application.\n\nUsage: deploy <appName> ([image] | --build [--source build-dir])\n\nNote: If building with this command, all options supported by `resin build`\nare also supported with this command.\n\nExamples:\n	$ resin deploy myApp --build --source myBuildDir/\n	$ resin deploy myApp myApp/myImage',
   permission: 'user',
   options: dockerUtils.appendOptions([
     {

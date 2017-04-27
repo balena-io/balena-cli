@@ -53,12 +53,11 @@ module.exports = {
     }
   ],
   action: function(params, options, done) {
-    var Promise, child_process, patterns, proxyUrl, resin, verbose;
+    var Promise, child_process, patterns, resin, verbose;
     child_process = require('child_process');
     Promise = require('bluebird');
     resin = require('resin-sdk-preconfigured');
     patterns = require('../utils/patterns');
-    proxyUrl = resin.settings.get('proxyUrl');
     if (options.port == null) {
       options.port = 22;
     }
@@ -83,10 +82,11 @@ module.exports = {
       return Promise.props({
         username: resin.auth.whoami(),
         uuid: device.uuid,
-        containerId: resin.models.device.getApplicationInfo(device.uuid).get('containerId')
+        containerId: resin.models.device.getApplicationInfo(device.uuid).get('containerId'),
+        proxyUrl: resin.settings.get('proxyUrl')
       }).then(function(arg) {
-        var containerId, username, uuid;
-        username = arg.username, uuid = arg.uuid, containerId = arg.containerId;
+        var containerId, proxyUrl, username, uuid;
+        username = arg.username, uuid = arg.uuid, containerId = arg.containerId, proxyUrl = arg.proxyUrl;
         if (containerId == null) {
           throw new Error('Did not find running application container');
         }

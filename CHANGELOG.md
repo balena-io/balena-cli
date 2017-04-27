@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### Fixed
+
+- The `ssh` command was broken
+
 ## [5.8.0] - 2017-04-26
 
 ### Added
