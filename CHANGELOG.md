@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.8.1] - 2017-04-27
+
 ### Fixed
 
 - The `ssh` command was broken
@@ -412,6 +414,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[5.8.1]: https://github.com/resin-io/resin-cli/compare/v5.8.0...v5.8.1
 [5.8.0]: https://github.com/resin-io/resin-cli/compare/v5.7.2...v5.8.0
 [5.7.2]: https://github.com/resin-io/resin-cli/compare/v5.7.1...v5.7.2
 [5.7.1]: https://github.com/resin-io/resin-cli/compare/v5.7.0...v5.7.1
