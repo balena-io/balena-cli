@@ -71,7 +71,6 @@ module.exports =
 		Promise = require 'bluebird'
 		resin = require('resin-sdk-preconfigured')
 		patterns = require('../utils/patterns')
-		proxyUrl = resin.settings.get('proxyUrl')
 
 		if not options.port?
 			options.port = 22
@@ -95,7 +94,8 @@ module.exports =
 				uuid: device.uuid
 				# get full uuid
 				containerId: resin.models.device.getApplicationInfo(device.uuid).get('containerId')
-			.then ({ username, uuid, containerId }) ->
+				proxyUrl: resin.settings.get('proxyUrl')
+			.then ({ username, uuid, containerId, proxyUrl }) ->
 				throw new Error('Did not find running application container') if not containerId?
 				Promise.try ->
 					command = "ssh #{verbose} -t \
