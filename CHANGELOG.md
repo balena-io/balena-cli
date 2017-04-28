@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Add uploading of build logs when present with resin deploy
 
+### Fixed
+
+- Fixed the not enough unicorns bug in resin build
+
 ## [5.9.1] - 2017-05-01
 
 ### Fixed

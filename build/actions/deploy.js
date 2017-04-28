@@ -99,11 +99,12 @@ uploadLogs = function(logs, token, url, buildId, username, appName) {
   var request;
   request = require('request');
   return request.post({
+    json: true,
     url: getBuilderLogPushEndpoint(url, buildId, username, appName),
     auth: {
       bearer: token
     },
-    body: Buffer.from(logs).toString('base64')
+    body: Buffer.from(logs)
   });
 };
 
@@ -113,29 +114,31 @@ uploadToPromise = function(request, size, logStreams) {
   return new Promise(function(resolve, reject) {
     var handleMessage;
     handleMessage = function(data) {
+      var e, obj;
       data = data.toString();
       logging.logDebug(logStreams, "Received data: " + data);
-      return Promise["try"](function() {
-        var obj;
+      try {
         obj = JSON.parse(data);
-        if (obj.type != null) {
-          switch (obj.type) {
-            case 'error':
-              return reject(new Error("Remote error: " + obj.error));
-            case 'success':
-              return resolve(obj);
-            case 'status':
-              return logging.logInfo(logStreams, "Remote: " + obj.message);
-            default:
-              return reject(new Error("Received unexpected reply from remote: " + data));
-          }
-        } else {
-          return reject(new Error("Received unexpected reply from remote: " + data));
-        }
-      })["catch"](function(e) {
+      } catch (error) {
+        e = error;
         logging.logError(logStreams, 'Error parsing reply from remote side');
-        return reject(e);
-      });
+        reject(e);
+        return;
+      }
+      if (obj.type != null) {
+        switch (obj.type) {
+          case 'error':
+            return reject(new Error("Remote error: " + obj.error));
+          case 'success':
+            return resolve(obj);
+          case 'status':
+            return logging.logInfo(logStreams, "Remote: " + obj.message);
+          default:
+            return reject(new Error("Received unexpected reply from remote: " + data));
+        }
+      } else {
+        return reject(new Error("Received unexpected reply from remote: " + data));
+      }
     };
     request.on('error', reject).on('data', handleMessage);
     return pushProgress(size, request, logStreams);

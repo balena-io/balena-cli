@@ -118,6 +118,7 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 	dockerBuild = require('resin-docker-build')
 	resolver = require('resin-bundle-resolve')
 	es = require('event-stream')
+	doodles = require('resin-doodles')
 
 	logging = require('../utils/logging')
 
@@ -133,7 +134,14 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 				buildSuccess: (image) ->
 					if options.tag?
 						console.log("Tagging image as #{options.tag}")
+					# Show charlie. In the interest of cloud parity,
+					# use console.log, not the standard logging streams
+					console.log()
+					console.log(doodles.getDoodle())
+					console.log()
+
 					resolve({ image, log: logs } )
+
 				buildFailure: reject
 				buildStream: (stream) ->
 					getBundleInfo(options)

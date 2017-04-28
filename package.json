@@ -71,6 +71,7 @@
     "resin-device-config": "^3.0.0",
     "resin-device-init": "^2.2.1",
     "resin-docker-build": "^0.4.0",
+    "resin-doodles": "0.0.1",
     "resin-image-fs": "^2.1.2",
     "resin-image-manager": "^4.1.1",
     "resin-sdk-preconfigured": "^6.0.0",
