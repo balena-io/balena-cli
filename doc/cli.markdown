@@ -159,7 +159,7 @@ Examples:
 
 ### Options
 
-#### --type, -t &#60;type&#62;
+#### --type, -t &#60;type&#62; (Check available types with [resin devices supported](#devices-supported))
 
 application type
 
@@ -874,7 +874,7 @@ Examples:
 
 confirm non interactively
 
-#### --type, -t &#60;type&#62;
+#### --type, -t &#60;type&#62; (Check available types with [resin devices supported](#devices-supported))
 
 device type
 
@@ -895,7 +895,7 @@ Examples:
 
 ### Options
 
-#### --type, -t &#60;type&#62;
+#### --type, -t &#60;type&#62; (Check available types with [resin devices supported](#devices-supported))
 
 device type
 
@@ -915,7 +915,7 @@ Examples:
 
 ### Options
 
-#### --type, -t &#60;type&#62;
+#### --type, -t &#60;type&#62; (Check available types with [resin devices supported](#devices-supported))
 
 device type
 
@@ -934,7 +934,7 @@ Examples:
 
 ### Options
 
-#### --type, -t &#60;type&#62;
+#### --type, -t &#60;type&#62; (Check available types with [resin devices supported](#devices-supported))
 
 device type
 
@@ -954,7 +954,7 @@ Examples:
 
 ### Options
 
-#### --type, -t &#60;type&#62;
+#### --type, -t &#60;type&#62; (Check available types with [resin devices supported](#devices-supported))
 
 device type
 
@@ -1393,4 +1393,3 @@ The alias to the generated image
 #### --nocache
 
 Don't use docker layer caching when building
-
