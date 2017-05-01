@@ -23,6 +23,21 @@ Raven.config require('./config').sentryDsn,
 	console.error(error)
 	process.exit(1)
 
+
+# Doing this before requiring any other modules,
+# including the 'resin-sdk', to prevent any module from reading the http proxy config
+# before us
+globalTunnel = require('global-tunnel-ng')
+settings = require('resin-settings-client')
+try
+	proxy = settings.get('proxy') or null
+catch
+	proxy = null
+# Init the tunnel even if the proxy is not configured
+# because it can also get the proxy from the http(s)_proxy env var
+# If that is not set as well the initialize will do nothing
+globalTunnel.initialize(proxy)
+
 _ = require('lodash')
 Promise = require('bluebird')
 capitano = require('capitano')
