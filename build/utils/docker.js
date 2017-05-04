@@ -99,11 +99,12 @@ exports.tarDirectory = tarDirectory = function(dir) {
 };
 
 exports.runBuild = function(params, options, getBundleInfo, logStreams) {
-  var Promise, dockerBuild, es, logging, logs, resolver;
+  var Promise, dockerBuild, doodles, es, logging, logs, resolver;
   Promise = require('bluebird');
   dockerBuild = require('resin-docker-build');
   resolver = require('resin-bundle-resolve');
   es = require('event-stream');
+  doodles = require('resin-doodles');
   logging = require('../utils/logging');
   if (params.source == null) {
     params.source = '.';
@@ -117,6 +118,9 @@ exports.runBuild = function(params, options, getBundleInfo, logStreams) {
           if (options.tag != null) {
             console.log("Tagging image as " + options.tag);
           }
+          console.log();
+          console.log(doodles.getDoodle());
+          console.log();
           return resolve({
             image: image,
             log: logs
