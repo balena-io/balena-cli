@@ -117,10 +117,13 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 	Promise = require('bluebird')
 	dockerBuild = require('resin-docker-build')
 	resolver = require('resin-bundle-resolve')
+	es = require('event-stream')
+
 	logging = require('../utils/logging')
 
 	# The default build context is the current directory
 	params.source ?= '.'
+	logs = ''
 
 	# Tar up the directory, ready for the build stream
 	tarDirectory(params.source)
@@ -130,7 +133,7 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 				buildSuccess: (image) ->
 					if options.tag?
 						console.log("Tagging image as #{options.tag}")
-					resolve(image)
+					resolve({ image, log: logs } )
 				buildFailure: reject
 				buildStream: (stream) ->
 					getBundleInfo(options)
@@ -152,7 +155,12 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 								resolved.tarStream.pipe(stream)
 					.catch(reject)
 
-					stream.pipe(logStreams.build)
+					# And print the output
+					throughStream = es.through (data) ->
+						logs += data.toString()
+						this.emit('data', data)
+
+					stream.pipe(es.pipe(throughStream, logStreams.build))
 
 			# Create a builder
 			connectOpts = generateConnectOpts(options)
@@ -186,11 +194,8 @@ exports.bufferImage = (docker, imageId, tmpFile) ->
 		new Promise (resolve, reject) ->
 			img
 			.on('error', reject)
-			.on 'data', (data) ->
-				stream.write(data)
-			.on 'end', ->
-				stream.close()
-				resolve()
+			.on('end', resolve)
+			.pipe(stream)
 	.then ->
 		new Promise (resolve, reject) ->
 			fs.createReadStream(tmpFile)

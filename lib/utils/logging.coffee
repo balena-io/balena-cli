@@ -11,13 +11,15 @@ exports.getLogStreams = ->
 	logger.addPrefix('debug', colors.magenta('[Debug]'))
 	logger.addPrefix('success', colors.green('[Success]'))
 	logger.addPrefix('warn', colors.yellow('[Warn]'))
+	logger.addPrefix('error', colors.red('[Error]'))
 
 	streams =
 		build: logger.createLogStream('build'),
 		info: logger.createLogStream('info'),
 		debug: logger.createLogStream('debug'),
 		success: logger.createLogStream('success'),
-		warn: logger.createLogStream('warn')
+		warn: logger.createLogStream('warn'),
+		error: logger.createLogStream('error')
 
 	_.mapKeys streams, (stream, key) ->
 		if key isnt 'debug'
@@ -38,3 +40,6 @@ exports.logSuccess = (logStreams, msg) ->
 
 exports.logWarn = (logStreams, msg) ->
 	logStreams.warn.write(msg + eol)
+
+exports.logError = (logStreams, msg) ->
+	logStreams.error.write(msg + eol)

@@ -14,12 +14,14 @@ exports.getLogStreams = function() {
   logger.addPrefix('debug', colors.magenta('[Debug]'));
   logger.addPrefix('success', colors.green('[Success]'));
   logger.addPrefix('warn', colors.yellow('[Warn]'));
+  logger.addPrefix('error', colors.red('[Error]'));
   streams = {
     build: logger.createLogStream('build'),
     info: logger.createLogStream('info'),
     debug: logger.createLogStream('debug'),
     success: logger.createLogStream('success'),
-    warn: logger.createLogStream('warn')
+    warn: logger.createLogStream('warn'),
+    error: logger.createLogStream('error')
   };
   _.mapKeys(streams, function(stream, key) {
     if (key !== 'debug') {
@@ -47,4 +49,8 @@ exports.logSuccess = function(logStreams, msg) {
 
 exports.logWarn = function(logStreams, msg) {
   return logStreams.warn.write(msg + eol);
+};
+
+exports.logError = function(logStreams, msg) {
+  return logStreams.error.write(msg + eol);
 };
