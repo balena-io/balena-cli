@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - `package-lock.json` for `npm5` users
+- Added ability to run an emulated build silently with resin build
 
 ## [5.10.2] - 2017-05-31
 

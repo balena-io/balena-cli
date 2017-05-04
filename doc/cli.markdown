@@ -1348,6 +1348,10 @@ Set a build-time variable (eg. "-B 'ARG=value'"). Can be specified multiple time
 
 Don't use docker layer caching when building
 
+#### --emulated, -e
+
+Run an emulated build using Qemu
+
 ## deploy &#60;appName&#62; [image]
 
 Use this command to deploy and optionally build an image to an application.
@@ -1410,4 +1414,8 @@ Set a build-time variable (eg. "-B 'ARG=value'"). Can be specified multiple time
 #### --nocache
 
 Don't use docker layer caching when building
+
+#### --emulated, -e
+
+Run an emulated build using Qemu
 
