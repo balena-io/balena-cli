@@ -110,6 +110,24 @@ exports.tarDirectory = tarDirectory = (dir) ->
 		pack.finalize()
 		return pack
 
+cacheHighlightStream = ->
+	colors = require('colors/safe')
+	es = require('event-stream')
+	{ EOL } = require('os')
+
+	extractArrowMessage = (message) ->
+		arrowTest = /^\s*-+>\s*(.+)/i
+		if (match = arrowTest.exec(message))
+			match[1]
+		else
+			undefined
+
+	es.mapSync (data) ->
+		msg = extractArrowMessage(data)
+		if msg? and msg.toLowerCase() == 'using cache'
+			data = colors.bgGreen.black(msg)
+		return data + EOL
+
 # Pass in the command line parameters and options and also
 # a function which will return the information about the bundle
 exports.runBuild = (params, options, getBundleInfo, logStreams) ->
@@ -136,11 +154,12 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 						console.log("Tagging image as #{options.tag}")
 					# Show charlie. In the interest of cloud parity,
 					# use console.log, not the standard logging streams
+					doodle = doodles.getDoodle()
 					console.log()
-					console.log(doodles.getDoodle())
+					console.log(doodle)
 					console.log()
 
-					resolve({ image, log: logs } )
+					resolve({ image, log: logs + '\n' + doodle + '\n' } )
 
 				buildFailure: reject
 				buildStream: (stream) ->
@@ -168,7 +187,10 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 						logs += data.toString()
 						this.emit('data', data)
 
-					stream.pipe(es.pipe(throughStream, logStreams.build))
+					stream
+					.pipe(throughStream)
+					.pipe(cacheHighlightStream())
+					.pipe(logStreams.build)
 
 			# Create a builder
 			connectOpts = generateConnectOpts(options)
