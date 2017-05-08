@@ -60,6 +60,7 @@ exports.list =
 				'is_online'
 				'supervisor_version'
 				'os_version'
+				'dashboard_url'
 			]
 		.nodeify(done)
 
@@ -99,6 +100,7 @@ exports.info =
 					'is_web_accessible'
 					'note'
 					'os_version'
+					'dashboard_url'
 				]
 		.nodeify(done)
 
