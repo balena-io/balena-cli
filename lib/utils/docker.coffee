@@ -48,6 +48,12 @@ exports.appendOptions = (opts) ->
 			alias: 't'
 		},
 		{
+			signature: 'arg'
+			parameter: 'arg'
+			description: 'Set a build-time variable (eg. "-e \'ARG=value\'"). Can be specified multiple times.'
+			alias: 'e'
+		},
+		{
 			signature: 'nocache'
 			description: "Don't use docker layer caching when building"
 			boolean: true
@@ -128,6 +134,19 @@ cacheHighlightStream = ->
 			data = colors.bgGreen.black(msg)
 		return data + EOL
 
+parseBuildArgs = (args, onError) ->
+	_ = require('lodash')
+	if not _.isArray(args)
+		args = [ args ]
+	obj = {}
+	args.forEach (str) ->
+		pair = /^([^\s]+?)=(.*)$/.exec(str)
+		if pair?
+			obj[pair[1]] = pair[2]
+		else
+			onError(str)
+	return obj
+
 # Pass in the command line parameters and options and also
 # a function which will return the information about the bundle
 exports.runBuild = (params, options, getBundleInfo, logStreams) ->
@@ -206,6 +225,9 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 				opts['t'] = options.tag
 			if options.nocache?
 				opts['nocache'] = true
+			if options.arg?
+				opts['buildargs'] = parseBuildArgs options.arg, (arg) ->
+					logging.logWarn(logStreams, "Could not parse variable: '#{arg}'")
 
 			builder.createBuildStream(opts, hooks, reject)
 
