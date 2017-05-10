@@ -31,11 +31,21 @@ parseInput = Promise.method (params, options) ->
 
 	return [appName, options.build, source, image]
 
+# Builds and returns a Docker-like progress bar like this:
+# [==================================>               ] 64%
+renderProgress = (percentage, stepCount = 50) ->
+	_ = require('lodash')
+	percentage = Math.max(0, Math.min(percentage, 100))
+	barCount = stepCount * percentage // 100
+	spaceCount = stepCount - barCount
+	bar = "[#{_.repeat('=', barCount)}>#{_.repeat(' ', spaceCount)}]"
+	return "#{bar} #{percentage.toFixed(1)}%"
+
 pushProgress = (imageSize, request, logStreams, timeout = 250) ->
 	logging = require('../utils/logging')
 	ansiEscapes = require('ansi-escapes')
 
-	logging.logInfo(logStreams, 'Initialising...')
+	logging.logInfo(logStreams, 'Initializing...')
 	progressReporter = setInterval ->
 		sent = request.req.connection._bytesDispatched
 		percent = (sent / imageSize) * 100
@@ -45,7 +55,7 @@ pushProgress = (imageSize, request, logStreams, timeout = 250) ->
 		process.stdout.write(ansiEscapes.cursorUp(1))
 		process.stdout.clearLine()
 		process.stdout.cursorTo(0)
-		logging.logInfo(logStreams, "Uploaded #{percent.toFixed(1)}%")
+		logging.logInfo(logStreams, renderProgress(percent))
 	, timeout
 
 getBundleInfo = (options) ->
