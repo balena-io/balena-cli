@@ -36,10 +36,10 @@ exports.appendOptions = function(opts) {
       description: 'The alias to the generated image',
       alias: 't'
     }, {
-      signature: 'arg',
+      signature: 'buildArg',
       parameter: 'arg',
-      description: 'Set a build-time variable (eg. "-e \'ARG=value\'"). Can be specified multiple times.',
-      alias: 'e'
+      description: 'Set a build-time variable (eg. "-B \'ARG=value\'"). Can be specified multiple times.',
+      alias: 'B'
     }, {
       signature: 'nocache',
       description: "Don't use docker layer caching when building",
@@ -128,22 +128,22 @@ cacheHighlightStream = function() {
 };
 
 parseBuildArgs = function(args, onError) {
-  var _, obj;
+  var _, buildArgs;
   _ = require('lodash');
   if (!_.isArray(args)) {
     args = [args];
   }
-  obj = {};
+  buildArgs = {};
   args.forEach(function(str) {
     var pair;
     pair = /^([^\s]+?)=(.*)$/.exec(str);
     if (pair != null) {
-      return obj[pair[1]] = pair[2];
+      return buildArgs[pair[1]] = pair[2];
     } else {
       return onError(str);
     }
   });
-  return obj;
+  return buildArgs;
 };
 
 exports.runBuild = function(params, options, getBundleInfo, logStreams) {
@@ -211,8 +211,8 @@ exports.runBuild = function(params, options, getBundleInfo, logStreams) {
       if (options.nocache != null) {
         opts['nocache'] = true;
       }
-      if (options.arg != null) {
-        opts['buildargs'] = parseBuildArgs(options.arg, function(arg) {
+      if (options.buildArg != null) {
+        opts['buildargs'] = parseBuildArgs(options.buildArg, function(arg) {
           return logging.logWarn(logStreams, "Could not parse variable: '" + arg + "'");
         });
       }

@@ -48,10 +48,10 @@ exports.appendOptions = (opts) ->
 			alias: 't'
 		},
 		{
-			signature: 'arg'
+			signature: 'buildArg'
 			parameter: 'arg'
-			description: 'Set a build-time variable (eg. "-e \'ARG=value\'"). Can be specified multiple times.'
-			alias: 'e'
+			description: 'Set a build-time variable (eg. "-B \'ARG=value\'"). Can be specified multiple times.'
+			alias: 'B'
 		},
 		{
 			signature: 'nocache'
@@ -138,14 +138,14 @@ parseBuildArgs = (args, onError) ->
 	_ = require('lodash')
 	if not _.isArray(args)
 		args = [ args ]
-	obj = {}
+	buildArgs = {}
 	args.forEach (str) ->
 		pair = /^([^\s]+?)=(.*)$/.exec(str)
 		if pair?
-			obj[pair[1]] = pair[2]
+			buildArgs[pair[1]] = pair[2]
 		else
 			onError(str)
-	return obj
+	return buildArgs
 
 # Pass in the command line parameters and options and also
 # a function which will return the information about the bundle
@@ -225,8 +225,8 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 				opts['t'] = options.tag
 			if options.nocache?
 				opts['nocache'] = true
-			if options.arg?
-				opts['buildargs'] = parseBuildArgs options.arg, (arg) ->
+			if options.buildArg?
+				opts['buildargs'] = parseBuildArgs options.buildArg, (arg) ->
 					logging.logWarn(logStreams, "Could not parse variable: '#{arg}'")
 
 			builder.createBuildStream(opts, hooks, reject)
