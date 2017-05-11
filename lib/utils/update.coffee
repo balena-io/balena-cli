@@ -18,17 +18,17 @@ updateNotifier = require('update-notifier')
 isRoot = require('is-root')
 packageJSON = require('../../package.json')
 
+# Check for an update once a day. 1 day granularity should be
+# enough, rather than every run.
+resinUpdateInterval = 1000 * 60 * 60 * 24 * 1
+
 # `update-notifier` creates files to make the next
 # running time ask for updated, however this can lead
 # to ugly EPERM issues if those files are created as root.
 if not isRoot()
 	notifier = updateNotifier
 		pkg: packageJSON
-
-		# Force update notification alert
-		# to be shown every time there is
-		# an update.
-		updateCheckInterval: 0
+		updateCheckInterval: resinUpdateInterval
 
 exports.hasAvailableUpdate = ->
 	return notifier?

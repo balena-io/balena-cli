@@ -15,7 +15,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var isRoot, notifier, packageJSON, updateNotifier;
+var isRoot, notifier, packageJSON, resinUpdateInterval, updateNotifier;
 
 updateNotifier = require('update-notifier');
 
@@ -23,10 +23,12 @@ isRoot = require('is-root');
 
 packageJSON = require('../../package.json');
 
+resinUpdateInterval = 1000 * 60 * 60 * 24 * 1;
+
 if (!isRoot()) {
   notifier = updateNotifier({
     pkg: packageJSON,
-    updateCheckInterval: 0
+    updateCheckInterval: resinUpdateInterval
   });
 }
 
