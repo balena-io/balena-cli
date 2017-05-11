@@ -14,6 +14,7 @@ Requisites
 - [Git](https://git-scm.com)
 - The following executables should be correctly installed in your shell environment:
   - `ssh`: Any recent version of the OpenSSH ssh client (required by `resin sync` and `resin ssh`)
+	- if you need `ssh` to work behind the proxy you also need `proxytunnel`[http://proxytunnel.sourceforge.net/] installed (available as `proxytunnel` package for Ubuntu, for example)
   - `rsync`: >= 2.6.9 (required by `resin sync`)
 
 ##### Windows Support
@@ -26,6 +27,7 @@ If you still want to use `cmd.exe` you will have to use a package manager like M
 2. Install the `msys-rsync` and `msys-openssh` packages.
 3. Add MinGW to the `%PATH%` if this hasn't been done by the installer already. The location where the binaries are places is usually `C:\MinGW\msys\1.0\bin`, but it can vary if you selected a different location in the installer.
 4. Copy your SSH keys to `%homedrive%%homepath\.ssh`.
+5. Install [proxytunnel](http://proxytunnel.sourceforge.net/)
 
 Getting Started
 ---------------

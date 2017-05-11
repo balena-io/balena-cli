@@ -17,21 +17,7 @@ limitations under the License.
  */
 var getSubShellCommand;
 
-getSubShellCommand = function(command) {
-  var os;
-  os = require('os');
-  if (os.platform() === 'win32') {
-    return {
-      program: 'cmd.exe',
-      args: ['/s', '/c', command]
-    };
-  } else {
-    return {
-      program: '/bin/sh',
-      args: ['-c', command]
-    };
-  }
-};
+getSubShellCommand = require('../utils/helpers').getSubShellCommand;
 
 module.exports = {
   signature: 'ssh [uuid]',
@@ -73,7 +59,7 @@ module.exports = {
       }
       return patterns.inferOrSelectDevice();
     }).then(function(uuid) {
-      console.info("Connecting with: " + uuid);
+      console.info("Connecting to: " + uuid);
       return resin.models.device.get(uuid);
     }).then(function(device) {
       if (!device.is_online) {
@@ -91,8 +77,17 @@ module.exports = {
           throw new Error('Did not find running application container');
         }
         return Promise["try"](function() {
-          var command, subShellCommand;
-          command = "ssh " + verbose + " -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ControlMaster=no -p " + options.port + " " + username + "@ssh." + proxyUrl + " enter " + uuid + " " + containerId;
+          var command, proxyAuth, proxyConfig, proxyHost, proxytunnelCommand, sshProxyCommand, subShellCommand;
+          sshProxyCommand = '';
+          proxyConfig = global.PROXY_CONFIG;
+          if (proxyConfig) {
+            proxyAuth = proxyConfig.proxyAuth;
+            proxyHost = "-p " + proxyConfig.host + ":" + proxyConfig.port;
+            proxyAuth = proxyAuth ? "-P " + proxyAuth : '';
+            proxytunnelCommand = "proxytunnel " + proxyHost + " " + proxyAuth + " -d %h:%p";
+            sshProxyCommand = "-o ProxyCommand='" + proxytunnelCommand + "'";
+          }
+          command = "ssh " + verbose + " -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ControlMaster=no " + sshProxyCommand + " -p " + options.port + " " + username + "@ssh." + proxyUrl + " enter " + uuid + " " + containerId;
           subShellCommand = getSubShellCommand(command);
           return child_process.spawn(subShellCommand.program, subShellCommand.args, {
             stdio: 'inherit'

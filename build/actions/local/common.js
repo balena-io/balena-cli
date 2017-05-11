@@ -94,18 +94,4 @@ exports.pipeContainerStream = Promise.method(function(arg) {
   });
 });
 
-exports.getSubShellCommand = function(command) {
-  var os;
-  os = require('os');
-  if (os.platform() === 'win32') {
-    return {
-      program: 'cmd.exe',
-      args: ['/s', '/c', command]
-    };
-  } else {
-    return {
-      program: '/bin/sh',
-      args: ['-c', command]
-    };
-  }
-};
+exports.getSubShellCommand = require('../../utils/helpers');

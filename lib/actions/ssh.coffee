@@ -14,26 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
-# TODO: A function to reliably execute a command
-# in all supported operating systems, including
-# different Windows environments like `cmd.exe`
-# and `Cygwin` should be encapsulated in a
-# re-usable package.
-# This is literally copy-pasted from the `resin-sync`
-# module.
-getSubShellCommand = (command) ->
-	os = require('os')
-
-	if os.platform() is 'win32'
-		return {
-			program: 'cmd.exe'
-			args: [ '/s', '/c', command ]
-		}
-	else
-		return {
-			program: '/bin/sh'
-			args: [ '-c', command ]
-		}
+{ getSubShellCommand } = require('../utils/helpers')
 
 module.exports =
 	signature: 'ssh [uuid]'
@@ -68,12 +49,11 @@ module.exports =
 	]
 	action: (params, options, done) ->
 		child_process = require('child_process')
-		Promise = require 'bluebird'
+		Promise = require('bluebird')
 		resin = require('resin-sdk-preconfigured')
 		patterns = require('../utils/patterns')
 
-		if not options.port?
-			options.port = 22
+		options.port ?= 22
 
 		verbose = if options.verbose then '-vvv' else ''
 
@@ -84,7 +64,7 @@ module.exports =
 			return params.uuid if uuidExists
 			return patterns.inferOrSelectDevice()
 		.then (uuid) ->
-			console.info("Connecting with: #{uuid}")
+			console.info("Connecting to: #{uuid}")
 			resin.models.device.get(uuid)
 		.then (device) ->
 			throw new Error('Device is not online') if not device.is_online
@@ -98,11 +78,20 @@ module.exports =
 			.then ({ username, uuid, containerId, proxyUrl }) ->
 				throw new Error('Did not find running application container') if not containerId?
 				Promise.try ->
+					sshProxyCommand = ''
+					proxyConfig = global.PROXY_CONFIG
+					if proxyConfig
+						{ proxyAuth } = proxyConfig
+						proxyHost = "-p #{proxyConfig.host}:#{proxyConfig.port}"
+						proxyAuth = if proxyAuth then "-P #{proxyAuth}" else ''
+						proxytunnelCommand = "proxytunnel #{proxyHost} #{proxyAuth} -d %h:%p"
+						sshProxyCommand = "-o ProxyCommand='#{proxytunnelCommand}'"
 					command = "ssh #{verbose} -t \
 						-o LogLevel=ERROR \
 						-o StrictHostKeyChecking=no \
 						-o UserKnownHostsFile=/dev/null \
 						-o ControlMaster=no \
+						#{sshProxyCommand} \
 						-p #{options.port} #{username}@ssh.#{proxyUrl} enter #{uuid} #{containerId}"
 
 					subShellCommand = getSubShellCommand(command)

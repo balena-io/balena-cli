@@ -47,7 +47,7 @@
     "dockerode": "^2.4.2",
     "drivelist": "^5.0.16",
     "etcher-image-write": "^9.0.3",
-    "global-tunnel-ng": "^2.0.0",
+    "global-tunnel-ng": "emirotin/global-tunnel#fix-auth",
     "inquirer": "^3.0.6",
     "is-root": "^1.0.0",
     "js-yaml": "^3.7.0",

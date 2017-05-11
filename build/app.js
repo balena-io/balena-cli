@@ -47,6 +47,8 @@ try {
 
 globalTunnel.initialize(proxy);
 
+global.PROXY_CONFIG = globalTunnel.proxyConfig;
+
 _ = require('lodash');
 
 Promise = require('bluebird');
