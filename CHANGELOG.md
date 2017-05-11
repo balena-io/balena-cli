@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add uploading of build logs when present with resin deploy
 - Highlight cache usage in a local build
 - Show a progress bar for upload progress
+- Add ability to specify build-time variables for local builds
 
 ### Fixed
 
