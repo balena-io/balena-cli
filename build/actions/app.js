@@ -22,12 +22,12 @@ commandOptions = require('./command-options');
 exports.create = {
   signature: 'app create <name>',
   description: 'create an application',
-  help: 'Use this command to create a new resin.io application.\n\nYou can specify the application type with the `--type` option.\nOtherwise, an interactive dropdown will be shown for you to select from.\n\nYou can see a list of supported device types with\n\n	$ resin devices supported\n\nExamples:\n\n	$ resin app create MyApp\n	$ resin app create MyApp --type raspberry-pi',
+  help: 'Use this command to create a new resin.io application.\n\nYou can specify the application device type with the `--type` option.\nOtherwise, an interactive dropdown will be shown for you to select from.\n\nYou can see a list of supported device types with\n\n	$ resin devices supported\n\nExamples:\n\n	$ resin app create MyApp\n	$ resin app create MyApp --type raspberry-pi',
   options: [
     {
       signature: 'type',
       parameter: 'type',
-      description: 'application type',
+      description: 'application device type (Check available types with `resin devices supported`)',
       alias: 't'
     }
   ],

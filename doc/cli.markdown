@@ -145,7 +145,7 @@ environment variable (in the same standard URL format).
 
 Use this command to create a new resin.io application.
 
-You can specify the application type with the `--type` option.
+You can specify the application device type with the `--type` option.
 Otherwise, an interactive dropdown will be shown for you to select from.
 
 You can see a list of supported device types with
@@ -159,9 +159,9 @@ Examples:
 
 ### Options
 
-#### --type, -t &#60;type&#62; (Check available types with [resin devices supported](#devices-supported))
+#### --type, -t &#60;type&#62;
 
-application type
+application device type (Check available types with `resin devices supported`)
 
 ## apps
 
@@ -812,6 +812,7 @@ device uuid
 ## os download &#60;type&#62;
 
 Use this command to download an unconfigured os image for a certain device type.
+Check available types with `resin devices supported`
 
 If version is not specified the newest stable (non-pre-release) version of OS
 is downloaded if available, or the newest version otherwise (if all existing
@@ -874,9 +875,9 @@ Examples:
 
 confirm non interactively
 
-#### --type, -t &#60;type&#62; (Check available types with [resin devices supported](#devices-supported))
+#### --type, -t &#60;type&#62;
 
-device type
+device type (Check available types with `resin devices supported`)
 
 #### --drive, -d &#60;drive&#62;
 
@@ -895,9 +896,9 @@ Examples:
 
 ### Options
 
-#### --type, -t &#60;type&#62; (Check available types with [resin devices supported](#devices-supported))
+#### --type, -t &#60;type&#62;
 
-device type
+device type (Check available types with `resin devices supported`)
 
 #### --drive, -d &#60;drive&#62;
 
@@ -915,9 +916,9 @@ Examples:
 
 ### Options
 
-#### --type, -t &#60;type&#62; (Check available types with [resin devices supported](#devices-supported))
+#### --type, -t &#60;type&#62;
 
-device type
+device type (Check available types with `resin devices supported`)
 
 #### --drive, -d &#60;drive&#62;
 
@@ -934,9 +935,9 @@ Examples:
 
 ### Options
 
-#### --type, -t &#60;type&#62; (Check available types with [resin devices supported](#devices-supported))
+#### --type, -t &#60;type&#62;
 
-device type
+device type (Check available types with `resin devices supported`)
 
 #### --drive, -d &#60;drive&#62;
 
@@ -954,9 +955,9 @@ Examples:
 
 ### Options
 
-#### --type, -t &#60;type&#62; (Check available types with [resin devices supported](#devices-supported))
+#### --type, -t &#60;type&#62;
 
-device type
+device type (Check available types with `resin devices supported`)
 
 #### --drive, -d &#60;drive&#62;
 
@@ -1335,6 +1336,10 @@ Docker host TLS key file
 
 The alias to the generated image
 
+#### --buildArg, -B &#60;arg&#62;
+
+Set a build-time variable (eg. "-B 'ARG=value'"). Can be specified multiple times.
+
 #### --nocache
 
 Don't use docker layer caching when building
@@ -1361,6 +1366,10 @@ Build image then deploy
 #### --source, -s &#60;source&#62;
 
 The source directory to use when building the image
+
+#### --nologupload
+
+Don't upload build logs to the dashboard with image (if building)
 
 #### --docker, -P &#60;docker&#62;
 
@@ -1390,6 +1399,11 @@ Docker host TLS key file
 
 The alias to the generated image
 
+#### --buildArg, -B &#60;arg&#62;
+
+Set a build-time variable (eg. "-B 'ARG=value'"). Can be specified multiple times.
+
 #### --nocache
 
 Don't use docker layer caching when building
+

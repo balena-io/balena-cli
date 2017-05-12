@@ -22,7 +22,7 @@ exports.create =
 	help: '''
 		Use this command to create a new resin.io application.
 
-		You can specify the application type with the `--type` option.
+		You can specify the application device type with the `--type` option.
 		Otherwise, an interactive dropdown will be shown for you to select from.
 
 		You can see a list of supported device types with
@@ -38,7 +38,7 @@ exports.create =
 		{
 			signature: 'type'
 			parameter: 'type'
-			description: 'application type'
+			description: 'application device type (Check available types with `resin devices supported`)'
 			alias: 't'
 		}
 	]
