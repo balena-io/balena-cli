@@ -1,5 +1,6 @@
 _ = require('lodash')
 Mixpanel = require('mixpanel')
+Raven = require('raven')
 Promise = require('bluebird')
 resin = require('resin-sdk-preconfigured')
 packageJSON = require('../package.json')
@@ -14,14 +15,18 @@ exports.trackCommand = (capitanoCommand) ->
 		resinUrl: resin.settings.get('resinUrl')
 		username: resin.auth.whoami()
 		mixpanel: exports.getLoggerInstance()
-	.then (data) ->
+	.then ({ username, resinUrl, mixpanel }) ->
 		return capitanoStateGetMatchCommandAsync(capitanoCommand.command).then (command) ->
-			data.mixpanel.track "[CLI] #{command.signature.toString()}",
-				distinct_id: data.username
+			Raven.mergeContext(user: {
+				id: username,
+				username
+			})
+			mixpanel.track "[CLI] #{command.signature.toString()}",
+				distinct_id: username
 				argv: process.argv.join(' ')
 				version: packageJSON.version
 				node: process.version
 				arch: process.arch
-				resinUrl: data.resinUrl
+				resinUrl: resinUrl
 				platform: process.platform
 				command: capitanoCommand
