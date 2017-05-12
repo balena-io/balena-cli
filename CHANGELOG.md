@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Include extra usage metadata in error logging to help debugging
 - Add uploading of build logs when present with resin deploy
 - Highlight cache usage in a local build
 - Show a progress bar for upload progress
