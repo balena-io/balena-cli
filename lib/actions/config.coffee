@@ -30,7 +30,7 @@ exports.read =
 	options: [
 		{
 			signature: 'type'
-			description: 'device type'
+			description: 'device type (Check available types with `resin devices supported`)'
 			parameter: 'type'
 			alias: 't'
 			required: 'You have to specify a device type'
@@ -75,7 +75,7 @@ exports.write =
 	options: [
 		{
 			signature: 'type'
-			description: 'device type'
+			description: 'device type (Check available types with `resin devices supported`)'
 			parameter: 'type'
 			alias: 't'
 			required: 'You have to specify a device type'
@@ -126,7 +126,7 @@ exports.inject =
 	options: [
 		{
 			signature: 'type'
-			description: 'device type'
+			description: 'device type (Check available types with `resin devices supported`)'
 			parameter: 'type'
 			alias: 't'
 			required: 'You have to specify a device type'
@@ -172,7 +172,7 @@ exports.reconfigure =
 	options: [
 		{
 			signature: 'type'
-			description: 'device type'
+			description: 'device type (Check available types with `resin devices supported`)'
 			parameter: 'type'
 			alias: 't'
 			required: 'You have to specify a device type'

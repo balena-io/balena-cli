@@ -46,6 +46,7 @@ exports.download =
 	description: 'download an unconfigured os image'
 	help: '''
 		Use this command to download an unconfigured os image for a certain device type.
+		Check available types with `resin devices supported`
 
 		If version is not specified the newest stable (non-pre-release) version of OS
 		is downloaded if available, or the newest version otherwise (if all existing
@@ -198,7 +199,7 @@ exports.initialize =
 		commandOptions.yes
 		{
 			signature: 'type'
-			description: 'device type'
+			description: 'device type (Check available types with `resin devices supported`)'
 			parameter: 'type'
 			alias: 't'
 			required: 'You have to specify a device type'

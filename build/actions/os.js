@@ -56,7 +56,7 @@ resolveVersion = function(deviceType, version) {
 exports.download = {
   signature: 'os download <type>',
   description: 'download an unconfigured os image',
-  help: 'Use this command to download an unconfigured os image for a certain device type.\n\nIf version is not specified the newest stable (non-pre-release) version of OS\nis downloaded if available, or the newest version otherwise (if all existing\nversions for the given device type are pre-release).\n\nYou can pass `--version menu` to pick the OS version from the interactive menu\nof all available versions.\n\nExamples:\n\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 1.24.1\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^1.20.0\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu',
+  help: 'Use this command to download an unconfigured os image for a certain device type.\nCheck available types with `resin devices supported`\n\nIf version is not specified the newest stable (non-pre-release) version of OS\nis downloaded if available, or the newest version otherwise (if all existing\nversions for the given device type are pre-release).\n\nYou can pass `--version menu` to pick the OS version from the interactive menu\nof all available versions.\n\nExamples:\n\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 1.24.1\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^1.20.0\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default\n	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu',
   permission: 'user',
   options: [
     {
@@ -173,7 +173,7 @@ exports.initialize = {
   options: [
     commandOptions.yes, {
       signature: 'type',
-      description: 'device type',
+      description: 'device type (Check available types with `resin devices supported`)',
       parameter: 'type',
       alias: 't',
       required: 'You have to specify a device type'
