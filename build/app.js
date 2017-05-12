@@ -29,6 +29,12 @@ Raven.config(require('./config').sentryDsn, {
   return process.exit(1);
 });
 
+Raven.setContext({
+  extra: {
+    args: process.argv
+  }
+});
+
 globalTunnel = require('global-tunnel-ng');
 
 settings = require('resin-settings-client');
