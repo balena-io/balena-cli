@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
+_ = require('lodash')
+bash = require('bash')
 { getSubShellCommand } = require('../utils/helpers')
 
 module.exports =
@@ -50,7 +52,8 @@ module.exports =
 			signature: 'noproxy'
 			parameter: 'noproxy'
 			boolean: true
-			description: "don't use the proxy configuration for this connection. Only makes sense if you've configured proxy globally."
+			description: "don't use the proxy configuration for this connection.
+				Only makes sense if you've configured proxy globally."
 	]
 	action: (params, options, done) ->
 		child_process = require('child_process')
@@ -88,16 +91,16 @@ module.exports =
 					proxyConfig = global.PROXY_CONFIG
 					if proxyConfig and not options.noproxy
 						{ proxyAuth } = proxyConfig
-						proxyHost = "#{proxyConfig.host}:#{proxyConfig.port}"
+						tunnelOptions =
+							proxy: "#{proxyConfig.host}:#{proxyConfig.port}"
+							dest: '%h:%p'
 						if proxyAuth
 							i = proxyAuth.indexOf(':')
-							proxyUser = proxyAuth.substring(0, i)
-							proxyPassword = proxyAuth.substring(i + 1)
-							proxyAuth = "--user=#{proxyUser} --pass=#{proxyPassword}"
-						else
-							proxyAuth = ''
-						proxytunnelCommand = "proxytunnel --proxy=#{proxyHost} #{proxyAuth} --dest=%h:%p"
-						sshProxyCommand = "-o ProxyCommand='#{proxytunnelCommand}'"
+							_.assign tunnelOptions,
+								user: proxyAuth.substring(0, i)
+								pass: proxyAuth.substring(i + 1)
+						proxyCommand = "proxytunnel #{bash.args(tunnelOptions, '--', '=')}"
+						sshProxyCommand = "-o #{bash.args({ ProxyCommand: proxyCommand }, '', '=')}"
 
 					command = "ssh #{verbose} -t \
 						-o LogLevel=ERROR \

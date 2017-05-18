@@ -15,7 +15,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var getSubShellCommand;
+var _, bash, getSubShellCommand;
+
+_ = require('lodash');
+
+bash = require('bash');
 
 getSubShellCommand = require('../utils/helpers').getSubShellCommand;
 
@@ -36,6 +40,11 @@ module.exports = {
       boolean: true,
       description: 'increase verbosity',
       alias: 'v'
+    }, {
+      signature: 'noproxy',
+      parameter: 'noproxy',
+      boolean: true,
+      description: "don't use the proxy configuration for this connection. Only makes sense if you've configured proxy globally."
     }
   ],
   action: function(params, options, done) {
@@ -77,15 +86,26 @@ module.exports = {
           throw new Error('Did not find running application container');
         }
         return Promise["try"](function() {
-          var command, proxyAuth, proxyConfig, proxyHost, proxytunnelCommand, sshProxyCommand, subShellCommand;
+          var command, i, proxyAuth, proxyCommand, proxyConfig, sshProxyCommand, subShellCommand, tunnelOptions;
           sshProxyCommand = '';
           proxyConfig = global.PROXY_CONFIG;
-          if (proxyConfig) {
+          if (proxyConfig && !options.noproxy) {
             proxyAuth = proxyConfig.proxyAuth;
-            proxyHost = "-p " + proxyConfig.host + ":" + proxyConfig.port;
-            proxyAuth = proxyAuth ? "-P " + proxyAuth : '';
-            proxytunnelCommand = "proxytunnel " + proxyHost + " " + proxyAuth + " -d %h:%p";
-            sshProxyCommand = "-o ProxyCommand='" + proxytunnelCommand + "'";
+            tunnelOptions = {
+              proxy: proxyConfig.host + ":" + proxyConfig.port,
+              dest: '%h:%p'
+            };
+            if (proxyAuth) {
+              i = proxyAuth.indexOf(':');
+              _.assign(tunnelOptions, {
+                user: proxyAuth.substring(0, i),
+                pass: proxyAuth.substring(i + 1)
+              });
+            }
+            proxyCommand = "proxytunnel " + (bash.args(tunnelOptions, '--', '='));
+            sshProxyCommand = "-o " + (bash.args({
+              ProxyCommand: proxyCommand
+            }, '', '='));
           }
           command = "ssh " + verbose + " -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ControlMaster=no " + sshProxyCommand + " -p " + options.port + " " + username + "@ssh." + proxyUrl + " enter " + uuid + " " + containerId;
           subShellCommand = getSubShellCommand(command);
