@@ -46,6 +46,11 @@ module.exports =
 			boolean: true
 			description: 'increase verbosity'
 			alias: 'v'
+	,
+			signature: 'noproxy'
+			parameter: 'noproxy'
+			boolean: true
+			description: "don't use the proxy configuration for this connection. Only makes sense if you've configured proxy globally."
 	]
 	action: (params, options, done) ->
 		child_process = require('child_process')
@@ -79,13 +84,21 @@ module.exports =
 				throw new Error('Did not find running application container') if not containerId?
 				Promise.try ->
 					sshProxyCommand = ''
+
 					proxyConfig = global.PROXY_CONFIG
-					if proxyConfig
+					if proxyConfig and not options.noproxy
 						{ proxyAuth } = proxyConfig
-						proxyHost = "-p #{proxyConfig.host}:#{proxyConfig.port}"
-						proxyAuth = if proxyAuth then "-P #{proxyAuth}" else ''
-						proxytunnelCommand = "proxytunnel #{proxyHost} #{proxyAuth} -d %h:%p"
+						proxyHost = "#{proxyConfig.host}:#{proxyConfig.port}"
+						if proxyAuth
+							i = proxyAuth.indexOf(':')
+							proxyUser = proxyAuth.substring(0, i)
+							proxyPassword = proxyAuth.substring(i + 1)
+							proxyAuth = "--user=#{proxyUser} --pass=#{proxyPassword}"
+						else
+							proxyAuth = ''
+						proxytunnelCommand = "proxytunnel --proxy=#{proxyHost} #{proxyAuth} --dest=%h:%p"
 						sshProxyCommand = "-o ProxyCommand='#{proxytunnelCommand}'"
+
 					command = "ssh #{verbose} -t \
 						-o LogLevel=ERROR \
 						-o StrictHostKeyChecking=no \
