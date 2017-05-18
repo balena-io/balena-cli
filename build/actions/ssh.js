@@ -42,7 +42,6 @@ module.exports = {
       alias: 'v'
     }, {
       signature: 'noproxy',
-      parameter: 'noproxy',
       boolean: true,
       description: "don't use the proxy configuration for this connection. Only makes sense if you've configured proxy globally."
     }
@@ -90,11 +89,11 @@ module.exports = {
           sshProxyCommand = '';
           proxyConfig = global.PROXY_CONFIG;
           if (proxyConfig && !options.noproxy) {
-            proxyAuth = proxyConfig.proxyAuth;
             tunnelOptions = {
               proxy: proxyConfig.host + ":" + proxyConfig.port,
               dest: '%h:%p'
             };
+            proxyAuth = proxyConfig.proxyAuth;
             if (proxyAuth) {
               i = proxyAuth.indexOf(':');
               _.assign(tunnelOptions, {

@@ -50,7 +50,6 @@ module.exports =
 			alias: 'v'
 	,
 			signature: 'noproxy'
-			parameter: 'noproxy'
 			boolean: true
 			description: "don't use the proxy configuration for this connection.
 				Only makes sense if you've configured proxy globally."
@@ -90,10 +89,10 @@ module.exports =
 
 					proxyConfig = global.PROXY_CONFIG
 					if proxyConfig and not options.noproxy
-						{ proxyAuth } = proxyConfig
 						tunnelOptions =
 							proxy: "#{proxyConfig.host}:#{proxyConfig.port}"
 							dest: '%h:%p'
+						{ proxyAuth } = proxyConfig
 						if proxyAuth
 							i = proxyAuth.indexOf(':')
 							_.assign tunnelOptions,

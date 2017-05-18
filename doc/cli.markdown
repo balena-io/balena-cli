@@ -786,7 +786,7 @@ ssh gateway port
 
 increase verbosity
 
-#### --noproxy &#60;noproxy&#62;
+#### --noproxy
 
 don't use the proxy configuration for this connection. Only makes sense if you've configured proxy globally.
 
