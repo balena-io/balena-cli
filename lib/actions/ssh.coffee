@@ -14,10 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
-_ = require('lodash')
-bash = require('bash')
-{ getSubShellCommand } = require('../utils/helpers')
-
 module.exports =
 	signature: 'ssh [uuid]'
 	description: '(beta) get a shell into the running app container of a device'
@@ -58,11 +54,44 @@ module.exports =
 		child_process = require('child_process')
 		Promise = require('bluebird')
 		resin = require('resin-sdk-preconfigured')
+		_ = require('lodash')
+		bash = require('bash')
+		hasbin = require('hasbin')
+		{ getSubShellCommand } = require('../utils/helpers')
 		patterns = require('../utils/patterns')
 
 		options.port ?= 22
 
 		verbose = if options.verbose then '-vvv' else ''
+
+		proxyConfig = global.PROXY_CONFIG
+		useProxy = !!proxyConfig and not options.noproxy
+
+		getSshProxyCommand = (hasTunnelBin) ->
+			return '' if not useProxy
+
+			if not hasTunnelBin
+				console.warn('''
+					Proxy is enabled but the `proxytunnel` binary cannot be found.
+					Please install it if you want to route the `resin ssh` requests through the proxy.
+					Alternatively you can pass `--noproxy` param to the `resin ssh` command to ignore the proxy config
+					for the `ssh` requests.
+
+					Attemmpting the unproxied request for now.
+				''')
+				return ''
+
+			tunnelOptions =
+				proxy: "#{proxyConfig.host}:#{proxyConfig.port}"
+				dest: '%h:%p'
+			{ proxyAuth } = proxyConfig
+			if proxyAuth
+				i = proxyAuth.indexOf(':')
+				_.assign tunnelOptions,
+					user: proxyAuth.substring(0, i)
+					pass: proxyAuth.substring(i + 1)
+			proxyCommand = "proxytunnel #{bash.args(tunnelOptions, '--', '=')}"
+			return "-o #{bash.args({ ProxyCommand: proxyCommand }, '', '=')}"
 
 		Promise.try ->
 			return false if not params.uuid
@@ -82,25 +111,12 @@ module.exports =
 				# get full uuid
 				containerId: resin.models.device.getApplicationInfo(device.uuid).get('containerId')
 				proxyUrl: resin.settings.get('proxyUrl')
-			.then ({ username, uuid, containerId, proxyUrl }) ->
+
+				hasTunnelBin: if useProxy then hasbin('proxytunnel') else null
+			.then ({ username, uuid, containerId, proxyUrl, hasTunnelBin }) ->
 				throw new Error('Did not find running application container') if not containerId?
 				Promise.try ->
-					sshProxyCommand = ''
-
-					proxyConfig = global.PROXY_CONFIG
-					if proxyConfig and not options.noproxy
-						tunnelOptions =
-							proxy: "#{proxyConfig.host}:#{proxyConfig.port}"
-							dest: '%h:%p'
-						{ proxyAuth } = proxyConfig
-						if proxyAuth
-							i = proxyAuth.indexOf(':')
-							_.assign tunnelOptions,
-								user: proxyAuth.substring(0, i)
-								pass: proxyAuth.substring(i + 1)
-						proxyCommand = "proxytunnel #{bash.args(tunnelOptions, '--', '=')}"
-						sshProxyCommand = "-o #{bash.args({ ProxyCommand: proxyCommand }, '', '=')}"
-
+					sshProxyCommand = getSshProxyCommand(hasTunnelBin)
 					command = "ssh #{verbose} -t \
 						-o LogLevel=ERROR \
 						-o StrictHostKeyChecking=no \

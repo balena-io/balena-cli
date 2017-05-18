@@ -50,6 +50,7 @@
     "drivelist": "^5.0.16",
     "etcher-image-write": "^9.0.3",
     "global-tunnel-ng": "^2.1.0",
+    "hasbin": "^1.2.3",
     "inquirer": "^3.0.6",
     "is-root": "^1.0.0",
     "js-yaml": "^3.7.0",
