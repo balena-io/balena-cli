@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
-validEmail = require('valid-email')
+validEmail = require('@resin.io/valid-email')
 
 exports.validateEmail = (input) ->
 	if not validEmail(input)

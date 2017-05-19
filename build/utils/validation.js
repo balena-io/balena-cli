@@ -17,7 +17,7 @@ limitations under the License.
  */
 var validEmail;
 
-validEmail = require('valid-email');
+validEmail = require('@resin.io/valid-email');
 
 exports.validateEmail = function(input) {
   if (!validEmail(input)) {
