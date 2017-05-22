@@ -94,4 +94,4 @@ exports.pipeContainerStream = Promise.method(function(arg) {
   });
 });
 
-exports.getSubShellCommand = require('../../utils/helpers');
+exports.getSubShellCommand = require('../../utils/helpers').getSubShellCommand;
