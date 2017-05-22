@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.10.0] - 2017-05-22
+
 ### Added
 
 - Include extra usage metadata in error logging to help debugging
@@ -440,6 +442,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Remove outdated information from README.
 
+[5.10.0]: https://github.com/resin-io/resin-cli/compare/v5.9.1...v5.10.0
 [5.9.1]: https://github.com/resin-io/resin-cli/compare/v5.9.0...v5.9.1
 [5.9.0]: https://github.com/resin-io/resin-cli/compare/v5.8.1...v5.9.0
 [5.8.1]: https://github.com/resin-io/resin-cli/compare/v5.8.0...v5.8.1
