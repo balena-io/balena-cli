@@ -105,3 +105,21 @@ exports.getAppInfo = (application) ->
 			app.arch = config.arch
 			return app
 	)
+
+# A function to reliably execute a command
+# in all supported operating systems, including
+# different Windows environments like `cmd.exe`
+# and `Cygwin`.
+exports.getSubShellCommand = (command) ->
+	os = require('os')
+
+	if os.platform() is 'win32'
+		return {
+			program: 'cmd.exe'
+			args: [ '/s', '/c', command ]
+		}
+	else
+		return {
+			program: '/bin/sh'
+			args: [ '-c', command ]
+		}

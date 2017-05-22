@@ -110,3 +110,19 @@ exports.getAppInfo = function(application) {
     return app;
   });
 };
+
+exports.getSubShellCommand = function(command) {
+  var os;
+  os = require('os');
+  if (os.platform() === 'win32') {
+    return {
+      program: 'cmd.exe',
+      args: ['/s', '/c', command]
+    };
+  } else {
+    return {
+      program: '/bin/sh',
+      args: ['-c', command]
+    };
+  }
+};

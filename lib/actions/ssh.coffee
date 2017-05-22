@@ -14,27 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
-# TODO: A function to reliably execute a command
-# in all supported operating systems, including
-# different Windows environments like `cmd.exe`
-# and `Cygwin` should be encapsulated in a
-# re-usable package.
-# This is literally copy-pasted from the `resin-sync`
-# module.
-getSubShellCommand = (command) ->
-	os = require('os')
-
-	if os.platform() is 'win32'
-		return {
-			program: 'cmd.exe'
-			args: [ '/s', '/c', command ]
-		}
-	else
-		return {
-			program: '/bin/sh'
-			args: [ '-c', command ]
-		}
-
 module.exports =
 	signature: 'ssh [uuid]'
 	description: '(beta) get a shell into the running app container of a device'
@@ -65,17 +44,54 @@ module.exports =
 			boolean: true
 			description: 'increase verbosity'
 			alias: 'v'
+	,
+			signature: 'noproxy'
+			boolean: true
+			description: "don't use the proxy configuration for this connection.
+				Only makes sense if you've configured proxy globally."
 	]
 	action: (params, options, done) ->
 		child_process = require('child_process')
-		Promise = require 'bluebird'
+		Promise = require('bluebird')
 		resin = require('resin-sdk-preconfigured')
+		_ = require('lodash')
+		bash = require('bash')
+		hasbin = require('hasbin')
+		{ getSubShellCommand } = require('../utils/helpers')
 		patterns = require('../utils/patterns')
 
-		if not options.port?
-			options.port = 22
+		options.port ?= 22
 
 		verbose = if options.verbose then '-vvv' else ''
+
+		proxyConfig = global.PROXY_CONFIG
+		useProxy = !!proxyConfig and not options.noproxy
+
+		getSshProxyCommand = (hasTunnelBin) ->
+			return '' if not useProxy
+
+			if not hasTunnelBin
+				console.warn('''
+					Proxy is enabled but the `proxytunnel` binary cannot be found.
+					Please install it if you want to route the `resin ssh` requests through the proxy.
+					Alternatively you can pass `--noproxy` param to the `resin ssh` command to ignore the proxy config
+					for the `ssh` requests.
+
+					Attemmpting the unproxied request for now.
+				''')
+				return ''
+
+			tunnelOptions =
+				proxy: "#{proxyConfig.host}:#{proxyConfig.port}"
+				dest: '%h:%p'
+			{ proxyAuth } = proxyConfig
+			if proxyAuth
+				i = proxyAuth.indexOf(':')
+				_.assign tunnelOptions,
+					user: proxyAuth.substring(0, i)
+					pass: proxyAuth.substring(i + 1)
+			proxyCommand = "proxytunnel #{bash.args(tunnelOptions, '--', '=')}"
+			return "-o #{bash.args({ ProxyCommand: proxyCommand }, '', '=')}"
 
 		Promise.try ->
 			return false if not params.uuid
@@ -84,7 +100,7 @@ module.exports =
 			return params.uuid if uuidExists
 			return patterns.inferOrSelectDevice()
 		.then (uuid) ->
-			console.info("Connecting with: #{uuid}")
+			console.info("Connecting to: #{uuid}")
 			resin.models.device.get(uuid)
 		.then (device) ->
 			throw new Error('Device is not online') if not device.is_online
@@ -95,14 +111,18 @@ module.exports =
 				# get full uuid
 				containerId: resin.models.device.getApplicationInfo(device.uuid).get('containerId')
 				proxyUrl: resin.settings.get('proxyUrl')
-			.then ({ username, uuid, containerId, proxyUrl }) ->
+
+				hasTunnelBin: if useProxy then hasbin('proxytunnel') else null
+			.then ({ username, uuid, containerId, proxyUrl, hasTunnelBin }) ->
 				throw new Error('Did not find running application container') if not containerId?
 				Promise.try ->
+					sshProxyCommand = getSshProxyCommand(hasTunnelBin)
 					command = "ssh #{verbose} -t \
 						-o LogLevel=ERROR \
 						-o StrictHostKeyChecking=no \
 						-o UserKnownHostsFile=/dev/null \
 						-o ControlMaster=no \
+						#{sshProxyCommand} \
 						-p #{options.port} #{username}@ssh.#{proxyUrl} enter #{uuid} #{containerId}"
 
 					subShellCommand = getSubShellCommand(command)

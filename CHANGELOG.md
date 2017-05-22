@@ -10,10 +10,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Highlight cache usage in a local build
 - Show a progress bar for upload progress
 - Add ability to specify build-time variables for local builds
+- Added the proxy support for the `resin ssh` command
 
 ### Fixed
 
 - Fixed the not enough unicorns bug in resin build
+- Removed the install-time warning for the `valid-email` package
 
 ## [5.9.1] - 2017-05-01
 

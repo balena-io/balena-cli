@@ -15,24 +15,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var getSubShellCommand;
-
-getSubShellCommand = function(command) {
-  var os;
-  os = require('os');
-  if (os.platform() === 'win32') {
-    return {
-      program: 'cmd.exe',
-      args: ['/s', '/c', command]
-    };
-  } else {
-    return {
-      program: '/bin/sh',
-      args: ['-c', command]
-    };
-  }
-};
-
 module.exports = {
   signature: 'ssh [uuid]',
   description: '(beta) get a shell into the running app container of a device',
@@ -50,18 +32,54 @@ module.exports = {
       boolean: true,
       description: 'increase verbosity',
       alias: 'v'
+    }, {
+      signature: 'noproxy',
+      boolean: true,
+      description: "don't use the proxy configuration for this connection. Only makes sense if you've configured proxy globally."
     }
   ],
   action: function(params, options, done) {
-    var Promise, child_process, patterns, resin, verbose;
+    var Promise, _, bash, child_process, getSshProxyCommand, getSubShellCommand, hasbin, patterns, proxyConfig, resin, useProxy, verbose;
     child_process = require('child_process');
     Promise = require('bluebird');
     resin = require('resin-sdk-preconfigured');
+    _ = require('lodash');
+    bash = require('bash');
+    hasbin = require('hasbin');
+    getSubShellCommand = require('../utils/helpers').getSubShellCommand;
     patterns = require('../utils/patterns');
     if (options.port == null) {
       options.port = 22;
     }
     verbose = options.verbose ? '-vvv' : '';
+    proxyConfig = global.PROXY_CONFIG;
+    useProxy = !!proxyConfig && !options.noproxy;
+    getSshProxyCommand = function(hasTunnelBin) {
+      var i, proxyAuth, proxyCommand, tunnelOptions;
+      if (!useProxy) {
+        return '';
+      }
+      if (!hasTunnelBin) {
+        console.warn('Proxy is enabled but the `proxytunnel` binary cannot be found.\nPlease install it if you want to route the `resin ssh` requests through the proxy.\nAlternatively you can pass `--noproxy` param to the `resin ssh` command to ignore the proxy config\nfor the `ssh` requests.\n\nAttemmpting the unproxied request for now.');
+        return '';
+      }
+      tunnelOptions = {
+        proxy: proxyConfig.host + ":" + proxyConfig.port,
+        dest: '%h:%p'
+      };
+      proxyAuth = proxyConfig.proxyAuth;
+      if (proxyAuth) {
+        i = proxyAuth.indexOf(':');
+        _.assign(tunnelOptions, {
+          user: proxyAuth.substring(0, i),
+          pass: proxyAuth.substring(i + 1)
+        });
+      }
+      proxyCommand = "proxytunnel " + (bash.args(tunnelOptions, '--', '='));
+      return "-o " + (bash.args({
+        ProxyCommand: proxyCommand
+      }, '', '='));
+    };
     return Promise["try"](function() {
       if (!params.uuid) {
         return false;
@@ -73,7 +91,7 @@ module.exports = {
       }
       return patterns.inferOrSelectDevice();
     }).then(function(uuid) {
-      console.info("Connecting with: " + uuid);
+      console.info("Connecting to: " + uuid);
       return resin.models.device.get(uuid);
     }).then(function(device) {
       if (!device.is_online) {
@@ -83,16 +101,18 @@ module.exports = {
         username: resin.auth.whoami(),
         uuid: device.uuid,
         containerId: resin.models.device.getApplicationInfo(device.uuid).get('containerId'),
-        proxyUrl: resin.settings.get('proxyUrl')
+        proxyUrl: resin.settings.get('proxyUrl'),
+        hasTunnelBin: useProxy ? hasbin('proxytunnel') : null
       }).then(function(arg) {
-        var containerId, proxyUrl, username, uuid;
-        username = arg.username, uuid = arg.uuid, containerId = arg.containerId, proxyUrl = arg.proxyUrl;
+        var containerId, hasTunnelBin, proxyUrl, username, uuid;
+        username = arg.username, uuid = arg.uuid, containerId = arg.containerId, proxyUrl = arg.proxyUrl, hasTunnelBin = arg.hasTunnelBin;
         if (containerId == null) {
           throw new Error('Did not find running application container');
         }
         return Promise["try"](function() {
-          var command, subShellCommand;
-          command = "ssh " + verbose + " -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ControlMaster=no -p " + options.port + " " + username + "@ssh." + proxyUrl + " enter " + uuid + " " + containerId;
+          var command, sshProxyCommand, subShellCommand;
+          sshProxyCommand = getSshProxyCommand(hasTunnelBin);
+          command = "ssh " + verbose + " -t -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ControlMaster=no " + sshProxyCommand + " -p " + options.port + " " + username + "@ssh." + proxyUrl + " enter " + uuid + " " + containerId;
           subShellCommand = getSubShellCommand(command);
           return child_process.spawn(subShellCommand.program, subShellCommand.args, {
             stdio: 'inherit'
