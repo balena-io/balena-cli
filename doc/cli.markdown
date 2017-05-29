@@ -1304,7 +1304,7 @@ Examples:
 
 The architecture to build for
 
-#### --devicetype, -d &#60;deviceType&#62;
+#### --deviceType, -d &#60;deviceType&#62;
 
 The type of device this build is for
 

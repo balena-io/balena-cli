@@ -45,7 +45,7 @@ module.exports =
 			alias: 'A'
 		},
 		{
-			signature: 'devicetype'
+			signature: 'deviceType'
 			parameter: 'deviceType'
 			description: 'The type of device this build is for'
 			alias: 'd'

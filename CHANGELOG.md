@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### Fixed
+
+- Fixed command line arguments for `resin build`
+
 ## [5.10.1] - 2017-05-22
 
 ### Fixed

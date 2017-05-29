@@ -31,7 +31,7 @@ module.exports = {
       description: 'The architecture to build for',
       alias: 'A'
     }, {
-      signature: 'devicetype',
+      signature: 'deviceType',
       parameter: 'deviceType',
       description: 'The type of device this build is for',
       alias: 'd'
