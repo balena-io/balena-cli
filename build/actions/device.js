@@ -311,6 +311,9 @@ exports.init = {
           return capitanoRunAsync(configureCommand).then(function() {
             var osInitCommand;
             osInitCommand = "os initialize '" + tempPath + "' --type " + application.device_type;
+            if (options.yes) {
+              osInitCommand += ' --yes';
+            }
             return capitanoRunAsync(osInitCommand);
           })["catch"](function(error) {
             return resin.models.device.remove(device.uuid)["finally"](function() {

@@ -409,6 +409,8 @@ exports.init =
 						capitanoRunAsync(configureCommand)
 						.then ->
 							osInitCommand = "os initialize '#{tempPath}' --type #{application.device_type}"
+							if options.yes
+								osInitCommand += ' --yes'
 							capitanoRunAsync(osInitCommand)
 						# Make sure the device resource is removed if there is an
 						# error when configuring or initializing a device image
