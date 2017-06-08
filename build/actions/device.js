@@ -15,9 +15,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var commandOptions;
+var _, commandOptions;
 
 commandOptions = require('./command-options');
+
+_ = require('lodash');
 
 exports.list = {
   signature: 'devices',
@@ -27,9 +29,8 @@ exports.list = {
   permission: 'user',
   primary: true,
   action: function(params, options, done) {
-    var Promise, _, resin, visuals;
+    var Promise, resin, visuals;
     Promise = require('bluebird');
-    _ = require('lodash');
     resin = require('resin-sdk-preconfigured');
     visuals = require('resin-cli-visuals');
     return Promise["try"](function() {
@@ -219,9 +220,8 @@ exports.rename = {
   help: 'Use this command to rename a device.\n\nIf you omit the name, you\'ll get asked for it interactively.\n\nExamples:\n\n	$ resin device rename 7cf02a6\n	$ resin device rename 7cf02a6 MyPi',
   permission: 'user',
   action: function(params, options, done) {
-    var Promise, _, form, resin;
+    var Promise, form, resin;
     Promise = require('bluebird');
-    _ = require('lodash');
     resin = require('resin-sdk-preconfigured');
     form = require('resin-cli-form');
     return Promise["try"](function() {
@@ -243,9 +243,8 @@ exports.move = {
   permission: 'user',
   options: [commandOptions.optionalApplication],
   action: function(params, options, done) {
-    var _, patterns, resin;
+    var patterns, resin;
     resin = require('resin-sdk-preconfigured');
-    _ = require('lodash');
     patterns = require('../utils/patterns');
     return resin.models.device.get(params.uuid).then(function(device) {
       return options.application || patterns.selectApplication(function(application) {
@@ -269,7 +268,10 @@ exports.init = {
       description: 'enable advanced configuration',
       boolean: true,
       alias: 'v'
-    }
+    }, _.assign({}, commandOptions.osVersion, {
+      signature: 'os-version',
+      parameter: 'os-version'
+    })
   ],
   permission: 'user',
   action: function(params, options, done) {
@@ -292,7 +294,9 @@ exports.init = {
       var download;
       download = function() {
         return tmpNameAsync().then(function(tempPath) {
-          return capitanoRunAsync("os download " + application.device_type + " --output '" + tempPath + "' --version default");
+          var osVersion;
+          osVersion = options['os-version'] || 'default';
+          return capitanoRunAsync("os download " + application.device_type + " --output '" + tempPath + "' --version " + osVersion);
         }).disposer(function(tempPath) {
           return rimraf(tempPath);
         });

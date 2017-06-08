@@ -41,6 +41,25 @@ resolveVersion = (deviceType, version) ->
 			choices: choices
 			default: recommended
 
+exports.versions =
+	signature: 'os versions <type>'
+	description: 'show the available resinOS versions for the given device type'
+	help: '''
+		Use this command to show the available resinOS versions for a certain device type.
+		Check available types with `resin devices supported`
+
+		Example:
+
+			$ resin os versions raspberrypi3
+	'''
+	action: (params, options, done) ->
+		resin = require('resin-sdk-preconfigured')
+
+		resin.models.os.getSupportedVersions(params.type)
+		.then ({ versions, recommended }) ->
+			versions.forEach (v) ->
+				console.log(formatVersion(v, v is recommended))
+
 exports.download =
 	signature: 'os download <type>'
 	description: 'download an unconfigured os image'
@@ -73,17 +92,7 @@ exports.download =
 			alias: 'o'
 			required: 'You have to specify the output location'
 		}
-		{
-			signature: 'version'
-			description: """
-				exact version number, or a valid semver range,
-				or 'latest' (includes pre-releases),
-				or 'default' (excludes pre-releases if at least one stable version is available),
-				or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
-				or 'menu' (will show the interactive menu)
-			"""
-			parameter: 'version'
-		}
+		commandOptions.osVersion
 	]
 	action: (params, options, done) ->
 		Promise = require('bluebird')

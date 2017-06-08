@@ -15,6 +15,7 @@ limitations under the License.
 ###
 
 commandOptions = require('./command-options')
+_ = require('lodash')
 
 exports.list =
 	signature: 'devices'
@@ -36,7 +37,6 @@ exports.list =
 	primary: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		_ = require('lodash')
 		resin = require('resin-sdk-preconfigured')
 		visuals = require('resin-cli-visuals')
 
@@ -304,7 +304,6 @@ exports.rename =
 	permission: 'user'
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		_ = require('lodash')
 		resin = require('resin-sdk-preconfigured')
 		form = require('resin-cli-form')
 
@@ -335,7 +334,6 @@ exports.move =
 	options: [ commandOptions.optionalApplication ]
 	action: (params, options, done) ->
 		resin = require('resin-sdk-preconfigured')
-		_ = require('lodash')
 		patterns = require('../utils/patterns')
 
 		resin.models.device.get(params.uuid).then (device) ->
@@ -373,6 +371,7 @@ exports.init =
 			boolean: true
 			alias: 'v'
 		}
+		_.assign({}, commandOptions.osVersion, { signature: 'os-version', parameter: 'os-version' })
 	]
 	permission: 'user'
 	action: (params, options, done) ->
@@ -395,8 +394,8 @@ exports.init =
 
 			download = ->
 				tmpNameAsync().then (tempPath) ->
-					# TODO: allow version selection
-					capitanoRunAsync("os download #{application.device_type} --output '#{tempPath}' --version default")
+					osVersion = options['os-version'] or 'default'
+					capitanoRunAsync("os download #{application.device_type} --output '#{tempPath}' --version #{osVersion}")
 				.disposer (tempPath) ->
 					return rimraf(tempPath)
 

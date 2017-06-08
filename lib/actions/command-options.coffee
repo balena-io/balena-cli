@@ -44,6 +44,17 @@ exports.booleanDevice =
 	boolean: true
 	alias: 'd'
 
+exports.osVersion =
+	signature: 'version'
+	description: """
+		exact version number, or a valid semver range,
+		or 'latest' (includes pre-releases),
+		or 'default' (excludes pre-releases if at least one stable version is available),
+		or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
+		or 'menu' (will show the interactive menu)
+	"""
+	parameter: 'version'
+
 exports.network =
 	signature: 'network'
 	parameter: 'network'

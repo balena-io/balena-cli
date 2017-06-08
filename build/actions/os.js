@@ -53,6 +53,23 @@ resolveVersion = function(deviceType, version) {
   });
 };
 
+exports.versions = {
+  signature: 'os versions <type>',
+  description: 'show the available resinOS versions for the given device type',
+  help: 'Use this command to show the available resinOS versions for a certain device type.\nCheck available types with `resin devices supported`\n\nExample:\n\n	$ resin os versions raspberrypi3',
+  action: function(params, options, done) {
+    var resin;
+    resin = require('resin-sdk-preconfigured');
+    return resin.models.os.getSupportedVersions(params.type).then(function(arg) {
+      var recommended, versions;
+      versions = arg.versions, recommended = arg.recommended;
+      return versions.forEach(function(v) {
+        return console.log(formatVersion(v, v === recommended));
+      });
+    });
+  }
+};
+
 exports.download = {
   signature: 'os download <type>',
   description: 'download an unconfigured os image',
@@ -65,11 +82,7 @@ exports.download = {
       parameter: 'output',
       alias: 'o',
       required: 'You have to specify the output location'
-    }, {
-      signature: 'version',
-      description: "exact version number, or a valid semver range,\nor 'latest' (includes pre-releases),\nor 'default' (excludes pre-releases if at least one stable version is available),\nor 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),\nor 'menu' (will show the interactive menu)",
-      parameter: 'version'
-    }
+    }, commandOptions.osVersion
   ],
   action: function(params, options, done) {
     var Promise, displayVersion, fs, manager, rindle, unzip, visuals;

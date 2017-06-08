@@ -135,6 +135,7 @@ capitano.command(actions.env.rename)
 capitano.command(actions.env.remove)
 
 # ---------- OS Module ----------
+capitano.command(actions.os.versions)
 capitano.command(actions.os.download)
 capitano.command(actions.os.configure)
 capitano.command(actions.os.initialize)
