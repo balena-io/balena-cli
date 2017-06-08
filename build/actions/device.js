@@ -70,7 +70,6 @@ exports.supported = {
   signature: 'devices supported',
   description: 'list all supported devices',
   help: 'Use this command to get the list of all supported devices\n\nExamples:\n\n	$ resin devices supported',
-  permission: 'user',
   action: function(params, options, done) {
     var resin;
     resin = require('resin-sdk-preconfigured');
@@ -262,7 +261,7 @@ exports.move = {
 
 exports.init = {
   signature: 'device init',
-  description: 'initialise a device with resin os',
+  description: 'initialise a device with resinOS',
   help: 'Use this command to download the OS image of a certain application and write it to an SD Card.\n\nNotice this command may ask for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nExamples:\n\n	$ resin device init\n	$ resin device init --application MyApp',
   options: [
     commandOptions.optionalApplication, commandOptions.yes, {

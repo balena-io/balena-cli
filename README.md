@@ -76,7 +76,7 @@ Alternatively, you can edit your configuration file and set `resinUrl: resinstag
 
 The Resin CLI persists your session token, as well as cached images in `$HOME/.resin` or `%UserProfile%\_resin`.
 
-Pointing the Resin CLI to persist data in another location is necessary in certain environments, like a server, where there is no home directory, or a device running Resin OS, which erases all data after a restart.
+Pointing the Resin CLI to persist data in another location is necessary in certain environments, like a server, where there is no home directory, or a device running resinOS, which erases all data after a restart.
 
 You can accomplish this by setting `RESINRC_DATA_DIRECTORY=/opt/resin` or adding `dataDirectory: /opt/resin` to your configuration file, replacing `/opt/resin` with your desired directory.
 

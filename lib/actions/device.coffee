@@ -114,7 +114,6 @@ exports.supported =
 
 			$ resin devices supported
 	'''
-	permission: 'user'
 	action: (params, options, done) ->
 		resin = require('resin-sdk-preconfigured')
 		resin.models.config.getDeviceTypes().each (deviceType) ->
@@ -353,7 +352,7 @@ exports.move =
 
 exports.init =
 	signature: 'device init'
-	description: 'initialise a device with resin os'
+	description: 'initialise a device with resinOS'
 	help: '''
 		Use this command to download the OS image of a certain application and write it to an SD Card.
 
