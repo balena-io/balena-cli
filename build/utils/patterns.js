@@ -100,9 +100,12 @@ exports.selectDeviceType = function() {
   });
 };
 
-exports.confirm = function(yesOption, message) {
+exports.confirm = function(yesOption, message, yesMessage) {
   return Promise["try"](function() {
     if (yesOption) {
+      if (yesMessage) {
+        console.log(yesMessage);
+      }
       return true;
     }
     return form.ask({

@@ -241,8 +241,11 @@ exports.initialize =
 						drive: options.drive
 			.tap (answers) ->
 				return if not answers.drive?
-				message = "This will erase #{answers.drive}. Are you sure?"
-				patterns.confirm(options.yes, message)
+				patterns.confirm(
+					options.yes
+					"This will erase #{answers.drive}. Are you sure?"
+					"Going to erase #{answers.drive}."
+				)
 					.return(answers.drive)
 					.then(umountAsync)
 			.tap (answers) ->

@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Show a clear message immediately as the deploy starts, if we're deploying an image.
 - Allow OS version selection when doing `resin device init`
 - Actually tolerate the `--yes` param to `resin device init`
+- Allows passing `--drive` to `resin device init`
 
 ### Fixed
 

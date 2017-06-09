@@ -215,12 +215,10 @@ exports.initialize = {
         }
       });
     }).tap(function(answers) {
-      var message;
       if (answers.drive == null) {
         return;
       }
-      message = "This will erase " + answers.drive + ". Are you sure?";
-      return patterns.confirm(options.yes, message)["return"](answers.drive).then(umountAsync);
+      return patterns.confirm(options.yes, "This will erase " + answers.drive + ". Are you sure?", "Going to erase " + answers.drive + ".")["return"](answers.drive).then(umountAsync);
     }).tap(function(answers) {
       return helpers.sudo(['internal', 'osinit', params.image, options.type, JSON.stringify(answers)]);
     }).then(function(answers) {

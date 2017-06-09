@@ -76,9 +76,11 @@ exports.selectDeviceType = ->
 			type: 'list'
 			choices: deviceTypes
 
-exports.confirm = (yesOption, message) ->
+exports.confirm = (yesOption, message, yesMessage) ->
 	Promise.try ->
-		return true if yesOption
+		if yesOption
+			console.log(yesMessage) if yesMessage
+			return true
 		return form.ask
 			message: message
 			type: 'confirm'

@@ -372,6 +372,14 @@ exports.init =
 			alias: 'v'
 		}
 		_.assign({}, commandOptions.osVersion, { signature: 'os-version', parameter: 'os-version' })
+		{
+			signature: 'drive'
+			description: 'the drive to write the image to, like /dev/sdb.
+				Careful with this as you can erase your hard drive.
+				'
+			parameter: 'drive'
+			alias: 'd'
+		}
 	]
 	permission: 'user'
 	action: (params, options, done) ->
@@ -411,6 +419,8 @@ exports.init =
 							osInitCommand = "os initialize '#{tempPath}' --type #{application.device_type}"
 							if options.yes
 								osInitCommand += ' --yes'
+							if options.drive
+								osInitCommand += " --drive #{options.drive}"
 							capitanoRunAsync(osInitCommand)
 						# Make sure the device resource is removed if there is an
 						# error when configuring or initializing a device image

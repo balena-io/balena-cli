@@ -271,7 +271,12 @@ exports.init = {
     }, _.assign({}, commandOptions.osVersion, {
       signature: 'os-version',
       parameter: 'os-version'
-    })
+    }), {
+      signature: 'drive',
+      description: 'the drive to write the image to, like /dev/sdb. Careful with this as you can erase your hard drive.',
+      parameter: 'drive',
+      alias: 'd'
+    }
   ],
   permission: 'user',
   action: function(params, options, done) {
@@ -313,6 +318,9 @@ exports.init = {
             osInitCommand = "os initialize '" + tempPath + "' --type " + application.device_type;
             if (options.yes) {
               osInitCommand += ' --yes';
+            }
+            if (options.drive) {
+              osInitCommand += " --drive " + options.drive;
             }
             return capitanoRunAsync(osInitCommand);
           })["catch"](function(error) {
