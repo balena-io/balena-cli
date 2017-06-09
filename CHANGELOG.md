@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Allow OS version selection when doing `resin device init`
 - Actually tolerate the `--yes` param to `resin device init`
 - Allows passing `--drive` to `resin device init`
+- List detected drives with `resin os available-drives`
 
 ### Fixed
 

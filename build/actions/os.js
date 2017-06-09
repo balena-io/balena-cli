@@ -15,9 +15,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var commandOptions, formatVersion, initWarningMessage, resolveVersion;
+var _, commandOptions, formatVersion, initWarningMessage, resolveVersion;
 
 commandOptions = require('./command-options');
+
+_ = require('lodash');
 
 formatVersion = function(v, isRecommended) {
   var result;
@@ -147,8 +149,7 @@ exports.configure = {
     }
   ],
   action: function(params, options, done) {
-    var _, form, helpers, init, resin;
-    _ = require('lodash');
+    var form, helpers, init, resin;
     resin = require('resin-sdk-preconfigured');
     form = require('resin-cli-form');
     init = require('resin-device-init');
@@ -178,6 +179,39 @@ exports.configure = {
 
 initWarningMessage = 'Note: Initializing the device may ask for administrative permissions\nbecause we need to access the raw devices directly.';
 
+exports.availableDrives = {
+  signature: 'os available-drives',
+  description: 'list available drives',
+  action: function() {
+    var Promise, chalk, driveListAsync, drivelist, formatDrive, getDrives;
+    Promise = require('bluebird');
+    drivelist = require('drivelist');
+    driveListAsync = Promise.promisify(drivelist.list);
+    chalk = require('chalk');
+    formatDrive = function(drive) {
+      var size;
+      size = drive.size / 1000000000;
+      return drive.device + " (" + (size.toFixed(1)) + " GB) - " + drive.description;
+    };
+    getDrives = function() {
+      return driveListAsync().then(function(drives) {
+        return _.reject(drives, {
+          system: true
+        });
+      });
+    };
+    return getDrives().then(function(drives) {
+      if (!drives.length) {
+        console.error((chalk.red('x')) + " No available drives were detected, plug one in!");
+        return;
+      }
+      return drives.forEach(function(drive) {
+        return console.log(formatDrive(drive));
+      });
+    });
+  }
+};
+
 exports.initialize = {
   signature: 'os initialize <image>',
   description: 'initialize an os image',
@@ -192,7 +226,7 @@ exports.initialize = {
       required: 'You have to specify a device type'
     }, {
       signature: 'drive',
-      description: 'drive',
+      description: 'drive to write the image to. Check `resin os available-drives` for available options.',
       parameter: 'drive',
       alias: 'd'
     }

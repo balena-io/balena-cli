@@ -273,7 +273,7 @@ exports.init = {
       parameter: 'os-version'
     }), {
       signature: 'drive',
-      description: 'the drive to write the image to, like /dev/sdb. Careful with this as you can erase your hard drive.',
+      description: 'the drive to write the image to, like /dev/sdb. Careful with this as you can erase your hard drive. Check `resin os available-drives` for available options.',
       parameter: 'drive',
       alias: 'd'
     }

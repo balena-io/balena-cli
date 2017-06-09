@@ -15,6 +15,7 @@ limitations under the License.
 ###
 
 commandOptions = require('./command-options')
+_ = require('lodash')
 
 formatVersion = (v, isRecommended) ->
 	result = "v#{v}"
@@ -161,7 +162,6 @@ exports.configure =
 		alias: 'v'
 	]
 	action: (params, options, done) ->
-		_ = require('lodash')
 		resin = require('resin-sdk-preconfigured')
 		form = require('resin-cli-form')
 		init = require('resin-device-init')
@@ -191,6 +191,33 @@ initWarningMessage = '''
 	because we need to access the raw devices directly.
 '''
 
+exports.availableDrives =
+	# TODO: dedupe with https://github.com/resin-io-modules/resin-cli-visuals/blob/master/lib/widgets/drive/index.coffee
+	signature: 'os available-drives'
+	description: 'list available drives'
+	action: ->
+		Promise = require('bluebird')
+		drivelist = require('drivelist')
+		driveListAsync = Promise.promisify(drivelist.list)
+		chalk = require('chalk')
+
+		formatDrive = (drive) ->
+			size = drive.size / 1000000000
+			return "#{drive.device} (#{size.toFixed(1)} GB) - #{drive.description}"
+
+		getDrives = ->
+			driveListAsync().then (drives) ->
+				return _.reject(drives, system: true)
+
+		getDrives()
+		.then (drives) ->
+			if not drives.length
+				console.error("#{chalk.red('x')} No available drives were detected, plug one in!")
+				return
+			drives.forEach (drive) ->
+				console.log(formatDrive(drive))
+
+
 exports.initialize =
 	signature: 'os initialize <image>'
 	description: 'initialize an os image'
@@ -215,7 +242,7 @@ exports.initialize =
 		}
 		{
 			signature: 'drive'
-			description: 'drive'
+			description: 'drive to write the image to. Check `resin os available-drives` for available options.'
 			parameter: 'drive'
 			alias: 'd'
 		}

@@ -168,6 +168,8 @@ capitano.command(actions.env.remove);
 
 capitano.command(actions.os.versions);
 
+capitano.command(actions.os.availableDrives);
+
 capitano.command(actions.os.download);
 
 capitano.command(actions.os.configure);
