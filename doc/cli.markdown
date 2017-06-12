@@ -103,8 +103,11 @@ environment variable (in the same standard URL format).
 
 - OS
 
+	- [os versions &#60;type&#62;](#os-versions-60-type-62-)
 	- [os download &#60;type&#62;](#os-download-60-type-62-)
+	- [os build-config &#60;image&#62; &#60;device-type&#62;](#os-build-config-60-image-62-60-device-type-62-)
 	- [os configure &#60;image&#62; &#60;uuid&#62;](#os-configure-60-image-62-60-uuid-62-)
+	- [os available-drives](#os-available-drives)
 	- [os initialize &#60;image&#62;](#os-initialize-60-image-62-)
 
 - Config
@@ -477,6 +480,22 @@ confirm non interactively
 
 enable advanced configuration
 
+#### --os-version &#60;os-version&#62;
+
+exact version number, or a valid semver range,
+or 'latest' (includes pre-releases),
+or 'default' (excludes pre-releases if at least one stable version is available),
+or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
+or 'menu' (will show the interactive menu)
+
+#### --drive, -d &#60;drive&#62;
+
+the drive to write the image to, like /dev/sdb. Careful with this as you can erase your hard drive. Check `resin os available-drives` for available options.
+
+#### --config &#60;config&#62;
+
+stringified JSON with the device config, see `resin os build-config`
+
 # Environment Variables
 
 ## envs
@@ -813,6 +832,15 @@ device uuid
 
 # OS
 
+## os versions &#60;type&#62;
+
+Use this command to show the available resinOS versions for a certain device type.
+Check available types with `resin devices supported`
+
+Example:
+
+	$ resin os versions raspberrypi3
+
 ## os download &#60;type&#62;
 
 Use this command to download an unconfigured os image for a certain device type.
@@ -848,9 +876,28 @@ or 'default' (excludes pre-releases if at least one stable version is available)
 or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
 or 'menu' (will show the interactive menu)
 
+## os build-config &#60;image&#62; &#60;device-type&#62;
+
+Use this command to prebuild the OS config once and skip the interactive part of `resin os configure`.
+
+Examples:
+
+	$ resin os build-config ../path/rpi3.img raspberrypi3 --output rpi3-config.json
+	$ resin os configure ../path/rpi3.img 7cf02a6 --config "$(cat rpi3-config.json)"
+
+### Options
+
+#### --advanced, -v
+
+show advanced commands
+
+#### --output, -o &#60;output&#62;
+
+the path to the output JSON file
+
 ## os configure &#60;image&#62; &#60;uuid&#62;
 
-Use this command to configure a previously download operating system image with a device.
+Use this command to configure a previously downloaded operating system image for the specific device.
 
 Examples:
 
@@ -861,6 +908,14 @@ Examples:
 #### --advanced, -v
 
 show advanced commands
+
+#### --config &#60;config&#62;
+
+stringified JSON with the device config, see `resin os build-config`
+
+## os available-drives
+
+undefined
 
 ## os initialize &#60;image&#62;
 
@@ -885,7 +940,7 @@ device type (Check available types with `resin devices supported`)
 
 #### --drive, -d &#60;drive&#62;
 
-drive
+drive to write the image to. Check `resin os available-drives` for available options.
 
 # Config
 
