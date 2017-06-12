@@ -18,6 +18,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Add the `resin os build-config` method to pass the interactive config step once
 and reuse the built file for consequent `resin os configure` calls (added the new `--config` param to it),
 and for `resin device init` (same `--config` param)
+- Improve the supported device types listing
 
 ### Fixed
 

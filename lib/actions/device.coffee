@@ -116,8 +116,13 @@ exports.supported =
 	'''
 	action: (params, options, done) ->
 		resin = require('resin-sdk-preconfigured')
-		resin.models.config.getDeviceTypes().each (deviceType) ->
-			console.log(deviceType.slug)
+		visuals = require('resin-cli-visuals')
+
+		resin.models.config.getDeviceTypes().then (deviceTypes) ->
+			console.log visuals.table.horizontal deviceTypes, [
+				'slug'
+				'name'
+			]
 		.nodeify(done)
 
 exports.register =

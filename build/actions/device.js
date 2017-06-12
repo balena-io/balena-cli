@@ -72,10 +72,11 @@ exports.supported = {
   description: 'list all supported devices',
   help: 'Use this command to get the list of all supported devices\n\nExamples:\n\n	$ resin devices supported',
   action: function(params, options, done) {
-    var resin;
+    var resin, visuals;
     resin = require('resin-sdk-preconfigured');
-    return resin.models.config.getDeviceTypes().each(function(deviceType) {
-      return console.log(deviceType.slug);
+    visuals = require('resin-cli-visuals');
+    return resin.models.config.getDeviceTypes().then(function(deviceTypes) {
+      return console.log(visuals.table.horizontal(deviceTypes, ['slug', 'name']));
     }).nodeify(done);
   }
 };
