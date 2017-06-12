@@ -79,7 +79,7 @@
     "resin-doodles": "0.0.1",
     "resin-image-fs": "^2.1.2",
     "resin-image-manager": "^4.1.1",
-    "resin-sdk-preconfigured": "^6.0.0",
+    "resin-sdk-preconfigured": "^6.4.1",
     "resin-settings-client": "^3.6.1",
     "resin-stream-logger": "^0.0.4",
     "resin-sync": "^7.0.0",

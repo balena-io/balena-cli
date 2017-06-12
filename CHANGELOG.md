@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Added ability to run an emulated build silently with `resin build`
 - Gzip images when uploading in `resin deploy`
 - Show a clear message immediately as the deploy starts, if we're deploying an image.
+- Forced update to the newest resin-sdk (^6.4.1)
 - Allow OS version selection when doing `resin device init`
 - Actually tolerate the `--yes` param to `resin device init`
 - Allows passing `--drive` to `resin device init`
