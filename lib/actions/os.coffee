@@ -144,11 +144,65 @@ exports.download =
 			console.info('The image was downloaded successfully')
 		.nodeify(done)
 
+buildConfig = (image, deviceType, advanced = false) ->
+	form = require('resin-cli-form')
+	helpers = require('../utils/helpers')
+
+	helpers.getManifest(image, deviceType)
+	.get('options')
+	.then (questions) ->
+		if not advanced
+			advancedGroup = _.findWhere questions,
+				name: 'advanced'
+				isGroup: true
+
+			if advancedGroup?
+				override = helpers.getGroupDefaults(advancedGroup)
+
+		return form.run(questions, { override })
+
+exports.buildConfig =
+	signature: 'os build-config <image> <device-type>'
+	description: 'build the OS config and save it to the JSON file'
+	help: '''
+		Use this command to prebuild the OS config once and skip the interactive part of `resin os configure`.
+
+		Examples:
+
+			$ resin os build-config ../path/rpi3.img raspberrypi3 --output rpi3-config.json
+			$ resin os configure ../path/rpi3.img 7cf02a6 --config "$(cat rpi3-config.json)"
+	'''
+	permission: 'user'
+	options: [
+		{
+			signature: 'advanced'
+			description: 'show advanced commands'
+			boolean: true
+			alias: 'v'
+		}
+		{
+			signature: 'output'
+			description: 'the path to the output JSON file'
+			alias: 'o'
+			required: 'the output path is required'
+			parameter: 'output'
+		}
+	]
+	action: (params, options, done) ->
+		fs = require('fs')
+		Promise = require('bluebird')
+		writeFileAsync = Promise.promisify(fs.writeFile)
+
+		buildConfig(params.image, params['device-type'], options.advanced)
+		.then (answers) ->
+			writeFileAsync(options.output, JSON.stringify(answers, null, 4))
+		.nodeify(done)
+
 exports.configure =
 	signature: 'os configure <image> <uuid>'
 	description: 'configure an os image'
 	help: '''
-		Use this command to configure a previously download operating system image with a device.
+		Use this command to configure a previously downloaded operating system image for the specific device.
 
 		Examples:
 
@@ -156,40 +210,31 @@ exports.configure =
 	'''
 	permission: 'user'
 	options: [
-		signature: 'advanced'
-		description: 'show advanced commands'
-		boolean: true
-		alias: 'v'
+		{
+			signature: 'advanced'
+			description: 'show advanced commands'
+			boolean: true
+			alias: 'v'
+		}
+		{
+			signature: 'config'
+			description: 'stringified JSON with the device config, see `resin os build-config`'
+			parameter: 'config'
+		}
 	]
 	action: (params, options, done) ->
 		resin = require('resin-sdk-preconfigured')
-		form = require('resin-cli-form')
 		init = require('resin-device-init')
 		helpers = require('../utils/helpers')
 
 		console.info('Configuring operating system image')
 		resin.models.device.get(params.uuid).then (device) ->
-			helpers.getManifest(params.image, device.device_type)
-			.get('options')
-			.then (questions) ->
-
-				if not options.advanced
-					advancedGroup = _.findWhere questions,
-						name: 'advanced'
-						isGroup: true
-
-					if advancedGroup?
-						override = helpers.getGroupDefaults(advancedGroup)
-
-				return form.run(questions, { override })
-			.then (answers) ->
-				init.configure(params.image, params.uuid, answers).then(helpers.osProgressHandler)
+			if options.config
+				return JSON.parse(options.config)
+			buildConfig(params.image, device.device_type, options.advanced)
+		.then (answers) ->
+			init.configure(params.image, params.uuid, answers).then(helpers.osProgressHandler)
 		.nodeify(done)
-
-initWarningMessage = '''
-	Note: Initializing the device may ask for administrative permissions
-	because we need to access the raw devices directly.
-'''
 
 exports.availableDrives =
 	# TODO: dedupe with https://github.com/resin-io-modules/resin-cli-visuals/blob/master/lib/widgets/drive/index.coffee
@@ -217,6 +262,10 @@ exports.availableDrives =
 			drives.forEach (drive) ->
 				console.log(formatDrive(drive))
 
+INIT_WARNING_MESSAGE = '''
+	Note: Initializing the device may ask for administrative permissions
+	because we need to access the raw devices directly.
+'''
 
 exports.initialize =
 	signature: 'os initialize <image>'
@@ -224,7 +273,7 @@ exports.initialize =
 	help: """
 		Use this command to initialize a device with previously configured operating system image.
 
-		#{initWarningMessage}
+		#{INIT_WARNING_MESSAGE}
 
 		Examples:
 
@@ -257,7 +306,7 @@ exports.initialize =
 		console.info("""
 			Initializing device
 
-			#{initWarningMessage}
+			#{INIT_WARNING_MESSAGE}
 		""")
 		helpers.getManifest(params.image, options.type)
 			.then (manifest) ->

@@ -15,7 +15,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var _, commandOptions, formatVersion, initWarningMessage, resolveVersion;
+var INIT_WARNING_MESSAGE, _, buildConfig, commandOptions, formatVersion, resolveVersion;
 
 commandOptions = require('./command-options');
 
@@ -135,10 +135,34 @@ exports.download = {
   }
 };
 
-exports.configure = {
-  signature: 'os configure <image> <uuid>',
-  description: 'configure an os image',
-  help: 'Use this command to configure a previously download operating system image with a device.\n\nExamples:\n\n	$ resin os configure ../path/rpi.img 7cf02a6',
+buildConfig = function(image, deviceType, advanced) {
+  var form, helpers;
+  if (advanced == null) {
+    advanced = false;
+  }
+  form = require('resin-cli-form');
+  helpers = require('../utils/helpers');
+  return helpers.getManifest(image, deviceType).get('options').then(function(questions) {
+    var advancedGroup, override;
+    if (!advanced) {
+      advancedGroup = _.findWhere(questions, {
+        name: 'advanced',
+        isGroup: true
+      });
+      if (advancedGroup != null) {
+        override = helpers.getGroupDefaults(advancedGroup);
+      }
+    }
+    return form.run(questions, {
+      override: override
+    });
+  });
+};
+
+exports.buildConfig = {
+  signature: 'os build-config <image> <device-type>',
+  description: 'build the OS config and save it to the JSON file',
+  help: 'Use this command to prebuild the OS config once and skip the interactive part of `resin os configure`.\n\nExamples:\n\n	$ resin os build-config ../path/rpi3.img raspberrypi3 --output rpi3-config.json\n	$ resin os configure ../path/rpi3.img 7cf02a6 --config "$(cat rpi3-config.json)"',
   permission: 'user',
   options: [
     {
@@ -146,38 +170,58 @@ exports.configure = {
       description: 'show advanced commands',
       boolean: true,
       alias: 'v'
+    }, {
+      signature: 'output',
+      description: 'the path to the output JSON file',
+      alias: 'o',
+      required: 'the output path is required',
+      parameter: 'output'
     }
   ],
   action: function(params, options, done) {
-    var form, helpers, init, resin;
-    resin = require('resin-sdk-preconfigured');
-    form = require('resin-cli-form');
-    init = require('resin-device-init');
-    helpers = require('../utils/helpers');
-    console.info('Configuring operating system image');
-    return resin.models.device.get(params.uuid).then(function(device) {
-      return helpers.getManifest(params.image, device.device_type).get('options').then(function(questions) {
-        var advancedGroup, override;
-        if (!options.advanced) {
-          advancedGroup = _.findWhere(questions, {
-            name: 'advanced',
-            isGroup: true
-          });
-          if (advancedGroup != null) {
-            override = helpers.getGroupDefaults(advancedGroup);
-          }
-        }
-        return form.run(questions, {
-          override: override
-        });
-      }).then(function(answers) {
-        return init.configure(params.image, params.uuid, answers).then(helpers.osProgressHandler);
-      });
+    var Promise, fs, writeFileAsync;
+    fs = require('fs');
+    Promise = require('bluebird');
+    writeFileAsync = Promise.promisify(fs.writeFile);
+    return buildConfig(params.image, params['device-type'], options.advanced).then(function(answers) {
+      return writeFileAsync(options.output, JSON.stringify(answers, null, 4));
     }).nodeify(done);
   }
 };
 
-initWarningMessage = 'Note: Initializing the device may ask for administrative permissions\nbecause we need to access the raw devices directly.';
+exports.configure = {
+  signature: 'os configure <image> <uuid>',
+  description: 'configure an os image',
+  help: 'Use this command to configure a previously downloaded operating system image for the specific device.\n\nExamples:\n\n	$ resin os configure ../path/rpi.img 7cf02a6',
+  permission: 'user',
+  options: [
+    {
+      signature: 'advanced',
+      description: 'show advanced commands',
+      boolean: true,
+      alias: 'v'
+    }, {
+      signature: 'config',
+      description: 'stringified JSON with the device config, see `resin os build-config`',
+      parameter: 'config'
+    }
+  ],
+  action: function(params, options, done) {
+    var helpers, init, resin;
+    resin = require('resin-sdk-preconfigured');
+    init = require('resin-device-init');
+    helpers = require('../utils/helpers');
+    console.info('Configuring operating system image');
+    return resin.models.device.get(params.uuid).then(function(device) {
+      if (options.config) {
+        return JSON.parse(options.config);
+      }
+      return buildConfig(params.image, device.device_type, options.advanced);
+    }).then(function(answers) {
+      return init.configure(params.image, params.uuid, answers).then(helpers.osProgressHandler);
+    }).nodeify(done);
+  }
+};
 
 exports.availableDrives = {
   signature: 'os available-drives',
@@ -212,10 +256,12 @@ exports.availableDrives = {
   }
 };
 
+INIT_WARNING_MESSAGE = 'Note: Initializing the device may ask for administrative permissions\nbecause we need to access the raw devices directly.';
+
 exports.initialize = {
   signature: 'os initialize <image>',
   description: 'initialize an os image',
-  help: "Use this command to initialize a device with previously configured operating system image.\n\n" + initWarningMessage + "\n\nExamples:\n\n	$ resin os initialize ../path/rpi.img --type 'raspberry-pi'",
+  help: "Use this command to initialize a device with previously configured operating system image.\n\n" + INIT_WARNING_MESSAGE + "\n\nExamples:\n\n	$ resin os initialize ../path/rpi.img --type 'raspberry-pi'",
   permission: 'user',
   options: [
     commandOptions.yes, {
@@ -238,7 +284,7 @@ exports.initialize = {
     form = require('resin-cli-form');
     patterns = require('../utils/patterns');
     helpers = require('../utils/helpers');
-    console.info("Initializing device\n\n" + initWarningMessage);
+    console.info("Initializing device\n\n" + INIT_WARNING_MESSAGE);
     return helpers.getManifest(params.image, options.type).then(function(manifest) {
       var ref;
       return (ref = manifest.initialization) != null ? ref.options : void 0;

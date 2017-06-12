@@ -276,6 +276,10 @@ exports.init = {
       description: 'the drive to write the image to, like /dev/sdb. Careful with this as you can erase your hard drive. Check `resin os available-drives` for available options.',
       parameter: 'drive',
       alias: 'd'
+    }, {
+      signature: 'config',
+      description: 'stringified JSON with the device config, see `resin os build-config`',
+      parameter: 'config'
     }
   ],
   permission: 'user',
@@ -310,7 +314,9 @@ exports.init = {
         return capitanoRunAsync("device register " + application.app_name).then(resin.models.device.get).tap(function(device) {
           var configureCommand;
           configureCommand = "os configure '" + tempPath + "' " + device.uuid;
-          if (options.advanced) {
+          if (options.config) {
+            configureCommand += " --config '" + options.config + "'";
+          } else if (options.advanced) {
             configureCommand += ' --advanced';
           }
           return capitanoRunAsync(configureCommand).then(function() {

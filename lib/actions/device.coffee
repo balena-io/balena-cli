@@ -380,6 +380,11 @@ exports.init =
 			parameter: 'drive'
 			alias: 'd'
 		}
+		{
+			signature: 'config'
+			description: 'stringified JSON with the device config, see `resin os build-config`'
+			parameter: 'config'
+		}
 	]
 	permission: 'user'
 	action: (params, options, done) ->
@@ -412,7 +417,9 @@ exports.init =
 					.then(resin.models.device.get)
 					.tap (device) ->
 						configureCommand = "os configure '#{tempPath}' #{device.uuid}"
-						if options.advanced
+						if options.config
+							configureCommand += " --config '#{options.config}'"
+						else if options.advanced
 							configureCommand += ' --advanced'
 						capitanoRunAsync(configureCommand)
 						.then ->
