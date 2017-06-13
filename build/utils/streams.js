@@ -2,7 +2,7 @@
 exports.buffer = function(stream, bufferFile) {
   var Promise, fileWriteStream, fs;
   Promise = require('bluebird');
-  fs = require('mz/fs');
+  fs = require('fs');
   fileWriteStream = fs.createWriteStream(bufferFile);
   return new Promise(function(resolve, reject) {
     return stream.on('error', reject).on('end', resolve).pipe(fileWriteStream);

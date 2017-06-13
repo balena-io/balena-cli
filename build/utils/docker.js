@@ -273,12 +273,25 @@ exports.runBuild = function(params, options, getBundleInfo, logStreams) {
   });
 };
 
-exports.bufferImage = function(docker, imageId, bufferFile) {
-  var image, streamUtils;
+exports.gzipAndBufferImage = function(docker, imageId, bufferFile) {
+  var fs, image, streamUtils, zlib;
   streamUtils = require('./streams');
+  zlib = require('zlib');
+  fs = require('mz/fs');
   image = docker.getImage(imageId);
-  return image.get().then(function(img) {
-    return streamUtils.buffer(img, bufferFile);
+  return image.get().then(function(imageStream) {
+    var gzippedStream;
+    gzippedStream = imageStream.pipe(zlib.createGzip());
+    return streamUtils.buffer(gzippedStream, bufferFile);
+  }).then(function(bufferedStream) {
+    return fs.stat(bufferFile).then(function(stats) {
+      var size;
+      size = stats.size;
+      return {
+        stream: bufferedStream,
+        size: stats.size
+      };
+    });
   });
 };
 

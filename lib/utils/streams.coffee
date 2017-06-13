@@ -1,6 +1,6 @@
 exports.buffer = (stream, bufferFile) ->
 	Promise = require('bluebird')
-	fs = require('mz/fs')
+	fs = require('fs')
 
 	fileWriteStream = fs.createWriteStream(bufferFile)
 

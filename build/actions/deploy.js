@@ -95,17 +95,20 @@ getBundleInfo = function(options) {
   });
 };
 
-performUpload = function(imageStream, token, username, url, size, appName, logStreams) {
+performUpload = function(gzippedImage, token, username, url, appName, logStreams) {
   var request, uploadRequest;
   request = require('request');
   uploadRequest = request.post({
     url: getBuilderPushEndpoint(url, username, appName),
+    headers: {
+      'Content-Encoding': 'gzip'
+    },
     auth: {
       bearer: token
     },
-    body: imageStream
+    body: gzippedImage.stream
   });
-  return uploadToPromise(uploadRequest, size, logStreams);
+  return uploadToPromise(uploadRequest, gzippedImage.size, logStreams);
 };
 
 uploadLogs = function(logs, token, url, buildId, username, appName) {
@@ -216,7 +219,7 @@ module.exports = {
             var buildLogs, imageName;
             imageName = arg1.image, buildLogs = arg1.log;
             logs = buildLogs;
-            return Promise.join(dockerUtils.bufferImage(docker, imageName, bufferFile), token, username, url, dockerUtils.getImageSize(docker, imageName), params.appName, logStreams, performUpload);
+            return Promise.all([dockerUtils.gzipAndBufferImage(docker, imageName, bufferFile), token, username, url, params.appName, logStreams]).spread(performUpload);
           })["finally"](function() {
             return require('mz/fs').unlink(bufferFile)["catch"](_.noop);
           });

@@ -65,15 +65,17 @@ getBundleInfo = (options) ->
 	.then (app) ->
 		[app.arch, app.device_type]
 
-performUpload = (imageStream, token, username, url, size, appName, logStreams) ->
+performUpload = (gzippedImage, token, username, url, appName, logStreams) ->
 	request = require('request')
 	uploadRequest = request.post
 		url: getBuilderPushEndpoint(url, username, appName)
+		headers:
+			'Content-Encoding': 'gzip'
 		auth:
 			bearer: token
-		body: imageStream
+		body: gzippedImage.stream
 
-	uploadToPromise(uploadRequest, size, logStreams)
+	uploadToPromise(uploadRequest, gzippedImage.size, logStreams)
 
 uploadLogs = (logs, token, url, buildId, username, appName) ->
 	request = require('request')
@@ -186,16 +188,15 @@ module.exports =
 							{ image: imageName, log: '' }
 					.then ({ image: imageName, log: buildLogs }) ->
 						logs = buildLogs
-						Promise.join(
-							dockerUtils.bufferImage(docker, imageName, bufferFile)
+						Promise.all [
+							dockerUtils.gzipAndBufferImage(docker, imageName, bufferFile)
 							token
 							username
 							url
-							dockerUtils.getImageSize(docker, imageName)
 							params.appName
 							logStreams
-							performUpload
-						)
+						]
+						.spread(performUpload)
 					.finally ->
 						# If the file was never written to (for instance because an error
 						# has occured before any data was written) this call will throw an
