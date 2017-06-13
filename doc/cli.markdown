@@ -1354,7 +1354,7 @@ Run an emulated build using Qemu
 
 ## deploy &#60;appName&#62; [image]
 
-Use this command to deploy and optionally build an image to an application.
+Use this command to deploy an image to an application, optionally building it first.
 
 Usage: deploy <appName> ([image] | --build [--source build-dir])
 

@@ -126,9 +126,9 @@ uploadToPromise = (uploadRequest, logStreams) ->
 
 module.exports =
 	signature: 'deploy <appName> [image]'
-	description: 'Deploy a container to a resin.io application'
+	description: 'Deploy an image to a resin.io application'
 	help: '''
-		Use this command to deploy and optionally build an image to an application.
+		Use this command to deploy an image to an application, optionally building it first.
 
 		Usage: deploy <appName> ([image] | --build [--source build-dir])
 
