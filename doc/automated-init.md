@@ -1,4 +1,4 @@
-# Provisioning Resin.io devices in automated (non-interactive mode)
+# Provisioning Resin.io devices in automated (non-interactive) mode
 
 This document describes how to run the `device init` command in non-interactive mode.
 
@@ -53,9 +53,9 @@ To skip this interactive step we need to buid this configuration once and save i
 
 Let's say we will place it into the `CONFIG_FILE` path, like _./resin-os/raspberrypi3-config.json_.
 
-We also need to put the OS image somewhere, let's call this path `OS_IMAGE_PATH`, it cam be something like _./resin-os/raspberrypi3-v2.0.6+rev1.prod.img_.
+We also need to put the OS image somewhere, let's call this path `OS_IMAGE_PATH`, it can be something like _./resin-os/raspberrypi3-v2.0.6+rev1.prod.img_.
 
-1. First we need to download the OS image once. That's needed for building the config, and will speedup the consequent operations as the downloaded OS image is placed into the local cache.
+1. First we need to download the OS image once. That's needed for building the config, and will speedup the subsequent operations as the downloaded OS image is placed into the local cache.
 
 	Run:
 	```bash
@@ -78,7 +78,7 @@ We also need to put the OS image somewhere, let's call this path `OS_IMAGE_PATH`
 
 Now you're ready to run the command in the beginning of this guide.
 
-Please not again that all of these steps only need to be done once (unless you need to change something), and once all the parameters are collected the main init command can be run unchanged.
+Please note again that all of these steps only need to be done once (unless you need to change something), and once all the parameters are collected the main init command can be run unchanged.
 
 But there are still some nuances to cover, please read below. 
 
