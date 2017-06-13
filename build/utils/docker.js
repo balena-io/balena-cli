@@ -273,22 +273,12 @@ exports.runBuild = function(params, options, getBundleInfo, logStreams) {
   });
 };
 
-exports.bufferImage = function(docker, imageId, tmpFile) {
-  var Promise, fs, image, stream;
-  Promise = require('bluebird');
-  fs = require('fs');
-  stream = fs.createWriteStream(tmpFile);
+exports.bufferImage = function(docker, imageId, bufferFile) {
+  var image, streamUtils;
+  streamUtils = require('./streams');
   image = docker.getImage(imageId);
   return image.get().then(function(img) {
-    return new Promise(function(resolve, reject) {
-      return img.on('error', reject).on('end', resolve).pipe(stream);
-    });
-  }).then(function() {
-    return new Promise(function(resolve, reject) {
-      return fs.createReadStream(tmpFile).on('open', function() {
-        return resolve(this);
-      }).on('error', reject);
-    });
+    return streamUtils.buffer(img, bufferFile);
   });
 };
 

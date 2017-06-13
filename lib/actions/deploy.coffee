@@ -41,7 +41,7 @@ renderProgress = (percentage, stepCount = 50) ->
 	bar = "[#{_.repeat('=', barCount)}>#{_.repeat(' ', spaceCount)}]"
 	return "#{bar} #{percentage.toFixed(1)}%"
 
-pushProgress = (imageSize, request, logStreams, timeout = 250) ->
+showPushProgress = (imageSize, request, logStreams, timeout = 250) ->
 	logging = require('../utils/logging')
 	ansiEscapes = require('ansi-escapes')
 
@@ -65,15 +65,15 @@ getBundleInfo = (options) ->
 	.then (app) ->
 		[app.arch, app.device_type]
 
-performUpload = (image, token, username, url, size, appName, logStreams) ->
+performUpload = (imageStream, token, username, url, size, appName, logStreams) ->
 	request = require('request')
-	post = request.post
+	uploadRequest = request.post
 		url: getBuilderPushEndpoint(url, username, appName)
 		auth:
 			bearer: token
-		body: image
+		body: imageStream
 
-	uploadToPromise(post, size, logStreams)
+	uploadToPromise(uploadRequest, size, logStreams)
 
 uploadLogs = (logs, token, url, buildId, username, appName) ->
 	request = require('request')
@@ -84,7 +84,7 @@ uploadLogs = (logs, token, url, buildId, username, appName) ->
 			bearer: token
 		body: Buffer.from(logs)
 
-uploadToPromise = (request, size, logStreams) ->
+uploadToPromise = (uploadRequest, size, logStreams) ->
 	logging = require('../utils/logging')
 
 	new Promise (resolve, reject) ->
@@ -109,12 +109,12 @@ uploadToPromise = (request, size, logStreams) ->
 			else
 				reject(new Error("Received unexpected reply from remote: #{data}"))
 
-		request
+		uploadRequest
 		.on('error', reject)
 		.on('data', handleMessage)
 
 		# Set up upload reporting
-		pushProgress(size, request, logStreams)
+		showPushProgress(size, uploadRequest, logStreams)
 
 
 module.exports =
@@ -173,7 +173,7 @@ module.exports =
 			parseInput(params, options)
 			.then ([appName, build, source, imageName]) ->
 				tmpNameAsync()
-				.then (tmpPath) ->
+				.then (bufferFile) ->
 
 					# Setup the build args for how the build routine expects them
 					options = _.assign({}, options, { appName })
@@ -187,7 +187,7 @@ module.exports =
 					.then ({ image: imageName, log: buildLogs }) ->
 						logs = buildLogs
 						Promise.join(
-							dockerUtils.bufferImage(docker, imageName, tmpPath)
+							dockerUtils.bufferImage(docker, imageName, bufferFile)
 							token
 							username
 							url
@@ -200,7 +200,7 @@ module.exports =
 						# If the file was never written to (for instance because an error
 						# has occured before any data was written) this call will throw an
 						# ugly error, just suppress it
-						require('mz/fs').unlink(tmpPath)
+						require('mz/fs').unlink(bufferFile)
 						.catch(_.noop)
 			.tap ({ image: imageName, buildId }) ->
 				logging.logSuccess(logStreams, "Successfully deployed image: #{formatImageName(imageName)}")
