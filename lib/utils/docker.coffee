@@ -283,25 +283,18 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 
 # Given an image id or tag, export the image to a tar archive,
 # gzip the result, and buffer it to disk.
-# Returns a { stream, size } object
-exports.gzipAndBufferImage = (docker, imageId, bufferFile) ->
+exports.bufferImage = (docker, imageId, bufferFile) ->
+	Promise = require('bluebird')
 	streamUtils = require('./streams')
-	zlib = require('zlib')
-	fs = require('mz/fs')
 
 	image = docker.getImage(imageId)
-	image.get()
-	.then (imageStream) ->
-		gzippedStream = imageStream.pipe(zlib.createGzip())
-		streamUtils.buffer(gzippedStream, bufferFile)
-	.then (bufferedStream) ->
-		fs.stat(bufferFile)
-		.then (stats) ->
-			size = stats.size
-			return {
-				stream: bufferedStream,
-				size: stats.size
-			}
+	imageMetadata = image.inspectAsync()
+
+	Promise.all([image.get(), imageMetadata.get('Size')])
+	.spread (imageStream, imageSize) ->
+		streamUtils.buffer(imageStream, bufferFile)
+		.tap (bufferedStream) ->
+			bufferedStream.length = imageSize
 
 exports.getDocker = (options) ->
 	Docker = require('dockerode')
@@ -310,10 +303,6 @@ exports.getDocker = (options) ->
 	# Use bluebird's promises
 	connectOpts['Promise'] = Promise
 	new Docker(connectOpts)
-
-exports.getImageSize = (docker, image) ->
-	docker.getImage(image).inspectAsync()
-	.get('Size')
 
 hasQemu = ->
 	fs = require('mz/fs')
@@ -381,4 +370,3 @@ copyQemu = (context) ->
 	.then ->
 		fs.chmod(binPath, '755')
 	.return(binPath)
-

@@ -41,22 +41,20 @@ renderProgress = (percentage, stepCount = 50) ->
 	bar = "[#{_.repeat('=', barCount)}>#{_.repeat(' ', spaceCount)}]"
 	return "#{bar} #{percentage.toFixed(1)}%"
 
-showPushProgress = (imageSize, request, logStreams, timeout = 250) ->
+showPushProgress = (logStreams) ->
+	logging = require('../utils/logging')
+	logging.logInfo(logStreams, renderProgress(0))
+
+updatePushProgress = (percentage, logStreams) ->
 	logging = require('../utils/logging')
 	ansiEscapes = require('ansi-escapes')
 
-	logging.logInfo(logStreams, 'Initializing...')
-	progressReporter = setInterval ->
-		sent = request.req.connection._bytesDispatched
-		percent = (sent / imageSize) * 100
-		if percent >= 100
-			clearInterval(progressReporter)
-			percent = 100
-		process.stdout.write(ansiEscapes.cursorUp(1))
-		process.stdout.clearLine()
-		process.stdout.cursorTo(0)
-		logging.logInfo(logStreams, renderProgress(percent))
-	, timeout
+	if percentage >= 100
+		percentage = 100
+	process.stdout.write(ansiEscapes.cursorUp(1))
+	process.stdout.clearLine()
+	process.stdout.cursorTo(0)
+	logging.logInfo(logStreams, renderProgress(percentage))
 
 getBundleInfo = (options) ->
 	helpers = require('../utils/helpers')
@@ -65,17 +63,26 @@ getBundleInfo = (options) ->
 	.then (app) ->
 		[app.arch, app.device_type]
 
-performUpload = (gzippedImage, token, username, url, appName, logStreams) ->
+performUpload = (imageStream, token, username, url, appName, logStreams) ->
 	request = require('request')
+	progressStream = require('progress-stream')
+	zlib = require('zlib')
+
+	showPushProgress(logStreams)
+	streamWithProgress = imageStream.pipe(progressStream({
+		time: 500,
+		length: imageStream.length
+	}, ({ percentage }) -> updatePushProgress(percentage, logStreams)))
+
 	uploadRequest = request.post
 		url: getBuilderPushEndpoint(url, username, appName)
 		headers:
 			'Content-Encoding': 'gzip'
 		auth:
 			bearer: token
-		body: gzippedImage.stream
+		body: streamWithProgress.pipe(zlib.createGzip())
 
-	uploadToPromise(uploadRequest, gzippedImage.size, logStreams)
+	uploadToPromise(uploadRequest, logStreams)
 
 uploadLogs = (logs, token, url, buildId, username, appName) ->
 	request = require('request')
@@ -86,7 +93,7 @@ uploadLogs = (logs, token, url, buildId, username, appName) ->
 			bearer: token
 		body: Buffer.from(logs)
 
-uploadToPromise = (uploadRequest, size, logStreams) ->
+uploadToPromise = (uploadRequest, logStreams) ->
 	logging = require('../utils/logging')
 
 	new Promise (resolve, reject) ->
@@ -114,10 +121,6 @@ uploadToPromise = (uploadRequest, size, logStreams) ->
 		uploadRequest
 		.on('error', reject)
 		.on('data', handleMessage)
-
-		# Set up upload reporting
-		showPushProgress(size, uploadRequest, logStreams)
-
 
 module.exports =
 	signature: 'deploy <appName> [image]'
@@ -189,7 +192,7 @@ module.exports =
 					.then ({ image: imageName, log: buildLogs }) ->
 						logs = buildLogs
 						Promise.all [
-							dockerUtils.gzipAndBufferImage(docker, imageName, bufferFile)
+							dockerUtils.bufferImage(docker, imageName, bufferFile)
 							token
 							username
 							url
