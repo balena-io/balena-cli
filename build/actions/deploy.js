@@ -226,6 +226,7 @@ module.exports = {
           }).then(function(arg1) {
             var buildLogs, imageName;
             imageName = arg1.image, buildLogs = arg1.log;
+            logging.logInfo(logStreams, 'Initializing deploy...');
             logs = buildLogs;
             return Promise.all([dockerUtils.bufferImage(docker, imageName, bufferFile), token, username, url, params.appName, logStreams]).spread(performUpload);
           })["finally"](function() {

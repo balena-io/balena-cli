@@ -192,6 +192,8 @@ module.exports =
 						else
 							{ image: imageName, log: '' }
 					.then ({ image: imageName, log: buildLogs }) ->
+						logging.logInfo(logStreams, 'Initializing deploy...')
+
 						logs = buildLogs
 						Promise.all [
 							dockerUtils.bufferImage(docker, imageName, bufferFile)
