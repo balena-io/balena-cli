@@ -10,6 +10,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - `package-lock.json` for `npm5` users
 - Added ability to run an emulated build silently with resin build
 
+### Fixed
+
+- Ensure emulated builds use the correct relative path to qemu when called from any location
+
 ## [5.10.2] - 2017-05-31
 
 ### Fixed
