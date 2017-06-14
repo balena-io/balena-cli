@@ -174,12 +174,7 @@ exports.buildConfig =
 	'''
 	permission: 'user'
 	options: [
-		{
-			signature: 'advanced'
-			description: 'show advanced commands'
-			boolean: true
-			alias: 'v'
-		}
+		commandOptions.advancedConfig
 		{
 			signature: 'output'
 			description: 'the path to the output JSON file'
@@ -210,12 +205,7 @@ exports.configure =
 	'''
 	permission: 'user'
 	options: [
-		{
-			signature: 'advanced'
-			description: 'show advanced commands'
-			boolean: true
-			alias: 'v'
-		}
+		commandOptions.advancedConfig
 		{
 			signature: 'config'
 			description: 'path to the config JSON file, see `resin os build-config`'
@@ -267,12 +257,7 @@ exports.initialize =
 			alias: 't'
 			required: 'You have to specify a device type'
 		}
-		{
-			signature: 'drive'
-			description: 'drive to write the image to. Check `resin util available-drives` for available options.'
-			parameter: 'drive'
-			alias: 'd'
-		}
+		commandOptions.drive
 	]
 	action: (params, options, done) ->
 		Promise = require('bluebird')

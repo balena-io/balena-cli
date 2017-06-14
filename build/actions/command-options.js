@@ -84,3 +84,17 @@ exports.forceUpdateLock = {
   boolean: true,
   alias: 'f'
 };
+
+exports.drive = {
+  signature: 'drive',
+  description: 'the drive to write the image to, like `/dev/sdb` or `/dev/mmcblk0`. Careful with this as you can erase your hard drive. Check `resin util available-drives` for available options.',
+  parameter: 'drive',
+  alias: 'd'
+};
+
+exports.advancedConfig = {
+  signature: 'advanced',
+  description: 'show advanced configuration options',
+  boolean: true,
+  alias: 'v'
+};

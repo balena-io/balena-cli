@@ -165,12 +165,7 @@ exports.buildConfig = {
   help: 'Use this command to prebuild the OS config once and skip the interactive part of `resin os configure`.\n\nExamples:\n\n	$ resin os build-config ../path/rpi3.img raspberrypi3 --output rpi3-config.json\n	$ resin os configure ../path/rpi3.img 7cf02a6 --config "$(cat rpi3-config.json)"',
   permission: 'user',
   options: [
-    {
-      signature: 'advanced',
-      description: 'show advanced commands',
-      boolean: true,
-      alias: 'v'
-    }, {
+    commandOptions.advancedConfig, {
       signature: 'output',
       description: 'the path to the output JSON file',
       alias: 'o',
@@ -195,12 +190,7 @@ exports.configure = {
   help: 'Use this command to configure a previously downloaded operating system image for the specific device.\n\nExamples:\n\n	$ resin os configure ../path/rpi.img 7cf02a6',
   permission: 'user',
   options: [
-    {
-      signature: 'advanced',
-      description: 'show advanced commands',
-      boolean: true,
-      alias: 'v'
-    }, {
+    commandOptions.advancedConfig, {
       signature: 'config',
       description: 'path to the config JSON file, see `resin os build-config`',
       parameter: 'config'
@@ -240,12 +230,7 @@ exports.initialize = {
       parameter: 'type',
       alias: 't',
       required: 'You have to specify a device type'
-    }, {
-      signature: 'drive',
-      description: 'drive to write the image to. Check `resin util available-drives` for available options.',
-      parameter: 'drive',
-      alias: 'd'
-    }
+    }, commandOptions.drive
   ],
   action: function(params, options, done) {
     var Promise, form, helpers, patterns, umountAsync;

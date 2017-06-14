@@ -264,20 +264,10 @@ exports.init = {
   description: 'initialise a device with resinOS',
   help: 'Use this command to download the OS image of a certain application and write it to an SD Card.\n\nNotice this command may ask for confirmation interactively.\nYou can avoid this by passing the `--yes` boolean option.\n\nExamples:\n\n	$ resin device init\n	$ resin device init --application MyApp',
   options: [
-    commandOptions.optionalApplication, commandOptions.yes, {
-      signature: 'advanced',
-      description: 'enable advanced configuration',
-      boolean: true,
-      alias: 'v'
-    }, _.assign({}, commandOptions.osVersion, {
+    commandOptions.optionalApplication, commandOptions.yes, commandOptions.advancedConfig, _.assign({}, commandOptions.osVersion, {
       signature: 'os-version',
       parameter: 'os-version'
-    }), {
-      signature: 'drive',
-      description: 'the drive to write the image to, like `/dev/sdb` or `/dev/mmcblk0`. Careful with this as you can erase your hard drive. Check `resin util available-drives` for available options.',
-      parameter: 'drive',
-      alias: 'd'
-    }, {
+    }), commandOptions.drive, {
       signature: 'config',
       description: 'path to the config JSON file, see `resin os build-config`',
       parameter: 'config'

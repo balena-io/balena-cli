@@ -370,21 +370,9 @@ exports.init =
 	options: [
 		commandOptions.optionalApplication
 		commandOptions.yes
-		{
-			signature: 'advanced'
-			description: 'enable advanced configuration'
-			boolean: true
-			alias: 'v'
-		}
+		commandOptions.advancedConfig
 		_.assign({}, commandOptions.osVersion, { signature: 'os-version', parameter: 'os-version' })
-		{
-			signature: 'drive'
-			description: 'the drive to write the image to, like `/dev/sdb` or `/dev/mmcblk0`.
-				Careful with this as you can erase your hard drive.
-				Check `resin util available-drives` for available options.'
-			parameter: 'drive'
-			alias: 'd'
-		}
+		commandOptions.drive
 		{
 			signature: 'config'
 			description: 'path to the config JSON file, see `resin os build-config`'

@@ -481,7 +481,7 @@ confirm non interactively
 
 #### --advanced, -v
 
-enable advanced configuration
+show advanced configuration options
 
 #### --os-version &#60;os-version&#62;
 
@@ -892,7 +892,7 @@ Examples:
 
 #### --advanced, -v
 
-show advanced commands
+show advanced configuration options
 
 #### --output, -o &#60;output&#62;
 
@@ -910,7 +910,7 @@ Examples:
 
 #### --advanced, -v
 
-show advanced commands
+show advanced configuration options
 
 #### --config &#60;config&#62;
 
@@ -939,7 +939,7 @@ device type (Check available types with `resin devices supported`)
 
 #### --drive, -d &#60;drive&#62;
 
-drive to write the image to. Check `resin util available-drives` for available options.
+the drive to write the image to, like `/dev/sdb` or `/dev/mmcblk0`. Careful with this as you can erase your hard drive. Check `resin util available-drives` for available options.
 
 # Config
 
