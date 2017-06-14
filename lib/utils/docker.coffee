@@ -1,5 +1,8 @@
 # Functions to help actions which rely on using docker
 
+QEMU_VERSION = 'v2.5.50-resin-execve'
+QEMU_BIN_NAME = 'qemu-execve'
+
 # Use this function to seed an action's list of capitano options
 # with the docker options. Using this interface means that
 # all functions using docker will expose the same interface
@@ -58,6 +61,12 @@ exports.appendOptions = (opts) ->
 			description: "Don't use docker layer caching when building"
 			boolean: true
 		},
+		{
+			signature: 'emulated'
+			description: 'Run an emulated build using Qemu'
+			boolean: true
+			alias: 'e'
+		}
 	]
 
 exports.generateConnectOpts = generateConnectOpts = (opts) ->
@@ -111,7 +120,7 @@ exports.tarDirectory = tarDirectory = (dir) ->
 		relPath = path.relative(path.resolve(dir), file)
 		Promise.join relPath, fs.stat(file), fs.readFile(file),
 			(filename, stats, data) ->
-				pack.entryAsync({ name: filename, size: stats.size }, data)
+				pack.entryAsync({ name: filename, size: stats.size, mode: stats.mode }, data)
 	.then ->
 		pack.finalize()
 		return pack
@@ -156,15 +165,33 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 	resolver = require('resin-bundle-resolve')
 	es = require('event-stream')
 	doodles = require('resin-doodles')
+	transpose = require('docker-qemu-transpose')
+	path = require('path')
 
 	logging = require('../utils/logging')
 
 	# The default build context is the current directory
 	params.source ?= '.'
 	logs = ''
+	# Only used in emulated builds
+	qemuPath = ''
 
-	# Tar up the directory, ready for the build stream
-	tarDirectory(params.source)
+	Promise.try ->
+		return if not (options.emulated and platformNeedsQemu())
+
+		hasQemu()
+		.then (present) ->
+			if !present
+				logging.logInfo(logStreams, 'Installing qemu for ARM emulation...')
+				installQemu()
+		.then ->
+			# Copy the qemu binary into the build context
+			copyQemu(params.source)
+		.then (binPath) ->
+			qemuPath = binPath.split(path.sep)[1...].join(path.sep)
+	.then ->
+		# Tar up the directory, ready for the build stream
+		tarDirectory(params.source)
 	.then (tarStream) ->
 		new Promise (resolve, reject) ->
 			hooks =
@@ -182,6 +209,9 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 
 				buildFailure: reject
 				buildStream: (stream) ->
+					if options.emulated
+						logging.logInfo(logStreams, 'Running emulated build')
+
 					getBundleInfo(options)
 					.then (info) ->
 						if !info?
@@ -189,7 +219,7 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 								Warning: No architecture/device type or application information provided.
 									Dockerfile/project pre-processing will not be performed.
 							'''
-							tarStream.pipe(stream)
+							return tarStream
 						else
 							[arch, deviceType] = info
 							# Perform type resolution on the project
@@ -197,17 +227,37 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 							resolver.resolveBundle(bundle, resolver.getDefaultResolvers())
 							.then (resolved) ->
 								logging.logInfo(logStreams, "Building #{resolved.projectType} project")
-								# Send the resolved tar stream to the docker daemon
-								resolved.tarStream.pipe(stream)
+
+								return resolved.tarStream
+					.then (buildStream) ->
+						# if we need emulation
+						if options.emulated and platformNeedsQemu()
+							return transpose.transposeTarStream buildStream,
+								hostQemuPath: qemuPath
+								containerQemuPath: "./#{QEMU_BIN_NAME}"
+						else
+							return buildStream
+					.then (buildStream) ->
+						# Send the resolved tar stream to the docker daemon
+						buildStream.pipe(stream)
 					.catch(reject)
 
 					# And print the output
-					throughStream = es.through (data) ->
+					logThroughStream = es.through (data) ->
 						logs += data.toString()
 						this.emit('data', data)
 
-					stream
-					.pipe(throughStream)
+					if options.emulated and platformNeedsQemu()
+						buildThroughStream = transpose.getBuildThroughStream
+							hostQemuPath: qemuPath
+							containerQemuPath: "./#{QEMU_BIN_NAME}"
+
+						newStream = stream.pipe(buildThroughStream)
+					else
+						newStream = stream
+
+					newStream
+					.pipe(logThroughStream)
 					.pipe(cacheHighlightStream())
 					.pipe(logStreams.build)
 
@@ -266,3 +316,71 @@ exports.getDocker = (options) ->
 exports.getImageSize = (docker, image) ->
 	docker.getImage(image).inspectAsync()
 	.get('Size')
+
+hasQemu = ->
+	fs = require('mz/fs')
+
+	getQemuPath()
+	.then(fs.stat)
+	.return(true)
+	.catchReturn(false)
+
+getQemuPath = ->
+	resin = require('resin-sdk-preconfigured')
+	path = require('path')
+	fs = require('mz/fs')
+
+	resin.settings.get('binDirectory')
+	.then (binDir) ->
+		# The directory might not be created already,
+		# if not, create it
+		fs.access(binDir)
+		.catch code: 'ENOENT', ->
+			fs.mkdir(binDir)
+		.then ->
+			path.join(binDir, QEMU_BIN_NAME)
+
+platformNeedsQemu = ->
+	os = require('os')
+	os.platform() == 'linux'
+
+installQemu = ->
+	request = require('request')
+	fs = require('fs')
+	zlib = require('zlib')
+
+	getQemuPath()
+	.then (qemuPath) ->
+		new Promise (resolve, reject) ->
+			installStream = fs.createWriteStream(qemuPath)
+			qemuUrl = "https://github.com/resin-io/qemu/releases/download/#{QEMU_VERSION}/#{QEMU_BIN_NAME}.gz"
+			request(qemuUrl)
+			.pipe(zlib.createGunzip())
+			.pipe(installStream)
+			.on('error', reject)
+			.on('finish', resolve)
+
+copyQemu = (context) ->
+	path = require('path')
+	fs = require('mz/fs')
+	# Create a hidden directory in the build context, containing qemu
+	binDir = path.join(context, '.resin')
+	binPath = path.join(binDir, QEMU_BIN_NAME)
+
+	fs.access(binDir)
+	.catch code: 'ENOENT', ->
+		fs.mkdir(binDir)
+	.then ->
+		getQemuPath()
+	.then (qemu) ->
+		new Promise (resolve, reject) ->
+			read = fs.createReadStream(qemu)
+			write = fs.createWriteStream(binPath)
+			read
+			.pipe(write)
+			.on('error', reject)
+			.on('finish', resolve)
+	.then ->
+		fs.chmod(binPath, '755')
+	.return(binPath)
+
