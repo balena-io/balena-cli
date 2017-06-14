@@ -107,7 +107,6 @@ environment variable (in the same standard URL format).
 	- [os download &#60;type&#62;](#os-download-60-type-62-)
 	- [os build-config &#60;image&#62; &#60;device-type&#62;](#os-build-config-60-image-62-60-device-type-62-)
 	- [os configure &#60;image&#62; &#60;uuid&#62;](#os-configure-60-image-62-60-uuid-62-)
-	- [os available-drives](#os-available-drives)
 	- [os initialize &#60;image&#62;](#os-initialize-60-image-62-)
 
 - Config
@@ -141,6 +140,10 @@ environment variable (in the same standard URL format).
 
 	- [build [source]](#build-source-)
 	- [deploy &#60;appName&#62; [image]](#deploy-60-appname-62-image-)
+
+- Utilities
+
+	- [util available-drives](#util-available-drives)
 
 # Application
 
@@ -490,11 +493,11 @@ or 'menu' (will show the interactive menu)
 
 #### --drive, -d &#60;drive&#62;
 
-the drive to write the image to, like /dev/sdb. Careful with this as you can erase your hard drive. Check `resin os available-drives` for available options.
+the drive to write the image to, like `/dev/sdb` or `/dev/mmcblk0`. Careful with this as you can erase your hard drive. Check `resin util available-drives` for available options.
 
 #### --config &#60;config&#62;
 
-stringified JSON with the device config, see `resin os build-config`
+path to the config JSON file, see `resin os build-config`
 
 # Environment Variables
 
@@ -911,11 +914,7 @@ show advanced commands
 
 #### --config &#60;config&#62;
 
-stringified JSON with the device config, see `resin os build-config`
-
-## os available-drives
-
-undefined
+path to the config JSON file, see `resin os build-config`
 
 ## os initialize &#60;image&#62;
 
@@ -940,7 +939,7 @@ device type (Check available types with `resin devices supported`)
 
 #### --drive, -d &#60;drive&#62;
 
-drive to write the image to. Check `resin os available-drives` for available options.
+drive to write the image to. Check `resin util available-drives` for available options.
 
 # Config
 
@@ -1473,4 +1472,11 @@ Don't use docker layer caching when building
 #### --emulated, -e
 
 Run an emulated build using Qemu
+
+# Utilities
+
+## util available-drives
+
+Use this command to list your machine's drives usable for writing the OS image to.
+Skips the system drives.
 

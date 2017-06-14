@@ -202,19 +202,22 @@ exports.configure = {
       alias: 'v'
     }, {
       signature: 'config',
-      description: 'stringified JSON with the device config, see `resin os build-config`',
+      description: 'path to the config JSON file, see `resin os build-config`',
       parameter: 'config'
     }
   ],
   action: function(params, options, done) {
-    var helpers, init, resin;
+    var Promise, fs, helpers, init, readFileAsync, resin;
+    fs = require('fs');
+    Promise = require('bluebird');
+    readFileAsync = Promise.promisify(fs.readFile);
     resin = require('resin-sdk-preconfigured');
     init = require('resin-device-init');
     helpers = require('../utils/helpers');
     console.info('Configuring operating system image');
     return resin.models.device.get(params.uuid).then(function(device) {
       if (options.config) {
-        return JSON.parse(options.config);
+        return readFileAsync(options.config, 'utf8').then(JSON.parse);
       }
       return buildConfig(params.image, device.device_type, options.advanced);
     }).then(function(answers) {
@@ -239,7 +242,7 @@ exports.initialize = {
       required: 'You have to specify a device type'
     }, {
       signature: 'drive',
-      description: 'drive to write the image to. Check `resin os available-drives` for available options.',
+      description: 'drive to write the image to. Check `resin util available-drives` for available options.',
       parameter: 'drive',
       alias: 'd'
     }

@@ -22,16 +22,22 @@ _ = require('lodash');
 exports.availableDrives = {
   signature: 'util available-drives',
   description: 'list available drives',
+  help: "Use this command to list your machine's drives usable for writing the OS image to.\nSkips the system drives.",
   action: function() {
-    var Promise, chalk, driveListAsync, drivelist, formatDrive, getDrives;
+    var Promise, chalk, driveListAsync, drivelist, formatDrive, getDrives, visuals;
     Promise = require('bluebird');
     drivelist = require('drivelist');
     driveListAsync = Promise.promisify(drivelist.list);
     chalk = require('chalk');
+    visuals = require('resin-cli-visuals');
     formatDrive = function(drive) {
       var size;
       size = drive.size / 1000000000;
-      return drive.device + " (" + (size.toFixed(1)) + " GB) - " + drive.description;
+      return {
+        device: drive.device,
+        size: (size.toFixed(1)) + " GB",
+        description: drive.description
+      };
     };
     getDrives = function() {
       return driveListAsync().then(function(drives) {
@@ -45,9 +51,7 @@ exports.availableDrives = {
         console.error((chalk.red('x')) + " No available drives were detected, plug one in!");
         return;
       }
-      return drives.forEach(function(drive) {
-        return console.log(formatDrive(drive));
-      });
+      return console.log(visuals.table.horizontal(drives.map(formatDrive), ['device', 'size', 'description']));
     });
   }
 };

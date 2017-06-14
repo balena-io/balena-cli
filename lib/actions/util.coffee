@@ -20,15 +20,24 @@ exports.availableDrives =
 	# TODO: dedupe with https://github.com/resin-io-modules/resin-cli-visuals/blob/master/lib/widgets/drive/index.coffee
 	signature: 'util available-drives'
 	description: 'list available drives'
+	help: """
+		Use this command to list your machine's drives usable for writing the OS image to.
+		Skips the system drives.
+	"""
 	action: ->
 		Promise = require('bluebird')
 		drivelist = require('drivelist')
 		driveListAsync = Promise.promisify(drivelist.list)
 		chalk = require('chalk')
+		visuals = require('resin-cli-visuals')
 
 		formatDrive = (drive) ->
 			size = drive.size / 1000000000
-			return "#{drive.device} (#{size.toFixed(1)} GB) - #{drive.description}"
+			return {
+				device: drive.device
+				size: "#{size.toFixed(1)} GB"
+				description: drive.description
+			}
 
 		getDrives = ->
 			driveListAsync().then (drives) ->
@@ -39,5 +48,9 @@ exports.availableDrives =
 			if not drives.length
 				console.error("#{chalk.red('x')} No available drives were detected, plug one in!")
 				return
-			drives.forEach (drive) ->
-				console.log(formatDrive(drive))
+
+			console.log visuals.table.horizontal drives.map(formatDrive), [
+				'device'
+				'size'
+				'description'
+			]

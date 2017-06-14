@@ -7,7 +7,7 @@ It requires collecting some preliminary information _once_.
 The final command to provision the device looks like this:
 
 ```bash
-resin device init --app APP_ID --os-version OS_VERSION --drive DRIVE --config "$(cat CONFIG_FILE)" --yes
+resin device init --app APP_ID --os-version OS_VERSION --drive DRIVE --config CONFIG_FILE --yes
 
 ```
 
@@ -15,7 +15,6 @@ You can run this command as many times as you need, putting the new medium (SD c
 
 But before you can run it you need to collect the parameters and build the configuration file. Keep reading to figure out how to do it.
 
-Also note how the config is _a string_, and not a path to the file, so we're using `"$(cat CONFIG_FILE)"` here.
 
 ## Collect all the required parameters.
 

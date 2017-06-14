@@ -379,15 +379,15 @@ exports.init =
 		_.assign({}, commandOptions.osVersion, { signature: 'os-version', parameter: 'os-version' })
 		{
 			signature: 'drive'
-			description: 'the drive to write the image to, like /dev/sdb.
+			description: 'the drive to write the image to, like `/dev/sdb` or `/dev/mmcblk0`.
 				Careful with this as you can erase your hard drive.
-				Check `resin os available-drives` for available options.'
+				Check `resin util available-drives` for available options.'
 			parameter: 'drive'
 			alias: 'd'
 		}
 		{
 			signature: 'config'
-			description: 'stringified JSON with the device config, see `resin os build-config`'
+			description: 'path to the config JSON file, see `resin os build-config`'
 			parameter: 'config'
 		}
 	]
