@@ -229,7 +229,9 @@ module.exports = {
             logs = buildLogs;
             return Promise.all([dockerUtils.bufferImage(docker, imageName, bufferFile), token, username, url, params.appName, logStreams]).spread(performUpload);
           })["finally"](function() {
-            return require('mz/fs').unlink(bufferFile)["catch"](_.noop);
+            return Promise["try"](function() {
+              return require('mz/fs').unlink(bufferFile);
+            })["catch"](_.noop);
           });
         });
       }).tap(function(arg) {

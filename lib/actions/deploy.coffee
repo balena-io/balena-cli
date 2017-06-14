@@ -206,7 +206,8 @@ module.exports =
 						# If the file was never written to (for instance because an error
 						# has occured before any data was written) this call will throw an
 						# ugly error, just suppress it
-						require('mz/fs').unlink(bufferFile)
+						Promise.try ->
+							require('mz/fs').unlink(bufferFile)
 						.catch(_.noop)
 			.tap ({ image: imageName, buildId }) ->
 				logging.logSuccess(logStreams, "Successfully deployed image: #{formatImageName(imageName)}")
