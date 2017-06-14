@@ -80,7 +80,9 @@ performUpload = (imageStream, token, username, url, appName, logStreams) ->
 			'Content-Encoding': 'gzip'
 		auth:
 			bearer: token
-		body: streamWithProgress.pipe(zlib.createGzip())
+		body: streamWithProgress.pipe(zlib.createGzip({
+			level: 6
+		}))
 
 	uploadToPromise(uploadRequest, logStreams)
 

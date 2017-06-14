@@ -113,7 +113,9 @@ performUpload = function(imageStream, token, username, url, appName, logStreams)
     auth: {
       bearer: token
     },
-    body: streamWithProgress.pipe(zlib.createGzip())
+    body: streamWithProgress.pipe(zlib.createGzip({
+      level: 6
+    }))
   });
   return uploadToPromise(uploadRequest, logStreams);
 };
