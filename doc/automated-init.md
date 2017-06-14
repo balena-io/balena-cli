@@ -37,7 +37,7 @@ Also note how the config is _a string_, and not a path to the file, so we're usi
 
 1. `DRIVE`. Plug in your target medium (SD card or the USB stick, depending on your device type) and run
 	```bash
-	resin os available-drives
+	resin util available-drives
 	```
 	and get the drive name, like _/dev/sdb_ or _/dev/mmcblk0_.
 	The resin CLI will not display the system drives to protect you,
