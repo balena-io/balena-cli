@@ -103,5 +103,9 @@ module.exports =
 				'lib/actions/build.coffee'
 				'lib/actions/deploy.coffee'
 			]
-		}
+		},
+		{
+			title: 'Utilities',
+			files: [ 'lib/actions/util.coffee' ]
+		},
 	]

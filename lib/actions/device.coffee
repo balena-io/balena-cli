@@ -1,5 +1,5 @@
 ###
-Copyright 2016 Resin.io
+Copyright 2016-2017 Resin.io
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@ limitations under the License.
 ###
 
 commandOptions = require('./command-options')
+_ = require('lodash')
 
 exports.list =
 	signature: 'devices'
@@ -36,7 +37,6 @@ exports.list =
 	primary: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		_ = require('lodash')
 		resin = require('resin-sdk-preconfigured')
 		visuals = require('resin-cli-visuals')
 
@@ -114,11 +114,15 @@ exports.supported =
 
 			$ resin devices supported
 	'''
-	permission: 'user'
 	action: (params, options, done) ->
 		resin = require('resin-sdk-preconfigured')
-		resin.models.config.getDeviceTypes().each (deviceType) ->
-			console.log(deviceType.slug)
+		visuals = require('resin-cli-visuals')
+
+		resin.models.config.getDeviceTypes().then (deviceTypes) ->
+			console.log visuals.table.horizontal deviceTypes, [
+				'slug'
+				'name'
+			]
 		.nodeify(done)
 
 exports.register =
@@ -305,7 +309,6 @@ exports.rename =
 	permission: 'user'
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		_ = require('lodash')
 		resin = require('resin-sdk-preconfigured')
 		form = require('resin-cli-form')
 
@@ -336,7 +339,6 @@ exports.move =
 	options: [ commandOptions.optionalApplication ]
 	action: (params, options, done) ->
 		resin = require('resin-sdk-preconfigured')
-		_ = require('lodash')
 		patterns = require('../utils/patterns')
 
 		resin.models.device.get(params.uuid).then (device) ->
@@ -353,7 +355,7 @@ exports.move =
 
 exports.init =
 	signature: 'device init'
-	description: 'initialise a device with resin os'
+	description: 'initialise a device with resinOS'
 	help: '''
 		Use this command to download the OS image of a certain application and write it to an SD Card.
 
@@ -368,11 +370,13 @@ exports.init =
 	options: [
 		commandOptions.optionalApplication
 		commandOptions.yes
+		commandOptions.advancedConfig
+		_.assign({}, commandOptions.osVersion, { signature: 'os-version', parameter: 'os-version' })
+		commandOptions.drive
 		{
-			signature: 'advanced'
-			description: 'enable advanced configuration'
-			boolean: true
-			alias: 'v'
+			signature: 'config'
+			description: 'path to the config JSON file, see `resin os build-config`'
+			parameter: 'config'
 		}
 	]
 	permission: 'user'
@@ -396,8 +400,8 @@ exports.init =
 
 			download = ->
 				tmpNameAsync().then (tempPath) ->
-					# TODO: allow version selection
-					capitanoRunAsync("os download #{application.device_type} --output '#{tempPath}' --version default")
+					osVersion = options['os-version'] or 'default'
+					capitanoRunAsync("os download #{application.device_type} --output '#{tempPath}' --version #{osVersion}")
 				.disposer (tempPath) ->
 					return rimraf(tempPath)
 
@@ -406,11 +410,17 @@ exports.init =
 					.then(resin.models.device.get)
 					.tap (device) ->
 						configureCommand = "os configure '#{tempPath}' #{device.uuid}"
-						if options.advanced
+						if options.config
+							configureCommand += " --config '#{options.config}'"
+						else if options.advanced
 							configureCommand += ' --advanced'
 						capitanoRunAsync(configureCommand)
 						.then ->
 							osInitCommand = "os initialize '#{tempPath}' --type #{application.device_type}"
+							if options.yes
+								osInitCommand += ' --yes'
+							if options.drive
+								osInitCommand += " --drive #{options.drive}"
 							capitanoRunAsync(osInitCommand)
 						# Make sure the device resource is removed if there is an
 						# error when configuring or initializing a device image

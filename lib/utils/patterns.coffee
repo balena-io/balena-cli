@@ -1,5 +1,5 @@
 ###
-Copyright 2016 Resin.io
+Copyright 2016-2017 Resin.io
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -76,9 +76,11 @@ exports.selectDeviceType = ->
 			type: 'list'
 			choices: deviceTypes
 
-exports.confirm = (yesOption, message) ->
+exports.confirm = (yesOption, message, yesMessage) ->
 	Promise.try ->
-		return true if yesOption
+		if yesOption
+			console.log(yesMessage) if yesMessage
+			return true
 		return form.ask
 			message: message
 			type: 'confirm'

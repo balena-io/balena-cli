@@ -1,5 +1,5 @@
 ###
-Copyright 2016 Resin.io
+Copyright 2016-2017 Resin.io
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -44,6 +44,17 @@ exports.booleanDevice =
 	boolean: true
 	alias: 'd'
 
+exports.osVersion =
+	signature: 'version'
+	description: """
+		exact version number, or a valid semver range,
+		or 'latest' (includes pre-releases),
+		or 'default' (excludes pre-releases if at least one stable version is available),
+		or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
+		or 'menu' (will show the interactive menu)
+	"""
+	parameter: 'version'
+
 exports.network =
 	signature: 'network'
 	parameter: 'network'
@@ -67,3 +78,17 @@ exports.forceUpdateLock =
 	description: 'force action if the update lock is set'
 	boolean: true
 	alias: 'f'
+
+exports.drive =
+	signature: 'drive'
+	description: 'the drive to write the image to, like `/dev/sdb` or `/dev/mmcblk0`.
+		Careful with this as you can erase your hard drive.
+		Check `resin util available-drives` for available options.'
+	parameter: 'drive'
+	alias: 'd'
+
+exports.advancedConfig =
+	signature: 'advanced'
+	description: 'show advanced configuration options'
+	boolean: true
+	alias: 'v'

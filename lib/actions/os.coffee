@@ -1,5 +1,5 @@
 ###
-Copyright 2016 Resin.io
+Copyright 2016-2017 Resin.io
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@ limitations under the License.
 ###
 
 commandOptions = require('./command-options')
+_ = require('lodash')
 
 formatVersion = (v, isRecommended) ->
 	result = "v#{v}"
@@ -40,6 +41,25 @@ resolveVersion = (deviceType, version) ->
 			type: 'list'
 			choices: choices
 			default: recommended
+
+exports.versions =
+	signature: 'os versions <type>'
+	description: 'show the available resinOS versions for the given device type'
+	help: '''
+		Use this command to show the available resinOS versions for a certain device type.
+		Check available types with `resin devices supported`
+
+		Example:
+
+			$ resin os versions raspberrypi3
+	'''
+	action: (params, options, done) ->
+		resin = require('resin-sdk-preconfigured')
+
+		resin.models.os.getSupportedVersions(params.type)
+		.then ({ versions, recommended }) ->
+			versions.forEach (v) ->
+				console.log(formatVersion(v, v is recommended))
 
 exports.download =
 	signature: 'os download <type>'
@@ -73,17 +93,7 @@ exports.download =
 			alias: 'o'
 			required: 'You have to specify the output location'
 		}
-		{
-			signature: 'version'
-			description: """
-				exact version number, or a valid semver range,
-				or 'latest' (includes pre-releases),
-				or 'default' (excludes pre-releases if at least one stable version is available),
-				or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
-				or 'menu' (will show the interactive menu)
-			"""
-			parameter: 'version'
-		}
+		commandOptions.osVersion
 	]
 	action: (params, options, done) ->
 		Promise = require('bluebird')
@@ -134,11 +144,60 @@ exports.download =
 			console.info('The image was downloaded successfully')
 		.nodeify(done)
 
+buildConfig = (image, deviceType, advanced = false) ->
+	form = require('resin-cli-form')
+	helpers = require('../utils/helpers')
+
+	helpers.getManifest(image, deviceType)
+	.get('options')
+	.then (questions) ->
+		if not advanced
+			advancedGroup = _.findWhere questions,
+				name: 'advanced'
+				isGroup: true
+
+			if advancedGroup?
+				override = helpers.getGroupDefaults(advancedGroup)
+
+		return form.run(questions, { override })
+
+exports.buildConfig =
+	signature: 'os build-config <image> <device-type>'
+	description: 'build the OS config and save it to the JSON file'
+	help: '''
+		Use this command to prebuild the OS config once and skip the interactive part of `resin os configure`.
+
+		Examples:
+
+			$ resin os build-config ../path/rpi3.img raspberrypi3 --output rpi3-config.json
+			$ resin os configure ../path/rpi3.img 7cf02a6 --config "$(cat rpi3-config.json)"
+	'''
+	permission: 'user'
+	options: [
+		commandOptions.advancedConfig
+		{
+			signature: 'output'
+			description: 'the path to the output JSON file'
+			alias: 'o'
+			required: 'the output path is required'
+			parameter: 'output'
+		}
+	]
+	action: (params, options, done) ->
+		fs = require('fs')
+		Promise = require('bluebird')
+		writeFileAsync = Promise.promisify(fs.writeFile)
+
+		buildConfig(params.image, params['device-type'], options.advanced)
+		.then (answers) ->
+			writeFileAsync(options.output, JSON.stringify(answers, null, 4))
+		.nodeify(done)
+
 exports.configure =
 	signature: 'os configure <image> <uuid>'
 	description: 'configure an os image'
 	help: '''
-		Use this command to configure a previously download operating system image with a device.
+		Use this command to configure a previously downloaded operating system image for the specific device.
 
 		Examples:
 
@@ -146,38 +205,32 @@ exports.configure =
 	'''
 	permission: 'user'
 	options: [
-		signature: 'advanced'
-		description: 'show advanced commands'
-		boolean: true
-		alias: 'v'
+		commandOptions.advancedConfig
+		{
+			signature: 'config'
+			description: 'path to the config JSON file, see `resin os build-config`'
+			parameter: 'config'
+		}
 	]
 	action: (params, options, done) ->
-		_ = require('lodash')
+		fs = require('fs')
+		Promise = require('bluebird')
+		readFileAsync = Promise.promisify(fs.readFile)
 		resin = require('resin-sdk-preconfigured')
-		form = require('resin-cli-form')
 		init = require('resin-device-init')
 		helpers = require('../utils/helpers')
 
 		console.info('Configuring operating system image')
 		resin.models.device.get(params.uuid).then (device) ->
-			helpers.getManifest(params.image, device.device_type)
-			.get('options')
-			.then (questions) ->
-
-				if not options.advanced
-					advancedGroup = _.findWhere questions,
-						name: 'advanced'
-						isGroup: true
-
-					if advancedGroup?
-						override = helpers.getGroupDefaults(advancedGroup)
-
-				return form.run(questions, { override })
-			.then (answers) ->
-				init.configure(params.image, params.uuid, answers).then(helpers.osProgressHandler)
+			if options.config
+				return readFileAsync(options.config, 'utf8')
+					.then(JSON.parse)
+			return buildConfig(params.image, device.device_type, options.advanced)
+		.then (answers) ->
+			init.configure(params.image, params.uuid, answers).then(helpers.osProgressHandler)
 		.nodeify(done)
 
-initWarningMessage = '''
+INIT_WARNING_MESSAGE = '''
 	Note: Initializing the device may ask for administrative permissions
 	because we need to access the raw devices directly.
 '''
@@ -188,7 +241,7 @@ exports.initialize =
 	help: """
 		Use this command to initialize a device with previously configured operating system image.
 
-		#{initWarningMessage}
+		#{INIT_WARNING_MESSAGE}
 
 		Examples:
 
@@ -204,12 +257,7 @@ exports.initialize =
 			alias: 't'
 			required: 'You have to specify a device type'
 		}
-		{
-			signature: 'drive'
-			description: 'drive'
-			parameter: 'drive'
-			alias: 'd'
-		}
+		commandOptions.drive
 	]
 	action: (params, options, done) ->
 		Promise = require('bluebird')
@@ -221,7 +269,7 @@ exports.initialize =
 		console.info("""
 			Initializing device
 
-			#{initWarningMessage}
+			#{INIT_WARNING_MESSAGE}
 		""")
 		helpers.getManifest(params.image, options.type)
 			.then (manifest) ->
@@ -232,8 +280,11 @@ exports.initialize =
 						drive: options.drive
 			.tap (answers) ->
 				return if not answers.drive?
-				message = "This will erase #{answers.drive}. Are you sure?"
-				patterns.confirm(options.yes, message)
+				patterns.confirm(
+					options.yes
+					"This will erase #{answers.drive}. Are you sure?"
+					"Going to erase #{answers.drive}."
+				)
 					.return(answers.drive)
 					.then(umountAsync)
 			.tap (answers) ->

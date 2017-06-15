@@ -1,5 +1,5 @@
 ###
-Copyright 2016 Resin.io
+Copyright 2016-2017 Resin.io
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -135,7 +135,9 @@ capitano.command(actions.env.rename)
 capitano.command(actions.env.remove)
 
 # ---------- OS Module ----------
+capitano.command(actions.os.versions)
 capitano.command(actions.os.download)
+capitano.command(actions.os.buildConfig)
 capitano.command(actions.os.configure)
 capitano.command(actions.os.initialize)
 
@@ -167,6 +169,9 @@ capitano.command(actions.local.push)
 capitano.command(actions.local.ssh)
 capitano.command(actions.local.scan)
 capitano.command(actions.local.stop)
+
+# ---------- Public utils ----------
+capitano.command(actions.util.availableDrives)
 
 # ---------- Internal utils ----------
 capitano.command(actions.internal.osInit)
