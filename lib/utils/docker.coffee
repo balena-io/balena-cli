@@ -290,8 +290,7 @@ exports.bufferImage = (docker, imageId, bufferFile) ->
 	image = docker.getImage(imageId)
 	imageMetadata = image.inspectAsync()
 
-	Promise.all([image.get(), imageMetadata.get('Size')])
-	.spread (imageStream, imageSize) ->
+	Promise.join image.get(), imageMetadata.get('Size'), (imageStream, imageSize) ->
 		streamUtils.buffer(imageStream, bufferFile)
 		.tap (bufferedStream) ->
 			bufferedStream.length = imageSize

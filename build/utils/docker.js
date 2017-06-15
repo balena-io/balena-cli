@@ -279,7 +279,7 @@ exports.bufferImage = function(docker, imageId, bufferFile) {
   streamUtils = require('./streams');
   image = docker.getImage(imageId);
   imageMetadata = image.inspectAsync();
-  return Promise.all([image.get(), imageMetadata.get('Size')]).spread(function(imageStream, imageSize) {
+  return Promise.join(image.get(), imageMetadata.get('Size'), function(imageStream, imageSize) {
     return streamUtils.buffer(imageStream, bufferFile).tap(function(bufferedStream) {
       return bufferedStream.length = imageSize;
     });
