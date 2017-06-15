@@ -273,21 +273,15 @@ exports.runBuild = function(params, options, getBundleInfo, logStreams) {
   });
 };
 
-exports.bufferImage = function(docker, imageId, tmpFile) {
-  var Promise, fs, image, stream;
+exports.bufferImage = function(docker, imageId, bufferFile) {
+  var Promise, image, imageMetadata, streamUtils;
   Promise = require('bluebird');
-  fs = require('fs');
-  stream = fs.createWriteStream(tmpFile);
+  streamUtils = require('./streams');
   image = docker.getImage(imageId);
-  return image.get().then(function(img) {
-    return new Promise(function(resolve, reject) {
-      return img.on('error', reject).on('end', resolve).pipe(stream);
-    });
-  }).then(function() {
-    return new Promise(function(resolve, reject) {
-      return fs.createReadStream(tmpFile).on('open', function() {
-        return resolve(this);
-      }).on('error', reject);
+  imageMetadata = image.inspectAsync();
+  return Promise.join(image.get(), imageMetadata.get('Size'), function(imageStream, imageSize) {
+    return streamUtils.buffer(imageStream, bufferFile).tap(function(bufferedStream) {
+      return bufferedStream.length = imageSize;
     });
   });
 };
@@ -299,10 +293,6 @@ exports.getDocker = function(options) {
   connectOpts = generateConnectOpts(options);
   connectOpts['Promise'] = Promise;
   return new Docker(connectOpts);
-};
-
-exports.getImageSize = function(docker, image) {
-  return docker.getImage(image).inspectAsync().get('Size');
 };
 
 hasQemu = function() {
