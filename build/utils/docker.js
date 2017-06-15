@@ -183,7 +183,7 @@ exports.runBuild = function(params, options, getBundleInfo, logStreams) {
     }).then(function() {
       return copyQemu(params.source);
     }).then(function(binPath) {
-      return qemuPath = binPath.split(path.sep).slice(1).join(path.sep);
+      return qemuPath = path.relative(params.source, binPath);
     });
   }).then(function() {
     return tarDirectory(params.source);

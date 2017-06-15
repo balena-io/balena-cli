@@ -188,7 +188,7 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 			# Copy the qemu binary into the build context
 			copyQemu(params.source)
 		.then (binPath) ->
-			qemuPath = binPath.split(path.sep)[1...].join(path.sep)
+			qemuPath = path.relative(params.source, binPath)
 	.then ->
 		# Tar up the directory, ready for the build stream
 		tarDirectory(params.source)
