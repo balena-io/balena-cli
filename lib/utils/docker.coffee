@@ -234,7 +234,7 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 						if options.emulated and platformNeedsQemu()
 							return transpose.transposeTarStream buildStream,
 								hostQemuPath: qemuPath
-								containerQemuPath: "./#{QEMU_BIN_NAME}"
+								containerQemuPath: "/tmp/#{QEMU_BIN_NAME}"
 						else
 							return buildStream
 					.then (buildStream) ->
@@ -250,7 +250,7 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 					if options.emulated and platformNeedsQemu()
 						buildThroughStream = transpose.getBuildThroughStream
 							hostQemuPath: qemuPath
-							containerQemuPath: "./#{QEMU_BIN_NAME}"
+							containerQemuPath: "/tmp/#{QEMU_BIN_NAME}"
 
 						newStream = stream.pipe(buildThroughStream)
 					else

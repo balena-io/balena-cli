@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - Ensure emulated builds use the correct relative path to qemu when called from any location
+- Make emulated builds reliable in the presence for WORKDIR comands
 
 ## [5.10.2] - 2017-05-31
 

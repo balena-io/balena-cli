@@ -228,7 +228,7 @@ exports.runBuild = function(params, options, getBundleInfo, logStreams) {
             if (options.emulated && platformNeedsQemu()) {
               return transpose.transposeTarStream(buildStream, {
                 hostQemuPath: qemuPath,
-                containerQemuPath: "./" + QEMU_BIN_NAME
+                containerQemuPath: "/tmp/" + QEMU_BIN_NAME
               });
             } else {
               return buildStream;
@@ -243,7 +243,7 @@ exports.runBuild = function(params, options, getBundleInfo, logStreams) {
           if (options.emulated && platformNeedsQemu()) {
             buildThroughStream = transpose.getBuildThroughStream({
               hostQemuPath: qemuPath,
-              containerQemuPath: "./" + QEMU_BIN_NAME
+              containerQemuPath: "/tmp/" + QEMU_BIN_NAME
             });
             newStream = stream.pipe(buildThroughStream);
           } else {
