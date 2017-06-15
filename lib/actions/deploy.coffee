@@ -126,9 +126,9 @@ uploadToPromise = (uploadRequest, logStreams) ->
 
 module.exports =
 	signature: 'deploy <appName> [image]'
-	description: 'Deploy a container to a resin.io application'
+	description: 'Deploy an image to a resin.io application'
 	help: '''
-		Use this command to deploy and optionally build an image to an application.
+		Use this command to deploy an image to an application, optionally building it first.
 
 		Usage: deploy <appName> ([image] | --build [--source build-dir])
 
@@ -192,6 +192,8 @@ module.exports =
 						else
 							{ image: imageName, log: '' }
 					.then ({ image: imageName, log: buildLogs }) ->
+						logging.logInfo(logStreams, 'Initializing deploy...')
+
 						logs = buildLogs
 						Promise.all [
 							dockerUtils.bufferImage(docker, imageName, bufferFile)
@@ -206,7 +208,8 @@ module.exports =
 						# If the file was never written to (for instance because an error
 						# has occured before any data was written) this call will throw an
 						# ugly error, just suppress it
-						require('mz/fs').unlink(bufferFile)
+						Promise.try ->
+							require('mz/fs').unlink(bufferFile)
 						.catch(_.noop)
 			.tap ({ image: imageName, buildId }) ->
 				logging.logSuccess(logStreams, "Successfully deployed image: #{formatImageName(imageName)}")

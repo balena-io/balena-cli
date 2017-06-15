@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - `package-lock.json` for `npm5` users
 - Added ability to run an emulated build silently with `resin build`
 - Gzip images when uploading in `resin deploy`
+- Show a clear message immediately as the deploy starts, if we're deploying an image.
 
 ### Fixed
 
