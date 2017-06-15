@@ -31,30 +31,17 @@ parseInput = Promise.method (params, options) ->
 
 	return [appName, options.build, source, image]
 
-# Builds and returns a Docker-like progress bar like this:
-# [==================================>               ] 64%
-renderProgress = (percentage, stepCount = 50) ->
-	_ = require('lodash')
-	percentage = Math.max(0, Math.min(percentage, 100))
-	barCount = stepCount * percentage // 100
-	spaceCount = stepCount - barCount
-	bar = "[#{_.repeat('=', barCount)}>#{_.repeat(' ', spaceCount)}]"
-	return "#{bar} #{percentage.toFixed(1)}%"
+showPushProgress = ->
+	visuals = require('resin-cli-visuals')
+	progressBar = new visuals.Progress('Deploying')
+	progressBar.update({ percentage: 0 })
+	return progressBar
 
-showPushProgress = (logStreams) ->
-	logging = require('../utils/logging')
-	logging.logInfo(logStreams, renderProgress(0))
-
-updatePushProgress = (percentage, logStreams) ->
-	logging = require('../utils/logging')
-	ansiEscapes = require('ansi-escapes')
-
+updatePushProgress = (percentage, eta, progressBar) ->
 	if percentage >= 100
 		percentage = 100
-	process.stdout.write(ansiEscapes.cursorUp(1))
-	process.stdout.clearLine()
-	process.stdout.cursorTo(0)
-	logging.logInfo(logStreams, renderProgress(percentage))
+
+	progressBar.update({ percentage, eta })
 
 getBundleInfo = (options) ->
 	helpers = require('../utils/helpers')
@@ -68,11 +55,14 @@ performUpload = (imageStream, token, username, url, appName, logStreams) ->
 	progressStream = require('progress-stream')
 	zlib = require('zlib')
 
-	showPushProgress(logStreams)
-	streamWithProgress = imageStream.pipe(progressStream({
+	progressBar = showPushProgress()
+	streamWithProgress = imageStream.pipe progressStream
 		time: 500,
 		length: imageStream.length
-	}, ({ percentage }) -> updatePushProgress(percentage, logStreams)))
+	, ({ percentage, eta }) ->
+		progressBar.update
+			percentage: Math.min(percentage, 100)
+			eta: eta
 
 	uploadRequest = request.post
 		url: getBuilderPushEndpoint(url, username, appName)
