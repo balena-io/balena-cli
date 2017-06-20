@@ -175,64 +175,65 @@ module.exports =
 		logs = ''
 
 		upload = (token, username, url) ->
-			docker = dockerUtils.getDocker(options)
-			# Check input parameters
-			parseInput(params, options)
-			.then ([appName, build, source, imageName]) ->
-				tmpNameAsync()
-				.then (bufferFile) ->
+			dockerUtils.getDocker(options)
+			.then (docker) ->
+				# Check input parameters
+				parseInput(params, options)
+				.then ([appName, build, source, imageName]) ->
+					tmpNameAsync()
+					.then (bufferFile) ->
 
-					# Setup the build args for how the build routine expects them
-					options = _.assign({}, options, { appName })
-					params = _.assign({}, params, { source })
+						# Setup the build args for how the build routine expects them
+						options = _.assign({}, options, { appName })
+						params = _.assign({}, params, { source })
 
-					Promise.try ->
-						if build
-							dockerUtils.runBuild(params, options, getBundleInfo, logStreams)
-						else
-							{ image: imageName, log: '' }
-					.then ({ image: imageName, log: buildLogs }) ->
-						logging.logInfo(logStreams, 'Initializing deploy...')
-
-						logs = buildLogs
-						Promise.all [
-							dockerUtils.bufferImage(docker, imageName, bufferFile)
-							token
-							username
-							url
-							params.appName
-							logStreams
-						]
-						.spread(performUpload)
-					.finally ->
-						# If the file was never written to (for instance because an error
-						# has occured before any data was written) this call will throw an
-						# ugly error, just suppress it
 						Promise.try ->
-							require('mz/fs').unlink(bufferFile)
-						.catch(_.noop)
-			.tap ({ image: imageName, buildId }) ->
-				logging.logSuccess(logStreams, "Successfully deployed image: #{formatImageName(imageName)}")
-				return buildId
-			.then ({ image: imageName, buildId }) ->
-				if logs is '' or options.nologupload?
-					return ''
+							if build
+								dockerUtils.runBuild(params, options, getBundleInfo, logStreams)
+							else
+								{ image: imageName, log: '' }
+						.then ({ image: imageName, log: buildLogs }) ->
+							logging.logInfo(logStreams, 'Initializing deploy...')
 
-				logging.logInfo(logStreams, 'Uploading logs to dashboard...')
+							logs = buildLogs
+							Promise.all [
+								dockerUtils.bufferImage(docker, imageName, bufferFile)
+								token
+								username
+								url
+								params.appName
+								logStreams
+							]
+							.spread(performUpload)
+						.finally ->
+							# If the file was never written to (for instance because an error
+							# has occured before any data was written) this call will throw an
+							# ugly error, just suppress it
+							Promise.try ->
+								require('mz/fs').unlink(bufferFile)
+							.catch(_.noop)
+				.tap ({ image: imageName, buildId }) ->
+					logging.logSuccess(logStreams, "Successfully deployed image: #{formatImageName(imageName)}")
+					return buildId
+				.then ({ image: imageName, buildId }) ->
+					if logs is '' or options.nologupload?
+						return ''
 
-				Promise.join(
-					logs
-					token
-					url
-					buildId
-					username
-					params.appName
-					uploadLogs
-				)
-				.return('Successfully uploaded logs')
-			.then (msg) ->
-				logging.logSuccess(logStreams, msg) if msg isnt ''
-			.asCallback(done)
+					logging.logInfo(logStreams, 'Uploading logs to dashboard...')
+
+					Promise.join(
+						logs
+						token
+						url
+						buildId
+						username
+						params.appName
+						uploadLogs
+					)
+					.return('Successfully uploaded logs')
+				.then (msg) ->
+					logging.logSuccess(logStreams, msg) if msg isnt ''
+				.asCallback(done)
 
 		Promise.join(
 			resin.auth.getToken()
