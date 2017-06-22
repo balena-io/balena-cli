@@ -35,6 +35,8 @@ Raven.setContext({
   }
 });
 
+require('buffer-v6-polyfill');
+
 globalTunnel = require('global-tunnel-ng');
 
 settings = require('resin-settings-client');

@@ -24,6 +24,8 @@ Raven.config require('./config').sentryDsn,
 	process.exit(1)
 Raven.setContext(extra: args: process.argv)
 
+require('buffer-v6-polyfill')
+
 # Doing this before requiring any other modules,
 # including the 'resin-sdk', to prevent any module from reading the http proxy config
 # before us
