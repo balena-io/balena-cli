@@ -58,11 +58,12 @@ exports.appendOptions = function(opts) {
 };
 
 exports.generateConnectOpts = generateConnectOpts = function(opts) {
-  var Promise, fs;
+  var Promise, _, fs;
   Promise = require('bluebird');
   fs = require('mz/fs');
+  _ = require('lodash');
   return Promise["try"](function() {
-    var connectOpts;
+    var certBodies, connectOpts;
     connectOpts = {};
     if ((opts.docker != null) && (opts.dockerHost == null)) {
       connectOpts.socketPath = opts.docker;
@@ -78,11 +79,13 @@ exports.generateConnectOpts = generateConnectOpts = function(opts) {
       if (!((opts.ca != null) && (opts.cert != null) && (opts.key != null))) {
         throw new Error('You must provide a CA, certificate and key in order to use TLS');
       }
-      return Promise.all([fs.readFile(opts.ca), fs.readFile(opts.cert), fs.readFile(opts.key)]).spread(function(ca, cert, key) {
-        connectOpts.ca = ca.toString();
-        connectOpts.cert = cert.toString();
-        connectOpts.key = key.toString();
-        return connectOpts;
+      certBodies = {
+        ca: fs.readFile(opts.ca, 'utf-8'),
+        cert: fs.readFile(opts.cert, 'utf-8'),
+        key: fs.readFile(opts.key, 'utf-8')
+      };
+      return Promise.props(certBodies).then(function(toMerge) {
+        return _.merge(connectOpts, toMerge);
       });
     }
     return connectOpts;
