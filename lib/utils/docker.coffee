@@ -70,36 +70,47 @@ exports.appendOptions = (opts) ->
 	]
 
 exports.generateConnectOpts = generateConnectOpts = (opts) ->
-	connectOpts = {}
-	# Firsly need to decide between a local docker socket
-	# and a host available over a host:port combo
-	if opts.docker? and not opts.dockerHost?
-		# good, local docker socket
-		connectOpts.socketPath = opts.docker
-	else if opts.dockerHost? and not opts.docker?
-		# Good a host is provided, and local socket isn't
-		connectOpts.host = opts.dockerHost
-		connectOpts.port = opts.dockerPort || 2376
-	else if opts.docker? and opts.dockerHost?
-		# Both provided, no obvious way to continue
-		throw new Error("Both a local docker socket and docker host have been provided. Don't know how to continue.")
-	else
-		# None provided, assume default docker local socket
-		connectOpts.socketPath = '/var/run/docker.sock'
+	Promise = require('bluebird')
+	fs = require('mz/fs')
+	_ = require('lodash')
 
-	# Now need to check if the user wants to connect over TLS
-	# to the host
+	Promise.try ->
+		connectOpts = {}
+		# Firsly need to decide between a local docker socket
+		# and a host available over a host:port combo
+		if opts.docker? and not opts.dockerHost?
+			# good, local docker socket
+			connectOpts.socketPath = opts.docker
+		else if opts.dockerHost? and not opts.docker?
+			# Good a host is provided, and local socket isn't
+			connectOpts.host = opts.dockerHost
+			connectOpts.port = opts.dockerPort || 2376
+		else if opts.docker? and opts.dockerHost?
+			# Both provided, no obvious way to continue
+			throw new Error("Both a local docker socket and docker host have been provided. Don't know how to continue.")
+		else
+			# None provided, assume default docker local socket
+			connectOpts.socketPath = '/var/run/docker.sock'
 
-	# If any are set...
-	if (opts.ca? or opts.cert? or opts.key?)
-		# but not all
-		if not (opts.ca? and opts.cert? and opts.key?)
-			throw new Error('You must provide a CA, certificate and key in order to use TLS')
-		connectOpts.ca = opts.ca
-		connectOpts.cert = opts.cert
-		connectOpts.key = opts.key
+		# Now need to check if the user wants to connect over TLS
+		# to the host
 
-	return connectOpts
+		# If any are set...
+		if (opts.ca? or opts.cert? or opts.key?)
+			# but not all
+			if not (opts.ca? and opts.cert? and opts.key?)
+				throw new Error('You must provide a CA, certificate and key in order to use TLS')
+
+			certBodies = {
+				ca: fs.readFile(opts.ca, 'utf-8')
+				cert: fs.readFile(opts.cert, 'utf-8')
+				key: fs.readFile(opts.key, 'utf-8')
+			}
+			return Promise.props(certBodies)
+				.then (toMerge) ->
+					_.merge(connectOpts, toMerge)
+
+		return connectOpts
 
 exports.tarDirectory = tarDirectory = (dir) ->
 	Promise = require('bluebird')
@@ -262,24 +273,25 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 					.pipe(logStreams.build)
 
 			# Create a builder
-			connectOpts = generateConnectOpts(options)
+			generateConnectOpts(options)
+			.then (connectOpts) ->
 
-			# Allow degugging output, hidden behind an env var
-			logging.logDebug(logStreams, 'Connecting with the following options:')
-			logging.logDebug(logStreams, JSON.stringify(connectOpts, null, '  '))
+				# Allow degugging output, hidden behind an env var
+				logging.logDebug(logStreams, 'Connecting with the following options:')
+				logging.logDebug(logStreams, JSON.stringify(connectOpts, null, '  '))
 
-			builder = new dockerBuild.Builder(connectOpts)
-			opts = {}
+				builder = new dockerBuild.Builder(connectOpts)
+				opts = {}
 
-			if options.tag?
-				opts['t'] = options.tag
-			if options.nocache?
-				opts['nocache'] = true
-			if options.buildArg?
-				opts['buildargs'] = parseBuildArgs options.buildArg, (arg) ->
-					logging.logWarn(logStreams, "Could not parse variable: '#{arg}'")
+				if options.tag?
+					opts['t'] = options.tag
+				if options.nocache?
+					opts['nocache'] = true
+				if options.buildArg?
+					opts['buildargs'] = parseBuildArgs options.buildArg, (arg) ->
+						logging.logWarn(logStreams, "Could not parse variable: '#{arg}'")
 
-			builder.createBuildStream(opts, hooks, reject)
+				builder.createBuildStream(opts, hooks, reject)
 
 # Given an image id or tag, export the image to a tar archive,
 # gzip the result, and buffer it to disk.
@@ -298,10 +310,12 @@ exports.bufferImage = (docker, imageId, bufferFile) ->
 exports.getDocker = (options) ->
 	Docker = require('dockerode')
 	Promise = require('bluebird')
-	connectOpts = generateConnectOpts(options)
-	# Use bluebird's promises
-	connectOpts['Promise'] = Promise
-	new Docker(connectOpts)
+
+	generateConnectOpts(options)
+	.then (connectOpts) ->
+		# Use bluebird's promises
+		connectOpts['Promise'] = Promise
+		new Docker(connectOpts)
 
 hasQemu = ->
 	fs = require('mz/fs')

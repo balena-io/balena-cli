@@ -58,27 +58,35 @@ exports.appendOptions = function(opts) {
 };
 
 exports.generateConnectOpts = generateConnectOpts = function(opts) {
-  var connectOpts;
-  connectOpts = {};
-  if ((opts.docker != null) && (opts.dockerHost == null)) {
-    connectOpts.socketPath = opts.docker;
-  } else if ((opts.dockerHost != null) && (opts.docker == null)) {
-    connectOpts.host = opts.dockerHost;
-    connectOpts.port = opts.dockerPort || 2376;
-  } else if ((opts.docker != null) && (opts.dockerHost != null)) {
-    throw new Error("Both a local docker socket and docker host have been provided. Don't know how to continue.");
-  } else {
-    connectOpts.socketPath = '/var/run/docker.sock';
-  }
-  if ((opts.ca != null) || (opts.cert != null) || (opts.key != null)) {
-    if (!((opts.ca != null) && (opts.cert != null) && (opts.key != null))) {
-      throw new Error('You must provide a CA, certificate and key in order to use TLS');
+  var Promise, fs;
+  Promise = require('bluebird');
+  fs = require('mz/fs');
+  return Promise["try"](function() {
+    var connectOpts;
+    connectOpts = {};
+    if ((opts.docker != null) && (opts.dockerHost == null)) {
+      connectOpts.socketPath = opts.docker;
+    } else if ((opts.dockerHost != null) && (opts.docker == null)) {
+      connectOpts.host = opts.dockerHost;
+      connectOpts.port = opts.dockerPort || 2376;
+    } else if ((opts.docker != null) && (opts.dockerHost != null)) {
+      throw new Error("Both a local docker socket and docker host have been provided. Don't know how to continue.");
+    } else {
+      connectOpts.socketPath = '/var/run/docker.sock';
     }
-    connectOpts.ca = opts.ca;
-    connectOpts.cert = opts.cert;
-    connectOpts.key = opts.key;
-  }
-  return connectOpts;
+    if ((opts.ca != null) || (opts.cert != null) || (opts.key != null)) {
+      if (!((opts.ca != null) && (opts.cert != null) && (opts.key != null))) {
+        throw new Error('You must provide a CA, certificate and key in order to use TLS');
+      }
+      return Promise.all([fs.readFile(opts.ca), fs.readFile(opts.cert), fs.readFile(opts.key)]).spread(function(ca, cert, key) {
+        connectOpts.ca = ca.toString();
+        connectOpts.cert = cert.toString();
+        connectOpts.key = key.toString();
+        return connectOpts;
+      });
+    }
+    return connectOpts;
+  });
 };
 
 exports.tarDirectory = tarDirectory = function(dir) {
@@ -189,7 +197,7 @@ exports.runBuild = function(params, options, getBundleInfo, logStreams) {
     return tarDirectory(params.source);
   }).then(function(tarStream) {
     return new Promise(function(resolve, reject) {
-      var builder, connectOpts, hooks, opts;
+      var hooks;
       hooks = {
         buildSuccess: function(image) {
           var doodle;
@@ -252,23 +260,25 @@ exports.runBuild = function(params, options, getBundleInfo, logStreams) {
           return newStream.pipe(logThroughStream).pipe(cacheHighlightStream()).pipe(logStreams.build);
         }
       };
-      connectOpts = generateConnectOpts(options);
-      logging.logDebug(logStreams, 'Connecting with the following options:');
-      logging.logDebug(logStreams, JSON.stringify(connectOpts, null, '  '));
-      builder = new dockerBuild.Builder(connectOpts);
-      opts = {};
-      if (options.tag != null) {
-        opts['t'] = options.tag;
-      }
-      if (options.nocache != null) {
-        opts['nocache'] = true;
-      }
-      if (options.buildArg != null) {
-        opts['buildargs'] = parseBuildArgs(options.buildArg, function(arg) {
-          return logging.logWarn(logStreams, "Could not parse variable: '" + arg + "'");
-        });
-      }
-      return builder.createBuildStream(opts, hooks, reject);
+      return generateConnectOpts(options).then(function(connectOpts) {
+        var builder, opts;
+        logging.logDebug(logStreams, 'Connecting with the following options:');
+        logging.logDebug(logStreams, JSON.stringify(connectOpts, null, '  '));
+        builder = new dockerBuild.Builder(connectOpts);
+        opts = {};
+        if (options.tag != null) {
+          opts['t'] = options.tag;
+        }
+        if (options.nocache != null) {
+          opts['nocache'] = true;
+        }
+        if (options.buildArg != null) {
+          opts['buildargs'] = parseBuildArgs(options.buildArg, function(arg) {
+            return logging.logWarn(logStreams, "Could not parse variable: '" + arg + "'");
+          });
+        }
+        return builder.createBuildStream(opts, hooks, reject);
+      });
     });
   });
 };
@@ -287,12 +297,13 @@ exports.bufferImage = function(docker, imageId, bufferFile) {
 };
 
 exports.getDocker = function(options) {
-  var Docker, Promise, connectOpts;
+  var Docker, Promise;
   Docker = require('dockerode');
   Promise = require('bluebird');
-  connectOpts = generateConnectOpts(options);
-  connectOpts['Promise'] = Promise;
-  return new Docker(connectOpts);
+  return generateConnectOpts(options).then(function(connectOpts) {
+    connectOpts['Promise'] = Promise;
+    return new Docker(connectOpts);
+  });
 };
 
 hasQemu = function() {

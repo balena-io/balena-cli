@@ -202,57 +202,57 @@ module.exports = {
     tmp.setGracefulCleanup();
     logs = '';
     upload = function(token, username, url) {
-      var docker;
-      docker = dockerUtils.getDocker(options);
-      return parseInput(params, options).then(function(arg) {
-        var appName, build, imageName, source;
-        appName = arg[0], build = arg[1], source = arg[2], imageName = arg[3];
-        return tmpNameAsync().then(function(bufferFile) {
-          options = _.assign({}, options, {
-            appName: appName
-          });
-          params = _.assign({}, params, {
-            source: source
-          });
-          return Promise["try"](function() {
-            if (build) {
-              return dockerUtils.runBuild(params, options, getBundleInfo, logStreams);
-            } else {
-              return {
-                image: imageName,
-                log: ''
-              };
-            }
-          }).then(function(arg1) {
-            var buildLogs, imageName;
-            imageName = arg1.image, buildLogs = arg1.log;
-            logging.logInfo(logStreams, 'Initializing deploy...');
-            logs = buildLogs;
-            return Promise.all([dockerUtils.bufferImage(docker, imageName, bufferFile), token, username, url, params.appName, logStreams]).spread(performUpload);
-          })["finally"](function() {
+      return dockerUtils.getDocker(options).then(function(docker) {
+        return parseInput(params, options).then(function(arg) {
+          var appName, build, imageName, source;
+          appName = arg[0], build = arg[1], source = arg[2], imageName = arg[3];
+          return tmpNameAsync().then(function(bufferFile) {
+            options = _.assign({}, options, {
+              appName: appName
+            });
+            params = _.assign({}, params, {
+              source: source
+            });
             return Promise["try"](function() {
-              return require('mz/fs').unlink(bufferFile);
-            })["catch"](_.noop);
+              if (build) {
+                return dockerUtils.runBuild(params, options, getBundleInfo, logStreams);
+              } else {
+                return {
+                  image: imageName,
+                  log: ''
+                };
+              }
+            }).then(function(arg1) {
+              var buildLogs, imageName;
+              imageName = arg1.image, buildLogs = arg1.log;
+              logging.logInfo(logStreams, 'Initializing deploy...');
+              logs = buildLogs;
+              return Promise.all([dockerUtils.bufferImage(docker, imageName, bufferFile), token, username, url, params.appName, logStreams]).spread(performUpload);
+            })["finally"](function() {
+              return Promise["try"](function() {
+                return require('mz/fs').unlink(bufferFile);
+              })["catch"](_.noop);
+            });
           });
-        });
-      }).tap(function(arg) {
-        var buildId, imageName;
-        imageName = arg.image, buildId = arg.buildId;
-        logging.logSuccess(logStreams, "Successfully deployed image: " + (formatImageName(imageName)));
-        return buildId;
-      }).then(function(arg) {
-        var buildId, imageName;
-        imageName = arg.image, buildId = arg.buildId;
-        if (logs === '' || (options.nologupload != null)) {
-          return '';
-        }
-        logging.logInfo(logStreams, 'Uploading logs to dashboard...');
-        return Promise.join(logs, token, url, buildId, username, params.appName, uploadLogs)["return"]('Successfully uploaded logs');
-      }).then(function(msg) {
-        if (msg !== '') {
-          return logging.logSuccess(logStreams, msg);
-        }
-      }).asCallback(done);
+        }).tap(function(arg) {
+          var buildId, imageName;
+          imageName = arg.image, buildId = arg.buildId;
+          logging.logSuccess(logStreams, "Successfully deployed image: " + (formatImageName(imageName)));
+          return buildId;
+        }).then(function(arg) {
+          var buildId, imageName;
+          imageName = arg.image, buildId = arg.buildId;
+          if (logs === '' || (options.nologupload != null)) {
+            return '';
+          }
+          logging.logInfo(logStreams, 'Uploading logs to dashboard...');
+          return Promise.join(logs, token, url, buildId, username, params.appName, uploadLogs)["return"]('Successfully uploaded logs');
+        }).then(function(msg) {
+          if (msg !== '') {
+            return logging.logSuccess(logStreams, msg);
+          }
+        }).asCallback(done);
+      });
     };
     return Promise.join(resin.auth.getToken(), resin.auth.whoami(), resin.settings.get('resinUrl'), upload);
   }
