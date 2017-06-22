@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.11.1] - 2017-06-22
+
 ## Added
 
 - Include Node version in Sentry logging
@@ -487,6 +489,7 @@ and for `resin device init` (same `--config` param)
 
 - Remove outdated information from README.
 
+[5.11.1]: https://github.com/resin-io/resin-cli/compare/v5.11.0...v5.11.1
 [5.11.0]: https://github.com/resin-io/resin-cli/compare/v5.10.2...v5.11.0
 [5.10.2]: https://github.com/resin-io/resin-cli/compare/v5.10.1...v5.10.2
 [5.10.1]: https://github.com/resin-io/resin-cli/compare/v5.10.0...v5.10.1
