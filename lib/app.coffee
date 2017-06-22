@@ -22,7 +22,10 @@ Raven.config require('./config').sentryDsn,
 .install (logged, error) ->
 	console.error(error)
 	process.exit(1)
-Raven.setContext(extra: args: process.argv)
+Raven.setContext
+	extra:
+		args: process.argv
+		node_version: process.version
 
 # Doing this before requiring any other modules,
 # including the 'resin-sdk', to prevent any module from reading the http proxy config

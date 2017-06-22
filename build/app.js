@@ -31,7 +31,8 @@ Raven.config(require('./config').sentryDsn, {
 
 Raven.setContext({
   extra: {
-    args: process.argv
+    args: process.argv,
+    node_version: process.version
   }
 });
 

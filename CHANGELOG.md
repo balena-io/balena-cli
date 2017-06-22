@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Added
+
+- Include Node version in Sentry logging
+
 ## Fixed
 
 - Ensure to send .pem file contents rather than filename to docker daemon
