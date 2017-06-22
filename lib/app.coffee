@@ -22,7 +22,10 @@ Raven.config require('./config').sentryDsn,
 .install (logged, error) ->
 	console.error(error)
 	process.exit(1)
-Raven.setContext(extra: args: process.argv)
+Raven.setContext
+	extra:
+		args: process.argv
+		node_version: process.version
 
 require('buffer-v6-polyfill')
 
