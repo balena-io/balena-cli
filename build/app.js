@@ -15,7 +15,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var Promise, Raven, _, actions, capitano, capitanoExecuteAsync, errors, events, globalTunnel, plugins, proxy, resin, settings, update;
+var Promise, Raven, _, actions, capitano, capitanoExecuteAsync, errors, events, globalTunnel, plugins, proxy, resin, settings, update, validNodeVersions;
 
 Raven = require('raven');
 
@@ -36,7 +36,11 @@ Raven.setContext({
   }
 });
 
-require('buffer-v6-polyfill');
+validNodeVersions = require('../package.json').engines.node;
+
+if (!require('semver').satisfies(process.version, validNodeVersions)) {
+  console.warn("Warning: this version of Node does not match the requirements of this package. This package expects " + validNodeVersions + ", but you're using " + process.version + ". This may cause unexpected behaviour.");
+}
 
 globalTunnel = require('global-tunnel-ng');
 
