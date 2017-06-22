@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## Fixed
 
 - Ensure to send .pem file contents rather than filename to docker daemon
+- Add a polyfill to fix `local configure` in older (<6) Node versions
 
 ## [5.11.0] - 2017-06-19
 
