@@ -151,6 +151,8 @@ capitano.command(actions.device.getDeviceUrl);
 
 capitano.command(actions.device.hasDeviceUrl);
 
+capitano.command(actions.device.restartApplication);
+
 capitano.command(actions.device.register);
 
 capitano.command(actions.device.move);

@@ -308,6 +308,20 @@ exports.hasDeviceUrl =
 			console.log(hasDeviceUrl)
 		.nodeify(done)
 
+exports.restartApplication =
+    signature: 'device restart application <uuid>'
+    description: 'restart application on device'
+    help: '''
+            Use this command to restart application on device
+
+            Examples:
+
+                    $ resin device restart application 23c73a1
+    '''
+    actions: (params, options, done) ->
+            resin = require('resin-sdk-preconfigured')
+            resin.models.device.restartApplication(params.uuid).nodeify(done)
+
 exports.rename =
 	signature: 'device rename <uuid> [newName]'
 	description: 'rename a resin device'
