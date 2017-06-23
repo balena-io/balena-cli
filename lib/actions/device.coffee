@@ -308,6 +308,40 @@ exports.hasDeviceUrl =
 			console.log(hasDeviceUrl)
 		.nodeify(done)
 
+exports.startApplication =
+    signature: 'device start application <uuid>'
+    description: 'start application on device'
+    help: '''
+        Use this command to start application on device
+
+        Examples:
+
+            $ resin device start application 23c73a1
+    '''
+    permission: 'user'
+    action: (params, options, done) ->
+        resin = require('resin-sdk-preconfigured')
+        resin.models.device.startApplication(params.uuid).then (containerId) ->
+            console.log(containerId)
+        .nodeify(done)
+
+exports.stopApplication =
+    signature: 'device stop application <uuid>'
+    description: 'stop application on device'
+    help: '''
+        Use this command to stop application on device
+
+        Examples:
+
+            $ resin device stop application 23c73a1
+    '''
+    permission: 'user'
+    action: (params, options, done) ->
+        resin = require('resin-sdk-preconfigured')
+        resin.models.device.stopApplication(params.uuid).then (containerId) ->
+            console.log(containerId)
+        .nodeify(done)
+
 exports.restartApplication =
     signature: 'device restart application <uuid>'
     description: 'restart application on device'

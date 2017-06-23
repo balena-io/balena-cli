@@ -227,6 +227,34 @@ exports.hasDeviceUrl = {
   }
 };
 
+exports.startApplication = {
+  signature: 'device start application <uuid>',
+  description: 'start application on device',
+  help: 'Use this command to start application on device\n\nExamples:\n\n   $ resin device start application 23c73a1',
+  permission: 'user',
+  action: function(params, options, done) {
+    var resin;
+    resin = require('resin-sdk-preconfigured');
+    return resin.models.device.startApplication(params.uuid).then(function(containerId) {
+      return console.log(containerId);
+    }).nodeify(done);
+  }
+};
+
+exports.stopApplication = {
+  signature: 'device stop application <uuid>',
+  description: 'stop application on device',
+  help: 'Use this command to stop application on device\n\nExamples:\n\n   $ resin device stop application 23c73a1',
+  permission: 'user',
+  action: function(params, options, done) {
+    var resin;
+    resin = require('resin-sdk-preconfigured');
+    return resin.models.device.stopApplication(params.uuid).then(function(containerId) {
+      return console.log(containerId);
+    }).nodeify(done);
+  }
+};
+
 exports.restartApplication = {
   signature: 'device restart application <uuid>',
   description: 'restart application on device',
