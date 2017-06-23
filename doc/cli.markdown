@@ -1406,6 +1406,10 @@ Don't use docker layer caching when building
 
 Run an emulated build using Qemu
 
+#### --squash
+
+Squash newly built layers into a single new layer
+
 ## deploy &#60;appName&#62; [image]
 
 Use this command to deploy an image to an application, optionally building it first.
@@ -1472,6 +1476,10 @@ Don't use docker layer caching when building
 #### --emulated, -e
 
 Run an emulated build using Qemu
+
+#### --squash
+
+Squash newly built layers into a single new layer
 
 # Utilities
 
