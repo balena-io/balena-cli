@@ -135,6 +135,8 @@ capitano.command(actions.device.init);
 
 capitano.command(actions.device.remove);
 
+capitano.command(actions.device.ping);
+
 capitano.command(actions.device.identify);
 
 capitano.command(actions.device.reboot);

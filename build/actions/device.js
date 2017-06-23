@@ -125,6 +125,18 @@ exports.remove = {
   }
 };
 
+exports.ping = {
+  signature: 'device ping <uuid>',
+  description: 'ping a device with a UUID',
+  help: 'Use this command to ping a device.\n\nExamples:\n\n  $ resin device ping 23c73a1',
+  permission: 'user',
+  action: function(params, options, done) {
+    var resin;
+    resin = require('resin-sdk-preconfigured');
+    return resin.models.device.ping(params.uuid).nodeify(done);
+  }
+};
+
 exports.identify = {
   signature: 'device identify <uuid>',
   description: 'identify a device with a UUID',
