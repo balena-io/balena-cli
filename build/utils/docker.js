@@ -53,6 +53,10 @@ exports.appendOptions = function(opts) {
       description: 'Run an emulated build using Qemu',
       boolean: true,
       alias: 'e'
+    }, {
+      signature: 'squash',
+      description: 'Squash newly built layers into a single new layer',
+      boolean: true
     }
   ]);
 };
@@ -279,6 +283,9 @@ exports.runBuild = function(params, options, getBundleInfo, logStreams) {
           opts['buildargs'] = parseBuildArgs(options.buildArg, function(arg) {
             return logging.logWarn(logStreams, "Could not parse variable: '" + arg + "'");
           });
+        }
+        if (options.squash != null) {
+          opts['squash'] = true;
         }
         return builder.createBuildStream(opts, hooks, reject);
       });

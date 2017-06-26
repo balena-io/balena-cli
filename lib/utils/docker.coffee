@@ -66,6 +66,11 @@ exports.appendOptions = (opts) ->
 			description: 'Run an emulated build using Qemu'
 			boolean: true
 			alias: 'e'
+		},
+		{
+			signature: 'squash'
+			description: 'Squash newly built layers into a single new layer'
+			boolean: true
 		}
 	]
 
@@ -290,6 +295,8 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 				if options.buildArg?
 					opts['buildargs'] = parseBuildArgs options.buildArg, (arg) ->
 						logging.logWarn(logStreams, "Could not parse variable: '#{arg}'")
+				if options.squash?
+					opts['squash'] = true
 
 				builder.createBuildStream(opts, hooks, reject)
 
