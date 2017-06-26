@@ -151,6 +151,8 @@ capitano.command(actions.device.getDeviceUrl);
 
 capitano.command(actions.device.hasDeviceUrl);
 
+capitano.command(actions.device.getApplicationInfo);
+
 capitano.command(actions.device.startApplication);
 
 capitano.command(actions.device.stopApplication);

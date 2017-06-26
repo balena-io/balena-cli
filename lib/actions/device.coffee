@@ -308,6 +308,23 @@ exports.hasDeviceUrl =
 			console.log(hasDeviceUrl)
 		.nodeify(done)
 
+exports.getApplicationInfo =
+	signature: 'device application info <uuid>'
+	description: 'get application container information'
+	help: '''
+		Use this command to get application container information from device
+
+		Examples:
+
+			$ resin device application info 23c73a1
+	'''
+	permission: 'user'
+	action: (params, options, done) ->
+		resin = require('resin-sdk-preconfigured')
+		resin.models.device.getApplicationInfo(params.uuid).then (appInfo) ->
+			console.log(appInfo)
+		.nodeify(done)
+
 exports.startApplication =
     signature: 'device start application <uuid>'
     description: 'start application on device'
