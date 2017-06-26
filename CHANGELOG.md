@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Fixed
+
+- **Breaking** Remove Buffer polyfill, require Node v6+, and print warnings in older versions
+
 ## [5.11.1] - 2017-06-22
 
 ## Added

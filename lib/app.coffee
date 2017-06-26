@@ -27,7 +27,14 @@ Raven.setContext
 		args: process.argv
 		node_version: process.version
 
-require('buffer-v6-polyfill')
+validNodeVersions = require('../package.json').engines.node
+if not require('semver').satisfies(process.version, validNodeVersions)
+	console.warn """
+	Warning: this version of Node does not match the requirements of this package.
+	This package expects #{validNodeVersions}, but you're using #{process.version}.
+	This may cause unexpected behaviour.
+	"""
+
 
 # Doing this before requiring any other modules,
 # including the 'resin-sdk', to prevent any module from reading the http proxy config
