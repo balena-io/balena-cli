@@ -414,3 +414,14 @@ exports.getStatus = {
   }
 };
 
+exports.purge = {
+  signature: 'device purge <uuid>',
+  description: 'purge device',
+  help: 'Use this command to clear the user application /data directory\n\nExamples:\n\n	$ resin device purge 23c73a1',
+  permission: 'user',
+  action: function(params, options, done) {
+    var resin;
+    resin = require('resin-sdk-preconfigured');
+    return resin.models.device.purge(params.uuid).nodeify(done);
+  }
+};

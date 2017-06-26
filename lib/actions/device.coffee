@@ -530,3 +530,17 @@ exports.getStatus =
 			console.log(status)
 		.nodeify(done)
 
+exports.disableDeviceUrl =
+	signature: 'device purge <uuid>'
+	description: 'purge device'
+	help: '''
+		Use this command to clear the user application /data directory
+
+		Examples:
+
+			$ resin device purge 23c73a1
+	'''
+	permission: 'user'
+	action: (params, options, done) ->
+		resin = require('resin-sdk-preconfigured')
+		resin.models.device.purge(params.uuid).nodeify(done)
