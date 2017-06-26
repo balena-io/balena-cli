@@ -165,6 +165,8 @@ capitano.command(actions.device.move);
 
 capitano.command(actions.device.info);
 
+capitano.command(actions.device.getStatus);
+
 capitano.command(actions.notes.set);
 
 capitano.command(actions.keys.list);

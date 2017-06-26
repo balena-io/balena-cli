@@ -399,3 +399,18 @@ exports.init = {
     }).nodeify(done);
   }
 };
+
+exports.getStatus = {
+  signature: 'device status <device>',
+  description: 'get the status of a device',
+  help: 'Use this command to get status of a device \n\nExamples:\n\n	$ resin device status 601588',
+  permission: 'user',
+  action: function(params, options, done) {
+    var resin;
+    resin = require('resin-sdk-preconfigured');
+    return resin.models.device.getStatus(params.device).then(function(status) {
+      return console.log(status);
+    }).nodeify(done);
+  }
+};
+

@@ -512,3 +512,21 @@ exports.init =
 				return device.uuid
 
 		.nodeify(done)
+
+exports.getStatus =
+	signature: 'device status <device>'
+	description: 'get the status of a device'
+	help: '''
+		Use this command to get the status of a device
+
+		Examples:
+
+			$ resin device status 601317
+	'''
+	permission: 'user'
+	action: (params, options, done) ->
+		resin = require('resin-sdk-preconfigured')
+		resin.models.device.getStatus(params.device).then (status) ->
+			console.log(status)
+		.nodeify(done)
+

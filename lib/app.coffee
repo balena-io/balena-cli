@@ -135,6 +135,7 @@ capitano.command(actions.device.restartApplication)
 capitano.command(actions.device.register)
 capitano.command(actions.device.move)
 capitano.command(actions.device.info)
+capitano.command(actions.device.getStatus)
 
 # ---------- Notes Module ----------
 capitano.command(actions.notes.set)
