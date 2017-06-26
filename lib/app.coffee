@@ -29,9 +29,11 @@ Raven.setContext
 
 validNodeVersions = require('../package.json').engines.node
 if not require('semver').satisfies(process.version, validNodeVersions)
-	console.warn("Warning: this version of Node does not match the requirements of this package.
+	console.warn """
+	Warning: this version of Node does not match the requirements of this package.
 	This package expects #{validNodeVersions}, but you're using #{process.version}.
-	This may cause unexpected behaviour.")
+	This may cause unexpected behaviour.
+	"""
 
 
 # Doing this before requiring any other modules,
