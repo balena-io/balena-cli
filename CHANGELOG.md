@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Added
+
+- Added support for `--squash` parameter for `resin build`
+
 ## Fixed
 
 - **Breaking** Remove Buffer polyfill, require Node v6+, and print warnings in older versions
