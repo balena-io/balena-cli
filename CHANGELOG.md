@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### Fixed
+
+- Fix issue where emulated builds broke Docker `ARG` commands
+
 ## [6.0.0] - 2017-06-26
 
 ### Added
