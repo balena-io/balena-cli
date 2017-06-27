@@ -169,6 +169,8 @@ capitano.command(actions.device.getStatus);
 
 capitano.command(actions.device.purge);
 
+capitano.command(actions.device.update);
+
 capitano.command(actions.notes.set);
 
 capitano.command(actions.keys.list);

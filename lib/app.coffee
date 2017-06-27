@@ -137,6 +137,7 @@ capitano.command(actions.device.move)
 capitano.command(actions.device.info)
 capitano.command(actions.device.getStatus)
 capitano.command(actions.device.purge)
+capitano.command(actions.device.update)
 
 # ---------- Notes Module ----------
 capitano.command(actions.notes.set)

@@ -544,3 +544,19 @@ exports.disableDeviceUrl =
 	action: (params, options, done) ->
 		resin = require('resin-sdk-preconfigured')
 		resin.models.device.purge(params.uuid).nodeify(done)
+
+exports.update =
+	signature: 'device update <uuid>'
+	description: 'trigger an update check on supervisor'
+	help: '''
+		Use this command to triggere an update check on supervisor
+
+		Examples:
+
+			$ resin device update 23c73a1
+	'''
+	options: [ commandOptions.forceUpdateLock ]
+	permission: 'user'
+	action: (params, options, done) ->
+		resin = require('resin-sdk-preconfigured')
+		resin.models.device.update(params.uuid, options).nodeify(done)

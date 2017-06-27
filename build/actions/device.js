@@ -425,3 +425,16 @@ exports.purge = {
     return resin.models.device.purge(params.uuid).nodeify(done);
   }
 };
+
+exports.update = {
+  signature: 'device update <uuid>',
+  description: 'trigger an update check on supervisor',
+  help: 'Use this command to trigger an update check on supervisor\n\nExamples:\n\n	$ resin device update 23c73a1',
+  options: [commandOptions.forceUpdateLock],
+  permission: 'user',
+  action: function(params, options, done) {
+    var resin;
+    resin = require('resin-sdk-preconfigured');
+    return resin.models.device.update(params.uuid, options).nodeify(done);
+  }
+};
