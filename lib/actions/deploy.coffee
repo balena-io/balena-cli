@@ -37,12 +37,6 @@ showPushProgress = ->
 	progressBar.update({ percentage: 0 })
 	return progressBar
 
-updatePushProgress = (percentage, eta, progressBar) ->
-	if percentage >= 100
-		percentage = 100
-
-	progressBar.update({ percentage, eta })
-
 getBundleInfo = (options) ->
 	helpers = require('../utils/helpers')
 
