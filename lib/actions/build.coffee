@@ -58,7 +58,7 @@ module.exports =
 		},
 	]
 	action: (params, options, done) ->
-		logging = require('../utils/logging')
-		dockerUtils.runBuild(params, options, getBundleInfo, logging.getLogStreams())
+		Logger = require('../utils/logger')
+		dockerUtils.runBuild(params, options, getBundleInfo, new Logger())
 		.asCallback(done)
 

@@ -79,7 +79,7 @@ getBundleInfo = function(options) {
   });
 };
 
-performUpload = function(imageStream, token, username, url, appName, logStreams) {
+performUpload = function(imageStream, token, username, url, appName, logger) {
   var progressBar, progressStream, request, streamWithProgress, uploadRequest, zlib;
   request = require('request');
   progressStream = require('progress-stream');
@@ -108,7 +108,7 @@ performUpload = function(imageStream, token, username, url, appName, logStreams)
       level: 6
     }))
   });
-  return uploadToPromise(uploadRequest, logStreams);
+  return uploadToPromise(uploadRequest, logger);
 };
 
 uploadLogs = function(logs, token, url, buildId, username, appName) {
@@ -124,20 +124,18 @@ uploadLogs = function(logs, token, url, buildId, username, appName) {
   });
 };
 
-uploadToPromise = function(uploadRequest, logStreams) {
-  var logging;
-  logging = require('../utils/logging');
+uploadToPromise = function(uploadRequest, logger) {
   return new Promise(function(resolve, reject) {
     var handleMessage;
     handleMessage = function(data) {
       var e, obj;
       data = data.toString();
-      logging.logDebug(logStreams, "Received data: " + data);
+      logger.logDebug("Received data: " + data);
       try {
         obj = JSON.parse(data);
       } catch (error) {
         e = error;
-        logging.logError(logStreams, 'Error parsing reply from remote side');
+        logger.logError('Error parsing reply from remote side');
         reject(e);
         return;
       }
@@ -148,7 +146,7 @@ uploadToPromise = function(uploadRequest, logStreams) {
           case 'success':
             return resolve(obj);
           case 'status':
-            return logging.logInfo(logStreams, "Remote: " + obj.message);
+            return logger.logInfo("Remote: " + obj.message);
           default:
             return reject(new Error("Received unexpected reply from remote: " + data));
         }
@@ -183,13 +181,13 @@ module.exports = {
     }
   ]),
   action: function(params, options, done) {
-    var _, logStreams, logging, logs, resin, tmp, tmpNameAsync, upload;
+    var Logger, _, logger, logs, resin, tmp, tmpNameAsync, upload;
     _ = require('lodash');
     tmp = require('tmp');
     tmpNameAsync = Promise.promisify(tmp.tmpName);
     resin = require('resin-sdk-preconfigured');
-    logging = require('../utils/logging');
-    logStreams = logging.getLogStreams();
+    Logger = require('../utils/logger');
+    logger = new Logger();
     tmp.setGracefulCleanup();
     logs = '';
     upload = function(token, username, url) {
@@ -206,7 +204,7 @@ module.exports = {
             });
             return Promise["try"](function() {
               if (build) {
-                return dockerUtils.runBuild(params, options, getBundleInfo, logStreams);
+                return dockerUtils.runBuild(params, options, getBundleInfo, logger);
               } else {
                 return {
                   image: imageName,
@@ -216,9 +214,9 @@ module.exports = {
             }).then(function(arg1) {
               var buildLogs, imageName;
               imageName = arg1.image, buildLogs = arg1.log;
-              logging.logInfo(logStreams, 'Initializing deploy...');
+              logger.logInfo('Initializing deploy...');
               logs = buildLogs;
-              return Promise.all([dockerUtils.bufferImage(docker, imageName, bufferFile), token, username, url, params.appName, logStreams]).spread(performUpload);
+              return Promise.all([dockerUtils.bufferImage(docker, imageName, bufferFile), token, username, url, params.appName, logger]).spread(performUpload);
             })["finally"](function() {
               return Promise["try"](function() {
                 return require('mz/fs').unlink(bufferFile);
@@ -228,7 +226,7 @@ module.exports = {
         }).tap(function(arg) {
           var buildId, imageName;
           imageName = arg.image, buildId = arg.buildId;
-          logging.logSuccess(logStreams, "Successfully deployed image: " + (formatImageName(imageName)));
+          logger.logSuccess("Successfully deployed image: " + (formatImageName(imageName)));
           return buildId;
         }).then(function(arg) {
           var buildId, imageName;
@@ -236,11 +234,11 @@ module.exports = {
           if (logs === '' || (options.nologupload != null)) {
             return '';
           }
-          logging.logInfo(logStreams, 'Uploading logs to dashboard...');
+          logger.logInfo('Uploading logs to dashboard...');
           return Promise.join(logs, token, url, buildId, username, params.appName, uploadLogs)["return"]('Successfully uploaded logs');
         }).then(function(msg) {
           if (msg !== '') {
-            return logging.logSuccess(logStreams, msg);
+            return logger.logSuccess(msg);
           }
         }).asCallback(done);
       });

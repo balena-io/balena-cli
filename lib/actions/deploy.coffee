@@ -50,7 +50,7 @@ getBundleInfo = (options) ->
 	.then (app) ->
 		[app.arch, app.device_type]
 
-performUpload = (imageStream, token, username, url, appName, logStreams) ->
+performUpload = (imageStream, token, username, url, appName, logger) ->
 	request = require('request')
 	progressStream = require('progress-stream')
 	zlib = require('zlib')
@@ -74,7 +74,7 @@ performUpload = (imageStream, token, username, url, appName, logStreams) ->
 			level: 6
 		}))
 
-	uploadToPromise(uploadRequest, logStreams)
+	uploadToPromise(uploadRequest, logger)
 
 uploadLogs = (logs, token, url, buildId, username, appName) ->
 	request = require('request')
@@ -85,19 +85,17 @@ uploadLogs = (logs, token, url, buildId, username, appName) ->
 			bearer: token
 		body: Buffer.from(logs)
 
-uploadToPromise = (uploadRequest, logStreams) ->
-	logging = require('../utils/logging')
-
+uploadToPromise = (uploadRequest, logger) ->
 	new Promise (resolve, reject) ->
 
 		handleMessage = (data) ->
 			data = data.toString()
-			logging.logDebug(logStreams, "Received data: #{data}")
+			logger.logDebug("Received data: #{data}")
 
 			try
 				obj = JSON.parse(data)
 			catch e
-				logging.logError(logStreams, 'Error parsing reply from remote side')
+				logger.logError('Error parsing reply from remote side')
 				reject(e)
 				return
 
@@ -105,7 +103,7 @@ uploadToPromise = (uploadRequest, logStreams) ->
 				switch obj.type
 					when 'error' then reject(new Error("Remote error: #{obj.error}"))
 					when 'success' then resolve(obj)
-					when 'status' then logging.logInfo(logStreams, "Remote: #{obj.message}")
+					when 'status' then logger.logInfo("Remote: #{obj.message}")
 					else reject(new Error("Received unexpected reply from remote: #{data}"))
 			else
 				reject(new Error("Received unexpected reply from remote: #{data}"))
@@ -155,9 +153,8 @@ module.exports =
 		tmpNameAsync = Promise.promisify(tmp.tmpName)
 		resin = require('resin-sdk-preconfigured')
 
-		logging = require('../utils/logging')
-
-		logStreams = logging.getLogStreams()
+		Logger = require('../utils/logger')
+		logger = new Logger()
 
 		# Ensure the tmp files gets deleted
 		tmp.setGracefulCleanup()
@@ -179,11 +176,11 @@ module.exports =
 
 						Promise.try ->
 							if build
-								dockerUtils.runBuild(params, options, getBundleInfo, logStreams)
+								dockerUtils.runBuild(params, options, getBundleInfo, logger)
 							else
 								{ image: imageName, log: '' }
 						.then ({ image: imageName, log: buildLogs }) ->
-							logging.logInfo(logStreams, 'Initializing deploy...')
+							logger.logInfo('Initializing deploy...')
 
 							logs = buildLogs
 							Promise.all [
@@ -192,7 +189,7 @@ module.exports =
 								username
 								url
 								params.appName
-								logStreams
+								logger
 							]
 							.spread(performUpload)
 						.finally ->
@@ -203,13 +200,13 @@ module.exports =
 								require('mz/fs').unlink(bufferFile)
 							.catch(_.noop)
 				.tap ({ image: imageName, buildId }) ->
-					logging.logSuccess(logStreams, "Successfully deployed image: #{formatImageName(imageName)}")
+					logger.logSuccess("Successfully deployed image: #{formatImageName(imageName)}")
 					return buildId
 				.then ({ image: imageName, buildId }) ->
 					if logs is '' or options.nologupload?
 						return ''
 
-					logging.logInfo(logStreams, 'Uploading logs to dashboard...')
+					logger.logInfo('Uploading logs to dashboard...')
 
 					Promise.join(
 						logs
@@ -222,7 +219,7 @@ module.exports =
 					)
 					.return('Successfully uploaded logs')
 				.then (msg) ->
-					logging.logSuccess(logStreams, msg) if msg isnt ''
+					logger.logSuccess(msg) if msg isnt ''
 				.asCallback(done)
 
 		Promise.join(
