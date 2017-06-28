@@ -51,10 +51,10 @@ parseInput = Promise.method(function(params, options) {
   return [appName, options.build, source, image];
 });
 
-showPushProgress = function() {
+showPushProgress = function(message) {
   var progressBar, visuals;
   visuals = require('resin-cli-visuals');
-  progressBar = new visuals.Progress('Deploying');
+  progressBar = new visuals.Progress(message);
   progressBar.update({
     percentage: 0
   });
@@ -70,11 +70,12 @@ getBundleInfo = function(options) {
 };
 
 performUpload = function(imageStream, token, username, url, appName, logger) {
-  var progressBar, progressStream, request, streamWithProgress, uploadRequest, zlib;
+  var progressBar, progressMessage, progressStream, request, streamWithProgress, uploadRequest, zlib;
   request = require('request');
   progressStream = require('progress-stream');
   zlib = require('zlib');
-  progressBar = showPushProgress();
+  progressMessage = logger.formatMessage('info', 'Deploying').slice(0, -1);
+  progressBar = showPushProgress(progressMessage);
   streamWithProgress = imageStream.pipe(progressStream({
     time: 500,
     length: imageStream.length

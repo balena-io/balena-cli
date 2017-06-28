@@ -31,9 +31,9 @@ parseInput = Promise.method (params, options) ->
 
 	return [appName, options.build, source, image]
 
-showPushProgress = ->
+showPushProgress = (message) ->
 	visuals = require('resin-cli-visuals')
-	progressBar = new visuals.Progress('Deploying')
+	progressBar = new visuals.Progress(message)
 	progressBar.update({ percentage: 0 })
 	return progressBar
 
@@ -49,7 +49,9 @@ performUpload = (imageStream, token, username, url, appName, logger) ->
 	progressStream = require('progress-stream')
 	zlib = require('zlib')
 
-	progressBar = showPushProgress()
+	# Need to strip off the newline
+	progressMessage = logger.formatMessage('info', 'Deploying').slice(0, -1)
+	progressBar = showPushProgress(progressMessage)
 	streamWithProgress = imageStream.pipe progressStream
 		time: 500,
 		length: imageStream.length

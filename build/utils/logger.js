@@ -33,6 +33,7 @@ module.exports = Logger = (function() {
         }
       }
     });
+    this.formatMessage = logger.formatWithPrefix.bind(logger);
   }
 
   Logger.prototype.logInfo = function(msg) {

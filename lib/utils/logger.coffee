@@ -28,6 +28,8 @@ module.exports = class Logger
 			else
 				stream.pipe(process.stdout) if process.env.DEBUG?
 
+		@formatMessage = logger.formatWithPrefix.bind(logger)
+
 	logInfo: (msg) ->
 		@streams.info.write(msg + eol)
 
