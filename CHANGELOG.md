@@ -7,6 +7,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Fix issue where emulated builds broke Docker `ARG` commands
 
+### Added
+
+- Fix issue when using resin deploy with non-standard stdin (e.g. git bash on windows)
+
 ## [6.0.0] - 2017-06-26
 
 ### Added

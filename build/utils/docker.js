@@ -171,8 +171,8 @@ parseBuildArgs = function(args, onError) {
   return buildArgs;
 };
 
-exports.runBuild = function(params, options, getBundleInfo, logStreams) {
-  var Promise, dockerBuild, doodles, es, logging, logs, path, qemuPath, resolver, transpose;
+exports.runBuild = function(params, options, getBundleInfo, logger) {
+  var Promise, dockerBuild, doodles, es, logs, path, qemuPath, resolver, transpose;
   Promise = require('bluebird');
   dockerBuild = require('resin-docker-build');
   resolver = require('resin-bundle-resolve');
@@ -180,7 +180,6 @@ exports.runBuild = function(params, options, getBundleInfo, logStreams) {
   doodles = require('resin-doodles');
   transpose = require('docker-qemu-transpose');
   path = require('path');
-  logging = require('../utils/logging');
   if (params.source == null) {
     params.source = '.';
   }
@@ -192,7 +191,7 @@ exports.runBuild = function(params, options, getBundleInfo, logStreams) {
     }
     return hasQemu().then(function(present) {
       if (!present) {
-        logging.logInfo(logStreams, 'Installing qemu for ARM emulation...');
+        logger.logInfo('Installing qemu for ARM emulation...');
         return installQemu();
       }
     }).then(function() {
@@ -224,18 +223,18 @@ exports.runBuild = function(params, options, getBundleInfo, logStreams) {
         buildStream: function(stream) {
           var buildThroughStream, logThroughStream, newStream;
           if (options.emulated) {
-            logging.logInfo(logStreams, 'Running emulated build');
+            logger.logInfo('Running emulated build');
           }
           getBundleInfo(options).then(function(info) {
             var arch, bundle, deviceType;
             if (info == null) {
-              logging.logWarn(logStreams, 'Warning: No architecture/device type or application information provided.\n	Dockerfile/project pre-processing will not be performed.');
+              logger.logWarn('Warning: No architecture/device type or application information provided.\n	Dockerfile/project pre-processing will not be performed.');
               return tarStream;
             } else {
               arch = info[0], deviceType = info[1];
               bundle = new resolver.Bundle(tarStream, deviceType, arch);
               return resolver.resolveBundle(bundle, resolver.getDefaultResolvers()).then(function(resolved) {
-                logging.logInfo(logStreams, "Building " + resolved.projectType + " project");
+                logger.logInfo("Building " + resolved.projectType + " project");
                 return resolved.tarStream;
               });
             }
@@ -264,13 +263,13 @@ exports.runBuild = function(params, options, getBundleInfo, logStreams) {
           } else {
             newStream = stream;
           }
-          return newStream.pipe(logThroughStream).pipe(cacheHighlightStream()).pipe(logStreams.build);
+          return newStream.pipe(logThroughStream).pipe(cacheHighlightStream()).pipe(logger.streams.build);
         }
       };
       return generateConnectOpts(options).then(function(connectOpts) {
         var builder, opts;
-        logging.logDebug(logStreams, 'Connecting with the following options:');
-        logging.logDebug(logStreams, JSON.stringify(connectOpts, null, '  '));
+        logger.logDebug('Connecting with the following options:');
+        logger.logDebug(JSON.stringify(connectOpts, null, '  '));
         builder = new dockerBuild.Builder(connectOpts);
         opts = {};
         if (options.tag != null) {
@@ -281,7 +280,7 @@ exports.runBuild = function(params, options, getBundleInfo, logStreams) {
         }
         if (options.buildArg != null) {
           opts['buildargs'] = parseBuildArgs(options.buildArg, function(arg) {
-            return logging.logWarn(logStreams, "Could not parse variable: '" + arg + "'");
+            return logger.logWarn("Could not parse variable: '" + arg + "'");
           });
         }
         if (options.squash != null) {

@@ -174,7 +174,7 @@ parseBuildArgs = (args, onError) ->
 
 # Pass in the command line parameters and options and also
 # a function which will return the information about the bundle
-exports.runBuild = (params, options, getBundleInfo, logStreams) ->
+exports.runBuild = (params, options, getBundleInfo, logger) ->
 
 	Promise = require('bluebird')
 	dockerBuild = require('resin-docker-build')
@@ -183,8 +183,6 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 	doodles = require('resin-doodles')
 	transpose = require('docker-qemu-transpose')
 	path = require('path')
-
-	logging = require('../utils/logging')
 
 	# The default build context is the current directory
 	params.source ?= '.'
@@ -198,7 +196,7 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 		hasQemu()
 		.then (present) ->
 			if !present
-				logging.logInfo(logStreams, 'Installing qemu for ARM emulation...')
+				logger.logInfo('Installing qemu for ARM emulation...')
 				installQemu()
 		.then ->
 			# Copy the qemu binary into the build context
@@ -226,12 +224,12 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 				buildFailure: reject
 				buildStream: (stream) ->
 					if options.emulated
-						logging.logInfo(logStreams, 'Running emulated build')
+						logger.logInfo('Running emulated build')
 
 					getBundleInfo(options)
 					.then (info) ->
 						if !info?
-							logging.logWarn logStreams, '''
+							logger.logWarn '''
 								Warning: No architecture/device type or application information provided.
 									Dockerfile/project pre-processing will not be performed.
 							'''
@@ -242,7 +240,7 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 							bundle = new resolver.Bundle(tarStream, deviceType, arch)
 							resolver.resolveBundle(bundle, resolver.getDefaultResolvers())
 							.then (resolved) ->
-								logging.logInfo(logStreams, "Building #{resolved.projectType} project")
+								logger.logInfo("Building #{resolved.projectType} project")
 
 								return resolved.tarStream
 					.then (buildStream) ->
@@ -275,15 +273,15 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 					newStream
 					.pipe(logThroughStream)
 					.pipe(cacheHighlightStream())
-					.pipe(logStreams.build)
+					.pipe(logger.streams.build)
 
 			# Create a builder
 			generateConnectOpts(options)
 			.then (connectOpts) ->
 
 				# Allow degugging output, hidden behind an env var
-				logging.logDebug(logStreams, 'Connecting with the following options:')
-				logging.logDebug(logStreams, JSON.stringify(connectOpts, null, '  '))
+				logger.logDebug('Connecting with the following options:')
+				logger.logDebug(JSON.stringify(connectOpts, null, '  '))
 
 				builder = new dockerBuild.Builder(connectOpts)
 				opts = {}
@@ -294,7 +292,7 @@ exports.runBuild = (params, options, getBundleInfo, logStreams) ->
 					opts['nocache'] = true
 				if options.buildArg?
 					opts['buildargs'] = parseBuildArgs options.buildArg, (arg) ->
-						logging.logWarn(logStreams, "Could not parse variable: '#{arg}'")
+						logger.logWarn("Could not parse variable: '#{arg}'")
 				if options.squash?
 					opts['squash'] = true
 

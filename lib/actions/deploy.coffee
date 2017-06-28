@@ -31,30 +31,11 @@ parseInput = Promise.method (params, options) ->
 
 	return [appName, options.build, source, image]
 
-# Builds and returns a Docker-like progress bar like this:
-# [==================================>               ] 64%
-renderProgress = (percentage, stepCount = 50) ->
-	_ = require('lodash')
-	percentage = Math.max(0, Math.min(percentage, 100))
-	barCount = stepCount * percentage // 100
-	spaceCount = stepCount - barCount
-	bar = "[#{_.repeat('=', barCount)}>#{_.repeat(' ', spaceCount)}]"
-	return "#{bar} #{percentage.toFixed(1)}%"
-
-showPushProgress = (logStreams) ->
-	logging = require('../utils/logging')
-	logging.logInfo(logStreams, renderProgress(0))
-
-updatePushProgress = (percentage, logStreams) ->
-	logging = require('../utils/logging')
-	ansiEscapes = require('ansi-escapes')
-
-	if percentage >= 100
-		percentage = 100
-	process.stdout.write(ansiEscapes.cursorUp(1))
-	process.stdout.clearLine()
-	process.stdout.cursorTo(0)
-	logging.logInfo(logStreams, renderProgress(percentage))
+showPushProgress = (message) ->
+	visuals = require('resin-cli-visuals')
+	progressBar = new visuals.Progress(message)
+	progressBar.update({ percentage: 0 })
+	return progressBar
 
 getBundleInfo = (options) ->
 	helpers = require('../utils/helpers')
@@ -63,16 +44,21 @@ getBundleInfo = (options) ->
 	.then (app) ->
 		[app.arch, app.device_type]
 
-performUpload = (imageStream, token, username, url, appName, logStreams) ->
+performUpload = (imageStream, token, username, url, appName, logger) ->
 	request = require('request')
 	progressStream = require('progress-stream')
 	zlib = require('zlib')
 
-	showPushProgress(logStreams)
-	streamWithProgress = imageStream.pipe(progressStream({
+	# Need to strip off the newline
+	progressMessage = logger.formatMessage('info', 'Deploying').slice(0, -1)
+	progressBar = showPushProgress(progressMessage)
+	streamWithProgress = imageStream.pipe progressStream
 		time: 500,
 		length: imageStream.length
-	}, ({ percentage }) -> updatePushProgress(percentage, logStreams)))
+	, ({ percentage, eta }) ->
+		progressBar.update
+			percentage: Math.min(percentage, 100)
+			eta: eta
 
 	uploadRequest = request.post
 		url: getBuilderPushEndpoint(url, username, appName)
@@ -84,7 +70,7 @@ performUpload = (imageStream, token, username, url, appName, logStreams) ->
 			level: 6
 		}))
 
-	uploadToPromise(uploadRequest, logStreams)
+	uploadToPromise(uploadRequest, logger)
 
 uploadLogs = (logs, token, url, buildId, username, appName) ->
 	request = require('request')
@@ -95,19 +81,17 @@ uploadLogs = (logs, token, url, buildId, username, appName) ->
 			bearer: token
 		body: Buffer.from(logs)
 
-uploadToPromise = (uploadRequest, logStreams) ->
-	logging = require('../utils/logging')
-
+uploadToPromise = (uploadRequest, logger) ->
 	new Promise (resolve, reject) ->
 
 		handleMessage = (data) ->
 			data = data.toString()
-			logging.logDebug(logStreams, "Received data: #{data}")
+			logger.logDebug("Received data: #{data}")
 
 			try
 				obj = JSON.parse(data)
 			catch e
-				logging.logError(logStreams, 'Error parsing reply from remote side')
+				logger.logError('Error parsing reply from remote side')
 				reject(e)
 				return
 
@@ -115,7 +99,7 @@ uploadToPromise = (uploadRequest, logStreams) ->
 				switch obj.type
 					when 'error' then reject(new Error("Remote error: #{obj.error}"))
 					when 'success' then resolve(obj)
-					when 'status' then logging.logInfo(logStreams, "Remote: #{obj.message}")
+					when 'status' then logger.logInfo("Remote: #{obj.message}")
 					else reject(new Error("Received unexpected reply from remote: #{data}"))
 			else
 				reject(new Error("Received unexpected reply from remote: #{data}"))
@@ -165,9 +149,8 @@ module.exports =
 		tmpNameAsync = Promise.promisify(tmp.tmpName)
 		resin = require('resin-sdk-preconfigured')
 
-		logging = require('../utils/logging')
-
-		logStreams = logging.getLogStreams()
+		Logger = require('../utils/logger')
+		logger = new Logger()
 
 		# Ensure the tmp files gets deleted
 		tmp.setGracefulCleanup()
@@ -189,11 +172,11 @@ module.exports =
 
 						Promise.try ->
 							if build
-								dockerUtils.runBuild(params, options, getBundleInfo, logStreams)
+								dockerUtils.runBuild(params, options, getBundleInfo, logger)
 							else
 								{ image: imageName, log: '' }
 						.then ({ image: imageName, log: buildLogs }) ->
-							logging.logInfo(logStreams, 'Initializing deploy...')
+							logger.logInfo('Initializing deploy...')
 
 							logs = buildLogs
 							Promise.all [
@@ -202,7 +185,7 @@ module.exports =
 								username
 								url
 								params.appName
-								logStreams
+								logger
 							]
 							.spread(performUpload)
 						.finally ->
@@ -213,13 +196,13 @@ module.exports =
 								require('mz/fs').unlink(bufferFile)
 							.catch(_.noop)
 				.tap ({ image: imageName, buildId }) ->
-					logging.logSuccess(logStreams, "Successfully deployed image: #{formatImageName(imageName)}")
+					logger.logSuccess("Successfully deployed image: #{formatImageName(imageName)}")
 					return buildId
 				.then ({ image: imageName, buildId }) ->
 					if logs is '' or options.nologupload?
 						return ''
 
-					logging.logInfo(logStreams, 'Uploading logs to dashboard...')
+					logger.logInfo('Uploading logs to dashboard...')
 
 					Promise.join(
 						logs
@@ -232,7 +215,7 @@ module.exports =
 					)
 					.return('Successfully uploaded logs')
 				.then (msg) ->
-					logging.logSuccess(logStreams, msg) if msg isnt ''
+					logger.logSuccess(msg) if msg isnt ''
 				.asCallback(done)
 
 		Promise.join(
