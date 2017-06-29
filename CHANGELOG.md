@@ -6,13 +6,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - Fix issue where emulated builds broke Docker `ARG` commands
+- Fix issue when using resin deploy with non-standard stdin (e.g. git bash on windows)
 
 ### Added
 
 - Bump resin-sync@8.0.0
 	- Permit resin sync to collaborators
 - Do not explicitly disable ControlMaster option for device SSH connections
-- Fix issue when using resin deploy with non-standard stdin (e.g. git bash on windows)
 
 ## [6.0.0] - 2017-06-26
 
