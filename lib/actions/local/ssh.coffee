@@ -97,7 +97,6 @@ module.exports =
 				-o LogLevel=ERROR \
 				-o StrictHostKeyChecking=no \
 				-o UserKnownHostsFile=/dev/null \
-				-o ControlMaster=no \
 				 root@#{options.deviceIp}"
 
 			if not options.host

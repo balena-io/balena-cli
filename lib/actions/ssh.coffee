@@ -121,7 +121,6 @@ module.exports =
 						-o LogLevel=ERROR \
 						-o StrictHostKeyChecking=no \
 						-o UserKnownHostsFile=/dev/null \
-						-o ControlMaster=no \
 						#{sshProxyCommand} \
 						-p #{options.port} #{username}@ssh.#{proxyUrl} enter #{uuid} #{containerId}"
 
