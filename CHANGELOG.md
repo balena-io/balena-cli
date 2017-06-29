@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Do not explicitly disable ControlMaster option for device SSH connections
 - Fix issue when using resin deploy with non-standard stdin (e.g. git bash on windows)
 
 ## [6.0.0] - 2017-06-26
