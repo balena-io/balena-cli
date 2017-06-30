@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.1.0] - 2017-06-30
+
 ### Fixed
 
 - Fix issue where emulated builds broke Docker `ARG` commands
@@ -511,6 +513,7 @@ and for `resin device init` (same `--config` param)
 
 - Remove outdated information from README.
 
+[6.1.0]: https://github.com/resin-io/resin-cli/compare/v6.0.0...v6.1.0
 [6.0.0]: https://github.com/resin-io/resin-cli/compare/v5.11.1...v6.0.0
 [5.11.1]: https://github.com/resin-io/resin-cli/compare/v5.11.0...v5.11.1
 [5.11.0]: https://github.com/resin-io/resin-cli/compare/v5.10.2...v5.11.0
