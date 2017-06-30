@@ -10,8 +10,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Bump resin-sync@8.0.0
+- Bump resin-sync@8.0.1
 	- Permit resin sync to collaborators
+	- Fix "'cwd' must be a string" error in Node 8
 - Do not explicitly disable ControlMaster option for device SSH connections
 
 ## [6.0.0] - 2017-06-26
