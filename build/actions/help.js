@@ -56,7 +56,6 @@ print = function(data) {
 general = function(params, options, done) {
   var commands, groupedCommands;
   console.log('Usage: resin [COMMAND] [OPTIONS]\n');
-  console.log(messages.gettingStarted + "\n");
   console.log(messages.reachingOut);
   console.log('\nPrimary commands:\n');
   commands = _.reject(capitano.state.commands, function(command) {

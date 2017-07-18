@@ -112,11 +112,7 @@ exports.login	=
 			console.info("Successfully logged in as: #{username}")
 			console.info """
 
-				Now what?
-
-				#{messages.gettingStarted}
-
-				Find out about more super powers by running:
+				Find out about the available commands by running:
 
 				  $ resin help
 
