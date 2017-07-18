@@ -91,7 +91,7 @@ exports.login = {
       return login(options);
     }).then(resin.auth.whoami).tap(function(username) {
       console.info("Successfully logged in as: " + username);
-      return console.info("\nNow what?\n\n" + messages.gettingStarted + "\n\nFind out about more super powers by running:\n\n  $ resin help\n\n" + messages.reachingOut);
+      return console.info("\nFind out about the available commands by running:\n\n  $ resin help\n\n" + messages.reachingOut);
     }).nodeify(done);
   }
 };
