@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.1.1] - 2017-07-18
+
 ### Changed
 
 - Hide the intro quickstart message for now (until it gets renovated)
@@ -517,6 +519,7 @@ and for `resin device init` (same `--config` param)
 
 - Remove outdated information from README.
 
+[6.1.1]: https://github.com/resin-io/resin-cli/compare/v6.1.0...v6.1.1
 [6.1.0]: https://github.com/resin-io/resin-cli/compare/v6.0.0...v6.1.0
 [6.0.0]: https://github.com/resin-io/resin-cli/compare/v5.11.1...v6.0.0
 [5.11.1]: https://github.com/resin-io/resin-cli/compare/v5.11.0...v5.11.1
