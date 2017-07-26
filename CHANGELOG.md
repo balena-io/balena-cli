@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### Changed
+
+- Support the new resinOS versions where the sample connection file is called `resin-sample.ignore`
+
 ## [6.1.1] - 2017-07-18
 
 ### Changed
