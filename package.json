@@ -1,6 +1,6 @@
 {
   "name": "resin-cli",
-  "version": "6.1.1",
+  "version": "6.2.0",
   "description": "Git Push to your devices",
   "main": "./build/actions/index.js",
   "homepage": "https://github.com/resin-io/resin-cli",
@@ -13,7 +13,7 @@
     "resin": "./bin/resin"
   },
   "scripts": {
-    "build": "gulp build",
+    "build": "gulp build && npm run doc",
     "doc": "mkdir -p doc/ && coffee extras/capitanodoc/index.coffee > doc/cli.markdown",
     "watch": "gulp watch",
     "lint": "gulp lint",
