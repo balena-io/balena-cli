@@ -15,49 +15,143 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var CONFIGURATION_SCHEMA;
+var BOOT_PARTITION, CONNECTIONS_FOLDER, CONNECTION_FILE, getConfiguration, getConfigurationSchema, inquirerOptions, prepareConnectionFile;
 
-CONFIGURATION_SCHEMA = {
-  mapper: [
-    {
-      template: {
-        hostname: '{{hostname}}',
-        persistentLogging: '{{persistentLogging}}'
-      },
-      domain: [['config_json', 'hostname'], ['config_json', 'persistentLogging']]
-    }, {
-      template: {
-        wifi: {
-          ssid: '{{networkSsid}}'
-        },
-        'wifi-security': {
-          psk: '{{networkKey}}'
-        }
-      },
-      domain: [['system_connections', 'resin-sample', 'wifi'], ['system_connections', 'resin-sample', 'wifi-security']]
-    }
-  ],
-  files: {
-    system_connections: {
-      fileset: true,
-      type: 'ini',
-      location: {
-        path: 'system-connections',
-        partition: {
-          primary: 1
-        }
-      }
-    },
-    config_json: {
-      type: 'json',
-      location: {
-        path: 'config.json',
-        partition: {
-          primary: 1
-        }
-      }
-    }
+BOOT_PARTITION = {
+  primary: 1
+};
+
+CONNECTIONS_FOLDER = '/system-connections';
+
+getConfigurationSchema = function(connnectionFileName) {
+  if (connnectionFileName == null) {
+    connnectionFileName = 'resin-wifi';
   }
+  return {
+    mapper: [
+      {
+        template: {
+          hostname: '{{hostname}}',
+          persistentLogging: '{{persistentLogging}}'
+        },
+        domain: [['config_json', 'hostname'], ['config_json', 'persistentLogging']]
+      }, {
+        template: {
+          wifi: {
+            ssid: '{{networkSsid}}'
+          },
+          'wifi-security': {
+            psk: '{{networkKey}}'
+          }
+        },
+        domain: [['system_connections', connnectionFileName, 'wifi'], ['system_connections', connnectionFileName, 'wifi-security']]
+      }
+    ],
+    files: {
+      system_connections: {
+        fileset: true,
+        type: 'ini',
+        location: {
+          path: CONNECTIONS_FOLDER.slice(1),
+          partition: BOOT_PARTITION
+        }
+      },
+      config_json: {
+        type: 'json',
+        location: {
+          path: 'config.json',
+          partition: BOOT_PARTITION
+        }
+      }
+    }
+  };
+};
+
+inquirerOptions = function(data) {
+  return [
+    {
+      message: 'Network SSID',
+      type: 'input',
+      name: 'networkSsid',
+      "default": data.networkSsid
+    }, {
+      message: 'Network Key',
+      type: 'input',
+      name: 'networkKey',
+      "default": data.networkKey
+    }, {
+      message: 'Do you want to set advanced settings?',
+      type: 'confirm',
+      name: 'advancedSettings',
+      "default": false
+    }, {
+      message: 'Device Hostname',
+      type: 'input',
+      name: 'hostname',
+      "default": data.hostname,
+      when: function(answers) {
+        return answers.advancedSettings;
+      }
+    }, {
+      message: 'Do you want to enable persistent logging?',
+      type: 'confirm',
+      name: 'persistentLogging',
+      "default": data.persistentLogging,
+      when: function(answers) {
+        return answers.advancedSettings;
+      }
+    }
+  ];
+};
+
+getConfiguration = function(data) {
+  var _, inquirer;
+  _ = require('lodash');
+  inquirer = require('inquirer');
+  data = _.assign(data, {
+    persistentLogging: data.persistentLogging || false
+  });
+  return inquirer.prompt(inquirerOptions(data)).then(function(answers) {
+    return _.merge(data, answers);
+  });
+};
+
+CONNECTION_FILE = '[connection]\nid=resin-wifi\ntype=wifi\n\n[wifi]\nhidden=true\nmode=infrastructure\nssid=My_Wifi_Ssid\n\n[wifi-security]\nauth-alg=open\nkey-mgmt=wpa-psk\npsk=super_secret_wifi_password\n\n[ipv4]\nmethod=auto\n\n[ipv6]\naddr-gen-mode=stable-privacy\nmethod=auto';
+
+prepareConnectionFile = function(target) {
+  var _, imagefs;
+  _ = require('lodash');
+  imagefs = require('resin-image-fs');
+  return imagefs.listDirectory({
+    image: target,
+    partition: BOOT_PARTITION,
+    path: CONNECTIONS_FOLDER
+  }).then(function(files) {
+    if (_.includes(files, 'resin-wifi')) {
+      return null;
+    }
+    if (_.includes(files, 'resin-sample.ignore')) {
+      return imagefs.copy({
+        image: target,
+        partition: BOOT_PARTITION,
+        path: CONNECTIONS_FOLDER + "/resin-sample.ignore"
+      }, {
+        image: target,
+        partition: BOOT_PARTITION,
+        path: CONNECTIONS_FOLDER + "/resin-wifi"
+      }).thenReturn(null);
+    }
+    if (_.includes(files, 'resin-sample')) {
+      return 'resin-sample';
+    }
+    return imagefs.writeFile({
+      image: target,
+      partition: BOOT_PARTITION,
+      path: CONNECTIONS_FOLDER + "/resin-wifi"
+    }, CONNECTION_FILE).thenReturn(null);
+  }).then(function(connnectionFileName) {
+    return getConfigurationSchema(connnectionFileName);
+  });
 };
 
 module.exports = {
@@ -66,62 +160,24 @@ module.exports = {
   help: 'Use this command to configure or reconfigure a resinOS drive or image.\n\nExamples:\n\n	$ resin local configure /dev/sdc\n	$ resin local configure path/to/image.img',
   root: true,
   action: function(params, options, done) {
-    var Promise, _, denymount, inquirer, isMountedAsync, reconfix, umount, umountAsync;
-    _ = require('lodash');
+    var Promise, denymount, isMountedAsync, reconfix, umount, umountAsync;
     Promise = require('bluebird');
     umount = require('umount');
     umountAsync = Promise.promisify(umount.umount);
     isMountedAsync = Promise.promisify(umount.isMounted);
-    inquirer = require('inquirer');
     reconfix = require('reconfix');
     denymount = Promise.promisify(require('denymount'));
-    return isMountedAsync(params.target).then(function(isMounted) {
-      if (!isMounted) {
-        return;
-      }
-      return umountAsync(params.target);
-    }).then(function() {
+    return prepareConnectionFile(params.target).tap(function() {
+      return isMountedAsync(params.target).then(function(isMounted) {
+        if (!isMounted) {
+          return;
+        }
+        return umountAsync(params.target);
+      });
+    }).then(function(configurationSchema) {
       return denymount(params.target, function(cb) {
-        return reconfix.readConfiguration(CONFIGURATION_SCHEMA, params.target).then(function(data) {
-          data.persistentLogging = data.persistentLogging || false;
-          return inquirer.prompt([
-            {
-              message: 'Network SSID',
-              type: 'input',
-              name: 'networkSsid',
-              "default": data.networkSsid
-            }, {
-              message: 'Network Key',
-              type: 'input',
-              name: 'networkKey',
-              "default": data.networkKey
-            }, {
-              message: 'Do you want to set advanced settings?',
-              type: 'confirm',
-              name: 'advancedSettings',
-              "default": false
-            }, {
-              message: 'Device Hostname',
-              type: 'input',
-              name: 'hostname',
-              "default": data.hostname,
-              when: function(answers) {
-                return answers.advancedSettings;
-              }
-            }, {
-              message: 'Do you want to enable persistent logging?',
-              type: 'confirm',
-              name: 'persistentLogging',
-              "default": data.persistentLogging,
-              when: function(answers) {
-                return answers.advancedSettings;
-              }
-            }
-          ]).then(function(answers) {
-            return _.merge(data, answers);
-          });
-        }).then(function(answers) {
-          return reconfix.writeConfiguration(CONFIGURATION_SCHEMA, answers, params.target);
+        return reconfix.readConfiguration(configurationSchema, params.target).then(getConfiguration).then(function(answers) {
+          return reconfix.writeConfiguration(configurationSchema, answers, params.target);
         }).asCallback(cb);
       });
     }).then(function() {
