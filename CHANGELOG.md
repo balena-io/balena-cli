@@ -5,6 +5,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## [6.3.0] - 2017-08-03
+
 ### Fixed
 
 - Fixed compatibility of `resin local push` with docker >= 1.12
@@ -531,6 +533,7 @@ and for `resin device init` (same `--config` param)
 
 - Remove outdated information from README.
 
+[6.3.0]: https://github.com/resin-io/resin-cli/compare/v6.2.0...v6.3.0
 [6.2.0]: https://github.com/resin-io/resin-cli/compare/v6.1.1...v6.2.0
 [6.1.1]: https://github.com/resin-io/resin-cli/compare/v6.1.0...v6.1.1
 [6.1.0]: https://github.com/resin-io/resin-cli/compare/v6.0.0...v6.1.0
