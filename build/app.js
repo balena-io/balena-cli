@@ -199,6 +199,8 @@ capitano.command(actions.logs);
 
 capitano.command(actions.sync);
 
+capitano.command(actions.preload);
+
 capitano.command(actions.ssh);
 
 capitano.command(actions.local.configure);

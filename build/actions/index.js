@@ -35,5 +35,6 @@ module.exports = {
   internal: require('./internal'),
   build: require('./build'),
   deploy: require('./deploy'),
-  util: require('./util')
+  util: require('./util'),
+  preload: require('./preload')
 };
