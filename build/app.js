@@ -39,7 +39,7 @@ Raven.setContext({
 validNodeVersions = require('../package.json').engines.node;
 
 if (!require('semver').satisfies(process.version, validNodeVersions)) {
-  console.warn("Warning: this version of Node does not match the requirements of this package.\nThis package expects " + validNodeVersions + ", but you're using " + process.version + ".\nThis may cause unexpected behaviour.");
+  console.warn("Warning: this version of Node does not match the requirements of this package.\nThis package expects " + validNodeVersions + ", but you're using " + process.version + ".\nThis may cause unexpected behaviour.\n\nTo upgrade your Node, visit https://nodejs.org/en/download/\n");
 }
 
 globalTunnel = require('global-tunnel-ng');
