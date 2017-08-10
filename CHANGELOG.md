@@ -5,6 +5,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+### Changed
+
+- Added a link to the Node download page in the warning for users with old Node versions
 
 ## [6.3.1] - 2017-08-08
 

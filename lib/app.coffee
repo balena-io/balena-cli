@@ -33,6 +33,9 @@ if not require('semver').satisfies(process.version, validNodeVersions)
 	Warning: this version of Node does not match the requirements of this package.
 	This package expects #{validNodeVersions}, but you're using #{process.version}.
 	This may cause unexpected behaviour.
+
+	To upgrade your Node, visit https://nodejs.org/en/download/
+
 	"""
 
 
