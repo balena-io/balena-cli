@@ -3,10 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## [6.4.0] - 2017-08-11
 
 ### Changed
 
+- Support overlay2 in resin local push
+- Support Docker versions greater than 1.X in resin sync
 - Provide a helpful warning when Docker is not installed (or is unaccessible)
 - Added a link to the Node download page in the warning for users with old Node versions
 - Remove inconsistent (and now unneccesary) 'Tagging image as' message from local build output
@@ -543,6 +545,7 @@ and for `resin device init` (same `--config` param)
 
 - Remove outdated information from README.
 
+[6.4.0]: https://github.com/resin-io/resin-cli/compare/v6.3.1...v6.4.0
 [6.3.1]: https://github.com/resin-io/resin-cli/compare/v6.3.0...v6.3.1
 [6.3.0]: https://github.com/resin-io/resin-cli/compare/v6.2.0...v6.3.0
 [6.2.0]: https://github.com/resin-io/resin-cli/compare/v6.1.1...v6.2.0
