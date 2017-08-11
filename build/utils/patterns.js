@@ -219,3 +219,11 @@ exports.printErrorMessage = function(message) {
   console.error(chalk.red(message));
   return console.error(chalk.red("\n" + messages.getHelp + "\n"));
 };
+
+exports.expectedError = function(message) {
+  if (message instanceof Error) {
+    message = message.message;
+  }
+  console.error(chalk.red(message));
+  return process.exit(1);
+};

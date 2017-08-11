@@ -173,3 +173,9 @@ exports.inferOrSelectDevice = (preferredUuid) ->
 exports.printErrorMessage = (message) ->
 	console.error(chalk.red(message))
 	console.error(chalk.red("\n#{messages.getHelp}\n"))
+
+exports.expectedError = (message) ->
+	if message instanceof Error
+		message = message.message
+	console.error(chalk.red(message))
+	process.exit(1)

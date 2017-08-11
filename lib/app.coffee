@@ -172,6 +172,9 @@ capitano.command(actions.logs)
 # ---------- Sync Module ----------
 capitano.command(actions.sync)
 
+# ---------- Preload Module ----------
+capitano.command(actions.preload)
+
 # ---------- SSH Module ----------
 capitano.command(actions.ssh)
 

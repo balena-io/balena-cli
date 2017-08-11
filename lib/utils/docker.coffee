@@ -9,7 +9,7 @@ QEMU_BIN_NAME = 'qemu-execve'
 #
 # NOTE: Care MUST be taken when using the function, so as to
 # not redefine/override options already provided.
-exports.appendOptions = (opts) ->
+exports.appendConnectionOptions = appendConnectionOptions = (opts) ->
 	opts.concat [
 		{
 			signature: 'docker'
@@ -44,6 +44,16 @@ exports.appendOptions = (opts) ->
 			parameter: 'key'
 			description: 'Docker host TLS key file'
 		},
+	]
+
+# Use this function to seed an action's list of capitano options
+# with the docker options. Using this interface means that
+# all functions using docker will expose the same interface
+#
+# NOTE: Care MUST be taken when using the function, so as to
+# not redefine/override options already provided.
+exports.appendOptions = (opts) ->
+	appendConnectionOptions(opts).concat [
 		{
 			signature: 'tag'
 			parameter: 'tag'
