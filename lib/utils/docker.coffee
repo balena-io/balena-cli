@@ -209,8 +209,6 @@ exports.runBuild = (params, options, getBundleInfo, logger) ->
 		new Promise (resolve, reject) ->
 			hooks =
 				buildSuccess: (image) ->
-					if options.tag?
-						console.log("Tagging image as #{options.tag}")
 					# Show charlie. In the interest of cloud parity,
 					# use console.log, not the standard logging streams
 					doodle = doodles.getDoodle()

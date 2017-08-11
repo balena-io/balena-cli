@@ -207,9 +207,6 @@ exports.runBuild = function(params, options, getBundleInfo, logger) {
       hooks = {
         buildSuccess: function(image) {
           var doodle;
-          if (options.tag != null) {
-            console.log("Tagging image as " + options.tag);
-          }
           doodle = doodles.getDoodle();
           console.log();
           console.log(doodle);

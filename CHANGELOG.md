@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Provide a helpful warning when Docker is not installed (or is unaccessible)
 - Added a link to the Node download page in the warning for users with old Node versions
+- Remove inconsistent (and now unneccesary) 'Tagging image as' message from local build output
 
 ## [6.3.1] - 2017-08-08
 
