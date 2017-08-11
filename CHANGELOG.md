@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Use forked global-tunnel-ng that doesn't proxy connections to socket files
 - Preload support
 
 ## [6.4.0] - 2017-08-11
