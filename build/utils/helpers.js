@@ -15,7 +15,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var Promise;
+var Promise, getApplication;
 
 Promise = require('bluebird');
 
@@ -99,7 +99,7 @@ exports.getAppInfo = function(application) {
   var _, resin;
   resin = require('resin-sdk-preconfigured');
   _ = require('lodash');
-  return Promise.join(resin.models.application.get(application), resin.models.config.getDeviceTypes(), function(app, config) {
+  return Promise.join(getApplication(application), resin.models.config.getDeviceTypes(), function(app, config) {
     config = _.find(config, {
       'slug': app.device_type
     });
@@ -109,6 +109,15 @@ exports.getAppInfo = function(application) {
     app.arch = config.arch;
     return app;
   });
+};
+
+getApplication = function(application) {
+  var match, resin;
+  resin = require('resin-sdk-preconfigured');
+  if ((match = /(\w+)\/(\w+)/.exec(application))) {
+    return resin.models.application.getAppWithOwner(match[2], match[1]);
+  }
+  return resin.models.application.get(application);
 };
 
 exports.getSubShellCommand = function(command) {

@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### Changed
+
+- Added support for looking up shared apps via [owner]/[appname] strings
+
 ### Added
 
 - Use forked global-tunnel-ng that doesn't proxy connections to socket files
