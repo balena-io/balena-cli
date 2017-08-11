@@ -53,7 +53,7 @@
     "dockerode": "^2.5.0",
     "drivelist": "^5.0.22",
     "etcher-image-write": "^9.0.3",
-    "global-tunnel-ng": "^2.1.0",
+    "global-tunnel-ng": "github:zvin/global-tunnel#dont-proxy-connections-to-file-sockets",
     "hasbin": "^1.2.3",
     "inquirer": "^3.1.1",
     "is-root": "^1.0.0",
