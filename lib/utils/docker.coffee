@@ -175,7 +175,6 @@ parseBuildArgs = (args, onError) ->
 # Pass in the command line parameters and options and also
 # a function which will return the information about the bundle
 exports.runBuild = (params, options, getBundleInfo, logger) ->
-
 	Promise = require('bluebird')
 	dockerBuild = require('resin-docker-build')
 	resolver = require('resin-bundle-resolve')
@@ -277,8 +276,9 @@ exports.runBuild = (params, options, getBundleInfo, logger) ->
 
 			# Create a builder
 			generateConnectOpts(options)
+			.tap (connectOpts) ->
+				ensureDockerSeemsAccessible(connectOpts)
 			.then (connectOpts) ->
-
 				# Allow degugging output, hidden behind an env var
 				logger.logDebug('Connecting with the following options:')
 				logger.logDebug(JSON.stringify(connectOpts, null, '  '))
@@ -317,10 +317,28 @@ exports.getDocker = (options) ->
 	Promise = require('bluebird')
 
 	generateConnectOpts(options)
+	.tap (connectOpts) ->
+		ensureDockerSeemsAccessible(connectOpts)
 	.then (connectOpts) ->
 		# Use bluebird's promises
 		connectOpts['Promise'] = Promise
 		new Docker(connectOpts)
+
+ensureDockerSeemsAccessible = (options) ->
+	fs = require('mz/fs')
+
+	if options.socketPath?
+		# If we're trying to use a socket, check it exists and we have access to it
+		fs.access(options.socketPath, fs.constants.R_OK | fs.constants.W_OK)
+		.return(true)
+		.catch (err) ->
+			throw new Error(
+				"Docker seems to be unavailable (using socket #{options.socketPath}). Is it
+				installed, and do you have permission to talk to it?"
+			)
+	else
+		# Otherwise, we think we're probably ok
+		Promise.resolve(true)
 
 hasQemu = ->
 	fs = require('mz/fs')
