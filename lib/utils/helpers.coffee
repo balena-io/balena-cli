@@ -96,7 +96,7 @@ exports.getAppInfo = (application) ->
 	resin = require('resin-sdk-preconfigured')
 	_ = require('lodash')
 	Promise.join(
-		resin.models.application.get(application),
+		getApplication(application),
 		resin.models.config.getDeviceTypes(),
 		(app, config) ->
 			config = _.find(config, 'slug': app.device_type)
@@ -105,6 +105,16 @@ exports.getAppInfo = (application) ->
 			app.arch = config.arch
 			return app
 	)
+
+getApplication = (application) ->
+	resin = require('resin-sdk-preconfigured')
+
+	# Check for an app of the form `user/application`, and send
+	# this off to a special handler (before importing any modules)
+	if (match = /(\w+)\/(\w+)/.exec(application))
+		return resin.models.application.getAppWithOwner(match[2], match[1])
+
+	return resin.models.application.get(application)
 
 # A function to reliably execute a command
 # in all supported operating systems, including
