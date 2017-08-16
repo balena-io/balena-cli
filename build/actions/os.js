@@ -145,7 +145,7 @@ buildConfig = function(image, deviceType, advanced) {
   return helpers.getManifest(image, deviceType).get('options').then(function(questions) {
     var advancedGroup, override;
     if (!advanced) {
-      advancedGroup = _.findWhere(questions, {
+      advancedGroup = _.find(questions, {
         name: 'advanced',
         isGroup: true
       });
