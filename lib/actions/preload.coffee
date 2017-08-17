@@ -174,23 +174,22 @@ module.exports =
 				options.apiHost = settings.apiUrl
 
 				# Use the preloader docker image to extract the deviceType of the image
-				preload.getDeviceTypeSlug(docker, options)
+				preload.getDeviceTypeSlugAndPreloadedBuilds(docker, options)
 				.catch(preload.errors.ResinError, expectedError)
-			.then (deviceType) ->
-
+			.then ({ slug, builds }) ->
 				# Use the appId given as --app or show an interactive app selection menu
 				Promise.try ->
 					if options.appId
 						return preload.getApplication(resin, options.appId)
 						.catch(errors.ResinApplicationNotFound, expectedError)
-					selectApplication(expectedError, resin, form, deviceType)
+					selectApplication(expectedError, resin, form, slug)
 				.then (application) ->
 					options.application = application
 
 					# Check that the app device type and the image device type match
-					if deviceType != application.device_type
+					if slug != application.device_type
 						expectedError(
-							"Image device type (#{application.device_type}) and application device type (#{deviceType}) do not match"
+							"Image device type (#{application.device_type}) and application device type (#{slug}) do not match"
 						)
 
 					# Use the commit given as --commit or show an interactive commit selection menu
@@ -203,16 +202,23 @@ module.exports =
 					.then (commit) ->
 
 						# No commit specified => use the latest commit
-						if commit != LATEST
+						if commit == LATEST
+							options.commit = application.commit
+						else
 							options.commit = commit
 
 						# Propose to disable automatic app updates if the commit is not the latest
 						offerToDisableAutomaticUpdates(Promise, form, resin, application, commit)
-			.then ->
+				.then ->
 
-				# All options are ready: preload the image.
-				preload.run(resin, docker, options)
-				.catch(preload.errors.ResinError, expectedError)
+					builds = builds.map (build) ->
+						build.slice(-preload.BUILD_HASH_LENGTH)
+					if options.commit in builds
+						console.log('This build is already preloaded in this image.')
+						process.exit(0)
+					# All options are ready: preload the image.
+					preload.run(resin, docker, options)
+					.catch(preload.errors.ResinError, expectedError)
 		.then (info) ->
 			info.stdout.pipe(process.stdout)
 			info.stderr.pipe(process.stderr)

@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### Changed
+
+ - Preload will do nothing if you try to preload a build that is already preloaded in the image.
+
 ## [6.5.1] - 2017-08-21
 
 ### Fixed
