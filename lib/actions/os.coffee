@@ -152,7 +152,7 @@ buildConfig = (image, deviceType, advanced = false) ->
 	.get('options')
 	.then (questions) ->
 		if not advanced
-			advancedGroup = _.findWhere questions,
+			advancedGroup = _.find questions,
 				name: 'advanced'
 				isGroup: true
 

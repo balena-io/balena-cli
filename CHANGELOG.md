@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+- Upgrade to Lodash v4, drastically reducing install size (due to dedupes)
 - Updated npm package description
 - Added support for looking up shared apps via [owner]/[appname] strings
 
