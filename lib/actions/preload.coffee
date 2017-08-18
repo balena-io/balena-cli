@@ -196,7 +196,7 @@ module.exports =
 					# Use the commit given as --commit or show an interactive commit selection menu
 					Promise.try ->
 						if options.commit
-							if _.map(builds, 'commit_hash').indexOf(options.commit) == -1
+							if not _.find(application.build, commit_hash: options.commit)
 								expectedError('There is no build matching this commit')
 							return options.commit
 						selectApplicationCommit(expectedError, resin, form, application.build)

@@ -188,7 +188,9 @@ module.exports = {
           }
           return Promise["try"](function() {
             if (options.commit) {
-              if (_.map(builds, 'commit_hash').indexOf(options.commit) === -1) {
+              if (!_.find(application.build, {
+                commit_hash: options.commit
+              })) {
                 expectedError('There is no build matching this commit');
               }
               return options.commit;
