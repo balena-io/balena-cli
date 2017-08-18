@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.5.0] - 2017-08-18
+
 ### Changed
 
 - Set up Travis npm autodeploy
@@ -557,6 +559,7 @@ and for `resin device init` (same `--config` param)
 
 - Remove outdated information from README.
 
+[6.5.0]: https://github.com/resin-io/resin-cli/compare/v6.4.0...v6.5.0
 [6.4.0]: https://github.com/resin-io/resin-cli/compare/v6.3.1...v6.4.0
 [6.3.1]: https://github.com/resin-io/resin-cli/compare/v6.3.0...v6.3.1
 [6.3.0]: https://github.com/resin-io/resin-cli/compare/v6.2.0...v6.3.0
