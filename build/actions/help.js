@@ -28,7 +28,7 @@ columnify = require('columnify');
 messages = require('../utils/messages');
 
 parse = function(object) {
-  return _.object(_.map(object, function(item) {
+  return _.fromPairs(_.map(object, function(item) {
     var signature;
     if (item.alias != null) {
       signature = item.toString();
