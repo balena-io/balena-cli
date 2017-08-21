@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.5.1] - 2017-08-21
+
+### Fixed
+
+- Fix lodash upgrade bug that broke `resin help`
+
 ## [6.5.0] - 2017-08-18
 
 ### Changed
