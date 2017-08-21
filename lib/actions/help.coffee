@@ -21,7 +21,7 @@ columnify = require('columnify')
 messages = require('../utils/messages')
 
 parse = (object) ->
-	return _.object _.map object, (item) ->
+	return _.fromPairs _.map object, (item) ->
 
 		# Hacky way to determine if an object is
 		# a function or a command
