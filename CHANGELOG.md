@@ -565,6 +565,7 @@ and for `resin device init` (same `--config` param)
 
 - Remove outdated information from README.
 
+[6.5.1]: https://github.com/resin-io/resin-cli/compare/v6.5.0...v6.5.1
 [6.5.0]: https://github.com/resin-io/resin-cli/compare/v6.4.0...v6.5.0
 [6.4.0]: https://github.com/resin-io/resin-cli/compare/v6.3.1...v6.4.0
 [6.3.1]: https://github.com/resin-io/resin-cli/compare/v6.3.0...v6.3.1
