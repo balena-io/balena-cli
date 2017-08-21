@@ -15,7 +15,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var LATEST, dockerUtils, getApplicationsWithSuccessfulBuilds, offerToDisableAutomaticUpdates, selectApplication, selectApplicationCommit;
+var LATEST, dockerUtils, getApplicationsWithSuccessfulBuilds, offerToDisableAutomaticUpdates, selectApplication, selectApplicationCommit,
+  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 dockerUtils = require('../utils/docker');
 
@@ -174,17 +175,19 @@ module.exports = {
       return streamToPromise(buildOutputStream).then(resin.settings.getAll).then(function(settings) {
         options.proxy = settings.proxy;
         options.apiHost = settings.apiUrl;
-        return preload.getDeviceTypeSlug(docker, options)["catch"](preload.errors.ResinError, expectedError);
-      }).then(function(deviceType) {
+        return preload.getDeviceTypeSlugAndPreloadedBuilds(docker, options)["catch"](preload.errors.ResinError, expectedError);
+      }).then(function(arg) {
+        var builds, slug;
+        slug = arg.slug, builds = arg.builds;
         return Promise["try"](function() {
           if (options.appId) {
             return preload.getApplication(resin, options.appId)["catch"](errors.ResinApplicationNotFound, expectedError);
           }
-          return selectApplication(expectedError, resin, form, deviceType);
+          return selectApplication(expectedError, resin, form, slug);
         }).then(function(application) {
           options.application = application;
-          if (deviceType !== application.device_type) {
-            expectedError("Image device type (" + application.device_type + ") and application device type (" + deviceType + ") do not match");
+          if (slug !== application.device_type) {
+            expectedError("Image device type (" + application.device_type + ") and application device type (" + slug + ") do not match");
           }
           return Promise["try"](function() {
             if (options.commit) {
@@ -197,14 +200,24 @@ module.exports = {
             }
             return selectApplicationCommit(expectedError, resin, form, application.build);
           }).then(function(commit) {
-            if (commit !== LATEST) {
+            if (commit === LATEST) {
+              options.commit = application.commit;
+            } else {
               options.commit = commit;
             }
             return offerToDisableAutomaticUpdates(Promise, form, resin, application, commit);
           });
+        }).then(function() {
+          var ref;
+          builds = builds.map(function(build) {
+            return build.slice(-preload.BUILD_HASH_LENGTH);
+          });
+          if (ref = options.commit, indexOf.call(builds, ref) >= 0) {
+            console.log('This build is already preloaded in this image.');
+            process.exit(0);
+          }
+          return preload.run(resin, docker, options)["catch"](preload.errors.ResinError, expectedError);
         });
-      }).then(function() {
-        return preload.run(resin, docker, options)["catch"](preload.errors.ResinError, expectedError);
       });
     }).then(function(info) {
       info.stdout.pipe(process.stdout);
