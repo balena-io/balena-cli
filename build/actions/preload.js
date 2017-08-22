@@ -22,7 +22,9 @@ dockerUtils = require('../utils/docker');
 
 LATEST = 'latest';
 
-getApplicationsWithSuccessfulBuilds = function(resin, deviceType) {
+getApplicationsWithSuccessfulBuilds = function(deviceType) {
+  var resin;
+  resin = require('resin-sdk-preconfigured');
   return resin.pine.get({
     resource: 'my_application',
     options: {
@@ -61,8 +63,15 @@ getApplicationsWithSuccessfulBuilds = function(resin, deviceType) {
   });
 };
 
-selectApplication = function(expectedError, resin, form, deviceType) {
-  return getApplicationsWithSuccessfulBuilds(resin, deviceType).then(function(applications) {
+selectApplication = function(deviceType) {
+  var applicationInfoSpinner, expectedError, form, visuals;
+  visuals = require('resin-cli-visuals');
+  form = require('resin-cli-form');
+  expectedError = require('../utils/patterns').expectedError;
+  applicationInfoSpinner = new visuals.Spinner('Downloading list of applications and builds.');
+  applicationInfoSpinner.start();
+  return getApplicationsWithSuccessfulBuilds(deviceType).then(function(applications) {
+    applicationInfoSpinner.stop();
     if (applications.length === 0) {
       expectedError("You have no apps with successful builds for a '" + deviceType + "' device type.");
     }
@@ -79,8 +88,10 @@ selectApplication = function(expectedError, resin, form, deviceType) {
   });
 };
 
-selectApplicationCommit = function(expectedError, resin, form, builds) {
-  var DEFAULT_CHOICE, choices;
+selectApplicationCommit = function(builds) {
+  var DEFAULT_CHOICE, choices, expectedError, form;
+  form = require('resin-cli-form');
+  expectedError = require('../utils/patterns').expectedError;
   if (builds.length === 0) {
     expectedError('This application has no successful builds.');
   }
@@ -102,8 +113,11 @@ selectApplicationCommit = function(expectedError, resin, form, builds) {
   });
 };
 
-offerToDisableAutomaticUpdates = function(Promise, form, resin, application, commit) {
-  var message;
+offerToDisableAutomaticUpdates = function(application, commit) {
+  var Promise, form, message, resin;
+  Promise = require('bluebird');
+  resin = require('resin-sdk-preconfigured');
+  form = require('resin-cli-form');
   if (commit === LATEST || !application.should_track_latest_release) {
     return Promise.resolve();
   }
@@ -154,7 +168,7 @@ module.exports = {
     }
   ]),
   action: function(params, options, done) {
-    var Promise, _, errors, expectedError, form, preload, resin, streamToPromise;
+    var Promise, _, errors, expectedError, form, imageInfoSpinner, preload, resin, streamToPromise, visuals;
     _ = require('lodash');
     Promise = require('bluebird');
     resin = require('resin-sdk-preconfigured');
@@ -162,7 +176,9 @@ module.exports = {
     form = require('resin-cli-form');
     preload = require('resin-preload');
     errors = require('resin-errors');
+    visuals = require('resin-cli-visuals');
     expectedError = require('../utils/patterns').expectedError;
+    imageInfoSpinner = new visuals.Spinner('Reading image device type and preloaded builds.');
     options.image = params.image;
     options.appId = options.app;
     delete options.app;
@@ -171,19 +187,23 @@ module.exports = {
     return dockerUtils.getDocker(options).then(function(docker) {
       var buildOutputStream;
       buildOutputStream = preload.build(docker);
-      buildOutputStream.pipe(process.stdout);
+      if (process.env.DEBUG) {
+        buildOutputStream.pipe(process.stdout);
+      }
       return streamToPromise(buildOutputStream).then(resin.settings.getAll).then(function(settings) {
         options.proxy = settings.proxy;
         options.apiHost = settings.apiUrl;
+        imageInfoSpinner.start();
         return preload.getDeviceTypeSlugAndPreloadedBuilds(docker, options)["catch"](preload.errors.ResinError, expectedError);
       }).then(function(arg) {
         var builds, slug;
         slug = arg.slug, builds = arg.builds;
+        imageInfoSpinner.stop();
         return Promise["try"](function() {
           if (options.appId) {
             return preload.getApplication(resin, options.appId)["catch"](errors.ResinApplicationNotFound, expectedError);
           }
-          return selectApplication(expectedError, resin, form, slug);
+          return selectApplication(slug);
         }).then(function(application) {
           options.application = application;
           if (slug !== application.device_type) {
@@ -198,14 +218,14 @@ module.exports = {
               }
               return options.commit;
             }
-            return selectApplicationCommit(expectedError, resin, form, application.build);
+            return selectApplicationCommit(application.build);
           }).then(function(commit) {
             if (commit === LATEST) {
               options.commit = application.commit;
             } else {
               options.commit = commit;
             }
-            return offerToDisableAutomaticUpdates(Promise, form, resin, application, commit);
+            return offerToDisableAutomaticUpdates(application, commit);
           });
         }).then(function() {
           var ref;

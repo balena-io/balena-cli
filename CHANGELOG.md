@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+ - Progress bar when preload builds its docker image or fetches the build size;
  - Preload will do nothing if you try to preload a build that is already preloaded in the image.
 
 ## [6.5.1] - 2017-08-21

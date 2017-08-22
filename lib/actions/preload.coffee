@@ -18,7 +18,9 @@ dockerUtils = require('../utils/docker')
 
 LATEST = 'latest'
 
-getApplicationsWithSuccessfulBuilds = (resin, deviceType) ->
+getApplicationsWithSuccessfulBuilds = (deviceType) ->
+	resin = require('resin-sdk-preconfigured')
+
 	resin.pine.get
 		resource: 'my_application'
 		options:
@@ -50,9 +52,17 @@ getApplicationsWithSuccessfulBuilds = (resin, deviceType) ->
 				build.status == 'success'
 		applications
 
-selectApplication = (expectedError, resin, form, deviceType) ->
-	getApplicationsWithSuccessfulBuilds(resin, deviceType)
+selectApplication = (deviceType) ->
+	visuals = require('resin-cli-visuals')
+	form = require('resin-cli-form')
+	{ expectedError } = require('../utils/patterns')
+
+	applicationInfoSpinner = new visuals.Spinner('Downloading list of applications and builds.')
+	applicationInfoSpinner.start()
+
+	getApplicationsWithSuccessfulBuilds(deviceType)
 	.then (applications) ->
+		applicationInfoSpinner.stop()
 		if applications.length == 0
 			expectedError("You have no apps with successful builds for a '#{deviceType}' device type.")
 		form.ask
@@ -62,7 +72,10 @@ selectApplication = (expectedError, resin, form, deviceType) ->
 				name: app.app_name
 				value: app
 
-selectApplicationCommit = (expectedError, resin, form, builds) ->
+selectApplicationCommit = (builds) ->
+	form = require('resin-cli-form')
+	{ expectedError } = require('../utils/patterns')
+
 	if builds.length == 0
 		expectedError('This application has no successful builds.')
 	DEFAULT_CHOICE = {'name': LATEST, 'value': LATEST}
@@ -75,7 +88,11 @@ selectApplicationCommit = (expectedError, resin, form, builds) ->
 		default: LATEST
 		choices: choices
 
-offerToDisableAutomaticUpdates = (Promise, form, resin, application, commit) ->
+offerToDisableAutomaticUpdates = (application, commit) ->
+	Promise = require('bluebird')
+	resin = require('resin-sdk-preconfigured')
+	form = require('resin-cli-form')
+
 	if commit == LATEST or not application.should_track_latest_release
 		return Promise.resolve()
 	message = '''
@@ -149,7 +166,10 @@ module.exports =
 		form = require('resin-cli-form')
 		preload = require('resin-preload')
 		errors = require('resin-errors')
+		visuals = require('resin-cli-visuals')
 		{ expectedError } = require('../utils/patterns')
+
+		imageInfoSpinner = new visuals.Spinner('Reading image device type and preloaded builds.')
 
 		options.image = params.image
 		options.appId = options.app
@@ -164,7 +184,10 @@ module.exports =
 
 			# Build the preloader image
 			buildOutputStream = preload.build(docker)
-			buildOutputStream.pipe(process.stdout)
+
+			if process.env.DEBUG
+				buildOutputStream.pipe(process.stdout)
+
 			streamToPromise(buildOutputStream)
 
 			# Get resin sdk settings so we can pass them to the preloader
@@ -174,15 +197,17 @@ module.exports =
 				options.apiHost = settings.apiUrl
 
 				# Use the preloader docker image to extract the deviceType of the image
+				imageInfoSpinner.start()
 				preload.getDeviceTypeSlugAndPreloadedBuilds(docker, options)
 				.catch(preload.errors.ResinError, expectedError)
 			.then ({ slug, builds }) ->
+				imageInfoSpinner.stop()
 				# Use the appId given as --app or show an interactive app selection menu
 				Promise.try ->
 					if options.appId
 						return preload.getApplication(resin, options.appId)
 						.catch(errors.ResinApplicationNotFound, expectedError)
-					selectApplication(expectedError, resin, form, slug)
+					selectApplication(slug)
 				.then (application) ->
 					options.application = application
 
@@ -198,7 +223,7 @@ module.exports =
 							if not _.find(application.build, commit_hash: options.commit)
 								expectedError('There is no build matching this commit')
 							return options.commit
-						selectApplicationCommit(expectedError, resin, form, application.build)
+						selectApplicationCommit(application.build)
 					.then (commit) ->
 
 						# No commit specified => use the latest commit
@@ -208,7 +233,7 @@ module.exports =
 							options.commit = commit
 
 						# Propose to disable automatic app updates if the commit is not the latest
-						offerToDisableAutomaticUpdates(Promise, form, resin, application, commit)
+						offerToDisableAutomaticUpdates(application, commit)
 				.then ->
 
 					builds = builds.map (build) ->
