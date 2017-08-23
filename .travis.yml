@@ -7,7 +7,7 @@ matrix:
     - CAN_DEPLOY=true
 before_install:
 - npm -g install npm
-script: echo 'TODO Write some tests'
+script: ./automation/catch-uncommitted-output
 notifications:
   email: false
 deploy:
