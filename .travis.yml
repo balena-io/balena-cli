@@ -6,7 +6,7 @@ matrix:
     env:
     - CAN_DEPLOY=true
 before_install:
-- npm -g install npm
+- npm -g install npm@4
 script: ./automation/catch-uncommitted-output
 notifications:
   email: false
