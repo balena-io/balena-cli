@@ -343,7 +343,7 @@ exports.move =
 
 		resin.models.device.get(params.uuid).then (device) ->
 			return options.application or patterns.selectApplication (application) ->
-				return _.all [
+				return _.every [
 					application.device_type is device.device_type
 					device.application_name isnt application.app_name
 				]
