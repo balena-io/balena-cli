@@ -51,6 +51,7 @@
     "docker-qemu-transpose": "^0.2.2",
     "docker-toolbelt": "^1.3.3",
     "dockerode": "^2.5.0",
+    "dockerode-options": "^0.2.1",
     "drivelist": "^5.0.22",
     "etcher-image-write": "^9.0.3",
     "global-tunnel-ng": "github:zvin/global-tunnel#dont-proxy-connections-to-file-sockets",
