@@ -23,7 +23,8 @@ dockerUtils = require('../utils/docker');
 LATEST = 'latest';
 
 getApplicationsWithSuccessfulBuilds = function(deviceType) {
-  var resin;
+  var preload, resin;
+  preload = require('resin-preload');
   resin = require('resin-sdk-preconfigured');
   return resin.pine.get({
     resource: 'my_application',
@@ -41,25 +42,10 @@ getApplicationsWithSuccessfulBuilds = function(deviceType) {
           }
         }
       },
-      expand: {
-        environment_variable: {
-          $select: ['name', 'value']
-        },
-        build: {
-          $select: ['id', 'commit_hash', 'push_timestamp', 'status'],
-          $orderby: 'push_timestamp desc'
-        }
-      },
+      expand: preload.applicationExpandOptions,
       select: ['id', 'app_name', 'device_type', 'commit'],
       orderby: 'app_name asc'
     }
-  }).then(function(applications) {
-    applications.forEach(function(application) {
-      return application.build = application.build.filter(function(build) {
-        return build.status === 'success';
-      });
-    });
-    return applications;
   });
 };
 
