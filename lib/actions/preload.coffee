@@ -19,6 +19,7 @@ dockerUtils = require('../utils/docker')
 LATEST = 'latest'
 
 getApplicationsWithSuccessfulBuilds = (deviceType) ->
+	preload = require('resin-preload')
 	resin = require('resin-sdk-preconfigured')
 
 	resin.pine.get
@@ -32,25 +33,9 @@ getApplicationsWithSuccessfulBuilds = (deviceType) ->
 						$expr:
 							b:
 								status: 'success'
-			expand:
-				environment_variable:
-					$select: ['name', 'value']
-				build:
-					$select: [ 'id', 'commit_hash', 'push_timestamp', 'status' ]
-					$orderby: 'push_timestamp desc'
-					# FIXME: The filter is commented because it causes an api error.
-					# We manually filter out successful builds below.
-					# We should move that here once this API error is resolved.
-					#$filter:
-					#	status: 'success'
+			expand: preload.applicationExpandOptions
 			select: [ 'id', 'app_name', 'device_type', 'commit' ]
 			orderby: 'app_name asc'
-	# manual filtering
-	.then (applications) ->
-		applications.forEach (application) ->
-			application.build = application.build.filter (build) ->
-				build.status == 'success'
-		applications
 
 selectApplication = (deviceType) ->
 	visuals = require('resin-cli-visuals')
