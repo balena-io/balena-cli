@@ -151,6 +151,10 @@ module.exports = {
       signature: 'dont-detect-flasher-type-images',
       boolean: true,
       description: 'Disables the flasher type images detection: treats all images as non flasher types'
+    }, {
+      signature: 'dont-check-device-type',
+      boolean: true,
+      description: 'Disables check for matching device types in image and application'
     }
   ]),
   action: function(params, options, done) {
@@ -186,6 +190,9 @@ module.exports = {
         slug = arg.slug, builds = arg.builds;
         imageInfoSpinner.stop();
         return Promise["try"](function() {
+          if (options['dont-check-device-type'] && !options.appId) {
+            expectedError('You need to specify an app id if you disable the device type check.');
+          }
           if (options.appId) {
             return preload.getApplication(resin, options.appId)["catch"](errors.ResinApplicationNotFound, expectedError);
           }
