@@ -142,6 +142,11 @@ module.exports =
 			boolean: true
 			description: 'Disables the flasher type images detection: treats all images as non flasher types'
 		}
+		{
+			signature: 'dont-check-device-type'
+			boolean: true
+			description: 'Disables check for matching device types in image and application'
+		}
 	]
 	action: (params, options, done) ->
 		_ = require('lodash')
@@ -189,6 +194,8 @@ module.exports =
 				imageInfoSpinner.stop()
 				# Use the appId given as --app or show an interactive app selection menu
 				Promise.try ->
+					if options['dont-check-device-type'] and not options.appId
+						expectedError('You need to specify an app id if you disable the device type check.')
 					if options.appId
 						return preload.getApplication(resin, options.appId)
 						.catch(errors.ResinApplicationNotFound, expectedError)
