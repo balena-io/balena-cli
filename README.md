@@ -1,7 +1,7 @@
 Resin CLI
 =========
 
-> The official Resin CLI tool.
+> The official resin.io CLI tool.
 
 [![npm version](https://badge.fury.io/js/resin-cli.svg)](http://badge.fury.io/js/resin-cli)
 [![dependencies](https://david-dm.org/resin-io/resin-cli.svg)](https://david-dm.org/resin-io/resin-cli)
@@ -32,7 +32,7 @@ If you still want to use `cmd.exe` you will have to use a package manager like M
 Getting Started
 ---------------
 
-### Installing
+### Install
 
 This might require elevated privileges in some environments.
 
@@ -40,17 +40,20 @@ This might require elevated privileges in some environments.
 $ npm install --global --production resin-cli
 ```
 
-### List available commands
+### Login
 
 ```sh
-$ resin help
+$ resin login
 ```
 
-### Run the quickstart wizard
+_(Typically useful, but not strictly required for all commands)_
 
-```sh
-$ resin quickstart
-```
+### Run commands
+
+Take a look at the full command documentation at [https://docs.resin.io/tools/cli/](https://docs.resin.io/tools/cli/#table-of-contents
+), or by running `resin help`.
+
+---
 
 Plugins
 -------
