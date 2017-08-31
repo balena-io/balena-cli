@@ -6,8 +6,8 @@ matrix:
     env:
     - CAN_DEPLOY=true
 before_install:
-- npm -g install npm
-script: echo 'TODO Write some tests'
+- npm -g install npm@4
+script: ./automation/catch-uncommitted-output.sh
 notifications:
   email: false
 deploy:
