@@ -24,7 +24,7 @@ exports.getGroupDefaults = function(group) {
   _ = require('lodash');
   return _.chain(group).get('options').map(function(question) {
     return [question.name, question["default"]];
-  }).object().value();
+  }).fromPairs().value();
 };
 
 exports.stateToString = function(state) {

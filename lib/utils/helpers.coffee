@@ -23,7 +23,7 @@ exports.getGroupDefaults = (group) ->
 		.get('options')
 		.map (question) ->
 			return [ question.name, question.default ]
-		.object()
+		.fromPairs()
 		.value()
 
 exports.stateToString = (state) ->

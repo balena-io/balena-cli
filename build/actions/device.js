@@ -249,7 +249,7 @@ exports.move = {
     patterns = require('../utils/patterns');
     return resin.models.device.get(params.uuid).then(function(device) {
       return options.application || patterns.selectApplication(function(application) {
-        return _.all([application.device_type === device.device_type, device.application_name !== application.app_name]);
+        return _.every([application.device_type === device.device_type, device.application_name !== application.app_name]);
       });
     }).tap(function(application) {
       return resin.models.device.move(params.uuid, application);
