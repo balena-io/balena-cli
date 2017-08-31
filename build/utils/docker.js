@@ -68,8 +68,9 @@ exports.appendOptions = function(opts) {
 };
 
 exports.generateConnectOpts = generateConnectOpts = function(opts) {
-  var Promise, _, fs;
+  var Promise, _, buildDockerodeOpts, fs;
   Promise = require('bluebird');
+  buildDockerodeOpts = require('dockerode-options');
   fs = require('mz/fs');
   _ = require('lodash');
   return Promise["try"](function() {
@@ -82,6 +83,8 @@ exports.generateConnectOpts = generateConnectOpts = function(opts) {
       connectOpts.port = opts.dockerPort || 2376;
     } else if ((opts.docker != null) && (opts.dockerHost != null)) {
       throw new Error("Both a local docker socket and docker host have been provided. Don't know how to continue.");
+    } else if (process.env.DOCKER_HOST) {
+      connectOpts = buildDockerodeOpts(process.env.DOCKER_HOST);
     } else {
       connectOpts.socketPath = '/var/run/docker.sock';
     }

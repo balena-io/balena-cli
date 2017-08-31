@@ -86,6 +86,7 @@ exports.appendOptions = (opts) ->
 
 exports.generateConnectOpts = generateConnectOpts = (opts) ->
 	Promise = require('bluebird')
+	buildDockerodeOpts = require('dockerode-options')
 	fs = require('mz/fs')
 	_ = require('lodash')
 
@@ -103,8 +104,11 @@ exports.generateConnectOpts = generateConnectOpts = (opts) ->
 		else if opts.docker? and opts.dockerHost?
 			# Both provided, no obvious way to continue
 			throw new Error("Both a local docker socket and docker host have been provided. Don't know how to continue.")
+		else if process.env.DOCKER_HOST
+			# If no explicit options are provided, use the env
+			connectOpts = buildDockerodeOpts(process.env.DOCKER_HOST)
 		else
-			# None provided, assume default docker local socket
+			# No options anywhere, assume default docker local socket
 			connectOpts.socketPath = '/var/run/docker.sock'
 
 		# Now need to check if the user wants to connect over TLS
