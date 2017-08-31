@@ -1,6 +1,6 @@
 {
   "name": "resin-cli",
-  "version": "6.6.3",
+  "version": "6.6.4",
   "description": "The official resin.io CLI tool",
   "main": "./build/actions/index.js",
   "homepage": "https://github.com/resin-io/resin-cli",
