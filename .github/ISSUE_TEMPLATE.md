@@ -1,0 +1,2 @@
+- **resin-cli version:**
+- **Operating system and architecture:**
