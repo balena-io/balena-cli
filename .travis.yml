@@ -7,7 +7,7 @@ matrix:
     - CAN_DEPLOY=true
 before_install:
 - npm -g install npm@4
-script: ./automation/catch-uncommitted-output.sh
+script: npm run ci
 notifications:
   email: false
 deploy:
