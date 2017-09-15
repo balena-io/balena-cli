@@ -14,11 +14,12 @@
   },
   "scripts": {
     "build": "gulp build && npm run doc",
+    "ci": "npm run build && catch-uncommitted",
     "doc": "mkdir -p doc/ && coffee extras/capitanodoc/index.coffee > doc/cli.markdown",
     "watch": "gulp watch",
     "lint": "gulp lint",
     "prepublish": "require-npm4-to-publish",
-    "prepublishOnly": "npm run build && npm run doc"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "resin",
@@ -30,6 +31,7 @@
     "node": ">=6.0"
   },
   "devDependencies": {
+    "catch-uncommitted": "^1.0.0",
     "ent": "^2.2.0",
     "gulp": "^3.9.0",
     "gulp-coffee": "^2.2.0",
