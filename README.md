@@ -19,7 +19,7 @@ Requisites
 
 ##### Windows Support
 
-Before installing resin-cli, you'll need a working node-gyp environment. If you don't already have one you'll see native module build errors during installation. To fix this, run `npm install -g --production windows-build-tools` in an admin console.
+Before installing resin-cli, you'll need a working node-gyp environment. If you don't already have one you'll see native module build errors during installation. To fix this, run `npm install -g --production windows-build-tools` in an administrator console (available as 'Command Prompt (Admin)' when pressing windows+x in Windows 7+).
 
 `resin sync` and `resin ssh` have not been thoroughly tested on the standard Windows cmd.exe shell. We recommend using bash (or a similar) shell, like Bash for Windows 10 or [Git for Windows](https://git-for-windows.github.io/).
 
