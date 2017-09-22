@@ -89,7 +89,7 @@
     "resin-sdk-preconfigured": "^6.9.0",
     "resin-settings-client": "^3.6.1",
     "resin-stream-logger": "^0.0.4",
-    "resin-sync": "^9.1.0",
+    "resin-sync": "^9.2.3",
     "rimraf": "^2.4.3",
     "rindle": "^1.0.0",
     "semver": "^5.3.0",
