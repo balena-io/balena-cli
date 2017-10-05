@@ -203,9 +203,12 @@ update.notify()
 plugins.register(/^resin-plugin-(.+)$/).then ->
 	cli = capitano.parse(process.argv)
 
-	events.trackCommand(cli).then ->
+	runCommand = ->
 		if cli.global?.help
-			return capitanoExecuteAsync(command: "help #{cli.command ? ''}")
-		capitanoExecuteAsync(cli)
+			capitanoExecuteAsync(command: "help #{cli.command ? ''}")
+		else
+			capitanoExecuteAsync(cli)
+
+	Promise.all([events.trackCommand(cli), runCommand()])
 
 .catch(errors.handle)
