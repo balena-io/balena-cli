@@ -15,7 +15,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var BOOT_PARTITION, CONNECTIONS_FOLDER, CONNECTION_FILE, getConfiguration, getConfigurationSchema, inquirerOptions, prepareConnectionFile;
+var BOOT_PARTITION, CONNECTIONS_FOLDER, CONNECTION_FILE, getConfiguration, getConfigurationSchema, inquirerOptions, prepareConnectionFile, removeHostname;
 
 BOOT_PARTITION = {
   primary: 1
@@ -31,10 +31,14 @@ getConfigurationSchema = function(connnectionFileName) {
     mapper: [
       {
         template: {
-          hostname: '{{hostname}}',
           persistentLogging: '{{persistentLogging}}'
         },
-        domain: [['config_json', 'hostname'], ['config_json', 'persistentLogging']]
+        domain: [['config_json', 'persistentLogging']]
+      }, {
+        template: {
+          hostname: '{{hostname}}'
+        },
+        domain: [['config_json', 'hostname']]
       }, {
         template: {
           wifi: {
@@ -157,8 +161,16 @@ prepareConnectionFile = function(target) {
       partition: BOOT_PARTITION,
       path: CONNECTIONS_FOLDER + "/resin-wifi"
     }, CONNECTION_FILE).thenReturn(null);
-  }).then(function(connnectionFileName) {
-    return getConfigurationSchema(connnectionFileName);
+  }).then(function(connectionFileName) {
+    return getConfigurationSchema(connectionFileName);
+  });
+};
+
+removeHostname = function(schema) {
+  var _;
+  _ = require('lodash');
+  return schema.mapper = _.reject(schema.mapper, function(mapper) {
+    return _.isEqual(Object.keys(mapper.template), ['hostname']);
   });
 };
 
@@ -185,6 +197,9 @@ module.exports = {
     }).then(function(configurationSchema) {
       return denymount(params.target, function(cb) {
         return reconfix.readConfiguration(configurationSchema, params.target).then(getConfiguration).then(function(answers) {
+          if (!answers.hostname) {
+            removeHostname(configurationSchema);
+          }
           return reconfix.writeConfiguration(configurationSchema, answers, params.target);
         }).asCallback(cb);
       });
