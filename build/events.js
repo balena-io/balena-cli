@@ -22,7 +22,7 @@ exports.trackCommand = function(capitanoCommand) {
   capitanoStateGetMatchCommandAsync = Promise.promisify(require('capitano').state.getMatchCommand);
   return Promise.props({
     resinUrl: resin.settings.get('resinUrl'),
-    username: resin.auth.whoami(),
+    username: resin.auth.whoami().catchReturn(void 0),
     mixpanel: exports.getLoggerInstance()
   }).then(function(arg) {
     var mixpanel, resinUrl, username;
@@ -45,5 +45,5 @@ exports.trackCommand = function(capitanoCommand) {
         command: capitanoCommand
       });
     });
-  });
+  }).timeout(100).catchReturn();
 };

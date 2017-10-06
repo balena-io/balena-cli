@@ -230,15 +230,17 @@ capitano.command(actions.deploy);
 update.notify();
 
 plugins.register(/^resin-plugin-(.+)$/).then(function() {
-  var cli;
+  var cli, runCommand;
   cli = capitano.parse(process.argv);
-  return events.trackCommand(cli).then(function() {
+  runCommand = function() {
     var ref, ref1;
     if ((ref = cli.global) != null ? ref.help : void 0) {
       return capitanoExecuteAsync({
         command: "help " + ((ref1 = cli.command) != null ? ref1 : '')
       });
+    } else {
+      return capitanoExecuteAsync(cli);
     }
-    return capitanoExecuteAsync(cli);
-  });
+  };
+  return Promise.all([events.trackCommand(cli), runCommand()]);
 })["catch"](errors.handle);

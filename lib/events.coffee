@@ -13,7 +13,7 @@ exports.trackCommand = (capitanoCommand) ->
 
 	return Promise.props
 		resinUrl: resin.settings.get('resinUrl')
-		username: resin.auth.whoami()
+		username: resin.auth.whoami().catchReturn(undefined)
 		mixpanel: exports.getLoggerInstance()
 	.then ({ username, resinUrl, mixpanel }) ->
 		return capitanoStateGetMatchCommandAsync(capitanoCommand.command).then (command) ->
@@ -30,3 +30,5 @@ exports.trackCommand = (capitanoCommand) ->
 				resinUrl: resinUrl
 				platform: process.platform
 				command: capitanoCommand
+	.timeout(100)
+	.catchReturn()
