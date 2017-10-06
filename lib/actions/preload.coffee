@@ -168,6 +168,9 @@ module.exports =
 		options.dontDetectFlasherTypeImages = options['dont-detect-flasher-type-images']
 		delete options['dont-detect-flasher-type-images']
 
+		options.splashImage = options['splash-image']
+		delete options['splash-image']
+
 		# Get a configured dockerode instance
 		dockerUtils.getDocker(options)
 		.then (docker) ->

@@ -174,6 +174,8 @@ module.exports = {
     delete options.app;
     options.dontDetectFlasherTypeImages = options['dont-detect-flasher-type-images'];
     delete options['dont-detect-flasher-type-images'];
+    options.splashImage = options['splash-image'];
+    delete options['splash-image'];
     return dockerUtils.getDocker(options).then(function(docker) {
       var buildOutputStream;
       buildOutputStream = preload.build(docker);
