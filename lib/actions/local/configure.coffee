@@ -21,11 +21,16 @@ getConfigurationSchema = (connnectionFileName = 'resin-wifi') ->
 	mapper: [
 		{
 			template:
-				hostname: '{{hostname}}'
 				persistentLogging: '{{persistentLogging}}'
 			domain: [
-				[ 'config_json', 'hostname' ]
 				[ 'config_json', 'persistentLogging' ]
+			]
+		}
+		{
+			template:
+				hostname: '{{hostname}}'
+			domain: [
+				[ 'config_json', 'hostname' ]
 			]
 		}
 		{
@@ -176,8 +181,13 @@ prepareConnectionFile = (target) ->
 		, CONNECTION_FILE
 		.thenReturn(null)
 
-	.then (connnectionFileName) ->
-		return getConfigurationSchema(connnectionFileName)
+	.then (connectionFileName) ->
+		return getConfigurationSchema(connectionFileName)
+
+removeHostname = (schema) ->
+	_ = require('lodash')
+	schema.mapper = _.reject schema.mapper, (mapper) ->
+		_.isEqual(Object.keys(mapper.template), ['hostname'])
 
 module.exports =
 	signature: 'local configure <target>'
@@ -209,6 +219,8 @@ module.exports =
 				reconfix.readConfiguration(configurationSchema, params.target)
 				.then(getConfiguration)
 				.then (answers) ->
+					if not answers.hostname
+						removeHostname(configurationSchema)
 					reconfix.writeConfiguration(configurationSchema, answers, params.target)
 				.asCallback(cb)
 		.then ->
