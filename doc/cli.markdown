@@ -1056,7 +1056,7 @@ device uuid
 
 #### --deviceApiKey, -k &#60;device-api-key&#62;
 
-custom device key
+custom device key - note that this is only supported on ResinOS 2.0.3+
 
 #### --output, -o &#60;output&#62;
 

@@ -234,7 +234,7 @@ exports.generate =
 		commandOptions.optionalDevice
 		{
 			signature: 'deviceApiKey'
-			description: 'custom device key'
+			description: 'custom device key - note that this is only supported on ResinOS 2.0.3+'
 			parameter: 'device-api-key'
 			alias: 'k'
 		}
@@ -270,17 +270,91 @@ exports.generate =
 			return resin.models.application.get(options.application)
 		.then (resource) ->
 			resin.models.device.getManifestBySlug(resource.device_type)
-				.get('options')
-				.then(form.run)
-				.then (answers) ->
-					if resource.uuid?
-						return Promise.resolve(options.deviceApiKey ? resin.models.device.generateDeviceKey(resource.uuid))
-						.then (deviceApiKey) ->
-							deviceConfig.getByDevice(resource.uuid, deviceApiKey, answers)
-					return deviceConfig.getByApplication(resource.app_name, answers)
+			.get('options')
+			.then(form.run)
+			.then (answers) ->
+				if resource.uuid?
+					generateDeviceConfig(resource, options.deviceApiKey, answers)
+				else
+					generateApplicationConfig(resource, answers)
 		.then (config) ->
+			deviceConfig.validate(config)
 			if options.output?
 				return writeFileAsync(options.output, JSON.stringify(config))
 
 			console.log(prettyjson.render(config))
 		.nodeify(done)
+
+generateBaseConfig = (application, options) ->
+	Promise = require('bluebird')
+	deviceConfig = require('resin-device-config')
+	resin = require('resin-sdk-preconfigured')
+
+	Promise.props
+		userId: resin.auth.getUserId()
+		username: resin.auth.whoami()
+		apiUrl: resin.settings.get('apiUrl')
+		vpnUrl: resin.settings.get('vpnUrl')
+		registryUrl: resin.settings.get('registryUrl')
+		deltaUrl: resin.settings.get('deltaUrl')
+		pubNubKeys: resin.models.config.getPubNubKeys()
+		mixpanelToken: resin.models.config.getMixpanelToken()
+	.then (results) ->
+		deviceConfig.generate
+			application: application
+			user:
+				id: results.userId
+				username: results.username
+			endpoints:
+				api: results.apiUrl
+				vpn: results.vpnUrl
+				registry: results.registryUrl
+				delta: results.deltaUrl
+			pubnub: results.pubNubKeys
+			mixpanel:
+				token: results.mixpanelToken
+
+generateApplicationConfig = (application, options) ->
+	generateBaseConfig(application)
+	.tap (config) ->
+		authenticateWithApplicationKey(config, application.id)
+
+generateDeviceConfig = (device, deviceApiKey, options) ->
+	resin = require('resin-sdk-preconfigured')
+
+	resin.models.application.get(device.application_name)
+	.then (application) ->
+		generateBaseConfig(application, options)
+		.tap (config) ->
+			# Device API keys are only safe for ResinOS 2.0.3+. We could somehow obtain
+			# the expected version for this config and generate one when we know it's safe,
+			# but instead for now we fall back to app keys unsless the user has explicitly opted in.
+			if deviceApiKey?
+				authenticateWithDeviceKey(config, device.uuid, deviceApiKey)
+			else
+				authenticateWithApplicationKey(config, application.id)
+	.then (config) ->
+		# Associate a device, to prevent the supervisor
+		# from creating another one on its own.
+		config.registered_at = Math.floor(Date.now() / 1000)
+		config.deviceId = device.id
+
+		return config
+
+authenticateWithApplicationKey = (config, applicationNameOrId) ->
+	resin = require('resin-sdk-preconfigured')
+	resin.models.application.generateApiKey(applicationNameOrId)
+	.then (apiKey) ->
+		config.apiKey = apiKey
+		return config
+
+authenticateWithDeviceKey = (config, uuid, customDeviceApiKey) ->
+	Promise = require('bluebird')
+	resin = require('resin-sdk-preconfigured')
+
+	Promise.try ->
+		customDeviceApiKey || resin.models.device.generateDeviceKey(uuid)
+	.then (deviceApiKey) ->
+		config.uuid = uuid
+		config.deviceApiKey = deviceApiKey
+		return config

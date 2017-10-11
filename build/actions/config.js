@@ -15,7 +15,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
-var commandOptions;
+var authenticateWithApplicationKey, authenticateWithDeviceKey, commandOptions, generateApplicationConfig, generateBaseConfig, generateDeviceConfig;
 
 commandOptions = require('./command-options');
 
@@ -198,7 +198,7 @@ exports.generate = {
   options: [
     commandOptions.optionalApplication, commandOptions.optionalDevice, {
       signature: 'deviceApiKey',
-      description: 'custom device key',
+      description: 'custom device key - note that this is only supported on ResinOS 2.0.3+',
       parameter: 'device-api-key',
       alias: 'k'
     }, {
@@ -213,10 +213,10 @@ exports.generate = {
     var Promise, _, deviceConfig, form, prettyjson, resin, writeFileAsync;
     Promise = require('bluebird');
     writeFileAsync = Promise.promisify(require('fs').writeFile);
+    deviceConfig = require('resin-device-config');
     resin = require('resin-sdk-preconfigured');
     _ = require('lodash');
     form = require('resin-cli-form');
-    deviceConfig = require('resin-device-config');
     prettyjson = require('prettyjson');
     if ((options.device == null) && (options.application == null)) {
       throw new Error('You have to pass either a device or an application.\n\nSee the help page for examples:\n\n  $ resin help config generate');
@@ -228,19 +228,99 @@ exports.generate = {
       return resin.models.application.get(options.application);
     }).then(function(resource) {
       return resin.models.device.getManifestBySlug(resource.device_type).get('options').then(form.run).then(function(answers) {
-        var ref;
         if (resource.uuid != null) {
-          return Promise.resolve((ref = options.deviceApiKey) != null ? ref : resin.models.device.generateDeviceKey(resource.uuid)).then(function(deviceApiKey) {
-            return deviceConfig.getByDevice(resource.uuid, deviceApiKey, answers);
-          });
+          return generateDeviceConfig(resource, options.deviceApiKey, answers);
+        } else {
+          return generateApplicationConfig(resource, answers);
         }
-        return deviceConfig.getByApplication(resource.app_name, answers);
       });
     }).then(function(config) {
+      deviceConfig.validate(config);
       if (options.output != null) {
         return writeFileAsync(options.output, JSON.stringify(config));
       }
       return console.log(prettyjson.render(config));
     }).nodeify(done);
   }
+};
+
+generateBaseConfig = function(application, options) {
+  var Promise, deviceConfig, resin;
+  Promise = require('bluebird');
+  deviceConfig = require('resin-device-config');
+  resin = require('resin-sdk-preconfigured');
+  return Promise.props({
+    userId: resin.auth.getUserId(),
+    username: resin.auth.whoami(),
+    apiUrl: resin.settings.get('apiUrl'),
+    vpnUrl: resin.settings.get('vpnUrl'),
+    registryUrl: resin.settings.get('registryUrl'),
+    deltaUrl: resin.settings.get('deltaUrl'),
+    pubNubKeys: resin.models.config.getPubNubKeys(),
+    mixpanelToken: resin.models.config.getMixpanelToken()
+  }).then(function(results) {
+    return deviceConfig.generate({
+      application: application,
+      user: {
+        id: results.userId,
+        username: results.username
+      },
+      endpoints: {
+        api: results.apiUrl,
+        vpn: results.vpnUrl,
+        registry: results.registryUrl,
+        delta: results.deltaUrl
+      },
+      pubnub: results.pubNubKeys,
+      mixpanel: {
+        token: results.mixpanelToken
+      }
+    });
+  });
+};
+
+generateApplicationConfig = function(application, options) {
+  return generateBaseConfig(application).tap(function(config) {
+    return authenticateWithApplicationKey(config, application.id);
+  });
+};
+
+generateDeviceConfig = function(device, deviceApiKey, options) {
+  var resin;
+  resin = require('resin-sdk-preconfigured');
+  return resin.models.application.get(device.application_name).then(function(application) {
+    return generateBaseConfig(application, options).tap(function(config) {
+      if (deviceApiKey != null) {
+        return authenticateWithDeviceKey(config, device.uuid, deviceApiKey);
+      } else {
+        return authenticateWithApplicationKey(config, application.id);
+      }
+    });
+  }).then(function(config) {
+    config.registered_at = Math.floor(Date.now() / 1000);
+    config.deviceId = device.id;
+    return config;
+  });
+};
+
+authenticateWithApplicationKey = function(config, applicationNameOrId) {
+  var resin;
+  resin = require('resin-sdk-preconfigured');
+  return resin.models.application.generateApiKey(applicationNameOrId).then(function(apiKey) {
+    config.apiKey = apiKey;
+    return config;
+  });
+};
+
+authenticateWithDeviceKey = function(config, uuid, customDeviceApiKey) {
+  var Promise, resin;
+  Promise = require('bluebird');
+  resin = require('resin-sdk-preconfigured');
+  return Promise["try"](function() {
+    return customDeviceApiKey || resin.models.device.generateDeviceKey(uuid);
+  }).then(function(deviceApiKey) {
+    config.uuid = uuid;
+    config.deviceApiKey = deviceApiKey;
+    return config;
+  });
 };
