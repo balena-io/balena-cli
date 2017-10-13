@@ -1414,7 +1414,10 @@ Squash newly built layers into a single new layer
 
 Use this command to deploy an image to an application, optionally building it first.
 
-Usage: deploy <appName> ([image] | --build [--source build-dir])
+Usage: `deploy <appName> ([image] | --build [--source build-dir])`
+
+To deploy to an app on which you're a collaborator, use
+`resin deploy <appOwnerUsername>/<appName>`.
 
 Note: If building with this command, all options supported by `resin build`
 are also supported with this command.
