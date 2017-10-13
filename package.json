@@ -81,7 +81,7 @@
     "resin-cli-visuals": "^1.4.0",
     "resin-config-json": "^1.0.0",
     "resin-device-config": "^4.0.0",
-    "resin-device-init": "^3.0.0",
+    "resin-device-init": "^4.0.0",
     "resin-docker-build": "^0.4.0",
     "resin-doodles": "0.0.1",
     "resin-image-fs": "^2.3.0",

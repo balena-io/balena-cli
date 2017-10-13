@@ -222,20 +222,20 @@ exports.configure =
 		resin = require('resin-sdk-preconfigured')
 		init = require('resin-device-init')
 		helpers = require('../utils/helpers')
+		{ generateDeviceConfig } = require('../utils/config')
 
 		console.info('Configuring operating system image')
-		Promise.all [
-			resin.models.device.get(params.uuid)
-			.then (device) ->
+		resin.models.device.get(params.uuid)
+		.then (device) ->
+			Promise.try ->
 				if options.config
 					return readFileAsync(options.config, 'utf8')
 						.then(JSON.parse)
 				return buildConfig(params.image, device.device_type, options.advanced)
-		,
-			Promise.resolve(params.deviceApiKey ? resin.models.device.generateDeviceKey(params.uuid))
-		]
-		.spread (answers, deviceApiKey) ->
-			init.configure(params.image, params.uuid, deviceApiKey, answers)
+			.then (answers) ->
+				generateDeviceConfig(device, params.deviceApiKey, answers)
+				.then (config) ->
+					init.configure(params.image, device.device_type, config, answers)
 		.then(helpers.osProgressHandler)
 		.nodeify(done)
 

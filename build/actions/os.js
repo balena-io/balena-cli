@@ -200,23 +200,26 @@ exports.configure = {
     }
   ],
   action: function(params, options, done) {
-    var Promise, fs, helpers, init, readFileAsync, ref, resin;
+    var Promise, fs, generateDeviceConfig, helpers, init, readFileAsync, resin;
     fs = require('fs');
     Promise = require('bluebird');
     readFileAsync = Promise.promisify(fs.readFile);
     resin = require('resin-sdk-preconfigured');
     init = require('resin-device-init');
     helpers = require('../utils/helpers');
+    generateDeviceConfig = require('../utils/config').generateDeviceConfig;
     console.info('Configuring operating system image');
-    return Promise.all([
-      resin.models.device.get(params.uuid).then(function(device) {
+    return resin.models.device.get(params.uuid).then(function(device) {
+      return Promise["try"](function() {
         if (options.config) {
           return readFileAsync(options.config, 'utf8').then(JSON.parse);
         }
         return buildConfig(params.image, device.device_type, options.advanced);
-      }), Promise.resolve((ref = params.deviceApiKey) != null ? ref : resin.models.device.generateDeviceKey(params.uuid))
-    ]).spread(function(answers, deviceApiKey) {
-      return init.configure(params.image, params.uuid, deviceApiKey, answers);
+      }).then(function(answers) {
+        return generateDeviceConfig(device, params.deviceApiKey, answers).then(function(config) {
+          return init.configure(params.image, device.device_type, config, answers);
+        });
+      });
     }).then(helpers.osProgressHandler).nodeify(done);
   }
 };
