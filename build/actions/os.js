@@ -190,7 +190,7 @@ exports.buildConfig = {
 exports.configure = {
   signature: 'os configure <image> <uuid> [deviceApiKey]',
   description: 'configure an os image',
-  help: 'Use this command to configure a previously downloaded operating system image for the specific device.\n\nExamples:\n\n	$ resin os configure ../path/rpi.img 7cf02a6\n	$ resin os configure ../path/rpi.img 7cf02a6 <existingDeviceKey>',
+  help: 'Use this command to configure a previously downloaded operating system image for the specific device.\n\nNote that device api keys are only supported on ResinOS 2.0.3+\n\nExamples:\n\n	$ resin os configure ../path/rpi.img 7cf02a6\n	$ resin os configure ../path/rpi.img 7cf02a6 <existingDeviceKey>',
   permission: 'user',
   options: [
     commandOptions.advancedConfig, {

@@ -131,6 +131,8 @@ exports.register =
 	help: '''
 		Use this command to register a device to an application.
 
+		Note that device api keys are only supported on ResinOS 2.0.3+
+
 		Examples:
 
 			$ resin device register MyApp

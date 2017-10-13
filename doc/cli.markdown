@@ -331,6 +331,8 @@ Examples:
 
 Use this command to register a device to an application.
 
+Note that device api keys are only supported on ResinOS 2.0.3+
+
 Examples:
 
 	$ resin device register MyApp
@@ -907,6 +909,8 @@ the path to the output JSON file
 ## os configure &#60;image&#62; &#60;uuid&#62; [deviceApiKey]
 
 Use this command to configure a previously downloaded operating system image for the specific device.
+
+Note that device api keys are only supported on ResinOS 2.0.3+
 
 Examples:
 

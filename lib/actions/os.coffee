@@ -201,6 +201,8 @@ exports.configure =
 	help: '''
 		Use this command to configure a previously downloaded operating system image for the specific device.
 
+		Note that device api keys are only supported on ResinOS 2.0.3+
+
 		Examples:
 
 			$ resin os configure ../path/rpi.img 7cf02a6

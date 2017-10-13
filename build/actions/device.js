@@ -84,7 +84,7 @@ exports.supported = {
 exports.register = {
   signature: 'device register <application>',
   description: 'register a device',
-  help: 'Use this command to register a device to an application.\n\nExamples:\n\n	$ resin device register MyApp\n	$ resin device register MyApp --uuid <uuid>\n	$ resin device register MyApp --uuid <uuid> --device-api-key <existingDeviceKey>',
+  help: 'Use this command to register a device to an application.\n\nNote that device api keys are only supported on ResinOS 2.0.3+\n\nExamples:\n\n	$ resin device register MyApp\n	$ resin device register MyApp --uuid <uuid>\n	$ resin device register MyApp --uuid <uuid> --device-api-key <existingDeviceKey>',
   permission: 'user',
   options: [
     {
