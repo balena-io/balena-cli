@@ -127,8 +127,8 @@ offerToDisableAutomaticUpdates = function(application, commit) {
 
 module.exports = {
   signature: 'preload <image>',
-  description: '(beta) preload an app on a disk image',
-  help: 'Warning: "resin preload" requires Docker to be correctly installed in\nyour shell environment. For more information (including Windows support)\nplease check the README here: https://github.com/resin-io/resin-cli .\n\nUse this command to preload an application to a local disk image with a\nbuilt commit from Resin.io.\nThis can be used with cloud builds, or images deployed with resin deploy.\n\nExamples:\n  $ resin preload resin.img --app 1234 --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image some-image.png\n  $ resin preload resin.img',
+  description: '(beta) preload an app on a disk image (or Edison zip archive)',
+  help: 'Warning: "resin preload" requires Docker to be correctly installed in\nyour shell environment. For more information (including Windows support)\nplease check the README here: https://github.com/resin-io/resin-cli .\n\nUse this command to preload an application to a local disk image (or\nEdison zip archive) with a built commit from Resin.io.\nThis can be used with cloud builds, or images deployed with resin deploy.\n\nExamples:\n  $ resin preload resin.img --app 1234 --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image some-image.png\n  $ resin preload resin.img',
   permission: 'user',
   primary: true,
   options: dockerUtils.appendConnectionOptions([
@@ -158,7 +158,7 @@ module.exports = {
     }
   ]),
   action: function(params, options, done) {
-    var Promise, _, errors, expectedError, form, imageInfoSpinner, preload, resin, streamToPromise, visuals;
+    var Promise, _, errors, expectedError, form, nodeCleanup, preload, progressBars, progressHandler, resin, spinnerHandler, spinners, streamToPromise, visuals;
     _ = require('lodash');
     Promise = require('bluebird');
     resin = require('resin-sdk-preconfigured');
@@ -167,8 +167,33 @@ module.exports = {
     preload = require('resin-preload');
     errors = require('resin-errors');
     visuals = require('resin-cli-visuals');
+    nodeCleanup = require('node-cleanup');
     expectedError = require('../utils/patterns').expectedError;
-    imageInfoSpinner = new visuals.Spinner('Reading image device type and preloaded builds.');
+    progressBars = {};
+    progressHandler = function(event) {
+      var progressBar;
+      progressBar = progressBars[event.name];
+      if (!progressBar) {
+        progressBar = progressBars[event.name] = new visuals.Progress(event.name);
+      }
+      return progressBar.update({
+        percentage: event.percentage
+      });
+    };
+    spinners = {};
+    spinnerHandler = function(event) {
+      var spinner;
+      spinner = spinners[event.name];
+      if (!spinner) {
+        spinner = spinners[event.name] = new visuals.Spinner(event.name);
+      }
+      if (event.action === 'start') {
+        return spinner.start();
+      } else {
+        console.log();
+        return spinner.stop();
+      }
+    };
     options.image = params.image;
     options.appId = options.app;
     delete options.app;
@@ -176,72 +201,79 @@ module.exports = {
     delete options['dont-detect-flasher-type-images'];
     options.splashImage = options['splash-image'];
     delete options['splash-image'];
+    if (options['dont-check-device-type'] && !options.appId) {
+      expectedError('You need to specify an app id if you disable the device type check.');
+    }
     return dockerUtils.getDocker(options).then(function(docker) {
-      var buildOutputStream;
-      buildOutputStream = preload.build(docker);
-      if (process.env.DEBUG) {
-        buildOutputStream.pipe(process.stdout);
-      }
-      return streamToPromise(buildOutputStream).then(resin.settings.getAll).then(function(settings) {
-        options.proxy = settings.proxy;
-        options.apiHost = settings.apiUrl;
-        imageInfoSpinner.start();
-        return preload.getDeviceTypeSlugAndPreloadedBuilds(docker, options)["catch"](preload.errors.ResinError, expectedError);
-      }).then(function(arg) {
-        var builds, slug;
-        slug = arg.slug, builds = arg.builds;
-        imageInfoSpinner.stop();
-        return Promise["try"](function() {
-          if (options['dont-check-device-type'] && !options.appId) {
-            expectedError('You need to specify an app id if you disable the device type check.');
-          }
-          if (options.appId) {
-            return preload.getApplication(resin, options.appId)["catch"](errors.ResinApplicationNotFound, expectedError);
-          }
-          return selectApplication(slug);
-        }).then(function(application) {
-          options.application = application;
-          if (slug !== application.device_type) {
-            expectedError("Image device type (" + application.device_type + ") and application device type (" + slug + ") do not match");
-          }
-          return Promise["try"](function() {
-            if (options.commit) {
-              if (!_.find(application.build, {
-                commit_hash: options.commit
-              })) {
-                expectedError('There is no build matching this commit');
-              }
-              return options.commit;
-            }
-            return selectApplicationCommit(application.build);
-          }).then(function(commit) {
-            if (commit === LATEST) {
-              options.commit = application.commit;
-            } else {
-              options.commit = commit;
-            }
-            return offerToDisableAutomaticUpdates(application, commit);
+      var gotSignal, preloader;
+      preloader = new preload.Preloader(resin, docker, options.appId, options.commit, options.image, options.splashImage, options.proxy, options.dontDetectFlasherTypeImages);
+      gotSignal = false;
+      nodeCleanup(function(exitCode, signal) {
+        if (signal) {
+          gotSignal = true;
+          nodeCleanup.uninstall();
+          preloader.cleanup().then(function() {
+            return process.kill(process.pid, signal);
           });
-        }).then(function() {
-          var ref;
-          builds = builds.map(function(build) {
-            return build.slice(-preload.BUILD_HASH_LENGTH);
-          });
-          if (ref = options.commit, indexOf.call(builds, ref) >= 0) {
-            console.log('This build is already preloaded in this image.');
-            process.exit(0);
-          }
-          return preload.run(resin, docker, options)["catch"](preload.errors.ResinError, expectedError);
-        });
+          return false;
+        }
       });
-    }).then(function(info) {
-      info.stdout.pipe(process.stdout);
-      info.stderr.pipe(process.stderr);
-      return info.statusCodePromise;
-    }).then(function(statusCode) {
-      if (statusCode !== 0) {
-        return process.exit(statusCode);
+      if (process.env.DEBUG) {
+        preloader.stderr.pipe(process.stderr);
       }
-    }).then(done);
+      preloader.on('progress', progressHandler);
+      preloader.on('spinner', spinnerHandler);
+      return new Promise(function(resolve, reject) {
+        preloader.on('error', reject);
+        return preloader.build().then(function() {
+          return preloader.prepare();
+        }).then(function() {
+          return preloader.getDeviceTypeAndPreloadedBuilds();
+        }).then(function(info) {
+          return Promise["try"](function() {
+            if (options.appId) {
+              return preloader.fetchApplication()["catch"](errors.ResinApplicationNotFound, expectedError);
+            }
+            return selectApplication(info.device_type);
+          }).then(function(application) {
+            preloader.setApplication(application);
+            if (info.device_type !== application.device_type) {
+              expectedError("Image device type (" + application.device_type + ") and application device type (" + slug + ") do not match");
+            }
+            return Promise["try"](function() {
+              if (options.commit) {
+                if (!_.find(application.build, {
+                  commit_hash: options.commit
+                })) {
+                  expectedError('There is no build matching this commit');
+                }
+                return options.commit;
+              }
+              return selectApplicationCommit(application.build);
+            }).then(function(commit) {
+              if (commit === LATEST) {
+                preloader.commit = application.commit;
+              } else {
+                preloader.commit = commit;
+              }
+              return offerToDisableAutomaticUpdates(application, commit);
+            });
+          }).then(function() {
+            var builds, ref;
+            builds = info.preloaded_builds.map(function(build) {
+              return build.slice(-preload.BUILD_HASH_LENGTH);
+            });
+            if (ref = preloader.commit, indexOf.call(builds, ref) >= 0) {
+              throw new preload.errors.ResinError('This build is already preloaded in this image.');
+            }
+            return preloader.preload()["catch"](preload.errors.ResinError, expectedError);
+          });
+        }).then(resolve)["catch"](reject);
+      }).then(done)["finally"](function() {
+        if (!gotSignal) {
+          return preloader.cleanup();
+        }
+      });
+    });
   }
 };

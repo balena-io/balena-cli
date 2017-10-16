@@ -102,14 +102,14 @@ offerToDisableAutomaticUpdates = (application, commit) ->
 
 module.exports =
 	signature: 'preload <image>'
-	description: '(beta) preload an app on a disk image'
+	description: '(beta) preload an app on a disk image (or Edison zip archive)'
 	help: '''
 		Warning: "resin preload" requires Docker to be correctly installed in
 		your shell environment. For more information (including Windows support)
 		please check the README here: https://github.com/resin-io/resin-cli .
 
-		Use this command to preload an application to a local disk image with a
-		built commit from Resin.io.
+		Use this command to preload an application to a local disk image (or
+		Edison zip archive) with a built commit from Resin.io.
 		This can be used with cloud builds, or images deployed with resin deploy.
 
 		Examples:
@@ -157,9 +157,28 @@ module.exports =
 		preload = require('resin-preload')
 		errors = require('resin-errors')
 		visuals = require('resin-cli-visuals')
+		nodeCleanup = require('node-cleanup')
 		{ expectedError } = require('../utils/patterns')
 
-		imageInfoSpinner = new visuals.Spinner('Reading image device type and preloaded builds.')
+		progressBars = {}
+
+		progressHandler = (event) ->
+			progressBar = progressBars[event.name]
+			if not progressBar
+				progressBar = progressBars[event.name] = new visuals.Progress(event.name)
+			progressBar.update(percentage: event.percentage)
+
+		spinners = {}
+
+		spinnerHandler = (event) ->
+			spinner = spinners[event.name]
+			if not spinner
+				spinner = spinners[event.name] = new visuals.Spinner(event.name)
+			if event.action == 'start'
+				spinner.start()
+			else
+				console.log()
+				spinner.stop()
 
 		options.image = params.image
 		options.appId = options.app
@@ -171,79 +190,92 @@ module.exports =
 		options.splashImage = options['splash-image']
 		delete options['splash-image']
 
+		if options['dont-check-device-type'] and not options.appId
+			expectedError('You need to specify an app id if you disable the device type check.')
+
 		# Get a configured dockerode instance
 		dockerUtils.getDocker(options)
 		.then (docker) ->
 
-			# Build the preloader image
-			buildOutputStream = preload.build(docker)
+			preloader = new preload.Preloader(
+				resin,
+				docker,
+				options.appId,
+				options.commit,
+				options.image,
+				options.splashImage,
+				options.proxy,
+				options.dontDetectFlasherTypeImages
+			)
+
+			gotSignal = false
+
+			nodeCleanup (exitCode, signal) ->
+				if signal
+					gotSignal = true
+					nodeCleanup.uninstall()  # don't call cleanup handler again
+					preloader.cleanup()
+					.then ->
+						# calling process.exit() won't inform parent process of signal
+						process.kill(process.pid, signal)
+					return false
 
 			if process.env.DEBUG
-				buildOutputStream.pipe(process.stdout)
+				preloader.stderr.pipe(process.stderr)
 
-			streamToPromise(buildOutputStream)
+			preloader.on('progress', progressHandler)
+			preloader.on('spinner', spinnerHandler)
 
-			# Get resin sdk settings so we can pass them to the preloader
-			.then(resin.settings.getAll)
-			.then (settings) ->
-				options.proxy = settings.proxy
-				options.apiHost = settings.apiUrl
+			return new Promise (resolve, reject) ->
+				preloader.on('error', reject)
 
-				# Use the preloader docker image to extract the deviceType of the image
-				imageInfoSpinner.start()
-				preload.getDeviceTypeSlugAndPreloadedBuilds(docker, options)
-				.catch(preload.errors.ResinError, expectedError)
-			.then ({ slug, builds }) ->
-				imageInfoSpinner.stop()
-				# Use the appId given as --app or show an interactive app selection menu
-				Promise.try ->
-					if options['dont-check-device-type'] and not options.appId
-						expectedError('You need to specify an app id if you disable the device type check.')
-					if options.appId
-						return preload.getApplication(resin, options.appId)
-						.catch(errors.ResinApplicationNotFound, expectedError)
-					selectApplication(slug)
-				.then (application) ->
-					options.application = application
-
-					# Check that the app device type and the image device type match
-					if slug != application.device_type
-						expectedError(
-							"Image device type (#{application.device_type}) and application device type (#{slug}) do not match"
-						)
-
-					# Use the commit given as --commit or show an interactive commit selection menu
-					Promise.try ->
-						if options.commit
-							if not _.find(application.build, commit_hash: options.commit)
-								expectedError('There is no build matching this commit')
-							return options.commit
-						selectApplicationCommit(application.build)
-					.then (commit) ->
-
-						# No commit specified => use the latest commit
-						if commit == LATEST
-							options.commit = application.commit
-						else
-							options.commit = commit
-
-						# Propose to disable automatic app updates if the commit is not the latest
-						offerToDisableAutomaticUpdates(application, commit)
+				preloader.build()
 				.then ->
+					preloader.prepare()
+				.then ->
+					preloader.getDeviceTypeAndPreloadedBuilds()
+				.then (info) ->
+					Promise.try ->
+						if options.appId
+							return preloader.fetchApplication()
+							.catch(errors.ResinApplicationNotFound, expectedError)
+						selectApplication(info.device_type)
+					.then (application) ->
+						preloader.setApplication(application)
+						# Check that the app device type and the image device type match
+						if info.device_type != application.device_type
+							expectedError(
+								"Image device type (#{application.device_type}) and application device type (#{slug}) do not match"
+							)
 
-					builds = builds.map (build) ->
-						build.slice(-preload.BUILD_HASH_LENGTH)
-					if options.commit in builds
-						console.log('This build is already preloaded in this image.')
-						process.exit(0)
-					# All options are ready: preload the image.
-					preload.run(resin, docker, options)
-					.catch(preload.errors.ResinError, expectedError)
-		.then (info) ->
-			info.stdout.pipe(process.stdout)
-			info.stderr.pipe(process.stderr)
-			info.statusCodePromise
-		.then (statusCode) ->
-			if statusCode != 0
-				process.exit(statusCode)
-		.then(done)
+						# Use the commit given as --commit or show an interactive commit selection menu
+						Promise.try ->
+							if options.commit
+								if not _.find(application.build, commit_hash: options.commit)
+									expectedError('There is no build matching this commit')
+								return options.commit
+							selectApplicationCommit(application.build)
+						.then (commit) ->
+
+							# No commit specified => use the latest commit
+							if commit == LATEST
+								preloader.commit = application.commit
+							else
+								preloader.commit = commit
+
+							# Propose to disable automatic app updates if the commit is not the latest
+							offerToDisableAutomaticUpdates(application, commit)
+					.then ->
+						builds = info.preloaded_builds.map (build) ->
+							build.slice(-preload.BUILD_HASH_LENGTH)
+						if preloader.commit in builds
+							throw new preload.errors.ResinError('This build is already preloaded in this image.')
+						# All options are ready: preload the image.
+						preloader.preload()
+						.catch(preload.errors.ResinError, expectedError)
+				.then(resolve)
+				.catch(reject)
+			.then(done)
+			.finally ->
+				if not gotSignal
+					preloader.cleanup()
