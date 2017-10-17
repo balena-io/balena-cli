@@ -64,6 +64,13 @@ capitano = require('capitano');
 
 capitanoExecuteAsync = Promise.promisify(capitano.execute);
 
+require('resin-sdk').setSharedOptions({
+  apiUrl: settings.get('apiUrl'),
+  imageMakerUrl: settings.get('imageMakerUrl'),
+  dataDirectory: settings.get('dataDirectory'),
+  retries: 2
+});
+
 resin = require('resin-sdk-preconfigured');
 
 actions = require('./actions');
