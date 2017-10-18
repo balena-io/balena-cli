@@ -33,6 +33,9 @@ formatVersion = function(v, isRecommended) {
 resolveVersion = function(deviceType, version) {
   var form, resin;
   if (version !== 'menu') {
+    if (version[0] === 'v') {
+      version = version.slice(1);
+    }
     return Promise.resolve(version);
   }
   form = require('resin-cli-form');

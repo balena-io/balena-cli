@@ -25,6 +25,8 @@ formatVersion = (v, isRecommended) ->
 
 resolveVersion = (deviceType, version) ->
 	if version isnt 'menu'
+		if version[0] == 'v'
+			version = version.slice(1)
 		return Promise.resolve(version)
 
 	form = require('resin-cli-form')
