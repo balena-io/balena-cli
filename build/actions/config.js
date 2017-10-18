@@ -194,9 +194,14 @@ exports.reconfigure = {
 exports.generate = {
   signature: 'config generate',
   description: 'generate a config.json file',
-  help: 'Use this command to generate a config.json for a device or application\n\nExamples:\n\n	$ resin config generate --device 7cf02a6\n	$ resin config generate --device 7cf02a6 --output config.json\n	$ resin config generate --app MyApp\n	$ resin config generate --app MyApp --output config.json',
+  help: 'Use this command to generate a config.json for a device or application\n\nExamples:\n\n	$ resin config generate --device 7cf02a6\n	$ resin config generate --device 7cf02a6 --device-api-key <existingDeviceKey>\n	$ resin config generate --device 7cf02a6 --output config.json\n	$ resin config generate --app MyApp\n	$ resin config generate --app MyApp --output config.json',
   options: [
     commandOptions.optionalApplication, commandOptions.optionalDevice, {
+      signature: 'deviceApiKey',
+      description: 'custom device key - note that this is only supported on ResinOS 2.0.3+',
+      parameter: 'device-api-key',
+      alias: 'k'
+    }, {
       signature: 'output',
       description: 'output',
       parameter: 'output',
@@ -205,7 +210,7 @@ exports.generate = {
   ],
   permission: 'user',
   action: function(params, options, done) {
-    var Promise, _, deviceConfig, form, prettyjson, resin, writeFileAsync;
+    var Promise, _, deviceConfig, form, generateApplicationConfig, generateDeviceConfig, prettyjson, ref, resin, writeFileAsync;
     Promise = require('bluebird');
     writeFileAsync = Promise.promisify(require('fs').writeFile);
     resin = require('resin-sdk-preconfigured');
@@ -213,6 +218,7 @@ exports.generate = {
     form = require('resin-cli-form');
     deviceConfig = require('resin-device-config');
     prettyjson = require('prettyjson');
+    ref = require('../utils/config'), generateDeviceConfig = ref.generateDeviceConfig, generateApplicationConfig = ref.generateApplicationConfig;
     if ((options.device == null) && (options.application == null)) {
       throw new Error('You have to pass either a device or an application.\n\nSee the help page for examples:\n\n  $ resin help config generate');
     }
@@ -224,11 +230,13 @@ exports.generate = {
     }).then(function(resource) {
       return resin.models.device.getManifestBySlug(resource.device_type).get('options').then(form.run).then(function(answers) {
         if (resource.uuid != null) {
-          return deviceConfig.getByDevice(resource.uuid, answers);
+          return generateDeviceConfig(resource, options.deviceApiKey, answers);
+        } else {
+          return generateApplicationConfig(resource, answers);
         }
-        return deviceConfig.getByApplication(resource.app_name, answers);
       });
     }).then(function(config) {
+      deviceConfig.validate(config);
       if (options.output != null) {
         return writeFileAsync(options.output, JSON.stringify(config));
       }

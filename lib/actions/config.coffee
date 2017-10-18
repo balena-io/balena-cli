@@ -224,6 +224,7 @@ exports.generate =
 		Examples:
 
 			$ resin config generate --device 7cf02a6
+			$ resin config generate --device 7cf02a6 --device-api-key <existingDeviceKey>
 			$ resin config generate --device 7cf02a6 --output config.json
 			$ resin config generate --app MyApp
 			$ resin config generate --app MyApp --output config.json
@@ -231,6 +232,12 @@ exports.generate =
 	options: [
 		commandOptions.optionalApplication
 		commandOptions.optionalDevice
+		{
+			signature: 'deviceApiKey'
+			description: 'custom device key - note that this is only supported on ResinOS 2.0.3+'
+			parameter: 'device-api-key'
+			alias: 'k'
+		}
 		{
 			signature: 'output'
 			description: 'output'
@@ -247,6 +254,7 @@ exports.generate =
 		form = require('resin-cli-form')
 		deviceConfig = require('resin-device-config')
 		prettyjson = require('prettyjson')
+		{ generateDeviceConfig, generateApplicationConfig } = require('../utils/config')
 
 		if not options.device? and not options.application?
 			throw new Error '''
@@ -263,13 +271,15 @@ exports.generate =
 			return resin.models.application.get(options.application)
 		.then (resource) ->
 			resin.models.device.getManifestBySlug(resource.device_type)
-				.get('options')
-				.then(form.run)
-				.then (answers) ->
-					if resource.uuid?
-						return deviceConfig.getByDevice(resource.uuid, answers)
-					return deviceConfig.getByApplication(resource.app_name, answers)
+			.get('options')
+			.then(form.run)
+			.then (answers) ->
+				if resource.uuid?
+					generateDeviceConfig(resource, options.deviceApiKey, answers)
+				else
+					generateApplicationConfig(resource, answers)
 		.then (config) ->
+			deviceConfig.validate(config)
 			if options.output?
 				return writeFileAsync(options.output, JSON.stringify(config))
 

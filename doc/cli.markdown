@@ -106,7 +106,7 @@ environment variable (in the same standard URL format).
 	- [os versions &#60;type&#62;](#os-versions-60-type-62-)
 	- [os download &#60;type&#62;](#os-download-60-type-62-)
 	- [os build-config &#60;image&#62; &#60;device-type&#62;](#os-build-config-60-image-62-60-device-type-62-)
-	- [os configure &#60;image&#62; &#60;uuid&#62;](#os-configure-60-image-62-60-uuid-62-)
+	- [os configure &#60;image&#62; &#60;uuid&#62; [deviceApiKey]](#os-configure-60-image-62-60-uuid-62-deviceapikey-)
 	- [os initialize &#60;image&#62;](#os-initialize-60-image-62-)
 
 - Config
@@ -331,15 +331,23 @@ Examples:
 
 Use this command to register a device to an application.
 
+Note that device api keys are only supported on ResinOS 2.0.3+
+
 Examples:
 
 	$ resin device register MyApp
+	$ resin device register MyApp --uuid <uuid>
+	$ resin device register MyApp --uuid <uuid> --device-api-key <existingDeviceKey>
 
 ### Options
 
 #### --uuid, -u &#60;uuid&#62;
 
 custom uuid
+
+#### --deviceApiKey, -k &#60;device-api-key&#62;
+
+custom device key
 
 ## device rm &#60;uuid&#62;
 
@@ -898,13 +906,16 @@ show advanced configuration options
 
 the path to the output JSON file
 
-## os configure &#60;image&#62; &#60;uuid&#62;
+## os configure &#60;image&#62; &#60;uuid&#62; [deviceApiKey]
 
 Use this command to configure a previously downloaded operating system image for the specific device.
+
+Note that device api keys are only supported on ResinOS 2.0.3+
 
 Examples:
 
 	$ resin os configure ../path/rpi.img 7cf02a6
+	$ resin os configure ../path/rpi.img 7cf02a6 <existingDeviceKey>
 
 ### Options
 
@@ -1032,6 +1043,7 @@ Use this command to generate a config.json for a device or application
 Examples:
 
 	$ resin config generate --device 7cf02a6
+	$ resin config generate --device 7cf02a6 --device-api-key <existingDeviceKey>
 	$ resin config generate --device 7cf02a6 --output config.json
 	$ resin config generate --app MyApp
 	$ resin config generate --app MyApp --output config.json
@@ -1045,6 +1057,10 @@ application name
 #### --device, -d &#60;device&#62;
 
 device uuid
+
+#### --deviceApiKey, -k &#60;device-api-key&#62;
+
+custom device key - note that this is only supported on ResinOS 2.0.3+
 
 #### --output, -o &#60;output&#62;
 

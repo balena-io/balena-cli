@@ -196,14 +196,17 @@ exports.buildConfig =
 		.nodeify(done)
 
 exports.configure =
-	signature: 'os configure <image> <uuid>'
+	signature: 'os configure <image> <uuid> [deviceApiKey]'
 	description: 'configure an os image'
 	help: '''
 		Use this command to configure a previously downloaded operating system image for the specific device.
 
+		Note that device api keys are only supported on ResinOS 2.0.3+
+
 		Examples:
 
 			$ resin os configure ../path/rpi.img 7cf02a6
+			$ resin os configure ../path/rpi.img 7cf02a6 <existingDeviceKey>
 	'''
 	permission: 'user'
 	options: [
@@ -221,15 +224,21 @@ exports.configure =
 		resin = require('resin-sdk-preconfigured')
 		init = require('resin-device-init')
 		helpers = require('../utils/helpers')
+		{ generateDeviceConfig } = require('../utils/config')
 
 		console.info('Configuring operating system image')
-		resin.models.device.get(params.uuid).then (device) ->
-			if options.config
-				return readFileAsync(options.config, 'utf8')
-					.then(JSON.parse)
-			return buildConfig(params.image, device.device_type, options.advanced)
-		.then (answers) ->
-			init.configure(params.image, params.uuid, answers).then(helpers.osProgressHandler)
+		resin.models.device.get(params.uuid)
+		.then (device) ->
+			Promise.try ->
+				if options.config
+					return readFileAsync(options.config, 'utf8')
+						.then(JSON.parse)
+				return buildConfig(params.image, device.device_type, options.advanced)
+			.then (answers) ->
+				generateDeviceConfig(device, params.deviceApiKey, answers)
+				.then (config) ->
+					init.configure(params.image, device.device_type, config, answers)
+		.then(helpers.osProgressHandler)
 		.nodeify(done)
 
 INIT_WARNING_MESSAGE = '''

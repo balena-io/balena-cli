@@ -188,9 +188,9 @@ exports.buildConfig = {
 };
 
 exports.configure = {
-  signature: 'os configure <image> <uuid>',
+  signature: 'os configure <image> <uuid> [deviceApiKey]',
   description: 'configure an os image',
-  help: 'Use this command to configure a previously downloaded operating system image for the specific device.\n\nExamples:\n\n	$ resin os configure ../path/rpi.img 7cf02a6',
+  help: 'Use this command to configure a previously downloaded operating system image for the specific device.\n\nNote that device api keys are only supported on ResinOS 2.0.3+\n\nExamples:\n\n	$ resin os configure ../path/rpi.img 7cf02a6\n	$ resin os configure ../path/rpi.img 7cf02a6 <existingDeviceKey>',
   permission: 'user',
   options: [
     commandOptions.advancedConfig, {
@@ -200,22 +200,27 @@ exports.configure = {
     }
   ],
   action: function(params, options, done) {
-    var Promise, fs, helpers, init, readFileAsync, resin;
+    var Promise, fs, generateDeviceConfig, helpers, init, readFileAsync, resin;
     fs = require('fs');
     Promise = require('bluebird');
     readFileAsync = Promise.promisify(fs.readFile);
     resin = require('resin-sdk-preconfigured');
     init = require('resin-device-init');
     helpers = require('../utils/helpers');
+    generateDeviceConfig = require('../utils/config').generateDeviceConfig;
     console.info('Configuring operating system image');
     return resin.models.device.get(params.uuid).then(function(device) {
-      if (options.config) {
-        return readFileAsync(options.config, 'utf8').then(JSON.parse);
-      }
-      return buildConfig(params.image, device.device_type, options.advanced);
-    }).then(function(answers) {
-      return init.configure(params.image, params.uuid, answers).then(helpers.osProgressHandler);
-    }).nodeify(done);
+      return Promise["try"](function() {
+        if (options.config) {
+          return readFileAsync(options.config, 'utf8').then(JSON.parse);
+        }
+        return buildConfig(params.image, device.device_type, options.advanced);
+      }).then(function(answers) {
+        return generateDeviceConfig(device, params.deviceApiKey, answers).then(function(config) {
+          return init.configure(params.image, device.device_type, config, answers);
+        });
+      });
+    }).then(helpers.osProgressHandler).nodeify(done);
   }
 };
 
