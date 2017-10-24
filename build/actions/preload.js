@@ -237,8 +237,8 @@ module.exports = {
             return selectApplication(info.device_type);
           }).then(function(application) {
             preloader.setApplication(application);
-            if (info.device_type !== application.device_type) {
-              expectedError("Image device type (" + application.device_type + ") and application device type (" + slug + ") do not match");
+            if (!options['dont-check-device-type'] && info.device_type !== application.device_type) {
+              expectedError("Image device type (" + info.device_type + ") and application device type (" + application.device_type + ") do not match");
             }
             return Promise["try"](function() {
               if (options.commit) {
