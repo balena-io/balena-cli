@@ -100,7 +100,7 @@
     "umount": "^1.1.6",
     "underscore.string": "^3.1.1",
     "unzip2": "^0.2.5",
-    "update-notifier": "^0.6.1"
+    "update-notifier": "^2.2.0"
   },
   "optionalDependencies": {
     "removedrive": "^1.0.0"
