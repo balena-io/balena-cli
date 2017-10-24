@@ -243,9 +243,9 @@ module.exports =
 					.then (application) ->
 						preloader.setApplication(application)
 						# Check that the app device type and the image device type match
-						if info.device_type != application.device_type
+						if not options['dont-check-device-type'] and info.device_type != application.device_type
 							expectedError(
-								"Image device type (#{application.device_type}) and application device type (#{slug}) do not match"
+								"Image device type (#{info.device_type}) and application device type (#{application.device_type}) do not match"
 							)
 
 						# Use the commit given as --commit or show an interactive commit selection menu
