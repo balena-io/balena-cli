@@ -117,6 +117,10 @@ environment variable (in the same standard URL format).
 	- [config reconfigure](#config-reconfigure)
 	- [config generate](#config-generate)
 
+- Preload
+
+	- [preload &#60;image&#62;](#preload-60-image-62-)
+
 - Settings
 
 	- [settings](#settings)
@@ -1065,6 +1069,69 @@ custom device key - note that this is only supported on ResinOS 2.0.3+
 #### --output, -o &#60;output&#62;
 
 output
+
+# Preload
+
+## preload &#60;image&#62;
+
+Warning: "resin preload" requires Docker to be correctly installed in
+your shell environment. For more information (including Windows support)
+please check the README here: https://github.com/resin-io/resin-cli .
+
+Use this command to preload an application to a local disk image (or
+Edison zip archive) with a built commit from Resin.io.
+This can be used with cloud builds, or images deployed with resin deploy.
+
+Examples:
+  $ resin preload resin.img --app 1234 --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image some-image.png
+  $ resin preload resin.img
+
+### Options
+
+#### --app, -a &#60;appId&#62;
+
+id of the application to preload
+
+#### --commit, -c &#60;hash&#62;
+
+a specific application commit to preload, use "latest" to specify the latest commit
+(ignored if no appId is given)
+
+#### --splash-image, -s &#60;splashImage.png&#62;
+
+path to a png image to replace the splash screen
+
+#### --dont-detect-flasher-type-images
+
+Disables the flasher type images detection: treats all images as non flasher types
+
+#### --dont-check-device-type
+
+Disables check for matching device types in image and application
+
+#### --docker, -P &#60;docker&#62;
+
+Path to a local docker socket
+
+#### --dockerHost, -h &#60;dockerHost&#62;
+
+The address of the host containing the docker daemon
+
+#### --dockerPort, -p &#60;dockerPort&#62;
+
+The port on which the host docker daemon is listening
+
+#### --ca &#60;ca&#62;
+
+Docker host TLS certificate authority file
+
+#### --cert &#60;cert&#62;
+
+Docker host TLS certificate file
+
+#### --key &#60;key&#62;
+
+Docker host TLS key file
 
 # Settings
 
