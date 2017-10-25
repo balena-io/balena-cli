@@ -86,6 +86,10 @@ module.exports =
 			files: [ 'lib/actions/config.coffee' ]
 		},
 		{
+			title: 'Preload',
+			files: [ 'lib/actions/preload.coffee' ]
+		},
+		{
 			title: 'Settings',
 			files: [ 'lib/actions/settings.coffee' ]
 		},
