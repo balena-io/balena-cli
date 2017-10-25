@@ -128,7 +128,10 @@ module.exports =
 		{
 			signature: 'commit'
 			parameter: 'hash'
-			description: 'a specific application commit to preload (ignored if no appId is given)'
+			description: '''
+				a specific application commit to preload, use "latest" to specify the latest commit
+				(ignored if no appId is given)
+			'''
 			alias: 'c'
 		}
 		{
@@ -251,13 +254,14 @@ module.exports =
 						# Use the commit given as --commit or show an interactive commit selection menu
 						Promise.try ->
 							if options.commit
-								if not _.find(application.build, commit_hash: options.commit)
+								if options.commit == LATEST and application.commit
+									# handle `--commit latest`
+									return LATEST
+								else if not _.find(application.build, commit_hash: options.commit)
 									expectedError('There is no build matching this commit')
 								return options.commit
 							selectApplicationCommit(application.build)
 						.then (commit) ->
-
-							# No commit specified => use the latest commit
 							if commit == LATEST
 								preloader.commit = application.commit
 							else
