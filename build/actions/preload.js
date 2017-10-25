@@ -140,7 +140,7 @@ module.exports = {
     }, {
       signature: 'commit',
       parameter: 'hash',
-      description: 'a specific application commit to preload (ignored if no appId is given)',
+      description: 'a specific application commit to preload, use "latest" to specify the latest commit\n(ignored if no appId is given)',
       alias: 'c'
     }, {
       signature: 'splash-image',
@@ -242,7 +242,9 @@ module.exports = {
             }
             return Promise["try"](function() {
               if (options.commit) {
-                if (!_.find(application.build, {
+                if (options.commit === LATEST && application.commit) {
+                  return LATEST;
+                } else if (!_.find(application.build, {
                   commit_hash: options.commit
                 })) {
                   expectedError('There is no build matching this commit');
