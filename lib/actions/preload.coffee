@@ -141,11 +141,6 @@ module.exports =
 			alias: 's'
 		}
 		{
-			signature: 'dont-detect-flasher-type-images'
-			boolean: true
-			description: 'Disables the flasher type images detection: treats all images as non flasher types'
-		}
-		{
 			signature: 'dont-check-device-type'
 			boolean: true
 			description: 'Disables check for matching device types in image and application'
@@ -187,9 +182,6 @@ module.exports =
 		options.appId = options.app
 		delete options.app
 
-		options.dontDetectFlasherTypeImages = options['dont-detect-flasher-type-images']
-		delete options['dont-detect-flasher-type-images']
-
 		options.splashImage = options['splash-image']
 		delete options['splash-image']
 
@@ -208,7 +200,6 @@ module.exports =
 				options.image,
 				options.splashImage,
 				options.proxy,
-				options.dontDetectFlasherTypeImages
 			)
 
 			gotSignal = false

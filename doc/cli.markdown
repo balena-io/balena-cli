@@ -1101,10 +1101,6 @@ a specific application commit to preload, use "latest" to specify the latest com
 
 path to a png image to replace the splash screen
 
-#### --dont-detect-flasher-type-images
-
-Disables the flasher type images detection: treats all images as non flasher types
-
 #### --dont-check-device-type
 
 Disables check for matching device types in image and application

@@ -148,10 +148,6 @@ module.exports = {
       description: 'path to a png image to replace the splash screen',
       alias: 's'
     }, {
-      signature: 'dont-detect-flasher-type-images',
-      boolean: true,
-      description: 'Disables the flasher type images detection: treats all images as non flasher types'
-    }, {
       signature: 'dont-check-device-type',
       boolean: true,
       description: 'Disables check for matching device types in image and application'
@@ -197,8 +193,6 @@ module.exports = {
     options.image = params.image;
     options.appId = options.app;
     delete options.app;
-    options.dontDetectFlasherTypeImages = options['dont-detect-flasher-type-images'];
-    delete options['dont-detect-flasher-type-images'];
     options.splashImage = options['splash-image'];
     delete options['splash-image'];
     if (options['dont-check-device-type'] && !options.appId) {
@@ -206,7 +200,7 @@ module.exports = {
     }
     return dockerUtils.getDocker(options).then(function(docker) {
       var gotSignal, preloader;
-      preloader = new preload.Preloader(resin, docker, options.appId, options.commit, options.image, options.splashImage, options.proxy, options.dontDetectFlasherTypeImages);
+      preloader = new preload.Preloader(resin, docker, options.appId, options.commit, options.image, options.splashImage, options.proxy);
       gotSignal = false;
       nodeCleanup(function(exitCode, signal) {
         if (signal) {
