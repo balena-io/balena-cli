@@ -168,7 +168,7 @@ exports.register =
 					console.info("Using generated device api key: #{deviceApiKey}")
 				else
 					console.info('Using provided device api key')
-				return resin.models.device.register(application.app_name, uuid, deviceApiKey)
+				return resin.models.device.register(application.id, uuid, deviceApiKey)
 		)
 		.get('uuid')
 		.nodeify(done)
