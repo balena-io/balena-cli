@@ -329,7 +329,7 @@ ensureDockerSeemsAccessible = function(options) {
   var fs;
   fs = require('mz/fs');
   if (options.socketPath != null) {
-    return fs.access(options.socketPath, fs.constants.R_OK | fs.constants.W_OK)["return"](true)["catch"](function(err) {
+    return fs.access(options.socketPath, (fs.constants || fs).R_OK | (fs.constants || fs).W_OK)["return"](true)["catch"](function(err) {
       throw new Error("Docker seems to be unavailable (using socket " + options.socketPath + "). Is it installed, and do you have permission to talk to it?");
     });
   } else {
