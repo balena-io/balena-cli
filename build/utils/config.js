@@ -18,10 +18,18 @@ limitations under the License.
 var authenticateWithApplicationKey, authenticateWithDeviceKey;
 
 exports.generateBaseConfig = function(application, options) {
-  var Promise, deviceConfig, resin;
+  var Promise, _, deviceConfig, resin;
   Promise = require('bluebird');
+  _ = require('lodash');
   deviceConfig = require('resin-device-config');
   resin = require('resin-sdk-preconfigured');
+  options = _.mapValues(options, function(value, key) {
+    if (key === 'appUpdatePollInterval') {
+      return value * 60 * 1000;
+    } else {
+      return value;
+    }
+  });
   return Promise.props({
     userId: resin.auth.getUserId(),
     username: resin.auth.whoami(),
@@ -48,12 +56,12 @@ exports.generateBaseConfig = function(application, options) {
       mixpanel: {
         token: results.mixpanelToken
       }
-    });
+    }, options);
   });
 };
 
 exports.generateApplicationConfig = function(application, options) {
-  return exports.generateBaseConfig(application).tap(function(config) {
+  return exports.generateBaseConfig(application, options).tap(function(config) {
     return authenticateWithApplicationKey(config, application.id);
   });
 };

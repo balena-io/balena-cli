@@ -16,8 +16,15 @@ limitations under the License.
 
 exports.generateBaseConfig = (application, options) ->
 	Promise = require('bluebird')
+	_ = require('lodash')
 	deviceConfig = require('resin-device-config')
 	resin = require('resin-sdk-preconfigured')
+
+	options = _.mapValues options, (value, key) ->
+		if key == 'appUpdatePollInterval'
+			value * 60 * 1000
+		else
+			value
 
 	Promise.props
 		userId: resin.auth.getUserId()
@@ -42,9 +49,10 @@ exports.generateBaseConfig = (application, options) ->
 			pubnub: results.pubNubKeys
 			mixpanel:
 				token: results.mixpanelToken
+		, options
 
 exports.generateApplicationConfig = (application, options) ->
-	exports.generateBaseConfig(application)
+	exports.generateBaseConfig(application, options)
 	.tap (config) ->
 		authenticateWithApplicationKey(config, application.id)
 
