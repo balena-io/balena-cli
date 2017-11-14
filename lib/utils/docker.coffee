@@ -341,7 +341,7 @@ ensureDockerSeemsAccessible = (options) ->
 
 	if options.socketPath?
 		# If we're trying to use a socket, check it exists and we have access to it
-		fs.access(options.socketPath, fs.constants.R_OK | fs.constants.W_OK)
+		fs.access(options.socketPath, (fs.constants || fs).R_OK | (fs.constants || fs).W_OK)
 		.return(true)
 		.catch (err) ->
 			throw new Error(
