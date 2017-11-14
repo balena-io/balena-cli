@@ -219,7 +219,11 @@ exports.generate =
 	signature: 'config generate'
 	description: 'generate a config.json file'
 	help: '''
-		Use this command to generate a config.json for a device or application
+		Use this command to generate a config.json for a device or application.
+
+		This is interactive by default, but you can do this automatically without interactivity
+		by specifying an option for each question on the command line, if you know the questions
+		that will be asked for the relevant device type.
 
 		Examples:
 
@@ -228,6 +232,7 @@ exports.generate =
 			$ resin config generate --device 7cf02a6 --output config.json
 			$ resin config generate --app MyApp
 			$ resin config generate --app MyApp --output config.json
+			$ resin config generate --app MyApp --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1
 	'''
 	options: [
 		commandOptions.optionalApplication
@@ -243,6 +248,27 @@ exports.generate =
 			description: 'output'
 			parameter: 'output'
 			alias: 'o'
+		}
+		# Options for non-interactive configuration
+		{
+			signature: 'network'
+			description: 'the network type to use: ethernet or wifi'
+			parameter: 'network'
+		}
+		{
+			signature: 'wifiSsid'
+			description: 'the wifi ssid to use (used only if --network is set to wifi)'
+			parameter: 'wifiSsid'
+		}
+		{
+			signature: 'wifiKey'
+			description: 'the wifi key to use (used only if --network is set to wifi)'
+			parameter: 'wifiKey'
+		}
+		{
+			signature: 'appUpdatePollInterval'
+			description: 'how frequently (in minutes) to poll for application updates'
+			parameter: 'appUpdatePollInterval'
 		}
 	]
 	permission: 'user'
@@ -272,7 +298,10 @@ exports.generate =
 		.then (resource) ->
 			resin.models.device.getManifestBySlug(resource.device_type)
 			.get('options')
-			.then(form.run)
+			.then (formOptions) ->
+				# Pass params as an override: if there is any param with exactly the same name as a
+				# required option, that value is used (and the corresponding question is not asked)
+				form.run(formOptions, override: options)
 			.then (answers) ->
 				if resource.uuid?
 					generateDeviceConfig(resource, options.deviceApiKey, answers)

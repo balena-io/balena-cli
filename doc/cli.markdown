@@ -1041,7 +1041,11 @@ show advanced commands
 
 ## config generate
 
-Use this command to generate a config.json for a device or application
+Use this command to generate a config.json for a device or application.
+
+This is interactive by default, but you can do this automatically without interactivity
+by specifying an option for each question on the command line, if you know the questions
+that will be asked for the relevant device type.
 
 Examples:
 
@@ -1050,6 +1054,7 @@ Examples:
 	$ resin config generate --device 7cf02a6 --output config.json
 	$ resin config generate --app MyApp
 	$ resin config generate --app MyApp --output config.json
+	$ resin config generate --app MyApp --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1
 
 ### Options
 
@@ -1068,6 +1073,22 @@ custom device key - note that this is only supported on ResinOS 2.0.3+
 #### --output, -o &#60;output&#62;
 
 output
+
+#### --network &#60;network&#62;
+
+the network type to use: ethernet or wifi
+
+#### --wifiSsid &#60;wifiSsid&#62;
+
+the wifi ssid to use (used only if --network is set to wifi)
+
+#### --wifiKey &#60;wifiKey&#62;
+
+the wifi key to use (used only if --network is set to wifi)
+
+#### --appUpdatePollInterval &#60;appUpdatePollInterval&#62;
+
+how frequently (in minutes) to poll for application updates
 
 # Preload
 

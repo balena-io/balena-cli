@@ -194,7 +194,7 @@ exports.reconfigure = {
 exports.generate = {
   signature: 'config generate',
   description: 'generate a config.json file',
-  help: 'Use this command to generate a config.json for a device or application\n\nExamples:\n\n	$ resin config generate --device 7cf02a6\n	$ resin config generate --device 7cf02a6 --device-api-key <existingDeviceKey>\n	$ resin config generate --device 7cf02a6 --output config.json\n	$ resin config generate --app MyApp\n	$ resin config generate --app MyApp --output config.json',
+  help: 'Use this command to generate a config.json for a device or application.\n\nThis is interactive by default, but you can do this automatically without interactivity\nby specifying an option for each question on the command line, if you know the questions\nthat will be asked for the relevant device type.\n\nExamples:\n\n	$ resin config generate --device 7cf02a6\n	$ resin config generate --device 7cf02a6 --device-api-key <existingDeviceKey>\n	$ resin config generate --device 7cf02a6 --output config.json\n	$ resin config generate --app MyApp\n	$ resin config generate --app MyApp --output config.json\n	$ resin config generate --app MyApp --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1',
   options: [
     commandOptions.optionalApplication, commandOptions.optionalDevice, {
       signature: 'deviceApiKey',
@@ -206,6 +206,22 @@ exports.generate = {
       description: 'output',
       parameter: 'output',
       alias: 'o'
+    }, {
+      signature: 'network',
+      description: 'the network type to use: ethernet or wifi',
+      parameter: 'network'
+    }, {
+      signature: 'wifiSsid',
+      description: 'the wifi ssid to use (used only if --network is set to wifi)',
+      parameter: 'wifiSsid'
+    }, {
+      signature: 'wifiKey',
+      description: 'the wifi key to use (used only if --network is set to wifi)',
+      parameter: 'wifiKey'
+    }, {
+      signature: 'appUpdatePollInterval',
+      description: 'how frequently (in minutes) to poll for application updates',
+      parameter: 'appUpdatePollInterval'
     }
   ],
   permission: 'user',
@@ -228,7 +244,11 @@ exports.generate = {
       }
       return resin.models.application.get(options.application);
     }).then(function(resource) {
-      return resin.models.device.getManifestBySlug(resource.device_type).get('options').then(form.run).then(function(answers) {
+      return resin.models.device.getManifestBySlug(resource.device_type).get('options').then(function(formOptions) {
+        return form.run(formOptions, {
+          override: options
+        });
+      }).then(function(answers) {
         if (resource.uuid != null) {
           return generateDeviceConfig(resource, options.deviceApiKey, answers);
         } else {
