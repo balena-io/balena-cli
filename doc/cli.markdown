@@ -134,7 +134,6 @@ environment variable (in the same standard URL format).
 	- [local configure &#60;target&#62;](#local-configure-60-target-62-)
 	- [local flash &#60;image&#62;](#local-flash-60-image-62-)
 	- [local logs [deviceIp]](#local-logs-deviceip-)
-	- [local promote [deviceIp]](#local-promote-deviceip-)
 	- [local scan](#local-scan)
 	- [local ssh [deviceIp]](#local-ssh-deviceip-)
 	- [local push [deviceIp]](#local-push-deviceip-)
@@ -1208,33 +1207,6 @@ follow log
 #### --app-name, -a &#60;name&#62;
 
 name of container to get logs from
-
-## local promote [deviceIp]
-
-Warning: 'resin promote' requires an openssh-compatible client to be correctly
-installed in your shell environment. For more information (including Windows
-support) please check the README here: https://github.com/resin-io/resin-cli
-
-Use this command to promote your device.
-
-Promoting a device will provision it onto the Resin platform,
-converting it from an unmanaged device to a managed device.
-
-Examples:
-
-	$ resin local promote
-	$ resin local promote --port 22222
-	$ resin local promote --verbose
-
-### Options
-
-#### --verbose, -v
-
-increase verbosity
-
-#### --port, -p &#60;port&#62;
-
-ssh port number (default: 22222)
 
 ## local scan
 

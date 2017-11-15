@@ -216,8 +216,6 @@ capitano.command(actions.local.flash);
 
 capitano.command(actions.local.logs);
 
-capitano.command(actions.local.promote);
-
 capitano.command(actions.local.push);
 
 capitano.command(actions.local.ssh);
