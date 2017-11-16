@@ -188,36 +188,43 @@ exports.buildConfig = {
 };
 
 exports.configure = {
-  signature: 'os configure <image> <uuid> [deviceApiKey]',
+  signature: 'os configure <image> [uuid] [deviceApiKey]',
   description: 'configure an os image',
-  help: 'Use this command to configure a previously downloaded operating system image for the specific device.\n\nNote that device api keys are only supported on ResinOS 2.0.3+\n\nExamples:\n\n	$ resin os configure ../path/rpi.img 7cf02a6\n	$ resin os configure ../path/rpi.img 7cf02a6 <existingDeviceKey>',
+  help: 'Use this command to configure a previously downloaded operating system image for\nthe specific device or for an application generally.\n\nNote that device api keys are only supported on ResinOS 2.0.3+.\n\nThis comand still supports the *deprecated* format where the UUID and optionally device key\nare passed directly on the command line, but the recommended way is to pass either an --app or\n--device argument. The deprecated format will be remove in a future release.\n\nExamples:\n\n	$ resin os configure ../path/rpi.img --device 7cf02a6\n	$ resin os configure ../path/rpi.img --device 7cf02a6 --deviceApiKey <existingDeviceKey>\n	$ resin os configure ../path/rpi.img --app MyApp',
   permission: 'user',
   options: [
-    commandOptions.advancedConfig, {
+    commandOptions.advancedConfig, commandOptions.optionalApplication, commandOptions.optionalDevice, commandOptions.optionalDeviceApiKey, {
       signature: 'config',
       description: 'path to the config JSON file, see `resin os build-config`',
       parameter: 'config'
     }
   ],
   action: function(params, options, done) {
-    var Promise, fs, generateDeviceConfig, helpers, init, readFileAsync, resin;
+    var Promise, configurationResourceType, deviceApiKey, fs, generateApplicationConfig, generateDeviceConfig, helpers, init, patterns, readFileAsync, ref, resin, uuid;
     fs = require('fs');
     Promise = require('bluebird');
     readFileAsync = Promise.promisify(fs.readFile);
     resin = require('resin-sdk-preconfigured');
     init = require('resin-device-init');
     helpers = require('../utils/helpers');
-    generateDeviceConfig = require('../utils/config').generateDeviceConfig;
+    patterns = require('../utils/patterns');
+    ref = require('../utils/config'), generateDeviceConfig = ref.generateDeviceConfig, generateApplicationConfig = ref.generateApplicationConfig;
+    if (_.filter([options.device, options.application, params.uuid]).length !== 1) {
+      patterns.expectedError('To configure an image, you must provide exactly one of:\n\n* A device, with --device <uuid>\n* An application, with --app <appname>\n* [Deprecated] A device, passing its uuid directly on the command line\n\nSee the help page for examples:\n\n  $ resin help os configure');
+    }
+    uuid = options.device || params.uuid;
+    deviceApiKey = options.deviceApiKey || params.deviceApiKey;
     console.info('Configuring operating system image');
-    return resin.models.device.get(params.uuid).then(function(device) {
+    configurationResourceType = uuid ? 'device' : 'application';
+    return resin.models[configurationResourceType].get(uuid || options.application).then(function(appOrDevice) {
       return Promise["try"](function() {
         if (options.config) {
           return readFileAsync(options.config, 'utf8').then(JSON.parse);
         }
-        return buildConfig(params.image, device.device_type, options.advanced);
+        return buildConfig(params.image, appOrDevice.device_type, options.advanced);
       }).then(function(answers) {
-        return generateDeviceConfig(device, params.deviceApiKey, answers).then(function(config) {
-          return init.configure(params.image, device.device_type, config, answers);
+        return (configurationResourceType === 'device' ? generateDeviceConfig(appOrDevice, deviceApiKey, answers) : generateApplicationConfig(appOrDevice, answers)).then(function(config) {
+          return init.configure(params.image, appOrDevice.device_type, config, answers);
         });
       });
     }).then(helpers.osProgressHandler).nodeify(done);

@@ -196,21 +196,30 @@ exports.buildConfig =
 		.nodeify(done)
 
 exports.configure =
-	signature: 'os configure <image> <uuid> [deviceApiKey]'
+	signature: 'os configure <image> [uuid] [deviceApiKey]'
 	description: 'configure an os image'
 	help: '''
-		Use this command to configure a previously downloaded operating system image for the specific device.
+		Use this command to configure a previously downloaded operating system image for
+		the specific device or for an application generally.
 
-		Note that device api keys are only supported on ResinOS 2.0.3+
+		Note that device api keys are only supported on ResinOS 2.0.3+.
+
+		This comand still supports the *deprecated* format where the UUID and optionally device key
+		are passed directly on the command line, but the recommended way is to pass either an --app or
+		--device argument. The deprecated format will be remove in a future release.
 
 		Examples:
 
-			$ resin os configure ../path/rpi.img 7cf02a6
-			$ resin os configure ../path/rpi.img 7cf02a6 <existingDeviceKey>
+			$ resin os configure ../path/rpi.img --device 7cf02a6
+			$ resin os configure ../path/rpi.img --device 7cf02a6 --deviceApiKey <existingDeviceKey>
+			$ resin os configure ../path/rpi.img --app MyApp
 	'''
 	permission: 'user'
 	options: [
 		commandOptions.advancedConfig
+		commandOptions.optionalApplication
+		commandOptions.optionalDevice
+		commandOptions.optionalDeviceApiKey
 		{
 			signature: 'config'
 			description: 'path to the config JSON file, see `resin os build-config`'
@@ -224,20 +233,47 @@ exports.configure =
 		resin = require('resin-sdk-preconfigured')
 		init = require('resin-device-init')
 		helpers = require('../utils/helpers')
-		{ generateDeviceConfig } = require('../utils/config')
+		patterns = require('../utils/patterns')
+		{ generateDeviceConfig, generateApplicationConfig } = require('../utils/config')
+
+		if _.filter([
+			options.device
+			options.application
+			params.uuid
+		]).length != 1
+			patterns.expectedError '''
+				To configure an image, you must provide exactly one of:
+
+				* A device, with --device <uuid>
+				* An application, with --app <appname>
+				* [Deprecated] A device, passing its uuid directly on the command line
+
+				See the help page for examples:
+
+				  $ resin help os configure
+			'''
+
+		uuid = options.device || params.uuid
+		deviceApiKey = options.deviceApiKey || params.deviceApiKey
 
 		console.info('Configuring operating system image')
-		resin.models.device.get(params.uuid)
-		.then (device) ->
+
+		configurationResourceType = if uuid then 'device' else 'application'
+
+		resin.models[configurationResourceType].get(uuid || options.application)
+		.then (appOrDevice) ->
 			Promise.try ->
 				if options.config
 					return readFileAsync(options.config, 'utf8')
 						.then(JSON.parse)
-				return buildConfig(params.image, device.device_type, options.advanced)
+				return buildConfig(params.image, appOrDevice.device_type, options.advanced)
 			.then (answers) ->
-				generateDeviceConfig(device, params.deviceApiKey, answers)
-				.then (config) ->
-					init.configure(params.image, device.device_type, config, answers)
+				(if configurationResourceType == 'device'
+					generateDeviceConfig(appOrDevice, deviceApiKey, answers)
+				else
+					generateApplicationConfig(appOrDevice, answers)
+				).then (config) ->
+					init.configure(params.image, appOrDevice.device_type, config, answers)
 		.then(helpers.osProgressHandler)
 		.nodeify(done)
 
