@@ -212,6 +212,9 @@ exports.configure = {
     if (_.filter([options.device, options.application, params.uuid]).length !== 1) {
       patterns.expectedError('To configure an image, you must provide exactly one of:\n\n* A device, with --device <uuid>\n* An application, with --app <appname>\n* [Deprecated] A device, passing its uuid directly on the command line\n\nSee the help page for examples:\n\n  $ resin help os configure');
     }
+    if (params.uuid) {
+      console.warn('Directly passing a UUID to `resin os configure` is deprecated. Pass it with --uuid <uuid> instead.' + (params.deviceApiKey ? ' Device api keys can be passed with --deviceApiKey.\n' : '\n'));
+    }
     uuid = options.device || params.uuid;
     deviceApiKey = options.deviceApiKey || params.deviceApiKey;
     console.info('Configuring operating system image');

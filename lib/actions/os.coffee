@@ -252,6 +252,13 @@ exports.configure =
 
 				  $ resin help os configure
 			'''
+		if params.uuid
+			console.warn(
+				'Directly passing a UUID to `resin os configure` is deprecated. Pass it with --uuid <uuid> instead.' +
+				if params.deviceApiKey
+					' Device api keys can be passed with --deviceApiKey.\n'
+				else '\n'
+			)
 
 		uuid = options.device || params.uuid
 		deviceApiKey = options.deviceApiKey || params.deviceApiKey
