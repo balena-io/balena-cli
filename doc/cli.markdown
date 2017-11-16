@@ -894,7 +894,7 @@ or 'menu' (will show the interactive menu)
 
 Use this command to prebuild the OS config once and skip the interactive part of `resin os configure`.
 
-Examples:
+Example:
 
 	$ resin os build-config ../path/rpi3.img raspberrypi3 --output rpi3-config.json
 	$ resin os configure ../path/rpi3.img 7cf02a6 --config "$(cat rpi3-config.json)"

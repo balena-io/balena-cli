@@ -165,7 +165,7 @@ buildConfig = function(image, deviceType, advanced) {
 exports.buildConfig = {
   signature: 'os build-config <image> <device-type>',
   description: 'build the OS config and save it to the JSON file',
-  help: 'Use this command to prebuild the OS config once and skip the interactive part of `resin os configure`.\n\nExamples:\n\n	$ resin os build-config ../path/rpi3.img raspberrypi3 --output rpi3-config.json\n	$ resin os configure ../path/rpi3.img 7cf02a6 --config "$(cat rpi3-config.json)"',
+  help: 'Use this command to prebuild the OS config once and skip the interactive part of `resin os configure`.\n\nExample:\n\n	$ resin os build-config ../path/rpi3.img raspberrypi3 --output rpi3-config.json\n	$ resin os configure ../path/rpi3.img 7cf02a6 --config "$(cat rpi3-config.json)"',
   permission: 'user',
   options: [
     commandOptions.advancedConfig, {

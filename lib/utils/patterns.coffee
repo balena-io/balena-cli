@@ -177,5 +177,5 @@ exports.printErrorMessage = (message) ->
 exports.expectedError = (message) ->
 	if message instanceof Error
 		message = message.message
-	console.error(chalk.red(message))
+	exports.printErrorMessage(message)
 	process.exit(1)

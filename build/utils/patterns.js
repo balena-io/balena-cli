@@ -224,6 +224,6 @@ exports.expectedError = function(message) {
   if (message instanceof Error) {
     message = message.message;
   }
-  console.error(chalk.red(message));
+  exports.printErrorMessage(message);
   return process.exit(1);
 };
