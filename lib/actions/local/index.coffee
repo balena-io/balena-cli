@@ -17,7 +17,6 @@ limitations under the License.
 exports.configure = require('./configure')
 exports.flash = require('./flash')
 exports.logs = require('./logs')
-exports.promote = require('./promote')
 exports.scan = require('./scan')
 exports.ssh = require('./ssh')
 exports.push = require('./push')
