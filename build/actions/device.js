@@ -92,12 +92,7 @@ exports.register = {
       description: 'custom uuid',
       parameter: 'uuid',
       alias: 'u'
-    }, {
-      signature: 'deviceApiKey',
-      description: 'custom device key',
-      parameter: 'device-api-key',
-      alias: 'k'
-    }
+    }, commandOptions.optionalDeviceApiKey
   ],
   action: function(params, options, done) {
     var Promise, ref, ref1, resin;

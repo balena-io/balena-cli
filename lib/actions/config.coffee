@@ -237,12 +237,7 @@ exports.generate =
 	options: [
 		commandOptions.optionalApplication
 		commandOptions.optionalDevice
-		{
-			signature: 'deviceApiKey'
-			description: 'custom device key - note that this is only supported on ResinOS 2.0.3+'
-			parameter: 'device-api-key'
-			alias: 'k'
-		}
+		commandOptions.optionalDeviceApiKey
 		{
 			signature: 'output'
 			description: 'output'

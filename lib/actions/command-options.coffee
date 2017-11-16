@@ -38,6 +38,12 @@ exports.optionalDevice =
 	description: 'device uuid'
 	alias: 'd'
 
+exports.optionalDeviceApiKey =
+	signature: 'deviceApiKey'
+	description: 'custom device key - note that this is only supported on ResinOS 2.0.3+'
+	parameter: 'device-api-key'
+	alias: 'k'
+
 exports.booleanDevice =
 	signature: 'device'
 	description: 'device'

@@ -350,7 +350,7 @@ custom uuid
 
 #### --deviceApiKey, -k &#60;device-api-key&#62;
 
-custom device key
+custom device key - note that this is only supported on ResinOS 2.0.3+
 
 ## device rm &#60;uuid&#62;
 
