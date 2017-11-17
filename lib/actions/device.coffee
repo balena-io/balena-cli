@@ -147,12 +147,7 @@ exports.register =
 			parameter: 'uuid'
 			alias: 'u'
 		}
-		{
-			signature: 'deviceApiKey'
-			description: 'custom device key'
-			parameter: 'device-api-key'
-			alias: 'k'
-		}
+		commandOptions.optionalDeviceApiKey
 	]
 	action: (params, options, done) ->
 		Promise = require('bluebird')

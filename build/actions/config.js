@@ -196,12 +196,7 @@ exports.generate = {
   description: 'generate a config.json file',
   help: 'Use this command to generate a config.json for a device or application.\n\nThis is interactive by default, but you can do this automatically without interactivity\nby specifying an option for each question on the command line, if you know the questions\nthat will be asked for the relevant device type.\n\nExamples:\n\n	$ resin config generate --device 7cf02a6\n	$ resin config generate --device 7cf02a6 --device-api-key <existingDeviceKey>\n	$ resin config generate --device 7cf02a6 --output config.json\n	$ resin config generate --app MyApp\n	$ resin config generate --app MyApp --output config.json\n	$ resin config generate --app MyApp --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1',
   options: [
-    commandOptions.optionalApplication, commandOptions.optionalDevice, {
-      signature: 'deviceApiKey',
-      description: 'custom device key - note that this is only supported on ResinOS 2.0.3+',
-      parameter: 'device-api-key',
-      alias: 'k'
-    }, {
+    commandOptions.optionalApplication, commandOptions.optionalDevice, commandOptions.optionalDeviceApiKey, {
       signature: 'output',
       description: 'output',
       parameter: 'output',
