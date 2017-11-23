@@ -12,7 +12,8 @@
   "files": [
     "bin/",
     "build/",
-    "doc/"
+    "doc/",
+    "lib/"
   ],
   "bin": {
     "resin": "./bin/resin"
