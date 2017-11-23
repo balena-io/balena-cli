@@ -113,7 +113,6 @@
     "stream-to-promise": "^2.2.0",
     "tmp": "0.0.31",
     "umount": "^1.1.6",
-    "underscore.string": "^3.2.2",
     "unzip2": "^0.2.5",
     "update-notifier": "^2.2.0"
   },
