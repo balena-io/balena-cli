@@ -9,6 +9,11 @@
     "url": "git@github.com:resin-io/resin-cli.git"
   },
   "preferGlobal": true,
+  "files": [
+    "bin/",
+    "build/",
+    "doc/"
+  ],
   "bin": {
     "resin": "./bin/resin"
   },

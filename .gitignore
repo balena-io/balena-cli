@@ -33,3 +33,4 @@ resinrc.yml
 .DS_Store
 
 /tmp
+build/
