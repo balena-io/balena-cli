@@ -18,7 +18,7 @@
     "resin": "./bin/resin"
   },
   "scripts": {
-    "build": "gulp build && npm run doc",
+    "build": "gulp coffee && npm run doc",
     "ci": "npm run build && catch-uncommitted",
     "doc": "mkdir -p doc/ && coffee extras/capitanodoc/index.coffee > doc/cli.markdown",
     "watch": "gulp watch",
