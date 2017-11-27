@@ -15,7 +15,6 @@ limitations under the License.
 ###
 
 _ = require('lodash')
-_.str = require('underscore.string')
 capitano = require('capitano')
 columnify = require('columnify')
 messages = require('../utils/messages')
@@ -36,7 +35,7 @@ parse = (object) ->
 		]
 
 indent = (text) ->
-	text = _.map _.str.lines(text), (line) ->
+	text = _.map text.split('\n'), (line) ->
 		return '    ' + line
 	return text.join('\n')
 
@@ -92,7 +91,7 @@ command = (params, options, done) ->
 		if command.help?
 			console.log("\n#{command.help}")
 		else if command.description?
-			console.log("\n#{_.str.humanize(command.description)}")
+			console.log("\n#{_.capitalize(command.description)}")
 
 		if not _.isEmpty(command.options)
 			console.log('\nOptions:\n')
