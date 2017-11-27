@@ -1,6 +1,6 @@
 {
   "name": "resin-cli",
-  "version": "6.10.0",
+  "version": "6.10.1",
   "description": "The official resin.io CLI tool",
   "main": "./build/actions/index.js",
   "homepage": "https://github.com/resin-io/resin-cli",
@@ -9,11 +9,17 @@
     "url": "git@github.com:resin-io/resin-cli.git"
   },
   "preferGlobal": true,
+  "files": [
+    "bin/",
+    "build/",
+    "doc/",
+    "lib/"
+  ],
   "bin": {
     "resin": "./bin/resin"
   },
   "scripts": {
-    "build": "gulp build && npm run doc",
+    "build": "gulp coffee && tsc && npm run doc",
     "ci": "npm run build && catch-uncommitted",
     "doc": "mkdir -p doc/ && coffee extras/capitanodoc/index.coffee > doc/cli.markdown",
     "watch": "gulp watch",
@@ -37,7 +43,8 @@
     "gulp-coffee": "^2.2.0",
     "gulp-coffeelint": "^0.6.0",
     "gulp-shell": "^0.5.2",
-    "require-npm4-to-publish": "^1.0.0"
+    "require-npm4-to-publish": "^1.0.0",
+    "typescript": "^2.6.1"
   },
   "dependencies": {
     "@resin.io/valid-email": "^0.1.0",

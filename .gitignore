@@ -25,6 +25,7 @@ build/Release
 node_modules
 
 npm-shrinkwrap.json
+package-lock.json
 .resinconf
 resinrc.yml
 
@@ -33,3 +34,4 @@ resinrc.yml
 .DS_Store
 
 /tmp
+build/
