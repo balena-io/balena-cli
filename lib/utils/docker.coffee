@@ -325,16 +325,31 @@ exports.bufferImage = (docker, imageId, bufferFile) ->
 			bufferedStream.length = imageSize
 
 exports.getDocker = (options) ->
-	Docker = require('dockerode')
-	Promise = require('bluebird')
-
 	generateConnectOpts(options)
 	.tap (connectOpts) ->
 		ensureDockerSeemsAccessible(connectOpts)
-	.then (connectOpts) ->
-		# Use bluebird's promises
-		connectOpts['Promise'] = Promise
-		new Docker(connectOpts)
+	.then(createClient)
+
+exports.createClient = createClient = do ->
+	# docker-toolbelt v3 is not backwards compatible as it removes all *Async
+	# methods that are in wide use in the CLI. The workaround for now is to
+	# manually promisify the client and replace all `new Docker()` calls with
+	# this shared function that returns a promisified client.
+	#
+	# 	**New code must not use the *Async methods.**
+	#
+	Docker = require('docker-toolbelt')
+	Promise = require('bluebird')
+	Promise.promisifyAll Docker.prototype, {
+		filter: (name) -> name == 'run'
+		multiArgs: true
+	}
+	Promise.promisifyAll(Docker.prototype)
+	Promise.promisifyAll(new Docker({}).getImage().constructor.prototype)
+	Promise.promisifyAll(new Docker({}).getContainer().constructor.prototype)
+
+	return (opts) ->
+		return new Docker(opts)
 
 ensureDockerSeemsAccessible = (options) ->
 	fs = require('mz/fs')

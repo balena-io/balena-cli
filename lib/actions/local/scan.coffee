@@ -60,10 +60,10 @@ module.exports =
 		Promise = require('bluebird')
 		_ = require('lodash')
 		prettyjson = require('prettyjson')
-		Docker = require('docker-toolbelt')
 		{ discover } = require('resin-sync')
 		{ SpinnerPromise } = require('resin-cli-visuals')
 		{ dockerPort, dockerTimeout } = require('./common')
+		dockerUtils = require('../../utils/docker')
 
 		if options.timeout?
 			options.timeout *= 1000
@@ -75,7 +75,7 @@ module.exports =
 				stopMessage: 'Reporting scan results'
 		.filter ({ address }) ->
 			Promise.try ->
-				docker = new Docker(host: address, port: dockerPort, timeout: dockerTimeout)
+				docker = dockerUtils.createClient(host: address, port: dockerPort, timeout: dockerTimeout)
 				docker.pingAsync()
 			.return(true)
 			.catchReturn(false)
@@ -83,7 +83,7 @@ module.exports =
 			if _.isEmpty(devices)
 				throw new Error('Could not find any resinOS devices in the local network')
 		.map ({ host, address }) ->
-			docker = new Docker(host: address, port: dockerPort, timeout: dockerTimeout)
+			docker = dockerUtils.createClient(host: address, port: dockerPort, timeout: dockerTimeout)
 			Promise.props
 				dockerInfo: docker.infoAsync().catchReturn('Could not get Docker info')
 				dockerVersion: docker.versionAsync().catchReturn('Could not get Docker version')
