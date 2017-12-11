@@ -3,7 +3,7 @@ eol = require('os').EOL
 module.exports = class Logger
 	constructor: ->
 		{ StreamLogger } = require('resin-stream-logger')
-		colors = require('colors')
+		colors = require('chalk')
 		_ = require('lodash')
 
 		logger = new StreamLogger()
