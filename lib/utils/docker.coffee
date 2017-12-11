@@ -150,7 +150,7 @@ exports.tarDirectory = tarDirectory = (dir) ->
 		relPath = path.relative(path.resolve(dir), file)
 		Promise.join relPath, fs.stat(file), fs.readFile(file),
 			(filename, stats, data) ->
-				pack.entryAsync({ name: toPosixPath(filename), size: stats.size, mode: stats.mode }, data)
+				pack.entry({ name: filename, size: stats.size, mode: stats.mode }, data)
 	.then ->
 		pack.finalize()
 		return pack
