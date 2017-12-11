@@ -133,7 +133,7 @@ export function getArchAndDeviceType(
 	);
 }
 
-function getApplication(applicationName: string) {
+export function getApplication(applicationName: string) {
 	// Check for an app of the form `user/application`, and send
 	// that off to a special handler (before importing any modules)
 	const match = /(\w+)\/(\w+)/.exec(applicationName);
