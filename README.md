@@ -55,13 +55,6 @@ _(Typically useful, but not strictly required for all commands)_
 Take a look at the full command documentation at [https://docs.resin.io/tools/cli/](https://docs.resin.io/tools/cli/#table-of-contents
 ), or by running `resin help`.
 
----
-
-Plugins
--------
-
-The Resin CLI can be extended with plugins to automate laborious tasks and overall provide a better experience when working with Resin.io. Check the [plugin development tutorial](https://github.com/resin-io/resin-plugin-hello) to learn how to build your own!
-
 FAQ
 ---
 

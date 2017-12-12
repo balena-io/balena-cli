@@ -82,7 +82,6 @@
     "moment": "^2.12.0",
     "mz": "^2.6.0",
     "node-cleanup": "^2.1.2",
-    "nplugm": "^3.0.0",
     "open": "0.0.5",
     "president": "^2.0.1",
     "prettyjson": "^1.1.3",
