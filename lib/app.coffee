@@ -74,7 +74,6 @@ resin = require('resin-sdk-preconfigured')
 actions = require('./actions')
 errors = require('./errors')
 events = require('./events')
-plugins = require('./utils/plugins')
 update = require('./utils/update')
 
 # Assign bluebird as the global promise library
@@ -209,15 +208,12 @@ capitano.command(actions.deploy)
 
 update.notify()
 
-plugins.register(/^resin-plugin-(.+)$/).then ->
-	cli = capitano.parse(process.argv)
+cli = capitano.parse(process.argv)
+runCommand = ->
+	if cli.global?.help
+		capitanoExecuteAsync(command: "help #{cli.command ? ''}")
+	else
+		capitanoExecuteAsync(cli)
 
-	runCommand = ->
-		if cli.global?.help
-			capitanoExecuteAsync(command: "help #{cli.command ? ''}")
-		else
-			capitanoExecuteAsync(cli)
-
-	Promise.all([events.trackCommand(cli), runCommand()])
-
+Promise.all([events.trackCommand(cli), runCommand()])
 .catch(errors.handle)
