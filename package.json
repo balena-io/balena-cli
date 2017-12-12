@@ -18,8 +18,20 @@
   "bin": {
     "resin": "./bin/resin"
   },
+  "pkg": {
+    "scripts": [
+      "node_modules/resin-sync/build/capitano/*.js",
+      "node_modules/resin-sync/build/sync/*.js"
+    ],
+    "assets": [
+      "build/auth/pages/*.ejs"
+    ]
+  },
   "scripts": {
-    "build": "gulp build && tsc && npm run doc",
+    "prebuild": "rimraf build/ build-bin/",
+    "build": "npm run build:src && npm run build:bin",
+    "build:src": "gulp build && tsc && npm run doc",
+    "build:bin": "pkg . -t host -o build-bin/resin && cp node_modules/opn/xdg-open build-bin/",
     "pretest": "npm run build",
     "test": "gulp test",
     "ci": "npm run test && catch-uncommitted",
@@ -48,6 +60,7 @@
     "gulp-mocha": "^2.0.0",
     "gulp-shell": "^0.5.2",
     "mochainon": "^2.0.0",
+    "pkg": "^4.3.0-beta.1",
     "require-npm4-to-publish": "^1.0.0",
     "typescript": "^2.6.1"
   },
