@@ -55,8 +55,6 @@ general = (params, options, done) ->
 		return command.hidden or command.isWildcard()
 
 	groupedCommands = _.groupBy commands, (command) ->
-		if command.plugin
-			return 'plugins'
 		if command.primary
 			return 'primary'
 		return 'secondary'
@@ -64,10 +62,6 @@ general = (params, options, done) ->
 	print(parse(groupedCommands.primary))
 
 	if options.verbose
-		if not _.isEmpty(groupedCommands.plugins)
-			console.log('\nInstalled plugins:\n')
-			print(parse(groupedCommands.plugins))
-
 		console.log('\nAdditional commands:\n')
 		print(parse(groupedCommands.secondary))
 	else
