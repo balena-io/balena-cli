@@ -1,22 +1,28 @@
 language: node_js
-matrix:
-  include:
-  - node_js:
-    - '6'
-    env:
-    - CAN_DEPLOY=true
+os:
+  - linux
+  - osx
+node_js:
+  - "6"
 before_install:
 - npm -g install npm@4
 script: npm run ci
 notifications:
   email: false
 deploy:
-  provider: npm
-  email: accounts@resin.io
-  api_key:
-    secure: phet6Du13hc1bzStbmpwy2ODNL5BFwjAmnpJ5wMcbWfI7fl0OtQ61s2+vW5hJAvm9fiRLOfiGAEiqOOtoupShZ1X8BNkC708d8+V+iZMoFh3+j6wAEz+N1sVq471PywlOuLAscOcqQNp92giCVt+4VPx2WQYh06nLsunvysGmUM=
-  skip_cleanup: true
-  on:
-    tags: true
-    condition: "$CAN_DEPLOY = 'true' && $TRAVIS_TAG =~ ^v?[[:digit:]]+\\.[[:digit:]]+\\.[[:digit:]]+"
-    repo: resin-io/resin-cli
+  - provider: script
+    script: npm run release
+    skip_cleanup: true
+    on:
+      tags: true
+      condition: "$TRAVIS_TAG =~ ^v?[[:digit:]]+\\.[[:digit:]]+\\.[[:digit:]]+"
+      repo: resin-io/resin-cli
+  - provider: npm
+    email: accounts@resin.io
+    api_key:
+      secure: phet6Du13hc1bzStbmpwy2ODNL5BFwjAmnpJ5wMcbWfI7fl0OtQ61s2+vW5hJAvm9fiRLOfiGAEiqOOtoupShZ1X8BNkC708d8+V+iZMoFh3+j6wAEz+N1sVq471PywlOuLAscOcqQNp92giCVt+4VPx2WQYh06nLsunvysGmUM=
+    skip_cleanup: true
+    on:
+      tags: true
+      condition: "$TRAVIS_TAG =~ ^v?[[:digit:]]+\\.[[:digit:]]+\\.[[:digit:]]+"
+      repo: resin-io/resin-cli
