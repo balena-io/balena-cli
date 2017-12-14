@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
-import * as FileHound from 'filehound';
+import * as filehound from 'filehound';
 import { exec as execPkg } from 'pkg';
 
 const ROOT = path.join(__dirname, '..');
@@ -15,11 +15,11 @@ execPkg([
 	path.join(ROOT, 'node_modules', 'opn', 'xdg-open'),
 	path.join(ROOT, 'build-bin', 'xdg-open')
 )).then(() => {
-	return FileHound.create()
+	return filehound.create()
 		.paths(path.join(ROOT, 'node_modules'))
 		.ext(['node', 'dll'])
 		.find();
-}).then((nativeExtensions: string[]) => {
+}).then((nativeExtensions) => {
 	console.log(`\nCopying to build-bin:\n${nativeExtensions.join('\n')}`);
 
 	return nativeExtensions.map((extPath) => {
