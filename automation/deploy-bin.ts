@@ -5,7 +5,7 @@ import * as fs from 'fs-extra';
 import * as publishRelease from 'publish-release';
 import * as archiver from 'archiver';
 
-const publishReleaseAsync = Promise.promisify<any, any>(publishRelease);
+const publishReleaseAsync = Promise.promisify(publishRelease);
 
 const { GITHUB_TOKEN } = process.env;
 const ROOT = path.join(__dirname, '..');
