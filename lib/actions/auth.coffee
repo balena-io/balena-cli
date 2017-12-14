@@ -130,7 +130,6 @@ exports.logout =
 
 			$ resin logout
 	'''
-	permission: 'user'
 	action: (params, options, done) ->
 		resin = require('resin-sdk-preconfigured')
 		resin.auth.logout().nodeify(done)
