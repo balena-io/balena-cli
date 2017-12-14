@@ -10,6 +10,9 @@ Resin CLI
 Requisites
 ----------
 
+If you want to install the CLI directly through npm, you'll need the below. If this looks difficult,
+we do now have an experimental standalone binary release available, see ['Standalone install'](#standalone-install) below.
+
 - [NodeJS](https://nodejs.org) (>= v4)
 - [Git](https://git-scm.com)
 - The following executables should be correctly installed in your shell environment:
@@ -34,13 +37,36 @@ If you still want to use `cmd.exe` you will have to use a package manager like M
 Getting Started
 ---------------
 
-### Install
+### NPM install
+
+If you've got all the requirements above, you should be able to install the CLI directly from npm. If not,
+or if you have any trouble with this, please try the new standalone install steps just below.
 
 This might require elevated privileges in some environments.
 
 ```sh
 $ npm install --global --production resin-cli
 ```
+
+### Standalone install
+
+If you don't have node or a working pre-gyp environment, you can still install the CLI as a standalone
+binary. **This is in experimental and may not work perfectly yet in all environments**, but it seems to work
+well in initial cross-platform testing, so it may be useful, and we'd love your feedback if you hit any issues.
+
+To install the CLI as a standalone binary:
+
+* Download the latest zip for your OS from https://github.com/resin-io/resin-cli/releases.
+* Extract the contents, putting the `resin-cli` folder somewhere appropriate for your system (e.g. `C:/resin-cli`, `/usr/local/lib/resin-cli`, etc).
+* Add the `resin-cli` folder to your `PATH`. (
+[Windows instructions](https://www.computerhope.com/issues/ch000549.htm),
+[Linux instructions](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix),
+[OSX instructions](https://stackoverflow.com/questions/22465332/setting-path-environment-variable-in-osx-permanently))
+* Running `resin` in a fresh command line should print the resin CLI help.
+
+To update in future, simply download a new release and replace the extracted folder.
+
+Have any problems, or see any unexpected behaviour? Please file an issue!
 
 ### Login
 
