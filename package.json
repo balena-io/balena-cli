@@ -24,7 +24,8 @@
       "node_modules/resin-sync/build/sync/*.js"
     ],
     "assets": [
-      "build/auth/pages/*.ejs"
+      "build/auth/pages/*.ejs",
+      "node_modules/resin-discoverable-services/services/**/*"
     ]
   },
   "scripts": {
