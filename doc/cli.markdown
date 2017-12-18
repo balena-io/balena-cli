@@ -822,7 +822,7 @@ increase verbosity
 
 #### --host, -H
 
-access host OS
+access host OS (for devices with Resin OS >= 2.7.5)
 
 #### --noproxy
 

@@ -48,7 +48,7 @@ module.exports =
 	,
 			signature: 'host'
 			boolean: true
-			description: 'access host OS'
+			description: 'access host OS (for devices with Resin OS >= 2.7.5)'
 			alias: 'H'
 	,
 			signature: 'noproxy'
