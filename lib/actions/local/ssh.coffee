@@ -14,6 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
+{ hostOSAccess } = require('../command-options')
+_ = require('lodash')
+
+localHostOSAccessOption = _.cloneDeep(hostOSAccess)
+localHostOSAccessOption.description = 'get a shell into the host OS'
+
 module.exports =
 	signature: 'local ssh [deviceIp]'
 	description: 'Get a shell into a resinOS device'
@@ -43,11 +49,7 @@ module.exports =
 			description: 'increase verbosity'
 			alias: 'v'
 	,
-			signature: 'host'
-			boolean: true
-			description: 'get a shell into the host OS'
-			alias: 's'
-	,
+	localHostOSAccessOption,
 			signature: 'container'
 			parameter: 'container'
 			default: null

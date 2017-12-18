@@ -820,7 +820,7 @@ ssh gateway port
 
 increase verbosity
 
-#### --host, -H
+#### --host, -s
 
 access host OS (for devices with Resin OS >= 2.7.5)
 

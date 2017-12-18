@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
+commandOptions = require('./command-options')
+
 module.exports =
 	signature: 'ssh [uuid]'
 	description: '(beta) get a shell into the running app container of a device'
@@ -45,12 +47,7 @@ module.exports =
 			boolean: true
 			description: 'increase verbosity'
 			alias: 'v'
-	,
-			signature: 'host'
-			boolean: true
-			description: 'access host OS (for devices with Resin OS >= 2.7.5)'
-			alias: 'H'
-	,
+	commandOptions.hostOSAccess,
 			signature: 'noproxy'
 			boolean: true
 			description: "don't use the proxy configuration for this connection.
@@ -124,9 +121,10 @@ module.exports =
 				Promise.try ->
 					sshProxyCommand = getSshProxyCommand(hasTunnelBin)
 
-					accessCommand = "enter #{uuid} #{containerId}"
 					if options.host
 						accessCommand = "host #{uuid}"
+					else
+						accessCommand = "enter #{uuid} #{containerId}"
 
 					command = "ssh #{verbose} -t \
 						-o LogLevel=ERROR \
