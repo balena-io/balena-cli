@@ -2,18 +2,20 @@ import * as Promise from 'bluebird';
 import * as path from 'path';
 import * as os from 'os';
 import * as fs from 'fs-extra';
+import * as mkdirp from 'mkdirp';
 import * as publishRelease from 'publish-release';
 import * as archiver from 'archiver';
 
 const publishReleaseAsync = Promise.promisify(publishRelease);
+const mkdirpAsync = Promise.promisify<string | null, string>(mkdirp);
 
 const { GITHUB_TOKEN } = process.env;
 const ROOT = path.join(__dirname, '..');
 
 const version = 'v' + require('../package.json').version;
-const outputFile = path.join(ROOT, `resin-cli-${version}-${os.platform()}-${os.arch()}.zip`);
+const outputFile = path.join(ROOT, 'build-zip', `resin-cli-${version}-${os.platform()}-${os.arch()}.zip`);
 
-new Promise((resolve, reject) => {
+mkdirpAsync(path.dirname(outputFile)).then(() => new Promise((resolve, reject) => {
 	console.log('Zipping build...');
 
 	let archive = archiver('zip', {
@@ -31,12 +33,12 @@ new Promise((resolve, reject) => {
 
 	archive.pipe(outputStream);
 	archive.finalize();
-}).then(() => {
+})).then(() => {
 	console.log('Build zipped');
 	console.log('Publishing build...');
 
 	return publishReleaseAsync({
-		token: GITHUB_TOKEN,
+		token: <string> GITHUB_TOKEN,
 		owner: 'resin-io',
 		repo: 'resin-cli',
 		tag: version,

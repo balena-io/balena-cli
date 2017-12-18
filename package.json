@@ -29,7 +29,7 @@
     ]
   },
   "scripts": {
-    "prebuild": "rimraf build/ build-bin/",
+    "prebuild": "rimraf build/ build-bin/ build-zip/",
     "build": "npm run build:src && npm run build:bin",
     "build:src": "gulp build && tsc && npm run doc",
     "build:bin": "ts-node --type-check -P automation automation/build-bin.ts",
@@ -55,6 +55,7 @@
   "devDependencies": {
     "@types/archiver": "^2.0.1",
     "@types/fs-extra": "^5.0.0",
+    "@types/mkdirp": "^0.5.2",
     "catch-uncommitted": "^1.0.0",
     "ent": "^2.2.0",
     "filehound": "^1.16.2",

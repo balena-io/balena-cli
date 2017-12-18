@@ -36,4 +36,4 @@ resinrc.yml
 /tmp
 build/
 build-bin/
-resin-cli-*.zip
+build-zip/
