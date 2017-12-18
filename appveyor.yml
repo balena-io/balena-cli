@@ -1,0 +1,34 @@
+# appveyor file
+# http://www.appveyor.com/docs/appveyor-yml
+
+init:
+  - git config --global core.autocrlf input
+
+cache:
+  - C:\Users\appveyor\.node-gyp
+  - '%AppData%\npm-cache'
+
+matrix:
+  fast_finish: true
+
+# what combinations to test
+environment:
+  matrix:
+    - nodejs_version: 6
+
+install:
+  - ps: Install-Product node $env:nodejs_version x64
+  - npm install -g npm@4
+  - set PATH=%APPDATA%\npm;%PATH%
+  - npm install
+
+build: off
+
+test_script:
+  - node --version
+  - npm --version
+  - cmd: npm test
+
+deploy_script:
+  - IF "%APPVEYOR_REPO_TAG%" == "true" (npm run release)
+  - IF NOT "%APPVEYOR_REPO_TAG%" == "true" (echo 'Not tagged, skipping deploy')

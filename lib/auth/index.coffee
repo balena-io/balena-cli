@@ -18,7 +18,7 @@ limitations under the License.
 # @module auth
 ###
 
-open = require('open')
+open = require('opn')
 resin = require('resin-sdk-preconfigured')
 server = require('./server')
 utils = require('./utils')
