@@ -31,6 +31,7 @@ module.exports =
 			$ resin ssh 7cf02a6
 			$ resin ssh 7cf02a6 --port 8080
 			$ resin ssh 7cf02a6 -v
+			$ resin ssh 7cf02a6 -H
 	'''
 	permission: 'user'
 	primary: true
@@ -44,6 +45,11 @@ module.exports =
 			boolean: true
 			description: 'increase verbosity'
 			alias: 'v'
+	,
+			signature: 'host'
+			boolean: true
+			description: 'access host OS'
+			alias: 'H'
 	,
 			signature: 'noproxy'
 			boolean: true
@@ -109,7 +115,7 @@ module.exports =
 				username: resin.auth.whoami()
 				uuid: device.uuid
 				# get full uuid
-				containerId: resin.models.device.getApplicationInfo(device.uuid).get('containerId')
+				containerId: if options.host then '' else resin.models.device.getApplicationInfo(device.uuid).get('containerId')
 				proxyUrl: resin.settings.get('proxyUrl')
 
 				hasTunnelBin: if useProxy then hasbin('proxytunnel') else null
@@ -117,12 +123,17 @@ module.exports =
 				throw new Error('Did not find running application container') if not containerId?
 				Promise.try ->
 					sshProxyCommand = getSshProxyCommand(hasTunnelBin)
+
+					accessCommand = "enter #{uuid} #{containerId}"
+					if options.host
+						accessCommand = "host #{uuid}"
+
 					command = "ssh #{verbose} -t \
 						-o LogLevel=ERROR \
 						-o StrictHostKeyChecking=no \
 						-o UserKnownHostsFile=/dev/null \
 						#{sshProxyCommand} \
-						-p #{options.port} #{username}@ssh.#{proxyUrl} enter #{uuid} #{containerId}"
+						-p #{options.port} #{username}@ssh.#{proxyUrl} #{accessCommand}"
 
 					subShellCommand = getSubShellCommand(command)
 					child_process.spawn subShellCommand.program, subShellCommand.args,

@@ -808,6 +808,7 @@ Examples:
 	$ resin ssh 7cf02a6
 	$ resin ssh 7cf02a6 --port 8080
 	$ resin ssh 7cf02a6 -v
+	$ resin ssh 7cf02a6 -H
 
 ### Options
 
@@ -818,6 +819,10 @@ ssh gateway port
 #### --verbose, -v
 
 increase verbosity
+
+#### --host, -H
+
+access host OS
 
 #### --noproxy
 
