@@ -98,3 +98,9 @@ exports.advancedConfig =
 	description: 'show advanced configuration options'
 	boolean: true
 	alias: 'v'
+
+exports.hostOSAccess =
+	signature: 'host'
+	boolean: true
+	description: 'access host OS (for devices with Resin OS >= 2.7.5)'
+	alias: 's'

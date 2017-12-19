@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
+commandOptions = require('./command-options')
+
 module.exports =
 	signature: 'ssh [uuid]'
 	description: '(beta) get a shell into the running app container of a device'
@@ -31,6 +33,7 @@ module.exports =
 			$ resin ssh 7cf02a6
 			$ resin ssh 7cf02a6 --port 8080
 			$ resin ssh 7cf02a6 -v
+			$ resin ssh 7cf02a6 -s
 	'''
 	permission: 'user'
 	primary: true
@@ -44,7 +47,7 @@ module.exports =
 			boolean: true
 			description: 'increase verbosity'
 			alias: 'v'
-	,
+	commandOptions.hostOSAccess,
 			signature: 'noproxy'
 			boolean: true
 			description: "don't use the proxy configuration for this connection.
@@ -109,7 +112,7 @@ module.exports =
 				username: resin.auth.whoami()
 				uuid: device.uuid
 				# get full uuid
-				containerId: resin.models.device.getApplicationInfo(device.uuid).get('containerId')
+				containerId: if options.host then '' else resin.models.device.getApplicationInfo(device.uuid).get('containerId')
 				proxyUrl: resin.settings.get('proxyUrl')
 
 				hasTunnelBin: if useProxy then hasbin('proxytunnel') else null
@@ -117,12 +120,18 @@ module.exports =
 				throw new Error('Did not find running application container') if not containerId?
 				Promise.try ->
 					sshProxyCommand = getSshProxyCommand(hasTunnelBin)
+
+					if options.host
+						accessCommand = "host #{uuid}"
+					else
+						accessCommand = "enter #{uuid} #{containerId}"
+
 					command = "ssh #{verbose} -t \
 						-o LogLevel=ERROR \
 						-o StrictHostKeyChecking=no \
 						-o UserKnownHostsFile=/dev/null \
 						#{sshProxyCommand} \
-						-p #{options.port} #{username}@ssh.#{proxyUrl} enter #{uuid} #{containerId}"
+						-p #{options.port} #{username}@ssh.#{proxyUrl} #{accessCommand}"
 
 					subShellCommand = getSubShellCommand(command)
 					child_process.spawn subShellCommand.program, subShellCommand.args,
