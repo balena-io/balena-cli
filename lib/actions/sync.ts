@@ -1,4 +1,4 @@
-###
+/*
 Copyright 2016-2017 Resin.io
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,18 +12,6 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-###
+*/
 
-nplugm = require('nplugm')
-_ = require('lodash')
-capitano = require('capitano')
-patterns = require('./patterns')
-
-exports.register = (regex) ->
-	nplugm.list(regex).map (plugin) ->
-		command = require(plugin)
-		command.plugin = true
-		return capitano.command(command) if not _.isArray(command)
-		return _.each(command, capitano.command)
-	.catch (error) ->
-		patterns.printErrorMessage(error.message)
+export = require('resin-sync').capitano('resin-cli');

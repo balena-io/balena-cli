@@ -16,7 +16,7 @@ limitations under the License.
 
 import validEmail = require('@resin.io/valid-email');
 
-exports.validateEmail = function(input: string) {
+export function validateEmail(input: string) {
 	if (!validEmail(input)) {
 		return 'Email is not valid';
 	}
@@ -24,7 +24,7 @@ exports.validateEmail = function(input: string) {
 	return true;
 };
 
-exports.validatePassword = function(input: string) {
+export function validatePassword(input: string) {
 	if (input.length < 8) {
 		return 'Password should be 8 characters long';
 	}
@@ -32,7 +32,7 @@ exports.validatePassword = function(input: string) {
 	return true;
 };
 
-exports.validateApplicationName = function(input: string) {
+export function validateApplicationName(input: string) {
 	if (input.length < 4) {
 		return 'The application name should be at least 4 characters';
 	}
