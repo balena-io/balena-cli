@@ -14,9 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { Command } from "capitano";
+import { CommandDefinition } from "capitano";
 
-export const version: Command = {
+export const version: CommandDefinition = {
 	signature: 'version',
 	description: 'output the version number',
 	help: `\

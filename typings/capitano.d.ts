@@ -7,7 +7,7 @@ declare module 'capitano' {
 		global: {};
 	}
 
-	export interface CommandOption {
+	export interface OptionDefinition {
 		signature: string;
 		description: string;
 		parameter?: string;
@@ -15,22 +15,39 @@ declare module 'capitano' {
 		alias?: string | string[];
 	}
 
-	export interface Command<P = {}, O = {}> {
+	export interface CommandDefinition<P = {}, O = {}> {
 		signature: string;
 		description: string;
 		help: string;
-		options?: CommandOption[],
+		options?: OptionDefinition[],
 		permission?: 'user',
 		action(params: P, options: O, done: () => void): void;
 	}
 
-	export interface BuiltCommand {
-		signature: {}
+	export interface Command {
+		signature: Signature;
+		options: Option[];
+		isWildcard(): boolean;
 	}
 
-	export function command(command: Command): void;
+	export interface Signature {
+		hasParameters(): boolean;
+		hasVariadicParameters(): boolean;
+		isWildcard(): boolean;
+		allowsStdin(): boolean;
+	}
+
+	export interface Option {
+		signature: Signature;
+		alias: string | string[];
+		boolean: boolean;
+		parameter: string;
+		required: boolean | string;
+	}
+
+	export function command(command: CommandDefinition): void;
 
 	export const state: {
-		getMatchCommand: (signature: string, callback: (e: Error, cmd: BuiltCommand) => void) => void
+		getMatchCommand: (signature: string, callback: (e: Error, cmd: Command) => void) => void
 	};
 }

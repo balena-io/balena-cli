@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "es5",
+		"outDir": "build",
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"preserveConstEnums": true,
+		"removeComments": true,
+		"sourceMap": true
+	},
+	"include": [
+		"../typings/*.d.ts",
+		"./**/*.ts"
+	]
+}

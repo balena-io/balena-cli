@@ -254,7 +254,7 @@ web-based login
 
 credential-based login
 
-#### --email, --e,u, --e,u &#60;email&#62;
+#### --email, -e, -u &#60;email&#62;
 
 email
 
@@ -310,7 +310,7 @@ Examples:
 
 ### Options
 
-#### --application, --a,app, --a,app &#60;application&#62;
+#### --application, -a, --app &#60;application&#62;
 
 application name
 
@@ -464,7 +464,7 @@ Examples:
 
 ### Options
 
-#### --application, --a,app, --a,app &#60;application&#62;
+#### --application, -a, --app &#60;application&#62;
 
 application name
 
@@ -482,7 +482,7 @@ Examples:
 
 ### Options
 
-#### --application, --a,app, --a,app &#60;application&#62;
+#### --application, -a, --app &#60;application&#62;
 
 application name
 
@@ -529,7 +529,7 @@ Example:
 
 ### Options
 
-#### --application, --a,app, --a,app &#60;application&#62;
+#### --application, -a, --app &#60;application&#62;
 
 application name
 
@@ -589,7 +589,7 @@ Examples:
 
 ### Options
 
-#### --application, --a,app, --a,app &#60;application&#62;
+#### --application, -a, --app &#60;application&#62;
 
 application name
 
@@ -845,7 +845,7 @@ Examples:
 
 ### Options
 
-#### --device, --d,dev, --d,dev &#60;device&#62;
+#### --device, -d, --dev &#60;device&#62;
 
 device uuid
 
@@ -937,7 +937,7 @@ Examples:
 
 show advanced configuration options
 
-#### --application, --a,app, --a,app &#60;application&#62;
+#### --application, -a, --app &#60;application&#62;
 
 application name
 
@@ -1081,7 +1081,7 @@ Examples:
 
 ### Options
 
-#### --application, --a,app, --a,app &#60;application&#62;
+#### --application, -a, --app &#60;application&#62;
 
 application name
 
