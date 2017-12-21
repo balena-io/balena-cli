@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+var hidepath = require('hidepath');
+var userHome = require('home-or-tmp');
+var path = require('path');
+
+process.env.RESINRC_RESIN_URL = process.env.RESINRC_RESIN_URL || 'multi.resinstaging.io'
+process.env.RESINRC_DATA_DIRECTORY = process.env.RESINRC_DATA_DIRECTORY || path.join(userHome, hidepath('resin-mc'))
+
+require('../build/app');

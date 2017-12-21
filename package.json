@@ -1,5 +1,5 @@
 {
-  "name": "resin-cli",
+  "name": "resin-cli-mc",
   "version": "6.10.2",
   "description": "The official resin.io CLI tool",
   "main": "./build/actions/index.js",
@@ -16,7 +16,7 @@
     "lib/"
   ],
   "bin": {
-    "resin": "./bin/resin"
+    "resin-mc": "./bin/resin-mc"
   },
   "scripts": {
     "build": "gulp build && tsc && npm run doc",
@@ -75,6 +75,8 @@
     "express": "^4.13.3",
     "global-tunnel-ng": "github:zvin/global-tunnel#dont-proxy-connections-to-file-sockets",
     "hasbin": "^1.2.3",
+    "hidepath": "^1.0.1",
+    "home-or-tmp": "^3.0.0",
     "humanize": "0.0.9",
     "inquirer": "^3.1.1",
     "is-root": "^1.0.0",
