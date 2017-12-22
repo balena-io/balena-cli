@@ -14,15 +14,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
-Raven = require('raven')
-Raven.disableConsoleAlerts()
-Raven.config require('./config').sentryDsn,
-	captureUnhandledRejections: true
+Analytics = require('analytics.node').core
+Raven = require('analytics.node').sentryIntegration
+ravenOptions =
+	config: require('./config').sentryDsn
 	release: require('../package.json').version
-.install (logged, error) ->
-	console.error(error)
-	process.exit(1)
-Raven.setContext
+	captureUnhandledRejections: true
+	disableConsoleAlerts: true
+Analytics.addIntegration(Raven)
+Analytics.initialize({'Sentry': ravenOptions})
+Analytics.setContext
 	extra:
 		args: process.argv
 		node_version: process.version

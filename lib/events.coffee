@@ -1,10 +1,11 @@
 _ = require('lodash')
 Analytics = require('analytics.node').core
 mixpanelIntegration = require('analytics.node').mixpanelIntegration
-Raven = require('raven')
+ravenIntegration = require('analytics.node').sentryIntegration
 Promise = require('bluebird')
 resin = require('resin-sdk-preconfigured')
 packageJSON = require('../package.json')
+Analytics.addIntegration(ravenIntegration)
 
 exports.getLoggerInstance = _.memoize ->
 	return resin.models.config.getMixpanelToken().then (token) ->
@@ -21,7 +22,7 @@ exports.trackCommand = (capitanoCommand) ->
 		analytics: exports.getLoggerInstance()
 	.then ({ username, resinUrl, analytics }) ->
 		return capitanoStateGetMatchCommandAsync(capitanoCommand.command).then (command) ->
-			Raven.mergeContext(user: {
+			Analytics.mergeContext(user: {
 				id: username,
 				username
 			})
