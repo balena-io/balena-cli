@@ -43,7 +43,7 @@ exports.handle = (error) ->
 
 	patterns.printErrorMessage(message)
 
-	captureException(error)
+	captureException(Analytics.anonymize(error))
 	.timeout(1000)
 	.catch(-> # Ignore any errors (from error logging, or timeouts)
 	).finally ->
