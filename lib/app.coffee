@@ -16,17 +16,18 @@ limitations under the License.
 
 Analytics = require('analytics.node').core
 Raven = require('analytics.node').sentryIntegration
+dsn = require('./config').sentryDsn
+release = require('../package.json').version
 ravenOptions =
-	config: require('./config').sentryDsn
-	release: require('../package.json').version
+	config: dsn
+	release: release
 	captureUnhandledRejections: true
 	disableConsoleAlerts: true
 Analytics.addIntegration(Raven)
-Analytics.initialize({'Sentry': ravenOptions})
-Analytics.setContext
-	extra:
-		args: process.argv
-		node_version: process.version
+Analytics.initialize 'Sentry': ravenOptions
+Analytics.setContext Analytics.anonymize(extra:
+	args: process.argv
+	node_version: process.version)
 
 validNodeVersions = require('../package.json').engines.node
 if not require('semver').satisfies(process.version, validNodeVersions)

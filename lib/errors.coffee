@@ -18,21 +18,22 @@ chalk = require('chalk')
 errors = require('resin-cli-errors')
 patterns = require('./utils/patterns')
 Promise = require('bluebird')
-Analytics = require('analytics.node').core
+analytics = require('analytics.node').core
 Raven = require('analytics.node').sentryIntegration
+dsn = require('./config').sentryDsn
+release = require('../package.json').version
 ravenOptions =
-	config: require('./config').sentryDsn
-	release: require('../package.json').version
+	config: dsn
+	release: release
 	captureUnhandledRejections: true
 	disableConsoleAlerts: true
-Analytics.addIntegration(Raven)
-Analytics.initialize({'Sentry': ravenOptions})
-Analytics.setContext
-	extra:
-		args: process.argv
-		node_version: process.version
+analytics.addIntegration(Raven)
+analytics.initialize 'Sentry': ravenOptions
+analytics.setContext analytics.anonymize(extra:
+	args: process.argv
+	node_version: process.version)
 
-captureException = Promise.promisify(Analytics.captureException)
+captureException = Promise.promisifyAll(analytics.captureException.bind(analytics))
 
 exports.handle = (error) ->
 	message = errors.interpret(error)
@@ -43,7 +44,7 @@ exports.handle = (error) ->
 
 	patterns.printErrorMessage(message)
 
-	captureException(Analytics.anonymize(error))
+	captureException(error)
 	.timeout(1000)
 	.catch(-> # Ignore any errors (from error logging, or timeouts)
 	).finally ->
