@@ -33,8 +33,6 @@ analytics.setContext analytics.anonymize(extra:
 	args: process.argv
 	node_version: process.version)
 
-captureException = Promise.promisifyAll(analytics.captureException.bind(analytics))
-
 exports.handle = (error) ->
 	message = errors.interpret(error)
 	return if not message?
@@ -44,7 +42,10 @@ exports.handle = (error) ->
 
 	patterns.printErrorMessage(message)
 
-	captureException(error)
+	Promise.fromCallback((cb) ->
+		console.log('inside promise')
+		analytics.captureException(error)
+	)
 	.timeout(1000)
 	.catch(-> # Ignore any errors (from error logging, or timeouts)
 	).finally ->
