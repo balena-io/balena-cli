@@ -16,13 +16,13 @@ declare module 'filehound' {
 
 declare module 'publish-release' {
 	interface PublishOptions {
-		token: string,
-		owner: string,
-		repo: string,
-		tag: string,
-		name: string,
-		reuseRelease?: boolean
-		assets: string[]
+		token: string;
+		owner: string;
+		repo: string;
+		tag: string;
+		name: string;
+		reuseRelease?: boolean;
+		assets: string[];
 	}
 
 	interface Release {

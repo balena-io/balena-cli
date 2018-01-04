@@ -1,5 +1,5 @@
 declare module 'resin-device-init' {
-	import { EventEmitter } from "events";
+	import { EventEmitter } from 'events';
 
 	interface OperationState {
 		operation: CopyOperation | ReplaceOperation | RunScriptOperation | BurnOperation;
@@ -22,7 +22,7 @@ declare module 'resin-device-init' {
 		replace: string;
 		file: {
 			path: string;
-		}
+		};
 	}
 
 	interface RunScriptOperation extends Operation {
@@ -55,5 +55,5 @@ declare module 'resin-device-init' {
 		on(event: 'burn', callback: (state: BurnProgress) => void): void;
 	}
 
-	export function initialize(image: string, deviceType: string, config: {}): Promise<InitializeEmitter>
+	export function initialize(image: string, deviceType: string, config: {}): Promise<InitializeEmitter>;
 }

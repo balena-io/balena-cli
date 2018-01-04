@@ -401,7 +401,6 @@ exports.init =
 		tmp.setGracefulCleanup()
 
 		resin = require('resin-sdk-preconfigured')
-		helpers = require('../utils/helpers')
 		patterns = require('../utils/patterns')
 
 		Promise.try ->

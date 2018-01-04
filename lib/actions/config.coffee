@@ -271,7 +271,6 @@ exports.generate =
 		Promise = require('bluebird')
 		writeFileAsync = Promise.promisify(require('fs').writeFile)
 		resin = require('resin-sdk-preconfigured')
-		_ = require('lodash')
 		form = require('resin-cli-form')
 		deviceConfig = require('resin-device-config')
 		prettyjson = require('prettyjson')

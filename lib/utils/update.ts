@@ -30,7 +30,7 @@ let notifier: UpdateNotifier.UpdateNotifier;
 if (!isRoot()) {
 	notifier = UpdateNotifier({
 		pkg: packageJSON,
-		updateCheckInterval: resinUpdateInterval
+		updateCheckInterval: resinUpdateInterval,
 	});
 }
 
@@ -48,4 +48,4 @@ export function notify() {
 	if (notifier.update != null) {
 		return console.log('Notice that you might need administrator privileges depending on your setup\n');
 	}
-};
+}

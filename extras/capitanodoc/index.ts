@@ -15,12 +15,13 @@ for (let commandCategory of capitanodoc.categories) {
 	category.commands = [];
 
 	for (let file of commandCategory.files) {
+		// tslint:disable-next-line:no-var-requires
 		const actions: any = require(path.join(process.cwd(), file));
 
-		if (actions.signature != null) {
+		if (actions.signature) {
 			category.commands.push(_.omit(actions, 'action'));
 		} else {
-			for (let actionName in actions) {
+			for (let actionName of Object.keys(actions)) {
 				const actionCommand = actions[actionName];
 				category.commands.push(_.omit(actionCommand, 'action'));
 			}

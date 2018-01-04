@@ -19,7 +19,7 @@ import _ = require('lodash');
 import capitano = require('capitano');
 import patterns = require('./patterns');
 
-exports.register = (regex: RegExp) => {
+export function register(regex: RegExp): Promise<void> {
 	return nplugm.list(regex).map(async function(plugin: any) {
 		const command = await import(plugin);
 		command.plugin = true;
@@ -28,6 +28,6 @@ exports.register = (regex: RegExp) => {
 		}
 		return _.each(command, capitano.command);
 	}).catch((error: Error) => {
-		return patterns.printErrorMessage(error.message)
-	})
+		return patterns.printErrorMessage(error.message);
+	});
 }

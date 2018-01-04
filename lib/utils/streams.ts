@@ -17,4 +17,4 @@ export async function buffer(stream: NodeJS.ReadableStream, bufferFile: string) 
 			resolve(this);
 		}).on('error', reject);
 	}));
-};
+}

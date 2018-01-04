@@ -37,27 +37,27 @@ export function generateBaseConfig(application: ResinSdk.Application, options: {
 		registryUrl: resin.settings.get('registryUrl'),
 		deltaUrl: resin.settings.get('deltaUrl'),
 		pubNubKeys: resin.models.config.getAll().get('pubnub'),
-		mixpanelToken: resin.models.config.getAll().get('mixpanelToken')
+		mixpanelToken: resin.models.config.getAll().get('mixpanelToken'),
 	}).then((results) => {
 		return deviceConfig.generate({
 			application,
 			user: {
 				id: results.userId,
-				username: results.username
+				username: results.username,
 			},
 			endpoints: {
 				api: results.apiUrl,
 				vpn: results.vpnUrl,
 				registry: results.registryUrl,
-				delta: results.deltaUrl
+				delta: results.deltaUrl,
 			},
 			pubnub: results.pubNubKeys,
 			mixpanel: {
-				token: results.mixpanelToken
-			}
+				token: results.mixpanelToken,
+			},
 		}, options);
 	});
-};
+}
 
 export function generateApplicationConfig(application: ResinSdk.Application, options: {}) {
 	return generateBaseConfig(application, options)
@@ -67,7 +67,7 @@ export function generateApplicationConfig(application: ResinSdk.Application, opt
 export function generateDeviceConfig(
 	device: ResinSdk.Device & { application_name: string },
 	deviceApiKey: string | null,
-	options: {}
+	options: {},
 ) {
 	return resin.models.application.get(device.application_name)
 	.then(application => {
@@ -91,19 +91,19 @@ export function generateDeviceConfig(
 
 		return config;
 	});
-};
+}
 
 function authenticateWithApplicationKey(config: any, applicationNameOrId: string | number) {
 	return resin.models.application.generateApiKey(applicationNameOrId)
 	.tap((apiKey) => {
 		config.apiKey = apiKey;
 	});
-};
+}
 
 function authenticateWithDeviceKey(config: any, uuid: string, customDeviceApiKey: string) {
 	return Promise.try(() => {
-		return customDeviceApiKey || resin.models.device.generateDeviceKey(uuid)
+		return customDeviceApiKey || resin.models.device.generateDeviceKey(uuid);
 	}).tap((deviceApiKey) => {
 		config.deviceApiKey = deviceApiKey;
 	});
-};
+}

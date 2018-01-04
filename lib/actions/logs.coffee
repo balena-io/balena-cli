@@ -44,7 +44,6 @@ module.exports =
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
-		_ = require('lodash')
 		resin = require('resin-sdk-preconfigured')
 		moment = require('moment')
 

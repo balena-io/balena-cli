@@ -22,7 +22,7 @@ export function validateEmail(input: string) {
 	}
 
 	return true;
-};
+}
 
 export function validatePassword(input: string) {
 	if (input.length < 8) {
@@ -30,7 +30,7 @@ export function validatePassword(input: string) {
 	}
 
 	return true;
-};
+}
 
 export function validateApplicationName(input: string) {
 	if (input.length < 4) {
@@ -38,4 +38,4 @@ export function validateApplicationName(input: string) {
 	}
 
 	return true;
-};
+}

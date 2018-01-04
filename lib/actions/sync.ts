@@ -14,4 +14,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-export = require('resin-sync').capitano('resin-cli');
+import * as ResinSync from 'resin-sync';
+export = ResinSync.capitano('resin-cli');

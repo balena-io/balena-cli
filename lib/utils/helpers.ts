@@ -24,19 +24,19 @@ import visuals = require('resin-cli-visuals');
 import ResinSdk = require('resin-sdk');
 
 import { execute } from 'president';
-import { InitializeEmitter, OperationState } from "resin-device-init";
+import { InitializeEmitter, OperationState } from 'resin-device-init';
 
 const resin = ResinSdk.fromSharedOptions();
 
 export function getGroupDefaults(
-	group: { options: { name: string, default?: string }[] }
+	group: { options: { name: string, default?: string }[] },
 ): { [name: string]: string | undefined } {
 	return _.chain(group)
 		.get('options')
 		.map((question) => [ question.name, question.default ])
 		.fromPairs()
 		.value();
-};
+}
 
 export function stateToString(state: OperationState) {
 	const percentage = _.padStart(`${state.percentage}`, 3, '0') + '%';
@@ -52,7 +52,7 @@ export function stateToString(state: OperationState) {
 		default:
 			throw new Error(`Unsupported operation: ${state.operation.command}`);
 	}
-};
+}
 
 export function sudo(command: string[]) {
 	if (os.platform() !== 'win32') {
@@ -63,7 +63,7 @@ export function sudo(command: string[]) {
 
 	const presidentExecuteAsync = Promise.promisify(execute);
 	return presidentExecuteAsync(command);
-};
+}
 
 export function getManifest(image: string, deviceType: string): Promise<ResinSdk.DeviceType> {
 	// Attempt to read manifest from the first
@@ -72,13 +72,13 @@ export function getManifest(image: string, deviceType: string): Promise<ResinSdk
 	return imagefs.read({
 		image,
 		partition: {
-			primary: 1
+			primary: 1,
 		},
-		path: '/device-type.json'
+		path: '/device-type.json',
 	}).then(Promise.promisify(rindle.extract))
 	.then(JSON.parse)
 	.catch(() => resin.models.device.getManifestBySlug(deviceType));
-};
+}
 
 export function osProgressHandler(step: InitializeEmitter) {
 	step.on('stdout', process.stdout.write.bind(process.stdout));
@@ -91,29 +91,29 @@ export function osProgressHandler(step: InitializeEmitter) {
 
 	const progressBars = {
 		write: new visuals.Progress('Writing Device OS'),
-		check: new visuals.Progress('Validating Device OS')
+		check: new visuals.Progress('Validating Device OS'),
 	};
 
 	step.on('burn', state => progressBars[state.type].update(state));
 
 	return Promise.promisify(rindle.wait)(step);
-};
+}
 
 export function getArchAndDeviceType(applicationName: string): Promise<{ arch: string, device_type: string }> {
 	return Promise.join(
 		getApplication(applicationName),
 		resin.models.config.getDeviceTypes(),
 		function (app, deviceTypes) {
-			let config = _.find(deviceTypes, { 'slug': app.device_type });
+			let config = _.find(deviceTypes, { slug: app.device_type });
 
 			if (config == null) {
 				throw new Error('Could not read application information!');
 			}
 
 			return { device_type: app.device_type, arch: config.arch };
-		}
+		},
 	);
-};
+}
 
 function getApplication(applicationName: string) {
 	let match;
@@ -125,7 +125,7 @@ function getApplication(applicationName: string) {
 	}
 
 	return resin.models.application.get(applicationName);
-};
+}
 
 // A function to reliably execute a command
 // in all supported operating systems, including
@@ -135,12 +135,12 @@ export function getSubShellCommand(command: string) {
 	if (os.platform() === 'win32') {
 		return {
 			program: 'cmd.exe',
-			args: [ '/s', '/c', command ]
+			args: [ '/s', '/c', command ],
 		};
 	} else {
 		return {
 			program: '/bin/sh',
-			args: [ '-c', command ]
+			args: [ '-c', command ],
 		};
 	}
-};
+}

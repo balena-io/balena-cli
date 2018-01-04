@@ -30,11 +30,11 @@ export function authenticate(options: {}) {
 		message: 'Email:',
 		name: 'email',
 		type: 'input',
-		validate: validation.validateEmail
+		validate: validation.validateEmail,
 	}, {
 		message: 'Password:',
 		name: 'password',
-		type: 'password'
+		type: 'password',
 	}], { override: options })
 	.then(resin.auth.login)
 	.then(resin.auth.twoFactor.isPassed)
@@ -45,16 +45,14 @@ export function authenticate(options: {}) {
 			message: 'Two factor auth challenge:',
 			name: 'code',
 			type: 'input'}).then(resin.auth.twoFactor.challenge)
-		.catch((error: any) =>
-			resin.auth.logout().then(function() {
-				if ((error.name === 'ResinRequestError') && (error.statusCode === 401)) {
-					throw new Error('Invalid two factor authentication code');
-				}
-				throw error;
-			})
-		);
-	})
-};
+		.catch((error: any) => resin.auth.logout().then(() => {
+			if ((error.name === 'ResinRequestError') && (error.statusCode === 401)) {
+				throw new Error('Invalid two factor authentication code');
+			}
+			throw error;
+		}));
+	});
+}
 
 export function askLoginType() {
 	return form.ask({
@@ -63,18 +61,18 @@ export function askLoginType() {
 		type: 'list',
 		choices: [{
 			name: 'Web authorization (recommended)',
-			value: 'web'
+			value: 'web',
 		}, {
 			name: 'Credentials',
-			value: 'credentials'
+			value: 'credentials',
 		}, {
 			name: 'Authentication token',
-			value: 'token'
+			value: 'token',
 		}, {
 			name: 'I don\'t have a Resin account!',
-			value: 'register'
-		}]
-	})
+			value: 'register',
+		}],
+	});
 }
 
 export function selectDeviceType() {
@@ -83,8 +81,8 @@ export function selectDeviceType() {
 		return form.ask({
 			message: 'Device Type',
 			type: 'list',
-			choices: deviceTypes
-		})
+			choices: deviceTypes,
+		});
 	});
 }
 
@@ -98,13 +96,13 @@ export function confirm(yesOption: string, message: string, yesMessage: string) 
 		return form.ask({
 			message,
 			type: 'confirm',
-			default: false
+			default: false,
 		});
 	}).then(function(confirmed) {
 		if (!confirmed) {
 			throw new Error('Aborted');
 		}
-	})
+	});
 }
 
 export function selectApplication(filter: (app: ResinSdk.Application) => boolean) {
@@ -123,10 +121,10 @@ export function selectApplication(filter: (app: ResinSdk.Application) => boolean
 			choices: _.map(applications, application =>
 				({
 					name: `${application.app_name} (${application.device_type})`,
-					value: application.app_name
-				})
+					value: application.app_name,
+				}),
 		)});
-	})
+	});
 }
 
 export function selectOrCreateApplication() {
@@ -137,18 +135,18 @@ export function selectOrCreateApplication() {
 			let appOptions: { name: string, value: string | null }[];
 			appOptions = _.map(applications, application => ({
 				name: `${application.app_name} (${application.device_type})`,
-				value: application.app_name
+				value: application.app_name,
 			}));
 
 			appOptions.unshift({
 				name: 'Create a new application',
-				value: null
+				value: null,
 			});
 
 			return form.ask({
 				message: 'Select an application',
 				type: 'list',
-				choices: appOptions
+				choices: appOptions,
 			});
 		});
 	}).then((application) => {
@@ -157,9 +155,9 @@ export function selectOrCreateApplication() {
 		return form.ask({
 			message: 'Choose a Name for your new application',
 			type: 'input',
-			validate: validation.validateApplicationName
+			validate: validation.validateApplicationName,
 		});
-	})
+	});
 }
 
 export function awaitDevice(uuid: string) {
@@ -182,7 +180,7 @@ export function awaitDevice(uuid: string) {
 					return Promise.delay(3000).then(poll);
 				}
 			});
-		}
+		};
 
 		console.info(`Waiting for ${deviceName} to connect to resin...`);
 		return poll().return(uuid);
@@ -207,8 +205,8 @@ export function inferOrSelectDevice(preferredUuid: string) {
 			default: defaultUuid,
 			choices: _.map(onlineDevices, device => ({
 				name: `${device.name || 'Untitled'} (${device.uuid.slice(0, 7)})`,
-				value: device.uuid
-			})
+				value: device.uuid,
+			}),
 		)});
 	});
 }
@@ -216,7 +214,7 @@ export function inferOrSelectDevice(preferredUuid: string) {
 export function printErrorMessage(message: string) {
 	console.error(chalk.red(message));
 	console.error(chalk.red(`\n${messages.getHelp}\n`));
-};
+}
 
 export function expectedError(message: string | Error) {
 	if (message instanceof Error) {
@@ -225,4 +223,4 @@ export function expectedError(message: string | Error) {
 
 	printErrorMessage(message);
 	process.exit(1);
-};
+}

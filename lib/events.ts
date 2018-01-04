@@ -15,14 +15,14 @@ export function trackCommand(capitanoCli: Capitano.Cli) {
 	return Promise.props({
 		resinUrl: resin.settings.get('resinUrl'),
 		username: resin.auth.whoami().catchReturn(undefined),
-		mixpanel: getMixpanel()
+		mixpanel: getMixpanel(),
 	}).then(({ username, resinUrl, mixpanel }) => {
 		return getMatchCommandAsync(capitanoCli.command).then((command) => {
 			Raven.mergeContext({
 				user: {
 					id: username,
-					username
-				}
+					username,
+				},
 			});
 
 			return mixpanel.track(`[CLI] ${command.signature.toString()}`, {
@@ -33,10 +33,10 @@ export function trackCommand(capitanoCli: Capitano.Cli) {
 				arch: process.arch,
 				resinUrl,
 				platform: process.platform,
-				command: capitanoCli
+				command: capitanoCli,
 			});
-		})
+		});
 	})
 	.timeout(100)
 	.catchReturn(undefined);
-};
+}

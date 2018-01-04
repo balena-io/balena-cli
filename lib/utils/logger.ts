@@ -30,7 +30,7 @@ export class Logger {
 			debug: logger.createLogStream('debug'),
 			success: logger.createLogStream('success'),
 			warn: logger.createLogStream('warn'),
-			error: logger.createLogStream('error')
+			error: logger.createLogStream('error'),
 		};
 
 		_.mapKeys(this.streams, function(stream, key) {

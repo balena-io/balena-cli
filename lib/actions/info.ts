@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { CommandDefinition } from "capitano";
+import { CommandDefinition } from 'capitano';
 
 export const version: CommandDefinition = {
 	signature: 'version',
@@ -26,5 +26,5 @@ Display the Resin CLI version.\
 		const packageJSON = await import('../../package.json');
 		console.log(packageJSON.version);
 		return done();
-	}
+	},
 };

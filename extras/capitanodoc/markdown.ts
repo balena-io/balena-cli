@@ -25,7 +25,7 @@ ${option.description}\
 	}
 
 	return result;
-};
+}
 
 export function renderCategory(category: Category) {
 	let result = `\
@@ -37,7 +37,7 @@ export function renderCategory(category: Category) {
 	}
 
 	return result;
-};
+}
 
 function getAnchor(command: Command) {
 	return '#' + command.signature
@@ -71,7 +71,7 @@ export function renderToc(categories: Category[]) {
 	}
 
 	return result;
-};
+}
 
 export function render(doc: Document) {
 	let result = `\
@@ -87,4 +87,4 @@ ${renderToc(doc.categories)}\
 	}
 
 	return result;
-};
+}

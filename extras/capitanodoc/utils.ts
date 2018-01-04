@@ -8,7 +8,7 @@ export function getOptionPrefix(signature: string) {
 	} else {
 		return '-';
 	}
-};
+}
 
 export function getOptionSignature(signature: string) {
 	return `${getOptionPrefix(signature)}${signature}`;
@@ -32,4 +32,4 @@ export function parseSignature(option: OptionDefinition) {
 	}
 
 	return ent.encode(result);
-};
+}

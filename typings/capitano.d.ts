@@ -19,8 +19,8 @@ declare module 'capitano' {
 		signature: string;
 		description: string;
 		help: string;
-		options?: OptionDefinition[],
-		permission?: 'user',
+		options?: OptionDefinition[];
+		permission?: 'user';
 		action(params: P, options: O, done: () => void): void;
 	}
 
