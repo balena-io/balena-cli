@@ -4,21 +4,13 @@ import * as utils from './utils';
 import { Document, Category, Command } from './doc-types';
 
 export function renderCommand(command: Command) {
-	let result = `\
-## ${ent.encode(command.signature)}
-
-${command.help}\n\
-`;
+	let result = `## ${ent.encode(command.signature)}\n\n${command.help}\n`;
 
 	if (!_.isEmpty(command.options)) {
 		result += '\n### Options';
 
 		for (let option of command.options!) {
-			result += `\
-\n\n#### ${utils.parseSignature(option)}
-
-${option.description}\
-`;
+			result += `\n\n#### ${utils.parseSignature(option)}\n\n${option.description}`;
 		}
 
 		result += '\n';
@@ -28,9 +20,7 @@ ${option.description}\
 }
 
 export function renderCategory(category: Category) {
-	let result = `\
-# ${category.title}\n\
-`;
+	let result = `# ${category.title}\n`;
 
 	for (let command of category.commands) {
 		result += `\n${renderCommand(command)}`;
@@ -53,20 +43,14 @@ function getAnchor(command: Command) {
 }
 
 export function renderToc(categories: Category[]) {
-	let result = `\
-# Table of contents\n\
-`;
+	let result = `# Table of contents\n`;
 
 	for (let category of categories) {
 
-		result += `\
-\n- ${category.title}\n\n\
-`;
+		result += `\n- ${category.title}\n\n`;
 
 		for (let command of category.commands) {
-			result += `\
-\t- [${ent.encode(command.signature)}](${getAnchor(command)})\n\
-`;
+			result += `\t- [${ent.encode(command.signature)}](${getAnchor(command)})\n`;
 		}
 	}
 
@@ -74,13 +58,7 @@ export function renderToc(categories: Category[]) {
 }
 
 export function render(doc: Document) {
-	let result = `\
-# ${doc.title}
-
-${doc.introduction}
-
-${renderToc(doc.categories)}\
-`;
+	let result = `# ${doc.title}\n\n${doc.introduction}\n\n${renderToc(doc.categories)}`;
 
 	for (let category of doc.categories) {
 		result += `\n${renderCategory(category)}`;
