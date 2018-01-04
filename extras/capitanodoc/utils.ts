@@ -17,17 +17,15 @@ export function getOptionSignature(signature: string) {
 export function parseSignature(option: OptionDefinition) {
 	let result = getOptionSignature(option.signature);
 
-	if (!_.isEmpty(option.alias)) {
-		if (_.isString(option.alias)) {
-			result += `, ${getOptionSignature(option.alias)}`;
-		} else {
-			for (let alias of option.alias!) {
-				result += `, ${getOptionSignature(alias)}`;
-			}
+	if (_.isArray(option.alias)) {
+		for (let alias of option.alias) {
+			result += `, ${getOptionSignature(alias)}`;
 		}
+	} else if (_.isString(option.alias)) {
+		result += `, ${getOptionSignature(option.alias)}`;
 	}
 
-	if (option.parameter != null) {
+	if (option.parameter) {
 		result += ` <${option.parameter}>`;
 	}
 

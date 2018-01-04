@@ -34,18 +34,14 @@ if (!isRoot()) {
 	});
 }
 
-export function hasAvailableUpdate() {
-	return notifier != null;
-}
-
 export function notify() {
-	if (!exports.hasAvailableUpdate()) {
+	if (!notifier) {
 		return;
 	}
 
 	notifier.notify({ defer: false });
 
 	if (notifier.update != null) {
-		return console.log('Notice that you might need administrator privileges depending on your setup\n');
+		console.log('Notice that you might need administrator privileges depending on your setup\n');
 	}
 }

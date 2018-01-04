@@ -25,8 +25,8 @@ import messages = require('./messages');
 
 const resin = ResinSdk.fromSharedOptions();
 
-export function authenticate(options: {}) {
-	form.run([{
+export function authenticate(options: {}): Promise<void> {
+	return form.run([{
 		message: 'Email:',
 		name: 'email',
 		type: 'input',
@@ -44,13 +44,17 @@ export function authenticate(options: {}) {
 		return form.ask({
 			message: 'Two factor auth challenge:',
 			name: 'code',
-			type: 'input'}).then(resin.auth.twoFactor.challenge)
-		.catch((error: any) => resin.auth.logout().then(() => {
-			if ((error.name === 'ResinRequestError') && (error.statusCode === 401)) {
-				throw new Error('Invalid two factor authentication code');
-			}
-			throw error;
-		}));
+			type: 'input',
+		})
+		.then(resin.auth.twoFactor.challenge)
+		.catch((error: any) => {
+			return resin.auth.logout().then(() => {
+				if ((error.name === 'ResinRequestError') && (error.statusCode === 401)) {
+					throw new Error('Invalid two factor authentication code');
+				}
+				throw error;
+			});
+		});
 	});
 }
 
@@ -132,8 +136,10 @@ export function selectOrCreateApplication() {
 		if (!hasAnyApplications) return;
 
 		return resin.models.application.getAll().then((applications) => {
-			let appOptions: { name: string, value: string | null }[];
-			appOptions = _.map(applications, application => ({
+			const appOptions = _.map<
+				ResinSdk.Application,
+				{ name: string, value: string | null }
+			>(applications, application => ({
 				name: `${application.app_name} (${application.device_type})`,
 				value: application.app_name,
 			}));
@@ -150,7 +156,9 @@ export function selectOrCreateApplication() {
 			});
 		});
 	}).then((application) => {
-		if (application != null) return application;
+		if (application) {
+			return application;
+		}
 
 		return form.ask({
 			message: 'Choose a Name for your new application',
@@ -189,13 +197,13 @@ export function awaitDevice(uuid: string) {
 
 export function inferOrSelectDevice(preferredUuid: string) {
 	return resin.models.device.getAll()
-	.filter((device: ResinSdk.Device) => device.is_online)
-	.then((onlineDevices: ResinSdk.Device[]) => {
+	.filter<ResinSdk.Device>((device) => device.is_online)
+	.then((onlineDevices) => {
 		if (_.isEmpty(onlineDevices)) {
 			throw new Error('You don\'t have any devices online');
 		}
 
-		let defaultUuid = Array.from(_.map(onlineDevices, 'uuid')).includes(preferredUuid) ?
+		const defaultUuid = _.map(onlineDevices, 'uuid').includes(preferredUuid) ?
 			preferredUuid :
 			onlineDevices[0].uuid;
 

@@ -1,4 +1,5 @@
 declare module 'resin-device-init' {
+	import * as Promise from 'bluebird';
 	import { EventEmitter } from 'events';
 
 	interface OperationState {

@@ -33,11 +33,9 @@ export class Logger {
 			error: logger.createLogStream('error'),
 		};
 
-		_.mapKeys(this.streams, function(stream, key) {
-			if (key !== 'debug') {
-				return stream.pipe(process.stdout);
-			} else {
-				if (process.env.DEBUG != null) { return stream.pipe(process.stdout); }
+		_.forEach(this.streams, function(stream, key) {
+			if (key !== 'debug' || process.env.DEBUG) {
+				stream.pipe(process.stdout);
 			}
 		});
 

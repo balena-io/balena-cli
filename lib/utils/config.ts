@@ -36,8 +36,7 @@ export function generateBaseConfig(application: ResinSdk.Application, options: {
 		vpnUrl: resin.settings.get('vpnUrl'),
 		registryUrl: resin.settings.get('registryUrl'),
 		deltaUrl: resin.settings.get('deltaUrl'),
-		pubNubKeys: resin.models.config.getAll().get('pubnub'),
-		mixpanelToken: resin.models.config.getAll().get('mixpanelToken'),
+		apiConfig: resin.models.config.getAll(),
 	}).then((results) => {
 		return deviceConfig.generate({
 			application,
@@ -51,9 +50,9 @@ export function generateBaseConfig(application: ResinSdk.Application, options: {
 				registry: results.registryUrl,
 				delta: results.deltaUrl,
 			},
-			pubnub: results.pubNubKeys,
+			pubnub: results.apiConfig.pubnub,
 			mixpanel: {
-				token: results.mixpanelToken,
+				token: results.apiConfig.mixpanelToken,
 			},
 		}, options);
 	});
@@ -61,7 +60,7 @@ export function generateBaseConfig(application: ResinSdk.Application, options: {
 
 export function generateApplicationConfig(application: ResinSdk.Application, options: {}) {
 	return generateBaseConfig(application, options)
-	.tap(config => authenticateWithApplicationKey(config, application.id));
+	.tap(config => addApplicationKey(config, application.id));
 }
 
 export function generateDeviceConfig(
@@ -76,10 +75,10 @@ export function generateDeviceConfig(
 			// Device API keys are only safe for ResinOS 2.0.3+. We could somehow obtain
 			// the expected version for this config and generate one when we know it's safe,
 			// but instead for now we fall back to app keys unless the user has explicitly opted in.
-			if (deviceApiKey != null) {
-				return authenticateWithDeviceKey(config, device.uuid, deviceApiKey);
+			if (deviceApiKey) {
+				return addDeviceKey(config, device.uuid, deviceApiKey);
 			} else {
-				return authenticateWithApplicationKey(config, application.id);
+				return addApplicationKey(config, application.id);
 			}
 		});
 	}).then((config) => {
@@ -93,14 +92,14 @@ export function generateDeviceConfig(
 	});
 }
 
-function authenticateWithApplicationKey(config: any, applicationNameOrId: string | number) {
+function addApplicationKey(config: any, applicationNameOrId: string | number) {
 	return resin.models.application.generateApiKey(applicationNameOrId)
 	.tap((apiKey) => {
 		config.apiKey = apiKey;
 	});
 }
 
-function authenticateWithDeviceKey(config: any, uuid: string, customDeviceApiKey: string) {
+function addDeviceKey(config: any, uuid: string, customDeviceApiKey: string) {
 	return Promise.try(() => {
 		return customDeviceApiKey || resin.models.device.generateDeviceKey(uuid);
 	}).tap((deviceApiKey) => {

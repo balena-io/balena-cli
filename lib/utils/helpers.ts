@@ -26,6 +26,10 @@ import ResinSdk = require('resin-sdk');
 import { execute } from 'president';
 import { InitializeEmitter, OperationState } from 'resin-device-init';
 
+const extractStreamAsync = Promise.promisify(rindle.extract);
+const waitStreamAsync = Promise.promisify(rindle.wait);
+const presidentExecuteAsync = Promise.promisify(execute);
+
 const resin = ResinSdk.fromSharedOptions();
 
 export function getGroupDefaults(
@@ -39,8 +43,8 @@ export function getGroupDefaults(
 }
 
 export function stateToString(state: OperationState) {
-	const percentage = _.padStart(`${state.percentage}`, 3, '0') + '%';
-	const result = `${chalk.blue(percentage)} ${chalk.cyan(state.operation.command)}`;
+	const percentage = _.padStart(`${state.percentage}`, 3, '0');
+	const result = `${chalk.blue(percentage + '%')} ${chalk.cyan(state.operation.command)}`;
 
 	switch (state.operation.command) {
 		case 'copy':
@@ -61,7 +65,6 @@ export function sudo(command: string[]) {
 
 	command = _.union(_.take(process.argv, 2), command);
 
-	const presidentExecuteAsync = Promise.promisify(execute);
 	return presidentExecuteAsync(command);
 }
 
@@ -75,7 +78,8 @@ export function getManifest(image: string, deviceType: string): Promise<ResinSdk
 			primary: 1,
 		},
 		path: '/device-type.json',
-	}).then(Promise.promisify(rindle.extract))
+	})
+	.then(extractStreamAsync)
 	.then(JSON.parse)
 	.catch(() => resin.models.device.getManifestBySlug(deviceType));
 }
@@ -86,7 +90,7 @@ export function osProgressHandler(step: InitializeEmitter) {
 
 	step.on('state', function(state) {
 		if (state.operation.command === 'burn') { return; }
-		return console.log(exports.stateToString(state));
+		console.log(exports.stateToString(state));
 	});
 
 	const progressBars = {
@@ -96,7 +100,7 @@ export function osProgressHandler(step: InitializeEmitter) {
 
 	step.on('burn', state => progressBars[state.type].update(state));
 
-	return Promise.promisify(rindle.wait)(step);
+	return waitStreamAsync(step);
 }
 
 export function getArchAndDeviceType(applicationName: string): Promise<{ arch: string, device_type: string }> {
@@ -104,9 +108,9 @@ export function getArchAndDeviceType(applicationName: string): Promise<{ arch: s
 		getApplication(applicationName),
 		resin.models.config.getDeviceTypes(),
 		function (app, deviceTypes) {
-			let config = _.find(deviceTypes, { slug: app.device_type });
+			const config = _.find(deviceTypes, { slug: app.device_type });
 
-			if (config == null) {
+			if (!config) {
 				throw new Error('Could not read application information!');
 			}
 
@@ -116,11 +120,11 @@ export function getArchAndDeviceType(applicationName: string): Promise<{ arch: s
 }
 
 function getApplication(applicationName: string) {
-	let match;
-
 	// Check for an app of the form `user/application`, and send
-	// this off to a special handler (before importing any modules)
-	if (match = /(\w+)\/(\w+)/.exec(applicationName)) {
+	// that off to a special handler (before importing any modules)
+	const match = /(\w+)\/(\w+)/.exec(applicationName);
+
+	if (match) {
 		return resin.models.application.getAppByOwner(match[2], match[1]);
 	}
 
