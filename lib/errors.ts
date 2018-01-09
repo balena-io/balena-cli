@@ -19,11 +19,16 @@ import patterns = require('./utils/patterns');
 import Raven = require('raven');
 import Promise = require('bluebird');
 
-const captureException = Promise.promisify<string, Error>(Raven.captureException, { context: Raven });
+const captureException = Promise.promisify<string, Error>(
+	Raven.captureException,
+	{ context: Raven },
+);
 
 exports.handle = function(error: any) {
 	let message = errors.interpret(error);
-	if ((message == null)) { return; }
+	if (message == null) {
+		return;
+	}
 
 	if (process.env.DEBUG) {
 		message = error.stack;
@@ -32,8 +37,9 @@ exports.handle = function(error: any) {
 	patterns.printErrorMessage(message);
 
 	return captureException(error)
-	.timeout(1000)
-	.catch(function() {
-		// Ignore any errors (from error logging, or timeouts)
-	}).finally(() => process.exit(error.exitCode || 1));
+		.timeout(1000)
+		.catch(function() {
+			// Ignore any errors (from error logging, or timeouts)
+		})
+		.finally(() => process.exit(error.exitCode || 1));
 };

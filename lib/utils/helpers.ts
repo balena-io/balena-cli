@@ -32,25 +32,31 @@ const presidentExecuteAsync = Promise.promisify(execute);
 
 const resin = ResinSdk.fromSharedOptions();
 
-export function getGroupDefaults(
-	group: { options: { name: string, default?: string }[] },
-): { [name: string]: string | undefined } {
+export function getGroupDefaults(group: {
+	options: { name: string; default?: string }[];
+}): { [name: string]: string | undefined } {
 	return _.chain(group)
 		.get('options')
-		.map((question) => [ question.name, question.default ])
+		.map(question => [question.name, question.default])
 		.fromPairs()
 		.value();
 }
 
 export function stateToString(state: OperationState) {
 	const percentage = _.padStart(`${state.percentage}`, 3, '0');
-	const result = `${chalk.blue(percentage + '%')} ${chalk.cyan(state.operation.command)}`;
+	const result = `${chalk.blue(percentage + '%')} ${chalk.cyan(
+		state.operation.command,
+	)}`;
 
 	switch (state.operation.command) {
 		case 'copy':
-			return `${result} ${state.operation.from.path} -> ${state.operation.to.path}`;
+			return `${result} ${state.operation.from.path} -> ${
+				state.operation.to.path
+			}`;
 		case 'replace':
-			return `${result} ${state.operation.file.path}, ${state.operation.copy} -> ${state.operation.replace}`;
+			return `${result} ${state.operation.file.path}, ${
+				state.operation.copy
+			} -> ${state.operation.replace}`;
 		case 'run-script':
 			return `${result} ${state.operation.script}`;
 		default:
@@ -68,20 +74,24 @@ export function sudo(command: string[]) {
 	return presidentExecuteAsync(command);
 }
 
-export function getManifest(image: string, deviceType: string): Promise<ResinSdk.DeviceType> {
+export function getManifest(
+	image: string,
+	deviceType: string,
+): Promise<ResinSdk.DeviceType> {
 	// Attempt to read manifest from the first
 	// partition, but fallback to the API if
 	// we encounter any errors along the way.
-	return imagefs.read({
-		image,
-		partition: {
-			primary: 1,
-		},
-		path: '/device-type.json',
-	})
-	.then(extractStreamAsync)
-	.then(JSON.parse)
-	.catch(() => resin.models.device.getManifestBySlug(deviceType));
+	return imagefs
+		.read({
+			image,
+			partition: {
+				primary: 1,
+			},
+			path: '/device-type.json',
+		})
+		.then(extractStreamAsync)
+		.then(JSON.parse)
+		.catch(() => resin.models.device.getManifestBySlug(deviceType));
 }
 
 export function osProgressHandler(step: InitializeEmitter) {
@@ -89,7 +99,9 @@ export function osProgressHandler(step: InitializeEmitter) {
 	step.on('stderr', process.stderr.write.bind(process.stderr));
 
 	step.on('state', function(state) {
-		if (state.operation.command === 'burn') { return; }
+		if (state.operation.command === 'burn') {
+			return;
+		}
 		console.log(exports.stateToString(state));
 	});
 
@@ -103,11 +115,13 @@ export function osProgressHandler(step: InitializeEmitter) {
 	return waitStreamAsync(step);
 }
 
-export function getArchAndDeviceType(applicationName: string): Promise<{ arch: string, device_type: string }> {
+export function getArchAndDeviceType(
+	applicationName: string,
+): Promise<{ arch: string; device_type: string }> {
 	return Promise.join(
 		getApplication(applicationName),
 		resin.models.config.getDeviceTypes(),
-		function (app, deviceTypes) {
+		function(app, deviceTypes) {
 			const config = _.find(deviceTypes, { slug: app.device_type });
 
 			if (!config) {
@@ -139,12 +153,12 @@ export function getSubShellCommand(command: string) {
 	if (os.platform() === 'win32') {
 		return {
 			program: 'cmd.exe',
-			args: [ '/s', '/c', command ],
+			args: ['/s', '/c', command],
 		};
 	} else {
 		return {
 			program: '/bin/sh',
-			args: [ '-c', command ],
+			args: ['-c', command],
 		};
 	}
 }

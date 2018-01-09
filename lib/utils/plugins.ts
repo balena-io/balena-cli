@@ -20,14 +20,17 @@ import capitano = require('capitano');
 import patterns = require('./patterns');
 
 export function register(regex: RegExp): Promise<void> {
-	return nplugm.list(regex).map(async function(plugin: any) {
-		const command = await import(plugin);
-		command.plugin = true;
-		if (!_.isArray(command)) {
-			return capitano.command(command);
-		}
-		return _.each(command, capitano.command);
-	}).catch((error: Error) => {
-		return patterns.printErrorMessage(error.message);
-	});
+	return nplugm
+		.list(regex)
+		.map(async function(plugin: any) {
+			const command = await import(plugin);
+			command.plugin = true;
+			if (!_.isArray(command)) {
+				return capitano.command(command);
+			}
+			return _.each(command, capitano.command);
+		})
+		.catch((error: Error) => {
+			return patterns.printErrorMessage(error.message);
+		});
 }

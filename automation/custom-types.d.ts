@@ -29,7 +29,10 @@ declare module 'publish-release' {
 		html_url: string;
 	}
 
-	let publishRelease: (args: PublishOptions, callback: (e: Error, release: Release) => void) => void;
+	let publishRelease: (
+		args: PublishOptions,
+		callback: (e: Error, release: Release) => void,
+	) => void;
 
 	export = publishRelease;
 }

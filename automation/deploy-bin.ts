@@ -14,43 +14,54 @@ const { GITHUB_TOKEN } = process.env;
 const ROOT = path.join(__dirname, '..');
 
 const version = 'v' + packageJSON.version;
-const outputFile = path.join(ROOT, 'build-zip', `resin-cli-${version}-${os.platform()}-${os.arch()}.zip`);
+const outputFile = path.join(
+	ROOT,
+	'build-zip',
+	`resin-cli-${version}-${os.platform()}-${os.arch()}.zip`,
+);
 
-mkdirpAsync(path.dirname(outputFile)).then(() => new Promise((resolve, reject) => {
-	console.log('Zipping build...');
+mkdirpAsync(path.dirname(outputFile))
+	.then(
+		() =>
+			new Promise((resolve, reject) => {
+				console.log('Zipping build...');
 
-	let archive = archiver('zip', {
-		zlib: { level: 7 },
+				let archive = archiver('zip', {
+					zlib: { level: 7 },
+				});
+				archive.directory(path.join(ROOT, 'build-bin'), 'resin-cli');
+
+				let outputStream = fs.createWriteStream(outputFile);
+
+				outputStream.on('close', resolve);
+				outputStream.on('error', reject);
+
+				archive.on('error', reject);
+				archive.on('warning', console.warn);
+
+				archive.pipe(outputStream);
+				archive.finalize();
+			}),
+	)
+	.then(() => {
+		console.log('Build zipped');
+		console.log('Publishing build...');
+
+		return publishReleaseAsync({
+			token: <string>GITHUB_TOKEN,
+			owner: 'resin-io',
+			repo: 'resin-cli',
+			tag: version,
+			name: `Resin-CLI ${version}`,
+			reuseRelease: true,
+			assets: [outputFile],
+		});
+	})
+	.then(release => {
+		console.log(`Release ${version} successful: ${release.html_url}`);
+	})
+	.catch(err => {
+		console.error('Release failed');
+		console.error(err);
+		process.exit(1);
 	});
-	archive.directory(path.join(ROOT, 'build-bin'), 'resin-cli');
-
-	let outputStream = fs.createWriteStream(outputFile);
-
-	outputStream.on('close', resolve);
-	outputStream.on('error', reject);
-
-	archive.on('error', reject);
-	archive.on('warning', console.warn);
-
-	archive.pipe(outputStream);
-	archive.finalize();
-})).then(() => {
-	console.log('Build zipped');
-	console.log('Publishing build...');
-
-	return publishReleaseAsync({
-		token: <string> GITHUB_TOKEN,
-		owner: 'resin-io',
-		repo: 'resin-cli',
-		tag: version,
-		name: `Resin-CLI ${version}`,
-		reuseRelease: true,
-		assets: [outputFile],
-	});
-}).then((release) => {
-	console.log(`Release ${version} successful: ${release.html_url}`);
-}).catch((err) => {
-	console.error('Release failed');
-	console.error(err);
-	process.exit(1);
-});

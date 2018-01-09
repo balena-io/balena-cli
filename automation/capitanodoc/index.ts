@@ -4,13 +4,13 @@ import * as path from 'path';
 import * as markdown from './markdown';
 import { Document, Category } from './doc-types';
 
-const result = <Document> {};
+const result = <Document>{};
 result.title = capitanodoc.title;
 result.introduction = capitanodoc.introduction;
 result.categories = [];
 
 for (let commandCategory of capitanodoc.categories) {
-	const category = <Category> {};
+	const category = <Category>{};
 	category.title = commandCategory.title;
 	category.commands = [];
 

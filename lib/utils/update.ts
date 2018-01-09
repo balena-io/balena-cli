@@ -42,6 +42,8 @@ export function notify() {
 	notifier.notify({ defer: false });
 
 	if (notifier.update != null) {
-		console.log('Notice that you might need administrator privileges depending on your setup\n');
+		console.log(
+			'Notice that you might need administrator privileges depending on your setup\n',
+		);
 	}
 }
