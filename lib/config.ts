@@ -1,1 +1,1 @@
-exports.sentryDsn = 'https://56d2a46124614b01b0f4086897e96110:6e175465accc41b595a96947155f61fb@sentry.io/149239'
+export const sentryDsn = 'https://56d2a46124614b01b0f4086897e96110:6e175465accc41b595a96947155f61fb@sentry.io/149239';

@@ -63,7 +63,7 @@ selectApplicationCommit = (builds) ->
 
 	if builds.length == 0
 		expectedError('This application has no successful builds.')
-	DEFAULT_CHOICE = {'name': LATEST, 'value': LATEST}
+	DEFAULT_CHOICE = { 'name': LATEST, 'value': LATEST }
 	choices = [ DEFAULT_CHOICE ].concat builds.map (build) ->
 		name: "#{build.push_timestamp} - #{build.commit_hash}"
 		value: build.commit_hash
@@ -150,8 +150,6 @@ module.exports =
 		_ = require('lodash')
 		Promise = require('bluebird')
 		resin = require('resin-sdk-preconfigured')
-		streamToPromise = require('stream-to-promise')
-		form = require('resin-cli-form')
 		preload = require('resin-preload')
 		errors = require('resin-errors')
 		visuals = require('resin-cli-visuals')

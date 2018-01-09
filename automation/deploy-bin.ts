@@ -5,6 +5,7 @@ import * as fs from 'fs-extra';
 import * as mkdirp from 'mkdirp';
 import * as publishRelease from 'publish-release';
 import * as archiver from 'archiver';
+import * as packageJSON from '../package.json';
 
 const publishReleaseAsync = Promise.promisify(publishRelease);
 const mkdirpAsync = Promise.promisify<string | null, string>(mkdirp);
@@ -12,14 +13,14 @@ const mkdirpAsync = Promise.promisify<string | null, string>(mkdirp);
 const { GITHUB_TOKEN } = process.env;
 const ROOT = path.join(__dirname, '..');
 
-const version = 'v' + require('../package.json').version;
+const version = 'v' + packageJSON.version;
 const outputFile = path.join(ROOT, 'build-zip', `resin-cli-${version}-${os.platform()}-${os.arch()}.zip`);
 
 mkdirpAsync(path.dirname(outputFile)).then(() => new Promise((resolve, reject) => {
 	console.log('Zipping build...');
 
 	let archive = archiver('zip', {
-		zlib: { level: 7 }
+		zlib: { level: 7 },
 	});
 	archive.directory(path.join(ROOT, 'build-bin'), 'resin-cli');
 
@@ -44,7 +45,7 @@ mkdirpAsync(path.dirname(outputFile)).then(() => new Promise((resolve, reject) =
 		tag: version,
 		name: `Resin-CLI ${version}`,
 		reuseRelease: true,
-		assets: [outputFile]
+		assets: [outputFile],
 	});
 }).then((release) => {
 	console.log(`Release ${version} successful: ${release.html_url}`);

@@ -1,7 +1,8 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"target": "es2015",
+		"target": "es5",
+		"outDir": "build",
 		"strict": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
@@ -10,7 +11,7 @@
 		"sourceMap": true
 	},
 	"include": [
-		"./**/*.ts",
-		"../typings/*.d.ts"
+		"../typings/*.d.ts",
+		"./**/*.ts"
 	]
 }

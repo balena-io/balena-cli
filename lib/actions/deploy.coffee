@@ -40,7 +40,7 @@ showPushProgress = (message) ->
 getBundleInfo = (options) ->
 	helpers = require('../utils/helpers')
 
-	helpers.getAppInfo(options.appName)
+	helpers.getArchAndDeviceType(options.appName)
 	.then (app) ->
 		[app.arch, app.device_type]
 
