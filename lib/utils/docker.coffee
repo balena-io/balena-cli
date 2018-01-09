@@ -150,7 +150,7 @@ exports.tarDirectory = tarDirectory = (dir) ->
 		relPath = path.relative(path.resolve(dir), file)
 		Promise.join relPath, fs.stat(file), fs.readFile(file),
 			(filename, stats, data) ->
-				pack.entryAsync({ name: filename, size: stats.size, mode: stats.mode }, data)
+				pack.entryAsync({ name: filename, size: stats.size, mode: chmodTarEntry(stats.mode) }, data)
 	.then ->
 		pack.finalize()
 		return pack
@@ -196,12 +196,24 @@ exports.runBuild = (params, options, getBundleInfo, logger) ->
 	doodles = require('resin-doodles')
 	transpose = require('docker-qemu-transpose')
 	path = require('path')
+	os = require('os')
 
 	# The default build context is the current directory
 	params.source ?= '.'
 	logs = ''
 	# Only used in emulated builds
 	qemuPath = ''
+
+	if os.platform() == 'win32'
+# This is the same warning issued by the main docker client
+# https://github.com/docker/cli/blob/042575aac918c90e9838c67c9ac9e2ff2810c326/cli/command/image/build.go#L431
+		logger.logWarn '''
+			SECURITY WARNING: You are building a Docker image from
+			Windows against a non-Windows Docker host.
+			All files and directories added to build context will have
+			'-rwxr-xr-x' permissions. It is recommended to double check
+			and reset permissions for sensitive files and directories.
+		'''
 
 	Promise.try ->
 		return if not (options.emulated and platformNeedsQemu())
@@ -418,3 +430,16 @@ copyQemu = (context) ->
 	.then ->
 		fs.chmod(binPath, '755')
 	.return(binPath)
+
+# if required, change the permissions (mode) of files added to the tar stream
+# This is needed for windows as the execute bit isn't supported there
+#
+# The details of the approach mirrors that of the main docker client as at
+# https://github.com/moby/moby/blob/94b8a116fbf1cd90e68d8f5361b520d326a66f9b/pkg/archive/archive_windows.go#L43
+chmodTarEntry = (mode) ->
+	os = require('os')
+	if os.platform() == 'win32'
+		mode |= 0o111
+		mode &= 0o755
+	else
+		mode
