@@ -24,7 +24,7 @@ const captureException = Promise.promisify<string, Error>(
 	{ context: Raven },
 );
 
-exports.handle = function(error: any) {
+export function handle(error: any) {
 	let message = errors.interpret(error);
 	if (message == null) {
 		return;
@@ -42,4 +42,4 @@ exports.handle = function(error: any) {
 			// Ignore any errors (from error logging, or timeouts)
 		})
 		.finally(() => process.exit(error.exitCode || 1));
-};
+}

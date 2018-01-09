@@ -133,7 +133,7 @@
     "resin-image-fs": "^2.3.0",
     "resin-image-manager": "^5.0.0",
     "resin-preload": "^5.0.0",
-    "resin-sdk": "^7.2.5",
+    "resin-sdk": "^7.2.4",
     "resin-sdk-preconfigured": "^6.9.0",
     "resin-settings-client": "^3.6.1",
     "resin-stream-logger": "^0.1.0",

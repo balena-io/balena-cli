@@ -12,6 +12,7 @@ declare module 'capitano' {
 		description: string;
 		parameter?: string;
 		boolean?: boolean;
+		required?: string;
 		alias?: string | string[];
 	}
 
@@ -22,6 +23,8 @@ declare module 'capitano' {
 		options?: OptionDefinition[];
 		permission?: 'user';
 		primary?: boolean;
+		hidden?: boolean;
+		root?: boolean;
 		action(params: P, options: O, done: () => void): void;
 	}
 

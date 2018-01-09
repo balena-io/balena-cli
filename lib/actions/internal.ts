@@ -1,0 +1,43 @@
+/*
+Copyright 2016-2017 Resin.io
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+// These are internal commands we want to be runnable from the outside
+// One use-case for this is spawning the minimal operation with root priviledges
+
+import { CommandDefinition } from 'capitano';
+
+export const osInit: CommandDefinition<{
+	image: string;
+	type: string;
+	config: string;
+}> = {
+	signature: 'internal osinit <image> <type> <config>',
+	description: 'do actual init of the device with the preconfigured os image',
+	help: `\
+Don't use this command directly! Use \`resin os initialize <image>\` instead.\
+`,
+	hidden: true,
+	root: true,
+	async action(params, _options, done) {
+		const init = await import('resin-device-init');
+		const helpers = await import('../utils/helpers');
+
+		const config = JSON.parse(params.config);
+		const progress = await init.initialize(params.image, params.type, config);
+		await helpers.osProgressHandler(progress);
+		done();
+	},
+};

@@ -102,7 +102,7 @@ export function osProgressHandler(step: InitializeEmitter) {
 		if (state.operation.command === 'burn') {
 			return;
 		}
-		console.log(exports.stateToString(state));
+		console.log(stateToString(state));
 	});
 
 	const progressBars = {
