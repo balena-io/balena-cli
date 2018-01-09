@@ -97,7 +97,7 @@ export function askLoginType() {
 	});
 }
 
-export function selectDeviceType() {
+export function selectDeviceType(): Promise<string> {
 	return resin.models.device.getSupportedDeviceTypes().then(deviceTypes => {
 		return form.ask({
 			message: 'Device Type',
@@ -108,9 +108,9 @@ export function selectDeviceType() {
 }
 
 export function confirm(
-	yesOption: string,
+	yesOption: boolean,
 	message: string,
-	yesMessage: string,
+	yesMessage?: string,
 ) {
 	return Promise.try(function() {
 		if (yesOption) {
