@@ -150,7 +150,7 @@ exports.tarDirectory = tarDirectory = (dir) ->
 		relPath = path.relative(path.resolve(dir), file)
 		Promise.join relPath, fs.stat(file), fs.readFile(file),
 			(filename, stats, data) ->
-				pack.entryAsync({ name: filename, size: stats.size, mode: stats.mode }, data)
+				pack.entryAsync({ name: toPosixPath(filename), size: stats.size, mode: stats.mode }, data)
 	.then ->
 		pack.finalize()
 		return pack
@@ -258,7 +258,7 @@ exports.runBuild = (params, options, getBundleInfo, logger) ->
 						# if we need emulation
 						if options.emulated and platformNeedsQemu()
 							return transpose.transposeTarStream buildStream,
-								hostQemuPath: qemuPath
+								hostQemuPath: toPosixPath(qemuPath)
 								containerQemuPath: "/tmp/#{QEMU_BIN_NAME}"
 						else
 							return buildStream
@@ -274,7 +274,7 @@ exports.runBuild = (params, options, getBundleInfo, logger) ->
 
 					if options.emulated and platformNeedsQemu()
 						buildThroughStream = transpose.getBuildThroughStream
-							hostQemuPath: qemuPath
+							hostQemuPath: toPosixPath(qemuPath)
 							containerQemuPath: "/tmp/#{QEMU_BIN_NAME}"
 
 						newStream = stream.pipe(buildThroughStream)
@@ -418,3 +418,7 @@ copyQemu = (context) ->
 	.then ->
 		fs.chmod(binPath, '755')
 	.return(binPath)
+
+toPosixPath = (systemPath) ->
+	path = require('path')
+	systemPath.replace(new RegExp('\\' + path.sep, 'g'), '/')
