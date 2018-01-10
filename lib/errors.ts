@@ -18,9 +18,9 @@ import errors = require('resin-cli-errors');
 import patterns = require('./utils/patterns');
 import Promise = require('bluebird');
 import { core as analytics } from 'analytics.node';
-import { sentryIntegrations as Raven } from 'analytics.node';
-import sentryDsn from './config';
-import version from '../package.json';
+import { sentryIntegration as Raven } from 'analytics.node';
+import { sentryDsn } from './config';
+import { version } from '../package.json';
 const ravenOptions = {
 	config: sentryDsn,
 	release: version,
@@ -50,7 +50,7 @@ exports.handle = function(error: any) {
 
 	patterns.printErrorMessage(message);
 
-	return new Promise((resolve, reject) => {
+	return new Promise(resolve => {
 		resolve(analytics.captureException(error));
 	})
 		.timeout(1000)

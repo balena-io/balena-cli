@@ -9,6 +9,7 @@
 		"preserveConstEnums": true,
 		"removeComments": true,
 		"sourceMap": true,
+        "noImplicitAny": false,
 		"lib": [
 			// es5 defaults:
 			"dom",

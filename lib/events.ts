@@ -43,7 +43,7 @@ export function trackCommand(capitanoCli: Capitano.Cli) {
 					version: packageJSON.version,
 					node: process.version,
 					arch: process.arch,
-					resinUrl,
+					resinUrl: resinUrl,
 					platform: process.platform,
 					command: capitanoCli,
 				});
