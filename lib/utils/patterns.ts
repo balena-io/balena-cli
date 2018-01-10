@@ -26,36 +26,49 @@ import messages = require('./messages');
 const resin = ResinSdk.fromSharedOptions();
 
 export function authenticate(options: {}): Promise<void> {
-	return form.run([{
-		message: 'Email:',
-		name: 'email',
-		type: 'input',
-		validate: validation.validateEmail,
-	}, {
-		message: 'Password:',
-		name: 'password',
-		type: 'password',
-	}], { override: options })
-	.then(resin.auth.login)
-	.then(resin.auth.twoFactor.isPassed)
-	.then((isTwoFactorAuthPassed: boolean) => {
-		if (isTwoFactorAuthPassed) { return; }
+	return form
+		.run(
+			[
+				{
+					message: 'Email:',
+					name: 'email',
+					type: 'input',
+					validate: validation.validateEmail,
+				},
+				{
+					message: 'Password:',
+					name: 'password',
+					type: 'password',
+				},
+			],
+			{ override: options },
+		)
+		.then(resin.auth.login)
+		.then(resin.auth.twoFactor.isPassed)
+		.then((isTwoFactorAuthPassed: boolean) => {
+			if (isTwoFactorAuthPassed) {
+				return;
+			}
 
-		return form.ask({
-			message: 'Two factor auth challenge:',
-			name: 'code',
-			type: 'input',
-		})
-		.then(resin.auth.twoFactor.challenge)
-		.catch((error: any) => {
-			return resin.auth.logout().then(() => {
-				if ((error.name === 'ResinRequestError') && (error.statusCode === 401)) {
-					throw new Error('Invalid two factor authentication code');
-				}
-				throw error;
-			});
+			return form
+				.ask({
+					message: 'Two factor auth challenge:',
+					name: 'code',
+					type: 'input',
+				})
+				.then(resin.auth.twoFactor.challenge)
+				.catch((error: any) => {
+					return resin.auth.logout().then(() => {
+						if (
+							error.name === 'ResinRequestError' &&
+							error.statusCode === 401
+						) {
+							throw new Error('Invalid two factor authentication code');
+						}
+						throw error;
+					});
+				});
 		});
-	});
 }
 
 export function askLoginType() {
@@ -63,25 +76,29 @@ export function askLoginType() {
 		message: 'How would you like to login?',
 		name: 'loginType',
 		type: 'list',
-		choices: [{
-			name: 'Web authorization (recommended)',
-			value: 'web',
-		}, {
-			name: 'Credentials',
-			value: 'credentials',
-		}, {
-			name: 'Authentication token',
-			value: 'token',
-		}, {
-			name: 'I don\'t have a Resin account!',
-			value: 'register',
-		}],
+		choices: [
+			{
+				name: 'Web authorization (recommended)',
+				value: 'web',
+			},
+			{
+				name: 'Credentials',
+				value: 'credentials',
+			},
+			{
+				name: 'Authentication token',
+				value: 'token',
+			},
+			{
+				name: "I don't have a Resin account!",
+				value: 'register',
+			},
+		],
 	});
 }
 
 export function selectDeviceType() {
-	return resin.models.device.getSupportedDeviceTypes()
-	.then(deviceTypes => {
+	return resin.models.device.getSupportedDeviceTypes().then(deviceTypes => {
 		return form.ask({
 			message: 'Device Type',
 			type: 'list',
@@ -90,10 +107,16 @@ export function selectDeviceType() {
 	});
 }
 
-export function confirm(yesOption: string, message: string, yesMessage: string) {
-	return Promise.try(function () {
+export function confirm(
+	yesOption: string,
+	message: string,
+	yesMessage: string,
+) {
+	return Promise.try(function() {
 		if (yesOption) {
-			if (yesMessage) { console.log(yesMessage); }
+			if (yesMessage) {
+				console.log(yesMessage);
+			}
 			return true;
 		}
 
@@ -109,73 +132,79 @@ export function confirm(yesOption: string, message: string, yesMessage: string) 
 	});
 }
 
-export function selectApplication(filter: (app: ResinSdk.Application) => boolean) {
-	resin.models.application.hasAny().then(function(hasAnyApplications) {
-		if (!hasAnyApplications) {
-			throw new Error('You don\'t have any applications');
-		}
+export function selectApplication(
+	filter: (app: ResinSdk.Application) => boolean,
+) {
+	resin.models.application
+		.hasAny()
+		.then(function(hasAnyApplications) {
+			if (!hasAnyApplications) {
+				throw new Error("You don't have any applications");
+			}
 
-		return resin.models.application.getAll();
-	})
-	.filter(filter || _.constant(true))
-	.then(applications => {
-		return form.ask({
-			message: 'Select an application',
-			type: 'list',
-			choices: _.map(applications, application =>
-				({
-					name: `${application.app_name} (${application.device_type})`,
-					value: application.app_name,
-				}),
-		)});
-	});
-}
-
-export function selectOrCreateApplication() {
-	return resin.models.application.hasAny().then((hasAnyApplications) => {
-		if (!hasAnyApplications) return;
-
-		return resin.models.application.getAll().then((applications) => {
-			const appOptions = _.map<
-				ResinSdk.Application,
-				{ name: string, value: string | null }
-			>(applications, application => ({
-				name: `${application.app_name} (${application.device_type})`,
-				value: application.app_name,
-			}));
-
-			appOptions.unshift({
-				name: 'Create a new application',
-				value: null,
-			});
-
+			return resin.models.application.getAll();
+		})
+		.filter(filter || _.constant(true))
+		.then(applications => {
 			return form.ask({
 				message: 'Select an application',
 				type: 'list',
-				choices: appOptions,
+				choices: _.map(applications, application => ({
+					name: `${application.app_name} (${application.device_type})`,
+					value: application.app_name,
+				})),
 			});
 		});
-	}).then((application) => {
-		if (application) {
-			return application;
-		}
+}
 
-		return form.ask({
-			message: 'Choose a Name for your new application',
-			type: 'input',
-			validate: validation.validateApplicationName,
+export function selectOrCreateApplication() {
+	return resin.models.application
+		.hasAny()
+		.then(hasAnyApplications => {
+			if (!hasAnyApplications) return;
+
+			return resin.models.application.getAll().then(applications => {
+				const appOptions = _.map<
+					ResinSdk.Application,
+					{ name: string; value: string | null }
+				>(applications, application => ({
+					name: `${application.app_name} (${application.device_type})`,
+					value: application.app_name,
+				}));
+
+				appOptions.unshift({
+					name: 'Create a new application',
+					value: null,
+				});
+
+				return form.ask({
+					message: 'Select an application',
+					type: 'list',
+					choices: appOptions,
+				});
+			});
+		})
+		.then(application => {
+			if (application) {
+				return application;
+			}
+
+			return form.ask({
+				message: 'Choose a Name for your new application',
+				type: 'input',
+				validate: validation.validateApplicationName,
+			});
 		});
-	});
 }
 
 export function awaitDevice(uuid: string) {
-	return resin.models.device.getName(uuid)
-	.then((deviceName) => {
-		const spinner = new visuals.Spinner(`Waiting for ${deviceName} to come online`);
+	return resin.models.device.getName(uuid).then(deviceName => {
+		const spinner = new visuals.Spinner(
+			`Waiting for ${deviceName} to come online`,
+		);
 
 		const poll = (): Promise<void> => {
-			return resin.models.device.isOnline(uuid)
-			.then(function(isOnline) {
+			return resin.models.device.isOnline(uuid).then(function(isOnline) {
 				if (isOnline) {
 					spinner.stop();
 					console.info(`The device **${deviceName}** is online!`);
@@ -196,27 +225,28 @@ export function awaitDevice(uuid: string) {
 }
 
 export function inferOrSelectDevice(preferredUuid: string) {
-	return resin.models.device.getAll()
-	.filter<ResinSdk.Device>((device) => device.is_online)
-	.then((onlineDevices) => {
-		if (_.isEmpty(onlineDevices)) {
-			throw new Error('You don\'t have any devices online');
-		}
+	return resin.models.device
+		.getAll()
+		.filter<ResinSdk.Device>(device => device.is_online)
+		.then(onlineDevices => {
+			if (_.isEmpty(onlineDevices)) {
+				throw new Error("You don't have any devices online");
+			}
 
-		const defaultUuid = _.map(onlineDevices, 'uuid').includes(preferredUuid) ?
-			preferredUuid :
-			onlineDevices[0].uuid;
+			const defaultUuid = _.map(onlineDevices, 'uuid').includes(preferredUuid)
+				? preferredUuid
+				: onlineDevices[0].uuid;
 
-		return form.ask({
-			message: 'Select a device',
-			type: 'list',
-			default: defaultUuid,
-			choices: _.map(onlineDevices, device => ({
-				name: `${device.name || 'Untitled'} (${device.uuid.slice(0, 7)})`,
-				value: device.uuid,
-			}),
-		)});
-	});
+			return form.ask({
+				message: 'Select a device',
+				type: 'list',
+				default: defaultUuid,
+				choices: _.map(onlineDevices, device => ({
+					name: `${device.name || 'Untitled'} (${device.uuid.slice(0, 7)})`,
+					value: device.uuid,
+				})),
+			});
+		});
 }
 
 export function printErrorMessage(message: string) {

@@ -48,6 +48,9 @@ declare module 'capitano' {
 	export function command(command: CommandDefinition): void;
 
 	export const state: {
-		getMatchCommand: (signature: string, callback: (e: Error, cmd: Command) => void) => void
+		getMatchCommand: (
+			signature: string,
+			callback: (e: Error, cmd: Command) => void,
+		) => void;
 	};
 }

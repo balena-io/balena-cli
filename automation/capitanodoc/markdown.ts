@@ -10,7 +10,9 @@ export function renderCommand(command: Command) {
 		result += '\n### Options';
 
 		for (let option of command.options!) {
-			result += `\n\n#### ${utils.parseSignature(option)}\n\n${option.description}`;
+			result += `\n\n#### ${utils.parseSignature(option)}\n\n${
+				option.description
+			}`;
 		}
 
 		result += '\n';
@@ -30,27 +32,31 @@ export function renderCategory(category: Category) {
 }
 
 function getAnchor(command: Command) {
-	return '#' + command.signature
-		.replace(/\s/g,'-')
-		.replace(/</g, '60-')
-		.replace(/>/g, '-62-')
-		.replace(/\[/g, '')
-		.replace(/\]/g, '-')
-		.replace(/--/g, '-')
-		.replace(/\.\.\./g, '')
-		.replace(/\|/g, '')
-		.toLowerCase();
+	return (
+		'#' +
+		command.signature
+			.replace(/\s/g, '-')
+			.replace(/</g, '60-')
+			.replace(/>/g, '-62-')
+			.replace(/\[/g, '')
+			.replace(/\]/g, '-')
+			.replace(/--/g, '-')
+			.replace(/\.\.\./g, '')
+			.replace(/\|/g, '')
+			.toLowerCase()
+	);
 }
 
 export function renderToc(categories: Category[]) {
 	let result = `# Table of contents\n`;
 
 	for (let category of categories) {
-
 		result += `\n- ${category.title}\n\n`;
 
 		for (let command of category.commands) {
-			result += `\t- [${ent.encode(command.signature)}](${getAnchor(command)})\n`;
+			result += `\t- [${ent.encode(command.signature)}](${getAnchor(
+				command,
+			)})\n`;
 		}
 	}
 
@@ -58,7 +64,9 @@ export function renderToc(categories: Category[]) {
 }
 
 export function render(doc: Document) {
-	let result = `# ${doc.title}\n\n${doc.introduction}\n\n${renderToc(doc.categories)}`;
+	let result = `# ${doc.title}\n\n${doc.introduction}\n\n${renderToc(
+		doc.categories,
+	)}`;
 
 	for (let category of doc.categories) {
 		result += `\n${renderCategory(category)}`;

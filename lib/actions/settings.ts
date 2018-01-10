@@ -30,7 +30,8 @@ Examples:
 		const resin = (await import('resin-sdk')).fromSharedOptions();
 		const prettyjson = await import('prettyjson');
 
-		return resin.settings.getAll()
+		return resin.settings
+			.getAll()
 			.then(prettyjson.render)
 			.then(console.log)
 			.nodeify(done);

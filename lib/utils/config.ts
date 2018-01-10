@@ -20,7 +20,10 @@ import deviceConfig = require('resin-device-config');
 
 const resin = ResinSdk.fromSharedOptions();
 
-export function generateBaseConfig(application: ResinSdk.Application, options: {}) {
+export function generateBaseConfig(
+	application: ResinSdk.Application,
+	options: {},
+) {
 	options = _.mapValues(options, function(value, key) {
 		if (key === 'appUpdatePollInterval') {
 			return value * 60 * 1000;
@@ -37,30 +40,37 @@ export function generateBaseConfig(application: ResinSdk.Application, options: {
 		registryUrl: resin.settings.get('registryUrl'),
 		deltaUrl: resin.settings.get('deltaUrl'),
 		apiConfig: resin.models.config.getAll(),
-	}).then((results) => {
-		return deviceConfig.generate({
-			application,
-			user: {
-				id: results.userId,
-				username: results.username,
+	}).then(results => {
+		return deviceConfig.generate(
+			{
+				application,
+				user: {
+					id: results.userId,
+					username: results.username,
+				},
+				endpoints: {
+					api: results.apiUrl,
+					vpn: results.vpnUrl,
+					registry: results.registryUrl,
+					delta: results.deltaUrl,
+				},
+				pubnub: results.apiConfig.pubnub,
+				mixpanel: {
+					token: results.apiConfig.mixpanelToken,
+				},
 			},
-			endpoints: {
-				api: results.apiUrl,
-				vpn: results.vpnUrl,
-				registry: results.registryUrl,
-				delta: results.deltaUrl,
-			},
-			pubnub: results.apiConfig.pubnub,
-			mixpanel: {
-				token: results.apiConfig.mixpanelToken,
-			},
-		}, options);
+			options,
+		);
 	});
 }
 
-export function generateApplicationConfig(application: ResinSdk.Application, options: {}) {
-	return generateBaseConfig(application, options)
-	.tap(config => addApplicationKey(config, application.id));
+export function generateApplicationConfig(
+	application: ResinSdk.Application,
+	options: {},
+) {
+	return generateBaseConfig(application, options).tap(config =>
+		addApplicationKey(config, application.id),
+	);
 }
 
 export function generateDeviceConfig(
@@ -68,41 +78,43 @@ export function generateDeviceConfig(
 	deviceApiKey: string | null,
 	options: {},
 ) {
-	return resin.models.application.get(device.application_name)
-	.then(application => {
-		return generateBaseConfig(application, options)
-		.tap((config) => {
-			// Device API keys are only safe for ResinOS 2.0.3+. We could somehow obtain
-			// the expected version for this config and generate one when we know it's safe,
-			// but instead for now we fall back to app keys unless the user has explicitly opted in.
-			if (deviceApiKey) {
-				return addDeviceKey(config, device.uuid, deviceApiKey);
-			} else {
-				return addApplicationKey(config, application.id);
-			}
-		});
-	}).then((config) => {
-		// Associate a device, to prevent the supervisor
-		// from creating another one on its own.
-		config.registered_at = Math.floor(Date.now() / 1000);
-		config.deviceId = device.id;
-		config.uuid = device.uuid;
+	return resin.models.application
+		.get(device.application_name)
+		.then(application => {
+			return generateBaseConfig(application, options).tap(config => {
+				// Device API keys are only safe for ResinOS 2.0.3+. We could somehow obtain
+				// the expected version for this config and generate one when we know it's safe,
+				// but instead for now we fall back to app keys unless the user has explicitly opted in.
+				if (deviceApiKey) {
+					return addDeviceKey(config, device.uuid, deviceApiKey);
+				} else {
+					return addApplicationKey(config, application.id);
+				}
+			});
+		})
+		.then(config => {
+			// Associate a device, to prevent the supervisor
+			// from creating another one on its own.
+			config.registered_at = Math.floor(Date.now() / 1000);
+			config.deviceId = device.id;
+			config.uuid = device.uuid;
 
-		return config;
-	});
+			return config;
+		});
 }
 
 function addApplicationKey(config: any, applicationNameOrId: string | number) {
-	return resin.models.application.generateApiKey(applicationNameOrId)
-	.tap((apiKey) => {
-		config.apiKey = apiKey;
-	});
+	return resin.models.application
+		.generateApiKey(applicationNameOrId)
+		.tap(apiKey => {
+			config.apiKey = apiKey;
+		});
 }
 
 function addDeviceKey(config: any, uuid: string, customDeviceApiKey: string) {
 	return Promise.try(() => {
 		return customDeviceApiKey || resin.models.device.generateDeviceKey(uuid);
-	}).tap((deviceApiKey) => {
+	}).tap(deviceApiKey => {
 		config.deviceApiKey = deviceApiKey;
 	});
 }

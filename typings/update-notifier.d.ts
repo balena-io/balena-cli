@@ -4,7 +4,9 @@
 declare module 'update-notifier' {
 	export = UpdateNotifier;
 
-	function UpdateNotifier(settings?: UpdateNotifier.Settings): UpdateNotifier.UpdateNotifier;
+	function UpdateNotifier(
+		settings?: UpdateNotifier.Settings,
+	): UpdateNotifier.UpdateNotifier;
 
 	namespace UpdateNotifier {
 		class UpdateNotifier {
