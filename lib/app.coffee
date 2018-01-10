@@ -24,10 +24,15 @@ ravenOptions =
 	captureUnhandledRejections: true
 	disableConsoleAlerts: true
 Analytics.addIntegration(Raven)
-Analytics.initialize 'Sentry': ravenOptions
-Analytics.setContext Analytics.anonymize(extra:
-	args: process.argv
-	node_version: process.version)
+try
+	Analytics.initialize('Sentry': ravenOptions)
+catch error
+	console.log(error)
+	process.exit(1)
+Analytics.setContext Analytics.anonymize
+	extra:
+		args: process.argv
+		node_version: process.version
 
 validNodeVersions = require('../package.json').engines.node
 if not require('semver').satisfies(process.version, validNodeVersions)

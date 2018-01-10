@@ -16,12 +16,26 @@ limitations under the License.
 
 import errors = require('resin-cli-errors');
 import patterns = require('./utils/patterns');
-import Raven = require('raven');
 import Promise = require('bluebird');
-
-const captureException = Promise.promisify<string, Error>(
-	Raven.captureException,
-	{ context: Raven },
+import { core as analytics } from 'analytics.node';
+import { sentryIntegrations as Raven } from 'analytics.node';
+import sentryDsn from './config';
+import version from '../package.json';
+const ravenOptions = {
+	config: sentryDsn,
+	release: version,
+	captureUnhandledRejections: true,
+	disableConsoleAlerts: true,
+};
+analytics.addIntegration(Raven);
+analytics.initialize({ Sentry: ravenOptions });
+analytics.setContext(
+	analytics.anonymize({
+		extra: {
+			args: process.argv,
+			node_version: process.version,
+		},
+	}),
 );
 
 exports.handle = function(error: any) {
@@ -36,7 +50,9 @@ exports.handle = function(error: any) {
 
 	patterns.printErrorMessage(message);
 
-	return captureException(error)
+	return new Promise((resolve, reject) => {
+		resolve(analytics.captureException(error));
+	})
 		.timeout(1000)
 		.catch(function() {
 			// Ignore any errors (from error logging, or timeouts)

@@ -1,37 +1,43 @@
 import * as Capitano from 'capitano';
 
 import _ = require('lodash');
-import Mixpanel = require('mixpanel');
-import Raven = require('raven');
+import { core as Analytics } from 'analytics.node';
+import { mixpanelIntegration } from 'analytics.node';
+import { sentryIntegration } from 'analytics.node';
 import Promise = require('bluebird');
 import ResinSdk = require('resin-sdk');
 import packageJSON = require('../package.json');
+Analytics.addIntegration(sentryIntegration);
 
 const resin = ResinSdk.fromSharedOptions();
 const getMatchCommandAsync = Promise.promisify(Capitano.state.getMatchCommand);
-const getMixpanel = _.memoize<any>(() =>
+const getAnalyticsInstance = _.memoize<any>(() =>
 	resin.models.config
 		.getAll()
 		.get('mixpanelToken')
-		.then(Mixpanel.init),
+		.then(token => {
+			Analytics.addIntegration(mixpanelIntegration);
+			const options = { token: token };
+			Analytics.initialize({ Mixpanel: options });
+		}),
 );
 
 export function trackCommand(capitanoCli: Capitano.Cli) {
 	return Promise.props({
 		resinUrl: resin.settings.get('resinUrl'),
 		username: resin.auth.whoami().catchReturn(undefined),
-		mixpanel: getMixpanel(),
+		analytics: getAnalyticsInstance(),
 	})
-		.then(({ username, resinUrl, mixpanel }) => {
+		.then(({ username, resinUrl, analytics }) => {
 			return getMatchCommandAsync(capitanoCli.command).then(command => {
-				Raven.mergeContext({
+				Analytics.mergeContext({
 					user: {
 						id: username,
 						username,
 					},
 				});
 
-				return mixpanel.track(`[CLI] ${command.signature.toString()}`, {
+				return analytics.track(`[CLI] ${command.signature.toString()}`, {
 					distinct_id: username,
 					argv: process.argv.join(' '),
 					version: packageJSON.version,
