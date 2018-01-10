@@ -53,7 +53,7 @@ Examples:
 	],
 	permission: 'user',
 	async action(params, options, done) {
-		const resin = (await import('resin-sdk')).fromSharedOptions();
+		const { resin } = await import('../sdk');
 		const patterns = await import('../utils/patterns');
 
 		// Validate the the application name is available
@@ -98,7 +98,7 @@ Examples:
 	primary: true,
 	async action(_params, _options, done) {
 		const _ = await import('lodash');
-		const resin = (await import('resin-sdk')).fromSharedOptions();
+		const { resin } = await import('../sdk');
 		const visuals = await import('resin-cli-visuals');
 
 		const applications = await resin.models.application.getAll({
@@ -139,7 +139,7 @@ Examples:
 	permission: 'user',
 	primary: true,
 	async action(params, _options, done) {
-		const resin = (await import('resin-sdk')).fromSharedOptions();
+		const { resin } = await import('../sdk');
 		const visuals = await import('resin-cli-visuals');
 
 		resin.models.application
@@ -173,7 +173,7 @@ Examples:
 `,
 	permission: 'user',
 	async action(params, _options, done) {
-		const resin = (await import('resin-sdk')).fromSharedOptions();
+		const { resin } = await import('../sdk');
 		resin.models.application.restart(params.name).nodeify(done);
 	},
 };
@@ -202,7 +202,7 @@ Examples:
 	options: [commandOptions.yes],
 	permission: 'user',
 	async action(params, options, done) {
-		const resin = (await import('resin-sdk')).fromSharedOptions();
+		const { resin } = await import('../sdk');
 		const patterns = await import('../utils/patterns');
 
 		patterns

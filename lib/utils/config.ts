@@ -14,11 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 import Promise = require('bluebird');
-import ResinSdk = require('resin-sdk');
+import { resin, ResinSdk } from '../sdk';
 import _ = require('lodash');
 import deviceConfig = require('resin-device-config');
-
-const resin = ResinSdk.fromSharedOptions();
 
 export function generateBaseConfig(
 	application: ResinSdk.Application,

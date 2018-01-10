@@ -53,7 +53,7 @@ Examples:
 	permission: 'user',
 	primary: true,
 	async action(params, options, done) {
-		const resin = (await import('resin-sdk')).fromSharedOptions();
+		const { resin } = await import('../sdk');
 		const moment = await import('moment');
 
 		const printLine = (line: { timestamp: string; message: string }) => {

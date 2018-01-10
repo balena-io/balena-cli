@@ -50,7 +50,7 @@ Examples:
 	permission: 'user',
 	async action(params, options, done) {
 		const _ = await import('lodash');
-		const resin = (await import('resin-sdk')).fromSharedOptions();
+		const { resin } = await import('../sdk');
 
 		if (_.isEmpty(params.note)) {
 			throw new Error('Missing note content');

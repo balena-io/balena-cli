@@ -27,7 +27,7 @@ Examples:
 	$ resin settings\
 `,
 	async action(_params, _options, done) {
-		const resin = (await import('resin-sdk')).fromSharedOptions();
+		const { resin } = await import('../sdk');
 		const prettyjson = await import('prettyjson');
 
 		return resin.settings

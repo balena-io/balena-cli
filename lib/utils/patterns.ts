@@ -18,14 +18,15 @@ import _ = require('lodash');
 import Promise = require('bluebird');
 import form = require('resin-cli-form');
 import visuals = require('resin-cli-visuals');
-import ResinSdk = require('resin-sdk');
+import { resin, ResinSdk } from '../sdk';
 import chalk from 'chalk';
 import validation = require('./validation');
 import messages = require('./messages');
 
-const resin = ResinSdk.fromSharedOptions();
-
-export function authenticate(options: {}): Promise<void> {
+export function authenticate(credentials: {
+	email?: string;
+	password?: string;
+}): Promise<void> {
 	return form
 		.run(
 			[
@@ -41,11 +42,11 @@ export function authenticate(options: {}): Promise<void> {
 					type: 'password',
 				},
 			],
-			{ override: options },
+			{ override: credentials },
 		)
 		.then(resin.auth.login)
 		.then(resin.auth.twoFactor.isPassed)
-		.then((isTwoFactorAuthPassed: boolean) => {
+		.then(isTwoFactorAuthPassed => {
 			if (isTwoFactorAuthPassed) {
 				return;
 			}
@@ -72,7 +73,7 @@ export function authenticate(options: {}): Promise<void> {
 }
 
 export function askLoginType() {
-	return form.ask({
+	return form.ask<'web' | 'register' | 'token' | 'credentials', 'list'>({
 		message: 'How would you like to login?',
 		name: 'loginType',
 		type: 'list',
@@ -112,7 +113,7 @@ export function confirm(
 	message: string,
 	yesMessage?: string,
 ) {
-	return Promise.try(function() {
+	return Promise.try(() => {
 		if (yesOption) {
 			if (yesMessage) {
 				console.log(yesMessage);
@@ -161,7 +162,7 @@ export function selectOrCreateApplication() {
 	return resin.models.application
 		.hasAny()
 		.then(hasAnyApplications => {
-			if (!hasAnyApplications) return;
+			if (!hasAnyApplications) return null;
 
 			return resin.models.application.getAll().then(applications => {
 				const appOptions = _.map<
@@ -190,7 +191,7 @@ export function selectOrCreateApplication() {
 			}
 
 			return form.ask({
-				message: 'Choose a Name for your new application',
+				message: 'Choose a name for your new application',
 				type: 'input',
 				validate: validation.validateApplicationName,
 			});

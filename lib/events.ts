@@ -4,10 +4,9 @@ import _ = require('lodash');
 import Mixpanel = require('mixpanel');
 import Raven = require('raven');
 import Promise = require('bluebird');
-import ResinSdk = require('resin-sdk');
+import { resin } from './sdk';
 import packageJSON = require('../package.json');
 
-const resin = ResinSdk.fromSharedOptions();
 const getMatchCommandAsync = Promise.promisify(Capitano.state.getMatchCommand);
 const getMixpanel = _.memoize<any>(() =>
 	resin.models.config

@@ -21,7 +21,7 @@ import chalk from 'chalk';
 import rindle = require('rindle');
 import imagefs = require('resin-image-fs');
 import visuals = require('resin-cli-visuals');
-import ResinSdk = require('resin-sdk');
+import { resin, ResinSdk } from '../sdk';
 
 import { execute } from 'president';
 import { InitializeEmitter, OperationState } from 'resin-device-init';
@@ -29,8 +29,6 @@ import { InitializeEmitter, OperationState } from 'resin-device-init';
 const extractStreamAsync = Promise.promisify(rindle.extract);
 const waitStreamAsync = Promise.promisify(rindle.wait);
 const presidentExecuteAsync = Promise.promisify(execute);
-
-const resin = ResinSdk.fromSharedOptions();
 
 export function getGroupDefaults(group: {
 	options: { name: string; default?: string }[];

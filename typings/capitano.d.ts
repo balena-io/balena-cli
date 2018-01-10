@@ -51,6 +51,11 @@ declare module 'capitano' {
 
 	export function command(command: CommandDefinition): void;
 
+	export function run(
+		argv: string | string[],
+		callback: (err: Error) => void,
+	): void;
+
 	export const state: {
 		getMatchCommand: (
 			signature: string,
