@@ -19,16 +19,17 @@ import _ = require('lodash');
 import capitano = require('capitano');
 import patterns = require('./patterns');
 
-export function register(regex: RegExp): Promise<void> {
+export function register(regex: RegExp): Promise<void | void[]> {
 	return nplugm
 		.list(regex)
-		.map(async function(plugin: any) {
+		.map(async function(plugin: string) {
 			const command = await import(plugin);
 			command.plugin = true;
 			if (!_.isArray(command)) {
-				return capitano.command(command);
+				capitano.command(command);
+			} else {
+				_.each(command, capitano.command);
 			}
-			return _.each(command, capitano.command);
 		})
 		.catch((error: Error) => {
 			return patterns.printErrorMessage(error.message);
