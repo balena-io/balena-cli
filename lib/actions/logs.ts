@@ -16,14 +16,14 @@ limitations under the License.
 
 import { CommandDefinition } from 'capitano';
 
-const logsCmd: CommandDefinition<
+export = <CommandDefinition<
 	{
 		uuid: string;
 	},
 	{
 		tail: boolean;
 	}
-> = {
+>>{
 	signature: 'logs <uuid>',
 	description: 'show device logs',
 	help: `\
@@ -80,7 +80,3 @@ Examples:
 			.catch(done);
 	},
 };
-
-// Needs to be a separate statement - single expression export
-// stops the async function compiling correctly? Very odd.
-export = logsCmd;
