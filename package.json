@@ -36,6 +36,7 @@
     "build:bin": "ts-node --type-check -P automation automation/build-bin.ts",
     "release": "npm run build && ts-node --type-check -P automation automation/deploy-bin.ts",
     "pretest": "npm run build",
+    "start": "npm run build:src && ./bin/resin",
     "test": "gulp test",
     "ci": "npm run test && catch-uncommitted",
     "watch": "gulp watch",
