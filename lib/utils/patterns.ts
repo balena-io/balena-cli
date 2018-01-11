@@ -225,7 +225,7 @@ export function awaitDevice(uuid: string) {
 	});
 }
 
-export function inferOrSelectDevice(preferredUuid: string) {
+export function inferOrSelectDevice(preferredUuid?: string) {
 	return resin.models.device
 		.getAll()
 		.filter<ResinSdk.Device>(device => device.is_online)
@@ -234,9 +234,15 @@ export function inferOrSelectDevice(preferredUuid: string) {
 				throw new Error("You don't have any devices online");
 			}
 
-			const defaultUuid = _.map(onlineDevices, 'uuid').includes(preferredUuid)
-				? preferredUuid
-				: onlineDevices[0].uuid;
+			let defaultUuid: string;
+			if (
+				preferredUuid &&
+				_.map(onlineDevices, 'uuid').includes(preferredUuid)
+			) {
+				defaultUuid = preferredUuid;
+			} else {
+				defaultUuid = onlineDevices[0].uuid;
+			}
 
 			return form.ask({
 				message: 'Select a device',
