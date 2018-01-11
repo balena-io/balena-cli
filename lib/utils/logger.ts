@@ -3,7 +3,7 @@ import _ = require('lodash');
 import chalk from 'chalk';
 import { StreamLogger } from 'resin-stream-logger';
 
-export class Logger {
+class Logger {
 	public streams: {
 		build: NodeJS.ReadWriteStream;
 		info: NodeJS.ReadWriteStream;
@@ -62,3 +62,5 @@ export class Logger {
 		return this.streams.error.write(msg + eol);
 	}
 }
+
+export = Logger;

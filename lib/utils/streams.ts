@@ -1,10 +1,10 @@
-export async function buffer(
+import Promise = require('bluebird');
+import fs = require('fs');
+
+export function buffer(
 	stream: NodeJS.ReadableStream,
 	bufferFile: string,
-) {
-	const Promise = await import('bluebird');
-	const fs = await import('fs');
-
+): Promise<NodeJS.ReadableStream> {
 	const fileWriteStream = fs.createWriteStream(bufferFile);
 
 	return new Promise(function(resolve, reject) {
