@@ -17,7 +17,7 @@ const getAnalyticsInstance = _.memoize<any>(() =>
 		.get('mixpanelToken')
 		.then(token => {
 			Analytics.addIntegration(mixpanelIntegration);
-			const options = { token: token };
+			let options = { token: token };
 			Analytics.initialize({ Mixpanel: options });
 		}),
 );
