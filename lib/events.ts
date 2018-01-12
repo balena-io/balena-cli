@@ -1,9 +1,11 @@
 import * as Capitano from 'capitano';
 
 import _ = require('lodash');
-import { core as Analytics } from 'analytics.node';
-import { mixpanelIntegration } from 'analytics.node';
-import { sentryIntegration } from 'analytics.node';
+import {
+	core as Analytics,
+	mixpanelIntegration,
+	sentryIntegration,
+} from 'analytics.node';
 import Promise = require('bluebird');
 import ResinSdk = require('resin-sdk');
 import packageJSON = require('../package.json');
@@ -18,7 +20,7 @@ const getAnalyticsInstance = _.memoize<any>(() =>
 		.then(token => {
 			Analytics.addIntegration(mixpanelIntegration);
 			let options = { token: token };
-			Analytics.initialize({ Mixpanel: options });
+			return Analytics.initialize({ Mixpanel: options });
 		}),
 );
 

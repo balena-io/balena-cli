@@ -38,6 +38,11 @@ analytics.setContext(
 	}),
 );
 
+const captureException = Promise.promisify<string, Error>(
+	analytics.captureException,
+	{ context: analytics },
+);
+
 exports.handle = function(error: any) {
 	let message = errors.interpret(error);
 	if (message == null) {
@@ -50,12 +55,13 @@ exports.handle = function(error: any) {
 
 	patterns.printErrorMessage(message);
 
-	return new Promise(resolve => {
-		resolve(analytics.captureException(error));
-	})
-		.timeout(1000)
+	return captureException(error)
 		.catch(function() {
 			// Ignore any errors (from error logging, or timeouts)
 		})
-		.finally(() => process.exit(error.exitCode || 1));
+		.finally(() => {
+			setTimeout(() => {
+				process.exit(error.exitCode || 1);
+			}, 1000);
+		});
 };
