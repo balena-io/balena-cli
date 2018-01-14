@@ -56,7 +56,6 @@ globalTunnel.initialize(proxy)
 # TODO: make this a feature of capitano https://github.com/resin-io/capitano/issues/48
 global.PROXY_CONFIG = globalTunnel.proxyConfig
 
-_ = require('lodash')
 Promise = require('bluebird')
 capitano = require('capitano')
 capitanoExecuteAsync = Promise.promisify(capitano.execute)

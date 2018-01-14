@@ -8,9 +8,20 @@
 		"noUnusedParameters": true,
 		"preserveConstEnums": true,
 		"removeComments": true,
-		"sourceMap": true
+		"sourceMap": true,
+		"lib": [
+			// es5 defaults:
+			"dom",
+			"es5",
+			"scripthost",
+			// some specific es6 bits we're sure are safe:
+			"es2015.collection",
+			"es2015.iterable",
+			"es2016.array.include"
+		]
 	},
 	"include": [
+		"./typings/*.d.ts",
 		"./lib/**/*.ts"
 	]
 }

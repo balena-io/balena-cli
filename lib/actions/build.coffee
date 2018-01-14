@@ -8,7 +8,7 @@ getBundleInfo = Promise.method (options) ->
 
 	if options.application?
 		# An application was provided
-		return helpers.getAppInfo(options.application)
+		return helpers.getArchAndDeviceType(options.application)
 		.then (app) ->
 			return [app.arch, app.device_type]
 	else if options.arch? and options.deviceType?

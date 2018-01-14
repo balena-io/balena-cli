@@ -1,4 +1,4 @@
-###
+/*
 Copyright 2016-2017 Resin.io
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,23 +12,25 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-###
+*/
 
-exports.list =
-	signature: 'settings'
-	description: 'print current settings'
-	help: '''
-		Use this command to display detected settings
+import nplugm = require('nplugm');
+import _ = require('lodash');
+import capitano = require('capitano');
+import patterns = require('./patterns');
 
-		Examples:
-
-			$ resin settings
-	'''
-	action: (params, options, done) ->
-		resin = require('resin-sdk-preconfigured')
-		prettyjson = require('prettyjson')
-
-		resin.settings.getAll()
-			.then(prettyjson.render)
-			.then(console.log)
-			.nodeify(done)
+export function register(regex: RegExp): Promise<void> {
+	return nplugm
+		.list(regex)
+		.map(async function(plugin: any) {
+			const command = await import(plugin);
+			command.plugin = true;
+			if (!_.isArray(command)) {
+				return capitano.command(command);
+			}
+			return _.each(command, capitano.command);
+		})
+		.catch((error: Error) => {
+			return patterns.printErrorMessage(error.message);
+		});
+}
