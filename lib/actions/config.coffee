@@ -207,7 +207,7 @@ exports.reconfigure =
 				.tap ->
 					umountAsync(drive)
 				.then (uuid) ->
-					configureCommand = "os configure #{drive} #{uuid}"
+					configureCommand = "os configure #{drive} --device #{uuid}"
 					if options.advanced
 						configureCommand += ' --advanced'
 					return capitanoRunAsync(configureCommand)

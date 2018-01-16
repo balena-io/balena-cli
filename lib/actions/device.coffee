@@ -420,7 +420,7 @@ exports.init =
 				capitanoRunAsync("device register #{application.app_name}")
 					.then(resin.models.device.get)
 					.tap (device) ->
-						configureCommand = "os configure '#{tempPath}' #{device.uuid}"
+						configureCommand = "os configure '#{tempPath}' --device #{device.uuid}"
 						if options.config
 							configureCommand += " --config '#{options.config}'"
 						else if options.advanced
