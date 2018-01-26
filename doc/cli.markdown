@@ -1021,7 +1021,8 @@ drive
 
 ## config inject &#60;file&#62;
 
-Use this command to inject a config.json file to the mounted filesystem (e.g. SD card) of a provisioned device"
+Use this command to inject a config.json file to the mounted filesystem
+(e.g. SD card or mounted resinOS image) of a provisioned device"
 
 Examples:
 
