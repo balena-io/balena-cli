@@ -18,12 +18,10 @@ import _ = require('lodash');
 import Promise = require('bluebird');
 import form = require('resin-cli-form');
 import visuals = require('resin-cli-visuals');
-import ResinSdk = require('resin-sdk');
+import resin = require('resin-sdk-preconfigured');
 import chalk from 'chalk';
 import validation = require('./validation');
 import messages = require('./messages');
-
-const resin = ResinSdk.fromSharedOptions();
 
 export function authenticate(options: {}): Promise<void> {
 	return form
@@ -132,10 +130,8 @@ export function confirm(
 	});
 }
 
-export function selectApplication(
-	filter: (app: ResinSdk.Application) => boolean,
-) {
-	resin.models.application
+export function selectApplication(filter: (app: resin.Application) => boolean) {
+	return resin.models.application
 		.hasAny()
 		.then(function(hasAnyApplications) {
 			if (!hasAnyApplications) {
@@ -165,7 +161,7 @@ export function selectOrCreateApplication() {
 
 			return resin.models.application.getAll().then(applications => {
 				const appOptions = _.map<
-					ResinSdk.Application,
+					resin.Application,
 					{ name: string; value: string | null }
 				>(applications, application => ({
 					name: `${application.app_name} (${application.device_type})`,
@@ -227,7 +223,7 @@ export function awaitDevice(uuid: string) {
 export function inferOrSelectDevice(preferredUuid: string) {
 	return resin.models.device
 		.getAll()
-		.filter<ResinSdk.Device>(device => device.is_online)
+		.filter<resin.Device>(device => device.is_online)
 		.then(onlineDevices => {
 			if (_.isEmpty(onlineDevices)) {
 				throw new Error("You don't have any devices online");
