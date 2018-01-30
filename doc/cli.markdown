@@ -1123,8 +1123,7 @@ your shell environment. For more information (including Windows support)
 please check the README here: https://github.com/resin-io/resin-cli .
 
 Use this command to preload an application to a local disk image (or
-Edison zip archive) with a built commit from Resin.io.
-This can be used with cloud builds, or images deployed with resin deploy.
+Edison zip archive) with a built release from Resin.io.
 
 Examples:
   $ resin preload resin.img --app 1234 --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image some-image.png
@@ -1138,7 +1137,7 @@ id of the application to preload
 
 #### --commit, -c &#60;hash&#62;
 
-a specific application commit to preload, use "latest" to specify the latest commit
+the commit hash for a specific application release to preload, use "latest" to specify the latest release
 (ignored if no appId is given)
 
 #### --splash-image, -s &#60;splashImage.png&#62;
