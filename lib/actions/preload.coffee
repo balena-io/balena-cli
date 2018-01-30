@@ -20,21 +20,21 @@ LATEST = 'latest'
 
 getApplicationsWithSuccessfulBuilds = (deviceType) ->
 	preload = require('resin-preload')
-	resin = require('resin-sdk-preconfigured')
+	resin = require('resin-sdk').fromSharedOptions()
 
 	resin.pine.get
 		resource: 'my_application'
 		options:
 			filter:
 				device_type: deviceType
-				build:
+				owns__release:
 					$any:
-						$alias: 'b'
+						$alias: 'r'
 						$expr:
-							b:
+							r:
 								status: 'success'
 			expand: preload.applicationExpandOptions
-			select: [ 'id', 'app_name', 'device_type', 'commit' ]
+			select: [ 'id', 'app_name', 'device_type', 'commit', 'should_track_latest_release' ]
 			orderby: 'app_name asc'
 
 selectApplication = (deviceType) ->
@@ -42,14 +42,14 @@ selectApplication = (deviceType) ->
 	form = require('resin-cli-form')
 	{ expectedError } = require('../utils/patterns')
 
-	applicationInfoSpinner = new visuals.Spinner('Downloading list of applications and builds.')
+	applicationInfoSpinner = new visuals.Spinner('Downloading list of applications and releases.')
 	applicationInfoSpinner.start()
 
 	getApplicationsWithSuccessfulBuilds(deviceType)
 	.then (applications) ->
 		applicationInfoSpinner.stop()
 		if applications.length == 0
-			expectedError("You have no apps with successful builds for a '#{deviceType}' device type.")
+			expectedError("You have no apps with successful releases for a '#{deviceType}' device type.")
 		form.ask
 			message: 'Select an application'
 			type: 'list'
@@ -57,25 +57,25 @@ selectApplication = (deviceType) ->
 				name: app.app_name
 				value: app
 
-selectApplicationCommit = (builds) ->
+selectApplicationCommit = (releases) ->
 	form = require('resin-cli-form')
 	{ expectedError } = require('../utils/patterns')
 
-	if builds.length == 0
-		expectedError('This application has no successful builds.')
+	if releases.length == 0
+		expectedError('This application has no successful releases.')
 	DEFAULT_CHOICE = { 'name': LATEST, 'value': LATEST }
-	choices = [ DEFAULT_CHOICE ].concat builds.map (build) ->
-		name: "#{build.push_timestamp} - #{build.commit_hash}"
-		value: build.commit_hash
+	choices = [ DEFAULT_CHOICE ].concat releases.map (release) ->
+		name: "#{release.end_timestamp} - #{release.commit}"
+		value: release.commit
 	return form.ask
-		message: 'Select a build'
+		message: 'Select a release'
 		type: 'list'
 		default: LATEST
 		choices: choices
 
 offerToDisableAutomaticUpdates = (application, commit) ->
 	Promise = require('bluebird')
-	resin = require('resin-sdk-preconfigured')
+	resin = require('resin-sdk').fromSharedOptions()
 	form = require('resin-cli-form')
 
 	if commit == LATEST or not application.should_track_latest_release
@@ -84,7 +84,7 @@ offerToDisableAutomaticUpdates = (application, commit) ->
 
 		This application is set to automatically update all devices to the latest available version.
 		This might be unexpected behaviour: with this enabled, the preloaded device will still
-		download and install the latest build once it is online.
+		download and install the latest release once it is online.
 
 		Do you want to disable automatic updates for this application?
 	'''
@@ -109,8 +109,7 @@ module.exports =
 		please check the README here: https://github.com/resin-io/resin-cli .
 
 		Use this command to preload an application to a local disk image (or
-		Edison zip archive) with a built commit from Resin.io.
-		This can be used with cloud builds, or images deployed with resin deploy.
+		Edison zip archive) with a built release from Resin.io.
 
 		Examples:
 		  $ resin preload resin.img --app 1234 --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image some-image.png
@@ -129,7 +128,7 @@ module.exports =
 			signature: 'commit'
 			parameter: 'hash'
 			description: '''
-				a specific application commit to preload, use "latest" to specify the latest commit
+				the commit hash for a specific application release to preload, use "latest" to specify the latest release
 				(ignored if no appId is given)
 			'''
 			alias: 'c'
@@ -149,9 +148,8 @@ module.exports =
 	action: (params, options, done) ->
 		_ = require('lodash')
 		Promise = require('bluebird')
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		preload = require('resin-preload')
-		errors = require('resin-errors')
 		visuals = require('resin-cli-visuals')
 		nodeCleanup = require('node-cleanup')
 		{ expectedError } = require('../utils/patterns')
@@ -183,7 +181,9 @@ module.exports =
 		options.splashImage = options['splash-image']
 		delete options['splash-image']
 
-		if options['dont-check-device-type'] and not options.appId
+		options.dontCheckDeviceType = options['dont-check-device-type']
+		delete options['dont-check-device-type']
+		if options.dontCheckDeviceType and not options.appId
 			expectedError('You need to specify an app id if you disable the device type check.')
 
 		# Get a configured dockerode instance
@@ -191,13 +191,14 @@ module.exports =
 		.then (docker) ->
 
 			preloader = new preload.Preloader(
-				resin,
-				docker,
-				options.appId,
-				options.commit,
-				options.image,
-				options.splashImage,
-				options.proxy,
+				resin
+				docker
+				options.appId
+				options.commit
+				options.image
+				options.splashImage
+				options.proxy
+				options.dontCheckDeviceType
 			)
 
 			gotSignal = false
@@ -221,51 +222,39 @@ module.exports =
 			return new Promise (resolve, reject) ->
 				preloader.on('error', reject)
 
-				preloader.build()
+				preloader.prepare()
 				.then ->
-					preloader.prepare()
-				.then ->
-					preloader.getDeviceTypeAndPreloadedBuilds()
-				.then (info) ->
+					# If no appId was provided, show a list of matching apps
 					Promise.try ->
-						if options.appId
-							return preloader.fetchApplication()
-							.catch(errors.ResinApplicationNotFound, expectedError)
-						selectApplication(info.device_type)
-					.then (application) ->
-						preloader.setApplication(application)
-						# Check that the app device type and the image device type match
-						if not options['dont-check-device-type'] and info.device_type != application.device_type
-							expectedError(
-								"Image device type (#{info.device_type}) and application device type (#{application.device_type}) do not match"
-							)
+						if not preloader.appId
+							selectApplication(preloader.config.deviceType)
+							.then (application) ->
+								preloader.setApplication(application)
+				.then ->
+					# Use the commit given as --commit or show an interactive commit selection menu
+					Promise.try ->
+						if options.commit
+							if options.commit == LATEST and preloader.application.commit
+								# handle `--commit latest`
+								return LATEST
+							release = _.find preloader.application.owns__release, (release) ->
+								release.commit.startsWith(options.commit)
+							if not release
+								expectedError('There is no release matching this commit')
+							return release.commit
+						selectApplicationCommit(preloader.application.owns__release)
+					.then (commit) ->
+						if commit == LATEST
+							preloader.commit = preloader.application.commit
+						else
+							preloader.commit = commit
 
-						# Use the commit given as --commit or show an interactive commit selection menu
-						Promise.try ->
-							if options.commit
-								if options.commit == LATEST and application.commit
-									# handle `--commit latest`
-									return LATEST
-								else if not _.find(application.build, commit_hash: options.commit)
-									expectedError('There is no build matching this commit')
-								return options.commit
-							selectApplicationCommit(application.build)
-						.then (commit) ->
-							if commit == LATEST
-								preloader.commit = application.commit
-							else
-								preloader.commit = commit
-
-							# Propose to disable automatic app updates if the commit is not the latest
-							offerToDisableAutomaticUpdates(application, commit)
-					.then ->
-						builds = info.preloaded_builds.map (build) ->
-							build.slice(-preload.BUILD_HASH_LENGTH)
-						if preloader.commit in builds
-							throw new preload.errors.ResinError('This build is already preloaded in this image.')
-						# All options are ready: preload the image.
-						preloader.preload()
-						.catch(preload.errors.ResinError, expectedError)
+						# Propose to disable automatic app updates if the commit is not the latest
+						offerToDisableAutomaticUpdates(preloader.application, commit)
+				.then ->
+					# All options are ready: preload the image.
+					preloader.preload()
+				.catch(resin.errors.ResinError, expectedError)
 				.then(resolve)
 				.catch(reject)
 			.then(done)
