@@ -28,7 +28,7 @@ exports.list =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
 		resin.models.key.getAll().then (keys) ->
@@ -50,7 +50,7 @@ exports.info =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
 		resin.models.key.get(params.id).then (key) ->
@@ -82,7 +82,7 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		patterns = require('../utils/patterns')
 
 		patterns.confirm(options.yes, 'Are you sure you want to delete the key?').then ->
@@ -109,7 +109,7 @@ exports.add =
 		Promise = require('bluebird')
 		readFileAsync = Promise.promisify(require('fs').readFile)
 		capitano = require('capitano')
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 
 		Promise.try ->
 			return readFileAsync(params.path, encoding: 'utf8') if params.path?
