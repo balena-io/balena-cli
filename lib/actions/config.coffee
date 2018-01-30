@@ -116,7 +116,8 @@ exports.inject =
 	signature: 'config inject <file>'
 	description: 'inject a device configuration file'
 	help: '''
-		Use this command to inject a config.json file to the mounted filesystem (e.g. SD card) of a provisioned device"
+		Use this command to inject a config.json file to the mounted filesystem
+		(e.g. SD card or mounted resinOS image) of a provisioned device"
 
 		Examples:
 
