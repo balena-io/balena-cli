@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
+{ normalizeUuidProp } = require('../utils/normalization')
+
 module.exports =
 	signature: 'logs <uuid>'
 	description: 'show device logs'
@@ -44,6 +46,7 @@ module.exports =
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
+		normalizeUuidProp(params)
 		resin = require('resin-sdk-preconfigured')
 		moment = require('moment')
 
