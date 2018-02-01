@@ -14,23 +14,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
+{ normalizeCommands } = require('../utils/normalization')
+
 module.exports =
 	wizard: require('./wizard')
 	app: require('./app')
 	info: require('./info')
 	auth: require('./auth')
-	device: require('./device')
-	env: require('./environment-variables')
+	device: normalizeCommands(require('./device'))
+	env: normalizeCommands(require('./environment-variables'))
 	keys: require('./keys')
-	logs: require('./logs')
+	logs: normalizeCommands(require('./logs'))
 	local: require('./local')
-	notes: require('./notes')
+	notes: normalizeCommands(require('./notes'))
 	help: require('./help')
-	os: require('./os')
+	os: normalizeCommands(require('./os'))
 	settings: require('./settings')
-	config: require('./config')
+	config: normalizeCommands(require('./config'))
 	sync: require('./sync')
-	ssh: require('./ssh')
+	ssh: normalizeCommands(require('./ssh'))
 	internal: require('./internal')
 	build: require('./build')
 	deploy: require('./deploy')
