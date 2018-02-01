@@ -17,31 +17,34 @@ limitations under the License.
 import errors = require('resin-cli-errors');
 import patterns = require('./utils/patterns');
 import Promise = require('bluebird');
-import { core as analytics } from 'analytics.node';
-import { sentryIntegration as Raven } from 'analytics.node';
+import { core as analytics, sentryIntegration as Raven } from 'analytics.node';
 import { sentryDsn } from './config';
 import { version } from '../package.json';
-const ravenOptions = {
-	config: sentryDsn,
-	release: version,
-	captureUnhandledRejections: true,
-	disableConsoleAlerts: true,
-};
-analytics.addIntegration(Raven);
-analytics.initialize({ Sentry: ravenOptions });
-analytics.setContext(
-	analytics.anonymize({
-		extra: {
-			args: process.argv,
-			node_version: process.version,
-		},
-	}),
-);
 
 const captureException = Promise.promisify<string, Error>(
 	analytics.captureException,
 	{ context: analytics },
 );
+
+exports.setupSentry = function() {
+	analytics.addIntegration(Raven);
+	analytics.initialize({
+		Sentry: {
+			config: sentryDsn,
+			release: version,
+			captureUnhandledRejections: true,
+			disableConsoleAlerts: true,
+		},
+	});
+	analytics.setContext(
+		analytics.anonymize({
+			extra: {
+				args: process.argv,
+				node_version: process.version,
+			},
+		}),
+	);
+};
 
 exports.handle = function(error: any) {
 	let message = errors.interpret(error);
@@ -56,12 +59,9 @@ exports.handle = function(error: any) {
 	patterns.printErrorMessage(message);
 
 	return captureException(error)
+		.timeout(1000)
 		.catch(function() {
 			// Ignore any errors (from error logging, or timeouts)
 		})
-		.finally(() => {
-			setTimeout(() => {
-				process.exit(error.exitCode || 1);
-			}, 1000);
-		});
+		.finally(() => process.exit(error.exitCode || 1));
 };

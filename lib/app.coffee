@@ -25,6 +25,8 @@ if not require('semver').satisfies(process.version, validNodeVersions)
 
 	"""
 
+errors = require('./errors')
+errors.setupSentry()
 
 # Doing this before requiring any other modules,
 # including the 'resin-sdk', to prevent any module from reading the http proxy config
@@ -59,7 +61,6 @@ require('resin-sdk').setSharedOptions(
 resin = require('resin-sdk-preconfigured')
 
 actions = require('./actions')
-errors = require('./errors')
 events = require('./events')
 plugins = require('./utils/plugins')
 update = require('./utils/update')

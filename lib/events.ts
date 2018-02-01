@@ -2,14 +2,14 @@ import * as Capitano from 'capitano';
 
 import _ = require('lodash');
 import {
-	core as Analytics,
+	core as AnalyticsGlobal,
 	mixpanelIntegration,
 	sentryIntegration,
 } from 'analytics.node';
 import Promise = require('bluebird');
 import ResinSdk = require('resin-sdk');
 import packageJSON = require('../package.json');
-Analytics.addIntegration(sentryIntegration);
+AnalyticsGlobal.addIntegration(sentryIntegration);
 
 const resin = ResinSdk.fromSharedOptions();
 const getMatchCommandAsync = Promise.promisify(Capitano.state.getMatchCommand);
@@ -18,9 +18,9 @@ const getAnalyticsInstance = _.memoize<any>(() =>
 		.getAll()
 		.get('mixpanelToken')
 		.then(token => {
-			Analytics.addIntegration(mixpanelIntegration);
+			AnalyticsGlobal.addIntegration(mixpanelIntegration);
 			let options = { token: token };
-			return Analytics.initialize({ Mixpanel: options });
+			return AnalyticsGlobal.initialize({ Mixpanel: options });
 		}),
 );
 
@@ -32,7 +32,7 @@ export function trackCommand(capitanoCli: Capitano.Cli) {
 	})
 		.then(({ username, resinUrl, analytics }) => {
 			return getMatchCommandAsync(capitanoCli.command).then(command => {
-				Analytics.mergeContext({
+				AnalyticsGlobal.mergeContext({
 					user: {
 						id: username,
 						username,
