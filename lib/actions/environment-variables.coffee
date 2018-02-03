@@ -15,6 +15,7 @@ limitations under the License.
 ###
 
 commandOptions = require('./command-options')
+{ normalizeUuidProp } = require('../utils/normalization')
 
 exports.list =
 	signature: 'envs'
@@ -46,6 +47,7 @@ exports.list =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
+		normalizeUuidProp(options, 'device')
 		Promise = require('bluebird')
 		_ = require('lodash')
 		resin = require('resin-sdk-preconfigured')
@@ -135,6 +137,7 @@ exports.add =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
+		normalizeUuidProp(options, 'device')
 		Promise = require('bluebird')
 		resin = require('resin-sdk-preconfigured')
 

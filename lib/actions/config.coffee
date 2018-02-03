@@ -15,6 +15,7 @@ limitations under the License.
 ###
 
 commandOptions = require('./command-options')
+{ normalizeUuidProp } = require('../utils/normalization')
 
 exports.read =
 	signature: 'config read'
@@ -269,6 +270,7 @@ exports.generate =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
+		normalizeUuidProp(options, 'device')
 		Promise = require('bluebird')
 		writeFileAsync = Promise.promisify(require('fs').writeFile)
 		resin = require('resin-sdk-preconfigured')

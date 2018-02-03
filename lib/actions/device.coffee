@@ -16,6 +16,7 @@ limitations under the License.
 
 commandOptions = require('./command-options')
 _ = require('lodash')
+{ normalizeUuidProp } = require('../utils/normalization')
 
 exports.list =
 	signature: 'devices'
@@ -77,6 +78,7 @@ exports.info =
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
+		normalizeUuidProp(params)
 		resin = require('resin-sdk-preconfigured')
 		visuals = require('resin-cli-visuals')
 
@@ -185,6 +187,7 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
+		normalizeUuidProp(params)
 		resin = require('resin-sdk-preconfigured')
 		patterns = require('../utils/patterns')
 
@@ -206,6 +209,7 @@ exports.identify =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
+		normalizeUuidProp(params)
 		resin = require('resin-sdk-preconfigured')
 		resin.models.device.identify(params.uuid).nodeify(done)
 
@@ -222,6 +226,7 @@ exports.reboot =
 	options: [ commandOptions.forceUpdateLock ]
 	permission: 'user'
 	action: (params, options, done) ->
+		normalizeUuidProp(params)
 		resin = require('resin-sdk-preconfigured')
 		resin.models.device.reboot(params.uuid, options).nodeify(done)
 
@@ -238,6 +243,7 @@ exports.shutdown =
 	options: [ commandOptions.forceUpdateLock ]
 	permission: 'user'
 	action: (params, options, done) ->
+		normalizeUuidProp(params)
 		resin = require('resin-sdk-preconfigured')
 		resin.models.device.shutdown(params.uuid, options).nodeify(done)
 
@@ -253,6 +259,7 @@ exports.enableDeviceUrl =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
+		normalizeUuidProp(params)
 		resin = require('resin-sdk-preconfigured')
 		resin.models.device.enableDeviceUrl(params.uuid).nodeify(done)
 
@@ -268,6 +275,7 @@ exports.disableDeviceUrl =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
+		normalizeUuidProp(params)
 		resin = require('resin-sdk-preconfigured')
 		resin.models.device.disableDeviceUrl(params.uuid).nodeify(done)
 
@@ -283,6 +291,7 @@ exports.getDeviceUrl =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
+		normalizeUuidProp(params)
 		resin = require('resin-sdk-preconfigured')
 		resin.models.device.getDeviceUrl(params.uuid).then (url) ->
 			console.log(url)
@@ -300,6 +309,7 @@ exports.hasDeviceUrl =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
+		normalizeUuidProp(params)
 		resin = require('resin-sdk-preconfigured')
 		resin.models.device.hasDeviceUrl(params.uuid).then (hasDeviceUrl) ->
 			console.log(hasDeviceUrl)
@@ -320,6 +330,7 @@ exports.rename =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
+		normalizeUuidProp(params)
 		Promise = require('bluebird')
 		resin = require('resin-sdk-preconfigured')
 		form = require('resin-cli-form')
@@ -350,6 +361,7 @@ exports.move =
 	permission: 'user'
 	options: [ commandOptions.optionalApplication ]
 	action: (params, options, done) ->
+		normalizeUuidProp(params)
 		resin = require('resin-sdk-preconfigured')
 		patterns = require('../utils/patterns')
 
