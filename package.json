@@ -1,6 +1,6 @@
 {
   "name": "resin-cli",
-  "version": "6.12.8",
+  "version": "6.12.9",
   "description": "The official resin.io CLI tool",
   "main": "./build/actions/index.js",
   "homepage": "https://github.com/resin-io/resin-cli",
@@ -100,7 +100,7 @@
     "ejs": "^2.5.7",
     "etcher-image-write": "^9.0.3",
     "express": "^4.13.3",
-    "global-tunnel-ng": "github:zvin/global-tunnel#dont-proxy-connections-to-file-sockets",
+    "global-tunnel-ng": "^2.1.1",
     "hasbin": "^1.2.3",
     "inquirer": "^3.1.1",
     "is-root": "^1.0.0",
