@@ -103,7 +103,8 @@ module.exports =
 
 			if not options.host
 				shellCmd = '''/bin/sh -c $"'if [ -e /bin/bash ]; then exec /bin/bash; else exec /bin/sh; fi'"'''
-				command += " docker exec -ti #{container} #{shellCmd}"
+				dockerCmd = "'$(if [ -f /usr/bin/balena ]; then echo \"balena\"; else echo \"docker\"; fi)'"
+				command += " #{dockerCmd} exec -ti #{container} #{shellCmd}"
 
 			subShellCommand = getSubShellCommand(command)
 			child_process.spawn subShellCommand.program, subShellCommand.args,
