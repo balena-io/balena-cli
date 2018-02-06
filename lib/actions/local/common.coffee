@@ -1,8 +1,9 @@
 Promise = require('bluebird')
 _ = require('lodash')
-Docker = require('docker-toolbelt')
 form = require('resin-cli-form')
 chalk = require('chalk')
+
+dockerUtils = require('../../utils/docker')
 
 exports.dockerPort = dockerPort = 2375
 exports.dockerTimeout = dockerTimeout = 2000
@@ -13,7 +14,7 @@ exports.filterOutSupervisorContainer = filterOutSupervisorContainer = (container
 	return true
 
 exports.selectContainerFromDevice = Promise.method (deviceIp, filterSupervisor = false) ->
-	docker = new Docker(host: deviceIp, port: dockerPort, timeout: dockerTimeout)
+	docker = dockerUtils.createClient(host: deviceIp, port: dockerPort, timeout: dockerTimeout)
 
 	# List all containers, including those not running
 	docker.listContainersAsync(all: true)
@@ -38,7 +39,7 @@ exports.selectContainerFromDevice = Promise.method (deviceIp, filterSupervisor =
 				}
 
 exports.pipeContainerStream = Promise.method ({ deviceIp, name, outStream, follow = false }) ->
-	docker = new Docker(host: deviceIp, port: dockerPort)
+	docker = dockerUtils.createClient(host: deviceIp, port: dockerPort)
 
 	container = docker.getContainer(name)
 	container.inspectAsync()
