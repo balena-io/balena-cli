@@ -1,6 +1,6 @@
 {
   "name": "resin-cli",
-  "version": "6.13.0",
+  "version": "6.13.1",
   "description": "The official resin.io CLI tool",
   "main": "./build/actions/index.js",
   "homepage": "https://github.com/resin-io/resin-cli",
@@ -89,7 +89,7 @@
     "body-parser": "^1.14.1",
     "capitano": "^1.7.0",
     "chalk": "^2.3.0",
-    "coffee-script": "^1.12.6",
+    "coffeescript": "^1.12.6",
     "columnify": "^1.5.2",
     "denymount": "^2.2.0",
     "docker-qemu-transpose": "^0.2.2",
