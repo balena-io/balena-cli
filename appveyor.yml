@@ -1,6 +1,8 @@
 # appveyor file
 # http://www.appveyor.com/docs/appveyor-yml
 
+os: Visual Studio 2015
+
 init:
   - git config --global core.autocrlf input
 
@@ -17,6 +19,9 @@ environment:
     - nodejs_version: 6
 
 install:
+  - curl -sSf -o rustup-init.exe https://win.rustup.rs/
+  - rustup-init.exe -y --default-host x86_64-pc-windows-msvc --default-toolchain stable
+  - set PATH=%PATH%;%HOMEPATH%\.cargo\bin
   - ps: Install-Product node $env:nodejs_version x64
   - npm install -g npm@4
   - set PATH=%APPDATA%\npm;%PATH%
