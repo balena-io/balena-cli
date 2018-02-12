@@ -13,7 +13,8 @@
     "bin/",
     "build/",
     "doc/",
-    "lib/"
+    "lib/",
+    "extras/"
   ],
   "bin": {
     "resin": "./bin/resin"
@@ -130,6 +131,7 @@
     "progress-stream": "^2.0.0",
     "raven": "^2.5.0",
     "reconfix": "^0.0.3",
+    "reconfix-preview": "^0.2.1",
     "request": "^2.81.0",
     "resin-bundle-resolve": "^0.5.3",
     "resin-cli-errors": "^1.2.0",
@@ -141,7 +143,7 @@
     "resin-device-init": "^4.0.0",
     "resin-docker-build": "^0.6.2",
     "resin-doodles": "0.0.1",
-    "resin-image-fs": "^2.3.0",
+    "resin-image-fs": "^4.1.1",
     "resin-image-manager": "^5.0.0",
     "resin-multibuild": "^0.5.1",
     "resin-preload": "^6.2.0",

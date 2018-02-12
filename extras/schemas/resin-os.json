@@ -1,0 +1,185 @@
+{
+    "config_txt": {
+        "type": "json",
+        "location": { 
+            "partition": 1,
+            "path": ["config.json"]
+        },
+        "properties": [
+            {
+                "definition": {
+                    "persistentLogging": {
+                        "type": ["boolean"],
+                        "mapping": ["/persistentLogging"],
+                        "optional": true
+                    },
+                    "hostname": {
+                        "type": ["string"],
+                        "mapping": ["/hostname"],
+                        "optional": true
+                    },
+                    "application": {
+                        "properties": [
+                            {
+                                "definition": {
+                                    "name": {
+                                        "type": ["string"],
+                                        "mapping": ["/applicationName"]
+                                    },
+                                    "id": {
+                                        "type": ["string"],
+                                        "mapping": ["/applicationId"]
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "deviceType": {
+                        "type": ["string"],
+                        "mapping": ["/deviceType"]
+                    },
+                    "userId": {
+                        "type": ["string"],
+                        "mapping": ["/userId"]
+                    },
+                    "appUpdagePollInterval": {
+                        "type": ["string"],
+                        "mapping": ["/appUpdatePollInterval"]
+                    },
+                    "listenPort": {
+                        "type": ["string"],
+                        "mapping": ["/listenPort"]
+                    },
+                    "mixpanelToken": {
+                        "type": ["string"],
+                        "mapping": ["/mixpanelToken"]
+                    },
+                    "vpn": {
+                        "properties": [
+                            {
+                                "definition": {
+                                    "port": {
+                                        "type": ["string"],
+                                        "mapping": ["/vpnPort"]
+                                    },
+                                    "endpoint": {
+                                        "type": ["string"],
+                                        "mapping": ["/vpnEndpoint"]
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "supervisor": {
+                        "properties": [
+                            {
+                                "definition": {
+                                    "apiEndpoint": {
+                                        "type": ["string"],
+                                        "mapping": ["/apiEndpoint"]
+                                    },
+                                    "registryEndpoint": {
+                                        "type": ["string"],
+                                        "mapping": ["/registryEndpoint"]
+                                    },
+                                    "deltaEndpoint": {
+                                        "type": ["string"],
+                                        "mapping": ["/deltaEndpoint"]
+                                    },
+                                    "apiKey": {
+                                        "type": ["string"],
+                                        "mapping": ["/apiKey"]
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "pubnub": {
+                        "properties": [
+                            {
+                                "definition": {
+                                    "publishKey": {
+                                        "type": ["string"],
+                                        "mapping": ["/pubnubPublishKey"]
+                                    },
+                                    "subscribeKey": {
+                                        "type": ["string"],
+                                        "mapping": ["/pubnubSubscribeKey"]
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "resin_wifi": {
+        "type": "ini",
+        "location": { 
+            "partition": 1,
+            "path": ["system-connections", "resin-wifi-01"]
+        },
+        "properties": [{   
+            "definition": {
+                "wifi": {
+                    "properties": [{
+                        "definition": {
+                            "enable": {
+                                "type": ["boolean"],
+                                "mapping": [
+                                    {
+                                        "value": true,
+                                        "template": {
+                                            "connection": {
+                                                "id": "resin-wifi-01",
+                                                "type": "wifi"
+                                            },
+                                            "wifi": {
+                                                "mode": "infrastructure",
+                                                "ssid": "[[string]]"
+                                            },
+                                            "wifi-security": {
+                                                "auth-alg": "open",
+                                                "key-mgmt": "wpa-psk",
+                                                "psk": "[[string]]"
+                                            },
+                                            "ipv4": {
+                                                "method": "auto"
+                                            },
+                                            "ipv6": {
+                                                "addr-gen-mode": "stable-privacy",
+                                                "method": "auto"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "value": false,
+                                        "template": {}
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "when": { 
+                            "wifi": {
+                                "enable": true
+                            }
+                        },
+                        "definition": {
+                            "networkSsid": {
+                                "type": ["string"],
+                                "mapping": ["/wifi/ssid"]
+                            },
+                            "networkKey": {
+                                "type": ["string"],
+                                "mapping": ["/wifi-security/psk"]
+                            }
+                        }
+                    }]
+                }
+            }
+        }]
+    }
+}

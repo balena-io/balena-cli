@@ -14,62 +14,33 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
-BOOT_PARTITION = { primary: 1 }
-CONNECTIONS_FOLDER = '/system-connections'
-
-getConfigurationSchema = (connnectionFileName = 'resin-wifi') ->
-	mapper: [
-		{
-			template:
-				persistentLogging: '{{persistentLogging}}'
-			domain: [
-				[ 'config_json', 'persistentLogging' ]
-			]
-		}
-		{
-			template:
-				hostname: '{{hostname}}'
-			domain: [
-				[ 'config_json', 'hostname' ]
-			]
-		}
-		{
-			template:
-				wifi:
-					ssid: '{{networkSsid}}'
-				'wifi-security':
-					psk: '{{networkKey}}'
-			domain: [
-				[ 'system_connections', connnectionFileName, 'wifi' ]
-				[ 'system_connections', connnectionFileName, 'wifi-security' ]
-			]
-		}
-	]
-	files:
-		system_connections:
-			fileset: true
-			type: 'ini'
-			location:
-				path: CONNECTIONS_FOLDER.slice(1)
-				partition: BOOT_PARTITION
-		config_json:
-			type: 'json'
-			location:
-				path: 'config.json'
-				partition: BOOT_PARTITION
+fs = require('fs')
+path = require('path')
+_ = require('lodash')
+Promise = require('bluebird')
 
 inquirerOptions = (data) -> [
 	{
+		message: 'Enable WiFi'
+		type: 'confirm'
+		name: 'wifi.enable'
+		default: true,
+	}
+	{
 		message: 'Network SSID'
 		type: 'input'
-		name: 'networkSsid'
+		name: 'wifi.networkSsid'
 		default: data.networkSsid
+		when: (answers) ->
+			answers.wifi.enable
 	}
 	{
 		message: 'Network Key'
 		type: 'input'
-		name: 'networkKey'
+		name: 'wifi.networkKey'
 		default: data.networkKey
+		when: (answers) ->
+			answers.wifi.enable
 	}
 	{
 		message: 'Do you want to set advanced settings?'
@@ -95,8 +66,48 @@ inquirerOptions = (data) -> [
 	}
 ]
 
+# Since these paths are used by `resin-image-fs`, we can safely
+# assume they are always UNIX style.
+joinPath = (path) -> '/' + path.join('/')
+
+loadReconfix = (target) ->
+	{ Reconfix } = require('reconfix-preview')
+	imagefs = require('resin-image-fs')
+
+	reconfix = new Reconfix({
+		read: (partition, path) ->
+			imagefs.readFile
+				image: target
+				partition: partition
+				path: joinPath(path)
+			.catch (err) ->
+				if err.code == 'NOENT'
+					return Buffer.alloc(0)
+				else
+					throw err
+			.then (content) -> Buffer.from(content, 'utf-8')
+			.catch (err) -> {}
+		write: (partition, path, data) ->
+			imagefs.writeFile
+				image: target,
+				partition: partition,
+				path: joinPath(path)
+			, data.toString('utf-8')
+	})
+	schema = require('../../../extras/schemas/resin-os.json')
+	reconfix.loadSchema(schema)
+	Promise.resolve(reconfix)
+
+readConfiguration = (target) ->
+	loadReconfix(target)
+	.then (reconfix) -> reconfix.readValues()
+
+writeConfiguration = (config, target) ->
+	loadReconfix(target)
+	.then (reconfix) -> reconfix.writeValues(config)
+
+
 getConfiguration = (data) ->
-	_ = require('lodash')
 	inquirer = require('inquirer')
 
 	# `persistentLogging` can be `undefined`, so we want
@@ -105,89 +116,8 @@ getConfiguration = (data) ->
 		persistentLogging: data.persistentLogging or false
 
 	inquirer.prompt(inquirerOptions(data))
-	.then (answers) ->
-		return _.merge(data, answers)
-
-# Taken from https://goo.gl/kr1kCt
-CONNECTION_FILE = '''
-	[connection]
-	id=resin-wifi
-	type=wifi
-
-	[wifi]
-	hidden=true
-	mode=infrastructure
-	ssid=My_Wifi_Ssid
-
-	[wifi-security]
-	auth-alg=open
-	key-mgmt=wpa-psk
-	psk=super_secret_wifi_password
-
-	[ipv4]
-	method=auto
-
-	[ipv6]
-	addr-gen-mode=stable-privacy
-	method=auto
-'''
-
-###
-* if the `resin-wifi` file exists (previously configured image or downloaded from the UI) it's used and reconfigured
-* if the `resin-sample.ignore` exists it's copied to `resin-wifi`
-* if the `resin-sample` exists it's reconfigured (legacy mode, will be removed eventually)
-* otherwise, the new file is created
-###
-prepareConnectionFile = (target) ->
-	_ = require('lodash')
-	imagefs = require('resin-image-fs')
-
-	imagefs.listDirectory
-		image: target
-		partition: BOOT_PARTITION
-		path: CONNECTIONS_FOLDER
-	.then (files) ->
-		# The required file already exists
-		if _.includes(files, 'resin-wifi')
-			return null
-
-		# Fresh image, new mode, accoding to https://github.com/resin-os/meta-resin/pull/770/files
-		if _.includes(files, 'resin-sample.ignore')
-			return imagefs.copy
-				image: target
-				partition: BOOT_PARTITION
-				path: "#{CONNECTIONS_FOLDER}/resin-sample.ignore"
-			,
-				image: target
-				partition: BOOT_PARTITION
-				path: "#{CONNECTIONS_FOLDER}/resin-wifi"
-			.thenReturn(null)
-
-		# Legacy mode, to be removed later
-		# We return the file name override from this branch
-		# When it is removed the following cleanup should be done:
-		# * delete all the null returns from this method
-		# * turn `getConfigurationSchema` back into the constant, with the connection filename always being `resin-wifi`
-		# * drop the final `then` from this method
-		# * adapt the code in the main listener to not receive the config from this method, and use that constant instead
-		if _.includes(files, 'resin-sample')
-			return 'resin-sample'
-
-		# In case there's no file at all (shouldn't happen normally, but the file might have been removed)
-		return imagefs.writeFile
-			image: target
-			partition: BOOT_PARTITION
-			path: "#{CONNECTIONS_FOLDER}/resin-wifi"
-		, CONNECTION_FILE
-		.thenReturn(null)
-
-	.then (connectionFileName) ->
-		return getConfigurationSchema(connectionFileName)
-
-removeHostname = (schema) ->
-	_ = require('lodash')
-	schema.mapper = _.reject schema.mapper, (mapper) ->
-		_.isEqual(Object.keys(mapper.template), ['hostname'])
+	.then (answers) -> _.omit(answers, ['advancedSettings'])
+	.then (answers) -> _.merge(data, answers)
 
 module.exports =
 	signature: 'local configure <target>'
@@ -206,22 +136,17 @@ module.exports =
 		umount = require('umount')
 		umountAsync = Promise.promisify(umount.umount)
 		isMountedAsync = Promise.promisify(umount.isMounted)
-		reconfix = require('reconfix')
 		denymount = Promise.promisify(require('denymount'))
 
-		prepareConnectionFile(params.target)
-		.tap ->
-			isMountedAsync(params.target).then (isMounted) ->
-				return if not isMounted
-				umountAsync(params.target)
-		.then (configurationSchema) ->
+		isMountedAsync(params.target).then (isMounted) ->
+			return if not isMounted
+			umountAsync(params.target)
+		.then ->
 			denymount params.target, (cb) ->
-				reconfix.readConfiguration(configurationSchema, params.target)
+				readConfiguration(params.target)
 				.then(getConfiguration)
 				.then (answers) ->
-					if not answers.hostname
-						removeHostname(configurationSchema)
-					reconfix.writeConfiguration(configurationSchema, answers, params.target)
+					writeConfiguration(answers, params.target)
 				.asCallback(cb)
 		.then ->
 			console.log('Done!')

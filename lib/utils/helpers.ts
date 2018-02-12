@@ -26,7 +26,6 @@ import ResinSdk = require('resin-sdk');
 import { execute } from 'president';
 import { InitializeEmitter, OperationState } from 'resin-device-init';
 
-const extractStreamAsync = Promise.promisify(rindle.extract);
 const waitStreamAsync = Promise.promisify(rindle.wait);
 const presidentExecuteAsync = Promise.promisify(execute);
 
@@ -82,14 +81,11 @@ export function getManifest(
 	// partition, but fallback to the API if
 	// we encounter any errors along the way.
 	return imagefs
-		.read({
+		.readFile({
 			image,
-			partition: {
-				primary: 1,
-			},
+			partition: 1,
 			path: '/device-type.json',
 		})
-		.then(extractStreamAsync)
 		.then(JSON.parse)
 		.catch(() => resin.models.device.getManifestBySlug(deviceType));
 }
