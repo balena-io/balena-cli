@@ -56,7 +56,7 @@ exports.login = ->
 		# Leave a bit of time for the
 		# server to get up and runing
 		setTimeout ->
-			open(loginUrl)
+			open(loginUrl, { wait: false })
 		, 1000
 
 		return server.awaitForToken(options)
