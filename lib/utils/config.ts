@@ -22,11 +22,11 @@ const resin = ResinSdk.fromSharedOptions();
 
 export function generateBaseConfig(
 	application: ResinSdk.Application,
-	options: {},
+	options: { appUpdatePollInterval?: number },
 ) {
 	options = _.mapValues(options, function(value, key) {
 		if (key === 'appUpdatePollInterval') {
-			return value * 60 * 1000;
+			return value! * 60 * 1000;
 		} else {
 			return value;
 		}
