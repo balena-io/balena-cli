@@ -15,6 +15,7 @@ limitations under the License.
 ###
 
 commandOptions = require('./command-options')
+{ normalizeUuidProp } = require('../utils/normalization')
 
 module.exports =
 	signature: 'ssh [uuid]'
@@ -54,6 +55,7 @@ module.exports =
 				Only makes sense if you've configured proxy globally."
 	]
 	action: (params, options, done) ->
+		normalizeUuidProp(params)
 		child_process = require('child_process')
 		Promise = require('bluebird')
 		resin = require('resin-sdk-preconfigured')

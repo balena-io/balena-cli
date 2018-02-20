@@ -16,6 +16,7 @@ limitations under the License.
 
 commandOptions = require('./command-options')
 _ = require('lodash')
+{ normalizeUuidProp } = require('../utils/normalization')
 
 formatVersion = (v, isRecommended) ->
 	result = "v#{v}"
@@ -227,6 +228,8 @@ exports.configure =
 		}
 	]
 	action: (params, options, done) ->
+		normalizeUuidProp(params)
+		normalizeUuidProp(options, 'device')
 		fs = require('fs')
 		Promise = require('bluebird')
 		readFileAsync = Promise.promisify(fs.readFile)

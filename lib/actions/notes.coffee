@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
+{ normalizeUuidProp } = require('../utils/normalization')
+
 exports.set =
 	signature: 'note <|note>'
 	description: 'set a device note'
@@ -38,6 +40,7 @@ exports.set =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
+		normalizeUuidProp(options, 'device')
 		Promise = require('bluebird')
 		_ = require('lodash')
 		resin = require('resin-sdk-preconfigured')

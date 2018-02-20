@@ -15,6 +15,7 @@ limitations under the License.
 ###
 
 commandOptions = require('./command-options')
+{ normalizeUuidProp } = require('../utils/normalization')
 
 exports.read =
 	signature: 'config read'
@@ -116,7 +117,8 @@ exports.inject =
 	signature: 'config inject <file>'
 	description: 'inject a device configuration file'
 	help: '''
-		Use this command to inject a config.json file to the mounted filesystem (e.g. SD card) of a provisioned device"
+		Use this command to inject a config.json file to the mounted filesystem
+		(e.g. SD card or mounted resinOS image) of a provisioned device"
 
 		Examples:
 
@@ -207,7 +209,7 @@ exports.reconfigure =
 				.tap ->
 					umountAsync(drive)
 				.then (uuid) ->
-					configureCommand = "os configure #{drive} #{uuid}"
+					configureCommand = "os configure #{drive} --device #{uuid}"
 					if options.advanced
 						configureCommand += ' --advanced'
 					return capitanoRunAsync(configureCommand)
@@ -268,6 +270,7 @@ exports.generate =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
+		normalizeUuidProp(options, 'device')
 		Promise = require('bluebird')
 		writeFileAsync = Promise.promisify(require('fs').writeFile)
 		resin = require('resin-sdk-preconfigured')
