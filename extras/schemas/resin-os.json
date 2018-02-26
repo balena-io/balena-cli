@@ -42,7 +42,7 @@
                         "type": ["string"],
                         "mapping": ["/userId"]
                     },
-                    "appUpdagePollInterval": {
+                    "appUpdatePollInterval": {
                         "type": ["string"],
                         "mapping": ["/appUpdatePollInterval"]
                     },

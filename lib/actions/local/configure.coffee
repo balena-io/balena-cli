@@ -68,10 +68,10 @@ inquirerOptions = (data) -> [
 
 # Since these paths are used by `resin-image-fs`, we can safely
 # assume they are always UNIX style.
-joinPath = (path) -> '/' + path.join('/')
+joinPath = (fragments) -> path.posix.join(path.posix.sep, fragments...)
 
 loadReconfix = (target) ->
-	{ Reconfix } = require('reconfix-preview')
+	Reconfix = require('reconfix')
 	imagefs = require('resin-image-fs')
 
 	reconfix = new Reconfix({
@@ -86,7 +86,6 @@ loadReconfix = (target) ->
 				else
 					throw err
 			.then (content) -> Buffer.from(content, 'utf-8')
-			.catch (err) -> {}
 		write: (partition, path, data) ->
 			imagefs.writeFile
 				image: target,
