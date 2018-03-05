@@ -82,6 +82,10 @@ _(Typically useful, but not strictly required for all commands)_
 Take a look at the full command documentation at [https://docs.resin.io/tools/cli/](https://docs.resin.io/tools/cli/#table-of-contents
 ), or by running `resin help`.
 
+### Bash completions
+
+Optionally you can enable tab completions for the bash shell, enabling the shell to provide additional context and automatically complete arguments to`resin`. To enable bash completions, copy the `resin-completion.bash` file to the default bash completions directory (usually `/etc/bash_completion.d/`) or append it to the end of `~/.bash_completion`.
+
 FAQ
 ---
 
