@@ -139,7 +139,7 @@
     "resin-image-fs": "^2.3.0",
     "resin-image-manager": "^5.0.0",
     "resin-multibuild": "^0.5.1",
-    "resin-preload": "^6.0.0-beta4",
+    "resin-preload": "^6.0.0-beta9",
     "resin-release": "^1.1.1",
     "resin-sdk": "^9.0.0-beta7",
     "resin-sdk-preconfigured": "^6.9.0",
