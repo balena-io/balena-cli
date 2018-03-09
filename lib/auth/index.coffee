@@ -19,7 +19,7 @@ limitations under the License.
 ###
 
 open = require('opn')
-resin = require('resin-sdk-preconfigured')
+resin = require('resin-sdk').fromSharedOptions()
 server = require('./server')
 utils = require('./utils')
 

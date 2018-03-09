@@ -1123,8 +1123,7 @@ your shell environment. For more information (including Windows support)
 please check the README here: https://github.com/resin-io/resin-cli .
 
 Use this command to preload an application to a local disk image (or
-Edison zip archive) with a built commit from Resin.io.
-This can be used with cloud builds, or images deployed with resin deploy.
+Edison zip archive) with a built release from Resin.io.
 
 Examples:
   $ resin preload resin.img --app 1234 --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image some-image.png
@@ -1138,7 +1137,7 @@ id of the application to preload
 
 #### --commit, -c &#60;hash&#62;
 
-a specific application commit to preload, use "latest" to specify the latest commit
+the commit hash for a specific application release to preload, use "latest" to specify the latest release
 (ignored if no appId is given)
 
 #### --splash-image, -s &#60;splashImage.png&#62;
@@ -1433,11 +1432,18 @@ name of container to stop
 
 ## build [source]
 
-Use this command to build a container with a provided docker daemon.
+Use this command to build an image or a complete multicontainer project
+with the provided docker daemon.
 
 You must provide either an application or a device-type/architecture
 pair to use the resin Dockerfile pre-processor
 (e.g. Dockerfile.template -> Dockerfile).
+
+This command will look into the given source directory (or the current working
+directory if one isn't specified) for a compose file. If one is found, this
+command will build each service defined in the compose file. If a compose file
+isn't found, the command will look for a Dockerfile, and if yet that isn't found,
+it will try to generate one.
 
 Examples:
 
@@ -1462,6 +1468,18 @@ The type of device this build is for
 
 The target resin.io application this build is for
 
+#### --projectName, -n &#60;projectName&#62;
+
+Specify an alternate project name; default is the directory name
+
+#### --emulated, -e
+
+Run an emulated build using Qemu
+
+#### --logs
+
+Display full log output
+
 #### --docker, -P &#60;docker&#62;
 
 Path to a local docker socket
@@ -1498,19 +1516,23 @@ Set a build-time variable (eg. "-B 'ARG=value'"). Can be specified multiple time
 
 Don't use docker layer caching when building
 
-#### --emulated, -e
-
-Run an emulated build using Qemu
-
 #### --squash
 
 Squash newly built layers into a single new layer
 
 ## deploy &#60;appName&#62; [image]
 
-Use this command to deploy an image to an application, optionally building it first.
+Use this command to deploy an image or a complete multicontainer project
+to an application, optionally building it first.
 
 Usage: `deploy <appName> ([image] | --build [--source build-dir])`
+
+Unless an image is specified, this command will look into the current directory
+(or the one specified by --source) for a compose file. If one is found, this
+command will deploy each service defined in the compose file, building it first
+if an image for it doesn't exist. If a compose file isn't found, the command
+will look for a Dockerfile, and if yet that isn't found, it will try to
+generate one.
 
 To deploy to an app on which you're a collaborator, use
 `resin deploy <appOwnerUsername>/<appName>`.
@@ -1519,22 +1541,36 @@ Note: If building with this command, all options supported by `resin build`
 are also supported with this command.
 
 Examples:
+
+	$ resin deploy myApp
 	$ resin deploy myApp --build --source myBuildDir/
 	$ resin deploy myApp myApp/myImage
 
 ### Options
 
-#### --build, -b
-
-Build image then deploy
-
 #### --source, -s &#60;source&#62;
 
-The source directory to use when building the image
+Specify an alternate source directory; default is the working directory
+
+#### --build, -b
+
+Force a rebuild before deploy
 
 #### --nologupload
 
 Don't upload build logs to the dashboard with image (if building)
+
+#### --projectName, -n &#60;projectName&#62;
+
+Specify an alternate project name; default is the directory name
+
+#### --emulated, -e
+
+Run an emulated build using Qemu
+
+#### --logs
+
+Display full log output
 
 #### --docker, -P &#60;docker&#62;
 
@@ -1571,10 +1607,6 @@ Set a build-time variable (eg. "-B 'ARG=value'"). Can be specified multiple time
 #### --nocache
 
 Don't use docker layer caching when building
-
-#### --emulated, -e
-
-Run an emulated build using Qemu
 
 #### --squash
 
