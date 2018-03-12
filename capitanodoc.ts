@@ -5,15 +5,47 @@ This tool allows you to interact with the resin.io api from the comfort of your 
 
 Please make sure your system meets the requirements as specified in the [README](https://github.com/resin-io/resin-cli).
 
-To get started download the CLI from npm.
+## Install the CLI
 
-	$ npm install resin-cli -g
+### Npm install
 
-Then authenticate yourself:
+The best supported way to install the CLI is from npm:
+
+	$ npm install resin-cli -g --production --unsafe-perm
+
+\`--unsafe-perm\` is only required on systems where the global install directory is not user-writable.
+This allows npm install steps to download and save prebuilt native binaries. You may be able to omit it,
+especially if you're using a user-managed node install such as [nvm](https://github.com/creationix/nvm).
+
+### Standalone install
+
+Alternatively, if you don't have a node or pre-gyp environment, you can still install the CLI as a standalone
+binary. **This is in experimental and may not work perfectly yet in all environments**, but works well in
+initial cross-platform testing, so it may be useful, and we'd love your feedback if you hit any issues.
+
+To install the CLI as a standalone binary:
+
+* Download the latest zip for your OS from https://github.com/resin-io/resin-cli/releases.
+* Extract the contents, putting the \`resin-cli\` folder somewhere appropriate for your system (e.g. \`C:/resin-cli\`, \`/usr/local/lib/resin-cli\`, etc).
+* Add the \`resin-cli\` folder to your \`PATH\`. (
+[Windows instructions](https://www.computerhope.com/issues/ch000549.htm),
+[Linux instructions](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix),
+[OSX instructions](https://stackoverflow.com/questions/22465332/setting-path-environment-variable-in-osx-permanently))
+* Running \`resin\` in a fresh command line should print the resin CLI help.
+
+To update in future, simply download a new release and replace the extracted folder.
+
+Have any problems, or see any unexpected behaviour? Please file an issue!
+
+## Getting started
+
+Once you have the CLI installed, you'll need to log in, so it can access everything in your resin.io account.
+
+To authenticate yourself, run:
 
 	$ resin login
 
-Now you have access to all the commands referenced below.
+You now have access to all the commands referenced below.
 
 ## Proxy support
 
