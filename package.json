@@ -153,7 +153,6 @@
     "string-width": "^2.1.1",
     "through2": "^2.0.3",
     "tmp": "0.0.31",
-    "ts-node": "^3.3.0",
     "umount": "^1.1.6",
     "unzip2": "^0.2.5",
     "update-notifier": "^2.2.0",
