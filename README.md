@@ -45,8 +45,12 @@ or if you have any trouble with this, please try the new standalone install step
 This might require elevated privileges in some environments.
 
 ```sh
-$ npm install --global --production resin-cli
+$ npm install --global --production resin-cli --unsafe-perm
 ```
+
+`--unsafe-perm` is only required on systems where the global install directory is not user-writable.
+This allows npm install steps to download and save prebuilt native binaries. You may be able to omit it,
+especially if you're using a user-managed node install such as [nvm](https://github.com/creationix/nvm).
 
 ### Standalone install
 
