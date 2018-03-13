@@ -45,7 +45,7 @@ or if you have any trouble with this, please try the new standalone install step
 This might require elevated privileges in some environments.
 
 ```sh
-$ npm install --global --production resin-cli --unsafe-perm
+$ npm install resin-cli -g --production --unsafe-perm
 ```
 
 `--unsafe-perm` is only required on systems where the global install directory is not user-writable.
@@ -62,15 +62,12 @@ To install the CLI as a standalone binary:
 
 * Download the latest zip for your OS from https://github.com/resin-io/resin-cli/releases.
 * Extract the contents, putting the `resin-cli` folder somewhere appropriate for your system (e.g. `C:/resin-cli`, `/usr/local/lib/resin-cli`, etc).
-* Add the `resin-cli` folder to your `PATH`. (
-[Windows instructions](https://www.computerhope.com/issues/ch000549.htm),
-[Linux instructions](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix),
-[OSX instructions](https://stackoverflow.com/questions/22465332/setting-path-environment-variable-in-osx-permanently))
+* Add the `resin-cli` folder to your `PATH` ([Windows instructions](https://www.computerhope.com/issues/ch000549.htm), [Linux instructions](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix), [OSX instructions](https://stackoverflow.com/questions/22465332/setting-path-environment-variable-in-osx-permanently))
 * Running `resin` in a fresh command line should print the resin CLI help.
 
 To update in future, simply download a new release and replace the extracted folder.
 
-Have any problems, or see any unexpected behaviour? Please file an issue!
+Have any problems, or see any unexpected behaviour? [Please file an issue!](https://github.com/resin-io/resin-cli/issues/new)
 
 ### Login
 
