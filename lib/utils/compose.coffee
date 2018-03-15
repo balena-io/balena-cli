@@ -144,6 +144,7 @@ exports.buildProject = (
 ) ->
 	_ = require('lodash')
 	humanize = require('humanize')
+	split = require('split')
 	compose = require('resin-compose-parse')
 	builder = require('resin-multibuild')
 	transpose = require('docker-qemu-transpose')
@@ -225,6 +226,7 @@ exports.buildProject = (
 				task.progressHook = pullProgressAdapter(captureStream)
 			else
 				task.streamHook = (stream) ->
+					stream = createLogStream(stream)
 					if qemuPath?
 						buildThroughStream = transpose.getBuildThroughStream
 							hostQemuPath: toPosixPath(qemuPath)
@@ -236,6 +238,7 @@ exports.buildProject = (
 					# where we're given objects. capture these strings as they come
 					# before we parse them.
 					rawStream
+					.pipe(dropEmptyLinesStream())
 					.pipe(captureStream)
 					.pipe(buildProgressAdapter(inlineLogs))
 					.pipe(task.logStream)
@@ -440,13 +443,22 @@ pushProgressRenderer = (tty, prefix) ->
 		tty.clearLine()
 	return fn
 
+createLogStream = (input) ->
+	split = require('split')
+	stripAnsi = require('strip-ansi-stream')
+	return input.pipe(stripAnsi()).pipe(split())
+
+dropEmptyLinesStream = ->
+	through = require('through2')
+	through (data, enc, cb) ->
+		str = data.toString('utf-8')
+		@push(str) if str.trim()
+		cb()
+
 buildLogCapture = (objectMode, buffer) ->
-	_ = require('lodash')
 	through = require('through2')
 
 	through { objectMode }, (data, enc, cb) ->
-		return cb(null, data) if not data?
-
 		# data from pull stream
 		if data.error
 			buffer.push("#{data.error}")
@@ -457,30 +469,14 @@ buildLogCapture = (objectMode, buffer) ->
 
 		# data from build stream
 		else
-			# normalise build log output here. it is somewhat ugly
-			# that this supposedly "passthrough" stream mutates the
-			# values before forwarding them, but it's convenient
-			# as it allows to both forward and save normalised logs
-
-			# convert to string, split to lines, trim each one and
-			# filter out empty ones.
-			lines = _(data.toString('utf-8').split(/\r?\n$/))
-				.map(_.trimEnd)
-				.reject(_.isEmpty)
-
-			# forward each line separately
-			lines.forEach (line) =>
-				buffer.push(line)
-				@push(line)
-
-			return cb()
+			buffer.push(data)
 
 		cb(null, data)
 
 buildProgressAdapter = (inline) ->
 	through = require('through2')
 
-	stepRegex = /^\s*Step\s+(\d+)\/(\d+)\s*:\s+(.+)$/
+	stepRegex = /^\s*Step\s+(\d+)\/(\d+)\s*: (.+)$/
 
 	[ step, numSteps, progress ] = [ null, null, undefined ]
 
@@ -495,7 +491,7 @@ buildProgressAdapter = (inline) ->
 		else
 			if (match = stepRegex.exec(str))
 				step = match[1]
-				numSteps = match[2]
+				numSteps ?= match[2]
 				str = match[3]
 			if step?
 				str = "Step #{step}/#{numSteps}: #{str}"
