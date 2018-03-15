@@ -63,7 +63,7 @@ createProject = (composePath, composeStr, projectName = null) ->
 		# generate an image name based on the project and service names
 		# if one is not given and the service requires a build
 		if descr.image.context? and not descr.image.tag?
-			descr.image.tag = [ projectName, descr.serviceName ].join('_')
+			descr.image.tag = [ projectName, descr.serviceName ].join('_').toLowerCase()
 		return descr
 	return {
 		path: composePath,
@@ -189,7 +189,7 @@ exports.buildProject = (
 
 			# multibuild parses the composition internally so any tags we've
 			# set before are lost; re-assign them here
-			task.tag ?= [ projectName, task.serviceName ].join('_')
+			task.tag ?= [ projectName, task.serviceName ].join('_').toLowerCase()
 			if d.image.context?
 				d.image.tag = task.tag
 
