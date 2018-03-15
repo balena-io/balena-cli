@@ -144,7 +144,6 @@ exports.buildProject = (
 ) ->
 	_ = require('lodash')
 	humanize = require('humanize')
-	split = require('split')
 	compose = require('resin-compose-parse')
 	builder = require('resin-multibuild')
 	transpose = require('docker-qemu-transpose')
