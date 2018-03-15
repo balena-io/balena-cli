@@ -4,7 +4,9 @@ import * as utils from './utils';
 import { Document, Category, Command } from './doc-types';
 
 export function renderCommand(command: Command) {
-	let result = `## ${ent.encode(command.signature)}\n\n${command.help}\n`;
+	let result = `## <a name="${getAnchor(command)}"></a>${ent.encode(
+		command.signature,
+	)}\n\n${command.help}\n`;
 
 	if (!_.isEmpty(command.options)) {
 		result += '\n### Options';
@@ -36,11 +38,12 @@ function getAnchor(command: Command) {
 		'#' +
 		command.signature
 			.replace(/\s/g, '-')
-			.replace(/</g, '60-')
-			.replace(/>/g, '-62-')
-			.replace(/\[/g, '')
+			.replace(/</g, '-')
+			.replace(/>/g, '-')
+			.replace(/\[/g, '-')
 			.replace(/\]/g, '-')
 			.replace(/--/g, '-')
+			.replace(/-$/, '')
 			.replace(/\.\.\./g, '')
 			.replace(/\|/g, '')
 			.toLowerCase()
