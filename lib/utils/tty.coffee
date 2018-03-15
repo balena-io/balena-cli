@@ -2,9 +2,9 @@
 windowSize = {}
 
 updateWindowSize = ->
-	size = require('window-size').get()
-	windowSize.width = size.width
-	windowSize.height = size.height
+	size = require('window-size')?.get()
+	windowSize.width = size?.width
+	windowSize.height = size?.height
 
 process.stdout.on('resize', updateWindowSize)
 
@@ -13,7 +13,8 @@ module.exports = (stream = process.stdout) ->
 	updateWindowSize()
 
 	currentWindowSize = ->
-		# always return a copy
+		# always return a copy.
+		# width/height can be undefined if no TTY.
 		width: windowSize.width
 		height: windowSize.height
 
