@@ -138,11 +138,19 @@ export function getApplication(applicationName: string) {
 	// that off to a special handler (before importing any modules)
 	const match = /(\w+)\/(\w+)/.exec(applicationName);
 
+	const extraOptions = {
+		$expand: {
+			application_type: {
+				$select: [ 'name', 'slug', 'supports_multicontainer', 'is_legacy' ],
+			},
+		},
+	};
+
 	if (match) {
-		return resin.models.application.getAppByOwner(match[2], match[1]);
+		return resin.models.application.getAppByOwner(match[2], match[1], extraOptions);
 	}
 
-	return resin.models.application.get(applicationName);
+	return resin.models.application.get(applicationName, extraOptions);
 }
 
 // A function to reliably execute a command

@@ -66,6 +66,33 @@ deployProject = (docker, logger, composeOpts, opts) ->
 					props: {}
 				}
 		.then (images) ->
+			if opts.app.application_type?[0]?.is_legacy
+				chalk = require('chalk')
+				legacyDeploy = require('../utils/deploy-legacy')
+
+				msg = chalk.yellow('Target application requires legacy deploy method.')
+				logger.logWarn(msg)
+
+				return Promise.join(
+					docker
+					logger
+					sdk.auth.getToken()
+					sdk.auth.whoami()
+					sdk.settings.get('resinUrl')
+					{
+						appName: opts.app.app_name
+						imageName: images[0].name
+						buildLogs: images[0].logs
+						shouldUploadLogs: opts.shouldUploadLogs
+					}
+					legacyDeploy
+				)
+				.then (releaseId) ->
+					sdk.pine.get
+						resource: 'release'
+						id: releaseId
+						options:
+							$select: [ 'commit' ]
 			Promise.join(
 				sdk.auth.getUserId()
 				sdk.auth.getToken()

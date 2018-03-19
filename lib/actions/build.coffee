@@ -7,10 +7,9 @@ compose = require('../utils/compose')
 ###
 Opts must be an object with the following keys:
 
-	appName: the name of the app this build is for; optional
+	app: the app this build is for
 	arch: the architecture to build for
 	deviceType: the device type to build for
-	projectPath: the project root directory; must be absolute
 	buildEmulated
 	buildOpts: arguments to forward to docker build command
 ###
@@ -111,18 +110,25 @@ module.exports =
 			if arch? and deviceType?
 				[ undefined, arch, deviceType ]
 			else
-				helpers.getArchAndDeviceType(application)
+				Promise.join(
+					helpers.getApplication(application)
+					helpers.getArchAndDeviceType(application)
+					(app, { arch, device_type }) ->
+						app.arch = arch
+						app.device_type = device_type
+						return app
+				)
 				.then (app) ->
-					[ application, app.arch, app.device_type ]
+					[ app, app.arch, app.device_type ]
 
-		.then ([ appName, arch, deviceType ]) ->
+		.then ([ app, arch, deviceType ]) ->
 			Promise.join(
 				dockerUtils.getDocker(options)
 				dockerUtils.generateBuildOpts(options)
 				compose.generateOpts(options)
 				(docker, buildOpts, composeOpts) ->
 					buildProject(docker, logger, composeOpts, {
-						appName
+						app
 						arch
 						deviceType
 						buildEmulated: !!options.emulated
