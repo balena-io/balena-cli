@@ -20,6 +20,12 @@ buildProject = (docker, logger, composeOpts, opts) ->
 		composeOpts.projectName
 	)
 	.then (project) ->
+		if project.descriptors.length > 1 and not opts.app.application_type?[0]?.supports_multicontainer
+			logger.logWarn(
+				'Target application does not support multiple containers.\n' +
+				'Continuing with build, but you will not be able to deploy.'
+			)
+
 		compose.buildProject(
 			docker
 			logger

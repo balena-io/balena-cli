@@ -26,6 +26,9 @@ deployProject = (docker, logger, composeOpts, opts) ->
 		opts.image
 	)
 	.then (project) ->
+		if project.descriptors.length > 1 and !opts.app.application_type?[0]?.supports_multicontainer
+			throw new Error('Target application does not support multiple containers. Aborting!')
+
 		# find which services use images that already exist locally
 		Promise.map project.descriptors, (d) ->
 			# unconditionally build (or pull) if explicitly requested
