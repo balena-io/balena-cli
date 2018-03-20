@@ -1,6 +1,6 @@
 {
   "name": "resin-cli",
-  "version": "7.0.5",
+  "version": "7.0.6",
   "description": "The official resin.io CLI tool",
   "main": "./build/actions/index.js",
   "homepage": "https://github.com/resin-io/resin-cli",
@@ -148,8 +148,10 @@
     "rimraf": "^2.4.3",
     "rindle": "^1.0.0",
     "semver": "^5.3.0",
+    "split": "^1.0.1",
     "stream-to-promise": "^2.2.0",
     "string-width": "^2.1.1",
+    "strip-ansi-stream": "^1.0.0",
     "through2": "^2.0.3",
     "tmp": "0.0.31",
     "umount": "^1.1.6",
