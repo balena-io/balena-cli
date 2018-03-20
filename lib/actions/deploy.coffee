@@ -91,11 +91,7 @@ deployProject = (docker, logger, composeOpts, opts) ->
 					legacyDeploy
 				)
 				.then (releaseId) ->
-					sdk.pine.get
-						resource: 'release'
-						id: releaseId
-						options:
-							$select: [ 'commit' ]
+					sdk.models.release.get(releaseId, $select: [ 'commit' ])
 			Promise.join(
 				sdk.auth.getUserId()
 				sdk.auth.getToken()

@@ -28,12 +28,6 @@ showPushProgress = (message) ->
 	progressBar.update({ percentage: 0 })
 	return progressBar
 
-forwardStatusMessageFromRemote = (logger, msg) ->
-	msg.split(/\r\n|\n/).forEach (line) ->
-		if /^Warning: This endpoint is deprecated/.test(line)
-			return
-		logger.logInfo(line)
-
 uploadToPromise = (uploadRequest, logger) ->
 	new Promise (resolve, reject) ->
 
@@ -48,14 +42,11 @@ uploadToPromise = (uploadRequest, logger) ->
 				reject(e)
 				return
 
-			if obj.type?
-				switch obj.type
-					when 'error' then reject(new Error("Remote error: #{obj.error}"))
-					when 'success' then resolve(obj)
-					when 'status' then forwardStatusMessageFromRemote(logger, obj.message)
-					else reject(new Error("Received unexpected reply from remote: #{data}"))
-			else
-				reject(new Error("Received unexpected reply from remote: #{data}"))
+			switch obj.type
+				when 'error' then reject(new Error("Remote error: #{obj.error}"))
+				when 'success' then resolve(obj)
+				when 'status' then logger.logInfo(obj.message)
+				else reject(new Error("Received unexpected reply from remote: #{data}"))
 
 		uploadRequest
 		.on('error', reject)
