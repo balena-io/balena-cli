@@ -10,9 +10,6 @@ getBuilderLogPushEndpoint = (baseUrl, buildId, owner, app) ->
 	args = querystring.stringify({ owner, app, buildId })
 	"https://builder.#{baseUrl}/v1/pushLogs?#{args}"
 
-formatImageName = (image) ->
-	image.split('/').pop()
-
 bufferImage = (docker, imageId, bufferFile) ->
 	Promise = require('bluebird')
 	streamUtils = require('./streams')
@@ -24,10 +21,6 @@ bufferImage = (docker, imageId, bufferFile) ->
 		streamUtils.buffer(imageStream, bufferFile)
 		.tap (bufferedStream) ->
 			bufferedStream.length = imageSize
-
-getSpinner = (message) ->
-	visuals = require('resin-cli-visuals')
-	return new visuals.Spinner(message)
 
 showPushProgress = (message) ->
 	visuals = require('resin-cli-visuals')
@@ -114,7 +107,6 @@ opts must be a hash with the following keys:
 - shouldUploadLogs
 ###
 module.exports = (docker, logger, token, username, url, opts) ->
-	_ = require('lodash')
 	tmp = require('tmp')
 	tmpNameAsync = Promise.promisify(tmp.tmpName)
 
