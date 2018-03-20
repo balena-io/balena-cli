@@ -141,13 +141,17 @@ export function getApplication(applicationName: string) {
 	const extraOptions = {
 		$expand: {
 			application_type: {
-				$select: [ 'name', 'slug', 'supports_multicontainer', 'is_legacy' ],
+				$select: ['name', 'slug', 'supports_multicontainer', 'is_legacy'],
 			},
 		},
 	};
 
 	if (match) {
-		return resin.models.application.getAppByOwner(match[2], match[1], extraOptions);
+		return resin.models.application.getAppByOwner(
+			match[2],
+			match[1],
+			extraOptions,
+		);
 	}
 
 	return resin.models.application.get(applicationName, extraOptions);
