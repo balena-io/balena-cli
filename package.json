@@ -1,6 +1,6 @@
 {
   "name": "resin-cli",
-  "version": "7.0.6",
+  "version": "7.0.7",
   "description": "The official resin.io CLI tool",
   "main": "./build/actions/index.js",
   "homepage": "https://github.com/resin-io/resin-cli",
@@ -138,7 +138,7 @@
     "resin-image-fs": "^2.3.0",
     "resin-image-manager": "^5.0.0",
     "resin-multibuild": "^0.5.1",
-    "resin-preload": "^6.0.0",
+    "resin-preload": "^6.1.2",
     "resin-release": "^1.1.1",
     "resin-sdk": "^9.0.0-beta7",
     "resin-sdk-preconfigured": "^6.9.0",
