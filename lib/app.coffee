@@ -62,14 +62,15 @@ capitanoExecuteAsync = Promise.promisify(capitano.execute)
 
 # We don't yet use resin-sdk directly everywhere, but we set up shared
 # options correctly so we can do safely in submodules
-require('resin-sdk').setSharedOptions(
+ResinSdk = require('resin-sdk')
+ResinSdk.setSharedOptions(
 	apiUrl: settings.get('apiUrl')
 	imageMakerUrl: settings.get('imageMakerUrl')
 	dataDirectory: settings.get('dataDirectory')
 	retries: 2
 )
-# Keep using sdk-preconfigured for now, but only temporarily
-resin = require('resin-sdk-preconfigured')
+
+resin = ResinSdk.fromSharedOptions()
 
 actions = require('./actions')
 errors = require('./errors')

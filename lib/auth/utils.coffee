@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
-resin = require('resin-sdk-preconfigured')
+resin = require('resin-sdk').fromSharedOptions()
 _ = require('lodash')
 url = require('url')
 Promise = require('bluebird')
@@ -62,7 +62,9 @@ exports.isTokenValid = (sessionToken) ->
 	if not sessionToken? or _.isEmpty(sessionToken.trim())
 		return Promise.resolve(false)
 
-	return resin.token.get().then (currentToken) ->
+	return resin.auth.getToken()
+	.catchReturn(undefined)
+	.then (currentToken) ->
 		resin.auth.loginWithToken(sessionToken)
 			.return(sessionToken)
 			.then(resin.auth.isLoggedIn)
