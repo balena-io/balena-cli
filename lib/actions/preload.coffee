@@ -25,7 +25,7 @@ getApplicationsWithSuccessfulBuilds = (deviceType) ->
 	resin.pine.get
 		resource: 'my_application'
 		options:
-			filter:
+			$filter:
 				device_type: deviceType
 				owns__release:
 					$any:
@@ -33,9 +33,9 @@ getApplicationsWithSuccessfulBuilds = (deviceType) ->
 						$expr:
 							r:
 								status: 'success'
-			expand: preload.applicationExpandOptions
-			select: [ 'id', 'app_name', 'device_type', 'commit', 'should_track_latest_release' ]
-			orderby: 'app_name asc'
+			$expand: preload.applicationExpandOptions
+			$select: [ 'id', 'app_name', 'device_type', 'commit', 'should_track_latest_release' ]
+			$orderby: 'app_name asc'
 
 selectApplication = (deviceType) ->
 	visuals = require('resin-cli-visuals')
