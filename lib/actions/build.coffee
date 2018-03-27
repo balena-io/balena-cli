@@ -47,7 +47,6 @@ buildProject = (docker, logger, composeOpts, opts) ->
 module.exports =
 	signature: 'build [source]'
 	description: 'Build a single image or a multicontainer project locally'
-	permission: 'user'
 	primary: true
 	help: '''
 		Use this command to build an image or a complete multicontainer project
