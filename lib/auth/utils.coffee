@@ -42,7 +42,7 @@ exports.getDashboardLoginURL = (callbackUrl) ->
 		return url.resolve(dashboardUrl, "/login/cli/#{callbackUrl}")
 
 ###*
-# @summary Check if a token is valid
+# @summary Log in using a token, but only if the token is valid
 # @function
 # @protected
 #
@@ -50,23 +50,26 @@ exports.getDashboardLoginURL = (callbackUrl) ->
 # This function checks that the token is not only well-structured
 # but that it also authenticates with the server successfully.
 #
-# @param {String} sessionToken - token
-# @fulfil {Boolean} - whether is valid or not
+# If authenticated, the token is persisted, if not then the previous
+# login state is restored.
+#
+# @param {String} token - session token or api key
+# @fulfil {Boolean} - whether the login was successful or not
 # @returns {Promise}
 #
-# utils.isTokenValid('...').then (isValid) ->
-#   if isValid
+# utils.loginIfTokenValid('...').then (loggedIn) ->
+#   if loggedIn
 #     console.log('Token is valid!')
 ###
-exports.isTokenValid = (sessionToken) ->
-	if not sessionToken? or _.isEmpty(sessionToken.trim())
+exports.loginIfTokenValid = (token) ->
+	if not token? or _.isEmpty(token.trim())
 		return Promise.resolve(false)
 
 	return resin.auth.getToken()
 	.catchReturn(undefined)
 	.then (currentToken) ->
-		resin.auth.loginWithToken(sessionToken)
-			.return(sessionToken)
+		resin.auth.loginWithToken(token)
+			.return(token)
 			.then(resin.auth.isLoggedIn)
 			.tap (isLoggedIn) ->
 				return if isLoggedIn

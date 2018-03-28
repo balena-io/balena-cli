@@ -43,22 +43,22 @@ describe 'Utils:', ->
 				expectedUrl = "#{dashboardUrl}/login/cli/http%253A%252F%252F127.0.0.1%253A3000%252Fcallback"
 				m.chai.expect(loginUrl).to.equal(expectedUrl)
 
-	describe '.isTokenValid()', ->
+	describe '.loginIfTokenValid()', ->
 
 		it 'should eventually be false if token is undefined', ->
-			promise = utils.isTokenValid(undefined)
+			promise = utils.loginIfTokenValid(undefined)
 			m.chai.expect(promise).to.eventually.be.false
 
 		it 'should eventually be false if token is null', ->
-			promise = utils.isTokenValid(null)
+			promise = utils.loginIfTokenValid(null)
 			m.chai.expect(promise).to.eventually.be.false
 
 		it 'should eventually be false if token is an empty string', ->
-			promise = utils.isTokenValid('')
+			promise = utils.loginIfTokenValid('')
 			m.chai.expect(promise).to.eventually.be.false
 
 		it 'should eventually be false if token is a string containing only spaces', ->
-			promise = utils.isTokenValid('     ')
+			promise = utils.loginIfTokenValid('     ')
 			m.chai.expect(promise).to.eventually.be.false
 
 		describe 'given the token does not authenticate with the server', ->
@@ -71,7 +71,7 @@ describe 'Utils:', ->
 				@resinAuthIsLoggedInStub.restore()
 
 			it 'should eventually be false', ->
-				promise = utils.isTokenValid(tokens.johndoe.token)
+				promise = utils.loginIfTokenValid(tokens.johndoe.token)
 				m.chai.expect(promise).to.eventually.be.false
 
 			describe 'given there was a token already', ->
@@ -82,7 +82,7 @@ describe 'Utils:', ->
 				it 'should preserve the old token', ->
 					resin.auth.getToken().then (originalToken) ->
 						m.chai.expect(originalToken).to.equal(tokens.janedoe.token)
-						return utils.isTokenValid(tokens.johndoe.token)
+						return utils.loginIfTokenValid(tokens.johndoe.token)
 					.then(resin.auth.getToken).then (currentToken) ->
 						m.chai.expect(currentToken).to.equal(tokens.janedoe.token)
 
@@ -92,7 +92,7 @@ describe 'Utils:', ->
 					resin.auth.logout()
 
 				it 'should stay without a token', ->
-					utils.isTokenValid(tokens.johndoe.token).then ->
+					utils.loginIfTokenValid(tokens.johndoe.token).then ->
 						resin.auth.isLoggedIn()
 					.then (isLoggedIn) ->
 						m.chai.expect(isLoggedIn).to.equal(false)
@@ -107,5 +107,5 @@ describe 'Utils:', ->
 				@resinAuthIsLoggedInStub.restore()
 
 			it 'should eventually be true', ->
-				promise = utils.isTokenValid(tokens.johndoe.token)
+				promise = utils.loginIfTokenValid(tokens.johndoe.token)
 				m.chai.expect(promise).to.eventually.be.true
