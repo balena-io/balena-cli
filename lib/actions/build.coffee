@@ -7,7 +7,7 @@ compose = require('../utils/compose')
 ###
 Opts must be an object with the following keys:
 
-	app: the app this build is for
+	app: the app this build is for (optional)
 	arch: the architecture to build for
 	deviceType: the device type to build for
 	buildEmulated
@@ -20,7 +20,8 @@ buildProject = (docker, logger, composeOpts, opts) ->
 		composeOpts.projectName
 	)
 	.then (project) ->
-		if project.descriptors.length > 1 and not opts.app.application_type?[0]?.supports_multicontainer
+		appType = opts.app?.application_type?[0]
+		if appType? and project.descriptors.length > 1 and not appType.supports_multicontainer
 			logger.logWarn(
 				'Target application does not support multiple containers.\n' +
 				'Continuing with build, but you will not be able to deploy.'
