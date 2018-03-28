@@ -1,9 +1,12 @@
 m = require('mochainon')
 url = require('url')
 Promise = require('bluebird')
-resin = require('resin-sdk-preconfigured')
-utils = require('../../build/auth/utils')
+
 tokens = require('./tokens.json')
+
+rewire = require('rewire')
+utils = rewire('../../build/auth/utils')
+resin = utils.__get__('resin')
 
 describe 'Utils:', ->
 
@@ -90,7 +93,9 @@ describe 'Utils:', ->
 
 				it 'should stay without a token', ->
 					utils.isTokenValid(tokens.johndoe.token).then ->
-						m.chai.expect(resin.token.get()).to.eventually.not.exist
+						resin.auth.isLoggedIn()
+					.then (isLoggedIn) ->
+						m.chai.expect(isLoggedIn).to.equal(false)
 
 		describe 'given the token does authenticate with the server', ->
 
