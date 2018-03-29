@@ -27,7 +27,7 @@ exports.login	=
 
 		- Credentials: using email/password and 2FA.
 
-		- Token: using the authentication token from the preferences page.
+		- Token: using a session token or API key (experimental) from the preferences page.
 
 		Examples:
 
@@ -40,7 +40,7 @@ exports.login	=
 	options: [
 		{
 			signature: 'token'
-			description: 'auth token'
+			description: 'session token or API key (experimental)'
 			parameter: 'token'
 			alias: 't'
 		}
@@ -73,7 +73,7 @@ exports.login	=
 	action: (params, options, done) ->
 		_ = require('lodash')
 		Promise = require('bluebird')
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		auth = require('../auth')
 		form = require('resin-cli-form')
 		patterns = require('../utils/patterns')
@@ -84,7 +84,7 @@ exports.login	=
 				return Promise.try ->
 					return options.token if _.isString(options.token)
 					return form.ask
-						message: 'Token (from the preferences page)'
+						message: 'Session token or API key (experimental) from the preferences page'
 						name: 'token'
 						type: 'input'
 				.then(resin.auth.loginWithToken)
@@ -188,7 +188,7 @@ exports.whoami =
 	permission: 'user'
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
 		Promise.props

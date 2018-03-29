@@ -28,7 +28,7 @@ gulp.task 'coffee', ->
 gulp.task 'test', ->
 	gulp.src(OPTIONS.files.tests, read: false)
 		.pipe(mocha({
-			reporter: 'min'
+			reporter: 'spec'
 		}))
 
 gulp.task 'build', [

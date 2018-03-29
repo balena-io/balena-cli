@@ -51,11 +51,11 @@ describe 'Server:', ->
 	describe 'given the token authenticates with the server', ->
 
 		beforeEach ->
-			@utilsIsTokenValidStub = m.sinon.stub(utils, 'isTokenValid')
-			@utilsIsTokenValidStub.returns(Promise.resolve(true))
+			@loginIfTokenValidStub = m.sinon.stub(utils, 'loginIfTokenValid')
+			@loginIfTokenValidStub.returns(Promise.resolve(true))
 
 		afterEach ->
-			@utilsIsTokenValidStub.restore()
+			@loginIfTokenValidStub.restore()
 
 		it 'should eventually be the token', (done) ->
 			promise = server.awaitForToken(options)
@@ -74,11 +74,11 @@ describe 'Server:', ->
 	describe 'given the token does not authenticate with the server', ->
 
 		beforeEach ->
-			@utilsIsTokenValidStub = m.sinon.stub(utils, 'isTokenValid')
-			@utilsIsTokenValidStub.returns(Promise.resolve(false))
+			@loginIfTokenValidStub = m.sinon.stub(utils, 'loginIfTokenValid')
+			@loginIfTokenValidStub.returns(Promise.resolve(false))
 
 		afterEach ->
-			@utilsIsTokenValidStub.restore()
+			@loginIfTokenValidStub.restore()
 
 		it 'should be rejected', (done) ->
 			promise = server.awaitForToken(options)

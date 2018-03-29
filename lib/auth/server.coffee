@@ -77,9 +77,9 @@ exports.awaitForToken = (options) ->
 			Promise.try ->
 				if not token
 					throw new Error('No token')
-				return utils.isTokenValid(token)
-			.tap (isValid) ->
-				if not isValid
+				return utils.loginIfTokenValid(token)
+			.tap (loggedIn) ->
+				if not loggedIn
 					throw new Error('Invalid token')
 			.then ->
 				renderAndDone({ request, response, viewName: 'success', token })
