@@ -1,6 +1,6 @@
 {
   "name": "resin-cli",
-  "version": "7.1.5",
+  "version": "7.1.6",
   "description": "The official resin.io CLI tool",
   "main": "./build/actions/index.js",
   "homepage": "https://github.com/resin-io/resin-cli",
@@ -97,7 +97,7 @@
     "columnify": "^1.5.2",
     "denymount": "^2.2.0",
     "docker-progress": "^3.0.1",
-    "docker-qemu-transpose": "^0.3.4",
+    "docker-qemu-transpose": "^0.4.1",
     "docker-toolbelt": "^3.1.0",
     "dockerode": "^2.5.0",
     "dockerode-options": "^0.2.1",
