@@ -98,7 +98,7 @@
     "columnify": "^1.5.2",
     "denymount": "^2.2.0",
     "docker-progress": "^3.0.1",
-    "docker-qemu-transpose": "^0.4.1",
+    "docker-qemu-transpose": "^0.5.1",
     "docker-toolbelt": "^3.1.0",
     "dockerode": "^2.5.0",
     "dockerode-options": "^0.2.1",
