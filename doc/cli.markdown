@@ -62,6 +62,10 @@ environment variable (in the same standard URL format).
 
 # Table of contents
 
+- Api keys
+
+	- [api-key generate &#60;name&#62;](#api-key-generate-name-)
+
 - Application
 
 	- [app create &#60;name&#62;](#app-create-name-)
@@ -179,6 +183,22 @@ environment variable (in the same standard URL format).
 - Utilities
 
 	- [util available-drives](#util-available-drives)
+
+# Api keys
+
+## api-key generate &#60;name&#62;
+
+
+This command generates a new API key for the current user, with the given
+name. The key will be logged to the console.
+
+This key can be used to log into the CLI using 'resin login --token <key>',
+or to authenticate requests to the API with an 'Authorization: Bearer <key>' header.
+
+Examples:
+
+    $ resin api-key generate "Jenkins Key"
+
 
 # Application
 

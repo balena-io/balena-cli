@@ -114,11 +114,8 @@ capitano.command(actions.help.help)
 # ---------- Wizard Module ----------
 capitano.command(actions.wizard.wizard)
 
-# ---------- Auth Module ----------
-capitano.command(actions.auth.login)
-capitano.command(actions.auth.logout)
-capitano.command(actions.auth.signup)
-capitano.command(actions.auth.whoami)
+# ---------- Api key module ----------
+capitano.command(actions.apiKey.generate)
 
 # ---------- App Module ----------
 capitano.command(actions.app.create)
@@ -126,6 +123,12 @@ capitano.command(actions.app.list)
 capitano.command(actions.app.remove)
 capitano.command(actions.app.restart)
 capitano.command(actions.app.info)
+
+# ---------- Auth Module ----------
+capitano.command(actions.auth.login)
+capitano.command(actions.auth.logout)
+capitano.command(actions.auth.signup)
+capitano.command(actions.auth.whoami)
 
 # ---------- Device Module ----------
 capitano.command(actions.device.list)
