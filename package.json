@@ -31,7 +31,8 @@
   "scripts": {
     "prebuild": "rimraf build/ build-bin/ build-zip/",
     "build": "npm run build:src && npm run build:bin",
-    "build:src": "npm run prettify && npm run lint && gulp build && tsc && npm run build:doc",
+    "build:src": "npm run prettify && npm run lint && npm run build:fast && npm run build:doc",
+    "build:fast": "gulp build && tsc",
     "build:doc": "mkdirp doc/ && ts-node automation/capitanodoc/index.ts > doc/cli.markdown",
     "build:bin": "ts-node --type-check -P automation automation/build-bin.ts",
     "release": "npm run build && ts-node --type-check -P automation automation/deploy-bin.ts",
