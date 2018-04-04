@@ -88,6 +88,11 @@ exports.login	=
 						name: 'token'
 						type: 'input'
 				.then(resin.auth.loginWithToken)
+				.tap ->
+					resin.auth.whoami()
+					.then (username) ->
+						if !username
+							patterns.expectedError('Token authentication failed')
 			else if options.credentials
 				return patterns.authenticate(options)
 			else if options.web
