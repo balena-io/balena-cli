@@ -13,7 +13,7 @@ Requisites
 If you want to install the CLI directly through npm, you'll need the below. If this looks difficult,
 we do now have an experimental standalone binary release available, see ['Standalone install'](#standalone-install) below.
 
-- [NodeJS](https://nodejs.org) (>= v4)
+- [NodeJS](https://nodejs.org) (>= v6)
 - [Git](https://git-scm.com)
 - The following executables should be correctly installed in your shell environment:
   - `ssh`: Any recent version of the OpenSSH ssh client (required by `resin sync` and `resin ssh`)
