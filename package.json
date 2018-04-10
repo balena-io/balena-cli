@@ -1,6 +1,6 @@
 {
   "name": "resin-cli",
-  "version": "7.2.3",
+  "version": "7.2.4",
   "description": "The official resin.io CLI tool",
   "main": "./build/actions/index.js",
   "homepage": "https://github.com/resin-io/resin-cli",
@@ -155,6 +155,7 @@
     "stream-to-promise": "^2.2.0",
     "string-width": "^2.1.1",
     "strip-ansi-stream": "^1.0.0",
+    "tar-stream": "^1.5.5",
     "through2": "^2.0.3",
     "tmp": "0.0.31",
     "umount": "^1.1.6",
