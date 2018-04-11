@@ -188,7 +188,6 @@ environment variable (in the same standard URL format).
 
 ## api-key generate &#60;name&#62;
 
-
 This command generates a new API key for the current user, with the given
 name. The key will be logged to the console.
 
@@ -197,8 +196,7 @@ or to authenticate requests to the API with an 'Authorization: Bearer <key>' hea
 
 Examples:
 
-    $ resin api-key generate "Jenkins Key"
-
+	$ resin api-key generate "Jenkins Key"
 
 # Application
 

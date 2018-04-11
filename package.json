@@ -57,6 +57,7 @@
   "devDependencies": {
     "@types/archiver": "^2.0.1",
     "@types/bluebird": "^3.5.19",
+    "@types/common-tags": "^1.4.0",
     "@types/es6-promise": "0.0.32",
     "@types/fs-extra": "^5.0.0",
     "@types/is-root": "^1.0.0",
@@ -96,6 +97,7 @@
     "cli-truncate": "^1.1.0",
     "coffeescript": "^1.12.6",
     "columnify": "^1.5.2",
+    "common-tags": "^1.7.2",
     "denymount": "^2.2.0",
     "docker-progress": "^3.0.1",
     "docker-qemu-transpose": "^0.5.1",
