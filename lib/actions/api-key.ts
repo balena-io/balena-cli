@@ -21,7 +21,6 @@ Examples:
 
 		resin.models.apiKey.create(params.name).then(key => {
 			console.log(`Registered api key '${params.name}':\n${key}`);
-			done();
-		});
+		}).finally(done);
 	},
 };
