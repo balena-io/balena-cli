@@ -64,6 +64,10 @@ environment variable (in the same standard URL format).\
 
 	categories: [
 		{
+			title: 'Api keys',
+			files: [ 'build/actions/api-key.js' ],
+		},
+		{
 			title: 'Application',
 			files: [ 'build/actions/app.js' ]
 		},

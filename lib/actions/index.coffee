@@ -16,9 +16,10 @@ limitations under the License.
 
 module.exports =
 	wizard: require('./wizard')
+	apiKey: require('./api-key')
 	app: require('./app')
-	info: require('./info')
 	auth: require('./auth')
+	info: require('./info')
 	device: require('./device')
 	env: require('./environment-variables')
 	keys: require('./keys')
