@@ -64,6 +64,7 @@ module.exports =
 		{ SpinnerPromise } = require('resin-cli-visuals')
 		{ dockerPort, dockerTimeout } = require('./common')
 		dockerUtils = require('../../utils/docker')
+		{ expectedError } = require('../../utils/patterns')
 
 		if options.timeout?
 			options.timeout *= 1000
@@ -81,7 +82,7 @@ module.exports =
 			.catchReturn(false)
 		.tap (devices) ->
 			if _.isEmpty(devices)
-				throw new Error('Could not find any resinOS devices in the local network')
+				expectedError('Could not find any resinOS devices in the local network')
 		.map ({ host, address }) ->
 			docker = dockerUtils.createClient(host: address, port: dockerPort, timeout: dockerTimeout)
 			Promise.props
