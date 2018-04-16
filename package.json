@@ -21,7 +21,8 @@
   "pkg": {
     "scripts": [
       "node_modules/resin-sync/build/capitano/*.js",
-      "node_modules/resin-sync/build/sync/*.js"
+      "node_modules/resin-sync/build/sync/*.js",
+      "node_modules/raven/lib/instrumentation/*.js"
     ],
     "assets": [
       "build/auth/pages/*.ejs",

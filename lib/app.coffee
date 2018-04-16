@@ -17,7 +17,8 @@ limitations under the License.
 Raven = require('raven')
 Raven.disableConsoleAlerts()
 Raven.config require('./config').sentryDsn,
-	captureUnhandledRejections: true
+	captureUnhandledRejections: true,
+	autoBreadcrumbs: true,
 	release: require('../package.json').version
 .install (logged, error) ->
 	console.error(error)
