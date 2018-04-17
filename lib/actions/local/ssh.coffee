@@ -69,10 +69,10 @@ module.exports =
 		{ forms } = require('resin-sync')
 
 		{ selectContainerFromDevice, getSubShellCommand } = require('./common')
-		{ expectedError } = require('../../utils/patterns')
+		{ exitWithExpectedError } = require('../../utils/patterns')
 
 		if (options.host is true and options.container?)
-			expectedError('Please pass either --host or --container option')
+			exitWithExpectedError('Please pass either --host or --container option')
 
 		if not options.port?
 			options.port = 22222

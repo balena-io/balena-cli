@@ -53,7 +53,7 @@ exports.list =
 		resin = require('resin-sdk-preconfigured')
 		visuals = require('resin-cli-visuals')
 
-		{ expectedError } = require('../utils/patterns')
+		{ exitWithExpectedError } = require('../utils/patterns')
 
 		Promise.try ->
 			if options.application?
@@ -61,11 +61,11 @@ exports.list =
 			else if options.device?
 				return resin.models.environmentVariables.device.getAll(options.device)
 			else
-				expectedError('You must specify an application or device')
+				exitWithExpectedError('You must specify an application or device')
 
 		.tap (environmentVariables) ->
 			if _.isEmpty(environmentVariables)
-				expectedError('No environment variables found')
+				exitWithExpectedError('No environment variables found')
 			if not options.verbose
 				isSystemVariable = resin.models.environmentVariables.isSystemVariable
 				environmentVariables = _.reject(environmentVariables, isSystemVariable)
@@ -143,7 +143,7 @@ exports.add =
 		Promise = require('bluebird')
 		resin = require('resin-sdk-preconfigured')
 
-		{ expectedError } = require('../utils/patterns')
+		{ exitWithExpectedError } = require('../utils/patterns')
 
 		Promise.try ->
 			if not params.value?
@@ -159,7 +159,7 @@ exports.add =
 			else if options.device?
 				resin.models.environmentVariables.device.create(options.device, params.key, params.value)
 			else
-				expectedError('You must specify an application or device')
+				exitWithExpectedError('You must specify an application or device')
 		.nodeify(done)
 
 exports.rename =

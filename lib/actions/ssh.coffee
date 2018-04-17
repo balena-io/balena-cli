@@ -108,7 +108,7 @@ module.exports =
 			console.info("Connecting to: #{uuid}")
 			resin.models.device.get(uuid)
 		.then (device) ->
-			patterns.expectedError('Device is not online') if not device.is_online
+			patterns.exitWithExpectedError('Device is not online') if not device.is_online
 
 			Promise.props
 				username: resin.auth.whoami()

@@ -92,7 +92,7 @@ exports.login	=
 					resin.auth.whoami()
 					.then (username) ->
 						if !username
-							patterns.expectedError('Token authentication failed')
+							patterns.exitWithExpectedError('Token authentication failed')
 			else if options.credentials
 				return patterns.authenticate(options)
 			else if options.web

@@ -95,7 +95,7 @@ module.exports =
 		# compositions with many services trigger misleading warnings
 		require('events').defaultMaxListeners = 1000
 
-		{ expectedError } = require('../utils/patterns')
+		{ exitWithExpectedError } = require('../utils/patterns')
 		helpers = require('../utils/helpers')
 		Logger = require('../utils/logger')
 
@@ -112,7 +112,7 @@ module.exports =
 			{ application, arch, deviceType } = options
 
 			if (not (arch? and deviceType?) and not application?) or (application? and (arch? or deviceType?))
-				expectedError('You must specify either an application or an arch/deviceType pair to build for')
+				exitWithExpectedError('You must specify either an application or an arch/deviceType pair to build for')
 
 			if arch? and deviceType?
 				[ undefined, arch, deviceType ]

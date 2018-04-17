@@ -244,7 +244,7 @@ exports.configure =
 			options.application
 			params.uuid
 		]).length != 1
-			patterns.expectedError '''
+			patterns.exitWithExpectedError '''
 				To configure an image, you must provide exactly one of:
 
 				* A device, with --device <uuid>

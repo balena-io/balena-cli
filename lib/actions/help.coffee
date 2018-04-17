@@ -18,7 +18,7 @@ _ = require('lodash')
 capitano = require('capitano')
 columnify = require('columnify')
 messages = require('../utils/messages')
-{ expectedError } = require('../utils/patterns')
+{ exitWithExpectedError } = require('../utils/patterns')
 
 parse = (object) ->
 	return _.fromPairs _.map object, (item) ->
@@ -79,7 +79,7 @@ command = (params, options, done) ->
 		return done(error) if error?
 
 		if not command? or command.isWildcard()
-			expectedError("Command not found: #{params.command}")
+			exitWithExpectedError("Command not found: #{params.command}")
 
 		console.log("Usage: #{command.signature}")
 

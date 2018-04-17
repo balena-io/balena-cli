@@ -174,6 +174,6 @@ exports.createClient = createClient = do ->
 		return new Docker(opts)
 
 ensureDockerSeemsAccessible = (docker) ->
-	{ expectedError } = require('./patterns')
+	{ exitWithExpectedError } = require('./patterns')
 	docker.ping().catch ->
-		expectedError('Docker seems to be unavailable. Is it installed and running?')
+		exitWithExpectedError('Docker seems to be unavailable. Is it installed and running?')

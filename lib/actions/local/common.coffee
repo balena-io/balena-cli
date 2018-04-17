@@ -4,7 +4,7 @@ form = require('resin-cli-form')
 chalk = require('chalk')
 
 dockerUtils = require('../../utils/docker')
-{ expectedError } = require('../../utils/patterns')
+{ exitWithExpectedError } = require('../../utils/patterns')
 
 exports.dockerPort = dockerPort = 2375
 exports.dockerTimeout = dockerTimeout = 2000
@@ -24,7 +24,7 @@ exports.selectContainerFromDevice = Promise.method (deviceIp, filterSupervisor =
 		filterOutSupervisorContainer(container)
 	.then (containers) ->
 		if _.isEmpty(containers)
-			expectedError("No containers found in #{deviceIp}")
+			exitWithExpectedError("No containers found in #{deviceIp}")
 
 		return form.ask
 			message: 'Select a container'

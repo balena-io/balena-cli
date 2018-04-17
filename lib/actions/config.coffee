@@ -279,10 +279,10 @@ exports.generate =
 		prettyjson = require('prettyjson')
 
 		{ generateDeviceConfig, generateApplicationConfig } = require('../utils/config')
-		{ expectedError } = require('../utils/patterns')
+		{ exitWithExpectedError } = require('../utils/patterns')
 
 		if not options.device? and not options.application?
-			expectedError '''
+			exitWithExpectedError '''
 				You have to pass either a device or an application.
 
 				See the help page for examples:
