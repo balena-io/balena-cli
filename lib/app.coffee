@@ -17,7 +17,8 @@ limitations under the License.
 Raven = require('raven')
 Raven.disableConsoleAlerts()
 Raven.config require('./config').sentryDsn,
-	captureUnhandledRejections: true
+	captureUnhandledRejections: true,
+	autoBreadcrumbs: true,
 	release: require('../package.json').version
 .install (logged, error) ->
 	console.error(error)
@@ -76,6 +77,7 @@ actions = require('./actions')
 errors = require('./errors')
 events = require('./events')
 update = require('./utils/update')
+{ exitWithExpectedError } = require('./utils/patterns')
 
 # Assign bluebird as the global promise library
 # stream-to-promise will produce native promises if not
@@ -86,13 +88,13 @@ require('any-promise/register/bluebird')
 capitano.permission 'user', (done) ->
 	resin.auth.isLoggedIn().then (isLoggedIn) ->
 		if not isLoggedIn
-			throw new Error '''
+			exitWithExpectedError('''
 				You have to log in to continue
 
 				Run the following command to go through the login wizard:
 
 				  $ resin login
-			'''
+			''')
 	.nodeify(done)
 
 capitano.command

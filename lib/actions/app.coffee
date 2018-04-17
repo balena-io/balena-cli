@@ -52,7 +52,7 @@ exports.create =
 		# https://github.com/resin-io/resin-cli/issues/30
 		resin.models.application.has(params.name).then (hasApplication) ->
 			if hasApplication
-				throw new Error('You already have an application with that name!')
+				patterns.exitWithExpectedError('You already have an application with that name!')
 
 		.then ->
 			return options.type or patterns.selectDeviceType()

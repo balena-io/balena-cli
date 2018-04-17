@@ -45,9 +45,11 @@ exports.set =
 		_ = require('lodash')
 		resin = require('resin-sdk-preconfigured')
 
+		{ exitWithExpectedError } = require('../utils/patterns')
+
 		Promise.try ->
 			if _.isEmpty(params.note)
-				throw new Error('Missing note content')
+				exitWithExpectedError('Missing note content')
 
 			resin.models.device.note(options.device, params.note)
 		.nodeify(done)

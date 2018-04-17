@@ -277,10 +277,12 @@ exports.generate =
 		form = require('resin-cli-form')
 		deviceConfig = require('resin-device-config')
 		prettyjson = require('prettyjson')
+
 		{ generateDeviceConfig, generateApplicationConfig } = require('../utils/config')
+		{ exitWithExpectedError } = require('../utils/patterns')
 
 		if not options.device? and not options.application?
-			throw new Error '''
+			exitWithExpectedError '''
 				You have to pass either a device or an application.
 
 				See the help page for examples:

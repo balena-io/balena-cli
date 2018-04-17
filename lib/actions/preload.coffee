@@ -40,7 +40,7 @@ getApplicationsWithSuccessfulBuilds = (deviceType) ->
 selectApplication = (deviceType) ->
 	visuals = require('resin-cli-visuals')
 	form = require('resin-cli-form')
-	{ expectedError } = require('../utils/patterns')
+	{ exitWithExpectedError } = require('../utils/patterns')
 
 	applicationInfoSpinner = new visuals.Spinner('Downloading list of applications and releases.')
 	applicationInfoSpinner.start()
@@ -49,7 +49,7 @@ selectApplication = (deviceType) ->
 	.then (applications) ->
 		applicationInfoSpinner.stop()
 		if applications.length == 0
-			expectedError("You have no apps with successful releases for a '#{deviceType}' device type.")
+			exitWithExpectedError("You have no apps with successful releases for a '#{deviceType}' device type.")
 		form.ask
 			message: 'Select an application'
 			type: 'list'
@@ -59,10 +59,10 @@ selectApplication = (deviceType) ->
 
 selectApplicationCommit = (releases) ->
 	form = require('resin-cli-form')
-	{ expectedError } = require('../utils/patterns')
+	{ exitWithExpectedError } = require('../utils/patterns')
 
 	if releases.length == 0
-		expectedError('This application has no successful releases.')
+		exitWithExpectedError('This application has no successful releases.')
 	DEFAULT_CHOICE = { 'name': LATEST, 'value': LATEST }
 	choices = [ DEFAULT_CHOICE ].concat releases.map (release) ->
 		name: "#{release.end_timestamp} - #{release.commit}"
@@ -152,7 +152,7 @@ module.exports =
 		preload = require('resin-preload')
 		visuals = require('resin-cli-visuals')
 		nodeCleanup = require('node-cleanup')
-		{ expectedError } = require('../utils/patterns')
+		{ exitWithExpectedError } = require('../utils/patterns')
 
 		progressBars = {}
 
@@ -184,7 +184,7 @@ module.exports =
 		options.dontCheckDeviceType = options['dont-check-device-type']
 		delete options['dont-check-device-type']
 		if options.dontCheckDeviceType and not options.appId
-			expectedError('You need to specify an app id if you disable the device type check.')
+			exitWithExpectedError('You need to specify an app id if you disable the device type check.')
 
 		# Get a configured dockerode instance
 		dockerUtils.getDocker(options)
@@ -240,7 +240,7 @@ module.exports =
 							release = _.find preloader.application.owns__release, (release) ->
 								release.commit.startsWith(options.commit)
 							if not release
-								expectedError('There is no release matching this commit')
+								exitWithExpectedError('There is no release matching this commit')
 							return release.commit
 						selectApplicationCommit(preloader.application.owns__release)
 					.then (commit) ->
@@ -254,7 +254,7 @@ module.exports =
 				.then ->
 					# All options are ready: preload the image.
 					preloader.preload()
-				.catch(resin.errors.ResinError, expectedError)
+				.catch(resin.errors.ResinError, exitWithExpectedError)
 				.then(resolve)
 				.catch(reject)
 			.then(done)

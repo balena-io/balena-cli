@@ -67,10 +67,12 @@ module.exports =
 		Promise = require 'bluebird'
 		_ = require('lodash')
 		{ forms } = require('resin-sync')
+
 		{ selectContainerFromDevice, getSubShellCommand } = require('./common')
+		{ exitWithExpectedError } = require('../../utils/patterns')
 
 		if (options.host is true and options.container?)
-			throw new Error('Please pass either --host or --container option')
+			exitWithExpectedError('Please pass either --host or --container option')
 
 		if not options.port?
 			options.port = 22222

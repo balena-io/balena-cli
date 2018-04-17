@@ -250,7 +250,7 @@ export function printErrorMessage(message: string) {
 	console.error(chalk.red(`\n${messages.getHelp}\n`));
 }
 
-export function expectedError(message: string | Error) {
+export function exitWithExpectedError(message: string | Error) {
 	if (message instanceof Error) {
 		({ message } = message);
 	}
