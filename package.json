@@ -22,6 +22,7 @@
     "scripts": [
       "node_modules/resin-sync/build/capitano/*.js",
       "node_modules/resin-sync/build/sync/*.js",
+      "node_modules/resin-compose-parse/src/schemas/*.json",
       "node_modules/raven/lib/instrumentation/*.js"
     ],
     "assets": [
