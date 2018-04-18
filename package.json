@@ -1,6 +1,6 @@
 {
   "name": "resin-cli",
-  "version": "7.3.3",
+  "version": "7.3.4",
   "description": "The official resin.io CLI tool",
   "main": "./build/actions/index.js",
   "homepage": "https://github.com/resin-io/resin-cli",
@@ -22,6 +22,7 @@
     "scripts": [
       "node_modules/resin-sync/build/capitano/*.js",
       "node_modules/resin-sync/build/sync/*.js",
+      "node_modules/resin-compose-parse/src/schemas/*.json",
       "node_modules/raven/lib/instrumentation/*.js"
     ],
     "assets": [
