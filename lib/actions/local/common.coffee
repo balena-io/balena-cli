@@ -32,10 +32,9 @@ exports.selectContainerFromDevice = Promise.method (deviceIp, filterSupervisor =
 			choices: _.map containers, (container) ->
 				containerName = container.Names[0] or 'Untitled'
 				shortContainerId = ('' + container.Id).substr(0, 11)
-				containerStatus = container.Status
 
 				return {
-					name: "#{containerName} (#{shortContainerId}) - #{containerStatus}"
+					name: "#{containerName} (#{shortContainerId})"
 					value: container.Id
 				}
 
