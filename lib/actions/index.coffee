@@ -37,3 +37,4 @@ module.exports =
 	deploy: require('./deploy')
 	util: require('./util')
 	preload: require('./preload')
+	push: require('./push')
