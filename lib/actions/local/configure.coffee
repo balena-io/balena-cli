@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
-BOOT_PARTITION = { primary: 1 }
+BOOT_PARTITION = 1
 CONNECTIONS_FOLDER = '/system-connections'
 
 getConfigurationSchema = (connnectionFileName = 'resin-wifi') ->
@@ -51,12 +51,14 @@ getConfigurationSchema = (connnectionFileName = 'resin-wifi') ->
 			type: 'ini'
 			location:
 				path: CONNECTIONS_FOLDER.slice(1)
-				partition: BOOT_PARTITION
+				# Reconfix still uses the older resin-image-fs, so still needs an
+				# object-based partition definition.
+				partition: { primary: BOOT_PARTITION }
 		config_json:
 			type: 'json'
 			location:
 				path: 'config.json'
-				partition: BOOT_PARTITION
+				partition: { primary: BOOT_PARTITION }
 
 inquirerOptions = (data) -> [
 	{
