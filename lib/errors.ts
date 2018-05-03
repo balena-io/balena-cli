@@ -14,18 +14,76 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import errors = require('resin-cli-errors');
-import patterns = require('./utils/patterns');
+import _ = require('lodash');
+import os = require('os');
 import Raven = require('raven');
 import Promise = require('bluebird');
+import { stripIndent } from 'common-tags';
+
+import patterns = require('./utils/patterns');
 
 const captureException = Promise.promisify<string, Error>(
 	Raven.captureException,
 	{ context: Raven },
 );
 
+function hasCode(error: any): error is Error & { code: string } {
+	return error.code != null;
+}
+
+function interpret(error: any): string | undefined {
+	if (!(error instanceof Error)) {
+		return;
+	} else if (hasCode(error)) {
+		const errorCodeHandler = messages[error.code];
+		const message = errorCodeHandler && errorCodeHandler(error);
+
+		if (message) {
+			return message;
+		}
+
+		if (!_.isEmpty(error.message)) {
+			return `${error.code}: ${error.message}`;
+		}
+
+		return;
+	} else {
+		return error.message;
+	}
+}
+
+const messages: {
+	[key: string]: (error: Error & { path?: string }) => string
+} = {
+	EISDIR: (error) => `File is a directory: ${error.path}`,
+
+	ENOENT: (error) => `No such file or directory: ${error.path}`,
+
+	ENOGIT: () => stripIndent`
+		Git is not installed on this system.
+		Head over to http://git-scm.com to install it and run this command again.`,
+
+	EPERM: () => stripIndent`
+		You don't have enough privileges to run this operation.
+		${os.platform() === 'win32' ?
+			'Run a new Command Prompt as administrator and try running this command again.' :
+			'Try running this command again prefixing it with `sudo`.'
+		}
+
+		If this is not the case, and you're trying to burn an SDCard, check that the write lock is not set.`,
+
+	EACCES: (e) => messages.EPERM(e),
+
+	ETIMEDOUT: () => 'Oops something went wrong, please check your connection and try again.',
+
+	ResinExpiredToken: () => stripIndent`
+		Looks like your session token is expired.
+		Please try logging in again with:
+			$ resin login`
+}
+
 exports.handle = function(error: any) {
-	let message = errors.interpret(error);
+	let message = interpret(error);
 	if (message == null) {
 		return;
 	}
@@ -34,7 +92,7 @@ exports.handle = function(error: any) {
 		message = error.stack;
 	}
 
-	patterns.printErrorMessage(message);
+	patterns.printErrorMessage(message!);
 
 	return captureException(error)
 		.timeout(1000)
