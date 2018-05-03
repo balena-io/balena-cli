@@ -31,10 +31,20 @@ function hasCode(error: any): error is Error & { code: string } {
 	return error.code != null;
 }
 
+function treatFailedBindingAsMissingModule(error: any): void {
+	if (error.message.startsWith('Could not locate the bindings file.')) {
+		error.code = 'MODULE_NOT_FOUND';
+	}
+}
+
 function interpret(error: any): string | undefined {
 	if (!(error instanceof Error)) {
 		return;
-	} else if (hasCode(error)) {
+	}
+
+	treatFailedBindingAsMissingModule(error);
+
+	if (hasCode(error)) {
 		const errorCodeHandler = messages[error.code];
 		const message = errorCodeHandler && errorCodeHandler(error);
 
@@ -75,6 +85,18 @@ const messages: {
 	EACCES: (e) => messages.EPERM(e),
 
 	ETIMEDOUT: () => 'Oops something went wrong, please check your connection and try again.',
+
+	MODULE_NOT_FOUND: () => stripIndent`
+		Part of the CLI could not be loaded. This typically means your CLI install is in a broken state.
+		${os.arch() === 'x64' ?
+			'You can normally fix this by uninstalling and reinstalling the CLI.'
+		:
+			stripIndent`
+				You're using an unsupported architecture (${os.arch()}), so this is typically caused by missing native modules.
+				Reinstalling may help, but pay attention to errors in native module build steps en route.
+			`
+		}
+	`,
 
 	ResinExpiredToken: () => stripIndent`
 		Looks like your session token is expired.
