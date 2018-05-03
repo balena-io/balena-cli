@@ -14,13 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import _ = require('lodash');
-import os = require('os');
-import Raven = require('raven');
-import Promise = require('bluebird');
+import * as _ from 'lodash';
+import * as os from 'os';
+import * as Raven from 'raven';
+import * as Promise from 'bluebird';
 import { stripIndent } from 'common-tags';
 
-import patterns = require('./utils/patterns');
+import * as patterns from './utils/patterns';
 
 const captureException = Promise.promisify<string, Error>(
 	Raven.captureException,
@@ -55,19 +55,17 @@ function interpret(error: any): string | undefined {
 		if (!_.isEmpty(error.message)) {
 			return `${error.code}: ${error.message}`;
 		}
-
-		return;
 	} else {
 		return error.message;
 	}
 }
 
 const messages: {
-	[key: string]: (error: Error & { path?: string }) => string
+	[key: string]: (error: Error & { path?: string }) => string;
 } = {
-	EISDIR: (error) => `File is a directory: ${error.path}`,
+	EISDIR: error => `File is a directory: ${error.path}`,
 
-	ENOENT: (error) => `No such file or directory: ${error.path}`,
+	ENOENT: error => `No such file or directory: ${error.path}`,
 
 	ENOGIT: () => stripIndent`
 		Git is not installed on this system.
@@ -75,23 +73,25 @@ const messages: {
 
 	EPERM: () => stripIndent`
 		You don't have enough privileges to run this operation.
-		${os.platform() === 'win32' ?
-			'Run a new Command Prompt as administrator and try running this command again.' :
-			'Try running this command again prefixing it with `sudo`.'
+		${
+			os.platform() === 'win32'
+				? 'Run a new Command Prompt as administrator and try running this command again.'
+				: 'Try running this command again prefixing it with `sudo`.'
 		}
 
 		If this is not the case, and you're trying to burn an SDCard, check that the write lock is not set.`,
 
-	EACCES: (e) => messages.EPERM(e),
+	EACCES: e => messages.EPERM(e),
 
-	ETIMEDOUT: () => 'Oops something went wrong, please check your connection and try again.',
+	ETIMEDOUT: () =>
+		'Oops something went wrong, please check your connection and try again.',
 
 	MODULE_NOT_FOUND: () => stripIndent`
 		Part of the CLI could not be loaded. This typically means your CLI install is in a broken state.
-		${os.arch() === 'x64' ?
-			'You can normally fix this by uninstalling and reinstalling the CLI.'
-		:
-			stripIndent`
+		${
+			os.arch() === 'x64'
+				? 'You can normally fix this by uninstalling and reinstalling the CLI.'
+				: stripIndent`
 				You're using an unsupported architecture (${os.arch()}), so this is typically caused by missing native modules.
 				Reinstalling may help, but pay attention to errors in native module build steps en route.
 			`
@@ -101,8 +101,8 @@ const messages: {
 	ResinExpiredToken: () => stripIndent`
 		Looks like your session token is expired.
 		Please try logging in again with:
-			$ resin login`
-}
+			$ resin login`,
+};
 
 exports.handle = function(error: any) {
 	let message = interpret(error);
