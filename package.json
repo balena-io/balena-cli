@@ -1,6 +1,6 @@
 {
   "name": "resin-cli",
-  "version": "7.3.7",
+  "version": "7.3.8",
   "description": "The official resin.io CLI tool",
   "main": "./build/actions/index.js",
   "homepage": "https://github.com/resin-io/resin-cli",
@@ -133,7 +133,6 @@
     "reconfix": "^0.0.3",
     "request": "^2.81.0",
     "resin-bundle-resolve": "^0.5.3",
-    "resin-cli-errors": "^1.2.0",
     "resin-cli-form": "^1.4.1",
     "resin-cli-visuals": "^1.4.0",
     "resin-compose-parse": "^1.8.1",
