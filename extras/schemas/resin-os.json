@@ -1,185 +1,362 @@
 {
-    "config_txt": {
-        "type": "json",
-        "location": { 
-            "partition": 1,
-            "path": ["config.json"]
+    "reconfix": {
+        "targets": {
+            "config_json": {
+                "type": "file",
+                "format": "json",
+                "location": {
+                    "partition": 1,
+                    "path": "/config.json"
+                }
+            },
+            "resin_wifi": {
+                "type": "file",
+                "format": "ini",
+                "location": {
+                    "partition": 1,
+                    "path": "/system-connections/resin-wifi"
+                }
+            }
+        }
+    },
+    "properties": {
+        "persistentLogging": {
+            "type": "boolean",
+            "reconfix": {
+                "transforms": [
+                    {
+                        "output": {
+                            "target": "config_json",
+                            "path": "/persistentLogging"
+                        }
+                    }
+                ]
+            }
         },
-        "properties": [
-            {
-                "definition": {
-                    "persistentLogging": {
-                        "type": ["boolean"],
-                        "mapping": ["/persistentLogging"],
-                        "optional": true
-                    },
-                    "hostname": {
-                        "type": ["string"],
-                        "mapping": ["/hostname"],
-                        "optional": true
-                    },
-                    "application": {
-                        "properties": [
+        "hostname": {
+            "type": "string",
+            "reconfix": {
+                "transforms": [
+                    {
+                        "output": {
+                            "target": "config_json",
+                            "path": "/hostname"
+                        }
+                    }
+                ]
+            }
+        },
+        "aplication": {
+            "type": "object",
+            "required": ["name", "id"],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "reconfix": {
+                        "transforms": [
                             {
-                                "definition": {
-                                    "name": {
-                                        "type": ["string"],
-                                        "mapping": ["/applicationName"]
-                                    },
-                                    "id": {
-                                        "type": ["string"],
-                                        "mapping": ["/applicationId"]
-                                    }
+                                "output": {
+                                    "target": "config_json",
+                                    "path": "/applicationName"
                                 }
                             }
                         ]
-                    },
-                    "deviceType": {
-                        "type": ["string"],
-                        "mapping": ["/deviceType"]
-                    },
-                    "userId": {
-                        "type": ["string"],
-                        "mapping": ["/userId"]
-                    },
-                    "appUpdatePollInterval": {
-                        "type": ["string"],
-                        "mapping": ["/appUpdatePollInterval"]
-                    },
-                    "listenPort": {
-                        "type": ["string"],
-                        "mapping": ["/listenPort"]
-                    },
-                    "mixpanelToken": {
-                        "type": ["string"],
-                        "mapping": ["/mixpanelToken"]
-                    },
-                    "vpn": {
-                        "properties": [
+                    }
+                },
+                "id": {
+                    "type": "string",
+                    "reconfix": {
+                        "transforms": [
                             {
-                                "definition": {
-                                    "port": {
-                                        "type": ["string"],
-                                        "mapping": ["/vpnPort"]
-                                    },
-                                    "endpoint": {
-                                        "type": ["string"],
-                                        "mapping": ["/vpnEndpoint"]
-                                    }
-                                }
-                            }
-                        ]
-                    },
-                    "supervisor": {
-                        "properties": [
-                            {
-                                "definition": {
-                                    "apiEndpoint": {
-                                        "type": ["string"],
-                                        "mapping": ["/apiEndpoint"]
-                                    },
-                                    "registryEndpoint": {
-                                        "type": ["string"],
-                                        "mapping": ["/registryEndpoint"]
-                                    },
-                                    "deltaEndpoint": {
-                                        "type": ["string"],
-                                        "mapping": ["/deltaEndpoint"]
-                                    },
-                                    "apiKey": {
-                                        "type": ["string"],
-                                        "mapping": ["/apiKey"]
-                                    }
-                                }
-                            }
-                        ]
-                    },
-                    "pubnub": {
-                        "properties": [
-                            {
-                                "definition": {
-                                    "publishKey": {
-                                        "type": ["string"],
-                                        "mapping": ["/pubnubPublishKey"]
-                                    },
-                                    "subscribeKey": {
-                                        "type": ["string"],
-                                        "mapping": ["/pubnubSubscribeKey"]
-                                    }
+                                "output": {
+                                    "target": "config_json",
+                                    "path": "/applicationId"
                                 }
                             }
                         ]
                     }
                 }
             }
-        ]
-    },
-    "resin_wifi": {
-        "type": "ini",
-        "location": { 
-            "partition": 1,
-            "path": ["system-connections", "resin-wifi-01"]
         },
-        "properties": [{   
-            "definition": {
-                "wifi": {
-                    "properties": [{
-                        "definition": {
-                            "enable": {
-                                "type": ["boolean"],
-                                "mapping": [
-                                    {
-                                        "value": true,
-                                        "template": {
-                                            "connection": {
-                                                "id": "resin-wifi-01",
-                                                "type": "wifi"
-                                            },
-                                            "wifi": {
-                                                "mode": "infrastructure",
-                                                "ssid": "[[string]]"
-                                            },
-                                            "wifi-security": {
-                                                "auth-alg": "open",
-                                                "key-mgmt": "wpa-psk",
-                                                "psk": "[[string]]"
-                                            },
-                                            "ipv4": {
-                                                "method": "auto"
-                                            },
-                                            "ipv6": {
-                                                "addr-gen-mode": "stable-privacy",
-                                                "method": "auto"
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "value": false,
-                                        "template": {}
-                                    }
-                                ]
-                            }
-                        }
-                    },
+        "deviceType": {
+            "type": "string",
+            "reconfix": {
+                "transforms": [
                     {
-                        "when": { 
-                            "wifi": {
-                                "enable": true
-                            }
-                        },
-                        "definition": {
-                            "networkSsid": {
-                                "type": ["string"],
-                                "mapping": ["/wifi/ssid"]
-                            },
-                            "networkKey": {
-                                "type": ["string"],
-                                "mapping": ["/wifi-security/psk"]
-                            }
+                        "output": {
+                            "target": "config_json",
+                            "path": "/deviceType"
                         }
-                    }]
+                    }
+                ]
+            }
+        },
+        "userId": {
+            "type": "string",
+            "reconfix": {
+                "transforms": [
+                    {
+                        "output": {
+                            "target": "config_json",
+                            "path": "/userId"
+                        }
+                    }
+                ]
+            }
+        },
+        "appUpdatePollInterval": {
+            "type": "string",
+            "reconfix": {
+                "transforms": [
+                    {
+                        "output": {
+                            "target": "config_json",
+                            "path": "/appUpdatePollInterval"
+                        }
+                    }
+                ]
+            }
+        },
+        "listenPort": {
+            "type": "string",
+            "reconfix": {
+                "transforms": [
+                    {
+                        "output": {
+                            "target": "config_json",
+                            "path": "/listenPort"
+                        }
+                    }
+                ]
+            }
+        },
+        "mixpanelToken": {
+            "type": "string",
+            "reconfix": {
+                "transforms": [
+                    {
+                        "output": {
+                            "target": "config_json",
+                            "path": "/mixpanelToken"
+                        }
+                    }
+                ]
+            }
+        },
+        "vpn": {
+            "type": "object",
+            "required": ["port", "endpoint"],
+            "properties": {
+                "port": {
+                    "type": "string",
+                    "reconfix": {
+                        "transforms": [
+                            {
+                                "output": {
+                                    "target": "config_json",
+                                    "path": "/vpnPort"
+                                }
+                            }
+                        ]
+                    }
+                },
+                "endpoint": {
+                    "type": "string",
+                    "reconfix": {
+                        "transforms": [
+                            {
+                                "output": {
+                                    "target": "config_json",
+                                    "path": "/vpnEndpoint"
+                                }
+                            }
+                        ]
+                    }
                 }
             }
-        }]
+            
+        },
+        "supervisor": {
+            "type": "object",
+            "required": ["apiEndpoint", "registryEndpoint", "deltaEndpoint", "apiKey"],
+            "properties": {
+                "apiEndpoint": {
+                    "type": "string",
+                    "reconfix": {
+                        "transforms": [
+                            {
+                                "output": {
+                                    "target": "config_json",
+                                    "path": "/apiEndpoint"
+                                }
+                            }
+                        ]
+                    }
+                },
+                "registryEndpoint": {
+                    "type": "string",
+                    "reconfix": {
+                        "transforms": [
+                            {
+                                "output": {
+                                    "target": "config_json",
+                                    "path": "/registryEndpoint"
+                                }
+                            }
+                        ]
+                    }
+                },
+                "deltaEndpoint": {
+                    "type": "string",
+                    "reconfix": {
+                        "transforms": [
+                            {
+                                "output": {
+                                    "target": "config_json",
+                                    "path": "/deltaEndpoint"
+                                }
+                            }
+                        ]
+                    }
+                },
+                "apiKey": {
+                    "type": "string",
+                    "reconfix": {
+                        "transforms": [
+                            {
+                                "output": {
+                                    "target": "config_json",
+                                    "path": "/apiKey"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "pubnub": {
+            "type": "object",
+            "required": ["publishKey", "subscribeKey"],
+            "properties": {
+                "publishKey": {
+                    "type": "string",
+                    "reconfix": {
+                        "transforms": [
+                            {
+                                "output": {
+                                    "target": "config_json",
+                                    "path": "/pubnubPublishKey"
+                                }
+                            }
+                        ]
+                    }
+                },
+                "subscribeKey": {
+                    "type": "string",
+                    "reconfix": {
+                        "transforms": [
+                            {
+                                "output": {
+                                    "target": "config_json",
+                                    "path": "/pubnubSubscribeKey"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "wifi": {
+            "properties": {
+                "networkSsid": {
+                    "type": "string",
+                    "reconfix": {
+                        "transforms": [
+                            {
+                                "output": {
+                                    "target": "resin_wifi",
+                                    "path": "/wifi/ssid"
+                                }
+                            }
+                        ]
+                    }
+                },
+                "networkKey": {
+                    "type": "string",
+                    "reconfix": {
+                        "transforms": [
+                            {
+                                "output": {
+                                    "target": "resin_wifi",
+                                    "path": "/wifi-security/psk"
+                                }
+                            }
+                        ]
+                    }
+                },
+                "enable": {
+                    "type": "boolean",
+                    "reconfix": {
+                        "transforms": [
+                            {
+                                "map": [
+                                    [true, {
+                                        "type": "object",
+                                        "required": ["connection", "wifi", "wifi-security", "ipv4", "ipv6"],
+                                        "properties": {
+                                            "connection": {
+                                                "type": "object",
+                                                "required": ["id", "type"],
+                                                "properties": {
+                                                    "id": { "const": "resin-wifi-01" },
+                                                    "type": { "const": "wifi" }
+                                                }
+                                            },
+                                            "wifi": {
+                                                "type": "object",
+                                                "required": ["mode", "ssid"],
+                                                "properties": {
+                                                    "mode": { "const": "infrastructure" },
+                                                    "ssid": { "type": "string" }
+                                                }
+                                            },
+                                            "wifi-security": {
+                                                "type": "object",
+                                                "required": ["auth-alg", "key-mgmt", "psk"],
+                                                "properties": {
+                                                    "auth-alg": { "const": "open" },
+                                                    "key-mgmt": { "const": "wpa-psk" },
+                                                    "psk": { "const": "string" }
+                                                }
+                                            },
+                                            "ipv4": {
+                                                "type": "object",
+                                                "required": ["method"],
+                                                "properties": {
+                                                    "method": { "const": "auto" }
+                                                }
+                                            },
+                                            "ipv6": {
+                                                "type": "object",
+                                                "required": ["addr-gen-mode", "method"],
+                                                "properties": {
+                                                    "addr-gen-mode": { "const": "stable-privacy" },
+                                                    "method": { "const": "auto" }
+                                                }
+                                            }
+                                        }
+                                    }],
+                                    [false, { "const": null }]
+                                ],
+                                "output": {
+                                    "target": "resin_wifi",
+                                    "path": ""
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
     }
 }
