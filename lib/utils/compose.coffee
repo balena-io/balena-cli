@@ -102,7 +102,7 @@ toPosixPath = (systemPath) ->
 	path = require('path')
 	systemPath.replace(new RegExp('\\' + path.sep, 'g'), '/')
 
-tarDirectory = (dir) ->
+exports.tarDirectory = tarDirectory = (dir) ->
 	tar = require('tar-stream')
 	klaw = require('klaw')
 	path = require('path')

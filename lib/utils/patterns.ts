@@ -23,6 +23,11 @@ import chalk from 'chalk';
 import validation = require('./validation');
 import messages = require('./messages');
 
+export interface ListSelectionEntry {
+	name: string;
+	extra: any;
+}
+
 export function authenticate(options: {}): Promise<void> {
 	return form
 		.run(
@@ -243,6 +248,20 @@ export function inferOrSelectDevice(preferredUuid: string) {
 				})),
 			});
 		});
+}
+
+export function selectFromList(
+	message: string,
+	selections: ListSelectionEntry[],
+): Promise<ListSelectionEntry> {
+	return form.ask({
+		message,
+		type: 'list',
+		choices: _.map(selections, s => ({
+			name: s.name,
+			value: s,
+		})),
+	});
 }
 
 export function printErrorMessage(message: string) {

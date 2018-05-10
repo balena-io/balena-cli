@@ -212,6 +212,9 @@ capitano.command(actions.internal.osInit)
 capitano.command(actions.build)
 capitano.command(actions.deploy)
 
+#------------ Push/remote builds -------
+capitano.command(actions.push.push)
+
 update.notify()
 
 cli = capitano.parse(process.argv)
