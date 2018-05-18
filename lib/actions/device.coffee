@@ -18,6 +18,10 @@ commandOptions = require('./command-options')
 _ = require('lodash')
 { normalizeUuidProp } = require('../utils/normalization')
 
+expandForAppName = {
+	$expand: belongs_to__application: $select: 'app_name'
+}
+
 exports.list =
 	signature: 'devices'
 	description: 'list all devices'
@@ -38,23 +42,25 @@ exports.list =
 	primary: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
 		Promise.try ->
 			if options.application?
-				return resin.models.device.getAllByApplication(options.application)
-			return resin.models.device.getAll()
+				return resin.models.device.getAllByApplication(options.application, expandForAppName)
+			return resin.models.device.getAll(expandForAppName)
 
 		.tap (devices) ->
 			devices = _.map devices, (device) ->
+				device.dashboard_url = resin.models.device.getDashboardUrl(device.uuid)
+				device.application_name = device.belongs_to__application[0].app_name
 				device.uuid = device.uuid.slice(0, 7)
 				return device
 
 			console.log visuals.table.horizontal devices, [
 				'id'
 				'uuid'
-				'name'
+				'device_name'
 				'device_type'
 				'application_name'
 				'status'
@@ -79,16 +85,18 @@ exports.info =
 	primary: true
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
-		resin.models.device.get(params.uuid).then (device) ->
-
+		resin.models.device.get(params.uuid, expandForAppName)
+		.then (device) ->
 			resin.models.device.getStatus(device).then (status) ->
 				device.status = status
+				device.dashboard_url = resin.models.device.getDashboardUrl(device.uuid)
+				device.application_name = device.belongs_to__application[0].app_name
 
 				console.log visuals.table.vertical device, [
-					"$#{device.name}$"
+					"$#{device.device_name}$"
 					'id'
 					'device_type'
 					'status'
