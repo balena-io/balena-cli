@@ -207,6 +207,8 @@ capitano.command(actions.util.availableDrives)
 
 # ---------- Internal utils ----------
 capitano.command(actions.internal.osInit)
+capitano.command(actions.internal.scanDevices)
+capitano.command(actions.internal.sudo)
 
 #------------ Local build and deploy -------
 capitano.command(actions.build)
@@ -214,6 +216,10 @@ capitano.command(actions.deploy)
 
 #------------ Push/remote builds -------
 capitano.command(actions.push.push)
+
+#------------ Join/Leave -------
+capitano.command(actions.join.join)
+capitano.command(actions.leave.leave)
 
 update.notify()
 

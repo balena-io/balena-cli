@@ -245,7 +245,10 @@ export function inferOrSelectDevice(preferredUuid: string) {
 		});
 }
 
-export function selectFromList<T>(message: string, choices: Array<T & { name: string }>): Promise<T> {
+export function selectFromList<T>(
+	message: string,
+	choices: Array<T & { name: string }>,
+): Promise<T> {
 	return form.ask({
 		message,
 		type: 'list',

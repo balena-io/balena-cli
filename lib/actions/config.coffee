@@ -198,7 +198,7 @@ exports.reconfigure =
 		Promise = require('bluebird')
 		config = require('resin-config-json')
 		visuals = require('resin-cli-visuals')
-		capitanoRunAsync = Promise.promisify(require('capitano').run)
+		{ runCommand } = require('../utils/helpers')
 		umountAsync = Promise.promisify(require('umount').umount)
 
 		Promise.try ->
@@ -212,7 +212,7 @@ exports.reconfigure =
 					configureCommand = "os configure #{drive} --device #{uuid}"
 					if options.advanced
 						configureCommand += ' --advanced'
-					return capitanoRunAsync(configureCommand)
+					return runCommand(configureCommand)
 		.then ->
 			console.info('Done')
 		.nodeify(done)

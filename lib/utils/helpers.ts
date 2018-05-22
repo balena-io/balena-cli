@@ -23,11 +23,9 @@ import imagefs = require('resin-image-fs');
 import visuals = require('resin-cli-visuals');
 import ResinSdk = require('resin-sdk');
 
-import { execute } from 'president';
 import { InitializeEmitter, OperationState } from 'resin-device-init';
 
 const waitStreamAsync = Promise.promisify(rindle.wait);
-const presidentExecuteAsync = Promise.promisify(execute);
 
 const resin = ResinSdk.fromSharedOptions();
 
@@ -63,14 +61,24 @@ export function stateToString(state: OperationState) {
 	}
 }
 
-export function sudo(command: string[]) {
+export function sudo(
+	command: string[],
+	{ stderr, msg }: { stderr?: NodeJS.WritableStream; msg?: string },
+) {
+	const { executeWithPrivileges } = require('./sudo');
+
 	if (os.platform() !== 'win32') {
-		console.log('If asked please type your computer password to continue');
+		console.log(
+			msg || 'If asked please type your computer password to continue',
+		);
 	}
 
-	command = _.union(_.take(process.argv, 2), command);
+	return executeWithPrivileges(command, stderr);
+}
 
-	return presidentExecuteAsync(command);
+export function runCommand(command: string): Promise<void> {
+	const capitano = require('capitano');
+	return Promise.fromCallback(resolver => capitano.run(command, resolver));
 }
 
 export function getManifest(
@@ -132,7 +140,7 @@ export function getArchAndDeviceType(
 export function getApplication(applicationName: string) {
 	// Check for an app of the form `user/application`, and send
 	// that off to a special handler (before importing any modules)
-	const match = /(\w+)\/(\w+)/.exec(applicationName);
+	const match = applicationName.split('/');
 
 	const extraOptions = {
 		$expand: {
@@ -142,10 +150,10 @@ export function getApplication(applicationName: string) {
 		},
 	};
 
-	if (match) {
+	if (match.length > 1) {
 		return resin.models.application.getAppByOwner(
-			match[2],
 			match[1],
+			match[0],
 			extraOptions,
 		);
 	}

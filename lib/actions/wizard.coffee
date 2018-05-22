@@ -34,29 +34,28 @@ exports.wizard =
 	'''
 	primary: true
 	action: (params, options, done) ->
-		Promise = require('bluebird')
-		capitanoRunAsync = Promise.promisify(require('capitano').run)
 		resin = require('resin-sdk-preconfigured')
 		patterns = require('../utils/patterns')
+		{ runCommand } = require('../utils/helpers')
 
 		resin.auth.isLoggedIn().then (isLoggedIn) ->
 			return if isLoggedIn
 			console.info('Looks like you\'re not logged in yet!')
-			console.info('Lets go through a quick wizard to get you started.\n')
-			return capitanoRunAsync('login')
+			console.info("Let's go through a quick wizard to get you started.\n")
+			return runCommand('login')
 		.then ->
 			return if params.name?
 			patterns.selectOrCreateApplication().tap (applicationName) ->
 				resin.models.application.has(applicationName).then (hasApplication) ->
 					return applicationName if hasApplication
-					capitanoRunAsync("app create #{applicationName}")
+					runCommand("app create #{applicationName}")
 			.then (applicationName) ->
 				params.name = applicationName
 		.then ->
-			return capitanoRunAsync("device init --application #{params.name}")
+			return runCommand("device init --application #{params.name}")
 		.tap(patterns.awaitDevice)
 		.then (uuid) ->
-			return capitanoRunAsync("device #{uuid}")
+			return runCommand("device #{uuid}")
 		.then ->
 			return resin.models.application.get(params.name)
 		.then (application) ->
