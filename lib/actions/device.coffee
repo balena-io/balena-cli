@@ -94,6 +94,7 @@ exports.info =
 				device.status = status
 				device.dashboard_url = resin.models.device.getDashboardUrl(device.uuid)
 				device.application_name = device.belongs_to__application[0].app_name
+				device.commit = device.is_on__commit
 
 				console.log visuals.table.vertical device, [
 					"$#{device.device_name}$"
