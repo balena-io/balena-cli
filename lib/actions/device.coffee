@@ -18,6 +18,10 @@ commandOptions = require('./command-options')
 _ = require('lodash')
 { normalizeUuidProp } = require('../utils/normalization')
 
+expandForAppName = {
+	$expand: belongs_to__application: $select: 'app_name'
+}
+
 exports.list =
 	signature: 'devices'
 	description: 'list all devices'
@@ -38,23 +42,25 @@ exports.list =
 	primary: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
 		Promise.try ->
 			if options.application?
-				return resin.models.device.getAllByApplication(options.application)
-			return resin.models.device.getAll()
+				return resin.models.device.getAllByApplication(options.application, expandForAppName)
+			return resin.models.device.getAll(expandForAppName)
 
 		.tap (devices) ->
 			devices = _.map devices, (device) ->
+				device.dashboard_url = resin.models.device.getDashboardUrl(device.uuid)
+				device.application_name = device.belongs_to__application[0].app_name
 				device.uuid = device.uuid.slice(0, 7)
 				return device
 
 			console.log visuals.table.horizontal devices, [
 				'id'
 				'uuid'
-				'name'
+				'device_name'
 				'device_type'
 				'application_name'
 				'status'
@@ -79,16 +85,19 @@ exports.info =
 	primary: true
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
-		resin.models.device.get(params.uuid).then (device) ->
-
+		resin.models.device.get(params.uuid, expandForAppName)
+		.then (device) ->
 			resin.models.device.getStatus(device).then (status) ->
 				device.status = status
+				device.dashboard_url = resin.models.device.getDashboardUrl(device.uuid)
+				device.application_name = device.belongs_to__application[0].app_name
+				device.commit = device.is_on__commit
 
 				console.log visuals.table.vertical device, [
-					"$#{device.name}$"
+					"$#{device.device_name}$"
 					'id'
 					'device_type'
 					'status'
@@ -117,7 +126,7 @@ exports.supported =
 			$ resin devices supported
 	'''
 	action: (params, options, done) ->
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
 		resin.models.config.getDeviceTypes().then (deviceTypes) ->
@@ -153,7 +162,7 @@ exports.register =
 	]
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 
 		Promise.join(
 			resin.models.application.get(params.application)
@@ -188,7 +197,7 @@ exports.remove =
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		patterns = require('../utils/patterns')
 
 		patterns.confirm(options.yes, 'Are you sure you want to delete the device?').then ->
@@ -210,7 +219,7 @@ exports.identify =
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		resin.models.device.identify(params.uuid).nodeify(done)
 
 exports.reboot =
@@ -227,7 +236,7 @@ exports.reboot =
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		resin.models.device.reboot(params.uuid, options).nodeify(done)
 
 exports.shutdown =
@@ -244,7 +253,7 @@ exports.shutdown =
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		resin.models.device.shutdown(params.uuid, options).nodeify(done)
 
 exports.enableDeviceUrl =
@@ -260,7 +269,7 @@ exports.enableDeviceUrl =
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		resin.models.device.enableDeviceUrl(params.uuid).nodeify(done)
 
 exports.disableDeviceUrl =
@@ -276,7 +285,7 @@ exports.disableDeviceUrl =
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		resin.models.device.disableDeviceUrl(params.uuid).nodeify(done)
 
 exports.getDeviceUrl =
@@ -292,7 +301,7 @@ exports.getDeviceUrl =
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		resin.models.device.getDeviceUrl(params.uuid).then (url) ->
 			console.log(url)
 		.nodeify(done)
@@ -310,7 +319,7 @@ exports.hasDeviceUrl =
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		resin.models.device.hasDeviceUrl(params.uuid).then (hasDeviceUrl) ->
 			console.log(hasDeviceUrl)
 		.nodeify(done)
@@ -332,7 +341,7 @@ exports.rename =
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
 		Promise = require('bluebird')
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		form = require('resin-cli-form')
 
 		Promise.try ->
@@ -362,14 +371,14 @@ exports.move =
 	options: [ commandOptions.optionalApplication ]
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		patterns = require('../utils/patterns')
 
-		resin.models.device.get(params.uuid).then (device) ->
+		resin.models.device.get(params.uuid, expandForAppName).then (device) ->
 			return options.application or patterns.selectApplication (application) ->
 				return _.every [
 					application.device_type is device.device_type
-					device.application_name isnt application.app_name
+					device.belongs_to__application[0].app_name isnt application.app_name
 				]
 		.tap (application) ->
 			return resin.models.device.move(params.uuid, application)
