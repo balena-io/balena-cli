@@ -34,8 +34,7 @@ const resin = ResinSdk.fromSharedOptions();
 export function getGroupDefaults(group: {
 	options: { name: string; default?: string }[];
 }): { [name: string]: string | undefined } {
-	return _
-		.chain(group)
+	return _.chain(group)
 		.get('options')
 		.map(question => [question.name, question.default])
 		.fromPairs()

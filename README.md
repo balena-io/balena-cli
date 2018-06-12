@@ -52,6 +52,10 @@ $ npm install resin-cli -g --production --unsafe-perm
 This allows npm install steps to download and save prebuilt native binaries. You may be able to omit it,
 especially if you're using a user-managed node install such as [nvm](https://github.com/creationix/nvm).
 
+In some environments, this process will need to build native modules. This may require a more complex build
+environment, and notably requires Python 2.7. If you hit any problems with this, we recommend you try the
+alternative standalone install below instead.
+
 ### Standalone install
 
 If you don't have node or a working pre-gyp environment, you can still install the CLI as a standalone
