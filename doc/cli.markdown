@@ -1206,6 +1206,10 @@ path to a png image to replace the splash screen
 
 Disables check for matching device types in image and application
 
+#### --pin-device-to-release, -p
+
+Pin the preloaded device to the preloaded release on provision
+
 #### --docker, -P &#60;docker&#62;
 
 Path to a local docker socket

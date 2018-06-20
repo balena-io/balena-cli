@@ -144,6 +144,12 @@ module.exports =
 			boolean: true
 			description: 'Disables check for matching device types in image and application'
 		}
+		{
+			signature: 'pin-device-to-release'
+			boolean: true
+			description: 'Pin the preloaded device to the preloaded release on provision'
+			alias: 'p'
+		}
 	]
 	action: (params, options, done) ->
 		_ = require('lodash')
@@ -186,6 +192,9 @@ module.exports =
 		if options.dontCheckDeviceType and not options.appId
 			exitWithExpectedError('You need to specify an app id if you disable the device type check.')
 
+		options.pinDevice = options['pin-device-to-release']
+		delete options['pin-device-to-release']
+
 		# Get a configured dockerode instance
 		dockerUtils.getDocker(options)
 		.then (docker) ->
@@ -199,6 +208,7 @@ module.exports =
 				options.splashImage
 				options.proxy
 				options.dontCheckDeviceType
+				options.pinDevice
 			)
 
 			gotSignal = false
