@@ -26,12 +26,18 @@ const DEBUG_MODE = !!process.env.DEBUG;
 const CURSOR_METADATA_REGEX = /([a-z]+)([0-9]+)?/;
 const TRIM_REGEX = /\n+$/;
 
+export interface BuildOpts {
+	emulated: boolean;
+	nocache: boolean;
+}
+
 export interface RemoteBuild {
 	app: string;
 	owner: string;
 	source: string;
 	auth: string;
 	baseUrl: string;
+	opts: BuildOpts;
 
 	sdk: ResinSDK;
 
@@ -52,9 +58,15 @@ async function getBuilderEndpoint(
 	baseUrl: string,
 	owner: string,
 	app: string,
+	opts: BuildOpts,
 ): Promise<string> {
 	const querystring = await import('querystring');
-	const args = querystring.stringify({ owner, app });
+	const args = querystring.stringify({
+		owner,
+		app,
+		emulated: opts.emulated,
+		nocache: opts.nocache,
+	});
 	return `https://builder.${baseUrl}/v3/build?${args}`;
 }
 
@@ -196,7 +208,12 @@ async function getRequestStream(build: RemoteBuild): Promise<Stream.Duplex> {
 		console.log('[debug] Opening builder connection');
 	}
 	const post = request.post({
-		url: await getBuilderEndpoint(build.baseUrl, build.owner, build.app),
+		url: await getBuilderEndpoint(
+			build.baseUrl,
+			build.owner,
+			build.app,
+			build.opts,
+		),
 		auth: {
 			bearer: build.auth,
 		},
