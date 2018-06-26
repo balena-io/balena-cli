@@ -124,6 +124,10 @@ environment variable (in the same standard URL format).\
 			files: [ 'build/actions/preload.js' ]
 		},
 		{
+			title: 'Push',
+			files: [ 'build/actions/push.js' ]
+		},
+		{
 			title: 'Settings',
 			files: [ 'build/actions/settings.js' ]
 		},
