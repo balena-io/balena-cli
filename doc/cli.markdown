@@ -157,6 +157,10 @@ environment variable (in the same standard URL format).
 
 	- [preload &#60;image&#62;](#preload-image-)
 
+- Push
+
+	- [push &#60;application&#62;](#push-application-)
+
 - Settings
 
 	- [settings](#settings)
@@ -1233,6 +1237,27 @@ Docker host TLS certificate file
 #### --key &#60;key&#62;
 
 Docker host TLS key file
+
+# Push
+
+## push &#60;application&#62;
+
+This command can be used to start a build on the remote
+resin.io cloud builders. The given source directory will be sent to the
+resin.io builder, and the build will proceed. This can be used as a drop-in
+replacement for git push to deploy.
+
+Examples:
+
+	$ resin push myApp
+	$ resin push myApp --source <source directory>
+	$ resin push myApp -s <source directory>
+
+### Options
+
+#### --source, -s &#60;source&#62;
+
+The source that should be sent to the resin builder to be built (defaults to the current directory)
 
 # Settings
 
