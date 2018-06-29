@@ -47,7 +47,7 @@ module.exports =
 	primary: true
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		moment = require('moment')
 
 		printLine = (line) ->
