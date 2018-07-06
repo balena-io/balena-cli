@@ -218,6 +218,9 @@ capitano.command(actions.push.push)
 update.notify()
 
 cli = capitano.parse(process.argv)
+
+global._capitano = capitano
+
 runCommand = ->
 	if cli.global?.help
 		capitanoExecuteAsync(command: "help #{cli.command ? ''}")

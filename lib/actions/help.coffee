@@ -92,7 +92,23 @@ command = (params, options, done) ->
 			console.log('\nOptions:\n')
 			print(parse(command.options))
 
+		if params.command
+			listNested(params.command, command.signature)
+
 		return done()
+
+listNested = (commandName) ->
+	list = []
+
+	for command in global._capitano.state.commands
+		parameters = command?.signature?.parameters
+		parameterName = parameters?[0].parameter
+
+		if parameterName is commandName and not (/[^a-z]{1,}/g).test(parameters?[1])
+			list.push("#{parameters?[1]?.parameter}")
+
+	if list.length
+		console.log("also available for '#{commandName}':", list.join(', '))
 
 exports.help =
 	signature: 'help [command...]'
