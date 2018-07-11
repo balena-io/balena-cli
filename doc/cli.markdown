@@ -977,17 +977,20 @@ the path to the output JSON file
 Use this command to configure a previously downloaded operating system image for
 the specific device or for an application generally.
 
+Calling this command without --version is not recommended, and may fail in
+future releases if the OS version cannot be inferred.
+
 Note that device api keys are only supported on ResinOS 2.0.3+.
 
-This comand still supports the *deprecated* format where the UUID and optionally device key
+This command still supports the *deprecated* format where the UUID and optionally device key
 are passed directly on the command line, but the recommended way is to pass either an --app or
 --device argument. The deprecated format will be remove in a future release.
 
 Examples:
 
-	$ resin os configure ../path/rpi.img --device 7cf02a6
-	$ resin os configure ../path/rpi.img --device 7cf02a6 --deviceApiKey <existingDeviceKey>
-	$ resin os configure ../path/rpi.img --app MyApp
+	$ resin os configure ../path/rpi.img --device 7cf02a6 --version 2.12.7
+	$ resin os configure ../path/rpi.img --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>
+	$ resin os configure ../path/rpi.img --app MyApp  --version 2.12.7
 
 ### Options
 
@@ -1006,6 +1009,10 @@ device uuid
 #### --deviceApiKey, -k &#60;device-api-key&#62;
 
 custom device key - note that this is only supported on ResinOS 2.0.3+
+
+#### --version &#60;version&#62;
+
+a ResinOS version
 
 #### --config &#60;config&#62;
 
@@ -1125,21 +1132,28 @@ show advanced commands
 
 Use this command to generate a config.json for a device or application.
 
+Calling this command without --version is not recommended, and may fail in
+future releases if the OS version cannot be inferred.
+
 This is interactive by default, but you can do this automatically without interactivity
 by specifying an option for each question on the command line, if you know the questions
 that will be asked for the relevant device type.
 
 Examples:
 
-	$ resin config generate --device 7cf02a6
-	$ resin config generate --device 7cf02a6 --generate-device-api-key
-	$ resin config generate --device 7cf02a6 --device-api-key <existingDeviceKey>
-	$ resin config generate --device 7cf02a6 --output config.json
-	$ resin config generate --app MyApp
-	$ resin config generate --app MyApp --output config.json
-	$ resin config generate --app MyApp --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1
+	$ resin config generate --device 7cf02a6 --version 2.12.7
+	$ resin config generate --device 7cf02a6 --version 2.12.7 --generate-device-api-key
+	$ resin config generate --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>
+	$ resin config generate --device 7cf02a6 --version 2.12.7 --output config.json
+	$ resin config generate --app MyApp --version 2.12.7
+	$ resin config generate --app MyApp --version 2.12.7 --output config.json
+	$ resin config generate --app MyApp --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1
 
 ### Options
+
+#### --version &#60;version&#62;
+
+a ResinOS version
 
 #### --application, -a, --app &#60;application&#62;
 

@@ -203,17 +203,20 @@ exports.configure =
 		Use this command to configure a previously downloaded operating system image for
 		the specific device or for an application generally.
 
+		Calling this command without --version is not recommended, and may fail in
+		future releases if the OS version cannot be inferred.
+
 		Note that device api keys are only supported on ResinOS 2.0.3+.
 
-		This comand still supports the *deprecated* format where the UUID and optionally device key
+		This command still supports the *deprecated* format where the UUID and optionally device key
 		are passed directly on the command line, but the recommended way is to pass either an --app or
 		--device argument. The deprecated format will be remove in a future release.
 
 		Examples:
 
-			$ resin os configure ../path/rpi.img --device 7cf02a6
-			$ resin os configure ../path/rpi.img --device 7cf02a6 --deviceApiKey <existingDeviceKey>
-			$ resin os configure ../path/rpi.img --app MyApp
+			$ resin os configure ../path/rpi.img --device 7cf02a6 --version 2.12.7
+			$ resin os configure ../path/rpi.img --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>
+			$ resin os configure ../path/rpi.img --app MyApp  --version 2.12.7
 	'''
 	permission: 'user'
 	options: [
@@ -221,6 +224,7 @@ exports.configure =
 		commandOptions.optionalApplication
 		commandOptions.optionalDevice
 		commandOptions.optionalDeviceApiKey
+		commandOptions.optionalOsVersion
 		{
 			signature: 'config'
 			description: 'path to the config JSON file, see `resin os build-config`'
@@ -279,6 +283,8 @@ exports.configure =
 						.then(JSON.parse)
 				return buildConfig(params.image, appOrDevice.device_type, options.advanced)
 			.then (answers) ->
+				answers.version = options.version
+
 				(if configurationResourceType == 'device'
 					generateDeviceConfig(appOrDevice, deviceApiKey, answers)
 				else

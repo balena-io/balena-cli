@@ -17,16 +17,17 @@ import Promise = require('bluebird');
 import ResinSdk = require('resin-sdk');
 import _ = require('lodash');
 import deviceConfig = require('resin-device-config');
+import * as semver from 'resin-semver';
 
 const resin = ResinSdk.fromSharedOptions();
 
 export function generateBaseConfig(
 	application: ResinSdk.Application,
-	options: { appUpdatePollInterval?: number },
+	options: { version?: string; appUpdatePollInterval?: number },
 ) {
 	options = _.mapValues(options, function(value, key) {
 		if (key === 'appUpdatePollInterval') {
-			return value! * 60 * 1000;
+			return <number>value * 60 * 1000;
 		} else {
 			return value;
 		}
@@ -66,27 +67,30 @@ export function generateBaseConfig(
 
 export function generateApplicationConfig(
 	application: ResinSdk.Application,
-	options: {},
+	options: { version?: string },
 ) {
-	return generateBaseConfig(application, options).tap(config =>
-		addApplicationKey(config, application.id),
-	);
+	return generateBaseConfig(application, options).tap(config => {
+		if (semver.satisfies(options.version, '>=2.7.8')) {
+			return addProvisioningKey(config, application.id);
+		} else {
+			return addApplicationKey(config, application.id);
+		}
+	});
 }
 
 export function generateDeviceConfig(
 	device: ResinSdk.Device & { belongs_to__application: ResinSdk.PineDeferred },
 	deviceApiKey: string | true | null,
-	options: {},
+	options: { version?: string },
 ) {
 	return resin.models.application
 		.get(device.belongs_to__application.__id)
 		.then(application => {
 			return generateBaseConfig(application, options).tap(config => {
-				// Device API keys are only safe for ResinOS 2.0.3+. We could somehow obtain
-				// the expected version for this config and generate one when we know it's safe,
-				// but instead for now we fall back to app keys unless the user has explicitly opted in.
 				if (deviceApiKey) {
 					return addDeviceKey(config, device.uuid, deviceApiKey);
+				} else if (semver.satisfies(options.version, '>=2.0.3')) {
+					return addDeviceKey(config, device.uuid, true);
 				} else {
 					return addApplicationKey(config, application.id);
 				}
@@ -106,6 +110,14 @@ export function generateDeviceConfig(
 function addApplicationKey(config: any, applicationNameOrId: string | number) {
 	return resin.models.application
 		.generateApiKey(applicationNameOrId)
+		.tap(apiKey => {
+			config.apiKey = apiKey;
+		});
+}
+
+function addProvisioningKey(config: any, applicationNameOrId: string | number) {
+	return resin.models.application
+		.generateProvisioningKey(applicationNameOrId)
 		.tap(apiKey => {
 			config.apiKey = apiKey;
 		});

@@ -44,6 +44,11 @@ exports.optionalDeviceApiKey =
 	parameter: 'device-api-key'
 	alias: 'k'
 
+exports.optionalOsVersion =
+	signature: 'version'
+	description: 'a ResinOS version'
+	parameter: 'version'
+
 exports.booleanDevice =
 	signature: 'device'
 	description: 'device'

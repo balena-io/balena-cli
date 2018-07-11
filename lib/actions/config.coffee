@@ -223,21 +223,26 @@ exports.generate =
 	help: '''
 		Use this command to generate a config.json for a device or application.
 
+		Calling this command without --version is not recommended, and may fail in
+		future releases if the OS version cannot be inferred.
+
 		This is interactive by default, but you can do this automatically without interactivity
 		by specifying an option for each question on the command line, if you know the questions
 		that will be asked for the relevant device type.
 
 		Examples:
 
-			$ resin config generate --device 7cf02a6
-			$ resin config generate --device 7cf02a6 --generate-device-api-key
-			$ resin config generate --device 7cf02a6 --device-api-key <existingDeviceKey>
-			$ resin config generate --device 7cf02a6 --output config.json
-			$ resin config generate --app MyApp
-			$ resin config generate --app MyApp --output config.json
-			$ resin config generate --app MyApp --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1
+			$ resin config generate --device 7cf02a6 --version 2.12.7
+			$ resin config generate --device 7cf02a6 --version 2.12.7 --generate-device-api-key
+			$ resin config generate --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>
+			$ resin config generate --device 7cf02a6 --version 2.12.7 --output config.json
+			$ resin config generate --app MyApp --version 2.12.7
+			$ resin config generate --app MyApp --version 2.12.7 --output config.json
+			$ resin config generate --app MyApp --version 2.12.7 \
+				--network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1
 	'''
 	options: [
+		commandOptions.optionalOsVersion
 		commandOptions.optionalApplication
 		commandOptions.optionalDevice
 		commandOptions.optionalDeviceApiKey
@@ -308,6 +313,8 @@ exports.generate =
 				# required option, that value is used (and the corresponding question is not asked)
 				form.run(formOptions, override: options)
 			.then (answers) ->
+				answers.version = options.version
+
 				if resource.uuid?
 					generateDeviceConfig(resource, options.deviceApiKey || options['generate-device-api-key'], answers)
 				else
