@@ -148,7 +148,7 @@
     "resin-multibuild": "^0.5.1",
     "resin-preload": "^6.3.0",
     "resin-release": "^1.2.0",
-    "resin-sdk": "9.0.0-beta18",
+    "resin-sdk": "10.0.0-beta1",
     "resin-sdk-preconfigured": "^6.9.0",
     "resin-settings-client": "^3.6.1",
     "resin-stream-logger": "^0.1.0",
