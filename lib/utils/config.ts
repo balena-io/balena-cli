@@ -74,12 +74,12 @@ export function generateApplicationConfig(
 }
 
 export function generateDeviceConfig(
-	device: ResinSdk.Device & { application_name: string },
+	device: ResinSdk.Device & { belongs_to__application: ResinSdk.PineDeferred },
 	deviceApiKey: string | true | null,
 	options: {},
 ) {
 	return resin.models.application
-		.get(device.application_name)
+		.get(device.belongs_to__application.__id)
 		.then(application => {
 			return generateBaseConfig(application, options).tap(config => {
 				// Device API keys are only safe for ResinOS 2.0.3+. We could somehow obtain

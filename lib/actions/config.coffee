@@ -279,7 +279,7 @@ exports.generate =
 		normalizeUuidProp(options, 'device')
 		Promise = require('bluebird')
 		writeFileAsync = Promise.promisify(require('fs').writeFile)
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		form = require('resin-cli-form')
 		deviceConfig = require('resin-device-config')
 		prettyjson = require('prettyjson')

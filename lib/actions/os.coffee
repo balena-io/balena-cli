@@ -31,7 +31,7 @@ resolveVersion = (deviceType, version) ->
 		return Promise.resolve(version)
 
 	form = require('resin-cli-form')
-	resin = require('resin-sdk-preconfigured')
+	resin = require('resin-sdk').fromSharedOptions()
 
 	resin.models.os.getSupportedVersions(deviceType)
 	.then ({ versions, recommended }) ->
@@ -57,7 +57,7 @@ exports.versions =
 			$ resin os versions raspberrypi3
 	'''
 	action: (params, options, done) ->
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 
 		resin.models.os.getSupportedVersions(params.type)
 		.then ({ versions, recommended }) ->
@@ -233,7 +233,7 @@ exports.configure =
 		fs = require('fs')
 		Promise = require('bluebird')
 		readFileAsync = Promise.promisify(fs.readFile)
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		init = require('resin-device-init')
 		helpers = require('../utils/helpers')
 		patterns = require('../utils/patterns')
