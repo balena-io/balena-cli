@@ -1136,6 +1136,7 @@ that will be asked for the relevant device type.
 Examples:
 
 	$ resin config generate --device 7cf02a6
+	$ resin config generate --device 7cf02a6 --generate-device-api-key
 	$ resin config generate --device 7cf02a6 --device-api-key <existingDeviceKey>
 	$ resin config generate --device 7cf02a6 --output config.json
 	$ resin config generate --app MyApp
@@ -1155,6 +1156,10 @@ device uuid
 #### --deviceApiKey, -k &#60;device-api-key&#62;
 
 custom device key - note that this is only supported on ResinOS 2.0.3+
+
+#### --generate-device-api-key
+
+generate a fresh device key for the device
 
 #### --output, -o &#60;output&#62;
 

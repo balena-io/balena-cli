@@ -230,6 +230,7 @@ exports.generate =
 		Examples:
 
 			$ resin config generate --device 7cf02a6
+			$ resin config generate --device 7cf02a6 --generate-device-api-key
 			$ resin config generate --device 7cf02a6 --device-api-key <existingDeviceKey>
 			$ resin config generate --device 7cf02a6 --output config.json
 			$ resin config generate --app MyApp
@@ -240,6 +241,11 @@ exports.generate =
 		commandOptions.optionalApplication
 		commandOptions.optionalDevice
 		commandOptions.optionalDeviceApiKey
+		{
+			signature: 'generate-device-api-key'
+			description: 'generate a fresh device key for the device'
+			boolean: true
+		}
 		{
 			signature: 'output'
 			description: 'output'
@@ -303,7 +309,7 @@ exports.generate =
 				form.run(formOptions, override: options)
 			.then (answers) ->
 				if resource.uuid?
-					generateDeviceConfig(resource, options.deviceApiKey, answers)
+					generateDeviceConfig(resource, options.deviceApiKey || options['generate-device-api-key'], answers)
 				else
 					generateApplicationConfig(resource, answers)
 		.then (config) ->

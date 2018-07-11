@@ -75,7 +75,7 @@ export function generateApplicationConfig(
 
 export function generateDeviceConfig(
 	device: ResinSdk.Device & { application_name: string },
-	deviceApiKey: string | null,
+	deviceApiKey: string | true | null,
 	options: {},
 ) {
 	return resin.models.application
@@ -111,9 +111,17 @@ function addApplicationKey(config: any, applicationNameOrId: string | number) {
 		});
 }
 
-function addDeviceKey(config: any, uuid: string, customDeviceApiKey: string) {
+function addDeviceKey(
+	config: any,
+	uuid: string,
+	customDeviceApiKey: string | true,
+) {
 	return Promise.try(() => {
-		return customDeviceApiKey || resin.models.device.generateDeviceKey(uuid);
+		if (customDeviceApiKey === true) {
+			return resin.models.device.generateDeviceKey(uuid);
+		} else {
+			return customDeviceApiKey;
+		}
 	}).tap(deviceApiKey => {
 		config.deviceApiKey = deviceApiKey;
 	});
