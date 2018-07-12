@@ -26,10 +26,6 @@ module.exports =
 
 		To continuously stream output, and see new logs in real time, use the `--tail` option.
 
-		Note that for now you need to provide the whole UUID for this command to work correctly.
-
-		This is due to some technical limitations that we plan to address soon.
-
 		Examples:
 
 			$ resin logs 23c73a1
@@ -47,25 +43,19 @@ module.exports =
 	primary: true
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		moment = require('moment')
 
 		printLine = (line) ->
 			timestamp = moment(line.timestamp).format('DD.MM.YY HH:mm:ss (ZZ)')
 			console.log("#{timestamp} #{line.message}")
 
-		promise = resin.logs.history(params.uuid).each(printLine)
-
-		if not options.tail
-
-			# PubNub keeps the process alive after a history query.
-			# Until this is fixed, we force the process to exit.
-			# This of course prevents this command to be used programatically
-			return promise.catch(done).finally ->
-				process.exit(0)
-
-		promise.then ->
+		if options.tail
 			resin.logs.subscribe(params.uuid).then (logs) ->
 				logs.on('line', printLine)
 				logs.on('error', done)
-		.catch(done)
+			.catch(done)
+		else
+			resin.logs.history(params.uuid)
+			.each(printLine)
+			.catch(done)

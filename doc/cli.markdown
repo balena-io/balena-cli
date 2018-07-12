@@ -757,10 +757,6 @@ By default, the command prints all log messages and exit.
 
 To continuously stream output, and see new logs in real time, use the `--tail` option.
 
-Note that for now you need to provide the whole UUID for this command to work correctly.
-
-This is due to some technical limitations that we plan to address soon.
-
 Examples:
 
 	$ resin logs 23c73a1
