@@ -50,11 +50,12 @@ module.exports =
 			timestamp = moment(line.timestamp).format('DD.MM.YY HH:mm:ss (ZZ)')
 			console.log("#{timestamp} #{line.message}")
 
-		promise = if options.tail
+		if options.tail
 			resin.logs.subscribe(params.uuid).then (logs) ->
 				logs.on('line', printLine)
 				logs.on('error', done)
+			.catch(done)
 		else
-			resin.logs.history(params.uuid).each(printLine)
-
-		promise.catch(done)
+			resin.logs.history(params.uuid)
+			.each(printLine)
+			.catch(done)
