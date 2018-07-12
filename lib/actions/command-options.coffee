@@ -46,7 +46,7 @@ exports.optionalDeviceApiKey =
 
 exports.optionalOsVersion =
 	signature: 'version'
-	description: 'a ResinOS version'
+	description: 'a resinOS version'
 	parameter: 'version'
 
 exports.booleanDevice =

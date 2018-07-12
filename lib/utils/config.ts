@@ -27,7 +27,7 @@ export function generateBaseConfig(
 ) {
 	options = _.mapValues(options, function(value, key) {
 		if (key === 'appUpdatePollInterval') {
-			return <number>value * 60 * 1000;
+			return options[key]! * 60 * 1000;
 		} else {
 			return value;
 		}

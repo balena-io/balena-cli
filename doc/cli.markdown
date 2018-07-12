@@ -1012,7 +1012,7 @@ custom device key - note that this is only supported on ResinOS 2.0.3+
 
 #### --version &#60;version&#62;
 
-a ResinOS version
+a resinOS version
 
 #### --config &#60;config&#62;
 
@@ -1153,7 +1153,7 @@ Examples:
 
 #### --version &#60;version&#62;
 
-a ResinOS version
+a resinOS version
 
 #### --application, -a, --app &#60;application&#62;
 
