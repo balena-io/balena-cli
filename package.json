@@ -112,6 +112,7 @@
     "ejs": "^2.5.7",
     "etcher-image-write": "^9.0.3",
     "express": "^4.13.3",
+    "ext2fs": "1.0.7",
     "global-tunnel-ng": "^2.1.1",
     "hasbin": "^1.2.3",
     "humanize": "0.0.9",
