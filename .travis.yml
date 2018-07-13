@@ -20,7 +20,7 @@ deploy:
   - provider: npm
     email: accounts@resin.io
     api_key:
-      secure: phet6Du13hc1bzStbmpwy2ODNL5BFwjAmnpJ5wMcbWfI7fl0OtQ61s2+vW5hJAvm9fiRLOfiGAEiqOOtoupShZ1X8BNkC708d8+V+iZMoFh3+j6wAEz+N1sVq471PywlOuLAscOcqQNp92giCVt+4VPx2WQYh06nLsunvysGmUM=
+      secure: JoAcGloR8ijX3u8itaF6muCoOY9Xinku9nDkg/N3rzAS8qe8LLkTxty6Zzc28Z7qZiCqmaVKUFUP3wqx1qYp9gH0OuVfQFaTAkjlGpV2Exv9/7DuI4ZxwaWjELJcPD5EIffJRiT0gmvQBWPmDffc4mymoMnVH8UMuDILBDM3pSI=
     skip_cleanup: true
     on:
       tags: true
