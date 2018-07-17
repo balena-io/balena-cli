@@ -4,6 +4,7 @@
 		"target": "es5",
 		"outDir": "build",
 		"strict": true,
+		"strictPropertyInitialization": false,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"preserveConstEnums": true,
