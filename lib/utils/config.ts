@@ -15,7 +15,6 @@ limitations under the License.
 */
 import Promise = require('bluebird');
 import ResinSdk = require('resin-sdk');
-import _ = require('lodash');
 import deviceConfig = require('resin-device-config');
 import * as semver from 'resin-semver';
 
@@ -25,13 +24,12 @@ export function generateBaseConfig(
 	application: ResinSdk.Application,
 	options: { version?: string; appUpdatePollInterval?: number },
 ) {
-	options = _.mapValues(options, function(value, key) {
-		if (key === 'appUpdatePollInterval') {
-			return options[key]! * 60 * 1000;
-		} else {
-			return value;
-		}
-	});
+	if (options.appUpdatePollInterval) {
+		options = {
+			...options,
+			appUpdatePollInterval: options.appUpdatePollInterval * 60 * 1000,
+		};
+	}
 
 	return Promise.props({
 		userId: resin.auth.getUserId(),
