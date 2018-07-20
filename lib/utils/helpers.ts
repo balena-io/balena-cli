@@ -19,7 +19,6 @@ import Promise = require('bluebird');
 import _ = require('lodash');
 import chalk from 'chalk';
 import rindle = require('rindle');
-import imagefs = require('resin-image-fs');
 import visuals = require('resin-cli-visuals');
 import ResinSdk = require('resin-sdk');
 
@@ -85,6 +84,7 @@ export function getManifest(
 	image: string,
 	deviceType: string,
 ): Promise<ResinSdk.DeviceType> {
+	const imagefs = require('resin-image-fs');
 	// Attempt to read manifest from the first
 	// partition, but fallback to the API if
 	// we encounter any errors along the way.
