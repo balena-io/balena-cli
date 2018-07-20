@@ -21,6 +21,8 @@ declare module 'capitano' {
 		help: string;
 		options?: OptionDefinition[];
 		permission?: 'user';
+		root?: boolean;
+		primary?: boolean;
 		action(params: P, options: O, done: () => void): void;
 	}
 

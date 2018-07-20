@@ -23,11 +23,6 @@ import chalk from 'chalk';
 import validation = require('./validation');
 import messages = require('./messages');
 
-export interface ListSelectionEntry {
-	name: string;
-	extra: any;
-}
-
 export function authenticate(options: {}): Promise<void> {
 	return form
 		.run(
@@ -250,14 +245,14 @@ export function inferOrSelectDevice(preferredUuid: string) {
 		});
 }
 
-export function selectFromList(
+export function selectFromList<T>(
 	message: string,
-	selections: ListSelectionEntry[],
-): Promise<ListSelectionEntry> {
+	choices: Array<T & { name: string }>,
+): Promise<T> {
 	return form.ask({
 		message,
 		type: 'list',
-		choices: _.map(selections, s => ({
+		choices: _.map(choices, s => ({
 			name: s.name,
 			value: s,
 		})),

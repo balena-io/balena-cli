@@ -102,8 +102,8 @@ exports.login	=
 			return patterns.askLoginType().then (loginType) ->
 
 				if loginType is 'register'
-					capitanoRunAsync = Promise.promisify(require('capitano').run)
-					return capitanoRunAsync('signup')
+					{ runCommand } = require('../utils/helpers')
+					return runCommand('signup')
 
 				options[loginType] = true
 				return login(options)

@@ -13,12 +13,26 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+import * as fs from 'fs';
+
 import Promise = require('bluebird');
 import ResinSdk = require('resin-sdk');
 import deviceConfig = require('resin-device-config');
 import * as semver from 'resin-semver';
 
 const resin = ResinSdk.fromSharedOptions();
+
+function readRootCa(): Promise<string | void> {
+	const caFile = process.env.NODE_EXTRA_CA_CERTS;
+	if (!caFile) {
+		return Promise.resolve();
+	}
+	return Promise.fromCallback(cb =>
+		fs.readFile(caFile, { encoding: 'utf8' }, cb),
+	)
+		.then(pem => Buffer.from(pem).toString('base64'))
+		.catch({ code: 'ENOENT' }, () => {});
+}
 
 export function generateBaseConfig(
 	application: ResinSdk.Application,
@@ -39,6 +53,9 @@ export function generateBaseConfig(
 		registryUrl: resin.settings.get('registryUrl'),
 		deltaUrl: resin.settings.get('deltaUrl'),
 		apiConfig: resin.models.config.getAll(),
+		rootCA: readRootCa().catch(() => {
+			console.warn('Could not read root CA');
+		}),
 	}).then(results => {
 		return deviceConfig.generate(
 			{
@@ -57,6 +74,7 @@ export function generateBaseConfig(
 				mixpanel: {
 					token: results.apiConfig.mixpanelToken,
 				},
+				balenaRootCA: results.rootCA,
 			},
 			options,
 		);
