@@ -51,7 +51,7 @@ module.exports =
 			console.log("#{timestamp} #{line.message}")
 
 		if options.tail
-			resin.logs.subscribe(params.uuid).then (logs) ->
+			resin.logs.subscribe(params.uuid, { count: 100 }).then (logs) ->
 				logs.on('line', printLine)
 				logs.on('error', done)
 			.catch(done)
