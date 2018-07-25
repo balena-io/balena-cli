@@ -53,12 +53,12 @@ getConfigurationSchema = (connnectionFileName = 'resin-wifi') ->
 				path: CONNECTIONS_FOLDER.slice(1)
 				# Reconfix still uses the older resin-image-fs, so still needs an
 				# object-based partition definition.
-				partition: { primary: BOOT_PARTITION }
+				partition: BOOT_PARTITION
 		config_json:
 			type: 'json'
 			location:
 				path: 'config.json'
-				partition: { primary: BOOT_PARTITION }
+				partition: BOOT_PARTITION
 
 inquirerOptions = (data) -> [
 	{
