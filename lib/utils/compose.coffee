@@ -110,7 +110,7 @@ exports.tarDirectory = tarDirectory = (dir) ->
 	streamToPromise = require('stream-to-promise')
 
 	getFiles = ->
-		streamToPromise(klaw(dir))
+		streamToPromise(klaw(dir, { followLinks: true }))
 		.filter((item) -> not item.stats.isDirectory())
 		.map((item) -> item.path)
 
