@@ -43,12 +43,14 @@ resinPushHelp = '''
 	Here is an example '.resin-sync.yml' :
 
 		$ cat $PWD/.resin-sync.yml
-		destination: '/usr/src/app'
-		before: 'echo Hello'
-		after: 'echo Done'
-		ignore:
-			- .git
-			- node_modules/
+		local_resinos:
+			app-name: local-app
+			build-triggers:
+				- Dockerfile: abcdefabcdefabcdefabcdefabcdefabcdefabcdef
+				- package.json: abcdefabcdefabcdefabcdefabcdefabcdefabcdef
+			environment:
+				- MY_VARIABLE=123
+
 
 	Command line options have precedence over the ones saved in '.resin-sync.yml'.
 
