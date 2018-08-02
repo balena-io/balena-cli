@@ -1,6 +1,6 @@
 {
   "name": "resin-cli",
-  "version": "7.8.3",
+  "version": "7.8.4",
   "description": "The official resin.io CLI tool",
   "main": "./build/actions/index.js",
   "homepage": "https://github.com/resin-io/resin-cli",
@@ -121,7 +121,7 @@
     "inquirer": "^3.1.1",
     "is-root": "^1.0.0",
     "js-yaml": "^3.10.0",
-    "klaw": "github:resin-io-modules/node-klaw#follow-symlinks",
+    "klaw": "^3.0.0",
     "lodash": "^4.17.4",
     "mixpanel": "^0.4.0",
     "mkdirp": "^0.5.1",
