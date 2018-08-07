@@ -62,7 +62,7 @@ export function stateToString(state: OperationState) {
 
 export function sudo(
 	command: string[],
-	{ stderr, msg }: { stderr?: NodeJS.WritableStream; msg?: string },
+	{ stderr, msg }: { stderr?: NodeJS.WritableStream; msg?: string } = {},
 ) {
 	const { executeWithPrivileges } = require('./sudo');
 
