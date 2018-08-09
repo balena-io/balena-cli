@@ -1434,8 +1434,8 @@ Here is an example '.resin-sync.yml' :
 	local_resinos:
 		app-name: local-app
 		build-triggers:
-			- Dockerfile: abcdefabcdefabcdefabcdefabcdefabcdefabcdef
-			- package.json: abcdefabcdefabcdefabcdefabcdefabcdefabcdef
+			- Dockerfile: file-hash-abcdefabcdefabcdefabcdefabcdefabcdef
+			- package.json: file-hash-abcdefabcdefabcdefabcdefabcdefabcdef
 		environment:
 			- MY_VARIABLE=123
 
