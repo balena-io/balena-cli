@@ -1,6 +1,6 @@
 {
   "name": "resin-cli",
-  "version": "7.8.4",
+  "version": "7.8.5",
   "description": "The official resin.io CLI tool",
   "main": "./build/actions/index.js",
   "homepage": "https://github.com/resin-io/resin-cli",
@@ -163,7 +163,7 @@
     "tar-stream": "^1.5.5",
     "through2": "^2.0.3",
     "tmp": "0.0.31",
-    "typed-error": "^2.0.0",
+    "typed-error": "^3.0.0",
     "umount": "^1.1.6",
     "unzip2": "^0.2.5",
     "update-notifier": "^2.2.0",

@@ -1,6 +1,6 @@
 import { spawn } from 'child_process';
 import * as Bluebird from 'bluebird';
-import TypedError = require('typed-error');
+import { TypedError } from 'typed-error';
 
 import { getSubShellCommand } from './helpers';
 
