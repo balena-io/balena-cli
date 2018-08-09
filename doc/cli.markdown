@@ -1274,6 +1274,14 @@ Examples:
 
 The source that should be sent to the resin builder to be built (defaults to the current directory)
 
+#### --emulated, -e
+
+Force an emulated build to occur on the remote builder
+
+#### --nocache, -c
+
+Don't use cache when building this project
+
 # Settings
 
 ## settings

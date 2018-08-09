@@ -79,6 +79,8 @@ export const push: CommandDefinition<
 	},
 	{
 		source: string;
+		emulated: boolean;
+		nocache: boolean;
 	}
 > = {
 	signature: 'push <application>',
@@ -104,6 +106,18 @@ export const push: CommandDefinition<
 				'The source that should be sent to the resin builder to be built (defaults to the current directory)',
 			parameter: 'source',
 		},
+		{
+			signature: 'emulated',
+			alias: 'e',
+			description: 'Force an emulated build to occur on the remote builder',
+			boolean: true,
+		},
+		{
+			signature: 'nocache',
+			alias: 'c',
+			description: "Don't use cache when building this project",
+			boolean: true,
+		},
 	],
 	async action(params, options, done) {
 		const sdk = (await import('resin-sdk')).fromSharedOptions();
@@ -126,6 +140,10 @@ export const push: CommandDefinition<
 			sdk.settings.get('resinUrl'),
 			getAppOwner(sdk, app),
 			(token, baseUrl, owner) => {
+				const opts = {
+					emulated: options.emulated,
+					nocache: options.nocache,
+				};
 				const args = {
 					app,
 					owner,
@@ -133,6 +151,7 @@ export const push: CommandDefinition<
 					auth: token,
 					baseUrl,
 					sdk,
+					opts,
 				};
 
 				return remote.startRemoteBuild(args);
