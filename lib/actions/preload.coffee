@@ -87,6 +87,9 @@ offerToDisableAutomaticUpdates = (application, commit) ->
 		download and install the latest release once it is online.
 
 		Do you want to disable automatic updates for this application?
+
+		Warning: To re-enable this requires direct api calls,
+		see https://docs.resin.io/reference/api/resources/device/#set-device-to-release
 	'''
 	form.ask
 		message: message,
