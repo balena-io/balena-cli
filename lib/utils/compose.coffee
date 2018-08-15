@@ -108,14 +108,21 @@ exports.tarDirectory = tarDirectory = (dir) ->
 	path = require('path')
 	fs = require('mz/fs')
 	streamToPromise = require('stream-to-promise')
+	{ FileIgnorer } = require('./ignore')
 
 	getFiles = ->
 		streamToPromise(klaw(dir))
 		.filter((item) -> not item.stats.isDirectory())
 		.map((item) -> item.path)
 
+	ignore = new FileIgnorer(dir)
 	pack = tar.pack()
 	getFiles(dir)
+	.each (file) ->
+		type = ignore.getIgnoreFileType(path.relative(dir, file))
+		if type?
+			ignore.addIgnoreFile(file, type)
+	.filter(ignore.filter)
 	.map (file) ->
 		relPath = path.relative(path.resolve(dir), file)
 		Promise.join relPath, fs.stat(file), fs.readFile(file),
