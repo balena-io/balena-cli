@@ -103,24 +103,51 @@ toPosixPath = (systemPath) ->
 	systemPath.replace(new RegExp('\\' + path.sep, 'g'), '/')
 
 exports.tarDirectory = tarDirectory = (dir) ->
+	_ = require('lodash')
 	tar = require('tar-stream')
 	klaw = require('klaw')
 	path = require('path')
 	fs = require('mz/fs')
 	streamToPromise = require('stream-to-promise')
+	minimatch = require('minimatch')
 
 	getFiles = ->
 		streamToPromise(klaw(dir))
 		.filter((item) -> not item.stats.isDirectory())
 		.map((item) -> item.path)
 
+	extractIgnored = (file) ->
+		fs.readFile(file, 'utf8').then (content) ->
+			_(content.split(/\r?\n/))
+			.filter((f) -> !_.isEmpty(f))
+			.map((f) -> path.resolve(dir, f))
+			.value()
+
+	toIgnore = []
 	pack = tar.pack()
 	getFiles(dir)
-	.map (file) ->
-		relPath = path.relative(path.resolve(dir), file)
-		Promise.join relPath, fs.stat(file), fs.readFile(file),
-			(filename, stats, data) ->
-				pack.entry({ name: toPosixPath(filename), size: stats.size, mode: stats.mode }, data)
+	.each (file) ->
+		# Find any files that should be ignored
+		if path.relative(path.resolve(dir), file) in ['.gitignore', '.dockerignore' ]
+			return extractIgnored(file)
+			.then (ignoreGlobs) ->
+				# add the ignored files, and also add the ignore file itself
+				ignoreGlobs.push(file)
+				toIgnore = toIgnore.concat(ignoreGlobs)
+		return []
+	.then (files) ->
+		_(toIgnore).uniq().each (glob) ->
+			# Negate the glob so that we keep everything except the matches
+			files = files.filter(minimatch.filter("!#{glob}"))
+		# Also remove any git directory files - we don't need to worry about the .git
+		# directory itself as without any entries the directory will never be created
+		files = files.filter(minimatch.filter("!#{dir}#{path.sep}.git/**/*"))
+
+		Promise.map files, (file) ->
+			relPath = path.relative(path.resolve(dir), file)
+			Promise.join relPath, fs.stat(file), fs.readFile(file),
+				(filename, stats, data) ->
+					pack.entry({ name: toPosixPath(filename), size: stats.size, mode: stats.mode }, data)
 	.then ->
 		pack.finalize()
 		return pack
