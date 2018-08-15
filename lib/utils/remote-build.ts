@@ -73,19 +73,19 @@ async function getBuilderEndpoint(
 export async function startRemoteBuild(build: RemoteBuild): Promise<void> {
 	const Bluebird = await import('bluebird');
 
-	return new Bluebird(async (resolve, reject) => {
-		const stream = await getRequestStream(build);
+	const stream = await getRequestStream(build);
 
-		// Special windows handling (win64 also reports win32)
-		if (process.platform === 'win32') {
-			const readline = (await import('readline')).createInterface({
-				input: process.stdin,
-				output: process.stdout,
-			});
+	// Special windows handling (win64 also reports win32)
+	if (process.platform === 'win32') {
+		const readline = (await import('readline')).createInterface({
+			input: process.stdin,
+			output: process.stdout,
+		});
 
-			readline.on('SIGINT', () => process.emit('SIGINT'));
-		}
+		readline.on('SIGINT', () => process.emit('SIGINT'));
+	}
 
+	return new Bluebird((resolve, reject) => {
 		// Setup interrupt handlers so we can cancel the build if the user presses
 		// ctrl+c
 
