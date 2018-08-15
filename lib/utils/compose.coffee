@@ -110,7 +110,7 @@ exports.tarDirectory = tarDirectory = (dir) ->
 	streamToPromise = require('stream-to-promise')
 
 	getFiles = ->
-		streamToPromise(klaw(dir))
+		streamToPromise(klaw(dir, { preserveSymlinks: true }))
 		.filter((item) -> not item.stats.isDirectory())
 		.map((item) -> item.path)
 
@@ -118,7 +118,7 @@ exports.tarDirectory = tarDirectory = (dir) ->
 	getFiles(dir)
 	.map (file) ->
 		relPath = path.relative(path.resolve(dir), file)
-		Promise.join relPath, fs.stat(file), fs.readFile(file),
+		Promise.join relPath, fs.lstat(file), fs.readFile(file, { flag: fs.constants.O_SYMLINK | fs.constants.O_RDONLY }),
 			(filename, stats, data) ->
 				pack.entry({ name: toPosixPath(filename), size: stats.size, mode: stats.mode }, data)
 	.then ->
