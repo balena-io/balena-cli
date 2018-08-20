@@ -18,24 +18,46 @@ dockerUtils = require('../utils/docker')
 
 LATEST = 'latest'
 
+allDeviceTypes = undefined
+
+getDeviceTypes = ->
+	Bluebird = require('bluebird')
+	if allDeviceTypes != undefined
+		return Bluebird.resolve(allDeviceTypes)
+	resin = require('resin-sdk').fromSharedOptions()
+	resin.models.config.getDeviceTypes()
+	.tap (dt) ->
+		allDeviceTypes = dt
+
+getDeviceTypesWithSameArch = (deviceTypeSlug) ->
+	_ = require('lodash')
+
+	getDeviceTypes()
+	.then (deviceTypes) ->
+		deviceType = _.find(deviceTypes, slug: deviceTypeSlug)
+		_(deviceTypes).filter(arch: deviceType.arch).map('slug').value()
+
 getApplicationsWithSuccessfulBuilds = (deviceType) ->
 	preload = require('resin-preload')
 	resin = require('resin-sdk').fromSharedOptions()
 
-	resin.pine.get
-		resource: 'my_application'
-		options:
-			$filter:
-				device_type: deviceType
-				owns__release:
-					$any:
-						$alias: 'r'
-						$expr:
-							r:
-								status: 'success'
-			$expand: preload.applicationExpandOptions
-			$select: [ 'id', 'app_name', 'device_type', 'commit', 'should_track_latest_release' ]
-			$orderby: 'app_name asc'
+	getDeviceTypesWithSameArch(deviceType)
+	.then (deviceTypes) ->
+		resin.pine.get
+			resource: 'my_application'
+			options:
+				$filter:
+					device_type:
+						$in: deviceTypes
+					owns__release:
+						$any:
+							$alias: 'r'
+							$expr:
+								r:
+									status: 'success'
+				$expand: preload.applicationExpandOptions
+				$select: [ 'id', 'app_name', 'device_type', 'commit', 'should_track_latest_release' ]
+				$orderby: 'app_name asc'
 
 selectApplication = (deviceType) ->
 	visuals = require('resin-cli-visuals')
@@ -143,9 +165,9 @@ module.exports =
 			alias: 's'
 		}
 		{
-			signature: 'dont-check-device-type'
+			signature: 'dont-check-arch'
 			boolean: true
-			description: 'Disables check for matching device types in image and application'
+			description: 'Disables check for matching architecture in image and application'
 		}
 		{
 			signature: 'pin-device-to-release'
@@ -190,10 +212,10 @@ module.exports =
 		options.splashImage = options['splash-image']
 		delete options['splash-image']
 
-		options.dontCheckDeviceType = options['dont-check-device-type'] || false
-		delete options['dont-check-device-type']
-		if options.dontCheckDeviceType and not options.appId
-			exitWithExpectedError('You need to specify an app id if you disable the device type check.')
+		options.dontCheckArch = options['dont-check-arch'] || false
+		delete options['dont-check-arch']
+		if options.dontCheckArch and not options.appId
+			exitWithExpectedError('You need to specify an app id if you disable the architecture check.')
 
 		options.pinDevice = options['pin-device-to-release'] || false
 		delete options['pin-device-to-release']
@@ -210,7 +232,7 @@ module.exports =
 				options.image
 				options.splashImage
 				options.proxy
-				options.dontCheckDeviceType
+				options.dontCheckArch
 				options.pinDevice
 			)
 
