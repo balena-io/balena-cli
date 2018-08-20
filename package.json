@@ -40,6 +40,7 @@
     "release": "npm run build && ts-node --type-check -P automation automation/deploy-bin.ts",
     "pretest": "npm run build",
     "test": "gulp test",
+    "test:fast": "npm run build:fast && gulp test",
     "ci": "npm run test && catch-uncommitted",
     "watch": "gulp watch",
     "prettify": "prettier --write \"{lib,tests,automation,typings}/**/*.ts\"",
