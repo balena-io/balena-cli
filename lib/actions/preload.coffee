@@ -191,12 +191,12 @@ module.exports =
 		options.splashImage = options['splash-image']
 		delete options['splash-image']
 
-		options.dontCheckDeviceType = options['dont-check-device-type']
+		options.dontCheckDeviceType = options['dont-check-device-type'] || false
 		delete options['dont-check-device-type']
 		if options.dontCheckDeviceType and not options.appId
 			exitWithExpectedError('You need to specify an app id if you disable the device type check.')
 
-		options.pinDevice = options['pin-device-to-release']
+		options.pinDevice = options['pin-device-to-release'] || false
 		delete options['pin-device-to-release']
 
 		# Get a configured dockerode instance
