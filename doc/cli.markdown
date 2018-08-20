@@ -1221,9 +1221,9 @@ the commit hash for a specific application release to preload, use "latest" to s
 
 path to a png image to replace the splash screen
 
-#### --dont-check-device-type
+#### --dont-check-arch
 
-Disables check for matching device types in image and application
+Disables check for matching architecture in image and application
 
 #### --pin-device-to-release, -p
 
