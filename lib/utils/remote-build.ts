@@ -18,6 +18,7 @@ import * as JSONStream from 'JSONStream';
 import * as request from 'request';
 import { ResinSDK } from 'resin-sdk';
 import * as Stream from 'stream';
+import { TypedError } from 'typed-error';
 
 import { tarDirectory } from './compose';
 
@@ -43,15 +44,23 @@ export interface RemoteBuild {
 
 	// For internal use
 	releaseId?: number;
+	hadError?: boolean;
 }
 
 interface BuilderMessage {
 	message: string;
 	type?: string;
 	replace?: boolean;
+	isError?: boolean;
 	// These will be set when the type === 'metadata'
 	resource?: string;
 	value?: string;
+}
+
+export class RemoteBuildFailedError extends TypedError {
+	public constructor() {
+		super('Remote build failed');
+	}
 }
 
 async function getBuilderEndpoint(
@@ -105,7 +114,11 @@ export async function startRemoteBuild(build: RemoteBuild): Promise<void> {
 		stream.on('data', getBuilderMessageHandler(build));
 		stream.on('end', resolve);
 		stream.on('error', reject);
-	}).return();
+	}).then(() => {
+		if (build.hadError) {
+			throw new RemoteBuildFailedError();
+		}
+	});
 }
 
 async function handleBuilderMetadata(obj: BuilderMessage, build: RemoteBuild) {
@@ -177,6 +190,9 @@ function getBuilderMessageHandler(
 			} else {
 				process.stdout.write(`\r${message}\n`);
 			}
+		}
+		if (obj.isError) {
+			build.hadError = true;
 		}
 	};
 }

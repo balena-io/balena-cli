@@ -156,6 +156,8 @@ export const push: CommandDefinition<
 
 				return remote.startRemoteBuild(args);
 			},
-		).nodeify(done);
+		)
+			.catch(remote.RemoteBuildFailedError, exitWithExpectedError)
+			.nodeify(done);
 	},
 };
