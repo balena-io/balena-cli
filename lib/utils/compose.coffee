@@ -34,8 +34,6 @@ exports.generateOpts = (options) ->
 		inlineLogs: !!options.logs
 
 compositionFileNames = [
-	'resin-compose.yml'
-	'resin-compose.yaml'
 	'docker-compose.yml'
 	'docker-compose.yaml'
 ]
