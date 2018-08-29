@@ -85,7 +85,7 @@
     "resin-lint": "^1.5.0",
     "rewire": "^3.0.2",
     "ts-node": "^4.0.1",
-    "typescript": "2.8.1"
+    "typescript": "^2.8.1"
   },
   "dependencies": {
     "@resin.io/valid-email": "^0.1.0",
