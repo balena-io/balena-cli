@@ -58,8 +58,8 @@ interface BuilderMessage {
 }
 
 export class RemoteBuildFailedError extends TypedError {
-	public constructor() {
-		super('Remote build failed');
+	public constructor(message = 'Remote build failed') {
+		super(message);
 	}
 }
 
