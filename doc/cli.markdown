@@ -388,23 +388,16 @@ Examples:
 
 Use this command to register a device to an application.
 
-Note that device api keys are only supported on ResinOS 2.0.3+
-
 Examples:
 
 	$ resin device register MyApp
 	$ resin device register MyApp --uuid <uuid>
-	$ resin device register MyApp --uuid <uuid> --device-api-key <existingDeviceKey>
 
 ### Options
 
 #### --uuid, -u &#60;uuid&#62;
 
 custom uuid
-
-#### --deviceApiKey, -k &#60;device-api-key&#62;
-
-custom device key - note that this is only supported on ResinOS 2.0.3+
 
 ## device rm &#60;uuid&#62;
 

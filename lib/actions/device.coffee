@@ -142,13 +142,10 @@ exports.register =
 	help: '''
 		Use this command to register a device to an application.
 
-		Note that device api keys are only supported on ResinOS 2.0.3+
-
 		Examples:
 
 			$ resin device register MyApp
 			$ resin device register MyApp --uuid <uuid>
-			$ resin device register MyApp --uuid <uuid> --device-api-key <existingDeviceKey>
 	'''
 	permission: 'user'
 	options: [
@@ -158,7 +155,6 @@ exports.register =
 			parameter: 'uuid'
 			alias: 'u'
 		}
-		commandOptions.optionalDeviceApiKey
 	]
 	action: (params, options, done) ->
 		Promise = require('bluebird')
@@ -167,14 +163,8 @@ exports.register =
 		Promise.join(
 			resin.models.application.get(params.application)
 			options.uuid ? resin.models.device.generateUniqueKey()
-			options.deviceApiKey ? resin.models.device.generateUniqueKey()
-			(application, uuid, deviceApiKey) ->
-				console.info("Registering to #{application.app_name}: #{uuid}")
-				if not options.deviceApiKey?
-					console.info("Using generated device api key: #{deviceApiKey}")
-				else
-					console.info('Using provided device api key')
-				return resin.models.device.register(application.id, uuid, deviceApiKey)
+			(application, uuid) ->
+				return resin.models.device.register(application.id, uuid)
 		)
 		.get('uuid')
 		.nodeify(done)
