@@ -164,6 +164,7 @@ exports.register =
 			resin.models.application.get(params.application)
 			options.uuid ? resin.models.device.generateUniqueKey()
 			(application, uuid) ->
+				console.info("Registering to #{application.app_name}: #{uuid}")
 				return resin.models.device.register(application.id, uuid)
 		)
 		.get('uuid')
