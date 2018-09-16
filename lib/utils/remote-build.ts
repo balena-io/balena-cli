@@ -213,6 +213,7 @@ async function cancelBuildIfNecessary(build: RemoteBuild): Promise<void> {
 async function getRequestStream(build: RemoteBuild): Promise<Stream.Duplex> {
 	const path = await import('path');
 	const visuals = await import('resin-cli-visuals');
+	const zlib = await import('zlib');
 
 	const tarSpinner = new visuals.Spinner('Packaging the project source...');
 	tarSpinner.start();
@@ -233,14 +234,20 @@ async function getRequestStream(build: RemoteBuild): Promise<Stream.Duplex> {
 		auth: {
 			bearer: build.auth,
 		},
+		headers: {
+			'Content-Encoding': 'gzip',
+		},
+		body: tarStream.pipe(
+			zlib.createGzip({
+				level: 6,
+			}),
+		),
 	});
 
 	const uploadSpinner = new visuals.Spinner(
 		'Uploading source package to resin cloud',
 	);
 	uploadSpinner.start();
-
-	tarStream.pipe(post);
 
 	const parseStream = post.pipe(JSONStream.parse('*'));
 	parseStream.on('data', () => uploadSpinner.stop());
