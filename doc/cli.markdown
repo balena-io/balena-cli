@@ -1554,7 +1554,7 @@ Examples:
 
 	$ resin build
 	$ resin build ./source/
-	$ resin build --deviceType raspberrypi3 --arch armhf
+	$ resin build --deviceType raspberrypi3 --arch armhf --emulated
 	$ resin build --application MyApp ./source/
 	$ resin build --docker '/var/run/docker.sock'
 	$ resin build --dockerHost my.docker.host --dockerPort 2376 --ca ca.pem --key key.pem --cert cert.pem
