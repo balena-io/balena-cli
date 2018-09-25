@@ -59,7 +59,7 @@ alternative standalone install below instead.
 ### Standalone install
 
 If you don't have node or a working pre-gyp environment, you can still install the CLI as a standalone
-binary. **This is in experimental and may not work perfectly yet in all environments**, but it seems to work
+binary. **This is experimental and may not work perfectly yet in all environments**, but it seems to work
 well in initial cross-platform testing, so it may be useful, and we'd love your feedback if you hit any issues.
 
 To install the CLI as a standalone binary:
