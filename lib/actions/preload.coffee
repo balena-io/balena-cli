@@ -115,8 +115,9 @@ module.exports =
 		Edison zip archive) with a built release from Resin.io.
 
 		Examples:
-		  $ resin preload resin.img --app 1234 --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image some-image.png
-		  $ resin preload resin.img
+
+			$ resin preload resin.img --app 1234 --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image some-image.png
+			$ resin preload resin.img
 	'''
 	permission: 'user'
 	primary: true
