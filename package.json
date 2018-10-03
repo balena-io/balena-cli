@@ -45,7 +45,9 @@
     "prettify": "prettier --write \"{lib,tests,automation,typings}/**/*.ts\"",
     "lint": "resin-lint lib/ tests/ && resin-lint --typescript automation/ lib/ typings/ tests/",
     "prepublish": "require-npm4-to-publish",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "concourse-build-node-cli": "npm run build:src",
+    "concourse-test-node-cli": "npm test"
   },
   "keywords": [
     "resin",

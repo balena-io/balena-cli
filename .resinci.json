@@ -1,0 +1,9 @@
+{
+  "node-cli": {
+    "node": "6.1.0",
+    "main": "build/app.js",
+    "dependencies": {
+      "linux": []
+    }
+  }
+}
