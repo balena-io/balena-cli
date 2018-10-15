@@ -39,8 +39,14 @@ export async function join(
 		app.device_type = deviceType;
 	}
 
+	logger.logDebug('Determining device OS version...');
+	const deviceOsVersion = await getOsVersion(deviceIp);
+	logger.logDebug(`Device OS version: ${deviceOsVersion}`);
+
 	logger.logDebug('Generating application config...');
-	const config = await generateApplicationConfig(sdk, app);
+	const config = await generateApplicationConfig(sdk, app, {
+		version: deviceOsVersion,
+	});
 	logger.logDebug(`Using config: ${JSON.stringify(config, null, 2)}`);
 
 	logger.logDebug('Configuring...');
@@ -119,6 +125,15 @@ async function getDeviceType(deviceIp: string): Promise<string> {
 	const match = /^SLUG="([^"]+)"$/m.exec(output);
 	if (!match) {
 		throw new Error('Failed to determine device type');
+	}
+	return match[1];
+}
+
+async function getOsVersion(deviceIp: string): Promise<string> {
+	const output = await execBuffered(deviceIp, 'cat /etc/os-release');
+	const match = /^VERSION_ID="([^"]+)"$/m.exec(output);
+	if (!match) {
+		throw new Error('Failed to determine OS version ID');
 	}
 	return match[1];
 }
@@ -304,14 +319,21 @@ async function createApplication(
 	});
 }
 
-async function generateApplicationConfig(sdk: ResinSDK, app: Application) {
+async function generateApplicationConfig(
+	sdk: ResinSDK,
+	app: Application,
+	options: { version: string },
+) {
 	const form = await import('resin-cli-form');
 	const { generateApplicationConfig: configGen } = await import('./config');
 
 	const manifest = await sdk.models.device.getManifestBySlug(app.device_type);
 	const opts =
 		manifest.options && manifest.options.filter(opt => opt.name !== 'network');
-	const values = await form.run(opts);
+	const values = {
+		...(await form.run(opts)),
+		...options,
+	};
 
 	const config = await configGen(app, values);
 	if (config.connectivity === 'connman') {

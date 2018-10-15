@@ -395,7 +395,7 @@ exports.init =
 		commandOptions.optionalApplication
 		commandOptions.yes
 		commandOptions.advancedConfig
-		_.assign({}, commandOptions.osVersion, { signature: 'os-version', parameter: 'os-version' })
+		_.assign({}, commandOptions.osVersionOrSemver, { signature: 'os-version', parameter: 'os-version' })
 		commandOptions.drive
 		{
 			signature: 'config'

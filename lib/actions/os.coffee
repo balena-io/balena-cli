@@ -96,7 +96,7 @@ exports.download =
 			alias: 'o'
 			required: 'You have to specify the output location'
 		}
-		commandOptions.osVersion
+		commandOptions.osVersionOrSemver
 	]
 	action: (params, options, done) ->
 		Promise = require('bluebird')
@@ -197,14 +197,13 @@ exports.buildConfig =
 		.nodeify(done)
 
 exports.configure =
-	signature: 'os configure <image> [uuid] [deviceApiKey]'
+	signature: 'os configure <image>'
 	description: 'configure an os image'
 	help: '''
 		Use this command to configure a previously downloaded operating system image for
 		the specific device or for an application generally.
 
-		Calling this command without --version is not recommended, and may fail in
-		future releases if the OS version cannot be inferred.
+		Calling this command with the exact version number of the targeted image is required.
 
 		Note that device api keys are only supported on ResinOS 2.0.3+.
 
@@ -224,7 +223,7 @@ exports.configure =
 		commandOptions.optionalApplication
 		commandOptions.optionalDevice
 		commandOptions.optionalDeviceApiKey
-		commandOptions.optionalOsVersion
+		commandOptions.osVersion
 		{
 			signature: 'config'
 			description: 'path to the config JSON file, see `resin os build-config`'
@@ -232,7 +231,6 @@ exports.configure =
 		}
 	]
 	action: (params, options, done) ->
-		normalizeUuidProp(params)
 		normalizeUuidProp(options, 'device')
 		fs = require('fs')
 		Promise = require('bluebird')
@@ -246,30 +244,20 @@ exports.configure =
 		if _.filter([
 			options.device
 			options.application
-			params.uuid
 		]).length != 1
 			patterns.exitWithExpectedError '''
 				To configure an image, you must provide exactly one of:
 
 				* A device, with --device <uuid>
 				* An application, with --app <appname>
-				* [Deprecated] A device, passing its uuid directly on the command line
 
 				See the help page for examples:
 
 				  $ resin help os configure
 			'''
-		if params.uuid
-			console.warn(
-				'Directly passing a UUID to `resin os configure` is deprecated, and will stop working in future.\n' +
-				'Pass your device UUID with --device <uuid> instead.' +
-				if params.deviceApiKey
-					' Device api keys can be passed with --deviceApiKey.\n'
-				else '\n'
-			)
 
-		uuid = options.device || params.uuid
-		deviceApiKey = options.deviceApiKey || params.deviceApiKey
+		uuid = options.device
+		deviceApiKey = options.deviceApiKey
 
 		console.info('Configuring operating system image')
 
