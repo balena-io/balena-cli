@@ -223,8 +223,7 @@ exports.generate =
 	help: '''
 		Use this command to generate a config.json for a device or application.
 
-		Calling this command without --version is not recommended, and may fail in
-		future releases if the OS version cannot be inferred.
+		Calling this command with the exact version number of the targeted image is required.
 
 		This is interactive by default, but you can do this automatically without interactivity
 		by specifying an option for each question on the command line, if you know the questions
@@ -242,7 +241,7 @@ exports.generate =
 				--network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1
 	'''
 	options: [
-		commandOptions.optionalOsVersion
+		commandOptions.osVersion
 		commandOptions.optionalApplication
 		commandOptions.optionalDevice
 		commandOptions.optionalDeviceApiKey

@@ -13,77 +13,64 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import * as fs from 'fs';
-
 import Promise = require('bluebird');
 import ResinSdk = require('resin-sdk');
-import deviceConfig = require('resin-device-config');
 import * as semver from 'resin-semver';
 
 const resin = ResinSdk.fromSharedOptions();
 
-function readRootCa(): Promise<string | void> {
-	const caFile = process.env.NODE_EXTRA_CA_CERTS;
-	if (!caFile) {
-		return Promise.resolve();
-	}
-	return Promise.fromCallback(cb =>
-		fs.readFile(caFile, { encoding: 'utf8' }, cb),
-	)
-		.then(pem => Buffer.from(pem).toString('base64'))
-		.catch({ code: 'ENOENT' }, () => {});
-}
+type ImgConfig = {
+	applicationName: string;
+	applicationId: number;
+	deviceType: string;
+	userId: number;
+	username: string;
+	appUpdatePollInterval: number;
+	listenPort: number;
+	vpnPort: number;
+	apiEndpoint: string;
+	vpnEndpoint: string;
+	registryEndpoint: string;
+	deltaEndpoint: string;
+	pubnubSubscribeKey: string;
+	pubnubPublishKey: string;
+	mixpanelToken: string;
+	wifiSsid?: string;
+	wifiKey?: string;
+
+	// props for older OS versions
+	connectivity?: string;
+	files?: {
+		[filepath: string]: string;
+	};
+
+	// device specific config props
+	deviceId?: number;
+	uuid?: string;
+	registered_at?: number;
+};
 
 export function generateBaseConfig(
 	application: ResinSdk.Application,
-	options: { version?: string; appUpdatePollInterval?: number },
-) {
-	if (options.appUpdatePollInterval) {
-		options = {
-			...options,
-			appUpdatePollInterval: options.appUpdatePollInterval * 60 * 1000,
-		};
-	}
+	options: { version: string; appUpdatePollInterval?: number },
+): Promise<ImgConfig> {
+	options = {
+		...options,
+		appUpdatePollInterval: options.appUpdatePollInterval || 10,
+	};
 
-	return Promise.props({
-		userId: resin.auth.getUserId(),
-		username: resin.auth.whoami(),
-		apiUrl: resin.settings.get('apiUrl'),
-		vpnUrl: resin.settings.get('vpnUrl'),
-		registryUrl: resin.settings.get('registryUrl'),
-		deltaUrl: resin.settings.get('deltaUrl'),
-		apiConfig: resin.models.config.getAll(),
-		rootCA: readRootCa().catch(() => {
-			console.warn('Could not read root CA');
-		}),
-	}).then(results => {
-		return deviceConfig.generate(
-			{
-				application,
-				user: {
-					id: results.userId,
-					username: results.username,
-				},
-				endpoints: {
-					api: results.apiUrl,
-					vpn: results.vpnUrl,
-					registry: results.registryUrl,
-					delta: results.deltaUrl,
-				},
-				pubnub: results.apiConfig.pubnub,
-				mixpanel: {
-					token: results.apiConfig.mixpanelToken,
-				},
-				balenaRootCA: results.rootCA,
-			},
-			options,
-		);
+	const promise = resin.models.os.getConfig(application.app_name, options) as Promise<
+		ImgConfig & { apiKey?: string; }
+	>;
+	return promise.tap(config => {
+		// os.getConfig always returns a config for an app
+		delete config.apiKey;
 	});
 }
 
 export function generateApplicationConfig(
 	application: ResinSdk.Application,
-	options: { version?: string },
+	options: { version: string },
 ) {
 	return generateBaseConfig(application, options).tap(config => {
 		if (semver.satisfies(options.version, '>=2.7.8')) {
@@ -97,7 +84,7 @@ export function generateApplicationConfig(
 export function generateDeviceConfig(
 	device: ResinSdk.Device & { belongs_to__application: ResinSdk.PineDeferred },
 	deviceApiKey: string | true | null,
-	options: { version?: string },
+	options: { version: string },
 ) {
 	return resin.models.application
 		.get(device.belongs_to__application.__id)
