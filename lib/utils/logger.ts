@@ -61,6 +61,10 @@ class Logger {
 	logError(msg: string) {
 		return this.streams.error.write(msg + eol);
 	}
+
+	logBuild(msg: string) {
+		return this.streams.build.write(msg + eol);
+	}
 }
 
 export = Logger;
