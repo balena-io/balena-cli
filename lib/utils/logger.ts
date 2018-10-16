@@ -1,6 +1,6 @@
-import { EOL as eol } from 'os';
-import _ = require('lodash');
 import chalk from 'chalk';
+import _ = require('lodash');
+import { EOL as eol } from 'os';
 import { StreamLogger } from 'resin-stream-logger';
 
 class Logger {
