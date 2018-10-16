@@ -10,6 +10,7 @@
 		"preserveConstEnums": true,
 		"removeComments": true,
 		"sourceMap": true,
+		"skipLibCheck": true,
 		"lib": [
 			// es5 defaults:
 			"dom",
