@@ -229,7 +229,9 @@ export function inferOrSelectDevice(preferredUuid: string) {
 				throw new Error("You don't have any devices online");
 			}
 
-			const defaultUuid = _.map(onlineDevices, 'uuid').includes(preferredUuid)
+			const defaultUuid = _(onlineDevices)
+				.map('uuid')
+				.includes(preferredUuid)
 				? preferredUuid
 				: onlineDevices[0].uuid;
 
