@@ -24,6 +24,7 @@ const deviceEndpoints = {
 	getDeviceInformation: 'v2/local/device-info',
 	logs: 'v2/local/logs',
 	ping: 'ping',
+	version: 'v2/version',
 };
 
 export class DeviceAPI {
@@ -91,6 +92,23 @@ export class DeviceAPI {
 			},
 			this.logger,
 		);
+	}
+
+	public getVersion(): Promise<string> {
+		const url = this.getUrlForAction('version');
+
+		return DeviceAPI.promisifiedRequest(request.get, {
+			url,
+			json: true,
+		}).then(body => {
+			if (body.status !== 'success') {
+				throw new ApiErrors.DeviceAPIError(
+					'Non-successful response from supervisor version endpoint',
+				);
+			}
+
+			return body.version;
+		});
 	}
 
 	public getLogStream(): Bluebird<Stream.Readable> {
