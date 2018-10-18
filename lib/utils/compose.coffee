@@ -34,15 +34,13 @@ exports.generateOpts = (options) ->
 		inlineLogs: !!options.logs
 
 compositionFileNames = [
-	'resin-compose.yml'
-	'resin-compose.yaml'
 	'docker-compose.yml'
 	'docker-compose.yaml'
 ]
 
 # look into the given directory for valid compose files and return
 # the contents of the first one found.
-resolveProject = (rootDir) ->
+exports.resolveProject = resolveProject = (rootDir) ->
 	fs = require('mz/fs')
 	Promise.any compositionFileNames.map (filename) ->
 		fs.readFile(path.join(rootDir, filename), 'utf-8')
