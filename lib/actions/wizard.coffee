@@ -34,7 +34,7 @@ exports.wizard =
 	'''
 	primary: true
 	action: (params, options, done) ->
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		patterns = require('../utils/patterns')
 		{ runCommand } = require('../utils/helpers')
 
