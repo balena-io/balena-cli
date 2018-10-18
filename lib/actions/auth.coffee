@@ -136,7 +136,7 @@ exports.logout =
 			$ resin logout
 	'''
 	action: (params, options, done) ->
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		resin.auth.logout().nodeify(done)
 
 exports.signup =
@@ -157,7 +157,7 @@ exports.signup =
 			johndoe
 	'''
 	action: (params, options, done) ->
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		form = require('resin-cli-form')
 		validation = require('../utils/validation')
 
