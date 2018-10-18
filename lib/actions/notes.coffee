@@ -43,7 +43,7 @@ exports.set =
 		normalizeUuidProp(options, 'device')
 		Promise = require('bluebird')
 		_ = require('lodash')
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 
 		{ exitWithExpectedError } = require('../utils/patterns')
 
