@@ -411,7 +411,7 @@ exports.init =
 		tmpNameAsync = Promise.promisify(tmp.tmpName)
 		tmp.setGracefulCleanup()
 
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		patterns = require('../utils/patterns')
 		{ runCommand } = require('../utils/helpers')
 
