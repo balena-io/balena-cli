@@ -166,7 +166,7 @@ exports.buildProject = (
 		renderer = new BuildProgressUI(tty, imageDescriptors)
 	renderer.start()
 
-	qemu.installQemuIfNeeded(emulated, logger)
+	qemu.installQemuIfNeeded(emulated, logger, arch)
 	.tap (needsQemu) ->
 		return if not needsQemu
 		logger.logInfo('Emulation is enabled')

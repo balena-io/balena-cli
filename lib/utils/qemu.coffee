@@ -1,16 +1,16 @@
 Promise = require('bluebird')
 
-exports.QEMU_VERSION = QEMU_VERSION = 'v2.5.50-resin-execve'
+exports.QEMU_VERSION = QEMU_VERSION = 'v3.0.0+resin'
 exports.QEMU_BIN_NAME = QEMU_BIN_NAME = 'qemu-execve'
 
-exports.installQemuIfNeeded = Promise.method (emulated, logger) ->
+exports.installQemuIfNeeded = Promise.method (emulated, logger, arch) ->
 	return false if not (emulated and platformNeedsQemu())
 
 	hasQemu()
 	.then (present) ->
 		if !present
-			logger.logInfo('Installing qemu for ARM emulation...')
-			installQemu()
+			logger.logInfo("Installing qemu for #{arch} emulation...")
+			installQemu(arch)
 	.return(true)
 
 exports.qemuPathInContext = (context) ->
@@ -67,20 +67,43 @@ platformNeedsQemu = ->
 	os = require('os')
 	os.platform() == 'linux'
 
-installQemu = ->
+installQemu = (arch) ->
 	request = require('request')
 	fs = require('fs')
 	zlib = require('zlib')
+	tar = require('tar')
+	os = require('os')
+	path = require('path')
+	rimraf = require('rimraf')
 
 	getQemuPath()
 	.then (qemuPath) ->
 		new Promise (resolve, reject) ->
-			installStream = fs.createWriteStream(qemuPath)
-			qemuUrl = "https://github.com/balena-io/qemu/releases/download/#{QEMU_VERSION}/#{QEMU_BIN_NAME}.gz"
-			request(qemuUrl)
-			.on('error', reject)
-			.pipe(zlib.createGunzip())
-			.on('error', reject)
-			.pipe(installStream)
-			.on('error', reject)
-			.on('finish', resolve)
+			downloadArchiveName = "qemu-3.0.0+resin-#{arch}.tar.gz"
+			fs.mkdtemp(path.join(os.tmpdir(), 'balenaqemu-'), (err, folder) ->
+				if err
+					reject(err)
+				qemuUrl = "https://github.com/balena-io/qemu/releases/download/#{QEMU_VERSION}/#{downloadArchiveName}"
+				request(qemuUrl)
+				.on('error', reject)
+				.pipe(zlib.createGunzip())
+				.on('error', reject)
+				.pipe(tar.extract({
+					C: folder,
+					filter: (path, entry) -> return path.includes("qemu-#{arch}-static"),
+					strip: 1
+				})).on('finish', ->
+					# copy qemu binary to intended location then clean up the temp directory
+					tempFile = path.join(folder, "qemu-#{arch}-static")
+					fs.copyFile(tempFile, qemuPath, (err) ->
+						if err
+							reject(err)
+						# File moved successfully. Remove temp dir.
+						rimraf(folder, (err) ->
+							if err
+								reject(err)
+							resolve()
+						)
+					)
+				)
+			)

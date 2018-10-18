@@ -168,6 +168,7 @@
     "split": "^1.0.1",
     "string-width": "^2.1.1",
     "strip-ansi-stream": "^1.0.0",
+    "tar": "^4.4.6",
     "tar-stream": "^1.5.5",
     "through2": "^2.0.3",
     "tmp": "0.0.31",
