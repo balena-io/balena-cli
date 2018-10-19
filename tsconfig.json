@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"target": "es5",
+		"target": "es6",
 		"outDir": "build",
 		"strict": true,
 		"strictPropertyInitialization": false,
@@ -10,6 +10,7 @@
 		"preserveConstEnums": true,
 		"removeComments": true,
 		"sourceMap": true,
+		"skipLibCheck": true,
 		"lib": [
 			// es5 defaults:
 			"dom",

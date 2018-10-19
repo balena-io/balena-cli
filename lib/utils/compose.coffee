@@ -34,15 +34,13 @@ exports.generateOpts = (options) ->
 		inlineLogs: !!options.logs
 
 compositionFileNames = [
-	'resin-compose.yml'
-	'resin-compose.yaml'
 	'docker-compose.yml'
 	'docker-compose.yaml'
 ]
 
 # look into the given directory for valid compose files and return
 # the contents of the first one found.
-resolveProject = (rootDir) ->
+exports.resolveProject = resolveProject = (rootDir) ->
 	fs = require('mz/fs')
 	Promise.any compositionFileNames.map (filename) ->
 		fs.readFile(path.join(rootDir, filename), 'utf-8')
@@ -108,14 +106,21 @@ exports.tarDirectory = tarDirectory = (dir) ->
 	path = require('path')
 	fs = require('mz/fs')
 	streamToPromise = require('stream-to-promise')
+	{ FileIgnorer } = require('./ignore')
 
 	getFiles = ->
 		streamToPromise(klaw(dir))
 		.filter((item) -> not item.stats.isDirectory())
 		.map((item) -> item.path)
 
+	ignore = new FileIgnorer(dir)
 	pack = tar.pack()
 	getFiles(dir)
+	.each (file) ->
+		type = ignore.getIgnoreFileType(path.relative(dir, file))
+		if type?
+			ignore.addIgnoreFile(file, type)
+	.filter(ignore.filter)
 	.map (file) ->
 		relPath = path.relative(path.resolve(dir), file)
 		Promise.join relPath, fs.stat(file), fs.readFile(file),

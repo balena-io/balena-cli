@@ -18,6 +18,7 @@ import * as JSONStream from 'JSONStream';
 import * as request from 'request';
 import { ResinSDK } from 'resin-sdk';
 import * as Stream from 'stream';
+import { TypedError } from 'typed-error';
 
 import { tarDirectory } from './compose';
 
@@ -43,15 +44,23 @@ export interface RemoteBuild {
 
 	// For internal use
 	releaseId?: number;
+	hadError?: boolean;
 }
 
 interface BuilderMessage {
 	message: string;
 	type?: string;
 	replace?: boolean;
+	isError?: boolean;
 	// These will be set when the type === 'metadata'
 	resource?: string;
 	value?: string;
+}
+
+export class RemoteBuildFailedError extends TypedError {
+	public constructor(message = 'Remote build failed') {
+		super(message);
+	}
 }
 
 async function getBuilderEndpoint(
@@ -105,7 +114,11 @@ export async function startRemoteBuild(build: RemoteBuild): Promise<void> {
 		stream.on('data', getBuilderMessageHandler(build));
 		stream.on('end', resolve);
 		stream.on('error', reject);
-	}).return();
+	}).then(() => {
+		if (build.hadError) {
+			throw new RemoteBuildFailedError();
+		}
+	});
 }
 
 async function handleBuilderMetadata(obj: BuilderMessage, build: RemoteBuild) {
@@ -178,6 +191,9 @@ function getBuilderMessageHandler(
 				process.stdout.write(`\r${message}\n`);
 			}
 		}
+		if (obj.isError) {
+			build.hadError = true;
+		}
 	};
 }
 
@@ -197,6 +213,7 @@ async function cancelBuildIfNecessary(build: RemoteBuild): Promise<void> {
 async function getRequestStream(build: RemoteBuild): Promise<Stream.Duplex> {
 	const path = await import('path');
 	const visuals = await import('resin-cli-visuals');
+	const zlib = await import('zlib');
 
 	const tarSpinner = new visuals.Spinner('Packaging the project source...');
 	tarSpinner.start();
@@ -217,14 +234,20 @@ async function getRequestStream(build: RemoteBuild): Promise<Stream.Duplex> {
 		auth: {
 			bearer: build.auth,
 		},
+		headers: {
+			'Content-Encoding': 'gzip',
+		},
+		body: tarStream.pipe(
+			zlib.createGzip({
+				level: 6,
+			}),
+		),
 	});
 
 	const uploadSpinner = new visuals.Spinner(
 		'Uploading source package to resin cloud',
 	);
 	uploadSpinner.start();
-
-	tarStream.pipe(post);
 
 	const parseStream = post.pipe(JSONStream.parse('*'));
 	parseStream.on('data', () => uploadSpinner.stop());
