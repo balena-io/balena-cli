@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ limitations under the License.
 _ = require('lodash')
 
 exports.availableDrives =
-	# TODO: dedupe with https://github.com/resin-io-modules/resin-cli-visuals/blob/master/lib/widgets/drive/index.coffee
+	# TODO: dedupe with https://github.com/balena-io-modules/resin-cli-visuals/blob/master/lib/widgets/drive/index.coffee
 	signature: 'util available-drives'
 	description: 'list available drives'
 	help: """

@@ -1,5 +1,5 @@
 ###
-Copyright 2017 Resin.io
+Copyright 2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -22,26 +22,26 @@ localHostOSAccessOption.description = 'get a shell into the host OS'
 
 module.exports =
 	signature: 'local ssh [deviceIp]'
-	description: 'Get a shell into a resinOS device'
+	description: 'Get a shell into a balenaOS device'
 	help: '''
-		Warning: 'resin local ssh' requires an openssh-compatible client to be correctly
+		Warning: 'balena local ssh' requires an openssh-compatible client to be correctly
 		installed in your shell environment. For more information (including Windows
-		support) please check the README here: https://github.com/resin-io/resin-cli
+		support) please check the README here: https://github.com/balena-io/balena-cli
 
 		Use this command to get a shell into the running application container of
 		your device.
 
-		The '--host' option will get you a shell into the Host OS of the resinOS device.
+		The '--host' option will get you a shell into the Host OS of the balenaOS device.
 		No option will return a list of containers to enter or you can explicitly select
 		one by passing its name to the --container option
 
 		Examples:
 
-			$ resin local ssh
-			$ resin local ssh --host
-			$ resin local ssh --container chaotic_water
-			$ resin local ssh --container chaotic_water --port 22222
-			$ resin local ssh --verbose
+			$ balena local ssh
+			$ balena local ssh --host
+			$ balena local ssh --container chaotic_water
+			$ balena local ssh --container chaotic_water --port 22222
+			$ balena local ssh --verbose
 	'''
 	options: [
 			signature: 'verbose'
@@ -66,7 +66,7 @@ module.exports =
 		child_process = require('child_process')
 		Promise = require 'bluebird'
 		_ = require('lodash')
-		{ forms } = require('resin-sync')
+		{ forms } = require('balena-sync')
 
 		{ selectContainerFromDevice, getSubShellCommand } = require('./common')
 		{ exitWithExpectedError } = require('../../utils/patterns')
@@ -81,7 +81,7 @@ module.exports =
 
 		Promise.try ->
 			if not params.deviceIp?
-				return forms.selectLocalResinOsDevice()
+				return forms.selectLocalBalenaOsDevice()
 			return params.deviceIp
 		.then (deviceIp) ->
 			_.assign(options, { deviceIp })

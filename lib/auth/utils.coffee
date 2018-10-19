@@ -1,5 +1,5 @@
 ###
-Copyright 2016 Resin.io
+Copyright 2016 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
-resin = require('resin-sdk').fromSharedOptions()
+balena = require('balena-sdk').fromSharedOptions()
 _ = require('lodash')
 url = require('url')
 Promise = require('bluebird')
@@ -38,7 +38,7 @@ exports.getDashboardLoginURL = (callbackUrl) ->
 	# characters to avoid angular getting confused.
 	callbackUrl = encodeURIComponent(callbackUrl).replace(/%/g, '%25')
 
-	resin.settings.get('dashboardUrl').then (dashboardUrl) ->
+	balena.settings.get('dashboardUrl').then (dashboardUrl) ->
 		return url.resolve(dashboardUrl, "/login/cli/#{callbackUrl}")
 
 ###*
@@ -65,16 +65,16 @@ exports.loginIfTokenValid = (token) ->
 	if not token? or _.isEmpty(token.trim())
 		return Promise.resolve(false)
 
-	return resin.auth.getToken()
+	return balena.auth.getToken()
 	.catchReturn(undefined)
 	.then (currentToken) ->
-		resin.auth.loginWithToken(token)
+		balena.auth.loginWithToken(token)
 			.return(token)
-			.then(resin.auth.isLoggedIn)
+			.then(balena.auth.isLoggedIn)
 			.tap (isLoggedIn) ->
 				return if isLoggedIn
 
 				if currentToken?
-					return resin.auth.loginWithToken(currentToken)
+					return balena.auth.loginWithToken(currentToken)
 				else
-					return resin.auth.logout()
+					return balena.auth.logout()

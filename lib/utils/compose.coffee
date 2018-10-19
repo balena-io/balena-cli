@@ -332,7 +332,7 @@ tagServiceImages = (docker, images, serviceImages) ->
 
 authorizePush = (tokenAuthEndpoint, registry, images) ->
 	_ = require('lodash')
-	sdk = require('resin-sdk').fromSharedOptions()
+	sdk = require('balena-sdk').fromSharedOptions()
 
 	if not _.isArray(images)
 		images = [ images ]

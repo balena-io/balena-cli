@@ -2,7 +2,7 @@
 
 // ****************************************************************************
 // THIS IS FOR DEV PERROSES ONLY AND WILL NOT BE PART OF THE PUBLISHED PACKAGE
-// Before opening a PR you should build and test your changes using bin/resin
+// Before opening a PR you should build and test your changes using bin/balena
 // ****************************************************************************
 
 // We boost the threadpool size as ext2fs can deadlock with some

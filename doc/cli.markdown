@@ -1,8 +1,8 @@
-# Resin CLI Documentation
+# Balena CLI Documentation
 
-This tool allows you to interact with the resin.io api from the comfort of your command line.
+This tool allows you to interact with the balena api from the comfort of your command line.
 
-Please make sure your system meets the requirements as specified in the [README](https://github.com/resin-io/resin-cli).
+Please make sure your system meets the requirements as specified in the [README](https://github.com/balena-io/balena-cli).
 
 ## Install the CLI
 
@@ -10,7 +10,7 @@ Please make sure your system meets the requirements as specified in the [README]
 
 The best supported way to install the CLI is from npm:
 
-	$ npm install resin-cli -g --production --unsafe-perm
+	$ npm install balena-cli -g --production --unsafe-perm
 
 `--unsafe-perm` is only required on systems where the global install directory is not user-writable.
 This allows npm install steps to download and save prebuilt native binaries. You may be able to omit it,
@@ -24,13 +24,13 @@ initial cross-platform testing, so it may be useful, and we'd love your feedback
 
 To install the CLI as a standalone binary:
 
-* Download the latest zip for your OS from https://github.com/resin-io/resin-cli/releases.
-* Extract the contents, putting the `resin-cli` folder somewhere appropriate for your system (e.g. `C:/resin-cli`, `/usr/local/lib/resin-cli`, etc).
-* Add the `resin-cli` folder to your `PATH`. (
+* Download the latest zip for your OS from https://github.com/balena-io/balena-cli/releases.
+* Extract the contents, putting the `balena-cli` folder somewhere appropriate for your system (e.g. `C:/balena-cli`, `/usr/local/lib/balena-cli`, etc).
+* Add the `balena-cli` folder to your `PATH`. (
 [Windows instructions](https://www.computerhope.com/issues/ch000549.htm),
 [Linux instructions](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix),
 [OSX instructions](https://stackoverflow.com/questions/22465332/setting-path-environment-variable-in-osx-permanently))
-* Running `resin` in a fresh command line should print the resin CLI help.
+* Running `balena` in a fresh command line should print the balena CLI help.
 
 To update in future, simply download a new release and replace the extracted folder.
 
@@ -38,11 +38,11 @@ Have any problems, or see any unexpected behaviour? Please file an issue!
 
 ## Getting started
 
-Once you have the CLI installed, you'll need to log in, so it can access everything in your resin.io account.
+Once you have the CLI installed, you'll need to log in, so it can access everything in your balena account.
 
 To authenticate yourself, run:
 
-	$ resin login
+	$ balena login
 
 You now have access to all the commands referenced below.
 
@@ -52,8 +52,8 @@ The CLI does support HTTP(S) proxies.
 
 You can configure the proxy using several methods (in order of their precedence):
 
-* set the `RESINRC_PROXY` environment variable in the URL format (with protocol, host, port, and optionally the basic auth),
-* use the [resin config file](https://www.npmjs.com/package/resin-settings-client#documentation) (project-specific or user-level)
+* set the `BALENARC_PROXY` environment variable in the URL format (with protocol, host, port, and optionally the basic auth),
+* use the [balena config file](https://www.npmjs.com/package/balena-settings-client#documentation) (project-specific or user-level)
 and set the `proxy` setting. This can be:
 	* a string in the URL format,
 	* or an object following [this format](https://www.npmjs.com/package/global-tunnel-ng#options), which allows more control,
@@ -195,47 +195,47 @@ environment variable (in the same standard URL format).
 This command generates a new API key for the current user, with the given
 name. The key will be logged to the console.
 
-This key can be used to log into the CLI using 'resin login --token <key>',
+This key can be used to log into the CLI using 'balena login --token <key>',
 or to authenticate requests to the API with an 'Authorization: Bearer <key>' header.
 
 Examples:
 
-	$ resin api-key generate "Jenkins Key"
+	$ balena api-key generate "Jenkins Key"
 
 # Application
 
 ## app create &#60;name&#62;
 
-Use this command to create a new resin.io application.
+Use this command to create a new balena application.
 
 You can specify the application device type with the `--type` option.
 Otherwise, an interactive dropdown will be shown for you to select from.
 
 You can see a list of supported device types with
 
-	$ resin devices supported
+	$ balena devices supported
 
 Examples:
 
-	$ resin app create MyApp
-	$ resin app create MyApp --type raspberry-pi
+	$ balena app create MyApp
+	$ balena app create MyApp --type raspberry-pi
 
 ### Options
 
 #### --type, -t &#60;type&#62;
 
-application device type (Check available types with `resin devices supported`)
+application device type (Check available types with `balena devices supported`)
 
 ## apps
 
 Use this command to list all your applications.
 
 Notice this command only shows the most important bits of information for each app.
-If you want detailed information, use resin app <name> instead.
+If you want detailed information, use balena app <name> instead.
 
 Examples:
 
-	$ resin apps
+	$ balena apps
 
 ## app &#60;name&#62;
 
@@ -243,7 +243,7 @@ Use this command to show detailed information for a single application.
 
 Examples:
 
-	$ resin app MyApp
+	$ balena app MyApp
 
 ## app restart &#60;name&#62;
 
@@ -251,19 +251,19 @@ Use this command to restart all devices that belongs to a certain application.
 
 Examples:
 
-	$ resin app restart MyApp
+	$ balena app restart MyApp
 
 ## app rm &#60;name&#62;
 
-Use this command to remove a resin.io application.
+Use this command to remove a balena application.
 
 Notice this command asks for confirmation interactively.
 You can avoid this by passing the `--yes` boolean option.
 
 Examples:
 
-	$ resin app rm MyApp
-	$ resin app rm MyApp --yes
+	$ balena app rm MyApp
+	$ balena app rm MyApp --yes
 
 ### Options
 
@@ -275,7 +275,7 @@ confirm non interactively
 
 ## login
 
-Use this command to login to your resin.io account.
+Use this command to login to your balena account.
 
 This command will prompt you to login using the following login types:
 
@@ -288,11 +288,11 @@ from the dashboard.
 
 Examples:
 
-	$ resin login
-	$ resin login --web
-	$ resin login --token "..."
-	$ resin login --credentials
-	$ resin login --credentials --email johndoe@gmail.com --password secret
+	$ balena login
+	$ balena login --web
+	$ balena login --token "..."
+	$ balena login --credentials
+	$ balena login --credentials --email johndoe@gmail.com --password secret
 
 ### Options
 
@@ -318,25 +318,25 @@ password
 
 ## logout
 
-Use this command to logout from your resin.io account.o
+Use this command to logout from your balena account.o
 
 Examples:
 
-	$ resin logout
+	$ balena logout
 
 ## signup
 
-Use this command to signup for a resin.io account.
+Use this command to signup for a balena account.
 
 If signup is successful, you'll be logged in to your new user automatically.
 
 Examples:
 
-	$ resin signup
+	$ balena signup
 	Email: johndoe@acme.com
 	Password: ***********
 
-	$ resin whoami
+	$ balena whoami
 	johndoe
 
 ## whoami
@@ -345,7 +345,7 @@ Use this command to find out the current logged in username and email address.
 
 Examples:
 
-	$ resin whoami
+	$ balena whoami
 
 # Device
 
@@ -357,10 +357,10 @@ You can filter the devices by application by using the `--application` option.
 
 Examples:
 
-	$ resin devices
-	$ resin devices --application MyApp
-	$ resin devices --app MyApp
-	$ resin devices -a MyApp
+	$ balena devices
+	$ balena devices --application MyApp
+	$ balena devices --app MyApp
+	$ balena devices -a MyApp
 
 ### Options
 
@@ -374,7 +374,7 @@ Use this command to show information about a single device.
 
 Examples:
 
-	$ resin device 7cf02a6
+	$ balena device 7cf02a6
 
 ## devices supported
 
@@ -382,7 +382,7 @@ Use this command to get the list of all supported devices
 
 Examples:
 
-	$ resin devices supported
+	$ balena devices supported
 
 ## device register &#60;application&#62;
 
@@ -390,8 +390,8 @@ Use this command to register a device to an application.
 
 Examples:
 
-	$ resin device register MyApp
-	$ resin device register MyApp --uuid <uuid>
+	$ balena device register MyApp
+	$ balena device register MyApp --uuid <uuid>
 
 ### Options
 
@@ -401,15 +401,15 @@ custom uuid
 
 ## device rm &#60;uuid&#62;
 
-Use this command to remove a device from resin.io.
+Use this command to remove a device from balena.
 
 Notice this command asks for confirmation interactively.
 You can avoid this by passing the `--yes` boolean option.
 
 Examples:
 
-	$ resin device rm 7cf02a6
-	$ resin device rm 7cf02a6 --yes
+	$ balena device rm 7cf02a6
+	$ balena device rm 7cf02a6 --yes
 
 ### Options
 
@@ -425,7 +425,7 @@ In the Raspberry Pi, the ACT led is blinked several times.
 
 Examples:
 
-	$ resin device identify 23c73a1
+	$ balena device identify 23c73a1
 
 ## device reboot &#60;uuid&#62;
 
@@ -433,7 +433,7 @@ Use this command to remotely reboot a device
 
 Examples:
 
-	$ resin device reboot 23c73a1
+	$ balena device reboot 23c73a1
 
 ### Options
 
@@ -447,7 +447,7 @@ Use this command to remotely shutdown a device
 
 Examples:
 
-	$ resin device shutdown 23c73a1
+	$ balena device shutdown 23c73a1
 
 ### Options
 
@@ -461,7 +461,7 @@ Use this command to enable public URL for a device
 
 Examples:
 
-	$ resin device public-url enable 23c73a1
+	$ balena device public-url enable 23c73a1
 
 ## device public-url disable &#60;uuid&#62;
 
@@ -469,7 +469,7 @@ Use this command to disable public URL for a device
 
 Examples:
 
-	$ resin device public-url disable 23c73a1
+	$ balena device public-url disable 23c73a1
 
 ## device public-url &#60;uuid&#62;
 
@@ -477,7 +477,7 @@ Use this command to get the public URL of a device
 
 Examples:
 
-	$ resin device public-url 23c73a1
+	$ balena device public-url 23c73a1
 
 ## device public-url status &#60;uuid&#62;
 
@@ -485,7 +485,7 @@ Use this command to determine if public URL is enabled for a device
 
 Examples:
 
-	$ resin device public-url status 23c73a1
+	$ balena device public-url status 23c73a1
 
 ## device rename &#60;uuid&#62; [newName]
 
@@ -495,8 +495,8 @@ If you omit the name, you'll get asked for it interactively.
 
 Examples:
 
-	$ resin device rename 7cf02a6
-	$ resin device rename 7cf02a6 MyPi
+	$ balena device rename 7cf02a6
+	$ balena device rename 7cf02a6 MyPi
 
 ## device move &#60;uuid&#62;
 
@@ -506,8 +506,8 @@ If you omit the application, you'll get asked for it interactively.
 
 Examples:
 
-	$ resin device move 7cf02a6
-	$ resin device move 7cf02a6 --application MyNewApp
+	$ balena device move 7cf02a6
+	$ balena device move 7cf02a6 --application MyNewApp
 
 ### Options
 
@@ -524,8 +524,8 @@ You can avoid this by passing the `--yes` boolean option.
 
 Examples:
 
-	$ resin device init
-	$ resin device init --application MyApp
+	$ balena device init
+	$ balena device init --application MyApp
 
 ### Options
 
@@ -551,11 +551,11 @@ or 'menu' (will show the interactive menu)
 
 #### --drive, -d &#60;drive&#62;
 
-the drive to write the image to, like `/dev/sdb` or `/dev/mmcblk0`. Careful with this as you can erase your hard drive. Check `resin util available-drives` for available options.
+the drive to write the image to, like `/dev/sdb` or `/dev/mmcblk0`. Careful with this as you can erase your hard drive. Check `balena util available-drives` for available options.
 
 #### --config &#60;config&#62;
 
-path to the config JSON file, see `resin os build-config`
+path to the config JSON file, see `balena os build-config`
 
 # Environment Variables
 
@@ -566,7 +566,7 @@ a particular application or device.
 
 This command lists all custom environment variables.
 If you want to see all environment variables, including private
-ones used by resin, use the verbose option.
+ones used by balena, use the verbose option.
 
 At the moment the CLI doesn't fully support multi-container applications,
 so the following commands will only show service variables,
@@ -574,9 +574,9 @@ without showing which service they belong to.
 
 Example:
 
-	$ resin envs --application MyApp
-	$ resin envs --application MyApp --verbose
-	$ resin envs --device 7cf02a6
+	$ balena envs --application MyApp
+	$ balena envs --application MyApp --verbose
+	$ balena envs --device 7cf02a6
 
 ### Options
 
@@ -596,7 +596,7 @@ show private environment variables
 
 Use this command to remove an environment variable from an application.
 
-Don't remove resin specific variables, as things might not work as expected.
+Don't remove balena specific variables, as things might not work as expected.
 
 Notice this command asks for confirmation interactively.
 You can avoid this by passing the `--yes` boolean option.
@@ -605,9 +605,9 @@ If you want to eliminate a device environment variable, pass the `--device` bool
 
 Examples:
 
-	$ resin env rm 215
-	$ resin env rm 215 --yes
-	$ resin env rm 215 --device
+	$ balena env rm 215
+	$ balena env rm 215 --yes
+	$ balena env rm 215 --device
 
 ### Options
 
@@ -638,9 +638,9 @@ Use `--quiet` to remove it.
 
 Examples:
 
-	$ resin env add EDITOR vim --application MyApp
-	$ resin env add TERM --application MyApp
-	$ resin env add EDITOR vim --device 7cf02a6
+	$ balena env add EDITOR vim --application MyApp
+	$ balena env add TERM --application MyApp
+	$ balena env add EDITOR vim --device 7cf02a6
 
 ### Options
 
@@ -660,8 +660,8 @@ Pass the `--device` boolean option if you want to rename a device environment va
 
 Examples:
 
-	$ resin env rename 376 emacs
-	$ resin env rename 376 emacs --device
+	$ balena env rename 376 emacs
+	$ balena env rename 376 emacs --device
 
 ### Options
 
@@ -677,8 +677,8 @@ Get detailed help for an specific command.
 
 Examples:
 
-	$ resin help apps
-	$ resin help os download
+	$ balena help apps
+	$ balena help os download
 
 ### Options
 
@@ -690,7 +690,7 @@ show additional commands
 
 ## version
 
-Display the Resin CLI version.
+Display the balena CLI version.
 
 # Keys
 
@@ -700,7 +700,7 @@ Use this command to list all your SSH keys.
 
 Examples:
 
-	$ resin keys
+	$ balena keys
 
 ## key &#60;id&#62;
 
@@ -708,19 +708,19 @@ Use this command to show information about a single SSH key.
 
 Examples:
 
-	$ resin key 17
+	$ balena key 17
 
 ## key rm &#60;id&#62;
 
-Use this command to remove a SSH key from resin.io.
+Use this command to remove a SSH key from balena.
 
 Notice this command asks for confirmation interactively.
 You can avoid this by passing the `--yes` boolean option.
 
 Examples:
 
-	$ resin key rm 17
-	$ resin key rm 17 --yes
+	$ balena key rm 17
+	$ balena key rm 17 --yes
 
 ### Options
 
@@ -737,8 +737,8 @@ to read the SSH key from stdin.
 
 Examples:
 
-	$ resin key add Main ~/.ssh/id_rsa.pub
-	$ cat ~/.ssh/id_rsa.pub | resin key add Main
+	$ balena key add Main ~/.ssh/id_rsa.pub
+	$ cat ~/.ssh/id_rsa.pub | balena key add Main
 
 # Logs
 
@@ -752,8 +752,8 @@ To continuously stream output, and see new logs in real time, use the `--tail` o
 
 Examples:
 
-	$ resin logs 23c73a1
-	$ resin logs 23c73a1
+	$ balena logs 23c73a1
+	$ balena logs 23c73a1
 
 ### Options
 
@@ -765,19 +765,19 @@ continuously stream output
 
 ## sync [uuid]
 
-Warning: 'resin sync' requires an openssh-compatible client and 'rsync' to
+Warning: 'balena sync' requires an openssh-compatible client and 'rsync' to
 be correctly installed in your shell environment. For more information (including
-Windows support) please check the README here: https://github.com/resin-io/resin-cli
+Windows support) please check the README here: https://github.com/balena-io/balena-cli
 
 Use this command to sync your local changes to a certain device on the fly.
 
-After every 'resin sync' the updated settings will be saved in
-'<source>/.resin-sync.yml' and will be used in later invocations. You can
-also change any option by editing '.resin-sync.yml' directly.
+After every 'balena sync' the updated settings will be saved in
+'<source>/.balena-sync.yml' and will be used in later invocations. You can
+also change any option by editing '.balena-sync.yml' directly.
 
-Here is an example '.resin-sync.yml' :
+Here is an example '.balena-sync.yml' :
 
-	$ cat $PWD/.resin-sync.yml
+	$ cat $PWD/.balena-sync.yml
 	uuid: 7cf02a6
 	destination: '/usr/src/app'
 	before: 'echo Hello'
@@ -786,7 +786,7 @@ Here is an example '.resin-sync.yml' :
 		- .git
 		- node_modules/
 
-Command line options have precedence over the ones saved in '.resin-sync.yml'.
+Command line options have precedence over the ones saved in '.balena-sync.yml'.
 
 If '.gitignore' is found in the source directory then all explicitly listed files will be
 excluded from the syncing process. You can choose to change this default behavior with the
@@ -794,11 +794,11 @@ excluded from the syncing process. You can choose to change this default behavio
 
 Examples:
 
-	$ resin sync 7cf02a6 --source . --destination /usr/src/app
-	$ resin sync 7cf02a6 -s /home/user/myResinProject -d /usr/src/app --before 'echo Hello' --after 'echo Done'
-	$ resin sync --ignore lib/
-	$ resin sync --verbose false
-	$ resin sync
+	$ balena sync 7cf02a6 --source . --destination /usr/src/app
+	$ balena sync 7cf02a6 -s /home/user/myBalenaProject -d /usr/src/app --before 'echo Hello' --after 'echo Done'
+	$ balena sync --ignore lib/
+	$ balena sync --verbose false
+	$ balena sync
 
 ### Options
 
@@ -846,20 +846,20 @@ increase verbosity
 
 ## ssh [uuid]
 
-Warning: 'resin ssh' requires an openssh-compatible client to be correctly
+Warning: 'balena ssh' requires an openssh-compatible client to be correctly
 installed in your shell environment. For more information (including Windows
-support) please check the README here: https://github.com/resin-io/resin-cli
+support) please check the README here: https://github.com/balena-io/balena-cli
 
 Use this command to get a shell into the running application container of
 your device.
 
 Examples:
 
-	$ resin ssh MyApp
-	$ resin ssh 7cf02a6
-	$ resin ssh 7cf02a6 --port 8080
-	$ resin ssh 7cf02a6 -v
-	$ resin ssh 7cf02a6 -s
+	$ balena ssh MyApp
+	$ balena ssh 7cf02a6
+	$ balena ssh 7cf02a6 --port 8080
+	$ balena ssh 7cf02a6 -v
+	$ balena ssh 7cf02a6 -s
 
 ### Options
 
@@ -873,7 +873,7 @@ increase verbosity
 
 #### --host, -s
 
-access host OS (for devices with Resin OS >= 2.7.5)
+access host OS (for devices with balenaOS >= 2.7.5)
 
 #### --noproxy
 
@@ -887,12 +887,12 @@ Use this command to set or update a device note.
 
 If note command isn't passed, the tool attempts to read from `stdin`.
 
-To view the notes, use $ resin device <uuid>.
+To view the notes, use $ balena device <uuid>.
 
 Examples:
 
-	$ resin note "My useful note" --device 7cf02a6
-	$ cat note.txt | resin note --device 7cf02a6
+	$ balena note "My useful note" --device 7cf02a6
+	$ cat note.txt | balena note --device 7cf02a6
 
 ### Options
 
@@ -904,17 +904,17 @@ device uuid
 
 ## os versions &#60;type&#62;
 
-Use this command to show the available resinOS versions for a certain device type.
-Check available types with `resin devices supported`
+Use this command to show the available balenaOS versions for a certain device type.
+Check available types with `balena devices supported`
 
 Example:
 
-	$ resin os versions raspberrypi3
+	$ balena os versions raspberrypi3
 
 ## os download &#60;type&#62;
 
 Use this command to download an unconfigured os image for a certain device type.
-Check available types with `resin devices supported`
+Check available types with `balena devices supported`
 
 If version is not specified the newest stable (non-pre-release) version of OS
 is downloaded if available, or the newest version otherwise (if all existing
@@ -925,12 +925,12 @@ of all available versions.
 
 Examples:
 
-	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img
-	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 1.24.1
-	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^1.20.0
-	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest
-	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default
-	$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 1.24.1
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^1.20.0
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu
 
 ### Options
 
@@ -948,12 +948,12 @@ or 'menu' (will show the interactive menu)
 
 ## os build-config &#60;image&#62; &#60;device-type&#62;
 
-Use this command to prebuild the OS config once and skip the interactive part of `resin os configure`.
+Use this command to prebuild the OS config once and skip the interactive part of `balena os configure`.
 
 Example:
 
-	$ resin os build-config ../path/rpi3.img raspberrypi3 --output rpi3-config.json
-	$ resin os configure ../path/rpi3.img 7cf02a6 --config "$(cat rpi3-config.json)"
+	$ balena os build-config ../path/rpi3.img raspberrypi3 --output rpi3-config.json
+	$ balena os configure ../path/rpi3.img 7cf02a6 --config "$(cat rpi3-config.json)"
 
 ### Options
 
@@ -972,7 +972,7 @@ the specific device or for an application generally.
 
 Calling this command with the exact version number of the targeted image is required.
 
-Note that device api keys are only supported on ResinOS 2.0.3+.
+Note that device api keys are only supported on balenaOS 2.0.3+.
 
 This command still supports the *deprecated* format where the UUID and optionally device key
 are passed directly on the command line, but the recommended way is to pass either an --app or
@@ -980,9 +980,9 @@ are passed directly on the command line, but the recommended way is to pass eith
 
 Examples:
 
-	$ resin os configure ../path/rpi.img --device 7cf02a6 --version 2.12.7
-	$ resin os configure ../path/rpi.img --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>
-	$ resin os configure ../path/rpi.img --app MyApp  --version 2.12.7
+	$ balena os configure ../path/rpi.img --device 7cf02a6 --version 2.12.7
+	$ balena os configure ../path/rpi.img --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>
+	$ balena os configure ../path/rpi.img --app MyApp  --version 2.12.7
 
 ### Options
 
@@ -1000,15 +1000,15 @@ device uuid
 
 #### --deviceApiKey, -k &#60;device-api-key&#62;
 
-custom device key - note that this is only supported on ResinOS 2.0.3+
+custom device key - note that this is only supported on balenaOS 2.0.3+
 
 #### --version &#60;version&#62;
 
-a resinOS version
+a balenaOS version
 
 #### --config &#60;config&#62;
 
-path to the config JSON file, see `resin os build-config`
+path to the config JSON file, see `balena os build-config`
 
 ## os initialize &#60;image&#62;
 
@@ -1019,7 +1019,7 @@ because we need to access the raw devices directly.
 
 Examples:
 
-	$ resin os initialize ../path/rpi.img --type 'raspberry-pi'
+	$ balena os initialize ../path/rpi.img --type 'raspberry-pi'
 
 ### Options
 
@@ -1029,11 +1029,11 @@ confirm non interactively
 
 #### --type, -t &#60;type&#62;
 
-device type (Check available types with `resin devices supported`)
+device type (Check available types with `balena devices supported`)
 
 #### --drive, -d &#60;drive&#62;
 
-the drive to write the image to, like `/dev/sdb` or `/dev/mmcblk0`. Careful with this as you can erase your hard drive. Check `resin util available-drives` for available options.
+the drive to write the image to, like `/dev/sdb` or `/dev/mmcblk0`. Careful with this as you can erase your hard drive. Check `balena util available-drives` for available options.
 
 # Config
 
@@ -1043,14 +1043,14 @@ Use this command to read the config.json file from the mounted filesystem (e.g. 
 
 Examples:
 
-	$ resin config read --type raspberry-pi
-	$ resin config read --type raspberry-pi --drive /dev/disk2
+	$ balena config read --type raspberry-pi
+	$ balena config read --type raspberry-pi --drive /dev/disk2
 
 ### Options
 
 #### --type, -t &#60;type&#62;
 
-device type (Check available types with `resin devices supported`)
+device type (Check available types with `balena devices supported`)
 
 #### --drive, -d &#60;drive&#62;
 
@@ -1062,15 +1062,15 @@ Use this command to write the config.json file to the mounted filesystem (e.g. S
 
 Examples:
 
-	$ resin config write --type raspberry-pi username johndoe
-	$ resin config write --type raspberry-pi --drive /dev/disk2 username johndoe
-	$ resin config write --type raspberry-pi files.network/settings "..."
+	$ balena config write --type raspberry-pi username johndoe
+	$ balena config write --type raspberry-pi --drive /dev/disk2 username johndoe
+	$ balena config write --type raspberry-pi files.network/settings "..."
 
 ### Options
 
 #### --type, -t &#60;type&#62;
 
-device type (Check available types with `resin devices supported`)
+device type (Check available types with `balena devices supported`)
 
 #### --drive, -d &#60;drive&#62;
 
@@ -1079,18 +1079,18 @@ drive
 ## config inject &#60;file&#62;
 
 Use this command to inject a config.json file to the mounted filesystem
-(e.g. SD card or mounted resinOS image) of a provisioned device"
+(e.g. SD card or mounted balenaOS image) of a provisioned device"
 
 Examples:
 
-	$ resin config inject my/config.json --type raspberry-pi
-	$ resin config inject my/config.json --type raspberry-pi --drive /dev/disk2
+	$ balena config inject my/config.json --type raspberry-pi
+	$ balena config inject my/config.json --type raspberry-pi --drive /dev/disk2
 
 ### Options
 
 #### --type, -t &#60;type&#62;
 
-device type (Check available types with `resin devices supported`)
+device type (Check available types with `balena devices supported`)
 
 #### --drive, -d &#60;drive&#62;
 
@@ -1102,15 +1102,15 @@ Use this command to reconfigure a provisioned device
 
 Examples:
 
-	$ resin config reconfigure --type raspberry-pi
-	$ resin config reconfigure --type raspberry-pi --advanced
-	$ resin config reconfigure --type raspberry-pi --drive /dev/disk2
+	$ balena config reconfigure --type raspberry-pi
+	$ balena config reconfigure --type raspberry-pi --advanced
+	$ balena config reconfigure --type raspberry-pi --drive /dev/disk2
 
 ### Options
 
 #### --type, -t &#60;type&#62;
 
-device type (Check available types with `resin devices supported`)
+device type (Check available types with `balena devices supported`)
 
 #### --drive, -d &#60;drive&#62;
 
@@ -1132,19 +1132,19 @@ that will be asked for the relevant device type.
 
 Examples:
 
-	$ resin config generate --device 7cf02a6 --version 2.12.7
-	$ resin config generate --device 7cf02a6 --version 2.12.7 --generate-device-api-key
-	$ resin config generate --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>
-	$ resin config generate --device 7cf02a6 --version 2.12.7 --output config.json
-	$ resin config generate --app MyApp --version 2.12.7
-	$ resin config generate --app MyApp --version 2.12.7 --output config.json
-	$ resin config generate --app MyApp --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1
+	$ balena config generate --device 7cf02a6 --version 2.12.7
+	$ balena config generate --device 7cf02a6 --version 2.12.7 --generate-device-api-key
+	$ balena config generate --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>
+	$ balena config generate --device 7cf02a6 --version 2.12.7 --output config.json
+	$ balena config generate --app MyApp --version 2.12.7
+	$ balena config generate --app MyApp --version 2.12.7 --output config.json
+	$ balena config generate --app MyApp --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1
 
 ### Options
 
 #### --version &#60;version&#62;
 
-a resinOS version
+a balenaOS version
 
 #### --application, -a, --app &#60;application&#62;
 
@@ -1156,7 +1156,7 @@ device uuid
 
 #### --deviceApiKey, -k &#60;device-api-key&#62;
 
-custom device key - note that this is only supported on ResinOS 2.0.3+
+custom device key - note that this is only supported on balenaOS 2.0.3+
 
 #### --generate-device-api-key
 
@@ -1186,17 +1186,17 @@ how frequently (in minutes) to poll for application updates
 
 ## preload &#60;image&#62;
 
-Warning: "resin preload" requires Docker to be correctly installed in
+Warning: "balena preload" requires Docker to be correctly installed in
 your shell environment. For more information (including Windows support)
-please check the README here: https://github.com/resin-io/resin-cli .
+please check the README here: https://github.com/balena-io/balena-cli .
 
 Use this command to preload an application to a local disk image (or
-Edison zip archive) with a built release from Resin.io.
+Edison zip archive) with a built release from balena.
 
 Examples:
 
-	$ resin preload resin.img --app 1234 --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image some-image.png
-	$ resin preload resin.img
+	$ balena preload balena.img --app 1234 --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image image.png
+	$ balena preload balena.img
 
 ### Options
 
@@ -1250,10 +1250,10 @@ Docker host TLS key file
 ## push &#60;applicationOrDevice&#62;
 
 This command can be used to start a build on the remote
-resin.io cloud builders, or a local mode resin device.
+balena cloud builders, or a local mode balena device.
 
-When building on the resin cloud the given source directory will be sent to the
-resin.io builder, and the build will proceed. This can be used as a drop-in
+When building on the balena cloud the given source directory will be sent to the
+balena builder, and the build will proceed. This can be used as a drop-in
 replacement for git push to deploy.
 
 When building on a local mode device, the given source directory will be built on
@@ -1262,19 +1262,19 @@ streamed back from the device as part of the same invocation.
 
 Examples:
 
-	$ resin push myApp
-	$ resin push myApp --source <source directory>
-	$ resin push myApp -s <source directory>
+	$ balena push myApp
+	$ balena push myApp --source <source directory>
+	$ balena push myApp -s <source directory>
 
-	$ resin push 10.0.0.1
-	$ resin push 10.0.0.1 --source <source directory>
-	$ resin push 10.0.0.1 -s <source directory>
+	$ balena push 10.0.0.1
+	$ balena push 10.0.0.1 --source <source directory>
+	$ balena push 10.0.0.1 -s <source directory>
 
 ### Options
 
 #### --source, -s &#60;source&#62;
 
-The source that should be sent to the resin builder to be built (defaults to the current directory)
+The source that should be sent to the balena builder to be built (defaults to the current directory)
 
 #### --emulated, -e
 
@@ -1292,46 +1292,46 @@ Use this command to display detected settings
 
 Examples:
 
-	$ resin settings
+	$ balena settings
 
 # Wizard
 
 ## quickstart [name]
 
-Use this command to run a friendly wizard to get started with resin.io.
+Use this command to run a friendly wizard to get started with balena.
 
 The wizard will guide you through:
 
 	- Create an application.
-	- Initialise an SDCard with the resin.io operating system.
-	- Associate an existing project directory with your resin.io application.
+	- Initialise an SDCard with the balena operating system.
+	- Associate an existing project directory with your balena application.
 	- Push your project to your devices.
 
 Examples:
 
-	$ resin quickstart
-	$ resin quickstart MyApp
+	$ balena quickstart
+	$ balena quickstart MyApp
 
 # Local
 
 ## local configure &#60;target&#62;
 
-Use this command to configure or reconfigure a resinOS drive or image.
+Use this command to configure or reconfigure a balenaOS drive or image.
 
 Examples:
 
-	$ resin local configure /dev/sdc
-	$ resin local configure path/to/image.img
+	$ balena local configure /dev/sdc
+	$ balena local configure path/to/image.img
 
 ## local flash &#60;image&#62;
 
-Use this command to flash a resinOS image to a drive.
+Use this command to flash a balenaOS image to a drive.
 
 Examples:
 
-	$ resin local flash path/to/resinos.img
-	$ resin local flash path/to/resinos.img --drive /dev/disk2
-	$ resin local flash path/to/resinos.img --drive /dev/disk2 --yes
+	$ balena local flash path/to/balenaos.img
+	$ balena local flash path/to/balenaos.img --drive /dev/disk2
+	$ balena local flash path/to/balenaos.img --drive /dev/disk2 --yes
 
 ### Options
 
@@ -1348,11 +1348,11 @@ drive
 
 Examples:
 
-	$ resin local logs
-	$ resin local logs -f
-	$ resin local logs 192.168.1.10
-	$ resin local logs 192.168.1.10 -f
-	$ resin local logs 192.168.1.10 -f --app-name myapp
+	$ balena local logs
+	$ balena local logs -f
+	$ balena local logs 192.168.1.10
+	$ balena local logs 192.168.1.10 -f
+	$ balena local logs 192.168.1.10 -f --app-name myapp
 
 ### Options
 
@@ -1369,9 +1369,9 @@ name of container to get logs from
 
 Examples:
 
-	$ resin local scan
-	$ resin local scan --timeout 120
-	$ resin local scan --verbose
+	$ balena local scan
+	$ balena local scan --timeout 120
+	$ balena local scan --verbose
 
 ### Options
 
@@ -1385,24 +1385,24 @@ Scan timeout in seconds
 
 ## local ssh [deviceIp]
 
-Warning: 'resin local ssh' requires an openssh-compatible client to be correctly
+Warning: 'balena local ssh' requires an openssh-compatible client to be correctly
 installed in your shell environment. For more information (including Windows
-support) please check the README here: https://github.com/resin-io/resin-cli
+support) please check the README here: https://github.com/balena-io/balena-cli
 
 Use this command to get a shell into the running application container of
 your device.
 
-The '--host' option will get you a shell into the Host OS of the resinOS device.
+The '--host' option will get you a shell into the Host OS of the balenaOS device.
 No option will return a list of containers to enter or you can explicitly select
 one by passing its name to the --container option
 
 Examples:
 
-	$ resin local ssh
-	$ resin local ssh --host
-	$ resin local ssh --container chaotic_water
-	$ resin local ssh --container chaotic_water --port 22222
-	$ resin local ssh --verbose
+	$ balena local ssh
+	$ balena local ssh --host
+	$ balena local ssh --container chaotic_water
+	$ balena local ssh --container chaotic_water --port 22222
+	$ balena local ssh --verbose
 
 ### Options
 
@@ -1424,24 +1424,24 @@ ssh port number (default: 22222)
 
 ## local push [deviceIp]
 
-Warning: 'resin local push' requires an openssh-compatible client and 'rsync' to
+Warning: 'balena local push' requires an openssh-compatible client and 'rsync' to
 be correctly installed in your shell environment. For more information (including
-Windows support) please check the README here: https://github.com/resin-io/resin-cli
+Windows support) please check the README here: https://github.com/balena-io/balena-cli
 
-Use this command to push your local changes to a container on a LAN-accessible resinOS device on the fly.
+Use this command to push your local changes to a container on a LAN-accessible balenaOS device on the fly.
 
 If `Dockerfile` or any file in the 'build-triggers' list is changed,
 a new container will be built and run on your device.
 If not, changes will simply be synced with `rsync` into the application container.
 
-After every 'resin local push' the updated settings will be saved in
-'<source>/.resin-sync.yml' and will be used in later invocations. You can
-also change any option by editing '.resin-sync.yml' directly.
+After every 'balena local push' the updated settings will be saved in
+'<source>/.balena-sync.yml' and will be used in later invocations. You can
+also change any option by editing '.balena-sync.yml' directly.
 
-Here is an example '.resin-sync.yml' :
+Here is an example '.balena-sync.yml' :
 
-	$ cat $PWD/.resin-sync.yml
-	local_resinos:
+	$ cat $PWD/.balena-sync.yml
+	local_balenaos:
 		app-name: local-app
 		build-triggers:
 			- Dockerfile: file-hash-abcdefabcdefabcdefabcdefabcdefabcdef
@@ -1450,7 +1450,7 @@ Here is an example '.resin-sync.yml' :
 			- MY_VARIABLE=123
 
 
-Command line options have precedence over the ones saved in '.resin-sync.yml'.
+Command line options have precedence over the ones saved in '.balena-sync.yml'.
 
 If '.gitignore' is found in the source directory then all explicitly listed files will be
 excluded when using rsync to update the container. You can choose to change this default behavior with the
@@ -1458,14 +1458,14 @@ excluded when using rsync to update the container. You can choose to change this
 
 Examples:
 
-	$ resin local push
-	$ resin local push --app-name test-server --build-triggers package.json,requirements.txt
-	$ resin local push --force-build
-	$ resin local push --force-build --skip-logs
-	$ resin local push --ignore lib/
-	$ resin local push --verbose false
-	$ resin local push 192.168.2.10 --source . --destination /usr/src/app
-	$ resin local push 192.168.2.10 -s /home/user/myResinProject -d /usr/src/app --before 'echo Hello' --after 'echo Done'
+	$ balena local push
+	$ balena local push --app-name test-server --build-triggers package.json,requirements.txt
+	$ balena local push --force-build
+	$ balena local push --force-build --skip-logs
+	$ balena local push --ignore lib/
+	$ balena local push --verbose false
+	$ balena local push 192.168.2.10 --source . --destination /usr/src/app
+	$ balena local push 192.168.2.10 -s /home/user/balenaProject -d /usr/src/app --before 'echo Hello' --after 'echo Done'
 
 ### Options
 
@@ -1526,11 +1526,11 @@ environment variable (e.g. --env 'ENV=value'). Multiple --env parameters are sup
 
 Examples:
 
-	$ resin local stop
-	$ resin local stop --app-name myapp
-	$ resin local stop --all
-	$ resin local stop 192.168.1.10
-	$ resin local stop 192.168.1.10 --app-name myapp
+	$ balena local stop
+	$ balena local stop --app-name myapp
+	$ balena local stop --all
+	$ balena local stop 192.168.1.10
+	$ balena local stop 192.168.1.10 --app-name myapp
 
 ### Options
 
@@ -1550,7 +1550,7 @@ Use this command to build an image or a complete multicontainer project
 with the provided docker daemon.
 
 You must provide either an application or a device-type/architecture
-pair to use the resin Dockerfile pre-processor
+pair to use the balena Dockerfile pre-processor
 (e.g. Dockerfile.template -> Dockerfile).
 
 This command will look into the given source directory (or the current working
@@ -1561,12 +1561,12 @@ it will try to generate one.
 
 Examples:
 
-	$ resin build
-	$ resin build ./source/
-	$ resin build --deviceType raspberrypi3 --arch armhf --emulated
-	$ resin build --application MyApp ./source/
-	$ resin build --docker '/var/run/docker.sock'
-	$ resin build --dockerHost my.docker.host --dockerPort 2376 --ca ca.pem --key key.pem --cert cert.pem
+	$ balena build
+	$ balena build ./source/
+	$ balena build --deviceType raspberrypi3 --arch armhf --emulated
+	$ balena build --application MyApp ./source/
+	$ balena build --docker '/var/run/docker.sock'
+	$ balena build --dockerHost my.docker.host --dockerPort 2376 --ca ca.pem --key key.pem --cert cert.pem
 
 ### Options
 
@@ -1580,7 +1580,7 @@ The type of device this build is for
 
 #### --application, -a &#60;application&#62;
 
-The target resin.io application this build is for
+The target balena application this build is for
 
 #### --projectName, -n &#60;projectName&#62;
 
@@ -1649,16 +1649,16 @@ will look for a Dockerfile, and if yet that isn't found, it will try to
 generate one.
 
 To deploy to an app on which you're a collaborator, use
-`resin deploy <appOwnerUsername>/<appName>`.
+`balena deploy <appOwnerUsername>/<appName>`.
 
-Note: If building with this command, all options supported by `resin build`
+Note: If building with this command, all options supported by `balena build`
 are also supported with this command.
 
 Examples:
 
-	$ resin deploy myApp
-	$ resin deploy myApp --build --source myBuildDir/
-	$ resin deploy myApp myApp/myImage
+	$ balena deploy myApp
+	$ balena deploy myApp --build --source myBuildDir/
+	$ balena deploy myApp myApp/myImage
 
 ### Options
 

@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -24,12 +24,12 @@ exports.set =
 
 		If note command isn't passed, the tool attempts to read from `stdin`.
 
-		To view the notes, use $ resin device <uuid>.
+		To view the notes, use $ balena device <uuid>.
 
 		Examples:
 
-			$ resin note "My useful note" --device 7cf02a6
-			$ cat note.txt | resin note --device 7cf02a6
+			$ balena note "My useful note" --device 7cf02a6
+			$ cat note.txt | balena note --device 7cf02a6
 	'''
 	options: [
 		signature: 'device'
@@ -43,7 +43,7 @@ exports.set =
 		normalizeUuidProp(options, 'device')
 		Promise = require('bluebird')
 		_ = require('lodash')
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 
 		{ exitWithExpectedError } = require('../utils/patterns')
 
@@ -51,5 +51,5 @@ exports.set =
 			if _.isEmpty(params.note)
 				exitWithExpectedError('Missing note content')
 
-			resin.models.device.note(options.device, params.note)
+			balena.models.device.note(options.device, params.note)
 		.nodeify(done)

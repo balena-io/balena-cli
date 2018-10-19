@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,13 +20,13 @@ import _ = require('lodash');
 import chalk from 'chalk';
 import rindle = require('rindle');
 import visuals = require('resin-cli-visuals');
-import ResinSdk = require('resin-sdk');
+import BalenaSdk = require('balena-sdk');
 
 import { InitializeEmitter, OperationState } from 'resin-device-init';
 
 const waitStreamAsync = Promise.promisify(rindle.wait);
 
-const resin = ResinSdk.fromSharedOptions();
+const balena = BalenaSdk.fromSharedOptions();
 
 export function getGroupDefaults(group: {
 	options: { name: string; default?: string }[];
@@ -83,7 +83,7 @@ export function runCommand(command: string): Promise<void> {
 export function getManifest(
 	image: string,
 	deviceType: string,
-): Promise<ResinSdk.DeviceType> {
+): Promise<BalenaSdk.DeviceType> {
 	const imagefs = require('resin-image-fs');
 	// Attempt to read manifest from the first
 	// partition, but fallback to the API if
@@ -95,7 +95,7 @@ export function getManifest(
 			path: '/device-type.json',
 		})
 		.then(JSON.parse)
-		.catch(() => resin.models.device.getManifestBySlug(deviceType));
+		.catch(() => balena.models.device.getManifestBySlug(deviceType));
 }
 
 export function osProgressHandler(step: InitializeEmitter) {
@@ -124,7 +124,7 @@ export function getArchAndDeviceType(
 ): Promise<{ arch: string; device_type: string }> {
 	return Promise.join(
 		getApplication(applicationName),
-		resin.models.config.getDeviceTypes(),
+		balena.models.config.getDeviceTypes(),
 		function(app, deviceTypes) {
 			const config = _.find(deviceTypes, { slug: app.device_type });
 
@@ -151,14 +151,14 @@ export function getApplication(applicationName: string) {
 	};
 
 	if (match.length > 1) {
-		return resin.models.application.getAppByOwner(
+		return balena.models.application.getAppByOwner(
 			match[1],
 			match[0],
 			extraOptions,
 		);
 	}
 
-	return resin.models.application.get(applicationName, extraOptions);
+	return balena.models.application.get(applicationName, extraOptions);
 }
 
 // A function to reliably execute a command
