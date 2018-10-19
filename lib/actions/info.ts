@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ export const version: CommandDefinition = {
 	signature: 'version',
 	description: 'output the version number',
 	help: `\
-Display the Resin CLI version.\
+Display the balena CLI version.\
 `,
 	async action(_params, _options, done) {
 		const packageJSON = await import('../../package.json');

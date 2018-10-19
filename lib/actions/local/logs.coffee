@@ -1,5 +1,5 @@
 ###
-Copyright 2017 Resin.io
+Copyright 2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -22,16 +22,16 @@ limitations under the License.
 #
 module.exports =
 	signature: 'local logs [deviceIp]'
-	description: 'Get or attach to logs of a running container on a resinOS device'
+	description: 'Get or attach to logs of a running container on a balenaOS device'
 	help: '''
 
 		Examples:
 
-			$ resin local logs
-			$ resin local logs -f
-			$ resin local logs 192.168.1.10
-			$ resin local logs 192.168.1.10 -f
-			$ resin local logs 192.168.1.10 -f --app-name myapp
+			$ balena local logs
+			$ balena local logs -f
+			$ balena local logs 192.168.1.10
+			$ balena local logs 192.168.1.10 -f
+			$ balena local logs 192.168.1.10 -f --app-name myapp
 	'''
 	options: [
 			signature: 'follow'
@@ -47,12 +47,12 @@ module.exports =
 	root: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		{ forms } = require('resin-sync')
+		{ forms } = require('balena-sync')
 		{ selectContainerFromDevice, pipeContainerStream } = require('./common')
 
 		Promise.try ->
 			if not params.deviceIp?
-				return forms.selectLocalResinOsDevice()
+				return forms.selectLocalBalenaOsDevice()
 			return params.deviceIp
 		.then (@deviceIp) =>
 			if not options['app-name']?

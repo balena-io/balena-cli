@@ -1,5 +1,5 @@
 ###
-Copyright 2017 Resin.io
+Copyright 2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -22,16 +22,16 @@ limitations under the License.
 #
 module.exports =
 	signature: 'local stop [deviceIp]'
-	description: 'Stop a running container on a resinOS device'
+	description: 'Stop a running container on a balenaOS device'
 	help: '''
 
 		Examples:
 
-			$ resin local stop
-			$ resin local stop --app-name myapp
-			$ resin local stop --all
-			$ resin local stop 192.168.1.10
-			$ resin local stop 192.168.1.10 --app-name myapp
+			$ balena local stop
+			$ balena local stop --app-name myapp
+			$ balena local stop --all
+			$ balena local stop 192.168.1.10
+			$ balena local stop 192.168.1.10 --app-name myapp
 	'''
 	options: [
 			signature: 'all'
@@ -47,15 +47,15 @@ module.exports =
 	action: (params, options, done) ->
 		Promise = require('bluebird')
 		chalk = require('chalk')
-		{ forms, config, ResinLocalDockerUtils } = require('resin-sync')
+		{ forms, config, BalenaLocalDockerUtils } = require('balena-sync')
 		{ selectContainerFromDevice, filterOutSupervisorContainer } = require('./common')
 
 		Promise.try ->
 			if not params.deviceIp?
-				return forms.selectLocalResinOsDevice()
+				return forms.selectLocalBalenaOsDevice()
 			return params.deviceIp
 		.then (@deviceIp) =>
-			@docker = new ResinLocalDockerUtils(@deviceIp)
+			@docker = new BalenaLocalDockerUtils(@deviceIp)
 
 			if options.all
 				# Only list running containers
@@ -67,7 +67,7 @@ module.exports =
 						@docker.stopContainer(Id)
 
 			ymlConfig = config.load()
-			@appName = options['app-name'] ? ymlConfig['local_resinos']?['app-name']
+			@appName = options['app-name'] ? ymlConfig['local_balenaos']?['app-name']
 			@docker.checkForRunningContainer(@appName)
 			.then (isRunning) =>
 				if not isRunning

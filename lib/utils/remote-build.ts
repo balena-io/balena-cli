@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ limitations under the License.
 
 import * as JSONStream from 'JSONStream';
 import * as request from 'request';
-import { ResinSDK } from 'resin-sdk';
+import { BalenaSDK } from 'balena-sdk';
 import * as Stream from 'stream';
 import { TypedError } from 'typed-error';
 
@@ -40,7 +40,7 @@ export interface RemoteBuild {
 	baseUrl: string;
 	opts: BuildOpts;
 
-	sdk: ResinSDK;
+	sdk: BalenaSDK;
 
 	// For internal use
 	releaseId?: number;
@@ -100,7 +100,7 @@ export async function startRemoteBuild(build: RemoteBuild): Promise<void> {
 
 		// This is necessary because the `exit-hook` module is used by several
 		// dependencies, and will exit without calling the following handler.
-		// Once https://github.com/resin-io/resin-cli/issues/867 has been solved,
+		// Once https://github.com/balena-io/balena-cli/issues/867 has been solved,
 		// we are free to (and definitely should) remove the below line
 		process.removeAllListeners('SIGINT');
 		process.on('SIGINT', () => {
@@ -139,7 +139,7 @@ async function handleBuilderMetadata(obj: BuilderMessage, build: RemoteBuild) {
 				console.log(
 					stripIndent`
 					Warning: ignoring unknown builder command. You may experience
-					odd build output. Maybe you need to update resin-cli?`,
+					odd build output. Maybe you need to update balena-cli?`,
 				);
 				return;
 			}
@@ -245,7 +245,7 @@ async function getRequestStream(build: RemoteBuild): Promise<Stream.Duplex> {
 	});
 
 	const uploadSpinner = new visuals.Spinner(
-		'Uploading source package to resin cloud',
+		'Uploading source package to balena cloud',
 	);
 	uploadSpinner.start();
 

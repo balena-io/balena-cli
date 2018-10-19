@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -24,13 +24,13 @@ Use this command to display detected settings
 
 Examples:
 
-	$ resin settings\
+	$ balena settings\
 `,
 	async action(_params, _options, done) {
-		const resin = (await import('resin-sdk')).fromSharedOptions();
+		const balena = (await import('balena-sdk')).fromSharedOptions();
 		const prettyjson = await import('prettyjson');
 
-		return resin.settings
+		return balena.settings
 			.getAll()
 			.then(prettyjson.render)
 			.then(console.log)

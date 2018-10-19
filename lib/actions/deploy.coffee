@@ -17,7 +17,7 @@ Opts must be an object with the following keys:
 deployProject = (docker, logger, composeOpts, opts) ->
 	_ = require('lodash')
 	doodles = require('resin-doodles')
-	sdk = require('resin-sdk').fromSharedOptions()
+	sdk = require('balena-sdk').fromSharedOptions()
 
 	compose.loadProject(
 		logger
@@ -81,7 +81,7 @@ deployProject = (docker, logger, composeOpts, opts) ->
 					logger
 					sdk.auth.getToken()
 					sdk.auth.whoami()
-					sdk.settings.get('resinUrl')
+					sdk.settings.get('balenaUrl')
 					{
 						appName: opts.app.app_name
 						imageName: images[0].name
@@ -120,7 +120,7 @@ deployProject = (docker, logger, composeOpts, opts) ->
 
 module.exports =
 	signature: 'deploy <appName> [image]'
-	description: 'Deploy a single image or a multicontainer project to a resin.io application'
+	description: 'Deploy a single image or a multicontainer project to a balena application'
 	help: '''
 		Use this command to deploy an image or a complete multicontainer project
 		to an application, optionally building it first.
@@ -135,16 +135,16 @@ module.exports =
 		generate one.
 
 		To deploy to an app on which you're a collaborator, use
-		`resin deploy <appOwnerUsername>/<appName>`.
+		`balena deploy <appOwnerUsername>/<appName>`.
 
-		Note: If building with this command, all options supported by `resin build`
+		Note: If building with this command, all options supported by `balena build`
 		are also supported with this command.
 
 		Examples:
 
-			$ resin deploy myApp
-			$ resin deploy myApp --build --source myBuildDir/
-			$ resin deploy myApp myApp/myImage
+			$ balena deploy myApp
+			$ balena deploy myApp --build --source myBuildDir/
+			$ balena deploy myApp myApp/myImage
 	'''
 	permission: 'user'
 	primary: true
@@ -181,7 +181,7 @@ module.exports =
 		Promise.try ->
 			{ appName, image } = params
 
-			# look into "resin build" options if appName isn't given
+			# look into "balena build" options if appName isn't given
 			appName = options.application if not appName?
 			delete options.application
 

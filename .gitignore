@@ -27,7 +27,9 @@ node_modules
 npm-shrinkwrap.json
 package-lock.json
 .resinconf
+.balenaconf
 resinrc.yml
+balenarc.yml
 
 .idea
 .vscode

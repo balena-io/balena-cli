@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ exports.list =
 
 		This command lists all custom environment variables.
 		If you want to see all environment variables, including private
-		ones used by resin, use the verbose option.
+		ones used by balena, use the verbose option.
 
 		At the moment the CLI doesn't fully support multi-container applications,
 		so the following commands will only show service variables,
@@ -34,9 +34,9 @@ exports.list =
 
 		Example:
 
-			$ resin envs --application MyApp
-			$ resin envs --application MyApp --verbose
-			$ resin envs --device 7cf02a6
+			$ balena envs --application MyApp
+			$ balena envs --application MyApp --verbose
+			$ balena envs --device 7cf02a6
 	'''
 	options: [
 		commandOptions.optionalApplication
@@ -54,16 +54,16 @@ exports.list =
 		normalizeUuidProp(options, 'device')
 		Promise = require('bluebird')
 		_ = require('lodash')
-		resin = require('resin-sdk-preconfigured')
+		balena = require('resin-sdk-preconfigured')
 		visuals = require('resin-cli-visuals')
 
 		{ exitWithExpectedError } = require('../utils/patterns')
 
 		Promise.try ->
 			if options.application?
-				return resin.models.environmentVariables.getAllByApplication(options.application)
+				return balena.models.environmentVariables.getAllByApplication(options.application)
 			else if options.device?
-				return resin.models.environmentVariables.device.getAll(options.device)
+				return balena.models.environmentVariables.device.getAll(options.device)
 			else
 				exitWithExpectedError('You must specify an application or device')
 
@@ -71,7 +71,7 @@ exports.list =
 			if _.isEmpty(environmentVariables)
 				exitWithExpectedError('No environment variables found')
 			if not options.verbose
-				isSystemVariable = resin.models.environmentVariables.isSystemVariable
+				isSystemVariable = balena.models.environmentVariables.isSystemVariable
 				environmentVariables = _.reject(environmentVariables, isSystemVariable)
 
 			console.log visuals.table.horizontal environmentVariables, [
@@ -87,7 +87,7 @@ exports.remove =
 	help: '''
 		Use this command to remove an environment variable from an application.
 
-		Don't remove resin specific variables, as things might not work as expected.
+		Don't remove balena specific variables, as things might not work as expected.
 
 		Notice this command asks for confirmation interactively.
 		You can avoid this by passing the `--yes` boolean option.
@@ -96,9 +96,9 @@ exports.remove =
 
 		Examples:
 
-			$ resin env rm 215
-			$ resin env rm 215 --yes
-			$ resin env rm 215 --device
+			$ balena env rm 215
+			$ balena env rm 215 --yes
+			$ balena env rm 215 --device
 	'''
 	options: [
 		commandOptions.yes
@@ -106,14 +106,14 @@ exports.remove =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk-preconfigured')
+		balena = require('resin-sdk-preconfigured')
 		patterns = require('../utils/patterns')
 
 		patterns.confirm(options.yes, 'Are you sure you want to delete the environment variable?').then ->
 			if options.device
-				resin.models.environmentVariables.device.remove(params.id)
+				balena.models.environmentVariables.device.remove(params.id)
 			else
-				resin.models.environmentVariables.remove(params.id)
+				balena.models.environmentVariables.remove(params.id)
 		.nodeify(done)
 
 exports.add =
@@ -137,9 +137,9 @@ exports.add =
 
 		Examples:
 
-			$ resin env add EDITOR vim --application MyApp
-			$ resin env add TERM --application MyApp
-			$ resin env add EDITOR vim --device 7cf02a6
+			$ balena env add EDITOR vim --application MyApp
+			$ balena env add TERM --application MyApp
+			$ balena env add EDITOR vim --device 7cf02a6
 	'''
 	options: [
 		commandOptions.optionalApplication
@@ -149,7 +149,7 @@ exports.add =
 	action: (params, options, done) ->
 		normalizeUuidProp(options, 'device')
 		Promise = require('bluebird')
-		resin = require('resin-sdk-preconfigured')
+		balena = require('resin-sdk-preconfigured')
 
 		{ exitWithExpectedError } = require('../utils/patterns')
 
@@ -163,9 +163,9 @@ exports.add =
 					console.info("Warning: using #{params.key}=#{params.value} from host environment")
 
 			if options.application?
-				resin.models.environmentVariables.create(options.application, params.key, params.value)
+				balena.models.environmentVariables.create(options.application, params.key, params.value)
 			else if options.device?
-				resin.models.environmentVariables.device.create(options.device, params.key, params.value)
+				balena.models.environmentVariables.device.create(options.device, params.key, params.value)
 			else
 				exitWithExpectedError('You must specify an application or device')
 		.nodeify(done)
@@ -180,18 +180,18 @@ exports.rename =
 
 		Examples:
 
-			$ resin env rename 376 emacs
-			$ resin env rename 376 emacs --device
+			$ balena env rename 376 emacs
+			$ balena env rename 376 emacs --device
 	'''
 	permission: 'user'
 	options: [ commandOptions.booleanDevice ]
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		resin = require('resin-sdk-preconfigured')
+		balena = require('resin-sdk-preconfigured')
 
 		Promise.try ->
 			if options.device
-				resin.models.environmentVariables.device.update(params.id, params.value)
+				balena.models.environmentVariables.device.update(params.id, params.value)
 			else
-				resin.models.environmentVariables.update(params.id, params.value)
+				balena.models.environmentVariables.update(params.id, params.value)
 		.nodeify(done)

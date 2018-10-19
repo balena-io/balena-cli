@@ -1,5 +1,5 @@
 ###
-Copyright 2017 Resin.io
+Copyright 2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the 'License');
 you may not use this file except in compliance with the License.
@@ -18,13 +18,13 @@ module.exports =
 	signature: 'local flash <image>'
 	description: 'Flash an image to a drive'
 	help: '''
-		Use this command to flash a resinOS image to a drive.
+		Use this command to flash a balenaOS image to a drive.
 
 		Examples:
 
-			$ resin local flash path/to/resinos.img
-			$ resin local flash path/to/resinos.img --drive /dev/disk2
-			$ resin local flash path/to/resinos.img --drive /dev/disk2 --yes
+			$ balena local flash path/to/balenaos.img
+			$ balena local flash path/to/balenaos.img --drive /dev/disk2
+			$ balena local flash path/to/balenaos.img --drive /dev/disk2 --yes
 	'''
 	options: [
 			signature: 'yes'

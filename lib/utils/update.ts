@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import packageJSON = require('../../package.json');
 
 // Check for an update once a day. 1 day granularity should be
 // enough, rather than every run.
-const resinUpdateInterval = 1000 * 60 * 60 * 24 * 1;
+const balenaUpdateInterval = 1000 * 60 * 60 * 24 * 1;
 
 let notifier: UpdateNotifier.UpdateNotifier;
 
@@ -30,7 +30,7 @@ let notifier: UpdateNotifier.UpdateNotifier;
 if (!isRoot()) {
 	notifier = UpdateNotifier({
 		pkg: packageJSON,
-		updateCheckInterval: resinUpdateInterval,
+		updateCheckInterval: balenaUpdateInterval,
 	});
 }
 

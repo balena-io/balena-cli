@@ -1,16 +1,16 @@
 import { stripIndent } from 'common-tags';
-import * as ResinSdk from 'resin-sdk';
+import * as BalenaSdk from 'balena-sdk';
 
 import Logger = require('./logger');
 
 import { runCommand } from './helpers';
 import { exec, execBuffered } from './ssh';
 
-const MIN_RESINOS_VERSION = 'v2.14.0';
+const MIN_BALENAOS_VERSION = 'v2.14.0';
 
 export async function join(
 	logger: Logger,
-	sdk: ResinSdk.ResinSDK,
+	sdk: BalenaSdk.BalenaSDK,
 	deviceHostnameOrIp?: string,
 	appName?: string,
 ): Promise<void> {
@@ -53,13 +53,13 @@ export async function join(
 	await configure(deviceIp, config);
 	logger.logDebug('All done.');
 
-	const platformUrl = await sdk.settings.get('resinUrl');
+	const platformUrl = await sdk.settings.get('balenaUrl');
 	logger.logSuccess(`Device successfully joined ${platformUrl}!`);
 }
 
 export async function leave(
 	logger: Logger,
-	_sdk: ResinSdk.ResinSDK,
+	_sdk: BalenaSdk.BalenaSDK,
 	deviceHostnameOrIp?: string,
 ): Promise<void> {
 	logger.logDebug('Determining device...');
@@ -116,7 +116,7 @@ async function assertDeviceIsCompatible(deviceIp: string): Promise<void> {
 	} catch (err) {
 		exitWithExpectedError(stripIndent`
 			Device "${deviceIp}" is incompatible and cannot join or leave an application.
-			Please select or provision device with resinOS newer than ${MIN_RESINOS_VERSION}.`);
+			Please select or provision device with balenaOS newer than ${MIN_BALENAOS_VERSION}.`);
 	}
 }
 
@@ -173,7 +173,7 @@ async function getOrSelectLocalDevice(deviceIp?: string): Promise<string> {
 	return ip;
 }
 
-async function selectAppFromList(applications: ResinSdk.Application[]) {
+async function selectAppFromList(applications: BalenaSdk.Application[]) {
 	const _ = await import('lodash');
 	const { selectFromList } = await import('../utils/patterns');
 
@@ -188,10 +188,10 @@ async function selectAppFromList(applications: ResinSdk.Application[]) {
 }
 
 async function getOrSelectApplication(
-	sdk: ResinSdk.ResinSDK,
+	sdk: BalenaSdk.BalenaSDK,
 	deviceType: string,
 	appName?: string,
-): Promise<ResinSdk.Application> {
+): Promise<BalenaSdk.Application> {
 	const _ = await import('lodash');
 	const form = await import('resin-cli-form');
 
@@ -230,7 +230,7 @@ async function getOrSelectApplication(
 		return selectAppFromList(applications);
 	}
 
-	const options: ResinSdk.PineOptionsFor<ResinSdk.Application> = {};
+	const options: BalenaSdk.PineOptionsFor<BalenaSdk.Application> = {};
 
 	// Check for an app of the form `user/application` and update the API query.
 	let name: string;
@@ -280,17 +280,17 @@ async function getOrSelectApplication(
 }
 
 async function createApplication(
-	sdk: ResinSdk.ResinSDK,
+	sdk: BalenaSdk.BalenaSDK,
 	deviceType: string,
 	name?: string,
-): Promise<ResinSdk.Application> {
+): Promise<BalenaSdk.Application> {
 	const form = await import('resin-cli-form');
 	const validation = await import('./validation');
 	const patterns = await import('./patterns');
 
 	let username = await sdk.auth.whoami();
 	if (!username) {
-		throw new sdk.errors.ResinNotLoggedIn();
+		throw new sdk.errors.BalenaNotLoggedIn();
 	}
 	username = username.toLowerCase();
 
@@ -333,8 +333,8 @@ async function createApplication(
 }
 
 async function generateApplicationConfig(
-	sdk: ResinSdk.ResinSDK,
-	app: ResinSdk.Application,
+	sdk: BalenaSdk.BalenaSDK,
+	app: BalenaSdk.Application,
 	options: { version: string },
 ) {
 	const form = await import('resin-cli-form');

@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ print = (data) ->
 		minWidth: 35
 
 general = (params, options, done) ->
-	console.log('Usage: resin [COMMAND] [OPTIONS]\n')
+	console.log('Usage: balena [COMMAND] [OPTIONS]\n')
 	console.log(messages.reachingOut)
 	console.log('\nPrimary commands:\n')
 
@@ -66,7 +66,7 @@ general = (params, options, done) ->
 		console.log('\nAdditional commands:\n')
 		print(parse(groupedCommands.secondary))
 	else
-		console.log('\nRun `resin help --verbose` to list additional commands')
+		console.log('\nRun `balena help --verbose` to list additional commands')
 
 	if not _.isEmpty(capitano.state.globalOptions)
 		console.log('\nGlobal Options:\n')
@@ -102,8 +102,8 @@ exports.help =
 
 		Examples:
 
-			$ resin help apps
-			$ resin help os download
+			$ balena help apps
+			$ balena help os download
 	'''
 	primary: true
 	options: [

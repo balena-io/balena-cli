@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -24,14 +24,14 @@ exports.list =
 
 		Examples:
 
-			$ resin keys
+			$ balena keys
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
-		resin.models.key.getAll().then (keys) ->
+		balena.models.key.getAll().then (keys) ->
 			console.log visuals.table.horizontal keys, [
 				'id'
 				'title'
@@ -46,14 +46,14 @@ exports.info =
 
 		Examples:
 
-			$ resin key 17
+			$ balena key 17
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
-		resin.models.key.get(params.id).then (key) ->
+		balena.models.key.get(params.id).then (key) ->
 			console.log visuals.table.vertical key, [
 				'id'
 				'title'
@@ -61,7 +61,7 @@ exports.info =
 
 			# Since the public key string is long, it might
 			# wrap to lines below, causing the table layout to break.
-			# See https://github.com/resin-io/resin-cli/issues/151
+			# See https://github.com/balena-io/balena-cli/issues/151
 			console.log('\n' + key.public_key)
 		.nodeify(done)
 
@@ -69,29 +69,29 @@ exports.remove =
 	signature: 'key rm <id>'
 	description: 'remove a ssh key'
 	help: '''
-		Use this command to remove a SSH key from resin.io.
+		Use this command to remove a SSH key from balena.
 
 		Notice this command asks for confirmation interactively.
 		You can avoid this by passing the `--yes` boolean option.
 
 		Examples:
 
-			$ resin key rm 17
-			$ resin key rm 17 --yes
+			$ balena key rm 17
+			$ balena key rm 17 --yes
 	'''
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		patterns = require('../utils/patterns')
 
 		patterns.confirm(options.yes, 'Are you sure you want to delete the key?').then ->
-			resin.models.key.remove(params.id)
+			balena.models.key.remove(params.id)
 		.nodeify(done)
 
 exports.add =
 	signature: 'key add <name> [path]'
-	description: 'add a SSH key to resin.io'
+	description: 'add a SSH key to balena'
 	help: '''
 		Use this command to associate a new SSH key with your account.
 
@@ -100,8 +100,8 @@ exports.add =
 
 		Examples:
 
-			$ resin key add Main ~/.ssh/id_rsa.pub
-			$ cat ~/.ssh/id_rsa.pub | resin key add Main
+			$ balena key add Main ~/.ssh/id_rsa.pub
+			$ cat ~/.ssh/id_rsa.pub | balena key add Main
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
@@ -109,7 +109,7 @@ exports.add =
 		Promise = require('bluebird')
 		readFileAsync = Promise.promisify(require('fs').readFile)
 		capitano = require('capitano')
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 
 		Promise.try ->
 			return readFileAsync(params.path, encoding: 'utf8') if params.path?
@@ -119,5 +119,5 @@ exports.add =
 				capitano.utils.getStdin (data) ->
 					return callback(null, data)
 
-		.then(_.partial(resin.models.key.create, params.name))
+		.then(_.partial(balena.models.key.create, params.name))
 		.nodeify(done)

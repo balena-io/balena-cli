@@ -1,5 +1,5 @@
 ###
-Copyright 2016 Resin.io
+Copyright 2016 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ express = require('express')
 path = require('path')
 bodyParser = require('body-parser')
 Promise = require('bluebird')
-resin = require('resin-sdk-preconfigured')
+balena = require('balena-sdk').fromSharedOptions()
 utils = require('./utils')
 
 createServer = ({ port, isDev } = {}) ->
@@ -96,6 +96,6 @@ exports.awaitForToken = (options) ->
 exports.getContext = getContext = (viewName) ->
 	if viewName is 'success'
 		return Promise.props
-			dashboardUrl: resin.settings.get('dashboardUrl')
+			dashboardUrl: balena.settings.get('dashboardUrl')
 
 	return Promise.resolve({})

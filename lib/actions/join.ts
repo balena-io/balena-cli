@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -28,15 +28,15 @@ interface Options {
 export const join: CommandDefinition<Args, Options> = {
 	signature: 'join [deviceIp]',
 	description:
-		'Promote a local device running unmanaged resinOS to join a resin.io application',
+		'Promote a local device running unmanaged balenaOS to join a balena application',
 	help: stripIndent`
 		Examples:
 
-			$ resin join
-			$ resin join resin.local
-			$ resin join resin.local --application MyApp
-			$ resin join 192.168.1.25
-			$ resin join 192.168.1.25 --application MyApp
+			$ balena join
+			$ balena join balena.local
+			$ balena join balena.local --application MyApp
+			$ balena join 192.168.1.25
+			$ balena join 192.168.1.25 --application MyApp
 	`,
 	options: [
 		{
@@ -50,10 +50,10 @@ export const join: CommandDefinition<Args, Options> = {
 	primary: true,
 
 	async action(params, options, done) {
-		const resin = await import('resin-sdk');
+		const balena = await import('balena-sdk');
 		const Logger = await import('../utils/logger');
 		const promote = await import('../utils/promote');
-		const sdk = resin.fromSharedOptions();
+		const sdk = balena.fromSharedOptions();
 		const logger = new Logger();
 		return Bluebird.try(() => {
 			return promote.join(logger, sdk, params.deviceIp, options.application);

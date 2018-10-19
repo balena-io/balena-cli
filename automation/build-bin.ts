@@ -7,7 +7,7 @@ const ROOT = path.join(__dirname, '..');
 
 console.log('Building package...\n');
 
-execPkg(['--target', 'host', '--output', 'build-bin/resin', 'package.json'])
+execPkg(['--target', 'host', '--output', 'build-bin/balena', 'package.json'])
 	.then(() =>
 		fs.copy(
 			path.join(ROOT, 'node_modules', 'opn', 'xdg-open'),

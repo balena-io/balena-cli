@@ -10,17 +10,17 @@ export const generate: CommandDefinition<{
 		This command generates a new API key for the current user, with the given
 		name. The key will be logged to the console.
 
-		This key can be used to log into the CLI using 'resin login --token <key>',
+		This key can be used to log into the CLI using 'balena login --token <key>',
 		or to authenticate requests to the API with an 'Authorization: Bearer <key>' header.
 
 		Examples:
 
-			$ resin api-key generate "Jenkins Key"
+			$ balena api-key generate "Jenkins Key"
 	`,
 	async action(params, _options, done) {
-		const resin = (await import('resin-sdk')).fromSharedOptions();
+		const balena = (await import('balena-sdk')).fromSharedOptions();
 
-		resin.models.apiKey
+		balena.models.apiKey
 			.create(params.name)
 			.then(key => {
 				console.log(stripIndent`

@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,10 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 import Promise = require('bluebird');
-import ResinSdk = require('resin-sdk');
+import BalenaSdk = require('balena-sdk');
 import * as semver from 'resin-semver';
 
-const resin = ResinSdk.fromSharedOptions();
+const balena = BalenaSdk.fromSharedOptions();
 
 type ImgConfig = {
 	applicationName: string;
@@ -51,7 +51,7 @@ type ImgConfig = {
 };
 
 export function generateBaseConfig(
-	application: ResinSdk.Application,
+	application: BalenaSdk.Application,
 	options: { version: string; appUpdatePollInterval?: number },
 ): Promise<ImgConfig> {
 	options = {
@@ -59,7 +59,7 @@ export function generateBaseConfig(
 		appUpdatePollInterval: options.appUpdatePollInterval || 10,
 	};
 
-	const promise = resin.models.os.getConfig(
+	const promise = balena.models.os.getConfig(
 		application.app_name,
 		options,
 	) as Promise<ImgConfig & { apiKey?: string }>;
@@ -70,7 +70,7 @@ export function generateBaseConfig(
 }
 
 export function generateApplicationConfig(
-	application: ResinSdk.Application,
+	application: BalenaSdk.Application,
 	options: { version: string },
 ) {
 	return generateBaseConfig(application, options).tap(config => {
@@ -83,11 +83,13 @@ export function generateApplicationConfig(
 }
 
 export function generateDeviceConfig(
-	device: ResinSdk.Device & { belongs_to__application: ResinSdk.PineDeferred },
+	device: BalenaSdk.Device & {
+		belongs_to__application: BalenaSdk.PineDeferred;
+	},
 	deviceApiKey: string | true | null,
 	options: { version: string },
 ) {
-	return resin.models.application
+	return balena.models.application
 		.get(device.belongs_to__application.__id)
 		.then(application => {
 			return generateBaseConfig(application, options).tap(config => {
@@ -112,7 +114,7 @@ export function generateDeviceConfig(
 }
 
 function addApplicationKey(config: any, applicationNameOrId: string | number) {
-	return resin.models.application
+	return balena.models.application
 		.generateApiKey(applicationNameOrId)
 		.tap(apiKey => {
 			config.apiKey = apiKey;
@@ -120,7 +122,7 @@ function addApplicationKey(config: any, applicationNameOrId: string | number) {
 }
 
 function addProvisioningKey(config: any, applicationNameOrId: string | number) {
-	return resin.models.application
+	return balena.models.application
 		.generateProvisioningKey(applicationNameOrId)
 		.tap(apiKey => {
 			config.apiKey = apiKey;
@@ -134,7 +136,7 @@ function addDeviceKey(
 ) {
 	return Promise.try(() => {
 		if (customDeviceApiKey === true) {
-			return resin.models.device.generateDeviceKey(uuid);
+			return balena.models.device.generateDeviceKey(uuid);
 		} else {
 			return customDeviceApiKey;
 		}

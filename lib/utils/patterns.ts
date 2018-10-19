@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,12 +18,12 @@ import _ = require('lodash');
 import Promise = require('bluebird');
 import form = require('resin-cli-form');
 import visuals = require('resin-cli-visuals');
-import ResinSdk = require('resin-sdk');
+import BalenaSdk = require('balena-sdk');
 import chalk from 'chalk';
 import validation = require('./validation');
 import messages = require('./messages');
 
-const resin = ResinSdk.fromSharedOptions();
+const balena = BalenaSdk.fromSharedOptions();
 
 export function authenticate(options: {}): Promise<void> {
 	return form
@@ -43,8 +43,8 @@ export function authenticate(options: {}): Promise<void> {
 			],
 			{ override: options },
 		)
-		.then(resin.auth.login)
-		.then(resin.auth.twoFactor.isPassed)
+		.then(balena.auth.login)
+		.then(balena.auth.twoFactor.isPassed)
 		.then((isTwoFactorAuthPassed: boolean) => {
 			if (isTwoFactorAuthPassed) {
 				return;
@@ -56,11 +56,11 @@ export function authenticate(options: {}): Promise<void> {
 					name: 'code',
 					type: 'input',
 				})
-				.then(resin.auth.twoFactor.challenge)
+				.then(balena.auth.twoFactor.challenge)
 				.catch((error: any) => {
-					return resin.auth.logout().then(() => {
+					return balena.auth.logout().then(() => {
 						if (
-							error.name === 'ResinRequestError' &&
+							error.name === 'BalenaRequestError' &&
 							error.statusCode === 401
 						) {
 							throw new Error('Invalid two factor authentication code');
@@ -90,7 +90,7 @@ export function askLoginType() {
 				value: 'token',
 			},
 			{
-				name: "I don't have a Resin account!",
+				name: "I don't have a balena account!",
 				value: 'register',
 			},
 		],
@@ -98,7 +98,7 @@ export function askLoginType() {
 }
 
 export function selectDeviceType() {
-	return resin.models.config.getDeviceTypes().then(deviceTypes => {
+	return balena.models.config.getDeviceTypes().then(deviceTypes => {
 		deviceTypes = _.sortBy(deviceTypes, 'name');
 		return form.ask({
 			message: 'Device Type',
@@ -137,16 +137,16 @@ export function confirm(
 }
 
 export function selectApplication(
-	filter: (app: ResinSdk.Application) => boolean,
+	filter: (app: BalenaSdk.Application) => boolean,
 ) {
-	return resin.models.application
+	return balena.models.application
 		.hasAny()
 		.then(function(hasAnyApplications) {
 			if (!hasAnyApplications) {
 				throw new Error("You don't have any applications");
 			}
 
-			return resin.models.application.getAll();
+			return balena.models.application.getAll();
 		})
 		.filter(filter || _.constant(true))
 		.then(applications => {
@@ -162,14 +162,14 @@ export function selectApplication(
 }
 
 export function selectOrCreateApplication() {
-	return resin.models.application
+	return balena.models.application
 		.hasAny()
 		.then(hasAnyApplications => {
 			if (!hasAnyApplications) return;
 
-			return resin.models.application.getAll().then(applications => {
+			return balena.models.application.getAll().then(applications => {
 				const appOptions = _.map<
-					ResinSdk.Application,
+					BalenaSdk.Application,
 					{ name: string; value: string | null }
 				>(applications, application => ({
 					name: `${application.app_name} (${application.device_type})`,
@@ -202,13 +202,13 @@ export function selectOrCreateApplication() {
 }
 
 export function awaitDevice(uuid: string) {
-	return resin.models.device.getName(uuid).then(deviceName => {
+	return balena.models.device.getName(uuid).then(deviceName => {
 		const spinner = new visuals.Spinner(
 			`Waiting for ${deviceName} to come online`,
 		);
 
 		const poll = (): Promise<void> => {
-			return resin.models.device.isOnline(uuid).then(function(isOnline) {
+			return balena.models.device.isOnline(uuid).then(function(isOnline) {
 				if (isOnline) {
 					spinner.stop();
 					console.info(`The device **${deviceName}** is online!`);
@@ -223,15 +223,15 @@ export function awaitDevice(uuid: string) {
 			});
 		};
 
-		console.info(`Waiting for ${deviceName} to connect to resin...`);
+		console.info(`Waiting for ${deviceName} to connect to balena...`);
 		return poll().return(uuid);
 	});
 }
 
 export function inferOrSelectDevice(preferredUuid: string) {
-	return resin.models.device
+	return balena.models.device
 		.getAll()
-		.filter<ResinSdk.Device>(device => device.is_online)
+		.filter<BalenaSdk.Device>(device => device.is_online)
 		.then(onlineDevices => {
 			if (_.isEmpty(onlineDevices)) {
 				throw new Error("You don't have any devices online");

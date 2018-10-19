@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,36 +14,36 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
-# Loads '.resin-sync.yml' configuration from 'source' directory.
+# Loads '.balena-sync.yml' configuration from 'source' directory.
 # Returns the configuration object on success
 #
 
 _ = require('lodash')
 
-resinPush = require('resin-sync').capitano('resin-toolbox')
+balenaPush = require('balena-sync').capitano('balena-toolbox')
 
 # TODO: This is a temporary workaround to reuse the existing `rdt push`
-# capitano frontend in `resin local push`.
+# capitano frontend in `balena local push`.
 
-resinPushHelp = '''
-	Warning: 'resin local push' requires an openssh-compatible client and 'rsync' to
+balenaPushHelp = '''
+	Warning: 'balena local push' requires an openssh-compatible client and 'rsync' to
 	be correctly installed in your shell environment. For more information (including
-	Windows support) please check the README here: https://github.com/resin-io/resin-cli
+	Windows support) please check the README here: https://github.com/balena-io/balena-cli
 
-	Use this command to push your local changes to a container on a LAN-accessible resinOS device on the fly.
+	Use this command to push your local changes to a container on a LAN-accessible balenaOS device on the fly.
 
 	If `Dockerfile` or any file in the 'build-triggers' list is changed,
 	a new container will be built and run on your device.
 	If not, changes will simply be synced with `rsync` into the application container.
 
-	After every 'resin local push' the updated settings will be saved in
-	'<source>/.resin-sync.yml' and will be used in later invocations. You can
-	also change any option by editing '.resin-sync.yml' directly.
+	After every 'balena local push' the updated settings will be saved in
+	'<source>/.balena-sync.yml' and will be used in later invocations. You can
+	also change any option by editing '.balena-sync.yml' directly.
 
-	Here is an example '.resin-sync.yml' :
+	Here is an example '.balena-sync.yml' :
 
-		$ cat $PWD/.resin-sync.yml
-		local_resinos:
+		$ cat $PWD/.balena-sync.yml
+		local_balenaos:
 			app-name: local-app
 			build-triggers:
 				- Dockerfile: file-hash-abcdefabcdefabcdefabcdefabcdefabcdef
@@ -52,7 +52,7 @@ resinPushHelp = '''
 				- MY_VARIABLE=123
 
 
-	Command line options have precedence over the ones saved in '.resin-sync.yml'.
+	Command line options have precedence over the ones saved in '.balena-sync.yml'.
 
 	If '.gitignore' is found in the source directory then all explicitly listed files will be
 	excluded when using rsync to update the container. You can choose to change this default behavior with the
@@ -60,19 +60,19 @@ resinPushHelp = '''
 
 	Examples:
 
-		$ resin local push
-		$ resin local push --app-name test-server --build-triggers package.json,requirements.txt
-		$ resin local push --force-build
-		$ resin local push --force-build --skip-logs
-		$ resin local push --ignore lib/
-		$ resin local push --verbose false
-		$ resin local push 192.168.2.10 --source . --destination /usr/src/app
-		$ resin local push 192.168.2.10 -s /home/user/myResinProject -d /usr/src/app --before 'echo Hello' --after 'echo Done'
+		$ balena local push
+		$ balena local push --app-name test-server --build-triggers package.json,requirements.txt
+		$ balena local push --force-build
+		$ balena local push --force-build --skip-logs
+		$ balena local push --ignore lib/
+		$ balena local push --verbose false
+		$ balena local push 192.168.2.10 --source . --destination /usr/src/app
+		$ balena local push 192.168.2.10 -s /home/user/balenaProject -d /usr/src/app --before 'echo Hello' --after 'echo Done'
 '''
 
 
-module.exports = _.assign resinPush,
+module.exports = _.assign balenaPush,
 	signature: 'local push [deviceIp]'
-	help: resinPushHelp
+	help: balenaPushHelp
 	primary: true
 	root: true

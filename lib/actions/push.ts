@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ limitations under the License.
 
 import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
-import { ResinSDK } from 'resin-sdk';
+import { BalenaSDK } from 'balena-sdk';
 
 import { BuildError } from '../utils/device/errors';
 
@@ -43,7 +43,7 @@ function getBuildTarget(appOrDevice: string): BuildTarget | null {
 	return null;
 }
 
-async function getAppOwner(sdk: ResinSDK, appName: string) {
+async function getAppOwner(sdk: BalenaSDK, appName: string) {
 	const {
 		exitWithExpectedError,
 		selectFromList,
@@ -110,13 +110,13 @@ export const push: CommandDefinition<
 > = {
 	signature: 'push <applicationOrDevice>',
 	description:
-		'Start a remote build on the resin.io cloud build servers or a local mode device',
+		'Start a remote build on the balena cloud build servers or a local mode device',
 	help: stripIndent`
 		This command can be used to start a build on the remote
-		resin.io cloud builders, or a local mode resin device.
+		balena cloud builders, or a local mode balena device.
 
-		When building on the resin cloud the given source directory will be sent to the
-		resin.io builder, and the build will proceed. This can be used as a drop-in
+		When building on the balena cloud the given source directory will be sent to the
+		balena builder, and the build will proceed. This can be used as a drop-in
 		replacement for git push to deploy.
 
 		When building on a local mode device, the given source directory will be built on
@@ -125,13 +125,13 @@ export const push: CommandDefinition<
 
 		Examples:
 
-			$ resin push myApp
-			$ resin push myApp --source <source directory>
-			$ resin push myApp -s <source directory>
+			$ balena push myApp
+			$ balena push myApp --source <source directory>
+			$ balena push myApp -s <source directory>
 
-			$ resin push 10.0.0.1
-			$ resin push 10.0.0.1 --source <source directory>
-			$ resin push 10.0.0.1 -s <source directory>
+			$ balena push 10.0.0.1
+			$ balena push 10.0.0.1 --source <source directory>
+			$ balena push 10.0.0.1 -s <source directory>
 	`,
 	permission: 'user',
 	options: [
@@ -139,7 +139,7 @@ export const push: CommandDefinition<
 			signature: 'source',
 			alias: 's',
 			description:
-				'The source that should be sent to the resin builder to be built (defaults to the current directory)',
+				'The source that should be sent to the balena builder to be built (defaults to the current directory)',
 			parameter: 'source',
 		},
 		{
@@ -156,7 +156,7 @@ export const push: CommandDefinition<
 		},
 	],
 	async action(params, options, done) {
-		const sdk = (await import('resin-sdk')).fromSharedOptions();
+		const sdk = (await import('balena-sdk')).fromSharedOptions();
 		const Bluebird = await import('bluebird');
 		const remote = await import('../utils/remote-build');
 		const deviceDeploy = await import('../utils/device/deploy');
@@ -178,7 +178,7 @@ export const push: CommandDefinition<
 				const app = appOrDevice;
 				Bluebird.join(
 					sdk.auth.getToken(),
-					sdk.settings.get('resinUrl'),
+					sdk.settings.get('balenaUrl'),
 					getAppOwner(sdk, app),
 					(token, baseUrl, owner) => {
 						const opts = {

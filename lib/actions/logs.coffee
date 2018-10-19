@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -28,8 +28,8 @@ module.exports =
 
 		Examples:
 
-			$ resin logs 23c73a1
-			$ resin logs 23c73a1
+			$ balena logs 23c73a1
+			$ balena logs 23c73a1
 	'''
 	options: [
 		{
@@ -43,7 +43,7 @@ module.exports =
 	primary: true
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		moment = require('moment')
 
 		printLine = (line) ->
@@ -51,11 +51,11 @@ module.exports =
 			console.log("#{timestamp} #{line.message}")
 
 		if options.tail
-			resin.logs.subscribe(params.uuid, { count: 100 }).then (logs) ->
+			balena.logs.subscribe(params.uuid, { count: 100 }).then (logs) ->
 				logs.on('line', printLine)
 				logs.on('error', done)
 			.catch(done)
 		else
-			resin.logs.history(params.uuid)
+			balena.logs.history(params.uuid)
 			.each(printLine)
 			.catch(done)

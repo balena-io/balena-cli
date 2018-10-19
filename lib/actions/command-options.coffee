@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -40,13 +40,13 @@ exports.optionalDevice =
 
 exports.optionalDeviceApiKey =
 	signature: 'deviceApiKey'
-	description: 'custom device key - note that this is only supported on ResinOS 2.0.3+'
+	description: 'custom device key - note that this is only supported on balenaOS 2.0.3+'
 	parameter: 'device-api-key'
 	alias: 'k'
 
 exports.optionalOsVersion =
 	signature: 'version'
-	description: 'a resinOS version'
+	description: 'a balenaOS version'
 	parameter: 'version'
 
 exports.osVersion = _.defaults
@@ -98,7 +98,7 @@ exports.drive =
 	signature: 'drive'
 	description: 'the drive to write the image to, like `/dev/sdb` or `/dev/mmcblk0`.
 		Careful with this as you can erase your hard drive.
-		Check `resin util available-drives` for available options.'
+		Check `balena util available-drives` for available options.'
 	parameter: 'drive'
 	alias: 'd'
 
@@ -111,5 +111,5 @@ exports.advancedConfig =
 exports.hostOSAccess =
 	signature: 'host'
 	boolean: true
-	description: 'access host OS (for devices with Resin OS >= 2.7.5)'
+	description: 'access host OS (for devices with balenaOS >= 2.7.5)'
 	alias: 's'
