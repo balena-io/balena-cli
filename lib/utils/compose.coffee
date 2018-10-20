@@ -304,8 +304,8 @@ createRelease = (apiEndpoint, auth, userId, appId, composition) ->
 			'is_created_by__user'
 			'__metadata'
 		])
-		_.keys serviceImages, (serviceName) ->
-			serviceImages[serviceName] = _.omit(serviceImages[serviceName], [
+		serviceImages = _.mapValues serviceImages, (serviceImage) ->
+			_.omit(serviceImage, [
 				'created_at'
 				'is_a_build_of__service'
 				'__metadata'
@@ -418,7 +418,7 @@ exports.deployProject = (
 					localImage.remove()
 		.then ->
 			release.status = 'success'
-		.tapCatch (e) ->
+		.tapCatch ->
 			release.status = 'failed'
 		.finally ->
 			runloop = runSpinner(tty, spinner, "#{prefix}Saving release...")
