@@ -1,5 +1,5 @@
 import { stripIndent } from 'common-tags';
-import { ResinSDK, Application } from 'resin-sdk';
+import * as ResinSdk from 'resin-sdk';
 
 import Logger = require('./logger');
 
@@ -10,7 +10,7 @@ const MIN_RESINOS_VERSION = 'v2.14.0';
 
 export async function join(
 	logger: Logger,
-	sdk: ResinSDK,
+	sdk: ResinSdk.ResinSDK,
 	deviceHostnameOrIp?: string,
 	appName?: string,
 ): Promise<void> {
@@ -59,7 +59,7 @@ export async function join(
 
 export async function leave(
 	logger: Logger,
-	_sdk: ResinSDK,
+	_sdk: ResinSdk.ResinSDK,
 	deviceHostnameOrIp?: string,
 ): Promise<void> {
 	logger.logDebug('Determining device...');
@@ -174,10 +174,10 @@ async function getOrSelectLocalDevice(deviceIp?: string): Promise<string> {
 }
 
 async function getOrSelectApplication(
-	sdk: ResinSDK,
+	sdk: ResinSdk.ResinSDK,
 	deviceType: string,
 	appName?: string,
-): Promise<Application> {
+): Promise<ResinSdk.Application> {
 	const _ = await import('lodash');
 	const form = await import('resin-cli-form');
 	const { selectFromList } = await import('../utils/patterns');
@@ -232,7 +232,7 @@ async function getOrSelectApplication(
 	}
 
 	// Fetch all applications with the given name that are accessible to the user
-	const applications = await sdk.pine.get<Application>({
+	const applications = await sdk.pine.get<ResinSdk.Application>({
 		resource: 'application',
 		options,
 	});
@@ -275,10 +275,10 @@ async function getOrSelectApplication(
 }
 
 async function createApplication(
-	sdk: ResinSDK,
+	sdk: ResinSdk.ResinSDK,
 	deviceType: string,
 	name?: string,
-): Promise<Application> {
+): Promise<ResinSdk.Application> {
 	const form = await import('resin-cli-form');
 	const validation = await import('./validation');
 	const patterns = await import('./patterns');
@@ -320,8 +320,8 @@ async function createApplication(
 }
 
 async function generateApplicationConfig(
-	sdk: ResinSDK,
-	app: Application,
+	sdk: ResinSdk.ResinSDK,
+	app: ResinSdk.Application,
 	options: { version: string },
 ) {
 	const form = await import('resin-cli-form');
