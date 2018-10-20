@@ -92,7 +92,7 @@
     "@resin.io/valid-email": "^0.1.0",
     "@types/stream-to-promise": "2.2.0",
     "@types/through2": "^2.0.33",
-    "@zeit/dockerignore": "0.0.1",
+    "@zeit/dockerignore": "0.0.3",
     "JSONStream": "^1.0.3",
     "ansi-escapes": "^2.0.0",
     "any-promise": "^1.3.0",
