@@ -44,7 +44,8 @@ exports.create =
 	]
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
+
 		patterns = require('../utils/patterns')
 
 		# Validate the the application name is available
@@ -57,7 +58,10 @@ exports.create =
 		.then ->
 			return options.type or patterns.selectDeviceType()
 		.then (deviceType) ->
-			return resin.models.application.create(params.name, deviceType)
+			return resin.models.application.create({
+				name: params.name
+				deviceType
+			})
 		.then (application) ->
 			console.info("Application created: #{application.app_name} (#{application.device_type}, id #{application.id})")
 		.nodeify(done)
@@ -78,7 +82,7 @@ exports.list =
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
 		resin.models.application.getAll().then (applications) ->
@@ -104,7 +108,7 @@ exports.info =
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
 		resin.models.application.get(params.name).then (application) ->
@@ -129,7 +133,7 @@ exports.restart =
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		resin.models.application.restart(params.name).nodeify(done)
 
 exports.remove =
@@ -149,7 +153,7 @@ exports.remove =
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		patterns = require('../utils/patterns')
 
 		patterns.confirm(options.yes, 'Are you sure you want to delete the application?').then ->

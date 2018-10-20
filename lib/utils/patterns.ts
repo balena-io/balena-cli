@@ -18,10 +18,12 @@ import _ = require('lodash');
 import Promise = require('bluebird');
 import form = require('resin-cli-form');
 import visuals = require('resin-cli-visuals');
-import resin = require('resin-sdk-preconfigured');
+import ResinSdk = require('resin-sdk');
 import chalk from 'chalk';
 import validation = require('./validation');
 import messages = require('./messages');
+
+const resin = ResinSdk.fromSharedOptions();
 
 export function authenticate(options: {}): Promise<void> {
 	return form
@@ -96,11 +98,14 @@ export function askLoginType() {
 }
 
 export function selectDeviceType() {
-	return resin.models.device.getSupportedDeviceTypes().then(deviceTypes => {
+	return resin.models.config.getDeviceTypes().then(deviceTypes => {
 		return form.ask({
 			message: 'Device Type',
 			type: 'list',
-			choices: deviceTypes,
+			choices: _.map(deviceTypes, ({ slug: value, name }) => ({
+				name,
+				value,
+			})),
 		});
 	});
 }
@@ -130,7 +135,9 @@ export function confirm(
 	});
 }
 
-export function selectApplication(filter: (app: resin.Application) => boolean) {
+export function selectApplication(
+	filter: (app: ResinSdk.Application) => boolean,
+) {
 	return resin.models.application
 		.hasAny()
 		.then(function(hasAnyApplications) {
@@ -161,7 +168,7 @@ export function selectOrCreateApplication() {
 
 			return resin.models.application.getAll().then(applications => {
 				const appOptions = _.map<
-					resin.Application,
+					ResinSdk.Application,
 					{ name: string; value: string | null }
 				>(applications, application => ({
 					name: `${application.app_name} (${application.device_type})`,
@@ -223,7 +230,7 @@ export function awaitDevice(uuid: string) {
 export function inferOrSelectDevice(preferredUuid: string) {
 	return resin.models.device
 		.getAll()
-		.filter<resin.Device>(device => device.is_online)
+		.filter<ResinSdk.Device>(device => device.is_online)
 		.then(onlineDevices => {
 			if (_.isEmpty(onlineDevices)) {
 				throw new Error("You don't have any devices online");
@@ -240,7 +247,10 @@ export function inferOrSelectDevice(preferredUuid: string) {
 				type: 'list',
 				default: defaultUuid,
 				choices: _.map(onlineDevices, device => ({
-					name: `${device.name || 'Untitled'} (${device.uuid.slice(0, 7)})`,
+					name: `${device.device_name || 'Untitled'} (${device.uuid.slice(
+						0,
+						7,
+					)})`,
 					value: device.uuid,
 				})),
 			});
