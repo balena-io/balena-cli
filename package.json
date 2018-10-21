@@ -10,7 +10,7 @@
   },
   "preferGlobal": true,
   "files": [
-    "bin/",
+    "bin/resin",
     "build/",
     "doc/",
     "lib/"
