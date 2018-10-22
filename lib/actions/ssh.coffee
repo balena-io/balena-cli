@@ -58,7 +58,7 @@ module.exports =
 		normalizeUuidProp(params)
 		child_process = require('child_process')
 		Promise = require('bluebird')
-		resin = require('resin-sdk-preconfigured')
+		resin = require('resin-sdk').fromSharedOptions()
 		_ = require('lodash')
 		bash = require('bash')
 		hasbin = require('hasbin')
