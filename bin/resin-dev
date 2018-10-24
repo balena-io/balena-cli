@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+// ****************************************************************************
+// THIS IS FOR DEV PERROSES ONLY AND WILL NOT BE PART OF THE PUBLISHED PACKAGE
+// Before opening a PR you should build and test your changes using bin/resin
+// ****************************************************************************
+
+// We boost the threadpool size as ext2fs can deadlock with some
+// operations otherwise, if the pool runs out.
+process.env.UV_THREADPOOL_SIZE = '64';
+
+process.env['TS_NODE_PROJECT'] = require('path').dirname(__dirname);
+require('coffeescript/register');
+require('ts-node/register');
+require('../lib/app');

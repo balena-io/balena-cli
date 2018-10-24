@@ -120,6 +120,17 @@ If you're having any problems, check our [troubleshooting guide](https://github.
 
 You can also get in touch with us in the resin.io [forums](https://forums.resin.io/).
 
+Development guidelines
+----------------------
+
+After cloning this repository and running `npm install` you can build the CLI using `npm run build`.
+You can then run the generated build using `./bin/resin`.
+In order to ease development:
+* you can build the CLI using the `npm run build:fast` variant which skips some of the build steps or
+* you can use `./bin/resin-dev` which live transpiles the sources of the CLI.
+
+In either case, before opening a PR make sure to also test your changes after doing a full build with `npm run build`.
+
 License
 -------
 
