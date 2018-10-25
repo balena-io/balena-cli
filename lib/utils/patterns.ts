@@ -112,9 +112,9 @@ export function selectDeviceType() {
 }
 
 export function confirm(
-	yesOption: string,
+	yesOption: boolean,
 	message: string,
-	yesMessage: string,
+	yesMessage?: string,
 ) {
 	return Promise.try(function() {
 		if (yesOption) {
@@ -277,11 +277,11 @@ export function printErrorMessage(message: string) {
 	console.error(chalk.red(`\n${messages.getHelp}\n`));
 }
 
-export function exitWithExpectedError(message: string | Error) {
+export function exitWithExpectedError(message: string | Error): never {
 	if (message instanceof Error) {
 		({ message } = message);
 	}
 
 	printErrorMessage(message);
-	process.exit(1);
+	return process.exit(1);
 }
