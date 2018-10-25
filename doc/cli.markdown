@@ -564,18 +564,19 @@ path to the config JSON file, see `balena os build-config`
 Use this command to list all environment variables for
 a particular application or device.
 
-This command lists all custom environment variables.
-If you want to see all environment variables, including private
-ones used by balena, use the verbose option.
+This command lists all application/device environment variables.
 
-At the moment the CLI doesn't fully support multi-container applications,
-so the following commands will only show service variables,
-without showing which service they belong to.
+If you want to see config variables, used to configure
+balena features, use the --config option.
+
+At the moment the CLI does not support per-service variables,
+so the following commands will only show service-wide
+environment variables.
 
 Example:
 
 	$ balena envs --application MyApp
-	$ balena envs --application MyApp --verbose
+	$ balena envs --application MyApp --config
 	$ balena envs --device 7cf02a6
 
 ### Options
@@ -588,15 +589,13 @@ application name
 
 device uuid
 
-#### --verbose, -v
+#### --config, -c, -v, --verbose
 
-show private environment variables
+show config variables
 
 ## env rm &#60;id&#62;
 
 Use this command to remove an environment variable from an application.
-
-Don't remove balena specific variables, as things might not work as expected.
 
 Notice this command asks for confirmation interactively.
 You can avoid this by passing the `--yes` boolean option.
@@ -621,11 +620,10 @@ device
 
 ## env add &#60;key&#62; [value]
 
-Use this command to add an enviroment variable to an application.
+Use this command to add an enviroment or config variable to an application.
 
 At the moment the CLI doesn't fully support multi-container applications,
-so the following commands will only set service variables for the first
-service in your application.
+so the following commands will set service-wide environment variables.
 
 If value is omitted, the tool will attempt to use the variable's value
 as defined in your host machine.
@@ -654,7 +652,7 @@ device uuid
 
 ## env rename &#60;id&#62; &#60;value&#62;
 
-Use this command to rename an enviroment variable from an application.
+Use this command to change the value of an enviroment variable.
 
 Pass the `--device` boolean option if you want to rename a device environment variable.
 
