@@ -53,7 +53,7 @@ module.exports =
 		with the provided docker daemon.
 
 		You must provide either an application or a device-type/architecture
-		pair to use the resin Dockerfile pre-processor
+		pair to use the balena Dockerfile pre-processor
 		(e.g. Dockerfile.template -> Dockerfile).
 
 		This command will look into the given source directory (or the current working
@@ -64,12 +64,12 @@ module.exports =
 
 		Examples:
 
-			$ resin build
-			$ resin build ./source/
-			$ resin build --deviceType raspberrypi3 --arch armhf --emulated
-			$ resin build --application MyApp ./source/
-			$ resin build --docker '/var/run/docker.sock'
-			$ resin build --dockerHost my.docker.host --dockerPort 2376 --ca ca.pem --key key.pem --cert cert.pem
+			$ balena build
+			$ balena build ./source/
+			$ balena build --deviceType raspberrypi3 --arch armhf --emulated
+			$ balena build --application MyApp ./source/
+			$ balena build --docker '/var/run/docker.sock'
+			$ balena build --dockerHost my.docker.host --dockerPort 2376 --ca ca.pem --key key.pem --cert cert.pem
 	'''
 	options: dockerUtils.appendOptions compose.appendOptions [
 		{
@@ -87,7 +87,7 @@ module.exports =
 		{
 			signature: 'application'
 			parameter: 'application'
-			description: 'The target resin.io application this build is for'
+			description: 'The target balena application this build is for'
 			alias: 'a'
 		},
 	]

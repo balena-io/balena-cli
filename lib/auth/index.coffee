@@ -1,5 +1,5 @@
 ###
-Copyright 2016 Resin.io
+Copyright 2016 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,18 +19,18 @@ limitations under the License.
 ###
 
 open = require('opn')
-resin = require('resin-sdk').fromSharedOptions()
+balena = require('balena-sdk').fromSharedOptions()
 server = require('./server')
 utils = require('./utils')
 
 ###*
-# @summary Login to the Resin CLI using the web dashboard
+# @summary Login to the balena CLI using the web dashboard
 # @function
 # @public
 #
 # @description
 # This function opens the user's default browser and points it
-# to the Resin.io dashboard where the session token exchange will
+# to the balena dashboard where the session token exchange will
 # take place.
 #
 # Once the the token is retrieved, it's automatically persisted.
@@ -60,4 +60,4 @@ exports.login = ->
 		, 1000
 
 		return server.awaitForToken(options)
-			.tap(resin.auth.loginWithToken)
+			.tap(balena.auth.loginWithToken)

@@ -15,7 +15,7 @@ exports.installQemuIfNeeded = Promise.method (emulated, logger) ->
 
 exports.qemuPathInContext = (context) ->
 	path = require('path')
-	binDir = path.join(context, '.resin')
+	binDir = path.join(context, '.balena')
 	binPath = path.join(binDir, QEMU_BIN_NAME)
 	path.relative(context, binPath)
 
@@ -23,7 +23,7 @@ exports.copyQemu = (context) ->
 	path = require('path')
 	fs = require('mz/fs')
 	# Create a hidden directory in the build context, containing qemu
-	binDir = path.join(context, '.resin')
+	binDir = path.join(context, '.balena')
 	binPath = path.join(binDir, QEMU_BIN_NAME)
 
 	Promise.resolve(fs.mkdir(binDir))
@@ -52,11 +52,11 @@ hasQemu = ->
 	.catchReturn(false)
 
 getQemuPath = ->
-	resin = require('resin-sdk').fromSharedOptions()
+	balena = require('balena-sdk').fromSharedOptions()
 	path = require('path')
 	fs = require('mz/fs')
 
-	resin.settings.get('binDirectory')
+	balena.settings.get('binDirectory')
 	.then (binDir) ->
 		Promise.resolve(fs.mkdir(binDir))
 		.catch(code: 'EEXIST', ->)
@@ -76,7 +76,7 @@ installQemu = ->
 	.then (qemuPath) ->
 		new Promise (resolve, reject) ->
 			installStream = fs.createWriteStream(qemuPath)
-			qemuUrl = "https://github.com/resin-io/qemu/releases/download/#{QEMU_VERSION}/#{QEMU_BIN_NAME}.gz"
+			qemuUrl = "https://github.com/balena-io/qemu/releases/download/#{QEMU_VERSION}/#{QEMU_BIN_NAME}.gz"
 			request(qemuUrl)
 			.on('error', reject)
 			.pipe(zlib.createGunzip())

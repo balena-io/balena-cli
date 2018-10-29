@@ -53,7 +53,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 
 	const versionError = new Error(
 		'The supervisor version on this remote device does not support multicontainer local mode. ' +
-			'Please update your device to resinOS v2.20.0 or greater from the dashboard.',
+			'Please update your device to balenaOS v2.20.0 or greater from the dashboard.',
 	);
 
 	try {

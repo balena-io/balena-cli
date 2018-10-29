@@ -1,5 +1,5 @@
 ###
-Copyright 2017 Resin.io
+Copyright 2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -153,7 +153,7 @@ prepareConnectionFile = (target) ->
 		if _.includes(files, 'resin-wifi')
 			return null
 
-		# Fresh image, new mode, accoding to https://github.com/resin-os/meta-resin/pull/770/files
+		# Fresh image, new mode, accoding to https://github.com/balena-os/meta-balena/pull/770/files
 		if _.includes(files, 'resin-sample.ignore')
 			return imagefs.copy
 				image: target
@@ -193,14 +193,14 @@ removeHostname = (schema) ->
 
 module.exports =
 	signature: 'local configure <target>'
-	description: '(Re)configure a resinOS drive or image'
+	description: '(Re)configure a balenaOS drive or image'
 	help: '''
-		Use this command to configure or reconfigure a resinOS drive or image.
+		Use this command to configure or reconfigure a balenaOS drive or image.
 
 		Examples:
 
-			$ resin local configure /dev/sdc
-			$ resin local configure path/to/image.img
+			$ balena local configure /dev/sdc
+			$ balena local configure path/to/image.img
 	'''
 	root: true
 	action: (params, options, done) ->

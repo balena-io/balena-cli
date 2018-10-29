@@ -1,9 +1,9 @@
 export = {
-	title: 'Resin CLI Documentation',
+	title: 'Balena CLI Documentation',
 	introduction: `\
-This tool allows you to interact with the resin.io api from the comfort of your command line.
+This tool allows you to interact with the balena api from the comfort of your command line.
 
-Please make sure your system meets the requirements as specified in the [README](https://github.com/resin-io/resin-cli).
+Please make sure your system meets the requirements as specified in the [README](https://github.com/balena-io/balena-cli).
 
 ## Install the CLI
 
@@ -11,7 +11,7 @@ Please make sure your system meets the requirements as specified in the [README]
 
 The best supported way to install the CLI is from npm:
 
-	$ npm install resin-cli -g --production --unsafe-perm
+	$ npm install balena-cli -g --production --unsafe-perm
 
 \`--unsafe-perm\` is only required on systems where the global install directory is not user-writable.
 This allows npm install steps to download and save prebuilt native binaries. You may be able to omit it,
@@ -25,13 +25,13 @@ initial cross-platform testing, so it may be useful, and we'd love your feedback
 
 To install the CLI as a standalone binary:
 
-* Download the latest zip for your OS from https://github.com/resin-io/resin-cli/releases.
-* Extract the contents, putting the \`resin-cli\` folder somewhere appropriate for your system (e.g. \`C:/resin-cli\`, \`/usr/local/lib/resin-cli\`, etc).
-* Add the \`resin-cli\` folder to your \`PATH\`. (
+* Download the latest zip for your OS from https://github.com/balena-io/balena-cli/releases.
+* Extract the contents, putting the \`balena-cli\` folder somewhere appropriate for your system (e.g. \`C:/balena-cli\`, \`/usr/local/lib/balena-cli\`, etc).
+* Add the \`balena-cli\` folder to your \`PATH\`. (
 [Windows instructions](https://www.computerhope.com/issues/ch000549.htm),
 [Linux instructions](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix),
 [OSX instructions](https://stackoverflow.com/questions/22465332/setting-path-environment-variable-in-osx-permanently))
-* Running \`resin\` in a fresh command line should print the resin CLI help.
+* Running \`balena\` in a fresh command line should print the balena CLI help.
 
 To update in future, simply download a new release and replace the extracted folder.
 
@@ -39,11 +39,11 @@ Have any problems, or see any unexpected behaviour? Please file an issue!
 
 ## Getting started
 
-Once you have the CLI installed, you'll need to log in, so it can access everything in your resin.io account.
+Once you have the CLI installed, you'll need to log in, so it can access everything in your balena account.
 
 To authenticate yourself, run:
 
-	$ resin login
+	$ balena login
 
 You now have access to all the commands referenced below.
 
@@ -53,8 +53,8 @@ The CLI does support HTTP(S) proxies.
 
 You can configure the proxy using several methods (in order of their precedence):
 
-* set the \`RESINRC_PROXY\` environment variable in the URL format (with protocol, host, port, and optionally the basic auth),
-* use the [resin config file](https://www.npmjs.com/package/resin-settings-client#documentation) (project-specific or user-level)
+* set the \`BALENARC_PROXY\` environment variable in the URL format (with protocol, host, port, and optionally the basic auth),
+* use the [balena config file](https://www.npmjs.com/package/balena-settings-client#documentation) (project-specific or user-level)
 and set the \`proxy\` setting. This can be:
 	* a string in the URL format,
 	* or an object following [this format](https://www.npmjs.com/package/global-tunnel-ng#options), which allows more control,
@@ -65,90 +65,87 @@ environment variable (in the same standard URL format).\
 	categories: [
 		{
 			title: 'Api keys',
-			files: [ 'build/actions/api-key.js' ],
+			files: ['build/actions/api-key.js'],
 		},
 		{
 			title: 'Application',
-			files: [ 'build/actions/app.js' ]
+			files: ['build/actions/app.js'],
 		},
 		{
 			title: 'Authentication',
-			files: [ 'build/actions/auth.js' ]
+			files: ['build/actions/auth.js'],
 		},
 		{
 			title: 'Device',
-			files: [ 'build/actions/device.js' ]
+			files: ['build/actions/device.js'],
 		},
 		{
 			title: 'Environment Variables',
-			files: [ 'build/actions/environment-variables.js' ]
+			files: ['build/actions/environment-variables.js'],
 		},
 		{
 			title: 'Help',
-			files: [ 'build/actions/help.js' ]
+			files: ['build/actions/help.js'],
 		},
 		{
 			title: 'Information',
-			files: [ 'build/actions/info.js' ]
+			files: ['build/actions/info.js'],
 		},
 		{
 			title: 'Keys',
-			files: [ 'build/actions/keys.js' ]
+			files: ['build/actions/keys.js'],
 		},
 		{
 			title: 'Logs',
-			files: [ 'build/actions/logs.js' ]
+			files: ['build/actions/logs.js'],
 		},
 		{
 			title: 'Sync',
-			files: [ 'build/actions/sync.js' ]
+			files: ['build/actions/sync.js'],
 		},
 		{
 			title: 'SSH',
-			files: [ 'build/actions/ssh.js' ]
+			files: ['build/actions/ssh.js'],
 		},
 		{
 			title: 'Notes',
-			files: [ 'build/actions/notes.js' ]
+			files: ['build/actions/notes.js'],
 		},
 		{
 			title: 'OS',
-			files: [ 'build/actions/os.js' ]
+			files: ['build/actions/os.js'],
 		},
 		{
 			title: 'Config',
-			files: [ 'build/actions/config.js' ]
+			files: ['build/actions/config.js'],
 		},
 		{
 			title: 'Preload',
-			files: [ 'build/actions/preload.js' ]
+			files: ['build/actions/preload.js'],
 		},
 		{
 			title: 'Push',
-			files: [ 'build/actions/push.js' ]
+			files: ['build/actions/push.js'],
 		},
 		{
 			title: 'Settings',
-			files: [ 'build/actions/settings.js' ]
+			files: ['build/actions/settings.js'],
 		},
 		{
 			title: 'Wizard',
-			files: [ 'build/actions/wizard.js' ]
+			files: ['build/actions/wizard.js'],
 		},
 		{
 			title: 'Local',
-			files: [ 'build/actions/local/index.js' ]
+			files: ['build/actions/local/index.js'],
 		},
 		{
 			title: 'Deploy',
-			files: [
-				'build/actions/build.js',
-				'build/actions/deploy.js'
-			]
+			files: ['build/actions/build.js', 'build/actions/deploy.js'],
 		},
 		{
 			title: 'Utilities',
-			files: [ 'build/actions/util.js' ]
+			files: ['build/actions/util.js'],
 		},
-	]
+	],
 };

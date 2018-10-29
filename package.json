@@ -1,27 +1,27 @@
 {
-  "name": "resin-cli",
+  "name": "balena-cli",
   "version": "8.1.0",
-  "description": "The official resin.io CLI tool",
+  "description": "The official balena CLI tool",
   "main": "./build/actions/index.js",
-  "homepage": "https://github.com/resin-io/resin-cli",
+  "homepage": "https://github.com/balena-io/balena-cli",
   "repository": {
     "type": "git",
-    "url": "git@github.com:resin-io/resin-cli.git"
+    "url": "git@github.com:balena-io/balena-cli.git"
   },
   "preferGlobal": true,
   "files": [
-    "bin/resin",
+    "bin/balena",
     "build/",
     "doc/",
     "lib/"
   ],
   "bin": {
-    "resin": "./bin/resin"
+    "balena": "./bin/balena"
   },
   "pkg": {
     "scripts": [
-      "node_modules/resin-sync/build/capitano/*.js",
-      "node_modules/resin-sync/build/sync/*.js",
+      "node_modules/balena-sync/build/capitano/*.js",
+      "node_modules/balena-sync/build/sync/*.js",
       "node_modules/resin-compose-parse/src/schemas/*.json",
       "node_modules/raven/lib/instrumentation/*.js"
     ],
@@ -49,10 +49,15 @@
     "prepublishOnly": "npm run build"
   },
   "keywords": [
+    "balena",
+    "balena.io",
+    "balenaCloud",
+    "balenaOS",
     "resin",
+    "resin.io",
     "git"
   ],
-  "author": "Juan Cruz Viotti <juan@resin.io>",
+  "author": "Juan Cruz Viotti <juan@balena.io>",
   "license": "Apache-2.0",
   "engines": {
     "node": ">=6.0"
@@ -97,6 +102,12 @@
     "ansi-escapes": "^2.0.0",
     "any-promise": "^1.3.0",
     "archiver": "^2.1.0",
+    "balena-config-json": "^2.0.0",
+    "balena-image-manager": "^6.0.0",
+    "balena-preload": "^8.0.0",
+    "balena-sdk": "^11.0.0",
+    "balena-settings-client": "^4.0.0",
+    "balena-sync": "^10.0.0",
     "bash": "0.0.1",
     "bluebird": "^3.3.3",
     "body-parser": "^1.14.1",
@@ -144,21 +155,14 @@
     "resin-cli-form": "^2.0.0",
     "resin-cli-visuals": "^1.4.0",
     "resin-compose-parse": "^2.0.0",
-    "resin-config-json": "^1.0.0",
-    "resin-device-config": "^4.0.0",
+    "resin-device-config": "^5.0.0",
     "resin-device-init": "^4.0.0",
     "resin-doodles": "0.0.1",
     "resin-image-fs": "^5.0.2",
-    "resin-image-manager": "^5.0.0",
     "resin-multibuild": "^0.9.0",
-    "resin-preload": "^7.0.0",
     "resin-release": "^1.2.0",
-    "resin-sdk": "11.0.0-balena-sdk-78e343d605d323cff37b039e8e40cae05b52fb36",
-    "resin-sdk-preconfigured": "^6.9.0",
-    "resin-semver": "^1.3.0",
-    "resin-settings-client": "^3.6.1",
+    "resin-semver": "^1.4.0",
     "resin-stream-logger": "^0.1.0",
-    "resin-sync": "^9.3.3",
     "rimraf": "^2.4.3",
     "rindle": "^1.0.0",
     "semver": "^5.3.0",

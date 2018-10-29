@@ -17,7 +17,7 @@ const version = 'v' + packageJSON.version;
 const outputFile = path.join(
 	ROOT,
 	'build-zip',
-	`resin-cli-${version}-${os.platform()}-${os.arch()}.zip`,
+	`balena-cli-${version}-${os.platform()}-${os.arch()}.zip`,
 );
 
 mkdirpAsync(path.dirname(outputFile))
@@ -29,7 +29,7 @@ mkdirpAsync(path.dirname(outputFile))
 				let archive = archiver('zip', {
 					zlib: { level: 7 },
 				});
-				archive.directory(path.join(ROOT, 'build-bin'), 'resin-cli');
+				archive.directory(path.join(ROOT, 'build-bin'), 'balena-cli');
 
 				let outputStream = fs.createWriteStream(outputFile);
 
@@ -49,10 +49,10 @@ mkdirpAsync(path.dirname(outputFile))
 
 		return publishReleaseAsync({
 			token: <string>GITHUB_TOKEN,
-			owner: 'resin-io',
-			repo: 'resin-cli',
+			owner: 'balena-io',
+			repo: 'balena-cli',
 			tag: version,
-			name: `Resin-CLI ${version}`,
+			name: `balena-CLI ${version}`,
 			reuseRelease: true,
 			assets: [outputFile],
 		});

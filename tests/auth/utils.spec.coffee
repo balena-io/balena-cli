@@ -6,7 +6,7 @@ tokens = require('./tokens.json')
 
 rewire = require('rewire')
 utils = rewire('../../build/auth/utils')
-resin = utils.__get__('resin')
+balena = utils.__get__('balena')
 
 describe 'Utils:', ->
 
@@ -21,7 +21,7 @@ describe 'Utils:', ->
 
 		it 'should eventually contain an https protocol', ->
 			Promise.props
-				dashboardUrl: resin.settings.get('dashboardUrl')
+				dashboardUrl: balena.settings.get('dashboardUrl')
 				loginUrl: utils.getDashboardLoginURL('https://127.0.0.1:3000/callback')
 			.then ({ dashboardUrl, loginUrl }) ->
 				protocol = url.parse(loginUrl).protocol
@@ -29,7 +29,7 @@ describe 'Utils:', ->
 
 		it 'should correctly escape a callback url without a path', ->
 			Promise.props
-				dashboardUrl: resin.settings.get('dashboardUrl')
+				dashboardUrl: balena.settings.get('dashboardUrl')
 				loginUrl: utils.getDashboardLoginURL('http://127.0.0.1:3000')
 			.then ({ dashboardUrl, loginUrl }) ->
 				expectedUrl = "#{dashboardUrl}/login/cli/http%253A%252F%252F127.0.0.1%253A3000"
@@ -37,7 +37,7 @@ describe 'Utils:', ->
 
 		it 'should correctly escape a callback url with a path', ->
 			Promise.props
-				dashboardUrl: resin.settings.get('dashboardUrl')
+				dashboardUrl: balena.settings.get('dashboardUrl')
 				loginUrl: utils.getDashboardLoginURL('http://127.0.0.1:3000/callback')
 			.then ({ dashboardUrl, loginUrl }) ->
 				expectedUrl = "#{dashboardUrl}/login/cli/http%253A%252F%252F127.0.0.1%253A3000%252Fcallback"
@@ -64,11 +64,11 @@ describe 'Utils:', ->
 		describe 'given the token does not authenticate with the server', ->
 
 			beforeEach ->
-				@resinAuthIsLoggedInStub = m.sinon.stub(resin.auth, 'isLoggedIn')
-				@resinAuthIsLoggedInStub.returns(Promise.resolve(false))
+				@balenaAuthIsLoggedInStub = m.sinon.stub(balena.auth, 'isLoggedIn')
+				@balenaAuthIsLoggedInStub.returns(Promise.resolve(false))
 
 			afterEach ->
-				@resinAuthIsLoggedInStub.restore()
+				@balenaAuthIsLoggedInStub.restore()
 
 			it 'should eventually be false', ->
 				promise = utils.loginIfTokenValid(tokens.johndoe.token)
@@ -77,34 +77,34 @@ describe 'Utils:', ->
 			describe 'given there was a token already', ->
 
 				beforeEach ->
-					resin.auth.loginWithToken(tokens.janedoe.token)
+					balena.auth.loginWithToken(tokens.janedoe.token)
 
 				it 'should preserve the old token', ->
-					resin.auth.getToken().then (originalToken) ->
+					balena.auth.getToken().then (originalToken) ->
 						m.chai.expect(originalToken).to.equal(tokens.janedoe.token)
 						return utils.loginIfTokenValid(tokens.johndoe.token)
-					.then(resin.auth.getToken).then (currentToken) ->
+					.then(balena.auth.getToken).then (currentToken) ->
 						m.chai.expect(currentToken).to.equal(tokens.janedoe.token)
 
 			describe 'given there was no token', ->
 
 				beforeEach ->
-					resin.auth.logout()
+					balena.auth.logout()
 
 				it 'should stay without a token', ->
 					utils.loginIfTokenValid(tokens.johndoe.token).then ->
-						resin.auth.isLoggedIn()
+						balena.auth.isLoggedIn()
 					.then (isLoggedIn) ->
 						m.chai.expect(isLoggedIn).to.equal(false)
 
 		describe 'given the token does authenticate with the server', ->
 
 			beforeEach ->
-				@resinAuthIsLoggedInStub = m.sinon.stub(resin.auth, 'isLoggedIn')
-				@resinAuthIsLoggedInStub.returns(Promise.resolve(true))
+				@balenaAuthIsLoggedInStub = m.sinon.stub(balena.auth, 'isLoggedIn')
+				@balenaAuthIsLoggedInStub.returns(Promise.resolve(true))
 
 			afterEach ->
-				@resinAuthIsLoggedInStub.restore()
+				@balenaAuthIsLoggedInStub.restore()
 
 			it 'should eventually be true', ->
 				promise = utils.loginIfTokenValid(tokens.johndoe.token)

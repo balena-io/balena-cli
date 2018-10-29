@@ -1,6 +1,6 @@
 #!/bin/bash
 
-_resin_complete()
+_balena_complete()
 {
   local cur prev
 
@@ -70,4 +70,4 @@ _resin_complete()
   fi
 
 }
-complete -F _resin_complete resin
+complete -F _balena_complete balena

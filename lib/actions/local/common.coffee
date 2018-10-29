@@ -11,7 +11,7 @@ exports.dockerTimeout = dockerTimeout = 2000
 
 exports.filterOutSupervisorContainer = filterOutSupervisorContainer = (container) ->
 	for name in container.Names
-		return false if name.includes('resin_supervisor')
+		return false if (name.includes('resin_supervisor') or name.includes('balena_supervisor'))
 	return true
 
 exports.selectContainerFromDevice = Promise.method (deviceIp, filterSupervisor = false) ->

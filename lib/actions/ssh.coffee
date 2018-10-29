@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,20 +21,20 @@ module.exports =
 	signature: 'ssh [uuid]'
 	description: '(beta) get a shell into the running app container of a device'
 	help: '''
-		Warning: 'resin ssh' requires an openssh-compatible client to be correctly
+		Warning: 'balena ssh' requires an openssh-compatible client to be correctly
 		installed in your shell environment. For more information (including Windows
-		support) please check the README here: https://github.com/resin-io/resin-cli
+		support) please check the README here: https://github.com/balena-io/balena-cli
 
 		Use this command to get a shell into the running application container of
 		your device.
 
 		Examples:
 
-			$ resin ssh MyApp
-			$ resin ssh 7cf02a6
-			$ resin ssh 7cf02a6 --port 8080
-			$ resin ssh 7cf02a6 -v
-			$ resin ssh 7cf02a6 -s
+			$ balena ssh MyApp
+			$ balena ssh 7cf02a6
+			$ balena ssh 7cf02a6 --port 8080
+			$ balena ssh 7cf02a6 -v
+			$ balena ssh 7cf02a6 -s
 	'''
 	permission: 'user'
 	primary: true
@@ -58,7 +58,7 @@ module.exports =
 		normalizeUuidProp(params)
 		child_process = require('child_process')
 		Promise = require('bluebird')
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		_ = require('lodash')
 		bash = require('bash')
 		hasbin = require('hasbin')
@@ -78,8 +78,8 @@ module.exports =
 			if not hasTunnelBin
 				console.warn('''
 					Proxy is enabled but the `proxytunnel` binary cannot be found.
-					Please install it if you want to route the `resin ssh` requests through the proxy.
-					Alternatively you can pass `--noproxy` param to the `resin ssh` command to ignore the proxy config
+					Please install it if you want to route the `balena ssh` requests through the proxy.
+					Alternatively you can pass `--noproxy` param to the `balena ssh` command to ignore the proxy config
 					for the `ssh` requests.
 
 					Attemmpting the unproxied request for now.
@@ -100,22 +100,22 @@ module.exports =
 
 		Promise.try ->
 			return false if not params.uuid
-			return resin.models.device.has(params.uuid)
+			return balena.models.device.has(params.uuid)
 		.then (uuidExists) ->
 			return params.uuid if uuidExists
 			return patterns.inferOrSelectDevice()
 		.then (uuid) ->
 			console.info("Connecting to: #{uuid}")
-			resin.models.device.get(uuid)
+			balena.models.device.get(uuid)
 		.then (device) ->
 			patterns.exitWithExpectedError('Device is not online') if not device.is_online
 
 			Promise.props
-				username: resin.auth.whoami()
+				username: balena.auth.whoami()
 				uuid: device.uuid
 				# get full uuid
-				containerId: if options.host then '' else resin.models.device.getApplicationInfo(device.uuid).get('containerId')
-				proxyUrl: resin.settings.get('proxyUrl')
+				containerId: if options.host then '' else balena.models.device.getApplicationInfo(device.uuid).get('containerId')
+				proxyUrl: balena.settings.get('proxyUrl')
 
 				hasTunnelBin: if useProxy then hasbin('proxytunnel') else null
 			.then ({ username, uuid, containerId, proxyUrl, hasTunnelBin }) ->

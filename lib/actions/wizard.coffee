@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,29 +16,29 @@ limitations under the License.
 
 exports.wizard =
 	signature: 'quickstart [name]'
-	description: 'getting started with resin.io'
+	description: 'getting started with balena'
 	help: '''
-		Use this command to run a friendly wizard to get started with resin.io.
+		Use this command to run a friendly wizard to get started with balena.
 
 		The wizard will guide you through:
 
 			- Create an application.
-			- Initialise an SDCard with the resin.io operating system.
-			- Associate an existing project directory with your resin.io application.
+			- Initialise an SDCard with the balena operating system.
+			- Associate an existing project directory with your balena application.
 			- Push your project to your devices.
 
 		Examples:
 
-			$ resin quickstart
-			$ resin quickstart MyApp
+			$ balena quickstart
+			$ balena quickstart MyApp
 	'''
 	primary: true
 	action: (params, options, done) ->
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		patterns = require('../utils/patterns')
 		{ runCommand } = require('../utils/helpers')
 
-		resin.auth.isLoggedIn().then (isLoggedIn) ->
+		balena.auth.isLoggedIn().then (isLoggedIn) ->
 			return if isLoggedIn
 			console.info('Looks like you\'re not logged in yet!')
 			console.info("Let's go through a quick wizard to get you started.\n")
@@ -46,7 +46,7 @@ exports.wizard =
 		.then ->
 			return if params.name?
 			patterns.selectOrCreateApplication().tap (applicationName) ->
-				resin.models.application.has(applicationName).then (hasApplication) ->
+				balena.models.application.has(applicationName).then (hasApplication) ->
 					return applicationName if hasApplication
 					runCommand("app create #{applicationName}")
 			.then (applicationName) ->
@@ -57,18 +57,18 @@ exports.wizard =
 		.then (uuid) ->
 			return runCommand("device #{uuid}")
 		.then ->
-			return resin.models.application.get(params.name)
+			return balena.models.application.get(params.name)
 		.then (application) ->
 			console.log """
 				Your device is ready to start pushing some code!
 
 				Check our official documentation for more information:
 
-				    http://docs.resin.io/#/pages/introduction/introduction.md
+				    http://balena.io/docs/#/pages/introduction/introduction.md
 
 				Clone an example or go to an existing application directory and run:
 
-				    $ git remote add resin #{application.git_repository}
-				    $ git push resin master
+				    $ git remote add balena #{application.git_repository}
+				    $ git push balena master
 			"""
 		.nodeify(done)

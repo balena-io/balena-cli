@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -41,10 +41,10 @@ if not require('semver').satisfies(process.version, validNodeVersions)
 
 
 # Doing this before requiring any other modules,
-# including the 'resin-sdk', to prevent any module from reading the http proxy config
+# including the 'balena-sdk', to prevent any module from reading the http proxy config
 # before us
 globalTunnel = require('global-tunnel-ng')
-settings = require('resin-settings-client')
+settings = require('balena-settings-client')
 try
 	proxy = settings.get('proxy') or null
 catch
@@ -54,24 +54,24 @@ catch
 # If that is not set as well the initialize will do nothing
 globalTunnel.initialize(proxy)
 
-# TODO: make this a feature of capitano https://github.com/resin-io/capitano/issues/48
+# TODO: make this a feature of capitano https://github.com/balena-io/capitano/issues/48
 global.PROXY_CONFIG = globalTunnel.proxyConfig
 
 Promise = require('bluebird')
 capitano = require('capitano')
 capitanoExecuteAsync = Promise.promisify(capitano.execute)
 
-# We don't yet use resin-sdk directly everywhere, but we set up shared
+# We don't yet use balena-sdk directly everywhere, but we set up shared
 # options correctly so we can do safely in submodules
-ResinSdk = require('resin-sdk')
-ResinSdk.setSharedOptions(
+BalenaSdk = require('balena-sdk')
+BalenaSdk.setSharedOptions(
 	apiUrl: settings.get('apiUrl')
 	imageMakerUrl: settings.get('imageMakerUrl')
 	dataDirectory: settings.get('dataDirectory')
 	retries: 2
 )
 
-resin = ResinSdk.fromSharedOptions()
+balena = BalenaSdk.fromSharedOptions()
 
 actions = require('./actions')
 errors = require('./errors')
@@ -86,14 +86,14 @@ update = require('./utils/update')
 require('any-promise/register/bluebird')
 
 capitano.permission 'user', (done) ->
-	resin.auth.isLoggedIn().then (isLoggedIn) ->
+	balena.auth.isLoggedIn().then (isLoggedIn) ->
 		if not isLoggedIn
 			exitWithExpectedError('''
 				You have to log in to continue
 
 				Run the following command to go through the login wizard:
 
-				  $ resin login
+				  $ balena login
 			''')
 	.nodeify(done)
 
@@ -193,7 +193,7 @@ capitano.command(actions.preload)
 # ---------- SSH Module ----------
 capitano.command(actions.ssh)
 
-# ---------- Local ResinOS Module ----------
+# ---------- Local balenaOS Module ----------
 capitano.command(actions.local.configure)
 capitano.command(actions.local.flash)
 capitano.command(actions.local.logs)
