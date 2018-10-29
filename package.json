@@ -153,7 +153,7 @@
     "resin-multibuild": "^0.9.0",
     "resin-preload": "^7.0.0",
     "resin-release": "^1.2.0",
-    "resin-sdk": "10.0.0-beta2",
+    "resin-sdk": "11.0.0-balena-sdk-78e343d605d323cff37b039e8e40cae05b52fb36",
     "resin-sdk-preconfigured": "^6.9.0",
     "resin-semver": "^1.3.0",
     "resin-settings-client": "^3.6.1",

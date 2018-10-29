@@ -99,6 +99,7 @@ export function askLoginType() {
 
 export function selectDeviceType() {
 	return resin.models.config.getDeviceTypes().then(deviceTypes => {
+		deviceTypes = _.sortBy(deviceTypes, 'name');
 		return form.ask({
 			message: 'Device Type',
 			type: 'list',
