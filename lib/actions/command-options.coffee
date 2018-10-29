@@ -49,13 +49,17 @@ exports.optionalOsVersion =
 	description: 'a resinOS version'
 	parameter: 'version'
 
+exports.osVersion = _.defaults
+	required: 'You have to specify an exact os version'
+, exports.optionalOsVersion
+
 exports.booleanDevice =
 	signature: 'device'
 	description: 'device'
 	boolean: true
 	alias: 'd'
 
-exports.osVersion =
+exports.osVersionOrSemver =
 	signature: 'version'
 	description: """
 		exact version number, or a valid semver range,

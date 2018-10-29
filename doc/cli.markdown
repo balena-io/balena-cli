@@ -142,7 +142,7 @@ environment variable (in the same standard URL format).
 	- [os versions &#60;type&#62;](#os-versions-type-)
 	- [os download &#60;type&#62;](#os-download-type-)
 	- [os build-config &#60;image&#62; &#60;device-type&#62;](#os-build-config-image-device-type-)
-	- [os configure &#60;image&#62; [uuid] [deviceApiKey]](#os-configure-image-uuid-deviceapikey-)
+	- [os configure &#60;image&#62;](#os-configure-image-)
 	- [os initialize &#60;image&#62;](#os-initialize-image-)
 
 - Config
@@ -965,13 +965,12 @@ show advanced configuration options
 
 the path to the output JSON file
 
-## os configure &#60;image&#62; [uuid] [deviceApiKey]
+## os configure &#60;image&#62;
 
 Use this command to configure a previously downloaded operating system image for
 the specific device or for an application generally.
 
-Calling this command without --version is not recommended, and may fail in
-future releases if the OS version cannot be inferred.
+Calling this command with the exact version number of the targeted image is required.
 
 Note that device api keys are only supported on ResinOS 2.0.3+.
 
@@ -1125,8 +1124,7 @@ show advanced commands
 
 Use this command to generate a config.json for a device or application.
 
-Calling this command without --version is not recommended, and may fail in
-future releases if the OS version cannot be inferred.
+Calling this command with the exact version number of the targeted image is required.
 
 This is interactive by default, but you can do this automatically without interactivity
 by specifying an option for each question on the command line, if you know the questions

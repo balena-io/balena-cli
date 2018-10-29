@@ -22,10 +22,13 @@ allDeviceTypes = undefined
 
 getDeviceTypes = ->
 	Bluebird = require('bluebird')
+	_ = require('lodash')
 	if allDeviceTypes != undefined
 		return Bluebird.resolve(allDeviceTypes)
 	resin = require('resin-sdk').fromSharedOptions()
 	resin.models.config.getDeviceTypes()
+	.then (deviceTypes) ->
+		_.sortBy(deviceTypes, 'name')
 	.tap (dt) ->
 		allDeviceTypes = dt
 
