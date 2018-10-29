@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -23,13 +23,13 @@ interface Args {
 
 export const leave: CommandDefinition<Args, {}> = {
 	signature: 'leave [deviceIp]',
-	description: 'Detach a local device from its resin.io application',
+	description: 'Detach a local device from its balena application',
 	help: stripIndent`
 		Examples:
 
-			$ resin leave
-			$ resin leave resin.local
-			$ resin leave 192.168.1.25
+			$ balena leave
+			$ balena leave balena.local
+			$ balena leave 192.168.1.25
 	`,
 	options: [],
 
@@ -37,10 +37,10 @@ export const leave: CommandDefinition<Args, {}> = {
 	primary: true,
 
 	async action(params, _options, done) {
-		const resin = await import('resin-sdk');
+		const balena = await import('balena-sdk');
 		const Logger = await import('../utils/logger');
 		const promote = await import('../utils/promote');
-		const sdk = resin.fromSharedOptions();
+		const sdk = balena.fromSharedOptions();
 		const logger = new Logger();
 		return Bluebird.try(() => {
 			return promote.leave(logger, sdk, params.deviceIp);

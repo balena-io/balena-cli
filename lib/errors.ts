@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -98,10 +98,10 @@ const messages: {
 		}
 	`,
 
-	ResinExpiredToken: () => stripIndent`
+	BalenaExpiredToken: () => stripIndent`
 		Looks like your session token is expired.
 		Please try logging in again with:
-			$ resin login`,
+			$ balena login`,
 };
 
 exports.handle = function(error: any) {

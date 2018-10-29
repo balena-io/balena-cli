@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,13 +25,13 @@ exports.read =
 
 		Examples:
 
-			$ resin config read --type raspberry-pi
-			$ resin config read --type raspberry-pi --drive /dev/disk2
+			$ balena config read --type raspberry-pi
+			$ balena config read --type raspberry-pi --drive /dev/disk2
 	'''
 	options: [
 		{
 			signature: 'type'
-			description: 'device type (Check available types with `resin devices supported`)'
+			description: 'device type (Check available types with `balena devices supported`)'
 			parameter: 'type'
 			alias: 't'
 			required: 'You have to specify a device type'
@@ -47,7 +47,7 @@ exports.read =
 	root: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		config = require('resin-config-json')
+		config = require('balena-config-json')
 		visuals = require('resin-cli-visuals')
 		umountAsync = Promise.promisify(require('umount').umount)
 		prettyjson = require('prettyjson')
@@ -69,14 +69,14 @@ exports.write =
 
 		Examples:
 
-			$ resin config write --type raspberry-pi username johndoe
-			$ resin config write --type raspberry-pi --drive /dev/disk2 username johndoe
-			$ resin config write --type raspberry-pi files.network/settings "..."
+			$ balena config write --type raspberry-pi username johndoe
+			$ balena config write --type raspberry-pi --drive /dev/disk2 username johndoe
+			$ balena config write --type raspberry-pi files.network/settings "..."
 	'''
 	options: [
 		{
 			signature: 'type'
-			description: 'device type (Check available types with `resin devices supported`)'
+			description: 'device type (Check available types with `balena devices supported`)'
 			parameter: 'type'
 			alias: 't'
 			required: 'You have to specify a device type'
@@ -93,7 +93,7 @@ exports.write =
 	action: (params, options, done) ->
 		Promise = require('bluebird')
 		_ = require('lodash')
-		config = require('resin-config-json')
+		config = require('balena-config-json')
 		visuals = require('resin-cli-visuals')
 		umountAsync = Promise.promisify(require('umount').umount)
 
@@ -118,17 +118,17 @@ exports.inject =
 	description: 'inject a device configuration file'
 	help: '''
 		Use this command to inject a config.json file to the mounted filesystem
-		(e.g. SD card or mounted resinOS image) of a provisioned device"
+		(e.g. SD card or mounted balenaOS image) of a provisioned device"
 
 		Examples:
 
-			$ resin config inject my/config.json --type raspberry-pi
-			$ resin config inject my/config.json --type raspberry-pi --drive /dev/disk2
+			$ balena config inject my/config.json --type raspberry-pi
+			$ balena config inject my/config.json --type raspberry-pi --drive /dev/disk2
 	'''
 	options: [
 		{
 			signature: 'type'
-			description: 'device type (Check available types with `resin devices supported`)'
+			description: 'device type (Check available types with `balena devices supported`)'
 			parameter: 'type'
 			alias: 't'
 			required: 'You have to specify a device type'
@@ -144,7 +144,7 @@ exports.inject =
 	root: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		config = require('resin-config-json')
+		config = require('balena-config-json')
 		visuals = require('resin-cli-visuals')
 		umountAsync = Promise.promisify(require('umount').umount)
 		readFileAsync = Promise.promisify(require('fs').readFile)
@@ -167,14 +167,14 @@ exports.reconfigure =
 
 		Examples:
 
-			$ resin config reconfigure --type raspberry-pi
-			$ resin config reconfigure --type raspberry-pi --advanced
-			$ resin config reconfigure --type raspberry-pi --drive /dev/disk2
+			$ balena config reconfigure --type raspberry-pi
+			$ balena config reconfigure --type raspberry-pi --advanced
+			$ balena config reconfigure --type raspberry-pi --drive /dev/disk2
 	'''
 	options: [
 		{
 			signature: 'type'
-			description: 'device type (Check available types with `resin devices supported`)'
+			description: 'device type (Check available types with `balena devices supported`)'
 			parameter: 'type'
 			alias: 't'
 			required: 'You have to specify a device type'
@@ -196,7 +196,7 @@ exports.reconfigure =
 	root: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		config = require('resin-config-json')
+		config = require('balena-config-json')
 		visuals = require('resin-cli-visuals')
 		{ runCommand } = require('../utils/helpers')
 		umountAsync = Promise.promisify(require('umount').umount)
@@ -223,8 +223,7 @@ exports.generate =
 	help: '''
 		Use this command to generate a config.json for a device or application.
 
-		Calling this command without --version is not recommended, and may fail in
-		future releases if the OS version cannot be inferred.
+		Calling this command with the exact version number of the targeted image is required.
 
 		This is interactive by default, but you can do this automatically without interactivity
 		by specifying an option for each question on the command line, if you know the questions
@@ -232,17 +231,17 @@ exports.generate =
 
 		Examples:
 
-			$ resin config generate --device 7cf02a6 --version 2.12.7
-			$ resin config generate --device 7cf02a6 --version 2.12.7 --generate-device-api-key
-			$ resin config generate --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>
-			$ resin config generate --device 7cf02a6 --version 2.12.7 --output config.json
-			$ resin config generate --app MyApp --version 2.12.7
-			$ resin config generate --app MyApp --version 2.12.7 --output config.json
-			$ resin config generate --app MyApp --version 2.12.7 \
+			$ balena config generate --device 7cf02a6 --version 2.12.7
+			$ balena config generate --device 7cf02a6 --version 2.12.7 --generate-device-api-key
+			$ balena config generate --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>
+			$ balena config generate --device 7cf02a6 --version 2.12.7 --output config.json
+			$ balena config generate --app MyApp --version 2.12.7
+			$ balena config generate --app MyApp --version 2.12.7 --output config.json
+			$ balena config generate --app MyApp --version 2.12.7 \
 				--network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1
 	'''
 	options: [
-		commandOptions.optionalOsVersion
+		commandOptions.osVersion
 		commandOptions.optionalApplication
 		commandOptions.optionalDevice
 		commandOptions.optionalDeviceApiKey
@@ -284,7 +283,7 @@ exports.generate =
 		normalizeUuidProp(options, 'device')
 		Promise = require('bluebird')
 		writeFileAsync = Promise.promisify(require('fs').writeFile)
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		form = require('resin-cli-form')
 		deviceConfig = require('resin-device-config')
 		prettyjson = require('prettyjson')
@@ -298,15 +297,15 @@ exports.generate =
 
 				See the help page for examples:
 
-				  $ resin help config generate
+				  $ balena help config generate
 			'''
 
 		Promise.try ->
 			if options.device?
-				return resin.models.device.get(options.device)
-			return resin.models.application.get(options.application)
+				return balena.models.device.get(options.device)
+			return balena.models.application.get(options.application)
 		.then (resource) ->
-			resin.models.device.getManifestBySlug(resource.device_type)
+			balena.models.device.getManifestBySlug(resource.device_type)
 			.get('options')
 			.then (formOptions) ->
 				# Pass params as an override: if there is any param with exactly the same name as a

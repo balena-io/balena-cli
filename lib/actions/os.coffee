@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -31,9 +31,9 @@ resolveVersion = (deviceType, version) ->
 		return Promise.resolve(version)
 
 	form = require('resin-cli-form')
-	resin = require('resin-sdk').fromSharedOptions()
+	balena = require('balena-sdk').fromSharedOptions()
 
-	resin.models.os.getSupportedVersions(deviceType)
+	balena.models.os.getSupportedVersions(deviceType)
 	.then ({ versions, recommended }) ->
 		choices = versions.map (v) ->
 			value: v
@@ -47,19 +47,19 @@ resolveVersion = (deviceType, version) ->
 
 exports.versions =
 	signature: 'os versions <type>'
-	description: 'show the available resinOS versions for the given device type'
+	description: 'show the available balenaOS versions for the given device type'
 	help: '''
-		Use this command to show the available resinOS versions for a certain device type.
-		Check available types with `resin devices supported`
+		Use this command to show the available balenaOS versions for a certain device type.
+		Check available types with `balena devices supported`
 
 		Example:
 
-			$ resin os versions raspberrypi3
+			$ balena os versions raspberrypi3
 	'''
 	action: (params, options, done) ->
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 
-		resin.models.os.getSupportedVersions(params.type)
+		balena.models.os.getSupportedVersions(params.type)
 		.then ({ versions, recommended }) ->
 			versions.forEach (v) ->
 				console.log(formatVersion(v, v is recommended))
@@ -69,7 +69,7 @@ exports.download =
 	description: 'download an unconfigured os image'
 	help: '''
 		Use this command to download an unconfigured os image for a certain device type.
-		Check available types with `resin devices supported`
+		Check available types with `balena devices supported`
 
 		If version is not specified the newest stable (non-pre-release) version of OS
 		is downloaded if available, or the newest version otherwise (if all existing
@@ -80,12 +80,12 @@ exports.download =
 
 		Examples:
 
-			$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img
-			$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 1.24.1
-			$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^1.20.0
-			$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest
-			$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default
-			$ resin os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu
+			$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img
+			$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 1.24.1
+			$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^1.20.0
+			$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest
+			$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default
+			$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu
 	'''
 	permission: 'user'
 	options: [
@@ -96,14 +96,14 @@ exports.download =
 			alias: 'o'
 			required: 'You have to specify the output location'
 		}
-		commandOptions.osVersion
+		commandOptions.osVersionOrSemver
 	]
 	action: (params, options, done) ->
 		Promise = require('bluebird')
 		unzip = require('unzip2')
 		fs = require('fs')
 		rindle = require('rindle')
-		manager = require('resin-image-manager')
+		manager = require('balena-image-manager')
 		visuals = require('resin-cli-visuals')
 
 		console.info("Getting device operating system for #{params.type}")
@@ -168,12 +168,12 @@ exports.buildConfig =
 	signature: 'os build-config <image> <device-type>'
 	description: 'build the OS config and save it to the JSON file'
 	help: '''
-		Use this command to prebuild the OS config once and skip the interactive part of `resin os configure`.
+		Use this command to prebuild the OS config once and skip the interactive part of `balena os configure`.
 
 		Example:
 
-			$ resin os build-config ../path/rpi3.img raspberrypi3 --output rpi3-config.json
-			$ resin os configure ../path/rpi3.img 7cf02a6 --config "$(cat rpi3-config.json)"
+			$ balena os build-config ../path/rpi3.img raspberrypi3 --output rpi3-config.json
+			$ balena os configure ../path/rpi3.img 7cf02a6 --config "$(cat rpi3-config.json)"
 	'''
 	permission: 'user'
 	options: [
@@ -197,16 +197,15 @@ exports.buildConfig =
 		.nodeify(done)
 
 exports.configure =
-	signature: 'os configure <image> [uuid] [deviceApiKey]'
+	signature: 'os configure <image>'
 	description: 'configure an os image'
 	help: '''
 		Use this command to configure a previously downloaded operating system image for
 		the specific device or for an application generally.
 
-		Calling this command without --version is not recommended, and may fail in
-		future releases if the OS version cannot be inferred.
+		Calling this command with the exact version number of the targeted image is required.
 
-		Note that device api keys are only supported on ResinOS 2.0.3+.
+		Note that device api keys are only supported on balenaOS 2.0.3+.
 
 		This command still supports the *deprecated* format where the UUID and optionally device key
 		are passed directly on the command line, but the recommended way is to pass either an --app or
@@ -214,9 +213,9 @@ exports.configure =
 
 		Examples:
 
-			$ resin os configure ../path/rpi.img --device 7cf02a6 --version 2.12.7
-			$ resin os configure ../path/rpi.img --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>
-			$ resin os configure ../path/rpi.img --app MyApp  --version 2.12.7
+			$ balena os configure ../path/rpi.img --device 7cf02a6 --version 2.12.7
+			$ balena os configure ../path/rpi.img --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>
+			$ balena os configure ../path/rpi.img --app MyApp  --version 2.12.7
 	'''
 	permission: 'user'
 	options: [
@@ -224,20 +223,19 @@ exports.configure =
 		commandOptions.optionalApplication
 		commandOptions.optionalDevice
 		commandOptions.optionalDeviceApiKey
-		commandOptions.optionalOsVersion
+		commandOptions.osVersion
 		{
 			signature: 'config'
-			description: 'path to the config JSON file, see `resin os build-config`'
+			description: 'path to the config JSON file, see `balena os build-config`'
 			parameter: 'config'
 		}
 	]
 	action: (params, options, done) ->
-		normalizeUuidProp(params)
 		normalizeUuidProp(options, 'device')
 		fs = require('fs')
 		Promise = require('bluebird')
 		readFileAsync = Promise.promisify(fs.readFile)
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		init = require('resin-device-init')
 		helpers = require('../utils/helpers')
 		patterns = require('../utils/patterns')
@@ -246,36 +244,26 @@ exports.configure =
 		if _.filter([
 			options.device
 			options.application
-			params.uuid
 		]).length != 1
 			patterns.exitWithExpectedError '''
 				To configure an image, you must provide exactly one of:
 
 				* A device, with --device <uuid>
 				* An application, with --app <appname>
-				* [Deprecated] A device, passing its uuid directly on the command line
 
 				See the help page for examples:
 
-				  $ resin help os configure
+				  $ balena help os configure
 			'''
-		if params.uuid
-			console.warn(
-				'Directly passing a UUID to `resin os configure` is deprecated, and will stop working in future.\n' +
-				'Pass your device UUID with --device <uuid> instead.' +
-				if params.deviceApiKey
-					' Device api keys can be passed with --deviceApiKey.\n'
-				else '\n'
-			)
 
-		uuid = options.device || params.uuid
-		deviceApiKey = options.deviceApiKey || params.deviceApiKey
+		uuid = options.device
+		deviceApiKey = options.deviceApiKey
 
 		console.info('Configuring operating system image')
 
 		configurationResourceType = if uuid then 'device' else 'application'
 
-		resin.models[configurationResourceType].get(uuid || options.application)
+		balena.models[configurationResourceType].get(uuid || options.application)
 		.then (appOrDevice) ->
 			Promise.try ->
 				if options.config
@@ -309,14 +297,14 @@ exports.initialize =
 
 		Examples:
 
-			$ resin os initialize ../path/rpi.img --type 'raspberry-pi'
+			$ balena os initialize ../path/rpi.img --type 'raspberry-pi'
 	"""
 	permission: 'user'
 	options: [
 		commandOptions.yes
 		{
 			signature: 'type'
-			description: 'device type (Check available types with `resin devices supported`)'
+			description: 'device type (Check available types with `balena devices supported`)'
 			parameter: 'type'
 			alias: 't'
 			required: 'You have to specify a device type'
@@ -362,7 +350,7 @@ exports.initialize =
 			.then (answers) ->
 				return if not answers.drive?
 
-				# TODO: resin local makes use of ejectAsync, see below
+				# TODO: balena local makes use of ejectAsync, see below
 				# DO we need this / should we do that here?
 
 				# getDrive = (drive) ->

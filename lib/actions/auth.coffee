@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,9 +16,9 @@ limitations under the License.
 
 exports.login	=
 	signature: 'login'
-	description: 'login to resin.io'
+	description: 'login to balena'
 	help: '''
-		Use this command to login to your resin.io account.
+		Use this command to login to your balena account.
 
 		This command will prompt you to login using the following login types:
 
@@ -31,11 +31,11 @@ exports.login	=
 
 		Examples:
 
-			$ resin login
-			$ resin login --web
-			$ resin login --token "..."
-			$ resin login --credentials
-			$ resin login --credentials --email johndoe@gmail.com --password secret
+			$ balena login
+			$ balena login --web
+			$ balena login --token "..."
+			$ balena login --credentials
+			$ balena login --credentials --email johndoe@gmail.com --password secret
 	'''
 	options: [
 		{
@@ -73,7 +73,7 @@ exports.login	=
 	action: (params, options, done) ->
 		_ = require('lodash')
 		Promise = require('bluebird')
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		auth = require('../auth')
 		form = require('resin-cli-form')
 		patterns = require('../utils/patterns')
@@ -87,9 +87,9 @@ exports.login	=
 						message: 'Session token or API key (experimental) from the preferences page'
 						name: 'token'
 						type: 'input'
-				.then(resin.auth.loginWithToken)
+				.then(balena.auth.loginWithToken)
 				.tap ->
-					resin.auth.whoami()
+					balena.auth.whoami()
 					.then (username) ->
 						if !username
 							patterns.exitWithExpectedError('Token authentication failed')
@@ -108,18 +108,18 @@ exports.login	=
 				options[loginType] = true
 				return login(options)
 
-		resin.settings.get('resinUrl').then (resinUrl) ->
-			console.log(messages.resinAsciiArt)
-			console.log("\nLogging in to #{resinUrl}")
+		balena.settings.get('balenaUrl').then (balenaUrl) ->
+			console.log(messages.balenaAsciiArt)
+			console.log("\nLogging in to #{balenaUrl}")
 			return login(options)
-		.then(resin.auth.whoami)
+		.then(balena.auth.whoami)
 		.tap (username) ->
 			console.info("Successfully logged in as: #{username}")
 			console.info """
 
 				Find out about the available commands by running:
 
-				  $ resin help
+				  $ balena help
 
 				#{messages.reachingOut}
 			"""
@@ -127,42 +127,42 @@ exports.login	=
 
 exports.logout =
 	signature: 'logout'
-	description: 'logout from resin.io'
+	description: 'logout from balena'
 	help: '''
-		Use this command to logout from your resin.io account.o
+		Use this command to logout from your balena account.o
 
 		Examples:
 
-			$ resin logout
+			$ balena logout
 	'''
 	action: (params, options, done) ->
-		resin = require('resin-sdk').fromSharedOptions()
-		resin.auth.logout().nodeify(done)
+		balena = require('balena-sdk').fromSharedOptions()
+		balena.auth.logout().nodeify(done)
 
 exports.signup =
 	signature: 'signup'
-	description: 'signup to resin.io'
+	description: 'signup to balena'
 	help: '''
-		Use this command to signup for a resin.io account.
+		Use this command to signup for a balena account.
 
 		If signup is successful, you'll be logged in to your new user automatically.
 
 		Examples:
 
-			$ resin signup
+			$ balena signup
 			Email: johndoe@acme.com
 			Password: ***********
 
-			$ resin whoami
+			$ balena whoami
 			johndoe
 	'''
 	action: (params, options, done) ->
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		form = require('resin-cli-form')
 		validation = require('../utils/validation')
 
-		resin.settings.get('resinUrl').then (resinUrl) ->
-			console.log("\nRegistering to #{resinUrl}")
+		balena.settings.get('balenaUrl').then (balenaUrl) ->
+			console.log("\nRegistering to #{balenaUrl}")
 
 			form.run [
 				message: 'Email:'
@@ -176,8 +176,8 @@ exports.signup =
 				validate: validation.validatePassword
 			]
 
-		.then(resin.auth.register)
-		.then(resin.auth.loginWithToken)
+		.then(balena.auth.register)
+		.then(balena.auth.loginWithToken)
 		.nodeify(done)
 
 exports.whoami =
@@ -188,18 +188,18 @@ exports.whoami =
 
 		Examples:
 
-			$ resin whoami
+			$ balena whoami
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
 		Promise.props
-			username: resin.auth.whoami()
-			email: resin.auth.getEmail()
-			url: resin.settings.get('resinUrl')
+			username: balena.auth.whoami()
+			email: balena.auth.getEmail()
+			url: balena.settings.get('balenaUrl')
 		.then (results) ->
 			console.log visuals.table.vertical results, [
 				'$account information$'

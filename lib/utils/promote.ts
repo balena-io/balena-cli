@@ -1,16 +1,16 @@
 import { stripIndent } from 'common-tags';
-import { ResinSDK, Application } from 'resin-sdk';
+import * as BalenaSdk from 'balena-sdk';
 
 import Logger = require('./logger');
 
 import { runCommand } from './helpers';
 import { exec, execBuffered } from './ssh';
 
-const MIN_RESINOS_VERSION = 'v2.14.0';
+const MIN_BALENAOS_VERSION = 'v2.14.0';
 
 export async function join(
 	logger: Logger,
-	sdk: ResinSDK,
+	sdk: BalenaSdk.BalenaSDK,
 	deviceHostnameOrIp?: string,
 	appName?: string,
 ): Promise<void> {
@@ -39,21 +39,27 @@ export async function join(
 		app.device_type = deviceType;
 	}
 
+	logger.logDebug('Determining device OS version...');
+	const deviceOsVersion = await getOsVersion(deviceIp);
+	logger.logDebug(`Device OS version: ${deviceOsVersion}`);
+
 	logger.logDebug('Generating application config...');
-	const config = await generateApplicationConfig(sdk, app);
+	const config = await generateApplicationConfig(sdk, app, {
+		version: deviceOsVersion,
+	});
 	logger.logDebug(`Using config: ${JSON.stringify(config, null, 2)}`);
 
 	logger.logDebug('Configuring...');
 	await configure(deviceIp, config);
 	logger.logDebug('All done.');
 
-	const platformUrl = await sdk.settings.get('resinUrl');
+	const platformUrl = await sdk.settings.get('balenaUrl');
 	logger.logSuccess(`Device successfully joined ${platformUrl}!`);
 }
 
 export async function leave(
 	logger: Logger,
-	_sdk: ResinSDK,
+	_sdk: BalenaSdk.BalenaSDK,
 	deviceHostnameOrIp?: string,
 ): Promise<void> {
 	logger.logDebug('Determining device...');
@@ -110,7 +116,7 @@ async function assertDeviceIsCompatible(deviceIp: string): Promise<void> {
 	} catch (err) {
 		exitWithExpectedError(stripIndent`
 			Device "${deviceIp}" is incompatible and cannot join or leave an application.
-			Please select or provision device with resinOS newer than ${MIN_RESINOS_VERSION}.`);
+			Please select or provision device with balenaOS newer than ${MIN_BALENAOS_VERSION}.`);
 	}
 }
 
@@ -119,6 +125,15 @@ async function getDeviceType(deviceIp: string): Promise<string> {
 	const match = /^SLUG="([^"]+)"$/m.exec(output);
 	if (!match) {
 		throw new Error('Failed to determine device type');
+	}
+	return match[1];
+}
+
+async function getOsVersion(deviceIp: string): Promise<string> {
+	const output = await execBuffered(deviceIp, 'cat /etc/os-release');
+	const match = /^VERSION_ID="([^"]+)"$/m.exec(output);
+	if (!match) {
+		throw new Error('Failed to determine OS version ID');
 	}
 	return match[1];
 }
@@ -158,14 +173,27 @@ async function getOrSelectLocalDevice(deviceIp?: string): Promise<string> {
 	return ip;
 }
 
+async function selectAppFromList(applications: BalenaSdk.Application[]) {
+	const _ = await import('lodash');
+	const { selectFromList } = await import('../utils/patterns');
+
+	// Present a list to the user which shows the fully qualified application
+	// name (user/appname) and allows them to select.
+	return selectFromList(
+		'Select application',
+		_.map(applications, app => {
+			return _.merge({ name: app.slug }, app);
+		}),
+	);
+}
+
 async function getOrSelectApplication(
-	sdk: ResinSDK,
+	sdk: BalenaSdk.BalenaSDK,
 	deviceType: string,
 	appName?: string,
-): Promise<Application> {
+): Promise<BalenaSdk.Application> {
 	const _ = await import('lodash');
 	const form = await import('resin-cli-form');
-	const { selectFromList } = await import('../utils/patterns');
 
 	const allDeviceTypes = await sdk.models.config.getDeviceTypes();
 	const deviceTypeManifest = _.find(allDeviceTypes, { slug: deviceType });
@@ -177,14 +205,14 @@ async function getOrSelectApplication(
 		.map(type => type.slug)
 		.value();
 
-	const options: any = {
-		$expand: { user: { $select: ['username'] } },
-		$filter: { device_type: { $in: compatibleDeviceTypes } },
-	};
-
 	if (!appName) {
+		const options = {
+			$filter: { device_type: { $in: compatibleDeviceTypes } },
+		};
+
 		// No application specified, show a list to select one.
 		const applications = await sdk.models.application.getAll(options);
+
 		if (applications.length === 0) {
 			const shouldCreateApp = await form.ask({
 				message:
@@ -198,29 +226,27 @@ async function getOrSelectApplication(
 			}
 			process.exit(1);
 		}
-		return selectFromList(
-			'Select application',
-			_.map(applications, app => _.merge({ name: app.app_name }, app)),
-		);
+
+		return selectAppFromList(applications);
 	}
 
-	// We're given an application; resolve it if it's ambiguous and also validate
-	// it's of appropriate device type.
-	options.$filter = { app_name: appName };
+	const options: BalenaSdk.PineOptionsFor<BalenaSdk.Application> = {};
 
 	// Check for an app of the form `user/application` and update the API query.
+	let name: string;
 	const match = appName.split('/');
 	if (match.length > 1) {
-		// These will match at most one app, so we'll return early.
-		options.$expand.user.$filter = { username: match[0] };
-		options.$filter.app_name = match[1];
+		// These will match at most one app
+		options.$filter = { slug: appName.toLowerCase() };
+		name = match[1];
+	} else {
+		// We're given an application; resolve it if it's ambiguous and also validate
+		// it's of appropriate device type.
+		options.$filter = { app_name: appName };
+		name = appName;
 	}
 
-	// Fetch all applications with the given name that are accessible to the user
-	const applications = await sdk.pine.get<Application>({
-		resource: 'application',
-		options,
-	});
+	const applications = await sdk.models.application.getAll(options);
 
 	if (applications.length === 0) {
 		const shouldCreateApp = await form.ask({
@@ -231,7 +257,7 @@ async function getOrSelectApplication(
 			default: true,
 		});
 		if (shouldCreateApp) {
-			return createApplication(sdk, deviceType, options.$filter.app_name);
+			return createApplication(sdk, deviceType, name);
 		}
 		process.exit(1);
 	}
@@ -242,36 +268,31 @@ async function getOrSelectApplication(
 		_.includes(compatibleDeviceTypes, app.device_type),
 	);
 
+	if (validApplications.length === 0) {
+		throw new Error('No application found with a matching device type');
+	}
+
 	if (validApplications.length === 1) {
 		return validApplications[0];
 	}
 
-	// If we got more than one application with the same name it means that the
-	// user has access to a collab app with the same name as a personal app. We
-	// present a list to the user which shows the fully qualified application
-	// name (user/appname) and allows them to select
-	return selectFromList(
-		'Found multiple applications with that name; please select the one to use',
-		_.map(validApplications, app => {
-			const owner = _.get(app, 'user[0].username');
-			return _.merge({ name: `${owner}/${app.app_name}` }, app);
-		}),
-	);
+	return selectAppFromList(applications);
 }
 
 async function createApplication(
-	sdk: ResinSDK,
+	sdk: BalenaSdk.BalenaSDK,
 	deviceType: string,
 	name?: string,
-): Promise<Application> {
+): Promise<BalenaSdk.Application> {
 	const form = await import('resin-cli-form');
 	const validation = await import('./validation');
 	const patterns = await import('./patterns');
 
-	const user = await sdk.auth.getUserId();
-	const queryOptions = {
-		$filter: { user },
-	};
+	let username = await sdk.auth.whoami();
+	if (!username) {
+		throw new sdk.errors.BalenaNotLoggedIn();
+	}
+	username = username.toLowerCase();
 
 	const appName = await new Promise<string>(async (resolve, reject) => {
 		while (true) {
@@ -284,7 +305,14 @@ async function createApplication(
 				});
 
 				try {
-					await sdk.models.application.get(appName, queryOptions);
+					await sdk.models.application.get(appName, {
+						$filter: {
+							$or: [
+								{ slug: { $startswith: `${username}/` } },
+								{ $not: { slug: { $contains: '/' } } },
+							],
+						},
+					});
 					patterns.printErrorMessage(
 						'You already have an application with that name; please choose another.',
 					);
@@ -304,14 +332,21 @@ async function createApplication(
 	});
 }
 
-async function generateApplicationConfig(sdk: ResinSDK, app: Application) {
+async function generateApplicationConfig(
+	sdk: BalenaSdk.BalenaSDK,
+	app: BalenaSdk.Application,
+	options: { version: string },
+) {
 	const form = await import('resin-cli-form');
 	const { generateApplicationConfig: configGen } = await import('./config');
 
 	const manifest = await sdk.models.device.getManifestBySlug(app.device_type);
 	const opts =
 		manifest.options && manifest.options.filter(opt => opt.name !== 'network');
-	const values = await form.run(opts);
+	const values = {
+		...(await form.run(opts)),
+		...options,
+	};
 
 	const config = await configGen(app, values);
 	if (config.connectivity === 'connman') {

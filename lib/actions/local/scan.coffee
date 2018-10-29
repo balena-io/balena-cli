@@ -1,5 +1,5 @@
 ###
-Copyright 2017 Resin.io
+Copyright 2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -34,14 +34,14 @@ dockerVersionProperties = [
 
 module.exports =
 	signature: 'local scan'
-	description: 'Scan for resinOS devices in your local network'
+	description: 'Scan for balenaOS devices in your local network'
 	help: '''
 
 		Examples:
 
-			$ resin local scan
-			$ resin local scan --timeout 120
-			$ resin local scan --verbose
+			$ balena local scan
+			$ balena local scan --timeout 120
+			$ balena local scan --verbose
 	'''
 	options: [
 		signature: 'verbose'
@@ -60,7 +60,7 @@ module.exports =
 		Promise = require('bluebird')
 		_ = require('lodash')
 		prettyjson = require('prettyjson')
-		{ discover } = require('resin-sync')
+		{ discover } = require('balena-sync')
 		{ SpinnerPromise } = require('resin-cli-visuals')
 		{ dockerPort, dockerTimeout } = require('./common')
 		dockerUtils = require('../../utils/docker')
@@ -71,8 +71,8 @@ module.exports =
 
 		Promise.try ->
 			new SpinnerPromise
-				promise: discover.discoverLocalResinOsDevices(options.timeout)
-				startMessage: 'Scanning for local resinOS devices..'
+				promise: discover.discoverLocalBalenaOsDevices(options.timeout)
+				startMessage: 'Scanning for local balenaOS devices..'
 				stopMessage: 'Reporting scan results'
 		.filter ({ address }) ->
 			Promise.try ->
@@ -82,7 +82,7 @@ module.exports =
 			.catchReturn(false)
 		.tap (devices) ->
 			if _.isEmpty(devices)
-				exitWithExpectedError('Could not find any resinOS devices in the local network')
+				exitWithExpectedError('Could not find any balenaOS devices in the local network')
 		.map ({ host, address }) ->
 			docker = dockerUtils.createClient(host: address, port: dockerPort, timeout: dockerTimeout)
 			Promise.props

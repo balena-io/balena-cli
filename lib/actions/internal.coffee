@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ exports.osInit =
 	signature: 'internal osinit <image> <type> <config>'
 	description: 'do actual init of the device with the preconfigured os image'
 	help: '''
-		Don't use this command directly! Use `resin os initialize <image>` instead.
+		Don't use this command directly! Use `balena os initialize <image>` instead.
 	'''
 	hidden: true
 	root: true
@@ -38,7 +38,7 @@ exports.osInit =
 
 exports.scanDevices =
 	signature: 'internal scandevices'
-	description: 'scan for local resin-enabled devices and show a picker to choose one'
+	description: 'scan for local balena-enabled devices and show a picker to choose one'
 	help: '''
 		Don't use this command directly!
 	'''
@@ -46,10 +46,10 @@ exports.scanDevices =
 	root: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		{ forms } = require('resin-sync')
+		{ forms } = require('balena-sync')
 
 		return Promise.try ->
-			forms.selectLocalResinOsDevice()
+			forms.selectLocalBalenaOsDevice()
 			.then (hostnameOrIp) ->
 				console.error("==> Selected device: #{hostnameOrIp}")
 		.nodeify(done)
@@ -61,9 +61,9 @@ exports.sudo =
 		Don't use this command directly!
 
 		<command> must be passed as a single argument. That means, you need to make sure
-		you enclose <command> in quotes (eg. resin internal sudo 'ls -alF') if for
+		you enclose <command> in quotes (eg. balena internal sudo 'ls -alF') if for
 		whatever reason you invoke the command directly or, typically, pass <command>
-		as a single argument to spawn (eg. `spawn('resin', [ 'internal', 'sudo', 'ls -alF' ])`).
+		as a single argument to spawn (eg. `spawn('balena', [ 'internal', 'sudo', 'ls -alF' ])`).
 
 		Furthermore, this command will naively split <command> on whitespace and directly
 		forward the parts as arguments to `sudo`, so be careful.

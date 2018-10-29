@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -22,10 +22,13 @@ allDeviceTypes = undefined
 
 getDeviceTypes = ->
 	Bluebird = require('bluebird')
+	_ = require('lodash')
 	if allDeviceTypes != undefined
 		return Bluebird.resolve(allDeviceTypes)
-	resin = require('resin-sdk').fromSharedOptions()
-	resin.models.config.getDeviceTypes()
+	balena = require('balena-sdk').fromSharedOptions()
+	balena.models.config.getDeviceTypes()
+	.then (deviceTypes) ->
+		_.sortBy(deviceTypes, 'name')
 	.tap (dt) ->
 		allDeviceTypes = dt
 
@@ -38,12 +41,12 @@ getDeviceTypesWithSameArch = (deviceTypeSlug) ->
 		_(deviceTypes).filter(arch: deviceType.arch).map('slug').value()
 
 getApplicationsWithSuccessfulBuilds = (deviceType) ->
-	preload = require('resin-preload')
-	resin = require('resin-sdk').fromSharedOptions()
+	preload = require('balena-preload')
+	balena = require('balena-sdk').fromSharedOptions()
 
 	getDeviceTypesWithSameArch(deviceType)
 	.then (deviceTypes) ->
-		resin.pine.get
+		balena.pine.get
 			resource: 'my_application'
 			options:
 				$filter:
@@ -97,7 +100,7 @@ selectApplicationCommit = (releases) ->
 
 offerToDisableAutomaticUpdates = (application, commit) ->
 	Promise = require('bluebird')
-	resin = require('resin-sdk').fromSharedOptions()
+	balena = require('balena-sdk').fromSharedOptions()
 	form = require('resin-cli-form')
 
 	if commit == LATEST or not application.should_track_latest_release
@@ -111,7 +114,7 @@ offerToDisableAutomaticUpdates = (application, commit) ->
 		Do you want to disable automatic updates for this application?
 
 		Warning: To re-enable this requires direct api calls,
-		see https://docs.resin.io/reference/api/resources/device/#set-device-to-release
+		see https://balena.io/docs/reference/api/resources/device/#set-device-to-release
 	'''
 	form.ask
 		message: message,
@@ -119,7 +122,7 @@ offerToDisableAutomaticUpdates = (application, commit) ->
 	.then (update) ->
 		if not update
 			return
-		resin.pine.patch
+		balena.pine.patch
 			resource: 'application'
 			id: application.id
 			body:
@@ -129,17 +132,17 @@ module.exports =
 	signature: 'preload <image>'
 	description: '(beta) preload an app on a disk image (or Edison zip archive)'
 	help: '''
-		Warning: "resin preload" requires Docker to be correctly installed in
+		Warning: "balena preload" requires Docker to be correctly installed in
 		your shell environment. For more information (including Windows support)
-		please check the README here: https://github.com/resin-io/resin-cli .
+		please check the README here: https://github.com/balena-io/balena-cli .
 
 		Use this command to preload an application to a local disk image (or
-		Edison zip archive) with a built release from Resin.io.
+		Edison zip archive) with a built release from balena.
 
 		Examples:
 
-			$ resin preload resin.img --app 1234 --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image some-image.png
-			$ resin preload resin.img
+			$ balena preload balena.img --app 1234 --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image image.png
+			$ balena preload balena.img
 	'''
 	permission: 'user'
 	primary: true
@@ -180,8 +183,8 @@ module.exports =
 	action: (params, options, done) ->
 		_ = require('lodash')
 		Promise = require('bluebird')
-		resin = require('resin-sdk').fromSharedOptions()
-		preload = require('resin-preload')
+		balena = require('balena-sdk').fromSharedOptions()
+		preload = require('balena-preload')
 		visuals = require('resin-cli-visuals')
 		nodeCleanup = require('node-cleanup')
 		{ exitWithExpectedError } = require('../utils/patterns')
@@ -226,7 +229,7 @@ module.exports =
 		.then (docker) ->
 
 			preloader = new preload.Preloader(
-				resin
+				balena
 				docker
 				options.appId
 				options.commit
@@ -290,7 +293,7 @@ module.exports =
 				.then ->
 					# All options are ready: preload the image.
 					preloader.preload()
-				.catch(resin.errors.ResinError, exitWithExpectedError)
+				.catch(balena.errors.BalenaError, exitWithExpectedError)
 				.then(resolve)
 				.catch(reject)
 			.then(done)

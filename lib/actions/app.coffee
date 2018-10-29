@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,45 +20,45 @@ exports.create =
 	signature: 'app create <name>'
 	description: 'create an application'
 	help: '''
-		Use this command to create a new resin.io application.
+		Use this command to create a new balena application.
 
 		You can specify the application device type with the `--type` option.
 		Otherwise, an interactive dropdown will be shown for you to select from.
 
 		You can see a list of supported device types with
 
-			$ resin devices supported
+			$ balena devices supported
 
 		Examples:
 
-			$ resin app create MyApp
-			$ resin app create MyApp --type raspberry-pi
+			$ balena app create MyApp
+			$ balena app create MyApp --type raspberry-pi
 	'''
 	options: [
 		{
 			signature: 'type'
 			parameter: 'type'
-			description: 'application device type (Check available types with `resin devices supported`)'
+			description: 'application device type (Check available types with `balena devices supported`)'
 			alias: 't'
 		}
 	]
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 
 		patterns = require('../utils/patterns')
 
 		# Validate the the application name is available
 		# before asking the device type.
-		# https://github.com/resin-io/resin-cli/issues/30
-		resin.models.application.has(params.name).then (hasApplication) ->
+		# https://github.com/balena-io/balena-cli/issues/30
+		balena.models.application.has(params.name).then (hasApplication) ->
 			if hasApplication
 				patterns.exitWithExpectedError('You already have an application with that name!')
 
 		.then ->
 			return options.type or patterns.selectDeviceType()
 		.then (deviceType) ->
-			return resin.models.application.create({
+			return balena.models.application.create({
 				name: params.name
 				deviceType
 			})
@@ -73,19 +73,19 @@ exports.list =
 		Use this command to list all your applications.
 
 		Notice this command only shows the most important bits of information for each app.
-		If you want detailed information, use resin app <name> instead.
+		If you want detailed information, use balena app <name> instead.
 
 		Examples:
 
-			$ resin apps
+			$ balena apps
 	'''
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
-		resin.models.application.getAll().then (applications) ->
+		balena.models.application.getAll().then (applications) ->
 			console.log visuals.table.horizontal applications, [
 				'id'
 				'app_name'
@@ -103,15 +103,15 @@ exports.info =
 
 		Examples:
 
-			$ resin app MyApp
+			$ balena app MyApp
 	'''
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
-		resin.models.application.get(params.name).then (application) ->
+		balena.models.application.get(params.name).then (application) ->
 			console.log visuals.table.vertical application, [
 				"$#{application.app_name}$"
 				'id'
@@ -129,33 +129,33 @@ exports.restart =
 
 		Examples:
 
-			$ resin app restart MyApp
+			$ balena app restart MyApp
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk').fromSharedOptions()
-		resin.models.application.restart(params.name).nodeify(done)
+		balena = require('balena-sdk').fromSharedOptions()
+		balena.models.application.restart(params.name).nodeify(done)
 
 exports.remove =
 	signature: 'app rm <name>'
 	description: 'remove an application'
 	help: '''
-		Use this command to remove a resin.io application.
+		Use this command to remove a balena application.
 
 		Notice this command asks for confirmation interactively.
 		You can avoid this by passing the `--yes` boolean option.
 
 		Examples:
 
-			$ resin app rm MyApp
-			$ resin app rm MyApp --yes
+			$ balena app rm MyApp
+			$ balena app rm MyApp --yes
 	'''
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		patterns = require('../utils/patterns')
 
 		patterns.confirm(options.yes, 'Are you sure you want to delete the application?').then ->
-			resin.models.application.remove(params.name)
+			balena.models.application.remove(params.name)
 		.nodeify(done)

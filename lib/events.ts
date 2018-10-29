@@ -4,13 +4,13 @@ import _ = require('lodash');
 import Mixpanel = require('mixpanel');
 import Raven = require('raven');
 import Promise = require('bluebird');
-import ResinSdk = require('resin-sdk');
+import BalenaSdk = require('balena-sdk');
 import packageJSON = require('../package.json');
 
-const resin = ResinSdk.fromSharedOptions();
+const balena = BalenaSdk.fromSharedOptions();
 const getMatchCommandAsync = Promise.promisify(Capitano.state.getMatchCommand);
 const getMixpanel = _.memoize<any>(() =>
-	resin.models.config
+	balena.models.config
 		.getAll()
 		.get('mixpanelToken')
 		.then(Mixpanel.init),
@@ -18,11 +18,11 @@ const getMixpanel = _.memoize<any>(() =>
 
 export function trackCommand(capitanoCli: Capitano.Cli) {
 	return Promise.props({
-		resinUrl: resin.settings.get('resinUrl'),
-		username: resin.auth.whoami().catchReturn(undefined),
+		balenaUrl: balena.settings.get('balenaUrl'),
+		username: balena.auth.whoami().catchReturn(undefined),
 		mixpanel: getMixpanel(),
 	})
-		.then(({ username, resinUrl, mixpanel }) => {
+		.then(({ username, balenaUrl, mixpanel }) => {
 			return getMatchCommandAsync(capitanoCli.command).then(command => {
 				Raven.mergeContext({
 					user: {
@@ -37,7 +37,7 @@ export function trackCommand(capitanoCli: Capitano.Cli) {
 					version: packageJSON.version,
 					node: process.version,
 					arch: process.arch,
-					resinUrl,
+					balenaUrl,
 					platform: process.platform,
 					command: capitanoCli,
 				});

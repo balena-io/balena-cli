@@ -1,4 +1,4 @@
-# Provisioning Resin.io devices in automated (non-interactive) mode
+# Provisioning balena devices in automated (non-interactive) mode
 
 This document describes how to run the `device init` command in non-interactive mode.
 
@@ -7,7 +7,7 @@ It requires collecting some preliminary information _once_.
 The final command to provision the device looks like this:
 
 ```bash
-resin device init --app APP_ID --os-version OS_VERSION --drive DRIVE --config CONFIG_FILE --yes
+balena device init --app APP_ID --os-version OS_VERSION --drive DRIVE --config CONFIG_FILE --yes
 
 ```
 
@@ -20,15 +20,15 @@ But before you can run it you need to collect the parameters and build the confi
 
 1. `DEVICE_TYPE`. Run
 	```bash
-	resin devices supported
+	balena devices supported
 	```
 	and find the _slug_ for your target device type, like _raspberrypi3_.
 
-1. `APP_ID`. Create an application (`resin app create APP_NAME --type DEVICE_TYPE`) or find an existing one (`resin apps`) and notice its ID.
+1. `APP_ID`. Create an application (`balena app create APP_NAME --type DEVICE_TYPE`) or find an existing one (`balena apps`) and notice its ID.
 
 1. `OS_VERSION`. Run
 	```bash
-	resin os versions DEVICE_TYPE
+	balena os versions DEVICE_TYPE
 	```
 	and pick the version that you need, like _v2.0.6+rev1.prod_.
 	_Note_ that even though we support _semver ranges_ it's recommended to use the exact version when doing the automated provisioning as it
@@ -36,10 +36,10 @@ But before you can run it you need to collect the parameters and build the confi
 
 1. `DRIVE`. Plug in your target medium (SD card or the USB stick, depending on your device type) and run
 	```bash
-	resin util available-drives
+	balena util available-drives
 	```
 	and get the drive name, like _/dev/sdb_ or _/dev/mmcblk0_.
-	The resin CLI will not display the system drives to protect you,
+	The balena CLI will not display the system drives to protect you,
 	but still please check very carefully that you've picked the correct drive as it will be erased during the provisioning process.
 
 Now we have all the parameters -- time to build the config file.
@@ -50,21 +50,21 @@ Interactive device provisioning process often includes collecting some extra dev
 
 To skip this interactive step we need to buid this configuration once and save it to the JSON file for later reuse.
 
-Let's say we will place it into the `CONFIG_FILE` path, like _./resin-os/raspberrypi3-config.json_.
+Let's say we will place it into the `CONFIG_FILE` path, like _./balena-os/raspberrypi3-config.json_.
 
-We also need to put the OS image somewhere, let's call this path `OS_IMAGE_PATH`, it can be something like _./resin-os/raspberrypi3-v2.0.6+rev1.prod.img_.
+We also need to put the OS image somewhere, let's call this path `OS_IMAGE_PATH`, it can be something like _./balena-os/raspberrypi3-v2.0.6+rev1.prod.img_.
 
 1. First we need to download the OS image once. That's needed for building the config, and will speedup the subsequent operations as the downloaded OS image is placed into the local cache.
 
 	Run:
 	```bash
-	resin os download DEVICE_TYPE --output OS_IMAGE_PATH --version OS_VERSION
+	balena os download DEVICE_TYPE --output OS_IMAGE_PATH --version OS_VERSION
 	```
 
 1. Now we're ready to build the config:
 
 	```bash
-	resin os build-config OS_IMAGE_PATH DEVICE_TYPE --output CONFIG_FILE
+	balena os build-config OS_IMAGE_PATH DEVICE_TYPE --output CONFIG_FILE
 	```
 
 	This will run you through the interactive configuration wizard and in the end save the generated config as `CONFIG_FILE`. You can then verify it's not empty:
@@ -97,11 +97,11 @@ There are several ways to eliminate it and make the process fully non-interactiv
 
 Obviously you shouldn't do that if the machine you're working on has access to any sensitive resources or information.
 
-But if you're using a machine dedicated to resin provisioning this can be fine, and also the simplest thing to do.
+But if you're using a machine dedicated to balena provisioning this can be fine, and also the simplest thing to do.
 
 #### Option 2: `NOPASSWD` directive
 
-You can configure the `resin` CLI command to be sudo-runnable without the password. Check [this post](https://askubuntu.com/questions/159007/how-do-i-run-specific-sudo-commands-without-a-password) for an example.
+You can configure the `balena` CLI command to be sudo-runnable without the password. Check [this post](https://askubuntu.com/questions/159007/how-do-i-run-specific-sudo-commands-without-a-password) for an example.
 
 ### Extra initialization config
 
@@ -109,4 +109,4 @@ As of June 2017 all the supported devices should not require any other interacti
 
 But by the design of our system it is _possible_ (though it doesn't look very likely it's going to happen any time soon) that some extra initialization options may be requested for the specific device types.
 
-If that is the case please raise the issue in the resin CLI repository and the maintainers will add the necessary options to build the similar JSON config for this step.
+If that is the case please raise the issue in the balena CLI repository and the maintainers will add the necessary options to build the similar JSON config for this step.

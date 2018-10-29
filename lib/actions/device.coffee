@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Resin.io
+Copyright 2016-2017 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -32,27 +32,27 @@ exports.list =
 
 		Examples:
 
-			$ resin devices
-			$ resin devices --application MyApp
-			$ resin devices --app MyApp
-			$ resin devices -a MyApp
+			$ balena devices
+			$ balena devices --application MyApp
+			$ balena devices --app MyApp
+			$ balena devices -a MyApp
 	'''
 	options: [ commandOptions.optionalApplication ]
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
 		Promise.try ->
 			if options.application?
-				return resin.models.device.getAllByApplication(options.application, expandForAppName)
-			return resin.models.device.getAll(expandForAppName)
+				return balena.models.device.getAllByApplication(options.application, expandForAppName)
+			return balena.models.device.getAll(expandForAppName)
 
 		.tap (devices) ->
 			devices = _.map devices, (device) ->
-				device.dashboard_url = resin.models.device.getDashboardUrl(device.uuid)
+				device.dashboard_url = balena.models.device.getDashboardUrl(device.uuid)
 				device.application_name = device.belongs_to__application[0].app_name
 				device.uuid = device.uuid.slice(0, 7)
 				return device
@@ -79,20 +79,20 @@ exports.info =
 
 		Examples:
 
-			$ resin device 7cf02a6
+			$ balena device 7cf02a6
 	'''
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
-		resin.models.device.get(params.uuid, expandForAppName)
+		balena.models.device.get(params.uuid, expandForAppName)
 		.then (device) ->
-			resin.models.device.getStatus(device).then (status) ->
+			balena.models.device.getStatus(device).then (status) ->
 				device.status = status
-				device.dashboard_url = resin.models.device.getDashboardUrl(device.uuid)
+				device.dashboard_url = balena.models.device.getDashboardUrl(device.uuid)
 				device.application_name = device.belongs_to__application[0].app_name
 				device.commit = device.is_on__commit
 
@@ -123,13 +123,13 @@ exports.supported =
 
 		Examples:
 
-			$ resin devices supported
+			$ balena devices supported
 	'''
 	action: (params, options, done) ->
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
-		resin.models.config.getDeviceTypes().then (deviceTypes) ->
+		balena.models.config.getDeviceTypes().then (deviceTypes) ->
 			console.log visuals.table.horizontal deviceTypes, [
 				'slug'
 				'name'
@@ -144,8 +144,8 @@ exports.register =
 
 		Examples:
 
-			$ resin device register MyApp
-			$ resin device register MyApp --uuid <uuid>
+			$ balena device register MyApp
+			$ balena device register MyApp --uuid <uuid>
 	'''
 	permission: 'user'
 	options: [
@@ -158,14 +158,14 @@ exports.register =
 	]
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 
 		Promise.join(
-			resin.models.application.get(params.application)
-			options.uuid ? resin.models.device.generateUniqueKey()
+			balena.models.application.get(params.application)
+			options.uuid ? balena.models.device.generateUniqueKey()
 			(application, uuid) ->
 				console.info("Registering to #{application.app_name}: #{uuid}")
-				return resin.models.device.register(application.id, uuid)
+				return balena.models.device.register(application.id, uuid)
 		)
 		.get('uuid')
 		.nodeify(done)
@@ -174,25 +174,25 @@ exports.remove =
 	signature: 'device rm <uuid>'
 	description: 'remove a device'
 	help: '''
-		Use this command to remove a device from resin.io.
+		Use this command to remove a device from balena.
 
 		Notice this command asks for confirmation interactively.
 		You can avoid this by passing the `--yes` boolean option.
 
 		Examples:
 
-			$ resin device rm 7cf02a6
-			$ resin device rm 7cf02a6 --yes
+			$ balena device rm 7cf02a6
+			$ balena device rm 7cf02a6 --yes
 	'''
 	options: [ commandOptions.yes ]
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		patterns = require('../utils/patterns')
 
 		patterns.confirm(options.yes, 'Are you sure you want to delete the device?').then ->
-			resin.models.device.remove(params.uuid)
+			balena.models.device.remove(params.uuid)
 		.nodeify(done)
 
 exports.identify =
@@ -205,13 +205,13 @@ exports.identify =
 
 		Examples:
 
-			$ resin device identify 23c73a1
+			$ balena device identify 23c73a1
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk').fromSharedOptions()
-		resin.models.device.identify(params.uuid).nodeify(done)
+		balena = require('balena-sdk').fromSharedOptions()
+		balena.models.device.identify(params.uuid).nodeify(done)
 
 exports.reboot =
 	signature: 'device reboot <uuid>'
@@ -221,14 +221,14 @@ exports.reboot =
 
 		Examples:
 
-			$ resin device reboot 23c73a1
+			$ balena device reboot 23c73a1
 	'''
 	options: [ commandOptions.forceUpdateLock ]
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk').fromSharedOptions()
-		resin.models.device.reboot(params.uuid, options).nodeify(done)
+		balena = require('balena-sdk').fromSharedOptions()
+		balena.models.device.reboot(params.uuid, options).nodeify(done)
 
 exports.shutdown =
 	signature: 'device shutdown <uuid>'
@@ -238,14 +238,14 @@ exports.shutdown =
 
 		Examples:
 
-			$ resin device shutdown 23c73a1
+			$ balena device shutdown 23c73a1
 	'''
 	options: [ commandOptions.forceUpdateLock ]
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk').fromSharedOptions()
-		resin.models.device.shutdown(params.uuid, options).nodeify(done)
+		balena = require('balena-sdk').fromSharedOptions()
+		balena.models.device.shutdown(params.uuid, options).nodeify(done)
 
 exports.enableDeviceUrl =
 	signature: 'device public-url enable <uuid>'
@@ -255,13 +255,13 @@ exports.enableDeviceUrl =
 
 		Examples:
 
-			$ resin device public-url enable 23c73a1
+			$ balena device public-url enable 23c73a1
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk').fromSharedOptions()
-		resin.models.device.enableDeviceUrl(params.uuid).nodeify(done)
+		balena = require('balena-sdk').fromSharedOptions()
+		balena.models.device.enableDeviceUrl(params.uuid).nodeify(done)
 
 exports.disableDeviceUrl =
 	signature: 'device public-url disable <uuid>'
@@ -271,13 +271,13 @@ exports.disableDeviceUrl =
 
 		Examples:
 
-			$ resin device public-url disable 23c73a1
+			$ balena device public-url disable 23c73a1
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk').fromSharedOptions()
-		resin.models.device.disableDeviceUrl(params.uuid).nodeify(done)
+		balena = require('balena-sdk').fromSharedOptions()
+		balena.models.device.disableDeviceUrl(params.uuid).nodeify(done)
 
 exports.getDeviceUrl =
 	signature: 'device public-url <uuid>'
@@ -287,13 +287,13 @@ exports.getDeviceUrl =
 
 		Examples:
 
-			$ resin device public-url 23c73a1
+			$ balena device public-url 23c73a1
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk').fromSharedOptions()
-		resin.models.device.getDeviceUrl(params.uuid).then (url) ->
+		balena = require('balena-sdk').fromSharedOptions()
+		balena.models.device.getDeviceUrl(params.uuid).then (url) ->
 			console.log(url)
 		.nodeify(done)
 
@@ -305,19 +305,19 @@ exports.hasDeviceUrl =
 
 		Examples:
 
-			$ resin device public-url status 23c73a1
+			$ balena device public-url status 23c73a1
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk').fromSharedOptions()
-		resin.models.device.hasDeviceUrl(params.uuid).then (hasDeviceUrl) ->
+		balena = require('balena-sdk').fromSharedOptions()
+		balena.models.device.hasDeviceUrl(params.uuid).then (hasDeviceUrl) ->
 			console.log(hasDeviceUrl)
 		.nodeify(done)
 
 exports.rename =
 	signature: 'device rename <uuid> [newName]'
-	description: 'rename a resin device'
+	description: 'rename a balena device'
 	help: '''
 		Use this command to rename a device.
 
@@ -325,14 +325,14 @@ exports.rename =
 
 		Examples:
 
-			$ resin device rename 7cf02a6
-			$ resin device rename 7cf02a6 MyPi
+			$ balena device rename 7cf02a6
+			$ balena device rename 7cf02a6 MyPi
 	'''
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
 		Promise = require('bluebird')
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		form = require('resin-cli-form')
 
 		Promise.try ->
@@ -342,7 +342,7 @@ exports.rename =
 				message: 'How do you want to name this device?'
 				type: 'input'
 
-		.then(_.partial(resin.models.device.rename, params.uuid))
+		.then(_.partial(balena.models.device.rename, params.uuid))
 		.nodeify(done)
 
 exports.move =
@@ -355,31 +355,31 @@ exports.move =
 
 		Examples:
 
-			$ resin device move 7cf02a6
-			$ resin device move 7cf02a6 --application MyNewApp
+			$ balena device move 7cf02a6
+			$ balena device move 7cf02a6 --application MyNewApp
 	'''
 	permission: 'user'
 	options: [ commandOptions.optionalApplication ]
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		patterns = require('../utils/patterns')
 
-		resin.models.device.get(params.uuid, expandForAppName).then (device) ->
+		balena.models.device.get(params.uuid, expandForAppName).then (device) ->
 			return options.application or patterns.selectApplication (application) ->
 				return _.every [
 					application.device_type is device.device_type
 					device.belongs_to__application[0].app_name isnt application.app_name
 				]
 		.tap (application) ->
-			return resin.models.device.move(params.uuid, application)
+			return balena.models.device.move(params.uuid, application)
 		.then (application) ->
 			console.info("#{params.uuid} was moved to #{application}")
 		.nodeify(done)
 
 exports.init =
 	signature: 'device init'
-	description: 'initialise a device with resinOS'
+	description: 'initialise a device with balenaOS'
 	help: '''
 		Use this command to download the OS image of a certain application and write it to an SD Card.
 
@@ -388,18 +388,18 @@ exports.init =
 
 		Examples:
 
-			$ resin device init
-			$ resin device init --application MyApp
+			$ balena device init
+			$ balena device init --application MyApp
 	'''
 	options: [
 		commandOptions.optionalApplication
 		commandOptions.yes
 		commandOptions.advancedConfig
-		_.assign({}, commandOptions.osVersion, { signature: 'os-version', parameter: 'os-version' })
+		_.assign({}, commandOptions.osVersionOrSemver, { signature: 'os-version', parameter: 'os-version' })
 		commandOptions.drive
 		{
 			signature: 'config'
-			description: 'path to the config JSON file, see `resin os build-config`'
+			description: 'path to the config JSON file, see `balena os build-config`'
 			parameter: 'config'
 		}
 	]
@@ -411,14 +411,14 @@ exports.init =
 		tmpNameAsync = Promise.promisify(tmp.tmpName)
 		tmp.setGracefulCleanup()
 
-		resin = require('resin-sdk').fromSharedOptions()
+		balena = require('balena-sdk').fromSharedOptions()
 		patterns = require('../utils/patterns')
 		{ runCommand } = require('../utils/helpers')
 
 		Promise.try ->
 			return options.application if options.application?
 			return patterns.selectApplication()
-		.then(resin.models.application.get)
+		.then(balena.models.application.get)
 		.then (application) ->
 
 			download = ->
@@ -430,7 +430,7 @@ exports.init =
 
 			Promise.using download(), (tempPath) ->
 				runCommand("device register #{application.app_name}")
-					.then(resin.models.device.get)
+					.then(balena.models.device.get)
 					.tap (device) ->
 						configureCommand = "os configure '#{tempPath}' --device #{device.uuid}"
 						if options.config
@@ -448,7 +448,7 @@ exports.init =
 						# Make sure the device resource is removed if there is an
 						# error when configuring or initializing a device image
 						.catch (error) ->
-							resin.models.device.remove(device.uuid).finally ->
+							balena.models.device.remove(device.uuid).finally ->
 								throw error
 			.then (device) ->
 				console.log('Done')
