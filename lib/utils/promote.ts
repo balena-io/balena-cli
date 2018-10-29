@@ -173,47 +173,16 @@ async function getOrSelectLocalDevice(deviceIp?: string): Promise<string> {
 	return ip;
 }
 
-async function getApplicationsWithOptionalUsers(
-	sdk: ResinSdk.ResinSDK,
-	options: ResinSdk.PineOptionsFor<ResinSdk.Application>,
-) {
-	const _ = await import('lodash');
-
-	let applications = await sdk.models.application.getAll(options);
-	// If we got more than one application with the same name it means that the
-	// user has access to a collab app with the same name as a personal app.
-	if (applications.length !== _.uniqBy(applications, 'app_name').length) {
-		options = _.merge(_.cloneDeep(options), {
-			$expand: { user: { $select: ['username'] } },
-		});
-		applications = await sdk.models.application.getAll(options);
-	}
-
-	return applications;
-}
-
 async function selectAppFromList(applications: ResinSdk.Application[]) {
 	const _ = await import('lodash');
 	const { selectFromList } = await import('../utils/patterns');
 
-	// If we got more than one application with the same name it means that the
-	// user has access to a collab app with the same name as a personal app. We
-	// present a list to the user which shows the fully qualified application
+	// Present a list to the user which shows the fully qualified application
 	// name (user/appname) and allows them to select.
-	const hasSameNameApps =
-		applications.length !== _.uniqBy(applications, 'app_name').length;
-
 	return selectFromList(
-		hasSameNameApps
-			? 'Found multiple applications with that name; please select the one to use'
-			: 'Select application',
+		'Select application',
 		_.map(applications, app => {
-			let name = app.app_name;
-			if (hasSameNameApps) {
-				const owner = _.get(app, 'user[0].username');
-				name = `${owner}/${app.app_name}`;
-			}
-			return _.merge({ name }, app);
+			return _.merge({ name: app.slug }, app);
 		}),
 	);
 }
@@ -242,7 +211,7 @@ async function getOrSelectApplication(
 		};
 
 		// No application specified, show a list to select one.
-		const applications = await getApplicationsWithOptionalUsers(sdk, options);
+		const applications = await sdk.models.application.getAll(options);
 
 		if (applications.length === 0) {
 			const shouldCreateApp = await form.ask({
@@ -264,24 +233,20 @@ async function getOrSelectApplication(
 	const options: ResinSdk.PineOptionsFor<ResinSdk.Application> = {};
 
 	// Check for an app of the form `user/application` and update the API query.
+	let name: string;
 	const match = appName.split('/');
 	if (match.length > 1) {
 		// These will match at most one app
-		options.$expand = {
-			user: {
-				$select: ['username'],
-				$filter: { username: match[0] },
-			},
-		};
-
-		options.$filter = { app_name: match[1] };
+		options.$filter = { slug: appName.toLowerCase() };
+		name = match[1];
 	} else {
 		// We're given an application; resolve it if it's ambiguous and also validate
 		// it's of appropriate device type.
 		options.$filter = { app_name: appName };
+		name = appName;
 	}
 
-	const applications = await getApplicationsWithOptionalUsers(sdk, options);
+	const applications = await sdk.models.application.getAll(options);
 
 	if (applications.length === 0) {
 		const shouldCreateApp = await form.ask({
@@ -292,8 +257,7 @@ async function getOrSelectApplication(
 			default: true,
 		});
 		if (shouldCreateApp) {
-			return createApplication(sdk, deviceType, options.$filter
-				.app_name as string);
+			return createApplication(sdk, deviceType, name);
 		}
 		process.exit(1);
 	}
@@ -324,7 +288,11 @@ async function createApplication(
 	const validation = await import('./validation');
 	const patterns = await import('./patterns');
 
-	const user = await sdk.auth.getUserId();
+	let username = await sdk.auth.whoami();
+	if (!username) {
+		throw new sdk.errors.ResinNotLoggedIn();
+	}
+	username = username.toLowerCase();
 
 	const appName = await new Promise<string>(async (resolve, reject) => {
 		while (true) {
@@ -338,7 +306,12 @@ async function createApplication(
 
 				try {
 					await sdk.models.application.get(appName, {
-						$filter: { user },
+						$filter: {
+							$or: [
+								{ slug: { $startswith: `${username}/` } },
+								{ $not: { slug: { $contains: '/' } } },
+							],
+						},
 					});
 					patterns.printErrorMessage(
 						'You already have an application with that name; please choose another.',
