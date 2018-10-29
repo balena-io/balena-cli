@@ -59,9 +59,10 @@ export function generateBaseConfig(
 		appUpdatePollInterval: options.appUpdatePollInterval || 10,
 	};
 
-	const promise = resin.models.os.getConfig(application.app_name, options) as Promise<
-		ImgConfig & { apiKey?: string; }
-	>;
+	const promise = resin.models.os.getConfig(
+		application.app_name,
+		options,
+	) as Promise<ImgConfig & { apiKey?: string }>;
 	return promise.tap(config => {
 		// os.getConfig always returns a config for an app
 		delete config.apiKey;

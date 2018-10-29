@@ -173,8 +173,10 @@ async function getOrSelectLocalDevice(deviceIp?: string): Promise<string> {
 	return ip;
 }
 
-async function getApplicationsWithOptionalUsers(sdk: ResinSdk.ResinSDK,
-	options: ResinSdk.PineOptionsFor<ResinSdk.Application>) {
+async function getApplicationsWithOptionalUsers(
+	sdk: ResinSdk.ResinSDK,
+	options: ResinSdk.PineOptionsFor<ResinSdk.Application>,
+) {
 	const _ = await import('lodash');
 
 	let applications = await sdk.models.application.getAll(options);
@@ -182,14 +184,13 @@ async function getApplicationsWithOptionalUsers(sdk: ResinSdk.ResinSDK,
 	// user has access to a collab app with the same name as a personal app.
 	if (applications.length !== _.uniqBy(applications, 'app_name').length) {
 		options = _.merge(_.cloneDeep(options), {
-			$expand: { user: { $select: ['username'] } }
+			$expand: { user: { $select: ['username'] } },
 		});
 		applications = await sdk.models.application.getAll(options);
 	}
 
 	return applications;
 }
-
 
 async function selectAppFromList(applications: ResinSdk.Application[]) {
 	const _ = await import('lodash');
@@ -199,10 +200,13 @@ async function selectAppFromList(applications: ResinSdk.Application[]) {
 	// user has access to a collab app with the same name as a personal app. We
 	// present a list to the user which shows the fully qualified application
 	// name (user/appname) and allows them to select.
-	const hasSameNameApps = applications.length !== _.uniqBy(applications, 'app_name').length
+	const hasSameNameApps =
+		applications.length !== _.uniqBy(applications, 'app_name').length;
 
 	return selectFromList(
-		hasSameNameApps ? 'Found multiple applications with that name; please select the one to use' : 'Select application',
+		hasSameNameApps
+			? 'Found multiple applications with that name; please select the one to use'
+			: 'Select application',
 		_.map(applications, app => {
 			let name = app.app_name;
 			if (hasSameNameApps) {
@@ -288,7 +292,8 @@ async function getOrSelectApplication(
 			default: true,
 		});
 		if (shouldCreateApp) {
-			return createApplication(sdk, deviceType, options.$filter.app_name as string);
+			return createApplication(sdk, deviceType, options.$filter
+				.app_name as string);
 		}
 		process.exit(1);
 	}
@@ -300,7 +305,7 @@ async function getOrSelectApplication(
 	);
 
 	if (validApplications.length === 0) {
-		throw new Error('No application found with a matching device type')
+		throw new Error('No application found with a matching device type');
 	}
 
 	if (validApplications.length === 1) {
