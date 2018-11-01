@@ -77,6 +77,7 @@ export class FileIgnorer {
 			if (/\s*#/.test(line) || _.isEmpty(line)) {
 				return;
 			}
+
 			this.addEntry(line, fullPath, type);
 		});
 
@@ -86,6 +87,14 @@ export class FileIgnorer {
 	// Pass this function as a predicate to a filter function, and it will filter
 	// any ignored files
 	public filter = (filename: string): boolean => {
+		const relFile = path.relative(this.basePath, filename);
+
+		// Don't ignore any metadata files
+		const baseDir = path.dirname(relFile).split(path.sep)[0];
+		if (baseDir === '.balena' || baseDir === '.resin') {
+			return true;
+		}
+
 		const dockerIgnoreHandle = dockerIgnore();
 		const gitIgnoreHandle = ignore();
 
@@ -101,8 +110,6 @@ export class FileIgnorer {
 			{ handle: dockerIgnoreHandle, entries: this.dockerIgnoreEntries },
 			{ handle: gitIgnoreHandle, entries: this.gitIgnoreEntries },
 		];
-
-		const relFile = path.relative(this.basePath, filename);
 
 		_.each(ignoreTypes, ({ handle, entries }) => {
 			_.each(entries, ({ pattern, filePath }) => {
