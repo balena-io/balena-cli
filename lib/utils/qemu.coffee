@@ -6,7 +6,7 @@ exports.QEMU_BIN_NAME = QEMU_BIN_NAME = 'qemu-execve'
 exports.installQemuIfNeeded = Promise.method (emulated, logger, arch) ->
 	return false if not (emulated and platformNeedsQemu())
 
-	hasQemu()
+	hasQemu(arch)
 	.then (present) ->
 		if !present
 			logger.logInfo("Installing qemu for #{arch} emulation...")
@@ -19,7 +19,7 @@ exports.qemuPathInContext = (context) ->
 	binPath = path.join(binDir, QEMU_BIN_NAME)
 	path.relative(context, binPath)
 
-exports.copyQemu = (context) ->
+exports.copyQemu = (context, arch) ->
 	path = require('path')
 	fs = require('mz/fs')
 	# Create a hidden directory in the build context, containing qemu
@@ -29,7 +29,7 @@ exports.copyQemu = (context) ->
 	Promise.resolve(fs.mkdir(binDir))
 	.catch(code: 'EEXIST', ->)
 	.then ->
-		getQemuPath()
+		getQemuPath(arch)
 	.then (qemu) ->
 		new Promise (resolve, reject) ->
 			read = fs.createReadStream(qemu)
@@ -43,15 +43,15 @@ exports.copyQemu = (context) ->
 	.then ->
 		path.relative(context, binPath)
 
-hasQemu = ->
+hasQemu = (arch) ->
 	fs = require('mz/fs')
 
-	getQemuPath()
+	getQemuPath(arch)
 	.then(fs.stat)
 	.return(true)
 	.catchReturn(false)
 
-getQemuPath = ->
+getQemuPath = (arch) ->
 	balena = require('balena-sdk').fromSharedOptions()
 	path = require('path')
 	fs = require('mz/fs')
@@ -61,7 +61,7 @@ getQemuPath = ->
 		Promise.resolve(fs.mkdir(binDir))
 		.catch(code: 'EEXIST', ->)
 		.then ->
-			path.join(binDir, QEMU_BIN_NAME)
+			path.join(binDir, "#{QEMU_BIN_NAME}-#{arch}")
 
 platformNeedsQemu = ->
 	os = require('os')
@@ -73,7 +73,7 @@ installQemu = (arch) ->
 	zlib = require('zlib')
 	tar = require('tar-stream')
 
-	getQemuPath()
+	getQemuPath(arch)
 	.then (qemuPath) ->
 		new Promise (resolve, reject) ->
 			installStream = fs.createWriteStream(qemuPath)

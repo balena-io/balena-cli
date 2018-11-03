@@ -173,7 +173,7 @@ exports.buildProject = (
 		# Copy qemu into all build contexts
 		Promise.map imageDescriptors, (d) ->
 			return if not d.image.context? # external image
-			return qemu.copyQemu(path.join(projectPath, d.image.context))
+			return qemu.copyQemu(path.join(projectPath, d.image.context), arch)
 	.then (needsQemu) ->
 		# Tar up the directory, ready for the build stream
 		tarDirectory(projectPath)
