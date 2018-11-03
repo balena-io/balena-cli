@@ -71,39 +71,30 @@ installQemu = (arch) ->
 	request = require('request')
 	fs = require('fs')
 	zlib = require('zlib')
-	tar = require('tar')
-	os = require('os')
-	path = require('path')
-	rimraf = require('rimraf')
+	tar = require('tar-stream')
 
 	getQemuPath()
 	.then (qemuPath) ->
 		new Promise (resolve, reject) ->
+			installStream = fs.createWriteStream(qemuPath)
 			downloadArchiveName = "qemu-3.0.0+resin-#{arch}.tar.gz"
-			fs.mkdtemp(path.join(os.tmpdir(), 'balenaqemu-'), (err, folder) ->
-				if err
-					reject(err)
-				qemuUrl = "https://github.com/balena-io/qemu/releases/download/#{QEMU_VERSION}/#{downloadArchiveName}"
-				request(qemuUrl)
-				.on('error', reject)
-				.pipe(zlib.createGunzip())
-				.on('error', reject)
-				.pipe(tar.extract({
-					C: folder,
-					filter: (path, entry) -> return path.includes("qemu-#{arch}-static"),
-					strip: 1
-				})).on('finish', ->
-					# copy qemu binary to intended location then clean up the temp directory
-					tempFile = path.join(folder, "qemu-#{arch}-static")
-					fs.copyFile(tempFile, qemuPath, (err) ->
-						if err
-							reject(err)
-						# File moved successfully. Remove temp dir.
-						rimraf(folder, (err) ->
-							if err
-								reject(err)
-							resolve()
-						)
-					)
-				)
+			qemuUrl = "https://github.com/balena-io/qemu/releases/download/#{QEMU_VERSION}/#{downloadArchiveName}"
+			extract = tar.extract()
+			extract.on('entry', (header, stream, next) ->
+				stream.on('end', next)
+				if header.name.includes("qemu-#{arch}-static")
+					stream.pipe(installStream)
+				else
+					stream.resume()
+			)
+			request(qemuUrl)
+			.on('error', reject)
+			.pipe(zlib.createGunzip())
+			.on('error', reject)
+			.pipe(extract)
+			.on('error', reject)
+			.on('finish', ->
+				# make qemu binary executable
+				fs.chmodSync(qemuPath, '755')
+				resolve()
 			)
