@@ -151,7 +151,7 @@ buildConfig = (image, deviceType, advanced = false) ->
 	form = require('resin-cli-form')
 	helpers = require('../utils/helpers')
 
-	helpers.getManifest(image, deviceType)
+	Promise.resolve(helpers.getManifest(image, deviceType))
 	.get('options')
 	.then (questions) ->
 		if not advanced
@@ -203,7 +203,9 @@ exports.configure =
 		Use this command to configure a previously downloaded operating system image for
 		the specific device or for an application generally.
 
-		Calling this command with the exact version number of the targeted image is required.
+		This command will try to automatically determine the operating system version in order
+		to correctly configure the image. It may fail to do so however, in which case you'll
+		have to call this command again with the exact version number of the targeted image.
 
 		Note that device api keys are only supported on balenaOS 2.0.3+.
 
@@ -213,9 +215,10 @@ exports.configure =
 
 		Examples:
 
-			$ balena os configure ../path/rpi.img --device 7cf02a6 --version 2.12.7
-			$ balena os configure ../path/rpi.img --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>
-			$ balena os configure ../path/rpi.img --app MyApp  --version 2.12.7
+			$ balena os configure ../path/rpi.img --device 7cf02a6
+			$ balena os configure ../path/rpi.img --device 7cf02a6 --device-api-key <existingDeviceKey>
+			$ balena os configure ../path/rpi.img --app MyApp
+			$ balena os configure ../path/rpi.img --app MyApp --version 2.12.7
 	'''
 	permission: 'user'
 	options: [
@@ -223,7 +226,7 @@ exports.configure =
 		commandOptions.optionalApplication
 		commandOptions.optionalDevice
 		commandOptions.optionalDeviceApiKey
-		commandOptions.osVersion
+		commandOptions.optionalOsVersion
 		{
 			signature: 'config'
 			description: 'path to the config JSON file, see `balena os build-config`'
@@ -236,7 +239,7 @@ exports.configure =
 		Promise = require('bluebird')
 		readFileAsync = Promise.promisify(fs.readFile)
 		balena = require('balena-sdk').fromSharedOptions()
-		init = require('resin-device-init')
+		init = require('balena-device-init')
 		helpers = require('../utils/helpers')
 		patterns = require('../utils/patterns')
 		{ generateDeviceConfig, generateApplicationConfig } = require('../utils/config')
@@ -265,20 +268,32 @@ exports.configure =
 
 		balena.models[configurationResourceType].get(uuid || options.application)
 		.then (appOrDevice) ->
-			Promise.try ->
+			manifestPromise = helpers.getManifest(params.image, appOrDevice.device_type)
+			answersPromise = Promise.try ->
 				if options.config
 					return readFileAsync(options.config, 'utf8')
 						.then(JSON.parse)
 				return buildConfig(params.image, appOrDevice.device_type, options.advanced)
-			.then (answers) ->
+			Promise.join answersPromise, manifestPromise, (answers, manifest) ->
 				answers.version = options.version
 
-				(if configurationResourceType == 'device'
-					generateDeviceConfig(appOrDevice, deviceApiKey, answers)
-				else
-					generateApplicationConfig(appOrDevice, answers)
-				).then (config) ->
-					init.configure(params.image, appOrDevice.device_type, config, answers)
+				if not answers.version?
+					answers.version = helpers.getOsVersion(params.image, manifest).tap (version) ->
+						if not version?
+							throw new Error(
+								'Could not read OS version from the image. ' +
+								'Please specify the version manually with the ' +
+								'--version argument to this command.'
+							)
+
+				Promise.props(answers).then (answers) ->
+					(if configurationResourceType == 'device'
+						generateDeviceConfig(appOrDevice, deviceApiKey, answers)
+					else
+						generateApplicationConfig(appOrDevice, answers)
+					)
+					.then (config) ->
+						init.configure(params.image, manifest, config, answers)
 		.then(helpers.osProgressHandler)
 		.nodeify(done)
 

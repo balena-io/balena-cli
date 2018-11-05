@@ -1,6 +1,7 @@
-declare module 'resin-device-init' {
+declare module 'balena-device-init' {
 	import * as Promise from 'bluebird';
 	import { EventEmitter } from 'events';
+	import { DeviceType } from 'balena-sdk';
 
 	interface OperationState {
 		operation:
@@ -60,9 +61,23 @@ declare module 'resin-device-init' {
 		on(event: 'burn', callback: (state: BurnProgress) => void): void;
 	}
 
+	export function configure(
+		image: string,
+		manifest: DeviceType,
+		config: {},
+		options?: {},
+	): Promise<InitializeEmitter>;
+
 	export function initialize(
 		image: string,
-		deviceType: string,
+		manifest: DeviceType,
 		config: {},
 	): Promise<InitializeEmitter>;
+
+	export function getImageOsVersion(
+		image: string,
+		manifest: DeviceType,
+	): Promise<string | null>;
+
+	export function getImageManifest(image: string): Promise<DeviceType | null>;
 }
