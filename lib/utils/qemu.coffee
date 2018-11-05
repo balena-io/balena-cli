@@ -80,21 +80,19 @@ installQemu = (arch) ->
 			downloadArchiveName = "qemu-3.0.0+resin-#{arch}.tar.gz"
 			qemuUrl = "https://github.com/balena-io/qemu/releases/download/#{QEMU_VERSION}/#{downloadArchiveName}"
 			extract = tar.extract()
-			extract.on('entry', (header, stream, next) ->
+			extract.on 'entry', (header, stream, next) ->
 				stream.on('end', next)
 				if header.name.includes("qemu-#{arch}-static")
 					stream.pipe(installStream)
 				else
 					stream.resume()
-			)
 			request(qemuUrl)
 			.on('error', reject)
 			.pipe(zlib.createGunzip())
 			.on('error', reject)
 			.pipe(extract)
 			.on('error', reject)
-			.on('finish', ->
+			.on 'finish', ->
 				# make qemu binary executable
 				fs.chmodSync(qemuPath, '755')
 				resolve()
-			)
