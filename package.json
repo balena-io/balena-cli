@@ -155,7 +155,6 @@
     "resin-cli-form": "^2.0.0",
     "resin-cli-visuals": "^1.4.0",
     "resin-compose-parse": "^2.0.0",
-    "resin-device-config": "^5.0.0",
     "resin-device-init": "^4.0.0",
     "resin-doodles": "0.0.1",
     "resin-image-fs": "^5.0.2",
