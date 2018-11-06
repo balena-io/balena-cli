@@ -285,7 +285,6 @@ exports.generate =
 		writeFileAsync = Promise.promisify(require('fs').writeFile)
 		balena = require('balena-sdk').fromSharedOptions()
 		form = require('resin-cli-form')
-		deviceConfig = require('resin-device-config')
 		prettyjson = require('prettyjson')
 
 		{ generateDeviceConfig, generateApplicationConfig } = require('../utils/config')
@@ -319,7 +318,6 @@ exports.generate =
 				else
 					generateApplicationConfig(resource, answers)
 		.then (config) ->
-			deviceConfig.validate(config)
 			if options.output?
 				return writeFileAsync(options.output, JSON.stringify(config))
 

@@ -32,8 +32,6 @@ type ImgConfig = {
 	vpnEndpoint: string;
 	registryEndpoint: string;
 	deltaEndpoint: string;
-	pubnubSubscribeKey: string;
-	pubnubPublishKey: string;
 	mixpanelToken: string;
 	wifiSsid?: string;
 	wifiKey?: string;
