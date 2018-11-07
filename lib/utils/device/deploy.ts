@@ -1,8 +1,25 @@
+/**
+ * @license
+ * Copyright 2018 Balena Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import * as Bluebird from 'bluebird';
 import * as Docker from 'dockerode';
 import * as _ from 'lodash';
 import { Composition } from 'resin-compose-parse';
-import { BuildTask, LocalImage } from 'resin-multibuild';
+import { BuildTask, LocalImage, RegistrySecrets } from 'resin-multibuild';
 import * as semver from 'resin-semver';
 import { Readable } from 'stream';
 
@@ -20,6 +37,7 @@ export interface DeviceDeployOptions {
 	source: string;
 	deviceHost: string;
 	devicePort?: number;
+	registrySecrets: RegistrySecrets;
 }
 
 async function checkSource(source: string): Promise<boolean> {
@@ -86,6 +104,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		docker,
 		deviceInfo,
 		logger,
+		opts,
 	);
 
 	logger.logDebug('Setting device state...');
@@ -125,6 +144,7 @@ export async function performBuilds(
 	docker: Docker,
 	deviceInfo: DeviceInfo,
 	logger: Logger,
+	opts: DeviceDeployOptions,
 ): Promise<void> {
 	const multibuild = await import('resin-multibuild');
 
@@ -160,7 +180,7 @@ export async function performBuilds(
 	});
 
 	logger.logDebug('Probing remote daemon for cache images');
-	await assignDockerBuildOpts(docker, buildTasks);
+	await assignDockerBuildOpts(docker, buildTasks, opts);
 
 	logger.logDebug('Starting builds...');
 	await assignOutputHandlers(buildTasks, logger);
@@ -219,6 +239,7 @@ async function getDeviceDockerImages(docker: Docker): Promise<string[]> {
 async function assignDockerBuildOpts(
 	docker: Docker,
 	buildTasks: BuildTask[],
+	opts: DeviceDeployOptions,
 ): Promise<void> {
 	// Get all of the images on the remote docker daemon, so
 	// that we can use all of them for cache
@@ -233,6 +254,7 @@ async function assignDockerBuildOpts(
 				'io.resin.local.image': '1',
 				'io.resin.local.service': task.serviceName,
 			},
+			registryconfig: opts.registrySecrets,
 			t: generateImageName(task.serviceName),
 		};
 	});
@@ -301,6 +323,6 @@ async function inspectBuildResults(images: LocalImage[]): Promise<void> {
 	});
 
 	if (failures.length > 0) {
-		exitWithExpectedError(new LocalPushErrors.BuildError(failures));
+		exitWithExpectedError(new LocalPushErrors.BuildError(failures).toString());
 	}
 }

@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Balena
+Copyright 2016-2018 Balena Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -306,7 +306,7 @@ exports.generate =
 			'''
 
 		if !options.application and options.deviceType
-			patterns.exitWithExpectedError '''
+			exitWithExpectedError '''
 				Specifying a different device type is only supported when
 				generating a config for an application:
 

@@ -1,3 +1,20 @@
+###*
+# @license
+# Copyright 2018 Balena Ltd.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###
+
 Promise = require('bluebird')
 path = require('path')
 
@@ -100,7 +117,7 @@ toPosixPath = (systemPath) ->
 	path = require('path')
 	systemPath.replace(new RegExp('\\' + path.sep, 'g'), '/')
 
-exports.tarDirectory = tarDirectory = (dir) ->
+exports.tarDirectory = tarDirectory = (dir, preFinalizeCallback = null) ->
 	tar = require('tar-stream')
 	klaw = require('klaw')
 	path = require('path')
@@ -126,6 +143,8 @@ exports.tarDirectory = tarDirectory = (dir) ->
 		Promise.join relPath, fs.stat(file), fs.readFile(file),
 			(filename, stats, data) ->
 				pack.entry({ name: toPosixPath(filename), size: stats.size, mode: stats.mode }, data)
+	.then ->
+		preFinalizeCallback?(pack)
 	.then ->
 		pack.finalize()
 		return pack
