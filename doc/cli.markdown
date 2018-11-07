@@ -284,7 +284,7 @@ from the dashboard.
 
 - Credentials: using email/password and 2FA.
 
-- Token: using a session token or API key (experimental) from the preferences page.
+- Token: using a session token or API key from the preferences page.
 
 Examples:
 
@@ -298,7 +298,7 @@ Examples:
 
 #### --token, -t &#60;token&#62;
 
-session token or API key (experimental)
+session token or API key
 
 #### --web, -w
 

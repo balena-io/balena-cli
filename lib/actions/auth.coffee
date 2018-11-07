@@ -27,7 +27,7 @@ exports.login	=
 
 		- Credentials: using email/password and 2FA.
 
-		- Token: using a session token or API key (experimental) from the preferences page.
+		- Token: using a session token or API key from the preferences page.
 
 		Examples:
 
@@ -40,7 +40,7 @@ exports.login	=
 	options: [
 		{
 			signature: 'token'
-			description: 'session token or API key (experimental)'
+			description: 'session token or API key'
 			parameter: 'token'
 			alias: 't'
 		}
@@ -84,7 +84,7 @@ exports.login	=
 				return Promise.try ->
 					return options.token if _.isString(options.token)
 					return form.ask
-						message: 'Session token or API key (experimental) from the preferences page'
+						message: 'Session token or API key from the preferences page'
 						name: 'token'
 						type: 'input'
 				.then(balena.auth.loginWithToken)
