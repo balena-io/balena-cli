@@ -1,16 +1,16 @@
 Promise = require('bluebird')
 
-exports.QEMU_VERSION = QEMU_VERSION = 'v2.5.50-resin-execve'
+exports.QEMU_VERSION = QEMU_VERSION = 'v3.0.0+resin'
 exports.QEMU_BIN_NAME = QEMU_BIN_NAME = 'qemu-execve'
 
-exports.installQemuIfNeeded = Promise.method (emulated, logger) ->
+exports.installQemuIfNeeded = Promise.method (emulated, logger, arch) ->
 	return false if not (emulated and platformNeedsQemu())
 
-	hasQemu()
+	hasQemu(arch)
 	.then (present) ->
 		if !present
-			logger.logInfo('Installing qemu for ARM emulation...')
-			installQemu()
+			logger.logInfo("Installing qemu for #{arch} emulation...")
+			installQemu(arch)
 	.return(true)
 
 exports.qemuPathInContext = (context) ->
@@ -19,7 +19,7 @@ exports.qemuPathInContext = (context) ->
 	binPath = path.join(binDir, QEMU_BIN_NAME)
 	path.relative(context, binPath)
 
-exports.copyQemu = (context) ->
+exports.copyQemu = (context, arch) ->
 	path = require('path')
 	fs = require('mz/fs')
 	# Create a hidden directory in the build context, containing qemu
@@ -29,7 +29,7 @@ exports.copyQemu = (context) ->
 	Promise.resolve(fs.mkdir(binDir))
 	.catch(code: 'EEXIST', ->)
 	.then ->
-		getQemuPath()
+		getQemuPath(arch)
 	.then (qemu) ->
 		new Promise (resolve, reject) ->
 			read = fs.createReadStream(qemu)
@@ -43,15 +43,15 @@ exports.copyQemu = (context) ->
 	.then ->
 		path.relative(context, binPath)
 
-hasQemu = ->
+hasQemu = (arch) ->
 	fs = require('mz/fs')
 
-	getQemuPath()
+	getQemuPath(arch)
 	.then(fs.stat)
 	.return(true)
 	.catchReturn(false)
 
-getQemuPath = ->
+getQemuPath = (arch) ->
 	balena = require('balena-sdk').fromSharedOptions()
 	path = require('path')
 	fs = require('mz/fs')
@@ -61,26 +61,38 @@ getQemuPath = ->
 		Promise.resolve(fs.mkdir(binDir))
 		.catch(code: 'EEXIST', ->)
 		.then ->
-			path.join(binDir, QEMU_BIN_NAME)
+			path.join(binDir, "#{QEMU_BIN_NAME}-#{arch}")
 
 platformNeedsQemu = ->
 	os = require('os')
 	os.platform() == 'linux'
 
-installQemu = ->
+installQemu = (arch) ->
 	request = require('request')
 	fs = require('fs')
 	zlib = require('zlib')
+	tar = require('tar-stream')
 
-	getQemuPath()
+	getQemuPath(arch)
 	.then (qemuPath) ->
 		new Promise (resolve, reject) ->
 			installStream = fs.createWriteStream(qemuPath)
-			qemuUrl = "https://github.com/balena-io/qemu/releases/download/#{QEMU_VERSION}/#{QEMU_BIN_NAME}.gz"
+			downloadArchiveName = "qemu-3.0.0+resin-#{arch}.tar.gz"
+			qemuUrl = "https://github.com/balena-io/qemu/releases/download/#{QEMU_VERSION}/#{downloadArchiveName}"
+			extract = tar.extract()
+			extract.on 'entry', (header, stream, next) ->
+				stream.on('end', next)
+				if header.name.includes("qemu-#{arch}-static")
+					stream.pipe(installStream)
+				else
+					stream.resume()
 			request(qemuUrl)
 			.on('error', reject)
 			.pipe(zlib.createGunzip())
 			.on('error', reject)
-			.pipe(installStream)
+			.pipe(extract)
 			.on('error', reject)
-			.on('finish', resolve)
+			.on 'finish', ->
+				# make qemu binary executable
+				fs.chmodSync(qemuPath, '755')
+				resolve()
