@@ -34,7 +34,9 @@ exports.copyQemu = (context, arch) ->
 		new Promise (resolve, reject) ->
 			read = fs.createReadStream(qemu)
 			write = fs.createWriteStream(binPath)
+
 			read
+			.on('error', reject)
 			.pipe(write)
 			.on('error', reject)
 			.on('finish', resolve)
@@ -77,15 +79,19 @@ installQemu = (arch) ->
 	.then (qemuPath) ->
 		new Promise (resolve, reject) ->
 			installStream = fs.createWriteStream(qemuPath)
-			downloadArchiveName = "qemu-3.0.0+resin-#{arch}.tar.gz"
+
+			qemuArch = balenaArchToQemuArch(arch)
+			downloadArchiveName = "qemu-3.0.0+resin-#{qemuArch}.tar.gz"
 			qemuUrl = "https://github.com/balena-io/qemu/releases/download/#{QEMU_VERSION}/#{downloadArchiveName}"
+
 			extract = tar.extract()
 			extract.on 'entry', (header, stream, next) ->
 				stream.on('end', next)
-				if header.name.includes("qemu-#{arch}-static")
+				if header.name.includes("qemu-#{qemuArch}-static")
 					stream.pipe(installStream)
 				else
 					stream.resume()
+
 			request(qemuUrl)
 			.on('error', reject)
 			.pipe(zlib.createGunzip())
@@ -93,6 +99,10 @@ installQemu = (arch) ->
 			.pipe(extract)
 			.on('error', reject)
 			.on 'finish', ->
-				# make qemu binary executable
 				fs.chmodSync(qemuPath, '755')
 				resolve()
+
+balenaArchToQemuArch = (arch) ->
+	switch arch
+		when 'armv7hf', 'rpi' then 'arm'
+		else arch
