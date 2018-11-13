@@ -22,7 +22,7 @@
     "scripts": [
       "node_modules/balena-sync/build/capitano/*.js",
       "node_modules/balena-sync/build/sync/*.js",
-      "node_modules/resin-compose-parse/src/schemas/*.json",
+      "node_modules/resin-compose-parse/build/schemas/*.json",
       "node_modules/raven/lib/instrumentation/*.js"
     ],
     "assets": [
