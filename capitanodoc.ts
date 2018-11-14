@@ -144,6 +144,10 @@ environment variable (in the same standard URL format).\
 			files: ['build/actions/build.js', 'build/actions/deploy.js'],
 		},
 		{
+			title: 'Platform',
+			files: ['build/actions/join.js', 'build/actions/leave.js'],
+		},
+		{
 			title: 'Utilities',
 			files: ['build/actions/util.js'],
 		},

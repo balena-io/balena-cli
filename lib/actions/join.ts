@@ -28,8 +28,20 @@ interface Options {
 export const join: CommandDefinition<Args, Options> = {
 	signature: 'join [deviceIp]',
 	description:
-		'Promote a local device running unmanaged balenaOS to join a balena application',
+		'Promote a local device running balenaOS to join an application on a balena server',
 	help: stripIndent`
+		Use this command to move a local device to an application on another balena server.
+
+		For example, you could provision a device against an openBalena installation
+		where you perform end-to-end tests and then move it to balenaCloud when it's
+		ready for production.
+
+		Moving a device between applications on the same server is not supported.
+
+		If you don't specify a device hostname or IP, this command will automatically
+		scan the local network for balenaOS devices and prompt you to select one
+		from an interactive picker. This usually requires root privileges.
+
 		Examples:
 
 			$ balena join
