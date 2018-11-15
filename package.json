@@ -106,7 +106,7 @@
     "balena-device-init": "^5.0.0",
     "balena-image-manager": "^6.0.0",
     "balena-preload": "^8.0.0",
-    "balena-sdk": "^11.0.0",
+    "balena-sdk": "^11.2.0",
     "balena-settings-client": "^4.0.0",
     "balena-sync": "^10.0.0",
     "bash": "0.0.1",

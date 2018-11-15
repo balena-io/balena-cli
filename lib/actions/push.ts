@@ -57,7 +57,7 @@ async function getAppOwner(sdk: BalenaSDK, appName: string) {
 			},
 		},
 		$filter: {
-			app_name: appName,
+			$eq: [{ $tolower: { $: 'app_name' } }, appName.toLowerCase()],
 		},
 		$select: ['id'],
 	});
