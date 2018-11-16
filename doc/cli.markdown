@@ -184,6 +184,11 @@ environment variable (in the same standard URL format).
 	- [build [source]](#build-source-)
 	- [deploy &#60;appName&#62; [image]](#deploy-appname-image-)
 
+- Platform
+
+	- [join [deviceIp]](#join-deviceip-)
+	- [leave [deviceIp]](#leave-deviceip-)
+
 - Utilities
 
 	- [util available-drives](#util-available-drives)
@@ -1723,6 +1728,54 @@ Don't use docker layer caching when building
 #### --squash
 
 Squash newly built layers into a single new layer
+
+# Platform
+
+## join [deviceIp]
+
+Use this command to move a local device to an application on another balena server.
+
+For example, you could provision a device against an openBalena installation
+where you perform end-to-end tests and then move it to balenaCloud when it's
+ready for production.
+
+Moving a device between applications on the same server is not supported.
+
+If you don't specify a device hostname or IP, this command will automatically
+scan the local network for balenaOS devices and prompt you to select one
+from an interactive picker. This usually requires root privileges.
+
+Examples:
+
+	$ balena join
+	$ balena join balena.local
+	$ balena join balena.local --application MyApp
+	$ balena join 192.168.1.25
+	$ balena join 192.168.1.25 --application MyApp
+
+### Options
+
+#### --application, -a &#60;application&#62;
+
+The name of the application the device should join
+
+## leave [deviceIp]
+
+Use this command to make a local device leave the balena server it is
+provisioned on. This effectively makes the device "unmanaged".
+
+The device entry on the server is preserved after running this command,
+so the device can subsequently re-join the server if needed.
+
+If you don't specify a device hostname or IP, this command will automatically
+scan the local network for balenaOS devices and prompt you to select one
+from an interactive picker. This usually requires root privileges.
+
+Examples:
+
+	$ balena leave
+	$ balena leave balena.local
+	$ balena leave 192.168.1.25
 
 # Utilities
 
