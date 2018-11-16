@@ -15,16 +15,16 @@ limitations under the License.
 */
 
 import os = require('os');
-import Promise = require('bluebird');
+import Bluebird = require('bluebird');
 import _ = require('lodash');
 import chalk from 'chalk';
 import rindle = require('rindle');
 import visuals = require('resin-cli-visuals');
 import BalenaSdk = require('balena-sdk');
 
-import { InitializeEmitter, OperationState } from 'resin-device-init';
+import { InitializeEmitter, OperationState } from 'balena-device-init';
 
-const waitStreamAsync = Promise.promisify(rindle.wait);
+const waitStreamAsync = Bluebird.promisify(rindle.wait);
 
 const balena = BalenaSdk.fromSharedOptions();
 
@@ -75,27 +75,29 @@ export function sudo(
 	return executeWithPrivileges(command, stderr);
 }
 
-export function runCommand(command: string): Promise<void> {
+export function runCommand(command: string): Bluebird<void> {
 	const capitano = require('capitano');
-	return Promise.fromCallback(resolver => capitano.run(command, resolver));
+	return Bluebird.fromCallback(resolver => capitano.run(command, resolver));
 }
 
-export function getManifest(
+export async function getManifest(
 	image: string,
 	deviceType: string,
 ): Promise<BalenaSdk.DeviceType> {
-	const imagefs = require('resin-image-fs');
-	// Attempt to read manifest from the first
-	// partition, but fallback to the API if
-	// we encounter any errors along the way.
-	return imagefs
-		.readFile({
-			image,
-			partition: 1,
-			path: '/device-type.json',
-		})
-		.then(JSON.parse)
-		.catch(() => balena.models.device.getManifestBySlug(deviceType));
+	const init = await import('balena-device-init');
+	const manifest = await init.getImageManifest(image);
+	if (manifest != null) {
+		return manifest;
+	}
+	return balena.models.device.getManifestBySlug(deviceType);
+}
+
+export async function getOsVersion(
+	image: string,
+	manifest: BalenaSdk.DeviceType,
+): Promise<string | null> {
+	const init = await import('balena-device-init');
+	return init.getImageOsVersion(image, manifest);
 }
 
 export function osProgressHandler(step: InitializeEmitter) {
@@ -121,8 +123,8 @@ export function osProgressHandler(step: InitializeEmitter) {
 
 export function getArchAndDeviceType(
 	applicationName: string,
-): Promise<{ arch: string; device_type: string }> {
-	return Promise.join(
+): Bluebird<{ arch: string; device_type: string }> {
+	return Bluebird.join(
 		getApplication(applicationName),
 		balena.models.config.getDeviceTypes(),
 		function(app, deviceTypes) {

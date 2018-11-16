@@ -973,7 +973,9 @@ the path to the output JSON file
 Use this command to configure a previously downloaded operating system image for
 the specific device or for an application generally.
 
-Calling this command with the exact version number of the targeted image is required.
+This command will try to automatically determine the operating system version in order
+to correctly configure the image. It may fail to do so however, in which case you'll
+have to call this command again with the exact version number of the targeted image.
 
 Note that device api keys are only supported on balenaOS 2.0.3+.
 
@@ -983,9 +985,10 @@ are passed directly on the command line, but the recommended way is to pass eith
 
 Examples:
 
-	$ balena os configure ../path/rpi.img --device 7cf02a6 --version 2.12.7
-	$ balena os configure ../path/rpi.img --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>
-	$ balena os configure ../path/rpi.img --app MyApp  --version 2.12.7
+	$ balena os configure ../path/rpi.img --device 7cf02a6
+	$ balena os configure ../path/rpi.img --device 7cf02a6 --device-api-key <existingDeviceKey>
+	$ balena os configure ../path/rpi.img --app MyApp
+	$ balena os configure ../path/rpi.img --app MyApp --version 2.12.7
 
 ### Options
 
@@ -1135,13 +1138,13 @@ that will be asked for the relevant device type.
 
 Examples:
 
-	$ balena config generate --device 7cf02a6 --version 2.12.7
-	$ balena config generate --device 7cf02a6 --version 2.12.7 --generate-device-api-key
-	$ balena config generate --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>
-	$ balena config generate --device 7cf02a6 --version 2.12.7 --output config.json
-	$ balena config generate --app MyApp --version 2.12.7
-	$ balena config generate --app MyApp --version 2.12.7 --output config.json
-	$ balena config generate --app MyApp --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1
+	$ balena config generate --device 7cf02a6
+	$ balena config generate --device 7cf02a6 --generate-device-api-key
+	$ balena config generate --device 7cf02a6 --device-api-key <existingDeviceKey>
+	$ balena config generate --device 7cf02a6 --output config.json
+	$ balena config generate --app MyApp
+	$ balena config generate --app MyApp --output config.json
+	$ balena config generate --app MyApp --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1
 
 ### Options
 

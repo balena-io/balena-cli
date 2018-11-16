@@ -27,12 +27,13 @@ exports.osInit =
 	root: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		init = require('resin-device-init')
+		init = require('balena-device-init')
 		helpers = require('../utils/helpers')
 
-		return Promise.try ->
-			config = JSON.parse(params.config)
-			init.initialize(params.image, params.type, config)
+		configPromise = Promise.try -> JSON.parse(params.config)
+		manifestPromise = helpers.getManifest(params.image, params.type)
+		Promise.join configPromise, manifestPromise, (config, manifest) ->
+			init.initialize(params.image, manifest, config)
 		.then(helpers.osProgressHandler)
 		.nodeify(done)
 

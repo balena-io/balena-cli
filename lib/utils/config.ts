@@ -72,11 +72,10 @@ export function generateApplicationConfig(
 	options: { version: string },
 ) {
 	return generateBaseConfig(application, options).tap(config => {
-		if (semver.satisfies(options.version, '>=2.7.8')) {
-			return addProvisioningKey(config, application.id);
-		} else {
+		if (semver.satisfies(options.version, '<2.7.8')) {
 			return addApplicationKey(config, application.id);
 		}
+		return addProvisioningKey(config, application.id);
 	});
 }
 
@@ -91,13 +90,13 @@ export function generateDeviceConfig(
 		.get(device.belongs_to__application.__id)
 		.then(application => {
 			return generateBaseConfig(application, options).tap(config => {
-				if (deviceApiKey) {
-					return addDeviceKey(config, device.uuid, deviceApiKey);
-				} else if (semver.satisfies(options.version, '>=2.0.3')) {
-					return addDeviceKey(config, device.uuid, true);
-				} else {
+				if (
+					deviceApiKey == null &&
+					semver.satisfies(options.version, '<2.0.3')
+				) {
 					return addApplicationKey(config, application.id);
 				}
+				return addDeviceKey(config, device.uuid, deviceApiKey || true);
 			});
 		})
 		.then(config => {
