@@ -148,6 +148,7 @@ exports.download =
 		.nodeify(done)
 
 buildConfig = (image, deviceType, advanced = false) ->
+	Promise = require('bluebird')
 	form = require('resin-cli-form')
 	helpers = require('../utils/helpers')
 
