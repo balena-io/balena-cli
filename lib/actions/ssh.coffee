@@ -99,10 +99,13 @@ module.exports =
 			return "-o #{bash.args({ ProxyCommand: proxyCommand }, '', '=')}"
 
 		Promise.try ->
-			return false if not params.uuid
-			return balena.models.device.has(params.uuid)
-		.then (uuidExists) ->
-			return params.uuid if uuidExists
+			return { provided: false } if not params.uuid
+			return { provided: true, uuid: balena.models.device.has(params.uuid) }
+		.then ({ provided, uuidExists }) ->
+			if provided
+				return params.uuid if uuidExists
+				# We got a UUID but it doesn't exist or is not accessible
+				patterns.exitWithExpectedError('Could not find or access a device with that UUID')
 			return patterns.inferOrSelectDevice()
 		.then (uuid) ->
 			console.info("Connecting to: #{uuid}")
