@@ -57,6 +57,12 @@ export const optionalDeviceApiKey = {
 	alias: 'k',
 };
 
+export const optionalDeviceType = {
+	signature: 'deviceType',
+	description: 'device type slug',
+	parameter: 'device-type',
+};
+
 export const optionalOsVersion = {
 	signature: 'version',
 	description: 'a balenaOS version',

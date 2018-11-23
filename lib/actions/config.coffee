@@ -229,6 +229,9 @@ exports.generate =
 		by specifying an option for each question on the command line, if you know the questions
 		that will be asked for the relevant device type.
 
+		In case that you want to configure an image for an application with mixed device types,
+		you can pass the --device-type argument along with --app to specify the target device type.
+
 		Examples:
 
 			$ balena config generate --device 7cf02a6 --version 2.12.7
@@ -236,6 +239,7 @@ exports.generate =
 			$ balena config generate --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>
 			$ balena config generate --device 7cf02a6 --version 2.12.7 --output config.json
 			$ balena config generate --app MyApp --version 2.12.7
+			$ balena config generate --app MyApp --version 2.12.7 --device-type fincm3
 			$ balena config generate --app MyApp --version 2.12.7 --output config.json
 			$ balena config generate --app MyApp --version 2.12.7 \
 				--network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1
@@ -245,6 +249,7 @@ exports.generate =
 		commandOptions.optionalApplication
 		commandOptions.optionalDevice
 		commandOptions.optionalDeviceApiKey
+		commandOptions.optionalDeviceType
 		{
 			signature: 'generate-device-api-key'
 			description: 'generate a fresh device key for the device'
@@ -299,12 +304,26 @@ exports.generate =
 				  $ balena help config generate
 			'''
 
+		if !options.application and options.deviceType
+			patterns.exitWithExpectedError '''
+				Specifying a different device type is only supported when
+				generating a config for an application:
+
+				* An application, with --app <appname>
+				* A specific device type, with --device-type <deviceTypeSlug>
+
+				See the help page for examples:
+
+				  $ balena help config generate
+			'''
+
 		Promise.try ->
 			if options.device?
 				return balena.models.device.get(options.device)
 			return balena.models.application.get(options.application)
 		.then (resource) ->
-			balena.models.device.getManifestBySlug(resource.device_type)
+			deviceType = options.deviceType || resource.device_type
+			balena.models.device.getManifestBySlug(deviceType)
 			.get('options')
 			.then (formOptions) ->
 				# Pass params as an override: if there is any param with exactly the same name as a
@@ -316,6 +335,7 @@ exports.generate =
 				if resource.uuid?
 					generateDeviceConfig(resource, options.deviceApiKey || options['generate-device-api-key'], answers)
 				else
+					answers.deviceType = deviceType
 					generateApplicationConfig(resource, answers)
 		.then (config) ->
 			if options.output?
