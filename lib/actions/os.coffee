@@ -279,7 +279,7 @@ exports.configure =
 				answers.version = options.version
 
 				if not answers.version?
-					answers.version = helpers.getOsVersion(params.image, manifest).tap (version) ->
+					answers.version = Promise.resolve(helpers.getOsVersion(params.image, manifest)).tap (version) ->
 						if not version?
 							throw new Error(
 								'Could not read OS version from the image. ' +
