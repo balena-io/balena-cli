@@ -87,7 +87,7 @@ export class FileIgnorer {
 	// Pass this function as a predicate to a filter function, and it will filter
 	// any ignored files
 	public filter = (filename: string): boolean => {
-		const relFile = path.relative(this.basePath, filename);
+		let relFile = path.relative(this.basePath, filename);
 
 		// Don't ignore any metadata files
 		const baseDir = path.dirname(relFile).split(path.sep)[0];
@@ -114,6 +114,7 @@ export class FileIgnorer {
 		_.each(ignoreTypes, ({ handle, entries }) => {
 			_.each(entries, ({ pattern, filePath }) => {
 				if (FileIgnorer.contains(path.posix.dirname(filePath), filename)) {
+					relFile = path.relative(path.posix.dirname(filePath), filename);
 					handle.add(pattern);
 				}
 			});

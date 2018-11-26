@@ -83,3 +83,53 @@ describe 'File ignorer', ->
 			'root.ignore'
 			'lib/normal-file'
 		])
+
+	it 'should filter absolute paths starting from subdirectories', ->
+
+		ignore = new FileIgnorer('.' + path.sep)
+		ignore.gitIgnoreEntries = [
+			{ pattern: '/ignore', filePath: 'app/.gitignore' }
+		]
+		files = [
+			'app/ignore'
+			'app/ignore/file'
+			'app/keep'
+			'app/keep/file'
+		]
+		expect(_.filter(files, ignore.filter.bind(ignore))).to.deep.equal([
+			'app/keep'
+			'app/keep/file'
+		])
+
+	it 'should not filter entries with an exclamation mark', ->
+
+		ignore = new FileIgnorer('.' + path.sep)
+		ignore.gitIgnoreEntries = [
+			{ pattern: '*', filePath: 'app/.gitignore' }
+			{ pattern: '!keep-me', filePath: 'app/.gitignore' }
+		]
+		files = [
+			'app/remove-me'
+			'app/keep-me'
+		]
+		expect(_.filter(files, ignore.filter.bind(ignore))).to.deep.equal([
+			'app/keep-me'
+		])
+
+	it 'should filter directories only from subdirectories', ->
+
+		ignore = new FileIgnorer('.' + path.sep)
+		ignore.gitIgnoreEntries = [
+			{ pattern: 'vendor/', filePath: 'vendor/user/package/.gitignore' }
+		]
+		files = [
+			'vendor/another/package/file'
+			'vendor/another/package/vendor/file'
+			'vendor/user/package/file'
+			'vendor/user/package/vendor/file'
+		]
+		expect(_.filter(files, ignore.filter.bind(ignore))).to.deep.equal([
+			'vendor/another/package/file'
+			'vendor/another/package/vendor/file'
+			'vendor/user/package/file'
+		])
