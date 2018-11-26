@@ -133,3 +133,17 @@ describe 'File ignorer', ->
 			'vendor/another/package/vendor/file'
 			'vendor/user/package/file'
 		])
+
+	it 'should filter properly when two gitignore files match', ->
+
+		ignore = new FileIgnorer('.' + path.sep)
+		ignore.gitIgnoreEntries = [
+			{ pattern: 'c', filePath: 'a/b/.gitignore' }
+			{ pattern: 'delete-me', filePath: 'a/b/c/.gitignore' }
+		]
+		files = [
+			'a/b/c/deleted-due-to-parent-gitignore'
+			'a/b/c/delete-me'
+		]
+		expect(_.filter(files, ignore.filter.bind(ignore))).to.deep.equal([
+		])
