@@ -339,7 +339,7 @@ exports.initialize =
 
 			#{INIT_WARNING_MESSAGE}
 		""")
-		helpers.getManifest(params.image, options.type)
+		Promise.resolve(helpers.getManifest(params.image, options.type))
 			.then (manifest) ->
 				return manifest.initialization?.options
 			.then (questions) ->
