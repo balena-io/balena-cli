@@ -104,5 +104,6 @@ installQemu = (arch) ->
 
 balenaArchToQemuArch = (arch) ->
 	switch arch
-		when 'armv7hf', 'rpi' then 'arm'
-		else arch
+		when 'armv7hf', 'rpi', 'armhf' then 'arm'
+		when 'aarch64' then 'aarch64'
+		else throw new Error("Cannot install emulator for architecture #{arch}")
