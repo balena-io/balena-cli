@@ -219,11 +219,11 @@ exports.configure =
 
 		Examples:
 
-			$ balena os configure ../path/rpi.img --device 7cf02a6
-			$ balena os configure ../path/rpi.img --device 7cf02a6 --device-api-key <existingDeviceKey>
-			$ balena os configure ../path/rpi.img --app MyApp
-			$ balena os configure ../path/rpi.img --app MyApp --version 2.12.7
-			$ balena os configure ../path/rpi.img --app MyApp --device-type fincm3
+			$ balena os configure ../path/rpi3.img --device 7cf02a6
+			$ balena os configure ../path/rpi3.img --device 7cf02a6 --device-api-key <existingDeviceKey>
+			$ balena os configure ../path/rpi3.img --app MyApp
+			$ balena os configure ../path/rpi3.img --app MyApp --version 2.12.7
+			$ balena os configure ../path/rpi3.img --app MyFinApp --device-type raspberrypi3
 	'''
 	permission: 'user'
 	options: [

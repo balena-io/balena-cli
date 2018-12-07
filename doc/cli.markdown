@@ -1072,12 +1072,16 @@ This command still supports the *deprecated* format where the UUID and optionall
 are passed directly on the command line, but the recommended way is to pass either an --app or
 --device argument. The deprecated format will be remove in a future release.
 
+In case that you want to configure an image for an application with mixed device types,
+you can pass the --device-type argument along with --app to specify the target device type.
+
 Examples:
 
-	$ balena os configure ../path/rpi.img --device 7cf02a6
-	$ balena os configure ../path/rpi.img --device 7cf02a6 --device-api-key <existingDeviceKey>
-	$ balena os configure ../path/rpi.img --app MyApp
-	$ balena os configure ../path/rpi.img --app MyApp --version 2.12.7
+	$ balena os configure ../path/rpi3.img --device 7cf02a6
+	$ balena os configure ../path/rpi3.img --device 7cf02a6 --device-api-key <existingDeviceKey>
+	$ balena os configure ../path/rpi3.img --app MyApp
+	$ balena os configure ../path/rpi3.img --app MyApp --version 2.12.7
+	$ balena os configure ../path/rpi3.img --app MyFinApp --device-type raspberrypi3
 
 ### Options
 
@@ -1096,6 +1100,10 @@ device uuid
 #### --deviceApiKey, -k &#60;device-api-key&#62;
 
 custom device key - note that this is only supported on balenaOS 2.0.3+
+
+#### --deviceType &#60;device-type&#62;
+
+device type slug
 
 #### --version &#60;version&#62;
 
@@ -1225,6 +1233,9 @@ This is interactive by default, but you can do this automatically without intera
 by specifying an option for each question on the command line, if you know the questions
 that will be asked for the relevant device type.
 
+In case that you want to configure an image for an application with mixed device types,
+you can pass the --device-type argument along with --app to specify the target device type.
+
 Examples:
 
 	$ balena config generate --device 7cf02a6 --version 2.12.7
@@ -1232,6 +1243,7 @@ Examples:
 	$ balena config generate --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>
 	$ balena config generate --device 7cf02a6 --version 2.12.7 --output config.json
 	$ balena config generate --app MyApp --version 2.12.7
+	$ balena config generate --app MyApp --version 2.12.7 --device-type fincm3
 	$ balena config generate --app MyApp --version 2.12.7 --output config.json
 	$ balena config generate --app MyApp --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1
 
@@ -1252,6 +1264,10 @@ device uuid
 #### --deviceApiKey, -k &#60;device-api-key&#62;
 
 custom device key - note that this is only supported on balenaOS 2.0.3+
+
+#### --deviceType &#60;device-type&#62;
+
+device type slug
 
 #### --generate-device-api-key
 
