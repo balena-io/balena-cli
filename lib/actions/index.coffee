@@ -22,6 +22,7 @@ module.exports =
 	info: require('./info')
 	device: require('./device')
 	env: require('./environment-variables')
+	tags: require('./tags')
 	keys: require('./keys')
 	logs: require('./logs')
 	local: require('./local')

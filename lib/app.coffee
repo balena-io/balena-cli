@@ -164,6 +164,11 @@ capitano.command(actions.env.add)
 capitano.command(actions.env.rename)
 capitano.command(actions.env.remove)
 
+# ---------- Tags Module ----------
+capitano.command(actions.tags.list)
+capitano.command(actions.tags.set)
+capitano.command(actions.tags.remove)
+
 # ---------- OS Module ----------
 capitano.command(actions.os.versions)
 capitano.command(actions.os.download)
