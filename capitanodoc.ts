@@ -84,6 +84,10 @@ environment variable (in the same standard URL format).\
 			files: ['build/actions/environment-variables.js'],
 		},
 		{
+			title: 'Tags',
+			files: ['build/actions/tags.js'],
+		},
+		{
 			title: 'Help',
 			files: ['build/actions/help.js'],
 		},

@@ -35,6 +35,13 @@ export const application = _.defaults(
 	optionalApplication,
 );
 
+export const optionalRelease = {
+	signature: 'release',
+	parameter: 'release',
+	description: 'release id',
+	alias: 'r',
+};
+
 export const optionalDevice = {
 	signature: 'device',
 	parameter: 'device',
