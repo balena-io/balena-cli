@@ -24,6 +24,7 @@
 	},
 	"include": [
 		"./typings/*.d.ts",
+		"./node_modules/etcher-sdk/typings/**/*.d.ts",
 		"./lib/**/*.ts"
 	]
 }

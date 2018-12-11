@@ -128,7 +128,7 @@
     "dockerode-options": "^0.2.1",
     "drivelist": "^5.0.22",
     "ejs": "^2.5.7",
-    "etcher-image-write": "^9.0.3",
+    "etcher-sdk": "^0.2.0",
     "event-stream": "3.3.4",
     "express": "^4.13.3",
     "global-tunnel-ng": "^2.1.1",
