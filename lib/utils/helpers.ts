@@ -92,6 +92,13 @@ export async function getManifest(
 	return balena.models.device.getManifestBySlug(deviceType);
 }
 
+export const areDeviceTypesCompatible = (
+	deviceTypeA: BalenaSdk.DeviceType,
+	deviceTypeB: BalenaSdk.DeviceType,
+) =>
+	deviceTypeA.arch === deviceTypeB.arch &&
+	!!deviceTypeA.isDependent === !!deviceTypeB.isDependent;
+
 export async function getOsVersion(
 	image: string,
 	manifest: BalenaSdk.DeviceType,

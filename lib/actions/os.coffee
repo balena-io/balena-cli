@@ -147,23 +147,28 @@ exports.download =
 			console.info('The image was downloaded successfully')
 		.nodeify(done)
 
-buildConfig = (image, deviceType, advanced = false) ->
-	Promise = require('bluebird')
+buildConfigForDeviceType = (deviceType, advanced = false) ->
 	form = require('resin-cli-form')
 	helpers = require('../utils/helpers')
 
-	Promise.resolve(helpers.getManifest(image, deviceType))
-	.get('options')
-	.then (questions) ->
-		if not advanced
-			advancedGroup = _.find questions,
-				name: 'advanced'
-				isGroup: true
+	questions = deviceType.options
+	if not advanced
+		advancedGroup = _.find questions,
+			name: 'advanced'
+			isGroup: true
 
-			if advancedGroup?
-				override = helpers.getGroupDefaults(advancedGroup)
+		if advancedGroup?
+			override = helpers.getGroupDefaults(advancedGroup)
 
-		return form.run(questions, { override })
+	return form.run(questions, { override })
+
+buildConfig = (image, deviceTypeSlug, advanced = false) ->
+	Promise = require('bluebird')
+	helpers = require('../utils/helpers')
+
+	Promise.resolve(helpers.getManifest(image, deviceTypeSlug))
+	.then (deviceTypeManifest) ->
+		buildConfigForDeviceType(deviceTypeManifest, advanced)
 
 exports.buildConfig =
 	signature: 'os build-config <image> <device-type>'
@@ -214,12 +219,16 @@ exports.configure =
 		are passed directly on the command line, but the recommended way is to pass either an --app or
 		--device argument. The deprecated format will be remove in a future release.
 
+		In case that you want to configure an image for an application with mixed device types,
+		you can pass the --device-type argument along with --app to specify the target device type.
+
 		Examples:
 
-			$ balena os configure ../path/rpi.img --device 7cf02a6
-			$ balena os configure ../path/rpi.img --device 7cf02a6 --device-api-key <existingDeviceKey>
-			$ balena os configure ../path/rpi.img --app MyApp
-			$ balena os configure ../path/rpi.img --app MyApp --version 2.12.7
+			$ balena os configure ../path/rpi3.img --device 7cf02a6
+			$ balena os configure ../path/rpi3.img --device 7cf02a6 --device-api-key <existingDeviceKey>
+			$ balena os configure ../path/rpi3.img --app MyApp
+			$ balena os configure ../path/rpi3.img --app MyApp --version 2.12.7
+			$ balena os configure ../path/rpi3.img --app MyFinApp --device-type raspberrypi3
 	'''
 	permission: 'user'
 	options: [
@@ -227,6 +236,7 @@ exports.configure =
 		commandOptions.optionalApplication
 		commandOptions.optionalDevice
 		commandOptions.optionalDeviceApiKey
+		commandOptions.optionalDeviceType
 		commandOptions.optionalOsVersion
 		{
 			signature: 'config'
@@ -260,6 +270,19 @@ exports.configure =
 				  $ balena help os configure
 			'''
 
+		if !options.application and options.deviceType
+			patterns.exitWithExpectedError '''
+				Specifying a different device type is only supported when
+				configuring an image using an application as a parameter:
+
+				* An application, with --app <appname>
+				* A specific device type, with --device-type <deviceTypeSlug>
+
+				See the help page for examples:
+
+				  $ balena help os configure
+			'''
+
 		uuid = options.device
 		deviceApiKey = options.deviceApiKey
 
@@ -269,14 +292,32 @@ exports.configure =
 
 		balena.models[configurationResourceType].get(uuid || options.application)
 		.then (appOrDevice) ->
-			manifestPromise = helpers.getManifest(params.image, appOrDevice.device_type)
+			deviceType = options.deviceType || appOrDevice.device_type
+			manifestPromise = helpers.getManifest(params.image, deviceType)
+
+			if options.application && options.deviceType
+				app = appOrDevice
+				appManifestPromise = balena.models.device.getManifestBySlug(app.device_type)
+				paramManifestPromise = balena.models.device.getManifestBySlug(options.deviceType)
+				manifestPromise = Promise.resolve(manifestPromise).tap ->
+					Promise.join appManifestPromise, paramManifestPromise, (appDeviceType, paramDeviceType) ->
+						if not helpers.areDeviceTypesCompatible(appDeviceType, paramDeviceType)
+							throw new balena.errors.BalenaInvalidDeviceType(
+								"Device type #{options.deviceType} is incompatible with application #{options.application}"
+							)
+
 			answersPromise = Promise.try ->
 				if options.config
 					return readFileAsync(options.config, 'utf8')
 						.then(JSON.parse)
-				return buildConfig(params.image, appOrDevice.device_type, options.advanced)
+				return manifestPromise.then (deviceTypeManifest) ->
+					buildConfigForDeviceType(deviceTypeManifest, options.advanced)
+
 			Promise.join answersPromise, manifestPromise, (answers, manifest) ->
 				answers.version = options.version
+
+				if configurationResourceType == 'application'
+					answers.deviceType = deviceType
 
 				if not answers.version?
 					answers.version = Promise.resolve(helpers.getOsVersion(params.image, manifest)).tap (version) ->

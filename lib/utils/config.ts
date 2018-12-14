@@ -50,7 +50,11 @@ type ImgConfig = {
 
 export function generateBaseConfig(
 	application: BalenaSdk.Application,
-	options: { version: string; appUpdatePollInterval?: number },
+	options: {
+		version: string;
+		appUpdatePollInterval?: number;
+		deviceType?: string;
+	},
 ): Promise<ImgConfig> {
 	options = {
 		...options,
@@ -69,7 +73,7 @@ export function generateBaseConfig(
 
 export function generateApplicationConfig(
 	application: BalenaSdk.Application,
-	options: { version: string },
+	options: { version: string; deviceType?: string },
 ) {
 	return generateBaseConfig(application, options).tap(config => {
 		if (semver.satisfies(options.version, '<2.7.8')) {
@@ -89,7 +93,11 @@ export function generateDeviceConfig(
 	return balena.models.application
 		.get(device.belongs_to__application.__id)
 		.then(application => {
-			return generateBaseConfig(application, options).tap(config => {
+			const baseConfigOpts = {
+				...options,
+				deviceType: device.device_type,
+			};
+			return generateBaseConfig(application, baseConfigOpts).tap(config => {
 				if (
 					deviceApiKey == null &&
 					semver.satisfies(options.version, '<2.0.3')
