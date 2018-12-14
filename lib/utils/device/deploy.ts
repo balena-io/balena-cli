@@ -196,7 +196,7 @@ function assignOutputHandlers(buildTasks: BuildTask[], logger: Logger) {
 		} else {
 			task.streamHook = stream => {
 				stream.on('data', (buf: Buffer) => {
-					const str = buf.toString().trimRight();
+					const str = _.trimEnd(buf.toString());
 					if (str !== '') {
 						displayBuildLog(
 							{ serviceName: task.serviceName, message: str },
