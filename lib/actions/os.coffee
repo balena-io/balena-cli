@@ -147,23 +147,28 @@ exports.download =
 			console.info('The image was downloaded successfully')
 		.nodeify(done)
 
-buildConfig = (image, deviceType, advanced = false) ->
-	Promise = require('bluebird')
+buildConfigForDeviceType = (deviceType, advanced = false) ->
 	form = require('resin-cli-form')
 	helpers = require('../utils/helpers')
 
-	Promise.resolve(helpers.getManifest(image, deviceType))
-	.get('options')
-	.then (questions) ->
-		if not advanced
-			advancedGroup = _.find questions,
-				name: 'advanced'
-				isGroup: true
+	questions = deviceType.options
+	if not advanced
+		advancedGroup = _.find questions,
+			name: 'advanced'
+			isGroup: true
 
-			if advancedGroup?
-				override = helpers.getGroupDefaults(advancedGroup)
+		if advancedGroup?
+			override = helpers.getGroupDefaults(advancedGroup)
 
-		return form.run(questions, { override })
+	return form.run(questions, { override })
+
+buildConfig = (image, deviceTypeSlug, advanced = false) ->
+	Promise = require('bluebird')
+	helpers = require('../utils/helpers')
+
+	Promise.resolve(helpers.getManifest(image, deviceTypeSlug))
+	.then (deviceTypeManifest) ->
+		buildConfigForDeviceType(deviceTypeManifest, advanced)
 
 exports.buildConfig =
 	signature: 'os build-config <image> <device-type>'
@@ -305,7 +310,9 @@ exports.configure =
 				if options.config
 					return readFileAsync(options.config, 'utf8')
 						.then(JSON.parse)
-				return buildConfig(params.image, deviceType, options.advanced)
+				return manifestPromise.then (deviceTypeManifest) ->
+					buildConfigForDeviceType(deviceTypeManifest, options.advanced)
+
 			Promise.join answersPromise, manifestPromise, (answers, manifest) ->
 				answers.version = options.version
 
