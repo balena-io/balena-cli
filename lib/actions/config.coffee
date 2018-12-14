@@ -293,6 +293,7 @@ exports.generate =
 		prettyjson = require('prettyjson')
 
 		{ generateDeviceConfig, generateApplicationConfig } = require('../utils/config')
+		helpers = require('../utils/helpers')
 		{ exitWithExpectedError } = require('../utils/patterns')
 
 		if not options.device? and not options.application?
@@ -323,8 +324,19 @@ exports.generate =
 			return balena.models.application.get(options.application)
 		.then (resource) ->
 			deviceType = options.deviceType || resource.device_type
-			balena.models.device.getManifestBySlug(deviceType)
-			.get('options')
+			manifestPromise = balena.models.device.getManifestBySlug(deviceType)
+
+			if options.application && options.deviceType
+				app = resource
+				appManifestPromise = balena.models.device.getManifestBySlug(app.device_type)
+				manifestPromise = manifestPromise.tap (paramDeviceType) ->
+					appManifestPromise.then (appDeviceType) ->
+						if not helpers.areDeviceTypesCompatible(appDeviceType, paramDeviceType)
+							throw new balena.errors.BalenaInvalidDeviceType(
+								"Device type #{options.deviceType} is incompatible with application #{options.application}"
+							)
+
+			manifestPromise.get('options')
 			.then (formOptions) ->
 				# Pass params as an override: if there is any param with exactly the same name as a
 				# required option, that value is used (and the corresponding question is not asked)

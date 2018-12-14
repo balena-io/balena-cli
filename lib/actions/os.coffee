@@ -289,6 +289,18 @@ exports.configure =
 		.then (appOrDevice) ->
 			deviceType = options.deviceType || appOrDevice.device_type
 			manifestPromise = helpers.getManifest(params.image, deviceType)
+
+			if options.application && options.deviceType
+				app = appOrDevice
+				appManifestPromise = balena.models.device.getManifestBySlug(app.device_type)
+				paramManifestPromise = balena.models.device.getManifestBySlug(options.deviceType)
+				manifestPromise = Promise.resolve(manifestPromise).tap ->
+					Promise.join appManifestPromise, paramManifestPromise, (appDeviceType, paramDeviceType) ->
+						if not helpers.areDeviceTypesCompatible(appDeviceType, paramDeviceType)
+							throw new balena.errors.BalenaInvalidDeviceType(
+								"Device type #{options.deviceType} is incompatible with application #{options.application}"
+							)
+
 			answersPromise = Promise.try ->
 				if options.config
 					return readFileAsync(options.config, 'utf8')
