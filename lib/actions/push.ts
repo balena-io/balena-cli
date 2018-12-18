@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Balena
+Copyright 2016-2018 Balena Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -98,6 +98,37 @@ async function getAppOwner(sdk: BalenaSDK, appName: string) {
 	return selected.extra;
 }
 
+interface RegistrySecrets {
+	[registryAddress: string]: {
+		username: string;
+		password: string;
+	};
+}
+
+async function parseRegistrySecrets(
+	secretsFilename: string,
+): Promise<RegistrySecrets> {
+	const { fs } = await require('mz');
+	const { RegistrySecretValidator } = await require('resin-multibuild');
+	try {
+		let isYaml = false;
+		if (/.+\.ya?ml$/i.test(secretsFilename)) {
+			isYaml = true;
+		} else if (!/.+\.json$/i.test(secretsFilename)) {
+			throw new Error('Filename must end with .json, .yml or .yaml');
+		}
+		const raw = (await fs.readFile(secretsFilename)).toString();
+		return new RegistrySecretValidator().validateRegistrySecrets(
+			isYaml ? (await require('js-yaml')).safeLoad(raw) : JSON.parse(raw),
+		);
+	} catch (error) {
+		error.message =
+			`Error validating registry secrets file "${secretsFilename}":\n` +
+			error.message;
+		throw error;
+	}
+}
+
 export const push: CommandDefinition<
 	{
 		applicationOrDevice: string;
@@ -106,22 +137,35 @@ export const push: CommandDefinition<
 		source: string;
 		emulated: boolean;
 		nocache: boolean;
+		'registry-secrets': string;
 	}
 > = {
 	signature: 'push <applicationOrDevice>',
 	description:
 		'Start a remote build on the balena cloud build servers or a local mode device',
 	help: stripIndent`
-		This command can be used to start a build on the remote
-		balena cloud builders, or a local mode balena device.
+		This command can be used to start a build on the remote balena cloud builders,
+		or a local mode balena device.
 
 		When building on the balena cloud the given source directory will be sent to the
 		balena builder, and the build will proceed. This can be used as a drop-in
 		replacement for git push to deploy.
 
-		When building on a local mode device, the given source directory will be built on
-		device, and the resulting containers will be run on the device. Logs will be
-		streamed back from the device as part of the same invocation.
+		When building on a local mode device, the given source directory will be built
+		on the device, and the resulting containers will be run on the device. Logs will
+		be streamed back from the device as part of the same invocation.
+
+		The --registry-secrets option specifies a JSON or YAML file containing private
+		Docker registry usernames and passwords to be used when pulling base images.
+		Sample registry-secrets YAML file:
+
+			'https://idx.docker.io/v1/':
+				username: mike
+				password: cze14
+			'myregistry.com:25000':
+				username: ann
+				password: hunter2
+
 
 		Examples:
 
@@ -154,6 +198,13 @@ export const push: CommandDefinition<
 			description: "Don't use cache when building this project",
 			boolean: true,
 		},
+		{
+			signature: 'registry-secrets',
+			alias: 'R',
+			parameter: 'secrets.yml|.json',
+			description: stripIndent`
+				Path to a local YAML or JSON file containing Docker registry passwords used to pull base images`,
+		},
 	],
 	async action(params, options, done) {
 		const sdk = (await import('balena-sdk')).fromSharedOptions();
@@ -172,6 +223,10 @@ export const push: CommandDefinition<
 			console.log(`[debug] Using ${source} as build source`);
 		}
 
+		const registrySecrets = options['registry-secrets']
+			? await parseRegistrySecrets(options['registry-secrets'])
+			: {};
+
 		const buildTarget = getBuildTarget(appOrDevice);
 		switch (buildTarget) {
 			case BuildTarget.Cloud:
@@ -184,6 +239,7 @@ export const push: CommandDefinition<
 						const opts = {
 							emulated: options.emulated,
 							nocache: options.nocache,
+							registrySecrets,
 						};
 						const args = {
 							app,
@@ -206,6 +262,7 @@ export const push: CommandDefinition<
 					deviceDeploy.deployToDevice({
 						source,
 						deviceHost: device,
+						registrySecrets,
 					}),
 				)
 					.catch(BuildError, e => {

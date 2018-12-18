@@ -1360,16 +1360,28 @@ Docker host TLS key file
 
 ## push &#60;applicationOrDevice&#62;
 
-This command can be used to start a build on the remote
-balena cloud builders, or a local mode balena device.
+This command can be used to start a build on the remote balena cloud builders,
+or a local mode balena device.
 
 When building on the balena cloud the given source directory will be sent to the
 balena builder, and the build will proceed. This can be used as a drop-in
 replacement for git push to deploy.
 
-When building on a local mode device, the given source directory will be built on
-device, and the resulting containers will be run on the device. Logs will be
-streamed back from the device as part of the same invocation.
+When building on a local mode device, the given source directory will be built
+on the device, and the resulting containers will be run on the device. Logs will
+be streamed back from the device as part of the same invocation.
+
+The --registry-secrets option specifies a JSON or YAML file containing private
+Docker registry usernames and passwords to be used when pulling base images.
+Sample registry-secrets YAML file:
+
+	'https://idx.docker.io/v1/':
+		username: mike
+		password: cze14
+	'myregistry.com:25000':
+		username: ann
+		password: hunter2
+
 
 Examples:
 
@@ -1394,6 +1406,10 @@ Force an emulated build to occur on the remote builder
 #### --nocache, -c
 
 Don't use cache when building this project
+
+#### --registry-secrets, -R &#60;secrets.yml|.json&#62;
+
+Path to a local YAML or JSON file containing Docker registry passwords used to pull base images
 
 # Settings
 
