@@ -126,7 +126,6 @@
     "docker-toolbelt": "^3.3.5",
     "dockerode": "^2.5.5",
     "dockerode-options": "^0.2.1",
-    "drivelist": "^5.0.22",
     "ejs": "^2.5.7",
     "etcher-sdk": "^0.2.0",
     "event-stream": "3.3.4",
