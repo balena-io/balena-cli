@@ -329,7 +329,7 @@ password
 
 ## logout
 
-Use this command to logout from your balena account.o
+Use this command to logout from your balena account.
 
 Examples:
 
