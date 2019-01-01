@@ -18,9 +18,9 @@ Before installing the Balena CLI from npm, make sure you have the following depe
 
 For example, to install these packages on a Debian-based Linux operating systems:
 
-```
+\`\`\`
 $ sudo apt-get install g++ make python git --yes
-```
+\`\`\`
 
 **NOTE**: If you are installing the stand-alone binary CLI, you will not need to install these dependencies.
 
