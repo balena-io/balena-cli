@@ -91,7 +91,7 @@ deployProject = (docker, logger, composeOpts, opts) ->
 					legacyDeploy
 				)
 				.then (releaseId) ->
-					sdk.models.release.get(releaseId, $select: [ 'commit' ])
+					sdk.models.release.get(releaseId, $select: [ 'id', 'commit' ])
 			Promise.join(
 				sdk.auth.getUserId()
 				sdk.auth.getToken()
@@ -111,7 +111,8 @@ deployProject = (docker, logger, composeOpts, opts) ->
 			)
 	.then (release) ->
 		logger.logSuccess('Deploy succeeded!')
-		logger.logSuccess("Release: #{release.commit}")
+		logger.logSuccess("Release id: #{release.id}")
+		logger.logSuccess("Release commit: #{release.commit}")
 		console.log()
 		console.log(doodles.getDoodle()) # Show charlie
 		console.log()
