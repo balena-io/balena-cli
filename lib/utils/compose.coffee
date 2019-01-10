@@ -349,13 +349,54 @@ tagServiceImages = (docker, images, serviceImages) ->
 			logs: d.logs
 			props: d.props
 
-authorizePush = (tokenAuthEndpoint, registry, images) ->
+
+getPreviousRepos = (sdk, docker, logger, appID) ->
+	sdk.pine.get(
+		resource: 'release'
+		options:
+			$filter:
+				belongs_to__application: appID
+				status: 'success'
+			$select:
+				[ 'id' ]
+			$expand:
+				contains__image:
+					$expand: 'image'
+			$orderby: 'id desc'
+			$top: 1
+	)
+	.then (release) ->
+		# grab all images from the latest release, return all image locations in the registry
+		if release?.length > 0
+			images = release[0].contains__image
+			Promise.map images, (d) ->
+				imageName = d.image[0].is_stored_at__image_location
+				docker.getRegistryAndName(imageName)
+				.then ( registry ) ->
+					logger.logDebug("Requesting access to previously pushed image repo (#{registry.imageName})")
+					return registry.imageName
+	.catch (e) ->
+		logger.logDebug("Failed to access previously pushed image repo: #{e}")
+
+authorizePush = (sdk, logger, tokenAuthEndpoint, registry, images, previousRepos) ->
 	_ = require('lodash')
-	sdk = require('balena-sdk').fromSharedOptions()
+
+	# TODO: https://github.com/balena-io/balena-cli/issues/1070
+	maxRepos = 20
 
 	if not _.isArray(images)
 		images = [ images ]
 
+	if images.length > maxRepos
+		throw new Error (
+			"More than #{maxRepos} containers is currently not supported, see " +
+			'https://github.com/balena-io/balena-cli/issues/1070 for more information'
+		)
+	images.push previousRepos...
+	if images.length + previousRepos?.length > maxRepos
+		logger.logDebug("Truncating requested repositories to #{maxRepos} by limiting previously pushed repo access")
+		# at this point, we know we're only truncating access to previously pushed repos
+		images = images[0...maxRepos]
 	sdk.request.send
 		baseUrl: tokenAuthEndpoint
 		url: '/auth/v1/token'
@@ -423,7 +464,10 @@ exports.deployProject = (
 		tagServiceImages(docker, images, serviceImages)
 		.tap (images) ->
 			logger.logDebug('Authorizing push...')
-			authorizePush(apiEndpoint, images[0].registry, _.map(images, 'repo'))
+			sdk = require('balena-sdk').fromSharedOptions()
+			getPreviousRepos(sdk, docker, logger, appId)
+			.then (previousRepos) ->
+				authorizePush(sdk, logger, apiEndpoint, images[0].registry, _.map(images, 'repo'), previousRepos)
 			.then (token) ->
 				logger.logInfo('Pushing images to registry...')
 				pushAndUpdateServiceImages docker, token, images, (serviceImage) ->
