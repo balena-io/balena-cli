@@ -4,4 +4,8 @@
 // operations otherwise, if the pool runs out.
 process.env.UV_THREADPOOL_SIZE = '64';
 
+// Use fast-boot to cache require lookups, speeding up startup
+require('fast-boot2').start({
+	cacheFile: __dirname + '/.fast-boot.json'
+})
 require('../build/app');
