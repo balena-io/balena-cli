@@ -19,8 +19,6 @@ import chalk from 'chalk';
 import { stripIndent } from 'common-tags';
 import * as sdk from 'etcher-sdk';
 
-import { DriveList } from '../../utils/visuals/drive-list';
-
 async function getDrive(options: {
 	drive?: string;
 }): Promise<sdk.sourceDestination.BlockDevice> {
@@ -37,6 +35,7 @@ async function getDrive(options: {
 		}
 		drive = d;
 	} else {
+		const { DriveList } = await import('../../utils/visuals/drive-list');
 		const driveList = new DriveList(scanner);
 		drive = await driveList.run();
 	}

@@ -1,6 +1,5 @@
 Promise = require('bluebird')
 _ = require('lodash')
-form = require('resin-cli-form')
 chalk = require('chalk')
 
 dockerUtils = require('../../utils/docker')
@@ -15,6 +14,7 @@ exports.filterOutSupervisorContainer = filterOutSupervisorContainer = (container
 	return true
 
 exports.selectContainerFromDevice = Promise.method (deviceIp, filterSupervisor = false) ->
+	form = require('resin-cli-form')
 	docker = dockerUtils.createClient(host: deviceIp, port: dockerPort, timeout: dockerTimeout)
 
 	# List all containers, including those not running

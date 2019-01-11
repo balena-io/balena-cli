@@ -13,11 +13,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+import _form = require('resin-cli-form');
+import _visuals = require('resin-cli-visuals');
 
 import _ = require('lodash');
 import Promise = require('bluebird');
-import form = require('resin-cli-form');
-import visuals = require('resin-cli-visuals');
 import BalenaSdk = require('balena-sdk');
 import chalk from 'chalk';
 import validation = require('./validation');
@@ -25,8 +25,11 @@ import messages = require('./messages');
 
 const balena = BalenaSdk.fromSharedOptions();
 
+const getForm = _.once((): typeof _form => require('resin-cli-form'));
+const getVisuals = _.once((): typeof _visuals => require('resin-cli-visuals'));
+
 export function authenticate(options: {}): Promise<void> {
-	return form
+	return getForm()
 		.run(
 			[
 				{
@@ -50,7 +53,7 @@ export function authenticate(options: {}): Promise<void> {
 				return;
 			}
 
-			return form
+			return getForm()
 				.ask({
 					message: 'Two factor auth challenge:',
 					name: 'code',
@@ -72,7 +75,7 @@ export function authenticate(options: {}): Promise<void> {
 }
 
 export function askLoginType() {
-	return form.ask({
+	return getForm().ask({
 		message: 'How would you like to login?',
 		name: 'loginType',
 		type: 'list',
@@ -100,7 +103,7 @@ export function askLoginType() {
 export function selectDeviceType() {
 	return balena.models.config.getDeviceTypes().then(deviceTypes => {
 		deviceTypes = _.sortBy(deviceTypes, 'name');
-		return form.ask({
+		return getForm().ask({
 			message: 'Device Type',
 			type: 'list',
 			choices: _.map(deviceTypes, ({ slug: value, name }) => ({
@@ -124,7 +127,7 @@ export function confirm(
 			return true;
 		}
 
-		return form.ask({
+		return getForm().ask({
 			message,
 			type: 'confirm',
 			default: false,
@@ -150,7 +153,7 @@ export function selectApplication(
 		})
 		.filter(filter || _.constant(true))
 		.then(applications => {
-			return form.ask({
+			return getForm().ask({
 				message: 'Select an application',
 				type: 'list',
 				choices: _.map(applications, application => ({
@@ -181,7 +184,7 @@ export function selectOrCreateApplication() {
 					value: null,
 				});
 
-				return form.ask({
+				return getForm().ask({
 					message: 'Select an application',
 					type: 'list',
 					choices: appOptions,
@@ -193,7 +196,7 @@ export function selectOrCreateApplication() {
 				return application;
 			}
 
-			return form.ask({
+			return getForm().ask({
 				message: 'Choose a Name for your new application',
 				type: 'input',
 				validate: validation.validateApplicationName,
@@ -203,6 +206,7 @@ export function selectOrCreateApplication() {
 
 export function awaitDevice(uuid: string) {
 	return balena.models.device.getName(uuid).then(deviceName => {
+		const visuals = getVisuals();
 		const spinner = new visuals.Spinner(
 			`Waiting for ${deviceName} to come online`,
 		);
@@ -243,7 +247,7 @@ export function inferOrSelectDevice(preferredUuid: string) {
 				? preferredUuid
 				: onlineDevices[0].uuid;
 
-			return form.ask({
+			return getForm().ask({
 				message: 'Select a device',
 				type: 'list',
 				default: defaultUuid,
@@ -262,7 +266,7 @@ export function selectFromList<T>(
 	message: string,
 	choices: Array<T & { name: string }>,
 ): Promise<T> {
-	return form.ask({
+	return getForm().ask({
 		message,
 		type: 'list',
 		choices: _.map(choices, s => ({
