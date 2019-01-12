@@ -71,8 +71,6 @@ BalenaSdk.setSharedOptions(
 	retries: 2
 )
 
-balena = BalenaSdk.fromSharedOptions()
-
 actions = require('./actions')
 errors = require('./errors')
 events = require('./events')
@@ -86,6 +84,7 @@ update = require('./utils/update')
 require('any-promise/register/bluebird')
 
 capitano.permission 'user', (done) ->
+	balena = BalenaSdk.fromSharedOptions()
 	balena.auth.isLoggedIn().then (isLoggedIn) ->
 		if not isLoggedIn
 			exitWithExpectedError('''

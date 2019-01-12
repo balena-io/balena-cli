@@ -7,16 +7,17 @@ import Promise = require('bluebird');
 import BalenaSdk = require('balena-sdk');
 import packageJSON = require('../package.json');
 
-const balena = BalenaSdk.fromSharedOptions();
+const getBalenaSdk = _.once(() => BalenaSdk.fromSharedOptions());
 const getMatchCommandAsync = Promise.promisify(Capitano.state.getMatchCommand);
-const getMixpanel = _.memoize<any>(() =>
-	balena.models.config
-		.getAll()
+const getMixpanel = _.once<any>(() =>
+	getBalenaSdk()
+		.models.config.getAll()
 		.get('mixpanelToken')
 		.then(Mixpanel.init),
 );
 
 export function trackCommand(capitanoCli: Capitano.Cli) {
+	const balena = getBalenaSdk();
 	return Promise.props({
 		balenaUrl: balena.settings.get('balenaUrl'),
 		username: balena.auth.whoami().catchReturn(undefined),
