@@ -15,7 +15,7 @@ limitations under the License.
 ###
 
 exports.configure = require('./configure')
-exports.flash = require('./flash')
+exports.flash = require('./flash').flash
 exports.logs = require('./logs')
 exports.scan = require('./scan')
 exports.ssh = require('./ssh')
