@@ -1445,6 +1445,11 @@ Don't use cache when building this project
 
 Path to a local YAML or JSON file containing Docker registry passwords used to pull base images
 
+#### --live, -l
+
+Start a live session after the push, which will wait for code changes, and synchronise them with
+running containers. This mode is only valid when pushing to a local device.
+
 # Settings
 
 ## settings

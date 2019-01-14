@@ -32,6 +32,7 @@ import { makeBuildTasks } from '../compose_ts';
 import Logger = require('../logger');
 import { DeviceInfo } from './api';
 import * as LocalPushErrors from './errors';
+import LivepushManager from './live';
 import { displayBuildLog } from './logs';
 
 // Define the logger here so the debug output
@@ -44,6 +45,7 @@ export interface DeviceDeployOptions {
 	devicePort?: number;
 	registrySecrets: RegistrySecrets;
 	nocache: boolean;
+	live: boolean;
 }
 
 async function checkSource(source: string): Promise<boolean> {
@@ -66,6 +68,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 
 	// First check that we can access the device with a ping
 	try {
+		globalLogger.logDebug('Checking we can access device');
 		await api.ping();
 	} catch (e) {
 		exitWithExpectedError(
@@ -82,8 +85,17 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 
 	try {
 		const version = await api.getVersion();
+		globalLogger.logDebug(`Checking device version: ${version}`);
 		if (!semver.satisfies(version, '>=7.21.4')) {
 			exitWithExpectedError(versionError);
+		}
+		// FIXME: DO NOT MERGE until this version number has been updated
+		// with the version which the following PR ends up in the supervisor
+		// https://github.com/balena-io/balena-supervisor/pull/828
+		if (opts.live && !semver.satisfies(version, '>=1.0.0')) {
+			exitWithExpectedError(
+				new Error('Using livepush requires a supervisor >= v1.0.0'),
+			);
 		}
 	} catch {
 		exitWithExpectedError(versionError);
@@ -104,13 +116,18 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	// Try to detect the device information
 	const deviceInfo = await api.getDeviceInformation();
 
-	await performBuilds(
+	let buildLogs: Dictionary<string> | undefined;
+	if (opts.live) {
+		buildLogs = {};
+	}
+	const buildTasks = await performBuilds(
 		project.composition,
 		tarStream,
 		docker,
 		deviceInfo,
 		globalLogger,
 		opts,
+		buildLogs,
 	);
 
 	globalLogger.logDebug('Setting device state...');
@@ -133,6 +150,23 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	// Now all we need to do is stream back the logs
 	const logStream = await api.getLogStream();
 
+	// Now that we've set the target state, the device will do it's thing
+	// so we can either just display the logs, or start a livepush session
+	// (whilst also display logs)
+	if (opts.live) {
+		const livepush = new LivepushManager({
+			api,
+			buildContext: opts.source,
+			buildTasks,
+			docker,
+			logger: globalLogger,
+			composition: project.composition,
+			buildLogs: buildLogs!,
+		});
+
+		globalLogger.logLivepush('Watching for file changes...');
+		await livepush.init();
+	}
 	await displayDeviceLogs(logStream, globalLogger);
 }
 
@@ -151,7 +185,8 @@ export async function performBuilds(
 	deviceInfo: DeviceInfo,
 	logger: Logger,
 	opts: DeviceDeployOptions,
-): Promise<void> {
+	buildLogs?: Dictionary<string>,
+): Promise<BuildTask[]> {
 	const multibuild = await import('resin-multibuild');
 
 	const buildTasks = await makeBuildTasks(
@@ -165,7 +200,7 @@ export async function performBuilds(
 	await assignDockerBuildOpts(docker, buildTasks, opts);
 
 	logger.logDebug('Starting builds...');
-	await assignOutputHandlers(buildTasks, logger);
+	await assignOutputHandlers(buildTasks, logger, buildLogs);
 	const localImages = await multibuild.performBuilds(buildTasks, docker);
 
 	// Check for failures
@@ -184,9 +219,15 @@ export async function performBuilds(
 			await image.remove({ force: true });
 		}
 	});
+
+	return buildTasks;
 }
 
-function assignOutputHandlers(buildTasks: BuildTask[], logger: Logger) {
+function assignOutputHandlers(
+	buildTasks: BuildTask[],
+	logger: Logger,
+	buildLogs?: Dictionary<string>,
+) {
 	_.each(buildTasks, task => {
 		if (task.external) {
 			task.progressHook = progressObj => {
@@ -196,6 +237,9 @@ function assignOutputHandlers(buildTasks: BuildTask[], logger: Logger) {
 				);
 			};
 		} else {
+			if (buildLogs) {
+				buildLogs[task.serviceName] = '';
+			}
 			task.streamHook = stream => {
 				stream.on('data', (buf: Buffer) => {
 					const str = _.trimEnd(buf.toString());
@@ -204,6 +248,12 @@ function assignOutputHandlers(buildTasks: BuildTask[], logger: Logger) {
 							{ serviceName: task.serviceName, message: str },
 							logger,
 						);
+
+						if (buildLogs) {
+							buildLogs[task.serviceName] = `${
+								buildLogs[task.serviceName]
+							}\n${str}`;
+						}
 					}
 				});
 			};
