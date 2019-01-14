@@ -9,6 +9,10 @@
 // operations otherwise, if the pool runs out.
 process.env.UV_THREADPOOL_SIZE = '64';
 
+// Use fast-boot to cache require lookups, speeding up startup
+require('fast-boot2').start({
+	cacheFile: '.fast-boot.json'
+})
 process.env['TS_NODE_PROJECT'] = require('path').dirname(__dirname);
 require('coffeescript/register');
 require('ts-node/register');
