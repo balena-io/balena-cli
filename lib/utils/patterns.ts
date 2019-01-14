@@ -23,12 +23,13 @@ import chalk from 'chalk';
 import validation = require('./validation');
 import messages = require('./messages');
 
-const balena = BalenaSdk.fromSharedOptions();
+const getBalenaSdk = _.once(() => BalenaSdk.fromSharedOptions());
 
 const getForm = _.once((): typeof _form => require('resin-cli-form'));
 const getVisuals = _.once((): typeof _visuals => require('resin-cli-visuals'));
 
 export function authenticate(options: {}): Promise<void> {
+	const balena = getBalenaSdk();
 	return getForm()
 		.run(
 			[
@@ -101,17 +102,19 @@ export function askLoginType() {
 }
 
 export function selectDeviceType() {
-	return balena.models.config.getDeviceTypes().then(deviceTypes => {
-		deviceTypes = _.sortBy(deviceTypes, 'name');
-		return getForm().ask({
-			message: 'Device Type',
-			type: 'list',
-			choices: _.map(deviceTypes, ({ slug: value, name }) => ({
-				name,
-				value,
-			})),
+	return getBalenaSdk()
+		.models.config.getDeviceTypes()
+		.then(deviceTypes => {
+			deviceTypes = _.sortBy(deviceTypes, 'name');
+			return getForm().ask({
+				message: 'Device Type',
+				type: 'list',
+				choices: _.map(deviceTypes, ({ slug: value, name }) => ({
+					name,
+					value,
+				})),
+			});
 		});
-	});
 }
 
 export function confirm(
@@ -142,6 +145,7 @@ export function confirm(
 export function selectApplication(
 	filter: (app: BalenaSdk.Application) => boolean,
 ) {
+	const balena = getBalenaSdk();
 	return balena.models.application
 		.hasAny()
 		.then(function(hasAnyApplications) {
@@ -165,6 +169,7 @@ export function selectApplication(
 }
 
 export function selectOrCreateApplication() {
+	const balena = getBalenaSdk();
 	return balena.models.application
 		.hasAny()
 		.then(hasAnyApplications => {
@@ -205,6 +210,7 @@ export function selectOrCreateApplication() {
 }
 
 export function awaitDevice(uuid: string) {
+	const balena = getBalenaSdk();
 	return balena.models.device.getName(uuid).then(deviceName => {
 		const visuals = getVisuals();
 		const spinner = new visuals.Spinner(
@@ -233,6 +239,7 @@ export function awaitDevice(uuid: string) {
 }
 
 export function inferOrSelectDevice(preferredUuid: string) {
+	const balena = getBalenaSdk();
 	return balena.models.device
 		.getAll()
 		.filter<BalenaSdk.Device>(device => device.is_online)
