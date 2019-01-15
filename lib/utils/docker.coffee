@@ -1,6 +1,7 @@
 # Functions to help actions which rely on using docker
 
 Promise = require('bluebird')
+_ = require('lodash')
 
 # Use this function to seed an action's list of capitano options
 # with the docker options. Using this interface means that
@@ -153,14 +154,7 @@ exports.getDocker = (options) ->
 	.then(createClient)
 	.tap(ensureDockerSeemsAccessible)
 
-exports.createClient = createClient = do ->
-	# docker-toolbelt v3 is not backwards compatible as it removes all *Async
-	# methods that are in wide use in the CLI. The workaround for now is to
-	# manually promisify the client and replace all `new Docker()` calls with
-	# this shared function that returns a promisified client.
-	#
-	# 	**New code must not use the *Async methods.**
-	#
+getDockerToolbelt = _.once ->
 	Docker = require('docker-toolbelt')
 	Promise.promisifyAll Docker.prototype, {
 		filter: (name) -> name == 'run'
@@ -169,9 +163,18 @@ exports.createClient = createClient = do ->
 	Promise.promisifyAll(Docker.prototype)
 	Promise.promisifyAll(new Docker({}).getImage().constructor.prototype)
 	Promise.promisifyAll(new Docker({}).getContainer().constructor.prototype)
+	return Docker
 
-	return (opts) ->
-		return new Docker(opts)
+# docker-toolbelt v3 is not backwards compatible as it removes all *Async
+# methods that are in wide use in the CLI. The workaround for now is to
+# manually promisify the client and replace all `new Docker()` calls with
+# this shared function that returns a promisified client.
+#
+# 	**New code must not use the *Async methods.**
+#
+exports.createClient = createClient = (opts) ->
+	Docker = getDockerToolbelt()
+	return new Docker(opts)
 
 ensureDockerSeemsAccessible = (docker) ->
 	{ exitWithExpectedError } = require('./patterns')

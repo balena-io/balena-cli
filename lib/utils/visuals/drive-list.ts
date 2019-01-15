@@ -17,7 +17,7 @@ export class DriveList extends CustomDynamicList<
 	}
 
 	protected *getThings() {
-		const sdk: typeof _sdk = require('etcher-sdk')
+		const sdk: typeof _sdk = require('etcher-sdk');
 		for (const drive of this.scanner.drives) {
 			if (drive instanceof sdk.sourceDestination.BlockDevice) {
 				yield drive;
