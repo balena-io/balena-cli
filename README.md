@@ -123,6 +123,11 @@ You can also get in touch with us in the balena [forums](https://forums.balena.i
 Development guidelines
 ----------------------
 
+The CLI was originally written in [CoffeeScript](https://coffeescript.org), but we have decided to
+migrate to [TypeScript](https://www.typescriptlang.org/) in order to take advantage of static
+typing and formal programming interfaces. The migration is taking place gradually, as part of
+maintenance work or the implementation of new features.
+
 After cloning this repository and running `npm install` you can build the CLI using `npm run build`.
 You can then run the generated build using `./bin/balena`.
 In order to ease development:
