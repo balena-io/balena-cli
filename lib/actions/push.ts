@@ -114,8 +114,17 @@ export const push: CommandDefinition<
 	description:
 		'Start a remote build on the balena cloud build servers or a local mode device',
 	help: stripIndent`
-		This command can be used to start an image build on the remote balenaCloud build
-		servers, or on a local-mode balena device.
+		This command can be used to start a build on the remote balena cloud builders,
+		or a local mode balena device.
+
+		When building on the balena cloud the given source directory will be sent to the
+		balena builder, and the build will proceed. This can be used as a drop-in
+		replacement for git push to deploy.
+
+		When building on a local mode device, the given source directory will be built
+		on the device, and the resulting containers will be run on the device. Logs will
+		be streamed back from the device as part of the same invocation. This requires
+		a device with a supervisor version of at least v7.21.0.
 
 		When building on the balenaCloud servers, the given source directory will be
 		sent to the remote server. This can be used as a drop-in replacement for the
