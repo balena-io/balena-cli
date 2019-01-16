@@ -93,10 +93,11 @@ export const flash: CommandDefinition<
 			process.exit(0);
 		}
 
-		const source = new sourceDestination.File(
+		const file = new sourceDestination.File(
 			params.image,
 			sourceDestination.File.OpenFlags.Read,
 		);
+		const source = await file.getInnerSource();
 
 		const progressBars: { [key: string]: any } = {
 			flashing: new visuals.Progress('Flashing'),
