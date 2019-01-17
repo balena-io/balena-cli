@@ -55,7 +55,7 @@ export const flash: CommandDefinition<
 
 		Examples:
 
-			$ balena local flash path/to/balenaos.img
+			$ balena local flash path/to/balenaos.img[.zip|.gz|.bz2|.xz]
 			$ balena local flash path/to/balenaos.img --drive /dev/disk2
 			$ balena local flash path/to/balenaos.img --drive /dev/disk2 --yes
 	`,
