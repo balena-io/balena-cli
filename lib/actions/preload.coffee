@@ -98,12 +98,12 @@ selectApplicationCommit = (releases) ->
 		default: LATEST
 		choices: choices
 
-offerToDisableAutomaticUpdates = (application, commit) ->
+offerToDisableAutomaticUpdates = (application, commit, pinDevice) ->
 	Promise = require('bluebird')
 	balena = require('balena-sdk').fromSharedOptions()
 	form = require('resin-cli-form')
 
-	if commit == LATEST or not application.should_track_latest_release
+	if commit == LATEST or not application.should_track_latest_release or pinDevice
 		return Promise.resolve()
 	message = '''
 
@@ -115,6 +115,8 @@ offerToDisableAutomaticUpdates = (application, commit) ->
 
 		Warning: To re-enable this requires direct api calls,
 		see https://balena.io/docs/reference/api/resources/device/#set-device-to-release
+
+		Alternatively you can pass the --pin-device-to-release flag to pin only this device to the selected release.
 	'''
 	form.ask
 		message: message,
@@ -289,7 +291,7 @@ module.exports =
 							preloader.commit = commit
 
 						# Propose to disable automatic app updates if the commit is not the latest
-						offerToDisableAutomaticUpdates(preloader.application, commit)
+						offerToDisableAutomaticUpdates(preloader.application, commit, options.pinDevice)
 				.then ->
 					# All options are ready: preload the image.
 					preloader.preload()
