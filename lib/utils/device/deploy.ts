@@ -297,7 +297,7 @@ function generateTargetState(
 	targetState.local.apps = {
 		1: {
 			name: 'localapp',
-			commit: 'localcommit',
+			commit: 'localrelease',
 			releaseId: '1',
 			services,
 			volumes: composition.volumes || {},
