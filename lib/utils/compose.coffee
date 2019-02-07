@@ -197,16 +197,8 @@ exports.buildProject = (
 		# Tar up the directory, ready for the build stream
 		tarDirectory(projectPath)
 		.then (tarStream) ->
-			builder.splitBuildStream(composition, tarStream)
-		.tap (tasks) ->
-			# Updates each task as a side-effect
-			builder.performResolution(tasks, arch, deviceType)
-			.map (task) ->
-				if not task.external and not task.resolved
-					throw new Error(
-						"Project type for service '#{task.serviceName}' could not be determined. " +
-						'Please add a Dockerfile'
-					)
+			{ makeBuildTasks } = require('./compose_ts')
+			Promise.resolve(makeBuildTasks(composition, tarStream, { arch, deviceType }, logger))
 		.map (task) ->
 			d = imageDescriptorsByServiceName[task.serviceName]
 
