@@ -9,12 +9,14 @@ import packageJSON = require('../package.json');
 
 const getBalenaSdk = _.once(() => BalenaSdk.fromSharedOptions());
 const getMatchCommandAsync = Promise.promisify(Capitano.state.getMatchCommand);
-const getMixpanel = _.once<any>(() =>
-	getBalenaSdk()
-		.models.config.getAll()
-		.get('mixpanelToken')
-		.then(Mixpanel.init),
-);
+const getMixpanel = _.once<any>(() => {	
+	const settings = require('balena-settings-client');
+	return Mixpanel.init('00000000000000000000000000000000', {
+		host: `api.${settings.get('balenaUrl')}`,
+		path: '/mixpanel',
+		protocol: 'https',
+	});
+});
 
 export function trackCommand(capitanoCli: Capitano.Cli) {
 	const balena = getBalenaSdk();
