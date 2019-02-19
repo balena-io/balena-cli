@@ -41,3 +41,4 @@ module.exports =
 	push: require('./push')
 	join: require('./join')
 	leave: require('./leave')
+	tunnel: require('./tunnel')

@@ -191,6 +191,9 @@ capitano.command(actions.logs)
 # ---------- Sync Module ----------
 capitano.command(actions.sync)
 
+# ---------- Tunnel Module ----------
+capitano.command(actions.tunnel.tunnel)
+
 # ---------- Preload Module ----------
 capitano.command(actions.preload)
 
