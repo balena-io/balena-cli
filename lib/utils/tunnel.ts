@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Balena
+Copyright 2019 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,8 +16,26 @@ limitations under the License.
 import * as Bluebird from 'bluebird';
 import { BalenaSDK } from 'balena-sdk';
 import { Socket } from 'net';
+import { TypedError } from 'typed-error';
 
-class UnableToConnectError extends Error {}
+const PROXY_CONNECT_TIMEOUT_MS = 10000;
+
+class UnableToConnectError extends TypedError {
+	status: string;
+	statusCode: string;
+	constructor(statusCode: string, status: string) {
+		super(`Unable to connect: ${statusCode} ${status}`);
+		this.status = status;
+		this.statusCode = statusCode;
+	}
+}
+
+class RemoteSocketNotListening extends TypedError {
+	port: number;
+	constructor(port: number) {
+		super(`Device is not listening on port ${port}`);
+	}
+}
 
 export const tunnelConnectionToDevice = (
 	uuid: string,
@@ -34,35 +52,29 @@ export const tunnelConnectionToDevice = (
 			password: token,
 		};
 
-		return (client: Socket): void => {
+		return (client: Socket): Bluebird<void> =>
 			openPortThroughProxy(vpnUrl, 3128, auth, uuid, port)
 				.then(remote => {
 					client.pipe(remote);
 					remote.pipe(client);
-
 					remote.on('error', err => {
 						console.error('Remote: ' + err);
 						client.end();
 					});
-
 					client.on('error', err => {
 						console.error('Client: ' + err);
 						remote.end();
 					});
-
 					remote.on('close', () => {
 						client.end();
 					});
-
 					client.on('close', () => {
 						remote.end();
 					});
 				})
-				.tapCatch(err => {
-					console.error(err);
+				.tapCatch(() => {
 					client.end();
 				});
-		};
 	});
 };
 
@@ -85,6 +97,7 @@ const openPortThroughProxy = (
 
 	return new Bluebird.Promise<Socket>((resolve, reject) => {
 		const proxyTunnel = new Socket();
+		proxyTunnel.on('error', reject);
 		proxyTunnel.connect(proxyPort, proxyServer, () => {
 			const proxyConnectionHandler = (data: Buffer) => {
 				proxyTunnel.removeListener('data', proxyConnectionHandler);
@@ -92,16 +105,20 @@ const openPortThroughProxy = (
 				const [, httpStatusCode, ...httpMessage] = httpStatus.split(' ');
 
 				if (parseInt(httpStatusCode) === 200) {
+					proxyTunnel.setTimeout(0);
 					resolve(proxyTunnel);
 				} else {
-					console.error(
-						`Connection failed. ${httpStatusCode} ${httpMessage.join(' ')}`,
+					reject(
+						new UnableToConnectError(httpStatusCode, httpMessage.join(' ')),
 					);
-					reject(new UnableToConnectError());
 				}
 			};
 
+			proxyTunnel.on('timeout', () => {
+				reject(new RemoteSocketNotListening(devicePort));
+			});
 			proxyTunnel.on('data', proxyConnectionHandler);
+			proxyTunnel.setTimeout(PROXY_CONNECT_TIMEOUT_MS);
 			proxyTunnel.write(httpHeaders.join('\r\n').concat('\r\n\r\n'));
 		});
 	});
