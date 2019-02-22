@@ -19,11 +19,11 @@ for (let commandCategory of capitanodoc.categories) {
 		const actions: any = require(path.join(process.cwd(), file));
 
 		if (actions.signature) {
-			category.commands.push(_.omit(actions, 'action'));
+			category.commands.push(_.omit(actions, 'action') as any);
 		} else {
 			for (let actionName of Object.keys(actions)) {
 				const actionCommand = actions[actionName];
-				category.commands.push(_.omit(actionCommand, 'action'));
+				category.commands.push(_.omit(actionCommand, 'action') as any);
 			}
 		}
 	}
