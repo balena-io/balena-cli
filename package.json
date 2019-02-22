@@ -93,7 +93,6 @@
     "require-npm4-to-publish": "^1.0.0",
     "resin-lint": "^2.0.1",
     "rewire": "^3.0.2",
-    "ts-node": "^4.0.1",
     "typescript": "2.8.1"
   },
   "dependencies": {
@@ -176,6 +175,7 @@
     "tar-stream": "^1.5.5",
     "through2": "^2.0.3",
     "tmp": "0.0.31",
+    "ts-node": "^8.0.2",
     "typed-error": "^3.0.0",
     "umount": "^1.1.6",
     "unzip2": "^0.2.5",

@@ -27,11 +27,11 @@ publishReleaseAsync({
 	reuseRelease: true,
 	assets: [outputFile],
 })
-.then(release => {
-	console.log(`Release ${version} successful: ${release.html_url}`);
-})
-.catch(err => {
-	console.error('Release failed');
-	console.error(err);
-	process.exit(1);
-});
+	.then(release => {
+		console.log(`Release ${version} successful: ${release.html_url}`);
+	})
+	.catch(err => {
+		console.error('Release failed');
+		console.error(err);
+		process.exit(1);
+	});
