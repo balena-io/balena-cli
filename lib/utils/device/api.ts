@@ -165,7 +165,7 @@ export class DeviceAPI {
 			}
 		}
 
-		return Bluebird.fromCallback(
+		return Bluebird.fromCallback<[request.Response, { message: string }]>(
 			cb => {
 				return requestMethod(opts, cb);
 			},
