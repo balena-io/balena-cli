@@ -81,15 +81,15 @@ environment variable (in the same standard URL format).
 
 - Api keys
 
-	- [api-key generate &#60;name&#62;](#api-key-generate-name-)
+	- [api-key generate &#60;name&#62;](#api-key-generate-name)
 
 - Application
 
-	- [app create &#60;name&#62;](#app-create-name-)
+	- [app create &#60;name&#62;](#app-create-name)
 	- [apps](#apps)
-	- [app &#60;name&#62;](#app-name-)
-	- [app restart &#60;name&#62;](#app-restart-name-)
-	- [app rm &#60;name&#62;](#app-rm-name-)
+	- [app &#60;name&#62;](#app-name)
+	- [app restart &#60;name&#62;](#app-restart-name)
+	- [app rm &#60;name&#62;](#app-rm-name)
 
 - Authentication
 
@@ -101,37 +101,37 @@ environment variable (in the same standard URL format).
 - Device
 
 	- [devices](#devices)
-	- [device &#60;uuid&#62;](#device-uuid-)
+	- [device &#60;uuid&#62;](#device-uuid)
 	- [devices supported](#devices-supported)
-	- [device register &#60;application&#62;](#device-register-application-)
-	- [device rm &#60;uuid&#62;](#device-rm-uuid-)
-	- [device identify &#60;uuid&#62;](#device-identify-uuid-)
-	- [device reboot &#60;uuid&#62;](#device-reboot-uuid-)
-	- [device shutdown &#60;uuid&#62;](#device-shutdown-uuid-)
-	- [device public-url enable &#60;uuid&#62;](#device-public-url-enable-uuid-)
-	- [device public-url disable &#60;uuid&#62;](#device-public-url-disable-uuid-)
-	- [device public-url &#60;uuid&#62;](#device-public-url-uuid-)
-	- [device public-url status &#60;uuid&#62;](#device-public-url-status-uuid-)
-	- [device rename &#60;uuid&#62; [newName]](#device-rename-uuid-newname-)
-	- [device move &#60;uuid&#62;](#device-move-uuid-)
+	- [device register &#60;application&#62;](#device-register-application)
+	- [device rm &#60;uuid&#62;](#device-rm-uuid)
+	- [device identify &#60;uuid&#62;](#device-identify-uuid)
+	- [device reboot &#60;uuid&#62;](#device-reboot-uuid)
+	- [device shutdown &#60;uuid&#62;](#device-shutdown-uuid)
+	- [device public-url enable &#60;uuid&#62;](#device-public-url-enable-uuid)
+	- [device public-url disable &#60;uuid&#62;](#device-public-url-disable-uuid)
+	- [device public-url &#60;uuid&#62;](#device-public-url-uuid)
+	- [device public-url status &#60;uuid&#62;](#device-public-url-status-uuid)
+	- [device rename &#60;uuid&#62; [newName]](#device-rename-uuid-newname)
+	- [device move &#60;uuid&#62;](#device-move-uuid)
 	- [device init](#device-init)
 
 - Environment Variables
 
 	- [envs](#envs)
-	- [env rm &#60;id&#62;](#env-rm-id-)
-	- [env add &#60;key&#62; [value]](#env-add-key-value-)
-	- [env rename &#60;id&#62; &#60;value&#62;](#env-rename-id-value-)
+	- [env rm &#60;id&#62;](#env-rm-id)
+	- [env add &#60;key&#62; [value]](#env-add-key-value)
+	- [env rename &#60;id&#62; &#60;value&#62;](#env-rename-id-value)
 
 - Tags
 
 	- [tags](#tags)
-	- [tag set &#60;tagKey&#62; [value]](#tag-set-tagkey-value-)
-	- [tag rm &#60;tagKey&#62;](#tag-rm-tagkey-)
+	- [tag set &#60;tagKey&#62; [value]](#tag-set-tagkey-value)
+	- [tag rm &#60;tagKey&#62;](#tag-rm-tagkey)
 
 - Help
 
-	- [help [command...]](#help-command-)
+	- [help [command...]](#help-command)
 
 - Information
 
@@ -140,49 +140,49 @@ environment variable (in the same standard URL format).
 - Keys
 
 	- [keys](#keys)
-	- [key &#60;id&#62;](#key-id-)
-	- [key rm &#60;id&#62;](#key-rm-id-)
-	- [key add &#60;name&#62; [path]](#key-add-name-path-)
+	- [key &#60;id&#62;](#key-id)
+	- [key rm &#60;id&#62;](#key-rm-id)
+	- [key add &#60;name&#62; [path]](#key-add-name-path)
 
 - Logs
 
-	- [logs &#60;uuid&#62;](#logs-uuid-)
+	- [logs &#60;uuid&#62;](#logs-uuid)
 
 - Sync
 
-	- [sync [uuid]](#sync-uuid-)
+	- [sync [uuid]](#sync-uuid)
 
 - SSH
 
-	- [ssh [uuid]](#ssh-uuid-)
+	- [ssh [uuid]](#ssh-uuid)
 
 - Notes
 
-	- [note &#60;|note&#62;](#note-note-)
+	- [note &#60;|note&#62;](#note-note)
 
 - OS
 
-	- [os versions &#60;type&#62;](#os-versions-type-)
-	- [os download &#60;type&#62;](#os-download-type-)
-	- [os build-config &#60;image&#62; &#60;device-type&#62;](#os-build-config-image-device-type-)
-	- [os configure &#60;image&#62;](#os-configure-image-)
-	- [os initialize &#60;image&#62;](#os-initialize-image-)
+	- [os versions &#60;type&#62;](#os-versions-type)
+	- [os download &#60;type&#62;](#os-download-type)
+	- [os build-config &#60;image&#62; &#60;device-type&#62;](#os-build-config-image-device-type)
+	- [os configure &#60;image&#62;](#os-configure-image)
+	- [os initialize &#60;image&#62;](#os-initialize-image)
 
 - Config
 
 	- [config read](#config-read)
-	- [config write &#60;key&#62; &#60;value&#62;](#config-write-key-value-)
-	- [config inject &#60;file&#62;](#config-inject-file-)
+	- [config write &#60;key&#62; &#60;value&#62;](#config-write-key-value)
+	- [config inject &#60;file&#62;](#config-inject-file)
 	- [config reconfigure](#config-reconfigure)
 	- [config generate](#config-generate)
 
 - Preload
 
-	- [preload &#60;image&#62;](#preload-image-)
+	- [preload &#60;image&#62;](#preload-image)
 
 - Push
 
-	- [push &#60;applicationOrDevice&#62;](#push-applicationordevice-)
+	- [push &#60;applicationOrDevice&#62;](#push-applicationordevice)
 
 - Settings
 
@@ -190,27 +190,27 @@ environment variable (in the same standard URL format).
 
 - Wizard
 
-	- [quickstart [name]](#quickstart-name-)
+	- [quickstart [name]](#quickstart-name)
 
 - Local
 
-	- [local configure &#60;target&#62;](#local-configure-target-)
-	- [local flash &#60;image&#62;](#local-flash-image-)
-	- [local logs [deviceIp]](#local-logs-deviceip-)
+	- [local configure &#60;target&#62;](#local-configure-target)
+	- [local flash &#60;image&#62;](#local-flash-image)
+	- [local logs [deviceIp]](#local-logs-deviceip)
 	- [local scan](#local-scan)
-	- [local ssh [deviceIp]](#local-ssh-deviceip-)
-	- [local push [deviceIp]](#local-push-deviceip-)
-	- [local stop [deviceIp]](#local-stop-deviceip-)
+	- [local ssh [deviceIp]](#local-ssh-deviceip)
+	- [local push [deviceIp]](#local-push-deviceip)
+	- [local stop [deviceIp]](#local-stop-deviceip)
 
 - Deploy
 
-	- [build [source]](#build-source-)
-	- [deploy &#60;appName&#62; [image]](#deploy-appname-image-)
+	- [build [source]](#build-source)
+	- [deploy &#60;appName&#62; [image]](#deploy-appname-image)
 
 - Platform
 
-	- [join [deviceIp]](#join-deviceip-)
-	- [leave [deviceIp]](#leave-deviceip-)
+	- [join [deviceIp]](#join-deviceip)
+	- [leave [deviceIp]](#leave-deviceip)
 
 - Utilities
 
