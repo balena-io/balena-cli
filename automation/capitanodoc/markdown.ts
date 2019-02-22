@@ -41,6 +41,7 @@ function getAnchor(command: Command) {
 			.replace(/\[/g, '-')
 			.replace(/\]/g, '-')
 			.replace(/-+/g, '-')
+			.replace(/-$/, '')
 			.replace(/\.\.\./g, '')
 			.replace(/\|/g, '')
 			.toLowerCase()
