@@ -67,7 +67,7 @@ execPkg(['--target', 'host', '--output', 'build-bin/balena', 'package.json'])
 			archive.on('warning', console.warn);
 
 			archive.pipe(outputStream);
-			archive.finalize();
+			// archive.finalize();
 		}).then(() => {
 			console.log('Done')
 		});
