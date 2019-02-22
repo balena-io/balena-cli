@@ -47,7 +47,6 @@ execPkg(['--target', 'host', '--output', 'build-bin/balena', 'package.json'])
 		});
 	})
 	.then(() => {
-		console.log('Publishing build...');
 		return mkdirpAsync(path.dirname(outputFile));
 	})
 	.then(() => {
@@ -69,8 +68,7 @@ execPkg(['--target', 'host', '--output', 'build-bin/balena', 'package.json'])
 
 			archive.pipe(outputStream);
 			archive.finalize();
+		}).then(() => {
+			console.log('Done')
 		});
-	})
-	.then(() => {
-		console.log('Build zipped');
 	});
