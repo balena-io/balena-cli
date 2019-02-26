@@ -122,10 +122,13 @@ module.exports =
 	signature: 'deploy <appName> [image]'
 	description: 'Deploy a single image or a multicontainer project to a balena application'
 	help: '''
-		Use this command to deploy an image or a complete multicontainer project
-		to an application, optionally building it first.
-
 		Usage: `deploy <appName> ([image] | --build [--source build-dir])`
+
+		Use this command to deploy an image or a complete multicontainer project to an
+		application, optionally building it first. The source images are searched for
+		(and optionally built) using the docker daemon in your development machine or
+		balena device. (See also the `balena push` command for the option of building
+		the image in balena's cloud builders.)
 
 		Unless an image is specified, this command will look into the current directory
 		(or the one specified by --source) for a compose file. If one is found, this
@@ -170,7 +173,7 @@ module.exports =
 	action: (params, options, done) ->
 		# compositions with many services trigger misleading warnings
 		require('events').defaultMaxListeners = 1000
-
+		{ validateComposeOptions } = require('../utils/compose_ts')
 		helpers = require('../utils/helpers')
 		Logger = require('../utils/logger')
 
@@ -184,6 +187,8 @@ module.exports =
 			# look into "balena build" options if appName isn't given
 			appName = options.application if not appName?
 			delete options.application
+
+			validateComposeOptions(options)
 
 			if not appName?
 				throw new Error('Please specify the name of the application to deploy')

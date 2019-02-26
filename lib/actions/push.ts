@@ -18,8 +18,6 @@ import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
 import { BalenaSDK } from 'balena-sdk';
 
-import { BuildError } from '../utils/device/errors';
-
 // An regex to detect an IP address, from https://www.regular-expressions.info/ip.html
 const IP_REGEX = new RegExp(
 	/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/,
@@ -96,42 +94,6 @@ async function getAppOwner(sdk: BalenaSDK, appName: string) {
 	);
 
 	return selected.extra;
-}
-
-interface RegistrySecrets {
-	[registryAddress: string]: {
-		username: string;
-		password: string;
-	};
-}
-
-async function parseRegistrySecrets(
-	secretsFilename: string,
-): Promise<RegistrySecrets> {
-	const { fs } = await require('mz');
-	const {
-		addCanonicalDockerHubEntry,
-		RegistrySecretValidator,
-	} = await require('resin-multibuild');
-	try {
-		let isYaml = false;
-		if (/.+\.ya?ml$/i.test(secretsFilename)) {
-			isYaml = true;
-		} else if (!/.+\.json$/i.test(secretsFilename)) {
-			throw new Error('Filename must end with .json, .yml or .yaml');
-		}
-		const raw = (await fs.readFile(secretsFilename)).toString();
-		const registrySecrets = new RegistrySecretValidator().validateRegistrySecrets(
-			isYaml ? (await require('js-yaml')).safeLoad(raw) : JSON.parse(raw),
-		);
-		addCanonicalDockerHubEntry(registrySecrets);
-		return registrySecrets;
-	} catch (error) {
-		error.message =
-			`Error validating registry secrets file "${secretsFilename}":\n` +
-			error.message;
-		throw error;
-	}
 }
 
 export const push: CommandDefinition<
@@ -217,6 +179,8 @@ export const push: CommandDefinition<
 		const remote = await import('../utils/remote-build');
 		const deviceDeploy = await import('../utils/device/deploy');
 		const { exitWithExpectedError } = await import('../utils/patterns');
+		const { parseRegistrySecrets } = await import('../utils/compose_ts');
+		const { BuildError } = await import('../utils/device/errors');
 
 		const appOrDevice: string | null = params.applicationOrDevice;
 		if (appOrDevice == null) {
