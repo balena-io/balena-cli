@@ -14,28 +14,98 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import * as _ from 'lodash';
+import * as Bluebird from 'bluebird';
+import * as tar from 'tar-stream';
+import { Readable } from 'stream';
 
-import { RegistrySecrets } from 'resin-multibuild';
-import { Pack } from 'tar-stream';
+import * as MultiBuild from 'resin-multibuild';
+import { Composition } from 'resin-compose-parse';
+
+import { DeviceInfo } from './device/api';
+import Logger = require('./logger');
 
 /**
- * Return a callback function that takes a tar-stream Pack object as argument
- * and uses it to add the '.balena/registry-secrets.json' metadata file that
- * contains usernames and passwords for private docker registries. The builder
- * will remove the file from the tar stream and use the secrets to pull base
- * images from users' private registries.
- * @param registrySecrets JS object containing registry usernames and passwords
- * @returns A callback function, or undefined if registrySecrets is empty
+ * Create a BuildTask array of "resolved build tasks" by calling multibuild
+ * .splitBuildStream() and performResolution(), and add build stream error
+ * handlers and debug logging.
+ * Both `balena build` and `balena deploy` call this function.
  */
-export function getTarStreamCallbackForRegistrySecrets(
-	registrySecrets: RegistrySecrets,
-): ((pack: Pack) => void) | undefined {
-	if (Object.keys(registrySecrets).length > 0) {
-		return (pack: Pack) => {
-			pack.entry(
-				{ name: '.balena/registry-secrets.json' },
-				JSON.stringify(registrySecrets),
+export async function makeBuildTasks(
+	composition: Composition,
+	tarStream: Readable,
+	deviceInfo: DeviceInfo,
+	logger: Logger,
+): Promise<MultiBuild.BuildTask[]> {
+	const buildTasks = await MultiBuild.splitBuildStream(composition, tarStream);
+
+	logger.logDebug('Found build tasks:');
+	_.each(buildTasks, task => {
+		let infoStr: string;
+		if (task.external) {
+			infoStr = `image pull [${task.imageName}]`;
+		} else {
+			infoStr = `build [${task.context}]`;
+		}
+		logger.logDebug(`    ${task.serviceName}: ${infoStr}`);
+	});
+
+	logger.logDebug(
+		`Resolving services with [${deviceInfo.deviceType}|${deviceInfo.arch}]`,
+	);
+
+	await performResolution(buildTasks, deviceInfo);
+
+	logger.logDebug('Found project types:');
+	_.each(buildTasks, task => {
+		if (task.external) {
+			logger.logDebug(`    ${task.serviceName}: External image`);
+		} else {
+			logger.logDebug(`    ${task.serviceName}: ${task.projectType}`);
+		}
+	});
+
+	return buildTasks;
+}
+
+async function performResolution(
+	tasks: MultiBuild.BuildTask[],
+	deviceInfo: DeviceInfo,
+): Promise<MultiBuild.BuildTask[]> {
+	const { cloneTarStream } = require('tar-utils');
+
+	return await new Promise<MultiBuild.BuildTask[]>((resolve, reject) => {
+		const buildTasks = MultiBuild.performResolution(
+			tasks,
+			deviceInfo.arch,
+			deviceInfo.deviceType,
+			{ error: [reject] },
+		);
+		// Do one task at a time (Bluebird.each instead of Bluebird.all)
+		// in order to reduce peak memory usage. Resolves to buildTasks.
+		Bluebird.each(buildTasks, buildTask => {
+			// buildStream is falsy for "external" tasks (image pull)
+			if (!buildTask.buildStream) {
+				return buildTask;
+			}
+			// Consume each task.buildStream in order to trigger the
+			// resolution events that define fields like:
+			//     task.dockerfile, task.dockerfilePath,
+			//     task.projectType, task.resolved
+			// This mimics what is currently done in `resin-builder`.
+			return cloneTarStream(buildTask.buildStream).then(
+				(clonedStream: tar.Pack) => {
+					buildTask.buildStream = clonedStream;
+					if (!buildTask.external && !buildTask.resolved) {
+						throw new Error(
+							`Project type for service "${
+								buildTask.serviceName
+							}" could not be determined. Missing a Dockerfile?`,
+						);
+					}
+					return buildTask;
+				},
 			);
-		};
-	}
+		}).then(resolve, reject);
+	});
 }

@@ -19,13 +19,18 @@ import * as Bluebird from 'bluebird';
 import * as Docker from 'dockerode';
 import * as _ from 'lodash';
 import { Composition } from 'resin-compose-parse';
-import { BuildTask, LocalImage, RegistrySecrets } from 'resin-multibuild';
+import {
+	BuildTask,
+	getAuthConfigObj,
+	LocalImage,
+	RegistrySecrets,
+} from 'resin-multibuild';
 import * as semver from 'resin-semver';
 import { Readable } from 'stream';
 
 import Logger = require('../logger');
 import { displayBuildLog } from './logs';
-
+import { makeBuildTasks } from '../compose_ts';
 import { DeviceInfo } from './api';
 import * as LocalPushErrors from './errors';
 
@@ -148,36 +153,12 @@ export async function performBuilds(
 ): Promise<void> {
 	const multibuild = await import('resin-multibuild');
 
-	const buildTasks = await multibuild.splitBuildStream(composition, tarStream);
-
-	logger.logDebug('Found build tasks:');
-	_.each(buildTasks, task => {
-		let infoStr: string;
-		if (task.external) {
-			infoStr = `image pull [${task.imageName}]`;
-		} else {
-			infoStr = `build [${task.context}]`;
-		}
-		logger.logDebug(`    ${task.serviceName}: ${infoStr}`);
-	});
-
-	logger.logDebug(
-		`Resolving services with [${deviceInfo.deviceType}|${deviceInfo.arch}]`,
+	const buildTasks = await makeBuildTasks(
+		composition,
+		tarStream,
+		deviceInfo,
+		logger,
 	);
-	await multibuild.performResolution(
-		buildTasks,
-		deviceInfo.arch,
-		deviceInfo.deviceType,
-	);
-
-	logger.logDebug('Found project types:');
-	_.each(buildTasks, task => {
-		if (!task.external) {
-			logger.logDebug(`    ${task.serviceName}: ${task.projectType}`);
-		} else {
-			logger.logDebug(`    ${task.serviceName}: External image`);
-		}
-	});
 
 	logger.logDebug('Probing remote daemon for cache images');
 	await assignDockerBuildOpts(docker, buildTasks, opts);
@@ -247,16 +228,23 @@ async function assignDockerBuildOpts(
 
 	logger.logDebug(`Using ${images.length} on-device images for cache...`);
 
-	_.each(buildTasks, (task: BuildTask) => {
+	await Bluebird.map(buildTasks, async (task: BuildTask) => {
 		task.dockerOpts = {
 			cachefrom: images,
 			labels: {
 				'io.resin.local.image': '1',
 				'io.resin.local.service': task.serviceName,
 			},
-			registryconfig: opts.registrySecrets,
 			t: generateImageName(task.serviceName),
 		};
+		if (task.external) {
+			task.dockerOpts.authconfig = await getAuthConfigObj(
+				task.imageName!,
+				opts.registrySecrets,
+			);
+		} else {
+			task.dockerOpts.registryconfig = opts.registrySecrets;
+		}
 	});
 }
 

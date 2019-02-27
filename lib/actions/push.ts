@@ -109,7 +109,10 @@ async function parseRegistrySecrets(
 	secretsFilename: string,
 ): Promise<RegistrySecrets> {
 	const { fs } = await require('mz');
-	const { RegistrySecretValidator } = await require('resin-multibuild');
+	const {
+		addCanonicalDockerHubEntry,
+		RegistrySecretValidator,
+	} = await require('resin-multibuild');
 	try {
 		let isYaml = false;
 		if (/.+\.ya?ml$/i.test(secretsFilename)) {
@@ -118,9 +121,11 @@ async function parseRegistrySecrets(
 			throw new Error('Filename must end with .json, .yml or .yaml');
 		}
 		const raw = (await fs.readFile(secretsFilename)).toString();
-		return new RegistrySecretValidator().validateRegistrySecrets(
+		const registrySecrets = new RegistrySecretValidator().validateRegistrySecrets(
 			isYaml ? (await require('js-yaml')).safeLoad(raw) : JSON.parse(raw),
 		);
+		addCanonicalDockerHubEntry(registrySecrets);
+		return registrySecrets;
 	} catch (error) {
 		error.message =
 			`Error validating registry secrets file "${secretsFilename}":\n` +
