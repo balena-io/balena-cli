@@ -6,7 +6,7 @@ import * as rindle from 'rindle';
 export async function executeWithPrivileges(
 	command: string[],
 	stderr?: NodeJS.WritableStream,
-): Promise<void> {
+): Promise<string> {
 	const opts = {
 		stdio: ['inherit', 'inherit', stderr ? 'pipe' : 'inherit'],
 		env: process.env,
@@ -22,5 +22,5 @@ export async function executeWithPrivileges(
 		ps.stderr.pipe(stderr);
 	}
 
-	return Bluebird.fromCallback(resolver => rindle.wait(ps, resolver));
+	return Bluebird.fromCallback<string>(callback => rindle.wait(ps, callback));
 }

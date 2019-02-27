@@ -21,6 +21,7 @@ export function normalizeUuidProp(
 	propName = 'uuid',
 ) {
 	if (_.isNumber(params[propName])) {
-		params[propName] = _.toString(params[propName]);
+		params[propName] =
+			params[propName + '_raw'] || _.toString(params[propName]);
 	}
 }
