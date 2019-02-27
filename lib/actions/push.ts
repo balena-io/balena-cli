@@ -18,6 +18,8 @@ import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
 import { BalenaSDK } from 'balena-sdk';
 
+import { registrySecretsHelp } from '../utils/messages';
+
 // An regex to detect an IP address, from https://www.regular-expressions.info/ip.html
 const IP_REGEX = new RegExp(
 	/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/,
@@ -111,28 +113,20 @@ export const push: CommandDefinition<
 	description:
 		'Start a remote build on the balena cloud build servers or a local mode device',
 	help: stripIndent`
-		This command can be used to start a build on the remote balena cloud builders,
-		or a local mode balena device.
+		This command can be used to start an image build on the remote balenaCloud build
+		servers, or on a local-mode balena device.
 
-		When building on the balena cloud the given source directory will be sent to the
-		balena builder, and the build will proceed. This can be used as a drop-in
-		replacement for git push to deploy.
+		When building on the balenaCloud servers, the given source directory will be
+		sent to the remote server. This can be used as a drop-in replacement for the
+		"git push" deployment method.
 
-		When building on a local mode device, the given source directory will be built
-		on the device, and the resulting containers will be run on the device. Logs will
-		be streamed back from the device as part of the same invocation.
+		When building on a local-mode device, the given source directory will be
+		built on the device, and the resulting containers will be run on the device.
+		Logs will be streamed back from the device as part of the same invocation.
+		The web dashboard can be used to switch a device to local mode:
+		https://www.balena.io/docs/learn/develop/local-mode/
 
-		The --registry-secrets option specifies a JSON or YAML file containing private
-		Docker registry usernames and passwords to be used when pulling base images.
-		Sample registry-secrets YAML file:
-
-			'https://idx.docker.io/v1/':
-				username: mike
-				password: cze14
-			'myregistry.com:25000':
-				username: ann
-				password: hunter2
-
+		${registrySecretsHelp.split('\n').join('\n\t\t')}
 
 		Examples:
 

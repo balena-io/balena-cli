@@ -3,6 +3,7 @@
 Promise = require('bluebird')
 dockerUtils = require('../utils/docker')
 compose = require('../utils/compose')
+{ registrySecretsHelp } = require('../utils/messages')
 
 ###
 Opts must be an object with the following keys:
@@ -121,14 +122,14 @@ deployProject = (docker, logger, composeOpts, opts) ->
 module.exports =
 	signature: 'deploy <appName> [image]'
 	description: 'Deploy a single image or a multicontainer project to a balena application'
-	help: '''
+	help: """
 		Usage: `deploy <appName> ([image] | --build [--source build-dir])`
 
 		Use this command to deploy an image or a complete multicontainer project to an
 		application, optionally building it first. The source images are searched for
 		(and optionally built) using the docker daemon in your development machine or
 		balena device. (See also the `balena push` command for the option of building
-		the image in balena's cloud builders.)
+		the image in the balenaCloud build servers.)
 
 		Unless an image is specified, this command will look into the current directory
 		(or the one specified by --source) for a compose file. If one is found, this
@@ -140,15 +141,17 @@ module.exports =
 		To deploy to an app on which you're a collaborator, use
 		`balena deploy <appOwnerUsername>/<appName>`.
 
-		Note: If building with this command, all options supported by `balena build`
-		are also supported with this command.
+		When --build is used, all options supported by `balena build` are also
+		supported by this command.
+
+		#{registrySecretsHelp}
 
 		Examples:
 
 			$ balena deploy myApp
 			$ balena deploy myApp --build --source myBuildDir/
 			$ balena deploy myApp myApp/myImage
-	'''
+	"""
 	permission: 'user'
 	primary: true
 	options: dockerUtils.appendOptions compose.appendOptions [
