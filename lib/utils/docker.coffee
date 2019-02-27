@@ -14,19 +14,19 @@ exports.appendConnectionOptions = appendConnectionOptions = (opts) ->
 		{
 			signature: 'docker'
 			parameter: 'docker'
-			description: 'Path to a local docker socket'
+			description: 'Path to a local docker socket (e.g. /var/run/docker.sock)'
 			alias: 'P'
 		},
 		{
 			signature: 'dockerHost'
 			parameter: 'dockerHost'
-			description: 'The address of the host containing the docker daemon'
+			description: 'Docker daemon hostname or IP address (dev machine or balena device) '
 			alias: 'h'
 		},
 		{
 			signature: 'dockerPort'
 			parameter: 'dockerPort'
-			description: 'The port on which the host docker daemon is listening'
+			description: 'Docker daemon TCP port number (hint: 2375 for balena devices)'
 			alias: 'p'
 		},
 		{
@@ -147,6 +147,8 @@ exports.generateBuildOpts = (options) ->
 		opts.squash = true
 	if options.buildArg?
 		opts.buildargs = parseBuildArgs(options.buildArg)
+	if not _.isEmpty(options['registry-secrets'])
+		opts.registryconfig = options['registry-secrets']
 	return opts
 
 exports.getDocker = (options) ->

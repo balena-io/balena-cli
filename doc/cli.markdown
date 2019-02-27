@@ -1351,15 +1351,15 @@ Pin the preloaded device to the preloaded release on provision
 
 #### --docker, -P &#60;docker&#62;
 
-Path to a local docker socket
+Path to a local docker socket (e.g. /var/run/docker.sock)
 
 #### --dockerHost, -h &#60;dockerHost&#62;
 
-The address of the host containing the docker daemon
+Docker daemon hostname or IP address (dev machine or balena device) 
 
 #### --dockerPort, -p &#60;dockerPort&#62;
 
-The port on which the host docker daemon is listening
+Docker daemon TCP port number (hint: 2375 for balena devices)
 
 #### --ca &#60;ca&#62;
 
@@ -1691,7 +1691,9 @@ name of container to stop
 ## build [source]
 
 Use this command to build an image or a complete multicontainer project
-with the provided docker daemon.
+with the provided docker daemon in your development machine or balena
+device. (See also the `balena push` command for the option of building
+images in balena's cloud builders.)
 
 You must provide either an application or a device-type/architecture
 pair to use the balena Dockerfile pre-processor
@@ -1738,17 +1740,21 @@ Run an emulated build using Qemu
 
 Display full log output
 
+#### --registry-secrets, -R &#60;secrets.yml|.json&#62;
+
+Path to a YAML or JSON file with passwords for a private Docker registry
+
 #### --docker, -P &#60;docker&#62;
 
-Path to a local docker socket
+Path to a local docker socket (e.g. /var/run/docker.sock)
 
 #### --dockerHost, -h &#60;dockerHost&#62;
 
-The address of the host containing the docker daemon
+Docker daemon hostname or IP address (dev machine or balena device) 
 
 #### --dockerPort, -p &#60;dockerPort&#62;
 
-The port on which the host docker daemon is listening
+Docker daemon TCP port number (hint: 2375 for balena devices)
 
 #### --ca &#60;ca&#62;
 
@@ -1780,10 +1786,13 @@ Squash newly built layers into a single new layer
 
 ## deploy &#60;appName&#62; [image]
 
-Use this command to deploy an image or a complete multicontainer project
-to an application, optionally building it first.
-
 Usage: `deploy <appName> ([image] | --build [--source build-dir])`
+
+Use this command to deploy an image or a complete multicontainer project to an
+application, optionally building it first. The source images are searched for
+(and optionally built) using the docker daemon in your development machine or
+balena device. (See also the `balena push` command for the option of building
+the image in balena's cloud builders.)
 
 Unless an image is specified, this command will look into the current directory
 (or the one specified by --source) for a compose file. If one is found, this
@@ -1830,17 +1839,21 @@ Run an emulated build using Qemu
 
 Display full log output
 
+#### --registry-secrets, -R &#60;secrets.yml|.json&#62;
+
+Path to a YAML or JSON file with passwords for a private Docker registry
+
 #### --docker, -P &#60;docker&#62;
 
-Path to a local docker socket
+Path to a local docker socket (e.g. /var/run/docker.sock)
 
 #### --dockerHost, -h &#60;dockerHost&#62;
 
-The address of the host containing the docker daemon
+Docker daemon hostname or IP address (dev machine or balena device) 
 
 #### --dockerPort, -p &#60;dockerPort&#62;
 
-The port on which the host docker daemon is listening
+Docker daemon TCP port number (hint: 2375 for balena devices)
 
 #### --ca &#60;ca&#62;
 

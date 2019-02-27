@@ -41,6 +41,12 @@ exports.appendOptions = (opts) ->
 			description: 'Display full log output'
 			boolean: true
 		},
+		{
+			signature: 'registry-secrets',
+			alias: 'R',
+			parameter: 'secrets.yml|.json',
+			description: 'Path to a YAML or JSON file with passwords for a private Docker registry',
+		},
 	]
 
 exports.generateOpts = (options) ->

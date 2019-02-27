@@ -25,6 +25,51 @@ import { Composition } from 'resin-compose-parse';
 import { DeviceInfo } from './device/api';
 import Logger = require('./logger');
 
+export interface RegistrySecrets {
+	[registryAddress: string]: {
+		username: string;
+		password: string;
+	};
+}
+
+export async function parseRegistrySecrets(
+	secretsFilename: string,
+): Promise<RegistrySecrets> {
+	const { fs } = require('mz');
+	try {
+		let isYaml = false;
+		if (/.+\.ya?ml$/i.test(secretsFilename)) {
+			isYaml = true;
+		} else if (!/.+\.json$/i.test(secretsFilename)) {
+			throw new Error('Filename must end with .json, .yml or .yaml');
+		}
+		const raw = (await fs.readFile(secretsFilename)).toString();
+		const registrySecrets = new MultiBuild.RegistrySecretValidator().validateRegistrySecrets(
+			isYaml ? require('js-yaml').safeLoad(raw) : JSON.parse(raw),
+		);
+		MultiBuild.addCanonicalDockerHubEntry(registrySecrets);
+		return registrySecrets;
+	} catch (error) {
+		error.message =
+			`Error validating registry secrets file "${secretsFilename}":\n` +
+			error.message;
+		throw error;
+	}
+}
+
+/**
+ * Validate the compose-specific command-line options defined in compose.coffee.
+ * This function is meant to be called very early on to validate users' input,
+ * before any project loading / building / deploying.
+ */
+export async function validateComposeOptions(options: { [opt: string]: any }) {
+	if (options['registry-secrets']) {
+		options['registry-secrets'] = await parseRegistrySecrets(
+			options['registry-secrets'],
+		);
+	}
+}
+
 /**
  * Create a BuildTask array of "resolved build tasks" by calling multibuild
  * .splitBuildStream() and performResolution(), and add build stream error

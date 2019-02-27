@@ -50,7 +50,9 @@ module.exports =
 	primary: true
 	help: '''
 		Use this command to build an image or a complete multicontainer project
-		with the provided docker daemon.
+		with the provided docker daemon in your development machine or balena
+		device. (See also the `balena push` command for the option of building
+		images in balena's cloud builders.)
 
 		You must provide either an application or a device-type/architecture
 		pair to use the balena Dockerfile pre-processor
@@ -94,7 +96,7 @@ module.exports =
 	action: (params, options, done) ->
 		# compositions with many services trigger misleading warnings
 		require('events').defaultMaxListeners = 1000
-
+		{ validateComposeOptions } = require('../utils/compose_ts')
 		{ exitWithExpectedError } = require('../utils/patterns')
 		helpers = require('../utils/helpers')
 		Logger = require('../utils/logger')
@@ -108,6 +110,8 @@ module.exports =
 			# as an option. swap them here
 			options.source ?= params.source
 			delete params.source
+
+			validateComposeOptions(options)
 
 			{ application, arch, deviceType } = options
 
