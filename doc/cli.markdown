@@ -1377,28 +1377,32 @@ Docker host TLS key file
 
 ## push &#60;applicationOrDevice&#62;
 
-This command can be used to start a build on the remote balena cloud builders,
-or a local mode balena device.
+This command can be used to start an image build on the remote balenaCloud build
+servers, or on a local-mode balena device.
 
-When building on the balena cloud the given source directory will be sent to the
-balena builder, and the build will proceed. This can be used as a drop-in
-replacement for git push to deploy.
+When building on the balenaCloud servers, the given source directory will be
+sent to the remote server. This can be used as a drop-in replacement for the
+"git push" deployment method.
 
-When building on a local mode device, the given source directory will be built
-on the device, and the resulting containers will be run on the device. Logs will
-be streamed back from the device as part of the same invocation.
+When building on a local-mode device, the given source directory will be
+built on the device, and the resulting containers will be run on the device.
+Logs will be streamed back from the device as part of the same invocation.
+The web dashboard can be used to switch a device to local mode:
+https://www.balena.io/docs/learn/develop/local-mode/
 
 The --registry-secrets option specifies a JSON or YAML file containing private
 Docker registry usernames and passwords to be used when pulling base images.
 Sample registry-secrets YAML file:
 
-	'https://idx.docker.io/v1/':
-		username: mike
-		password: cze14
-	'myregistry.com:25000':
+	'my-registry-server.com:25000':
 		username: ann
 		password: hunter2
-
+	'':  # Use the empty string to refer to the Docker Hub
+		username: mike
+		password: cze14
+	'eu.gcr.io':  # Google Container Registry
+		username: '_json_key'
+		password: '{escaped contents of the GCR keyfile.json file}'
 
 Examples:
 
@@ -1693,7 +1697,7 @@ name of container to stop
 Use this command to build an image or a complete multicontainer project
 with the provided docker daemon in your development machine or balena
 device. (See also the `balena push` command for the option of building
-images in balena's cloud builders.)
+images in the balenaCloud build servers.)
 
 You must provide either an application or a device-type/architecture
 pair to use the balena Dockerfile pre-processor
@@ -1704,6 +1708,20 @@ directory if one isn't specified) for a compose file. If one is found, this
 command will build each service defined in the compose file. If a compose file
 isn't found, the command will look for a Dockerfile, and if yet that isn't found,
 it will try to generate one.
+
+The --registry-secrets option specifies a JSON or YAML file containing private
+Docker registry usernames and passwords to be used when pulling base images.
+Sample registry-secrets YAML file:
+
+	'my-registry-server.com:25000':
+		username: ann
+		password: hunter2
+	'':  # Use the empty string to refer to the Docker Hub
+		username: mike
+		password: cze14
+	'eu.gcr.io':  # Google Container Registry
+		username: '_json_key'
+		password: '{escaped contents of the GCR keyfile.json file}'
 
 Examples:
 
@@ -1792,7 +1810,7 @@ Use this command to deploy an image or a complete multicontainer project to an
 application, optionally building it first. The source images are searched for
 (and optionally built) using the docker daemon in your development machine or
 balena device. (See also the `balena push` command for the option of building
-the image in balena's cloud builders.)
+the image in the balenaCloud build servers.)
 
 Unless an image is specified, this command will look into the current directory
 (or the one specified by --source) for a compose file. If one is found, this
@@ -1804,8 +1822,22 @@ generate one.
 To deploy to an app on which you're a collaborator, use
 `balena deploy <appOwnerUsername>/<appName>`.
 
-Note: If building with this command, all options supported by `balena build`
-are also supported with this command.
+When --build is used, all options supported by `balena build` are also
+supported by this command.
+
+The --registry-secrets option specifies a JSON or YAML file containing private
+Docker registry usernames and passwords to be used when pulling base images.
+Sample registry-secrets YAML file:
+
+	'my-registry-server.com:25000':
+		username: ann
+		password: hunter2
+	'':  # Use the empty string to refer to the Docker Hub
+		username: mike
+		password: cze14
+	'eu.gcr.io':  # Google Container Registry
+		username: '_json_key'
+		password: '{escaped contents of the GCR keyfile.json file}'
 
 Examples:
 

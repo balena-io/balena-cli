@@ -3,6 +3,7 @@
 Promise = require('bluebird')
 dockerUtils = require('../utils/docker')
 compose = require('../utils/compose')
+{ registrySecretsHelp } = require('../utils/messages')
 
 ###
 Opts must be an object with the following keys:
@@ -48,11 +49,11 @@ module.exports =
 	signature: 'build [source]'
 	description: 'Build a single image or a multicontainer project locally'
 	primary: true
-	help: '''
+	help: """
 		Use this command to build an image or a complete multicontainer project
 		with the provided docker daemon in your development machine or balena
 		device. (See also the `balena push` command for the option of building
-		images in balena's cloud builders.)
+		images in the balenaCloud build servers.)
 
 		You must provide either an application or a device-type/architecture
 		pair to use the balena Dockerfile pre-processor
@@ -64,6 +65,8 @@ module.exports =
 		isn't found, the command will look for a Dockerfile, and if yet that isn't found,
 		it will try to generate one.
 
+		#{registrySecretsHelp}
+
 		Examples:
 
 			$ balena build
@@ -72,7 +75,7 @@ module.exports =
 			$ balena build --application MyApp ./source/
 			$ balena build --docker '/var/run/docker.sock'
 			$ balena build --dockerHost my.docker.host --dockerPort 2376 --ca ca.pem --key key.pem --cert cert.pem
-	'''
+	"""
 	options: dockerUtils.appendOptions compose.appendOptions [
 		{
 			signature: 'arch'
