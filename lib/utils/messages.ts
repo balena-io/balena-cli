@@ -1,15 +1,22 @@
+const DEBUG_MODE = !!process.env.DEBUG;
+
 export const reachingOut = `\
 If you need help, or just want to say hi, don't hesitate in reaching out at:
 
-  GitHub: https://github.com/balena-io/balena-cli/issues/new
-  Forums: https://forums.balena.io\
+  Forums: https://forums.balena.io
+  GitHub: https://github.com/balena-io/balena-cli/issues/new\
 `;
 
-export const getHelp = `\
+const debugHint = `\
+Additional information may be available in debug mode. Prefix the command
+line with DEBUG=1, i.e.:  DEBUG=1 balena ...
+`;
+
+export const getHelp = `${DEBUG_MODE ? '' : debugHint}\
 If you need help, don't hesitate in contacting us at:
 
-  GitHub: https://github.com/balena-io/balena-cli/issues/new
-  Forums: https://forums.balena.io\
+  Forums: https://forums.balena.io
+  GitHub: https://github.com/balena-io/balena-cli/issues/new\
 `;
 
 export const balenaAsciiArt = `\
