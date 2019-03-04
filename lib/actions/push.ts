@@ -194,11 +194,11 @@ export const push: CommandDefinition<
 		switch (buildTarget) {
 			case BuildTarget.Cloud:
 				const app = appOrDevice;
-				Bluebird.join(
+				await Bluebird.join(
 					sdk.auth.getToken(),
 					sdk.settings.get('balenaUrl'),
 					getAppOwner(sdk, app),
-					(token, baseUrl, owner) => {
+					async (token, baseUrl, owner) => {
 						const opts = {
 							emulated: options.emulated,
 							nocache: options.nocache,
@@ -214,14 +214,14 @@ export const push: CommandDefinition<
 							opts,
 						};
 
-						return remote.startRemoteBuild(args);
+						return await remote.startRemoteBuild(args);
 					},
 				).nodeify(done);
 				break;
 			case BuildTarget.Device:
 				const device = appOrDevice;
 				// TODO: Support passing a different port
-				Bluebird.resolve(
+				await Bluebird.resolve(
 					deviceDeploy.deployToDevice({
 						source,
 						deviceHost: device,

@@ -13,15 +13,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-
+import * as Bluebird from 'bluebird';
 import * as JSONStream from 'JSONStream';
+import * as readline from 'readline';
 import * as request from 'request';
-import { BalenaSDK } from 'balena-sdk';
 import * as Stream from 'stream';
+import { BalenaSDK } from 'balena-sdk';
 import { Pack } from 'tar-stream';
+import { RegistrySecrets } from 'resin-multibuild';
 import { TypedError } from 'typed-error';
 
-import { RegistrySecrets } from 'resin-multibuild';
+import { exitWithExpectedError } from '../utils/patterns';
 import { tarDirectory } from './compose';
 
 const DEBUG_MODE = !!process.env.DEBUG;
@@ -85,18 +87,16 @@ async function getBuilderEndpoint(
 }
 
 export async function startRemoteBuild(build: RemoteBuild): Promise<void> {
-	const Bluebird = await import('bluebird');
-
-	const stream = await getRequestStream(build);
+	const stream = await getRemoteBuildStream(build);
 
 	// Special windows handling (win64 also reports win32)
 	if (process.platform === 'win32') {
-		const readline = (await import('readline')).createInterface({
+		const rl = readline.createInterface({
 			input: process.stdin,
 			output: process.stdout,
 		});
 
-		readline.on('SIGINT', () => process.emit('SIGINT'));
+		rl.on('SIGINT', () => process.emit('SIGINT'));
 	}
 
 	return new Bluebird((resolve, reject) => {
@@ -126,13 +126,11 @@ export async function startRemoteBuild(build: RemoteBuild): Promise<void> {
 	});
 }
 
-async function handleBuilderMetadata(obj: BuilderMessage, build: RemoteBuild) {
-	const { stripIndent } = await import('common-tags');
+function handleBuilderMetadata(obj: BuilderMessage, build: RemoteBuild) {
+	const { stripIndent } = require('common-tags');
 
 	switch (obj.resource) {
 		case 'cursor':
-			const readline = await import('readline');
-
 			if (obj.value == null) {
 				return;
 			}
@@ -177,8 +175,8 @@ async function handleBuilderMetadata(obj: BuilderMessage, build: RemoteBuild) {
 
 function getBuilderMessageHandler(
 	build: RemoteBuild,
-): (obj: BuilderMessage) => Promise<void> {
-	return async (obj: BuilderMessage) => {
+): (obj: BuilderMessage) => void {
+	return (obj: BuilderMessage) => {
 		if (DEBUG_MODE) {
 			console.log(`[debug] handling message: ${JSON.stringify(obj)}`);
 		}
@@ -186,7 +184,6 @@ function getBuilderMessageHandler(
 			return handleBuilderMetadata(obj, build);
 		}
 		if (obj.message) {
-			const readline = await import('readline');
 			readline.clearLine(process.stdout, 0);
 
 			const message = obj.message.replace(TRIM_REGEX, '');
@@ -216,72 +213,119 @@ async function cancelBuildIfNecessary(build: RemoteBuild): Promise<void> {
 }
 
 /**
- * Return a callback function that takes a tar-stream Pack object as argument
- * and uses it to add the '.balena/registry-secrets.json' metadata file that
- * contains usernames and passwords to private docker registries. The builder
- * will remove the file from the tar stream and use the secrets to pull base
- * images from users' private registries.
- * @param registrySecrets JS object containing registry usernames and passwords
- * @returns A callback function, or undefined if registrySecrets is empty
+ * Call tarDirectory() with a suitable callback to insert registry secrets in
+ * the tar stream, and return the stream.
  */
-function getTarStreamCallbackForRegistrySecrets(
-	registrySecrets: RegistrySecrets,
-): ((pack: Pack) => void) | undefined {
-	if (Object.keys(registrySecrets).length > 0) {
-		return (pack: Pack) => {
-			pack.entry(
-				{ name: '.balena/registry-secrets.json' },
-				JSON.stringify(registrySecrets),
-			);
-		};
+async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
+	const path = await import('path');
+	const visuals = await import('resin-cli-visuals');
+	const tarSpinner = new visuals.Spinner('Packaging the project source...');
+	const preFinalizeCallback = (pack: Pack) => {
+		pack.entry(
+			{ name: '.balena/registry-secrets.json' },
+			JSON.stringify(build.opts.registrySecrets),
+		);
+	};
+
+	try {
+		tarSpinner.start();
+		return await tarDirectory(
+			path.resolve(build.source),
+			Object.keys(build.opts.registrySecrets).length > 0
+				? preFinalizeCallback
+				: undefined,
+		);
+	} finally {
+		tarSpinner.stop();
 	}
 }
 
-async function getRequestStream(build: RemoteBuild): Promise<Stream.Duplex> {
-	const path = await import('path');
-	const visuals = await import('resin-cli-visuals');
-	const zlib = await import('zlib');
-
-	const tarSpinner = new visuals.Spinner('Packaging the project source...');
-	tarSpinner.start();
-	// Tar the directory so that we can send it to the builder
-	const tarStream = await tarDirectory(
-		path.resolve(build.source),
-		getTarStreamCallbackForRegistrySecrets(build.opts.registrySecrets),
-	);
-	tarSpinner.stop();
-
-	const url = await getBuilderEndpoint(
-		build.baseUrl,
-		build.owner,
-		build.app,
-		build.opts,
-	);
-
+/**
+ * Initiate a POST HTTP request to the remote builder and add some event
+ * listeners.
+ *
+ * ¡! Note: this function must be synchronous because of a bug in the `request`
+ *    library that requires the following two steps to take place in the same
+ *    iteration of Node's event loop: (1) adding a listener for the 'response'
+ *    event and (2) calling request.pipe():
+ *    https://github.com/request/request/issues/887
+ */
+function createRemoteBuildRequest(
+	build: RemoteBuild,
+	tarStream: Stream.Readable,
+	builderUrl: string,
+	onError: (error: Error) => void,
+): request.Request {
+	const zlib = require('zlib');
 	if (DEBUG_MODE) {
-		console.log(`[debug] Connecting to builder at ${url}`);
+		console.log(`[debug] Connecting to builder at ${builderUrl}`);
 	}
-	const post = request.post({
-		url,
-		auth: {
-			bearer: build.auth,
-		},
-		headers: {
-			'Content-Encoding': 'gzip',
-		},
-		body: tarStream.pipe(
-			zlib.createGzip({
-				level: 6,
-			}),
-		),
-	});
+	return request
+		.post({
+			url: builderUrl,
+			auth: { bearer: build.auth },
+			headers: { 'Content-Encoding': 'gzip' },
+			body: tarStream.pipe(zlib.createGzip({ level: 6 })),
+		})
+		.on('error', onError)
+		.once('response', (response: request.RequestResponse) => {
+			if (response.statusCode >= 100 && response.statusCode < 400) {
+				if (DEBUG_MODE) {
+					console.log(
+						`[debug] received HTTP ${response.statusCode} ${
+							response.statusMessage
+						}`,
+					);
+				}
+			} else {
+				let msgArr = [
+					'Remote builder responded with HTTP error:',
+					`${response.statusCode} ${response.statusMessage}`,
+				];
+				if (response.body) {
+					msgArr.push(response.body);
+				}
+				onError(new Error(msgArr.join('\n')));
+			}
+		});
+}
 
+async function getRemoteBuildStream(
+	build: RemoteBuild,
+): Promise<NodeJS.ReadWriteStream> {
+	const tarStream = await getTarStream(build);
+	const visuals = await import('resin-cli-visuals');
 	const uploadSpinner = new visuals.Spinner(
 		'Uploading source package to balena cloud',
 	);
-	uploadSpinner.start();
+	const exitOnError = (error: Error): never => {
+		uploadSpinner.stop();
+		return exitWithExpectedError(error);
+	};
 
-	const parseStream = post.pipe(JSONStream.parse('*'));
-	parseStream.on('data', () => uploadSpinner.stop());
-	return parseStream as Stream.Duplex;
+	try {
+		uploadSpinner.start();
+		const builderUrl = await getBuilderEndpoint(
+			build.baseUrl,
+			build.owner,
+			build.app,
+			build.opts,
+		);
+		const buildRequest = createRemoteBuildRequest(
+			build,
+			tarStream,
+			builderUrl,
+			exitOnError,
+		);
+		return buildRequest.pipe(
+			JSONStream.parse('*')
+				.once('close', () => uploadSpinner.stop())
+				.once('data', () => uploadSpinner.stop())
+				.once('end', () => uploadSpinner.stop())
+				.once('error', () => uploadSpinner.stop())
+				.once('finish', () => uploadSpinner.stop()),
+		);
+	} catch (error) {
+		return exitOnError(error);
+	}
 }
