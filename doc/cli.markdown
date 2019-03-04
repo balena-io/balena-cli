@@ -589,17 +589,14 @@ path to the config JSON file, see `balena os build-config`
 
 ## envs
 
-Use this command to list all environment variables for
-a particular application or device.
+Use this command to list the environment variables of an application
+or device.
 
-This command lists all application/device environment variables.
+The --config option is used to list "config" variables that configure
+balena features.
 
-If you want to see config variables, used to configure
-balena features, use the --config option.
-
-At the moment the CLI does not support per-service variables,
-so the following commands will only show service-wide
-environment variables.
+Service-specific variables are not currently supported. The following
+examples list variables that apply to all services in an app or device.
 
 Example:
 
@@ -623,12 +620,16 @@ show config variables
 
 ## env rm &#60;id&#62;
 
-Use this command to remove an environment variable from an application.
+Use this command to remove an environment variable from an application
+or device.
 
 Notice this command asks for confirmation interactively.
 You can avoid this by passing the `--yes` boolean option.
 
-If you want to eliminate a device environment variable, pass the `--device` boolean option.
+The --device option selects a device instead of an application.
+
+Service-specific variables are not currently supported. The following
+examples remove variables that apply to all services in an app or device.
 
 Examples:
 
@@ -648,10 +649,8 @@ device
 
 ## env add &#60;key&#62; [value]
 
-Use this command to add an enviroment or config variable to an application.
-
-At the moment the CLI doesn't fully support multi-container applications,
-so the following commands will set service-wide environment variables.
+Use this command to add an enviroment or config variable to an application
+or device.
 
 If value is omitted, the tool will attempt to use the variable's value
 as defined in your host machine.
@@ -661,6 +660,9 @@ to a specific device.
 
 If the value is grabbed from the environment, a warning message will be printed.
 Use `--quiet` to remove it.
+
+Service-specific variables are not currently supported. The following
+examples set variables that apply to all services in an app or device.
 
 Examples:
 
@@ -680,9 +682,13 @@ device uuid
 
 ## env rename &#60;id&#62; &#60;value&#62;
 
-Use this command to change the value of an enviroment variable.
+Use this command to change the value of an application or device
+enviroment variable.
 
-Pass the `--device` boolean option if you want to rename a device environment variable.
+The --device option selects a device instead of an application.
+
+Service-specific variables are not currently supported. The following
+examples modify variables that apply to all services in an app or device.
 
 Examples:
 
