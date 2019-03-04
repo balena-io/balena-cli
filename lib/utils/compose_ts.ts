@@ -35,7 +35,8 @@ export interface RegistrySecrets {
 export async function parseRegistrySecrets(
 	secretsFilename: string,
 ): Promise<RegistrySecrets> {
-	const { fs } = require('mz');
+	const { fs } = await import('mz');
+	const { exitWithExpectedError } = await import('../utils/patterns');
 	try {
 		let isYaml = false;
 		if (/.+\.ya?ml$/i.test(secretsFilename)) {
@@ -50,10 +51,11 @@ export async function parseRegistrySecrets(
 		MultiBuild.addCanonicalDockerHubEntry(registrySecrets);
 		return registrySecrets;
 	} catch (error) {
-		error.message =
-			`Error validating registry secrets file "${secretsFilename}":\n` +
-			error.message;
-		throw error;
+		return exitWithExpectedError(
+			`Error validating registry secrets file "${secretsFilename}":\n${
+				error.message
+			}`,
+		);
 	}
 }
 

@@ -123,7 +123,7 @@
     "columnify": "^1.5.2",
     "common-tags": "^1.7.2",
     "denymount": "^2.2.0",
-    "docker-progress": "^3.0.1",
+    "docker-progress": "^3.0.4",
     "docker-qemu-transpose": "^0.5.3",
     "docker-toolbelt": "^3.3.5",
     "dockerode": "^2.5.5",
