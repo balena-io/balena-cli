@@ -160,7 +160,7 @@
     "resin-compose-parse": "^2.0.0",
     "resin-doodles": "0.0.1",
     "resin-image-fs": "^5.0.2",
-    "resin-multibuild": "^2.1.1",
+    "resin-multibuild": "^2.1.2",
     "resin-release": "^1.2.0",
     "resin-semver": "^1.4.0",
     "resin-stream-logger": "^0.1.2",
