@@ -409,6 +409,7 @@ authorizePush = (sdk, logger, tokenAuthEndpoint, registry, images, previousRepos
 pushAndUpdateServiceImages = (docker, token, images, afterEach) ->
 	chalk = require('chalk')
 	{ DockerProgress } = require('docker-progress')
+	{ retry } = require('./helpers')
 	tty = require('./tty')(process.stdout)
 
 	opts = { authconfig: registrytoken: token }
@@ -421,7 +422,13 @@ pushAndUpdateServiceImages = (docker, token, images, afterEach) ->
 		Promise.map images, ({ serviceImage, localImage, props, logs }, index) ->
 			Promise.join(
 				localImage.inspect().get('Size')
-				progress.push(localImage.name, reporters[index], opts).finally(renderer.end)
+				retry(
+					-> progress.push(localImage.name, reporters[index], opts)
+					3  # `times` - retry 3 times
+					localImage.name  # `label` included in retry log messages
+					2000  # `delayMs` - wait 2 seconds before the 1st retry
+					1.4  # `backoffScaler` - wait multiplier for each retry
+				).finally(renderer.end)
 				(size, digest) ->
 					serviceImage.image_size = size
 					serviceImage.content_hash = digest

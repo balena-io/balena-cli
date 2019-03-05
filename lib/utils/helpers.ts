@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Balena
+Copyright 2016-2019 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -186,4 +186,41 @@ export function getSubShellCommand(command: string) {
 			args: ['-c', command],
 		};
 	}
+}
+
+/**
+ * Call `func`, and if func() throws an error or returns a promise that
+ * eventually rejects, retry it `times` many times, each time printing a
+ * log message including the given `label` and the error that led to
+ * retrying. Wait delayMs before the first retry, multiplying the wait
+ * by backoffScaler for each further attempt.
+ * @param func: The function to call and, if needed, retry calling
+ * @param times: How many times to retry calling func()
+ * @param label: Label to include in the retry log message
+ * @param delayMs: How long to wait before the first retry
+ * @param backoffScaler: Multiplier to previous wait time
+ * @param count: Used "internally" for the recursive calls
+ */
+export function retry<T>(
+	func: () => T,
+	times: number,
+	label: string,
+	delayMs = 1000,
+	backoffScaler = 2,
+	count = 0,
+): Bluebird<T> {
+	let promise = Bluebird.try(func);
+	if (count < times) {
+		promise = promise.catch((err: Error) => {
+			const delay = backoffScaler ** count * delayMs;
+			console.log(
+				`Retrying "${label}" after ${(delay / 1000).toFixed(2)}s (${count +
+					1} of ${times}) due to: ${err}`,
+			);
+			return Bluebird.delay(delay).then(() =>
+				retry(func, times, label, delayMs, backoffScaler, count + 1),
+			);
+		});
+	}
+	return promise;
 }
