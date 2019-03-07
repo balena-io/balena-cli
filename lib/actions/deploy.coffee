@@ -84,7 +84,8 @@ deployProject = (docker, logger, composeOpts, opts) ->
 					sdk.auth.whoami()
 					sdk.settings.get('balenaUrl')
 					{
-						appName: opts.app.app_name
+						# opts.appName may be prefixed by 'owner/', unlike opts.app.app_name
+						appName: opts.appName
 						imageName: images[0].name
 						buildLogs: images[0].logs
 						shouldUploadLogs: opts.shouldUploadLogs
@@ -184,6 +185,7 @@ module.exports =
 
 		logger.logDebug('Parsing input...')
 
+		appName = undefined
 		Promise.try ->
 			{ appName, image } = params
 
@@ -218,6 +220,7 @@ module.exports =
 				(docker, buildOpts, composeOpts) ->
 					deployProject(docker, logger, composeOpts, {
 						app
+						appName  # may be prefixed by 'owner/', unlike app.app_name
 						image
 						shouldPerformBuild
 						shouldUploadLogs
