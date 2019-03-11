@@ -35,6 +35,7 @@ module.exports =
 			$ balena ssh 7cf02a6 --port 8080
 			$ balena ssh 7cf02a6 -v
 			$ balena ssh 7cf02a6 -s
+			$ balena ssh 7cf02a6 -s -c 'date'
 	'''
 	permission: 'user'
 	primary: true
@@ -53,6 +54,11 @@ module.exports =
 			boolean: true
 			description: "don't use the proxy configuration for this connection.
 				Only makes sense if you've configured proxy globally."
+	,
+			signature: 'command'
+			parameter: 'command'
+			description: 'command to run after connecting to the device (only in the host OS)'
+			alias: 'c'
 	]
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
@@ -122,20 +128,29 @@ module.exports =
 				throw new Error('Did not find running application container') if not containerId?
 				Promise.try ->
 					sshProxyCommand = getSshProxyCommand(hasTunnelBin)
+					sshCommand = ''
 
 					if options.host
 						accessCommand = "host #{uuid}"
+						if options.command
+							# Quote the command so it doesn't get broken up by the SSH connection
+							sshCommand = "'#{options.command}'"
 					else
 						accessCommand = "enter #{uuid} #{containerId}"
+
 
 					command = "ssh #{verbose} -t \
 						-o LogLevel=ERROR \
 						-o StrictHostKeyChecking=no \
 						-o UserKnownHostsFile=/dev/null \
 						#{sshProxyCommand} \
-						-p #{options.port} #{username}@ssh.#{proxyUrl} #{accessCommand}"
+						-p #{options.port} #{username}@ssh.#{proxyUrl} #{accessCommand} \
+						#{sshCommand}"
 
 					subShellCommand = getSubShellCommand(command)
 					child_process.spawn subShellCommand.program, subShellCommand.args,
 						stdio: 'inherit'
+					.on 'exit', (code) ->
+						if code isnt 0
+							process.exit code
 		.nodeify(done)

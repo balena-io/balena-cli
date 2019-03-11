@@ -975,6 +975,7 @@ Examples:
 	$ balena ssh 7cf02a6 --port 8080
 	$ balena ssh 7cf02a6 -v
 	$ balena ssh 7cf02a6 -s
+	$ balena ssh 7cf02a6 -s -c 'date'
 
 ### Options
 
@@ -993,6 +994,10 @@ access host OS (for devices with balenaOS >= 2.0.0+rev1)
 #### --noproxy
 
 don't use the proxy configuration for this connection. Only makes sense if you've configured proxy globally.
+
+#### --command, -c &#60;command&#62;
+
+command to run after connecting to the device (only in the host OS)
 
 # Notes
 
