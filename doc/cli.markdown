@@ -975,6 +975,7 @@ Examples:
 	$ balena ssh 7cf02a6 --port 8080
 	$ balena ssh 7cf02a6 -v
 	$ balena ssh 7cf02a6 -s
+	$ balena ssh 7cf02a6 --noninteractive
 
 ### Options
 
@@ -993,6 +994,10 @@ access host OS (for devices with balenaOS >= 2.0.0+rev1)
 #### --noproxy
 
 don't use the proxy configuration for this connection. Only makes sense if you've configured proxy globally.
+
+#### --noninteractive
+
+run command non-interactively, do not automatically suggest devices to connect to if UUID not found
 
 # Notes
 

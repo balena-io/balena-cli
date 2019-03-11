@@ -35,6 +35,7 @@ module.exports =
 			$ balena ssh 7cf02a6 --port 8080
 			$ balena ssh 7cf02a6 -v
 			$ balena ssh 7cf02a6 -s
+			$ balena ssh 7cf02a6 --noninteractive
 	'''
 	permission: 'user'
 	primary: true
@@ -53,6 +54,10 @@ module.exports =
 			boolean: true
 			description: "don't use the proxy configuration for this connection.
 				Only makes sense if you've configured proxy globally."
+	,
+			signature: 'noninteractive'
+			boolean: true
+			description: 'run command non-interactively, do not automatically suggest devices to connect to if UUID not found'
 	]
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
@@ -103,6 +108,9 @@ module.exports =
 			return balena.models.device.has(params.uuid)
 		.then (uuidExists) ->
 			return params.uuid if uuidExists
+			if options.noninteractive
+				console.error("Could not find device: #{params.uuid}")
+				process.exit(1)
 			return patterns.inferOrSelectDevice()
 		.then (uuid) ->
 			console.info("Connecting to: #{uuid}")
