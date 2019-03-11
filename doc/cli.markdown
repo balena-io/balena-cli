@@ -966,7 +966,7 @@ installed in your shell environment. For more information (including Windows
 support) please check the README here: https://github.com/balena-io/balena-cli
 
 Use this command to get a shell into the running application container of
-your device.
+your device, and you can also run commands in the host OS
 
 Examples:
 
