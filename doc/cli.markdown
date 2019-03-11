@@ -154,7 +154,7 @@ environment variable (in the same standard URL format).
 
 - SSH
 
-	- [ssh [uuid]](#ssh-uuid)
+	- [ssh [uuid] [command]](#ssh-uuid-command)
 
 - Notes
 
@@ -959,7 +959,7 @@ increase verbosity
 
 # SSH
 
-## ssh [uuid]
+## ssh [uuid] [command]
 
 Warning: 'balena ssh' requires an openssh-compatible client to be correctly
 installed in your shell environment. For more information (including Windows
@@ -975,7 +975,7 @@ Examples:
 	$ balena ssh 7cf02a6 --port 8080
 	$ balena ssh 7cf02a6 -v
 	$ balena ssh 7cf02a6 -s
-	$ balena ssh 7cf02a6 -s -c 'date'
+	$ balena ssh 7cf02a6 'date' -s
 
 ### Options
 
@@ -994,10 +994,6 @@ access host OS (for devices with balenaOS >= 2.0.0+rev1)
 #### --noproxy
 
 don't use the proxy configuration for this connection. Only makes sense if you've configured proxy globally.
-
-#### --command, -c &#60;command&#62;
-
-command to run after connecting to the device (only in the host OS)
 
 # Notes
 
