@@ -142,6 +142,6 @@ export const advancedConfig = {
 export const hostOSAccess = {
 	signature: 'host',
 	boolean: true,
-	description: 'access host OS (for devices with balenaOS >= 2.7.5)',
+	description: 'access host OS (for devices with balenaOS >= 2.0.0+rev1)',
 	alias: 's',
 };
