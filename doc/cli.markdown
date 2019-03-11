@@ -988,7 +988,7 @@ increase verbosity
 
 #### --host, -s
 
-access host OS (for devices with balenaOS >= 2.7.5)
+access host OS (for devices with balenaOS >= 2.0.0+rev1)
 
 #### --noproxy
 
