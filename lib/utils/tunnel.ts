@@ -13,16 +13,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import * as Bluebird from 'bluebird';
 import { BalenaSDK } from 'balena-sdk';
+import * as Bluebird from 'bluebird';
 import { Socket } from 'net';
 import { TypedError } from 'typed-error';
 
 const PROXY_CONNECT_TIMEOUT_MS = 10000;
 
 class UnableToConnectError extends TypedError {
-	status: string;
-	statusCode: string;
+	public status: string;
+	public statusCode: string;
 	constructor(statusCode: string, status: string) {
 		super(`Unable to connect: ${statusCode} ${status}`);
 		this.status = status;
@@ -31,7 +31,7 @@ class UnableToConnectError extends TypedError {
 }
 
 class RemoteSocketNotListening extends TypedError {
-	port: number;
+	public port: number;
 	constructor(port: number) {
 		super(`Device is not listening on port ${port}`);
 	}
@@ -104,7 +104,7 @@ const openPortThroughProxy = (
 				const [httpStatus] = data.toString('utf8').split('\r\n');
 				const [, httpStatusCode, ...httpMessage] = httpStatus.split(' ');
 
-				if (parseInt(httpStatusCode) === 200) {
+				if (parseInt(httpStatusCode, 10) === 200) {
 					proxyTunnel.setTimeout(0);
 					resolve(proxyTunnel);
 				} else {

@@ -1,9 +1,24 @@
-import { stripIndent } from 'common-tags';
+/**
+ * @license
+ * Copyright 2019 Balena Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import * as BalenaSdk from 'balena-sdk';
-
-import Logger = require('./logger');
+import { stripIndent } from 'common-tags';
 
 import { runCommand } from './helpers';
+import Logger = require('./logger');
 import { exec, execBuffered } from './ssh';
 
 const MIN_BALENAOS_VERSION = 'v2.14.0';
@@ -34,7 +49,7 @@ export async function join(
 	logger.logDebug('Determining application...');
 	const app = await getOrSelectApplication(sdk, deviceType, appName);
 	logger.logDebug(`Using application: ${app.app_name} (${app.device_type})`);
-	if (app.device_type != deviceType) {
+	if (app.device_type !== deviceType) {
 		logger.logDebug(`Forcing device type to: ${deviceType}`);
 		app.device_type = deviceType;
 	}
@@ -206,28 +221,12 @@ async function getOrSelectApplication(
 		.value();
 
 	if (!appName) {
-		const options = {
-			$filter: { device_type: { $in: compatibleDeviceTypes } },
-		};
-
-		// No application specified, show a list to select one.
-		const applications = await sdk.models.application.getAll(options);
-
-		if (applications.length === 0) {
-			const shouldCreateApp = await form.ask({
-				message:
-					'You have no applications this device can join.\n' +
-					'Would you like to create one now?',
-				type: 'confirm',
-				default: true,
-			});
-			if (shouldCreateApp) {
-				return createApplication(sdk, deviceType);
-			}
-			process.exit(1);
-		}
-
-		return selectAppFromList(applications);
+		return createOrSelectAppOrExit(
+			form,
+			sdk,
+			compatibleDeviceTypes,
+			deviceType,
+		);
 	}
 
 	const options: BalenaSdk.PineOptionsFor<BalenaSdk.Application> = {};
@@ -279,6 +278,39 @@ async function getOrSelectApplication(
 	return selectAppFromList(applications);
 }
 
+// TODO: revisit this function's purpose. It was refactored out of
+// `getOrSelectApplication` above in order to satisfy some resin-lint v3
+// rules, but it looks like there's a fair amount of duplicate logic.
+async function createOrSelectAppOrExit(
+	form: any,
+	sdk: BalenaSdk.BalenaSDK,
+	compatibleDeviceTypes: string[],
+	deviceType: string,
+) {
+	const options = {
+		$filter: { device_type: { $in: compatibleDeviceTypes } },
+	};
+
+	// No application specified, show a list to select one.
+	const applications = await sdk.models.application.getAll(options);
+
+	if (applications.length === 0) {
+		const shouldCreateApp = await form.ask({
+			message:
+				'You have no applications this device can join.\n' +
+				'Would you like to create one now?',
+			type: 'confirm',
+			default: true,
+		});
+		if (shouldCreateApp) {
+			return createApplication(sdk, deviceType);
+		}
+		process.exit(1);
+	}
+
+	return selectAppFromList(applications);
+}
+
 async function createApplication(
 	sdk: BalenaSdk.BalenaSDK,
 	deviceType: string,
@@ -294,7 +326,7 @@ async function createApplication(
 	}
 	username = username.toLowerCase();
 
-	const appName = await new Promise<string>(async (resolve, reject) => {
+	const applicationName = await new Promise<string>(async (resolve, reject) => {
 		while (true) {
 			try {
 				const appName = await form.ask({
@@ -327,7 +359,7 @@ async function createApplication(
 	});
 
 	return sdk.models.application.create({
-		name: appName,
+		name: applicationName,
 		deviceType,
 	});
 }

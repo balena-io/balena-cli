@@ -16,9 +16,10 @@
  */
 
 import * as Bluebird from 'bluebird';
-import * as Stream from 'stream';
 import { Composition } from 'resin-compose-parse';
+import * as Stream from 'stream';
 import { Pack } from 'tar-stream';
+
 import Logger = require('./logger');
 
 interface Image {

@@ -13,15 +13,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+import BalenaSdk = require('balena-sdk');
+import Promise = require('bluebird');
+import chalk from 'chalk';
+import _ = require('lodash');
 import _form = require('resin-cli-form');
 import _visuals = require('resin-cli-visuals');
 
-import _ = require('lodash');
-import Promise = require('bluebird');
-import BalenaSdk = require('balena-sdk');
-import chalk from 'chalk';
-import validation = require('./validation');
 import messages = require('./messages');
+import validation = require('./validation');
 
 const getBalenaSdk = _.once(() => BalenaSdk.fromSharedOptions());
 
@@ -173,7 +173,9 @@ export function selectOrCreateApplication() {
 	return balena.models.application
 		.hasAny()
 		.then(hasAnyApplications => {
-			if (!hasAnyApplications) return;
+			if (!hasAnyApplications) {
+				return;
+			}
 
 			return balena.models.application.getAll().then(applications => {
 				const appOptions = _.map<

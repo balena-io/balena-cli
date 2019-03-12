@@ -120,7 +120,7 @@ export class FileIgnorer {
 		});
 
 		return !_.some(ignoreTypes, ({ handle }) => handle.ignores(relFile));
-	};
+	}; // tslint:disable-line:semicolon
 
 	private addEntry(
 		pattern: string,

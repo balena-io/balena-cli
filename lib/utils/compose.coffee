@@ -333,6 +333,7 @@ tagServiceImages = (docker, images, serviceImages) ->
 	Promise.map images, (d) ->
 		serviceImage = serviceImages[d.serviceName]
 		imageName = serviceImage.is_stored_at__image_location
+		# coffeelint: disable-next-line=check_scope ("Variable is assigned to but never read")
 		[ _match, registry, repo, tag = 'latest' ] = /(.*?)\/(.*?)(?::([^/]*))?$/.exec(imageName)
 		name = "#{registry}/#{repo}"
 		docker.getImage(d.name).tag({ repo: name, tag, force: true })

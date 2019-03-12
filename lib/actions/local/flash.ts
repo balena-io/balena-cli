@@ -17,17 +17,17 @@ limitations under the License.
 import { CommandDefinition } from 'capitano';
 import chalk from 'chalk';
 import { stripIndent } from 'common-tags';
-import * as sdk from 'etcher-sdk';
+import * as SDK from 'etcher-sdk';
 
 async function getDrive(options: {
 	drive?: string;
-}): Promise<sdk.sourceDestination.BlockDevice> {
+}): Promise<SDK.sourceDestination.BlockDevice> {
 	const sdk = await import('etcher-sdk');
 
 	const adapter = new sdk.scanner.adapters.BlockDeviceAdapter(() => false);
 	const scanner = new sdk.scanner.Scanner([adapter]);
 	await scanner.start();
-	let drive: sdk.sourceDestination.BlockDevice;
+	let drive: SDK.sourceDestination.BlockDevice;
 	if (options.drive !== undefined) {
 		const d = scanner.getBy('device', options.drive);
 		if (d === undefined || !(d instanceof sdk.sourceDestination.BlockDevice)) {
@@ -49,7 +49,6 @@ export const flash: CommandDefinition<
 > = {
 	signature: 'local flash <image>',
 	description: 'Flash an image to a drive',
-	//root: true,
 	help: stripIndent`
 		Use this command to flash a balenaOS image to a drive.
 
@@ -111,7 +110,7 @@ export const flash: CommandDefinition<
 				// onFail
 				console.log(chalk.red.bold(error.message));
 			},
-			(progress: sdk.multiWrite.MultiDestinationProgress) => {
+			(progress: SDK.multiWrite.MultiDestinationProgress) => {
 				// onProgress
 				progressBars[progress.type].update(progress);
 			},

@@ -1,3 +1,19 @@
+/**
+ * @license
+ * Copyright 2019 Balena Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import chalk from 'chalk';
 import _ = require('lodash');
 import { EOL as eol } from 'os';
@@ -45,31 +61,31 @@ class Logger {
 		this.formatMessage = logger.formatWithPrefix.bind(logger);
 	}
 
-	logInfo(msg: string) {
+	public logInfo(msg: string) {
 		return this.streams.info.write(msg + eol);
 	}
 
-	logDebug(msg: string) {
+	public logDebug(msg: string) {
 		return this.streams.debug.write(msg + eol);
 	}
 
-	logSuccess(msg: string) {
+	public logSuccess(msg: string) {
 		return this.streams.success.write(msg + eol);
 	}
 
-	logWarn(msg: string) {
+	public logWarn(msg: string) {
 		return this.streams.warn.write(msg + eol);
 	}
 
-	logError(msg: string) {
+	public logError(msg: string) {
 		return this.streams.error.write(msg + eol);
 	}
 
-	logBuild(msg: string) {
+	public logBuild(msg: string) {
 		return this.streams.build.write(msg + eol);
 	}
 
-	logLogs(msg: string) {
+	public logLogs(msg: string) {
 		return this.streams.logs.write(msg + eol);
 	}
 }

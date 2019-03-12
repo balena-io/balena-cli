@@ -13,13 +13,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import Promise = require('bluebird');
 import BalenaSdk = require('balena-sdk');
+import Promise = require('bluebird');
 import * as semver from 'resin-semver';
 
 const balena = BalenaSdk.fromSharedOptions();
 
-type ImgConfig = {
+interface ImgConfig {
 	applicationName: string;
 	applicationId: number;
 	deviceType: string;
@@ -46,7 +46,7 @@ type ImgConfig = {
 	deviceId?: number;
 	uuid?: string;
 	registered_at?: number;
-};
+}
 
 export function generateBaseConfig(
 	application: BalenaSdk.Application,

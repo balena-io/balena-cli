@@ -13,14 +13,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+import { BalenaSDK } from 'balena-sdk';
 import * as Bluebird from 'bluebird';
 import * as JSONStream from 'JSONStream';
 import * as readline from 'readline';
 import * as request from 'request';
-import * as Stream from 'stream';
-import { BalenaSDK } from 'balena-sdk';
-import { Pack } from 'tar-stream';
 import { RegistrySecrets } from 'resin-multibuild';
+import * as Stream from 'stream';
+import { Pack } from 'tar-stream';
 import { TypedError } from 'typed-error';
 
 import { exitWithExpectedError } from '../utils/patterns';
@@ -278,7 +278,7 @@ function createRemoteBuildRequest(
 					);
 				}
 			} else {
-				let msgArr = [
+				const msgArr = [
 					'Remote builder responded with HTTP error:',
 					`${response.statusCode} ${response.statusMessage}`,
 				];
