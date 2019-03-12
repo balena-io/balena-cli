@@ -125,7 +125,6 @@ module.exports =
 					sshProxyCommand = getSshProxyCommand(hasTunnelBin)
 					sshCommand = ''
 
-					console
 					if options.host
 						accessCommand = "host #{uuid}"
 						if params.command
@@ -133,7 +132,6 @@ module.exports =
 							sshCommand = "'#{params.command}'"
 					else
 						accessCommand = "enter #{uuid} #{containerId}"
-
 
 					command = "ssh #{verbose} -t \
 						-o LogLevel=ERROR \
