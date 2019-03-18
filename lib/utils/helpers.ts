@@ -14,13 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import os = require('os');
-import Bluebird = require('bluebird');
-import _ = require('lodash');
-import chalk from 'chalk';
-import rindle = require('rindle');
-import visuals = require('resin-cli-visuals');
 import BalenaSdk = require('balena-sdk');
+import Bluebird = require('bluebird');
+import chalk from 'chalk';
+import _ = require('lodash');
+import os = require('os');
+import visuals = require('resin-cli-visuals');
+import rindle = require('rindle');
 
 import { InitializeEmitter, OperationState } from 'balena-device-init';
 
@@ -29,7 +29,7 @@ const waitStreamAsync = Bluebird.promisify(rindle.wait);
 const balena = BalenaSdk.fromSharedOptions();
 
 export function getGroupDefaults(group: {
-	options: { name: string; default?: string }[];
+	options: Array<{ name: string; default?: string }>;
 }): { [name: string]: string | undefined } {
 	return _.chain(group)
 		.get('options')

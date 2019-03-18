@@ -14,13 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as _ from 'lodash';
 import * as Bluebird from 'bluebird';
-import * as tar from 'tar-stream';
-import { Readable } from 'stream';
-
-import * as MultiBuild from 'resin-multibuild';
+import * as _ from 'lodash';
 import { Composition } from 'resin-compose-parse';
+import * as MultiBuild from 'resin-multibuild';
+import { Readable } from 'stream';
+import * as tar from 'tar-stream';
 
 import { DeviceInfo } from './device/api';
 import Logger = require('./logger');

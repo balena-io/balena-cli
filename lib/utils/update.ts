@@ -14,8 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import * as UpdateNotifier from 'update-notifier';
 import isRoot = require('is-root');
+import * as UpdateNotifier from 'update-notifier';
+
 import packageJSON = require('../../package.json');
 
 // Check for an update once a day. 1 day granularity should be

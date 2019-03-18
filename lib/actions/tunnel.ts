@@ -14,11 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 import * as Bluebird from 'bluebird';
-import * as _ from 'lodash';
 import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
+import * as _ from 'lodash';
+import { createServer, Server, Socket } from 'net';
 import { isArray } from 'util';
-import { Socket, Server, createServer } from 'net';
+
 import { tunnelConnectionToDevice } from '../utils/tunnel';
 
 interface Args {
@@ -30,7 +31,7 @@ interface Options {
 }
 
 class DeviceIsOfflineError extends Error {
-	uuid: string;
+	public uuid: string;
 	constructor(uuid: string) {
 		super(`Device '${uuid}' is offline`);
 		this.uuid = uuid;
@@ -68,7 +69,7 @@ export const tunnel: CommandDefinition<Args, Options> = {
 
 			# map remote port 22222 to localhost:22222
 			$ balena tunnel abcde12345 -p 22222
-			
+
 			# map remote port 22222 to localhost:222
 			$ balena tunnel abcde12345 -p 22222:222
 
@@ -146,29 +147,30 @@ export const tunnel: CommandDefinition<Args, Options> = {
 							}
 
 							// grab the groups
+							// tslint:disable-next-line:prefer-const
 							let [, remotePort, localAddress, localPort] = regexResult;
 
 							if (
-								!isValidPort(parseInt(localPort)) ||
-								!isValidPort(parseInt(remotePort))
+								!isValidPort(parseInt(localPort, undefined)) ||
+								!isValidPort(parseInt(remotePort, undefined))
 							) {
 								throw new InvalidPortMappingError(mapping);
 							}
 
 							// default bind to localAddress
-							if (localAddress == undefined) {
+							if (localAddress == null) {
 								localAddress = 'localhost';
 							}
 
 							// default use same port number locally as remote
-							if (localPort == undefined) {
+							if (localPort == null) {
 								localPort = remotePort;
 							}
 
 							return {
-								localPort: parseInt(localPort),
+								localPort: parseInt(localPort, undefined),
 								localAddress,
-								remotePort: parseInt(remotePort),
+								remotePort: parseInt(remotePort, undefined),
 							};
 						})
 						.map(({ localPort, localAddress, remotePort }) => {

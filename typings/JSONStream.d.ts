@@ -1,3 +1,20 @@
+/**
+ * @license
+ * Copyright 2019 Balena Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 // These are the DefinitelyTyped typings for JSONStream, but because of this
 // mismatch in case of jsonstream and JSONStream, it is necessary to include
 // them this way, with an upper case module declaration. They have also
@@ -15,22 +32,21 @@ declare module 'JSONStream' {
 		recurse: boolean;
 	}
 
-	export function parse(pattern: any): NodeJS.ReadWriteStream;
-	export function parse(patterns: any[]): NodeJS.ReadWriteStream;
+	export function parse(pattern: any | any[]): NodeJS.ReadWriteStream;
+
+	type NewlineOnlyIndicator = false;
 
 	/**
 	 * Create a writable stream.
 	 * you may pass in custom open, close, and seperator strings. But, by default,
 	 * JSONStream.stringify() will create an array,
 	 * (with default options open='[\n', sep='\n,\n', close='\n]\n')
+	 *
+	 * If you call JSONStream.stringify(false) the elements will only be separated by a newline.
 	 */
-	export function stringify(): NodeJS.ReadWriteStream;
-
-	/** If you call JSONStream.stringify(false) the elements will only be seperated by a newline. */
 	export function stringify(
-		newlineOnly: NewlineOnlyIndicator,
+		newlineOnly?: NewlineOnlyIndicator,
 	): NodeJS.ReadWriteStream;
-	type NewlineOnlyIndicator = false;
 
 	/**
 	 * Create a writable stream.

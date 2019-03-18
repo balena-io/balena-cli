@@ -28,15 +28,15 @@ import {
 import * as semver from 'resin-semver';
 import { Readable } from 'stream';
 
-import Logger = require('../logger');
-import { displayBuildLog } from './logs';
 import { makeBuildTasks } from '../compose_ts';
+import Logger = require('../logger');
 import { DeviceInfo } from './api';
 import * as LocalPushErrors from './errors';
+import { displayBuildLog } from './logs';
 
 // Define the logger here so the debug output
 // can be used everywhere
-const logger = new Logger();
+const globalLogger = new Logger();
 
 export interface DeviceDeployOptions {
 	source: string;
@@ -61,7 +61,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		exitWithExpectedError(`Could not access source directory: ${opts.source}`);
 	}
 
-	const api = new DeviceAPI(logger, opts.deviceHost);
+	const api = new DeviceAPI(globalLogger, opts.deviceHost);
 
 	// First check that we can access the device with a ping
 	try {
@@ -88,9 +88,9 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		exitWithExpectedError(versionError);
 	}
 
-	logger.logInfo(`Starting build on device ${opts.deviceHost}`);
+	globalLogger.logInfo(`Starting build on device ${opts.deviceHost}`);
 
-	const project = await loadProject(logger, opts.source, 'local');
+	const project = await loadProject(globalLogger, opts.source, 'local');
 
 	// Attempt to attach to the device's docker daemon
 	const docker = connectToDocker(
@@ -108,11 +108,11 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		tarStream,
 		docker,
 		deviceInfo,
-		logger,
+		globalLogger,
 		opts,
 	);
 
-	logger.logDebug('Setting device state...');
+	globalLogger.logDebug('Setting device state...');
 	// Now set the target state on the device
 
 	const currentTargetState = await api.getTargetState();
@@ -121,18 +121,18 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		currentTargetState,
 		project.composition,
 	);
-	logger.logDebug(`Sending target state: ${JSON.stringify(targetState)}`);
+	globalLogger.logDebug(`Sending target state: ${JSON.stringify(targetState)}`);
 
 	await api.setTargetState(targetState);
 
-	// Print an empty newline to seperate the build output
+	// Print an empty newline to separate the build output
 	// from the device output
 	console.log();
-	logger.logInfo('Streaming device logs...');
+	globalLogger.logInfo('Streaming device logs...');
 	// Now all we need to do is stream back the logs
 	const logStream = await api.getLogStream();
 
-	await displayDeviceLogs(logStream, logger);
+	await displayDeviceLogs(logStream, globalLogger);
 }
 
 function connectToDocker(host: string, port: number): Docker {
@@ -226,7 +226,7 @@ async function assignDockerBuildOpts(
 	// that we can use all of them for cache
 	const images = await getDeviceDockerImages(docker);
 
-	logger.logDebug(`Using ${images.length} on-device images for cache...`);
+	globalLogger.logDebug(`Using ${images.length} on-device images for cache...`);
 
 	await Bluebird.map(buildTasks, async (task: BuildTask) => {
 		task.dockerOpts = {

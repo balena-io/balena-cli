@@ -1,10 +1,27 @@
+/**
+ * @license
+ * Copyright 2019 Balena Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import * as archiver from 'archiver';
 import * as Promise from 'bluebird';
-import * as path from 'path';
-import * as os from 'os';
 import * as fs from 'fs-extra';
 import * as mkdirp from 'mkdirp';
+import * as os from 'os';
+import * as path from 'path';
 import * as publishRelease from 'publish-release';
-import * as archiver from 'archiver';
+
 import * as packageJSON from '../package.json';
 
 const publishReleaseAsync = Promise.promisify(publishRelease);
@@ -26,12 +43,12 @@ mkdirpAsync(path.dirname(outputFile))
 			new Promise((resolve, reject) => {
 				console.log('Zipping build...');
 
-				let archive = archiver('zip', {
+				const archive = archiver('zip', {
 					zlib: { level: 7 },
 				});
 				archive.directory(path.join(ROOT, 'build-bin'), 'balena-cli');
 
-				let outputStream = fs.createWriteStream(outputFile);
+				const outputStream = fs.createWriteStream(outputFile);
 
 				outputStream.on('close', resolve);
 				outputStream.on('error', reject);
@@ -48,7 +65,7 @@ mkdirpAsync(path.dirname(outputFile))
 		console.log('Publishing build...');
 
 		return publishReleaseAsync({
-			token: <string>GITHUB_TOKEN,
+			token: GITHUB_TOKEN || '',
 			owner: 'balena-io',
 			repo: 'balena-cli',
 			tag: version,

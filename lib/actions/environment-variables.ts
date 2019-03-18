@@ -14,12 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import { ApplicationVariable, DeviceVariable } from 'balena-sdk';
 import { CommandDefinition } from 'capitano';
-
-import * as commandOptions from './command-options';
-import { normalizeUuidProp } from '../utils/normalization';
-import { DeviceVariable, ApplicationVariable } from 'balena-sdk';
 import { stripIndent } from 'common-tags';
+
+import { normalizeUuidProp } from '../utils/normalization';
+import * as commandOptions from './command-options';
 
 const getReservedPrefixes = async (): Promise<string[]> => {
 	const balena = (await import('balena-sdk')).fromSharedOptions();

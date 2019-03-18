@@ -14,11 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import * as Promise from 'bluebird';
+import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 import * as os from 'os';
 import * as Raven from 'raven';
-import * as Promise from 'bluebird';
-import { stripIndent } from 'common-tags';
 
 import * as patterns from './utils/patterns';
 

@@ -1,7 +1,24 @@
-import * as _ from 'lodash';
+/**
+ * @license
+ * Copyright 2019 Balena Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import * as ent from 'ent';
+import * as _ from 'lodash';
+
+import { Category, Command, Document } from './doc-types';
 import * as utils from './utils';
-import { Document, Category, Command } from './doc-types';
 
 export function renderCommand(command: Command) {
 	let result = `## ${ent.encode(command.signature)}\n\n${command.help}\n`;
@@ -9,7 +26,7 @@ export function renderCommand(command: Command) {
 	if (!_.isEmpty(command.options)) {
 		result += '\n### Options';
 
-		for (let option of command.options!) {
+		for (const option of command.options!) {
 			result += `\n\n#### ${utils.parseSignature(option)}\n\n${
 				option.description
 			}`;
@@ -24,7 +41,7 @@ export function renderCommand(command: Command) {
 export function renderCategory(category: Category) {
 	let result = `# ${category.title}\n`;
 
-	for (let command of category.commands) {
+	for (const command of category.commands) {
 		result += `\n${renderCommand(command)}`;
 	}
 
@@ -51,10 +68,10 @@ function getAnchor(command: Command) {
 export function renderToc(categories: Category[]) {
 	let result = `# Table of contents\n`;
 
-	for (let category of categories) {
+	for (const category of categories) {
 		result += `\n- ${category.title}\n\n`;
 
-		for (let command of category.commands) {
+		for (const command of category.commands) {
 			result += `\t- [${ent.encode(command.signature)}](${getAnchor(
 				command,
 			)})\n`;
@@ -69,7 +86,7 @@ export function render(doc: Document) {
 		doc.categories,
 	)}`;
 
-	for (let category of doc.categories) {
+	for (const category of doc.categories) {
 		result += `\n${renderCategory(category)}`;
 	}
 
