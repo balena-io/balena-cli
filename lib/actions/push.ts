@@ -138,7 +138,6 @@ export const push: CommandDefinition<
 			$ balena push 10.0.0.1 --source <source directory>
 			$ balena push 10.0.0.1 -s <source directory>
 	`,
-	permission: 'user',
 	options: [
 		{
 			signature: 'source',
@@ -172,7 +171,10 @@ export const push: CommandDefinition<
 		const Bluebird = await import('bluebird');
 		const remote = await import('../utils/remote-build');
 		const deviceDeploy = await import('../utils/device/deploy');
-		const { exitWithExpectedError } = await import('../utils/patterns');
+		const {
+			exitIfNotLoggedIn,
+			exitWithExpectedError,
+		} = await import('../utils/patterns');
 		const { parseRegistrySecrets } = await import('../utils/compose_ts');
 		const { BuildError } = await import('../utils/device/errors');
 
@@ -194,6 +196,7 @@ export const push: CommandDefinition<
 		switch (buildTarget) {
 			case BuildTarget.Cloud:
 				const app = appOrDevice;
+				await exitIfNotLoggedIn();
 				await Bluebird.join(
 					sdk.auth.getToken(),
 					sdk.settings.get('balenaUrl'),

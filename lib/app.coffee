@@ -75,7 +75,7 @@ actions = require('./actions')
 errors = require('./errors')
 events = require('./events')
 update = require('./utils/update')
-{ exitWithExpectedError } = require('./utils/patterns')
+{ exitIfNotLoggedIn } = require('./utils/patterns')
 
 # Assign bluebird as the global promise library
 # stream-to-promise will produce native promises if not
@@ -84,17 +84,8 @@ update = require('./utils/update')
 require('any-promise/register/bluebird')
 
 capitano.permission 'user', (done) ->
-	balena = BalenaSdk.fromSharedOptions()
-	balena.auth.isLoggedIn().then (isLoggedIn) ->
-		if not isLoggedIn
-			exitWithExpectedError('''
-				You have to log in to continue
-
-				Run the following command to go through the login wizard:
-
-				  $ balena login
-			''')
-	.nodeify(done)
+	exitIfNotLoggedIn()
+	.then(done, done)
 
 capitano.command
 	signature: '*'
