@@ -43,6 +43,7 @@ export interface DeviceDeployOptions {
 	deviceHost: string;
 	devicePort?: number;
 	registrySecrets: RegistrySecrets;
+	nocache: boolean;
 }
 
 async function checkSource(source: string): Promise<boolean> {
@@ -236,6 +237,7 @@ async function assignDockerBuildOpts(
 				'io.resin.local.service': task.serviceName,
 			},
 			t: generateImageName(task.serviceName),
+			nocache: opts.nocache,
 		};
 		if (task.external) {
 			task.dockerOpts.authconfig = await getAuthConfigObj(
