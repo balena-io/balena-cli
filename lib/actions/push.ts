@@ -229,6 +229,7 @@ export const push: CommandDefinition<
 						source,
 						deviceHost: device,
 						registrySecrets,
+						nocache: options.nocache || false,
 					}),
 				)
 					.catch(BuildError, e => {
