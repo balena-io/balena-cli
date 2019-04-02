@@ -14,20 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Command as OclifCommandClass } from '@oclif/command';
-import { CommandDefinition as CapitanoCommand } from 'capitano';
 
-type OclifCommand = typeof OclifCommandClass;
+import { Command } from '@oclif/command';
+import * as _ from 'lodash';
 
-export interface Document {
-	title: string;
-	introduction: string;
-	categories: Category[];
+import EnvAddCmd from '../actions-oclif/env/add';
+
+export function getOclifHelpLinePairs(): [[string, string]] {
+	return [getCmdUsageDescriptionLinePair(EnvAddCmd)];
 }
 
-export interface Category {
-	title: string;
-	commands: Array<CapitanoCommand | OclifCommand>;
+function getCmdUsageDescriptionLinePair(cmd: typeof Command): [string, string] {
+	const usage = (cmd.usage || '').toString().toLowerCase();
+	let description = '';
+	const matches = /\s*(.+?)\n.*/s.exec(cmd.description || '');
+	if (matches && matches.length > 1) {
+		description = _.lowerFirst(_.trimEnd(matches[1], '.'));
+	}
+	return [usage, description];
 }
-
-export { CapitanoCommand, OclifCommand };
