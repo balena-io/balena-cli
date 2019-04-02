@@ -104,7 +104,7 @@ const messages: {
 			$ balena login`,
 };
 
-exports.handle = function(error: any) {
+export function handleError(error: any) {
 	let message = interpret(error);
 	if (message == null) {
 		return;
@@ -122,4 +122,4 @@ exports.handle = function(error: any) {
 			// Ignore any errors (from error logging, or timeouts)
 		})
 		.finally(() => process.exit(error.exitCode || 1));
-};
+}
