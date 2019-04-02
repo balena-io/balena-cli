@@ -22,6 +22,7 @@ import { stripIndent } from 'common-tags';
 import { normalizeUuidProp } from '../utils/normalization';
 import * as commandOptions from './command-options';
 
+/*
 const getReservedPrefixes = async (): Promise<string[]> => {
 	const balena = (await import('balena-sdk')).fromSharedOptions();
 	const settings = await balena.settings.getAll();
@@ -33,6 +34,7 @@ const getReservedPrefixes = async (): Promise<string[]> => {
 
 	return response.body.reservedNamespaces;
 };
+*/
 
 export const list: CommandDefinition<
 	{},
@@ -168,86 +170,6 @@ export const remove: CommandDefinition<
 				}
 			})
 			.nodeify(done);
-	},
-};
-
-export const add: CommandDefinition<
-	{
-		key: string;
-		value?: string;
-	},
-	{
-		application?: string;
-		device?: string;
-	}
-> = {
-	signature: 'env add <key> [value]',
-	description: 'add an environment or config variable',
-	help: stripIndent`
-		Use this command to add an enviroment or config variable to an application
-		or device.
-
-		If value is omitted, the tool will attempt to use the variable's value
-		as defined in your host machine.
-
-		Use the \`--device\` option if you want to assign the environment variable
-		to a specific device.
-
-		If the value is grabbed from the environment, a warning message will be printed.
-		Use \`--quiet\` to remove it.
-
-		Service-specific variables are not currently supported. The following
-		examples set variables that apply to all services in an app or device.
-
-		Examples:
-
-			$ balena env add EDITOR vim --application MyApp
-			$ balena env add TERM --application MyApp
-			$ balena env add EDITOR vim --device 7cf02a6
-	`,
-	options: [commandOptions.optionalApplication, commandOptions.optionalDevice],
-	permission: 'user',
-	async action(params, options, done) {
-		normalizeUuidProp(options, 'device');
-		const _ = await import('lodash');
-		const balena = (await import('balena-sdk')).fromSharedOptions();
-
-		const { exitWithExpectedError } = await import('../utils/patterns');
-
-		return Bluebird.try(async function() {
-			if (params.value == null) {
-				params.value = process.env[params.key];
-
-				if (params.value == null) {
-					throw new Error(`Environment value not found for key: ${params.key}`);
-				} else {
-					console.info(
-						`Warning: using ${params.key}=${
-							params.value
-						} from host environment`,
-					);
-				}
-			}
-
-			const reservedPrefixes = await getReservedPrefixes();
-			const isConfigVar = _.some(reservedPrefixes, prefix =>
-				_.startsWith(params.key, prefix),
-			);
-
-			if (options.application) {
-				return balena.models.application[
-					isConfigVar ? 'configVar' : 'envVar'
-				].set(options.application, params.key, params.value);
-			} else if (options.device) {
-				return balena.models.device[isConfigVar ? 'configVar' : 'envVar'].set(
-					options.device,
-					params.key,
-					params.value,
-				);
-			} else {
-				exitWithExpectedError('You must specify an application or device');
-			}
-		}).nodeify(done);
 	},
 };
 
