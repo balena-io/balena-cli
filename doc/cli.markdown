@@ -188,10 +188,6 @@ environment variable (in the same standard URL format).
 
 	- [settings](#settings)
 
-- Wizard
-
-	- [quickstart [name]](#quickstart-name)
-
 - Local
 
 	- [local configure &#60;target&#62;](#local-configure-target)
@@ -880,6 +876,12 @@ continuously stream output
 
 ## sync [uuid]
 
+-------------------------------------------------------------------------
+Deprecation notice: please note that `balena sync` is deprecated and will
+be removed in a future release of the CLI. We are working on an exciting
+"live push" alternative: https://github.com/balena-io-modules/livepush
+-------------------------------------------------------------------------
+
 Warning: 'balena sync' requires an openssh-compatible client and 'rsync' to
 be correctly installed in your shell environment. For more information (including
 Windows support) please check the README here: https://github.com/balena-io/balena-cli
@@ -1098,7 +1100,7 @@ Note that device api keys are only supported on balenaOS 2.0.3+.
 
 This command still supports the *deprecated* format where the UUID and optionally device key
 are passed directly on the command line, but the recommended way is to pass either an --app or
---device argument. The deprecated format will be remove in a future release.
+--device argument. The deprecated format will be removed in a future release.
 
 In case that you want to configure an image for an application with mixed device types,
 you can pass the --device-type argument along with --app to specify the target device type.
@@ -1453,24 +1455,6 @@ Examples:
 
 	$ balena settings
 
-# Wizard
-
-## quickstart [name]
-
-Use this command to run a friendly wizard to get started with balena.
-
-The wizard will guide you through:
-
-	- Create an application.
-	- Initialise an SDCard with the balena operating system.
-	- Associate an existing project directory with your balena application.
-	- Push your project to your devices.
-
-Examples:
-
-	$ balena quickstart
-	$ balena quickstart MyApp
-
 # Local
 
 ## local configure &#60;target&#62;
@@ -1583,11 +1567,18 @@ ssh port number (default: 22222)
 
 ## local push [deviceIp]
 
-Warning: 'balena local push' requires an openssh-compatible client and 'rsync' to
-be correctly installed in your shell environment. For more information (including
-Windows support) please check the README here: https://github.com/balena-io/balena-cli
+------------------------------------------------------------------------------
+Deprecation notice: `balena local push` is deprecated and will be removed in a
+future release of the CLI. Please use `balena push <ipAddress>` instead.
+------------------------------------------------------------------------------
 
-Use this command to push your local changes to a container on a LAN-accessible balenaOS device on the fly.
+Use this command to push your local changes to a container on a LAN-accessible
+balenaOS device on the fly.
+
+This command requires an openssh-compatible 'ssh' client and 'rsync' to be
+available in the executable PATH of the shell environment. For more information
+(including Windows support) please check the README at:
+https://github.com/balena-io/balena-cli
 
 If `Dockerfile` or any file in the 'build-triggers' list is changed,
 a new container will be built and run on your device.

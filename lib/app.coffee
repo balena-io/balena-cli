@@ -103,9 +103,6 @@ capitano.command(actions.info.version)
 # ---------- Help Module ----------
 capitano.command(actions.help.help)
 
-# ---------- Wizard Module ----------
-capitano.command(actions.wizard.wizard)
-
 # ---------- Api key module ----------
 capitano.command(actions.apiKey.generate)
 

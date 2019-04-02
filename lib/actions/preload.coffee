@@ -132,7 +132,7 @@ offerToDisableAutomaticUpdates = (application, commit, pinDevice) ->
 
 module.exports =
 	signature: 'preload <image>'
-	description: '(beta) preload an app on a disk image (or Edison zip archive)'
+	description: 'preload an app on a disk image (or Edison zip archive)'
 	help: '''
 		Warning: "balena preload" requires Docker to be correctly installed in
 		your shell environment. For more information (including Windows support)

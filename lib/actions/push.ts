@@ -110,6 +110,7 @@ export const push: CommandDefinition<
 	}
 > = {
 	signature: 'push <applicationOrDevice>',
+	primary: true,
 	description:
 		'Start a remote build on the balena cloud build servers or a local mode device',
 	help: stripIndent`

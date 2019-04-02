@@ -19,7 +19,7 @@ commandOptions = require('./command-options')
 
 module.exports =
 	signature: 'ssh [uuid]'
-	description: '(beta) get a shell into the running app container of a device'
+	description: 'get a shell into the running app container of a device'
 	help: '''
 		Warning: 'balena ssh' requires an openssh-compatible client to be correctly
 		installed in your shell environment. For more information (including Windows

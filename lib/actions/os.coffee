@@ -217,7 +217,7 @@ exports.configure =
 
 		This command still supports the *deprecated* format where the UUID and optionally device key
 		are passed directly on the command line, but the recommended way is to pass either an --app or
-		--device argument. The deprecated format will be remove in a future release.
+		--device argument. The deprecated format will be removed in a future release.
 
 		In case that you want to configure an image for an application with mixed device types,
 		you can pass the --device-type argument along with --app to specify the target device type.
