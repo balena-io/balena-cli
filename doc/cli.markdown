@@ -109,7 +109,7 @@ If you come across any problems or would like to get in touch:
 
 	- [envs](#envs)
 	- [env rm &#60;id&#62;](#env-rm-id)
-	- [env add &#60;key&#62; [value]](#env-add-key-value)
+	- [env add &#60;name&#62; [value]](#env-add-name-value)
 	- [env rename &#60;id&#62; &#60;value&#62;](#env-rename-id-value)
 
 - Tags
@@ -633,38 +633,47 @@ confirm non interactively
 
 device
 
-## env add &#60;key&#62; [value]
+## env add NAME [VALUE]
 
-Use this command to add an enviroment or config variable to an application
-or device.
+Add an enviroment or config variable to an application or device, as selected
+by the respective command-line options.
 
-If value is omitted, the tool will attempt to use the variable's value
-as defined in your host machine.
+If VALUE is omitted, the CLI will attempt to use the value of the environment
+variable of same name in the CLI process' environment. In this case, a warning
+message will be printed. Use `--quiet` to suppress it.
 
-Use the `--device` option if you want to assign the environment variable
-to a specific device.
-
-If the value is grabbed from the environment, a warning message will be printed.
-Use `--quiet` to remove it.
-
-Service-specific variables are not currently supported. The following
-examples set variables that apply to all services in an app or device.
+Service-specific variables are not currently supported. The given command line
+examples variables that apply to all services in an app or device.
 
 Examples:
 
-	$ balena env add EDITOR vim --application MyApp
 	$ balena env add TERM --application MyApp
+	$ balena env add EDITOR vim --application MyApp
 	$ balena env add EDITOR vim --device 7cf02a6
+
+### Arguments
+
+#### NAME
+
+environment or config variable name
+
+#### VALUE
+
+variable value; if omitted, use value from CLI's enviroment
 
 ### Options
 
-#### --application, -a, --app &#60;application&#62;
+#### -a, --application APPLICATION
 
 application name
 
-#### --device, -d &#60;device&#62;
+#### -d, --device DEVICE
 
-device uuid
+device UUID
+
+#### -q, --quiet
+
+suppress warning messages
 
 ## env rename &#60;id&#62; &#60;value&#62;
 
@@ -2064,4 +2073,3 @@ Examples:
 
 Use this command to list your machine's drives usable for writing the OS image to.
 Skips the system drives.
-

@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Balena
+Copyright 2016-2019 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,77 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
-Raven = require('raven')
-Raven.disableConsoleAlerts()
-Raven.config require('./config').sentryDsn,
-	captureUnhandledRejections: true,
-	autoBreadcrumbs: true,
-	release: require('../package.json').version
-.install (logged, error) ->
-	console.error(error)
-	process.exit(1)
-Raven.setContext
-	extra:
-		args: process.argv
-		node_version: process.version
-
-validNodeVersions = require('../package.json').engines.node
-if not require('semver').satisfies(process.version, validNodeVersions)
-	console.warn """
-	Warning: this version of Node does not match the requirements of this package.
-	This package expects #{validNodeVersions}, but you're using #{process.version}.
-	This may cause unexpected behaviour.
-
-	To upgrade your Node, visit https://nodejs.org/en/download/
-
-	"""
-
-
-# Doing this before requiring any other modules,
-# including the 'balena-sdk', to prevent any module from reading the http proxy config
-# before us
-globalTunnel = require('global-tunnel-ng')
-settings = require('balena-settings-client')
-try
-	proxy = settings.get('proxy') or null
-catch
-	proxy = null
-# Init the tunnel even if the proxy is not configured
-# because it can also get the proxy from the http(s)_proxy env var
-# If that is not set as well the initialize will do nothing
-globalTunnel.initialize(proxy)
-
-# TODO: make this a feature of capitano https://github.com/balena-io/capitano/issues/48
-global.PROXY_CONFIG = globalTunnel.proxyConfig
-
 Promise = require('bluebird')
 capitano = require('capitano')
-capitanoExecuteAsync = Promise.promisify(capitano.execute)
-
-# We don't yet use balena-sdk directly everywhere, but we set up shared
-# options correctly so we can do safely in submodules
-BalenaSdk = require('balena-sdk')
-BalenaSdk.setSharedOptions(
-	apiUrl: settings.get('apiUrl')
-	imageMakerUrl: settings.get('imageMakerUrl')
-	dataDirectory: settings.get('dataDirectory')
-	retries: 2
-)
-
 actions = require('./actions')
-errors = require('./errors')
 events = require('./events')
-update = require('./utils/update')
-{ exitIfNotLoggedIn } = require('./utils/patterns')
-
-# Assign bluebird as the global promise library
-# stream-to-promise will produce native promises if not
-# for this module, which could wreak havoc in this
-# bluebird-only codebase.
-require('any-promise/register/bluebird')
 
 capitano.permission 'user', (done) ->
-	exitIfNotLoggedIn()
+	require('./utils/patterns').exitIfNotLoggedIn()
 	.then(done, done)
 
 capitano.command
@@ -147,7 +83,6 @@ capitano.command(actions.keys.remove)
 
 # ---------- Env Module ----------
 capitano.command(actions.env.list)
-capitano.command(actions.env.add)
 capitano.command(actions.env.rename)
 capitano.command(actions.env.remove)
 
@@ -216,14 +151,13 @@ capitano.command(actions.push.push)
 capitano.command(actions.join.join)
 capitano.command(actions.leave.leave)
 
-update.notify()
-
 cli = capitano.parse(process.argv)
 runCommand = ->
+	capitanoExecuteAsync = Promise.promisify(capitano.execute)
 	if cli.global?.help
 		capitanoExecuteAsync(command: "help #{cli.command ? ''}")
 	else
 		capitanoExecuteAsync(cli)
 
 Promise.all([events.trackCommand(cli), runCommand()])
-.catch(errors.handle)
+.catch(require('./errors').handleError)
