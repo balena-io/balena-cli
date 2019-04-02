@@ -17,11 +17,13 @@ limitations under the License.
 _ = require('lodash')
 capitano = require('capitano')
 columnify = require('columnify')
+
 messages = require('../utils/messages')
 { exitWithExpectedError } = require('../utils/patterns')
+{ getOclifHelpLinePairs } = require('./help_ts')
 
 parse = (object) ->
-	return _.fromPairs _.map(object, (item) ->
+	return _.map object, (item) ->
 
 		# Hacky way to determine if an object is
 		# a function or a command
@@ -33,14 +35,15 @@ parse = (object) ->
 		return [
 			signature
 			item.description
-		]).sort()
+		]
 
 indent = (text) ->
 	text = _.map text.split('\n'), (line) ->
 		return '    ' + line
 	return text.join('\n')
 
-print = (data) ->
+print = (usageDescriptionPairs...) ->
+	data = _.fromPairs([].concat(usageDescriptionPairs...).sort())
 	console.log indent columnify data,
 		showHeaders: false
 		minWidth: 35
@@ -64,7 +67,7 @@ general = (params, options, done) ->
 
 	if options.verbose
 		console.log('\nAdditional commands:\n')
-		print(parse(groupedCommands.secondary))
+		print(parse(groupedCommands.secondary), getOclifHelpLinePairs())
 	else
 		console.log('\nRun `balena help --verbose` to list additional commands')
 

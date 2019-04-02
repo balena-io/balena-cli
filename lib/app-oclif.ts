@@ -14,20 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Command as OclifCommandClass } from '@oclif/command';
-import { CommandDefinition as CapitanoCommand } from 'capitano';
 
-type OclifCommand = typeof OclifCommandClass;
+import { ExitError } from '@oclif/errors';
 
-export interface Document {
-	title: string;
-	introduction: string;
-	categories: Category[];
+import { handleError } from './errors';
+
+/**
+ * oclif CLI entrypoint
+ */
+export function run(argv: string[]) {
+	process.argv = argv;
+	require('@oclif/command')
+		.run()
+		.then(require('@oclif/command/flush'))
+		.catch((error: Error) => {
+			// oclif sometimes exits with ExitError code 0 (not an error)
+			if (error instanceof ExitError && error.oclif.exit === 0) {
+				return;
+			}
+			handleError(error);
+		});
 }
-
-export interface Category {
-	title: string;
-	commands: Array<CapitanoCommand | OclifCommand>;
-}
-
-export { CapitanoCommand, OclifCommand };
