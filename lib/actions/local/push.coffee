@@ -21,16 +21,27 @@ limitations under the License.
 _ = require('lodash')
 
 balenaPush = require('balena-sync').capitano('balena-toolbox')
+originalAction = balenaPush.action
 
 # TODO: This is a temporary workaround to reuse the existing `rdt push`
 # capitano frontend in `balena local push`.
 
-balenaPushHelp = '''
-	Warning: 'balena local push' requires an openssh-compatible client and 'rsync' to
-	be correctly installed in your shell environment. For more information (including
-	Windows support) please check the README here: https://github.com/balena-io/balena-cli
+deprecationMsg = '''
+	------------------------------------------------------------------------------
+	Deprecation notice: `balena local push` is deprecated and will be removed in a
+	future release of the CLI. Please use `balena push <ipAddress>` instead.
+	------------------------------------------------------------------------------
 
-	Use this command to push your local changes to a container on a LAN-accessible balenaOS device on the fly.
+'''
+
+balenaPushHelp = """#{deprecationMsg}
+	Use this command to push your local changes to a container on a LAN-accessible
+	balenaOS device on the fly.
+
+	This command requires an openssh-compatible 'ssh' client and 'rsync' to be
+	available in the executable PATH of the shell environment. For more information
+	(including Windows support) please check the README at:
+	https://github.com/balena-io/balena-cli
 
 	If `Dockerfile` or any file in the 'build-triggers' list is changed,
 	a new container will be built and run on your device.
@@ -68,11 +79,16 @@ balenaPushHelp = '''
 		$ balena local push --verbose false
 		$ balena local push 192.168.2.10 --source . --destination /usr/src/app
 		$ balena local push 192.168.2.10 -s /home/user/balenaProject -d /usr/src/app --before 'echo Hello' --after 'echo Done'
-'''
+"""
+
 
 
 module.exports = _.assign balenaPush,
 	signature: 'local push [deviceIp]'
+	description: '[deprecated: use "balena push ipAddress"] ' + balenaPush.description
 	help: balenaPushHelp
-	primary: true
+	primary: false
 	root: true
+	action: (params, options, done) ->
+		console.log deprecationMsg
+		originalAction(params, options, done)

@@ -153,10 +153,6 @@ environment variable (in the same standard URL format).\
 			files: ['build/actions/settings.js'],
 		},
 		{
-			title: 'Wizard',
-			files: ['build/actions/wizard.js'],
-		},
-		{
 			title: 'Local',
 			files: ['build/actions/local/index.js'],
 		},

@@ -21,7 +21,7 @@ messages = require('../utils/messages')
 { exitWithExpectedError } = require('../utils/patterns')
 
 parse = (object) ->
-	return _.fromPairs _.map object, (item) ->
+	return _.fromPairs _.map(object, (item) ->
 
 		# Hacky way to determine if an object is
 		# a function or a command
@@ -33,7 +33,7 @@ parse = (object) ->
 		return [
 			signature
 			item.description
-		]
+		]).sort()
 
 indent = (text) ->
 	text = _.map text.split('\n'), (line) ->

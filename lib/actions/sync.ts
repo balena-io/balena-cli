@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Balena
+Copyright 2016-2019 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,4 +15,30 @@ limitations under the License.
 */
 
 import * as BalenaSync from 'balena-sync';
-export = BalenaSync.capitano('balena-cli');
+import { CommandDefinition } from 'capitano';
+import { stripIndent } from 'common-tags';
+
+export = deprecateSyncCmd(BalenaSync.capitano('balena-cli'));
+
+const deprecationMsg = stripIndent`\
+	-------------------------------------------------------------------------
+	Deprecation notice: please note that \`balena sync\` is deprecated and will
+	be removed in a future release of the CLI. We are working on an exciting
+	"live push" alternative: https://github.com/balena-io-modules/livepush
+	-------------------------------------------------------------------------
+`;
+
+function deprecateSyncCmd(syncCmd: CommandDefinition): CommandDefinition {
+	syncCmd.primary = false;
+	syncCmd.description = syncCmd.description.replace(
+		'(beta)',
+		'[deprecated: see "help sync"]',
+	);
+	syncCmd.help = deprecationMsg + '\n\n' + syncCmd.help;
+	const originalAction = syncCmd.action;
+	syncCmd.action = (params, options, done): void => {
+		console.log(deprecationMsg);
+		originalAction(params, options, done);
+	};
+	return syncCmd;
+}
