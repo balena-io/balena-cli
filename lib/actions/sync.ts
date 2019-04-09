@@ -24,7 +24,7 @@ const deprecationMsg = stripIndent`\
 	-------------------------------------------------------------------------
 	Deprecation notice: please note that \`balena sync\` is deprecated and will
 	be removed in a future release of the CLI. We are working on an exciting
-	"live push" alternative: https://github.com/balena-io-modules/livepush
+	replacement to this, which will be released soon!
 	-------------------------------------------------------------------------
 `;
 
