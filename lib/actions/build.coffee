@@ -19,6 +19,8 @@ buildProject = (docker, logger, composeOpts, opts) ->
 		logger
 		composeOpts.projectPath
 		composeOpts.projectName
+		undefined  # image: name of pre-built image
+		composeOpts.dockerfilePath  # ok if undefined
 	)
 	.then (project) ->
 		appType = opts.app?.application_type?[0]
@@ -50,20 +52,20 @@ module.exports =
 	description: 'Build a single image or a multicontainer project locally'
 	primary: true
 	help: """
-		Use this command to build an image or a complete multicontainer project
-		with the provided docker daemon in your development machine or balena
-		device. (See also the `balena push` command for the option of building
-		images in the balenaCloud build servers.)
+		Use this command to build an image or a complete multicontainer project with
+		the provided docker daemon in your development machine or balena device.
+		(See also the `balena push` command for the option of building images in the
+		balenaCloud build servers.)
 
-		You must provide either an application or a device-type/architecture
-		pair to use the balena Dockerfile pre-processor
-		(e.g. Dockerfile.template -> Dockerfile).
+		You must provide either an application or a device-type/architecture pair to use
+		the balena Dockerfile pre-processor (e.g. Dockerfile.template -> Dockerfile).
 
 		This command will look into the given source directory (or the current working
-		directory if one isn't specified) for a compose file. If one is found, this
-		command will build each service defined in the compose file. If a compose file
-		isn't found, the command will look for a Dockerfile, and if yet that isn't found,
-		it will try to generate one.
+		directory if one isn't specified) for a docker-compose.yml file. If it is found,
+		this command will build each service defined in the compose file. If a compose
+		file isn't found, the command will look for a Dockerfile[.template] file (or
+		alternative Dockerfile specified with the `-f` option), and if yet that isn't
+		found, it will try to generate one.
 
 		#{registrySecretsHelp}
 

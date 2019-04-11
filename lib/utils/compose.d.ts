@@ -46,6 +46,7 @@ export function loadProject(
 	projectPath: string,
 	projectName: string,
 	image?: string,
+	dockerfilePath?: string,
 ): Bluebird<ComposeProject>;
 
 export function tarDirectory(

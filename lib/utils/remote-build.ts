@@ -32,6 +32,7 @@ const CURSOR_METADATA_REGEX = /([a-z]+)([0-9]+)?/;
 const TRIM_REGEX = /\n+$/;
 
 export interface BuildOpts {
+	dockerfilePath: string;
 	emulated: boolean;
 	nocache: boolean;
 	registrySecrets: RegistrySecrets;
@@ -78,6 +79,7 @@ async function getBuilderEndpoint(
 	const args = querystring.stringify({
 		owner,
 		app,
+		dockerfilePath: opts.dockerfilePath,
 		emulated: opts.emulated,
 		nocache: opts.nocache,
 	});

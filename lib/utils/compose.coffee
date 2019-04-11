@@ -37,15 +37,20 @@ exports.appendOptions = (opts) ->
 			alias: 'e'
 		},
 		{
+			signature: 'dockerfile'
+			parameter: 'Dockerfile'
+			description: 'Alternative Dockerfile name/path, relative to the source folder'
+		},
+		{
 			signature: 'logs'
 			description: 'Display full log output'
 			boolean: true
 		},
 		{
-			signature: 'registry-secrets',
-			alias: 'R',
-			parameter: 'secrets.yml|.json',
-			description: 'Path to a YAML or JSON file with passwords for a private Docker registry',
+			signature: 'registry-secrets'
+			alias: 'R'
+			parameter: 'secrets.yml|.json'
+			description: 'Path to a YAML or JSON file with passwords for a private Docker registry'
 		},
 	]
 
@@ -55,6 +60,7 @@ exports.generateOpts = (options) ->
 		projectName: options.projectName
 		projectPath: projectPath
 		inlineLogs: !!options.logs
+		dockerfilePath: options.dockerfile
 
 compositionFileNames = [
 	'docker-compose.yml'
@@ -97,11 +103,14 @@ createProject = (composePath, composeStr, projectName = null) ->
 # of it in one go. if image is given, it'll create a default project for
 # that without looking for a project. falls back to creating a default
 # project if none is found at the given projectPath.
-exports.loadProject = (logger, projectPath, projectName, image) ->
+exports.loadProject = (logger, projectPath, projectName, image, dockerfilePath) ->
+	{ validateSpecifiedDockerfile } = require('./compose_ts')
 	compose = require('resin-compose-parse')
 	logger.logDebug('Loading project...')
 
 	Promise.try ->
+		dockerfilePath = validateSpecifiedDockerfile(projectPath, dockerfilePath)
+
 		if image?
 			logger.logInfo("Creating default composition with image: #{image}")
 			return compose.defaultComposition(image)
@@ -110,11 +119,14 @@ exports.loadProject = (logger, projectPath, projectName, image) ->
 
 		resolveProject(projectPath)
 		.tap ->
-			logger.logInfo('Compose file detected')
+			if dockerfilePath
+				logger.logWarn("Ignoring alternative dockerfile \"#{dockerfilePath}\"\ because a docker-compose file exists")
+			else
+				logger.logInfo('Compose file detected')
 		.catch (e) ->
 			logger.logDebug("Failed to resolve project: #{e}")
 			logger.logInfo("Creating default composition with source: #{projectPath}")
-			return compose.defaultComposition()
+			return compose.defaultComposition(undefined, dockerfilePath)
 	.then (composeStr) ->
 		logger.logDebug('Creating project...')
 		createProject(projectPath, composeStr, projectName)
@@ -126,7 +138,7 @@ exports.tarDirectory = tarDirectory = (dir, preFinalizeCallback = null) ->
 	fs = require('mz/fs')
 	streamToPromise = require('stream-to-promise')
 	{ FileIgnorer } = require('./ignore')
-	{ toPosixPath } = require('./helpers')
+	{ toPosixPath } = require('resin-multibuild').PathUtils
 
 	getFiles = ->
 		streamToPromise(klaw(dir))
@@ -175,7 +187,7 @@ exports.buildProject = (
 	builder = require('resin-multibuild')
 	transpose = require('docker-qemu-transpose')
 	qemu = require('./qemu')
-	{ toPosixPath } = require('./helpers')
+	{ toPosixPath } = builder.PathUtils
 
 	logger.logInfo("Building for #{arch}/#{deviceType}")
 

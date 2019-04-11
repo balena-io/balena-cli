@@ -43,6 +43,7 @@ export interface DeviceDeployOptions {
 	source: string;
 	deviceHost: string;
 	devicePort?: number;
+	dockerfilePath?: string;
 	registrySecrets: RegistrySecrets;
 	nocache: boolean;
 	live: boolean;
@@ -99,7 +100,13 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 
 	globalLogger.logInfo(`Starting build on device ${opts.deviceHost}`);
 
-	const project = await loadProject(globalLogger, opts.source, 'local');
+	const project = await loadProject(
+		globalLogger,
+		opts.source, // project path
+		'local', // project name
+		undefined, // name of a pre-built image
+		opts.dockerfilePath, // alternative Dockerfile; OK to be undefined
+	);
 
 	// Attempt to attach to the device's docker daemon
 	const docker = connectToDocker(
