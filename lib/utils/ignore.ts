@@ -5,6 +5,8 @@ import * as path from 'path';
 import dockerIgnore = require('@zeit/dockerignore');
 import ignore from 'ignore';
 
+import { toPosixPath } from './helpers';
+
 export enum IgnoreFileType {
 	DockerIgnore,
 	GitIgnore,
@@ -90,8 +92,9 @@ export class FileIgnorer {
 		const relFile = path.relative(this.basePath, filename);
 
 		// Don't ignore any metadata files
-		const baseDir = path.dirname(relFile).split(path.sep)[0];
-		if (baseDir === '.balena' || baseDir === '.resin') {
+		// The regex below matches `.balena/qemu` and `myservice/.balena/qemu`
+		// but not `some.dir.for.balena/qemu`.
+		if (/(^|\/)\.(balena|resin)\//.test(toPosixPath(relFile))) {
 			return true;
 		}
 
