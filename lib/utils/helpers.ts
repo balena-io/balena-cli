@@ -19,6 +19,7 @@ import Bluebird = require('bluebird');
 import chalk from 'chalk';
 import _ = require('lodash');
 import os = require('os');
+import path = require('path');
 import visuals = require('resin-cli-visuals');
 import rindle = require('rindle');
 
@@ -27,6 +28,10 @@ import { InitializeEmitter, OperationState } from 'balena-device-init';
 const waitStreamAsync = Bluebird.promisify(rindle.wait);
 
 const balena = BalenaSdk.fromSharedOptions();
+
+export function toPosixPath(p: string): string {
+	return p.replace(new RegExp('\\' + path.sep, 'g'), '/');
+}
 
 export function getGroupDefaults(group: {
 	options: Array<{ name: string; default?: string }>;

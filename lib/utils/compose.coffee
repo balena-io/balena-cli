@@ -119,10 +119,6 @@ exports.loadProject = (logger, projectPath, projectName, image) ->
 		logger.logDebug('Creating project...')
 		createProject(projectPath, composeStr, projectName)
 
-toPosixPath = (systemPath) ->
-	path = require('path')
-	systemPath.replace(new RegExp('\\' + path.sep, 'g'), '/')
-
 exports.tarDirectory = tarDirectory = (dir, preFinalizeCallback = null) ->
 	tar = require('tar-stream')
 	klaw = require('klaw')
@@ -130,6 +126,7 @@ exports.tarDirectory = tarDirectory = (dir, preFinalizeCallback = null) ->
 	fs = require('mz/fs')
 	streamToPromise = require('stream-to-promise')
 	{ FileIgnorer } = require('./ignore')
+	{ toPosixPath } = require('./helpers')
 
 	getFiles = ->
 		streamToPromise(klaw(dir))
@@ -178,6 +175,7 @@ exports.buildProject = (
 	builder = require('resin-multibuild')
 	transpose = require('docker-qemu-transpose')
 	qemu = require('./qemu')
+	{ toPosixPath } = require('./helpers')
 
 	logger.logInfo("Building for #{arch}/#{deviceType}")
 
