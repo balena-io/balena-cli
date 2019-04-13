@@ -876,11 +876,11 @@ continuously stream output
 
 ## sync [uuid]
 
--------------------------------------------------------------------------
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 Deprecation notice: please note that `balena sync` is deprecated and will
 be removed in a future release of the CLI. We are working on an exciting
-"live push" alternative: https://github.com/balena-io-modules/livepush
--------------------------------------------------------------------------
+replacement that will be released soon!  
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 Warning: 'balena sync' requires an openssh-compatible client and 'rsync' to
 be correctly installed in your shell environment. For more information (including
@@ -1567,10 +1567,10 @@ ssh port number (default: 22222)
 
 ## local push [deviceIp]
 
-------------------------------------------------------------------------------
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 Deprecation notice: `balena local push` is deprecated and will be removed in a
-future release of the CLI. Please use `balena push <ipAddress>` instead.
-------------------------------------------------------------------------------
+future release of the CLI. Please use `balena push <ipAddress>` instead.  
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 Use this command to push your local changes to a container on a LAN-accessible
 balenaOS device on the fly.

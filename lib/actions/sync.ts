@@ -21,11 +21,11 @@ import { stripIndent } from 'common-tags';
 export = deprecateSyncCmd(BalenaSync.capitano('balena-cli'));
 
 const deprecationMsg = stripIndent`\
-	-------------------------------------------------------------------------
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 	Deprecation notice: please note that \`balena sync\` is deprecated and will
 	be removed in a future release of the CLI. We are working on an exciting
-	replacement to this, which will be released soon!
-	-------------------------------------------------------------------------
+	replacement that will be released soon!  
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 `;
 
 function deprecateSyncCmd(syncCmd: CommandDefinition): CommandDefinition {

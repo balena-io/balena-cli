@@ -26,11 +26,12 @@ originalAction = balenaPush.action
 # TODO: This is a temporary workaround to reuse the existing `rdt push`
 # capitano frontend in `balena local push`.
 
+# coffeelint: disable-next-line ("Line ends with trailing whitespace")
 deprecationMsg = '''
-	------------------------------------------------------------------------------
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 	Deprecation notice: `balena local push` is deprecated and will be removed in a
-	future release of the CLI. Please use `balena push <ipAddress>` instead.
-	------------------------------------------------------------------------------
+	future release of the CLI. Please use `balena push <ipAddress>` instead.  
+	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 '''
 
