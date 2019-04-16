@@ -202,8 +202,6 @@ export class DeviceAPI {
 		opts: T,
 		logger?: Logger,
 	): Promise<any> {
-		const _ = await import('lodash');
-
 		interface ObjectWithUrl {
 			url?: string;
 		}

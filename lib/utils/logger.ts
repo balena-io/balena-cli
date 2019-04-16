@@ -92,7 +92,7 @@ class Logger {
 		return this.streams.logs.write(msg + eol);
 	}
 
-	logLivepush(msg: string) {
+	public logLivepush(msg: string) {
 		return this.streams.livepush.write(msg + eol);
 	}
 }
