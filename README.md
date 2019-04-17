@@ -20,7 +20,9 @@ we do now have an experimental standalone binary release available, see ['Standa
 	- if you need `ssh` to work behind the proxy you also need [`proxytunnel`](http://proxytunnel.sourceforge.net/) installed (available as `proxytunnel` package for Ubuntu, for example)
   - `rsync`: >= 2.6.9 (required by `balena sync`)
 
-##### Windows Support
+#### Windows Support
+
+> Note that the fastest way to have the CLI running on **Windows** is by using the [Standalone Version](https://github.com/balena-io/balena-cli#standalone-install). You can follow [this video tutorial](https://www.youtube.com/watch?v=j3JoA1EINUA) to learn how to install it.
 
 Before installing balena-cli, you'll need a working node-gyp environment. If you don't already have one you'll see native module build errors during installation. To fix this, run `npm install -g --production windows-build-tools` in an administrator console (available as 'Command Prompt (Admin)' when pressing windows+x in Windows 7+).
 
