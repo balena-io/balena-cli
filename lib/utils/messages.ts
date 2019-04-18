@@ -9,8 +9,9 @@ create a new one at: https://github.com/balena-io/balena-cli/issues/\
 `;
 
 const debugHint = `\
-Additional information may be available in debug mode. Prefix the command
-line with DEBUG=1, i.e.:  DEBUG=1 balena ...
+Additional information may be available by setting a DEBUG=1 environment
+variable: "set DEBUG=1" on a Windows command prompt, or "export DEBUG=1"
+on Linux or macOS.\n
 `;
 
 export const getHelp = `${DEBUG_MODE ? '' : debugHint}\

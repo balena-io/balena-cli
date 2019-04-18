@@ -1,142 +1,87 @@
-balena CLI
-=========
+# balena CLI
 
-> The official balena CLI tool.
+The official balena CLI tool.
 
 [![npm version](https://badge.fury.io/js/balena-cli.svg)](http://badge.fury.io/js/balena-cli)
 [![dependencies](https://david-dm.org/balena-io/balena-cli.svg)](https://david-dm.org/balena-io/balena-cli)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/balena-io/chat)
 
-Getting Started
----------------
+## About
 
-The easiest and recommended way of installing the CLI on all platforms (Linux, MacOS, Windows)
-is to use the Standalone Install described below. Some specific CLI commands like `balena ssh`
-and `balena sync` have additional dependencies: see section Additional Dependencies.
+The balena CLI (Command-Line Interface) allows you to interact with the balenaCloud and the
+[balena API](https://www.balena.io/docs/reference/api/overview/) through a terminal window
+on Linux, MacOS or Windows. You can also write shell scripts around it, or import its Node.js
+modules to use it programmatically.
+As an [open-source project on GitHub](https://github.com/balena-io/balena-cli/), your contribution
+is also welcome!
 
-> **Windows users:** we now have a [YouTube video tutorial](https://www.youtube.com/watch?v=j3JoA1EINUA)
-for installing and getting started with the balena CLI on Windows!
+## Installation
 
-### Standalone install
+Check the [balena CLI installation instructions on GitHub](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).
 
-* Download the latest zip for your OS from https://github.com/balena-io/balena-cli/releases.
-* Extract the contents, putting the `balena-cli` folder somewhere appropriate for your system (e.g. `C:/balena-cli`, `/usr/local/lib/balena-cli`, etc).
-* Add the `balena-cli` folder to your `PATH` ([Windows instructions](https://www.computerhope.com/issues/ch000549.htm), [Linux instructions](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix), [OSX instructions](https://stackoverflow.com/questions/22465332/setting-path-environment-variable-in-osx-permanently))
-* Running `balena` in a fresh command line should print the balena CLI help. See Windows Support
-section below for some notes regarding the shell.
+## Getting Started
 
-To update the CLI to a new version, simply download a new release and replace the extracted folder.
+### Choosing a shell (command prompt/terminal)
 
-### NPM install
+On Linux and MacOS, `bash` is the standard and recommended shell for use with the balena CLI.
 
-If you are a Node.js developer, you may wish to install the balena CLI through npm[https://www.npmjs.com]. The npm installation involves building native (platform-specific) binary modules, for which there are some pre-requisites:
+> **bash command auto completion**  
+`bash` command auto completion can be enabled by copying the
+[balena-completion.bash](https://github.com/balena-io/balena-cli/blob/master/balena-completion.bash)
+file to the default bash completions directory (usually `/etc/bash_completion.d/`), or by appending
+it to `~/.bash_completion`.
 
-* Node.js version 6 or above (**soon version 8 or above**)
-* Python 2.7
-* g++ compiler
-* make
-* git
-* Under Windows, the `windows-build-tools` npm package should be installed too, running the
-  following command in an administrator console (available as 'Command Prompt (Admin)' when
-  pressing Windows+X in Windows 7+) :  
-  `npm install -g --production windows-build-tools`
+On Windows, we support the standard Windows Command Prompt (`cmd.exe`) and the Windows
+[PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/getting-started/getting-started-with-windows-powershell?view=powershell-6).
+We are aware of users also having a good experience with alternative shells, including:
 
-With those in place, the CLI installation command is:
-
-```sh
-$ npm install balena-cli -g --production --unsafe-perm
-```
-
-`--unsafe-perm` is only required on systems where the global install directory is not user-writable.
-This allows npm install steps to download and save prebuilt native binaries. You may be able to omit it,
-especially if you're using a user-managed node install such as [nvm](https://github.com/creationix/nvm).
-
-### Additional Dependencies
-
-* The `balena ssh` command requires a recent version of the `ssh` command-line tool to be available:
-  * MacOS and Linux usually already have it installed. Otherwise, search for the available
-  packages on your specific Linux distribution, or for the Mac consider the [Xcode command-line
-  tools](https://developer.apple.com/xcode/features/) or [homebrew](https://brew.sh/).
-
-  * Microsoft released an OpenSSH version of ssh for Windows 10, which we understand is
-  automatically installed through Windows Update, but can be manually installed too.
-  More information [here](https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse). For other versions of Windows, there are several ssh/OpenSSH clients
-  provided by 3rd parties.
-
-  * If you need `ssh` to work behind a proxy, you also need [`proxytunnel`](http://proxytunnel.sourceforge.net/) installed (available as `proxytunnel` package for Ubuntu, for example).
-
-* The `balena sync` command currently requires `rsync` (>= 2.6.9) to be installed:
-  * Linux: `apt-get install rsync`
-  * MacOS: [Xcode command-line tools](https://developer.apple.com/xcode/features/) or [homebrew](https://brew.sh/)
-  * Windows: use MinGW as described in the Windows Support section.
-
-### Windows Support
-
-We aim at supporting the standard Windows Command Prompt (`cmd.exe`) and the Windows [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/getting-started/getting-started-with-windows-powershell?view=powershell-6).
-
-Some CLI commands like `balena sync` and `balena ssh` have not been thoroughly tested with the standard Windows shells. We are aware of users having a good experience with alternative shells, including:
-
-* Microsoft's [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (a.k.a. Microsoft's "bash for Windows 10").
+* Microsoft's [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about)
+  (a.k.a. Microsoft's "bash for Windows 10").
 * [Git for Windows](https://git-for-windows.github.io/).
-* [MinGW](http://www.mingw.org)
-  1. Install [MinGW](http://www.mingw.org).
-  2. Install the `msys-rsync` and `msys-openssh` packages.
-  3. Add MinGW to the `%PATH%` if this hasn't been done by the installer already. The location where the binaries are places is usually `C:\MinGW\msys\1.0\bin`, but it can vary if you selected a different location in the installer.
-  4. Copy your SSH keys to `%homedrive%%homepath\.ssh`.
-  5. If you need `ssh` to work behind the proxy you also need to install [proxytunnel](http://proxytunnel.sourceforge.net/)
+* [MinGW](http://www.mingw.org): install the `msys-rsync` and `msys-openssh` packages too.
 
-### Login
+### Logging in
+
+Several CLI commands require access to your balenaCloud account, for example in order to push
+a new release to your app. Those commands require creating a CLI login session by running:
 
 ```sh
 $ balena login
 ```
 
-_(Typically useful, but not strictly required for all commands)_
+### Proxy support
 
-### Run commands
+HTTP(S) proxies can be configured through any of the following methods, in order of preference:
 
-Take a look at the full command documentation at [https://balena.io/docs/tools/cli/](https://balena.io/docs/tools/cli/#table-of-contents
-), or by running `balena help`.
+* Set the \`BALENARC_PROXY\` environment variable in URL format (with protocol, host, port, and
+  optionally basic auth).
+* Alternatively, use the [balena config file](https://www.npmjs.com/package/balena-settings-client#documentation)
+  (project-specific or user-level) and set the \`proxy\` setting. It can be:
+  * a string in URL format, or
+  * an object in the [global-tunnel-ng options format](https://www.npmjs.com/package/global-tunnel-ng#options) (which allows more control).
+* Alternatively, set the conventional \`https_proxy\` / \`HTTPS_PROXY\` / \`http_proxy\` / \`HTTP_PROXY\`
+environment variable (in the same standard URL format).
 
-### Bash completions
+To get a proxy to work with the `balena ssh` command, check the
+[installation instructions](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).
 
-Optionally you can enable tab completions for the bash shell, enabling the shell to provide additional context and automatically complete arguments to`balena`. To enable bash completions, copy the `balena-completion.bash` file to the default bash completions directory (usually `/etc/bash_completion.d/`) or append it to the end of `~/.bash_completion`.
+## Command reference documentation
 
-FAQ
----
+The full CLI command reference is available [on the web](https://www.balena.io/docs/reference/cli/
+) or by running `balena help` and `balena help --verbose`.
 
-### Where is my configuration file?
+## Support, FAQ and troubleshooting
 
-The per-user configuration file lives in `$HOME/.balenarc.yml` or `%UserProfile%\_balenarc.yml`, in Unix based operating systems and Windows respectively.
+If you come across any problems or would like to get in touch:
 
-The balena CLI also attempts to read a `balenarc.yml` file in the current directory, which takes precedence over the per-user configuration file.
+* Check our [FAQ / troubleshooting document](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md).
+* Ask us a question through the [balenaCloud forum](https://forums.balena.io/c/balena-cloud).
+* For bug reports or feature requests,
+  [have a look at the GitHub issues or create a new one](https://github.com/balena-io/balena-cli/issues/).
 
-### How do I point the balena CLI to staging?
+## Contributing
 
-The easiest way is to set the `BALENARC_BALENA_URL=balena-staging.com` environment variable.
-
-Alternatively, you can edit your configuration file and set `balenaUrl: balena-staging.com` to persist this setting.
-
-### How do I make the balena CLI persist data in another directory?
-
-The balena CLI persists your session token, as well as cached images in `$HOME/.balena` or `%UserProfile%\_balena`.
-
-Pointing the balena CLI to persist data in another location is necessary in certain environments, like a server, where there is no home directory, or a device running balenaOS, which erases all data after a restart.
-
-You can accomplish this by setting `BALENARC_DATA_DIRECTORY=/opt/balena` or adding `dataDirectory: /opt/balena` to your configuration file, replacing `/opt/balena` with your desired directory.
-
-Support
--------
-
-If you're having any problems or would like to get in touch:
-
-* Check our [troubleshooting guide](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md)
-* Ask us a question through the balenaCloud forum: https://forums.balena.io/c/balena-cloud
-* For bug reports or feature requests, have a look at the GitHub issues or
-create a new one at: https://github.com/balena-io/balena-cli/issues/
-
-Development guidelines
-----------------------
+The balena CLI is an open source project and your contribution is welcome!
 
 The CLI was originally written in [CoffeeScript](https://coffeescript.org), but we have decided to
 migrate to [TypeScript](https://www.typescriptlang.org/) in order to take advantage of static
@@ -146,12 +91,20 @@ maintenance work or the implementation of new features.
 After cloning this repository and running `npm install` you can build the CLI using `npm run build`.
 You can then run the generated build using `./bin/balena`.
 In order to ease development:
+
 * you can build the CLI using the `npm run build:fast` variant which skips some of the build steps or
 * you can use `./bin/balena-dev` which live transpiles the sources of the CLI.
 
-In either case, before opening a PR make sure to also test your changes after doing a full build with `npm run build`.
+In either case, before opening a PR be sure to also test your changes with `npm test`.
 
-License
--------
+## Note on editing this README document
 
-The project is licensed under the Apache 2.0 license.
+This file is edited/created by hand, but it is then automatically parsed to extract selected
+subsections for the [CLI's web documentation page](https://www.balena.io/docs/reference/cli/).
+The code that parses this file is in [`automation/capitanodoc/capitanodoc.ts`
+](https://github.com/balena-io/balena-cli/blob/master/automation/capitanodoc/capitanodoc.ts).
+
+## License
+
+The project is licensed under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0).
+A copy is also available in the LICENSE file in this repository.
