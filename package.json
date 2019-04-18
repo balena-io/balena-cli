@@ -41,7 +41,7 @@
     "pretest": "npm run build",
     "test": "gulp test",
     "test:fast": "npm run build:fast && gulp test",
-    "ci": "npm run test && (catch-uncommitted || echo 'new Date().toISOString().startsWith(\"2019-04-13\") || process.exit(1)' | node)",
+    "ci": "npm run test && catch-uncommitted",
     "watch": "gulp watch",
     "prettify": "prettier --write \"{lib,tests,automation,typings}/**/*.ts\" --config ./node_modules/resin-lint/config/.prettierrc",
     "lint": "resin-lint lib/ tests/ && resin-lint --typescript automation/ lib/ typings/ tests/",

@@ -44,10 +44,9 @@ function getBuildTarget(appOrDevice: string): BuildTarget | null {
 }
 
 async function getAppOwner(sdk: BalenaSDK, appName: string) {
-	const {
-		exitWithExpectedError,
-		selectFromList,
-	} = await import('../utils/patterns');
+	const { exitWithExpectedError, selectFromList } = await import(
+		'../utils/patterns'
+	);
 	const _ = await import('lodash');
 
 	const applications = await sdk.models.application.getAll({
@@ -172,10 +171,9 @@ export const push: CommandDefinition<
 		const Bluebird = await import('bluebird');
 		const remote = await import('../utils/remote-build');
 		const deviceDeploy = await import('../utils/device/deploy');
-		const {
-			exitIfNotLoggedIn,
-			exitWithExpectedError,
-		} = await import('../utils/patterns');
+		const { exitIfNotLoggedIn, exitWithExpectedError } = await import(
+			'../utils/patterns'
+		);
 		const { parseRegistrySecrets } = await import('../utils/compose_ts');
 		const { BuildError } = await import('../utils/device/errors');
 
