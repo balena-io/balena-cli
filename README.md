@@ -1,4 +1,4 @@
-Balena CLI
+balena CLI
 =========
 
 > The official balena CLI tool.
@@ -7,44 +7,41 @@ Balena CLI
 [![dependencies](https://david-dm.org/balena-io/balena-cli.svg)](https://david-dm.org/balena-io/balena-cli)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/balena-io/chat)
 
-Requisites
-----------
-
-If you want to install the CLI directly through npm, you'll need the below. If this looks difficult,
-we do now have an experimental standalone binary release available, see ['Standalone install'](#standalone-install) below.
-
-- [NodeJS](https://nodejs.org) (>= v6)
-- [Git](https://git-scm.com)
-- The following executables should be correctly installed in your shell environment:
-  - `ssh`: Any recent version of the OpenSSH ssh client (required by `balena sync` and `balena ssh`)
-	- if you need `ssh` to work behind the proxy you also need [`proxytunnel`](http://proxytunnel.sourceforge.net/) installed (available as `proxytunnel` package for Ubuntu, for example)
-  - `rsync`: >= 2.6.9 (required by `balena sync`)
-
-#### Windows Support
-
-> Note that the fastest way to have the CLI running on **Windows** is by using the [Standalone Version](https://github.com/balena-io/balena-cli#standalone-install). You can follow [this video tutorial](https://www.youtube.com/watch?v=j3JoA1EINUA) to learn how to install it.
-
-Before installing balena-cli, you'll need a working node-gyp environment. If you don't already have one you'll see native module build errors during installation. To fix this, run `npm install -g --production windows-build-tools` in an administrator console (available as 'Command Prompt (Admin)' when pressing windows+x in Windows 7+).
-
-`balena sync` and `balena ssh` have not been thoroughly tested on the standard Windows cmd.exe shell. We recommend using bash (or a similar) shell, like Bash for Windows 10 or [Git for Windows](https://git-for-windows.github.io/).
-
-If you still want to use `cmd.exe` you will have to use a package manager like MinGW or chocolatey. For MinGW the steps are:
-
-1. Install [MinGW](http://www.mingw.org).
-2. Install the `msys-rsync` and `msys-openssh` packages.
-3. Add MinGW to the `%PATH%` if this hasn't been done by the installer already. The location where the binaries are places is usually `C:\MinGW\msys\1.0\bin`, but it can vary if you selected a different location in the installer.
-4. Copy your SSH keys to `%homedrive%%homepath\.ssh`.
-5. If you need `ssh` to work behind the proxy you also need to install [proxytunnel](http://proxytunnel.sourceforge.net/)
-
 Getting Started
 ---------------
 
+The easiest and recommended way of installing the CLI on all platforms (Linux, MacOS, Windows)
+is to use the Standalone Install described below. Some specific CLI commands like `balena ssh`
+and `balena sync` have additional dependencies: see section Additional Dependencies.
+
+> **Windows users:** we now have a [YouTube video tutorial](https://www.youtube.com/watch?v=j3JoA1EINUA)
+for installing and getting started with the balena CLI on Windows!
+
+### Standalone install
+
+* Download the latest zip for your OS from https://github.com/balena-io/balena-cli/releases.
+* Extract the contents, putting the `balena-cli` folder somewhere appropriate for your system (e.g. `C:/balena-cli`, `/usr/local/lib/balena-cli`, etc).
+* Add the `balena-cli` folder to your `PATH` ([Windows instructions](https://www.computerhope.com/issues/ch000549.htm), [Linux instructions](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix), [OSX instructions](https://stackoverflow.com/questions/22465332/setting-path-environment-variable-in-osx-permanently))
+* Running `balena` in a fresh command line should print the balena CLI help. See Windows Support
+section below for some notes regarding the shell.
+
+To update the CLI to a new version, simply download a new release and replace the extracted folder.
+
 ### NPM install
 
-If you've got all the requirements above, you should be able to install the CLI directly from npm. If not,
-or if you have any trouble with this, please try the new standalone install steps just below.
+If you are a Node.js developer, you may wish to install the balena CLI through npm[https://www.npmjs.com]. The npm installation involves building native (platform-specific) binary modules, for which there are some pre-requisites:
 
-This might require elevated privileges in some environments.
+* Node.js version 6 or above (**soon version 8 or above**)
+* Python 2.7
+* g++ compiler
+* make
+* git
+* Under Windows, the `windows-build-tools` npm package should be installed too, running the
+  following command in an administrator console (available as 'Command Prompt (Admin)' when
+  pressing Windows+X in Windows 7+) :  
+  `npm install -g --production windows-build-tools`
+
+With those in place, the CLI installation command is:
 
 ```sh
 $ npm install balena-cli -g --production --unsafe-perm
@@ -54,26 +51,39 @@ $ npm install balena-cli -g --production --unsafe-perm
 This allows npm install steps to download and save prebuilt native binaries. You may be able to omit it,
 especially if you're using a user-managed node install such as [nvm](https://github.com/creationix/nvm).
 
-In some environments, this process will need to build native modules. This may require a more complex build
-environment, and notably requires Python 2.7. If you hit any problems with this, we recommend you try the
-alternative standalone install below instead.
+### Additional Dependencies
 
-### Standalone install
+* The `balena ssh` command requires a recent version of the `ssh` command-line tool to be available:
+  * MacOS and Linux usually already have it installed. Otherwise, search for the available
+  packages on your specific Linux distribution, or for the Mac consider the [Xcode command-line
+  tools](https://developer.apple.com/xcode/features/) or [homebrew](https://brew.sh/).
 
-If you don't have node or a working pre-gyp environment, you can still install the CLI as a standalone
-binary. **This is experimental and may not work perfectly yet in all environments**, but it seems to work
-well in initial cross-platform testing, so it may be useful, and we'd love your feedback if you hit any issues.
+  * Microsoft released an OpenSSH version of ssh for Windows 10, which we understand is
+  automatically installed through Windows Update, but can be manually installed too.
+  More information [here](https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse). For other versions of Windows, there are several ssh/OpenSSH clients
+  provided by 3rd parties.
 
-To install the CLI as a standalone binary:
+  * If you need `ssh` to work behind a proxy, you also need [`proxytunnel`](http://proxytunnel.sourceforge.net/) installed (available as `proxytunnel` package for Ubuntu, for example).
 
-* Download the latest zip for your OS from https://github.com/balena-io/balena-cli/releases.
-* Extract the contents, putting the `balena-cli` folder somewhere appropriate for your system (e.g. `C:/balena-cli`, `/usr/local/lib/balena-cli`, etc).
-* Add the `balena-cli` folder to your `PATH` ([Windows instructions](https://www.computerhope.com/issues/ch000549.htm), [Linux instructions](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix), [OSX instructions](https://stackoverflow.com/questions/22465332/setting-path-environment-variable-in-osx-permanently))
-* Running `balena` in a fresh command line should print the balena CLI help.
+* The `balena sync` command currently requires `rsync` (>= 2.6.9) to be installed:
+  * Linux: `apt-get install rsync`
+  * MacOS: [Xcode command-line tools](https://developer.apple.com/xcode/features/) or [homebrew](https://brew.sh/)
+  * Windows: use MinGW as described in the Windows Support section.
 
-To update in future, simply download a new release and replace the extracted folder.
+### Windows Support
 
-Have any problems, or see any unexpected behaviour? [Please file an issue!](https://github.com/balena-io/balena-cli/issues/new)
+We aim at supporting the standard Windows Command Prompt (`cmd.exe`) and the Windows [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/getting-started/getting-started-with-windows-powershell?view=powershell-6).
+
+Some CLI commands like `balena sync` and `balena ssh` have not been thoroughly tested with the standard Windows shells. We are aware of users having a good experience with alternative shells, including:
+
+* Microsoft's [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (a.k.a. Microsoft's "bash for Windows 10").
+* [Git for Windows](https://git-for-windows.github.io/).
+* [MinGW](http://www.mingw.org)
+  1. Install [MinGW](http://www.mingw.org).
+  2. Install the `msys-rsync` and `msys-openssh` packages.
+  3. Add MinGW to the `%PATH%` if this hasn't been done by the installer already. The location where the binaries are places is usually `C:\MinGW\msys\1.0\bin`, but it can vary if you selected a different location in the installer.
+  4. Copy your SSH keys to `%homedrive%%homepath\.ssh`.
+  5. If you need `ssh` to work behind the proxy you also need to install [proxytunnel](http://proxytunnel.sourceforge.net/)
 
 ### Login
 
@@ -118,9 +128,12 @@ You can accomplish this by setting `BALENARC_DATA_DIRECTORY=/opt/balena` or addi
 Support
 -------
 
-If you're having any problems, check our [troubleshooting guide](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md) and if your problem is not addressed there, please [raise an issue](https://github.com/balena-io/balena-cli/issues/new) on GitHub and the balena team will be happy to help.
+If you're having any problems or would like to get in touch:
 
-You can also get in touch with us in the balena [forums](https://forums.balena.io/).
+* Check our [troubleshooting guide](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md)
+* Ask us a question through the balenaCloud forum: https://forums.balena.io/c/balena-cloud
+* For bug reports or feature requests, have a look at the GitHub issues or
+create a new one at: https://github.com/balena-io/balena-cli/issues/
 
 Development guidelines
 ----------------------
