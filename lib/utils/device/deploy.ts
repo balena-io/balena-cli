@@ -30,7 +30,7 @@ import { Readable } from 'stream';
 
 import { makeBuildTasks } from '../compose_ts';
 import Logger = require('../logger');
-import { DeviceInfo } from './api';
+import { DeviceAPI, DeviceInfo } from './api';
 import * as LocalPushErrors from './errors';
 import LivepushManager from './live';
 import { displayBuildLog } from './logs';
@@ -57,7 +57,6 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	const { loadProject, tarDirectory } = await import('../compose');
 	const { exitWithExpectedError } = await import('../patterns');
 
-	const { DeviceAPI } = await import('./api');
 	const { displayDeviceLogs } = await import('./logs');
 
 	if (!(await checkSource(opts.source))) {
@@ -162,12 +161,17 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 			logger: globalLogger,
 			composition: project.composition,
 			buildLogs: buildLogs!,
+			deployOpts: opts,
 		});
 
 		globalLogger.logLivepush('Watching for file changes...');
-		await livepush.init();
+		await Promise.all([
+			livepush.init(),
+			displayDeviceLogs(logStream, globalLogger),
+		]);
+	} else {
+		await displayDeviceLogs(logStream, globalLogger);
 	}
-	await displayDeviceLogs(logStream, globalLogger);
 }
 
 function connectToDocker(host: string, port: number): Docker {
@@ -221,6 +225,50 @@ export async function performBuilds(
 	});
 
 	return buildTasks;
+}
+
+// Rebuild a single container, execute it on device, and
+// return the build logs
+export async function rebuildSingleTask(
+	serviceName: string,
+	docker: Docker,
+	logger: Logger,
+	deviceInfo: DeviceInfo,
+	composition: Composition,
+	source: string,
+	opts: DeviceDeployOptions,
+): Promise<string> {
+	const { tarDirectory } = await import('../compose');
+	const multibuild = await import('resin-multibuild');
+	// First we run the build task, to get the new image id
+	const buildLogs: Dictionary<string> = {};
+
+	const tarStream = await tarDirectory(source);
+
+	const task = _.find(
+		await makeBuildTasks(composition, tarStream, deviceInfo, logger),
+		{ serviceName },
+	);
+
+	if (task == null) {
+		throw new Error(`Could not find build task for service ${serviceName}`);
+	}
+
+	await assignDockerBuildOpts(docker, [task], opts);
+	await assignOutputHandlers([task], logger, buildLogs);
+
+	const [localImage] = await multibuild.performBuilds([task], docker);
+
+	if (!localImage.successful) {
+		throw new LocalPushErrors.BuildError([
+			{
+				error: localImage.error!,
+				serviceName,
+			},
+		]);
+	}
+
+	return buildLogs[task.serviceName];
 }
 
 function assignOutputHandlers(
@@ -304,7 +352,7 @@ function generateImageName(serviceName: string): string {
 	return `local_image_${serviceName}:latest`;
 }
 
-function generateTargetState(
+export function generateTargetState(
 	currentTargetState: any,
 	composition: Composition,
 ): any {

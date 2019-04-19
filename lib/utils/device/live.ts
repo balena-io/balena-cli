@@ -9,16 +9,23 @@ import { BuildTask } from 'resin-multibuild';
 
 import Logger = require('../logger');
 
-import DeviceAPI, { Status } from './api';
+import DeviceAPI, { DeviceInfo, Status } from './api';
+import {
+	DeviceDeployOptions,
+	generateTargetState,
+	rebuildSingleTask,
+} from './deploy';
+import { BuildError } from './errors';
 
 // How often do we want to check the device state
 // engine has settled (delay in ms)
-const DEVICE_STATUS_SETTLE_CHECK_INTERVAL = 500;
+const DEVICE_STATUS_SETTLE_CHECK_INTERVAL = 1000;
 
 interface MonitoredContainer {
 	context: string;
 	livepush: Livepush;
 	monitor: chokidar.FSWatcher;
+	containerId: string;
 }
 
 interface ContextEvent {
@@ -38,11 +45,15 @@ export interface LivepushOpts {
 	api: DeviceAPI;
 	logger: Logger;
 	buildLogs: BuildLogs;
+	deployOpts: DeviceDeployOptions;
 }
 
 export class LivepushManager {
 	private lastDeviceStatus: Status | null = null;
 	private containers: Dictionary<MonitoredContainer> = {};
+	private dockerfilePaths: Dictionary<string[]> = {};
+	private deviceInfo: DeviceInfo;
+	private deployOpts: DeviceDeployOptions;
 
 	private buildContext: string;
 	private composition: Composition;
@@ -59,10 +70,12 @@ export class LivepushManager {
 		this.docker = opts.docker;
 		this.api = opts.api;
 		this.logger = opts.logger;
+		this.deployOpts = opts.deployOpts;
 		this.imageIds = LivepushManager.getMultistageImageIDs(opts.buildLogs);
 	}
 
 	public async init(): Promise<void> {
+		this.deviceInfo = await this.api.getDeviceInformation();
 		this.logger.logLivepush('Waiting for device state to settle...');
 		// The first thing we need to do is let the state 'settle',
 		// so that all of the containers are running and ready to
@@ -89,6 +102,21 @@ export class LivepushManager {
 					throw new Error(
 						`Could not detect dockerfile for service: ${serviceName}`,
 					);
+				}
+
+				if (buildTask.dockerfilePath == null) {
+					// this is a bit of a hack as resin-bundle-resolve
+					// does not always export the dockerfilePath, this
+					// only happens when the dockerfile path is
+					// specified differently - this should be patched
+					// in resin-bundle-resolve
+					this.dockerfilePaths[
+						buildTask.serviceName
+					] = this.getDockerfilePathFromTask(buildTask);
+				} else {
+					this.dockerfilePaths[buildTask.serviceName] = [
+						buildTask.dockerfilePath,
+					];
 				}
 
 				// Find the containerId from the device state
@@ -150,6 +178,7 @@ export class LivepushManager {
 					livepush,
 					context,
 					monitor,
+					containerId: container.containerId,
 				};
 			}
 		}
@@ -205,12 +234,31 @@ export class LivepushManager {
 			}. Event: ${JSON.stringify(fsEvent)}`,
 		);
 
+		// First we detect if the file changed is the Dockerfile
+		// used to build the service
+		if (
+			_.some(
+				this.dockerfilePaths[fsEvent.serviceName],
+				name => name === fsEvent.filename,
+			)
+		) {
+			if (fsEvent.type !== 'change') {
+				throw new Error(`Deletion or addition of Dockerfiles not supported`);
+			}
+
+			this.logger.logLivepush(
+				`Detected Dockerfile change, performing full rebuild of service ${
+					fsEvent.serviceName
+				}`,
+			);
+			await this.handleServiceRebuild(fsEvent.serviceName);
+			return;
+		}
+
 		let updates: string[] = [];
 		let deletes: string[] = [];
 		switch (fsEvent.type) {
 			case 'add':
-				updates = [fsEvent.filename];
-				break;
 			case 'change':
 				updates = [fsEvent.filename];
 				break;
@@ -230,6 +278,90 @@ export class LivepushManager {
 		await livepush.performLivepush(updates, deletes);
 	}
 
+	private async handleServiceRebuild(serviceName: string): Promise<void> {
+		try {
+			const buildTask = _.find(this.buildTasks, { serviceName });
+			if (buildTask == null) {
+				throw new Error(
+					`Could not find a build task for service ${serviceName}`,
+				);
+			}
+
+			let buildLog: string;
+			try {
+				buildLog = await rebuildSingleTask(
+					serviceName,
+					this.docker,
+					this.logger,
+					this.deviceInfo,
+					this.composition,
+					this.buildContext,
+					this.deployOpts,
+				);
+			} catch (e) {
+				if (!(e instanceof BuildError)) {
+					throw e;
+				}
+
+				this.logger.logError(
+					`Rebuild of service ${serviceName} failed!\n  Error: ${e.getServiceError(
+						serviceName,
+					)}`,
+				);
+				return;
+			}
+
+			// TODO: The code below is quite roundabout, and instead
+			// we'd prefer just to call a supervisor endpoint which
+			// recreates a container, but that doesn't exist yet
+
+			// First we request the current target state
+			const currentState = await this.api.getTargetState();
+
+			// Then we generate a target state without the service
+			// we rebuilt
+			const comp = _.cloneDeep(this.composition);
+			delete comp.services[serviceName];
+			const intermediateState = generateTargetState(currentState, comp);
+			await this.api.setTargetState(intermediateState);
+
+			// Now we wait for the device state to settle
+			await this.awaitDeviceStateSettle();
+
+			// And re-set the target state
+			await this.api.setTargetState(
+				generateTargetState(currentState, this.composition),
+			);
+
+			await this.awaitDeviceStateSettle();
+
+			const instance = this.containers[serviceName];
+			// Get the new container
+			const container = _.find(this.lastDeviceStatus!.containers, {
+				serviceName,
+			});
+			if (container == null) {
+				throw new Error(
+					`Could not find new container for service ${serviceName}`,
+				);
+			}
+
+			const buildLogs: Dictionary<string> = {};
+			buildLogs[serviceName] = buildLog;
+			const stageImages = LivepushManager.getMultistageImageIDs(buildLogs);
+
+			instance.livepush = await Livepush.init(
+				buildTask.dockerfile!,
+				buildTask.context!,
+				container.containerId,
+				stageImages[serviceName],
+				this.docker,
+			);
+		} catch (e) {
+			this.logger.logError(`There was an error rebuilding the service: ${e}`);
+		}
+	}
+
 	private static extractDockerArrowMessage(
 		outputLine: string,
 	): string | undefined {
@@ -237,6 +369,22 @@ export class LivepushManager {
 		const match = arrowTest.exec(outputLine);
 		if (match != null) {
 			return match[1];
+		}
+	}
+
+	private getDockerfilePathFromTask(task: BuildTask): string[] {
+		switch (task.projectType) {
+			case 'Standard Dockerfile':
+				return ['Dockerfile'];
+			case 'Dockerfile.template':
+				return ['Dockerfile.template'];
+			case 'Architecture-specific Dockerfile':
+				return [
+					`Dockerfile.${this.deviceInfo.arch}`,
+					`Dockerfile.${this.deviceInfo.deviceType}`,
+				];
+			default:
+				return [];
 		}
 	}
 }

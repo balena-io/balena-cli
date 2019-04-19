@@ -22,6 +22,15 @@ export class BuildError extends TypedError {
 		});
 		return str;
 	}
+
+	public getServiceError(serviceName: string): string {
+		const failure = _.find(this.failures, f => f.serviceName === serviceName);
+		if (failure == null) {
+			return 'Unknown build failure';
+		}
+
+		return failure.error.message;
+	}
 }
 
 export class DeviceAPIError extends TypedError {}
