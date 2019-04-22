@@ -204,6 +204,11 @@ async function cancelBuildIfNecessary(build: RemoteBuild): Promise<void> {
 		await build.sdk.pine.patch({
 			resource: 'release',
 			id: build.releaseId,
+			options: {
+				$filter: {
+					status: { $ne: 'success' },
+				},
+			},
 			body: {
 				status: 'cancelled',
 				end_timestamp: Date.now(),
