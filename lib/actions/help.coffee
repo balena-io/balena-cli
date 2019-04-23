@@ -81,9 +81,6 @@ command = (params, options, done) ->
 	capitano.state.getMatchCommand params.command, (error, command) ->
 		return done(error) if error?
 
-		console.log("capitano help params=#{JSON.stringify(params, null, 4)}")
-		# console.log("command=#{JSON.stringify(command, null, 4)}")
-
 		if not command? or command.isWildcard()
 			exitWithExpectedError("Command not found: #{params.command}")
 

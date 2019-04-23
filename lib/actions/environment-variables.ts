@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-
 import { ApplicationVariable, DeviceVariable } from 'balena-sdk';
 import * as Bluebird from 'bluebird';
 import { CommandDefinition } from 'capitano';
@@ -21,20 +20,6 @@ import { stripIndent } from 'common-tags';
 
 import { normalizeUuidProp } from '../utils/normalization';
 import * as commandOptions from './command-options';
-
-/*
-const getReservedPrefixes = async (): Promise<string[]> => {
-	const balena = (await import('balena-sdk')).fromSharedOptions();
-	const settings = await balena.settings.getAll();
-
-	const response = await balena.request.send({
-		baseUrl: settings.apiUrl,
-		url: '/config/vars',
-	});
-
-	return response.body.reservedNamespaces;
-};
-*/
 
 export const list: CommandDefinition<
 	{},

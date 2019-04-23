@@ -111,6 +111,7 @@ If you come across any problems or would like to get in touch:
 
 	- [envs](#envs)
 	- [env rm &#60;id&#62;](#env-rm-id)
+	- [env add &#60;name&#62; [value]](#env-add-name-value)
 	- [env rename &#60;id&#62; &#60;value&#62;](#env-rename-id-value)
 
 - Tags
@@ -633,6 +634,48 @@ confirm non interactively
 #### --device, -d
 
 device
+
+## env add NAME [VALUE]
+
+Add an enviroment or config variable to an application or device, as selected
+by the respective command-line options.
+
+If VALUE is omitted, the CLI will attempt to use the value of the environment
+variable of same name in the CLI process' environment. In this case, a warning
+message will be printed. Use `--quiet` to suppress it.
+
+Service-specific variables are not currently supported. The given command line
+examples variables that apply to all services in an app or device.
+
+Examples:
+
+	$ balena env add TERM --application MyApp
+	$ balena env add EDITOR vim --application MyApp
+	$ balena env add EDITOR vim --device 7cf02a6
+
+### Arguments
+
+#### NAME
+
+environment or config variable name
+
+#### VALUE
+
+variable value; if omitted, use value from CLI's enviroment
+
+### Options
+
+#### -a, --application APPLICATION
+
+application name
+
+#### -d, --device DEVICE
+
+device UUID
+
+#### -q, --quiet
+
+suppress warning messages
 
 ## env rename &#60;id&#62; &#60;value&#62;
 
@@ -2031,4 +2074,3 @@ Examples:
 
 Use this command to list your machine's drives usable for writing the OS image to.
 Skips the system drives.
-

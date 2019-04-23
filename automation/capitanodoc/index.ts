@@ -18,7 +18,7 @@ import * as _ from 'lodash';
 import * as path from 'path';
 
 import { getCapitanoDoc } from './capitanodoc';
-import { Category, Document } from './doc-types';
+import { CapitanoCommand, Category, Document, OclifCommand } from './doc-types';
 import * as markdown from './markdown';
 
 /**
@@ -39,24 +39,39 @@ export async function renderMarkdown(): Promise<string> {
 			commands: [],
 		};
 
-		for (const file of commandCategory.files) {
-			// tslint:disable-next-line:no-var-requires
-			const actions: any = require(path.join(process.cwd(), file));
-
-			if (actions.signature) {
-				category.commands.push(_.omit(actions, 'action'));
-			} else {
-				for (const actionName of Object.keys(actions)) {
-					const actionCommand = actions[actionName];
-					category.commands.push(_.omit(actionCommand, 'action'));
-				}
-			}
+		for (const jsFilename of commandCategory.files) {
+			category.commands.push(
+				...(jsFilename.includes('actions-oclif')
+					? importOclifCommands(jsFilename)
+					: importCapitanoCommands(jsFilename)),
+			);
 		}
-
 		result.categories.push(category);
 	}
 
 	return markdown.render(result);
+}
+
+function importCapitanoCommands(jsFilename: string): CapitanoCommand[] {
+	// tslint:disable-next-line:no-var-requires
+	const actions: any = require(path.join(process.cwd(), jsFilename));
+	const commands: CapitanoCommand[] = [];
+
+	if (actions.signature) {
+		commands.push(_.omit(actions, 'action'));
+	} else {
+		for (const actionName of Object.keys(actions)) {
+			const actionCommand = actions[actionName];
+			commands.push(_.omit(actionCommand, 'action'));
+		}
+	}
+	return commands;
+}
+
+function importOclifCommands(jsFilename: string): OclifCommand[] {
+	const command: OclifCommand = require(path.join(process.cwd(), jsFilename))
+		.default as OclifCommand;
+	return [command];
 }
 
 /**

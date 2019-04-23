@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+// import { flags, flagUsages } from '@oclif/parser';
 import { OptionDefinition } from 'capitano';
 import * as ent from 'ent';
 import * as fs from 'fs';
@@ -32,7 +33,7 @@ export function getOptionSignature(signature: string) {
 	return `${getOptionPrefix(signature)}${signature}`;
 }
 
-export function parseSignature(option: OptionDefinition) {
+export function parseCapitanoOption(option: OptionDefinition): string {
 	let result = getOptionSignature(option.signature);
 
 	if (_.isArray(option.alias)) {
@@ -48,6 +49,16 @@ export function parseSignature(option: OptionDefinition) {
 	}
 
 	return ent.encode(result);
+}
+
+/** Convert e.g. 'env add NAME [VALUE]' to 'env add <name> [value]' */
+export function capitanoizeOclifUsage(
+	oclifUsage: string | string[] | undefined,
+): string {
+	return (oclifUsage || '')
+		.toString()
+		.replace(/(?<=\s)[A-Z]+(?=(\s|$))/g, match => `<${match}>`)
+		.toLowerCase();
 }
 
 export class MarkdownFileParser {
