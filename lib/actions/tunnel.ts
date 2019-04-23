@@ -20,6 +20,7 @@ import * as _ from 'lodash';
 import { createServer, Server, Socket } from 'net';
 import { isArray } from 'util';
 
+import { inferOrSelectDevice } from '../utils/patterns';
 import { tunnelConnectionToDevice } from '../utils/tunnel';
 
 interface Args {
@@ -128,116 +129,117 @@ export const tunnel: CommandDefinition<Args, Options> = {
 				? (options.port as string[])
 				: [options.port as string];
 
-		return Bluebird.try(() =>
-			sdk.models.device
-				.get(params.uuid)
-				.then(device => {
-					if (!device.is_online) {
-						throw new DeviceIsOfflineError(params.uuid);
-					}
+		return inferOrSelectDevice(params.uuid)
+			.then(sdk.models.device.get)
+			.then(device => {
+				if (!device.is_online) {
+					throw new DeviceIsOfflineError(device.uuid);
+				}
 
-					const localListeners = _.chain(ports)
-						.map(mapping => {
-							const regexResult = /^([0-9]+)(?:$|\:(?:([\w\:\.]+)\:|)([0-9]+))$/.exec(
-								mapping,
-							);
+				const localListeners = _.chain(ports)
+					.map(mapping => {
+						const regexResult = /^([0-9]+)(?:$|\:(?:([\w\:\.]+)\:|)([0-9]+))$/.exec(
+							mapping,
+						);
 
-							if (regexResult === null) {
-								throw new InvalidPortMappingError(mapping);
-							}
+						if (regexResult === null) {
+							throw new InvalidPortMappingError(mapping);
+						}
 
-							// grab the groups
-							// tslint:disable-next-line:prefer-const
-							let [, remotePort, localAddress, localPort] = regexResult;
+						// grab the groups
+						// tslint:disable-next-line:prefer-const
+						let [, remotePort, localAddress, localPort] = regexResult;
 
-							if (
-								!isValidPort(parseInt(localPort, undefined)) ||
-								!isValidPort(parseInt(remotePort, undefined))
-							) {
-								throw new InvalidPortMappingError(mapping);
-							}
+						if (
+							!isValidPort(parseInt(localPort, undefined)) ||
+							!isValidPort(parseInt(remotePort, undefined))
+						) {
+							throw new InvalidPortMappingError(mapping);
+						}
 
-							// default bind to localAddress
-							if (localAddress == null) {
-								localAddress = 'localhost';
-							}
+						// default bind to localAddress
+						if (localAddress == null) {
+							localAddress = 'localhost';
+						}
 
-							// default use same port number locally as remote
-							if (localPort == null) {
-								localPort = remotePort;
-							}
+						// default use same port number locally as remote
+						if (localPort == null) {
+							localPort = remotePort;
+						}
 
-							return {
-								localPort: parseInt(localPort, undefined),
-								localAddress,
-								remotePort: parseInt(remotePort, undefined),
-							};
-						})
-						.map(({ localPort, localAddress, remotePort }) => {
-							return tunnelConnectionToDevice(params.uuid, remotePort, sdk)
-								.then(handler =>
-									createServer((client: Socket) => {
-										return handler(client)
-											.then(() => {
-												logConnection(
-													client.remoteAddress,
-													client.remotePort,
-													client.localAddress,
-													client.localPort,
-													device.vpn_address || '',
-													remotePort,
-												);
-											})
-											.catch(err =>
-												logConnection(
-													client.remoteAddress,
-													client.remotePort,
-													client.localAddress,
-													client.localPort,
-													device.vpn_address || '',
-													remotePort,
-													err,
-												),
+						return {
+							localPort: parseInt(localPort, undefined),
+							localAddress,
+							remotePort: parseInt(remotePort, undefined),
+						};
+					})
+					.map(({ localPort, localAddress, remotePort }) => {
+						return tunnelConnectionToDevice(device.uuid, remotePort, sdk)
+							.then(handler =>
+								createServer((client: Socket) => {
+									return handler(client)
+										.then(() => {
+											logConnection(
+												client.remoteAddress,
+												client.remotePort,
+												client.localAddress,
+												client.localPort,
+												device.vpn_address || '',
+												remotePort,
 											);
+										})
+										.catch(err =>
+											logConnection(
+												client.remoteAddress,
+												client.remotePort,
+												client.localAddress,
+												client.localPort,
+												device.vpn_address || '',
+												remotePort,
+												err,
+											),
+										);
+								}),
+							)
+							.then(
+								server =>
+									new Bluebird.Promise<Server>((resolve, reject) => {
+										server.on('error', reject);
+										server.listen(localPort, localAddress, () => {
+											resolve(server);
+										});
 									}),
-								)
-								.then(
-									server =>
-										new Bluebird.Promise<Server>((resolve, reject) => {
-											server.on('error', reject);
-											server.listen(localPort, localAddress, () => {
-												resolve(server);
-											});
-										}),
-								)
-								.then(() => {
-									logger.logInfo(
-										` - tunnelling ${localAddress}:${localPort} to device:${remotePort}`,
-									);
+							)
+							.then(() => {
+								logger.logInfo(
+									` - tunnelling ${localAddress}:${localPort} to ${
+										device.uuid
+									}:${remotePort}`,
+								);
 
-									return true;
-								})
-								.catch((err: Error) => {
-									logger.logWarn(
-										` - not tunnelling ${localAddress}:${localPort} to device:${remotePort}, failed ${JSON.stringify(
-											err.message,
-										)}`,
-									);
+								return true;
+							})
+							.catch((err: Error) => {
+								logger.logWarn(
+									` - not tunnelling ${localAddress}:${localPort} to ${
+										device.uuid
+									}:${remotePort}, failed ${JSON.stringify(err.message)}`,
+								);
 
-									return false;
-								});
-						})
-						.value();
+								return false;
+							});
+					})
+					.value();
 
-					return Bluebird.all(localListeners);
-				})
-				.then(results => {
-					if (!results.includes(true)) {
-						throw new Error('No ports are valid for tunnelling');
-					}
+				return Bluebird.all(localListeners);
+			})
+			.then(results => {
+				if (!results.includes(true)) {
+					throw new Error('No ports are valid for tunnelling');
+				}
 
-					logger.logInfo('Waiting for connections...');
-				}),
-		).nodeify(done);
+				logger.logInfo('Waiting for connections...');
+			})
+			.nodeify(done);
 	},
 };
