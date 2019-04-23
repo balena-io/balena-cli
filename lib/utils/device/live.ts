@@ -245,7 +245,6 @@ export class LivepushManager {
 	}
 
 	private async handleFSEvent(fsEvent: ContextEvent): Promise<void> {
-		// TODO: If there's a dockerfile event, we must perform a rebuild
 		this.logger.logDebug(
 			`Got a filesystem event for service: ${
 				fsEvent.serviceName

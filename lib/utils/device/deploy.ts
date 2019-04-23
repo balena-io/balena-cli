@@ -88,12 +88,9 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		if (!semver.satisfies(version, '>=7.21.4')) {
 			exitWithExpectedError(versionError);
 		}
-		// FIXME: DO NOT MERGE until this version number has been updated
-		// with the version which the following PR ends up in the supervisor
-		// https://github.com/balena-io/balena-supervisor/pull/828
-		if (opts.live && !semver.satisfies(version, '>=1.0.0')) {
+		if (opts.live && !semver.satisfies(version, '>=9.7.0')) {
 			exitWithExpectedError(
-				new Error('Using livepush requires a supervisor >= v1.0.0'),
+				new Error('Using livepush requires a supervisor >= v9.7.0'),
 			);
 		}
 	} catch {
