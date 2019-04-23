@@ -1,7 +1,7 @@
 balena CLI
 =========
 
-> The official balena CLI tool.
+The official balena CLI tool.
 
 [![npm version](https://badge.fury.io/js/balena-cli.svg)](http://badge.fury.io/js/balena-cli)
 [![dependencies](https://david-dm.org/balena-io/balena-cli.svg)](https://david-dm.org/balena-io/balena-cli)
@@ -29,7 +29,7 @@ To update the CLI to a new version, simply download a new release and replace th
 
 ### NPM install
 
-If you are a Node.js developer, you may wish to install the balena CLI through npm[https://www.npmjs.com]. The npm installation involves building native (platform-specific) binary modules, for which there are some pre-requisites:
+If you are a Node.js developer, you may wish to install the balena CLI through (npm)[https://www.npmjs.com]. The npm installation involves building native (platform-specific) binary modules, for which there are some pre-requisites:
 
 * Node.js version 6 or above (**soon version 8 or above**)
 * Python 2.7
