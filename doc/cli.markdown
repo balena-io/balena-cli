@@ -1390,18 +1390,23 @@ Docker host TLS key file
 
 ## push &#60;applicationOrDevice&#62;
 
-This command can be used to start an image build on the remote balenaCloud build
-servers, or on a local-mode balena device.
+This command can be used to start a build on the remote balena cloud builders,
+or a local mode balena device.
 
 When building on the balenaCloud servers, the given source directory will be
 sent to the remote server. This can be used as a drop-in replacement for the
 "git push" deployment method.
 
-When building on a local-mode device, the given source directory will be
+When building on a local mode device, the given source directory will be
 built on the device, and the resulting containers will be run on the device.
 Logs will be streamed back from the device as part of the same invocation.
 The web dashboard can be used to switch a device to local mode:
 https://www.balena.io/docs/learn/develop/local-mode/
+Note that local mode requires a supervisor version of at least v7.21.0.
+
+It is also possible to run a push to a local mode device in live mode.
+This will watch for changes in the source directory and perform an
+in-place build in the running containers [BETA].
 
 The --registry-secrets option specifies a JSON or YAML file containing private
 Docker registry usernames and passwords to be used when pulling base images.
@@ -1444,6 +1449,17 @@ Don't use cache when building this project
 #### --registry-secrets, -R &#60;secrets.yml|.json&#62;
 
 Path to a local YAML or JSON file containing Docker registry passwords used to pull base images
+
+#### --live, -l
+
+Note this feature is in beta.
+
+Start a live session with the containers pushed to a local-mode device.
+The project source folder is watched for filesystem events, and changes
+to files and folders are automatically synchronized to the running
+containers. The synchronisation is only in one direction, from this machine to
+the device, and changes made on the device itself may be overwritten.
+This feature requires a device running supervisor version v9.7.0 or greater.
 
 # Settings
 
