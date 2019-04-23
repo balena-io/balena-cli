@@ -1442,6 +1442,10 @@ The source that should be sent to the balena builder to be built (defaults to th
 
 Force an emulated build to occur on the remote builder
 
+#### --dockerfile &#60;Dockerfile&#62;
+
+Alternative Dockerfile name/path, relative to the source folder
+
 #### --nocache, -c
 
 Don't use cache when building this project
@@ -1712,20 +1716,20 @@ name of container to stop
 
 ## build [source]
 
-Use this command to build an image or a complete multicontainer project
-with the provided docker daemon in your development machine or balena
-device. (See also the `balena push` command for the option of building
-images in the balenaCloud build servers.)
+Use this command to build an image or a complete multicontainer project with
+the provided docker daemon in your development machine or balena device.
+(See also the `balena push` command for the option of building images in the
+balenaCloud build servers.)
 
-You must provide either an application or a device-type/architecture
-pair to use the balena Dockerfile pre-processor
-(e.g. Dockerfile.template -> Dockerfile).
+You must provide either an application or a device-type/architecture pair to use
+the balena Dockerfile pre-processor (e.g. Dockerfile.template -> Dockerfile).
 
 This command will look into the given source directory (or the current working
-directory if one isn't specified) for a compose file. If one is found, this
-command will build each service defined in the compose file. If a compose file
-isn't found, the command will look for a Dockerfile, and if yet that isn't found,
-it will try to generate one.
+directory if one isn't specified) for a docker-compose.yml file. If it is found,
+this command will build each service defined in the compose file. If a compose
+file isn't found, the command will look for a Dockerfile[.template] file (or
+alternative Dockerfile specified with the `-f` option), and if yet that isn't
+found, it will try to generate one.
 
 The --registry-secrets option specifies a JSON or YAML file containing private
 Docker registry usernames and passwords to be used when pulling base images.
@@ -1771,6 +1775,10 @@ Specify an alternate project name; default is the directory name
 #### --emulated, -e
 
 Run an emulated build using Qemu
+
+#### --dockerfile &#60;Dockerfile&#62;
+
+Alternative Dockerfile name/path, relative to the source folder
 
 #### --logs
 
@@ -1831,17 +1839,18 @@ balena device. (See also the `balena push` command for the option of building
 the image in the balenaCloud build servers.)
 
 Unless an image is specified, this command will look into the current directory
-(or the one specified by --source) for a compose file. If one is found, this
-command will deploy each service defined in the compose file, building it first
-if an image for it doesn't exist. If a compose file isn't found, the command
-will look for a Dockerfile, and if yet that isn't found, it will try to
-generate one.
+(or the one specified by --source) for a docker-compose.yml file.  If one is
+found, this command will deploy each service defined in the compose file,
+building it first if an image for it doesn't exist. If a compose file isn't
+found, the command will look for a Dockerfile[.template] file (or alternative
+Dockerfile specified with the `-f` option), and if yet that isn't found, it
+will try to generate one.
 
 To deploy to an app on which you're a collaborator, use
 `balena deploy <appOwnerUsername>/<appName>`.
 
-When --build is used, all options supported by `balena build` are also
-supported by this command.
+When --build is used, all options supported by `balena build` are also supported
+by this command.
 
 The --registry-secrets option specifies a JSON or YAML file containing private
 Docker registry usernames and passwords to be used when pulling base images.
@@ -1884,6 +1893,10 @@ Specify an alternate project name; default is the directory name
 #### --emulated, -e
 
 Run an emulated build using Qemu
+
+#### --dockerfile &#60;Dockerfile&#62;
+
+Alternative Dockerfile name/path, relative to the source folder
 
 #### --logs
 

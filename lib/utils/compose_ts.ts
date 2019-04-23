@@ -155,3 +155,70 @@ async function performResolution(
 		}).then(resolve, reject);
 	});
 }
+
+/**
+ * Enforce that, for example, if 'myProject/MyDockerfile.template' is specified
+ * as an alternativate Dockerfile name, then 'myProject/MyDockerfile' must not
+ * exist.
+ * @param projectPath The project source folder (-s command-line option)
+ * @param dockerfilePath The alternative Dockerfile specified by the user
+ */
+export function validateSpecifiedDockerfile(
+	projectPath: string,
+	dockerfilePath: string = '',
+): string {
+	if (!dockerfilePath) {
+		return dockerfilePath;
+	}
+	const { exitWithExpectedError } = require('../utils/patterns');
+	const { isAbsolute, join, normalize, parse, posix } = require('path');
+	const { existsSync } = require('fs');
+	const { stripIndent } = require('common-tags');
+	const { contains, toNativePath, toPosixPath } = MultiBuild.PathUtils;
+
+	// reminder: native windows paths may start with a drive specificaton,
+	// e.g. 'C:\absolute' or 'C:relative'.
+	if (isAbsolute(dockerfilePath) || posix.isAbsolute(dockerfilePath)) {
+		exitWithExpectedError(stripIndent`
+			Error: absolute Dockerfile path detected:
+			"${dockerfilePath}"
+			The Dockerfile path should be relative to the source folder.
+		`);
+	}
+	const nativeProjectPath = normalize(projectPath);
+	const nativeDockerfilePath = join(projectPath, toNativePath(dockerfilePath));
+
+	if (!contains(nativeProjectPath, nativeDockerfilePath)) {
+		// Note that testing the existence of nativeDockerfilePath in the
+		// filesystem (after joining its path to the source folder) is not
+		// sufficient, because the user could have added '../' to the path.
+		exitWithExpectedError(stripIndent`
+			Error: the specified Dockerfile must be in a subfolder of the source folder:
+			Specified dockerfile: "${nativeDockerfilePath}"
+			Source folder: "${nativeProjectPath}"
+		`);
+	}
+
+	if (!existsSync(nativeDockerfilePath)) {
+		exitWithExpectedError(stripIndent`
+			Error: Dockerfile not found: "${nativeDockerfilePath}"
+		`);
+	}
+
+	const { dir, ext, name } = parse(nativeDockerfilePath);
+	if (ext) {
+		const nativePathMinusExt = join(dir, name);
+
+		if (existsSync(nativePathMinusExt)) {
+			exitWithExpectedError(stripIndent`
+				Error: "${name}" exists on the same folder as "${dockerfilePath}".
+				When an alternative Dockerfile name is specified, a file with the same
+				base name (minus the file extension) must not exist in the same folder.
+				This is because the base name file will be auto generated and added to
+				the tar stream that is sent to the docker daemon, resulting in duplicate
+				Dockerfiles and undefined behavior.
+			`);
+		}
+	}
+	return posix.normalize(toPosixPath(dockerfilePath));
+}

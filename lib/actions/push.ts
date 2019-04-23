@@ -104,6 +104,7 @@ export const push: CommandDefinition<
 	{
 		source: string;
 		emulated: boolean;
+		dockerfile: string; // DeviceDeployOptions.dockerfilePath (alternative Dockerfile)
 		nocache: boolean;
 		'registry-secrets': string;
 		live: boolean;
@@ -159,6 +160,12 @@ export const push: CommandDefinition<
 			boolean: true,
 		},
 		{
+			signature: 'dockerfile',
+			parameter: 'Dockerfile',
+			description:
+				'Alternative Dockerfile name/path, relative to the source folder',
+		},
+		{
 			signature: 'nocache',
 			alias: 'c',
 			description: "Don't use cache when building this project",
@@ -194,7 +201,9 @@ export const push: CommandDefinition<
 		const { exitIfNotLoggedIn, exitWithExpectedError } = await import(
 			'../utils/patterns'
 		);
-		const { parseRegistrySecrets } = await import('../utils/compose_ts');
+		const { validateSpecifiedDockerfile, parseRegistrySecrets } = await import(
+			'../utils/compose_ts'
+		);
 		const { BuildError } = await import('../utils/device/errors');
 
 		const appOrDevice: string | null = params.applicationOrDevice;
@@ -206,6 +215,11 @@ export const push: CommandDefinition<
 		if (process.env.DEBUG) {
 			console.log(`[debug] Using ${source} as build source`);
 		}
+
+		const dockerfilePath = validateSpecifiedDockerfile(
+			source,
+			options.dockerfile,
+		);
 
 		const registrySecrets = options['registry-secrets']
 			? await parseRegistrySecrets(options['registry-secrets'])
@@ -229,6 +243,7 @@ export const push: CommandDefinition<
 					getAppOwner(sdk, app),
 					async (token, baseUrl, owner) => {
 						const opts = {
+							dockerfilePath,
 							emulated: options.emulated,
 							nocache: options.nocache,
 							registrySecrets,
@@ -254,6 +269,7 @@ export const push: CommandDefinition<
 					deviceDeploy.deployToDevice({
 						source,
 						deviceHost: device,
+						dockerfilePath,
 						registrySecrets,
 						nocache: options.nocache || false,
 						live: options.live || false,

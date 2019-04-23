@@ -10,6 +10,7 @@ Opts must be an object with the following keys:
 
 	app: the application instance to deploy to
 	image: the image to deploy; optional
+	dockerfilePath: name of an alternative Dockerfile; optional
 	shouldPerformBuild
 	shouldUploadLogs
 	buildEmulated
@@ -25,6 +26,7 @@ deployProject = (docker, logger, composeOpts, opts) ->
 		composeOpts.projectPath
 		composeOpts.projectName
 		opts.image
+		composeOpts.dockerfilePath  # ok if undefined
 	)
 	.then (project) ->
 		if project.descriptors.length > 1 and !opts.app.application_type?[0]?.supports_multicontainer
@@ -133,17 +135,18 @@ module.exports =
 		the image in the balenaCloud build servers.)
 
 		Unless an image is specified, this command will look into the current directory
-		(or the one specified by --source) for a compose file. If one is found, this
-		command will deploy each service defined in the compose file, building it first
-		if an image for it doesn't exist. If a compose file isn't found, the command
-		will look for a Dockerfile, and if yet that isn't found, it will try to
-		generate one.
+		(or the one specified by --source) for a docker-compose.yml file.  If one is
+		found, this command will deploy each service defined in the compose file,
+		building it first if an image for it doesn't exist. If a compose file isn't
+		found, the command will look for a Dockerfile[.template] file (or alternative
+		Dockerfile specified with the `-f` option), and if yet that isn't found, it
+		will try to generate one.
 
 		To deploy to an app on which you're a collaborator, use
 		`balena deploy <appOwnerUsername>/<appName>`.
 
-		When --build is used, all options supported by `balena build` are also
-		supported by this command.
+		When --build is used, all options supported by `balena build` are also supported
+		by this command.
 
 		#{registrySecretsHelp}
 
