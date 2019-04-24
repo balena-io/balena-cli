@@ -107,6 +107,7 @@ export const push: CommandDefinition<
 		nocache: boolean;
 		'registry-secrets': string;
 		live: boolean;
+		detached: boolean;
 	}
 > = {
 	signature: 'push <applicationOrDevice>',
@@ -184,12 +185,18 @@ export const push: CommandDefinition<
 			description: stripIndent`
 				Note this feature is in beta.
 
-				Start a live session with the containers pushed to a local-mode device.
+				Start a live session with the containers pushed to a local mode device.
 				The project source folder is watched for filesystem events, and changes
 				to files and folders are automatically synchronized to the running
 				containers. The synchronisation is only in one direction, from this machine to
 				the device, and changes made on the device itself may be overwritten.
 				This feature requires a device running supervisor version v9.7.0 or greater.`,
+		},
+		{
+			signature: 'detached',
+			alias: 'd',
+			description: `Don't tail application logs when pushing to a local mode device`,
+			boolean: true,
 		},
 	],
 	async action(params, options, done) {
@@ -230,7 +237,12 @@ export const push: CommandDefinition<
 				// Ensure that the live argument has not been passed to a cloud build
 				if (options.live) {
 					exitWithExpectedError(
-						'The --live flag is only valid when pushing to a local device.',
+						'The --live flag is only valid when pushing to a local mode device',
+					);
+				}
+				if (options.detached) {
+					exitWithExpectedError(
+						`The --detached flag is only valid when pushing to a local mode device.`,
 					);
 				}
 
@@ -272,6 +284,7 @@ export const push: CommandDefinition<
 						registrySecrets,
 						nocache: options.nocache || false,
 						live: options.live || false,
+						detached: options.detached || false,
 					}),
 				)
 					.catch(BuildError, e => {

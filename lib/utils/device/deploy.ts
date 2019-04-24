@@ -47,6 +47,7 @@ export interface DeviceDeployOptions {
 	registrySecrets: RegistrySecrets;
 	nocache: boolean;
 	live: boolean;
+	detached: boolean;
 }
 
 async function checkSource(source: string): Promise<boolean> {
@@ -146,6 +147,9 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 
 	await api.setTargetState(targetState);
 
+	if (opts.detached) {
+		return;
+	}
 	// Print an empty newline to separate the build output
 	// from the device output
 	console.log();
