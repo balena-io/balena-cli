@@ -121,7 +121,7 @@ capitano.command(actions.tunnel.tunnel)
 capitano.command(actions.preload)
 
 # ---------- SSH Module ----------
-capitano.command(actions.ssh)
+capitano.command(actions.ssh.ssh)
 
 # ---------- Local balenaOS Module ----------
 capitano.command(actions.local.configure)
