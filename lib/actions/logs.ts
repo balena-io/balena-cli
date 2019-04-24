@@ -18,6 +18,7 @@ import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
 
 import { normalizeUuidProp } from '../utils/normalization';
+import { validateDotLocalUrl } from '../utils/validation';
 
 type CloudLog =
 	| {
@@ -51,9 +52,9 @@ export const logs: CommandDefinition<
 
 		To continuously stream output, and see new logs in real time, use the \`--tail\` option.
 
-		If an IP address is passed to this command, logs are displayed from
+		If an IP or .local address is passed to this command, logs are displayed from
 		a local mode device with that address. Note that --tail is implied
-		when this command is provided an IP address.
+		when this command is provided a local mode device.
 
 		Logs from a single service can be displayed with the --service flag. Just system logs
 		can be shown with the --system flag. Note that these flags can be used together.
@@ -62,12 +63,12 @@ export const logs: CommandDefinition<
 
 			$ balena logs 23c73a1
 			$ balena logs 23c73a1 --tail
-			$ balena logs 23c73a1 --service my-service
 
 			$ balena logs 192.168.0.31
 			$ balena logs 192.168.0.31 --service my-service
-			$ balena logs 192.168.0.31 --system
-			$ balena logs 192.168.0.31 --system --service my-service`,
+
+			$ balena logs 23c73a1.local --system
+			$ balena logs 23c73a1.local --system --service my-service`,
 	options: [
 		{
 			signature: 'tail',
@@ -127,7 +128,10 @@ export const logs: CommandDefinition<
 			}
 		};
 
-		if (validateIPAddress(params.uuidOrDevice)) {
+		if (
+			validateIPAddress(params.uuidOrDevice) ||
+			validateDotLocalUrl(params.uuidOrDevice)
+		) {
 			const { DeviceAPI } = await import('../utils/device/api');
 			const deviceApi = new DeviceAPI(logger, params.uuidOrDevice);
 			logger.logDebug('Checking we can access device');

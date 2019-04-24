@@ -861,9 +861,9 @@ By default, the command prints all log messages and exits.
 
 To continuously stream output, and see new logs in real time, use the `--tail` option.
 
-If an IP address is passed to this command, logs are displayed from
+If an IP or .local address is passed to this command, logs are displayed from
 a local mode device with that address. Note that --tail is implied
-when this command is provided an IP address.
+when this command is provided a local mode device.
 
 Logs from a single service can be displayed with the --service flag. Just system logs
 can be shown with the --system flag. Note that these flags can be used together.
@@ -872,12 +872,12 @@ Examples:
 
 	$ balena logs 23c73a1
 	$ balena logs 23c73a1 --tail
-	$ balena logs 23c73a1 --service my-service
 
 	$ balena logs 192.168.0.31
 	$ balena logs 192.168.0.31 --service my-service
-	$ balena logs 192.168.0.31 --system
-	$ balena logs 192.168.0.31 --system --service my-service
+
+	$ balena logs 23c73a1.local --system
+	$ balena logs 23c73a1.local --system --service my-service
 
 ### Options
 
@@ -1454,10 +1454,10 @@ Examples:
 
 	$ balena push 10.0.0.1
 	$ balena push 10.0.0.1 --source <source directory>
-	$ balena push 10.0.0.1 -s <source directory>
 	$ balena push 10.0.0.1 --service my-service
-	$ balena push 10.0.0.1 --system
-	$ balena push 10.0.0.1 --system --service my-service
+
+	$ balena push 23c73a1.local --system
+	$ balena push 23c73a1.local --system --service my-service
 
 ### Options
 
