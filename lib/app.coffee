@@ -174,7 +174,7 @@ capitano.command(actions.config.generate)
 capitano.command(actions.settings.list)
 
 # ---------- Logs Module ----------
-capitano.command(actions.logs)
+capitano.command(actions.logs.logs)
 
 # ---------- Sync Module ----------
 capitano.command(actions.sync)
