@@ -30,7 +30,6 @@ package-lock.json
 .balenaconf
 resinrc.yml
 balenarc.yml
-tslint.json
 
 .DS_Store
 .idea

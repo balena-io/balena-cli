@@ -19,11 +19,10 @@ import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
 
 import { registrySecretsHelp } from '../utils/messages';
-
-// An regex to detect an IP address, from https://www.regular-expressions.info/ip.html
-const IP_REGEX = new RegExp(
-	/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/,
-);
+import {
+	validateApplicationName,
+	validateIPAddress,
+} from '../utils/validation';
 
 enum BuildTarget {
 	Cloud,
@@ -32,11 +31,11 @@ enum BuildTarget {
 
 function getBuildTarget(appOrDevice: string): BuildTarget | null {
 	// First try the application regex from the api
-	if (/^[a-zA-Z0-9_-]+$/.test(appOrDevice)) {
+	if (validateApplicationName(appOrDevice)) {
 		return BuildTarget.Cloud;
 	}
 
-	if (IP_REGEX.test(appOrDevice)) {
+	if (validateIPAddress(appOrDevice)) {
 		return BuildTarget.Device;
 	}
 
