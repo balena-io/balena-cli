@@ -45,10 +45,19 @@ module.exports =
 		normalizeUuidProp(params)
 		balena = require('balena-sdk').fromSharedOptions()
 		moment = require('moment')
+		{ serviceIdToName } = require('../utils/cloud')
+		{ displayLogObject } = require('../utils/device/logs')
+		Logger = require('../utils/logger')
+
+		logger = new Logger()
 
 		printLine = (line) ->
-			timestamp = moment(line.timestamp).format('DD.MM.YY HH:mm:ss (ZZ)')
-			console.log("#{timestamp} #{line.message}")
+			if not line.isSystem
+				serviceIdToName(balena, line.serviceId).then (serviceName) ->
+					line.serviceName = serviceName
+					displayLogObject(line, logger)
+			else
+				displayLogObject(line, logger)
 
 		if options.tail
 			balena.logs.subscribe(params.uuid, { count: 100 }).then (logs) ->

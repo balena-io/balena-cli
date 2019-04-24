@@ -51,26 +51,29 @@ export function displayBuildLog(log: BuildLog, logger: Logger): void {
 function displayLogLine(log: string | Buffer, logger: Logger): void {
 	try {
 		const obj: Log = JSON.parse(log.toString());
-
-		let toPrint: string;
-		if (obj.timestamp != null) {
-			toPrint = `[${new Date(obj.timestamp).toLocaleString()}]`;
-		} else {
-			toPrint = `[${new Date().toLocaleString()}]`;
-		}
-
-		if (obj.serviceName != null) {
-			const colourFn = getServiceColourFn(obj.serviceName);
-
-			toPrint += ` ${colourFn(`[${obj.serviceName}]`)}`;
-		}
-
-		toPrint += ` ${obj.message}`;
-
-		logger.logLogs(toPrint);
+		displayLogObject(obj, logger);
 	} catch (e) {
 		logger.logDebug(`Dropping device log due to failed parsing: ${e}`);
 	}
+}
+
+export function displayLogObject(obj: Log, logger: Logger): void {
+	let toPrint: string;
+	if (obj.timestamp != null) {
+		toPrint = `[${new Date(obj.timestamp).toLocaleString()}]`;
+	} else {
+		toPrint = `[${new Date().toLocaleString()}]`;
+	}
+
+	if (obj.serviceName != null) {
+		const colourFn = getServiceColourFn(obj.serviceName);
+
+		toPrint += ` ${colourFn(`[${obj.serviceName}]`)}`;
+	}
+
+	toPrint += ` ${obj.message}`;
+
+	logger.logLogs(toPrint);
 }
 
 const getServiceColourFn = _.memoize(_getServiceColourFn);
