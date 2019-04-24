@@ -857,16 +857,19 @@ Examples:
 
 Use this command to show logs for a specific device.
 
-By default, the command prints all log messages and exit.
+By default, the command prints all log messages and exits.
 
 To continuously stream output, and see new logs in real time, use the `--tail` option.
 
-If an IP address is passed to this command, the logs to a local mode device with
-that address. Note that --tail is implied when this command is provided an IP address.
+If an IP address is passed to this command, logs are displayed from
+a local mode device with that address. Note that --tail is implied
+when this command is provided an IP address.
 
 Examples:
 
 	$ balena logs 23c73a1
+	$ balena logs 23c73a1 --tail
+
 	$ balena logs 192.168.0.31
 
 ### Options
