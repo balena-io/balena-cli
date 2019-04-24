@@ -143,7 +143,7 @@ If you come across any problems or would like to get in touch:
 
 - SSH
 
-	- [ssh [uuid]](#ssh-uuid)
+	- [ssh &#60;applicationOrDevice&#62; [serviceName]](#ssh-applicationordevice-servicename)
 	- [tunnel &#60;uuid&#62;](#tunnel-uuid)
 
 - Notes
@@ -981,45 +981,47 @@ increase verbosity
 
 # SSH
 
-## ssh [uuid]
+## ssh &#60;applicationOrDevice&#62; [serviceName]
+
+This command can be used to start a shell on a local or remote device.
+
+If a service name is not provided, a shell will be opened on the host OS.
+
+If an application name is provided, all online devices in the application
+will be presented, and the chosen device will then have a shell opened on
+in it's service container or host OS.
+
+For local devices, the ip address and .local domain name are supported.
+
+Examples:
+	balena ssh MyApp
+
+	balena ssh f49cefd
+	balena ssh f49cefd my-service
+	balena ssh f49cefd --port <port>
+
+	balena ssh 192.168.0.1 --verbose
+	balena ssh f49cefd.local my-service
 
 Warning: 'balena ssh' requires an openssh-compatible client to be correctly
 installed in your shell environment. For more information (including Windows
-support) please check the README here: https://github.com/balena-io/balena-cli
-
-Use this command to get a shell into the running application container of
-your device.
-
-Examples:
-
-	$ balena ssh MyApp
-	$ balena ssh 7cf02a6
-	$ balena ssh 7cf02a6 --port 8080
-	$ balena ssh 7cf02a6 -v
-	$ balena ssh 7cf02a6 -s
-	$ balena ssh 7cf02a6 --noninteractive
+support) please check the information here:
+	https://github.com/balena-io/balena-cli/blob/master/INSTALL.md#additional-dependencies
 
 ### Options
 
 #### --port, -p &#60;port&#62;
 
-ssh gateway port
+SSH gateway port
 
 #### --verbose, -v
 
-increase verbosity
-
-#### --host, -s
-
-access host OS (for devices with balenaOS >= 2.0.0+rev1)
+Increase verbosity
 
 #### --noproxy
 
-don't use the proxy configuration for this connection. Only makes sense if you've configured proxy globally.
-
-#### --noninteractive
-
-run command non-interactively, do not automatically suggest devices to connect to if UUID not found
+Don't use the proxy configuration for this connection. This flag
+only make sense if you've configured a proxy globally.
 
 ## tunnel &#60;uuid&#62;
 
@@ -1430,7 +1432,7 @@ Path to a local docker socket (e.g. /var/run/docker.sock)
 
 Docker daemon hostname or IP address (dev machine or balena device) 
 
-#### --dockerPort &#60;dockerPort&#62;
+#### --dockerPort, -p &#60;dockerPort&#62;
 
 Docker daemon TCP port number (hint: 2375 for balena devices)
 
