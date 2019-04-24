@@ -57,7 +57,7 @@ function displayLogLine(log: string | Buffer, logger: Logger): void {
 	}
 }
 
-export function displayLogObject(obj: Log, logger: Logger): void {
+export function displayLogObject<T extends Log>(obj: T, logger: Logger): void {
 	let toPrint: string;
 	if (obj.timestamp != null) {
 		toPrint = `[${new Date(obj.timestamp).toLocaleString()}]`;

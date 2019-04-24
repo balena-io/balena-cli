@@ -14,7 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { BalenaSDK } from 'balena-sdk';
 import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
 
@@ -35,11 +34,11 @@ type CloudLog =
 
 export const logs: CommandDefinition<
 	{
-		uuid: string;
+		uuidOrDevice: string;
 	},
 	{ tail: boolean }
 > = {
-	signature: 'logs <uuid>',
+	signature: 'logs <uuidOrDevice>',
 	description: 'show device logs',
 	help: stripIndent`
 		Use this command to show logs for a specific device.
@@ -48,10 +47,13 @@ export const logs: CommandDefinition<
 
 		To continuously stream output, and see new logs in real time, use the \`--tail\` option.
 
+		If an IP address is passed to this command, the logs to a local mode device with
+		that address. Note that --tail is implied when this command is provided an IP address.
+
 		Examples:
 
 			$ balena logs 23c73a1
-			$ balena logs 23c73a1`,
+			$ balena logs 192.168.0.31`,
 	options: [
 		{
 			signature: 'tail',
@@ -66,7 +68,11 @@ export const logs: CommandDefinition<
 		normalizeUuidProp(params);
 		const balena = (await import('balena-sdk')).fromSharedOptions();
 		const { serviceIdToName } = await import('../utils/cloud');
-		const { displayLogObject } = await import('../utils/device/logs');
+		const { displayDeviceLogs, displayLogObject } = await import(
+			'../utils/device/logs'
+		);
+		const { validateIPAddress } = await import('../utils/validation');
+		const { exitWithExpectedError } = await import('../utils/patterns');
 		const Logger = await import('../utils/logger');
 
 		const logger = new Logger();
@@ -83,19 +89,37 @@ export const logs: CommandDefinition<
 			}
 		};
 
-		if (options.tail) {
-			return balena.logs
-				.subscribe(params.uuid, { count: 100 })
-				.then(function(logStream) {
-					logStream.on('line', displayCloudLog);
-					logStream.on('error', done);
-				})
-				.catch(done);
+		if (validateIPAddress(params.uuidOrDevice)) {
+			const { DeviceAPI } = await import('../utils/device/api');
+			const deviceApi = new DeviceAPI(logger, params.uuidOrDevice);
+			logger.logDebug('Checking we can access device');
+			try {
+				await deviceApi.ping();
+			} catch (e) {
+				exitWithExpectedError(
+					new Error(
+						`Cannot access local mode device at address ${params.uuidOrDevice}`,
+					),
+				);
+			}
+
+			const logStream = await deviceApi.getLogStream();
+			displayDeviceLogs(logStream, logger);
 		} else {
-			return balena.logs
-				.history(params.uuid)
-				.each(displayCloudLog)
-				.catch(done);
+			if (options.tail) {
+				return balena.logs
+					.subscribe(params.uuidOrDevice, { count: 100 })
+					.then(function(logStream) {
+						logStream.on('line', displayCloudLog);
+						logStream.on('error', done);
+					})
+					.catch(done);
+			} else {
+				return balena.logs
+					.history(params.uuidOrDevice)
+					.each(displayCloudLog)
+					.catch(done);
+			}
 		}
 	},
 };

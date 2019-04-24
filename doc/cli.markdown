@@ -146,7 +146,7 @@ environment variable (in the same standard URL format).
 
 - Logs
 
-	- [logs &#60;uuid&#62;](#logs-uuid)
+	- [logs &#60;uuidOrDevice&#62;](#logs-uuidordevice)
 
 - Sync
 
@@ -853,7 +853,7 @@ Examples:
 
 # Logs
 
-## logs &#60;uuid&#62;
+## logs &#60;uuidOrDevice&#62;
 
 Use this command to show logs for a specific device.
 
@@ -861,10 +861,13 @@ By default, the command prints all log messages and exit.
 
 To continuously stream output, and see new logs in real time, use the `--tail` option.
 
+If an IP address is passed to this command, the logs to a local mode device with
+that address. Note that --tail is implied when this command is provided an IP address.
+
 Examples:
 
 	$ balena logs 23c73a1
-	$ balena logs 23c73a1
+	$ balena logs 192.168.0.31
 
 ### Options
 
