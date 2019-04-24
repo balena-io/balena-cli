@@ -48,6 +48,7 @@ export interface DeviceDeployOptions {
 	nocache: boolean;
 	live: boolean;
 	detached: boolean;
+	service?: string;
 }
 
 async function checkSource(source: string): Promise<boolean> {
@@ -175,10 +176,10 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		globalLogger.logLivepush('Watching for file changes...');
 		await Promise.all([
 			livepush.init(),
-			displayDeviceLogs(logStream, globalLogger),
+			displayDeviceLogs(logStream, globalLogger, opts.service),
 		]);
 	} else {
-		await displayDeviceLogs(logStream, globalLogger);
+		await displayDeviceLogs(logStream, globalLogger, opts.service);
 	}
 }
 

@@ -36,7 +36,7 @@ export const logs: CommandDefinition<
 	{
 		uuidOrDevice: string;
 	},
-	{ tail: boolean }
+	{ tail: boolean; service: string }
 > = {
 	signature: 'logs <uuidOrDevice>',
 	description: 'show device logs',
@@ -51,18 +51,28 @@ export const logs: CommandDefinition<
 		a local mode device with that address. Note that --tail is implied
 		when this command is provided an IP address.
 
+		Logs from a single service can be displayed with the --service flag.
+
 		Examples:
 
 			$ balena logs 23c73a1
 			$ balena logs 23c73a1 --tail
+			$ balena logs 23c73a1 --service my-service
 
-			$ balena logs 192.168.0.31`,
+			$ balena logs 192.168.0.31
+			$ balena logs 192.168.0.31 --service my-service`,
 	options: [
 		{
 			signature: 'tail',
 			description: 'continuously stream output',
 			boolean: true,
 			alias: 't',
+		},
+		{
+			signature: 'service',
+			description: 'Only show logs for a single service',
+			parameter: 'service',
+			alias: 's',
 		},
 	],
 	permission: 'user',
@@ -86,9 +96,9 @@ export const logs: CommandDefinition<
 				if (serviceName == null) {
 					serviceName = 'Unknown service';
 				}
-				displayLogObject({ serviceName, ...line }, logger);
+				displayLogObject({ serviceName, ...line }, logger, options.service);
 			} else {
-				displayLogObject(line, logger);
+				displayLogObject(line, logger, options.service);
 			}
 		};
 
@@ -107,7 +117,7 @@ export const logs: CommandDefinition<
 			}
 
 			const logStream = await deviceApi.getLogStream();
-			displayDeviceLogs(logStream, logger);
+			displayDeviceLogs(logStream, logger, options.service);
 		} else {
 			if (options.tail) {
 				return balena.logs
