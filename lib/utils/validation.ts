@@ -16,6 +16,13 @@ limitations under the License.
 
 import validEmail = require('@resin.io/valid-email');
 
+const APPNAME_REGEX = new RegExp(/^[a-zA-Z0-9_-]+$/);
+// An regex to detect an IP address, from https://www.regular-expressions.info/ip.html
+const IP_REGEX = new RegExp(
+	/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/,
+);
+const DOTLOCAL_REGEX = new RegExp(/^[a-zA-Z0-9-]+\.local$/);
+
 export function validateEmail(input: string) {
 	if (!validEmail(input)) {
 		return 'Email is not valid';
@@ -37,5 +44,13 @@ export function validateApplicationName(input: string) {
 		return 'The application name should be at least 4 characters';
 	}
 
-	return true;
+	return APPNAME_REGEX.test(input);
+}
+
+export function validateIPAddress(input: string): boolean {
+	return IP_REGEX.test(input);
+}
+
+export function validateDotLocalUrl(input: string): boolean {
+	return DOTLOCAL_REGEX.test(input);
 }
