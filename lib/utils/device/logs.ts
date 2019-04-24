@@ -28,17 +28,20 @@ interface BuildLog {
  * 	objects
  * @param logger A Logger instance which the logs will be
  * 	displayed through
+ * @param system Only show system (and potentially the
+ * 	filterService) logs
  * @param filterService Filter the logs so that only logs
  * 	from a single service will be displayed
  */
 export function displayDeviceLogs(
 	logs: Readable,
 	logger: Logger,
+	system: boolean,
 	filterService?: string,
 ): Bluebird<void> {
 	return new Bluebird((resolve, reject) => {
 		logs.on('data', log => {
-			displayLogLine(log, logger, filterService);
+			displayLogLine(log, logger, system, filterService);
 		});
 
 		logs.on('error', reject);
@@ -57,11 +60,12 @@ export function displayBuildLog(log: BuildLog, logger: Logger): void {
 function displayLogLine(
 	log: string | Buffer,
 	logger: Logger,
+	system: boolean,
 	filterService?: string,
 ): void {
 	try {
 		const obj: Log = JSON.parse(log.toString());
-		displayLogObject(obj, logger, filterService);
+		displayLogObject(obj, logger, system, filterService);
 	} catch (e) {
 		logger.logDebug(`Dropping device log due to failed parsing: ${e}`);
 	}
@@ -70,6 +74,7 @@ function displayLogLine(
 export function displayLogObject<T extends Log>(
 	obj: T,
 	logger: Logger,
+	system: boolean,
 	filterService?: string,
 ): void {
 	let toPrint: string;
@@ -80,13 +85,18 @@ export function displayLogObject<T extends Log>(
 	}
 
 	if (obj.serviceName != null) {
-		if (filterService && obj.serviceName !== filterService) {
+		if (filterService) {
+			if (obj.serviceName !== filterService) {
+				return;
+			}
+		} else if (system) {
 			return;
 		}
+
 		const colourFn = getServiceColourFn(obj.serviceName);
 
 		toPrint += ` ${colourFn(`[${obj.serviceName}]`)}`;
-	} else if (filterService != null) {
+	} else if (filterService != null && !system) {
 		// We have a system log here but we are filtering based
 		// on a service, so drop this too
 		return;

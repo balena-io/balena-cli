@@ -109,6 +109,7 @@ export const push: CommandDefinition<
 		live: boolean;
 		detached: boolean;
 		service: string;
+		system: boolean;
 	}
 > = {
 	signature: 'push <applicationOrDevice>',
@@ -129,7 +130,9 @@ export const push: CommandDefinition<
 		The web dashboard can be used to switch a device to local mode:
 		https://www.balena.io/docs/learn/develop/local-mode/
 		Note that local mode requires a supervisor version of at least v7.21.0.
-		The logs from only a single service can be shown with the --service flag.
+		The logs from only a single service can be shown with the --service flag, and
+		showing only the system logs can be achieved with --system. Note that these
+		flags can be used together.
 
 		It is also possible to run a push to a local mode device in live mode.
 		This will watch for changes in the source directory and perform an
@@ -147,6 +150,8 @@ export const push: CommandDefinition<
 			$ balena push 10.0.0.1 --source <source directory>
 			$ balena push 10.0.0.1 -s <source directory>
 			$ balena push 10.0.0.1 --service my-service
+			$ balena push 10.0.0.1 --system
+			$ balena push 10.0.0.1 --system --service my-service
 	`,
 	options: [
 		{
@@ -204,9 +209,16 @@ export const push: CommandDefinition<
 		{
 			signature: 'service',
 			description: stripIndent`
-				Only show logs from a single service.
+				Only show logs from a single service. This can be used in combination with --system.
 				Only valid when pushing to a local mode device.`,
 			parameter: 'service',
+		},
+		{
+			signature: 'system',
+			description: stripIndent`
+				Only show system logs. This can be used in combination with --service.
+				Only valid when pushing to a local mode device.`,
+			boolean: true,
 		},
 	],
 	async action(params, options, done) {
@@ -260,6 +272,11 @@ export const push: CommandDefinition<
 						'The --service flag is only valid when pushing to a local mode device.',
 					);
 				}
+				if (options.system) {
+					exitWithExpectedError(
+						'The --system flag is only valid when pushing to a local mode device.',
+					);
+				}
 
 				const app = appOrDevice;
 				await exitIfNotLoggedIn();
@@ -301,6 +318,7 @@ export const push: CommandDefinition<
 						live: options.live || false,
 						detached: options.detached || false,
 						service: options.service,
+						system: options.system || false,
 					}),
 				)
 					.catch(BuildError, e => {
