@@ -1464,12 +1464,16 @@ Path to a local YAML or JSON file containing Docker registry passwords used to p
 
 Note this feature is in beta.
 
-Start a live session with the containers pushed to a local-mode device.
+Start a live session with the containers pushed to a local mode device.
 The project source folder is watched for filesystem events, and changes
 to files and folders are automatically synchronized to the running
 containers. The synchronisation is only in one direction, from this machine to
 the device, and changes made on the device itself may be overwritten.
 This feature requires a device running supervisor version v9.7.0 or greater.
+
+#### --detached, -d
+
+Don't tail application logs when pushing to a local mode device
 
 # Settings
 
