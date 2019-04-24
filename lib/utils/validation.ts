@@ -22,6 +22,7 @@ const IP_REGEX = new RegExp(
 	/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/,
 );
 const DOTLOCAL_REGEX = new RegExp(/^[a-zA-Z0-9-]+\.local$/);
+const UUID_REGEX = new RegExp(/^[0-9a-f]+$/);
 
 export function validateEmail(input: string) {
 	if (!validEmail(input)) {
@@ -53,4 +54,22 @@ export function validateIPAddress(input: string): boolean {
 
 export function validateDotLocalUrl(input: string): boolean {
 	return DOTLOCAL_REGEX.test(input);
+}
+
+export function validateLongUuid(input: string): boolean {
+	if (input.length !== 32 && input.length !== 64) {
+		return false;
+	}
+	return UUID_REGEX.test(input);
+}
+
+export function validateShortUuid(input: string): boolean {
+	if (input.length !== 7) {
+		return false;
+	}
+	return UUID_REGEX.test(input);
+}
+
+export function validateUuid(input: string): boolean {
+	return validateLongUuid(input) || validateShortUuid(input);
 }
