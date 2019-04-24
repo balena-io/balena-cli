@@ -865,18 +865,26 @@ If an IP address is passed to this command, logs are displayed from
 a local mode device with that address. Note that --tail is implied
 when this command is provided an IP address.
 
+Logs from a single service can be displayed with the --service flag.
+
 Examples:
 
 	$ balena logs 23c73a1
 	$ balena logs 23c73a1 --tail
+	$ balena logs 23c73a1 --service my-service
 
 	$ balena logs 192.168.0.31
+	$ balena logs 192.168.0.31 --service my-service
 
 ### Options
 
 #### --tail, -t
 
 continuously stream output
+
+#### --service, -s &#60;service&#62;
+
+Only show logs for a single service
 
 # Sync
 
@@ -1409,6 +1417,7 @@ Logs will be streamed back from the device as part of the same invocation.
 The web dashboard can be used to switch a device to local mode:
 https://www.balena.io/docs/learn/develop/local-mode/
 Note that local mode requires a supervisor version of at least v7.21.0.
+The logs from only a single service can be shown with the --service flag.
 
 It is also possible to run a push to a local mode device in live mode.
 This will watch for changes in the source directory and perform an
@@ -1437,6 +1446,7 @@ Examples:
 	$ balena push 10.0.0.1
 	$ balena push 10.0.0.1 --source <source directory>
 	$ balena push 10.0.0.1 -s <source directory>
+	$ balena push 10.0.0.1 --service my-service
 
 ### Options
 
@@ -1474,6 +1484,11 @@ This feature requires a device running supervisor version v9.7.0 or greater.
 #### --detached, -d
 
 Don't tail application logs when pushing to a local mode device
+
+#### --service &#60;service&#62;
+
+Only show logs from a single service.
+Only valid when pushing to a local mode device.
 
 # Settings
 

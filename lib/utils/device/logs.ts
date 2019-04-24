@@ -24,15 +24,21 @@ interface BuildLog {
  * Display logs from a device logging stream. This function will return
  * when the log stream ends.
  *
- * @param logs A stream which produces newline seperated log objects
+ * @param logs A stream which produces newline seperated log
+ * 	objects
+ * @param logger A Logger instance which the logs will be
+ * 	displayed through
+ * @param filterService Filter the logs so that only logs
+ * 	from a single service will be displayed
  */
 export function displayDeviceLogs(
 	logs: Readable,
 	logger: Logger,
+	filterService?: string,
 ): Bluebird<void> {
 	return new Bluebird((resolve, reject) => {
 		logs.on('data', log => {
-			displayLogLine(log, logger);
+			displayLogLine(log, logger, filterService);
 		});
 
 		logs.on('error', reject);
@@ -48,16 +54,24 @@ export function displayBuildLog(log: BuildLog, logger: Logger): void {
 }
 
 // mutates serviceColours
-function displayLogLine(log: string | Buffer, logger: Logger): void {
+function displayLogLine(
+	log: string | Buffer,
+	logger: Logger,
+	filterService?: string,
+): void {
 	try {
 		const obj: Log = JSON.parse(log.toString());
-		displayLogObject(obj, logger);
+		displayLogObject(obj, logger, filterService);
 	} catch (e) {
 		logger.logDebug(`Dropping device log due to failed parsing: ${e}`);
 	}
 }
 
-export function displayLogObject<T extends Log>(obj: T, logger: Logger): void {
+export function displayLogObject<T extends Log>(
+	obj: T,
+	logger: Logger,
+	filterService?: string,
+): void {
 	let toPrint: string;
 	if (obj.timestamp != null) {
 		toPrint = `[${new Date(obj.timestamp).toLocaleString()}]`;
@@ -66,9 +80,16 @@ export function displayLogObject<T extends Log>(obj: T, logger: Logger): void {
 	}
 
 	if (obj.serviceName != null) {
+		if (filterService && obj.serviceName !== filterService) {
+			return;
+		}
 		const colourFn = getServiceColourFn(obj.serviceName);
 
 		toPrint += ` ${colourFn(`[${obj.serviceName}]`)}`;
+	} else if (filterService != null) {
+		// We have a system log here but we are filtering based
+		// on a service, so drop this too
+		return;
 	}
 
 	toPrint += ` ${obj.message}`;
