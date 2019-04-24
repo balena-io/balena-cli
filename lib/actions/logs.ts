@@ -36,7 +36,11 @@ export const logs: CommandDefinition<
 	{
 		uuidOrDevice: string;
 	},
-	{ tail: boolean; service: string }
+	{
+		tail: boolean;
+		service: string;
+		system: boolean;
+	}
 > = {
 	signature: 'logs <uuidOrDevice>',
 	description: 'show device logs',
@@ -51,7 +55,8 @@ export const logs: CommandDefinition<
 		a local mode device with that address. Note that --tail is implied
 		when this command is provided an IP address.
 
-		Logs from a single service can be displayed with the --service flag.
+		Logs from a single service can be displayed with the --service flag. Just system logs
+		can be shown with the --system flag. Note that these flags can be used together.
 
 		Examples:
 
@@ -60,7 +65,9 @@ export const logs: CommandDefinition<
 			$ balena logs 23c73a1 --service my-service
 
 			$ balena logs 192.168.0.31
-			$ balena logs 192.168.0.31 --service my-service`,
+			$ balena logs 192.168.0.31 --service my-service
+			$ balena logs 192.168.0.31 --system
+			$ balena logs 192.168.0.31 --system --service my-service`,
 	options: [
 		{
 			signature: 'tail',
@@ -70,9 +77,17 @@ export const logs: CommandDefinition<
 		},
 		{
 			signature: 'service',
-			description: 'Only show logs for a single service',
+			description:
+				'Only show logs for a single service. This can be used in combination with --system',
 			parameter: 'service',
 			alias: 's',
+		},
+		{
+			signature: 'system',
+			alias: 'S',
+			boolean: true,
+			description:
+				'Only show system logs. This can be used in combination with --service.',
 		},
 	],
 	permission: 'user',
@@ -96,9 +111,19 @@ export const logs: CommandDefinition<
 				if (serviceName == null) {
 					serviceName = 'Unknown service';
 				}
-				displayLogObject({ serviceName, ...line }, logger, options.service);
+				displayLogObject(
+					{ serviceName, ...line },
+					logger,
+					options.system || false,
+					options.service,
+				);
 			} else {
-				displayLogObject(line, logger, options.service);
+				displayLogObject(
+					line,
+					logger,
+					options.system || false,
+					options.service,
+				);
 			}
 		};
 
@@ -117,7 +142,12 @@ export const logs: CommandDefinition<
 			}
 
 			const logStream = await deviceApi.getLogStream();
-			displayDeviceLogs(logStream, logger, options.service);
+			displayDeviceLogs(
+				logStream,
+				logger,
+				options.system || false,
+				options.service,
+			);
 		} else {
 			if (options.tail) {
 				return balena.logs
