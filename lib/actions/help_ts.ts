@@ -14,7 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-declare module 'nplugm' {
-	import Promise = require('bluebird');
-	export function list(regexp: RegExp): Promise<string[]>;
+
+import { Command } from '@oclif/command';
+import * as _ from 'lodash';
+
+import EnvAddCmd from '../actions-oclif/env/add';
+
+export function getOclifHelpLinePairs(): [[string, string]] {
+	return [getCmdUsageDescriptionLinePair(EnvAddCmd)];
+}
+
+function getCmdUsageDescriptionLinePair(cmd: typeof Command): [string, string] {
+	const usage = (cmd.usage || '').toString().toLowerCase();
+	let description = '';
+	const matches = /\s*(.+?)\n.*/s.exec(cmd.description || '');
+	if (matches && matches.length > 1) {
+		description = _.lowerFirst(_.trimEnd(matches[1], '.'));
+	}
+	return [usage, description];
 }
