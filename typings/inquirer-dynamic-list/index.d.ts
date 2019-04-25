@@ -14,16 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-declare module 'rindle' {
-	export function extract(
-		stream: NodeJS.ReadableStream,
-		callback: (error: Error, data: string) => void,
-	): void;
 
-	export function wait(
-		stream: {
-			on(event: string, callback: (...args: any[]) => void): void;
-		},
-		callback: (error: Error, data: string) => void,
-	): void;
+declare module 'inquirer-dynamic-list' {
+	interface Choice {
+		name: string;
+		value: any;
+	}
+
+	class DynamicList {
+		public opt: {
+			choices: {
+				choices: Choice[];
+				realChoices: Choice[];
+			};
+		};
+
+		constructor(options: {
+			message?: string;
+			emptyMessage?: string;
+			choices: Choice[];
+		});
+		public addChoice(choice: Choice): void;
+		public render(): void;
+		public run(): Promise<any>;
+	}
+
+	export = DynamicList;
 }
