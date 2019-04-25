@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-declare module 'nplugm' {
-	import Promise = require('bluebird');
-	export function list(regexp: RegExp): Promise<string[]>;
+
+declare module 'pkg' {
+	export function exec(args: string[]): Promise<void>;
 }

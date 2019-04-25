@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"target": "es6",
+		"target": "es2017",
 		"outDir": "build",
 		"strict": true,
 		"strictPropertyInitialization": false,
@@ -11,20 +11,13 @@
 		"removeComments": true,
 		"sourceMap": true,
 		"skipLibCheck": true,
-		"lib": [
-			// es5 defaults:
-			"dom",
-			"es5",
-			"scripthost",
-			// some specific es6 bits we're sure are safe:
-			"es2015.collection",
-			"es2015.iterable",
-			"es2016.array.include"
+		"typeRoots" : [
+			"./node_modules/@types",
+			"./node_modules/etcher-sdk/typings",
+			"./typings"
 		]
 	},
 	"include": [
-		"./typings/*.d.ts",
-		"./node_modules/etcher-sdk/typings/**/*.d.ts",
 		"./lib/**/*.ts"
 	]
 }
