@@ -15,6 +15,7 @@ limitations under the License.
 */
 
 import { ApplicationVariable, DeviceVariable } from 'balena-sdk';
+import * as Bluebird from 'bluebird';
 import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
 
@@ -73,14 +74,13 @@ export const list: CommandDefinition<
 	permission: 'user',
 	async action(_params, options, done) {
 		normalizeUuidProp(options, 'device');
-		const Bluebird = await import('bluebird');
 		const _ = await import('lodash');
 		const balena = (await import('balena-sdk')).fromSharedOptions();
 		const visuals = await import('resin-cli-visuals');
 
 		const { exitWithExpectedError } = await import('../utils/patterns');
 
-		return Bluebird.try(function(): Promise<
+		return Bluebird.try(function(): Bluebird<
 			DeviceVariable[] | ApplicationVariable[]
 		> {
 			if (options.application) {
@@ -209,7 +209,6 @@ export const add: CommandDefinition<
 	permission: 'user',
 	async action(params, options, done) {
 		normalizeUuidProp(options, 'device');
-		const Bluebird = await import('bluebird');
 		const _ = await import('lodash');
 		const balena = (await import('balena-sdk')).fromSharedOptions();
 
@@ -280,7 +279,6 @@ export const rename: CommandDefinition<
 	permission: 'user',
 	options: [commandOptions.booleanDevice],
 	async action(params, options, done) {
-		const Bluebird = await import('bluebird');
 		const balena = (await import('balena-sdk')).fromSharedOptions();
 
 		return Bluebird.try(function() {
