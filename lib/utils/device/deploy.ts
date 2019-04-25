@@ -228,7 +228,8 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 			deployOpts: opts,
 		});
 
-		const promises = [livepush.init()];
+		globalLogger.logLivepush('Watching for file changes...');
+		const promises: Array<Bluebird<void> | Promise<void>> = [livepush.init()];
 		// Only show logs if we're not detaching
 		if (!opts.detached) {
 			console.log();

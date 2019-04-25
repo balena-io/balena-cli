@@ -35,9 +35,9 @@
     "build": "npm run build:src && npm run build:bin",
     "build:src": "npm run prettify && npm run lint && npm run build:fast && npm run build:doc",
     "build:fast": "gulp build && tsc",
-    "build:doc": "mkdirp doc/ && ts-node automation/capitanodoc/index.ts > doc/cli.markdown",
-    "build:bin": "ts-node --type-check -P automation automation/build-bin.ts",
-    "release": "npm run build && ts-node --type-check -P automation automation/deploy-bin.ts",
+    "build:doc": "mkdirp doc/ && ts-node --type-check -P automation/tsconfig.json automation/capitanodoc/index.ts > doc/cli.markdown",
+    "build:bin": "ts-node --type-check -P automation/tsconfig.json automation/build-bin.ts",
+    "release": "npm run build && ts-node --type-check -P automation/tsconfig.json automation/deploy-bin.ts",
     "pretest": "npm run build",
     "test": "gulp test",
     "test:fast": "npm run build:fast && gulp test",
@@ -60,7 +60,7 @@
   "author": "Juan Cruz Viotti <juan@balena.io>",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=6.0"
+    "node": ">=8.0"
   },
   "devDependencies": {
     "@types/archiver": "2.1.2",
@@ -75,7 +75,7 @@
     "@types/mixpanel": "2.14.0",
     "@types/mkdirp": "0.5.2",
     "@types/net-keepalive": "^0.4.0",
-    "@types/node": "6.14.2",
+    "@types/node": "10.14.5",
     "@types/prettyjson": "0.0.28",
     "@types/raven": "2.5.1",
     "@types/request": "2.48.1",
@@ -99,8 +99,8 @@
     "require-npm4-to-publish": "^1.0.0",
     "resin-lint": "^3.0.1",
     "rewire": "^3.0.2",
-    "ts-node": "^4.0.1",
-    "typescript": "2.8.1"
+    "ts-node": "^8.1.0",
+    "typescript": "3.4.3"
   },
   "dependencies": {
     "@resin.io/valid-email": "^0.1.0",
