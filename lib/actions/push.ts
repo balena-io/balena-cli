@@ -21,6 +21,7 @@ import { stripIndent } from 'common-tags';
 import { registrySecretsHelp } from '../utils/messages';
 import {
 	validateApplicationName,
+	validateDotLocalUrl,
 	validateIPAddress,
 } from '../utils/validation';
 
@@ -35,7 +36,7 @@ function getBuildTarget(appOrDevice: string): BuildTarget | null {
 		return BuildTarget.Cloud;
 	}
 
-	if (validateIPAddress(appOrDevice)) {
+	if (validateIPAddress(appOrDevice) || validateDotLocalUrl(appOrDevice)) {
 		return BuildTarget.Device;
 	}
 
@@ -148,10 +149,10 @@ export const push: CommandDefinition<
 
 			$ balena push 10.0.0.1
 			$ balena push 10.0.0.1 --source <source directory>
-			$ balena push 10.0.0.1 -s <source directory>
 			$ balena push 10.0.0.1 --service my-service
-			$ balena push 10.0.0.1 --system
-			$ balena push 10.0.0.1 --system --service my-service
+
+			$ balena push 23c73a1.local --system
+			$ balena push 23c73a1.local --system --service my-service
 	`,
 	options: [
 		{
