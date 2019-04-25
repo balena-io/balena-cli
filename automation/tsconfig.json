@@ -3,14 +3,21 @@
 		"module": "commonjs",
 		"target": "es2015",
 		"strict": true,
+		"strictPropertyInitialization": false,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"preserveConstEnums": true,
 		"removeComments": true,
-		"sourceMap": true
-	},
-	"include": [
-		"./**/*.ts",
-		"../typings/*.d.ts"
-	]
+		"sourceMap": true,
+		"skipLibCheck": true,
+		"lib": [
+			// Additional API groups compatible with Node 8+ (https://node.green)
+			"es2016.array.include",
+			"es2017.object"
+		],
+		"typeRoots" : [
+			"../node_modules/@types",
+			"../typings"
+		]
+	}
 }
