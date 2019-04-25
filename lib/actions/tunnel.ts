@@ -180,8 +180,8 @@ export const tunnel: CommandDefinition<Args, Options> = {
 									return handler(client)
 										.then(() => {
 											logConnection(
-												client.remoteAddress,
-												client.remotePort,
+												client.remoteAddress || '',
+												client.remotePort || 0,
 												client.localAddress,
 												client.localPort,
 												device.vpn_address || '',
@@ -190,8 +190,8 @@ export const tunnel: CommandDefinition<Args, Options> = {
 										})
 										.catch(err =>
 											logConnection(
-												client.remoteAddress,
-												client.remotePort,
+												client.remoteAddress || '',
+												client.remotePort || 0,
 												client.localAddress,
 												client.localPort,
 												device.vpn_address || '',
