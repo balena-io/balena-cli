@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import * as Bluebird from 'bluebird';
-import { spawn } from 'child_process';
+import { spawn, StdioOptions } from 'child_process';
 import { TypedError } from 'typed-error';
 
 import { getSubShellCommand } from './helpers';
@@ -45,7 +45,7 @@ export async function exec(
 		root@${deviceIp} \
 		${cmd}`;
 
-	const stdio = ['ignore', stdout ? 'pipe' : 'inherit', 'ignore'];
+	const stdio: StdioOptions = ['ignore', stdout ? 'pipe' : 'inherit', 'ignore'];
 	const { program, args } = getSubShellCommand(command);
 
 	const exitCode = await new Bluebird<number>((resolve, reject) => {
