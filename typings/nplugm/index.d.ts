@@ -14,29 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-declare module 'inquirer-dynamic-list' {
-	interface Choice {
-		name: string;
-		value: any;
-	}
 
-	class DynamicList {
-		public opt: {
-			choices: {
-				choices: Choice[];
-				realChoices: Choice[];
-			};
-		};
-
-		constructor(options: {
-			message?: string;
-			emptyMessage?: string;
-			choices: Choice[];
-		});
-		public addChoice(choice: Choice): void;
-		public render(): void;
-		public run(): Promise<any>;
-	}
-
-	export = DynamicList;
+declare module 'nplugm' {
+	import Promise = require('bluebird');
+	export function list(regexp: RegExp): Promise<string[]>;
 }
