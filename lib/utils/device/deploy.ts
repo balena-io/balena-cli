@@ -149,16 +149,6 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 
 	await api.setTargetState(targetState);
 
-	if (opts.detached) {
-		return;
-	}
-	// Print an empty newline to separate the build output
-	// from the device output
-	console.log();
-	globalLogger.logInfo('Streaming device logs...');
-	// Now all we need to do is stream back the logs
-	const logStream = await api.getLogStream();
-
 	// Now that we've set the target state, the device will do it's thing
 	// so we can either just display the logs, or start a livepush session
 	// (whilst also display logs)
@@ -175,11 +165,27 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		});
 
 		globalLogger.logLivepush('Watching for file changes...');
-		await Promise.all([
-			livepush.init(),
-			displayDeviceLogs(logStream, globalLogger, opts.system, opts.service),
-		]);
+		const promises = [livepush.init()];
+		// Only show logs if we're not detaching
+		if (!opts.detached) {
+			console.log();
+			const logStream = await api.getLogStream();
+			globalLogger.logInfo('Streaming device logs...');
+			promises.push(
+				displayDeviceLogs(logStream, globalLogger, opts.system, opts.service),
+			);
+		}
+		await Promise.all(promises);
 	} else {
+		if (opts.detached) {
+			return;
+		}
+		// Print an empty newline to separate the build output
+		// from the device output
+		console.log();
+		// Now all we need to do is stream back the logs
+		const logStream = await api.getLogStream();
+		globalLogger.logInfo('Streaming device logs...');
 		await displayDeviceLogs(logStream, globalLogger, opts.system, opts.service);
 	}
 }
