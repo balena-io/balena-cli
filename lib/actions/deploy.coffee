@@ -190,10 +190,12 @@ module.exports =
 
 		appName = undefined
 		Promise.try ->
-			{ appName, image } = params
+			# when Capitano converts a positional parameter (but not an option)
+			# to a number, the original value is preserved with the _raw suffix
+			{ appName, appName_raw, image } = params
 
 			# look into "balena build" options if appName isn't given
-			appName = options.application if not appName?
+			appName = appName_raw || appName || options.application
 			delete options.application
 
 			validateComposeOptions(options)
