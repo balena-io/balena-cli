@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
+_ = require('lodash')
+
 dockerUtils = require('../utils/docker')
 
 allDeviceTypes = undefined
@@ -131,6 +133,54 @@ offerToDisableAutomaticUpdates = (application, commit, pinDevice) ->
 			body:
 				should_track_latest_release: false
 
+preloadOptions = dockerUtils.appendConnectionOptions [
+	{
+		signature: 'app'
+		parameter: 'appId'
+		description: 'id of the application to preload'
+		alias: 'a'
+	}
+	{
+		signature: 'commit'
+		parameter: 'hash'
+		description: '''
+			The commit hash for a specific application release to preload, use "current" to specify the current
+			release (ignored if no appId is given). The current release is usually also the latest, but can be
+			manually pinned using https://github.com/balena-io-projects/staged-releases .
+		'''
+		alias: 'c'
+	}
+	{
+		signature: 'splash-image'
+		parameter: 'splashImage.png'
+		description: 'path to a png image to replace the splash screen'
+		alias: 's'
+	}
+	{
+		signature: 'dont-check-arch'
+		boolean: true
+		description: 'Disables check for matching architecture in image and application'
+	}
+	{
+		signature: 'pin-device-to-release'
+		boolean: true
+		description: 'Pin the preloaded device to the preloaded release on provision'
+		alias: 'p'
+	}
+	{
+		signature: 'add-certificate'
+		parameter: 'certificate.crt'
+		description: '''
+			Add the given certificate (in PEM format) to /etc/ssl/certs in the preloading container.
+			The file name must end with '.crt' and must not be already contained in the preloader's
+			/etc/ssl/certs folder.
+			Can be repeated to add multiple certificates.
+		'''
+	}
+]
+# Remove dockerPort `-p` alias as it conflicts with pin-device-to-release
+delete _.find(preloadOptions, signature: 'dockerPort').alias
+
 module.exports =
 	signature: 'preload <image>'
 	description: 'preload an app on a disk image (or Edison zip archive)'
@@ -149,51 +199,7 @@ module.exports =
 	'''
 	permission: 'user'
 	primary: true
-	options: dockerUtils.appendConnectionOptions [
-		{
-			signature: 'app'
-			parameter: 'appId'
-			description: 'id of the application to preload'
-			alias: 'a'
-		}
-		{
-			signature: 'commit'
-			parameter: 'hash'
-			description: '''
-				The commit hash for a specific application release to preload, use "current" to specify the current
-				release (ignored if no appId is given). The current release is usually also the latest, but can be
-				manually pinned using https://github.com/balena-io-projects/staged-releases .
-			'''
-			alias: 'c'
-		}
-		{
-			signature: 'splash-image'
-			parameter: 'splashImage.png'
-			description: 'path to a png image to replace the splash screen'
-			alias: 's'
-		}
-		{
-			signature: 'dont-check-arch'
-			boolean: true
-			description: 'Disables check for matching architecture in image and application'
-		}
-		{
-			signature: 'pin-device-to-release'
-			boolean: true
-			description: 'Pin the preloaded device (not application) to the preloaded release on provision'
-			alias: 'p'
-		}
-		{
-			signature: 'add-certificate'
-			parameter: 'certificate.crt'
-			description: '''
-				Add the given certificate (in PEM format) to /etc/ssl/certs in the preloading container.
-				The file name must end with '.crt' and must not be already contained in the preloader's
-				/etc/ssl/certs folder.
-				Can be repeated to add multiple certificates.
-			'''
-		}
-	]
+	options: preloadOptions
 	action: (params, options, done) ->
 		_ = require('lodash')
 		Promise = require('bluebird')
