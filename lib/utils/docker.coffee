@@ -27,7 +27,6 @@ exports.appendConnectionOptions = appendConnectionOptions = (opts) ->
 			signature: 'dockerPort'
 			parameter: 'dockerPort'
 			description: 'Docker daemon TCP port number (hint: 2375 for balena devices)'
-			alias: 'p'
 		},
 		{
 			signature: 'ca'
