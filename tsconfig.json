@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"target": "es2015",
+		"target": "es2017",
 		"outDir": "build",
 		"strict": true,
 		"strictPropertyInitialization": false,
@@ -11,11 +11,6 @@
 		"removeComments": true,
 		"sourceMap": true,
 		"skipLibCheck": true,
-		"lib": [
-			// Additional API groups compatible with Node 8+ (https://node.green)
-			"es2016.array.include",
-			"es2017.object"
-		],
 		"typeRoots" : [
 			"./node_modules/@types",
 			"./node_modules/etcher-sdk/typings",
