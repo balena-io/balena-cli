@@ -234,15 +234,15 @@ export function retry<T>(
  *     compare(a, b) function will compare a and b using the standard '<' and
  *     '>' Javascript operators.
  *   - If only a or only b are found in the manuallySortedArray, the returned
- *     compare(a, b) function will consider the found element as being
- *     "smaller than" the not-found element (i.e. found elements appeare before
+ *     compare(a, b) function will treat the element that was found as being
+ *     "smaller than" the not-found element (i.e. found elements appear before
  *     not-found elements in sorted order).
  *
- * The equalityFunc() argument is a function used to compare the array items
- * against the manuallySortedArray. For example, if equalityFunc was (a, x) =>
- * a.startsWith(x), where a is an item being sorted and x is an item in the
- * manuallySortedArray, then the manuallySortedArray could contain prefix
- * substrings to guide the sorting.
+ * The equalityFunc(a, x) argument is a function used to compare the items
+ * being sorted against the items in the manuallySortedArray. For example, if
+ * equalityFunc was (a, x) => a.startsWith(x), where a is an item being sorted
+ * and x is an item in the manuallySortedArray, then the manuallySortedArray
+ * could contain prefix substrings to guide the sorting.
  *
  * @param manuallySortedArray A pre-sorted array to guide the sorting
  * @param equalityFunc An optional function used to compare the items being
