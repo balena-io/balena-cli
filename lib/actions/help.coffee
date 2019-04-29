@@ -19,6 +19,7 @@ capitano = require('capitano')
 columnify = require('columnify')
 
 messages = require('../utils/messages')
+{ getManualSortCompareFunction } = require('../utils/helpers')
 { exitWithExpectedError } = require('../utils/patterns')
 { getOclifHelpLinePairs } = require('./help_ts')
 
@@ -42,11 +43,29 @@ indent = (text) ->
 		return '    ' + line
 	return text.join('\n')
 
-print = (usageDescriptionPairs...) ->
-	data = _.fromPairs([].concat(usageDescriptionPairs...).sort())
-	console.log indent columnify data,
+print = (usageDescriptionPairs) ->
+	console.log indent columnify _.fromPairs(usageDescriptionPairs),
 		showHeaders: false
 		minWidth: 35
+
+manuallySortedPrimaryCommands = [
+	'help',
+	'login',
+	'push',
+	'logs',
+	'ssh',
+	'apps',
+	'app',
+	'devices',
+	'device',
+	'tunnel',
+	'preload',
+	'build',
+	'deploy',
+	'join',
+	'leave',
+	'local scan',
+]
 
 general = (params, options, done) ->
 	console.log('Usage: balena [COMMAND] [OPTIONS]\n')
@@ -63,17 +82,21 @@ general = (params, options, done) ->
 			return 'primary'
 		return 'secondary'
 
-	print(parse(groupedCommands.primary))
+	print parse(groupedCommands.primary).sort(getManualSortCompareFunction(
+		manuallySortedPrimaryCommands,
+		([signature, description], manualItem) ->
+			signature == manualItem or signature.startsWith("#{manualItem} ")
+	))
 
 	if options.verbose
 		console.log('\nAdditional commands:\n')
-		print(parse(groupedCommands.secondary), getOclifHelpLinePairs())
+		print parse(groupedCommands.secondary).concat(getOclifHelpLinePairs()).sort()
 	else
 		console.log('\nRun `balena help --verbose` to list additional commands')
 
 	if not _.isEmpty(capitano.state.globalOptions)
 		console.log('\nGlobal Options:\n')
-		print(parse(capitano.state.globalOptions))
+		print parse(capitano.state.globalOptions).sort()
 
 	return done()
 
@@ -93,7 +116,7 @@ command = (params, options, done) ->
 
 		if not _.isEmpty(command.options)
 			console.log('\nOptions:\n')
-			print(parse(command.options))
+			print parse(command.options).sort()
 
 		return done()
 
