@@ -99,7 +99,10 @@ async function getAppOwner(sdk: BalenaSDK, appName: string) {
 
 export const push: CommandDefinition<
 	{
+		// when Capitano converts a positional parameter (but not an option)
+		// to a number, the original value is preserved with the _raw suffix
 		applicationOrDevice: string;
+		applicationOrDevice_raw: string;
 	},
 	{
 		source: string;
@@ -235,7 +238,8 @@ export const push: CommandDefinition<
 		);
 		const { BuildError } = await import('../utils/device/errors');
 
-		const appOrDevice: string | null = params.applicationOrDevice;
+		const appOrDevice: string | null =
+			params.applicationOrDevice_raw || params.applicationOrDevice;
 		if (appOrDevice == null) {
 			exitWithExpectedError('You must specify an application or a device');
 		}
