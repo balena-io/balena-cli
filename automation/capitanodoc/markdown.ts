@@ -66,7 +66,7 @@ function getAnchor(command: Command) {
 }
 
 export function renderToc(categories: Category[]) {
-	let result = `# Table of contents\n`;
+	let result = `# CLI Command Reference\n`;
 
 	for (const category of categories) {
 		result += `\n- ${category.title}\n\n`;

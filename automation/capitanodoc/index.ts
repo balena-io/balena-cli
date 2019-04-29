@@ -17,37 +17,61 @@
 import * as _ from 'lodash';
 import * as path from 'path';
 
-import capitanodoc = require('../../capitanodoc');
+import { getCapitanoDoc } from './capitanodoc';
 import { Category, Document } from './doc-types';
 import * as markdown from './markdown';
 
-const result: Document = {
-	title: capitanodoc.title,
-	introduction: capitanodoc.introduction,
-	categories: [],
-};
-
-for (const commandCategory of capitanodoc.categories) {
-	const category: Category = {
-		title: commandCategory.title,
-		commands: [],
+/**
+ * Generates the markdown document (as a string) for the CLI documentation
+ * page on the web: https://www.balena.io/docs/reference/cli/
+ */
+export async function renderMarkdown(): Promise<string> {
+	const capitanodoc = await getCapitanoDoc();
+	const result: Document = {
+		title: capitanodoc.title,
+		introduction: capitanodoc.introduction,
+		categories: [],
 	};
 
-	for (const file of commandCategory.files) {
-		// tslint:disable-next-line:no-var-requires
-		const actions: any = require(path.join(process.cwd(), file));
+	for (const commandCategory of capitanodoc.categories) {
+		const category: Category = {
+			title: commandCategory.title,
+			commands: [],
+		};
 
-		if (actions.signature) {
-			category.commands.push(_.omit(actions, 'action'));
-		} else {
-			for (const actionName of Object.keys(actions)) {
-				const actionCommand = actions[actionName];
-				category.commands.push(_.omit(actionCommand, 'action'));
+		for (const file of commandCategory.files) {
+			// tslint:disable-next-line:no-var-requires
+			const actions: any = require(path.join(process.cwd(), file));
+
+			if (actions.signature) {
+				category.commands.push(_.omit(actions, 'action'));
+			} else {
+				for (const actionName of Object.keys(actions)) {
+					const actionCommand = actions[actionName];
+					category.commands.push(_.omit(actionCommand, 'action'));
+				}
 			}
 		}
+
+		result.categories.push(category);
 	}
 
-	result.categories.push(category);
+	return markdown.render(result);
 }
 
-console.log(markdown.render(result));
+/**
+ * Print the CLI docs markdown to stdout.
+ * See package.json for how the output is redirected to a file.
+ */
+function printMarkdown() {
+	renderMarkdown()
+		.then((mdDocs: string) => {
+			console.log(mdDocs);
+		})
+		.catch((error: Error) => {
+			console.error(error);
+			process.exit(1);
+		});
+}
+
+printMarkdown();
