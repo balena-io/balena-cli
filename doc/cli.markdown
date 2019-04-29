@@ -1422,7 +1422,7 @@ Path to a local docker socket (e.g. /var/run/docker.sock)
 
 Docker daemon hostname or IP address (dev machine or balena device) 
 
-#### --dockerPort, -p &#60;dockerPort&#62;
+#### --dockerPort &#60;dockerPort&#62;
 
 Docker daemon TCP port number (hint: 2375 for balena devices)
 
