@@ -81,7 +81,9 @@ export class LivepushManager {
 		// so that all of the containers are running and ready to
 		// be livepush'd into
 		await this.awaitDeviceStateSettle();
-		// Split the composition into a load of differents paths which we can
+		// Split the composition into a load of differents paths
+		// which we can
+		this.logger.logLivepush('Device state settled');
 		// create livepush instances for
 
 		for (const serviceName of _.keys(this.composition.services)) {
