@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 declare module 'balena-device-init' {
 	import { DeviceType } from 'balena-sdk';
 	import * as Promise from 'bluebird';

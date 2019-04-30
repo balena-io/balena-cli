@@ -14,15 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-declare module 'color-hash' {
-	interface Hasher {
-		hex(text: string): string;
-	}
 
-	class ColorHash {
-		public hex(text: string): string;
-		public rgb(text: string): [number, number, number];
-	}
-
-	export = ColorHash;
+declare module 'president' {
+	export function execute(
+		command: string[],
+		callback: (err: Error) => void,
+	): void;
 }

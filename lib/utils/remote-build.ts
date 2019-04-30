@@ -98,7 +98,7 @@ export async function startRemoteBuild(build: RemoteBuild): Promise<void> {
 			output: process.stdout,
 		});
 
-		rl.on('SIGINT', () => process.emit('SIGINT'));
+		rl.on('SIGINT', () => process.emit('SIGINT' as any));
 	}
 
 	return new Bluebird((resolve, reject) => {
