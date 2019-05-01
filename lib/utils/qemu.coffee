@@ -1,6 +1,6 @@
 Promise = require('bluebird')
 
-exports.QEMU_VERSION = QEMU_VERSION = 'v3.0.0+resin'
+exports.QEMU_VERSION = QEMU_VERSION = 'v4.0.0-balena'
 exports.QEMU_BIN_NAME = QEMU_BIN_NAME = 'qemu-execve'
 
 exports.installQemuIfNeeded = Promise.method (emulated, logger, arch) ->
@@ -63,7 +63,7 @@ getQemuPath = (arch) ->
 		Promise.resolve(fs.mkdir(binDir))
 		.catch(code: 'EEXIST', ->)
 		.then ->
-			path.join(binDir, "#{QEMU_BIN_NAME}-#{arch}")
+			path.join(binDir, "#{QEMU_BIN_NAME}-#{arch}-#{QEMU_VERSION}")
 
 platformNeedsQemu = ->
 	os = require('os')
@@ -81,7 +81,7 @@ installQemu = (arch) ->
 			installStream = fs.createWriteStream(qemuPath)
 
 			qemuArch = balenaArchToQemuArch(arch)
-			downloadArchiveName = "qemu-3.0.0+resin-#{qemuArch}.tar.gz"
+			downloadArchiveName = "qemu-#{QEMU_VERSION.replace(/^v/, '')}-#{qemuArch}.tar.gz"
 			qemuUrl = "https://github.com/balena-io/qemu/releases/download/#{QEMU_VERSION}/#{downloadArchiveName}"
 
 			extract = tar.extract()
