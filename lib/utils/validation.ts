@@ -21,7 +21,7 @@ const APPNAME_REGEX = new RegExp(/^[a-zA-Z0-9_-]+$/);
 const IP_REGEX = new RegExp(
 	/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/,
 );
-const DOTLOCAL_REGEX = new RegExp(/^[a-zA-Z0-9-]+\.local$/);
+const DOTLOCAL_REGEX = new RegExp(/^([a-zA-Z0-9-]+\.)+local$/);
 
 export function validateEmail(input: string) {
 	if (!validEmail(input)) {
