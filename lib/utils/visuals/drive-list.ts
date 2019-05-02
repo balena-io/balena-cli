@@ -26,7 +26,10 @@ export class DriveList extends CustomDynamicList<
 	}
 
 	protected format(drive: _sdk.sourceDestination.BlockDevice) {
-		const size = drive.size / 1e9;
-		return `${drive.device} (${size.toFixed(1)} GB) - ${drive.description}`;
+		const size =
+			drive.size != null
+				? `${(drive.size / 1e9).toFixed(1).toString()} GB`
+				: 'Unknown size';
+		return `${drive.device} (${size}) - ${drive.description}`;
 	}
 }

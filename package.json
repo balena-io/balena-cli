@@ -132,7 +132,7 @@
     "dockerode": "^2.5.5",
     "dockerode-options": "^0.2.1",
     "ejs": "^2.5.7",
-    "etcher-sdk": "^0.2.0",
+    "etcher-sdk": "^2.0.5",
     "event-stream": "3.3.4",
     "express": "^4.13.3",
     "fast-boot2": "^1.0.9",
