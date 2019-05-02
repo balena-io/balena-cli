@@ -164,7 +164,6 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 			deployOpts: opts,
 		});
 
-		globalLogger.logLivepush('Watching for file changes...');
 		const promises = [livepush.init()];
 		// Only show logs if we're not detaching
 		if (!opts.detached) {
@@ -174,7 +173,12 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 			promises.push(
 				displayDeviceLogs(logStream, globalLogger, opts.system, opts.service),
 			);
+		} else {
+			globalLogger.logLivepush(
+				'Running in detached mode, no service logs will be shown',
+			);
 		}
+		globalLogger.logLivepush('Watching for file changes...');
 		await Promise.all(promises);
 	} else {
 		if (opts.detached) {

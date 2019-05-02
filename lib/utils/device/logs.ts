@@ -107,7 +107,7 @@ export function displayLogObject<T extends Log>(
 	logger.logLogs(toPrint);
 }
 
-const getServiceColourFn = _.memoize(_getServiceColourFn);
+export const getServiceColourFn = _.memoize(_getServiceColourFn);
 
 const colorHash = new ColorHash();
 function _getServiceColourFn(serviceName: string): (msg: string) => string {

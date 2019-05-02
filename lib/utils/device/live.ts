@@ -16,6 +16,7 @@ import {
 	rebuildSingleTask,
 } from './deploy';
 import { BuildError } from './errors';
+import { getServiceColourFn } from './logs';
 
 // How often do we want to check the device state
 // engine has settled (delay in ms)
@@ -81,7 +82,9 @@ export class LivepushManager {
 		// so that all of the containers are running and ready to
 		// be livepush'd into
 		await this.awaitDeviceStateSettle();
-		// Split the composition into a load of differents paths which we can
+		// Split the composition into a load of differents paths
+		// which we can
+		this.logger.logLivepush('Device state settled');
 		// create livepush instances for
 
 		for (const serviceName of _.keys(this.composition.services)) {
@@ -129,9 +132,11 @@ export class LivepushManager {
 					);
 				}
 
-				const log = (msg: string) => {
-					this.logger.logLivepush(`[service ${serviceName}] ${msg}`);
-				};
+				const msgString = (msg: string) =>
+					`[${getServiceColourFn(serviceName)(serviceName)}] ${msg}`;
+				const log = (msg: string) => this.logger.logLivepush(msgString(msg));
+				const error = (msg: string) => this.logger.logError(msgString(msg));
+				const debugLog = (msg: string) => this.logger.logDebug(msgString(msg));
 
 				const livepush = await Livepush.init(
 					dockerfile,
@@ -147,6 +152,16 @@ export class LivepushManager {
 				livepush.on('commandOutput', output =>
 					log(`   ${output.output.data.toString()}`),
 				);
+				livepush.on('commandReturn', ({ returnCode, command }) => {
+					if (returnCode !== 0) {
+						error(`  Command ${command} failed with exit code: ${returnCode}`);
+					} else {
+						debugLog(`Command ${command} exited successfully`);
+					}
+				});
+				livepush.on('containerRestart', () => {
+					log('Restarting service...');
+				});
 
 				// TODO: Memoize this for containers which share a context
 				const monitor = chokidar.watch('.', {
@@ -292,7 +307,16 @@ export class LivepushManager {
 		this.logger.logLivepush(
 			`Detected changes for container ${fsEvent.serviceName}, updating...`,
 		);
-		await livepush.performLivepush(updates, deletes);
+
+		try {
+			await livepush.performLivepush(updates, deletes);
+		} catch (e) {
+			this.logger.logError(
+				`An error occured whilst trying to perform a livepush: `,
+			);
+			this.logger.logError(`   ${e.message}`);
+			this.logger.logDebug(e.stack);
+		}
 	}
 
 	private async handleServiceRebuild(serviceName: string): Promise<void> {
