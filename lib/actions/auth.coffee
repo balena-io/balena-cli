@@ -57,17 +57,17 @@ exports.login	=
 			alias: 'c'
 		}
 		{
- 			signature: 'email'
- 			parameter: 'email'
- 			description: 'email'
- 			alias: [ 'e', 'u' ]
- 		}
- 		{
- 			signature: 'password'
- 			parameter: 'password'
- 			description: 'password'
- 			alias: 'p'
- 		}
+			signature: 'email'
+			parameter: 'email'
+			description: 'email'
+			alias: [ 'e', 'u' ]
+		}
+		{
+			signature: 'password'
+			parameter: 'password'
+			description: 'password'
+			alias: 'p'
+		}
 	]
 	primary: true
 	action: (params, options, done) ->
