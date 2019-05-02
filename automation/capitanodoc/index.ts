@@ -40,7 +40,6 @@ export async function renderMarkdown(): Promise<string> {
 		};
 
 		for (const file of commandCategory.files) {
-			// tslint:disable-next-line:no-var-requires
 			const actions: any = require(path.join(process.cwd(), file));
 
 			if (actions.signature) {
@@ -63,15 +62,13 @@ export async function renderMarkdown(): Promise<string> {
  * Print the CLI docs markdown to stdout.
  * See package.json for how the output is redirected to a file.
  */
-function printMarkdown() {
-	renderMarkdown()
-		.then((mdDocs: string) => {
-			console.log(mdDocs);
-		})
-		.catch((error: Error) => {
-			console.error(error);
-			process.exit(1);
-		});
+async function printMarkdown() {
+	try {
+		console.log(await renderMarkdown());
+	} catch (error) {
+		console.error(error);
+		process.exit(1);
+	}
 }
 
 printMarkdown();

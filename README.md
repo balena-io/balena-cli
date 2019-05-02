@@ -10,7 +10,7 @@ The official balena CLI tool.
 
 The balena CLI (Command-Line Interface) allows you to interact with the balenaCloud and the
 [balena API](https://www.balena.io/docs/reference/api/overview/) through a terminal window
-on Linux, MacOS or Windows. You can also write shell scripts around it, or import its Node.js
+on Linux, macOS or Windows. You can also write shell scripts around it, or import its Node.js
 modules to use it programmatically.
 As an [open-source project on GitHub](https://github.com/balena-io/balena-cli/), your contribution
 is also welcome!
@@ -23,27 +23,26 @@ Check the [balena CLI installation instructions on GitHub](https://github.com/ba
 
 ### Choosing a shell (command prompt/terminal)
 
-On Linux and MacOS, `bash` is the standard and recommended shell for use with the balena CLI.
-
-> **bash command auto completion**  
-`bash` command auto completion can be enabled by copying the
-[balena-completion.bash](https://github.com/balena-io/balena-cli/blob/master/balena-completion.bash)
-file to the default bash completions directory (usually `/etc/bash_completion.d/`), or by appending
-it to `~/.bash_completion`.
-
-On Windows, we support the standard Windows Command Prompt (`cmd.exe`) and the Windows
-[PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/getting-started/getting-started-with-windows-powershell?view=powershell-6).
-We are aware of users also having a good experience with alternative shells, including:
+On **Windows,** the standard Command Prompt (`cmd.exe`) and
+[PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/getting-started/getting-started-with-windows-powershell?view=powershell-6)
+are supported. We are aware of users also having a good experience with alternative shells,
+including:
 
 * Microsoft's [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about)
   (a.k.a. Microsoft's "bash for Windows 10").
 * [Git for Windows](https://git-for-windows.github.io/).
 * [MinGW](http://www.mingw.org): install the `msys-rsync` and `msys-openssh` packages too.
 
+On **macOS** and **Linux,** the standard terminal window is supported. _Optionally,_ `bash` command
+auto completion may be enabled by copying the
+[balena-completion.bash](https://github.com/balena-io/balena-cli/blob/master/balena-completion.bash)
+file to your system's `bash_completion` directory: check [Docker's command completion
+guide](https://docs.docker.com/compose/completion/) for system setup instructions.
+
 ### Logging in
 
-Several CLI commands require access to your balenaCloud account, for example in order to push
-a new release to your app. Those commands require creating a CLI login session by running:
+Several CLI commands require access to your balenaCloud account, for example in order to push a
+new release to your application. Those commands require creating a CLI login session by running:
 
 ```sh
 $ balena login
@@ -57,8 +56,8 @@ HTTP(S) proxies can be configured through any of the following methods, in order
   optionally basic auth).
 * Alternatively, use the [balena config file](https://www.npmjs.com/package/balena-settings-client#documentation)
   (project-specific or user-level) and set the \`proxy\` setting. It can be:
-  * a string in URL format, or
-  * an object in the [global-tunnel-ng options format](https://www.npmjs.com/package/global-tunnel-ng#options) (which allows more control).
+  * A string in URL format, or
+  * An object in the [global-tunnel-ng options format](https://www.npmjs.com/package/global-tunnel-ng#options) (which allows more control).
 * Alternatively, set the conventional \`https_proxy\` / \`HTTPS_PROXY\` / \`http_proxy\` / \`HTTP_PROXY\`
 environment variable (in the same standard URL format).
 
