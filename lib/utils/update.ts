@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Balena
+Copyright 2016-2019 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,26 +25,26 @@ const balenaUpdateInterval = 1000 * 60 * 60 * 24 * 1;
 
 let notifier: UpdateNotifier.UpdateNotifier;
 
-// `update-notifier` creates files to make the next
-// running time ask for updated, however this can lead
-// to ugly EPERM issues if those files are created as root.
-if (!isRoot()) {
-	notifier = UpdateNotifier({
-		pkg: packageJSON,
-		updateCheckInterval: balenaUpdateInterval,
-	});
-}
-
 export function notify() {
 	if (!notifier) {
-		return;
+		// `update-notifier` creates files to make the next
+		// running time ask for updated, however this can lead
+		// to ugly EPERM issues if those files are created as root.
+		if (isRoot()) {
+			return;
+		} else {
+			notifier = UpdateNotifier({
+				pkg: packageJSON,
+				updateCheckInterval: balenaUpdateInterval,
+			});
+		}
 	}
-
-	notifier.notify({ defer: false });
-
-	if (notifier.update != null) {
-		console.log(
-			'Notice that you might need administrator privileges depending on your setup\n',
-		);
+	const up = notifier.update;
+	if (up) {
+		notifier.notify({
+			defer: false,
+			message: `Update available ${up.current} → ${up.latest}\n
+https://github.com/balena-io/balena-cli/blob/master/INSTALL.md`,
+		});
 	}
 }
