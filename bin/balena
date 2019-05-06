@@ -8,4 +8,5 @@ process.env.UV_THREADPOOL_SIZE = '64';
 require('fast-boot2').start({
 	cacheFile: __dirname + '/.fast-boot.json'
 })
-require('../build/app');
+// Run the CLI
+require('../build/app').run();
