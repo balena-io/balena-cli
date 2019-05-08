@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import * as Bluebird from 'bluebird';
 import * as filehound from 'filehound';
 import * as fs from 'fs-extra';
 import * as path from 'path';
@@ -24,12 +25,22 @@ const ROOT = path.join(__dirname, '..');
 console.log('Building package...\n');
 
 execPkg(['--target', 'host', '--output', 'build-bin/balena', 'package.json'])
-	.then(() =>
-		fs.copy(
-			path.join(ROOT, 'node_modules', 'opn', 'xdg-open'),
-			path.join(ROOT, 'build-bin', 'xdg-open'),
-		),
-	)
+	.then(() => {
+		const xpaths: Array<[string, string[]]> = [
+			// [platform, [path, to, file]]
+			['*', ['opn', 'xdg-open']],
+			['darwin', ['denymount', 'bin', 'denymount']],
+		];
+		return Bluebird.map(xpaths, ([platform, xpath]) => {
+			if (platform === '*' || platform === process.platform) {
+				// eg copy from node_modules/opn/xdg-open to build-bin/xdg-open
+				return fs.copy(
+					path.join(ROOT, 'node_modules', ...xpath),
+					path.join(ROOT, 'build-bin', xpath.pop()!),
+				);
+			}
+		}).return();
+	})
 	.then(() => {
 		return filehound
 			.create()
