@@ -32,6 +32,7 @@ export async function performLocalDeviceSSH(
 	const { getSubShellCommand } = await import('../helpers');
 	const { exitWithExpectedError } = await import('../patterns');
 	const { stripIndent } = await import('common-tags');
+	const os = await import('os');
 
 	let command = '';
 
@@ -98,10 +99,19 @@ export async function performLocalDeviceSSH(
 			`);
 		}
 
-		const shellCmd = `/bin/sh -c $"'if [ -e /bin/bash ]; then exec /bin/bash; else exec /bin/sh; fi'"`;
-		command = `'${deviceContainerEngineBinary}' exec -ti ${
-			containers[0]!.id
-		} ${shellCmd}`;
+		// Getting a command to work on all platforms is a pain,
+		// so we just define slightly different ones for windows
+		if (os.platform() !== 'win32') {
+			const shellCmd = `/bin/sh -c "if [ -e /bin/bash ]; then exec /bin/bash; else exec /bin/sh; fi"`;
+			command = `'${deviceContainerEngineBinary}' exec -ti ${
+				containers[0]!.id
+			} '${shellCmd}'`;
+		} else {
+			const shellCmd = `/bin/sh -c "if [ -e /bin/bash ]; then exec /bin/bash; else exec /bin/sh; fi"`;
+			command = `${deviceContainerEngineBinary} exec -ti ${
+				containers[0]!.id
+			} ${shellCmd}`;
+		}
 	}
 	// Generate the SSH command
 	const sshCommand = `ssh \
