@@ -74,6 +74,7 @@
     "@types/lodash": "4.14.112",
     "@types/mixpanel": "2.14.0",
     "@types/mkdirp": "0.5.2",
+    "@types/net-keepalive": "^0.4.0",
     "@types/node": "6.14.2",
     "@types/prettyjson": "0.0.28",
     "@types/raven": "2.5.1",
@@ -186,6 +187,7 @@
     "window-size": "^1.1.0"
   },
   "optionalDependencies": {
+    "net-keepalive": "^1.2.1",
     "removedrive": "^1.0.0",
     "windosu": "^0.2.0"
   }
