@@ -1005,7 +1005,7 @@ Examples:
 
 Warning: 'balena ssh' requires an openssh-compatible client to be correctly
 installed in your shell environment. For more information (including Windows
-support) please check the information here:
+support) please check:
 	https://github.com/balena-io/balena-cli/blob/master/INSTALL.md#additional-dependencies
 
 ### Options
@@ -1415,7 +1415,7 @@ Disables check for matching architecture in image and application
 
 #### --pin-device-to-release, -p
 
-Pin the preloaded device (not application) to the preloaded release on provision
+Pin the preloaded device to the preloaded release on provision
 
 #### --add-certificate &#60;certificate.crt&#62;
 
@@ -1432,7 +1432,7 @@ Path to a local docker socket (e.g. /var/run/docker.sock)
 
 Docker daemon hostname or IP address (dev machine or balena device) 
 
-#### --dockerPort, -p &#60;dockerPort&#62;
+#### --dockerPort &#60;dockerPort&#62;
 
 Docker daemon TCP port number (hint: 2375 for balena devices)
 
