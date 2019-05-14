@@ -45,7 +45,10 @@ export function displayDeviceLogs(
 		});
 
 		logs.on('error', reject);
-		logs.on('end', resolve);
+		logs.on('end', () => {
+			logger.logError('Connection to device lost');
+			resolve();
+		});
 	});
 }
 
