@@ -17,7 +17,7 @@ for installing and getting started with the balena CLI on Windows!
 3. Add the `balena-cli` folder to the system's `PATH` environment variable. See instructions for:
    [Windows](https://www.computerhope.com/issues/ch000549.htm) |
    [Linux](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix) |
-   [macOS](https://stackoverflow.com/questions/22465332/setting-path-environment-variable-in-osx-permanently).
+   [macOS](https://www.architectryan.com/2012/10/02/add-to-the-path-on-mac-os-x-mountain-lion/#.Uydjga1dXDg)
 
 Check that the installation was successful by opening or re-opening a command terminal window
 (so that the PATH environment variable changes take effect), and running these commands:
