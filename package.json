@@ -10,13 +10,13 @@
   },
   "preferGlobal": true,
   "files": [
-    "bin/balena",
+    "bin/run",
     "build/",
     "doc/",
     "lib/"
   ],
   "bin": {
-    "balena": "./bin/balena"
+    "balena": "./bin/run"
   },
   "pkg": {
     "scripts": [
@@ -31,13 +31,15 @@
     ]
   },
   "scripts": {
-    "prebuild": "rimraf build/ build-bin/ build-zip/ && patch-package",
+    "postinstall": "patch-package",
+    "prebuild": "rimraf build/ build-bin/",
     "build": "npm run build:src && npm run build:bin",
     "build:src": "npm run prettify && npm run lint && npm run build:fast && npm run build:doc",
     "build:fast": "gulp build && tsc",
     "build:doc": "mkdirp doc/ && ts-node --type-check -P automation/tsconfig.json automation/capitanodoc/index.ts > doc/cli.markdown",
-    "build:bin": "ts-node --type-check -P automation/tsconfig.json automation/build-bin.ts",
-    "release": "npm run build && ts-node --type-check -P automation/tsconfig.json automation/deploy-bin.ts",
+    "build:bin": "ts-node --type-check -P automation/tsconfig.json automation/run.ts build:standalone",
+    "build:installer": "ts-node --type-check -P automation/tsconfig.json automation/run.ts build:installer",
+    "release": "ts-node --type-check -P automation/tsconfig.json automation/run.ts release",
     "pretest": "npm run build",
     "test": "gulp test",
     "test:fast": "npm run build:fast && gulp test",
@@ -45,8 +47,7 @@
     "watch": "gulp watch",
     "prettify": "prettier --write \"{lib,tests,automation,typings}/**/*.ts\" --config ./node_modules/resin-lint/config/.prettierrc",
     "lint": "resin-lint lib/ tests/ && resin-lint --typescript automation/ lib/ typings/ tests/",
-    "prepublish": "require-npm4-to-publish",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "require-npm4-to-publish && npm run build"
   },
   "keywords": [
     "balena",
@@ -70,8 +71,8 @@
     }
   },
   "devDependencies": {
-    "@oclif/dev-cli": "^1.22.0",
     "@oclif/config": "^1.12.12",
+    "@oclif/dev-cli": "1.22.0",
     "@oclif/parser": "^3.7.3",
     "@types/archiver": "2.1.2",
     "@types/bluebird": "3.5.21",
@@ -88,6 +89,8 @@
     "@types/prettyjson": "0.0.28",
     "@types/raven": "2.5.1",
     "@types/request": "2.48.1",
+    "@types/rimraf": "^2.0.2",
+    "@types/shell-escape": "^0.2.0",
     "@types/stream-to-promise": "2.2.0",
     "@types/tar-stream": "1.6.0",
     "@types/through2": "2.0.33",
@@ -104,10 +107,11 @@
     "patch-package": "^6.1.2",
     "pkg": "~4.3.8",
     "prettier": "^1.17.0",
-    "publish-release": "^1.3.3",
+    "publish-release": "^1.6.0",
     "require-npm4-to-publish": "^1.0.0",
     "resin-lint": "^3.0.1",
     "rewire": "^3.0.2",
+    "shell-escape": "^0.2.0",
     "ts-node": "^8.1.0",
     "typescript": "3.4.3"
   },
@@ -138,7 +142,7 @@
     "color-hash": "^1.0.3",
     "columnify": "^1.5.2",
     "common-tags": "^1.7.2",
-    "denymount": "~2.2.0",
+    "denymount": "^2.3.0",
     "docker-progress": "^4.0.0",
     "docker-qemu-transpose": "^0.5.3",
     "docker-toolbelt": "^3.3.7",
@@ -200,7 +204,6 @@
   },
   "optionalDependencies": {
     "net-keepalive": "^1.2.1",
-    "removedrive": "^1.0.0",
     "windosu": "^0.2.0"
   }
 }

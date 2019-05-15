@@ -40,6 +40,7 @@ balenarc.yml
 build/
 build-bin/
 build-zip/
+dist/
 
 # Ignore fast-boot cache file
 /bin/.fast-boot.json
