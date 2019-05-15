@@ -4,7 +4,7 @@ The easiest and recommended way of installing the CLI on all platforms (Windows,
 to use the [Standalone Installation](#standalone-installation) described below. Some specific CLI
 commands have a few extra installation steps: see section [Additional Dependencies](#additional-dependencies).
 
-> **Windows users:** We now have a [YouTube video tutorial](https://www.youtube.com/watch?v=dzb2mvRf_Ag)
+> **Windows users:** We now have a [YouTube video tutorial](https://www.youtube.com/watch?v=2LApclXFqsg)
 for installing and getting started with the balena CLI on Windows!
 
 ## Standalone Installation
