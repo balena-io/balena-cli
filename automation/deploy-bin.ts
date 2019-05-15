@@ -15,70 +15,114 @@
  * limitations under the License.
  */
 import * as archiver from 'archiver';
-import * as Promise from 'bluebird';
+import * as Bluebird from 'bluebird';
 import * as fs from 'fs-extra';
+import * as _ from 'lodash';
 import * as mkdirp from 'mkdirp';
-import * as os from 'os';
 import * as path from 'path';
 import * as publishRelease from 'publish-release';
 
-import * as packageJSON from '../package.json';
-
-const publishReleaseAsync = Promise.promisify(publishRelease);
-const mkdirpAsync = Promise.promisify<string | null, string>(mkdirp);
-
+const mkdirpAsync = Bluebird.promisify<string | null, string>(mkdirp);
 const { GITHUB_TOKEN } = process.env;
 const ROOT = path.join(__dirname, '..');
-
+// tslint:disable-next-line:no-var-requires
+const packageJSON = require(path.join(ROOT, 'package.json'));
 const version = 'v' + packageJSON.version;
-const outputFile = path.join(
-	ROOT,
-	'build-zip',
-	`balena-cli-${version}-${os.platform()}-${os.arch()}.zip`,
-);
+const arch = process.arch;
 
-mkdirpAsync(path.dirname(outputFile))
-	.then(
-		() =>
-			new Promise((resolve, reject) => {
-				console.log('Zipping build...');
+function dPath(...paths: string[]) {
+	return path.join(ROOT, 'dist', ...paths);
+}
 
-				const archive = archiver('zip', {
-					zlib: { level: 7 },
-				});
-				archive.directory(path.join(ROOT, 'build-bin'), 'balena-cli');
+const standaloneZips: { [platform: string]: string } = {
+	linux: dPath(`balena-cli-${version}-linux-${arch}-standalone.zip`),
+	darwin: dPath(`balena-cli-${version}-macOS-${arch}-standalone.zip`),
+	win32: dPath(`balena-cli-${version}-windows-${arch}-standalone.zip`),
+};
 
-				const outputStream = fs.createWriteStream(outputFile);
+const oclifInstallers: { [platform: string]: string } = {
+	darwin: dPath('macos', `balena-${version}.pkg`),
+	win32: dPath('win', `balena-${version}-${arch}.exe`),
+};
 
-				outputStream.on('close', resolve);
-				outputStream.on('error', reject);
+const renamedOclifInstallers: { [platform: string]: string } = {
+	darwin: dPath(`balena-cli-${version}-macOS-${arch}-installer.pkg`),
+	win32: dPath(`balena-cli-${version}-windows-${arch}-installer.exe`),
+};
 
-				archive.on('error', reject);
-				archive.on('warning', console.warn);
+const finalReleaseAssets: { [platform: string]: string[] } = {
+	win32: [standaloneZips['win32'], renamedOclifInstallers['win32']],
+	darwin: [standaloneZips['darwin'], renamedOclifInstallers['darwin']],
+	linux: [standaloneZips['linux']],
+};
 
-				archive.pipe(outputStream);
-				archive.finalize();
-			}),
-	)
-	.then(() => {
-		console.log('Build zipped');
-		console.log('Publishing build...');
+export async function zipStandaloneInstaller() {
+	const outputFile = standaloneZips[process.platform];
+	if (!outputFile) {
+		throw new Error(
+			`Standalone installer unavailable for platform "${process.platform}"`,
+		);
+	}
+	await mkdirpAsync(path.dirname(outputFile));
+	await new Bluebird((resolve, reject) => {
+		console.log(`Zipping build to "${outputFile}"...`);
 
-		return publishReleaseAsync({
+		const archive = archiver('zip', {
+			zlib: { level: 7 },
+		});
+		archive.directory(path.join(ROOT, 'build-bin'), 'balena-cli');
+
+		const outputStream = fs.createWriteStream(outputFile);
+
+		outputStream.on('close', resolve);
+		outputStream.on('error', reject);
+
+		archive.on('error', reject);
+		archive.on('warning', console.warn);
+
+		archive.pipe(outputStream);
+		archive.finalize();
+	});
+	console.log('Build zipped');
+}
+
+export async function createGitHubRelease() {
+	console.log(`Publishing release ${version} to GitHub`);
+	const ghRelease = await Bluebird.fromCallback(
+		publishRelease.bind(null, {
 			token: GITHUB_TOKEN || '',
 			owner: 'balena-io',
 			repo: 'balena-cli',
 			tag: version,
 			name: `balena-CLI ${version}`,
 			reuseRelease: true,
-			assets: [outputFile],
-		});
-	})
-	.then(release => {
-		console.log(`Release ${version} successful: ${release.html_url}`);
-	})
-	.catch(err => {
+			assets: finalReleaseAssets[process.platform],
+		}),
+	);
+	console.log(`Release ${version} successful: ${ghRelease.html_url}`);
+}
+
+export async function release() {
+	console.log(`Creating release assets for CLI ${version}`);
+	try {
+		await zipStandaloneInstaller();
+	} catch (error) {
+		console.log(`Error creating standalone installer zip file: ${error}`);
+		process.exit(1);
+	}
+	if (process.platform === 'win32' || process.platform === 'darwin') {
+		if (fs.existsSync(oclifInstallers[process.platform])) {
+			fs.renameSync(
+				oclifInstallers[process.platform],
+				renamedOclifInstallers[process.platform],
+			);
+		}
+	}
+	try {
+		await createGitHubRelease();
+	} catch (err) {
 		console.error('Release failed');
 		console.error(err);
 		process.exit(1);
-	});
+	}
+}

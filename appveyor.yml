@@ -1,6 +1,8 @@
 # appveyor file
 # http://www.appveyor.com/docs/appveyor-yml
 
+image: Visual Studio 2017
+
 init:
   - git config --global core.autocrlf input
 
@@ -18,8 +20,8 @@ environment:
 
 install:
   - ps: Install-Product node $env:nodejs_version x64
-  - npm install -g npm@4
   - set PATH=%APPDATA%\npm;%PATH%
+  - npm config set python 'C:\Python27\python.exe'
   - npm install
 
 build: off
@@ -27,8 +29,11 @@ build: off
 test_script:
   - node --version
   - npm --version
-  - cmd: npm test
+  - npm test
 
 deploy_script:
+  - node --version
+  - npm --version
+  - npm run build:installer
   - IF "%APPVEYOR_REPO_TAG%" == "true" (npm run release)
   - IF NOT "%APPVEYOR_REPO_TAG%" == "true" (echo 'Not tagged, skipping deploy')
