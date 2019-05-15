@@ -205,6 +205,7 @@ module.exports =
 	root: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
+		path = require('path')
 		umount = require('umount')
 		umountAsync = Promise.promisify(umount.umount)
 		isMountedAsync = Promise.promisify(umount.isMounted)
@@ -217,7 +218,12 @@ module.exports =
 				return if not isMounted
 				umountAsync(params.target)
 		.then (configurationSchema) ->
-			denymount params.target, (cb) ->
+			dmOpts = {}
+			if process.pkg
+				# when running in a standalone pkg install, the 'denymount'
+				# executable is placed on the same folder as process.execPath
+				dmOpts.executablePath = path.join(path.dirname(process.execPath), 'denymount')
+			dmHandler = (cb) ->
 				reconfix.readConfiguration(configurationSchema, params.target)
 				.then(getConfiguration)
 				.then (answers) ->
@@ -225,6 +231,7 @@ module.exports =
 						removeHostname(configurationSchema)
 					reconfix.writeConfiguration(configurationSchema, answers, params.target)
 				.asCallback(cb)
+			denymount params.target, dmHandler, dmOpts
 		.then ->
 			console.log('Done!')
 		.asCallback(done)
