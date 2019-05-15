@@ -1,7 +1,10 @@
 import * as Bluebird from 'bluebird';
 import * as chokidar from 'chokidar';
 import * as Dockerode from 'dockerode';
-import Livepush from 'livepush';
+import Livepush, {
+	ContainerNotRunningError,
+	LivepushAlreadyRunningError,
+} from 'livepush';
 import * as _ from 'lodash';
 import * as path from 'path';
 import { Composition } from 'resin-compose-parse';
@@ -22,17 +25,13 @@ import { getServiceColourFn } from './logs';
 // engine has settled (delay in ms)
 const DEVICE_STATUS_SETTLE_CHECK_INTERVAL = 1000;
 
+const LIVEPUSH_DEBOUNCE_TIMEOUT = 2000;
+
 interface MonitoredContainer {
 	context: string;
 	livepush: Livepush;
 	monitor: chokidar.FSWatcher;
 	containerId: string;
-}
-
-interface ContextEvent {
-	type: 'add' | 'change' | 'unlink';
-	filename: string;
-	serviceName: string;
 }
 
 type BuildLogs = Dictionary<string>;
@@ -63,6 +62,10 @@ export class LivepushManager {
 	private api: DeviceAPI;
 	private logger: Logger;
 	private imageIds: StageImageIDs;
+
+	// A map of service names to events waiting
+	private updateEventsWaiting: Dictionary<string[]> = {};
+	private deleteEventsWaiting: Dictionary<string[]> = {};
 
 	public constructor(opts: LivepushOpts) {
 		this.buildContext = opts.buildContext;
@@ -163,32 +166,30 @@ export class LivepushManager {
 					log('Restarting service...');
 				});
 
+				this.updateEventsWaiting[serviceName] = [];
+				this.deleteEventsWaiting[serviceName] = [];
+				const addEvent = (eventQueue: string[], changedPath: string) => {
+					this.logger.logDebug(
+						`Got an add filesystem event for service: ${serviceName}. File: ${changedPath}`,
+					);
+					eventQueue.push(changedPath);
+					this.getDebouncedEventHandler(serviceName)();
+				};
 				// TODO: Memoize this for containers which share a context
 				const monitor = chokidar.watch('.', {
 					cwd: context,
 					ignoreInitial: true,
 				});
 				monitor.on('add', (changedPath: string) =>
-					this.handleFSEvent({
-						filename: changedPath,
-						type: 'add',
-						serviceName,
-					}),
+					addEvent(this.updateEventsWaiting[serviceName], changedPath),
 				);
 				monitor.on('change', (changedPath: string) =>
-					this.handleFSEvent({
-						filename: changedPath,
-						type: 'change',
-						serviceName,
-					}),
+					addEvent(this.updateEventsWaiting[serviceName], changedPath),
 				);
 				monitor.on('unlink', (changedPath: string) =>
-					this.handleFSEvent({
-						filename: changedPath,
-						type: 'unlink',
-						serviceName,
-					}),
+					addEvent(this.deleteEventsWaiting[serviceName], changedPath),
 				);
+
 				this.containers[serviceName] = {
 					livepush,
 					context,
@@ -259,62 +260,46 @@ export class LivepushManager {
 		await this.awaitDeviceStateSettle();
 	}
 
-	private async handleFSEvent(fsEvent: ContextEvent): Promise<void> {
-		this.logger.logDebug(
-			`Got a filesystem event for service: ${
-				fsEvent.serviceName
-			}. Event: ${JSON.stringify(fsEvent)}`,
-		);
+	private async handleFSEvents(serviceName: string): Promise<void> {
+		const updated = this.updateEventsWaiting[serviceName];
+		const deleted = this.deleteEventsWaiting[serviceName];
+		this.updateEventsWaiting[serviceName] = [];
+		this.deleteEventsWaiting[serviceName] = [];
 
 		// First we detect if the file changed is the Dockerfile
 		// used to build the service
 		if (
-			_.some(
-				this.dockerfilePaths[fsEvent.serviceName],
-				name => name === fsEvent.filename,
+			_.some(this.dockerfilePaths[serviceName], name =>
+				_.some(updated, changed => name === changed),
 			)
 		) {
-			if (fsEvent.type !== 'change') {
-				throw new Error(`Deletion or addition of Dockerfiles not supported`);
-			}
-
 			this.logger.logLivepush(
-				`Detected Dockerfile change, performing full rebuild of service ${
-					fsEvent.serviceName
-				}`,
+				`Detected Dockerfile change, performing full rebuild of service ${serviceName}`,
 			);
-			await this.handleServiceRebuild(fsEvent.serviceName);
+			await this.handleServiceRebuild(serviceName);
 			return;
 		}
 
-		let updates: string[] = [];
-		let deletes: string[] = [];
-		switch (fsEvent.type) {
-			case 'add':
-			case 'change':
-				updates = [fsEvent.filename];
-				break;
-			case 'unlink':
-				deletes = [fsEvent.filename];
-				break;
-			default:
-				throw new Error(`Unknown event: ${fsEvent.type}`);
-		}
-
 		// Work out if we need to perform any changes on this container
-		const livepush = this.containers[fsEvent.serviceName].livepush;
+		const livepush = this.containers[serviceName].livepush;
 
 		this.logger.logLivepush(
-			`Detected changes for container ${fsEvent.serviceName}, updating...`,
+			`Detected changes for container ${serviceName}, updating...`,
 		);
 
 		try {
-			await livepush.performLivepush(updates, deletes);
+			await livepush.performLivepush(updated, deleted);
 		} catch (e) {
 			this.logger.logError(
 				`An error occured whilst trying to perform a livepush: `,
 			);
-			this.logger.logError(`   ${e.message}`);
+			if (e instanceof LivepushAlreadyRunningError) {
+				this.logger.logError('   Livepush already running');
+			} else if (e instanceof ContainerNotRunningError) {
+				this.logger.logError('   Livepush container not running');
+			} else {
+				this.logger.logError(`   ${e.message}`);
+			}
 			this.logger.logDebug(e.stack);
 		}
 	}
@@ -428,6 +413,14 @@ export class LivepushManager {
 				return [];
 		}
 	}
+
+	// For each service, get a debounced function
+	private getDebouncedEventHandler = _.memoize((serviceName: string) => {
+		return _.debounce(
+			() => this.handleFSEvents(serviceName),
+			LIVEPUSH_DEBOUNCE_TIMEOUT,
+		);
+	});
 }
 
 export default LivepushManager;
