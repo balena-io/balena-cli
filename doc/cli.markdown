@@ -1118,7 +1118,7 @@ Use this command to prebuild the OS config once and skip the interactive part of
 Example:
 
 	$ balena os build-config ../path/rpi3.img raspberrypi3 --output rpi3-config.json
-	$ balena os configure ../path/rpi3.img 7cf02a6 --config "$(cat rpi3-config.json)"
+	$ balena os configure ../path/rpi3.img --device 7cf02a6 --config rpi3-config.json
 
 ### Options
 
