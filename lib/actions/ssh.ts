@@ -249,6 +249,7 @@ export const ssh: CommandDefinition<
 > = {
 	signature: 'ssh <applicationOrDevice> [serviceName]',
 	description: 'SSH into the host or application container of a device',
+	primary: true,
 	help: stripIndent`
 		This command can be used to start a shell on a local or remote device.
 

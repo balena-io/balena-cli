@@ -33,15 +33,15 @@ dockerVersionProperties = [
 ]
 
 module.exports =
-	signature: 'local scan'
+	signature: 'scan'
 	description: 'Scan for balenaOS devices in your local network'
 	help: '''
 
 		Examples:
 
-			$ balena local scan
-			$ balena local scan --timeout 120
-			$ balena local scan --verbose
+			$ balena scan
+			$ balena scan --timeout 120
+			$ balena scan --verbose
 	'''
 	options: [
 		signature: 'verbose'
@@ -62,9 +62,9 @@ module.exports =
 		prettyjson = require('prettyjson')
 		{ discover } = require('balena-sync')
 		{ SpinnerPromise } = require('resin-cli-visuals')
-		{ dockerPort, dockerTimeout } = require('./common')
-		dockerUtils = require('../../utils/docker')
-		{ exitWithExpectedError } = require('../../utils/patterns')
+		{ dockerPort, dockerTimeout } = require('./local/common')
+		dockerUtils = require('../utils/docker')
+		{ exitWithExpectedError } = require('../utils/patterns')
 
 		if options.timeout?
 			options.timeout *= 1000
