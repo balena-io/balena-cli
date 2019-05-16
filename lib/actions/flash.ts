@@ -35,7 +35,7 @@ async function getDrive(options: {
 		}
 		drive = d;
 	} else {
-		const { DriveList } = await import('../../utils/visuals/drive-list');
+		const { DriveList } = await import('../utils/visuals/drive-list');
 		const driveList = new DriveList(scanner);
 		drive = await driveList.run();
 	}
@@ -47,16 +47,16 @@ export const flash: CommandDefinition<
 	{ image: string },
 	{ drive: string; yes: boolean }
 > = {
-	signature: 'local flash <image>',
+	signature: 'flash <image>',
 	description: 'Flash an image to a drive',
 	help: stripIndent`
 		Use this command to flash a balenaOS image to a drive.
 
 		Examples:
 
-			$ balena local flash path/to/balenaos.img[.zip|.gz|.bz2|.xz]
-			$ balena local flash path/to/balenaos.img --drive /dev/disk2
-			$ balena local flash path/to/balenaos.img --drive /dev/disk2 --yes
+			$ balena flash path/to/balenaos.img[.zip|.gz|.bz2|.xz]
+			$ balena flash path/to/balenaos.img --drive /dev/disk2
+			$ balena flash path/to/balenaos.img --drive /dev/disk2 --yes
 	`,
 	options: [
 		{
