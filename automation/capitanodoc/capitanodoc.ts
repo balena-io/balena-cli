@@ -74,10 +74,6 @@ const capitanoDoc = {
 			files: ['build/actions/logs.js'],
 		},
 		{
-			title: 'Sync',
-			files: ['build/actions/sync.js'],
-		},
-		{
 			title: 'SSH',
 			files: ['build/actions/ssh.js', 'build/actions/tunnel.js'],
 		},
