@@ -356,6 +356,7 @@ async function assignDockerBuildOpts(
 			},
 			t: generateImageName(task.serviceName),
 			nocache: opts.nocache,
+			forcerm: true,
 		};
 		if (task.external) {
 			task.dockerOpts.authconfig = await getAuthConfigObj(
