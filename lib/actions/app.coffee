@@ -85,13 +85,24 @@ exports.list =
 		balena = require('balena-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
-		balena.models.application.getAll().then (applications) ->
+		balena.models.application.getAll
+			$select: [
+				'id'
+				'app_name'
+				'device_type'
+			]
+			$expand: owns__device: $select: 'is_online'
+		.then (applications) ->
+			applications.forEach (application) ->
+				application.device_count = application.owns__device.length
+				application.online_devices = application.owns__device.filter((d) -> d.is_online == true).length
+
 			console.log visuals.table.horizontal applications, [
 				'id'
 				'app_name'
 				'device_type'
 				'online_devices'
-				'devices_length'
+				'device_count'
 			]
 		.nodeify(done)
 
