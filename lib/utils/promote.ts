@@ -62,10 +62,68 @@ export async function join(
 	const config = await generateApplicationConfig(sdk, app, {
 		version: deviceOsVersion,
 	});
-	logger.logDebug(`Using config: ${JSON.stringify(config, null, 2)}`);
 
 	logger.logDebug('Configuring...');
-	await configure(deviceIp, config);
+	const vpnConfig = await getOpenVpnConfig(sdk);
+
+	const device = await getConfiguredDevice(deviceIp)
+		.catch(e => {
+			logger.logError(e);
+			return { uuid: '' };
+		})
+		.then(({ uuid }) => {
+			if (uuid != '') {
+				logger.logDebug(`Attempting to use existing UUID: ${uuid}`);
+				return sdk.models.device
+					.generateDeviceKey(uuid)
+					.then(k => {
+						logger.logDebug('Device key generated!');
+						return sdk.models.device.get(uuid, { $select: 'id' }).then(d => {
+							return {
+								uuid,
+								id: d.id,
+								api_key: k,
+							};
+						});
+					})
+					.catch(e => {
+						logger.logError(e);
+						// register this UUID to the app...
+						return sdk.models.device.register(app.id, uuid);
+					})
+					.catch(e => {
+						logger.logError(e);
+						// register with a blank UUID to get a new one...
+						return sdk.models.device.register(app.id, '');
+					})
+					.then(d => {
+						return {
+							id: d.id,
+							uuid: d.uuid,
+							apiKey: d.api_key,
+						};
+					});
+			} else {
+				logger.logDebug('Existing UUID not found, registering a new one...');
+				return sdk.models.device.register(app.id, '').then(d => {
+					return { id: d.id, uuid: d.uuid, apiKey: d.api_key };
+				});
+			}
+		});
+	logger.logDebug(`Device UUID: ${device.uuid}`);
+
+	const deviceConfig = config as any;
+	deviceConfig.uuid = device.uuid;
+	deviceConfig.deviceApiKey = device.apiKey;
+	deviceConfig.registered_at = Math.floor(Date.now() / 1000);
+	deviceConfig.deviceId = device.id;
+	delete deviceConfig['apiKey'];
+
+	logger.logDebug(`Using config: ${JSON.stringify(deviceConfig, null, 2)}`);
+
+	await preflight(deviceIp, config, vpnConfig).then(() =>
+		configure(deviceIp, deviceConfig),
+	);
 	logger.logDebug('All done.');
 
 	const platformUrl = await sdk.settings.get('balenaUrl');
@@ -106,8 +164,128 @@ async function execCommand(
 	});
 
 	spinner.start();
-	await exec(deviceIp, cmd, stream);
+	await exec(deviceIp, cmd, stream).catch(e => {
+		spinner.stop();
+		throw e;
+	});
 	spinner.stop();
+}
+
+async function preflight(
+	deviceIp: string,
+	config: any,
+	vpnConfig: { config: string; ca: string },
+) {
+	config = config as {
+		apiEndpoint: string;
+		apiKey: string;
+		balenaRootCA: string;
+	};
+
+	const tmpDir = '/tmp/balena-join';
+	return await execCommand(
+		deviceIp,
+		`'mkdir -p ${tmpDir}'`,
+		'Setting up temp dir...',
+	)
+		.then(() =>
+			execCommand(
+				deviceIp,
+				`'echo "$(base64 -d <<< ${
+					config.balenaRootCA
+				})" > ${tmpDir}/balenaRootCA-api.pem'`,
+				'Copying root CA certificate...',
+			),
+		)
+		.then(() =>
+			execCommand(
+				deviceIp,
+				`'curl --head --output /dev/null --silent --cacert ${tmpDir}/balenaRootCA-api.pem ${
+					config.apiEndpoint
+				}/ping'`,
+				'Checking API is accessible...',
+			),
+		)
+		.then(() => {
+			const b = Buffer.from(vpnConfig.ca);
+
+			return execCommand(
+				deviceIp,
+				`'echo "$(base64 -d <<< ${b.toString(
+					'base64',
+				)})" > ${tmpDir}/openvpn-ca.crt'`,
+				'Copying VPN root CA certificate...',
+			);
+		})
+		.then(() =>
+			execCommand(
+				deviceIp,
+				`'echo "${config.uuid}\r\n${
+					config.apiKey
+				}\r\n" > ${tmpDir}/openvpn-auth'`,
+				'Copying VPN credentials...',
+			),
+		)
+		.then(() => {
+			const b = Buffer.from(
+				[
+					vpnConfig.config
+						.replace('/var/volatile/vpn-auth', `${tmpDir}/openvpn-auth`)
+						.replace('/etc/openvpn/ca.crt', `${tmpDir}/openvpn-ca.crt`)
+						.replace('dev resin-vpn', 'dev resin-vpn-tmp'),
+				].join('\r\n'),
+			);
+
+			return execCommand(
+				deviceIp,
+				`'echo "$(base64 -d <<< ${b.toString(
+					'base64',
+				)})" > ${tmpDir}/openvpn.conf'`,
+				'Copying VPN configuration...',
+			);
+		})
+		.then(() =>
+			execCommand(
+				deviceIp,
+				`'nohup openvpn --config ${tmpDir}/openvpn.conf --writepid ${tmpDir}/openvpn.pid >${tmpDir}/openvpn.log 2>&1 |tee &'`,
+				'Running OpenVPN...',
+			),
+		)
+		.then(() =>
+			execCommand(
+				deviceIp,
+				`'[[ "$(route | grep resin-vpn | awk \'{ print $1 }\')" != "" ]])'`,
+				'Testing OpenVPN...',
+			),
+		)
+		.catch(() => {})
+		.then(() =>
+			execCommand(
+				deviceIp,
+				`'kill -15 $(cat ${tmpDir}/openvpn.pid) || true'`,
+				'Stopping OpenVPN...',
+			).then(() => execCommand(deviceIp, `rm -rf ${tmpDir}`, 'Cleaning up...')),
+		);
+}
+
+async function getOpenVpnConfig(balena: BalenaSdk.BalenaSDK) {
+	const settings = await balena.settings.getAll();
+
+	return await balena.request
+		.send({
+			baseUrl: settings.apiUrl,
+			url: '/os/v1/config',
+		})
+		.then(res => {
+			const config = res.body as {
+				services: { openvpn: { config: string; ca: string } };
+			};
+
+			return {
+				config: config.services.openvpn.config,
+				ca: config.services.openvpn.ca,
+			};
+		});
 }
 
 async function configure(deviceIp: string, config: any): Promise<void> {
@@ -117,7 +295,37 @@ async function configure(deviceIp: string, config: any): Promise<void> {
 	const json = JSON.stringify(config);
 	const b64 = Buffer.from(json).toString('base64');
 	const str = `"$(base64 -d <<< ${b64})"`;
-	await execCommand(deviceIp, `os-config join '${str}'`, 'Configuring...');
+	await execCommand(
+		deviceIp,
+		`'nohup os-config join ${str} >/var/log/os-config 2>&1 |tee &'`,
+		'Configuring...',
+	);
+}
+
+async function getConfiguredDevice(deviceIp: string) {
+	// Passing the JSON is slightly tricky due to the many layers of indirection
+	// so we just base64-encode it here and decode it at the other end, when invoking
+	// os-config.
+	const configJson = await execBuffered(
+		deviceIp,
+		'\'cat /mnt/boot/config.json || echo "{}"\'',
+	);
+
+	const config = JSON.parse(configJson) as { uuid?: string; apiKey?: string };
+
+	if (config.uuid == undefined) {
+		throw new Error('Existing UUID is not defined.');
+	}
+
+	if (!(config.uuid.length === 32 || config.uuid.length === 62)) {
+		throw new Error(
+			`Existing UUID is not either 32 or 62 chars in length: ${config.uuid} (${
+				config.uuid.length
+			}).`,
+		);
+	}
+
+	return config;
 }
 
 async function deconfigure(deviceIp: string): Promise<void> {
