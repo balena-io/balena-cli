@@ -82,6 +82,7 @@ exports.list =
 	permission: 'user'
 	primary: true
 	action: (params, options, done) ->
+		_ = require('lodash')
 		balena = require('balena-sdk').fromSharedOptions()
 		visuals = require('resin-cli-visuals')
 
@@ -94,8 +95,8 @@ exports.list =
 			$expand: owns__device: $select: 'is_online'
 		.then (applications) ->
 			applications.forEach (application) ->
-				application.device_count = application.owns__device.length
-				application.online_devices = application.owns__device.filter((d) -> d.is_online == true).length
+				application.device_count = _.size(application.owns__device)
+				application.online_devices = _.filter(application.owns__device, (d) -> d.is_online == true).length
 
 			console.log visuals.table.horizontal applications, [
 				'id'
