@@ -16,9 +16,10 @@ limitations under the License.
 
 dockerUtils = require('../utils/docker')
 
-LATEST = 'latest'
-
 allDeviceTypes = undefined
+
+isCurrent = (commit) ->
+	return commit == 'latest' or commit == 'current'
 
 getDeviceTypes = ->
 	Bluebird = require('bluebird')
@@ -88,14 +89,14 @@ selectApplicationCommit = (releases) ->
 
 	if releases.length == 0
 		exitWithExpectedError('This application has no successful releases.')
-	DEFAULT_CHOICE = { 'name': LATEST, 'value': LATEST }
+	DEFAULT_CHOICE = { 'name': 'current', 'value': 'current' }
 	choices = [ DEFAULT_CHOICE ].concat releases.map (release) ->
 		name: "#{release.end_timestamp} - #{release.commit}"
 		value: release.commit
 	return form.ask
 		message: 'Select a release'
 		type: 'list'
-		default: LATEST
+		default: 'current'
 		choices: choices
 
 offerToDisableAutomaticUpdates = (application, commit, pinDevice) ->
@@ -103,13 +104,13 @@ offerToDisableAutomaticUpdates = (application, commit, pinDevice) ->
 	balena = require('balena-sdk').fromSharedOptions()
 	form = require('resin-cli-form')
 
-	if commit == LATEST or not application.should_track_latest_release or pinDevice
+	if isCurrent(commit) or not application.should_track_latest_release or pinDevice
 		return Promise.resolve()
 	message = '''
 
-		This application is set to automatically update all devices to the latest available version.
+		This application is set to automatically update all devices to the current version.
 		This might be unexpected behaviour: with this enabled, the preloaded device will still
-		download and install the latest release once it is online.
+		download and install the current release once it is online.
 
 		Do you want to disable automatic updates for this application?
 
@@ -159,8 +160,9 @@ module.exports =
 			signature: 'commit'
 			parameter: 'hash'
 			description: '''
-				the commit hash for a specific application release to preload, use "latest" to specify the latest release
-				(ignored if no appId is given)
+				The commit hash for a specific application release to preload, use "current" to specify the current
+				release (ignored if no appId is given). The current release is usually also the latest, but can be
+				manually pinned using the CLI to set the commit field on the application.
 			'''
 			alias: 'c'
 		}
@@ -275,9 +277,9 @@ module.exports =
 					# Use the commit given as --commit or show an interactive commit selection menu
 					Promise.try ->
 						if options.commit
-							if options.commit == LATEST and preloader.application.commit
-								# handle `--commit latest`
-								return LATEST
+							if isCurrent(options.commit) and preloader.application.commit
+								# handle `--commit current` (and its `--commit latest` synonym)
+								return 'latest'
 							release = _.find preloader.application.owns__release, (release) ->
 								release.commit.startsWith(options.commit)
 							if not release
@@ -285,12 +287,12 @@ module.exports =
 							return release.commit
 						selectApplicationCommit(preloader.application.owns__release)
 					.then (commit) ->
-						if commit == LATEST
+						if isCurrent(commit)
 							preloader.commit = preloader.application.commit
 						else
 							preloader.commit = commit
 
-						# Propose to disable automatic app updates if the commit is not the latest
+						# Propose to disable automatic app updates if the commit is not the current release
 						offerToDisableAutomaticUpdates(preloader.application, commit, options.pinDevice)
 				.then ->
 					# All options are ready: preload the image.
