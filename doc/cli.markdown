@@ -1392,7 +1392,7 @@ id of the application to preload
 
 The commit hash for a specific application release to preload, use "current" to specify the current
 release (ignored if no appId is given). The current release is usually also the latest, but can be
-manually pinned using the CLI to set the commit field on the application.
+manually pinned using https://github.com/balena-io-projects/staged-releases .
 
 #### --splash-image, -s &#60;splashImage.png&#62;
 
@@ -1404,7 +1404,7 @@ Disables check for matching architecture in image and application
 
 #### --pin-device-to-release, -p
 
-Pin the preloaded device to the preloaded release on provision
+Pin the preloaded device (not application) to the preloaded release on provision
 
 #### --docker, -P &#60;docker&#62;
 

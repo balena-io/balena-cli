@@ -162,7 +162,7 @@ module.exports =
 			description: '''
 				The commit hash for a specific application release to preload, use "current" to specify the current
 				release (ignored if no appId is given). The current release is usually also the latest, but can be
-				manually pinned using the CLI to set the commit field on the application.
+				manually pinned using https://github.com/balena-io-projects/staged-releases .
 			'''
 			alias: 'c'
 		}
@@ -180,7 +180,7 @@ module.exports =
 		{
 			signature: 'pin-device-to-release'
 			boolean: true
-			description: 'Pin the preloaded device to the preloaded release on provision'
+			description: 'Pin the preloaded device (not application) to the preloaded release on provision'
 			alias: 'p'
 		}
 	]
@@ -213,6 +213,7 @@ module.exports =
 				console.log()
 				spinner.stop()
 
+		options.commit = if isCurrent(options.commit) then 'latest' else options.commit
 		options.image = params.image
 		options.appId = options.app
 		delete options.app
