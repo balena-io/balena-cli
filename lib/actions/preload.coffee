@@ -213,6 +213,7 @@ module.exports =
 				console.log()
 				spinner.stop()
 
+		options.commit = if isCurrent(options.commit) then 'latest' else options.commit
 		options.image = params.image
 		options.appId = options.app
 		delete options.app
