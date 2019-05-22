@@ -8,6 +8,8 @@ script:
   - node --version
   - npm --version
   - npm run ci
+  - npm run build:installer
+  - npm run release
 notifications:
   email: false
 deploy:

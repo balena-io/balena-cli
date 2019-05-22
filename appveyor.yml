@@ -35,5 +35,6 @@ deploy_script:
   - node --version
   - npm --version
   - npm run build:installer
-  - IF "%APPVEYOR_REPO_TAG%" == "true" (npm run release)
-  - IF NOT "%APPVEYOR_REPO_TAG%" == "true" (echo 'Not tagged, skipping deploy')
+  # - IF "%APPVEYOR_REPO_TAG%" == "true" (npm run release)
+  # - IF NOT "%APPVEYOR_REPO_TAG%" == "true" (echo 'Not tagged, skipping deploy')
+  - npm run release
