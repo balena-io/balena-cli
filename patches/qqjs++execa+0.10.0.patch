@@ -1,0 +1,49 @@
+diff --git a/node_modules/qqjs/node_modules/execa/index.js b/node_modules/qqjs/node_modules/execa/index.js
+index 06f3969..6251e17 100644
+--- a/node_modules/qqjs/node_modules/execa/index.js
++++ b/node_modules/qqjs/node_modules/execa/index.js
+@@ -14,6 +14,21 @@ const stdio = require('./lib/stdio');
+ 
+ const TEN_MEGABYTES = 1000 * 1000 * 10;
+ 
++// OSTYPE is 'msys' for MSYS 1.0 and for MSYS2, or 'cygwin' for Cygwin
++// but note that OSTYPE is not "exported" by default, so run: export OSTYPE=$OSTYPE
++// MSYSTEM is 'MINGW32' for MSYS 1.0, 'MSYS' for MSYS2, and undefined for Cygwin
++const isCygwin = process.env.OSTYPE === 'cygwin'
++const isMinGW = process.env.MSYSTEM && process.env.MSYSTEM.startsWith('MINGW')
++const isMSYS2 = process.env.MSYSTEM && process.env.MSYSTEM.startsWith('MSYS')
++
++exports.isCygwin = isCygwin
++exports.isMinGW = isMinGW
++exports.isMSYS2 = isMSYS2
++
++console.log(`[patched execa] detected "${
++	isCygwin ? 'Cygwin' : isMinGW ? 'MinGW' : isMSYS2 ? 'MSYS2' : 'standard'
++}" environment (MSYSTEM="${process.env.MSYSTEM}")`)
++
+ function handleArgs(cmd, args, opts) {
+ 	let parsed;
+ 
+@@ -104,13 +119,21 @@ function handleShell(fn, cmd, opts) {
+ 
+ 	opts = Object.assign({}, opts);
+ 
+-	if (process.platform === 'win32') {
++	if (isMSYS2 || isMinGW || isCygwin) {
++		file = process.env.MSYSSHELLPATH ||
++			(isMSYS2 ? 'C:\\msys64\\usr\\bin\\bash.exe' :
++				(isMinGW ? 'C:\\MinGW\\msys\\1.0\\bin\\bash.exe' :
++					(isCygwin ? 'C:\\cygwin64\\bin\\bash.exe' : file)));
++	}
++	else if (process.platform === 'win32') {
+ 		opts.__winShell = true;
+ 		file = process.env.comspec || 'cmd.exe';
+ 		args = ['/s', '/c', `"${cmd}"`];
+ 		opts.windowsVerbatimArguments = true;
+ 	}
+ 
++	console.log(`[patched execa] handleShell file="${file}" args="[${args}]"`);
++
+ 	if (opts.shell) {
+ 		file = opts.shell;
+ 		delete opts.shell;
