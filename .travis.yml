@@ -3,15 +3,21 @@ os:
   - linux
   - osx
 node_js:
-  - "8"
-before_install:
-- npm -g install npm@4
-script: npm run ci
+  - "10"
+script:
+  - node --version
+  - npm --version
+  - npm run ci
 notifications:
   email: false
 deploy:
   - provider: script
-    script: npm run release
+    script:
+      - node --version
+      - npm --version
+      - npm run build:standalone
+      - npm run build:installer
+      - npm run release
     skip_cleanup: true
     on:
       tags: true
