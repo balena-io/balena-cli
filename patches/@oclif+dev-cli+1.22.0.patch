@@ -1,0 +1,146 @@
+diff --git a/node_modules/@oclif/dev-cli/lib/commands/pack/win.js b/node_modules/@oclif/dev-cli/lib/commands/pack/win.js
+index a9d4276..75c2f8b 100644
+--- a/node_modules/@oclif/dev-cli/lib/commands/pack/win.js
++++ b/node_modules/@oclif/dev-cli/lib/commands/pack/win.js
+@@ -3,11 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
+ const command_1 = require("@oclif/command");
+ const qq = require("qqjs");
+ const Tarballs = require("../../tarballs");
++const { fixPath } = require("../../util");
++
+ class PackWin extends command_1.Command {
+     async run() {
+         await this.checkForNSIS();
+         const { flags } = this.parse(PackWin);
+-        const buildConfig = await Tarballs.buildConfig(flags.root);
++        const targets = flags.targets !== undefined ? flags.targets.split(',') : undefined;
++        const buildConfig = await Tarballs.buildConfig(flags.root, {targets});
+         const { config } = buildConfig;
+         await Tarballs.build(buildConfig, { platform: 'win32', pack: false });
+         const arches = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch);
+@@ -17,7 +20,7 @@ class PackWin extends command_1.Command {
+             await qq.write([installerBase, `bin/${config.bin}`], scripts.sh(config));
+             await qq.write([installerBase, `${config.bin}.nsi`], scripts.nsis(config, arch));
+             await qq.mv(buildConfig.workspace({ platform: 'win32', arch }), [installerBase, 'client']);
+-            await qq.x(`makensis ${installerBase}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`);
++            await qq.x(`makensis ${fixPath(installerBase)}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`)
+             const o = buildConfig.dist(`win/${config.bin}-v${buildConfig.version}-${arch}.exe`);
+             await qq.mv([installerBase, 'installer.exe'], o);
+             this.log(`built ${o}`);
+@@ -40,6 +43,7 @@ class PackWin extends command_1.Command {
+ PackWin.description = 'create windows installer from oclif CLI';
+ PackWin.flags = {
+     root: command_1.flags.string({ char: 'r', description: 'path to oclif CLI root', default: '.', required: true }),
++    targets: command_1.flags.string({char: 't', description: 'comma-separated targets to pack (e.g.: win32-x86,win32-x64)'}),
+ };
+ exports.default = PackWin;
+ const scripts = {
+diff --git a/node_modules/@oclif/dev-cli/lib/tarballs/build.js b/node_modules/@oclif/dev-cli/lib/tarballs/build.js
+index 3e613e0..4ed799c 100644
+--- a/node_modules/@oclif/dev-cli/lib/tarballs/build.js
++++ b/node_modules/@oclif/dev-cli/lib/tarballs/build.js
+@@ -19,6 +19,9 @@ const pack = async (from, to) => {
+ async function build(c, options = {}) {
+     const { xz, config } = c;
+     const prevCwd = qq.cwd();
++
++    console.log(`[patched @oclif/dev-cli] cwd="${prevCwd}"\n c.root="${c.root}" c.workspace()="${c.workspace()}"`);
++
+     const packCLI = async () => {
+         const stdout = await qq.x.stdout('npm', ['pack', '--unsafe-perm'], { cwd: c.root });
+         return path.join(c.root, stdout.split('\n').pop());
+@@ -34,6 +37,21 @@ async function build(c, options = {}) {
+             await qq.mv(f, '.');
+         await qq.rm('package', tarball, 'bin/run.cmd');
+     };
++    const copyCLI = async() => {
++        const ws = c.workspace();
++        await qq.emptyDir(ws);
++        qq.cd(ws);
++        const sources = [
++            'bin', 'build', 'patches', 'typings', 'CHANGELOG.md', 'INSTALL.md',
++            'LICENSE', 'package.json', 'package-lock.json', 'README.md',
++            'TROUBLESHOOTING.md',
++        ];
++        for (const source of sources) {
++            console.log(`cp "${source}" -> "${ws}"`);
++            await qq.cp(path.join(c.root, source), ws);
++        }
++        await qq.rm('bin/run.cmd');
++    }
+     const updatePJSON = async () => {
+         qq.cd(c.workspace());
+         const pjson = await qq.readJSON('package.json');
+@@ -124,7 +142,8 @@ async function build(c, options = {}) {
+         await qq.writeJSON(c.dist(config.s3Key('manifest')), manifest);
+     };
+     log_1.log(`gathering workspace for ${config.bin} to ${c.workspace()}`);
+-    await extractCLI(await packCLI());
++    // await extractCLI(await packCLI());
++    await copyCLI();
+     await updatePJSON();
+     await addDependencies();
+     await bin_1.writeBinScripts({ config, baseWorkspace: c.workspace(), nodeVersion: c.nodeVersion });
+diff --git a/node_modules/@oclif/dev-cli/lib/tarballs/node.js b/node_modules/@oclif/dev-cli/lib/tarballs/node.js
+index 343eb00..7df1815 100644
+--- a/node_modules/@oclif/dev-cli/lib/tarballs/node.js
++++ b/node_modules/@oclif/dev-cli/lib/tarballs/node.js
+@@ -1,9 +1,11 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+ const errors_1 = require("@oclif/errors");
++const { isMSYS2 } = require('execa');
+ const path = require("path");
+ const qq = require("qqjs");
+ const log_1 = require("../log");
++const { fixPath } = require("../util");
+ async function checkFor7Zip() {
+     try {
+         await qq.x('7z', { stdio: [0, null, 2] });
+@@ -40,7 +42,8 @@ async function fetchNodeBinary({ nodeVersion, output, platform, arch, tmp }) {
+         const basedir = path.dirname(tarball);
+         await qq.mkdirp(basedir);
+         await qq.download(url, tarball);
+-        await qq.x(`grep ${path.basename(tarball)} ${shasums} | shasum -a 256 -c -`, { cwd: basedir });
++        const shaCmd = isMSYS2 ? 'sha256sum -c -' : 'shasum -a 256 -c -';
++        await qq.x(`grep ${path.basename(tarball)} ${fixPath(shasums)} | ${shaCmd}`, { cwd: basedir });
+     };
+     const extract = async () => {
+         log_1.log(`extracting ${nodeBase}`);
+@@ -50,7 +53,7 @@ async function fetchNodeBinary({ nodeVersion, output, platform, arch, tmp }) {
+         await qq.mkdirp(path.dirname(cache));
+         if (platform === 'win32') {
+             qq.pushd(nodeTmp);
+-            await qq.x(`7z x -bd -y ${tarball} > /dev/null`);
++            await qq.x(`7z x -bd -y ${fixPath(tarball)} > /dev/null`);
+             await qq.mv([nodeBase, 'node.exe'], cache);
+             qq.popd();
+         }
+diff --git a/node_modules/@oclif/dev-cli/lib/util.js b/node_modules/@oclif/dev-cli/lib/util.js
+index 17368b4..7766d88 100644
+--- a/node_modules/@oclif/dev-cli/lib/util.js
++++ b/node_modules/@oclif/dev-cli/lib/util.js
+@@ -1,5 +1,6 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
++const { isCygwin, isMinGW, isMSYS2 } = require('execa');
+ const _ = require("lodash");
+ function castArray(input) {
+     if (input === undefined)
+@@ -40,3 +41,16 @@ function sortBy(arr, fn) {
+ }
+ exports.sortBy = sortBy;
+ exports.template = (context) => (t) => _.template(t || '')(context);
++
++function fixPath(badPath) {
++    // 'c:\myfolder' -> '/c/myfolder' or '/cygdrive/c/myfolder'
++    let fixed = badPath.replace(/\\/g, '/');
++    if (isMSYS2 || isMinGW) {
++        fixed = fixed.replace(/^([a-zA-Z]):/, '/$1');
++    } else if (isCygwin) {
++        fixed = fixed.replace(/^([a-zA-Z]):/, '/cygdrive/$1');
++    }
++    console.log(`[patched @oclif/dev-cli] fixPath before="${badPath}" after="${fixed}"`);
++    return fixed;
++}
++exports.fixPath = fixPath;
