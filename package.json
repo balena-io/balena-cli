@@ -138,7 +138,7 @@
     "color-hash": "^1.0.3",
     "columnify": "^1.5.2",
     "common-tags": "^1.7.2",
-    "denymount": "~2.2.0",
+    "denymount": "^2.3.0",
     "docker-progress": "^4.0.0",
     "docker-qemu-transpose": "^0.5.3",
     "docker-toolbelt": "^3.3.7",
@@ -200,7 +200,6 @@
   },
   "optionalDependencies": {
     "net-keepalive": "^1.2.1",
-    "removedrive": "^1.0.0",
     "windosu": "^0.2.0"
   }
 }
