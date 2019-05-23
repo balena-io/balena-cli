@@ -1,29 +1,69 @@
 # balena CLI Installation Instructions
 
-The easiest and recommended way of installing the CLI on all platforms (Windows, Linux, macOS) is
-to use the [Standalone Installation](#standalone-installation) described below. Some specific CLI
-commands have a few extra installation steps: see section [Additional Dependencies](#additional-dependencies).
+There are 3 options to choose from to install balena's CLI:
+
+* [Executable Installer](#executable-installer): the easiest method, using the traditional
+  graphical desktop application installers for Windows and macOS (coming soon for Linux users too).
+* [Standalone Zip Package](#standalone-zip-package): these are plain zip files with the balena CLI
+  executable in them. Recommended for scripted installation in CI (continuous integration)
+  environments.
+* [NPM Installation](#npm-installation): recommended for developers who may be interested in
+  integrating the balena CLI in their existing Node.js projects or workflow.
+
+Some specific CLI commands have a few extra installation steps: see section [Additional
+Dependencies](#additional-dependencies).
 
 > **Windows users:** We now have a [YouTube video tutorial](https://www.youtube.com/watch?v=2LApclXFqsg)
 for installing and getting started with the balena CLI on Windows!
 
-## Standalone Installation
+## Executable Installer
 
-1. Download the latest zip file for your OS from https://github.com/balena-io/balena-cli/releases.  
-   (Note that "[Darwin](https://en.wikipedia.org/wiki/Darwin_(operating_system))" is the
-   appropriate zip file for macOS.)
-2. Extract the zip file contents to any folder you choose. The extracted contents will include a
-   `balena-cli` folder.
-3. Add the `balena-cli` folder to the system's `PATH` environment variable. See instructions for:
-   [Windows](https://www.computerhope.com/issues/ch000549.htm) |
-   [Linux](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix) |
-   [macOS](https://www.architectryan.com/2012/10/02/add-to-the-path-on-mac-os-x-mountain-lion/#.Uydjga1dXDg)
+_Please note: the executable installers are in **beta** status (recently introduced)._
 
-Check that the installation was successful by opening or re-opening a command terminal window
-(so that the PATH environment variable changes take effect), and running these commands:
+1. Download the latest installer from the [releases page](https://github.com/balena-io/balena-cli/releases).
+   Look for a file name that ends with "installer-BETA", for example:  
+   `balena-cli-v10.13.6-windows-x64-installer-BETA.exe`  
+   `balena-cli-v10.13.6-macOS-x64-installer-BETA.pkg`
+2. Double click to run. Your system may raise a pop-up warning that the installer is from an
+   "unknown publisher" or "unidentified developer". Check the following instructions for how
+   to get through the warnings:
+   [Windows](https://github.com/balena-io/balena-cli/issues/1250) or
+   [macOS](https://github.com/balena-io/balena-cli/issues/1251).
+   (We are looking at how to get the installers digitally signed to avoid the warnings.)
+
+After the installation completes, close and re-open any open command terminal windows so that the
+changes made by the installer to the PATH environment variable can take effect. Check that the
+installation was successful by running these commands:
 
 * `balena` - should print the balena CLI help
 * `balena version` - should print the installed CLI version
+
+> Note: If you had previously installed the CLI using a standalone zip package, it may be a good
+> idea to check your system's `PATH` environment variable for duplicate entries, as the terminal
+> will use the entry that comes first. Check the [Standalone Zip Package](#standalone-zip-package)
+> instructions for how to modify the PATH variable.
+
+By default, the CLI is installed to the following folders:
+
+OS  | Folders
+--- | ---
+Windows: | `C:\Program Files\balena-cli\`
+macOS:   | `/usr/local/lib/balena-cli/` <br> `/usr/local/bin/balena`
+
+## Standalone Zip Package
+
+1. Download the latest zip file from the [releases page](https://github.com/balena-io/balena-cli/releases).
+   Look for a file name that ends with the word "standalone", for example:  
+   `balena-cli-v10.13.6-linux-x64-standalone.zip`  
+   `balena-cli-v10.13.6-macOS-x64-standalone.zip`  
+   `balena-cli-v10.13.6-windows-x64-standalone.zip`
+2. Extract the zip file contents to any folder you choose. The extracted contents will include a
+   `balena-cli` folder.
+3. Add the `balena-cli` folder to the system's `PATH` environment variable.  
+   See instructions for:
+   [Linux](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix) |
+   [macOS](https://www.architectryan.com/2012/10/02/add-to-the-path-on-mac-os-x-mountain-lion/#.Uydjga1dXDg) |
+   [Windows](https://www.computerhope.com/issues/ch000549.htm)
 
 To update the CLI to a new version, download a new release zip file and replace the previous
 installation folder. To uninstall, simply delete the folder and edit the PATH environment variable
