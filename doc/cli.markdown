@@ -635,7 +635,7 @@ device
 
 ## env add &#60;key&#62; [value]
 
-Use this command to add an enviroment or config variable to an application
+Use this command to add an environment or config variable to an application
 or device.
 
 If value is omitted, the tool will attempt to use the variable's value
