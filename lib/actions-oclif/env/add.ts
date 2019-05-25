@@ -34,9 +34,9 @@ interface ArgsDef {
 
 export default class EnvAddCmd extends Command {
 	public static description = stripIndent`
-		Add an enviroment or config variable to an application or device.
+		Add an environment or config variable to an application or device.
 
-		Add an enviroment or config variable to an application or device, as selected
+		Add an environment or config variable to an application or device, as selected
 		by the respective command-line options.
 
 		If VALUE is omitted, the CLI will attempt to use the value of the environment
@@ -62,7 +62,7 @@ export default class EnvAddCmd extends Command {
 			name: 'value',
 			required: false,
 			description:
-				"variable value; if omitted, use value from CLI's enviroment",
+				"variable value; if omitted, use value from CLI's environment",
 		},
 	];
 
