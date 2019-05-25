@@ -171,7 +171,7 @@ export const rename: CommandDefinition<
 	description: 'rename an environment variable',
 	help: stripIndent`
 		Use this command to change the value of an application or device
-		enviroment variable.
+		environment variable.
 
 		The --device option selects a device instead of an application.
 
