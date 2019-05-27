@@ -337,24 +337,12 @@ export class LivepushManager {
 				return;
 			}
 
-			// TODO: The code below is quite roundabout, and instead
-			// we'd prefer just to call a supervisor endpoint which
-			// recreates a container, but that doesn't exist yet
-
-			// First we request the current target state
+			// Let's first delete the container from the device
+			const containerId = await this.api.getContainerId(serviceName);
+			await this.docker.getContainer(containerId).remove({ force: true });
 			const currentState = await this.api.getTargetState();
-
-			// Then we generate a target state without the service
-			// we rebuilt
-			const comp = _.cloneDeep(this.composition);
-			delete comp.services[serviceName];
-			const intermediateState = generateTargetState(currentState, comp, {});
-			await this.api.setTargetState(intermediateState);
-
-			// Now we wait for the device state to settle
-			await this.awaitDeviceStateSettle();
-
-			// And re-set the target state
+			// If we re-apply the target state, the supervisor
+			// should recreate the container
 			await this.api.setTargetState(
 				generateTargetState(currentState, this.composition, {}),
 			);
