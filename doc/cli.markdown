@@ -21,9 +21,10 @@ are supported. We are aware of users also having a good experience with alternat
 including:
 
 * Microsoft's [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about)
-  (a.k.a. Microsoft's "bash for Windows 10").
-* [Git for Windows](https://git-for-windows.github.io/).
-* [MinGW](http://www.mingw.org): install the `msys-rsync` and `msys-openssh` packages too.
+  (a.k.a. Microsoft's "bash for Windows 10")
+* [Git for Windows](https://git-for-windows.github.io/)
+* [MSYS](http://www.mingw.org/wiki/MSYS) and [MSYS2](https://www.msys2.org/) (install the
+  `msys-rsync` and `msys-openssh` packages too)
 
 On **macOS** and **Linux,** the standard terminal window is supported. _Optionally,_ `bash` command
 auto completion may be enabled by copying the
@@ -44,14 +45,14 @@ $ balena login
 
 HTTP(S) proxies can be configured through any of the following methods, in order of preference:
 
-* Set the \`BALENARC_PROXY\` environment variable in URL format (with protocol, host, port, and
+* Set the `BALENARC_PROXY` environment variable in URL format (with protocol, host, port, and
   optionally basic auth).
 * Alternatively, use the [balena config file](https://www.npmjs.com/package/balena-settings-client#documentation)
-  (project-specific or user-level) and set the \`proxy\` setting. It can be:
+  (project-specific or user-level) and set the `proxy` setting. It can be:
   * A string in URL format, or
   * An object in the [global-tunnel-ng options format](https://www.npmjs.com/package/global-tunnel-ng#options) (which allows more control).
-* Alternatively, set the conventional \`https_proxy\` / \`HTTPS_PROXY\` / \`http_proxy\` / \`HTTP_PROXY\`
-environment variable (in the same standard URL format).
+* Alternatively, set the conventional `https_proxy` / `HTTPS_PROXY` / `http_proxy` / `HTTP_PROXY`
+  environment variable (in the same standard URL format).
 
 To get a proxy to work with the `balena ssh` command, check the
 [installation instructions](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).
@@ -635,7 +636,7 @@ device
 
 ## env add NAME [VALUE]
 
-Add an enviroment or config variable to an application or device, as selected
+Add an environment or config variable to an application or device, as selected
 by the respective command-line options.
 
 If VALUE is omitted, the CLI will attempt to use the value of the environment
@@ -659,7 +660,7 @@ environment or config variable name
 
 #### VALUE
 
-variable value; if omitted, use value from CLI's enviroment
+variable value; if omitted, use value from CLI's environment
 
 ### Options
 
@@ -678,7 +679,7 @@ suppress warning messages
 ## env rename &#60;id&#62; &#60;value&#62;
 
 Use this command to change the value of an application or device
-enviroment variable.
+environment variable.
 
 The --device option selects a device instead of an application.
 
