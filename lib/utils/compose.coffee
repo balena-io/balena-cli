@@ -390,22 +390,10 @@ getPreviousRepos = (sdk, docker, logger, appID) ->
 authorizePush = (sdk, logger, tokenAuthEndpoint, registry, images, previousRepos) ->
 	_ = require('lodash')
 
-	# TODO: https://github.com/balena-io/balena-cli/issues/1070
-	maxRepos = 20
-
 	if not _.isArray(images)
 		images = [ images ]
 
-	if images.length > maxRepos
-		throw new Error (
-			"More than #{maxRepos} containers is currently not supported, see " +
-			'https://github.com/balena-io/balena-cli/issues/1070 for more information'
-		)
 	images.push previousRepos...
-	if images.length + previousRepos?.length > maxRepos
-		logger.logDebug("Truncating requested repositories to #{maxRepos} by limiting previously pushed repo access")
-		# at this point, we know we're only truncating access to previously pushed repos
-		images = images[0...maxRepos]
 	sdk.request.send
 		baseUrl: tokenAuthEndpoint
 		url: '/auth/v1/token'
