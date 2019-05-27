@@ -50,11 +50,68 @@ export interface DeviceDeployOptions {
 	detached: boolean;
 	service?: string;
 	system: boolean;
+	env: string[];
+}
+
+interface ParsedEnvironment {
+	[serviceName: string]: { [key: string]: string };
 }
 
 async function checkSource(source: string): Promise<boolean> {
 	const { fs } = await import('mz');
 	return (await fs.exists(source)) && (await fs.stat(source)).isDirectory();
+}
+
+async function environmentFromInput(
+	envs: string[],
+	serviceNames: string[],
+	logger: Logger,
+): Promise<ParsedEnvironment> {
+	const { exitWithExpectedError } = await import('../patterns');
+	// A normal environment variable regex, with an added part
+	// to find a colon followed servicename at the start
+	const varRegex = /^(?:([^\s:]+):)?([^\s]+?)=(.*)$/;
+
+	const ret: ParsedEnvironment = {};
+	// Propolulate the object with the servicenames, as it
+	// also means that we can do a fast lookup of whether a
+	// service exists
+	for (const service of serviceNames) {
+		ret[service] = {};
+	}
+
+	for (const env of envs) {
+		const maybeMatch = env.match(varRegex);
+		if (maybeMatch == null) {
+			exitWithExpectedError(`Unable to parse environment variable: ${env}`);
+		}
+		const match = maybeMatch!;
+		let service: string | undefined;
+		if (match[1]) {
+			// This is for a service, we check that it actually
+			// exists
+			if (!(match[1] in ret)) {
+				logger.logDebug(
+					`Warning: Cannot find a service with name ${
+						match[1]
+					}. Treating the string as part of the environment variable name.`,
+				);
+				match[2] = `${match[1]}:${match[2]}`;
+			} else {
+				service = match[1];
+			}
+		}
+
+		if (service != null) {
+			ret[service][match[2]] = match[3];
+		} else {
+			for (const serviceName of serviceNames) {
+				ret[serviceName][match[2]] = match[3];
+			}
+		}
+	}
+
+	return ret;
 }
 
 export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
@@ -136,6 +193,12 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		buildLogs,
 	);
 
+	const envs = await environmentFromInput(
+		opts.env,
+		Object.getOwnPropertyNames(project.composition.services),
+		globalLogger,
+	);
+
 	globalLogger.logDebug('Setting device state...');
 	// Now set the target state on the device
 
@@ -144,6 +207,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	const targetState = generateTargetState(
 		currentTargetState,
 		project.composition,
+		envs,
 	);
 	globalLogger.logDebug(`Sending target state: ${JSON.stringify(targetState)}`);
 
@@ -376,6 +440,7 @@ function generateImageName(serviceName: string): string {
 export function generateTargetState(
 	currentTargetState: any,
 	composition: Composition,
+	env: ParsedEnvironment,
 ): any {
 	const services: { [serviceId: string]: any } = {};
 	let idx = 1;
@@ -389,6 +454,8 @@ export function generateTargetState(
 			environment: {},
 			labels: {},
 		};
+
+		opts.environment = _.merge(opts.environment, env[name]);
 
 		services[idx] = _.merge(defaults, opts, {
 			imageId: idx,
