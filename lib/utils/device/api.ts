@@ -67,6 +67,7 @@ const deviceEndpoints = {
 	ping: 'ping',
 	version: 'v2/version',
 	status: 'v2/state/status',
+	containerId: 'v2/containerId',
 };
 
 export class DeviceAPI {
@@ -122,6 +123,29 @@ export class DeviceAPI {
 		).then(body => {
 			return body.info;
 		});
+	}
+
+	public async getContainerId(serviceName: string): Promise<string> {
+		const url = this.getUrlForAction('containerId');
+
+		const body = await DeviceAPI.promisifiedRequest(
+			request.get,
+			{
+				url,
+				json: true,
+				qs: {
+					serviceName,
+				},
+			},
+			this.logger,
+		);
+
+		if (body.status !== 'success') {
+			throw new ApiErrors.DeviceAPIError(
+				'Non-successful response from supervisor containerId endpoint',
+			);
+		}
+		return body.containerId;
 	}
 
 	public async ping(): Promise<void> {
