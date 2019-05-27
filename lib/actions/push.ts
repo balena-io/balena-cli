@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2018 Balena Ltd.
+Copyright 2016-2019 Balena Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -114,6 +114,7 @@ export const push: CommandDefinition<
 		detached: boolean;
 		service: string;
 		system: boolean;
+		env: string | string[];
 	}
 > = {
 	signature: 'push <applicationOrDevice>',
@@ -153,6 +154,7 @@ export const push: CommandDefinition<
 			$ balena push 10.0.0.1
 			$ balena push 10.0.0.1 --source <source directory>
 			$ balena push 10.0.0.1 --service my-service
+			$ balena push 10.0.0.1 --env MY_ENV_VAR=value --env my-service:SERVICE_VAR=value
 
 			$ balena push 23c73a1.local --system
 			$ balena push 23c73a1.local --system --service my-service
@@ -224,6 +226,19 @@ export const push: CommandDefinition<
 				Only valid when pushing to a local mode device.`,
 			boolean: true,
 		},
+		{
+			signature: 'env',
+			parameter: 'env',
+			description: stripIndent`
+				When performing a push to device, run the built containers with environment
+				variables provided with this argument. Environment variables can be applied
+				to individual services by adding their service name before the argument,
+				separated by a colon, e.g:
+					--env main:MY_ENV=value
+				Note that if the service name cannot be found in the composition, the entire
+				left hand side of the = character will be treated as the variable name.
+			`,
+		},
 	],
 	async action(params, options, done) {
 		const sdk = (await import('balena-sdk')).fromSharedOptions();
@@ -282,6 +297,11 @@ export const push: CommandDefinition<
 						'The --system flag is only valid when pushing to a local mode device.',
 					);
 				}
+				if (options.env) {
+					exitWithExpectedError(
+						'The --env flag is only valid when pushing to a local mode device.',
+					);
+				}
 
 				const app = appOrDevice;
 				await exitIfNotLoggedIn();
@@ -324,6 +344,10 @@ export const push: CommandDefinition<
 						detached: options.detached || false,
 						service: options.service,
 						system: options.system || false,
+						env:
+							typeof options.env === 'string'
+								? [options.env]
+								: options.env || [],
 					}),
 				)
 					.catch(BuildError, e => {

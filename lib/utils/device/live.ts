@@ -348,7 +348,7 @@ export class LivepushManager {
 			// we rebuilt
 			const comp = _.cloneDeep(this.composition);
 			delete comp.services[serviceName];
-			const intermediateState = generateTargetState(currentState, comp);
+			const intermediateState = generateTargetState(currentState, comp, {});
 			await this.api.setTargetState(intermediateState);
 
 			// Now we wait for the device state to settle
@@ -356,7 +356,7 @@ export class LivepushManager {
 
 			// And re-set the target state
 			await this.api.setTargetState(
-				generateTargetState(currentState, this.composition),
+				generateTargetState(currentState, this.composition, {}),
 			);
 
 			await this.awaitDeviceStateSettle();
