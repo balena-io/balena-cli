@@ -1490,6 +1490,7 @@ Examples:
 	$ balena push 10.0.0.1
 	$ balena push 10.0.0.1 --source <source directory>
 	$ balena push 10.0.0.1 --service my-service
+	$ balena push 10.0.0.1 --env MY_ENV_VAR=value --env my-service:SERVICE_VAR=value
 
 	$ balena push 23c73a1.local --system
 	$ balena push 23c73a1.local --system --service my-service
@@ -1540,6 +1541,16 @@ Only valid when pushing to a local mode device.
 
 Only show system logs. This can be used in combination with --service.
 Only valid when pushing to a local mode device.
+
+#### --env &#60;env&#62;
+
+When performing a push to device, run the built containers with environment
+variables provided with this argument. Environment variables can be applied
+to individual services by adding their service name before the argument,
+separated by a colon, e.g:
+	--env main:MY_ENV=value
+Note that if the service name cannot be found in the composition, the entire
+left hand side of the = character will be treated as the variable name.
 
 # Settings
 
