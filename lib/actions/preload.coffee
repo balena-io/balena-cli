@@ -183,6 +183,16 @@ module.exports =
 			description: 'Pin the preloaded device (not application) to the preloaded release on provision'
 			alias: 'p'
 		}
+		{
+			signature: 'add-certificate'
+			parameter: 'certificate.crt'
+			description: '''
+				Add the given certificate (in PEM format) to /etc/ssl/certs in the preloading container.
+				The file name must end with '.crt' and must not be already contained in the preloader's
+				/etc/ssl/certs folder.
+				Can be repeated to add multiple certificates.
+			'''
+		}
 	]
 	action: (params, options, done) ->
 		_ = require('lodash')
@@ -229,6 +239,16 @@ module.exports =
 		options.pinDevice = options['pin-device-to-release'] || false
 		delete options['pin-device-to-release']
 
+		if _.isArray(options['add-certificate'])
+			certificates = options['add-certificate']
+		else if options['add-certificate'] == undefined
+			certificates = []
+		else
+			certificates = [ options['add-certificate'] ]
+		for certificate in certificates
+			if not certificate.endsWith('.crt')
+				exitWithExpectedError('Certificate file name must end with ".crt"')
+
 		# Get a configured dockerode instance
 		dockerUtils.getDocker(options)
 		.then (docker) ->
@@ -243,6 +263,7 @@ module.exports =
 				options.proxy
 				options.dontCheckArch
 				options.pinDevice
+				certificates
 			)
 
 			gotSignal = false
