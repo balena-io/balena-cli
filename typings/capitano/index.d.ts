@@ -36,11 +36,11 @@ declare module 'capitano' {
 		signature: string;
 		description: string;
 		help: string;
-		options?: OptionDefinition[];
+		options?: Partial<OptionDefinition[]>;
 		permission?: 'user';
 		root?: boolean;
 		primary?: boolean;
-		action(params: P, options: O, done: () => void): void;
+		action(params: P, options: Partial<O>, done: () => void): void;
 	}
 
 	export interface Command {

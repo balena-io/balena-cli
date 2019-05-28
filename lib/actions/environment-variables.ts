@@ -138,7 +138,7 @@ export const remove: CommandDefinition<
 
 		return patterns
 			.confirm(
-				options.yes,
+				options.yes || false,
 				'Are you sure you want to delete the environment variable?',
 			)
 			.then(function() {
