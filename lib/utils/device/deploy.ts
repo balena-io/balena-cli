@@ -48,7 +48,7 @@ export interface DeviceDeployOptions {
 	nocache: boolean;
 	live: boolean;
 	detached: boolean;
-	service?: string;
+	services?: string[];
 	system: boolean;
 	env: string[];
 }
@@ -236,7 +236,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 			const logStream = await api.getLogStream();
 			globalLogger.logInfo('Streaming device logs...');
 			promises.push(
-				displayDeviceLogs(logStream, globalLogger, opts.system, opts.service),
+				displayDeviceLogs(logStream, globalLogger, opts.system, opts.services),
 			);
 		} else {
 			globalLogger.logLivepush(
@@ -255,7 +255,12 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		// Now all we need to do is stream back the logs
 		const logStream = await api.getLogStream();
 		globalLogger.logInfo('Streaming device logs...');
-		await displayDeviceLogs(logStream, globalLogger, opts.system, opts.service);
+		await displayDeviceLogs(
+			logStream,
+			globalLogger,
+			opts.system,
+			opts.services,
+		);
 	}
 }
 

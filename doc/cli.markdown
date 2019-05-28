@@ -865,6 +865,7 @@ Examples:
 
 	$ balena logs 192.168.0.31
 	$ balena logs 192.168.0.31 --service my-service
+	$ balena logs 192.168.0.31 --service my-service-1 --service my-service-2
 
 	$ balena logs 23c73a1.local --system
 	$ balena logs 23c73a1.local --system --service my-service
@@ -877,7 +878,8 @@ continuously stream output
 
 #### --service, -s &#60;service&#62;
 
-Only show logs for a single service. This can be used in combination with --system
+Reject logs not originating from this service.
+This can be used in combination with --system or other --service flags.
 
 #### --system, -S
 
@@ -1437,7 +1439,8 @@ Don't tail application logs when pushing to a local mode device
 
 #### --service &#60;service&#62;
 
-Only show logs from a single service. This can be used in combination with --system.
+Reject logs not originating from this service.
+This can be used in combination with --system and other --service flags.
 Only valid when pushing to a local mode device.
 
 #### --system

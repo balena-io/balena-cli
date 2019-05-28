@@ -105,16 +105,16 @@ export const push: CommandDefinition<
 		applicationOrDevice_raw: string;
 	},
 	{
-		source: string;
-		emulated: boolean;
-		dockerfile: string; // DeviceDeployOptions.dockerfilePath (alternative Dockerfile)
-		nocache: boolean;
-		'registry-secrets': string;
-		live: boolean;
-		detached: boolean;
-		service: string;
-		system: boolean;
-		env: string | string[];
+		source?: string;
+		emulated?: boolean;
+		dockerfile?: string; // DeviceDeployOptions.dockerfilePath (alternative Dockerfile)
+		nocache?: boolean;
+		'registry-secrets'?: string;
+		live?: boolean;
+		detached?: boolean;
+		service?: string | string[];
+		system?: boolean;
+		env?: string | string[];
 	}
 > = {
 	signature: 'push <applicationOrDevice>',
@@ -215,7 +215,8 @@ export const push: CommandDefinition<
 		{
 			signature: 'service',
 			description: stripIndent`
-				Only show logs from a single service. This can be used in combination with --system.
+				Reject logs not originating from this service.
+				This can be used in combination with --system and other --service flags.
 				Only valid when pushing to a local mode device.`,
 			parameter: 'service',
 		},
@@ -243,6 +244,7 @@ export const push: CommandDefinition<
 	async action(params, options, done) {
 		const sdk = (await import('balena-sdk')).fromSharedOptions();
 		const Bluebird = await import('bluebird');
+		const isArray = await import('lodash/isArray');
 		const remote = await import('../utils/remote-build');
 		const deviceDeploy = await import('../utils/device/deploy');
 		const { exitIfNotLoggedIn, exitWithExpectedError } = await import(
@@ -312,8 +314,8 @@ export const push: CommandDefinition<
 					async (token, baseUrl, owner) => {
 						const opts = {
 							dockerfilePath,
-							emulated: options.emulated,
-							nocache: options.nocache,
+							emulated: options.emulated || false,
+							nocache: options.nocache || false,
 							registrySecrets,
 						};
 						const args = {
@@ -332,6 +334,12 @@ export const push: CommandDefinition<
 				break;
 			case BuildTarget.Device:
 				const device = appOrDevice;
+				const servicesToDisplay =
+					options.service != null
+						? isArray(options.service)
+							? options.service
+							: [options.service]
+						: undefined;
 				// TODO: Support passing a different port
 				await Bluebird.resolve(
 					deviceDeploy.deployToDevice({
@@ -342,7 +350,7 @@ export const push: CommandDefinition<
 						nocache: options.nocache || false,
 						live: options.live || false,
 						detached: options.detached || false,
-						service: options.service,
+						services: servicesToDisplay,
 						system: options.system || false,
 						env:
 							typeof options.env === 'string'
