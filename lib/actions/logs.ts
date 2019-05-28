@@ -91,7 +91,6 @@ export const logs: CommandDefinition<
 				'Only show system logs. This can be used in combination with --service.',
 		},
 	],
-	permission: 'user',
 	primary: true,
 	async action(params, options, done) {
 		normalizeUuidProp(params);
@@ -101,7 +100,9 @@ export const logs: CommandDefinition<
 			'../utils/device/logs'
 		);
 		const { validateIPAddress } = await import('../utils/validation');
-		const { exitWithExpectedError } = await import('../utils/patterns');
+		const { exitIfNotLoggedIn, exitWithExpectedError } = await import(
+			'../utils/patterns'
+		);
 		const Logger = await import('../utils/logger');
 
 		const logger = new Logger();
@@ -153,6 +154,7 @@ export const logs: CommandDefinition<
 				options.service,
 			);
 		} else {
+			exitIfNotLoggedIn();
 			if (options.tail) {
 				return balena.logs
 					.subscribe(params.uuidOrDevice, { count: 100 })
