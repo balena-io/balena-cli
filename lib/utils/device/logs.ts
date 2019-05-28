@@ -37,11 +37,11 @@ export function displayDeviceLogs(
 	logs: Readable,
 	logger: Logger,
 	system: boolean,
-	filterService?: string,
+	filterServices?: string[],
 ): Bluebird<void> {
 	return new Bluebird((resolve, reject) => {
 		logs.on('data', log => {
-			displayLogLine(log, logger, system, filterService);
+			displayLogLine(log, logger, system, filterServices);
 		});
 
 		logs.on('error', reject);
@@ -64,11 +64,11 @@ function displayLogLine(
 	log: string | Buffer,
 	logger: Logger,
 	system: boolean,
-	filterService?: string,
+	filterServices?: string[],
 ): void {
 	try {
 		const obj: Log = JSON.parse(log.toString());
-		displayLogObject(obj, logger, system, filterService);
+		displayLogObject(obj, logger, system, filterServices);
 	} catch (e) {
 		logger.logDebug(`Dropping device log due to failed parsing: ${e}`);
 	}
@@ -78,7 +78,7 @@ export function displayLogObject<T extends Log>(
 	obj: T,
 	logger: Logger,
 	system: boolean,
-	filterService?: string,
+	filterServices?: string[],
 ): void {
 	let toPrint: string;
 	if (obj.timestamp != null) {
@@ -88,8 +88,8 @@ export function displayLogObject<T extends Log>(
 	}
 
 	if (obj.serviceName != null) {
-		if (filterService) {
-			if (obj.serviceName !== filterService) {
+		if (filterServices) {
+			if (!_.includes(filterServices, obj.serviceName)) {
 				return;
 			}
 		} else if (system) {
@@ -99,7 +99,7 @@ export function displayLogObject<T extends Log>(
 		const colourFn = getServiceColourFn(obj.serviceName);
 
 		toPrint += ` ${colourFn(`[${obj.serviceName}]`)}`;
-	} else if (filterService != null && !system) {
+	} else if (filterServices != null && !system) {
 		// We have a system log here but we are filtering based
 		// on a service, so drop this too
 		return;
