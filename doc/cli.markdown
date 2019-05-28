@@ -1305,8 +1305,9 @@ id of the application to preload
 
 #### --commit, -c &#60;hash&#62;
 
-the commit hash for a specific application release to preload, use "latest" to specify the latest release
-(ignored if no appId is given)
+The commit hash for a specific application release to preload, use "current" to specify the current
+release (ignored if no appId is given). The current release is usually also the latest, but can be
+manually pinned using https://github.com/balena-io-projects/staged-releases .
 
 #### --splash-image, -s &#60;splashImage.png&#62;
 
