@@ -275,7 +275,6 @@ export const ssh: CommandDefinition<
 		installed in your shell environment. For more information (including Windows
 		support) please check:
 			https://github.com/balena-io/balena-cli/blob/master/INSTALL.md#additional-dependencies`,
-	permission: 'user',
 	options: [
 		{
 			signature: 'port',
@@ -304,6 +303,7 @@ export const ssh: CommandDefinition<
 		const hasbin = require('hasbin');
 		const { getSubShellCommand } = await import('../utils/helpers');
 		const { child_process } = await import('mz');
+		const { exitIfNotLoggedIn } = await import('../utils/patterns');
 
 		const { exitWithExpectedError, selectFromList } = await import(
 			'../utils/patterns'
@@ -366,6 +366,7 @@ export const ssh: CommandDefinition<
 
 		switch (paramChecks.target) {
 			case SSHTarget.APPLICATION:
+				exitIfNotLoggedIn();
 				// Here what we want to do is fetch all device which
 				// are part of this application, and online
 				try {
@@ -395,6 +396,7 @@ export const ssh: CommandDefinition<
 					throw e;
 				}
 			case SSHTarget.DEVICE:
+				exitIfNotLoggedIn();
 				// We want to do two things here; firstly, check
 				// that the device exists and is accessible, and
 				// also convert a short uuid to a long one if
