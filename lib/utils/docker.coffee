@@ -130,7 +130,8 @@ parseBuildArgs = (args) ->
 		args = [ args ]
 	buildArgs = {}
 	args.forEach (arg) ->
-		pair = /^([^\s]+?)=(.*)$/.exec(arg)
+		# note: [^] matches any character, including line breaks
+		pair = /^([^\s]+?)=([^]*)$/.exec(arg)
 		if pair?
 			buildArgs[pair[1]] = pair[2] ? ''
 		else
