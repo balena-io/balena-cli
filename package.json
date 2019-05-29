@@ -112,7 +112,7 @@
     "balena-config-json": "^2.0.0",
     "balena-device-init": "^5.0.0",
     "balena-image-manager": "^6.0.0",
-    "balena-preload": "^8.1.4",
+    "balena-preload": "^8.2.0",
     "balena-sdk": "^11.17.0",
     "balena-settings-client": "^4.0.0",
     "balena-sync": "^10.0.3",
