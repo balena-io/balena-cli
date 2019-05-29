@@ -26,7 +26,6 @@ module.exports =
 	logs: require('./logs')
 	local: require('./local')
 	scan: require('./scan')
-	flash: require('./flash').flash
 	notes: require('./notes')
 	help: require('./help')
 	os: require('./os')
