@@ -46,7 +46,7 @@ export interface DeviceDeployOptions {
 	dockerfilePath?: string;
 	registrySecrets: RegistrySecrets;
 	nocache: boolean;
-	live: boolean;
+	nolive: boolean;
 	detached: boolean;
 	services?: string[];
 	system: boolean;
@@ -149,10 +149,11 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		if (!semver.satisfies(version, '>=7.21.4')) {
 			exitWithExpectedError(versionError);
 		}
-		if (opts.live && !semver.satisfies(version, '>=9.7.0')) {
-			exitWithExpectedError(
-				new Error('Using livepush requires a supervisor >= v9.7.0'),
+		if (!opts.nolive && !semver.satisfies(version, '>=9.7.0')) {
+			globalLogger.logWarn(
+				`Using livepush requires a balena supervisor version >= 9.7.0. A live session will not be started.`,
 			);
+			opts.nolive = true;
 		}
 	} catch {
 		exitWithExpectedError(versionError);
@@ -180,7 +181,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	const deviceInfo = await api.getDeviceInformation();
 
 	let buildLogs: Dictionary<string> | undefined;
-	if (opts.live) {
+	if (!opts.nolive) {
 		buildLogs = {};
 	}
 	const buildTasks = await performBuilds(
@@ -216,7 +217,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	// Now that we've set the target state, the device will do it's thing
 	// so we can either just display the logs, or start a livepush session
 	// (whilst also display logs)
-	if (opts.live) {
+	if (!opts.nolive) {
 		const livepush = new LivepushManager({
 			api,
 			buildContext: opts.source,

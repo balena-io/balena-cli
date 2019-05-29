@@ -110,7 +110,7 @@ export const push: CommandDefinition<
 		dockerfile?: string; // DeviceDeployOptions.dockerfilePath (alternative Dockerfile)
 		nocache?: boolean;
 		'registry-secrets'?: string;
-		live?: boolean;
+		nolive?: boolean;
 		detached?: boolean;
 		service?: string | string[];
 		system?: boolean;
@@ -139,9 +139,12 @@ export const push: CommandDefinition<
 		showing only the system logs can be achieved with --system. Note that these
 		flags can be used together.
 
-		It is also possible to run a push to a local mode device in live mode.
-		This will watch for changes in the source directory and perform an
-		in-place build in the running containers [BETA].
+		When pushing to a local device a live session will be started.
+		The project source folder is watched for filesystem events, and changes
+		to files and folders are automatically synchronized to the running
+		containers. The synchronisation is only in one direction, from this machine to
+		the device, and changes made on the device itself may be overwritten.
+		This feature requires a device running supervisor version v9.7.0 or greater.
 
 		${registrySecretsHelp.split('\n').join('\n\t\t')}
 
@@ -155,6 +158,7 @@ export const push: CommandDefinition<
 			$ balena push 10.0.0.1 --source <source directory>
 			$ balena push 10.0.0.1 --service my-service
 			$ balena push 10.0.0.1 --env MY_ENV_VAR=value --env my-service:SERVICE_VAR=value
+			$ balena push 10.0.0.1 --nolive
 
 			$ balena push 23c73a1.local --system
 			$ balena push 23c73a1.local --system --service my-service
@@ -193,18 +197,12 @@ export const push: CommandDefinition<
 				Path to a local YAML or JSON file containing Docker registry passwords used to pull base images`,
 		},
 		{
-			signature: 'live',
-			alias: 'l',
+			signature: 'nolive',
 			boolean: true,
 			description: stripIndent`
-				Note this feature is in beta.
-
-				Start a live session with the containers pushed to a local mode device.
-				The project source folder is watched for filesystem events, and changes
-				to files and folders are automatically synchronized to the running
-				containers. The synchronisation is only in one direction, from this machine to
-				the device, and changes made on the device itself may be overwritten.
-				This feature requires a device running supervisor version v9.7.0 or greater.`,
+				Don't run a live session on this push. The filesystem will not be monitored, and changes
+				will not be synchronised to any running containers. Note that both this flag and --detached
+				and required to cause the process to end once the initial build has completed.`,
 		},
 		{
 			signature: 'detached',
@@ -279,9 +277,9 @@ export const push: CommandDefinition<
 		switch (buildTarget) {
 			case BuildTarget.Cloud:
 				// Ensure that the live argument has not been passed to a cloud build
-				if (options.live) {
+				if (options.nolive != null) {
 					exitWithExpectedError(
-						'The --live flag is only valid when pushing to a local mode device',
+						'The --nolive flag is only valid when pushing to a local mode device',
 					);
 				}
 				if (options.detached) {
@@ -348,7 +346,7 @@ export const push: CommandDefinition<
 						dockerfilePath,
 						registrySecrets,
 						nocache: options.nocache || false,
-						live: options.live || false,
+						nolive: options.nolive || false,
 						detached: options.detached || false,
 						services: servicesToDisplay,
 						system: options.system || false,
