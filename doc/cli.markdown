@@ -1368,9 +1368,12 @@ The logs from only a single service can be shown with the --service flag, and
 showing only the system logs can be achieved with --system. Note that these
 flags can be used together.
 
-It is also possible to run a push to a local mode device in live mode.
-This will watch for changes in the source directory and perform an
-in-place build in the running containers [BETA].
+When pushing to a local device a live session will be started.
+The project source folder is watched for filesystem events, and changes
+to files and folders are automatically synchronized to the running
+containers. The synchronisation is only in one direction, from this machine to
+the device, and changes made on the device itself may be overwritten.
+This feature requires a device running supervisor version v9.7.0 or greater.
 
 The --registry-secrets option specifies a JSON or YAML file containing private
 Docker registry usernames and passwords to be used when pulling base images.
@@ -1396,6 +1399,7 @@ Examples:
 	$ balena push 10.0.0.1 --source <source directory>
 	$ balena push 10.0.0.1 --service my-service
 	$ balena push 10.0.0.1 --env MY_ENV_VAR=value --env my-service:SERVICE_VAR=value
+	$ balena push 10.0.0.1 --nolive
 
 	$ balena push 23c73a1.local --system
 	$ balena push 23c73a1.local --system --service my-service
@@ -1422,16 +1426,11 @@ Don't use cache when building this project
 
 Path to a local YAML or JSON file containing Docker registry passwords used to pull base images
 
-#### --live, -l
+#### --nolive
 
-Note this feature is in beta.
-
-Start a live session with the containers pushed to a local mode device.
-The project source folder is watched for filesystem events, and changes
-to files and folders are automatically synchronized to the running
-containers. The synchronisation is only in one direction, from this machine to
-the device, and changes made on the device itself may be overwritten.
-This feature requires a device running supervisor version v9.7.0 or greater.
+Don't run a live session on this push. The filesystem will not be monitored, and changes
+will not be synchronised to any running containers. Note that both this flag and --detached
+and required to cause the process to end once the initial build has completed.
 
 #### --detached, -d
 
