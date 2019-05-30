@@ -1406,6 +1406,13 @@ Disables check for matching architecture in image and application
 
 Pin the preloaded device (not application) to the preloaded release on provision
 
+#### --add-certificate &#60;certificate.crt&#62;
+
+Add the given certificate (in PEM format) to /etc/ssl/certs in the preloading container.
+The file name must end with '.crt' and must not be already contained in the preloader's
+/etc/ssl/certs folder.
+Can be repeated to add multiple certificates.
+
 #### --docker, -P &#60;docker&#62;
 
 Path to a local docker socket (e.g. /var/run/docker.sock)
