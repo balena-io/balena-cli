@@ -14,6 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { stripIndent } from 'common-tags';
+
+import { exitWithExpectedError } from './utils/patterns';
 
 /**
  * Simple command-line pre-parsing to choose between oclif or Capitano.
@@ -30,12 +33,16 @@ function routeCliFramework(argv: string[]): void {
 	const cmdSlice = argv.slice(2);
 	let isOclif = false;
 
+	// Look for commands that have been deleted, to print a notice
+	checkDeletedCommand(cmdSlice);
+
 	if (cmdSlice.length > 1) {
 		// convert e.g. 'balena help env add' to 'balena env add --help'
 		if (cmdSlice[0] === 'help') {
 			cmdSlice.shift();
 			cmdSlice.push('--help');
 		}
+
 		// Look for commands that have been transitioned to oclif
 		isOclif = isOclifCommand(cmdSlice);
 		if (isOclif) {
@@ -55,6 +62,53 @@ function routeCliFramework(argv: string[]): void {
 		require('./app-oclif').run(argv);
 	} else {
 		require('./app-capitano');
+	}
+}
+
+/**
+ *
+ * @param argvSlice process.argv.slice(2)
+ */
+function checkDeletedCommand(argvSlice: string[]): void {
+	if (argvSlice[0] === 'help') {
+		argvSlice = argvSlice.slice(1);
+	}
+	function replaced(
+		oldCmd: string,
+		alternative: string,
+		version: string,
+		verb = 'replaced',
+	) {
+		exitWithExpectedError(stripIndent`
+			Note: the command "balena ${oldCmd}" was ${verb} in CLI version ${version}.
+			Please use "balena ${alternative}" instead.
+		`);
+	}
+	function removed(oldCmd: string, alternative: string, version: string) {
+		let msg = `Note: the command "balena ${oldCmd}" was removed in CLI version ${version}.`;
+		if (alternative) {
+			msg = [msg, alternative].join('\n');
+		}
+		exitWithExpectedError(msg);
+	}
+	const stopAlternative =
+		'Please use "balena ssh -s" to access the host OS, then use `balena-engine stop`.';
+	const cmds: { [cmd: string]: [(...args: any) => void, ...string[]] } = {
+		sync: [replaced, 'push', 'v11.0.0', 'removed'],
+		'local logs': [replaced, 'logs', 'v11.0.0'],
+		'local push': [replaced, 'push', 'v11.0.0'],
+		'local scan': [replaced, 'scan', 'v11.0.0'],
+		'local ssh': [replaced, 'ssh', 'v11.0.0'],
+		'local stop': [removed, stopAlternative, 'v11.0.0'],
+	};
+	let cmd: string | undefined;
+	if (argvSlice.length > 1) {
+		cmd = [argvSlice[0], argvSlice[1]].join(' ');
+	} else if (argvSlice.length > 0) {
+		cmd = argvSlice[0];
+	}
+	if (cmd && Object.getOwnPropertyNames(cmds).includes(cmd)) {
+		cmds[cmd][0](cmd, ...cmds[cmd].slice(1));
 	}
 }
 
