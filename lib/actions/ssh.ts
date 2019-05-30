@@ -384,7 +384,6 @@ export const ssh: CommandDefinition<
 					// A little bit hacky, but it means we can fall
 					// through to the next handling mechanism
 					params.applicationOrDevice = choice.uuid;
-					paramChecks.deviceChecked = true;
 				} catch (e) {
 					if (e instanceof BalenaApplicationNotFound) {
 						exitWithExpectedError(
