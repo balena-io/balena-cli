@@ -122,7 +122,7 @@ capitano.command(actions.ssh.ssh)
 
 # ---------- Local balenaOS Module ----------
 capitano.command(actions.local.configure)
-capitano.command(actions.flash)
+capitano.command(actions.local.flash)
 capitano.command(actions.scan)
 
 # ---------- Public utils ----------
