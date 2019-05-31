@@ -42,4 +42,4 @@ build-bin/
 build-zip/
 
 # Ignore fast-boot cache file
-/bin/.fast-boot.json
+**/.fast-boot.json
