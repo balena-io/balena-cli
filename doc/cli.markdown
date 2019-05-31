@@ -178,6 +178,7 @@ If you come across any problems or would like to get in touch:
 - Local
 
 	- [local configure &#60;target&#62;](#local-configure-target)
+	- [local flash &#60;image&#62;](#local-flash-image)
 
 - Deploy
 
@@ -1484,6 +1485,26 @@ Examples:
 
 	$ balena local configure /dev/sdc
 	$ balena local configure path/to/image.img
+
+## local flash &#60;image&#62;
+
+Use this command to flash a balenaOS image to a drive.
+
+Examples:
+
+	$ balena local flash path/to/balenaos.img[.zip|.gz|.bz2|.xz]
+	$ balena local flash path/to/balenaos.img --drive /dev/disk2
+	$ balena local flash path/to/balenaos.img --drive /dev/disk2 --yes
+
+### Options
+
+#### --yes, -y
+
+confirm non-interactively
+
+#### --drive, -d &#60;drive&#62;
+
+drive
 
 # Deploy
 
