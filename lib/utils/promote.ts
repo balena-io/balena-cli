@@ -376,7 +376,7 @@ async function generateApplicationConfig(
 	const opts =
 		manifest.options && manifest.options.filter(opt => opt.name !== 'network');
 	const values = {
-		...(await form.run(opts)),
+		...(opts ? await form.run(opts) : {}),
 		...options,
 	};
 
