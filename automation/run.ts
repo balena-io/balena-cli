@@ -21,7 +21,7 @@ import * as shellEscape from 'shell-escape';
 
 import {
 	buildOclifInstaller,
-	buildPkg,
+	buildStandaloneZip,
 	fixPathForMsys,
 	ROOT,
 } from './build-bin';
@@ -76,7 +76,7 @@ export async function run(args?: string[]) {
 	}
 	const commands: { [cmd: string]: () => void } = {
 		'build:installer': buildOclifInstaller,
-		'build:standalone': buildPkg,
+		'build:standalone': buildStandaloneZip,
 		release,
 	};
 	for (const arg of args) {
@@ -99,22 +99,30 @@ export async function run(args?: string[]) {
 	}
 
 	for (const arg of args) {
-		if (arg === 'build:installer' && process.platform === 'win32') {
-			// ensure running under MSYS2
-			if (!process.env.MSYSTEM) {
-				process.env.MSYS2_PATH_TYPE = 'inherit';
-				await runUnderMsys([
-					fixPathForMsys(process.argv[0]),
-					fixPathForMsys(process.argv[1]),
-					arg,
-				]);
-				continue;
+		try {
+			if (arg === 'build:installer' && process.platform === 'win32') {
+				// ensure running under MSYS2
+				if (!process.env.MSYSTEM) {
+					process.env.MSYS2_PATH_TYPE = 'inherit';
+					await runUnderMsys([
+						fixPathForMsys(process.argv[0]),
+						fixPathForMsys(process.argv[1]),
+						arg,
+					]);
+					continue;
+				}
+				if (process.env.MSYS2_PATH_TYPE !== 'inherit') {
+					throw new Error(
+						'the MSYS2_PATH_TYPE env var must be set to "inherit"',
+					);
+				}
 			}
-			if (process.env.MSYS2_PATH_TYPE !== 'inherit') {
-				throw new Error('the MSYS2_PATH_TYPE env var must be set to "inherit"');
-			}
+			const cmdFunc = commands[arg];
+			await cmdFunc();
+		} catch (err) {
+			console.log(`Error running command "${arg}": ${err}`);
+			process.exit(1);
 		}
-		await commands[arg]();
 	}
 }
 

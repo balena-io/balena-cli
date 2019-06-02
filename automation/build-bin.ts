@@ -16,6 +16,7 @@
  */
 
 import { run as oclifRun } from '@oclif/dev-cli';
+import * as archiver from 'archiver';
 import * as Bluebird from 'bluebird';
 import * as filehound from 'filehound';
 import * as fs from 'fs-extra';
@@ -24,6 +25,43 @@ import { exec as execPkg } from 'pkg';
 import * as rimraf from 'rimraf';
 
 export const ROOT = path.join(__dirname, '..');
+// Note: the following 'tslint disable' line was only required to
+// satisfy ts-node under Appveyor's MSYS2 on Windows -- oddly specific.
+// Maybe something to do with '/' vs '\' in paths in some tslint file.
+// tslint:disable-next-line:no-var-requires
+export const packageJSON = require(path.join(ROOT, 'package.json'));
+export const version = 'v' + packageJSON.version;
+const arch = process.arch;
+
+function dPath(...paths: string[]) {
+	return path.join(ROOT, 'dist', ...paths);
+}
+
+interface PathByPlatform {
+	[platform: string]: string;
+}
+
+const standaloneZips: PathByPlatform = {
+	linux: dPath(`balena-cli-${version}-linux-${arch}-standalone.zip`),
+	darwin: dPath(`balena-cli-${version}-macOS-${arch}-standalone.zip`),
+	win32: dPath(`balena-cli-${version}-windows-${arch}-standalone.zip`),
+};
+
+const oclifInstallers: PathByPlatform = {
+	darwin: dPath('macos', `balena-${version}.pkg`),
+	win32: dPath('win', `balena-${version}-${arch}.exe`),
+};
+
+const renamedOclifInstallers: PathByPlatform = {
+	darwin: dPath(`balena-cli-${version}-macOS-${arch}-installer-BETA.pkg`),
+	win32: dPath(`balena-cli-${version}-windows-${arch}-installer-BETA.exe`),
+};
+
+export const finalReleaseAssets: { [platform: string]: string[] } = {
+	win32: [standaloneZips['win32'], renamedOclifInstallers['win32']],
+	darwin: [standaloneZips['darwin'], renamedOclifInstallers['darwin']],
+	linux: [standaloneZips['linux']],
+};
 
 /**
  * Use the 'pkg' module to create a single large executable file with
@@ -34,16 +72,21 @@ export const ROOT = path.join(__dirname, '..');
  * because of a pkg limitation that does not allow binary executables
  * to be directly executed from inside another binary executable.)
  */
-export async function buildPkg() {
-	console.log('Building package...\n');
-
-	await execPkg([
+async function buildPkg() {
+	const args = [
 		'--target',
 		'node10',
 		'--output',
 		'build-bin/balena',
 		'package.json',
-	]);
+	];
+	console.log('=======================================================');
+	console.log(`execPkg ${args.join(' ')}`);
+	console.log(`cwd="${process.cwd()}" ROOT="${ROOT}"`);
+	console.log('=======================================================');
+
+	await execPkg(args);
+
 	const xpaths: Array<[string, string[]]> = [
 		// [platform, [path, to, file]]
 		['*', ['opn', 'xdg-open']],
@@ -78,13 +121,66 @@ export async function buildPkg() {
 }
 
 /**
+ * Create the zip file for the standalone 'pkg' bundle previously created
+ * by the buildPkg() function in 'build-bin.ts'.
+ */
+async function zipPkg() {
+	const outputFile = standaloneZips[process.platform];
+	if (!outputFile) {
+		throw new Error(
+			`Standalone installer unavailable for platform "${process.platform}"`,
+		);
+	}
+	await fs.mkdirp(path.dirname(outputFile));
+	await new Promise((resolve, reject) => {
+		console.log(`Zipping standalone package to "${outputFile}"...`);
+
+		const archive = archiver('zip', {
+			zlib: { level: 7 },
+		});
+		archive.directory(path.join(ROOT, 'build-bin'), 'balena-cli');
+
+		const outputStream = fs.createWriteStream(outputFile);
+
+		outputStream.on('close', resolve);
+		outputStream.on('error', reject);
+
+		archive.on('error', reject);
+		archive.on('warning', console.warn);
+
+		archive.pipe(outputStream);
+		archive.finalize();
+	});
+}
+
+export async function buildStandaloneZip() {
+	console.log(`Building standalone zip package for CLI ${version}`);
+	try {
+		await buildPkg();
+		await zipPkg();
+	} catch (error) {
+		console.log(`Error creating standalone zip package: ${error}`);
+		process.exit(1);
+	}
+	console.log(`Standalone zip package build completed`);
+}
+
+async function renameInstallerFiles() {
+	if (await fs.pathExists(oclifInstallers[process.platform])) {
+		await fs.rename(
+			oclifInstallers[process.platform],
+			renamedOclifInstallers[process.platform],
+		);
+	}
+}
+
+/**
  * Run the `oclif-dev pack:win` or `pack:macos` command (depending on the value
  * of process.platform) to generate the native installers (which end up under
  * the 'dist' folder). There are some harcoded options such as selecting only
  * 64-bit binaries under Windows.
  */
 export async function buildOclifInstaller() {
-	console.log(`buildOclifInstaller cwd="${process.cwd()}" ROOT="${ROOT}"`);
 	let packOS = '';
 	let packOpts = ['-r', ROOT];
 	if (process.platform === 'darwin') {
@@ -94,6 +190,7 @@ export async function buildOclifInstaller() {
 		packOpts = packOpts.concat('-t', 'win32-x64');
 	}
 	if (packOS) {
+		console.log(`Building oclif installer for CLI ${version}`);
 		const packCmd = `pack:${packOS}`;
 		const dirs = [path.join(ROOT, 'dist', packOS)];
 		if (packOS === 'win') {
@@ -104,9 +201,12 @@ export async function buildOclifInstaller() {
 			await Bluebird.fromCallback(cb => rimraf(dir, cb));
 		}
 		console.log('=======================================================');
-		console.log(`oclif-dev "${packCmd}" [${packOpts}]`);
+		console.log(`oclif-dev "${packCmd}" "${packOpts.join('" "')}"`);
+		console.log(`cwd="${process.cwd()}" ROOT="${ROOT}"`);
 		console.log('=======================================================');
-		oclifRun([packCmd].concat(...packOpts));
+		await oclifRun([packCmd].concat(...packOpts));
+		await renameInstallerFiles();
+		console.log(`oclif installer build completed`);
 	}
 }
 
