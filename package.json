@@ -16,7 +16,7 @@
     "lib/"
   ],
   "bin": {
-    "balena": "./bin/run"
+    "balena": "./bin/balena"
   },
   "pkg": {
     "scripts": [
