@@ -8,16 +8,13 @@ script:
   - node --version
   - npm --version
   - npm run ci
+  - npm run build:standalone
+  - npm run build:installer
 notifications:
   email: false
 deploy:
   - provider: script
-    script:
-      - node --version
-      - npm --version
-      - npm run build:standalone
-      - npm run build:installer
-      - npm run release
+    script: npm run release
     skip_cleanup: true
     on:
       tags: true
