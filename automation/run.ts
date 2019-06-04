@@ -89,6 +89,15 @@ export async function run(args?: string[]) {
 	// the current working dir becomes the MSYS2 homedir, so we change back.
 	process.chdir(ROOT);
 
+	if (process.platform === 'win32' && !process.env.BUILD_TMP) {
+		const randID = require('crypto')
+			.randomBytes(6)
+			.toString('base64')
+			.replace(/\+/g, '-')
+			.replace(/\//g, '_'); // base64url (RFC 4648)
+		process.env.BUILD_TMP = `C:\\tmp\\${randID}`;
+	}
+
 	for (const arg of args) {
 		if (arg === 'build:installer' && process.platform === 'win32') {
 			// ensure running under MSYS2
