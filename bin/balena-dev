@@ -12,8 +12,12 @@ process.env.UV_THREADPOOL_SIZE = '64';
 // Use fast-boot to cache require lookups, speeding up startup
 require('fast-boot2').start({
 	cacheFile: '.fast-boot.json'
-})
-process.env['TS_NODE_PROJECT'] = require('path').dirname(__dirname);
+});
 require('coffeescript/register');
-require('ts-node/register');
-require('../lib/app');
+// Note: before ts-node v6.0.0, 'transpile-only' (no type checking) was the
+// default option. We upgraded ts-node and found that adding 'transpile-only'
+// was necessary to avoid a mysterious 'null' error message. On the plus side,
+// it is supposed to run faster. We still benefit from type checking when
+// running 'npm run build'.
+require('ts-node/register/transpile-only');
+require('../lib/app').run();

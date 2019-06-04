@@ -102,8 +102,9 @@ exports.login	=
 			return patterns.askLoginType().then (loginType) ->
 
 				if loginType is 'register'
-					{ runCommand } = require('../utils/helpers')
-					return runCommand('signup')
+					signupUrl = 'https://dashboard.balena-cloud.com/signup'
+					require('opn')(signupUrl, { wait: false })
+					patterns.exitWithExpectedError("Please sign up at #{signupUrl}")
 
 				options[loginType] = true
 				return login(options)
@@ -138,47 +139,6 @@ exports.logout =
 	action: (params, options, done) ->
 		balena = require('balena-sdk').fromSharedOptions()
 		balena.auth.logout().nodeify(done)
-
-exports.signup =
-	signature: 'signup'
-	description: 'signup to balena'
-	help: '''
-		Use this command to signup for a balena account.
-
-		If signup is successful, you'll be logged in to your new user automatically.
-
-		Examples:
-
-			$ balena signup
-			Email: johndoe@acme.com
-			Password: ***********
-
-			$ balena whoami
-			johndoe
-	'''
-	action: (params, options, done) ->
-		balena = require('balena-sdk').fromSharedOptions()
-		form = require('resin-cli-form')
-		validation = require('../utils/validation')
-
-		balena.settings.get('balenaUrl').then (balenaUrl) ->
-			console.log("\nRegistering to #{balenaUrl}")
-
-			form.run [
-				message: 'Email:'
-				name: 'email'
-				type: 'input'
-				validate: validation.validateEmail
-			,
-				message: 'Password:'
-				name: 'password'
-				type: 'password',
-				validate: validation.validatePassword
-			]
-
-		.then(balena.auth.register)
-		.then(balena.auth.loginWithToken)
-		.nodeify(done)
 
 exports.whoami =
 	signature: 'whoami'

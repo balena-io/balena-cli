@@ -21,9 +21,10 @@ are supported. We are aware of users also having a good experience with alternat
 including:
 
 * Microsoft's [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about)
-  (a.k.a. Microsoft's "bash for Windows 10").
-* [Git for Windows](https://git-for-windows.github.io/).
-* [MinGW](http://www.mingw.org): install the `msys-rsync` and `msys-openssh` packages too.
+  (a.k.a. Microsoft's "bash for Windows 10")
+* [Git for Windows](https://git-for-windows.github.io/)
+* [MSYS](http://www.mingw.org/wiki/MSYS) and [MSYS2](https://www.msys2.org/) (install the
+  `msys-rsync` and `msys-openssh` packages too)
 
 On **macOS** and **Linux,** the standard terminal window is supported. _Optionally,_ `bash` command
 auto completion may be enabled by copying the
@@ -44,14 +45,14 @@ $ balena login
 
 HTTP(S) proxies can be configured through any of the following methods, in order of preference:
 
-* Set the \`BALENARC_PROXY\` environment variable in URL format (with protocol, host, port, and
+* Set the `BALENARC_PROXY` environment variable in URL format (with protocol, host, port, and
   optionally basic auth).
 * Alternatively, use the [balena config file](https://www.npmjs.com/package/balena-settings-client#documentation)
-  (project-specific or user-level) and set the \`proxy\` setting. It can be:
+  (project-specific or user-level) and set the `proxy` setting. It can be:
   * A string in URL format, or
   * An object in the [global-tunnel-ng options format](https://www.npmjs.com/package/global-tunnel-ng#options) (which allows more control).
-* Alternatively, set the conventional \`https_proxy\` / \`HTTPS_PROXY\` / \`http_proxy\` / \`HTTP_PROXY\`
-environment variable (in the same standard URL format).
+* Alternatively, set the conventional `https_proxy` / `HTTPS_PROXY` / `http_proxy` / `HTTP_PROXY`
+  environment variable (in the same standard URL format).
 
 To get a proxy to work with the `balena ssh` command, check the
 [installation instructions](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).
@@ -84,7 +85,6 @@ If you come across any problems or would like to get in touch:
 
 	- [login](#login)
 	- [logout](#logout)
-	- [signup](#signup)
 	- [whoami](#whoami)
 
 - Device
@@ -109,7 +109,7 @@ If you come across any problems or would like to get in touch:
 
 	- [envs](#envs)
 	- [env rm &#60;id&#62;](#env-rm-id)
-	- [env add &#60;key&#62; [value]](#env-add-key-value)
+	- [env add &#60;name&#62; [value]](#env-add-name-value)
 	- [env rename &#60;id&#62; &#60;value&#62;](#env-rename-id-value)
 
 - Tags
@@ -137,13 +137,9 @@ If you come across any problems or would like to get in touch:
 
 	- [logs &#60;uuidOrDevice&#62;](#logs-uuidordevice)
 
-- Sync
-
-	- [sync [uuid]](#sync-uuid)
-
 - SSH
 
-	- [ssh [uuid]](#ssh-uuid)
+	- [ssh &#60;applicationOrDevice&#62; [serviceName]](#ssh-applicationordevice-servicename)
 	- [tunnel &#60;uuid&#62;](#tunnel-uuid)
 
 - Notes
@@ -182,11 +178,6 @@ If you come across any problems or would like to get in touch:
 
 	- [local configure &#60;target&#62;](#local-configure-target)
 	- [local flash &#60;image&#62;](#local-flash-image)
-	- [local logs [deviceIp]](#local-logs-deviceip)
-	- [local scan](#local-scan)
-	- [local ssh [deviceIp]](#local-ssh-deviceip)
-	- [local push [deviceIp]](#local-push-deviceip)
-	- [local stop [deviceIp]](#local-stop-deviceip)
 
 - Deploy
 
@@ -337,21 +328,6 @@ Use this command to logout from your balena account.
 Examples:
 
 	$ balena logout
-
-## signup
-
-Use this command to signup for a balena account.
-
-If signup is successful, you'll be logged in to your new user automatically.
-
-Examples:
-
-	$ balena signup
-	Email: johndoe@acme.com
-	Password: ***********
-
-	$ balena whoami
-	johndoe
 
 ## whoami
 
@@ -633,43 +609,52 @@ confirm non interactively
 
 device
 
-## env add &#60;key&#62; [value]
+## env add NAME [VALUE]
 
-Use this command to add an enviroment or config variable to an application
-or device.
+Add an environment or config variable to an application or device, as selected
+by the respective command-line options.
 
-If value is omitted, the tool will attempt to use the variable's value
-as defined in your host machine.
+If VALUE is omitted, the CLI will attempt to use the value of the environment
+variable of same name in the CLI process' environment. In this case, a warning
+message will be printed. Use `--quiet` to suppress it.
 
-Use the `--device` option if you want to assign the environment variable
-to a specific device.
-
-If the value is grabbed from the environment, a warning message will be printed.
-Use `--quiet` to remove it.
-
-Service-specific variables are not currently supported. The following
-examples set variables that apply to all services in an app or device.
+Service-specific variables are not currently supported. The given command line
+examples variables that apply to all services in an app or device.
 
 Examples:
 
-	$ balena env add EDITOR vim --application MyApp
 	$ balena env add TERM --application MyApp
+	$ balena env add EDITOR vim --application MyApp
 	$ balena env add EDITOR vim --device 7cf02a6
+
+### Arguments
+
+#### NAME
+
+environment or config variable name
+
+#### VALUE
+
+variable value; if omitted, use value from CLI's environment
 
 ### Options
 
-#### --application, -a, --app &#60;application&#62;
+#### -a, --application APPLICATION
 
 application name
 
-#### --device, -d &#60;device&#62;
+#### -d, --device DEVICE
 
-device uuid
+device UUID
+
+#### -q, --quiet
+
+suppress warning messages
 
 ## env rename &#60;id&#62; &#60;value&#62;
 
 Use this command to change the value of an application or device
-enviroment variable.
+environment variable.
 
 The --device option selects a device instead of an application.
 
@@ -865,6 +850,7 @@ Examples:
 
 	$ balena logs 192.168.0.31
 	$ balena logs 192.168.0.31 --service my-service
+	$ balena logs 192.168.0.31 --service my-service-1 --service my-service-2
 
 	$ balena logs 23c73a1.local --system
 	$ balena logs 23c73a1.local --system --service my-service
@@ -877,140 +863,56 @@ continuously stream output
 
 #### --service, -s &#60;service&#62;
 
-Only show logs for a single service. This can be used in combination with --system
+Reject logs not originating from this service.
+This can be used in combination with --system or other --service flags.
 
 #### --system, -S
 
 Only show system logs. This can be used in combination with --service.
 
-# Sync
-
-## sync [uuid]
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-Deprecation notice: please note that `balena sync` is deprecated and will
-be removed in a future release of the CLI. We are working on an exciting
-replacement that will be released soon!  
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-Warning: 'balena sync' requires an openssh-compatible client and 'rsync' to
-be correctly installed in your shell environment. For more information (including
-Windows support) please check the README here: https://github.com/balena-io/balena-cli
-
-Use this command to sync your local changes to a certain device on the fly.
-
-After every 'balena sync' the updated settings will be saved in
-'<source>/.balena-sync.yml' and will be used in later invocations. You can
-also change any option by editing '.balena-sync.yml' directly.
-
-Here is an example '.balena-sync.yml' :
-
-	$ cat $PWD/.balena-sync.yml
-	uuid: 7cf02a6
-	destination: '/usr/src/app'
-	before: 'echo Hello'
-	after: 'echo Done'
-	ignore:
-		- .git
-		- node_modules/
-
-Command line options have precedence over the ones saved in '.balena-sync.yml'.
-
-If '.gitignore' is found in the source directory then all explicitly listed files will be
-excluded from the syncing process. You can choose to change this default behavior with the
-'--skip-gitignore' option.
-
-Examples:
-
-	$ balena sync 7cf02a6 --source . --destination /usr/src/app
-	$ balena sync 7cf02a6 -s /home/user/myBalenaProject -d /usr/src/app --before 'echo Hello' --after 'echo Done'
-	$ balena sync --ignore lib/
-	$ balena sync --verbose false
-	$ balena sync
-
-### Options
-
-#### --source, -s &#60;path&#62;
-
-local directory path to synchronize to device
-
-#### --destination, -d &#60;path&#62;
-
-destination path on device
-
-#### --ignore, -i &#60;paths&#62;
-
-comma delimited paths to ignore when syncing
-
-#### --skip-gitignore
-
-do not parse excluded/included files from .gitignore
-
-#### --skip-restart
-
-do not restart container after syncing
-
-#### --before, -b &#60;command&#62;
-
-execute a command before syncing
-
-#### --after, -a &#60;command&#62;
-
-execute a command after syncing
-
-#### --port, -t &#60;port&#62;
-
-ssh port
-
-#### --progress, -p
-
-show progress
-
-#### --verbose, -v
-
-increase verbosity
-
 # SSH
 
-## ssh [uuid]
+## ssh &#60;applicationOrDevice&#62; [serviceName]
+
+This command can be used to start a shell on a local or remote device.
+
+If a service name is not provided, a shell will be opened on the host OS.
+
+If an application name is provided, all online devices in the application
+will be presented, and the chosen device will then have a shell opened on
+in it's service container or host OS.
+
+For local devices, the ip address and .local domain name are supported.
+
+Examples:
+	balena ssh MyApp
+
+	balena ssh f49cefd
+	balena ssh f49cefd my-service
+	balena ssh f49cefd --port <port>
+
+	balena ssh 192.168.0.1 --verbose
+	balena ssh f49cefd.local my-service
 
 Warning: 'balena ssh' requires an openssh-compatible client to be correctly
 installed in your shell environment. For more information (including Windows
-support) please check the README here: https://github.com/balena-io/balena-cli
-
-Use this command to get a shell into the running application container of
-your device.
-
-Examples:
-
-	$ balena ssh MyApp
-	$ balena ssh 7cf02a6
-	$ balena ssh 7cf02a6 --port 8080
-	$ balena ssh 7cf02a6 -v
-	$ balena ssh 7cf02a6 -s
-	$ balena ssh 7cf02a6 --noninteractive
+support) please check:
+	https://github.com/balena-io/balena-cli/blob/master/INSTALL.md#additional-dependencies
 
 ### Options
 
 #### --port, -p &#60;port&#62;
 
-ssh gateway port
+SSH gateway port
 
 #### --verbose, -v
 
-increase verbosity
-
-#### --host, -s
-
-access host OS (for devices with balenaOS >= 2.0.0+rev1)
+Increase verbosity
 
 #### --noproxy
 
-don't use the proxy configuration for this connection. Only makes sense if you've configured proxy globally.
-
-#### --noninteractive
-
-run command non-interactively, do not automatically suggest devices to connect to if UUID not found
+Don't use the proxy configuration for this connection. This flag
+only make sense if you've configured a proxy globally.
 
 ## tunnel &#60;uuid&#62;
 
@@ -1404,7 +1306,7 @@ Disables check for matching architecture in image and application
 
 #### --pin-device-to-release, -p
 
-Pin the preloaded device (not application) to the preloaded release on provision
+Pin the preloaded device to the preloaded release on provision
 
 #### --add-certificate &#60;certificate.crt&#62;
 
@@ -1421,7 +1323,7 @@ Path to a local docker socket (e.g. /var/run/docker.sock)
 
 Docker daemon hostname or IP address (dev machine or balena device) 
 
-#### --dockerPort, -p &#60;dockerPort&#62;
+#### --dockerPort &#60;dockerPort&#62;
 
 Docker daemon TCP port number (hint: 2375 for balena devices)
 
@@ -1458,9 +1360,12 @@ The logs from only a single service can be shown with the --service flag, and
 showing only the system logs can be achieved with --system. Note that these
 flags can be used together.
 
-It is also possible to run a push to a local mode device in live mode.
-This will watch for changes in the source directory and perform an
-in-place build in the running containers [BETA].
+When pushing to a local device a live session will be started.
+The project source folder is watched for filesystem events, and changes
+to files and folders are automatically synchronized to the running
+containers. The synchronisation is only in one direction, from this machine to
+the device, and changes made on the device itself may be overwritten.
+This feature requires a device running supervisor version v9.7.0 or greater.
 
 The --registry-secrets option specifies a JSON or YAML file containing private
 Docker registry usernames and passwords to be used when pulling base images.
@@ -1486,6 +1391,7 @@ Examples:
 	$ balena push 10.0.0.1 --source <source directory>
 	$ balena push 10.0.0.1 --service my-service
 	$ balena push 10.0.0.1 --env MY_ENV_VAR=value --env my-service:SERVICE_VAR=value
+	$ balena push 10.0.0.1 --nolive
 
 	$ balena push 23c73a1.local --system
 	$ balena push 23c73a1.local --system --service my-service
@@ -1512,16 +1418,11 @@ Don't use cache when building this project
 
 Path to a local YAML or JSON file containing Docker registry passwords used to pull base images
 
-#### --live, -l
+#### --nolive
 
-Note this feature is in beta.
-
-Start a live session with the containers pushed to a local mode device.
-The project source folder is watched for filesystem events, and changes
-to files and folders are automatically synchronized to the running
-containers. The synchronisation is only in one direction, from this machine to
-the device, and changes made on the device itself may be overwritten.
-This feature requires a device running supervisor version v9.7.0 or greater.
+Don't run a live session on this push. The filesystem will not be monitored, and changes
+will not be synchronised to any running containers. Note that both this flag and --detached
+and required to cause the process to end once the initial build has completed.
 
 #### --detached, -d
 
@@ -1529,7 +1430,8 @@ Don't tail application logs when pushing to a local mode device
 
 #### --service &#60;service&#62;
 
-Only show logs from a single service. This can be used in combination with --system.
+Reject logs not originating from this service.
+This can be used in combination with --system and other --service flags.
 Only valid when pushing to a local mode device.
 
 #### --system
@@ -1587,212 +1489,6 @@ confirm non-interactively
 #### --drive, -d &#60;drive&#62;
 
 drive
-
-## local logs [deviceIp]
-
-
-Examples:
-
-	$ balena local logs
-	$ balena local logs -f
-	$ balena local logs 192.168.1.10
-	$ balena local logs 192.168.1.10 -f
-	$ balena local logs 192.168.1.10 -f --app-name myapp
-
-### Options
-
-#### --follow, -f
-
-follow log
-
-#### --app-name, -a &#60;name&#62;
-
-name of container to get logs from
-
-## local scan
-
-
-Examples:
-
-	$ balena local scan
-	$ balena local scan --timeout 120
-	$ balena local scan --verbose
-
-### Options
-
-#### --verbose, -v
-
-Display full info
-
-#### --timeout, -t &#60;timeout&#62;
-
-Scan timeout in seconds
-
-## local ssh [deviceIp]
-
-Warning: 'balena local ssh' requires an openssh-compatible client to be correctly
-installed in your shell environment. For more information (including Windows
-support) please check the README here: https://github.com/balena-io/balena-cli
-
-Use this command to get a shell into the running application container of
-your device.
-
-The '--host' option will get you a shell into the Host OS of the balenaOS device.
-No option will return a list of containers to enter or you can explicitly select
-one by passing its name to the --container option
-
-Examples:
-
-	$ balena local ssh
-	$ balena local ssh --host
-	$ balena local ssh --container chaotic_water
-	$ balena local ssh --container chaotic_water --port 22222
-	$ balena local ssh --verbose
-
-### Options
-
-#### --verbose, -v
-
-increase verbosity
-
-#### --host, -s
-
-get a shell into the host OS
-
-#### --container, -c &#60;container&#62;
-
-name of container to access
-
-#### --port, -p &#60;port&#62;
-
-ssh port number (default: 22222)
-
-## local push [deviceIp]
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-Deprecation notice: `balena local push` is deprecated and will be removed in a
-future release of the CLI. Please use `balena push <ipAddress>` instead.  
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-Use this command to push your local changes to a container on a LAN-accessible
-balenaOS device on the fly.
-
-This command requires an openssh-compatible 'ssh' client and 'rsync' to be
-available in the executable PATH of the shell environment. For more information
-(including Windows support) please check the README at:
-https://github.com/balena-io/balena-cli
-
-If `Dockerfile` or any file in the 'build-triggers' list is changed,
-a new container will be built and run on your device.
-If not, changes will simply be synced with `rsync` into the application container.
-
-After every 'balena local push' the updated settings will be saved in
-'<source>/.balena-sync.yml' and will be used in later invocations. You can
-also change any option by editing '.balena-sync.yml' directly.
-
-Here is an example '.balena-sync.yml' :
-
-	$ cat $PWD/.balena-sync.yml
-	local_balenaos:
-		app-name: local-app
-		build-triggers:
-			- Dockerfile: file-hash-abcdefabcdefabcdefabcdefabcdefabcdef
-			- package.json: file-hash-abcdefabcdefabcdefabcdefabcdefabcdef
-		environment:
-			- MY_VARIABLE=123
-
-
-Command line options have precedence over the ones saved in '.balena-sync.yml'.
-
-If '.gitignore' is found in the source directory then all explicitly listed files will be
-excluded when using rsync to update the container. You can choose to change this default behavior with the
-'--skip-gitignore' option.
-
-Examples:
-
-	$ balena local push
-	$ balena local push --app-name test-server --build-triggers package.json,requirements.txt
-	$ balena local push --force-build
-	$ balena local push --force-build --skip-logs
-	$ balena local push --ignore lib/
-	$ balena local push --verbose false
-	$ balena local push 192.168.2.10 --source . --destination /usr/src/app
-	$ balena local push 192.168.2.10 -s /home/user/balenaProject -d /usr/src/app --before 'echo Hello' --after 'echo Done'
-
-### Options
-
-#### --source, -s &#60;path&#62;
-
-root of project directory to push
-
-#### --destination, -d &#60;path&#62;
-
-destination path on device container
-
-#### --ignore, -i &#60;paths&#62;
-
-comma delimited paths to ignore when syncing with 'rsync'
-
-#### --skip-gitignore
-
-do not parse excluded/included files from .gitignore
-
-#### --before, -b &#60;command&#62;
-
-execute a command before pushing
-
-#### --after, -a &#60;command&#62;
-
-execute a command after pushing
-
-#### --progress, -p
-
-show progress
-
-#### --skip-logs
-
-do not stream logs after push
-
-#### --verbose, -v
-
-increase verbosity
-
-#### --app-name, -n &#60;name&#62;
-
-application name - may contain lowercase characters, digits and one or more dashes. It may not start or end with a dash.
-
-#### --build-triggers, -r &#60;files&#62;
-
-comma delimited file list that will trigger a container rebuild if changed
-
-#### --force-build, -f
-
-force a container build and run
-
-#### --env, -e &#60;env&#62;
-
-environment variable (e.g. --env 'ENV=value'). Multiple --env parameters are supported.
-
-## local stop [deviceIp]
-
-
-Examples:
-
-	$ balena local stop
-	$ balena local stop --app-name myapp
-	$ balena local stop --all
-	$ balena local stop 192.168.1.10
-	$ balena local stop 192.168.1.10 --app-name myapp
-
-### Options
-
-#### --all
-
-stop all containers
-
-#### --app-name, -a &#60;name&#62;
-
-name of container to stop
 
 # Deploy
 
@@ -2082,4 +1778,3 @@ Examples:
 
 Use this command to list your machine's drives usable for writing the OS image to.
 Skips the system drives.
-

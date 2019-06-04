@@ -38,9 +38,9 @@ export const logs: CommandDefinition<
 		uuidOrDevice: string;
 	},
 	{
-		tail: boolean;
-		service: string;
-		system: boolean;
+		tail?: boolean;
+		service?: [string] | string;
+		system?: boolean;
 	}
 > = {
 	signature: 'logs <uuidOrDevice>',
@@ -66,6 +66,7 @@ export const logs: CommandDefinition<
 
 			$ balena logs 192.168.0.31
 			$ balena logs 192.168.0.31 --service my-service
+			$ balena logs 192.168.0.31 --service my-service-1 --service my-service-2
 
 			$ balena logs 23c73a1.local --system
 			$ balena logs 23c73a1.local --system --service my-service`,
@@ -78,8 +79,9 @@ export const logs: CommandDefinition<
 		},
 		{
 			signature: 'service',
-			description:
-				'Only show logs for a single service. This can be used in combination with --system',
+			description: stripIndent`
+				Reject logs not originating from this service.
+				This can be used in combination with --system or other --service flags.`,
 			parameter: 'service',
 			alias: 's',
 		},
@@ -91,20 +93,29 @@ export const logs: CommandDefinition<
 				'Only show system logs. This can be used in combination with --service.',
 		},
 	],
-	permission: 'user',
 	primary: true,
 	async action(params, options, done) {
 		normalizeUuidProp(params);
 		const balena = (await import('balena-sdk')).fromSharedOptions();
+		const isArray = await import('lodash/isArray');
 		const { serviceIdToName } = await import('../utils/cloud');
 		const { displayDeviceLogs, displayLogObject } = await import(
 			'../utils/device/logs'
 		);
 		const { validateIPAddress } = await import('../utils/validation');
-		const { exitWithExpectedError } = await import('../utils/patterns');
+		const { exitIfNotLoggedIn, exitWithExpectedError } = await import(
+			'../utils/patterns'
+		);
 		const Logger = await import('../utils/logger');
 
 		const logger = new Logger();
+
+		const servicesToDisplay =
+			options.service != null
+				? isArray(options.service)
+					? options.service
+					: [options.service]
+				: undefined;
 
 		const displayCloudLog = async (line: CloudLog) => {
 			if (!line.isSystem) {
@@ -116,14 +127,14 @@ export const logs: CommandDefinition<
 					{ serviceName, ...line },
 					logger,
 					options.system || false,
-					options.service,
+					servicesToDisplay,
 				);
 			} else {
 				displayLogObject(
 					line,
 					logger,
 					options.system || false,
-					options.service,
+					servicesToDisplay,
 				);
 			}
 		};
@@ -150,9 +161,10 @@ export const logs: CommandDefinition<
 				logStream,
 				logger,
 				options.system || false,
-				options.service,
+				servicesToDisplay,
 			);
 		} else {
+			exitIfNotLoggedIn();
 			if (options.tail) {
 				return balena.logs
 					.subscribe(params.uuidOrDevice, { count: 100 })

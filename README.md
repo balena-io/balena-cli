@@ -29,9 +29,10 @@ are supported. We are aware of users also having a good experience with alternat
 including:
 
 * Microsoft's [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about)
-  (a.k.a. Microsoft's "bash for Windows 10").
-* [Git for Windows](https://git-for-windows.github.io/).
-* [MinGW](http://www.mingw.org): install the `msys-rsync` and `msys-openssh` packages too.
+  (a.k.a. Microsoft's "bash for Windows 10")
+* [Git for Windows](https://git-for-windows.github.io/)
+* [MSYS](http://www.mingw.org/wiki/MSYS) and [MSYS2](https://www.msys2.org/) (install the
+  `msys-rsync` and `msys-openssh` packages too)
 
 On **macOS** and **Linux,** the standard terminal window is supported. _Optionally,_ `bash` command
 auto completion may be enabled by copying the
@@ -52,14 +53,14 @@ $ balena login
 
 HTTP(S) proxies can be configured through any of the following methods, in order of preference:
 
-* Set the \`BALENARC_PROXY\` environment variable in URL format (with protocol, host, port, and
+* Set the `BALENARC_PROXY` environment variable in URL format (with protocol, host, port, and
   optionally basic auth).
 * Alternatively, use the [balena config file](https://www.npmjs.com/package/balena-settings-client#documentation)
-  (project-specific or user-level) and set the \`proxy\` setting. It can be:
+  (project-specific or user-level) and set the `proxy` setting. It can be:
   * A string in URL format, or
   * An object in the [global-tunnel-ng options format](https://www.npmjs.com/package/global-tunnel-ng#options) (which allows more control).
-* Alternatively, set the conventional \`https_proxy\` / \`HTTPS_PROXY\` / \`http_proxy\` / \`HTTP_PROXY\`
-environment variable (in the same standard URL format).
+* Alternatively, set the conventional `https_proxy` / `HTTPS_PROXY` / `http_proxy` / `HTTP_PROXY`
+  environment variable (in the same standard URL format).
 
 To get a proxy to work with the `balena ssh` command, check the
 [installation instructions](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).
@@ -78,30 +79,11 @@ If you come across any problems or would like to get in touch:
 * For bug reports or feature requests,
   [have a look at the GitHub issues or create a new one](https://github.com/balena-io/balena-cli/issues/).
 
-## Contributing
+## Contributing (including editing documentation files)
 
-The balena CLI is an open source project and your contribution is welcome!
-
-The CLI was originally written in [CoffeeScript](https://coffeescript.org), but we have decided to
-migrate to [TypeScript](https://www.typescriptlang.org/) in order to take advantage of static
-typing and formal programming interfaces. The migration is taking place gradually, as part of
-maintenance work or the implementation of new features.
-
-After cloning this repository and running `npm install` you can build the CLI using `npm run build`.
-You can then run the generated build using `./bin/balena`.
-In order to ease development:
-
-* you can build the CLI using the `npm run build:fast` variant which skips some of the build steps or
-* you can use `./bin/balena-dev` which live transpiles the sources of the CLI.
-
-In either case, before opening a PR be sure to also test your changes with `npm test`.
-
-## Note on editing this README document
-
-This file is edited/created by hand, but it is then automatically parsed to extract selected
-subsections for the [CLI's web documentation page](https://www.balena.io/docs/reference/cli/).
-The code that parses this file is in [`automation/capitanodoc/capitanodoc.ts`
-](https://github.com/balena-io/balena-cli/blob/master/automation/capitanodoc/capitanodoc.ts).
+Please have a look at the [CONTRIBUTING.md](./CONTRIBUTING.md) file for some guidance before
+submitting a pull request or updating documentation (because some files are automatically
+generated). Thank you for your help and interest!
 
 ## License
 

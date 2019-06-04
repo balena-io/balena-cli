@@ -48,7 +48,10 @@ const capitanoDoc = {
 		},
 		{
 			title: 'Environment Variables',
-			files: ['build/actions/environment-variables.js'],
+			files: [
+				'build/actions/environment-variables.js',
+				'build/actions-oclif/env/add.js',
+			],
 		},
 		{
 			title: 'Tags',
@@ -69,10 +72,6 @@ const capitanoDoc = {
 		{
 			title: 'Logs',
 			files: ['build/actions/logs.js'],
-		},
-		{
-			title: 'Sync',
-			files: ['build/actions/sync.js'],
 		},
 		{
 			title: 'SSH',

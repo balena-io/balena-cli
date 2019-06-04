@@ -1,16 +1,19 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"target": "es2015",
+		"target": "es2017",
 		"strict": true,
+		"strictPropertyInitialization": false,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"preserveConstEnums": true,
 		"removeComments": true,
-		"sourceMap": true
-	},
-	"include": [
-		"./**/*.ts",
-		"../typings/*.d.ts"
-	]
+		"resolveJsonModule": true,
+		"sourceMap": true,
+		"skipLibCheck": true,
+		"typeRoots" : [
+			"../node_modules/@types",
+			"../typings"
+		]
+	}
 }

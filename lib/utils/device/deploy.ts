@@ -46,9 +46,9 @@ export interface DeviceDeployOptions {
 	dockerfilePath?: string;
 	registrySecrets: RegistrySecrets;
 	nocache: boolean;
-	live: boolean;
+	nolive: boolean;
 	detached: boolean;
-	service?: string;
+	services?: string[];
 	system: boolean;
 	env: string[];
 }
@@ -149,10 +149,11 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		if (!semver.satisfies(version, '>=7.21.4')) {
 			exitWithExpectedError(versionError);
 		}
-		if (opts.live && !semver.satisfies(version, '>=9.7.0')) {
-			exitWithExpectedError(
-				new Error('Using livepush requires a supervisor >= v9.7.0'),
+		if (!opts.nolive && !semver.satisfies(version, '>=9.7.0')) {
+			globalLogger.logWarn(
+				`Using livepush requires a balena supervisor version >= 9.7.0. A live session will not be started.`,
 			);
+			opts.nolive = true;
 		}
 	} catch {
 		exitWithExpectedError(versionError);
@@ -180,7 +181,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	const deviceInfo = await api.getDeviceInformation();
 
 	let buildLogs: Dictionary<string> | undefined;
-	if (opts.live) {
+	if (!opts.nolive) {
 		buildLogs = {};
 	}
 	const buildTasks = await performBuilds(
@@ -216,7 +217,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	// Now that we've set the target state, the device will do it's thing
 	// so we can either just display the logs, or start a livepush session
 	// (whilst also display logs)
-	if (opts.live) {
+	if (!opts.nolive) {
 		const livepush = new LivepushManager({
 			api,
 			buildContext: opts.source,
@@ -228,14 +229,15 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 			deployOpts: opts,
 		});
 
-		const promises = [livepush.init()];
+		globalLogger.logLivepush('Watching for file changes...');
+		const promises: Array<Bluebird<void> | Promise<void>> = [livepush.init()];
 		// Only show logs if we're not detaching
 		if (!opts.detached) {
 			console.log();
 			const logStream = await api.getLogStream();
 			globalLogger.logInfo('Streaming device logs...');
 			promises.push(
-				displayDeviceLogs(logStream, globalLogger, opts.system, opts.service),
+				displayDeviceLogs(logStream, globalLogger, opts.system, opts.services),
 			);
 		} else {
 			globalLogger.logLivepush(
@@ -254,7 +256,12 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		// Now all we need to do is stream back the logs
 		const logStream = await api.getLogStream();
 		globalLogger.logInfo('Streaming device logs...');
-		await displayDeviceLogs(logStream, globalLogger, opts.system, opts.service);
+		await displayDeviceLogs(
+			logStream,
+			globalLogger,
+			opts.system,
+			opts.services,
+		);
 	}
 }
 
