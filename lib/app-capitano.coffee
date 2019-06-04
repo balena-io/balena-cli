@@ -52,7 +52,6 @@ capitano.command(actions.app.info)
 # ---------- Auth Module ----------
 capitano.command(actions.auth.login)
 capitano.command(actions.auth.logout)
-capitano.command(actions.auth.signup)
 capitano.command(actions.auth.whoami)
 
 # ---------- Device Module ----------
