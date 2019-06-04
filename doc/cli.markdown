@@ -85,7 +85,6 @@ If you come across any problems or would like to get in touch:
 
 	- [login](#login)
 	- [logout](#logout)
-	- [signup](#signup)
 	- [whoami](#whoami)
 
 - Device
@@ -329,21 +328,6 @@ Use this command to logout from your balena account.
 Examples:
 
 	$ balena logout
-
-## signup
-
-Use this command to signup for a balena account.
-
-If signup is successful, you'll be logged in to your new user automatically.
-
-Examples:
-
-	$ balena signup
-	Email: johndoe@acme.com
-	Password: ***********
-
-	$ balena whoami
-	johndoe
 
 ## whoami
 

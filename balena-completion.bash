@@ -7,7 +7,7 @@ _balena_complete()
   # Valid top-level completions
   commands="app apps build config deploy device devices env envs help key \
             keys local login logout logs note os preload quickstart settings \
-            signup ssh sync util version whoami"
+            scan ssh util version whoami"
   # Sub-completions
   app_cmds="create restart rm"
   config_cmds="generate inject read reconfigure write"
@@ -16,7 +16,7 @@ _balena_complete()
   device_public_url_cmds="disable enable status"
   env_cmds="add rename rm"
   key_cmds="add rm"
-  local_cmds="configure flash logs push scan ssh stop"
+  local_cmds="configure flash"
   os_cmds="build-config configure download initialize versions"
   util_cmds="available-drives"
 
