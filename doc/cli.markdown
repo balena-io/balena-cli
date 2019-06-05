@@ -137,8 +137,9 @@ If you come across any problems or would like to get in touch:
 
 	- [logs &#60;uuidOrDevice&#62;](#logs-uuidordevice)
 
-- SSH
+- Network
 
+	- [scan](#scan)
 	- [ssh &#60;applicationOrDevice&#62; [serviceName]](#ssh-applicationordevice-servicename)
 	- [tunnel &#60;uuid&#62;](#tunnel-uuid)
 
@@ -870,7 +871,26 @@ This can be used in combination with --system or other --service flags.
 
 Only show system logs. This can be used in combination with --service.
 
-# SSH
+# Network
+
+## scan
+
+
+Examples:
+
+	$ balena scan
+	$ balena scan --timeout 120
+	$ balena scan --verbose
+
+### Options
+
+#### --verbose, -v
+
+Display full info
+
+#### --timeout, -t &#60;timeout&#62;
+
+Scan timeout in seconds
 
 ## ssh &#60;applicationOrDevice&#62; [serviceName]
 
