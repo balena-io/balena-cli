@@ -10,7 +10,7 @@
   },
   "preferGlobal": true,
   "files": [
-    "bin/run",
+    "bin/",
     "build/",
     "doc/",
     "lib/"
@@ -105,7 +105,6 @@
     "gulp-mocha": "^2.0.0",
     "gulp-shell": "^0.5.2",
     "mochainon": "^2.0.0",
-    "patch-package": "^6.1.2",
     "pkg": "~4.3.8",
     "prettier": "^1.17.0",
     "publish-release": "^1.6.0",
@@ -172,6 +171,7 @@
     "node-cleanup": "^2.1.2",
     "oclif": "^1.13.1",
     "opn": "^5.5.0",
+    "patch-package": "^6.1.2",
     "prettyjson": "^1.1.3",
     "progress-stream": "^2.0.0",
     "raven": "^2.5.0",
