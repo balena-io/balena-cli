@@ -27,7 +27,9 @@ export function getOclifHelpLinePairs(): [[string, string]] {
 function getCmdUsageDescriptionLinePair(cmd: typeof Command): [string, string] {
 	const usage = (cmd.usage || '').toString().toLowerCase();
 	let description = '';
-	const matches = /\s*(.+?)\n.*/s.exec(cmd.description || '');
+	// note: [^] matches any characters (including line breaks), achieving the
+	// same effect as the 's' regex flag which is only supported by Node 9+
+	const matches = /\s*([^]+?)\n[^]*/.exec(cmd.description || '');
 	if (matches && matches.length > 1) {
 		description = _.lowerFirst(_.trimEnd(matches[1], '.'));
 	}
