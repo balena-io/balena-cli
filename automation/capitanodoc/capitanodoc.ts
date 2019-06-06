@@ -74,8 +74,12 @@ const capitanoDoc = {
 			files: ['build/actions/logs.js'],
 		},
 		{
-			title: 'SSH',
-			files: ['build/actions/ssh.js', 'build/actions/tunnel.js'],
+			title: 'Network',
+			files: [
+				'build/actions/scan.js',
+				'build/actions/ssh.js',
+				'build/actions/tunnel.js',
+			],
 		},
 		{
 			title: 'Notes',
