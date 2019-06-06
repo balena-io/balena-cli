@@ -15,4 +15,41 @@
  * limitations under the License.
  */
 
-declare module 'resin-cli-form';
+declare module 'resin-cli-form' {
+	import Bluebird = require('bluebird');
+
+	type TypeOrPromiseLike<T> = T | PromiseLike<T>;
+
+	type Validate = (
+		input: any,
+	) => TypeOrPromiseLike<boolean | string | undefined>;
+
+	interface AskOptions {
+		message: string;
+		type?: string;
+		name?: string;
+		default?: T;
+		choices?: Array<{
+			name: string;
+			value: T;
+		}>;
+		validate?: Validate;
+	}
+
+	interface RunQuestion {
+		message: string;
+		name: string;
+		type?: string;
+		validate?: Validate;
+	}
+
+	const form: {
+		ask: <T = string>(options: AskOptions) => Bluebird<T>;
+		run: <T = any>(
+			questions: RunQuestion[],
+			extraOptions?: { override: object },
+		) => Bluebird<T>;
+	};
+
+	export = form;
+}

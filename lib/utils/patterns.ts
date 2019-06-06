@@ -141,7 +141,7 @@ export function confirm(
 			return true;
 		}
 
-		return getForm().ask({
+		return getForm().ask<boolean>({
 			message,
 			type: 'confirm',
 			default: false,
@@ -185,7 +185,8 @@ export function selectOrCreateApplication() {
 		.hasAny()
 		.then(hasAnyApplications => {
 			if (!hasAnyApplications) {
-				return;
+				// Just to make TS happy
+				return Promise.resolve(undefined);
 			}
 
 			return balena.models.application.getAll().then(applications => {
@@ -286,7 +287,7 @@ export function selectFromList<T>(
 	message: string,
 	choices: Array<T & { name: string }>,
 ): Bluebird<T> {
-	return getForm().ask({
+	return getForm().ask<T>({
 		message,
 		type: 'list',
 		choices: _.map(choices, s => ({
