@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Balena
+Copyright 2016-2019 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -303,7 +303,7 @@ export function printErrorMessage(message: string) {
 
 /**
  * Print a friendly error message and exit the CLI with an error code, BYPASSING
- * error reporting through Sentry.io's platform (raven.Raven.captureException).
+ * error reporting through Sentry.io's platform (Sentry.captureException).
  * Note that lib/errors.ts provides top-level error handling code to catch any
  * otherwise uncaught errors, AND to report them through Sentry.io. But many
  * "expected" errors (say, a JSON parsing error in a file provided by the user)

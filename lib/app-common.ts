@@ -15,32 +15,28 @@
  * limitations under the License.
  */
 
+import * as Sentry from '@sentry/node';
+
+import * as packageJson from '../package.json';
+import * as config from './config';
+
 /**
  * Sentry.io setup
- * @see https://docs.sentry.io/clients/node/
+ * @see https://docs.sentry.io/error-reporting/quickstart/?platform=node
  */
-function setupRaven() {
-	const Raven = require('raven');
-	Raven.disableConsoleAlerts();
-	Raven.config(require('./config').sentryDsn, {
-		captureUnhandledRejections: true,
-		autoBreadcrumbs: true,
-		release: require('../package.json').version,
-	}).install(function(_logged: any, error: Error) {
-		console.error(error);
-		return process.exit(1);
+function setupSentry() {
+	Sentry.init({
+		dsn: config.sentryDsn,
+		release: packageJson.version,
 	});
-
-	Raven.setContext({
-		extra: {
-			args: process.argv,
-			node_version: process.version,
-		},
+	Sentry.configureScope(scope => {
+		scope.setExtra('args', process.argv);
+		scope.setExtra('node_version', process.version);
 	});
 }
 
 function checkNodeVersion() {
-	const validNodeVersions = require('../package.json').engines.node;
+	const validNodeVersions = packageJson.engines.node;
 	if (!require('semver').satisfies(process.version, validNodeVersions)) {
 		const { stripIndent } = require('common-tags');
 		console.warn(stripIndent`
@@ -91,7 +87,7 @@ function setupBalenaSdkSharedOptions() {
 }
 
 export function globalInit() {
-	setupRaven();
+	setupSentry();
 	checkNodeVersion();
 	setupGlobalHttpProxy();
 	setupBalenaSdkSharedOptions();

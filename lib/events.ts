@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import * as Sentry from '@sentry/node';
 import BalenaSdk = require('balena-sdk');
 import Promise = require('bluebird');
 import * as Capitano from 'capitano';
 import _ = require('lodash');
 import Mixpanel = require('mixpanel');
-import Raven = require('raven');
 
 import packageJSON = require('../package.json');
 
@@ -43,11 +43,11 @@ export function trackCommand(capitanoCli: Capitano.Cli) {
 	})
 		.then(({ username, balenaUrl, mixpanel }) => {
 			return getMatchCommandAsync(capitanoCli.command).then(command => {
-				Raven.mergeContext({
-					user: {
+				Sentry.configureScope(scope => {
+					scope.setUser({
 						id: username,
 						username,
-					},
+					});
 				});
 
 				return mixpanel.track(`[CLI] ${command.signature.toString()}`, {

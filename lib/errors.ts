@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Balena
+Copyright 2016-2019 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,17 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import * as Sentry from '@sentry/node';
 import * as Promise from 'bluebird';
 import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 import * as os from 'os';
-import * as Raven from 'raven';
 
 import * as patterns from './utils/patterns';
 
 const captureException = Promise.promisify<string, Error>(
-	Raven.captureException,
-	{ context: Raven },
+	Sentry.captureException,
+	{ context: Sentry },
 );
 
 function hasCode(error: any): error is Error & { code: string } {
