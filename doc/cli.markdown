@@ -141,7 +141,7 @@ If you come across any problems or would like to get in touch:
 
 	- [scan](#scan)
 	- [ssh &#60;applicationOrDevice&#62; [serviceName]](#ssh-applicationordevice-servicename)
-	- [tunnel &#60;uuid&#62;](#tunnel-uuid)
+	- [tunnel &#60;deviceOrApplication&#62;](#tunnel-deviceorapplication)
 
 - Notes
 
@@ -934,7 +934,7 @@ Increase verbosity
 Don't use the proxy configuration for this connection. This flag
 only make sense if you've configured a proxy globally.
 
-## tunnel &#60;uuid&#62;
+## tunnel &#60;deviceOrApplication&#62;
 
 Use this command to open local ports which tunnel to listening ports on your balenaOS device.
 
