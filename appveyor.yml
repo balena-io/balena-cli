@@ -22,19 +22,22 @@ install:
   - ps: Install-Product node $env:nodejs_version x64
   - set PATH=%APPDATA%\npm;%PATH%
   - npm config set python 'C:\Python27\python.exe'
-  - npm install
+  - npm --version
+  # - npm install
 
 build: off
+test: off
+deploy: off
 
 test_script:
   - node --version
   - npm --version
-  - npm test
+  # - npm test
 
 deploy_script:
   - node --version
   - npm --version
-  - npm run build:standalone
-  - npm run build:installer
-  - IF "%APPVEYOR_REPO_TAG%" == "true" (npm run release)
-  - IF NOT "%APPVEYOR_REPO_TAG%" == "true" (echo 'Not tagged, skipping deploy')
+  # - npm run build:standalone
+  # - npm run build:installer
+  # - IF "%APPVEYOR_REPO_TAG%" == "true" (npm run release)
+  # - IF NOT "%APPVEYOR_REPO_TAG%" == "true" (echo 'Not tagged, skipping deploy')

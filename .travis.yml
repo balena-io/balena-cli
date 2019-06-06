@@ -4,12 +4,15 @@ os:
   - osx
 node_js:
   - "10"
+matrix:
+  exclude:
+    node_js: "10"
 script:
   - node --version
   - npm --version
   - npm run ci
-  - npm run build:standalone
-  - npm run build:installer
+  # - npm run build:standalone
+  # - npm run build:installer
 notifications:
   email: false
 deploy:
