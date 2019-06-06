@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+import { BalenaApplicationNotFound } from 'balena-errors';
 import BalenaSdk = require('balena-sdk');
 import Bluebird = require('bluebird');
 import chalk from 'chalk';
@@ -281,6 +282,61 @@ export function inferOrSelectDevice(preferredUuid: string) {
 				})),
 			});
 		});
+}
+
+export async function getOnlineTargetUuid(
+	sdk: BalenaSdk.BalenaSDK,
+	applicationOrDevice: string,
+) {
+	const appTest = validation.validateApplicationName(applicationOrDevice);
+	const uuidTest = validation.validateUuid(applicationOrDevice);
+
+	if (!appTest && !uuidTest) {
+		throw new Error(`Device or application not found: ${applicationOrDevice}`);
+	}
+
+	// if we have a definite device UUID...
+	if (uuidTest && !appTest) {
+		return (await sdk.models.device.get(applicationOrDevice, {
+			$select: ['uuid'],
+			$filter: { is_online: true },
+		})).uuid;
+	}
+
+	// otherwise, it may be a device OR an application...
+	try {
+		const app = await sdk.models.application.get(applicationOrDevice);
+		const devices = await sdk.models.device.getAllByApplication(app.id, {
+			$filter: { is_online: true },
+		});
+
+		if (_.isEmpty(devices)) {
+			throw new Error('No accessible devices are online');
+		}
+
+		return await getForm().ask({
+			message: 'Select a device',
+			type: 'list',
+			default: devices[0].uuid,
+			choices: _.map(devices, device => ({
+				name: `${device.device_name || 'Untitled'} (${device.uuid.slice(
+					0,
+					7,
+				)})`,
+				value: device.uuid,
+			})),
+		});
+	} catch (err) {
+		if (!(err instanceof BalenaApplicationNotFound)) {
+			throw err;
+		}
+	}
+
+	// it wasn't an application, maybe it's a device...
+	return (await sdk.models.device.get(applicationOrDevice, {
+		$select: ['uuid'],
+		$filter: { is_online: true },
+	})).uuid;
 }
 
 export function selectFromList<T>(

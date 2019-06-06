@@ -17,84 +17,8 @@ import * as BalenaSdk from 'balena-sdk';
 import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
 
-import { BalenaApplicationNotFound, BalenaDeviceNotFound } from 'balena-errors';
-import {
-	validateApplicationName,
-	validateDotLocalUrl,
-	validateIPAddress,
-	validateShortUuid,
-	validateUuid,
-} from '../utils/validation';
-
-enum SSHTarget {
-	APPLICATION,
-	DEVICE,
-	LOCAL_DEVICE,
-}
-
-async function getSSHTarget(
-	sdk: BalenaSdk.BalenaSDK,
-	applicationOrDevice: string,
-): Promise<{
-	target: SSHTarget;
-	deviceChecked?: boolean;
-	applicationChecked?: boolean;
-	device?: BalenaSdk.Device;
-} | null> {
-	if (
-		validateDotLocalUrl(applicationOrDevice) ||
-		validateIPAddress(applicationOrDevice)
-	) {
-		return { target: SSHTarget.LOCAL_DEVICE };
-	}
-
-	const appTest = validateApplicationName(applicationOrDevice);
-	const uuidTest = validateUuid(applicationOrDevice);
-	if (appTest || uuidTest) {
-		// Do some further processing to work out which it is
-		if (appTest && !uuidTest) {
-			return {
-				target: SSHTarget.APPLICATION,
-				applicationChecked: false,
-			};
-		}
-		if (uuidTest && !appTest) {
-			return {
-				target: SSHTarget.DEVICE,
-				deviceChecked: false,
-			};
-		}
-
-		// This is the harder part, we have a string that
-		// fulfills both the uuid and application name
-		// requirements. We should go away and test for both a
-		// device with that uuid, and an application with that
-		// name, and choose the appropriate one
-		try {
-			await sdk.models.application.get(applicationOrDevice);
-			return { target: SSHTarget.APPLICATION, applicationChecked: true };
-		} catch (e) {
-			if (e instanceof BalenaApplicationNotFound) {
-				// Here we want to check for a device with that UUID
-				try {
-					const device = await sdk.models.device.get(applicationOrDevice, {
-						$select: ['id', 'uuid', 'supervisor_version', 'is_online'],
-					});
-					return { target: SSHTarget.DEVICE, deviceChecked: true, device };
-				} catch (err) {
-					if (err instanceof BalenaDeviceNotFound) {
-						throw new Error(
-							`Device or application not found: ${applicationOrDevice}`,
-						);
-					}
-					throw err;
-				}
-			}
-			throw e;
-		}
-	}
-	return null;
-}
+import { BalenaDeviceNotFound } from 'balena-errors';
+import { validateDotLocalUrl, validateIPAddress } from '../utils/validation';
 
 async function getContainerId(
 	sdk: BalenaSdk.BalenaSDK,
@@ -297,17 +221,16 @@ export const ssh: CommandDefinition<
 		},
 	],
 	action: async (params, options) => {
-		const map = await import('lodash/map');
 		const bash = await import('bash');
 		// TODO: Make this typed
 		const hasbin = require('hasbin');
 		const { getSubShellCommand } = await import('../utils/helpers');
 		const { child_process } = await import('mz');
-		const { exitIfNotLoggedIn } = await import('../utils/patterns');
-
-		const { exitWithExpectedError, selectFromList } = await import(
-			'../utils/patterns'
-		);
+		const {
+			exitIfNotLoggedIn,
+			exitWithExpectedError,
+			getOnlineTargetUuid,
+		} = await import('../utils/patterns');
 		const sdk = BalenaSdk.fromSharedOptions();
 
 		const verbose = options.verbose === true;
@@ -316,7 +239,45 @@ export const ssh: CommandDefinition<
 		const useProxy = !!proxyConfig && !options.noProxy;
 		const port = options.port != null ? parseInt(options.port, 10) : undefined;
 
-		const getSshProxyCommand = (hasTunnelBin: boolean) => {
+		// if we're doing a direct SSH connection locally...
+		if (
+			validateDotLocalUrl(params.applicationOrDevice) ||
+			validateIPAddress(params.applicationOrDevice)
+		) {
+			const { performLocalDeviceSSH } = await import('../utils/device/ssh');
+			return await performLocalDeviceSSH({
+				address: params.applicationOrDevice,
+				port,
+				verbose,
+				service: params.serviceName,
+			});
+		}
+
+		// this will be a tunnelled SSH connection...
+		exitIfNotLoggedIn();
+		const uuid = await getOnlineTargetUuid(sdk, params.applicationOrDevice);
+		let version: string | undefined;
+		let id: number | undefined;
+
+		try {
+			const device = await sdk.models.device.get(uuid, {
+				$select: ['id', 'supervisor_version', 'is_online'],
+			});
+			id = device.id;
+			version = device.supervisor_version;
+		} catch (e) {
+			if (e instanceof BalenaDeviceNotFound) {
+				exitWithExpectedError(`Could not find device: ${uuid}`);
+			}
+		}
+
+		const [hasTunnelBin, username, proxyUrl] = await Promise.all([
+			useProxy ? await hasbin('proxytunnel') : undefined,
+			sdk.auth.whoami(),
+			sdk.settings.get('proxyUrl'),
+		]);
+
+		const getSshProxyCommand = () => {
 			if (!useProxy) {
 				return '';
 			}
@@ -346,159 +307,57 @@ export const ssh: CommandDefinition<
 				};
 			}
 
-			const proxyCommand = `proxytunnel ${bash.args(tunnelOptions, '--', '=')}`;
-			return `-o ${bash.args({ ProxyCommand: proxyCommand }, '', '=')}`;
+			const ProxyCommand = `proxytunnel ${bash.args(tunnelOptions, '--', '=')}`;
+			return `-o ${bash.args({ ProxyCommand }, '', '=')}`;
 		};
 
-		// Detect what type of SSH we're doing
-		const maybeParamChecks = await getSSHTarget(
-			sdk,
-			params.applicationOrDevice,
-		);
-		if (maybeParamChecks == null) {
+		const proxyCommand = getSshProxyCommand();
+
+		if (username == null) {
 			exitWithExpectedError(
-				new Error(stripIndent`
-					Could not parse SSH target.
-					You can provide an application name, IP address or .local address`),
+				`Opening an SSH connection to a remote device requires you to be logged in.`,
 			);
 		}
-		const paramChecks = maybeParamChecks!;
 
-		switch (paramChecks.target) {
-			case SSHTarget.APPLICATION:
-				exitIfNotLoggedIn();
-				// Here what we want to do is fetch all device which
-				// are part of this application, and online
-				try {
-					const devices = await sdk.models.device.getAllByApplication(
-						params.applicationOrDevice,
-						{ $filter: { is_online: true }, $select: ['device_name', 'uuid'] },
-					);
-					const choice = await selectFromList(
-						'Please choose an online device to SSH into:',
-						map(devices, ({ device_name, uuid: uuidToChoose }) => ({
-							name: `${device_name}  [${uuidToChoose.substr(0, 7)}]`,
-							uuid: uuidToChoose,
-						})),
-					);
-					// A little bit hacky, but it means we can fall
-					// through to the next handling mechanism
-					params.applicationOrDevice = choice.uuid;
-				} catch (e) {
-					if (e instanceof BalenaApplicationNotFound) {
-						exitWithExpectedError(
-							`Could not find an application named ${
-								params.applicationOrDevice
-							}`,
-						);
-					}
-					throw e;
-				}
-			case SSHTarget.DEVICE:
-				exitIfNotLoggedIn();
-				// We want to do two things here; firstly, check
-				// that the device exists and is accessible, and
-				// also convert a short uuid to a long one if
-				// necessary
-				let uuid = params.applicationOrDevice;
-				let version: string | undefined;
-				let id: number | undefined;
-				let isOnline: boolean | undefined;
-				// We also want to avoid checking for a device if we
-				// know it exists
-				if (!paramChecks.deviceChecked || validateShortUuid(uuid)) {
-					try {
-						const device = await sdk.models.device.get(uuid, {
-							$select: ['id', 'uuid', 'supervisor_version', 'is_online'],
-						});
-						uuid = device.uuid;
-						version = device.supervisor_version;
-						id = device.id;
-						isOnline = device.is_online;
-					} catch (e) {
-						if (e instanceof BalenaDeviceNotFound) {
-							exitWithExpectedError(`Could not find device: ${uuid}`);
-						}
-					}
-				} else {
-					version = paramChecks.device!.supervisor_version;
-					uuid = paramChecks.device!.uuid;
-					id = paramChecks.device!.id;
-					isOnline = paramChecks.device!.is_online;
-				}
-
-				if (!isOnline) {
-					throw new Error(`Device ${uuid} is not online.`);
-				}
-
-				const [hasTunnelBin, username, proxyUrl] = await Promise.all([
-					useProxy ? await hasbin('proxytunnel') : undefined,
-					sdk.auth.whoami(),
-					sdk.settings.get('proxyUrl'),
-				]);
-				const proxyCommand = getSshProxyCommand(hasTunnelBin);
-
-				if (username == null) {
-					exitWithExpectedError(
-						`Opening an SSH connection to a remote device requires you to be logged in.`,
-					);
-				}
-
-				// At this point, we have a long uuid with a device
-				// that we know exists and is accessible
-				let containerId: string | undefined;
-				if (params.serviceName != null) {
-					containerId = await getContainerId(
-						sdk,
-						uuid,
-						params.serviceName,
-						{
-							port,
-							proxyCommand,
-							proxyUrl,
-							username: username!,
-						},
-						version,
-						id,
-					);
-				}
-
-				let accessCommand: string;
-				if (containerId != null) {
-					accessCommand = `enter ${uuid} ${containerId}`;
-				} else {
-					accessCommand = `host ${uuid}`;
-				}
-
-				const command = generateVpnSshCommand({
-					uuid,
-					command: accessCommand,
-					verbose,
+		// At this point, we have a long uuid with a device
+		// that we know exists and is accessible
+		let containerId: string | undefined;
+		if (params.serviceName != null) {
+			containerId = await getContainerId(
+				sdk,
+				uuid,
+				params.serviceName,
+				{
 					port,
 					proxyCommand,
 					proxyUrl,
 					username: username!,
-				});
-
-				const subShellCommand = getSubShellCommand(command);
-				await child_process.spawn(
-					subShellCommand.program,
-					subShellCommand.args,
-					{
-						stdio: 'inherit',
-					},
-				);
-
-				break;
-			case SSHTarget.LOCAL_DEVICE:
-				const { performLocalDeviceSSH } = await import('../utils/device/ssh');
-				await performLocalDeviceSSH({
-					address: params.applicationOrDevice,
-					port,
-					verbose,
-					service: params.serviceName,
-				});
-				break;
+				},
+				version,
+				id,
+			);
 		}
+
+		let accessCommand: string;
+		if (containerId != null) {
+			accessCommand = `enter ${uuid} ${containerId}`;
+		} else {
+			accessCommand = `host ${uuid}`;
+		}
+
+		const command = generateVpnSshCommand({
+			uuid,
+			command: accessCommand,
+			verbose,
+			port,
+			proxyCommand,
+			proxyUrl,
+			username: username!,
+		});
+
+		const subShellCommand = getSubShellCommand(command);
+		await child_process.spawn(subShellCommand.program, subShellCommand.args, {
+			stdio: 'inherit',
+		});
 	},
 };
