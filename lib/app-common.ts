@@ -45,9 +45,7 @@ function checkNodeVersion() {
 		const { stripIndent } = require('common-tags');
 		console.warn(stripIndent`
 			------------------------------------------------------------------------------
-			Warning: Node version "${
-				process.version
-			}" does not match required versions "${validNodeVersions}".
+			Warning: Node version "${process.version}" does not match required versions "${validNodeVersions}".
 			This may cause unexpected behaviour. To upgrade Node, visit:
 			https://nodejs.org/en/download/
 			------------------------------------------------------------------------------
