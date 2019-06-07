@@ -88,9 +88,7 @@ async function getAppOwner(sdk: BalenaSDK, appName: string) {
 	});
 
 	const selected = await selectFromList(
-		`${
-			entries.length
-		} applications found with that name, please select the application you would like to push to`,
+		`${entries.length} applications found with that name, please select the application you would like to push to`,
 		entries,
 	);
 
