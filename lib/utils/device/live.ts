@@ -1,10 +1,7 @@
 import * as Bluebird from 'bluebird';
 import * as chokidar from 'chokidar';
 import * as Dockerode from 'dockerode';
-import Livepush, {
-	ContainerNotRunningError,
-	LivepushAlreadyRunningError,
-} from 'livepush';
+import Livepush, { ContainerNotRunningError } from 'livepush';
 import * as _ from 'lodash';
 import * as path from 'path';
 import { Composition } from 'resin-compose-parse';
@@ -66,6 +63,10 @@ export class LivepushManager {
 	// A map of service names to events waiting
 	private updateEventsWaiting: Dictionary<string[]> = {};
 	private deleteEventsWaiting: Dictionary<string[]> = {};
+
+	private rebuildsRunning: Dictionary<boolean> = {};
+	private rebuildRunningIds: Dictionary<string> = {};
+	private rebuildsCancelled: Dictionary<boolean> = {};
 
 	public constructor(opts: LivepushOpts) {
 		this.buildContext = opts.buildContext;
@@ -135,12 +136,6 @@ export class LivepushManager {
 					);
 				}
 
-				const msgString = (msg: string) =>
-					`[${getServiceColourFn(serviceName)(serviceName)}] ${msg}`;
-				const log = (msg: string) => this.logger.logLivepush(msgString(msg));
-				const error = (msg: string) => this.logger.logError(msgString(msg));
-				const debugLog = (msg: string) => this.logger.logDebug(msgString(msg));
-
 				const livepush = await Livepush.init(
 					dockerfile,
 					context,
@@ -149,22 +144,7 @@ export class LivepushManager {
 					this.docker,
 				);
 
-				livepush.on('commandExecute', command =>
-					log(`Executing command: \`${command.command}\``),
-				);
-				livepush.on('commandOutput', output =>
-					log(`   ${output.output.data.toString()}`),
-				);
-				livepush.on('commandReturn', ({ returnCode, command }) => {
-					if (returnCode !== 0) {
-						error(`  Command ${command} failed with exit code: ${returnCode}`);
-					} else {
-						debugLog(`Command ${command} exited successfully`);
-					}
-				});
-				livepush.on('containerRestart', () => {
-					log('Restarting service...');
-				});
+				this.assignLivepushOutputHandlers(serviceName, livepush);
 
 				this.updateEventsWaiting[serviceName] = [];
 				this.deleteEventsWaiting[serviceName] = [];
@@ -196,6 +176,9 @@ export class LivepushManager {
 					monitor,
 					containerId: container.containerId,
 				};
+
+				this.rebuildsRunning[serviceName] = false;
+				this.rebuildsCancelled[serviceName] = false;
 			}
 		}
 
@@ -293,9 +276,7 @@ export class LivepushManager {
 			this.logger.logError(
 				`An error occured whilst trying to perform a livepush: `,
 			);
-			if (e instanceof LivepushAlreadyRunningError) {
-				this.logger.logError('   Livepush already running');
-			} else if (e instanceof ContainerNotRunningError) {
+			if (e instanceof ContainerNotRunningError) {
 				this.logger.logError('   Livepush container not running');
 			} else {
 				this.logger.logError(`   ${e.message}`);
@@ -305,6 +286,17 @@ export class LivepushManager {
 	}
 
 	private async handleServiceRebuild(serviceName: string): Promise<void> {
+		if (this.rebuildsRunning[serviceName]) {
+			this.logger.logLivepush(
+				`Cancelling ongoing rebuild for service ${serviceName}`,
+			);
+			await this.cancelRebuild(serviceName);
+			while (this.rebuildsCancelled[serviceName]) {
+				await Bluebird.delay(1000);
+			}
+		}
+
+		this.rebuildsRunning[serviceName] = true;
 		try {
 			const buildTask = _.find(this.buildTasks, { serviceName });
 			if (buildTask == null) {
@@ -323,10 +315,17 @@ export class LivepushManager {
 					this.composition,
 					this.buildContext,
 					this.deployOpts,
+					id => {
+						this.rebuildRunningIds[serviceName] = id;
+					},
 				);
 			} catch (e) {
 				if (!(e instanceof BuildError)) {
 					throw e;
+				}
+
+				if (this.rebuildsCancelled[serviceName]) {
+					return;
 				}
 
 				this.logger.logError(
@@ -334,6 +333,13 @@ export class LivepushManager {
 						serviceName,
 					)}`,
 				);
+				return;
+			} finally {
+				delete this.rebuildRunningIds[serviceName];
+			}
+
+			// If the build has been cancelled, exit early
+			if (this.rebuildsCancelled[serviceName]) {
 				return;
 			}
 
@@ -371,9 +377,61 @@ export class LivepushManager {
 				stageImages[serviceName],
 				this.docker,
 			);
+			this.assignLivepushOutputHandlers(serviceName, instance.livepush);
 		} catch (e) {
 			this.logger.logError(`There was an error rebuilding the service: ${e}`);
+		} finally {
+			this.rebuildsRunning[serviceName] = false;
+			this.rebuildsCancelled[serviceName] = false;
 		}
+	}
+
+	private async cancelRebuild(serviceName: string) {
+		this.rebuildsCancelled[serviceName] = true;
+
+		// If we have a container id of the current build,
+		// attempt to kill it
+		if (this.rebuildRunningIds[serviceName] != null) {
+			try {
+				await this.docker
+					.getContainer(this.rebuildRunningIds[serviceName])
+					.remove({ force: true });
+				await this.containers[serviceName].livepush.cancel();
+			} catch {
+				// No need to do anything here
+			}
+		}
+	}
+
+	private assignLivepushOutputHandlers(
+		serviceName: string,
+		livepush: Livepush,
+	) {
+		const msgString = (msg: string) =>
+			`[${getServiceColourFn(serviceName)(serviceName)}] ${msg}`;
+		const log = (msg: string) => this.logger.logLivepush(msgString(msg));
+		const error = (msg: string) => this.logger.logError(msgString(msg));
+		const debugLog = (msg: string) => this.logger.logDebug(msgString(msg));
+
+		livepush.on('commandExecute', command =>
+			log(`Executing command: \`${command.command}\``),
+		);
+		livepush.on('commandOutput', output =>
+			log(`   ${output.output.data.toString()}`),
+		);
+		livepush.on('commandReturn', ({ returnCode, command }) => {
+			if (returnCode !== 0) {
+				error(`  Command ${command} failed with exit code: ${returnCode}`);
+			} else {
+				debugLog(`Command ${command} exited successfully`);
+			}
+		});
+		livepush.on('containerRestart', () => {
+			log('Restarting service...');
+		});
+		livepush.on('cancel', () => {
+			log('Cancelling current livepush...');
+		});
 	}
 
 	private static extractDockerArrowMessage(
