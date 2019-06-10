@@ -58,13 +58,17 @@ async function getContainerId(
 		});
 		if (request.status !== 200) {
 			throw new Error(
-				`There was an error connecting to device ${uuid}, HTTP response code: ${request.status}.`,
+				`There was an error connecting to device ${uuid}, HTTP response code: ${
+					request.status
+				}.`,
 			);
 		}
 		const body = request.body;
 		if (body.status !== 'success') {
 			throw new Error(
-				`There was an error communicating with device ${uuid}.\n\tError: ${body.message}`,
+				`There was an error communicating with device ${uuid}.\n\tError: ${
+					body.message
+				}`,
 			);
 		}
 		containerId = body.services[serviceName];

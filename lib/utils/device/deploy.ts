@@ -92,7 +92,9 @@ async function environmentFromInput(
 			// exists
 			if (!(match[1] in ret)) {
 				logger.logDebug(
-					`Warning: Cannot find a service with name ${match[1]}. Treating the string as part of the environment variable name.`,
+					`Warning: Cannot find a service with name ${
+						match[1]
+					}. Treating the string as part of the environment variable name.`,
 				);
 				match[2] = `${match[1]}:${match[2]}`;
 			} else {
@@ -130,7 +132,9 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		await api.ping();
 	} catch (e) {
 		exitWithExpectedError(
-			`Could not communicate with local mode device at address ${opts.deviceHost}`,
+			`Could not communicate with local mode device at address ${
+				opts.deviceHost
+			}`,
 		);
 	}
 
@@ -290,8 +294,22 @@ export async function performBuilds(
 	logger.logDebug('Probing remote daemon for cache images');
 	await assignDockerBuildOpts(docker, buildTasks, opts);
 
+	// If we're passed a build logs object make sure to set it
+	// up properly
+	let logHandlers: ((serviceName: string, line: string) => void) | undefined;
+	if (buildLogs != null) {
+		for (const task of buildTasks) {
+			if (!task.external) {
+				buildLogs[task.serviceName] = '';
+			}
+		}
+		logHandlers = (serviceName: string, line: string) => {
+			buildLogs[serviceName] += `${line}\n`;
+		};
+	}
+
 	logger.logDebug('Starting builds...');
-	await assignOutputHandlers(buildTasks, logger, buildLogs);
+	await assignOutputHandlers(buildTasks, logger, logHandlers);
 	const localImages = await multibuild.performBuilds(buildTasks, docker);
 
 	// Check for failures
@@ -324,11 +342,26 @@ export async function rebuildSingleTask(
 	composition: Composition,
 	source: string,
 	opts: DeviceDeployOptions,
+	// To cancel a running build, you must first find the
+	// container id that it's running in. This is printed in
+	// the logs, so any calller who wants to keep track of
+	// this should provide the following callback
+	containerIdCb?: (id: string) => void,
 ): Promise<string> {
 	const { tarDirectory } = await import('../compose');
 	const multibuild = await import('resin-multibuild');
 	// First we run the build task, to get the new image id
-	const buildLogs: Dictionary<string> = {};
+	let buildLogs = '';
+	const logHandler = (_s: string, line: string) => {
+		buildLogs += `${line}\n`;
+
+		if (containerIdCb != null) {
+			const match = line.match(/^\s*--->\s*Running\s*in\s*([a-f0-9]*)\s*$/i);
+			if (match != null) {
+				containerIdCb(match[1]);
+			}
+		}
+	};
 
 	const tarStream = await tarDirectory(source);
 
@@ -342,7 +375,7 @@ export async function rebuildSingleTask(
 	}
 
 	await assignDockerBuildOpts(docker, [task], opts);
-	await assignOutputHandlers([task], logger, buildLogs);
+	await assignOutputHandlers([task], logger, logHandler);
 
 	const [localImage] = await multibuild.performBuilds([task], docker);
 
@@ -355,13 +388,13 @@ export async function rebuildSingleTask(
 		]);
 	}
 
-	return buildLogs[task.serviceName];
+	return buildLogs;
 }
 
 function assignOutputHandlers(
 	buildTasks: BuildTask[],
 	logger: Logger,
-	buildLogs?: Dictionary<string>,
+	logCb?: (serviceName: string, line: string) => void,
 ) {
 	_.each(buildTasks, task => {
 		if (task.external) {
@@ -372,9 +405,6 @@ function assignOutputHandlers(
 				);
 			};
 		} else {
-			if (buildLogs) {
-				buildLogs[task.serviceName] = '';
-			}
 			task.streamHook = stream => {
 				stream.on('data', (buf: Buffer) => {
 					const str = _.trimEnd(buf.toString());
@@ -384,10 +414,8 @@ function assignOutputHandlers(
 							logger,
 						);
 
-						if (buildLogs) {
-							buildLogs[task.serviceName] = `${
-								buildLogs[task.serviceName]
-							}\n${str}`;
+						if (logCb) {
+							logCb(task.serviceName, str);
 						}
 					}
 				});

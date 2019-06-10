@@ -25,7 +25,9 @@ import { exitWithExpectedError } from './utils/patterns';
 function routeCliFramework(argv: string[]): void {
 	if (process.env.DEBUG) {
 		console.log(
-			`Debug: original argv0="${process.argv0}" argv=[${argv}] length=${argv.length}`,
+			`Debug: original argv0="${process.argv0}" argv=[${argv}] length=${
+				argv.length
+			}`,
 		);
 	}
 	const cmdSlice = argv.slice(2);
