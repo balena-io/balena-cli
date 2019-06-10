@@ -51,7 +51,9 @@ export async function parseRegistrySecrets(
 		return registrySecrets;
 	} catch (error) {
 		return exitWithExpectedError(
-			`Error validating registry secrets file "${secretsFilename}":\n${error.message}`,
+			`Error validating registry secrets file "${secretsFilename}":\n${
+				error.message
+			}`,
 		);
 	}
 }
@@ -142,7 +144,9 @@ async function performResolution(
 					buildTask.buildStream = clonedStream;
 					if (!buildTask.external && !buildTask.resolved) {
 						throw new Error(
-							`Project type for service "${buildTask.serviceName}" could not be determined. Missing a Dockerfile?`,
+							`Project type for service "${
+								buildTask.serviceName
+							}" could not be determined. Missing a Dockerfile?`,
 						);
 					}
 					return buildTask;
