@@ -23,6 +23,10 @@ export const yes = {
 	alias: 'y',
 };
 
+export interface YesOption {
+	yes: boolean;
+}
+
 export const optionalApplication = {
 	signature: 'application',
 	parameter: 'application',
@@ -69,12 +73,18 @@ export const optionalOsVersion = {
 	parameter: 'version',
 };
 
+export type OptionalOsVersionOption = Partial<OsVersionOption>;
+
 export const osVersion = _.defaults(
 	{
 		required: 'You have to specify an exact os version',
 	},
 	exports.optionalOsVersion,
 );
+
+export interface OsVersionOption {
+	version?: string;
+}
 
 export const booleanDevice = {
 	signature: 'device',

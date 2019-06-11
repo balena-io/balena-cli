@@ -69,6 +69,7 @@ capitano.command(actions.device.getDeviceUrl)
 capitano.command(actions.device.hasDeviceUrl)
 capitano.command(actions.device.register)
 capitano.command(actions.device.move)
+capitano.command(actions.device.osUpdate)
 capitano.command(actions.device.info)
 
 # ---------- Notes Module ----------

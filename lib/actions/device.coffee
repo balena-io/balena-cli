@@ -455,3 +455,5 @@ exports.init =
 				return device.uuid
 
 		.nodeify(done)
+
+exports.osUpdate = require('./device_ts').osUpdate
