@@ -104,6 +104,7 @@ If you come across any problems or would like to get in touch:
 	- [device rename &#60;uuid&#62; [newName]](#device-rename-uuid-newname)
 	- [device move &#60;uuid&#62;](#device-move-uuid)
 	- [device init](#device-init)
+	- [device os-update &#60;uuid&#62;](#device-os-update-uuid)
 
 - Environment Variables
 
@@ -547,6 +548,28 @@ the drive to write the image to, like `/dev/sdb` or `/dev/mmcblk0`. Careful with
 #### --config &#60;config&#62;
 
 path to the config JSON file, see `balena os build-config`
+
+## device os-update &#60;uuid&#62;
+
+Use this command to trigger a Host OS update for a device.
+
+Notice this command will ask for confirmation interactively.
+You can avoid this by passing the `--yes` boolean option.
+
+Examples:
+
+	$ balena device os-update 23c73a1
+	$ balena device os-update 23c73a1 --version 2.31.0+rev1.prod
+
+### Options
+
+#### --version &#60;version&#62;
+
+a balenaOS version
+
+#### --yes, -y
+
+confirm non interactively
 
 # Environment Variables
 

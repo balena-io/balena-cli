@@ -253,6 +253,50 @@ export function awaitDevice(uuid: string) {
 	});
 }
 
+export function awaitDeviceOsUpdate(uuid: string, targetOsVersion: string) {
+	const balena = getBalenaSdk();
+	const { getDeviceOsProgress } = require('./device/progress');
+
+	return balena.models.device.getName(uuid).then(deviceName => {
+		const visuals = getVisuals();
+		const progressBar = new visuals.Progress(
+			`Updating the OS of ${deviceName} to v${targetOsVersion}`,
+		);
+		progressBar.update({ percentage: 0 });
+
+		const poll = (): Bluebird<void> => {
+			return Bluebird.all([
+				balena.models.device.getOsUpdateStatus(uuid),
+				balena.models.device.get(uuid).then(getDeviceOsProgress),
+			]).then(([osUpdateStatus, osUpdateProgress]) => {
+				if (
+					osUpdateStatus.status === 'update_done' ||
+					osUpdateStatus.status === 'done'
+				) {
+					console.info(
+						`The device ${deviceName} has been updated to v${targetOsVersion} and will restart shortly!`,
+					);
+					return;
+				}
+
+				if (osUpdateStatus.error) {
+					console.error(
+						`Failed to complete Host OS update on device ${deviceName}!`,
+					);
+					exitWithExpectedError(osUpdateStatus.error);
+					return;
+				}
+
+				progressBar.update({ percentage: osUpdateProgress });
+
+				return Bluebird.delay(3000).then(poll);
+			});
+		};
+
+		return poll().return(uuid);
+	});
+}
+
 export function inferOrSelectDevice(preferredUuid: string) {
 	const balena = getBalenaSdk();
 	return balena.models.device
