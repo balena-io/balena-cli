@@ -159,6 +159,7 @@ export class LivepushManager {
 				const monitor = chokidar.watch('.', {
 					cwd: context,
 					ignoreInitial: true,
+					ignored: '.git',
 				});
 				monitor.on('add', (changedPath: string) =>
 					addEvent(this.updateEventsWaiting[serviceName], changedPath),
