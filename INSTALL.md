@@ -75,14 +75,14 @@ If you are a Node.js developer, you may wish to install the balena CLI via [npm]
 The npm installation involves building native (platform-specific) binary modules, which require
 some additional development tools to be installed first:
 
-* Node.js version 6 or above (**soon version 8 or above**)
+* Node.js version 8 or 10 (v12 has not been thoroughly tested yet)
 * Python 2.7
 * g++ compiler
 * make
 * git
-* Under Windows, the `windows-build-tools` npm package should be installed too, running the
-  following command in an administrator console (available as 'Command Prompt (Admin)' when
-  pressing Windows+X in Windows 7+) :  
+* On Windows, the `windows-build-tools` npm package should be installed too, running the following
+  command in an administrator console (available as "Command Prompt (Admin)" or "Windows PowerShell
+  (Admin)" when typing Windows+X):  
   `npm install -g --production windows-build-tools`
 
 With those in place, the CLI installation command is:
@@ -94,6 +94,11 @@ $ npm install balena-cli -g --production --unsafe-perm
 `--unsafe-perm` is only required on systems where the global install directory is not user-writable.
 This allows npm install steps to download and save prebuilt native binaries. You may be able to omit it,
 especially if you're using a user-managed node install such as [nvm](https://github.com/creationix/nvm).
+
+On some Linux distributions like Ubuntu, users often report permission or otherwise mysterious
+errors when using the system Node / npm packages installed via "apt-get". We suggest using
+[nvm](https://github.com/creationix/nvm) instead. Check this sample Dockerfile for installing the
+CLI on an Ubuntu Docker image: https://gist.github.com/pdcastro/5d4d96652181e7da685a32caf629dd44
 
 ## Additional Dependencies
 
