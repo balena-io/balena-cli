@@ -1424,6 +1424,9 @@ Sample registry-secrets YAML file:
 		username: '_json_key'
 		password: '{escaped contents of the GCR keyfile.json file}'
 
+If an option is not specified, and a secrets.yml or secrets.json file exists in
+the balena directory (usually $HOME/.balena), this file will be used instead.
+
 Examples:
 
 	$ balena push myApp
@@ -1459,7 +1462,9 @@ Don't use cache when building this project
 
 #### --registry-secrets, -R &#60;secrets.yml|.json&#62;
 
-Path to a local YAML or JSON file containing Docker registry passwords used to pull base images
+Path to a local YAML or JSON file containing Docker registry passwords used to pull base images.
+Note that if registry-secrets are not provided on the command line, a secrets configuration
+file from the balena directory will be used (usually $HOME/.balena/secrets.yml|.json)
 
 #### --nolive
 
@@ -1565,6 +1570,9 @@ Sample registry-secrets YAML file:
 	'eu.gcr.io':  # Google Container Registry
 		username: '_json_key'
 		password: '{escaped contents of the GCR keyfile.json file}'
+
+If an option is not specified, and a secrets.yml or secrets.json file exists in
+the balena directory (usually $HOME/.balena), this file will be used instead.
 
 Examples:
 
@@ -1686,6 +1694,9 @@ Sample registry-secrets YAML file:
 	'eu.gcr.io':  # Google Container Registry
 		username: '_json_key'
 		password: '{escaped contents of the GCR keyfile.json file}'
+
+If an option is not specified, and a secrets.yml or secrets.json file exists in
+the balena directory (usually $HOME/.balena), this file will be used instead.
 
 Examples:
 

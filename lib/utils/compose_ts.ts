@@ -21,6 +21,7 @@ import * as MultiBuild from 'resin-multibuild';
 import { Readable } from 'stream';
 import * as tar from 'tar-stream';
 
+import { BalenaSDK } from 'balena-sdk';
 import { DeviceInfo } from './device/api';
 import Logger = require('./logger');
 
@@ -31,7 +32,34 @@ export interface RegistrySecrets {
 	};
 }
 
-export async function parseRegistrySecrets(
+export async function getRegistrySecrets(
+	sdk: BalenaSDK,
+	inputFilename?: string,
+): Promise<RegistrySecrets> {
+	const { fs } = await import('mz');
+	const Path = await import('path');
+
+	if (inputFilename != null) {
+		return await parseRegistrySecrets(inputFilename);
+	}
+
+	const directory = await sdk.settings.get('dataDirectory');
+	const potentialPaths = [
+		Path.join(directory, 'secrets.yml'),
+		Path.join(directory, 'secrets.yaml'),
+		Path.join(directory, 'secrets.json'),
+	];
+
+	for (const path of potentialPaths) {
+		if (await fs.exists(path)) {
+			return await parseRegistrySecrets(path);
+		}
+	}
+
+	return {};
+}
+
+async function parseRegistrySecrets(
 	secretsFilename: string,
 ): Promise<RegistrySecrets> {
 	const { fs } = await import('mz');
@@ -63,12 +91,14 @@ export async function parseRegistrySecrets(
  * This function is meant to be called very early on to validate users' input,
  * before any project loading / building / deploying.
  */
-export async function validateComposeOptions(options: { [opt: string]: any }) {
-	if (options['registry-secrets']) {
-		options['registry-secrets'] = await parseRegistrySecrets(
-			options['registry-secrets'],
-		);
-	}
+export async function validateComposeOptions(
+	sdk: BalenaSDK,
+	options: { [opt: string]: any },
+) {
+	options['registry-secrets'] = await getRegistrySecrets(
+		sdk,
+		options['registry-secrets'],
+	);
 }
 
 /**

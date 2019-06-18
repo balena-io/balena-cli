@@ -180,6 +180,7 @@ module.exports =
 	action: (params, options, done) ->
 		# compositions with many services trigger misleading warnings
 		require('events').defaultMaxListeners = 1000
+		sdk = (require('balena-sdk')).fromSharedOptions()
 		{ validateComposeOptions } = require('../utils/compose_ts')
 		helpers = require('../utils/helpers')
 		Logger = require('../utils/logger')
@@ -198,7 +199,7 @@ module.exports =
 			appName = appName_raw || appName || options.application
 			delete options.application
 
-			validateComposeOptions(options)
+			validateComposeOptions(sdk, options)
 
 			if not appName?
 				throw new Error('Please specify the name of the application to deploy')

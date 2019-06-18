@@ -194,7 +194,9 @@ export const push: CommandDefinition<
 			alias: 'R',
 			parameter: 'secrets.yml|.json',
 			description: stripIndent`
-				Path to a local YAML or JSON file containing Docker registry passwords used to pull base images`,
+				Path to a local YAML or JSON file containing Docker registry passwords used to pull base images.
+				Note that if registry-secrets are not provided on the command line, a secrets configuration
+				file from the balena directory will be used (usually $HOME/.balena/secrets.yml|.json)`,
 		},
 		{
 			signature: 'nolive',
@@ -248,7 +250,7 @@ export const push: CommandDefinition<
 		const { exitIfNotLoggedIn, exitWithExpectedError } = await import(
 			'../utils/patterns'
 		);
-		const { validateSpecifiedDockerfile, parseRegistrySecrets } = await import(
+		const { validateSpecifiedDockerfile, getRegistrySecrets } = await import(
 			'../utils/compose_ts'
 		);
 		const { BuildError } = await import('../utils/device/errors');
@@ -269,9 +271,10 @@ export const push: CommandDefinition<
 			options.dockerfile,
 		);
 
-		const registrySecrets = options['registry-secrets']
-			? await parseRegistrySecrets(options['registry-secrets'])
-			: {};
+		const registrySecrets = await getRegistrySecrets(
+			sdk,
+			options['registry-secrets'],
+		);
 
 		const buildTarget = getBuildTarget(appOrDevice);
 		switch (buildTarget) {
