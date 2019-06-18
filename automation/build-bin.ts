@@ -18,11 +18,14 @@
 import { run as oclifRun } from '@oclif/dev-cli';
 import * as archiver from 'archiver';
 import * as Bluebird from 'bluebird';
+import { execFile, spawn } from 'child_process';
 import * as filehound from 'filehound';
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import { exec as execPkg } from 'pkg';
 import * as rimraf from 'rimraf';
+import * as shellEscape from 'shell-escape';
+import * as util from 'util';
 
 export const ROOT = path.join(__dirname, '..');
 // Note: the following 'tslint disable' line was only required to
@@ -62,6 +65,34 @@ export const finalReleaseAssets: { [platform: string]: string[] } = {
 	darwin: [standaloneZips['darwin'], renamedOclifInstallers['darwin']],
 	linux: [standaloneZips['linux']],
 };
+
+const MSYS2_BASH = 'C:\\msys64\\usr\\bin\\bash.exe';
+
+/**
+ * Run the MSYS2 bash.exe shell in a child process (child_process.spawn()).
+ * The given argv arguments are escaped using the 'shell-escape' package,
+ * so that backslashes in Windows paths, and other bash-special characters,
+ * are preserved. If argv is not provided, defaults to process.argv, to the
+ * effect that this current (parent) process is re-executed under MSYS2 bash.
+ * This is useful to change the default shell from cmd.exe to MSYS2 bash on
+ * Windows.
+ * @param argv Arguments to be shell-escaped and given to MSYS2 bash.exe.
+ */
+export async function runUnderMsys(argv?: string[]) {
+	const newArgv = argv || process.argv;
+	await new Promise((resolve, reject) => {
+		const args = ['-lc', shellEscape(newArgv)];
+		const child = spawn(MSYS2_BASH, args, { stdio: 'inherit' });
+		child.on('close', code => {
+			if (code) {
+				console.log(`runUnderMsys: child process exited with code ${code}`);
+				reject(code);
+			} else {
+				resolve();
+			}
+		});
+	});
+}
 
 /**
  * Use the 'pkg' module to create a single large executable file with
@@ -175,6 +206,31 @@ async function renameInstallerFiles() {
 }
 
 /**
+ * If the CSC_LINK and CSC_KEY_PASSWORD env vars are set, digitally sign the
+ * executable installer by running the balena-io/scripts/shared/sign-exe.sh
+ * script (which must be in the PATH) using a MSYS2 bash shell.
+ */
+async function signWindowsInstaller() {
+	if (process.env.CSC_LINK && process.env.CSC_KEY_PASSWORD) {
+		const exeName = renamedOclifInstallers[process.platform];
+		const execFileAsync = util.promisify<string, string[], void>(execFile);
+
+		console.log(`Signing installer "${exeName}"`);
+		await execFileAsync(MSYS2_BASH, [
+			'sign-exe.sh',
+			'-f',
+			exeName,
+			'-d',
+			`balena-cli ${version}`,
+		]);
+	} else {
+		console.log(
+			'Skipping installer signing step because CSC_* env vars are not set',
+		);
+	}
+}
+
+/**
  * Run the `oclif-dev pack:win` or `pack:macos` command (depending on the value
  * of process.platform) to generate the native installers (which end up under
  * the 'dist' folder). There are some harcoded options such as selecting only
@@ -206,6 +262,13 @@ export async function buildOclifInstaller() {
 		console.log('=======================================================');
 		await oclifRun([packCmd].concat(...packOpts));
 		await renameInstallerFiles();
+		// The Windows installer is explicitly signed here (oclif doesn't do it).
+		// The macOS installer is automatically signed by oclif (which runs the
+		// `pkgbuild` tool), using the certificate name given in package.json
+		// (`oclif.macos.sign` section).
+		if (process.platform === 'win32') {
+			await signWindowsInstaller();
+		}
 		console.log(`oclif installer build completed`);
 	}
 }
