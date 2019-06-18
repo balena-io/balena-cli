@@ -43,4 +43,7 @@ Sample registry-secrets YAML file:
 		password: cze14
 	'eu.gcr.io':  # Google Container Registry
 		username: '_json_key'
-		password: '{escaped contents of the GCR keyfile.json file}'`;
+		password: '{escaped contents of the GCR keyfile.json file}'
+
+If an option is not specified, and a secrets.yml or secrets.json file exists in
+the balena directory (usually $HOME/.balena), this file will be used instead.`;

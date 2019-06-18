@@ -101,6 +101,8 @@ module.exports =
 	action: (params, options, done) ->
 		# compositions with many services trigger misleading warnings
 		require('events').defaultMaxListeners = 1000
+
+		sdk = (require('balena-sdk')).fromSharedOptions()
 		{ validateComposeOptions } = require('../utils/compose_ts')
 		{ exitWithExpectedError } = require('../utils/patterns')
 		helpers = require('../utils/helpers')
@@ -116,7 +118,7 @@ module.exports =
 			options.source ?= params.source
 			delete params.source
 
-			validateComposeOptions(options)
+			validateComposeOptions(sdk, options)
 
 			{ application, arch, deviceType } = options
 
