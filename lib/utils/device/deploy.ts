@@ -218,6 +218,8 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	// so we can either just display the logs, or start a livepush session
 	// (whilst also display logs)
 	if (!opts.nolive) {
+		// Print a newline to clear seperate build time and runtime
+		console.log();
 		const livepush = new LivepushManager({
 			api,
 			buildContext: opts.source,
@@ -233,7 +235,6 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		const promises: Array<Bluebird<void> | Promise<void>> = [livepush.init()];
 		// Only show logs if we're not detaching
 		if (!opts.detached) {
-			console.log();
 			const logStream = await api.getLogStream();
 			globalLogger.logInfo('Streaming device logs...');
 			promises.push(
