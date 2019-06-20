@@ -315,6 +315,8 @@ export async function performBuilds(
 	// Check for failures
 	await inspectBuildResults(localImages);
 
+	const imagesToRemove: string[] = [];
+
 	// Now tag any external images with the correct name that they should be,
 	// as this won't be done by resin-multibuild
 	await Bluebird.map(localImages, async localImage => {
@@ -325,9 +327,13 @@ export async function performBuilds(
 				repo: generateImageName(localImage.serviceName),
 				force: true,
 			});
-			await image.remove({ force: true });
+			imagesToRemove.push(localImage.name!);
 		}
 	});
+
+	await Bluebird.map(_.uniq(imagesToRemove), image =>
+		docker.getImage(image).remove({ force: true }),
+	);
 
 	return buildTasks;
 }
