@@ -39,7 +39,7 @@ export async function buildPkg() {
 
 	await execPkg([
 		'--target',
-		'host',
+		'node10',
 		'--output',
 		'build-bin/balena',
 		'package.json',
