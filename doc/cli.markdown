@@ -119,12 +119,9 @@ If you come across any problems or would like to get in touch:
 	- [tag set &#60;tagKey&#62; [value]](#tag-set-tagkey-value)
 	- [tag rm &#60;tagKey&#62;](#tag-rm-tagkey)
 
-- Help
+- Help and Version
 
 	- [help [command...]](#help-command)
-
-- Information
-
 	- [version](#version)
 
 - Keys
@@ -779,7 +776,7 @@ device uuid
 
 release id
 
-# Help
+# Help and Version
 
 ## help [command...]
 
@@ -796,11 +793,27 @@ Examples:
 
 show additional commands
 
-# Information
-
 ## version
 
-Display the balena CLI version.
+Display version information for the balena CLI and/or Node.js.
+If you intend to parse the output, please use the -j option for
+JSON output, as its format is more stable.
+
+Examples:
+
+	$ balena version
+	$ balena version -a
+	$ balena version -j
+
+### Options
+
+#### -a, --all
+
+include version information for additional components (Node.js)
+
+#### -j, --json
+
+output version information in JSON format for programmatic use
 
 # Keys
 

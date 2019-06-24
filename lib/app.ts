@@ -31,21 +31,29 @@ function routeCliFramework(argv: string[]): void {
 		);
 	}
 	const cmdSlice = argv.slice(2);
-	let isOclif = false;
 
 	// Look for commands that have been deleted, to print a notice
 	checkDeletedCommand(cmdSlice);
 
-	if (cmdSlice.length > 1) {
+	if (cmdSlice.length > 0) {
+		// convert 'balena --version' or 'balena -v' to 'balena version'
+		if (['--version', '-v'].includes(cmdSlice[0])) {
+			cmdSlice[0] = 'version';
+		}
+		// convert 'balena --help' or 'balena -h' to 'balena help'
+		else if (['--help', '-h'].includes(cmdSlice[0])) {
+			cmdSlice[0] = 'help';
+		}
 		// convert e.g. 'balena help env add' to 'balena env add --help'
-		if (cmdSlice[0] === 'help') {
+		if (cmdSlice.length > 1 && cmdSlice[0] === 'help') {
 			cmdSlice.shift();
 			cmdSlice.push('--help');
 		}
+	}
 
-		// Look for commands that have been transitioned to oclif
-		isOclif = isOclifCommand(cmdSlice);
-		if (isOclif) {
+	const [isOclif, isTopic] = isOclifCommand(cmdSlice);
+	if (isOclif) {
+		if (isTopic) {
 			// convert space-separated commands to oclif's topic:command syntax
 			argv = [
 				argv[0],
@@ -53,11 +61,11 @@ function routeCliFramework(argv: string[]): void {
 				cmdSlice[0] + ':' + cmdSlice[1],
 				...cmdSlice.slice(2),
 			];
+		} else {
+			argv = [argv[0], argv[1], ...cmdSlice];
 		}
-	}
-	if (isOclif) {
 		if (process.env.DEBUG) {
-			console.log(`Debug: oclif new argv=[${argv}] length=${argv.length}`);
+			console.log(`Debug: new argv=[${argv}] length=${argv.length}`);
 		}
 		require('./app-oclif').run(argv);
 	} else {
@@ -113,18 +121,28 @@ function checkDeletedCommand(argvSlice: string[]): void {
 }
 
 /**
- * Determine whether the CLI command has been converted from Capitano to ocif.
+ * Determine whether the CLI command has been converted from Capitano to oclif.
+ * Return an array of two boolean values:
+ *   r[0] : whether the CLI command is implemented with oclif
+ *   r[1] : if r[0] is true, whether the CLI command is implemented with
+ *          oclif "topics" (colon-separated subcommands like `env:add`)
  * @param argvSlice process.argv.slice(2)
  */
-function isOclifCommand(argvSlice: string[]): boolean {
+function isOclifCommand(argvSlice: string[]): [boolean, boolean] {
 	// Look for commands that have been transitioned to oclif
-	if (argvSlice.length > 1) {
-		// balena env add
-		if (argvSlice[0] === 'env' && argvSlice[1] === 'add') {
-			return true;
+	if (argvSlice.length > 0) {
+		// balena version
+		if (argvSlice[0] === 'version') {
+			return [true, false];
+		}
+		if (argvSlice.length > 1) {
+			// balena env add
+			if (argvSlice[0] === 'env' && argvSlice[1] === 'add') {
+				return [true, true];
+			}
 		}
 	}
-	return false;
+	return [false, false];
 }
 
 /**

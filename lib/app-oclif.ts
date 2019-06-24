@@ -15,23 +15,34 @@
  * limitations under the License.
  */
 
+import { Main } from '@oclif/command';
 import { ExitError } from '@oclif/errors';
 
 import { handleError } from './errors';
+
+class CustomMain extends Main {
+	protected _helpOverride(): boolean {
+		// Disable oclif's default handler for the 'version' command
+		if (['-v', '--version', 'version'].includes(this.argv[0])) {
+			return false;
+		} else {
+			return super._helpOverride();
+		}
+	}
+}
 
 /**
  * oclif CLI entrypoint
  */
 export function run(argv: string[]) {
-	process.argv = argv;
-	require('@oclif/command')
-		.run()
-		.then(require('@oclif/command/flush'))
-		.catch((error: Error) => {
+	CustomMain.run(argv.slice(2)).then(
+		require('@oclif/command/flush'),
+		(error: Error) => {
 			// oclif sometimes exits with ExitError code 0 (not an error)
 			if (error instanceof ExitError && error.oclif.exit === 0) {
 				return;
 			}
 			handleError(error);
-		});
+		},
+	);
 }

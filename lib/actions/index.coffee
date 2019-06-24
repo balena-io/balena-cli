@@ -18,7 +18,6 @@ module.exports =
 	apiKey: require('./api-key')
 	app: require('./app')
 	auth: require('./auth')
-	info: require('./info')
 	device: require('./device')
 	env: require('./environment-variables')
 	tags: require('./tags')

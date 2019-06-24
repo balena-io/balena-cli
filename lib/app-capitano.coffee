@@ -33,8 +33,10 @@ capitano.globalOption
 	boolean: true
 	alias: 'h'
 
-# ---------- Info Module ----------
-capitano.command(actions.info.version)
+capitano.globalOption
+	signature: 'version'
+	boolean: true
+	alias: 'v'
 
 # ---------- Help Module ----------
 capitano.command(actions.help.help)
