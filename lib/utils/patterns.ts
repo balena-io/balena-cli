@@ -332,6 +332,8 @@ export async function getOnlineTargetUuid(
 	sdk: BalenaSdk.BalenaSDK,
 	applicationOrDevice: string,
 ) {
+	const Logger = await import('../utils/logger');
+	const logger = new Logger();
 	const appTest = validation.validateApplicationName(applicationOrDevice);
 	const uuidTest = validation.validateUuid(applicationOrDevice);
 
@@ -341,6 +343,9 @@ export async function getOnlineTargetUuid(
 
 	// if we have a definite device UUID...
 	if (uuidTest && !appTest) {
+		logger.logDebug(
+			`Fetching device by UUID ${applicationOrDevice} (${typeof applicationOrDevice})`,
+		);
 		return (await sdk.models.device.get(applicationOrDevice, {
 			$select: ['uuid'],
 			$filter: { is_online: true },
@@ -349,6 +354,9 @@ export async function getOnlineTargetUuid(
 
 	// otherwise, it may be a device OR an application...
 	try {
+		logger.logDebug(
+			`Fetching application by name ${applicationOrDevice} (${typeof applicationOrDevice})`,
+		);
 		const app = await sdk.models.application.get(applicationOrDevice);
 		const devices = await sdk.models.device.getAllByApplication(app.id, {
 			$filter: { is_online: true },
@@ -374,9 +382,13 @@ export async function getOnlineTargetUuid(
 		if (!(err instanceof BalenaApplicationNotFound)) {
 			throw err;
 		}
+		logger.logDebug(`Application not found`);
 	}
 
 	// it wasn't an application, maybe it's a device...
+	logger.logDebug(
+		`Fetching device by UUID ${applicationOrDevice} (${typeof applicationOrDevice})`,
+	);
 	return (await sdk.models.device.get(applicationOrDevice, {
 		$select: ['uuid'],
 		$filter: { is_online: true },
