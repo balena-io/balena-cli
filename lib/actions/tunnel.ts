@@ -25,6 +25,9 @@ import { tunnelConnectionToDevice } from '../utils/tunnel';
 
 interface Args {
 	deviceOrApplication: string;
+	// when Capitano converts a positional parameter (but not an option)
+	// to a number, the original value is preserved with the _raw suffix
+	deviceOrApplication_raw: string;
 }
 
 interface Options {
@@ -88,6 +91,8 @@ export const tunnel: CommandDefinition<Args, Options> = {
 	primary: true,
 
 	action: async (params, options) => {
+		const deviceOrApplication =
+			params.deviceOrApplication_raw || params.deviceOrApplication;
 		const Logger = await import('../utils/logger');
 		const logger = new Logger();
 		const balena = await import('balena-sdk');
@@ -120,7 +125,7 @@ export const tunnel: CommandDefinition<Args, Options> = {
 				? (options.port as string[])
 				: [options.port as string];
 
-		const uuid = await getOnlineTargetUuid(sdk, params.deviceOrApplication);
+		const uuid = await getOnlineTargetUuid(sdk, deviceOrApplication);
 		const device = await sdk.models.device.get(uuid);
 
 		logger.logInfo(`Opening a tunnel to ${device.uuid}...`);
