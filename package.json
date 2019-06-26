@@ -105,7 +105,7 @@
     "gulp-mocha": "^2.0.0",
     "gulp-shell": "^0.5.2",
     "mochainon": "^2.0.0",
-    "pkg": "~4.3.8",
+    "pkg": "4.4.0",
     "prettier": "1.17.0",
     "publish-release": "^1.6.0",
     "resin-lint": "^3.0.1",
