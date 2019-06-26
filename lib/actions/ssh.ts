@@ -162,6 +162,9 @@ function generateVpnSshCommand(opts: {
 export const ssh: CommandDefinition<
 	{
 		applicationOrDevice: string;
+		// when Capitano converts a positional parameter (but not an option)
+		// to a number, the original value is preserved with the _raw suffix
+		applicationOrDevice_raw: string;
 		serviceName?: string;
 	},
 	{
@@ -221,6 +224,8 @@ export const ssh: CommandDefinition<
 		},
 	],
 	action: async (params, options) => {
+		const applicationOrDevice =
+			params.applicationOrDevice_raw || params.applicationOrDevice;
 		const bash = await import('bash');
 		// TODO: Make this typed
 		const hasbin = require('hasbin');
@@ -241,12 +246,12 @@ export const ssh: CommandDefinition<
 
 		// if we're doing a direct SSH connection locally...
 		if (
-			validateDotLocalUrl(params.applicationOrDevice) ||
-			validateIPAddress(params.applicationOrDevice)
+			validateDotLocalUrl(applicationOrDevice) ||
+			validateIPAddress(applicationOrDevice)
 		) {
 			const { performLocalDeviceSSH } = await import('../utils/device/ssh');
 			return await performLocalDeviceSSH({
-				address: params.applicationOrDevice,
+				address: applicationOrDevice,
 				port,
 				verbose,
 				service: params.serviceName,
@@ -255,7 +260,7 @@ export const ssh: CommandDefinition<
 
 		// this will be a tunnelled SSH connection...
 		exitIfNotLoggedIn();
-		const uuid = await getOnlineTargetUuid(sdk, params.applicationOrDevice);
+		const uuid = await getOnlineTargetUuid(sdk, applicationOrDevice);
 		let version: string | undefined;
 		let id: number | undefined;
 
