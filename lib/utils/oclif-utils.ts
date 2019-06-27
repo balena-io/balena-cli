@@ -27,7 +27,7 @@ export const convertedCommands = {
  * command help output.
  */
 export class CommandHelp {
-	constructor(public command: { args: any[] }) {}
+	constructor(public command: { args?: any[] }) {}
 
 	protected arg(arg: Config.Command['args'][0]): string {
 		const name = arg.name.toUpperCase();
@@ -40,7 +40,7 @@ export class CommandHelp {
 	public defaultUsage(): string {
 		return CommandHelp.compact([
 			// this.command.id,
-			this.command.args
+			(this.command.args || [])
 				.filter(a => !a.hidden)
 				.map(a => this.arg(a))
 				.join(' '),

@@ -18,10 +18,14 @@
 import { Command } from '@oclif/command';
 import * as _ from 'lodash';
 
-import EnvAddCmd from '../actions-oclif/env/add';
-
-export function getOclifHelpLinePairs(): [[string, string]] {
-	return [getCmdUsageDescriptionLinePair(EnvAddCmd)];
+export function getOclifHelpLinePairs(): Array<[string, string]> {
+	// Although it's tempting to have these oclif commands 'require'd in a
+	// central place, it would impact on performance (CLI start time). An
+	// improvement would probably be to automatically scan the actions-oclif
+	// folder.
+	const EnvAddCmd = require('../actions-oclif/env/add').default;
+	const VersionCmd = require('../actions-oclif/version').default;
+	return [EnvAddCmd, VersionCmd].map(getCmdUsageDescriptionLinePair);
 }
 
 function getCmdUsageDescriptionLinePair(cmd: typeof Command): [string, string] {

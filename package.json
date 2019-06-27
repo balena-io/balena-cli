@@ -26,6 +26,7 @@
       "node_modules/raven/lib/instrumentation/*.js"
     ],
     "assets": [
+      "build/actions-oclif",
       "build/auth/pages/*.ejs",
       "node_modules/resin-discoverable-services/services/**/*"
     ]
