@@ -1,4 +1,25 @@
 - commits:
+    - subject: Add options to 'balena version' to show Node.js version
+      hash: 9d5ecb5f9c25612f50e98b616c74761cd33f3a0e
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Pin the major Node version used by standalone zip packages to Node 10
+      hash: 236dce37daa7c80e217611785e385a4408d5f68b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.4.0
+  date: 2019-06-27T15:24:39.286Z
+- commits:
     - subject: Patch 'pkg' package to resolve 'preload' issue in standalone installs
       hash: 34d7b84d1e8db074213067c160d18811d3d4d6bb
       body: ''
