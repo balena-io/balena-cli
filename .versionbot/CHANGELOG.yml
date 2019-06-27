@@ -1,4 +1,16 @@
 - commits:
+    - subject: Patch 'pkg' package to resolve 'preload' issue in standalone installs
+      hash: 34d7b84d1e8db074213067c160d18811d3d4d6bb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.3.6
+  date: 2019-06-27T00:10:14.488Z
+- commits:
     - subject: Add machine-readable changelog
       hash: 3a7604368a5c4cd68f520021f085758260f9e055
       body: ''
