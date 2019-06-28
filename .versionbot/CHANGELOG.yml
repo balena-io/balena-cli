@@ -1,4 +1,25 @@
 - commits:
+    - subject: Unpin selected dependencies following addition of npm-shrinkwrap.json
+      hash: 77089e31e471398ec098689e414f138739424be6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Add npm-shrinkwrap.json file to control dependency updates
+      hash: 7c6bae491f3682476daa0cca00bc12043378d3f9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.4.1
+  date: 2019-06-28T12:50:58.844Z
+- commits:
     - subject: Add options to 'balena version' to show Node.js version
       hash: 9d5ecb5f9c25612f50e98b616c74761cd33f3a0e
       body: ''
