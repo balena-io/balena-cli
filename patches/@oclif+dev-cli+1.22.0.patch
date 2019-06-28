@@ -36,7 +36,7 @@ index a9d4276..75c2f8b 100644
  exports.default = PackWin;
  const scripts = {
 diff --git a/node_modules/@oclif/dev-cli/lib/tarballs/build.js b/node_modules/@oclif/dev-cli/lib/tarballs/build.js
-index 3e613e0..621d52b 100644
+index 3e613e0..dd53603 100644
 --- a/node_modules/@oclif/dev-cli/lib/tarballs/build.js
 +++ b/node_modules/@oclif/dev-cli/lib/tarballs/build.js
 @@ -19,6 +19,9 @@ const pack = async (from, to) => {
@@ -49,7 +49,7 @@ index 3e613e0..621d52b 100644
      const packCLI = async () => {
          const stdout = await qq.x.stdout('npm', ['pack', '--unsafe-perm'], { cwd: c.root });
          return path.join(c.root, stdout.split('\n').pop());
-@@ -34,6 +37,30 @@ async function build(c, options = {}) {
+@@ -34,6 +37,23 @@ async function build(c, options = {}) {
              await qq.mv(f, '.');
          await qq.rm('package', tarball, 'bin/run.cmd');
      };
@@ -59,19 +59,12 @@ index 3e613e0..621d52b 100644
 +        qq.cd(ws);
 +        const sources = [
 +            'bin', 'build', 'patches', 'typings', 'CHANGELOG.md', 'INSTALL.md',
-+            'LICENSE', 'package.json', 'package-lock.json', 'README.md',
++            'LICENSE', 'package.json', 'npm-shrinkwrap.json', 'README.md',
 +            'TROUBLESHOOTING.md',
 +        ];
 +        for (const source of sources) {
 +            console.log(`cp "${source}" -> "${ws}"`);
-+            try {
-+                await qq.cp(path.join(c.root, source), ws);
-+            } catch (err) {
-+                // OK if package-lock.json doesn't exist
-+                if (source !== 'package-lock.json') {
-+                    throw err;
-+                }
-+            }
++            await qq.cp(path.join(c.root, source), ws);
 +        }
 +        // rename the original balena-cli ./bin/balena entry point for oclif compatibility
 +        await qq.mv('bin/balena', 'bin/run');
@@ -80,7 +73,7 @@ index 3e613e0..621d52b 100644
      const updatePJSON = async () => {
          qq.cd(c.workspace());
          const pjson = await qq.readJSON('package.json');
-@@ -55,7 +82,11 @@ async function build(c, options = {}) {
+@@ -55,7 +75,11 @@ async function build(c, options = {}) {
              if (!await qq.exists(lockpath)) {
                  lockpath = qq.join(c.root, 'npm-shrinkwrap.json');
              }
@@ -93,7 +86,7 @@ index 3e613e0..621d52b 100644
              await qq.x('npm install --production');
          }
      };
-@@ -124,7 +155,8 @@ async function build(c, options = {}) {
+@@ -124,7 +148,8 @@ async function build(c, options = {}) {
          await qq.writeJSON(c.dist(config.s3Key('manifest')), manifest);
      };
      log_1.log(`gathering workspace for ${config.bin} to ${c.workspace()}`);
