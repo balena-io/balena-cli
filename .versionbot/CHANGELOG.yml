@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        Fix "Error: Cannot find module 'web-streams-polyfill'" Fix
+        npm-shrinkwrap.json produced by npm v6.4.1, by using npm v6.9.0
+      hash: 5df65f67c3fe8c0398644d57625e3d8c488ab9fc
+      body: ''
+      footer:
+        Resolves: '#1332'
+        resolves: '#1332'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.4.3
+  date: 2019-07-01T10:11:02.282Z
+- commits:
     - subject: Explicitly upgrade livepush version to 2.0.1 to pick up fix
       hash: adcc862acb2237374de76ae75fed893f46b4408c
       body: ''
