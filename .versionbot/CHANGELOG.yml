@@ -1,4 +1,16 @@
 - commits:
+    - subject: Explicitly upgrade livepush version to 2.0.1 to pick up fix
+      hash: adcc862acb2237374de76ae75fed893f46b4408c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Cameron Diver <cameron@balena.io>
+        signed-off-by: Cameron Diver <cameron@balena.io>
+      author: Cameron Diver
+  version: 11.4.2
+  date: 2019-07-01T09:01:01.908Z
+- commits:
     - subject: Unpin selected dependencies following addition of npm-shrinkwrap.json
       hash: 77089e31e471398ec098689e414f138739424be6
       body: ''
