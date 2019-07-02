@@ -13,7 +13,8 @@
     "bin/",
     "build/",
     "doc/",
-    "lib/"
+    "lib/",
+    "npm-shrinkwrap.json"
   ],
   "bin": {
     "balena": "./bin/balena"
