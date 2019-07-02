@@ -1,4 +1,27 @@
 - commits:
+    - subject: Add 'patches' to files section of package.json for npm publishing
+      hash: c32d894e97e5f9067347b2f8b9b70dae479fefb1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: >-
+        Add npm-shrinkwrap in package.json so that it gets published to the
+        registry
+      hash: ad737b8e02ea4e7902b5a664284c3388ad3334c5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Giovanni Garufi <giovanni@balena.io>
+        signed-off-by: Giovanni Garufi <giovanni@balena.io>
+      author: Giovanni Garufi
+  version: 11.4.4
+  date: 2019-07-02T20:13:08.779Z
+- commits:
     - subject: >-
         Fix "Error: Cannot find module 'web-streams-polyfill'" Fix
         npm-shrinkwrap.json produced by npm v6.4.1, by using npm v6.9.0
