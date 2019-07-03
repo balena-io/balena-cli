@@ -1,5 +1,5 @@
 diff --git a/node_modules/qqjs/node_modules/execa/index.js b/node_modules/qqjs/node_modules/execa/index.js
-index 06f3969..7ab1b66 100644
+index 06f3969..8bca191 100644
 --- a/node_modules/qqjs/node_modules/execa/index.js
 +++ b/node_modules/qqjs/node_modules/execa/index.js
 @@ -14,6 +14,17 @@ const stdio = require('./lib/stdio');
@@ -20,7 +20,7 @@ index 06f3969..7ab1b66 100644
  function handleArgs(cmd, args, opts) {
  	let parsed;
  
-@@ -104,13 +115,21 @@ function handleShell(fn, cmd, opts) {
+@@ -104,13 +115,22 @@ function handleShell(fn, cmd, opts) {
  
  	opts = Object.assign({}, opts);
  
@@ -38,12 +38,23 @@ index 06f3969..7ab1b66 100644
  		opts.windowsVerbatimArguments = true;
  	}
  
-+	console.log(`[patched execa] handleShell file="${file}" args="[${args}]"`);
++	const argStr = (args && args.length) ? `["${args.join('", "')}"]` : args;
++	console.log(`[patched execa] handleShell file="${file}" args=${argStr}`);
 +
  	if (opts.shell) {
  		file = opts.shell;
  		delete opts.shell;
-@@ -364,3 +383,7 @@ module.exports.sync = (cmd, args, opts) => {
+@@ -199,6 +219,9 @@ module.exports = (cmd, args, opts) => {
+ 	const maxBuffer = parsed.opts.maxBuffer;
+ 	const joinedCmd = joinCmd(cmd, args);
+ 
++	const argStr = (args && args.length) ? `["${args.join('", "')}"]` : args;
++	console.log(`[patched execa] parsed.cmd="${parsed.cmd}" parsed.args=${argStr}`);
++
+ 	let spawned;
+ 	try {
+ 		spawned = childProcess.spawn(parsed.cmd, parsed.args, parsed.opts);
+@@ -364,3 +387,7 @@ module.exports.sync = (cmd, args, opts) => {
  module.exports.shellSync = (cmd, opts) => handleShell(module.exports.sync, cmd, opts);
  
  module.exports.spawn = util.deprecate(module.exports, 'execa.spawn() is deprecated. Use execa() instead.');
