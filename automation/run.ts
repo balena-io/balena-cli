@@ -15,44 +15,16 @@
  * limitations under the License.
  */
 
-import { spawn } from 'child_process';
 import * as _ from 'lodash';
-import * as shellEscape from 'shell-escape';
 
 import {
 	buildOclifInstaller,
-	buildPkg,
+	buildStandaloneZip,
 	fixPathForMsys,
 	ROOT,
+	runUnderMsys,
 } from './build-bin';
 import { release } from './deploy-bin';
-
-/**
- * Run the MSYS2 bash.exe shell in a child process (child_process.spawn()).
- * The given argv arguments are escaped using the 'shell-escape' package,
- * so that backslashes in Windows paths, and other bash-special characters,
- * are preserved. If argv is not provided, defaults to process.argv, to the
- * effect that this current (parent) process is re-executed under MSYS2 bash.
- * This is useful to change the default shell from cmd.exe to MSYS2 bash on
- * Windows.
- * @param argv Arguments to be shell-escaped and given to MSYS2 bash.exe.
- */
-export async function runUnderMsys(argv?: string[]) {
-	const newArgv = argv || process.argv;
-	await new Promise((resolve, reject) => {
-		const cmd = 'C:\\msys64\\usr\\bin\\bash.exe';
-		const args = ['-lc', shellEscape(newArgv)];
-		const child = spawn(cmd, args, { stdio: 'inherit' });
-		child.on('close', code => {
-			if (code) {
-				console.log(`runUnderMsys: child process exited with code ${code}`);
-				reject(code);
-			} else {
-				resolve();
-			}
-		});
-	});
-}
 
 /**
  * Trivial command-line parser. Check whether the command-line argument is one
@@ -76,7 +48,7 @@ export async function run(args?: string[]) {
 	}
 	const commands: { [cmd: string]: () => void } = {
 		'build:installer': buildOclifInstaller,
-		'build:standalone': buildPkg,
+		'build:standalone': buildStandaloneZip,
 		release,
 	};
 	for (const arg of args) {
@@ -89,23 +61,46 @@ export async function run(args?: string[]) {
 	// the current working dir becomes the MSYS2 homedir, so we change back.
 	process.chdir(ROOT);
 
+	// The BUILD_TMP env var is used as an alternative location for oclif
+	// (patched) to copy/extract the CLI files, run npm install and then
+	// create the NSIS executable installer for Windows. This was necessary
+	// to avoid issues with a 260-char limit on Windows paths (possibly a
+	// limitation of some library used by NSIS), as the "current working dir"
+	// provided by balena CI is a rather long path to start with.
+	if (process.platform === 'win32' && !process.env.BUILD_TMP) {
+		const randID = require('crypto')
+			.randomBytes(6)
+			.toString('base64')
+			.replace(/\+/g, '-')
+			.replace(/\//g, '_'); // base64url (RFC 4648)
+		process.env.BUILD_TMP = `C:\\tmp\\${randID}`;
+	}
+
 	for (const arg of args) {
-		if (arg === 'build:installer' && process.platform === 'win32') {
-			// ensure running under MSYS2
-			if (!process.env.MSYSTEM) {
-				process.env.MSYS2_PATH_TYPE = 'inherit';
-				await runUnderMsys([
-					fixPathForMsys(process.argv[0]),
-					fixPathForMsys(process.argv[1]),
-					arg,
-				]);
-				continue;
+		try {
+			if (arg === 'build:installer' && process.platform === 'win32') {
+				// ensure running under MSYS2
+				if (!process.env.MSYSTEM) {
+					process.env.MSYS2_PATH_TYPE = 'inherit';
+					await runUnderMsys([
+						fixPathForMsys(process.argv[0]),
+						fixPathForMsys(process.argv[1]),
+						arg,
+					]);
+					continue;
+				}
+				if (process.env.MSYS2_PATH_TYPE !== 'inherit') {
+					throw new Error(
+						'the MSYS2_PATH_TYPE env var must be set to "inherit"',
+					);
+				}
 			}
-			if (process.env.MSYS2_PATH_TYPE !== 'inherit') {
-				throw new Error('the MSYS2_PATH_TYPE env var must be set to "inherit"');
-			}
+			const cmdFunc = commands[arg];
+			await cmdFunc();
+		} catch (err) {
+			console.log(`Error running command "${arg}": ${err}`);
+			process.exit(1);
 		}
-		await commands[arg]();
 	}
 }
 

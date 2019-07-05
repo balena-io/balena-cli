@@ -43,6 +43,7 @@
     "build:doc": "mkdirp doc/ && ts-node --type-check -P automation/tsconfig.json automation/capitanodoc/index.ts > doc/cli.markdown",
     "build:standalone": "ts-node --type-check -P automation/tsconfig.json automation/run.ts build:standalone",
     "build:installer": "ts-node --type-check -P automation/tsconfig.json automation/run.ts build:installer",
+    "package": "npm run build:fast && npm run build:standalone && npm run build:installer",
     "release": "ts-node --type-check -P automation/tsconfig.json automation/run.ts release",
     "pretest": "npm run build",
     "test": "gulp test",
@@ -71,7 +72,8 @@
     "bin": "balena",
     "commands": "./build/actions-oclif",
     "macos": {
-      "identifier": "io.balena.cli"
+      "identifier": "io.balena.cli",
+      "sign": "Developer ID Installer: Rulemotion Ltd (66H43P8FRG)"
     }
   },
   "devDependencies": {

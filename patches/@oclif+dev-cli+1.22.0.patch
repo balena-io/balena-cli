@@ -1,3 +1,15 @@
+diff --git a/node_modules/@oclif/dev-cli/lib/commands/pack/macos.js b/node_modules/@oclif/dev-cli/lib/commands/pack/macos.js
+index cd771cd..4a66939 100644
+--- a/node_modules/@oclif/dev-cli/lib/commands/pack/macos.js
++++ b/node_modules/@oclif/dev-cli/lib/commands/pack/macos.js
+@@ -37,6 +37,7 @@ class PackMacos extends command_1.Command {
+         if (process.env.OSX_KEYCHAIN)
+             args.push('--keychain', process.env.OSX_KEYCHAIN);
+         args.push(dist);
++        console.log(`pkgbuild "${args.join('" "')}"`);
+         await qq.x('pkgbuild', args);
+     }
+ }
 diff --git a/node_modules/@oclif/dev-cli/lib/commands/pack/win.js b/node_modules/@oclif/dev-cli/lib/commands/pack/win.js
 index a9d4276..75c2f8b 100644
 --- a/node_modules/@oclif/dev-cli/lib/commands/pack/win.js
@@ -36,12 +48,15 @@ index a9d4276..75c2f8b 100644
  exports.default = PackWin;
  const scripts = {
 diff --git a/node_modules/@oclif/dev-cli/lib/tarballs/build.js b/node_modules/@oclif/dev-cli/lib/tarballs/build.js
-index 3e613e0..dd53603 100644
+index 3e613e0..129d041 100644
 --- a/node_modules/@oclif/dev-cli/lib/tarballs/build.js
 +++ b/node_modules/@oclif/dev-cli/lib/tarballs/build.js
-@@ -19,6 +19,9 @@ const pack = async (from, to) => {
+@@ -17,8 +17,11 @@ const pack = async (from, to) => {
+     qq.cd(prevCwd);
+ };
  async function build(c, options = {}) {
-     const { xz, config } = c;
+-    const { xz, config } = c;
++    const { xz, config, tmp } = c;
      const prevCwd = qq.cwd();
 +
 +    console.log(`[patched @oclif/dev-cli] cwd="${prevCwd}"\n c.root="${c.root}" c.workspace()="${c.workspace()}"`);
@@ -49,7 +64,7 @@ index 3e613e0..dd53603 100644
      const packCLI = async () => {
          const stdout = await qq.x.stdout('npm', ['pack', '--unsafe-perm'], { cwd: c.root });
          return path.join(c.root, stdout.split('\n').pop());
-@@ -34,6 +37,23 @@ async function build(c, options = {}) {
+@@ -34,6 +37,28 @@ async function build(c, options = {}) {
              await qq.mv(f, '.');
          await qq.rm('package', tarball, 'bin/run.cmd');
      };
@@ -69,24 +84,41 @@ index 3e613e0..dd53603 100644
 +        // rename the original balena-cli ./bin/balena entry point for oclif compatibility
 +        await qq.mv('bin/balena', 'bin/run');
 +        await qq.rm('bin/run.cmd');
++        // The oclif installers are produced with `npm i --production`, while the
++        // source `bin` folder may contain a `.fast-boot.json` produced with `npm i`.
++        // This has previously led to issues preventing the CLI from starting, so
++        // delete `.fast-boot.json` (if any) from the destination folder.
++        await qq.rm('bin/.fast-boot.json');
 +    }
      const updatePJSON = async () => {
          qq.cd(c.workspace());
          const pjson = await qq.readJSON('package.json');
-@@ -55,7 +75,11 @@ async function build(c, options = {}) {
-             if (!await qq.exists(lockpath)) {
+@@ -56,7 +81,13 @@ async function build(c, options = {}) {
                  lockpath = qq.join(c.root, 'npm-shrinkwrap.json');
              }
--            await qq.cp(lockpath, '.');
-+            try {
-+                await qq.cp(lockpath, '.');
-+            } catch (err) {
-+                console.log('WARNING: found neiter package-lock.json nor npm-shrinkwrap.json')
+             await qq.cp(lockpath, '.');
+-            await qq.x('npm install --production');
++
++            const npmVersion = await qq.x.stdout('npm', ['--version']);
++            if (require('semver').lt(npmVersion, '6.9.0')) {
++                await qq.x('npx npm@6.9.0 install --production');
++            } else {
++                await qq.x('npm install --production');
 +            }
-             await qq.x('npm install --production');
          }
      };
-@@ -124,7 +148,8 @@ async function build(c, options = {}) {
+     const buildTarget = async (target) => {
+@@ -71,7 +102,8 @@ async function build(c, options = {}) {
+             output: path.join(workspace, 'bin', 'node'),
+             platform: target.platform,
+             arch: target.arch,
+-            tmp: qq.join(config.root, 'tmp'),
++            tmp,
++            projectRootPath: c.root,
+         });
+         if (options.pack === false)
+             return;
+@@ -124,7 +156,8 @@ async function build(c, options = {}) {
          await qq.writeJSON(c.dist(config.s3Key('manifest')), manifest);
      };
      log_1.log(`gathering workspace for ${config.bin} to ${c.workspace()}`);
@@ -96,11 +128,39 @@ index 3e613e0..dd53603 100644
      await updatePJSON();
      await addDependencies();
      await bin_1.writeBinScripts({ config, baseWorkspace: c.workspace(), nodeVersion: c.nodeVersion });
+diff --git a/node_modules/@oclif/dev-cli/lib/tarballs/config.js b/node_modules/@oclif/dev-cli/lib/tarballs/config.js
+index 320fc52..efe3f2f 100644
+--- a/node_modules/@oclif/dev-cli/lib/tarballs/config.js
++++ b/node_modules/@oclif/dev-cli/lib/tarballs/config.js
+@@ -10,7 +10,13 @@ function gitSha(cwd, options = {}) {
+ }
+ exports.gitSha = gitSha;
+ async function Tmp(config) {
+-    const tmp = path.join(config.root, 'tmp');
++    let tmp;
++    if (process.env.BUILD_TMP) {
++        tmp = path.join(process.env.BUILD_TMP, 'oclif');
++    } else {
++        tmp = path.join(config.root, 'tmp');
++    }
++    console.log(`@oclif/dev-cli tmp="${tmp}"`);
+     await qq.mkdirp(tmp);
+     return tmp;
+ }
+@@ -36,7 +42,7 @@ async function buildConfig(root, options = {}) {
+         s3Config: updateConfig.s3,
+         nodeVersion: updateConfig.node.version || process.versions.node,
+         workspace(target) {
+-            const base = qq.join(config.root, 'tmp');
++            const base = tmp;
+             if (target && target.platform)
+                 return qq.join(base, [target.platform, target.arch].join('-'), config.s3Key('baseDir', target));
+             return qq.join(base, config.s3Key('baseDir', target));
 diff --git a/node_modules/@oclif/dev-cli/lib/tarballs/node.js b/node_modules/@oclif/dev-cli/lib/tarballs/node.js
-index 343eb00..865d5a5 100644
+index 343eb00..5521e2d 100644
 --- a/node_modules/@oclif/dev-cli/lib/tarballs/node.js
 +++ b/node_modules/@oclif/dev-cli/lib/tarballs/node.js
-@@ -1,19 +1,45 @@
+@@ -1,28 +1,58 @@
  "use strict";
  Object.defineProperty(exports, "__esModule", { value: true });
  const errors_1 = require("@oclif/errors");
@@ -152,9 +212,13 @@ index 343eb00..865d5a5 100644
      }
 +    return foundPath;
  }
- async function fetchNodeBinary({ nodeVersion, output, platform, arch, tmp }) {
+-async function fetchNodeBinary({ nodeVersion, output, platform, arch, tmp }) {
++async function fetchNodeBinary({ nodeVersion, output, platform, arch, tmp, projectRootPath }) {
++
++    console.log(`fetchNodeBinary using tmp="${tmp}`);
++
      if (arch === 'arm')
-@@ -21,8 +47,9 @@ async function fetchNodeBinary({ nodeVersion, output, platform, arch, tmp }) {
+         arch = 'armv6l';
      let nodeBase = `node-v${nodeVersion}-${platform}-${arch}`;
      let tarball = path.join(tmp, 'node', `${nodeBase}.tar.xz`);
      let url = `https://nodejs.org/dist/v${nodeVersion}/${nodeBase}.tar.xz`;
@@ -162,11 +226,11 @@ index 343eb00..865d5a5 100644
 -        await checkFor7Zip();
 +	let zPath = '';
 +	if (platform === 'win32') {
-+        zPath = await checkFor7Zip(path.join(tmp, '..'));
++        zPath = await checkFor7Zip(projectRootPath);
          nodeBase = `node-v${nodeVersion}-win-${arch}`;
          tarball = path.join(tmp, 'node', `${nodeBase}.7z`);
          url = `https://nodejs.org/dist/v${nodeVersion}/${nodeBase}.7z`;
-@@ -40,7 +67,8 @@ async function fetchNodeBinary({ nodeVersion, output, platform, arch, tmp }) {
+@@ -40,7 +70,8 @@ async function fetchNodeBinary({ nodeVersion, output, platform, arch, tmp }) {
          const basedir = path.dirname(tarball);
          await qq.mkdirp(basedir);
          await qq.download(url, tarball);
@@ -176,7 +240,7 @@ index 343eb00..865d5a5 100644
      };
      const extract = async () => {
          log_1.log(`extracting ${nodeBase}`);
-@@ -50,7 +78,7 @@ async function fetchNodeBinary({ nodeVersion, output, platform, arch, tmp }) {
+@@ -50,7 +81,7 @@ async function fetchNodeBinary({ nodeVersion, output, platform, arch, tmp }) {
          await qq.mkdirp(path.dirname(cache));
          if (platform === 'win32') {
              qq.pushd(nodeTmp);
