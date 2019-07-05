@@ -56,8 +56,8 @@ const oclifInstallers: PathByPlatform = {
 };
 
 const renamedOclifInstallers: PathByPlatform = {
-	darwin: dPath(`balena-cli-${version}-macOS-${arch}-installer-BETA.pkg`),
-	win32: dPath(`balena-cli-${version}-windows-${arch}-installer-BETA.exe`),
+	darwin: dPath(`balena-cli-${version}-macOS-${arch}-installer.pkg`),
+	win32: dPath(`balena-cli-${version}-windows-${arch}-installer.exe`),
 };
 
 export const finalReleaseAssets: { [platform: string]: string[] } = {
