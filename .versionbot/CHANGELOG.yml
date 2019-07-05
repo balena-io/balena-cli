@@ -1,4 +1,66 @@
 - commits:
+    - subject: Add release target in repo.yml
+      hash: 32e72c832f10f96048fda9f2d532bfbb49c632c0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Giovanni Garufi <giovanni@balena.io>
+        signed-off-by: Giovanni Garufi <giovanni@balena.io>
+      author: Giovanni Garufi
+    - subject: Patch oclif to use "npx npm@6.9.0 install" if npm is older than 6.9.0
+      hash: 05aaed07b2aad9c983db2cbf217c3471b404186f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: 'balena CI: Add balena-cli executable signing step'
+      hash: 7c750f9e4330ff3ac135dfff109e015ea4e14f7d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Add 'npm run package' command
+      hash: 55bf4dc0f0efd99841d28ed054383d3061ff93b9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: 'Refactor build:standalone / build:installer / run release'
+      hash: 0afbd6f17a2c7857006ca46386330b9c01a2c3c6
+      body: |
+        So that:
+        - Standalone zip files are created in the standalone step,
+        - oclif installers are renamed in the installer step, and
+        - npm run release (which is skipped by balena CI) is reduced to
+          uploading the files to the GitHub releases page.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: 'balena CI integration: Use C:\tmp to avoid 260-char path length limit'
+      hash: 66b997d98c1895df827bca4b3c343660a27ce893
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.5.0
+  date: 2019-07-05T14:31:02.291Z
+- commits:
     - subject: Add 'patches' to files section of package.json for npm publishing
       hash: c32d894e97e5f9067347b2f8b9b70dae479fefb1
       body: ''
