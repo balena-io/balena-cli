@@ -46,6 +46,10 @@ interface ImgConfig {
 	deviceId?: number;
 	uuid?: string;
 	registered_at?: number;
+
+	os?: {
+		sshKeys?: string[];
+	};
 }
 
 export function generateBaseConfig(
@@ -54,6 +58,9 @@ export function generateBaseConfig(
 		version: string;
 		appUpdatePollInterval?: number;
 		deviceType?: string;
+		os?: {
+			sshKeys?: string[];
+		}
 	},
 ): Promise<ImgConfig> {
 	options = {
@@ -68,6 +75,15 @@ export function generateBaseConfig(
 	return promise.tap(config => {
 		// os.getConfig always returns a config for an app
 		delete config.apiKey;
+
+		// merge sshKeys to config, when they have been specified
+		if(options.os && options.os.sshKeys) {
+			// Create config.os object if it does not exist
+			config.os = config.os ? config.os : {};
+			config.os.sshKeys = config.os.sshKeys
+				? [...config.os.sshKeys, ...options.os.sshKeys]
+				: options.os.sshKeys;
+		}
 	});
 }
 
