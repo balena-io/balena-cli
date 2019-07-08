@@ -1,2 +1,4 @@
 type: node-cli
 release: github
+github_release:
+  name: 'balena-CLI %{version}'
