@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 import * as Bluebird from 'bluebird';
+import { stripIndent } from 'common-tags';
+import Dockerode = require('dockerode');
 import * as _ from 'lodash';
 import { Composition } from 'resin-compose-parse';
 import * as MultiBuild from 'resin-multibuild';
@@ -24,12 +26,89 @@ import * as tar from 'tar-stream';
 import { BalenaSDK } from 'balena-sdk';
 import { DeviceInfo } from './device/api';
 import Logger = require('./logger');
+import { exitWithExpectedError } from './patterns';
 
 export interface RegistrySecrets {
 	[registryAddress: string]: {
 		username: string;
 		password: string;
 	};
+}
+
+/**
+ * Load the ".balena/balena.yml" file (or resin.yml, or yaml or json),
+ * which contains "build metadata" for features like "build secrets" and
+ * "build variables".
+ * @returns Pair of metadata object and metadata file path
+ */
+export async function loadBuildMetatada(
+	sourceDir: string,
+): Promise<[MultiBuild.ParsedBalenaYml, string]> {
+	const { fs } = await import('mz');
+	const path = await import('path');
+	let metadataPath = '';
+	let rawString = '';
+
+	outer: for (const fName of ['balena', 'resin']) {
+		for (const fExt of ['yml', 'yaml', 'json']) {
+			metadataPath = path.join(sourceDir, `.${fName}`, `${fName}.${fExt}`);
+			try {
+				rawString = await fs.readFile(metadataPath, 'utf8');
+				break outer;
+			} catch (err) {
+				if (err.code === 'ENOENT') {
+					// file not found, try the next name.extension combination
+					continue;
+				} else {
+					throw err;
+				}
+			}
+		}
+	}
+	if (!rawString) {
+		return [{}, ''];
+	}
+	let buildMetadata: MultiBuild.ParsedBalenaYml;
+	try {
+		if (metadataPath.endsWith('json')) {
+			buildMetadata = JSON.parse(rawString);
+		} else {
+			buildMetadata = require('js-yaml').safeLoad(rawString);
+		}
+	} catch (err) {
+		return exitWithExpectedError(
+			`Error parsing file "${metadataPath}":\n ${err.message}`,
+		);
+	}
+	return [buildMetadata, metadataPath];
+}
+
+/**
+ * Check whether the "build secrets" feature is being used and, if so,
+ * verify that the target docker daemon is balenaEngine. If the
+ * requirement is not satisfied, call exitWithExpectedError().
+ * @param docker Dockerode instance
+ * @param sourceDir Project directory where to find .balena/balena.yml
+ */
+export async function checkBuildSecretsRequirements(
+	docker: Dockerode,
+	sourceDir: string,
+) {
+	const [metaObj, metaFilename] = await loadBuildMetatada(sourceDir);
+	if (!_.isEmpty(metaObj['build-secrets'])) {
+		const dockerUtils = await import('./docker');
+		const isBalenaEngine = await dockerUtils.isBalenaEngine(docker);
+		if (!isBalenaEngine) {
+			exitWithExpectedError(stripIndent`
+				The "build secrets" feature currently requires balenaEngine, but a standard Docker
+				daemon was detected. Please use command-line options to specify the hostname and
+				port number (or socket path) of a balenaEngine daemon, running on a balena device
+				or a virtual machine with balenaOS. If the build secrets feature is not required,
+				comment out or delete the 'build-secrets' entry in the file:
+				"${metaFilename}"
+				`);
+		}
+	}
 }
 
 export async function getRegistrySecrets(
@@ -63,7 +142,6 @@ async function parseRegistrySecrets(
 	secretsFilename: string,
 ): Promise<RegistrySecrets> {
 	const { fs } = await import('mz');
-	const { exitWithExpectedError } = await import('../utils/patterns');
 	try {
 		let isYaml = false;
 		if (/.+\.ya?ml$/i.test(secretsFilename)) {
@@ -200,10 +278,8 @@ export function validateSpecifiedDockerfile(
 	if (!dockerfilePath) {
 		return dockerfilePath;
 	}
-	const { exitWithExpectedError } = require('../utils/patterns');
 	const { isAbsolute, join, normalize, parse, posix } = require('path');
 	const { existsSync } = require('fs');
-	const { stripIndent } = require('common-tags');
 	const { contains, toNativePath, toPosixPath } = MultiBuild.PathUtils;
 
 	// reminder: native windows paths may start with a drive specificaton,

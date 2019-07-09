@@ -28,7 +28,8 @@ import {
 import * as semver from 'resin-semver';
 import { Readable } from 'stream';
 
-import { makeBuildTasks } from '../compose_ts';
+import { BALENA_ENGINE_TMP_PATH } from '../../config';
+import { checkBuildSecretsRequirements, makeBuildTasks } from '../compose_ts';
 import Logger = require('../logger');
 import { DeviceAPI, DeviceInfo } from './api';
 import * as LocalPushErrors from './errors';
@@ -175,6 +176,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		opts.devicePort != null ? opts.devicePort : 2375,
 	);
 
+	await checkBuildSecretsRequirements(docker, opts.source);
 	const tarStream = await tarDirectory(opts.source);
 
 	// Try to detect the device information
@@ -310,7 +312,11 @@ export async function performBuilds(
 
 	logger.logDebug('Starting builds...');
 	await assignOutputHandlers(buildTasks, logger, logHandlers);
-	const localImages = await multibuild.performBuilds(buildTasks, docker);
+	const localImages = await multibuild.performBuilds(
+		buildTasks,
+		docker,
+		BALENA_ENGINE_TMP_PATH,
+	);
 
 	// Check for failures
 	await inspectBuildResults(localImages);
@@ -383,7 +389,11 @@ export async function rebuildSingleTask(
 	await assignDockerBuildOpts(docker, [task], opts);
 	await assignOutputHandlers([task], logger, logHandler);
 
-	const [localImage] = await multibuild.performBuilds([task], docker);
+	const [localImage] = await multibuild.performBuilds(
+		[task],
+		docker,
+		BALENA_ENGINE_TMP_PATH,
+	);
 
 	if (!localImage.successful) {
 		throw new LocalPushErrors.BuildError([
