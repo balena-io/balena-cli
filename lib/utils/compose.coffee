@@ -313,7 +313,7 @@ exports.buildProject = (
 createRelease = (apiEndpoint, auth, userId, appId, composition) ->
 	_ = require('lodash')
 	crypto = require('crypto')
-	releaseMod = require('resin-release')
+	releaseMod = require('balena-release')
 
 	client = releaseMod.createClient({ apiEndpoint, auth })
 
@@ -454,7 +454,7 @@ exports.deployProject = (
 ) ->
 	_ = require('lodash')
 	chalk = require('chalk')
-	releaseMod = require('resin-release')
+	releaseMod = require('balena-release')
 	tty = require('./tty')(process.stdout)
 
 	prefix = chalk.cyan('[Info]') + '    '
