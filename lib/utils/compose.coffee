@@ -621,7 +621,7 @@ class BuildProgressUI
 			stream = through.obj (event, _enc, cb) ->
 				eventHandler(service, event)
 				cb()
-			stream.pipe(tty.stream)
+			stream.pipe(tty.stream, end: false)
 			[ service, stream ]
 		.fromPairs()
 		.value()
@@ -755,7 +755,7 @@ class BuildProgressInline
 			stream = through.obj (event, _enc, cb) ->
 				eventHandler(service, event)
 				cb()
-			stream.pipe(outStream)
+			stream.pipe(outStream, end: false)
 			[ service, stream ]
 		.fromPairs()
 		.value()
