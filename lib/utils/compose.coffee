@@ -1,6 +1,6 @@
 ###*
 # @license
-# Copyright 2018 Balena Ltd.
+# Copyright 2017-2019 Balena Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -186,6 +186,8 @@ exports.buildProject = (
 	compose = require('resin-compose-parse')
 	builder = require('resin-multibuild')
 	transpose = require('docker-qemu-transpose')
+	{ BALENA_ENGINE_TMP_PATH } = require('../config')
+	{ checkBuildSecretsRequirements, makeBuildTasks } = require('./compose_ts')
 	qemu = require('./qemu')
 	{ toPosixPath } = builder.PathUtils
 
@@ -201,7 +203,8 @@ exports.buildProject = (
 		renderer = new BuildProgressUI(tty, imageDescriptors)
 	renderer.start()
 
-	qemu.installQemuIfNeeded(emulated, logger, arch)
+	Promise.resolve(checkBuildSecretsRequirements(docker, projectPath))
+	.then -> qemu.installQemuIfNeeded(emulated, logger, arch)
 	.tap (needsQemu) ->
 		return if not needsQemu
 		logger.logInfo('Emulation is enabled')
@@ -213,7 +216,6 @@ exports.buildProject = (
 		# Tar up the directory, ready for the build stream
 		tarDirectory(projectPath)
 		.then (tarStream) ->
-			{ makeBuildTasks } = require('./compose_ts')
 			Promise.resolve(makeBuildTasks(composition, tarStream, { arch, deviceType }, logger))
 		.map (task) ->
 			d = imageDescriptorsByServiceName[task.serviceName]
@@ -275,7 +277,7 @@ exports.buildProject = (
 					.pipe(task.logStream)
 	.then (tasks) ->
 		logger.logDebug 'Prepared tasks; building...'
-		builder.performBuilds(tasks, docker)
+		Promise.resolve(builder.performBuilds(tasks, docker, BALENA_ENGINE_TMP_PATH))
 		.map (builtImage) ->
 			if not builtImage.successful
 				builtImage.error.serviceName = builtImage.serviceName
@@ -621,7 +623,7 @@ class BuildProgressUI
 			stream = through.obj (event, _enc, cb) ->
 				eventHandler(service, event)
 				cb()
-			stream.pipe(tty.stream)
+			stream.pipe(tty.stream, end: false)
 			[ service, stream ]
 		.fromPairs()
 		.value()
@@ -755,7 +757,7 @@ class BuildProgressInline
 			stream = through.obj (event, _enc, cb) ->
 				eventHandler(service, event)
 				cb()
-			stream.pipe(outStream)
+			stream.pipe(outStream, end: false)
 			[ service, stream ]
 		.fromPairs()
 		.value()

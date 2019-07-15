@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2017-2019 Balena Ltd.
+ * Copyright 2019 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,18 @@
  * limitations under the License.
  */
 
-export const BALENA_ENGINE_TMP_PATH = '/var/lib/docker/tmp';
+import * as Bluebird from 'bluebird';
+import DockerToolbelt = require('docker-toolbelt');
 
-export const sentryDsn =
-	'https://56d2a46124614b01b0f4086897e96110:6e175465accc41b595a96947155f61fb@sentry.io/149239';
+export interface BuildDockerOptions {
+	ca?: string; // path to ca (Certificate Authority) file (TLS)
+	cert?: string; // path to cert (Certificate) file (TLS)
+	key?: string; // path to key file (TLS)
+	docker?: string; // dockerode DockerOptions.socketPath
+	dockerHost?: string; // dockerode DockerOptions.host
+	dockerPort?: number; // dockerode DockerOptions.port
+}
+
+export function getDocker(
+	options: BuildDockerOptions,
+): Bluebird<DockerToolbelt>;
