@@ -1,5 +1,32 @@
 - commits:
     - subject: >-
+        Add "build secrets" and "build variables" support for push/build/deploy
+        to/on/via balena devices
+      hash: 225408c57de98646ea6e494a358fd45fad2ac3ac
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: >-
+        Fix truncated logs in local multicontainer image builds (balena
+        build/deploy)
+      hash: 8cfacc9cbca9ca4b381ff5d20f29e4be767abdd2
+      body: ''
+      footer:
+        Resolves: '#1346'
+        resolves: '#1346'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.7.0
+  date: 2019-07-15T16:01:15.633Z
+- commits:
+    - subject: >-
         Remove BETA suffix from Windows and macOS installers, and update
         INSTALL.md
       hash: 49a7eb30c0d0df887a86aa0a80d673c0548bb141
