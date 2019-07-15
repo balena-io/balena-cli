@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Remove BETA suffix from Windows and macOS installers, and update
+        INSTALL.md
+      hash: 49a7eb30c0d0df887a86aa0a80d673c0548bb141
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.6.1
+  date: 2019-07-15T15:02:06.574Z
+- commits:
     - subject: Add os.sshKeys to generateBaseConfig
       hash: 9eae9dcee348d270a35da415151e286c0bb38bf1
       body: ''
