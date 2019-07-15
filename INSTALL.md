@@ -18,25 +18,19 @@ for installing and getting started with the balena CLI on Windows!
 
 ## Executable Installer
 
-_Please note: the executable installers are in **beta** status (recently introduced)._
-
 1. Download the latest installer from the [releases page](https://github.com/balena-io/balena-cli/releases).
-   Look for a file name that ends with "installer-BETA", for example:  
-   `balena-cli-v10.13.6-windows-x64-installer-BETA.exe`  
-   `balena-cli-v10.13.6-macOS-x64-installer-BETA.pkg`
-2. Double click to run. Your system may raise a pop-up warning that the installer is from an
-   "unknown publisher" or "unidentified developer". Check the following instructions for how
-   to get through the warnings:
-   [Windows](https://github.com/balena-io/balena-cli/issues/1250) or
-   [macOS](https://github.com/balena-io/balena-cli/issues/1251).
-   (We are looking at how to get the installers digitally signed to avoid the warnings.)
+   Look for a file name that ends with "-installer", for example:  
+   `balena-cli-v11.6.0-windows-x64-installer.exe`  
+   `balena-cli-v11.6.0-macOS-x64-installer.pkg`
+2. Double click the downloaded file to run the installer.
+3. After the installation completes, close and re-open any open [command
+   terminal](https://www.balena.io/docs/reference/cli/#choosing-a-shell-command-promptterminal)
+   windows so that the changes made by the installer to the PATH environment variable can take
+   effect. Check that the installation was successful by running the following commands on a
+   command terminal:
 
-After the installation completes, close and re-open any open command terminal windows so that the
-changes made by the installer to the PATH environment variable can take effect. Check that the
-installation was successful by running these commands:
-
-* `balena` - should print the balena CLI help
 * `balena version` - should print the installed CLI version
+* `balena help` - should print the balena CLI help
 
 > Note: If you had previously installed the CLI using a standalone zip package, it may be a good
 > idea to check your system's `PATH` environment variable for duplicate entries, as the terminal

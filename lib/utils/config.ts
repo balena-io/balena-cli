@@ -60,7 +60,7 @@ export function generateBaseConfig(
 		deviceType?: string;
 		os?: {
 			sshKeys?: string[];
-		}
+		};
 	},
 ): Promise<ImgConfig> {
 	options = {
@@ -77,7 +77,7 @@ export function generateBaseConfig(
 		delete config.apiKey;
 
 		// merge sshKeys to config, when they have been specified
-		if(options.os && options.os.sshKeys) {
+		if (options.os && options.os.sshKeys) {
 			// Create config.os object if it does not exist
 			config.os = config.os ? config.os : {};
 			config.os.sshKeys = config.os.sshKeys
