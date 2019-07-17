@@ -230,7 +230,7 @@ export class LivepushManager {
 	}
 
 	private async awaitDeviceStateSettle(): Promise<void> {
-		// Cache the state to avoid unnecessary cals
+		// Cache the state to avoid unnecessary calls
 		this.lastDeviceStatus = await this.api.getStatus();
 
 		if (this.lastDeviceStatus.appState === 'applied') {
