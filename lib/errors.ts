@@ -72,7 +72,7 @@ const messages: {
 		Head over to http://git-scm.com to install it and run this command again.`,
 
 	EPERM: () => stripIndent`
-		You don't have enough privileges to run this operation.
+		You don't have sufficient privileges to run this operation.
 		${
 			os.platform() === 'win32'
 				? 'Run a new Command Prompt as administrator and try running this command again.'
