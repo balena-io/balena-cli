@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'chore: fix up small typos, remove gitter link'
+      hash: d92e076829f4478e6201cdd8957576dda3fc3038
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Matthew McGinn <matthew@balena.io>
+        signed-off-by: Matthew McGinn <matthew@balena.io>
+      author: Matthew McGinn
+  version: 11.7.1
+  date: 2019-07-17T19:27:15.972Z
+- commits:
     - subject: >-
         Add "build secrets" and "build variables" support for push/build/deploy
         to/on/via balena devices
