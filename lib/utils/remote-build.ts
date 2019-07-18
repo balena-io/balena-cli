@@ -47,7 +47,7 @@ export interface RemoteBuild {
 	auth: string;
 	baseUrl: string;
 	opts: BuildOpts;
-
+	nogitignore: boolean;
 	sdk: BalenaSDK;
 
 	// For internal use
@@ -294,6 +294,7 @@ async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
 			Object.keys(build.opts.registrySecrets).length > 0
 				? preFinalizeCallback
 				: undefined,
+			build.nogitignore,
 		);
 	} finally {
 		tarSpinner.stop();

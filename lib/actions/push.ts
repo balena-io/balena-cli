@@ -110,6 +110,7 @@ export const push: CommandDefinition<
 		dockerfile?: string; // DeviceDeployOptions.dockerfilePath (alternative Dockerfile)
 		nocache?: boolean;
 		'registry-secrets'?: string;
+		nogitignore?: boolean;
 		nolive?: boolean;
 		detached?: boolean;
 		service?: string | string[];
@@ -245,6 +246,17 @@ export const push: CommandDefinition<
 				left hand side of the = character will be treated as the variable name.
 			`,
 		},
+		{
+			signature: 'nogitignore',
+			alias: 'I',
+			description: stripIndent`
+				Ignore files listed in the .dockerignore file only, not the .gitignore file.
+				This option enables this new behaviour that will be the default in a future
+				major version release. Reference issue:
+				https://github.com/balena-io/balena-cli/issues/1032
+			`,
+			boolean: true,
+		},
 	],
 	async action(params, options, done) {
 		const sdk = (await import('balena-sdk')).fromSharedOptions();
@@ -326,6 +338,7 @@ export const push: CommandDefinition<
 							source,
 							auth: token,
 							baseUrl,
+							nogitignore: !!options.nogitignore,
 							sdk,
 							opts,
 						};
@@ -350,6 +363,7 @@ export const push: CommandDefinition<
 						dockerfilePath,
 						registrySecrets,
 						nocache: options.nocache || false,
+						nogitignore: options.nogitignore || false,
 						nolive: options.nolive || false,
 						detached: options.detached || false,
 						services: servicesToDisplay,

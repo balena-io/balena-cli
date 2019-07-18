@@ -328,3 +328,58 @@ export function validateSpecifiedDockerfile(
 	}
 	return posix.normalize(toPosixPath(dockerfilePath));
 }
+
+export async function tarDirectory(
+	dir: string,
+	preFinalizeCallback?: (pack: tar.Pack) => void,
+): Promise<tar.Pack> {
+	dir = (await import('path')).resolve(dir);
+	const klaw = await import('klaw');
+	const { getKlawStreamFilterForDockerIgnore } = await import('./ignore');
+	const streamFilter = await getKlawStreamFilterForDockerIgnore(dir);
+	const pack = tar.pack();
+
+	return await new Promise((resolve, reject) => {
+		// Note regarding klaw's 'options' argument:
+		//
+		// * options.filter allows early pruning of parent directories, so that
+		//   subfolders aren't even visited. It would be a nice performance
+		//   improvement, but we don't use it because the dockerignore file
+		//   (unlike gitignore) allows "re-adding" subfolders/files with the
+		//   exclamation mark "except for" pattern. For example, "ignore '.git'
+		//   except for '.git/foo.txt'":
+		//       .git
+		//       !.git/foo.txt
+		//
+		// * options.preserveSymlinks: we don't preserve symlinks in the tar
+		//   stream because "there is no point": the Docker daemon (or
+		//   balenaEngine) will not preserve the symlinks when executing the
+		//   COPY or ADD instructions in a Dockerfile. See also CLI issue 1169:
+		//   https://github.com/balena-io/balena-cli/issues/1169
+		//
+		klaw(dir)
+			.on('error', reject)
+			.pipe(streamFilter)
+			.on('error', reject)
+			.on('data', (item: import('./ignore').KlawItemPlus) => {
+				const header: tar.Headers = {
+					mode: item.stats.mode,
+					mtime: item.stats.mtime,
+					name: item.path, // already relative and Posix (forward slashes)
+					size: item.stats.size,
+				};
+				pack.entry(header, item.data);
+			})
+			.on('end', async () => {
+				if (preFinalizeCallback) {
+					try {
+						await preFinalizeCallback(pack);
+					} catch (err) {
+						exitWithExpectedError(err);
+					}
+				}
+				pack.finalize();
+				resolve(pack);
+			});
+	});
+}

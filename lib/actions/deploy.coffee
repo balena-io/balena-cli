@@ -60,6 +60,7 @@ deployProject = (docker, logger, composeOpts, opts) ->
 				opts.buildEmulated
 				opts.buildOpts
 				composeOpts.inlineLogs
+				composeOpts.nogitignore
 			)
 			.then (builtImages) ->
 				_.keyBy(builtImages, 'serviceName')

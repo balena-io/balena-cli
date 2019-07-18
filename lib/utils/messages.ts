@@ -47,3 +47,14 @@ Sample registry-secrets YAML file:
 
 If an option is not specified, and a secrets.yml or secrets.json file exists in
 the balena directory (usually $HOME/.balena), this file will be used instead.`;
+
+export const gitignoreWarn = `\
+------------------------------------------------------------------------------
+Deprecation notice: a '.gitignore' file was found and will be used to prevent
+the matching files from being uploaded to the docker daemon or balenaCloud
+builder. However, this behavior is deprecated: a future major version of the
+CLI will look at the '.dockerignore' file only. Please use the '--nogitignore'
+or '-I' command-line option to enable the new behavior already now, and supress
+this notice. Reference: https://github.com/balena-io/balena-cli/issues/1032
+------------------------------------------------------------------------------
+`;

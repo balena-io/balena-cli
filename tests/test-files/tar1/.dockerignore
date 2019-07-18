@@ -1,0 +1,10 @@
+b.txt
+src/*b.txt
+# unlike gitignore, dockerignore allows "re-adding" files/folders under
+# directories that were previously ignored. Example:
+# "ignore .git except for .git/foo.txt"
+.git
+!.git/foo.txt
+# ignoring the .balena folder will not be respected: the "!**/.balena"
+# pattern is hardcoded in the CLI's source code.
+.balena

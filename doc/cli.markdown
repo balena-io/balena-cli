@@ -1520,6 +1520,13 @@ separated by a colon, e.g:
 Note that if the service name cannot be found in the composition, the entire
 left hand side of the = character will be treated as the variable name.
 
+#### --nogitignore, -I
+
+Ignore files listed in the .dockerignore file only, not the .gitignore file.
+This option enables this new behaviour that will be the default in a future
+major version release. Reference issue:
+https://github.com/balena-io/balena-cli/issues/1032
+
 # Settings
 
 ## settings
@@ -1635,6 +1642,13 @@ Alternative Dockerfile name/path, relative to the source folder
 #### --logs
 
 Display full log output
+
+#### --nogitignore, -I
+
+Ignore files listed in the .dockerignore file only, not the .gitignore file.
+This option enables this new behaviour that will be the default in a future
+major version release. Reference issue:
+https://github.com/balena-io/balena-cli/issues/1032
 
 #### --registry-secrets, -R &#60;secrets.yml|.json&#62;
 
@@ -1756,6 +1770,13 @@ Alternative Dockerfile name/path, relative to the source folder
 #### --logs
 
 Display full log output
+
+#### --nogitignore, -I
+
+Ignore files listed in the .dockerignore file only, not the .gitignore file.
+This option enables this new behaviour that will be the default in a future
+major version release. Reference issue:
+https://github.com/balena-io/balena-cli/issues/1032
 
 #### --registry-secrets, -R &#60;secrets.yml|.json&#62;
 

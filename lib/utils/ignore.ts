@@ -16,13 +16,21 @@
  */
 import * as _ from 'lodash';
 import { fs } from 'mz';
+import * as os from 'os';
 import * as path from 'path';
 import * as MultiBuild from 'resin-multibuild';
+import { Transform } from 'stream';
 
-import dockerIgnore = require('@zeit/dockerignore');
 import ignore from 'ignore';
 
+import { exitWithExpectedError } from './patterns';
+
 const { toPosixPath } = MultiBuild.PathUtils;
+
+type KlawItem = import('klaw').Item;
+export interface KlawItemPlus extends KlawItem {
+	data?: Buffer;
+}
 
 export enum IgnoreFileType {
 	DockerIgnore,
@@ -38,6 +46,7 @@ interface IgnoreEntry {
 export class FileIgnorer {
 	private dockerIgnoreEntries: IgnoreEntry[];
 	private gitIgnoreEntries: IgnoreEntry[];
+	private hasWarnedAboutGitignore = false;
 
 	private static ignoreFiles: Array<{
 		pattern: string;
@@ -73,6 +82,13 @@ export class FileIgnorer {
 				path.basename(relativePath) === pattern &&
 				(allowSubdirs || path.dirname(relativePath) === '.')
 			) {
+				if (
+					!this.hasWarnedAboutGitignore &&
+					type === IgnoreFileType.GitIgnore
+				) {
+					this.hasWarnedAboutGitignore = true;
+					console.error(`\n${require('./messages').gitignoreWarn}`);
+				}
 				return type;
 			}
 		}
@@ -115,7 +131,7 @@ export class FileIgnorer {
 			return true;
 		}
 
-		const dockerIgnoreHandle = dockerIgnore();
+		const dockerIgnoreHandle = require('@zeit/dockerignore')();
 		const gitIgnoreHandle = ignore();
 
 		interface IgnoreHandle {
@@ -173,4 +189,143 @@ export class FileIgnorer {
 		// which would tell us that path1 is not part of path2
 		return !/^\.\.\//.test(path.posix.relative(path1, path2));
 	}
+}
+
+const defaultDockerIgnoreEntries = ['.git'];
+const dockerIgnoreMsg = `\
+Starting with version 11.9.0, the CLI checks for the existence of a ".dockerignore"
+file containing recommended or required patterns. By default, the following patterns
+are expected at a minimum:
+
+${defaultDockerIgnoreEntries.join(os.EOL)}
+
+If you have specific requirements, you may modify the patterns above by adding or
+removing the '!' or '#' characters at the beginning of the line. These characters
+respectively "invert the matching" or "comment out" the pattern. Even if modified
+in this manner, the presence of the patterns in the .dockerignore file will be
+sufficient to satisfy the CLI's check and suppress this warning message.`;
+
+/**
+ * Check a ".dockerignore" file for required entries, and print warning messages.
+ * Each pattern line is compared disregarding the first character if it is a
+ * '!' or '#', because the user is allowed to modify the patterns by respectively
+ * inverting them or commenting them out.
+ * @param projectDir The project source folder ('-s' command-line option)
+ * @param defaultEntries Array of required .dockerignore pattern lines
+ */
+export async function checkDockerIgnoreFile(
+	projectDir: string,
+	defaultEntries: string[] = defaultDockerIgnoreEntries,
+) {
+	const dockerIgnorePath = path.join(projectDir, '.dockerignore');
+	if (!(await fs.exists(dockerIgnorePath))) {
+		const msg = `\
+--------------------------------------------------------------------------------
+Warning: a ".dockerignore" file was not found at "${projectDir}".
+
+${dockerIgnoreMsg}
+
+If a ".gitignore" file exists, its contents can be used as a starting point for
+the ".dockerignore" file. There are however subtle differences in how the patterns
+are interpreted between the .gitignore and .dockerignore files, and you are
+encouraged to review the patterns to suit your project. Dockerignore reference:
+https://docs.docker.com/engine/reference/builder/#dockerignore-file
+--------------------------------------------------------------------------------`;
+		console.error(msg);
+		return;
+	}
+
+	// Check the ".dockerignore" file for required entries. Each pattern line is compared
+	// disregarding the first character if it is a '!' or '#', because the user is allowed
+	// to modify the patterns by respectively inverting them or commenting them out.
+
+	let dockerIgnoreStr: string;
+	try {
+		dockerIgnoreStr = await fs.readFile(dockerIgnorePath, 'utf8');
+	} catch (err) {
+		return exitWithExpectedError(
+			`Error reading file ${dockerIgnorePath}: ${err.message}`,
+		);
+	}
+	const dockerIgnoreLines: string[] = dockerIgnoreStr
+		.split('\n') // also OK if the separator is '\r\n' (Windows CR-LF)
+		.map(v => v.trim());
+	const dockerIgnoreLinesMinusPrefix: string[] = dockerIgnoreLines.map(v =>
+		v.startsWith('!') || v.startsWith('#') ? v.slice(1) : v,
+	);
+	const missingEntries = defaultEntries.filter(v => {
+		v = v.startsWith('!') ? v.slice(1) : v;
+		return !_.some(dockerIgnoreLinesMinusPrefix, p => p === v);
+	});
+
+	if (missingEntries.length) {
+		const entriesAre = missingEntries.length === 1 ? 'entry is' : 'entries are';
+		const msg = `\
+--------------------------------------------------------------------------------
+Warning: the following ${entriesAre} missing in the ".dockerignore" file:
+
+${missingEntries.join(os.EOL)}
+
+${dockerIgnoreMsg}
+--------------------------------------------------------------------------------`;
+		console.error(msg);
+	}
+}
+
+/**
+ * Create and return a Transform stream suitable for a '.pipe(stream)' operation,
+ * for use with the 'klaw' package. The stream will use a '.dockerignore' file
+ * (if any) to filter out files and folders.
+ * @param projectDir The project source folder ('-s' command-line option)
+ */
+export async function getKlawStreamFilterForDockerIgnore(
+	projectDir: string,
+): Promise<Transform> {
+	const dockerIgnorePath = path.join(projectDir, '.dockerignore');
+	let dockerIgnoreStr = '';
+	try {
+		dockerIgnoreStr = await fs.readFile(dockerIgnorePath, 'utf8');
+	} catch (err) {
+		if (err.code !== 'ENOENT') {
+			return exitWithExpectedError(
+				`Error reading file "${dockerIgnorePath}": ${err.message}`,
+			);
+		}
+	}
+	const through2 = await import('through2');
+	const dockerIgnore = require('@zeit/dockerignore')();
+	if (dockerIgnoreStr) {
+		dockerIgnore.add(dockerIgnoreStr);
+	}
+	// Note: expressing the .balena metadata rule as a dockignore pattern
+	// fails because of a bug: https://github.com/zeit/dockerignore/issues/15
+	// dockerIgnore.add(['!**/.balena', '!**/.resin']);
+
+	return through2.obj(async function(item: KlawItemPlus, _enc, next) {
+		// directory entries are not added to the tar stream. Directories are
+		// implied from the paths of file entries.
+		if (item.stats.isDirectory()) {
+			return next();
+		}
+		const relPath = path.relative(projectDir, item.path);
+		const posixRelPath = toPosixPath(relPath);
+		try {
+			// Don't ignore any metadata files (.balena folder).
+			// The regex below matches `.balena/qemu` and `myservice/.balena/qemu`
+			// but not `some.dir.for.balena/qemu`.
+			if (
+				/(^|\/)\.(balena|resin)\//.test(posixRelPath) ||
+				!dockerIgnore.ignores(relPath)
+			) {
+				item.data = await fs.readFile(item.path);
+				item.path = posixRelPath;
+				this.push(item);
+			}
+		} catch (err) {
+			return exitWithExpectedError(
+				`Error reading file "${item.path}": ${err.message}`,
+			);
+		}
+		next();
+	});
 }

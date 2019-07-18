@@ -47,6 +47,17 @@ exports.appendOptions = (opts) ->
 			boolean: true
 		},
 		{
+			signature: 'nogitignore'
+			description: '''
+				Ignore files listed in the .dockerignore file only, not the .gitignore file.
+				This option enables this new behaviour that will be the default in a future
+				major version release. Reference issue:
+				https://github.com/balena-io/balena-cli/issues/1032
+				'''
+			boolean: true
+			alias: 'I'
+		},
+		{
 			signature: 'registry-secrets'
 			alias: 'R'
 			parameter: 'secrets.yml|.json'
@@ -61,6 +72,7 @@ exports.generateOpts = (options) ->
 		projectPath: projectPath
 		inlineLogs: !!options.logs
 		dockerfilePath: options.dockerfile
+		nogitignore: !!options.nogitignore
 
 compositionFileNames = [
 	'docker-compose.yml'
@@ -131,7 +143,7 @@ exports.loadProject = (logger, projectPath, projectName, image, dockerfilePath) 
 		logger.logDebug('Creating project...')
 		createProject(projectPath, composeStr, projectName)
 
-exports.tarDirectory = tarDirectory = (dir, preFinalizeCallback = null) ->
+exports.originalTarDirectory = originalTarDirectory = (dir, preFinalizeCallback = null) ->
 	tar = require('tar-stream')
 	klaw = require('klaw')
 	path = require('path')
@@ -141,7 +153,7 @@ exports.tarDirectory = tarDirectory = (dir, preFinalizeCallback = null) ->
 	{ toPosixPath } = require('resin-multibuild').PathUtils
 
 	getFiles = ->
-		streamToPromise(klaw(dir))
+		Promise.resolve(streamToPromise(klaw(dir)))
 		.filter((item) -> not item.stats.isDirectory())
 		.map((item) -> item.path)
 
@@ -164,6 +176,14 @@ exports.tarDirectory = tarDirectory = (dir, preFinalizeCallback = null) ->
 		pack.finalize()
 		return pack
 
+exports.tarDirectory = tarDirectory = (dir, preFinalizeCallback, noGitIgnore) ->
+	if noGitIgnore
+		Promise.resolve(require('./ignore').checkDockerIgnoreFile(dir))
+		.then ->
+			require('./compose_ts').tarDirectory(dir, preFinalizeCallback)
+	else
+		originalTarDirectory(dir, preFinalizeCallback)
+
 truncateString = (str, len) ->
 	return str if str.length < len
 	str = str.slice(0, len)
@@ -179,7 +199,7 @@ exports.buildProject = (
 	projectPath, projectName, composition,
 	arch, deviceType,
 	emulated, buildOpts,
-	inlineLogs
+	inlineLogs, noGitIgnore
 ) ->
 	_ = require('lodash')
 	humanize = require('humanize')
@@ -214,7 +234,7 @@ exports.buildProject = (
 			return qemu.copyQemu(path.join(projectPath, d.image.context), arch)
 	.then (needsQemu) ->
 		# Tar up the directory, ready for the build stream
-		tarDirectory(projectPath)
+		Promise.resolve(tarDirectory(projectPath, undefined, noGitIgnore))
 		.then (tarStream) ->
 			Promise.resolve(makeBuildTasks(composition, tarStream, { arch, deviceType }, logger))
 		.map (task) ->

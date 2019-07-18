@@ -52,4 +52,5 @@ export function loadProject(
 export function tarDirectory(
 	source: string,
 	preFinalizeCallback?: (pack: Pack) => void,
+	noGitIgnore: boolean,
 ): Promise<Stream.Readable>;

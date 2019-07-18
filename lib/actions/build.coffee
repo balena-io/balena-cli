@@ -41,6 +41,7 @@ buildProject = (docker, logger, composeOpts, opts) ->
 			opts.buildEmulated
 			opts.buildOpts
 			composeOpts.inlineLogs
+			composeOpts.nogitignore
 		)
 	.then ->
 		logger.logSuccess('Build succeeded!')

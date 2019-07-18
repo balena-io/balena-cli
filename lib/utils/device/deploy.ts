@@ -47,6 +47,7 @@ export interface DeviceDeployOptions {
 	dockerfilePath?: string;
 	registrySecrets: RegistrySecrets;
 	nocache: boolean;
+	nogitignore: boolean;
 	nolive: boolean;
 	detached: boolean;
 	services?: string[];
@@ -177,7 +178,11 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	);
 
 	await checkBuildSecretsRequirements(docker, opts.source);
-	const tarStream = await tarDirectory(opts.source);
+	const tarStream = await tarDirectory(
+		opts.source,
+		undefined,
+		opts.nogitignore,
+	);
 
 	// Try to detect the device information
 	const deviceInfo = await api.getDeviceInformation();
@@ -375,7 +380,7 @@ export async function rebuildSingleTask(
 		}
 	};
 
-	const tarStream = await tarDirectory(source);
+	const tarStream = await tarDirectory(source, undefined, opts.nogitignore);
 
 	const task = _.find(
 		await makeBuildTasks(composition, tarStream, deviceInfo, logger),
