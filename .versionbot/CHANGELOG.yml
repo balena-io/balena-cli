@@ -1,4 +1,14 @@
 - commits:
+    - subject: Update balena-preload to ^8.2.1
+      hash: 18fadf5634b29ef47f288ef85939cb17f05dba1a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Alexis Svinartchouk
+  version: 11.7.2
+  date: 2019-07-18T14:25:10.950Z
+- commits:
     - subject: 'chore: fix up small typos, remove gitter link'
       hash: d92e076829f4478e6201cdd8957576dda3fc3038
       body: ''
