@@ -17,7 +17,6 @@ limitations under the License.
 Promise = require('bluebird')
 capitano = require('capitano')
 actions = require('./actions')
-events = require('./events')
 
 capitano.permission 'user', (done) ->
 	require('./utils/patterns').exitIfNotLoggedIn()
@@ -153,6 +152,3 @@ runCommand = ->
 		capitanoExecuteAsync(command: "help #{cli.command ? ''}")
 	else
 		capitanoExecuteAsync(cli)
-
-Promise.all([events.trackCommand(cli), runCommand()])
-.catch(require('./errors').handleError)
