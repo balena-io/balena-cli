@@ -1,4 +1,14 @@
 - commits:
+    - subject: Update mixpanel tracking
+      hash: 3ea905dc68461b3fe8b52a8e059426d3b60f7198
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.7.3
+  date: 2019-07-22T12:48:56.816Z
+- commits:
     - subject: Update balena-preload to ^8.2.1
       hash: 18fadf5634b29ef47f288ef85939cb17f05dba1a
       body: ''
