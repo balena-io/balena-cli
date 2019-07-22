@@ -212,9 +212,7 @@ export const tunnel: CommandDefinition<Args, Options> = {
 							)
 							.then(() => {
 								logger.logInfo(
-									` - tunnelling ${localAddress}:${localPort} to ${
-										device.uuid
-									}:${remotePort}`,
+									` - tunnelling ${localAddress}:${localPort} to ${device.uuid}:${remotePort}`,
 								);
 
 								return true;

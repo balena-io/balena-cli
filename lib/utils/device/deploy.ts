@@ -92,9 +92,7 @@ async function environmentFromInput(
 			// exists
 			if (!(match[1] in ret)) {
 				logger.logDebug(
-					`Warning: Cannot find a service with name ${
-						match[1]
-					}. Treating the string as part of the environment variable name.`,
+					`Warning: Cannot find a service with name ${match[1]}. Treating the string as part of the environment variable name.`,
 				);
 				match[2] = `${match[1]}:${match[2]}`;
 			} else {
@@ -132,9 +130,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		await api.ping();
 	} catch (e) {
 		exitWithExpectedError(
-			`Could not communicate with local mode device at address ${
-				opts.deviceHost
-			}`,
+			`Could not communicate with local mode device at address ${opts.deviceHost}`,
 		);
 	}
 
