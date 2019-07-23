@@ -126,9 +126,7 @@ export class MarkdownFileParser {
 				} else {
 					reject(
 						new Error(
-							`Markdown section not found: title="${title}" file="${
-								this.mdFilePath
-							}"`,
+							`Markdown section not found: title="${title}" file="${this.mdFilePath}"`,
 						),
 					);
 				}
