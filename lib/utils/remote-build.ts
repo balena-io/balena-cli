@@ -272,9 +272,7 @@ function createRemoteBuildRequest(
 			if (response.statusCode >= 100 && response.statusCode < 400) {
 				if (DEBUG_MODE) {
 					console.log(
-						`[debug] received HTTP ${response.statusCode} ${
-							response.statusMessage
-						}`,
+						`[debug] received HTTP ${response.statusCode} ${response.statusMessage}`,
 					);
 				}
 			} else {

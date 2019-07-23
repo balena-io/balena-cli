@@ -69,9 +69,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		await api.ping();
 	} catch (e) {
 		exitWithExpectedError(
-			`Could not communicate with local mode device at address ${
-				opts.deviceHost
-			}`,
+			`Could not communicate with local mode device at address ${opts.deviceHost}`,
 		);
 	}
 

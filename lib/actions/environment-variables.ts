@@ -223,9 +223,7 @@ export const add: CommandDefinition<
 					throw new Error(`Environment value not found for key: ${params.key}`);
 				} else {
 					console.info(
-						`Warning: using ${params.key}=${
-							params.value
-						} from host environment`,
+						`Warning: using ${params.key}=${params.value} from host environment`,
 					);
 				}
 			}
