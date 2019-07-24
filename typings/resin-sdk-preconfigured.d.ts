@@ -478,15 +478,18 @@ declare module 'resin-sdk-preconfigured' {
 
 		interface ResinSDK {
 			auth: {
-				register: (
-					credentials: { email: string; password: string },
-				) => Promise<string>;
-				authenticate: (
-					credentials: { email: string; password: string },
-				) => Promise<string>;
-				login: (
-					credentials: { email: string; password: string },
-				) => Promise<void>;
+				register: (credentials: {
+					email: string;
+					password: string;
+				}) => Promise<string>;
+				authenticate: (credentials: {
+					email: string;
+					password: string;
+				}) => Promise<string>;
+				login: (credentials: {
+					email: string;
+					password: string;
+				}) => Promise<void>;
 				loginWithToken: (authToken: string) => Promise<void>;
 				logout: () => Promise<void>;
 				getToken: () => Promise<string>;
