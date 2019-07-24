@@ -24,7 +24,7 @@ execPkg(['--target', 'host', '--output', 'build-bin/resin', 'package.json'])
 	.then(nativeExtensions => {
 		console.log(`\nCopying to build-bin:\n${nativeExtensions.join('\n')}`);
 
-		return nativeExtensions.map(extPath => {
+		return nativeExtensions.map((extPath: string) => {
 			return fs.copy(
 				extPath,
 				extPath.replace(

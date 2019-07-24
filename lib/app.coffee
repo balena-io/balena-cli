@@ -14,6 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
+# Assign bluebird as the global promise library
+# stream-to-promise will produce native promises if not
+# for this module, which could wreak havoc in this
+# bluebird-only codebase.
+require('any-promise/register/bluebird')
+
 Raven = require('raven')
 Raven.disableConsoleAlerts()
 Raven.config require('./config').sentryDsn,
@@ -76,12 +82,6 @@ errors = require('./errors')
 events = require('./events')
 plugins = require('./utils/plugins')
 update = require('./utils/update')
-
-# Assign bluebird as the global promise library
-# stream-to-promise will produce native promises if not
-# for this module, which could wreak havoc in this
-# bluebird-only codebase.
-require('any-promise/register/bluebird')
 
 capitano.permission 'user', (done) ->
 	resin.auth.isLoggedIn().then (isLoggedIn) ->

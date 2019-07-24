@@ -55,7 +55,6 @@
   },
   "devDependencies": {
     "@types/archiver": "^2.0.1",
-    "@types/bluebird": "^3.5.19",
     "@types/es6-promise": "0.0.32",
     "@types/fs-extra": "^5.0.0",
     "@types/is-root": "^1.0.0",
@@ -73,7 +72,7 @@
     "gulp-mocha": "^2.0.0",
     "gulp-shell": "^0.5.2",
     "mochainon": "^2.0.0",
-    "pkg": "^4.3.0-beta.1",
+    "pkg": "4.3.8",
     "prettier": "^1.9.2",
     "publish-release": "^1.3.3",
     "require-npm4-to-publish": "^1.0.0",
@@ -83,6 +82,7 @@
   },
   "dependencies": {
     "@resin.io/valid-email": "^0.1.0",
+    "@types/bluebird": "3.5.19",
     "ansi-escapes": "^2.0.0",
     "any-promise": "^1.3.0",
     "archiver": "^2.1.0",
@@ -134,7 +134,7 @@
     "resin-image-fs": "^2.3.0",
     "resin-image-manager": "^5.0.0",
     "resin-preload": "^5.0.0",
-    "resin-sdk": "^7.0.0",
+    "resin-sdk": "7.2.4",
     "resin-sdk-preconfigured": "^6.9.0",
     "resin-settings-client": "^3.6.1",
     "resin-stream-logger": "^0.1.0",

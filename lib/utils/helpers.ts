@@ -50,13 +50,9 @@ export function stateToString(state: OperationState) {
 
 	switch (state.operation.command) {
 		case 'copy':
-			return `${result} ${state.operation.from.path} -> ${
-				state.operation.to.path
-			}`;
+			return `${result} ${state.operation.from.path} -> ${state.operation.to.path}`;
 		case 'replace':
-			return `${result} ${state.operation.file.path}, ${
-				state.operation.copy
-			} -> ${state.operation.replace}`;
+			return `${result} ${state.operation.file.path}, ${state.operation.copy} -> ${state.operation.replace}`;
 		case 'run-script':
 			return `${result} ${state.operation.script}`;
 		default:
