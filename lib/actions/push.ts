@@ -44,10 +44,9 @@ function getBuildTarget(appOrDevice: string): BuildTarget | null {
 }
 
 async function getAppOwner(sdk: ResinSDK, appName: string) {
-	const {
-		exitWithExpectedError,
-		selectFromList,
-	} = await import('../utils/patterns');
+	const { exitWithExpectedError, selectFromList } = await import(
+		'../utils/patterns'
+	);
 	const _ = await import('lodash');
 
 	const applications = await sdk.models.application.getAll({
@@ -89,9 +88,7 @@ async function getAppOwner(sdk: ResinSDK, appName: string) {
 	});
 
 	const selected = await selectFromList(
-		`${
-			entries.length
-		} applications found with that name, please select the application you would like to push to`,
+		`${entries.length} applications found with that name, please select the application you would like to push to`,
 		entries,
 	);
 
