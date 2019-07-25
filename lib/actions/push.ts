@@ -209,7 +209,12 @@ export const push: CommandDefinition<
 		{
 			signature: 'detached',
 			alias: 'd',
-			description: `Don't tail application logs when pushing to a local mode device`,
+			description: stripIndent`
+				When pushing to the cloud, this option will cause the build to start, then return execution
+				back to the shell, with the status and release ID (if applicable).
+
+				When pushing to a local mode device, this option will cause the command to not tail application logs when the build
+				has completed.`,
 			boolean: true,
 		},
 		{
@@ -285,11 +290,6 @@ export const push: CommandDefinition<
 						'The --nolive flag is only valid when pushing to a local mode device',
 					);
 				}
-				if (options.detached) {
-					exitWithExpectedError(
-						`The --detached flag is only valid when pushing to a local mode device.`,
-					);
-				}
 				if (options.service) {
 					exitWithExpectedError(
 						'The --service flag is only valid when pushing to a local mode device.',
@@ -318,6 +318,7 @@ export const push: CommandDefinition<
 							emulated: options.emulated || false,
 							nocache: options.nocache || false,
 							registrySecrets,
+							headless: options.detached || false,
 						};
 						const args = {
 							app,
