@@ -205,7 +205,7 @@
     "tmp": "0.0.31",
     "typed-error": "^3.1.0",
     "umount": "^1.1.6",
-    "unzip2": "^0.2.5",
+    "unzip2": "balena-io-library/node-unzip-2#v0.2.8",
     "update-notifier": "^2.2.0",
     "window-size": "^1.1.0"
   },
