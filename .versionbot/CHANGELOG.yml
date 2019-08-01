@@ -1,4 +1,21 @@
 - commits:
+    - subject: Update unzip2 dependency
+      hash: f9fc8fd2e8bfd94ca4f0777599565475a7ad25d5
+      body: |
+        That dependency has been updated upstream, but not published to npm,
+        thus we are pulling the latest (0.2.8) version from our own fork.
+        Fork is created temporarily.
+      footer:
+        Fixes: '#1373'
+        fixes: '#1373'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Gergely Imreh <gergely@balena.io>
+        signed-off-by: Gergely Imreh <gergely@balena.io>
+      author: Gergely Imreh
+  version: 11.7.4
+  date: 2019-08-01T18:17:31.899Z
+- commits:
     - subject: Update mixpanel tracking
       hash: 3ea905dc68461b3fe8b52a8e059426d3b60f7198
       body: ''
