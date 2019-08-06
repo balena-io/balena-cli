@@ -1,4 +1,16 @@
 - commits:
+    - subject: Support headless remote builds
+      hash: 67a4e88e4482292dd0ca0748a843424a1d90dac4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Cameron Diver <cameron@balena.io>
+        signed-off-by: Cameron Diver <cameron@balena.io>
+      author: Cameron Diver
+  version: 11.7.5
+  date: 2019-08-06T07:48:04.349Z
+- commits:
     - subject: Update unzip2 dependency
       hash: f9fc8fd2e8bfd94ca4f0777599565475a7ad25d5
       body: |
