@@ -1487,7 +1487,11 @@ and required to cause the process to end once the initial build has completed.
 
 #### --detached, -d
 
-Don't tail application logs when pushing to a local mode device
+When pushing to the cloud, this option will cause the build to start, then return execution
+back to the shell, with the status and release ID (if applicable).
+
+When pushing to a local mode device, this option will cause the command to not tail application logs when the build
+has completed.
 
 #### --service &#60;service&#62;
 

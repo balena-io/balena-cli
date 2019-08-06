@@ -20,6 +20,7 @@ import * as readline from 'readline';
 import * as request from 'request';
 import { RegistrySecrets } from 'resin-multibuild';
 import * as Stream from 'stream';
+import streamToPromise = require('stream-to-promise');
 import { Pack } from 'tar-stream';
 import { TypedError } from 'typed-error';
 
@@ -36,6 +37,7 @@ export interface BuildOpts {
 	emulated: boolean;
 	nocache: boolean;
 	registrySecrets: RegistrySecrets;
+	headless: boolean;
 }
 
 export interface RemoteBuild {
@@ -63,6 +65,13 @@ interface BuilderMessage {
 	value?: string;
 }
 
+interface HeadlessBuilderMessage {
+	started: boolean;
+	error?: string;
+	message?: string;
+	releaseId?: number;
+}
+
 export class RemoteBuildFailedError extends TypedError {
 	public constructor(message = 'Remote build failed') {
 		super(message);
@@ -82,6 +91,7 @@ async function getBuilderEndpoint(
 		dockerfilePath: opts.dockerfilePath,
 		emulated: opts.emulated,
 		nocache: opts.nocache,
+		headless: opts.headless,
 	});
 	// Note that using https (rather than http) is a requirement when using the
 	// --registry-secrets feature, as the secrets are not otherwise encrypted.
@@ -101,31 +111,63 @@ export async function startRemoteBuild(build: RemoteBuild): Promise<void> {
 		rl.on('SIGINT', () => process.emit('SIGINT' as any));
 	}
 
-	return new Bluebird((resolve, reject) => {
-		// Setup interrupt handlers so we can cancel the build if the user presses
-		// ctrl+c
+	if (!build.opts.headless) {
+		return new Bluebird((resolve, reject) => {
+			// Setup interrupt handlers so we can cancel the build if the user presses
+			// ctrl+c
 
-		// This is necessary because the `exit-hook` module is used by several
-		// dependencies, and will exit without calling the following handler.
-		// Once https://github.com/balena-io/balena-cli/issues/867 has been solved,
-		// we are free to (and definitely should) remove the below line
-		process.removeAllListeners('SIGINT');
-		process.on('SIGINT', () => {
-			process.stderr.write('Received SIGINT, cleaning up. Please wait.\n');
-			cancelBuildIfNecessary(build).then(() => {
-				stream.end();
-				process.exit(130);
+			// This is necessary because the `exit-hook` module is used by several
+			// dependencies, and will exit without calling the following handler.
+			// Once https://github.com/balena-io/balena-cli/issues/867 has been solved,
+			// we are free to (and definitely should) remove the below line
+			process.removeAllListeners('SIGINT');
+			process.on('SIGINT', () => {
+				process.stderr.write('Received SIGINT, cleaning up. Please wait.\n');
+				cancelBuildIfNecessary(build).then(() => {
+					stream.end();
+					process.exit(130);
+				});
 			});
-		});
 
-		stream.on('data', getBuilderMessageHandler(build));
-		stream.on('end', resolve);
-		stream.on('error', reject);
-	}).then(() => {
-		if (build.hadError) {
-			throw new RemoteBuildFailedError();
-		}
-	});
+			stream.on('data', getBuilderMessageHandler(build));
+			stream.on('end', resolve);
+			stream.on('error', reject);
+		}).then(() => {
+			if (build.hadError) {
+				throw new RemoteBuildFailedError();
+			}
+		});
+	}
+
+	// We're running a headless build, which means we'll
+	// get a single object back, detailing if the build has
+	// been started
+	let result: HeadlessBuilderMessage;
+	try {
+		const response = await streamToPromise(stream);
+		result = JSON.parse(response.toString());
+	} catch (e) {
+		throw new Error(
+			`There was an error reading the response from the remote builder: ${e}`,
+		);
+	}
+	handleHeadlessBuildMessage(result);
+}
+
+function handleHeadlessBuildMessage(message: HeadlessBuilderMessage) {
+	if (!process.stdout.isTTY) {
+		process.stdout.write(JSON.stringify(message));
+		return;
+	}
+
+	if (message.started) {
+		console.log('Build successfully started');
+		console.log(`  Release ID: ${message.releaseId!}`);
+	} else {
+		console.log('Failed to start remote build');
+		console.log(`  Error: ${message.error!}`);
+		console.log(`  Message: ${message.message!}`);
+	}
 }
 
 function handleBuilderMetadata(obj: BuilderMessage, build: RemoteBuild) {
@@ -224,9 +266,20 @@ async function cancelBuildIfNecessary(build: RemoteBuild): Promise<void> {
  * the tar stream, and return the stream.
  */
 async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
+	let tarSpinner = {
+		start: () => {
+			/*noop*/
+		},
+		stop: () => {
+			/*noop*/
+		},
+	};
+	if (process.stdout.isTTY) {
+		const visuals = await import('resin-cli-visuals');
+		tarSpinner = new visuals.Spinner('Packaging the project source...');
+	}
+
 	const path = await import('path');
-	const visuals = await import('resin-cli-visuals');
-	const tarSpinner = new visuals.Spinner('Packaging the project source...');
 	const preFinalizeCallback = (pack: Pack) => {
 		pack.entry(
 			{ name: '.balena/registry-secrets.json' },
@@ -300,38 +353,56 @@ function createRemoteBuildRequest(
 async function getRemoteBuildStream(
 	build: RemoteBuild,
 ): Promise<NodeJS.ReadWriteStream> {
-	const tarStream = await getTarStream(build);
-	const visuals = await import('resin-cli-visuals');
-	const uploadSpinner = new visuals.Spinner(
-		'Uploading source package to balena cloud',
+	const builderUrl = await getBuilderEndpoint(
+		build.baseUrl,
+		build.owner,
+		build.app,
+		build.opts,
 	);
-	const exitOnError = (error: Error): never => {
-		uploadSpinner.stop();
+
+	let uploadSpinner = {
+		stop: () => {
+			/* noop */
+		},
+	};
+	let exitOnError = (error: Error) => {
 		return exitWithExpectedError(error);
 	};
+	// We only show the spinner when outputting to a tty
+	if (process.stdout.isTTY) {
+		const visuals = await import('resin-cli-visuals');
+		uploadSpinner = new visuals.Spinner(
+			'Uploading source package to balena cloud',
+		);
+		exitOnError = (error: Error): never => {
+			uploadSpinner.stop();
+			return exitWithExpectedError(error);
+		};
+		// This is not strongly typed to start with, so we cast
+		// to any to allow the method call
+		(uploadSpinner as any).start();
+	}
 
 	try {
-		uploadSpinner.start();
-		const builderUrl = await getBuilderEndpoint(
-			build.baseUrl,
-			build.owner,
-			build.app,
-			build.opts,
-		);
+		const tarStream = await getTarStream(build);
 		const buildRequest = createRemoteBuildRequest(
 			build,
 			tarStream,
 			builderUrl,
 			exitOnError,
 		);
-		return buildRequest.pipe(
-			JSONStream.parse('*')
-				.once('close', () => uploadSpinner.stop())
-				.once('data', () => uploadSpinner.stop())
-				.once('end', () => uploadSpinner.stop())
-				.once('error', () => uploadSpinner.stop())
-				.once('finish', () => uploadSpinner.stop()),
-		);
+		let stream: NodeJS.ReadWriteStream;
+		if (build.opts.headless) {
+			stream = (buildRequest as unknown) as NodeJS.ReadWriteStream;
+		} else {
+			stream = buildRequest.pipe(JSONStream.parse('*'));
+		}
+		return stream
+			.once('close', () => uploadSpinner.stop())
+			.once('data', () => uploadSpinner.stop())
+			.once('end', () => uploadSpinner.stop())
+			.once('error', () => uploadSpinner.stop())
+			.once('finish', () => uploadSpinner.stop());
 	} catch (error) {
 		return exitOnError(error);
 	}
