@@ -3,7 +3,7 @@
 The balena CLI is an open source project and your contribution is welcome!
 
 After cloning this repository and running `npm install`, the CLI can be built with `npm run build`
-and executed with `./bin/run`. In order to ease development:
+and executed with `./bin/balena`. In order to ease development:
 
 * `npm run build:fast` skips some of the build steps for interactive testing, or
 * `./bin/balena-dev` uses `ts-node/register` and `coffeescript/register` to transpile on the fly.
