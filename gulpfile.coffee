@@ -10,7 +10,7 @@ OPTIONS =
 	files:
 		coffee: [ 'lib/**/*.coffee', 'gulpfile.coffee' ]
 		app: 'lib/**/*.coffee'
-		tests: 'tests/**/*.spec.coffee'
+		tests: 'tests/**/*.spec.js'
 		pages: 'lib/auth/pages/*.ejs'
 	directories:
 		build: 'build/'
