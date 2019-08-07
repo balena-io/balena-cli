@@ -1,4 +1,5 @@
-m = require('mochainon')
+chai = require('chai')
+sinon = require('sinon')
 url = require('url')
 Promise = require('bluebird')
 
@@ -14,7 +15,7 @@ describe 'Utils:', ->
 
 		it 'should eventually be a valid url', ->
 			utils.getDashboardLoginURL('https://127.0.0.1:3000/callback').then (loginUrl) ->
-				m.chai.expect ->
+				chai.expect ->
 					url.parse(loginUrl)
 				.to.not.throw(Error)
 
@@ -25,7 +26,7 @@ describe 'Utils:', ->
 				loginUrl: utils.getDashboardLoginURL('https://127.0.0.1:3000/callback')
 			.then ({ dashboardUrl, loginUrl }) ->
 				protocol = url.parse(loginUrl).protocol
-				m.chai.expect(protocol).to.equal(url.parse(dashboardUrl).protocol)
+				chai.expect(protocol).to.equal(url.parse(dashboardUrl).protocol)
 
 		it 'should correctly escape a callback url without a path', ->
 			Promise.props
@@ -33,7 +34,7 @@ describe 'Utils:', ->
 				loginUrl: utils.getDashboardLoginURL('http://127.0.0.1:3000')
 			.then ({ dashboardUrl, loginUrl }) ->
 				expectedUrl = "#{dashboardUrl}/login/cli/http%253A%252F%252F127.0.0.1%253A3000"
-				m.chai.expect(loginUrl).to.equal(expectedUrl)
+				chai.expect(loginUrl).to.equal(expectedUrl)
 
 		it 'should correctly escape a callback url with a path', ->
 			Promise.props
@@ -41,30 +42,30 @@ describe 'Utils:', ->
 				loginUrl: utils.getDashboardLoginURL('http://127.0.0.1:3000/callback')
 			.then ({ dashboardUrl, loginUrl }) ->
 				expectedUrl = "#{dashboardUrl}/login/cli/http%253A%252F%252F127.0.0.1%253A3000%252Fcallback"
-				m.chai.expect(loginUrl).to.equal(expectedUrl)
+				chai.expect(loginUrl).to.equal(expectedUrl)
 
 	describe '.loginIfTokenValid()', ->
 
 		it 'should eventually be false if token is undefined', ->
 			promise = utils.loginIfTokenValid(undefined)
-			m.chai.expect(promise).to.eventually.be.false
+			chai.expect(promise).to.eventually.be.false
 
 		it 'should eventually be false if token is null', ->
 			promise = utils.loginIfTokenValid(null)
-			m.chai.expect(promise).to.eventually.be.false
+			chai.expect(promise).to.eventually.be.false
 
 		it 'should eventually be false if token is an empty string', ->
 			promise = utils.loginIfTokenValid('')
-			m.chai.expect(promise).to.eventually.be.false
+			chai.expect(promise).to.eventually.be.false
 
 		it 'should eventually be false if token is a string containing only spaces', ->
 			promise = utils.loginIfTokenValid('     ')
-			m.chai.expect(promise).to.eventually.be.false
+			chai.expect(promise).to.eventually.be.false
 
 		describe 'given the token does not authenticate with the server', ->
 
 			beforeEach ->
-				@balenaAuthIsLoggedInStub = m.sinon.stub(balena.auth, 'isLoggedIn')
+				@balenaAuthIsLoggedInStub = sinon.stub(balena.auth, 'isLoggedIn')
 				@balenaAuthIsLoggedInStub.returns(Promise.resolve(false))
 
 			afterEach ->
@@ -72,7 +73,7 @@ describe 'Utils:', ->
 
 			it 'should eventually be false', ->
 				promise = utils.loginIfTokenValid(tokens.johndoe.token)
-				m.chai.expect(promise).to.eventually.be.false
+				chai.expect(promise).to.eventually.be.false
 
 			describe 'given there was a token already', ->
 
@@ -81,10 +82,10 @@ describe 'Utils:', ->
 
 				it 'should preserve the old token', ->
 					balena.auth.getToken().then (originalToken) ->
-						m.chai.expect(originalToken).to.equal(tokens.janedoe.token)
+						chai.expect(originalToken).to.equal(tokens.janedoe.token)
 						return utils.loginIfTokenValid(tokens.johndoe.token)
 					.then(balena.auth.getToken).then (currentToken) ->
-						m.chai.expect(currentToken).to.equal(tokens.janedoe.token)
+						chai.expect(currentToken).to.equal(tokens.janedoe.token)
 
 			describe 'given there was no token', ->
 
@@ -95,12 +96,12 @@ describe 'Utils:', ->
 					utils.loginIfTokenValid(tokens.johndoe.token).then ->
 						balena.auth.isLoggedIn()
 					.then (isLoggedIn) ->
-						m.chai.expect(isLoggedIn).to.equal(false)
+						chai.expect(isLoggedIn).to.equal(false)
 
 		describe 'given the token does authenticate with the server', ->
 
 			beforeEach ->
-				@balenaAuthIsLoggedInStub = m.sinon.stub(balena.auth, 'isLoggedIn')
+				@balenaAuthIsLoggedInStub = sinon.stub(balena.auth, 'isLoggedIn')
 				@balenaAuthIsLoggedInStub.returns(Promise.resolve(true))
 
 			afterEach ->
@@ -108,4 +109,4 @@ describe 'Utils:', ->
 
 			it 'should eventually be true', ->
 				promise = utils.loginIfTokenValid(tokens.johndoe.token)
-				m.chai.expect(promise).to.eventually.be.true
+				chai.expect(promise).to.eventually.be.true
