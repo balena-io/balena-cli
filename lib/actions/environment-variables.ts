@@ -136,6 +136,10 @@ export const remove: CommandDefinition<
 		const balena = (await import('balena-sdk')).fromSharedOptions();
 		const patterns = await import('../utils/patterns');
 
+		if (typeof params.id !== 'number') {
+			patterns.exitWithExpectedError('The environment variable id must be an integer');
+		}
+
 		return patterns
 			.confirm(
 				options.yes || false,
