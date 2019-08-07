@@ -86,7 +86,6 @@ capitano.command(actions.keys.remove)
 # ---------- Env Module ----------
 capitano.command(actions.env.list)
 capitano.command(actions.env.rename)
-capitano.command(actions.env.remove)
 
 # ---------- Tags Module ----------
 capitano.command(actions.tags.list)

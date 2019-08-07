@@ -601,12 +601,12 @@ device uuid
 
 show config variables
 
-## env rm &#60;id&#62;
+## env rm ID
 
-Use this command to remove an environment variable from an application
-or device.
+Remove an environment variable from an application or device, as selected
+by command-line options.
 
-Notice this command asks for confirmation interactively.
+Note that this command asks for confirmation interactively.
 You can avoid this by passing the `--yes` boolean option.
 
 The --device option selects a device instead of an application.
@@ -620,15 +620,21 @@ Examples:
 	$ balena env rm 215 --yes
 	$ balena env rm 215 --device
 
+### Arguments
+
+#### ID
+
+environment variable id
+
 ### Options
 
-#### --yes, -y
+#### -d, --device
 
-confirm non interactively
+Selects a device environment variable instead of an application environment variable
 
-#### --device, -d
+#### -y, --yes
 
-device
+Run in non-interactive mode
 
 ## env add NAME [VALUE]
 

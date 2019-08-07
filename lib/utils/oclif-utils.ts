@@ -19,6 +19,7 @@ import * as Config from '@oclif/config';
 
 export const convertedCommands = {
 	'env:add': 'env add',
+	'env:rm': 'env rm',
 };
 
 /**

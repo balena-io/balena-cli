@@ -140,6 +140,11 @@ function isOclifCommand(argvSlice: string[]): [boolean, boolean] {
 			if (argvSlice[0] === 'env' && argvSlice[1] === 'add') {
 				return [true, true];
 			}
+
+			// balena env rm
+			if (argvSlice[0] === 'env' && argvSlice[1] === 'rm') {
+				return [true, true];
+			}
 		}
 	}
 	return [false, false];

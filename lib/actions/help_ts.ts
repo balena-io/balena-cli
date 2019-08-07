@@ -24,8 +24,9 @@ export function getOclifHelpLinePairs(): Array<[string, string]> {
 	// improvement would probably be to automatically scan the actions-oclif
 	// folder.
 	const EnvAddCmd = require('../actions-oclif/env/add').default;
+	const EnvRmCmd = require('../actions-oclif/env/rm').default;
 	const VersionCmd = require('../actions-oclif/version').default;
-	return [EnvAddCmd, VersionCmd].map(getCmdUsageDescriptionLinePair);
+	return [EnvAddCmd, EnvRmCmd, VersionCmd].map(getCmdUsageDescriptionLinePair);
 }
 
 function getCmdUsageDescriptionLinePair(cmd: typeof Command): [string, string] {

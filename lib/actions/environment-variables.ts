@@ -101,67 +101,6 @@ export const list: CommandDefinition<
 	},
 };
 
-export const remove: CommandDefinition<
-	{
-		id: number;
-	},
-	{
-		yes: boolean;
-		device: boolean;
-	}
-> = {
-	signature: 'env rm <id>',
-	description: 'remove an environment variable',
-	help: stripIndent`
-		Use this command to remove an environment variable from an application
-		or device.
-
-		Notice this command asks for confirmation interactively.
-		You can avoid this by passing the \`--yes\` boolean option.
-
-		The --device option selects a device instead of an application.
-
-		Service-specific variables are not currently supported. The following
-		examples remove variables that apply to all services in an app or device.
-
-		Examples:
-
-			$ balena env rm 215
-			$ balena env rm 215 --yes
-			$ balena env rm 215 --device
-	`,
-	options: [commandOptions.yes, commandOptions.booleanDevice],
-	permission: 'user',
-	async action(params, options, done) {
-		const balena = (await import('balena-sdk')).fromSharedOptions();
-		const patterns = await import('../utils/patterns');
-
-		if (typeof params.id !== 'number') {
-			patterns.exitWithExpectedError('The environment variable id must be an integer');
-		}
-
-		return patterns
-			.confirm(
-				options.yes || false,
-				'Are you sure you want to delete the environment variable?',
-			)
-			.then(function() {
-				if (options.device) {
-					return balena.pine.delete({
-						resource: 'device_environment_variable',
-						id: params.id,
-					});
-				} else {
-					return balena.pine.delete({
-						resource: 'application_environment_variable',
-						id: params.id,
-					});
-				}
-			})
-			.nodeify(done);
-	},
-};
-
 export const rename: CommandDefinition<
 	{
 		id: number;
