@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix incorrect start command in contributing document
+      hash: 08e8151b1fbbf3c91b810396c8b4dcdbb33f3d3e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 11.7.6
+  date: 2019-08-07T08:22:18.780Z
+- commits:
     - subject: Support headless remote builds
       hash: 67a4e88e4482292dd0ca0748a843424a1d90dac4
       body: ''
