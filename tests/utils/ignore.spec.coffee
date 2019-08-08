@@ -1,4 +1,3 @@
-require 'mocha'
 chai = require 'chai'
 _ = require 'lodash'
 path = require('path')
