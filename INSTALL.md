@@ -94,6 +94,13 @@ errors when using the system Node / npm packages installed via "apt-get". We sug
 [nvm](https://github.com/creationix/nvm) instead. Check this sample Dockerfile for installing the
 CLI on an Ubuntu Docker image: https://gist.github.com/pdcastro/5d4d96652181e7da685a32caf629dd44
 
+## Other package managers
+
+If you're using macOS, there is a `balena-cli` package available on [homebrew](https://brew.sh/) which can be installed using:
+```
+$ brew install balena-cli
+```
+
 ## Additional Dependencies
 
 * The `balena ssh` command requires a recent version of the `ssh` command-line tool to be available:
