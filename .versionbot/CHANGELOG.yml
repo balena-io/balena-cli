@@ -1,4 +1,16 @@
 - commits:
+    - subject: Decaffeinate test files
+      hash: ebd8f348caabd3aad41cab6517859f376b6c1304
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 11.7.8
+  date: 2019-08-08T12:55:00.296Z
+- commits:
     - subject: Remove mochainon dependency and replace with direct testing dependencies
       hash: 15dfdc222919a5acc1af3f508df70eea6a7f60f7
       body: ''
