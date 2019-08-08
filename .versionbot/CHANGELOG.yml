@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove mochainon dependency and replace with direct testing dependencies
+      hash: 15dfdc222919a5acc1af3f508df70eea6a7f60f7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 11.7.7
+  date: 2019-08-08T09:07:12.353Z
+- commits:
     - subject: Fix incorrect start command in contributing document
       hash: 08e8151b1fbbf3c91b810396c8b4dcdbb33f3d3e
       body: ''
