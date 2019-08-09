@@ -186,7 +186,11 @@ export const ssh: CommandDefinition<
 		will be presented, and the chosen device will then have a shell opened on
 		in it's service container or host OS.
 
-		For local devices, the ip address and .local domain name are supported.
+		For local devices, the IP address and .local domain name are supported.
+		If the device is referenced by IP or \`.local\` address, the connection
+		is initiated directly to balenaOS on port \`22222\` via an
+		openssh-compatible client. Otherwise, any connection initiated remotely
+		traverses the balenaCloud VPN.
 
 		Examples:
 			balena ssh MyApp
@@ -198,7 +202,7 @@ export const ssh: CommandDefinition<
 			balena ssh 192.168.0.1 --verbose
 			balena ssh f49cefd.local my-service
 
-		Warning: 'balena ssh' requires an openssh-compatible client to be correctly
+		Warning: \`balena ssh\` requires an openssh-compatible client to be correctly
 		installed in your shell environment. For more information (including Windows
 		support) please check:
 			https://github.com/balena-io/balena-cli/blob/master/INSTALL.md#additional-dependencies`,
