@@ -2,7 +2,6 @@ path = require('path')
 gulp = require('gulp')
 coffee = require('gulp-coffee')
 inlinesource = require('gulp-inline-source')
-mocha = require('gulp-mocha')
 shell = require('gulp-shell')
 packageJSON = require('./package.json')
 
@@ -24,12 +23,6 @@ gulp.task 'coffee', ->
 	gulp.src(OPTIONS.files.app)
 		.pipe(coffee(bare: true, header: true))
 		.pipe(gulp.dest(OPTIONS.directories.build))
-
-gulp.task 'test', ->
-	gulp.src(OPTIONS.files.tests, read: false)
-		.pipe(mocha({
-			reporter: 'spec'
-		}))
 
 gulp.task 'build', gulp.series [
 	'coffee',

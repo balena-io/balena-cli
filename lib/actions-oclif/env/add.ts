@@ -70,7 +70,7 @@ export default class EnvAddCmd extends Command {
 	public static usage =
 		'env add ' + new CommandHelp({ args: EnvAddCmd.args }).defaultUsage();
 
-	public static flags = {
+	public static flags: flags.Input<FlagsDef> = {
 		application: flags.string({
 			char: 'a',
 			description: 'application name',
