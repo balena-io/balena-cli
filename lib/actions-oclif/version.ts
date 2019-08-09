@@ -21,6 +21,7 @@ import { stripIndent } from 'common-tags';
 interface FlagsDef {
 	all?: boolean;
 	json?: boolean;
+	help: void;
 }
 
 export default class VersionCmd extends Command {
@@ -39,7 +40,7 @@ export default class VersionCmd extends Command {
 
 	public static usage = 'version';
 
-	public static flags = {
+	public static flags: flags.Input<FlagsDef> = {
 		all: flags.boolean({
 			char: 'a',
 			default: false,
