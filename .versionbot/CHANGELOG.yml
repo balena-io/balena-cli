@@ -1,4 +1,51 @@
 - commits:
+    - subject: Fix CI instability when building Typescript
+      hash: 05d58d82485d4b484550a6c438e6787802922561
+      body: >
+        The error appears to happen when symlinking typing files and manifests
+
+        on case sensitive file systems (like windows) with the error:
+
+        ```
+
+        lib/actions-oclif/env/add.ts(73,16): error TS2742: The inferred type of
+        'flags' cannot be named without a reference to
+        '../../../../../../../../../volumes/live/c64feead-f78e-4bd4-742d-ccd29aef53c4/volume/node_modules/@oclif/parser/lib/flags'.
+        This is likely not portable. A type annotation is necessary.
+
+        lib/actions-oclif/version.ts(42,16): error TS2742: The inferred type of
+        'flags' cannot be named without a reference to
+        '../../../../../../../../volumes/live/c64feead-f78e-4bd4-742d-ccd29aef53c4/volume/node_modules/@oclif/parser/lib/flags.js'.
+        This is likely not portable. A type annotation is necessary.
+
+        ```
+
+
+        This appears to be reported on the Typescript repo here
+        https://github.com/microsoft/TypeScript/issues/29221
+
+        The suggested workaround is to explicitly set the type of the `flags`
+        static
+
+        property.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: Convert test files to Typescript
+      hash: 13610ef8141894dd00d3123417887ac94aa354dd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 11.7.9
+  date: 2019-08-09T11:27:29.501Z
+- commits:
     - subject: Decaffeinate test files
       hash: ebd8f348caabd3aad41cab6517859f376b6c1304
       body: ''
