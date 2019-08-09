@@ -18,6 +18,7 @@
 import { Main } from '@oclif/command';
 import { ExitError } from '@oclif/errors';
 
+import { AppOptions } from './app';
 import { handleError } from './errors';
 
 class CustomMain extends Main {
@@ -34,9 +35,13 @@ class CustomMain extends Main {
 /**
  * oclif CLI entrypoint
  */
-export function run(argv: string[]) {
-	CustomMain.run(argv.slice(2)).then(
-		require('@oclif/command/flush'),
+export function run(command: string[], options: AppOptions) {
+	return CustomMain.run(command).then(
+		() => {
+			if (!options.noFlush) {
+				return require('@oclif/command/flush');
+			}
+		},
 		(error: Error) => {
 			// oclif sometimes exits with ExitError code 0 (not an error)
 			if (error instanceof ExitError && error.oclif.exit === 0) {

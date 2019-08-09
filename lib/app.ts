@@ -18,14 +18,19 @@ import { stripIndent } from 'common-tags';
 
 import { exitWithExpectedError } from './utils/patterns';
 
+export interface AppOptions {
+	// Prevent the default behaviour of flushing stdout after running a command
+	noFlush: boolean;
+}
+
 /**
  * Simple command-line pre-parsing to choose between oclif or Capitano.
  * @param argv process.argv
  */
-function routeCliFramework(argv: string[]): void {
+function routeCliFramework(argv: string[], options: AppOptions): void {
 	if (process.env.DEBUG) {
 		console.log(
-			`Debug: original argv0="${process.argv0}" argv=[${argv}] length=${
+			`[debug] original argv0="${process.argv0}" argv=[${argv}] length=${
 				argv.length
 			}`,
 		);
@@ -65,11 +70,11 @@ function routeCliFramework(argv: string[]): void {
 			argv = [argv[0], argv[1], ...cmdSlice];
 		}
 		if (process.env.DEBUG) {
-			console.log(`Debug: new argv=[${argv}] length=${argv.length}`);
+			console.log(`[debug] new argv=[${argv}] length=${argv.length}`);
 		}
-		require('./app-oclif').run(argv);
+		return require('./app-oclif').run(cmdSlice, options);
 	} else {
-		require('./app-capitano');
+		return require('./app-capitano').run(cmdSlice);
 	}
 }
 
@@ -154,10 +159,10 @@ function isOclifCommand(argvSlice: string[]): [boolean, boolean] {
  * CLI entrypoint, but see also `bin/balena` and `bin/balena-dev` which
  * call this function.
  */
-export function run(): void {
+export function run(cliArgs = process.argv, options: AppOptions): void {
 	// globalInit() must be called very early on (before other imports) because
 	// it sets up Sentry error reporting, global HTTP proxy settings, balena-sdk
 	// shared options, and performs node version requirement checks.
 	require('./app-common').globalInit();
-	routeCliFramework(process.argv);
+	return routeCliFramework(cliArgs, options);
 }

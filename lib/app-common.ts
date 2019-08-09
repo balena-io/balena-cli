@@ -100,7 +100,11 @@ export function globalInit() {
 	// stream-to-promise will produce native promises if not for this module,
 	// which is likely to lead to errors as much of the CLI coffeescript code
 	// expects bluebird promises.
-	require('any-promise/register/bluebird');
+	// The registration is only run if it hasn't already happened (for example
+	// in a test case).
+	if (!(global as any)['@@any-promise/REGISTRATION']) {
+		require('any-promise/register/bluebird');
+	}
 
 	// check for CLI updates once a day
 	require('./utils/update').notify();

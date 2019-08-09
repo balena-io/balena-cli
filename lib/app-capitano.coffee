@@ -145,13 +145,14 @@ capitano.command(actions.push.push)
 capitano.command(actions.join.join)
 capitano.command(actions.leave.leave)
 
-cli = capitano.parse(process.argv)
-runCommand = ->
-	capitanoExecuteAsync = Promise.promisify(capitano.execute)
-	if cli.global?.help
-		capitanoExecuteAsync(command: "help #{cli.command ? ''}")
-	else
-		capitanoExecuteAsync(cli)
+exports.run = (argv) ->
+	cli = capitano.parse(argv)
+	runCommand = ->
+		capitanoExecuteAsync = Promise.promisify(capitano.execute)
+		if cli.global?.help
+			capitanoExecuteAsync(command: "help #{cli.command ? ''}")
+		else
+			capitanoExecuteAsync(cli)
 
-Promise.all([events.trackCommand(cli), runCommand()])
-.catch(require('./errors').handleError)
+	Promise.all([events.trackCommand(cli), runCommand()])
+	.catch(require('./errors').handleError)
