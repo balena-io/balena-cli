@@ -29,6 +29,7 @@ module.exports =
 	help: require('./help')
 	os: require('./os')
 	settings: require('./settings')
+	sshKeys: require('./ssh-keys')
 	config: require('./config')
 	ssh: require('./ssh')
 	internal: require('./internal')

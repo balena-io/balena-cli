@@ -120,6 +120,7 @@ capitano.command(actions.preload)
 
 # ---------- SSH Module ----------
 capitano.command(actions.ssh.ssh)
+capitano.command(actions.sshKeys.sshKeys)
 
 # ---------- Local balenaOS Module ----------
 capitano.command(actions.local.configure)

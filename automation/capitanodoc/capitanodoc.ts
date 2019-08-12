@@ -103,6 +103,10 @@ const capitanoDoc = {
 			files: ['build/actions/settings.js'],
 		},
 		{
+			title: 'SSH Keys',
+			files: ['build/actions/ssh-keys.js'],
+		},
+		{
 			title: 'Local',
 			files: ['build/actions/local/index.js'],
 		},

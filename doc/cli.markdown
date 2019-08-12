@@ -173,6 +173,10 @@ If you come across any problems or would like to get in touch:
 
 	- [settings](#settings)
 
+- SSH Keys
+
+	- [ssh-keys [file] [title]](#ssh-keys-file-title)
+
 - Local
 
 	- [local configure &#60;target&#62;](#local-configure-target)
@@ -1529,6 +1533,38 @@ Use this command to display detected settings
 Examples:
 
 	$ balena settings
+
+# SSH Keys
+
+## ssh-keys [file] [title]
+
+This command exposes an interface similar to `ssh-add` and can be used to manage your authorized keys.
+
+Examples:
+
+	$ balena ssh-keys <file> [title]
+	$ balena ssh-keys -L
+	$ balena ssh-keys -d <key-id>
+	$ balena ssh-keys -D
+	$ balena ssh-keys -A
+
+### Options
+
+#### --list-keys, -L
+
+List public key parameters of all identities.
+
+#### --delete-key, -d &#60;key-id&#62;
+
+Delete identity.
+
+#### --delete-all-keys, -D
+
+Delete all identities.
+
+#### --add-all-keys, -A
+
+Add all identities stored at ~/.ssh/id_{ed25519,{r,d}sa}
 
 # Local
 
