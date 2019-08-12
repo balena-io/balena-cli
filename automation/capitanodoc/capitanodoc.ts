@@ -51,6 +51,7 @@ const capitanoDoc = {
 			files: [
 				'build/actions/environment-variables.js',
 				'build/actions-oclif/env/add.js',
+				'build/actions-oclif/env/rm.js',
 			],
 		},
 		{
