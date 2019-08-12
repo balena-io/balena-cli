@@ -1,4 +1,30 @@
 - commits:
+    - subject: Fix bug where "env rm" fails silently if an additional arg is present
+      hash: f1d9c29786e1c72394f4a120eece17a20ab2eac7
+      body: >
+        Fixes #1380
+
+
+        Argument parsing of "env rm" command was improved by migrating it to
+        oclif
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: Exit with a warning if "env rm" id value is not an integer
+      hash: 34f4c1f6cc264ad310b31f3227d6635e76d559b4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 11.7.10
+  date: 2019-08-12T12:50:22.706Z
+- commits:
     - subject: Fix CI instability when building Typescript
       hash: 05d58d82485d4b484550a6c438e6787802922561
       body: >
