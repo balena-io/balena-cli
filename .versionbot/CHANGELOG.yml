@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'Implement full command testing, beginning with "balena version"'
+      hash: 4d389bb6ccbfb7774e94d151fc8063a35031aba9
+      body: |
+        This also modifies the core CLI to be fed command programatically, which
+        is useful for being able to do thing like mock endpoints with tools like
+        "nock", and provide an easier debugging experience.
+        The tests utilise a "runCommand" helper that intercepts and captures
+        stdout/stderr writes and returns them once the command has finished
+        running. At this point the test implementation can parse the
+        stdout/stderr logs and assess nock interceptions to determine if the
+        command ran correctly.
+        This change also homogenises debug messages to start with `[debug]`,
+        however this is not strictly enforced by linting rules.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 11.8.0
+  date: 2019-08-13T08:10:16.602Z
+- commits:
     - subject: Fix bug where "env rm" fails silently if an additional arg is present
       hash: f1d9c29786e1c72394f4a120eece17a20ab2eac7
       body: >
