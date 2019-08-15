@@ -186,21 +186,18 @@ module.exports =
 		Logger = require('../utils/logger')
 
 		logger = new Logger()
-
 		logger.logDebug('Parsing input...')
 
-		appName = undefined
-		Promise.try ->
-			# when Capitano converts a positional parameter (but not an option)
-			# to a number, the original value is preserved with the _raw suffix
-			{ appName, appName_raw, image } = params
+		# when Capitano converts a positional parameter (but not an option)
+		# to a number, the original value is preserved with the _raw suffix
+		{ appName, appName_raw, image } = params
 
-			# look into "balena build" options if appName isn't given
-			appName = appName_raw || appName || options.application
-			delete options.application
+		# look into "balena build" options if appName isn't given
+		appName = appName_raw || appName || options.application
+		delete options.application
 
-			validateComposeOptions(sdk, options)
-
+		Promise.resolve(validateComposeOptions(sdk, options))
+		.then ->
 			if not appName?
 				throw new Error('Please specify the name of the application to deploy')
 
