@@ -57,24 +57,25 @@ function routeCliFramework(argv: string[], options: AppOptions): void {
 	}
 
 	const [isOclif, isTopic] = isOclifCommand(cmdSlice);
+
 	if (isOclif) {
+		let oclifArgs = cmdSlice;
 		if (isTopic) {
 			// convert space-separated commands to oclif's topic:command syntax
-			argv = [
-				argv[0],
-				argv[1],
-				cmdSlice[0] + ':' + cmdSlice[1],
-				...cmdSlice.slice(2),
-			];
-		} else {
-			argv = [argv[0], argv[1], ...cmdSlice];
+			oclifArgs = [cmdSlice[0] + ':' + cmdSlice[1], ...cmdSlice.slice(2)];
 		}
 		if (process.env.DEBUG) {
-			console.log(`[debug] new argv=[${argv}] length=${argv.length}`);
+			console.log(
+				`[debug] new argv=[${[
+					argv[0],
+					argv[1],
+					...oclifArgs,
+				]}] length=${oclifArgs.length + 2}`,
+			);
 		}
-		return require('./app-oclif').run(cmdSlice, options);
+		return require('./app-oclif').run(oclifArgs, options);
 	} else {
-		return require('./app-capitano').run(cmdSlice);
+		return require('./app-capitano').run(argv);
 	}
 }
 

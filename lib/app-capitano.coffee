@@ -146,7 +146,7 @@ capitano.command(actions.join.join)
 capitano.command(actions.leave.leave)
 
 exports.run = (argv) ->
-	cli = capitano.parse(argv)
+	cli = capitano.parse(argv.slice(2))
 	runCommand = ->
 		capitanoExecuteAsync = Promise.promisify(capitano.execute)
 		if cli.global?.help
