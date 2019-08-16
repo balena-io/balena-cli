@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix incorrect arguments passed to oclif bootstrap function
+      hash: 730c09989d401b2a14d1b6ceb8942161c330f52d
+      body: |
+        Adds tests for existing oclif commands to avoid regressions
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 11.8.1
+  date: 2019-08-15T17:28:53.171Z
+- commits:
     - subject: 'Implement full command testing, beginning with "balena version"'
       hash: 4d389bb6ccbfb7774e94d151fc8063a35031aba9
       body: |
