@@ -1,3 +1,4 @@
+import * as nock from 'nock';
 import * as path from 'path';
 import * as balenaCLI from '../build/app';
 
@@ -21,7 +22,12 @@ export const runCommand = async (cmd: string) => {
 	// @ts-ignore
 	process.stderr.write = (log: string) => {
 		// Skip over debug messages
-		if (!log.startsWith('[debug]')) {
+		if (
+			!log.startsWith('[debug]') &&
+			// TODO stop this warning message from appearing when running
+			// sdk.setSharedOptions multiple times in the same process
+			!log.startsWith('Shared SDK options')
+		) {
 			err.push(log);
 		}
 		oldStdErr(log);
@@ -45,4 +51,18 @@ export const runCommand = async (cmd: string) => {
 
 		throw err;
 	}
+};
+
+export const balenaAPIMock = () => {
+	return nock(/./)
+		.get('/config/vars')
+		.reply(200, {
+			reservedNames: [],
+			reservedNamespaces: [],
+			invalidRegex: '/^d|W/',
+			whiteListedNames: [],
+			whiteListedNamespaces: [],
+			blackListedNames: [],
+			configVarSchema: [],
+		});
 };

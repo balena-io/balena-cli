@@ -1,6 +1,6 @@
 import * as chai from 'chai';
 import * as fs from 'fs';
-import { runCommand } from './helpers';
+import { runCommand } from '../helpers';
 
 const packageJSON = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 const nodeVersion = process.version.startsWith('v')
