@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'balena-ssh: add info about remote vs local connections'
+      hash: 731db63e78a1db286e69ef981e2d42faf8e4e77e
+      body: |
+        small formatting fixups
+      footer:
+        Closes: 'https://github.com/balena-io/docs/issues/974'
+        closes: 'https://github.com/balena-io/docs/issues/974'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Matthew McGinn <matthew@balena.io>
+        signed-off-by: Matthew McGinn <matthew@balena.io>
+      author: Matthew McGinn
+  version: 11.8.2
+  date: 2019-08-19T14:17:13.315Z
+- commits:
     - subject: Fix incorrect arguments passed to oclif bootstrap function
       hash: 730c09989d401b2a14d1b6ceb8942161c330f52d
       body: |
