@@ -109,17 +109,15 @@ module.exports =
 		Logger = require('../utils/logger')
 
 		logger = new Logger()
-
 		logger.logDebug('Parsing input...')
 
-		Promise.try ->
-			# `build` accepts `[source]` as a parameter, but compose expects it
-			# as an option. swap them here
-			options.source ?= params.source
-			delete params.source
+		# `build` accepts `[source]` as a parameter, but compose expects it
+		# as an option. swap them here
+		options.source ?= params.source
+		delete params.source
 
-			validateComposeOptions(sdk, options)
-
+		Promise.resolve(validateComposeOptions(sdk, options))
+		.then ->
 			{ application, arch, deviceType } = options
 
 			if (not (arch? and deviceType?) and not application?) or (application? and (arch? or deviceType?))
