@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Fix failing registry secrets authentication under certain conditions
+        ('balena build' and 'balena deploy')
+      hash: cdedc58ec1bd8bb966087ab324da94b9034d7416
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.8.3
+  date: 2019-08-19T15:46:22.818Z
+- commits:
     - subject: 'balena-ssh: add info about remote vs local connections'
       hash: 731db63e78a1db286e69ef981e2d42faf8e4e77e
       body: |
