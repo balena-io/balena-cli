@@ -5273,9 +5273,9 @@
       "integrity": "sha1-mMI9qxF1ZXuMBXPozszZGw/xjIQ="
     },
     "fp-ts": {
-      "version": "2.0.2",
-      "resolved": "https://registry.npmjs.org/fp-ts/-/fp-ts-2.0.2.tgz",
-      "integrity": "sha512-ZCeu5MkqNDBWe1ewjZQ9Q9JNcPKEKXpitYzJ4ygCWpfJ3skW3imZ45EqsZd+9N8rkBvmsb64ToZTI2xXNO9IcQ=="
+      "version": "2.0.5",
+      "resolved": "https://registry.npmjs.org/fp-ts/-/fp-ts-2.0.5.tgz",
+      "integrity": "sha512-opI5r+rVlpZE7Rhk0YtqsrmxGkbIw0dRNqGca8FEAMMnjomXotG+R9QkLQg20onx7R8qhepAn4CCOP8usma/Xw=="
     },
     "fragment-cache": {
       "version": "0.2.1",
@@ -7195,9 +7195,9 @@
       "dev": true
     },
     "io-ts": {
-      "version": "2.0.0",
-      "resolved": "https://registry.npmjs.org/io-ts/-/io-ts-2.0.0.tgz",
-      "integrity": "sha512-6i8PKyNR/dvEbUU9uE+v4iVFU7l674ZEGQsh92y6xEZF/rj46fXbPy+uPPXJEsCP0J0X3UpzXAxp04K4HR2jVw=="
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/io-ts/-/io-ts-2.0.1.tgz",
+      "integrity": "sha512-RezD+WcCfW4VkMkEcQWL/Nmy/nqsWTvTYg7oUmTGzglvSSV2P9h2z1PVeREPFf0GWNzruYleAt1XCMQZSg1xxQ=="
     },
     "ip": {
       "version": "1.1.5",
@@ -14535,9 +14535,9 @@
           }
         },
         "semver": {
-          "version": "6.2.0",
-          "resolved": "https://registry.npmjs.org/semver/-/semver-6.2.0.tgz",
-          "integrity": "sha512-jdFC1VdUGT/2Scgbimf7FSx9iJLXoqfglSF+gJeuNWVpiE37OIbc1jywR/GJyFdz3mnkz2/id0L0J/cr0izR5A=="
+          "version": "6.3.0",
+          "resolved": "https://registry.npmjs.org/semver/-/semver-6.3.0.tgz",
+          "integrity": "sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw=="
         },
         "tar-stream": {
           "version": "2.1.0",
@@ -15066,9 +15066,9 @@
       }
     },
     "resin-multibuild": {
-      "version": "4.0.1",
-      "resolved": "https://registry.npmjs.org/resin-multibuild/-/resin-multibuild-4.0.1.tgz",
-      "integrity": "sha512-TXWkWsbZMM92Y7Jo+qzRF8qdYeLCIpwQjYrHaAO5TlmUTk/Hb8QZgg1I9pV42mTi54AooXVHb0htE1YYbCxQng==",
+      "version": "4.0.2",
+      "resolved": "https://registry.npmjs.org/resin-multibuild/-/resin-multibuild-4.0.2.tgz",
+      "integrity": "sha512-rJkU33ytdxGMn5pPpnpVqaWsI8pETjXYarxdVvU6JPQBHJapKYLfAnMsAkAgFXNxKCs6an8uPIpjzapDJxwrfA==",
       "requires": {
         "@types/bluebird": "3.5.20",
         "@types/dockerode": "2.5.5",
