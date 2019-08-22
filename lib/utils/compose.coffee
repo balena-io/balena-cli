@@ -188,7 +188,7 @@ exports.buildProject = (
 	transpose = require('docker-qemu-transpose')
 	{ BALENA_ENGINE_TMP_PATH } = require('../config')
 	{ checkBuildSecretsRequirements, makeBuildTasks } = require('./compose_ts')
-	qemu = require('./qemu')
+	qemu = require('./qemu-ts')
 	{ toPosixPath } = builder.PathUtils
 
 	logger.logInfo("Building for #{arch}/#{deviceType}")
@@ -204,7 +204,7 @@ exports.buildProject = (
 	renderer.start()
 
 	Promise.resolve(checkBuildSecretsRequirements(docker, projectPath))
-	.then -> qemu.installQemuIfNeeded(emulated, logger, arch)
+	.then -> qemu.installQemuIfNeeded(emulated, logger, arch, docker)
 	.tap (needsQemu) ->
 		return if not needsQemu
 		logger.logInfo('Emulation is enabled')

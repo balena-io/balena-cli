@@ -1,17 +1,24 @@
+###*
+# @license
+# Copyright 2017-2019 Balena Ltd.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###
+
 Promise = require('bluebird')
 
 exports.QEMU_VERSION = QEMU_VERSION = 'v4.0.0-balena'
 exports.QEMU_BIN_NAME = QEMU_BIN_NAME = 'qemu-execve'
-
-exports.installQemuIfNeeded = Promise.method (emulated, logger, arch) ->
-	return false if not (emulated and platformNeedsQemu())
-
-	hasQemu(arch)
-	.then (present) ->
-		if !present
-			logger.logInfo("Installing qemu for #{arch} emulation...")
-			installQemu(arch)
-	.return(true)
 
 exports.qemuPathInContext = (context) ->
 	path = require('path')
@@ -45,15 +52,7 @@ exports.copyQemu = (context, arch) ->
 	.then ->
 		path.relative(context, binPath)
 
-hasQemu = (arch) ->
-	fs = require('mz/fs')
-
-	getQemuPath(arch)
-	.then(fs.stat)
-	.return(true)
-	.catchReturn(false)
-
-getQemuPath = (arch) ->
+exports.getQemuPath = getQemuPath = (arch) ->
 	balena = require('balena-sdk').fromSharedOptions()
 	path = require('path')
 	fs = require('mz/fs')
@@ -65,11 +64,7 @@ getQemuPath = (arch) ->
 		.then ->
 			path.join(binDir, "#{QEMU_BIN_NAME}-#{arch}-#{QEMU_VERSION}")
 
-platformNeedsQemu = ->
-	os = require('os')
-	os.platform() == 'linux'
-
-installQemu = (arch) ->
+exports.installQemu = (arch) ->
 	request = require('request')
 	fs = require('fs')
 	zlib = require('zlib')

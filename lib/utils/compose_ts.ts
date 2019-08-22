@@ -95,7 +95,7 @@ export async function checkBuildSecretsRequirements(
 	sourceDir: string,
 ) {
 	const [metaObj, metaFilename] = await loadBuildMetatada(sourceDir);
-	if (!_.isEmpty(metaObj['build-secrets'])) {
+	if (metaObj && !_.isEmpty(metaObj['build-secrets'])) {
 		const dockerUtils = await import('./docker');
 		const isBalenaEngine = await dockerUtils.isBalenaEngine(docker);
 		if (!isBalenaEngine) {
