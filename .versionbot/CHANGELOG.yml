@@ -1,5 +1,46 @@
 - commits:
     - subject: >-
+        Enable emulated builds on remote devices running a different OS as the
+        CLI
+      hash: 19c3178062591ce76f4c5da425c7fcfd7e392f04
+      body: >
+        E.g. "balena build -e -h <IP> -p 2375" with the CLI running on a Mac
+        laptop,
+
+        using balenaEngine on an Intel NUC device, building an image for the RPi
+        (ARM
+
+        image arch). Previously, QEMU setup by the CLI assumed that docker ran
+        on the
+
+        same OS as the CLI (Docker for Mac has built-in binfmt_misc support and
+        does
+
+        not require additional setup, but balenaEngine on Linux requires
+        explicit QEMU
+
+        setup.)
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: >-
+        Fix SecretRemovalError (balena build) when docker daemon arch != target
+        arch
+      hash: 516fa90a2071fe966285884ef2c420c5d1b2b5f8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.9.0
+  date: 2019-08-22T12:40:14.346Z
+- commits:
+    - subject: >-
         Fix failing registry secrets authentication under certain conditions
         ('balena build' and 'balena deploy')
       hash: cdedc58ec1bd8bb966087ab324da94b9034d7416
