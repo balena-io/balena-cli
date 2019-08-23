@@ -24,7 +24,16 @@ import {
 	ROOT,
 	runUnderMsys,
 } from './build-bin';
-import { release } from './deploy-bin';
+import {
+	release,
+	updateDescriptionOfReleasesAffectedByIssue1359,
+} from './deploy-bin';
+
+function exitWithError(error: Error | string): never {
+	console.error(`Error: ${error}`);
+	process.exit(1);
+	throw error; // to please the Typescript compiler
+}
 
 /**
  * Trivial command-line parser. Check whether the command-line argument is one
@@ -43,17 +52,17 @@ export async function run(args?: string[]) {
 	console.log(`automation/run.ts process.argv=[${process.argv}]\n`);
 	console.log(`automation/run.ts args=[${args}]`);
 	if (_.isEmpty(args)) {
-		console.error('Error: missing args');
-		process.exit(1);
+		return exitWithError('missing command-line arguments');
 	}
 	const commands: { [cmd: string]: () => void } = {
 		'build:installer': buildOclifInstaller,
 		'build:standalone': buildStandaloneZip,
+		fix1359: updateDescriptionOfReleasesAffectedByIssue1359,
 		release,
 	};
 	for (const arg of args) {
 		if (!commands.hasOwnProperty(arg)) {
-			throw new Error(`Error: unknown build target: ${arg}`);
+			return exitWithError(`command unknown: ${arg}`);
 		}
 	}
 
@@ -98,8 +107,7 @@ export async function run(args?: string[]) {
 			const cmdFunc = commands[arg];
 			await cmdFunc();
 		} catch (err) {
-			console.log(`Error running command "${arg}": ${err}`);
-			process.exit(1);
+			return exitWithError(`"${arg}": ${err}`);
 		}
 	}
 }
