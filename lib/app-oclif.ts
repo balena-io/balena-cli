@@ -19,7 +19,7 @@ import { Main } from '@oclif/command';
 import { ExitError } from '@oclif/errors';
 
 import { AppOptions } from './app';
-import { handleError } from './errors';
+import { trackPromise } from './hooks/prerun/track';
 
 class CustomMain extends Main {
 	protected _helpOverride(): boolean {
@@ -36,7 +36,7 @@ class CustomMain extends Main {
  * oclif CLI entrypoint
  */
 export function run(command: string[], options: AppOptions) {
-	return CustomMain.run(command).then(
+	const runPromise = CustomMain.run(command).then(
 		() => {
 			if (!options.noFlush) {
 				return require('@oclif/command/flush');
@@ -46,8 +46,12 @@ export function run(command: string[], options: AppOptions) {
 			// oclif sometimes exits with ExitError code 0 (not an error)
 			if (error instanceof ExitError && error.oclif.exit === 0) {
 				return;
+			} else {
+				throw error;
 			}
-			handleError(error);
 		},
+	);
+	return Promise.all([trackPromise, runPromise]).catch(
+		require('./errors').handleError,
 	);
 }

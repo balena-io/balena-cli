@@ -4,7 +4,7 @@
 		"target": "es2017",
 		"strict": true,
 		"strictPropertyInitialization": false,
-		"noUnusedLocals": false,
+		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"preserveConstEnums": true,
 		"removeComments": true,
