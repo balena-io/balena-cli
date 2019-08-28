@@ -20,7 +20,7 @@ import { exitWithExpectedError } from './utils/patterns';
 
 export interface AppOptions {
 	// Prevent the default behaviour of flushing stdout after running a command
-	noFlush: boolean;
+	noFlush?: boolean;
 }
 
 /**
@@ -160,7 +160,7 @@ function isOclifCommand(argvSlice: string[]): [boolean, boolean] {
  * CLI entrypoint, but see also `bin/balena` and `bin/balena-dev` which
  * call this function.
  */
-export function run(cliArgs = process.argv, options: AppOptions): void {
+export function run(cliArgs = process.argv, options: AppOptions = {}): void {
 	// globalInit() must be called very early on (before other imports) because
 	// it sets up Sentry error reporting, global HTTP proxy settings, balena-sdk
 	// shared options, and performs node version requirement checks.

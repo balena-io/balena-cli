@@ -16,7 +16,6 @@
  */
 import BalenaSdk = require('balena-sdk');
 import Promise = require('bluebird');
-import * as Capitano from 'capitano';
 import _ = require('lodash');
 import Mixpanel = require('mixpanel');
 import Raven = require('raven');
@@ -24,7 +23,6 @@ import Raven = require('raven');
 import packageJSON = require('../package.json');
 
 const getBalenaSdk = _.once(() => BalenaSdk.fromSharedOptions());
-const getMatchCommandAsync = Promise.promisify(Capitano.state.getMatchCommand);
 const getMixpanel = _.once<any>(() => {
 	const settings = require('balena-settings-client');
 	return Mixpanel.init('00000000000000000000000000000000', {
@@ -34,7 +32,7 @@ const getMixpanel = _.once<any>(() => {
 	});
 });
 
-export function trackCommand(capitanoCli: Capitano.Cli) {
+export function trackCommand(commandSignature: string) {
 	const balena = getBalenaSdk();
 	return Promise.props({
 		balenaUrl: balena.settings.get('balenaUrl'),
@@ -42,20 +40,20 @@ export function trackCommand(capitanoCli: Capitano.Cli) {
 		mixpanel: getMixpanel(),
 	})
 		.then(({ username, balenaUrl, mixpanel }) => {
-			return getMatchCommandAsync(capitanoCli.command).then(command => {
+			return Promise.try(() => {
 				Raven.mergeContext({
 					user: {
 						id: username,
 						username,
 					},
 				});
-				// `command.signature.toString()` results in a string like, for example:
+				// commandSignature is a string like, for example:
 				//     "push <applicationOrDevice>"
 				// That's literally so: "applicationOrDevice" is NOT replaced with
 				// the actual application ID or device ID. The purpose is find out the
 				// most / least used command verbs, so we can focus our development
 				// effort where it is most beneficial to end users.
-				return mixpanel.track(`[CLI] ${command.signature.toString()}`, {
+				return mixpanel.track(`[CLI] ${commandSignature}`, {
 					distinct_id: username,
 					version: packageJSON.version,
 					node: process.version,
