@@ -59,7 +59,7 @@ export default class VersionCmd extends Command {
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(VersionCmd);
 		const versions = {
-			'balena-cli': (await import('../../package.json')).version,
+			'balena-cli': (await import('../../../package.json')).version,
 			'Node.js':
 				process.version && process.version.startsWith('v')
 					? process.version.slice(1)

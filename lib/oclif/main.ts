@@ -18,7 +18,6 @@
 import { Main } from '@oclif/command';
 import { ExitError } from '@oclif/errors';
 
-import { AppOptions } from './app';
 import { trackPromise } from './hooks/prerun/track';
 
 class CustomMain extends Main {
@@ -31,6 +30,8 @@ class CustomMain extends Main {
 		}
 	}
 }
+
+type AppOptions = import('../preparser').AppOptions;
 
 /**
  * oclif CLI entrypoint
@@ -52,6 +53,6 @@ export function run(command: string[], options: AppOptions) {
 		},
 	);
 	return Promise.all([trackPromise, runPromise]).catch(
-		require('./errors').handleError,
+		require('../errors').handleError,
 	);
 }

@@ -18,7 +18,7 @@
 import { Command, flags } from '@oclif/command';
 import { stripIndent } from 'common-tags';
 
-import { CommandHelp } from '../../utils/oclif-utils';
+import { CommandHelp } from '../../utils/command';
 
 interface FlagsDef {
 	device: boolean;
@@ -81,7 +81,7 @@ export default class EnvRmCmd extends Command {
 			EnvRmCmd,
 		);
 		const balena = (await import('balena-sdk')).fromSharedOptions();
-		const patterns = await import('../../utils/patterns');
+		const patterns = await import('../../../utils/patterns');
 
 		if (isNaN(params.id) || !Number.isInteger(Number(params.id))) {
 			patterns.exitWithExpectedError(

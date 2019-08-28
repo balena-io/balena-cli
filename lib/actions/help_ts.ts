@@ -23,9 +23,9 @@ export function getOclifHelpLinePairs(): Array<[string, string]> {
 	// central place, it would impact on performance (CLI start time). An
 	// improvement would probably be to automatically scan the actions-oclif
 	// folder.
-	const EnvAddCmd = require('../actions-oclif/env/add').default;
-	const EnvRmCmd = require('../actions-oclif/env/rm').default;
-	const VersionCmd = require('../actions-oclif/version').default;
+	const EnvAddCmd = require('../oclif/commands/env/add').default;
+	const EnvRmCmd = require('../oclif/commands/env/rm').default;
+	const VersionCmd = require('../oclif/commands/version').default;
 	return [EnvAddCmd, EnvRmCmd, VersionCmd].map(getCmdUsageDescriptionLinePair);
 }
 

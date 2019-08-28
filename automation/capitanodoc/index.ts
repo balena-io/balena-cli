@@ -41,7 +41,7 @@ export async function renderMarkdown(): Promise<string> {
 
 		for (const jsFilename of commandCategory.files) {
 			category.commands.push(
-				...(jsFilename.includes('actions-oclif')
+				...(jsFilename.includes('oclif')
 					? importOclifCommands(jsFilename)
 					: importCapitanoCommands(jsFilename)),
 			);

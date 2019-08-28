@@ -18,7 +18,7 @@
 import { Command, flags } from '@oclif/command';
 import { stripIndent } from 'common-tags';
 
-import { CommandHelp } from '../../utils/oclif-utils';
+import { CommandHelp } from '../../utils/command';
 
 interface FlagsDef {
 	application?: string;
@@ -96,7 +96,7 @@ export default class EnvAddCmd extends Command {
 		const Bluebird = await import('bluebird');
 		const _ = await import('lodash');
 		const balena = (await import('balena-sdk')).fromSharedOptions();
-		const { exitWithExpectedError } = await import('../../utils/patterns');
+		const { exitWithExpectedError } = await import('../../../utils/patterns');
 
 		const cmd = this;
 

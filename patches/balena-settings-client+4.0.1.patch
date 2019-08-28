@@ -1,0 +1,11 @@
+diff --git a/node_modules/balena-settings-client/lib/environment.ts b/node_modules/balena-settings-client/lib/environment.ts
+index de38294..a75ceba 100644
+--- a/node_modules/balena-settings-client/lib/environment.ts
++++ b/node_modules/balena-settings-client/lib/environment.ts
+@@ -81,5 +81,5 @@ export const isSettingVariable = (variable: string) =>
+ export const parse = (environment: { [k: string]: string | undefined }) =>
+ 	_.chain(environment)
+ 		.pickBy((v: string | undefined, k: string) => isSettingVariable(k) && !!v)
+-		.mapKeys((_v: string, k: string) => getSettingName(k))
++		.mapKeys(((_v: string, k: string) => getSettingName(k)) as any)
+ 		.value();

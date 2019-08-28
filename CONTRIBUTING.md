@@ -34,7 +34,7 @@ The content sources for the auto generation of `doc/cli.markdown` are:
 * Selected sections of the README file.
 * The CLI's command documentation in source code (both Capitano and oclif commands), for example:
   * `lib/actions/build.coffee`
-  * `lib/actions-oclif/env/add.ts`
+  * `lib/oclif/commands/env/add.ts`
 
 The README file is manually edited, but subsections are automatically extracted for inclusion in
 `doc/cli.markdown` by the `getCapitanoDoc()` function in

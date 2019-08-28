@@ -50,8 +50,8 @@ const capitanoDoc = {
 			title: 'Environment Variables',
 			files: [
 				'build/actions/environment-variables.js',
-				'build/actions-oclif/env/add.js',
-				'build/actions-oclif/env/rm.js',
+				'build/oclif/commands/env/add.js',
+				'build/oclif/commands/env/rm.js',
 			],
 		},
 		{
@@ -60,7 +60,7 @@ const capitanoDoc = {
 		},
 		{
 			title: 'Help and Version',
-			files: ['build/actions/help.js', 'build/actions-oclif/version.js'],
+			files: ['build/actions/help.js', 'build/oclif/commands/version.js'],
 		},
 		{
 			title: 'Keys',

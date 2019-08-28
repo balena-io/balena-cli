@@ -2,13 +2,13 @@
 npm:
   platforms:
     - name: linux
-      os: alpine
+      os: ubuntu
       architecture: x86_64
       node_versions:
         - "8"
         - "10"
     - name: linux
-      os: alpine
+      os: ubuntu
       architecture: x86
       node_versions:
         - "8"
