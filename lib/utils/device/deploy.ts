@@ -177,6 +177,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	);
 
 	await checkBuildSecretsRequirements(docker, opts.source);
+	globalLogger.logDebug('Tarring all non-ignored files...');
 	const tarStream = await tarDirectory(opts.source);
 
 	// Try to detect the device information
