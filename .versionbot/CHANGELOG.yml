@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'logging: note that tarring is occurring'
+      hash: e3435c66df8a55ea4538b0d9d5a1798ba65d084f
+      body: |
+        As noted in #1411, this tarring can be particularly expensive so cluing
+        in the user may help alleviate pain
+      footer:
+        Connects-to: '#1411'
+        connects-to: '#1411'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Matthew McGinn <matthew@balena.io>
+        signed-off-by: Matthew McGinn <matthew@balena.io>
+      author: Matthew McGinn
+  version: 11.9.1
+  date: 2019-08-28T18:44:47.481Z
+- commits:
     - subject: >-
         Enable emulated builds on remote devices running a different OS as the
         CLI
