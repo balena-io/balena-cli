@@ -71,6 +71,9 @@
   "oclif": {
     "bin": "balena",
     "commands": "./build/actions-oclif",
+    "hooks": {
+      "prerun": "./build/hooks/prerun/track"
+    },
     "macos": {
       "identifier": "io.balena.cli",
       "sign": "Developer ID Installer: Rulemotion Ltd (66H43P8FRG)"

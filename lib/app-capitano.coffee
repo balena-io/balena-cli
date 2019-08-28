@@ -154,5 +154,17 @@ exports.run = (argv) ->
 		else
 			capitanoExecuteAsync(cli)
 
-	Promise.all([events.trackCommand(cli), runCommand()])
+	trackCommand = ->
+		getMatchCommandAsync = Promise.promisify(capitano.state.getMatchCommand)
+		getMatchCommandAsync(cli.command)
+		.then (command) ->
+			# cmdSignature is literally a string like, for example:
+			#     "push <applicationOrDevice>"
+			# ("applicationOrDevice" is NOT replaced with its actual value)
+			# In case of failures like an inexistent or invalid command,
+			# command.signature.toString() returns '*'
+			cmdSignature = command.signature.toString()
+			events.trackCommand(cmdSignature)
+
+	Promise.all([trackCommand(), runCommand()])
 	.catch(require('./errors').handleError)
