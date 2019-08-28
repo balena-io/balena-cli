@@ -18,7 +18,6 @@
 import { Main } from '@oclif/command';
 import { ExitError } from '@oclif/errors';
 
-import { AppOptions } from './app';
 import { trackPromise } from './hooks/prerun/track';
 
 class CustomMain extends Main {
@@ -32,10 +31,12 @@ class CustomMain extends Main {
 	}
 }
 
+type AppOptions = import('./preparser').AppOptions;
+
 /**
  * oclif CLI entrypoint
  */
-export function run(command: string[], options: AppOptions) {
+export async function run(command: string[], options: AppOptions) {
 	const runPromise = CustomMain.run(command).then(
 		() => {
 			if (!options.noFlush) {
@@ -51,7 +52,9 @@ export function run(command: string[], options: AppOptions) {
 			}
 		},
 	);
-	return Promise.all([trackPromise, runPromise]).catch(
-		require('./errors').handleError,
-	);
+	try {
+		await Promise.all([trackPromise, runPromise]);
+	} catch (err) {
+		await (await import('./errors')).handleError(err);
+	}
 }

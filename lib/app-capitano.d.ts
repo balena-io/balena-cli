@@ -15,17 +15,4 @@
  * limitations under the License.
  */
 
-import { globalInit } from './app-common';
-import { AppOptions, routeCliFramework } from './preparser';
-
-/**
- * CLI entrypoint, but see also `bin/balena` and `bin/balena-dev` which
- * call this function.
- */
-export async function run(cliArgs = process.argv, options: AppOptions = {}) {
-	// globalInit() must be called very early on (before other imports) because
-	// it sets up Sentry error reporting, global HTTP proxy settings, balena-sdk
-	// shared options, and performs node version requirement checks.
-	globalInit();
-	await routeCliFramework(cliArgs, options);
-}
+export async function run(argv: string[]);

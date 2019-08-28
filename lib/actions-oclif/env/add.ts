@@ -17,7 +17,9 @@
 
 import { Command, flags } from '@oclif/command';
 import { stripIndent } from 'common-tags';
+import * as _ from 'lodash';
 
+import * as cf from '../../utils/common-flags';
 import { CommandHelp } from '../../utils/oclif-utils';
 
 interface FlagsDef {
@@ -71,22 +73,10 @@ export default class EnvAddCmd extends Command {
 		'env add ' + new CommandHelp({ args: EnvAddCmd.args }).defaultUsage();
 
 	public static flags: flags.Input<FlagsDef> = {
-		application: flags.string({
-			char: 'a',
-			description: 'application name',
-			exclusive: ['device'],
-		}),
-		device: flags.string({
-			char: 'd',
-			description: 'device UUID',
-			exclusive: ['application'],
-		}),
-		help: flags.help({ char: 'h' }),
-		quiet: flags.boolean({
-			char: 'q',
-			description: 'suppress warning messages',
-			default: false,
-		}),
+		application: _.assign({ exclusive: ['device'] }, cf.application),
+		device: _.assign({ exclusive: ['application'] }, cf.device),
+		help: cf.help,
+		quiet: cf.quiet,
 	};
 
 	public async run() {
@@ -94,7 +84,6 @@ export default class EnvAddCmd extends Command {
 			EnvAddCmd,
 		);
 		const Bluebird = await import('bluebird');
-		const _ = await import('lodash');
 		const balena = (await import('balena-sdk')).fromSharedOptions();
 		const { exitWithExpectedError } = await import('../../utils/patterns');
 
