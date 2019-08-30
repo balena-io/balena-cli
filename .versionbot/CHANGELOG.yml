@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Deploy scripts: edit GitHub release descriptions given semver ranges'
+      hash: 7bb2741a5ad9e279ad389c9ae7a6cc781b71dd98
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.9.2
+  date: 2019-08-30T17:12:17.486Z
+- commits:
     - subject: 'logging: note that tarring is occurring'
       hash: e3435c66df8a55ea4538b0d9d5a1798ba65d084f
       body: |
