@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add missing oclif-based commands to mixpanel tracking
+      hash: fb1dce9dbbcb5778b7abbb46bec36f6d0adb08de
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.9.3
+  date: 2019-09-01T22:46:13.721Z
+- commits:
     - subject: 'Deploy scripts: edit GitHub release descriptions given semver ranges'
       hash: 7bb2741a5ad9e279ad389c9ae7a6cc781b71dd98
       body: ''
