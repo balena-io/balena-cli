@@ -13,12 +13,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+import { BalenaDeviceNotFound } from 'balena-errors';
 import * as BalenaSdk from 'balena-sdk';
 import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
 
-import { BalenaDeviceNotFound } from 'balena-errors';
 import { validateDotLocalUrl, validateIPAddress } from '../utils/validation';
+
+const MIN_DIRECT_SSH_VERSION = '2.44.0';
 
 async function getContainerId(
 	sdk: BalenaSdk.BalenaSDK,
@@ -168,9 +170,10 @@ export const ssh: CommandDefinition<
 		serviceName?: string;
 	},
 	{
-		port: string;
 		service: string;
 		verbose: true | undefined;
+		gateway: true | undefined;
+		port: string;
 		noProxy: boolean;
 	}
 > = {
@@ -208,16 +211,22 @@ export const ssh: CommandDefinition<
 			https://github.com/balena-io/balena-cli/blob/master/INSTALL.md#additional-dependencies`,
 	options: [
 		{
-			signature: 'port',
-			parameter: 'port',
-			description: 'SSH gateway port',
-			alias: 'p',
-		},
-		{
 			signature: 'verbose',
 			boolean: true,
 			description: 'Increase verbosity',
 			alias: 'v',
+		},
+		{
+			signature: 'gateway',
+			boolean: true,
+			description: `Use SSH gateway (required on BalenaOS < ${MIN_DIRECT_SSH_VERSION})`,
+			alias: 'x',
+		},
+		{
+			signature: 'port',
+			parameter: 'port',
+			description: 'SSH gateway port',
+			alias: 'p',
 		},
 		{
 			signature: 'noproxy',
@@ -265,15 +274,17 @@ export const ssh: CommandDefinition<
 		// this will be a tunnelled SSH connection...
 		await exitIfNotLoggedIn();
 		const uuid = await getOnlineTargetUuid(sdk, applicationOrDevice);
-		let version: string | undefined;
 		let id: number | undefined;
+		let version: string | undefined;
+		let osVersion: string | undefined;
 
 		try {
 			const device = await sdk.models.device.get(uuid, {
-				$select: ['id', 'supervisor_version', 'is_online'],
+				$select: ['id', 'supervisor_version', 'os_version', 'is_online'],
 			});
 			id = device.id;
 			version = device.supervisor_version;
+			osVersion = device.os_version;
 		} catch (e) {
 			if (e instanceof BalenaDeviceNotFound) {
 				exitWithExpectedError(`Could not find device: ${uuid}`);
@@ -344,6 +355,16 @@ export const ssh: CommandDefinition<
 				},
 				version,
 				id,
+			);
+		}
+
+		// if device is running new balenaOS, use direct ssh
+		const semver = await require('resin-semver');
+		if (!options.gateway && semver.gte(osVersion, MIN_DIRECT_SSH_VERSION)) {
+			return await (await import('./ssh-direct')).connect(
+				uuid,
+				containerId,
+				useProxy,
 			);
 		}
 
