@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import { stripIndent } from 'common-tags';
 import Dockerode = require('dockerode');
 
 import Logger = require('./logger');
@@ -29,7 +30,10 @@ export async function installQemuIfNeeded(
 	arch: string,
 	docker: Dockerode,
 ): Promise<boolean> {
-	if (!emulated || !(await platformNeedsQemu(docker))) {
+	// call platformNeedsQemu() regardless of whether emulation is required,
+	// because it logs useful information
+	const needsQemu = await platformNeedsQemu(docker, logger);
+	if (!emulated || !needsQemu) {
 		return false;
 	}
 	const fs = await import('mz/fs');
@@ -42,9 +46,9 @@ export async function installQemuIfNeeded(
 
 /**
  * Check whether the Docker daemon (including balenaEngine) requires explicit
- * QEMU emulation setup. Note that Docker for Mac (macOS), and reportedly also
- * Docker for Windows, have built-in support for binfmt_misc, so do not require
- * explicity QEMU setup. References:
+ * QEMU emulation setup. Note that Docker Desktop (Docker for Mac), and
+ * reportedly also Docker for Windows, have built-in support for binfmt_misc,
+ * so they do not require explicity QEMU setup. References:
  * - https://en.wikipedia.org/wiki/Binfmt_misc
  * - https://docs.docker.com/docker-for-mac/multi-arch/
  * - https://www.ecliptik.com/Cross-Building-and-Running-Multi-Arch-Docker-Images/
@@ -52,10 +56,29 @@ export async function installQemuIfNeeded(
  *
  * @param docker Dockerode instance
  */
-async function platformNeedsQemu(docker: Dockerode): Promise<boolean> {
+async function platformNeedsQemu(
+	docker: Dockerode,
+	logger: Logger,
+): Promise<boolean> {
 	const dockerInfo = await docker.info();
-	// Docker for Mac reports dockerInfo.OSType as 'linux'
+	// Docker Desktop with Docker Engine 19.03 reports:
+	//     OperatingSystem: Docker Desktop
+	//     OSType: linux
+	// Docker for Mac with Docker Engine 18.06 reports:
+	//     OperatingSystem: Docker for Mac
+	//     OSType: linux
+	// On Ubuntu (standard Docker installation):
+	//     OperatingSystem: Ubuntu 18.04.2 LTS (containerized)
+	//     OSType: linux
 	// https://stackoverflow.com/questions/38223965/how-can-i-detect-if-docker-for-mac-is-installed
-	const isDockerForMac = /Docker for Mac/i.test(dockerInfo.OperatingSystem);
-	return dockerInfo.OSType === 'linux' && !isDockerForMac;
+	const isDockerDesktop = /(?:Docker Desktop)|(?:Docker for Mac)/i.test(
+		dockerInfo.OperatingSystem,
+	);
+	if (isDockerDesktop) {
+		logger.logInfo(stripIndent`
+			Docker Desktop detected (daemon architecture: "${dockerInfo.Architecture}")
+			  Docker itself will determine and enable architecture emulation if required,
+			  without balena-cli intervention and regardless of the --emulated option.`);
+	}
+	return !isDockerDesktop;
 }
