@@ -125,6 +125,7 @@
     "gulp-coffee": "^2.2.0",
     "gulp-inline-source": "^2.1.0",
     "gulp-shell": "^0.5.2",
+    "intercept-stdout": "^0.1.2",
     "mocha": "^6.2.0",
     "nock": "^10.0.6",
     "parse-link-header": "~1.0.1",

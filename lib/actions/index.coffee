@@ -19,7 +19,6 @@ module.exports =
 	app: require('./app')
 	auth: require('./auth')
 	device: require('./device')
-	env: require('./environment-variables')
 	tags: require('./tags')
 	keys: require('./keys')
 	logs: require('./logs')

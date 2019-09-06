@@ -127,7 +127,13 @@ function checkDeletedCommand(argvSlice: string[]): void {
 	}
 }
 
-export const convertedCommands = ['env:add', 'env:rm', 'version'];
+export const convertedCommands = [
+	'envs',
+	'env:add',
+	'env:rename',
+	'env:rm',
+	'version',
+];
 
 /**
  * Determine whether the CLI command has been converted from Capitano to oclif.

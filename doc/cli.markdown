@@ -572,16 +572,16 @@ confirm non interactively
 
 ## envs
 
-Use this command to list the environment variables of an application
-or device.
+List the environment or config variables of an application or device,
+as selected by the respective command-line options.
 
-The --config option is used to list "config" variables that configure
-balena features.
+The --config option is used to list "configuration variables" that
+control balena features.
 
 Service-specific variables are not currently supported. The following
 examples list variables that apply to all services in an app or device.
 
-Example:
+Examples:
 
 	$ balena envs --application MyApp
 	$ balena envs --application MyApp --config
@@ -589,17 +589,21 @@ Example:
 
 ### Options
 
-#### --application, -a, --app &#60;application&#62;
+#### -a, --application APPLICATION
 
 application name
 
-#### --device, -d &#60;device&#62;
-
-device uuid
-
-#### --config, -c, -v, --verbose
+#### -c, --config
 
 show config variables
+
+#### -d, --device DEVICE
+
+device UUID
+
+#### -v, --verbose
+
+produce verbose output
 
 ## env rm ID
 
@@ -624,7 +628,7 @@ Examples:
 
 #### ID
 
-environment variable id
+environment variable numeric database ID
 
 ### Options
 
@@ -678,12 +682,12 @@ device UUID
 
 suppress warning messages
 
-## env rename &#60;id&#62; &#60;value&#62;
+## env rename ID VALUE
 
-Use this command to change the value of an application or device
-environment variable.
-
-The --device option selects a device instead of an application.
+Change the value of an environment variable for an application or device,
+as selected by the '--device' option. The variable is identified by its
+database ID, rather than its name. The 'balena envs' command can be used
+to list the variable's ID.
 
 Service-specific variables are not currently supported. The following
 examples modify variables that apply to all services in an app or device.
@@ -693,11 +697,21 @@ Examples:
 	$ balena env rename 376 emacs
 	$ balena env rename 376 emacs --device
 
+### Arguments
+
+#### ID
+
+environment variable numeric database ID
+
+#### VALUE
+
+variable value; if omitted, use value from CLI's environment
+
 ### Options
 
-#### --device, -d
+#### -d, --device
 
-device
+select a device variable instead of an application variable
 
 # Tags
 
