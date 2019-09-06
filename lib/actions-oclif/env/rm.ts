@@ -54,7 +54,7 @@ export default class EnvRmCmd extends Command {
 		{
 			name: 'id',
 			required: true,
-			description: 'environment variable id',
+			description: 'environment variable numeric database ID',
 		},
 	];
 
@@ -89,23 +89,23 @@ export default class EnvRmCmd extends Command {
 			);
 		}
 
-		return patterns
-			.confirm(
+		try {
+			await patterns.confirm(
 				options.yes || false,
 				'Are you sure you want to delete the environment variable?',
-			)
-			.then(function() {
-				if (options.device) {
-					return balena.pine.delete({
-						resource: 'device_environment_variable',
-						id: params.id,
-					});
-				} else {
-					return balena.pine.delete({
-						resource: 'application_environment_variable',
-						id: params.id,
-					});
-				}
-			});
+			);
+		} catch (err) {
+			if (err.message === 'Aborted') {
+				return patterns.exitWithExpectedError(err);
+			}
+			throw err;
+		}
+
+		await balena.pine.delete({
+			resource: options.device
+				? 'device_environment_variable'
+				: 'application_environment_variable',
+			id: params.id,
+		});
 	}
 }

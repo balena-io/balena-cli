@@ -83,46 +83,45 @@ export default class EnvAddCmd extends Command {
 		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
 			EnvAddCmd,
 		);
-		const Bluebird = await import('bluebird');
+		const cmd = this;
 		const balena = (await import('balena-sdk')).fromSharedOptions();
 		const { exitWithExpectedError } = await import('../../utils/patterns');
 
-		const cmd = this;
+		if (params.value == null) {
+			params.value = process.env[params.name];
 
-		await Bluebird.try(async function() {
 			if (params.value == null) {
-				params.value = process.env[params.name];
-
-				if (params.value == null) {
-					throw new Error(
-						`Environment value not found for variable: ${params.name}`,
-					);
-				} else if (!options.quiet) {
-					cmd.warn(
-						`Using ${params.name}=${params.value} from CLI process environment`,
-					);
-				}
-			}
-
-			const reservedPrefixes = await getReservedPrefixes();
-			const isConfigVar = _.some(reservedPrefixes, prefix =>
-				_.startsWith(params.name, prefix),
-			);
-
-			if (options.application) {
-				return balena.models.application[
-					isConfigVar ? 'configVar' : 'envVar'
-				].set(options.application, params.name, params.value);
-			} else if (options.device) {
-				return balena.models.device[isConfigVar ? 'configVar' : 'envVar'].set(
-					options.device,
-					params.name,
-					params.value,
+				throw new Error(
+					`Environment value not found for variable: ${params.name}`,
 				);
-			} else {
-				exitWithExpectedError('You must specify an application or device');
+			} else if (!options.quiet) {
+				cmd.warn(
+					`Using ${params.name}=${params.value} from CLI process environment`,
+				);
 			}
-		});
+		}
+
+		const reservedPrefixes = await getReservedPrefixes();
+		const isConfigVar = _.some(reservedPrefixes, prefix =>
+			_.startsWith(params.name, prefix),
+		);
+		const varType = isConfigVar ? 'configVar' : 'envVar';
+
+		if (options.application) {
+			await balena.models.application[varType].set(
+				options.application,
+				params.name,
+				params.value,
+			);
+		} else if (options.device) {
+			await balena.models.device[varType].set(
+				options.device,
+				params.name,
+				params.value,
+			);
+		} else {
+			exitWithExpectedError('You must specify an application or device');
+		}
 	}
 }
 
