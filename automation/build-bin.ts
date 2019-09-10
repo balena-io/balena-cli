@@ -19,11 +19,13 @@ import { run as oclifRun } from '@oclif/dev-cli';
 import * as archiver from 'archiver';
 import * as Bluebird from 'bluebird';
 import { execFile, spawn } from 'child_process';
+import { stripIndent } from 'common-tags';
 import * as filehound from 'filehound';
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import { exec as execPkg } from 'pkg';
 import * as rimraf from 'rimraf';
+import * as semver from 'semver';
 import * as shellEscape from 'shell-escape';
 import * as util from 'util';
 
@@ -106,7 +108,7 @@ export async function runUnderMsys(argv?: string[]) {
 async function buildPkg() {
 	const args = [
 		'--target',
-		'node10',
+		'host',
 		'--output',
 		'build-bin/balena',
 		'package.json',
@@ -152,6 +154,43 @@ async function buildPkg() {
 }
 
 /**
+ * Run some basic tests on the built pkg executable.
+ * TODO: test more than just `balena version -j`; integrate with the
+ * existing mocha/chai CLI command testing.
+ */
+async function testPkg() {
+	type JsonVersions = import('../lib/actions-oclif/version').JsonVersions;
+	const pkgBalenaPath = path.join(
+		ROOT,
+		'build-bin',
+		process.platform === 'win32' ? 'balena.exe' : 'balena',
+	);
+	console.log(`Testing standalone package "${pkgBalenaPath}"...`);
+	// Run `balena version -j`, parse its stdout as JSON, and check that the
+	// reported Node.js major version matches semver.major(process.version)
+	const stdout = await getSubprocessStdout(pkgBalenaPath, ['version', '-j']);
+	let pkgNodeVersion = '';
+	let pkgNodeMajorVersion = 0;
+	try {
+		const balenaVersions: JsonVersions = JSON.parse(stdout);
+		pkgNodeVersion = balenaVersions['Node.js'];
+		pkgNodeMajorVersion = semver.major(pkgNodeVersion);
+	} catch (err) {
+		throw new Error(stripIndent`
+			Error parsing JSON output of "balena version -j": ${err}
+			Original output: "${stdout}"`);
+	}
+	if (semver.major(process.version) !== pkgNodeMajorVersion) {
+		throw new Error(
+			`Mismatched major version: built-in pkg Node version="${pkgNodeVersion}" vs process.version="${
+				process.version
+			}"`,
+		);
+	}
+	console.log('Success! (standalone package test successful)');
+}
+
+/**
  * Create the zip file for the standalone 'pkg' bundle previously created
  * by the buildPkg() function in 'build-bin.ts'.
  */
@@ -188,9 +227,10 @@ export async function buildStandaloneZip() {
 	console.log(`Building standalone zip package for CLI ${version}`);
 	try {
 		await buildPkg();
+		await testPkg();
 		await zipPkg();
 	} catch (error) {
-		console.log(`Error creating standalone zip package: ${error}`);
+		console.log(`Error creating or testing standalone zip package:\n ${error}`);
 		process.exit(1);
 	}
 	console.log(`Standalone zip package build completed`);
@@ -279,4 +319,46 @@ export async function buildOclifInstaller() {
  */
 export function fixPathForMsys(p: string): string {
 	return p.replace(/\\/g, '/').replace(/^([a-zA-Z]):/, '/$1');
+}
+
+/**
+ * Run the executable at execPath as a child process, and resolve a promise
+ * to the executable's stdout output as a string. Reject the promise if
+ * anything is printed to stderr, or if the child process exits with a
+ * non-zero exit code.
+ * @param execPath Executable path
+ * @param args Command-line argument for the executable
+ */
+async function getSubprocessStdout(
+	execPath: string,
+	args: string[],
+): Promise<string> {
+	const child = spawn(execPath, args);
+	return new Promise((resolve, reject) => {
+		let stdout = '';
+		child.stdout.on('error', reject);
+		child.stderr.on('error', reject);
+		child.stdout.on('data', (data: Buffer) => {
+			try {
+				stdout = data.toString();
+			} catch (err) {
+				reject(err);
+			}
+		});
+		child.stderr.on('data', (data: Buffer) => {
+			try {
+				const stderr = data.toString();
+				reject(new Error(`"${execPath}": non-empty stderr "${stderr}"`));
+			} catch (err) {
+				reject(err);
+			}
+		});
+		child.on('exit', (code: number) => {
+			if (code) {
+				reject(new Error(`"${execPath}": non-zero exit code "${code}"`));
+			} else {
+				resolve(stdout);
+			}
+		});
+	});
 }

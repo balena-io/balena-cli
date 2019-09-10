@@ -24,6 +24,11 @@ interface FlagsDef {
 	help: void;
 }
 
+export interface JsonVersions {
+	'balena-cli': string;
+	'Node.js': string;
+}
+
 export default class VersionCmd extends Command {
 	public static description = stripIndent`
 		Display version information for the balena CLI and/or Node.js.
@@ -58,7 +63,7 @@ export default class VersionCmd extends Command {
 
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(VersionCmd);
-		const versions = {
+		const versions: JsonVersions = {
 			'balena-cli': (await import('../../package.json')).version,
 			'Node.js':
 				process.version && process.version.startsWith('v')
