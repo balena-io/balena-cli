@@ -135,7 +135,7 @@
     "shell-escape": "^0.2.0",
     "sinon": "^7.4.1",
     "ts-node": "^8.1.0",
-    "typescript": "3.4.3"
+    "typescript": "^3.4.5"
   },
   "dependencies": {
     "@oclif/command": "^1.5.12",
@@ -151,7 +151,7 @@
     "balena-device-status": "^3.1.2",
     "balena-image-manager": "^6.0.0",
     "balena-preload": "^8.2.1",
-    "balena-sdk": "^11.18.0",
+    "balena-sdk": "^12.10.0",
     "balena-settings-client": "^4.0.0",
     "balena-sync": "^10.0.3",
     "bash": "0.0.1",

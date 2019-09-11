@@ -134,7 +134,9 @@ export function getArchAndDeviceType(
 		getApplication(applicationName),
 		balena.models.config.getDeviceTypes(),
 		function(app, deviceTypes) {
-			const config = _.find(deviceTypes, { slug: app.device_type });
+			const config = _.find<BalenaSdk.DeviceType>(deviceTypes, {
+				slug: app.device_type,
+			});
 
 			if (!config) {
 				throw new Error('Could not read application information!');
@@ -150,7 +152,7 @@ export function getApplication(applicationName: string) {
 	// that off to a special handler (before importing any modules)
 	const match = applicationName.split('/');
 
-	const extraOptions = {
+	const extraOptions: BalenaSdk.PineOptionsFor<BalenaSdk.Application> = {
 		$expand: {
 			application_type: {
 				$select: ['name', 'slug', 'supports_multicontainer', 'is_legacy'],
