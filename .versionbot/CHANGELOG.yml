@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Detect Docker Desktop (Docker for Mac) and warn about architecture
+        emulation
+      hash: d484c957bb642572e5fdf9b92f4ee3234a3c71ab
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.9.5
+  date: 2019-09-11T11:09:25.740Z
+- commits:
     - subject: Fix mismatched Node.js version errors in standalone package on Windows
       hash: d54a709e7cf7f0a188c1ceb41bdccd5e48e02beb
       body: ''
