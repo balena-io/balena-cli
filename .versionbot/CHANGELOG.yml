@@ -1,4 +1,27 @@
 - commits:
+    - subject: Fix mismatched Node.js version errors in standalone package on Windows
+      hash: d54a709e7cf7f0a188c1ceb41bdccd5e48e02beb
+      body: ''
+      footer:
+        Resolves: '#1419'
+        resolves: '#1419'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Update etcher-sdk to v2.0.14 (pre-requisite to supporting Node 12)
+      hash: 09f20ecc1c750ef29cc7cfdaff5a66f98c76aac8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.9.4
+  date: 2019-09-11T00:20:27.535Z
+- commits:
     - subject: Add missing oclif-based commands to mixpanel tracking
       hash: fb1dce9dbbcb5778b7abbb46bec36f6d0adb08de
       body: ''
