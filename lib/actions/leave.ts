@@ -51,7 +51,7 @@ export const leave: CommandDefinition<Args, {}> = {
 		const Logger = await import('../utils/logger');
 		const promote = await import('../utils/promote');
 		const sdk = balena.fromSharedOptions();
-		const logger = new Logger();
+		const logger = Logger.getLogger();
 		return Bluebird.try(() => {
 			return promote.leave(logger, sdk, params.deviceIp);
 		}).nodeify(done);

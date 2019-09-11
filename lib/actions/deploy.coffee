@@ -185,7 +185,7 @@ module.exports =
 		helpers = require('../utils/helpers')
 		Logger = require('../utils/logger')
 
-		logger = new Logger()
+		logger = Logger.getLogger()
 		logger.logDebug('Parsing input...')
 
 		# when Capitano converts a positional parameter (but not an option)

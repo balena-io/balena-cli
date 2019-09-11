@@ -333,7 +333,7 @@ export async function getOnlineTargetUuid(
 	applicationOrDevice: string,
 ) {
 	const Logger = await import('../utils/logger');
-	const logger = new Logger();
+	const logger = Logger.getLogger();
 	const appTest = validation.validateApplicationName(applicationOrDevice);
 	const uuidTest = validation.validateUuid(applicationOrDevice);
 

@@ -66,7 +66,7 @@ export const join: CommandDefinition<Args, Options> = {
 		const Logger = await import('../utils/logger');
 		const promote = await import('../utils/promote');
 		const sdk = balena.fromSharedOptions();
-		const logger = new Logger();
+		const logger = Logger.getLogger();
 		return Bluebird.try(() => {
 			return promote.join(logger, sdk, params.deviceIp, options.application);
 		}).nodeify(done);
