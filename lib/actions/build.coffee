@@ -108,7 +108,7 @@ module.exports =
 		helpers = require('../utils/helpers')
 		Logger = require('../utils/logger')
 
-		logger = new Logger()
+		logger = Logger.getLogger()
 		logger.logDebug('Parsing input...')
 
 		# `build` accepts `[source]` as a parameter, but compose expects it

@@ -38,7 +38,7 @@ import { displayBuildLog } from './logs';
 
 // Define the logger here so the debug output
 // can be used everywhere
-const globalLogger = new Logger();
+const globalLogger = Logger.getLogger();
 
 export interface DeviceDeployOptions {
 	source: string;

@@ -108,7 +108,7 @@ export const logs: CommandDefinition<
 		);
 		const Logger = await import('../utils/logger');
 
-		const logger = new Logger();
+		const logger = Logger.getLogger();
 
 		const servicesToDisplay =
 			options.service != null

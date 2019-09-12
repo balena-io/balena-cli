@@ -19,6 +19,13 @@ import _ = require('lodash');
 import { EOL as eol } from 'os';
 import { StreamLogger } from 'resin-stream-logger';
 
+/**
+ * General purpose logger class with support for log streams and colours.
+ * Call `Logger.getLogger()` to retrieve a global shared instance of this
+ * class. The `new Logger()` pattern is not recommended because it may lead
+ * to Node printing "MaxListenersExceededWarning" warning messages to the
+ * console.
+ */
 class Logger {
 	public streams: {
 		build: NodeJS.ReadWriteStream;
@@ -33,7 +40,7 @@ class Logger {
 
 	public formatMessage: (name: string, message: string) => string;
 
-	constructor() {
+	protected constructor() {
 		const logger = new StreamLogger();
 		logger.addPrefix('build', chalk.blue('[Build]'));
 		logger.addPrefix('info', chalk.cyan('[Info]'));
@@ -62,6 +69,16 @@ class Logger {
 		});
 
 		this.formatMessage = logger.formatWithPrefix.bind(logger);
+	}
+
+	protected static logger: Logger;
+
+	/** Retrieve a global shared instance of this class */
+	public static getLogger() {
+		if (!this.logger) {
+			this.logger = new Logger();
+		}
+		return this.logger;
 	}
 
 	public logInfo(msg: string) {

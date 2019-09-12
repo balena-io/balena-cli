@@ -94,7 +94,7 @@ export const tunnel: CommandDefinition<Args, Options> = {
 		const deviceOrApplication =
 			params.deviceOrApplication_raw || params.deviceOrApplication;
 		const Logger = await import('../utils/logger');
-		const logger = new Logger();
+		const logger = Logger.getLogger();
 		const balena = await import('balena-sdk');
 		const sdk = balena.fromSharedOptions();
 
