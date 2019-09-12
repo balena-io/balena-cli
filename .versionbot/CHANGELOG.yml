@@ -1,4 +1,38 @@
 - commits:
+    - subject: Mitigate "MaxListenersExceededWarning" by reusing Logger instance
+      hash: 6631fb5a69c0c791b59a954a960eeb28b797a458
+      body: >
+        The full warning output was:
+
+        (node:43572) MaxListenersExceededWarning: Possible EventEmitter memory
+        leak detected. 11 drain listeners added. Use emitter.setMaxListeners()
+        to increase limit
+
+        (node:43572) MaxListenersExceededWarning: Possible EventEmitter memory
+        leak detected. 11 error listeners added. Use emitter.setMaxListeners()
+        to increase limit
+
+        (node:43572) MaxListenersExceededWarning: Possible EventEmitter memory
+        leak detected. 11 close listeners added. Use emitter.setMaxListeners()
+        to increase limit
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: 'Update balena-sdk from 11.18.0 to 12.10.0 (pre-req for #1153 and #1304)'
+      hash: f76ca1804aef20852edd6176ab0eda58b2d7984c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.9.6
+  date: 2019-09-12T00:51:55.302Z
+- commits:
     - subject: >-
         Detect Docker Desktop (Docker for Mac) and warn about architecture
         emulation
