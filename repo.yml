@@ -1,2 +1,3 @@
 type: node-cli
 release: github
+publishMetadata: true
