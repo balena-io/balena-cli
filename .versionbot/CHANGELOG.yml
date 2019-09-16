@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ci: add scrutinizer config'
+      hash: 2e7f60666741d4970994bd76f9545acabf0b111d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stevche Radevski <stevche@balena.io>
+        signed-off-by: Stevche Radevski <stevche@balena.io>
+      author: Stevche Radevski
+  version: 11.9.7
+  date: 2019-09-13T14:02:57.422Z
+- commits:
     - subject: Mitigate "MaxListenersExceededWarning" by reusing Logger instance
       hash: 6631fb5a69c0c791b59a954a960eeb28b797a458
       body: >
