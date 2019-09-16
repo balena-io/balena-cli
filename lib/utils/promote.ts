@@ -216,7 +216,11 @@ async function getOrSelectApplication(
 		throw new Error(`"${deviceType}" is not a valid device type`);
 	}
 	const compatibleDeviceTypes = _(allDeviceTypes)
-		.filter({ arch: deviceTypeManifest.arch })
+		.filter(dt =>
+			sdk.models.os.isArchitectureCompatibleWith(deviceTypeManifest.arch, dt.arch) &&
+			!!dt.isDependent === !!deviceTypeManifest.isDependent &&
+			dt.state !== 'DISCONTINUED'
+		)
 		.map(type => type.slug)
 		.value();
 
