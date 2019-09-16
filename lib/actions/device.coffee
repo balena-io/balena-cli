@@ -366,11 +366,22 @@ exports.move =
 		patterns = require('../utils/patterns')
 
 		balena.models.device.get(params.uuid, expandForAppName).then (device) ->
-			return options.application or patterns.selectApplication (application) ->
-				return _.every [
-					application.device_type is device.device_type
-					device.belongs_to__application[0].app_name isnt application.app_name
-				]
+			return options.application if options.application
+
+			return Promise.all([
+				balena.models.device.getManifestBySlug(device.device_type)
+				balena.models.config.getDeviceTypes()
+			]).then ([deviceDeviceType, deviceTypes]) ->
+				compatibleDeviceTypes = deviceTypes.filter (dt) ->
+					balena.models.os.isArchitectureCompatibleWith(deviceDeviceType.arch, dt.arch) &&
+					!!dt.isDependent == !!deviceDeviceType.isDependent &&
+					dt.state != 'DISCONTINUED'
+
+				return patterns.selectApplication (application) ->
+					return _.every [
+						_.some(compatibleDeviceTypes, (dt) -> dt.slug == application.device_type)
+						device.belongs_to__application[0].app_name isnt application.app_name
+					]
 		.tap (application) ->
 			return balena.models.device.move(params.uuid, application)
 		.then (application) ->
