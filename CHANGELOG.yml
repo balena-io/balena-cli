@@ -1,4 +1,18 @@
 - commits:
+    - subject: Support `balena join` to applications of compatible architectures
+      hash: 87004621cea1dcf56dd34043ccc8f92e2dc98671
+      body: ''
+      footer:
+        Resolves: '#1431'
+        resolves: '#1431'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+  version: 11.11.0
+  date: 2019-09-16T18:58:57.692Z
+- commits:
     - subject: Support moving devices to applications of a compatible architecture
       hash: a64b36fdb9550b4d3e245d4791ef74c2b9491aac
       body: ''
@@ -11,7 +25,7 @@
         signed-off-by: Thodoris Greasidis <thodoris@balena.io>
       author: Thodoris Greasidis
   version: 11.10.0
-  date: 2019-09-16T18:12:57.249Z
+  date: 2019-09-16T16:19:25.093Z
 - commits:
     - subject: 'ci: add scrutinizer config'
       hash: 2e7f60666741d4970994bd76f9545acabf0b111d
