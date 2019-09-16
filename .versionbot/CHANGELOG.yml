@@ -1,4 +1,18 @@
 - commits:
+    - subject: Support moving devices to applications of a compatible architecture
+      hash: a64b36fdb9550b4d3e245d4791ef74c2b9491aac
+      body: ''
+      footer:
+        Connects-to: '#1433'
+        connects-to: '#1433'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+  version: 11.10.0
+  date: 2019-09-16T16:19:25.093Z
+- commits:
     - subject: 'ci: add scrutinizer config'
       hash: 2e7f60666741d4970994bd76f9545acabf0b111d
       body: ''
