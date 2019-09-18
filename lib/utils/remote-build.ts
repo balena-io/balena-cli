@@ -222,7 +222,7 @@ function getBuilderMessageHandler(
 ): (obj: BuilderMessage) => void {
 	return (obj: BuilderMessage) => {
 		if (DEBUG_MODE) {
-			console.log(`[debug] handling message: ${JSON.stringify(obj)}`);
+			console.error(`[debug] handling message: ${JSON.stringify(obj)}`);
 		}
 		if (obj.type != null && obj.type === 'metadata') {
 			return handleBuilderMetadata(obj, build);
@@ -318,7 +318,7 @@ function createRemoteBuildRequest(
 ): request.Request {
 	const zlib = require('zlib');
 	if (DEBUG_MODE) {
-		console.log(`[debug] Connecting to builder at ${builderUrl}`);
+		console.error(`[debug] Connecting to builder at ${builderUrl}`);
 	}
 	return request
 		.post({
@@ -331,7 +331,7 @@ function createRemoteBuildRequest(
 		.once('response', (response: request.RequestResponse) => {
 			if (response.statusCode >= 100 && response.statusCode < 400) {
 				if (DEBUG_MODE) {
-					console.log(
+					console.error(
 						`[debug] received HTTP ${response.statusCode} ${
 							response.statusMessage
 						}`,

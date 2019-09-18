@@ -268,7 +268,7 @@ export const push: CommandDefinition<
 
 		const source = options.source || '.';
 		if (process.env.DEBUG) {
-			console.log(`[debug] Using ${source} as build source`);
+			console.error(`[debug] Using ${source} as build source`);
 		}
 
 		const dockerfilePath = validateSpecifiedDockerfile(

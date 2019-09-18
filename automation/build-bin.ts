@@ -22,6 +22,7 @@ import { execFile, spawn } from 'child_process';
 import { stripIndent } from 'common-tags';
 import * as filehound from 'filehound';
 import * as fs from 'fs-extra';
+import * as _ from 'lodash';
 import * as path from 'path';
 import { exec as execPkg } from 'pkg';
 import * as rimraf from 'rimraf';
@@ -348,7 +349,18 @@ async function getSubprocessStdout(
 		child.stderr.on('data', (data: Buffer) => {
 			try {
 				const stderr = data.toString();
-				reject(new Error(`"${execPath}": non-empty stderr "${stderr}"`));
+
+				// ignore any debug lines, but ensure that we parse
+				// every line provided to the stderr stream
+				const lines = _.filter(
+					stderr.trim().split(/\r?\n/),
+					line => !line.startsWith('[debug]'),
+				);
+				if (lines.length > 0) {
+					reject(
+						new Error(`"${execPath}": non-empty stderr "${lines.join('\n')}"`),
+					);
+				}
 			} catch (err) {
 				reject(err);
 			}
