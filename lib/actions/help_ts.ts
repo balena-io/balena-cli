@@ -16,20 +16,29 @@
  */
 
 import { Command } from '@oclif/command';
+import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
+import * as path from 'path';
 
-export function getOclifHelpLinePairs(): Array<[string, string]> {
-	// Although it's tempting to have these oclif commands 'require'd in a
-	// central place, it would impact on performance (CLI start time). An
-	// improvement would probably be to automatically scan the actions-oclif
-	// folder.
-	const EnvAddCmd = require('../actions-oclif/env/add').default;
-	const EnvRmCmd = require('../actions-oclif/env/rm').default;
-	const VersionCmd = require('../actions-oclif/version').default;
-	return [EnvAddCmd, EnvRmCmd, VersionCmd].map(getCmdUsageDescriptionLinePair);
+export async function getOclifHelpLinePairs(): Promise<
+	Array<[string, string]>
+> {
+	const { convertedCommands } = await import('../preparser');
+	const cmdClasses: Array<Promise<typeof Command>> = [];
+	for (const convertedCmd of convertedCommands) {
+		const [topic, cmd] = convertedCmd.split(':');
+		const pathComponents = ['..', 'actions-oclif', topic];
+		if (cmd) {
+			pathComponents.push(cmd);
+		}
+		// note that `import(path)` returns a promise
+		cmdClasses.push(import(path.join(...pathComponents)));
+	}
+	return Bluebird.map(cmdClasses, getCmdUsageDescriptionLinePair);
 }
 
-function getCmdUsageDescriptionLinePair(cmd: typeof Command): [string, string] {
+function getCmdUsageDescriptionLinePair(cmdModule: any): [string, string] {
+	const cmd: typeof Command = cmdModule.default;
 	const usage = (cmd.usage || '').toString().toLowerCase();
 	let description = '';
 	// note: [^] matches any characters (including line breaks), achieving the

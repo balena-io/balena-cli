@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import * as Promise from 'bluebird';
+import * as Bluebird from 'bluebird';
 import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 import * as os from 'os';
@@ -22,7 +22,7 @@ import * as Raven from 'raven';
 
 import * as patterns from './utils/patterns';
 
-const captureException = Promise.promisify<string, Error>(
+const captureException = Bluebird.promisify<string, Error>(
 	Raven.captureException,
 	{ context: Raven },
 );
@@ -104,7 +104,7 @@ const messages: {
 			$ balena login`,
 };
 
-export function handleError(error: any) {
+export async function handleError(error: any) {
 	let message = interpret(error);
 	if (message == null) {
 		return;
@@ -116,7 +116,7 @@ export function handleError(error: any) {
 
 	patterns.printErrorMessage(message!);
 
-	return captureException(error)
+	await captureException(error)
 		.timeout(1000)
 		.catch(function() {
 			// Ignore any errors (from error logging, or timeouts)

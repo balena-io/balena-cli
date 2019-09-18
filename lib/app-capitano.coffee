@@ -83,10 +83,6 @@ capitano.command(actions.keys.add)
 capitano.command(actions.keys.info)
 capitano.command(actions.keys.remove)
 
-# ---------- Env Module ----------
-capitano.command(actions.env.list)
-capitano.command(actions.env.rename)
-
 # ---------- Tags Module ----------
 capitano.command(actions.tags.list)
 capitano.command(actions.tags.set)

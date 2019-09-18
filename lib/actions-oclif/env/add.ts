@@ -17,7 +17,9 @@
 
 import { Command, flags } from '@oclif/command';
 import { stripIndent } from 'common-tags';
+import * as _ from 'lodash';
 
+import * as cf from '../../utils/common-flags';
 import { CommandHelp } from '../../utils/oclif-utils';
 
 interface FlagsDef {
@@ -71,69 +73,55 @@ export default class EnvAddCmd extends Command {
 		'env add ' + new CommandHelp({ args: EnvAddCmd.args }).defaultUsage();
 
 	public static flags: flags.Input<FlagsDef> = {
-		application: flags.string({
-			char: 'a',
-			description: 'application name',
-			exclusive: ['device'],
-		}),
-		device: flags.string({
-			char: 'd',
-			description: 'device UUID',
-			exclusive: ['application'],
-		}),
-		help: flags.help({ char: 'h' }),
-		quiet: flags.boolean({
-			char: 'q',
-			description: 'suppress warning messages',
-			default: false,
-		}),
+		application: _.assign({ exclusive: ['device'] }, cf.application),
+		device: _.assign({ exclusive: ['application'] }, cf.device),
+		help: cf.help,
+		quiet: cf.quiet,
 	};
 
 	public async run() {
 		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
 			EnvAddCmd,
 		);
-		const Bluebird = await import('bluebird');
-		const _ = await import('lodash');
+		const cmd = this;
 		const balena = (await import('balena-sdk')).fromSharedOptions();
 		const { exitWithExpectedError } = await import('../../utils/patterns');
 
-		const cmd = this;
+		if (params.value == null) {
+			params.value = process.env[params.name];
 
-		await Bluebird.try(async function() {
 			if (params.value == null) {
-				params.value = process.env[params.name];
-
-				if (params.value == null) {
-					throw new Error(
-						`Environment value not found for variable: ${params.name}`,
-					);
-				} else if (!options.quiet) {
-					cmd.warn(
-						`Using ${params.name}=${params.value} from CLI process environment`,
-					);
-				}
-			}
-
-			const reservedPrefixes = await getReservedPrefixes();
-			const isConfigVar = _.some(reservedPrefixes, prefix =>
-				_.startsWith(params.name, prefix),
-			);
-
-			if (options.application) {
-				return balena.models.application[
-					isConfigVar ? 'configVar' : 'envVar'
-				].set(options.application, params.name, params.value);
-			} else if (options.device) {
-				return balena.models.device[isConfigVar ? 'configVar' : 'envVar'].set(
-					options.device,
-					params.name,
-					params.value,
+				throw new Error(
+					`Environment value not found for variable: ${params.name}`,
 				);
-			} else {
-				exitWithExpectedError('You must specify an application or device');
+			} else if (!options.quiet) {
+				cmd.warn(
+					`Using ${params.name}=${params.value} from CLI process environment`,
+				);
 			}
-		});
+		}
+
+		const reservedPrefixes = await getReservedPrefixes();
+		const isConfigVar = _.some(reservedPrefixes, prefix =>
+			_.startsWith(params.name, prefix),
+		);
+		const varType = isConfigVar ? 'configVar' : 'envVar';
+
+		if (options.application) {
+			await balena.models.application[varType].set(
+				options.application,
+				params.name,
+				params.value,
+			);
+		} else if (options.device) {
+			await balena.models.device[varType].set(
+				options.device,
+				params.name,
+				params.value,
+			);
+		} else {
+			exitWithExpectedError('You must specify an application or device');
+		}
 	}
 }
 

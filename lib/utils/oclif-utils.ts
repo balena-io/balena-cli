@@ -17,11 +17,6 @@
 
 import * as Config from '@oclif/config';
 
-export const convertedCommands = {
-	'env:add': 'env add',
-	'env:rm': 'env rm',
-};
-
 /**
  * This class is a partial copy-and-paste of
  * @oclif/plugin-help/command/CommandHelp, which is used to generate oclif's

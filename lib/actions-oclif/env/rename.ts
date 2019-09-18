@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019 Balena Ltd.
+ * Copyright 2016-2019 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,98 +14,83 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { Command, flags } from '@oclif/command';
 import { stripIndent } from 'common-tags';
 
+import * as cf from '../../utils/common-flags';
 import { CommandHelp } from '../../utils/oclif-utils';
+
+type IArg<T> = import('@oclif/parser').args.IArg<T>;
 
 interface FlagsDef {
 	device: boolean;
-	yes: boolean;
+	help: void;
 }
 
 interface ArgsDef {
 	id: number;
+	value: string;
 }
 
-export default class EnvRmCmd extends Command {
+export default class EnvRenameCmd extends Command {
 	public static description = stripIndent`
-		Remove an environment variable from an application or device.
+		Change the value of an environment variable for an app or device.
 
-		Remove an environment variable from an application or device, as selected
-		by command-line options.
-
-		Note that this command asks for confirmation interactively.
-		You can avoid this by passing the \`--yes\` boolean option.
-
-		The --device option selects a device instead of an application.
+		Change the value of an environment variable for an application or device,
+		as selected by the '--device' option. The variable is identified by its
+		database ID, rather than its name. The 'balena envs' command can be used
+		to list the variable's ID.
 
 		Service-specific variables are not currently supported. The following
-		examples remove variables that apply to all services in an app or device.
+		examples modify variables that apply to all services in an app or device.
 `;
 	public static examples = [
-		'$ balena env rm 215',
-		'$ balena env rm 215 --yes',
-		'$ balena env rm 215 --device',
+		'$ balena env rename 376 emacs',
+		'$ balena env rename 376 emacs --device',
 	];
 
-	public static args = [
+	public static args: Array<IArg<any>> = [
 		{
 			name: 'id',
 			required: true,
 			description: 'environment variable numeric database ID',
+			parse: input => parseInt(input, 10),
+		},
+		{
+			name: 'value',
+			required: true,
+			description:
+				"variable value; if omitted, use value from CLI's environment",
 		},
 	];
 
 	// hardcoded 'env add' to avoid oclif's 'env:add' topic syntax
 	public static usage =
-		'env rm ' + new CommandHelp({ args: EnvRmCmd.args }).defaultUsage();
+		'env rename ' + new CommandHelp({ args: EnvRenameCmd.args }).defaultUsage();
 
 	public static flags: flags.Input<FlagsDef> = {
 		device: flags.boolean({
 			char: 'd',
 			description:
-				'Selects a device environment variable instead of an application environment variable',
-			default: false,
+				'select a device variable instead of an application variable',
 		}),
-		yes: flags.boolean({
-			char: 'y',
-			description: 'Run in non-interactive mode',
-			default: false,
-		}),
+		help: cf.help,
 	};
 
 	public async run() {
 		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			EnvRmCmd,
+			EnvRenameCmd,
 		);
 		const balena = (await import('balena-sdk')).fromSharedOptions();
-		const patterns = await import('../../utils/patterns');
 
-		if (isNaN(params.id) || !Number.isInteger(Number(params.id))) {
-			patterns.exitWithExpectedError(
-				'The environment variable id must be an integer',
-			);
-		}
-
-		try {
-			await patterns.confirm(
-				options.yes || false,
-				'Are you sure you want to delete the environment variable?',
-			);
-		} catch (err) {
-			if (err.message === 'Aborted') {
-				return patterns.exitWithExpectedError(err);
-			}
-			throw err;
-		}
-
-		await balena.pine.delete({
+		await balena.pine.patch({
 			resource: options.device
 				? 'device_environment_variable'
 				: 'application_environment_variable',
 			id: params.id,
+			body: {
+				value: params.value,
+			},
 		});
 	}
 }

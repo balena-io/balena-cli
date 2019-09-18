@@ -49,8 +49,9 @@ const capitanoDoc = {
 		{
 			title: 'Environment Variables',
 			files: [
-				'build/actions/environment-variables.js',
+				'build/actions-oclif/envs.js',
 				'build/actions-oclif/env/add.js',
+				'build/actions-oclif/env/rename.js',
 				'build/actions-oclif/env/rm.js',
 			],
 		},

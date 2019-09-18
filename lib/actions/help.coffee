@@ -90,15 +90,20 @@ general = (params, options, done) ->
 
 	if options.verbose
 		console.log('\nAdditional commands:\n')
-		print parse(groupedCommands.secondary).concat(getOclifHelpLinePairs()).sort()
+		secondaryCommandPromise = getOclifHelpLinePairs()
+		.then (oclifHelpLinePairs) ->
+			print parse(groupedCommands.secondary).concat(oclifHelpLinePairs).sort()
 	else
 		console.log('\nRun `balena help --verbose` to list additional commands')
+		secondaryCommandPromise = Promise.resolve()
 
-	if not _.isEmpty(capitano.state.globalOptions)
-		console.log('\nGlobal Options:\n')
-		print parse(capitano.state.globalOptions).sort()
-
-	return done()
+	secondaryCommandPromise
+	.then ->
+		if not _.isEmpty(capitano.state.globalOptions)
+			console.log('\nGlobal Options:\n')
+			print parse(capitano.state.globalOptions).sort()
+		done()
+	.catch(done)
 
 command = (params, options, done) ->
 	capitano.state.getMatchCommand params.command, (error, command) ->
