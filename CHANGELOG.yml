@@ -1,4 +1,34 @@
 - commits:
+    - subject: Migrate 'envs' and 'env rename' commands to oclif
+      hash: c07b28e694e06732d88cdb0b8d3fc1705f169e5a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Simplify/refactor 'env add' and 'env rm' implementation
+      hash: b3bef9e55695401d0faf0da8ae8292877e9854d8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Refactor oclif integration and preparser
+      hash: 2ff427fb9077c1e4f23fc9cbe009d70eadf8257c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.11.1
+  date: 2019-09-18T13:12:27.611Z
+- commits:
     - subject: Support `balena join` to applications of compatible architectures
       hash: 87004621cea1dcf56dd34043ccc8f92e2dc98671
       body: ''
@@ -11,7 +41,7 @@
         signed-off-by: Thodoris Greasidis <thodoris@balena.io>
       author: Thodoris Greasidis
   version: 11.11.0
-  date: 2019-09-16T18:58:57.692Z
+  date: 2019-09-16T18:33:27.871Z
 - commits:
     - subject: Support moving devices to applications of a compatible architecture
       hash: a64b36fdb9550b4d3e245d4791ef74c2b9491aac

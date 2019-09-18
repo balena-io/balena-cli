@@ -1,6 +1,49 @@
 {
   "license": "Apache-2.0",
+  "blog": [],
   "changelog": [
+    {
+      "commits": [
+        {
+          "subject": "Migrate 'envs' and 'env rename' commands to oclif",
+          "hash": "c07b28e694e06732d88cdb0b8d3fc1705f169e5a",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Simplify/refactor 'env add' and 'env rm' implementation",
+          "hash": "b3bef9e55695401d0faf0da8ae8292877e9854d8",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Refactor oclif integration and preparser",
+          "hash": "2ff427fb9077c1e4f23fc9cbe009d70eadf8257c",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.11.1",
+      "date": "2019-09-18T11:57:28.728Z"
+    },
     {
       "commits": [
         {
@@ -7172,6 +7215,7 @@
       "avatar": "https://avatars1.githubusercontent.com/u/4820812?v=4"
     }
   ],
+  "docs": [],
   "security": null,
   "faq": null,
   "codeOfConduct": null,
@@ -7189,7 +7233,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 163,
+  "stars": 164,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -7288,32 +7332,32 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2019-09-16T18:59:27Z",
+  "lastCommitDate": "2019-09-18T13:12:54Z",
   "latestRelease": {
-    "tagName": "v11.11.0",
+    "tagName": "v11.11.1",
     "asssets": [
       {
-        "name": "balena-cli-v11.11.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.0/balena-cli-v11.11.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.11.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.1/balena-cli-v11.11.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.11.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.0/balena-cli-v11.11.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.11.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.1/balena-cli-v11.11.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.11.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.0/balena-cli-v11.11.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.11.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.1/balena-cli-v11.11.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.11.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.0/balena-cli-v11.11.0-windows-x64-installer.exe"
+        "name": "balena-cli-v11.11.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.1/balena-cli-v11.11.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.11.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.0/balena-cli-v11.11.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.11.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.1/balena-cli-v11.11.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
-  "version": "11.11.0"
+  "version": "11.11.1"
 }
