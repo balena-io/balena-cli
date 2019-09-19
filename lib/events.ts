@@ -25,7 +25,7 @@ import packageJSON = require('../package.json');
 const getBalenaSdk = _.once(() => BalenaSdk.fromSharedOptions());
 const getMixpanel = _.once<any>(() => {
 	const settings = require('balena-settings-client');
-	return Mixpanel.init('00000000000000000000000000000000', {
+	return Mixpanel.init('balena-main', {
 		host: `api.${settings.get('balenaUrl')}`,
 		path: '/mixpanel',
 		protocol: 'https',
