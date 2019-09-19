@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Use balena analytics project name",
+          "hash": "c1ba73a2da4872412a8b56d3580d6617e2476606",
+          "body": "It's needed to properly integrate CLI with balena\nanalytics proxy service.\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Roman Mazur <roman@balena.io>",
+            "signed-off-by": "Roman Mazur <roman@balena.io>"
+          },
+          "author": "Roman Mazur"
+        }
+      ],
+      "version": "11.11.2",
+      "date": "2019-09-18T15:04:37.776Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Migrate 'envs' and 'env rename' commands to oclif",
           "hash": "c07b28e694e06732d88cdb0b8d3fc1705f169e5a",
           "body": "",
@@ -7233,7 +7251,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 164,
+  "stars": 163,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -7332,32 +7350,32 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2019-09-18T13:12:54Z",
+  "lastCommitDate": "2019-09-19T10:23:45Z",
   "latestRelease": {
-    "tagName": "v11.11.1",
+    "tagName": "v11.11.2",
     "asssets": [
       {
-        "name": "balena-cli-v11.11.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.1/balena-cli-v11.11.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.11.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.2/balena-cli-v11.11.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.11.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.1/balena-cli-v11.11.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.11.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.2/balena-cli-v11.11.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.11.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.1/balena-cli-v11.11.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.11.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.2/balena-cli-v11.11.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.11.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.1/balena-cli-v11.11.1-windows-x64-installer.exe"
+        "name": "balena-cli-v11.11.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.2/balena-cli-v11.11.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.11.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.1/balena-cli-v11.11.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.11.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.2/balena-cli-v11.11.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
-  "version": "11.11.1"
+  "version": "11.11.2"
 }
