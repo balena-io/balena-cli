@@ -1,4 +1,18 @@
 - commits:
+    - subject: Use balena analytics project name
+      hash: c1ba73a2da4872412a8b56d3580d6617e2476606
+      body: |
+        It's needed to properly integrate CLI with balena
+        analytics proxy service.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Roman Mazur <roman@balena.io>
+        signed-off-by: Roman Mazur <roman@balena.io>
+      author: Roman Mazur
+  version: 11.11.2
+  date: 2019-09-18T15:04:37.776Z
+- commits:
     - subject: Migrate 'envs' and 'env rename' commands to oclif
       hash: c07b28e694e06732d88cdb0b8d3fc1705f169e5a
       body: ''
