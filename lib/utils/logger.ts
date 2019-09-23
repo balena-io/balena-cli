@@ -63,8 +63,10 @@ class Logger {
 		};
 
 		_.forEach(this.streams, function(stream, key) {
-			if (key !== 'debug' || process.env.DEBUG) {
+			if (key !== 'debug') {
 				stream.pipe(process.stdout);
+			} else if (process.env.DEBUG) {
+				stream.pipe(process.stderr);
 			}
 		});
 
