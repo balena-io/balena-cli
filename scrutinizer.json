@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Send all debug output to stderr",
+          "hash": "7a865b2e151f54a0edf37c1884e362fc155214a3",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Cameron Diver <cameron@balena.io>",
+            "signed-off-by": "Cameron Diver <cameron@balena.io>"
+          },
+          "author": "Cameron Diver"
+        }
+      ],
+      "version": "11.11.3",
+      "date": "2019-09-19T12:28:38.243Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Use balena analytics project name",
           "hash": "c1ba73a2da4872412a8b56d3580d6617e2476606",
           "body": "It's needed to properly integrate CLI with balena\nanalytics proxy service.\n",
@@ -7121,10 +7139,6 @@
       "avatar": "https://avatars1.githubusercontent.com/u/6157842?v=4"
     },
     {
-      "username": "balena-ci",
-      "avatar": "https://avatars0.githubusercontent.com/u/34882892?v=4"
-    },
-    {
       "username": "pdcastro",
       "avatar": "https://avatars3.githubusercontent.com/u/15091591?v=4"
     },
@@ -7221,16 +7235,16 @@
       "avatar": "https://avatars0.githubusercontent.com/u/48051894?v=4"
     },
     {
+      "username": "roman-mazur",
+      "avatar": "https://avatars3.githubusercontent.com/u/307707?v=4"
+    },
+    {
       "username": "mccollam",
       "avatar": "https://avatars3.githubusercontent.com/u/3144447?v=4"
     },
     {
       "username": "shaunmulligan",
       "avatar": "https://avatars1.githubusercontent.com/u/3915043?v=4"
-    },
-    {
-      "username": "sradevski",
-      "avatar": "https://avatars1.githubusercontent.com/u/4820812?v=4"
     }
   ],
   "docs": [],
@@ -7251,7 +7265,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 163,
+  "stars": 164,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -7350,32 +7364,117 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2019-09-19T10:23:45Z",
+  "lastCommitDate": "2019-09-23T08:47:15Z",
   "latestRelease": {
-    "tagName": "v11.11.2",
+    "tagName": "v11.11.3",
     "asssets": [
       {
-        "name": "balena-cli-v11.11.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.2/balena-cli-v11.11.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.11.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.3/balena-cli-v11.11.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.11.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.2/balena-cli-v11.11.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.11.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.3/balena-cli-v11.11.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.11.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.2/balena-cli-v11.11.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.11.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.3/balena-cli-v11.11.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.11.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.2/balena-cli-v11.11.2-windows-x64-installer.exe"
+        "name": "balena-cli-v11.11.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.3/balena-cli-v11.11.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.11.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.2/balena-cli-v11.11.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.11.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.3/balena-cli-v11.11.3-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
-  "version": "11.11.2"
+  "openIssues": {
+    "numberOfIssues": 271,
+    "latestIssues": [
+      {
+        "title": "Balena push --env doesn't support multi-line env variables",
+        "url": "https://github.com/balena-io/balena-cli/issues/1442"
+      },
+      {
+        "title": "Some services failed to build: error pulling image configuration , connection reset by peer",
+        "url": "https://github.com/balena-io/balena-cli/issues/1441"
+      },
+      {
+        "title": "`balena app/device {ID} --view` option to open application/device panel from cli",
+        "url": "https://github.com/balena-io/balena-cli/issues/1440"
+      },
+      {
+        "title": "Livepush fails to push changes with errors `Cannot remove '/tmp/balena': Device or resource busy`",
+        "url": "https://github.com/balena-io/balena-cli/issues/1437"
+      },
+      {
+        "title": "`balena version` responds immediately but hangs around for a long time",
+        "url": "https://github.com/balena-io/balena-cli/issues/1436"
+      },
+      {
+        "title": "`balena join` does not allow the non-interactive setting of the update period",
+        "url": "https://github.com/balena-io/balena-cli/issues/1432"
+      },
+      {
+        "title": "`balena join` states devices can't be moved between applications",
+        "url": "https://github.com/balena-io/balena-cli/issues/1429"
+      },
+      {
+        "title": "`balena os initialize` no longer initialises an image",
+        "url": "https://github.com/balena-io/balena-cli/issues/1428"
+      },
+      {
+        "title": "macOS internet connection sharing doesn't show `local scan` devices",
+        "url": "https://github.com/balena-io/balena-cli/issues/1427"
+      },
+      {
+        "title": "`balena os download` does not let you download a development image",
+        "url": "https://github.com/balena-io/balena-cli/issues/1426"
+      },
+      {
+        "title": "Running `balena login` refers to `resin.io`",
+        "url": "https://github.com/balena-io/balena-cli/issues/1422"
+      },
+      {
+        "title": "Run sanity project checks before push / deploy / build commands",
+        "url": "https://github.com/balena-io/balena-cli/issues/1421"
+      },
+      {
+        "title": "`balena login` should convenience-open the signup page if `I don't have a balena account!` is selected",
+        "url": "https://github.com/balena-io/balena-cli/issues/1417"
+      },
+      {
+        "title": "`balena build` does not specify it's using emulation when using the `--application` switch on non-native targets",
+        "url": "https://github.com/balena-io/balena-cli/issues/1415"
+      },
+      {
+        "title": "live push tars all children rather than resolving what is necessary for build",
+        "url": "https://github.com/balena-io/balena-cli/issues/1411"
+      },
+      {
+        "title": "balena push selects incorrect image (multiarch images, Docker manifest)",
+        "url": "https://github.com/balena-io/balena-cli/issues/1408"
+      },
+      {
+        "title": "--tail doesn't follow the logs",
+        "url": "https://github.com/balena-io/balena-cli/issues/1407"
+      },
+      {
+        "title": "Investigate adopting homebrew as an official release channel",
+        "url": "https://github.com/balena-io/balena-cli/issues/1406"
+      },
+      {
+        "title": "Login command may hang for a while after authorizing through the web dashboard",
+        "url": "https://github.com/balena-io/balena-cli/issues/1404"
+      },
+      {
+        "title": "Add NYC code coverage report",
+        "url": "https://github.com/balena-io/balena-cli/pull/1399"
+      }
+    ]
+  },
+  "version": "11.11.3"
 }
