@@ -1,4 +1,16 @@
 - commits:
+    - subject: Send all debug output to stderr
+      hash: 7a865b2e151f54a0edf37c1884e362fc155214a3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Cameron Diver <cameron@balena.io>
+        signed-off-by: Cameron Diver <cameron@balena.io>
+      author: Cameron Diver
+  version: 11.11.3
+  date: 2019-09-19T12:28:38.243Z
+- commits:
     - subject: Use balena analytics project name
       hash: c1ba73a2da4872412a8b56d3580d6617e2476606
       body: |
