@@ -153,7 +153,7 @@
     "balena-device-status": "^3.1.2",
     "balena-image-manager": "^6.0.0",
     "balena-preload": "^8.2.1",
-    "balena-sdk": "^12.10.0",
+    "balena-sdk": "^12.11.0",
     "balena-settings-client": "^4.0.0",
     "balena-sync": "^10.0.3",
     "bash": "0.0.1",

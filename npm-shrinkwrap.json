@@ -1988,9 +1988,9 @@
       }
     },
     "balena-sdk": {
-      "version": "12.10.0",
-      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-12.10.0.tgz",
-      "integrity": "sha512-nE3zJ5heZPVYBnoQPUo/uEFXyCtaDXOItIDcMAMBaCBurTQDHlbfg1d/C62ahBti2mowI927eIHqAQ4Huyrglw==",
+      "version": "12.11.0",
+      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-12.11.0.tgz",
+      "integrity": "sha512-KLEX+dttLkhPSVmrRPL/Rb4ZyvVyXPH6IBBFcG2qJyV3H+fpocCIXTeOwpMUZqaKKKT1fkD210rqTxyfBjW5og==",
       "requires": {
         "@types/bluebird": "3.5.21",
         "@types/common-tags": "^1.4.0",
