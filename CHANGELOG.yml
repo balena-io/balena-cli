@@ -1,4 +1,20 @@
 - commits:
+    - subject: Allow mixing armv7 & aarch64 devices in RPi 1 / zero apps
+      hash: f9d6a0ee72c33f159d43ecb0dcb51c2522fa213a
+      body: ''
+      footer:
+        Resolves: '#1448'
+        resolves: '#1448'
+        HQ: 'https://github.com/balena-io/balena/issues/1905'
+        hq: 'https://github.com/balena-io/balena/issues/1905'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+  version: 11.12.0
+  date: 2019-09-25T10:20:02.028Z
+- commits:
     - subject: Send all debug output to stderr
       hash: 7a865b2e151f54a0edf37c1884e362fc155214a3
       body: ''
@@ -9,7 +25,7 @@
         signed-off-by: Cameron Diver <cameron@balena.io>
       author: Cameron Diver
   version: 11.11.3
-  date: 2019-09-23T08:46:32.824Z
+  date: 2019-09-19T12:28:38.243Z
 - commits:
     - subject: Use balena analytics project name
       hash: c1ba73a2da4872412a8b56d3580d6617e2476606

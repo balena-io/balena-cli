@@ -5,6 +5,28 @@
     {
       "commits": [
         {
+          "subject": "Allow mixing armv7 & aarch64 devices in RPi 1 / zero apps",
+          "hash": "f9d6a0ee72c33f159d43ecb0dcb51c2522fa213a",
+          "body": "",
+          "footer": {
+            "Resolves": "#1448",
+            "resolves": "#1448",
+            "HQ": "https://github.com/balena-io/balena/issues/1905",
+            "hq": "https://github.com/balena-io/balena/issues/1905",
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis"
+        }
+      ],
+      "version": "11.12.0",
+      "date": "2019-09-24T10:25:08.682Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Send all debug output to stderr",
           "hash": "7a865b2e151f54a0edf37c1884e362fc155214a3",
           "body": "",
@@ -7364,43 +7386,63 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2019-09-23T08:47:15Z",
+  "lastCommitDate": "2019-09-25T10:20:45Z",
   "latestRelease": {
-    "tagName": "v11.11.3",
+    "tagName": "v11.12.0",
     "asssets": [
       {
-        "name": "balena-cli-v11.11.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.3/balena-cli-v11.11.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.12.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.12.0/balena-cli-v11.12.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.11.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.3/balena-cli-v11.11.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.12.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.12.0/balena-cli-v11.12.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.11.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.3/balena-cli-v11.11.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.12.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.12.0/balena-cli-v11.12.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.11.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.3/balena-cli-v11.11.3-windows-x64-installer.exe"
+        "name": "balena-cli-v11.12.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.12.0/balena-cli-v11.12.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.11.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.11.3/balena-cli-v11.11.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.12.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.12.0/balena-cli-v11.12.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 271,
+    "numberOfIssues": 276,
     "latestIssues": [
+      {
+        "title": "Release builds for armv7hf and arm64",
+        "url": "https://github.com/balena-io/balena-cli/issues/1450"
+      },
+      {
+        "title": "depend_on should trigger service re-creation when the service it depends on has changed.",
+        "url": "https://github.com/balena-io/balena-cli/issues/1447"
+      },
+      {
+        "title": "env variables with dots in the name cause an error: BadRequestDeviceAPIError: Invalid apps",
+        "url": "https://github.com/balena-io/balena-cli/issues/1446"
+      },
+      {
+        "title": "Balena push/build fails to understand code as a multicontainer project",
+        "url": "https://github.com/balena-io/balena-cli/issues/1445"
+      },
+      {
+        "title": "`config reconfigure/write` require `sudo` prefix before working",
+        "url": "https://github.com/balena-io/balena-cli/issues/1444"
+      },
+      {
+        "title": "`config inject/read` fail due to `sudo` calls not working correctly",
+        "url": "https://github.com/balena-io/balena-cli/issues/1443"
+      },
       {
         "title": "Balena push --env doesn't support multi-line env variables",
         "url": "https://github.com/balena-io/balena-cli/issues/1442"
-      },
-      {
-        "title": "Some services failed to build: error pulling image configuration , connection reset by peer",
-        "url": "https://github.com/balena-io/balena-cli/issues/1441"
       },
       {
         "title": "`balena app/device {ID} --view` option to open application/device panel from cli",
@@ -7453,28 +7495,8 @@
       {
         "title": "live push tars all children rather than resolving what is necessary for build",
         "url": "https://github.com/balena-io/balena-cli/issues/1411"
-      },
-      {
-        "title": "balena push selects incorrect image (multiarch images, Docker manifest)",
-        "url": "https://github.com/balena-io/balena-cli/issues/1408"
-      },
-      {
-        "title": "--tail doesn't follow the logs",
-        "url": "https://github.com/balena-io/balena-cli/issues/1407"
-      },
-      {
-        "title": "Investigate adopting homebrew as an official release channel",
-        "url": "https://github.com/balena-io/balena-cli/issues/1406"
-      },
-      {
-        "title": "Login command may hang for a while after authorizing through the web dashboard",
-        "url": "https://github.com/balena-io/balena-cli/issues/1404"
-      },
-      {
-        "title": "Add NYC code coverage report",
-        "url": "https://github.com/balena-io/balena-cli/pull/1399"
       }
     ]
   },
-  "version": "11.11.3"
+  "version": "11.12.0"
 }
