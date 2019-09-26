@@ -83,3 +83,28 @@ Try resetting the ownership by running:
 ```sh
 $ sudo chown -R <user> $HOME/.balena
 ```
+
+## Broken line wrapping / cursor behavior with `balena ssh`
+
+Users sometimes come across broken line wrapping or cursor behavior in text terminals, for example when long command lines are typed in a `balena ssh` session, or when using text editors like `vim` or `nano`. This is not something specific to the balena CLI, being also a commonly reported issue with standard remote terminal tools like `ssh` or `telnet`. It is often a remote shell configuration issue (files like `/etc/profile`, `~/.bash_profile`, `~/.bash_login`, `~/.profile` and the like), including UTF-8 misconfiguration, the use of unsupported ASCII control characters in shell prompt formatting (e.g. the `$PS1` env var) or the output of tools or log files that use colored text. The issue can sometimes be fixed by resizing the client terminal window, or by running one or more of the following commands on the shell:
+
+```
+export TERMINAL=linux
+stty sane
+shopt -s checkwinsize
+bind 'set horizontal-scroll-mode off'
+```
+
+Terminal multiplexer tools like GNU `screen` or `tmux` are sometimes reported to fix the issues, though at other times they are reported as the _cause_ of the problem. They have their own configuration files to take into account.
+
+Further reference:
+* https://stackoverflow.com/questions/1133031/shell-prompt-line-wrapping-issue
+* https://superuser.com/questions/46948/any-way-to-fix-screens-mishandling-of-line-wrap-maybe-only-terminal-app
+* https://unix.stackexchange.com/questions/105958/terminal-prompt-not-wrapping-correctly
+* https://unix.stackexchange.com/questions/529377/terminal-long-line-wrapping
+* https://github.com/microsoft/WSL/issues/1436
+
+If nothing seems to help, consider also using a different client-side terminal application:
+* Linux: xterm, KDE Konsole, GNOME Terminal
+* Mac: Terminal, iTerm2
+* Windows: PowerShell, PuTTY, WSL (Windows Subsystem for Linux)
