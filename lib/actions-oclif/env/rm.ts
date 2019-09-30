@@ -99,17 +99,12 @@ export default class EnvRmCmd extends Command {
 			);
 		}
 
-		try {
-			await patterns.confirm(
-				options.yes || false,
-				'Are you sure you want to delete the environment variable?',
-			);
-		} catch (err) {
-			if (err.message === 'Aborted') {
-				return patterns.exitWithExpectedError(err);
-			}
-			throw err;
-		}
+		await patterns.confirm(
+			options.yes || false,
+			'Are you sure you want to delete the environment variable?',
+			undefined,
+			true,
+		);
 
 		await balena.pine.delete({
 			resource: options.device
