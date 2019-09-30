@@ -5,6 +5,30 @@
     {
       "commits": [
         {
+          "subject": "Bump balena-sdk to v12.12.0 to stop using image maker endpoints",
+          "hash": "408f739e2d41fbf6993d29932965618ef23794db",
+          "body": "",
+          "footer": {
+            "Resolves": "#1453",
+            "resolves": "#1453",
+            "Depends-on": "https://github.com/balena-io-modules/balena-image-manager/pull/45",
+            "depends-on": "https://github.com/balena-io-modules/balena-image-manager/pull/45",
+            "HQ": "https://github.com/balena-io/balena/issues/1744",
+            "hq": "https://github.com/balena-io/balena/issues/1744",
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis"
+        }
+      ],
+      "version": "11.13.0",
+      "date": "2019-09-30T12:41:21.992Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Allow mixing armv7 & aarch64 devices in RPi 1 / zero apps",
           "hash": "f9d6a0ee72c33f159d43ecb0dcb51c2522fa213a",
           "body": "",
@@ -7386,36 +7410,44 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2019-09-25T10:20:45Z",
+  "lastCommitDate": "2019-09-30T12:59:02Z",
   "latestRelease": {
-    "tagName": "v11.12.0",
+    "tagName": "v11.13.0",
     "asssets": [
       {
-        "name": "balena-cli-v11.12.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.12.0/balena-cli-v11.12.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.13.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.0/balena-cli-v11.13.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.12.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.12.0/balena-cli-v11.12.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.13.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.0/balena-cli-v11.13.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.12.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.12.0/balena-cli-v11.12.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.13.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.0/balena-cli-v11.13.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.12.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.12.0/balena-cli-v11.12.0-windows-x64-installer.exe"
+        "name": "balena-cli-v11.13.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.0/balena-cli-v11.13.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.12.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.12.0/balena-cli-v11.12.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.13.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.0/balena-cli-v11.13.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 276,
+    "numberOfIssues": 278,
     "latestIssues": [
+      {
+        "title": "Update TROUBLESHOOTING doc re 'balena ssh' line wrapping / cursor behavior",
+        "url": "https://github.com/balena-io/balena-cli/pull/1452"
+      },
+      {
+        "title": "Should use 1000 as the divider in B->KB->MB conversions",
+        "url": "https://github.com/balena-io/balena-cli/issues/1451"
+      },
       {
         "title": "Release builds for armv7hf and arm64",
         "url": "https://github.com/balena-io/balena-cli/issues/1450"
@@ -7487,16 +7519,8 @@
       {
         "title": "`balena login` should convenience-open the signup page if `I don't have a balena account!` is selected",
         "url": "https://github.com/balena-io/balena-cli/issues/1417"
-      },
-      {
-        "title": "`balena build` does not specify it's using emulation when using the `--application` switch on non-native targets",
-        "url": "https://github.com/balena-io/balena-cli/issues/1415"
-      },
-      {
-        "title": "live push tars all children rather than resolving what is necessary for build",
-        "url": "https://github.com/balena-io/balena-cli/issues/1411"
       }
     ]
   },
-  "version": "11.12.0"
+  "version": "11.13.0"
 }
