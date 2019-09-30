@@ -130,10 +130,8 @@ exports.supported =
 		visuals = require('resin-cli-visuals')
 
 		balena.models.config.getDeviceTypes().then (deviceTypes) ->
-			console.log visuals.table.horizontal deviceTypes, [
-				'slug'
-				'name'
-			]
+			fields = ['slug', 'name']
+			console.log visuals.table.horizontal(_.sortBy(deviceTypes, fields), fields)
 		.nodeify(done)
 
 exports.register =
