@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Update TROUBLESHOOTING doc re 'balena ssh' line wrapping / cursor
+        behavior
+      hash: 4077da14915fac044cfda3dbf038544b258177f7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.13.1
+  date: 2019-09-30T13:19:15.400Z
+- commits:
     - subject: Bump balena-sdk to v12.12.0 to stop using image maker endpoints
       hash: 408f739e2d41fbf6993d29932965618ef23794db
       body: ''
