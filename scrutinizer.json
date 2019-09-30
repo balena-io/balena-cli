@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Update TROUBLESHOOTING doc re 'balena ssh' line wrapping / cursor behavior",
+          "hash": "4077da14915fac044cfda3dbf038544b258177f7",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.13.1",
+      "date": "2019-09-30T13:19:15.400Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Bump balena-sdk to v12.12.0 to stop using image maker endpoints",
           "hash": "408f739e2d41fbf6993d29932965618ef23794db",
           "body": "",
@@ -7410,40 +7428,36 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2019-09-30T12:59:02Z",
+  "lastCommitDate": "2019-09-30T14:36:18Z",
   "latestRelease": {
-    "tagName": "v11.13.0",
+    "tagName": "v11.13.1",
     "asssets": [
       {
-        "name": "balena-cli-v11.13.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.0/balena-cli-v11.13.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.13.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.1/balena-cli-v11.13.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.13.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.0/balena-cli-v11.13.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.13.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.1/balena-cli-v11.13.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.13.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.0/balena-cli-v11.13.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.13.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.1/balena-cli-v11.13.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.13.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.0/balena-cli-v11.13.0-windows-x64-installer.exe"
+        "name": "balena-cli-v11.13.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.1/balena-cli-v11.13.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.13.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.0/balena-cli-v11.13.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.13.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.1/balena-cli-v11.13.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 278,
+    "numberOfIssues": 277,
     "latestIssues": [
-      {
-        "title": "Update TROUBLESHOOTING doc re 'balena ssh' line wrapping / cursor behavior",
-        "url": "https://github.com/balena-io/balena-cli/pull/1452"
-      },
       {
         "title": "Should use 1000 as the divider in B->KB->MB conversions",
         "url": "https://github.com/balena-io/balena-cli/issues/1451"
@@ -7519,8 +7533,12 @@
       {
         "title": "`balena login` should convenience-open the signup page if `I don't have a balena account!` is selected",
         "url": "https://github.com/balena-io/balena-cli/issues/1417"
+      },
+      {
+        "title": "`balena build` does not specify it's using emulation when using the `--application` switch on non-native targets",
+        "url": "https://github.com/balena-io/balena-cli/issues/1415"
       }
     ]
   },
-  "version": "11.13.0"
+  "version": "11.13.1"
 }
