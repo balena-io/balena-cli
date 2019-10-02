@@ -607,13 +607,14 @@ produce verbose output
 
 ## env rm ID
 
-Remove an environment variable from an application or device, as selected
-by command-line options.
+Remove a configuration or environment variable from an application or device,
+as selected by command-line options.
 
 Note that this command asks for confirmation interactively.
 You can avoid this by passing the `--yes` boolean option.
 
 The --device option selects a device instead of an application.
+The --config option selects a config var instead of an env var.
 
 Service-specific variables are not currently supported. The following
 examples remove variables that apply to all services in an app or device.
@@ -622,7 +623,9 @@ Examples:
 
 	$ balena env rm 215
 	$ balena env rm 215 --yes
+	$ balena env rm 215 --config
 	$ balena env rm 215 --device
+	$ balena env rm 215 --device --config
 
 ### Arguments
 
@@ -635,6 +638,10 @@ environment variable numeric database ID
 #### -d, --device
 
 Selects a device environment variable instead of an application environment variable
+
+#### -c, --config
+
+Selects a configuration variable instead of an environment variable
 
 #### -y, --yes
 

@@ -21,6 +21,7 @@ import { stripIndent } from 'common-tags';
 import { CommandHelp } from '../../utils/oclif-utils';
 
 interface FlagsDef {
+	config: boolean;
 	device: boolean;
 	yes: boolean;
 }
@@ -33,13 +34,14 @@ export default class EnvRmCmd extends Command {
 	public static description = stripIndent`
 		Remove an environment variable from an application or device.
 
-		Remove an environment variable from an application or device, as selected
-		by command-line options.
+		Remove a configuration or environment variable from an application or device,
+		as selected by command-line options.
 
 		Note that this command asks for confirmation interactively.
 		You can avoid this by passing the \`--yes\` boolean option.
 
 		The --device option selects a device instead of an application.
+		The --config option selects a config var instead of an env var.
 
 		Service-specific variables are not currently supported. The following
 		examples remove variables that apply to all services in an app or device.
@@ -47,7 +49,9 @@ export default class EnvRmCmd extends Command {
 	public static examples = [
 		'$ balena env rm 215',
 		'$ balena env rm 215 --yes',
+		'$ balena env rm 215 --config',
 		'$ balena env rm 215 --device',
+		'$ balena env rm 215 --device --config',
 	];
 
 	public static args = [
@@ -67,6 +71,12 @@ export default class EnvRmCmd extends Command {
 			char: 'd',
 			description:
 				'Selects a device environment variable instead of an application environment variable',
+			default: false,
+		}),
+		config: flags.boolean({
+			char: 'c',
+			description:
+				'Selects a configuration variable instead of an environment variable',
 			default: false,
 		}),
 		yes: flags.boolean({
@@ -103,7 +113,11 @@ export default class EnvRmCmd extends Command {
 
 		await balena.pine.delete({
 			resource: options.device
-				? 'device_environment_variable'
+				? options.config
+					? 'device_config_variable'
+					: 'device_environment_variable'
+				: options.config
+				? 'application_config_variable'
 				: 'application_environment_variable',
 			id: params.id,
 		});
