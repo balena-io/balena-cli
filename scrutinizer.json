@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "Allow deleting config vars with 'env rm'",
+          "hash": "d463a2f0e50213e6f97384e5184daffc10b156b6",
+          "body": "",
+          "footer": {
+            "Resolves": "#1459",
+            "resolves": "#1459",
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis"
+        }
+      ],
+      "version": "11.14.0",
+      "date": "2019-10-03T10:54:16.620Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update TROUBLESHOOTING doc re 'balena ssh' line wrapping / cursor behavior",
           "hash": "4077da14915fac044cfda3dbf038544b258177f7",
           "body": "",
@@ -7329,7 +7349,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 164,
+  "stars": 165,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -7428,36 +7448,56 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2019-09-30T14:36:18Z",
+  "lastCommitDate": "2019-10-03T11:33:52Z",
   "latestRelease": {
-    "tagName": "v11.13.1",
+    "tagName": "v11.14.0",
     "asssets": [
       {
-        "name": "balena-cli-v11.13.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.1/balena-cli-v11.13.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.14.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.0/balena-cli-v11.14.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.13.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.1/balena-cli-v11.13.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.14.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.0/balena-cli-v11.14.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.13.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.1/balena-cli-v11.13.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.14.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.0/balena-cli-v11.14.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.13.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.1/balena-cli-v11.13.1-windows-x64-installer.exe"
+        "name": "balena-cli-v11.14.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.0/balena-cli-v11.14.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.13.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.13.1/balena-cli-v11.13.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.14.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.0/balena-cli-v11.14.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 277,
+    "numberOfIssues": 282,
     "latestIssues": [
+      {
+        "title": "Bump resin-multibuild to 4.3.1 (fix more cases of SecretRemovalError)",
+        "url": "https://github.com/balena-io/balena-cli/pull/1461"
+      },
+      {
+        "title": "Login to Web Dashboard Does Not Work",
+        "url": "https://github.com/balena-io/balena-cli/issues/1458"
+      },
+      {
+        "title": "`balena device` commands do not accept ID, just UUID",
+        "url": "https://github.com/balena-io/balena-cli/issues/1457"
+      },
+      {
+        "title": "`balena logs` doesn't let you use short form, only long form",
+        "url": "https://github.com/balena-io/balena-cli/issues/1456"
+      },
+      {
+        "title": "Fix 'os initialize' (auto sudo execution)",
+        "url": "https://github.com/balena-io/balena-cli/pull/1455"
+      },
       {
         "title": "Should use 1000 as the divider in B->KB->MB conversions",
         "url": "https://github.com/balena-io/balena-cli/issues/1451"
@@ -7517,28 +7557,8 @@
       {
         "title": "macOS internet connection sharing doesn't show `local scan` devices",
         "url": "https://github.com/balena-io/balena-cli/issues/1427"
-      },
-      {
-        "title": "`balena os download` does not let you download a development image",
-        "url": "https://github.com/balena-io/balena-cli/issues/1426"
-      },
-      {
-        "title": "Running `balena login` refers to `resin.io`",
-        "url": "https://github.com/balena-io/balena-cli/issues/1422"
-      },
-      {
-        "title": "Run sanity project checks before push / deploy / build commands",
-        "url": "https://github.com/balena-io/balena-cli/issues/1421"
-      },
-      {
-        "title": "`balena login` should convenience-open the signup page if `I don't have a balena account!` is selected",
-        "url": "https://github.com/balena-io/balena-cli/issues/1417"
-      },
-      {
-        "title": "`balena build` does not specify it's using emulation when using the `--application` switch on non-native targets",
-        "url": "https://github.com/balena-io/balena-cli/issues/1415"
       }
     ]
   },
-  "version": "11.13.1"
+  "version": "11.14.0"
 }
