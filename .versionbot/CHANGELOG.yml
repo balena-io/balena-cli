@@ -1,4 +1,18 @@
 - commits:
+    - subject: Allow deleting config vars with 'env rm'
+      hash: d463a2f0e50213e6f97384e5184daffc10b156b6
+      body: ''
+      footer:
+        Resolves: '#1459'
+        resolves: '#1459'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+  version: 11.14.0
+  date: 2019-10-03T10:54:16.620Z
+- commits:
     - subject: >-
         Update TROUBLESHOOTING doc re 'balena ssh' line wrapping / cursor
         behavior
