@@ -1,0 +1,88 @@
+diff --git a/node_modules/balena-preload/Dockerfile b/node_modules/balena-preload/Dockerfile
+index 0303cef..89eec19 100644
+--- a/node_modules/balena-preload/Dockerfile
++++ b/node_modules/balena-preload/Dockerfile
+@@ -9,6 +9,9 @@ RUN pip3 install -r /tmp/requirements.txt
+ 
+ COPY ./src /usr/src/app
+ 
++COPY /img/* /img/
++RUN test -f /img/balena.img.gz && gunzip /img/balena.img.gz || echo /img/balena.img.gz not found
++
+ WORKDIR /usr/src/app
+ 
+ CMD ["python3", "/usr/src/app/preload.py"]
+diff --git a/node_modules/balena-preload/lib/preload.js b/node_modules/balena-preload/lib/preload.js
+index 0f7bfe2..9f806c3 100644
+--- a/node_modules/balena-preload/lib/preload.js
++++ b/node_modules/balena-preload/lib/preload.js
+@@ -120,7 +120,7 @@ const createContainer = (docker, image, splashImage, dockerPort, proxy, edisonFo
+       mounts.push(bindMount('/dev', '/dev', version.ApiVersion))
+     }
+     if (splashImage) {
+-      mounts.push(bindMount(splashImage, SPLASH_IMAGE_PATH_IN_DOCKER, version.ApiVersion))
++      // mounts.push(bindMount(splashImage, SPLASH_IMAGE_PATH_IN_DOCKER, version.ApiVersion))
+     }
+ 
+     const env = [
+@@ -137,7 +137,7 @@ const createContainer = (docker, image, splashImage, dockerPort, proxy, edisonFo
+         mounts.push(bindMount(part.file, part.image, version.ApiVersion))
+       })
+     } else {
+-      mounts.push(bindMount(image, DISK_IMAGE_PATH_IN_DOCKER, version.ApiVersion))
++      // mounts.push(bindMount(image, DISK_IMAGE_PATH_IN_DOCKER, version.ApiVersion))
+     }
+     const containerOptions = {
+       Image: DOCKER_IMAGE_TAG,
+@@ -217,8 +217,23 @@ class Preloader extends EventEmitter {
+     const name = 'Building Docker preloader image.'
+     this._progress(name, 0)
+ 
+-    const tarStream = tarfs.pack(path.resolve(__dirname, '..'), { entries: files })
+-    return this.docker.buildImage(tarStream, { t: DOCKER_IMAGE_TAG })
++    return Promise.join(
++      fileToBuffer(this.image, true),
++      fileToBuffer(this.splashImage),
++      (imageBuffer, splashBuffer) => tarfs.pack(path.resolve(__dirname, '..'), {
++        entries: files,
++        finalize: false,
++        finish: (tarStream) => {
++          tarStream.entry({ name: 'img', type: 'directory' })
++          tarStream.entry({ name: DISK_IMAGE_PATH_IN_DOCKER + '.gz' }, imageBuffer)
++          if (splashBuffer) {
++            tarStream.entry({ name: SPLASH_IMAGE_PATH_IN_DOCKER }, splashBuffer)
++          }
++          tarStream.finalize()
++        }
++      })
++    )
++    .then((tarStream) => this.docker.buildImage(tarStream, { t: DOCKER_IMAGE_TAG }))
+     .then((build) => {
+       return new Promise((resolve, reject) => {
+         this.docker.modem.followProgress(
+@@ -782,3 +797,25 @@ preload.applicationExpandOptions = {
+     }
+   }
+ }
++
++async function fileToBuffer(path, gzip = false) {
++  if (!path) {
++    return;
++  }
++  console.log(`gizipping "${path}"`);
++  const bufs = [];
++  return new Promise((resolve, reject) => {
++    function done() {
++      console.log('done');
++      resolve(Buffer.concat(bufs));
++    }  
++    let stream = fs.createReadStream(path).on('error', reject);
++    if (gzip) {
++      const zlib = require('zlib');
++      stream = stream.pipe(zlib.createGzip());
++    }
++    stream
++      .on('data', (d) => bufs.push(d))
++      .on('end', done);
++  });
++}
