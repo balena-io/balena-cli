@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Bump resin-multibuild to 4.3.1 (fix more cases of SecretRemovalError)",
+          "hash": "78e627a47181f01c68d59cef3ec78ec8636c6781",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.14.1",
+      "date": "2019-10-04T12:41:36.810Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Allow deleting config vars with 'env rm'",
           "hash": "d463a2f0e50213e6f97384e5184daffc10b156b6",
           "body": "",
@@ -7448,39 +7466,43 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2019-10-03T11:33:52Z",
+  "lastCommitDate": "2019-10-04T13:00:33Z",
   "latestRelease": {
-    "tagName": "v11.14.0",
+    "tagName": "v11.14.1",
     "asssets": [
       {
-        "name": "balena-cli-v11.14.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.0/balena-cli-v11.14.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.14.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.1/balena-cli-v11.14.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.14.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.0/balena-cli-v11.14.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.14.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.1/balena-cli-v11.14.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.14.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.0/balena-cli-v11.14.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.14.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.1/balena-cli-v11.14.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.14.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.0/balena-cli-v11.14.0-windows-x64-installer.exe"
+        "name": "balena-cli-v11.14.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.1/balena-cli-v11.14.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.14.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.0/balena-cli-v11.14.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.14.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.1/balena-cli-v11.14.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 282,
+    "numberOfIssues": 283,
     "latestIssues": [
       {
-        "title": "Bump resin-multibuild to 4.3.1 (fix more cases of SecretRemovalError)",
-        "url": "https://github.com/balena-io/balena-cli/pull/1461"
+        "title": "Patch balena-preload to avoid bind mount for Google Cloud Build compatibility",
+        "url": "https://github.com/balena-io/balena-cli/pull/1463"
+      },
+      {
+        "title": "Add \"detached/headless\" mode to \"deploy\" command",
+        "url": "https://github.com/balena-io/balena-cli/issues/1462"
       },
       {
         "title": "Login to Web Dashboard Does Not Work",
@@ -7553,12 +7575,8 @@
       {
         "title": "`balena os initialize` no longer initialises an image",
         "url": "https://github.com/balena-io/balena-cli/issues/1428"
-      },
-      {
-        "title": "macOS internet connection sharing doesn't show `local scan` devices",
-        "url": "https://github.com/balena-io/balena-cli/issues/1427"
       }
     ]
   },
-  "version": "11.14.0"
+  "version": "11.14.1"
 }
