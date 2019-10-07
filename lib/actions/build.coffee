@@ -75,7 +75,8 @@ module.exports =
 			$ balena build ./source/
 			$ balena build --deviceType raspberrypi3 --arch armv7hf --emulated
 			$ balena build --application MyApp ./source/
-			$ balena build --docker '/var/run/docker.sock'
+			$ balena build --docker /var/run/docker.sock   # Linux, Mac
+			$ balena build --docker //./pipe/docker_engine # Windows
 			$ balena build --dockerHost my.docker.host --dockerPort 2376 --ca ca.pem --key key.pem --cert cert.pem
 	"""
 	options: dockerUtils.appendOptions compose.appendOptions [
