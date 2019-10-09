@@ -13,8 +13,16 @@ There are 3 options to choose from to install balena's CLI:
 Some specific CLI commands have a few extra installation steps: see section [Additional
 Dependencies](#additional-dependencies).
 
-> **Windows users:** We now have a [YouTube video tutorial](https://www.youtube.com/watch?v=2LApclXFqsg)
-for installing and getting started with the balena CLI on Windows!
+> **Windows users:**
+> * There is a [YouTube video tutorial](https://www.youtube.com/watch?v=2LApclXFqsg) for installing
+>   and getting started with the balena CLI on Windows. (The video uses the standalone zip package
+>   option.)
+> * If you are using Microsoft's [Windows Subsystem for
+>   Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL), the recommendation is to
+>   install a balena CLI release for Linux rather than Windows, like the Linux standalone zip
+>   package. An installation with the graphical executable installer for Windows will not run on
+>   WSL. See also [FAQ](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md) for
+>   using balena CLI with WSL and Docker Desktop for Windows.
 
 ## Executable Installer
 
@@ -69,17 +77,31 @@ If you are a Node.js developer, you may wish to install the balena CLI via [npm]
 The npm installation involves building native (platform-specific) binary modules, which require
 some additional development tools to be installed first:
 
-* Node.js version 8 or 10 (v12 has not been thoroughly tested yet)
+* Node.js version 8, 10 or 12 (on Linux/Mac, [nvm](https://github.com/nvm-sh/nvm/blob/master/README.md)
+  is recommended)
 * Python 2.7
 * g++ compiler
 * make
 * git
-* On Windows, the `windows-build-tools` npm package should be installed too, running the following
-  command in an administrator console (available as "Command Prompt (Admin)" or "Windows PowerShell
-  (Admin)" when typing Windows+X):  
+
+On Windows, the dependencies above and additional ones can be met with:
+
+* The [MSYS2 shell](https://www.msys2.org/) may be used to provide `git`, `ssh`, `rsync`, `make`
+  and `g++`:
+  * `pacman -S git openssh rsync gcc make`
+  * [Set a Windows environment variable](https://www.onmsft.com/how-to/how-to-set-an-environment-variable-in-windows-10): `MSYS2_PATH_TYPE=inherit`
+  * Note that a bug in the MSYS2 launch script (`msys2_shell.cmd`) makes text-based
+    interactive CLI menus to misbehave. [Check this Github issue for a
+    workaround](https://github.com/msys2/MINGW-packages/issues/1633#issuecomment-240583890).
+* Install the Windows Driver Kit (WDK) which is needed to compile some native Node modules:
+  * [WDK for Windows 10](https://docs.microsoft.com/en-us/windows-hardware/drivers/download-the-wdk)
+  * [WDK for earlier versions of Windows](https://docs.microsoft.com/en-us/windows-hardware/drivers/other-wdk-downloads)
+* Install Node from the [Nodejs website](https://www.howtogeek.com/194041/how-to-open-the-command-prompt-as-administrator-in-windows-8.1/)
+* Install the `windows-build-tools` npm package (which provides Python 2.7 and more), running the following command in an [administrator
+  console](https://www.howtogeek.com/194041/how-to-open-the-command-prompt-as-administrator-in-windows-8.1/):  
   `npm install -g --production windows-build-tools`
 
-With those in place, the CLI installation command is:
+With these dependencies in place, the balena CLI installation command is:
 
 ```sh
 $ npm install balena-cli -g --production --unsafe-perm
@@ -111,12 +133,6 @@ CLI on an Ubuntu Docker image: https://gist.github.com/pdcastro/5d4d96652181e7da
     for Ubuntu, for example).
     Check the [README](https://github.com/balena-io/balena-cli/blob/master/README.md) file
     for proxy configuration instructions.
-
-* The `balena sync` command (deprecated) currently requires `rsync` (>= 2.6.9) to be installed:
-  * Linux: `apt-get install rsync`
-  * macOS: [Xcode command-line tools](https://developer.apple.com/xcode/features/) or [homebrew](https://brew.sh/)
-  * Windows: One option is to use the [MinGW](http://www.mingw.org) shell and install the
-    `msys-rsync` package. Check the README file for other shell options under Windows.
 
 ## Configuring SSH keys
 

@@ -88,7 +88,7 @@ $ sudo chown -R <user> $HOME/.balena
 
 Users sometimes come across broken line wrapping or cursor behavior in text terminals, for example when long command lines are typed in a `balena ssh` session, or when using text editors like `vim` or `nano`. This is not something specific to the balena CLI, being also a commonly reported issue with standard remote terminal tools like `ssh` or `telnet`. It is often a remote shell configuration issue (files like `/etc/profile`, `~/.bash_profile`, `~/.bash_login`, `~/.profile` and the like), including UTF-8 misconfiguration, the use of unsupported ASCII control characters in shell prompt formatting (e.g. the `$PS1` env var) or the output of tools or log files that use colored text. The issue can sometimes be fixed by resizing the client terminal window, or by running one or more of the following commands on the shell:
 
-```
+```sh
 export TERMINAL=linux
 stty sane
 shopt -s checkwinsize
@@ -108,3 +108,21 @@ If nothing seems to help, consider also using a different client-side terminal a
 * Linux: xterm, KDE Konsole, GNOME Terminal
 * Mac: Terminal, iTerm2
 * Windows: PowerShell, PuTTY, WSL (Windows Subsystem for Linux)
+
+## "Docker seems to be unavailable" error when using Windows Subsystem for Linux (WSL)
+
+When running on WSL, the recommendation is to install a CLI release for Linux, like the standalone
+zip package for Linux. However, commands like "balena build" that contact a local Docker daemon,
+like the Docker Desktop for Windows, will try to reach Docker at the Unix socket path
+`/var/run/docker.sock`, while Docker Desktop for Windows uses a Windows named pipe at
+`//./pipe/docker_engine` (which the Linux CLI on WSL cannot use). A solution is:
+
+- Open the Docker Desktop for Windows settings panel and tick the checkbox _"Expose daemon on tcp://localhost:2375 without TLS"._
+- On the WSL command line, set an env var:  
+`export DOCKER_HOST=tcp://localhost:2375`  
+Alternatively, use the command-line options `-h 127.0.0.1 -p 2375` for commands like `balena build` and `balena deploy`.
+
+Further reference:
+
+- https://techcommunity.microsoft.com/t5/Containers/WSL-Interoperability-with-Docker/ba-p/382405
+- https://forums.docker.com/t/wsl-and-docker-for-windows-cannot-connect-to-the-docker-daemon-at-tcp-localhost-2375-is-the-docker-daemon-running/63571/12
