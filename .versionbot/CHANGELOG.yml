@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Fix 'balena build --emulated' on Windows (including default docker
+        socket)
+      hash: 7dd33adfd1f9714fd15cd9e3e8c229ad76d030c3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.14.2
+  date: 2019-10-09T12:13:36.863Z
+- commits:
     - subject: Bump resin-multibuild to 4.3.1 (fix more cases of SecretRemovalError)
       hash: 78e627a47181f01c68d59cef3ec78ec8636c6781
       body: ''
