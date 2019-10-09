@@ -46,9 +46,9 @@ export async function installQemuIfNeeded(
 
 /**
  * Check whether the Docker daemon (including balenaEngine) requires explicit
- * QEMU emulation setup. Note that Docker Desktop (Docker for Mac), and
- * reportedly also Docker for Windows, have built-in support for binfmt_misc,
- * so they do not require explicity QEMU setup. References:
+ * QEMU emulation setup. Note that Docker Desktop (Windows and Mac), and also
+ * the older Docker for Mac, have built-in support for binfmt_misc, so they
+ * do not require explicit QEMU setup. References:
  * - https://en.wikipedia.org/wiki/Binfmt_misc
  * - https://docs.docker.com/docker-for-mac/multi-arch/
  * - https://www.ecliptik.com/Cross-Building-and-Running-Multi-Arch-Docker-Images/
@@ -61,7 +61,7 @@ async function platformNeedsQemu(
 	logger: Logger,
 ): Promise<boolean> {
 	const dockerInfo = await docker.info();
-	// Docker Desktop with Docker Engine 19.03 reports:
+	// Docker Desktop (Windows and Mac) with Docker Engine 19.03 reports:
 	//     OperatingSystem: Docker Desktop
 	//     OSType: linux
 	// Docker for Mac with Docker Engine 18.06 reports:

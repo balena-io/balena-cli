@@ -96,7 +96,6 @@ exports.appendOptions = (opts) ->
 	]
 
 generateConnectOpts = (opts) ->
-	buildDockerodeOpts = require('dockerode-options')
 	fs = require('mz/fs')
 	_ = require('lodash')
 
@@ -114,12 +113,12 @@ generateConnectOpts = (opts) ->
 		else if opts.docker? and opts.dockerHost?
 			# Both provided, no obvious way to continue
 			throw new Error("Both a local docker socket and docker host have been provided. Don't know how to continue.")
-		else if process.env.DOCKER_HOST
-			# If no explicit options are provided, use the env
-			connectOpts = buildDockerodeOpts(process.env.DOCKER_HOST)
 		else
-			# No options anywhere, assume default docker local socket
-			connectOpts.socketPath = '/var/run/docker.sock'
+			# Use docker-modem defaults which take the DOCKER_HOST env var into account
+			# https://github.com/apocas/docker-modem/blob/v2.0.2/lib/modem.js#L16-L65
+			Modem = require('docker-modem')
+			defaultOpts = new Modem()
+			connectOpts[opt] = defaultOpts[opt] for opt in ['host', 'port', 'socketPath']
 
 		# Now need to check if the user wants to connect over TLS
 		# to the host
@@ -194,7 +193,17 @@ getDockerToolbelt = _.once ->
 #
 exports.createClient = createClient = (opts) ->
 	Docker = getDockerToolbelt()
-	return new Docker(opts)
+	docker = new Docker(opts)
+	modem = docker.modem
+	# Workaround for a docker-modem 2.0.x bug where it sets a default
+	# socketPath on Windows even if the input options specify a host/port.
+	if modem.socketPath and modem.host
+		if opts.socketPath
+			modem.host = undefined
+			modem.port = undefined
+		else if opts.host
+			modem.socketPath = undefined
+	return docker
 
 ensureDockerSeemsAccessible = (docker) ->
 	{ exitWithExpectedError } = require('./patterns')

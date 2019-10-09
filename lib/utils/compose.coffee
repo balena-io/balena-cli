@@ -245,6 +245,7 @@ exports.buildProject = (
 			transpose.transposeTarStream task.buildStream,
 				hostQemuPath: toPosixPath(binPath)
 				containerQemuPath: "/tmp/#{qemu.QEMU_BIN_NAME}"
+				qemuFileMode: 0o555
 			.then (stream) ->
 				task.buildStream = stream
 			.return([ task, binPath ])
