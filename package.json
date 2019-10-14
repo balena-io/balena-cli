@@ -96,6 +96,7 @@
     "@types/dockerode": "2.5.6",
     "@types/ejs": "^2.6.3",
     "@types/fs-extra": "7.0.0",
+    "@types/intercept-stdout": "^0.1.0",
     "@types/is-root": "1.0.0",
     "@types/lodash": "4.14.112",
     "@types/mixpanel": "2.14.0",

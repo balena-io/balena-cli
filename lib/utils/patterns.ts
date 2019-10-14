@@ -133,6 +133,7 @@ export function confirm(
 	yesOption: boolean,
 	message: string,
 	yesMessage?: string,
+	exitIfDeclined = false,
 ) {
 	return Bluebird.try(function() {
 		if (yesOption) {
@@ -149,7 +150,11 @@ export function confirm(
 		});
 	}).then(function(confirmed) {
 		if (!confirmed) {
-			throw new Error('Aborted');
+			const err = new Error('Aborted');
+			if (exitIfDeclined) {
+				exitWithExpectedError(err);
+			}
+			throw err;
 		}
 	});
 }

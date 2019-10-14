@@ -20,11 +20,20 @@ On **Windows,** the standard Command Prompt (`cmd.exe`) and
 are supported. We are aware of users also having a good experience with alternative shells,
 including:
 
-* Microsoft's [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about)
-  (a.k.a. Microsoft's "bash for Windows 10")
+* [MSYS2](https://www.msys2.org/):
+  * Install additional packages with the command:  
+    `pacman -S git openssh rsync`
+  * [Set a Windows environment variable](https://www.onmsft.com/how-to/how-to-set-an-environment-variable-in-windows-10): `MSYS2_PATH_TYPE=inherit`
+  * Note that a bug in the MSYS2 launch script (`msys2_shell.cmd`) makes text-based interactive CLI
+    menus to break. [Check this Github issue for a
+    workaround](https://github.com/msys2/MINGW-packages/issues/1633#issuecomment-240583890).
+* [MSYS](http://www.mingw.org/wiki/MSYS): select the `msys-rsync` and `msys-openssh` packages too
 * [Git for Windows](https://git-for-windows.github.io/)
-* [MSYS](http://www.mingw.org/wiki/MSYS) and [MSYS2](https://www.msys2.org/) (install the
-  `msys-rsync` and `msys-openssh` packages too)
+* Microsoft's [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about)
+  (WSL). In this case, a Linux distribution like Ubuntu is installed via the Microsoft Store, and a
+  balena CLI release **for Linux** is recommended. See
+  [FAQ](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md) for using balena
+  CLI with WSL and Docker Desktop for Windows.
 
 On **macOS** and **Linux,** the standard terminal window is supported. _Optionally,_ `bash` command
 auto completion may be enabled by copying the

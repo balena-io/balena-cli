@@ -393,6 +393,7 @@ exports.initialize =
 					options.yes
 					"This will erase #{answers.drive}. Are you sure?"
 					"Going to erase #{answers.drive}."
+					true
 				)
 					.return(answers.drive)
 					.then(umountAsync)

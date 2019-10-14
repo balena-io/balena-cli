@@ -40,7 +40,9 @@ export const runCommand = async (cmd: string) => {
 			!log.startsWith('[debug]') &&
 			// TODO stop this warning message from appearing when running
 			// sdk.setSharedOptions multiple times in the same process
-			!log.startsWith('Shared SDK options')
+			!log.startsWith('Shared SDK options') &&
+			// Node 12: '[DEP0066] DeprecationWarning: OutgoingMessage.prototype._headers is deprecated'
+			!log.includes('[DEP0066]')
 		) {
 			err.push(log);
 		}
