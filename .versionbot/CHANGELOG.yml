@@ -1,4 +1,16 @@
 - commits:
+    - subject: Support container contracts when pushing to local devices
+      hash: 0c5ed7adfb6b915ebd4e79ac96fb2c8ddab851c3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Cameron Diver <cameron@balena.io>
+        signed-off-by: Cameron Diver <cameron@balena.io>
+      author: Cameron Diver
+  version: 11.14.4
+  date: 2019-10-14T16:21:38.984Z
+- commits:
     - subject: Update/improve npm install instructions for Windows
       hash: a8fcd85f1a3ab185d6a8d3d7e3c086fcb464e6cc
       body: ''
