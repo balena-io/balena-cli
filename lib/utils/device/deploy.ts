@@ -211,6 +211,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	const targetState = generateTargetState(
 		currentTargetState,
 		project.composition,
+		buildTasks,
 		envs,
 	);
 	globalLogger.logDebug(`Sending target state: ${JSON.stringify(targetState)}`);
@@ -488,8 +489,11 @@ function generateImageName(serviceName: string): string {
 export function generateTargetState(
 	currentTargetState: any,
 	composition: Composition,
+	buildTasks: BuildTask[],
 	env: ParsedEnvironment,
 ): any {
+	const keyedBuildTasks = _.keyBy(buildTasks, 'serviceName');
+
 	const services: { [serviceId: string]: any } = {};
 	let idx = 1;
 	_.each(composition.services, (opts, name) => {
@@ -504,14 +508,20 @@ export function generateTargetState(
 		};
 
 		opts.environment = _.merge(opts.environment, env[name]);
+		const contract = keyedBuildTasks[name].contract;
 
-		services[idx] = _.merge(defaults, opts, {
-			imageId: idx,
-			serviceName: name,
-			serviceId: idx,
-			image: generateImageName(name),
-			running: true,
-		});
+		services[idx] = {
+			...defaults,
+			...opts,
+			...(contract != null ? { contract } : {}),
+			...{
+				imageId: idx,
+				serviceName: name,
+				serviceId: idx,
+				image: generateImageName(name),
+				running: true,
+			},
+		};
 		idx += 1;
 	});
 
