@@ -1,4 +1,54 @@
 - commits:
+    - subject: Update/improve npm install instructions for Windows
+      hash: a8fcd85f1a3ab185d6a8d3d7e3c086fcb464e6cc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Update CLI tests to pass with Node 12
+      hash: cc45d872c7c828417220f6059bf156e772a8e23f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: >-
+        Avoid stack trace and Sentry report if user answers No to confirmation
+        prompts
+      hash: e0e76a1aa818c92705b3c26bcedafc625b6f1e78
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Sort the output of `balena devices supported` alphabetically by slug
+      hash: d9b417e9e541be551a6c8b7f90ceaa0a3c701f81
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: 'Chore: replace `typings/intercept-stdout` with `@types/intercept-stdout`'
+      hash: 101a4bc20978b631b34322804362030ebc5a9302
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.14.3
+  date: 2019-10-14T13:54:24.035Z
+- commits:
     - subject: >-
         Fix 'balena build --emulated' on Windows (including default docker
         socket)
@@ -11,7 +61,7 @@
         signed-off-by: Paulo Castro <paulo@balena.io>
       author: Paulo Castro
   version: 11.14.2
-  date: 2019-10-09T13:22:26.883Z
+  date: 2019-10-09T12:13:36.863Z
 - commits:
     - subject: Bump resin-multibuild to 4.3.1 (fix more cases of SecretRemovalError)
       hash: 78e627a47181f01c68d59cef3ec78ec8636c6781
