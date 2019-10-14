@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Support container contracts when pushing to local devices",
+          "hash": "0c5ed7adfb6b915ebd4e79ac96fb2c8ddab851c3",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Cameron Diver <cameron@balena.io>",
+            "signed-off-by": "Cameron Diver <cameron@balena.io>"
+          },
+          "author": "Cameron Diver"
+        }
+      ],
+      "version": "11.14.4",
+      "date": "2019-10-14T16:21:38.984Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update/improve npm install instructions for Windows",
           "hash": "a8fcd85f1a3ab185d6a8d3d7e3c086fcb464e6cc",
           "body": "",
@@ -7550,29 +7568,29 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2019-10-14T13:55:01Z",
+  "lastCommitDate": "2019-10-14T16:53:05Z",
   "latestRelease": {
-    "tagName": "v11.14.3",
+    "tagName": "v11.14.4",
     "asssets": [
       {
-        "name": "balena-cli-v11.14.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.3/balena-cli-v11.14.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.14.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.4/balena-cli-v11.14.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.14.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.3/balena-cli-v11.14.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.14.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.4/balena-cli-v11.14.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.14.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.3/balena-cli-v11.14.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.14.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.4/balena-cli-v11.14.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.14.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.3/balena-cli-v11.14.3-windows-x64-installer.exe"
+        "name": "balena-cli-v11.14.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.4/balena-cli-v11.14.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.14.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.3/balena-cli-v11.14.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.14.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.4/balena-cli-v11.14.4-windows-x64-standalone.zip"
       }
     ]
   },
@@ -7662,6 +7680,6 @@
       }
     ]
   },
-  "version": "11.14.3",
+  "version": "11.14.4",
   "logo": null
 }
