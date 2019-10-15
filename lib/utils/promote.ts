@@ -174,7 +174,7 @@ async function getOrSelectLocalDevice(deviceIp?: string): Promise<string> {
 	stream.pipe(process.stderr);
 
 	const { sudo } = await import('../utils/helpers');
-	const command = process.argv.slice(0, 2).concat(['internal', 'scandevices']);
+	const command = ['internal', 'scandevices'];
 	await sudo(command, {
 		stderr: stream,
 		msg:

@@ -20,11 +20,10 @@ import chalk from 'chalk';
 import _ = require('lodash');
 import os = require('os');
 import visuals = require('resin-cli-visuals');
-import rindle = require('rindle');
+import * as ShellEscape from 'shell-escape';
 
 import { InitializeEmitter, OperationState } from 'balena-device-init';
 
-const waitStreamAsync = Bluebird.promisify(rindle.wait);
 const balena = BalenaSdk.fromSharedOptions();
 
 export function getGroupDefaults(group: {
@@ -59,19 +58,44 @@ export function stateToString(state: OperationState) {
 	}
 }
 
-export function sudo(
+/**
+ * Execute a child process with admin / superuser privileges, prompting the user for
+ * elevation as needed, and taking care of shell-escaping arguments in a suitable way
+ * for Windows and Linux/Mac.
+ *
+ * @param command Unescaped array of command and args to be executed. If isCLIcmd is
+ * true, the command should not include the 'node' or 'balena' components, for example:
+ * ['internal', 'osinit', ...]. This function will add argv[0] and argv[1] as needed
+ * (taking process.pkg into account -- CLI standalone zip package), and will also
+ * shell-escape the arguments as needed, taking into account the differences between
+ * bash/sh and the Windows cmd.exe in relation to escape characters.
+ * @param msg Optional message for the user, before the password prompt
+ * @param stderr Optional stream to which stderr should be piped
+ * @param isCLIcmd (default: true) Whether the command array is a balena CLI command
+ * (e.g. ['internal', 'osinit', ...]), in which case process.argv[0] and argv[1] are
+ * added as necessary, depending on whether the CLI is running as a standalone zip
+ * package (with Node built in).
+ */
+export async function sudo(
 	command: string[],
-	{ stderr, msg }: { stderr?: NodeJS.WritableStream; msg?: string } = {},
+	{
+		stderr,
+		msg,
+		isCLIcmd,
+	}: { stderr?: NodeJS.WritableStream; msg?: string; isCLIcmd?: boolean } = {},
 ) {
-	const { executeWithPrivileges } = require('./sudo');
+	const { executeWithPrivileges } = await import('./sudo');
 
 	if (os.platform() !== 'win32') {
 		console.log(
-			msg || 'If asked please type your computer password to continue',
+			msg ||
+				'Admin privileges required: you may be asked for your computer password to continue.',
 		);
 	}
-
-	return executeWithPrivileges(command, stderr);
+	if (isCLIcmd == null) {
+		isCLIcmd = true;
+	}
+	await executeWithPrivileges(command, stderr, isCLIcmd);
 }
 
 export function runCommand(command: string): Bluebird<void> {
@@ -106,7 +130,7 @@ export async function getOsVersion(
 	return init.getImageOsVersion(image, manifest);
 }
 
-export function osProgressHandler(step: InitializeEmitter) {
+export async function osProgressHandler(step: InitializeEmitter) {
 	step.on('stdout', process.stdout.write.bind(process.stdout));
 	step.on('stderr', process.stderr.write.bind(process.stderr));
 
@@ -124,7 +148,10 @@ export function osProgressHandler(step: InitializeEmitter) {
 
 	step.on('burn', state => progressBars[state.type].update(state));
 
-	return waitStreamAsync(step);
+	await new Promise((resolve, reject) => {
+		step.on('error', reject);
+		step.on('end', resolve);
+	});
 }
 
 export function getArchAndDeviceType(
@@ -271,4 +298,51 @@ export function getManualSortCompareFunction<T, U = T>(
 			return indexA < 0 ? 1 : -1;
 		}
 	};
+}
+
+/**
+ * Shell argument escaping compatible with sh, bash and Windows cmd.exe.
+ * @param arg Arguments to be escaped
+ * @param detectShell Whether to use the SHELL and ComSpec environment
+ * variables to determine the shell type (sh / bash / cmd.exe). This may be
+ * useful to detect MSYS / MSYS2, which use bash on Windows. However, if the
+ * purpose is to use child_process.spawn(..., {shell: true}) and related
+ * functions, set this to false because child_process.spawn() always uses
+ * env.ComSpec (cmd.exe) on Windows, even when running on MSYS / MSYS2.
+ */
+export function shellEscape(args: string[], detectShell = false): string[] {
+	let isWindowsCmdExeShell: boolean;
+	if (detectShell) {
+		isWindowsCmdExeShell =
+			// neither bash nor sh (e.g. not MSYS, MSYS2, WSL)
+			process.env.SHELL == null &&
+			// Windows cmd.exe or PowerShell
+			process.env.ComSpec != null &&
+			process.env.ComSpec.endsWith('cmd.exe');
+	} else {
+		isWindowsCmdExeShell = process.platform === 'win32';
+	}
+	if (isWindowsCmdExeShell) {
+		return args.map(v => windowsCmdExeEscapeArg(v));
+	} else {
+		const shellEscapeFunc: typeof ShellEscape = require('shell-escape');
+		return args.map(v => shellEscapeFunc([v]));
+	}
+}
+
+/**
+ * Escape a string argument to be passed through the Windows cmd.exe shell.
+ * cmd.exe escaping has some peculiarities, like using the caret character
+ * instead of a backslash for reserved / metacharacters. Reference:
+ * https://blogs.msdn.microsoft.com/twistylittlepassagesallalike/2011/04/23/everyone-quotes-command-line-arguments-the-wrong-way/
+ */
+function windowsCmdExeEscapeArg(arg: string): string {
+	// if it is already double quoted, remove the double quotes
+	if (arg.length > 1 && arg.startsWith('"') && arg.endsWith('"')) {
+		arg = arg.slice(1, -1);
+	}
+	// escape cmd.exe metacharacters with the '^' (caret) character
+	arg = arg.replace(/[()%!^<>&|]/g, '^$&');
+	// duplicate internal double quotes, and double quote overall
+	return `"${arg.replace(/["]/g, '""')}"`;
 }

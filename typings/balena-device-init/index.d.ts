@@ -75,6 +75,8 @@ declare module 'balena-device-init' {
 		on(event: 'stdout' | 'stderr', callback: (msg: string) => void): void;
 		on(event: 'state', callback: (state: OperationState) => void): void;
 		on(event: 'burn', callback: (state: BurnProgress) => void): void;
+		on(event: 'end', callback: () => void): void;
+		on(event: 'error', callback: (error: Error) => void): void;
 	}
 
 	export function configure(
