@@ -17,7 +17,10 @@ limitations under the License.
 import { ApplicationTag, DeviceTag, ReleaseTag } from 'balena-sdk';
 import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
-import { normalizeUuidProp } from '../utils/normalization';
+import {
+	disambiguateReleaseParam,
+	normalizeUuidProp,
+} from '../utils/normalization';
 import * as commandOptions from './command-options';
 
 export const list: CommandDefinition<
@@ -25,7 +28,8 @@ export const list: CommandDefinition<
 	{
 		application?: string;
 		device?: string;
-		release?: number;
+		release?: number | string;
+		release_raw?: string;
 	}
 > = {
 	signature: 'tags',
@@ -41,6 +45,7 @@ export const list: CommandDefinition<
 			$ balena tags --application MyApp
 			$ balena tags --device 7cf02a6
 			$ balena tags --release 1234
+			$ balena tags --release b376b0e544e9429483b656490e5b9443b4349bd6
 	`,
 	options: [
 		commandOptions.optionalApplication,
@@ -57,41 +62,48 @@ export const list: CommandDefinition<
 
 		const { exitWithExpectedError } = await import('../utils/patterns');
 
-		return Bluebird.try<ApplicationTag[] | DeviceTag[] | ReleaseTag[]>(() => {
-			const wrongParametersError = stripIndent`
+		return Bluebird.try<ApplicationTag[] | DeviceTag[] | ReleaseTag[]>(
+			async () => {
+				const wrongParametersError = stripIndent`
 				To list resource tags, you must provide exactly one of:
 
 				* An application, with --application <appname>
 				* A device, with --device <uuid>
-				* A release, with --release <id>
+				* A release, with --release <id or commit>
 
 				See the help page for examples:
 
 				  $ balena help tags
 			`;
 
-			if (
-				_.filter([options.application, options.device, options.release])
-					.length !== 1
-			) {
+				if (
+					_.filter([options.application, options.device, options.release])
+						.length !== 1
+				) {
+					return exitWithExpectedError(wrongParametersError);
+				}
+
+				if (options.application) {
+					return balena.models.application.tags.getAllByApplication(
+						options.application,
+					);
+				}
+				if (options.device) {
+					return balena.models.device.tags.getAllByDevice(options.device);
+				}
+				if (options.release) {
+					const releaseParam = await disambiguateReleaseParam(
+						balena,
+						options.release,
+						options.release_raw,
+					);
+					return balena.models.release.tags.getAllByRelease(releaseParam);
+				}
+
+				// return never, so that TS typings are happy
 				return exitWithExpectedError(wrongParametersError);
-			}
-
-			if (options.application) {
-				return balena.models.application.tags.getAllByApplication(
-					options.application,
-				);
-			}
-			if (options.device) {
-				return balena.models.device.tags.getAllByDevice(options.device);
-			}
-			if (options.release) {
-				return balena.models.release.tags.getAllByRelease(options.release);
-			}
-
-			// return never, so that TS typings are happy
-			return exitWithExpectedError(wrongParametersError);
-		})
+			},
+		)
 			.tap(function(environmentVariables) {
 				if (_.isEmpty(environmentVariables)) {
 					exitWithExpectedError('No tags found');
@@ -117,7 +129,8 @@ export const set: CommandDefinition<
 	{
 		application?: string;
 		device?: string;
-		release?: number;
+		release?: number | string;
+		release_raw: string;
 	}
 > = {
 	signature: 'tag set <tagKey> [value]',
@@ -134,8 +147,10 @@ export const set: CommandDefinition<
 			$ balena tag set mySimpleTag --application MyApp
 			$ balena tag set myCompositeTag myTagValue --application MyApp
 			$ balena tag set myCompositeTag myTagValue --device 7cf02a6
+			$ balena tag set myCompositeTag "my tag value with whitespaces" --device 7cf02a6
 			$ balena tag set myCompositeTag myTagValue --release 1234
-			$ balena tag set myCompositeTag "my tag value with whitespaces" --release 1234
+			$ balena tag set myCompositeTag --release 1234
+			$ balena tag set myCompositeTag --release b376b0e544e9429483b656490e5b9443b4349bd6
 	`,
 	options: [
 		commandOptions.optionalApplication,
@@ -151,7 +166,7 @@ export const set: CommandDefinition<
 
 		const { exitWithExpectedError } = await import('../utils/patterns');
 
-		return Bluebird.try(() => {
+		return Bluebird.try(async () => {
 			if (_.isEmpty(params.tagKey)) {
 				return exitWithExpectedError('No tag key was provided');
 			}
@@ -165,7 +180,7 @@ export const set: CommandDefinition<
 
 					* An application, with --application <appname>
 					* A device, with --device <uuid>
-					* A release, with --release <id>
+					* A release, with --release <id or commit>
 
 					See the help page for examples:
 
@@ -192,8 +207,14 @@ export const set: CommandDefinition<
 				);
 			}
 			if (options.release) {
-				return balena.models.release.tags.set(
+				const releaseParam = await disambiguateReleaseParam(
+					balena,
 					options.release,
+					options.release_raw,
+				);
+
+				return balena.models.release.tags.set(
+					releaseParam,
 					params.tagKey,
 					params.value,
 				);
@@ -209,7 +230,8 @@ export const remove: CommandDefinition<
 	{
 		application?: string;
 		device?: string;
-		release?: number;
+		release?: number | string;
+		release_raw?: string;
 	}
 > = {
 	signature: 'tag rm <tagKey>',
@@ -222,6 +244,7 @@ export const remove: CommandDefinition<
 			$ balena tag rm myTagKey --application MyApp
 			$ balena tag rm myTagKey --device 7cf02a6
 			$ balena tag rm myTagKey --release 1234
+			$ balena tag rm myTagKey --release b376b0e544e9429483b656490e5b9443b4349bd6
 	`,
 	options: [
 		commandOptions.optionalApplication,
@@ -235,7 +258,7 @@ export const remove: CommandDefinition<
 		const balena = (await import('balena-sdk')).fromSharedOptions();
 		const { exitWithExpectedError } = await import('../utils/patterns');
 
-		return Bluebird.try(() => {
+		return Bluebird.try(async () => {
 			if (_.isEmpty(params.tagKey)) {
 				return exitWithExpectedError('No tag key was provided');
 			}
@@ -249,7 +272,7 @@ export const remove: CommandDefinition<
 
 					* An application, with --application <appname>
 					* A device, with --device <uuid>
-					* A release, with --release <id>
+					* A release, with --release <id or commit>
 
 					See the help page for examples:
 
@@ -267,10 +290,13 @@ export const remove: CommandDefinition<
 				return balena.models.device.tags.remove(options.device, params.tagKey);
 			}
 			if (options.release) {
-				return balena.models.release.tags.remove(
+				const releaseParam = await disambiguateReleaseParam(
+					balena,
 					options.release,
-					params.tagKey,
+					options.release_raw,
 				);
+
+				return balena.models.release.tags.remove(releaseParam, params.tagKey);
 			}
 		}).nodeify(done);
 	},

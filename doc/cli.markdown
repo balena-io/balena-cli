@@ -743,6 +743,7 @@ Example:
 	$ balena tags --application MyApp
 	$ balena tags --device 7cf02a6
 	$ balena tags --release 1234
+	$ balena tags --release b376b0e544e9429483b656490e5b9443b4349bd6
 
 ### Options
 
@@ -771,8 +772,10 @@ Examples:
 	$ balena tag set mySimpleTag --application MyApp
 	$ balena tag set myCompositeTag myTagValue --application MyApp
 	$ balena tag set myCompositeTag myTagValue --device 7cf02a6
+	$ balena tag set myCompositeTag "my tag value with whitespaces" --device 7cf02a6
 	$ balena tag set myCompositeTag myTagValue --release 1234
-	$ balena tag set myCompositeTag "my tag value with whitespaces" --release 1234
+	$ balena tag set myCompositeTag --release 1234
+	$ balena tag set myCompositeTag --release b376b0e544e9429483b656490e5b9443b4349bd6
 
 ### Options
 
@@ -797,6 +800,7 @@ Examples:
 	$ balena tag rm myTagKey --application MyApp
 	$ balena tag rm myTagKey --device 7cf02a6
 	$ balena tag rm myTagKey --release 1234
+	$ balena tag rm myTagKey --release b376b0e544e9429483b656490e5b9443b4349bd6
 
 ### Options
 
