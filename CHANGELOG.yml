@@ -1,4 +1,41 @@
 - commits:
+    - subject: Fix privilege elevation for standalone zip package on Windows (windosu)
+      hash: 02b888f7c1af920757b96c75906d5b08acef786c
+      body: |
+        * Add pkgExec internal command
+        * Patch windosu to be aware of process.pkg and use pkgExec
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Remove 'internal sudo' command
+      hash: 69c97fed09b7956503b28d18e96fc2dd924521f4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: 'Fix privilege elevation (sudo) for ''os initialize'', ''join'', ''leave'''
+      hash: 05cb89725e2e53aae4686905c02f4d4a4c67e691
+      body: |
+        * sudo shell arguments required escaping for 'os initialize'
+        * sudo was not working for standalone zip packages (incorrect
+          Node.js path in argv[0])
+        * Interactive 'join' and 'leave' not working on Windows because
+          'windosu' does not capture stderr.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.14.5
+  date: 2019-10-15T23:18:48.886Z
+- commits:
     - subject: Support container contracts when pushing to local devices
       hash: 0c5ed7adfb6b915ebd4e79ac96fb2c8ddab851c3
       body: ''
@@ -9,7 +46,7 @@
         signed-off-by: Cameron Diver <cameron@balena.io>
       author: Cameron Diver
   version: 11.14.4
-  date: 2019-10-14T16:52:38.952Z
+  date: 2019-10-14T16:21:38.984Z
 - commits:
     - subject: Update/improve npm install instructions for Windows
       hash: a8fcd85f1a3ab185d6a8d3d7e3c086fcb464e6cc

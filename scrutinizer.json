@@ -5,6 +5,48 @@
     {
       "commits": [
         {
+          "subject": "Fix privilege elevation for standalone zip package on Windows (windosu)",
+          "hash": "02b888f7c1af920757b96c75906d5b08acef786c",
+          "body": "* Add pkgExec internal command\n* Patch windosu to be aware of process.pkg and use pkgExec\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Remove 'internal sudo' command",
+          "hash": "69c97fed09b7956503b28d18e96fc2dd924521f4",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Fix privilege elevation (sudo) for 'os initialize', 'join', 'leave'",
+          "hash": "05cb89725e2e53aae4686905c02f4d4a4c67e691",
+          "body": "* sudo shell arguments required escaping for 'os initialize'\n* sudo was not working for standalone zip packages (incorrect\n  Node.js path in argv[0])\n* Interactive 'join' and 'leave' not working on Windows because\n  'windosu' does not capture stderr.\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.14.5",
+      "date": "2019-10-15T20:59:59.075Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Support container contracts when pushing to local devices",
           "hash": "0c5ed7adfb6b915ebd4e79ac96fb2c8ddab851c3",
           "body": "",
@@ -7469,7 +7511,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 169,
+  "stars": 170,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -7523,6 +7565,7 @@
     "humanize",
     "ignore",
     "inquirer",
+    "is-elevated",
     "is-root",
     "js-yaml",
     "klaw",
@@ -7555,6 +7598,7 @@
     "rimraf",
     "rindle",
     "semver",
+    "shell-escape",
     "split",
     "string-width",
     "strip-ansi-stream",
@@ -7568,36 +7612,40 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2019-10-14T16:53:05Z",
+  "lastCommitDate": "2019-10-15T23:19:15Z",
   "latestRelease": {
-    "tagName": "v11.14.4",
+    "tagName": "v11.14.5",
     "asssets": [
       {
-        "name": "balena-cli-v11.14.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.4/balena-cli-v11.14.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.14.5-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.5/balena-cli-v11.14.5-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.14.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.4/balena-cli-v11.14.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.14.5-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.5/balena-cli-v11.14.5-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.14.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.4/balena-cli-v11.14.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.14.5-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.5/balena-cli-v11.14.5-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.14.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.4/balena-cli-v11.14.4-windows-x64-installer.exe"
+        "name": "balena-cli-v11.14.5-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.5/balena-cli-v11.14.5-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.14.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.4/balena-cli-v11.14.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.14.5-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.14.5/balena-cli-v11.14.5-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 284,
+    "numberOfIssues": 283,
     "latestIssues": [
+      {
+        "title": "Support managing tags using release commit hashes",
+        "url": "https://github.com/balena-io/balena-cli/pull/1470"
+      },
       {
         "title": "Support transferring pre-built images when `balena push` is used in local mode",
         "url": "https://github.com/balena-io/balena-cli/issues/1468"
@@ -7629,10 +7677,6 @@
       {
         "title": "`balena logs` doesn't let you use short form, only long form",
         "url": "https://github.com/balena-io/balena-cli/issues/1456"
-      },
-      {
-        "title": "Fix 'os initialize' (auto sudo execution)",
-        "url": "https://github.com/balena-io/balena-cli/pull/1455"
       },
       {
         "title": "Should use 1000 as the divider in B->KB->MB conversions",
@@ -7680,6 +7724,6 @@
       }
     ]
   },
-  "version": "11.14.4",
+  "version": "11.14.5",
   "logo": null
 }
