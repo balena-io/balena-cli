@@ -1,0 +1,38 @@
+diff --git a/node_modules/windosu/lib/pipe.js b/node_modules/windosu/lib/pipe.js
+index dc81fa5..a381cc7 100644
+--- a/node_modules/windosu/lib/pipe.js
++++ b/node_modules/windosu/lib/pipe.js
+@@ -42,7 +42,8 @@ function pipe(path, options) {
+     return d.promise;
+ }
+ module.exports = pipe;
+-if (module === require.main) {
++
++function main() {
+     if (!process.argv[4]) {
+         console.error('Incorrect arguments!');
+         process.exit(-1);
+@@ -52,3 +53,8 @@ if (module === require.main) {
+         serve: process.argv[3] == 'server'
+     });
+ }
++module.exports.main = main;
++
++if (module === require.main) {
++    main();
++}
+diff --git a/node_modules/windosu/lib/windosu.js b/node_modules/windosu/lib/windosu.js
+index 6502812..dd0391a 100644
+--- a/node_modules/windosu/lib/windosu.js
++++ b/node_modules/windosu/lib/windosu.js
+@@ -16,7 +16,9 @@ module.exports.exec = function (command, options, callback) {
+                         temp: temp,
+                         command: command,
+                         cliWidth: cliWidth(),
+-                        pipe: '"' + process.execPath + '" "' + path.join(__dirname, 'pipe.js') + '"',
++                        pipe: process.pkg
++                            ? '"' + process.execPath + '" pkgExec "' + path.join(__dirname, 'pipe.js') + '::main"'
++                            : '"' + process.execPath + '" "' + path.join(__dirname, 'pipe.js') + '"',
+                         input: inputName = id + '-in',
+                         output: outputName = id + '-out',
+                         stderr_redir: process.stdout.isTTY ? '2>&1' : '2> %ERROR%'
