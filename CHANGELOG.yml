@@ -1,4 +1,24 @@
 - commits:
+    - subject: Support managing tags using release commit hashes
+      hash: 1b943bdf7dacff9be7c202fce08fc95ae59dab7b
+      body: |
+        The sdk version in the shrinkwrap already
+        supports setting tags by commit hashes and as a
+        result this already works in the cli as of v11.9.6.
+        This PR just adds some docs and some extra
+        handling when the commit param prefix is all
+        numeric.
+      footer:
+        Resolves: '#1064'
+        resolves: '#1064'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+  version: 11.15.0
+  date: 2019-10-16T11:12:33.178Z
+- commits:
     - subject: Fix privilege elevation for standalone zip package on Windows (windosu)
       hash: 02b888f7c1af920757b96c75906d5b08acef786c
       body: |
@@ -34,7 +54,7 @@
         signed-off-by: Paulo Castro <paulo@balena.io>
       author: Paulo Castro
   version: 11.14.5
-  date: 2019-10-15T23:18:48.886Z
+  date: 2019-10-15T20:59:59.075Z
 - commits:
     - subject: Support container contracts when pushing to local devices
       hash: 0c5ed7adfb6b915ebd4e79ac96fb2c8ddab851c3
