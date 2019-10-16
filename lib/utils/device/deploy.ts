@@ -443,8 +443,7 @@ function assignOutputHandlers(
 }
 
 async function getDeviceDockerImages(docker: Docker): Promise<string[]> {
-	const images = await docker.listImages();
-
+	const images = await docker.listImages({ all: true });
 	return _.map(images, 'Id');
 }
 
