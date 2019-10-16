@@ -48,4 +48,4 @@ export async function disambiguateReleaseParam(
 				.catchThrow(error);
 		})
 		.then(({ id }) => id);
-};
+}
