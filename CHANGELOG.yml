@@ -1,4 +1,26 @@
 - commits:
+    - subject: Add support for private device types
+      hash: 1f4382bea81e55742c47c5db63c6e48d9c86b7e3
+      body: ''
+      footer:
+        Resolves: '#1471'
+        resolves: '#1471'
+        Depends-on: 'https://github.com/balena-io-modules/balena-config-json/pull/15'
+        depends-on: 'https://github.com/balena-io-modules/balena-config-json/pull/15'
+        HQ: 'https://github.com/balena-io/balena/pull/1740'
+        hq: 'https://github.com/balena-io/balena/pull/1740'
+        See: >-
+          https://www.flowdock.com/app/rulemotion/resin-frontend/threads/FNuwNgrDfJGRcsoJI7yJV-bx5DD
+        see: >-
+          https://www.flowdock.com/app/rulemotion/resin-frontend/threads/FNuwNgrDfJGRcsoJI7yJV-bx5DD
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+  version: 11.16.0
+  date: 2019-10-16T20:32:54.295Z
+- commits:
     - subject: Support managing tags using release commit hashes
       hash: 1b943bdf7dacff9be7c202fce08fc95ae59dab7b
       body: |
@@ -17,7 +39,7 @@
         signed-off-by: Thodoris Greasidis <thodoris@balena.io>
       author: Thodoris Greasidis
   version: 11.15.0
-  date: 2019-10-16T11:12:33.178Z
+  date: 2019-10-16T06:15:25.032Z
 - commits:
     - subject: Fix privilege elevation for standalone zip package on Windows (windosu)
       hash: 02b888f7c1af920757b96c75906d5b08acef786c
