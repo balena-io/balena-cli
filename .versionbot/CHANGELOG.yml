@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add npm preinstall check for npm version 6.9.0 or later
+      hash: e7c89cf77cf0a261df402bc04a8c9c07ecb318fe
+      body: |
+        Older npm versions cause the npm-shrinkwrap.json file to be incorrectly
+        updated. This should avoid regression bugs related to issue #1332.
+        https://github.com/balena-io/balena-cli/issues/1332
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.16.2
+  date: 2019-10-17T15:58:25.531Z
+- commits:
     - subject: Fix shrinkwrap unwanted changes from older npm version
       hash: ee3a0cc630c0112d2cccb0c72b836f5b2d6327fb
       body: ''
