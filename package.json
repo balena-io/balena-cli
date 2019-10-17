@@ -10,6 +10,7 @@
   },
   "preferGlobal": true,
   "files": [
+    "automation/check-npm-version.js",
     "bin/",
     "build/",
     "doc/",
