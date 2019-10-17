@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix npm install (missing automation/check-npm-version.js)
+      hash: eaffc2574f2fcbc72213f7168710db15c1722415
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.16.3
+  date: 2019-10-17T19:00:48.811Z
+- commits:
     - subject: Add npm preinstall check for npm version 6.9.0 or later
       hash: e7c89cf77cf0a261df402bc04a8c9c07ecb318fe
       body: |
