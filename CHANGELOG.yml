@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix shrinkwrap unwanted changes from older npm version
+      hash: ee3a0cc630c0112d2cccb0c72b836f5b2d6327fb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+  version: 11.16.1
+  date: 2019-10-17T11:22:54.394Z
+- commits:
     - subject: Add support for private device types
       hash: 1f4382bea81e55742c47c5db63c6e48d9c86b7e3
       body: ''
@@ -19,7 +31,7 @@
         signed-off-by: Thodoris Greasidis <thodoris@balena.io>
       author: Thodoris Greasidis
   version: 11.16.0
-  date: 2019-10-16T20:32:54.295Z
+  date: 2019-10-16T13:29:18.621Z
 - commits:
     - subject: Support managing tags using release commit hashes
       hash: 1b943bdf7dacff9be7c202fce08fc95ae59dab7b
