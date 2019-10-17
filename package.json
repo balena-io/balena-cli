@@ -39,6 +39,7 @@
     ]
   },
   "scripts": {
+    "preinstall": "node automation/check-npm-version.js",
     "postinstall": "patch-package",
     "prebuild": "rimraf build/ build-bin/",
     "build": "npm run build:src",
@@ -54,7 +55,7 @@
     "test:fast": "npm run build:fast && npm run test",
     "ci": "npm run test && catch-uncommitted",
     "watch": "gulp watch",
-    "prettify": "prettier --write \"{lib,tests,automation,typings}/**/*.ts\" --config ./node_modules/resin-lint/config/.prettierrc",
+    "prettify": "prettier --write \"{lib,tests,automation,typings}/**/*.[tj]s\" --config ./node_modules/resin-lint/config/.prettierrc",
     "lint": "resin-lint lib/ tests/ && resin-lint --typescript automation/ lib/ typings/ tests/",
     "prepublishOnly": "npm run build"
   },
