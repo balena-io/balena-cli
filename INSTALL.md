@@ -79,6 +79,7 @@ some additional development tools to be installed first:
 
 * Node.js version 8, 10 or 12 (on Linux/Mac, [nvm](https://github.com/nvm-sh/nvm/blob/master/README.md)
   is recommended)
+* npm version 6.9.0 or later
 * Python 2.7
 * g++ compiler
 * make
