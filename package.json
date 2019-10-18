@@ -10,7 +10,6 @@
   },
   "preferGlobal": true,
   "files": [
-    "automation/check-npm-version.js",
     "bin/",
     "build/",
     "doc/",
@@ -40,7 +39,6 @@
     ]
   },
   "scripts": {
-    "preinstall": "node automation/check-npm-version.js",
     "postinstall": "patch-package",
     "prebuild": "rimraf build/ build-bin/",
     "build": "npm run build:src",
@@ -73,6 +71,11 @@
   "license": "Apache-2.0",
   "engines": {
     "node": ">=8.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "node automation/check-npm-version.js"
+    }
   },
   "oclif": {
     "bin": "balena",
@@ -130,6 +133,7 @@
     "gulp-coffee": "^2.2.0",
     "gulp-inline-source": "^2.1.0",
     "gulp-shell": "^0.5.2",
+    "husky": "^3.0.9",
     "intercept-stdout": "^0.1.2",
     "mocha": "^6.2.0",
     "nock": "^10.0.6",
