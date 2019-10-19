@@ -30,7 +30,11 @@ Dependencies](#additional-dependencies).
    Look for a file name that ends with "-installer", for example:  
    `balena-cli-v11.6.0-windows-x64-installer.exe`  
    `balena-cli-v11.6.0-macOS-x64-installer.pkg`
-2. Double click the downloaded file to run the installer.
+
+2. Double click the downloaded file to run the installer.  
+   _If you are using macOS Catalina (10.15), [check this known issue and
+   workaround](https://github.com/balena-io/balena-cli/issues/1479)._
+
 3. After the installation completes, close and re-open any open [command
    terminal](https://www.balena.io/docs/reference/cli/#choosing-a-shell-command-promptterminal)
    windows so that the changes made by the installer to the PATH environment variable can take
@@ -66,6 +70,9 @@ macOS:   | `/usr/local/lib/balena-cli/` <br> `/usr/local/bin/balena`
    [Linux](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix) |
    [macOS](https://www.architectryan.com/2012/10/02/add-to-the-path-on-mac-os-x-mountain-lion/#.Uydjga1dXDg) |
    [Windows](https://www.computerhope.com/issues/ch000549.htm)
+
+> _If you are using macOS Catalina (10.15), [check this known issue and
+> workaround](https://github.com/balena-io/balena-cli/issues/1479)._
 
 To update the CLI to a new version, download a new release zip file and replace the previous
 installation folder. To uninstall, simply delete the folder and edit the PATH environment variable
