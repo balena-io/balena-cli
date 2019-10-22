@@ -143,6 +143,12 @@ export class LivepushManager {
 					this.imageIds[serviceName],
 					this.docker,
 				);
+				const buildVars = buildTask.buildMetadata.getBuildVarsForService(
+					buildTask.serviceName,
+				);
+				if (!_.isEmpty(buildVars)) {
+					livepush.setBuildArgs(buildVars);
+				}
 
 				this.assignLivepushOutputHandlers(serviceName, livepush);
 
