@@ -311,6 +311,9 @@ export async function buildOclifInstaller() {
 			await signWindowsInstaller();
 		}
 		console.log(`oclif installer build completed`);
+		if (process.platform === 'darwin') {
+			throw new Error('This error was intentionally thrown.');
+		}
 	}
 }
 
