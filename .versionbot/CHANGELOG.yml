@@ -1,4 +1,16 @@
 - commits:
+    - subject: Bump livepush and reconcile husky dependency
+      hash: f50f169ff060fd036f09ce0bb7d674199707f657
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.16.5
+  date: 2019-10-22T09:09:18.739Z
+- commits:
     - subject: Move npm version check from npm 'preinstall' to git 'pre-commit' hook
       hash: 59a7b9d12bfcd926c2d9268857889f6c70ac865d
       body: |
