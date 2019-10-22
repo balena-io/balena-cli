@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add installation note regarding macOS Catalina (10.15)
+      hash: c2b0091f86c121de857136a8ec14a6c5b744b87b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.16.6
+  date: 2019-10-22T10:24:08.715Z
+- commits:
     - subject: Bump livepush and reconcile husky dependency
       hash: f50f169ff060fd036f09ce0bb7d674199707f657
       body: ''
