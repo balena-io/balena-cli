@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update livepush to support build arguments
+      hash: 8ed4f547e0b9d8c969ac7eeec2a6c3fa8cbfbabf
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Cameron Diver <cameron@balena.io>
+        signed-off-by: Cameron Diver <cameron@balena.io>
+      author: Cameron Diver
+  version: 11.17.0
+  date: 2019-10-22T12:28:15.239Z
+- commits:
     - subject: Add installation note regarding macOS Catalina (10.15)
       hash: c2b0091f86c121de857136a8ec14a6c5b744b87b
       body: ''
