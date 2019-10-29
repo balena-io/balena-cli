@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix potentialy undefined build task when livepushing
+      hash: 55b2b5a467586467d8b8288b561a41d0f9ce8fb2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Cameron Diver <cameron@balena.io>
+        signed-off-by: Cameron Diver <cameron@balena.io>
+      author: Cameron Diver
+  version: 11.17.1
+  date: 2019-10-28T17:53:38.986Z
+- commits:
     - subject: Update livepush to support build arguments
       hash: 8ed4f547e0b9d8c969ac7eeec2a6c3fa8cbfbabf
       body: ''
