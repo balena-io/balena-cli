@@ -508,7 +508,16 @@ export function generateTargetState(
 		};
 
 		opts.environment = _.merge(opts.environment, env[name]);
-		const contract = keyedBuildTasks[name].contract;
+		// This function can be called with a subset of the
+		// build tasks, when a single dockerfile has changed
+		// when livepushing, so check the build task exists for
+		// this composition entry (everything else in this
+		// function comes from the composition which doesn't
+		// change)
+		let contract = null;
+		if (name in keyedBuildTasks) {
+			contract = keyedBuildTasks[name].contract;
+		}
 
 		services[idx] = {
 			...defaults,
