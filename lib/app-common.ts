@@ -90,21 +90,34 @@ function setupBalenaSdkSharedOptions() {
 	});
 }
 
-export function globalInit() {
-	setupRaven();
-	checkNodeVersion();
-	setupGlobalHttpProxy();
-	setupBalenaSdkSharedOptions();
+let BluebirdConfigured = false;
 
-	// Assign bluebird as the global promise library.
-	// stream-to-promise will produce native promises if not for this module,
-	// which is likely to lead to errors as much of the CLI coffeescript code
-	// expects bluebird promises.
-	// The registration is only run if it hasn't already happened (for example
-	// in a test case).
+/**
+ * Configure Bluebird and assign it as the global promise library.
+ * Modules like `stream-to-promise` will otherwise produce native promises,
+ * which leads to errors as much of the CLI CoffeeScript code expects Bluebird
+ * promises.
+ */
+export function configureBluebird() {
+	if (BluebirdConfigured) {
+		return;
+	}
+	BluebirdConfigured = true;
+	const Bluebird = require('bluebird');
+	Bluebird.config({
+		longStackTraces: process.env.DEBUG ? true : false,
+	});
 	if (!(global as any)['@@any-promise/REGISTRATION']) {
 		require('any-promise/register/bluebird');
 	}
+}
+
+export function globalInit() {
+	setupRaven();
+	checkNodeVersion();
+	configureBluebird();
+	setupGlobalHttpProxy();
+	setupBalenaSdkSharedOptions();
 
 	// check for CLI updates once a day
 	require('./utils/update').notify();

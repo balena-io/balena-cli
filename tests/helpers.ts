@@ -20,6 +20,9 @@ import * as nock from 'nock';
 import * as path from 'path';
 
 import * as balenaCLI from '../build/app';
+import { configureBluebird } from '../build/app-common';
+
+configureBluebird();
 
 export const runCommand = async (cmd: string) => {
 	const preArgs = [process.argv[0], path.join(process.cwd(), 'bin', 'balena')];
