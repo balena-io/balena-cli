@@ -263,7 +263,7 @@ export const ssh: CommandDefinition<
 		}
 
 		// this will be a tunnelled SSH connection...
-		exitIfNotLoggedIn();
+		await exitIfNotLoggedIn();
 		const uuid = await getOnlineTargetUuid(sdk, applicationOrDevice);
 		let version: string | undefined;
 		let id: number | undefined;
