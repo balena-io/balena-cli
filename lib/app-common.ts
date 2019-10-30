@@ -105,6 +105,10 @@ export function globalInit() {
 	if (!(global as any)['@@any-promise/REGISTRATION']) {
 		require('any-promise/register/bluebird');
 	}
+	const Bluebird = require('bluebird');
+	Bluebird.config({
+		longStackTraces: process.env.DEBUG ? true : false,
+	});
 
 	// check for CLI updates once a day
 	require('./utils/update').notify();
