@@ -71,7 +71,7 @@ Additional commands:
     logout                                logout from balena
     note <|note>                          set a device note
     os build-config <image> <device-type> build the OS config and save it to the JSON file
-    os configure <image>                  configure an os image
+    os configure <image>                  configure a previously downloaded balenaOS image
     os download <type>                    download an unconfigured os image
     os initialize <image>                 initialize an os image
     os versions <type>                    show the available balenaOS versions for the given device type

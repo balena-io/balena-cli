@@ -85,7 +85,7 @@ const capitanoDoc = {
 		},
 		{
 			title: 'OS',
-			files: ['build/actions/os.js'],
+			files: ['build/actions/os.js', 'build/actions-oclif/os/configure.js'],
 		},
 		{
 			title: 'Config',

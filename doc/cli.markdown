@@ -1132,23 +1132,22 @@ show advanced configuration options
 
 the path to the output JSON file
 
-## os configure &#60;image&#62;
+## os configure IMAGE
 
-Use this command to configure a previously downloaded operating system image for
-the specific device or for an application generally.
+Configure a previously downloaded balenaOS image for a specific device type or
+balena application.
 
-This command will try to automatically determine the operating system version in order
-to correctly configure the image. It may fail to do so however, in which case you'll
-have to call this command again with the exact version number of the targeted image.
+Configuration settings such as WiFi authentication will be taken from the
+following sources, in precedence order:
+1. Command-line options like `--config-wifi-ssid`
+2. A given `config.json` file specified with the `--config` option.
+3. User input through interactive prompts (text menus).
 
-Note that device api keys are only supported on balenaOS 2.0.3+.
+The --device-type option may be used to override the application's default
+device type, in case of an application with mixed device types.
 
-This command still supports the *deprecated* format where the UUID and optionally device key
-are passed directly on the command line, but the recommended way is to pass either an --app or
---device argument. The deprecated format will be removed in a future release.
-
-In case that you want to configure an image for an application with mixed device types,
-you can pass the --device-type argument along with --app to specify the target device type.
+The --device-api-key option is deprecated and will be removed in a future release.
+A suitable key is automatically generated or fetched if this option is omitted.
 
 Examples:
 
@@ -1157,36 +1156,63 @@ Examples:
 	$ balena os configure ../path/rpi3.img --app MyApp
 	$ balena os configure ../path/rpi3.img --app MyApp --version 2.12.7
 	$ balena os configure ../path/rpi3.img --app MyFinApp --device-type raspberrypi3
+	$ balena os configure ../path/rpi3.img --app MyFinApp --device-type raspberrypi3 --config myWifiConfig.json
+
+### Arguments
+
+#### IMAGE
+
+path to a balenaOS image file, e.g. "rpi3.img"
 
 ### Options
 
-#### --advanced, -v
+#### -v, --advanced
 
-show advanced configuration options
+ask advanced configuration questions (when in interactive mode)
 
-#### --application, -a, --app &#60;application&#62;
+#### --app APP
+
+same as '--application'
+
+#### -a, --application APPLICATION
 
 application name
 
-#### --device, -d &#60;device&#62;
+#### --config CONFIG
 
-device uuid
+path to a pre-generated config.json file to be injected in the OS image
 
-#### --deviceApiKey, -k &#60;device-api-key&#62;
+#### --config-app-update-poll-interval CONFIG-APP-UPDATE-POLL-INTERVAL
 
-custom device key - note that this is only supported on balenaOS 2.0.3+
+interval (in minutes) for the on-device balena supervisor periodic app update check
 
-#### --deviceType &#60;device-type&#62;
+#### --config-network CONFIG-NETWORK
 
-device type slug
+device network type (non-interactive configuration)
 
-#### --version &#60;version&#62;
+#### --config-wifi-key CONFIG-WIFI-KEY
 
-a balenaOS version
+WiFi key (password) (non-interactive configuration)
 
-#### --config &#60;config&#62;
+#### --config-wifi-ssid CONFIG-WIFI-SSID
 
-path to the config JSON file, see `balena os build-config`
+WiFi SSID (network name) (non-interactive configuration)
+
+#### -d, --device DEVICE
+
+device UUID
+
+#### -k, --device-api-key DEVICE-API-KEY
+
+custom device API key (DEPRECATED and only supported with balenaOS 2.0.3+)
+
+#### --device-type DEVICE-TYPE
+
+device type slug (e.g. "raspberrypi3") to override the application device type
+
+#### --version VERSION
+
+balenaOS version, for example "2.32.0" or "2.44.0+rev1"
 
 ## os initialize &#60;image&#62;
 
