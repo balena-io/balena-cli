@@ -18,7 +18,7 @@ export const getHelp = `${DEBUG_MODE ? '' : debugHint}\
 If you need help, don't hesitate in contacting our support forums at
 https://forums.balena.io
 
-For bug reports or feature requests, have a look at the GitHub issues or
+For CLI bug reports or feature requests, have a look at the GitHub issues or
 create a new one at: https://github.com/balena-io/balena-cli/issues/\
 `;
 

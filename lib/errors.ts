@@ -20,7 +20,9 @@ import * as _ from 'lodash';
 import * as os from 'os';
 import * as Raven from 'raven';
 
-import * as patterns from './utils/patterns';
+export class ExpectedError extends Error {}
+
+export class NotLoggedInError extends ExpectedError {}
 
 const captureException = Bluebird.promisify<string, Error>(
 	Raven.captureException,
@@ -37,11 +39,7 @@ function treatFailedBindingAsMissingModule(error: any): void {
 	}
 }
 
-function interpret(error: any): string | undefined {
-	if (!(error instanceof Error)) {
-		return;
-	}
-
+function interpret(error: Error): string {
 	treatFailedBindingAsMissingModule(error);
 
 	if (hasCode(error)) {
@@ -55,9 +53,9 @@ function interpret(error: any): string | undefined {
 		if (!_.isEmpty(error.message)) {
 			return `${error.code}: ${error.message}`;
 		}
-	} else {
-		return error.message;
 	}
+
+	return error.message;
 }
 
 const messages: {
@@ -105,21 +103,35 @@ const messages: {
 };
 
 export async function handleError(error: any) {
-	let message = interpret(error);
-	if (message == null) {
+	const { printErrorMessage } = await import('./utils/patterns');
+
+	process.exitCode =
+		error.exitCode === 0
+			? 0
+			: parseInt(error.exitCode, 10) || process.exitCode || 1;
+
+	if (!(error instanceof Error)) {
+		printErrorMessage(String(error));
 		return;
 	}
 
-	if (process.env.DEBUG) {
-		message = error.stack;
+	const message = [interpret(error)];
+
+	if (process.env.DEBUG && error.stack) {
+		message.push(error.stack);
+	}
+	printErrorMessage(message.join('\n'));
+
+	if (error instanceof ExpectedError) {
+		return;
 	}
 
-	patterns.printErrorMessage(message!);
-
+	// Report "unexpected" errors via Sentry.io
 	await captureException(error)
 		.timeout(1000)
 		.catch(function() {
 			// Ignore any errors (from error logging, or timeouts)
 		})
-		.finally(() => process.exit(error.exitCode || 1));
+		// exit with the process.exitCode set earlier
+		.finally(() => process.exit());
 }

@@ -22,6 +22,7 @@ import _ = require('lodash');
 import _form = require('resin-cli-form');
 import _visuals = require('resin-cli-visuals');
 
+import { NotLoggedInError } from '../errors';
 import messages = require('./messages');
 import validation = require('./validation');
 
@@ -77,13 +78,25 @@ export function authenticate(options: {}): Bluebird<void> {
 		});
 }
 
-export async function exitIfNotLoggedIn(): Promise<void> {
+export async function checkLoggedIn(): Promise<void> {
 	const balena = getBalenaSdk();
 	if (!(await balena.auth.isLoggedIn())) {
-		exitWithExpectedError(stripIndent`
+		throw new NotLoggedInError(stripIndent`
 			You have to log in to continue
 			Run the following command to go through the login wizard:
 				$ balena login`);
+	}
+}
+
+export async function exitIfNotLoggedIn(): Promise<void> {
+	try {
+		await checkLoggedIn();
+	} catch (error) {
+		if (error instanceof NotLoggedInError) {
+			exitWithExpectedError(error);
+		} else {
+			throw error;
+		}
 	}
 }
 
