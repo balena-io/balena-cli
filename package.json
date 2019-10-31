@@ -79,9 +79,9 @@
   },
   "oclif": {
     "bin": "balena",
-    "commands": "./build/actions-oclif",
+    "commands": "./lib/actions-oclif",
     "hooks": {
-      "prerun": "./build/hooks/prerun/track"
+      "prerun": "./lib/hooks/prerun/track"
     },
     "macos": {
       "identifier": "io.balena.cli",

@@ -6,7 +6,7 @@
 		"outDir": "build",
 		"strict": true,
 		"strictPropertyInitialization": false,
-		"noUnusedLocals": true,
+		"noUnusedLocals": false,
 		"noUnusedParameters": true,
 		"preserveConstEnums": true,
 		"removeComments": true,
