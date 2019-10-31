@@ -132,6 +132,7 @@ export const convertedCommands = [
 	'env:add',
 	'env:rename',
 	'env:rm',
+	'os:configure',
 	'version',
 ];
 

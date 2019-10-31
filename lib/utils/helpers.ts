@@ -28,7 +28,7 @@ const balena = BalenaSdk.fromSharedOptions();
 
 export function getGroupDefaults(group: {
 	options: Array<{ name: string; default?: string }>;
-}): { [name: string]: string | undefined } {
+}): { [name: string]: string | number | undefined } {
 	return _.chain(group)
 		.get('options')
 		.map(question => [question.name, question.default])

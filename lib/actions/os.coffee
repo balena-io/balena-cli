@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Balena
+Copyright 2016-2019 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -311,9 +311,13 @@ exports.configure =
 					return readFileAsync(options.config, 'utf8')
 						.then(JSON.parse)
 				return manifestPromise.then (deviceTypeManifest) ->
+
+					console.log("deviceTypeManifest: #{JSON.stringify(deviceTypeManifest, null, 4)}\n")
+
 					buildConfigForDeviceType(deviceTypeManifest, options.advanced)
 
 			Promise.join answersPromise, manifestPromise, (answers, manifest) ->
+				console.log("answers (1): #{JSON.stringify(answers)}\n")
 				answers.version = options.version
 
 				if configurationResourceType == 'application'
@@ -327,14 +331,19 @@ exports.configure =
 								'Please specify the version manually with the ' +
 								'--version argument to this command.'
 							)
+						else
+							console.log("successfully read OS version: #{version}")
 
 				Promise.props(answers).then (answers) ->
+					console.log("answers (2): #{JSON.stringify(answers)}\n")
 					(if configurationResourceType == 'device'
 						generateDeviceConfig(appOrDevice, deviceApiKey, answers)
 					else
 						generateApplicationConfig(appOrDevice, answers)
 					)
 					.then (config) ->
+						console.log("generated config: #{JSON.stringify(config)}\n")
+						console.log('calling init.configure() ...')
 						init.configure(params.image, manifest, config, answers)
 		.then(helpers.osProgressHandler)
 		.nodeify(done)
