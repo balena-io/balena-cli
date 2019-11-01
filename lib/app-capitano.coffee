@@ -25,8 +25,8 @@ capitano.permission 'user', (done) ->
 
 capitano.command
 	signature: '*'
-	action: ->
-		capitano.execute(command: 'help')
+	action: (params, options, done) ->
+		capitano.execute(command: 'help', done)
 
 capitano.globalOption
 	signature: 'help'
