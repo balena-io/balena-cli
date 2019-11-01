@@ -134,4 +134,20 @@ describe('balena help', function() {
 
 		chai.expect(err.join('')).to.equal('');
 	});
+
+	it('should print simple help text when no arguments present', async () => {
+		const { out, err } = await runCommand('');
+
+		chai
+			.expect(cleanOutput(out))
+			.to.deep.equal(
+				cleanOutput([
+					SIMPLE_HELP,
+					'Run `balena help --verbose` to list additional commands',
+					GLOBAL_OPTIONS,
+				]),
+			);
+
+		chai.expect(err.join('')).to.equal('');
+	});
 });
