@@ -198,7 +198,7 @@
     "livepush": "^2.0.5",
     "lodash": "^4.17.4",
     "minimatch": "^3.0.4",
-    "mixpanel": "^0.10.1",
+    "mixpanel": "^0.10.3",
     "mkdirp": "^0.5.1",
     "moment": "^2.24.0",
     "moment-duration-format": "^2.2.2",
