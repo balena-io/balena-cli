@@ -26,7 +26,7 @@ import { CommandHelp } from '../../utils/oclif-utils';
 
 interface FlagsDef {
 	advanced?: boolean;
-	'app-update-poll-interval'?: number;
+	appUpdatePollInterval?: number;
 	app?: string;
 	application?: string;
 	config?: string;
@@ -35,8 +35,8 @@ interface FlagsDef {
 	'device-type'?: string;
 	help?: void;
 	version?: string;
-	'wifi-ssid'?: string;
-	'wifi-key'?: string;
+	wifiSsid?: string;
+	wifiKey?: string;
 }
 
 interface ArgsDef {
@@ -50,7 +50,7 @@ interface DeferredDevice extends BalenaSdk.Device {
 interface Answers {
 	appUpdatePollInterval: number; // in minutes
 	deviceType: string; // e.g. "raspberrypi3"
-	network: 'wifi' | 'ethernet';
+	network: 'ethernet' | 'wifi';
 	version: string; // e.g. "2.32.0+rev1"
 	wifiSsid?: string;
 	wifiKey?: string;
@@ -100,14 +100,15 @@ export default class OsConfigureCmd extends Command {
 	public static flags: flags.Input<FlagsDef> = {
 		advanced: flags.boolean({
 			char: 'v',
-			description: 'ask advanced configuration questions (when in interactive mode)',
+			description:
+				'ask advanced configuration questions (when in interactive mode)',
 		}),
 		app: flags.string({
 			description: "same as '--application'",
 			exclusive: ['application', 'device'],
 		}),
 		application: _.assign({ exclusive: ['app', 'device'] }, cf.application),
-		'app-update-poll-interval': flags.integer({
+		appUpdatePollInterval: flags.integer({
 			description:
 				'Interval (in minutes) for the on-device balena supervisor periodic app update check',
 		}),
@@ -129,11 +130,11 @@ export default class OsConfigureCmd extends Command {
 		version: flags.string({
 			description: 'balenaOS version, for example "2.32.0" or "2.44.0+rev1"',
 		}),
-		'wifi-key': flags.string({
+		wifiKey: flags.string({
 			description:
 				'WiFi key (password) (optional non-interactive WiFi configuration)',
 		}),
-		'wifi-ssid': flags.string({
+		wifiSsid: flags.string({
 			description:
 				'WiFi SSID (network name) (optional non-interactive WiFi configuration)',
 		}),
@@ -157,10 +158,6 @@ export default class OsConfigureCmd extends Command {
 		// Prefer options.application over options.app
 		options.application = options.application || options.app;
 		options.app = undefined;
-
-		// const cmd = this;
-		// const uuid = options.device;
-		// const deviceApiKey = options.deviceApiKey;
 
 		// The 'device' and 'application' options are declared "exclusive" in the oclif
 		// flag definitions above, so oclif will enforce that they are not both used together.
@@ -205,10 +202,12 @@ export default class OsConfigureCmd extends Command {
 
 		await checkDeviceTypeCompatibility(balena, options, app);
 
-		let answers: Answers;
-		let configJson: import('../../utils/config').ImgConfig;
+		// let answers: Answers;
+		let configJson: import('../../utils/config').ImgConfig | undefined;
 
-		const osVersion = options.version || await getOsVersionFromImage(params.image, deviceTypeManifest);
+		const osVersion =
+			options.version ||
+			(await getOsVersionFromImage(params.image, deviceTypeManifest));
 
 		if (options.config) {
 			const rawConfig = await fs.readFile(options.config, 'utf8');
@@ -216,10 +215,11 @@ export default class OsConfigureCmd extends Command {
 			configJson = JSON.parse(rawConfig);
 		}
 
-		answers = await askQuestionsForDeviceType(
+		const answers: Answers = await askQuestionsForDeviceType(
 			deviceTypeManifest,
-			options,
 			// options.advanced,
+			options,
+			configJson,
 		);
 		console.log(`answers (1): ${JSON.stringify(answers)}\n`);
 
@@ -229,29 +229,36 @@ export default class OsConfigureCmd extends Command {
 
 		answers.version = osVersion;
 
-
 		console.log(`answers (2): ${JSON.stringify(answers)}\n`);
 
-		if (device) {
-			console.log('inspect(device):\n', (await import('util')).inspect(device));
+		if (_.isEmpty(configJson)) {
+			// Generate a config.json object from a device or application
+			if (device) {
+				console.log(
+					'inspect(device):\n',
+					(await import('util')).inspect(device),
+				);
 
-			configJson = await generateDeviceConfig(
-				device as DeferredDevice,
-				options['device-api-key'],
-				answers,
-			);
+				configJson = await generateDeviceConfig(
+					device as DeferredDevice,
+					options['device-api-key'],
+					answers,
+				);
+			} else {
+				console.log('inspect(app):\n', (await import('util')).inspect(app!));
+				configJson = await generateApplicationConfig(app!, answers);
+			}
+			console.log(`generated config.json: ${JSON.stringify(configJson)}\n`);
 		} else {
-			console.log('inspect(app):\n', (await import('util')).inspect(app!));
-			configJson = await generateApplicationConfig(app!, answers);
+			console.log(`using given config.json: ${JSON.stringify(configJson)}\n`);
 		}
 
-		console.log(`generated config: ${JSON.stringify(configJson)}\n`);
 		console.log('calling init.configure() ...');
 		await helpers.osProgressHandler(
 			await init.configure(
 				params.image,
 				deviceTypeManifest,
-				configJson,
+				configJson || {},
 				answers,
 			),
 		);
@@ -263,10 +270,7 @@ async function getOsVersionFromImage(
 	deviceTypeManifest: BalenaSdk.DeviceType,
 ): Promise<string> {
 	const helpers = await import('../../utils/helpers');
-	const osVersion = await helpers.getOsVersion(
-		imagePath,
-		deviceTypeManifest,
-	);
+	const osVersion = await helpers.getOsVersion(imagePath, deviceTypeManifest);
 	if (!osVersion) {
 		throw new ExpectedError(
 			'Could not read OS version from the image. ' +
@@ -291,9 +295,9 @@ async function checkDeviceTypeCompatibility(
 		const helpers = await import('../../utils/helpers');
 		if (!helpers.areDeviceTypesCompatible(appDeviceType, optionDeviceType)) {
 			throw new ExpectedError(
-				`Device type ${options['device-type']} is incompatible with application ${
-					options.application
-				}`,
+				`Device type ${
+					options['device-type']
+				} is incompatible with application ${options.application}`,
 			);
 		}
 	}
@@ -302,19 +306,23 @@ async function checkDeviceTypeCompatibility(
 async function askQuestionsForDeviceType(
 	deviceType: BalenaSdk.DeviceType,
 	options: FlagsDef,
-	// advanced = false,
+	configJson?: import('../../utils/config').ImgConfig,
 ): Promise<Answers> {
 	const form = await import('resin-cli-form');
 	const helpers = await import('../../utils/helpers');
-
 	const questions: any = deviceType.options;
-	let extraOpts: { override: object } | undefined;
+	const answerSources: any[] = [options];
+	const defaultAnswers: Partial<Answers> = {};
 
 	console.log(
 		`buildConfigForDeviceType questions:\n`,
 		JSON.stringify(questions, null, 4),
 		'\n',
 	);
+
+	if (!_.isEmpty(configJson)) {
+		answerSources.push(configJson);
+	}
 
 	if (!options.advanced) {
 		const advancedGroup: any = _.find(questions, {
@@ -323,11 +331,49 @@ async function askQuestionsForDeviceType(
 		});
 		console.log('advancedGroup:\n', JSON.stringify(advancedGroup, null, 4));
 
-		if (advancedGroup) {
-			extraOpts = { override: helpers.getGroupDefaults(advancedGroup) };
+		if (!_.isEmpty(advancedGroup)) {
+			answerSources.push(helpers.getGroupDefaults(advancedGroup));
 		}
-
-		console.log('extraOpts:\n', JSON.stringify(extraOpts, null, 4));
 	}
+
+	for (const questionName of getQuestionNames(deviceType)) {
+		for (const answerSource of answerSources) {
+			if (answerSource[questionName] != null) {
+				defaultAnswers[questionName] = answerSource[questionName];
+				break;
+			}
+		}
+	}
+	if (
+		!defaultAnswers.network &&
+		(defaultAnswers.wifiSsid || defaultAnswers.wifiKey)
+	) {
+		defaultAnswers.network = 'wifi';
+	}
+
+	console.log(`defaultAnswers:\n`, JSON.stringify(defaultAnswers, null, 4));
+
+	let extraOpts: { override: object } | undefined;
+
+	if (!_.isEmpty(defaultAnswers)) {
+		extraOpts = { override: defaultAnswers };
+	}
+
+	console.log('extraOpts:\n', JSON.stringify(extraOpts, null, 4));
+
 	return form.run(questions, extraOpts);
+}
+
+function getQuestionNames(
+	deviceType: BalenaSdk.DeviceType,
+): Array<keyof Answers> {
+	const questionNames: string[] = _.chain(deviceType.options)
+		.flatMap(
+			(group: BalenaSdk.DeviceTypeOptions) =>
+				(group.isGroup && group.options) || [],
+		)
+		.map((groupOption: BalenaSdk.DeviceTypeOptionsGroup) => groupOption.name)
+		.value();
+	console.log(`questionNames:`, questionNames);
+	return questionNames as Array<keyof Answers>;
 }
