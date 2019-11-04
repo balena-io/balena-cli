@@ -1,4 +1,16 @@
 - commits:
+    - subject: Use all available on-device images during local push
+      hash: 62b7d2fd1a80023fb9aff4dfc54a8faa72040459
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Cameron Diver <cameron@balena.io>
+        signed-off-by: Cameron Diver <cameron@balena.io>
+      author: Cameron Diver
+  version: 11.17.3
+  date: 2019-11-04T10:30:00.836Z
+- commits:
     - subject: Fix warnings when executing CLI without arguments.
       hash: 4a967b126bfcfa72f32e33ace95ea4a66d1c64dd
       body: ''
