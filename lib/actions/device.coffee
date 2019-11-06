@@ -130,6 +130,9 @@ exports.supported =
 		visuals = require('resin-cli-visuals')
 
 		balena.models.config.getDeviceTypes().then (deviceTypes) ->
+			deviceTypes = deviceTypes.filter (dt) ->
+				dt.state != 'DISCONTINUED'
+
 			fields = ['slug', 'name']
 			console.log visuals.table.horizontal(_.sortBy(deviceTypes, fields), fields)
 		.nodeify(done)
