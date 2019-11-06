@@ -1,4 +1,16 @@
 - commits:
+    - subject: Support optional containers when pushing to local target
+      hash: b31e253fa4c5d5a382a55f718091e58f8d022f59
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Cameron Diver <cameron@balena.io>
+        signed-off-by: Cameron Diver <cameron@balena.io>
+      author: Cameron Diver
+  version: 11.17.4
+  date: 2019-11-06T10:33:49.369Z
+- commits:
     - subject: Use all available on-device images during local push
       hash: 62b7d2fd1a80023fb9aff4dfc54a8faa72040459
       body: ''
