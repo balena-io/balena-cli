@@ -131,9 +131,7 @@ export class LivepushManager {
 					serviceName,
 				});
 				if (container == null) {
-					throw new Error(
-						`Could not find a container on device for service: ${serviceName}`,
-					);
+					return;
 				}
 
 				const livepush = await Livepush.init(
