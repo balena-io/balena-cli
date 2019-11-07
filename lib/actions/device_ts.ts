@@ -19,6 +19,31 @@ import { stripIndent } from 'common-tags';
 import { normalizeUuidProp } from '../utils/normalization';
 import * as commandOptions from './command-options';
 
+export const supported: CommandDefinition<{}, {}> = {
+	signature: 'devices supported',
+	description: 'list all supported devices',
+	help: stripIndent`
+		Use this command to get the list of all supported devices.
+
+		Examples:
+
+			$ balena devices supported
+	`,
+	async action(_params, _options) {
+		const sdk = (await import('balena-sdk')).fromSharedOptions();
+		const visuals = await import('resin-cli-visuals');
+		const _ = await import('lodash');
+
+		let deviceTypes = await sdk.models.config.getDeviceTypes();
+		const fields = ['slug', 'name'];
+		deviceTypes = _.sortBy(deviceTypes, fields).filter(
+			dt => dt.state !== 'DISCONTINUED',
+		);
+		const output = await visuals.table.horizontal(deviceTypes, fields);
+		console.log(output);
+	},
+};
+
 // tslint:disable-next-line:no-namespace
 namespace OsUpdate {
 	export interface Args {

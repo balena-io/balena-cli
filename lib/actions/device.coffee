@@ -115,25 +115,6 @@ exports.info =
 				]
 		.nodeify(done)
 
-exports.supported =
-	signature: 'devices supported'
-	description: 'list all supported devices'
-	help: '''
-		Use this command to get the list of all supported devices
-
-		Examples:
-
-			$ balena devices supported
-	'''
-	action: (params, options, done) ->
-		balena = require('balena-sdk').fromSharedOptions()
-		visuals = require('resin-cli-visuals')
-
-		balena.models.config.getDeviceTypes().then (deviceTypes) ->
-			fields = ['slug', 'name']
-			console.log visuals.table.horizontal(_.sortBy(deviceTypes, fields), fields)
-		.nodeify(done)
-
 exports.register =
 	signature: 'device register <application>'
 	description: 'register a device'
@@ -465,4 +446,6 @@ exports.init =
 
 		.nodeify(done)
 
-exports.osUpdate = require('./device_ts').osUpdate
+tsActions = require('./device_ts')
+exports.osUpdate = tsActions.osUpdate
+exports.supported = tsActions.supported
