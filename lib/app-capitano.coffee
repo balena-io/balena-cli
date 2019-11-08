@@ -27,6 +27,7 @@ capitano.command
 	signature: '*'
 	action: (params, options, done) ->
 		capitano.execute(command: 'help', done)
+		process.exitCode = process.exitCode || 1
 
 capitano.globalOption
 	signature: 'help'
