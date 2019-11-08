@@ -21,8 +21,7 @@ Dependencies](#additional-dependencies).
 >   Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL), the recommendation is to
 >   install a balena CLI release for Linux rather than Windows, like the Linux standalone zip
 >   package. An installation with the graphical executable installer for Windows will not run on
->   WSL. See also [FAQ](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md) for
->   using balena CLI with WSL and Docker Desktop for Windows.
+>   WSL.
 
 ## Executable Installer
 
@@ -141,6 +140,29 @@ CLI on an Ubuntu Docker image: https://gist.github.com/pdcastro/5d4d96652181e7da
     for Ubuntu, for example).
     Check the [README](https://github.com/balena-io/balena-cli/blob/master/README.md) file
     for proxy configuration instructions.
+
+* The `balena preload`, `balena build` and `balena deploy --build` commands require
+  [Docker](https://docs.docker.com/install/overview/) or [balenaEngine](https://www.balena.io/engine/)
+  to be available:
+  * The `balena preload` command requires the Docker Engine to support the [AUFS storage
+    driver](https://docs.docker.com/storage/storagedriver/aufs-driver/). Docker Desktop for Mac and
+    Windows dropped support for the AUFS filesystem in Docker CE versions greater than 18.06.1, so
+    the workaround is to downgrade to version 18.06.1 (links: [Docker CE for
+    Windows](https://docs.docker.com/docker-for-windows/release-notes/#docker-community-edition-18061-ce-win73-2018-08-29)
+    and [Docker CE for
+    Mac](https://docs.docker.com/docker-for-mac/release-notes/#docker-community-edition-18061-ce-mac73-2018-08-29)).
+    See more details in [CLI issue 1099](https://github.com/balena-io/balena-cli/issues/1099).
+  * Commonly, Docker is installed on the same machine where the CLI is being used, but the
+    `balena build` and `balena deploy` commands can also use a remote Docker Engine (daemon)
+    or balenaEngine (which could be a remote device running a [balenaOS development
+    image](https://www.balena.io/docs/reference/OS/overview/2.x/#dev-vs-prod-images)) by specifying
+    its IP address and port number as command-line options. Check the documentation for each
+    command, e.g. `balena help build`, or the [online
+    reference](https://www.balena.io/docs/reference/cli/#cli-command-reference).
+  * If you are using Microsoft's [Windows Subsystem for
+    Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL) and Docker Desktop for
+    Windows, check the [FAQ item "Docker seems to be
+    unavailable"](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md#docker-seems-to-be-unavailable-error-when-using-windows-subsystem-for-linux-wsl).
 
 ## Configuring SSH keys
 
