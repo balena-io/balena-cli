@@ -20,6 +20,8 @@ import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
 import * as path from 'path';
 
+import { capitanoizeOclifUsage } from '../utils/oclif-utils';
+
 export async function getOclifHelpLinePairs(): Promise<
 	Array<[string, string]>
 > {
@@ -39,7 +41,7 @@ export async function getOclifHelpLinePairs(): Promise<
 
 function getCmdUsageDescriptionLinePair(cmdModule: any): [string, string] {
 	const cmd: typeof Command = cmdModule.default;
-	const usage = (cmd.usage || '').toString().toLowerCase();
+	const usage = capitanoizeOclifUsage(cmd.usage);
 	let description = '';
 	// note: [^] matches any characters (including line breaks), achieving the
 	// same effect as the 's' regex flag which is only supported by Node 9+
