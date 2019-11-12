@@ -28,7 +28,7 @@ const balena = BalenaSdk.fromSharedOptions();
 
 export function getGroupDefaults(group: {
 	options: Array<{ name: string; default?: string }>;
-}): { [name: string]: string | undefined } {
+}): { [name: string]: string | number | undefined } {
 	return _.chain(group)
 		.get('options')
 		.map(question => [question.name, question.default])
@@ -121,14 +121,6 @@ export const areDeviceTypesCompatible = (
 ) =>
 	deviceTypeA.arch === deviceTypeB.arch &&
 	!!deviceTypeA.isDependent === !!deviceTypeB.isDependent;
-
-export async function getOsVersion(
-	image: string,
-	manifest: BalenaSdk.DeviceType,
-): Promise<string | null> {
-	const init = await import('balena-device-init');
-	return init.getImageOsVersion(image, manifest);
-}
 
 export async function osProgressHandler(step: InitializeEmitter) {
 	step.on('stdout', process.stdout.write.bind(process.stdout));

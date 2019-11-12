@@ -1,5 +1,5 @@
 ###
-Copyright 2016-2017 Balena
+Copyright 2016-2019 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@ limitations under the License.
 
 commandOptions = require('./command-options')
 _ = require('lodash')
-{ normalizeUuidProp } = require('../utils/normalization')
 
 formatVersion = (v, isRecommended) ->
 	result = "v#{v}"
@@ -200,143 +199,6 @@ exports.buildConfig =
 		buildConfig(params.image, params['device-type'], options.advanced)
 		.then (answers) ->
 			writeFileAsync(options.output, JSON.stringify(answers, null, 4))
-		.nodeify(done)
-
-exports.configure =
-	signature: 'os configure <image>'
-	description: 'configure an os image'
-	help: '''
-		Use this command to configure a previously downloaded operating system image for
-		the specific device or for an application generally.
-
-		This command will try to automatically determine the operating system version in order
-		to correctly configure the image. It may fail to do so however, in which case you'll
-		have to call this command again with the exact version number of the targeted image.
-
-		Note that device api keys are only supported on balenaOS 2.0.3+.
-
-		This command still supports the *deprecated* format where the UUID and optionally device key
-		are passed directly on the command line, but the recommended way is to pass either an --app or
-		--device argument. The deprecated format will be removed in a future release.
-
-		In case that you want to configure an image for an application with mixed device types,
-		you can pass the --device-type argument along with --app to specify the target device type.
-
-		Examples:
-
-			$ balena os configure ../path/rpi3.img --device 7cf02a6
-			$ balena os configure ../path/rpi3.img --device 7cf02a6 --device-api-key <existingDeviceKey>
-			$ balena os configure ../path/rpi3.img --app MyApp
-			$ balena os configure ../path/rpi3.img --app MyApp --version 2.12.7
-			$ balena os configure ../path/rpi3.img --app MyFinApp --device-type raspberrypi3
-	'''
-	permission: 'user'
-	options: [
-		commandOptions.advancedConfig
-		commandOptions.optionalApplication
-		commandOptions.optionalDevice
-		commandOptions.optionalDeviceApiKey
-		commandOptions.optionalDeviceType
-		commandOptions.optionalOsVersion
-		{
-			signature: 'config'
-			description: 'path to the config JSON file, see `balena os build-config`'
-			parameter: 'config'
-		}
-	]
-	action: (params, options, done) ->
-		normalizeUuidProp(options, 'device')
-		fs = require('fs')
-		Promise = require('bluebird')
-		readFileAsync = Promise.promisify(fs.readFile)
-		balena = require('balena-sdk').fromSharedOptions()
-		init = require('balena-device-init')
-		helpers = require('../utils/helpers')
-		patterns = require('../utils/patterns')
-		{ generateDeviceConfig, generateApplicationConfig } = require('../utils/config')
-
-		if _.filter([
-			options.device
-			options.application
-		]).length != 1
-			patterns.exitWithExpectedError '''
-				To configure an image, you must provide exactly one of:
-
-				* A device, with --device <uuid>
-				* An application, with --app <appname>
-
-				See the help page for examples:
-
-				  $ balena help os configure
-			'''
-
-		if !options.application and options.deviceType
-			patterns.exitWithExpectedError '''
-				Specifying a different device type is only supported when
-				configuring an image using an application as a parameter:
-
-				* An application, with --app <appname>
-				* A specific device type, with --device-type <deviceTypeSlug>
-
-				See the help page for examples:
-
-				  $ balena help os configure
-			'''
-
-		uuid = options.device
-		deviceApiKey = options.deviceApiKey
-
-		console.info('Configuring operating system image')
-
-		configurationResourceType = if uuid then 'device' else 'application'
-
-		balena.models[configurationResourceType].get(uuid || options.application)
-		.then (appOrDevice) ->
-			deviceType = options.deviceType || appOrDevice.device_type
-			manifestPromise = helpers.getManifest(params.image, deviceType)
-
-			if options.application && options.deviceType
-				app = appOrDevice
-				appManifestPromise = balena.models.device.getManifestBySlug(app.device_type)
-				paramManifestPromise = balena.models.device.getManifestBySlug(options.deviceType)
-				manifestPromise = Promise.resolve(manifestPromise).tap ->
-					Promise.join appManifestPromise, paramManifestPromise, (appDeviceType, paramDeviceType) ->
-						if not helpers.areDeviceTypesCompatible(appDeviceType, paramDeviceType)
-							throw new balena.errors.BalenaInvalidDeviceType(
-								"Device type #{options.deviceType} is incompatible with application #{options.application}"
-							)
-
-			answersPromise = Promise.try ->
-				if options.config
-					return readFileAsync(options.config, 'utf8')
-						.then(JSON.parse)
-				return manifestPromise.then (deviceTypeManifest) ->
-					buildConfigForDeviceType(deviceTypeManifest, options.advanced)
-
-			Promise.join answersPromise, manifestPromise, (answers, manifest) ->
-				answers.version = options.version
-
-				if configurationResourceType == 'application'
-					answers.deviceType = deviceType
-
-				if not answers.version?
-					answers.version = Promise.resolve(helpers.getOsVersion(params.image, manifest)).tap (version) ->
-						if not version?
-							throw new Error(
-								'Could not read OS version from the image. ' +
-								'Please specify the version manually with the ' +
-								'--version argument to this command.'
-							)
-
-				Promise.props(answers).then (answers) ->
-					(if configurationResourceType == 'device'
-						generateDeviceConfig(appOrDevice, deviceApiKey, answers)
-					else
-						generateApplicationConfig(appOrDevice, answers)
-					)
-					.then (config) ->
-						init.configure(params.image, manifest, config, answers)
-		.then(helpers.osProgressHandler)
 		.nodeify(done)
 
 INIT_WARNING_MESSAGE = '''

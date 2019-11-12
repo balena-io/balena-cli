@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Balena
+Copyright 2016-2019 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ import * as semver from 'resin-semver';
 
 const balena = BalenaSdk.fromSharedOptions();
 
-interface ImgConfig {
+export interface ImgConfig {
 	applicationName: string;
 	applicationId: number;
 	deviceType: string;
@@ -103,7 +103,7 @@ export function generateDeviceConfig(
 	device: BalenaSdk.Device & {
 		belongs_to__application: BalenaSdk.PineDeferred;
 	},
-	deviceApiKey: string | true | null,
+	deviceApiKey: string | true | undefined,
 	options: { version: string },
 ) {
 	return balena.models.application

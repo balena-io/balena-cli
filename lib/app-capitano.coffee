@@ -93,7 +93,6 @@ capitano.command(actions.tags.remove)
 capitano.command(actions.os.versions)
 capitano.command(actions.os.download)
 capitano.command(actions.os.buildConfig)
-capitano.command(actions.os.configure)
 capitano.command(actions.os.initialize)
 
 # ---------- Config Module ----------
