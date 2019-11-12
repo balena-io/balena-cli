@@ -1,4 +1,29 @@
 - commits:
+    - subject: 'Fix ''os configure --config'', and migrate it to oclif + TypeScript'
+      hash: d94a74dfee615a07a0c1951d762d910dfbb9721e
+      body: |
+        Also add more non-interactive configuration options:
+        --config-network, --config-wifi-*, --config-app-update-poll-interval
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: >-
+        Error handling: add ExpectedError type as alternative to
+        exitWithExpectedError()
+      hash: a25a52c21b177e2da3cfd167de936cf8e0f17cbe
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.18.0
+  date: 2019-11-12T21:47:19.090Z
+- commits:
     - subject: Improve command usage format consistency in 'balena help' output
       hash: b69ba0b6170368d1178a94d8fdbc6e02c3ff8a87
       body: ''
@@ -63,7 +88,7 @@
         signed-off-by: Paulo Castro <paulo@balena.io>
       author: Paulo Castro
   version: 11.17.5
-  date: 2019-11-12T19:14:09.291Z
+  date: 2019-11-10T01:00:08.506Z
 - commits:
     - subject: Support optional containers when pushing to local target
       hash: b31e253fa4c5d5a382a55f718091e58f8d022f59
