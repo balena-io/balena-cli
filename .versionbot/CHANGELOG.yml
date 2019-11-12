@@ -1,4 +1,70 @@
 - commits:
+    - subject: Improve command usage format consistency in 'balena help' output
+      hash: b69ba0b6170368d1178a94d8fdbc6e02c3ff8a87
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Add Scott (@srlowe) to CODEOWNERS file
+      hash: 1bedf937f84abd271fc732da0885ab012269c3bc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Set the process exit code to 1 (instead of 0) for unknown commands
+      hash: 74a521a271f53da218d8494bf16a457cfa6c076f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Fix logged-in check in "logs" and "ssh" commands (async/await usage)
+      hash: 6376ac28d53d9d6fedec484678f8bf75cdf20cf0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Enable debug-mode "long stack traces" for Bluebird promises (async code)
+      hash: 2222a90884f44f9e9cb89a4c1701aaa875bd6c14
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Fix Node.js download link and improve installation instructions
+      hash: 09f04be77d2ed2caef5218b1c3a69195baa7154c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Improve help and docs (CLI install dependencies) for the preload command
+      hash: 636ecaf4e09cd287f5c4f54b16d846929ef39159
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.17.5
+  date: 2019-11-10T01:00:08.506Z
+- commits:
     - subject: Support optional containers when pushing to local target
       hash: b31e253fa4c5d5a382a55f718091e58f8d022f59
       body: ''
