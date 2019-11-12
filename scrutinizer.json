@@ -5,6 +5,276 @@
     {
       "commits": [
         {
+          "subject": "Improve command usage format consistency in 'balena help' output",
+          "hash": "b69ba0b6170368d1178a94d8fdbc6e02c3ff8a87",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Add Scott (@srlowe) to CODEOWNERS file",
+          "hash": "1bedf937f84abd271fc732da0885ab012269c3bc",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Set the process exit code to 1 (instead of 0) for unknown commands",
+          "hash": "74a521a271f53da218d8494bf16a457cfa6c076f",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Fix logged-in check in \"logs\" and \"ssh\" commands (async/await usage)",
+          "hash": "6376ac28d53d9d6fedec484678f8bf75cdf20cf0",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Enable debug-mode \"long stack traces\" for Bluebird promises (async code)",
+          "hash": "2222a90884f44f9e9cb89a4c1701aaa875bd6c14",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Fix Node.js download link and improve installation instructions",
+          "hash": "09f04be77d2ed2caef5218b1c3a69195baa7154c",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Improve help and docs (CLI install dependencies) for the preload command",
+          "hash": "636ecaf4e09cd287f5c4f54b16d846929ef39159",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.17.5",
+      "date": "2019-11-10T01:00:08.506Z"
+    },
+    {
+      "commits": [
+        {
+          "subject": "Support optional containers when pushing to local target",
+          "hash": "b31e253fa4c5d5a382a55f718091e58f8d022f59",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Cameron Diver <cameron@balena.io>",
+            "signed-off-by": "Cameron Diver <cameron@balena.io>"
+          },
+          "author": "Cameron Diver"
+        }
+      ],
+      "version": "11.17.4",
+      "date": "2019-11-06T10:33:49.369Z"
+    },
+    {
+      "commits": [
+        {
+          "subject": "Use all available on-device images during local push",
+          "hash": "62b7d2fd1a80023fb9aff4dfc54a8faa72040459",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Cameron Diver <cameron@balena.io>",
+            "signed-off-by": "Cameron Diver <cameron@balena.io>"
+          },
+          "author": "Cameron Diver"
+        }
+      ],
+      "version": "11.17.3",
+      "date": "2019-11-04T10:30:00.836Z"
+    },
+    {
+      "commits": [
+        {
+          "subject": "Fix warnings when executing CLI without arguments.",
+          "hash": "4a967b126bfcfa72f32e33ace95ea4a66d1c64dd",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.17.2",
+      "date": "2019-11-01T15:24:39.221Z"
+    },
+    {
+      "commits": [
+        {
+          "subject": "Fix potentialy undefined build task when livepushing",
+          "hash": "55b2b5a467586467d8b8288b561a41d0f9ce8fb2",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Cameron Diver <cameron@balena.io>",
+            "signed-off-by": "Cameron Diver <cameron@balena.io>"
+          },
+          "author": "Cameron Diver"
+        }
+      ],
+      "version": "11.17.1",
+      "date": "2019-10-28T17:53:38.986Z"
+    },
+    {
+      "commits": [
+        {
+          "subject": "Update livepush to support build arguments",
+          "hash": "8ed4f547e0b9d8c969ac7eeec2a6c3fa8cbfbabf",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Cameron Diver <cameron@balena.io>",
+            "signed-off-by": "Cameron Diver <cameron@balena.io>"
+          },
+          "author": "Cameron Diver"
+        }
+      ],
+      "version": "11.17.0",
+      "date": "2019-10-22T12:28:15.239Z"
+    },
+    {
+      "commits": [
+        {
+          "subject": "Add installation note regarding macOS Catalina (10.15)",
+          "hash": "c2b0091f86c121de857136a8ec14a6c5b744b87b",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.16.6",
+      "date": "2019-10-22T10:24:08.715Z"
+    },
+    {
+      "commits": [
+        {
+          "subject": "Bump livepush and reconcile husky dependency",
+          "hash": "f50f169ff060fd036f09ce0bb7d674199707f657",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.16.5",
+      "date": "2019-10-22T09:09:18.739Z"
+    },
+    {
+      "commits": [
+        {
+          "subject": "Move npm version check from npm 'preinstall' to git 'pre-commit' hook",
+          "hash": "59a7b9d12bfcd926c2d9268857889f6c70ac865d",
+          "body": "This should allow end users to use npm v6.4.1 that ships with Node 8,\nwhile still requiring CLI developers to use npm v6.9.0 or later.\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.16.4",
+      "date": "2019-10-17T23:59:48.588Z"
+    },
+    {
+      "commits": [
+        {
+          "subject": "Fix npm install (missing automation/check-npm-version.js)",
+          "hash": "eaffc2574f2fcbc72213f7168710db15c1722415",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.16.3",
+      "date": "2019-10-17T19:00:48.811Z"
+    },
+    {
+      "commits": [
+        {
+          "subject": "Add npm preinstall check for npm version 6.9.0 or later",
+          "hash": "e7c89cf77cf0a261df402bc04a8c9c07ecb318fe",
+          "body": "Older npm versions cause the npm-shrinkwrap.json file to be incorrectly\nupdated. This should avoid regression bugs related to issue #1332.\nhttps://github.com/balena-io/balena-cli/issues/1332\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.16.2",
+      "date": "2019-10-17T15:58:25.531Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix shrinkwrap unwanted changes from older npm version",
           "hash": "ee3a0cc630c0112d2cccb0c72b836f5b2d6327fb",
           "body": "",
@@ -7509,10 +7779,6 @@
       "avatar": "https://avatars3.githubusercontent.com/u/3415366?v=4"
     },
     {
-      "username": "edkeeble",
-      "avatar": "https://avatars3.githubusercontent.com/u/658289?v=4"
-    },
-    {
       "username": "Atiklabsl",
       "avatar": "https://avatars1.githubusercontent.com/u/44225870?v=4"
     },
@@ -7555,6 +7821,10 @@
     {
       "username": "shaunmulligan",
       "avatar": "https://avatars1.githubusercontent.com/u/3915043?v=4"
+    },
+    {
+      "username": "sradevski",
+      "avatar": "https://avatars1.githubusercontent.com/u/4820812?v=4"
     }
   ],
   "docs": [],
@@ -7563,19 +7833,25 @@
   "codeOfConduct": null,
   "architecture": null,
   "maintainers": [
-    "@pdcastro",
-    "@thgreasi",
     "@CameronDiver",
-    "@hedss"
+    "@hedss",
+    "@pdcastro",
+    "@srlowe",
+    "@thgreasi"
   ],
   "readme": "# balena CLI\n\nThe official balena CLI tool.\n\n[![npm version](https://badge.fury.io/js/balena-cli.svg)](http://badge.fury.io/js/balena-cli)\n[![dependencies](https://david-dm.org/balena-io/balena-cli.svg)](https://david-dm.org/balena-io/balena-cli)\n\n## About\n\nThe balena CLI (Command-Line Interface) allows you to interact with the balenaCloud and the\n[balena API](https://www.balena.io/docs/reference/api/overview/) through a terminal window\non Linux, macOS or Windows. You can also write shell scripts around it, or import its Node.js\nmodules to use it programmatically.\nAs an [open-source project on GitHub](https://github.com/balena-io/balena-cli/), your contribution\nis also welcome!\n\n## Installation\n\nCheck the [balena CLI installation instructions on GitHub](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).\n\n## Getting Started\n\n### Choosing a shell (command prompt/terminal)\n\nOn **Windows,** the standard Command Prompt (`cmd.exe`) and\n[PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/getting-started/getting-started-with-windows-powershell?view=powershell-6)\nare supported. We are aware of users also having a good experience with alternative shells,\nincluding:\n\n* [MSYS2](https://www.msys2.org/):\n  * Install additional packages with the command:  \n    `pacman -S git openssh rsync`\n  * [Set a Windows environment variable](https://www.onmsft.com/how-to/how-to-set-an-environment-variable-in-windows-10): `MSYS2_PATH_TYPE=inherit`\n  * Note that a bug in the MSYS2 launch script (`msys2_shell.cmd`) makes text-based interactive CLI\n    menus to break. [Check this Github issue for a\n    workaround](https://github.com/msys2/MINGW-packages/issues/1633#issuecomment-240583890).\n* [MSYS](http://www.mingw.org/wiki/MSYS): select the `msys-rsync` and `msys-openssh` packages too\n* [Git for Windows](https://git-for-windows.github.io/)\n* Microsoft's [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about)\n  (WSL). In this case, a Linux distribution like Ubuntu is installed via the Microsoft Store, and a\n  balena CLI release **for Linux** is recommended. See\n  [FAQ](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md) for using balena\n  CLI with WSL and Docker Desktop for Windows.\n\nOn **macOS** and **Linux,** the standard terminal window is supported. _Optionally,_ `bash` command\nauto completion may be enabled by copying the\n[balena-completion.bash](https://github.com/balena-io/balena-cli/blob/master/balena-completion.bash)\nfile to your system's `bash_completion` directory: check [Docker's command completion\nguide](https://docs.docker.com/compose/completion/) for system setup instructions.\n\n### Logging in\n\nSeveral CLI commands require access to your balenaCloud account, for example in order to push a\nnew release to your application. Those commands require creating a CLI login session by running:\n\n```sh\n$ balena login\n```\n\n### Proxy support\n\nHTTP(S) proxies can be configured through any of the following methods, in order of preference:\n\n* Set the `BALENARC_PROXY` environment variable in URL format (with protocol, host, port, and\n  optionally basic auth).\n* Alternatively, use the [balena config file](https://www.npmjs.com/package/balena-settings-client#documentation)\n  (project-specific or user-level) and set the `proxy` setting. It can be:\n  * A string in URL format, or\n  * An object in the [global-tunnel-ng options format](https://www.npmjs.com/package/global-tunnel-ng#options) (which allows more control).\n* Alternatively, set the conventional `https_proxy` / `HTTPS_PROXY` / `http_proxy` / `HTTP_PROXY`\n  environment variable (in the same standard URL format).\n\nTo get a proxy to work with the `balena ssh` command, check the\n[installation instructions](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).\n\n## Command reference documentation\n\nThe full CLI command reference is available [on the web](https://www.balena.io/docs/reference/cli/\n) or by running `balena help` and `balena help --verbose`.\n\n## Support, FAQ and troubleshooting\n\nIf you come across any problems or would like to get in touch:\n\n* Check our [FAQ / troubleshooting document](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md).\n* Ask us a question through the [balenaCloud forum](https://forums.balena.io/c/balena-cloud).\n* For bug reports or feature requests,\n  [have a look at the GitHub issues or create a new one](https://github.com/balena-io/balena-cli/issues/).\n\n## Contributing (including editing documentation files)\n\nPlease have a look at the [CONTRIBUTING.md](./CONTRIBUTING.md) file for some guidance before\nsubmitting a pull request or updating documentation (because some files are automatically\ngenerated). Thank you for your help and interest!\n\n## License\n\nThe project is licensed under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0).\nA copy is also available in the LICENSE file in this repository.\n",
+  "highlights": null,
   "installationSteps": null,
+  "examples": null,
   "motivation": null,
+  "hardwareRequired": null,
+  "softwareRequired": null,
+  "introduction": null,
   "name": "balena-cli",
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 171,
+  "stars": 183,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -7676,39 +7952,107 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2019-10-17T11:23:47Z",
+  "lastCommitDate": "2019-11-12T19:14:37Z",
   "latestRelease": {
-    "tagName": "v11.16.1",
+    "tagName": "v11.17.5",
     "asssets": [
       {
-        "name": "balena-cli-v11.16.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.16.1/balena-cli-v11.16.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.17.5-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.17.5/balena-cli-v11.17.5-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.16.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.16.1/balena-cli-v11.16.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.17.5-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.17.5/balena-cli-v11.17.5-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.16.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.16.1/balena-cli-v11.16.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.17.5-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.17.5/balena-cli-v11.17.5-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.16.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.16.1/balena-cli-v11.16.1-windows-x64-installer.exe"
+        "name": "balena-cli-v11.17.5-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.17.5/balena-cli-v11.17.5-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.16.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.16.1/balena-cli-v11.16.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.17.5-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.17.5/balena-cli-v11.17.5-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 282,
+    "numberOfIssues": 279,
     "latestIssues": [
       {
-        "title": "Use all available on-device images during local push",
-        "url": "https://github.com/balena-io/balena-cli/pull/1472"
+        "title": "\"balena os configure\" hangs on Windows (not WSL)",
+        "url": "https://github.com/balena-io/balena-cli/issues/1509"
+      },
+      {
+        "title": "Balena build unable to interpret dockerfile image manifests",
+        "url": "https://github.com/balena-io/balena-cli/issues/1508"
+      },
+      {
+        "title": "Fix 'os configure --config', and migrate it to oclif + TypeScript",
+        "url": "https://github.com/balena-io/balena-cli/pull/1507"
+      },
+      {
+        "title": "`balena os configure --config` is not injecting the given config.json file",
+        "url": "https://github.com/balena-io/balena-cli/issues/1504"
+      },
+      {
+        "title": "Debug mode still active with env var `DEBUG=0` ",
+        "url": "https://github.com/balena-io/balena-cli/issues/1502"
+      },
+      {
+        "title": "Hide discontinued device types in `balena devices supported`, `balena app create`.",
+        "url": "https://github.com/balena-io/balena-cli/pull/1501"
+      },
+      {
+        "title": "Allow retrieval of releases which corresponds to a particular git commit",
+        "url": "https://github.com/balena-io/balena-cli/issues/1500"
+      },
+      {
+        "title": "Allow retrieval of releases for an application",
+        "url": "https://github.com/balena-io/balena-cli/issues/1499"
+      },
+      {
+        "title": "Allow custom network connections to be generated",
+        "url": "https://github.com/balena-io/balena-cli/issues/1498"
+      },
+      {
+        "title": "Exposed Sentry.io authentication details in URI",
+        "url": "https://github.com/balena-io/balena-cli/issues/1495"
+      },
+      {
+        "title": "Update mixpanel to ^0.10.3",
+        "url": "https://github.com/balena-io/balena-cli/pull/1494"
+      },
+      {
+        "title": "User would like a 32-bit installer and/or standalone zip package for Windows",
+        "url": "https://github.com/balena-io/balena-cli/issues/1489"
+      },
+      {
+        "title": "Test of CLI notarization (macOS)",
+        "url": "https://github.com/balena-io/balena-cli/pull/1486"
+      },
+      {
+        "title": "CLI still lists discontinued device types",
+        "url": "https://github.com/balena-io/balena-cli/issues/1485"
+      },
+      {
+        "title": "`balena logs` timeout ",
+        "url": "https://github.com/balena-io/balena-cli/issues/1483"
+      },
+      {
+        "title": "allow a command to be specified at the end of `balena ssh`",
+        "url": "https://github.com/balena-io/balena-cli/issues/1482"
+      },
+      {
+        "title": "macOS Catalina: balena-cli can't be opened because Apple cannot check it for malicious software",
+        "url": "https://github.com/balena-io/balena-cli/issues/1479"
+      },
+      {
+        "title": "allow specification of `docker-compose.yml` file",
+        "url": "https://github.com/balena-io/balena-cli/issues/1478"
       },
       {
         "title": "Support transferring pre-built images when `balena push` is used in local mode",
@@ -7717,77 +8061,10 @@
       {
         "title": "Improve GCR registry secrets authentication format",
         "url": "https://github.com/balena-io/balena-cli/issues/1466"
-      },
-      {
-        "title": "balena tunnel: Bad packet length ... ssh_dispatch_run_fatal ... message authentication code incorrect",
-        "url": "https://github.com/balena-io/balena-cli/issues/1465"
-      },
-      {
-        "title": "Patch balena-preload to avoid bind mount for Google Cloud Build compatibility",
-        "url": "https://github.com/balena-io/balena-cli/pull/1463"
-      },
-      {
-        "title": "Add \"detached/headless\" mode to \"deploy\" command",
-        "url": "https://github.com/balena-io/balena-cli/issues/1462"
-      },
-      {
-        "title": "Login to Web Dashboard Does Not Work",
-        "url": "https://github.com/balena-io/balena-cli/issues/1458"
-      },
-      {
-        "title": "`balena device` commands do not accept ID, just UUID",
-        "url": "https://github.com/balena-io/balena-cli/issues/1457"
-      },
-      {
-        "title": "`balena logs` doesn't let you use short form, only long form",
-        "url": "https://github.com/balena-io/balena-cli/issues/1456"
-      },
-      {
-        "title": "Should use 1000 as the divider in B->KB->MB conversions",
-        "url": "https://github.com/balena-io/balena-cli/issues/1451"
-      },
-      {
-        "title": "Release builds for armv7hf and arm64",
-        "url": "https://github.com/balena-io/balena-cli/issues/1450"
-      },
-      {
-        "title": "depend_on should trigger service re-creation when the service it depends on has changed.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1447"
-      },
-      {
-        "title": "env variables with dots in the name cause an error: BadRequestDeviceAPIError: Invalid apps",
-        "url": "https://github.com/balena-io/balena-cli/issues/1446"
-      },
-      {
-        "title": "Balena push/build fails to understand code as a multicontainer project",
-        "url": "https://github.com/balena-io/balena-cli/issues/1445"
-      },
-      {
-        "title": "`config reconfigure/write` require `sudo` prefix before working",
-        "url": "https://github.com/balena-io/balena-cli/issues/1444"
-      },
-      {
-        "title": "`config inject/read` fail due to `sudo` calls not working correctly",
-        "url": "https://github.com/balena-io/balena-cli/issues/1443"
-      },
-      {
-        "title": "Balena push --env doesn't support multi-line env variables",
-        "url": "https://github.com/balena-io/balena-cli/issues/1442"
-      },
-      {
-        "title": "`balena app/device {ID} --view` option to open application/device panel from cli",
-        "url": "https://github.com/balena-io/balena-cli/issues/1440"
-      },
-      {
-        "title": "Livepush fails to push changes with errors `Cannot remove '/tmp/balena': Device or resource busy`",
-        "url": "https://github.com/balena-io/balena-cli/issues/1437"
-      },
-      {
-        "title": "`balena version` responds immediately but hangs around for a long time",
-        "url": "https://github.com/balena-io/balena-cli/issues/1436"
       }
     ]
   },
-  "version": "11.16.1",
+  "version": "11.17.5",
+  "screenshot": null,
   "logo": null
 }

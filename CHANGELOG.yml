@@ -1,4 +1,195 @@
 - commits:
+    - subject: Improve command usage format consistency in 'balena help' output
+      hash: b69ba0b6170368d1178a94d8fdbc6e02c3ff8a87
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Add Scott (@srlowe) to CODEOWNERS file
+      hash: 1bedf937f84abd271fc732da0885ab012269c3bc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Set the process exit code to 1 (instead of 0) for unknown commands
+      hash: 74a521a271f53da218d8494bf16a457cfa6c076f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Fix logged-in check in "logs" and "ssh" commands (async/await usage)
+      hash: 6376ac28d53d9d6fedec484678f8bf75cdf20cf0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Enable debug-mode "long stack traces" for Bluebird promises (async code)
+      hash: 2222a90884f44f9e9cb89a4c1701aaa875bd6c14
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Fix Node.js download link and improve installation instructions
+      hash: 09f04be77d2ed2caef5218b1c3a69195baa7154c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Improve help and docs (CLI install dependencies) for the preload command
+      hash: 636ecaf4e09cd287f5c4f54b16d846929ef39159
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.17.5
+  date: 2019-11-12T19:14:09.291Z
+- commits:
+    - subject: Support optional containers when pushing to local target
+      hash: b31e253fa4c5d5a382a55f718091e58f8d022f59
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Cameron Diver <cameron@balena.io>
+        signed-off-by: Cameron Diver <cameron@balena.io>
+      author: Cameron Diver
+  version: 11.17.4
+  date: 2019-11-06T10:33:49.369Z
+- commits:
+    - subject: Use all available on-device images during local push
+      hash: 62b7d2fd1a80023fb9aff4dfc54a8faa72040459
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Cameron Diver <cameron@balena.io>
+        signed-off-by: Cameron Diver <cameron@balena.io>
+      author: Cameron Diver
+  version: 11.17.3
+  date: 2019-11-04T10:30:00.836Z
+- commits:
+    - subject: Fix warnings when executing CLI without arguments.
+      hash: 4a967b126bfcfa72f32e33ace95ea4a66d1c64dd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.17.2
+  date: 2019-11-01T15:24:39.221Z
+- commits:
+    - subject: Fix potentialy undefined build task when livepushing
+      hash: 55b2b5a467586467d8b8288b561a41d0f9ce8fb2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Cameron Diver <cameron@balena.io>
+        signed-off-by: Cameron Diver <cameron@balena.io>
+      author: Cameron Diver
+  version: 11.17.1
+  date: 2019-10-28T17:53:38.986Z
+- commits:
+    - subject: Update livepush to support build arguments
+      hash: 8ed4f547e0b9d8c969ac7eeec2a6c3fa8cbfbabf
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Cameron Diver <cameron@balena.io>
+        signed-off-by: Cameron Diver <cameron@balena.io>
+      author: Cameron Diver
+  version: 11.17.0
+  date: 2019-10-22T12:28:15.239Z
+- commits:
+    - subject: Add installation note regarding macOS Catalina (10.15)
+      hash: c2b0091f86c121de857136a8ec14a6c5b744b87b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.16.6
+  date: 2019-10-22T10:24:08.715Z
+- commits:
+    - subject: Bump livepush and reconcile husky dependency
+      hash: f50f169ff060fd036f09ce0bb7d674199707f657
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.16.5
+  date: 2019-10-22T09:09:18.739Z
+- commits:
+    - subject: Move npm version check from npm 'preinstall' to git 'pre-commit' hook
+      hash: 59a7b9d12bfcd926c2d9268857889f6c70ac865d
+      body: |
+        This should allow end users to use npm v6.4.1 that ships with Node 8,
+        while still requiring CLI developers to use npm v6.9.0 or later.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.16.4
+  date: 2019-10-17T23:59:48.588Z
+- commits:
+    - subject: Fix npm install (missing automation/check-npm-version.js)
+      hash: eaffc2574f2fcbc72213f7168710db15c1722415
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.16.3
+  date: 2019-10-17T19:00:48.811Z
+- commits:
+    - subject: Add npm preinstall check for npm version 6.9.0 or later
+      hash: e7c89cf77cf0a261df402bc04a8c9c07ecb318fe
+      body: |
+        Older npm versions cause the npm-shrinkwrap.json file to be incorrectly
+        updated. This should avoid regression bugs related to issue #1332.
+        https://github.com/balena-io/balena-cli/issues/1332
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.16.2
+  date: 2019-10-17T15:58:25.531Z
+- commits:
     - subject: Fix shrinkwrap unwanted changes from older npm version
       hash: ee3a0cc630c0112d2cccb0c72b836f5b2d6327fb
       body: ''
@@ -9,7 +200,7 @@
         signed-off-by: Thodoris Greasidis <thodoris@balena.io>
       author: Thodoris Greasidis
   version: 11.16.1
-  date: 2019-10-17T11:22:54.394Z
+  date: 2019-10-17T11:01:35.826Z
 - commits:
     - subject: Add support for private device types
       hash: 1f4382bea81e55742c47c5db63c6e48d9c86b7e3
