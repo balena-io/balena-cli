@@ -185,12 +185,15 @@ module.exports =
 	signature: 'preload <image>'
 	description: 'preload an app on a disk image (or Edison zip archive)'
 	help: '''
+		Preload a balena application release (app images/containers), and optionally
+		a balenaOS splash screen, in a previously downloaded balenaOS image file (or
+		Edison zip archive) in the local disk. The balenaOS image file can then be
+		flashed to a device's SD card.  When the device boots, it will not need to
+		download the application, as it was preloaded.
+
 		Warning: "balena preload" requires Docker to be correctly installed in
 		your shell environment. For more information (including Windows support)
-		please check the README here: https://github.com/balena-io/balena-cli .
-
-		Use this command to preload an application to a local disk image (or
-		Edison zip archive) with a built release from balena.
+		check: https://github.com/balena-io/balena-cli/blob/master/INSTALL.md
 
 		Examples:
 

@@ -47,3 +47,13 @@ export class CommandHelp {
 		return array.filter((a): a is T => !!a);
 	}
 }
+
+/** Convert e.g. 'env add NAME [VALUE]' to 'env add <name> [value]' */
+export function capitanoizeOclifUsage(
+	oclifUsage: string | string[] | undefined,
+): string {
+	return (oclifUsage || '')
+		.toString()
+		.replace(/(?<=\s)[A-Z]+(?=(\s|$))/g, match => `<${match}>`)
+		.toLowerCase();
+}

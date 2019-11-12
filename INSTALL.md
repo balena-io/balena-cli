@@ -21,8 +21,7 @@ Dependencies](#additional-dependencies).
 >   Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL), the recommendation is to
 >   install a balena CLI release for Linux rather than Windows, like the Linux standalone zip
 >   package. An installation with the graphical executable installer for Windows will not run on
->   WSL. See also [FAQ](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md) for
->   using balena CLI with WSL and Docker Desktop for Windows.
+>   WSL.
 
 ## Executable Installer
 
@@ -84,29 +83,39 @@ If you are a Node.js developer, you may wish to install the balena CLI via [npm]
 The npm installation involves building native (platform-specific) binary modules, which require
 some additional development tools to be installed first:
 
-* Node.js version 8, 10 or 12 (on Linux/Mac, [nvm](https://github.com/nvm-sh/nvm/blob/master/README.md)
-  is recommended)
-* npm version 6.9.0 or later
-* Python 2.7
-* g++ compiler
-* make
-* git
+* [Node.js](https://nodejs.org/) version 8, 10 or 12
+  * **Linux, macOS** and **Windows Subsystem for Linux (WSL):**  
+    Installing Node via [nvm](https://github.com/nvm-sh/nvm/blob/master/README.md) is recommended.
+    With some Linux distributions like Ubuntu, users sometimes report permission errors when using
+    the system's Node installation (i.e. when Node is installed via `apt-get`), hence the
+    [nvm](https://github.com/creationix/nvm) recommendation. This [sample
+    Dockerfile](https://gist.github.com/pdcastro/5d4d96652181e7da685a32caf629dd44) shows the CLI
+    installation steps on an Ubuntu 18.04 base image.
+  * If using **Node v8,** upgrade `npm` to version 6.9.0 or later with `"npm install -g npm"`
+* [Python 2.7](https://www.python.org/), [git](https://git-scm.com/), [make](https://www.gnu.org/software/make/), [g++](https://gcc.gnu.org/)
+  * **Linux** and **Windows Subsystem for Linux (WSL):**  
+    `sudo apt-get install -y python git make g++`
+  * **macOS:** install Apple's Command Line Tools by running on a Terminal window:  
+    `xcode-select --install`
 
-On Windows, the dependencies above and additional ones can be met with:
+On **Windows (not WSL),** the dependencies above and additional ones can be met by installing:
 
-* The [MSYS2 shell](https://www.msys2.org/) may be used to provide `git`, `ssh`, `rsync`, `make`
-  and `g++`:
+* Node.js from the [Nodejs.org download page](https://nodejs.org/en/download/).
+* The [MSYS2 shell](https://www.msys2.org/), which provides `git`, `make`, `g++`, `ssh`, `rsync`
+  and more:
   * `pacman -S git openssh rsync gcc make`
   * [Set a Windows environment variable](https://www.onmsft.com/how-to/how-to-set-an-environment-variable-in-windows-10): `MSYS2_PATH_TYPE=inherit`
   * Note that a bug in the MSYS2 launch script (`msys2_shell.cmd`) makes text-based
     interactive CLI menus to misbehave. [Check this Github issue for a
     workaround](https://github.com/msys2/MINGW-packages/issues/1633#issuecomment-240583890).
-* Install the Windows Driver Kit (WDK) which is needed to compile some native Node modules:
-  * [WDK for Windows 10](https://docs.microsoft.com/en-us/windows-hardware/drivers/download-the-wdk)
-  * [WDK for earlier versions of Windows](https://docs.microsoft.com/en-us/windows-hardware/drivers/other-wdk-downloads)
-* Install Node from the [Nodejs website](https://www.howtogeek.com/194041/how-to-open-the-command-prompt-as-administrator-in-windows-8.1/)
-* Install the `windows-build-tools` npm package (which provides Python 2.7 and more), running the following command in an [administrator
-  console](https://www.howtogeek.com/194041/how-to-open-the-command-prompt-as-administrator-in-windows-8.1/):  
+* The Windows Driver Kit (WDK), which is needed to compile some native Node modules. It is **not**
+  necessary to install Visual Studio, only the WDK, which is "step 2" in the following guides:
+  * [WDK for Windows 10](https://docs.microsoft.com/en-us/windows-hardware/drivers/download-the-wdk#download-icon-step-2-install-wdk-for-windows-10-version-1903)
+  * [WDK for earlier versions of Windows](https://docs.microsoft.com/en-us/windows-hardware/drivers/other-wdk-downloads#step-2-install-the-wdk)
+* The [windows-build-tools](https://www.npmjs.com/package/windows-build-tools) npm package (which
+  provides Python 2.7 and more), by running the following command on an [administrator
+  console](https://www.howtogeek.com/194041/how-to-open-the-command-prompt-as-administrator-in-windows-8.1/):
+  
   `npm install -g --production windows-build-tools`
 
 With these dependencies in place, the balena CLI installation command is:
@@ -119,10 +128,6 @@ $ npm install balena-cli -g --production --unsafe-perm
 This allows npm install steps to download and save prebuilt native binaries. You may be able to omit it,
 especially if you're using a user-managed node install such as [nvm](https://github.com/creationix/nvm).
 
-On some Linux distributions like Ubuntu, users often report permission or otherwise mysterious
-errors when using the system Node / npm packages installed via "apt-get". We suggest using
-[nvm](https://github.com/creationix/nvm) instead. Check this sample Dockerfile for installing the
-CLI on an Ubuntu Docker image: https://gist.github.com/pdcastro/5d4d96652181e7da685a32caf629dd44
 
 ## Additional Dependencies
 
@@ -141,6 +146,29 @@ CLI on an Ubuntu Docker image: https://gist.github.com/pdcastro/5d4d96652181e7da
     for Ubuntu, for example).
     Check the [README](https://github.com/balena-io/balena-cli/blob/master/README.md) file
     for proxy configuration instructions.
+
+* The `balena preload`, `balena build` and `balena deploy --build` commands require
+  [Docker](https://docs.docker.com/install/overview/) or [balenaEngine](https://www.balena.io/engine/)
+  to be available:
+  * The `balena preload` command requires the Docker Engine to support the [AUFS storage
+    driver](https://docs.docker.com/storage/storagedriver/aufs-driver/). Docker Desktop for Mac and
+    Windows dropped support for the AUFS filesystem in Docker CE versions greater than 18.06.1, so
+    the workaround is to downgrade to version 18.06.1 (links: [Docker CE for
+    Windows](https://docs.docker.com/docker-for-windows/release-notes/#docker-community-edition-18061-ce-win73-2018-08-29)
+    and [Docker CE for
+    Mac](https://docs.docker.com/docker-for-mac/release-notes/#docker-community-edition-18061-ce-mac73-2018-08-29)).
+    See more details in [CLI issue 1099](https://github.com/balena-io/balena-cli/issues/1099).
+  * Commonly, Docker is installed on the same machine where the CLI is being used, but the
+    `balena build` and `balena deploy` commands can also use a remote Docker Engine (daemon)
+    or balenaEngine (which could be a remote device running a [balenaOS development
+    image](https://www.balena.io/docs/reference/OS/overview/2.x/#dev-vs-prod-images)) by specifying
+    its IP address and port number as command-line options. Check the documentation for each
+    command, e.g. `balena help build`, or the [online
+    reference](https://www.balena.io/docs/reference/cli/#cli-command-reference).
+  * If you are using Microsoft's [Windows Subsystem for
+    Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL) and Docker Desktop for
+    Windows, check the [FAQ item "Docker seems to be
+    unavailable"](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md#docker-seems-to-be-unavailable-error-when-using-windows-subsystem-for-linux-wsl).
 
 ## Configuring SSH keys
 

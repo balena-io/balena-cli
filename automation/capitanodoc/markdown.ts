@@ -19,6 +19,7 @@ import * as ent from 'ent';
 import * as _ from 'lodash';
 
 import { getManualSortCompareFunction } from '../../lib/utils/helpers';
+import { capitanoizeOclifUsage } from '../../lib/utils/oclif-utils';
 import { CapitanoCommand, Category, Document, OclifCommand } from './doc-types';
 import * as utils from './utils';
 
@@ -106,7 +107,7 @@ function renderToc(categories: Category[]): string[] {
 					const signature =
 						typeof command === 'object'
 							? command.signature // Capitano
-							: utils.capitanoizeOclifUsage(command.usage); // oclif
+							: capitanoizeOclifUsage(command.usage); // oclif
 					return `\t- [${ent.encode(signature)}](${getAnchor(signature)})`;
 				})
 				.join('\n'),

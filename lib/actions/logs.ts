@@ -164,7 +164,7 @@ export const logs: CommandDefinition<
 				servicesToDisplay,
 			);
 		} else {
-			exitIfNotLoggedIn();
+			await exitIfNotLoggedIn();
 			if (options.tail) {
 				return balena.logs
 					.subscribe(params.uuidOrDevice, { count: 100 })
