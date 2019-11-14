@@ -130,7 +130,9 @@ export function selectDeviceType() {
 	return getBalenaSdk()
 		.models.config.getDeviceTypes()
 		.then(deviceTypes => {
-			deviceTypes = _.sortBy(deviceTypes, 'name');
+			deviceTypes = _.sortBy(deviceTypes, 'name').filter(
+				dt => dt.state !== 'DISCONTINUED',
+			);
 			return getForm().ask({
 				message: 'Device Type',
 				type: 'list',

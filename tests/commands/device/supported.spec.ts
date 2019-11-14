@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import * as _ from 'lodash';
-import { runCommand } from '../../helpers';
+import { cleanOutput, runCommand } from '../../helpers';
 
 const HELP = `
 Usage: devices supported
@@ -11,18 +11,6 @@ Examples:
 
 \t$ balena devices supported
 `;
-
-const cleanOutput = (output: string[] | string) => {
-	return _(_.castArray(output))
-		.map(log => {
-			return log.split('\n').map(line => {
-				return line.trim();
-			});
-		})
-		.flatten()
-		.compact()
-		.value();
-};
 
 describe('balena devices supported', function() {
 	it('should list currently supported devices', async () => {

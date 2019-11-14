@@ -16,6 +16,7 @@
  */
 
 import intercept = require('intercept-stdout');
+import * as _ from 'lodash';
 import * as nock from 'nock';
 import * as path from 'path';
 
@@ -78,3 +79,15 @@ export const balenaAPIMock = () => {
 			configVarSchema: [],
 		});
 };
+
+export function cleanOutput(output: string[] | string) {
+	return _(_.castArray(output))
+		.map(log => {
+			return log.split('\n').map(line => {
+				return line.trim();
+			});
+		})
+		.flatten()
+		.compact()
+		.value();
+}
