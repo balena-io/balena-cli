@@ -4087,9 +4087,9 @@
       }
     },
     "docker-qemu-transpose": {
-      "version": "1.0.1",
-      "resolved": "https://registry.npmjs.org/docker-qemu-transpose/-/docker-qemu-transpose-1.0.1.tgz",
-      "integrity": "sha512-qTNis+0NUBYhxdigLu6gT9bxMnck0NOd6gc8ci6n3yfSZPiIjtsuWeci3Os0P+GJw8tH08I0pckrtrD/MZ/0Rw==",
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/docker-qemu-transpose/-/docker-qemu-transpose-1.0.2.tgz",
+      "integrity": "sha512-DzyYPX3Gx6/g0dM9KVqeTgGYYM559J0TeWDxdZ4spSSc37M44XrrUw/yG8B48Wo0ENMlb+orHSt7NFt8cTuYiA==",
       "requires": {
         "@types/bluebird": "^3.5.2",
         "@types/event-stream": "^3.3.31",
@@ -4097,6 +4097,7 @@
         "@types/lodash": "^4.14.61",
         "@types/node": "^7.0.12",
         "bluebird": "^3.5.0",
+        "common-tags": "^1.8.0",
         "docker-file-parser": "^1.0.1",
         "event-stream": "3.3.4",
         "jsesc": "^2.5.0",
@@ -4107,9 +4108,9 @@
       },
       "dependencies": {
         "@types/node": {
-          "version": "7.10.7",
-          "resolved": "https://registry.npmjs.org/@types/node/-/node-7.10.7.tgz",
-          "integrity": "sha512-4I7+hXKyq7e1deuzX9udu0hPIYqSSkdKXtjow6fMnQ3OR9qkxIErGHbGY08YrfZJrCS1ajK8lOuzd0k3n2WM4A=="
+          "version": "7.10.9",
+          "resolved": "https://registry.npmjs.org/@types/node/-/node-7.10.9.tgz",
+          "integrity": "sha512-usSpgoUsRtO5xNV5YEPU8PPnHisFx8u0rokj1BPVn/hDF7zwUDzVLiuKZM38B7z8V2111Fj6kd4rGtQFUZpNOw=="
         }
       }
     },
