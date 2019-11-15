@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        Fix "Invalid containerPort" error with EXPOSE instructions in local QEMU
+        builds
+      hash: caac6855da5b54d66c99cffe0ba8a70002f8af5c
+      body: |
+        Bump docker-qemu-transpose package to v1.0.2
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.18.1
+  date: 2019-11-15T09:36:35.176Z
+- commits:
     - subject: 'Fix ''os configure --config'', and migrate it to oclif + TypeScript'
       hash: d94a74dfee615a07a0c1951d762d910dfbb9721e
       body: |
