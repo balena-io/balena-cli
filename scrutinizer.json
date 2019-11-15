@@ -5,6 +5,52 @@
     {
       "commits": [
         {
+          "subject": "Use helpers version of `cleanOutput` in tests. Simplify expect semantics in tests.",
+          "hash": "1325fb8c9aed5f6855bbb32deeefd95999f4afd8",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        },
+        {
+          "subject": "Hide discontinued device types in `balena app create`. Add basic tests for `balena app create`",
+          "hash": "cf42dca7776774293068db42b3de43c17104bf88",
+          "body": "",
+          "footer": {
+            "Connects-to": "#1485",
+            "connects-to": "#1485",
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        },
+        {
+          "subject": "Hide discontinued device types in `balena devices supported`. Add tests for action. Convert action to TypeScript.",
+          "hash": "afd97bd304d81b0f4ca63dc42dbef18bea9687d1",
+          "body": "",
+          "footer": {
+            "Connects-to": "#1485",
+            "connects-to": "#1485",
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.18.2",
+      "date": "2019-11-15T11:04:34.330Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix \"Invalid containerPort\" error with EXPOSE instructions in local QEMU builds",
           "hash": "caac6855da5b54d66c99cffe0ba8a70002f8af5c",
           "body": "Bump docker-qemu-transpose package to v1.0.2\n",
@@ -7823,6 +7869,10 @@
       "avatar": "https://avatars2.githubusercontent.com/u/633741?v=4"
     },
     {
+      "username": "srlowe",
+      "avatar": "https://avatars3.githubusercontent.com/u/1562665?v=4"
+    },
+    {
       "username": "afitzek",
       "avatar": "https://avatars3.githubusercontent.com/u/3415366?v=4"
     },
@@ -7869,10 +7919,6 @@
     {
       "username": "shaunmulligan",
       "avatar": "https://avatars1.githubusercontent.com/u/3915043?v=4"
-    },
-    {
-      "username": "sradevski",
-      "avatar": "https://avatars1.githubusercontent.com/u/4820812?v=4"
     }
   ],
   "docs": [],
@@ -8000,35 +8046,35 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2019-11-15T10:18:56Z",
+  "lastCommitDate": "2019-11-15T12:41:22Z",
   "latestRelease": {
-    "tagName": "v11.18.1",
+    "tagName": "v11.18.2",
     "asssets": [
       {
-        "name": "balena-cli-v11.18.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.18.1/balena-cli-v11.18.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.18.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.18.2/balena-cli-v11.18.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.18.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.18.1/balena-cli-v11.18.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.18.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.18.2/balena-cli-v11.18.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.18.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.18.1/balena-cli-v11.18.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.18.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.18.2/balena-cli-v11.18.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.18.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.18.1/balena-cli-v11.18.1-windows-x64-installer.exe"
+        "name": "balena-cli-v11.18.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.18.2/balena-cli-v11.18.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.18.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.18.1/balena-cli-v11.18.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.18.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.18.2/balena-cli-v11.18.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 278,
+    "numberOfIssues": 276,
     "latestIssues": [
       {
         "title": "balena preload ignores dockerHost and dockerPort (and DOCKER_HOST)?",
@@ -8049,10 +8095,6 @@
       {
         "title": "Debug mode still active with env var `DEBUG=0` ",
         "url": "https://github.com/balena-io/balena-cli/issues/1502"
-      },
-      {
-        "title": "Hide discontinued device types in `balena devices supported`, `balena app create`.",
-        "url": "https://github.com/balena-io/balena-cli/pull/1501"
       },
       {
         "title": "Allow retrieval of releases which corresponds to a particular git commit",
@@ -8083,10 +8125,6 @@
         "url": "https://github.com/balena-io/balena-cli/pull/1486"
       },
       {
-        "title": "CLI still lists discontinued device types",
-        "url": "https://github.com/balena-io/balena-cli/issues/1485"
-      },
-      {
         "title": "`balena logs` timeout ",
         "url": "https://github.com/balena-io/balena-cli/issues/1483"
       },
@@ -8109,10 +8147,18 @@
       {
         "title": "Improve GCR registry secrets authentication format",
         "url": "https://github.com/balena-io/balena-cli/issues/1466"
+      },
+      {
+        "title": "balena tunnel: Bad packet length ... ssh_dispatch_run_fatal ... message authentication code incorrect",
+        "url": "https://github.com/balena-io/balena-cli/issues/1465"
+      },
+      {
+        "title": "Patch balena-preload to avoid bind mount for Google Cloud Build compatibility",
+        "url": "https://github.com/balena-io/balena-cli/pull/1463"
       }
     ]
   },
-  "version": "11.18.1",
+  "version": "11.18.2",
   "screenshot": null,
   "logo": null
 }
