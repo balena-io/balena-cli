@@ -178,7 +178,7 @@
     "denymount": "^2.3.0",
     "docker-modem": "^2.0.2",
     "docker-progress": "^4.0.0",
-    "docker-qemu-transpose": "^1.0.1",
+    "docker-qemu-transpose": "^1.0.2",
     "docker-toolbelt": "^3.3.7",
     "dockerode": "^2.5.8",
     "ejs": "^2.5.7",
