@@ -1,5 +1,45 @@
 - commits:
     - subject: >-
+        Use helpers version of `cleanOutput` in tests. Simplify expect semantics
+        in tests.
+      hash: 1325fb8c9aed5f6855bbb32deeefd95999f4afd8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+    - subject: >-
+        Hide discontinued device types in `balena app create`. Add basic tests
+        for `balena app create`
+      hash: cf42dca7776774293068db42b3de43c17104bf88
+      body: ''
+      footer:
+        Connects-to: '#1485'
+        connects-to: '#1485'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+    - subject: >-
+        Hide discontinued device types in `balena devices supported`. Add tests
+        for action. Convert action to TypeScript.
+      hash: afd97bd304d81b0f4ca63dc42dbef18bea9687d1
+      body: ''
+      footer:
+        Connects-to: '#1485'
+        connects-to: '#1485'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.18.2
+  date: 2019-11-15T11:04:34.330Z
+- commits:
+    - subject: >-
         Fix "Invalid containerPort" error with EXPOSE instructions in local QEMU
         builds
       hash: caac6855da5b54d66c99cffe0ba8a70002f8af5c
