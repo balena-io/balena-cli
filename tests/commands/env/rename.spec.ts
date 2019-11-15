@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import * as chai from 'chai';
+import { expect } from 'chai';
 import { balenaAPIMock, runCommand } from '../../helpers';
 
 describe('balena env rename', function() {
@@ -25,8 +25,8 @@ describe('balena env rename', function() {
 
 		const { out, err } = await runCommand('env rename 376 emacs --device');
 
-		chai.expect(out.join('')).to.equal('');
-		chai.expect(err.join('')).to.equal('');
+		expect(out.join('')).to.equal('');
+		expect(err.join('')).to.equal('');
 
 		// @ts-ignore
 		mock.remove();

@@ -1,5 +1,5 @@
 import * as Promise from 'bluebird';
-import * as chai from 'chai';
+import { expect } from 'chai';
 import rewire = require('rewire');
 import * as sinon from 'sinon';
 import * as url from 'url';
@@ -14,7 +14,7 @@ describe('Utils:', function() {
 			utils
 				.getDashboardLoginURL('https://127.0.0.1:3000/callback')
 				.then((loginUrl: string) =>
-					chai.expect(() => url.parse(loginUrl)).to.not.throw(Error),
+					expect(() => url.parse(loginUrl)).to.not.throw(Error),
 				));
 
 		it('should eventually contain an https protocol', () =>
@@ -23,7 +23,7 @@ describe('Utils:', function() {
 				loginUrl: utils.getDashboardLoginURL('https://127.0.0.1:3000/callback'),
 			}).then(function({ dashboardUrl, loginUrl }) {
 				const { protocol } = url.parse(loginUrl);
-				return chai.expect(protocol).to.equal(url.parse(dashboardUrl).protocol);
+				return expect(protocol).to.equal(url.parse(dashboardUrl).protocol);
 			}));
 
 		it('should correctly escape a callback url without a path', () =>
@@ -32,7 +32,7 @@ describe('Utils:', function() {
 				loginUrl: utils.getDashboardLoginURL('http://127.0.0.1:3000'),
 			}).then(function({ dashboardUrl, loginUrl }) {
 				const expectedUrl = `${dashboardUrl}/login/cli/http%253A%252F%252F127.0.0.1%253A3000`;
-				return chai.expect(loginUrl).to.equal(expectedUrl);
+				return expect(loginUrl).to.equal(expectedUrl);
 			}));
 
 		return it('should correctly escape a callback url with a path', () =>
@@ -41,29 +41,29 @@ describe('Utils:', function() {
 				loginUrl: utils.getDashboardLoginURL('http://127.0.0.1:3000/callback'),
 			}).then(function({ dashboardUrl, loginUrl }) {
 				const expectedUrl = `${dashboardUrl}/login/cli/http%253A%252F%252F127.0.0.1%253A3000%252Fcallback`;
-				return chai.expect(loginUrl).to.equal(expectedUrl);
+				return expect(loginUrl).to.equal(expectedUrl);
 			}));
 	});
 
 	return describe('.loginIfTokenValid()', function() {
 		it('should eventually be false if token is undefined', function() {
 			const promise = utils.loginIfTokenValid(undefined);
-			return chai.expect(promise).to.eventually.be.false;
+			return expect(promise).to.eventually.be.false;
 		});
 
 		it('should eventually be false if token is null', function() {
 			const promise = utils.loginIfTokenValid(null);
-			return chai.expect(promise).to.eventually.be.false;
+			return expect(promise).to.eventually.be.false;
 		});
 
 		it('should eventually be false if token is an empty string', function() {
 			const promise = utils.loginIfTokenValid('');
-			return chai.expect(promise).to.eventually.be.false;
+			return expect(promise).to.eventually.be.false;
 		});
 
 		it('should eventually be false if token is a string containing only spaces', function() {
 			const promise = utils.loginIfTokenValid('     ');
-			return chai.expect(promise).to.eventually.be.false;
+			return expect(promise).to.eventually.be.false;
 		});
 
 		describe('given the token does not authenticate with the server', function() {
@@ -78,7 +78,7 @@ describe('Utils:', function() {
 
 			it('should eventually be false', function() {
 				const promise = utils.loginIfTokenValid(tokens.johndoe.token);
-				return chai.expect(promise).to.eventually.be.false;
+				return expect(promise).to.eventually.be.false;
 			});
 
 			describe('given there was a token already', function() {
@@ -88,12 +88,12 @@ describe('Utils:', function() {
 					balena.auth
 						.getToken()
 						.then(function(originalToken: string) {
-							chai.expect(originalToken).to.equal(tokens.janedoe.token);
+							expect(originalToken).to.equal(tokens.janedoe.token);
 							return utils.loginIfTokenValid(tokens.johndoe.token);
 						})
 						.then(balena.auth.getToken)
 						.then((currentToken: string) =>
-							chai.expect(currentToken).to.equal(tokens.janedoe.token),
+							expect(currentToken).to.equal(tokens.janedoe.token),
 						));
 			});
 
@@ -104,9 +104,7 @@ describe('Utils:', function() {
 					utils
 						.loginIfTokenValid(tokens.johndoe.token)
 						.then(() => balena.auth.isLoggedIn())
-						.then((isLoggedIn: boolean) =>
-							chai.expect(isLoggedIn).to.equal(false),
-						));
+						.then((isLoggedIn: boolean) => expect(isLoggedIn).to.equal(false)));
 			});
 		});
 
@@ -122,7 +120,7 @@ describe('Utils:', function() {
 
 			return it('should eventually be true', function() {
 				const promise = utils.loginIfTokenValid(tokens.johndoe.token);
-				return chai.expect(promise).to.eventually.be.true;
+				return expect(promise).to.eventually.be.true;
 			});
 		});
 	});

@@ -1,4 +1,4 @@
-import * as chai from 'chai';
+import { expect } from 'chai';
 import * as fs from 'fs';
 import { runCommand } from '../helpers';
 
@@ -11,13 +11,13 @@ describe('balena version', function() {
 	it('should print the installed version of the CLI', async () => {
 		const { out } = await runCommand('version');
 
-		chai.expect(out.join('')).to.equal(`${packageJSON.version}\n`);
+		expect(out.join('')).to.equal(`${packageJSON.version}\n`);
 	});
 
 	it('should print additional version information with the -a flag', async () => {
 		const { out } = await runCommand('version -a');
 
-		chai.expect(out.join('')).to.equal(
+		expect(out.join('')).to.equal(
 			`balena-cli version "${packageJSON.version}"
 Node.js version "${nodeVersion}"
 `,
@@ -29,7 +29,7 @@ Node.js version "${nodeVersion}"
 
 		const json = JSON.parse(out.join(''));
 
-		chai.expect(json).to.deep.equal({
+		expect(json).to.deep.equal({
 			'balena-cli': packageJSON.version,
 			'Node.js': nodeVersion,
 		});

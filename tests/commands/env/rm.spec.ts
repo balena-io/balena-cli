@@ -1,4 +1,4 @@
-import * as chai from 'chai';
+import { expect } from 'chai';
 import { balenaAPIMock, runCommand } from '../../helpers';
 
 describe('balena env rm', function() {
@@ -8,8 +8,8 @@ describe('balena env rm', function() {
 
 		const { out, err } = await runCommand('env rm 144690 -d -y');
 
-		chai.expect(out.join('')).to.equal('');
-		chai.expect(err.join('')).to.equal('');
+		expect(out.join('')).to.equal('');
+		expect(err.join('')).to.equal('');
 
 		// @ts-ignore
 		mock.remove();
