@@ -100,7 +100,6 @@ If you come across any problems or would like to get in touch:
 
 	- [devices](#devices)
 	- [device &#60;uuid&#62;](#device-uuid)
-	- [devices supported](#devices-supported)
 	- [device register &#60;application&#62;](#device-register-application)
 	- [device rm &#60;uuid&#62;](#device-rm-uuid)
 	- [device identify &#60;uuid&#62;](#device-identify-uuid)
@@ -114,6 +113,7 @@ If you come across any problems or would like to get in touch:
 	- [device move &#60;uuid&#62;](#device-move-uuid)
 	- [device init](#device-init)
 	- [device os-update &#60;uuid&#62;](#device-os-update-uuid)
+	- [devices supported](#devices-supported)
 
 - Environment Variables
 
@@ -374,14 +374,6 @@ Examples:
 
 	$ balena device 7cf02a6
 
-## devices supported
-
-Use this command to get the list of all supported devices
-
-Examples:
-
-	$ balena devices supported
-
 ## device register &#60;application&#62;
 
 Use this command to register a device to an application.
@@ -576,6 +568,14 @@ a balenaOS version
 #### --yes, -y
 
 confirm non interactively
+
+## devices supported
+
+Use this command to get the list of all supported devices.
+
+Examples:
+
+	$ balena devices supported
 
 # Environment Variables
 

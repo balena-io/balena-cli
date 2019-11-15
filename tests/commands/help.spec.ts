@@ -1,6 +1,6 @@
-import * as chai from 'chai';
+import { expect } from 'chai';
 import * as _ from 'lodash';
-import { runCommand } from '../helpers';
+import { cleanOutput, runCommand } from '../helpers';
 
 const SIMPLE_HELP = `
 Usage: balena [COMMAND] [OPTIONS]
@@ -92,62 +92,44 @@ const GLOBAL_OPTIONS = `
 		--version, -v
 `;
 
-const cleanOutput = (output: string[] | string) => {
-	return _(_.castArray(output))
-		.map(log => {
-			return log.split('\n').map(line => {
-				return line.trim();
-			});
-		})
-		.flatten()
-		.compact()
-		.value();
-};
-
 describe('balena help', function() {
 	it('should print simple help text', async () => {
 		const { out, err } = await runCommand('help');
 
-		chai
-			.expect(cleanOutput(out))
-			.to.deep.equal(
-				cleanOutput([
-					SIMPLE_HELP,
-					'Run `balena help --verbose` to list additional commands',
-					GLOBAL_OPTIONS,
-				]),
-			);
+		expect(cleanOutput(out)).to.deep.equal(
+			cleanOutput([
+				SIMPLE_HELP,
+				'Run `balena help --verbose` to list additional commands',
+				GLOBAL_OPTIONS,
+			]),
+		);
 
-		chai.expect(err.join('')).to.equal('');
+		expect(err.join('')).to.equal('');
 	});
 
 	it('should print additional commands with the -v flag', async () => {
 		const { out, err } = await runCommand('help -v');
 
-		chai
-			.expect(cleanOutput(out))
-			.to.deep.equal(
-				cleanOutput([SIMPLE_HELP, ADDITIONAL_HELP, GLOBAL_OPTIONS]),
-			);
+		expect(cleanOutput(out)).to.deep.equal(
+			cleanOutput([SIMPLE_HELP, ADDITIONAL_HELP, GLOBAL_OPTIONS]),
+		);
 
-		chai.expect(err.join('')).to.equal('');
+		expect(err.join('')).to.equal('');
 
-		chai.expect(err.join('')).to.equal('');
+		expect(err.join('')).to.equal('');
 	});
 
 	it('should print simple help text when no arguments present', async () => {
 		const { out, err } = await runCommand('');
 
-		chai
-			.expect(cleanOutput(out))
-			.to.deep.equal(
-				cleanOutput([
-					SIMPLE_HELP,
-					'Run `balena help --verbose` to list additional commands',
-					GLOBAL_OPTIONS,
-				]),
-			);
+		expect(cleanOutput(out)).to.deep.equal(
+			cleanOutput([
+				SIMPLE_HELP,
+				'Run `balena help --verbose` to list additional commands',
+				GLOBAL_OPTIONS,
+			]),
+		);
 
-		chai.expect(err.join('')).to.equal('');
+		expect(err.join('')).to.equal('');
 	});
 });
