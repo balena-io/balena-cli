@@ -1,5 +1,32 @@
 - commits:
     - subject: >-
+        Fix 'balena help join' docs re moving devices between apps on the same
+        server
+      hash: 02dcff5b67223909f5cd465a60498802246c5ea7
+      body: ''
+      footer:
+        Resolves: '#1429'
+        resolves: '#1429'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Add README note regarding Git for Windows console installation choice
+      hash: 6c3429eb0cb1f7caec4d992b71edc3e02873c113
+      body: ''
+      footer:
+        Resolves: '#598'
+        resolves: '#598'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.18.3
+  date: 2019-11-21T17:12:13.268Z
+- commits:
+    - subject: >-
         Use helpers version of `cleanOutput` in tests. Simplify expect semantics
         in tests.
       hash: 1325fb8c9aed5f6855bbb32deeefd95999f4afd8
@@ -37,7 +64,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.18.2
-  date: 2019-11-15T12:40:31.268Z
+  date: 2019-11-15T11:04:34.330Z
 - commits:
     - subject: >-
         Fix "Invalid containerPort" error with EXPOSE instructions in local QEMU
