@@ -1896,7 +1896,8 @@ For example, you could provision a device against an openBalena installation
 where you perform end-to-end tests and then move it to balenaCloud when it's
 ready for production.
 
-Moving a device between applications on the same server is not supported.
+To move a device between applications on the same server, use the
+`balena device move` command instead of `balena join`.
 
 If you don't specify a device hostname or IP, this command will automatically
 scan the local network for balenaOS devices and prompt you to select one
