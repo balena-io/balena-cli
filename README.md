@@ -36,6 +36,11 @@ including:
     workaround](https://github.com/msys2/MINGW-packages/issues/1633#issuecomment-240583890).
 * [MSYS](http://www.mingw.org/wiki/MSYS): select the `msys-rsync` and `msys-openssh` packages too
 * [Git for Windows](https://git-for-windows.github.io/)
+  * During the installation, you will be prompted to choose between _"Use MinTTY"_ and _"Use
+    Windows' default console window"._ Choose the latter, because of the same [MSYS2
+    bug](https://github.com/msys2/MINGW-packages/issues/1633) mentioned above (Git for Windows
+    actually uses MSYS2). For a screenshot, check this
+    [comment](https://github.com/balena-io/balena-cli/issues/598#issuecomment-556513098).
 * Microsoft's [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about)
   (WSL). In this case, a Linux distribution like Ubuntu is installed via the Microsoft Store, and a
   balena CLI release **for Linux** is recommended. See
