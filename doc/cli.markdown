@@ -586,22 +586,55 @@ Examples:
 
 ## envs
 
-List the environment or config variables of an application or device,
-as selected by the respective command-line options.
+List the environment or configuration variables of an application, device or
+service, as selected by the respective command-line options. (A service is
+an application container in a "microservices" application.)
 
-The --config option is used to list "configuration variables" that
-control balena features.
+The --config option is used to list "configuration variables" that control
+balena platform features, as opposed to custom environment variables defined
+by the user. The --config and the --service options are mutually exclusive
+because configuration variables cannot be set for specific services.
 
-Service-specific variables are not currently supported. The following
-examples list variables that apply to all services in an app or device.
+The --all option is used to include application-wide (fleet), device-wide
+(multiple services on a device) and service-specific variables that apply to
+the selected application, device or service. It can be thought of as including
+"inherited" variables: for example, a service inherits device-wide variables,
+and a device inherits application-wide variables. Variables are still filtered
+out by type with the --config option, such that configuration and non-
+configuration variables are never listed together.
+
+When the --all option is used, the printed output may include DEVICE and/or
+SERVICE columns to distinguish between application-wide, device-specific and
+service-specific variables. As asterisk in these columns indicates that the
+variable applies to "all devices" or "all services".
+
+If you are parsing the output in a script, please select the JSON format with
+the '-j' option. This avoids future compatibility issues if columns are added,
+renamed or reordered. Also, when the JSON format is selected, an empty JSON
+array ([]) is printed instead of an error message when no variables exist for
+the given query. When querying variables for a device, note that the application
+name may be null in JSON output (or 'N/A' in tabular output) if the application
+linked to the device is no longer accessible by the current user (for example,
+in case the current user has been removed from the application by its owner).
 
 Examples:
 
 	$ balena envs --application MyApp
+	$ balena envs --application MyApp --all --json
+	$ balena envs --application MyApp --service MyService
+	$ balena envs --application MyApp --all --service MyService
 	$ balena envs --application MyApp --config
 	$ balena envs --device 7cf02a6
+	$ balena envs --device 7cf02a6 --all --json
+	$ balena envs --device 7cf02a6 --config --all --json
+	$ balena envs --device 7cf02a6 --all --service MyService
 
 ### Options
+
+#### --all
+
+include app-wide, device-wide variables that apply to the selected device or service.
+Variables are still filtered out by type with the --config option.
 
 #### -a, --application APPLICATION
 
@@ -609,7 +642,7 @@ application name
 
 #### -c, --config
 
-show config variables
+show configuration variables only
 
 #### -d, --device DEVICE
 
@@ -622,6 +655,10 @@ produce JSON output instead of tabular output
 #### -v, --verbose
 
 produce verbose output
+
+#### -s, --service SERVICE
+
+service name
 
 ## env rm ID
 

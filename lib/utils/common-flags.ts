@@ -37,6 +37,11 @@ export const quiet: IBooleanFlag<boolean> = flags.boolean({
 	default: false,
 });
 
+export const service = flags.string({
+	char: 's',
+	description: 'service name',
+});
+
 export const verbose: IBooleanFlag<boolean> = flags.boolean({
 	char: 'v',
 	description: 'produce verbose output',

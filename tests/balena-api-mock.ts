@@ -15,9 +15,10 @@
  * limitations under the License.
  */
 
+import * as _ from 'lodash';
 import * as nock from 'nock';
 
-class BalenaAPIMock {
+export class BalenaAPIMock {
 	public static basePathPattern = /api\.balena-cloud\.com/;
 	public readonly scope: nock.Scope;
 	// Expose `scope` as `expect` to allow for better semantics in tests
@@ -57,10 +58,22 @@ class BalenaAPIMock {
 			.reply(200, { d: [{ id: 1234567 }] });
 	}
 
-	public expectTestDevice() {
-		this.scope
-			.get(/^\/v\d+\/device($|\?)/)
-			.reply(200, { d: [{ id: 7654321 }] });
+	public expectTestDevice(
+		fullUUID = 'f63fd7d7812c34c4c14ae023fdff05f5',
+		inaccessibleApp = false,
+	) {
+		const id = 7654321;
+		this.scope.get(/^\/v\d+\/device($|\?)/).reply(200, {
+			d: [
+				{
+					id,
+					uuid: fullUUID,
+					belongs_to__application: inaccessibleApp
+						? []
+						: [{ app_name: 'test' }],
+				},
+			],
+		});
 	}
 
 	public expectAppEnvVars() {
@@ -82,6 +95,35 @@ class BalenaAPIMock {
 			});
 	}
 
+	public expectAppConfigVars() {
+		this.scope.get(/^\/v\d+\/application_config_variable($|\?)/).reply(200, {
+			d: [
+				{
+					id: 120300,
+					name: 'RESIN_SUPERVISOR_NATIVE_LOGGER',
+					value: 'false',
+				},
+			],
+		});
+	}
+
+	public expectAppServiceVars() {
+		this.scope
+			.get(/^\/v\d+\/service_environment_variable($|\?)/)
+			.reply(function(uri, _requestBody) {
+				const match = uri.match(/service_name%20eq%20%27(.+?)%27/);
+				const serviceName = (match && match[1]) || undefined;
+				let varArray: any[];
+				if (serviceName) {
+					const varObj = appServiceVarsByService[serviceName];
+					varArray = varObj ? [varObj] : [];
+				} else {
+					varArray = _.map(appServiceVarsByService, value => value);
+				}
+				return [200, { d: varArray }];
+			});
+	}
+
 	public expectDeviceEnvVars() {
 		this.scope.get(/^\/v\d+\/device_environment_variable($|\?)/).reply(200, {
 			d: [
@@ -99,18 +141,6 @@ class BalenaAPIMock {
 		});
 	}
 
-	public expectAppConfigVars() {
-		this.scope.get(/^\/v\d+\/application_config_variable($|\?)/).reply(200, {
-			d: [
-				{
-					id: 120300,
-					name: 'RESIN_SUPERVISOR_NATIVE_LOGGER',
-					value: 'false',
-				},
-			],
-		});
-	}
-
 	public expectDeviceConfigVars() {
 		this.scope.get(/^\/v\d+\/device_config_variable($|\?)/).reply(200, {
 			d: [
@@ -121,6 +151,23 @@ class BalenaAPIMock {
 				},
 			],
 		});
+	}
+
+	public expectDeviceServiceVars() {
+		this.scope
+			.get(/^\/v\d+\/device_service_environment_variable($|\?)/)
+			.reply(function(uri, _requestBody) {
+				const match = uri.match(/service_name%20eq%20%27(.+?)%27/);
+				const serviceName = (match && match[1]) || undefined;
+				let varArray: any[];
+				if (serviceName) {
+					const varObj = deviceServiceVarsByService[serviceName];
+					varArray = varObj ? [varObj] : [];
+				} else {
+					varArray = _.map(deviceServiceVarsByService, value => value);
+				}
+				return [200, { d: varArray }];
+			});
 	}
 
 	public expectConfigVars() {
@@ -135,20 +182,26 @@ class BalenaAPIMock {
 		});
 	}
 
-	// User details are cached in the SDK
-	// so often we don't know if we can expect the whoami request
-	public expectOptionalWhoAmI(persist = false) {
-		(persist ? this.scope.persist() : this.scope)
-			.get('/user/v1/whoami')
-			.optionally()
-			.reply(200, {
-				id: 99999,
-				username: 'testuser',
-				email: 'testuser@test.com',
-			});
+	public expectService(serviceName: string, serviceId = 243768) {
+		this.scope.get(/^\/v\d+\/service($|\?)/).reply(200, {
+			d: [{ id: serviceId, service_name: serviceName }],
+		});
 	}
 
-	public expectMixpanel(optional = false) {
+	// User details are cached in the SDK
+	// so often we don't know if we can expect the whoami request
+	public expectWhoAmI(persist = false, optional = true) {
+		const get = (persist ? this.scope.persist() : this.scope).get(
+			'/user/v1/whoami',
+		);
+		(optional ? get.optionally() : get).reply(200, {
+			id: 99999,
+			username: 'testuser',
+			email: 'testuser@test.com',
+		});
+	}
+
+	public expectMixpanel(optional = true) {
 		const get = this.scope.get(/^\/mixpanel\/track/);
 		(optional ? get.optionally() : get).reply(200, {});
 	}
@@ -162,4 +215,52 @@ class BalenaAPIMock {
 	}
 }
 
-export { BalenaAPIMock };
+const appServiceVarsByService: { [key: string]: any } = {
+	service1: {
+		id: 120110,
+		name: 'svar1',
+		value: 'svar1-value',
+		service: [
+			{
+				id: 210110,
+				service_name: 'service1',
+			},
+		],
+	},
+	service2: {
+		id: 120111,
+		name: 'svar2',
+		value: 'svar2-value',
+		service: [
+			{
+				id: 210111,
+				service_name: 'service2',
+			},
+		],
+	},
+};
+
+const deviceServiceVarsByService: { [key: string]: any } = {
+	service1: {
+		id: 120120,
+		name: 'svar3',
+		value: 'svar3-value',
+		service: [
+			{
+				id: 210110,
+				service_name: 'service1',
+			},
+		],
+	},
+	service2: {
+		id: 120121,
+		name: 'svar4',
+		value: 'svar4-value',
+		service: [
+			{
+				id: 210111,
+				service_name: 'service2',
+			},
+		],
+	},
+};

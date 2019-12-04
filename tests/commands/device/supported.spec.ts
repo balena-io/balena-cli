@@ -25,7 +25,7 @@ describe('balena devices supported', function() {
 	});
 
 	it('should print help text with the -h flag', async () => {
-		api.expectOptionalWhoAmI();
+		api.expectWhoAmI();
 		api.expectMixpanel();
 
 		const { out, err } = await runCommand('devices supported -h');
@@ -36,7 +36,7 @@ describe('balena devices supported', function() {
 	});
 
 	it('should list currently supported devices, with correct filtering', async () => {
-		api.expectOptionalWhoAmI();
+		api.expectWhoAmI();
 		api.expectMixpanel();
 
 		api.scope

@@ -25,8 +25,8 @@ describe('balena env rename', function() {
 
 	beforeEach(() => {
 		api = new BalenaAPIMock();
-		api.expectOptionalWhoAmI(true);
-		api.expectMixpanel(true);
+		api.expectWhoAmI(true);
+		api.expectMixpanel();
 	});
 
 	afterEach(() => {

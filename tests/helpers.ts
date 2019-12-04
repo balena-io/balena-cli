@@ -24,7 +24,7 @@ import * as balenaCLI from '../build/app';
 import { configureBluebird, setMaxListeners } from '../build/app-common';
 
 configureBluebird();
-setMaxListeners(15); // it appears that using nock adds some listeners
+setMaxListeners(25); // it appears that 'nock' adds a bunch of listeners - bug?
 
 export const runCommand = async (cmd: string) => {
 	const preArgs = [process.argv[0], path.join(process.cwd(), 'bin', 'balena')];
