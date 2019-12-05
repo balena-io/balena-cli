@@ -1,4 +1,27 @@
 - commits:
+    - subject: Update app/create and device/supported tests to use new api-mock.
+      hash: bb19903826108aa498ee689e978bf26305ad7ef9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+    - subject: >-
+        Introduce balena-api-mock module to simplify api mocking. Upgrade nock
+        to latest.
+      hash: 33210b896bbf4c30efa62f63177018a2f10393c1
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.19.0
+  date: 2019-12-05T14:13:19.469Z
+- commits:
     - subject: >-
         Fix 'balena help join' docs re moving devices between apps on the same
         server
