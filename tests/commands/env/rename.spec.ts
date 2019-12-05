@@ -16,19 +16,30 @@
  */
 
 import { expect } from 'chai';
-import { balenaAPIMock, runCommand } from '../../helpers';
+
+import { BalenaAPIMock } from '../../balena-api-mock';
+import { runCommand } from '../../helpers';
 
 describe('balena env rename', function() {
+	let api: BalenaAPIMock;
+
+	beforeEach(() => {
+		api = new BalenaAPIMock();
+		api.expectOptionalWhoAmI(true);
+		api.expectMixpanel(true);
+	});
+
+	afterEach(() => {
+		// Check all expected api calls have been made and clean up.
+		api.done();
+	});
+
 	it('should successfully rename an environment variable', async () => {
-		const mock = balenaAPIMock();
-		mock.patch(/device_environment_variable\(376\)/).reply(200, 'OK');
+		api.scope.patch(/device_environment_variable\(376\)/).reply(200, 'OK');
 
 		const { out, err } = await runCommand('env rename 376 emacs --device');
 
 		expect(out.join('')).to.equal('');
 		expect(err.join('')).to.equal('');
-
-		// @ts-ignore
-		mock.remove();
 	});
 });

@@ -82,6 +82,9 @@ export default class EnvRenameCmd extends Command {
 			EnvRenameCmd,
 		);
 		const balena = (await import('balena-sdk')).fromSharedOptions();
+		const { checkLoggedIn } = await import('../../utils/patterns');
+
+		await checkLoggedIn();
 
 		await balena.pine.patch({
 			resource: options.device

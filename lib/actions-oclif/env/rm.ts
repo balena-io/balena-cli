@@ -18,6 +18,7 @@
 import { Command, flags } from '@oclif/command';
 import { stripIndent } from 'common-tags';
 
+import { ExpectedError } from '../../errors';
 import { CommandHelp } from '../../utils/oclif-utils';
 
 interface FlagsDef {
@@ -91,15 +92,15 @@ export default class EnvRmCmd extends Command {
 			EnvRmCmd,
 		);
 		const balena = (await import('balena-sdk')).fromSharedOptions();
-		const patterns = await import('../../utils/patterns');
+		const { checkLoggedIn, confirm } = await import('../../utils/patterns');
+
+		await checkLoggedIn();
 
 		if (isNaN(params.id) || !Number.isInteger(Number(params.id))) {
-			patterns.exitWithExpectedError(
-				'The environment variable id must be an integer',
-			);
+			throw new ExpectedError('The environment variable id must be an integer');
 		}
 
-		await patterns.confirm(
+		await confirm(
 			options.yes || false,
 			'Are you sure you want to delete the environment variable?',
 			undefined,

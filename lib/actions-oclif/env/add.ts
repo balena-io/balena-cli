@@ -19,6 +19,7 @@ import { Command, flags } from '@oclif/command';
 import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 
+import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { CommandHelp } from '../../utils/oclif-utils';
 
@@ -85,7 +86,9 @@ export default class EnvAddCmd extends Command {
 		);
 		const cmd = this;
 		const balena = (await import('balena-sdk')).fromSharedOptions();
-		const { exitWithExpectedError } = await import('../../utils/patterns');
+		const { checkLoggedIn } = await import('../../utils/patterns');
+
+		await checkLoggedIn();
 
 		if (params.value == null) {
 			params.value = process.env[params.name];
@@ -120,7 +123,7 @@ export default class EnvAddCmd extends Command {
 				params.value,
 			);
 		} else {
-			exitWithExpectedError('You must specify an application or device');
+			throw new ExpectedError('You must specify an application or device');
 		}
 	}
 }

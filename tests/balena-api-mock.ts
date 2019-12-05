@@ -51,6 +51,18 @@ class BalenaAPIMock {
 		nock.restore();
 	}
 
+	public expectTestDevice() {
+		this.scope.get(/\/v\d+\/device($|\?)/).reply(200, { d: [{ id: 7654321 }] });
+	}
+
+	public expectDeviceEnvVars() {
+		this.scope.post(/\/v\d+\/device_environment_variable($|\?)/).reply(201, {
+			id: 120203,
+			name: 'var3',
+			value: 'var3-val',
+		});
+	}
+
 	public expectConfigVars() {
 		this.scope.get('/config/vars').reply(200, {
 			reservedNames: [],
@@ -65,8 +77,8 @@ class BalenaAPIMock {
 
 	// User details are cached in the SDK
 	// so often we don't know if we can expect the whoami request
-	public expectOptionalWhoAmI() {
-		this.scope
+	public expectOptionalWhoAmI(persist = false) {
+		(persist ? this.scope.persist() : this.scope)
 			.get('/user/v1/whoami')
 			.optionally()
 			.reply(200, {
@@ -76,10 +88,10 @@ class BalenaAPIMock {
 			});
 	}
 
-	public expectMixpanel() {
-		this.scope.get(/^\/mixpanel\/track/).reply(200, {});
+	public expectMixpanel(optional = false) {
+		const get = this.scope.get(/^\/mixpanel\/track/);
+		(optional ? get.optionally() : get).reply(200, {});
 	}
-
 	protected handleUnexpectedRequest(req: any) {
 		console.error(`Unexpected http request!: ${req.path}`);
 		// Errors thrown here are not causing the tests to fail for some reason.

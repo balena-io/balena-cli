@@ -19,6 +19,7 @@ import { ApplicationVariable, DeviceVariable } from 'balena-sdk';
 import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 
+import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
 import { CommandHelp } from '../utils/oclif-utils';
 
@@ -68,10 +69,12 @@ export default class EnvsCmd extends Command {
 		const { flags: options } = this.parse<FlagsDef, {}>(EnvsCmd);
 		const balena = (await import('balena-sdk')).fromSharedOptions();
 		const visuals = await import('resin-cli-visuals');
-		const { exitWithExpectedError } = await import('../utils/patterns');
+		const { checkLoggedIn } = await import('../utils/patterns');
 		const cmd = this;
-
 		let environmentVariables: ApplicationVariable[] | DeviceVariable[];
+
+		await checkLoggedIn();
+
 		if (options.application) {
 			environmentVariables = await balena.models.application[
 				options.config ? 'configVar' : 'envVar'
@@ -81,11 +84,11 @@ export default class EnvsCmd extends Command {
 				options.config ? 'configVar' : 'envVar'
 			].getAllByDevice(options.device);
 		} else {
-			return exitWithExpectedError('You must specify an application or device');
+			throw new ExpectedError('You must specify an application or device');
 		}
 
 		if (_.isEmpty(environmentVariables)) {
-			return exitWithExpectedError('No environment variables found');
+			throw new ExpectedError('No environment variables found');
 		}
 
 		cmd.log(
