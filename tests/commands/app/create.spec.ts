@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import * as _ from 'lodash';
+import { BalenaAPIMock } from '../../balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
 const HELP_MESSAGE = `
@@ -25,11 +25,25 @@ Options:
 `;
 
 describe('balena app create', function() {
+	let api: BalenaAPIMock;
+
+	beforeEach(() => {
+		api = new BalenaAPIMock();
+	});
+
+	afterEach(() => {
+		// Check all expected api calls have been made and clean up.
+		api.done();
+	});
+
 	it('should print help text with the -h flag', async () => {
+		api.expectOptionalWhoAmI();
+		api.expectMixpanel();
+
 		const { out, err } = await runCommand('app create -h');
 
 		expect(cleanOutput(out)).to.deep.equal(cleanOutput([HELP_MESSAGE]));
 
-		expect(err).to.have.lengthOf(0);
+		expect(err).to.eql([]);
 	});
 });

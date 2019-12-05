@@ -67,6 +67,10 @@ export const runCommand = async (cmd: string) => {
 };
 
 export const balenaAPIMock = () => {
+	if (!nock.isActive()) {
+		nock.activate();
+	}
+
 	return nock(/./)
 		.get('/config/vars')
 		.reply(200, {
