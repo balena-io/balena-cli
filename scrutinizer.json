@@ -5,6 +5,36 @@
     {
       "commits": [
         {
+          "subject": "Update app/create and device/supported tests to use new api-mock.",
+          "hash": "bb19903826108aa498ee689e978bf26305ad7ef9",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        },
+        {
+          "subject": "Introduce balena-api-mock module to simplify api mocking. Upgrade nock to latest.",
+          "hash": "33210b896bbf4c30efa62f63177018a2f10393c1",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.19.0",
+      "date": "2019-12-05T14:13:19.469Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix 'balena help join' docs re moving devices between apps on the same server",
           "hash": "02dcff5b67223909f5cd465a60498802246c5ea7",
           "body": "",
@@ -7887,6 +7917,10 @@
       "avatar": "https://avatars0.githubusercontent.com/u/38863?v=4"
     },
     {
+      "username": "srlowe",
+      "avatar": "https://avatars3.githubusercontent.com/u/1562665?v=4"
+    },
+    {
       "username": "pcarranzav",
       "avatar": "https://avatars1.githubusercontent.com/u/2223590?v=4"
     },
@@ -7901,10 +7935,6 @@
     {
       "username": "richbayliss",
       "avatar": "https://avatars2.githubusercontent.com/u/633741?v=4"
-    },
-    {
-      "username": "srlowe",
-      "avatar": "https://avatars3.githubusercontent.com/u/1562665?v=4"
     },
     {
       "username": "afitzek",
@@ -7979,7 +8009,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 186,
+  "stars": 191,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -8080,36 +8110,52 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2019-11-21T17:12:40Z",
+  "lastCommitDate": "2019-12-05T14:37:52Z",
   "latestRelease": {
-    "tagName": "v11.18.3",
+    "tagName": "v11.19.0",
     "asssets": [
       {
-        "name": "balena-cli-v11.18.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.18.3/balena-cli-v11.18.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.19.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.0/balena-cli-v11.19.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.18.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.18.3/balena-cli-v11.18.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.19.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.0/balena-cli-v11.19.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.18.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.18.3/balena-cli-v11.18.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.19.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.0/balena-cli-v11.19.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.18.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.18.3/balena-cli-v11.18.3-windows-x64-installer.exe"
+        "name": "balena-cli-v11.19.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.0/balena-cli-v11.19.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.18.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.18.3/balena-cli-v11.18.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.19.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.0/balena-cli-v11.19.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 226,
+    "numberOfIssues": 203,
     "latestIssues": [
+      {
+        "title": "Allow configuration of command aliases",
+        "url": "https://github.com/balena-io/balena-cli/issues/1526"
+      },
+      {
+        "title": "Introduce workaround for windows dns issue on local `balena push`",
+        "url": "https://github.com/balena-io/balena-cli/pull/1525"
+      },
+      {
+        "title": "mDNS resolution failing on Ubuntu 19.10, when doing local push with .local name.",
+        "url": "https://github.com/balena-io/balena-cli/issues/1524"
+      },
+      {
+        "title": "Update Raven / Sentry library to the new Unified Node.js SDK",
+        "url": "https://github.com/balena-io/balena-cli/issues/1523"
+      },
       {
         "title": "Produce Ubuntu/Debian packages (deb installer) on releases (oclif publish:deb)",
         "url": "https://github.com/balena-io/balena-cli/issues/1520"
@@ -8173,26 +8219,10 @@
       {
         "title": "User would like a 32-bit installer and/or standalone zip package for Windows",
         "url": "https://github.com/balena-io/balena-cli/issues/1489"
-      },
-      {
-        "title": "Test of CLI notarization (macOS)",
-        "url": "https://github.com/balena-io/balena-cli/pull/1486"
-      },
-      {
-        "title": "`balena logs` timeout ",
-        "url": "https://github.com/balena-io/balena-cli/issues/1483"
-      },
-      {
-        "title": "allow a command to be specified at the end of `balena ssh`",
-        "url": "https://github.com/balena-io/balena-cli/issues/1482"
-      },
-      {
-        "title": "macOS Catalina: balena-cli can't be opened because Apple cannot check it for malicious software",
-        "url": "https://github.com/balena-io/balena-cli/issues/1479"
       }
     ]
   },
-  "version": "11.18.3",
+  "version": "11.19.0",
   "screenshot": null,
   "logo": null
 }
