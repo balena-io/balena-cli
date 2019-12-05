@@ -112,6 +112,16 @@ export function configureBluebird() {
 	}
 }
 
+/**
+ * Addresses the console warning:
+ * (node:49500) MaxListenersExceededWarning: Possible EventEmitter memory
+ * leak detected. 11 error listeners added. Use emitter.setMaxListeners() to
+ * increase limit
+ */
+export function setMaxListeners(maxListeners: number) {
+	require('events').EventEmitter.defaultMaxListeners = maxListeners;
+}
+
 export function globalInit() {
 	setupRaven();
 	checkNodeVersion();

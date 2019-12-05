@@ -38,7 +38,9 @@ describe('balena env add', function() {
 		const deviceId = 'f63fd7d7812c34c4c14ae023fdff05f5';
 		api.expectTestDevice();
 		api.expectConfigVars();
-		api.expectDeviceEnvVars();
+		api.scope
+			.post(/^\/v\d+\/device_environment_variable($|\?)/)
+			.reply(200, 'OK');
 
 		const { out, err } = await runCommand(`env add TEST 1 -d ${deviceId}`);
 

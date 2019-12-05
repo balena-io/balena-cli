@@ -615,6 +615,10 @@ show config variables
 
 device UUID
 
+#### -j, --json
+
+produce JSON output instead of tabular output
+
 #### -v, --verbose
 
 produce verbose output

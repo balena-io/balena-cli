@@ -51,15 +51,75 @@ class BalenaAPIMock {
 		nock.restore();
 	}
 
+	public expectTestApp() {
+		this.scope
+			.get(/^\/v\d+\/application($|\?)/)
+			.reply(200, { d: [{ id: 1234567 }] });
+	}
+
 	public expectTestDevice() {
-		this.scope.get(/\/v\d+\/device($|\?)/).reply(200, { d: [{ id: 7654321 }] });
+		this.scope
+			.get(/^\/v\d+\/device($|\?)/)
+			.reply(200, { d: [{ id: 7654321 }] });
+	}
+
+	public expectAppEnvVars() {
+		this.scope
+			.get(/^\/v\d+\/application_environment_variable($|\?)/)
+			.reply(200, {
+				d: [
+					{
+						id: 120101,
+						name: 'var1',
+						value: 'var1-val',
+					},
+					{
+						id: 120102,
+						name: 'var2',
+						value: '22',
+					},
+				],
+			});
 	}
 
 	public expectDeviceEnvVars() {
-		this.scope.post(/\/v\d+\/device_environment_variable($|\?)/).reply(201, {
-			id: 120203,
-			name: 'var3',
-			value: 'var3-val',
+		this.scope.get(/^\/v\d+\/device_environment_variable($|\?)/).reply(200, {
+			d: [
+				{
+					id: 120203,
+					name: 'var3',
+					value: 'var3-val',
+				},
+				{
+					id: 120204,
+					name: 'var4',
+					value: '44',
+				},
+			],
+		});
+	}
+
+	public expectAppConfigVars() {
+		this.scope.get(/^\/v\d+\/application_config_variable($|\?)/).reply(200, {
+			d: [
+				{
+					id: 120300,
+					name: 'RESIN_SUPERVISOR_NATIVE_LOGGER',
+					value: 'false',
+				},
+			],
+		});
+	}
+
+	public expectDeviceConfigVars() {
+		this.scope.get(/^\/v\d+\/device_config_variable($|\?)/).reply(200, {
+			d: [
+				{
+					id: 120400,
+					name: 'RESIN_SUPERVISOR_POLL_INTERVAL',
+					value: '900900',
+				},
+			],
 		});
 	}
 
@@ -92,6 +152,7 @@ class BalenaAPIMock {
 		const get = this.scope.get(/^\/mixpanel\/track/);
 		(optional ? get.optionally() : get).reply(200, {});
 	}
+
 	protected handleUnexpectedRequest(req: any) {
 		console.error(`Unexpected http request!: ${req.path}`);
 		// Errors thrown here are not causing the tests to fail for some reason.

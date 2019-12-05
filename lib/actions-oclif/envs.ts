@@ -15,7 +15,11 @@
  * limitations under the License.
  */
 import { Command, flags } from '@oclif/command';
-import { ApplicationVariable, DeviceVariable } from 'balena-sdk';
+import {
+	ApplicationVariable,
+	DeviceVariable,
+	EnvironmentVariableBase,
+} from 'balena-sdk';
 import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 
@@ -27,6 +31,7 @@ interface FlagsDef {
 	application?: string;
 	config: boolean;
 	device?: string;
+	json: boolean;
 	help: void;
 	verbose: boolean;
 }
@@ -62,6 +67,10 @@ export default class EnvsCmd extends Command {
 		}),
 		device: _.assign({ exclusive: ['application'] }, cf.device),
 		help: cf.help,
+		json: flags.boolean({
+			char: 'j',
+			description: 'produce JSON output instead of tabular output',
+		}),
 		verbose: cf.verbose,
 	};
 
@@ -91,8 +100,37 @@ export default class EnvsCmd extends Command {
 			throw new ExpectedError('No environment variables found');
 		}
 
-		cmd.log(
-			visuals.table.horizontal(environmentVariables, ['id', 'name', 'value']),
-		);
+		const fields = ['id', 'name', 'value'];
+
+		if (options.json) {
+			cmd.log(
+				stringifyVarArray<EnvironmentVariableBase>(
+					environmentVariables,
+					fields,
+				),
+			);
+		} else {
+			cmd.log(visuals.table.horizontal(environmentVariables, fields));
+		}
 	}
+}
+
+function stringifyVarArray<T = Dictionary<any>>(
+	varArray: T[],
+	fields: string[],
+): string {
+	// Transform each object (item) of varArray to preserve
+	// only the fields (keys) listed in the fields argument.
+	const transformed = _.map(varArray, (o: Dictionary<any>) =>
+		_.transform(
+			o,
+			(result, value, key) => {
+				if (fields.includes(key)) {
+					result[key] = value;
+				}
+			},
+			{},
+		),
+	);
+	return JSON.stringify(transformed, null, 4);
 }
