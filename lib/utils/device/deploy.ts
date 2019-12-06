@@ -30,9 +30,11 @@ import { Readable } from 'stream';
 
 import { BALENA_ENGINE_TMP_PATH } from '../../config';
 import { checkBuildSecretsRequirements, makeBuildTasks } from '../compose_ts';
+import { workaroundWindowsDnsIssue } from '../helpers';
 import Logger = require('../logger');
 import { DeviceAPI, DeviceInfo } from './api';
 import * as LocalPushErrors from './errors';
+import { DeviceAPIError } from './errors';
 import LivepushManager from './live';
 import { displayBuildLog } from './logs';
 
@@ -74,7 +76,7 @@ async function environmentFromInput(
 	const varRegex = /^(?:([^\s:]+):)?([^\s]+?)=(.*)$/;
 
 	const ret: ParsedEnvironment = {};
-	// Propolulate the object with the servicenames, as it
+	// Populate the object with the servicenames, as it
 	// also means that we can do a fast lookup of whether a
 	// service exists
 	for (const service of serviceNames) {
@@ -139,6 +141,8 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		);
 	}
 
+	await workaroundWindowsDnsIssue(opts.deviceHost);
+
 	const versionError = new Error(
 		'The supervisor version on this remote device does not support multicontainer local mode. ' +
 			'Please update your device to balenaOS v2.20.0 or greater from the dashboard.',
@@ -156,9 +160,17 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 			);
 			opts.nolive = true;
 		}
-	} catch {
-		exitWithExpectedError(versionError);
+	} catch (e) {
+		// Very old supervisor versions do not support /version endpoint
+		// a DeviceAPIError is expected in this case
+		if (e instanceof DeviceAPIError) {
+			exitWithExpectedError(versionError);
+		} else {
+			throw e;
+		}
 	}
+
+	await workaroundWindowsDnsIssue(opts.deviceHost);
 
 	globalLogger.logInfo(`Starting build on device ${opts.deviceHost}`);
 
@@ -182,6 +194,8 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 
 	// Try to detect the device information
 	const deviceInfo = await api.getDeviceInformation();
+
+	await workaroundWindowsDnsIssue(opts.deviceHost);
 
 	let buildLogs: Dictionary<string> | undefined;
 	if (!opts.nolive) {
@@ -217,6 +231,8 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	globalLogger.logDebug(`Sending target state: ${JSON.stringify(targetState)}`);
 
 	await api.setTargetState(targetState);
+
+	await workaroundWindowsDnsIssue(opts.deviceHost);
 
 	// Now that we've set the target state, the device will do it's thing
 	// so we can either just display the logs, or start a livepush session
