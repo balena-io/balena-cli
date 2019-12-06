@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "Introduce workaround that fixes windows dns issue on `balena push` using .local device names. Improve error handling in deployToDevice so that versionErrors don't mask other errors.",
+          "hash": "53325b7c056499a76283042a404c4237b709bdd7",
+          "body": "",
+          "footer": {
+            "Resolves": "#1518",
+            "resolves": "#1518",
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.19.1",
+      "date": "2019-12-06T14:37:41.975Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update app/create and device/supported tests to use new api-mock.",
           "hash": "bb19903826108aa498ee689e978bf26305ad7ef9",
           "body": "",
@@ -7913,12 +7933,12 @@
       "avatar": "https://avatars1.githubusercontent.com/u/6697261?v=4"
     },
     {
-      "username": "imrehg",
-      "avatar": "https://avatars0.githubusercontent.com/u/38863?v=4"
-    },
-    {
       "username": "srlowe",
       "avatar": "https://avatars3.githubusercontent.com/u/1562665?v=4"
+    },
+    {
+      "username": "imrehg",
+      "avatar": "https://avatars0.githubusercontent.com/u/38863?v=4"
     },
     {
       "username": "pcarranzav",
@@ -8110,29 +8130,29 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2019-12-05T14:37:52Z",
+  "lastCommitDate": "2019-12-06T15:14:20Z",
   "latestRelease": {
-    "tagName": "v11.19.0",
+    "tagName": "v11.19.1",
     "asssets": [
       {
-        "name": "balena-cli-v11.19.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.0/balena-cli-v11.19.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.19.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.1/balena-cli-v11.19.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.19.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.0/balena-cli-v11.19.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.19.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.1/balena-cli-v11.19.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.19.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.0/balena-cli-v11.19.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.19.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.1/balena-cli-v11.19.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.19.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.0/balena-cli-v11.19.0-windows-x64-installer.exe"
+        "name": "balena-cli-v11.19.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.1/balena-cli-v11.19.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.19.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.0/balena-cli-v11.19.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.19.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.1/balena-cli-v11.19.1-windows-x64-standalone.zip"
       }
     ]
   },
@@ -8141,12 +8161,12 @@
     "numberOfIssues": 203,
     "latestIssues": [
       {
-        "title": "Allow configuration of command aliases",
-        "url": "https://github.com/balena-io/balena-cli/issues/1526"
+        "title": "Error pushing image using hostname",
+        "url": "https://github.com/balena-io/balena-cli/issues/1528"
       },
       {
-        "title": "Introduce workaround for windows dns issue on local `balena push`",
-        "url": "https://github.com/balena-io/balena-cli/pull/1525"
+        "title": "Allow configuration of command aliases",
+        "url": "https://github.com/balena-io/balena-cli/issues/1526"
       },
       {
         "title": "mDNS resolution failing on Ubuntu 19.10, when doing local push with .local name.",
@@ -8222,7 +8242,7 @@
       }
     ]
   },
-  "version": "11.19.0",
+  "version": "11.19.1",
   "screenshot": null,
   "logo": null
 }

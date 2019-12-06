@@ -1,4 +1,21 @@
 - commits:
+    - subject: >-
+        Introduce workaround that fixes windows dns issue on `balena push` using
+        .local device names. Improve error handling in deployToDevice so that
+        versionErrors don't mask other errors.
+      hash: 53325b7c056499a76283042a404c4237b709bdd7
+      body: ''
+      footer:
+        Resolves: '#1518'
+        resolves: '#1518'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.19.1
+  date: 2019-12-06T15:13:53.338Z
+- commits:
     - subject: Update app/create and device/supported tests to use new api-mock.
       hash: bb19903826108aa498ee689e978bf26305ad7ef9
       body: ''
@@ -20,7 +37,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.19.0
-  date: 2019-12-05T14:37:08.753Z
+  date: 2019-12-05T14:13:19.469Z
 - commits:
     - subject: >-
         Fix 'balena help join' docs re moving devices between apps on the same
