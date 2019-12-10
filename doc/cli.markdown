@@ -704,21 +704,36 @@ Run in non-interactive mode
 
 ## env add NAME [VALUE]
 
-Add an environment or config variable to an application or device, as selected
-by the respective command-line options.
+Add an environment or config variable to an application, device or service,
+as selected by the respective command-line options. Either the --application
+or the --device option must be provided, and either may be be used alongside
+the --service option to define a service-specific variable. (A service is an
+application container in a "microservices" application.) When the --service
+option is used in conjunction with the --device option, the service variable
+applies to the selected device only. Otherwise, it applies to all devices of
+the selected application (i.e., the application's fleet). If the --service
+option is omitted, the variable applies to all services.
 
 If VALUE is omitted, the CLI will attempt to use the value of the environment
 variable of same name in the CLI process' environment. In this case, a warning
 message will be printed. Use `--quiet` to suppress it.
 
-Service-specific variables are not currently supported. The given command line
-examples variables that apply to all services in an app or device.
+'BALENA_' or 'RESIN_' are reserved variable name prefixes used to identify
+"configuration variables". Configuration variables control balena platform
+features and are treated specially by balenaOS and the balena supervisor
+running on devices. They are also stored differently in the balenaCloud API
+database. Configuration variables cannot be set for specific services,
+therefore the --service option cannot be used when the variable name starts
+with a reserved prefix. When defining custom application variables, please
+avoid the reserved prefixes.
 
 Examples:
 
 	$ balena env add TERM --application MyApp
 	$ balena env add EDITOR vim --application MyApp
+	$ balena env add EDITOR vim --application MyApp --service MyService
 	$ balena env add EDITOR vim --device 7cf02a6
+	$ balena env add EDITOR vim --device 7cf02a6 --service MyService
 
 ### Arguments
 
@@ -728,7 +743,7 @@ environment or config variable name
 
 #### VALUE
 
-variable value; if omitted, use value from CLI's environment
+variable value; if omitted, use value from this process' environment
 
 ### Options
 
@@ -743,6 +758,10 @@ device UUID
 #### -q, --quiet
 
 suppress warning messages
+
+#### -s, --service SERVICE
+
+service name
 
 ## env rename ID VALUE
 

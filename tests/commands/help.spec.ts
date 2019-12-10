@@ -58,7 +58,7 @@ Additional commands:
     device rm <uuid>                      remove a device
     device shutdown <uuid>                shutdown a device
     devices supported                     list all supported devices
-    env add <name> [value]                add an environment or config variable to an application or device
+    env add <name> [value]                add an environment or config variable to an application, device or service
     env rename <id> <value>               change the value of an environment variable for an app or device
     env rm <id>                           remove an environment variable from an application or device
     envs                                  list the environment or config variables of an application, device or service
