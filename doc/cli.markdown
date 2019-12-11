@@ -790,34 +790,66 @@ service name
 
 ## env rename ID VALUE
 
-Change the value of an environment variable for an application or device,
-as selected by the '--device' option. The variable is identified by its
-database ID, rather than its name. The 'balena envs' command can be used
-to list the variable's ID.
+Change the value of a configuration or environment variable for an application,
+device or service, as selected by command-line options.
 
-Service-specific variables are not currently supported. The following
-examples modify variables that apply to all services in an app or device.
+Variables are selected by their database ID (as reported by the 'balena envs'
+command) and one of six database "resource types":
+
+- application (fleet) environment variable
+- application (fleet) configuration variable (--config)
+- application (fleet) service variable (--service)
+- device environment variable (--device)
+- device configuration variable (--device --config)
+- device service variable (--device --service)
+
+The --device option selects a device-specific variable instead of an application
+(fleet) variable.
+
+The --config option selects a configuration variable. Configuration variable
+names typically start with the 'BALENA_' or 'RESIN_' prefixes and are used to
+configure balena platform features.
+
+The --service option selects a service variable, which is an environment variable
+that applies to a specifc service (application container) in a microservices
+(multicontainer) application.
+
+The --service and --config options cannot be used together, but they can be
+used alongside the --device option to select a device-specific service or
+configuration variable.
 
 Examples:
 
-	$ balena env rename 376 emacs
-	$ balena env rename 376 emacs --device
+	$ balena env rename 123123 emacs
+	$ balena env rename 234234 emacs --service
+	$ balena env rename 345345 emacs --device
+	$ balena env rename 456456 emacs --device --service
+	$ balena env rename 567567 1 --config
+	$ balena env rename 678678 1 --device --config
 
 ### Arguments
 
 #### ID
 
-environment variable numeric database ID
+variable's numeric database ID
 
 #### VALUE
 
-variable value; if omitted, use value from CLI's environment
+variable value; if omitted, use value from this process' environment
 
 ### Options
 
+#### -c, --config
+
+select a configuration variable (may be used together with the --device option)
+
 #### -d, --device
 
-select a device variable instead of an application variable
+select a device-specific variable instead of an application (fleet) variable
+
+#### -s, --service
+
+select a service variable (may be used together with the --device option)
 
 # Tags
 

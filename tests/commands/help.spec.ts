@@ -59,7 +59,7 @@ Additional commands:
     device shutdown <uuid>                shutdown a device
     devices supported                     list all supported devices
     env add <name> [value]                add an environment or config variable to an application, device or service
-    env rename <id> <value>               change the value of an environment variable for an app or device
+    env rename <id> <value>               change the value of a config or env var for an app, device or service
     env rm <id>                           remove a config or env var from an application, device or service
     envs                                  list the environment or config variables of an application, device or service
     key <id>                              list a single ssh key
