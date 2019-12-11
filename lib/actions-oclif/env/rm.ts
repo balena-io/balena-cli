@@ -18,12 +18,15 @@
 import { Command, flags } from '@oclif/command';
 import { stripIndent } from 'common-tags';
 
-import { ExpectedError } from '../../errors';
+import * as ec from '../../utils/env-common';
 import { CommandHelp } from '../../utils/oclif-utils';
+
+type IArg<T> = import('@oclif/parser').args.IArg<T>;
 
 interface FlagsDef {
 	config: boolean;
 	device: boolean;
+	service: boolean;
 	yes: boolean;
 }
 
@@ -33,62 +36,53 @@ interface ArgsDef {
 
 export default class EnvRmCmd extends Command {
 	public static description = stripIndent`
-		Remove an environment variable from an application or device.
+		Remove a config or env var from an application, device or service.
 
-		Remove a configuration or environment variable from an application or device,
-		as selected by command-line options.
+		Remove a configuration or environment variable from an application, device
+		or service, as selected by command-line options.
 
-		Note that this command asks for confirmation interactively.
-		You can avoid this by passing the \`--yes\` boolean option.
+		${ec.rmRenameHelp.split('\n').join('\n\t\t')}
 
-		The --device option selects a device instead of an application.
-		The --config option selects a config var instead of an env var.
-
-		Service-specific variables are not currently supported. The following
-		examples remove variables that apply to all services in an app or device.
+		Interactive confirmation is normally asked before the variable is deleted.
+		The --yes option disables this behaviour.
 `;
 	public static examples = [
-		'$ balena env rm 215',
-		'$ balena env rm 215 --yes',
-		'$ balena env rm 215 --config',
-		'$ balena env rm 215 --device',
-		'$ balena env rm 215 --device --config',
+		'$ balena env rm 123123',
+		'$ balena env rm 234234 --yes',
+		'$ balena env rm 345345 --config',
+		'$ balena env rm 456456 --service',
+		'$ balena env rm 567567 --device',
+		'$ balena env rm 678678 --device --config',
+		'$ balena env rm 789789 --device --service --yes',
 	];
 
-	public static args = [
+	public static args: Array<IArg<any>> = [
 		{
 			name: 'id',
 			required: true,
-			description: 'environment variable numeric database ID',
+			description: "variable's numeric database ID",
+			parse: input => ec.parseDbId(input),
 		},
 	];
 
-	// hardcoded 'env add' to avoid oclif's 'env:add' topic syntax
+	// hardcoded 'env rm' to avoid oclif's 'env:rm' topic syntax
 	public static usage =
 		'env rm ' + new CommandHelp({ args: EnvRmCmd.args }).defaultUsage();
 
 	public static flags: flags.Input<FlagsDef> = {
-		device: flags.boolean({
-			char: 'd',
-			description:
-				'Selects a device environment variable instead of an application environment variable',
-			default: false,
-		}),
-		config: flags.boolean({
-			char: 'c',
-			description:
-				'Selects a configuration variable instead of an environment variable',
-			default: false,
-		}),
+		config: ec.booleanConfig,
+		device: ec.booleanDevice,
+		service: ec.booleanService,
 		yes: flags.boolean({
 			char: 'y',
-			description: 'Run in non-interactive mode',
+			description:
+				'do not prompt for confirmation before deleting the variable',
 			default: false,
 		}),
 	};
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
+		const { args: params, flags: opt } = this.parse<FlagsDef, ArgsDef>(
 			EnvRmCmd,
 		);
 		const balena = (await import('balena-sdk')).fromSharedOptions();
@@ -96,25 +90,15 @@ export default class EnvRmCmd extends Command {
 
 		await checkLoggedIn();
 
-		if (isNaN(params.id) || !Number.isInteger(Number(params.id))) {
-			throw new ExpectedError('The environment variable id must be an integer');
-		}
-
 		await confirm(
-			options.yes || false,
+			opt.yes || false,
 			'Are you sure you want to delete the environment variable?',
 			undefined,
 			true,
 		);
 
 		await balena.pine.delete({
-			resource: options.device
-				? options.config
-					? 'device_config_variable'
-					: 'device_environment_variable'
-				: options.config
-				? 'application_config_variable'
-				: 'application_environment_variable',
+			resource: ec.getVarResourceName(opt.config, opt.device, opt.service),
 			id: params.id,
 		});
 	}

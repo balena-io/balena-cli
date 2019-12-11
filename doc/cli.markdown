@@ -662,45 +662,70 @@ service name
 
 ## env rm ID
 
-Remove a configuration or environment variable from an application or device,
-as selected by command-line options.
+Remove a configuration or environment variable from an application, device
+or service, as selected by command-line options.
 
-Note that this command asks for confirmation interactively.
-You can avoid this by passing the `--yes` boolean option.
+Variables are selected by their database ID (as reported by the 'balena envs'
+command) and one of six database "resource types":
 
-The --device option selects a device instead of an application.
-The --config option selects a config var instead of an env var.
+- application (fleet) environment variable
+- application (fleet) configuration variable (--config)
+- application (fleet) service variable (--service)
+- device environment variable (--device)
+- device configuration variable (--device --config)
+- device service variable (--device --service)
 
-Service-specific variables are not currently supported. The following
-examples remove variables that apply to all services in an app or device.
+The --device option selects a device-specific variable instead of an application
+(fleet) variable.
+
+The --config option selects a configuration variable. Configuration variable
+names typically start with the 'BALENA_' or 'RESIN_' prefixes and are used to
+configure balena platform features.
+
+The --service option selects a service variable, which is an environment variable
+that applies to a specifc service (application container) in a microservices
+(multicontainer) application.
+
+The --service and --config options cannot be used together, but they can be
+used alongside the --device option to select a device-specific service or
+configuration variable.
+
+Interactive confirmation is normally asked before the variable is deleted.
+The --yes option disables this behaviour.
 
 Examples:
 
-	$ balena env rm 215
-	$ balena env rm 215 --yes
-	$ balena env rm 215 --config
-	$ balena env rm 215 --device
-	$ balena env rm 215 --device --config
+	$ balena env rm 123123
+	$ balena env rm 234234 --yes
+	$ balena env rm 345345 --config
+	$ balena env rm 456456 --service
+	$ balena env rm 567567 --device
+	$ balena env rm 678678 --device --config
+	$ balena env rm 789789 --device --service --yes
 
 ### Arguments
 
 #### ID
 
-environment variable numeric database ID
+variable's numeric database ID
 
 ### Options
 
-#### -d, --device
-
-Selects a device environment variable instead of an application environment variable
-
 #### -c, --config
 
-Selects a configuration variable instead of an environment variable
+select a configuration variable (may be used together with the --device option)
+
+#### -d, --device
+
+select a device-specific variable instead of an application (fleet) variable
+
+#### -s, --service
+
+select a service variable (may be used together with the --device option)
 
 #### -y, --yes
 
-Run in non-interactive mode
+do not prompt for confirmation before deleting the variable
 
 ## env add NAME [VALUE]
 
