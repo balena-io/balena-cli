@@ -1,4 +1,63 @@
 - commits:
+    - subject: Add multicontainer (microservices) support for 'balena env rename'
+      hash: 7fd436cd91e215e134f32551552c6baf25055829
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Add multicontainer (microservices) support for 'balena env rm'
+      hash: 7c1faa6de02752ef38cc0d592311b4cdc1b2a2b1
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Add multicontainer (microservices) support for 'balena env add'
+      hash: 90e184ea1fff3940dad3236115fb6a7f8a671e7e
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Add multicontainer (microservices) support for 'balena envs'
+      hash: 38920a1c597bf90de839b685d8502cbfc695e8d1
+      body: ''
+      footer:
+        Connects-to: '#1153'
+        connects-to: '#1153'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Add balena envs '-j' option to produce JSON output
+      hash: df58ac7673bcdcd6b51dbb2f80bf7aed2b9a457a
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Add logged-in check for balena 'env' commands
+      hash: 630d53311a3f2f95910a551a271fe3b89141811a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.20.0
+  date: 2019-12-13T00:53:40.483Z
+- commits:
     - subject: >-
         Introduce workaround that fixes windows dns issue on `balena push` using
         .local device names. Improve error handling in deployToDevice so that
@@ -14,7 +73,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.19.1
-  date: 2019-12-06T15:13:53.338Z
+  date: 2019-12-06T14:37:41.975Z
 - commits:
     - subject: Update app/create and device/supported tests to use new api-mock.
       hash: bb19903826108aa498ee689e978bf26305ad7ef9

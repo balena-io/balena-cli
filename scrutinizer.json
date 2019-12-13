@@ -5,6 +5,86 @@
     {
       "commits": [
         {
+          "subject": "Add multicontainer (microservices) support for 'balena env rename'",
+          "hash": "7fd436cd91e215e134f32551552c6baf25055829",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Add multicontainer (microservices) support for 'balena env rm'",
+          "hash": "7c1faa6de02752ef38cc0d592311b4cdc1b2a2b1",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Add multicontainer (microservices) support for 'balena env add'",
+          "hash": "90e184ea1fff3940dad3236115fb6a7f8a671e7e",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Add multicontainer (microservices) support for 'balena envs'",
+          "hash": "38920a1c597bf90de839b685d8502cbfc695e8d1",
+          "body": "",
+          "footer": {
+            "Connects-to": "#1153",
+            "connects-to": "#1153",
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Add balena envs '-j' option to produce JSON output",
+          "hash": "df58ac7673bcdcd6b51dbb2f80bf7aed2b9a457a",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Add logged-in check for balena 'env' commands",
+          "hash": "630d53311a3f2f95910a551a271fe3b89141811a",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.20.0",
+      "date": "2019-12-12T13:42:22.781Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Introduce workaround that fixes windows dns issue on `balena push` using .local device names. Improve error handling in deployToDevice so that versionErrors don't mask other errors.",
           "hash": "53325b7c056499a76283042a404c4237b709bdd7",
           "body": "",
@@ -8029,7 +8109,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 191,
+  "stars": 192,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -8130,36 +8210,52 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2019-12-06T15:14:20Z",
+  "lastCommitDate": "2019-12-13T00:54:30Z",
   "latestRelease": {
-    "tagName": "v11.19.1",
+    "tagName": "v11.20.0",
     "asssets": [
       {
-        "name": "balena-cli-v11.19.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.1/balena-cli-v11.19.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.20.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.0/balena-cli-v11.20.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.19.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.1/balena-cli-v11.19.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.20.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.0/balena-cli-v11.20.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.19.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.1/balena-cli-v11.19.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.20.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.0/balena-cli-v11.20.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.19.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.1/balena-cli-v11.19.1-windows-x64-installer.exe"
+        "name": "balena-cli-v11.20.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.0/balena-cli-v11.20.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.19.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.19.1/balena-cli-v11.19.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.20.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.0/balena-cli-v11.20.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 203,
+    "numberOfIssues": 206,
     "latestIssues": [
+      {
+        "title": "Fix issues with devices associated with inaccessible applications.",
+        "url": "https://github.com/balena-io/balena-cli/pull/1533"
+      },
+      {
+        "title": "Build-time secrets don't support subdirectories or executable scripts",
+        "url": "https://github.com/balena-io/balena-cli/issues/1532"
+      },
+      {
+        "title": "Testing preloader upgrade",
+        "url": "https://github.com/balena-io/balena-cli/pull/1531"
+      },
+      {
+        "title": "Some actions throwing errors when device assigned to inaccesible application.",
+        "url": "https://github.com/balena-io/balena-cli/issues/1530"
+      },
       {
         "title": "Error pushing image using hostname",
         "url": "https://github.com/balena-io/balena-cli/issues/1528"
@@ -8183,10 +8279,6 @@
       {
         "title": "balena os configure fails to read os version for intel nuc images",
         "url": "https://github.com/balena-io/balena-cli/issues/1519"
-      },
-      {
-        "title": "Livepush using `.local` address fails on Windows (with incorrect error).",
-        "url": "https://github.com/balena-io/balena-cli/issues/1518"
       },
       {
         "title": "\"balena preload\" hangs on Windows: \"Cleaning up temporary files\"",
@@ -8227,22 +8319,10 @@
       {
         "title": "Allow custom network connections to be generated",
         "url": "https://github.com/balena-io/balena-cli/issues/1498"
-      },
-      {
-        "title": "Exposed Sentry.io authentication details in URI",
-        "url": "https://github.com/balena-io/balena-cli/issues/1495"
-      },
-      {
-        "title": "Update mixpanel to ^0.10.3",
-        "url": "https://github.com/balena-io/balena-cli/pull/1494"
-      },
-      {
-        "title": "User would like a 32-bit installer and/or standalone zip package for Windows",
-        "url": "https://github.com/balena-io/balena-cli/issues/1489"
       }
     ]
   },
-  "version": "11.19.1",
+  "version": "11.20.0",
   "screenshot": null,
   "logo": null
 }
