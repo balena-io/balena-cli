@@ -39,9 +39,10 @@ describe('balena devices supported', function() {
 		api.expectWhoAmI();
 		api.expectMixpanel();
 
+		// TODO: Using the alias api.expect here causes route /config/vars to be called unexpectedly - why?
 		api.scope
 			.get('/device-types/v1')
-			.replyWithFile(200, __dirname + '/supported.api-response.json', {
+			.replyWithFile(200, __dirname + '/device-types.api-response.json', {
 				'Content-Type': 'application/json',
 			});
 

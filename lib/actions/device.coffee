@@ -53,7 +53,8 @@ exports.list =
 		.tap (devices) ->
 			devices = _.map devices, (device) ->
 				device.dashboard_url = balena.models.device.getDashboardUrl(device.uuid)
-				device.application_name = device.belongs_to__application[0].app_name
+				device.application_name =
+					if device.belongs_to__application?[0] then device.belongs_to__application[0].app_name else 'N/a'
 				device.uuid = device.uuid.slice(0, 7)
 				return device
 
@@ -93,7 +94,8 @@ exports.info =
 			balena.models.device.getStatus(device).then (status) ->
 				device.status = status
 				device.dashboard_url = balena.models.device.getDashboardUrl(device.uuid)
-				device.application_name = device.belongs_to__application[0].app_name
+				device.application_name =
+					if device.belongs_to__application?[0] then device.belongs_to__application[0].app_name else 'N/a'
 				device.commit = device.is_on__commit
 
 				console.log visuals.table.vertical device, [
@@ -345,6 +347,8 @@ exports.move =
 		patterns = require('../utils/patterns')
 
 		balena.models.device.get(params.uuid, expandForAppName).then (device) ->
+			device.application_name =
+				if device.belongs_to__application?[0] then device.belongs_to__application[0].app_name else 'N/a'
 			return options.application if options.application
 
 			return Promise.all([
@@ -359,7 +363,7 @@ exports.move =
 				return patterns.selectApplication (application) ->
 					return _.every [
 						_.some(compatibleDeviceTypes, (dt) -> dt.slug == application.device_type)
-						device.belongs_to__application[0].app_name isnt application.app_name
+						device.application_name isnt application.app_name
 					]
 		.tap (application) ->
 			return balena.models.device.move(params.uuid, application)

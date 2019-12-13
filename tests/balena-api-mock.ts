@@ -213,6 +213,22 @@ export class BalenaAPIMock {
 		// (Also, nock should automatically throw an error, but also not happening)
 		// For now, the console.error is sufficient (will fail the test)
 	}
+
+	public debug() {
+		const scope = this.scope;
+		let mocks = scope.pendingMocks();
+		console.error(`pending mocks ${mocks.length}: ${mocks}`);
+
+		this.scope.on('request', function(_req, _interceptor, _body) {
+			console.log(`>> REQUEST:` + _req.path);
+			mocks = scope.pendingMocks();
+			console.error(`pending mocks ${mocks.length}: ${mocks}`);
+		});
+
+		this.scope.on('replied', function(_req) {
+			console.log(`<< REPLIED:` + _req.path);
+		});
+	}
 }
 
 const appServiceVarsByService: { [key: string]: any } = {
