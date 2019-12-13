@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix issues with devices associated with inaccessible applications.
+      hash: 33552724a1b594ccb81372ea50cea4e9e673dff4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#1530'
+        resolves: '#1530'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.20.1
+  date: 2019-12-13T08:38:33.356Z
+- commits:
     - subject: Add multicontainer (microservices) support for 'balena env rename'
       hash: 7fd436cd91e215e134f32551552c6baf25055829
       body: ''
