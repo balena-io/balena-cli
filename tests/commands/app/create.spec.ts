@@ -37,7 +37,7 @@ describe('balena app create', function() {
 	});
 
 	it('should print help text with the -h flag', async () => {
-		api.expectOptionalWhoAmI();
+		api.expectWhoAmI();
 		api.expectMixpanel();
 
 		const { out, err } = await runCommand('app create -h');

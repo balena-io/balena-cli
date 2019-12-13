@@ -586,22 +586,55 @@ Examples:
 
 ## envs
 
-List the environment or config variables of an application or device,
-as selected by the respective command-line options.
+List the environment or configuration variables of an application, device or
+service, as selected by the respective command-line options. (A service is
+an application container in a "microservices" application.)
 
-The --config option is used to list "configuration variables" that
-control balena features.
+The --config option is used to list "configuration variables" that control
+balena platform features, as opposed to custom environment variables defined
+by the user. The --config and the --service options are mutually exclusive
+because configuration variables cannot be set for specific services.
 
-Service-specific variables are not currently supported. The following
-examples list variables that apply to all services in an app or device.
+The --all option is used to include application-wide (fleet), device-wide
+(multiple services on a device) and service-specific variables that apply to
+the selected application, device or service. It can be thought of as including
+"inherited" variables: for example, a service inherits device-wide variables,
+and a device inherits application-wide variables. Variables are still filtered
+out by type with the --config option, such that configuration and non-
+configuration variables are never listed together.
+
+When the --all option is used, the printed output may include DEVICE and/or
+SERVICE columns to distinguish between application-wide, device-specific and
+service-specific variables. As asterisk in these columns indicates that the
+variable applies to "all devices" or "all services".
+
+If you are parsing the output in a script, please select the JSON format with
+the '-j' option. This avoids future compatibility issues if columns are added,
+renamed or reordered. Also, when the JSON format is selected, an empty JSON
+array ([]) is printed instead of an error message when no variables exist for
+the given query. When querying variables for a device, note that the application
+name may be null in JSON output (or 'N/A' in tabular output) if the application
+linked to the device is no longer accessible by the current user (for example,
+in case the current user has been removed from the application by its owner).
 
 Examples:
 
 	$ balena envs --application MyApp
+	$ balena envs --application MyApp --all --json
+	$ balena envs --application MyApp --service MyService
+	$ balena envs --application MyApp --all --service MyService
 	$ balena envs --application MyApp --config
 	$ balena envs --device 7cf02a6
+	$ balena envs --device 7cf02a6 --all --json
+	$ balena envs --device 7cf02a6 --config --all --json
+	$ balena envs --device 7cf02a6 --all --service MyService
 
 ### Options
+
+#### --all
+
+include app-wide, device-wide variables that apply to the selected device or service.
+Variables are still filtered out by type with the --config option.
 
 #### -a, --application APPLICATION
 
@@ -609,75 +642,123 @@ application name
 
 #### -c, --config
 
-show config variables
+show configuration variables only
 
 #### -d, --device DEVICE
 
 device UUID
 
+#### -j, --json
+
+produce JSON output instead of tabular output
+
 #### -v, --verbose
 
 produce verbose output
 
+#### -s, --service SERVICE
+
+service name
+
 ## env rm ID
 
-Remove a configuration or environment variable from an application or device,
-as selected by command-line options.
+Remove a configuration or environment variable from an application, device
+or service, as selected by command-line options.
 
-Note that this command asks for confirmation interactively.
-You can avoid this by passing the `--yes` boolean option.
+Variables are selected by their database ID (as reported by the 'balena envs'
+command) and one of six database "resource types":
 
-The --device option selects a device instead of an application.
-The --config option selects a config var instead of an env var.
+- application (fleet) environment variable
+- application (fleet) configuration variable (--config)
+- application (fleet) service variable (--service)
+- device environment variable (--device)
+- device configuration variable (--device --config)
+- device service variable (--device --service)
 
-Service-specific variables are not currently supported. The following
-examples remove variables that apply to all services in an app or device.
+The --device option selects a device-specific variable instead of an application
+(fleet) variable.
+
+The --config option selects a configuration variable. Configuration variable
+names typically start with the 'BALENA_' or 'RESIN_' prefixes and are used to
+configure balena platform features.
+
+The --service option selects a service variable, which is an environment variable
+that applies to a specifc service (application container) in a microservices
+(multicontainer) application.
+
+The --service and --config options cannot be used together, but they can be
+used alongside the --device option to select a device-specific service or
+configuration variable.
+
+Interactive confirmation is normally asked before the variable is deleted.
+The --yes option disables this behaviour.
 
 Examples:
 
-	$ balena env rm 215
-	$ balena env rm 215 --yes
-	$ balena env rm 215 --config
-	$ balena env rm 215 --device
-	$ balena env rm 215 --device --config
+	$ balena env rm 123123
+	$ balena env rm 234234 --yes
+	$ balena env rm 345345 --config
+	$ balena env rm 456456 --service
+	$ balena env rm 567567 --device
+	$ balena env rm 678678 --device --config
+	$ balena env rm 789789 --device --service --yes
 
 ### Arguments
 
 #### ID
 
-environment variable numeric database ID
+variable's numeric database ID
 
 ### Options
 
-#### -d, --device
-
-Selects a device environment variable instead of an application environment variable
-
 #### -c, --config
 
-Selects a configuration variable instead of an environment variable
+select a configuration variable (may be used together with the --device option)
+
+#### -d, --device
+
+select a device-specific variable instead of an application (fleet) variable
+
+#### -s, --service
+
+select a service variable (may be used together with the --device option)
 
 #### -y, --yes
 
-Run in non-interactive mode
+do not prompt for confirmation before deleting the variable
 
 ## env add NAME [VALUE]
 
-Add an environment or config variable to an application or device, as selected
-by the respective command-line options.
+Add an environment or config variable to an application, device or service,
+as selected by the respective command-line options. Either the --application
+or the --device option must be provided, and either may be be used alongside
+the --service option to define a service-specific variable. (A service is an
+application container in a "microservices" application.) When the --service
+option is used in conjunction with the --device option, the service variable
+applies to the selected device only. Otherwise, it applies to all devices of
+the selected application (i.e., the application's fleet). If the --service
+option is omitted, the variable applies to all services.
 
 If VALUE is omitted, the CLI will attempt to use the value of the environment
 variable of same name in the CLI process' environment. In this case, a warning
 message will be printed. Use `--quiet` to suppress it.
 
-Service-specific variables are not currently supported. The given command line
-examples variables that apply to all services in an app or device.
+'BALENA_' or 'RESIN_' are reserved variable name prefixes used to identify
+"configuration variables". Configuration variables control balena platform
+features and are treated specially by balenaOS and the balena supervisor
+running on devices. They are also stored differently in the balenaCloud API
+database. Configuration variables cannot be set for specific services,
+therefore the --service option cannot be used when the variable name starts
+with a reserved prefix. When defining custom application variables, please
+avoid the reserved prefixes.
 
 Examples:
 
 	$ balena env add TERM --application MyApp
 	$ balena env add EDITOR vim --application MyApp
+	$ balena env add EDITOR vim --application MyApp --service MyService
 	$ balena env add EDITOR vim --device 7cf02a6
+	$ balena env add EDITOR vim --device 7cf02a6 --service MyService
 
 ### Arguments
 
@@ -687,7 +768,7 @@ environment or config variable name
 
 #### VALUE
 
-variable value; if omitted, use value from CLI's environment
+variable value; if omitted, use value from this process' environment
 
 ### Options
 
@@ -703,36 +784,72 @@ device UUID
 
 suppress warning messages
 
+#### -s, --service SERVICE
+
+service name
+
 ## env rename ID VALUE
 
-Change the value of an environment variable for an application or device,
-as selected by the '--device' option. The variable is identified by its
-database ID, rather than its name. The 'balena envs' command can be used
-to list the variable's ID.
+Change the value of a configuration or environment variable for an application,
+device or service, as selected by command-line options.
 
-Service-specific variables are not currently supported. The following
-examples modify variables that apply to all services in an app or device.
+Variables are selected by their database ID (as reported by the 'balena envs'
+command) and one of six database "resource types":
+
+- application (fleet) environment variable
+- application (fleet) configuration variable (--config)
+- application (fleet) service variable (--service)
+- device environment variable (--device)
+- device configuration variable (--device --config)
+- device service variable (--device --service)
+
+The --device option selects a device-specific variable instead of an application
+(fleet) variable.
+
+The --config option selects a configuration variable. Configuration variable
+names typically start with the 'BALENA_' or 'RESIN_' prefixes and are used to
+configure balena platform features.
+
+The --service option selects a service variable, which is an environment variable
+that applies to a specifc service (application container) in a microservices
+(multicontainer) application.
+
+The --service and --config options cannot be used together, but they can be
+used alongside the --device option to select a device-specific service or
+configuration variable.
 
 Examples:
 
-	$ balena env rename 376 emacs
-	$ balena env rename 376 emacs --device
+	$ balena env rename 123123 emacs
+	$ balena env rename 234234 emacs --service
+	$ balena env rename 345345 emacs --device
+	$ balena env rename 456456 emacs --device --service
+	$ balena env rename 567567 1 --config
+	$ balena env rename 678678 1 --device --config
 
 ### Arguments
 
 #### ID
 
-environment variable numeric database ID
+variable's numeric database ID
 
 #### VALUE
 
-variable value; if omitted, use value from CLI's environment
+variable value; if omitted, use value from this process' environment
 
 ### Options
 
+#### -c, --config
+
+select a configuration variable (may be used together with the --device option)
+
 #### -d, --device
 
-select a device variable instead of an application variable
+select a device-specific variable instead of an application (fleet) variable
+
+#### -s, --service
+
+select a service variable (may be used together with the --device option)
 
 # Tags
 

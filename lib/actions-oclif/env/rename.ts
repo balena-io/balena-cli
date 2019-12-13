@@ -18,12 +18,15 @@ import { Command, flags } from '@oclif/command';
 import { stripIndent } from 'common-tags';
 
 import * as cf from '../../utils/common-flags';
+import * as ec from '../../utils/env-common';
 import { CommandHelp } from '../../utils/oclif-utils';
 
 type IArg<T> = import('@oclif/parser').args.IArg<T>;
 
 interface FlagsDef {
+	config: boolean;
 	device: boolean;
+	service: boolean;
 	help: void;
 }
 
@@ -34,59 +37,59 @@ interface ArgsDef {
 
 export default class EnvRenameCmd extends Command {
 	public static description = stripIndent`
-		Change the value of an environment variable for an app or device.
+		Change the value of a config or env var for an app, device or service.
 
-		Change the value of an environment variable for an application or device,
-		as selected by the '--device' option. The variable is identified by its
-		database ID, rather than its name. The 'balena envs' command can be used
-		to list the variable's ID.
+		Change the value of a configuration or environment variable for an application,
+		device or service, as selected by command-line options.
 
-		Service-specific variables are not currently supported. The following
-		examples modify variables that apply to all services in an app or device.
+		${ec.rmRenameHelp.split('\n').join('\n\t\t')}
 `;
 	public static examples = [
-		'$ balena env rename 376 emacs',
-		'$ balena env rename 376 emacs --device',
+		'$ balena env rename 123123 emacs',
+		'$ balena env rename 234234 emacs --service',
+		'$ balena env rename 345345 emacs --device',
+		'$ balena env rename 456456 emacs --device --service',
+		'$ balena env rename 567567 1 --config',
+		'$ balena env rename 678678 1 --device --config',
 	];
 
 	public static args: Array<IArg<any>> = [
 		{
 			name: 'id',
 			required: true,
-			description: 'environment variable numeric database ID',
-			parse: input => parseInt(input, 10),
+			description: "variable's numeric database ID",
+			parse: input => ec.parseDbId(input),
 		},
 		{
 			name: 'value',
 			required: true,
 			description:
-				"variable value; if omitted, use value from CLI's environment",
+				"variable value; if omitted, use value from this process' environment",
 		},
 	];
 
-	// hardcoded 'env add' to avoid oclif's 'env:add' topic syntax
+	// hardcoded 'env rename' to avoid oclif's 'env:rename' topic syntax
 	public static usage =
 		'env rename ' + new CommandHelp({ args: EnvRenameCmd.args }).defaultUsage();
 
 	public static flags: flags.Input<FlagsDef> = {
-		device: flags.boolean({
-			char: 'd',
-			description:
-				'select a device variable instead of an application variable',
-		}),
+		config: ec.booleanConfig,
+		device: ec.booleanDevice,
+		service: ec.booleanService,
 		help: cf.help,
 	};
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
+		const { args: params, flags: opt } = this.parse<FlagsDef, ArgsDef>(
 			EnvRenameCmd,
 		);
 		const balena = (await import('balena-sdk')).fromSharedOptions();
+		const { checkLoggedIn } = await import('../../utils/patterns');
+
+		await checkLoggedIn();
 
 		await balena.pine.patch({
-			resource: options.device
-				? 'device_environment_variable'
-				: 'application_environment_variable',
+			resource: ec.getVarResourceName(opt.config, opt.device, opt.service),
 			id: params.id,
 			body: {
 				value: params.value,
