@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "Fix issues with devices associated with inaccessible applications.",
+          "hash": "33552724a1b594ccb81372ea50cea4e9e673dff4",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Resolves": "#1530",
+            "resolves": "#1530",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.20.1",
+      "date": "2019-12-13T08:38:33.356Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add multicontainer (microservices) support for 'balena env rename'",
           "hash": "7fd436cd91e215e134f32551552c6baf25055829",
           "body": "",
@@ -8210,40 +8230,36 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2019-12-13T00:54:30Z",
+  "lastCommitDate": "2019-12-13T09:01:49Z",
   "latestRelease": {
-    "tagName": "v11.20.0",
+    "tagName": "v11.20.1",
     "asssets": [
       {
-        "name": "balena-cli-v11.20.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.0/balena-cli-v11.20.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.20.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.1/balena-cli-v11.20.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.20.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.0/balena-cli-v11.20.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.20.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.1/balena-cli-v11.20.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.20.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.0/balena-cli-v11.20.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.20.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.1/balena-cli-v11.20.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.20.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.0/balena-cli-v11.20.0-windows-x64-installer.exe"
+        "name": "balena-cli-v11.20.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.1/balena-cli-v11.20.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.20.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.0/balena-cli-v11.20.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.20.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.1/balena-cli-v11.20.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 206,
+    "numberOfIssues": 203,
     "latestIssues": [
-      {
-        "title": "Fix issues with devices associated with inaccessible applications.",
-        "url": "https://github.com/balena-io/balena-cli/pull/1533"
-      },
       {
         "title": "Build-time secrets don't support subdirectories or executable scripts",
         "url": "https://github.com/balena-io/balena-cli/issues/1532"
@@ -8251,10 +8267,6 @@
       {
         "title": "Testing preloader upgrade",
         "url": "https://github.com/balena-io/balena-cli/pull/1531"
-      },
-      {
-        "title": "Some actions throwing errors when device assigned to inaccesible application.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1530"
       },
       {
         "title": "Error pushing image using hostname",
@@ -8319,10 +8331,18 @@
       {
         "title": "Allow custom network connections to be generated",
         "url": "https://github.com/balena-io/balena-cli/issues/1498"
+      },
+      {
+        "title": "Exposed Sentry.io authentication details in URI",
+        "url": "https://github.com/balena-io/balena-cli/issues/1495"
+      },
+      {
+        "title": "Update mixpanel to ^0.10.3",
+        "url": "https://github.com/balena-io/balena-cli/pull/1494"
       }
     ]
   },
-  "version": "11.20.0",
+  "version": "11.20.1",
   "screenshot": null,
   "logo": null
 }
