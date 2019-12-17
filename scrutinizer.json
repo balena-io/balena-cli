@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "Update livepush to fix windows path issue.",
+          "hash": "3cce8d822c246062dd4548cf7ac020469584ee39",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Connects-to": "https://github.com/balena-io-modules/livepush/issues/55",
+            "connects-to": "https://github.com/balena-io-modules/livepush/issues/55",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.20.2",
+      "date": "2019-12-17T14:32:53.314Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix issues with devices associated with inaccessible applications.",
           "hash": "33552724a1b594ccb81372ea50cea4e9e673dff4",
           "body": "",
@@ -8029,12 +8049,12 @@
       "avatar": "https://avatars0.githubusercontent.com/u/15064535?v=4"
     },
     {
-      "username": "xginn8",
-      "avatar": "https://avatars1.githubusercontent.com/u/6697261?v=4"
-    },
-    {
       "username": "srlowe",
       "avatar": "https://avatars3.githubusercontent.com/u/1562665?v=4"
+    },
+    {
+      "username": "xginn8",
+      "avatar": "https://avatars1.githubusercontent.com/u/6697261?v=4"
     },
     {
       "username": "imrehg",
@@ -8230,36 +8250,56 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2019-12-13T09:01:49Z",
+  "lastCommitDate": "2019-12-17T14:55:00Z",
   "latestRelease": {
-    "tagName": "v11.20.1",
+    "tagName": "v11.20.2",
     "asssets": [
       {
-        "name": "balena-cli-v11.20.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.1/balena-cli-v11.20.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.20.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.2/balena-cli-v11.20.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.20.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.1/balena-cli-v11.20.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.20.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.2/balena-cli-v11.20.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.20.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.1/balena-cli-v11.20.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.20.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.2/balena-cli-v11.20.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.20.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.1/balena-cli-v11.20.1-windows-x64-installer.exe"
+        "name": "balena-cli-v11.20.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.2/balena-cli-v11.20.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.20.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.1/balena-cli-v11.20.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.20.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.2/balena-cli-v11.20.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 203,
+    "numberOfIssues": 207,
     "latestIssues": [
+      {
+        "title": "CLI should retry every HTTP request by default",
+        "url": "https://github.com/balena-io/balena-cli/issues/1539"
+      },
+      {
+        "title": "Opaque BalenaRequestError trying to delete application",
+        "url": "https://github.com/balena-io/balena-cli/issues/1537"
+      },
+      {
+        "title": "Unable to install [Archlinux][NPM]",
+        "url": "https://github.com/balena-io/balena-cli/issues/1536"
+      },
+      {
+        "title": "`balena ssh` logs error, but exits 0",
+        "url": "https://github.com/balena-io/balena-cli/issues/1535"
+      },
+      {
+        "title": "[Experimental] Add ability to install with \"npm install git://github.com/balena-io/balena-cli\"",
+        "url": "https://github.com/balena-io/balena-cli/pull/1534"
+      },
       {
         "title": "Build-time secrets don't support subdirectories or executable scripts",
         "url": "https://github.com/balena-io/balena-cli/issues/1532"
@@ -8319,30 +8359,10 @@
       {
         "title": "Debug mode still active with env var `DEBUG=0` ",
         "url": "https://github.com/balena-io/balena-cli/issues/1502"
-      },
-      {
-        "title": "Allow retrieval of releases which corresponds to a particular git commit",
-        "url": "https://github.com/balena-io/balena-cli/issues/1500"
-      },
-      {
-        "title": "Allow retrieval of releases for an application",
-        "url": "https://github.com/balena-io/balena-cli/issues/1499"
-      },
-      {
-        "title": "Allow custom network connections to be generated",
-        "url": "https://github.com/balena-io/balena-cli/issues/1498"
-      },
-      {
-        "title": "Exposed Sentry.io authentication details in URI",
-        "url": "https://github.com/balena-io/balena-cli/issues/1495"
-      },
-      {
-        "title": "Update mixpanel to ^0.10.3",
-        "url": "https://github.com/balena-io/balena-cli/pull/1494"
       }
     ]
   },
-  "version": "11.20.1",
+  "version": "11.20.2",
   "screenshot": null,
   "logo": null
 }

@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update livepush to fix windows path issue.
+      hash: 3cce8d822c246062dd4548cf7ac020469584ee39
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: 'https://github.com/balena-io-modules/livepush/issues/55'
+        connects-to: 'https://github.com/balena-io-modules/livepush/issues/55'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.20.2
+  date: 2019-12-17T14:54:33.386Z
+- commits:
     - subject: Fix issues with devices associated with inaccessible applications.
       hash: 33552724a1b594ccb81372ea50cea4e9e673dff4
       body: ''
@@ -11,7 +25,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.20.1
-  date: 2019-12-13T09:01:23.261Z
+  date: 2019-12-13T08:38:33.356Z
 - commits:
     - subject: Add multicontainer (microservices) support for 'balena env rename'
       hash: 7fd436cd91e215e134f32551552c6baf25055829
