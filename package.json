@@ -195,7 +195,7 @@
     "is-root": "^2.1.0",
     "js-yaml": "^3.13.1",
     "klaw": "^3.0.0",
-    "livepush": "^2.0.5",
+    "livepush": "^2.0.6",
     "lodash": "^4.17.4",
     "minimatch": "^3.0.4",
     "mixpanel": "^0.10.1",
