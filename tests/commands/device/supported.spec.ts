@@ -2,16 +2,6 @@ import { expect } from 'chai';
 import { BalenaAPIMock } from '../../balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
-const HELP_RESPONSE = `
-Usage: devices supported
-
-Use this command to get the list of all supported devices.
-
-Examples:
-
-\t$ balena devices supported
-`;
-
 describe('balena devices supported', function() {
 	let api: BalenaAPIMock;
 
@@ -30,7 +20,7 @@ describe('balena devices supported', function() {
 
 		const { out, err } = await runCommand('devices supported -h');
 
-		expect(cleanOutput(out)).to.deep.equal(cleanOutput([HELP_RESPONSE]));
+		expect(cleanOutput(out)).to.contain('$ balena devices supported');
 
 		expect(err).to.eql([]);
 	});

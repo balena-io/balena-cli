@@ -576,11 +576,39 @@ confirm non interactively
 
 ## devices supported
 
-Use this command to get the list of all supported devices.
+List the supported device types (like 'raspberrypi3' or 'intel-nuc').
+
+The --verbose option adds extra columns/fields to the output, including the
+"STATE" column whose values are one of 'beta', 'release' or 'discontinued'.
+However, 'discontinued' device types are only listed if the '--discontinued'
+option is used.
+
+The --json option is recommended when scripting the output of this command
+(perhaps in combination with the [jq
+utility](https://stedolan.github.io/jq/manual/)), as it is more parser
+friendly (e.g. the ALIASES column contains a list of zero or more values)
+and also more "stable" in relation to added or reordered columns in tabular
+output (which is intended for "human eyes").
 
 Examples:
 
 	$ balena devices supported
+	$ balena devices supported --verbose
+	$ balena devices supported -vj
+
+### Options
+
+#### --discontinued
+
+include "discontinued" device types
+
+#### -j, --json
+
+produce JSON output instead of tabular output
+
+#### -v, --verbose
+
+add extra columns in the tabular output (ALIASES, ARCH, STATE)
 
 # Environment Variables
 

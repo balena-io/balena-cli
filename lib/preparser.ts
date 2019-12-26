@@ -128,6 +128,7 @@ function checkDeletedCommand(argvSlice: string[]): void {
 }
 
 export const convertedCommands = [
+	'devices:supported',
 	'envs',
 	'env:add',
 	'env:rename',

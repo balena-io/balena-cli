@@ -44,7 +44,10 @@ const capitanoDoc = {
 		},
 		{
 			title: 'Device',
-			files: ['build/actions/device.js'],
+			files: [
+				'build/actions/device.js',
+				'build/actions-oclif/devices/supported.js',
+			],
 		},
 		{
 			title: 'Environment Variables',
