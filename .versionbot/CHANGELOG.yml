@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add --verbose and --json options to the 'devices supported' command
+      hash: 323c9191b6541285cbb44855b43acf01c5866d30
+      body: |
+        The command was also converted to oclif.
+      footer:
+        Resolves: '#467'
+        resolves: '#467'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.21.0
+  date: 2019-12-27T11:56:40.522Z
+- commits:
     - subject: Update livepush to fix windows path issue.
       hash: 3cce8d822c246062dd4548cf7ac020469584ee39
       body: ''
