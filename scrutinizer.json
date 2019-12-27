@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "Add --verbose and --json options to the 'devices supported' command",
+          "hash": "323c9191b6541285cbb44855b43acf01c5866d30",
+          "body": "The command was also converted to oclif.\n",
+          "footer": {
+            "Resolves": "#467",
+            "resolves": "#467",
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.21.0",
+      "date": "2019-12-27T11:56:40.522Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update livepush to fix windows path issue.",
           "hash": "3cce8d822c246062dd4548cf7ac020469584ee39",
           "body": "",
@@ -8149,7 +8169,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 192,
+  "stars": 194,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -8250,36 +8270,88 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2019-12-17T14:55:00Z",
+  "lastCommitDate": "2019-12-27T12:32:41Z",
   "latestRelease": {
-    "tagName": "v11.20.2",
+    "tagName": "v11.21.0",
     "asssets": [
       {
-        "name": "balena-cli-v11.20.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.2/balena-cli-v11.20.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.21.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.0/balena-cli-v11.21.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.20.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.2/balena-cli-v11.20.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.21.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.0/balena-cli-v11.21.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.20.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.2/balena-cli-v11.20.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.21.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.0/balena-cli-v11.21.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.20.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.2/balena-cli-v11.20.2-windows-x64-installer.exe"
+        "name": "balena-cli-v11.21.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.0/balena-cli-v11.21.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.20.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.20.2/balena-cli-v11.20.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.21.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.0/balena-cli-v11.21.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 207,
+    "numberOfIssues": 218,
     "latestIssues": [
+      {
+        "title": "`device init` is broken and insufficiently documented",
+        "url": "https://github.com/balena-io/balena-cli/issues/1552"
+      },
+      {
+        "title": "container actions should be possible from the CLI",
+        "url": "https://github.com/balena-io/balena-cli/issues/1551"
+      },
+      {
+        "title": "Can only create api-key from cli, can’t delete them or list them",
+        "url": "https://github.com/balena-io/balena-cli/issues/1550"
+      },
+      {
+        "title": "diagnostics actions are not available in cli",
+        "url": "https://github.com/balena-io/balena-cli/issues/1549"
+      },
+      {
+        "title": "Add ability to set device location",
+        "url": "https://github.com/balena-io/balena-cli/issues/1548"
+      },
+      {
+        "title": "Purge data not available",
+        "url": "https://github.com/balena-io/balena-cli/issues/1547"
+      },
+      {
+        "title": "Add ability to \"Grant support access\" to devices and apps",
+        "url": "https://github.com/balena-io/balena-cli/issues/1546"
+      },
+      {
+        "title": "Deactivate device not available from cli",
+        "url": "https://github.com/balena-io/balena-cli/issues/1545"
+      },
+      {
+        "title": "Override lock action not available from cli",
+        "url": "https://github.com/balena-io/balena-cli/issues/1544"
+      },
+      {
+        "title": "Pin releases are not available in CLI.",
+        "url": "https://github.com/balena-io/balena-cli/issues/1543"
+      },
+      {
+        "title": "Add `balena device restart`",
+        "url": "https://github.com/balena-io/balena-cli/issues/1542"
+      },
+      {
+        "title": "I get Invalid MBR boot signature when configuring a device, FAQ asked me to delete a non existent cache",
+        "url": "https://github.com/balena-io/balena-cli/issues/1541"
+      },
+      {
+        "title": "`balena ssh <ip-address>` does not support IPv6 addresses.",
+        "url": "https://github.com/balena-io/balena-cli/issues/1540"
+      },
       {
         "title": "CLI should retry every HTTP request by default",
         "url": "https://github.com/balena-io/balena-cli/issues/1539"
@@ -8287,10 +8359,6 @@
       {
         "title": "Opaque BalenaRequestError trying to delete application",
         "url": "https://github.com/balena-io/balena-cli/issues/1537"
-      },
-      {
-        "title": "Unable to install [Archlinux][NPM]",
-        "url": "https://github.com/balena-io/balena-cli/issues/1536"
       },
       {
         "title": "`balena ssh` logs error, but exits 0",
@@ -8311,58 +8379,10 @@
       {
         "title": "Error pushing image using hostname",
         "url": "https://github.com/balena-io/balena-cli/issues/1528"
-      },
-      {
-        "title": "Allow configuration of command aliases",
-        "url": "https://github.com/balena-io/balena-cli/issues/1526"
-      },
-      {
-        "title": "mDNS resolution failing on Ubuntu 19.10, when doing local push with .local name.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1524"
-      },
-      {
-        "title": "Update Raven / Sentry library to the new Unified Node.js SDK",
-        "url": "https://github.com/balena-io/balena-cli/issues/1523"
-      },
-      {
-        "title": "Produce Ubuntu/Debian packages (deb installer) on releases (oclif publish:deb)",
-        "url": "https://github.com/balena-io/balena-cli/issues/1520"
-      },
-      {
-        "title": "balena os configure fails to read os version for intel nuc images",
-        "url": "https://github.com/balena-io/balena-cli/issues/1519"
-      },
-      {
-        "title": "\"balena preload\" hangs on Windows: \"Cleaning up temporary files\"",
-        "url": "https://github.com/balena-io/balena-cli/issues/1516"
-      },
-      {
-        "title": "When configuring the OS with a config file generated with 'network ethernet', balena-cli asks the type of network",
-        "url": "https://github.com/balena-io/balena-cli/issues/1515"
-      },
-      {
-        "title": "balena preload ignores dockerHost and dockerPort (and DOCKER_HOST)?",
-        "url": "https://github.com/balena-io/balena-cli/issues/1513"
-      },
-      {
-        "title": "CM3 (and Fin) do not show up via `balena util available-drives` (and cannot be written to)",
-        "url": "https://github.com/balena-io/balena-cli/issues/1512"
-      },
-      {
-        "title": "\"balena os configure\" hangs on Windows (not WSL)",
-        "url": "https://github.com/balena-io/balena-cli/issues/1509"
-      },
-      {
-        "title": "Balena build unable to interpret dockerfile image manifests",
-        "url": "https://github.com/balena-io/balena-cli/issues/1508"
-      },
-      {
-        "title": "Debug mode still active with env var `DEBUG=0` ",
-        "url": "https://github.com/balena-io/balena-cli/issues/1502"
       }
     ]
   },
-  "version": "11.20.2",
+  "version": "11.21.0",
   "screenshot": null,
   "logo": null
 }
