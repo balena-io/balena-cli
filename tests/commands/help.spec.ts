@@ -57,7 +57,7 @@ Additional commands:
     device rename <uuid> [newName]        rename a balena device
     device rm <uuid>                      remove a device
     device shutdown <uuid>                shutdown a device
-    devices supported                     list all supported devices
+    devices supported                     list the supported device types (like 'raspberrypi3' or 'intel-nuc')
     env add <name> [value]                add an environment or config variable to an application, device or service
     env rename <id> <value>               change the value of a config or env var for an app, device or service
     env rm <id>                           remove a config or env var from an application, device or service

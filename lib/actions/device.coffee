@@ -452,4 +452,3 @@ exports.init =
 
 tsActions = require('./device_ts')
 exports.osUpdate = tsActions.osUpdate
-exports.supported = tsActions.supported
