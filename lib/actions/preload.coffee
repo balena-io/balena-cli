@@ -111,7 +111,7 @@ offerToDisableAutomaticUpdates = (application, commit, pinDevice) ->
 	message = '''
 
 		This application is set to automatically update all devices to the current version.
-		This might be unexpected behaviour: with this enabled, the preloaded device will still
+		This might be unexpected behavior: with this enabled, the preloaded device will still
 		download and install the current release once it is online.
 
 		Do you want to disable automatic updates for this application?

@@ -47,7 +47,7 @@ export class BalenaAPIMock {
 		this.scope.done();
 		// Remove 'no match' handler, for tests using nock without this module
 		nock.emitter.removeListener('no match', this.handleUnexpectedRequest);
-		// Restore unmocked behaviour
+		// Restore unmocked behavior
 		nock.cleanAll();
 		nock.restore();
 	}

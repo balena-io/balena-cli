@@ -5,7 +5,7 @@ import { FileIgnorer, IgnoreFileType } from '../../build/utils/ignore';
 
 // Note that brack notation is used intentionally when accessing private members
 // of the FileIgnorer class to prevent a Typescript compilation error (this
-// behaviour is by design: see
+// behavior is by design: see
 // https://github.com/microsoft/TypeScript/issues/19335 )
 describe('File ignorer', function() {
 	it('should detect ignore files', function() {

@@ -44,7 +44,7 @@ export default class EnvRmCmd extends Command {
 		${ec.rmRenameHelp.split('\n').join('\n\t\t')}
 
 		Interactive confirmation is normally asked before the variable is deleted.
-		The --yes option disables this behaviour.
+		The --yes option disables this behavior.
 `;
 	public static examples = [
 		'$ balena env rm 123123',
