@@ -34,8 +34,11 @@ export default class VersionCmd extends Command {
 		Display version information for the balena CLI and/or Node.js.
 
 		Display version information for the balena CLI and/or Node.js.
-		If you intend to parse the output, please use the -j option for
-		JSON output, as its format is more stable.
+
+		The --json option is recommended when scripting the output of this command,
+		because the JSON format is less likely to change and it better represents
+		data types like lists and empty strings. The 'jq' utility may be helpful
+		in shell scripts (https://stedolan.github.io/jq/manual/).
 `;
 	public static examples = [
 		'$ balena version',

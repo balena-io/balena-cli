@@ -579,16 +579,15 @@ confirm non interactively
 List the supported device types (like 'raspberrypi3' or 'intel-nuc').
 
 The --verbose option adds extra columns/fields to the output, including the
-"STATE" column whose values are one of 'beta', 'release' or 'discontinued'.
+"STATE" column whose values are one of 'beta', 'released' or 'discontinued'.
 However, 'discontinued' device types are only listed if the '--discontinued'
 option is used.
 
-The --json option is recommended when scripting the output of this command
-(perhaps in combination with the [jq
-utility](https://stedolan.github.io/jq/manual/)), as it is more parser
-friendly (e.g. the ALIASES column contains a list of zero or more values)
-and also more "stable" in relation to added or reordered columns in tabular
-output (which is intended for "human eyes").
+The --json option is recommended when scripting the output of this command,
+because the JSON format is less likely to change and it better represents data
+types like lists and empty strings (for example, the ALIASES column contains a
+list of zero or more values). The 'jq' utility may be helpful in shell scripts
+(https://stedolan.github.io/jq/manual/).
 
 Examples:
 
@@ -636,14 +635,16 @@ SERVICE columns to distinguish between application-wide, device-specific and
 service-specific variables. As asterisk in these columns indicates that the
 variable applies to "all devices" or "all services".
 
-If you are parsing the output in a script, please select the JSON format with
-the '-j' option. This avoids future compatibility issues if columns are added,
-renamed or reordered. Also, when the JSON format is selected, an empty JSON
-array ([]) is printed instead of an error message when no variables exist for
-the given query. When querying variables for a device, note that the application
-name may be null in JSON output (or 'N/A' in tabular output) if the application
-linked to the device is no longer accessible by the current user (for example,
-in case the current user has been removed from the application by its owner).
+The --json option is recommended when scripting the output of this command,
+because the JSON format is less likely to change and it better represents data
+types like lists and empty strings. The 'jq' utility may be helpful in shell
+scripts (https://stedolan.github.io/jq/manual/). When --json is used, an empty
+JSON array ([]) is printed instead of an error message when no variables exist
+for the given query. When querying variables for a device, note that the
+application name may be null in JSON output (or 'N/A' in tabular output) if the
+application linked to the device is no longer accessible by the current user
+(for example, in case the current user has been removed from the application
+by its owner).
 
 Examples:
 
@@ -986,8 +987,11 @@ show additional commands
 ## version
 
 Display version information for the balena CLI and/or Node.js.
-If you intend to parse the output, please use the -j option for
-JSON output, as its format is more stable.
+
+The --json option is recommended when scripting the output of this command,
+because the JSON format is less likely to change and it better represents
+data types like lists and empty strings. The 'jq' utility may be helpful
+in shell scripts (https://stedolan.github.io/jq/manual/).
 
 Examples:
 
