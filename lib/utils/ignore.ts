@@ -115,6 +115,11 @@ export class FileIgnorer {
 			return true;
 		}
 
+		// Don't ignore Dockerfile (with or without extension) or docker-compose.yml
+		if (/^Dockerfile$|^Dockerfile\.\S+/.test(path.basename(relFile)) || path.basename(relFile) === 'docker-compose.yml') {
+			return true;
+		}
+
 		const dockerIgnoreHandle = dockerIgnore();
 		const gitIgnoreHandle = ignore();
 
