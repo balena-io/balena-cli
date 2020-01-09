@@ -32,6 +32,20 @@ dockerVersionProperties = [
 	'ApiVersion'
 ]
 
+scanErrorMessage = 'Could not find any balenaOS devices in the local network.'
+
+winScanErrorMessage = scanErrorMessage + """
+\n
+Note for Windows users:
+  The 'scan' command relies on the Bonjour service. Check whether Bonjour is
+  installed (Control Panel > Programs and Features). If not, you can download
+  Bonjour for Windows (included with Bonjour Print Services) from here:
+  https://support.apple.com/kb/DL999
+
+  After installing Bonjour, restart your PC and run the 'balena scan' command
+  again.
+"""
+
 module.exports =
 	signature: 'scan'
 	description: 'Scan for balenaOS devices in your local network'
@@ -82,7 +96,7 @@ module.exports =
 			.catchReturn(false)
 		.tap (devices) ->
 			if _.isEmpty(devices)
-				exitWithExpectedError('Could not find any balenaOS devices in the local network')
+				exitWithExpectedError(if process.platform == 'win32' then winScanErrorMessage else scanErrorMessage)
 		.map ({ host, address }) ->
 			docker = dockerUtils.createClient(host: address, port: dockerPort, timeout: dockerTimeout)
 			Promise.props
