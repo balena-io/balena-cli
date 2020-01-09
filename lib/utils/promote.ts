@@ -18,7 +18,6 @@ import * as BalenaSdk from 'balena-sdk';
 import { stripIndent } from 'common-tags';
 
 import { ExpectedError } from '../errors';
-import { runCommand } from './helpers';
 import Logger = require('./logger');
 import { exec, execBuffered, getDeviceOsRelease } from './ssh';
 
@@ -30,14 +29,6 @@ export async function join(
 	deviceHostnameOrIp?: string,
 	appName?: string,
 ): Promise<void> {
-	logger.logDebug('Checking login...');
-	const isLoggedIn = await sdk.auth.isLoggedIn();
-	if (!isLoggedIn) {
-		logger.logInfo("Looks like you're not logged in yet!");
-		logger.logInfo("Let's go through a quick wizard to get you started.\n");
-		await runCommand('login');
-	}
-
 	logger.logDebug('Determining device...');
 	const deviceIp = await getOrSelectLocalDevice(deviceHostnameOrIp);
 	await assertDeviceIsCompatible(deviceIp);
