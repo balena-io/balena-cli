@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import { InitializeEmitter, OperationState } from 'balena-device-init';
 import BalenaSdk = require('balena-sdk');
 import Bluebird = require('bluebird');
 import chalk from 'chalk';
@@ -22,7 +23,7 @@ import os = require('os');
 import visuals = require('resin-cli-visuals');
 import * as ShellEscape from 'shell-escape';
 
-import { InitializeEmitter, OperationState } from 'balena-device-init';
+import { ExpectedError } from '../errors';
 
 const balena = BalenaSdk.fromSharedOptions();
 
@@ -190,10 +191,21 @@ export function getApplication(applicationName: string) {
 	return balena.models.application.get(applicationName, extraOptions);
 }
 
-// A function to reliably execute a command
-// in all supported operating systems, including
-// different Windows environments like `cmd.exe`
-// and `Cygwin`.
+/**
+ * Choose between 'cmd.exe' and '/bin/sh' for running the given command string,
+ * depending on the value of `os.platform()`.
+ * When writing new code, consider whether it would be possible to avoid using a
+ * shell at all, using the which() function in this module to obtain a program's
+ * full path, executing the program directly and passing the arguments as an
+ * array instead of a long string. Avoiding a shell has several benefits:
+ *   - Avoids the need to shell-escape arguments, especially nested commands.
+ *   - Bypasses the incompatibilities between cmd.exe and /bin/sh.
+ *   - Reduces the security risks of lax input validation.
+ * Code example avoiding a shell:
+ *    const program = await which('ssh');
+ *    const args = ['root@192.168.1.1', 'cat /etc/os-release'];
+ *    const child = spawn(program, args);
+ */
 export function getSubShellCommand(command: string) {
 	if (os.platform() === 'win32') {
 		return {
@@ -293,6 +305,21 @@ export function getManualSortCompareFunction<T, U = T>(
 }
 
 /**
+ * Decide whether the current shell (that executed the CLI process) is a Windows
+ * 'cmd.exe' shell, including PowerShell, by checking a few environment
+ * variables.
+ */
+export function isWindowsComExeShell() {
+	return (
+		// neither bash nor sh (e.g. not MSYS, MSYS2, Cygwin, WSL)
+		process.env.SHELL == null &&
+		// Windows cmd.exe or PowerShell
+		process.env.ComSpec != null &&
+		process.env.ComSpec.endsWith('cmd.exe')
+	);
+}
+
+/**
  * Shell argument escaping compatible with sh, bash and Windows cmd.exe.
  * @param arg Arguments to be escaped
  * @param detectShell Whether to use the SHELL and ComSpec environment
@@ -303,18 +330,10 @@ export function getManualSortCompareFunction<T, U = T>(
  * env.ComSpec (cmd.exe) on Windows, even when running on MSYS / MSYS2.
  */
 export function shellEscape(args: string[], detectShell = false): string[] {
-	let isWindowsCmdExeShell: boolean;
-	if (detectShell) {
-		isWindowsCmdExeShell =
-			// neither bash nor sh (e.g. not MSYS, MSYS2, WSL)
-			process.env.SHELL == null &&
-			// Windows cmd.exe or PowerShell
-			process.env.ComSpec != null &&
-			process.env.ComSpec.endsWith('cmd.exe');
-	} else {
-		isWindowsCmdExeShell = process.platform === 'win32';
-	}
-	if (isWindowsCmdExeShell) {
+	const isCmdExe = detectShell
+		? isWindowsComExeShell()
+		: process.platform === 'win32';
+	if (isCmdExe) {
 		return args.map(v => windowsCmdExeEscapeArg(v));
 	} else {
 		const shellEscapeFunc: typeof ShellEscape = require('shell-escape');
@@ -355,4 +374,29 @@ export async function workaroundWindowsDnsIssue(ipOrHostname: string) {
 	if (process.platform === 'win32' && ipOrHostname.includes('.local')) {
 		await new Promise(r => setTimeout(r, delay));
 	}
+}
+
+/**
+ * Error handling wrapper around the npm `which` package:
+ * "Like the unix which utility. Finds the first instance of a specified
+ * executable in the PATH environment variable. Does not cache the results,
+ * so hash -r is not needed when the PATH changes."
+ *
+ * @param program Basename of a program, for example 'ssh'
+ * @returns The program's full path, e.g. 'C:\WINDOWS\System32\OpenSSH\ssh.EXE'
+ */
+export async function which(program: string): Promise<string> {
+	const whichMod = await import('which');
+	let programPath: string;
+	try {
+		programPath = await whichMod(program);
+	} catch (err) {
+		if (err.code === 'ENOENT') {
+			throw new ExpectedError(
+				`'${program}' program not found. Is it installed?`,
+			);
+		}
+		throw err;
+	}
+	return programPath;
 }

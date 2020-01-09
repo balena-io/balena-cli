@@ -17,9 +17,10 @@
 import * as BalenaSdk from 'balena-sdk';
 import { stripIndent } from 'common-tags';
 
+import { ExpectedError } from '../errors';
 import { runCommand } from './helpers';
 import Logger = require('./logger');
-import { exec, execBuffered } from './ssh';
+import { exec, execBuffered, getDeviceOsRelease } from './ssh';
 
 const MIN_BALENAOS_VERSION = 'v2.14.0';
 
@@ -117,7 +118,7 @@ async function configure(deviceIp: string, config: any): Promise<void> {
 	const json = JSON.stringify(config);
 	const b64 = Buffer.from(json).toString('base64');
 	const str = `"$(base64 -d <<< ${b64})"`;
-	await execCommand(deviceIp, `os-config join '${str}'`, 'Configuring...');
+	await execCommand(deviceIp, `os-config join ${str}`, 'Configuring...');
 }
 
 async function deconfigure(deviceIp: string): Promise<void> {
@@ -125,18 +126,24 @@ async function deconfigure(deviceIp: string): Promise<void> {
 }
 
 async function assertDeviceIsCompatible(deviceIp: string): Promise<void> {
-	const { exitWithExpectedError } = await import('../utils/patterns');
+	const cmd = 'os-config --version';
 	try {
-		await execBuffered(deviceIp, 'os-config --version');
+		await execBuffered(deviceIp, cmd);
 	} catch (err) {
-		exitWithExpectedError(stripIndent`
-			Device "${deviceIp}" is incompatible and cannot join or leave an application.
-			Please select or provision device with balenaOS newer than ${MIN_BALENAOS_VERSION}.`);
+		if (err instanceof ExpectedError) {
+			throw err;
+		}
+		console.error(`${err}\n`);
+		throw new ExpectedError(stripIndent`
+			Failed to execute "${cmd}" on device "${deviceIp}".
+			Depending on more specific error messages above, this may mean that the device
+			is incompatible. Please ensure that the device is running a balenaOS release
+			newer than ${MIN_BALENAOS_VERSION}.`);
 	}
 }
 
 async function getDeviceType(deviceIp: string): Promise<string> {
-	const output = await execBuffered(deviceIp, 'cat /etc/os-release');
+	const output = await getDeviceOsRelease(deviceIp);
 	const match = /^SLUG="([^"]+)"$/m.exec(output);
 	if (!match) {
 		throw new Error('Failed to determine device type');
@@ -145,7 +152,7 @@ async function getDeviceType(deviceIp: string): Promise<string> {
 }
 
 async function getOsVersion(deviceIp: string): Promise<string> {
-	const output = await execBuffered(deviceIp, 'cat /etc/os-release');
+	const output = await getDeviceOsRelease(deviceIp);
 	const match = /^VERSION_ID="([^"]+)"$/m.exec(output);
 	if (!match) {
 		throw new Error('Failed to determine OS version ID');

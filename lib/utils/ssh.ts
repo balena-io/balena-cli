@@ -16,9 +16,8 @@
  */
 import * as Bluebird from 'bluebird';
 import { spawn, StdioOptions } from 'child_process';
+import * as _ from 'lodash';
 import { TypedError } from 'typed-error';
-
-import { getSubShellCommand } from './helpers';
 
 export class ExecError extends TypedError {
 	public cmd: string;
@@ -36,17 +35,41 @@ export async function exec(
 	cmd: string,
 	stdout?: NodeJS.WritableStream,
 ): Promise<void> {
-	const command = `ssh \
-		-t \
-		-p 22222 \
-		-o LogLevel=ERROR \
-		-o StrictHostKeyChecking=no \
-		-o UserKnownHostsFile=/dev/null \
-		root@${deviceIp} \
-		${cmd}`;
+	const { which } = await import('./helpers');
+	const program = await which('ssh');
+	const args = [
+		'-n',
+		'-t',
+		'-p',
+		'22222',
+		'-o',
+		'LogLevel=ERROR',
+		'-o',
+		'StrictHostKeyChecking=no',
+		'-o',
+		'UserKnownHostsFile=/dev/null',
+		`root@${deviceIp}`,
+		cmd,
+	];
+	if (process.env.DEBUG) {
+		const logger = (await import('./logger')).getLogger();
+		logger.logDebug(`Executing [${program},${args}]`);
+	}
 
-	const stdio: StdioOptions = ['ignore', stdout ? 'pipe' : 'inherit', 'ignore'];
-	const { program, args } = getSubShellCommand(command);
+	// Note: stdin must be 'inherit' to workaround a bug in older versions of
+	// the built-in Windows 10 ssh client that otherwise prints the following
+	// to stderr and hangs: "GetConsoleMode on STD_INPUT_HANDLE failed with 6"
+	// They fixed the bug in newer versions of the ssh client:
+	// https://github.com/PowerShell/Win32-OpenSSH/issues/856
+	// but users whould have to manually download and install a new client.
+	// Note that "ssh -n" does not solve the problem, but should in theory
+	// prevent the ssh client from using the CLI process stdin, even if it
+	// is connected with 'inherit'.
+	const stdio: StdioOptions = [
+		'inherit',
+		stdout ? 'pipe' : 'inherit',
+		'inherit',
+	];
 
 	const exitCode = await new Bluebird<number>((resolve, reject) => {
 		const ps = spawn(program, args, { stdio })
@@ -79,3 +102,12 @@ export async function execBuffered(
 	);
 	return buffer.join('');
 }
+
+/**
+ * Return a device's balenaOS release by executing 'cat /etc/os-release'
+ * over ssh to the given deviceIp address.  The result is cached with
+ * lodash's memoize.
+ */
+export const getDeviceOsRelease = _.memoize(async (deviceIp: string) =>
+	execBuffered(deviceIp, 'cat /etc/os-release'),
+);
