@@ -37,6 +37,9 @@ export async function run(
 	// shared options, and performs node version requirement checks.
 	globalInit();
 	await routeCliFramework(cliArgs, options);
+
+	// Windows fix: reading from stdin prevents the process from exiting
+	process.stdin.pause();
 }
 
 /**

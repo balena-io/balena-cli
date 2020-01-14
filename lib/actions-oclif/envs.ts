@@ -80,14 +80,16 @@ export default class EnvsCmd extends Command {
 		service-specific variables. As asterisk in these columns indicates that the
 		variable applies to "all devices" or "all services".
 
-		If you are parsing the output in a script, please select the JSON format with
-		the '-j' option. This avoids future compatibility issues if columns are added,
-		renamed or reordered. Also, when the JSON format is selected, an empty JSON
-		array ([]) is printed instead of an error message when no variables exist for
-		the given query. When querying variables for a device, note that the application
-		name may be null in JSON output (or 'N/A' in tabular output) if the application
-		linked to the device is no longer accessible by the current user (for example,
-		in case the current user has been removed from the application by its owner).
+		The --json option is recommended when scripting the output of this command,
+		because the JSON format is less likely to change and it better represents data
+		types like lists and empty strings. The 'jq' utility may be helpful in shell
+		scripts (https://stedolan.github.io/jq/manual/). When --json is used, an empty
+		JSON array ([]) is printed instead of an error message when no variables exist
+		for the given query. When querying variables for a device, note that the
+		application name may be null in JSON output (or 'N/A' in tabular output) if the
+		application linked to the device is no longer accessible by the current user
+		(for example, in case the current user has been removed from the application
+		by its owner).
 `;
 	public static examples = [
 		'$ balena envs --application MyApp',
