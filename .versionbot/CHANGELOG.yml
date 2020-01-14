@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'meta: Americanize all spellings'
+      hash: 046743071dd0f2c1d283eadac2880807e83ead14
+      body: ''
+      footer:
+        Connects-to: 'https://github.com/balena-io/docs/issues/1300'
+        connects-to: 'https://github.com/balena-io/docs/issues/1300'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Matthew McGinn <matthew@balena.io>
+        signed-off-by: Matthew McGinn <matthew@balena.io>
+      author: Matthew McGinn
+  version: 11.21.1
+  date: 2020-01-13T20:08:18.546Z
+- commits:
     - subject: Add --verbose and --json options to the 'devices supported' command
       hash: 323c9191b6541285cbb44855b43acf01c5866d30
       body: |
