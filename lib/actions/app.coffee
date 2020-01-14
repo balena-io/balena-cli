@@ -128,7 +128,7 @@ exports.info =
 				"$#{application.app_name}$"
 				'id'
 				'device_type'
-				'git_repository'
+				'slug'
 				'commit'
 			]
 		.nodeify(done)
