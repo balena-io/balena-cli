@@ -2,13 +2,21 @@
 
 The balena CLI is an open source project and your contribution is welcome!
 
-After cloning this repository and running `npm install`, the CLI can be built with `npm run build`
-and executed with `./bin/balena`. In order to ease development:
+* Install the dependencies listed in the [NPM Installation](./INSTALL.md#npm-installation)
+  section of the `INSTALL.md` file. Check the section [Additional
+  Dependencies](./INSTALL.md#additional-dependencies) too.
+* Clone the `balena-cli` repository, `cd` to it and run `npm install`.
+* Build the CLI with `npm run build` or `npm test`, and execute it with `./bin/balena`
+  (on a Windows command prompt, you may need to run `node .\bin\balena`).
+
+In order to ease development:
 
 * `npm run build:fast` skips some of the build steps for interactive testing, or
 * `./bin/balena-dev` uses `ts-node/register` and `coffeescript/register` to transpile on the fly.
 
-Before opening a PR, please be sure to test your changes with `npm test`.
+Before opening a PR, test your changes with `npm test`. Keep compatibility in mind, as the CLI is
+meant to run on Linux, macOS and Windows. balena CI will run test code on all three platforms, but
+this will only help if you add some test cases for your new code!
 
 ## Semantic versioning and commit messages
 
@@ -45,8 +53,10 @@ The `INSTALL.md` and `TROUBLESHOOTING.md` files are also manually edited.
 ## Windows
 
 Please note that `npm run build:installer` (which generates the `.exe` executable installer on
-Windows) requires [MSYS2](https://www.msys2.org/) to be installed. Other than that, the standard
-Command Prompt or PowerShell can be used.
+Windows) specifically requires [MSYS2](https://www.msys2.org/) to be installed. Other than that,
+the standard Command Prompt or PowerShell can be used (though MSYS2 is still handy, as it provides
+'git' and a number of common unix utilities). If you make changes to `package.json` scripts, check
+they also run on a standard Windows Command Prompt.
 
 ## TypeScript vs CoffeeScript, and Capitano vs oclif
 
@@ -56,10 +66,43 @@ typing and formal programming interfaces. The migration is taking place graduall
 maintenance work or the implementation of new features.
 
 Similarly, [Capitano](https://github.com/balena-io/capitano) was originally adopted as the CLI's
-framework, but we recently decided to take advantage of [oclif](https://oclif.io/)'s features such
+framework, but later we decided to take advantage of [oclif](https://oclif.io/)'s features such
 as native installers for Windows, macOS and Linux, and support for custom flag parsing (for
 example, we're still battling with Capitano's behavior of dropping leading zeros of arguments that
-look like integers such as some abbreviated UUIDs, and migrating to oclif is a solution). Again the
-migration is taking place gradually, with some CLI commands parsed by oclif and others by Capitano
-(a simple command line pre-parsing takes place in `app.ts` to decide whether to route full parsing
-to Capitano or oclif).
+look like integers, such as some abbreviated UUIDs). Again, the migration is taking place
+gradually, with some CLI commands parsed by oclif and others by Capitano. A simple command line
+pre-parsing takes place in `preparser.ts`, to decide whether to route full parsing to Capitano or
+to oclif.
+
+## Programming style
+
+`npm run build` also runs [prettier](https://www.npmjs.com/package/prettier), which automatically
+reformats the code (based on configuration in the `node_modules/resin-lint/config/.prettierrc`
+file). Beyond that, we have a preference for Javascript promises over callbacks, and for
+`async/await` over `.then()`.
+
+## Common gotchas
+
+One thing that most CLI bugs have in common is the absence of test cases exercising the broken
+code, so writing some test code is a great idea. Having said that, there are also some common
+gotchas to bear in mind:
+
+* Forward slashes _vs._ backslashes in file paths. Most developers are aware that they should use
+  Node.js functions like
+  [path.join](https://nodejs.org/docs/latest-v12.x/api/path.html#path_path_join_paths), which will
+  automatically use backslashes on Windows and forward slashes on Linux and macOS. Where people get
+  caught is actually when handling paths in tar streams, which are sent to the Docker daemon and to
+  balenaCloud. Tar streams use forward slashes regardless of whether the CLI runs on Linux or
+  Windows, and for those paths the ideal is to use `path.posix.join` instead of `path.join`. Or,
+  simply hardcode those forward slashes!
+
+* When executing external commands, for example 'ssh', developers often rely on the shell and write
+  something like `spawn('command "arg1" "arg2"', { shell: true })`. Besides the usual security
+  concerns, another problem is to get argument escaping right (single quote, double quote,
+  backslashes...) because of the differences between the Windows 'cmd.exe' shell and the unix
+  '/bin/sh'. Most of the time, it turns out that it is possible to avoid relying on the shell
+  altogether. The [which](https://www.npmjs.com/package/which) package can be used to get the full
+  path of a command, resolving `'ssh'` to, say, `'C:\WINDOWS\System32\OpenSSH\ssh.EXE'`, and then
+  the command can be executed directly with `spawn(fullPath, argArray, { shell: false})`. It's a
+  rare combination of more secure and more interoperable with less development effort (as it avoids
+  time-consuming cross-platform trial and error with argument escaping).
