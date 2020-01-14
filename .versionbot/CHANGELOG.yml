@@ -1,4 +1,27 @@
 - commits:
+    - subject: Fix 'balena join' when the user is not logged in
+      hash: 95561864a64b0a03cc7a94cfe63a038730141026
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: >-
+        Fix join and leave commands on Windows (hanging on stdin and argument
+        escaping)
+      hash: 51adfeaa3bb91c6dcd3efc2a6e2ebda064665de9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.21.4
+  date: 2020-01-14T19:38:13.156Z
+- commits:
     - subject: Increase default mocha test timeout to avoid spurious CI failures
       hash: 3466be19923523c7a0d8cca429f54b0bd69b0aed
       body: ''
