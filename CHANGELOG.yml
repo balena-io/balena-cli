@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Update CONTRIBUTING.md regarding npm installation and some common
+        gotchas
+      hash: 615f24edd342e2938805507390093964b20d0bda
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.21.2
+  date: 2020-01-14T16:05:03.601Z
+- commits:
     - subject: 'meta: Americanize all spellings'
       hash: 046743071dd0f2c1d283eadac2880807e83ead14
       body: ''
@@ -11,7 +25,7 @@
         signed-off-by: Matthew McGinn <matthew@balena.io>
       author: Matthew McGinn
   version: 11.21.1
-  date: 2020-01-14T00:18:59.988Z
+  date: 2020-01-13T20:08:18.546Z
 - commits:
     - subject: Add --verbose and --json options to the 'devices supported' command
       hash: 323c9191b6541285cbb44855b43acf01c5866d30
