@@ -60,6 +60,7 @@ export const join: CommandDefinition<Args, Options> = {
 		},
 	],
 
+	permission: 'user',
 	primary: true,
 
 	async action(params, options, done) {
