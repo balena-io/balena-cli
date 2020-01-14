@@ -1,4 +1,49 @@
 - commits:
+    - subject: Increase default mocha test timeout to avoid spurious CI failures
+      hash: 3466be19923523c7a0d8cca429f54b0bd69b0aed
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: >-
+        Fix 'balena push' hanging on Windows (CTRL-C was required after the
+        unicorn)
+      hash: 95843dd816a866c93500cab90ff47cc1b401c0bc
+      body: ''
+      footer:
+        Resolves: '#1554'
+        resolves: '#1554'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: >-
+        Add hint about the 'jq' utility in the documentation of the --json
+        option
+      hash: edd755d41c08eeae8800c8a3e00379cae9531cf0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Add '.nyc_output' folder to '.gitignore' (test coverage reporting)
+      hash: 290c06074a666e7cf5e1d252029ef25212cd471b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.21.3
+  date: 2020-01-14T19:32:03.032Z
+- commits:
     - subject: >-
         Update CONTRIBUTING.md regarding npm installation and some common
         gotchas
@@ -11,7 +56,7 @@
         signed-off-by: Paulo Castro <paulo@balena.io>
       author: Paulo Castro
   version: 11.21.2
-  date: 2020-01-14T16:05:03.601Z
+  date: 2020-01-14T15:34:44.444Z
 - commits:
     - subject: 'meta: Americanize all spellings'
       hash: 046743071dd0f2c1d283eadac2880807e83ead14

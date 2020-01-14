@@ -5,6 +5,62 @@
     {
       "commits": [
         {
+          "subject": "Increase default mocha test timeout to avoid spurious CI failures",
+          "hash": "3466be19923523c7a0d8cca429f54b0bd69b0aed",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Fix 'balena push' hanging on Windows (CTRL-C was required after the unicorn)",
+          "hash": "95843dd816a866c93500cab90ff47cc1b401c0bc",
+          "body": "",
+          "footer": {
+            "Resolves": "#1554",
+            "resolves": "#1554",
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Add hint about the 'jq' utility in the documentation of the --json option",
+          "hash": "edd755d41c08eeae8800c8a3e00379cae9531cf0",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Add '.nyc_output' folder to '.gitignore' (test coverage reporting)",
+          "hash": "290c06074a666e7cf5e1d252029ef25212cd471b",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.21.3",
+      "date": "2020-01-14T17:17:13.197Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update CONTRIBUTING.md regarding npm installation and some common gotchas",
           "hash": "615f24edd342e2938805507390093964b20d0bda",
           "body": "",
@@ -8308,35 +8364,35 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2020-01-14T16:05:30Z",
+  "lastCommitDate": "2020-01-14T19:32:33Z",
   "latestRelease": {
-    "tagName": "v11.21.2",
+    "tagName": "v11.21.3",
     "asssets": [
       {
-        "name": "balena-cli-v11.21.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.2/balena-cli-v11.21.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.21.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.3/balena-cli-v11.21.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.21.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.2/balena-cli-v11.21.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.21.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.3/balena-cli-v11.21.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.21.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.2/balena-cli-v11.21.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.21.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.3/balena-cli-v11.21.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.21.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.2/balena-cli-v11.21.2-windows-x64-installer.exe"
+        "name": "balena-cli-v11.21.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.3/balena-cli-v11.21.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.21.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.2/balena-cli-v11.21.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.21.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.3/balena-cli-v11.21.3-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 229,
+    "numberOfIssues": 225,
     "latestIssues": [
       {
         "title": "Document, improve error msg and/or remove requirement for owner prefix in legacy application names",
@@ -8383,14 +8439,6 @@
         "url": "https://github.com/balena-io/balena-cli/issues/1557"
       },
       {
-        "title": "Fix 'balena push' hanging on Windows",
-        "url": "https://github.com/balena-io/balena-cli/pull/1556"
-      },
-      {
-        "title": "The CLI is not ending after pushing",
-        "url": "https://github.com/balena-io/balena-cli/issues/1554"
-      },
-      {
         "title": "`device init` is broken and insufficiently documented",
         "url": "https://github.com/balena-io/balena-cli/issues/1552"
       },
@@ -8417,10 +8465,18 @@
       {
         "title": "Add ability to \"Grant support access\" to devices and apps",
         "url": "https://github.com/balena-io/balena-cli/issues/1546"
+      },
+      {
+        "title": "Deactivate device not available from cli",
+        "url": "https://github.com/balena-io/balena-cli/issues/1545"
+      },
+      {
+        "title": "Override lock action not available from cli",
+        "url": "https://github.com/balena-io/balena-cli/issues/1544"
       }
     ]
   },
-  "version": "11.21.2",
+  "version": "11.21.3",
   "screenshot": null,
   "logo": null
 }
