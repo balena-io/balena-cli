@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Update CONTRIBUTING.md regarding npm installation and some common
+        gotchas
+      hash: 615f24edd342e2938805507390093964b20d0bda
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.21.2
+  date: 2020-01-14T15:34:44.444Z
+- commits:
     - subject: 'meta: Americanize all spellings'
       hash: 046743071dd0f2c1d283eadac2880807e83ead14
       body: ''
