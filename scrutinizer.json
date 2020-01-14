@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "meta: Americanize all spellings",
+          "hash": "046743071dd0f2c1d283eadac2880807e83ead14",
+          "body": "",
+          "footer": {
+            "Connects-to": "https://github.com/balena-io/docs/issues/1300",
+            "connects-to": "https://github.com/balena-io/docs/issues/1300",
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Matthew McGinn <matthew@balena.io>",
+            "signed-off-by": "Matthew McGinn <matthew@balena.io>"
+          },
+          "author": "Matthew McGinn"
+        }
+      ],
+      "version": "11.21.1",
+      "date": "2020-01-13T20:08:18.546Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add --verbose and --json options to the 'devices supported' command",
           "hash": "323c9191b6541285cbb44855b43acf01c5866d30",
           "body": "The command was also converted to oclif.\n",
@@ -8169,7 +8189,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 194,
+  "stars": 197,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -8270,36 +8290,88 @@
     "update-notifier",
     "window-size"
   ],
-  "lastCommitDate": "2019-12-27T12:32:41Z",
+  "lastCommitDate": "2020-01-14T00:19:39Z",
   "latestRelease": {
-    "tagName": "v11.21.0",
+    "tagName": "v11.21.1",
     "asssets": [
       {
-        "name": "balena-cli-v11.21.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.0/balena-cli-v11.21.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.21.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.1/balena-cli-v11.21.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.21.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.0/balena-cli-v11.21.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.21.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.1/balena-cli-v11.21.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.21.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.0/balena-cli-v11.21.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.21.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.1/balena-cli-v11.21.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.21.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.0/balena-cli-v11.21.0-windows-x64-installer.exe"
+        "name": "balena-cli-v11.21.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.1/balena-cli-v11.21.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.21.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.0/balena-cli-v11.21.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.21.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.1/balena-cli-v11.21.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 218,
+    "numberOfIssues": 229,
     "latestIssues": [
+      {
+        "title": "Ability to rename applications",
+        "url": "https://github.com/balena-io/balena-cli/issues/1567"
+      },
+      {
+        "title": "More insight into issues related to development and production builds",
+        "url": "https://github.com/balena-io/balena-cli/issues/1566"
+      },
+      {
+        "title": "Doing a balena push to a production build will report that the supervisor version is not high enough",
+        "url": "https://github.com/balena-io/balena-cli/issues/1565"
+      },
+      {
+        "title": "Some `balena` commands result in `Buffer()` warnings being printed to the console",
+        "url": "https://github.com/balena-io/balena-cli/issues/1564"
+      },
+      {
+        "title": "Add Windows-specific hint to 'balena scan' output",
+        "url": "https://github.com/balena-io/balena-cli/pull/1563"
+      },
+      {
+        "title": "`balena scan` doesn't hint to Windows users to install Bonjour",
+        "url": "https://github.com/balena-io/balena-cli/issues/1562"
+      },
+      {
+        "title": "Update CONTRIBUTING.md regarding npm installation and some common gotchas",
+        "url": "https://github.com/balena-io/balena-cli/pull/1561"
+      },
+      {
+        "title": "Remove unnecessary supervisor dependency for 'balena ssh'",
+        "url": "https://github.com/balena-io/balena-cli/issues/1560"
+      },
+      {
+        "title": "Fix join and leave commands on Windows (hanging on stdin and argument escaping)",
+        "url": "https://github.com/balena-io/balena-cli/pull/1559"
+      },
+      {
+        "title": "Prevent file ignorer from ignoring Dockerfile, docker-compose.yml",
+        "url": "https://github.com/balena-io/balena-cli/pull/1558"
+      },
+      {
+        "title": "balena join/leave hangs on Windows",
+        "url": "https://github.com/balena-io/balena-cli/issues/1557"
+      },
+      {
+        "title": "Fix 'balena push' hanging on Windows",
+        "url": "https://github.com/balena-io/balena-cli/pull/1556"
+      },
+      {
+        "title": "The CLI is not ending after pushing",
+        "url": "https://github.com/balena-io/balena-cli/issues/1554"
+      },
       {
         "title": "`device init` is broken and insufficiently documented",
         "url": "https://github.com/balena-io/balena-cli/issues/1552"
@@ -8327,62 +8399,10 @@
       {
         "title": "Add ability to \"Grant support access\" to devices and apps",
         "url": "https://github.com/balena-io/balena-cli/issues/1546"
-      },
-      {
-        "title": "Deactivate device not available from cli",
-        "url": "https://github.com/balena-io/balena-cli/issues/1545"
-      },
-      {
-        "title": "Override lock action not available from cli",
-        "url": "https://github.com/balena-io/balena-cli/issues/1544"
-      },
-      {
-        "title": "Pin releases are not available in CLI.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1543"
-      },
-      {
-        "title": "Add `balena device restart`",
-        "url": "https://github.com/balena-io/balena-cli/issues/1542"
-      },
-      {
-        "title": "I get Invalid MBR boot signature when configuring a device, FAQ asked me to delete a non existent cache",
-        "url": "https://github.com/balena-io/balena-cli/issues/1541"
-      },
-      {
-        "title": "`balena ssh <ip-address>` does not support IPv6 addresses.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1540"
-      },
-      {
-        "title": "CLI should retry every HTTP request by default",
-        "url": "https://github.com/balena-io/balena-cli/issues/1539"
-      },
-      {
-        "title": "Opaque BalenaRequestError trying to delete application",
-        "url": "https://github.com/balena-io/balena-cli/issues/1537"
-      },
-      {
-        "title": "`balena ssh` logs error, but exits 0",
-        "url": "https://github.com/balena-io/balena-cli/issues/1535"
-      },
-      {
-        "title": "[Experimental] Add ability to install with \"npm install git://github.com/balena-io/balena-cli\"",
-        "url": "https://github.com/balena-io/balena-cli/pull/1534"
-      },
-      {
-        "title": "Build-time secrets don't support subdirectories or executable scripts",
-        "url": "https://github.com/balena-io/balena-cli/issues/1532"
-      },
-      {
-        "title": "Testing preloader upgrade",
-        "url": "https://github.com/balena-io/balena-cli/pull/1531"
-      },
-      {
-        "title": "Error pushing image using hostname",
-        "url": "https://github.com/balena-io/balena-cli/issues/1528"
       }
     ]
   },
-  "version": "11.21.0",
+  "version": "11.21.1",
   "screenshot": null,
   "logo": null
 }
