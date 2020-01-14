@@ -19,7 +19,7 @@ import { stripIndent } from 'common-tags';
 import { exitWithExpectedError } from './utils/patterns';
 
 export interface AppOptions {
-	// Prevent the default behaviour of flushing stdout after running a command
+	// Prevent the default behavior of flushing stdout after running a command
 	noFlush?: boolean;
 }
 

@@ -142,7 +142,7 @@ export const push: CommandDefinition<
 		When pushing to a local device a live session will be started.
 		The project source folder is watched for filesystem events, and changes
 		to files and folders are automatically synchronized to the running
-		containers. The synchronisation is only in one direction, from this machine to
+		containers. The synchronization is only in one direction, from this machine to
 		the device, and changes made on the device itself may be overwritten.
 		This feature requires a device running supervisor version v9.7.0 or greater.
 
@@ -203,7 +203,7 @@ export const push: CommandDefinition<
 			boolean: true,
 			description: stripIndent`
 				Don't run a live session on this push. The filesystem will not be monitored, and changes
-				will not be synchronised to any running containers. Note that both this flag and --detached
+				will not be synchronized to any running containers. Note that both this flag and --detached
 				and required to cause the process to end once the initial build has completed.`,
 		},
 		{
