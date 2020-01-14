@@ -5,6 +5,36 @@
     {
       "commits": [
         {
+          "subject": "Fix 'balena join' when the user is not logged in",
+          "hash": "95561864a64b0a03cc7a94cfe63a038730141026",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Fix join and leave commands on Windows (hanging on stdin and argument escaping)",
+          "hash": "51adfeaa3bb91c6dcd3efc2a6e2ebda064665de9",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.21.4",
+      "date": "2020-01-14T19:38:13.156Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Increase default mocha test timeout to avoid spurious CI failures",
           "hash": "3466be19923523c7a0d8cca429f54b0bd69b0aed",
           "body": "",
@@ -8362,37 +8392,38 @@
     "umount",
     "unzip2",
     "update-notifier",
+    "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-01-14T19:32:33Z",
+  "lastCommitDate": "2020-01-14T20:16:39Z",
   "latestRelease": {
-    "tagName": "v11.21.3",
+    "tagName": "v11.21.4",
     "asssets": [
       {
-        "name": "balena-cli-v11.21.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.3/balena-cli-v11.21.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.21.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.4/balena-cli-v11.21.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.21.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.3/balena-cli-v11.21.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.21.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.4/balena-cli-v11.21.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.21.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.3/balena-cli-v11.21.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.21.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.4/balena-cli-v11.21.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.21.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.3/balena-cli-v11.21.3-windows-x64-installer.exe"
+        "name": "balena-cli-v11.21.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.4/balena-cli-v11.21.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.21.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.3/balena-cli-v11.21.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.21.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.4/balena-cli-v11.21.4-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 225,
+    "numberOfIssues": 223,
     "latestIssues": [
       {
         "title": "Document, improve error msg and/or remove requirement for owner prefix in legacy application names",
@@ -8427,16 +8458,8 @@
         "url": "https://github.com/balena-io/balena-cli/issues/1560"
       },
       {
-        "title": "Fix join and leave commands on Windows (hanging on stdin and argument escaping)",
-        "url": "https://github.com/balena-io/balena-cli/pull/1559"
-      },
-      {
         "title": "Prevent file ignorer from ignoring Dockerfile, docker-compose.yml",
         "url": "https://github.com/balena-io/balena-cli/pull/1558"
-      },
-      {
-        "title": "balena join/leave hangs on Windows",
-        "url": "https://github.com/balena-io/balena-cli/issues/1557"
       },
       {
         "title": "`device init` is broken and insufficiently documented",
@@ -8473,10 +8496,18 @@
       {
         "title": "Override lock action not available from cli",
         "url": "https://github.com/balena-io/balena-cli/issues/1544"
+      },
+      {
+        "title": "Pin releases are not available in CLI.",
+        "url": "https://github.com/balena-io/balena-cli/issues/1543"
+      },
+      {
+        "title": "Add `balena device restart`",
+        "url": "https://github.com/balena-io/balena-cli/issues/1542"
       }
     ]
   },
-  "version": "11.21.3",
+  "version": "11.21.4",
   "screenshot": null,
   "logo": null
 }
