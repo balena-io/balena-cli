@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Change the balena app action to present the slug instead of the git_repository",
+          "hash": "ef4ee54a003242fe0c1ce3f1a7520f1def6b741f",
+          "body": "The `git_repository` field was replaced in the v5\nendpoint with the `slug` field. As a result the CLI atm\nnever shows the `git_repository` in the printed\nvisual.\n\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Thodoris Greasidis"
+        }
+      ],
+      "version": "11.21.5",
+      "date": "2020-01-14T23:57:30.415Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix 'balena join' when the user is not logged in",
           "hash": "95561864a64b0a03cc7a94cfe63a038730141026",
           "body": "",
@@ -8395,36 +8411,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-01-14T20:16:39Z",
+  "lastCommitDate": "2020-01-15T11:37:57Z",
   "latestRelease": {
-    "tagName": "v11.21.4",
+    "tagName": "v11.21.5",
     "asssets": [
       {
-        "name": "balena-cli-v11.21.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.4/balena-cli-v11.21.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.21.5-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.5/balena-cli-v11.21.5-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.21.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.4/balena-cli-v11.21.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.21.5-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.5/balena-cli-v11.21.5-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.21.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.4/balena-cli-v11.21.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.21.5-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.5/balena-cli-v11.21.5-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.21.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.4/balena-cli-v11.21.4-windows-x64-installer.exe"
+        "name": "balena-cli-v11.21.5-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.5/balena-cli-v11.21.5-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.21.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.4/balena-cli-v11.21.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.21.5-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.5/balena-cli-v11.21.5-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 223,
+    "numberOfIssues": 224,
     "latestIssues": [
+      {
+        "title": "The tag option to balena build doesn't seem to work",
+        "url": "https://github.com/balena-io/balena-cli/issues/1570"
+      },
       {
         "title": "Document, improve error msg and/or remove requirement for owner prefix in legacy application names",
         "url": "https://github.com/balena-io/balena-cli/issues/1568"
@@ -8500,14 +8520,10 @@
       {
         "title": "Pin releases are not available in CLI.",
         "url": "https://github.com/balena-io/balena-cli/issues/1543"
-      },
-      {
-        "title": "Add `balena device restart`",
-        "url": "https://github.com/balena-io/balena-cli/issues/1542"
       }
     ]
   },
-  "version": "11.21.4",
+  "version": "11.21.5",
   "screenshot": null,
   "logo": null
 }
