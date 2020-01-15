@@ -1,4 +1,21 @@
 - commits:
+    - subject: >-
+        Change the balena app action to present the slug instead of the
+        git_repository
+      hash: ef4ee54a003242fe0c1ce3f1a7520f1def6b741f
+      body: |+
+        The `git_repository` field was replaced in the v5
+        endpoint with the `slug` field. As a result the CLI atm
+        never shows the `git_repository` in the printed
+        visual.
+
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+  version: 11.21.5
+  date: 2020-01-14T23:57:30.415Z
+- commits:
     - subject: Fix 'balena join' when the user is not logged in
       hash: 95561864a64b0a03cc7a94cfe63a038730141026
       body: ''
