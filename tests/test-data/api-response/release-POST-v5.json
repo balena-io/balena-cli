@@ -1,0 +1,54 @@
+{
+	"id": 1218643,
+	"created_at": "2020-01-16T17:08:53.016Z",
+	"belongs_to__application": {
+		"__deferred": {
+			"uri": "/resin/application(1301645)"
+		},
+		"__id": 1301645
+	},
+	"is_created_by__user": {
+		"__deferred": {
+			"uri": "/resin/user(43699)"
+		},
+		"__id": 43699
+	},
+	"commit": "09f7c3e1fdec609be818002299edfc2a",
+	"composition": {
+		"version": "2.1",
+		"networks": {},
+		"volumes": {
+			"resin-data": {}
+		},
+		"services": {
+			"main": {
+				"build": {
+					"context": "."
+				},
+				"privileged": true,
+				"tty": true,
+				"restart": "always",
+				"network_mode": "host",
+				"volumes": [
+					"resin-data:/data"
+				],
+				"labels": {
+					"io.resin.features.kernel-modules": "1",
+					"io.resin.features.firmware": "1",
+					"io.resin.features.dbus": "1",
+					"io.resin.features.supervisor-api": "1",
+					"io.resin.features.resin-api": "1"
+				}
+			}
+		}
+	},
+	"status": "running",
+	"source": "local",
+	"build_log": null,
+	"start_timestamp": "2020-01-16T17:08:52.710Z",
+	"end_timestamp": null,
+	"update_timestamp": "2020-01-16T17:08:53.017Z",
+	"__metadata": {
+		"uri": "/resin/release(@id)?@id=1218643"
+	}
+}

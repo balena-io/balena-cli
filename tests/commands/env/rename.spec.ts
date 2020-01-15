@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2016-2019 Balena Ltd.
+ * Copyright 2019-2020 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,8 @@ describe('balena env rename', function() {
 
 	beforeEach(() => {
 		api = new BalenaAPIMock();
-		api.expectWhoAmI(true);
-		api.expectMixpanel();
+		api.expectGetWhoAmI({ optional: true, persist: true });
+		api.expectGetMixpanel({ optional: true });
 	});
 
 	afterEach(() => {

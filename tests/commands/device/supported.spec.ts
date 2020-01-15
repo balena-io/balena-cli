@@ -1,4 +1,22 @@
+/**
+ * @license
+ * Copyright 2019-2020 Balena Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { expect } from 'chai';
+
 import { BalenaAPIMock } from '../../balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
@@ -15,8 +33,8 @@ describe('balena devices supported', function() {
 	});
 
 	it('should print help text with the -h flag', async () => {
-		api.expectWhoAmI();
-		api.expectMixpanel();
+		api.expectGetWhoAmI({ optional: true });
+		api.expectGetMixpanel({ optional: true });
 
 		const { out, err } = await runCommand('devices supported -h');
 
@@ -26,15 +44,9 @@ describe('balena devices supported', function() {
 	});
 
 	it('should list currently supported devices, with correct filtering', async () => {
-		api.expectWhoAmI();
-		api.expectMixpanel();
-
-		// TODO: Using the alias api.expect here causes route /config/vars to be called unexpectedly - why?
-		api.scope
-			.get('/device-types/v1')
-			.replyWithFile(200, __dirname + '/device-types.api-response.json', {
-				'Content-Type': 'application/json',
-			});
+		api.expectGetWhoAmI({ optional: true });
+		api.expectGetMixpanel({ optional: true });
+		api.expectGetDeviceTypes();
 
 		const { out, err } = await runCommand('devices supported');
 

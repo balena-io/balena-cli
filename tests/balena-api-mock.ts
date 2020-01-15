@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019 Balena Ltd.
+ * Copyright 2019-2020 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,59 +16,111 @@
  */
 
 import * as _ from 'lodash';
-import * as nock from 'nock';
+import * as path from 'path';
 
-export class BalenaAPIMock {
-	public static basePathPattern = /api\.balena-cloud\.com/;
-	public readonly scope: nock.Scope;
-	// Expose `scope` as `expect` to allow for better semantics in tests
-	public readonly expect = this.scope;
+import { NockMock, ScopeOpts } from './nock-mock';
 
-	// For debugging tests
-	get unfulfilledCallCount(): number {
-		return this.scope.pendingMocks().length;
-	}
+const apiResponsePath = path.normalize(
+	path.join(__dirname, 'test-data', 'api-response'),
+);
 
+const jHeader = { 'Content-Type': 'application/json' };
+
+export class BalenaAPIMock extends NockMock {
 	constructor() {
-		nock.cleanAll();
-
-		if (!nock.isActive()) {
-			nock.activate();
-		}
-
-		this.scope = nock(BalenaAPIMock.basePathPattern);
-
-		nock.emitter.on('no match', this.handleUnexpectedRequest);
+		super('https://api.balena-cloud.com');
 	}
 
-	public done() {
-		// scope.done() will throw an error if there are expected api calls that have not happened.
-		// So ensures that all expected calls have been made.
-		this.scope.done();
-		// Remove 'no match' handler, for tests using nock without this module
-		nock.emitter.removeListener('no match', this.handleUnexpectedRequest);
-		// Restore unmocked behavior
-		nock.cleanAll();
-		nock.restore();
+	public expectGetApplication(opts: ScopeOpts = {}) {
+		this.optGet(/^\/v5\/application($|[(?])/, opts).replyWithFile(
+			200,
+			path.join(apiResponsePath, 'application-GET-v5-expanded-app-type.json'),
+			jHeader,
+		);
 	}
 
-	public expectTestApp() {
-		this.scope
-			.get(/^\/v\d+\/application($|\?)/)
-			.reply(200, { d: [{ id: 1234567 }] });
+	public expectGetMyApplication(opts: ScopeOpts = {}) {
+		this.optGet(/^\/v5\/my_application($|[(?])/, opts).reply(
+			200,
+			JSON.parse(`{"d": [{
+				"user": [{ "username": "bob", "__metadata": {} }],
+				"id": 1301645,
+				"__metadata": { "uri": "/resin/my_application(@id)?@id=1301645" }}]}
+			`),
+		);
 	}
 
-	public expectTestDevice(
-		fullUUID = 'f63fd7d7812c34c4c14ae023fdff05f5',
-		inaccessibleApp = false,
-	) {
+	public expectGetAuth(opts: ScopeOpts = {}) {
+		this.optGet(/^\/auth\/v1\//, opts).reply(200, {
+			// "token": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlJZVFk6TlE3WDpKSDVCOlFFWFk6RkU2TjpLTlVVOklWNTI6TFFRQTo3UjRWOjJVUFI6Qk9ISjpDNklPIn0.eyJqdGkiOiI3ZTNlN2RmMS1iYjljLTQxZTMtOTlkMi00NjVlMjE4YzFmOWQiLCJuYmYiOjE1NzkxOTQ1MjgsImFjY2VzcyI6W3sibmFtZSI6InYyL2MwODljNDIxZmIyMzM2ZDA0NzUxNjZmYmYzZDBmOWZhIiwidHlwZSI6InJlcG9zaXRvcnkiLCJhY3Rpb25zIjpbInB1bGwiLCJwdXNoIl19LHsibmFtZSI6InYyLzljMDBjOTQxMzk0MmNkMTVjZmM5MTg5YzVkYWMzNTlkIiwidHlwZSI6InJlcG9zaXRvcnkiLCJhY3Rpb25zIjpbInB1bGwiLCJwdXNoIl19XSwiaWF0IjoxNTc5MTk0NTM4LCJleHAiOjE1NzkyMDg5MzgsImF1ZCI6InJlZ2lzdHJ5Mi5iYWxlbmEtY2xvdWQuY29tIiwiaXNzIjoiYXBpLmJhbGVuYS1jbG91ZC5jb20iLCJzdWIiOiJnaF9wYXVsb19jYXN0cm8ifQ.bRw5_lg-nT-c1V4RxIJjujfPuVewZTs0BRNENEw2-sk_6zepLs-sLl9DOSEHYBdi87EtyCiUB3Wqee6fvz2HyQ"
+			token: 'test',
+		});
+	}
+
+	public expectGetRelease(opts: ScopeOpts = {}) {
+		this.optGet(/^\/v5\/release($|[(?])/, opts).replyWithFile(
+			200,
+			path.join(apiResponsePath, 'release-GET-v5.json'),
+			jHeader,
+		);
+	}
+
+	public expectPatchRelease(opts: ScopeOpts = {}) {
+		this.optPatch(/^\/v5\/release($|[(?])/, opts).reply(200, 'OK');
+	}
+
+	public expectPostRelease(opts: ScopeOpts = {}) {
+		this.optPost(/^\/v5\/release($|[(?])/, opts).replyWithFile(
+			200,
+			path.join(apiResponsePath, 'release-POST-v5.json'),
+			jHeader,
+		);
+	}
+
+	public expectPatchImage(opts: ScopeOpts = {}) {
+		this.optPatch(/^\/v5\/image($|[(?])/, opts).reply(200, 'OK');
+	}
+
+	public expectPostImage(opts: ScopeOpts = {}) {
+		this.optPost(/^\/v5\/image($|[(?])/, opts).replyWithFile(
+			201,
+			path.join(apiResponsePath, 'image-POST-v5.json'),
+			jHeader,
+		);
+	}
+
+	public expectPostImageLabel(opts: ScopeOpts = {}) {
+		this.optPost(/^\/v5\/image_label($|[(?])/, opts).replyWithFile(
+			201,
+			path.join(apiResponsePath, 'image-label-POST-v5.json'),
+			jHeader,
+		);
+	}
+
+	public expectPostImageIsPartOfRelease(opts: ScopeOpts = {}) {
+		this.optPost(
+			/^\/v5\/image__is_part_of__release($|[(?])/,
+			opts,
+		).replyWithFile(
+			200,
+			path.join(apiResponsePath, 'image-is-part-of-release-POST-v5.json'),
+			jHeader,
+		);
+	}
+
+	public expectGetDevice(opts: {
+		fullUUID: string;
+		inaccessibleApp?: boolean;
+		optional?: boolean;
+		persist?: boolean;
+	}) {
 		const id = 7654321;
-		this.scope.get(/^\/v\d+\/device($|\?)/).reply(200, {
+		this.optGet(/^\/v\d+\/device($|\?)/, opts).reply(200, {
 			d: [
 				{
 					id,
-					uuid: fullUUID,
-					belongs_to__application: inaccessibleApp
+					uuid: opts.fullUUID,
+					belongs_to__application: opts.inaccessibleApp
 						? []
 						: [{ app_name: 'test' }],
 				},
@@ -76,10 +128,10 @@ export class BalenaAPIMock {
 		});
 	}
 
-	public expectAppEnvVars() {
-		this.scope
-			.get(/^\/v\d+\/application_environment_variable($|\?)/)
-			.reply(200, {
+	public expectGetAppEnvVars(opts: ScopeOpts = {}) {
+		this.optGet(/^\/v\d+\/application_environment_variable($|\?)/, opts).reply(
+			200,
+			{
 				d: [
 					{
 						id: 120101,
@@ -92,11 +144,12 @@ export class BalenaAPIMock {
 						value: '22',
 					},
 				],
-			});
+			},
+		);
 	}
 
-	public expectAppConfigVars() {
-		this.scope.get(/^\/v\d+\/application_config_variable($|\?)/).reply(200, {
+	public expectGetAppConfigVars(opts: ScopeOpts = {}) {
+		this.optGet(/^\/v\d+\/application_config_variable($|\?)/, opts).reply(200, {
 			d: [
 				{
 					id: 120300,
@@ -107,10 +160,9 @@ export class BalenaAPIMock {
 		});
 	}
 
-	public expectAppServiceVars() {
-		this.scope
-			.get(/^\/v\d+\/service_environment_variable($|\?)/)
-			.reply(function(uri, _requestBody) {
+	public expectGetAppServiceVars(opts: ScopeOpts = {}) {
+		this.optGet(/^\/v\d+\/service_environment_variable($|\?)/, opts).reply(
+			function(uri, _requestBody) {
 				const match = uri.match(/service_name%20eq%20%27(.+?)%27/);
 				const serviceName = (match && match[1]) || undefined;
 				let varArray: any[];
@@ -121,11 +173,12 @@ export class BalenaAPIMock {
 					varArray = _.map(appServiceVarsByService, value => value);
 				}
 				return [200, { d: varArray }];
-			});
+			},
+		);
 	}
 
-	public expectDeviceEnvVars() {
-		this.scope.get(/^\/v\d+\/device_environment_variable($|\?)/).reply(200, {
+	public expectGetDeviceEnvVars(opts: ScopeOpts = {}) {
+		this.optGet(/^\/v\d+\/device_environment_variable($|\?)/, opts).reply(200, {
 			d: [
 				{
 					id: 120203,
@@ -141,8 +194,8 @@ export class BalenaAPIMock {
 		});
 	}
 
-	public expectDeviceConfigVars() {
-		this.scope.get(/^\/v\d+\/device_config_variable($|\?)/).reply(200, {
+	public expectGetDeviceConfigVars(opts: ScopeOpts = {}) {
+		this.optGet(/^\/v\d+\/device_config_variable($|\?)/, opts).reply(200, {
 			d: [
 				{
 					id: 120400,
@@ -153,25 +206,34 @@ export class BalenaAPIMock {
 		});
 	}
 
-	public expectDeviceServiceVars() {
-		this.scope
-			.get(/^\/v\d+\/device_service_environment_variable($|\?)/)
-			.reply(function(uri, _requestBody) {
-				const match = uri.match(/service_name%20eq%20%27(.+?)%27/);
-				const serviceName = (match && match[1]) || undefined;
-				let varArray: any[];
-				if (serviceName) {
-					const varObj = deviceServiceVarsByService[serviceName];
-					varArray = varObj ? [varObj] : [];
-				} else {
-					varArray = _.map(deviceServiceVarsByService, value => value);
-				}
-				return [200, { d: varArray }];
-			});
+	public expectGetDeviceServiceVars(opts: ScopeOpts = {}) {
+		this.optGet(
+			/^\/v\d+\/device_service_environment_variable($|\?)/,
+			opts,
+		).reply(function(uri, _requestBody) {
+			const match = uri.match(/service_name%20eq%20%27(.+?)%27/);
+			const serviceName = (match && match[1]) || undefined;
+			let varArray: any[];
+			if (serviceName) {
+				const varObj = deviceServiceVarsByService[serviceName];
+				varArray = varObj ? [varObj] : [];
+			} else {
+				varArray = _.map(deviceServiceVarsByService, value => value);
+			}
+			return [200, { d: varArray }];
+		});
 	}
 
-	public expectConfigVars() {
-		this.scope.get('/config/vars').reply(200, {
+	public expectGetDeviceTypes(opts: ScopeOpts = {}) {
+		this.optGet('/device-types/v1', opts).replyWithFile(
+			200,
+			path.join(apiResponsePath, 'device-types-GET-v1.json'),
+			jHeader,
+		);
+	}
+
+	public expectGetConfigVars(opts: ScopeOpts = {}) {
+		this.optGet('/config/vars', opts).reply(200, {
 			reservedNames: [],
 			reservedNamespaces: [],
 			invalidRegex: '/^d|W/',
@@ -182,52 +244,53 @@ export class BalenaAPIMock {
 		});
 	}
 
-	public expectService(serviceName: string, serviceId = 243768) {
-		this.scope.get(/^\/v\d+\/service($|\?)/).reply(200, {
-			d: [{ id: serviceId, service_name: serviceName }],
+	public expectGetService(opts: {
+		optional?: boolean;
+		persist?: boolean;
+		serviceId?: number;
+		serviceName: string;
+	}) {
+		const serviceId = opts.serviceId || 243768;
+		this.optGet(/^\/v\d+\/service($|\?)/, opts).reply(200, {
+			d: [{ id: serviceId, service_name: opts.serviceName }],
+		});
+	}
+
+	public expectPostService404(opts: ScopeOpts = {}) {
+		this.optPost(/^\/v\d+\/service$/, opts).reply(
+			404,
+			'Unique key constraint violated',
+		);
+	}
+
+	public expectGetUser(opts: ScopeOpts = {}) {
+		this.optGet(/^\/v5\/user/, opts).reply(200, {
+			d: [
+				{
+					id: 99999,
+					actor: 1234567,
+					username: 'gh_user',
+					created_at: '2018-08-19T13:55:04.485Z',
+					__metadata: {
+						uri: '/resin/user(@id)?@id=43699',
+					},
+				},
+			],
 		});
 	}
 
 	// User details are cached in the SDK
 	// so often we don't know if we can expect the whoami request
-	public expectWhoAmI(persist = false, optional = true) {
-		const get = (persist ? this.scope.persist() : this.scope).get(
-			'/user/v1/whoami',
-		);
-		(optional ? get.optionally() : get).reply(200, {
+	public expectGetWhoAmI(opts: ScopeOpts = {}) {
+		this.optGet('/user/v1/whoami', opts).reply(200, {
 			id: 99999,
-			username: 'testuser',
+			username: 'gh_user',
 			email: 'testuser@test.com',
 		});
 	}
 
-	public expectMixpanel(optional = true) {
-		const get = this.scope.get(/^\/mixpanel\/track/);
-		(optional ? get.optionally() : get).reply(200, {});
-	}
-
-	protected handleUnexpectedRequest(req: any) {
-		console.error(`Unexpected http request!: ${req.path}`);
-		// Errors thrown here are not causing the tests to fail for some reason.
-		// Possibly due to CLI global error handlers? (error.js)
-		// (Also, nock should automatically throw an error, but also not happening)
-		// For now, the console.error is sufficient (will fail the test)
-	}
-
-	public debug() {
-		const scope = this.scope;
-		let mocks = scope.pendingMocks();
-		console.error(`pending mocks ${mocks.length}: ${mocks}`);
-
-		this.scope.on('request', function(_req, _interceptor, _body) {
-			console.log(`>> REQUEST:` + _req.path);
-			mocks = scope.pendingMocks();
-			console.error(`pending mocks ${mocks.length}: ${mocks}`);
-		});
-
-		this.scope.on('replied', function(_req) {
-			console.log(`<< REPLIED:` + _req.path);
-		});
+	public expectGetMixpanel(opts: ScopeOpts = {}) {
+		this.optGet(/^\/mixpanel\/track/, opts).reply(200, {});
 	}
 }
 

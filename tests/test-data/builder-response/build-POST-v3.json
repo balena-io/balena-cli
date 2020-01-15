@@ -1,0 +1,99 @@
+[
+	{"type":"metadata","resource":"buildLogId","value":1220245}
+	,
+	{"message":"\u001b[36m[Info]\u001b[39m     Starting build for testApp, user gh_user"}
+	,
+	{"message":"\u001b[36m[Info]\u001b[39m     Dashboard link: https://dashboard.balena-cloud.com/apps/1301645/devices"}
+	,
+	{"message":"\u001b[36m[Info]\u001b[39m     Building on arm01"}
+	,
+	{"message":"\u001b[36m[Info]\u001b[39m     Pulling previous images for caching purposes..."}
+	,
+	{"message":"[=>                                                 ] 2%","replace":true}
+	,
+	{"message":"[===>                                               ] 6%","replace":true}
+	,
+	{"message":"[======>                                            ] 13%","replace":true}
+	,
+	{"message":"[=================================================> ] 98%","replace":true}
+	,
+	{"message":"[==================================================>] 100%","replace":true}
+	,
+	{"type":"metadata","resource":"cursor","value":"erase"}
+	,
+	{"message":"\u001b[32m[Success]\u001b[39m  Successfully pulled cache images"}
+	,
+	{"message":"\u001b[34m[main]\u001b[39m     Step 1/4 : FROM busybox"}
+	,
+	{"message":"\u001b[34m[main]\u001b[39m      ---> 76aea0766768"}
+	,
+	{"message":"\u001b[34m[main]\u001b[39m     Step 2/4 : COPY ./src/start.sh /start.sh"}
+	,
+	{"message":"\u001b[34m[main]\u001b[39m      ---> b563ad6a0801"}
+	,
+	{"message":"\u001b[34m[main]\u001b[39m     Step 3/4 : RUN chmod a+x /start.sh"}
+	,
+	{"message":"\u001b[34m[main]\u001b[39m      ---> Running in 10d4ddc40bfc"}
+	,
+	{"message":"\u001b[34m[main]\u001b[39m     Removing intermediate container 10d4ddc40bfc"}
+	,
+	{"message":"\u001b[34m[main]\u001b[39m      ---> 82e98871a32c"}
+	,
+	{"message":"\u001b[34m[main]\u001b[39m     Step 4/4 : CMD [\"/start.sh\"]"}
+	,
+	{"message":"\u001b[34m[main]\u001b[39m      ---> Running in 0682894e13eb"}
+	,
+	{"message":"\u001b[34m[main]\u001b[39m     Removing intermediate container 0682894e13eb"}
+	,
+	{"message":"\u001b[34m[main]\u001b[39m      ---> 889ccb6afc7c"}
+	,
+	{"message":"\u001b[34m[main]\u001b[39m     Successfully built 889ccb6afc7c"}
+	,
+	{"message":"\u001b[36m[Info]\u001b[39m     Uploading images"}
+	,
+	{"message":"[================>                                  ] 33%","replace":true}
+	,
+	{"message":"[=========================>                         ] 50%","replace":true}
+	,
+	{"message":"[=================================>                 ] 67%","replace":true}
+	,
+	{"message":"[=================================>                 ] 67%","replace":true}
+	,
+	{"message":"[==========================================>        ] 84%","replace":true}
+	,
+	{"message":"[==================================================>] 100%","replace":true}
+	,
+	{"message":"[==================================================>] 100%","replace":true}
+	,
+	{"message":"[==================================================>] 100%","replace":true}
+	,
+	{"message":"[==================================================>] 100%","replace":true}
+	,
+	{"message":"[==================================================>] 100%","replace":true}
+	,
+	{"message":"[==================================================>] 100%","replace":true}
+	,
+	{"type":"metadata","resource":"cursor","value":"erase"}
+	,
+	{"message":"\u001b[32m[Success]\u001b[39m  Successfully uploaded images"}
+	,
+	{"message":"\u001b[36m[Info]\u001b[39m     Built on arm01"}
+	,
+	{"message":"\u001b[32m[Success]\u001b[39m  Release successfully created!"}
+	,
+	{"message":"\u001b[36m[Info]\u001b[39m     Release: \u001b[34m05a24b5b034c9f95f25d4d74f0593bea\u001b[39m (id: \u001b[32m1220245\u001b[39m)"}
+	,
+	{"message":"\u001b[36m[Info]\u001b[39m     \u001b[90m┌─────────\u001b[39m\u001b[90m┬────────────\u001b[39m\u001b[90m┬────────────┐\u001b[39m"}
+	,
+	{"message":"\u001b[36m[Info]\u001b[39m     \u001b[90m│\u001b[39m \u001b[1mService\u001b[22m \u001b[90m│\u001b[39m \u001b[1mImage Size\u001b[22m \u001b[90m│\u001b[39m \u001b[1mBuild Time\u001b[22m \u001b[90m│\u001b[39m"}
+	,
+	{"message":"\u001b[36m[Info]\u001b[39m     \u001b[90m├─────────\u001b[39m\u001b[90m┼────────────\u001b[39m\u001b[90m┼────────────┤\u001b[39m"}
+	,
+	{"message":"\u001b[36m[Info]\u001b[39m     \u001b[90m│\u001b[39m main    \u001b[90m│\u001b[39m 1.32 MB    \u001b[90m│\u001b[39m 11 seconds \u001b[90m│\u001b[39m"}
+	,
+	{"message":"\u001b[36m[Info]\u001b[39m     \u001b[90m└─────────\u001b[39m\u001b[90m┴────────────\u001b[39m\u001b[90m┴────────────┘\u001b[39m"}
+	,
+	{"message":"\u001b[36m[Info]\u001b[39m     Build finished in 26 seconds"}
+	,
+	{"message":"\u001b[1m\u001b[34m\t\t\t    \\\n\t\t\t     \\\n\t\t\t      \\\\\n\t\t\t       \\\\\n\t\t\t        >\\/7\n\t\t\t    _.-(6'  \\\n\t\t\t   (=___._/` \\\n\t\t\t        )  \\ |\n\t\t\t       /   / |\n\t\t\t      /    > /\n\t\t\t     j    < _\\\n\t\t\t _.-' :      ``.\n\t\t\t \\ r=._\\        `.\n\t\t\t<`\\\\_  \\         .`-.\n\t\t\t \\ r-7  `-. ._  ' .  `\\\n\t\t\t  \\`,      `-.`7  7)   )\n\t\t\t   \\/         \\|  \\'  / `-._\n\t\t\t              ||    .'\n\t\t\t               \\\\  (\n\t\t\t                >\\  >\n\t\t\t            ,.-' >.'\n\t\t\t           <.'_.''\n\t\t\t             <'\u001b[39m\u001b[22m","isSuccess":true}
+]
