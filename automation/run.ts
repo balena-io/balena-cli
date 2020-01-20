@@ -20,14 +20,13 @@ import * as _ from 'lodash';
 import {
 	buildOclifInstaller,
 	buildStandaloneZip,
-	fixPathForMsys,
-	ROOT,
-	runUnderMsys,
+	catchUncommitted,
 } from './build-bin';
 import {
 	release,
 	updateDescriptionOfReleasesAffectedByIssue1359,
 } from './deploy-bin';
+import { fixPathForMsys, ROOT, runUnderMsys } from './utils';
 
 function exitWithError(error: Error | string): never {
 	console.error(`Error: ${error}`);
@@ -54,9 +53,10 @@ export async function run(args?: string[]) {
 	if (_.isEmpty(args)) {
 		return exitWithError('missing command-line arguments');
 	}
-	const commands: { [cmd: string]: () => void } = {
+	const commands: { [cmd: string]: () => void | Promise<void> } = {
 		'build:installer': buildOclifInstaller,
 		'build:standalone': buildStandaloneZip,
+		'catch-uncommitted': catchUncommitted,
 		fix1359: updateDescriptionOfReleasesAffectedByIssue1359,
 		release,
 	};
