@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Add Windows-specific hint to 'balena scan' output",
+          "hash": "aca794b267a62a117658dd196d790391bc2b69a7",
+          "body": "An extra Windows-specific message is now appended to the 'Could not find any balenaOS devices' message - if the OS is Windows.\n\nAlso updated the INSTALL instructions with details of the dependency on Bonjour.\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Graham McCulloch <graham@balena.io>",
+            "signed-off-by": "Graham McCulloch <graham@balena.io>"
+          },
+          "author": "Graham McCulloch"
+        }
+      ],
+      "version": "11.21.6",
+      "date": "2020-01-20T00:25:03.196Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Change the balena app action to present the slug instead of the git_repository",
           "hash": "ef4ee54a003242fe0c1ce3f1a7520f1def6b741f",
           "body": "The `git_repository` field was replaced in the v5\nendpoint with the `slug` field. As a result the CLI atm\nnever shows the `git_repository` in the printed\nvisual.\n\n",
@@ -8189,12 +8207,12 @@
       "avatar": "https://avatars3.githubusercontent.com/u/5211478?v=4"
     },
     {
-      "username": "emirotin",
-      "avatar": "https://avatars0.githubusercontent.com/u/525832?v=4"
-    },
-    {
       "username": "thgreasi",
       "avatar": "https://avatars0.githubusercontent.com/u/1295829?v=4"
+    },
+    {
+      "username": "emirotin",
+      "avatar": "https://avatars0.githubusercontent.com/u/525832?v=4"
     },
     {
       "username": "zvin",
@@ -8265,6 +8283,10 @@
       "avatar": "https://avatars1.githubusercontent.com/u/6810908?v=4"
     },
     {
+      "username": "grahammcculloch",
+      "avatar": "https://avatars3.githubusercontent.com/u/2925657?v=4"
+    },
+    {
       "username": "jacintoArias",
       "avatar": "https://avatars0.githubusercontent.com/u/7511199?v=4"
     },
@@ -8279,10 +8301,6 @@
     {
       "username": "mccollam",
       "avatar": "https://avatars3.githubusercontent.com/u/3144447?v=4"
-    },
-    {
-      "username": "shaunmulligan",
-      "avatar": "https://avatars1.githubusercontent.com/u/3915043?v=4"
     }
   ],
   "docs": [],
@@ -8309,7 +8327,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 197,
+  "stars": 200,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -8411,29 +8429,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-01-15T11:37:57Z",
+  "lastCommitDate": "2020-01-20T03:22:14Z",
   "latestRelease": {
-    "tagName": "v11.21.5",
+    "tagName": "v11.21.6",
     "asssets": [
       {
-        "name": "balena-cli-v11.21.5-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.5/balena-cli-v11.21.5-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.21.6-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.6/balena-cli-v11.21.6-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.21.5-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.5/balena-cli-v11.21.5-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.21.6-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.6/balena-cli-v11.21.6-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.21.5-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.5/balena-cli-v11.21.5-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.21.6-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.6/balena-cli-v11.21.6-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.21.5-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.5/balena-cli-v11.21.5-windows-x64-installer.exe"
+        "name": "balena-cli-v11.21.6-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.6/balena-cli-v11.21.6-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.21.5-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.5/balena-cli-v11.21.5-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.21.6-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.6/balena-cli-v11.21.6-windows-x64-standalone.zip"
       }
     ]
   },
@@ -8442,8 +8460,16 @@
     "numberOfIssues": 224,
     "latestIssues": [
       {
-        "title": "The tag option to balena build doesn't seem to work",
-        "url": "https://github.com/balena-io/balena-cli/issues/1570"
+        "title": "Should suggest using the --logs option when build/push/deploy fails",
+        "url": "https://github.com/balena-io/balena-cli/issues/1573"
+      },
+      {
+        "title": "Add test cases for the push, build and deploy commands",
+        "url": "https://github.com/balena-io/balena-cli/pull/1572"
+      },
+      {
+        "title": "Add project directory validation for balena push / build / deploy",
+        "url": "https://github.com/balena-io/balena-cli/pull/1571"
       },
       {
         "title": "Document, improve error msg and/or remove requirement for owner prefix in legacy application names",
@@ -8464,14 +8490,6 @@
       {
         "title": "Some `balena` commands result in `Buffer()` warnings being printed to the console",
         "url": "https://github.com/balena-io/balena-cli/issues/1564"
-      },
-      {
-        "title": "Add Windows-specific hint to 'balena scan' output",
-        "url": "https://github.com/balena-io/balena-cli/pull/1563"
-      },
-      {
-        "title": "`balena scan` doesn't hint to Windows users to install Bonjour",
-        "url": "https://github.com/balena-io/balena-cli/issues/1562"
       },
       {
         "title": "Remove unnecessary supervisor dependency for 'balena ssh'",
@@ -8523,7 +8541,7 @@
       }
     ]
   },
-  "version": "11.21.5",
+  "version": "11.21.6",
   "screenshot": null,
   "logo": null
 }
