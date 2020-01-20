@@ -1,4 +1,22 @@
 - commits:
+    - subject: Add Windows-specific hint to 'balena scan' output
+      hash: aca794b267a62a117658dd196d790391bc2b69a7
+      body: >
+        An extra Windows-specific message is now appended to the 'Could not find
+        any balenaOS devices' message - if the OS is Windows.
+
+
+        Also updated the INSTALL instructions with details of the dependency on
+        Bonjour.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 11.21.6
+  date: 2020-01-20T00:25:03.196Z
+- commits:
     - subject: >-
         Change the balena app action to present the slug instead of the
         git_repository
