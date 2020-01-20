@@ -74,9 +74,7 @@ function getOctokit(): any {
 		throttle: {
 			onRateLimit: (retryAfter: number, options: any) => {
 				console.warn(
-					`Request quota exhausted for request ${options.method} ${
-						options.url
-					}`,
+					`Request quota exhausted for request ${options.method} ${options.url}`,
 				);
 				// retries 3 times
 				if (options.request.retryCount < 3) {
@@ -174,9 +172,7 @@ async function updateGitHubReleaseDescriptions(
 				);
 				continue;
 			}
-			const skipMsg = `${prefix} skipping release "${cliRelease.tag_name}" (${
-				cliRelease.id
-			})`;
+			const skipMsg = `${prefix} skipping release "${cliRelease.tag_name}" (${cliRelease.id})`;
 			if (cliRelease.draft === true) {
 				console.info(`${skipMsg}: draft release`);
 				continue;
@@ -201,9 +197,7 @@ async function updateGitHubReleaseDescriptions(
 					}
 				}
 				console.info(
-					`${prefix} updating release "${cliRelease.tag_name}" (${
-						cliRelease.id
-					}) old body="${oldBodyPreview}"`,
+					`${prefix} updating release "${cliRelease.tag_name}" (${cliRelease.id}) old body="${oldBodyPreview}"`,
 				);
 				try {
 					await octokit.repos.updateRelease(updatedRelease);

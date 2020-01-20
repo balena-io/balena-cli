@@ -80,9 +80,9 @@ export default class DevicesSupportedCmd extends Command {
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(DevicesSupportedCmd);
 		const sdk = SDK.fromSharedOptions();
-		let deviceTypes: Array<
-			Partial<DeviceTypeWithAliases>
-		> = await sdk.models.config.getDeviceTypes();
+		let deviceTypes: Array<Partial<
+			DeviceTypeWithAliases
+		>> = await sdk.models.config.getDeviceTypes();
 		if (!options.discontinued) {
 			deviceTypes = deviceTypes.filter(dt => dt.state !== 'DISCONTINUED');
 		}

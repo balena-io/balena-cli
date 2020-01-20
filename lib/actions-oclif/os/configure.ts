@@ -306,9 +306,7 @@ async function checkDeviceTypeCompatibility(
 		const helpers = await import('../../utils/helpers');
 		if (!helpers.areDeviceTypesCompatible(appDeviceType, optionDeviceType)) {
 			throw new ExpectedError(
-				`Device type ${
-					options['device-type']
-				} is incompatible with application ${options.application}`,
+				`Device type ${options['device-type']} is incompatible with application ${options.application}`,
 			);
 		}
 	}

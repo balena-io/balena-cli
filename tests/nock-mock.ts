@@ -45,9 +45,7 @@ export class NockMock {
 			nock.emitter.on('no match', this.handleUnexpectedRequest);
 		} else if (process.env.DEBUG) {
 			console.error(
-				`[debug] NockMock.constructor() instance count is ${
-					NockMock.instanceCount
-				}`,
+				`[debug] NockMock.constructor() instance count is ${NockMock.instanceCount}`,
 			);
 		}
 		NockMock.instanceCount += 1;

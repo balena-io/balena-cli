@@ -183,9 +183,7 @@ async function testPkg() {
 	}
 	if (semver.major(process.version) !== pkgNodeMajorVersion) {
 		throw new Error(
-			`Mismatched major version: built-in pkg Node version="${pkgNodeVersion}" vs process.version="${
-				process.version
-			}"`,
+			`Mismatched major version: built-in pkg Node version="${pkgNodeVersion}" vs process.version="${process.version}"`,
 		);
 	}
 	console.log('Success! (standalone package test successful)');
