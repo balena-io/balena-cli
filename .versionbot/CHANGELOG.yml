@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        Prevent file ignorer from ignoring Dockerfile (and variants),
+        docker-compose.yml
+      hash: 95b5ac1c7f682edb30d2a870d8df2466bb20c9ca
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#1445'
+        resolves: '#1445'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.21.7
+  date: 2020-01-20T11:01:32.629Z
+- commits:
     - subject: Add Windows-specific hint to 'balena scan' output
       hash: aca794b267a62a117658dd196d790391bc2b69a7
       body: >
