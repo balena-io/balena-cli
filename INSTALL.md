@@ -170,6 +170,14 @@ especially if you're using a user-managed node install such as [nvm](https://git
     Windows, check the [FAQ item "Docker seems to be
     unavailable"](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md#docker-seems-to-be-unavailable-error-when-using-windows-subsystem-for-linux-wsl).
 
+* The `balena scan` command requires a multicast DNS (mDNS) service like Bonjour or Avahi:
+  * On Windows, check if 'Bonjour' is installed (Control Panel > Programs and Features).
+    If not, you can download Bonjour for Windows from https://support.apple.com/kb/DL999
+  * Most 'desktop' Linux distributions ship with [Avahi](https://en.wikipedia.org/wiki/Avahi_(software)).
+    Search for the installation command for your distribution. E.g. for Ubuntu:
+    `sudo apt-get install avahi-daemon`
+  * macOS comes with [Bonjour](https://en.wikipedia.org/wiki/Bonjour_(software)) built-in.
+
 ## Configuring SSH keys
 
 The `balena ssh` command requires an SSH key to be added to your balena account. If you had
