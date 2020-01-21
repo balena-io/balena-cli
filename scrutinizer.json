@@ -5,6 +5,48 @@
     {
       "commits": [
         {
+          "subject": "Add `catch-uncommitted` to balena CI build",
+          "hash": "9db6961a7eb3905f37abe55e33989029128d2612",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Update resin-lint and prettier, and re-prettify",
+          "hash": "b978230f9e15c8a42feffbf5d07469b5e1ab2b3a",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Add tests for push, deploy and build commands",
+          "hash": "cc5fe60a15347674992d8ddfb2f5dfe9077b5d70",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.21.8",
+      "date": "2020-01-20T23:29:54.537Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Prevent file ignorer from ignoring Dockerfile (and variants), docker-compose.yml",
           "hash": "95b5ac1c7f682edb30d2a870d8df2466bb20c9ca",
           "body": "",
@@ -8211,12 +8253,12 @@
       "avatar": "https://avatars0.githubusercontent.com/u/1526883?v=4"
     },
     {
-      "username": "resin-io-versionbot[bot]",
-      "avatar": "https://avatars1.githubusercontent.com/u/6157842?v=4"
-    },
-    {
       "username": "pdcastro",
       "avatar": "https://avatars3.githubusercontent.com/u/15091591?v=4"
+    },
+    {
+      "username": "resin-io-versionbot[bot]",
+      "avatar": "https://avatars1.githubusercontent.com/u/6157842?v=4"
     },
     {
       "username": "CameronDiver",
@@ -8449,29 +8491,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-01-20T11:26:30Z",
+  "lastCommitDate": "2020-01-21T11:06:33Z",
   "latestRelease": {
-    "tagName": "v11.21.7",
+    "tagName": "v11.21.8",
     "asssets": [
       {
-        "name": "balena-cli-v11.21.7-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.7/balena-cli-v11.21.7-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.21.8-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.8/balena-cli-v11.21.8-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.21.7-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.7/balena-cli-v11.21.7-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.21.8-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.8/balena-cli-v11.21.8-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.21.7-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.7/balena-cli-v11.21.7-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.21.8-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.8/balena-cli-v11.21.8-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.21.7-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.7/balena-cli-v11.21.7-windows-x64-installer.exe"
+        "name": "balena-cli-v11.21.8-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.8/balena-cli-v11.21.8-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.21.7-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.7/balena-cli-v11.21.7-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.21.8-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.21.8/balena-cli-v11.21.8-windows-x64-standalone.zip"
       }
     ]
   },
@@ -8480,16 +8522,16 @@
     "numberOfIssues": 223,
     "latestIssues": [
       {
+        "title": "Provide a more specific error message when using template variables by mistake on a regular`Dockerfile`",
+        "url": "https://github.com/balena-io/balena-cli/issues/1575"
+      },
+      {
         "title": "Add build-time reporting to local pushes",
         "url": "https://github.com/balena-io/balena-cli/issues/1574"
       },
       {
         "title": "Should suggest using the --logs option when build/push/deploy fails",
         "url": "https://github.com/balena-io/balena-cli/issues/1573"
-      },
-      {
-        "title": "Add test cases for the push, build and deploy commands",
-        "url": "https://github.com/balena-io/balena-cli/pull/1572"
       },
       {
         "title": "Add project directory validation for balena push / build / deploy",
@@ -8561,7 +8603,7 @@
       }
     ]
   },
-  "version": "11.21.7",
+  "version": "11.21.8",
   "screenshot": null,
   "logo": null
 }
