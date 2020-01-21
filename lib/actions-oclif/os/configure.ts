@@ -17,12 +17,17 @@
 
 import { Command, flags } from '@oclif/command';
 import BalenaSdk = require('balena-sdk');
+import Bluebird = require('bluebird');
 import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
+import * as path from 'path';
 
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { CommandHelp } from '../../utils/oclif-utils';
+
+const BOOT_PARTITION = 1;
+const CONNECTIONS_FOLDER = '/system-connections';
 
 interface FlagsDef {
 	advanced?: boolean;
@@ -38,6 +43,7 @@ interface FlagsDef {
 	'device-type'?: string;
 	help?: void;
 	version?: string;
+	'system-connection': string[];
 }
 
 interface ArgsDef {
@@ -67,7 +73,7 @@ export default class OsConfigureCmd extends Command {
 
 		Configure a previously downloaded balenaOS image for a specific device type or
 		balena application.
-		
+
 		Configuration settings such as WiFi authentication will be taken from the
 		following sources, in precedence order:
 		1. Command-line options like \`--config-wifi-ssid\`
@@ -76,6 +82,13 @@ export default class OsConfigureCmd extends Command {
 
 		The --device-type option may be used to override the application's default
 		device type, in case of an application with mixed device types.
+
+		The --system-connection (-c) option can be used to inject NetworkManager connection
+		profiles for additional network interfaces, such as cellular/GSM or additional
+		WiFi or ethernet connections. This option may be passed multiple times in case there
+		are multiple files to inject. See connection profile examples and reference at:
+		https://www.balena.io/docs/reference/OS/network/2.x/
+		https://developer.gnome.org/NetworkManager/stable/nm-settings.html
 
 		${deviceApiKeyDeprecationMsg.split('\n').join('\n\t\t')}
 	`;
@@ -144,6 +157,13 @@ export default class OsConfigureCmd extends Command {
 		version: flags.string({
 			description: 'balenaOS version, for example "2.32.0" or "2.44.0+rev1"',
 		}),
+		'system-connection': flags.string({
+			multiple: true,
+			char: 'c',
+			required: false,
+			description:
+				"paths to local files to place into the 'system-connections' directory",
+		}),
 	};
 
 	public async run() {
@@ -163,6 +183,7 @@ export default class OsConfigureCmd extends Command {
 			'../../utils/config'
 		);
 		const helpers = await import('../../utils/helpers');
+		const imagefs = await require('resin-image-fs');
 		let app: BalenaSdk.Application | undefined;
 		let device: BalenaSdk.Device | undefined;
 		let deviceTypeSlug: string;
@@ -213,14 +234,42 @@ export default class OsConfigureCmd extends Command {
 
 		console.info('Configuring operating system image');
 
+		const image = params.image;
 		await helpers.osProgressHandler(
 			await devInit.configure(
-				params.image,
+				image,
 				deviceTypeManifest,
 				configJson || {},
 				answers,
 			),
 		);
+
+		if (options['system-connection']) {
+			const files = await Bluebird.map(
+				options['system-connection'],
+				async filePath => {
+					const content = await fs.readFile(filePath, 'utf8');
+					const name = path.basename(filePath);
+
+					return {
+						name,
+						content,
+					};
+				},
+			);
+
+			await Bluebird.each(files, async ({ name, content }) => {
+				await imagefs.writeFile(
+					{
+						image,
+						partition: BOOT_PARTITION,
+						path: path.join(CONNECTIONS_FOLDER, name),
+					},
+					content,
+				);
+				console.info(`Copied system-connection file: ${name}`);
+			});
+		}
 	}
 }
 
