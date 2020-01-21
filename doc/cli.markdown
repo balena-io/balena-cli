@@ -1300,6 +1300,13 @@ following sources, in precedence order:
 The --device-type option may be used to override the application's default
 device type, in case of an application with mixed device types.
 
+The --system-connection (-c) option can be used to inject NetworkManager connection
+profiles for additional network interfaces, such as cellular/GSM or additional
+WiFi or ethernet connections. This option may be passed multiple times in case there
+are multiple files to inject. See connection profile examples and reference at:
+https://www.balena.io/docs/reference/OS/network/2.x/
+https://developer.gnome.org/NetworkManager/stable/nm-settings.html
+
 The --device-api-key option is deprecated and will be removed in a future release.
 A suitable key is automatically generated or fetched if this option is omitted.
 
@@ -1367,6 +1374,10 @@ device type slug (e.g. "raspberrypi3") to override the application device type
 #### --version VERSION
 
 balenaOS version, for example "2.32.0" or "2.44.0+rev1"
+
+#### -c, --system-connection SYSTEM-CONNECTION
+
+paths to local files to place into the 'system-connections' directory
 
 ## os initialize &#60;image&#62;
 
