@@ -1,4 +1,34 @@
 - commits:
+    - subject: Add `catch-uncommitted` to balena CI build
+      hash: 9db6961a7eb3905f37abe55e33989029128d2612
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: 'Update resin-lint and prettier, and re-prettify'
+      hash: b978230f9e15c8a42feffbf5d07469b5e1ab2b3a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: 'Add tests for push, deploy and build commands'
+      hash: cc5fe60a15347674992d8ddfb2f5dfe9077b5d70
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.21.8
+  date: 2020-01-20T23:29:54.537Z
+- commits:
     - subject: >-
         Prevent file ignorer from ignoring Dockerfile (and variants),
         docker-compose.yml
