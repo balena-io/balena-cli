@@ -30,9 +30,7 @@ export interface AppOptions {
 export async function routeCliFramework(argv: string[], options: AppOptions) {
 	if (process.env.DEBUG) {
 		console.log(
-			`[debug] original argv0="${process.argv0}" argv=[${argv}] length=${
-				argv.length
-			}`,
+			`[debug] original argv0="${process.argv0}" argv=[${argv}] length=${argv.length}`,
 		);
 	}
 	const cmdSlice = argv.slice(2);

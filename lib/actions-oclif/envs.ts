@@ -299,9 +299,7 @@ async function getDeviceVars(
 		deviceVars.push(...deviceConfigVars);
 	} else {
 		if (options.service || options.all) {
-			const pineOpts: SDK.PineOptionsFor<
-				SDK.DeviceServiceEnvironmentVariable
-			> = {
+			const pineOpts: SDK.PineOptionsFor<SDK.DeviceServiceEnvironmentVariable> = {
 				$expand: {
 					service_install: {
 						$expand: 'installs__service',

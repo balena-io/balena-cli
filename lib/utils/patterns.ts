@@ -366,10 +366,12 @@ export async function getOnlineTargetUuid(
 		logger.logDebug(
 			`Fetching device by UUID ${applicationOrDevice} (${typeof applicationOrDevice})`,
 		);
-		return (await sdk.models.device.get(applicationOrDevice, {
-			$select: ['uuid'],
-			$filter: { is_online: true },
-		})).uuid;
+		return (
+			await sdk.models.device.get(applicationOrDevice, {
+				$select: ['uuid'],
+				$filter: { is_online: true },
+			})
+		).uuid;
 	}
 
 	// otherwise, it may be a device OR an application...
@@ -409,10 +411,12 @@ export async function getOnlineTargetUuid(
 	logger.logDebug(
 		`Fetching device by UUID ${applicationOrDevice} (${typeof applicationOrDevice})`,
 	);
-	return (await sdk.models.device.get(applicationOrDevice, {
-		$select: ['uuid'],
-		$filter: { is_online: true },
-	})).uuid;
+	return (
+		await sdk.models.device.get(applicationOrDevice, {
+			$select: ['uuid'],
+			$filter: { is_online: true },
+		})
+	).uuid;
 }
 
 export function selectFromList<T>(

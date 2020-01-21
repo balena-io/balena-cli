@@ -1,4 +1,23 @@
+/**
+ * @license
+ * Copyright 2019-2020 Balena Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { expect } from 'chai';
+import * as path from 'path';
+
 import { BalenaAPIMock } from '../../balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
@@ -21,6 +40,10 @@ Options:
     --application, -a, --app <application> application name
 `;
 
+const apiResponsePath = path.normalize(
+	path.join(__dirname, '..', '..', 'test-data', 'api-response'),
+);
+
 describe('balena devices', function() {
 	let api: BalenaAPIMock;
 
@@ -34,8 +57,8 @@ describe('balena devices', function() {
 	});
 
 	it('should print help text with the -h flag', async () => {
-		api.expectWhoAmI();
-		api.expectMixpanel();
+		api.expectGetWhoAmI({ optional: true });
+		api.expectGetMixpanel({ optional: true });
 
 		const { out, err } = await runCommand('devices -h');
 
@@ -45,14 +68,14 @@ describe('balena devices', function() {
 	});
 
 	it('should list devices from own and collaborator apps', async () => {
-		api.expectWhoAmI();
-		api.expectMixpanel();
+		api.expectGetWhoAmI({ optional: true });
+		api.expectGetMixpanel({ optional: true });
 
 		api.scope
 			.get(
 				'/v5/device?$orderby=device_name%20asc&$expand=belongs_to__application($select=app_name)',
 			)
-			.replyWithFile(200, __dirname + '/devices.api-response.json', {
+			.replyWithFile(200, path.join(apiResponsePath, 'devices.json'), {
 				'Content-Type': 'application/json',
 			});
 

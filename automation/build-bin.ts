@@ -18,7 +18,7 @@
 import { run as oclifRun } from '@oclif/dev-cli';
 import * as archiver from 'archiver';
 import * as Bluebird from 'bluebird';
-import { execFile, spawn } from 'child_process';
+import { execFile } from 'child_process';
 import { stripIndent } from 'common-tags';
 import * as filehound from 'filehound';
 import * as fs from 'fs-extra';
@@ -27,15 +27,17 @@ import * as path from 'path';
 import { exec as execPkg } from 'pkg';
 import * as rimraf from 'rimraf';
 import * as semver from 'semver';
-import * as shellEscape from 'shell-escape';
 import * as util from 'util';
 
-export const ROOT = path.join(__dirname, '..');
-// Note: the following 'tslint disable' line was only required to
-// satisfy ts-node under Appveyor's MSYS2 on Windows -- oddly specific.
-// Maybe something to do with '/' vs '\' in paths in some tslint file.
-// tslint:disable-next-line:no-var-requires
-export const packageJSON = require(path.join(ROOT, 'package.json'));
+import {
+	getSubprocessStdout,
+	loadPackageJson,
+	MSYS2_BASH,
+	ROOT,
+	whichSpawn,
+} from './utils';
+
+export const packageJSON = loadPackageJson();
 export const version = 'v' + packageJSON.version;
 const arch = process.arch;
 
@@ -68,34 +70,6 @@ export const finalReleaseAssets: { [platform: string]: string[] } = {
 	darwin: [standaloneZips['darwin'], renamedOclifInstallers['darwin']],
 	linux: [standaloneZips['linux']],
 };
-
-const MSYS2_BASH = 'C:\\msys64\\usr\\bin\\bash.exe';
-
-/**
- * Run the MSYS2 bash.exe shell in a child process (child_process.spawn()).
- * The given argv arguments are escaped using the 'shell-escape' package,
- * so that backslashes in Windows paths, and other bash-special characters,
- * are preserved. If argv is not provided, defaults to process.argv, to the
- * effect that this current (parent) process is re-executed under MSYS2 bash.
- * This is useful to change the default shell from cmd.exe to MSYS2 bash on
- * Windows.
- * @param argv Arguments to be shell-escaped and given to MSYS2 bash.exe.
- */
-export async function runUnderMsys(argv?: string[]) {
-	const newArgv = argv || process.argv;
-	await new Promise((resolve, reject) => {
-		const args = ['-lc', shellEscape(newArgv)];
-		const child = spawn(MSYS2_BASH, args, { stdio: 'inherit' });
-		child.on('close', code => {
-			if (code) {
-				console.log(`runUnderMsys: child process exited with code ${code}`);
-				reject(code);
-			} else {
-				resolve();
-			}
-		});
-	});
-}
 
 /**
  * Use the 'pkg' module to create a single large executable file with
@@ -183,9 +157,7 @@ async function testPkg() {
 	}
 	if (semver.major(process.version) !== pkgNodeMajorVersion) {
 		throw new Error(
-			`Mismatched major version: built-in pkg Node version="${pkgNodeVersion}" vs process.version="${
-				process.version
-			}"`,
+			`Mismatched major version: built-in pkg Node version="${pkgNodeVersion}" vs process.version="${process.version}"`,
 		);
 	}
 	console.log('Success! (standalone package test successful)');
@@ -315,62 +287,24 @@ export async function buildOclifInstaller() {
 }
 
 /**
- * Convert e.g. 'C:\myfolder' -> '/C/myfolder' so that the path can be given
- * as argument to "unix tools" like 'tar' under MSYS or MSYS2 on Windows.
+ * Wrapper around the npm `catch-uncommitted` package in order to run it
+ * conditionally, only when:
+ * - A CI env var is set (CI=true), and
+ * - The OS is not Windows. (`catch-uncommitted` fails on Windows)
  */
-export function fixPathForMsys(p: string): string {
-	return p.replace(/\\/g, '/').replace(/^([a-zA-Z]):/, '/$1');
-}
-
-/**
- * Run the executable at execPath as a child process, and resolve a promise
- * to the executable's stdout output as a string. Reject the promise if
- * anything is printed to stderr, or if the child process exits with a
- * non-zero exit code.
- * @param execPath Executable path
- * @param args Command-line argument for the executable
- */
-async function getSubprocessStdout(
-	execPath: string,
-	args: string[],
-): Promise<string> {
-	const child = spawn(execPath, args);
-	return new Promise((resolve, reject) => {
-		let stdout = '';
-		child.stdout.on('error', reject);
-		child.stderr.on('error', reject);
-		child.stdout.on('data', (data: Buffer) => {
-			try {
-				stdout = data.toString();
-			} catch (err) {
-				reject(err);
-			}
-		});
-		child.stderr.on('data', (data: Buffer) => {
-			try {
-				const stderr = data.toString();
-
-				// ignore any debug lines, but ensure that we parse
-				// every line provided to the stderr stream
-				const lines = _.filter(
-					stderr.trim().split(/\r?\n/),
-					line => !line.startsWith('[debug]'),
-				);
-				if (lines.length > 0) {
-					reject(
-						new Error(`"${execPath}": non-empty stderr "${lines.join('\n')}"`),
-					);
-				}
-			} catch (err) {
-				reject(err);
-			}
-		});
-		child.on('exit', (code: number) => {
-			if (code) {
-				reject(new Error(`"${execPath}": non-zero exit code "${code}"`));
-			} else {
-				resolve(stdout);
-			}
-		});
-	});
+export async function catchUncommitted(): Promise<void> {
+	if (process.env.DEBUG) {
+		console.error(`[debug] CI=${process.env.CI} platform=${process.platform}`);
+	}
+	if (
+		process.env.CI &&
+		['true', 'yes', '1'].includes(process.env.CI.toLowerCase()) &&
+		process.platform !== 'win32'
+	) {
+		await whichSpawn('npx', [
+			'catch-uncommitted',
+			'--catch-no-git',
+			'--skip-node-versionbot-changes',
+		]);
+	}
 }

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019 Balena Ltd.
+ * Copyright 2019-2020 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,8 @@ describe('balena env add', function() {
 
 	beforeEach(() => {
 		api = new BalenaAPIMock();
-		api.expectWhoAmI(true);
-		api.expectMixpanel();
+		api.expectGetWhoAmI({ optional: true, persist: true });
+		api.expectGetMixpanel({ optional: true });
 	});
 
 	afterEach(() => {
@@ -35,14 +35,14 @@ describe('balena env add', function() {
 	});
 
 	it('should successfully add an environment variable', async () => {
-		const deviceId = 'f63fd7d7812c34c4c14ae023fdff05f5';
-		api.expectTestDevice();
-		api.expectConfigVars();
+		const fullUUID = 'f63fd7d7812c34c4c14ae023fdff05f5';
+		api.expectGetDevice({ fullUUID });
+		api.expectGetConfigVars();
 		api.scope
 			.post(/^\/v\d+\/device_environment_variable($|\?)/)
 			.reply(200, 'OK');
 
-		const { out, err } = await runCommand(`env add TEST 1 -d ${deviceId}`);
+		const { out, err } = await runCommand(`env add TEST 1 -d ${fullUUID}`);
 
 		expect(out.join('')).to.equal('');
 		expect(err.join('')).to.equal('');
