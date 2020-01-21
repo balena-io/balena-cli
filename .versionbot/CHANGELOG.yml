@@ -1,4 +1,22 @@
 - commits:
+    - subject: >-
+        configure: Allow passing system-connection files to 'os configure'
+        command
+      hash: 8f6902f4cb582d48085527942cd8b6d8682d1b16
+      body: |
+        Allow passing files to `os configure` via `--system-connection` to allow
+        pre-configuration of network connections, such as cellular/GSM.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#1498'
+        connects-to: '#1498'
+        Signed-off-by: Rich Bayliss <rich@balena.io>
+        signed-off-by: Rich Bayliss <rich@balena.io>
+      author: Rich Bayliss
+  version: 11.22.0
+  date: 2020-01-21T21:09:23.157Z
+- commits:
     - subject: Add `catch-uncommitted` to balena CI build
       hash: 9db6961a7eb3905f37abe55e33989029128d2612
       body: ''
