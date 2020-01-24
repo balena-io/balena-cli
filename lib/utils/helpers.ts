@@ -379,20 +379,87 @@ export async function workaroundWindowsDnsIssue(ipOrHostname: string) {
  * so hash -r is not needed when the PATH changes."
  *
  * @param program Basename of a program, for example 'ssh'
+ * @param rejectOnMissing If the program cannot be found, reject the promise
+ * with an ExpectedError instead of fulfilling it with an empty string.
  * @returns The program's full path, e.g. 'C:\WINDOWS\System32\OpenSSH\ssh.EXE'
  */
-export async function which(program: string): Promise<string> {
+export async function which(
+	program: string,
+	rejectOnMissing = true,
+): Promise<string> {
 	const whichMod = await import('which');
 	let programPath: string;
 	try {
 		programPath = await whichMod(program);
 	} catch (err) {
 		if (err.code === 'ENOENT') {
-			throw new ExpectedError(
-				`'${program}' program not found. Is it installed?`,
-			);
+			if (rejectOnMissing) {
+				throw new ExpectedError(
+					`'${program}' program not found. Is it installed?`,
+				);
+			} else {
+				return '';
+			}
 		}
 		throw err;
 	}
 	return programPath;
+}
+
+export interface ProxyConfig {
+	host: string;
+	port: string;
+	username?: string;
+	password?: string;
+	proxyAuth?: string;
+}
+
+/**
+ * Check whether a proxy has been configured (whether global-tunnel-ng or
+ * global-agent) and if so, return a ProxyConfig object.
+ */
+export function getProxyConfig(): ProxyConfig | undefined {
+	const tunnelNgConfig: any = (global as any).PROXY_CONFIG;
+	// global-tunnel-ng
+	if (tunnelNgConfig) {
+		let username: string | undefined;
+		let password: string | undefined;
+		const proxyAuth: string = tunnelNgConfig.proxyAuth;
+		if (proxyAuth) {
+			const i = proxyAuth.lastIndexOf(':');
+			if (i > 0) {
+				username = proxyAuth.substring(0, i);
+				password = proxyAuth.substring(i + 1);
+			}
+		}
+		return {
+			host: tunnelNgConfig.host,
+			port: `${tunnelNgConfig.port}`,
+			username,
+			password,
+			proxyAuth: tunnelNgConfig.proxyAuth,
+		};
+		// global-agent, or no proxy config
+	} else {
+		const proxyUrl = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
+		if (proxyUrl) {
+			const { URL } = require('url') as typeof import('url');
+			let url: URL;
+			try {
+				url = new URL(proxyUrl);
+			} catch (_e) {
+				return;
+			}
+			return {
+				host: url.hostname,
+				port: url.port,
+				username: url.username,
+				password: url.password,
+				proxyAuth:
+					url.username && url.password
+						? `${url.username}:${url.password}`
+						: undefined,
+			};
+		}
+	}
 }

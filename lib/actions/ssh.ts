@@ -227,9 +227,9 @@ export const ssh: CommandDefinition<
 		const applicationOrDevice =
 			params.applicationOrDevice_raw || params.applicationOrDevice;
 		const bash = await import('bash');
-		// TODO: Make this typed
-		const hasbin = require('hasbin');
-		const { getSubShellCommand } = await import('../utils/helpers');
+		const { getProxyConfig, getSubShellCommand, which } = await import(
+			'../utils/helpers'
+		);
 		const { child_process } = await import('mz');
 		const {
 			exitIfNotLoggedIn,
@@ -239,8 +239,7 @@ export const ssh: CommandDefinition<
 		const sdk = BalenaSdk.fromSharedOptions();
 
 		const verbose = options.verbose === true;
-		// ugh TODO: Fix this
-		const proxyConfig = (global as any).PROXY_CONFIG;
+		const proxyConfig = getProxyConfig();
 		const useProxy = !!proxyConfig && !options.noProxy;
 		const port = options.port != null ? parseInt(options.port, 10) : undefined;
 
@@ -276,8 +275,8 @@ export const ssh: CommandDefinition<
 			}
 		}
 
-		const [hasTunnelBin, username, proxyUrl] = await Promise.all([
-			useProxy ? await hasbin('proxytunnel') : undefined,
+		const [whichProxytunnel, username, proxyUrl] = await Promise.all([
+			useProxy ? which('proxytunnel', false) : undefined,
 			sdk.auth.whoami(),
 			sdk.settings.get('proxyUrl'),
 		]);
@@ -287,7 +286,7 @@ export const ssh: CommandDefinition<
 				return '';
 			}
 
-			if (!hasTunnelBin) {
+			if (!whichProxytunnel) {
 				console.warn(stripIndent`
 					Proxy is enabled but the \`proxytunnel\` binary cannot be found.
 					Please install it if you want to route the \`balena ssh\` requests through the proxy.
@@ -298,18 +297,14 @@ export const ssh: CommandDefinition<
 				return '';
 			}
 
-			let tunnelOptions: Dictionary<string> = {
-				proxy: `${proxyConfig.host}:${proxyConfig.port}`,
+			const p = proxyConfig!;
+			const tunnelOptions: Dictionary<string> = {
+				proxy: `${p.host}:${p.port}`,
 				dest: '%h:%p',
 			};
-			const { proxyAuth } = proxyConfig;
-			if (proxyAuth) {
-				const i = proxyAuth.indexOf(':');
-				tunnelOptions = {
-					user: proxyAuth.substring(0, i),
-					pass: proxyAuth.substring(i + 1),
-					...tunnelOptions,
-				};
+			if (p.username && p.password) {
+				tunnelOptions.user = p.username;
+				tunnelOptions.pass = p.password;
 			}
 
 			const ProxyCommand = `proxytunnel ${bash.args(tunnelOptions, '--', '=')}`;
@@ -335,7 +330,7 @@ export const ssh: CommandDefinition<
 				{
 					port,
 					proxyCommand,
-					proxyUrl,
+					proxyUrl: proxyUrl || '',
 					username: username!,
 				},
 				version,
@@ -356,7 +351,7 @@ export const ssh: CommandDefinition<
 			verbose,
 			port,
 			proxyCommand,
-			proxyUrl,
+			proxyUrl: proxyUrl || '',
 			username: username!,
 		});
 

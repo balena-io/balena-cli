@@ -141,11 +141,13 @@ especially if you're using a user-managed node install such as [nvm](https://git
     ([more information](https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse)).
     For other versions of Windows, there are several ssh/OpenSSH clients provided by 3rd parties.
 
-  * If you need SSH to work behind a proxy, you will also need to install
-    [`proxytunnel`](http://proxytunnel.sourceforge.net/) (available as a `proxytunnel` package
-    for Ubuntu, for example).
-    Check the [README](https://github.com/balena-io/balena-cli/blob/master/README.md) file
-    for proxy configuration instructions.
+  * The [`proxytunnel`](http://proxytunnel.sourceforge.net/) package (command-line tool) is needed
+    for the `balena ssh` command to work behind a proxy. It is available for Linux distributions
+    like Ubuntu/Debian (`apt install proxytunnel`), and for macOS through
+    [Homebrew](https://brew.sh/). Windows support is limited to the Windows Subsystem for Linux
+    (e.g., by installing Ubuntu through the Microsoft App Store). Check the
+    [README](https://github.com/balena-io/balena-cli/blob/master/README.md) file for proxy
+    configuration instructions.
 
 * The `balena preload`, `balena build` and `balena deploy --build` commands require
   [Docker](https://docs.docker.com/install/overview/) or [balenaEngine](https://www.balena.io/engine/)

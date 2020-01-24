@@ -57,19 +57,65 @@ $ balena login
 
 ### Proxy support
 
-HTTP(S) proxies can be configured through any of the following methods, in order of preference:
+HTTP(S) proxies can be configured through any of the following methods, in precedence order
+(from higher to lower):
 
-* Set the `BALENARC_PROXY` environment variable in URL format (with protocol, host, port, and
-  optionally basic auth).
-* Alternatively, use the [balena config file](https://www.npmjs.com/package/balena-settings-client#documentation)
-  (project-specific or user-level) and set the `proxy` setting. It can be:
-  * A string in URL format, or
-  * An object in the [global-tunnel-ng options format](https://www.npmjs.com/package/global-tunnel-ng#options) (which allows more control).
-* Alternatively, set the conventional `https_proxy` / `HTTPS_PROXY` / `http_proxy` / `HTTP_PROXY`
-  environment variable (in the same standard URL format).
+* The `BALENARC_PROXY` environment variable in URL format, with protocol (`http` or `https`),
+  host, port and optionally basic auth. Examples:
+  * `export BALENARC_PROXY='https://bob:secret@proxy.company.com:12345'`
+  * `export BALENARC_PROXY='http://localhost:8000'`
 
-To get a proxy to work with the `balena ssh` command, check the
-[installation instructions](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).
+* The `proxy` setting in the [CLI config
+  file](https://www.npmjs.com/package/balena-settings-client#documentation). It may be:
+  * A string in URL format, e.g. `proxy: 'http://localhost:8000'`
+  * An object in the format:
+
+    ```yaml
+    proxy:
+        protocol: 'http'
+        host: 'proxy.company.com'
+        port: 12345
+        proxyAuth: 'bob:secret'
+    ```
+
+* The `HTTPS_PROXY` and/or `HTTP_PROXY` environment variables, in the same URL format as
+  `BALENARC_PROXY`.
+
+> Note: The `balena ssh` command has additional setup requirements to work behind a proxy.  
+> Check the [installation instructions](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).
+
+Some installations of the balena CLI also include support for the `BALENARC_NO_PROXY` environment
+variable, which allows proxy exclusion patterns to be defined. The current support status is listed
+below. Eventually, all installation types will have support for it.
+
+OS | Installation type | BALENARC_NO_PROXY environment variable support
+-- | ----------------- | ----------------------------------------------
+Windows | standalone zip | Supported with CLI v11.24.0 and later
+Windows | native/GUI     | Not supported
+macOS   | standalone zip | Not supported
+macOS   | native/GUI     | Supported with CLI v11.24.0 and later
+Linux   | standalone zip | Not supported
+Any     | npm            | Supported with Node.js >= v10.16.0 and CLI >= v11.24.0
+
+The format of the `BALENARC_NO_PROXY` environment variable is a comma-separated list of patterns
+that are matched against hostnames or IP addresses. For example:
+
+```
+export BALENARC_NO_PROXY='*.local,dev*.mycompany.com,192.168.*'
+```
+
+Matched patterns are excluded from proxying. Matching takes place _before_ name resolution, so a
+pattern like `'192.168.*'` will **not** match a hostname like `proxy.company.com` even if the
+hostname resolves to an IP address like `192.168.1.2`. Pattern matching expressions are documented
+at [matcher](https://www.npmjs.com/package/matcher#usage).
+
+By default, if BALENARC_NO_PROXY is not defined, all [private IPv4
+addresses](https://en.wikipedia.org/wiki/Private_network) and `'*.local'` are excluded from
+proxying. Other hostnames that may resolve to private IPv4 addresses are **not** excluded by
+default, as matching takes place _before_ name resolution. In addition, `localhost` and `127.0.0.1`
+are always excluded from proxying, regardless of the value of BALENARC_NO_PROXY. These default
+exclusions only apply to the CLI installations where BALENARC_NO_PROXY is supported, as listed in
+the table above.
 
 ## Support, FAQ and troubleshooting
 
