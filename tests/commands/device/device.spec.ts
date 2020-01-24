@@ -18,7 +18,7 @@
 import { expect } from 'chai';
 import * as path from 'path';
 
-import { BalenaAPIMock } from '../../balena-api-mock';
+import { apiResponsePath, BalenaAPIMock } from '../../balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
 const HELP_RESPONSE = `
@@ -30,10 +30,6 @@ Examples:
 
 \t$ balena device 7cf02a6
 `;
-
-const apiResponsePath = path.normalize(
-	path.join(__dirname, '..', '..', 'test-data', 'api-response'),
-);
 
 describe('balena device', function() {
 	let api: BalenaAPIMock;

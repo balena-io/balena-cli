@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019 Balena Ltd.
+ * Copyright 2019-2020 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,9 @@
  * limitations under the License.
  */
 
+// tslint:disable-next-line:no-var-requires
+require('./config-tests'); // required for side effects
+
 import intercept = require('intercept-stdout');
 import * as _ from 'lodash';
 import { fs } from 'mz';
@@ -26,12 +29,6 @@ import * as tar from 'tar-stream';
 import { streamToBuffer } from 'tar-utils';
 
 import * as balenaCLI from '../build/app';
-import { configureBluebird, setMaxListeners } from '../build/app-common';
-
-configureBluebird();
-setMaxListeners(35); // it appears that 'nock' adds a bunch of listeners - bug?
-// SL: Looks like it's not nock causing this, as have seen the problem triggered from help.spec,
-//     which is not using nock.  Perhaps mocha/chai? (unlikely), or something in the CLI?
 
 export const runCommand = async (cmd: string) => {
 	const preArgs = [process.argv[0], path.join(process.cwd(), 'bin', 'balena')];

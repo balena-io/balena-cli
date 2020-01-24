@@ -17,9 +17,14 @@
 
 import Bluebird = require('bluebird');
 import * as _ from 'lodash';
+import * as path from 'path';
 import * as zlib from 'zlib';
 
 import { NockMock } from './nock-mock';
+
+export const builderResponsePath = path.normalize(
+	path.join(__dirname, 'test-data', 'builder-response'),
+);
 
 export class BuilderMock extends NockMock {
 	constructor() {
@@ -31,15 +36,17 @@ export class BuilderMock extends NockMock {
 		persist?: boolean;
 		responseBody: any;
 		responseCode: number;
+		checkURI: (uri: string) => Promise<void>;
 		checkBuildRequestBody: (requestBody: string | Buffer) => Promise<void>;
 	}) {
 		this.optPost(/^\/v3\/build($|[(?])/, opts).reply(async function(
-			_uri,
+			uri,
 			requestBody,
 			callback,
 		) {
 			let error: Error | null = null;
 			try {
+				await opts.checkURI(uri);
 				if (typeof requestBody === 'string') {
 					const gzipped = Buffer.from(requestBody, 'hex');
 					const gunzipped = await Bluebird.fromCallback<Buffer>(cb => {

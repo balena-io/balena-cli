@@ -20,7 +20,7 @@ import * as path from 'path';
 
 import { NockMock, ScopeOpts } from './nock-mock';
 
-const dockerResponsePath = path.normalize(
+export const dockerResponsePath = path.normalize(
 	path.join(__dirname, 'test-data', 'docker-response'),
 );
 
@@ -70,14 +70,16 @@ export class DockerMock extends NockMock {
 		responseBody: any;
 		responseCode: number;
 		tag: string;
+		checkURI: (uri: string) => Promise<void>;
 		checkBuildRequestBody: (requestBody: string) => Promise<void>;
 	}) {
 		this.optPost(
 			new RegExp(`^/build\\?t=${_.escapeRegExp(opts.tag)}&`),
 			opts,
-		).reply(async function(_uri, requestBody, cb) {
+		).reply(async function(uri, requestBody, cb) {
 			let error: Error | null = null;
 			try {
+				await opts.checkURI(uri);
 				if (typeof requestBody === 'string') {
 					await opts.checkBuildRequestBody(requestBody);
 				} else {

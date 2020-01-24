@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-import { configureBluebird } from '../../build/app-common';
-
-configureBluebird();
+// tslint:disable-next-line:no-var-requires
+require('../config-tests'); // required for side effects
 
 import { expect } from 'chai';
-import { stripIndent } from 'common-tags';
+import { fs } from 'mz';
 import * as path from 'path';
+import { URL } from 'url';
 
 import { BalenaAPIMock } from '../balena-api-mock';
-import { DockerMock } from '../docker-mock';
+import { DockerMock, dockerResponsePath } from '../docker-mock';
 import {
 	cleanOutput,
 	inspectTarStream,
@@ -35,9 +35,26 @@ import {
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
 
+const expectedResponses = {
+	'build-POST.json': [
+		'[Info] Building for amd64/nuc',
+		'[Info] Docker Desktop detected (daemon architecture: "x86_64")',
+		'[Info] Docker itself will determine and enable architecture emulation if required,',
+		'[Info] without balena-cli intervention and regardless of the --emulated option.',
+		'[Build] main Image size: 1.14 MB',
+		'[Success] Build succeeded!',
+	],
+};
+
 describe('balena build', function() {
 	let api: BalenaAPIMock;
 	let docker: DockerMock;
+
+	const commonQueryParams = [
+		['t', 'basic_main'],
+		['buildargs', '{}'],
+		['labels', ''],
+	];
 
 	this.beforeEach(() => {
 		api = new BalenaAPIMock();
@@ -61,31 +78,23 @@ describe('balena build', function() {
 		const expectedFiles: TarStreamFiles = {
 			'src/start.sh': { fileSize: 89, type: 'file' },
 			Dockerfile: { fileSize: 85, type: 'file' },
+			'Dockerfile-alt': { fileSize: 30, type: 'file' },
 		};
-		const responseBody = stripIndent`
-			{"stream":"Step 1/4 : FROM busybox"}
-			{"stream":"\\n"}
-			{"stream":" ---\\u003e 64f5d945efcc\\n"}
-			{"stream":"Step 2/4 : COPY ./src/start.sh /start.sh"}
-			{"stream":"\\n"}
-			{"stream":" ---\\u003e Using cache\\n"}
-			{"stream":" ---\\u003e 97098fc9d757\\n"}
-			{"stream":"Step 3/4 : RUN chmod a+x /start.sh"}
-			{"stream":"\\n"}
-			{"stream":" ---\\u003e Using cache\\n"}
-			{"stream":" ---\\u003e 33728e2e3f7e\\n"}
-			{"stream":"Step 4/4 : CMD [\\"/start.sh\\"]"}
-			{"stream":"\\n"}
-			{"stream":" ---\\u003e Using cache\\n"}
-			{"stream":" ---\\u003e 2590e3b11eaf\\n"}
-			{"aux":{"ID":"sha256:2590e3b11eaf739491235016b53fec5d209c81837160abdd267c8fe5005ff1bd"}}
-			{"stream":"Successfully built 2590e3b11eaf\\n"}
-			{"stream":"Successfully tagged basic_main:latest\\n"}`;
+		const responseFilename = 'build-POST.json';
+		const responseBody = await fs.readFile(
+			path.join(dockerResponsePath, responseFilename),
+			'utf8',
+		);
 
 		docker.expectPostBuild({
 			tag: 'basic_main',
 			responseCode: 200,
 			responseBody,
+			checkURI: async (uri: string) => {
+				const url = new URL(uri, 'http://test.net/');
+				const queryParams = Array.from(url.searchParams.entries());
+				expect(queryParams).to.have.deep.members(commonQueryParams);
+			},
 			checkBuildRequestBody: (buildRequestBody: string) =>
 				inspectTarStream(buildRequestBody, expectedFiles, projectPath, expect),
 		});
@@ -99,12 +108,7 @@ describe('balena build', function() {
 			cleanOutput(out).map(line => line.replace(/\s{2,}/g, ' ')),
 		).to.include.members([
 			`[Info] Creating default composition with source: ${projectPath}`,
-			'[Info] Building for amd64/nuc',
-			'[Info] Docker Desktop detected (daemon architecture: "x86_64")',
-			'[Info] Docker itself will determine and enable architecture emulation if required,',
-			'[Info] without balena-cli intervention and regardless of the --emulated option.',
-			'[Build] main Image size: 1.14 MB',
-			'[Success] Build succeeded!',
+			...expectedResponses[responseFilename],
 		]);
 	});
 });
