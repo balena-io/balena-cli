@@ -60,7 +60,7 @@ describe('balena devices supported', function() {
 
 		// Experimental devices should be listed as beta
 		expect(lines.some(l => l.includes('EXPERIMENTAL'))).to.be.false;
-		expect(lines.some(l => l.includes('BETA'))).to.be.true;
+		expect(lines.some(l => l.includes('NEW'))).to.be.true;
 
 		expect(err).to.eql([]);
 	});

@@ -29,10 +29,6 @@ interface FlagsDef {
 	verbose?: boolean;
 }
 
-interface DeviceTypeWithAliases extends SDK.DeviceType {
-	aliases?: string[];
-}
-
 export default class DevicesSupportedCmd extends Command {
 	public static description = stripIndent`
 		List the supported device types (like 'raspberrypi3' or 'intel-nuc').
@@ -81,7 +77,7 @@ export default class DevicesSupportedCmd extends Command {
 		const { flags: options } = this.parse<FlagsDef, {}>(DevicesSupportedCmd);
 		const sdk = SDK.fromSharedOptions();
 		let deviceTypes: Array<Partial<
-			DeviceTypeWithAliases
+			SDK.DeviceType
 		>> = await sdk.models.config.getDeviceTypes();
 		if (!options.discontinued) {
 			deviceTypes = deviceTypes.filter(dt => dt.state !== 'DISCONTINUED');
@@ -103,7 +99,7 @@ export default class DevicesSupportedCmd extends Command {
 			});
 		}
 		deviceTypes = _.sortBy(
-			deviceTypes.map(d => _.pick(d, fields) as Partial<DeviceTypeWithAliases>),
+			deviceTypes.map(d => _.pick(d, fields) as Partial<SDK.DeviceType>),
 			fields,
 		);
 		if (options.json) {

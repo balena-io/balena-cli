@@ -14,6 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import * as _ocktokit from '@octokit/rest';
+
 import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
 import * as semver from 'semver';
@@ -59,17 +62,12 @@ export async function release() {
 	}
 }
 
-let cachedOctokit: any;
-
 /** Return a cached Octokit instance, creating a new one as needed. */
-function getOctokit(): any {
-	if (cachedOctokit) {
-		return cachedOctokit;
-	}
-	const Octokit = require('@octokit/rest').plugin(
+const getOctokit = _.once(function() {
+	const Octokit = (require('@octokit/rest') as typeof _ocktokit).plugin(
 		require('@octokit/plugin-throttling'),
 	);
-	return (cachedOctokit = new Octokit({
+	return new Octokit({
 		auth: GITHUB_TOKEN,
 		throttle: {
 			onRateLimit: (retryAfter: number, options: any) => {
@@ -89,8 +87,8 @@ function getOctokit(): any {
 				);
 			},
 		},
-	}));
-}
+	});
+});
 
 /**
  * Extract pagination information (current page, total pages, ordinal number)
