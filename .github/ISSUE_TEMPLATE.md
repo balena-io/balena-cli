@@ -6,10 +6,10 @@
 
 ---
 
-*Please keep in mind that we try to use the issue tracker of this repository for specific bug
-reports & CLI feature requests. General & troubleshooting questions are encouraged to be posted to
-the [balena forums](https://forums.balena.io), which are monitored by balena's support team and
-where the community can both contribute and benefit from the answers.*
+*Please note that this issue tracker is used for specific bug reports and feature requests.
+General and troubleshooting questions are encouraged to be posted to the [balena
+forums](https://forums.balena.io), which are monitored by balena's support team and where
+the community can both contribute and benefit from the answers.*
 
 *Before submitting this issue please check that this issue is not a duplicate. If there is another
 issue describing the same problem or feature please add your information to the existing issue's
