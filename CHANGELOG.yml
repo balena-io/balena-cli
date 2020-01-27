@@ -1,4 +1,14 @@
 - commits:
+    - subject: Update dependencies
+      hash: 77931b314a5436b4d6331621e7f9fbffa1cc880a
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Pagan Gazzard
+  version: 11.23.0
+  date: 2020-01-27T11:12:10.259Z
+- commits:
     - subject: >-
         configure: Allow passing system-connection files to 'os configure'
         command
@@ -15,7 +25,7 @@
         signed-off-by: Rich Bayliss <rich@balena.io>
       author: Rich Bayliss
   version: 11.22.0
-  date: 2020-01-21T21:44:51.367Z
+  date: 2020-01-21T21:09:23.157Z
 - commits:
     - subject: Add `catch-uncommitted` to balena CI build
       hash: 9db6961a7eb3905f37abe55e33989029128d2612

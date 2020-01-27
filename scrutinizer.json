@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Update dependencies",
+          "hash": "77931b314a5436b4d6331621e7f9fbffa1cc880a",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.23.0",
+      "date": "2020-01-24T23:30:53.044Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "configure: Allow passing system-connection files to 'os configure' command",
           "hash": "8f6902f4cb582d48085527942cd8b6d8682d1b16",
           "body": "Allow passing files to `os configure` via `--system-connection` to allow\npre-configuration of network connections, such as cellular/GSM.\n",
@@ -8321,20 +8337,20 @@
       "avatar": "https://avatars0.githubusercontent.com/u/38863?v=4"
     },
     {
-      "username": "pcarranzav",
-      "avatar": "https://avatars1.githubusercontent.com/u/2223590?v=4"
-    },
-    {
-      "username": "dansku",
-      "avatar": "https://avatars1.githubusercontent.com/u/590207?v=4"
+      "username": "richbayliss",
+      "avatar": "https://avatars2.githubusercontent.com/u/633741?v=4"
     },
     {
       "username": "Page-",
       "avatar": "https://avatars3.githubusercontent.com/u/360115?v=4"
     },
     {
-      "username": "richbayliss",
-      "avatar": "https://avatars2.githubusercontent.com/u/633741?v=4"
+      "username": "pcarranzav",
+      "avatar": "https://avatars1.githubusercontent.com/u/2223590?v=4"
+    },
+    {
+      "username": "dansku",
+      "avatar": "https://avatars1.githubusercontent.com/u/590207?v=4"
     },
     {
       "username": "afitzek",
@@ -8409,7 +8425,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 200,
+  "stars": 202,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -8431,6 +8447,7 @@
     "balena-config-json",
     "balena-device-init",
     "balena-device-status",
+    "balena-errors",
     "balena-image-manager",
     "balena-preload",
     "balena-sdk",
@@ -8476,6 +8493,7 @@
     "moment-duration-format",
     "mz",
     "node-cleanup",
+    "node-unzip-2",
     "oclif",
     "opn",
     "patch-package",
@@ -8506,41 +8524,60 @@
     "tmp",
     "typed-error",
     "umount",
-    "unzip2",
     "update-notifier",
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-01-21T21:45:41Z",
+  "lastCommitDate": "2020-01-27T11:12:47Z",
   "latestRelease": {
-    "tagName": "v11.22.0",
+    "tagName": "v11.23.0",
     "asssets": [
       {
-        "name": "balena-cli-v11.22.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.22.0/balena-cli-v11.22.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.23.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.23.0/balena-cli-v11.23.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.22.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.22.0/balena-cli-v11.22.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.23.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.23.0/balena-cli-v11.23.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.22.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.22.0/balena-cli-v11.22.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.23.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.23.0/balena-cli-v11.23.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.22.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.22.0/balena-cli-v11.22.0-windows-x64-installer.exe"
+        "name": "balena-cli-v11.23.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.23.0/balena-cli-v11.23.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.22.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.22.0/balena-cli-v11.22.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.23.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.23.0/balena-cli-v11.23.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 223,
+    "numberOfIssues": 226,
     "latestIssues": [
+      {
+        "title": "Fix proxy support and add proxy exclusion feature (Node.js >= 10.16.0)",
+        "url": "https://github.com/balena-io/balena-cli/pull/1582"
+      },
+      {
+        "title": "Allow configurable proxy exceptions",
+        "url": "https://github.com/balena-io/balena-cli/issues/1580"
+      },
+      {
+        "title": "Proxy fails with Node.js >= 10.16.0 (Token authentication failed)",
+        "url": "https://github.com/balena-io/balena-cli/issues/1579"
+      },
+      {
+        "title": "Flag devices which do not have local-mode enabled in `balena scan` results.",
+        "url": "https://github.com/balena-io/balena-cli/issues/1578"
+      },
+      {
+        "title": "appUpdatePollInterval should be updated (15min in balenaCloud)",
+        "url": "https://github.com/balena-io/balena-cli/issues/1577"
+      },
       {
         "title": "Provide a more specific error message when using template variables by mistake on a regular`Dockerfile`",
         "url": "https://github.com/balena-io/balena-cli/issues/1575"
@@ -8600,30 +8637,10 @@
       {
         "title": "Add ability to set device location",
         "url": "https://github.com/balena-io/balena-cli/issues/1548"
-      },
-      {
-        "title": "Purge data not available",
-        "url": "https://github.com/balena-io/balena-cli/issues/1547"
-      },
-      {
-        "title": "Add ability to \"Grant support access\" to devices and apps",
-        "url": "https://github.com/balena-io/balena-cli/issues/1546"
-      },
-      {
-        "title": "Deactivate device not available from cli",
-        "url": "https://github.com/balena-io/balena-cli/issues/1545"
-      },
-      {
-        "title": "Override lock action not available from cli",
-        "url": "https://github.com/balena-io/balena-cli/issues/1544"
-      },
-      {
-        "title": "Pin releases are not available in CLI.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1543"
       }
     ]
   },
-  "version": "11.22.0",
+  "version": "11.23.0",
   "screenshot": null,
   "logo": null
 }
