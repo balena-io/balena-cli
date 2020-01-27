@@ -99,7 +99,7 @@ exports.download =
 	]
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		unzip = require('unzip2')
+		unzip = require('node-unzip-2')
 		fs = require('fs')
 		rindle = require('rindle')
 		manager = require('balena-image-manager')

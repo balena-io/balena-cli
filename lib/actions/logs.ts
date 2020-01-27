@@ -14,24 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import { LogMessage } from 'balena-sdk';
 import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
 
 import { normalizeUuidProp } from '../utils/normalization';
 import { validateDotLocalUrl } from '../utils/validation';
-
-type CloudLog =
-	| {
-			isSystem: false;
-			serviceId: number;
-			timestamp: number;
-			message: string;
-	  }
-	| {
-			isSystem: true;
-			timestamp: number;
-			message: string;
-	  };
 
 export const logs: CommandDefinition<
 	{
@@ -117,7 +105,7 @@ export const logs: CommandDefinition<
 					: [options.service]
 				: undefined;
 
-		const displayCloudLog = async (line: CloudLog) => {
+		const displayCloudLog = async (line: LogMessage) => {
 			if (!line.isSystem) {
 				let serviceName = await serviceIdToName(balena, line.serviceId);
 				if (serviceName == null) {
