@@ -4,6 +4,7 @@ Promise = require('bluebird')
 dockerUtils = require('../utils/docker')
 compose = require('../utils/compose')
 { registrySecretsHelp } = require('../utils/messages')
+{ ExpectedError } = require('../errors')
 
 ###
 Opts must be an object with the following keys:
@@ -60,6 +61,7 @@ deployProject = (docker, logger, composeOpts, opts) ->
 				opts.buildEmulated
 				opts.buildOpts
 				composeOpts.inlineLogs
+				opts.convertEol
 			)
 			.then (builtImages) ->
 				_.keyBy(builtImages, 'serviceName')
@@ -114,6 +116,7 @@ deployProject = (docker, logger, composeOpts, opts) ->
 					)
 			)
 	.then (release) ->
+		logger.outputDeferredMessages()
 		logger.logSuccess('Deploy succeeded!')
 		logger.logSuccess("Release: #{release.commit}")
 		console.log()
@@ -175,7 +178,7 @@ module.exports =
 			signature: 'nologupload'
 			description: "Don't upload build logs to the dashboard with image (if building)"
 			boolean: true
-		}
+		},
 	]
 	action: (params, options, done) ->
 		# compositions with many services trigger misleading warnings
@@ -196,6 +199,11 @@ module.exports =
 		appName = appName_raw || appName || options.application
 		delete options.application
 
+		options.convertEol = options['convert-eol'] || false
+		delete options['convert-eol']
+		if options.convertEol and not options.build
+			return done(new ExpectedError('The --eol-conversion flag is only valid with --build.'))
+
 		Promise.resolve(validateComposeOptions(sdk, options))
 		.then ->
 			if not appName?
@@ -213,9 +221,9 @@ module.exports =
 					return app
 			)
 			.then (app) ->
-				[ app, image, !!options.build, !options.nologupload ]
+				[ app, image, !!options.build, !options.nologupload]
 
-		.then ([ app, image, shouldPerformBuild, shouldUploadLogs ]) ->
+		.then ([ app, image, shouldPerformBuild, shouldUploadLogs, convertEol ]) ->
 			Promise.join(
 				dockerUtils.getDocker(options)
 				dockerUtils.generateBuildOpts(options)
@@ -229,6 +237,7 @@ module.exports =
 						shouldUploadLogs
 						buildEmulated: !!options.emulated
 						buildOpts
+						convertEol: options.convertEol
 					})
 			)
 		.asCallback(done)

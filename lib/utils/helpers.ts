@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2019 Balena
+Copyright 2016-2020 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -354,7 +354,7 @@ function windowsCmdExeEscapeArg(arg: string): string {
 	return `"${arg.replace(/["]/g, '""')}"`;
 }
 
-/*
+/**
  * Workaround a window system bug which causes multiple rapid DNS lookups
  * to fail for mDNS.
  *

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2018 Balena Ltd.
+ * Copyright 2018-2020 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,6 +54,7 @@ export interface DeviceDeployOptions {
 	services?: string[];
 	system: boolean;
 	env: string[];
+	convertEol: boolean;
 }
 
 interface ParsedEnvironment {
@@ -186,7 +187,9 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 
 	await checkBuildSecretsRequirements(docker, opts.source);
 	globalLogger.logDebug('Tarring all non-ignored files...');
-	const tarStream = await tarDirectory(opts.source);
+	const tarStream = await tarDirectory(opts.source, {
+		convertEol: opts.convertEol,
+	});
 
 	// Try to detect the device information
 	const deviceInfo = await api.getDeviceInformation();
@@ -261,6 +264,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 			);
 		}
 		globalLogger.logLivepush('Watching for file changes...');
+		globalLogger.outputDeferredMessages();
 		await Promise.all(promises);
 	} else {
 		if (opts.detached) {
@@ -272,6 +276,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		// Now all we need to do is stream back the logs
 		const logStream = await api.getLogStream();
 		globalLogger.logInfo('Streaming device logs...');
+		globalLogger.outputDeferredMessages();
 		await displayDeviceLogs(
 			logStream,
 			globalLogger,

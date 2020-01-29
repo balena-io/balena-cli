@@ -1802,6 +1802,10 @@ separated by a colon, e.g:
 Note that if the service name cannot be found in the composition, the entire
 left hand side of the = character will be treated as the variable name.
 
+#### --convert-eol, -l
+
+Convert line endings from CRLF (Windows format) to LF (Unix format). Source files are not modified.
+
 # Settings
 
 ## settings
@@ -1927,6 +1931,10 @@ Display full log output
 
 Path to a YAML or JSON file with passwords for a private Docker registry
 
+#### --convert-eol, -l
+
+Convert line endings from CRLF (Windows format) to LF (Unix format). Source files are not modified.
+
 #### --docker, -P &#60;docker&#62;
 
 Path to a local docker socket (e.g. /var/run/docker.sock)
@@ -2051,6 +2059,10 @@ Display full log output
 #### --registry-secrets, -R &#60;secrets.yml|.json&#62;
 
 Path to a YAML or JSON file with passwords for a private Docker registry
+
+#### --convert-eol, -l
+
+Convert line endings from CRLF (Windows format) to LF (Unix format). Source files are not modified.
 
 #### --docker, -P &#60;docker&#62;
 
