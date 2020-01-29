@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019 Balena Ltd.
+ * Copyright 2019-2020 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,17 @@ import _ = require('lodash');
 import { EOL as eol } from 'os';
 import { StreamLogger } from 'resin-stream-logger';
 
+enum Level {
+	BUILD = 'build',
+	INFO = 'info',
+	DEBUG = 'debug',
+	SUCCESS = 'success',
+	WARN = 'warn',
+	ERROR = 'error',
+	LOGS = 'logs',
+	LIVEPUSH = 'livepush',
+}
+
 /**
  * General purpose logger class with support for log streams and colours.
  * Call `Logger.getLogger()` to retrieve a global shared instance of this
@@ -27,6 +38,8 @@ import { StreamLogger } from 'resin-stream-logger';
  * console.
  */
 class Logger {
+	public static readonly Level = Level;
+
 	public streams: {
 		build: NodeJS.ReadWriteStream;
 		info: NodeJS.ReadWriteStream;
@@ -39,6 +52,8 @@ class Logger {
 	};
 
 	public formatMessage: (name: string, message: string) => string;
+
+	protected deferredLogMessages: Array<[string, Level]>;
 
 	protected constructor() {
 		const logger = new StreamLogger();
@@ -71,6 +86,8 @@ class Logger {
 		});
 
 		this.formatMessage = logger.formatWithPrefix.bind(logger);
+
+		this.deferredLogMessages = [];
 	}
 
 	protected static logger: Logger;
@@ -113,6 +130,23 @@ class Logger {
 
 	public logLivepush(msg: string) {
 		return this.streams.livepush.write(msg + eol);
+	}
+
+	/**
+	 * Log a message for output later, ignore duplicates.
+	 */
+	public deferredLog(msg: string, level: Level) {
+		if (!this.deferredLogMessages.find(entry => entry[0] === msg)) {
+			this.deferredLogMessages.push([msg, level]);
+		}
+	}
+
+	/** Output any messages that have been queued for deferred output */
+	public outputDeferredMessages() {
+		this.deferredLogMessages.forEach(m => {
+			this.streams[m[1]].write(m[0] + eol);
+		});
+		this.deferredLogMessages = [];
 	}
 }
 
