@@ -35,7 +35,7 @@ export async function run(
 	// globalInit() must be called very early on (before other imports) because
 	// it sets up Sentry error reporting, global HTTP proxy settings, balena-sdk
 	// shared options, and performs node version requirement checks.
-	globalInit();
+	await globalInit();
 	await routeCliFramework(cliArgs, options);
 
 	// Windows fix: reading from stdin prevents the process from exiting
