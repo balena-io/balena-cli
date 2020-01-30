@@ -5,6 +5,40 @@
     {
       "commits": [
         {
+          "subject": "Fix proxy support and add proxy exclusion feature (Node.js >= 10.16.0 only)",
+          "hash": "1e37c97ffbff1816fd50eaa2991f38e8c04bb810",
+          "body": "See README for more details on proxy configuration and Node.js compatibility.\n",
+          "footer": {
+            "Resolves": "#1335",
+            "resolves": "#1335",
+            "Connects-to": "#1580",
+            "connects-to": "#1580",
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Update Github's templates for new CLI pull requests and issues",
+          "hash": "913f09924a3cf5efda79b2f27da705e29f48ed00",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.24.0",
+      "date": "2020-01-27T12:17:33.237Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update dependencies",
           "hash": "77931b314a5436b4d6331621e7f9fbffa1cc880a",
           "body": "",
@@ -8413,7 +8447,7 @@
     "@srlowe",
     "@thgreasi"
   ],
-  "readme": "# balena CLI\n\nThe official balena CLI tool.\n\n[![npm version](https://badge.fury.io/js/balena-cli.svg)](http://badge.fury.io/js/balena-cli)\n[![dependencies](https://david-dm.org/balena-io/balena-cli.svg)](https://david-dm.org/balena-io/balena-cli)\n\n## About\n\nThe balena CLI (Command-Line Interface) allows you to interact with the balenaCloud and the\n[balena API](https://www.balena.io/docs/reference/api/overview/) through a terminal window\non Linux, macOS or Windows. You can also write shell scripts around it, or import its Node.js\nmodules to use it programmatically.\nAs an [open-source project on GitHub](https://github.com/balena-io/balena-cli/), your contribution\nis also welcome!\n\n## Installation\n\nCheck the [balena CLI installation instructions on GitHub](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).\n\n## Getting Started\n\n### Choosing a shell (command prompt/terminal)\n\nOn **Windows,** the standard Command Prompt (`cmd.exe`) and\n[PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/getting-started/getting-started-with-windows-powershell?view=powershell-6)\nare supported. We are aware of users also having a good experience with alternative shells,\nincluding:\n\n* [MSYS2](https://www.msys2.org/):\n  * Install additional packages with the command:  \n    `pacman -S git openssh rsync`\n  * [Set a Windows environment variable](https://www.onmsft.com/how-to/how-to-set-an-environment-variable-in-windows-10): `MSYS2_PATH_TYPE=inherit`\n  * Note that a bug in the MSYS2 launch script (`msys2_shell.cmd`) makes text-based interactive CLI\n    menus to break. [Check this Github issue for a\n    workaround](https://github.com/msys2/MINGW-packages/issues/1633#issuecomment-240583890).\n* [MSYS](http://www.mingw.org/wiki/MSYS): select the `msys-rsync` and `msys-openssh` packages too\n* [Git for Windows](https://git-for-windows.github.io/)\n  * During the installation, you will be prompted to choose between _\"Use MinTTY\"_ and _\"Use\n    Windows' default console window\"._ Choose the latter, because of the same [MSYS2\n    bug](https://github.com/msys2/MINGW-packages/issues/1633) mentioned above (Git for Windows\n    actually uses MSYS2). For a screenshot, check this\n    [comment](https://github.com/balena-io/balena-cli/issues/598#issuecomment-556513098).\n* Microsoft's [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about)\n  (WSL). In this case, a Linux distribution like Ubuntu is installed via the Microsoft Store, and a\n  balena CLI release **for Linux** is recommended. See\n  [FAQ](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md) for using balena\n  CLI with WSL and Docker Desktop for Windows.\n\nOn **macOS** and **Linux,** the standard terminal window is supported. _Optionally,_ `bash` command\nauto completion may be enabled by copying the\n[balena-completion.bash](https://github.com/balena-io/balena-cli/blob/master/balena-completion.bash)\nfile to your system's `bash_completion` directory: check [Docker's command completion\nguide](https://docs.docker.com/compose/completion/) for system setup instructions.\n\n### Logging in\n\nSeveral CLI commands require access to your balenaCloud account, for example in order to push a\nnew release to your application. Those commands require creating a CLI login session by running:\n\n```sh\n$ balena login\n```\n\n### Proxy support\n\nHTTP(S) proxies can be configured through any of the following methods, in order of preference:\n\n* Set the `BALENARC_PROXY` environment variable in URL format (with protocol, host, port, and\n  optionally basic auth).\n* Alternatively, use the [balena config file](https://www.npmjs.com/package/balena-settings-client#documentation)\n  (project-specific or user-level) and set the `proxy` setting. It can be:\n  * A string in URL format, or\n  * An object in the [global-tunnel-ng options format](https://www.npmjs.com/package/global-tunnel-ng#options) (which allows more control).\n* Alternatively, set the conventional `https_proxy` / `HTTPS_PROXY` / `http_proxy` / `HTTP_PROXY`\n  environment variable (in the same standard URL format).\n\nTo get a proxy to work with the `balena ssh` command, check the\n[installation instructions](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).\n\n## Command reference documentation\n\nThe full CLI command reference is available [on the web](https://www.balena.io/docs/reference/cli/\n) or by running `balena help` and `balena help --verbose`.\n\n## Support, FAQ and troubleshooting\n\nIf you come across any problems or would like to get in touch:\n\n* Check our [FAQ / troubleshooting document](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md).\n* Ask us a question through the [balenaCloud forum](https://forums.balena.io/c/balena-cloud).\n* For bug reports or feature requests,\n  [have a look at the GitHub issues or create a new one](https://github.com/balena-io/balena-cli/issues/).\n\n## Contributing (including editing documentation files)\n\nPlease have a look at the [CONTRIBUTING.md](./CONTRIBUTING.md) file for some guidance before\nsubmitting a pull request or updating documentation (because some files are automatically\ngenerated). Thank you for your help and interest!\n\n## License\n\nThe project is licensed under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0).\nA copy is also available in the LICENSE file in this repository.\n",
+  "readme": "# balena CLI\n\nThe official balena CLI tool.\n\n[![npm version](https://badge.fury.io/js/balena-cli.svg)](http://badge.fury.io/js/balena-cli)\n[![dependencies](https://david-dm.org/balena-io/balena-cli.svg)](https://david-dm.org/balena-io/balena-cli)\n\n## About\n\nThe balena CLI (Command-Line Interface) allows you to interact with the balenaCloud and the\n[balena API](https://www.balena.io/docs/reference/api/overview/) through a terminal window\non Linux, macOS or Windows. You can also write shell scripts around it, or import its Node.js\nmodules to use it programmatically.\nAs an [open-source project on GitHub](https://github.com/balena-io/balena-cli/), your contribution\nis also welcome!\n\n## Installation\n\nCheck the [balena CLI installation instructions on GitHub](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).\n\n## Getting Started\n\n### Choosing a shell (command prompt/terminal)\n\nOn **Windows,** the standard Command Prompt (`cmd.exe`) and\n[PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/getting-started/getting-started-with-windows-powershell?view=powershell-6)\nare supported. We are aware of users also having a good experience with alternative shells,\nincluding:\n\n* [MSYS2](https://www.msys2.org/):\n  * Install additional packages with the command:  \n    `pacman -S git openssh rsync`\n  * [Set a Windows environment variable](https://www.onmsft.com/how-to/how-to-set-an-environment-variable-in-windows-10): `MSYS2_PATH_TYPE=inherit`\n  * Note that a bug in the MSYS2 launch script (`msys2_shell.cmd`) makes text-based interactive CLI\n    menus to break. [Check this Github issue for a\n    workaround](https://github.com/msys2/MINGW-packages/issues/1633#issuecomment-240583890).\n* [MSYS](http://www.mingw.org/wiki/MSYS): select the `msys-rsync` and `msys-openssh` packages too\n* [Git for Windows](https://git-for-windows.github.io/)\n  * During the installation, you will be prompted to choose between _\"Use MinTTY\"_ and _\"Use\n    Windows' default console window\"._ Choose the latter, because of the same [MSYS2\n    bug](https://github.com/msys2/MINGW-packages/issues/1633) mentioned above (Git for Windows\n    actually uses MSYS2). For a screenshot, check this\n    [comment](https://github.com/balena-io/balena-cli/issues/598#issuecomment-556513098).\n* Microsoft's [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about)\n  (WSL). In this case, a Linux distribution like Ubuntu is installed via the Microsoft Store, and a\n  balena CLI release **for Linux** is recommended. See\n  [FAQ](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md) for using balena\n  CLI with WSL and Docker Desktop for Windows.\n\nOn **macOS** and **Linux,** the standard terminal window is supported. _Optionally,_ `bash` command\nauto completion may be enabled by copying the\n[balena-completion.bash](https://github.com/balena-io/balena-cli/blob/master/balena-completion.bash)\nfile to your system's `bash_completion` directory: check [Docker's command completion\nguide](https://docs.docker.com/compose/completion/) for system setup instructions.\n\n### Logging in\n\nSeveral CLI commands require access to your balenaCloud account, for example in order to push a\nnew release to your application. Those commands require creating a CLI login session by running:\n\n```sh\n$ balena login\n```\n\n### Proxy support\n\nHTTP(S) proxies can be configured through any of the following methods, in precedence order\n(from higher to lower):\n\n* The `BALENARC_PROXY` environment variable in URL format, with protocol (`http` or `https`),\n  host, port and optionally basic auth. Examples:\n  * `export BALENARC_PROXY='https://bob:secret@proxy.company.com:12345'`\n  * `export BALENARC_PROXY='http://localhost:8000'`\n\n* The `proxy` setting in the [CLI config\n  file](https://www.npmjs.com/package/balena-settings-client#documentation). It may be:\n  * A string in URL format, e.g. `proxy: 'http://localhost:8000'`\n  * An object in the format:\n\n    ```yaml\n    proxy:\n        protocol: 'http'\n        host: 'proxy.company.com'\n        port: 12345\n        proxyAuth: 'bob:secret'\n    ```\n\n* The `HTTPS_PROXY` and/or `HTTP_PROXY` environment variables, in the same URL format as\n  `BALENARC_PROXY`.\n\n> Note: The `balena ssh` command has additional setup requirements to work behind a proxy.  \n> Check the [installation instructions](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).\n\nSome installations of the balena CLI also include support for the `BALENARC_NO_PROXY` environment\nvariable, which allows proxy exclusion patterns to be defined. The current support status is listed\nbelow. Eventually, all installation types will have support for it.\n\nOS | Installation type | BALENARC_NO_PROXY environment variable support\n-- | ----------------- | ----------------------------------------------\nWindows | standalone zip | Supported with CLI v11.24.0 and later\nWindows | native/GUI     | Not supported\nmacOS   | standalone zip | Not supported\nmacOS   | native/GUI     | Supported with CLI v11.24.0 and later\nLinux   | standalone zip | Not supported\nAny     | npm            | Supported with Node.js >= v10.16.0 and CLI >= v11.24.0\n\nThe format of the `BALENARC_NO_PROXY` environment variable is a comma-separated list of patterns\nthat are matched against hostnames or IP addresses. For example:\n\n```\nexport BALENARC_NO_PROXY='*.local,dev*.mycompany.com,192.168.*'\n```\n\nMatched patterns are excluded from proxying. Matching takes place _before_ name resolution, so a\npattern like `'192.168.*'` will **not** match a hostname like `proxy.company.com` even if the\nhostname resolves to an IP address like `192.168.1.2`. Pattern matching expressions are documented\nat [matcher](https://www.npmjs.com/package/matcher#usage).\n\nBy default, if BALENARC_NO_PROXY is not defined, all [private IPv4\naddresses](https://en.wikipedia.org/wiki/Private_network) and `'*.local'` are excluded from\nproxying. Other hostnames that may resolve to private IPv4 addresses are **not** excluded by\ndefault, as matching takes place _before_ name resolution. In addition, `localhost` and `127.0.0.1`\nare always excluded from proxying, regardless of the value of BALENARC_NO_PROXY. These default\nexclusions only apply to the CLI installations where BALENARC_NO_PROXY is supported, as listed in\nthe table above.\n\n## Command reference documentation\n\nThe full CLI command reference is available [on the web](https://www.balena.io/docs/reference/cli/\n) or by running `balena help` and `balena help --verbose`.\n\n## Support, FAQ and troubleshooting\n\nIf you come across any problems or would like to get in touch:\n\n* Check our [FAQ / troubleshooting document](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md).\n* Ask us a question through the [balenaCloud forum](https://forums.balena.io/c/balena-cloud).\n* For bug reports or feature requests,\n  [have a look at the GitHub issues or create a new one](https://github.com/balena-io/balena-cli/issues/).\n\n## Contributing (including editing documentation files)\n\nPlease have a look at the [CONTRIBUTING.md](./CONTRIBUTING.md) file for some guidance before\nsubmitting a pull request or updating documentation (because some files are automatically\ngenerated). Thank you for your help and interest!\n\n## License\n\nThe project is licensed under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0).\nA copy is also available in the LICENSE file in this repository.\n",
   "highlights": null,
   "installationSteps": null,
   "examples": null,
@@ -8425,7 +8459,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 202,
+  "stars": 203,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -8475,8 +8509,8 @@
     "event-stream",
     "express",
     "fast-boot2",
+    "global-agent",
     "global-tunnel-ng",
-    "hasbin",
     "humanize",
     "ignore",
     "inquirer",
@@ -8528,29 +8562,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-01-27T11:12:47Z",
+  "lastCommitDate": "2020-01-30T23:42:39Z",
   "latestRelease": {
-    "tagName": "v11.23.0",
+    "tagName": "v11.24.0",
     "asssets": [
       {
-        "name": "balena-cli-v11.23.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.23.0/balena-cli-v11.23.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.24.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.24.0/balena-cli-v11.24.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.23.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.23.0/balena-cli-v11.23.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.24.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.24.0/balena-cli-v11.24.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.23.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.23.0/balena-cli-v11.23.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.24.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.24.0/balena-cli-v11.24.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.23.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.23.0/balena-cli-v11.23.0-windows-x64-installer.exe"
+        "name": "balena-cli-v11.24.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.24.0/balena-cli-v11.24.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.23.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.23.0/balena-cli-v11.23.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.24.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.24.0/balena-cli-v11.24.0-windows-x64-standalone.zip"
       }
     ]
   },
@@ -8559,16 +8593,20 @@
     "numberOfIssues": 226,
     "latestIssues": [
       {
-        "title": "Fix proxy support and add proxy exclusion feature (Node.js >= 10.16.0)",
-        "url": "https://github.com/balena-io/balena-cli/pull/1582"
+        "title": "balena push / build / deploy should support IPv6 addresses",
+        "url": "https://github.com/balena-io/balena-cli/issues/1585"
+      },
+      {
+        "title": "Add a `--pull` option to`balena build`.",
+        "url": "https://github.com/balena-io/balena-cli/issues/1584"
+      },
+      {
+        "title": "Convert CRLF on push",
+        "url": "https://github.com/balena-io/balena-cli/pull/1583"
       },
       {
         "title": "Allow configurable proxy exceptions",
         "url": "https://github.com/balena-io/balena-cli/issues/1580"
-      },
-      {
-        "title": "Proxy fails with Node.js >= 10.16.0 (Token authentication failed)",
-        "url": "https://github.com/balena-io/balena-cli/issues/1579"
       },
       {
         "title": "Flag devices which do not have local-mode enabled in `balena scan` results.",
@@ -8633,14 +8671,10 @@
       {
         "title": "diagnostics actions are not available in cli",
         "url": "https://github.com/balena-io/balena-cli/issues/1549"
-      },
-      {
-        "title": "Add ability to set device location",
-        "url": "https://github.com/balena-io/balena-cli/issues/1548"
       }
     ]
   },
-  "version": "11.23.0",
+  "version": "11.24.0",
   "screenshot": null,
   "logo": null
 }

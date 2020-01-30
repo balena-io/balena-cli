@@ -1,4 +1,33 @@
 - commits:
+    - subject: >-
+        Fix proxy support and add proxy exclusion feature (Node.js >= 10.16.0
+        only)
+      hash: 1e37c97ffbff1816fd50eaa2991f38e8c04bb810
+      body: >
+        See README for more details on proxy configuration and Node.js
+        compatibility.
+      footer:
+        Resolves: '#1335'
+        resolves: '#1335'
+        Connects-to: '#1580'
+        connects-to: '#1580'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Update Github's templates for new CLI pull requests and issues
+      hash: 913f09924a3cf5efda79b2f27da705e29f48ed00
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+  version: 11.24.0
+  date: 2020-01-30T23:41:59.640Z
+- commits:
     - subject: Update dependencies
       hash: 77931b314a5436b4d6331621e7f9fbffa1cc880a
       body: ''
@@ -7,7 +36,7 @@
         change-type: minor
       author: Pagan Gazzard
   version: 11.23.0
-  date: 2020-01-27T11:12:10.259Z
+  date: 2020-01-24T23:30:53.044Z
 - commits:
     - subject: >-
         configure: Allow passing system-connection files to 'os configure'
