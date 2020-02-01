@@ -27,6 +27,7 @@ import { BalenaAPIMock } from '../balena-api-mock';
 import { DockerMock, dockerResponsePath } from '../docker-mock';
 import {
 	cleanOutput,
+	expectStreamNoCRLF,
 	inspectTarStream,
 	runCommand,
 	TarStreamFiles,
@@ -73,11 +74,12 @@ describe('balena build', function() {
 		docker.done();
 	});
 
-	it('should create the expected tar stream', async () => {
+	it('should create the expected tar stream (single container)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
 		const expectedFiles: TarStreamFiles = {
 			'src/start.sh': { fileSize: 89, type: 'file' },
-			Dockerfile: { fileSize: 85, type: 'file' },
+			'src/windows-crlf.sh': { fileSize: 70, type: 'file' },
+			Dockerfile: { fileSize: 88, type: 'file' },
 			'Dockerfile-alt': { fileSize: 30, type: 'file' },
 		};
 		const responseFilename = 'build-POST.json';
@@ -108,6 +110,60 @@ describe('balena build', function() {
 			cleanOutput(out).map(line => line.replace(/\s{2,}/g, ' ')),
 		).to.include.members([
 			`[Info] Creating default composition with source: ${projectPath}`,
+			...expectedResponses[responseFilename],
+			`[Warn] CRLF (Windows) line endings detected in file: ${path.join(
+				projectPath,
+				'src',
+				'windows-crlf.sh',
+			)}`,
+		]);
+	});
+
+	it('should create the expected tar stream (single container, --convert-eol)', async () => {
+		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
+		const expectedFiles: TarStreamFiles = {
+			'src/start.sh': { fileSize: 89, type: 'file' },
+			'src/windows-crlf.sh': {
+				fileSize: 68,
+				type: 'file',
+				testStream: expectStreamNoCRLF,
+			},
+			Dockerfile: { fileSize: 88, type: 'file' },
+			'Dockerfile-alt': { fileSize: 30, type: 'file' },
+		};
+		const responseFilename = 'build-POST.json';
+		const responseBody = await fs.readFile(
+			path.join(dockerResponsePath, responseFilename),
+			'utf8',
+		);
+
+		docker.expectPostBuild({
+			tag: 'basic_main',
+			responseCode: 200,
+			responseBody,
+			checkURI: async (uri: string) => {
+				const url = new URL(uri, 'http://test.net/');
+				const queryParams = Array.from(url.searchParams.entries());
+				expect(queryParams).to.have.deep.members(commonQueryParams);
+			},
+			checkBuildRequestBody: (buildRequestBody: string) =>
+				inspectTarStream(buildRequestBody, expectedFiles, projectPath, expect),
+		});
+
+		const { out, err } = await runCommand(
+			`build ${projectPath} --deviceType nuc --arch amd64 --convert-eol`,
+		);
+
+		expect(err).to.have.members([]);
+		expect(
+			cleanOutput(out).map(line => line.replace(/\s{2,}/g, ' ')),
+		).to.include.members([
+			`[Info] Creating default composition with source: ${projectPath}`,
+			`[Info] Converting line endings CRLF -> LF for file: ${path.join(
+				projectPath,
+				'src',
+				'windows-crlf.sh',
+			)}`,
 			...expectedResponses[responseFilename],
 		]);
 	});

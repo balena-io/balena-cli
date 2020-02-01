@@ -27,6 +27,7 @@ import { BalenaAPIMock } from '../balena-api-mock';
 import { BuilderMock, builderResponsePath } from '../builder-mock';
 import {
 	cleanOutput,
+	expectStreamNoCRLF,
 	inspectTarStream,
 	runCommand,
 	TarStreamFiles,
@@ -106,7 +107,8 @@ describe('balena push', function() {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
 		const expectedFiles: TarStreamFiles = {
 			'src/start.sh': { fileSize: 89, type: 'file' },
-			Dockerfile: { fileSize: 85, type: 'file' },
+			'src/windows-crlf.sh': { fileSize: 70, type: 'file' },
+			Dockerfile: { fileSize: 88, type: 'file' },
 			'Dockerfile-alt': { fileSize: 30, type: 'file' },
 		};
 		const responseFilename = 'build-POST-v3.json';
@@ -132,16 +134,22 @@ describe('balena push', function() {
 		);
 
 		expect(err).to.have.members([]);
-		expect(tweakOutput(out)).to.include.members(
-			expectedResponses[responseFilename],
-		);
+		expect(tweakOutput(out)).to.include.members([
+			...expectedResponses[responseFilename],
+			`[Warn] CRLF (Windows) line endings detected in file: ${path.join(
+				projectPath,
+				'src',
+				'windows-crlf.sh',
+			)}`,
+		]);
 	});
 
 	it('should create the expected tar stream (alternative Dockerfile)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
 		const expectedFiles: TarStreamFiles = {
 			'src/start.sh': { fileSize: 89, type: 'file' },
-			Dockerfile: { fileSize: 85, type: 'file' },
+			'src/windows-crlf.sh': { fileSize: 70, type: 'file' },
+			Dockerfile: { fileSize: 88, type: 'file' },
 			'Dockerfile-alt': { fileSize: 30, type: 'file' },
 		};
 		const responseFilename = 'build-POST-v3.json';
@@ -176,5 +184,50 @@ describe('balena push', function() {
 		expect(tweakOutput(out)).to.include.members(
 			expectedResponses[responseFilename],
 		);
+	});
+
+	it('should create the expected tar stream (single container, --convert-eol)', async () => {
+		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
+		const expectedFiles: TarStreamFiles = {
+			'src/start.sh': { fileSize: 89, type: 'file' },
+			'src/windows-crlf.sh': {
+				fileSize: 68,
+				type: 'file',
+				testStream: expectStreamNoCRLF,
+			},
+			Dockerfile: { fileSize: 88, type: 'file' },
+			'Dockerfile-alt': { fileSize: 30, type: 'file' },
+		};
+		const responseFilename = 'build-POST-v3.json';
+		const responseBody = await fs.readFile(
+			path.join(builderResponsePath, responseFilename),
+			'utf8',
+		);
+
+		builder.expectPostBuild({
+			responseCode: 200,
+			responseBody,
+			checkURI: async (uri: string) => {
+				const url = new URL(uri, 'http://test.net/');
+				const queryParams = Array.from(url.searchParams.entries());
+				expect(queryParams).to.have.deep.members(commonQueryParams);
+			},
+			checkBuildRequestBody: (buildRequestBody: string | Buffer) =>
+				inspectTarStream(buildRequestBody, expectedFiles, projectPath, expect),
+		});
+
+		const { out, err } = await runCommand(
+			`push testApp --source ${projectPath} --convert-eol`,
+		);
+
+		expect(err).to.have.members([]);
+		expect(tweakOutput(out)).to.include.members([
+			...expectedResponses[responseFilename],
+			`[Info] Converting line endings CRLF -> LF for file: ${path.join(
+				projectPath,
+				'src',
+				'windows-crlf.sh',
+			)}`,
+		]);
 	});
 });

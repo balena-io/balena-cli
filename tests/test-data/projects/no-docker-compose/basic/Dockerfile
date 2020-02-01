@@ -1,4 +1,4 @@
 FROM busybox
-COPY ./src/start.sh /start.sh
-RUN chmod a+x /start.sh
-CMD ["/start.sh"]
+COPY ./src /usr/src/
+RUN chmod a+x /usr/src/*.sh
+CMD ["/usr/src/start.sh"]

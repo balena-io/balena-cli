@@ -58,7 +58,7 @@ async function detectEncoding(data: Buffer): Promise<string> {
  * buffer size.
  * @param buf
  */
-function convertEolInPlace(buf: Buffer): Buffer {
+export function convertEolInPlace(buf: Buffer): Buffer {
 	const CR = 13;
 	const LF = 10;
 	let foundCR = false;

@@ -93,11 +93,12 @@ describe('balena deploy', function() {
 		docker.done();
 	});
 
-	it('should create the expected --build tar stream', async () => {
+	it('should create the expected --build tar stream (single container)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
 		const expectedFiles: TarStreamFiles = {
 			'src/start.sh': { fileSize: 89, type: 'file' },
-			Dockerfile: { fileSize: 85, type: 'file' },
+			'src/windows-crlf.sh': { fileSize: 70, type: 'file' },
+			Dockerfile: { fileSize: 88, type: 'file' },
 			'Dockerfile-alt': { fileSize: 30, type: 'file' },
 		};
 		const responseFilename = 'build-POST.json';
@@ -129,6 +130,11 @@ describe('balena deploy', function() {
 		).to.include.members([
 			`[Info] Creating default composition with source: ${projectPath}`,
 			...expectedResponses[responseFilename],
+			`[Warn] CRLF (Windows) line endings detected in file: ${path.join(
+				projectPath,
+				'src',
+				'windows-crlf.sh',
+			)}`,
 		]);
 	});
 });
