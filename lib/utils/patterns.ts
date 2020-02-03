@@ -454,6 +454,4 @@ export function exitWithExpectedError(message: string | Error): never {
 
 	printErrorMessage(message);
 	process.exit(1);
-	// The following throw is to make tsc happy about the `never` return type.
-	throw new Error('exit');
 }
