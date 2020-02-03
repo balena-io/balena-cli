@@ -18,7 +18,7 @@
 import { expect } from 'chai';
 import * as path from 'path';
 
-import { BalenaAPIMock } from '../../balena-api-mock';
+import { apiResponsePath, BalenaAPIMock } from '../../balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
 const HELP_RESPONSE = `
@@ -39,10 +39,6 @@ Options:
 
     --application, -a, --app <application> application name
 `;
-
-const apiResponsePath = path.normalize(
-	path.join(__dirname, '..', '..', 'test-data', 'api-response'),
-);
 
 describe('balena devices', function() {
 	let api: BalenaAPIMock;

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019 Balena Ltd.
+ * Copyright 2019-2020 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,10 @@
  * limitations under the License.
  */
 
+// tslint:disable-next-line:no-var-requires
+require('./config-tests'); // required for side effects
+
+import { stripIndent } from 'common-tags';
 import intercept = require('intercept-stdout');
 import * as _ from 'lodash';
 import { fs } from 'mz';
@@ -26,12 +30,6 @@ import * as tar from 'tar-stream';
 import { streamToBuffer } from 'tar-utils';
 
 import * as balenaCLI from '../build/app';
-import { configureBluebird, setMaxListeners } from '../build/app-common';
-
-configureBluebird();
-setMaxListeners(35); // it appears that 'nock' adds a bunch of listeners - bug?
-// SL: Looks like it's not nock causing this, as have seen the problem triggered from help.spec,
-//     which is not using nock.  Perhaps mocha/chai? (unlikely), or something in the CLI?
 
 export const runCommand = async (cmd: string) => {
 	const preArgs = [process.argv[0], path.join(process.cwd(), 'bin', 'balena')];
@@ -120,6 +118,7 @@ export interface TarStreamFiles {
 	[filePath: string]: {
 		fileSize: number;
 		type: tar.Headers['type'];
+		testStream?: (header: tar.Headers, stream: Readable) => Promise<void>;
 	};
 }
 
@@ -162,13 +161,12 @@ export async function inspectTarStream(
 							fileSize: header.size || 0,
 							type: header.type,
 						};
-						const [buf, buf2] = await Promise.all([
-							streamToBuffer(stream),
-							fs.readFile(
-								path.join(projectPath, PathUtils.toNativePath(header.name)),
-							),
-						]);
-						expect(buf.equals(buf2)).to.be.true;
+						const expected = expectedFiles[header.name];
+						if (expected && expected.testStream) {
+							await expected.testStream(header, stream);
+						} else {
+							await defaultTestStream(header, stream, projectPath, expect);
+						}
 					}
 				} catch (err) {
 					reject(err);
@@ -183,5 +181,34 @@ export async function inspectTarStream(
 		sourceTarStream.pipe(extract);
 	});
 
-	expect(found).to.deep.equal(expectedFiles);
+	expect(found).to.deep.equal(
+		_.mapValues(expectedFiles, v => _.omit(v, 'testStream')),
+	);
+}
+
+/** Check that a tar stream entry matches the project contents in the filesystem */
+async function defaultTestStream(
+	header: tar.Headers,
+	stream: Readable,
+	projectPath: string,
+	expect: Chai.ExpectStatic,
+): Promise<void> {
+	const [buf, buf2] = await Promise.all([
+		streamToBuffer(stream),
+		fs.readFile(path.join(projectPath, PathUtils.toNativePath(header.name))),
+	]);
+	const msg = stripIndent`
+		contents mismatch for tar stream entry "${header.name}"
+		stream length=${buf.length}, filesystem length=${buf2.length}`;
+	expect(buf.equals(buf2), msg).to.be.true;
+}
+
+/** Test a tar stream entry for the absence of Windows CRLF line breaks */
+export async function expectStreamNoCRLF(
+	_header: tar.Headers,
+	stream: Readable,
+): Promise<void> {
+	const chai = await import('chai');
+	const buf = await streamToBuffer(stream);
+	await chai.expect(buf.includes('\r\n')).to.be.false;
 }

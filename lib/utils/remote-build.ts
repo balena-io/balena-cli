@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2018 Balena Ltd.
+Copyright 2016-2020 Balena Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -23,9 +23,12 @@ import * as Stream from 'stream';
 import streamToPromise = require('stream-to-promise');
 import { Pack } from 'tar-stream';
 import { TypedError } from 'typed-error';
+import Logger = require('./logger');
 
 import { exitWithExpectedError } from '../utils/patterns';
 import { tarDirectory } from './compose';
+
+const globalLogger = Logger.getLogger();
 
 const DEBUG_MODE = !!process.env.DEBUG;
 
@@ -38,6 +41,7 @@ export interface BuildOpts {
 	nocache: boolean;
 	registrySecrets: RegistrySecrets;
 	headless: boolean;
+	convertEol: boolean;
 }
 
 export interface RemoteBuild {
@@ -136,6 +140,7 @@ export async function startRemoteBuild(build: RemoteBuild): Promise<void> {
 			if (build.hadError) {
 				throw new RemoteBuildFailedError();
 			}
+			globalLogger.outputDeferredMessages();
 		});
 	}
 
@@ -289,12 +294,14 @@ async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
 
 	try {
 		tarSpinner.start();
-		return await tarDirectory(
-			path.resolve(build.source),
+		const preFinalizeCb =
 			Object.keys(build.opts.registrySecrets).length > 0
 				? preFinalizeCallback
-				: undefined,
-		);
+				: undefined;
+		return await tarDirectory(path.resolve(build.source), {
+			preFinalizeCallback: preFinalizeCb,
+			convertEol: build.opts.convertEol,
+		});
 	} finally {
 		tarSpinner.stop();
 	}

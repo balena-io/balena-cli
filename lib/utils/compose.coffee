@@ -1,6 +1,6 @@
 ###*
 # @license
-# Copyright 2017-2019 Balena Ltd.
+# Copyright 2017-2020 Balena Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -52,6 +52,12 @@ exports.appendOptions = (opts) ->
 			parameter: 'secrets.yml|.json'
 			description: 'Path to a YAML or JSON file with passwords for a private Docker registry'
 		},
+		{
+			signature: 'convert-eol'
+			description: 'Convert line endings from CRLF (Windows format) to LF (Unix format). Source files are not modified.'
+			boolean: true
+			alias: 'l'
+		}
 	]
 
 exports.generateOpts = (options) ->
@@ -131,7 +137,11 @@ exports.loadProject = (logger, projectPath, projectName, image, dockerfilePath) 
 		logger.logDebug('Creating project...')
 		createProject(projectPath, composeStr, projectName)
 
-exports.tarDirectory = tarDirectory = (dir, preFinalizeCallback = null) ->
+
+exports.tarDirectory = tarDirectory = (dir, { preFinalizeCallback, convertEol } = {}) ->
+	preFinalizeCallback ?= null
+	convertEol ?= false
+
 	tar = require('tar-stream')
 	klaw = require('klaw')
 	path = require('path')
@@ -139,6 +149,7 @@ exports.tarDirectory = tarDirectory = (dir, preFinalizeCallback = null) ->
 	streamToPromise = require('stream-to-promise')
 	{ FileIgnorer } = require('./ignore')
 	{ toPosixPath } = require('resin-multibuild').PathUtils
+	{ readFileWithEolConversion } = require('./eol-conversion')
 
 	getFiles = ->
 		streamToPromise(klaw(dir))
@@ -155,7 +166,7 @@ exports.tarDirectory = tarDirectory = (dir, preFinalizeCallback = null) ->
 	.filter(ignore.filter)
 	.map (file) ->
 		relPath = path.relative(path.resolve(dir), file)
-		Promise.join relPath, fs.stat(file), fs.readFile(file),
+		Promise.join relPath, fs.stat(file), readFileWithEolConversion(file, convertEol),
 			(filename, stats, data) ->
 				pack.entry({ name: toPosixPath(filename), size: stats.size, mode: stats.mode }, data)
 	.then ->
@@ -179,7 +190,8 @@ exports.buildProject = (
 	projectPath, projectName, composition,
 	arch, deviceType,
 	emulated, buildOpts,
-	inlineLogs
+	inlineLogs,
+	convertEol
 ) ->
 	_ = require('lodash')
 	humanize = require('humanize')
@@ -214,7 +226,7 @@ exports.buildProject = (
 			return qemu.copyQemu(path.join(projectPath, d.image.context), arch)
 	.then (needsQemu) ->
 		# Tar up the directory, ready for the build stream
-		tarDirectory(projectPath)
+		tarDirectory(projectPath, { convertEol })
 		.then (tarStream) ->
 			Promise.resolve(makeBuildTasks(composition, tarStream, { arch, deviceType }, logger))
 		.map (task) ->

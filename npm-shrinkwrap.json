@@ -775,6 +775,15 @@
         "@types/node": "*"
       }
     },
+    "@types/mmmagic": {
+      "version": "0.4.16-alpha",
+      "resolved": "https://registry.npmjs.org/@types/mmmagic/-/mmmagic-0.4.16-alpha.tgz",
+      "integrity": "sha1-zM66vnBpBmPWRaMdTLzxzZ3+UIE=",
+      "dev": true,
+      "requires": {
+        "@types/node": "*"
+      }
+    },
     "@types/mocha": {
       "version": "5.2.7",
       "resolved": "https://registry.npmjs.org/@types/mocha/-/mocha-5.2.7.tgz",
@@ -8924,6 +8933,14 @@
           "resolved": "https://registry.npmjs.org/minimist/-/minimist-0.0.8.tgz",
           "integrity": "sha1-hX/Kv8M5fSYluCKCYuhqp6ARsF0="
         }
+      }
+    },
+    "mmmagic": {
+      "version": "0.5.3",
+      "resolved": "https://registry.npmjs.org/mmmagic/-/mmmagic-0.5.3.tgz",
+      "integrity": "sha512-xLqCu7GJYTzJczg0jafXFuh+iPzQL/ru0YYf4GiTTz8Cehru/wiXtUS8Pp8Xi77zNaiVndJ0OO1yAFci6iHyFg==",
+      "requires": {
+        "nan": "^2.13.2"
       }
     },
     "mocha": {

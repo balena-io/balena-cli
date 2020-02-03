@@ -41,8 +41,10 @@ buildProject = (docker, logger, composeOpts, opts) ->
 			opts.buildEmulated
 			opts.buildOpts
 			composeOpts.inlineLogs
+			opts.convertEol
 		)
 	.then ->
+		logger.outputDeferredMessages()
 		logger.logSuccess('Build succeeded!')
 	.tapCatch (e) ->
 		logger.logError('Build failed')
@@ -117,6 +119,9 @@ module.exports =
 		options.source ?= params.source
 		delete params.source
 
+		options.convertEol = options['convert-eol'] || false
+		delete options['convert-eol']
+
 		Promise.resolve(validateComposeOptions(sdk, options))
 		.then ->
 			{ application, arch, deviceType } = options
@@ -150,6 +155,7 @@ module.exports =
 						deviceType
 						buildEmulated: !!options.emulated
 						buildOpts
+						convertEol: options.convertEol
 					})
 			)
 		.asCallback(done)

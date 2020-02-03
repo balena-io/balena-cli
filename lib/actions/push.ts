@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2019 Balena Ltd.
+Copyright 2016-2020 Balena Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -113,6 +113,7 @@ export const push: CommandDefinition<
 		service?: string | string[];
 		system?: boolean;
 		env?: string | string[];
+		'convert-eol'?: boolean;
 	}
 > = {
 	signature: 'push <applicationOrDevice>',
@@ -243,6 +244,13 @@ export const push: CommandDefinition<
 				left hand side of the = character will be treated as the variable name.
 			`,
 		},
+		{
+			signature: 'convert-eol',
+			alias: 'l',
+			description: stripIndent`
+				Convert line endings from CRLF (Windows format) to LF (Unix format). Source files are not modified.`,
+			boolean: true,
+		},
 	],
 	async action(params, options, done) {
 		const sdk = (await import('balena-sdk')).fromSharedOptions();
@@ -317,6 +325,7 @@ export const push: CommandDefinition<
 							nocache: options.nocache || false,
 							registrySecrets,
 							headless: options.detached || false,
+							convertEol: options['convert-eol'] || false,
 						};
 						const args = {
 							app,
@@ -327,7 +336,6 @@ export const push: CommandDefinition<
 							sdk,
 							opts,
 						};
-
 						return await remote.startRemoteBuild(args);
 					},
 				).nodeify(done);
@@ -356,6 +364,7 @@ export const push: CommandDefinition<
 							typeof options.env === 'string'
 								? [options.env]
 								: options.env || [],
+						convertEol: options['convert-eol'] || false,
 					}),
 				)
 					.catch(BuildError, e => {

@@ -20,7 +20,7 @@ import * as path from 'path';
 
 import { NockMock, ScopeOpts } from './nock-mock';
 
-const apiResponsePath = path.normalize(
+export const apiResponsePath = path.normalize(
 	path.join(__dirname, 'test-data', 'api-response'),
 );
 

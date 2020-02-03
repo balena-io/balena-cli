@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2018 Balena Ltd.
+ * Copyright 2018-2020 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,12 @@ export function loadProject(
 	dockerfilePath?: string,
 ): Bluebird<ComposeProject>;
 
+interface TarDirectoryOptions {
+	preFinalizeCallback?: (pack: Pack) => void;
+	convertEol?: boolean;
+}
+
 export function tarDirectory(
 	source: string,
-	preFinalizeCallback?: (pack: Pack) => void,
+	options?: TarDirectoryOptions,
 ): Promise<Stream.Readable>;
