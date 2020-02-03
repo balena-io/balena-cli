@@ -1,0 +1,11 @@
+{
+	"*.coffee": [
+		"resin-lint"
+	],
+	"*.ts": [
+		"resin-lint --typescript --fix"
+	],
+	"tests/**/*.ts": [
+		"resin-lint --typescript --tests"
+	]
+}
