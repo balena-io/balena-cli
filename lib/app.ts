@@ -23,6 +23,13 @@ export async function run(
 	cliArgs = process.argv,
 	options: import('./preparser').AppOptions = {},
 ) {
+	// DEBUG set to falsy for negative values else is truthy
+	process.env.DEBUG = ['0', 'no', 'false', '', undefined].includes(
+		process.env.DEBUG?.toLowerCase(),
+	)
+		? ''
+		: '1';
+
 	// The 'pkgExec' special/internal command provides a Node.js interpreter
 	// for use of the standalone zip package. See pkgExec function.
 	if (cliArgs.length > 3 && cliArgs[2] === 'pkgExec') {

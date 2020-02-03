@@ -28,6 +28,13 @@ import {
 } from './deploy-bin';
 import { fixPathForMsys, ROOT, runUnderMsys } from './utils';
 
+// DEBUG set to falsy for negative values else is truthy
+process.env.DEBUG = ['0', 'no', 'false', '', undefined].includes(
+	process.env.DEBUG?.toLowerCase(),
+)
+	? ''
+	: '1';
+
 function exitWithError(error: Error | string): never {
 	console.error(`Error: ${error}`);
 	process.exit(1);
