@@ -1,4 +1,51 @@
 - commits:
+    - subject: Add more tests for push/build/deploy commands (--convert-eol)
+      hash: f9743b269ac3e54562a5074cd32835d66561eef6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: Add more tests for push/build/deploy commands (--dockerfile)
+      hash: 0f5f65e0d3c0dde7c078bc87cee65253ae68f150
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Paulo Castro <paulo@balena.io>
+        signed-off-by: Paulo Castro <paulo@balena.io>
+      author: Paulo Castro
+    - subject: >-
+        Add support for auto-conversion of CRLF line endings. Applies to
+        commands:  balena push  balena build  balena deploy --build
+      hash: 58e7880f1d2abfeb273671058434f7f571ccf509
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Resolves: '#1273'
+        resolves: '#1273'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+    - subject: >-
+        Add support for deferred log messages. eg. so that info can be output at
+        the end of the process.
+      hash: 041823189f7d80e93fa6e75daaccced3de9ccc2a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#1273'
+        connects-to: '#1273'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.25.0
+  date: 2020-02-02T20:21:22.773Z
+- commits:
     - subject: >-
         Fix proxy support and add proxy exclusion feature (Node.js >= 10.16.0
         only)
