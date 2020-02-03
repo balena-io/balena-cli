@@ -5,6 +5,64 @@
     {
       "commits": [
         {
+          "subject": "Add more tests for push/build/deploy commands (--convert-eol)",
+          "hash": "f9743b269ac3e54562a5074cd32835d66561eef6",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Add more tests for push/build/deploy commands (--dockerfile)",
+          "hash": "0f5f65e0d3c0dde7c078bc87cee65253ae68f150",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Paulo Castro <paulo@balena.io>",
+            "signed-off-by": "Paulo Castro <paulo@balena.io>"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Add support for auto-conversion of CRLF line endings. Applies to commands:  balena push  balena build  balena deploy --build",
+          "hash": "58e7880f1d2abfeb273671058434f7f571ccf509",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Resolves": "#1273",
+            "resolves": "#1273",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        },
+        {
+          "subject": "Add support for deferred log messages. eg. so that info can be output at the end of the process.",
+          "hash": "041823189f7d80e93fa6e75daaccced3de9ccc2a",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Connects-to": "#1273",
+            "connects-to": "#1273",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.25.0",
+      "date": "2020-02-02T20:21:22.773Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix proxy support and add proxy exclusion feature (Node.js >= 10.16.0 only)",
           "hash": "1e37c97ffbff1816fd50eaa2991f38e8c04bb810",
           "body": "See README for more details on proxy configuration and Node.js compatibility.\n",
@@ -8355,12 +8413,12 @@
       "avatar": "https://avatars3.githubusercontent.com/u/130359?v=4"
     },
     {
-      "username": "LucianBuzzo",
-      "avatar": "https://avatars0.githubusercontent.com/u/15064535?v=4"
-    },
-    {
       "username": "srlowe",
       "avatar": "https://avatars3.githubusercontent.com/u/1562665?v=4"
+    },
+    {
+      "username": "LucianBuzzo",
+      "avatar": "https://avatars0.githubusercontent.com/u/15064535?v=4"
     },
     {
       "username": "xginn8",
@@ -8523,6 +8581,7 @@
     "minimatch",
     "mixpanel",
     "mkdirp",
+    "mmmagic",
     "moment",
     "moment-duration-format",
     "mz",
@@ -8562,29 +8621,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-01-30T23:42:39Z",
+  "lastCommitDate": "2020-02-03T08:23:28Z",
   "latestRelease": {
-    "tagName": "v11.24.0",
+    "tagName": "v11.25.0",
     "asssets": [
       {
-        "name": "balena-cli-v11.24.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.24.0/balena-cli-v11.24.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.25.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.0/balena-cli-v11.25.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.24.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.24.0/balena-cli-v11.24.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.25.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.0/balena-cli-v11.25.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.24.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.24.0/balena-cli-v11.24.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.25.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.0/balena-cli-v11.25.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.24.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.24.0/balena-cli-v11.24.0-windows-x64-installer.exe"
+        "name": "balena-cli-v11.25.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.0/balena-cli-v11.25.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.24.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.24.0/balena-cli-v11.24.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.25.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.0/balena-cli-v11.25.0-windows-x64-standalone.zip"
       }
     ]
   },
@@ -8593,16 +8652,24 @@
     "numberOfIssues": 226,
     "latestIssues": [
       {
+        "title": "balena preload should accept \"compatible architectures\" (image vs application)",
+        "url": "https://github.com/balena-io/balena-cli/issues/1588"
+      },
+      {
+        "title": "Selecting \"I don't have a balena account!\" should ideally not result in error.",
+        "url": "https://github.com/balena-io/balena-cli/issues/1587"
+      },
+      {
+        "title": "Added `isDebugModeEnabled` to evaluate if debug mode is enabled, debug mode can now be disabled with DEBUG=0",
+        "url": "https://github.com/balena-io/balena-cli/pull/1586"
+      },
+      {
         "title": "balena push / build / deploy should support IPv6 addresses",
         "url": "https://github.com/balena-io/balena-cli/issues/1585"
       },
       {
         "title": "Add a `--pull` option to`balena build`.",
         "url": "https://github.com/balena-io/balena-cli/issues/1584"
-      },
-      {
-        "title": "Convert CRLF on push",
-        "url": "https://github.com/balena-io/balena-cli/pull/1583"
       },
       {
         "title": "Allow configurable proxy exceptions",
@@ -8663,18 +8730,10 @@
       {
         "title": "container actions should be possible from the CLI",
         "url": "https://github.com/balena-io/balena-cli/issues/1551"
-      },
-      {
-        "title": "Can only create api-key from cli, can’t delete them or list them",
-        "url": "https://github.com/balena-io/balena-cli/issues/1550"
-      },
-      {
-        "title": "diagnostics actions are not available in cli",
-        "url": "https://github.com/balena-io/balena-cli/issues/1549"
       }
     ]
   },
-  "version": "11.24.0",
+  "version": "11.25.0",
   "screenshot": null,
   "logo": null
 }
