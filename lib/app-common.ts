@@ -58,7 +58,7 @@ function setupRaven() {
 		release: require('../package.json').version,
 	}).install(function(_logged: any, error: Error) {
 		console.error(error);
-		return process.exit(1);
+		process.exit(1);
 	});
 
 	Raven.setContext({

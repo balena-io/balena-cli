@@ -31,7 +31,6 @@ import { fixPathForMsys, ROOT, runUnderMsys } from './utils';
 function exitWithError(error: Error | string): never {
 	console.error(`Error: ${error}`);
 	process.exit(1);
-	throw error; // to please the Typescript compiler
 }
 
 /**
