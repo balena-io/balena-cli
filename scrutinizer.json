@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Remove unnecessary code now that typescript understands `process.exit`",
+          "hash": "27e1f3f7d7664fc59be9edac77ed5cef4201bf45",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.25.1",
+      "date": "2020-02-03T18:12:13.160Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add more tests for push/build/deploy commands (--convert-eol)",
           "hash": "f9743b269ac3e54562a5074cd32835d66561eef6",
           "body": "",
@@ -8621,36 +8637,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-03T08:23:28Z",
+  "lastCommitDate": "2020-02-04T10:33:13Z",
   "latestRelease": {
-    "tagName": "v11.25.0",
+    "tagName": "v11.25.1",
     "asssets": [
       {
-        "name": "balena-cli-v11.25.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.0/balena-cli-v11.25.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.25.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.1/balena-cli-v11.25.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.0/balena-cli-v11.25.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.25.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.1/balena-cli-v11.25.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.25.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.0/balena-cli-v11.25.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.25.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.1/balena-cli-v11.25.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.0/balena-cli-v11.25.0-windows-x64-installer.exe"
+        "name": "balena-cli-v11.25.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.1/balena-cli-v11.25.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.25.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.0/balena-cli-v11.25.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.25.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.1/balena-cli-v11.25.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 226,
+    "numberOfIssues": 225,
     "latestIssues": [
+      {
+        "title": "Automatically lint files on commit",
+        "url": "https://github.com/balena-io/balena-cli/pull/1589"
+      },
       {
         "title": "balena preload should accept \"compatible architectures\" (image vs application)",
         "url": "https://github.com/balena-io/balena-cli/issues/1588"
@@ -8660,7 +8680,7 @@
         "url": "https://github.com/balena-io/balena-cli/issues/1587"
       },
       {
-        "title": "Added `isDebugModeEnabled` to evaluate if debug mode is enabled, debug mode can now be disabled with DEBUG=0",
+        "title": "Debug mode can now be disabled with DEBUG=0 env var",
         "url": "https://github.com/balena-io/balena-cli/pull/1586"
       },
       {
@@ -8726,14 +8746,10 @@
       {
         "title": "`device init` is broken and insufficiently documented",
         "url": "https://github.com/balena-io/balena-cli/issues/1552"
-      },
-      {
-        "title": "container actions should be possible from the CLI",
-        "url": "https://github.com/balena-io/balena-cli/issues/1551"
       }
     ]
   },
-  "version": "11.25.0",
+  "version": "11.25.1",
   "screenshot": null,
   "logo": null
 }
