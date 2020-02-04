@@ -1,4 +1,14 @@
 - commits:
+    - subject: Remove unnecessary code now that typescript understands `process.exit`
+      hash: 27e1f3f7d7664fc59be9edac77ed5cef4201bf45
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.25.1
+  date: 2020-02-03T18:12:13.160Z
+- commits:
     - subject: Add more tests for push/build/deploy commands (--convert-eol)
       hash: f9743b269ac3e54562a5074cd32835d66561eef6
       body: ''
