@@ -1,4 +1,21 @@
 - commits:
+    - subject: >-
+        Debug mode can now be disabled with DEBUG=0 env var Added assignment to
+        `process.env.DEBUG` if `process.env.DEBUG` is negative string to
+        `lib/app.ts` and `automation/run.ts` entrypoints
+      hash: b3948d538c345632a4c6f46940998c4b63948b78
+      body: ''
+      footer:
+        Resolves: '#1502'
+        resolves: '#1502'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thomas Manning <thomasm@balena.io>
+        signed-off-by: Thomas Manning <thomasm@balena.io>
+      author: Thomas Manning
+  version: 11.25.2
+  date: 2020-02-05T02:19:42.662Z
+- commits:
     - subject: Remove unnecessary code now that typescript understands `process.exit`
       hash: 27e1f3f7d7664fc59be9edac77ed5cef4201bf45
       body: ''
