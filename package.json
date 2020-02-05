@@ -164,7 +164,7 @@
     "balena-device-status": "^3.2.0",
     "balena-errors": "^4.2.1",
     "balena-image-manager": "^6.1.1",
-    "balena-preload": "^8.3.0",
+    "balena-preload": "^8.3.1",
     "balena-sdk": "^12.21.1",
     "balena-settings-client": "^4.0.2",
     "balena-sync": "^10.1.0",
