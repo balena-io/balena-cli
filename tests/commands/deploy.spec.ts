@@ -124,17 +124,25 @@ describe('balena deploy', function() {
 			`deploy testApp --build --source ${projectPath}`,
 		);
 
+		const extraLines = [
+			`[Info] Creating default composition with source: ${projectPath}`,
+		];
+		if (process.platform === 'win32') {
+			extraLines.push(
+				`[Warn] CRLF (Windows) line endings detected in file: ${path.join(
+					projectPath,
+					'src',
+					'windows-crlf.sh',
+				)}`,
+			);
+		}
+
 		expect(err).to.have.members([]);
 		expect(
 			cleanOutput(out).map(line => line.replace(/\s{2,}/g, ' ')),
 		).to.include.members([
-			`[Info] Creating default composition with source: ${projectPath}`,
 			...expectedResponses[responseFilename],
-			`[Warn] CRLF (Windows) line endings detected in file: ${path.join(
-				projectPath,
-				'src',
-				'windows-crlf.sh',
-			)}`,
+			...extraLines,
 		]);
 	});
 });

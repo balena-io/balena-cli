@@ -133,14 +133,21 @@ describe('balena push', function() {
 			`push testApp --source ${projectPath}`,
 		);
 
+		const extraLines = [];
+		if (process.platform === 'win32') {
+			extraLines.push(
+				`[Warn] CRLF (Windows) line endings detected in file: ${path.join(
+					projectPath,
+					'src',
+					'windows-crlf.sh',
+				)}`,
+			);
+		}
+
 		expect(err).to.have.members([]);
 		expect(tweakOutput(out)).to.include.members([
 			...expectedResponses[responseFilename],
-			`[Warn] CRLF (Windows) line endings detected in file: ${path.join(
-				projectPath,
-				'src',
-				'windows-crlf.sh',
-			)}`,
+			...extraLines,
 		]);
 	});
 
@@ -187,13 +194,14 @@ describe('balena push', function() {
 	});
 
 	it('should create the expected tar stream (single container, --convert-eol)', async () => {
+		const windows = process.platform === 'win32';
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
 		const expectedFiles: TarStreamFiles = {
 			'src/start.sh': { fileSize: 89, type: 'file' },
 			'src/windows-crlf.sh': {
-				fileSize: 68,
+				fileSize: windows ? 68 : 70,
 				type: 'file',
-				testStream: expectStreamNoCRLF,
+				testStream: windows ? expectStreamNoCRLF : undefined,
 			},
 			Dockerfile: { fileSize: 88, type: 'file' },
 			'Dockerfile-alt': { fileSize: 30, type: 'file' },
@@ -220,14 +228,21 @@ describe('balena push', function() {
 			`push testApp --source ${projectPath} --convert-eol`,
 		);
 
+		const extraLines = [];
+		if (windows) {
+			extraLines.push(
+				`[Info] Converting line endings CRLF -> LF for file: ${path.join(
+					projectPath,
+					'src',
+					'windows-crlf.sh',
+				)}`,
+			);
+		}
+
 		expect(err).to.have.members([]);
 		expect(tweakOutput(out)).to.include.members([
 			...expectedResponses[responseFilename],
-			`[Info] Converting line endings CRLF -> LF for file: ${path.join(
-				projectPath,
-				'src',
-				'windows-crlf.sh',
-			)}`,
+			...extraLines,
 		]);
 	});
 });
