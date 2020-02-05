@@ -18,7 +18,7 @@ limitations under the License.
 # @module auth
 ###
 
-open = require('opn')
+open = require('open')
 balena = require('balena-sdk').fromSharedOptions()
 server = require('./server')
 utils = require('./utils')

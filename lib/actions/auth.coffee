@@ -103,7 +103,7 @@ exports.login	=
 
 				if loginType is 'register'
 					signupUrl = 'https://dashboard.balena-cloud.com/signup'
-					require('opn')(signupUrl, { wait: false })
+					require('open')(signupUrl, { wait: false })
 					patterns.exitWithExpectedError("Please sign up at #{signupUrl}")
 
 				options[loginType] = true
