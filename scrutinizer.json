@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "Debug mode can now be disabled with DEBUG=0 env var Added assignment to `process.env.DEBUG` if `process.env.DEBUG` is negative string to `lib/app.ts` and `automation/run.ts` entrypoints",
+          "hash": "b3948d538c345632a4c6f46940998c4b63948b78",
+          "body": "",
+          "footer": {
+            "Resolves": "#1502",
+            "resolves": "#1502",
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Thomas Manning <thomasm@balena.io>",
+            "signed-off-by": "Thomas Manning <thomasm@balena.io>"
+          },
+          "author": "Thomas Manning"
+        }
+      ],
+      "version": "11.25.2",
+      "date": "2020-02-05T02:19:42.662Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Remove unnecessary code now that typescript understands `process.exit`",
           "hash": "27e1f3f7d7664fc59be9edac77ed5cef4201bf45",
           "body": "",
@@ -8445,12 +8465,12 @@
       "avatar": "https://avatars0.githubusercontent.com/u/38863?v=4"
     },
     {
-      "username": "richbayliss",
-      "avatar": "https://avatars2.githubusercontent.com/u/633741?v=4"
-    },
-    {
       "username": "Page-",
       "avatar": "https://avatars3.githubusercontent.com/u/360115?v=4"
+    },
+    {
+      "username": "richbayliss",
+      "avatar": "https://avatars2.githubusercontent.com/u/633741?v=4"
     },
     {
       "username": "pcarranzav",
@@ -8637,36 +8657,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-04T10:33:13Z",
+  "lastCommitDate": "2020-02-05T03:14:59Z",
   "latestRelease": {
-    "tagName": "v11.25.1",
+    "tagName": "v11.25.2",
     "asssets": [
       {
-        "name": "balena-cli-v11.25.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.1/balena-cli-v11.25.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.25.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.2/balena-cli-v11.25.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.1/balena-cli-v11.25.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.25.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.2/balena-cli-v11.25.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.25.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.1/balena-cli-v11.25.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.25.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.2/balena-cli-v11.25.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.1/balena-cli-v11.25.1-windows-x64-installer.exe"
+        "name": "balena-cli-v11.25.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.2/balena-cli-v11.25.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.25.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.1/balena-cli-v11.25.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.25.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.2/balena-cli-v11.25.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 225,
+    "numberOfIssues": 224,
     "latestIssues": [
+      {
+        "title": "Support Node 13 - increase ext2fs version in shrinkwrap",
+        "url": "https://github.com/balena-io/balena-cli/issues/1591"
+      },
       {
         "title": "Automatically lint files on commit",
         "url": "https://github.com/balena-io/balena-cli/pull/1589"
@@ -8678,10 +8702,6 @@
       {
         "title": "Selecting \"I don't have a balena account!\" should ideally not result in error.",
         "url": "https://github.com/balena-io/balena-cli/issues/1587"
-      },
-      {
-        "title": "Debug mode can now be disabled with DEBUG=0 env var",
-        "url": "https://github.com/balena-io/balena-cli/pull/1586"
       },
       {
         "title": "balena push / build / deploy should support IPv6 addresses",
@@ -8749,7 +8769,7 @@
       }
     ]
   },
-  "version": "11.25.1",
+  "version": "11.25.2",
   "screenshot": null,
   "logo": null
 }
