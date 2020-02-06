@@ -56,8 +56,8 @@
     "catch-uncommitted": "ts-node --transpile-only -P automation/tsconfig.json automation/run.ts catch-uncommitted",
     "ci": "npm run test && catch-uncommitted",
     "watch": "gulp watch",
-    "prettify": "resin-lint --typescript --fix automation/ lib/ typings/ tests/ && prettier --write \"{lib,tests,automation,typings}/**/*.js\" --config ./node_modules/resin-lint/config/.prettierrc",
-    "lint": "resin-lint lib/ tests/ && resin-lint --typescript automation/ lib/ typings/ tests/",
+    "prettify": "prettier --write \"{lib,tests,automation,typings}/**/*.js\" --config ./node_modules/resin-lint/config/.prettierrc",
+    "lint": "resin-lint lib/ tests/ && resin-lint --typescript --fix automation/ lib/ typings/ tests/",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
