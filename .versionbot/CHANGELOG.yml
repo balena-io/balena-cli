@@ -1,4 +1,14 @@
 - commits:
+    - subject: Use resin-lint for automatic lint fixing
+      hash: 895be0be5de65b30d04fe9caf4745bf178263254
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.25.4
+  date: 2020-02-06T17:32:12.885Z
+- commits:
     - subject: >-
         Avoid loading 'mmmagic' on Linux (fix "could not load any valid magic
         files")
