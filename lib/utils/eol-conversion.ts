@@ -14,11 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import mmmagic = require('mmmagic');
-import fs = require('mz/fs');
-import Logger = require('./logger');
-
-const globalLogger = Logger.getLogger();
 
 // Define file size threshold (bytes) over which analysis/conversion is not performed.
 const LARGE_FILE_THRESHOLD = 10 * 1000 * 1000;
@@ -31,6 +26,7 @@ const CONVERTIBLE_ENCODINGS = ['ascii', 'utf-8'];
  * @param data
  */
 async function detectEncoding(data: Buffer): Promise<string> {
+	const mmmagic = await import('mmmagic');
 	// Instantiate mmmagic for mime encoding analysis
 	const magic = new mmmagic.Magic(mmmagic.MAGIC_MIME_ENCODING);
 
@@ -94,7 +90,15 @@ export async function readFileWithEolConversion(
 	filepath: string,
 	convertEol: boolean,
 ): Promise<Buffer> {
+	const { fs } = await import('mz');
 	const fileBuffer = await fs.readFile(filepath);
+
+	if (process.platform !== 'win32') {
+		return fileBuffer;
+	}
+
+	const Logger = await import('./logger');
+	const globalLogger = Logger.getLogger();
 
 	// Skip processing of very large files
 	const fileStats = await fs.stat(filepath);

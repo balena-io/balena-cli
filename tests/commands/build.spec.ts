@@ -105,28 +105,37 @@ describe('balena build', function() {
 			`build ${projectPath} --deviceType nuc --arch amd64`,
 		);
 
+		const extraLines = [
+			`[Info] Creating default composition with source: ${projectPath}`,
+		];
+		if (process.platform === 'win32') {
+			extraLines.push(
+				`[Warn] CRLF (Windows) line endings detected in file: ${path.join(
+					projectPath,
+					'src',
+					'windows-crlf.sh',
+				)}`,
+			);
+		}
+
 		expect(err).to.have.members([]);
 		expect(
 			cleanOutput(out).map(line => line.replace(/\s{2,}/g, ' ')),
 		).to.include.members([
-			`[Info] Creating default composition with source: ${projectPath}`,
 			...expectedResponses[responseFilename],
-			`[Warn] CRLF (Windows) line endings detected in file: ${path.join(
-				projectPath,
-				'src',
-				'windows-crlf.sh',
-			)}`,
+			...extraLines,
 		]);
 	});
 
 	it('should create the expected tar stream (single container, --convert-eol)', async () => {
+		const windows = process.platform === 'win32';
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
 		const expectedFiles: TarStreamFiles = {
 			'src/start.sh': { fileSize: 89, type: 'file' },
 			'src/windows-crlf.sh': {
-				fileSize: 68,
+				fileSize: windows ? 68 : 70,
 				type: 'file',
-				testStream: expectStreamNoCRLF,
+				testStream: windows ? expectStreamNoCRLF : undefined,
 			},
 			Dockerfile: { fileSize: 88, type: 'file' },
 			'Dockerfile-alt': { fileSize: 30, type: 'file' },
@@ -154,17 +163,25 @@ describe('balena build', function() {
 			`build ${projectPath} --deviceType nuc --arch amd64 --convert-eol`,
 		);
 
+		const extraLines = [
+			`[Info] Creating default composition with source: ${projectPath}`,
+		];
+		if (windows) {
+			extraLines.push(
+				`[Info] Converting line endings CRLF -> LF for file: ${path.join(
+					projectPath,
+					'src',
+					'windows-crlf.sh',
+				)}`,
+			);
+		}
+
 		expect(err).to.have.members([]);
 		expect(
 			cleanOutput(out).map(line => line.replace(/\s{2,}/g, ' ')),
 		).to.include.members([
-			`[Info] Creating default composition with source: ${projectPath}`,
-			`[Info] Converting line endings CRLF -> LF for file: ${path.join(
-				projectPath,
-				'src',
-				'windows-crlf.sh',
-			)}`,
 			...expectedResponses[responseFilename],
+			...extraLines,
 		]);
 	});
 });
