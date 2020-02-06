@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Use resin-lint for automatic lint fixing",
+          "hash": "895be0be5de65b30d04fe9caf4745bf178263254",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.25.4",
+      "date": "2020-02-06T17:32:12.885Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Avoid loading 'mmmagic' on Linux (fix \"could not load any valid magic files\")",
           "hash": "4502f2a203444f8a3e3523b6ae48c8b921c6c7d9",
           "body": "",
@@ -8675,35 +8691,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-06T17:25:49Z",
+  "lastCommitDate": "2020-02-06T17:58:38Z",
   "latestRelease": {
-    "tagName": "v11.25.3",
+    "tagName": "v11.25.4",
     "asssets": [
       {
-        "name": "balena-cli-v11.25.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.3/balena-cli-v11.25.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.25.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.4/balena-cli-v11.25.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.3/balena-cli-v11.25.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.25.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.4/balena-cli-v11.25.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.25.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.3/balena-cli-v11.25.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.25.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.4/balena-cli-v11.25.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.3/balena-cli-v11.25.3-windows-x64-installer.exe"
+        "name": "balena-cli-v11.25.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.4/balena-cli-v11.25.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.25.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.3/balena-cli-v11.25.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.25.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.4/balena-cli-v11.25.4-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 236,
+    "numberOfIssues": 235,
     "latestIssues": [
       {
         "title": "Add debug instructions for powershell",
@@ -8736,10 +8752,6 @@
       {
         "title": "Convert lib/auth/utils to typescript",
         "url": "https://github.com/balena-io/balena-cli/pull/1597"
-      },
-      {
-        "title": "Use resin-lint for automatic lint fixing",
-        "url": "https://github.com/balena-io/balena-cli/pull/1595"
       },
       {
         "title": "Convert lib/actions/app to typescript",
@@ -8784,10 +8796,14 @@
       {
         "title": "Flag devices which do not have local-mode enabled in `balena scan` results.",
         "url": "https://github.com/balena-io/balena-cli/issues/1578"
+      },
+      {
+        "title": "appUpdatePollInterval should be updated (15min in balenaCloud)",
+        "url": "https://github.com/balena-io/balena-cli/issues/1577"
       }
     ]
   },
-  "version": "11.25.3",
+  "version": "11.25.4",
   "screenshot": null,
   "logo": null
 }
