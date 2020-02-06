@@ -10,8 +10,8 @@ create a new one at: https://github.com/balena-io/balena-cli/issues/\
 
 const debugHint = `\
 Additional information may be available by setting a DEBUG=1 environment
-variable: "set DEBUG=1" on a Windows command prompt, or "export DEBUG=1"
-on Linux or macOS.\n
+variable: "set DEBUG=1" on a Windows command prompt, "$env:DEBUG = 1" on
+powershell, or "export DEBUG=1" on Linux or macOS.\n
 `;
 
 export const getHelp = `${DEBUG_MODE ? '' : debugHint}\
