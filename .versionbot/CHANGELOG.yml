@@ -1,4 +1,14 @@
 - commits:
+    - subject: Add debug instructions for powershell
+      hash: f4525bc11e757cccd2ff8e52712173d1af5fb9b2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.25.5
+  date: 2020-02-06T18:28:13.132Z
+- commits:
     - subject: Use resin-lint for automatic lint fixing
       hash: 895be0be5de65b30d04fe9caf4745bf178263254
       body: ''
