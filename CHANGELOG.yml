@@ -1,4 +1,14 @@
 - commits:
+    - subject: Add debug instructions for powershell
+      hash: f4525bc11e757cccd2ff8e52712173d1af5fb9b2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.25.5
+  date: 2020-02-06T18:49:53.164Z
+- commits:
     - subject: Use resin-lint for automatic lint fixing
       hash: 895be0be5de65b30d04fe9caf4745bf178263254
       body: ''
@@ -7,7 +17,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.25.4
-  date: 2020-02-06T17:57:52.125Z
+  date: 2020-02-06T17:32:12.885Z
 - commits:
     - subject: >-
         Avoid loading 'mmmagic' on Linux (fix "could not load any valid magic

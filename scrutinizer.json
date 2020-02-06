@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Add debug instructions for powershell",
+          "hash": "f4525bc11e757cccd2ff8e52712173d1af5fb9b2",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.25.5",
+      "date": "2020-02-06T18:28:13.132Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Use resin-lint for automatic lint fixing",
           "hash": "895be0be5de65b30d04fe9caf4745bf178263254",
           "body": "",
@@ -8495,12 +8511,12 @@
       "avatar": "https://avatars1.githubusercontent.com/u/6697261?v=4"
     },
     {
-      "username": "imrehg",
-      "avatar": "https://avatars0.githubusercontent.com/u/38863?v=4"
-    },
-    {
       "username": "Page-",
       "avatar": "https://avatars3.githubusercontent.com/u/360115?v=4"
+    },
+    {
+      "username": "imrehg",
+      "avatar": "https://avatars0.githubusercontent.com/u/38863?v=4"
     },
     {
       "username": "richbayliss",
@@ -8691,40 +8707,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-06T17:58:38Z",
+  "lastCommitDate": "2020-02-06T18:50:18Z",
   "latestRelease": {
-    "tagName": "v11.25.4",
+    "tagName": "v11.25.5",
     "asssets": [
       {
-        "name": "balena-cli-v11.25.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.4/balena-cli-v11.25.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.25.5-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.5/balena-cli-v11.25.5-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.4/balena-cli-v11.25.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.25.5-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.5/balena-cli-v11.25.5-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.25.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.4/balena-cli-v11.25.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.25.5-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.5/balena-cli-v11.25.5-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.4/balena-cli-v11.25.4-windows-x64-installer.exe"
+        "name": "balena-cli-v11.25.5-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.5/balena-cli-v11.25.5-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.25.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.4/balena-cli-v11.25.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.25.5-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.5/balena-cli-v11.25.5-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 235,
+    "numberOfIssues": 234,
     "latestIssues": [
-      {
-        "title": "Add debug instructions for powershell",
-        "url": "https://github.com/balena-io/balena-cli/pull/1605"
-      },
       {
         "title": "Add .gitattributes to check out with the correct line-ending on windows",
         "url": "https://github.com/balena-io/balena-cli/pull/1604"
@@ -8800,10 +8812,14 @@
       {
         "title": "appUpdatePollInterval should be updated (15min in balenaCloud)",
         "url": "https://github.com/balena-io/balena-cli/issues/1577"
+      },
+      {
+        "title": "Provide a more specific error message when using template variables by mistake on a regular`Dockerfile`",
+        "url": "https://github.com/balena-io/balena-cli/issues/1575"
       }
     ]
   },
-  "version": "11.25.4",
+  "version": "11.25.5",
   "screenshot": null,
   "logo": null
 }
