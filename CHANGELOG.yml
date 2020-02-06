@@ -1,5 +1,19 @@
 - commits:
     - subject: >-
+        Avoid loading 'mmmagic' on Linux (fix "could not load any valid magic
+        files")
+      hash: 4502f2a203444f8a3e3523b6ae48c8b921c6c7d9
+      body: ''
+      footer:
+        Resolves: '#1596'
+        resolves: '#1596'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.25.3
+  date: 2020-02-06T17:25:23.197Z
+- commits:
+    - subject: >-
         Debug mode can now be disabled with DEBUG=0 env var Added assignment to
         `process.env.DEBUG` if `process.env.DEBUG` is negative string to
         `lib/app.ts` and `automation/run.ts` entrypoints
@@ -14,7 +28,7 @@
         signed-off-by: Thomas Manning <thomasm@balena.io>
       author: Thomas Manning
   version: 11.25.2
-  date: 2020-02-05T03:14:18.833Z
+  date: 2020-02-05T02:19:42.662Z
 - commits:
     - subject: Remove unnecessary code now that typescript understands `process.exit`
       hash: 27e1f3f7d7664fc59be9edac77ed5cef4201bf45
