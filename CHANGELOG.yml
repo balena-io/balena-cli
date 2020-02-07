@@ -1,4 +1,14 @@
 - commits:
+    - subject: Switch from opn to its new name of open
+      hash: 3f84045127f4a7ecc41496b1b6e6c447fd3950df
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.25.6
+  date: 2020-02-07T11:21:23.577Z
+- commits:
     - subject: Add debug instructions for powershell
       hash: f4525bc11e757cccd2ff8e52712173d1af5fb9b2
       body: ''
@@ -7,7 +17,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.25.5
-  date: 2020-02-06T18:49:53.164Z
+  date: 2020-02-06T18:28:13.132Z
 - commits:
     - subject: Use resin-lint for automatic lint fixing
       hash: 895be0be5de65b30d04fe9caf4745bf178263254

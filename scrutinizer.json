@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Switch from opn to its new name of open",
+          "hash": "3f84045127f4a7ecc41496b1b6e6c447fd3950df",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.25.6",
+      "date": "2020-02-06T19:58:01.506Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add debug instructions for powershell",
           "hash": "f4525bc11e757cccd2ff8e52712173d1af5fb9b2",
           "body": "",
@@ -8674,7 +8690,7 @@
     "node-cleanup",
     "node-unzip-2",
     "oclif",
-    "opn",
+    "open",
     "patch-package",
     "prettyjson",
     "progress-stream",
@@ -8707,29 +8723,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-06T18:50:18Z",
+  "lastCommitDate": "2020-02-07T11:21:48Z",
   "latestRelease": {
-    "tagName": "v11.25.5",
+    "tagName": "v11.25.6",
     "asssets": [
       {
-        "name": "balena-cli-v11.25.5-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.5/balena-cli-v11.25.5-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.25.6-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.6/balena-cli-v11.25.6-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.5-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.5/balena-cli-v11.25.5-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.25.6-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.6/balena-cli-v11.25.6-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.25.5-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.5/balena-cli-v11.25.5-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.25.6-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.6/balena-cli-v11.25.6-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.5-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.5/balena-cli-v11.25.5-windows-x64-installer.exe"
+        "name": "balena-cli-v11.25.6-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.6/balena-cli-v11.25.6-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.25.5-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.5/balena-cli-v11.25.5-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.25.6-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.6/balena-cli-v11.25.6-windows-x64-standalone.zip"
       }
     ]
   },
@@ -8737,6 +8753,10 @@
   "openIssues": {
     "numberOfIssues": 234,
     "latestIssues": [
+      {
+        "title": "Speed up tests",
+        "url": "https://github.com/balena-io/balena-cli/pull/1606"
+      },
       {
         "title": "Add .gitattributes to check out with the correct line-ending on windows",
         "url": "https://github.com/balena-io/balena-cli/pull/1604"
@@ -8752,10 +8772,6 @@
       {
         "title": "Convert lib/auth/index to typescript",
         "url": "https://github.com/balena-io/balena-cli/pull/1600"
-      },
-      {
-        "title": "Switch from opn to its new name of open",
-        "url": "https://github.com/balena-io/balena-cli/pull/1599"
       },
       {
         "title": "Convert lib/auth/server to typescript",
@@ -8819,7 +8835,7 @@
       }
     ]
   },
-  "version": "11.25.5",
+  "version": "11.25.6",
   "screenshot": null,
   "logo": null
 }
