@@ -1,4 +1,16 @@
 - commits:
+    - subject: >-
+        Fix Windows standalone zip installer (missing mmmagic db for CRLF
+        conversion)
+      hash: be209f1626fa9cb853df7f1a1700760089777ba0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.25.7
+  date: 2020-02-07T18:21:33.450Z
+- commits:
     - subject: Switch from opn to its new name of open
       hash: 3f84045127f4a7ecc41496b1b6e6c447fd3950df
       body: ''
