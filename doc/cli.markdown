@@ -1804,7 +1804,8 @@ left hand side of the = character will be treated as the variable name.
 
 #### --convert-eol, -l
 
-Convert line endings from CRLF (Windows format) to LF (Unix format). Source files are not modified.
+On Windows only, convert line endings from CRLF (Windows format) to LF (Unix format).
+Source files are not modified.
 
 # Settings
 
@@ -1933,7 +1934,7 @@ Path to a YAML or JSON file with passwords for a private Docker registry
 
 #### --convert-eol, -l
 
-Convert line endings from CRLF (Windows format) to LF (Unix format). Source files are not modified.
+On Windows only, convert line endings from CRLF (Windows format) to LF (Unix format). Source files are not modified.
 
 #### --docker, -P &#60;docker&#62;
 
@@ -2062,7 +2063,7 @@ Path to a YAML or JSON file with passwords for a private Docker registry
 
 #### --convert-eol, -l
 
-Convert line endings from CRLF (Windows format) to LF (Unix format). Source files are not modified.
+On Windows only, convert line endings from CRLF (Windows format) to LF (Unix format). Source files are not modified.
 
 #### --docker, -P &#60;docker&#62;
 

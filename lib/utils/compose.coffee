@@ -54,7 +54,9 @@ exports.appendOptions = (opts) ->
 		},
 		{
 			signature: 'convert-eol'
-			description: 'Convert line endings from CRLF (Windows format) to LF (Unix format). Source files are not modified.'
+			description: '
+				On Windows only, convert line endings from CRLF (Windows format) to LF (Unix format).
+				Source files are not modified.'
 			boolean: true
 			alias: 'l'
 		}
@@ -149,7 +151,11 @@ exports.tarDirectory = tarDirectory = (dir, { preFinalizeCallback, convertEol } 
 	streamToPromise = require('stream-to-promise')
 	{ FileIgnorer } = require('./ignore')
 	{ toPosixPath } = require('resin-multibuild').PathUtils
-	{ readFileWithEolConversion } = require('./eol-conversion')
+	if process.platform == 'win32'
+		{ readFileWithEolConversion } = require('./eol-conversion')
+		readFile = (file) -> readFileWithEolConversion(file, convertEol)
+	else
+		readFile = fs.readFile
 
 	getFiles = ->
 		streamToPromise(klaw(dir))
@@ -166,7 +172,7 @@ exports.tarDirectory = tarDirectory = (dir, { preFinalizeCallback, convertEol } 
 	.filter(ignore.filter)
 	.map (file) ->
 		relPath = path.relative(path.resolve(dir), file)
-		Promise.join relPath, fs.stat(file), readFileWithEolConversion(file, convertEol),
+		Promise.join relPath, fs.stat(file), readFile(file),
 			(filename, stats, data) ->
 				pack.entry({ name: toPosixPath(filename), size: stats.size, mode: stats.mode }, data)
 	.then ->
