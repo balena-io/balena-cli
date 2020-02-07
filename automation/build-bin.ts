@@ -97,7 +97,7 @@ async function buildPkg() {
 
 	const xpaths: Array<[string, string[]]> = [
 		// [platform, [path, to, file]]
-		['*', ['opn', 'xdg-open']],
+		['*', ['open', 'xdg-open']],
 		['darwin', ['denymount', 'bin', 'denymount']],
 	];
 	await Bluebird.map(xpaths, ([platform, xpath]) => {
