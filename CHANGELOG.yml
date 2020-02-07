@@ -1,4 +1,14 @@
 - commits:
+    - subject: Add .gitattributes to check out with the correct line-ending on windows
+      hash: 467afb3de6971fb939bbb6b20d9ab39d5104da00
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.25.9
+  date: 2020-02-07T22:28:53.499Z
+- commits:
     - subject: Merge resin-lint linting and fixing steps into one
       hash: 6d543b79ff423a8288195aa850051d5fa9c914f5
       body: ''
@@ -21,7 +31,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.25.8
-  date: 2020-02-07T21:35:43.176Z
+  date: 2020-02-07T19:37:03.729Z
 - commits:
     - subject: >-
         Fix Windows standalone zip installer (missing mmmagic db for CRLF
