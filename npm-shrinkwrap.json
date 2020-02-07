@@ -2724,9 +2724,9 @@
       "integrity": "sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw="
     },
     "catch-uncommitted": {
-      "version": "1.4.0",
-      "resolved": "https://registry.npmjs.org/catch-uncommitted/-/catch-uncommitted-1.4.0.tgz",
-      "integrity": "sha512-xrLMj7iYrMc3TXSLsRO9tTxfcWEUICGCDZm+WI40WznxLp/+mVE8v4RxipC/ufL5TDfAYAe1ppu5VURBN990SQ==",
+      "version": "1.5.0",
+      "resolved": "https://registry.npmjs.org/catch-uncommitted/-/catch-uncommitted-1.5.0.tgz",
+      "integrity": "sha512-QYQ0L9+i8AgpCnGWyhn8K1OUBJ0h5MVE/dBdnWsHSk4Kr6JdPoHTQcSRIk7aWiXTveU1OxJcoF8hKTC/G3XtjQ==",
       "dev": true
     },
     "chai": {

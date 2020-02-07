@@ -306,6 +306,7 @@ export async function catchUncommitted(): Promise<void> {
 			'catch-uncommitted',
 			'--catch-no-git',
 			'--skip-node-versionbot-changes',
+			'--ignore-space-at-eol',
 		]);
 	}
 }
