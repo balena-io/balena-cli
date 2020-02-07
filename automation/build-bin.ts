@@ -95,17 +95,18 @@ async function buildPkg() {
 
 	await execPkg(args);
 
-	const xpaths: Array<[string, string[]]> = [
-		// [platform, [path, to, file]]
-		['*', ['open', 'xdg-open']],
-		['darwin', ['denymount', 'bin', 'denymount']],
+	const paths: Array<[string, string[], string[]]> = [
+		// [platform, [source path], [destination path]]
+		['*', ['open', 'xdg-open'], ['xdg-open']],
+		['darwin', ['denymount', 'bin', 'denymount'], ['denymount']],
+		['win32', ['mmmagic', 'magic', 'magic.mgc'], ['mmmagic', 'magic.mgc']],
 	];
-	await Bluebird.map(xpaths, ([platform, xpath]) => {
+	await Bluebird.map(paths, ([platform, source, dest]) => {
 		if (platform === '*' || platform === process.platform) {
-			// eg copy from node_modules/opn/xdg-open to build-bin/xdg-open
+			// eg copy from node_modules/open/xdg-open to build-bin/xdg-open
 			return fs.copy(
-				path.join(ROOT, 'node_modules', ...xpath),
-				path.join(ROOT, 'build-bin', xpath.pop()!),
+				path.join(ROOT, 'node_modules', ...source),
+				path.join(ROOT, 'build-bin', ...dest),
 			);
 		}
 	});

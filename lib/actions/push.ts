@@ -248,7 +248,8 @@ export const push: CommandDefinition<
 			signature: 'convert-eol',
 			alias: 'l',
 			description: stripIndent`
-				Convert line endings from CRLF (Windows format) to LF (Unix format). Source files are not modified.`,
+				On Windows only, convert line endings from CRLF (Windows format) to LF (Unix format).
+				Source files are not modified.`,
 			boolean: true,
 		},
 	],

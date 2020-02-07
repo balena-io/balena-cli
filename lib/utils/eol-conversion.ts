@@ -92,11 +92,6 @@ export async function readFileWithEolConversion(
 ): Promise<Buffer> {
 	const { fs } = await import('mz');
 	const fileBuffer = await fs.readFile(filepath);
-
-	if (process.platform !== 'win32') {
-		return fileBuffer;
-	}
-
 	const Logger = await import('./logger');
 	const globalLogger = Logger.getLogger();
 
