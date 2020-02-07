@@ -1,4 +1,14 @@
 - commits:
+    - subject: Switch from opn to its new name of open
+      hash: 3f84045127f4a7ecc41496b1b6e6c447fd3950df
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.25.6
+  date: 2020-02-06T19:58:01.506Z
+- commits:
     - subject: Add debug instructions for powershell
       hash: f4525bc11e757cccd2ff8e52712173d1af5fb9b2
       body: ''
