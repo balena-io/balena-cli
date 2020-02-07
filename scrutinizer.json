@@ -5,6 +5,42 @@
     {
       "commits": [
         {
+          "subject": "Merge resin-lint linting and fixing steps into one",
+          "hash": "6d543b79ff423a8288195aa850051d5fa9c914f5",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        },
+        {
+          "subject": "Remove redundant type checking of tests",
+          "hash": "85aaf77e44c9f85fbc0c459a8cedac2975f9f469",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        },
+        {
+          "subject": "Remove duplicate type checking of automation code",
+          "hash": "83c5684491ef02aa01128ab71fcde775398a52e8",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.25.8",
+      "date": "2020-02-07T19:37:03.729Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix Windows standalone zip installer (missing mmmagic db for CRLF conversion)",
           "hash": "be209f1626fa9cb853df7f1a1700760089777ba0",
           "body": "",
@@ -8739,43 +8775,39 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-07T19:32:58Z",
+  "lastCommitDate": "2020-02-07T21:36:09Z",
   "latestRelease": {
-    "tagName": "v11.25.7",
+    "tagName": "v11.25.8",
     "asssets": [
       {
-        "name": "balena-cli-v11.25.7-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.7/balena-cli-v11.25.7-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.25.8-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.8/balena-cli-v11.25.8-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.7-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.7/balena-cli-v11.25.7-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.25.8-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.8/balena-cli-v11.25.8-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.25.7-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.7/balena-cli-v11.25.7-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.25.8-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.8/balena-cli-v11.25.8-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.7-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.7/balena-cli-v11.25.7-windows-x64-installer.exe"
+        "name": "balena-cli-v11.25.8-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.8/balena-cli-v11.25.8-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.25.7-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.7/balena-cli-v11.25.7-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.25.8-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.8/balena-cli-v11.25.8-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 235,
+    "numberOfIssues": 234,
     "latestIssues": [
       {
-        "title": "Fix libmagic db file build issues with standalone binaries",
+        "title": "Node 13 compatibility: update ext2fs module",
         "url": "https://github.com/balena-io/balena-cli/pull/1608"
-      },
-      {
-        "title": "Speed up tests",
-        "url": "https://github.com/balena-io/balena-cli/pull/1606"
       },
       {
         "title": "Add .gitattributes to check out with the correct line-ending on windows",
@@ -8848,10 +8880,14 @@
       {
         "title": "appUpdatePollInterval should be updated (15min in balenaCloud)",
         "url": "https://github.com/balena-io/balena-cli/issues/1577"
+      },
+      {
+        "title": "Provide a more specific error message when using template variables by mistake on a regular`Dockerfile`",
+        "url": "https://github.com/balena-io/balena-cli/issues/1575"
       }
     ]
   },
-  "version": "11.25.7",
+  "version": "11.25.8",
   "screenshot": null,
   "logo": null
 }

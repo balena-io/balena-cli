@@ -1,4 +1,28 @@
 - commits:
+    - subject: Merge resin-lint linting and fixing steps into one
+      hash: 6d543b79ff423a8288195aa850051d5fa9c914f5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+    - subject: Remove redundant type checking of tests
+      hash: 85aaf77e44c9f85fbc0c459a8cedac2975f9f469
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+    - subject: Remove duplicate type checking of automation code
+      hash: 83c5684491ef02aa01128ab71fcde775398a52e8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.25.8
+  date: 2020-02-07T21:35:43.176Z
+- commits:
     - subject: >-
         Fix Windows standalone zip installer (missing mmmagic db for CRLF
         conversion)
@@ -9,7 +33,7 @@
         change-type: patch
       author: Paulo Castro
   version: 11.25.7
-  date: 2020-02-07T19:32:18.817Z
+  date: 2020-02-07T18:21:33.450Z
 - commits:
     - subject: Switch from opn to its new name of open
       hash: 3f84045127f4a7ecc41496b1b6e6c447fd3950df
