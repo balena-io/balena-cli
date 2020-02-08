@@ -5,6 +5,36 @@
     {
       "commits": [
         {
+          "subject": "CI builds: revert patch-package upgrade to fix patch errors",
+          "hash": "05d478b759a79e7e3f0ae9c1d4e5e9adce246409",
+          "body": "This fixes a build error caused by a recent version bump of 'patch-package':\n\"Patch file found for package execa which is not present at node_modules/qqjs/node_modules/execa\"\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Node 13 compatibility: upgrade ext2fs module",
+          "hash": "9a7a36477681f17dd3456646a13df2d7f9af2a4d",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Resolves": "#1591",
+            "resolves": "#1591",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.25.10",
+      "date": "2020-02-08T00:24:03.569Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add .gitattributes to check out with the correct line-ending on windows",
           "hash": "467afb3de6971fb939bbb6b20d9ab39d5104da00",
           "body": "",
@@ -8791,40 +8821,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-07T22:29:18Z",
+  "lastCommitDate": "2020-02-08T00:54:39Z",
   "latestRelease": {
-    "tagName": "v11.25.9",
+    "tagName": "v11.25.10",
     "asssets": [
       {
-        "name": "balena-cli-v11.25.9-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.9/balena-cli-v11.25.9-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.25.10-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.10/balena-cli-v11.25.10-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.9-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.9/balena-cli-v11.25.9-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.25.10-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.10/balena-cli-v11.25.10-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.25.9-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.9/balena-cli-v11.25.9-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.25.10-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.10/balena-cli-v11.25.10-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.9-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.9/balena-cli-v11.25.9-windows-x64-installer.exe"
+        "name": "balena-cli-v11.25.10-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.10/balena-cli-v11.25.10-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.25.9-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.9/balena-cli-v11.25.9-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.25.10-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.10/balena-cli-v11.25.10-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 233,
+    "numberOfIssues": 231,
     "latestIssues": [
-      {
-        "title": "Node 13 compatibility: update ext2fs module",
-        "url": "https://github.com/balena-io/balena-cli/pull/1608"
-      },
       {
         "title": "Convert lib/utils/tty to typescript",
         "url": "https://github.com/balena-io/balena-cli/pull/1602"
@@ -8856,10 +8882,6 @@
       {
         "title": "Upgrade balena-preload to allow compatible os/app architectures",
         "url": "https://github.com/balena-io/balena-cli/pull/1592"
-      },
-      {
-        "title": "Support Node 13 - increase ext2fs version in shrinkwrap",
-        "url": "https://github.com/balena-io/balena-cli/issues/1591"
       },
       {
         "title": "Automatically lint files on commit",
@@ -8900,10 +8922,18 @@
       {
         "title": "Add build-time reporting to local pushes",
         "url": "https://github.com/balena-io/balena-cli/issues/1574"
+      },
+      {
+        "title": "Should suggest using the --logs option when build/push/deploy fails",
+        "url": "https://github.com/balena-io/balena-cli/issues/1573"
+      },
+      {
+        "title": "Add project directory validation for balena push / build / deploy",
+        "url": "https://github.com/balena-io/balena-cli/pull/1571"
       }
     ]
   },
-  "version": "11.25.9",
+  "version": "11.25.10",
   "screenshot": null,
   "logo": null
 }
