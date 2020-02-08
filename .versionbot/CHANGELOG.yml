@@ -1,4 +1,30 @@
 - commits:
+    - subject: 'CI builds: revert patch-package upgrade to fix patch errors'
+      hash: 05d478b759a79e7e3f0ae9c1d4e5e9adce246409
+      body: >
+        This fixes a build error caused by a recent version bump of
+        'patch-package':
+
+        "Patch file found for package execa which is not present at
+        node_modules/qqjs/node_modules/execa"
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: 'Node 13 compatibility: upgrade ext2fs module'
+      hash: 9a7a36477681f17dd3456646a13df2d7f9af2a4d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#1591'
+        resolves: '#1591'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.25.10
+  date: 2020-02-08T00:24:03.569Z
+- commits:
     - subject: Add .gitattributes to check out with the correct line-ending on windows
       hash: 467afb3de6971fb939bbb6b20d9ab39d5104da00
       body: ''
