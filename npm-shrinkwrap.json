@@ -2688,6 +2688,11 @@
           "resolved": "https://registry.npmjs.org/async/-/async-1.5.2.tgz",
           "integrity": "sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo="
         },
+        "get-stdin": {
+          "version": "4.0.1",
+          "resolved": "https://registry.npmjs.org/get-stdin/-/get-stdin-4.0.1.tgz",
+          "integrity": "sha1-uWjGsKBDhDJJAui/Gl3zJXmkUP4="
+        },
         "is-elevated": {
           "version": "1.0.0",
           "resolved": "https://registry.npmjs.org/is-elevated/-/is-elevated-1.0.0.tgz",
@@ -6318,9 +6323,9 @@
       "integrity": "sha1-3Xzn3hh8Bsi/NTeWrHHgmfCYDrw="
     },
     "get-stdin": {
-      "version": "4.0.1",
-      "resolved": "https://registry.npmjs.org/get-stdin/-/get-stdin-4.0.1.tgz",
-      "integrity": "sha1-uWjGsKBDhDJJAui/Gl3zJXmkUP4="
+      "version": "7.0.0",
+      "resolved": "https://registry.npmjs.org/get-stdin/-/get-stdin-7.0.0.tgz",
+      "integrity": "sha512-zRKcywvrXlXsA0v0i9Io4KDRaAw7+a1ZpjRwl9Wox8PFlVCCHra7E9c4kqXCoCM9nR5tBkaTTZRBoCm60bFqTQ=="
     },
     "get-stream": {
       "version": "4.1.0",
@@ -14460,6 +14465,14 @@
           "requires": {
             "get-stdin": "^4.0.1",
             "meow": "^3.1.0"
+          },
+          "dependencies": {
+            "get-stdin": {
+              "version": "4.0.1",
+              "resolved": "https://registry.npmjs.org/get-stdin/-/get-stdin-4.0.1.tgz",
+              "integrity": "sha1-uWjGsKBDhDJJAui/Gl3zJXmkUP4=",
+              "dev": true
+            }
           }
         },
         "progress-stream": {
@@ -17101,6 +17114,13 @@
       "integrity": "sha1-DHlipq3vp7vUrDZkYKY4VSrhoKI=",
       "requires": {
         "get-stdin": "^4.0.1"
+      },
+      "dependencies": {
+        "get-stdin": {
+          "version": "4.0.1",
+          "resolved": "https://registry.npmjs.org/get-stdin/-/get-stdin-4.0.1.tgz",
+          "integrity": "sha1-uWjGsKBDhDJJAui/Gl3zJXmkUP4="
+        }
       }
     },
     "strip-json-comments": {
@@ -17204,6 +17224,13 @@
       "requires": {
         "get-stdin": "^4.0.1",
         "minimist": "^1.1.0"
+      },
+      "dependencies": {
+        "get-stdin": {
+          "version": "4.0.1",
+          "resolved": "https://registry.npmjs.org/get-stdin/-/get-stdin-4.0.1.tgz",
+          "integrity": "sha1-uWjGsKBDhDJJAui/Gl3zJXmkUP4="
+        }
       }
     },
     "tar": {
