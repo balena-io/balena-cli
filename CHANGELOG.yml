@@ -1,4 +1,14 @@
 - commits:
+    - subject: Convert lib/actions/notes to typescript
+      hash: f1220c6377475247a210233c23a9971552672483
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.25.13
+  date: 2020-02-10T22:11:01.189Z
+- commits:
     - subject: Convert lib/actions/app to typescript
       hash: 99f84c2f6a5ceff0383065ac7f320668914d6fad
       body: ''
@@ -7,7 +17,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.25.12
-  date: 2020-02-10T15:53:32.665Z
+  date: 2020-02-10T15:04:43.136Z
 - commits:
     - subject: Convert lib/auth/utils to typescript
       hash: 4de41ce3e0036fbdfe3b636252ef1d4de8813507

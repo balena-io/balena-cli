@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Convert lib/actions/notes to typescript",
+          "hash": "f1220c6377475247a210233c23a9971552672483",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.25.13",
+      "date": "2020-02-10T18:34:33.290Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert lib/actions/app to typescript",
           "hash": "99f84c2f6a5ceff0383065ac7f320668914d6fad",
           "body": "",
@@ -8653,12 +8669,12 @@
       "avatar": "https://avatars0.githubusercontent.com/u/15064535?v=4"
     },
     {
-      "username": "xginn8",
-      "avatar": "https://avatars1.githubusercontent.com/u/6697261?v=4"
-    },
-    {
       "username": "Page-",
       "avatar": "https://avatars3.githubusercontent.com/u/360115?v=4"
+    },
+    {
+      "username": "xginn8",
+      "avatar": "https://avatars1.githubusercontent.com/u/6697261?v=4"
     },
     {
       "username": "imrehg",
@@ -8853,36 +8869,44 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-10T15:53:58Z",
+  "lastCommitDate": "2020-02-10T22:11:34Z",
   "latestRelease": {
-    "tagName": "v11.25.12",
+    "tagName": "v11.25.13",
     "asssets": [
       {
-        "name": "balena-cli-v11.25.12-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.12/balena-cli-v11.25.12-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.25.13-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.13/balena-cli-v11.25.13-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.12-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.12/balena-cli-v11.25.12-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.25.13-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.13/balena-cli-v11.25.13-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.25.12-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.12/balena-cli-v11.25.12-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.25.13-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.13/balena-cli-v11.25.13-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.12-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.12/balena-cli-v11.25.12-windows-x64-installer.exe"
+        "name": "balena-cli-v11.25.13-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.13/balena-cli-v11.25.13-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.25.12-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.12/balena-cli-v11.25.12-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.25.13-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.13/balena-cli-v11.25.13-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 230,
+    "numberOfIssues": 232,
     "latestIssues": [
+      {
+        "title": "Convert lib/actions/keys to typescript",
+        "url": "https://github.com/balena-io/balena-cli/pull/1613"
+      },
+      {
+        "title": "Pushing is only working the secound time",
+        "url": "https://github.com/balena-io/balena-cli/issues/1611"
+      },
       {
         "title": "openBalena: document and warn/prevent execution of unsupported CLI commands",
         "url": "https://github.com/balena-io/balena-cli/issues/1610"
@@ -8954,18 +8978,10 @@
       {
         "title": "Should suggest using the --logs option when build/push/deploy fails",
         "url": "https://github.com/balena-io/balena-cli/issues/1573"
-      },
-      {
-        "title": "Add project directory validation for balena push / build / deploy",
-        "url": "https://github.com/balena-io/balena-cli/pull/1571"
-      },
-      {
-        "title": "Document, improve error msg and/or remove requirement for owner prefix in legacy application names",
-        "url": "https://github.com/balena-io/balena-cli/issues/1568"
       }
     ]
   },
-  "version": "11.25.12",
+  "version": "11.25.13",
   "screenshot": null,
   "logo": null
 }
