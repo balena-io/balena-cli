@@ -29,6 +29,7 @@ declare module 'capitano' {
 		description: string;
 		parameter?: string;
 		boolean?: boolean;
+		required?: string;
 		alias?: string | string[];
 	}
 
