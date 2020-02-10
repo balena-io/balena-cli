@@ -1,4 +1,14 @@
 - commits:
+    - subject: Convert lib/auth/utils to typescript
+      hash: 4de41ce3e0036fbdfe3b636252ef1d4de8813507
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.25.11
+  date: 2020-02-10T14:27:52.862Z
+- commits:
     - subject: 'CI builds: revert patch-package upgrade to fix patch errors'
       hash: 05d478b759a79e7e3f0ae9c1d4e5e9adce246409
       body: >
@@ -23,7 +33,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.25.10
-  date: 2020-02-08T00:53:49.320Z
+  date: 2020-02-08T00:24:03.569Z
 - commits:
     - subject: Add .gitattributes to check out with the correct line-ending on windows
       hash: 467afb3de6971fb939bbb6b20d9ab39d5104da00

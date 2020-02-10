@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Convert lib/auth/utils to typescript",
+          "hash": "4de41ce3e0036fbdfe3b636252ef1d4de8813507",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.25.11",
+      "date": "2020-02-10T13:45:43.017Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "CI builds: revert patch-package upgrade to fix patch errors",
           "hash": "05d478b759a79e7e3f0ae9c1d4e5e9adce246409",
           "body": "This fixes a build error caused by a recent version bump of 'patch-package':\n\"Patch file found for package execa which is not present at node_modules/qqjs/node_modules/execa\"\n",
@@ -8717,7 +8733,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 204,
+  "stars": 205,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -8821,29 +8837,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-08T00:54:39Z",
+  "lastCommitDate": "2020-02-10T14:28:18Z",
   "latestRelease": {
-    "tagName": "v11.25.10",
+    "tagName": "v11.25.11",
     "asssets": [
       {
-        "name": "balena-cli-v11.25.10-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.10/balena-cli-v11.25.10-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.25.11-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.11/balena-cli-v11.25.11-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.10-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.10/balena-cli-v11.25.10-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.25.11-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.11/balena-cli-v11.25.11-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.25.10-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.10/balena-cli-v11.25.10-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.25.11-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.11/balena-cli-v11.25.11-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.10-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.10/balena-cli-v11.25.10-windows-x64-installer.exe"
+        "name": "balena-cli-v11.25.11-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.11/balena-cli-v11.25.11-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.25.10-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.10/balena-cli-v11.25.10-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.25.11-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.11/balena-cli-v11.25.11-windows-x64-standalone.zip"
       }
     ]
   },
@@ -8851,6 +8867,10 @@
   "openIssues": {
     "numberOfIssues": 231,
     "latestIssues": [
+      {
+        "title": "openBalena: document and warn/prevent execution of unsupported CLI commands",
+        "url": "https://github.com/balena-io/balena-cli/issues/1610"
+      },
       {
         "title": "Convert lib/utils/tty to typescript",
         "url": "https://github.com/balena-io/balena-cli/pull/1602"
@@ -8866,10 +8886,6 @@
       {
         "title": "Convert lib/auth/server to typescript",
         "url": "https://github.com/balena-io/balena-cli/pull/1598"
-      },
-      {
-        "title": "Convert lib/auth/utils to typescript",
-        "url": "https://github.com/balena-io/balena-cli/pull/1597"
       },
       {
         "title": "Convert lib/actions/app to typescript",
@@ -8933,7 +8949,7 @@
       }
     ]
   },
-  "version": "11.25.10",
+  "version": "11.25.11",
   "screenshot": null,
   "logo": null
 }
