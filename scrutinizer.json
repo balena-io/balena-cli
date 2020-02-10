@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Convert lib/actions/app to typescript",
+          "hash": "99f84c2f6a5ceff0383065ac7f320668914d6fad",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.25.12",
+      "date": "2020-02-10T15:04:43.136Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert lib/auth/utils to typescript",
           "hash": "4de41ce3e0036fbdfe3b636252ef1d4de8813507",
           "body": "",
@@ -8837,35 +8853,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-10T14:28:18Z",
+  "lastCommitDate": "2020-02-10T15:53:58Z",
   "latestRelease": {
-    "tagName": "v11.25.11",
+    "tagName": "v11.25.12",
     "asssets": [
       {
-        "name": "balena-cli-v11.25.11-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.11/balena-cli-v11.25.11-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.25.12-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.12/balena-cli-v11.25.12-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.11-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.11/balena-cli-v11.25.11-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.25.12-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.12/balena-cli-v11.25.12-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.25.11-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.11/balena-cli-v11.25.11-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.25.12-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.12/balena-cli-v11.25.12-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.11-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.11/balena-cli-v11.25.11-windows-x64-installer.exe"
+        "name": "balena-cli-v11.25.12-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.12/balena-cli-v11.25.12-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.25.11-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.11/balena-cli-v11.25.11-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.25.12-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.12/balena-cli-v11.25.12-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 231,
+    "numberOfIssues": 230,
     "latestIssues": [
       {
         "title": "openBalena: document and warn/prevent execution of unsupported CLI commands",
@@ -8886,10 +8902,6 @@
       {
         "title": "Convert lib/auth/server to typescript",
         "url": "https://github.com/balena-io/balena-cli/pull/1598"
-      },
-      {
-        "title": "Convert lib/actions/app to typescript",
-        "url": "https://github.com/balena-io/balena-cli/pull/1594"
       },
       {
         "title": "\"balena os download\" always gives \"No such version for the device type\"",
@@ -8946,10 +8958,14 @@
       {
         "title": "Add project directory validation for balena push / build / deploy",
         "url": "https://github.com/balena-io/balena-cli/pull/1571"
+      },
+      {
+        "title": "Document, improve error msg and/or remove requirement for owner prefix in legacy application names",
+        "url": "https://github.com/balena-io/balena-cli/issues/1568"
       }
     ]
   },
-  "version": "11.25.11",
+  "version": "11.25.12",
   "screenshot": null,
   "logo": null
 }
