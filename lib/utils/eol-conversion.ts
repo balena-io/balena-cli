@@ -15,35 +15,19 @@
  * limitations under the License.
  */
 
+import { fs } from 'mz';
+import Logger = require('./logger');
+
+const globalLogger = Logger.getLogger();
+
 // Define file size threshold (bytes) over which analysis/conversion is not performed.
 const LARGE_FILE_THRESHOLD = 10 * 1000 * 1000;
 
-// The list of encodings to convert is intentionally conservative for now
+// Note that `convertEolInPlace()` only works with UTF-8 or single-byte encodings
 const CONVERTIBLE_ENCODINGS = ['ascii', 'utf-8'];
 
-/**
- * Attempt to detect the encoding of a data buffer
- * @param data
- */
-async function detectEncoding(data: Buffer): Promise<string> {
-	const mmmagic = await import('mmmagic');
-	// Instantiate mmmagic for mime encoding analysis
-	const magic = new mmmagic.Magic(mmmagic.MAGIC_MIME_ENCODING);
-
-	// Promisify magic.detect
-	// For some reason, got 'Illegal Invocation' when using:
-	//   const detectEncoding = promisify(magic.detect);
-	return new Promise((resolve, reject) => {
-		magic.detect(data, (err, encoding) => {
-			if (err) {
-				return reject(err);
-			}
-			// mmmagic reports ascii as 'us-ascii', but node Buffer uses 'ascii'
-			encoding = encoding === 'us-ascii' ? 'ascii' : encoding;
-			return resolve(encoding);
-		});
-	});
-}
+// Maximum number of bytes to consider when detecting the file encoding
+const DETECT_MAX_BYTES = 1024;
 
 /**
  * Convert EOL (CRLF → LF) in place, i.e. modifying the input buffer.
@@ -90,10 +74,7 @@ export async function readFileWithEolConversion(
 	filepath: string,
 	convertEol: boolean,
 ): Promise<Buffer> {
-	const { fs } = await import('mz');
 	const fileBuffer = await fs.readFile(filepath);
-	const Logger = await import('./logger');
-	const globalLogger = Logger.getLogger();
 
 	// Skip processing of very large files
 	const fileStats = await fs.stat(filepath);
@@ -111,7 +92,7 @@ export async function readFileWithEolConversion(
 	}
 
 	// Skip further processing of files that don't contain CRLF
-	if (!fileBuffer.includes('\r\n', 0, encoding)) {
+	if (!fileBuffer.includes('\r\n')) {
 		return fileBuffer;
 	}
 
@@ -135,4 +116,123 @@ export async function readFileWithEolConversion(
 
 		return fileBuffer;
 	}
+}
+
+/**
+ * Attempt to detect the encoding of a data buffer.
+ * Code copied and modified from the npm package 'isbinaryfile' (MIT licence)
+ *   https://github.com/gjtorikian/isBinaryFile/blob/master/src/index.ts
+ *
+ * @returns one of the possible values: '' (empty file), 'utf-8', 'utf-16',
+ * 'utf-32', 'gb-18030', 'pdf', and 'binary'.
+ *
+ * Note: pure ASCII data is identified as 'utf-8' (ASCII is indeed a subset
+ * of UTF-8).
+ *
+ * @param fileBuffer File contents whose encoding should be detected
+ * @param bytesRead Optional "file size" if smaller than the buffer size
+ */
+export async function detectEncoding(
+	fileBuffer: Buffer,
+	bytesRead = fileBuffer.length,
+): Promise<string> {
+	// empty file
+	if (bytesRead === 0) {
+		return '';
+	}
+
+	const totalBytes = Math.min(bytesRead, DETECT_MAX_BYTES);
+
+	// UTF-8 BOM
+	if (
+		bytesRead >= 3 &&
+		fileBuffer[0] === 0xef &&
+		fileBuffer[1] === 0xbb &&
+		fileBuffer[2] === 0xbf
+	) {
+		return 'utf-8';
+	}
+
+	// UTF-32 BOM
+	if (
+		bytesRead >= 4 &&
+		fileBuffer[0] === 0x00 &&
+		fileBuffer[1] === 0x00 &&
+		fileBuffer[2] === 0xfe &&
+		fileBuffer[3] === 0xff
+	) {
+		return 'utf-32';
+	}
+
+	// UTF-32 LE BOM
+	if (
+		bytesRead >= 4 &&
+		fileBuffer[0] === 0xff &&
+		fileBuffer[1] === 0xfe &&
+		fileBuffer[2] === 0x00 &&
+		fileBuffer[3] === 0x00
+	) {
+		return 'utf-32';
+	}
+
+	// GB BOM (https://en.wikipedia.org/wiki/GB_18030)
+	if (
+		bytesRead >= 4 &&
+		fileBuffer[0] === 0x84 &&
+		fileBuffer[1] === 0x31 &&
+		fileBuffer[2] === 0x95 &&
+		fileBuffer[3] === 0x33
+	) {
+		return 'gb-18030';
+	}
+
+	if (totalBytes >= 5 && fileBuffer.slice(0, 5).toString() === '%PDF-') {
+		/* PDF. This is binary. */
+		return 'pdf';
+	}
+
+	// UTF-16 BE BOM
+	if (bytesRead >= 2 && fileBuffer[0] === 0xfe && fileBuffer[1] === 0xff) {
+		return 'utf-16';
+	}
+
+	// UTF-16 LE BOM
+	if (bytesRead >= 2 && fileBuffer[0] === 0xff && fileBuffer[1] === 0xfe) {
+		return 'utf-16';
+	}
+
+	for (let i = 0; i < totalBytes; i++) {
+		let c = fileBuffer[i];
+		if (c === 0) {
+			// NULL byte
+			return 'binary';
+		} else if (c === 27) {
+			// ESC character used in ANSI escape sequences for text color (log files)
+			continue;
+		} else if ((c < 7 || c > 14) && (c < 32 || c > 127)) {
+			// UTF-8 detection
+			if (c > 193 && c < 224 && i + 1 < totalBytes) {
+				i++;
+				c = fileBuffer[i];
+				if (c > 127 && c < 192) {
+					continue;
+				}
+			} else if (c > 223 && c < 240 && i + 2 < totalBytes) {
+				i++;
+				c = fileBuffer[i];
+				if (
+					c > 127 &&
+					c < 192 &&
+					fileBuffer[i + 1] > 127 &&
+					fileBuffer[i + 1] < 192
+				) {
+					i++;
+					continue;
+				}
+			}
+			return 'binary';
+		}
+	}
+
+	return 'utf-8';
 }
