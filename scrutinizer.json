@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Convert lib/actions/auth to typescript",
+          "hash": "f9ece2ce7de3d0c2089692e592c70828e92353f9",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.25.17",
+      "date": "2020-02-12T14:29:23.019Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert lib/auth/index to typescript",
           "hash": "2b04763ac05d4b0a114b9a68d0366f65faa84399",
           "body": "",
@@ -8713,12 +8729,12 @@
       "avatar": "https://avatars3.githubusercontent.com/u/1562665?v=4"
     },
     {
-      "username": "LucianBuzzo",
-      "avatar": "https://avatars0.githubusercontent.com/u/15064535?v=4"
-    },
-    {
       "username": "Page-",
       "avatar": "https://avatars3.githubusercontent.com/u/360115?v=4"
+    },
+    {
+      "username": "LucianBuzzo",
+      "avatar": "https://avatars0.githubusercontent.com/u/15064535?v=4"
     },
     {
       "username": "xginn8",
@@ -8918,35 +8934,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-12T13:57:18Z",
+  "lastCommitDate": "2020-02-12T17:01:59Z",
   "latestRelease": {
-    "tagName": "v11.25.16",
+    "tagName": "v11.25.17",
     "asssets": [
       {
-        "name": "balena-cli-v11.25.16-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.16/balena-cli-v11.25.16-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.25.17-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.17/balena-cli-v11.25.17-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.16-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.16/balena-cli-v11.25.16-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.25.17-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.17/balena-cli-v11.25.17-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.25.16-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.16/balena-cli-v11.25.16-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.25.17-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.17/balena-cli-v11.25.17-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.16-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.16/balena-cli-v11.25.16-windows-x64-installer.exe"
+        "name": "balena-cli-v11.25.17-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.17/balena-cli-v11.25.17-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.25.16-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.16/balena-cli-v11.25.16-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.25.17-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.17/balena-cli-v11.25.17-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 232,
+    "numberOfIssues": 231,
     "latestIssues": [
       {
         "title": "Add '--cachefrom' option to balena build/deploy commands",
@@ -8971,10 +8987,6 @@
       {
         "title": "Convert lib/utils/tty to typescript",
         "url": "https://github.com/balena-io/balena-cli/pull/1602"
-      },
-      {
-        "title": "Convert lib/actions/auth to typescript",
-        "url": "https://github.com/balena-io/balena-cli/pull/1601"
       },
       {
         "title": "\"balena os download\" always gives \"No such version for the device type\"",
@@ -9027,10 +9039,14 @@
       {
         "title": "Should suggest using the --logs option when build/push/deploy fails",
         "url": "https://github.com/balena-io/balena-cli/issues/1573"
+      },
+      {
+        "title": "Add project directory validation for balena push / build / deploy",
+        "url": "https://github.com/balena-io/balena-cli/pull/1571"
       }
     ]
   },
-  "version": "11.25.16",
+  "version": "11.25.17",
   "screenshot": null,
   "logo": null
 }
