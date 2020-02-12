@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Convert lib/actions/keys to typescript",
+          "hash": "a4b34c109d3a05e07c94fbc4fd311d2349ac84d5",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.25.14",
+      "date": "2020-02-11T23:18:12.969Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert lib/actions/notes to typescript",
           "hash": "f1220c6377475247a210233c23a9971552672483",
           "body": "",
@@ -8765,7 +8781,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 205,
+  "stars": 206,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -8815,6 +8831,7 @@
     "event-stream",
     "express",
     "fast-boot2",
+    "get-stdin",
     "global-agent",
     "global-tunnel-ng",
     "humanize",
@@ -8869,39 +8886,51 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-10T22:11:34Z",
+  "lastCommitDate": "2020-02-12T11:56:18Z",
   "latestRelease": {
-    "tagName": "v11.25.13",
+    "tagName": "v11.25.14",
     "asssets": [
       {
-        "name": "balena-cli-v11.25.13-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.13/balena-cli-v11.25.13-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.25.14-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.14/balena-cli-v11.25.14-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.13-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.13/balena-cli-v11.25.13-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.25.14-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.14/balena-cli-v11.25.14-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.25.13-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.13/balena-cli-v11.25.13-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.25.14-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.14/balena-cli-v11.25.14-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.13-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.13/balena-cli-v11.25.13-windows-x64-installer.exe"
+        "name": "balena-cli-v11.25.14-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.14/balena-cli-v11.25.14-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.25.13-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.13/balena-cli-v11.25.13-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.25.14-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.14/balena-cli-v11.25.14-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 232,
+    "numberOfIssues": 235,
     "latestIssues": [
       {
-        "title": "Convert lib/actions/keys to typescript",
-        "url": "https://github.com/balena-io/balena-cli/pull/1613"
+        "title": "Add '--cachefrom' option to balena build/deploy commands",
+        "url": "https://github.com/balena-io/balena-cli/pull/1617"
+      },
+      {
+        "title": "Add '--cachefrom' option to balena build / deploy commands",
+        "url": "https://github.com/balena-io/balena-cli/issues/1616"
+      },
+      {
+        "title": "Fix balena push \"Segmentation fault\" on Windows (replace 'mmmagic' with 'isBinaryFile')",
+        "url": "https://github.com/balena-io/balena-cli/pull/1615"
+      },
+      {
+        "title": "Problem deploying balena dash - error - Invalid ELF image for this architecture",
+        "url": "https://github.com/balena-io/balena-cli/issues/1614"
       },
       {
         "title": "Pushing is only working the secound time",
@@ -8966,22 +8995,10 @@
       {
         "title": "appUpdatePollInterval should be updated (15min in balenaCloud)",
         "url": "https://github.com/balena-io/balena-cli/issues/1577"
-      },
-      {
-        "title": "Provide a more specific error message when using template variables by mistake on a regular`Dockerfile`",
-        "url": "https://github.com/balena-io/balena-cli/issues/1575"
-      },
-      {
-        "title": "Add build-time reporting to local pushes",
-        "url": "https://github.com/balena-io/balena-cli/issues/1574"
-      },
-      {
-        "title": "Should suggest using the --logs option when build/push/deploy fails",
-        "url": "https://github.com/balena-io/balena-cli/issues/1573"
       }
     ]
   },
-  "version": "11.25.13",
+  "version": "11.25.14",
   "screenshot": null,
   "logo": null
 }
