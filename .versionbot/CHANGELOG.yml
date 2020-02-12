@@ -1,4 +1,14 @@
 - commits:
+    - subject: Convert lib/auth/index to typescript
+      hash: 2b04763ac05d4b0a114b9a68d0366f65faa84399
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.25.16
+  date: 2020-02-12T13:23:23.174Z
+- commits:
     - subject: Convert lib/auth/server to typescript
       hash: 93ba5832d88d4cbbede5d3a354ebb01f9c1bf9fa
       body: ''
