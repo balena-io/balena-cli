@@ -84,6 +84,13 @@ exports.appendOptions = (opts) ->
 			alias: 'B'
 		},
 		{
+			signature: 'cache-from'
+			parameter: 'image-list'
+			description: '
+				Comma-separated list (no spaces) of image names for build cache resolution.
+				Implements the same feature as the "docker build --cache-from" option.'
+		},
+		{
 			signature: 'nocache'
 			description: "Don't use docker layer caching when building"
 			boolean: true
@@ -160,6 +167,8 @@ exports.generateBuildOpts = (options) ->
 		opts.t = options.tag
 	if options.nocache?
 		opts.nocache = true
+	if options['cache-from']?.trim()
+		opts.cachefrom = options['cache-from'].split(',').filter((i) -> !!i.trim())
 	if options.squash?
 		opts.squash = true
 	if options.buildArg?
