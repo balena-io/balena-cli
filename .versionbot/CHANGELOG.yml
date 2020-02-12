@@ -1,4 +1,14 @@
 - commits:
+    - subject: Convert lib/actions/keys to typescript
+      hash: a4b34c109d3a05e07c94fbc4fd311d2349ac84d5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.25.14
+  date: 2020-02-11T23:18:12.969Z
+- commits:
     - subject: Convert lib/actions/notes to typescript
       hash: f1220c6377475247a210233c23a9971552672483
       body: ''
