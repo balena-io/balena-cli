@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Convert lib/auth/index to typescript",
+          "hash": "2b04763ac05d4b0a114b9a68d0366f65faa84399",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.25.16",
+      "date": "2020-02-12T13:23:23.174Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert lib/auth/server to typescript",
           "hash": "93ba5832d88d4cbbede5d3a354ebb01f9c1bf9fa",
           "body": "",
@@ -8902,35 +8918,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-12T13:01:04Z",
+  "lastCommitDate": "2020-02-12T13:57:18Z",
   "latestRelease": {
-    "tagName": "v11.25.15",
+    "tagName": "v11.25.16",
     "asssets": [
       {
-        "name": "balena-cli-v11.25.15-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.15/balena-cli-v11.25.15-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.25.16-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.16/balena-cli-v11.25.16-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.15-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.15/balena-cli-v11.25.15-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.25.16-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.16/balena-cli-v11.25.16-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.25.15-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.15/balena-cli-v11.25.15-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.25.16-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.16/balena-cli-v11.25.16-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.15-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.15/balena-cli-v11.25.15-windows-x64-installer.exe"
+        "name": "balena-cli-v11.25.16-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.16/balena-cli-v11.25.16-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.25.15-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.15/balena-cli-v11.25.15-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.25.16-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.16/balena-cli-v11.25.16-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 233,
+    "numberOfIssues": 232,
     "latestIssues": [
       {
         "title": "Add '--cachefrom' option to balena build/deploy commands",
@@ -8959,10 +8975,6 @@
       {
         "title": "Convert lib/actions/auth to typescript",
         "url": "https://github.com/balena-io/balena-cli/pull/1601"
-      },
-      {
-        "title": "Convert lib/auth/index to typescript",
-        "url": "https://github.com/balena-io/balena-cli/pull/1600"
       },
       {
         "title": "\"balena os download\" always gives \"No such version for the device type\"",
@@ -9011,10 +9023,14 @@
       {
         "title": "Add build-time reporting to local pushes",
         "url": "https://github.com/balena-io/balena-cli/issues/1574"
+      },
+      {
+        "title": "Should suggest using the --logs option when build/push/deploy fails",
+        "url": "https://github.com/balena-io/balena-cli/issues/1573"
       }
     ]
   },
-  "version": "11.25.15",
+  "version": "11.25.16",
   "screenshot": null,
   "logo": null
 }
