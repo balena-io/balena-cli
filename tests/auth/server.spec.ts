@@ -25,7 +25,9 @@ const options = {
 	path: '/auth',
 };
 
-const getPage = function(name: string): Promise<string> {
+const getPage = function(
+	name: Parameters<typeof server.getContext>[0],
+): Promise<string> {
 	const pagePath = path.join(
 		__dirname,
 		'..',
