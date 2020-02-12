@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Convert lib/auth/server to typescript",
+          "hash": "93ba5832d88d4cbbede5d3a354ebb01f9c1bf9fa",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.25.15",
+      "date": "2020-02-12T12:14:23.532Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert lib/actions/keys to typescript",
           "hash": "a4b34c109d3a05e07c94fbc4fd311d2349ac84d5",
           "body": "",
@@ -8886,35 +8902,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-12T11:56:18Z",
+  "lastCommitDate": "2020-02-12T13:01:04Z",
   "latestRelease": {
-    "tagName": "v11.25.14",
+    "tagName": "v11.25.15",
     "asssets": [
       {
-        "name": "balena-cli-v11.25.14-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.14/balena-cli-v11.25.14-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.25.15-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.15/balena-cli-v11.25.15-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.14-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.14/balena-cli-v11.25.14-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.25.15-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.15/balena-cli-v11.25.15-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.25.14-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.14/balena-cli-v11.25.14-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.25.15-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.15/balena-cli-v11.25.15-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.25.14-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.14/balena-cli-v11.25.14-windows-x64-installer.exe"
+        "name": "balena-cli-v11.25.15-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.15/balena-cli-v11.25.15-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.25.14-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.14/balena-cli-v11.25.14-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.25.15-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.25.15/balena-cli-v11.25.15-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 235,
+    "numberOfIssues": 233,
     "latestIssues": [
       {
         "title": "Add '--cachefrom' option to balena build/deploy commands",
@@ -8927,10 +8943,6 @@
       {
         "title": "Fix balena push \"Segmentation fault\" on Windows (replace 'mmmagic' with 'isBinaryFile')",
         "url": "https://github.com/balena-io/balena-cli/pull/1615"
-      },
-      {
-        "title": "Problem deploying balena dash - error - Invalid ELF image for this architecture",
-        "url": "https://github.com/balena-io/balena-cli/issues/1614"
       },
       {
         "title": "Pushing is only working the secound time",
@@ -8951,10 +8963,6 @@
       {
         "title": "Convert lib/auth/index to typescript",
         "url": "https://github.com/balena-io/balena-cli/pull/1600"
-      },
-      {
-        "title": "Convert lib/auth/server to typescript",
-        "url": "https://github.com/balena-io/balena-cli/pull/1598"
       },
       {
         "title": "\"balena os download\" always gives \"No such version for the device type\"",
@@ -8995,10 +9003,18 @@
       {
         "title": "appUpdatePollInterval should be updated (15min in balenaCloud)",
         "url": "https://github.com/balena-io/balena-cli/issues/1577"
+      },
+      {
+        "title": "Provide a more specific error message when using template variables by mistake on a regular`Dockerfile`",
+        "url": "https://github.com/balena-io/balena-cli/issues/1575"
+      },
+      {
+        "title": "Add build-time reporting to local pushes",
+        "url": "https://github.com/balena-io/balena-cli/issues/1574"
       }
     ]
   },
-  "version": "11.25.14",
+  "version": "11.25.15",
   "screenshot": null,
   "logo": null
 }
