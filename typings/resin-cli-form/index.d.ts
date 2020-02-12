@@ -24,7 +24,7 @@ declare module 'resin-cli-form' {
 		input: any,
 	) => TypeOrPromiseLike<boolean | string | undefined>;
 
-	interface AskOptions {
+	interface AskOptions<T> {
 		message: string;
 		type?: string;
 		name?: string;
@@ -44,7 +44,7 @@ declare module 'resin-cli-form' {
 	}
 
 	const form: {
-		ask: <T = string>(options: AskOptions) => Bluebird<T>;
+		ask: <T = string>(options: AskOptions<T>) => Bluebird<T>;
 		run: <T = any>(
 			questions: RunQuestion[],
 			extraOptions?: { override: object },

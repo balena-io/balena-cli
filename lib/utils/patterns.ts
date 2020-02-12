@@ -101,7 +101,7 @@ export async function exitIfNotLoggedIn(): Promise<void> {
 }
 
 export function askLoginType() {
-	return getForm().ask({
+	return getForm().ask<'web' | 'credentials' | 'token' | 'register'>({
 		message: 'How would you like to login?',
 		name: 'loginType',
 		type: 'list',
