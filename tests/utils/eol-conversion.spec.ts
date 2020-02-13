@@ -16,8 +16,13 @@
  */
 
 import { expect } from 'chai';
+import { fs } from 'mz';
+import * as path from 'path';
 
-import { convertEolInPlace } from '../../build/utils/eol-conversion';
+import {
+	convertEolInPlace,
+	detectEncoding,
+} from '../../build/utils/eol-conversion';
 
 describe('convertEolInPlace() function', function() {
 	it('should return expected values', () => {
@@ -50,6 +55,42 @@ describe('convertEolInPlace() function', function() {
 				expected,
 			)}`;
 			expect(resultStr).to.equal(expected, msg);
+		}
+	});
+});
+
+describe('detectEncoding() function', function() {
+	it('should correctly detect the encoding of a few selected files', async () => {
+		const sampleBinary = [
+			'ext2fs/build/Release/bindings.node',
+			'drivelist/build/Release/drivelist.node',
+			'resin-cli-visuals/node_modules/drivelist/build/Release/drivelist.node',
+			'@balena.io/usb/build/Release/usb_bindings.node',
+			'xxhash/build/Release/hash.node',
+			'mountutils/build/Release/MountUtils.node',
+		];
+		const sampleText = [
+			'node_modules/.bin/etcher-image-write',
+			'node_modules/.bin/mocha',
+			'node_modules/.bin/rimraf',
+			'node_modules/.bin/gulp',
+			'node_modules/.bin/prettier',
+			'node_modules/.bin/coffeelint',
+			'node_modules/.bin/tsc',
+			'node_modules/.bin/resin-lint',
+			'node_modules/.bin/balena-preload',
+			'node_modules/.bin/catch-uncommitted',
+		];
+
+		for (const fname of sampleBinary) {
+			const buf = await fs.readFile(path.join('node_modules', fname));
+			const encoding = await detectEncoding(buf);
+			expect(encoding).to.equal('binary');
+		}
+		for (const fname of sampleText) {
+			const buf = await fs.readFile(fname);
+			const encoding = await detectEncoding(buf);
+			expect(encoding).to.equal('utf-8');
 		}
 	});
 });

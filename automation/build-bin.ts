@@ -99,7 +99,6 @@ async function buildPkg() {
 		// [platform, [source path], [destination path]]
 		['*', ['open', 'xdg-open'], ['xdg-open']],
 		['darwin', ['denymount', 'bin', 'denymount'], ['denymount']],
-		['win32', ['mmmagic', 'magic', 'magic.mgc'], ['mmmagic', 'magic.mgc']],
 	];
 	await Bluebird.map(paths, ([platform, source, dest]) => {
 		if (platform === '*' || platform === process.platform) {
