@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Fix balena push "Segmentation fault" on Windows (replace 'mmmagic' with
+        'isBinaryFile')
+      hash: 88a1e413a3ccc2d62abb8701d3d5a6e8d2385860
+      body: ''
+      footer:
+        Connects-to: '#1611'
+        connects-to: '#1611'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.25.18
+  date: 2020-02-13T17:32:32.900Z
+- commits:
     - subject: Convert lib/actions/auth to typescript
       hash: f9ece2ce7de3d0c2089692e592c70828e92353f9
       body: ''
@@ -7,7 +21,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.25.17
-  date: 2020-02-12T17:01:19.543Z
+  date: 2020-02-12T14:29:23.019Z
 - commits:
     - subject: Convert lib/auth/index to typescript
       hash: 2b04763ac05d4b0a114b9a68d0366f65faa84399
