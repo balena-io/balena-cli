@@ -1968,6 +1968,10 @@ The alias to the generated image
 
 Set a build-time variable (eg. "-B 'ARG=value'"). Can be specified multiple times.
 
+#### --cache-from &#60;image-list&#62;
+
+Comma-separated list (no spaces) of image names for build cache resolution. Implements the same feature as the "docker build --cache-from" option.
+
 #### --nocache
 
 Don't use docker layer caching when building
@@ -2096,6 +2100,10 @@ The alias to the generated image
 #### --buildArg, -B &#60;arg&#62;
 
 Set a build-time variable (eg. "-B 'ARG=value'"). Can be specified multiple times.
+
+#### --cache-from &#60;image-list&#62;
+
+Comma-separated list (no spaces) of image names for build cache resolution. Implements the same feature as the "docker build --cache-from" option.
 
 #### --nocache
 
