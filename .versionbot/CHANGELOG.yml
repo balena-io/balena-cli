@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add '--cache-from' option to balena build and deploy commands
+      hash: a1c406a4795e3f91963676f923ca607df975a2c7
+      body: >
+        It implements the same feature as the "docker build --cache-from"
+        option.
+      footer:
+        Resolves: '#1616'
+        resolves: '#1616'
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+  version: 11.26.0
+  date: 2020-02-14T13:26:13.826Z
+- commits:
     - subject: >-
         Fix balena push "Segmentation fault" on Windows (replace 'mmmagic' with
         'isBinaryFile')
