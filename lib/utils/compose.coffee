@@ -47,6 +47,11 @@ exports.appendOptions = (opts) ->
 			boolean: true
 		},
 		{
+			signature: 'noparent-check'
+			description: 'Disable project validation check of \'docker-compose.yml\' file in parent folder'
+			boolean: true
+		},
+		{
 			signature: 'registry-secrets'
 			alias: 'R'
 			parameter: 'secrets.yml|.json'
@@ -69,23 +74,12 @@ exports.generateOpts = (options) ->
 		projectPath: projectPath
 		inlineLogs: !!options.logs
 		dockerfilePath: options.dockerfile
-
-compositionFileNames = [
-	'docker-compose.yml'
-	'docker-compose.yaml'
-]
-
-# look into the given directory for valid compose files and return
-# the contents of the first one found.
-exports.resolveProject = resolveProject = (rootDir) ->
-	fs = require('mz/fs')
-	Promise.any compositionFileNames.map (filename) ->
-		fs.readFile(path.join(rootDir, filename), 'utf-8')
+		noParentCheck: options['noparent-check']
 
 # Parse the given composition and return a structure with info. Input is:
 #  - composePath: the *absolute* path to the directory containing the compose file
 #  - composeStr: the contents of the compose file, as a string
-createProject = (composePath, composeStr, projectName = null) ->
+exports.createProject = (composePath, composeStr, projectName = null) ->
 	yml = require('js-yaml')
 	compose = require('resin-compose-parse')
 
@@ -106,39 +100,6 @@ createProject = (composePath, composeStr, projectName = null) ->
 		composition,
 		descriptors
 	}
-
-# high-level function resolving a project and creating a composition out
-# of it in one go. if image is given, it'll create a default project for
-# that without looking for a project. falls back to creating a default
-# project if none is found at the given projectPath.
-exports.loadProject = (logger, projectPath, projectName, image, dockerfilePath) ->
-	{ validateSpecifiedDockerfile } = require('./compose_ts')
-	compose = require('resin-compose-parse')
-	logger.logDebug('Loading project...')
-
-	Promise.try ->
-		dockerfilePath = validateSpecifiedDockerfile(projectPath, dockerfilePath)
-
-		if image?
-			logger.logInfo("Creating default composition with image: #{image}")
-			return compose.defaultComposition(image)
-
-		logger.logDebug('Resolving project...')
-
-		resolveProject(projectPath)
-		.tap ->
-			if dockerfilePath
-				logger.logWarn("Ignoring alternative dockerfile \"#{dockerfilePath}\"\ because a docker-compose file exists")
-			else
-				logger.logInfo('Compose file detected')
-		.catch (e) ->
-			logger.logDebug("Failed to resolve project: #{e}")
-			logger.logInfo("Creating default composition with source: #{projectPath}")
-			return compose.defaultComposition(undefined, dockerfilePath)
-	.then (composeStr) ->
-		logger.logDebug('Creating project...')
-		createProject(projectPath, composeStr, projectName)
-
 
 exports.tarDirectory = tarDirectory = (dir, { preFinalizeCallback, convertEol } = {}) ->
 	preFinalizeCallback ?= null

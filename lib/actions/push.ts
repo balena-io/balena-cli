@@ -106,6 +106,7 @@ export const push: CommandDefinition<
 		emulated?: boolean;
 		dockerfile?: string; // DeviceDeployOptions.dockerfilePath (alternative Dockerfile)
 		nocache?: boolean;
+		'noparent-check'?: boolean;
 		'registry-secrets'?: string;
 		nolive?: boolean;
 		detached?: boolean;
@@ -188,6 +189,12 @@ export const push: CommandDefinition<
 			boolean: true,
 		},
 		{
+			signature: 'noparent-check',
+			description:
+				"Disable project validation check of 'docker-compose.yml' file in parent folder",
+			boolean: true,
+		},
+		{
 			signature: 'registry-secrets',
 			alias: 'R',
 			parameter: 'secrets.yml|.json',
@@ -259,9 +266,7 @@ export const push: CommandDefinition<
 		const remote = await import('../utils/remote-build');
 		const deviceDeploy = await import('../utils/device/deploy');
 		const { checkLoggedIn } = await import('../utils/patterns');
-		const { validateSpecifiedDockerfile, getRegistrySecrets } = await import(
-			'../utils/compose_ts'
-		);
+		const { validateProjectDirectory } = await import('../utils/compose_ts');
 		const { BuildError } = await import('../utils/device/errors');
 
 		const appOrDevice: string | null =
@@ -275,14 +280,14 @@ export const push: CommandDefinition<
 			console.error(`[debug] Using ${source} as build source`);
 		}
 
-		const dockerfilePath = validateSpecifiedDockerfile(
-			source,
-			options.dockerfile,
-		);
-
-		const registrySecrets = await getRegistrySecrets(
+		const { dockerfilePath, registrySecrets } = await validateProjectDirectory(
 			sdk,
-			options['registry-secrets'],
+			{
+				dockerfilePath: options.dockerfile,
+				noParentCheck: options['noparent-check'] || false,
+				projectPath: source,
+				registrySecretsPath: options['registry-secrets'],
+			},
 		);
 
 		const buildTarget = getBuildTarget(appOrDevice);
@@ -354,6 +359,7 @@ export const push: CommandDefinition<
 						dockerfilePath,
 						registrySecrets,
 						nocache: options.nocache || false,
+						noParentCheck: options['noparent-check'] || false,
 						nolive: options.nolive || false,
 						detached: options.detached || false,
 						services: servicesToDisplay,
@@ -371,7 +377,7 @@ export const push: CommandDefinition<
 			default:
 				throw new ExpectedError(
 					stripIndent`
-					Build target not recognised. Please provide either an application name or device address.
+					Build target not recognized. Please provide either an application name or device address.
 
 					The only supported device addresses currently are IP addresses.
 

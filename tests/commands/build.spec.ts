@@ -86,7 +86,8 @@ describe('balena build', function() {
 		);
 		const expectedResponseLines = [
 			...commonResponseLines[responseFilename],
-			`[Info] Creating default composition with source: ${projectPath}`,
+			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
+			`[Info] Creating default composition with source: "${projectPath}"`,
 			'[Build] main Image size: 1.14 MB',
 		];
 		if (isWindows) {
@@ -132,7 +133,8 @@ describe('balena build', function() {
 		);
 		const expectedResponseLines = [
 			...commonResponseLines[responseFilename],
-			`[Info] Creating default composition with source: ${projectPath}`,
+			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
+			`[Info] Creating default composition with source: "${projectPath}"`,
 			'[Build] main Image size: 1.14 MB',
 		];
 		if (isWindows) {

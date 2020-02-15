@@ -102,7 +102,8 @@ describe('balena deploy', function() {
 		);
 		const expectedResponseLines = [
 			...commonResponseLines[responseFilename],
-			`[Info] Creating default composition with source: ${projectPath}`,
+			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
+			`[Info] Creating default composition with source: "${projectPath}"`,
 		];
 		if (isWindows) {
 			expectedResponseLines.push(

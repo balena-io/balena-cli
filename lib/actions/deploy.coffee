@@ -1,3 +1,20 @@
+###*
+# @license
+# Copyright 2016-2020 Balena Ltd.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###
+
 # Imported here because it's needed for the setup
 # of this action
 Promise = require('bluebird')
@@ -21,14 +38,9 @@ deployProject = (docker, logger, composeOpts, opts) ->
 	_ = require('lodash')
 	doodles = require('resin-doodles')
 	sdk = require('balena-sdk').fromSharedOptions()
+	{ loadProject } = require('../utils/compose_ts')
 
-	compose.loadProject(
-		logger
-		composeOpts.projectPath
-		composeOpts.projectName
-		opts.image
-		composeOpts.dockerfilePath  # ok if undefined
-	)
+	Promise.resolve(loadProject(logger, composeOpts, opts.image))
 	.then (project) ->
 		if project.descriptors.length > 1 and !opts.app.application_type?[0]?.supports_multicontainer
 			throw new Error('Target application does not support multiple containers. Aborting!')
@@ -184,7 +196,8 @@ module.exports =
 		# compositions with many services trigger misleading warnings
 		require('events').defaultMaxListeners = 1000
 		sdk = (require('balena-sdk')).fromSharedOptions()
-		{ validateComposeOptions } = require('../utils/compose_ts')
+		{ ExpectedError } = require('../errors')
+		{ validateProjectDirectory } = require('../utils/compose_ts')
 		helpers = require('../utils/helpers')
 		Logger = require('../utils/logger')
 
@@ -204,13 +217,22 @@ module.exports =
 		if options.convertEol and not options.build
 			return done(new ExpectedError('The --eol-conversion flag is only valid with --build.'))
 
-		Promise.resolve(validateComposeOptions(sdk, options))
-		.then ->
+		Promise.try ->
 			if not appName?
-				throw new Error('Please specify the name of the application to deploy')
+				throw new ExpectedError('Please specify the name of the application to deploy')
 
 			if image? and options.build
-				throw new Error('Build option is not applicable when specifying an image')
+				throw new ExpectedError('Build option is not applicable when specifying an image')
+		.then ->
+			validateProjectDirectory(sdk, {
+				dockerfilePath: options.dockerfile,
+				noParentCheck: options['noparent-check'] || false,
+				projectPath: options.source || '.',
+				registrySecretsPath: options['registry-secrets'],
+			})
+		.then ({ dockerfilePath, registrySecrets }) ->
+			options.dockerfile = dockerfilePath
+			options['registry-secrets'] = registrySecrets
 
 			Promise.join(
 				helpers.getApplication(appName)

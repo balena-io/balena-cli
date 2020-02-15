@@ -1,3 +1,20 @@
+###*
+# @license
+# Copyright 2016-2020 Balena Ltd.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###
+
 # Imported here because it's needed for the setup
 # of this action
 Promise = require('bluebird')
@@ -15,13 +32,8 @@ Opts must be an object with the following keys:
 	buildOpts: arguments to forward to docker build command
 ###
 buildProject = (docker, logger, composeOpts, opts) ->
-	compose.loadProject(
-		logger
-		composeOpts.projectPath
-		composeOpts.projectName
-		undefined  # image: name of pre-built image
-		composeOpts.dockerfilePath  # ok if undefined
-	)
+	{ loadProject } = require('../utils/compose_ts')
+	Promise.resolve(loadProject(logger, composeOpts))
 	.then (project) ->
 		appType = opts.app?.application_type?[0]
 		if appType? and project.descriptors.length > 1 and not appType.supports_multicontainer
@@ -106,8 +118,8 @@ module.exports =
 		require('events').defaultMaxListeners = 1000
 
 		sdk = (require('balena-sdk')).fromSharedOptions()
-		{ validateComposeOptions } = require('../utils/compose_ts')
-		{ exitWithExpectedError } = require('../utils/patterns')
+		{ ExpectedError } = require('../errors')
+		{ validateProjectDirectory } = require('../utils/compose_ts')
 		helpers = require('../utils/helpers')
 		Logger = require('../utils/logger')
 
@@ -122,12 +134,21 @@ module.exports =
 		options.convertEol = options['convert-eol'] || false
 		delete options['convert-eol']
 
-		Promise.resolve(validateComposeOptions(sdk, options))
-		.then ->
-			{ application, arch, deviceType } = options
+		{ application, arch, deviceType } = options
 
+		Promise.try ->
 			if (not (arch? and deviceType?) and not application?) or (application? and (arch? or deviceType?))
-				exitWithExpectedError('You must specify either an application or an arch/deviceType pair to build for')
+				throw new ExpectedError('You must specify either an application or an arch/deviceType pair to build for')
+		.then ->
+			validateProjectDirectory(sdk, {
+				dockerfilePath: options.dockerfile,
+				noParentCheck: options['noparent-check'] || false,
+				projectPath: options.source || '.',
+				registrySecretsPath: options['registry-secrets'],
+			})
+		.then ({ dockerfilePath, registrySecrets }) ->
+			options.dockerfile = dockerfilePath
+			options['registry-secrets'] = registrySecrets
 
 			if arch? and deviceType?
 				[ undefined, arch, deviceType ]
