@@ -18,12 +18,14 @@
 // tslint:disable-next-line:no-var-requires
 require('../config-tests'); // required for side effects
 
+import { expect } from 'chai';
 import { fs } from 'mz';
 import * as path from 'path';
 
 import { BalenaAPIMock } from '../balena-api-mock';
 import { ExpectedTarStreamFiles, testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../docker-mock';
+import { cleanOutput, runCommand } from '../helpers';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
@@ -127,5 +129,28 @@ describe('balena deploy', function() {
 			responseCode: 200,
 			services: ['main'],
 		});
+	});
+});
+
+describe('balena deploy: project validation', function() {
+	it('should raise ExpectedError if a Dockerfile cannot be found', async () => {
+		const projectPath = path.join(
+			projectsPath,
+			'docker-compose',
+			'basic',
+			'service2',
+		);
+		const expectedErrorLines = [
+			'Error: no "Dockerfile[.*]", "docker-compose.yml" or "package.json" file',
+			`found in source folder "${projectPath}"`,
+		];
+
+		const { out, err } = await runCommand(
+			`deploy testApp --source ${projectPath}`,
+		);
+		expect(
+			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
+		).to.include.members(expectedErrorLines);
+		expect(out).to.be.empty;
 	});
 });

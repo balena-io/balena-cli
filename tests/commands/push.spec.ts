@@ -18,6 +18,7 @@
 // tslint:disable-next-line:no-var-requires
 require('../config-tests'); // required for side effects
 
+import { expect } from 'chai';
 import { fs } from 'mz';
 import * as path from 'path';
 
@@ -28,6 +29,7 @@ import {
 	expectStreamNoCRLF,
 	testPushBuildStream,
 } from '../docker-build';
+import { cleanOutput, runCommand } from '../helpers';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
@@ -240,5 +242,98 @@ describe('balena push', function() {
 			responseBody,
 			responseCode: 200,
 		});
+	});
+});
+
+describe('balena push: project validation', function() {
+	it('should raise ExpectedError if the project folder is not a directory', async () => {
+		const projectPath = path.join(
+			projectsPath,
+			'docker-compose',
+			'basic',
+			'docker-compose.yml',
+		);
+		const expectedErrorLines = [
+			`Could not access source folder: "${projectPath}"`,
+		];
+
+		const { out, err } = await runCommand(
+			`push testApp --source ${projectPath}`,
+		);
+		expect(
+			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
+		).to.include.members(expectedErrorLines);
+		expect(out).to.be.empty;
+	});
+
+	it('should raise ExpectedError if a Dockerfile cannot be found', async () => {
+		const projectPath = path.join(
+			projectsPath,
+			'docker-compose',
+			'basic',
+			'service2',
+		);
+		const expectedErrorLines = [
+			'Error: no "Dockerfile[.*]", "docker-compose.yml" or "package.json" file',
+			`found in source folder "${projectPath}"`,
+		];
+
+		const { out, err } = await runCommand(
+			`push testApp --source ${projectPath}`,
+		);
+		expect(
+			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
+		).to.include.members(expectedErrorLines);
+		expect(out).to.be.empty;
+	});
+
+	it('should log a warning if a docker-compose.yml exists in a parent folder', async () => {
+		const projectPath = path.join(
+			projectsPath,
+			'docker-compose',
+			'basic',
+			'service1',
+		);
+		const expectedErrorLines = [
+			'The --nolive flag is only valid when pushing to a local mode device',
+		];
+		const expectedOutputLines = [
+			'[Warn] "docker-compose.y[a]ml" file found in parent directory: please check',
+			"[Warn] that the correct folder was specified. (Suppress with '--noparent-check'.)",
+		];
+
+		const { out, err } = await runCommand(
+			`push testApp --source ${projectPath} --nolive`,
+		);
+		expect(
+			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
+		).to.include.members(expectedErrorLines);
+		expect(
+			cleanOutput(out).map(line => line.replace(/\s{2,}/g, ' ')),
+		).to.include.members(expectedOutputLines);
+	});
+
+	it('should suppress a parent folder check with --noparent-check', async () => {
+		const projectPath = path.join(
+			projectsPath,
+			'docker-compose',
+			'basic',
+			'service1',
+		);
+		const expectedErrorLines = [
+			'The --nolive flag is only valid when pushing to a local mode device',
+		];
+		const expectedOutputLines = [
+			'[Warn] "docker-compose.y[a]ml" file found in parent directory: please check',
+			"[Warn] that the correct folder was specified. (Suppress with '--noparent-check'.)",
+		];
+
+		const { out, err } = await runCommand(
+			`push testApp --source ${projectPath} --nolive --noparent-check`,
+		);
+		expect(
+			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
+		).to.include.members(expectedErrorLines);
+		expect(out).to.be.empty;
 	});
 });
