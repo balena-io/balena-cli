@@ -18,6 +18,7 @@ import { BalenaSDK } from 'balena-sdk';
 import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
 
+import { ExpectedError } from '../errors';
 import { registrySecretsHelp } from '../utils/messages';
 import {
 	validateApplicationName,
@@ -44,9 +45,7 @@ function getBuildTarget(appOrDevice: string): BuildTarget | null {
 }
 
 async function getAppOwner(sdk: BalenaSDK, appName: string) {
-	const { exitWithExpectedError, selectFromList } = await import(
-		'../utils/patterns'
-	);
+	const { selectFromList } = await import('../utils/patterns');
 	const _ = await import('lodash');
 
 	const applications = await sdk.models.application.getAll({
@@ -62,7 +61,7 @@ async function getAppOwner(sdk: BalenaSDK, appName: string) {
 	});
 
 	if (applications == null || applications.length === 0) {
-		exitWithExpectedError(
+		throw new ExpectedError(
 			stripIndent`
 			No applications found with name: ${appName}.
 
@@ -253,15 +252,13 @@ export const push: CommandDefinition<
 			boolean: true,
 		},
 	],
-	async action(params, options, done) {
+	async action(params, options) {
 		const sdk = (await import('balena-sdk')).fromSharedOptions();
 		const Bluebird = await import('bluebird');
 		const isArray = await import('lodash/isArray');
 		const remote = await import('../utils/remote-build');
 		const deviceDeploy = await import('../utils/device/deploy');
-		const { exitIfNotLoggedIn, exitWithExpectedError } = await import(
-			'../utils/patterns'
-		);
+		const { checkLoggedIn } = await import('../utils/patterns');
 		const { validateSpecifiedDockerfile, getRegistrySecrets } = await import(
 			'../utils/compose_ts'
 		);
@@ -270,7 +267,7 @@ export const push: CommandDefinition<
 		const appOrDevice: string | null =
 			params.applicationOrDevice_raw || params.applicationOrDevice;
 		if (appOrDevice == null) {
-			exitWithExpectedError('You must specify an application or a device');
+			throw new ExpectedError('You must specify an application or a device');
 		}
 
 		const source = options.source || '.';
@@ -293,28 +290,28 @@ export const push: CommandDefinition<
 			case BuildTarget.Cloud:
 				// Ensure that the live argument has not been passed to a cloud build
 				if (options.nolive != null) {
-					exitWithExpectedError(
+					throw new ExpectedError(
 						'The --nolive flag is only valid when pushing to a local mode device',
 					);
 				}
 				if (options.service) {
-					exitWithExpectedError(
+					throw new ExpectedError(
 						'The --service flag is only valid when pushing to a local mode device.',
 					);
 				}
 				if (options.system) {
-					exitWithExpectedError(
+					throw new ExpectedError(
 						'The --system flag is only valid when pushing to a local mode device.',
 					);
 				}
 				if (options.env) {
-					exitWithExpectedError(
+					throw new ExpectedError(
 						'The --env flag is only valid when pushing to a local mode device.',
 					);
 				}
 
 				const app = appOrDevice;
-				await exitIfNotLoggedIn();
+				await checkLoggedIn();
 				await Bluebird.join(
 					sdk.auth.getToken(),
 					sdk.settings.get('balenaUrl'),
@@ -339,7 +336,7 @@ export const push: CommandDefinition<
 						};
 						return await remote.startRemoteBuild(args);
 					},
-				).nodeify(done);
+				);
 				break;
 			case BuildTarget.Device:
 				const device = appOrDevice;
@@ -367,14 +364,12 @@ export const push: CommandDefinition<
 								: options.env || [],
 						convertEol: options['convert-eol'] || false,
 					}),
-				)
-					.catch(BuildError, e => {
-						exitWithExpectedError(e.toString());
-					})
-					.nodeify(done);
+				).catch(BuildError, e => {
+					throw new ExpectedError(e.toString());
+				});
 				break;
 			default:
-				exitWithExpectedError(
+				throw new ExpectedError(
 					stripIndent`
 					Build target not recognised. Please provide either an application name or device address.
 
@@ -383,7 +378,6 @@ export const push: CommandDefinition<
 					If you believe your build target should have been detected, and this is an error, please
 					create an issue.`,
 				);
-				break;
 		}
 	},
 };
