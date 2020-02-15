@@ -18,16 +18,10 @@
 // tslint:disable-next-line:no-var-requires
 require('./config-tests'); // required for side effects
 
-import { stripIndent } from 'common-tags';
 import intercept = require('intercept-stdout');
 import * as _ from 'lodash';
-import { fs } from 'mz';
 import * as nock from 'nock';
 import * as path from 'path';
-import { PathUtils } from 'resin-multibuild';
-import { Readable } from 'stream';
-import * as tar from 'tar-stream';
-import { streamToBuffer } from 'tar-utils';
 
 import * as balenaCLI from '../build/app';
 
@@ -114,101 +108,34 @@ export function monochrome(text: string): string {
 	return text.replace(/\u001b\[\??\d+?[a-zA-Z]\r?/g, '');
 }
 
-export interface TarStreamFiles {
-	[filePath: string]: {
-		fileSize: number;
-		type: tar.Headers['type'];
-		testStream?: (header: tar.Headers, stream: Readable) => Promise<void>;
-	};
-}
-
 /**
- * Run a few chai.expect() test assertions on a tar stream/buffer produced by
- * the balena push, build and deploy commands, intercepted at HTTP level on
- * their way from the CLI to the Docker daemon or balenaCloud builders.
- *
- * @param tarRequestBody Intercepted buffer of tar stream to be sent to builders/Docker
- * @param expectedFiles Details of files expected to be found in the buffer
- * @param projectPath Path of test project that was tarred, to compare file contents
- * @param expect chai.expect function
+ * Dynamic template string resolution.
+ * Usage example:
+ *     const templateString = 'hello ${name}!';
+ *     const templateVars = { name: 'world' };
+ *     console.log( fillTemplate(templateString, templateVars) );
+ *     // hello world!
  */
-export async function inspectTarStream(
-	tarRequestBody: string | Buffer,
-	expectedFiles: TarStreamFiles,
-	projectPath: string,
-	expect: Chai.ExpectStatic,
-): Promise<void> {
-	// string to stream: https://stackoverflow.com/a/22085851
-	const sourceTarStream = new Readable();
-	sourceTarStream._read = () => undefined;
-	sourceTarStream.push(tarRequestBody);
-	sourceTarStream.push(null);
+export function fillTemplate(
+	templateString: string,
+	templateVars: object,
+): string {
+	const escaped = templateString.replace(/\\/g, '\\\\').replace(/`/g, '\\`');
+	const resolved = new Function(
+		...Object.keys(templateVars),
+		`return \`${escaped}\`;`,
+	).call(null, ...Object.values(templateVars));
+	const unescaped = resolved.replace(/\\`/g, '`').replace(/\\\\/g, '\\');
+	return unescaped;
+}
 
-	const found: TarStreamFiles = await new Promise((resolve, reject) => {
-		const foundFiles: TarStreamFiles = {};
-		const extract = tar.extract();
-		extract.on('error', reject);
-		extract.on(
-			'entry',
-			async (header: tar.Headers, stream: Readable, next: tar.Callback) => {
-				try {
-					// TODO: test the .balena folder instead of ignoring it
-					if (header.name.startsWith('.balena/')) {
-						stream.resume();
-					} else {
-						expect(foundFiles).to.not.have.property(header.name);
-						foundFiles[header.name] = {
-							fileSize: header.size || 0,
-							type: header.type,
-						};
-						const expected = expectedFiles[header.name];
-						if (expected && expected.testStream) {
-							await expected.testStream(header, stream);
-						} else {
-							await defaultTestStream(header, stream, projectPath, expect);
-						}
-					}
-				} catch (err) {
-					reject(err);
-				}
-				next();
-			},
-		);
-		extract.once('finish', () => {
-			resolve(foundFiles);
-		});
-		sourceTarStream.on('error', reject);
-		sourceTarStream.pipe(extract);
-	});
-
-	expect(found).to.deep.equal(
-		_.mapValues(expectedFiles, v => _.omit(v, 'testStream')),
+export function fillTemplateArray(
+	templateStringArray: Array<string | string[]>,
+	templateVars: object,
+) {
+	return templateStringArray.map(i =>
+		Array.isArray(i)
+			? fillTemplateArray(i, templateVars)
+			: fillTemplate(i, templateVars),
 	);
-}
-
-/** Check that a tar stream entry matches the project contents in the filesystem */
-async function defaultTestStream(
-	header: tar.Headers,
-	stream: Readable,
-	projectPath: string,
-	expect: Chai.ExpectStatic,
-): Promise<void> {
-	const [buf, buf2] = await Promise.all([
-		streamToBuffer(stream),
-		fs.readFile(path.join(projectPath, PathUtils.toNativePath(header.name))),
-	]);
-	const msg = stripIndent`
-		contents mismatch for tar stream entry "${header.name}"
-		stream length=${buf.length}, filesystem length=${buf2.length}`;
-	expect(buf.equals(buf2), msg).to.be.true;
-}
-
-/** Test a tar stream entry for the absence of Windows CRLF line breaks */
-export async function expectStreamNoCRLF(
-	_header: tar.Headers,
-	stream: Readable,
-): Promise<void> {
-	const chai = await import('chai');
-	const buf = await streamToBuffer(stream);
-	await chai.expect(buf.includes('\r\n')).to.be.false;
 }
