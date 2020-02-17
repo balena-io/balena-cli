@@ -21,20 +21,16 @@ require('../config-tests'); // required for side effects
 import { expect } from 'chai';
 import { fs } from 'mz';
 import * as path from 'path';
-import { URL } from 'url';
 
 import { BalenaAPIMock } from '../balena-api-mock';
+import { ExpectedTarStreamFiles, testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../docker-mock';
-import {
-	cleanOutput,
-	inspectTarStream,
-	runCommand,
-	TarStreamFiles,
-} from '../helpers';
+import { cleanOutput, runCommand } from '../helpers';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
-const expectedResponses = {
+
+const commonResponseLines = {
 	'build-POST.json': [
 		'[Info] Building for armv7hf/raspberrypi3',
 		'[Info] Docker Desktop detected (daemon architecture: "x86_64")',
@@ -49,15 +45,16 @@ const expectedResponses = {
 	],
 };
 
+const commonQueryParams = [
+	['t', '${tag}'],
+	['buildargs', '{}'],
+	['labels', ''],
+];
+
 describe('balena deploy', function() {
 	let api: BalenaAPIMock;
 	let docker: DockerMock;
-
-	const commonQueryParams = [
-		['t', 'basic_main'],
-		['buildargs', '{}'],
-		['labels', ''],
-	];
+	const isWindows = process.platform === 'win32';
 
 	this.beforeEach(() => {
 		api = new BalenaAPIMock();
@@ -80,8 +77,7 @@ describe('balena deploy', function() {
 
 		docker.expectGetPing();
 		docker.expectGetInfo();
-		docker.expectGetVersion();
-		docker.expectGetImages({ persist: true });
+		docker.expectGetVersion({ persist: true });
 		docker.expectPostImagesTag();
 		docker.expectPostImagesPush();
 		docker.expectDeleteImages();
@@ -95,7 +91,7 @@ describe('balena deploy', function() {
 
 	it('should create the expected --build tar stream (single container)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
-		const expectedFiles: TarStreamFiles = {
+		const expectedFiles: ExpectedTarStreamFiles = {
 			'src/start.sh': { fileSize: 89, type: 'file' },
 			'src/windows-crlf.sh': { fileSize: 70, type: 'file' },
 			Dockerfile: { fileSize: 88, type: 'file' },
@@ -106,43 +102,55 @@ describe('balena deploy', function() {
 			path.join(dockerResponsePath, responseFilename),
 			'utf8',
 		);
-
-		docker.expectPostBuild({
-			tag: 'basic_main',
-			responseCode: 200,
-			responseBody,
-			checkURI: async (uri: string) => {
-				const url = new URL(uri, 'http://test.net/');
-				const queryParams = Array.from(url.searchParams.entries());
-				expect(queryParams).to.have.deep.members(commonQueryParams);
-			},
-			checkBuildRequestBody: (buildRequestBody: string) =>
-				inspectTarStream(buildRequestBody, expectedFiles, projectPath, expect),
-		});
-
-		const { out, err } = await runCommand(
-			`deploy testApp --build --source ${projectPath}`,
-		);
-
-		const extraLines = [
-			`[Info] Creating default composition with source: ${projectPath}`,
+		const expectedResponseLines = [
+			...commonResponseLines[responseFilename],
+			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
+			`[Info] Creating default composition with source: "${projectPath}"`,
 		];
-		if (process.platform === 'win32') {
-			extraLines.push(
+		if (isWindows) {
+			expectedResponseLines.push(
 				`[Warn] CRLF (Windows) line endings detected in file: ${path.join(
 					projectPath,
 					'src',
 					'windows-crlf.sh',
 				)}`,
+				'[Warn] Windows-format line endings were detected in some files. Consider using the `--convert-eol` option.',
 			);
 		}
 
-		expect(err).to.have.members([]);
+		await testDockerBuildStream({
+			commandLine: `deploy testApp --build --source ${projectPath}`,
+			dockerMock: docker,
+			expectedFilesByService: { main: expectedFiles },
+			expectedQueryParamsByService: { main: commonQueryParams },
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+			services: ['main'],
+		});
+	});
+});
+
+describe('balena deploy: project validation', function() {
+	it('should raise ExpectedError if a Dockerfile cannot be found', async () => {
+		const projectPath = path.join(
+			projectsPath,
+			'docker-compose',
+			'basic',
+			'service2',
+		);
+		const expectedErrorLines = [
+			'Error: no "Dockerfile[.*]", "docker-compose.yml" or "package.json" file',
+			`found in source folder "${projectPath}"`,
+		];
+
+		const { out, err } = await runCommand(
+			`deploy testApp --source ${projectPath}`,
+		);
 		expect(
-			cleanOutput(out).map(line => line.replace(/\s{2,}/g, ' ')),
-		).to.include.members([
-			...expectedResponses[responseFilename],
-			...extraLines,
-		]);
+			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
+		).to.include.members(expectedErrorLines);
+		expect(out).to.be.empty;
 	});
 });

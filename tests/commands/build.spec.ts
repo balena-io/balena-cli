@@ -19,43 +19,43 @@
 require('../config-tests'); // required for side effects
 
 import { expect } from 'chai';
+import * as _ from 'lodash';
 import { fs } from 'mz';
 import * as path from 'path';
-import { URL } from 'url';
 
 import { BalenaAPIMock } from '../balena-api-mock';
-import { DockerMock, dockerResponsePath } from '../docker-mock';
 import {
-	cleanOutput,
+	ExpectedTarStreamFiles,
+	ExpectedTarStreamFilesByService,
 	expectStreamNoCRLF,
-	inspectTarStream,
-	runCommand,
-	TarStreamFiles,
-} from '../helpers';
+	testDockerBuildStream,
+} from '../docker-build';
+import { DockerMock, dockerResponsePath } from '../docker-mock';
+import { cleanOutput, runCommand } from '../helpers';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
 
-const expectedResponses = {
+const commonResponseLines: { [key: string]: string[] } = {
 	'build-POST.json': [
 		'[Info] Building for amd64/nuc',
 		'[Info] Docker Desktop detected (daemon architecture: "x86_64")',
 		'[Info] Docker itself will determine and enable architecture emulation if required,',
 		'[Info] without balena-cli intervention and regardless of the --emulated option.',
-		'[Build] main Image size: 1.14 MB',
 		'[Success] Build succeeded!',
 	],
 };
 
+const commonQueryParams = [
+	['t', '${tag}'],
+	['buildargs', '{}'],
+	['labels', ''],
+];
+
 describe('balena build', function() {
 	let api: BalenaAPIMock;
 	let docker: DockerMock;
-
-	const commonQueryParams = [
-		['t', 'basic_main'],
-		['buildargs', '{}'],
-		['labels', ''],
-	];
+	const isWindows = process.platform === 'win32';
 
 	this.beforeEach(() => {
 		api = new BalenaAPIMock();
@@ -65,7 +65,6 @@ describe('balena build', function() {
 		docker.expectGetPing();
 		docker.expectGetInfo();
 		docker.expectGetVersion();
-		docker.expectGetImages();
 	});
 
 	this.afterEach(() => {
@@ -76,7 +75,7 @@ describe('balena build', function() {
 
 	it('should create the expected tar stream (single container)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
-		const expectedFiles: TarStreamFiles = {
+		const expectedFiles: ExpectedTarStreamFiles = {
 			'src/start.sh': { fileSize: 89, type: 'file' },
 			'src/windows-crlf.sh': { fileSize: 70, type: 'file' },
 			Dockerfile: { fileSize: 88, type: 'file' },
@@ -87,55 +86,44 @@ describe('balena build', function() {
 			path.join(dockerResponsePath, responseFilename),
 			'utf8',
 		);
-
-		docker.expectPostBuild({
-			tag: 'basic_main',
-			responseCode: 200,
-			responseBody,
-			checkURI: async (uri: string) => {
-				const url = new URL(uri, 'http://test.net/');
-				const queryParams = Array.from(url.searchParams.entries());
-				expect(queryParams).to.have.deep.members(commonQueryParams);
-			},
-			checkBuildRequestBody: (buildRequestBody: string) =>
-				inspectTarStream(buildRequestBody, expectedFiles, projectPath, expect),
-		});
-
-		const { out, err } = await runCommand(
-			`build ${projectPath} --deviceType nuc --arch amd64`,
-		);
-
-		const extraLines = [
-			`[Info] Creating default composition with source: ${projectPath}`,
+		const expectedResponseLines = [
+			...commonResponseLines[responseFilename],
+			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
+			`[Info] Creating default composition with source: "${projectPath}"`,
+			'[Build] main Image size: 1.14 MB',
 		];
-		if (process.platform === 'win32') {
-			extraLines.push(
+		if (isWindows) {
+			expectedResponseLines.push(
 				`[Warn] CRLF (Windows) line endings detected in file: ${path.join(
 					projectPath,
 					'src',
 					'windows-crlf.sh',
 				)}`,
+				'[Warn] Windows-format line endings were detected in some files. Consider using the `--convert-eol` option.',
 			);
 		}
 
-		expect(err).to.have.members([]);
-		expect(
-			cleanOutput(out).map(line => line.replace(/\s{2,}/g, ' ')),
-		).to.include.members([
-			...expectedResponses[responseFilename],
-			...extraLines,
-		]);
+		await testDockerBuildStream({
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64`,
+			dockerMock: docker,
+			expectedFilesByService: { main: expectedFiles },
+			expectedQueryParamsByService: { main: commonQueryParams },
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+			services: ['main'],
+		});
 	});
 
 	it('should create the expected tar stream (single container, --convert-eol)', async () => {
-		const windows = process.platform === 'win32';
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
-		const expectedFiles: TarStreamFiles = {
+		const expectedFiles: ExpectedTarStreamFiles = {
 			'src/start.sh': { fileSize: 89, type: 'file' },
 			'src/windows-crlf.sh': {
-				fileSize: windows ? 68 : 70,
+				fileSize: isWindows ? 68 : 70,
+				testStream: isWindows ? expectStreamNoCRLF : undefined,
 				type: 'file',
-				testStream: windows ? expectStreamNoCRLF : undefined,
 			},
 			Dockerfile: { fileSize: 88, type: 'file' },
 			'Dockerfile-alt': { fileSize: 30, type: 'file' },
@@ -145,29 +133,14 @@ describe('balena build', function() {
 			path.join(dockerResponsePath, responseFilename),
 			'utf8',
 		);
-
-		docker.expectPostBuild({
-			tag: 'basic_main',
-			responseCode: 200,
-			responseBody,
-			checkURI: async (uri: string) => {
-				const url = new URL(uri, 'http://test.net/');
-				const queryParams = Array.from(url.searchParams.entries());
-				expect(queryParams).to.have.deep.members(commonQueryParams);
-			},
-			checkBuildRequestBody: (buildRequestBody: string) =>
-				inspectTarStream(buildRequestBody, expectedFiles, projectPath, expect),
-		});
-
-		const { out, err } = await runCommand(
-			`build ${projectPath} --deviceType nuc --arch amd64 --convert-eol`,
-		);
-
-		const extraLines = [
-			`[Info] Creating default composition with source: ${projectPath}`,
+		const expectedResponseLines = [
+			...commonResponseLines[responseFilename],
+			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
+			`[Info] Creating default composition with source: "${projectPath}"`,
+			'[Build] main Image size: 1.14 MB',
 		];
-		if (windows) {
-			extraLines.push(
+		if (isWindows) {
+			expectedResponseLines.push(
 				`[Info] Converting line endings CRLF -> LF for file: ${path.join(
 					projectPath,
 					'src',
@@ -176,12 +149,101 @@ describe('balena build', function() {
 			);
 		}
 
-		expect(err).to.have.members([]);
+		await testDockerBuildStream({
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol`,
+			dockerMock: docker,
+			expectedFilesByService: { main: expectedFiles },
+			expectedQueryParamsByService: { main: commonQueryParams },
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+			services: ['main'],
+		});
+	});
+
+	it('should create the expected tar stream (docker-compose)', async () => {
+		const projectPath = path.join(projectsPath, 'docker-compose', 'basic');
+		const service1Dockerfile = (
+			await fs.readFile(
+				path.join(projectPath, 'service1', 'Dockerfile.template'),
+				'utf8',
+			)
+		).replace('%%BALENA_MACHINE_NAME%%', 'nuc');
+		const expectedFilesByService: ExpectedTarStreamFilesByService = {
+			service1: {
+				Dockerfile: {
+					contents: service1Dockerfile,
+					fileSize: service1Dockerfile.length,
+					type: 'file',
+				},
+				'Dockerfile.template': { fileSize: 144, type: 'file' },
+				'file1.sh': { fileSize: 12, type: 'file' },
+			},
+			service2: {
+				'Dockerfile-alt': { fileSize: 40, type: 'file' },
+				'file2-crlf.sh': {
+					fileSize: isWindows ? 12 : 14,
+					testStream: isWindows ? expectStreamNoCRLF : undefined,
+					type: 'file',
+				},
+			},
+		};
+		const responseFilename = 'build-POST.json';
+		const responseBody = await fs.readFile(
+			path.join(dockerResponsePath, responseFilename),
+			'utf8',
+		);
+		const expectedQueryParamsByService = {
+			service1: commonQueryParams,
+			service2: [...commonQueryParams, ['dockerfile', 'Dockerfile-alt']],
+		};
+		const expectedResponseLines: string[] = [
+			...commonResponseLines[responseFilename],
+			`[Build] service1 Image size: 1.14 MB`,
+			`[Build] service2 Image size: 1.14 MB`,
+		];
+		if (isWindows) {
+			expectedResponseLines.push(
+				`[Info] Converting line endings CRLF -> LF for file: ${path.join(
+					projectPath,
+					'service2',
+					'file2-crlf.sh',
+				)}`,
+			);
+		}
+
+		await testDockerBuildStream({
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol`,
+			dockerMock: docker,
+			expectedFilesByService,
+			expectedQueryParamsByService,
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+			services: ['service1', 'service2'],
+		});
+	});
+});
+
+describe('balena build: project validation', function() {
+	it('should raise ExpectedError if a Dockerfile cannot be found', async () => {
+		const projectPath = path.join(
+			projectsPath,
+			'docker-compose',
+			'basic',
+			'service2',
+		);
+		const expectedErrorLines = [
+			'Error: no "Dockerfile[.*]", "docker-compose.yml" or "package.json" file',
+			`found in source folder "${projectPath}"`,
+		];
+
+		const { out, err } = await runCommand(`build ${projectPath} -a testApp`);
 		expect(
-			cleanOutput(out).map(line => line.replace(/\s{2,}/g, ' ')),
-		).to.include.members([
-			...expectedResponses[responseFilename],
-			...extraLines,
-		]);
+			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
+		).to.include.members(expectedErrorLines);
+		expect(out).to.be.empty;
 	});
 });
