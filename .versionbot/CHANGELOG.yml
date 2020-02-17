@@ -1,4 +1,37 @@
 - commits:
+    - subject: Add tests for project directory validation
+      hash: 9e870b08a7802ca0132d6fd99a7d89cfdb8314cb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: >-
+        Add project directory validation for balena push / build / deploy
+        commands
+      hash: 671dca8287ae3d79feae1c7ccdb7d60abaf1f760
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+    - subject: Refactor 'balena push' error handling
+      hash: a15060e9fc2e4d408c9f5ef4315d98d99d56cdcd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Add and refactor tests for push/build/deploy commands (docker-compose)
+      hash: 0738dd152067d7aabdb1b424cc7737a3a70ca3bd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.27.0
+  date: 2020-02-17T15:22:23.003Z
+- commits:
     - subject: Add '--cache-from' option to balena build and deploy commands
       hash: a1c406a4795e3f91963676f923ca607df975a2c7
       body: >
