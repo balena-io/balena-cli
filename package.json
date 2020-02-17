@@ -77,7 +77,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "node automation/check-npm-version.js"
+      "pre-commit": "node automation/check-npm-version.js && node automation/check-doc.js"
     }
   },
   "oclif": {
@@ -139,7 +139,7 @@
     "gulp-coffee": "^2.2.0",
     "gulp-inline-source": "^2.1.0",
     "gulp-shell": "^0.5.2",
-    "husky": "^4.2.1",
+    "husky": "^4.2.3",
     "intercept-stdout": "^0.1.2",
     "mocha": "^6.2.2",
     "nock": "^11.7.2",
@@ -149,6 +149,7 @@
     "publish-release": "^1.6.1",
     "resin-lint": "^3.2.4",
     "rewire": "^3.0.2",
+    "simple-git": "^1.131.0",
     "sinon": "^7.5.0",
     "ts-node": "^8.6.2",
     "typescript": "^3.7.5"
