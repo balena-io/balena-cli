@@ -195,7 +195,7 @@ exports.buildProject = (
 		# Tar up the directory, ready for the build stream
 		tarDirectory(projectPath, { convertEol })
 		.then (tarStream) ->
-			Promise.resolve(makeBuildTasks(composition, tarStream, { arch, deviceType }, logger))
+			Promise.resolve(makeBuildTasks(composition, tarStream, { arch, deviceType }, logger, projectName))
 		.map (task) ->
 			d = imageDescriptorsByServiceName[task.serviceName]
 
