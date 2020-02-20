@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Update resin-multibuild and add app and release template vars",
+          "hash": "95c93d24da41aee611bac2e74f9e216aafdb2684",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Cameron Diver <cameron@balena.io>",
+            "signed-off-by": "Cameron Diver <cameron@balena.io>"
+          },
+          "author": "Cameron Diver"
+        }
+      ],
+      "version": "11.28.0",
+      "date": "2020-02-18T13:58:42.610Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add tests for project directory validation",
           "hash": "9e870b08a7802ca0132d6fd99a7d89cfdb8314cb",
           "body": "",
@@ -9015,32 +9033,52 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-17T15:51:58Z",
+  "lastCommitDate": "2020-02-20T03:01:08Z",
   "latestRelease": {
-    "tagName": "v11.27.0",
+    "tagName": "v11.28.0",
     "asssets": [
       {
-        "name": "balena-cli-v11.27.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.27.0/balena-cli-v11.27.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.28.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.0/balena-cli-v11.28.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.27.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.27.0/balena-cli-v11.27.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.28.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.0/balena-cli-v11.28.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.27.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.27.0/balena-cli-v11.27.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.28.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.0/balena-cli-v11.28.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.27.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.27.0/balena-cli-v11.27.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.28.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.0/balena-cli-v11.28.0-windows-x64-installer.exe"
+      },
+      {
+        "name": "balena-cli-v11.28.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.0/balena-cli-v11.28.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 227,
+    "numberOfIssues": 230,
     "latestIssues": [
+      {
+        "title": "Build emulation does not work on non standard Dockerfile names",
+        "url": "https://github.com/balena-io/balena-cli/issues/1624"
+      },
+      {
+        "title": "Add pre-commit check for cli.markdown updates and coffeelint execution",
+        "url": "https://github.com/balena-io/balena-cli/pull/1623"
+      },
+      {
+        "title": "Add a script to automate nested changelogs",
+        "url": "https://github.com/balena-io/balena-cli/pull/1622"
+      },
+      {
+        "title": "Prompt before replacing a multi-container app with a single-container app",
+        "url": "https://github.com/balena-io/balena-cli/issues/1621"
+      },
       {
         "title": "Add validation for docker-compose 'context' folder",
         "url": "https://github.com/balena-io/balena-cli/issues/1620"
@@ -9104,26 +9142,10 @@
       {
         "title": "Should suggest using the --logs option when build/push/deploy fails",
         "url": "https://github.com/balena-io/balena-cli/issues/1573"
-      },
-      {
-        "title": "Document, improve error msg and/or remove requirement for owner prefix in legacy application names",
-        "url": "https://github.com/balena-io/balena-cli/issues/1568"
-      },
-      {
-        "title": "Ability to rename applications",
-        "url": "https://github.com/balena-io/balena-cli/issues/1567"
-      },
-      {
-        "title": "More insight into issues related to development and production builds",
-        "url": "https://github.com/balena-io/balena-cli/issues/1566"
-      },
-      {
-        "title": "Doing a balena push to a production build will report that the supervisor version is not high enough",
-        "url": "https://github.com/balena-io/balena-cli/issues/1565"
       }
     ]
   },
-  "version": "11.27.0",
+  "version": "11.28.0",
   "screenshot": null,
   "logo": null
 }

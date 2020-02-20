@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update resin-multibuild and add app and release template vars
+      hash: 95c93d24da41aee611bac2e74f9e216aafdb2684
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Cameron Diver <cameron@balena.io>
+        signed-off-by: Cameron Diver <cameron@balena.io>
+      author: Cameron Diver
+  version: 11.28.0
+  date: 2020-02-20T03:00:43.001Z
+- commits:
     - subject: Add tests for project directory validation
       hash: 9e870b08a7802ca0132d6fd99a7d89cfdb8314cb
       body: ''
@@ -30,7 +42,7 @@
         change-type: patch
       author: Paulo Castro
   version: 11.27.0
-  date: 2020-02-17T15:51:08.977Z
+  date: 2020-02-17T15:22:23.003Z
 - commits:
     - subject: Add '--cache-from' option to balena build and deploy commands
       hash: a1c406a4795e3f91963676f923ca607df975a2c7
