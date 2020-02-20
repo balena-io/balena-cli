@@ -42,6 +42,9 @@ import { DeviceAPIError } from './errors';
 import LivepushManager from './live';
 import { displayBuildLog } from './logs';
 
+const LOCAL_APPNAME = 'localapp';
+const LOCAL_RELEASEHASH = 'localrelease';
+
 // Define the logger here so the debug output
 // can be used everywhere
 const globalLogger = Logger.getLogger();
@@ -304,6 +307,8 @@ export async function performBuilds(
 		tarStream,
 		deviceInfo,
 		logger,
+		LOCAL_APPNAME,
+		LOCAL_RELEASEHASH,
 	);
 
 	logger.logDebug('Probing remote daemon for cache images');
@@ -391,7 +396,14 @@ export async function rebuildSingleTask(
 	const tarStream = await tarDirectory(source);
 
 	const task = _.find(
-		await makeBuildTasks(composition, tarStream, deviceInfo, logger),
+		await makeBuildTasks(
+			composition,
+			tarStream,
+			deviceInfo,
+			logger,
+			LOCAL_APPNAME,
+			LOCAL_RELEASEHASH,
+		),
 		{ serviceName },
 	);
 
@@ -549,8 +561,8 @@ export function generateTargetState(
 
 	targetState.local.apps = {
 		1: {
-			name: 'localapp',
-			commit: 'localrelease',
+			name: LOCAL_APPNAME,
+			commit: LOCAL_RELEASEHASH,
 			releaseId: '1',
 			services,
 			volumes: composition.volumes || {},
