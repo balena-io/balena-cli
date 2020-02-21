@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add a script to automate nested changelogs
+      hash: f2be811e1858b7935c95f5c5477057ff0be7ae43
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+  version: 11.28.1
+  date: 2020-02-21T13:39:41.063Z
+- commits:
     - subject: Update resin-multibuild and add app and release template vars
       hash: 95c93d24da41aee611bac2e74f9e216aafdb2684
       body: ''
@@ -9,7 +21,7 @@
         signed-off-by: Cameron Diver <cameron@balena.io>
       author: Cameron Diver
   version: 11.28.0
-  date: 2020-02-20T03:00:43.001Z
+  date: 2020-02-18T13:58:42.610Z
 - commits:
     - subject: Add tests for project directory validation
       hash: 9e870b08a7802ca0132d6fd99a7d89cfdb8314cb
