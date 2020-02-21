@@ -377,7 +377,7 @@ function stringifyVarArray<T = Dictionary<any>>(
 					result[key] = value;
 				}
 			},
-			{},
+			{} as Dictionary<any>,
 		),
 	);
 	return JSON.stringify(transformed, null, 4);

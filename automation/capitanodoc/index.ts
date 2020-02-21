@@ -57,11 +57,11 @@ function importCapitanoCommands(jsFilename: string): CapitanoCommand[] {
 	const commands: CapitanoCommand[] = [];
 
 	if (actions.signature) {
-		commands.push(_.omit(actions, 'action'));
+		commands.push(_.omit(actions, 'action') as any);
 	} else {
 		for (const actionName of Object.keys(actions)) {
 			const actionCommand = actions[actionName];
-			commands.push(_.omit(actionCommand, 'action'));
+			commands.push(_.omit(actionCommand, 'action') as any);
 		}
 	}
 	return commands;
