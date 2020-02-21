@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add a script to automate nested changelogs
+      hash: f2be811e1858b7935c95f5c5477057ff0be7ae43
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+  version: 11.28.1
+  date: 2020-02-21T13:21:23.339Z
+- commits:
     - subject: Update resin-multibuild and add app and release template vars
       hash: 95c93d24da41aee611bac2e74f9e216aafdb2684
       body: ''
