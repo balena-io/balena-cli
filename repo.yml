@@ -1,3 +1,6 @@
 type: node-cli
 release: github
 publishMetadata: true
+upstream:
+  - repo: 'balena-sdk'
+    url: 'https://github.com/balena-io/balena-sdk'
