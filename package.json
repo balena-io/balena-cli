@@ -58,6 +58,7 @@
     "watch": "gulp watch",
     "prettify": "prettier --write \"{lib,tests,automation,typings}/**/*.js\" --config ./node_modules/resin-lint/config/.prettierrc",
     "lint": "resin-lint lib/ tests/ && resin-lint --typescript --fix automation/ lib/ typings/ tests/",
+    "update": "ts-node --transpile-only -P automation/tsconfig.json ./automation/update-module.ts",
     "prepublishOnly": "npm run build"
   },
   "keywords": [

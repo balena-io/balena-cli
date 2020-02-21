@@ -81,6 +81,27 @@ reformats the code (based on configuration in the `node_modules/resin-lint/confi
 file). Beyond that, we have a preference for Javascript promises over callbacks, and for
 `async/await` over `.then()`.
 
+## Updating upstream dependencies
+
+In order to get proper nested changelogs, when updating upstream modules that are in the repo.yml
+(like the balena-sdk), the commit body has to contain a line with the following format:
+```
+Update balena-sdk from 12.0.0 to 12.1.0
+```
+
+Since this is error prone, it's suggested to use the following npm script:
+```
+npm run update balena-sdk ^12.1.0
+```
+This will create a new branch (only if you are currently on master), run `npm update` with the
+version you provided as a target and commit the package.json & npm-shrinkwrap.json. The script by
+default will set the `Change-type` to `patch` or `minor`, depending on the semver change of the
+updated dependency, but if you need to use a different one (eg `major`) you can specify it as an
+extra argument:
+```
+npm run update balena-sdk ^12.14.0 patch
+npm run update balena-sdk ^13.0.0 major
+
 ## Common gotchas
 
 One thing that most CLI bugs have in common is the absence of test cases exercising the broken
