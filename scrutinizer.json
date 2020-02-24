@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Update type deps",
+          "hash": "4abdd71ce77fc7027d5bc2e7e47398117b6771e9",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.28.3",
+      "date": "2020-02-24T14:19:23.748Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add pre-commit check for cli.markdown updates and coffeelint execution",
           "hash": "03053e125f0a75e25b50a8bd0a5ecfe82efc3c0b",
           "body": "These checks compare the timestamps of cli.markdown with those of staged files,\neffectively enforcing that 'npm run build' or 'npm test' are executed.\n",
@@ -8973,7 +8989,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 209,
+  "stars": 212,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -9077,43 +9093,39 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-21T22:05:12Z",
+  "lastCommitDate": "2020-02-24T15:43:44Z",
   "latestRelease": {
-    "tagName": "v11.28.2",
+    "tagName": "v11.28.3",
     "asssets": [
       {
-        "name": "balena-cli-v11.28.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.2/balena-cli-v11.28.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.28.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.3/balena-cli-v11.28.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.28.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.2/balena-cli-v11.28.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.28.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.3/balena-cli-v11.28.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.28.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.2/balena-cli-v11.28.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.28.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.3/balena-cli-v11.28.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.28.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.2/balena-cli-v11.28.2-windows-x64-installer.exe"
+        "name": "balena-cli-v11.28.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.3/balena-cli-v11.28.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.28.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.2/balena-cli-v11.28.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.28.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.3/balena-cli-v11.28.3-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 230,
+    "numberOfIssues": 229,
     "latestIssues": [
       {
         "title": "`device init` skips wifi config steps when `--os-version` specified",
         "url": "https://github.com/balena-io/balena-cli/issues/1627"
-      },
-      {
-        "title": "Update type deps",
-        "url": "https://github.com/balena-io/balena-cli/pull/1626"
       },
       {
         "title": "Build emulation does not work on non standard Dockerfile names",
@@ -9186,10 +9198,14 @@
       {
         "title": "Should suggest using the --logs option when build/push/deploy fails",
         "url": "https://github.com/balena-io/balena-cli/issues/1573"
+      },
+      {
+        "title": "Document, improve error msg and/or remove requirement for owner prefix in legacy application names",
+        "url": "https://github.com/balena-io/balena-cli/issues/1568"
       }
     ]
   },
-  "version": "11.28.2",
+  "version": "11.28.3",
   "screenshot": null,
   "logo": null
 }

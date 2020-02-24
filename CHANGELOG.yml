@@ -1,4 +1,14 @@
 - commits:
+    - subject: Update type deps
+      hash: 4abdd71ce77fc7027d5bc2e7e47398117b6771e9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.28.3
+  date: 2020-02-24T15:43:13.276Z
+- commits:
     - subject: Add pre-commit check for cli.markdown updates and coffeelint execution
       hash: 03053e125f0a75e25b50a8bd0a5ecfe82efc3c0b
       body: >
@@ -18,7 +28,7 @@
         change-type: patch
       author: Paulo Castro
   version: 11.28.2
-  date: 2020-02-21T22:04:38.223Z
+  date: 2020-02-21T21:42:23.099Z
 - commits:
     - subject: Add a script to automate nested changelogs
       hash: f2be811e1858b7935c95f5c5477057ff0be7ae43
