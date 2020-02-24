@@ -1,4 +1,14 @@
 - commits:
+    - subject: Update type deps
+      hash: 4abdd71ce77fc7027d5bc2e7e47398117b6771e9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.28.3
+  date: 2020-02-24T14:19:23.748Z
+- commits:
     - subject: Add pre-commit check for cli.markdown updates and coffeelint execution
       hash: 03053e125f0a75e25b50a8bd0a5ecfe82efc3c0b
       body: >
