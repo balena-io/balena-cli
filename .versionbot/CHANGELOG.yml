@@ -1,4 +1,25 @@
 - commits:
+    - subject: >-
+        Fix build/deploy commands with QEMU emulation and alternative Dockerfile
+        name
+      hash: cdfd1d124b33c64301e259be598390612e5e2ac7
+      body: ''
+      footer:
+        Resolves: '#1624'
+        resolves: '#1624'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Fix CONTRIBUTING markdown
+      hash: 28c00696b800492a8774ae360405b45e5bd5acd0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.28.4
+  date: 2020-02-25T19:45:42.988Z
+- commits:
     - subject: Update type deps
       hash: 4abdd71ce77fc7027d5bc2e7e47398117b6771e9
       body: ''
