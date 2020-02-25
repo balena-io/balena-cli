@@ -74,6 +74,7 @@ deployProject = (docker, logger, composeOpts, opts) ->
 				opts.buildOpts
 				composeOpts.inlineLogs
 				opts.convertEol
+				composeOpts.dockerfilePath
 			)
 			.then (builtImages) ->
 				_.keyBy(builtImages, 'serviceName')

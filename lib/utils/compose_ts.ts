@@ -384,20 +384,6 @@ async function validateSpecifiedDockerfile(
 		`);
 	}
 
-	const { dir, ext, name } = path.parse(fullDockerfilePath);
-	if (ext) {
-		const nativePathMinusExt = path.join(dir, name);
-		if (await fs.exists(nativePathMinusExt)) {
-			throw new ExpectedError(stripIndent`
-				Error: "${name}" exists on the same folder as "${nativeDockerfilePath}".
-				When an alternative Dockerfile name is specified, a file with the same base name
-				(minus the file extension) must not exist in the same folder. This is because
-				the base name file will be auto generated and added to the tar stream that is
-				sent to balenaEngine or the Docker daemon, resulting in duplicate Dockerfiles
-				and undefined behavior.
-			`);
-		}
-	}
 	return toPosixPath(nativeDockerfilePath);
 }
 
