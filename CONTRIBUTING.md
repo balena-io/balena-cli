@@ -93,6 +93,7 @@ Since this is error prone, it's suggested to use the following npm script:
 ```
 npm run update balena-sdk ^12.1.0
 ```
+
 This will create a new branch (only if you are currently on master), run `npm update` with the
 version you provided as a target and commit the package.json & npm-shrinkwrap.json. The script by
 default will set the `Change-type` to `patch` or `minor`, depending on the semver change of the
@@ -101,6 +102,7 @@ extra argument:
 ```
 npm run update balena-sdk ^12.14.0 patch
 npm run update balena-sdk ^13.0.0 major
+```
 
 ## Common gotchas
 
