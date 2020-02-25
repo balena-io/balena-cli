@@ -54,6 +54,7 @@ buildProject = (docker, logger, composeOpts, opts) ->
 			opts.buildOpts
 			composeOpts.inlineLogs
 			opts.convertEol
+			composeOpts.dockerfilePath
 		)
 	.then ->
 		logger.outputDeferredMessages()

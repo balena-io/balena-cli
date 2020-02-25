@@ -158,7 +158,8 @@ exports.buildProject = (
 	arch, deviceType,
 	emulated, buildOpts,
 	inlineLogs,
-	convertEol
+	convertEol,
+	dockerfilePath,
 ) ->
 	_ = require('lodash')
 	humanize = require('humanize')
@@ -221,11 +222,15 @@ exports.buildProject = (
 			# Setup emulation if needed
 			return [ task, null ] if task.external or not needsQemu
 			binPath = qemu.qemuPathInContext(path.join(projectPath, task.context))
-			transpose.transposeTarStream task.buildStream,
-				hostQemuPath: toPosixPath(binPath)
-				containerQemuPath: "/tmp/#{qemu.QEMU_BIN_NAME}"
-				qemuFileMode: 0o555
-			.then (stream) ->
+			transpose.transposeTarStream(
+				task.buildStream,
+				{
+					hostQemuPath: toPosixPath(binPath),
+					containerQemuPath: "/tmp/#{qemu.QEMU_BIN_NAME}",
+					qemuFileMode: 0o555,
+				},
+				dockerfilePath
+			).then (stream) ->
 				task.buildStream = stream
 			.return([ task, binPath ])
 	.map ([ task, qemuPath ]) ->
