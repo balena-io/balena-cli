@@ -16,13 +16,13 @@
  */
 
 import { flags } from '@oclif/command';
-import { IArg } from '@oclif/parser/lib/args';
+import type { IArg } from '@oclif/parser/lib/args';
 import { stripIndent } from 'common-tags';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk } from '../../utils/lazy';
 import { tryAsInteger } from '../../utils/validation';
-import { Device } from 'balena-sdk';
+import type { Device } from 'balena-sdk';
 import { ExpectedError } from '../../errors';
 
 interface FlagsDef {

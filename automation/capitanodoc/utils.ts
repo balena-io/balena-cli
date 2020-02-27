@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { OptionDefinition } from 'capitano';
+import type { OptionDefinition } from 'capitano';
 import * as ent from 'ent';
 import * as fs from 'fs';
 import * as readline from 'readline';

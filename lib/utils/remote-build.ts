@@ -13,15 +13,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import { BalenaSDK } from 'balena-sdk';
+import type { BalenaSDK } from 'balena-sdk';
 import * as Bluebird from 'bluebird';
 import * as JSONStream from 'JSONStream';
 import * as readline from 'readline';
 import * as request from 'request';
 import { RegistrySecrets } from 'resin-multibuild';
-import * as Stream from 'stream';
+import type * as Stream from 'stream';
 import streamToPromise = require('stream-to-promise');
-import { Pack } from 'tar-stream';
+import type { Pack } from 'tar-stream';
 
 import { ExpectedError } from '../errors';
 import { exitWithExpectedError } from '../errors';

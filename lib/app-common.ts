@@ -78,7 +78,8 @@ function checkNodeVersion() {
 	}
 }
 
-export type GlobalTunnelNgConfig = import('global-tunnel-ng').Options;
+import type { Options as GlobalTunnelNgConfig } from 'global-tunnel-ng';
+export type { GlobalTunnelNgConfig };
 
 type ProxyConfig = string | GlobalTunnelNgConfig;
 

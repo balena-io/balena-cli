@@ -17,7 +17,7 @@
 import { BalenaSDK } from 'balena-sdk';
 import * as Bluebird from 'bluebird';
 import { stripIndent } from 'common-tags';
-import Dockerode = require('dockerode');
+import type * as Dockerode from 'dockerode';
 import * as _ from 'lodash';
 import { fs } from 'mz';
 import * as path from 'path';

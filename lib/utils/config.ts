@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import BalenaSdk = require('balena-sdk');
+import type * as BalenaSdk from 'balena-sdk';
 import * as semver from 'balena-semver';
 import Bluebird = require('bluebird');
 import { getBalenaSdk } from './lazy';

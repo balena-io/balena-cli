@@ -30,7 +30,7 @@ class CustomMain extends Main {
 	}
 }
 
-type AppOptions = import('./preparser').AppOptions;
+import type { AppOptions } from './preparser';
 
 /**
  * oclif CLI entrypoint

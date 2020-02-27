@@ -26,7 +26,7 @@ import {
 	LocalImage,
 	RegistrySecrets,
 } from 'resin-multibuild';
-import { Readable } from 'stream';
+import type { Readable } from 'stream';
 
 import { BALENA_ENGINE_TMP_PATH } from '../../config';
 import {

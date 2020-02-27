@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as BalenaSdk from 'balena-sdk';
+import type * as BalenaSdk from 'balena-sdk';
 import { stripIndent } from 'common-tags';
 
 import { ExpectedError, printErrorMessage } from '../errors';

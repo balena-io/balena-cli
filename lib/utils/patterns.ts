@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 import { BalenaApplicationNotFound } from 'balena-errors';
-import * as BalenaSdk from 'balena-sdk';
+import type * as BalenaSdk from 'balena-sdk';
 import Bluebird = require('bluebird');
 import { stripIndent } from 'common-tags';
 import _ = require('lodash');

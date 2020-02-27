@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import * as SDK from 'balena-sdk';
+import type * as SDK from 'balena-sdk';
 import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 

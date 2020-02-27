@@ -23,7 +23,7 @@ import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, getVisuals } from '../../utils/lazy';
 import { tryAsInteger } from '../../utils/validation';
-import { Application, Device } from 'balena-sdk';
+import type { Application, Device } from 'balena-sdk';
 
 interface ExtendedDevice extends Device {
 	dashboard_url?: string;

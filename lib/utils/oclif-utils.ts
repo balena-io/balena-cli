@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import * as Config from '@oclif/config';
+import type * as Config from '@oclif/config';
 
 /**
  * This class is a partial copy-and-paste of

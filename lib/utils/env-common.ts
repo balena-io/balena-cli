@@ -20,7 +20,7 @@ import { stripIndent } from 'common-tags';
 
 import { ExpectedError } from '../errors';
 
-type IBooleanFlag<T> = import('@oclif/parser/lib/flags').IBooleanFlag<T>;
+import type { IBooleanFlag } from '@oclif/parser/lib/flags';
 
 export const booleanConfig: IBooleanFlag<boolean> = flags.boolean({
 	char: 'c',

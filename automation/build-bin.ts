@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import type { JsonVersions } from '../lib/actions-oclif/version';
+
 import { run as oclifRun } from '@oclif/dev-cli';
 import * as archiver from 'archiver';
 import * as Bluebird from 'bluebird';
@@ -135,7 +137,6 @@ async function buildPkg() {
  * existing mocha/chai CLI command testing.
  */
 async function testPkg() {
-	type JsonVersions = import('../lib/actions-oclif/version').JsonVersions;
 	const pkgBalenaPath = path.join(
 		ROOT,
 		'build-bin',

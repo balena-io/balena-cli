@@ -16,7 +16,7 @@
  */
 
 import { flags } from '@oclif/command';
-import { IArg } from '@oclif/parser/lib/args';
+import type { IArg } from '@oclif/parser/lib/args';
 import { stripIndent } from 'common-tags';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';

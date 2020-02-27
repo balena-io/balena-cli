@@ -17,7 +17,7 @@
 
 import { flags } from '@oclif/command';
 
-type IBooleanFlag<T> = import('@oclif/parser/lib/flags').IBooleanFlag<T>;
+import type { IBooleanFlag } from '@oclif/parser/lib/flags';
 
 export const application = flags.string({
 	char: 'a',

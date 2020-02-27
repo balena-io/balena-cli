@@ -16,7 +16,7 @@
  */
 
 import { flags } from '@oclif/command';
-import { LocalBalenaOsDevice } from 'balena-sync';
+import type { LocalBalenaOsDevice } from 'balena-sync';
 import { stripIndent } from 'common-tags';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
