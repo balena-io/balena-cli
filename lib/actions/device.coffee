@@ -17,6 +17,7 @@ limitations under the License.
 commandOptions = require('./command-options')
 _ = require('lodash')
 { normalizeUuidProp } = require('../utils/normalization')
+{ getBalenaSdk } = require('../utils/lazy')
 
 expandForAppName = {
 	$expand: belongs_to__application: $select: 'app_name'
@@ -42,7 +43,7 @@ exports.list =
 	primary: true
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		balena = require('balena-sdk').fromSharedOptions()
+		balena = getBalenaSdk()
 		visuals = require('resin-cli-visuals')
 
 		Promise.try ->
@@ -86,7 +87,7 @@ exports.info =
 	primary: true
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		balena = require('balena-sdk').fromSharedOptions()
+		balena = getBalenaSdk()
 		visuals = require('resin-cli-visuals')
 
 		balena.models.device.get(params.uuid, expandForAppName)
@@ -139,7 +140,7 @@ exports.register =
 	]
 	action: (params, options, done) ->
 		Promise = require('bluebird')
-		balena = require('balena-sdk').fromSharedOptions()
+		balena = getBalenaSdk()
 
 		Promise.join(
 			balena.models.application.get(params.application)
@@ -169,7 +170,7 @@ exports.remove =
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		balena = require('balena-sdk').fromSharedOptions()
+		balena = getBalenaSdk()
 		patterns = require('../utils/patterns')
 
 		patterns.confirm(options.yes, 'Are you sure you want to delete the device?').then ->
@@ -191,7 +192,7 @@ exports.identify =
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		balena = require('balena-sdk').fromSharedOptions()
+		balena = getBalenaSdk()
 		balena.models.device.identify(params.uuid).nodeify(done)
 
 exports.reboot =
@@ -208,7 +209,7 @@ exports.reboot =
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		balena = require('balena-sdk').fromSharedOptions()
+		balena = getBalenaSdk()
 		balena.models.device.reboot(params.uuid, options).nodeify(done)
 
 exports.shutdown =
@@ -225,7 +226,7 @@ exports.shutdown =
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		balena = require('balena-sdk').fromSharedOptions()
+		balena = getBalenaSdk()
 		balena.models.device.shutdown(params.uuid, options).nodeify(done)
 
 exports.enableDeviceUrl =
@@ -241,7 +242,7 @@ exports.enableDeviceUrl =
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		balena = require('balena-sdk').fromSharedOptions()
+		balena = getBalenaSdk()
 		balena.models.device.enableDeviceUrl(params.uuid).nodeify(done)
 
 exports.disableDeviceUrl =
@@ -257,7 +258,7 @@ exports.disableDeviceUrl =
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		balena = require('balena-sdk').fromSharedOptions()
+		balena = getBalenaSdk()
 		balena.models.device.disableDeviceUrl(params.uuid).nodeify(done)
 
 exports.getDeviceUrl =
@@ -273,7 +274,7 @@ exports.getDeviceUrl =
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		balena = require('balena-sdk').fromSharedOptions()
+		balena = getBalenaSdk()
 		balena.models.device.getDeviceUrl(params.uuid).then (url) ->
 			console.log(url)
 		.nodeify(done)
@@ -291,7 +292,7 @@ exports.hasDeviceUrl =
 	permission: 'user'
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		balena = require('balena-sdk').fromSharedOptions()
+		balena = getBalenaSdk()
 		balena.models.device.hasDeviceUrl(params.uuid).then (hasDeviceUrl) ->
 			console.log(hasDeviceUrl)
 		.nodeify(done)
@@ -313,7 +314,7 @@ exports.rename =
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
 		Promise = require('bluebird')
-		balena = require('balena-sdk').fromSharedOptions()
+		balena = getBalenaSdk()
 		form = require('resin-cli-form')
 
 		Promise.try ->
@@ -343,7 +344,7 @@ exports.move =
 	options: [ commandOptions.optionalApplication ]
 	action: (params, options, done) ->
 		normalizeUuidProp(params)
-		balena = require('balena-sdk').fromSharedOptions()
+		balena = getBalenaSdk()
 		patterns = require('../utils/patterns')
 
 		balena.models.device.get(params.uuid, expandForAppName).then (device) ->
@@ -405,7 +406,7 @@ exports.init =
 		tmpNameAsync = Promise.promisify(tmp.tmpName)
 		tmp.setGracefulCleanup()
 
-		balena = require('balena-sdk').fromSharedOptions()
+		balena = getBalenaSdk()
 		patterns = require('../utils/patterns')
 		{ runCommand } = require('../utils/helpers')
 

@@ -14,12 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import * as balenaSdk from 'balena-sdk';
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 import * as url from 'url';
-
-const balena = balenaSdk.fromSharedOptions();
+import { getBalenaSdk } from '../utils/lazy';
 
 /**
  * @summary Get dashboard CLI login URL
@@ -39,8 +37,8 @@ export const getDashboardLoginURL = (callbackUrl: string) => {
 	// characters to avoid angular getting confused.
 	callbackUrl = encodeURIComponent(callbackUrl).replace(/%/g, '%25');
 
-	return balena.settings
-		.get('dashboardUrl')
+	return getBalenaSdk()
+		.settings.get('dashboardUrl')
 		.then(dashboardUrl =>
 			url.resolve(dashboardUrl, `/login/cli/${callbackUrl}`),
 		);
@@ -70,6 +68,7 @@ export const loginIfTokenValid = (token: string) => {
 	if (_.isEmpty(token?.trim())) {
 		return Promise.resolve(false);
 	}
+	const balena = getBalenaSdk();
 
 	return balena.auth
 		.getToken()

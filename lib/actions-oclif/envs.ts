@@ -21,6 +21,7 @@ import * as _ from 'lodash';
 
 import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
+import { getBalenaSdk } from '../utils/lazy';
 import { CommandHelp } from '../utils/oclif-utils';
 
 interface FlagsDef {
@@ -131,8 +132,6 @@ export default class EnvsCmd extends Command {
 
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(EnvsCmd);
-		const balena = SDK.fromSharedOptions();
-		const { getDeviceAndMaybeAppFromUUID } = await import('../utils/cloud');
 		const { checkLoggedIn } = await import('../utils/patterns');
 		const variables: EnvironmentVariableInfo[] = [];
 
@@ -141,6 +140,9 @@ export default class EnvsCmd extends Command {
 		if (!options.application && !options.device) {
 			throw new ExpectedError('You must specify an application or device');
 		}
+
+		const balena = getBalenaSdk();
+		const { getDeviceAndMaybeAppFromUUID } = await import('../utils/cloud');
 
 		let appName = options.application;
 		let fullUUID: string | undefined; // as oppposed to the short, 7-char UUID

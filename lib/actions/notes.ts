@@ -15,6 +15,7 @@ limitations under the License.
 */
 
 import { CommandDefinition } from 'capitano';
+import { getBalenaSdk } from '../utils/lazy';
 
 export const set: CommandDefinition<{ note: string }, { device: string }> = {
 	signature: 'note <|note>',
@@ -45,7 +46,7 @@ Examples:
 		const { normalizeUuidProp } = await import('../utils/normalization');
 		normalizeUuidProp(options, 'device');
 		const _ = await import('lodash');
-		const balena = (await import('balena-sdk')).fromSharedOptions();
+		const balena = getBalenaSdk();
 
 		if (_.isEmpty(params.note)) {
 			const { exitWithExpectedError } = await import('../utils/patterns');

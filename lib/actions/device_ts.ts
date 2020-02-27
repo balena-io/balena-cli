@@ -16,6 +16,7 @@ limitations under the License.
 import { Device } from 'balena-sdk';
 import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
+import { getBalenaSdk } from '../utils/lazy';
 import { normalizeUuidProp } from '../utils/normalization';
 import * as commandOptions from './command-options';
 
@@ -47,9 +48,8 @@ export const osUpdate: CommandDefinition<OsUpdate.Args, OsUpdate.Options> = {
 	permission: 'user',
 	async action(params, options, done) {
 		normalizeUuidProp(params);
-		const balena = await import('balena-sdk');
 		const _ = await import('lodash');
-		const sdk = balena.fromSharedOptions();
+		const sdk = getBalenaSdk();
 		const patterns = await import('../utils/patterns');
 		const form = await import('resin-cli-form');
 

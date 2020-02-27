@@ -20,6 +20,7 @@ import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 
 import * as cf from '../../utils/common-flags';
+import { getBalenaSdk } from '../../utils/lazy';
 import { CommandHelp } from '../../utils/oclif-utils';
 
 interface FlagsDef {
@@ -75,10 +76,9 @@ export default class DevicesSupportedCmd extends Command {
 
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(DevicesSupportedCmd);
-		const sdk = SDK.fromSharedOptions();
 		let deviceTypes: Array<Partial<
 			SDK.DeviceType
-		>> = await sdk.models.config.getDeviceTypes();
+		>> = await getBalenaSdk().models.config.getDeviceTypes();
 		if (!options.discontinued) {
 			deviceTypes = deviceTypes.filter(dt => dt.state !== 'DISCONTINUED');
 		}

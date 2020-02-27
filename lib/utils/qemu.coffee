@@ -16,6 +16,7 @@
 ###
 
 Promise = require('bluebird')
+{ getBalenaSdk } = require('./lazy')
 
 exports.QEMU_VERSION = QEMU_VERSION = 'v4.0.0-balena'
 exports.QEMU_BIN_NAME = QEMU_BIN_NAME = 'qemu-execve'
@@ -53,7 +54,7 @@ exports.copyQemu = (context, arch) ->
 		path.relative(context, binPath)
 
 exports.getQemuPath = getQemuPath = (arch) ->
-	balena = require('balena-sdk').fromSharedOptions()
+	balena = getBalenaSdk()
 	path = require('path')
 	fs = require('mz/fs')
 

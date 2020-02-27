@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 import { BalenaApplicationNotFound } from 'balena-errors';
-import BalenaSdk = require('balena-sdk');
+import * as BalenaSdk from 'balena-sdk';
 import Bluebird = require('bluebird');
 import chalk from 'chalk';
 import { stripIndent } from 'common-tags';
@@ -23,10 +23,9 @@ import _form = require('resin-cli-form');
 import _visuals = require('resin-cli-visuals');
 
 import { NotLoggedInError } from '../errors';
+import { getBalenaSdk } from './lazy';
 import messages = require('./messages');
 import validation = require('./validation');
-
-const getBalenaSdk = _.once(() => BalenaSdk.fromSharedOptions());
 
 const getForm = _.once((): typeof _form => require('resin-cli-form'));
 const getVisuals = _.once((): typeof _visuals => require('resin-cli-visuals'));

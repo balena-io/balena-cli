@@ -24,6 +24,7 @@ import * as path from 'path';
 
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
+import { getBalenaSdk } from '../../utils/lazy';
 import { CommandHelp } from '../../utils/oclif-utils';
 
 const BOOT_PARTITION = 1;
@@ -177,7 +178,6 @@ export default class OsConfigureCmd extends Command {
 		await validateOptions(options);
 
 		const devInit = await import('balena-device-init');
-		const balena = (await import('balena-sdk')).fromSharedOptions();
 		const fs = await import('mz/fs');
 		const { generateDeviceConfig, generateApplicationConfig } = await import(
 			'../../utils/config'
@@ -188,6 +188,7 @@ export default class OsConfigureCmd extends Command {
 		let device: BalenaSdk.Device | undefined;
 		let deviceTypeSlug: string;
 
+		const balena = getBalenaSdk();
 		if (options.device) {
 			device = await balena.models['device'].get(options.device);
 			deviceTypeSlug = device.device_type;

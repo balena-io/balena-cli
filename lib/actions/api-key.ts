@@ -1,5 +1,6 @@
 import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
+import { getBalenaSdk } from '../utils/lazy';
 
 export const generate: CommandDefinition<{
 	name: string;
@@ -18,10 +19,8 @@ export const generate: CommandDefinition<{
 			$ balena api-key generate "Jenkins Key"
 	`,
 	async action(params, _options, done) {
-		const balena = (await import('balena-sdk')).fromSharedOptions();
-
-		balena.models.apiKey
-			.create(params.name)
+		getBalenaSdk()
+			.models.apiKey.create(params.name)
 			.then(key => {
 				console.log(stripIndent`
 					Registered api key '${params.name}':

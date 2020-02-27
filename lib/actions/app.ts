@@ -16,6 +16,7 @@ limitations under the License.
 
 import { Application } from 'balena-sdk';
 import { CommandDefinition } from 'capitano';
+import { getBalenaSdk } from '../utils/lazy';
 import * as commandOptions from './command-options';
 
 export const create: CommandDefinition<
@@ -54,7 +55,7 @@ Examples:
 	],
 	permission: 'user',
 	async action(params, options, done) {
-		const balena = (await import('balena-sdk')).fromSharedOptions();
+		const balena = getBalenaSdk();
 
 		const patterns = await import('../utils/patterns');
 
@@ -103,7 +104,7 @@ Examples:
 	primary: true,
 	async action(_params, _options, done) {
 		const _ = await import('lodash');
-		const balena = (await import('balena-sdk')).fromSharedOptions();
+		const balena = getBalenaSdk();
 		const visuals = await import('resin-cli-visuals');
 
 		return balena.models.application
@@ -154,11 +155,10 @@ Examples:
 	permission: 'user',
 	primary: true,
 	async action(params, _options, done) {
-		const balena = (await import('balena-sdk')).fromSharedOptions();
 		const visuals = await import('resin-cli-visuals');
 
-		return balena.models.application
-			.get(params.name)
+		return getBalenaSdk()
+			.models.application.get(params.name)
 			.then(application => {
 				console.log(
 					visuals.table.vertical(application, [
@@ -188,8 +188,9 @@ Examples:
 `,
 	permission: 'user',
 	async action(params, _options, done) {
-		const balena = (await import('balena-sdk')).fromSharedOptions();
-		return balena.models.application.restart(params.name).nodeify(done);
+		return getBalenaSdk()
+			.models.application.restart(params.name)
+			.nodeify(done);
 	},
 };
 
@@ -213,7 +214,6 @@ Examples:
 	options: [commandOptions.yes],
 	permission: 'user',
 	async action(params, options, done) {
-		const balena = (await import('balena-sdk')).fromSharedOptions();
 		const patterns = await import('../utils/patterns');
 
 		return patterns
@@ -221,7 +221,7 @@ Examples:
 				options.yes ?? false,
 				'Are you sure you want to delete the application?',
 			)
-			.then(() => balena.models.application.remove(params.name))
+			.then(() => getBalenaSdk().models.application.remove(params.name))
 			.nodeify(done);
 	},
 };

@@ -15,6 +15,7 @@ limitations under the License.
 ###
 
 _ = require('lodash')
+{ getBalenaSdk } = require('../utils/lazy')
 
 dockerUtils = require('../utils/docker')
 
@@ -28,7 +29,7 @@ getDeviceTypes = ->
 	_ = require('lodash')
 	if allDeviceTypes != undefined
 		return Bluebird.resolve(allDeviceTypes)
-	balena = require('balena-sdk').fromSharedOptions()
+	balena = getBalenaSdk()
 	balena.models.config.getDeviceTypes()
 	.then (deviceTypes) ->
 		_.sortBy(deviceTypes, 'name')
@@ -45,7 +46,7 @@ getDeviceTypesWithSameArch = (deviceTypeSlug) ->
 
 getApplicationsWithSuccessfulBuilds = (deviceType) ->
 	preload = require('balena-preload')
-	balena = require('balena-sdk').fromSharedOptions()
+	balena = getBalenaSdk()
 
 	getDeviceTypesWithSameArch(deviceType)
 	.then (deviceTypes) ->
@@ -103,7 +104,7 @@ selectApplicationCommit = (releases) ->
 
 offerToDisableAutomaticUpdates = (application, commit, pinDevice) ->
 	Promise = require('bluebird')
-	balena = require('balena-sdk').fromSharedOptions()
+	balena = getBalenaSdk()
 	form = require('resin-cli-form')
 
 	if isCurrent(commit) or not application.should_track_latest_release or pinDevice
@@ -206,7 +207,7 @@ module.exports =
 	action: (params, options, done) ->
 		_ = require('lodash')
 		Promise = require('bluebird')
-		balena = require('balena-sdk').fromSharedOptions()
+		balena = getBalenaSdk()
 		preload = require('balena-preload')
 		visuals = require('resin-cli-visuals')
 		nodeCleanup = require('node-cleanup')

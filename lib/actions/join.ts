@@ -16,6 +16,7 @@ limitations under the License.
 import * as Bluebird from 'bluebird';
 import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
+import { getBalenaSdk } from '../utils/lazy';
 
 interface Args {
 	deviceIp?: string;
@@ -64,10 +65,9 @@ export const join: CommandDefinition<Args, Options> = {
 	primary: true,
 
 	async action(params, options, done) {
-		const balena = await import('balena-sdk');
 		const Logger = await import('../utils/logger');
 		const promote = await import('../utils/promote');
-		const sdk = balena.fromSharedOptions();
+		const sdk = getBalenaSdk();
 		const logger = Logger.getLogger();
 		return Bluebird.try(() => {
 			return promote.join(logger, sdk, params.deviceIp, options.application);

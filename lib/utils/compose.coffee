@@ -17,6 +17,7 @@
 
 Promise = require('bluebird')
 path = require('path')
+{ getBalenaSdk } = require('./lazy')
 
 exports.appendProjectOptions = appendProjectOptions = (opts) ->
 	opts.concat [
@@ -455,7 +456,7 @@ exports.deployProject = (
 		tagServiceImages(docker, images, serviceImages)
 		.tap (images) ->
 			logger.logDebug('Authorizing push...')
-			sdk = require('balena-sdk').fromSharedOptions()
+			sdk = getBalenaSdk()
 			getPreviousRepos(sdk, docker, logger, appId)
 			.then (previousRepos) ->
 				authorizePush(sdk, logger, apiEndpoint, images[0].registry, _.map(images, 'repo'), previousRepos)

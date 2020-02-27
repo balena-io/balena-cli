@@ -15,6 +15,7 @@ limitations under the License.
 */
 
 import { CommandDefinition } from 'capitano';
+import { getBalenaSdk } from '../utils/lazy';
 
 export const login: CommandDefinition<
 	{},
@@ -83,7 +84,7 @@ Examples:
 	primary: true,
 	async action(_params, options) {
 		type Options = typeof options;
-		const balena = (await import('balena-sdk')).fromSharedOptions();
+		const balena = getBalenaSdk();
 		const patterns = await import('../utils/patterns');
 		const messages = await import('../utils/messages');
 
@@ -155,8 +156,7 @@ Examples:
 	$ balena logout\
 `,
 	async action(_params) {
-		const balena = (await import('balena-sdk')).fromSharedOptions();
-		await balena.auth.logout();
+		await getBalenaSdk().auth.logout();
 	},
 };
 
@@ -172,7 +172,7 @@ Examples:
 `,
 	permission: 'user',
 	async action() {
-		const balena = (await import('balena-sdk')).fromSharedOptions();
+		const balena = getBalenaSdk();
 
 		const [username, email, url] = await Promise.all([
 			balena.auth.whoami(),

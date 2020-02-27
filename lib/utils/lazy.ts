@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Balena
+Copyright 2020 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,26 +14,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { CommandDefinition } from 'capitano';
-import { getBalenaSdk } from '../utils/lazy';
+import * as BalenaSdk from 'balena-sdk';
 
-export const list: CommandDefinition = {
-	signature: 'settings',
-	description: 'print current settings',
-	help: `\
-Use this command to display detected settings
-
-Examples:
-
-	$ balena settings\
-`,
-	async action(_params, _options, done) {
-		const prettyjson = await import('prettyjson');
-
-		return getBalenaSdk()
-			.settings.getAll()
-			.then(prettyjson.render)
-			.then(console.log)
-			.nodeify(done);
-	},
+// Equivalent of _.once but avoiding the need to import lodash for lazy deps
+const once = <T>(fn: () => T) => {
+	let cached: T;
+	return (): T => {
+		if (!cached) {
+			cached = fn();
+		}
+		return cached;
+	};
 };
+
+export const getBalenaSdk = once(() =>
+	(require('balena-sdk') as typeof BalenaSdk).fromSharedOptions(),
+);

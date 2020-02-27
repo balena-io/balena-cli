@@ -16,8 +16,7 @@ limitations under the License.
 import BalenaSdk = require('balena-sdk');
 import Promise = require('bluebird');
 import * as semver from 'resin-semver';
-
-const balena = BalenaSdk.fromSharedOptions();
+import { getBalenaSdk } from './lazy';
 
 export interface ImgConfig {
 	applicationName: string;
@@ -68,7 +67,7 @@ export function generateBaseConfig(
 		appUpdatePollInterval: options.appUpdatePollInterval || 10,
 	};
 
-	const promise = balena.models.os.getConfig(
+	const promise = getBalenaSdk().models.os.getConfig(
 		application.app_name,
 		options,
 	) as Promise<ImgConfig & { apiKey?: string }>;
@@ -106,8 +105,8 @@ export function generateDeviceConfig(
 	deviceApiKey: string | true | undefined,
 	options: { version: string },
 ) {
-	return balena.models.application
-		.get(device.belongs_to__application.__id)
+	return getBalenaSdk()
+		.models.application.get(device.belongs_to__application.__id)
 		.then(application => {
 			const baseConfigOpts = {
 				...options,
@@ -135,16 +134,16 @@ export function generateDeviceConfig(
 }
 
 function addApplicationKey(config: any, applicationNameOrId: string | number) {
-	return balena.models.application
-		.generateApiKey(applicationNameOrId)
+	return getBalenaSdk()
+		.models.application.generateApiKey(applicationNameOrId)
 		.tap(apiKey => {
 			config.apiKey = apiKey;
 		});
 }
 
 function addProvisioningKey(config: any, applicationNameOrId: string | number) {
-	return balena.models.application
-		.generateProvisioningKey(applicationNameOrId)
+	return getBalenaSdk()
+		.models.application.generateProvisioningKey(applicationNameOrId)
 		.tap(apiKey => {
 			config.apiKey = apiKey;
 		});
@@ -157,7 +156,7 @@ function addDeviceKey(
 ) {
 	return Promise.try(() => {
 		if (customDeviceApiKey === true) {
-			return balena.models.device.generateDeviceKey(uuid);
+			return getBalenaSdk().models.device.generateDeviceKey(uuid);
 		} else {
 			return customDeviceApiKey;
 		}

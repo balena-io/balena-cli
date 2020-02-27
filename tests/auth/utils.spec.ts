@@ -3,10 +3,11 @@ import { expect } from 'chai';
 import rewire = require('rewire');
 import * as sinon from 'sinon';
 import * as url from 'url';
+import { getBalenaSdk } from '../../build/utils/lazy';
 import tokens from './tokens';
 
 const utils = rewire('../../build/auth/utils');
-const balena = utils.__get__('balena');
+const balena = getBalenaSdk();
 
 describe('Utils:', function() {
 	describe('.getDashboardLoginURL()', function() {

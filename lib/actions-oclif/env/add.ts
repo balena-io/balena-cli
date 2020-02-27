@@ -22,6 +22,7 @@ import * as _ from 'lodash';
 
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
+import { getBalenaSdk } from '../../utils/lazy';
 import { CommandHelp } from '../../utils/oclif-utils';
 
 interface FlagsDef {
@@ -103,7 +104,6 @@ export default class EnvAddCmd extends Command {
 			EnvAddCmd,
 		);
 		const cmd = this;
-		const balena = (await import('balena-sdk')).fromSharedOptions();
 		const { checkLoggedIn } = await import('../../utils/patterns');
 
 		if (!options.application && !options.device) {
@@ -128,6 +128,7 @@ export default class EnvAddCmd extends Command {
 			}
 		}
 
+		const balena = getBalenaSdk();
 		const reservedPrefixes = await getReservedPrefixes(balena);
 		const isConfigVar = _.some(reservedPrefixes, prefix =>
 			_.startsWith(params.name, prefix),
