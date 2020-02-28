@@ -1,4 +1,15 @@
 - commits:
+    - subject: Simplify lazy-loading of balena-sdk by utilizing a shared function
+      hash: eac6bb5e5cef1cc3f1053415d1be6856ce89045b
+      body: |
+        This also avoids instantiating multiple balena-sdk
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.28.5
+  date: 2020-02-27T19:02:33.627Z
+- commits:
     - subject: >-
         Fix build/deploy commands with QEMU emulation and alternative Dockerfile
         name
