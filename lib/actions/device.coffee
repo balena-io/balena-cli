@@ -41,7 +41,7 @@ exports.list =
 	options: [ commandOptions.optionalApplication ]
 	permission: 'user'
 	primary: true
-	action: (params, options, done) ->
+	action: (params, options) ->
 		Promise = require('bluebird')
 		balena = getBalenaSdk()
 		visuals = require('resin-cli-visuals')
@@ -71,7 +71,6 @@ exports.list =
 				'os_version'
 				'dashboard_url'
 			]
-		.nodeify(done)
 
 exports.info =
 	signature: 'device <uuid>'
@@ -85,7 +84,7 @@ exports.info =
 	'''
 	permission: 'user'
 	primary: true
-	action: (params, options, done) ->
+	action: (params, options) ->
 		normalizeUuidProp(params)
 		balena = getBalenaSdk()
 		visuals = require('resin-cli-visuals')
@@ -116,7 +115,6 @@ exports.info =
 					'os_version'
 					'dashboard_url'
 				]
-		.nodeify(done)
 
 exports.register =
 	signature: 'device register <application>'
@@ -138,7 +136,7 @@ exports.register =
 			alias: 'u'
 		}
 	]
-	action: (params, options, done) ->
+	action: (params, options) ->
 		Promise = require('bluebird')
 		balena = getBalenaSdk()
 
@@ -150,7 +148,6 @@ exports.register =
 				return balena.models.device.register(application.id, uuid)
 		)
 		.get('uuid')
-		.nodeify(done)
 
 exports.remove =
 	signature: 'device rm <uuid>'
@@ -168,14 +165,13 @@ exports.remove =
 	'''
 	options: [ commandOptions.yes ]
 	permission: 'user'
-	action: (params, options, done) ->
+	action: (params, options) ->
 		normalizeUuidProp(params)
 		balena = getBalenaSdk()
 		patterns = require('../utils/patterns')
 
 		patterns.confirm(options.yes, 'Are you sure you want to delete the device?').then ->
 			balena.models.device.remove(params.uuid)
-		.nodeify(done)
 
 exports.identify =
 	signature: 'device identify <uuid>'
@@ -190,10 +186,10 @@ exports.identify =
 			$ balena device identify 23c73a1
 	'''
 	permission: 'user'
-	action: (params, options, done) ->
+	action: (params, options) ->
 		normalizeUuidProp(params)
 		balena = getBalenaSdk()
-		balena.models.device.identify(params.uuid).nodeify(done)
+		balena.models.device.identify(params.uuid)
 
 exports.reboot =
 	signature: 'device reboot <uuid>'
@@ -207,10 +203,10 @@ exports.reboot =
 	'''
 	options: [ commandOptions.forceUpdateLock ]
 	permission: 'user'
-	action: (params, options, done) ->
+	action: (params, options) ->
 		normalizeUuidProp(params)
 		balena = getBalenaSdk()
-		balena.models.device.reboot(params.uuid, options).nodeify(done)
+		balena.models.device.reboot(params.uuid, options)
 
 exports.shutdown =
 	signature: 'device shutdown <uuid>'
@@ -224,10 +220,10 @@ exports.shutdown =
 	'''
 	options: [ commandOptions.forceUpdateLock ]
 	permission: 'user'
-	action: (params, options, done) ->
+	action: (params, options) ->
 		normalizeUuidProp(params)
 		balena = getBalenaSdk()
-		balena.models.device.shutdown(params.uuid, options).nodeify(done)
+		balena.models.device.shutdown(params.uuid, options)
 
 exports.enableDeviceUrl =
 	signature: 'device public-url enable <uuid>'
@@ -240,10 +236,10 @@ exports.enableDeviceUrl =
 			$ balena device public-url enable 23c73a1
 	'''
 	permission: 'user'
-	action: (params, options, done) ->
+	action: (params, options) ->
 		normalizeUuidProp(params)
 		balena = getBalenaSdk()
-		balena.models.device.enableDeviceUrl(params.uuid).nodeify(done)
+		balena.models.device.enableDeviceUrl(params.uuid)
 
 exports.disableDeviceUrl =
 	signature: 'device public-url disable <uuid>'
@@ -256,10 +252,10 @@ exports.disableDeviceUrl =
 			$ balena device public-url disable 23c73a1
 	'''
 	permission: 'user'
-	action: (params, options, done) ->
+	action: (params, options) ->
 		normalizeUuidProp(params)
 		balena = getBalenaSdk()
-		balena.models.device.disableDeviceUrl(params.uuid).nodeify(done)
+		balena.models.device.disableDeviceUrl(params.uuid)
 
 exports.getDeviceUrl =
 	signature: 'device public-url <uuid>'
@@ -272,12 +268,11 @@ exports.getDeviceUrl =
 			$ balena device public-url 23c73a1
 	'''
 	permission: 'user'
-	action: (params, options, done) ->
+	action: (params, options) ->
 		normalizeUuidProp(params)
 		balena = getBalenaSdk()
 		balena.models.device.getDeviceUrl(params.uuid).then (url) ->
 			console.log(url)
-		.nodeify(done)
 
 exports.hasDeviceUrl =
 	signature: 'device public-url status <uuid>'
@@ -290,12 +285,11 @@ exports.hasDeviceUrl =
 			$ balena device public-url status 23c73a1
 	'''
 	permission: 'user'
-	action: (params, options, done) ->
+	action: (params, options) ->
 		normalizeUuidProp(params)
 		balena = getBalenaSdk()
 		balena.models.device.hasDeviceUrl(params.uuid).then (hasDeviceUrl) ->
 			console.log(hasDeviceUrl)
-		.nodeify(done)
 
 exports.rename =
 	signature: 'device rename <uuid> [newName]'
@@ -311,7 +305,7 @@ exports.rename =
 			$ balena device rename 7cf02a6 MyPi
 	'''
 	permission: 'user'
-	action: (params, options, done) ->
+	action: (params, options) ->
 		normalizeUuidProp(params)
 		Promise = require('bluebird')
 		balena = getBalenaSdk()
@@ -325,7 +319,6 @@ exports.rename =
 				type: 'input'
 
 		.then(_.partial(balena.models.device.rename, params.uuid))
-		.nodeify(done)
 
 exports.move =
 	signature: 'device move <uuid>'
@@ -342,7 +335,7 @@ exports.move =
 	'''
 	permission: 'user'
 	options: [ commandOptions.optionalApplication ]
-	action: (params, options, done) ->
+	action: (params, options) ->
 		normalizeUuidProp(params)
 		balena = getBalenaSdk()
 		patterns = require('../utils/patterns')
@@ -370,7 +363,6 @@ exports.move =
 			return balena.models.device.move(params.uuid, application)
 		.then (application) ->
 			console.info("#{params.uuid} was moved to #{application}")
-		.nodeify(done)
 
 exports.init =
 	signature: 'device init'
@@ -399,7 +391,7 @@ exports.init =
 		}
 	]
 	permission: 'user'
-	action: (params, options, done) ->
+	action: (params, options) ->
 		Promise = require('bluebird')
 		rimraf = Promise.promisify(require('rimraf'))
 		tmp = require('tmp')
@@ -448,8 +440,6 @@ exports.init =
 			.then (device) ->
 				console.log('Done')
 				return device.uuid
-
-		.nodeify(done)
 
 tsActions = require('./device_ts')
 exports.osUpdate = tsActions.osUpdate

@@ -27,13 +27,12 @@ Examples:
 
 	$ balena settings\
 `,
-	async action(_params, _options, done) {
+	async action() {
 		const prettyjson = await import('prettyjson');
 
 		return getBalenaSdk()
 			.settings.getAll()
 			.then(prettyjson.render)
-			.then(console.log)
-			.nodeify(done);
+			.then(console.log);
 	},
 };

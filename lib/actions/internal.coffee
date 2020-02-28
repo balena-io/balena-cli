@@ -25,7 +25,7 @@ exports.osInit =
 	'''
 	hidden: true
 	root: true
-	action: (params, options, done) ->
+	action: (params) ->
 		Promise = require('bluebird')
 		init = require('balena-device-init')
 		helpers = require('../utils/helpers')
@@ -35,7 +35,6 @@ exports.osInit =
 		Promise.join configPromise, manifestPromise, (config, manifest) ->
 			init.initialize(params.image, manifest, config)
 		.then(helpers.osProgressHandler)
-		.nodeify(done)
 
 exports.scanDevices =
 	signature: 'internal scandevices'
@@ -45,7 +44,7 @@ exports.scanDevices =
 	'''
 	hidden: true
 	root: true
-	action: (params, options, done) ->
+	action: ->
 		Promise = require('bluebird')
 		{ forms } = require('balena-sync')
 
@@ -53,4 +52,3 @@ exports.scanDevices =
 			forms.selectLocalBalenaOsDevice()
 			.then (hostnameOrIp) ->
 				console.error("==> Selected device: #{hostnameOrIp}")
-		.nodeify(done)

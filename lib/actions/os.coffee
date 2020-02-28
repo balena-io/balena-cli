@@ -56,7 +56,7 @@ exports.versions =
 
 			$ balena os versions raspberrypi3
 	'''
-	action: (params, options, done) ->
+	action: (params, options) ->
 		balena = getBalenaSdk()
 
 		balena.models.os.getSupportedVersions(params.type)
@@ -98,7 +98,7 @@ exports.download =
 		}
 		commandOptions.osVersionOrSemver
 	]
-	action: (params, options, done) ->
+	action: (params, options) ->
 		Promise = require('bluebird')
 		unzip = require('node-unzip-2')
 		fs = require('fs')
@@ -145,7 +145,6 @@ exports.download =
 			return rindle.wait(stream.pipe(output)).return(options.output)
 		.tap (output) ->
 			console.info('The image was downloaded successfully')
-		.nodeify(done)
 
 buildConfigForDeviceType = (deviceType, advanced = false) ->
 	form = require('resin-cli-form')
@@ -192,7 +191,7 @@ exports.buildConfig =
 			parameter: 'output'
 		}
 	]
-	action: (params, options, done) ->
+	action: (params, options) ->
 		fs = require('fs')
 		Promise = require('bluebird')
 		writeFileAsync = Promise.promisify(fs.writeFile)
@@ -200,7 +199,6 @@ exports.buildConfig =
 		buildConfig(params.image, params['device-type'], options.advanced)
 		.then (answers) ->
 			writeFileAsync(options.output, JSON.stringify(answers, null, 4))
-		.nodeify(done)
 
 INIT_WARNING_MESSAGE = '''
 	Note: Initializing the device may ask for administrative permissions
@@ -231,7 +229,7 @@ exports.initialize =
 		}
 		commandOptions.drive
 	]
-	action: (params, options, done) ->
+	action: (params, options) ->
 		Promise = require('bluebird')
 		umountAsync = Promise.promisify(require('umount').umount)
 		form = require('resin-cli-form')
@@ -288,4 +286,3 @@ exports.initialize =
 
 				umountAsync(answers.drive).tap ->
 					console.info("You can safely remove #{answers.drive} now")
-		.nodeify(done)

@@ -46,7 +46,7 @@ export const osUpdate: CommandDefinition<OsUpdate.Args, OsUpdate.Options> = {
 	`,
 	options: [commandOptions.optionalOsVersion, commandOptions.yes],
 	permission: 'user',
-	async action(params, options, done) {
+	async action(params, options) {
 		normalizeUuidProp(params);
 		const _ = await import('lodash');
 		const sdk = getBalenaSdk();
@@ -109,7 +109,6 @@ export const osUpdate: CommandDefinition<OsUpdate.Args, OsUpdate.Options> = {
 							.then(() => sdk.models.device.startOsUpdate(uuid, version))
 							.then(() => patterns.awaitDeviceOsUpdate(uuid, version)),
 					);
-			})
-			.nodeify(done);
+			});
 	},
 };

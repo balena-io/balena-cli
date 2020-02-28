@@ -46,7 +46,7 @@ exports.read =
 	]
 	permission: 'user'
 	root: true
-	action: (params, options, done) ->
+	action: (params, options) ->
 		Promise = require('bluebird')
 		config = require('balena-config-json')
 		visuals = require('resin-cli-visuals')
@@ -60,7 +60,6 @@ exports.read =
 			return config.read(drive, options.type)
 		.tap (configJSON) ->
 			console.info(prettyjson.render(configJSON))
-		.nodeify(done)
 
 exports.write =
 	signature: 'config write <key> <value>'
@@ -91,7 +90,7 @@ exports.write =
 	]
 	permission: 'user'
 	root: true
-	action: (params, options, done) ->
+	action: (params, options) ->
 		Promise = require('bluebird')
 		_ = require('lodash')
 		config = require('balena-config-json')
@@ -112,7 +111,6 @@ exports.write =
 				return config.write(drive, options.type, configJSON)
 		.tap ->
 			console.info('Done')
-		.nodeify(done)
 
 exports.inject =
 	signature: 'config inject <file>'
@@ -143,7 +141,7 @@ exports.inject =
 	]
 	permission: 'user'
 	root: true
-	action: (params, options, done) ->
+	action: (params, options) ->
 		Promise = require('bluebird')
 		config = require('balena-config-json')
 		visuals = require('resin-cli-visuals')
@@ -158,7 +156,6 @@ exports.inject =
 				return config.write(drive, options.type, configJSON)
 		.tap ->
 			console.info('Done')
-		.nodeify(done)
 
 exports.reconfigure =
 	signature: 'config reconfigure'
@@ -195,7 +192,7 @@ exports.reconfigure =
 	]
 	permission: 'user'
 	root: true
-	action: (params, options, done) ->
+	action: (params, options) ->
 		Promise = require('bluebird')
 		config = require('balena-config-json')
 		visuals = require('resin-cli-visuals')
@@ -216,7 +213,6 @@ exports.reconfigure =
 					return runCommand(configureCommand)
 		.then ->
 			console.info('Done')
-		.nodeify(done)
 
 exports.generate =
 	signature: 'config generate'
@@ -285,7 +281,7 @@ exports.generate =
 		}
 	]
 	permission: 'user'
-	action: (params, options, done) ->
+	action: (params, options) ->
 		normalizeUuidProp(options, 'device')
 		Promise = require('bluebird')
 		writeFileAsync = Promise.promisify(require('fs').writeFile)
@@ -355,4 +351,3 @@ exports.generate =
 				return writeFileAsync(options.output, JSON.stringify(config))
 
 			console.log(prettyjson.render(config))
-		.nodeify(done)

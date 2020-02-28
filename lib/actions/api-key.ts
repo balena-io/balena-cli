@@ -18,8 +18,8 @@ export const generate: CommandDefinition<{
 
 			$ balena api-key generate "Jenkins Key"
 	`,
-	async action(params, _options, done) {
-		getBalenaSdk()
+	async action(params) {
+		await getBalenaSdk()
 			.models.apiKey.create(params.name)
 			.then(key => {
 				console.log(stripIndent`
@@ -29,7 +29,6 @@ export const generate: CommandDefinition<{
 
 					This key will not be shown again, so please save it now.
 				`);
-			})
-			.finally(done);
+			});
 	},
 };

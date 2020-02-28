@@ -203,7 +203,7 @@ module.exports =
 			$ balena local configure path/to/image.img
 	'''
 	root: true
-	action: (params, options, done) ->
+	action: (params, options) ->
 		Promise = require('bluebird')
 		path = require('path')
 		umount = require('umount')
@@ -234,4 +234,3 @@ module.exports =
 			denymount params.target, dmHandler, dmOpts
 		.then ->
 			console.log('Done!')
-		.asCallback(done)

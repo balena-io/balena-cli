@@ -54,7 +54,7 @@ export const list: CommandDefinition<
 		commandOptions.optionalRelease,
 	],
 	permission: 'user',
-	async action(_params, options, done) {
+	async action(_params, options) {
 		normalizeUuidProp(options, 'device');
 		const Bluebird = await import('bluebird');
 		const _ = await import('lodash');
@@ -104,21 +104,19 @@ export const list: CommandDefinition<
 				// return never, so that TS typings are happy
 				return exitWithExpectedError(wrongParametersError);
 			},
-		)
-			.tap(function(environmentVariables) {
-				if (_.isEmpty(environmentVariables)) {
-					exitWithExpectedError('No tags found');
-				}
+		).tap(function(environmentVariables) {
+			if (_.isEmpty(environmentVariables)) {
+				exitWithExpectedError('No tags found');
+			}
 
-				console.log(
-					visuals.table.horizontal(environmentVariables, [
-						'id',
-						'tag_key',
-						'value',
-					]),
-				);
-			})
-			.nodeify(done);
+			console.log(
+				visuals.table.horizontal(environmentVariables, [
+					'id',
+					'tag_key',
+					'value',
+				]),
+			);
+		});
 	},
 };
 
@@ -159,24 +157,22 @@ export const set: CommandDefinition<
 		commandOptions.optionalRelease,
 	],
 	permission: 'user',
-	async action(params, options, done) {
+	async action(params, options) {
 		normalizeUuidProp(options, 'device');
-		const Bluebird = await import('bluebird');
 		const _ = await import('lodash');
 		const balena = getBalenaSdk();
 
 		const { exitWithExpectedError } = await import('../utils/patterns');
 
-		return Bluebird.try(async () => {
-			if (_.isEmpty(params.tagKey)) {
-				return exitWithExpectedError('No tag key was provided');
-			}
+		if (_.isEmpty(params.tagKey)) {
+			return exitWithExpectedError('No tag key was provided');
+		}
 
-			if (
-				_.filter([options.application, options.device, options.release])
-					.length !== 1
-			) {
-				return exitWithExpectedError(stripIndent`
+		if (
+			_.filter([options.application, options.device, options.release])
+				.length !== 1
+		) {
+			return exitWithExpectedError(stripIndent`
 					To set a resource tag, you must provide exactly one of:
 
 					* An application, with --application <appname>
@@ -187,40 +183,39 @@ export const set: CommandDefinition<
 
 					  $ balena help tag set
 				`);
-			}
+		}
 
-			if (params.value == null) {
-				params.value = '';
-			}
+		if (params.value == null) {
+			params.value = '';
+		}
 
-			if (options.application) {
-				return balena.models.application.tags.set(
-					options.application,
-					params.tagKey,
-					params.value,
-				);
-			}
-			if (options.device) {
-				return balena.models.device.tags.set(
-					options.device,
-					params.tagKey,
-					params.value,
-				);
-			}
-			if (options.release) {
-				const releaseParam = await disambiguateReleaseParam(
-					balena,
-					options.release,
-					options.release_raw,
-				);
+		if (options.application) {
+			return balena.models.application.tags.set(
+				options.application,
+				params.tagKey,
+				params.value,
+			);
+		}
+		if (options.device) {
+			return balena.models.device.tags.set(
+				options.device,
+				params.tagKey,
+				params.value,
+			);
+		}
+		if (options.release) {
+			const releaseParam = await disambiguateReleaseParam(
+				balena,
+				options.release,
+				options.release_raw,
+			);
 
-				return balena.models.release.tags.set(
-					releaseParam,
-					params.tagKey,
-					params.value,
-				);
-			}
-		}).nodeify(done);
+			return balena.models.release.tags.set(
+				releaseParam,
+				params.tagKey,
+				params.value,
+			);
+		}
 	},
 };
 
@@ -253,52 +248,49 @@ export const remove: CommandDefinition<
 		commandOptions.optionalRelease,
 	],
 	permission: 'user',
-	async action(params, options, done) {
-		const Bluebird = await import('bluebird');
+	async action(params, options) {
 		const _ = await import('lodash');
 		const balena = getBalenaSdk();
 		const { exitWithExpectedError } = await import('../utils/patterns');
 
-		return Bluebird.try(async () => {
-			if (_.isEmpty(params.tagKey)) {
-				return exitWithExpectedError('No tag key was provided');
-			}
+		if (_.isEmpty(params.tagKey)) {
+			return exitWithExpectedError('No tag key was provided');
+		}
 
-			if (
-				_.filter([options.application, options.device, options.release])
-					.length !== 1
-			) {
-				return exitWithExpectedError(stripIndent`
-					To remove a resource tag, you must provide exactly one of:
+		if (
+			_.filter([options.application, options.device, options.release])
+				.length !== 1
+		) {
+			return exitWithExpectedError(stripIndent`
+				To remove a resource tag, you must provide exactly one of:
 
-					* An application, with --application <appname>
-					* A device, with --device <uuid>
-					* A release, with --release <id or commit>
+				* An application, with --application <appname>
+				* A device, with --device <uuid>
+				* A release, with --release <id or commit>
 
-					See the help page for examples:
+				See the help page for examples:
 
-					  $ balena help tag rm
-				`);
-			}
+					$ balena help tag rm
+			`);
+		}
 
-			if (options.application) {
-				return balena.models.application.tags.remove(
-					options.application,
-					params.tagKey,
-				);
-			}
-			if (options.device) {
-				return balena.models.device.tags.remove(options.device, params.tagKey);
-			}
-			if (options.release) {
-				const releaseParam = await disambiguateReleaseParam(
-					balena,
-					options.release,
-					options.release_raw,
-				);
+		if (options.application) {
+			return balena.models.application.tags.remove(
+				options.application,
+				params.tagKey,
+			);
+		}
+		if (options.device) {
+			return balena.models.device.tags.remove(options.device, params.tagKey);
+		}
+		if (options.release) {
+			const releaseParam = await disambiguateReleaseParam(
+				balena,
+				options.release,
+				options.release_raw,
+			);
 
-				return balena.models.release.tags.remove(releaseParam, params.tagKey);
-			}
-		}).nodeify(done);
+			return balena.models.release.tags.remove(releaseParam, params.tagKey);
+		}
 	},
 };
