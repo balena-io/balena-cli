@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Simplify lazy-loading of balena-sdk by utilizing a shared function",
+          "hash": "eac6bb5e5cef1cc3f1053415d1be6856ce89045b",
+          "body": "This also avoids instantiating multiple balena-sdk\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.28.5",
+      "date": "2020-02-27T19:02:33.627Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix build/deploy commands with QEMU emulation and alternative Dockerfile name",
           "hash": "cdfd1d124b33c64301e259be598390612e5e2ac7",
           "body": "",
@@ -9017,7 +9033,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 212,
+  "stars": 213,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -9121,36 +9137,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-25T20:48:49Z",
+  "lastCommitDate": "2020-02-28T00:14:29Z",
   "latestRelease": {
-    "tagName": "v11.28.4",
+    "tagName": "v11.28.5",
     "asssets": [
       {
-        "name": "balena-cli-v11.28.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.4/balena-cli-v11.28.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.28.5-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.5/balena-cli-v11.28.5-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.28.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.4/balena-cli-v11.28.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.28.5-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.5/balena-cli-v11.28.5-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.28.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.4/balena-cli-v11.28.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.28.5-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.5/balena-cli-v11.28.5-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.28.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.4/balena-cli-v11.28.4-windows-x64-installer.exe"
+        "name": "balena-cli-v11.28.5-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.5/balena-cli-v11.28.5-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.28.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.4/balena-cli-v11.28.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.28.5-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.5/balena-cli-v11.28.5-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 231,
+    "numberOfIssues": 234,
     "latestIssues": [
+      {
+        "title": "Use `import type` where possible to explicitly import only type info",
+        "url": "https://github.com/balena-io/balena-cli/pull/1635"
+      },
+      {
+        "title": "`balena preload` should warn about missing requirements at runtime (e.g. AUFS)",
+        "url": "https://github.com/balena-io/balena-cli/issues/1633"
+      },
+      {
+        "title": "[Jetson Nano] `local configure`: Error: Unsupported filesystem",
+        "url": "https://github.com/balena-io/balena-cli/issues/1632"
+      },
       {
         "title": "`balena logs` does not work on local mode device",
         "url": "https://github.com/balena-io/balena-cli/issues/1631"
@@ -9218,22 +9246,10 @@
       {
         "title": "Flag devices which do not have local-mode enabled in `balena scan` results.",
         "url": "https://github.com/balena-io/balena-cli/issues/1578"
-      },
-      {
-        "title": "appUpdatePollInterval should be updated (15min in balenaCloud)",
-        "url": "https://github.com/balena-io/balena-cli/issues/1577"
-      },
-      {
-        "title": "Provide a more specific error message when using template variables by mistake on a regular`Dockerfile`",
-        "url": "https://github.com/balena-io/balena-cli/issues/1575"
-      },
-      {
-        "title": "Add build-time reporting to local pushes",
-        "url": "https://github.com/balena-io/balena-cli/issues/1574"
       }
     ]
   },
-  "version": "11.28.4",
+  "version": "11.28.5",
   "screenshot": null,
   "logo": null
 }
