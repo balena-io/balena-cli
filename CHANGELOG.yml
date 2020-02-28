@@ -1,4 +1,16 @@
 - commits:
+    - subject: Simplify lazy-loading of resin-cli-visuals with a shared function
+      hash: 7c62e344554efdad2e0bad69dad8253ce9706b72
+      body: |
+        This also avoids current unnecessary requiring of resin-cli-visuals
+        for every command
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.28.7
+  date: 2020-02-28T16:05:52.996Z
+- commits:
     - subject: Make use of capitano's promise support to simplify the code
       hash: 48b281d7c6d04c4c8b0866b452b7fccacc1af578
       body: ''
@@ -7,7 +19,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.28.6
-  date: 2020-02-28T15:26:23.788Z
+  date: 2020-02-28T13:29:09.577Z
 - commits:
     - subject: Simplify lazy-loading of balena-sdk by utilizing a shared function
       hash: eac6bb5e5cef1cc3f1053415d1be6856ce89045b

@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Simplify lazy-loading of resin-cli-visuals with a shared function",
+          "hash": "7c62e344554efdad2e0bad69dad8253ce9706b72",
+          "body": "This also avoids current unnecessary requiring of resin-cli-visuals\nfor every command\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.28.7",
+      "date": "2020-02-28T15:32:23.327Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Make use of capitano's promise support to simplify the code",
           "hash": "48b281d7c6d04c4c8b0866b452b7fccacc1af578",
           "body": "",
@@ -9153,40 +9169,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-28T15:26:48Z",
+  "lastCommitDate": "2020-02-28T16:06:18Z",
   "latestRelease": {
-    "tagName": "v11.28.6",
+    "tagName": "v11.28.7",
     "asssets": [
       {
-        "name": "balena-cli-v11.28.6-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.6/balena-cli-v11.28.6-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.28.7-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.7/balena-cli-v11.28.7-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.28.6-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.6/balena-cli-v11.28.6-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.28.7-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.7/balena-cli-v11.28.7-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.28.6-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.6/balena-cli-v11.28.6-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.28.7-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.7/balena-cli-v11.28.7-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.28.6-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.6/balena-cli-v11.28.6-windows-x64-installer.exe"
+        "name": "balena-cli-v11.28.7-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.7/balena-cli-v11.28.7-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.28.6-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.6/balena-cli-v11.28.6-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.28.7-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.7/balena-cli-v11.28.7-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 236,
+    "numberOfIssues": 235,
     "latestIssues": [
-      {
-        "title": "Simplify lazy-loading of resin-cli-visuals with a shared function",
-        "url": "https://github.com/balena-io/balena-cli/pull/1638"
-      },
       {
         "title": "balena push on windows with .local address fails to connect to docker daemon",
         "url": "https://github.com/balena-io/balena-cli/issues/1637"
@@ -9262,10 +9274,14 @@
       {
         "title": "Add a `--pull` option to`balena build`.",
         "url": "https://github.com/balena-io/balena-cli/issues/1584"
+      },
+      {
+        "title": "Allow configurable proxy exceptions",
+        "url": "https://github.com/balena-io/balena-cli/issues/1580"
       }
     ]
   },
-  "version": "11.28.6",
+  "version": "11.28.7",
   "screenshot": null,
   "logo": null
 }
