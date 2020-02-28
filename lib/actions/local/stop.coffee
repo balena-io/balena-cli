@@ -20,6 +20,9 @@ limitations under the License.
 # and `Cygwin` should be encapsulated in a
 # re-usable package.
 #
+
+{ getChalk } = require('../../utils/lazy')
+
 module.exports =
 	signature: 'local stop [deviceIp]'
 	description: 'Stop a running container on a balenaOS device'
@@ -46,7 +49,7 @@ module.exports =
 	root: true
 	action: (params, options) ->
 		Promise = require('bluebird')
-		chalk = require('chalk')
+		chalk = getChalk()
 		{ forms, config, BalenaLocalDockerUtils } = require('balena-sync')
 		{ selectContainerFromDevice, filterOutSupervisorContainer } = require('./common')
 

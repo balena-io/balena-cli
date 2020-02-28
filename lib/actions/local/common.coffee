@@ -1,9 +1,9 @@
 Promise = require('bluebird')
 _ = require('lodash')
-chalk = require('chalk')
 
 dockerUtils = require('../../utils/docker')
 { exitWithExpectedError } = require('../../utils/patterns')
+{ getChalk } = require('../../utils/lazy')
 
 exports.dockerPort = dockerPort = 2375
 exports.dockerTimeout = dockerTimeout = 2000
@@ -56,7 +56,7 @@ exports.pipeContainerStream = Promise.method ({ deviceIp, name, outStream, follo
 	.catch (err) ->
 		err = '' + err.statusCode
 		if err is '404'
-			return console.log(chalk.red.bold("Container '#{name}' not found."))
+			return console.log(getChalk().red.bold("Container '#{name}' not found."))
 		throw err
 
 exports.getSubShellCommand = require('../../utils/helpers').getSubShellCommand

@@ -1,9 +1,9 @@
 import * as Bluebird from 'bluebird';
-import chalk from 'chalk';
 import ColorHash = require('color-hash');
 import * as _ from 'lodash';
 import { Readable } from 'stream';
 
+import { getChalk } from '../lazy';
 import Logger = require('../logger');
 
 interface Log {
@@ -116,5 +116,5 @@ const colorHash = new ColorHash();
 function _getServiceColourFn(serviceName: string): (msg: string) => string {
 	const [r, g, b] = colorHash.rgb(serviceName);
 
-	return chalk.rgb(r, g, b);
+	return getChalk().rgb(r, g, b);
 }

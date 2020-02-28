@@ -22,7 +22,7 @@ dockerUtils = require('../utils/docker')
 compose = require('../utils/compose')
 { registrySecretsHelp } = require('../utils/messages')
 { ExpectedError } = require('../errors')
-{ getBalenaSdk } = require('../utils/lazy')
+{ getBalenaSdk, getChalk } = require('../utils/lazy')
 
 ###
 Opts must be an object with the following keys:
@@ -89,10 +89,9 @@ deployProject = (docker, logger, composeOpts, opts) ->
 				}
 		.then (images) ->
 			if opts.app.application_type?[0]?.is_legacy
-				chalk = require('chalk')
 				legacyDeploy = require('../utils/deploy-legacy')
 
-				msg = chalk.yellow('Target application requires legacy deploy method.')
+				msg = getChalk().yellow('Target application requires legacy deploy method.')
 				logger.logWarn(msg)
 
 				return Promise.join(

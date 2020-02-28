@@ -1,6 +1,6 @@
-import chalk from 'chalk';
 import * as _sdk from 'etcher-sdk';
 
+import { getChalk } from '../lazy';
 import { CustomDynamicList } from './custom-dynamic-list';
 
 export class DriveList extends CustomDynamicList<
@@ -9,7 +9,7 @@ export class DriveList extends CustomDynamicList<
 	constructor(private scanner: _sdk.scanner.Scanner) {
 		super(
 			'Select a drive',
-			`${chalk.red('x')} No available drives were detected, plug one in!`,
+			`${getChalk().red('x')} No available drives were detected, plug one in!`,
 		);
 		const refresh = this.refresh.bind(this);
 		scanner.on('attach', refresh);

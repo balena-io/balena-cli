@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import chalk from 'chalk';
 import _ = require('lodash');
 import { EOL as eol } from 'os';
 import { StreamLogger } from 'resin-stream-logger';
+import { getChalk } from './lazy';
 
 enum Level {
 	BUILD = 'build',
@@ -57,6 +57,7 @@ class Logger {
 
 	protected constructor() {
 		const logger = new StreamLogger();
+		const chalk = getChalk();
 		logger.addPrefix('build', chalk.blue('[Build]'));
 		logger.addPrefix('info', chalk.cyan('[Info]'));
 		logger.addPrefix('debug', chalk.magenta('[Debug]'));

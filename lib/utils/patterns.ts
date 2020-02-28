@@ -16,13 +16,12 @@ limitations under the License.
 import { BalenaApplicationNotFound } from 'balena-errors';
 import * as BalenaSdk from 'balena-sdk';
 import Bluebird = require('bluebird');
-import chalk from 'chalk';
 import { stripIndent } from 'common-tags';
 import _ = require('lodash');
 import _form = require('resin-cli-form');
 
 import { NotLoggedInError } from '../errors';
-import { getBalenaSdk, getVisuals } from './lazy';
+import { getBalenaSdk, getChalk, getVisuals } from './lazy';
 import messages = require('./messages');
 import validation = require('./validation');
 
@@ -431,6 +430,7 @@ export function selectFromList<T>(
 }
 
 export function printErrorMessage(message: string) {
+	const chalk = getChalk();
 	console.error(chalk.red(message));
 	console.error(chalk.red(`\n${messages.getHelp}\n`));
 }
