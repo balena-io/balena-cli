@@ -22,6 +22,7 @@ limitations under the License.
 import { CommandDefinition } from 'capitano';
 import chalk from 'chalk';
 import { stripIndent } from 'common-tags';
+import { getVisuals } from '../utils/lazy';
 
 export const availableDrives: CommandDefinition<{}, {}> = {
 	signature: 'util available-drives',
@@ -32,7 +33,6 @@ export const availableDrives: CommandDefinition<{}, {}> = {
 	`,
 	async action() {
 		const sdk = await import('etcher-sdk');
-		const visuals = await import('resin-cli-visuals');
 
 		const adapter = new sdk.scanner.adapters.BlockDeviceAdapter(() => false);
 		const scanner = new sdk.scanner.Scanner([adapter]);
@@ -53,11 +53,10 @@ export const availableDrives: CommandDefinition<{}, {}> = {
 			);
 		} else {
 			console.log(
-				visuals.table.horizontal(Array.from(scanner.drives).map(formatDrive), [
-					'device',
-					'size',
-					'description',
-				]),
+				getVisuals().table.horizontal(
+					Array.from(scanner.drives).map(formatDrive),
+					['device', 'size', 'description'],
+				),
 			);
 		}
 		scanner.stop();

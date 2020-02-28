@@ -27,6 +27,7 @@ import Logger = require('./logger');
 
 import { exitWithExpectedError } from '../utils/patterns';
 import { tarDirectory } from './compose';
+import { getVisuals } from './lazy';
 
 const globalLogger = Logger.getLogger();
 
@@ -280,7 +281,7 @@ async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
 		},
 	};
 	if (process.stdout.isTTY) {
-		const visuals = await import('resin-cli-visuals');
+		const visuals = getVisuals();
 		tarSpinner = new visuals.Spinner('Packaging the project source...');
 	}
 
@@ -375,7 +376,7 @@ async function getRemoteBuildStream(
 	};
 	// We only show the spinner when outputting to a tty
 	if (process.stdout.isTTY) {
-		const visuals = await import('resin-cli-visuals');
+		const visuals = getVisuals();
 		uploadSpinner = new visuals.Spinner(
 			'Uploading source package to balena cloud',
 		);

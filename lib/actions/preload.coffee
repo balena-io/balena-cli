@@ -15,7 +15,7 @@ limitations under the License.
 ###
 
 _ = require('lodash')
-{ getBalenaSdk } = require('../utils/lazy')
+{ getBalenaSdk, getVisuals } = require('../utils/lazy')
 
 dockerUtils = require('../utils/docker')
 
@@ -67,7 +67,7 @@ getApplicationsWithSuccessfulBuilds = (deviceType) ->
 				$orderby: 'app_name asc'
 
 selectApplication = (deviceType) ->
-	visuals = require('resin-cli-visuals')
+	visuals = getVisuals()
 	form = require('resin-cli-form')
 	{ exitWithExpectedError } = require('../utils/patterns')
 
@@ -209,7 +209,7 @@ module.exports =
 		Promise = require('bluebird')
 		balena = getBalenaSdk()
 		preload = require('balena-preload')
-		visuals = require('resin-cli-visuals')
+		visuals = getVisuals()
 		nodeCleanup = require('node-cleanup')
 		{ exitWithExpectedError } = require('../utils/patterns')
 

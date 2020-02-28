@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 import { CommandDefinition } from 'capitano';
-import { getBalenaSdk } from '../utils/lazy';
+import { getBalenaSdk, getVisuals } from '../utils/lazy';
 
 export const login: CommandDefinition<
 	{},
@@ -179,9 +179,8 @@ Examples:
 			balena.auth.getEmail(),
 			balena.settings.get('balenaUrl'),
 		]);
-		const visuals = await import('resin-cli-visuals');
 		console.log(
-			visuals.table.vertical({ username, email, url }, [
+			getVisuals().table.vertical({ username, email, url }, [
 				'$account information$',
 				'username',
 				'email',

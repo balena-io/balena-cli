@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
+{ getVisuals } = require('../utils/lazy')
+
 dockerInfoProperties = [
 	'Containers'
 	'ContainersRunning'
@@ -75,7 +77,7 @@ module.exports =
 		_ = require('lodash')
 		prettyjson = require('prettyjson')
 		{ discover } = require('balena-sync')
-		{ SpinnerPromise } = require('resin-cli-visuals')
+		{ SpinnerPromise } = getVisuals()
 		{ dockerPort, dockerTimeout } = require('./local/common')
 		dockerUtils = require('../utils/docker')
 		{ exitWithExpectedError } = require('../utils/patterns')

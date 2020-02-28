@@ -1,4 +1,5 @@
 Promise = require('bluebird')
+{ getVisuals } = require('./lazy')
 
 getBuilderPushEndpoint = (baseUrl, owner, app) ->
 	querystring = require('querystring')
@@ -23,7 +24,7 @@ bufferImage = (docker, imageId, bufferFile) ->
 			bufferedStream.length = imageSize
 
 showPushProgress = (message) ->
-	visuals = require('resin-cli-visuals')
+	visuals = getVisuals()
 	progressBar = new visuals.Progress(message)
 	progressBar.update({ percentage: 0 })
 	return progressBar

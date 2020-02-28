@@ -17,7 +17,7 @@ limitations under the License.
 commandOptions = require('./command-options')
 _ = require('lodash')
 { normalizeUuidProp } = require('../utils/normalization')
-{ getBalenaSdk } = require('../utils/lazy')
+{ getBalenaSdk, getVisuals } = require('../utils/lazy')
 
 expandForAppName = {
 	$expand: belongs_to__application: $select: 'app_name'
@@ -44,7 +44,6 @@ exports.list =
 	action: (params, options) ->
 		Promise = require('bluebird')
 		balena = getBalenaSdk()
-		visuals = require('resin-cli-visuals')
 
 		Promise.try ->
 			if options.application?
@@ -59,7 +58,7 @@ exports.list =
 				device.uuid = device.uuid.slice(0, 7)
 				return device
 
-			console.log visuals.table.horizontal devices, [
+			console.log getVisuals().table.horizontal devices, [
 				'id'
 				'uuid'
 				'device_name'
@@ -87,7 +86,6 @@ exports.info =
 	action: (params, options) ->
 		normalizeUuidProp(params)
 		balena = getBalenaSdk()
-		visuals = require('resin-cli-visuals')
 
 		balena.models.device.get(params.uuid, expandForAppName)
 		.then (device) ->
@@ -98,7 +96,7 @@ exports.info =
 					if device.belongs_to__application?[0] then device.belongs_to__application[0].app_name else 'N/a'
 				device.commit = device.is_on__commit
 
-				console.log visuals.table.vertical device, [
+				console.log getVisuals().table.vertical device, [
 					"$#{device.device_name}$"
 					'id'
 					'device_type'
