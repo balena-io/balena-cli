@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Make use of capitano's promise support to simplify the code",
+          "hash": "48b281d7c6d04c4c8b0866b452b7fccacc1af578",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.28.6",
+      "date": "2020-02-28T13:29:09.577Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Simplify lazy-loading of balena-sdk by utilizing a shared function",
           "hash": "eac6bb5e5cef1cc3f1053415d1be6856ce89045b",
           "body": "This also avoids instantiating multiple balena-sdk\n",
@@ -9137,36 +9153,44 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-28T00:14:29Z",
+  "lastCommitDate": "2020-02-28T15:26:48Z",
   "latestRelease": {
-    "tagName": "v11.28.5",
+    "tagName": "v11.28.6",
     "asssets": [
       {
-        "name": "balena-cli-v11.28.5-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.5/balena-cli-v11.28.5-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.28.6-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.6/balena-cli-v11.28.6-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.28.5-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.5/balena-cli-v11.28.5-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.28.6-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.6/balena-cli-v11.28.6-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.28.5-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.5/balena-cli-v11.28.5-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.28.6-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.6/balena-cli-v11.28.6-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.28.5-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.5/balena-cli-v11.28.5-windows-x64-installer.exe"
+        "name": "balena-cli-v11.28.6-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.6/balena-cli-v11.28.6-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.28.5-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.5/balena-cli-v11.28.5-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.28.6-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.6/balena-cli-v11.28.6-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 234,
+    "numberOfIssues": 236,
     "latestIssues": [
+      {
+        "title": "Simplify lazy-loading of resin-cli-visuals with a shared function",
+        "url": "https://github.com/balena-io/balena-cli/pull/1638"
+      },
+      {
+        "title": "balena push on windows with .local address fails to connect to docker daemon",
+        "url": "https://github.com/balena-io/balena-cli/issues/1637"
+      },
       {
         "title": "Use `import type` where possible to explicitly import only type info",
         "url": "https://github.com/balena-io/balena-cli/pull/1635"
@@ -9238,18 +9262,10 @@
       {
         "title": "Add a `--pull` option to`balena build`.",
         "url": "https://github.com/balena-io/balena-cli/issues/1584"
-      },
-      {
-        "title": "Allow configurable proxy exceptions",
-        "url": "https://github.com/balena-io/balena-cli/issues/1580"
-      },
-      {
-        "title": "Flag devices which do not have local-mode enabled in `balena scan` results.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1578"
       }
     ]
   },
-  "version": "11.28.5",
+  "version": "11.28.6",
   "screenshot": null,
   "logo": null
 }

@@ -1,4 +1,14 @@
 - commits:
+    - subject: Make use of capitano's promise support to simplify the code
+      hash: 48b281d7c6d04c4c8b0866b452b7fccacc1af578
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.28.6
+  date: 2020-02-28T15:26:23.788Z
+- commits:
     - subject: Simplify lazy-loading of balena-sdk by utilizing a shared function
       hash: eac6bb5e5cef1cc3f1053415d1be6856ce89045b
       body: |
@@ -8,7 +18,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.28.5
-  date: 2020-02-28T00:14:03.658Z
+  date: 2020-02-27T19:02:33.627Z
 - commits:
     - subject: >-
         Fix build/deploy commands with QEMU emulation and alternative Dockerfile
