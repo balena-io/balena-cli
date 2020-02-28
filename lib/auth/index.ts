@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import { getBalenaSdk } from '../utils/lazy';
+
 /**
  * @module auth
  */
@@ -58,6 +60,6 @@ export const login = async () => {
 	}, 1000);
 
 	const server = await import('./server');
-	const balena = (await import('balena-sdk')).fromSharedOptions();
+	const balena = getBalenaSdk();
 	return server.awaitForToken(options).tap(balena.auth.loginWithToken);
 };

@@ -14,14 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import * as balenaSdk from 'balena-sdk';
 import * as Promise from 'bluebird';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import * as path from 'path';
+import { getBalenaSdk } from '../utils/lazy';
 import * as utils from './utils';
-
-const balena = balenaSdk.fromSharedOptions();
 
 const createServer = ({ port }: { port: number }) => {
 	const app = express();
@@ -130,7 +128,7 @@ export const awaitForToken = (options: {
 export const getContext = (viewName: 'success' | 'error') => {
 	if (viewName === 'success') {
 		return Promise.props({
-			dashboardUrl: balena.settings.get('dashboardUrl'),
+			dashboardUrl: getBalenaSdk().settings.get('dashboardUrl'),
 		});
 	}
 

@@ -15,6 +15,7 @@ limitations under the License.
 */
 
 import { CommandDefinition } from 'capitano';
+import { getBalenaSdk } from '../utils/lazy';
 import * as commandOptions from './command-options';
 
 export const list: CommandDefinition = {
@@ -29,9 +30,7 @@ Examples:
 `,
 	permission: 'user',
 	async action() {
-		const balena = (await import('balena-sdk')).fromSharedOptions();
-
-		const keys = await balena.models.key.getAll();
+		const keys = await getBalenaSdk().models.key.getAll();
 
 		const visuals = await import('resin-cli-visuals');
 		console.log(visuals.table.horizontal(keys, ['id', 'title']));
@@ -50,9 +49,7 @@ Examples:
 `,
 	permission: 'user',
 	async action(params) {
-		const balena = (await import('balena-sdk')).fromSharedOptions();
-
-		const key = await balena.models.key.get(params.id);
+		const key = await getBalenaSdk().models.key.get(params.id);
 
 		const visuals = await import('resin-cli-visuals');
 		console.log(visuals.table.vertical(key, ['id', 'title']));
@@ -91,8 +88,7 @@ Examples:
 			'Are you sure you want to delete the key?',
 		);
 
-		const balena = (await import('balena-sdk')).fromSharedOptions();
-		await balena.models.key.remove(params.id);
+		await getBalenaSdk().models.key.remove(params.id);
 	},
 };
 
@@ -122,7 +118,6 @@ Examples:
 			key = await getStdin();
 		}
 
-		const balena = (await import('balena-sdk')).fromSharedOptions();
-		await balena.models.key.create(params.name, key);
+		await getBalenaSdk().models.key.create(params.name, key);
 	},
 };

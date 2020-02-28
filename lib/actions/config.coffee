@@ -16,6 +16,7 @@ limitations under the License.
 
 commandOptions = require('./command-options')
 { normalizeUuidProp } = require('../utils/normalization')
+{ getBalenaSdk } = require('../utils/lazy')
 
 exports.read =
 	signature: 'config read'
@@ -288,7 +289,7 @@ exports.generate =
 		normalizeUuidProp(options, 'device')
 		Promise = require('bluebird')
 		writeFileAsync = Promise.promisify(require('fs').writeFile)
-		balena = require('balena-sdk').fromSharedOptions()
+		balena = getBalenaSdk()
 		form = require('resin-cli-form')
 		prettyjson = require('prettyjson')
 

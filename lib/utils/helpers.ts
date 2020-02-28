@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 import { InitializeEmitter, OperationState } from 'balena-device-init';
-import BalenaSdk = require('balena-sdk');
+import * as BalenaSdk from 'balena-sdk';
 import Bluebird = require('bluebird');
 import chalk from 'chalk';
 import _ = require('lodash');
@@ -24,8 +24,7 @@ import visuals = require('resin-cli-visuals');
 import * as ShellEscape from 'shell-escape';
 
 import { ExpectedError } from '../errors';
-
-const balena = BalenaSdk.fromSharedOptions();
+import { getBalenaSdk } from './lazy';
 
 export function getGroupDefaults(group: {
 	options: Array<{ name: string; default?: string }>;
@@ -109,7 +108,7 @@ export async function getManifest(
 	if (manifest != null) {
 		return manifest;
 	}
-	return balena.models.device.getManifestBySlug(deviceType);
+	return getBalenaSdk().models.device.getManifestBySlug(deviceType);
 }
 
 export const areDeviceTypesCompatible = (
@@ -148,7 +147,7 @@ export function getArchAndDeviceType(
 ): Bluebird<{ arch: string; device_type: string }> {
 	return Bluebird.join(
 		getApplication(applicationName),
-		balena.models.config.getDeviceTypes(),
+		getBalenaSdk().models.config.getDeviceTypes(),
 		function(app, deviceTypes) {
 			const config = _.find<BalenaSdk.DeviceType>(deviceTypes, {
 				slug: app.device_type,
@@ -176,6 +175,7 @@ export function getApplication(applicationName: string) {
 		},
 	};
 
+	const balena = getBalenaSdk();
 	if (match.length > 1) {
 		return balena.models.application.getAppByOwner(
 			match[1],

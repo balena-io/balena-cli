@@ -21,6 +21,7 @@ Promise = require('bluebird')
 dockerUtils = require('../utils/docker')
 compose = require('../utils/compose')
 { registrySecretsHelp } = require('../utils/messages')
+{ getBalenaSdk } = require('../utils/lazy')
 
 ###
 Opts must be an object with the following keys:
@@ -118,7 +119,7 @@ module.exports =
 		# compositions with many services trigger misleading warnings
 		require('events').defaultMaxListeners = 1000
 
-		sdk = (require('balena-sdk')).fromSharedOptions()
+		sdk = getBalenaSdk()
 		{ ExpectedError } = require('../errors')
 		{ validateProjectDirectory } = require('../utils/compose_ts')
 		helpers = require('../utils/helpers')

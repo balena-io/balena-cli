@@ -18,6 +18,7 @@ import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
 
 import { BalenaDeviceNotFound } from 'balena-errors';
+import { getBalenaSdk } from '../utils/lazy';
 import { validateDotLocalUrl, validateIPAddress } from '../utils/validation';
 
 async function getContainerId(
@@ -236,7 +237,7 @@ export const ssh: CommandDefinition<
 			exitWithExpectedError,
 			getOnlineTargetUuid,
 		} = await import('../utils/patterns');
-		const sdk = BalenaSdk.fromSharedOptions();
+		const sdk = getBalenaSdk();
 
 		const verbose = options.verbose === true;
 		const proxyConfig = getProxyConfig();

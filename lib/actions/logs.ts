@@ -18,6 +18,7 @@ import { LogMessage } from 'balena-sdk';
 import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
 
+import { getBalenaSdk } from '../utils/lazy';
 import { normalizeUuidProp } from '../utils/normalization';
 import { validateDotLocalUrl } from '../utils/validation';
 
@@ -84,7 +85,7 @@ export const logs: CommandDefinition<
 	primary: true,
 	async action(params, options, done) {
 		normalizeUuidProp(params);
-		const balena = (await import('balena-sdk')).fromSharedOptions();
+		const balena = getBalenaSdk();
 		const isArray = await import('lodash/isArray');
 		const { serviceIdToName } = await import('../utils/cloud');
 		const { displayDeviceLogs, displayLogObject } = await import(

@@ -16,6 +16,7 @@ limitations under the License.
 
 commandOptions = require('./command-options')
 _ = require('lodash')
+{ getBalenaSdk } = require('../utils/lazy')
 
 formatVersion = (v, isRecommended) ->
 	result = "v#{v}"
@@ -30,7 +31,7 @@ resolveVersion = (deviceType, version) ->
 		return Promise.resolve(version)
 
 	form = require('resin-cli-form')
-	balena = require('balena-sdk').fromSharedOptions()
+	balena = getBalenaSdk()
 
 	balena.models.os.getSupportedVersions(deviceType)
 	.then ({ versions, recommended }) ->
@@ -56,7 +57,7 @@ exports.versions =
 			$ balena os versions raspberrypi3
 	'''
 	action: (params, options, done) ->
-		balena = require('balena-sdk').fromSharedOptions()
+		balena = getBalenaSdk()
 
 		balena.models.os.getSupportedVersions(params.type)
 		.then ({ versions, recommended }) ->

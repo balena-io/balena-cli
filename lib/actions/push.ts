@@ -19,6 +19,7 @@ import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
 
 import { ExpectedError } from '../errors';
+import { getBalenaSdk } from '../utils/lazy';
 import { registrySecretsHelp } from '../utils/messages';
 import {
 	validateApplicationName,
@@ -260,7 +261,7 @@ export const push: CommandDefinition<
 		},
 	],
 	async action(params, options) {
-		const sdk = (await import('balena-sdk')).fromSharedOptions();
+		const sdk = getBalenaSdk();
 		const Bluebird = await import('bluebird');
 		const isArray = await import('lodash/isArray');
 		const remote = await import('../utils/remote-build');

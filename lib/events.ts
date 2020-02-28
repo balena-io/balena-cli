@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import BalenaSdk = require('balena-sdk');
 import Promise = require('bluebird');
 import _ = require('lodash');
 import Mixpanel = require('mixpanel');
 import Raven = require('raven');
 
 import packageJSON = require('../package.json');
+import { getBalenaSdk } from './utils/lazy';
 
-const getBalenaSdk = _.once(() => BalenaSdk.fromSharedOptions());
 const getMixpanel = _.once<any>(() => {
 	const settings = require('balena-settings-client');
 	return Mixpanel.init('balena-main', {

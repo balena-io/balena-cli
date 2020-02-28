@@ -19,6 +19,7 @@ import { stripIndent } from 'common-tags';
 
 import * as cf from '../../utils/common-flags';
 import * as ec from '../../utils/env-common';
+import { getBalenaSdk } from '../../utils/lazy';
 import { CommandHelp } from '../../utils/oclif-utils';
 
 type IArg<T> = import('@oclif/parser').args.IArg<T>;
@@ -83,12 +84,11 @@ export default class EnvRenameCmd extends Command {
 		const { args: params, flags: opt } = this.parse<FlagsDef, ArgsDef>(
 			EnvRenameCmd,
 		);
-		const balena = (await import('balena-sdk')).fromSharedOptions();
 		const { checkLoggedIn } = await import('../../utils/patterns');
 
 		await checkLoggedIn();
 
-		await balena.pine.patch({
+		await getBalenaSdk().pine.patch({
 			resource: ec.getVarResourceName(opt.config, opt.device, opt.service),
 			id: params.id,
 			body: {

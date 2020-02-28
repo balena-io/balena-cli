@@ -22,6 +22,7 @@ dockerUtils = require('../utils/docker')
 compose = require('../utils/compose')
 { registrySecretsHelp } = require('../utils/messages')
 { ExpectedError } = require('../errors')
+{ getBalenaSdk } = require('../utils/lazy')
 
 ###
 Opts must be an object with the following keys:
@@ -37,7 +38,7 @@ Opts must be an object with the following keys:
 deployProject = (docker, logger, composeOpts, opts) ->
 	_ = require('lodash')
 	doodles = require('resin-doodles')
-	sdk = require('balena-sdk').fromSharedOptions()
+	sdk = getBalenaSdk()
 	{ loadProject } = require('../utils/compose_ts')
 
 	Promise.resolve(loadProject(logger, composeOpts, opts.image))
@@ -196,7 +197,7 @@ module.exports =
 	action: (params, options, done) ->
 		# compositions with many services trigger misleading warnings
 		require('events').defaultMaxListeners = 1000
-		sdk = (require('balena-sdk')).fromSharedOptions()
+		sdk = getBalenaSdk()
 		{ ExpectedError } = require('../errors')
 		{ validateProjectDirectory } = require('../utils/compose_ts')
 		helpers = require('../utils/helpers')

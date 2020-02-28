@@ -19,6 +19,7 @@ import { Command, flags } from '@oclif/command';
 import { stripIndent } from 'common-tags';
 
 import * as ec from '../../utils/env-common';
+import { getBalenaSdk } from '../../utils/lazy';
 import { CommandHelp } from '../../utils/oclif-utils';
 
 type IArg<T> = import('@oclif/parser').args.IArg<T>;
@@ -85,7 +86,7 @@ export default class EnvRmCmd extends Command {
 		const { args: params, flags: opt } = this.parse<FlagsDef, ArgsDef>(
 			EnvRmCmd,
 		);
-		const balena = (await import('balena-sdk')).fromSharedOptions();
+		const balena = getBalenaSdk();
 		const { checkLoggedIn, confirm } = await import('../../utils/patterns');
 
 		await checkLoggedIn();

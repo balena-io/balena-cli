@@ -20,6 +20,7 @@ import * as _ from 'lodash';
 import { createServer, Server, Socket } from 'net';
 import { isArray } from 'util';
 
+import { getBalenaSdk } from '../utils/lazy';
 import { getOnlineTargetUuid } from '../utils/patterns';
 import { tunnelConnectionToDevice } from '../utils/tunnel';
 
@@ -95,8 +96,7 @@ export const tunnel: CommandDefinition<Args, Options> = {
 			params.deviceOrApplication_raw || params.deviceOrApplication;
 		const Logger = await import('../utils/logger');
 		const logger = Logger.getLogger();
-		const balena = await import('balena-sdk');
-		const sdk = balena.fromSharedOptions();
+		const sdk = getBalenaSdk();
 
 		const logConnection = (
 			fromHost: string,
