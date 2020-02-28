@@ -115,7 +115,7 @@ module.exports =
 			alias: 'a'
 		},
 	]
-	action: (params, options, done) ->
+	action: (params, options) ->
 		# compositions with many services trigger misleading warnings
 		require('events').defaultMaxListeners = 1000
 
@@ -181,4 +181,3 @@ module.exports =
 						convertEol: options.convertEol
 					})
 			)
-		.asCallback(done)

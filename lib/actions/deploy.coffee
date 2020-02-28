@@ -194,7 +194,7 @@ module.exports =
 			boolean: true
 		},
 	]
-	action: (params, options, done) ->
+	action: (params, options) ->
 		# compositions with many services trigger misleading warnings
 		require('events').defaultMaxListeners = 1000
 		sdk = getBalenaSdk()
@@ -217,7 +217,7 @@ module.exports =
 		options.convertEol = options['convert-eol'] || false
 		delete options['convert-eol']
 		if options.convertEol and not options.build
-			return done(new ExpectedError('The --eol-conversion flag is only valid with --build.'))
+			return Promise.reject(new ExpectedError('The --eol-conversion flag is only valid with --build.'))
 
 		Promise.try ->
 			if not appName?
@@ -264,4 +264,3 @@ module.exports =
 						convertEol: options.convertEol
 					})
 			)
-		.asCallback(done)

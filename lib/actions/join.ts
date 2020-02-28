@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import * as Bluebird from 'bluebird';
 import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
 import { getBalenaSdk } from '../utils/lazy';
@@ -64,13 +63,11 @@ export const join: CommandDefinition<Args, Options> = {
 	permission: 'user',
 	primary: true,
 
-	async action(params, options, done) {
+	async action(params, options) {
 		const Logger = await import('../utils/logger');
 		const promote = await import('../utils/promote');
 		const sdk = getBalenaSdk();
 		const logger = Logger.getLogger();
-		return Bluebird.try(() => {
-			return promote.join(logger, sdk, params.deviceIp, options.application);
-		}).nodeify(done);
+		return promote.join(logger, sdk, params.deviceIp, options.application);
 	},
 };

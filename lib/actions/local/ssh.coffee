@@ -62,7 +62,7 @@ module.exports =
 			alias: 'p'
 	]
 	root: true
-	action: (params, options, done) ->
+	action: (params, options) ->
 		child_process = require('child_process')
 		Promise = require 'bluebird'
 		_ = require('lodash')
@@ -111,4 +111,3 @@ module.exports =
 			subShellCommand = getSubShellCommand(command)
 			child_process.spawn subShellCommand.program, subShellCommand.args,
 				stdio: 'inherit'
-		.nodeify(done)

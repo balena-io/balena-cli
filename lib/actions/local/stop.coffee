@@ -44,7 +44,7 @@ module.exports =
 			alias: 'a'
 	]
 	root: true
-	action: (params, options, done) ->
+	action: (params, options) ->
 		Promise = require('bluebird')
 		chalk = require('chalk')
 		{ forms, config, BalenaLocalDockerUtils } = require('balena-sync')

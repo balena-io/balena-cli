@@ -54,7 +54,7 @@ Examples:
 		},
 	],
 	permission: 'user',
-	async action(params, options, done) {
+	async action(params, options) {
 		const balena = getBalenaSdk();
 
 		const patterns = await import('../utils/patterns');
@@ -82,8 +82,7 @@ Examples:
 				console.info(
 					`Application created: ${application.app_name} (${application.device_type}, id ${application.id})`,
 				),
-			)
-			.nodeify(done);
+			);
 	},
 };
 
@@ -102,7 +101,7 @@ Examples:
 `,
 	permission: 'user',
 	primary: true,
-	async action(_params, _options, done) {
+	async action() {
 		const _ = await import('lodash');
 		const balena = getBalenaSdk();
 		const visuals = await import('resin-cli-visuals');
@@ -135,8 +134,7 @@ Examples:
 						]),
 					);
 				},
-			)
-			.nodeify(done);
+			);
 	},
 };
 
@@ -154,7 +152,7 @@ Examples:
 `,
 	permission: 'user',
 	primary: true,
-	async action(params, _options, done) {
+	async action(params) {
 		const visuals = await import('resin-cli-visuals');
 
 		return getBalenaSdk()
@@ -169,8 +167,7 @@ Examples:
 						'commit',
 					]),
 				);
-			})
-			.nodeify(done);
+			});
 	},
 };
 
@@ -187,10 +184,8 @@ Examples:
 	$ balena app restart MyApp\
 `,
 	permission: 'user',
-	async action(params, _options, done) {
-		return getBalenaSdk()
-			.models.application.restart(params.name)
-			.nodeify(done);
+	async action(params) {
+		return getBalenaSdk().models.application.restart(params.name);
 	},
 };
 
@@ -213,7 +208,7 @@ Examples:
 `,
 	options: [commandOptions.yes],
 	permission: 'user',
-	async action(params, options, done) {
+	async action(params, options) {
 		const patterns = await import('../utils/patterns');
 
 		return patterns
@@ -221,7 +216,6 @@ Examples:
 				options.yes ?? false,
 				'Are you sure you want to delete the application?',
 			)
-			.then(() => getBalenaSdk().models.application.remove(params.name))
-			.nodeify(done);
+			.then(() => getBalenaSdk().models.application.remove(params.name));
 	},
 };

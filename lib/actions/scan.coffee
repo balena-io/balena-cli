@@ -70,7 +70,7 @@ module.exports =
 	]
 	primary: true
 	root: true
-	action: (params, options, done) ->
+	action: (params, options) ->
 		Promise = require('bluebird')
 		_ = require('lodash')
 		prettyjson = require('prettyjson')
@@ -111,4 +111,3 @@ module.exports =
 				return { host, address, dockerInfo, dockerVersion }
 		.then (devicesInfo) ->
 			console.log(prettyjson.render(devicesInfo, noColor: true))
-		.nodeify(done)
