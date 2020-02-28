@@ -17,7 +17,7 @@ limitations under the License.
 import { ApplicationTag, DeviceTag, ReleaseTag } from 'balena-sdk';
 import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
-import { getBalenaSdk } from '../utils/lazy';
+import { getBalenaSdk, getVisuals } from '../utils/lazy';
 import {
 	disambiguateReleaseParam,
 	normalizeUuidProp,
@@ -59,7 +59,6 @@ export const list: CommandDefinition<
 		const Bluebird = await import('bluebird');
 		const _ = await import('lodash');
 		const balena = getBalenaSdk();
-		const visuals = await import('resin-cli-visuals');
 
 		const { exitWithExpectedError } = await import('../utils/patterns');
 
@@ -110,7 +109,7 @@ export const list: CommandDefinition<
 			}
 
 			console.log(
-				visuals.table.horizontal(environmentVariables, [
+				getVisuals().table.horizontal(environmentVariables, [
 					'id',
 					'tag_key',
 					'value',

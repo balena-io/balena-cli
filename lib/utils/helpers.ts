@@ -20,11 +20,10 @@ import Bluebird = require('bluebird');
 import chalk from 'chalk';
 import _ = require('lodash');
 import os = require('os');
-import visuals = require('resin-cli-visuals');
 import * as ShellEscape from 'shell-escape';
 
 import { ExpectedError } from '../errors';
-import { getBalenaSdk } from './lazy';
+import { getBalenaSdk, getVisuals } from './lazy';
 
 export function getGroupDefaults(group: {
 	options: Array<{ name: string; default?: string }>;
@@ -129,6 +128,7 @@ export async function osProgressHandler(step: InitializeEmitter) {
 		console.log(exports.stateToString(state));
 	});
 
+	const visuals = getVisuals();
 	const progressBars = {
 		write: new visuals.Progress('Writing Device OS'),
 		check: new visuals.Progress('Validating Device OS'),

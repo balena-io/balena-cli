@@ -20,7 +20,7 @@ import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 
 import * as cf from '../../utils/common-flags';
-import { getBalenaSdk } from '../../utils/lazy';
+import { getBalenaSdk, getVisuals } from '../../utils/lazy';
 import { CommandHelp } from '../../utils/oclif-utils';
 
 interface FlagsDef {
@@ -105,7 +105,7 @@ export default class DevicesSupportedCmd extends Command {
 		if (options.json) {
 			console.log(JSON.stringify(deviceTypes, null, 4));
 		} else {
-			const visuals = await import('resin-cli-visuals');
+			const visuals = getVisuals();
 			const output = await visuals.table.horizontal(deviceTypes, fields);
 			console.log(output);
 		}

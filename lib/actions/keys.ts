@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 import { CommandDefinition } from 'capitano';
-import { getBalenaSdk } from '../utils/lazy';
+import { getBalenaSdk, getVisuals } from '../utils/lazy';
 import * as commandOptions from './command-options';
 
 export const list: CommandDefinition = {
@@ -32,8 +32,7 @@ Examples:
 	async action() {
 		const keys = await getBalenaSdk().models.key.getAll();
 
-		const visuals = await import('resin-cli-visuals');
-		console.log(visuals.table.horizontal(keys, ['id', 'title']));
+		console.log(getVisuals().table.horizontal(keys, ['id', 'title']));
 	},
 };
 
@@ -51,8 +50,7 @@ Examples:
 	async action(params) {
 		const key = await getBalenaSdk().models.key.get(params.id);
 
-		const visuals = await import('resin-cli-visuals');
-		console.log(visuals.table.vertical(key, ['id', 'title']));
+		console.log(getVisuals().table.vertical(key, ['id', 'title']));
 
 		// Since the public key string is long, it might
 		// wrap to lines below, causing the table layout to break.

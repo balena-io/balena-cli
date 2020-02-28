@@ -16,7 +16,7 @@ limitations under the License.
 
 commandOptions = require('./command-options')
 _ = require('lodash')
-{ getBalenaSdk } = require('../utils/lazy')
+{ getBalenaSdk, getVisuals } = require('../utils/lazy')
 
 formatVersion = (v, isRecommended) ->
 	result = "v#{v}"
@@ -104,7 +104,6 @@ exports.download =
 		fs = require('fs')
 		rindle = require('rindle')
 		manager = require('balena-image-manager')
-		visuals = require('resin-cli-visuals')
 
 		console.info("Getting device operating system for #{params.type}")
 
@@ -122,6 +121,7 @@ exports.download =
 				displayVersion = " #{version}"
 			return manager.get(params.type, version)
 		.then (stream) ->
+			visuals = getVisuals()
 			bar = new visuals.Progress("Downloading Device OS#{displayVersion}")
 			spinner = new visuals.Spinner("Downloading Device OS#{displayVersion} (size unknown)")
 

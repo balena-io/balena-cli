@@ -18,6 +18,7 @@ import * as BalenaSdk from 'balena-sdk';
 import { stripIndent } from 'common-tags';
 
 import { ExpectedError } from '../errors';
+import { getVisuals } from './lazy';
 import Logger = require('./logger');
 import { exec, execBuffered, getDeviceOsRelease } from './ssh';
 
@@ -87,7 +88,7 @@ async function execCommand(
 	msg: string,
 ): Promise<void> {
 	const through = await import('through2');
-	const visuals = await import('resin-cli-visuals');
+	const visuals = getVisuals();
 
 	const spinner = new visuals.Spinner(`[${deviceIp}] Connecting...`);
 	const innerSpinner = spinner.spinner;

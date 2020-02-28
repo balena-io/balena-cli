@@ -18,6 +18,7 @@ import { CommandDefinition } from 'capitano';
 import chalk from 'chalk';
 import { stripIndent } from 'common-tags';
 import * as SDK from 'etcher-sdk';
+import { getVisuals } from '../../utils/lazy';
 
 async function getDrive(options: {
 	drive?: string;
@@ -73,7 +74,6 @@ export const flash: CommandDefinition<
 		},
 	],
 	async action(params, options) {
-		const visuals = await import('resin-cli-visuals');
 		const form = await import('resin-cli-form');
 		const { sourceDestination, multiWrite } = await import('etcher-sdk');
 
@@ -98,6 +98,7 @@ export const flash: CommandDefinition<
 		);
 		const source = await file.getInnerSource();
 
+		const visuals = getVisuals();
 		const progressBars: { [key: string]: any } = {
 			flashing: new visuals.Progress('Flashing'),
 			verifying: new visuals.Progress('Validating'),

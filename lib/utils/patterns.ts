@@ -20,15 +20,13 @@ import chalk from 'chalk';
 import { stripIndent } from 'common-tags';
 import _ = require('lodash');
 import _form = require('resin-cli-form');
-import _visuals = require('resin-cli-visuals');
 
 import { NotLoggedInError } from '../errors';
-import { getBalenaSdk } from './lazy';
+import { getBalenaSdk, getVisuals } from './lazy';
 import messages = require('./messages');
 import validation = require('./validation');
 
 const getForm = _.once((): typeof _form => require('resin-cli-form'));
-const getVisuals = _.once((): typeof _visuals => require('resin-cli-visuals'));
 
 export function authenticate(options: {}): Bluebird<void> {
 	const balena = getBalenaSdk();

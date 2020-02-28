@@ -16,7 +16,7 @@ limitations under the License.
 
 import { Application } from 'balena-sdk';
 import { CommandDefinition } from 'capitano';
-import { getBalenaSdk } from '../utils/lazy';
+import { getBalenaSdk, getVisuals } from '../utils/lazy';
 import * as commandOptions from './command-options';
 
 export const create: CommandDefinition<
@@ -104,7 +104,6 @@ Examples:
 	async action() {
 		const _ = await import('lodash');
 		const balena = getBalenaSdk();
-		const visuals = await import('resin-cli-visuals');
 
 		return balena.models.application
 			.getAll({
@@ -125,7 +124,7 @@ Examples:
 					});
 
 					console.log(
-						visuals.table.horizontal(applications, [
+						getVisuals().table.horizontal(applications, [
 							'id',
 							'app_name',
 							'device_type',
@@ -153,13 +152,11 @@ Examples:
 	permission: 'user',
 	primary: true,
 	async action(params) {
-		const visuals = await import('resin-cli-visuals');
-
 		return getBalenaSdk()
 			.models.application.get(params.name)
 			.then(application => {
 				console.log(
-					visuals.table.vertical(application, [
+					getVisuals().table.vertical(application, [
 						`$${application.app_name}$`,
 						'id',
 						'device_type',

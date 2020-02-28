@@ -16,7 +16,7 @@ limitations under the License.
 
 commandOptions = require('./command-options')
 { normalizeUuidProp } = require('../utils/normalization')
-{ getBalenaSdk } = require('../utils/lazy')
+{ getBalenaSdk, getVisuals } = require('../utils/lazy')
 
 exports.read =
 	signature: 'config read'
@@ -49,12 +49,11 @@ exports.read =
 	action: (params, options) ->
 		Promise = require('bluebird')
 		config = require('balena-config-json')
-		visuals = require('resin-cli-visuals')
 		umountAsync = Promise.promisify(require('umount').umount)
 		prettyjson = require('prettyjson')
 
 		Promise.try ->
-			return options.drive or visuals.drive('Select the device drive')
+			return options.drive or getVisuals().drive('Select the device drive')
 		.tap(umountAsync)
 		.then (drive) ->
 			return config.read(drive, options.type)
@@ -94,11 +93,10 @@ exports.write =
 		Promise = require('bluebird')
 		_ = require('lodash')
 		config = require('balena-config-json')
-		visuals = require('resin-cli-visuals')
 		umountAsync = Promise.promisify(require('umount').umount)
 
 		Promise.try ->
-			return options.drive or visuals.drive('Select the device drive')
+			return options.drive or getVisuals().drive('Select the device drive')
 		.tap(umountAsync)
 		.then (drive) ->
 			config.read(drive, options.type).then (configJSON) ->
@@ -144,12 +142,11 @@ exports.inject =
 	action: (params, options) ->
 		Promise = require('bluebird')
 		config = require('balena-config-json')
-		visuals = require('resin-cli-visuals')
 		umountAsync = Promise.promisify(require('umount').umount)
 		readFileAsync = Promise.promisify(require('fs').readFile)
 
 		Promise.try ->
-			return options.drive or visuals.drive('Select the device drive')
+			return options.drive or getVisuals().drive('Select the device drive')
 		.tap(umountAsync)
 		.then (drive) ->
 			readFileAsync(params.file, 'utf8').then(JSON.parse).then (configJSON) ->
@@ -195,12 +192,11 @@ exports.reconfigure =
 	action: (params, options) ->
 		Promise = require('bluebird')
 		config = require('balena-config-json')
-		visuals = require('resin-cli-visuals')
 		{ runCommand } = require('../utils/helpers')
 		umountAsync = Promise.promisify(require('umount').umount)
 
 		Promise.try ->
-			return options.drive or visuals.drive('Select the device drive')
+			return options.drive or getVisuals().drive('Select the device drive')
 		.tap(umountAsync)
 		.then (drive) ->
 			config.read(drive, options.type).get('uuid')

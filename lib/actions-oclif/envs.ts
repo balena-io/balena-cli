@@ -21,7 +21,7 @@ import * as _ from 'lodash';
 
 import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
-import { getBalenaSdk } from '../utils/lazy';
+import { getBalenaSdk, getVisuals } from '../utils/lazy';
 import { CommandHelp } from '../utils/oclif-utils';
 
 interface FlagsDef {
@@ -186,7 +186,6 @@ export default class EnvsCmd extends Command {
 		varArray: EnvironmentVariableInfo[],
 		options: FlagsDef,
 	) {
-		const visuals = await import('resin-cli-visuals');
 		const fields = ['id', 'name', 'value'];
 
 		if (options.all) {
@@ -211,7 +210,7 @@ export default class EnvsCmd extends Command {
 			);
 		} else {
 			this.log(
-				visuals.table.horizontal(
+				getVisuals().table.horizontal(
 					_.sortBy(varArray, (v: SDK.EnvironmentVariableBase) => v.name),
 					fields,
 				),
