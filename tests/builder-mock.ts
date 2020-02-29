@@ -16,7 +16,6 @@
  */
 
 import Bluebird = require('bluebird');
-import * as _ from 'lodash';
 import * as path from 'path';
 import * as zlib from 'zlib';
 

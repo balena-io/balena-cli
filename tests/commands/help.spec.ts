@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import * as _ from 'lodash';
 import { cleanOutput, runCommand } from '../helpers';
 
 const SIMPLE_HELP = `

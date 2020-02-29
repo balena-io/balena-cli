@@ -17,7 +17,6 @@
 
 import { ChildProcess, spawn, SpawnOptions } from 'child_process';
 import { stripIndent } from 'common-tags';
-import * as _ from 'lodash';
 
 /**
  * Execute a child process with admin / superuser privileges, prompting the user for

@@ -125,7 +125,7 @@ export default class OsConfigureCmd extends Command {
 			description: "same as '--application'",
 			exclusive: ['application', 'device'],
 		}),
-		application: _.assign({ exclusive: ['app', 'device'] }, cf.application),
+		application: { exclusive: ['app', 'device'], ...cf.application },
 		config: flags.string({
 			description:
 				'path to a pre-generated config.json file to be injected in the OS image',
@@ -144,7 +144,7 @@ export default class OsConfigureCmd extends Command {
 		'config-wifi-ssid': flags.string({
 			description: 'WiFi SSID (network name) (non-interactive configuration)',
 		}),
-		device: _.assign({ exclusive: ['app', 'application'] }, cf.device),
+		device: { exclusive: ['app', 'application'], ...cf.device },
 		'device-api-key': flags.string({
 			char: 'k',
 			description:

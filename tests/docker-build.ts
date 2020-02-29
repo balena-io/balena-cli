@@ -167,23 +167,22 @@ export async function testDockerBuildStream(o: {
 		const expectedFiles = o.expectedFilesByService[service];
 		const expectedQueryParams = fillTemplateArray(
 			o.expectedQueryParamsByService[service],
-			_.assign({ tag }, o),
+			{ tag, ...o },
 		);
 		const projectPath =
 			service === 'main' ? o.projectPath : path.join(o.projectPath, service);
 
-		o.dockerMock.expectPostBuild(
-			_.assign({}, o, {
-				checkURI: async (uri: string) => {
-					const url = new URL(uri, 'http://test.net/');
-					const queryParams = Array.from(url.searchParams.entries());
-					expect(queryParams).to.have.deep.members(expectedQueryParams);
-				},
-				checkBuildRequestBody: (buildRequestBody: string) =>
-					inspectTarStream(buildRequestBody, expectedFiles, projectPath),
-				tag,
-			}),
-		);
+		o.dockerMock.expectPostBuild({
+			...o,
+			checkURI: async (uri: string) => {
+				const url = new URL(uri, 'http://test.net/');
+				const queryParams = Array.from(url.searchParams.entries());
+				expect(queryParams).to.have.deep.members(expectedQueryParams);
+			},
+			checkBuildRequestBody: (buildRequestBody: string) =>
+				inspectTarStream(buildRequestBody, expectedFiles, projectPath),
+			tag,
+		});
 		o.dockerMock.expectGetImages();
 	}
 
@@ -211,17 +210,16 @@ export async function testPushBuildStream(o: {
 	const expectedQueryParams = fillTemplateArray(o.expectedQueryParams, o);
 	const expectedResponseLines = fillTemplateArray(o.expectedResponseLines, o);
 
-	o.builderMock.expectPostBuild(
-		_.assign({}, o, {
-			checkURI: async (uri: string) => {
-				const url = new URL(uri, 'http://test.net/');
-				const queryParams = Array.from(url.searchParams.entries());
-				expect(queryParams).to.have.deep.members(expectedQueryParams);
-			},
-			checkBuildRequestBody: (buildRequestBody: string) =>
-				inspectTarStream(buildRequestBody, o.expectedFiles, o.projectPath),
-		}),
-	);
+	o.builderMock.expectPostBuild({
+		...o,
+		checkURI: async (uri: string) => {
+			const url = new URL(uri, 'http://test.net/');
+			const queryParams = Array.from(url.searchParams.entries());
+			expect(queryParams).to.have.deep.members(expectedQueryParams);
+		},
+		checkBuildRequestBody: (buildRequestBody: string) =>
+			inspectTarStream(buildRequestBody, o.expectedFiles, o.projectPath),
+	});
 
 	const { out, err } = await runCommand(o.commandLine);
 
