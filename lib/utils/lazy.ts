@@ -15,6 +15,7 @@ limitations under the License.
 */
 
 import * as BalenaSdk from 'balena-sdk';
+import chalk from 'chalk';
 import * as visuals from 'resin-cli-visuals';
 
 // Equivalent of _.once but avoiding the need to import lodash for lazy deps
@@ -35,3 +36,5 @@ export const getBalenaSdk = once(() =>
 export const getVisuals = once(
 	() => require('resin-cli-visuals') as typeof visuals,
 );
+
+export const getChalk = once(() => require('chalk') as typeof chalk);

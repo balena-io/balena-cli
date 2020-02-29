@@ -20,9 +20,8 @@ limitations under the License.
 */
 
 import { CommandDefinition } from 'capitano';
-import chalk from 'chalk';
 import { stripIndent } from 'common-tags';
-import { getVisuals } from '../utils/lazy';
+import { getChalk, getVisuals } from '../utils/lazy';
 
 export const availableDrives: CommandDefinition<{}, {}> = {
 	signature: 'util available-drives',
@@ -49,7 +48,9 @@ export const availableDrives: CommandDefinition<{}, {}> = {
 
 		if (scanner.drives.size === 0) {
 			console.error(
-				`${chalk.red('x')} No available drives were detected, plug one in!`,
+				`${getChalk().red(
+					'x',
+				)} No available drives were detected, plug one in!`,
 			);
 		} else {
 			console.log(

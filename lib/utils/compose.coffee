@@ -17,7 +17,7 @@
 
 Promise = require('bluebird')
 path = require('path')
-{ getBalenaSdk } = require('./lazy')
+{ getBalenaSdk, getChalk } = require('./lazy')
 
 exports.appendProjectOptions = appendProjectOptions = (opts) ->
 	opts.concat [
@@ -394,7 +394,6 @@ authorizePush = (sdk, logger, tokenAuthEndpoint, registry, images, previousRepos
 	.catchReturn({})
 
 pushAndUpdateServiceImages = (docker, token, images, afterEach) ->
-	chalk = require('chalk')
 	{ DockerProgress } = require('docker-progress')
 	{ retry } = require('./helpers')
 	tty = require('./tty')(process.stdout)
@@ -402,7 +401,7 @@ pushAndUpdateServiceImages = (docker, token, images, afterEach) ->
 	opts = { authconfig: registrytoken: token }
 
 	progress = new DockerProgress(dockerToolbelt: docker)
-	renderer = pushProgressRenderer(tty, chalk.blue('[Push]') + '    ')
+	renderer = pushProgressRenderer(tty, getChalk().blue('[Push]') + '    ')
 	reporters = progress.aggregateProgress(images.length, renderer)
 
 	Promise.using tty.cursorHidden(), ->
@@ -441,11 +440,10 @@ exports.deployProject = (
 	skipLogUpload
 ) ->
 	_ = require('lodash')
-	chalk = require('chalk')
 	releaseMod = require('resin-release')
 	tty = require('./tty')(process.stdout)
 
-	prefix = chalk.cyan('[Info]') + '    '
+	prefix = getChalk().cyan('[Info]') + '    '
 	spinner = createSpinner()
 	runloop = runSpinner(tty, spinner, "#{prefix}Creating release...")
 
@@ -599,7 +597,6 @@ createRunLoop = (tick) ->
 class BuildProgressUI
 	constructor: (tty, descriptors) ->
 		_ = require('lodash')
-		chalk = require('chalk')
 		through = require('through2')
 
 		eventHandler = @_handleEvent
@@ -621,7 +618,7 @@ class BuildProgressUI
 		# Logger magically prefixes the log line with [Build] etc., but it doesn't
 		# work well with the spinner we're also showing. Manually build the prefix
 		# here and bypass the logger.
-		prefix = chalk.blue('[Build]') + '   '
+		prefix = getChalk().blue('[Build]') + '   '
 
 		offset = 10 # account for escape sequences inserted for colouring
 		@_prefixWidth = offset + prefix.length + _.max(_.map(services, 'length'))
@@ -718,7 +715,7 @@ class BuildProgressUI
 
 	_renderSummary: (serviceToStrMap) ->
 		_ = require('lodash')
-		chalk = require('chalk')
+		chalk = getChalk()
 		truncate = require('cli-truncate')
 		strlen = require('string-width')
 
@@ -785,7 +782,6 @@ class BuildProgressInline
 
 	_renderEvent: (service, event) =>
 		_ = require('lodash')
-		chalk = require('chalk')
 
 		str = do ->
 			{ status, error } = event
@@ -796,7 +792,7 @@ class BuildProgressInline
 			else
 				return 'Waiting...'
 
-		prefix = _.padEnd(chalk.bold(service), @_prefixWidth)
+		prefix = _.padEnd(getChalk().bold(service), @_prefixWidth)
 		@_outStream.write(prefix)
 		@_outStream.write(str)
 		@_outStream.write('\n')

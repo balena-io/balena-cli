@@ -15,10 +15,9 @@ limitations under the License.
 */
 
 import { CommandDefinition } from 'capitano';
-import chalk from 'chalk';
 import { stripIndent } from 'common-tags';
 import * as SDK from 'etcher-sdk';
-import { getVisuals } from '../../utils/lazy';
+import { getChalk, getVisuals } from '../../utils/lazy';
 
 async function getDrive(options: {
 	drive?: string;
@@ -88,7 +87,7 @@ export const flash: CommandDefinition<
 				default: false,
 			}));
 		if (yes !== true) {
-			console.log(chalk.red.bold('Aborted image flash'));
+			console.log(getChalk().red.bold('Aborted image flash'));
 			process.exit(0);
 		}
 
@@ -109,7 +108,7 @@ export const flash: CommandDefinition<
 			[drive],
 			(_, error) => {
 				// onFail
-				console.log(chalk.red.bold(error.message));
+				console.log(getChalk().red.bold(error.message));
 			},
 			(progress: SDK.multiWrite.MultiDestinationProgress) => {
 				// onProgress

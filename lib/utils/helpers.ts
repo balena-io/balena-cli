@@ -17,13 +17,12 @@ limitations under the License.
 import { InitializeEmitter, OperationState } from 'balena-device-init';
 import * as BalenaSdk from 'balena-sdk';
 import Bluebird = require('bluebird');
-import chalk from 'chalk';
 import _ = require('lodash');
 import os = require('os');
 import * as ShellEscape from 'shell-escape';
 
 import { ExpectedError } from '../errors';
-import { getBalenaSdk, getVisuals } from './lazy';
+import { getBalenaSdk, getChalk, getVisuals } from './lazy';
 
 export function getGroupDefaults(group: {
 	options: Array<{ name: string; default?: string }>;
@@ -37,6 +36,7 @@ export function getGroupDefaults(group: {
 
 export function stateToString(state: OperationState) {
 	const percentage = _.padStart(`${state.percentage}`, 3, '0');
+	const chalk = getChalk();
 	const result = `${chalk.blue(percentage + '%')} ${chalk.cyan(
 		state.operation.command,
 	)}`;
