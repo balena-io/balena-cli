@@ -1,4 +1,14 @@
 - commits:
+    - subject: Lazy-load chalk
+      hash: 98152c0b09e80fd83bf6fabf7bd46edaef70ab69
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.28.8
+  date: 2020-02-28T18:37:53.265Z
+- commits:
     - subject: Simplify lazy-loading of resin-cli-visuals with a shared function
       hash: 7c62e344554efdad2e0bad69dad8253ce9706b72
       body: |
