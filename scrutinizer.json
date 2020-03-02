@@ -5,6 +5,52 @@
     {
       "commits": [
         {
+          "subject": "Don't ignore BALENARC_NO_PROXY env var if HTTP(S)_PROXY env vars are defined",
+          "hash": "9470e804c0e7e2e53743fa7bdd039a21eebb3954",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Use types for global-agent and global-tunnel-ng",
+          "hash": "00943463a42d6b9d7103ce85aed4da14ed427717",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        },
+        {
+          "subject": "Remove lodash usage in proxy setup",
+          "hash": "3f6d7702331d6e00615a676c22bf946298af60ce",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        },
+        {
+          "subject": "Don't try to setup a proxy agent when there's no proxy configured",
+          "hash": "c4a6086e9cb393024108c4466abf7afce4328311",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.28.11",
+      "date": "2020-03-02T15:13:33.151Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update dependencies",
           "hash": "fe4e1d09d7d5fd0655c38070f862a657c7d878b8",
           "body": "Update balena-sdk from 12.21.1 to 12.26.7\n",
@@ -9829,36 +9875,32 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-03-02T15:01:29Z",
+  "lastCommitDate": "2020-03-02T16:47:38Z",
   "latestRelease": {
-    "tagName": "v11.28.10",
+    "tagName": "v11.28.11",
     "asssets": [
       {
-        "name": "balena-cli-v11.28.10-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.10/balena-cli-v11.28.10-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.28.11-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.11/balena-cli-v11.28.11-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.28.10-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.10/balena-cli-v11.28.10-windows-x64-installer.exe"
+        "name": "balena-cli-v11.28.11-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.11/balena-cli-v11.28.11-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.28.10-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.10/balena-cli-v11.28.10-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.28.11-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.11/balena-cli-v11.28.11-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.28.10-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.10/balena-cli-v11.28.10-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.28.11-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.11/balena-cli-v11.28.11-macOS-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 237,
+    "numberOfIssues": 236,
     "latestIssues": [
-      {
-        "title": "Don't try to setup a proxy agent when there's no proxy configured",
-        "url": "https://github.com/balena-io/balena-cli/pull/1644"
-      },
       {
         "title": "Improve events",
         "url": "https://github.com/balena-io/balena-cli/pull/1641"
@@ -9934,10 +9976,14 @@
       {
         "title": "balena push / build / deploy should support IPv6 addresses",
         "url": "https://github.com/balena-io/balena-cli/issues/1585"
+      },
+      {
+        "title": "Add a `--pull` option to`balena build`.",
+        "url": "https://github.com/balena-io/balena-cli/issues/1584"
       }
     ]
   },
-  "version": "11.28.10",
+  "version": "11.28.11",
   "screenshot": null,
   "logo": null
 }
