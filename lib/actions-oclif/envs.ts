@@ -114,20 +114,20 @@ export default class EnvsCmd extends Command {
 				include app-wide, device-wide variables that apply to the selected device or service.
 				Variables are still filtered out by type with the --config option.`,
 		}),
-		application: _.assign({ exclusive: ['device'] }, cf.application),
+		application: { exclusive: ['device'], ...cf.application },
 		config: flags.boolean({
 			char: 'c',
 			description: 'show configuration variables only',
 			exclusive: ['service'],
 		}),
-		device: _.assign({ exclusive: ['application'] }, cf.device),
+		device: { exclusive: ['application'], ...cf.device },
 		help: cf.help,
 		json: flags.boolean({
 			char: 'j',
 			description: 'produce JSON output instead of tabular output',
 		}),
 		verbose: cf.verbose,
-		service: _.assign({ exclusive: ['config'] }, cf.service),
+		service: { exclusive: ['config'], ...cf.service },
 	};
 
 	public async run() {

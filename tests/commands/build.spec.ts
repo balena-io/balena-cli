@@ -19,7 +19,6 @@
 require('../config-tests'); // required for side effects
 
 import { expect } from 'chai';
-import * as _ from 'lodash';
 import { fs } from 'mz';
 import * as path from 'path';
 

@@ -19,7 +19,6 @@ import { configureBluebird } from '../build/app-common';
 
 configureBluebird();
 
-import * as _ from 'lodash';
 import * as nock from 'nock';
 
 export interface ScopeOpts {
@@ -54,38 +53,34 @@ export class NockMock {
 
 	public optGet(
 		uri: string | RegExp | ((uri: string) => boolean),
-		opts: ScopeOpts,
+		{ optional = false, persist = false }: ScopeOpts,
 	): nock.Interceptor {
-		opts = _.assign({ optional: false, persist: false }, opts);
-		const get = (opts.persist ? this.scope.persist() : this.scope).get(uri);
-		return opts.optional ? get.optionally() : get;
+		const get = (persist ? this.scope.persist() : this.scope).get(uri);
+		return optional ? get.optionally() : get;
 	}
 
 	public optDelete(
 		uri: string | RegExp | ((uri: string) => boolean),
-		opts: ScopeOpts,
+		{ optional = false, persist = false }: ScopeOpts,
 	) {
-		opts = _.assign({ optional: false, persist: false }, opts);
-		const del = (opts.persist ? this.scope.persist() : this.scope).delete(uri);
-		return opts.optional ? del.optionally() : del;
+		const del = (persist ? this.scope.persist() : this.scope).delete(uri);
+		return optional ? del.optionally() : del;
 	}
 
 	public optPatch(
 		uri: string | RegExp | ((uri: string) => boolean),
-		opts: ScopeOpts,
+		{ optional = false, persist = false }: ScopeOpts,
 	) {
-		opts = _.assign({ optional: false, persist: false }, opts);
-		const patch = (opts.persist ? this.scope.persist() : this.scope).patch(uri);
-		return opts.optional ? patch.optionally() : patch;
+		const patch = (persist ? this.scope.persist() : this.scope).patch(uri);
+		return optional ? patch.optionally() : patch;
 	}
 
 	public optPost(
 		uri: string | RegExp | ((uri: string) => boolean),
-		opts: ScopeOpts,
+		{ optional = false, persist = false }: ScopeOpts,
 	) {
-		opts = _.assign({ optional: false, persist: false }, opts);
-		const post = (opts.persist ? this.scope.persist() : this.scope).post(uri);
-		return opts.optional ? post.optionally() : post;
+		const post = (persist ? this.scope.persist() : this.scope).post(uri);
+		return optional ? post.optionally() : post;
 	}
 
 	public done() {

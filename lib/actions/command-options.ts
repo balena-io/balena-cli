@@ -14,8 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import _ = require('lodash');
-
 export const yes = {
 	signature: 'yes',
 	description: 'confirm non interactively',
@@ -34,10 +32,10 @@ export const optionalApplication = {
 	alias: ['a', 'app'],
 };
 
-export const application = _.defaults(
-	{ required: 'You have to specify an application' },
-	optionalApplication,
-);
+export const application = {
+	...optionalApplication,
+	required: 'You have to specify an application',
+};
 
 export const optionalRelease = {
 	signature: 'release',
@@ -75,12 +73,10 @@ export const optionalOsVersion = {
 
 export type OptionalOsVersionOption = Partial<OsVersionOption>;
 
-export const osVersion = _.defaults(
-	{
-		required: 'You have to specify an exact os version',
-	},
-	exports.optionalOsVersion,
-);
+export const osVersion = {
+	...exports.optionalOsVersion,
+	required: 'You have to specify an exact os version',
+};
 
 export interface OsVersionOption {
 	version?: string;

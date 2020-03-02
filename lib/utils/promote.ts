@@ -196,7 +196,7 @@ async function selectAppFromList(applications: BalenaSdk.Application[]) {
 	return selectFromList(
 		'Select application',
 		_.map(applications, app => {
-			return _.merge({ name: app.slug }, app);
+			return { name: app.slug, ...app };
 		}),
 	);
 }

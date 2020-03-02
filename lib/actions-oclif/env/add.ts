@@ -92,8 +92,8 @@ export default class EnvAddCmd extends Command {
 		'env add ' + new CommandHelp({ args: EnvAddCmd.args }).defaultUsage();
 
 	public static flags: flags.Input<FlagsDef> = {
-		application: _.assign({ exclusive: ['device'] }, cf.application),
-		device: _.assign({ exclusive: ['application'] }, cf.device),
+		application: { exclusive: ['device'], ...cf.application },
+		device: { exclusive: ['application'], ...cf.device },
 		help: cf.help,
 		quiet: cf.quiet,
 		service: cf.service,

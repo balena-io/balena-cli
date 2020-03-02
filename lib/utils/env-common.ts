@@ -17,7 +17,6 @@
 
 import { flags } from '@oclif/command';
 import { stripIndent } from 'common-tags';
-import * as _ from 'lodash';
 
 import { ExpectedError } from '../errors';
 
