@@ -147,6 +147,7 @@ async function setupGlobalTunnelNgProxy(proxy?: ProxyConfig) {
  * `global-agent` proxy setup.
  * See docs for setupGlobalHttpProxy() above, and also the README file
  * (Proxy Support section).
+ * If `proxy` is undefined, HTTP(S)_PROXY env vars are expected to be set.
  */
 async function setupGlobalAgentProxy(
 	settings: CliSettings,
@@ -163,17 +164,16 @@ async function setupGlobalAgentProxy(
 
 	const env = process.env;
 	env.GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE = '';
+	env.NO_PROXY = [
+		...requiredNoProxy,
+		...(noProxy ? noProxy.split(',').filter(v => v) : privateNoProxy),
+	].join(',');
 
 	if (proxy) {
 		const proxyUrl: string =
 			typeof proxy === 'string' ? proxy : makeUrlFromTunnelNgConfig(proxy);
 
 		env.HTTPS_PROXY = env.HTTP_PROXY = proxyUrl;
-
-		env.NO_PROXY = [
-			...requiredNoProxy,
-			...(noProxy ? noProxy.split(',').filter(v => v) : privateNoProxy),
-		].join(',');
 	}
 
 	const { bootstrap } = await import('global-agent');
