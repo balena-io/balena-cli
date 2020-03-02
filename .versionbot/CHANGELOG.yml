@@ -1,4 +1,14 @@
 - commits:
+    - subject: Switch to object spreading in favor of _.assign
+      hash: 235c13bea929473d6704e3c38dd0949524df142d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.28.9
+  date: 2020-02-29T22:11:03.425Z
+- commits:
     - subject: Lazy-load chalk
       hash: 98152c0b09e80fd83bf6fabf7bd46edaef70ab69
       body: ''
