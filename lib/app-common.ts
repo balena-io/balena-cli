@@ -18,12 +18,7 @@
 class CliSettings {
 	public readonly settings: any;
 	constructor() {
-		// TODO figure out why the typescript compiler attempts to type-check
-		// the `balena-settings-client` module (and then fails with errors) if
-		// a straighforward `require('balena-settings-client')` statement is
-		// used here. It may even be a compiler bug, because `tsconfig.json`
-		// has a `"skipLibCheck": true` setting.
-		this.settings = require(['balena', 'settings', 'client'].join('-'));
+		this.settings = require('balena-settings-client') as typeof import('balena-settings-client');
 	}
 
 	public get<T>(name: string): T {
