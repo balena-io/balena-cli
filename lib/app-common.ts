@@ -172,7 +172,6 @@ async function setupGlobalAgentProxy(
 	env.GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE = '';
 
 	if (proxy) {
-		const _ = await import('lodash');
 		const proxyUrl: string =
 			typeof proxy === 'string' ? proxy : makeUrlFromTunnelNgConfig(proxy);
 
@@ -180,7 +179,7 @@ async function setupGlobalAgentProxy(
 
 		env.NO_PROXY = [
 			...requiredNoProxy,
-			...(noProxy ? _.filter((noProxy || '').split(',')) : privateNoProxy),
+			...(noProxy ? noProxy.split(',').filter(v => v) : privateNoProxy),
 		].join(',');
 	}
 
