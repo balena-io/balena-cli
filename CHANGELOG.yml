@@ -1,4 +1,463 @@
 - commits:
+    - subject: Update dependencies
+      hash: fe4e1d09d7d5fd0655c38070f862a657c7d878b8
+      body: |
+        Update balena-sdk from 12.21.1 to 12.26.7
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested:
+        - commits:
+            - subject: Lazy-load the models props
+              hash: 673eaf2a28805082e5c4b3d7938661599b6cefee
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+            - subject: Lazy-load the sdk template props
+              hash: fab4b80dc6fe0886fbd72382b4a4daa824b15d45
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+          version: balena-sdk-12.26.7
+          date: 2020-02-29T20:57:13.525Z
+        - commits:
+            - subject: Remove unnecessary lodash/forEach usage
+              hash: 66427ea38ba0e5a9339c794fb13b3a092470d0c4
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+          version: balena-sdk-12.26.6
+          date: 2020-02-28T15:48:09.332Z
+        - commits:
+            - subject: Convert the billing model to typescript
+              hash: 4b969d9fef54bfb4f77a4a5dd5a262a5579ea7d2
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Stevche Radevski <stevche@balena.io>
+                signed-off-by: Stevche Radevski <stevche@balena.io>
+              author: Stevche Radevski
+          version: balena-sdk-12.26.5
+          date: 2020-02-28T11:50:40.050Z
+        - commits:
+            - subject: Convert image model to typescript
+              hash: 2b4241f6d644ca10ad69a89415a085f4192defaa
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Stevche Radevski <stevche@balena.io>
+                signed-off-by: Stevche Radevski <stevche@balena.io>
+              author: Stevche Radevski
+          version: balena-sdk-12.26.4
+          date: 2020-02-27T17:01:43.725Z
+        - commits:
+            - subject: Update dtslint to v3.1.0
+              hash: 397eb13fa633b7d2e7ce0b36bfd91d1248a8b66b
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.26.3
+          date: 2020-02-26T19:36:13.412Z
+        - commits:
+            - subject: 'typings_tests/pine-options: Update to work with TypeScript v3.8'
+              hash: d1b5d8f7aaa2f9a7a0550b5beec3d4c5cad94e46
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+            - subject: 'Bump TypeScript version to ^3.8.2, so that''s used in tests'
+              hash: e26847c39563f1a8b9cfe61bc3e7cd9aec062240
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.26.2
+          date: 2020-02-26T13:33:22.641Z
+        - commits:
+            - subject: 'application: Fix linter warning'
+              hash: dbab534a5a6327daf41827926b8e0d3220f4d13b
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.26.1
+          date: 2020-02-26T12:37:33.341Z
+        - commits:
+            - subject: Add overall_progress typings to device model
+              hash: ce72fcc923d6aab204ac42e0dd651cfc04972d35
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Stevche Radevski <stevche@balena.io>
+                signed-off-by: Stevche Radevski <stevche@balena.io>
+              author: Stevche Radevski
+          version: balena-sdk-12.26.0
+          date: 2020-02-24T18:19:33.479Z
+        - commits:
+            - subject: Convert service model to typescript
+              hash: 4c07b2795177ea53d51455e8bfd0ebcd8c5f0aea
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Stevche Radevski <stevche@balena.io>
+                signed-off-by: Stevche Radevski <stevche@balena.io>
+              author: Stevche Radevski
+          version: balena-sdk-12.25.1
+          date: 2020-02-21T12:22:23.185Z
+        - commits:
+            - subject: Add device statuses enum to device resource
+              hash: 60341d288a798ddb6f0f6ef0a7a96c89c49e1df6
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Stevche Radevski <stevche@balena.io>
+                signed-off-by: Stevche Radevski <stevche@balena.io>
+              author: Stevche Radevski
+            - subject: Add device status enum and typings
+              hash: 5ac13f7fd6d1f50c3ad14340b908115b17d02d01
+              body: |
+                Adds the typings for the overall_status calculated term
+                and exports an enum with the possible status values
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Stevche Radevski <stevche@balena.io>
+                signed-off-by: Stevche Radevski <stevche@balena.io>
+              author: Stevche Radevski
+          version: balena-sdk-12.25.0
+          date: 2020-02-19T13:58:12.690Z
+        - commits:
+            - subject: Fix a test case name typo for auth.whoami()
+              hash: 534746a0c70dc3b16d86cded21c0f6567e11f1d5
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.24.4
+          date: 2020-02-17T19:32:40.783Z
+        - commits:
+            - subject: 'auth.getEmail: Fix confusing call expression'
+              hash: 1709302f777b0b386eecef2ecbc779e4cd87f925
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.24.3
+          date: 2020-02-17T17:02:42.975Z
+        - commits:
+            - subject: >-
+                Fix concealing network errors in auth.whoami() and
+                auth.isLoggedIn()
+              hash: 9ef0c2ad3daa69018f551e62883b045140da9cac
+              body: ''
+              footer:
+                Resolves: '#805'
+                resolves: '#805'
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.24.2
+          date: 2020-02-17T15:01:13.545Z
+        - commits:
+            - subject: '.gitignore: `.idea` directory generated by JetBrains IDE'
+              hash: 6bdc71c1559e0aee9a657cb1f2164bd2d9c47578
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thomas Manning <thomasm@balena.io>
+                signed-off-by: Thomas Manning <thomasm@balena.io>
+              author: Thomas Manning
+          version: balena-sdk-12.24.1
+          date: 2020-02-15T18:25:23.743Z
+        - commits:
+            - subject: >-
+                Update `application.getDashboardUrl` example with
+                `application.get` call to get application id
+              hash: 6ee68d27acbae91ea4723cc44c483285a87b8722
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Co-Authored-By: Thodoris Greasidis <thgreasi@gmail.com>
+                co-authored-by: Thodoris Greasidis <thgreasi@gmail.com>
+                Signed-off-by: Thomas Manning <thomasm@balena.io>
+                signed-off-by: Thomas Manning <thomasm@balena.io>
+              author: Thomas Manning
+            - subject: Added `getDashboardUrl(id)` to application model
+              hash: 35315184a3c7694ec5515befe70fe67679d6b5d3
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thomas Manning <thomasm@balena.io>
+                signed-off-by: Thomas Manning <thomasm@balena.io>
+              author: Thomas Manning
+          version: balena-sdk-12.24.0
+          date: 2020-02-14T10:48:43.827Z
+        - commits:
+            - subject: 'appveyor: Run node & browser tests in parallel'
+              hash: ba4cd4bb6f1b3bb5822a9e8bc9e07c7d872fc34b
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.23.9
+          date: 2020-02-12T15:06:35.149Z
+        - commits:
+            - subject: 'appveyor: Set to test against node 8'
+              hash: 24bb1e6a332bd21b1eb92805fd4d6094a0e02a0d
+              body: |
+                The latest resin-lint doesn't work on node 6, which is
+                EOL. In the next major release we will also change
+                the engines field of the package.json and the node
+                typings.
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.23.8
+          date: 2020-02-11T12:48:33.454Z
+        - commits:
+            - subject: Update balena-register-device to 6.0.1
+              hash: bc84252585ca73e58ad799bd4f488de2d014b8a7
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+          version: balena-sdk-12.23.7
+          date: 2020-02-07T16:54:53.697Z
+        - commits:
+            - subject: Re-enable balenaCI autoRebase
+              hash: 2c0bf1f1c3434ae565ca0fdeccc83a7b4cfcbf90
+              body: |
+                Revert "Disable balenaCI auto rebase"
+                This reverts commit
+                a30a648568ab788b8bacdec9951771cb054cccf3.
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.23.6
+          date: 2020-02-07T14:00:23.338Z
+        - commits:
+            - subject: Fix the tag tests failing b/c of public apps
+              hash: 6517c52c68edceff8a223e815590c1a8c8b35e17
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+            - subject: Fix the dependent app test randomly failing b/c of public apps
+              hash: 5c9b25100a425762b19a262adcf35f34ea949363
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.23.5
+          date: 2020-02-07T12:26:23.492Z
+        - commits:
+            - subject: Fix the build failing on node v12
+              hash: 3d6c6a7a32b4c6cde888cc7a266fc25158072143
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.23.4
+          date: 2020-02-07T11:51:13.318Z
+        - commits:
+            - subject: Disable balenaCI auto rebase
+              hash: a30a648568ab788b8bacdec9951771cb054cccf3
+              body: |
+                Having autorebase enabled could lead to having
+                more then one instances of the sdk tests running in
+                parallel, which will result all of them failing, b/c they
+                will use the same test user, and will also add
+                unnecessary load to the API. Once we get #582 fixed
+                we can remove this.
+              footer:
+                Change-type: patch
+                change-type: patch
+                See: 'https://github.com/balena-io/scripts/pull/80'
+                see: 'https://github.com/balena-io/scripts/pull/80'
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.23.3
+          date: 2020-02-06T18:56:53.591Z
+        - commits:
+            - subject: Switch to resin-lint for linting
+              hash: 4799ca69d5937c2415d4a1635cdf2625398e2ddb
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+          version: balena-sdk-12.23.2
+          date: 2020-02-06T16:50:13.515Z
+        - commits:
+            - subject: Remove unused code
+              hash: 76318307bafe3f90ce71f0c7ec292c375a2085ea
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+          version: balena-sdk-12.23.1
+          date: 2020-02-06T15:08:43.400Z
+        - commits:
+            - subject: >-
+                app.getWithDeviceServiceDetails: Add the release commit in the
+                services
+              hash: 9bb9e9a2f43d8fd2ca246885e897652c22872a99
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+            - subject: 'device.getWithServiceDetails: Remove unused ''id'' selection'
+              hash: a5f48c4429dfda23e8ddd52ced2c59cf3d068ef4
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.23.0
+          date: 2020-01-28T16:14:34.823Z
+        - commits:
+            - subject: >-
+                Allow retrieving applications by application case insensitive
+                slug
+              hash: d3d97a37409af2186a02f39a7c63c75258693dec
+              body: |
+                This allows users to disambiguate shared
+                applications that have the same name in a more
+                user friendly way than using the application id.
+                The application slug equals
+                `${owner}/${app_name}`.toLowerCase() on the
+                cloud api and it's just app_name.toLowerCase() in
+                open balena, so we can be sure that the $or will
+                never return more than one items when a slug is
+                provided.
+              footer:
+                Resolves: '#795'
+                resolves: '#795'
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.22.0
+          date: 2020-01-27T13:11:29.883Z
+        - commits:
+            - subject: 'release.createFromUrl: Fix the non tar url error handling'
+              hash: 02cecb869972f22e0a6befcf2112a3ac01eea4b0
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Depends-on: 'https://github.com/balena-io/balena-builder/pull/699'
+                depends-on: 'https://github.com/balena-io/balena-builder/pull/699'
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.21.3
+          date: 2020-01-25T00:39:23.339Z
+        - commits:
+            - subject: Convert some of the tests to TypeScript
+              hash: 2267b01bb6772ae3fedc7880939b222f9c537497
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+            - subject: Properly type billing.downloadInvoice result
+              hash: ff14a2237387d21157e2bc7d4c8e3133021b6d92
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+            - subject: Properly type os.download result
+              hash: 3fbbd231998ef8c36e233bda2969415b31d1d851
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+            - subject: Add typings for balena-request stream
+              hash: 34a5c97102d17a47309444dc79a9f695f712e85d
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.21.2
+          date: 2020-01-24T23:23:03.461Z
+  version: 11.28.10
+  date: 2020-03-02T15:01:03.837Z
+- commits:
     - subject: Switch to object spreading in favor of _.assign
       hash: 235c13bea929473d6704e3c38dd0949524df142d
       body: ''
@@ -7,7 +466,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.28.9
-  date: 2020-03-02T08:30:10.284Z
+  date: 2020-02-29T22:11:03.425Z
 - commits:
     - subject: Lazy-load chalk
       hash: 98152c0b09e80fd83bf6fabf7bd46edaef70ab69
