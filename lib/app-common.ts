@@ -78,14 +78,7 @@ function checkNodeVersion() {
 	}
 }
 
-export interface GlobalTunnelNgConfig {
-	host: string;
-	port: number;
-	protocol: string;
-	proxyAuth?: string;
-	connect?: string;
-	sockets?: number;
-}
+export type GlobalTunnelNgConfig = import('global-tunnel-ng').Options;
 
 type ProxyConfig = string | GlobalTunnelNgConfig;
 
@@ -129,7 +122,7 @@ async function setupGlobalHttpProxy(settings: CliSettings) {
 	if (proxy || env.HTTPS_PROXY || env.HTTP_PROXY) {
 		const semver = await import('semver');
 		if (semver.lt(process.version, '10.16.0')) {
-			setupGlobalTunnelNgProxy(proxy);
+			await setupGlobalTunnelNgProxy(proxy);
 		} else {
 			// use global-agent instead of global-tunnel-ng
 			await setupGlobalAgentProxy(settings, proxy);
@@ -141,8 +134,8 @@ async function setupGlobalHttpProxy(settings: CliSettings) {
  * `global-tunnel-ng` proxy setup.
  * See docs for setupGlobalHttpProxy() above.
  */
-function setupGlobalTunnelNgProxy(proxy?: ProxyConfig) {
-	const globalTunnel = require('global-tunnel-ng');
+async function setupGlobalTunnelNgProxy(proxy?: ProxyConfig) {
+	const globalTunnel = await import('global-tunnel-ng');
 	// Init the tunnel even if BALENARC_PROXY is not defined, because
 	// other env vars may be defined. If no proxy configuration exists,
 	// initialize() does nothing.
@@ -183,7 +176,7 @@ async function setupGlobalAgentProxy(
 		].join(',');
 	}
 
-	const { bootstrap } = require('global-agent');
+	const { bootstrap } = await import('global-agent');
 	bootstrap();
 }
 
