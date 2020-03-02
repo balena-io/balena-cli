@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-import * as _ocktokit from '@octokit/rest';
-
 import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
 import * as semver from 'semver';
@@ -64,7 +62,7 @@ export async function release() {
 
 /** Return a cached Octokit instance, creating a new one as needed. */
 const getOctokit = _.once(function() {
-	const Octokit = (require('@octokit/rest') as typeof _ocktokit).plugin(
+	const Octokit = (require('@octokit/rest') as typeof import('@octokit/rest')).Octokit.plugin(
 		require('@octokit/plugin-throttling'),
 	);
 	return new Octokit({

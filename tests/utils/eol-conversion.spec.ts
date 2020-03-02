@@ -64,7 +64,6 @@ describe('detectEncoding() function', function() {
 		const sampleBinary = [
 			'ext2fs/build/Release/bindings.node',
 			'drivelist/build/Release/drivelist.node',
-			'resin-cli-visuals/node_modules/drivelist/build/Release/drivelist.node',
 			'@balena.io/usb/build/Release/usb_bindings.node',
 			'xxhash/build/Release/hash.node',
 			'mountutils/build/Release/MountUtils.node',

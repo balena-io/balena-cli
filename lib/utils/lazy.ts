@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 import * as BalenaSdk from 'balena-sdk';
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import * as visuals from 'resin-cli-visuals';
 
 // Equivalent of _.once but avoiding the need to import lodash for lazy deps
