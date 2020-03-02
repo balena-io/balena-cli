@@ -14,8 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 import BalenaSdk = require('balena-sdk');
+import * as semver from 'balena-semver';
 import Promise = require('bluebird');
-import * as semver from 'resin-semver';
 import { getBalenaSdk } from './lazy';
 
 export interface ImgConfig {
