@@ -108,6 +108,8 @@
     "@types/ejs": "^3.0.1",
     "@types/express": "^4.17.2",
     "@types/fs-extra": "^8.1.0",
+    "@types/global-agent": "^2.1.0",
+    "@types/global-tunnel-ng": "^2.1.0",
     "@types/intercept-stdout": "^0.1.0",
     "@types/is-root": "^2.1.2",
     "@types/lodash": "^4.14.149",

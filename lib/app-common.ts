@@ -78,14 +78,9 @@ function checkNodeVersion() {
 	}
 }
 
-export interface GlobalTunnelNgConfig {
-	host: string;
-	port: number;
-	protocol: string;
-	proxyAuth?: string;
-	connect?: string;
-	sockets?: number;
-}
+export type GlobalTunnelNgConfig = import('global-tunnel-ng').Options;
+
+type ProxyConfig = string | GlobalTunnelNgConfig;
 
 /**
  * Global proxy setup. Originally, `global-tunnel-ng` was used, but it only
@@ -110,12 +105,28 @@ export interface GlobalTunnelNgConfig {
  * default exclusion patterns are added for all private IPv4 address ranges.
  */
 async function setupGlobalHttpProxy(settings: CliSettings) {
-	const semver = await import('semver');
-	if (semver.lt(process.version, '10.16.0')) {
-		setupGlobalTunnelNgProxy(settings);
-	} else {
-		// use global-agent instead of global-tunnel-ng
-		await setupGlobalAgentProxy(settings);
+	// `global-tunnel-ng` accepts lowercase variables with higher precedence
+	// than uppercase variables, but `global-agent` does not accept lowercase.
+	// Set uppercase versions for backwards compatibility.
+	const { env } = process;
+	if (env.http_proxy) {
+		env.HTTP_PROXY = env.http_proxy;
+	}
+	if (env.https_proxy) {
+		env.HTTPS_PROXY = env.https_proxy;
+	}
+	delete env.http_proxy;
+	delete env.https_proxy;
+
+	const proxy = settings.getCatch<ProxyConfig>('proxy');
+	if (proxy || env.HTTPS_PROXY || env.HTTP_PROXY) {
+		const semver = await import('semver');
+		if (semver.lt(process.version, '10.16.0')) {
+			await setupGlobalTunnelNgProxy(proxy);
+		} else {
+			// use global-agent instead of global-tunnel-ng
+			await setupGlobalAgentProxy(settings, proxy);
+		}
 	}
 }
 
@@ -123,9 +134,8 @@ async function setupGlobalHttpProxy(settings: CliSettings) {
  * `global-tunnel-ng` proxy setup.
  * See docs for setupGlobalHttpProxy() above.
  */
-function setupGlobalTunnelNgProxy(settings: CliSettings) {
-	const proxy = settings.getCatch<string | GlobalTunnelNgConfig>('proxy');
-	const globalTunnel = require('global-tunnel-ng');
+async function setupGlobalTunnelNgProxy(proxy?: ProxyConfig) {
+	const globalTunnel = await import('global-tunnel-ng');
 	// Init the tunnel even if BALENARC_PROXY is not defined, because
 	// other env vars may be defined. If no proxy configuration exists,
 	// initialize() does nothing.
@@ -137,9 +147,12 @@ function setupGlobalTunnelNgProxy(settings: CliSettings) {
  * `global-agent` proxy setup.
  * See docs for setupGlobalHttpProxy() above, and also the README file
  * (Proxy Support section).
+ * If `proxy` is undefined, HTTP(S)_PROXY env vars are expected to be set.
  */
-async function setupGlobalAgentProxy(settings: CliSettings) {
-	const proxy = settings.getCatch<string | GlobalTunnelNgConfig>('proxy');
+async function setupGlobalAgentProxy(
+	settings: CliSettings,
+	proxy?: ProxyConfig,
+) {
 	const noProxy = settings.getCatch<string>('noProxy');
 	// Always exclude localhost, even if NO_PROXY is set
 	const requiredNoProxy = ['localhost', '127.0.0.1'];
@@ -151,33 +164,19 @@ async function setupGlobalAgentProxy(settings: CliSettings) {
 
 	const env = process.env;
 	env.GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE = '';
+	env.NO_PROXY = [
+		...requiredNoProxy,
+		...(noProxy ? noProxy.split(',').filter(v => v) : privateNoProxy),
+	].join(',');
 
 	if (proxy) {
-		const _ = await import('lodash');
 		const proxyUrl: string =
 			typeof proxy === 'string' ? proxy : makeUrlFromTunnelNgConfig(proxy);
 
 		env.HTTPS_PROXY = env.HTTP_PROXY = proxyUrl;
-		delete env.http_proxy;
-		delete env.https_proxy;
-
-		env.NO_PROXY = [
-			...requiredNoProxy,
-			...(noProxy ? _.filter((noProxy || '').split(',')) : privateNoProxy),
-		].join(',');
-	} else {
-		// `global-tunnel-ng` accepts lowercase variables with higher precedence
-		// than uppercase variables, but `global-agent` does not accept lowercase.
-		// Set uppercase versions for backwards compatibility.
-		if (env.http_proxy) {
-			env.HTTP_PROXY = env.http_proxy;
-		}
-		if (env.https_proxy) {
-			env.HTTPS_PROXY = env.https_proxy;
-		}
 	}
 
-	const { bootstrap } = require('global-agent');
+	const { bootstrap } = await import('global-agent');
 	bootstrap();
 }
 

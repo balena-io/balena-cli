@@ -745,6 +745,18 @@
         "@types/node": "*"
       }
     },
+    "@types/global-agent": {
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/@types/global-agent/-/global-agent-2.1.0.tgz",
+      "integrity": "sha512-xBOerse4Agekl7VZJclA9bfuA9aa3u9T24TDkBiMQrZgu4qe5HMBPzVGzAt2k4dx/v3uIFI6CzG0Z9X894LHrg==",
+      "dev": true
+    },
+    "@types/global-tunnel-ng": {
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/@types/global-tunnel-ng/-/global-tunnel-ng-2.1.0.tgz",
+      "integrity": "sha512-JPhCJHHu5/5HuQ78rmbrnCk+XlyxKuAopk+/8rP5MfAeL7KwiCH/gFFNtAqIr0/JFqWFk+jXWZjEWSP8dzGpMg==",
+      "dev": true
+    },
     "@types/intercept-stdout": {
       "version": "0.1.0",
       "resolved": "https://registry.npmjs.org/@types/intercept-stdout/-/intercept-stdout-0.1.0.tgz",
