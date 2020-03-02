@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Switch to object spreading in favor of _.assign",
+          "hash": "235c13bea929473d6704e3c38dd0949524df142d",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.28.9",
+      "date": "2020-02-29T22:11:03.425Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Lazy-load chalk",
           "hash": "98152c0b09e80fd83bf6fabf7bd46edaef70ab69",
           "body": "",
@@ -9081,7 +9097,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 213,
+  "stars": 214,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -9185,36 +9201,44 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-02-29T00:17:58Z",
+  "lastCommitDate": "2020-03-02T08:30:58Z",
   "latestRelease": {
-    "tagName": "v11.28.8",
+    "tagName": "v11.28.9",
     "asssets": [
       {
-        "name": "balena-cli-v11.28.8-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.8/balena-cli-v11.28.8-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.28.9-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.9/balena-cli-v11.28.9-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.28.8-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.8/balena-cli-v11.28.8-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.28.9-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.9/balena-cli-v11.28.9-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.28.8-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.8/balena-cli-v11.28.8-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.28.9-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.9/balena-cli-v11.28.9-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.28.8-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.8/balena-cli-v11.28.8-windows-x64-installer.exe"
+        "name": "balena-cli-v11.28.9-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.9/balena-cli-v11.28.9-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.28.8-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.8/balena-cli-v11.28.8-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.28.9-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.9/balena-cli-v11.28.9-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 235,
+    "numberOfIssues": 237,
     "latestIssues": [
+      {
+        "title": "Update dependencies",
+        "url": "https://github.com/balena-io/balena-cli/pull/1643"
+      },
+      {
+        "title": "Improve events",
+        "url": "https://github.com/balena-io/balena-cli/pull/1641"
+      },
       {
         "title": "balena push on windows with .local address fails to connect to docker daemon",
         "url": "https://github.com/balena-io/balena-cli/issues/1637"
@@ -9286,18 +9310,10 @@
       {
         "title": "balena push / build / deploy should support IPv6 addresses",
         "url": "https://github.com/balena-io/balena-cli/issues/1585"
-      },
-      {
-        "title": "Add a `--pull` option to`balena build`.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1584"
-      },
-      {
-        "title": "Allow configurable proxy exceptions",
-        "url": "https://github.com/balena-io/balena-cli/issues/1580"
       }
     ]
   },
-  "version": "11.28.8",
+  "version": "11.28.9",
   "screenshot": null,
   "logo": null
 }
