@@ -1,4 +1,37 @@
 - commits:
+    - subject: >-
+        Don't ignore BALENARC_NO_PROXY env var if HTTP(S)_PROXY env vars are
+        defined
+      hash: 9470e804c0e7e2e53743fa7bdd039a21eebb3954
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Use types for global-agent and global-tunnel-ng
+      hash: 00943463a42d6b9d7103ce85aed4da14ed427717
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+    - subject: Remove lodash usage in proxy setup
+      hash: 3f6d7702331d6e00615a676c22bf946298af60ce
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+    - subject: Don't try to setup a proxy agent when there's no proxy configured
+      hash: c4a6086e9cb393024108c4466abf7afce4328311
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.28.11
+  date: 2020-03-02T15:13:33.151Z
+- commits:
     - subject: Update dependencies
       hash: fe4e1d09d7d5fd0655c38070f862a657c7d878b8
       body: |
