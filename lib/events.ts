@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019 Balena Ltd.
+ * Copyright 2019-2020 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Promise = require('bluebird');
-import _ = require('lodash');
-import Mixpanel = require('mixpanel');
-import Raven = require('raven');
+import * as Sentry from '@sentry/node';
+import * as Bluebird from 'bluebird';
+import * as _ from 'lodash';
+import * as Mixpanel from 'mixpanel';
 
-import packageJSON = require('../package.json');
+import * as packageJSON from '../package.json';
 import { getBalenaSdk } from './utils/lazy';
 
 const getMixpanel = _.once<any>(() => {
@@ -31,35 +31,42 @@ const getMixpanel = _.once<any>(() => {
 	});
 });
 
+/**
+ * Mixpanel.com analytics tracking (information on balena CLI usage).
+ *
+ * @param commandSignature A string like, for example:
+ *      "push <applicationOrDevice>"
+ * That's literally so: "applicationOrDevice" is NOT replaced with the actual
+ * application ID or device ID. The purpose is to find out the most / least
+ * used command verbs, so we can focus our development effort where it is most
+ * beneficial to end users.
+ *
+ * The username and command signature are also added as extra context
+ * information in Sentry.io error reporting, for CLI debugging purposes
+ * (mainly unexpected/unhandled exceptions -- see also `lib/errors.ts`).
+ */
 export function trackCommand(commandSignature: string) {
 	const balena = getBalenaSdk();
-	return Promise.props({
+	return Bluebird.props({
 		balenaUrl: balena.settings.get('balenaUrl'),
 		username: balena.auth.whoami().catchReturn(undefined),
 		mixpanel: getMixpanel(),
 	})
 		.then(({ username, balenaUrl, mixpanel }) => {
-			return Promise.try(() => {
-				Raven.mergeContext({
-					user: {
-						id: username,
-						username,
-					},
+			Sentry.configureScope(scope => {
+				scope.setExtra('command', commandSignature);
+				scope.setUser({
+					id: username,
+					username,
 				});
-				// commandSignature is a string like, for example:
-				//     "push <applicationOrDevice>"
-				// That's literally so: "applicationOrDevice" is NOT replaced with
-				// the actual application ID or device ID. The purpose is find out the
-				// most / least used command verbs, so we can focus our development
-				// effort where it is most beneficial to end users.
-				return mixpanel.track(`[CLI] ${commandSignature}`, {
-					distinct_id: username,
-					version: packageJSON.version,
-					node: process.version,
-					arch: process.arch,
-					balenaUrl, // e.g. 'balena-cloud.com' or 'balena-staging.com'
-					platform: process.platform,
-				});
+			});
+			return mixpanel.track(`[CLI] ${commandSignature}`, {
+				distinct_id: username,
+				version: packageJSON.version,
+				node: process.version,
+				arch: process.arch,
+				balenaUrl, // e.g. 'balena-cloud.com' or 'balena-staging.com'
+				platform: process.platform,
 			});
 		})
 		.timeout(100)

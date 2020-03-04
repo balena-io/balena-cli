@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019 Balena Ltd.
+ * Copyright 2019-2020 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import * as packageJSON from '../package.json';
 
 class CliSettings {
 	public readonly settings: any;
@@ -42,29 +44,26 @@ class CliSettings {
 
 /**
  * Sentry.io setup
- * @see https://docs.sentry.io/clients/node/
+ * @see https://docs.sentry.io/error-reporting/quickstart/?platform=node
  */
-function setupRaven() {
-	const Raven = require('raven');
-	Raven.disableConsoleAlerts();
-	Raven.config(require('./config').sentryDsn, {
-		captureUnhandledRejections: true,
-		autoBreadcrumbs: true,
-		release: require('../package.json').version,
-	}).install(function(_logged: any, error: Error) {
-		console.error(error);
-		process.exit(1);
+async function setupSentry() {
+	const config = await import('./config');
+	const Sentry = await import('@sentry/node');
+	Sentry.init({
+		dsn: config.sentryDsn,
+		release: packageJSON.version,
 	});
-
-	Raven.setContext({
-		extra: {
+	Sentry.configureScope(scope => {
+		scope.setExtras({
+			is_pkg: !!(process as any).pkg,
 			node_version: process.version,
-		},
+			platform: process.platform,
+		});
 	});
 }
 
 function checkNodeVersion() {
-	const validNodeVersions = require('../package.json').engines.node;
+	const validNodeVersions = packageJSON.engines.node;
 	if (!require('semver').satisfies(process.version, validNodeVersions)) {
 		const { stripIndent } = require('common-tags');
 		console.warn(stripIndent`
@@ -243,7 +242,7 @@ export function setMaxListeners(maxListeners: number) {
 }
 
 export async function globalInit() {
-	setupRaven();
+	await setupSentry();
 	checkNodeVersion();
 	configureBluebird();
 
