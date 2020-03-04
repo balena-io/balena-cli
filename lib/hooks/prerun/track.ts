@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019 Balena Ltd.
+ * Copyright 2019-2020 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,12 @@
  */
 import { Hook } from '@oclif/config';
 
+let trackResolve: (result: Promise<any>) => void;
+
 // note: trackPromise is subject to a Bluebird.timeout, defined in events.ts
-export let trackPromise: PromiseLike<void>;
+export const trackPromise = new Promise(resolve => {
+	trackResolve = resolve;
+});
 
 /**
  * This is an oclif 'prerun' hook. This hook runs after the command line is
@@ -38,7 +42,7 @@ const hook: Hook<'prerun'> = async function(options) {
 
 	// Intentionally do not await for the track promise here, in order to
 	// run the command tracking and the command itself in parallel.
-	trackPromise = events.trackCommand(cmdSignature);
+	trackResolve(events.trackCommand(cmdSignature));
 };
 
 export default hook;
