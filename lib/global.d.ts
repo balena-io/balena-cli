@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019 Balena Ltd.
+ * Copyright 2019-2020 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,9 @@ interface Dictionary<T> {
 }
 
 declare module '*/package.json' {
+	export const engines: {
+		node: string;
+	};
 	export const name: string;
 	export const version: string;
 }
