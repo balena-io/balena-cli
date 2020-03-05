@@ -17,8 +17,9 @@ limitations under the License.
 import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 import * as os from 'os';
+import { TypedError } from 'typed-error';
 
-export class ExpectedError extends Error {}
+export class ExpectedError extends TypedError {}
 
 export class NotLoggedInError extends ExpectedError {}
 
@@ -115,7 +116,17 @@ export async function handleError(error: any) {
 	}
 	printErrorMessage(message.join('\n'));
 
-	if (error instanceof ExpectedError) {
+	const expectedErrorREs = [
+		/^BalenaApplicationNotFound:/, // balena-sdk
+		/^BalenaDeviceNotFound:/, // balena-sdk
+		/^Missing \w+$/, // Capitano's command line parsing error
+		/^Unexpected arguments?:/, // oclif's command line parsing error
+	];
+
+	if (
+		error instanceof ExpectedError ||
+		expectedErrorREs.some(re => re.test(message[0]))
+	) {
 		return;
 	}
 

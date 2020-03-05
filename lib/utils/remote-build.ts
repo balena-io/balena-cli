@@ -22,12 +22,12 @@ import { RegistrySecrets } from 'resin-multibuild';
 import * as Stream from 'stream';
 import streamToPromise = require('stream-to-promise');
 import { Pack } from 'tar-stream';
-import { TypedError } from 'typed-error';
-import Logger = require('./logger');
 
+import { ExpectedError } from '../errors';
 import { exitWithExpectedError } from '../utils/patterns';
 import { tarDirectory } from './compose';
 import { getVisuals } from './lazy';
+import Logger = require('./logger');
 
 const globalLogger = Logger.getLogger();
 
@@ -77,7 +77,7 @@ interface HeadlessBuilderMessage {
 	releaseId?: number;
 }
 
-export class RemoteBuildFailedError extends TypedError {
+export class RemoteBuildFailedError extends ExpectedError {
 	public constructor(message = 'Remote build failed') {
 		super(message);
 	}
@@ -138,10 +138,10 @@ export async function startRemoteBuild(build: RemoteBuild): Promise<void> {
 			stream.on('end', resolve);
 			stream.on('error', reject);
 		}).then(() => {
+			globalLogger.outputDeferredMessages();
 			if (build.hadError) {
 				throw new RemoteBuildFailedError();
 			}
-			globalLogger.outputDeferredMessages();
 		});
 	}
 
