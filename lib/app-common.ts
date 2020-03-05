@@ -58,7 +58,6 @@ function setupRaven() {
 
 	Raven.setContext({
 		extra: {
-			args: process.argv,
 			node_version: process.version,
 		},
 	});
