@@ -230,7 +230,7 @@ exports.buildProject = (
 					containerQemuPath: "/tmp/#{qemu.QEMU_BIN_NAME}",
 					qemuFileMode: 0o555,
 				},
-				dockerfilePath
+				dockerfilePath or undefined,
 			).then (stream) ->
 				task.buildStream = stream
 			.return([ task, binPath ])
