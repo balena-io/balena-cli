@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Fix `build --emulated` on Linux (\"exec format error\")",
+          "hash": "ca8272b477724aa97450f2f9bf600d70023d9e51",
+          "body": "",
+          "footer": {
+            "Resolves": "#1649",
+            "resolves": "#1649",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.28.12",
+      "date": "2020-03-06T01:55:02.543Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Don't ignore BALENARC_NO_PROXY env var if HTTP(S)_PROXY env vars are defined",
           "hash": "9470e804c0e7e2e53743fa7bdd039a21eebb3954",
           "body": "",
@@ -9771,7 +9789,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 214,
+  "stars": 217,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -9875,32 +9893,56 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-03-02T16:47:38Z",
+  "lastCommitDate": "2020-03-06T02:56:19Z",
   "latestRelease": {
-    "tagName": "v11.28.11",
+    "tagName": "v11.28.12",
     "asssets": [
       {
-        "name": "balena-cli-v11.28.11-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.11/balena-cli-v11.28.11-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.28.12-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.12/balena-cli-v11.28.12-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.28.11-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.11/balena-cli-v11.28.11-windows-x64-installer.exe"
+        "name": "balena-cli-v11.28.12-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.12/balena-cli-v11.28.12-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.28.11-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.11/balena-cli-v11.28.11-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.28.12-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.12/balena-cli-v11.28.12-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.28.11-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.11/balena-cli-v11.28.11-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.28.12-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.12/balena-cli-v11.28.12-windows-x64-installer.exe"
+      },
+      {
+        "name": "balena-cli-v11.28.12-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.12/balena-cli-v11.28.12-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 236,
+    "numberOfIssues": 240,
     "latestIssues": [
+      {
+        "title": "Update deps shrinkwrap",
+        "url": "https://github.com/balena-io/balena-cli/pull/1650"
+      },
+      {
+        "title": "Add ability to limit simultaneous builds during live push.",
+        "url": "https://github.com/balena-io/balena-cli/issues/1648"
+      },
+      {
+        "title": "CLI on arm64: net-keepalive fails to compile, then \"logs\" and \"live push\" fail silently",
+        "url": "https://github.com/balena-io/balena-cli/issues/1647"
+      },
+      {
+        "title": "Validate standalone installation (executable copied outside zip folder)",
+        "url": "https://github.com/balena-io/balena-cli/issues/1646"
+      },
+      {
+        "title": "Update dependencies",
+        "url": "https://github.com/balena-io/balena-cli/pull/1645"
+      },
       {
         "title": "Improve events",
         "url": "https://github.com/balena-io/balena-cli/pull/1641"
@@ -9920,10 +9962,6 @@
       {
         "title": "[Jetson Nano] `local configure`: Error: Unsupported filesystem",
         "url": "https://github.com/balena-io/balena-cli/issues/1632"
-      },
-      {
-        "title": "`balena logs` does not work on local mode device",
-        "url": "https://github.com/balena-io/balena-cli/issues/1631"
       },
       {
         "title": "Filter old CLI versions when logging via sentry.",
@@ -9964,26 +10002,10 @@
       {
         "title": "Automatically lint files on commit",
         "url": "https://github.com/balena-io/balena-cli/pull/1589"
-      },
-      {
-        "title": "balena preload should accept \"compatible architectures\" (image vs application)",
-        "url": "https://github.com/balena-io/balena-cli/issues/1588"
-      },
-      {
-        "title": "Selecting \"I don't have a balena account!\" should ideally not result in error.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1587"
-      },
-      {
-        "title": "balena push / build / deploy should support IPv6 addresses",
-        "url": "https://github.com/balena-io/balena-cli/issues/1585"
-      },
-      {
-        "title": "Add a `--pull` option to`balena build`.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1584"
       }
     ]
   },
-  "version": "11.28.11",
+  "version": "11.28.12",
   "screenshot": null,
   "logo": null
 }

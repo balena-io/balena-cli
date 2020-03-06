@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix `build --emulated` on Linux ("exec format error")
+      hash: ca8272b477724aa97450f2f9bf600d70023d9e51
+      body: ''
+      footer:
+        Resolves: '#1649'
+        resolves: '#1649'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.28.12
+  date: 2020-03-06T02:55:52.995Z
+- commits:
     - subject: >-
         Don't ignore BALENARC_NO_PROXY env var if HTTP(S)_PROXY env vars are
         defined
@@ -30,7 +42,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.28.11
-  date: 2020-03-02T16:47:13.484Z
+  date: 2020-03-02T15:13:33.151Z
 - commits:
     - subject: Update dependencies
       hash: fe4e1d09d7d5fd0655c38070f862a657c7d878b8
