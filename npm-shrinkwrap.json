@@ -8282,9 +8282,9 @@
       "integrity": "sha1-hMinKrWcRyUyFIDJdeZQg0LnCTc="
     },
     "livepush": {
-      "version": "2.0.6",
-      "resolved": "https://registry.npmjs.org/livepush/-/livepush-2.0.6.tgz",
-      "integrity": "sha512-z8mP6gxYFc2HE1PJdOmUz/1HLZxqFeoerAWPOX7WFFWxUqZX2PtYx4+K0FxFnrrzdjv0kuMaSU458VO2O/zLmg==",
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/livepush/-/livepush-2.1.0.tgz",
+      "integrity": "sha512-7DNYdaQjr261PHZDh7BZ/U1VlVWtMeuTDmP0EOk6jwuBBTdpGt2Yz7JEpv93ddRv7vthLH/kRUyNdTTgTd9I9Q==",
       "requires": {
         "bluebird": "^3.5.1",
         "docker-file-parser": "^1.0.4",

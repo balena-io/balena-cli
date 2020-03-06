@@ -271,6 +271,10 @@ export class LivepushManager {
 		// Work out if we need to perform any changes on this container
 		const livepush = this.containers[serviceName].livepush;
 
+		if (!livepush.livepushNeeded(updated, deleted)) {
+			return;
+		}
+
 		this.logger.logLivepush(
 			`Detected changes for container ${serviceName}, updating...`,
 		);
