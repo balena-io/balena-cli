@@ -5,6 +5,58 @@
     {
       "commits": [
         {
+          "subject": "Avoid Sentry reporting of selected common \"expected\" errors",
+          "hash": "5a806543057338d617dbddcaf965bd46fe168347",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Fix occasional \"CLI prints 'null' and exits\" (replace old Raven/Sentry SDK)",
+          "hash": "d2df2c7b60e6024f3452c002184f7824f5b952f0",
+          "body": "",
+          "footer": {
+            "Resolves": "#1523",
+            "resolves": "#1523",
+            "Connects-to": "#1193",
+            "connects-to": "#1193",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Don't send the full command line to Sentry.io",
+          "hash": "36d3d1256ebd851e2edeab4380a97646126fb5ee",
+          "body": "",
+          "footer": {
+            "Resolves": "#703",
+            "resolves": "#703",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Fix occasionally missed command tracking request (oclif commands)",
+          "hash": "b77cb56cd04ba633f204640ec0b16e1edd18a993",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.28.14",
+      "date": "2020-03-10T13:14:30.533Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Improve the UX by only printing effective file changes in livepush",
           "hash": "b83431c2e09cafaad40c8b04abb16f79bcb5acc1",
           "body": "",
@@ -9807,7 +9859,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 218,
+  "stars": 219,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -9821,6 +9873,7 @@
     "@oclif/command",
     "@oclif/errors",
     "@resin.io/valid-email",
+    "@sentry/node",
     "@zeit/dockerignore",
     "JSONStream",
     "ansi-escapes",
@@ -9882,7 +9935,6 @@
     "patch-package",
     "prettyjson",
     "progress-stream",
-    "raven",
     "reconfix",
     "request",
     "resin-cli-form",
@@ -9911,39 +9963,27 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-03-06T15:48:03Z",
+  "lastCommitDate": "2020-03-10T14:54:18Z",
   "latestRelease": {
-    "tagName": "v11.28.13",
+    "tagName": "v11.28.14",
     "asssets": [
       {
-        "name": "balena-cli-v11.28.13-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.13/balena-cli-v11.28.13-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.28.14-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.14/balena-cli-v11.28.14-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.28.13-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.13/balena-cli-v11.28.13-macOS-x64-installer.pkg"
-      },
-      {
-        "name": "balena-cli-v11.28.13-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.13/balena-cli-v11.28.13-macOS-x64-standalone.zip"
-      },
-      {
-        "name": "balena-cli-v11.28.13-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.13/balena-cli-v11.28.13-windows-x64-installer.exe"
-      },
-      {
-        "name": "balena-cli-v11.28.13-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.13/balena-cli-v11.28.13-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.28.14-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.14/balena-cli-v11.28.14-macOS-x64-installer.pkg"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 240,
+    "numberOfIssues": 238,
     "latestIssues": [
       {
-        "title": "Update deps shrinkwrap",
-        "url": "https://github.com/balena-io/balena-cli/pull/1650"
+        "title": "Add test case for `build --emulated`",
+        "url": "https://github.com/balena-io/balena-cli/pull/1653"
       },
       {
         "title": "Add ability to limit simultaneous builds during live push.",
@@ -10023,7 +10063,7 @@
       }
     ]
   },
-  "version": "11.28.13",
+  "version": "11.28.14",
   "screenshot": null,
   "logo": null
 }
