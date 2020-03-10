@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2019 Balena
+Copyright 2016-2020 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,20 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import * as Bluebird from 'bluebird';
 import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 import * as os from 'os';
-import * as Raven from 'raven';
+import { TypedError } from 'typed-error';
 
-export class ExpectedError extends Error {}
+export class ExpectedError extends TypedError {}
 
 export class NotLoggedInError extends ExpectedError {}
-
-const captureException = Bluebird.promisify<string, Error>(
-	Raven.captureException,
-	{ context: Raven },
-);
 
 function hasCode(error: any): error is Error & { code: string } {
 	return error.code != null;
@@ -122,16 +116,25 @@ export async function handleError(error: any) {
 	}
 	printErrorMessage(message.join('\n'));
 
-	if (error instanceof ExpectedError) {
+	const expectedErrorREs = [
+		/^BalenaApplicationNotFound:/, // balena-sdk
+		/^BalenaDeviceNotFound:/, // balena-sdk
+		/^Missing \w+$/, // Capitano's command line parsing error
+		/^Unexpected arguments?:/, // oclif's command line parsing error
+	];
+
+	if (
+		error instanceof ExpectedError ||
+		expectedErrorREs.some(re => re.test(message[0]))
+	) {
 		return;
 	}
 
 	// Report "unexpected" errors via Sentry.io
-	await captureException(error)
-		.timeout(1000)
-		.catch(function() {
-			// Ignore any errors (from error logging, or timeouts)
-		})
-		// exit with the process.exitCode set earlier
-		.finally(() => process.exit());
+	const Sentry = await import('@sentry/node');
+	Sentry.captureException(error);
+	await Sentry.close(1000);
+	// Unhandled/unexpected error: ensure that the process terminates.
+	// The exit error code was set above through `process.exitCode`.
+	process.exit();
 }
