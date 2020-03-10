@@ -217,7 +217,7 @@ export async function testPushBuildStream(o: {
 			const queryParams = Array.from(url.searchParams.entries());
 			expect(queryParams).to.have.deep.members(expectedQueryParams);
 		},
-		checkBuildRequestBody: (buildRequestBody: string) =>
+		checkBuildRequestBody: buildRequestBody =>
 			inspectTarStream(buildRequestBody, o.expectedFiles, o.projectPath),
 	});
 

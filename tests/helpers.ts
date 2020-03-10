@@ -130,9 +130,17 @@ export function fillTemplate(
 }
 
 export function fillTemplateArray(
+	templateStringArray: string[],
+	templateVars: object,
+): string[];
+export function fillTemplateArray(
 	templateStringArray: Array<string | string[]>,
 	templateVars: object,
-) {
+): Array<string | string[]>;
+export function fillTemplateArray(
+	templateStringArray: Array<string | string[]>,
+	templateVars: object,
+): Array<string | string[]> {
 	return templateStringArray.map(i =>
 		Array.isArray(i)
 			? fillTemplateArray(i, templateVars)

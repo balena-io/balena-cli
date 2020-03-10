@@ -323,10 +323,6 @@ describe('balena push: project validation', function() {
 		const expectedErrorLines = [
 			'The --nolive flag is only valid when pushing to a local mode device',
 		];
-		const expectedOutputLines = [
-			'[Warn] "docker-compose.y[a]ml" file found in parent directory: please check',
-			"[Warn] that the correct folder was specified. (Suppress with '--noparent-check'.)",
-		];
 
 		const { out, err } = await runCommand(
 			`push testApp --source ${projectPath} --nolive --noparent-check`,
