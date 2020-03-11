@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Fix 'balena login' web auth on Linux standalone zip install (xdg-open
+        ENOENT)
+      hash: f44c2b777f17e3f4a7f8420fc63385e797efdc87
+      body: ''
+      footer:
+        Resolves: '#1657'
+        resolves: '#1657'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.28.15
+  date: 2020-03-11T01:30:23.379Z
+- commits:
     - subject: Avoid Sentry reporting of selected common "expected" errors
       hash: 5a806543057338d617dbddcaf965bd46fe168347
       body: ''
