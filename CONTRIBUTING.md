@@ -101,7 +101,17 @@ $ git add npm-shrinkwrap.json  # add it for committing (solve merge errors)
 The CLI was originally written in [CoffeeScript](https://coffeescript.org), but we decided to
 migrate to [TypeScript](https://www.typescriptlang.org/) in order to take advantage of static
 typing and formal programming interfaces. The migration is taking place gradually, as part of
-maintenance work or the implementation of new features.
+maintenance work or the implementation of new features. The recommended way of making the
+conversion is to first generate plain Javascript, for example using the command:  
+
+```
+npx decaffeinate --use-js-modules file.coffee
+```
+
+Then manually convert plain Javascript to Typescript. There is also a ["Coffeescript Preview"
+Visual Studio Code
+extension](https://marketplace.visualstudio.com/items?itemName=drewbarrett.vscode-coffeescript-preview)
+that you may find handy.
 
 Similarly, [Capitano](https://github.com/balena-io/capitano) was originally adopted as the CLI's
 framework, but later we decided to take advantage of [oclif](https://oclif.io/)'s features such
