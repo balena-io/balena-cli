@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Fix 'balena login' web auth on Linux standalone zip install (xdg-open ENOENT)",
+          "hash": "f44c2b777f17e3f4a7f8420fc63385e797efdc87",
+          "body": "",
+          "footer": {
+            "Resolves": "#1657",
+            "resolves": "#1657",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.28.15",
+      "date": "2020-03-11T01:30:23.379Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Avoid Sentry reporting of selected common \"expected\" errors",
           "hash": "5a806543057338d617dbddcaf965bd46fe168347",
           "body": "",
@@ -9963,24 +9981,44 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-03-10T14:54:18Z",
+  "lastCommitDate": "2020-03-11T11:45:11Z",
   "latestRelease": {
-    "tagName": "v11.28.14",
+    "tagName": "v11.28.15",
     "asssets": [
       {
-        "name": "balena-cli-v11.28.14-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.14/balena-cli-v11.28.14-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.28.15-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.15/balena-cli-v11.28.15-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.28.14-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.14/balena-cli-v11.28.14-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.28.15-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.15/balena-cli-v11.28.15-macOS-x64-installer.pkg"
+      },
+      {
+        "name": "balena-cli-v11.28.15-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.15/balena-cli-v11.28.15-macOS-x64-standalone.zip"
+      },
+      {
+        "name": "balena-cli-v11.28.15-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.15/balena-cli-v11.28.15-windows-x64-installer.exe"
+      },
+      {
+        "name": "balena-cli-v11.28.15-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.15/balena-cli-v11.28.15-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 238,
+    "numberOfIssues": 237,
     "latestIssues": [
+      {
+        "title": "`balena apps` fails with \"_.trimEnd is not a function\"",
+        "url": "https://github.com/balena-io/balena-cli/issues/1658"
+      },
+      {
+        "title": "Add type checking for tests",
+        "url": "https://github.com/balena-io/balena-cli/pull/1656"
+      },
       {
         "title": "Add test case for `build --emulated`",
         "url": "https://github.com/balena-io/balena-cli/pull/1653"
@@ -10052,18 +10090,10 @@
       {
         "title": "\"balena os download\" always gives \"No such version for the device type\"",
         "url": "https://github.com/balena-io/balena-cli/issues/1593"
-      },
-      {
-        "title": "Upgrade balena-preload to allow compatible os/app architectures",
-        "url": "https://github.com/balena-io/balena-cli/pull/1592"
-      },
-      {
-        "title": "Automatically lint files on commit",
-        "url": "https://github.com/balena-io/balena-cli/pull/1589"
       }
     ]
   },
-  "version": "11.28.14",
+  "version": "11.28.15",
   "screenshot": null,
   "logo": null
 }
