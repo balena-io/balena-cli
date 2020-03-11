@@ -98,6 +98,7 @@ async function buildPkg() {
 	const paths: Array<[string, string[], string[]]> = [
 		// [platform, [source path], [destination path]]
 		['*', ['open', 'xdg-open'], ['xdg-open']],
+		['*', ['opn-cli', 'node_modules', 'opn', 'xdg-open'], ['xdg-open-402']],
 		['darwin', ['denymount', 'bin', 'denymount'], ['denymount']],
 	];
 	await Bluebird.map(paths, ([platform, source, dest]) => {

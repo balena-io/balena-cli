@@ -33,6 +33,8 @@
       "build/auth/pages/*.ejs",
       "build/hooks",
       "node_modules/resin-discoverable-services/services/**/*",
+      "node_modules/opn-cli/node_modules/opn/xdg-open",
+      "node_modules/open/xdg-open",
       "node_modules/windosu/*.bat",
       "node_modules/windosu/*.cmd"
     ]
