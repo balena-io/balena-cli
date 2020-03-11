@@ -58,6 +58,44 @@ the standard Command Prompt or PowerShell can be used (though MSYS2 is still han
 'git' and a number of common unix utilities). If you make changes to `package.json` scripts, check
 they also run on a standard Windows Command Prompt.
 
+## Updating the 'npm-shrinkwrap.json' file
+
+The `npm-shrinkwrap.json` file is used to control package dependencies, as documented at
+https://docs.npmjs.com/files/shrinkwrap.json.
+
+While developing, the `package.json` file is often modified by, or before, running `npm install`
+in order to add, remove or modify dependencies. When `npm install` is executed, it automatically
+updates the `npm-shrinkwrap.json` file as well, **taking into account not only the `package.json`
+file but also the current state of the `node_modules` folder in your computer.**
+
+Meanwhile, as a text (JSON) file, `git` is capable of merging the `npm-shrinkwrap.json` file during
+operations like `rebase`, `cherry-pick` and `pull`. But git's automated merge is not the
+recommended way of updating the `npm-shrinkwrap.json` file, because it does not take into account
+duplicates or conflicts in the dependency tree, or indeed the state of the `package.json` file
+(which may have just been merged). In extreme cases, the automated merge may actually result in a
+broken installation. For these reasons, automatic merging of the `npm-shrinkwrap.json` was disabled
+through the `.gitattributes` file (the "binary merge driver" allows diff'ing but prevents automatic
+merging). Operations like `git rebase` may then result in an error like:
+
+```text
+$ git rebase master
+warning: Cannot merge binary files: npm-shrinkwrap.json (HEAD vs. c34942b9... test)
+Auto-merging npm-shrinkwrap.json
+CONFLICT (content): Merge conflict in npm-shrinkwrap.json
+error: Failed to merge in the changes.
+```
+
+Whether or not there is a merge error, the following commands are the recommended way of updating
+and committing the `npm-shrinkwrap.json` file:
+
+```bash
+$ rm -rf node_modules  # Linux / Mac
+$ rmdir /s node_modules  # Windows Command Prompt
+$ npm checkout master -- npm-shrinkwrap.json  # revert it to the master branch state
+$ npm install  # "cleanly" update the npm-shrinkwrap.json file
+$ git add npm-shrinkwrap.json  # add it for committing (solve merge errors)
+```
+
 ## TypeScript vs CoffeeScript, and Capitano vs oclif
 
 The CLI was originally written in [CoffeeScript](https://coffeescript.org), but we decided to
