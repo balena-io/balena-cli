@@ -1,6 +1,6 @@
 {
   "name": "balena-cli",
-  "version": "11.28.16",
+  "version": "11.28.17",
   "description": "The official balena CLI tool",
   "main": "./build/app.js",
   "homepage": "https://github.com/balena-io/balena-cli",
