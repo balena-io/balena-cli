@@ -1,4 +1,122 @@
 - commits:
+    - subject: Update dependencies
+      hash: 3d2e109e7f5e05958349fd74533ba8d1841932a9
+      body: |
+        Update balena-sdk from 12.26.7 to 12.29.1
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Pagan Gazzard
+      nested:
+        - commits:
+            - subject: 'tests: Improve the dependent application test case'
+              hash: 952af473d75b2461c91943ac6968a60f80b8896c
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.29.1
+          date: 2020-03-09T12:25:24.687Z
+        - commits:
+            - subject: 'typings: Add the contract field to the Image'
+              hash: 3d67a5a47c48dc4b529ac67f47b1011e469fb063
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+            - subject: 'typings: Add is_of__actor on the ApiKey'
+              hash: 26b4e3f0dd462c93649b79e94030e0497bfef525
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+            - subject: 'typings: Add `is_public` to the application model'
+              hash: 298de17d5c6ddce2c3c923ad9b22b73dbfe832f8
+              body: ''
+              footer:
+                Resolves: '#676'
+                resolves: '#676'
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.29.0
+          date: 2020-03-09T11:30:13.587Z
+        - commits:
+            - subject: Unify the way that the models get exported
+              hash: f011c9ca04b2bb68cbf41505825b1bba97a71279
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.28.2
+          date: 2020-03-06T19:03:22.972Z
+        - commits:
+            - subject: Convert OS model to typescript
+              hash: a9d2af4eb4066c4f3e8acf0a6d586818d255173e
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Stevche Radevski <stevche@balena.io>
+                signed-off-by: Stevche Radevski <stevche@balena.io>
+              author: Stevche Radevski
+          version: balena-sdk-12.28.1
+          date: 2020-03-05T16:30:40.690Z
+        - commits:
+            - subject: 'typings: Add DeviceType logoUrl property'
+              hash: f36c24adea886b3d1370c805351bdfa0bc273017
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Depends-on: 'https://github.com/balena-io/balena-api/pull/2394'
+                depends-on: 'https://github.com/balena-io/balena-api/pull/2394'
+                HQ: 'https://github.com/balena-io/balena/issues/1818'
+                hq: 'https://github.com/balena-io/balena/issues/1818'
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+          version: balena-sdk-12.28.0
+          date: 2020-03-04T14:40:43.381Z
+        - commits:
+            - subject: Update dependencies
+              hash: 3241df2d214d00122a86822d5df4f5e08c716af2
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+          version: balena-sdk-12.27.1
+          date: 2020-03-04T12:05:42.622Z
+        - commits:
+            - subject: Add missing deviceType typings to ImgConfigOptions
+              hash: a1cf210a3116e3549789177cadfb3a62b363f82e
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Stevche Radevski <stevche@balena.io>
+                signed-off-by: Stevche Radevski <stevche@balena.io>
+              author: Stevche Radevski
+          version: balena-sdk-12.27.0
+          date: 2020-03-03T13:16:53.402Z
+  version: 11.29.0
+  date: 2020-03-12T19:11:13.229Z
+- commits:
     - subject: Make windows installer remove old files before installation.
       hash: 10cbf514a2493cbe3d9c875d30ddfed2f37c79e7
       body: ''
@@ -9,7 +127,7 @@
         resolves: '#1658'
       author: Scott Lowe
   version: 11.28.17
-  date: 2020-03-12T18:00:58.255Z
+  date: 2020-03-12T16:55:13.558Z
 - commits:
     - subject: Update CONTRIBUTING.md regarding ./bin/balena-dev and oclif commands
       hash: 385d3e107bf55c9dc3377d2758db5fcac1d89702
