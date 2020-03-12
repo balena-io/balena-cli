@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Fix opn patch (npm installation warning)",
+          "hash": "5f552cf9a8df4f355689337ef999a58ab0e77e9a",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.29.2",
+      "date": "2020-03-12T22:38:03.228Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix `balena local flash`",
           "hash": "2860535c45a3cdb592a8d3df74a5e5d06632d1c0",
           "body": "",
@@ -10131,7 +10147,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 219,
+  "stars": 220,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -10236,29 +10252,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-03-12T22:16:33Z",
+  "lastCommitDate": "2020-03-12T23:09:53Z",
   "latestRelease": {
-    "tagName": "v11.29.1",
+    "tagName": "v11.29.2",
     "asssets": [
       {
-        "name": "balena-cli-v11.29.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.1/balena-cli-v11.29.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.29.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.2/balena-cli-v11.29.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.29.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.1/balena-cli-v11.29.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.29.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.2/balena-cli-v11.29.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.29.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.1/balena-cli-v11.29.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.29.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.2/balena-cli-v11.29.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.29.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.1/balena-cli-v11.29.1-windows-x64-installer.exe"
+        "name": "balena-cli-v11.29.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.2/balena-cli-v11.29.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.29.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.1/balena-cli-v11.29.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.29.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.2/balena-cli-v11.29.2-windows-x64-standalone.zip"
       }
     ]
   },
@@ -10348,7 +10364,7 @@
       }
     ]
   },
-  "version": "11.29.1",
+  "version": "11.29.2",
   "screenshot": null,
   "logo": null
 }

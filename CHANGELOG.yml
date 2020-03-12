@@ -1,4 +1,14 @@
 - commits:
+    - subject: Fix opn patch (npm installation warning)
+      hash: 5f552cf9a8df4f355689337ef999a58ab0e77e9a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.29.2
+  date: 2020-03-12T23:09:23.058Z
+- commits:
     - subject: Fix `balena local flash`
       hash: 2860535c45a3cdb592a8d3df74a5e5d06632d1c0
       body: ''
@@ -7,7 +17,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.29.1
-  date: 2020-03-12T22:15:39.218Z
+  date: 2020-03-12T21:37:13.519Z
 - commits:
     - subject: Update dependencies
       hash: 3d2e109e7f5e05958349fd74533ba8d1841932a9
