@@ -1,4 +1,14 @@
 - commits:
+    - subject: Fix `balena local flash`
+      hash: 2860535c45a3cdb592a8d3df74a5e5d06632d1c0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.29.1
+  date: 2020-03-12T22:15:39.218Z
+- commits:
     - subject: Update dependencies
       hash: 3d2e109e7f5e05958349fd74533ba8d1841932a9
       body: |
@@ -115,7 +125,7 @@
           version: balena-sdk-12.27.0
           date: 2020-03-03T13:16:53.402Z
   version: 11.29.0
-  date: 2020-03-12T19:11:13.229Z
+  date: 2020-03-12T18:05:43.347Z
 - commits:
     - subject: Make windows installer remove old files before installation.
       hash: 10cbf514a2493cbe3d9c875d30ddfed2f37c79e7
