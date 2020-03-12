@@ -1,4 +1,39 @@
 - commits:
+    - subject: Update CONTRIBUTING.md regarding ./bin/balena-dev and oclif commands
+      hash: 385d3e107bf55c9dc3377d2758db5fcac1d89702
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Update CONTRIBUTING.md regarding Coffeescript to Typescript conversion
+      hash: d98b2fa72f015ffe5ce158abd693ab48d7bd6a61
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: >-
+        Prevent auto merge of npm-shrinkwrap.json and explain it in
+        CONTRIBUTING.md
+      hash: c6baa7a9080d6709ae1402a48aafdb9e6df3513f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Add test case for `build --emulated`
+      hash: daa34feedaf3ec642d7e6848cf2f7b768ea7b348
+      body: ''
+      footer:
+        Connects-to: '#1649'
+        connects-to: '#1649'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.28.16
+  date: 2020-03-11T22:19:53.456Z
+- commits:
     - subject: >-
         Fix 'balena login' web auth on Linux standalone zip install (xdg-open
         ENOENT)
