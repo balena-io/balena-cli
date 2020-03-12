@@ -33,15 +33,19 @@ export class DockerMock extends NockMock {
 		this.optGet('/_ping', opts).reply(200, 'OK');
 	}
 
-	public expectGetInfo(opts: ScopeOpts = {}) {
+	public expectGetInfo({
+		OperatingSystem = 'Docker for Mac',
+		optional = false,
+		persist = false,
+	}) {
 		// this body is a partial copy from Docker for Mac v18.06.1-ce-mac73
 		const body = {
 			KernelVersion: '4.9.93-linuxkit-aufs',
-			OperatingSystem: 'Docker for Mac',
+			OperatingSystem,
 			OSType: 'linux',
 			Architecture: 'x86_64',
 		};
-		this.optGet('/info', opts).reply(200, body);
+		this.optGet('/info', { optional, persist }).reply(200, body);
 	}
 
 	public expectGetVersion(opts: ScopeOpts = {}) {

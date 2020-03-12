@@ -76,7 +76,7 @@ describe('balena deploy', function() {
 		api.expectPatchImage();
 
 		docker.expectGetPing();
-		docker.expectGetInfo();
+		docker.expectGetInfo({});
 		docker.expectGetVersion({ persist: true });
 		docker.expectPostImagesTag();
 		docker.expectPostImagesPush();

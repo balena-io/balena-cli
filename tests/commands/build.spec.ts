@@ -19,6 +19,8 @@
 require('../config-tests'); // required for side effects
 
 import { expect } from 'chai';
+import { stripIndent } from 'common-tags';
+import mock = require('mock-require');
 import { fs } from 'mz';
 import * as path from 'path';
 
@@ -62,7 +64,6 @@ describe('balena build', function() {
 		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetMixpanel({ optional: true });
 		docker.expectGetPing();
-		docker.expectGetInfo();
 		docker.expectGetVersion();
 	});
 
@@ -101,7 +102,7 @@ describe('balena build', function() {
 				'[Warn] Windows-format line endings were detected in some files. Consider using the `--convert-eol` option.',
 			);
 		}
-
+		docker.expectGetInfo({});
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64`,
 			dockerMock: docker,
@@ -113,6 +114,85 @@ describe('balena build', function() {
 			responseCode: 200,
 			services: ['main'],
 		});
+	});
+
+	it('should create the expected tar stream (--emulated)', async () => {
+		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
+		const transposedDockerfile =
+			stripIndent`
+			FROM busybox
+			COPY [".balena/qemu-execve","/tmp/qemu-execve"]
+			COPY ["./src","/usr/src/"]
+			RUN ["/tmp/qemu-execve","-execve","/bin/sh","-c","chmod a+x /usr/src/*.sh"]
+			CMD ["/usr/src/start.sh"]` + '\n';
+		const expectedFiles: ExpectedTarStreamFiles = {
+			'src/start.sh': { fileSize: 89, type: 'file' },
+			'src/windows-crlf.sh': { fileSize: 70, type: 'file' },
+			Dockerfile: {
+				fileSize: transposedDockerfile.length,
+				type: 'file',
+				contents: transposedDockerfile,
+			},
+			'Dockerfile-alt': { fileSize: 30, type: 'file' },
+		};
+		const responseFilename = 'build-POST.json';
+		const responseBody = await fs.readFile(
+			path.join(dockerResponsePath, responseFilename),
+			'utf8',
+		);
+		const expectedResponseLines = [
+			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
+			`[Info] Creating default composition with source: "${projectPath}"`,
+			'[Info] Building for rpi/raspberry-pi',
+			'[Info] Emulation is enabled',
+			'[Build] main Image size: 1.14 MB',
+			'[Success] Build succeeded!',
+		];
+		if (isWindows) {
+			expectedResponseLines.push(
+				`[Warn] CRLF (Windows) line endings detected in file: ${path.join(
+					projectPath,
+					'src',
+					'windows-crlf.sh',
+				)}`,
+				'[Warn] Windows-format line endings were detected in some files. Consider using the `--convert-eol` option.',
+			);
+		}
+		const arch = 'rpi';
+		const deviceType = 'raspberry-pi';
+		const fsModPath = 'mz/fs';
+		const fsMod = await import(fsModPath);
+		const qemuModPath = '../../build/utils/qemu';
+		const qemuMod = require(qemuModPath);
+		const qemuBinPath = await qemuMod.getQemuPath(arch);
+		try {
+			mock(fsModPath, {
+				...fsMod,
+				exists: async (p: string) =>
+					p === qemuBinPath ? true : fsMod.exists(p),
+			});
+			mock(qemuModPath, {
+				...qemuMod,
+				copyQemu: async () => '',
+			});
+			mock.reRequire('../../build/utils/qemu');
+			mock.reRequire('../../build/utils/qemu-ts');
+			docker.expectGetInfo({ OperatingSystem: 'balenaOS 2.44.0+rev1' });
+			await testDockerBuildStream({
+				commandLine: `build ${projectPath} --emulated --deviceType ${deviceType} --arch ${arch}`,
+				dockerMock: docker,
+				expectedFilesByService: { main: expectedFiles },
+				expectedQueryParamsByService: { main: commonQueryParams },
+				expectedResponseLines,
+				projectPath,
+				responseBody,
+				responseCode: 200,
+				services: ['main'],
+			});
+		} finally {
+			mock.stop(fsModPath);
+			mock.stop(qemuModPath);
+		}
 	});
 
 	it('should create the expected tar stream (single container, --convert-eol)', async () => {
@@ -147,7 +227,7 @@ describe('balena build', function() {
 				)}`,
 			);
 		}
-
+		docker.expectGetInfo({});
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol`,
 			dockerMock: docker,
@@ -211,7 +291,7 @@ describe('balena build', function() {
 				)}`,
 			);
 		}
-
+		docker.expectGetInfo({});
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol`,
 			dockerMock: docker,
