@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import * as semver from 'balena-semver';
 import * as Bluebird from 'bluebird';
 import * as Docker from 'dockerode';
 import * as _ from 'lodash';
@@ -25,7 +26,6 @@ import {
 	LocalImage,
 	RegistrySecrets,
 } from 'resin-multibuild';
-import * as semver from 'resin-semver';
 import { Readable } from 'stream';
 
 import { BALENA_ENGINE_TMP_PATH } from '../../config';

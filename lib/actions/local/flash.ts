@@ -22,25 +22,7 @@ import { getChalk, getVisuals } from '../../utils/lazy';
 async function getDrive(options: {
 	drive?: string;
 }): Promise<SDK.sourceDestination.BlockDevice> {
-	const sdk = await import('etcher-sdk');
-
-	const adapter = new sdk.scanner.adapters.BlockDeviceAdapter(() => false);
-	const scanner = new sdk.scanner.Scanner([adapter]);
-	await scanner.start();
-	let drive: SDK.sourceDestination.BlockDevice;
-	if (options.drive !== undefined) {
-		const d = scanner.getBy('device', options.drive);
-		if (d === undefined || !(d instanceof sdk.sourceDestination.BlockDevice)) {
-			throw new Error(`Drive not found: ${options.drive}`);
-		}
-		drive = d;
-	} else {
-		const { DriveList } = await import('../../utils/visuals/drive-list');
-		const driveList = new DriveList(scanner);
-		drive = await driveList.run();
-	}
-	scanner.stop();
-	return drive;
+	return options.drive || getVisuals().drive('Select a drive');
 }
 
 export const flash: CommandDefinition<

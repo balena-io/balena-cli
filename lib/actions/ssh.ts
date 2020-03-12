@@ -34,7 +34,7 @@ async function getContainerId(
 	version?: string,
 	id?: number,
 ): Promise<string> {
-	const semver = await import('resin-semver');
+	const semver = await import('balena-semver');
 
 	if (version == null || id == null) {
 		const device = await sdk.models.device.get(uuid, {
