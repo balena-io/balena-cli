@@ -1,4 +1,16 @@
 - commits:
+    - subject: Make windows installer remove old files before installation.
+      hash: 10cbf514a2493cbe3d9c875d30ddfed2f37c79e7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#1658'
+        resolves: '#1658'
+      author: Scott Lowe
+  version: 11.28.17
+  date: 2020-03-12T18:00:58.255Z
+- commits:
     - subject: Update CONTRIBUTING.md regarding ./bin/balena-dev and oclif commands
       hash: 385d3e107bf55c9dc3377d2758db5fcac1d89702
       body: ''
@@ -32,7 +44,7 @@
         change-type: patch
       author: Paulo Castro
   version: 11.28.16
-  date: 2020-03-12T00:54:20.439Z
+  date: 2020-03-11T22:19:53.456Z
 - commits:
     - subject: >-
         Fix 'balena login' web auth on Linux standalone zip install (xdg-open

@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Make windows installer remove old files before installation.",
+          "hash": "10cbf514a2493cbe3d9c875d30ddfed2f37c79e7",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Resolves": "#1658",
+            "resolves": "#1658"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.28.17",
+      "date": "2020-03-12T16:55:13.558Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update CONTRIBUTING.md regarding ./bin/balena-dev and oclif commands",
           "hash": "385d3e107bf55c9dc3377d2758db5fcac1d89702",
           "body": "",
@@ -10029,35 +10047,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-03-12T00:55:02Z",
+  "lastCommitDate": "2020-03-12T18:01:37Z",
   "latestRelease": {
-    "tagName": "v11.28.16",
+    "tagName": "v11.28.17",
     "asssets": [
       {
-        "name": "balena-cli-v11.28.16-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.16/balena-cli-v11.28.16-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.28.17-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.17/balena-cli-v11.28.17-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.28.16-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.16/balena-cli-v11.28.16-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.28.17-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.17/balena-cli-v11.28.17-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.28.16-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.16/balena-cli-v11.28.16-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.28.17-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.17/balena-cli-v11.28.17-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.28.16-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.16/balena-cli-v11.28.16-windows-x64-installer.exe"
+        "name": "balena-cli-v11.28.17-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.17/balena-cli-v11.28.17-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.28.16-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.16/balena-cli-v11.28.16-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.28.17-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.28.17/balena-cli-v11.28.17-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 236,
+    "numberOfIssues": 229,
     "latestIssues": [
       {
         "title": "Update Node.js version in standalone zip and native installers ",
@@ -10066,10 +10084,6 @@
       {
         "title": "Support easy switching between multiple accounts.",
         "url": "https://github.com/balena-io/balena-cli/issues/1660"
-      },
-      {
-        "title": "`balena apps` fails with \"_.trimEnd is not a function\"",
-        "url": "https://github.com/balena-io/balena-cli/issues/1658"
       },
       {
         "title": "Add type checking for tests",
@@ -10138,10 +10152,14 @@
       {
         "title": "Convert lib/utils/tty to typescript",
         "url": "https://github.com/balena-io/balena-cli/pull/1602"
+      },
+      {
+        "title": "Upgrade balena-preload to allow compatible os/app architectures",
+        "url": "https://github.com/balena-io/balena-cli/pull/1592"
       }
     ]
   },
-  "version": "11.28.16",
+  "version": "11.28.17",
   "screenshot": null,
   "logo": null
 }
