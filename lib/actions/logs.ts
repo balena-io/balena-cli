@@ -86,7 +86,6 @@ export const logs: CommandDefinition<
 	async action(params, options, done) {
 		normalizeUuidProp(params);
 		const balena = getBalenaSdk();
-		const isArray = await import('lodash/isArray');
 		const { serviceIdToName } = await import('../utils/cloud');
 		const { displayDeviceLogs, displayLogObject } = await import(
 			'../utils/device/logs'
@@ -101,7 +100,7 @@ export const logs: CommandDefinition<
 
 		const servicesToDisplay =
 			options.service != null
-				? isArray(options.service)
+				? Array.isArray(options.service)
 					? options.service
 					: [options.service]
 				: undefined;

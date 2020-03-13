@@ -376,9 +376,7 @@ getPreviousRepos = (sdk, docker, logger, appID) ->
 		logger.logDebug("Failed to access previously pushed image repo: #{e}")
 
 authorizePush = (sdk, logger, tokenAuthEndpoint, registry, images, previousRepos) ->
-	_ = require('lodash')
-
-	if not _.isArray(images)
+	if not Array.isArray(images)
 		images = [ images ]
 
 	images.push previousRepos...

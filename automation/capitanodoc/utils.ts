@@ -36,7 +36,7 @@ export function getOptionSignature(signature: string) {
 export function parseCapitanoOption(option: OptionDefinition): string {
 	let result = getOptionSignature(option.signature);
 
-	if (_.isArray(option.alias)) {
+	if (Array.isArray(option.alias)) {
 		for (const alias of option.alias) {
 			result += `, ${getOptionSignature(alias)}`;
 		}

@@ -18,7 +18,6 @@ import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 import { createServer, Server, Socket } from 'net';
-import { isArray } from 'util';
 
 import { getBalenaSdk } from '../utils/lazy';
 import { getOnlineTargetUuid } from '../utils/patterns';
@@ -121,7 +120,7 @@ export const tunnel: CommandDefinition<Args, Options> = {
 		}
 
 		const ports =
-			typeof options.port !== 'string' && isArray(options.port)
+			typeof options.port !== 'string' && Array.isArray(options.port)
 				? (options.port as string[])
 				: [options.port as string];
 
