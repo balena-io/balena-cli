@@ -1182,6 +1182,7 @@ Only show system logs. This can be used in combination with --service.
 
 ## scan
 
+Scan for balenaOS devices on your local network.
 
 Examples:
 
@@ -1191,13 +1192,13 @@ Examples:
 
 ### Options
 
-#### --verbose, -v
+#### -v, --verbose
 
-Display full info
+display full info
 
-#### --timeout, -t &#60;timeout&#62;
+#### -t, --timeout TIMEOUT
 
-Scan timeout in seconds
+scan timeout in seconds
 
 ## ssh &#60;applicationOrDevice&#62; [serviceName]
 

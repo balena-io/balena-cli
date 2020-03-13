@@ -22,7 +22,6 @@ module.exports =
 	tags: require('./tags')
 	logs: require('./logs')
 	local: require('./local')
-	scan: require('./scan')
 	help: require('./help')
 	os: require('./os')
 	config: require('./config')

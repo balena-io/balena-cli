@@ -107,7 +107,6 @@ capitano.command(actions.ssh.ssh)
 # ---------- Local balenaOS Module ----------
 capitano.command(actions.local.configure)
 capitano.command(actions.local.flash)
-capitano.command(actions.scan)
 
 # ---------- Public utils ----------
 capitano.command(actions.util.availableDrives)
@@ -135,7 +134,7 @@ exports.run = (argv) ->
 			# cmdSignature is literally a string like, for example:
 			#     "push <applicationOrDevice>"
 			# ("applicationOrDevice" is NOT replaced with its actual value)
-			# In case of failures like an inexistent or invalid command,
+			# In case of failures like an nonexistent or invalid command,
 			# command.signature.toString() returns '*'
 			cmdSignature = command.signature.toString()
 			events.trackCommand(cmdSignature)

@@ -143,6 +143,7 @@ export const convertedCommands = [
 	'os:configure',
 	'settings',
 	'version',
+	'scan',
 ];
 
 /**
