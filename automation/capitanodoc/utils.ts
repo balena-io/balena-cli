@@ -18,7 +18,6 @@
 import { OptionDefinition } from 'capitano';
 import * as ent from 'ent';
 import * as fs from 'fs';
-import * as _ from 'lodash';
 import * as readline from 'readline';
 
 export function getOptionPrefix(signature: string) {
@@ -40,7 +39,7 @@ export function parseCapitanoOption(option: OptionDefinition): string {
 		for (const alias of option.alias) {
 			result += `, ${getOptionSignature(alias)}`;
 		}
-	} else if (_.isString(option.alias)) {
+	} else if (typeof option.alias === 'string') {
 		result += `, ${getOptionSignature(option.alias)}`;
 	}
 
