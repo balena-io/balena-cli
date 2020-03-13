@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Remove unused typings",
+          "hash": "505c3ec7d3bdf42eae5b15a3b8778dd38f467bd4",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.29.3",
+      "date": "2020-03-13T00:16:12.759Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix opn patch (npm installation warning)",
           "hash": "5f552cf9a8df4f355689337ef999a58ab0e77e9a",
           "body": "",
@@ -10252,40 +10268,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-03-12T23:09:53Z",
+  "lastCommitDate": "2020-03-13T00:37:28Z",
   "latestRelease": {
-    "tagName": "v11.29.2",
+    "tagName": "v11.29.3",
     "asssets": [
       {
-        "name": "balena-cli-v11.29.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.2/balena-cli-v11.29.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.29.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.3/balena-cli-v11.29.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.29.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.2/balena-cli-v11.29.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.29.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.3/balena-cli-v11.29.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.29.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.2/balena-cli-v11.29.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.29.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.3/balena-cli-v11.29.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.29.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.2/balena-cli-v11.29.2-windows-x64-installer.exe"
+        "name": "balena-cli-v11.29.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.3/balena-cli-v11.29.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.29.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.2/balena-cli-v11.29.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.29.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.3/balena-cli-v11.29.3-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 229,
+    "numberOfIssues": 227,
     "latestIssues": [
-      {
-        "title": "Remove unused typings",
-        "url": "https://github.com/balena-io/balena-cli/pull/1664"
-      },
       {
         "title": "Update Node.js version in standalone zip and native installers ",
         "url": "https://github.com/balena-io/balena-cli/issues/1661"
@@ -10361,10 +10373,14 @@
       {
         "title": "Upgrade balena-preload to allow compatible os/app architectures",
         "url": "https://github.com/balena-io/balena-cli/pull/1592"
+      },
+      {
+        "title": "Automatically lint files on commit",
+        "url": "https://github.com/balena-io/balena-cli/pull/1589"
       }
     ]
   },
-  "version": "11.29.2",
+  "version": "11.29.3",
   "screenshot": null,
   "logo": null
 }
