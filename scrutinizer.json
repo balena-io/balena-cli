@@ -5,6 +5,42 @@
     {
       "commits": [
         {
+          "subject": "Switch to native number check",
+          "hash": "809a5fae25bf75bd4edfb67bda4c98d1566f8493",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        },
+        {
+          "subject": "Switch to native string check",
+          "hash": "eccb1bd9ad098d8a58207c9a103ad624e3d16c3f",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        },
+        {
+          "subject": "Switch to native `Array.isArray` instead of aliases",
+          "hash": "f859d5025a9f5beb56288359744498f17231f0e3",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.29.4",
+      "date": "2020-03-16T14:41:23.803Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Remove unused typings",
           "hash": "505c3ec7d3bdf42eae5b15a3b8778dd38f467bd4",
           "body": "",
@@ -10268,36 +10304,52 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-03-13T00:37:28Z",
+  "lastCommitDate": "2020-03-16T17:41:10Z",
   "latestRelease": {
-    "tagName": "v11.29.3",
+    "tagName": "v11.29.4",
     "asssets": [
       {
-        "name": "balena-cli-v11.29.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.3/balena-cli-v11.29.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.29.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.4/balena-cli-v11.29.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.29.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.3/balena-cli-v11.29.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.29.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.4/balena-cli-v11.29.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.29.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.3/balena-cli-v11.29.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.29.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.4/balena-cli-v11.29.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.29.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.3/balena-cli-v11.29.3-windows-x64-installer.exe"
+        "name": "balena-cli-v11.29.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.4/balena-cli-v11.29.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.29.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.3/balena-cli-v11.29.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.29.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.4/balena-cli-v11.29.4-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 227,
+    "numberOfIssues": 231,
     "latestIssues": [
+      {
+        "title": "Unable to pass the poll interval as an argument to `join` command",
+        "url": "https://github.com/balena-io/balena-cli/issues/1670"
+      },
+      {
+        "title": "Implement auto update feature using @oclif/plugin-update",
+        "url": "https://github.com/balena-io/balena-cli/issues/1669"
+      },
+      {
+        "title": "Add permission validation of auth token / folders when running as non-root users",
+        "url": "https://github.com/balena-io/balena-cli/issues/1667"
+      },
+      {
+        "title": "Convert command `scan` to TypeScript, migrate to oclif",
+        "url": "https://github.com/balena-io/balena-cli/pull/1666"
+      },
       {
         "title": "Update Node.js version in standalone zip and native installers ",
         "url": "https://github.com/balena-io/balena-cli/issues/1661"
@@ -10361,26 +10413,10 @@
       {
         "title": "Add validation for docker-compose 'context' folder",
         "url": "https://github.com/balena-io/balena-cli/issues/1620"
-      },
-      {
-        "title": "openBalena: document and warn/prevent execution of unsupported CLI commands",
-        "url": "https://github.com/balena-io/balena-cli/issues/1610"
-      },
-      {
-        "title": "Convert lib/utils/tty to typescript",
-        "url": "https://github.com/balena-io/balena-cli/pull/1602"
-      },
-      {
-        "title": "Upgrade balena-preload to allow compatible os/app architectures",
-        "url": "https://github.com/balena-io/balena-cli/pull/1592"
-      },
-      {
-        "title": "Automatically lint files on commit",
-        "url": "https://github.com/balena-io/balena-cli/pull/1589"
       }
     ]
   },
-  "version": "11.29.3",
+  "version": "11.29.4",
   "screenshot": null,
   "logo": null
 }
