@@ -1,4 +1,28 @@
 - commits:
+    - subject: Switch to native number check
+      hash: 809a5fae25bf75bd4edfb67bda4c98d1566f8493
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+    - subject: Switch to native string check
+      hash: eccb1bd9ad098d8a58207c9a103ad624e3d16c3f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+    - subject: Switch to native `Array.isArray` instead of aliases
+      hash: f859d5025a9f5beb56288359744498f17231f0e3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.29.4
+  date: 2020-03-16T14:41:23.803Z
+- commits:
     - subject: Remove unused typings
       hash: 505c3ec7d3bdf42eae5b15a3b8778dd38f467bd4
       body: ''
