@@ -250,7 +250,7 @@ export class DeviceAPI {
 				// the `as string` shouldn't be necessary, but the type system
 				// is getting a little confused
 				url = (opts as ObjectWithUrl).url as string;
-			} else if (_.isString(opts)) {
+			} else if (typeof opts === 'string') {
 				url = opts;
 			}
 

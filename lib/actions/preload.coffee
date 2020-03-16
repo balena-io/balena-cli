@@ -249,7 +249,7 @@ module.exports =
 		options.pinDevice = options['pin-device-to-release'] || false
 		delete options['pin-device-to-release']
 
-		if _.isArray(options['add-certificate'])
+		if Array.isArray(options['add-certificate'])
 			certificates = options['add-certificate']
 		else if options['add-certificate'] == undefined
 			certificates = []

@@ -263,7 +263,6 @@ export const push: CommandDefinition<
 	async action(params, options) {
 		const sdk = getBalenaSdk();
 		const Bluebird = await import('bluebird');
-		const isArray = await import('lodash/isArray');
 		const remote = await import('../utils/remote-build');
 		const deviceDeploy = await import('../utils/device/deploy');
 		const { checkLoggedIn } = await import('../utils/patterns');
@@ -348,7 +347,7 @@ export const push: CommandDefinition<
 				const device = appOrDevice;
 				const servicesToDisplay =
 					options.service != null
-						? isArray(options.service)
+						? Array.isArray(options.service)
 							? options.service
 							: [options.service]
 						: undefined;

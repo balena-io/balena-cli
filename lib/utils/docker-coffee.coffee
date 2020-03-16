@@ -148,8 +148,7 @@ generateConnectOpts = (opts) ->
 		return connectOpts
 
 parseBuildArgs = (args) ->
-	_ = require('lodash')
-	if not _.isArray(args)
+	if not Array.isArray(args)
 		args = [ args ]
 	buildArgs = {}
 	args.forEach (arg) ->

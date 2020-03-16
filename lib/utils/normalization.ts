@@ -21,7 +21,7 @@ export function normalizeUuidProp(
 	params: { [key: string]: any },
 	propName = 'uuid',
 ) {
-	if (_.isNumber(params[propName])) {
+	if (typeof params[propName] === 'number') {
 		params[propName] =
 			params[propName + '_raw'] || _.toString(params[propName]);
 	}
@@ -33,7 +33,7 @@ export async function disambiguateReleaseParam(
 	paramRaw: string | undefined,
 ) {
 	// the user has passed an argument that was parsed as a string
-	if (!_.isNumber(param)) {
+	if (typeof param !== 'number') {
 		return param;
 	}
 
