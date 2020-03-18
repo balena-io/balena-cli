@@ -2,13 +2,13 @@
 
 There are 3 options to choose from to install balena's CLI:
 
-* [Executable Installer](#executable-installer): the easiest method, using the traditional
-  graphical desktop application installers for Windows and macOS (coming soon for Linux users too).
+* [Executable Installer](#executable-installer): the easiest method on Windows and macOS, using the
+  traditional graphical desktop application installers.
 * [Standalone Zip Package](#standalone-zip-package): these are plain zip files with the balena CLI
-  executable in them. Recommended for scripted installation in CI (continuous integration)
-  environments.
-* [NPM Installation](#npm-installation): recommended for developers who may be interested in
-  integrating the balena CLI in their existing Node.js projects or workflow.
+  executable in them: extract and run. Available for all platforms: Linux, Windows, macOS.
+  Recommended also for scripted installation in CI (continuous integration) environments.
+* [NPM Installation](#npm-installation): recommended for Node.js developers who may be interested
+  in integrating the balena CLI in their existing projects or workflow.
 
 Some specific CLI commands have a few extra installation steps: see section [Additional
 Dependencies](#additional-dependencies).
@@ -18,17 +18,18 @@ Dependencies](#additional-dependencies).
 >   and getting started with the balena CLI on Windows. (The video uses the standalone zip package
 >   option.)
 > * If you are using Microsoft's [Windows Subsystem for
->   Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL), the recommendation is to
->   install a balena CLI release for Linux rather than Windows, like the Linux standalone zip
->   package. An installation with the graphical executable installer for Windows will not run on
->   WSL.
+>   Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL), install a balena CLI release
+>   for Linux rather than for Windows, like the standalone zip package for Linux. An installation
+>   with the graphical executable installer for Windows will **not** work with WSL.
 
 ## Executable Installer
 
+Recommended for Windows (but not Windows Subsystem for Linux) and macOS:
+
 1. Download the latest installer from the [releases page](https://github.com/balena-io/balena-cli/releases).
    Look for a file name that ends with "-installer", for example:  
-   `balena-cli-v11.6.0-windows-x64-installer.exe`  
-   `balena-cli-v11.6.0-macOS-x64-installer.pkg`
+   `balena-cli-vX.Y.Z-windows-x64-installer.exe`  
+   `balena-cli-vX.Y.Z-macOS-x64-installer.pkg`
 
 2. Double click the downloaded file to run the installer.  
    _If you are using macOS Catalina (10.15), [check this known issue and
@@ -59,19 +60,28 @@ macOS:   | `/usr/local/lib/balena-cli/` <br> `/usr/local/bin/balena`
 
 1. Download the latest zip file from the [releases page](https://github.com/balena-io/balena-cli/releases).
    Look for a file name that ends with the word "standalone", for example:  
-   `balena-cli-v10.13.6-linux-x64-standalone.zip`  
-   `balena-cli-v10.13.6-macOS-x64-standalone.zip`  
-   `balena-cli-v10.13.6-windows-x64-standalone.zip`
+   `balena-cli-vX.Y.Z-linux-x64-standalone.zip`  ← _also for the Windows Subsystem for Linux_  
+   `balena-cli-vX.Y.Z-macOS-x64-standalone.zip`  
+   `balena-cli-vX.Y.Z-windows-x64-standalone.zip`
+
 2. Extract the zip file contents to any folder you choose. The extracted contents will include a
    `balena-cli` folder.
+
 3. Add the `balena-cli` folder to the system's `PATH` environment variable.  
    See instructions for:
    [Linux](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix) |
    [macOS](https://www.architectryan.com/2012/10/02/add-to-the-path-on-mac-os-x-mountain-lion/#.Uydjga1dXDg) |
    [Windows](https://www.computerhope.com/issues/ch000549.htm)
 
-> _If you are using macOS Catalina (10.15), [check this known issue and
-> workaround](https://github.com/balena-io/balena-cli/issues/1479)._
+> * If you are using macOS Catalina (10.15), [check this known issue and
+>   workaround](https://github.com/balena-io/balena-cli/issues/1479).
+> * **Linux Alpine** and **Busybox:** the standalone zip package is not currently compatible with
+>   these "compact" Linux distributions, because of the alternative C libraries they ship with.
+>   It should however work with all "desktop" or "server" distributions, e.g. Ubuntu, Debian, Suse,
+>   Fedora, Arch Linux and many more.
+> * Note that moving the `balena` executable out of the extracted `balena-cli` folder on its own
+>   (e.g. moving it to `/usr/local/bin/balena`) will **not** work, as it depends on the other
+>   folders and files also present in the `balena-cli` folder.
 
 To update the CLI to a new version, download a new release zip file and replace the previous
 installation folder. To uninstall, simply delete the folder and edit the PATH environment variable
@@ -86,9 +96,9 @@ some additional development tools to be installed first:
 * [Node.js](https://nodejs.org/) version 8, 10 or 12
   * **Linux, macOS** and **Windows Subsystem for Linux (WSL):**  
     Installing Node via [nvm](https://github.com/nvm-sh/nvm/blob/master/README.md) is recommended.
-    With some Linux distributions like Ubuntu, users sometimes report permission errors when using
-    the system's Node installation (i.e. when Node is installed via `apt-get`), hence the
-    [nvm](https://github.com/creationix/nvm) recommendation. This [sample
+    When the "system" or "default" Node.js and npm packages are installed with "apt-get" in Linux
+    distributions like Ubuntu, users often report permission or compilation errors when running
+    "npm install". This [sample
     Dockerfile](https://gist.github.com/pdcastro/5d4d96652181e7da685a32caf629dd44) shows the CLI
     installation steps on an Ubuntu 18.04 base image.
   * If using **Node v8,** upgrade `npm` to version 6.9.0 or later with `"npm install -g npm"`
