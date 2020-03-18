@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "INSTALL.md: emphasize the standalone zip package recommendation for WSL",
+          "hash": "0690554a9461c727bb0907d3a79d7f0a5239a197",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.29.5",
+      "date": "2020-03-18T22:37:34.111Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Switch to native number check",
           "hash": "809a5fae25bf75bd4edfb67bda4c98d1566f8493",
           "body": "",
@@ -10199,7 +10215,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 220,
+  "stars": 221,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -10304,36 +10320,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-03-16T17:41:10Z",
+  "lastCommitDate": "2020-03-18T23:00:58Z",
   "latestRelease": {
-    "tagName": "v11.29.4",
+    "tagName": "v11.29.5",
     "asssets": [
       {
-        "name": "balena-cli-v11.29.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.4/balena-cli-v11.29.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.29.5-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.5/balena-cli-v11.29.5-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.29.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.4/balena-cli-v11.29.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.29.5-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.5/balena-cli-v11.29.5-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.29.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.4/balena-cli-v11.29.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.29.5-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.5/balena-cli-v11.29.5-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.29.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.4/balena-cli-v11.29.4-windows-x64-installer.exe"
-      },
-      {
-        "name": "balena-cli-v11.29.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.4/balena-cli-v11.29.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.29.5-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.29.5/balena-cli-v11.29.5-macOS-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 231,
+    "numberOfIssues": 232,
     "latestIssues": [
+      {
+        "title": "Validate docker-compose file for unsupported configurations",
+        "url": "https://github.com/balena-io/balena-cli/issues/1671"
+      },
       {
         "title": "Unable to pass the poll interval as an argument to `join` command",
         "url": "https://github.com/balena-io/balena-cli/issues/1670"
@@ -10409,14 +10425,10 @@
       {
         "title": "Prompt before replacing a multi-container app with a single-container app",
         "url": "https://github.com/balena-io/balena-cli/issues/1621"
-      },
-      {
-        "title": "Add validation for docker-compose 'context' folder",
-        "url": "https://github.com/balena-io/balena-cli/issues/1620"
       }
     ]
   },
-  "version": "11.29.4",
+  "version": "11.29.5",
   "screenshot": null,
   "logo": null
 }

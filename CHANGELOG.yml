@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'INSTALL.md: emphasize the standalone zip package recommendation for WSL'
+      hash: 0690554a9461c727bb0907d3a79d7f0a5239a197
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.29.5
+  date: 2020-03-18T23:00:09.857Z
+- commits:
     - subject: Switch to native number check
       hash: 809a5fae25bf75bd4edfb67bda4c98d1566f8493
       body: ''
@@ -21,7 +31,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.29.4
-  date: 2020-03-16T17:40:43.566Z
+  date: 2020-03-16T14:41:23.803Z
 - commits:
     - subject: Remove unused typings
       hash: 505c3ec7d3bdf42eae5b15a3b8778dd38f467bd4
