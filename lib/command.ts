@@ -16,11 +16,36 @@
  */
 
 import Command from '@oclif/command';
+import { ExpectedError } from './errors';
 
-export default abstract class extends Command {
+export default abstract class BalenaCommand extends Command {
 	/**
 	 * When set to true, command will be listed in `help`,
 	 * otherwise listed in `help --verbose` with secondary commands.
 	 */
 	public static primary = false;
+
+	/**
+	 * Require elevated privileges to run.
+	 * When set to true, command will exit with an error
+	 * if executed without root on Mac/Linux
+	 * or if executed by non-Administrator on Windows.
+	 */
+	public static root = false;
+
+	protected async checkElevatedPrivileges() {
+		const root = (this.constructor as typeof BalenaCommand).root;
+		if (root) {
+			const isElevated = await (await import('is-elevated'))();
+			if (!isElevated) {
+				throw new ExpectedError(
+					'You need admin privileges to run this command',
+				);
+			}
+		}
+	}
+
+	protected async init() {
+		await this.checkElevatedPrivileges();
+	}
 }
