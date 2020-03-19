@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Add support for `root` property on oclif commands",
+          "hash": "f24c4a036c1781c745b60eafbb8daa8ee1f56042",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.30.1",
+      "date": "2020-03-19T18:54:22.804Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add support for primary/secondary oclif commands",
           "hash": "46b695cf2219e3f713c5d6ea2a5a4c32016fd068",
           "body": "",
@@ -10338,29 +10356,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-03-19T15:14:26Z",
+  "lastCommitDate": "2020-03-19T19:16:18Z",
   "latestRelease": {
-    "tagName": "v11.30.0",
+    "tagName": "v11.30.1",
     "asssets": [
       {
-        "name": "balena-cli-v11.30.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.0/balena-cli-v11.30.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.30.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.1/balena-cli-v11.30.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.0/balena-cli-v11.30.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.30.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.1/balena-cli-v11.30.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.30.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.0/balena-cli-v11.30.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.30.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.1/balena-cli-v11.30.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.0/balena-cli-v11.30.0-windows-x64-installer.exe"
+        "name": "balena-cli-v11.30.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.1/balena-cli-v11.30.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.30.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.0/balena-cli-v11.30.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.30.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.1/balena-cli-v11.30.1-windows-x64-standalone.zip"
       }
     ]
   },
@@ -10450,7 +10468,7 @@
       }
     ]
   },
-  "version": "11.30.0",
+  "version": "11.30.1",
   "screenshot": null,
   "logo": null
 }
