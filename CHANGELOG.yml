@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add support for primary/secondary oclif commands
+      hash: 46b695cf2219e3f713c5d6ea2a5a4c32016fd068
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.30.0
+  date: 2020-03-19T15:13:49.469Z
+- commits:
     - subject: 'INSTALL.md: emphasize the standalone zip package recommendation for WSL'
       hash: 0690554a9461c727bb0907d3a79d7f0a5239a197
       body: ''
@@ -7,7 +19,7 @@
         change-type: patch
       author: Paulo Castro
   version: 11.29.5
-  date: 2020-03-18T23:00:09.857Z
+  date: 2020-03-18T22:37:34.111Z
 - commits:
     - subject: Switch to native number check
       hash: 809a5fae25bf75bd4edfb67bda4c98d1566f8493
