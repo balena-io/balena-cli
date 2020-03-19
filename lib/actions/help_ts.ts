@@ -15,32 +15,38 @@
  * limitations under the License.
  */
 
-import { Command } from '@oclif/command';
-import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
 import * as path from 'path';
+import Command from '../command';
 
 import { capitanoizeOclifUsage } from '../utils/oclif-utils';
 
-export async function getOclifHelpLinePairs(): Promise<
-	Array<[string, string]>
-> {
+export async function getOclifHelpLinePairs() {
 	const { convertedCommands } = await import('../preparser');
-	const cmdClasses: Array<Promise<typeof Command>> = [];
+	const primary: Array<[string, string]> = [];
+	const secondary: Array<[string, string]> = [];
+
 	for (const convertedCmd of convertedCommands) {
 		const [topic, cmd] = convertedCmd.split(':');
 		const pathComponents = ['..', 'actions-oclif', topic];
 		if (cmd) {
 			pathComponents.push(cmd);
 		}
-		// note that `import(path)` returns a promise
-		cmdClasses.push(import(path.join(...pathComponents)));
+
+		const cmdModule = await import(path.join(...pathComponents));
+		const command: typeof Command = cmdModule.default;
+
+		if (command.primary) {
+			primary.push(getCmdUsageDescriptionLinePair(command));
+		} else {
+			secondary.push(getCmdUsageDescriptionLinePair(command));
+		}
 	}
-	return Bluebird.map(cmdClasses, getCmdUsageDescriptionLinePair);
+
+	return { primary, secondary };
 }
 
-function getCmdUsageDescriptionLinePair(cmdModule: any): [string, string] {
-	const cmd: typeof Command = cmdModule.default;
+function getCmdUsageDescriptionLinePair(cmd: typeof Command): [string, string] {
 	const usage = capitanoizeOclifUsage(cmd.usage);
 	let description = '';
 	// note: [^] matches any characters (including line breaks), achieving the

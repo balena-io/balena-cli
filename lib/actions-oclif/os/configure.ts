@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 
-import { Command, flags } from '@oclif/command';
+import { flags } from '@oclif/command';
 import BalenaSdk = require('balena-sdk');
 import Bluebird = require('bluebird');
 import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 import * as path from 'path';
+import Command from '../../command';
 
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';

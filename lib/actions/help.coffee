@@ -77,31 +77,35 @@ general = (params, options, done) ->
 	commands = _.reject capitano.state.commands, (command) ->
 		return command.hidden or command.isWildcard()
 
-	groupedCommands = _.groupBy commands, (command) ->
+	capitanoCommands = _.groupBy commands, (command) ->
 		if command.primary
 			return 'primary'
 		return 'secondary'
 
-	print parse(groupedCommands.primary).sort(getManualSortCompareFunction(
-		manuallySortedPrimaryCommands,
-		([signature, description], manualItem) ->
-			signature == manualItem or signature.startsWith("#{manualItem} ")
-	))
+	getOclifHelpLinePairs()
+	.then (oclifHelpLinePairs) ->
 
-	if options.verbose
-		console.log('\nAdditional commands:\n')
-		secondaryCommandPromise = getOclifHelpLinePairs()
-		.then (oclifHelpLinePairs) ->
-			print parse(groupedCommands.secondary).concat(oclifHelpLinePairs).sort()
-	else
-		console.log('\nRun `balena help --verbose` to list additional commands')
-		secondaryCommandPromise = Promise.resolve()
+		primaryHelpLinePairs =
+		parse(capitanoCommands.primary).concat(oclifHelpLinePairs.primary).sort(getManualSortCompareFunction(
+			manuallySortedPrimaryCommands,
+			([signature, description], manualItem) ->
+				signature == manualItem or signature.startsWith("#{manualItem} ")
+		))
 
-	secondaryCommandPromise
-	.then ->
+		secondaryHelpLinePairs = parse(capitanoCommands.secondary).concat(oclifHelpLinePairs.secondary).sort()
+
+		print primaryHelpLinePairs
+
+		if options.verbose
+			console.log('\nAdditional commands:\n')
+			print secondaryHelpLinePairs
+		else
+			console.log('\nRun `balena help --verbose` to list additional commands')
+
 		if not _.isEmpty(capitano.state.globalOptions)
 			console.log('\nGlobal Options:\n')
 			print parse(capitano.state.globalOptions).sort()
+
 		done()
 	.catch(done)
 
