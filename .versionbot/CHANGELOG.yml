@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add support for primary/secondary oclif commands
+      hash: 46b695cf2219e3f713c5d6ea2a5a4c32016fd068
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.30.0
+  date: 2020-03-19T14:48:23.139Z
+- commits:
     - subject: 'INSTALL.md: emphasize the standalone zip package recommendation for WSL'
       hash: 0690554a9461c727bb0907d3a79d7f0a5239a197
       body: ''
