@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Command, flags } from '@oclif/command';
+import { flags } from '@oclif/command';
 import * as SDK from 'balena-sdk';
 import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
+import Command from '../../command';
 
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals } from '../../utils/lazy';

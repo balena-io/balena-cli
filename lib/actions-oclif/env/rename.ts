@@ -14,8 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Command, flags } from '@oclif/command';
+import { flags } from '@oclif/command';
 import { stripIndent } from 'common-tags';
+import Command from '../../command';
 
 import * as cf from '../../utils/common-flags';
 import * as ec from '../../utils/env-common';
