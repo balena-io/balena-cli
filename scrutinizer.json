@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Deduplicate `balenaUrl` fetching in events",
+          "hash": "47e85da78958826e76e091ea45ee81428555ddd7",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.30.4",
+      "date": "2020-03-24T17:38:00.838Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Preserve symlinks for the sake of the balenaCI worker",
           "hash": "6574745a2362ff2ff6158201852fc6adfd042602",
           "body": "",
@@ -10400,29 +10416,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-03-24T17:33:02Z",
+  "lastCommitDate": "2020-03-24T18:57:00Z",
   "latestRelease": {
-    "tagName": "v11.30.3",
+    "tagName": "v11.30.4",
     "asssets": [
       {
-        "name": "balena-cli-v11.30.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.3/balena-cli-v11.30.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.30.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.4/balena-cli-v11.30.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.3/balena-cli-v11.30.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.30.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.4/balena-cli-v11.30.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.30.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.3/balena-cli-v11.30.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.30.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.4/balena-cli-v11.30.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.3/balena-cli-v11.30.3-windows-x64-installer.exe"
+        "name": "balena-cli-v11.30.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.4/balena-cli-v11.30.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.30.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.3/balena-cli-v11.30.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.30.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.4/balena-cli-v11.30.4-windows-x64-standalone.zip"
       }
     ]
   },
@@ -10430,6 +10446,10 @@
   "openIssues": {
     "numberOfIssues": 231,
     "latestIssues": [
+      {
+        "title": "Use balena-lint for javascript linting and add javascript type-checking",
+        "url": "https://github.com/balena-io/balena-cli/pull/1676"
+      },
       {
         "title": "Validate docker-compose file for unsupported configurations",
         "url": "https://github.com/balena-io/balena-cli/issues/1671"
@@ -10471,10 +10491,6 @@
         "url": "https://github.com/balena-io/balena-cli/issues/1646"
       },
       {
-        "title": "Improve events",
-        "url": "https://github.com/balena-io/balena-cli/pull/1641"
-      },
-      {
         "title": "balena push on windows with .local address fails to connect to docker daemon",
         "url": "https://github.com/balena-io/balena-cli/issues/1637"
       },
@@ -10512,7 +10528,7 @@
       }
     ]
   },
-  "version": "11.30.3",
+  "version": "11.30.4",
   "screenshot": null,
   "logo": null
 }

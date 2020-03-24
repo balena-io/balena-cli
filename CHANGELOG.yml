@@ -1,4 +1,14 @@
 - commits:
+    - subject: Deduplicate `balenaUrl` fetching in events
+      hash: 47e85da78958826e76e091ea45ee81428555ddd7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.30.4
+  date: 2020-03-24T18:56:23.782Z
+- commits:
     - subject: Preserve symlinks for the sake of the balenaCI worker
       hash: 6574745a2362ff2ff6158201852fc6adfd042602
       body: ''
@@ -14,7 +24,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.30.3
-  date: 2020-03-24T17:32:36.351Z
+  date: 2020-03-24T16:56:52.914Z
 - commits:
     - subject: Add support for authentication checking to oclif
       hash: 8658104647def05094609a498407ca0937de5c5b
