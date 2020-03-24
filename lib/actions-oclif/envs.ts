@@ -133,10 +133,9 @@ export default class EnvsCmd extends Command {
 
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(EnvsCmd);
-		const { checkLoggedIn } = await import('../utils/patterns');
 		const variables: EnvironmentVariableInfo[] = [];
 
-		await checkLoggedIn();
+		await Command.checkLoggedIn();
 
 		if (!options.application && !options.device) {
 			throw new ExpectedError('You must specify an application or device');

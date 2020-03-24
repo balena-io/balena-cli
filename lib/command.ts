@@ -16,7 +16,7 @@
  */
 
 import Command from '@oclif/command';
-import { ExpectedError } from './errors';
+import { InsufficientPrivilegesError } from './errors';
 
 export default abstract class BalenaCommand extends Command {
 	/**
@@ -33,19 +33,59 @@ export default abstract class BalenaCommand extends Command {
 	 */
 	public static root = false;
 
-	protected async checkElevatedPrivileges() {
-		const root = (this.constructor as typeof BalenaCommand).root;
-		if (root) {
-			const isElevated = await (await import('is-elevated'))();
-			if (!isElevated) {
-				throw new ExpectedError(
-					'You need admin privileges to run this command',
-				);
-			}
+	/**
+	 * Require authentication to run.
+	 * When set to true, command will exit with an error
+	 * if user is not already logged in.
+	 */
+	public static authenticated = false;
+
+	/**
+	 * Throw InsufficientPrivilegesError if not root on Mac/Linux
+	 * or non-Administrator on Windows.
+	 *
+	 * Called automatically if `root=true`.
+	 * Can be called explicitly by command implementation, if e.g.:
+	 *  - check should only be done conditionally
+	 *  - other code needs to execute before check
+	 */
+	protected static async checkElevatedPrivileges() {
+		const isElevated = await (await import('is-elevated'))();
+		if (!isElevated) {
+			throw new InsufficientPrivilegesError(
+				'You need root/admin privileges to run this command',
+			);
 		}
 	}
 
+	/**
+	 * Throw NotLoggedInError if not logged in.
+	 *
+	 * Called automatically if `authenticated=true`.
+	 * Can be called explicitly by command implementation, if e.g.:
+	 *  - check should only be done conditionally
+	 *  - other code needs to execute before check
+	 *
+	 *  Note, currently public to allow use outside of derived commands
+	 *  (as some command implementations require this. Can be made protected
+	 *  if this changes).
+	 */
+	public static async checkLoggedIn() {
+		await (await import('./utils/patterns')).checkLoggedIn();
+	}
+
 	protected async init() {
-		await this.checkElevatedPrivileges();
+		const requireElevatedPrivileges = (this.constructor as typeof BalenaCommand)
+			.root;
+		const requireAuthentication = (this.constructor as typeof BalenaCommand)
+			.authenticated;
+
+		if (requireElevatedPrivileges) {
+			await BalenaCommand.checkElevatedPrivileges();
+		}
+
+		if (requireAuthentication) {
+			await BalenaCommand.checkLoggedIn();
+		}
 	}
 }

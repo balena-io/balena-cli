@@ -308,8 +308,8 @@ async function validateOptions(options: FlagsDef) {
 			-------------------------------------------------------------------------------------------
 		`);
 	}
-	const { checkLoggedIn } = await import('../../utils/patterns');
-	await checkLoggedIn();
+
+	await Command.checkLoggedIn();
 }
 
 /**

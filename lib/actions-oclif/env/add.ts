@@ -105,7 +105,6 @@ export default class EnvAddCmd extends Command {
 			EnvAddCmd,
 		);
 		const cmd = this;
-		const { checkLoggedIn } = await import('../../utils/patterns');
 
 		if (!options.application && !options.device) {
 			throw new ExpectedError(
@@ -113,7 +112,7 @@ export default class EnvAddCmd extends Command {
 			);
 		}
 
-		await checkLoggedIn();
+		await Command.checkLoggedIn();
 
 		if (params.value == null) {
 			params.value = process.env[params.name];

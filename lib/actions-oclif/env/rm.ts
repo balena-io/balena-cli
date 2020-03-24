@@ -88,9 +88,9 @@ export default class EnvRmCmd extends Command {
 			EnvRmCmd,
 		);
 		const balena = getBalenaSdk();
-		const { checkLoggedIn, confirm } = await import('../../utils/patterns');
+		const { confirm } = await import('../../utils/patterns');
 
-		await checkLoggedIn();
+		await Command.checkLoggedIn();
 
 		await confirm(
 			opt.yes || false,

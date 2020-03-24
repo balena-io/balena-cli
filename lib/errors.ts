@@ -23,6 +23,8 @@ export class ExpectedError extends TypedError {}
 
 export class NotLoggedInError extends ExpectedError {}
 
+export class InsufficientPrivilegesError extends ExpectedError {}
+
 function hasCode(error: any): error is Error & { code: string } {
 	return error.code != null;
 }
