@@ -1,4 +1,21 @@
 - commits:
+    - subject: Preserve symlinks for the sake of the balenaCI worker
+      hash: 6574745a2362ff2ff6158201852fc6adfd042602
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+    - subject: Add type checking for tests
+      hash: 1ee74df67e24502b4779977cdf707436bb45518f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.30.3
+  date: 2020-03-24T17:32:36.351Z
+- commits:
     - subject: Add support for authentication checking to oclif
       hash: 8658104647def05094609a498407ca0937de5c5b
       body: ''
@@ -9,7 +26,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.30.2
-  date: 2020-03-24T16:17:51.630Z
+  date: 2020-03-24T09:22:04.325Z
 - commits:
     - subject: Add support for `root` property on oclif commands
       hash: f24c4a036c1781c745b60eafbb8daa8ee1f56042

@@ -5,6 +5,32 @@
     {
       "commits": [
         {
+          "subject": "Preserve symlinks for the sake of the balenaCI worker",
+          "hash": "6574745a2362ff2ff6158201852fc6adfd042602",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        },
+        {
+          "subject": "Add type checking for tests",
+          "hash": "1ee74df67e24502b4779977cdf707436bb45518f",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.30.3",
+      "date": "2020-03-24T16:56:52.914Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add support for authentication checking to oclif",
           "hash": "8658104647def05094609a498407ca0937de5c5b",
           "body": "",
@@ -10374,35 +10400,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-03-24T16:18:18Z",
+  "lastCommitDate": "2020-03-24T17:33:02Z",
   "latestRelease": {
-    "tagName": "v11.30.2",
+    "tagName": "v11.30.3",
     "asssets": [
       {
-        "name": "balena-cli-v11.30.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.2/balena-cli-v11.30.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.30.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.3/balena-cli-v11.30.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.2/balena-cli-v11.30.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.30.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.3/balena-cli-v11.30.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.30.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.2/balena-cli-v11.30.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.30.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.3/balena-cli-v11.30.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.2/balena-cli-v11.30.2-windows-x64-installer.exe"
+        "name": "balena-cli-v11.30.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.3/balena-cli-v11.30.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.30.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.2/balena-cli-v11.30.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.30.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.3/balena-cli-v11.30.3-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 232,
+    "numberOfIssues": 231,
     "latestIssues": [
       {
         "title": "Validate docker-compose file for unsupported configurations",
@@ -10431,10 +10457,6 @@
       {
         "title": "Support easy switching between multiple accounts.",
         "url": "https://github.com/balena-io/balena-cli/issues/1660"
-      },
-      {
-        "title": "Add type checking for tests",
-        "url": "https://github.com/balena-io/balena-cli/pull/1656"
       },
       {
         "title": "Add ability to limit simultaneous builds during live push.",
@@ -10483,10 +10505,14 @@
       {
         "title": "Prompt before replacing a multi-container app with a single-container app",
         "url": "https://github.com/balena-io/balena-cli/issues/1621"
+      },
+      {
+        "title": "Add validation for docker-compose 'context' folder",
+        "url": "https://github.com/balena-io/balena-cli/issues/1620"
       }
     ]
   },
-  "version": "11.30.2",
+  "version": "11.30.3",
   "screenshot": null,
   "logo": null
 }
