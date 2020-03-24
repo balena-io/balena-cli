@@ -74,6 +74,10 @@ export function authenticate(options: {}): Bluebird<void> {
 		});
 }
 
+/**
+ * Check if logged in, and throw `NotLoggedInError` if not.
+ * Note: `NotLoggedInError` is an `ExpectedError`.
+ */
 export async function checkLoggedIn(): Promise<void> {
 	const balena = getBalenaSdk();
 	if (!(await balena.auth.isLoggedIn())) {
@@ -84,6 +88,10 @@ export async function checkLoggedIn(): Promise<void> {
 	}
 }
 
+/**
+ * Check if logged in, and call `exitWithExpectedError()` if not.
+ * DEPRECATED: Use checkLoggedIn() instead.
+ */
 export async function exitIfNotLoggedIn(): Promise<void> {
 	try {
 		await checkLoggedIn();

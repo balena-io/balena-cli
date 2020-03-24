@@ -85,9 +85,8 @@ export default class EnvRenameCmd extends Command {
 		const { args: params, flags: opt } = this.parse<FlagsDef, ArgsDef>(
 			EnvRenameCmd,
 		);
-		const { checkLoggedIn } = await import('../../utils/patterns');
 
-		await checkLoggedIn();
+		await Command.checkLoggedIn();
 
 		await getBalenaSdk().pine.patch({
 			resource: ec.getVarResourceName(opt.config, opt.device, opt.service),
