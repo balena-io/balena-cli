@@ -133,6 +133,7 @@ export const convertedCommands = [
 	'env:rm',
 	'os:configure',
 	'version',
+	'settings',
 ];
 
 /**

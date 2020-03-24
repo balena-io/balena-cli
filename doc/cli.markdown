@@ -229,10 +229,6 @@ If you come across any problems or would like to get in touch:
 
 	- [push &#60;applicationOrDevice&#62;](#push-applicationordevice)
 
-- Settings
-
-	- [settings](#settings)
-
 - Local
 
 	- [local configure &#60;target&#62;](#local-configure-target)
@@ -1812,16 +1808,6 @@ left hand side of the = character will be treated as the variable name.
 
 On Windows only, convert line endings from CRLF (Windows format) to LF (Unix format).
 Source files are not modified.
-
-# Settings
-
-## settings
-
-Use this command to display detected settings
-
-Examples:
-
-	$ balena settings
 
 # Local
 

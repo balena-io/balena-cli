@@ -101,9 +101,6 @@ capitano.command(actions.config.inject)
 capitano.command(actions.config.reconfigure)
 capitano.command(actions.config.generate)
 
-# ---------- Settings Module ----------
-capitano.command(actions.settings.list)
-
 # ---------- Logs Module ----------
 capitano.command(actions.logs.logs)
 

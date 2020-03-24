@@ -104,7 +104,7 @@ const capitanoDoc = {
 		},
 		{
 			title: 'Settings',
-			files: ['build/actions/settings.js'],
+			files: ['build/actions-oclif/settings.js'],
 		},
 		{
 			title: 'Local',
