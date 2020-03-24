@@ -76,7 +76,7 @@ describe('detectEncoding() function', function() {
 			'node_modules/.bin/prettier',
 			'node_modules/.bin/coffeelint',
 			'node_modules/.bin/tsc',
-			'node_modules/.bin/resin-lint',
+			'node_modules/.bin/balena-lint',
 			'node_modules/.bin/balena-preload',
 			'node_modules/.bin/catch-uncommitted',
 		];

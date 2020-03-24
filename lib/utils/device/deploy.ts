@@ -536,7 +536,7 @@ export function generateTargetState(
 		// this composition entry (everything else in this
 		// function comes from the composition which doesn't
 		// change)
-		let contract = null;
+		let contract;
 		if (name in keyedBuildTasks) {
 			contract = keyedBuildTasks[name].contract;
 		}
