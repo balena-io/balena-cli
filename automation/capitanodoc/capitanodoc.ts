@@ -84,7 +84,7 @@ const capitanoDoc = {
 		},
 		{
 			title: 'Notes',
-			files: ['build/actions/notes.js'],
+			files: ['build/actions-oclif/note.js'],
 		},
 		{
 			title: 'OS',

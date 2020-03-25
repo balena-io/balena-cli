@@ -41,6 +41,15 @@ export default abstract class BalenaCommand extends Command {
 	public static authenticated = false;
 
 	/**
+	 * Accept piped input.
+	 * When set to true, command will read from stdin during init
+	 * and make contents available on member `stdin`.
+	 */
+	public static readStdin = false;
+
+	public stdin: string;
+
+	/**
 	 * Throw InsufficientPrivilegesError if not root on Mac/Linux
 	 * or non-Administrator on Windows.
 	 *
@@ -74,18 +83,29 @@ export default abstract class BalenaCommand extends Command {
 		await (await import('./utils/patterns')).checkLoggedIn();
 	}
 
-	protected async init() {
-		const requireElevatedPrivileges = (this.constructor as typeof BalenaCommand)
-			.root;
-		const requireAuthentication = (this.constructor as typeof BalenaCommand)
-			.authenticated;
+	/**
+	 * Read stdin contents and make available to command.
+	 *
+	 * This approach could be improved in the future to automatically set argument
+	 * values from stdin based in configuration, minimising command implementation.
+	 */
+	protected async getStdin() {
+		this.stdin = await (await import('get-stdin'))();
+	}
 
-		if (requireElevatedPrivileges) {
+	protected async init() {
+		const ctr = this.constructor as typeof BalenaCommand;
+
+		if (ctr.root) {
 			await BalenaCommand.checkElevatedPrivileges();
 		}
 
-		if (requireAuthentication) {
+		if (ctr.authenticated) {
 			await BalenaCommand.checkLoggedIn();
+		}
+
+		if (ctr.readStdin) {
+			await this.getStdin();
 		}
 	}
 }

@@ -229,6 +229,10 @@ If you come across any problems or would like to get in touch:
 
 	- [push &#60;applicationOrDevice&#62;](#push-applicationordevice)
 
+- Settings
+
+	- [settings](#settings)
+
 - Local
 
 	- [local configure &#60;target&#62;](#local-configure-target)
@@ -1248,22 +1252,35 @@ The mapping of remote to local ports.
 
 ## note &#60;|note&#62;
 
-Use this command to set or update a device note.
+Set or update a device note. If the note argument is not provided,
+it will be read from stdin.
 
-If note command isn't passed, the tool attempts to read from `stdin`.
-
-To view the notes, use $ balena device <uuid>.
+To view device notes, use the `balena device <uuid>` command.
 
 Examples:
 
 	$ balena note "My useful note" --device 7cf02a6
 	$ cat note.txt | balena note --device 7cf02a6
 
+### Arguments
+
+#### NOTE
+
+note content
+
 ### Options
 
-#### --device, -d, --dev &#60;device&#62;
+#### -d, --device DEVICE
 
-device uuid
+device UUID
+
+#### --dev DEV
+
+
+
+#### --stdin
+
+
 
 # OS
 
@@ -1808,6 +1825,18 @@ left hand side of the = character will be treated as the variable name.
 
 On Windows only, convert line endings from CRLF (Windows format) to LF (Unix format).
 Source files are not modified.
+
+# Settings
+
+## settings
+
+Use this command to display current balena CLI settings.
+
+Examples:
+
+	$ balena settings
+
+### Options
 
 # Local
 

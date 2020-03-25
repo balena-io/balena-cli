@@ -68,6 +68,9 @@ function importCapitanoCommands(jsFilename: string): CapitanoCommand[] {
 }
 
 function importOclifCommands(jsFilename: string): OclifCommand[] {
+	// TODO: Currently oclif commands with no `usage` overridden will cause
+	//  an error when parsed.  This should be improved so that `usage` does not have
+	//  to be overridden if not necessary.
 	const command: OclifCommand = require(path.join(process.cwd(), jsFilename))
 		.default as OclifCommand;
 	return [command];
