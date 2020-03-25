@@ -1,4 +1,14 @@
 - commits:
+    - subject: Use balena-lint for javascript linting and add javascript type-checking
+      hash: b3b22d63997ca76011297c714104c387213244a1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.30.5
+  date: 2020-03-25T12:15:04.187Z
+- commits:
     - subject: Deduplicate `balenaUrl` fetching in events
       hash: 47e85da78958826e76e091ea45ee81428555ddd7
       body: ''
