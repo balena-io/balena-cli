@@ -17,9 +17,10 @@
 			"./node_modules/etcher-sdk/typings",
 			"./typings"
 		],
-		"preserveSymlinks": true
+		"preserveSymlinks": true,
+		"allowJs": true
 	},
 	"include": [
-		"./lib/**/*.ts"
+		"./lib/**/*"
 	]
 }

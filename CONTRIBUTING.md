@@ -149,9 +149,8 @@ to oclif.
 
 ## Programming style
 
-`npm run build` also runs [prettier](https://www.npmjs.com/package/prettier), which automatically
-reformats the code (based on configuration in the `node_modules/resin-lint/config/.prettierrc`
-file). Beyond that, we have a preference for Javascript promises over callbacks, and for
+`npm run build` also runs [balena-lint](https://www.npmjs.com/package/@balena/lint), which automatically
+reformats the code. Beyond that, we have a preference for Javascript promises over callbacks, and for
 `async/await` over `.then()`.
 
 ## Updating upstream dependencies

@@ -1,5 +1,5 @@
 {
-    "extends": "./node_modules/resin-lint/config/tslint-prettier.json",
+    "extends": "./node_modules/@balena/lint/config/tslint-prettier.json",
     "rules": {
         "ignoreDefinitionFiles": false
     }

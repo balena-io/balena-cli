@@ -43,9 +43,9 @@
     "postinstall": "patch-package",
     "prebuild": "rimraf build/ build-bin/",
     "build": "npm run build:src && npm run catch-uncommitted",
-    "build:src": "npm run prettify && npm run lint && npm run build:fast && npm run build:test && npm run build:doc",
+    "build:src": "npm run lint && npm run build:fast && npm run build:test && npm run build:doc",
     "build:fast": "gulp build && tsc",
-    "build:test": "tsc -P ./tsconfig.dev.json --noEmit",
+    "build:test": "tsc -P ./tsconfig.dev.json --noEmit && tsc -P ./tsconfig.js.json --noEmit",
     "build:doc": "mkdirp doc/ && ts-node --transpile-only automation/capitanodoc/index.ts > doc/cli.markdown",
     "build:standalone": "ts-node --transpile-only automation/run.ts build:standalone",
     "build:installer": "ts-node --transpile-only automation/run.ts build:installer",
@@ -57,8 +57,7 @@
     "catch-uncommitted": "ts-node --transpile-only automation/run.ts catch-uncommitted",
     "ci": "npm run test && npm run catch-uncommitted",
     "watch": "gulp watch",
-    "prettify": "prettier --write \"{lib,tests,automation,typings}/**/*.js\" --config ./node_modules/resin-lint/config/.prettierrc",
-    "lint": "resin-lint lib/ tests/ && resin-lint --typescript --fix automation/ lib/ typings/ tests/",
+    "lint": "balena-lint lib/ tests/ && balena-lint -e ts -e js --typescript --fix automation/ lib/ typings/ tests/",
     "update": "ts-node --transpile-only ./automation/update-module.ts",
     "prepublishOnly": "npm run build"
   },
@@ -93,6 +92,7 @@
     }
   },
   "devDependencies": {
+    "@balena/lint": "^4.1.1",
     "@oclif/config": "^1.14.0",
     "@oclif/dev-cli": "1.22.0",
     "@oclif/parser": "^3.8.4",
@@ -151,7 +151,6 @@
     "pkg": "^4.4.2",
     "prettier": "^1.19.1",
     "publish-release": "^1.6.1",
-    "resin-lint": "^3.3.1",
     "rewire": "^4.0.1",
     "simple-git": "^1.131.0",
     "sinon": "^7.5.0",
