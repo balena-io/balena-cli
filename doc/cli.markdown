@@ -605,6 +605,8 @@ Use this command to trigger a Host OS update for a device.
 Notice this command will ask for confirmation interactively.
 You can avoid this by passing the `--yes` boolean option.
 
+Requires balenaCloud; will not work with openBalena or standalone balenaOS.
+
 Examples:
 
 	$ balena device os-update 23c73a1

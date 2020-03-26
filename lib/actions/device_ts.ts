@@ -39,6 +39,8 @@ export const osUpdate: CommandDefinition<OsUpdate.Args, OsUpdate.Options> = {
 		Notice this command will ask for confirmation interactively.
 		You can avoid this by passing the \`--yes\` boolean option.
 
+		Requires balenaCloud; will not work with openBalena or standalone balenaOS.
+
 		Examples:
 
 			$ balena device os-update 23c73a1
