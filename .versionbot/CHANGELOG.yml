@@ -1,4 +1,18 @@
 - commits:
+    - subject: Clarify `balena device os-update` help re balenaCloud
+      hash: e5d2661c9693520c4231eb585f29126fa280d869
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#1679'
+        resolves: '#1679'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.30.6
+  date: 2020-03-26T13:02:23.330Z
+- commits:
     - subject: Use balena-lint for javascript linting and add javascript type-checking
       hash: b3b22d63997ca76011297c714104c387213244a1
       body: ''
