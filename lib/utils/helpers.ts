@@ -16,9 +16,10 @@ limitations under the License.
 
 import { InitializeEmitter, OperationState } from 'balena-device-init';
 import * as BalenaSdk from 'balena-sdk';
-import Bluebird = require('bluebird');
-import _ = require('lodash');
-import os = require('os');
+import * as Bluebird from 'bluebird';
+import { spawn, SpawnOptions } from 'child_process';
+import * as _ from 'lodash';
+import * as os from 'os';
 import * as ShellEscape from 'shell-escape';
 
 import { ExpectedError } from '../errors';
@@ -185,35 +186,6 @@ export function getApplication(applicationName: string) {
 	}
 
 	return balena.models.application.get(applicationName, extraOptions);
-}
-
-/**
- * Choose between 'cmd.exe' and '/bin/sh' for running the given command string,
- * depending on the value of `os.platform()`.
- * When writing new code, consider whether it would be possible to avoid using a
- * shell at all, using the which() function in this module to obtain a program's
- * full path, executing the program directly and passing the arguments as an
- * array instead of a long string. Avoiding a shell has several benefits:
- *   - Avoids the need to shell-escape arguments, especially nested commands.
- *   - Bypasses the incompatibilities between cmd.exe and /bin/sh.
- *   - Reduces the security risks of lax input validation.
- * Code example avoiding a shell:
- *    const program = await which('ssh');
- *    const args = ['root@192.168.1.1', 'cat /etc/os-release'];
- *    const child = spawn(program, args);
- */
-export function getSubShellCommand(command: string) {
-	if (os.platform() === 'win32') {
-		return {
-			program: 'cmd.exe',
-			args: ['/s', '/c', command],
-		};
-	} else {
-		return {
-			program: '/bin/sh',
-			args: ['-c', command],
-		};
-	}
 }
 
 /**
@@ -404,6 +376,40 @@ export async function which(
 		throw err;
 	}
 	return programPath;
+}
+
+/**
+ * Call which(programName) and spawn() with the given arguments.
+ * Reject the promise if the process exit code is not zero.
+ */
+export async function whichSpawn(
+	programName: string,
+	args: string[],
+	options: SpawnOptions = { stdio: 'inherit' },
+): Promise<void> {
+	const program = await which(programName);
+	if (process.env.DEBUG) {
+		console.error(`[debug] [${program}, ${args.join(', ')}]`);
+	}
+	let error: Error | undefined;
+	let exitCode: number | undefined;
+	try {
+		exitCode = await new Promise<number>((resolve, reject) => {
+			spawn(program, args, options)
+				.on('error', reject)
+				.on('close', resolve);
+		});
+	} catch (err) {
+		error = err;
+	}
+	if (error || exitCode) {
+		const msg = [
+			`${programName} failed with exit code ${exitCode}:`,
+			`[${program}, ${args.join(', ')}]`,
+			...(error ? [`${error}`] : []),
+		];
+		throw new Error(msg.join('\n'));
+	}
 }
 
 export interface ProxyConfig {

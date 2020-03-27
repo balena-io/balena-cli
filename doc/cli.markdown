@@ -1205,7 +1205,8 @@ support) please check:
 
 #### --port, -p &#60;port&#62;
 
-SSH gateway port
+SSH server port number (default 22222) if the target is an IP address or .local
+hostname. Otherwise, port number for the balenaCloud gateway (default 22).
 
 #### --verbose, -v
 
@@ -1213,8 +1214,7 @@ Increase verbosity
 
 #### --noproxy
 
-Don't use the proxy configuration for this connection. This flag
-only make sense if you've configured a proxy globally.
+Bypass global proxy configuration for the ssh connection
 
 ## tunnel &#60;deviceOrApplication&#62;
 

@@ -58,5 +58,3 @@ exports.pipeContainerStream = Promise.method ({ deviceIp, name, outStream, follo
 		if err is '404'
 			return console.log(getChalk().red.bold("Container '#{name}' not found."))
 		throw err
-
-exports.getSubShellCommand = require('../../utils/helpers').getSubShellCommand
