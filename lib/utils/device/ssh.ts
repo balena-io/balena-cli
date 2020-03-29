@@ -31,6 +31,7 @@ export async function performLocalDeviceSSH(
 	const { whichSpawn } = await import('../helpers');
 	const { ExpectedError } = await import('../../errors');
 	const { stripIndent } = await import('common-tags');
+	const { isatty } = await import('tty');
 
 	let command = '';
 
@@ -96,10 +97,14 @@ export async function performLocalDeviceSSH(
 			`);
 		}
 
+		const containerId = containers[0]!.id;
 		const shellCmd = `/bin/sh -c "if [ -e /bin/bash ]; then exec /bin/bash; else exec /bin/sh; fi"`;
-		command = `${deviceContainerEngineBinary} exec -ti ${
-			containers[0]!.id
-		} ${shellCmd}`;
+		// stdin (fd=0) is not a tty when data is piped in, for example
+		// echo 'ls -la; exit;' | balena ssh 192.168.0.20 service1
+		// See https://www.balena.io/blog/balena-monthly-roundup-january-2020/#charliestipsntricks
+		//     https://assets.balena.io/newsletter/2020-01/pipe.png
+		const ttyFlag = isatty(0) ? '-t' : '';
+		command = `${deviceContainerEngineBinary} exec -i ${ttyFlag} ${containerId} ${shellCmd}`;
 	}
 
 	return whichSpawn('ssh', [
