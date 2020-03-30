@@ -88,21 +88,31 @@ HTTP(S) proxies can be configured through any of the following methods, in prece
 * The `HTTPS_PROXY` and/or `HTTP_PROXY` environment variables, in the same URL format as
   `BALENARC_PROXY`.
 
-> Note: The `balena ssh` command has additional setup requirements to work behind a proxy.  
-> Check the [installation instructions](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).
+> Note: The `balena ssh` command has additional setup requirements to work behind a proxy.
+> Check the [installation instructions](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md),
+> and ensure that the proxy server is configured to allow proxy requests to ssh port 22, using
+> SSL encryption. For example, in the case of the [Squid](http://www.squid-cache.org/) proxy
+> server, it should be configured with the following rules in the `squid.conf` file:  
+> `acl SSL_ports port 22`  
+> `acl Safe_ports port 22`  
 
-Some installations of the balena CLI also include support for the `BALENARC_NO_PROXY` environment
-variable, which allows proxy exclusion patterns to be defined. The current support status is listed
-below. Eventually, all installation types will have support for it.
+#### Proxy exclusion
 
-OS | Installation type | BALENARC_NO_PROXY environment variable support
--- | ----------------- | ----------------------------------------------
-Windows | standalone zip | Supported with CLI v11.24.0 and later
-Windows | native/GUI     | Not supported
-macOS   | standalone zip | Not supported
-macOS   | native/GUI     | Supported with CLI v11.24.0 and later
-Linux   | standalone zip | Not supported
-Any     | npm            | Supported with Node.js >= v10.16.0 and CLI >= v11.24.0
+The `BALENARC_NO_PROXY` variable may be used to exclude specified destinations from proxying.
+
+> * This feature requires balena CLI version 11.30.8 or later. In the case of the npm [installation
+>   option](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md), it also requires
+>   Node.js version 10.16.0 or later.
+> * To exclude a `balena ssh` target from proxying (IP address or `.local` hostname), the
+>   `--noproxy` option should be specified in addition to the `BALENARC_NO_PROXY` variable.
+
+By default (if `BALENARC_NO_PROXY` is not defined), all [private IPv4
+addresses](https://en.wikipedia.org/wiki/Private_network) and `'*.local'` hostnames are excluded
+from proxying. Other hostnames that resolve to private IPv4 addresses are **not** excluded by
+default, because matching takes place before name resolution.
+
+`localhost` and `127.0.0.1` are always excluded from proxying, regardless of the value of
+BALENARC_NO_PROXY.
 
 The format of the `BALENARC_NO_PROXY` environment variable is a comma-separated list of patterns
 that are matched against hostnames or IP addresses. For example:
@@ -111,18 +121,10 @@ that are matched against hostnames or IP addresses. For example:
 export BALENARC_NO_PROXY='*.local,dev*.mycompany.com,192.168.*'
 ```
 
-Matched patterns are excluded from proxying. Matching takes place _before_ name resolution, so a
-pattern like `'192.168.*'` will **not** match a hostname like `proxy.company.com` even if the
-hostname resolves to an IP address like `192.168.1.2`. Pattern matching expressions are documented
-at [matcher](https://www.npmjs.com/package/matcher#usage).
-
-By default, if BALENARC_NO_PROXY is not defined, all [private IPv4
-addresses](https://en.wikipedia.org/wiki/Private_network) and `'*.local'` are excluded from
-proxying. Other hostnames that may resolve to private IPv4 addresses are **not** excluded by
-default, as matching takes place _before_ name resolution. In addition, `localhost` and `127.0.0.1`
-are always excluded from proxying, regardless of the value of BALENARC_NO_PROXY. These default
-exclusions only apply to the CLI installations where BALENARC_NO_PROXY is supported, as listed in
-the table above.
+Matched patterns are excluded from proxying. Wildcard expressions are documented at
+[matcher](https://www.npmjs.com/package/matcher#usage). Matching takes place _before_ name
+resolution, so a pattern like `'192.168.*'` will **not** match a hostname that resolves to an IP
+address like `192.168.1.2`.
 
 ## Command reference documentation
 

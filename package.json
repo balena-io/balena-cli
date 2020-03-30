@@ -177,7 +177,6 @@
     "balena-semver": "^2.2.0",
     "balena-settings-client": "^4.0.4",
     "balena-sync": "^10.2.0",
-    "bash": "0.0.1",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "capitano": "^1.9.2",

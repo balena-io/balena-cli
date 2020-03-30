@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2019 Balena
+Copyright 2016-2020 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -27,12 +27,11 @@ export const deviceContainerEngineBinary = `$(if [ -f /usr/bin/balena ]; then ec
 export async function performLocalDeviceSSH(
 	opts: DeviceSSHOpts,
 ): Promise<void> {
-	const childProcess = await import('child_process');
 	const reduce = await import('lodash/reduce');
-	const { getSubShellCommand } = await import('../helpers');
-	const { exitWithExpectedError } = await import('../patterns');
+	const { whichSpawn } = await import('../helpers');
+	const { ExpectedError } = await import('../../errors');
 	const { stripIndent } = await import('common-tags');
-	const os = await import('os');
+	const { isatty } = await import('tty');
 
 	let command = '';
 
@@ -57,10 +56,9 @@ export async function performLocalDeviceSSH(
 		try {
 			allContainers = await docker.listContainers();
 		} catch (_e) {
-			exitWithExpectedError(stripIndent`
+			throw new ExpectedError(stripIndent`
 				Could not access docker daemon on device ${opts.address}.
 				Please ensure the device is in local mode.`);
-			return;
 		}
 
 		const serviceNames: string[] = [];
@@ -80,7 +78,7 @@ export async function performLocalDeviceSSH(
 			.filter(c => c != null);
 
 		if (containers.length === 0) {
-			exitWithExpectedError(
+			throw new ExpectedError(
 				`Could not find a service on device with name ${opts.service}. ${
 					serviceNames.length > 0
 						? `Available services:\n${reduce(
@@ -93,36 +91,30 @@ export async function performLocalDeviceSSH(
 			);
 		}
 		if (containers.length > 1) {
-			exitWithExpectedError(stripIndent`
+			throw new ExpectedError(stripIndent`
 				Found more than one container with a service name ${opts.service}.
 				This state is not supported, please contact support.
 			`);
 		}
 
-		// Getting a command to work on all platforms is a pain,
-		// so we just define slightly different ones for windows
-		if (os.platform() !== 'win32') {
-			const shellCmd = `/bin/sh -c "if [ -e /bin/bash ]; then exec /bin/bash; else exec /bin/sh; fi"`;
-			command = `'${deviceContainerEngineBinary}' exec -ti ${
-				containers[0]!.id
-			} '${shellCmd}'`;
-		} else {
-			const shellCmd = `/bin/sh -c "if [ -e /bin/bash ]; then exec /bin/bash; else exec /bin/sh; fi"`;
-			command = `${deviceContainerEngineBinary} exec -ti ${
-				containers[0]!.id
-			} ${shellCmd}`;
-		}
+		const containerId = containers[0]!.id;
+		const shellCmd = `/bin/sh -c "if [ -e /bin/bash ]; then exec /bin/bash; else exec /bin/sh; fi"`;
+		// stdin (fd=0) is not a tty when data is piped in, for example
+		// echo 'ls -la; exit;' | balena ssh 192.168.0.20 service1
+		// See https://www.balena.io/blog/balena-monthly-roundup-january-2020/#charliestipsntricks
+		//     https://assets.balena.io/newsletter/2020-01/pipe.png
+		const ttyFlag = isatty(0) ? '-t' : '';
+		command = `${deviceContainerEngineBinary} exec -i ${ttyFlag} ${containerId} ${shellCmd}`;
 	}
-	// Generate the SSH command
-	const sshCommand = `ssh \
-	${opts.verbose ? '-vvv' : ''} \
-	-t \
-	-p ${opts.port ? opts.port : 22222} \
-	-o LogLevel=ERROR \
-	-o StrictHostKeyChecking=no \
-	-o UserKnownHostsFile=/dev/null \
-	root@${opts.address} ${command}`;
 
-	const subShell = getSubShellCommand(sshCommand);
-	childProcess.spawn(subShell.program, subShell.args, { stdio: 'inherit' });
+	return whichSpawn('ssh', [
+		...(opts.verbose ? ['-vvv'] : []),
+		'-t',
+		...['-p', opts.port ? opts.port.toString() : '22222'],
+		...['-o', 'LogLevel=ERROR'],
+		...['-o', 'StrictHostKeyChecking=no'],
+		...['-o', 'UserKnownHostsFile=/dev/null'],
+		`root@${opts.address}`,
+		...(command ? [command] : []),
+	]);
 }

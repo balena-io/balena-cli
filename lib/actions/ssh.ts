@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2019 Balena
+Copyright 2016-2020 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ import * as BalenaSdk from 'balena-sdk';
 import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
 
-import { BalenaDeviceNotFound } from 'balena-errors';
 import { getBalenaSdk } from '../utils/lazy';
 import { validateDotLocalUrl, validateIPAddress } from '../utils/validation';
 
@@ -27,7 +26,7 @@ async function getContainerId(
 	serviceName: string,
 	sshOpts: {
 		port?: number;
-		proxyCommand?: string;
+		proxyCommand?: string[];
 		proxyUrl: string;
 		username: string;
 	},
@@ -70,7 +69,7 @@ async function getContainerId(
 		}
 		containerId = body.services[serviceName];
 	} else {
-		console.log(stripIndent`
+		console.error(stripIndent`
 			Using legacy method to detect container ID. This will be slow.
 			To speed up this process, please update your device to an OS
 			which has a supervisor version of at least v8.6.0.
@@ -80,30 +79,29 @@ async function getContainerId(
 		// container
 		const { child_process } = await import('mz');
 		const escapeRegex = await import('lodash/escapeRegExp');
-		const { getSubShellCommand } = await import('../utils/helpers');
+		const { which } = await import('../utils/helpers');
 		const { deviceContainerEngineBinary } = await import('../utils/device/ssh');
 
-		const command = generateVpnSshCommand({
+		const sshBinary = await which('ssh');
+		const sshArgs = generateVpnSshCommand({
 			uuid,
 			verbose: false,
 			port: sshOpts.port,
-			command: `host ${uuid} '"${deviceContainerEngineBinary}" ps --format "{{.ID}} {{.Names}}"'`,
+			command: `host ${uuid} "${deviceContainerEngineBinary}" ps --format "{{.ID}} {{.Names}}"`,
 			proxyCommand: sshOpts.proxyCommand,
 			proxyUrl: sshOpts.proxyUrl,
 			username: sshOpts.username,
 		});
 
-		const subShellCommand = getSubShellCommand(command);
-		const subprocess = child_process.spawn(
-			subShellCommand.program,
-			subShellCommand.args,
-			{
-				stdio: [null, 'pipe', null],
-			},
-		);
+		if (process.env.DEBUG) {
+			console.error(`[debug] [${sshBinary}, ${sshArgs.join(', ')}]`);
+		}
+		const subprocess = child_process.spawn(sshBinary, sshArgs, {
+			stdio: [null, 'pipe', null],
+		});
 		const containers = await new Promise<string>((resolve, reject) => {
-			let output = '';
-			subprocess.stdout.on('data', chunk => (output += chunk.toString()));
+			const output: string[] = [];
+			subprocess.stdout.on('data', chunk => output.push(chunk.toString()));
 			subprocess.on('close', (code: number) => {
 				if (code !== 0) {
 					reject(
@@ -112,7 +110,7 @@ async function getContainerId(
 						),
 					);
 				} else {
-					resolve(output);
+					resolve(output.join(''));
 				}
 			});
 		});
@@ -143,17 +141,21 @@ function generateVpnSshCommand(opts: {
 	port?: number;
 	username: string;
 	proxyUrl: string;
-	proxyCommand?: string;
+	proxyCommand?: string[];
 }) {
-	return (
-		`ssh ${
-			opts.verbose ? '-vvv' : ''
-		} -t -o LogLevel=ERROR -o StrictHostKeyChecking=no ` +
-		`-o UserKnownHostsFile=/dev/null ` +
-		`${opts.proxyCommand != null ? opts.proxyCommand : ''} ` +
-		`${opts.port != null ? `-p ${opts.port}` : ''} ` +
-		`${opts.username}@ssh.${opts.proxyUrl} ${opts.command}`
-	);
+	return [
+		...(opts.verbose ? ['-vvv'] : []),
+		'-t',
+		...['-o', 'LogLevel=ERROR'],
+		...['-o', 'StrictHostKeyChecking=no'],
+		...['-o', 'UserKnownHostsFile=/dev/null'],
+		...(opts.proxyCommand && opts.proxyCommand.length
+			? ['-o', `ProxyCommand=${opts.proxyCommand.join(' ')}`]
+			: []),
+		...(opts.port ? ['-p', opts.port.toString()] : []),
+		`${opts.username}@ssh.${opts.proxyUrl}`,
+		opts.command,
+	];
 }
 
 export const ssh: CommandDefinition<
@@ -207,7 +209,9 @@ export const ssh: CommandDefinition<
 		{
 			signature: 'port',
 			parameter: 'port',
-			description: 'SSH gateway port',
+			description: stripIndent`
+				SSH server port number (default 22222) if the target is an IP address or .local
+				hostname. Otherwise, port number for the balenaCloud gateway (default 22).`,
 			alias: 'p',
 		},
 		{
@@ -219,24 +223,19 @@ export const ssh: CommandDefinition<
 		{
 			signature: 'noproxy',
 			boolean: true,
-			description: stripIndent`
-				Don't use the proxy configuration for this connection. This flag
-				only make sense if you've configured a proxy globally.`,
+			description: 'Bypass global proxy configuration for the ssh connection',
 		},
 	],
 	action: async (params, options) => {
 		const applicationOrDevice =
 			params.applicationOrDevice_raw || params.applicationOrDevice;
-		const bash = await import('bash');
-		const { getProxyConfig, getSubShellCommand, which } = await import(
+		const { ExpectedError } = await import('../errors');
+		const { getProxyConfig, which, whichSpawn } = await import(
 			'../utils/helpers'
 		);
-		const { child_process } = await import('mz');
-		const {
-			exitIfNotLoggedIn,
-			exitWithExpectedError,
-			getOnlineTargetUuid,
-		} = await import('../utils/patterns');
+		const { checkLoggedIn, getOnlineTargetUuid } = await import(
+			'../utils/patterns'
+		);
 		const sdk = getBalenaSdk();
 
 		const verbose = options.verbose === true;
@@ -259,34 +258,30 @@ export const ssh: CommandDefinition<
 		}
 
 		// this will be a tunnelled SSH connection...
-		await exitIfNotLoggedIn();
+		await checkLoggedIn();
 		const uuid = await getOnlineTargetUuid(sdk, applicationOrDevice);
 		let version: string | undefined;
 		let id: number | undefined;
 
-		try {
-			const device = await sdk.models.device.get(uuid, {
-				$select: ['id', 'supervisor_version', 'is_online'],
-			});
-			id = device.id;
-			version = device.supervisor_version;
-		} catch (e) {
-			if (e instanceof BalenaDeviceNotFound) {
-				exitWithExpectedError(`Could not find device: ${uuid}`);
-			}
-		}
+		const device = await sdk.models.device.get(uuid, {
+			$select: ['id', 'supervisor_version', 'is_online'],
+		});
+		id = device.id;
+		version = device.supervisor_version;
 
 		const [whichProxytunnel, username, proxyUrl] = await Promise.all([
 			useProxy ? which('proxytunnel', false) : undefined,
 			sdk.auth.whoami(),
+			// note that `proxyUrl` refers to the balenaCloud "resin-proxy"
+			// service, currently "balena-devices.com", rather than some
+			// local proxy server URL
 			sdk.settings.get('proxyUrl'),
 		]);
 
 		const getSshProxyCommand = () => {
-			if (!useProxy) {
-				return '';
+			if (!proxyConfig) {
+				return;
 			}
-
 			if (!whichProxytunnel) {
 				console.warn(stripIndent`
 					Proxy is enabled but the \`proxytunnel\` binary cannot be found.
@@ -295,27 +290,32 @@ export const ssh: CommandDefinition<
 					for the \`ssh\` requests.
 
 					Attempting the unproxied request for now.`);
-				return '';
+				return;
 			}
 
-			const p = proxyConfig!;
-			const tunnelOptions: Dictionary<string> = {
-				proxy: `${p.host}:${p.port}`,
-				dest: '%h:%p',
-			};
+			const p = proxyConfig;
 			if (p.username && p.password) {
-				tunnelOptions.user = p.username;
-				tunnelOptions.pass = p.password;
+				// proxytunnel understands these variables for proxy authentication.
+				// Setting the variables instead of command-line options avoids the
+				// need for shell-specific escaping of special characters like '$'.
+				process.env.PROXYUSER = p.username;
+				process.env.PROXYPASS = p.password;
 			}
 
-			const ProxyCommand = `proxytunnel ${bash.args(tunnelOptions, '--', '=')}`;
-			return `-o ${bash.args({ ProxyCommand }, '', '=')}`;
+			return [
+				'proxytunnel',
+				`--proxy=${p.host}:${p.port}`,
+				// ssh replaces these %h:%p variables in the ProxyCommand option
+				// https://linux.die.net/man/5/ssh_config
+				'--dest=%h:%p',
+				...(verbose ? ['--verbose'] : []),
+			];
 		};
 
-		const proxyCommand = getSshProxyCommand();
+		const proxyCommand = useProxy ? getSshProxyCommand() : undefined;
 
 		if (username == null) {
-			exitWithExpectedError(
+			throw new ExpectedError(
 				`Opening an SSH connection to a remote device requires you to be logged in.`,
 			);
 		}
@@ -356,9 +356,6 @@ export const ssh: CommandDefinition<
 			username: username!,
 		});
 
-		const subShellCommand = getSubShellCommand(command);
-		await child_process.spawn(subShellCommand.program, subShellCommand.args, {
-			stdio: 'inherit',
-		});
+		await whichSpawn('ssh', command);
 	},
 };
