@@ -1,4 +1,39 @@
 - commits:
+    - subject: Update README regarding proxy server support
+      hash: 3e955f3a910a305fc89eacff57d3df9c65a6a2b4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: >-
+        Fix "the input device is not a TTY" when piping to 'balena ssh' (local
+        device)
+      hash: 30738d93b0cd3b63fc4de4b54bb8f2dbffc508a5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Fix 'balena ssh' on MSYS Windows shell ("unexpected end of file")
+      hash: be76b8adbd8cc4f04327fb3852f732de7cb77be1
+      body: ''
+      footer:
+        Resolves: '#1681'
+        resolves: '#1681'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Delete unused code (ssh.coffee)
+      hash: d6a065a2300e2f3828eebb6a56e301259b22b9db
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.30.8
+  date: 2020-03-30T23:35:30.095Z
+- commits:
     - subject: Convert command `note` to oclif Add oclif support for piped input
       hash: fcad35402aa7cfc43ea16f6c0e620fe7281a318f
       body: ''
@@ -18,7 +53,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.30.7
-  date: 2020-03-30T13:42:40.407Z
+  date: 2020-03-30T12:51:43.858Z
 - commits:
     - subject: Clarify `balena device os-update` help re balenaCloud
       hash: e5d2661c9693520c4231eb585f29126fa280d869
