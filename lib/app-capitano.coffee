@@ -74,9 +74,6 @@ capitano.command(actions.device.move)
 capitano.command(actions.device.osUpdate)
 capitano.command(actions.device.info)
 
-# ---------- Notes Module ----------
-capitano.command(actions.notes.set)
-
 # ---------- Keys Module ----------
 capitano.command(actions.keys.list)
 capitano.command(actions.keys.add)
@@ -100,9 +97,6 @@ capitano.command(actions.config.write)
 capitano.command(actions.config.inject)
 capitano.command(actions.config.reconfigure)
 capitano.command(actions.config.generate)
-
-# ---------- Settings Module ----------
-capitano.command(actions.settings.list)
 
 # ---------- Logs Module ----------
 capitano.command(actions.logs.logs)

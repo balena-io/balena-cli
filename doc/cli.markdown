@@ -1252,22 +1252,35 @@ The mapping of remote to local ports.
 
 ## note &#60;|note&#62;
 
-Use this command to set or update a device note.
+Set or update a device note. If the note argument is not provided,
+it will be read from stdin.
 
-If note command isn't passed, the tool attempts to read from `stdin`.
-
-To view the notes, use $ balena device <uuid>.
+To view device notes, use the `balena device <uuid>` command.
 
 Examples:
 
 	$ balena note "My useful note" --device 7cf02a6
 	$ cat note.txt | balena note --device 7cf02a6
 
+### Arguments
+
+#### NOTE
+
+note content
+
 ### Options
 
-#### --device, -d, --dev &#60;device&#62;
+#### -d, --device DEVICE
 
-device uuid
+device UUID
+
+#### --dev DEV
+
+
+
+#### --stdin
+
+
 
 # OS
 
@@ -1817,11 +1830,13 @@ Source files are not modified.
 
 ## settings
 
-Use this command to display detected settings
+Use this command to display current balena CLI settings.
 
 Examples:
 
 	$ balena settings
+
+### Options
 
 # Local
 
