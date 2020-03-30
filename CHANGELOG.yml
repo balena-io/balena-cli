@@ -1,4 +1,25 @@
 - commits:
+    - subject: Convert command `note` to oclif Add oclif support for piped input
+      hash: fcad35402aa7cfc43ea16f6c0e620fe7281a318f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+    - subject: Convert command `settings` to oclif
+      hash: 49b00e18aefee6759093e116b0b756dbcd3b25c9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.30.7
+  date: 2020-03-30T13:42:40.407Z
+- commits:
     - subject: Clarify `balena device os-update` help re balenaCloud
       hash: e5d2661c9693520c4231eb585f29126fa280d869
       body: ''
@@ -11,7 +32,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.30.6
-  date: 2020-03-26T13:40:19.553Z
+  date: 2020-03-26T13:02:23.330Z
 - commits:
     - subject: Use balena-lint for javascript linting and add javascript type-checking
       hash: b3b22d63997ca76011297c714104c387213244a1

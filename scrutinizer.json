@@ -5,6 +5,36 @@
     {
       "commits": [
         {
+          "subject": "Convert command `note` to oclif Add oclif support for piped input",
+          "hash": "fcad35402aa7cfc43ea16f6c0e620fe7281a318f",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        },
+        {
+          "subject": "Convert command `settings` to oclif",
+          "hash": "49b00e18aefee6759093e116b0b756dbcd3b25c9",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.30.7",
+      "date": "2020-03-30T12:51:43.858Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Clarify `balena device os-update` help re balenaCloud",
           "hash": "e5d2661c9693520c4231eb585f29126fa280d869",
           "body": "",
@@ -10347,7 +10377,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 224,
+  "stars": 226,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -10452,39 +10482,55 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-03-26T13:41:08Z",
+  "lastCommitDate": "2020-03-30T13:43:29Z",
   "latestRelease": {
-    "tagName": "v11.30.6",
+    "tagName": "v11.30.7",
     "asssets": [
       {
-        "name": "balena-cli-v11.30.6-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.6/balena-cli-v11.30.6-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.30.7-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.7/balena-cli-v11.30.7-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.6-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.6/balena-cli-v11.30.6-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.30.7-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.7/balena-cli-v11.30.7-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.30.6-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.6/balena-cli-v11.30.6-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.30.7-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.7/balena-cli-v11.30.7-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.6-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.6/balena-cli-v11.30.6-windows-x64-installer.exe"
+        "name": "balena-cli-v11.30.7-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.7/balena-cli-v11.30.7-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.30.6-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.6/balena-cli-v11.30.6-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.30.7-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.7/balena-cli-v11.30.7-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 232,
+    "numberOfIssues": 236,
     "latestIssues": [
       {
-        "title": "Convert commands `settings`, `note` to oclif",
-        "url": "https://github.com/balena-io/balena-cli/pull/1678"
+        "title": "Fix balena ssh to local device (MSYS/Windows and command pipe to service)",
+        "url": "https://github.com/balena-io/balena-cli/pull/1685"
+      },
+      {
+        "title": "balena push hangs after `Successfully uploaded images`",
+        "url": "https://github.com/balena-io/balena-cli/issues/1684"
+      },
+      {
+        "title": "`balena login` using web auth fails silently on a machine with no display attached",
+        "url": "https://github.com/balena-io/balena-cli/issues/1683"
+      },
+      {
+        "title": "Use a verbose flag to show logs of regular commands",
+        "url": "https://github.com/balena-io/balena-cli/issues/1682"
+      },
+      {
+        "title": "balena ssh: sh: -c: line 0: unexpected EOF while looking for matching `\"’",
+        "url": "https://github.com/balena-io/balena-cli/issues/1681"
       },
       {
         "title": "Convert lib/actions/local/common.coffee to javascript",
@@ -10545,26 +10591,10 @@
       {
         "title": "[Jetson Nano] `local configure`: Error: Unsupported filesystem",
         "url": "https://github.com/balena-io/balena-cli/issues/1632"
-      },
-      {
-        "title": "Filter old CLI versions when logging via sentry.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1630"
-      },
-      {
-        "title": "Image caching issues during `balena push`",
-        "url": "https://github.com/balena-io/balena-cli/issues/1629"
-      },
-      {
-        "title": "`device init` skips wifi config steps when `--os-version` specified",
-        "url": "https://github.com/balena-io/balena-cli/issues/1627"
-      },
-      {
-        "title": "Prompt before replacing a multi-container app with a single-container app",
-        "url": "https://github.com/balena-io/balena-cli/issues/1621"
       }
     ]
   },
-  "version": "11.30.6",
+  "version": "11.30.7",
   "screenshot": null,
   "logo": null
 }
