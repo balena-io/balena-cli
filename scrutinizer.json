@@ -5,6 +5,32 @@
     {
       "commits": [
         {
+          "subject": "Add '-t' option to 'balena ssh' to bypass TTY autodetection (force allocation)",
+          "hash": "159cb752d171a013afeabc1199c69a334f56dd88",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Handle ssh process exit codes",
+          "hash": "a74f0413df2574de3bbd7754f996e759fa5fb62c",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.30.10",
+      "date": "2020-03-31T14:16:19.605Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert lib/actions/local/common.coffee to javascript",
           "hash": "1a71bad8bbcd231b886fa6f406ca29ee42deae42",
           "body": "",
@@ -10545,29 +10571,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-03-31T11:21:28Z",
+  "lastCommitDate": "2020-03-31T15:55:44Z",
   "latestRelease": {
-    "tagName": "v11.30.9",
+    "tagName": "v11.30.10",
     "asssets": [
       {
-        "name": "balena-cli-v11.30.9-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.9/balena-cli-v11.30.9-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.30.10-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.10/balena-cli-v11.30.10-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.9-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.9/balena-cli-v11.30.9-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.30.10-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.10/balena-cli-v11.30.10-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.30.9-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.9/balena-cli-v11.30.9-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.30.10-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.10/balena-cli-v11.30.10-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.9-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.9/balena-cli-v11.30.9-windows-x64-installer.exe"
+        "name": "balena-cli-v11.30.10-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.10/balena-cli-v11.30.10-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.30.9-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.9/balena-cli-v11.30.9-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.30.10-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.10/balena-cli-v11.30.10-windows-x64-standalone.zip"
       }
     ]
   },
@@ -10657,7 +10683,7 @@
       }
     ]
   },
-  "version": "11.30.9",
+  "version": "11.30.10",
   "screenshot": null,
   "logo": null
 }
