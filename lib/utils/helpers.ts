@@ -380,36 +380,50 @@ export async function which(
 
 /**
  * Call which(programName) and spawn() with the given arguments.
- * Reject the promise if the process exit code is not zero.
+ *
+ * If returnExitCodeOrSignal is true, the returned promise will resolve to
+ * an array [code, signal] with the child process exit code number or exit
+ * signal string respectively (as provided by the spawn close event).
+ *
+ * If returnExitCodeOrSignal is false, the returned promise will reject with
+ * a custom error if the child process returns a non-zero exit code or a
+ * non-empty signal string (as reported by the spawn close event).
+ *
+ * In either case and if spawn itself emits an error event or fails synchronously,
+ * the returned promise will reject with a custom error that includes the error
+ * message of spawn's error.
  */
 export async function whichSpawn(
 	programName: string,
 	args: string[],
 	options: SpawnOptions = { stdio: 'inherit' },
-): Promise<void> {
+	returnExitCodeOrSignal = false,
+): Promise<[number | undefined, string | undefined]> {
 	const program = await which(programName);
 	if (process.env.DEBUG) {
 		console.error(`[debug] [${program}, ${args.join(', ')}]`);
 	}
 	let error: Error | undefined;
 	let exitCode: number | undefined;
+	let exitSignal: string | undefined;
 	try {
-		exitCode = await new Promise<number>((resolve, reject) => {
+		[exitCode, exitSignal] = await new Promise((resolve, reject) => {
 			spawn(program, args, options)
 				.on('error', reject)
-				.on('close', resolve);
+				.on('close', (code, signal) => resolve([code, signal]));
 		});
 	} catch (err) {
 		error = err;
 	}
-	if (error || exitCode) {
+	if (error || (!returnExitCodeOrSignal && (exitCode || exitSignal))) {
 		const msg = [
-			`${programName} failed with exit code ${exitCode}:`,
+			`${programName} failed with exit code=${exitCode} signal=${exitSignal}:`,
 			`[${program}, ${args.join(', ')}]`,
 			...(error ? [`${error}`] : []),
 		];
 		throw new Error(msg.join('\n'));
 	}
+	return [exitCode, exitSignal];
 }
 
 export interface ProxyConfig {

@@ -230,12 +230,11 @@ export const ssh: CommandDefinition<
 		const applicationOrDevice =
 			params.applicationOrDevice_raw || params.applicationOrDevice;
 		const { ExpectedError } = await import('../errors');
-		const { getProxyConfig, which, whichSpawn } = await import(
-			'../utils/helpers'
-		);
+		const { getProxyConfig, which } = await import('../utils/helpers');
 		const { checkLoggedIn, getOnlineTargetUuid } = await import(
 			'../utils/patterns'
 		);
+		const { spawnSshAndExitOnError } = await import('../utils/ssh');
 		const sdk = getBalenaSdk();
 
 		const verbose = options.verbose === true;
@@ -356,6 +355,6 @@ export const ssh: CommandDefinition<
 			username: username!,
 		});
 
-		await whichSpawn('ssh', command);
+		return spawnSshAndExitOnError(command);
 	},
 };

@@ -111,3 +111,49 @@ export async function execBuffered(
 export const getDeviceOsRelease = _.memoize(async (deviceIp: string) =>
 	execBuffered(deviceIp, 'cat /etc/os-release'),
 );
+
+// TODO: consolidate the various forms of executing ssh child processes
+// in the CLI, like exec and spawn, starting with the files:
+//   lib/actions/ssh.ts
+//   lib/utils/ssh.ts
+//   lib/utils/device/ssh.ts
+
+/**
+ * Obtain the full path for ssh using which, then spawn a child process.
+ * - If the child process returns error code 0, return the function normally
+ *   (do not call process.exit()).
+ * - If the child process returns a non-zero error code, print a single-line
+ *   warning message and call process.exit(code) with the same non-zero error
+ *   code.
+ * - If the child process is terminated by a process signal, print a
+ *   single-line warning message and call process.exit(1).
+ */
+export async function spawnSshAndExitOnError(
+	args: string[],
+	options?: import('child_process').SpawnOptions,
+) {
+	const { whichSpawn } = await import('./helpers');
+	const [exitCode, exitSignal] = await whichSpawn(
+		'ssh',
+		args,
+		options,
+		true, // returnExitCodeOrSignal
+	);
+	if (exitCode || exitSignal) {
+		// ssh returns a wide range of exit codes, including return codes of
+		// interactive shells. For example, if the user types CTRL-C on an
+		// interactive shell and then `exit`, ssh returns error code 130.
+		// Another example, typing "exit 1" on an interactive shell causes ssh
+		// to return exit code 1. In these cases, print a short one-line warning
+		// message, and exits the CLI process with the same error code.
+		const codeMsg = exitSignal
+			? `was terminated with signal "${exitSignal}"`
+			: `exited with non-zero code "${exitCode}"`;
+		console.error(`Warning: ssh process ${codeMsg}`);
+		// TODO: avoid process.exit by refactoring CLI error handling to allow
+		// exiting with an error code and single-line warning "without a fuss"
+		// about contacting support and filing Github issues. (ExpectedError
+		// does not currently devlivers that.)
+		process.exit(exitCode || 1);
+	}
+}
