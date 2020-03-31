@@ -1,4 +1,23 @@
 - commits:
+    - subject: >-
+        Add '-t' option to 'balena ssh' to bypass TTY autodetection (force
+        allocation)
+      hash: 159cb752d171a013afeabc1199c69a334f56dd88
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Handle ssh process exit codes
+      hash: a74f0413df2574de3bbd7754f996e759fa5fb62c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.30.10
+  date: 2020-03-31T14:16:19.605Z
+- commits:
     - subject: Convert lib/actions/local/common.coffee to javascript
       hash: 1a71bad8bbcd231b886fa6f406ca29ee42deae42
       body: ''
