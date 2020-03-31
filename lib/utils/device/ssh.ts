@@ -18,6 +18,7 @@ import { ContainerInfo } from 'dockerode';
 export interface DeviceSSHOpts {
 	address: string;
 	port?: number;
+	forceTTY?: boolean;
 	verbose: boolean;
 	service?: string;
 }
@@ -28,10 +29,9 @@ export async function performLocalDeviceSSH(
 	opts: DeviceSSHOpts,
 ): Promise<void> {
 	const reduce = await import('lodash/reduce');
-	const { whichSpawn } = await import('../helpers');
+	const { spawnSshAndExitOnError } = await import('../ssh');
 	const { ExpectedError } = await import('../../errors');
 	const { stripIndent } = await import('common-tags');
-	const { isatty } = await import('tty');
 
 	let command = '';
 
@@ -103,11 +103,12 @@ export async function performLocalDeviceSSH(
 		// echo 'ls -la; exit;' | balena ssh 192.168.0.20 service1
 		// See https://www.balena.io/blog/balena-monthly-roundup-january-2020/#charliestipsntricks
 		//     https://assets.balena.io/newsletter/2020-01/pipe.png
-		const ttyFlag = isatty(0) ? '-t' : '';
+		const isTTY = !!opts.forceTTY || (await import('tty')).isatty(0);
+		const ttyFlag = isTTY ? '-t' : '';
 		command = `${deviceContainerEngineBinary} exec -i ${ttyFlag} ${containerId} ${shellCmd}`;
 	}
 
-	return whichSpawn('ssh', [
+	return spawnSshAndExitOnError([
 		...(opts.verbose ? ['-vvv'] : []),
 		'-t',
 		...['-p', opts.port ? opts.port.toString() : '22222'],

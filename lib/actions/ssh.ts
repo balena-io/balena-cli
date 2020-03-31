@@ -169,6 +169,7 @@ export const ssh: CommandDefinition<
 	{
 		port: string;
 		service: string;
+		tty: boolean;
 		verbose: true | undefined;
 		noProxy: boolean;
 	}
@@ -215,6 +216,13 @@ export const ssh: CommandDefinition<
 			alias: 'p',
 		},
 		{
+			signature: 'tty',
+			boolean: true,
+			description:
+				'Force pseudo-terminal allocation (bypass TTY autodetection for stdin)',
+			alias: 't',
+		},
+		{
 			signature: 'verbose',
 			boolean: true,
 			description: 'Increase verbosity',
@@ -230,12 +238,11 @@ export const ssh: CommandDefinition<
 		const applicationOrDevice =
 			params.applicationOrDevice_raw || params.applicationOrDevice;
 		const { ExpectedError } = await import('../errors');
-		const { getProxyConfig, which, whichSpawn } = await import(
-			'../utils/helpers'
-		);
+		const { getProxyConfig, which } = await import('../utils/helpers');
 		const { checkLoggedIn, getOnlineTargetUuid } = await import(
 			'../utils/patterns'
 		);
+		const { spawnSshAndExitOnError } = await import('../utils/ssh');
 		const sdk = getBalenaSdk();
 
 		const verbose = options.verbose === true;
@@ -252,6 +259,7 @@ export const ssh: CommandDefinition<
 			return await performLocalDeviceSSH({
 				address: applicationOrDevice,
 				port,
+				forceTTY: options.tty === true,
 				verbose,
 				service: params.serviceName,
 			});
@@ -356,6 +364,6 @@ export const ssh: CommandDefinition<
 			username: username!,
 		});
 
-		await whichSpawn('ssh', command);
+		return spawnSshAndExitOnError(command);
 	},
 };
