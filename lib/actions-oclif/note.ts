@@ -26,7 +26,6 @@ import { getBalenaSdk } from '../utils/lazy';
 interface FlagsDef {
 	device?: string; // device UUID
 	dev?: string; // Alias for device.
-	stdin: boolean;
 	help: void;
 }
 
@@ -51,7 +50,6 @@ export default class NoteCmd extends Command {
 	public static args = [
 		{
 			name: 'note',
-			// required: true,
 			description: 'note content',
 		},
 	];
@@ -62,10 +60,6 @@ export default class NoteCmd extends Command {
 		device: { exclusive: ['dev'], ...cf.device },
 		dev: flags.string({
 			exclusive: ['device'],
-			hidden: true,
-		}),
-		// Hack to read stdin with oclif
-		stdin: flags.boolean({
 			hidden: true,
 		}),
 		help: cf.help,
