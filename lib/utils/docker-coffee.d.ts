@@ -25,8 +25,13 @@ export interface BuildDockerOptions {
 	docker?: string; // dockerode DockerOptions.socketPath
 	dockerHost?: string; // dockerode DockerOptions.host
 	dockerPort?: number; // dockerode DockerOptions.port
+	host?: string;
+	port?: number;
+	timeout?: number;
 }
 
 export function getDocker(
 	options: BuildDockerOptions,
 ): Bluebird<DockerToolbelt>;
+
+export function createClient(options: BuildDockerOptions): DockerToolbelt;
