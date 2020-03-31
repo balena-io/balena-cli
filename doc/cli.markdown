@@ -1210,6 +1210,10 @@ support) please check:
 SSH server port number (default 22222) if the target is an IP address or .local
 hostname. Otherwise, port number for the balenaCloud gateway (default 22).
 
+#### --tty, -t
+
+Force pseudo-terminal allocation (bypass TTY autodetection for stdin)
+
 #### --verbose, -v
 
 Increase verbosity
