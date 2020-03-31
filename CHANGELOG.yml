@@ -1,4 +1,14 @@
 - commits:
+    - subject: Convert lib/actions/local/common.coffee to javascript
+      hash: 1a71bad8bbcd231b886fa6f406ca29ee42deae42
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.30.9
+  date: 2020-03-31T11:21:03.383Z
+- commits:
     - subject: Update README regarding proxy server support
       hash: 3e955f3a910a305fc89eacff57d3df9c65a6a2b4
       body: ''
@@ -32,7 +42,7 @@
         change-type: patch
       author: Paulo Castro
   version: 11.30.8
-  date: 2020-03-30T23:35:30.095Z
+  date: 2020-03-30T14:07:04.154Z
 - commits:
     - subject: Convert command `note` to oclif Add oclif support for piped input
       hash: fcad35402aa7cfc43ea16f6c0e620fe7281a318f
