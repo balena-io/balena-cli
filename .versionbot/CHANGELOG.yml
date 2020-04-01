@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove unused code from balena note
+      hash: 9aa6b0bc57d51703098e0d55e6a51f467235d574
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.30.12
+  date: 2020-04-01T13:09:52.172Z
+- commits:
     - subject: >-
         Check logged in for `balena build` if application specified Correct
         eroneous -f flag in `balena build` help
