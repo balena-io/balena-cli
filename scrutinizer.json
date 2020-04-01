@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Remove unused code from balena note",
+          "hash": "9aa6b0bc57d51703098e0d55e6a51f467235d574",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.30.12",
+      "date": "2020-04-01T13:09:52.172Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Check logged in for `balena build` if application specified Correct eroneous -f flag in `balena build` help",
           "hash": "d2fd1ec80a3aa9081489a4bfbdc6c97aceb9b23b",
           "body": "",
@@ -10589,40 +10607,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-01T11:53:30Z",
+  "lastCommitDate": "2020-04-01T14:18:17Z",
   "latestRelease": {
-    "tagName": "v11.30.11",
+    "tagName": "v11.30.12",
     "asssets": [
       {
-        "name": "balena-cli-v11.30.11-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.11/balena-cli-v11.30.11-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.30.12-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.12/balena-cli-v11.30.12-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.11-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.11/balena-cli-v11.30.11-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.30.12-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.12/balena-cli-v11.30.12-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.30.11-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.11/balena-cli-v11.30.11-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.30.12-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.12/balena-cli-v11.30.12-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.11-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.11/balena-cli-v11.30.11-windows-x64-installer.exe"
+        "name": "balena-cli-v11.30.12-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.12/balena-cli-v11.30.12-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.30.11-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.11/balena-cli-v11.30.11-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.30.12-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.12/balena-cli-v11.30.12-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 237,
+    "numberOfIssues": 236,
     "latestIssues": [
-      {
-        "title": "Remove unused code from balena note",
-        "url": "https://github.com/balena-io/balena-cli/pull/1690"
-      },
       {
         "title": "`balena build` does not check for loggedin when applicaiton option set.",
         "url": "https://github.com/balena-io/balena-cli/issues/1688"
@@ -10698,10 +10712,14 @@
       {
         "title": "`balena preload` should warn about missing requirements at runtime (e.g. AUFS)",
         "url": "https://github.com/balena-io/balena-cli/issues/1633"
+      },
+      {
+        "title": "[Jetson Nano] `local configure`: Error: Unsupported filesystem",
+        "url": "https://github.com/balena-io/balena-cli/issues/1632"
       }
     ]
   },
-  "version": "11.30.11",
+  "version": "11.30.12",
   "screenshot": null,
   "logo": null
 }

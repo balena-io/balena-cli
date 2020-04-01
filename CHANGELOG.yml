@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove unused code from balena note
+      hash: 9aa6b0bc57d51703098e0d55e6a51f467235d574
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.30.12
+  date: 2020-04-01T14:17:43.010Z
+- commits:
     - subject: >-
         Check logged in for `balena build` if application specified Correct
         eroneous -f flag in `balena build` help
@@ -11,7 +23,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.30.11
-  date: 2020-04-01T11:53:03.863Z
+  date: 2020-04-01T10:51:23.578Z
 - commits:
     - subject: >-
         Add '-t' option to 'balena ssh' to bypass TTY autodetection (force
