@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Check logged in for `balena build` if application specified Correct eroneous -f flag in `balena build` help",
+          "hash": "d2fd1ec80a3aa9081489a4bfbdc6c97aceb9b23b",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.30.11",
+      "date": "2020-04-01T10:51:23.578Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add '-t' option to 'balena ssh' to bypass TTY autodetection (force allocation)",
           "hash": "159cb752d171a013afeabc1199c69a334f56dd88",
           "body": "",
@@ -10571,36 +10589,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-03-31T15:55:44Z",
+  "lastCommitDate": "2020-04-01T11:53:30Z",
   "latestRelease": {
-    "tagName": "v11.30.10",
+    "tagName": "v11.30.11",
     "asssets": [
       {
-        "name": "balena-cli-v11.30.10-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.10/balena-cli-v11.30.10-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.30.11-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.11/balena-cli-v11.30.11-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.10-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.10/balena-cli-v11.30.10-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.30.11-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.11/balena-cli-v11.30.11-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.30.10-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.10/balena-cli-v11.30.10-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.30.11-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.11/balena-cli-v11.30.11-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.10-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.10/balena-cli-v11.30.10-windows-x64-installer.exe"
+        "name": "balena-cli-v11.30.11-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.11/balena-cli-v11.30.11-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.30.10-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.10/balena-cli-v11.30.10-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.30.11-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.11/balena-cli-v11.30.11-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 236,
+    "numberOfIssues": 237,
     "latestIssues": [
+      {
+        "title": "Remove unused code from balena note",
+        "url": "https://github.com/balena-io/balena-cli/pull/1690"
+      },
       {
         "title": "`balena build` does not check for loggedin when applicaiton option set.",
         "url": "https://github.com/balena-io/balena-cli/issues/1688"
@@ -10676,14 +10698,10 @@
       {
         "title": "`balena preload` should warn about missing requirements at runtime (e.g. AUFS)",
         "url": "https://github.com/balena-io/balena-cli/issues/1633"
-      },
-      {
-        "title": "[Jetson Nano] `local configure`: Error: Unsupported filesystem",
-        "url": "https://github.com/balena-io/balena-cli/issues/1632"
       }
     ]
   },
-  "version": "11.30.10",
+  "version": "11.30.11",
   "screenshot": null,
   "logo": null
 }

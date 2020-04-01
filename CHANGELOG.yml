@@ -1,5 +1,19 @@
 - commits:
     - subject: >-
+        Check logged in for `balena build` if application specified Correct
+        eroneous -f flag in `balena build` help
+      hash: d2fd1ec80a3aa9081489a4bfbdc6c97aceb9b23b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.30.11
+  date: 2020-04-01T11:53:03.863Z
+- commits:
+    - subject: >-
         Add '-t' option to 'balena ssh' to bypass TTY autodetection (force
         allocation)
       hash: 159cb752d171a013afeabc1199c69a334f56dd88
@@ -16,7 +30,7 @@
         change-type: patch
       author: Paulo Castro
   version: 11.30.10
-  date: 2020-03-31T15:55:03.558Z
+  date: 2020-03-31T14:16:19.605Z
 - commits:
     - subject: Convert lib/actions/local/common.coffee to javascript
       hash: 1a71bad8bbcd231b886fa6f406ca29ee42deae42
