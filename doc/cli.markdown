@@ -1284,10 +1284,6 @@ device UUID
 
 
 
-#### --stdin
-
-
-
 # OS
 
 ## os versions &#60;type&#62;
