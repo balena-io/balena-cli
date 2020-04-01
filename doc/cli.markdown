@@ -1888,11 +1888,11 @@ You must provide either an application or a device-type/architecture pair to use
 the balena Dockerfile pre-processor (e.g. Dockerfile.template -> Dockerfile).
 
 This command will look into the given source directory (or the current working
-directory if one isn't specified) for a docker-compose.yml file. If it is found,
-this command will build each service defined in the compose file. If a compose
-file isn't found, the command will look for a Dockerfile[.template] file (or
-alternative Dockerfile specified with the `-f` option), and if yet that isn't
-found, it will try to generate one.
+directory if one isn't specified) for a docker-compose.yml file, and if found,
+each service defined in the compose file will be built. If a compose file isn't
+found, it will look for a Dockerfile[.template] file (or alternative Dockerfile
+specified with the `--dockerfile` option), and if no dockerfile is found, it
+will try to generate one.
 
 The --registry-secrets option specifies a JSON or YAML file containing private
 Docker registry usernames and passwords to be used when pulling base images.
