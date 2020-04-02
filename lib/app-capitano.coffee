@@ -118,10 +118,6 @@ capitano.command(actions.scan)
 # ---------- Public utils ----------
 capitano.command(actions.util.availableDrives)
 
-# ---------- Internal utils ----------
-capitano.command(actions.internal.osInit)
-capitano.command(actions.internal.scanDevices)
-
 #------------ Local build and deploy -------
 capitano.command(actions.build)
 capitano.command(actions.deploy)

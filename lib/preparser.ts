@@ -131,6 +131,8 @@ export const convertedCommands = [
 	'env:add',
 	'env:rename',
 	'env:rm',
+	'internal:scandevices',
+	'internal:osinit',
 	'note',
 	'os:configure',
 	'settings',

@@ -36,10 +36,12 @@ export async function getOclifHelpLinePairs() {
 		const cmdModule = await import(path.join(...pathComponents));
 		const command: typeof Command = cmdModule.default;
 
-		if (command.primary) {
-			primary.push(getCmdUsageDescriptionLinePair(command));
-		} else {
-			secondary.push(getCmdUsageDescriptionLinePair(command));
+		if (!command.hidden) {
+			if (command.primary) {
+				primary.push(getCmdUsageDescriptionLinePair(command));
+			} else {
+				secondary.push(getCmdUsageDescriptionLinePair(command));
+			}
 		}
 	}
 
