@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Fix project directory validation for 'balena deploy' with pre-built image",
+          "hash": "96e28f3d45179ea48a4d3d94fd5634e264e5ea93",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.30.13",
+      "date": "2020-04-02T18:49:49.943Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Remove unused code from balena note",
           "hash": "9aa6b0bc57d51703098e0d55e6a51f467235d574",
           "body": "",
@@ -10503,7 +10519,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 226,
+  "stars": 225,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -10607,36 +10623,44 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-01T14:18:17Z",
+  "lastCommitDate": "2020-04-02T19:24:40Z",
   "latestRelease": {
-    "tagName": "v11.30.12",
+    "tagName": "v11.30.13",
     "asssets": [
       {
-        "name": "balena-cli-v11.30.12-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.12/balena-cli-v11.30.12-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.30.13-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.13/balena-cli-v11.30.13-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.12-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.12/balena-cli-v11.30.12-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.30.13-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.13/balena-cli-v11.30.13-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.30.12-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.12/balena-cli-v11.30.12-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.30.13-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.13/balena-cli-v11.30.13-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.12-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.12/balena-cli-v11.30.12-windows-x64-installer.exe"
+        "name": "balena-cli-v11.30.13-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.13/balena-cli-v11.30.13-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.30.12-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.12/balena-cli-v11.30.12-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.30.13-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.13/balena-cli-v11.30.13-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 236,
+    "numberOfIssues": 238,
     "latestIssues": [
+      {
+        "title": "Convert `internal scandevices`, `internal osinit` to typescript & oclif",
+        "url": "https://github.com/balena-io/balena-cli/pull/1693"
+      },
+      {
+        "title": "Updated dependencies (vulnerability advisory CVE-2019-20149)",
+        "url": "https://github.com/balena-io/balena-cli/pull/1692"
+      },
       {
         "title": "`balena build` does not check for loggedin when applicaiton option set.",
         "url": "https://github.com/balena-io/balena-cli/issues/1688"
@@ -10708,18 +10732,10 @@
       {
         "title": "Use `import type` where possible to explicitly import only type info",
         "url": "https://github.com/balena-io/balena-cli/pull/1635"
-      },
-      {
-        "title": "`balena preload` should warn about missing requirements at runtime (e.g. AUFS)",
-        "url": "https://github.com/balena-io/balena-cli/issues/1633"
-      },
-      {
-        "title": "[Jetson Nano] `local configure`: Error: Unsupported filesystem",
-        "url": "https://github.com/balena-io/balena-cli/issues/1632"
       }
     ]
   },
-  "version": "11.30.12",
+  "version": "11.30.13",
   "screenshot": null,
   "logo": null
 }
