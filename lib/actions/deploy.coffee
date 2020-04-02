@@ -198,7 +198,7 @@ module.exports =
 		require('events').defaultMaxListeners = 1000
 		sdk = getBalenaSdk()
 		{ ExpectedError } = require('../errors')
-		{ validateProjectDirectory } = require('../utils/compose_ts')
+		{ getRegistrySecrets, validateProjectDirectory } = require('../utils/compose_ts')
 		helpers = require('../utils/helpers')
 		Logger = require('../utils/logger')
 
@@ -225,16 +225,21 @@ module.exports =
 			if image? and options.build
 				throw new ExpectedError('Build option is not applicable when specifying an image')
 		.then ->
-			validateProjectDirectory(sdk, {
-				dockerfilePath: options.dockerfile,
-				noParentCheck: options['noparent-check'] || false,
-				projectPath: options.source || '.',
-				registrySecretsPath: options['registry-secrets'],
-			})
-		.then ({ dockerfilePath, registrySecrets }) ->
-			options.dockerfile = dockerfilePath
-			options['registry-secrets'] = registrySecrets
-
+			if image
+				getRegistrySecrets(sdk, options['registry-secrets'])
+				.then (registrySecrets) ->
+					options['registry-secrets'] = registrySecrets
+			else
+				validateProjectDirectory(sdk, {
+					dockerfilePath: options.dockerfile,
+					noParentCheck: options['noparent-check'] || false,
+					projectPath: options.source || '.',
+					registrySecretsPath: options['registry-secrets'],
+				})
+				.then ({ dockerfilePath, registrySecrets }) ->
+					options.dockerfile = dockerfilePath
+					options['registry-secrets'] = registrySecrets
+		.then ->
 			Promise.join(
 				helpers.getApplication(appName)
 				helpers.getArchAndDeviceType(appName)
