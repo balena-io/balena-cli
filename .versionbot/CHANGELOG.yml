@@ -1,4 +1,16 @@
 - commits:
+    - subject: >-
+        Fix project directory validation for 'balena deploy' with pre-built
+        image
+      hash: 96e28f3d45179ea48a4d3d94fd5634e264e5ea93
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.30.13
+  date: 2020-04-02T18:49:49.943Z
+- commits:
     - subject: Remove unused code from balena note
       hash: 9aa6b0bc57d51703098e0d55e6a51f467235d574
       body: ''
