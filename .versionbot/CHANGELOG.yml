@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Convert `internal scandevices`, `internal osinit` to typescript & oclif'
+      hash: bc3fe296243a2e7d49e707b520f923f161205d9d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.30.15
+  date: 2020-04-03T14:42:10.003Z
+- commits:
     - subject: Updated dependencies (vulnerability advisory CVE-2019-20149)
       hash: 292ad89b7e19add49f2043045f491e512b86c03b
       body: |
