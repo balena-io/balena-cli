@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Updated dependencies (vulnerability advisory CVE-2019-20149)",
+          "hash": "292ad89b7e19add49f2043045f491e512b86c03b",
+          "body": "https://nvd.nist.gov/vuln/detail/CVE-2019-20149\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.30.14",
+      "date": "2020-04-03T12:11:03.457Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix project directory validation for 'balena deploy' with pre-built image",
           "hash": "96e28f3d45179ea48a4d3d94fd5634e264e5ea93",
           "body": "",
@@ -10623,43 +10639,51 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-02T19:24:40Z",
+  "lastCommitDate": "2020-04-03T12:46:50Z",
   "latestRelease": {
-    "tagName": "v11.30.13",
+    "tagName": "v11.30.14",
     "asssets": [
       {
-        "name": "balena-cli-v11.30.13-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.13/balena-cli-v11.30.13-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.30.14-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.14/balena-cli-v11.30.14-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.13-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.13/balena-cli-v11.30.13-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.30.14-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.14/balena-cli-v11.30.14-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.30.13-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.13/balena-cli-v11.30.13-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.30.14-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.14/balena-cli-v11.30.14-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.13-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.13/balena-cli-v11.30.13-windows-x64-installer.exe"
+        "name": "balena-cli-v11.30.14-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.14/balena-cli-v11.30.14-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.30.13-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.13/balena-cli-v11.30.13-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.30.14-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.14/balena-cli-v11.30.14-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 238,
+    "numberOfIssues": 240,
     "latestIssues": [
+      {
+        "title": "Consider adding check-period option to `balena join` ",
+        "url": "https://github.com/balena-io/balena-cli/issues/1697"
+      },
+      {
+        "title": "Local build process should use lowercase `projectName`s when naming images",
+        "url": "https://github.com/balena-io/balena-cli/issues/1696"
+      },
+      {
+        "title": "Minor grammar fix in balena ssh documentation",
+        "url": "https://github.com/balena-io/balena-cli/pull/1695"
+      },
       {
         "title": "Convert `internal scandevices`, `internal osinit` to typescript & oclif",
         "url": "https://github.com/balena-io/balena-cli/pull/1693"
-      },
-      {
-        "title": "Updated dependencies (vulnerability advisory CVE-2019-20149)",
-        "url": "https://github.com/balena-io/balena-cli/pull/1692"
       },
       {
         "title": "`balena build` does not check for loggedin when applicaiton option set.",
@@ -10724,18 +10748,10 @@
       {
         "title": "Validate standalone installation (executable copied outside zip folder)",
         "url": "https://github.com/balena-io/balena-cli/issues/1646"
-      },
-      {
-        "title": "balena push on windows with .local address fails to connect to docker daemon",
-        "url": "https://github.com/balena-io/balena-cli/issues/1637"
-      },
-      {
-        "title": "Use `import type` where possible to explicitly import only type info",
-        "url": "https://github.com/balena-io/balena-cli/pull/1635"
       }
     ]
   },
-  "version": "11.30.13",
+  "version": "11.30.14",
   "screenshot": null,
   "logo": null
 }
