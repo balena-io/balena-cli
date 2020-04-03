@@ -28,7 +28,6 @@ module.exports =
 	os: require('./os')
 	config: require('./config')
 	ssh: require('./ssh')
-	internal: require('./internal')
 	build: require('./build')
 	deploy: require('./deploy')
 	util: require('./util')

@@ -41,6 +41,7 @@ declare module 'capitano' {
 		permission?: 'user';
 		root?: boolean;
 		primary?: boolean;
+		hidden?: boolean;
 		action(params: P, options: Partial<O>, done: () => void): void;
 	}
 
