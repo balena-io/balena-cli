@@ -1,4 +1,15 @@
 - commits:
+    - subject: Updated dependencies (vulnerability advisory CVE-2019-20149)
+      hash: 292ad89b7e19add49f2043045f491e512b86c03b
+      body: |
+        https://nvd.nist.gov/vuln/detail/CVE-2019-20149
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.30.14
+  date: 2020-04-03T12:11:03.457Z
+- commits:
     - subject: >-
         Fix project directory validation for 'balena deploy' with pre-built
         image
