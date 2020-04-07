@@ -1178,9 +1178,9 @@ This command can be used to start a shell on a local or remote device.
 
 If a service name is not provided, a shell will be opened on the host OS.
 
-If an application name is provided, all online devices in the application
-will be presented, and the chosen device will then have a shell opened on
-in it's service container or host OS.
+If an application name is provided, an interactive menu will be presented
+for the selection of an online device. A shell will then be opened for the
+host OS or service container of the chosen device.
 
 For local devices, the IP address and .local domain name are supported.
 If the device is referenced by IP or `.local` address, the connection
