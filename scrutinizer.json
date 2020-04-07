@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Minor grammar fix in balena ssh documentation",
+          "hash": "a50ca78eef904b6e08b46788f6a7b3dc3710bb52",
+          "body": "Minor grammar fix in balena ssh documentation\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Hugh Brown <hugh@balena.io>",
+            "signed-off-by": "Hugh Brown <hugh@balena.io>"
+          },
+          "author": "Hugh Brown"
+        }
+      ],
+      "version": "11.30.16",
+      "date": "2020-04-07T17:16:13.622Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert `internal scandevices`, `internal osinit` to typescript & oclif",
           "hash": "bc3fe296243a2e7d49e707b520f923f161205d9d",
           "body": "",
@@ -10657,29 +10675,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-03T15:01:50Z",
+  "lastCommitDate": "2020-04-07T18:43:29Z",
   "latestRelease": {
-    "tagName": "v11.30.15",
+    "tagName": "v11.30.16",
     "asssets": [
       {
-        "name": "balena-cli-v11.30.15-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.15/balena-cli-v11.30.15-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.30.16-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.16/balena-cli-v11.30.16-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.15-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.15/balena-cli-v11.30.15-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.30.16-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.16/balena-cli-v11.30.16-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.30.15-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.15/balena-cli-v11.30.15-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.30.16-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.16/balena-cli-v11.30.16-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.15-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.15/balena-cli-v11.30.15-windows-x64-installer.exe"
+        "name": "balena-cli-v11.30.16-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.16/balena-cli-v11.30.16-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.30.15-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.15/balena-cli-v11.30.15-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.30.16-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.16/balena-cli-v11.30.16-windows-x64-standalone.zip"
       }
     ]
   },
@@ -10687,6 +10705,22 @@
   "openIssues": {
     "numberOfIssues": 241,
     "latestIssues": [
+      {
+        "title": "`balena leave` generating double error when no devices found during scan.",
+        "url": "https://github.com/balena-io/balena-cli/issues/1703"
+      },
+      {
+        "title": " Convert commands leave, join to oclif.",
+        "url": "https://github.com/balena-io/balena-cli/pull/1702"
+      },
+      {
+        "title": "[Feature] Allow setting of device configuration modes in balena push (local dev)",
+        "url": "https://github.com/balena-io/balena-cli/issues/1701"
+      },
+      {
+        "title": "Standardize flag case",
+        "url": "https://github.com/balena-io/balena-cli/issues/1700"
+      },
       {
         "title": "When doing `balena os initialize` an error is thrown if a drive is not detected.",
         "url": "https://github.com/balena-io/balena-cli/issues/1699"
@@ -10702,18 +10736,6 @@
       {
         "title": "Local build process should use lowercase `projectName`s when naming images",
         "url": "https://github.com/balena-io/balena-cli/issues/1696"
-      },
-      {
-        "title": "Minor grammar fix in balena ssh documentation",
-        "url": "https://github.com/balena-io/balena-cli/pull/1695"
-      },
-      {
-        "title": "`balena build` does not check for loggedin when applicaiton option set.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1688"
-      },
-      {
-        "title": "`balena build` help missing `-f` flag",
-        "url": "https://github.com/balena-io/balena-cli/issues/1687"
       },
       {
         "title": "login issue for macOS Mojave",
@@ -10762,14 +10784,10 @@
       {
         "title": "Add ability to limit simultaneous builds during live push.",
         "url": "https://github.com/balena-io/balena-cli/issues/1648"
-      },
-      {
-        "title": "CLI on arm64: net-keepalive fails to compile, then \"logs\" and \"live push\" fail silently",
-        "url": "https://github.com/balena-io/balena-cli/issues/1647"
       }
     ]
   },
-  "version": "11.30.15",
+  "version": "11.30.16",
   "screenshot": null,
   "logo": null
 }

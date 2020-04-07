@@ -1,4 +1,17 @@
 - commits:
+    - subject: Minor grammar fix in balena ssh documentation
+      hash: a50ca78eef904b6e08b46788f6a7b3dc3710bb52
+      body: |
+        Minor grammar fix in balena ssh documentation
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Hugh Brown <hugh@balena.io>
+        signed-off-by: Hugh Brown <hugh@balena.io>
+      author: Hugh Brown
+  version: 11.30.16
+  date: 2020-04-07T18:43:03.627Z
+- commits:
     - subject: 'Convert `internal scandevices`, `internal osinit` to typescript & oclif'
       hash: bc3fe296243a2e7d49e707b520f923f161205d9d
       body: ''
@@ -9,7 +22,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.30.15
-  date: 2020-04-03T15:01:23.588Z
+  date: 2020-04-03T14:42:10.003Z
 - commits:
     - subject: Updated dependencies (vulnerability advisory CVE-2019-20149)
       hash: 292ad89b7e19add49f2043045f491e512b86c03b
