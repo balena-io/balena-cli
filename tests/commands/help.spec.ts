@@ -25,8 +25,8 @@ Primary commands:
     preload <image>                         preload an app on a disk image (or Edison zip archive)
     build [source]                          Build a single image or a multicontainer project locally
     deploy <appName> [image]                Deploy a single image or a multicontainer project to a balena application
-    join [deviceIp]                         Promote a local device running balenaOS to join an application on a balena server
-    leave [deviceIp]                        Detach a local device from its balena application
+    join [deviceiporhostname]               move a local device to an application on another balena server
+    leave [deviceiporhostname]              remove a local device from its balena application
     scan                                    Scan for balenaOS devices in your local network
 
 `;

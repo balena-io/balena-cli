@@ -125,10 +125,6 @@ capitano.command(actions.deploy)
 #------------ Push/remote builds -------
 capitano.command(actions.push.push)
 
-#------------ Join/Leave -------
-capitano.command(actions.join.join)
-capitano.command(actions.leave.leave)
-
 exports.run = (argv) ->
 	cli = capitano.parse(argv.slice(2))
 	runCommand = ->

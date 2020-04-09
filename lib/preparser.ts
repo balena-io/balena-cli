@@ -133,6 +133,8 @@ export const convertedCommands = [
 	'env:rm',
 	'internal:scandevices',
 	'internal:osinit',
+	'join',
+	'leave',
 	'note',
 	'os:configure',
 	'settings',
