@@ -116,7 +116,7 @@ const capitanoDoc = {
 		},
 		{
 			title: 'Platform',
-			files: ['build/actions/join.js', 'build/actions/leave.js'],
+			files: ['build/actions-oclif/join.js', 'build/actions-oclif/leave.js'],
 		},
 		{
 			title: 'Utilities',

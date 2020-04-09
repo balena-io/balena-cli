@@ -33,6 +33,4 @@ module.exports =
 	util: require('./util')
 	preload: require('./preload')
 	push: require('./push')
-	join: require('./join')
-	leave: require('./leave')
 	tunnel: require('./tunnel')

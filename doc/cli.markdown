@@ -247,8 +247,8 @@ If you come across any problems or would like to get in touch:
 
 - Platform
 
-	- [join [deviceIp]](#join-deviceip)
-	- [leave [deviceIp]](#leave-deviceip)
+	- [join [deviceiporhostname]](#join-deviceiporhostname)
+	- [leave [deviceiporhostname]](#leave-deviceiporhostname)
 
 - Utilities
 
@@ -2146,9 +2146,10 @@ Squash newly built layers into a single new layer
 
 # Platform
 
-## join [deviceIp]
+## join [deviceIpOrHostname]
 
-Use this command to move a local device to an application on another balena server.
+Move a local device to an application on another balena server, causing
+the device to "join" the new server. The device must be running balenaOS.
 
 For example, you could provision a device against an openBalena installation
 where you perform end-to-end tests and then move it to balenaCloud when it's
@@ -2159,7 +2160,8 @@ To move a device between applications on the same server, use the
 
 If you don't specify a device hostname or IP, this command will automatically
 scan the local network for balenaOS devices and prompt you to select one
-from an interactive picker. This usually requires root privileges.
+from an interactive picker. This requires root privileges.  Likewise, if
+the application flag is not provided then a picker will be shown.
 
 Examples:
 
@@ -2169,16 +2171,23 @@ Examples:
 	$ balena join 192.168.1.25
 	$ balena join 192.168.1.25 --application MyApp
 
+### Arguments
+
+#### DEVICEIPORHOSTNAME
+
+the IP or hostname of device
+
 ### Options
 
-#### --application, -a &#60;application&#62;
+#### -a, --application APPLICATION
 
-The name of the application the device should join
+application name
 
-## leave [deviceIp]
+## leave [deviceIpOrHostname]
 
-Use this command to make a local device leave the balena server it is
-provisioned on. This effectively makes the device "unmanaged".
+Remove a local device from its balena application, causing the device to
+"leave" the server it is provisioned on. This effectively makes the device
+"unmanaged". The device must be running balenaOS.
 
 The device entry on the server is preserved after running this command,
 so the device can subsequently re-join the server if needed.
@@ -2192,6 +2201,14 @@ Examples:
 	$ balena leave
 	$ balena leave balena.local
 	$ balena leave 192.168.1.25
+
+### Arguments
+
+#### DEVICEIPORHOSTNAME
+
+the device IP or hostname
+
+### Options
 
 # Utilities
 
