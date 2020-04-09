@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Convert commands join, leave to oclif.'
+      hash: 3aa72dde4c5925e7a1aa9c7f1f3ad7fbabcdced6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.30.17
+  date: 2020-04-09T21:04:26.636Z
+- commits:
     - subject: Minor grammar fix in balena ssh documentation
       hash: a50ca78eef904b6e08b46788f6a7b3dc3710bb52
       body: |
@@ -10,7 +22,7 @@
         signed-off-by: Hugh Brown <hugh@balena.io>
       author: Hugh Brown
   version: 11.30.16
-  date: 2020-04-07T18:43:03.627Z
+  date: 2020-04-07T17:16:13.622Z
 - commits:
     - subject: 'Convert `internal scandevices`, `internal osinit` to typescript & oclif'
       hash: bc3fe296243a2e7d49e707b520f923f161205d9d
