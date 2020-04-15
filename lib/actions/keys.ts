@@ -48,7 +48,7 @@ Examples:
 `,
 	permission: 'user',
 	async action(params) {
-		const key = await getBalenaSdk().models.key.get(params.id);
+		const key = await getBalenaSdk().models.key.get(parseInt(params.id, 10));
 
 		console.log(getVisuals().table.vertical(key, ['id', 'title']));
 
@@ -86,7 +86,7 @@ Examples:
 			'Are you sure you want to delete the key?',
 		);
 
-		await getBalenaSdk().models.key.remove(params.id);
+		await getBalenaSdk().models.key.remove(parseInt(params.id, 10));
 	},
 };
 
