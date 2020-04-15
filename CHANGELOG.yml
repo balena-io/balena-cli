@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'improve input validation for `key`, `key rm`'
+      hash: cff9e50a224652792a18d931e8b8d35cc32073a1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#1728'
+        resolves: '#1728'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.31.1
+  date: 2020-04-15T16:46:28.402Z
+- commits:
     - subject: 'device os-update: allow host OS upgrade with development balenaOS images'
       hash: 320b4864d97c7fea234bc25ec755e2e5013b2a18
       body: |
@@ -14,7 +28,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.31.0
-  date: 2020-04-15T13:47:45.745Z
+  date: 2020-04-15T13:10:48.862Z
 - commits:
     - subject: 'Convert commands join, leave to oclif.'
       hash: 3aa72dde4c5925e7a1aa9c7f1f3ad7fbabcdced6
