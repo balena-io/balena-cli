@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'device os-update: allow host OS upgrade with development balenaOS images'
+      hash: 320b4864d97c7fea234bc25ec755e2e5013b2a18
+      body: |
+        also:
+        fix `device os-update` incorrectly showing 0% progress
+        convert `device os-update` to use async/await
+      footer:
+        Change-type: minor
+        change-type: minor
+        Resolves: '#1725'
+        resolves: '#1725'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.31.0
+  date: 2020-04-15T13:10:48.862Z
+- commits:
     - subject: 'Convert commands join, leave to oclif.'
       hash: 3aa72dde4c5925e7a1aa9c7f1f3ad7fbabcdced6
       body: ''
