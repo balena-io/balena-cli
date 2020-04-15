@@ -18,7 +18,7 @@ import { Device } from 'balena-sdk';
 
 export const getDeviceOsProgress = (device: Device) => {
 	if (!device.is_online) {
-		return 0;
+		return null;
 	}
 
 	const status = BalenaDeviceStatus.getStatus(device).key;

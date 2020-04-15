@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Balena
+Copyright 2016-2020 Balena Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@ limitations under the License.
 import { Device } from 'balena-sdk';
 import { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
+import { ExpectedError } from '../errors';
 import { getBalenaSdk } from '../utils/lazy';
 import { normalizeUuidProp } from '../utils/normalization';
 import * as commandOptions from './command-options';
@@ -55,62 +56,67 @@ export const osUpdate: CommandDefinition<OsUpdate.Args, OsUpdate.Options> = {
 		const patterns = await import('../utils/patterns');
 		const form = await import('resin-cli-form');
 
-		return sdk.models.device
-			.get(params.uuid, {
-				$select: ['uuid', 'device_type', 'os_version', 'os_variant'],
-			})
-			.then(async ({ uuid, device_type, os_version, os_variant }) => {
-				const currentOsVersion = sdk.models.device.getOsVersion({
-					os_version,
-					os_variant,
-				} as Device);
-				if (!currentOsVersion) {
-					patterns.exitWithExpectedError(
-						'The current os version of the device is not available',
-					);
-					// Just to make TS happy
-					return;
-				}
+		// Get device info
+		const {
+			uuid,
+			device_type,
+			os_version,
+			os_variant,
+		} = await sdk.models.device.get(params.uuid, {
+			$select: ['uuid', 'device_type', 'os_version', 'os_variant'],
+		});
 
-				return sdk.models.os
-					.getSupportedOsUpdateVersions(device_type, currentOsVersion)
-					.then(hupVersionInfo => {
-						if (hupVersionInfo.versions.length === 0) {
-							patterns.exitWithExpectedError(
-								'There are no available Host OS update targets for this device',
-							);
-						}
+		// Get current device OS version
+		const currentOsVersion = sdk.models.device.getOsVersion({
+			os_version,
+			os_variant,
+		} as Device);
+		if (!currentOsVersion) {
+			throw new ExpectedError(
+				'The current os version of the device is not available',
+			);
+		}
 
-						if (options.version != null) {
-							if (!_.includes(hupVersionInfo.versions, options.version)) {
-								patterns.exitWithExpectedError(
-									'The provided version is not in the Host OS update targets for this device',
-								);
-							}
-							return options.version;
-						}
+		// Get supported OS update versions
+		const hupVersionInfo = await sdk.models.os.getSupportedOsUpdateVersions(
+			device_type,
+			currentOsVersion,
+		);
+		if (hupVersionInfo.versions.length === 0) {
+			throw new ExpectedError(
+				'There are no available Host OS update targets for this device',
+			);
+		}
 
-						return form.ask({
-							message: 'Target OS version',
-							type: 'list',
-							choices: hupVersionInfo.versions.map(version => ({
-								name:
-									hupVersionInfo.recommended === version
-										? `${version} (recommended)`
-										: version,
-								value: version,
-							})),
-						});
-					})
-					.then(version =>
-						patterns
-							.confirm(
-								options.yes || false,
-								'Host OS updates require a device restart when they complete. Are you sure you want to proceed?',
-							)
-							.then(() => sdk.models.device.startOsUpdate(uuid, version))
-							.then(() => patterns.awaitDeviceOsUpdate(uuid, version)),
-					);
+		// Get target OS version
+		let targetOsVersion = options.version;
+		if (targetOsVersion != null) {
+			if (!_.includes(hupVersionInfo.versions, targetOsVersion)) {
+				throw new ExpectedError(
+					`The provided version ${targetOsVersion} is not in the Host OS update targets for this device`,
+				);
+			}
+		} else {
+			targetOsVersion = await form.ask({
+				message: 'Target OS version',
+				type: 'list',
+				choices: hupVersionInfo.versions.map(version => ({
+					name:
+						hupVersionInfo.recommended === version
+							? `${version} (recommended)`
+							: version,
+					value: version,
+				})),
 			});
+		}
+
+		// Confirm and start update
+		await patterns.confirm(
+			options.yes || false,
+			'Host OS updates require a device restart when they complete. Are you sure you want to proceed?',
+		);
+
+		await sdk.models.device.startOsUpdate(uuid, targetOsVersion);
+		await patterns.awaitDeviceOsUpdate(uuid, targetOsVersion);
 	},
 };

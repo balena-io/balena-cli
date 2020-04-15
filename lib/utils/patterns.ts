@@ -293,10 +293,7 @@ export function awaitDeviceOsUpdate(uuid: string, targetOsVersion: string) {
 				balena.models.device.getOsUpdateStatus(uuid),
 				balena.models.device.get(uuid).then(getDeviceOsProgress),
 			]).then(([osUpdateStatus, osUpdateProgress]) => {
-				if (
-					osUpdateStatus.status === 'update_done' ||
-					osUpdateStatus.status === 'done'
-				) {
+				if (osUpdateStatus.status === 'done') {
 					console.info(
 						`The device ${deviceName} has been updated to v${targetOsVersion} and will restart shortly!`,
 					);
@@ -311,7 +308,10 @@ export function awaitDeviceOsUpdate(uuid: string, targetOsVersion: string) {
 					return;
 				}
 
-				progressBar.update({ percentage: osUpdateProgress });
+				if (osUpdateProgress !== null) {
+					// Avoid resetting to 0% at end of process when device goes offline.
+					progressBar.update({ percentage: osUpdateProgress });
+				}
 
 				return Bluebird.delay(3000).then(poll);
 			});
@@ -451,6 +451,8 @@ export function printErrorMessage(message: string) {
  * "expected" errors (say, a JSON parsing error in a file provided by the user)
  * don't warrant reporting through Sentry.io.  For such mundane errors, catch
  * them and call this function.
+ *
+ * DEPRECATED: Use `throw new ExpectedError(<message>)` instead.
  */
 export function exitWithExpectedError(message: string | Error): never {
 	if (message instanceof Error) {
