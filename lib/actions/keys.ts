@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Balena
+Copyright 2016-2020 Balena Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,8 +15,16 @@ limitations under the License.
 */
 
 import { CommandDefinition } from 'capitano';
+import { ExpectedError } from '../errors';
 import { getBalenaSdk, getVisuals } from '../utils/lazy';
 import * as commandOptions from './command-options';
+
+function parseId(id: string): number {
+	if (/^[\d]+$/.exec(id) == null) {
+		throw new ExpectedError('The key id must be an integer');
+	}
+	return Number(id);
+}
 
 export const list: CommandDefinition = {
 	signature: 'keys',
@@ -48,7 +56,7 @@ Examples:
 `,
 	permission: 'user',
 	async action(params) {
-		const key = await getBalenaSdk().models.key.get(parseInt(params.id, 10));
+		const key = await getBalenaSdk().models.key.get(parseId(params.id));
 
 		console.log(getVisuals().table.vertical(key, ['id', 'title']));
 
@@ -86,7 +94,7 @@ Examples:
 			'Are you sure you want to delete the key?',
 		);
 
-		await getBalenaSdk().models.key.remove(parseInt(params.id, 10));
+		await getBalenaSdk().models.key.remove(parseId(params.id));
 	},
 };
 
