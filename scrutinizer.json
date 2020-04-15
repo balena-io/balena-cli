@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "device os-update: allow host OS upgrade with development balenaOS images",
+          "hash": "320b4864d97c7fea234bc25ec755e2e5013b2a18",
+          "body": "also:\nfix `device os-update` incorrectly showing 0% progress\nconvert `device os-update` to use async/await\n",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Resolves": "#1725",
+            "resolves": "#1725",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.31.0",
+      "date": "2020-04-15T13:10:48.862Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert commands join, leave to oclif.",
           "hash": "3aa72dde4c5925e7a1aa9c7f1f3ad7fbabcdced6",
           "body": "",
@@ -10589,7 +10609,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 226,
+  "stars": 229,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -10693,119 +10713,119 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-09T21:05:24Z",
+  "lastCommitDate": "2020-04-15T13:48:28Z",
   "latestRelease": {
-    "tagName": "v11.30.17",
+    "tagName": "v11.31.0",
     "asssets": [
       {
-        "name": "balena-cli-v11.30.17-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.17/balena-cli-v11.30.17-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.0/balena-cli-v11.31.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.17-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.17/balena-cli-v11.30.17-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.0/balena-cli-v11.31.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.30.17-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.17/balena-cli-v11.30.17-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.0/balena-cli-v11.31.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.30.17-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.17/balena-cli-v11.30.17-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.0/balena-cli-v11.31.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.30.17-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.30.17/balena-cli-v11.30.17-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.0/balena-cli-v11.31.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 241,
+    "numberOfIssues": 259,
     "latestIssues": [
+      {
+        "title": "There needs to be a better way to list device type versions",
+        "url": "https://github.com/balena-io/balena-cli/issues/1724"
+      },
+      {
+        "title": "Error: ENOENT: no such file or directory, lstat '/usr/local/lib/balena-cli/lib' when running cli commands",
+        "url": "https://github.com/balena-io/balena-cli/issues/1723"
+      },
+      {
+        "title": "`device init`: AssertionError [ERR_ASSERTION]: rimraf: missing path",
+        "url": "https://github.com/balena-io/balena-cli/issues/1722"
+      },
+      {
+        "title": "Explain / solve why the CLI takes a long time to run after installation",
+        "url": "https://github.com/balena-io/balena-cli/issues/1721"
+      },
+      {
+        "title": "Remove dependency on external ssh tool",
+        "url": "https://github.com/balena-io/balena-cli/issues/1720"
+      },
+      {
+        "title": "Detect and facilitate Docker installation",
+        "url": "https://github.com/balena-io/balena-cli/issues/1719"
+      },
+      {
+        "title": "balena scan [Linux]: detect that dependencies are installed (avahi)",
+        "url": "https://github.com/balena-io/balena-cli/issues/1718"
+      },
+      {
+        "title": "Executable GUI installer should print \"next steps\" info at the end (Windows, macOS)",
+        "url": "https://github.com/balena-io/balena-cli/issues/1717"
+      },
+      {
+        "title": "Generate download link to latest CLI release (\"balena update\")",
+        "url": "https://github.com/balena-io/balena-cli/issues/1716"
+      },
+      {
+        "title": "balena scan [Windows]: solve Bonjour situation",
+        "url": "https://github.com/balena-io/balena-cli/issues/1715"
+      },
+      {
+        "title": "Improve `balena scan` error message re insufficient privileges and \"sudo\"",
+        "url": "https://github.com/balena-io/balena-cli/issues/1714"
+      },
+      {
+        "title": "`balena scan` should not filter out production devices",
+        "url": "https://github.com/balena-io/balena-cli/issues/1713"
+      },
+      {
+        "title": "Red error messages have poor contrast on PowerShell's default blue background",
+        "url": "https://github.com/balena-io/balena-cli/issues/1712"
+      },
+      {
+        "title": "Simplify CLI installation and first usage",
+        "url": "https://github.com/balena-io/balena-cli/issues/1711"
+      },
+      {
+        "title": "Reword web authorization ",
+        "url": "https://github.com/balena-io/balena-cli/issues/1710"
+      },
+      {
+        "title": "Speed up CLI installation on Windows",
+        "url": "https://github.com/balena-io/balena-cli/issues/1709"
+      },
+      {
+        "title": "Speed up `balena help` by creating/saving usage information at compile time",
+        "url": "https://github.com/balena-io/balena-cli/issues/1708"
+      },
+      {
+        "title": "Build emulation does not work on non standard Dockerfile names in compose files",
+        "url": "https://github.com/balena-io/balena-cli/issues/1707"
+      },
+      {
+        "title": "Livepush should rebuild container if it detects that the container has exited",
+        "url": "https://github.com/balena-io/balena-cli/issues/1706"
+      },
       {
         "title": "balena push incorrectly interprets = in env var values",
         "url": "https://github.com/balena-io/balena-cli/issues/1705"
-      },
-      {
-        "title": "Add support for using parent context in balena build",
-        "url": "https://github.com/balena-io/balena-cli/issues/1704"
-      },
-      {
-        "title": "`balena leave` generating double error when no devices found during scan.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1703"
-      },
-      {
-        "title": "[Feature] Allow setting of device configuration modes in balena push (local dev)",
-        "url": "https://github.com/balena-io/balena-cli/issues/1701"
-      },
-      {
-        "title": "Standardize flag case",
-        "url": "https://github.com/balena-io/balena-cli/issues/1700"
-      },
-      {
-        "title": "When doing `balena os initialize` an error is thrown if a drive is not detected.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1699"
-      },
-      {
-        "title": "Add ability to push images without doing a build",
-        "url": "https://github.com/balena-io/balena-cli/issues/1698"
-      },
-      {
-        "title": "Consider adding check-period option to `balena join` ",
-        "url": "https://github.com/balena-io/balena-cli/issues/1697"
-      },
-      {
-        "title": "Local build process should use lowercase `projectName`s when naming images",
-        "url": "https://github.com/balena-io/balena-cli/issues/1696"
-      },
-      {
-        "title": "balena push hangs after `Successfully uploaded images`",
-        "url": "https://github.com/balena-io/balena-cli/issues/1684"
-      },
-      {
-        "title": "`balena login` using web auth fails silently on a machine with no display attached",
-        "url": "https://github.com/balena-io/balena-cli/issues/1683"
-      },
-      {
-        "title": "Use a verbose flag to show logs of regular commands",
-        "url": "https://github.com/balena-io/balena-cli/issues/1682"
-      },
-      {
-        "title": "Validate docker-compose file for unsupported configurations",
-        "url": "https://github.com/balena-io/balena-cli/issues/1671"
-      },
-      {
-        "title": "Unable to pass the poll interval as an argument to `join` command",
-        "url": "https://github.com/balena-io/balena-cli/issues/1670"
-      },
-      {
-        "title": "Implement auto update feature using @oclif/plugin-update",
-        "url": "https://github.com/balena-io/balena-cli/issues/1669"
-      },
-      {
-        "title": "Add permission validation of auth token / folders when running as non-root users",
-        "url": "https://github.com/balena-io/balena-cli/issues/1667"
-      },
-      {
-        "title": "Convert command `scan` to TypeScript, migrate to oclif",
-        "url": "https://github.com/balena-io/balena-cli/pull/1666"
-      },
-      {
-        "title": "Update Node.js version in standalone zip and native installers ",
-        "url": "https://github.com/balena-io/balena-cli/issues/1661"
-      },
-      {
-        "title": "Support easy switching between multiple accounts.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1660"
-      },
-      {
-        "title": "Add ability to limit simultaneous builds during live push.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1648"
       }
     ]
   },
-  "version": "11.30.17",
+  "version": "11.31.0",
   "screenshot": null,
   "logo": null
 }
