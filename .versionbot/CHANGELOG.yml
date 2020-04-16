@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Fix seemingly random ENOENT error (update 'is-installed-globally'
+        dependency)
+      hash: 52b2ba6a304ba41e911e26c2081273f92f5581de
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#1723'
+        resolves: '#1723'
+      author: Paulo Castro
+  version: 11.31.2
+  date: 2020-04-15T18:04:29.254Z
+- commits:
     - subject: 'improve input validation for `key`, `key rm`'
       hash: cff9e50a224652792a18d931e8b8d35cc32073a1
       body: ''
