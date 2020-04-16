@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Fix seemingly random ENOENT error (update 'is-installed-globally' dependency)",
+          "hash": "52b2ba6a304ba41e911e26c2081273f92f5581de",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Resolves": "#1723",
+            "resolves": "#1723"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.31.2",
+      "date": "2020-04-15T18:04:29.254Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "improve input validation for `key`, `key rm`",
           "hash": "cff9e50a224652792a18d931e8b8d35cc32073a1",
           "body": "",
@@ -10733,35 +10751,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-15T16:46:53Z",
+  "lastCommitDate": "2020-04-16T00:39:14Z",
   "latestRelease": {
-    "tagName": "v11.31.1",
+    "tagName": "v11.31.2",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.1/balena-cli-v11.31.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.2/balena-cli-v11.31.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.1/balena-cli-v11.31.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.2/balena-cli-v11.31.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.1/balena-cli-v11.31.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.2/balena-cli-v11.31.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.1/balena-cli-v11.31.1-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.2/balena-cli-v11.31.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.1/balena-cli-v11.31.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.2/balena-cli-v11.31.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 260,
+    "numberOfIssues": 258,
     "latestIssues": [
       {
         "title": "Remove windows dns workaround in favour of single initial resolution.",
@@ -10770,10 +10788,6 @@
       {
         "title": "There needs to be a better way to list device type versions",
         "url": "https://github.com/balena-io/balena-cli/issues/1724"
-      },
-      {
-        "title": "Error: ENOENT: no such file or directory, lstat '/usr/local/lib/balena-cli/lib' when running cli commands",
-        "url": "https://github.com/balena-io/balena-cli/issues/1723"
       },
       {
         "title": "`device init`: AssertionError [ERR_ASSERTION]: rimraf: missing path",
@@ -10842,10 +10856,14 @@
       {
         "title": "Livepush should rebuild container if it detects that the container has exited",
         "url": "https://github.com/balena-io/balena-cli/issues/1706"
+      },
+      {
+        "title": "balena push incorrectly interprets = in env var values",
+        "url": "https://github.com/balena-io/balena-cli/issues/1705"
       }
     ]
   },
-  "version": "11.31.1",
+  "version": "11.31.2",
   "screenshot": null,
   "logo": null
 }
