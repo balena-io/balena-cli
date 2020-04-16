@@ -2242,9 +2242,9 @@
       }
     },
     "balena-sdk": {
-      "version": "12.33.0",
-      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-12.33.0.tgz",
-      "integrity": "sha512-riqcJeA8SYMf20bgt1lhgw/eWiWXVwivGHgBer54/dxDIo48RIwys98LvkisIO2sTco1AmTL4Q0rePsMGjEYwQ==",
+      "version": "12.30.0",
+      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-12.30.0.tgz",
+      "integrity": "sha512-V7t2vGamLCkWRt1ZMEnFuuEw/4zUC9cEAlh2v+VM9rWMgnebIb2KVm8pXen/BQb44sYyiIVS8S8VXhIyPwrRzg==",
       "requires": {
         "@types/bluebird": "^3.5.30",
         "@types/lodash": "^4.14.149",
@@ -2253,7 +2253,7 @@
         "abortcontroller-polyfill": "^1.4.0",
         "balena-auth": "^3.0.1",
         "balena-device-status": "^3.2.1",
-        "balena-errors": "^4.3.0",
+        "balena-errors": "^4.2.1",
         "balena-hup-action-utils": "~4.0.0",
         "balena-pine": "^10.1.1",
         "balena-register-device": "^6.0.1",
@@ -2272,20 +2272,6 @@
           "version": "8.10.60",
           "resolved": "https://registry.npmjs.org/@types/node/-/node-8.10.60.tgz",
           "integrity": "sha512-YjPbypHFuiOV0bTgeF07HpEEqhmHaZqYNSdCKeBJa+yFoQ/7BC+FpJcwmi34xUIIRVFktnUyP1dPU8U0612GOg=="
-        },
-        "balena-errors": {
-          "version": "4.3.2",
-          "resolved": "https://registry.npmjs.org/balena-errors/-/balena-errors-4.3.2.tgz",
-          "integrity": "sha512-daa+3jHqvoha8zIIIX4jvxdus1LWhH+2Y5IJOzOuIzxmfLEq51EXeszMbcHrbSLlGlJpfaJDG7dfBmFXtabL6Q==",
-          "requires": {
-            "tslib": "^1.11.1",
-            "typed-error": "^3.0.0"
-          }
-        },
-        "tslib": {
-          "version": "1.11.1",
-          "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.11.1.tgz",
-          "integrity": "sha512-aZW88SY8kQbU7gpV19lN24LtXh/yD4ZZg6qieAJDDg+YBsJcSmLGK9QpnUjAKVG/xefmvJGd1WUmfpT/g6AJGA=="
         }
       }
     },
@@ -14605,9 +14591,9 @@
       }
     },
     "pinejs-client-core": {
-      "version": "5.6.11",
-      "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-5.6.11.tgz",
-      "integrity": "sha512-72b7J8jkqkMj+Ih3F/m+wWcGbIQZOEgE4FYW7e8mSPAtQAcRh3+eA5buDTgfiEwCRr28b0TLn7LX2j/vXljrMg=="
+      "version": "5.7.0",
+      "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-5.7.0.tgz",
+      "integrity": "sha512-89WcvoAXVP1ep0LcLa71du9OkVc0rJXcGNQgXiK9TdgLSBlUJSKFDGjnK8OKibkak0ydkjVghBRWEwlICcv7zw=="
     },
     "pinkie": {
       "version": "2.0.4",
