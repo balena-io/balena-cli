@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Fix balena ssh \"Application not found\" (pin balena-sdk to v12.30.0)",
+          "hash": "264c8535b453b2a5b0ed98287aeb9e64fad61eef",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.31.3",
+      "date": "2020-04-16T23:16:16.151Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix seemingly random ENOENT error (update 'is-installed-globally' dependency)",
           "hash": "52b2ba6a304ba41e911e26c2081273f92f5581de",
           "body": "",
@@ -10751,36 +10767,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-16T00:39:14Z",
+  "lastCommitDate": "2020-04-16T23:40:26Z",
   "latestRelease": {
-    "tagName": "v11.31.2",
+    "tagName": "v11.31.3",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.2/balena-cli-v11.31.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.3/balena-cli-v11.31.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.2/balena-cli-v11.31.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.3/balena-cli-v11.31.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.2/balena-cli-v11.31.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.3/balena-cli-v11.31.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.2/balena-cli-v11.31.2-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.3/balena-cli-v11.31.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.2/balena-cli-v11.31.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.3/balena-cli-v11.31.3-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 258,
+    "numberOfIssues": 259,
     "latestIssues": [
+      {
+        "title": "Give a better error message on \"balena ssh\" when the keys don't match",
+        "url": "https://github.com/balena-io/balena-cli/issues/1731"
+      },
       {
         "title": "Remove windows dns workaround in favour of single initial resolution.",
         "url": "https://github.com/balena-io/balena-cli/issues/1727"
@@ -10856,14 +10876,10 @@
       {
         "title": "Livepush should rebuild container if it detects that the container has exited",
         "url": "https://github.com/balena-io/balena-cli/issues/1706"
-      },
-      {
-        "title": "balena push incorrectly interprets = in env var values",
-        "url": "https://github.com/balena-io/balena-cli/issues/1705"
       }
     ]
   },
-  "version": "11.31.2",
+  "version": "11.31.3",
   "screenshot": null,
   "logo": null
 }
