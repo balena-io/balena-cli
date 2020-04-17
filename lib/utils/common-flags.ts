@@ -46,3 +46,8 @@ export const verbose: IBooleanFlag<boolean> = flags.boolean({
 	char: 'v',
 	description: 'produce verbose output',
 });
+
+export const yes: IBooleanFlag<boolean> = flags.boolean({
+	char: 'y',
+	description: 'answer "yes" to all questions (non interactive use)',
+});

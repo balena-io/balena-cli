@@ -22,6 +22,7 @@ import * as cf from '../../utils/common-flags';
 import * as ec from '../../utils/env-common';
 import { getBalenaSdk } from '../../utils/lazy';
 import { CommandHelp } from '../../utils/oclif-utils';
+import { parseAsInteger } from '../../utils/validation';
 
 type IArg<T> = import('@oclif/parser').args.IArg<T>;
 
@@ -60,7 +61,7 @@ export default class EnvRenameCmd extends Command {
 			name: 'id',
 			required: true,
 			description: "variable's numeric database ID",
-			parse: input => ec.parseDbId(input),
+			parse: input => parseAsInteger(input, 'id'),
 		},
 		{
 			name: 'value',

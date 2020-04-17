@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Balena
+Copyright 2016-2020 Balena Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@ limitations under the License.
 */
 
 import validEmail = require('@resin.io/valid-email');
+import { ExpectedError } from '../errors';
 
 const APPNAME_REGEX = new RegExp(/^[a-zA-Z0-9_-]+$/);
 // An regex to detect an IP address, from https://www.regular-expressions.info/ip.html
@@ -72,4 +73,18 @@ export function validateShortUuid(input: string): boolean {
 
 export function validateUuid(input: string): boolean {
 	return validateLongUuid(input) || validateShortUuid(input);
+}
+
+export function parseAsInteger(input: string, paramName?: string) {
+	// Allow only digits, no leading 0
+	if (!/^(0|[1-9][0-9]*)$/.test(input)) {
+		const message =
+			paramName == null
+				? 'The parameter must be an integer.'
+				: `The parameter '${paramName}' must be an integer.`;
+
+		throw new ExpectedError(message);
+	}
+
+	return Number(input);
 }
