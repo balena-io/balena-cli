@@ -2080,12 +2080,19 @@
       }
     },
     "balena-errors": {
-      "version": "4.2.1",
-      "resolved": "https://registry.npmjs.org/balena-errors/-/balena-errors-4.2.1.tgz",
-      "integrity": "sha512-8V92f8C5xckM8uIl4OPPgR2IgjOKSYaSIz927dNMou9Ht9YP8SHm7e4m7njijibL5mpUho2RPXoUOg+6L6V/iA==",
+      "version": "4.3.2",
+      "resolved": "https://registry.npmjs.org/balena-errors/-/balena-errors-4.3.2.tgz",
+      "integrity": "sha512-daa+3jHqvoha8zIIIX4jvxdus1LWhH+2Y5IJOzOuIzxmfLEq51EXeszMbcHrbSLlGlJpfaJDG7dfBmFXtabL6Q==",
       "requires": {
-        "tslib": "^1.7.1",
+        "tslib": "^1.11.1",
         "typed-error": "^3.0.0"
+      },
+      "dependencies": {
+        "tslib": {
+          "version": "1.11.1",
+          "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.11.1.tgz",
+          "integrity": "sha512-aZW88SY8kQbU7gpV19lN24LtXh/yD4ZZg6qieAJDDg+YBsJcSmLGK9QpnUjAKVG/xefmvJGd1WUmfpT/g6AJGA=="
+        }
       }
     },
     "balena-hup-action-utils": {
@@ -2210,11 +2217,11 @@
       }
     },
     "balena-register-device": {
-      "version": "6.0.1",
-      "resolved": "https://registry.npmjs.org/balena-register-device/-/balena-register-device-6.0.1.tgz",
-      "integrity": "sha512-2u2iFlbMP0nieTyitt9KW+LDDcZvLT6h5NbTHQsaepYcP8zIQOh9+EiIquCwHbDyVIjbSMbhoVWFU5VmNanCiA==",
+      "version": "6.1.0",
+      "resolved": "https://registry.npmjs.org/balena-register-device/-/balena-register-device-6.1.0.tgz",
+      "integrity": "sha512-iPCm8HiZUG2xwNLVECaHx8g589jnqBDtCpLJ0ow7828xd0Spk9nF/GncRqiqmeo5OUZPnXW7prLkaRwu4s2Otg==",
       "requires": {
-        "bluebird": "^3.0.0",
+        "bluebird": "^3.7.2",
         "randomstring": "^1.1.5"
       }
     },
@@ -2242,9 +2249,9 @@
       }
     },
     "balena-sdk": {
-      "version": "12.30.0",
-      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-12.30.0.tgz",
-      "integrity": "sha512-V7t2vGamLCkWRt1ZMEnFuuEw/4zUC9cEAlh2v+VM9rWMgnebIb2KVm8pXen/BQb44sYyiIVS8S8VXhIyPwrRzg==",
+      "version": "12.33.0",
+      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-12.33.0.tgz",
+      "integrity": "sha512-riqcJeA8SYMf20bgt1lhgw/eWiWXVwivGHgBer54/dxDIo48RIwys98LvkisIO2sTco1AmTL4Q0rePsMGjEYwQ==",
       "requires": {
         "@types/bluebird": "^3.5.30",
         "@types/lodash": "^4.14.149",
@@ -2253,7 +2260,7 @@
         "abortcontroller-polyfill": "^1.4.0",
         "balena-auth": "^3.0.1",
         "balena-device-status": "^3.2.1",
-        "balena-errors": "^4.2.1",
+        "balena-errors": "^4.3.0",
         "balena-hup-action-utils": "~4.0.0",
         "balena-pine": "^10.1.1",
         "balena-register-device": "^6.0.1",
