@@ -159,7 +159,6 @@
   },
   "dependencies": {
     "@oclif/command": "^1.5.19",
-    "@oclif/errors": "^1.2.2",
     "@resin.io/valid-email": "^0.1.0",
     "@sentry/node": "^5.13.2",
     "@types/update-notifier": "^4.1.0",

@@ -25,6 +25,37 @@ export class NotLoggedInError extends ExpectedError {}
 
 export class InsufficientPrivilegesError extends ExpectedError {}
 
+/**
+ * instanceOf is a more reliable implemention of the plain `instanceof`
+ * typescript operator, for use with TypedError errors when the error
+ * classes may be defined in external packages/dependencies.
+ * Sample usage:
+ *    instanceOf(err, BalenaApplicationNotFound)
+ *
+ * A plain Typescript `instanceof` test may fail if `npm install` results
+ * in multiple instances of a package, for example multiple versions of
+ * `balena-errors`:
+ *     $ find node_modules -type d -name balena-errors
+ *     node_modules/balena-errors
+ *     node_modules/balena-sdk/node_modules/balena-errors
+ *
+ * In these cases, `instanceof` produces a false negative when comparing objects
+ * and classes of the different package versions, but the `err.name` test still
+ * succeeds.
+ *
+ * @param err Error object, for example in a `catch(err)` block
+ * @param klass TypedError subclass, e.g. BalenaApplicationNotFound. The type
+ * is annotated as 'any' for the same reason of multiple package installations
+ * mentioned above.
+ */
+export function instanceOf(err: any, klass: any): boolean {
+	if (err instanceof klass) {
+		return true;
+	}
+	const name: string | undefined = err.name || err.constructor?.name;
+	return name != null && name === klass.name;
+}
+
 function hasCode(error: any): error is Error & { code: string } {
 	return error.code != null;
 }

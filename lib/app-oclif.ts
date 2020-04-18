@@ -16,7 +16,6 @@
  */
 
 import { Main } from '@oclif/command';
-import { ExitError } from '@oclif/errors';
 
 import { trackPromise } from './hooks/prerun/track';
 
@@ -43,9 +42,11 @@ export async function run(command: string[], options: AppOptions) {
 				return require('@oclif/command/flush');
 			}
 		},
-		(error: Error) => {
+		error => {
 			// oclif sometimes exits with ExitError code 0 (not an error)
-			if (error instanceof ExitError && error.oclif.exit === 0) {
+			// (Avoid `error instanceof ExitError` here for the reasons explained
+			// in the CONTRIBUTING.md file regarding the `instanceof` operator.)
+			if (error.oclif?.exit === 0) {
 				return;
 			} else {
 				throw error;

@@ -20,7 +20,7 @@ import { stripIndent } from 'common-tags';
 import _ = require('lodash');
 import _form = require('resin-cli-form');
 
-import { NotLoggedInError } from '../errors';
+import { instanceOf, NotLoggedInError } from '../errors';
 import { getBalenaSdk, getChalk, getVisuals } from './lazy';
 import messages = require('./messages');
 import validation = require('./validation');
@@ -405,7 +405,7 @@ export async function getOnlineTargetUuid(
 			})),
 		});
 	} catch (err) {
-		if (!(err instanceof BalenaApplicationNotFound)) {
+		if (!instanceOf(err, BalenaApplicationNotFound)) {
 			throw err;
 		}
 		logger.logDebug(`Application not found`);
