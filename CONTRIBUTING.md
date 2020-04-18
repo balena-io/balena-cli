@@ -182,22 +182,51 @@ One thing that most CLI bugs have in common is the absence of test cases exercis
 code, so writing some test code is a great idea. Having said that, there are also some common
 gotchas to bear in mind:
 
-* Forward slashes _vs._ backslashes in file paths. Most developers are aware that they should use
-  Node.js functions like
-  [path.join](https://nodejs.org/docs/latest-v12.x/api/path.html#path_path_join_paths), which will
-  automatically use backslashes on Windows and forward slashes on Linux and macOS. Where people get
-  caught is actually when handling paths in tar streams, which are sent to the Docker daemon and to
-  balenaCloud. Tar streams use forward slashes regardless of whether the CLI runs on Linux or
-  Windows, and for those paths the ideal is to use `path.posix.join` instead of `path.join`. Or,
-  simply hardcode those forward slashes!
+* Forward slashes ('/') _vs._ backslashes ('\') in file paths. The Node.js
+  [path.sep](https://nodejs.org/docs/latest-v12.x/api/path.html#path_path_sep) variable stores a
+  platform-specific path separator character: the backslash on Windows and the forward slash on
+  Linux and macOS. The
+  [path.join](https://nodejs.org/docs/latest-v12.x/api/path.html#path_path_join_paths) function
+  builds paths using such platform-specific path separator. However:
+  * Note that Windows (kernel, cmd.exe, PowerShell, many applications) accepts ***both*** forward
+    slashes and backslashes as path separators (including mixing them in a path string), so code
+    like `mypath.split(path.sep)` may fail on Windows if `mypath` contains forward slashes. The
+    [path.parse](https://nodejs.org/docs/latest-v12.x/api/path.html#path_path_parse_path) function
+    understands both forward slashes and backslashes on Windows, and the
+    [path.normalize](https://nodejs.org/docs/latest-v12.x/api/path.html#path_path_normalize_path)
+    function will _replace_ forward slashes with backslashes.
+  * In [tar](https://en.wikipedia.org/wiki/Tar_(computing)#File_format) streams sent to the Docker
+    daemon and to balenaCloud, the forward slash is the only acceptable path separator, regardless
+    of the OS where the CLI is running. Therefore, `path.sep` and `path.join` should never be used
+    when handling paths in tar streams! `path.posix.join` may be used instead of `path.join`.
 
-* When executing external commands, for example 'ssh', developers often rely on the shell and write
-  something like `spawn('command "arg1" "arg2"', { shell: true })`. Besides the usual security
-  concerns, another problem is to get argument escaping right (single quote, double quote,
-  backslashes...) because of the differences between the Windows 'cmd.exe' shell and the unix
-  '/bin/sh'. Most of the time, it turns out that it is possible to avoid relying on the shell
-  altogether. The [which](https://www.npmjs.com/package/which) package can be used to get the full
-  path of a command, resolving `'ssh'` to, say, `'C:\WINDOWS\System32\OpenSSH\ssh.EXE'`, and then
-  the command can be executed directly with `spawn(fullPath, argArray, { shell: false})`. It's a
-  rare combination of more secure and more interoperable with less development effort (as it avoids
-  time-consuming cross-platform trial and error with argument escaping).
+* Avoid using the system shell to execute external commands, for example:  
+  `child_process.exec('ssh "arg1" "arg2"');`  
+  `child_process.spawn('ssh "arg1" "arg2"', { shell: true });`  
+  Besides the usual security concerns of unsanitized strings, another problem is to get argument
+  escaping right because of the differences between the Windows 'cmd.exe' shell and the Unix
+  '/bin/sh'. For example, 'cmd.exe' doesn't recognize single quotes like '/bin/sh', and uses the
+  caret (^) instead of the backslash as the escape character. Bug territory! Most of the time,
+  it is possible to avoid relying on the shell altogether by providing a Javascript array of
+  arguments:  
+  `spawn('ssh', ['arg1', 'arg2'], { shell: false});`  
+  To allow for logging and debugging, the [which](https://www.npmjs.com/package/which) package may
+  be used to get the full path of a command before executing it, without relying on any shell:  
+  `const fullPath = await which('ssh');`  
+  `console.log(fullPath);  # 'C:\WINDOWS\System32\OpenSSH\ssh.EXE'`  
+  `spawn(fullPath, ['arg1', 'arg2'], { shell: false });`
+
+* Avoid the `instanceof` operator when testing against classes/types from external packages
+  (including base classes), because `npm install` may result in multiple versions of the same
+  package being installed (to satisfy declared dependencies) and a false negative may result when
+  comparing an object instance from one package version with a class of another package version
+  (even if the implementations are identical in both packages). For example, once we fixed a bug
+  where the test:  
+  `error instanceof BalenaApplicationNotFound`  
+  changed from true to false because `npm install` added an additional copy of the `balena-errors`
+  package to satisfy a minor `balena-sdk` version update:  
+  `$ find node_modules -name balena-errors`  
+  `node_modules/balena-errors`  
+  `node_modules/balena-sdk/node_modules/balena-errors`  
+  In the case of subclasses of `TypedError`, a string comparison may be used instead:  
+  `error.name === 'BalenaApplicationNotFound'`
