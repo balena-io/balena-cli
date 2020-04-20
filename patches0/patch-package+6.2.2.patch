@@ -1,0 +1,13 @@
+diff --git a/node_modules/patch-package/dist/applyPatches.js b/node_modules/patch-package/dist/applyPatches.js
+index 35a22f7..c43a3b8 100644
+--- a/node_modules/patch-package/dist/applyPatches.js
++++ b/node_modules/patch-package/dist/applyPatches.js
+@@ -85,7 +85,7 @@ function applyPatchesForApp(_a) {
+         })) {
+             // yay patch was applied successfully
+             // print warning if version mismatch
+-            if (installedPackageVersion !== version) {
++            if (installedPackageVersion !== version.replace(/\.dev$/, "")) {
+                 printVersionMismatchWarning({
+                     packageName: name,
+                     actualVersion: installedPackageVersion,
