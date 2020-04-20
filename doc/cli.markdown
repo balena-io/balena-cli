@@ -190,8 +190,8 @@ If you come across any problems or would like to get in touch:
 
 	- [keys](#keys)
 	- [key &#60;id&#62;](#key-id)
-	- [key rm &#60;id&#62;](#key-rm-id)
 	- [key add &#60;name&#62; [path]](#key-add-name-path)
+	- [key rm &#60;id&#62;](#key-rm-id)
 
 - Logs
 
@@ -1063,41 +1063,33 @@ output version information in JSON format for programmatic use
 
 ## keys
 
-Use this command to list all your SSH keys.
+List all SSH keys registered in balenaCloud for the logged in user.
 
 Examples:
 
 	$ balena keys
 
+### Options
+
 ## key &#60;id&#62;
 
-Use this command to show information about a single SSH key.
+Display a single SSH key registered in balenaCloud for the logged in user.
 
 Examples:
 
 	$ balena key 17
 
-## key rm &#60;id&#62;
+### Arguments
 
-Use this command to remove a SSH key from balena.
+#### ID
 
-Notice this command asks for confirmation interactively.
-You can avoid this by passing the `--yes` boolean option.
-
-Examples:
-
-	$ balena key rm 17
-	$ balena key rm 17 --yes
+balenaCloud ID for the SSH key
 
 ### Options
 
-#### --yes, -y
-
-confirm non interactively
-
 ## key add &#60;name&#62; [path]
 
-Use this command to associate a new SSH key with your account.
+Register an SSH in balenaCloud for the logged in user.
 
 If `path` is omitted, the command will attempt
 to read the SSH key from stdin.
@@ -1106,6 +1098,41 @@ Examples:
 
 	$ balena key add Main ~/.ssh/id_rsa.pub
 	$ cat ~/.ssh/id_rsa.pub | balena key add Main
+
+### Arguments
+
+#### NAME
+
+the SSH key name
+
+#### PATH
+
+the path to the public key file
+
+### Options
+
+## key rm &#60;id&#62;
+
+Remove a single SSH key registered in balenaCloud for the logged in user.
+
+The --yes option may be used to avoid interactive confirmation.
+
+Examples:
+
+	$ balena key rm 17
+	$ balena key rm 17 --yes
+
+### Arguments
+
+#### ID
+
+balenaCloud ID for the SSH key
+
+### Options
+
+#### -y, --yes
+
+answer "yes" to all questions (non interactive use)
 
 # Logs
 

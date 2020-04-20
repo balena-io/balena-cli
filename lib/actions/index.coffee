@@ -20,7 +20,6 @@ module.exports =
 	auth: require('./auth')
 	device: require('./device')
 	tags: require('./tags')
-	keys: require('./keys')
 	logs: require('./logs')
 	local: require('./local')
 	scan: require('./scan')

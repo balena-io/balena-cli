@@ -68,7 +68,12 @@ const capitanoDoc = {
 		},
 		{
 			title: 'Keys',
-			files: ['build/actions/keys.js'],
+			files: [
+				'build/actions-oclif/keys.js',
+				'build/actions-oclif/key/index.js',
+				'build/actions-oclif/key/add.js',
+				'build/actions-oclif/key/rm.js',
+			],
 		},
 		{
 			title: 'Logs',

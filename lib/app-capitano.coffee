@@ -74,12 +74,6 @@ capitano.command(actions.device.move)
 capitano.command(actions.device.osUpdate)
 capitano.command(actions.device.info)
 
-# ---------- Keys Module ----------
-capitano.command(actions.keys.list)
-capitano.command(actions.keys.add)
-capitano.command(actions.keys.info)
-capitano.command(actions.keys.remove)
-
 # ---------- Tags Module ----------
 capitano.command(actions.tags.list)
 capitano.command(actions.tags.set)
