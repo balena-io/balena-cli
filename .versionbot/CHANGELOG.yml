@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'convert commands `key`, `keys`, `key add`, `key rm` to oclif.'
+      hash: be82bcfa630631cb62bc6b586bed3fcdc501f2f8
+      body: |
+        Also:
+         - Display keys with `name` instead of `title`.
+         - Check for empty key before calling API.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.31.5
+  date: 2020-04-20T14:09:33.928Z
+- commits:
     - subject: Review CONTRIBUTING.md and add 'instanceof' usage advice
       hash: e3b6db25d8be293f3b697dae6043d7655d63ca4d
       body: ''
