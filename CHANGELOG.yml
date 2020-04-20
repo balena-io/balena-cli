@@ -1,4 +1,28 @@
 - commits:
+    - subject: Review CONTRIBUTING.md and add 'instanceof' usage advice
+      hash: e3b6db25d8be293f3b697dae6043d7655d63ca4d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Review 'instanceof' usage with classes of external packages
+      hash: 655534469a796679c130ea481c38dfe6954b7115
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Unpin balena-sdk (bump balena-sdk to v12.33.0)
+      hash: a8b0573699ab1dedb07f7d2a44a4ac62983c16b1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.31.4
+  date: 2020-04-20T13:16:25.830Z
+- commits:
     - subject: Fix balena ssh "Application not found" (pin balena-sdk to v12.30.0)
       hash: 264c8535b453b2a5b0ed98287aeb9e64fad61eef
       body: ''
@@ -7,7 +31,7 @@
         change-type: patch
       author: Paulo Castro
   version: 11.31.3
-  date: 2020-04-16T23:39:59.126Z
+  date: 2020-04-16T23:16:16.151Z
 - commits:
     - subject: >-
         Fix seemingly random ENOENT error (update 'is-installed-globally'
