@@ -7,6 +7,7 @@ import * as path from 'path';
 import { Composition } from 'resin-compose-parse';
 import { BuildTask } from 'resin-multibuild';
 
+import { instanceOf } from '../../errors';
 import Logger = require('../logger');
 
 import DeviceAPI, { DeviceInfo, Status } from './api';
@@ -285,7 +286,7 @@ export class LivepushManager {
 			this.logger.logError(
 				`An error occured whilst trying to perform a livepush: `,
 			);
-			if (e instanceof ContainerNotRunningError) {
+			if (instanceOf(e, ContainerNotRunningError)) {
 				this.logger.logError('   Livepush container not running');
 			} else {
 				this.logger.logError(`   ${e.message}`);
