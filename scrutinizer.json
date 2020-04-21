@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Add test coverage for validation module",
+          "hash": "bbcb3a702fd1d80c4302b757d4a3c7f9a899b998",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.31.6",
+      "date": "2020-04-21T07:26:28.345Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "convert commands `key`, `keys`, `key add`, `key rm` to oclif.",
           "hash": "be82bcfa630631cb62bc6b586bed3fcdc501f2f8",
           "body": "Also:\n - Display keys with `name` instead of `title`.\n - Check for empty key before calling API.\n",
@@ -10717,7 +10735,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 231,
+  "stars": 232,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -10820,36 +10838,44 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-20T15:05:13Z",
+  "lastCommitDate": "2020-04-21T07:52:06Z",
   "latestRelease": {
-    "tagName": "v11.31.5",
+    "tagName": "v11.31.6",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.5-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.5/balena-cli-v11.31.5-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.6-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.6/balena-cli-v11.31.6-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.5-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.5/balena-cli-v11.31.5-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.6-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.6/balena-cli-v11.31.6-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.5-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.5/balena-cli-v11.31.5-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.6-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.6/balena-cli-v11.31.6-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.5-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.5/balena-cli-v11.31.5-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.6-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.6/balena-cli-v11.31.6-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.5-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.5/balena-cli-v11.31.5-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.6-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.6/balena-cli-v11.31.6-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 259,
+    "numberOfIssues": 261,
     "latestIssues": [
+      {
+        "title": "Update patch-package (fix remaining source of seemingly random ENOENT error)",
+        "url": "https://github.com/balena-io/balena-cli/pull/1739"
+      },
+      {
+        "title": "Update codeowners",
+        "url": "https://github.com/balena-io/balena-cli/pull/1738"
+      },
       {
         "title": "Balena push build fails quietly on node13 but only for Multi-container builds",
         "url": "https://github.com/balena-io/balena-cli/issues/1733"
@@ -10921,18 +10947,10 @@
       {
         "title": "Speed up CLI installation on Windows",
         "url": "https://github.com/balena-io/balena-cli/issues/1709"
-      },
-      {
-        "title": "Speed up `balena help` by creating/saving usage information at compile time",
-        "url": "https://github.com/balena-io/balena-cli/issues/1708"
-      },
-      {
-        "title": "Build emulation does not work on non standard Dockerfile names in compose files",
-        "url": "https://github.com/balena-io/balena-cli/issues/1707"
       }
     ]
   },
-  "version": "11.31.5",
+  "version": "11.31.6",
   "screenshot": null,
   "logo": null
 }
