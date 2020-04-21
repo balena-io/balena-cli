@@ -14,5 +14,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
-exports.configure = require('./configure')
+exports.configure = require('./configure').configure
 exports.flash = require('./flash').flash
