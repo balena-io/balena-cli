@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update codeowners
+      hash: 5f098e7410ec60c1132b34395cb95f8c5547c09d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.31.7
+  date: 2020-04-21T08:43:48.188Z
+- commits:
     - subject: Add test coverage for validation module
       hash: bbcb3a702fd1d80c4302b757d4a3c7f9a899b998
       body: ''
