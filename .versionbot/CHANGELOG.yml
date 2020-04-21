@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add test coverage for validation module
+      hash: bbcb3a702fd1d80c4302b757d4a3c7f9a899b998
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.31.6
+  date: 2020-04-21T07:26:28.345Z
+- commits:
     - subject: 'convert commands `key`, `keys`, `key add`, `key rm` to oclif.'
       hash: be82bcfa630631cb62bc6b586bed3fcdc501f2f8
       body: |
