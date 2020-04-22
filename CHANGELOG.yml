@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Update patch-package (fix remaining source of seemingly random ENOENT
+        error)
+      hash: e3c42cf63e9e0385b774bcbba61a0aeb08f04879
+      body: ''
+      footer:
+        Connects-to: '#1723'
+        connects-to: '#1723'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.31.9
+  date: 2020-04-22T11:11:58.352Z
+- commits:
     - subject: Update to balena-release
       hash: 88e4009e88a1f06857acb8a660fb3833b9bb0730
       body: ''
@@ -14,7 +28,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.31.8
-  date: 2020-04-22T10:40:28.510Z
+  date: 2020-04-22T09:37:58.642Z
 - commits:
     - subject: Update codeowners
       hash: 5f098e7410ec60c1132b34395cb95f8c5547c09d

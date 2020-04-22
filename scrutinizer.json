@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Update patch-package (fix remaining source of seemingly random ENOENT error)",
+          "hash": "e3c42cf63e9e0385b774bcbba61a0aeb08f04879",
+          "body": "",
+          "footer": {
+            "Connects-to": "#1723",
+            "connects-to": "#1723",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.31.9",
+      "date": "2020-04-22T10:49:15.197Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update to balena-release",
           "hash": "88e4009e88a1f06857acb8a660fb3833b9bb0730",
           "body": "",
@@ -10881,35 +10899,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-22T10:40:55Z",
+  "lastCommitDate": "2020-04-22T11:12:25Z",
   "latestRelease": {
-    "tagName": "v11.31.8",
+    "tagName": "v11.31.9",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.8-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.8/balena-cli-v11.31.8-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.9-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.9/balena-cli-v11.31.9-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.8-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.8/balena-cli-v11.31.8-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.9-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.9/balena-cli-v11.31.9-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.8-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.8/balena-cli-v11.31.8-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.9-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.9/balena-cli-v11.31.9-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.8-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.8/balena-cli-v11.31.8-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.9-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.9/balena-cli-v11.31.9-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.8-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.8/balena-cli-v11.31.8-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.9-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.9/balena-cli-v11.31.9-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 265,
+    "numberOfIssues": 264,
     "latestIssues": [
       {
         "title": "Preregistering an account does not appear to generate a network configuration",
@@ -10934,10 +10952,6 @@
       {
         "title": "`resin-release` package should be replaced with `balena-release`",
         "url": "https://github.com/balena-io/balena-cli/issues/1741"
-      },
-      {
-        "title": "Update patch-package (fix remaining source of seemingly random ENOENT error)",
-        "url": "https://github.com/balena-io/balena-cli/pull/1739"
       },
       {
         "title": "Balena push build fails quietly on node13 but only for Multi-container builds",
@@ -10990,10 +11004,14 @@
       {
         "title": "Improve `balena scan` error message re insufficient privileges and \"sudo\"",
         "url": "https://github.com/balena-io/balena-cli/issues/1714"
+      },
+      {
+        "title": "`balena scan` should not filter out production devices",
+        "url": "https://github.com/balena-io/balena-cli/issues/1713"
       }
     ]
   },
-  "version": "11.31.8",
+  "version": "11.31.9",
   "screenshot": null,
   "logo": null
 }
