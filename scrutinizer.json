@@ -5,6 +5,32 @@
     {
       "commits": [
         {
+          "subject": "Update to balena-release",
+          "hash": "88e4009e88a1f06857acb8a660fb3833b9bb0730",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        },
+        {
+          "subject": "Update dependencies to pick up performance improvements",
+          "hash": "82e17cea6a85ee916843701e4a78adde188b8be2",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.31.8",
+      "date": "2020-04-22T09:37:58.642Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update codeowners",
           "hash": "5f098e7410ec60c1132b34395cb95f8c5547c09d",
           "body": "",
@@ -10629,16 +10655,16 @@
       "avatar": "https://avatars0.githubusercontent.com/u/7694128?v=4"
     },
     {
+      "username": "Page-",
+      "avatar": "https://avatars3.githubusercontent.com/u/360115?v=4"
+    },
+    {
       "username": "thgreasi",
       "avatar": "https://avatars0.githubusercontent.com/u/1295829?v=4"
     },
     {
       "username": "lekkas",
       "avatar": "https://avatars3.githubusercontent.com/u/5211478?v=4"
-    },
-    {
-      "username": "Page-",
-      "avatar": "https://avatars3.githubusercontent.com/u/360115?v=4"
     },
     {
       "username": "emirotin",
@@ -10777,6 +10803,7 @@
     "balena-errors",
     "balena-image-manager",
     "balena-preload",
+    "balena-release",
     "balena-sdk",
     "balena-semver",
     "balena-settings-client",
@@ -10835,7 +10862,6 @@
     "resin-doodles",
     "resin-image-fs",
     "resin-multibuild",
-    "resin-release",
     "resin-stream-logger",
     "rimraf",
     "rindle",
@@ -10855,36 +10881,60 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-21T09:09:47Z",
+  "lastCommitDate": "2020-04-22T10:40:55Z",
   "latestRelease": {
-    "tagName": "v11.31.7",
+    "tagName": "v11.31.8",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.7-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.7/balena-cli-v11.31.7-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.8-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.8/balena-cli-v11.31.8-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.7-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.7/balena-cli-v11.31.7-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.8-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.8/balena-cli-v11.31.8-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.7-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.7/balena-cli-v11.31.7-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.8-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.8/balena-cli-v11.31.8-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.7-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.7/balena-cli-v11.31.7-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.8-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.8/balena-cli-v11.31.8-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.7-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.7/balena-cli-v11.31.7-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.8-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.8/balena-cli-v11.31.8-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 260,
+    "numberOfIssues": 265,
     "latestIssues": [
+      {
+        "title": "Preregistering an account does not appear to generate a network configuration",
+        "url": "https://github.com/balena-io/balena-cli/issues/1747"
+      },
+      {
+        "title": "Convert lib/actions/local/configure.coffee to javascript",
+        "url": "https://github.com/balena-io/balena-cli/pull/1746"
+      },
+      {
+        "title": "device os-update: Refactor to use the overall_progress field",
+        "url": "https://github.com/balena-io/balena-cli/pull/1744"
+      },
+      {
+        "title": "os download: Allow not logged in users to download images",
+        "url": "https://github.com/balena-io/balena-cli/pull/1743"
+      },
+      {
+        "title": "Update balena-sdk to v13.2.2",
+        "url": "https://github.com/balena-io/balena-cli/pull/1742"
+      },
+      {
+        "title": "`resin-release` package should be replaced with `balena-release`",
+        "url": "https://github.com/balena-io/balena-cli/issues/1741"
+      },
       {
         "title": "Update patch-package (fix remaining source of seemingly random ENOENT error)",
         "url": "https://github.com/balena-io/balena-cli/pull/1739"
@@ -10940,34 +10990,10 @@
       {
         "title": "Improve `balena scan` error message re insufficient privileges and \"sudo\"",
         "url": "https://github.com/balena-io/balena-cli/issues/1714"
-      },
-      {
-        "title": "`balena scan` should not filter out production devices",
-        "url": "https://github.com/balena-io/balena-cli/issues/1713"
-      },
-      {
-        "title": "Red error messages have poor contrast on PowerShell's default blue background",
-        "url": "https://github.com/balena-io/balena-cli/issues/1712"
-      },
-      {
-        "title": "Simplify CLI installation and first usage",
-        "url": "https://github.com/balena-io/balena-cli/issues/1711"
-      },
-      {
-        "title": "Reword web authorization ",
-        "url": "https://github.com/balena-io/balena-cli/issues/1710"
-      },
-      {
-        "title": "Speed up CLI installation on Windows",
-        "url": "https://github.com/balena-io/balena-cli/issues/1709"
-      },
-      {
-        "title": "Speed up `balena help` by creating/saving usage information at compile time",
-        "url": "https://github.com/balena-io/balena-cli/issues/1708"
       }
     ]
   },
-  "version": "11.31.7",
+  "version": "11.31.8",
   "screenshot": null,
   "logo": null
 }

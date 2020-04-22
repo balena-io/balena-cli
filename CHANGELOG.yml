@@ -1,4 +1,21 @@
 - commits:
+    - subject: Update to balena-release
+      hash: 88e4009e88a1f06857acb8a660fb3833b9bb0730
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+    - subject: Update dependencies to pick up performance improvements
+      hash: 82e17cea6a85ee916843701e4a78adde188b8be2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.31.8
+  date: 2020-04-22T10:40:28.510Z
+- commits:
     - subject: Update codeowners
       hash: 5f098e7410ec60c1132b34395cb95f8c5547c09d
       body: ''
@@ -9,7 +26,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.31.7
-  date: 2020-04-21T09:09:10.367Z
+  date: 2020-04-21T08:43:48.188Z
 - commits:
     - subject: Add test coverage for validation module
       hash: bbcb3a702fd1d80c4302b757d4a3c7f9a899b998
