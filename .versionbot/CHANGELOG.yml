@@ -1,4 +1,21 @@
 - commits:
+    - subject: Update to balena-release
+      hash: 88e4009e88a1f06857acb8a660fb3833b9bb0730
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+    - subject: Update dependencies to pick up performance improvements
+      hash: 82e17cea6a85ee916843701e4a78adde188b8be2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.31.8
+  date: 2020-04-22T09:37:58.642Z
+- commits:
     - subject: Update codeowners
       hash: 5f098e7410ec60c1132b34395cb95f8c5547c09d
       body: ''
