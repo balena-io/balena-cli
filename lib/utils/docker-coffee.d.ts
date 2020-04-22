@@ -30,8 +30,14 @@ export interface BuildDockerOptions {
 	timeout?: number;
 }
 
+export interface DockerToolbeltOpts {
+	host: string;
+	port: number;
+	timeout?: number;
+}
+
 export function getDocker(
 	options: BuildDockerOptions,
 ): Bluebird<DockerToolbelt>;
 
-export function createClient(options: BuildDockerOptions): DockerToolbelt;
+export function createClient(opts: DockerToolbeltOpts): DockerToolbelt;

@@ -27,7 +27,7 @@ Primary commands:
     deploy <appName> [image]                Deploy a single image or a multicontainer project to a balena application
     join [deviceiporhostname]               move a local device to an application on another balena server
     leave [deviceiporhostname]              remove a local device from its balena application
-    scan                                    Scan for balenaOS devices in your local network
+    scan                                    scan for balenaOS devices on your local network
 
 `;
 
@@ -92,8 +92,19 @@ const GLOBAL_OPTIONS = `
 `;
 
 describe('balena help', function() {
-	it('should print simple help text', async () => {
+	it('should list primary command summaries', async () => {
 		const { out, err } = await runCommand('help');
+
+		console.log('ONE');
+		console.log(cleanOutput(out));
+		console.log(
+			cleanOutput([
+				SIMPLE_HELP,
+				'Run `balena help --verbose` to list additional commands',
+				GLOBAL_OPTIONS,
+			]),
+		);
+		console.log();
 
 		expect(cleanOutput(out)).to.deep.equal(
 			cleanOutput([
@@ -106,7 +117,7 @@ describe('balena help', function() {
 		expect(err.join('')).to.equal('');
 	});
 
-	it('should print additional commands with the -v flag', async () => {
+	it('should list all command summaries with the -v flag', async () => {
 		const { out, err } = await runCommand('help -v');
 
 		expect(cleanOutput(out)).to.deep.equal(
@@ -118,7 +129,7 @@ describe('balena help', function() {
 		expect(err.join('')).to.equal('');
 	});
 
-	it('should print simple help text when no arguments present', async () => {
+	it('should list primary command summaries', async () => {
 		const { out, err } = await runCommand('');
 
 		expect(cleanOutput(out)).to.deep.equal(

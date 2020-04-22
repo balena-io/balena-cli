@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019 Balena Ltd.
+ * Copyright 2020 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,26 +15,5 @@
  * limitations under the License.
  */
 
-declare module 'balena-sync' {
-	import { CommandDefinition } from 'capitano';
-
-	export function capitano(tool: 'balena-cli'): CommandDefinition;
-
-	export interface LocalBalenaOsDevice {
-		address: string;
-		host: string;
-		port: number;
-	}
-
-	declare namespace forms {
-		export function selectLocalBalenaOsDevice(
-			timeout?: number,
-		): Promise<string>;
-	}
-
-	declare namespace discover {
-		export function discoverLocalBalenaOsDevices(
-			timeout?: number,
-		): Promise<LocalBalenaOsDevice[]>;
-	}
-}
+export const dockerPort: number;
+export const dockerTimeout: number;
