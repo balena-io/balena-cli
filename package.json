@@ -14,6 +14,7 @@
     "build/",
     "doc/",
     "lib/",
+    "patches0/",
     "patches/",
     "*.md",
     "npm-shrinkwrap.json"
