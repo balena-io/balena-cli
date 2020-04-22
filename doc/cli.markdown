@@ -137,11 +137,11 @@ If you come across any problems or would like to get in touch:
 
 - Application
 
-	- [app create &#60;name&#62;](#app-create-name)
 	- [apps](#apps)
 	- [app &#60;name&#62;](#app-name)
-	- [app restart &#60;name&#62;](#app-restart-name)
+	- [app create &#60;name&#62;](#app-create-name)
 	- [app rm &#60;name&#62;](#app-rm-name)
+	- [app restart &#60;name&#62;](#app-restart-name)
 
 - Authentication
 
@@ -270,72 +270,101 @@ Examples:
 
 # Application
 
+## apps
+
+list all your balena applications.
+
+For detailed information on a particular application,
+use `balena app <name> instead`.
+
+Examples:
+
+	$ balena apps
+
+### Options
+
+## app &#60;name&#62;
+
+Display detailed information about a single balena application.
+
+Examples:
+
+	$ balena app MyApp
+
+### Arguments
+
+#### NAME
+
+application name
+
+### Options
+
 ## app create &#60;name&#62;
 
-Use this command to create a new balena application.
+Create a new balena application.
 
 You can specify the application device type with the `--type` option.
 Otherwise, an interactive dropdown will be shown for you to select from.
 
-You can see a list of supported device types with
+You can see a list of supported device types with:
 
-	$ balena devices supported
+$ balena devices supported
 
 Examples:
 
 	$ balena app create MyApp
 	$ balena app create MyApp --type raspberry-pi
 
+### Arguments
+
+#### NAME
+
+application name
+
 ### Options
 
-#### --type, -t &#60;type&#62;
+#### -t, --type TYPE
 
 application device type (Check available types with `balena devices supported`)
 
-## apps
-
-Use this command to list all your applications.
-
-Notice this command only shows the most important bits of information for each app.
-If you want detailed information, use balena app <name> instead.
-
-Examples:
-
-	$ balena apps
-
-## app &#60;name&#62;
-
-Use this command to show detailed information for a single application.
-
-Examples:
-
-	$ balena app MyApp
-
-## app restart &#60;name&#62;
-
-Use this command to restart all devices that belongs to a certain application.
-
-Examples:
-
-	$ balena app restart MyApp
-
 ## app rm &#60;name&#62;
 
-Use this command to remove a balena application.
+Permanently remove a balena application.
 
-Notice this command asks for confirmation interactively.
-You can avoid this by passing the `--yes` boolean option.
+The --yes option may be used to avoid interactive confirmation.
 
 Examples:
 
 	$ balena app rm MyApp
 	$ balena app rm MyApp --yes
 
+### Arguments
+
+#### NAME
+
+application name
+
 ### Options
 
-#### --yes, -y
+#### -y, --yes
 
-confirm non interactively
+answer "yes" to all questions (non interactive use)
+
+## app restart &#60;name&#62;
+
+Restart all devices that belongs to a certain application.
+
+Examples:
+
+	$ balena app restart MyApp
+
+### Arguments
+
+#### NAME
+
+application name
+
+### Options
 
 # Authentication
 
