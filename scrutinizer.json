@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Convert command `scan` to TypeScript, migrate to oclif",
+          "hash": "a2b761ec4b3f3aaee565b7ebfa43fb4bae429455",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.31.10",
+      "date": "2020-04-22T11:16:16.051Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update patch-package (fix remaining source of seemingly random ENOENT error)",
           "hash": "e3c42cf63e9e0385b774bcbba61a0aeb08f04879",
           "body": "",
@@ -10899,36 +10917,44 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-22T11:12:25Z",
+  "lastCommitDate": "2020-04-22T14:07:19Z",
   "latestRelease": {
-    "tagName": "v11.31.9",
+    "tagName": "v11.31.10",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.9-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.9/balena-cli-v11.31.9-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.10-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.10/balena-cli-v11.31.10-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.9-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.9/balena-cli-v11.31.9-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.10-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.10/balena-cli-v11.31.10-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.9-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.9/balena-cli-v11.31.9-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.10-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.10/balena-cli-v11.31.10-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.9-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.9/balena-cli-v11.31.9-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.10-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.10/balena-cli-v11.31.10-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.9-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.9/balena-cli-v11.31.9-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.10-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.10/balena-cli-v11.31.10-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 264,
+    "numberOfIssues": 265,
     "latestIssues": [
+      {
+        "title": "Convert `balena api-key generate` to oclif",
+        "url": "https://github.com/balena-io/balena-cli/pull/1749"
+      },
+      {
+        "title": "`balena api-key generate` throws BalenaNotLoggedIn error, when logged in",
+        "url": "https://github.com/balena-io/balena-cli/issues/1748"
+      },
       {
         "title": "Preregistering an account does not appear to generate a network configuration",
         "url": "https://github.com/balena-io/balena-cli/issues/1747"
@@ -11000,18 +11026,10 @@
       {
         "title": "balena scan [Windows]: solve Bonjour situation",
         "url": "https://github.com/balena-io/balena-cli/issues/1715"
-      },
-      {
-        "title": "Improve `balena scan` error message re insufficient privileges and \"sudo\"",
-        "url": "https://github.com/balena-io/balena-cli/issues/1714"
-      },
-      {
-        "title": "`balena scan` should not filter out production devices",
-        "url": "https://github.com/balena-io/balena-cli/issues/1713"
       }
     ]
   },
-  "version": "11.31.9",
+  "version": "11.31.10",
   "screenshot": null,
   "logo": null
 }

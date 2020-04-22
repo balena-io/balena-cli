@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Convert command `scan` to TypeScript, migrate to oclif'
+      hash: a2b761ec4b3f3aaee565b7ebfa43fb4bae429455
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.31.10
+  date: 2020-04-22T14:06:50.152Z
+- commits:
     - subject: >-
         Update patch-package (fix remaining source of seemingly random ENOENT
         error)
@@ -11,7 +23,7 @@
         change-type: patch
       author: Paulo Castro
   version: 11.31.9
-  date: 2020-04-22T11:11:58.352Z
+  date: 2020-04-22T10:49:15.197Z
 - commits:
     - subject: Update to balena-release
       hash: 88e4009e88a1f06857acb8a660fb3833b9bb0730
