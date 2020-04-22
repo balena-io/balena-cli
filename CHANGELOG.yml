@@ -1,4 +1,14 @@
 - commits:
+    - subject: Avoid patch-package warning with 'npm install -g --production'
+      hash: ebdd04ec735ffaef239f5d5b41fbc1535a885b16
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.31.11
+  date: 2020-04-22T15:36:46.461Z
+- commits:
     - subject: 'Convert command `scan` to TypeScript, migrate to oclif'
       hash: a2b761ec4b3f3aaee565b7ebfa43fb4bae429455
       body: ''
@@ -9,7 +19,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.31.10
-  date: 2020-04-22T14:06:50.152Z
+  date: 2020-04-22T11:16:16.051Z
 - commits:
     - subject: >-
         Update patch-package (fix remaining source of seemingly random ENOENT

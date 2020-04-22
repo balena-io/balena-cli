@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Avoid patch-package warning with 'npm install -g --production'",
+          "hash": "ebdd04ec735ffaef239f5d5b41fbc1535a885b16",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.31.11",
+      "date": "2020-04-22T15:04:59.205Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert command `scan` to TypeScript, migrate to oclif",
           "hash": "a2b761ec4b3f3aaee565b7ebfa43fb4bae429455",
           "body": "",
@@ -10917,36 +10933,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-22T14:07:19Z",
+  "lastCommitDate": "2020-04-22T15:37:33Z",
   "latestRelease": {
-    "tagName": "v11.31.10",
+    "tagName": "v11.31.11",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.10-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.10/balena-cli-v11.31.10-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.11-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.11/balena-cli-v11.31.11-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.10-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.10/balena-cli-v11.31.10-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.11-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.11/balena-cli-v11.31.11-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.10-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.10/balena-cli-v11.31.10-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.11-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.11/balena-cli-v11.31.11-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.10-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.10/balena-cli-v11.31.10-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.11-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.11/balena-cli-v11.31.11-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.10-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.10/balena-cli-v11.31.10-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.11-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.11/balena-cli-v11.31.11-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 265,
+    "numberOfIssues": 266,
     "latestIssues": [
+      {
+        "title": "npm install: Failed to apply patch for package @oclif/dev-cli at path",
+        "url": "https://github.com/balena-io/balena-cli/issues/1751"
+      },
       {
         "title": "Convert `balena api-key generate` to oclif",
         "url": "https://github.com/balena-io/balena-cli/pull/1749"
@@ -11022,14 +11042,10 @@
       {
         "title": "Generate download link to latest CLI release (\"balena update\")",
         "url": "https://github.com/balena-io/balena-cli/issues/1716"
-      },
-      {
-        "title": "balena scan [Windows]: solve Bonjour situation",
-        "url": "https://github.com/balena-io/balena-cli/issues/1715"
       }
     ]
   },
-  "version": "11.31.10",
+  "version": "11.31.11",
   "screenshot": null,
   "logo": null
 }
