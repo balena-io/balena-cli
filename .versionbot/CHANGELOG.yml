@@ -1,4 +1,14 @@
 - commits:
+    - subject: Avoid patch-package warning with 'npm install -g --production'
+      hash: ebdd04ec735ffaef239f5d5b41fbc1535a885b16
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.31.11
+  date: 2020-04-22T15:04:59.205Z
+- commits:
     - subject: 'Convert command `scan` to TypeScript, migrate to oclif'
       hash: a2b761ec4b3f3aaee565b7ebfa43fb4bae429455
       body: ''
