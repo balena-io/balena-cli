@@ -5,6 +5,42 @@
     {
       "commits": [
         {
+          "subject": "Convert lib/actions/local/index.coffee to typescript",
+          "hash": "da5e26f37ef190ddca5bc61ec4607e5f410109fe",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        },
+        {
+          "subject": "Convert lib/actions/local/configure.coffee to javascript",
+          "hash": "9447195c2654f257686b078bc9efd47fd4297bbd",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        },
+        {
+          "subject": "Convert lib/utils/tty to typescript",
+          "hash": "9fda165d3498c873e9ebd4b8cbc70affe13e9dac",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.31.12",
+      "date": "2020-04-23T10:32:39.717Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Avoid patch-package warning with 'npm install -g --production'",
           "hash": "ebdd04ec735ffaef239f5d5b41fbc1535a885b16",
           "body": "",
@@ -10830,7 +10866,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 232,
+  "stars": 231,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -10933,29 +10969,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-22T15:37:33Z",
+  "lastCommitDate": "2020-04-23T11:15:45Z",
   "latestRelease": {
-    "tagName": "v11.31.11",
+    "tagName": "v11.31.12",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.11-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.11/balena-cli-v11.31.11-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.12-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.12/balena-cli-v11.31.12-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.11-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.11/balena-cli-v11.31.11-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.12-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.12/balena-cli-v11.31.12-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.11-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.11/balena-cli-v11.31.11-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.12-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.12/balena-cli-v11.31.12-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.11-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.11/balena-cli-v11.31.11-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.12-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.12/balena-cli-v11.31.12-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.11-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.11/balena-cli-v11.31.11-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.12-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.12/balena-cli-v11.31.12-windows-x64-standalone.zip"
       }
     ]
   },
@@ -10964,8 +11000,16 @@
     "numberOfIssues": 266,
     "latestIssues": [
       {
-        "title": "npm install: Failed to apply patch for package @oclif/dev-cli at path",
-        "url": "https://github.com/balena-io/balena-cli/issues/1751"
+        "title": "Remove unnecessary files",
+        "url": "https://github.com/balena-io/balena-cli/pull/1754"
+      },
+      {
+        "title": "User would like the ability to execute balena push from within the dashboard",
+        "url": "https://github.com/balena-io/balena-cli/issues/1753"
+      },
+      {
+        "title": "Convert app commands to oclif",
+        "url": "https://github.com/balena-io/balena-cli/pull/1752"
       },
       {
         "title": "Convert `balena api-key generate` to oclif",
@@ -10978,10 +11022,6 @@
       {
         "title": "Preregistering an account does not appear to generate a network configuration",
         "url": "https://github.com/balena-io/balena-cli/issues/1747"
-      },
-      {
-        "title": "Convert lib/actions/local/configure.coffee to javascript",
-        "url": "https://github.com/balena-io/balena-cli/pull/1746"
       },
       {
         "title": "device os-update: Refactor to use the overall_progress field",
@@ -11038,14 +11078,10 @@
       {
         "title": "Executable GUI installer should print \"next steps\" info at the end (Windows, macOS)",
         "url": "https://github.com/balena-io/balena-cli/issues/1717"
-      },
-      {
-        "title": "Generate download link to latest CLI release (\"balena update\")",
-        "url": "https://github.com/balena-io/balena-cli/issues/1716"
       }
     ]
   },
-  "version": "11.31.11",
+  "version": "11.31.12",
   "screenshot": null,
   "logo": null
 }
