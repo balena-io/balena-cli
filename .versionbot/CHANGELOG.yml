@@ -1,4 +1,14 @@
 - commits:
+    - subject: Remove unnecessary files
+      hash: c3454d3abb5a8ddb46a373f91b6fc428ca412bfa
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.31.13
+  date: 2020-04-23T11:24:06.111Z
+- commits:
     - subject: Convert lib/actions/local/index.coffee to typescript
       hash: da5e26f37ef190ddca5bc61ec4607e5f410109fe
       body: ''
