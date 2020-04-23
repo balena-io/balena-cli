@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019 Balena Ltd.
+ * Copyright 2020 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-// tslint:disable-next-line:no-namespace
-declare namespace NodeJS {
-	interface Process {
-		pkg?: boolean;
-	}
-}
-
-declare module 'pkg' {
-	export function exec(args: string[]): Promise<void>;
+declare module 'umount' {
+	export const umount: (
+		device: string,
+		callback: (err?: any, stdout?: any, stderr?: any) => void,
+	) => void;
+	export const isMounted: (
+		device: string,
+		callback: (err?: any, isMounted?: boolean) => void,
+	) => void;
 }
