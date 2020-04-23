@@ -279,7 +279,6 @@ export function awaitDevice(uuid: string) {
 
 export function awaitDeviceOsUpdate(uuid: string, targetOsVersion: string) {
 	const balena = getBalenaSdk();
-	const { getDeviceOsProgress } = require('./device/progress');
 
 	return balena.models.device.getName(uuid).then(deviceName => {
 		const visuals = getVisuals();
@@ -291,8 +290,8 @@ export function awaitDeviceOsUpdate(uuid: string, targetOsVersion: string) {
 		const poll = (): Bluebird<void> => {
 			return Bluebird.all([
 				balena.models.device.getOsUpdateStatus(uuid),
-				balena.models.device.get(uuid).then(getDeviceOsProgress),
-			]).then(([osUpdateStatus, osUpdateProgress]) => {
+				balena.models.device.get(uuid, { $select: 'overall_progress' }),
+			]).then(([osUpdateStatus, { overall_progress: osUpdateProgress }]) => {
 				if (osUpdateStatus.status === 'done') {
 					console.info(
 						`The device ${deviceName} has been updated to v${targetOsVersion} and will restart shortly!`,
