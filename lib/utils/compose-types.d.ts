@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-import * as Bluebird from 'bluebird';
-import { Composition } from 'resin-compose-parse';
-import * as Stream from 'stream';
+import { Composition, ImageDescriptor } from 'resin-compose-parse';
 import { Pack } from 'tar-stream';
 
 import Logger = require('./logger');
@@ -25,11 +23,6 @@ import Logger = require('./logger');
 interface Image {
 	context: string;
 	tag: string;
-}
-
-interface Descriptor {
-	image: Image | string;
-	serviceName: string;
 }
 
 export interface ComposeOpts {
@@ -44,21 +37,10 @@ export interface ComposeProject {
 	path: string;
 	name: string;
 	composition: Composition;
-	descriptors: Descriptor[];
+	descriptors: ImageDescriptor[];
 }
-
-export function createProject(
-	composePath: string,
-	composeStr: string,
-	projectName: string | null = null,
-): ComposeProject;
 
 interface TarDirectoryOptions {
 	preFinalizeCallback?: (pack: Pack) => void;
 	convertEol?: boolean;
 }
-
-export function tarDirectory(
-	source: string,
-	options?: TarDirectoryOptions,
-): Promise<Stream.Readable>;
