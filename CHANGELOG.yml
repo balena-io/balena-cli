@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'device os-update: Refactor to use the overall_progress field'
+      hash: 3e4f9f957269224456167c50ae6d2addc1187fa5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+  version: 11.31.14
+  date: 2020-04-23T16:35:29.138Z
+- commits:
     - subject: Remove unnecessary files
       hash: c3454d3abb5a8ddb46a373f91b6fc428ca412bfa
       body: ''
@@ -7,7 +19,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.31.13
-  date: 2020-04-23T11:47:17.023Z
+  date: 2020-04-23T11:24:06.111Z
 - commits:
     - subject: Convert lib/actions/local/index.coffee to typescript
       hash: da5e26f37ef190ddca5bc61ec4607e5f410109fe
