@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Remove unnecessary files",
+          "hash": "c3454d3abb5a8ddb46a373f91b6fc428ca412bfa",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.31.13",
+      "date": "2020-04-23T11:24:06.111Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert lib/actions/local/index.coffee to typescript",
           "hash": "da5e26f37ef190ddca5bc61ec4607e5f410109fe",
           "body": "",
@@ -10969,40 +10985,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-23T11:15:45Z",
+  "lastCommitDate": "2020-04-23T11:48:05Z",
   "latestRelease": {
-    "tagName": "v11.31.12",
+    "tagName": "v11.31.13",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.12-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.12/balena-cli-v11.31.12-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.13-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.13/balena-cli-v11.31.13-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.12-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.12/balena-cli-v11.31.12-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.13-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.13/balena-cli-v11.31.13-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.12-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.12/balena-cli-v11.31.12-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.13-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.13/balena-cli-v11.31.13-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.12-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.12/balena-cli-v11.31.12-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.13-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.13/balena-cli-v11.31.13-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.12-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.12/balena-cli-v11.31.12-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.13-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.13/balena-cli-v11.31.13-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 266,
+    "numberOfIssues": 265,
     "latestIssues": [
-      {
-        "title": "Remove unnecessary files",
-        "url": "https://github.com/balena-io/balena-cli/pull/1754"
-      },
       {
         "title": "User would like the ability to execute balena push from within the dashboard",
         "url": "https://github.com/balena-io/balena-cli/issues/1753"
@@ -11078,10 +11090,14 @@
       {
         "title": "Executable GUI installer should print \"next steps\" info at the end (Windows, macOS)",
         "url": "https://github.com/balena-io/balena-cli/issues/1717"
+      },
+      {
+        "title": "Generate download link to latest CLI release (\"balena update\")",
+        "url": "https://github.com/balena-io/balena-cli/issues/1716"
       }
     ]
   },
-  "version": "11.31.12",
+  "version": "11.31.13",
   "screenshot": null,
   "logo": null
 }
