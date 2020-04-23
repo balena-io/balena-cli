@@ -1,4 +1,28 @@
 - commits:
+    - subject: Convert lib/actions/local/index.coffee to typescript
+      hash: da5e26f37ef190ddca5bc61ec4607e5f410109fe
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+    - subject: Convert lib/actions/local/configure.coffee to javascript
+      hash: 9447195c2654f257686b078bc9efd47fd4297bbd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+    - subject: Convert lib/utils/tty to typescript
+      hash: 9fda165d3498c873e9ebd4b8cbc70affe13e9dac
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.31.12
+  date: 2020-04-23T10:32:39.717Z
+- commits:
     - subject: Avoid patch-package warning with 'npm install -g --production'
       hash: ebdd04ec735ffaef239f5d5b41fbc1535a885b16
       body: ''
