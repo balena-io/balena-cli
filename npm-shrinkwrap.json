@@ -1135,6 +1135,15 @@
         "@types/node": "*"
       }
     },
+    "@types/moment-duration-format": {
+      "version": "2.2.2",
+      "resolved": "https://registry.npmjs.org/@types/moment-duration-format/-/moment-duration-format-2.2.2.tgz",
+      "integrity": "sha512-CuYswsMI3y5uR5sD9i/VUqIbZrsYN2eaCs7nH3qpDl2CZlNI48mjMf4ve2RpQ/65irprtnQVetfnea9my+jqcg==",
+      "dev": true,
+      "requires": {
+        "moment": ">=2.14.0"
+      }
+    },
     "@types/mz": {
       "version": "2.7.0",
       "resolved": "https://registry.npmjs.org/@types/mz/-/mz-2.7.0.tgz",
