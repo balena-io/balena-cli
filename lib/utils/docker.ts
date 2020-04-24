@@ -18,7 +18,7 @@
 import Dockerode = require('dockerode');
 import * as dockerode from 'dockerode';
 
-export * from './docker-coffee';
+export * from './docker-js';
 
 interface BalenaEngineVersion extends dockerode.DockerVersion {
 	Engine?: string;
