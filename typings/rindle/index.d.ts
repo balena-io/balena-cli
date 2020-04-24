@@ -15,16 +15,18 @@
  * limitations under the License.
  */
 
+import * as Bluebird from 'bluebird';
+
 declare module 'rindle' {
 	export function extract(
 		stream: NodeJS.ReadableStream,
 		callback: (error: Error, data: string) => void,
 	): void;
 
-	export function wait(
+	export function wait<T = any[]>(
 		stream: {
-			on(event: string, callback: (...args: any[]) => void): void;
+			on(event: string, callback: (...args: T) => void): void;
 		},
-		callback: (error: Error, data: string) => void,
-	): void;
+		callback?: (error: Error, data: string) => void,
+	): Bluebird<T>;
 }
