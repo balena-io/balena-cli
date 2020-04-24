@@ -1,4 +1,14 @@
 - commits:
+    - subject: Convert lib/utils/qemu.coffee to javascript
+      hash: 9f59b6dde552b57fd2993b6535f0559804657c6a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.31.15
+  date: 2020-04-24T09:23:06.150Z
+- commits:
     - subject: 'device os-update: Refactor to use the overall_progress field'
       hash: 3e4f9f957269224456167c50ae6d2addc1187fa5
       body: ''
