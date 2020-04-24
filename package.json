@@ -119,6 +119,7 @@
     "@types/mkdirp": "^0.5.2",
     "@types/mocha": "^5.2.7",
     "@types/mock-require": "^2.0.0",
+    "@types/moment-duration-format": "^2.2.2",
     "@types/mz": "^2.7.0",
     "@types/net-keepalive": "^0.4.0",
     "@types/nock": "^11.0.7",
