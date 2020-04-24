@@ -1,4 +1,14 @@
 - commits:
+    - subject: Convert lib/utils/docker-coffee.coffee to javascript
+      hash: 23f2242e22a09c559bcb8b62ce4e8f5c8ad6e1db
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.31.17
+  date: 2020-04-24T15:03:12.234Z
+- commits:
     - subject: Convert lib/actions/os.coffee to javascript
       hash: a5ce0436c75efa19fa7211b770961ecc3a3690ed
       body: ''
@@ -7,7 +17,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.31.16
-  date: 2020-04-24T14:13:27.480Z
+  date: 2020-04-24T12:41:58.941Z
 - commits:
     - subject: Convert lib/utils/qemu.coffee to javascript
       hash: 9f59b6dde552b57fd2993b6535f0559804657c6a
