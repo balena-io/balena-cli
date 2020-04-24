@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Convert lib/actions/preload.coffee to javascript",
+          "hash": "e1a91035ae219617a70226b0336458fb324652cc",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.31.20",
+      "date": "2020-04-24T22:47:28.474Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert lib/actions/config.coffee to javascript",
           "hash": "1a851f552ede3d37a1ca261da39ad5eae223b3be",
           "body": "",
@@ -11083,29 +11099,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-24T22:10:05Z",
+  "lastCommitDate": "2020-04-24T23:19:34Z",
   "latestRelease": {
-    "tagName": "v11.31.19",
+    "tagName": "v11.31.20",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.19-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.19/balena-cli-v11.31.19-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.20-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.20/balena-cli-v11.31.20-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.19-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.19/balena-cli-v11.31.19-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.20-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.20/balena-cli-v11.31.20-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.19-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.19/balena-cli-v11.31.19-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.20-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.20/balena-cli-v11.31.20-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.19-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.19/balena-cli-v11.31.19-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.20-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.20/balena-cli-v11.31.20-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.19-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.19/balena-cli-v11.31.19-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.20-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.20/balena-cli-v11.31.20-windows-x64-standalone.zip"
       }
     ]
   },
@@ -11114,8 +11130,8 @@
     "numberOfIssues": 268,
     "latestIssues": [
       {
-        "title": "Convert lib/actions/preload.coffee to javascript",
-        "url": "https://github.com/balena-io/balena-cli/pull/1762"
+        "title": "balena login - Web authorization method fails due to IPv4 callback URL when node listens on IPv6",
+        "url": "https://github.com/balena-io/balena-cli/issues/1765"
       },
       {
         "title": "Simplify installation instructions ",
@@ -11195,7 +11211,7 @@
       }
     ]
   },
-  "version": "11.31.19",
+  "version": "11.31.20",
   "screenshot": null,
   "logo": null
 }
