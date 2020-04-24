@@ -46,8 +46,8 @@ declare module 'resin-cli-form' {
 	const form: {
 		ask: <T = string>(options: AskOptions<T>) => Bluebird<T>;
 		run: <T = any>(
-			questions: RunQuestion[],
-			extraOptions?: { override: object },
+			questions?: RunQuestion[],
+			extraOptions?: { override?: object },
 		) => Bluebird<T>;
 	};
 
