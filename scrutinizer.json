@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Convert lib/utils/qemu.coffee to javascript",
+          "hash": "9f59b6dde552b57fd2993b6535f0559804657c6a",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.31.15",
+      "date": "2020-04-24T09:23:06.150Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "device os-update: Refactor to use the overall_progress field",
           "hash": "3e4f9f957269224456167c50ae6d2addc1187fa5",
           "body": "",
@@ -10900,7 +10916,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 231,
+  "stars": 232,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -11003,47 +11019,55 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-23T16:35:54Z",
+  "lastCommitDate": "2020-04-24T09:57:15Z",
   "latestRelease": {
-    "tagName": "v11.31.14",
+    "tagName": "v11.31.15",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.14-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.14/balena-cli-v11.31.14-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.15-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.15/balena-cli-v11.31.15-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.14-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.14/balena-cli-v11.31.14-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.15-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.15/balena-cli-v11.31.15-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.14-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.14/balena-cli-v11.31.14-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.15-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.15/balena-cli-v11.31.15-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.14-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.14/balena-cli-v11.31.14-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.15-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.15/balena-cli-v11.31.15-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.14-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.14/balena-cli-v11.31.14-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.15-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.15/balena-cli-v11.31.15-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 266,
+    "numberOfIssues": 268,
     "latestIssues": [
+      {
+        "title": "Simplify installation instructions ",
+        "url": "https://github.com/balena-io/balena-cli/issues/1760"
+      },
+      {
+        "title": "List containers/services running on a device",
+        "url": "https://github.com/balena-io/balena-cli/issues/1759"
+      },
+      {
+        "title": "Rename parameters to make error messages clearer",
+        "url": "https://github.com/balena-io/balena-cli/issues/1758"
+      },
+      {
+        "title": "Shorten error messages",
+        "url": "https://github.com/balena-io/balena-cli/issues/1757"
+      },
       {
         "title": "Convert lib/utils/compose.coffee to javascript",
         "url": "https://github.com/balena-io/balena-cli/pull/1756"
-      },
-      {
-        "title": "Convert lib/utils/qemu.coffee to javascript",
-        "url": "https://github.com/balena-io/balena-cli/pull/1755"
-      },
-      {
-        "title": "User would like the ability to execute balena push from within the dashboard",
-        "url": "https://github.com/balena-io/balena-cli/issues/1753"
       },
       {
         "title": "Convert app commands to oclif",
@@ -11104,18 +11128,10 @@
       {
         "title": "Detect and facilitate Docker installation",
         "url": "https://github.com/balena-io/balena-cli/issues/1719"
-      },
-      {
-        "title": "balena scan [Linux]: detect that dependencies are installed (avahi)",
-        "url": "https://github.com/balena-io/balena-cli/issues/1718"
-      },
-      {
-        "title": "Executable GUI installer should print \"next steps\" info at the end (Windows, macOS)",
-        "url": "https://github.com/balena-io/balena-cli/issues/1717"
       }
     ]
   },
-  "version": "11.31.14",
+  "version": "11.31.15",
   "screenshot": null,
   "logo": null
 }

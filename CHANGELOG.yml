@@ -1,4 +1,14 @@
 - commits:
+    - subject: Convert lib/utils/qemu.coffee to javascript
+      hash: 9f59b6dde552b57fd2993b6535f0559804657c6a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.31.15
+  date: 2020-04-24T09:56:49.205Z
+- commits:
     - subject: 'device os-update: Refactor to use the overall_progress field'
       hash: 3e4f9f957269224456167c50ae6d2addc1187fa5
       body: ''
@@ -9,7 +19,7 @@
         signed-off-by: Thodoris Greasidis <thodoris@balena.io>
       author: Thodoris Greasidis
   version: 11.31.14
-  date: 2020-04-23T16:35:29.138Z
+  date: 2020-04-23T16:13:28.777Z
 - commits:
     - subject: Remove unnecessary files
       hash: c3454d3abb5a8ddb46a373f91b6fc428ca412bfa
