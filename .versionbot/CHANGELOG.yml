@@ -1,4 +1,14 @@
 - commits:
+    - subject: Convert lib/actions/config.coffee to javascript
+      hash: 1a851f552ede3d37a1ca261da39ad5eae223b3be
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.31.19
+  date: 2020-04-24T21:09:29.030Z
+- commits:
     - subject: Convert lib/utils/compose.coffee to javascript
       hash: 560b0abbe7a6966a6ba9094527ff3223cf3514aa
       body: ''
