@@ -29,6 +29,6 @@ module.exports =
 	build: require('./build')
 	deploy: require('./deploy')
 	util: require('./util')
-	preload: require('./preload')
+	preload: require('./preload').preload
 	push: require('./push')
 	tunnel: require('./tunnel')
