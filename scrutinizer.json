@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Convert lib/actions/os.coffee to javascript",
+          "hash": "a5ce0436c75efa19fa7211b770961ecc3a3690ed",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.31.16",
+      "date": "2020-04-24T12:41:58.941Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert lib/utils/qemu.coffee to javascript",
           "hash": "9f59b6dde552b57fd2993b6535f0559804657c6a",
           "body": "",
@@ -11019,36 +11035,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-24T09:57:15Z",
+  "lastCommitDate": "2020-04-24T14:14:18Z",
   "latestRelease": {
-    "tagName": "v11.31.15",
+    "tagName": "v11.31.16",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.15-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.15/balena-cli-v11.31.15-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.16-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.16/balena-cli-v11.31.16-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.15-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.15/balena-cli-v11.31.15-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.16-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.16/balena-cli-v11.31.16-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.15-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.15/balena-cli-v11.31.15-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.16-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.16/balena-cli-v11.31.16-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.15-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.15/balena-cli-v11.31.15-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.16-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.16/balena-cli-v11.31.16-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.15-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.15/balena-cli-v11.31.15-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.16-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.16/balena-cli-v11.31.16-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 268,
+    "numberOfIssues": 271,
     "latestIssues": [
+      {
+        "title": "Convert lib/utils/docker-coffee.coffee to javascript",
+        "url": "https://github.com/balena-io/balena-cli/pull/1764"
+      },
+      {
+        "title": "Convert lib/actions/config.coffee to javascript",
+        "url": "https://github.com/balena-io/balena-cli/pull/1763"
+      },
+      {
+        "title": "Convert lib/actions/preload.coffee to javascript",
+        "url": "https://github.com/balena-io/balena-cli/pull/1762"
+      },
       {
         "title": "Simplify installation instructions ",
         "url": "https://github.com/balena-io/balena-cli/issues/1760"
@@ -11116,22 +11144,10 @@
       {
         "title": "`device init`: AssertionError [ERR_ASSERTION]: rimraf: missing path",
         "url": "https://github.com/balena-io/balena-cli/issues/1722"
-      },
-      {
-        "title": "Explain / solve why the CLI takes a long time to run after installation",
-        "url": "https://github.com/balena-io/balena-cli/issues/1721"
-      },
-      {
-        "title": "Remove dependency on external ssh tool",
-        "url": "https://github.com/balena-io/balena-cli/issues/1720"
-      },
-      {
-        "title": "Detect and facilitate Docker installation",
-        "url": "https://github.com/balena-io/balena-cli/issues/1719"
       }
     ]
   },
-  "version": "11.31.15",
+  "version": "11.31.16",
   "screenshot": null,
   "logo": null
 }
