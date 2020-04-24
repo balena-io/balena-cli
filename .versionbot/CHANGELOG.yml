@@ -1,4 +1,14 @@
 - commits:
+    - subject: Convert lib/actions/preload.coffee to javascript
+      hash: e1a91035ae219617a70226b0336458fb324652cc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.31.20
+  date: 2020-04-24T22:47:28.474Z
+- commits:
     - subject: Convert lib/actions/config.coffee to javascript
       hash: 1a851f552ede3d37a1ca261da39ad5eae223b3be
       body: ''
