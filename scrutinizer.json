@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Convert lib/utils/compose.coffee to javascript",
+          "hash": "560b0abbe7a6966a6ba9094527ff3223cf3514aa",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.31.18",
+      "date": "2020-04-24T20:37:38.920Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert lib/utils/docker-coffee.coffee to javascript",
           "hash": "23f2242e22a09c559bcb8b62ce4e8f5c8ad6e1db",
           "body": "",
@@ -11051,35 +11067,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-24T15:04:06Z",
+  "lastCommitDate": "2020-04-24T21:01:35Z",
   "latestRelease": {
-    "tagName": "v11.31.17",
+    "tagName": "v11.31.18",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.17-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.17/balena-cli-v11.31.17-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.18-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.18/balena-cli-v11.31.18-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.17-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.17/balena-cli-v11.31.17-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.18-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.18/balena-cli-v11.31.18-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.17-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.17/balena-cli-v11.31.17-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.18-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.18/balena-cli-v11.31.18-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.17-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.17/balena-cli-v11.31.17-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.18-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.18/balena-cli-v11.31.18-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.17-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.17/balena-cli-v11.31.17-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.18-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.18/balena-cli-v11.31.18-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 270,
+    "numberOfIssues": 269,
     "latestIssues": [
       {
         "title": "Convert lib/actions/config.coffee to javascript",
@@ -11104,10 +11120,6 @@
       {
         "title": "Shorten error messages",
         "url": "https://github.com/balena-io/balena-cli/issues/1757"
-      },
-      {
-        "title": "Convert lib/utils/compose.coffee to javascript",
-        "url": "https://github.com/balena-io/balena-cli/pull/1756"
       },
       {
         "title": "Convert app commands to oclif",
@@ -11160,10 +11172,14 @@
       {
         "title": "Explain / solve why the CLI takes a long time to run after installation",
         "url": "https://github.com/balena-io/balena-cli/issues/1721"
+      },
+      {
+        "title": "Remove dependency on external ssh tool",
+        "url": "https://github.com/balena-io/balena-cli/issues/1720"
       }
     ]
   },
-  "version": "11.31.17",
+  "version": "11.31.18",
   "screenshot": null,
   "logo": null
 }

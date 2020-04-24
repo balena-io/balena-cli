@@ -1,4 +1,14 @@
 - commits:
+    - subject: Convert lib/utils/compose.coffee to javascript
+      hash: 560b0abbe7a6966a6ba9094527ff3223cf3514aa
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.31.18
+  date: 2020-04-24T21:00:59.327Z
+- commits:
     - subject: Convert lib/utils/docker-coffee.coffee to javascript
       hash: 23f2242e22a09c559bcb8b62ce4e8f5c8ad6e1db
       body: ''
@@ -7,7 +17,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.31.17
-  date: 2020-04-24T15:03:12.234Z
+  date: 2020-04-24T14:28:28.667Z
 - commits:
     - subject: Convert lib/actions/os.coffee to javascript
       hash: a5ce0436c75efa19fa7211b770961ecc3a3690ed
