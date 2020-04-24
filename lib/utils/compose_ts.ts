@@ -47,9 +47,9 @@ const compositionFileNames = ['docker-compose.yml', 'docker-compose.yaml'];
  */
 export async function loadProject(
 	logger: Logger,
-	opts: import('./compose').ComposeOpts,
+	opts: import('./compose-types').ComposeOpts,
 	image?: string,
-): Promise<import('./compose').ComposeProject> {
+): Promise<import('./compose-types').ComposeProject> {
 	const compose = await import('resin-compose-parse');
 	const { createProject } = await import('./compose');
 	let composeName: string;
