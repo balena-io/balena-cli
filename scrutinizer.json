@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Install types for modules used in javascript to improve type checking",
+          "hash": "d9f42b888dd21817f0bc256e18056f0676453ffb",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.31.21",
+      "date": "2020-04-25T11:04:18.946Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert lib/actions/preload.coffee to javascript",
           "hash": "e1a91035ae219617a70226b0336458fb324652cc",
           "body": "",
@@ -10996,7 +11012,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 232,
+  "stars": 233,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -11099,36 +11115,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-24T23:19:34Z",
+  "lastCommitDate": "2020-04-25T13:57:15Z",
   "latestRelease": {
-    "tagName": "v11.31.20",
+    "tagName": "v11.31.21",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.20-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.20/balena-cli-v11.31.20-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.21-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.21/balena-cli-v11.31.21-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.20-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.20/balena-cli-v11.31.20-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.21-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.21/balena-cli-v11.31.21-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.20-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.20/balena-cli-v11.31.20-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.21-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.21/balena-cli-v11.31.21-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.20-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.20/balena-cli-v11.31.20-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.21-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.21/balena-cli-v11.31.21-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.20-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.20/balena-cli-v11.31.20-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.21-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.21/balena-cli-v11.31.21-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 268,
+    "numberOfIssues": 269,
     "latestIssues": [
+      {
+        "title": "Convert lib/actions/device.coffee to javascript",
+        "url": "https://github.com/balena-io/balena-cli/pull/1766"
+      },
       {
         "title": "balena login - Web authorization method fails due to IPv4 callback URL when node listens on IPv6",
         "url": "https://github.com/balena-io/balena-cli/issues/1765"
@@ -11204,14 +11224,10 @@
       {
         "title": "Remove dependency on external ssh tool",
         "url": "https://github.com/balena-io/balena-cli/issues/1720"
-      },
-      {
-        "title": "Detect and facilitate Docker installation",
-        "url": "https://github.com/balena-io/balena-cli/issues/1719"
       }
     ]
   },
-  "version": "11.31.20",
+  "version": "11.31.21",
   "screenshot": null,
   "logo": null
 }

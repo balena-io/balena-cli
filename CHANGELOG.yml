@@ -1,4 +1,14 @@
 - commits:
+    - subject: Install types for modules used in javascript to improve type checking
+      hash: d9f42b888dd21817f0bc256e18056f0676453ffb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.31.21
+  date: 2020-04-25T13:56:39.257Z
+- commits:
     - subject: Convert lib/actions/preload.coffee to javascript
       hash: e1a91035ae219617a70226b0336458fb324652cc
       body: ''
@@ -7,7 +17,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.31.20
-  date: 2020-04-24T23:18:32.879Z
+  date: 2020-04-24T22:47:28.474Z
 - commits:
     - subject: Convert lib/actions/config.coffee to javascript
       hash: 1a851f552ede3d37a1ca261da39ad5eae223b3be
