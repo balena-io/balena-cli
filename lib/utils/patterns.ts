@@ -179,7 +179,7 @@ export function confirm(
 }
 
 export function selectApplication(
-	filter: (app: BalenaSdk.Application) => boolean,
+	filter?: (app: BalenaSdk.Application) => boolean,
 ) {
 	const balena = getBalenaSdk();
 	return balena.models.application

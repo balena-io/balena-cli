@@ -94,7 +94,7 @@ export async function sudo(
 	await executeWithPrivileges(command, stderr, isCLIcmd);
 }
 
-export function runCommand(command: string): Bluebird<void> {
+export function runCommand<T>(command: string): Bluebird<T> {
 	const capitano = require('capitano');
 	return Bluebird.fromCallback(resolver => capitano.run(command, resolver));
 }
