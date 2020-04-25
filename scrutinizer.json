@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Convert lib/actions/device.coffee to javascript",
+          "hash": "0cfa1a0dfb4bdce1f1becd108ed002354fb1504b",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.31.22",
+      "date": "2020-04-25T14:11:29.551Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Install types for modules used in javascript to improve type checking",
           "hash": "d9f42b888dd21817f0bc256e18056f0676453ffb",
           "body": "",
@@ -11115,40 +11131,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-25T13:57:15Z",
+  "lastCommitDate": "2020-04-25T14:36:24Z",
   "latestRelease": {
-    "tagName": "v11.31.21",
+    "tagName": "v11.31.22",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.21-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.21/balena-cli-v11.31.21-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.22-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.22/balena-cli-v11.31.22-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.21-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.21/balena-cli-v11.31.21-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.22-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.22/balena-cli-v11.31.22-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.21-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.21/balena-cli-v11.31.21-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.22-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.22/balena-cli-v11.31.22-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.21-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.21/balena-cli-v11.31.21-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.22-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.22/balena-cli-v11.31.22-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.21-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.21/balena-cli-v11.31.21-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.22-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.22/balena-cli-v11.31.22-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 269,
+    "numberOfIssues": 268,
     "latestIssues": [
-      {
-        "title": "Convert lib/actions/device.coffee to javascript",
-        "url": "https://github.com/balena-io/balena-cli/pull/1766"
-      },
       {
         "title": "balena login - Web authorization method fails due to IPv4 callback URL when node listens on IPv6",
         "url": "https://github.com/balena-io/balena-cli/issues/1765"
@@ -11224,10 +11236,14 @@
       {
         "title": "Remove dependency on external ssh tool",
         "url": "https://github.com/balena-io/balena-cli/issues/1720"
+      },
+      {
+        "title": "Detect and facilitate Docker installation",
+        "url": "https://github.com/balena-io/balena-cli/issues/1719"
       }
     ]
   },
-  "version": "11.31.21",
+  "version": "11.31.22",
   "screenshot": null,
   "logo": null
 }
