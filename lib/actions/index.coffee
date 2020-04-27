@@ -26,7 +26,7 @@ module.exports =
 	os: require('./os')
 	config: require('./config')
 	ssh: require('./ssh')
-	build: require('./build')
+	build: require('./build').build
 	deploy: require('./deploy')
 	util: require('./util')
 	preload: require('./preload').preload
