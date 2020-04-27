@@ -1217,6 +1217,15 @@
       "integrity": "sha512-Zu4jAKE46yc6R8JrVkCBWbXhs18dUgI/JlbID4jziFgUBgEdAHxFekR5TlEnk9phHdGE80QlCznRBaxlk0rl7w==",
       "dev": true
     },
+    "@types/progress-stream": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/@types/progress-stream/-/progress-stream-2.0.0.tgz",
+      "integrity": "sha512-KKboL4BvIezEvnd2bdbIfIIkr3Th1p0AJOBaPdKMWm69uMoisOGd4mynzfB/iia2z0k3nwAJCmixESHfVjsrgw==",
+      "dev": true,
+      "requires": {
+        "@types/node": "*"
+      }
+    },
     "@types/range-parser": {
       "version": "1.2.3",
       "resolved": "https://registry.npmjs.org/@types/range-parser/-/range-parser-1.2.3.tgz",
