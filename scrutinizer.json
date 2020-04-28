@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Fix unhandled promise rejection when using `balena deploy`",
+          "hash": "6ec05e8dcff26e35592a0372ebb22fe3b43260e5",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.31.23",
+      "date": "2020-04-28T12:25:10.713Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert lib/actions/device.coffee to javascript",
           "hash": "0cfa1a0dfb4bdce1f1becd108ed002354fb1504b",
           "body": "",
@@ -11028,7 +11044,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 233,
+  "stars": 234,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -11131,39 +11147,59 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-25T14:36:24Z",
+  "lastCommitDate": "2020-04-28T12:46:45Z",
   "latestRelease": {
-    "tagName": "v11.31.22",
+    "tagName": "v11.31.23",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.22-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.22/balena-cli-v11.31.22-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.23-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.23/balena-cli-v11.31.23-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.22-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.22/balena-cli-v11.31.22-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.23-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.23/balena-cli-v11.31.23-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.22-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.22/balena-cli-v11.31.22-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.23-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.23/balena-cli-v11.31.23-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.22-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.22/balena-cli-v11.31.22-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.23-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.23/balena-cli-v11.31.23-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.22-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.22/balena-cli-v11.31.22-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.23-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.23/balena-cli-v11.31.23-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 268,
+    "numberOfIssues": 273,
     "latestIssues": [
       {
-        "title": "balena login - Web authorization method fails due to IPv4 callback URL when node listens on IPv6",
-        "url": "https://github.com/balena-io/balena-cli/issues/1765"
+        "title": "'balena login' web authorization fails silently if another process is listening on port 8989",
+        "url": "https://github.com/balena-io/balena-cli/issues/1773"
+      },
+      {
+        "title": "Convert lib/actions/build.coffee to javascript",
+        "url": "https://github.com/balena-io/balena-cli/pull/1772"
+      },
+      {
+        "title": "Convert lib/utils/deploy.coffee to javascript",
+        "url": "https://github.com/balena-io/balena-cli/pull/1771"
+      },
+      {
+        "title": "Next major release: drop Node 8, add Node 14",
+        "url": "https://github.com/balena-io/balena-cli/issues/1770"
+      },
+      {
+        "title": "Convert lib/utils/deploy-legacy.coffee to javascript",
+        "url": "https://github.com/balena-io/balena-cli/pull/1769"
+      },
+      {
+        "title": "Convert all remaining commands from Capitano to oclif",
+        "url": "https://github.com/balena-io/balena-cli/issues/1768"
       },
       {
         "title": "Simplify installation instructions ",
@@ -11220,30 +11256,10 @@
       {
         "title": "Remove windows dns workaround in favour of single initial resolution.",
         "url": "https://github.com/balena-io/balena-cli/issues/1727"
-      },
-      {
-        "title": "There needs to be a better way to list device type versions",
-        "url": "https://github.com/balena-io/balena-cli/issues/1724"
-      },
-      {
-        "title": "`device init`: AssertionError [ERR_ASSERTION]: rimraf: missing path",
-        "url": "https://github.com/balena-io/balena-cli/issues/1722"
-      },
-      {
-        "title": "Explain / solve why the CLI takes a long time to run after installation",
-        "url": "https://github.com/balena-io/balena-cli/issues/1721"
-      },
-      {
-        "title": "Remove dependency on external ssh tool",
-        "url": "https://github.com/balena-io/balena-cli/issues/1720"
-      },
-      {
-        "title": "Detect and facilitate Docker installation",
-        "url": "https://github.com/balena-io/balena-cli/issues/1719"
       }
     ]
   },
-  "version": "11.31.22",
+  "version": "11.31.23",
   "screenshot": null,
   "logo": null
 }
