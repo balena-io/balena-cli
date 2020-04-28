@@ -40,7 +40,10 @@ export function notify() {
 		}
 	}
 	const up = notifier.update;
-	if (up) {
+	if (
+		up &&
+		(require('semver') as typeof import('semver')).lt(up.current, up.latest)
+	) {
 		notifier.notify({
 			defer: false,
 			message: `Update available ${up.current} → ${up.latest}\n
