@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "balena deploy: Fix \"TypeError: images.push is not iterable\"",
+          "hash": "74cdd80b5197bd66a2cbc65d37473b3a62af169e",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.31.24",
+      "date": "2020-04-29T14:17:28.749Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix unhandled promise rejection when using `balena deploy`",
           "hash": "6ec05e8dcff26e35592a0372ebb22fe3b43260e5",
           "body": "",
@@ -11147,36 +11163,76 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-28T12:46:45Z",
+  "lastCommitDate": "2020-04-29T15:13:56Z",
   "latestRelease": {
-    "tagName": "v11.31.23",
+    "tagName": "v11.31.24",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.23-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.23/balena-cli-v11.31.23-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.24-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.24/balena-cli-v11.31.24-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.23-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.23/balena-cli-v11.31.23-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.24-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.24/balena-cli-v11.31.24-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.23-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.23/balena-cli-v11.31.23-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.24-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.24/balena-cli-v11.31.24-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.23-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.23/balena-cli-v11.31.23-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.24-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.24/balena-cli-v11.31.24-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.23-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.23/balena-cli-v11.31.23-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.24-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.24/balena-cli-v11.31.24-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 273,
+    "numberOfIssues": 283,
     "latestIssues": [
+      {
+        "title": "Add support for global --debug flag",
+        "url": "https://github.com/balena-io/balena-cli/pull/1785"
+      },
+      {
+        "title": "Integrate new livepush",
+        "url": "https://github.com/balena-io/balena-cli/issues/1784"
+      },
+      {
+        "title": "Modify oclif help to remove COMMANDS section and match balena conventions.",
+        "url": "https://github.com/balena-io/balena-cli/issues/1782"
+      },
+      {
+        "title": "Modify oclif help to match balena conventions",
+        "url": "https://github.com/balena-io/balena-cli/pull/1781"
+      },
+      {
+        "title": "Convert lib/actions/help.coffee to javascript",
+        "url": "https://github.com/balena-io/balena-cli/pull/1780"
+      },
+      {
+        "title": "Improve error boilerplate message",
+        "url": "https://github.com/balena-io/balena-cli/issues/1779"
+      },
+      {
+        "title": "Partial inclusion of stack trace in unexpected errors, even when not in debug mode",
+        "url": "https://github.com/balena-io/balena-cli/issues/1778"
+      },
+      {
+        "title": "Introduce global --debug flag as an alternative to DEBUG env var",
+        "url": "https://github.com/balena-io/balena-cli/issues/1777"
+      },
+      {
+        "title": "Modify oclif missing parameter and missing flag errors.",
+        "url": "https://github.com/balena-io/balena-cli/issues/1776"
+      },
+      {
+        "title": "Only notify of an update if the new version is actually newer",
+        "url": "https://github.com/balena-io/balena-cli/pull/1775"
+      },
       {
         "title": "'balena login' web authorization fails silently if another process is listening on port 8989",
         "url": "https://github.com/balena-io/balena-cli/issues/1773"
@@ -11214,52 +11270,12 @@
         "url": "https://github.com/balena-io/balena-cli/issues/1758"
       },
       {
-        "title": "Shorten error messages",
+        "title": "Remove boilterplate and red color from expected errors.",
         "url": "https://github.com/balena-io/balena-cli/issues/1757"
-      },
-      {
-        "title": "Convert app commands to oclif",
-        "url": "https://github.com/balena-io/balena-cli/pull/1752"
-      },
-      {
-        "title": "Convert `balena api-key generate` to oclif",
-        "url": "https://github.com/balena-io/balena-cli/pull/1749"
-      },
-      {
-        "title": "`balena api-key generate` throws BalenaNotLoggedIn error, when logged in",
-        "url": "https://github.com/balena-io/balena-cli/issues/1748"
-      },
-      {
-        "title": "Preregistering an account does not appear to generate a network configuration",
-        "url": "https://github.com/balena-io/balena-cli/issues/1747"
-      },
-      {
-        "title": "os download: Allow not logged in users to download images",
-        "url": "https://github.com/balena-io/balena-cli/pull/1743"
-      },
-      {
-        "title": "Update balena-sdk to v13.2.2",
-        "url": "https://github.com/balena-io/balena-cli/pull/1742"
-      },
-      {
-        "title": "`resin-release` package should be replaced with `balena-release`",
-        "url": "https://github.com/balena-io/balena-cli/issues/1741"
-      },
-      {
-        "title": "Balena push build fails quietly on node13 but only for Multi-container builds",
-        "url": "https://github.com/balena-io/balena-cli/issues/1733"
-      },
-      {
-        "title": "Give a better error message on \"balena ssh\" when the keys don't match",
-        "url": "https://github.com/balena-io/balena-cli/issues/1731"
-      },
-      {
-        "title": "Remove windows dns workaround in favour of single initial resolution.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1727"
       }
     ]
   },
-  "version": "11.31.23",
+  "version": "11.31.24",
   "screenshot": null,
   "logo": null
 }
