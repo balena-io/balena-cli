@@ -52,6 +52,13 @@ export async function routeCliFramework(argv: string[], options: AppOptions) {
 			cmdSlice.shift();
 			cmdSlice.push('--help');
 		}
+
+		// support global --debug flag
+		const debugIndex = cmdSlice.indexOf('--debug');
+		if (debugIndex > -1) {
+			process.env.DEBUG = '1';
+			cmdSlice.splice(debugIndex, 1);
+		}
 	}
 
 	const [isOclif, isTopic] = isOclifCommand(cmdSlice);
