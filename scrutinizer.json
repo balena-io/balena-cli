@@ -5,6 +5,32 @@
     {
       "commits": [
         {
+          "subject": "Convert gulpfile.coffee to javascript",
+          "hash": "ab526c9ed825e2b4a44a8280dc6f4bda1a023c0a",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        },
+        {
+          "subject": "Convert lib/app-capitano.coffee to javascript",
+          "hash": "14c5b27cdd5fe9884ccd7f35bf83098ff43d7e1d",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.32.4",
+      "date": "2020-04-30T18:06:08.971Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert lib/actions/index.coffee to typescript",
           "hash": "6d7d1956eae7e38e6387425651a7781db7b2f92e",
           "body": "",
@@ -11242,7 +11268,6 @@
     "chalk",
     "chokidar",
     "cli-truncate",
-    "coffeescript",
     "color-hash",
     "columnify",
     "common-tags",
@@ -11309,29 +11334,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-30T16:56:04Z",
+  "lastCommitDate": "2020-04-30T18:33:54Z",
   "latestRelease": {
-    "tagName": "v11.32.3",
+    "tagName": "v11.32.4",
     "asssets": [
       {
-        "name": "balena-cli-v11.32.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.3/balena-cli-v11.32.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.32.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.4/balena-cli-v11.32.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.3/balena-cli-v11.32.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.32.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.4/balena-cli-v11.32.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.32.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.3/balena-cli-v11.32.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.32.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.4/balena-cli-v11.32.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.3/balena-cli-v11.32.3-windows-x64-installer.exe"
+        "name": "balena-cli-v11.32.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.4/balena-cli-v11.32.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.32.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.3/balena-cli-v11.32.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.32.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.4/balena-cli-v11.32.4-windows-x64-standalone.zip"
       }
     ]
   },
@@ -11340,12 +11365,12 @@
     "numberOfIssues": 278,
     "latestIssues": [
       {
-        "title": "`balena devices supported` is undocumented",
-        "url": "https://github.com/balena-io/balena-cli/issues/1794"
+        "title": "`balena build` should infer architecture from device type",
+        "url": "https://github.com/balena-io/balena-cli/issues/1795"
       },
       {
-        "title": "Convert lib/app-capitano.coffee and gulpfile.coffee to javascript",
-        "url": "https://github.com/balena-io/balena-cli/pull/1793"
+        "title": "`balena devices supported` is undocumented",
+        "url": "https://github.com/balena-io/balena-cli/issues/1794"
       },
       {
         "title": "Errors refactor",
@@ -11421,7 +11446,7 @@
       }
     ]
   },
-  "version": "11.32.3",
+  "version": "11.32.4",
   "screenshot": null,
   "logo": null
 }
