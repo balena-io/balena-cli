@@ -1,4 +1,16 @@
 - commits:
+    - subject: >-
+        balena build/deploy: Update QEMU version to support newer balenalib
+        images
+      hash: 6d95c5bad5c4f6d8f0e2644048ceebe727aed613
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.31.26
+  date: 2020-04-30T10:55:59.259Z
+- commits:
     - subject: Add support for global --debug flag
       hash: db247307db805e9be16f93836ba9290d27aa31d8
       body: ''
@@ -11,7 +23,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.31.25
-  date: 2020-04-30T04:35:58.246Z
+  date: 2020-04-30T04:15:06.018Z
 - commits:
     - subject: 'balena deploy: Fix "TypeError: images.push is not iterable"'
       hash: 74cdd80b5197bd66a2cbc65d37473b3a62af169e

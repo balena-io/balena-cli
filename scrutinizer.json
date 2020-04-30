@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "balena build/deploy: Update QEMU version to support newer balenalib images",
+          "hash": "6d95c5bad5c4f6d8f0e2644048ceebe727aed613",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.31.26",
+      "date": "2020-04-30T09:53:18.347Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add support for global --debug flag",
           "hash": "db247307db805e9be16f93836ba9290d27aa31d8",
           "body": "",
@@ -11183,29 +11199,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-30T04:36:33Z",
+  "lastCommitDate": "2020-04-30T10:56:36Z",
   "latestRelease": {
-    "tagName": "v11.31.25",
+    "tagName": "v11.31.26",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.25-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.25/balena-cli-v11.31.25-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.26-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.26/balena-cli-v11.31.26-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.25-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.25/balena-cli-v11.31.25-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.26-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.26/balena-cli-v11.31.26-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.25-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.25/balena-cli-v11.31.25-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.26-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.26/balena-cli-v11.31.26-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.25-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.25/balena-cli-v11.31.25-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.26-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.26/balena-cli-v11.31.26-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.25-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.25/balena-cli-v11.31.25-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.26-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.26/balena-cli-v11.31.26-windows-x64-standalone.zip"
       }
     ]
   },
@@ -11214,12 +11230,12 @@
     "numberOfIssues": 284,
     "latestIssues": [
       {
-        "title": "balena build/deploy: Update QEMU version to support newer balenalib images",
-        "url": "https://github.com/balena-io/balena-cli/pull/1789"
+        "title": "Errors refactor",
+        "url": "https://github.com/balena-io/balena-cli/pull/1791"
       },
       {
-        "title": "Error: The command '/tmp/qemu-execve -execve /bin/sh -c ...'  returned a non-zero code: 1",
-        "url": "https://github.com/balena-io/balena-cli/issues/1788"
+        "title": "Improve oclif missing argument/flag errors",
+        "url": "https://github.com/balena-io/balena-cli/pull/1790"
       },
       {
         "title": "Integrate livepush v3 and live directives",
@@ -11295,7 +11311,7 @@
       }
     ]
   },
-  "version": "11.31.25",
+  "version": "11.31.26",
   "screenshot": null,
   "logo": null
 }
