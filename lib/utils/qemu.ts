@@ -20,16 +20,16 @@ import { getBalenaSdk } from './lazy';
 export const QEMU_VERSION = 'v4.0.0+balena2';
 export const QEMU_BIN_NAME = 'qemu-execve';
 
-export function qemuPathInContext(context) {
-	const path = require('path');
+export function qemuPathInContext(context: string) {
+	const path = require('path') as typeof import('path');
 	const binDir = path.join(context, '.balena');
 	const binPath = path.join(binDir, QEMU_BIN_NAME);
 	return path.relative(context, binPath);
 }
 
-export function copyQemu(context, arch) {
-	const path = require('path');
-	const fs = require('mz/fs');
+export function copyQemu(context: string, arch: string) {
+	const path = require('path') as typeof import('path');
+	const fs = require('mz/fs') as typeof import('mz/fs');
 	// Create a hidden directory in the build context, containing qemu
 	const binDir = path.join(context, '.balena');
 	const binPath = path.join(binDir, QEMU_BIN_NAME);
@@ -56,10 +56,10 @@ export function copyQemu(context, arch) {
 		.then(() => path.relative(context, binPath));
 }
 
-export const getQemuPath = function(arch) {
+export const getQemuPath = function(arch: string) {
 	const balena = getBalenaSdk();
-	const path = require('path');
-	const fs = require('mz/fs');
+	const path = require('path') as typeof import('path');
+	const fs = require('mz/fs') as typeof import('mz/fs');
 
 	return balena.settings.get('binDirectory').then(binDir =>
 		Promise.resolve(fs.mkdir(binDir))
@@ -72,11 +72,11 @@ export const getQemuPath = function(arch) {
 	);
 };
 
-export function installQemu(arch) {
-	const request = require('request');
-	const fs = require('fs');
-	const zlib = require('zlib');
-	const tar = require('tar-stream');
+export function installQemu(arch: string) {
+	const request = require('request') as typeof import('request');
+	const fs = require('fs') as typeof import('fs');
+	const zlib = require('zlib') as typeof import('zlib');
+	const tar = require('tar-stream') as typeof import('tar-stream');
 
 	return getQemuPath(arch).then(
 		qemuPath =>
@@ -115,7 +115,7 @@ export function installQemu(arch) {
 	);
 }
 
-var balenaArchToQemuArch = function(arch) {
+const balenaArchToQemuArch = function(arch: string) {
 	switch (arch) {
 		case 'armv7hf':
 		case 'rpi':
