@@ -1,4 +1,14 @@
 - commits:
+    - subject: Only notify of an update if the new version is actually newer
+      hash: 4ae91ef846fc81e29e5bca27dcd6902cf122cda1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.32.1
+  date: 2020-04-30T12:58:06.826Z
+- commits:
     - subject: Integrate livepush v3 and live directives
       hash: d398e22c580c764b0c8c9b9e63ec13139c2c5eae
       body: ''
