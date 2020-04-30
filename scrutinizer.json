@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "Integrate livepush v3 and live directives",
+          "hash": "d398e22c580c764b0c8c9b9e63ec13139c2c5eae",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Resolves": "#1784",
+            "resolves": "#1784",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.32.0",
+      "date": "2020-04-30T12:28:29.310Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert lib/utils/deploy-legacy.coffee to javascript",
           "hash": "203ccaf97b79908e666a5dc7d878bdfdb8597ac2",
           "body": "",
@@ -11021,12 +11041,12 @@
       "avatar": "https://avatars0.githubusercontent.com/u/525832?v=4"
     },
     {
-      "username": "zvin",
-      "avatar": "https://avatars2.githubusercontent.com/u/180331?v=4"
-    },
-    {
       "username": "srlowe",
       "avatar": "https://avatars3.githubusercontent.com/u/1562665?v=4"
+    },
+    {
+      "username": "zvin",
+      "avatar": "https://avatars2.githubusercontent.com/u/180331?v=4"
     },
     {
       "username": "dfunckt",
@@ -11231,35 +11251,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-30T12:24:05Z",
+  "lastCommitDate": "2020-04-30T12:50:36Z",
   "latestRelease": {
-    "tagName": "v11.31.28",
+    "tagName": "v11.32.0",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.28-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.28/balena-cli-v11.31.28-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.32.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.0/balena-cli-v11.32.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.28-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.28/balena-cli-v11.31.28-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.32.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.0/balena-cli-v11.32.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.28-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.28/balena-cli-v11.31.28-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.32.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.0/balena-cli-v11.32.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.28-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.28/balena-cli-v11.31.28-windows-x64-installer.exe"
+        "name": "balena-cli-v11.32.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.0/balena-cli-v11.32.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.28-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.28/balena-cli-v11.31.28-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.32.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.0/balena-cli-v11.32.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 282,
+    "numberOfIssues": 280,
     "latestIssues": [
       {
         "title": "Errors refactor",
@@ -11268,14 +11288,6 @@
       {
         "title": "Improve oclif missing argument/flag errors",
         "url": "https://github.com/balena-io/balena-cli/pull/1790"
-      },
-      {
-        "title": "Integrate livepush v3 and live directives",
-        "url": "https://github.com/balena-io/balena-cli/pull/1787"
-      },
-      {
-        "title": "Integrate new livepush",
-        "url": "https://github.com/balena-io/balena-cli/issues/1784"
       },
       {
         "title": "Modify oclif help to remove COMMANDS section and match balena conventions.",
@@ -11340,10 +11352,18 @@
       {
         "title": "Convert app commands to oclif",
         "url": "https://github.com/balena-io/balena-cli/pull/1752"
+      },
+      {
+        "title": "Convert `balena api-key generate` to oclif",
+        "url": "https://github.com/balena-io/balena-cli/pull/1749"
+      },
+      {
+        "title": "`balena api-key generate` throws BalenaNotLoggedIn error, when logged in",
+        "url": "https://github.com/balena-io/balena-cli/issues/1748"
       }
     ]
   },
-  "version": "11.31.28",
+  "version": "11.32.0",
   "screenshot": null,
   "logo": null
 }
