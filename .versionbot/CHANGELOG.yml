@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add support for global --debug flag
+      hash: db247307db805e9be16f93836ba9290d27aa31d8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#1777'
+        resolves: '#1777'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.31.25
+  date: 2020-04-30T04:15:06.018Z
+- commits:
     - subject: 'balena deploy: Fix "TypeError: images.push is not iterable"'
       hash: 74cdd80b5197bd66a2cbc65d37473b3a62af169e
       body: ''
