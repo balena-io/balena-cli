@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Convert lib/actions/index.coffee to typescript",
+          "hash": "6d7d1956eae7e38e6387425651a7781db7b2f92e",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.32.3",
+      "date": "2020-04-30T16:07:39.335Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert lib/utils/deploy.coffee to javascript",
           "hash": "73d6d7b2646220619aa915fca6b0b86ad0924549",
           "body": "",
@@ -11293,36 +11309,44 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-30T15:56:15Z",
+  "lastCommitDate": "2020-04-30T16:56:04Z",
   "latestRelease": {
-    "tagName": "v11.32.2",
+    "tagName": "v11.32.3",
     "asssets": [
       {
-        "name": "balena-cli-v11.32.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.2/balena-cli-v11.32.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.32.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.3/balena-cli-v11.32.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.2/balena-cli-v11.32.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.32.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.3/balena-cli-v11.32.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.32.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.2/balena-cli-v11.32.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.32.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.3/balena-cli-v11.32.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.2/balena-cli-v11.32.2-windows-x64-installer.exe"
+        "name": "balena-cli-v11.32.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.3/balena-cli-v11.32.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.32.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.2/balena-cli-v11.32.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.32.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.3/balena-cli-v11.32.3-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 276,
+    "numberOfIssues": 278,
     "latestIssues": [
+      {
+        "title": "`balena devices supported` is undocumented",
+        "url": "https://github.com/balena-io/balena-cli/issues/1794"
+      },
+      {
+        "title": "Convert lib/app-capitano.coffee and gulpfile.coffee to javascript",
+        "url": "https://github.com/balena-io/balena-cli/pull/1793"
+      },
       {
         "title": "Errors refactor",
         "url": "https://github.com/balena-io/balena-cli/pull/1791"
@@ -11394,18 +11418,10 @@
       {
         "title": "Preregistering an account does not appear to generate a network configuration",
         "url": "https://github.com/balena-io/balena-cli/issues/1747"
-      },
-      {
-        "title": "os download: Allow not logged in users to download images",
-        "url": "https://github.com/balena-io/balena-cli/pull/1743"
-      },
-      {
-        "title": "Update balena-sdk to v13.2.2",
-        "url": "https://github.com/balena-io/balena-cli/pull/1742"
       }
     ]
   },
-  "version": "11.32.2",
+  "version": "11.32.3",
   "screenshot": null,
   "logo": null
 }
