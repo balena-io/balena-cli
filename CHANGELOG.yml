@@ -1,4 +1,14 @@
 - commits:
+    - subject: Only notify of an update if the new version is actually newer
+      hash: 4ae91ef846fc81e29e5bca27dcd6902cf122cda1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.32.1
+  date: 2020-04-30T13:48:40.992Z
+- commits:
     - subject: Integrate livepush v3 and live directives
       hash: d398e22c580c764b0c8c9b9e63ec13139c2c5eae
       body: ''
@@ -11,7 +21,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.32.0
-  date: 2020-04-30T12:49:58.543Z
+  date: 2020-04-30T12:28:29.310Z
 - commits:
     - subject: Convert lib/utils/deploy-legacy.coffee to javascript
       hash: 203ccaf97b79908e666a5dc7d878bdfdb8597ac2

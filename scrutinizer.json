@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Only notify of an update if the new version is actually newer",
+          "hash": "4ae91ef846fc81e29e5bca27dcd6902cf122cda1",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.32.1",
+      "date": "2020-04-30T12:58:06.826Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Integrate livepush v3 and live directives",
           "hash": "d398e22c580c764b0c8c9b9e63ec13139c2c5eae",
           "body": "",
@@ -11251,35 +11267,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-30T12:50:36Z",
+  "lastCommitDate": "2020-04-30T13:49:46Z",
   "latestRelease": {
-    "tagName": "v11.32.0",
+    "tagName": "v11.32.1",
     "asssets": [
       {
-        "name": "balena-cli-v11.32.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.0/balena-cli-v11.32.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.32.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.1/balena-cli-v11.32.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.0/balena-cli-v11.32.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.32.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.1/balena-cli-v11.32.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.32.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.0/balena-cli-v11.32.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.32.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.1/balena-cli-v11.32.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.0/balena-cli-v11.32.0-windows-x64-installer.exe"
+        "name": "balena-cli-v11.32.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.1/balena-cli-v11.32.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.32.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.0/balena-cli-v11.32.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.32.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.1/balena-cli-v11.32.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 280,
+    "numberOfIssues": 278,
     "latestIssues": [
       {
         "title": "Errors refactor",
@@ -11308,10 +11324,6 @@
       {
         "title": "Modify oclif missing parameter and missing flag errors.",
         "url": "https://github.com/balena-io/balena-cli/issues/1776"
-      },
-      {
-        "title": "Only notify of an update if the new version is actually newer",
-        "url": "https://github.com/balena-io/balena-cli/pull/1775"
       },
       {
         "title": "'balena login' web authorization fails silently if another process is listening on port 8989",
@@ -11360,10 +11372,14 @@
       {
         "title": "`balena api-key generate` throws BalenaNotLoggedIn error, when logged in",
         "url": "https://github.com/balena-io/balena-cli/issues/1748"
+      },
+      {
+        "title": "Preregistering an account does not appear to generate a network configuration",
+        "url": "https://github.com/balena-io/balena-cli/issues/1747"
       }
     ]
   },
-  "version": "11.32.0",
+  "version": "11.32.1",
   "screenshot": null,
   "logo": null
 }
