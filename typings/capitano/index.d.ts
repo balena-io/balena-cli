@@ -21,7 +21,9 @@ declare module 'capitano' {
 	export interface Cli {
 		command: string;
 		options: {};
-		global: {};
+		global: {
+			help?: boolean;
+		};
 	}
 
 	export interface OptionDefinition {
@@ -35,10 +37,10 @@ declare module 'capitano' {
 
 	export interface CommandDefinition<P = {}, O = {}> {
 		signature: string;
-		description: string;
-		help: string;
+		description?: string;
+		help?: string;
 		options?: Partial<OptionDefinition[]>;
-		permission?: 'user';
+		permission?: string; // This should be 'user' but without full typescript we cannot enforce it
 		root?: boolean;
 		primary?: boolean;
 		hidden?: boolean;
@@ -68,7 +70,7 @@ declare module 'capitano' {
 		required: boolean | string;
 	}
 
-	export function command(command: CommandDefinition): void;
+	export function command<P, O>(command: CommandDefinition<P, O>): void;
 
 	export const state: {
 		getMatchCommand: (
@@ -78,4 +80,14 @@ declare module 'capitano' {
 		commands: Command[];
 		globalOptions: OptionDefinition[];
 	};
+
+	export function execute(
+		args: any,
+		callback: (err?: any, result: any) => void,
+	): void;
+	export function globalOption(option: OptionDefinition): void;
+	export function permission(
+		permissionName: string,
+		callback: (done: () => void) => void,
+	): void;
 }

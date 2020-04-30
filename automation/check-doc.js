@@ -67,9 +67,7 @@ async function checkBuildTimestamps() {
 				file) for three reasons:
 				1. To update the CLI markdown documentation (in case any command-line options
 				   were updated, added or removed).
-				2. To reveal coffeelint warnings that the CI currently ignores (in case any
-				   Coffeescript files were modified).
-				3. To catch Typescript type check errors sooner and reduce overall waiting time,
+				2. To catch Typescript type check errors sooner and reduce overall waiting time,
 				   given that balena-cli CI builds/tests are currently rather lengthy.
 
 				If you need/wish to bypass this check without running \`npm run build\`, run:

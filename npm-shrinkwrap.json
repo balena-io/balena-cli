@@ -7027,19 +7027,6 @@
         }
       }
     },
-    "gulp-coffee": {
-      "version": "2.3.5",
-      "resolved": "https://registry.npmjs.org/gulp-coffee/-/gulp-coffee-2.3.5.tgz",
-      "integrity": "sha512-PbgPGZVyYFnBTYtfYkVN6jcK8Qsuh3BxycPzvu8y5lZroCw3/x1m25KeyEDX110KsVLDmJxoULjscR21VEN4wA==",
-      "dev": true,
-      "requires": {
-        "coffeescript": "^1.10.0",
-        "gulp-util": "^3.0.2",
-        "merge": "^1.2.0",
-        "through2": "^2.0.1",
-        "vinyl-sourcemaps-apply": "^0.2.1"
-      }
-    },
     "gulp-inline-source": {
       "version": "2.1.0",
       "resolved": "https://registry.npmjs.org/gulp-inline-source/-/gulp-inline-source-2.1.0.tgz",
@@ -9161,12 +9148,6 @@
         "redent": "^1.0.0",
         "trim-newlines": "^1.0.0"
       }
-    },
-    "merge": {
-      "version": "1.2.1",
-      "resolved": "https://registry.npmjs.org/merge/-/merge-1.2.1.tgz",
-      "integrity": "sha512-VjFo4P5Whtj4vsLzsYBu5ayHhoHJ0UqNm7ibvShmbmoz7tGi0vXaoJbGdB+GmDMLUdg8DpQXEIeVDAe8MaABvQ==",
-      "dev": true
     },
     "merge-descriptors": {
       "version": "1.0.1",
@@ -18199,15 +18180,6 @@
             "replace-ext": "^1.0.0"
           }
         }
-      }
-    },
-    "vinyl-sourcemaps-apply": {
-      "version": "0.2.1",
-      "resolved": "https://registry.npmjs.org/vinyl-sourcemaps-apply/-/vinyl-sourcemaps-apply-0.2.1.tgz",
-      "integrity": "sha1-q2VJ1h0XLCsbh75cUI0jnI74dwU=",
-      "dev": true,
-      "requires": {
-        "source-map": "^0.5.1"
       }
     },
     "walkdir": {
