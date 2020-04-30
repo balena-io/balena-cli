@@ -25,12 +25,7 @@ const ROOT = path.normalize(path.join(__dirname, '..'));
 
 /**
  * Compare the timestamp of cli.markdown with the timestamp of staged files,
- * issuing an error if cli.markdown is older. Besides the purpose of ensuring
- * that cli.markdown is updated, it effectively also ensures that coffeelint
- * is executed (via `npm run build` or `npm test`) on the developers laptop,
- * so that there is at least a chance that the developer will spot any linter
- * warnings (that could reveal bugs) sooner than later.  (The CI does not
- * currently fail in case of coffeelint warnings.)
+ * issuing an error if cli.markdown is older.
  * If cli.markdown does not require updating and the developer cannot run
  * `npm run build` on their laptop, the error message suggests a workaround
  * using `touch`.
@@ -67,9 +62,7 @@ async function checkBuildTimestamps() {
 				file) for three reasons:
 				1. To update the CLI markdown documentation (in case any command-line options
 				   were updated, added or removed).
-				2. To reveal coffeelint warnings that the CI currently ignores (in case any
-				   Coffeescript files were modified).
-				3. To catch Typescript type check errors sooner and reduce overall waiting time,
+				2. To catch Typescript type check errors sooner and reduce overall waiting time,
 				   given that balena-cli CI builds/tests are currently rather lengthy.
 
 				If you need/wish to bypass this check without running \`npm run build\`, run:

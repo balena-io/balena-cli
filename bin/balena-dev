@@ -13,7 +13,6 @@ process.env.UV_THREADPOOL_SIZE = '64';
 require('fast-boot2').start({
 	cacheFile: '.fast-boot.json',
 });
-require('coffeescript/register');
 
 const path = require('path');
 const rootDir = path.join(__dirname, '..');

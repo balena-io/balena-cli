@@ -24,7 +24,7 @@ import { CapitanoCommand, Category, Document, OclifCommand } from './doc-types';
 import * as utils from './utils';
 
 function renderCapitanoCommand(command: CapitanoCommand): string[] {
-	const result = [`## ${ent.encode(command.signature)}`, command.help];
+	const result = [`## ${ent.encode(command.signature)}`, command.help!];
 
 	if (!_.isEmpty(command.options)) {
 		result.push('### Options');
