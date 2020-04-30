@@ -88,22 +88,6 @@ export async function checkLoggedIn(): Promise<void> {
 	}
 }
 
-/**
- * Check if logged in, and call `exitWithExpectedError()` if not.
- * DEPRECATED: Use checkLoggedIn() instead.
- */
-export async function exitIfNotLoggedIn(): Promise<void> {
-	try {
-		await checkLoggedIn();
-	} catch (error) {
-		if (error instanceof NotLoggedInError) {
-			exitWithExpectedError(error);
-		} else {
-			throw error;
-		}
-	}
-}
-
 export function askLoginType() {
 	return getForm().ask<'web' | 'credentials' | 'token' | 'register'>({
 		message: 'How would you like to login?',
