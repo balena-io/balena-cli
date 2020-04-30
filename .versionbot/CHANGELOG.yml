@@ -1,4 +1,16 @@
 - commits:
+    - subject: >-
+        balena build/deploy: Update QEMU version to support newer balenalib
+        images
+      hash: 6d95c5bad5c4f6d8f0e2644048ceebe727aed613
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.31.26
+  date: 2020-04-30T09:53:18.347Z
+- commits:
     - subject: Add support for global --debug flag
       hash: db247307db805e9be16f93836ba9290d27aa31d8
       body: ''
