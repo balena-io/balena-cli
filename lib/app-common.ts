@@ -214,7 +214,7 @@ let BluebirdConfigured = false;
 /**
  * Configure Bluebird and assign it as the global promise library.
  * Modules like `stream-to-promise` will otherwise produce native promises,
- * which leads to errors as much of the CLI CoffeeScript code expects Bluebird
+ * which leads to errors as much of the CLI JavaScript code expects Bluebird
  * promises.
  */
 export function configureBluebird() {

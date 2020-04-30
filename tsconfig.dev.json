@@ -4,6 +4,7 @@
 		"./automation/**/*",
 		"./lib/**/*",
 		"./tests/**/*",
-		"./typings/**/*"
+		"./typings/**/*",
+		"gulpfile.js"
 	]
 }

@@ -3526,11 +3526,6 @@
         "globals": "^10.1.0"
       }
     },
-    "coffeescript": {
-      "version": "1.12.7",
-      "resolved": "https://registry.npmjs.org/coffeescript/-/coffeescript-1.12.7.tgz",
-      "integrity": "sha512-pLXHFxQMPklVoEekowk8b3erNynC+DVJzChxS/LCBBgR6/8AJkHivkm//zbowcfc7BTCAjryuhx6gPqPRfsFoA=="
-    },
     "collection-map": {
       "version": "1.0.0",
       "resolved": "https://registry.npmjs.org/collection-map/-/collection-map-1.0.0.tgz",
@@ -7036,26 +7031,6 @@
         "gulp-util": "~3.0.6",
         "inline-source": "~4.0.1",
         "through2": "~2.0.0"
-      }
-    },
-    "gulp-shell": {
-      "version": "0.5.2",
-      "resolved": "https://registry.npmjs.org/gulp-shell/-/gulp-shell-0.5.2.tgz",
-      "integrity": "sha1-pJWcoGUa0ce7/nCy0K27tOGuqY0=",
-      "dev": true,
-      "requires": {
-        "async": "^1.5.0",
-        "gulp-util": "^3.0.7",
-        "lodash": "^4.0.0",
-        "through2": "^2.0.0"
-      },
-      "dependencies": {
-        "async": {
-          "version": "1.5.2",
-          "resolved": "https://registry.npmjs.org/async/-/async-1.5.2.tgz",
-          "integrity": "sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo=",
-          "dev": true
-        }
       }
     },
     "gulp-util": {

@@ -25,12 +25,7 @@ const ROOT = path.normalize(path.join(__dirname, '..'));
 
 /**
  * Compare the timestamp of cli.markdown with the timestamp of staged files,
- * issuing an error if cli.markdown is older. Besides the purpose of ensuring
- * that cli.markdown is updated, it effectively also ensures that coffeelint
- * is executed (via `npm run build` or `npm test`) on the developers laptop,
- * so that there is at least a chance that the developer will spot any linter
- * warnings (that could reveal bugs) sooner than later.  (The CI does not
- * currently fail in case of coffeelint warnings.)
+ * issuing an error if cli.markdown is older.
  * If cli.markdown does not require updating and the developer cannot run
  * `npm run build` on their laptop, the error message suggests a workaround
  * using `touch`.
