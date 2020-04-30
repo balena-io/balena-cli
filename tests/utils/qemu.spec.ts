@@ -20,7 +20,7 @@ import { expect } from 'chai';
 describe('resin-multibuild consistency', function() {
 	it('should use the same values for selected constants', async () => {
 		const { QEMU_BIN_NAME: MQEMU_BIN_NAME } = await import('resin-multibuild');
-		const { QEMU_BIN_NAME } = await import('../../build/utils/qemu-ts');
+		const { QEMU_BIN_NAME } = await import('../../build/utils/qemu');
 		expect(QEMU_BIN_NAME).to.equal(MQEMU_BIN_NAME);
 	});
 });
