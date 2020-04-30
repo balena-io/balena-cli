@@ -74,7 +74,7 @@ async function environmentFromInput(
 	serviceNames: string[],
 	logger: Logger,
 ): Promise<ParsedEnvironment> {
-	const { exitWithExpectedError } = await import('../patterns');
+	const { exitWithExpectedError } = await import('../../errors');
 	// A normal environment variable regex, with an added part
 	// to find a colon followed servicename at the start
 	const varRegex = /^(?:([^\s:]+):)?([^\s]+?)=(.*)$/;
@@ -121,7 +121,7 @@ async function environmentFromInput(
 
 export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	const { tarDirectory } = await import('../compose');
-	const { exitWithExpectedError } = await import('../patterns');
+	const { exitWithExpectedError } = await import('../../errors');
 	const { displayDeviceLogs } = await import('./logs');
 
 	const api = new DeviceAPI(globalLogger, opts.deviceHost);
@@ -574,7 +574,7 @@ export function generateTargetState(
 }
 
 async function inspectBuildResults(images: LocalImage[]): Promise<void> {
-	const { exitWithExpectedError } = await import('../patterns');
+	const { exitWithExpectedError } = await import('../../errors');
 
 	const failures: LocalPushErrors.BuildFailure[] = [];
 

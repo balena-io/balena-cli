@@ -87,6 +87,7 @@ Examples:
 		const balena = getBalenaSdk();
 		const patterns = await import('../utils/patterns');
 		const messages = await import('../utils/messages');
+		const { exitWithExpectedError } = await import('../errors');
 
 		const doLogin = async (loginOptions: Options): Promise<void> => {
 			if (loginOptions.token != null) {
@@ -103,7 +104,7 @@ Examples:
 				}
 				await balena.auth.loginWithToken(token);
 				if (!(await balena.auth.whoami())) {
-					patterns.exitWithExpectedError('Token authentication failed');
+					exitWithExpectedError('Token authentication failed');
 				}
 				return;
 			} else if (loginOptions.credentials) {
@@ -120,7 +121,7 @@ Examples:
 				const signupUrl = 'https://dashboard.balena-cloud.com/signup';
 				const open = await import('open');
 				open(signupUrl, { wait: false });
-				return patterns.exitWithExpectedError(`Please sign up at ${signupUrl}`);
+				return exitWithExpectedError(`Please sign up at ${signupUrl}`);
 			}
 
 			loginOptions[loginType] = true;

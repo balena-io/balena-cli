@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2020 Balena
+Copyright 2016-2020 Balena Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@ import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 import * as os from 'os';
 import { TypedError } from 'typed-error';
+import { getChalk } from './utils/lazy';
+import { getHelp } from './utils/messages';
 
 export class ExpectedError extends TypedError {}
 
@@ -130,8 +132,6 @@ const messages: {
 };
 
 export async function handleError(error: any) {
-	const { printErrorMessage } = await import('./utils/patterns');
-
 	process.exitCode =
 		error.exitCode === 0
 			? 0
@@ -145,7 +145,7 @@ export async function handleError(error: any) {
 	const message = [interpret(error)];
 
 	if (process.env.DEBUG && error.stack) {
-		message.push(error.stack);
+		message.push('\n' + error.stack);
 	}
 	printErrorMessage(message.join('\n'));
 
@@ -170,4 +170,30 @@ export async function handleError(error: any) {
 	// Unhandled/unexpected error: ensure that the process terminates.
 	// The exit error code was set above through `process.exitCode`.
 	process.exit();
+}
+
+export function printErrorMessage(message: string) {
+	const chalk = getChalk();
+	console.error(chalk.red(message));
+	console.error(chalk.red(`\n${getHelp}\n`));
+}
+
+/**
+ * Print a friendly error message and exit the CLI with an error code, BYPASSING
+ * error reporting through Sentry.io's platform (raven.Raven.captureException).
+ * Note that lib/errors.ts provides top-level error handling code to catch any
+ * otherwise uncaught errors, AND to report them through Sentry.io. But many
+ * "expected" errors (say, a JSON parsing error in a file provided by the user)
+ * don't warrant reporting through Sentry.io.  For such mundane errors, catch
+ * them and call this function.
+ *
+ * DEPRECATED: Use `throw new ExpectedError(<message>)` instead.
+ */
+export function exitWithExpectedError(message: string | Error): never {
+	if (message instanceof Error) {
+		({ message } = message);
+	}
+
+	printErrorMessage(message);
+	process.exit(1);
 }

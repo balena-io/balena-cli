@@ -20,9 +20,8 @@ import { stripIndent } from 'common-tags';
 import _ = require('lodash');
 import _form = require('resin-cli-form');
 
-import { instanceOf, NotLoggedInError } from '../errors';
-import { getBalenaSdk, getChalk, getVisuals } from './lazy';
-import messages = require('./messages');
+import { exitWithExpectedError, instanceOf, NotLoggedInError } from '../errors';
+import { getBalenaSdk, getVisuals } from './lazy';
 import validation = require('./validation');
 
 const getForm = _.once((): typeof _form => require('resin-cli-form'));
@@ -418,30 +417,4 @@ export function selectFromList<T>(
 			value: s,
 		})),
 	});
-}
-
-export function printErrorMessage(message: string) {
-	const chalk = getChalk();
-	console.error(chalk.red(message));
-	console.error(chalk.red(`\n${messages.getHelp}\n`));
-}
-
-/**
- * Print a friendly error message and exit the CLI with an error code, BYPASSING
- * error reporting through Sentry.io's platform (raven.Raven.captureException).
- * Note that lib/errors.ts provides top-level error handling code to catch any
- * otherwise uncaught errors, AND to report them through Sentry.io. But many
- * "expected" errors (say, a JSON parsing error in a file provided by the user)
- * don't warrant reporting through Sentry.io.  For such mundane errors, catch
- * them and call this function.
- *
- * DEPRECATED: Use `throw new ExpectedError(<message>)` instead.
- */
-export function exitWithExpectedError(message: string | Error): never {
-	if (message instanceof Error) {
-		({ message } = message);
-	}
-
-	printErrorMessage(message);
-	process.exit(1);
 }

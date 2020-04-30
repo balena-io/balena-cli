@@ -91,9 +91,8 @@ export const logs: CommandDefinition<
 			'../utils/device/logs'
 		);
 		const { validateIPAddress } = await import('../utils/validation');
-		const { checkLoggedIn, exitWithExpectedError } = await import(
-			'../utils/patterns'
-		);
+		const { checkLoggedIn } = await import('../utils/patterns');
+		const { exitWithExpectedError } = await import('../errors');
 		const Logger = await import('../utils/logger');
 
 		const logger = Logger.getLogger();
