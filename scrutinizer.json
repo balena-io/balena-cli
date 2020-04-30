@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Convert lib/utils/deploy-legacy.coffee to javascript",
+          "hash": "203ccaf97b79908e666a5dc7d878bdfdb8597ac2",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.31.28",
+      "date": "2020-04-30T11:54:08.737Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert lib/actions/help.coffee to javascript",
           "hash": "a97398950e2ace9d4346aabeb067385d4218cc3c",
           "body": "",
@@ -11215,35 +11231,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-30T11:45:04Z",
+  "lastCommitDate": "2020-04-30T12:24:05Z",
   "latestRelease": {
-    "tagName": "v11.31.27",
+    "tagName": "v11.31.28",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.27-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.27/balena-cli-v11.31.27-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.28-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.28/balena-cli-v11.31.28-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.27-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.27/balena-cli-v11.31.27-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.28-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.28/balena-cli-v11.31.28-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.27-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.27/balena-cli-v11.31.27-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.28-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.28/balena-cli-v11.31.28-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.27-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.27/balena-cli-v11.31.27-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.28-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.28/balena-cli-v11.31.28-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.27-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.27/balena-cli-v11.31.27-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.28-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.28/balena-cli-v11.31.28-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 283,
+    "numberOfIssues": 282,
     "latestIssues": [
       {
         "title": "Errors refactor",
@@ -11302,10 +11318,6 @@
         "url": "https://github.com/balena-io/balena-cli/issues/1770"
       },
       {
-        "title": "Convert lib/utils/deploy-legacy.coffee to javascript",
-        "url": "https://github.com/balena-io/balena-cli/pull/1769"
-      },
-      {
         "title": "Convert all remaining commands from Capitano to oclif",
         "url": "https://github.com/balena-io/balena-cli/issues/1768"
       },
@@ -11324,10 +11336,14 @@
       {
         "title": "Remove boilterplate and red color from expected errors.",
         "url": "https://github.com/balena-io/balena-cli/issues/1757"
+      },
+      {
+        "title": "Convert app commands to oclif",
+        "url": "https://github.com/balena-io/balena-cli/pull/1752"
       }
     ]
   },
-  "version": "11.31.27",
+  "version": "11.31.28",
   "screenshot": null,
   "logo": null
 }

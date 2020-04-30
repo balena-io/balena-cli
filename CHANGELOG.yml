@@ -1,4 +1,14 @@
 - commits:
+    - subject: Convert lib/utils/deploy-legacy.coffee to javascript
+      hash: 203ccaf97b79908e666a5dc7d878bdfdb8597ac2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.31.28
+  date: 2020-04-30T12:23:28.834Z
+- commits:
     - subject: Convert lib/actions/help.coffee to javascript
       hash: a97398950e2ace9d4346aabeb067385d4218cc3c
       body: ''
@@ -7,7 +17,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.31.27
-  date: 2020-04-30T11:44:28.739Z
+  date: 2020-04-30T10:59:25.400Z
 - commits:
     - subject: >-
         balena build/deploy: Update QEMU version to support newer balenalib
