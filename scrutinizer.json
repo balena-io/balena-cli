@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "Add support for global --debug flag",
+          "hash": "db247307db805e9be16f93836ba9290d27aa31d8",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Resolves": "#1777",
+            "resolves": "#1777",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.31.25",
+      "date": "2020-04-30T04:15:06.018Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "balena deploy: Fix \"TypeError: images.push is not iterable\"",
           "hash": "74cdd80b5197bd66a2cbc65d37473b3a62af169e",
           "body": "",
@@ -11060,7 +11080,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 234,
+  "stars": 235,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -11163,39 +11183,47 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-29T15:13:56Z",
+  "lastCommitDate": "2020-04-30T04:36:33Z",
   "latestRelease": {
-    "tagName": "v11.31.24",
+    "tagName": "v11.31.25",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.24-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.24/balena-cli-v11.31.24-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.25-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.25/balena-cli-v11.31.25-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.24-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.24/balena-cli-v11.31.24-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.25-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.25/balena-cli-v11.31.25-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.24-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.24/balena-cli-v11.31.24-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.25-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.25/balena-cli-v11.31.25-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.24-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.24/balena-cli-v11.31.24-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.25-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.25/balena-cli-v11.31.25-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.24-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.24/balena-cli-v11.31.24-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.25-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.25/balena-cli-v11.31.25-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 283,
+    "numberOfIssues": 284,
     "latestIssues": [
       {
-        "title": "Add support for global --debug flag",
-        "url": "https://github.com/balena-io/balena-cli/pull/1785"
+        "title": "balena build/deploy: Update QEMU version to support newer balenalib images",
+        "url": "https://github.com/balena-io/balena-cli/pull/1789"
+      },
+      {
+        "title": "Error: The command '/tmp/qemu-execve -execve /bin/sh -c ...'  returned a non-zero code: 1",
+        "url": "https://github.com/balena-io/balena-cli/issues/1788"
+      },
+      {
+        "title": "Integrate livepush v3 and live directives",
+        "url": "https://github.com/balena-io/balena-cli/pull/1787"
       },
       {
         "title": "Integrate new livepush",
@@ -11220,10 +11248,6 @@
       {
         "title": "Partial inclusion of stack trace in unexpected errors, even when not in debug mode",
         "url": "https://github.com/balena-io/balena-cli/issues/1778"
-      },
-      {
-        "title": "Introduce global --debug flag as an alternative to DEBUG env var",
-        "url": "https://github.com/balena-io/balena-cli/issues/1777"
       },
       {
         "title": "Modify oclif missing parameter and missing flag errors.",
@@ -11268,14 +11292,10 @@
       {
         "title": "Rename parameters to make error messages clearer",
         "url": "https://github.com/balena-io/balena-cli/issues/1758"
-      },
-      {
-        "title": "Remove boilterplate and red color from expected errors.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1757"
       }
     ]
   },
-  "version": "11.31.24",
+  "version": "11.31.25",
   "screenshot": null,
   "logo": null
 }
