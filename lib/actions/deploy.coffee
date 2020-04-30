@@ -89,7 +89,7 @@ deployProject = (docker, logger, composeOpts, opts) ->
 				}
 		.then (images) ->
 			if opts.app.application_type?[0]?.is_legacy
-				legacyDeploy = require('../utils/deploy-legacy')
+				{ deployLegacy } = require('../utils/deploy-legacy')
 
 				msg = getChalk().yellow('Target application requires legacy deploy method.')
 				logger.logWarn(msg)
@@ -107,7 +107,7 @@ deployProject = (docker, logger, composeOpts, opts) ->
 						buildLogs: images[0].logs
 						shouldUploadLogs: opts.shouldUploadLogs
 					}
-					legacyDeploy
+					deployLegacy
 				)
 				.then (releaseId) ->
 					sdk.models.release.get(releaseId, $select: [ 'commit' ])
