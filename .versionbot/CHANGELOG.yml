@@ -1,4 +1,21 @@
 - commits:
+    - subject: Convert gulpfile.coffee to javascript
+      hash: ab526c9ed825e2b4a44a8280dc6f4bda1a023c0a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+    - subject: Convert lib/app-capitano.coffee to javascript
+      hash: 14c5b27cdd5fe9884ccd7f35bf83098ff43d7e1d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.32.4
+  date: 2020-04-30T18:06:08.971Z
+- commits:
     - subject: Convert lib/actions/index.coffee to typescript
       hash: 6d7d1956eae7e38e6387425651a7781db7b2f92e
       body: ''
