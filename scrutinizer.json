@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Convert lib/actions/help.coffee to javascript",
+          "hash": "a97398950e2ace9d4346aabeb067385d4218cc3c",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.31.27",
+      "date": "2020-04-30T10:59:25.400Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "balena build/deploy: Update QEMU version to support newer balenalib images",
           "hash": "6d95c5bad5c4f6d8f0e2644048ceebe727aed613",
           "body": "",
@@ -11199,35 +11215,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-30T10:56:36Z",
+  "lastCommitDate": "2020-04-30T11:45:04Z",
   "latestRelease": {
-    "tagName": "v11.31.26",
+    "tagName": "v11.31.27",
     "asssets": [
       {
-        "name": "balena-cli-v11.31.26-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.26/balena-cli-v11.31.26-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.31.27-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.27/balena-cli-v11.31.27-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.26-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.26/balena-cli-v11.31.26-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.31.27-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.27/balena-cli-v11.31.27-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.31.26-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.26/balena-cli-v11.31.26-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.31.27-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.27/balena-cli-v11.31.27-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.31.26-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.26/balena-cli-v11.31.26-windows-x64-installer.exe"
+        "name": "balena-cli-v11.31.27-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.27/balena-cli-v11.31.27-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.31.26-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.26/balena-cli-v11.31.26-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.31.27-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.31.27/balena-cli-v11.31.27-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 284,
+    "numberOfIssues": 283,
     "latestIssues": [
       {
         "title": "Errors refactor",
@@ -11252,10 +11268,6 @@
       {
         "title": "Modify oclif help to match balena conventions",
         "url": "https://github.com/balena-io/balena-cli/pull/1781"
-      },
-      {
-        "title": "Convert lib/actions/help.coffee to javascript",
-        "url": "https://github.com/balena-io/balena-cli/pull/1780"
       },
       {
         "title": "Improve error boilerplate message",
@@ -11308,10 +11320,14 @@
       {
         "title": "Rename parameters to make error messages clearer",
         "url": "https://github.com/balena-io/balena-cli/issues/1758"
+      },
+      {
+        "title": "Remove boilterplate and red color from expected errors.",
+        "url": "https://github.com/balena-io/balena-cli/issues/1757"
       }
     ]
   },
-  "version": "11.31.26",
+  "version": "11.31.27",
   "screenshot": null,
   "logo": null
 }
