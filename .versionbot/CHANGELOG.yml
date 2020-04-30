@@ -1,4 +1,14 @@
 - commits:
+    - subject: Convert lib/actions/index.coffee to typescript
+      hash: 6d7d1956eae7e38e6387425651a7781db7b2f92e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.32.3
+  date: 2020-04-30T16:07:39.335Z
+- commits:
     - subject: Convert lib/utils/deploy.coffee to javascript
       hash: 73d6d7b2646220619aa915fca6b0b86ad0924549
       body: ''
