@@ -1,4 +1,21 @@
 - commits:
+    - subject: Convert lib/utils/deploy.coffee to javascript
+      hash: 73d6d7b2646220619aa915fca6b0b86ad0924549
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+    - subject: Convert lib/actions/build.coffee to javascript
+      hash: 4d8cd1cc461600a918b128262867a4b3e8aedd08
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.32.2
+  date: 2020-04-30T15:55:39.210Z
+- commits:
     - subject: Only notify of an update if the new version is actually newer
       hash: 4ae91ef846fc81e29e5bca27dcd6902cf122cda1
       body: ''
@@ -7,7 +24,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.32.1
-  date: 2020-04-30T13:48:40.992Z
+  date: 2020-04-30T12:58:06.826Z
 - commits:
     - subject: Integrate livepush v3 and live directives
       hash: d398e22c580c764b0c8c9b9e63ec13139c2c5eae
