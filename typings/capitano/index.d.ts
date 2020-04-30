@@ -26,7 +26,7 @@ declare module 'capitano' {
 
 	export interface OptionDefinition {
 		signature: string;
-		description: string;
+		description?: string;
 		parameter?: string;
 		boolean?: boolean;
 		required?: string;
@@ -49,6 +49,8 @@ declare module 'capitano' {
 		signature: Signature;
 		options: Option[];
 		isWildcard(): boolean;
+		// You can pass whatever you want into a capitano command and it gets added as a prop
+		[key: string]: any;
 	}
 
 	export interface Signature {
@@ -73,5 +75,7 @@ declare module 'capitano' {
 			signature: string,
 			callback: (e: Error, cmd: Command) => void,
 		) => void;
+		commands: Command[];
+		globalOptions: OptionDefinition[];
 	};
 }

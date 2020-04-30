@@ -33,6 +33,9 @@ function renderCapitanoCommand(command: CapitanoCommand): string[] {
 			if (option == null) {
 				throw new Error(`Undefined option in markdown generation!`);
 			}
+			if (option.description == null) {
+				throw new Error(`Undefined option.description in markdown generation!`);
+			}
 			result.push(
 				`#### ${utils.parseCapitanoOption(option)}`,
 				option.description,
