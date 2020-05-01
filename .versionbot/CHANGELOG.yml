@@ -1,4 +1,14 @@
 - commits:
+    - subject: Enforce lazy loading via tslint import-blacklist
+      hash: 0df6368ab94667bce995f239290de3e5f347f865
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.32.8
+  date: 2020-05-01T09:36:29.379Z
+- commits:
     - subject: Convert app commands to oclif
       hash: 3b519f02581d19cb48e2aaa3b1f3cadd1c007fab
       body: ''
