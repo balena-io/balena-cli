@@ -1,0 +1,37 @@
+diff --git a/node_modules/@oclif/plugin-help/lib/command.js b/node_modules/@oclif/plugin-help/lib/command.js
+index ab72c1b..75078d5 100644
+--- a/node_modules/@oclif/plugin-help/lib/command.js
++++ b/node_modules/@oclif/plugin-help/lib/command.js
+@@ -86,7 +86,7 @@ class CommandHelp {
+         if (!args.filter(a => a.description).length)
+             return;
+         let body = list_1.renderList(args.map(a => {
+-            const name = a.name.toUpperCase();
++            const name = a.required ? `<${a.name}>` : `[${a.name}]`;
+             let description = a.description || '';
+             if (a.default)
+                 description = `[default: ${a.default}] ${description}`;
+@@ -130,8 +130,7 @@ class CommandHelp {
+                     value = flag.options.join('|');
+                 }
+                 if (!value.includes('|'))
+-                    value = underline(value);
+-                left += `=${value}`;
++                left += ` <${value}>`;
+             }
+             let right = flag.description || '';
+             if (flag.type === 'option' && flag.default) {
+diff --git a/node_modules/@oclif/plugin-help/lib/index.js b/node_modules/@oclif/plugin-help/lib/index.js
+index 43acf30..bebefa6 100644
+--- a/node_modules/@oclif/plugin-help/lib/index.js
++++ b/node_modules/@oclif/plugin-help/lib/index.js
+@@ -74,7 +74,8 @@ class Help {
+             console.log(title + '\n');
+         console.log(this.command(command));
+         console.log();
+-        if (topics.length) {
++        const SUPPRESS_SUBTOPICS = true;
++        if (topics.length && !SUPPRESS_SUBTOPICS) {
+             console.log(this.topics(topics));
+             console.log();
+         }
