@@ -176,7 +176,6 @@ describe('balena build', function() {
 				copyQemu: async () => '',
 			});
 			mock.reRequire('../../build/utils/qemu');
-			mock.reRequire('../../build/utils/qemu-ts');
 			docker.expectGetInfo({ OperatingSystem: 'balenaOS 2.44.0+rev1' });
 			await testDockerBuildStream({
 				commandLine: `build ${projectPath} --emulated --deviceType ${deviceType} --arch ${arch}`,
