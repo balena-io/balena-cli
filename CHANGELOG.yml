@@ -1,4 +1,14 @@
 - commits:
+    - subject: Convert qemu.js to typescript
+      hash: 52bece7f17c9f4e49add600eba386b4ae4b37cc3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.32.9
+  date: 2020-05-01T11:15:28.916Z
+- commits:
     - subject: Enforce lazy loading via tslint import-blacklist
       hash: 0df6368ab94667bce995f239290de3e5f347f865
       body: ''
@@ -7,7 +17,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.32.8
-  date: 2020-05-01T09:57:38.807Z
+  date: 2020-05-01T09:36:29.379Z
 - commits:
     - subject: Convert app commands to oclif
       hash: 3b519f02581d19cb48e2aaa3b1f3cadd1c007fab
