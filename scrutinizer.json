@@ -5,6 +5,36 @@
     {
       "commits": [
         {
+          "subject": "Refactor: move error related functions into error module",
+          "hash": "9b1c3c665b90f2f67af6342d8f0502f92fd0485d",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        },
+        {
+          "subject": "Refactor: use checkLoggedIn() instead of exitIfNotLoggedIn()",
+          "hash": "153cdf4bb08043d67debfa29c8864b32a1205e33",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.32.10",
+      "date": "2020-05-01T12:44:10.877Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert qemu.js to typescript",
           "hash": "52bece7f17c9f4e49add600eba386b4ae4b37cc3",
           "body": "",
@@ -11422,35 +11452,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-01T11:16:11Z",
+  "lastCommitDate": "2020-05-01T13:07:04Z",
   "latestRelease": {
-    "tagName": "v11.32.9",
+    "tagName": "v11.32.10",
     "asssets": [
       {
-        "name": "balena-cli-v11.32.9-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.9/balena-cli-v11.32.9-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.32.10-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.10/balena-cli-v11.32.10-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.9-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.9/balena-cli-v11.32.9-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.32.10-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.10/balena-cli-v11.32.10-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.32.9-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.9/balena-cli-v11.32.9-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.32.10-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.10/balena-cli-v11.32.10-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.9-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.9/balena-cli-v11.32.9-windows-x64-installer.exe"
+        "name": "balena-cli-v11.32.10-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.10/balena-cli-v11.32.10-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.32.9-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.9/balena-cli-v11.32.9-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.32.10-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.10/balena-cli-v11.32.10-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 273,
+    "numberOfIssues": 272,
     "latestIssues": [
       {
         "title": "Fatal error in , line 0",
@@ -11459,10 +11489,6 @@
       {
         "title": "`balena build` should infer architecture from device type",
         "url": "https://github.com/balena-io/balena-cli/issues/1795"
-      },
-      {
-        "title": "Errors refactor",
-        "url": "https://github.com/balena-io/balena-cli/pull/1791"
       },
       {
         "title": "Improve error boilerplate message",
@@ -11531,10 +11557,14 @@
       {
         "title": "Give a better error message on \"balena ssh\" when the keys don't match",
         "url": "https://github.com/balena-io/balena-cli/issues/1731"
+      },
+      {
+        "title": "Remove windows dns workaround in favour of single initial resolution.",
+        "url": "https://github.com/balena-io/balena-cli/issues/1727"
       }
     ]
   },
-  "version": "11.32.9",
+  "version": "11.32.10",
   "screenshot": null,
   "logo": null
 }
