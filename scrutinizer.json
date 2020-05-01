@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Modify oclif help to match balena conventions",
+          "hash": "52c2b041da70967617a0cef633df6d1affcce8c3",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.32.5",
+      "date": "2020-05-01T04:01:59.225Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert gulpfile.coffee to javascript",
           "hash": "ab526c9ed825e2b4a44a8280dc6f4bda1a023c0a",
           "body": "",
@@ -11105,12 +11123,12 @@
       "avatar": "https://avatars1.githubusercontent.com/u/6157842?v=4"
     },
     {
-      "username": "CameronDiver",
-      "avatar": "https://avatars0.githubusercontent.com/u/7694128?v=4"
-    },
-    {
       "username": "Page-",
       "avatar": "https://avatars3.githubusercontent.com/u/360115?v=4"
+    },
+    {
+      "username": "CameronDiver",
+      "avatar": "https://avatars0.githubusercontent.com/u/7694128?v=4"
     },
     {
       "username": "thgreasi",
@@ -11334,36 +11352,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-04-30T18:33:54Z",
+  "lastCommitDate": "2020-05-01T04:26:14Z",
   "latestRelease": {
-    "tagName": "v11.32.4",
+    "tagName": "v11.32.5",
     "asssets": [
       {
-        "name": "balena-cli-v11.32.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.4/balena-cli-v11.32.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.32.5-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.5/balena-cli-v11.32.5-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.4/balena-cli-v11.32.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.32.5-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.5/balena-cli-v11.32.5-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.32.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.4/balena-cli-v11.32.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.32.5-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.5/balena-cli-v11.32.5-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.4/balena-cli-v11.32.4-windows-x64-installer.exe"
+        "name": "balena-cli-v11.32.5-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.5/balena-cli-v11.32.5-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.32.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.4/balena-cli-v11.32.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.32.5-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.5/balena-cli-v11.32.5-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 278,
+    "numberOfIssues": 279,
     "latestIssues": [
+      {
+        "title": "Enforce lazy loading via tslint import-blacklist",
+        "url": "https://github.com/balena-io/balena-cli/pull/1798"
+      },
+      {
+        "title": "Convert qemu.js to typescript",
+        "url": "https://github.com/balena-io/balena-cli/pull/1797"
+      },
+      {
+        "title": "Fatal error in , line 0",
+        "url": "https://github.com/balena-io/balena-cli/issues/1796"
+      },
       {
         "title": "`balena build` should infer architecture from device type",
         "url": "https://github.com/balena-io/balena-cli/issues/1795"
@@ -11379,14 +11409,6 @@
       {
         "title": "Improve oclif missing argument/flag errors",
         "url": "https://github.com/balena-io/balena-cli/pull/1790"
-      },
-      {
-        "title": "Modify oclif help to remove COMMANDS section and match balena conventions.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1782"
-      },
-      {
-        "title": "Modify oclif help to match balena conventions",
-        "url": "https://github.com/balena-io/balena-cli/pull/1781"
       },
       {
         "title": "Improve error boilerplate message",
@@ -11439,14 +11461,10 @@
       {
         "title": "`balena api-key generate` throws BalenaNotLoggedIn error, when logged in",
         "url": "https://github.com/balena-io/balena-cli/issues/1748"
-      },
-      {
-        "title": "Preregistering an account does not appear to generate a network configuration",
-        "url": "https://github.com/balena-io/balena-cli/issues/1747"
       }
     ]
   },
-  "version": "11.32.4",
+  "version": "11.32.5",
   "screenshot": null,
   "logo": null
 }
