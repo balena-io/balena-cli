@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "Improve oclif missing argument/flag errors",
+          "hash": "2a8eb3a6ed2ce54c557831f0d3700b64dc4abb91",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Resolves": "#1776",
+            "resolves": "#1776",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.32.6",
+      "date": "2020-05-01T04:34:19.025Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Modify oclif help to match balena conventions",
           "hash": "52c2b041da70967617a0cef633df6d1affcce8c3",
           "body": "",
@@ -11352,35 +11372,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-01T04:26:14Z",
+  "lastCommitDate": "2020-05-01T05:26:26Z",
   "latestRelease": {
-    "tagName": "v11.32.5",
+    "tagName": "v11.32.6",
     "asssets": [
       {
-        "name": "balena-cli-v11.32.5-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.5/balena-cli-v11.32.5-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.32.6-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.6/balena-cli-v11.32.6-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.5-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.5/balena-cli-v11.32.5-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.32.6-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.6/balena-cli-v11.32.6-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.32.5-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.5/balena-cli-v11.32.5-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.32.6-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.6/balena-cli-v11.32.6-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.5-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.5/balena-cli-v11.32.5-windows-x64-installer.exe"
+        "name": "balena-cli-v11.32.6-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.6/balena-cli-v11.32.6-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.32.5-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.5/balena-cli-v11.32.5-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.32.6-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.6/balena-cli-v11.32.6-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 279,
+    "numberOfIssues": 277,
     "latestIssues": [
       {
         "title": "Enforce lazy loading via tslint import-blacklist",
@@ -11407,20 +11427,12 @@
         "url": "https://github.com/balena-io/balena-cli/pull/1791"
       },
       {
-        "title": "Improve oclif missing argument/flag errors",
-        "url": "https://github.com/balena-io/balena-cli/pull/1790"
-      },
-      {
         "title": "Improve error boilerplate message",
         "url": "https://github.com/balena-io/balena-cli/issues/1779"
       },
       {
         "title": "Partial inclusion of stack trace in unexpected errors, even when not in debug mode",
         "url": "https://github.com/balena-io/balena-cli/issues/1778"
-      },
-      {
-        "title": "Modify oclif missing parameter and missing flag errors.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1776"
       },
       {
         "title": "'balena login' web authorization fails silently if another process is listening on port 8989",
@@ -11461,10 +11473,18 @@
       {
         "title": "`balena api-key generate` throws BalenaNotLoggedIn error, when logged in",
         "url": "https://github.com/balena-io/balena-cli/issues/1748"
+      },
+      {
+        "title": "Preregistering an account does not appear to generate a network configuration",
+        "url": "https://github.com/balena-io/balena-cli/issues/1747"
+      },
+      {
+        "title": "os download: Allow not logged in users to download images",
+        "url": "https://github.com/balena-io/balena-cli/pull/1743"
       }
     ]
   },
-  "version": "11.32.5",
+  "version": "11.32.6",
   "screenshot": null,
   "logo": null
 }

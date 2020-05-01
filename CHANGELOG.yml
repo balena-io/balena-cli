@@ -1,4 +1,18 @@
 - commits:
+    - subject: Improve oclif missing argument/flag errors
+      hash: 2a8eb3a6ed2ce54c557831f0d3700b64dc4abb91
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#1776'
+        resolves: '#1776'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.32.6
+  date: 2020-05-01T05:25:26.397Z
+- commits:
     - subject: Modify oclif help to match balena conventions
       hash: 52c2b041da70967617a0cef633df6d1affcce8c3
       body: ''
@@ -9,7 +23,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.32.5
-  date: 2020-05-01T04:25:17.139Z
+  date: 2020-05-01T04:01:59.225Z
 - commits:
     - subject: Convert gulpfile.coffee to javascript
       hash: ab526c9ed825e2b4a44a8280dc6f4bda1a023c0a
