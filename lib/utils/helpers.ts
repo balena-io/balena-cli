@@ -143,9 +143,9 @@ export async function osProgressHandler(step: InitializeEmitter) {
 	});
 }
 
-export function getArchAndDeviceType(
+export function getAppWithArch(
 	applicationName: string,
-): Bluebird<{ arch: string; device_type: string }> {
+): Bluebird<BalenaSdk.Application & { arch: string }> {
 	return Bluebird.join(
 		getApplication(applicationName),
 		getBalenaSdk().models.config.getDeviceTypes(),
@@ -158,12 +158,12 @@ export function getArchAndDeviceType(
 				throw new Error('Could not read application information!');
 			}
 
-			return { device_type: app.device_type, arch: config.arch };
+			return { ...app, arch: config.arch };
 		},
 	);
 }
 
-export function getApplication(applicationName: string) {
+function getApplication(applicationName: string) {
 	// Check for an app of the form `user/application`, and send
 	// that off to a special handler (before importing any modules)
 	const match = applicationName.split('/');
