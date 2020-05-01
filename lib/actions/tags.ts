@@ -60,7 +60,7 @@ export const list: CommandDefinition<
 		const _ = await import('lodash');
 		const balena = getBalenaSdk();
 
-		const { exitWithExpectedError } = await import('../utils/patterns');
+		const { exitWithExpectedError } = await import('../errors');
 
 		return Bluebird.try<ApplicationTag[] | DeviceTag[] | ReleaseTag[]>(
 			async () => {
@@ -161,7 +161,7 @@ export const set: CommandDefinition<
 		const _ = await import('lodash');
 		const balena = getBalenaSdk();
 
-		const { exitWithExpectedError } = await import('../utils/patterns');
+		const { exitWithExpectedError } = await import('../errors');
 
 		if (_.isEmpty(params.tagKey)) {
 			return exitWithExpectedError('No tag key was provided');
@@ -250,7 +250,7 @@ export const remove: CommandDefinition<
 	async action(params, options) {
 		const _ = await import('lodash');
 		const balena = getBalenaSdk();
-		const { exitWithExpectedError } = await import('../utils/patterns');
+		const { exitWithExpectedError } = await import('../errors');
 
 		if (_.isEmpty(params.tagKey)) {
 			return exitWithExpectedError('No tag key was provided');

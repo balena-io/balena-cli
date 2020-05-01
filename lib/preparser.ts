@@ -16,7 +16,7 @@
  */
 import { stripIndent } from 'common-tags';
 
-import { exitWithExpectedError } from './utils/patterns';
+import { exitWithExpectedError } from './errors';
 
 export interface AppOptions {
 	// Prevent the default behavior of flushing stdout after running a command

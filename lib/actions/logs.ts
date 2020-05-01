@@ -91,9 +91,8 @@ export const logs: CommandDefinition<
 			'../utils/device/logs'
 		);
 		const { validateIPAddress } = await import('../utils/validation');
-		const { exitIfNotLoggedIn, exitWithExpectedError } = await import(
-			'../utils/patterns'
-		);
+		const { checkLoggedIn } = await import('../utils/patterns');
+		const { exitWithExpectedError } = await import('../errors');
 		const Logger = await import('../utils/logger');
 
 		const logger = Logger.getLogger();
@@ -152,7 +151,7 @@ export const logs: CommandDefinition<
 				servicesToDisplay,
 			);
 		} else {
-			await exitIfNotLoggedIn();
+			await checkLoggedIn();
 			if (options.tail) {
 				return balena.logs
 					.subscribe(params.uuidOrDevice, { count: 100 })

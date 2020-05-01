@@ -17,7 +17,7 @@
 import * as BalenaSdk from 'balena-sdk';
 import { stripIndent } from 'common-tags';
 
-import { ExpectedError } from '../errors';
+import { ExpectedError, printErrorMessage } from '../errors';
 import { getVisuals } from './lazy';
 import Logger = require('./logger');
 import { exec, execBuffered, getDeviceOsRelease } from './ssh';
@@ -325,7 +325,6 @@ async function createApplication(
 ): Promise<BalenaSdk.Application> {
 	const form = await import('resin-cli-form');
 	const validation = await import('./validation');
-	const patterns = await import('./patterns');
 
 	let username = await sdk.auth.whoami();
 	if (!username) {
@@ -352,7 +351,9 @@ async function createApplication(
 							],
 						},
 					});
-					patterns.printErrorMessage(
+					// TODO: This is the only example in the codebase where `printErrorMessage()`
+					//  is called directly.  Consider refactoring.
+					printErrorMessage(
 						'You already have an application with that name; please choose another.',
 					);
 					continue;

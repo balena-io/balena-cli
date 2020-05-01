@@ -24,7 +24,7 @@ import streamToPromise = require('stream-to-promise');
 import { Pack } from 'tar-stream';
 
 import { ExpectedError } from '../errors';
-import { exitWithExpectedError } from '../utils/patterns';
+import { exitWithExpectedError } from '../errors';
 import { tarDirectory } from './compose';
 import { getVisuals } from './lazy';
 import Logger = require('./logger');
