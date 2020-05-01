@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Enforce lazy loading via tslint import-blacklist",
+          "hash": "0df6368ab94667bce995f239290de3e5f347f865",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.32.8",
+      "date": "2020-05-01T09:36:29.379Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert app commands to oclif",
           "hash": "3b519f02581d19cb48e2aaa3b1f3cadd1c007fab",
           "body": "",
@@ -11390,40 +11406,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-01T08:25:23Z",
+  "lastCommitDate": "2020-05-01T09:58:14Z",
   "latestRelease": {
-    "tagName": "v11.32.7",
+    "tagName": "v11.32.8",
     "asssets": [
       {
-        "name": "balena-cli-v11.32.7-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.7/balena-cli-v11.32.7-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.32.8-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.8/balena-cli-v11.32.8-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.7-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.7/balena-cli-v11.32.7-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.32.8-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.8/balena-cli-v11.32.8-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.32.7-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.7/balena-cli-v11.32.7-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.32.8-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.8/balena-cli-v11.32.8-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.7-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.7/balena-cli-v11.32.7-windows-x64-installer.exe"
+        "name": "balena-cli-v11.32.8-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.8/balena-cli-v11.32.8-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.32.7-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.7/balena-cli-v11.32.7-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.32.8-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.8/balena-cli-v11.32.8-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 276,
+    "numberOfIssues": 274,
     "latestIssues": [
-      {
-        "title": "Enforce lazy loading via tslint import-blacklist",
-        "url": "https://github.com/balena-io/balena-cli/pull/1798"
-      },
       {
         "title": "Convert qemu.js to typescript",
         "url": "https://github.com/balena-io/balena-cli/pull/1797"
@@ -11435,10 +11447,6 @@
       {
         "title": "`balena build` should infer architecture from device type",
         "url": "https://github.com/balena-io/balena-cli/issues/1795"
-      },
-      {
-        "title": "`balena devices supported` is undocumented",
-        "url": "https://github.com/balena-io/balena-cli/issues/1794"
       },
       {
         "title": "Errors refactor",
@@ -11499,10 +11507,18 @@
       {
         "title": "Update balena-sdk to v13.2.2",
         "url": "https://github.com/balena-io/balena-cli/pull/1742"
+      },
+      {
+        "title": "`resin-release` package should be replaced with `balena-release`",
+        "url": "https://github.com/balena-io/balena-cli/issues/1741"
+      },
+      {
+        "title": "Balena push build fails quietly on node13 but only for Multi-container builds",
+        "url": "https://github.com/balena-io/balena-cli/issues/1733"
       }
     ]
   },
-  "version": "11.32.7",
+  "version": "11.32.8",
   "screenshot": null,
   "logo": null
 }

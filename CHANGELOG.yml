@@ -1,4 +1,14 @@
 - commits:
+    - subject: Enforce lazy loading via tslint import-blacklist
+      hash: 0df6368ab94667bce995f239290de3e5f347f865
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.32.8
+  date: 2020-05-01T09:57:38.807Z
+- commits:
     - subject: Convert app commands to oclif
       hash: 3b519f02581d19cb48e2aaa3b1f3cadd1c007fab
       body: ''
@@ -9,7 +19,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.32.7
-  date: 2020-05-01T08:24:26.754Z
+  date: 2020-05-01T06:52:04.516Z
 - commits:
     - subject: Improve oclif missing argument/flag errors
       hash: 2a8eb3a6ed2ce54c557831f0d3700b64dc4abb91
