@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+// tslint:disable:import-blacklist - the import blacklist is to enforce lazy loading so exempt this file
+
 import * as BalenaSdk from 'balena-sdk';
 import { Chalk } from 'chalk';
 import * as visuals from 'resin-cli-visuals';
