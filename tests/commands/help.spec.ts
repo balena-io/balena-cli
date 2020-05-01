@@ -18,7 +18,7 @@ Primary commands:
     logs <uuidOrDevice>                     show device logs
     ssh <applicationOrDevice> [serviceName] SSH into the host or application container of a device
     apps                                    list all applications
-    app <name>                              list a single application
+    app <name>                              display information about a single application
     devices                                 list all devices
     device <uuid>                           list a single device
     tunnel <deviceOrApplication>            Tunnel local ports to your balenaOS device

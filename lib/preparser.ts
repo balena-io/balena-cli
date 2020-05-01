@@ -133,6 +133,11 @@ function checkDeletedCommand(argvSlice: string[]): void {
 }
 
 export const convertedCommands = [
+	'app',
+	'app:create',
+	'app:restart',
+	'app:rm',
+	'apps',
 	'devices:supported',
 	'envs',
 	'env:add',

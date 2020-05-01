@@ -36,7 +36,13 @@ const capitanoDoc = {
 		},
 		{
 			title: 'Application',
-			files: ['build/actions/app.js'],
+			files: [
+				'build/actions-oclif/apps.js',
+				'build/actions-oclif/app/index.js',
+				'build/actions-oclif/app/create.js',
+				'build/actions-oclif/app/rm.js',
+				'build/actions-oclif/app/restart.js',
+			],
 		},
 		{
 			title: 'Authentication',

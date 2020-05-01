@@ -15,7 +15,6 @@ limitations under the License.
 */
 
 import * as apiKey from './api-key';
-import * as app from './app';
 import * as auth from './auth';
 import * as config from './config';
 import * as device from './device';
@@ -31,7 +30,6 @@ import * as util from './util';
 
 export {
 	apiKey,
-	app,
 	auth,
 	device,
 	tags,
