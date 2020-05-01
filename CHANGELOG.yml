@@ -1,4 +1,14 @@
 - commits:
+    - subject: Avoid unnecessary api calls in `balena build` and `balena deploy`
+      hash: 2f24e591efcf5bd9b16db813f7801af415fca04d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.32.11
+  date: 2020-05-01T16:30:59.453Z
+- commits:
     - subject: 'Refactor: move error related functions into error module'
       hash: 9b1c3c665b90f2f67af6342d8f0502f92fd0485d
       body: ''
@@ -18,7 +28,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.32.10
-  date: 2020-05-01T13:06:28.592Z
+  date: 2020-05-01T12:44:10.877Z
 - commits:
     - subject: Convert qemu.js to typescript
       hash: 52bece7f17c9f4e49add600eba386b4ae4b37cc3

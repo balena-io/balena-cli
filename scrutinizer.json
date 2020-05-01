@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Avoid unnecessary api calls in `balena build` and `balena deploy`",
+          "hash": "2f24e591efcf5bd9b16db813f7801af415fca04d",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.32.11",
+      "date": "2020-05-01T15:01:59.219Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Refactor: move error related functions into error module",
           "hash": "9b1c3c665b90f2f67af6342d8f0502f92fd0485d",
           "body": "",
@@ -11452,29 +11468,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-01T13:07:04Z",
+  "lastCommitDate": "2020-05-01T16:31:39Z",
   "latestRelease": {
-    "tagName": "v11.32.10",
+    "tagName": "v11.32.11",
     "asssets": [
       {
-        "name": "balena-cli-v11.32.10-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.10/balena-cli-v11.32.10-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.32.11-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.11/balena-cli-v11.32.11-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.10-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.10/balena-cli-v11.32.10-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.32.11-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.11/balena-cli-v11.32.11-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.32.10-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.10/balena-cli-v11.32.10-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.32.11-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.11/balena-cli-v11.32.11-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.10-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.10/balena-cli-v11.32.10-windows-x64-installer.exe"
+        "name": "balena-cli-v11.32.11-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.11/balena-cli-v11.32.11-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.32.10-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.10/balena-cli-v11.32.10-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.32.11-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.11/balena-cli-v11.32.11-windows-x64-standalone.zip"
       }
     ]
   },
@@ -11564,7 +11580,7 @@
       }
     ]
   },
-  "version": "11.32.10",
+  "version": "11.32.11",
   "screenshot": null,
   "logo": null
 }
