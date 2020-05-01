@@ -4,12 +4,6 @@ import { cleanOutput, runCommand } from '../helpers';
 const SIMPLE_HELP = `
 Usage: balena [COMMAND] [OPTIONS]
 
-If you need help, or just want to say hi, don't hesitate in reaching out
-through our discussion and support forums at https://forums.balena.io
-
-For bug reports or feature requests, have a look at the GitHub issues or
-create a new one at: https://github.com/balena-io/balena-cli/issues/
-
 Primary commands:
 
     help [command...]                       show help
@@ -84,33 +78,33 @@ Additional commands:
 
 `;
 
+const LIST_ADDITIONAL = `
+Run \`balena help --verbose\` to list additional commands
+`;
+
 const GLOBAL_OPTIONS = `
 	Global Options:
 
 		--help, -h
 		--version, -v
+		--debug
+`;
+
+const ONLINE_RESOURCES = `
+      For help, visit our support forums: https://forums.balena.io
+      For bug reports or feature requests, see: https://github.com/balena-io/balena-cli/issues/
 `;
 
 describe('balena help', function() {
 	it('should list primary command summaries', async () => {
 		const { out, err } = await runCommand('help');
 
-		console.log('ONE');
-		console.log(cleanOutput(out));
-		console.log(
-			cleanOutput([
-				SIMPLE_HELP,
-				'Run `balena help --verbose` to list additional commands',
-				GLOBAL_OPTIONS,
-			]),
-		);
-		console.log();
-
 		expect(cleanOutput(out)).to.deep.equal(
 			cleanOutput([
 				SIMPLE_HELP,
-				'Run `balena help --verbose` to list additional commands',
+				LIST_ADDITIONAL,
 				GLOBAL_OPTIONS,
+				ONLINE_RESOURCES,
 			]),
 		);
 
@@ -121,7 +115,12 @@ describe('balena help', function() {
 		const { out, err } = await runCommand('help -v');
 
 		expect(cleanOutput(out)).to.deep.equal(
-			cleanOutput([SIMPLE_HELP, ADDITIONAL_HELP, GLOBAL_OPTIONS]),
+			cleanOutput([
+				SIMPLE_HELP,
+				ADDITIONAL_HELP,
+				GLOBAL_OPTIONS,
+				ONLINE_RESOURCES,
+			]),
 		);
 
 		expect(err.join('')).to.equal('');
@@ -135,8 +134,9 @@ describe('balena help', function() {
 		expect(cleanOutput(out)).to.deep.equal(
 			cleanOutput([
 				SIMPLE_HELP,
-				'Run `balena help --verbose` to list additional commands',
+				LIST_ADDITIONAL,
 				GLOBAL_OPTIONS,
+				ONLINE_RESOURCES,
 			]),
 		);
 
