@@ -61,6 +61,9 @@ export async function routeCliFramework(argv: string[], options: AppOptions) {
 		}
 	}
 
+	const Logger = await import('./utils/logger');
+	Logger.command = cmdSlice[0];
+
 	const [isOclif, isTopic] = isOclifCommand(cmdSlice);
 
 	if (isOclif) {
@@ -68,6 +71,7 @@ export async function routeCliFramework(argv: string[], options: AppOptions) {
 		if (isTopic) {
 			// convert space-separated commands to oclif's topic:command syntax
 			oclifArgs = [cmdSlice[0] + ':' + cmdSlice[1], ...cmdSlice.slice(2)];
+			Logger.command = `${cmdSlice[0]} ${cmdSlice[1]}`;
 		}
 		if (process.env.DEBUG) {
 			console.log(

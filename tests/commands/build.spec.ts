@@ -25,14 +25,13 @@ import { fs } from 'mz';
 import * as path from 'path';
 
 import { BalenaAPIMock } from '../balena-api-mock';
+import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
+import { DockerMock, dockerResponsePath } from '../docker-mock';
+import { cleanOutput, runCommand } from '../helpers';
 import {
 	ExpectedTarStreamFiles,
 	ExpectedTarStreamFilesByService,
-	expectStreamNoCRLF,
-	testDockerBuildStream,
-} from '../docker-build';
-import { DockerMock, dockerResponsePath } from '../docker-mock';
-import { cleanOutput, runCommand } from '../helpers';
+} from '../projects';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
@@ -50,6 +49,15 @@ const commonResponseLines: { [key: string]: string[] } = {
 const commonQueryParams = [
 	['t', '${tag}'],
 	['buildargs', '{}'],
+	['labels', ''],
+];
+
+const commonComposeQueryParams = [
+	['t', '${tag}'],
+	[
+		'buildargs',
+		'{"MY_VAR_1":"This is a variable","MY_VAR_2":"Also a variable"}',
+	],
 	['labels', ''],
 ];
 
@@ -104,7 +112,7 @@ describe('balena build', function() {
 		}
 		docker.expectGetInfo({});
 		await testDockerBuildStream({
-			commandLine: `build ${projectPath} --deviceType nuc --arch amd64`,
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 -G`,
 			dockerMock: docker,
 			expectedFilesByService: { main: expectedFiles },
 			expectedQueryParamsByService: { main: commonQueryParams },
@@ -178,7 +186,7 @@ describe('balena build', function() {
 			mock.reRequire('../../build/utils/qemu');
 			docker.expectGetInfo({ OperatingSystem: 'balenaOS 2.44.0+rev1' });
 			await testDockerBuildStream({
-				commandLine: `build ${projectPath} --emulated --deviceType ${deviceType} --arch ${arch}`,
+				commandLine: `build ${projectPath} --emulated --deviceType ${deviceType} --arch ${arch} --nogitignore`,
 				dockerMock: docker,
 				expectedFilesByService: { main: expectedFiles },
 				expectedQueryParamsByService: { main: commonQueryParams },
@@ -273,8 +281,15 @@ describe('balena build', function() {
 			'utf8',
 		);
 		const expectedQueryParamsByService = {
-			service1: commonQueryParams,
-			service2: [...commonQueryParams, ['dockerfile', 'Dockerfile-alt']],
+			service1: [
+				['t', '${tag}'],
+				[
+					'buildargs',
+					'{"MY_VAR_1":"This is a variable","MY_VAR_2":"Also a variable","SERVICE1_VAR":"This is a service specific variable"}',
+				],
+				['labels', ''],
+			],
+			service2: [...commonComposeQueryParams, ['dockerfile', 'Dockerfile-alt']],
 		};
 		const expectedResponseLines: string[] = [
 			...commonResponseLines[responseFilename],
@@ -292,7 +307,7 @@ describe('balena build', function() {
 		}
 		docker.expectGetInfo({});
 		await testDockerBuildStream({
-			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol`,
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol -G`,
 			dockerMock: docker,
 			expectedFilesByService,
 			expectedQueryParamsByService,

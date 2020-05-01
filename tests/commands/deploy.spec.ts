@@ -23,9 +23,10 @@ import { fs } from 'mz';
 import * as path from 'path';
 
 import { BalenaAPIMock } from '../balena-api-mock';
-import { ExpectedTarStreamFiles, testDockerBuildStream } from '../docker-build';
+import { testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../docker-mock';
 import { cleanOutput, runCommand } from '../helpers';
+import { ExpectedTarStreamFiles } from '../projects';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
@@ -119,7 +120,7 @@ describe('balena deploy', function() {
 		}
 
 		await testDockerBuildStream({
-			commandLine: `deploy testApp --build --source ${projectPath}`,
+			commandLine: `deploy testApp --build --source ${projectPath} -G`,
 			dockerMock: docker,
 			expectedFilesByService: { main: expectedFiles },
 			expectedQueryParamsByService: { main: commonQueryParams },

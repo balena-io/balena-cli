@@ -56,6 +56,7 @@ export interface DeviceDeployOptions {
 	dockerfilePath?: string;
 	registrySecrets: RegistrySecrets;
 	nocache: boolean;
+	nogitignore: boolean;
 	noParentCheck: boolean;
 	nolive: boolean;
 	detached: boolean;
@@ -186,6 +187,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	globalLogger.logDebug('Tarring all non-ignored files...');
 	const tarStream = await tarDirectory(opts.source, {
 		convertEol: opts.convertEol,
+		nogitignore: opts.nogitignore,
 	});
 
 	// Try to detect the device information
@@ -400,7 +402,10 @@ export async function rebuildSingleTask(
 		}
 	};
 
-	const tarStream = await tarDirectory(source);
+	const tarStream = await tarDirectory(source, {
+		convertEol: opts.convertEol,
+		nogitignore: opts.nogitignore,
+	});
 
 	const task = _.find(
 		await makeBuildTasks(

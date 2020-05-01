@@ -41,6 +41,7 @@ export interface ComposeProject {
 }
 
 interface TarDirectoryOptions {
-	preFinalizeCallback?: (pack: Pack) => void;
 	convertEol?: boolean;
+	preFinalizeCallback?: (pack: Pack) => void | Promise<void>;
+	nogitignore: boolean;
 }

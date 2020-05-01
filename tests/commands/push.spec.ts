@@ -24,12 +24,13 @@ import * as path from 'path';
 
 import { BalenaAPIMock } from '../balena-api-mock';
 import { BuilderMock, builderResponsePath } from '../builder-mock';
-import {
-	ExpectedTarStreamFiles,
-	expectStreamNoCRLF,
-	testPushBuildStream,
-} from '../docker-build';
+import { expectStreamNoCRLF, testPushBuildStream } from '../docker-build';
 import { cleanOutput, runCommand } from '../helpers';
+import {
+	addRegSecretsEntries,
+	ExpectedTarStreamFiles,
+	setupDockerignoreTestData,
+} from '../projects';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
@@ -76,6 +77,8 @@ const commonQueryParams = [
 	['headless', 'false'],
 ];
 
+const itSkipWindows = process.platform === 'win32' ? it.skip : it;
+
 describe('balena push', function() {
 	let api: BalenaAPIMock;
 	let builder: BuilderMock;
@@ -95,6 +98,14 @@ describe('balena push', function() {
 		builder.done();
 	});
 
+	this.beforeAll(async () => {
+		await setupDockerignoreTestData();
+	});
+
+	this.afterAll(async () => {
+		await setupDockerignoreTestData({ cleanup: true });
+	});
+
 	it('should create the expected tar stream (single container)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
 		const expectedFiles: ExpectedTarStreamFiles = {
@@ -103,6 +114,7 @@ describe('balena push', function() {
 			Dockerfile: { fileSize: 88, type: 'file' },
 			'Dockerfile-alt': { fileSize: 30, type: 'file' },
 		};
+		const regSecretsPath = await addRegSecretsEntries(expectedFiles);
 		const responseFilename = 'build-POST-v3.json';
 		const responseBody = await fs.readFile(
 			path.join(builderResponsePath, responseFilename),
@@ -122,7 +134,7 @@ describe('balena push', function() {
 
 		await testPushBuildStream({
 			builderMock: builder,
-			commandLine: `push testApp --source ${projectPath}`,
+			commandLine: `push testApp --source ${projectPath} -R ${regSecretsPath} -G`,
 			expectedFiles,
 			expectedQueryParams: commonQueryParams,
 			expectedResponseLines,
@@ -140,6 +152,7 @@ describe('balena push', function() {
 			Dockerfile: { fileSize: 88, type: 'file' },
 			'Dockerfile-alt': { fileSize: 30, type: 'file' },
 		};
+		const regSecretsPath = await addRegSecretsEntries(expectedFiles);
 		const responseFilename = 'build-POST-v3.json';
 		const responseBody = await fs.readFile(
 			path.join(builderResponsePath, responseFilename),
@@ -151,7 +164,7 @@ describe('balena push', function() {
 
 		await testPushBuildStream({
 			builderMock: builder,
-			commandLine: `push testApp --source ${projectPath} --dockerfile Dockerfile-alt`,
+			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} --dockerfile Dockerfile-alt --nogitignore`,
 			expectedFiles,
 			expectedQueryParams,
 			expectedResponseLines: commonResponseLines[responseFilename],
@@ -173,6 +186,7 @@ describe('balena push', function() {
 			Dockerfile: { fileSize: 88, type: 'file' },
 			'Dockerfile-alt': { fileSize: 30, type: 'file' },
 		};
+		const regSecretsPath = await addRegSecretsEntries(expectedFiles);
 		const responseFilename = 'build-POST-v3.json';
 		const responseBody = await fs.readFile(
 			path.join(builderResponsePath, responseFilename),
@@ -191,7 +205,182 @@ describe('balena push', function() {
 
 		await testPushBuildStream({
 			builderMock: builder,
-			commandLine: `push testApp --source ${projectPath} --convert-eol`,
+			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -l`,
+			expectedFiles,
+			expectedQueryParams: commonQueryParams,
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+		});
+	});
+
+	// Skip Windows because the old tarDirectory() implementation (still used when
+	// '--nogitignore' is not provided) uses the old `zeit/dockerignore` npm package
+	// that is broken on Windows (reason why we created `@balena/dockerignore`).
+	itSkipWindows(
+		'should create the expected tar stream (single container, with gitignore)',
+		async () => {
+			const projectPath = path.join(
+				projectsPath,
+				'no-docker-compose',
+				'dockerignore1',
+			);
+			const expectedFiles: ExpectedTarStreamFiles = {
+				'.balena/balena.yml': { fileSize: 12, type: 'file' },
+				'.dockerignore': { fileSize: 438, type: 'file' },
+				'.gitignore': { fileSize: 20, type: 'file' },
+				'.git/bar.txt': { fileSize: 4, type: 'file' },
+				'.git/foo.txt': { fileSize: 4, type: 'file' },
+				'c.txt': { fileSize: 1, type: 'file' },
+				Dockerfile: { fileSize: 13, type: 'file' },
+				'src/.balena/balena.yml': { fileSize: 16, type: 'file' },
+				'src/.gitignore': { fileSize: 10, type: 'file' },
+				'vendor/.git/vendor-git-contents': { fileSize: 20, type: 'file' },
+			};
+			const regSecretsPath = await addRegSecretsEntries(expectedFiles);
+			const responseFilename = 'build-POST-v3.json';
+			const responseBody = await fs.readFile(
+				path.join(builderResponsePath, responseFilename),
+				'utf8',
+			);
+			const expectedResponseLines = [
+				'[Warn] Using file ignore patterns from:',
+				`[Warn] ${path.join(projectPath, '.dockerignore')}`,
+				`[Warn] ${path.join(projectPath, '.gitignore')}`,
+				`[Warn] ${path.join(projectPath, 'src', '.gitignore')}`,
+				'[Warn] balena CLI currently uses gitgnore and dockerignore files, but an upcoming major',
+				'[Warn] version release will disregard gitignore files and use a dockerignore file only.',
+				'[Warn] Use the --nogitignore (-G) option to enable the new behavior already now and',
+				"[Warn] suppress this warning. For more information, see 'balena help push'.",
+				...commonResponseLines[responseFilename],
+			];
+
+			await testPushBuildStream({
+				builderMock: builder,
+				commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -l`,
+				expectedFiles,
+				expectedQueryParams: commonQueryParams,
+				expectedResponseLines,
+				projectPath,
+				responseBody,
+				responseCode: 200,
+			});
+		},
+	);
+
+	it('should create the expected tar stream (single container, --nogitignore)', async () => {
+		const projectPath = path.join(
+			projectsPath,
+			'no-docker-compose',
+			'dockerignore1',
+		);
+		const expectedFiles: ExpectedTarStreamFiles = {
+			'.balena/balena.yml': { fileSize: 12, type: 'file' },
+			'.dockerignore': { fileSize: 438, type: 'file' },
+			'.gitignore': { fileSize: 20, type: 'file' },
+			'.git/foo.txt': { fileSize: 4, type: 'file' },
+			'a.txt': { fileSize: 1, type: 'file' },
+			'c.txt': { fileSize: 1, type: 'file' },
+			Dockerfile: { fileSize: 13, type: 'file' },
+			'src/.balena/balena.yml': { fileSize: 16, type: 'file' },
+			'src/.gitignore': { fileSize: 10, type: 'file' },
+			'src/src-a.txt': { fileSize: 5, type: 'file' },
+			'src/src-c.txt': { fileSize: 5, type: 'file' },
+			'vendor/.git/vendor-git-contents': { fileSize: 20, type: 'file' },
+		};
+		const regSecretsPath = await addRegSecretsEntries(expectedFiles);
+		const responseFilename = 'build-POST-v3.json';
+		const responseBody = await fs.readFile(
+			path.join(builderResponsePath, responseFilename),
+			'utf8',
+		);
+
+		await testPushBuildStream({
+			builderMock: builder,
+			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -l -G`,
+			expectedFiles,
+			expectedQueryParams: commonQueryParams,
+			expectedResponseLines: commonResponseLines[responseFilename],
+			projectPath,
+			responseBody,
+			responseCode: 200,
+		});
+	});
+
+	it('should create the expected tar stream (single container, symbolic links, --nogitignore)', async () => {
+		const projectPath = path.join(
+			projectsPath,
+			'no-docker-compose',
+			'dockerignore2',
+		);
+		const expectedFiles: ExpectedTarStreamFiles = {
+			'.dockerignore': { fileSize: 34, type: 'file' },
+			'b.txt': { fileSize: 1, type: 'file' },
+			Dockerfile: { fileSize: 13, type: 'file' },
+			'src/src-b.txt': { fileSize: 5, type: 'file' },
+			'symlink-a.txt': { fileSize: 5, type: 'file' },
+		};
+		const regSecretsPath = await addRegSecretsEntries(expectedFiles);
+		const responseFilename = 'build-POST-v3.json';
+		const responseBody = await fs.readFile(
+			path.join(builderResponsePath, responseFilename),
+			'utf8',
+		);
+
+		await testPushBuildStream({
+			builderMock: builder,
+			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -l -G`,
+			expectedFiles,
+			expectedQueryParams: commonQueryParams,
+			expectedResponseLines: commonResponseLines[responseFilename],
+			projectPath,
+			responseBody,
+			responseCode: 200,
+		});
+	});
+
+	it('should create the expected tar stream (single container, dockerignore warn)', async () => {
+		const projectPath = path.join(
+			projectsPath,
+			'no-docker-compose',
+			'dockerignore2',
+		);
+		const expectedFiles: ExpectedTarStreamFiles = {
+			'.dockerignore': { fileSize: 34, type: 'file' },
+			'b.txt': { fileSize: 1, type: 'file' },
+			Dockerfile: { fileSize: 13, type: 'file' },
+			'src/src-b.txt': { fileSize: 5, type: 'file' },
+			'symlink-a.txt': { fileSize: 5, type: 'file' },
+		};
+		if (isWindows) {
+			// this test uses the old tarDirectory implementation, which uses
+			// the zeit/dockerignore library that has bugs on Windows
+			expectedFiles['src/src-a.txt'] = { fileSize: 5, type: 'file' };
+		}
+		const regSecretsPath = await addRegSecretsEntries(expectedFiles);
+		const responseFilename = 'build-POST-v3.json';
+		const responseBody = await fs.readFile(
+			path.join(builderResponsePath, responseFilename),
+			'utf8',
+		);
+		const expectedResponseLines = isWindows
+			? [
+					'[Warn] Using file ignore patterns from:',
+					`[Warn] ${path.join(projectPath, '.dockerignore')}`,
+					'[Warn] Use the --nogitignore (-G) option to suppress this warning and enable the use',
+					'[Warn] of a better dockerignore parser and filter library that fixes several issues',
+					'[Warn] on Windows and improves compatibility with "docker build", but which may also',
+					'[Warn] cause a different set of files to be filtered out (because of the bug fixes).',
+					'[Warn] The --nogitignore option will be the default behavior in an upcoming balena CLI',
+					"[Warn] major version release. For more information, see 'balena help push'.",
+					...commonResponseLines[responseFilename],
+			  ]
+			: commonResponseLines[responseFilename];
+
+		await testPushBuildStream({
+			builderMock: builder,
+			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -l`,
 			expectedFiles,
 			expectedQueryParams: commonQueryParams,
 			expectedResponseLines,
@@ -204,6 +393,8 @@ describe('balena push', function() {
 	it('should create the expected tar stream (docker-compose)', async () => {
 		const projectPath = path.join(projectsPath, 'docker-compose', 'basic');
 		const expectedFiles: ExpectedTarStreamFiles = {
+			'.balena/balena.yml': { fileSize: 197, type: 'file' },
+			'.dockerignore': { fileSize: 22, type: 'file' },
 			'docker-compose.yml': { fileSize: 245, type: 'file' },
 			'service1/Dockerfile.template': { fileSize: 144, type: 'file' },
 			'service1/file1.sh': { fileSize: 12, type: 'file' },
@@ -214,6 +405,7 @@ describe('balena push', function() {
 				type: 'file',
 			},
 		};
+		const regSecretsPath = await addRegSecretsEntries(expectedFiles);
 		const responseFilename = 'build-POST-v3.json';
 		const responseBody = await fs.readFile(
 			path.join(builderResponsePath, responseFilename),
@@ -234,7 +426,7 @@ describe('balena push', function() {
 
 		await testPushBuildStream({
 			builderMock: builder,
-			commandLine: `push testApp --source ${projectPath} --convert-eol`,
+			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -l -G`,
 			expectedFiles,
 			expectedQueryParams: commonQueryParams,
 			expectedResponseLines,
@@ -258,7 +450,7 @@ describe('balena push: project validation', function() {
 		];
 
 		const { out, err } = await runCommand(
-			`push testApp --source ${projectPath}`,
+			`push testApp --source ${projectPath} --nogitignore`,
 		);
 		expect(
 			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
