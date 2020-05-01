@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'Refactor: move error related functions into error module'
+      hash: 9b1c3c665b90f2f67af6342d8f0502f92fd0485d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+    - subject: 'Refactor: use checkLoggedIn() instead of exitIfNotLoggedIn()'
+      hash: 153cdf4bb08043d67debfa29c8864b32a1205e33
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.32.10
+  date: 2020-05-01T12:44:10.877Z
+- commits:
     - subject: Convert qemu.js to typescript
       hash: 52bece7f17c9f4e49add600eba386b4ae4b37cc3
       body: ''
