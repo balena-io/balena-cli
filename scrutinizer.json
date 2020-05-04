@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Convert `balena api-key generate` to oclif",
+          "hash": "83286e672968c8c43111020bd90db0f7fb44b36b",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.32.13",
+      "date": "2020-05-04T11:54:18.605Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Configure the sentry command scope earlier",
           "hash": "1301f6298114dd71cb66950c561d8f23341ae12a",
           "body": "",
@@ -11484,29 +11502,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-04T10:15:15Z",
+  "lastCommitDate": "2020-05-04T12:19:27Z",
   "latestRelease": {
-    "tagName": "v11.32.12",
+    "tagName": "v11.32.13",
     "asssets": [
       {
-        "name": "balena-cli-v11.32.12-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.12/balena-cli-v11.32.12-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.32.13-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.13/balena-cli-v11.32.13-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.12-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.12/balena-cli-v11.32.12-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.32.13-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.13/balena-cli-v11.32.13-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.32.12-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.12/balena-cli-v11.32.12-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.32.13-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.13/balena-cli-v11.32.13-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.12-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.12/balena-cli-v11.32.12-windows-x64-installer.exe"
+        "name": "balena-cli-v11.32.13-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.13/balena-cli-v11.32.13-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.32.12-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.12/balena-cli-v11.32.12-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.32.13-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.13/balena-cli-v11.32.13-windows-x64-standalone.zip"
       }
     ]
   },
@@ -11514,6 +11532,10 @@
   "openIssues": {
     "numberOfIssues": 272,
     "latestIssues": [
+      {
+        "title": "Should have a deprecation policy",
+        "url": "https://github.com/balena-io/balena-cli/issues/1802"
+      },
       {
         "title": "A newline in ~/.balena/token will cause commands to fail",
         "url": "https://github.com/balena-io/balena-cli/issues/1800"
@@ -11559,10 +11581,6 @@
         "url": "https://github.com/balena-io/balena-cli/issues/1757"
       },
       {
-        "title": "Convert `balena api-key generate` to oclif",
-        "url": "https://github.com/balena-io/balena-cli/pull/1749"
-      },
-      {
         "title": "`balena api-key generate` throws BalenaNotLoggedIn error, when logged in",
         "url": "https://github.com/balena-io/balena-cli/issues/1748"
       },
@@ -11596,7 +11614,7 @@
       }
     ]
   },
-  "version": "11.32.12",
+  "version": "11.32.13",
   "screenshot": null,
   "logo": null
 }

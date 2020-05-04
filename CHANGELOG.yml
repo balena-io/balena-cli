@@ -1,4 +1,16 @@
 - commits:
+    - subject: Convert `balena api-key generate` to oclif
+      hash: 83286e672968c8c43111020bd90db0f7fb44b36b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.32.13
+  date: 2020-05-04T12:18:25.089Z
+- commits:
     - subject: Configure the sentry command scope earlier
       hash: 1301f6298114dd71cb66950c561d8f23341ae12a
       body: ''
@@ -7,7 +19,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.32.12
-  date: 2020-05-04T10:14:39.316Z
+  date: 2020-05-04T09:08:19.124Z
 - commits:
     - subject: Avoid unnecessary api calls in `balena build` and `balena deploy`
       hash: 2f24e591efcf5bd9b16db813f7801af415fca04d
