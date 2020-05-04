@@ -1,4 +1,14 @@
 - commits:
+    - subject: Configure the sentry command scope earlier
+      hash: 1301f6298114dd71cb66950c561d8f23341ae12a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.32.12
+  date: 2020-05-04T10:14:39.316Z
+- commits:
     - subject: Avoid unnecessary api calls in `balena build` and `balena deploy`
       hash: 2f24e591efcf5bd9b16db813f7801af415fca04d
       body: ''
@@ -7,7 +17,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.32.11
-  date: 2020-05-01T16:30:59.453Z
+  date: 2020-05-01T15:01:59.219Z
 - commits:
     - subject: 'Refactor: move error related functions into error module'
       hash: 9b1c3c665b90f2f67af6342d8f0502f92fd0485d

@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Configure the sentry command scope earlier",
+          "hash": "1301f6298114dd71cb66950c561d8f23341ae12a",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.32.12",
+      "date": "2020-05-04T09:08:19.124Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Avoid unnecessary api calls in `balena build` and `balena deploy`",
           "hash": "2f24e591efcf5bd9b16db813f7801af415fca04d",
           "body": "",
@@ -11366,7 +11382,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 235,
+  "stars": 236,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -11468,29 +11484,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-01T16:31:39Z",
+  "lastCommitDate": "2020-05-04T10:15:15Z",
   "latestRelease": {
-    "tagName": "v11.32.11",
+    "tagName": "v11.32.12",
     "asssets": [
       {
-        "name": "balena-cli-v11.32.11-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.11/balena-cli-v11.32.11-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.32.12-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.12/balena-cli-v11.32.12-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.11-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.11/balena-cli-v11.32.11-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.32.12-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.12/balena-cli-v11.32.12-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.32.11-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.11/balena-cli-v11.32.11-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.32.12-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.12/balena-cli-v11.32.12-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.11-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.11/balena-cli-v11.32.11-windows-x64-installer.exe"
+        "name": "balena-cli-v11.32.12-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.12/balena-cli-v11.32.12-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.32.11-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.11/balena-cli-v11.32.11-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.32.12-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.12/balena-cli-v11.32.12-windows-x64-standalone.zip"
       }
     ]
   },
@@ -11499,8 +11515,8 @@
     "numberOfIssues": 272,
     "latestIssues": [
       {
-        "title": "Fatal error in , line 0",
-        "url": "https://github.com/balena-io/balena-cli/issues/1796"
+        "title": "A newline in ~/.balena/token will cause commands to fail",
+        "url": "https://github.com/balena-io/balena-cli/issues/1800"
       },
       {
         "title": "`balena build` should infer architecture from device type",
@@ -11580,7 +11596,7 @@
       }
     ]
   },
-  "version": "11.32.11",
+  "version": "11.32.12",
   "screenshot": null,
   "logo": null
 }
