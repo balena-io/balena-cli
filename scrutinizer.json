@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Disable oclif's ts-node registering when running against built code",
+          "hash": "dd20a8b00fa195d34bf4e0305fef96e876851c21",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.32.14",
+      "date": "2020-05-04T14:11:56.748Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert `balena api-key generate` to oclif",
           "hash": "83286e672968c8c43111020bd90db0f7fb44b36b",
           "body": "",
@@ -11400,7 +11416,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 236,
+  "stars": 237,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -11502,36 +11518,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-04T12:19:27Z",
+  "lastCommitDate": "2020-05-04T14:51:13Z",
   "latestRelease": {
-    "tagName": "v11.32.13",
+    "tagName": "v11.32.14",
     "asssets": [
       {
-        "name": "balena-cli-v11.32.13-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.13/balena-cli-v11.32.13-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.32.14-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.14/balena-cli-v11.32.14-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.13-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.13/balena-cli-v11.32.13-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.32.14-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.14/balena-cli-v11.32.14-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.32.13-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.13/balena-cli-v11.32.13-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.32.14-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.14/balena-cli-v11.32.14-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.13-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.13/balena-cli-v11.32.13-windows-x64-installer.exe"
+        "name": "balena-cli-v11.32.14-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.14/balena-cli-v11.32.14-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.32.13-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.13/balena-cli-v11.32.13-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.32.14-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.14/balena-cli-v11.32.14-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 272,
+    "numberOfIssues": 273,
     "latestIssues": [
+      {
+        "title": "Cache username for a given auth to avoid fetching it every time",
+        "url": "https://github.com/balena-io/balena-cli/pull/1803"
+      },
       {
         "title": "Should have a deprecation policy",
         "url": "https://github.com/balena-io/balena-cli/issues/1802"
@@ -11607,14 +11627,10 @@
       {
         "title": "Give a better error message on \"balena ssh\" when the keys don't match",
         "url": "https://github.com/balena-io/balena-cli/issues/1731"
-      },
-      {
-        "title": "Remove windows dns workaround in favour of single initial resolution.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1727"
       }
     ]
   },
-  "version": "11.32.13",
+  "version": "11.32.14",
   "screenshot": null,
   "logo": null
 }
