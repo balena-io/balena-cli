@@ -34,7 +34,7 @@ Primary commands:
 const ADDITIONAL_HELP = `
 Additional commands:
 
-    api-key generate <name>               Generate a new API key with the given name
+    api-key generate <name>               generate a new balenaCloud API key
     app create <name>                     create an application
     app restart <name>                    restart an application
     app rm <name>                         remove an application

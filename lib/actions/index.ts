@@ -14,7 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import * as apiKey from './api-key';
 import * as auth from './auth';
 import * as config from './config';
 import * as device from './device';
@@ -29,7 +28,6 @@ import * as tunnel from './tunnel';
 import * as util from './util';
 
 export {
-	apiKey,
 	auth,
 	device,
 	tags,

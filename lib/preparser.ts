@@ -138,6 +138,7 @@ export const convertedCommands = [
 	'app:restart',
 	'app:rm',
 	'apps',
+	'api-key:generate',
 	'devices:supported',
 	'envs',
 	'env:add',

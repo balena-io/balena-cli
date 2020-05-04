@@ -258,7 +258,7 @@ If you come across any problems or would like to get in touch:
 
 ## api-key generate &#60;name&#62;
 
-This command generates a new API key for the current user, with the given
+Generate a new balenaCloud API key for the current user, with the given
 name. The key will be logged to the console.
 
 This key can be used to log into the CLI using 'balena login --token <key>',
@@ -267,6 +267,14 @@ or to authenticate requests to the API with an 'Authorization: Bearer <key>' hea
 Examples:
 
 	$ balena api-key generate "Jenkins Key"
+
+### Arguments
+
+#### NAME
+
+the API key name
+
+### Options
 
 # Application
 

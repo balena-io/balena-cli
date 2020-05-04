@@ -32,7 +32,7 @@ const capitanoDoc = {
 	categories: [
 		{
 			title: 'API keys',
-			files: ['build/actions/api-key.js'],
+			files: ['build/actions-oclif/api-key/generate.js'],
 		},
 		{
 			title: 'Application',
