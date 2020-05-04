@@ -1,4 +1,14 @@
 - commits:
+    - subject: Disable oclif's ts-node registering when running against built code
+      hash: dd20a8b00fa195d34bf4e0305fef96e876851c21
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.32.14
+  date: 2020-05-04T14:11:56.748Z
+- commits:
     - subject: Convert `balena api-key generate` to oclif
       hash: 83286e672968c8c43111020bd90db0f7fb44b36b
       body: ''
