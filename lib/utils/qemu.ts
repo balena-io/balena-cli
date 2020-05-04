@@ -16,9 +16,8 @@
  */
 
 import * as Bluebird from 'bluebird';
-import { stripIndent } from 'common-tags';
 import type * as Dockerode from 'dockerode';
-import { getBalenaSdk } from './lazy';
+import { getBalenaSdk, stripIndent } from './lazy';
 import Logger = require('./logger');
 
 export const QEMU_VERSION = 'v4.0.0+balena2';

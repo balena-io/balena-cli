@@ -16,10 +16,9 @@ limitations under the License.
 
 import type { BalenaSDK } from 'balena-sdk';
 import type { CommandDefinition } from 'capitano';
-import { stripIndent } from 'common-tags';
 
 import { ExpectedError } from '../errors';
-import { getBalenaSdk } from '../utils/lazy';
+import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { dockerignoreHelp, registrySecretsHelp } from '../utils/messages';
 import {
 	validateApplicationName,

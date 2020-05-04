@@ -16,8 +16,8 @@
  */
 
 import { flags } from '@oclif/command';
-import { stripIndent } from 'common-tags';
 import Command from '../command';
+import { stripIndent } from '../utils/lazy';
 
 interface FlagsDef {
 	all?: boolean;

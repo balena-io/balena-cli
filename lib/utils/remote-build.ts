@@ -26,7 +26,7 @@ import type { Pack } from 'tar-stream';
 import { ExpectedError } from '../errors';
 import { exitWithExpectedError } from '../errors';
 import { tarDirectory } from './compose';
-import { getVisuals } from './lazy';
+import { getVisuals, stripIndent } from './lazy';
 import Logger = require('./logger');
 
 const globalLogger = Logger.getLogger();
@@ -183,8 +183,6 @@ function handleHeadlessBuildMessage(message: HeadlessBuilderMessage) {
 }
 
 function handleBuilderMetadata(obj: BuilderMessage, build: RemoteBuild) {
-	const { stripIndent } = require('common-tags');
-
 	switch (obj.resource) {
 		case 'cursor':
 			if (obj.value == null) {

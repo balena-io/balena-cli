@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { stripIndent } from 'common-tags';
+import { stripIndent } from './utils/lazy';
 
 import { exitWithExpectedError } from './errors';
 

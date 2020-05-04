@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import { stripIndent } from 'common-tags';
 import Command from '../../command';
+import { stripIndent } from '../../utils/lazy';
 
 // 'Internal' commands are called during the execution of other commands.
 // `scandevices` is called during by `join`,`leave'.

@@ -16,12 +16,11 @@
  */
 
 import { flags } from '@oclif/command';
-import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 import Command from '../command';
 import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
-import { getBalenaSdk } from '../utils/lazy';
+import { getBalenaSdk, stripIndent } from '../utils/lazy';
 
 interface FlagsDef {
 	device?: string; // device UUID

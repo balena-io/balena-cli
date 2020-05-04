@@ -19,11 +19,11 @@
 require('../config-tests'); // required for side effects
 
 import { expect } from 'chai';
-import { stripIndent } from 'common-tags';
 import mock = require('mock-require');
 import { promises as fs } from 'fs';
 import * as path from 'path';
 
+import { stripIndent } from '../../lib/utils/lazy';
 import { BalenaAPIMock } from '../balena-api-mock';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../docker-mock';

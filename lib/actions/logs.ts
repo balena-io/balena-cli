@@ -16,9 +16,8 @@ limitations under the License.
 
 import type { LogMessage } from 'balena-sdk';
 import type { CommandDefinition } from 'capitano';
-import { stripIndent } from 'common-tags';
 
-import { getBalenaSdk } from '../utils/lazy';
+import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { normalizeUuidProp } from '../utils/normalization';
 import { validateDotLocalUrl } from '../utils/validation';
 

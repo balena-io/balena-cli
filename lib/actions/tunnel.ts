@@ -15,11 +15,10 @@ limitations under the License.
 */
 import * as Bluebird from 'bluebird';
 import type { CommandDefinition } from 'capitano';
-import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 import { createServer, Server, Socket } from 'net';
 
-import { getBalenaSdk } from '../utils/lazy';
+import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { getOnlineTargetUuid } from '../utils/patterns';
 import { tunnelConnectionToDevice } from '../utils/tunnel';
 

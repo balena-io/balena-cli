@@ -16,7 +16,7 @@
  */
 
 import * as packageJSON from '../package.json';
-import { onceAsync } from './utils/lazy';
+import { onceAsync, stripIndent } from './utils/lazy';
 
 class CliSettings {
 	public readonly settings: any;
@@ -64,10 +64,9 @@ export const setupSentry = onceAsync(async () => {
 	return Sentry.getCurrentHub();
 });
 
-function checkNodeVersion() {
+async function checkNodeVersion() {
 	const validNodeVersions = packageJSON.engines.node;
-	if (!require('semver').satisfies(process.version, validNodeVersions)) {
-		const { stripIndent } = require('common-tags');
+	if (!(await import('semver')).satisfies(process.version, validNodeVersions)) {
 		console.warn(stripIndent`
 			------------------------------------------------------------------------------
 			Warning: Node version "${process.version}" does not match required versions "${validNodeVersions}".

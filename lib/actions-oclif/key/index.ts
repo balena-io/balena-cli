@@ -16,10 +16,9 @@
  */
 
 import { flags } from '@oclif/command';
-import { stripIndent } from 'common-tags';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, getVisuals } from '../../utils/lazy';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { parseAsInteger } from '../../utils/validation';
 
 type IArg<T> = import('@oclif/parser').args.IArg<T>;
