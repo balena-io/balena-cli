@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as Sentry from '@sentry/node';
 import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
 import * as Mixpanel from 'mixpanel';
@@ -44,7 +43,11 @@ const getMixpanel = _.once((balenaUrl: string) => {
  * information in Sentry.io error reporting, for CLI debugging purposes
  * (mainly unexpected/unhandled exceptions -- see also `lib/errors.ts`).
  */
-export function trackCommand(commandSignature: string) {
+export async function trackCommand(commandSignature: string) {
+	const Sentry = await import('@sentry/node');
+	Sentry.configureScope(scope => {
+		scope.setExtra('command', commandSignature);
+	});
 	const balena = getBalenaSdk();
 	const balenaUrlPromise = balena.settings.get('balenaUrl');
 	return Bluebird.props({
@@ -54,7 +57,6 @@ export function trackCommand(commandSignature: string) {
 	})
 		.then(({ username, balenaUrl, mixpanel }) => {
 			Sentry.configureScope(scope => {
-				scope.setExtra('command', commandSignature);
 				scope.setUser({
 					id: username,
 					username,
