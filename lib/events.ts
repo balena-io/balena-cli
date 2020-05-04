@@ -29,6 +29,11 @@ const getMixpanel = _.once((balenaUrl: string) => {
 	});
 });
 
+interface CachedUsername {
+	token: string;
+	username: string;
+}
+
 /**
  * Mixpanel.com analytics tracking (information on balena CLI usage).
  *
@@ -48,14 +53,44 @@ export async function trackCommand(commandSignature: string) {
 	Sentry.configureScope((scope) => {
 		scope.setExtra('command', commandSignature);
 	});
-	const balena = getBalenaSdk();
-	const balenaUrlPromise = balena.settings.get('balenaUrl');
+	const settings = await import('balena-settings-client');
+	const balenaUrl = settings.get('balenaUrl') as string;
+
 	return Bluebird.props({
-		balenaUrl: balenaUrlPromise,
-		username: balena.auth.whoami().catchReturn(undefined),
-		mixpanel: balenaUrlPromise.then(getMixpanel),
+		username: (async () => {
+			const getStorage = await import('balena-settings-storage');
+			const dataDirectory = settings.get('dataDirectory') as string;
+			const storage = getStorage({ dataDirectory });
+			let token;
+			try {
+				token = await storage.get('token');
+			} catch {
+				// If we can't get a token then we can't get a username
+				return;
+			}
+			try {
+				const result = (await storage.get('cachedUsername')) as CachedUsername;
+				if (result.token === token) {
+					return result.username;
+				}
+			} catch {
+				// ignore
+			}
+			try {
+				const balena = getBalenaSdk();
+				const username = await balena.auth.whoami();
+				storage.set('cachedUsername', {
+					token,
+					username,
+				} as CachedUsername);
+				return username;
+			} catch {
+				return;
+			}
+		})(),
+		mixpanel: getMixpanel(balenaUrl),
 	})
-		.then(({ username, balenaUrl, mixpanel }) => {
+		.then(({ username, mixpanel }) => {
 			Sentry.configureScope((scope) => {
 				scope.setUser({
 					id: username,
