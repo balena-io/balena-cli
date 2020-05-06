@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "Improve presentation of errors, help",
+          "hash": "98a2c0635db750e86c6f7d980b2ee3a04677a560",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Resolves": "#1779 #1757",
+            "resolves": "#1779 #1757",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.32.15",
+      "date": "2020-05-06T08:52:58.882Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Disable oclif's ts-node registering when running against built code",
           "hash": "dd20a8b00fa195d34bf4e0305fef96e876851c21",
           "body": "",
@@ -11518,29 +11538,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-04T14:51:13Z",
+  "lastCommitDate": "2020-05-06T11:12:03Z",
   "latestRelease": {
-    "tagName": "v11.32.14",
+    "tagName": "v11.32.15",
     "asssets": [
       {
-        "name": "balena-cli-v11.32.14-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.14/balena-cli-v11.32.14-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.32.15-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.15/balena-cli-v11.32.15-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.14-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.14/balena-cli-v11.32.14-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.32.15-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.15/balena-cli-v11.32.15-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.32.14-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.14/balena-cli-v11.32.14-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.32.15-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.15/balena-cli-v11.32.15-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.32.14-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.14/balena-cli-v11.32.14-windows-x64-installer.exe"
+        "name": "balena-cli-v11.32.15-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.15/balena-cli-v11.32.15-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.32.14-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.14/balena-cli-v11.32.14-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.32.15-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.32.15/balena-cli-v11.32.15-windows-x64-standalone.zip"
       }
     ]
   },
@@ -11548,6 +11568,10 @@
   "openIssues": {
     "numberOfIssues": 273,
     "latestIssues": [
+      {
+        "title": "Leading zeroes stripped from device uuid",
+        "url": "https://github.com/balena-io/balena-cli/issues/1805"
+      },
       {
         "title": "Cache username for a given auth to avoid fetching it every time",
         "url": "https://github.com/balena-io/balena-cli/pull/1803"
@@ -11565,8 +11589,8 @@
         "url": "https://github.com/balena-io/balena-cli/issues/1795"
       },
       {
-        "title": "Improve error boilerplate message",
-        "url": "https://github.com/balena-io/balena-cli/issues/1779"
+        "title": "Integrate new livepush",
+        "url": "https://github.com/balena-io/balena-cli/issues/1784"
       },
       {
         "title": "Partial inclusion of stack trace in unexpected errors, even when not in debug mode",
@@ -11623,14 +11647,10 @@
       {
         "title": "Balena push build fails quietly on node13 but only for Multi-container builds",
         "url": "https://github.com/balena-io/balena-cli/issues/1733"
-      },
-      {
-        "title": "Give a better error message on \"balena ssh\" when the keys don't match",
-        "url": "https://github.com/balena-io/balena-cli/issues/1731"
       }
     ]
   },
-  "version": "11.32.14",
+  "version": "11.32.15",
   "screenshot": null,
   "logo": null
 }
