@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'Improve presentation of errors, help'
+      hash: 98a2c0635db750e86c6f7d980b2ee3a04677a560
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#1779 #1757'
+        resolves: '#1779 #1757'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.32.15
+  date: 2020-05-06T08:52:58.882Z
+- commits:
     - subject: Disable oclif's ts-node registering when running against built code
       hash: dd20a8b00fa195d34bf4e0305fef96e876851c21
       body: ''
