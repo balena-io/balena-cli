@@ -28,7 +28,7 @@ export class NotLoggedInError extends ExpectedError {}
 export class InsufficientPrivilegesError extends ExpectedError {}
 
 /**
- * instanceOf is a more reliable implemention of the plain `instanceof`
+ * instanceOf is a more reliable implementation of the plain `instanceof`
  * typescript operator, for use with TypedError errors when the error
  * classes may be defined in external packages/dependencies.
  * Sample usage:
@@ -126,56 +126,81 @@ const messages: {
 	`,
 
 	BalenaExpiredToken: () => stripIndent`
-		Looks like your session token is expired.
+		Looks like your session token has expired.
 		Please try logging in again with:
 			$ balena login`,
 };
 
+const EXPECTED_ERROR_REGEXES = [
+	/^BalenaApplicationNotFound:/, // balena-sdk
+	/^BalenaDeviceNotFound:/, // balena-sdk
+	/^Missing \w+$/, // Capitano, oclif parser: RequiredArgsError, RequiredFlagError
+	/^Unexpected arguments?:/, // oclif parser: UnexpectedArgsError
+	/to be one of/, // oclif parser: FlagInvalidOptionError, ArgInvalidOptionError
+];
+
 export async function handleError(error: any) {
+	// Set appropriate exitCode
 	process.exitCode =
 		error.exitCode === 0
 			? 0
 			: parseInt(error.exitCode, 10) || process.exitCode || 1;
 
+	// Handle non-Error objects (probably strings)
 	if (!(error instanceof Error)) {
 		printErrorMessage(String(error));
 		return;
 	}
 
+	// Prepare message
 	const message = [interpret(error)];
 
-	if (process.env.DEBUG && error.stack) {
-		message.push('\n' + error.stack);
+	if (error.stack) {
+		if (process.env.DEBUG) {
+			message.push('\n' + error.stack);
+		} else {
+			// Include first line of stacktrace
+			message.push('\n' + error.stack.split(`\n`)[0]);
+		}
 	}
-	printErrorMessage(message.join('\n'));
 
-	const expectedErrorREs = [
-		/^BalenaApplicationNotFound:/, // balena-sdk
-		/^BalenaDeviceNotFound:/, // balena-sdk
-		/^Missing \w+$/, // Capitano's command line parsing error
-		/^Unexpected arguments?:/, // oclif's command line parsing error
-	];
-
-	if (
+	// Expected?
+	const isExpectedError =
 		error instanceof ExpectedError ||
-		expectedErrorREs.some(re => re.test(message[0]))
-	) {
-		return;
-	}
+		EXPECTED_ERROR_REGEXES.some(re => re.test(message[0]));
 
-	// Report "unexpected" errors via Sentry.io
-	const Sentry = await import('@sentry/node');
-	Sentry.captureException(error);
-	await Sentry.close(1000);
-	// Unhandled/unexpected error: ensure that the process terminates.
-	// The exit error code was set above through `process.exitCode`.
-	process.exit();
+	// Output/report error
+	if (isExpectedError) {
+		printExpectedErrorMessage(message.join('\n'));
+	} else {
+		printErrorMessage(message.join('\n'));
+
+		// Report "unexpected" errors via Sentry.io
+		const Sentry = await import('@sentry/node');
+		Sentry.captureException(error);
+		await Sentry.close(1000);
+		// Unhandled/unexpected error: ensure that the process terminates.
+		// The exit error code was set above through `process.exitCode`.
+		process.exit();
+	}
 }
 
 export function printErrorMessage(message: string) {
 	const chalk = getChalk();
-	console.error(chalk.red(message));
-	console.error(chalk.red(`\n${getHelp}\n`));
+
+	// Only first line should be red
+	const messageLines = message.split('\n');
+	console.error(chalk.red(messageLines.shift()));
+
+	messageLines.forEach(line => {
+		console.error(line);
+	});
+
+	console.error(`\n${getHelp}\n`);
+}
+
+export function printExpectedErrorMessage(message: string) {
+	console.error(`${message}\n`);
 }
 
 /**

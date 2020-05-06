@@ -9,18 +9,15 @@ create a new one at: https://github.com/balena-io/balena-cli/issues/\
 `;
 
 const debugHint = `\
-Additional information may be available by setting a DEBUG=1 environment
-variable: "set DEBUG=1" on a Windows command prompt, "$env:DEBUG = 1" on
-powershell, or "export DEBUG=1" on Linux or macOS.\n
+Additional information may be available with the \`--debug\` flag.
 `;
 
-export const getHelp = `${DEBUG_MODE ? '' : debugHint}\
-If you need help, don't hesitate in contacting our support forums at
-https://forums.balena.io
-
-For CLI bug reports or feature requests, have a look at the GitHub issues or
-create a new one at: https://github.com/balena-io/balena-cli/issues/\
+export const help = `\
+For help, visit our support forums: https://forums.balena.io
+For bug reports or feature requests, see: https://github.com/balena-io/balena-cli/issues/
 `;
+
+export const getHelp = (DEBUG_MODE ? '' : debugHint) + help;
 
 export const balenaAsciiArt = `\
  _            _
