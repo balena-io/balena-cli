@@ -6331,9 +6331,9 @@
       "integrity": "sha1-mMI9qxF1ZXuMBXPozszZGw/xjIQ="
     },
     "fp-ts": {
-      "version": "2.5.3",
-      "resolved": "https://registry.npmjs.org/fp-ts/-/fp-ts-2.5.3.tgz",
-      "integrity": "sha512-lQd+hahLd8cygNoXbEHDjH/cbF6XVWlEPb8h5GXXlozjCSDxWgclvkpOoTRfBA0P+r69l9VvW1nEsSGIJRQpWw=="
+      "version": "2.6.0",
+      "resolved": "https://registry.npmjs.org/fp-ts/-/fp-ts-2.6.0.tgz",
+      "integrity": "sha512-4EKVa3EOP3NoDwXCLgSCT2t+E2wPCWDXCuj3wEcQ1ovkLfdCMxKxCuElpXptIPBmtA+KbjnUl5Ta/1U3jsCmkg=="
     },
     "fragment-cache": {
       "version": "0.2.1",
@@ -7817,9 +7817,9 @@
       "dev": true
     },
     "io-ts": {
-      "version": "2.1.2",
-      "resolved": "https://registry.npmjs.org/io-ts/-/io-ts-2.1.2.tgz",
-      "integrity": "sha512-whVRGaNBZSrkPrg1y+sSy/kv/fDjweQPP1UCLhKwJUHWGD6rFgbZ44FBF98JlY/FFzTA0MkhGeHWZ/aFhF42eA=="
+      "version": "2.2.2",
+      "resolved": "https://registry.npmjs.org/io-ts/-/io-ts-2.2.2.tgz",
+      "integrity": "sha512-cXXIL4CR5/sWfKw/Ssc/cbZJGG13J4pJv9/RN6SlWJyh+foAPEUE0I9sWTX1kG24dvhiCM9fpO4F+2AsP+WzaQ=="
     },
     "io-ts-reporters": {
       "version": "1.0.0",
@@ -15592,9 +15592,9 @@
       }
     },
     "resin-bundle-resolve": {
-      "version": "4.2.2",
-      "resolved": "https://registry.npmjs.org/resin-bundle-resolve/-/resin-bundle-resolve-4.2.2.tgz",
-      "integrity": "sha512-d/R6Z8WhhSfG/bQyqF3YvL0+EufHE8+VouKoTrrh6lfp3pf3oajgexctioYBwS8bo+/iiAeN6U5JHveg7xQziw==",
+      "version": "4.3.0",
+      "resolved": "https://registry.npmjs.org/resin-bundle-resolve/-/resin-bundle-resolve-4.3.0.tgz",
+      "integrity": "sha512-KPXoLcgtSiuR8CfCxueaAVuSK7KDnf1Fxw+LHTFyzpJ6ZheShPvULmYSx3XK5zmBB8nymte0tSrC2RD+/nn+EA==",
       "requires": {
         "@types/tar-stream": "^2.1.0",
         "bluebird": "^3.7.2",
@@ -15683,9 +15683,9 @@
       }
     },
     "resin-docker-build": {
-      "version": "1.1.4",
-      "resolved": "https://registry.npmjs.org/resin-docker-build/-/resin-docker-build-1.1.4.tgz",
-      "integrity": "sha512-M3GlwlBMbknPKal7CIbZlrOAWDwFLJeUKgwdO/JAuxZ3R7wdXjQJuGutYoS4oei5jqtbG9G6yQ+RWgyHZu1ouA==",
+      "version": "1.1.5",
+      "resolved": "https://registry.npmjs.org/resin-docker-build/-/resin-docker-build-1.1.5.tgz",
+      "integrity": "sha512-Ri9bzY9mGO6Ctw5MO6EUsQNl1jMSQ6dKg4z6acE7hvxiWjNxUUqbA0Qwu8rfVU+vSswFUy8LCjcQOD9XkrNcDA==",
       "requires": {
         "@types/bluebird": "^3.5.30",
         "@types/dockerode": "^2.5.24",
@@ -15768,9 +15768,9 @@
       }
     },
     "resin-multibuild": {
-      "version": "4.4.2",
-      "resolved": "https://registry.npmjs.org/resin-multibuild/-/resin-multibuild-4.4.2.tgz",
-      "integrity": "sha512-TVWKl1eMB25GlwQYKKSDyefDQmsOFJ/N76KlG43yzd3ch6F5/dlGHi4UbKuvZPH1NxIWbPKogldT7O+UPmKP3Q==",
+      "version": "4.5.1",
+      "resolved": "https://registry.npmjs.org/resin-multibuild/-/resin-multibuild-4.5.1.tgz",
+      "integrity": "sha512-RuLpcZDmwiZl3ZiNFNCarv0nCh86NnumgscRlcKfi+j6lAfXrYYdEkVGM2VXie4FyjlgTvJvOr9ex4jjTTMaZg==",
       "requires": {
         "@types/bluebird": "^3.5.30",
         "@types/dockerode": "^2.5.24",
@@ -15796,9 +15796,9 @@
       },
       "dependencies": {
         "ajv": {
-          "version": "6.12.0",
-          "resolved": "https://registry.npmjs.org/ajv/-/ajv-6.12.0.tgz",
-          "integrity": "sha512-D6gFiFA0RRLyUbvijN74DWAjXSFxWKaWP7mldxkVhyhAV3+SWA9HEJPHQ2c9soIeTFJqcSdFDGFgdqs1iUU2Hw==",
+          "version": "6.12.2",
+          "resolved": "https://registry.npmjs.org/ajv/-/ajv-6.12.2.tgz",
+          "integrity": "sha512-k+V+hzjm5q/Mr8ef/1Y9goCmlsK4I6Sm74teeyGvFk1XrOsbsKLjEdrvny42CZ+a8sXbk8KWpY/bDwS+FLL2UQ==",
           "requires": {
             "fast-deep-equal": "^3.1.1",
             "fast-json-stable-stringify": "^2.0.0",
