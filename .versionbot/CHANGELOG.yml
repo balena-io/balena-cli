@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Fix ''balena app'' (rm, restart, info) with numeric app IDs'
+      hash: 8d60cd1f927ba289120941b768bfbc1a18defa93
+      body: ''
+      footer:
+        Resolves: '#1815'
+        resolves: '#1815'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.33.2
+  date: 2020-05-11T21:01:53.651Z
+- commits:
     - subject: Update resin-multibuild
       hash: 127560fa6548aaf0a72ee6050df81fdca11109c5
       body: ''
