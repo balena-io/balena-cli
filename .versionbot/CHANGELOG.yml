@@ -1,4 +1,24 @@
 - commits:
+    - subject: Add a deprecation policy
+      hash: 9412a21d40be5368866d754d66cf19443df51662
+      body: ''
+      footer:
+        Resolves: '#1802'
+        resolves: '#1802'
+        Change-type: minor
+        change-type: minor
+        See: >-
+          https://www.flowdock.com/app/rulemotion/r-product/threads/A6-bJBldfUFnhG9vixTz-DLz9iB
+        see: >-
+          https://www.flowdock.com/app/rulemotion/r-product/threads/A6-bJBldfUFnhG9vixTz-DLz9iB
+        HQ: 'https://github.com/balena-io/balena/issues/2032'
+        hq: 'https://github.com/balena-io/balena/issues/2032'
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+  version: 11.33.0
+  date: 2020-05-11T08:16:59.444Z
+- commits:
     - subject: 'Improve presentation of errors, help'
       hash: 98a2c0635db750e86c6f7d980b2ee3a04677a560
       body: ''
