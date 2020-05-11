@@ -319,7 +319,7 @@ Examples:
 
 #### NAME
 
-application name
+application name or numeric ID
 
 ### Options
 
@@ -366,7 +366,7 @@ Examples:
 
 #### NAME
 
-application name
+application name or numeric ID
 
 ### Options
 
@@ -386,7 +386,7 @@ Examples:
 
 #### NAME
 
-application name
+application name or numeric ID
 
 ### Options
 

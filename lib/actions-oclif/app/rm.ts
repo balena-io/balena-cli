@@ -20,6 +20,7 @@ import { stripIndent } from 'common-tags';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk } from '../../utils/lazy';
+import { tryAsInteger } from '../../utils/validation';
 
 interface FlagsDef {
 	yes: boolean;
@@ -46,7 +47,7 @@ export default class AppRmCmd extends Command {
 	public static args = [
 		{
 			name: 'name',
-			description: 'application name',
+			description: 'application name or numeric ID',
 			required: true,
 		},
 	];
@@ -74,6 +75,6 @@ export default class AppRmCmd extends Command {
 		);
 
 		// Remove
-		await getBalenaSdk().models.application.remove(params.name);
+		await getBalenaSdk().models.application.remove(tryAsInteger(params.name));
 	}
 }

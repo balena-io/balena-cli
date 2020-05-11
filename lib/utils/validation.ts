@@ -88,3 +88,14 @@ export function parseAsInteger(input: string, paramName?: string) {
 
 	return Number(input);
 }
+
+export function tryAsInteger(
+	input: string,
+	paramName?: string,
+): number | string {
+	try {
+		return parseAsInteger(input, paramName);
+	} catch {
+		return input;
+	}
+}
