@@ -1,4 +1,48 @@
 - commits:
+    - subject: 'Fix ''balena app'' (rm, restart, info) with numeric app IDs'
+      hash: 8d60cd1f927ba289120941b768bfbc1a18defa93
+      body: ''
+      footer:
+        Resolves: '#1815'
+        resolves: '#1815'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.33.2
+  date: 2020-05-11T21:36:57.684Z
+- commits:
+    - subject: Update resin-multibuild
+      hash: 127560fa6548aaf0a72ee6050df81fdca11109c5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.33.1
+  date: 2020-05-11T17:29:36.958Z
+- commits:
+    - subject: Add a deprecation policy
+      hash: 9412a21d40be5368866d754d66cf19443df51662
+      body: ''
+      footer:
+        Resolves: '#1802'
+        resolves: '#1802'
+        Change-type: minor
+        change-type: minor
+        See: >-
+          https://www.flowdock.com/app/rulemotion/r-product/threads/A6-bJBldfUFnhG9vixTz-DLz9iB
+        see: >-
+          https://www.flowdock.com/app/rulemotion/r-product/threads/A6-bJBldfUFnhG9vixTz-DLz9iB
+        HQ: 'https://github.com/balena-io/balena/issues/2032'
+        hq: 'https://github.com/balena-io/balena/issues/2032'
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+  version: 11.33.0
+  date: 2020-05-11T08:16:59.444Z
+- commits:
     - subject: 'Improve presentation of errors, help'
       hash: 98a2c0635db750e86c6f7d980b2ee3a04677a560
       body: ''
@@ -11,7 +55,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.32.15
-  date: 2020-05-06T11:11:28.917Z
+  date: 2020-05-06T08:52:58.882Z
 - commits:
     - subject: Disable oclif's ts-node registering when running against built code
       hash: dd20a8b00fa195d34bf4e0305fef96e876851c21
