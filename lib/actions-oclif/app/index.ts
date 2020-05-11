@@ -20,6 +20,7 @@ import { stripIndent } from 'common-tags';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals } from '../../utils/lazy';
+import { tryAsInteger } from '../../utils/validation';
 
 interface FlagsDef {
 	help: void;
@@ -40,7 +41,7 @@ export default class AppCmd extends Command {
 	public static args = [
 		{
 			name: 'name',
-			description: 'application name',
+			description: 'application name or numeric ID',
 			required: true,
 		},
 	];
@@ -58,7 +59,7 @@ export default class AppCmd extends Command {
 		const { args: params } = this.parse<FlagsDef, ArgsDef>(AppCmd);
 
 		const application = await getBalenaSdk().models.application.get(
-			params.name,
+			tryAsInteger(params.name),
 		);
 
 		console.log(
