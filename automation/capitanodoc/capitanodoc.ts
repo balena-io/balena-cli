@@ -160,6 +160,7 @@ export async function getCapitanoDoc(): Promise<typeof capitanoDoc> {
 		mdParser.getSectionOfTitle('Installation'),
 		mdParser.getSectionOfTitle('Getting Started'),
 		mdParser.getSectionOfTitle('Support, FAQ and troubleshooting'),
+		mdParser.getSectionOfTitle('Deprecation policy'),
 	]);
 	capitanoDoc.introduction = sections.join('\n');
 	return capitanoDoc;

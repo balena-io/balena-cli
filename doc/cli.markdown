@@ -128,6 +128,22 @@ If you come across any problems or would like to get in touch:
 * For bug reports or feature requests,
   [have a look at the GitHub issues or create a new one](https://github.com/balena-io/balena-cli/issues/).
 
+## Deprecation policy
+
+The balena CLI uses [semver versioning](https://semver.org/), with the concepts
+of major, minor and patch version releases.
+
+The latest release of the previous major version of the balena CLI will remain
+compatible with the balenaCloud backend services for one year from the date when
+the next major version is released. For example, balena CLI v10.17.5, as the
+latest v10 release, would remain compatible with the balenaCloud backend for one
+year from the date when v11.0.0 is released.
+
+At the end of this period, the older major version is considered deprecated and
+some of the functionality that depends on balenaCloud services may stop working
+at any time.
+Users are encouraged to regularly update the balena CLI to the latest version.
+
 
 # CLI Command Reference
 
