@@ -244,6 +244,7 @@ export async function makeBuildTasks(
 	logger: Logger,
 	projectName: string,
 	releaseHash: string = 'unavailable',
+	preprocessHook?: (dockerfile: string) => string,
 ): Promise<MultiBuild.BuildTask[]> {
 	const buildTasks = await MultiBuild.splitBuildStream(composition, tarStream);
 
@@ -262,7 +263,13 @@ export async function makeBuildTasks(
 		`Resolving services with [${deviceInfo.deviceType}|${deviceInfo.arch}]`,
 	);
 
-	await performResolution(buildTasks, deviceInfo, projectName, releaseHash);
+	await performResolution(
+		buildTasks,
+		deviceInfo,
+		projectName,
+		releaseHash,
+		preprocessHook,
+	);
 
 	logger.logDebug('Found project types:');
 	_.each(buildTasks, task => {
@@ -281,6 +288,7 @@ async function performResolution(
 	deviceInfo: DeviceInfo,
 	appName: string,
 	releaseHash: string,
+	preprocessHook?: (dockerfile: string) => string,
 ): Promise<MultiBuild.BuildTask[]> {
 	const { cloneTarStream } = require('tar-utils');
 
@@ -294,6 +302,7 @@ async function performResolution(
 				BALENA_RELEASE_HASH: releaseHash,
 				BALENA_APP_NAME: appName,
 			},
+			preprocessHook,
 		);
 		// Do one task at a time (Bluebird.each instead of Bluebird.all)
 		// in order to reduce peak memory usage. Resolves to buildTasks.
