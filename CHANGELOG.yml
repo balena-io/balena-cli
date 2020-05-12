@@ -1,4 +1,14 @@
 - commits:
+    - subject: Re-create standalone zip package (release asset) for Windows
+      hash: 4b056b4d4ce13b8e955af4e148d663ee97103dad
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.33.4
+  date: 2020-05-12T22:16:33.359Z
+- commits:
     - subject: Fix usage of livepush v3 features
       hash: 4e50d08f7be174b23a470e4d9d38057763f329ba
       body: ''
@@ -9,7 +19,7 @@
         signed-off-by: Cameron Diver <cameron@balena.io>
       author: Cameron Diver
   version: 11.33.3
-  date: 2020-05-12T08:46:23.742Z
+  date: 2020-05-12T08:25:59.490Z
 - commits:
     - subject: 'Fix ''balena app'' (rm, restart, info) with numeric app IDs'
       hash: 8d60cd1f927ba289120941b768bfbc1a18defa93

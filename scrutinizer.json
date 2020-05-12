@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Re-create standalone zip package (release asset) for Windows",
+          "hash": "4b056b4d4ce13b8e955af4e148d663ee97103dad",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.33.4",
+      "date": "2020-05-12T21:26:55.184Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix usage of livepush v3 features",
           "hash": "4e50d08f7be174b23a470e4d9d38057763f329ba",
           "body": "",
@@ -11616,36 +11632,44 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-12T08:47:07Z",
+  "lastCommitDate": "2020-05-12T22:17:16Z",
   "latestRelease": {
-    "tagName": "v11.33.3",
+    "tagName": "v11.33.4",
     "asssets": [
       {
-        "name": "balena-cli-v11.33.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.3/balena-cli-v11.33.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.33.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.4/balena-cli-v11.33.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.33.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.3/balena-cli-v11.33.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.33.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.4/balena-cli-v11.33.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.33.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.3/balena-cli-v11.33.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.33.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.4/balena-cli-v11.33.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.33.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.3/balena-cli-v11.33.3-windows-x64-installer.exe"
+        "name": "balena-cli-v11.33.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.4/balena-cli-v11.33.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.33.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.3/balena-cli-v11.33.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.33.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.4/balena-cli-v11.33.4-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 276,
+    "numberOfIssues": 278,
     "latestIssues": [
+      {
+        "title": "Anti-virus and windows detect balena.exe as rare threat",
+        "url": "https://github.com/balena-io/balena-cli/issues/1820"
+      },
+      {
+        "title": "balena push: Could not detect project type: Service main: Couldn't satisfy node version >=4 ",
+        "url": "https://github.com/balena-io/balena-cli/issues/1819"
+      },
       {
         "title": "Consider a check to see if containers are stopped when pushing locally",
         "url": "https://github.com/balena-io/balena-cli/issues/1816"
@@ -11717,18 +11741,10 @@
       {
         "title": "List containers/services running on a device",
         "url": "https://github.com/balena-io/balena-cli/issues/1759"
-      },
-      {
-        "title": "Rename parameters to make error messages clearer",
-        "url": "https://github.com/balena-io/balena-cli/issues/1758"
-      },
-      {
-        "title": "Preregistering an account does not appear to generate a network configuration",
-        "url": "https://github.com/balena-io/balena-cli/issues/1747"
       }
     ]
   },
-  "version": "11.33.3",
+  "version": "11.33.4",
   "screenshot": null,
   "logo": null
 }
