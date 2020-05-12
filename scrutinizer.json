@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Fix usage of livepush v3 features",
+          "hash": "4e50d08f7be174b23a470e4d9d38057763f329ba",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Cameron Diver <cameron@balena.io>",
+            "signed-off-by": "Cameron Diver <cameron@balena.io>"
+          },
+          "author": "Cameron Diver"
+        }
+      ],
+      "version": "11.33.3",
+      "date": "2020-05-12T08:25:59.490Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix 'balena app' (rm, restart, info) with numeric app IDs",
           "hash": "8d60cd1f927ba289120941b768bfbc1a18defa93",
           "body": "",
@@ -11598,40 +11616,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-11T21:37:55Z",
+  "lastCommitDate": "2020-05-12T08:47:07Z",
   "latestRelease": {
-    "tagName": "v11.33.2",
+    "tagName": "v11.33.3",
     "asssets": [
       {
-        "name": "balena-cli-v11.33.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.2/balena-cli-v11.33.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.33.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.3/balena-cli-v11.33.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.33.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.2/balena-cli-v11.33.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.33.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.3/balena-cli-v11.33.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.33.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.2/balena-cli-v11.33.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.33.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.3/balena-cli-v11.33.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.33.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.2/balena-cli-v11.33.2-windows-x64-installer.exe"
+        "name": "balena-cli-v11.33.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.3/balena-cli-v11.33.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.33.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.2/balena-cli-v11.33.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.33.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.3/balena-cli-v11.33.3-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 277,
+    "numberOfIssues": 276,
     "latestIssues": [
-      {
-        "title": "Fix livepush v3",
-        "url": "https://github.com/balena-io/balena-cli/pull/1818"
-      },
       {
         "title": "Consider a check to see if containers are stopped when pushing locally",
         "url": "https://github.com/balena-io/balena-cli/issues/1816"
@@ -11707,10 +11721,14 @@
       {
         "title": "Rename parameters to make error messages clearer",
         "url": "https://github.com/balena-io/balena-cli/issues/1758"
+      },
+      {
+        "title": "Preregistering an account does not appear to generate a network configuration",
+        "url": "https://github.com/balena-io/balena-cli/issues/1747"
       }
     ]
   },
-  "version": "11.33.2",
+  "version": "11.33.3",
   "screenshot": null,
   "logo": null
 }
