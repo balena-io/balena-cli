@@ -208,6 +208,10 @@ export class LivepushManager {
 		});
 	}
 
+	public static preprocessDockerfile(content: string): string {
+		return new Dockerfile(content).generateLiveDockerfile();
+	}
+
 	private static getMultistageImageIDs(buildLogs: BuildLogs): StageImageIDs {
 		const stageIds: StageImageIDs = {};
 		_.each(buildLogs, (log, serviceName) => {

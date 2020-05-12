@@ -309,6 +309,13 @@ export async function performBuilds(
 		logger,
 		LOCAL_APPNAME,
 		LOCAL_RELEASEHASH,
+		content => {
+			if (!opts.nolive) {
+				return LivepushManager.preprocessDockerfile(content);
+			} else {
+				return content;
+			}
+		},
 	);
 
 	logger.logDebug('Probing remote daemon for cache images');
@@ -403,6 +410,13 @@ export async function rebuildSingleTask(
 			logger,
 			LOCAL_APPNAME,
 			LOCAL_RELEASEHASH,
+			content => {
+				if (!opts.nolive) {
+					return LivepushManager.preprocessDockerfile(content);
+				} else {
+					return content;
+				}
+			},
 		),
 		{ serviceName },
 	);
