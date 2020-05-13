@@ -29,6 +29,7 @@ interface ExtendedApplication extends Application {
 
 interface FlagsDef {
 	help: void;
+	verbose?: boolean;
 }
 
 export default class AppsCmd extends Command {
@@ -46,13 +47,17 @@ export default class AppsCmd extends Command {
 
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
+		verbose: flags.boolean({
+			char: 'v',
+			description: 'add extra columns in the tabular output (SLUG)',
+		}),
 	};
 
 	public static authenticated = true;
 	public static primary = true;
 
 	public async run() {
-		this.parse<FlagsDef, {}>(AppsCmd);
+		const { flags: options } = this.parse<FlagsDef, {}>(AppsCmd);
 
 		const _ = await import('lodash');
 		const balena = getBalenaSdk();
@@ -60,7 +65,7 @@ export default class AppsCmd extends Command {
 		// Get applications
 		const applications: ExtendedApplication[] = await balena.models.application.getAll(
 			{
-				$select: ['id', 'app_name', 'device_type'],
+				$select: ['id', 'app_name', 'slug', 'device_type'],
 				$expand: { owns__device: { $select: 'is_online' } },
 			},
 		);
@@ -78,6 +83,7 @@ export default class AppsCmd extends Command {
 			getVisuals().table.horizontal(applications, [
 				'id',
 				'app_name',
+				options.verbose ? 'slug' : '',
 				'device_type',
 				'online_devices',
 				'device_count',
