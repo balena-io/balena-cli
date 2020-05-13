@@ -29,25 +29,11 @@ import { URL } from 'url';
 import { BuilderMock } from './builder-mock';
 import { DockerMock } from './docker-mock';
 import { cleanOutput, fillTemplateArray, runCommand } from './helpers';
-
-export interface ExpectedTarStreamFile {
-	contents?: string;
-	fileSize: number;
-	testStream?: (
-		header: tar.Headers,
-		stream: Readable,
-		expected?: ExpectedTarStreamFile,
-	) => Promise<void>;
-	type: tar.Headers['type'];
-}
-
-export interface ExpectedTarStreamFiles {
-	[filePath: string]: ExpectedTarStreamFile;
-}
-
-export interface ExpectedTarStreamFilesByService {
-	[service: string]: ExpectedTarStreamFiles;
-}
+import {
+	ExpectedTarStreamFile,
+	ExpectedTarStreamFiles,
+	ExpectedTarStreamFilesByService,
+} from './projects';
 
 /**
  * Run a few chai.expect() test assertions on a tar stream/buffer produced by
@@ -77,21 +63,16 @@ export async function inspectTarStream(
 			'entry',
 			async (header: tar.Headers, stream: Readable, next: tar.Callback) => {
 				try {
-					// TODO: test the .balena folder instead of ignoring it
-					if (header.name.startsWith('.balena/')) {
-						stream.resume();
+					expect(foundFiles).to.not.have.property(header.name);
+					foundFiles[header.name] = {
+						fileSize: header.size || 0,
+						type: header.type,
+					};
+					const expected = expectedFiles[header.name];
+					if (expected && expected.testStream) {
+						await expected.testStream(header, stream, expected);
 					} else {
-						expect(foundFiles).to.not.have.property(header.name);
-						foundFiles[header.name] = {
-							fileSize: header.size || 0,
-							type: header.type,
-						};
-						const expected = expectedFiles[header.name];
-						if (expected && expected.testStream) {
-							await expected.testStream(header, stream, expected);
-						} else {
-							await defaultTestStream(header, stream, expected, projectPath);
-						}
+						await defaultTestStream(header, stream, expected, projectPath);
 					}
 				} catch (err) {
 					reject(err);
@@ -121,6 +102,11 @@ async function defaultTestStream(
 	let expectedContents: Buffer | undefined;
 	if (expected?.contents) {
 		expectedContents = Buffer.from(expected.contents);
+	}
+	if (header.name === '.balena/registry-secrets.json') {
+		expectedContents = await fs.readFile(
+			path.join(__dirname, 'test-data', 'projects', 'registry-secrets.json'),
+		);
 	}
 	const [buf, buf2] = await Promise.all([
 		streamToBuffer(stream),

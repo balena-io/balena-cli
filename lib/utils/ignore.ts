@@ -22,6 +22,8 @@ import * as MultiBuild from 'resin-multibuild';
 import dockerIgnore = require('@zeit/dockerignore');
 import ignore from 'ignore';
 
+import { ExpectedError } from '../errors';
+
 const { toPosixPath } = MultiBuild.PathUtils;
 
 export enum IgnoreFileType {
@@ -181,4 +183,93 @@ export class FileIgnorer {
 		// which would tell us that path1 is not part of path2
 		return !/^\.\.\//.test(path.posix.relative(path1, path2));
 	}
+}
+
+interface FileStats {
+	filePath: string;
+	relPath: string;
+	stats: fs.Stats;
+}
+
+/**
+ * Create a list of files (FileStats[]) for the filesystem subtree rooted at
+ * projectDir, listing each file with both a full path and a relative path,
+ * but excluding entries for directories themselves.
+ * @param projectDir Source directory (root of subtree to be listed)
+ * @param dir Used for recursive calls only (omit on first function call)
+ */
+async function listFiles(
+	projectDir: string,
+	dir: string = projectDir,
+): Promise<FileStats[]> {
+	const files: FileStats[] = [];
+	const dirEntries = await fs.readdir(dir);
+	await Promise.all(
+		dirEntries.map(async entry => {
+			const filePath = path.join(dir, entry);
+			const stats = await fs.stat(filePath);
+			if (stats.isDirectory()) {
+				files.push(...(await listFiles(projectDir, filePath)));
+			} else if (stats.isFile()) {
+				files.push({
+					filePath,
+					relPath: path.relative(projectDir, filePath),
+					stats,
+				});
+			}
+		}),
+	);
+	return files;
+}
+
+/**
+ * Return the contents of a .dockerignore file at projectDir, as a string.
+ * Return an empty string if a .dockerignore file does not exist.
+ * @param projectDir Source directory
+ * @returns Contents of the .dockerignore file, as a UTF-8 string
+ */
+async function readDockerIgnoreFile(projectDir: string): Promise<string> {
+	const dockerIgnorePath = path.join(projectDir, '.dockerignore');
+	let dockerIgnoreStr = '';
+	try {
+		dockerIgnoreStr = await fs.readFile(dockerIgnorePath, 'utf8');
+	} catch (err) {
+		if (err.code !== 'ENOENT') {
+			throw new ExpectedError(
+				`Error reading file "${dockerIgnorePath}": ${err.message}`,
+			);
+		}
+	}
+	return dockerIgnoreStr;
+}
+
+/**
+ * Create a list of files (FileStats[]) for the filesystem subtree rooted at
+ * projectDir, filtered against a .dockerignore file (if any) also at projectDir,
+ * plus a few hardcoded dockerignore patterns.
+ * @param projectDir Source directory to
+ */
+export async function filterFilesWithDockerignore(
+	projectDir: string,
+): Promise<FileStats[]> {
+	// path.resolve() also converts forward slashes to backslashes on Windows
+	projectDir = path.resolve(projectDir);
+	const dockerIgnoreStr = await readDockerIgnoreFile(projectDir);
+	const $dockerIgnore = (await import('@balena/dockerignore')).default;
+	const ig = $dockerIgnore({ ignorecase: false });
+
+	ig.add(['**/.git']);
+	if (dockerIgnoreStr) {
+		ig.add(dockerIgnoreStr);
+	}
+	ig.add([
+		'!**/.balena',
+		'!**/.resin',
+		'!**/Dockerfile',
+		'!**/Dockerfile.*',
+		'!**/docker-compose.yml',
+	]);
+
+	const files = await listFiles(projectDir);
+	return files.filter((file: FileStats) => !ig.ignores(file.relPath));
 }

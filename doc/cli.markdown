@@ -1805,6 +1805,7 @@ containers. The synchronization is only in one direction, from this machine to
 the device, and changes made on the device itself may be overwritten.
 This feature requires a device running supervisor version v9.7.0 or greater.
 
+REGISTRY SECRETS
 The --registry-secrets option specifies a JSON or YAML file containing private
 Docker registry usernames and passwords to be used when pulling base images.
 Sample registry-secrets YAML file:
@@ -1826,6 +1827,41 @@ If the --registry-secrets option is not specified, and a secrets.yml or
 secrets.json file exists in the balena directory (usually $HOME/.balena),
 this file will be used instead.
 
+DOCKERIGNORE AND GITIGNORE FILES
+By default, both '.dockerignore' and '.gitignore' files are taken into account
+in order to prevent files from being sent to the balenaCloud builder or Docker
+or balenaEngine (balenaOS device).
+
+However, this behavior has been DEPRECATED and will change in an upcoming major
+version release. The --nogitignore (-G) option should be used to enable the new
+behavior already now. This option will cause the CLI to:
+
+* Disregard all '.gitignore' files at the source directory and subdirectories,
+  and consider only the '.dockerignore' file (if any) at the source directory.
+* Consequently, allow files to be sent to balenaCloud / Docker / balenaEngine
+  even if they are listed in '.gitignore' files (a longstanding feature request).
+* Use a new '.dockerignore' parser and filter library that improves compatibility
+  with "docker build" and fixes several issues (mainly on Windows).
+* Prevent a warning message from being printed.
+
+When --nogitignore (-G) is provided, a few "hardcoded" dockerignore patterns are
+also used and "merged" (in memory) with the patterns found in the '.dockerignore'
+file (if any), in the following order:
+
+    **/.git
+    < user's patterns from the '.dockerignore' file, if any >
+    !**/.balena
+    !**/.resin
+    !**/Dockerfile
+    !**/Dockerfile.*
+    !**/docker-compose.yml
+
+If necessary, the effect of the '**/.git' pattern may be modified by adding
+"counter patterns" to the '.dockerignore' file, for example '!service1/.git'.
+For documentation on pattern format, see:
+- https://docs.docker.com/engine/reference/builder/#dockerignore-file
+- https://www.npmjs.com/package/@balena/dockerignore
+
 Examples:
 
 	$ balena push myApp
@@ -1845,7 +1881,7 @@ Examples:
 
 #### --source, -s &#60;source&#62;
 
-The source that should be sent to the balena builder to be built (defaults to the current directory)
+Source directory to be sent to balenaCloud or balenaOS device (default: current working dir)
 
 #### --emulated, -e
 
@@ -1909,6 +1945,12 @@ left hand side of the = character will be treated as the variable name.
 On Windows only, convert line endings from CRLF (Windows format) to LF (Unix format).
 Source files are not modified.
 
+#### --nogitignore, -G
+
+Disregard all .gitignore files, and consider only the .dockerignore file (if any)
+at the source directory. This will be the default behavior in an upcoming major
+version release. For more information, see 'balena help push'.
+
 # Settings
 
 ## settings
@@ -1971,6 +2013,7 @@ found, it will look for a Dockerfile[.template] file (or alternative Dockerfile
 specified with the `--dockerfile` option), and if no dockerfile is found, it
 will try to generate one.
 
+REGISTRY SECRETS
 The --registry-secrets option specifies a JSON or YAML file containing private
 Docker registry usernames and passwords to be used when pulling base images.
 Sample registry-secrets YAML file:
@@ -1991,6 +2034,41 @@ check: https://github.com/balena-io-playground/sample-gcr-registry-secrets
 If the --registry-secrets option is not specified, and a secrets.yml or
 secrets.json file exists in the balena directory (usually $HOME/.balena),
 this file will be used instead.
+
+DOCKERIGNORE AND GITIGNORE FILES
+By default, both '.dockerignore' and '.gitignore' files are taken into account
+in order to prevent files from being sent to the balenaCloud builder or Docker
+or balenaEngine (balenaOS device).
+
+However, this behavior has been DEPRECATED and will change in an upcoming major
+version release. The --nogitignore (-G) option should be used to enable the new
+behavior already now. This option will cause the CLI to:
+
+* Disregard all '.gitignore' files at the source directory and subdirectories,
+  and consider only the '.dockerignore' file (if any) at the source directory.
+* Consequently, allow files to be sent to balenaCloud / Docker / balenaEngine
+  even if they are listed in '.gitignore' files (a longstanding feature request).
+* Use a new '.dockerignore' parser and filter library that improves compatibility
+  with "docker build" and fixes several issues (mainly on Windows).
+* Prevent a warning message from being printed.
+
+When --nogitignore (-G) is provided, a few "hardcoded" dockerignore patterns are
+also used and "merged" (in memory) with the patterns found in the '.dockerignore'
+file (if any), in the following order:
+
+    **/.git
+    < user's patterns from the '.dockerignore' file, if any >
+    !**/.balena
+    !**/.resin
+    !**/Dockerfile
+    !**/Dockerfile.*
+    !**/docker-compose.yml
+
+If necessary, the effect of the '**/.git' pattern may be modified by adding
+"counter patterns" to the '.dockerignore' file, for example '!service1/.git'.
+For documentation on pattern format, see:
+- https://docs.docker.com/engine/reference/builder/#dockerignore-file
+- https://www.npmjs.com/package/@balena/dockerignore
 
 Examples:
 
@@ -2031,6 +2109,12 @@ Alternative Dockerfile name/path, relative to the source folder
 #### --logs
 
 Display full log output
+
+#### --nogitignore, -G
+
+Disregard all .gitignore files, and consider only the .dockerignore file (if any)
+at the source directory. This will be the default behavior in an upcoming major
+version release. For more information, see 'balena help undefined'.
 
 #### --noparent-check
 
@@ -2112,6 +2196,7 @@ To deploy to an app on which you're a collaborator, use
 When --build is used, all options supported by `balena build` are also supported
 by this command.
 
+REGISTRY SECRETS
 The --registry-secrets option specifies a JSON or YAML file containing private
 Docker registry usernames and passwords to be used when pulling base images.
 Sample registry-secrets YAML file:
@@ -2132,6 +2217,41 @@ check: https://github.com/balena-io-playground/sample-gcr-registry-secrets
 If the --registry-secrets option is not specified, and a secrets.yml or
 secrets.json file exists in the balena directory (usually $HOME/.balena),
 this file will be used instead.
+
+DOCKERIGNORE AND GITIGNORE FILES
+By default, both '.dockerignore' and '.gitignore' files are taken into account
+in order to prevent files from being sent to the balenaCloud builder or Docker
+or balenaEngine (balenaOS device).
+
+However, this behavior has been DEPRECATED and will change in an upcoming major
+version release. The --nogitignore (-G) option should be used to enable the new
+behavior already now. This option will cause the CLI to:
+
+* Disregard all '.gitignore' files at the source directory and subdirectories,
+  and consider only the '.dockerignore' file (if any) at the source directory.
+* Consequently, allow files to be sent to balenaCloud / Docker / balenaEngine
+  even if they are listed in '.gitignore' files (a longstanding feature request).
+* Use a new '.dockerignore' parser and filter library that improves compatibility
+  with "docker build" and fixes several issues (mainly on Windows).
+* Prevent a warning message from being printed.
+
+When --nogitignore (-G) is provided, a few "hardcoded" dockerignore patterns are
+also used and "merged" (in memory) with the patterns found in the '.dockerignore'
+file (if any), in the following order:
+
+    **/.git
+    < user's patterns from the '.dockerignore' file, if any >
+    !**/.balena
+    !**/.resin
+    !**/Dockerfile
+    !**/Dockerfile.*
+    !**/docker-compose.yml
+
+If necessary, the effect of the '**/.git' pattern may be modified by adding
+"counter patterns" to the '.dockerignore' file, for example '!service1/.git'.
+For documentation on pattern format, see:
+- https://docs.docker.com/engine/reference/builder/#dockerignore-file
+- https://www.npmjs.com/package/@balena/dockerignore
 
 Examples:
 
@@ -2168,6 +2288,12 @@ Alternative Dockerfile name/path, relative to the source folder
 #### --logs
 
 Display full log output
+
+#### --nogitignore, -G
+
+Disregard all .gitignore files, and consider only the .dockerignore file (if any)
+at the source directory. This will be the default behavior in an upcoming major
+version release. For more information, see 'balena help undefined'.
 
 #### --noparent-check
 

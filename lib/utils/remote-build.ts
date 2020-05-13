@@ -51,6 +51,7 @@ export interface RemoteBuild {
 	source: string;
 	auth: string;
 	baseUrl: string;
+	nogitignore: boolean;
 	opts: BuildOpts;
 
 	sdk: BalenaSDK;
@@ -302,6 +303,7 @@ async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
 		return await tarDirectory(path.resolve(build.source), {
 			preFinalizeCallback: preFinalizeCb,
 			convertEol: build.opts.convertEol,
+			nogitignore: build.nogitignore,
 		});
 	} finally {
 		tarSpinner.stop();
