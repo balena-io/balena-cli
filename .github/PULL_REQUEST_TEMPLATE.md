@@ -22,3 +22,5 @@ usually helps with the review process.
 
 If the PR introduces security considerations or affects the development, build
 or release process, please be sure to highlight this in the PR description.
+
+Thank you very much for your contribution!
