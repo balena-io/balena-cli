@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        push/build/deploy: add --nogitignore option and update dockerignore
+        filter library
+      hash: 4577d72eaddfacd9b97df41d339d1262e08b1941
+      body: ''
+      footer:
+        Connects-to: '#1148'
+        connects-to: '#1148'
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+  version: 11.34.0
+  date: 2020-05-13T22:17:44.036Z
+- commits:
     - subject: Re-create standalone zip package (release asset) for Windows
       hash: 4b056b4d4ce13b8e955af4e148d663ee97103dad
       body: ''
@@ -7,7 +21,7 @@
         change-type: patch
       author: Paulo Castro
   version: 11.33.4
-  date: 2020-05-12T22:16:33.359Z
+  date: 2020-05-12T21:26:55.184Z
 - commits:
     - subject: Fix usage of livepush v3 features
       hash: 4e50d08f7be174b23a470e4d9d38057763f329ba

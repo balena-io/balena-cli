@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "push/build/deploy: add --nogitignore option and update dockerignore filter library",
+          "hash": "4577d72eaddfacd9b97df41d339d1262e08b1941",
+          "body": "",
+          "footer": {
+            "Connects-to": "#1148",
+            "connects-to": "#1148",
+            "Change-type": "minor",
+            "change-type": "minor"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.34.0",
+      "date": "2020-05-13T21:36:33.452Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Re-create standalone zip package (release asset) for Windows",
           "hash": "4b056b4d4ce13b8e955af4e148d663ee97103dad",
           "body": "",
@@ -11530,7 +11548,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 239,
+  "stars": 240,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -11541,6 +11559,7 @@
     "type": "Organization"
   },
   "dependencies": [
+    "@balena/dockerignore",
     "@oclif/command",
     "@resin.io/valid-email",
     "@sentry/node",
@@ -11632,36 +11651,52 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-12T22:17:16Z",
+  "lastCommitDate": "2020-05-13T22:18:30Z",
   "latestRelease": {
-    "tagName": "v11.33.4",
+    "tagName": "v11.34.0",
     "asssets": [
       {
-        "name": "balena-cli-v11.33.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.4/balena-cli-v11.33.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.34.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.34.0/balena-cli-v11.34.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.33.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.4/balena-cli-v11.33.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.34.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.34.0/balena-cli-v11.34.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.33.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.4/balena-cli-v11.33.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.34.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.34.0/balena-cli-v11.34.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.33.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.4/balena-cli-v11.33.4-windows-x64-installer.exe"
+        "name": "balena-cli-v11.34.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.34.0/balena-cli-v11.34.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.33.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.33.4/balena-cli-v11.33.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.34.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.34.0/balena-cli-v11.34.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 278,
+    "numberOfIssues": 281,
     "latestIssues": [
+      {
+        "title": "`app create`: \"You already have an application with that name!\"",
+        "url": "https://github.com/balena-io/balena-cli/pull/1825"
+      },
+      {
+        "title": "balena app create \"You already have an application with that name!\"",
+        "url": "https://github.com/balena-io/balena-cli/issues/1824"
+      },
+      {
+        "title": "Update GitHub templates for new issues and pull requests",
+        "url": "https://github.com/balena-io/balena-cli/pull/1823"
+      },
+      {
+        "title": "Balena push stuck after build",
+        "url": "https://github.com/balena-io/balena-cli/issues/1822"
+      },
       {
         "title": "Anti-virus and windows detect balena.exe as rare threat",
         "url": "https://github.com/balena-io/balena-cli/issues/1820"
@@ -11677,10 +11712,6 @@
       {
         "title": "balena os initialize should not require login",
         "url": "https://github.com/balena-io/balena-cli/issues/1814"
-      },
-      {
-        "title": "Add --nogitignore flag (new treatment of .gitignore and .dockerignore files)",
-        "url": "https://github.com/balena-io/balena-cli/pull/1813"
       },
       {
         "title": "Install: For windows user we should mention they need ubuntu +WSL",
@@ -11727,24 +11758,12 @@
         "url": "https://github.com/balena-io/balena-cli/issues/1773"
       },
       {
-        "title": "Next major release: drop Node 8, add Node 14",
+        "title": "Release new major version (feature list)",
         "url": "https://github.com/balena-io/balena-cli/issues/1770"
-      },
-      {
-        "title": "Convert all remaining commands from Capitano to oclif",
-        "url": "https://github.com/balena-io/balena-cli/issues/1768"
-      },
-      {
-        "title": "Simplify installation instructions ",
-        "url": "https://github.com/balena-io/balena-cli/issues/1760"
-      },
-      {
-        "title": "List containers/services running on a device",
-        "url": "https://github.com/balena-io/balena-cli/issues/1759"
       }
     ]
   },
-  "version": "11.33.4",
+  "version": "11.34.0",
   "screenshot": null,
   "logo": null
 }
