@@ -132,6 +132,7 @@ const messages: {
 };
 
 const EXPECTED_ERROR_REGEXES = [
+	/^BalenaAmbiguousApplication:/, // balena-sdk
 	/^BalenaApplicationNotFound:/, // balena-sdk
 	/^BalenaDeviceNotFound:/, // balena-sdk
 	/^Missing \w+$/, // Capitano, oclif parser: RequiredArgsError, RequiredFlagError

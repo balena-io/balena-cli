@@ -78,22 +78,25 @@ export default class AppCreateCmd extends Command {
 		const balena = getBalenaSdk();
 		const patterns = await import('../../utils/patterns');
 
-		// First make sure they don't already have an app with this name
-		if (await balena.models.application.has(params.name)) {
-			throw new ExpectedError(
-				'You already have an application with that name!',
-			);
-		}
-
 		// Create application
 		const deviceType = options.type || (await patterns.selectDeviceType());
-		const application = await balena.models.application.create({
-			name: params.name,
-			deviceType,
-		});
-
+		let application: import('balena-sdk').Application;
+		try {
+			application = await balena.models.application.create({
+				name: params.name,
+				deviceType,
+			});
+		} catch (err) {
+			// BalenaRequestError: Request error: Unique key constraint violated
+			if ((err.message || '').toLowerCase().includes('unique')) {
+				throw new ExpectedError(
+					`Error: application "${params.name}" already exists`,
+				);
+			}
+			throw err;
+		}
 		console.info(
-			`Application created: ${application.app_name} (${application.device_type}, id ${application.id})`,
+			`Application created: ${application.slug} (${application.device_type}, id ${application.id})`,
 		);
 	}
 }
