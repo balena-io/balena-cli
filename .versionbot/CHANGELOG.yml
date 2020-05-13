@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        push/build/deploy: add --nogitignore option and update dockerignore
+        filter library
+      hash: 4577d72eaddfacd9b97df41d339d1262e08b1941
+      body: ''
+      footer:
+        Connects-to: '#1148'
+        connects-to: '#1148'
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+  version: 11.34.0
+  date: 2020-05-13T21:36:33.452Z
+- commits:
     - subject: Re-create standalone zip package (release asset) for Windows
       hash: 4b056b4d4ce13b8e955af4e148d663ee97103dad
       body: ''

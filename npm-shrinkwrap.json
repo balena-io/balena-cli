@@ -1,6 +1,6 @@
 {
   "name": "balena-cli",
-  "version": "11.33.4",
+  "version": "11.34.0",
   "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
