@@ -307,6 +307,10 @@ Examples:
 
 ### Options
 
+#### -v, --verbose
+
+add extra columns in the tabular output (SLUG)
+
 ## app &#60;name&#62;
 
 Display detailed information about a single balena application.
