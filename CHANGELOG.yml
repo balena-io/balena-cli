@@ -1,5 +1,26 @@
 - commits:
     - subject: >-
+        balena apps: add --verbose option to list application slugs (full app
+        name)
+      hash: be21c8d43e1f06d0a94539dea7861503d260d8df
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+    - subject: 'balena app create: fix application existence check'
+      hash: 5b338263098962790ac1eae238f3595997efae9d
+      body: ''
+      footer:
+        Resolves: '#1824'
+        resolves: '#1824'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.35.0
+  date: 2020-05-14T13:18:48.959Z
+- commits:
+    - subject: >-
         push/build/deploy: add --nogitignore option and update dockerignore
         filter library
       hash: 4577d72eaddfacd9b97df41d339d1262e08b1941
@@ -11,7 +32,7 @@
         change-type: minor
       author: Paulo Castro
   version: 11.34.0
-  date: 2020-05-13T22:17:44.036Z
+  date: 2020-05-13T21:36:33.452Z
 - commits:
     - subject: Re-create standalone zip package (release asset) for Windows
       hash: 4b056b4d4ce13b8e955af4e148d663ee97103dad

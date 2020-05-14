@@ -5,6 +5,34 @@
     {
       "commits": [
         {
+          "subject": "balena apps: add --verbose option to list application slugs (full app name)",
+          "hash": "be21c8d43e1f06d0a94539dea7861503d260d8df",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "balena app create: fix application existence check",
+          "hash": "5b338263098962790ac1eae238f3595997efae9d",
+          "body": "",
+          "footer": {
+            "Resolves": "#1824",
+            "resolves": "#1824",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.35.0",
+      "date": "2020-05-14T12:20:33.712Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "push/build/deploy: add --nogitignore option and update dockerignore filter library",
           "hash": "4577d72eaddfacd9b97df41d339d1262e08b1941",
           "body": "",
@@ -11651,43 +11679,39 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-13T22:18:30Z",
+  "lastCommitDate": "2020-05-14T13:19:51Z",
   "latestRelease": {
-    "tagName": "v11.34.0",
+    "tagName": "v11.35.0",
     "asssets": [
       {
-        "name": "balena-cli-v11.34.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.34.0/balena-cli-v11.34.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.35.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.0/balena-cli-v11.35.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.34.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.34.0/balena-cli-v11.34.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.35.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.0/balena-cli-v11.35.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.34.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.34.0/balena-cli-v11.34.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.35.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.0/balena-cli-v11.35.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.34.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.34.0/balena-cli-v11.34.0-windows-x64-installer.exe"
+        "name": "balena-cli-v11.35.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.0/balena-cli-v11.35.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.34.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.34.0/balena-cli-v11.34.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.35.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.0/balena-cli-v11.35.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 281,
+    "numberOfIssues": 280,
     "latestIssues": [
       {
-        "title": "`app create`: \"You already have an application with that name!\"",
-        "url": "https://github.com/balena-io/balena-cli/pull/1825"
-      },
-      {
-        "title": "balena app create \"You already have an application with that name!\"",
-        "url": "https://github.com/balena-io/balena-cli/issues/1824"
+        "title": "Update typescript to 3.9",
+        "url": "https://github.com/balena-io/balena-cli/pull/1826"
       },
       {
         "title": "Update GitHub templates for new issues and pull requests",
@@ -11760,10 +11784,14 @@
       {
         "title": "Release new major version (feature list)",
         "url": "https://github.com/balena-io/balena-cli/issues/1770"
+      },
+      {
+        "title": "Convert all remaining commands from Capitano to oclif",
+        "url": "https://github.com/balena-io/balena-cli/issues/1768"
       }
     ]
   },
-  "version": "11.34.0",
+  "version": "11.35.0",
   "screenshot": null,
   "logo": null
 }
