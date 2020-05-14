@@ -1,4 +1,14 @@
 - commits:
+    - subject: Update GitHub templates for new issues and pull requests
+      hash: 8c2a40cb39a4c790e06d23c4b920a57639b239d2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.35.1
+  date: 2020-05-14T14:57:34.698Z
+- commits:
     - subject: >-
         balena apps: add --verbose option to list application slugs (full app
         name)
@@ -18,7 +28,7 @@
         change-type: patch
       author: Paulo Castro
   version: 11.35.0
-  date: 2020-05-14T13:18:48.959Z
+  date: 2020-05-14T12:20:33.712Z
 - commits:
     - subject: >-
         push/build/deploy: add --nogitignore option and update dockerignore

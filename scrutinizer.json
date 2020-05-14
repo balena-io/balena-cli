@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Update GitHub templates for new issues and pull requests",
+          "hash": "8c2a40cb39a4c790e06d23c4b920a57639b239d2",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.35.1",
+      "date": "2020-05-14T14:28:24.479Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "balena apps: add --verbose option to list application slugs (full app name)",
           "hash": "be21c8d43e1f06d0a94539dea7861503d260d8df",
           "body": "",
@@ -11679,51 +11695,43 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-14T13:19:51Z",
+  "lastCommitDate": "2020-05-14T14:58:20Z",
   "latestRelease": {
-    "tagName": "v11.35.0",
+    "tagName": "v11.35.1",
     "asssets": [
       {
-        "name": "balena-cli-v11.35.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.0/balena-cli-v11.35.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.35.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.1/balena-cli-v11.35.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.0/balena-cli-v11.35.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.35.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.1/balena-cli-v11.35.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.35.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.0/balena-cli-v11.35.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.35.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.1/balena-cli-v11.35.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.0/balena-cli-v11.35.0-windows-x64-installer.exe"
+        "name": "balena-cli-v11.35.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.1/balena-cli-v11.35.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.35.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.0/balena-cli-v11.35.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.35.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.1/balena-cli-v11.35.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 280,
+    "numberOfIssues": 277,
     "latestIssues": [
       {
         "title": "Update typescript to 3.9",
         "url": "https://github.com/balena-io/balena-cli/pull/1826"
       },
       {
-        "title": "Update GitHub templates for new issues and pull requests",
-        "url": "https://github.com/balena-io/balena-cli/pull/1823"
-      },
-      {
         "title": "Balena push stuck after build",
         "url": "https://github.com/balena-io/balena-cli/issues/1822"
-      },
-      {
-        "title": "Anti-virus and windows detect balena.exe as rare threat",
-        "url": "https://github.com/balena-io/balena-cli/issues/1820"
       },
       {
         "title": "balena push: Could not detect project type: Service main: Couldn't satisfy node version >=4 ",
@@ -11770,10 +11778,6 @@
         "url": "https://github.com/balena-io/balena-cli/issues/1795"
       },
       {
-        "title": "Integrate new livepush",
-        "url": "https://github.com/balena-io/balena-cli/issues/1784"
-      },
-      {
         "title": "Partial inclusion of stack trace in unexpected errors, even when not in debug mode",
         "url": "https://github.com/balena-io/balena-cli/issues/1778"
       },
@@ -11788,10 +11792,22 @@
       {
         "title": "Convert all remaining commands from Capitano to oclif",
         "url": "https://github.com/balena-io/balena-cli/issues/1768"
+      },
+      {
+        "title": "Simplify installation instructions ",
+        "url": "https://github.com/balena-io/balena-cli/issues/1760"
+      },
+      {
+        "title": "List containers/services running on a device",
+        "url": "https://github.com/balena-io/balena-cli/issues/1759"
+      },
+      {
+        "title": "Rename parameters to make error messages clearer",
+        "url": "https://github.com/balena-io/balena-cli/issues/1758"
       }
     ]
   },
-  "version": "11.35.0",
+  "version": "11.35.1",
   "screenshot": null,
   "logo": null
 }
