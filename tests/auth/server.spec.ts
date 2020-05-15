@@ -1,4 +1,20 @@
-import * as Promise from 'bluebird';
+/**
+ * @license
+ * Copyright 2019-2020 Balena Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import * as Bluebird from 'bluebird';
 import * as chai from 'chai';
 import chaiAsPromised = require('chai-as-promised');
 import * as ejs from 'ejs';
@@ -7,12 +23,7 @@ import * as path from 'path';
 import * as request from 'request';
 import * as sinon from 'sinon';
 
-// TODO: Convert server code to Typescript so it can have a declaration file
-// @ts-ignore
 import * as server from '../../build/auth/server';
-
-// TODO: Convert utils code to Typescript so it can have a declaration file
-// @ts-ignore
 import * as utils from '../../build/auth/utils';
 import tokens from './tokens';
 
@@ -25,9 +36,7 @@ const options = {
 	path: '/auth',
 };
 
-const getPage = function(
-	name: Parameters<typeof server.getContext>[0],
-): Promise<string> {
+async function getPage(name: string): Promise<string> {
 	const pagePath = path.join(
 		__dirname,
 		'..',
@@ -39,8 +48,8 @@ const getPage = function(
 	);
 	const tpl = fs.readFileSync(pagePath, { encoding: 'utf8' });
 	const compiledTpl = ejs.compile(tpl);
-	return server.getContext(name).then((context: any) => compiledTpl(context));
-};
+	return compiledTpl();
+}
 
 describe('Server:', function() {
 	it('should get 404 if posting to an unknown path', function(done) {
@@ -86,7 +95,7 @@ describe('Server:', function() {
 	describe('given the token authenticates with the server', function() {
 		beforeEach(function() {
 			this.loginIfTokenValidStub = sinon.stub(utils, 'loginIfTokenValid');
-			return this.loginIfTokenValidStub.returns(Promise.resolve(true));
+			return this.loginIfTokenValidStub.returns(Bluebird.resolve(true));
 		});
 
 		afterEach(function() {
@@ -119,7 +128,7 @@ describe('Server:', function() {
 	return describe('given the token does not authenticate with the server', function() {
 		beforeEach(function() {
 			this.loginIfTokenValidStub = sinon.stub(utils, 'loginIfTokenValid');
-			return this.loginIfTokenValidStub.returns(Promise.resolve(false));
+			return this.loginIfTokenValidStub.returns(Bluebird.resolve(false));
 		});
 
 		afterEach(function() {
