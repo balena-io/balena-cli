@@ -21,6 +21,9 @@ import { TypedError } from 'typed-error';
 import { getChalk } from './utils/lazy';
 import { getHelp } from './utils/messages';
 
+// Support stubbing of module functions.
+let ErrorsModule: any;
+
 export class ExpectedError extends TypedError {}
 
 export class NotLoggedInError extends ExpectedError {}
@@ -135,10 +138,16 @@ const EXPECTED_ERROR_REGEXES = [
 	/^BalenaAmbiguousApplication:/, // balena-sdk
 	/^BalenaApplicationNotFound:/, // balena-sdk
 	/^BalenaDeviceNotFound:/, // balena-sdk
+	/^BalenaExpiredToken:/, // balena-sdk
 	/^Missing \w+$/, // Capitano, oclif parser: RequiredArgsError, RequiredFlagError
-	/^Unexpected arguments?:/, // oclif parser: UnexpectedArgsError
+	/^Unexpected argument/, // oclif parser: UnexpectedArgsError
 	/to be one of/, // oclif parser: FlagInvalidOptionError, ArgInvalidOptionError
 ];
+
+// Support unit testing of handleError
+async function getSentry() {
+	return await import('@sentry/node');
+}
 
 export async function handleError(error: any) {
 	// Set appropriate exitCode
@@ -149,20 +158,15 @@ export async function handleError(error: any) {
 
 	// Handle non-Error objects (probably strings)
 	if (!(error instanceof Error)) {
-		printErrorMessage(String(error));
+		ErrorsModule.printErrorMessage(String(error));
 		return;
 	}
 
 	// Prepare message
 	const message = [interpret(error)];
 
-	if (error.stack) {
-		if (process.env.DEBUG) {
-			message.push('\n' + error.stack);
-		} else {
-			// Include first line of stacktrace
-			message.push('\n' + error.stack.split(`\n`)[0]);
-		}
+	if (error.stack && process.env.DEBUG) {
+		message.push('\n' + error.stack);
 	}
 
 	// Expected?
@@ -172,14 +176,20 @@ export async function handleError(error: any) {
 
 	// Output/report error
 	if (isExpectedError) {
-		printExpectedErrorMessage(message.join('\n'));
+		ErrorsModule.printExpectedErrorMessage(message.join('\n'));
 	} else {
-		printErrorMessage(message.join('\n'));
+		ErrorsModule.printErrorMessage(message.join('\n'));
 
 		// Report "unexpected" errors via Sentry.io
-		const Sentry = await import('@sentry/node');
+		const Sentry = await ErrorsModule.getSentry();
 		Sentry.captureException(error);
-		await Sentry.close(1000);
+		try {
+			await Sentry.close(1000);
+		} catch (e) {
+			if (process.env.DEBUG) {
+				console.error('Timeout reporting error to sentry.io');
+			}
+		}
 		// Unhandled/unexpected error: ensure that the process terminates.
 		// The exit error code was set above through `process.exitCode`.
 		process.exit();
@@ -223,3 +233,14 @@ export function exitWithExpectedError(message: string | Error): never {
 	printErrorMessage(message);
 	process.exit(1);
 }
+
+// Support stubbing of module functions.
+export default ErrorsModule = {
+	ExpectedError,
+	NotLoggedInError,
+	getSentry,
+	handleError,
+	printErrorMessage,
+	printExpectedErrorMessage,
+	exitWithExpectedError,
+};
