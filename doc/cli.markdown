@@ -1712,10 +1712,11 @@ how frequently (in minutes) to poll for application updates
 ## preload &#60;image&#62;
 
 Preload a balena application release (app images/containers), and optionally
-a balenaOS splash screen, in a previously downloaded balenaOS image file (or
-Edison zip archive) in the local disk. The balenaOS image file can then be
-flashed to a device's SD card.  When the device boots, it will not need to
-download the application, as it was preloaded.
+a balenaOS splash screen, in a previously downloaded '.img' balenaOS image file
+in the local disk (a zip file is only accepted for the Intel Edison device type).
+After preloading, the balenaOS image file can be flashed to a device's SD card.
+When the device boots, it will not need to download the application, as it was
+preloaded.
 
 Warning: "balena preload" requires Docker to be correctly installed in
 your shell environment. For more information (including Windows support)

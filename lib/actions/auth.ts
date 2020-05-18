@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2017 Balena
+Copyright 2016-2020 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -110,7 +110,6 @@ Examples:
 			} else if (loginOptions.credentials) {
 				return patterns.authenticate(loginOptions);
 			} else if (loginOptions.web) {
-				console.info('Connecting to the web dashboard');
 				const auth = await import('../auth');
 				await auth.login();
 				return;
@@ -143,6 +142,11 @@ Find out about the available commands by running:
   $ balena help
 
 ${messages.reachingOut}`);
+
+		if (options.web) {
+			const { shutdownServer } = await import('../auth');
+			shutdownServer();
+		}
 	},
 };
 

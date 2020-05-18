@@ -58,12 +58,10 @@ async function checkBuildTimestamps() {
 
 				This probably means that \`npm run build\` or \`npm test\` have not been executed,
 				and this error can be fixed by doing so. Running \`npm run build\` or \`npm test\`
-				before commiting is currently a requirement (documented in the CONTRIBUTING.md
-				file) for three reasons:
-				1. To update the CLI markdown documentation (in case any command-line options
-				   were updated, added or removed).
-				2. To catch Typescript type check errors sooner and reduce overall waiting time,
-				   given that balena-cli CI builds/tests are currently rather lengthy.
+				before commiting is required in order to update the CLI markdown documentation
+				(in case any command-line options were updated, added or removed) and also to
+				catch Typescript type check errors sooner and reduce overall waiting time, given
+				that the CI build/tests are currently rather lengthy.
 
 				If you need/wish to bypass this check without running \`npm run build\`, run:
 				  npx touch -am "${docFile}"

@@ -1,5 +1,5 @@
 /*
-Copyright 2016 Balena
+Copyright 2016-2020 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,6 +15,9 @@ limitations under the License.
 */
 
 import { getBalenaSdk } from '../utils/lazy';
+import { awaitForToken, shutdownServer } from './server';
+
+export { shutdownServer };
 
 /**
  * @module auth
@@ -52,6 +55,7 @@ export const login = async () => {
 	// from mixed content warnings (as the target of a form in the result page)
 	const callbackUrl = `http://127.0.0.1:${options.port}${options.path}`;
 	const loginUrl = await utils.getDashboardLoginURL(callbackUrl);
+	console.info(`Opening web browser for URL:\n${loginUrl}`);
 	// Leave a bit of time for the
 	// server to get up and runing
 	setTimeout(async () => {
@@ -59,7 +63,6 @@ export const login = async () => {
 		open(loginUrl, { wait: false });
 	}, 1000);
 
-	const server = await import('./server');
 	const balena = getBalenaSdk();
-	return server.awaitForToken(options).tap(balena.auth.loginWithToken);
+	return awaitForToken(options).tap(balena.auth.loginWithToken);
 };

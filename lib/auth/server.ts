@@ -1,5 +1,5 @@
 /*
-Copyright 2016 Balena
+Copyright 2016-2020 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,9 +17,12 @@ limitations under the License.
 import * as Promise from 'bluebird';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
+import { Socket } from 'net';
 import * as path from 'path';
-import { getBalenaSdk } from '../utils/lazy';
+
 import * as utils from './utils';
+
+const serverSockets: Socket[] = [];
 
 const createServer = ({ port }: { port: number }) => {
 	const app = express();
@@ -33,9 +36,28 @@ const createServer = ({ port }: { port: number }) => {
 	app.set('views', path.join(__dirname, 'pages'));
 
 	const server = app.listen(port);
+	server.on('connection', socket => serverSockets.push(socket));
 
 	return { app, server };
 };
+
+/**
+ * By design (more like a bug, but they won't admit it), a Node.js `http.server`
+ * instance prevents the process from exiting for up to 2 minutes (by default) if a
+ * client keeps a HTTP connection open, and regardless of whether `server.close()`
+ * was called: the `server.close(callback)` callback takes just as long to be called.
+ * Setting `server.timeout` to some value like 3 seconds works, but then the CLI
+ * process hangs for "only" 3 seconds (not good enough). Reducing the timeout to 1
+ * second may cause authentication failure if the laptop or CI server are slow for
+ * any reason. The only reliable way around it seems to be to explicitly unref the
+ * sockets, so the event loop stops waiting for it. See:
+ * https://github.com/nodejs/node/issues/2642
+ * https://github.com/nodejs/node-v0.x-archive/issues/9066
+ */
+export function shutdownServer() {
+	serverSockets.forEach(s => s.unref());
+	serverSockets.splice(0);
+}
 
 /**
  * @summary Await for token
@@ -60,45 +82,10 @@ export const awaitForToken = (options: {
 	const { app, server } = createServer({ port: options.port });
 
 	return new Promise<string>((resolve, reject) => {
-		const closeServer = (
-			errorMessage: string | undefined,
-			successPayload?: string,
-		) => {
-			server.close(() => {
-				if (errorMessage) {
-					reject(new Error(errorMessage));
-					return;
-				}
-
-				resolve(successPayload);
-			});
-		};
-
-		const renderAndDone = async ({
-			request,
-			response,
-			viewName,
-			errorMessage,
-			statusCode = 200,
-			token,
-		}: {
-			request: express.Request;
-			response: express.Response;
-			viewName: 'success' | 'error';
-			errorMessage?: string;
-			statusCode?: number;
-			token?: string;
-		}) => {
-			const context = await getContext(viewName);
-			response.status(statusCode).render(viewName, context);
-			request.connection.destroy();
-			closeServer(errorMessage, token);
-		};
-
 		app.post(options.path, async (request, response) => {
+			server.close(); // stop listening for new connections
 			try {
 				const token = request.body.token?.trim();
-
 				if (!token) {
 					throw new Error('No token');
 				}
@@ -106,31 +93,18 @@ export const awaitForToken = (options: {
 				if (!loggedIn) {
 					throw new Error('Invalid token');
 				}
-				await renderAndDone({ request, response, viewName: 'success', token });
+				response.status(200).render('success');
+				resolve(token);
 			} catch (error) {
-				await renderAndDone({
-					request,
-					response,
-					viewName: 'error',
-					statusCode: 401,
-					errorMessage: error.message,
-				});
+				response.status(401).render('error');
+				reject(new Error(error.message));
 			}
 		});
 
 		app.use((_request, response) => {
+			server.close(); // stop listening for new connections
 			response.status(404).send('Not found');
-			closeServer('Unknown path or verb');
+			reject(new Error('Unknown path or verb'));
 		});
 	});
-};
-
-export const getContext = (viewName: 'success' | 'error') => {
-	if (viewName === 'success') {
-		return Promise.props({
-			dashboardUrl: getBalenaSdk().settings.get('dashboardUrl'),
-		});
-	}
-
-	return Promise.resolve({});
 };
