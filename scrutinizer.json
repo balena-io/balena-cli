@@ -5,6 +5,58 @@
     {
       "commits": [
         {
+          "subject": "Fix 'balena login' web authorization hanging with Google Chrome",
+          "hash": "3bb5e495a61be466ce1c60aad55e869427bc864a",
+          "body": "",
+          "footer": {
+            "Resolves": "#1404",
+            "resolves": "#1404",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Update web page wording for 'balena login' web authorization",
+          "hash": "803a9070fd6abe71d5ee7a21492970745334bc18",
+          "body": "",
+          "footer": {
+            "Resolves": "#1710",
+            "resolves": "#1710",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Update `balena preload` help message (clarify accepted image formats)",
+          "hash": "a84ab793a08ef9b2d1973c12fc709700a612106e",
+          "body": "",
+          "footer": {
+            "Connects-to": "#1810",
+            "connects-to": "#1810",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Update pre-commit script error message (automation/check-doc.js)",
+          "hash": "81269e92d5d6de182a5cadbd3924b5ccdb0e50bb",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.35.2",
+      "date": "2020-05-16T22:34:21.277Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update GitHub templates for new issues and pull requests",
           "hash": "8c2a40cb39a4c790e06d23c4b920a57639b239d2",
           "body": "",
@@ -11695,29 +11747,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-14T14:58:20Z",
+  "lastCommitDate": "2020-05-18T10:14:46Z",
   "latestRelease": {
-    "tagName": "v11.35.1",
+    "tagName": "v11.35.2",
     "asssets": [
       {
-        "name": "balena-cli-v11.35.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.1/balena-cli-v11.35.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.35.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.2/balena-cli-v11.35.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.1/balena-cli-v11.35.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.35.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.2/balena-cli-v11.35.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.35.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.1/balena-cli-v11.35.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.35.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.2/balena-cli-v11.35.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.1/balena-cli-v11.35.1-windows-x64-installer.exe"
+        "name": "balena-cli-v11.35.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.2/balena-cli-v11.35.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.35.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.1/balena-cli-v11.35.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.35.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.2/balena-cli-v11.35.2-windows-x64-standalone.zip"
       }
     ]
   },
@@ -11725,6 +11777,14 @@
   "openIssues": {
     "numberOfIssues": 277,
     "latestIssues": [
+      {
+        "title": "Livepush process didn't exit after connection hangup",
+        "url": "https://github.com/balena-io/balena-cli/issues/1828"
+      },
+      {
+        "title": "Add unit tests for errors module",
+        "url": "https://github.com/balena-io/balena-cli/pull/1827"
+      },
       {
         "title": "Update typescript to 3.9",
         "url": "https://github.com/balena-io/balena-cli/pull/1826"
@@ -11796,18 +11856,10 @@
       {
         "title": "Simplify installation instructions ",
         "url": "https://github.com/balena-io/balena-cli/issues/1760"
-      },
-      {
-        "title": "List containers/services running on a device",
-        "url": "https://github.com/balena-io/balena-cli/issues/1759"
-      },
-      {
-        "title": "Rename parameters to make error messages clearer",
-        "url": "https://github.com/balena-io/balena-cli/issues/1758"
       }
     ]
   },
-  "version": "11.35.1",
+  "version": "11.35.2",
   "screenshot": null,
   "logo": null
 }
