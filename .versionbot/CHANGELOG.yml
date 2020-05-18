@@ -1,4 +1,41 @@
 - commits:
+    - subject: Fix 'balena login' web authorization hanging with Google Chrome
+      hash: 3bb5e495a61be466ce1c60aad55e869427bc864a
+      body: ''
+      footer:
+        Resolves: '#1404'
+        resolves: '#1404'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Update web page wording for 'balena login' web authorization
+      hash: 803a9070fd6abe71d5ee7a21492970745334bc18
+      body: ''
+      footer:
+        Resolves: '#1710'
+        resolves: '#1710'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Update `balena preload` help message (clarify accepted image formats)
+      hash: a84ab793a08ef9b2d1973c12fc709700a612106e
+      body: ''
+      footer:
+        Connects-to: '#1810'
+        connects-to: '#1810'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Update pre-commit script error message (automation/check-doc.js)
+      hash: 81269e92d5d6de182a5cadbd3924b5ccdb0e50bb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.35.2
+  date: 2020-05-16T22:34:21.277Z
+- commits:
     - subject: Update GitHub templates for new issues and pull requests
       hash: 8c2a40cb39a4c790e06d23c4b920a57639b239d2
       body: ''
