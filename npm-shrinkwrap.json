@@ -141,12 +141,6 @@
           "integrity": "sha512-8RkBivJrDCyPpBXhVZcjh7cQxVBSmRk9QM7hOketZzp6Tg79c0N8kkpAIito9bnJ3HCVCHVYz+KHTEbfQNfeVQ==",
           "dev": true
         },
-        "coffee-script": {
-          "version": "1.12.7",
-          "resolved": "https://registry.npmjs.org/coffee-script/-/coffee-script-1.12.7.tgz",
-          "integrity": "sha512-fLeEhqwymYat/MpTPUjSKHVYYl0ec2mOyALEMLmzr5i1isuG+6jfI2j2d5oBO3VIzgUXgBVIcOT9uH1TFxBckw==",
-          "dev": true
-        },
         "glob": {
           "version": "7.1.6",
           "resolved": "https://registry.npmjs.org/glob/-/glob-7.1.6.tgz",
@@ -873,9 +867,9 @@
       }
     },
     "@types/bluebird": {
-      "version": "3.5.30",
-      "resolved": "https://registry.npmjs.org/@types/bluebird/-/bluebird-3.5.30.tgz",
-      "integrity": "sha512-8LhzvcjIoqoi1TghEkRMkbbmM+jhHnBokPGkJWjclMK+Ks0MxEBow3/p2/iFTZ+OIbJHQDSfpgdZEb+af3gfVw=="
+      "version": "3.5.31",
+      "resolved": "https://registry.npmjs.org/@types/bluebird/-/bluebird-3.5.31.tgz",
+      "integrity": "sha512-0PKlnDIxOh3xJHwJpVONR2PP11LhdM+QYiLJGLIbzMqRwLAPxN6lQar2RpdRhfIEh/HjVMgMdhHWJA0CgC5X6w=="
     },
     "@types/body-parser": {
       "version": "1.19.0",
@@ -3481,6 +3475,12 @@
       "version": "1.1.0",
       "resolved": "https://registry.npmjs.org/code-point-at/-/code-point-at-1.1.0.tgz",
       "integrity": "sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c="
+    },
+    "coffee-script": {
+      "version": "1.12.7",
+      "resolved": "https://registry.npmjs.org/coffee-script/-/coffee-script-1.12.7.tgz",
+      "integrity": "sha512-fLeEhqwymYat/MpTPUjSKHVYYl0ec2mOyALEMLmzr5i1isuG+6jfI2j2d5oBO3VIzgUXgBVIcOT9uH1TFxBckw==",
+      "dev": true
     },
     "coffeelint": {
       "version": "1.16.2",
@@ -16498,9 +16498,9 @@
       }
     },
     "source-map-support": {
-      "version": "0.5.17",
-      "resolved": "https://registry.npmjs.org/source-map-support/-/source-map-support-0.5.17.tgz",
-      "integrity": "sha512-bwdKOBZ5L0gFRh4KOxNap/J/MpvX9Yxsq9lFDx65s3o7F/NiHy7JRaGIS8MwW6tZPAq9UXE207Il0cfcb5yu/Q==",
+      "version": "0.5.19",
+      "resolved": "https://registry.npmjs.org/source-map-support/-/source-map-support-0.5.19.tgz",
+      "integrity": "sha512-Wonm7zOCIJzBGQdB+thsPar0kYuCIzYvxZwlBa87yi/Mdjv7Tip2cyVbLj5o0cFPN4EVkuTwb3GDDyUx2DGnGw==",
       "requires": {
         "buffer-from": "^1.0.0",
         "source-map": "^0.6.0"
@@ -17450,9 +17450,9 @@
       "integrity": "sha1-WIeWa7WCpFA6QetST301ARgVphM="
     },
     "ts-node": {
-      "version": "8.9.0",
-      "resolved": "https://registry.npmjs.org/ts-node/-/ts-node-8.9.0.tgz",
-      "integrity": "sha512-rwkXfOs9zmoHrV8xE++dmNd6ZIS+nmHHCxcV53ekGJrxFLMbp+pizpPS07ARvhwneCIECPppOwbZHvw9sQtU4w==",
+      "version": "8.10.1",
+      "resolved": "https://registry.npmjs.org/ts-node/-/ts-node-8.10.1.tgz",
+      "integrity": "sha512-bdNz1L4ekHiJul6SHtZWs1ujEKERJnHs4HxN7rjTyyVOFf3HaJ6sLqe6aPG62XTzAB/63pKRh5jTSWL0D7bsvw==",
       "requires": {
         "arg": "^4.1.0",
         "diff": "^4.0.1",
@@ -17619,9 +17619,9 @@
       }
     },
     "typescript": {
-      "version": "3.8.3",
-      "resolved": "https://registry.npmjs.org/typescript/-/typescript-3.8.3.tgz",
-      "integrity": "sha512-MYlEfn5VrLNsgudQTVJeNaQFUAI7DkhnOjdpAp4T+ku1TfQClewlbSuTVHiA+8skNBgaf02TL/kLOvig4y3G8w==",
+      "version": "3.9.2",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-3.9.2.tgz",
+      "integrity": "sha512-q2ktq4n/uLuNNShyayit+DTobV2ApPEo/6so68JaD5ojvc/6GClBipedB9zNWYxRSAlZXAe405Rlijzl6qDiSw==",
       "dev": true
     },
     "udif": {
