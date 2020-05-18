@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Update typescript to 3.9",
+          "hash": "744122b1b8dc9884e57638bb7f86776598714a62",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.35.3",
+      "date": "2020-05-18T12:34:24.072Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix 'balena login' web authorization hanging with Google Chrome",
           "hash": "3bb5e495a61be466ce1c60aad55e869427bc864a",
           "body": "",
@@ -11747,36 +11763,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-18T10:14:46Z",
+  "lastCommitDate": "2020-05-18T13:31:06Z",
   "latestRelease": {
-    "tagName": "v11.35.2",
+    "tagName": "v11.35.3",
     "asssets": [
       {
-        "name": "balena-cli-v11.35.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.2/balena-cli-v11.35.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.35.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.3/balena-cli-v11.35.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.2/balena-cli-v11.35.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.35.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.3/balena-cli-v11.35.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.35.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.2/balena-cli-v11.35.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.35.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.3/balena-cli-v11.35.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.2/balena-cli-v11.35.2-windows-x64-installer.exe"
+        "name": "balena-cli-v11.35.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.3/balena-cli-v11.35.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.35.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.2/balena-cli-v11.35.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.35.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.3/balena-cli-v11.35.3-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 277,
+    "numberOfIssues": 279,
     "latestIssues": [
+      {
+        "title": "Node apps (without a Dockerfile): should user new balenalib base images for all device types",
+        "url": "https://github.com/balena-io/balena-cli/issues/1832"
+      },
+      {
+        "title": "Node apps (without a Dockerfile): broken for new device types (RPi4, RPi3-64)",
+        "url": "https://github.com/balena-io/balena-cli/issues/1831"
+      },
+      {
+        "title": "Node apps (without a Dockerfile): base image resolution takes several minutes",
+        "url": "https://github.com/balena-io/balena-cli/issues/1830"
+      },
       {
         "title": "Livepush process didn't exit after connection hangup",
         "url": "https://github.com/balena-io/balena-cli/issues/1828"
@@ -11784,10 +11812,6 @@
       {
         "title": "Add unit tests for errors module",
         "url": "https://github.com/balena-io/balena-cli/pull/1827"
-      },
-      {
-        "title": "Update typescript to 3.9",
-        "url": "https://github.com/balena-io/balena-cli/pull/1826"
       },
       {
         "title": "Balena push stuck after build",
@@ -11848,18 +11872,10 @@
       {
         "title": "Release new major version (feature list)",
         "url": "https://github.com/balena-io/balena-cli/issues/1770"
-      },
-      {
-        "title": "Convert all remaining commands from Capitano to oclif",
-        "url": "https://github.com/balena-io/balena-cli/issues/1768"
-      },
-      {
-        "title": "Simplify installation instructions ",
-        "url": "https://github.com/balena-io/balena-cli/issues/1760"
       }
     ]
   },
-  "version": "11.35.2",
+  "version": "11.35.3",
   "screenshot": null,
   "logo": null
 }

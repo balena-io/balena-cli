@@ -1,4 +1,14 @@
 - commits:
+    - subject: Update typescript to 3.9
+      hash: 744122b1b8dc9884e57638bb7f86776598714a62
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.35.3
+  date: 2020-05-18T13:30:11.161Z
+- commits:
     - subject: Fix 'balena login' web authorization hanging with Google Chrome
       hash: 3bb5e495a61be466ce1c60aad55e869427bc864a
       body: ''
@@ -34,7 +44,7 @@
         change-type: patch
       author: Paulo Castro
   version: 11.35.2
-  date: 2020-05-18T10:14:04.086Z
+  date: 2020-05-16T22:34:21.277Z
 - commits:
     - subject: Update GitHub templates for new issues and pull requests
       hash: 8c2a40cb39a4c790e06d23c4b920a57639b239d2
