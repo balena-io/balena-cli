@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "Add unit tests for errors module",
+          "hash": "92bfa574e323a6b388a084707852c5beb976e55d",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>",
+            "Resolves": "#1807",
+            "resolves": "#1807"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.35.4",
+      "date": "2020-05-19T14:16:53.022Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update typescript to 3.9",
           "hash": "744122b1b8dc9884e57638bb7f86776598714a62",
           "body": "",
@@ -11549,12 +11569,12 @@
       "avatar": "https://avatars3.githubusercontent.com/u/5211478?v=4"
     },
     {
-      "username": "emirotin",
-      "avatar": "https://avatars0.githubusercontent.com/u/525832?v=4"
-    },
-    {
       "username": "srlowe",
       "avatar": "https://avatars3.githubusercontent.com/u/1562665?v=4"
+    },
+    {
+      "username": "emirotin",
+      "avatar": "https://avatars0.githubusercontent.com/u/525832?v=4"
     },
     {
       "username": "zvin",
@@ -11763,29 +11783,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-18T13:31:06Z",
+  "lastCommitDate": "2020-05-19T14:40:08Z",
   "latestRelease": {
-    "tagName": "v11.35.3",
+    "tagName": "v11.35.4",
     "asssets": [
       {
-        "name": "balena-cli-v11.35.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.3/balena-cli-v11.35.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.35.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.4/balena-cli-v11.35.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.3/balena-cli-v11.35.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.35.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.4/balena-cli-v11.35.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.35.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.3/balena-cli-v11.35.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.35.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.4/balena-cli-v11.35.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.3/balena-cli-v11.35.3-windows-x64-installer.exe"
+        "name": "balena-cli-v11.35.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.4/balena-cli-v11.35.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.35.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.3/balena-cli-v11.35.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.35.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.4/balena-cli-v11.35.4-windows-x64-standalone.zip"
       }
     ]
   },
@@ -11793,6 +11813,14 @@
   "openIssues": {
     "numberOfIssues": 279,
     "latestIssues": [
+      {
+        "title": "Fix caching by preserving all file stats when pushing to device or cloud",
+        "url": "https://github.com/balena-io/balena-cli/pull/1834"
+      },
+      {
+        "title": "Allow passing `--device-type` to `device register` command",
+        "url": "https://github.com/balena-io/balena-cli/issues/1833"
+      },
       {
         "title": "Node apps (without a Dockerfile): should user new balenalib base images for all device types",
         "url": "https://github.com/balena-io/balena-cli/issues/1832"
@@ -11808,10 +11836,6 @@
       {
         "title": "Livepush process didn't exit after connection hangup",
         "url": "https://github.com/balena-io/balena-cli/issues/1828"
-      },
-      {
-        "title": "Add unit tests for errors module",
-        "url": "https://github.com/balena-io/balena-cli/pull/1827"
       },
       {
         "title": "Balena push stuck after build",
@@ -11840,10 +11864,6 @@
       {
         "title": "balena device rm --yes should not need a TTY",
         "url": "https://github.com/balena-io/balena-cli/issues/1808"
-      },
-      {
-        "title": "Duplicate error message when service does not exist",
-        "url": "https://github.com/balena-io/balena-cli/issues/1807"
       },
       {
         "title": "Leading zeroes stripped from device uuid",
@@ -11875,7 +11895,7 @@
       }
     ]
   },
-  "version": "11.35.3",
+  "version": "11.35.4",
   "screenshot": null,
   "logo": null
 }
