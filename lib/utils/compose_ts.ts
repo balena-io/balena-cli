@@ -189,8 +189,9 @@ export async function tarDirectory(
 		pack.entry(
 			{
 				name: toPosixPath(fileStats.relPath),
-				size: fileStats.stats.size,
+				mtime: fileStats.stats.mtime,
 				mode: fileStats.stats.mode,
+				size: fileStats.stats.size,
 			},
 			await readFile(fileStats.filePath),
 		);
