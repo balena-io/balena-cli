@@ -55,6 +55,7 @@
     "pretest": "npm run build",
     "test": "mocha --timeout 6000 -r ts-node/register/transpile-only \"tests/**/*.spec.ts\"",
     "test:fast": "npm run build:fast && mocha --timeout 6000 -r ts-node/register/transpile-only \"tests/**/*.spec.ts\"",
+    "test:only": "npm run build:fast && mocha --timeout 6000 -r ts-node/register/transpile-only \"tests/**/${npm_config_test}.spec.ts\"",
     "catch-uncommitted": "ts-node --transpile-only automation/run.ts catch-uncommitted",
     "ci": "npm run test && npm run catch-uncommitted",
     "watch": "gulp watch",
