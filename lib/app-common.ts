@@ -16,6 +16,7 @@
  */
 
 import * as packageJSON from '../package.json';
+import { onceAsync } from './utils/lazy';
 
 class CliSettings {
 	public readonly settings: any;
@@ -46,7 +47,7 @@ class CliSettings {
  * Sentry.io setup
  * @see https://docs.sentry.io/error-reporting/quickstart/?platform=node
  */
-async function setupSentry() {
+export const setupSentry = onceAsync(async () => {
 	const config = await import('./config');
 	const Sentry = await import('@sentry/node');
 	Sentry.init({
@@ -60,7 +61,8 @@ async function setupSentry() {
 			platform: process.platform,
 		});
 	});
-}
+	return Sentry.getCurrentHub();
+});
 
 function checkNodeVersion() {
 	const validNodeVersions = packageJSON.engines.node;
