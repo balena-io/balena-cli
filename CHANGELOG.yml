@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix caching by preserving all file stats when pushing to device or cloud
+      hash: 77f3fa4b6c2d102e7a14fcb7b2ddea2ebed8c955
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Cameron Diver <cameron@balena.io>
+        signed-off-by: Cameron Diver <cameron@balena.io>
+      author: Cameron Diver
+  version: 11.35.5
+  date: 2020-05-21T11:26:12.966Z
+- commits:
     - subject: Add unit tests for errors module
       hash: 92bfa574e323a6b388a084707852c5beb976e55d
       body: ''
@@ -11,7 +23,7 @@
         resolves: '#1807'
       author: Scott Lowe
   version: 11.35.4
-  date: 2020-05-19T14:39:27.097Z
+  date: 2020-05-19T14:16:53.022Z
 - commits:
     - subject: Update typescript to 3.9
       hash: 744122b1b8dc9884e57638bb7f86776598714a62

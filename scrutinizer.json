@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Fix caching by preserving all file stats when pushing to device or cloud",
+          "hash": "77f3fa4b6c2d102e7a14fcb7b2ddea2ebed8c955",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Cameron Diver <cameron@balena.io>",
+            "signed-off-by": "Cameron Diver <cameron@balena.io>"
+          },
+          "author": "Cameron Diver"
+        }
+      ],
+      "version": "11.35.5",
+      "date": "2020-05-21T11:03:27.373Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add unit tests for errors module",
           "hash": "92bfa574e323a6b388a084707852c5beb976e55d",
           "body": "",
@@ -11783,39 +11801,43 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-19T14:40:08Z",
+  "lastCommitDate": "2020-05-21T11:27:10Z",
   "latestRelease": {
-    "tagName": "v11.35.4",
+    "tagName": "v11.35.5",
     "asssets": [
       {
-        "name": "balena-cli-v11.35.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.4/balena-cli-v11.35.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.35.5-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.5/balena-cli-v11.35.5-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.4/balena-cli-v11.35.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.35.5-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.5/balena-cli-v11.35.5-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.35.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.4/balena-cli-v11.35.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.35.5-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.5/balena-cli-v11.35.5-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.4/balena-cli-v11.35.4-windows-x64-installer.exe"
+        "name": "balena-cli-v11.35.5-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.5/balena-cli-v11.35.5-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.35.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.4/balena-cli-v11.35.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.35.5-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.5/balena-cli-v11.35.5-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 279,
+    "numberOfIssues": 280,
     "latestIssues": [
       {
-        "title": "Fix caching by preserving all file stats when pushing to device or cloud",
-        "url": "https://github.com/balena-io/balena-cli/pull/1834"
+        "title": "Add a sequential option for pushing to a device",
+        "url": "https://github.com/balena-io/balena-cli/pull/1836"
+      },
+      {
+        "title": "Improve Yaml validation errors",
+        "url": "https://github.com/balena-io/balena-cli/issues/1835"
       },
       {
         "title": "Allow passing `--device-type` to `device register` command",
@@ -11888,14 +11910,10 @@
       {
         "title": "'balena login' web authorization fails silently if another process is listening on port 8989",
         "url": "https://github.com/balena-io/balena-cli/issues/1773"
-      },
-      {
-        "title": "Release new major version (feature list)",
-        "url": "https://github.com/balena-io/balena-cli/issues/1770"
       }
     ]
   },
-  "version": "11.35.4",
+  "version": "11.35.5",
   "screenshot": null,
   "logo": null
 }
