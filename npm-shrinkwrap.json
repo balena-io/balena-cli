@@ -6336,9 +6336,9 @@
       "integrity": "sha1-mMI9qxF1ZXuMBXPozszZGw/xjIQ="
     },
     "fp-ts": {
-      "version": "2.6.0",
-      "resolved": "https://registry.npmjs.org/fp-ts/-/fp-ts-2.6.0.tgz",
-      "integrity": "sha512-4EKVa3EOP3NoDwXCLgSCT2t+E2wPCWDXCuj3wEcQ1ovkLfdCMxKxCuElpXptIPBmtA+KbjnUl5Ta/1U3jsCmkg=="
+      "version": "2.6.1",
+      "resolved": "https://registry.npmjs.org/fp-ts/-/fp-ts-2.6.1.tgz",
+      "integrity": "sha512-ZYOgqEOvUuO59rvItjf1OniEG4k/ClY3rd+AiuRYbl3skY4X/s7Oig25/wvORjycjeOjjr5OO+VcpprLQQOpIQ=="
     },
     "fragment-cache": {
       "version": "0.2.1",
@@ -15773,9 +15773,9 @@
       }
     },
     "resin-multibuild": {
-      "version": "4.5.1",
-      "resolved": "https://registry.npmjs.org/resin-multibuild/-/resin-multibuild-4.5.1.tgz",
-      "integrity": "sha512-RuLpcZDmwiZl3ZiNFNCarv0nCh86NnumgscRlcKfi+j6lAfXrYYdEkVGM2VXie4FyjlgTvJvOr9ex4jjTTMaZg==",
+      "version": "4.6.2",
+      "resolved": "https://registry.npmjs.org/resin-multibuild/-/resin-multibuild-4.6.2.tgz",
+      "integrity": "sha512-QtQjFVjCsJadytEpb8h3xmqjagxLyYedKEUYkqQ7NDl9hG9cKBUQj3RAnjh4vVgtYvR5FIDxJxJPCc8x0YX4uQ==",
       "requires": {
         "@types/bluebird": "^3.5.30",
         "@types/dockerode": "^2.5.24",

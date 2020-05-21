@@ -116,6 +116,7 @@ export const push: CommandDefinition<
 		system?: boolean;
 		env?: string | string[];
 		'convert-eol'?: boolean;
+		sequential?: boolean;
 	}
 > = {
 	signature: 'push <applicationOrDevice>',
@@ -272,6 +273,16 @@ export const push: CommandDefinition<
 			`,
 			boolean: true,
 		},
+		{
+			signature: 'sequential',
+			alias: 'S',
+			description: stripIndent`
+				Run builds sequentially when pushing to a local mode device. This can be helpful
+				when pushing to a particularly resource constrained device, or when pushing a
+				resource intensive build.
+			`,
+			boolean: true,
+		},
 	],
 	async action(params, options) {
 		const sdk = getBalenaSdk();
@@ -306,26 +317,19 @@ export const push: CommandDefinition<
 		const buildTarget = getBuildTarget(appOrDevice);
 		switch (buildTarget) {
 			case BuildTarget.Cloud:
-				// Ensure that the live argument has not been passed to a cloud build
-				if (options.nolive != null) {
-					throw new ExpectedError(
-						'The --nolive flag is only valid when pushing to a local mode device',
-					);
-				}
-				if (options.service) {
-					throw new ExpectedError(
-						'The --service flag is only valid when pushing to a local mode device.',
-					);
-				}
-				if (options.system) {
-					throw new ExpectedError(
-						'The --system flag is only valid when pushing to a local mode device.',
-					);
-				}
-				if (options.env) {
-					throw new ExpectedError(
-						'The --env flag is only valid when pushing to a local mode device.',
-					);
+				const liveOnlyFlags: Array<keyof typeof options> = [
+					'nolive',
+					'service',
+					'system',
+					'env',
+					'sequential',
+				];
+				for (const flag of liveOnlyFlags) {
+					if (options[flag] != null) {
+						throw new ExpectedError(
+							`The --${flag} is only valid when pushing to a local mode device`,
+						);
+					}
 				}
 
 				const app = appOrDevice;
@@ -384,6 +388,7 @@ export const push: CommandDefinition<
 								? [options.env]
 								: options.env || [],
 						convertEol: options['convert-eol'] || false,
+						sequential: options.sequential || false,
 					}),
 				).catch(BuildError, e => {
 					throw new ExpectedError(e.toString());

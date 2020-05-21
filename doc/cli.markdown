@@ -1956,6 +1956,12 @@ Disregard all .gitignore files, and consider only the .dockerignore file (if any
 at the source directory. This will be the default behavior in an upcoming major
 version release. For more information, see 'balena help push'.
 
+#### --sequential, -S
+
+Run builds sequentially when pushing to a local mode device. This can be helpful
+when pushing to a particularly resource constrained device, or when pushing a
+resource intensive build.
+
 # Settings
 
 ## settings

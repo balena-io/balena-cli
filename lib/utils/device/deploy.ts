@@ -64,6 +64,7 @@ export interface DeviceDeployOptions {
 	system: boolean;
 	env: string[];
 	convertEol: boolean;
+	sequential: boolean;
 }
 
 interface ParsedEnvironment {
@@ -338,12 +339,34 @@ export async function performBuilds(
 	}
 
 	logger.logDebug('Starting builds...');
-	await assignOutputHandlers(buildTasks, logger, logHandlers);
-	const localImages = await multibuild.performBuilds(
-		buildTasks,
-		docker,
-		BALENA_ENGINE_TMP_PATH,
-	);
+	let localImages: LocalImage[] = [];
+	assignOutputHandlers(buildTasks, logger, logHandlers);
+
+	if (!opts.sequential) {
+		localImages = await multibuild.performBuilds(
+			buildTasks,
+			docker,
+			BALENA_ENGINE_TMP_PATH,
+		);
+	} else {
+		const { secrets, regSecrets } = await multibuild.initializeBuildMetadata(
+			buildTasks,
+			docker,
+			BALENA_ENGINE_TMP_PATH,
+		);
+		for (const task of buildTasks) {
+			const metadata = task.buildMetadata;
+			localImages.push(
+				await multibuild.performSingleBuild(
+					task,
+					docker,
+					regSecrets,
+					secrets,
+					metadata.getBuildVarsForService(task.serviceName),
+				),
+			);
+		}
+	}
 
 	// Check for failures
 	await inspectBuildResults(localImages);
