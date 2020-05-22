@@ -52,7 +52,6 @@ export class BalenaAPIMock extends NockMock {
 
 	public expectGetAuth(opts: ScopeOpts = {}) {
 		this.optGet(/^\/auth\/v1\//, opts).reply(200, {
-			// "token": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlJZVFk6TlE3WDpKSDVCOlFFWFk6RkU2TjpLTlVVOklWNTI6TFFRQTo3UjRWOjJVUFI6Qk9ISjpDNklPIn0.eyJqdGkiOiI3ZTNlN2RmMS1iYjljLTQxZTMtOTlkMi00NjVlMjE4YzFmOWQiLCJuYmYiOjE1NzkxOTQ1MjgsImFjY2VzcyI6W3sibmFtZSI6InYyL2MwODljNDIxZmIyMzM2ZDA0NzUxNjZmYmYzZDBmOWZhIiwidHlwZSI6InJlcG9zaXRvcnkiLCJhY3Rpb25zIjpbInB1bGwiLCJwdXNoIl19LHsibmFtZSI6InYyLzljMDBjOTQxMzk0MmNkMTVjZmM5MTg5YzVkYWMzNTlkIiwidHlwZSI6InJlcG9zaXRvcnkiLCJhY3Rpb25zIjpbInB1bGwiLCJwdXNoIl19XSwiaWF0IjoxNTc5MTk0NTM4LCJleHAiOjE1NzkyMDg5MzgsImF1ZCI6InJlZ2lzdHJ5Mi5iYWxlbmEtY2xvdWQuY29tIiwiaXNzIjoiYXBpLmJhbGVuYS1jbG91ZC5jb20iLCJzdWIiOiJnaF9wYXVsb19jYXN0cm8ifQ.bRw5_lg-nT-c1V4RxIJjujfPuVewZTs0BRNENEw2-sk_6zepLs-sLl9DOSEHYBdi87EtyCiUB3Wqee6fvz2HyQ"
 			token: 'test',
 		});
 	}
@@ -65,8 +64,17 @@ export class BalenaAPIMock extends NockMock {
 		);
 	}
 
-	public expectPatchRelease(opts: ScopeOpts = {}) {
-		this.optPatch(/^\/v5\/release($|[(?])/, opts).reply(200, 'OK');
+	public expectPatchRelease({
+		replyBody = 'OK',
+		statusCode = 200,
+		inspectRequest = this.inspectNoOp,
+		optional = false,
+		persist = false,
+	}) {
+		this.optPatch(/^\/v5\/release($|[(?])/, { optional, persist }).reply(
+			statusCode,
+			this.getInspectedReplyBodyFunction(inspectRequest, replyBody),
+		);
 	}
 
 	public expectPostRelease(opts: ScopeOpts = {}) {
@@ -77,8 +85,17 @@ export class BalenaAPIMock extends NockMock {
 		);
 	}
 
-	public expectPatchImage(opts: ScopeOpts = {}) {
-		this.optPatch(/^\/v5\/image($|[(?])/, opts).reply(200, 'OK');
+	public expectPatchImage({
+		replyBody = 'OK',
+		statusCode = 200,
+		inspectRequest = this.inspectNoOp,
+		optional = false,
+		persist = false,
+	}) {
+		this.optPatch(/^\/v5\/image($|[(?])/, { optional, persist }).reply(
+			statusCode,
+			this.getInspectedReplyBodyFunction(inspectRequest, replyBody),
+		);
 	}
 
 	public expectPostImage(opts: ScopeOpts = {}) {

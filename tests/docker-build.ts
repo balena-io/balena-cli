@@ -138,12 +138,14 @@ export async function testDockerBuildStream(o: {
 	dockerMock: DockerMock;
 	expectedFilesByService: ExpectedTarStreamFilesByService;
 	expectedQueryParamsByService: { [service: string]: string[][] };
+	expectedErrorLines?: string[];
 	expectedResponseLines: string[];
 	projectPath: string;
 	responseCode: number;
 	responseBody: string;
 	services: string[]; // e.g. ['main'] or ['service1', 'service2']
 }) {
+	const expectedErrorLines = fillTemplateArray(o.expectedErrorLines || [], o);
 	const expectedResponseLines = fillTemplateArray(o.expectedResponseLines, o);
 
 	for (const service of o.services) {
@@ -174,10 +176,19 @@ export async function testDockerBuildStream(o: {
 
 	const { out, err } = await runCommand(o.commandLine);
 
-	expect(err).to.be.empty;
-	expect(
-		cleanOutput(out).map(line => line.replace(/\s{2,}/g, ' ')),
-	).to.include.members(expectedResponseLines);
+	const cleanLines = (lines: string[]) =>
+		cleanOutput(lines).map(line => line.replace(/\s{2,}/g, ' '));
+
+	if (expectedErrorLines.length) {
+		expect(cleanLines(err)).to.include.members(expectedErrorLines);
+	} else {
+		expect(err).to.be.empty;
+	}
+	if (expectedResponseLines.length) {
+		expect(cleanLines(out)).to.include.members(expectedResponseLines);
+	} else {
+		expect(out).to.be.empty;
+	}
 }
 
 /**

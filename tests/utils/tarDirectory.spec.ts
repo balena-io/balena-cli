@@ -38,7 +38,7 @@ interface TarFiles {
 
 const itSkipWindows = process.platform === 'win32' ? it.skip : it;
 
-describe('compare new and old tarDirectory implementations', async function() {
+describe('compare new and old tarDirectory implementations', function() {
 	const extraContent = 'extra';
 	const extraEntry: tar.Headers = {
 		name: 'extra.txt',

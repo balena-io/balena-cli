@@ -31,6 +31,16 @@ const once = <T>(fn: () => T) => {
 	};
 };
 
+export const onceAsync = <T>(fn: () => Promise<T>) => {
+	let cached: T;
+	return async (): Promise<T> => {
+		if (!cached) {
+			cached = await fn();
+		}
+		return cached;
+	};
+};
+
 export const getBalenaSdk = once(() =>
 	(require('balena-sdk') as typeof BalenaSdk).fromSharedOptions(),
 );

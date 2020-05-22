@@ -25,6 +25,27 @@ interface Image {
 	tag: string;
 }
 
+export interface BuiltImage {
+	logs: string;
+	name: string;
+	props: {
+		dockerfile?: string;
+		projectType?: string;
+		size?: number;
+	};
+	serviceName: string;
+}
+
+export interface TaggedImage {
+	localImage: import('dockerode').Image;
+	serviceImage: import('balena-release/build/models').ImageModel;
+	serviceName: string;
+	logs: string;
+	props: BuiltImage.props;
+	registry: string;
+	repo: string;
+}
+
 export interface ComposeOpts {
 	dockerfilePath?: string;
 	inlineLogs?: boolean;
@@ -38,6 +59,12 @@ export interface ComposeProject {
 	name: string;
 	composition: Composition;
 	descriptors: ImageDescriptor[];
+}
+
+export interface Release {
+	client: import('pinejs-client').ApiClient;
+	release: Partial<import('balena-release/build/models').ReleaseModel>;
+	serviceImages: Partial<import('balena-release/build/models').ImageModel>;
 }
 
 interface TarDirectoryOptions {

@@ -27,6 +27,15 @@ import { Readable } from 'stream';
 import * as tar from 'tar-stream';
 
 import { ExpectedError } from '../errors';
+import { getBalenaSdk, getChalk } from '../utils/lazy';
+import {
+	BuiltImage,
+	ComposeOpts,
+	ComposeProject,
+	Release,
+	TaggedImage,
+	TarDirectoryOptions,
+} from './compose-types';
 import { DeviceInfo } from './device/api';
 import Logger = require('./logger');
 
@@ -47,9 +56,9 @@ const compositionFileNames = ['docker-compose.yml', 'docker-compose.yaml'];
  */
 export async function loadProject(
 	logger: Logger,
-	opts: import('./compose-types').ComposeOpts,
+	opts: ComposeOpts,
 	image?: string,
-): Promise<import('./compose-types').ComposeProject> {
+): Promise<ComposeProject> {
 	const compose = await import('resin-compose-parse');
 	const { createProject } = await import('./compose');
 	let composeName: string;
@@ -170,7 +179,7 @@ export async function tarDirectory(
 		preFinalizeCallback,
 		convertEol = false,
 		nogitignore = false,
-	}: import('./compose-types').TarDirectoryOptions,
+	}: TarDirectoryOptions,
 ): Promise<import('stream').Readable> {
 	(await import('assert')).strict.strictEqual(nogitignore, true);
 	const { filterFilesWithDockerignore } = await import('./ignore');
@@ -566,4 +575,163 @@ export async function validateProjectDirectory(
 	);
 
 	return result;
+}
+
+async function getTokenForPreviousRepos(
+	docker: import('docker-toolbelt'),
+	logger: Logger,
+	appId: number,
+	apiEndpoint: string,
+	taggedImages: TaggedImage[],
+): Promise<string> {
+	logger.logDebug('Authorizing push...');
+	const { authorizePush, getPreviousRepos } = await import('./compose');
+	const sdk = getBalenaSdk();
+	const previousRepos = await getPreviousRepos(sdk, docker, logger, appId);
+	if (!previousRepos || previousRepos.length === 0) {
+		return '';
+	}
+	const token = await authorizePush(
+		sdk,
+		apiEndpoint,
+		taggedImages[0].registry,
+		_.map(taggedImages, 'repo'),
+		previousRepos,
+	);
+	return token;
+}
+
+async function pushServiceImages(
+	docker: import('docker-toolbelt'),
+	logger: Logger,
+	pineClient: import('pinejs-client'),
+	taggedImages: TaggedImage[],
+	token: string,
+	skipLogUpload: boolean,
+): Promise<void> {
+	const { pushAndUpdateServiceImages } = await import('./compose');
+	const releaseMod = await import('balena-release');
+	logger.logInfo('Pushing images to registry...');
+	await pushAndUpdateServiceImages(docker, token, taggedImages, async function(
+		serviceImage,
+	) {
+		logger.logDebug(
+			`Saving image ${serviceImage.is_stored_at__image_location}`,
+		);
+		if (skipLogUpload) {
+			delete serviceImage.build_log;
+		}
+		await releaseMod.updateImage(pineClient, serviceImage.id, serviceImage);
+	});
+}
+
+export async function deployProject(
+	docker: import('docker-toolbelt'),
+	logger: Logger,
+	composition: import('resin-compose-parse').Composition,
+	images: BuiltImage[],
+	appId: number,
+	userId: number,
+	auth: string,
+	apiEndpoint: string,
+	skipLogUpload: boolean,
+): Promise<Partial<import('balena-release/build/models').ReleaseModel>> {
+	const releaseMod = require('balena-release');
+	const { createRelease, tagServiceImages } = await import('./compose');
+	const tty = (await import('./tty'))(process.stdout);
+
+	const prefix = getChalk().cyan('[Info]') + '    ';
+	const spinner = createSpinner();
+	let runloop = runSpinner(tty, spinner, `${prefix}Creating release...`);
+
+	let $release: Release;
+	try {
+		$release = await createRelease(
+			apiEndpoint,
+			auth,
+			userId,
+			appId,
+			composition,
+		);
+	} finally {
+		runloop.end();
+	}
+	const { client: pineClient, release, serviceImages } = $release;
+
+	try {
+		logger.logDebug('Tagging images...');
+		const taggedImages = await tagServiceImages(docker, images, serviceImages);
+		try {
+			const token = await getTokenForPreviousRepos(
+				docker,
+				logger,
+				appId,
+				apiEndpoint,
+				taggedImages,
+			);
+			await pushServiceImages(
+				docker,
+				logger,
+				pineClient,
+				taggedImages,
+				token,
+				skipLogUpload,
+			);
+			release.status = 'success';
+		} catch (err) {
+			release.status = 'failed';
+			throw err;
+		} finally {
+			logger.logDebug('Untagging images...');
+			await Bluebird.map(taggedImages, ({ localImage }) => localImage.remove());
+		}
+	} finally {
+		runloop = runSpinner(tty, spinner, `${prefix}Saving release...`);
+		release.end_timestamp = new Date();
+		if (release.id != null) {
+			try {
+				await releaseMod.updateRelease(pineClient, release.id, release);
+			} finally {
+				runloop.end();
+			}
+		}
+	}
+	return release;
+}
+
+export function createSpinner() {
+	const chars = '|/-\\';
+	let index = 0;
+	return () => chars[index++ % chars.length];
+}
+
+function runSpinner(
+	tty: ReturnType<typeof import('./tty')>,
+	spinner: () => string,
+	msg: string,
+) {
+	const runloop = createRunLoop(function() {
+		tty.clearLine();
+		tty.writeLine(`${msg} ${spinner()}`);
+		return tty.cursorUp();
+	});
+	runloop.onEnd = function() {
+		tty.clearLine();
+		return tty.writeLine(msg);
+	};
+	return runloop;
+}
+
+export function createRunLoop(tick: (...args: any[]) => void) {
+	const timerId = setInterval(tick, 1000 / 10);
+	const runloop = {
+		onEnd() {
+			// noop
+		},
+		end() {
+			clearInterval(timerId);
+			return runloop.onEnd();
+		},
+	};
+	return runloop;
 }

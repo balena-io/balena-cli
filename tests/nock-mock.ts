@@ -83,6 +83,29 @@ export class NockMock {
 		return optional ? post.optionally() : post;
 	}
 
+	protected inspectNoOp(_uri: string, _requestBody: nock.Body): void {
+		return undefined;
+	}
+
+	protected getInspectedReplyBodyFunction(
+		inspectRequest: (uri: string, requestBody: nock.Body) => void,
+		replyBody: nock.ReplyBody,
+	) {
+		return function(
+			this: nock.ReplyFnContext,
+			uri: string,
+			requestBody: nock.Body,
+			cb: (err: NodeJS.ErrnoException | null, result: nock.ReplyBody) => void,
+		) {
+			try {
+				inspectRequest(uri, requestBody);
+			} catch (err) {
+				cb(err, '');
+			}
+			cb(null, replyBody);
+		};
+	}
+
 	public done() {
 		try {
 			// scope.done() will throw an error if there are expected api calls that have not happened.

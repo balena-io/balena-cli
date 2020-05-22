@@ -21,11 +21,12 @@ require('../config-tests'); // required for side effects
 import { expect } from 'chai';
 import { fs } from 'mz';
 import * as path from 'path';
+import * as sinon from 'sinon';
 
 import { BalenaAPIMock } from '../balena-api-mock';
 import { testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../docker-mock';
-import { cleanOutput, runCommand } from '../helpers';
+import { cleanOutput, runCommand, switchSentry } from '../helpers';
 import { ExpectedTarStreamFiles } from '../projects';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
@@ -55,7 +56,19 @@ const commonQueryParams = [
 describe('balena deploy', function() {
 	let api: BalenaAPIMock;
 	let docker: DockerMock;
+	let sentryStatus: boolean | undefined;
 	const isWindows = process.platform === 'win32';
+
+	this.beforeAll(async () => {
+		sentryStatus = await switchSentry(false);
+		sinon.stub(process, 'exit');
+	});
+
+	this.afterAll(async () => {
+		await switchSentry(sentryStatus);
+		// @ts-ignore
+		process.exit.restore();
+	});
 
 	this.beforeEach(() => {
 		api = new BalenaAPIMock();
@@ -64,7 +77,6 @@ describe('balena deploy', function() {
 		api.expectGetMixpanel({ optional: true });
 		api.expectGetDeviceTypes();
 		api.expectGetApplication();
-		api.expectPatchRelease();
 		api.expectPostRelease();
 		api.expectGetRelease();
 		api.expectGetUser();
@@ -74,7 +86,6 @@ describe('balena deploy', function() {
 		api.expectPostImage();
 		api.expectPostImageIsPartOfRelease();
 		api.expectPostImageLabel();
-		api.expectPatchImage();
 
 		docker.expectGetPing();
 		docker.expectGetInfo({});
@@ -119,6 +130,9 @@ describe('balena deploy', function() {
 			);
 		}
 
+		api.expectPatchImage({});
+		api.expectPatchRelease({});
+
 		await testDockerBuildStream({
 			commandLine: `deploy testApp --build --source ${projectPath} -G`,
 			dockerMock: docker,
@@ -130,6 +144,64 @@ describe('balena deploy', function() {
 			responseCode: 200,
 			services: ['main'],
 		});
+	});
+
+	it('should update a release with status="failed" on error (single container)', async () => {
+		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
+		const expectedFiles: ExpectedTarStreamFiles = {
+			'src/start.sh': { fileSize: 89, type: 'file' },
+			'src/windows-crlf.sh': { fileSize: 70, type: 'file' },
+			Dockerfile: { fileSize: 88, type: 'file' },
+			'Dockerfile-alt': { fileSize: 30, type: 'file' },
+		};
+		const responseFilename = 'build-POST.json';
+		const responseBody = await fs.readFile(
+			path.join(dockerResponsePath, responseFilename),
+			'utf8',
+		);
+		const expectedResponseLines = ['[Error] Deploy failed'];
+		const errMsg = 'Patch Image Error';
+		const expectedErrorLines = [errMsg];
+
+		// Mock this patch HTTP request to return status code 500, in which case
+		// the release status should be saved as "failed" rather than "success"
+		api.expectPatchImage({
+			replyBody: errMsg,
+			statusCode: 500,
+			inspectRequest: (_uri, requestBody) => {
+				const imageBody = requestBody as Partial<
+					import('balena-release/build/models').ImageModel
+				>;
+				expect(imageBody.status).to.equal('success');
+			},
+		});
+		// Check that the CLI patches the release with status="failed"
+		api.expectPatchRelease({
+			inspectRequest: (_uri, requestBody) => {
+				const releaseBody = requestBody as Partial<
+					import('balena-release/build/models').ReleaseModel
+				>;
+				expect(releaseBody.status).to.equal('failed');
+			},
+		});
+
+		await testDockerBuildStream({
+			commandLine: `deploy testApp --build --source ${projectPath} -G`,
+			dockerMock: docker,
+			expectedFilesByService: { main: expectedFiles },
+			expectedQueryParamsByService: { main: commonQueryParams },
+			expectedErrorLines,
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+			services: ['main'],
+		});
+		// The SDK should produce an "unexpected" BalenaRequestError, which
+		// causes the CLI to call process.exit() with process.exitCode = 1
+		// @ts-ignore
+		sinon.assert.calledWith(process.exit);
+		expect(process.exitCode).to.equal(1);
 	});
 });
 
