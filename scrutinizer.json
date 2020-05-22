@@ -5,6 +5,36 @@
     {
       "commits": [
         {
+          "subject": "Convert selected functions to Typescript and async/await (compose.js)",
+          "hash": "8522363cd31a2c0b117b36b6b7da7a86b06da640",
+          "body": "",
+          "footer": {
+            "Connects-to": "#1045",
+            "connects-to": "#1045",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Add tests for 'balena deploy'",
+          "hash": "480228d8f4c793983ed1a7feea54ae89d8c62907",
+          "body": "",
+          "footer": {
+            "Connects-to": "#1045",
+            "connects-to": "#1045",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.35.6",
+      "date": "2020-05-21T23:28:17.046Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix caching by preserving all file stats when pushing to device or cloud",
           "hash": "77f3fa4b6c2d102e7a14fcb7b2ddea2ebed8c955",
           "body": "",
@@ -11801,29 +11831,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-21T11:27:10Z",
+  "lastCommitDate": "2020-05-22T12:13:49Z",
   "latestRelease": {
-    "tagName": "v11.35.5",
+    "tagName": "v11.35.6",
     "asssets": [
       {
-        "name": "balena-cli-v11.35.5-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.5/balena-cli-v11.35.5-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.35.6-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.6/balena-cli-v11.35.6-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.5-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.5/balena-cli-v11.35.5-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.35.6-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.6/balena-cli-v11.35.6-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.35.5-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.5/balena-cli-v11.35.5-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.35.6-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.6/balena-cli-v11.35.6-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.5-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.5/balena-cli-v11.35.5-windows-x64-installer.exe"
+        "name": "balena-cli-v11.35.6-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.6/balena-cli-v11.35.6-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.35.5-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.5/balena-cli-v11.35.5-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.35.6-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.6/balena-cli-v11.35.6-windows-x64-standalone.zip"
       }
     ]
   },
@@ -11831,6 +11861,10 @@
   "openIssues": {
     "numberOfIssues": 280,
     "latestIssues": [
+      {
+        "title": "Replace windows dns workaround with single lookup",
+        "url": "https://github.com/balena-io/balena-cli/pull/1838"
+      },
       {
         "title": "Add a sequential option for pushing to a device",
         "url": "https://github.com/balena-io/balena-cli/pull/1836"
@@ -11904,16 +11938,12 @@
         "url": "https://github.com/balena-io/balena-cli/issues/1795"
       },
       {
-        "title": "Partial inclusion of stack trace in unexpected errors, even when not in debug mode",
-        "url": "https://github.com/balena-io/balena-cli/issues/1778"
-      },
-      {
         "title": "'balena login' web authorization fails silently if another process is listening on port 8989",
         "url": "https://github.com/balena-io/balena-cli/issues/1773"
       }
     ]
   },
-  "version": "11.35.5",
+  "version": "11.35.6",
   "screenshot": null,
   "logo": null
 }

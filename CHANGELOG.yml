@@ -1,4 +1,25 @@
 - commits:
+    - subject: Convert selected functions to Typescript and async/await (compose.js)
+      hash: 8522363cd31a2c0b117b36b6b7da7a86b06da640
+      body: ''
+      footer:
+        Connects-to: '#1045'
+        connects-to: '#1045'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Add tests for 'balena deploy'
+      hash: 480228d8f4c793983ed1a7feea54ae89d8c62907
+      body: ''
+      footer:
+        Connects-to: '#1045'
+        connects-to: '#1045'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.35.6
+  date: 2020-05-22T12:13:06.892Z
+- commits:
     - subject: Fix caching by preserving all file stats when pushing to device or cloud
       hash: 77f3fa4b6c2d102e7a14fcb7b2ddea2ebed8c955
       body: ''
@@ -9,7 +30,7 @@
         signed-off-by: Cameron Diver <cameron@balena.io>
       author: Cameron Diver
   version: 11.35.5
-  date: 2020-05-21T11:26:12.966Z
+  date: 2020-05-21T11:03:27.373Z
 - commits:
     - subject: Add unit tests for errors module
       hash: 92bfa574e323a6b388a084707852c5beb976e55d
