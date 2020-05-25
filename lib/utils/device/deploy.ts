@@ -34,7 +34,6 @@ import {
 	loadProject,
 	makeBuildTasks,
 } from '../compose_ts';
-import { workaroundWindowsDnsIssue } from '../helpers';
 import Logger = require('../logger');
 import { DeviceAPI, DeviceInfo } from './api';
 import * as LocalPushErrors from './errors';
@@ -125,6 +124,18 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	const { exitWithExpectedError } = await import('../../errors');
 	const { displayDeviceLogs } = await import('./logs');
 
+	// Resolve .local addresses to IP to avoid
+	// issue with Windows and rapid repeat lookups.
+	// see: https://github.com/balena-io/balena-cli/issues/1518
+	if (opts.deviceHost.includes('.local')) {
+		const util = await import('util');
+		const dns = await import('dns');
+		const { address } = await util.promisify(dns.lookup)(opts.deviceHost, {
+			family: 4,
+		});
+		opts.deviceHost = address;
+	}
+
 	const api = new DeviceAPI(globalLogger, opts.deviceHost);
 
 	// First check that we can access the device with a ping
@@ -136,8 +147,6 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 			`Could not communicate with local mode device at address ${opts.deviceHost}`,
 		);
 	}
-
-	await workaroundWindowsDnsIssue(opts.deviceHost);
 
 	const versionError = new Error(
 		'The supervisor version on this remote device does not support multicontainer local mode. ' +
@@ -166,8 +175,6 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		}
 	}
 
-	await workaroundWindowsDnsIssue(opts.deviceHost);
-
 	globalLogger.logInfo(`Starting build on device ${opts.deviceHost}`);
 
 	const project = await loadProject(globalLogger, {
@@ -192,8 +199,6 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 
 	// Try to detect the device information
 	const deviceInfo = await api.getDeviceInformation();
-
-	await workaroundWindowsDnsIssue(opts.deviceHost);
 
 	let buildLogs: Dictionary<string> | undefined;
 	if (!opts.nolive) {
@@ -229,8 +234,6 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	globalLogger.logDebug(`Sending target state: ${JSON.stringify(targetState)}`);
 
 	await api.setTargetState(targetState);
-
-	await workaroundWindowsDnsIssue(opts.deviceHost);
 
 	// Now that we've set the target state, the device will do it's thing
 	// so we can either just display the logs, or start a livepush session

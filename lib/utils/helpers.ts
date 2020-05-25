@@ -327,24 +327,6 @@ function windowsCmdExeEscapeArg(arg: string): string {
 }
 
 /**
- * Workaround a window system bug which causes multiple rapid DNS lookups
- * to fail for mDNS.
- *
- * It introduces a simple pause, and should be used between operations that
- * trigger mDNS resolutions.
- *
- * Windows bug: https://support.microsoft.com/en-gb/help/4057932/getaddrinfo-failed-with-wsahost-not-found-11001-error
- */
-export async function workaroundWindowsDnsIssue(ipOrHostname: string) {
-	// 300ms seemed to be the smallest delay that worked reliably but may
-	// vary between systems.
-	const delay = 500;
-	if (process.platform === 'win32' && ipOrHostname.includes('.local')) {
-		await new Promise(r => setTimeout(r, delay));
-	}
-}
-
-/**
  * Error handling wrapper around the npm `which` package:
  * "Like the unix which utility. Finds the first instance of a specified
  * executable in the PATH environment variable. Does not cache the results,
