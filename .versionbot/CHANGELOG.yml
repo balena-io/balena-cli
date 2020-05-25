@@ -1,4 +1,14 @@
 - commits:
+    - subject: Fix lazy loading in utils/compose
+      hash: a6f905b71cf9962df78e6b7feebf69d4b1412a24
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 11.35.8
+  date: 2020-05-25T14:38:17.391Z
+- commits:
     - subject: Replace windows dns workaround with single lookup
       hash: 1c354c800bab6704419f29f2c3a5f6497e9b2ce6
       body: ''
