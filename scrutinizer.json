@@ -5,6 +5,28 @@
     {
       "commits": [
         {
+          "subject": "Replace windows dns workaround with single lookup",
+          "hash": "1c354c800bab6704419f29f2c3a5f6497e9b2ce6",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Connects-to": "#1518",
+            "connects-to": "#1518",
+            "Resolves": "#1727",
+            "resolves": "#1727",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.35.7",
+      "date": "2020-05-22T12:17:03.874Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert selected functions to Typescript and async/await (compose.js)",
           "hash": "8522363cd31a2c0b117b36b6b7da7a86b06da640",
           "body": "",
@@ -11831,40 +11853,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-22T12:13:49Z",
+  "lastCommitDate": "2020-05-25T07:30:29Z",
   "latestRelease": {
-    "tagName": "v11.35.6",
+    "tagName": "v11.35.7",
     "asssets": [
       {
-        "name": "balena-cli-v11.35.6-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.6/balena-cli-v11.35.6-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.35.7-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.7/balena-cli-v11.35.7-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.6-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.6/balena-cli-v11.35.6-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.35.7-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.7/balena-cli-v11.35.7-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.35.6-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.6/balena-cli-v11.35.6-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.35.7-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.7/balena-cli-v11.35.7-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.6-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.6/balena-cli-v11.35.6-windows-x64-installer.exe"
+        "name": "balena-cli-v11.35.7-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.7/balena-cli-v11.35.7-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.35.6-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.6/balena-cli-v11.35.6-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.35.7-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.7/balena-cli-v11.35.7-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 280,
+    "numberOfIssues": 278,
     "latestIssues": [
-      {
-        "title": "Replace windows dns workaround with single lookup",
-        "url": "https://github.com/balena-io/balena-cli/pull/1838"
-      },
       {
         "title": "Add a sequential option for pushing to a device",
         "url": "https://github.com/balena-io/balena-cli/pull/1836"
@@ -11940,10 +11958,14 @@
       {
         "title": "'balena login' web authorization fails silently if another process is listening on port 8989",
         "url": "https://github.com/balena-io/balena-cli/issues/1773"
+      },
+      {
+        "title": "Release new major version (feature list)",
+        "url": "https://github.com/balena-io/balena-cli/issues/1770"
       }
     ]
   },
-  "version": "11.35.6",
+  "version": "11.35.7",
   "screenshot": null,
   "logo": null
 }
