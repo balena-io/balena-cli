@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Fix lazy loading in utils/compose",
+          "hash": "a6f905b71cf9962df78e6b7feebf69d4b1412a24",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "11.35.8",
+      "date": "2020-05-25T14:38:17.391Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Replace windows dns workaround with single lookup",
           "hash": "1c354c800bab6704419f29f2c3a5f6497e9b2ce6",
           "body": "",
@@ -11853,29 +11869,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-25T07:30:29Z",
+  "lastCommitDate": "2020-05-25T15:10:31Z",
   "latestRelease": {
-    "tagName": "v11.35.7",
+    "tagName": "v11.35.8",
     "asssets": [
       {
-        "name": "balena-cli-v11.35.7-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.7/balena-cli-v11.35.7-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.35.8-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.8/balena-cli-v11.35.8-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.7-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.7/balena-cli-v11.35.7-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.35.8-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.8/balena-cli-v11.35.8-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.35.7-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.7/balena-cli-v11.35.7-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.35.8-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.8/balena-cli-v11.35.8-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.7-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.7/balena-cli-v11.35.7-windows-x64-installer.exe"
+        "name": "balena-cli-v11.35.8-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.8/balena-cli-v11.35.8-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.35.7-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.7/balena-cli-v11.35.7-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.35.8-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.8/balena-cli-v11.35.8-windows-x64-standalone.zip"
       }
     ]
   },
@@ -11965,7 +11981,7 @@
       }
     ]
   },
-  "version": "11.35.7",
+  "version": "11.35.8",
   "screenshot": null,
   "logo": null
 }
