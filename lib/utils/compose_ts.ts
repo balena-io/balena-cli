@@ -588,9 +588,7 @@ async function getTokenForPreviousRepos(
 	const { authorizePush, getPreviousRepos } = await import('./compose');
 	const sdk = getBalenaSdk();
 	const previousRepos = await getPreviousRepos(sdk, docker, logger, appId);
-	if (!previousRepos || previousRepos.length === 0) {
-		return '';
-	}
+
 	const token = await authorizePush(
 		sdk,
 		apiEndpoint,
