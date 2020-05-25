@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'balena deploy: Fix "access denied" pushing images to registry'
+      hash: ba0024645d5dc01c27bccdf8fc7b4a21d7dc79ee
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.35.9
+  date: 2020-05-25T17:00:00.522Z
+- commits:
     - subject: Fix lazy loading in utils/compose
       hash: a6f905b71cf9962df78e6b7feebf69d4b1412a24
       body: ''
@@ -7,7 +17,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 11.35.8
-  date: 2020-05-25T15:09:31.810Z
+  date: 2020-05-25T14:38:17.391Z
 - commits:
     - subject: Replace windows dns workaround with single lookup
       hash: 1c354c800bab6704419f29f2c3a5f6497e9b2ce6
