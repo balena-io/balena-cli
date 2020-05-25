@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'balena deploy: Fix "access denied" pushing images to registry'
+      hash: ba0024645d5dc01c27bccdf8fc7b4a21d7dc79ee
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.35.9
+  date: 2020-05-25T16:12:33.417Z
+- commits:
     - subject: Fix lazy loading in utils/compose
       hash: a6f905b71cf9962df78e6b7feebf69d4b1412a24
       body: ''
