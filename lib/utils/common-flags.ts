@@ -37,6 +37,11 @@ export const quiet: IBooleanFlag<boolean> = flags.boolean({
 	default: false,
 });
 
+export const release = flags.string({
+	char: 'r',
+	description: 'release id',
+});
+
 export const service = flags.string({
 	char: 's',
 	description: 'service name',

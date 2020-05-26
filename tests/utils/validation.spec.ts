@@ -114,17 +114,17 @@ describe('validateDotLocalUrl() function', () => {
 });
 
 describe('validateLongUuid() function', () => {
-	it('should return false for strings with length other than 32 or 64', () => {
+	it('should return false for strings with length other than 32 or 62', () => {
 		expect(v.validateLongUuid('')).to.equal(false);
 		expect(v.validateLongUuid('abc')).to.equal(false);
 		expect(v.validateLongUuid('a'.repeat(31))).to.equal(false);
 		expect(v.validateLongUuid('a'.repeat(33))).to.equal(false);
-		expect(v.validateLongUuid('a'.repeat(63))).to.equal(false);
-		expect(v.validateLongUuid('a'.repeat(65))).to.equal(false);
+		expect(v.validateLongUuid('a'.repeat(64))).to.equal(false);
 	});
 
-	it('should return false for strings with characters other than a-z,0-9', () => {
+	it('should return false for strings with characters other than a-f,0-9', () => {
 		expect(v.validateLongUuid('a'.repeat(31) + 'A')).to.equal(false);
+		expect(v.validateLongUuid('a'.repeat(31) + 'g')).to.equal(false);
 		expect(v.validateLongUuid('a'.repeat(31) + '.')).to.equal(false);
 		expect(v.validateLongUuid('a'.repeat(31) + '-')).to.equal(false);
 		expect(v.validateLongUuid('a'.repeat(31) + '_')).to.equal(false);
@@ -134,9 +134,7 @@ describe('validateLongUuid() function', () => {
 		expect(v.validateLongUuid('8ab84942d20b4753e08243a9e3a177e2')).to.equal(
 			true,
 		);
-		expect(
-			v.validateLongUuid('8ab84942d20b4753e08243a9e3a177e2'.repeat(2)),
-		).to.equal(true);
+		expect(v.validateLongUuid('a'.repeat(62))).to.equal(true);
 	});
 });
 
@@ -161,19 +159,19 @@ describe('validateShortUuid() function', () => {
 });
 
 describe('validateUuid() function', () => {
-	it('should return false for strings with length other than 7, 32 or 64', () => {
+	it('should return false for strings with length other than 7, 32 or 62', () => {
 		expect(v.validateUuid('')).to.equal(false);
 		expect(v.validateUuid('abc')).to.equal(false);
 		expect(v.validateUuid('a'.repeat(6))).to.equal(false);
 		expect(v.validateUuid('a'.repeat(8))).to.equal(false);
 		expect(v.validateUuid('a'.repeat(31))).to.equal(false);
 		expect(v.validateUuid('a'.repeat(33))).to.equal(false);
-		expect(v.validateUuid('a'.repeat(63))).to.equal(false);
-		expect(v.validateUuid('a'.repeat(65))).to.equal(false);
+		expect(v.validateUuid('a'.repeat(64))).to.equal(false);
 	});
 
-	it('should return false for strings with characters other than a-z,0-9', () => {
+	it('should return false for strings with characters other than a-f,0-9', () => {
 		expect(v.validateUuid('a'.repeat(31) + 'A')).to.equal(false);
+		expect(v.validateUuid('a'.repeat(31) + 'g')).to.equal(false);
 		expect(v.validateUuid('a'.repeat(31) + '.')).to.equal(false);
 		expect(v.validateUuid('a'.repeat(31) + '-')).to.equal(false);
 		expect(v.validateUuid('a'.repeat(31) + '_')).to.equal(false);
@@ -182,9 +180,7 @@ describe('validateUuid() function', () => {
 	it('should return true for valid UUIDs', () => {
 		expect(v.validateUuid('8ab8494')).to.equal(true);
 		expect(v.validateUuid('8ab84942d20b4753e08243a9e3a177e2')).to.equal(true);
-		expect(
-			v.validateUuid('8ab84942d20b4753e08243a9e3a177e2'.repeat(2)),
-		).to.equal(true);
+		expect(v.validateLongUuid('a'.repeat(62))).to.equal(true);
 	});
 });
 
@@ -219,5 +215,26 @@ describe('parseAsInteger() function', () => {
 		expect(v.parseAsInteger('100')).to.be.a('number');
 		expect(v.parseAsInteger('0')).to.equal(0);
 		expect(v.parseAsInteger('0')).to.be.a('number');
+	});
+});
+
+describe('tryAsInteger() function', () => {
+	it('should return string with non-numeric characters as string', () => {
+		expect(v.tryAsInteger('abc')).to.be.a('string');
+		expect(v.tryAsInteger('1a')).to.be.a('string');
+		expect(v.tryAsInteger('a1')).to.be.a('string');
+		expect(v.tryAsInteger('a')).to.be.a('string');
+		expect(v.tryAsInteger('1.0')).to.be.a('string');
+	});
+
+	it('should return numerical strings with leading zeros as string', () => {
+		expect(v.tryAsInteger('01')).to.be.a('string');
+		expect(v.tryAsInteger('001')).to.be.a('string');
+	});
+
+	it('should return numerical strings without leading zeros as number', () => {
+		expect(v.tryAsInteger('100')).to.be.a('number');
+		expect(v.tryAsInteger('256')).to.be.a('number');
+		expect(v.tryAsInteger('0')).to.be.a('number');
 	});
 });

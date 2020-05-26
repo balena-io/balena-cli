@@ -23,24 +23,10 @@ import * as logs from './logs';
 import * as os from './os';
 import * as push from './push';
 import * as ssh from './ssh';
-import * as tags from './tags';
 import * as tunnel from './tunnel';
 import * as util from './util';
 
-export {
-	auth,
-	device,
-	tags,
-	logs,
-	local,
-	help,
-	os,
-	config,
-	ssh,
-	util,
-	push,
-	tunnel,
-};
+export { auth, device, logs, local, help, os, config, ssh, util, push, tunnel };
 
 export { build } from './build';
 

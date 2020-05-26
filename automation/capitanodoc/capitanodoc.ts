@@ -66,7 +66,11 @@ const capitanoDoc = {
 		},
 		{
 			title: 'Tags',
-			files: ['build/actions/tags.js'],
+			files: [
+				'build/actions-oclif/tags.js',
+				'build/actions-oclif/tag/rm.js',
+				'build/actions-oclif/tag/set.js',
+			],
 		},
 		{
 			title: 'Help and Version',

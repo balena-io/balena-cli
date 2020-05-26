@@ -16,6 +16,7 @@ limitations under the License.
 
 import { BalenaSDK } from 'balena-sdk';
 import _ = require('lodash');
+import { ExpectedError } from '../errors';
 
 export function normalizeUuidProp(
 	params: { [key: string]: any },
@@ -27,25 +28,59 @@ export function normalizeUuidProp(
 	}
 }
 
+/**
+ * Takes a string which may represent one of:
+ * 	- Integer release id
+ *  - String uuid, 7, 32, or 62 char
+ *  - String commit hash, 40 char, with short hashes being 7+ chars (more as needed to avoid collisions)
+ * and returns the correctly typed value (integer|string).
+ * @param balena balena sdk
+ * @param release string representation of release reference (id/hash)
+ */
 export async function disambiguateReleaseParam(
 	balena: BalenaSDK,
-	param: string | number,
-	paramRaw: string | undefined,
+	release: string,
 ) {
-	// the user has passed an argument that was parsed as a string
-	if (typeof param !== 'number') {
-		return param;
+	// Reject empty values or invalid characters
+	const mixedCaseHex = /^[a-fA-F0-9]+$/;
+	if (!release || !mixedCaseHex.test(release)) {
+		throw new ExpectedError('Invalid release parameter');
 	}
 
-	// check whether the argument was indeed an ID
-	return balena.models.release
-		.get(param, { $select: 'id' })
-		.catch(error => {
-			// we couldn't find a release by id,
-			// try whether it was a commit with all numeric digits
-			return balena.models.release
-				.get(paramRaw || _.toString(param), { $select: 'id' })
-				.catchThrow(error);
-		})
-		.then(({ id }) => id);
+	// Accepting short hashes of 7,8,9 chars.
+	const possibleUuidHashLength = [7, 8, 9, 32, 40, 62].includes(release.length);
+	const hasLeadingZero = release[0] === '0';
+	const isOnlyNumerical = /^[0-9]+$/.test(release);
+
+	// Reject non-numerical values with invalid uuid/hash lengths
+	if (!isOnlyNumerical && !possibleUuidHashLength) {
+		throw new ExpectedError('Invalid release parameter');
+	}
+
+	// Reject leading-zero values with invalid uuid/hash lengths
+	if (hasLeadingZero && !possibleUuidHashLength) {
+		throw new ExpectedError('Invalid release parameter');
+	}
+
+	// If alphanumeric, or has leading zero must now be uuid/hash.
+	if (!isOnlyNumerical || hasLeadingZero) {
+		return release;
+	}
+
+	// Now very likely an integer id (but still could be number only uuid/hash)
+	// Check integer id with API
+	try {
+		return (
+			await balena.models.release.get(parseInt(release, 10), {
+				$select: 'id',
+			})
+		).id;
+	} catch (e) {
+		if (e.name !== 'BalenaReleaseNotFound') {
+			throw e;
+		}
+	}
+
+	// Must be a number only uuid/hash (or nonexistent release)
+	return (await balena.models.release.get(release, { $select: 'id' })).id;
 }
