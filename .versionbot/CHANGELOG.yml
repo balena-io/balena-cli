@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'v12 preparations: Add version switch, update login message.'
+      hash: 889c7b08cf7ffd588cb42f70b63d1aefc5ddfdc8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#1770'
+        connects-to: '#1770'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.35.10
+  date: 2020-05-27T16:33:37.272Z
+- commits:
     - subject: 'balena deploy: Fix "access denied" pushing images to registry'
       hash: ba0024645d5dc01c27bccdf8fc7b4a21d7dc79ee
       body: ''
