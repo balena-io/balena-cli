@@ -25,6 +25,9 @@ import * as ShellEscape from 'shell-escape';
 import { ExpectedError } from '../errors';
 import { getBalenaSdk, getChalk, getVisuals } from './lazy';
 
+import * as semver from 'semver';
+import { version } from '../../package.json';
+
 export function getGroupDefaults(group: {
 	options: Array<{ name: string; default?: string }>;
 }): { [name: string]: string | number | undefined } {
@@ -464,4 +467,8 @@ export function getProxyConfig(): ProxyConfig | undefined {
 			};
 		}
 	}
+}
+
+export function isVersionGTE(v: string) {
+	return semver.gte(process.env.BALENA_CLI_VERSION_OVERRIDE || version, v);
 }
