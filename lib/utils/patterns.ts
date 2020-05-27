@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2019 Balena
+Copyright 2016-2020 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import _ = require('lodash');
 import _form = require('resin-cli-form');
 
 import { exitWithExpectedError, instanceOf, NotLoggedInError } from '../errors';
+import { isVersionGTE } from './helpers';
 import { getBalenaSdk, getVisuals } from './lazy';
 import validation = require('./validation');
 
@@ -80,10 +81,16 @@ export function authenticate(options: {}): Bluebird<void> {
 export async function checkLoggedIn(): Promise<void> {
 	const balena = getBalenaSdk();
 	if (!(await balena.auth.isLoggedIn())) {
-		throw new NotLoggedInError(stripIndent`
+		if (isVersionGTE('12.0.0')) {
+			throw new NotLoggedInError(stripIndent`
+			Login required: use the “balena login” command to log in.
+			`);
+		} else {
+			throw new NotLoggedInError(stripIndent`
 			You have to log in to continue
 			Run the following command to go through the login wizard:
 				$ balena login`);
+		}
 	}
 }
 
