@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "v12 preparations: Add version switch, update login message.",
+          "hash": "889c7b08cf7ffd588cb42f70b63d1aefc5ddfdc8",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Connects-to": "#1770",
+            "connects-to": "#1770",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.35.10",
+      "date": "2020-05-27T16:33:37.272Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "balena deploy: Fix \"access denied\" pushing images to registry",
           "hash": "ba0024645d5dc01c27bccdf8fc7b4a21d7dc79ee",
           "body": "",
@@ -11727,6 +11747,10 @@
       "avatar": "https://avatars3.githubusercontent.com/u/466713?v=4"
     },
     {
+      "username": "bulldozer-balena[bot]",
+      "avatar": "https://avatars0.githubusercontent.com/in/58047?v=4"
+    },
+    {
       "username": "wrboyce",
       "avatar": "https://avatars2.githubusercontent.com/u/28401?v=4"
     },
@@ -11753,10 +11777,6 @@
     {
       "username": "roman-mazur",
       "avatar": "https://avatars3.githubusercontent.com/u/307707?v=4"
-    },
-    {
-      "username": "mccollam",
-      "avatar": "https://avatars3.githubusercontent.com/u/3144447?v=4"
     }
   ],
   "docs": [],
@@ -11782,7 +11802,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 240,
+  "stars": 243,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -11885,36 +11905,52 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-25T17:01:01Z",
+  "lastCommitDate": "2020-05-27T16:57:29Z",
   "latestRelease": {
-    "tagName": "v11.35.9",
+    "tagName": "v11.35.10",
     "asssets": [
       {
-        "name": "balena-cli-v11.35.9-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.9/balena-cli-v11.35.9-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.35.10-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.10/balena-cli-v11.35.10-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.9-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.9/balena-cli-v11.35.9-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.35.10-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.10/balena-cli-v11.35.10-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.35.9-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.9/balena-cli-v11.35.9-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.35.10-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.10/balena-cli-v11.35.10-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.9-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.9/balena-cli-v11.35.9-windows-x64-installer.exe"
+        "name": "balena-cli-v11.35.10-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.10/balena-cli-v11.35.10-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.35.9-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.9/balena-cli-v11.35.9-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.35.10-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.10/balena-cli-v11.35.10-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 278,
+    "numberOfIssues": 282,
     "latestIssues": [
+      {
+        "title": "balena build fails to detect docker version when using docker-machine in OS X",
+        "url": "https://github.com/balena-io/balena-cli/issues/1844"
+      },
+      {
+        "title": "Resource identification with database IDs should not be allowed",
+        "url": "https://github.com/balena-io/balena-cli/issues/1843"
+      },
+      {
+        "title": "Resource names that look like numbers are treated as IDs / short UUIDs",
+        "url": "https://github.com/balena-io/balena-cli/issues/1842"
+      },
+      {
+        "title": "Convert `tags`, `tag set`, `tag rm` to oclif.",
+        "url": "https://github.com/balena-io/balena-cli/pull/1841"
+      },
       {
         "title": "Add a sequential option for pushing to a device",
         "url": "https://github.com/balena-io/balena-cli/pull/1836"
@@ -11978,26 +12014,10 @@
       {
         "title": "Cache username for a given auth to avoid fetching it every time",
         "url": "https://github.com/balena-io/balena-cli/pull/1803"
-      },
-      {
-        "title": "A newline in ~/.balena/token will cause commands to fail",
-        "url": "https://github.com/balena-io/balena-cli/issues/1800"
-      },
-      {
-        "title": "`balena build` should infer architecture from device type",
-        "url": "https://github.com/balena-io/balena-cli/issues/1795"
-      },
-      {
-        "title": "'balena login' web authorization fails silently if another process is listening on port 8989",
-        "url": "https://github.com/balena-io/balena-cli/issues/1773"
-      },
-      {
-        "title": "Release new major version (feature list)",
-        "url": "https://github.com/balena-io/balena-cli/issues/1770"
       }
     ]
   },
-  "version": "11.35.9",
+  "version": "11.35.10",
   "screenshot": null,
   "logo": null
 }
