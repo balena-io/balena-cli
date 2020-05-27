@@ -66,7 +66,7 @@ export const setupSentry = onceAsync(async () => {
 
 function checkNodeVersion() {
 	const validNodeVersions = packageJSON.engines.node;
-	if (!require('semver').satisfies(process.version, validNodeVersions)) {
+	if (!require('balena-semver').satisfies(process.version, validNodeVersions)) {
 		const { stripIndent } = require('common-tags');
 		console.warn(stripIndent`
 			------------------------------------------------------------------------------
@@ -120,7 +120,7 @@ async function setupGlobalHttpProxy(settings: CliSettings) {
 
 	const proxy = settings.getCatch<ProxyConfig>('proxy');
 	if (proxy || env.HTTPS_PROXY || env.HTTP_PROXY) {
-		const semver = await import('semver');
+		const semver = await import('balena-semver');
 		if (semver.lt(process.version, '10.16.0')) {
 			await setupGlobalTunnelNgProxy(proxy);
 		} else {
