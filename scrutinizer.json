@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "Convert `tags`, `tag set`, `tag rm` to oclif.",
+          "hash": "979284b0712348bb320fa153ec90a77db65f4883",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Resolves": "#1805",
+            "resolves": "#1805",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.35.11",
+      "date": "2020-05-28T17:51:37.666Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "v12 preparations: Add version switch, update login message.",
           "hash": "889c7b08cf7ffd588cb42f70b63d1aefc5ddfdc8",
           "body": "",
@@ -11687,12 +11707,12 @@
       "avatar": "https://avatars0.githubusercontent.com/u/1295829?v=4"
     },
     {
-      "username": "lekkas",
-      "avatar": "https://avatars3.githubusercontent.com/u/5211478?v=4"
-    },
-    {
       "username": "srlowe",
       "avatar": "https://avatars3.githubusercontent.com/u/1562665?v=4"
+    },
+    {
+      "username": "lekkas",
+      "avatar": "https://avatars3.githubusercontent.com/u/5211478?v=4"
     },
     {
       "username": "emirotin",
@@ -11735,6 +11755,10 @@
       "avatar": "https://avatars3.githubusercontent.com/u/3415366?v=4"
     },
     {
+      "username": "bulldozer-balena[bot]",
+      "avatar": "https://avatars0.githubusercontent.com/in/58047?v=4"
+    },
+    {
       "username": "Atiklabsl",
       "avatar": "https://avatars1.githubusercontent.com/u/44225870?v=4"
     },
@@ -11745,10 +11769,6 @@
     {
       "username": "pcgeek86",
       "avatar": "https://avatars3.githubusercontent.com/u/466713?v=4"
-    },
-    {
-      "username": "bulldozer-balena[bot]",
-      "avatar": "https://avatars0.githubusercontent.com/in/58047?v=4"
     },
     {
       "username": "wrboyce",
@@ -11905,36 +11925,52 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-27T16:57:29Z",
+  "lastCommitDate": "2020-05-28T23:38:31Z",
   "latestRelease": {
-    "tagName": "v11.35.10",
+    "tagName": "v11.35.11",
     "asssets": [
       {
-        "name": "balena-cli-v11.35.10-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.10/balena-cli-v11.35.10-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.35.11-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.11/balena-cli-v11.35.11-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.10-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.10/balena-cli-v11.35.10-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.35.11-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.11/balena-cli-v11.35.11-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.35.10-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.10/balena-cli-v11.35.10-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.35.11-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.11/balena-cli-v11.35.11-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.10-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.10/balena-cli-v11.35.10-windows-x64-installer.exe"
+        "name": "balena-cli-v11.35.11-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.11/balena-cli-v11.35.11-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.35.10-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.10/balena-cli-v11.35.10-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.35.11-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.11/balena-cli-v11.35.11-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 282,
+    "numberOfIssues": 284,
     "latestIssues": [
+      {
+        "title": "v12 preparations: Add feature switch for '--nogitignore'",
+        "url": "https://github.com/balena-io/balena-cli/pull/1850"
+      },
+      {
+        "title": "`balena ssh <<device>> <<service>>` responds with incorrect list of services on failure",
+        "url": "https://github.com/balena-io/balena-cli/issues/1849"
+      },
+      {
+        "title": "balena deploy: Allow image layer caching when pushing to the registry",
+        "url": "https://github.com/balena-io/balena-cli/pull/1848"
+      },
+      {
+        "title": "`balena push <ipAddress>` crashes with Node 14",
+        "url": "https://github.com/balena-io/balena-cli/issues/1847"
+      },
       {
         "title": "balena build fails to detect docker version when using docker-machine in OS X",
         "url": "https://github.com/balena-io/balena-cli/issues/1844"
@@ -11946,10 +11982,6 @@
       {
         "title": "Resource names that look like numbers are treated as IDs / short UUIDs",
         "url": "https://github.com/balena-io/balena-cli/issues/1842"
-      },
-      {
-        "title": "Convert `tags`, `tag set`, `tag rm` to oclif.",
-        "url": "https://github.com/balena-io/balena-cli/pull/1841"
       },
       {
         "title": "Add a sequential option for pushing to a device",
@@ -12002,22 +12034,10 @@
       {
         "title": "sfdisk: /img/balena.img: does not contain a recognized partition table",
         "url": "https://github.com/balena-io/balena-cli/issues/1810"
-      },
-      {
-        "title": "balena device rm --yes should not need a TTY",
-        "url": "https://github.com/balena-io/balena-cli/issues/1808"
-      },
-      {
-        "title": "Leading zeroes stripped from device uuid",
-        "url": "https://github.com/balena-io/balena-cli/issues/1805"
-      },
-      {
-        "title": "Cache username for a given auth to avoid fetching it every time",
-        "url": "https://github.com/balena-io/balena-cli/pull/1803"
       }
     ]
   },
-  "version": "11.35.10",
+  "version": "11.35.11",
   "screenshot": null,
   "logo": null
 }
