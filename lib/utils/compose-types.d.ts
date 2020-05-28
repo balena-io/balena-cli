@@ -36,6 +36,13 @@ export interface BuiltImage {
 	serviceName: string;
 }
 
+// TODO: avoid duplication with 'docker-toolbelt/lib/docker-toolbelt.d.ts'
+export interface ImageNameParts {
+	registry: string;
+	imageName: string;
+	tagName: string;
+}
+
 export interface TaggedImage {
 	localImage: import('dockerode').Image;
 	serviceImage: import('balena-release/build/models').ImageModel;

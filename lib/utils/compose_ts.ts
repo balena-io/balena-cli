@@ -32,6 +32,7 @@ import {
 	BuiltImage,
 	ComposeOpts,
 	ComposeProject,
+	ImageNameParts,
 	Release,
 	TaggedImage,
 	TarDirectoryOptions,
@@ -582,26 +583,42 @@ export async function validateProjectDirectory(
 	return result;
 }
 
-async function getTokenForPreviousRepos(
+async function pullServiceImages(
 	docker: import('docker-toolbelt'),
 	logger: Logger,
-	appId: number,
-	apiEndpoint: string,
-	taggedImages: TaggedImage[],
-): Promise<string> {
-	logger.logDebug('Authorizing push...');
-	const { authorizePush, getPreviousRepos } = await import('./compose');
-	const sdk = getBalenaSdk();
-	const previousRepos = await getPreviousRepos(sdk, docker, logger, appId);
-
-	const token = await authorizePush(
-		sdk,
-		apiEndpoint,
-		taggedImages[0].registry,
-		_.map(taggedImages, 'repo'),
-		previousRepos,
+	previousRepos: ImageNameParts[],
+	token: string,
+): Promise<void> {
+	const { retry } = await import('./helpers');
+	const { DockerProgress } = await import('docker-progress');
+	const dockerProgress = new DockerProgress({ dockerToolbelt: docker });
+	const opts = { authconfig: { registrytoken: token } };
+	logger.logInfo('Pulling previous release images to enable layer caching...');
+	await Promise.all(
+		previousRepos.map(async (parts: ImageNameParts) => {
+			const imageUrl =
+				path.posix.join(parts.registry, parts.imageName) +
+				(parts.tagName && parts.tagName !== 'latest'
+					? `:${parts.tagName}`
+					: '');
+			logger.logDebug(`Pulling previous release image "${imageUrl}"`);
+			try {
+				await retry(
+					() => dockerProgress.pull(imageUrl, () => 0, opts),
+					3,
+					imageUrl,
+					2000,
+					1.4,
+				);
+				logger.logInfo(
+					`Pull completed for previous release image "${imageUrl}"`,
+				);
+			} catch (err) {
+				// Don't fail build/deploy if previous release images cannot be pulled
+				logger.logError(`Could not pull image: ${imageUrl} because: ${err}`);
+			}
+		}),
 	);
-	return token;
 }
 
 async function pushServiceImages(
@@ -628,6 +645,55 @@ async function pushServiceImages(
 	});
 }
 
+async function pullAndPushServiceImages(
+	docker: import('docker-toolbelt'),
+	logger: Logger,
+	appId: number,
+	apiEndpoint: string,
+	pineClient: import('pinejs-client'),
+	release: Partial<import('balena-release/build/models').ReleaseModel>,
+	images: BuiltImage[],
+	serviceImages: Partial<import('balena-release/build/models').ImageModel>,
+	skipLogUpload: boolean,
+): Promise<void> {
+	const { authorizePush, getPreviousRepos, tagServiceImages } = await import(
+		'./compose'
+	);
+	const sdk = getBalenaSdk();
+
+	logger.logDebug('Tagging images...');
+	const taggedImages = await tagServiceImages(docker, images, serviceImages);
+	try {
+		logger.logDebug('Authorizing push...');
+		const previousRepos = await getPreviousRepos(sdk, docker, logger, appId);
+		const token = await authorizePush(
+			sdk,
+			apiEndpoint,
+			taggedImages[0].registry,
+			_.map(taggedImages, 'repo'),
+			previousRepos.map(parts => parts.imageName),
+		);
+		if (previousRepos.length) {
+			await pullServiceImages(docker, logger, previousRepos, token);
+		}
+		await pushServiceImages(
+			docker,
+			logger,
+			pineClient,
+			taggedImages,
+			token,
+			skipLogUpload,
+		);
+		release.status = 'success';
+	} catch (err) {
+		release.status = 'failed';
+		throw err;
+	} finally {
+		logger.logDebug('Untagging images...');
+		await Bluebird.map(taggedImages, ({ localImage }) => localImage.remove());
+	}
+}
+
 export async function deployProject(
 	docker: import('docker-toolbelt'),
 	logger: Logger,
@@ -640,7 +706,7 @@ export async function deployProject(
 	skipLogUpload: boolean,
 ): Promise<Partial<import('balena-release/build/models').ReleaseModel>> {
 	const releaseMod = require('balena-release');
-	const { createRelease, tagServiceImages } = await import('./compose');
+	const { createRelease } = await import('./compose');
 	const tty = (await import('./tty'))(process.stdout);
 
 	const prefix = getChalk().cyan('[Info]') + '    ';
@@ -662,34 +728,23 @@ export async function deployProject(
 	const { client: pineClient, release, serviceImages } = $release;
 
 	try {
-		logger.logDebug('Tagging images...');
-		const taggedImages = await tagServiceImages(docker, images, serviceImages);
-		try {
-			const token = await getTokenForPreviousRepos(
-				docker,
-				logger,
-				appId,
-				apiEndpoint,
-				taggedImages,
-			);
-			await pushServiceImages(
-				docker,
-				logger,
-				pineClient,
-				taggedImages,
-				token,
-				skipLogUpload,
-			);
-			release.status = 'success';
-		} catch (err) {
-			release.status = 'failed';
-			throw err;
-		} finally {
-			logger.logDebug('Untagging images...');
-			await Bluebird.map(taggedImages, ({ localImage }) => localImage.remove());
-		}
+		await pullAndPushServiceImages(
+			docker,
+			logger,
+			appId,
+			apiEndpoint,
+			pineClient,
+			release,
+			images,
+			serviceImages,
+			skipLogUpload,
+		);
 	} finally {
-		runloop = runSpinner(tty, spinner, `${prefix}Saving release...`);
+		runloop = runSpinner(
+			tty,
+			spinner,
+			`${prefix}Saving release... [status=${release.status}]`,
+		);
 		release.end_timestamp = new Date();
 		if (release.id != null) {
 			try {

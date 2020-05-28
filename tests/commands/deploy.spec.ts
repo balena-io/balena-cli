@@ -40,8 +40,9 @@ const commonResponseLines = {
 		'[Info] without balena-cli intervention and regardless of the --emulated option.',
 		'[Build] main Image size: 1.14 MB',
 		'[Info] Creating release...',
+		'[Info] Pulling previous release images to enable layer caching...',
 		'[Info] Pushing images to registry...',
-		'[Info] Saving release...',
+		'[Info] Saving release... [status=success]',
 		'[Success] Deploy succeeded!',
 		'[Success] Release: 09f7c3e1fdec609be818002299edfc2a',
 	],
@@ -90,6 +91,7 @@ describe('balena deploy', function() {
 		docker.expectGetPing();
 		docker.expectGetInfo({});
 		docker.expectGetVersion({ persist: true });
+		docker.expectPostImagesCreate();
 		docker.expectPostImagesTag();
 		docker.expectPostImagesPush();
 		docker.expectDeleteImages();

@@ -119,6 +119,10 @@ export class DockerMock extends NockMock {
 		]);
 	}
 
+	public expectPostImagesCreate(opts: ScopeOpts = {}) {
+		this.optPost(/^\/images\/create/, opts).reply(200);
+	}
+
 	public expectPostImagesTag(opts: ScopeOpts = {}) {
 		this.optPost(/^\/images\/.+?\/tag\?/, opts).reply(201);
 	}
