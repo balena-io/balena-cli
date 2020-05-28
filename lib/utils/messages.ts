@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import { isV12 } from './version';
+
 const DEBUG_MODE = !!process.env.DEBUG;
 
 export const reachingOut = `\
@@ -67,7 +69,7 @@ If the --registry-secrets option is not specified, and a secrets.yml or
 secrets.json file exists in the balena directory (usually $HOME/.balena),
 this file will be used instead.`;
 
-export const dockerignoreHelp = `\
+const dockerignoreHelpV11 = `\
 DOCKERIGNORE AND GITIGNORE FILES
 By default, both '.dockerignore' and '.gitignore' files are taken into account
 in order to prevent files from being sent to the balenaCloud builder or Docker
@@ -102,3 +104,21 @@ If necessary, the effect of the '**/.git' pattern may be modified by adding
 For documentation on pattern format, see:
 - https://docs.docker.com/engine/reference/builder/#dockerignore-file
 - https://www.npmjs.com/package/@balena/dockerignore`;
+
+const dockerignoreHelpV12 =
+	`DOCKERIGNORE AND GITIGNORE FILES
+The balena CLI will use a '.dockerignore' file (if any) at the source directory
+in order to decide which source files to exclude from the "build context" sent
+to balenaCloud, Docker or balenaEngine.  Previous balena CLI releases (before
+v12.0.0) also took '.gitignore' files into account, but this is no longer the
+case. This allows files to be used for an image build even if they are listed
+in '.gitignore'.
+
+A few "hardcoded" dockerignore patterns are also used and "merged" (in memory)
+with the patterns found in the '.dockerignore' file (if any), in the following
+order:
+` + dockerignoreHelpV11.substring(dockerignoreHelpV11.indexOf('\n    **/.git'));
+
+export const dockerignoreHelp = isV12()
+	? dockerignoreHelpV12
+	: dockerignoreHelpV11;
