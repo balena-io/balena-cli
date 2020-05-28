@@ -69,9 +69,9 @@ Additional commands:
     os initialize <image>                 initialize an os image
     os versions <type>                    show the available balenaOS versions for the given device type
     settings                              print current settings
-    tag rm <tagKey>                       remove a resource tag
-    tag set <tagKey> [value]              set a resource tag
-    tags                                  list all resource tags
+    tag rm <tagkey>                       remove a tag from an application, device or release
+    tag set <tagkey> [value]              set a tag on an application, device or release
+    tags                                  list all tags for an application, device or release
     util available-drives                 list available drives
     version                               display version information for the balena CLI and/or Node.js
     whoami                                get current username and email address

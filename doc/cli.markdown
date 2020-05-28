@@ -194,8 +194,8 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 - Tags
 
 	- [tags](#tags)
-	- [tag set &#60;tagKey&#62; [value]](#tag-set-tagkey-value)
-	- [tag rm &#60;tagKey&#62;](#tag-rm-tagkey)
+	- [tag rm &#60;tagkey&#62;](#tag-rm-tagkey)
+	- [tag set &#60;tagkey&#62; [value]](#tag-set-tagkey-value)
 
 - Help and Version
 
@@ -991,12 +991,10 @@ select a service variable (may be used together with the --device option)
 
 ## tags
 
-Use this command to list all tags for
-a particular application, device or release.
+List all tags and their values for a particular application,
+device or release.
 
-This command lists all application/device/release tags.
-
-Example:
+Examples:
 
 	$ balena tags --application MyApp
 	$ balena tags --device 7cf02a6
@@ -1005,24 +1003,63 @@ Example:
 
 ### Options
 
-#### --application, -a, --app &#60;application&#62;
+#### -a, --application APPLICATION
 
 application name
 
-#### --device, -d &#60;device&#62;
+#### -d, --device DEVICE
 
-device uuid
+device UUID
 
-#### --release, -r &#60;release&#62;
+#### -r, --release RELEASE
 
 release id
 
+#### --app APP
+
+same as '--application'
+
+## tag rm &#60;tagKey&#62;
+
+Remove a tag from an application, device or release.
+
+Examples:
+
+	$ balena tag rm myTagKey --application MyApp
+	$ balena tag rm myTagKey --device 7cf02a6
+	$ balena tag rm myTagKey --release 1234
+	$ balena tag rm myTagKey --release b376b0e544e9429483b656490e5b9443b4349bd6
+
+### Arguments
+
+#### TAGKEY
+
+the key string of the tag
+
+### Options
+
+#### -a, --application APPLICATION
+
+application name
+
+#### -d, --device DEVICE
+
+device UUID
+
+#### -r, --release RELEASE
+
+release id
+
+#### --app APP
+
+same as '--application'
+
 ## tag set &#60;tagKey&#62; [value]
 
-Use this command to set a tag to an application, device or release.
+Set a tag on an application, device or release.
 
 You can optionally provide a value to be associated with the created
-tag, as an extra argument after the tag key. When the value isn't
+tag, as an extra argument after the tag key. If a value isn't
 provided, a tag with an empty value is created.
 
 Examples:
@@ -1035,44 +1072,33 @@ Examples:
 	$ balena tag set myCompositeTag --release 1234
 	$ balena tag set myCompositeTag --release b376b0e544e9429483b656490e5b9443b4349bd6
 
-### Options
+### Arguments
 
-#### --application, -a, --app &#60;application&#62;
+#### TAGKEY
 
-application name
+the key string of the tag
 
-#### --device, -d &#60;device&#62;
+#### VALUE
 
-device uuid
-
-#### --release, -r &#60;release&#62;
-
-release id
-
-## tag rm &#60;tagKey&#62;
-
-Use this command to remove a tag from an application, device or release.
-
-Examples:
-
-	$ balena tag rm myTagKey --application MyApp
-	$ balena tag rm myTagKey --device 7cf02a6
-	$ balena tag rm myTagKey --release 1234
-	$ balena tag rm myTagKey --release b376b0e544e9429483b656490e5b9443b4349bd6
+the optional value associated with the tag
 
 ### Options
 
-#### --application, -a, --app &#60;application&#62;
+#### -a, --application APPLICATION
 
 application name
 
-#### --device, -d &#60;device&#62;
+#### -d, --device DEVICE
 
-device uuid
+device UUID
 
-#### --release, -r &#60;release&#62;
+#### -r, --release RELEASE
 
 release id
+
+#### --app APP
+
+same as '--application'
 
 # Help and Version
 

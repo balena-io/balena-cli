@@ -159,6 +159,9 @@ export const convertedCommands = [
 	'note',
 	'os:configure',
 	'settings',
+	'tags',
+	'tag:rm',
+	'tag:set',
 	'version',
 	'scan',
 ];

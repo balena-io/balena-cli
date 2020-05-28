@@ -58,7 +58,7 @@ export function validateDotLocalUrl(input: string): boolean {
 }
 
 export function validateLongUuid(input: string): boolean {
-	if (input.length !== 32 && input.length !== 64) {
+	if (input.length !== 32 && input.length !== 62) {
 		return false;
 	}
 	return UUID_REGEX.test(input);
@@ -89,12 +89,9 @@ export function parseAsInteger(input: string, paramName?: string) {
 	return Number(input);
 }
 
-export function tryAsInteger(
-	input: string,
-	paramName?: string,
-): number | string {
+export function tryAsInteger(input: string): number | string {
 	try {
-		return parseAsInteger(input, paramName);
+		return parseAsInteger(input);
 	} catch {
 		return input;
 	}
