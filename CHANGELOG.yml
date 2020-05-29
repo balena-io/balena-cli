@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'v12 preparations: Add feature switch to remove id from ''tags'' output'
+      hash: 1693bd91c0bf135591dbbb7a84126796e990cd38
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#1770'
+        connects-to: '#1770'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.35.13
+  date: 2020-05-29T15:32:23.005Z
+- commits:
     - subject: 'v12 preparations: Add feature switch for ''--nogitignore'''
       hash: 1d073af31ae2b2c0eda3850ecf672b86139bee88
       body: ''
@@ -9,7 +23,7 @@
         change-type: patch
       author: Paulo Castro
   version: 11.35.12
-  date: 2020-05-29T07:03:07.341Z
+  date: 2020-05-29T00:14:50.880Z
 - commits:
     - subject: 'Convert `tags`, `tag set`, `tag rm` to oclif.'
       hash: 979284b0712348bb320fa153ec90a77db65f4883
