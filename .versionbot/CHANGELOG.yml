@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'v12 preparations: Add feature switch for ''--nogitignore'''
+      hash: 1d073af31ae2b2c0eda3850ecf672b86139bee88
+      body: ''
+      footer:
+        Connects-to: '#1770'
+        connects-to: '#1770'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.35.12
+  date: 2020-05-29T00:14:50.880Z
+- commits:
     - subject: 'Convert `tags`, `tag set`, `tag rm` to oclif.'
       hash: 979284b0712348bb320fa153ec90a77db65f4883
       body: ''
