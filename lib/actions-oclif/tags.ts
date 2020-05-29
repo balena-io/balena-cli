@@ -23,6 +23,7 @@ import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals } from '../utils/lazy';
 import { disambiguateReleaseParam } from '../utils/normalization';
 import { tryAsInteger } from '../utils/validation';
+import { isV12 } from '../utils/version';
 
 interface FlagsDef {
 	application?: string;
@@ -111,7 +112,9 @@ export default class TagsCmd extends Command {
 		}
 
 		console.log(
-			getVisuals().table.horizontal(tags, ['id', 'tag_key', 'value']),
+			isV12()
+				? getVisuals().table.horizontal(tags, ['tag_key', 'value'])
+				: getVisuals().table.horizontal(tags, ['id', 'tag_key', 'value']),
 		);
 	}
 
