@@ -21,9 +21,9 @@ import _ = require('lodash');
 import _form = require('resin-cli-form');
 
 import { exitWithExpectedError, instanceOf, NotLoggedInError } from '../errors';
-import { isVersionGTE } from './helpers';
 import { getBalenaSdk, getVisuals } from './lazy';
 import validation = require('./validation');
+import { isV12 } from './version';
 
 const getForm = _.once((): typeof _form => require('resin-cli-form'));
 
@@ -81,7 +81,7 @@ export function authenticate(options: {}): Bluebird<void> {
 export async function checkLoggedIn(): Promise<void> {
 	const balena = getBalenaSdk();
 	if (!(await balena.auth.isLoggedIn())) {
-		if (isVersionGTE('12.0.0')) {
+		if (isV12()) {
 			throw new NotLoggedInError(stripIndent`
 			Login required: use the “balena login” command to log in.
 			`);

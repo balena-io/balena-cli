@@ -26,6 +26,7 @@ import {
 	validateDotLocalUrl,
 	validateIPAddress,
 } from '../utils/validation';
+import { isV12 } from '../utils/version';
 
 enum BuildTarget {
 	Cloud,
@@ -265,7 +266,9 @@ export const push: CommandDefinition<
 		{
 			signature: 'nogitignore',
 			alias: 'G',
-			description: stripIndent`
+			description: isV12()
+				? 'No-op and deprecated since balena CLI v12.0.0. See "balena help push".'
+				: stripIndent`
 				Disregard all .gitignore files, and consider only the .dockerignore file (if any)
 				at the source directory. This will be the default behavior in an upcoming major
 				version release. For more information, see 'balena help push'.
@@ -302,6 +305,8 @@ export const push: CommandDefinition<
 				registrySecretsPath: options['registry-secrets'],
 			},
 		);
+
+		const nogitignore = !!options.nogitignore || isV12();
 
 		const buildTarget = getBuildTarget(appOrDevice);
 		switch (buildTarget) {
@@ -349,7 +354,7 @@ export const push: CommandDefinition<
 							source,
 							auth: token,
 							baseUrl,
-							nogitignore: !!options.nogitignore,
+							nogitignore,
 							sdk,
 							opts,
 						};
@@ -373,7 +378,7 @@ export const push: CommandDefinition<
 						dockerfilePath,
 						registrySecrets,
 						nocache: options.nocache || false,
-						nogitignore: options.nogitignore || false,
+						nogitignore,
 						noParentCheck: options['noparent-check'] || false,
 						nolive: options.nolive || false,
 						detached: options.detached || false,
