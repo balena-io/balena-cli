@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "v12 preparations: Add feature switch for '--nogitignore'",
+          "hash": "1d073af31ae2b2c0eda3850ecf672b86139bee88",
+          "body": "",
+          "footer": {
+            "Connects-to": "#1770",
+            "connects-to": "#1770",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.35.12",
+      "date": "2020-05-29T00:14:50.880Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert `tags`, `tag set`, `tag rm` to oclif.",
           "hash": "979284b0712348bb320fa153ec90a77db65f4883",
           "body": "",
@@ -11751,12 +11769,12 @@
       "avatar": "https://avatars1.githubusercontent.com/u/590207?v=4"
     },
     {
-      "username": "afitzek",
-      "avatar": "https://avatars3.githubusercontent.com/u/3415366?v=4"
-    },
-    {
       "username": "bulldozer-balena[bot]",
       "avatar": "https://avatars0.githubusercontent.com/in/58047?v=4"
+    },
+    {
+      "username": "afitzek",
+      "avatar": "https://avatars3.githubusercontent.com/u/3415366?v=4"
     },
     {
       "username": "Atiklabsl",
@@ -11925,40 +11943,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-28T23:38:31Z",
+  "lastCommitDate": "2020-05-29T07:03:49Z",
   "latestRelease": {
-    "tagName": "v11.35.11",
+    "tagName": "v11.35.12",
     "asssets": [
       {
-        "name": "balena-cli-v11.35.11-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.11/balena-cli-v11.35.11-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.35.12-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.12/balena-cli-v11.35.12-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.11-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.11/balena-cli-v11.35.11-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.35.12-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.12/balena-cli-v11.35.12-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.35.11-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.11/balena-cli-v11.35.11-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.35.12-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.12/balena-cli-v11.35.12-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.11-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.11/balena-cli-v11.35.11-windows-x64-installer.exe"
+        "name": "balena-cli-v11.35.12-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.12/balena-cli-v11.35.12-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.35.11-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.11/balena-cli-v11.35.11-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.35.12-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.12/balena-cli-v11.35.12-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 284,
+    "numberOfIssues": 283,
     "latestIssues": [
-      {
-        "title": "v12 preparations: Add feature switch for '--nogitignore'",
-        "url": "https://github.com/balena-io/balena-cli/pull/1850"
-      },
       {
         "title": "`balena ssh <<device>> <<service>>` responds with incorrect list of services on failure",
         "url": "https://github.com/balena-io/balena-cli/issues/1849"
@@ -12034,10 +12048,14 @@
       {
         "title": "sfdisk: /img/balena.img: does not contain a recognized partition table",
         "url": "https://github.com/balena-io/balena-cli/issues/1810"
+      },
+      {
+        "title": "balena device rm --yes should not need a TTY",
+        "url": "https://github.com/balena-io/balena-cli/issues/1808"
       }
     ]
   },
-  "version": "11.35.11",
+  "version": "11.35.12",
   "screenshot": null,
   "logo": null
 }
