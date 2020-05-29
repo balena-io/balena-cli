@@ -739,7 +739,7 @@ configuration variables are never listed together.
 
 When the --all option is used, the printed output may include DEVICE and/or
 SERVICE columns to distinguish between application-wide, device-specific and
-service-specific variables. As asterisk in these columns indicates that the
+service-specific variables. An asterisk in these columns indicates that the
 variable applies to "all devices" or "all services".
 
 The --json option is recommended when scripting the output of this command,
