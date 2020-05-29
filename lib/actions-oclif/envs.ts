@@ -24,9 +24,10 @@ import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals } from '../utils/lazy';
 import { CommandHelp } from '../utils/oclif-utils';
+import { isV12 } from '../utils/version';
 
 interface FlagsDef {
-	all?: boolean; // whether to include application-wide, device-wide variables
+	all?: boolean; // whether to include application-wide, device-wide variables //TODO: REMOVE
 	application?: string; // application name
 	config: boolean;
 	device?: string; // device UUID
@@ -57,7 +58,42 @@ interface ServiceEnvironmentVariableInfo
 }
 
 export default class EnvsCmd extends Command {
-	public static description = stripIndent`
+	public static description = isV12()
+		? stripIndent`
+		List the environment or config variables of an application, device or service.
+
+		List the environment or configuration variables of an application, device or
+		service, as selected by the respective command-line options. (A service is
+		an application container in a "microservices" application.)
+
+		The results include application-wide (fleet), device-wide (multiple services on
+		a device) and service-specific variables that apply to the selected application,
+		device or service. It can be thought of as including "inherited" variables;
+		for example, a service inherits device-wide variables, and a device inherits
+		application-wide variables.
+
+		The printed output may include DEVICE and/or SERVICE columns to distinguish
+		between application-wide, device-specific and service-specific variables.
+		An asterisk in these columns indicates that the variable applies to
+		"all devices" or "all services".
+
+		The --config option is used to list "configuration variables" that control
+		balena platform features, as opposed to custom environment variables defined
+		by the user. The --config and the --service options are mutually exclusive
+		because configuration variables cannot be set for specific services.
+
+		The --json option is recommended when scripting the output of this command,
+		because the JSON format is less likely to change and it better represents data
+		types like lists and empty strings. The 'jq' utility may be helpful in shell
+		scripts (https://stedolan.github.io/jq/manual/). When --json is used, an empty
+		JSON array ([]) is printed instead of an error message when no variables exist
+		for the given query. When querying variables for a device, note that the
+		application name may be null in JSON output (or 'N/A' in tabular output) if the
+		application linked to the device is no longer accessible by the current user
+		(for example, in case the current user has been removed from the application
+		by its owner).
+`
+		: stripIndent`
 		List the environment or config variables of an application, device or service.
 
 		List the environment or configuration variables of an application, device or
@@ -79,7 +115,7 @@ export default class EnvsCmd extends Command {
 
 		When the --all option is used, the printed output may include DEVICE and/or
 		SERVICE columns to distinguish between application-wide, device-specific and
-		service-specific variables. As asterisk in these columns indicates that the
+		service-specific variables. An asterisk in these columns indicates that the
 		variable applies to "all devices" or "all services".
 
 		The --json option is recommended when scripting the output of this command,
@@ -93,28 +129,50 @@ export default class EnvsCmd extends Command {
 		(for example, in case the current user has been removed from the application
 		by its owner).
 `;
-	public static examples = [
-		'$ balena envs --application MyApp',
-		'$ balena envs --application MyApp --all --json',
-		'$ balena envs --application MyApp --service MyService',
-		'$ balena envs --application MyApp --all --service MyService',
-		'$ balena envs --application MyApp --config',
-		'$ balena envs --device 7cf02a6',
-		'$ balena envs --device 7cf02a6 --all --json',
-		'$ balena envs --device 7cf02a6 --config --all --json',
-		'$ balena envs --device 7cf02a6 --all --service MyService',
-	];
+	public static examples = isV12()
+		? [
+				'$ balena envs --application MyApp',
+				'$ balena envs --application MyApp --json',
+				'$ balena envs --application MyApp --service MyService',
+				'$ balena envs --application MyApp --service MyService',
+				'$ balena envs --application MyApp --config',
+				'$ balena envs --device 7cf02a6',
+				'$ balena envs --device 7cf02a6 --json',
+				'$ balena envs --device 7cf02a6 --config --json',
+				'$ balena envs --device 7cf02a6 --service MyService',
+		  ]
+		: [
+				'$ balena envs --application MyApp',
+				'$ balena envs --application MyApp --all --json',
+				'$ balena envs --application MyApp --service MyService',
+				'$ balena envs --application MyApp --all --service MyService',
+				'$ balena envs --application MyApp --config',
+				'$ balena envs --device 7cf02a6',
+				'$ balena envs --device 7cf02a6 --all --json',
+				'$ balena envs --device 7cf02a6 --config --all --json',
+				'$ balena envs --device 7cf02a6 --all --service MyService',
+		  ];
 
 	public static usage = (
 		'envs ' + new CommandHelp({ args: EnvsCmd.args }).defaultUsage()
 	).trim();
 
 	public static flags: flags.Input<FlagsDef> = {
-		all: flags.boolean({
-			description: stripIndent`
+		...(isV12()
+			? {
+					all: flags.boolean({
+						description: stripIndent`
+				No-op since balena CLI v12.0.0.`,
+						hidden: true,
+					}),
+			  }
+			: {
+					all: flags.boolean({
+						description: stripIndent`
 				include app-wide, device-wide variables that apply to the selected device or service.
 				Variables are still filtered out by type with the --config option.`,
-		}),
+					}),
+			  }),
 		application: { exclusive: ['device'], ...cf.application },
 		config: flags.boolean({
 			char: 'c',
@@ -134,6 +192,8 @@ export default class EnvsCmd extends Command {
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(EnvsCmd);
 		const variables: EnvironmentVariableInfo[] = [];
+
+		options.all = options.all || isV12();
 
 		await Command.checkLoggedIn();
 
