@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "v12 preparations: Add feature switch for 'envs --all'",
+          "hash": "6e5e1c4f5fd3ec480501a90ec3a2c1ae26c6cbab",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Connects-to": "#1770",
+            "connects-to": "#1770",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.35.14",
+      "date": "2020-05-29T15:41:57.437Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "v12 preparations: Add feature switch to remove id from 'tags' output",
           "hash": "1693bd91c0bf135591dbbb7a84126796e990cd38",
           "body": "",
@@ -11781,16 +11801,16 @@
       "avatar": "https://avatars2.githubusercontent.com/u/633741?v=4"
     },
     {
+      "username": "bulldozer-balena[bot]",
+      "avatar": "https://avatars0.githubusercontent.com/in/58047?v=4"
+    },
+    {
       "username": "pcarranzav",
       "avatar": "https://avatars1.githubusercontent.com/u/2223590?v=4"
     },
     {
       "username": "dansku",
       "avatar": "https://avatars1.githubusercontent.com/u/590207?v=4"
-    },
-    {
-      "username": "bulldozer-balena[bot]",
-      "avatar": "https://avatars0.githubusercontent.com/in/58047?v=4"
     },
     {
       "username": "afitzek",
@@ -11963,29 +11983,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-29T15:33:19Z",
+  "lastCommitDate": "2020-05-29T16:59:53Z",
   "latestRelease": {
-    "tagName": "v11.35.13",
+    "tagName": "v11.35.14",
     "asssets": [
       {
-        "name": "balena-cli-v11.35.13-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.13/balena-cli-v11.35.13-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.35.14-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.14/balena-cli-v11.35.14-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.13-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.13/balena-cli-v11.35.13-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.35.14-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.14/balena-cli-v11.35.14-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.35.13-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.13/balena-cli-v11.35.13-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.35.14-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.14/balena-cli-v11.35.14-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.13-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.13/balena-cli-v11.35.13-windows-x64-installer.exe"
+        "name": "balena-cli-v11.35.14-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.14/balena-cli-v11.35.14-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.35.13-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.13/balena-cli-v11.35.13-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.35.14-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.14/balena-cli-v11.35.14-windows-x64-standalone.zip"
       }
     ]
   },
@@ -11994,8 +12014,8 @@
     "numberOfIssues": 284,
     "latestIssues": [
       {
-        "title": "v12 preparations: Add feature switch for 'envs --all'",
-        "url": "https://github.com/balena-io/balena-cli/pull/1851"
+        "title": "v12 preparations: Add feature switch for 'devices supported' default columns",
+        "url": "https://github.com/balena-io/balena-cli/pull/1853"
       },
       {
         "title": "`balena ssh <<device>> <<service>>` responds with incorrect list of services on failure",
@@ -12075,7 +12095,7 @@
       }
     ]
   },
-  "version": "11.35.13",
+  "version": "11.35.14",
   "screenshot": null,
   "logo": null
 }

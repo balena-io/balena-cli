@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'v12 preparations: Add feature switch for ''envs --all'''
+      hash: 6e5e1c4f5fd3ec480501a90ec3a2c1ae26c6cbab
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#1770'
+        connects-to: '#1770'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.35.14
+  date: 2020-05-29T16:59:07.532Z
+- commits:
     - subject: 'v12 preparations: Add feature switch to remove id from ''tags'' output'
       hash: 1693bd91c0bf135591dbbb7a84126796e990cd38
       body: ''
@@ -11,7 +25,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.35.13
-  date: 2020-05-29T15:32:23.005Z
+  date: 2020-05-29T15:12:37.502Z
 - commits:
     - subject: 'v12 preparations: Add feature switch for ''--nogitignore'''
       hash: 1d073af31ae2b2c0eda3850ecf672b86139bee88
