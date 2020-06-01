@@ -17,6 +17,7 @@
 
 import { expect } from 'chai';
 
+import { isV12 } from '../../../build/utils/version';
 import { BalenaAPIMock } from '../../balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
@@ -52,7 +53,9 @@ describe('balena devices supported', function() {
 
 		const lines = cleanOutput(out);
 
-		expect(lines[0].replace(/  +/g, ' ')).to.equal('SLUG NAME');
+		expect(lines[0].replace(/  +/g, ' ')).to.equal(
+			isV12() ? 'SLUG ALIASES ARCH NAME' : 'SLUG NAME',
+		);
 		expect(lines).to.have.lengthOf.at.least(2);
 
 		// Discontinued devices should be filtered out from results

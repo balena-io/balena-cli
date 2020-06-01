@@ -23,6 +23,7 @@ import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals } from '../../utils/lazy';
 import { CommandHelp } from '../../utils/oclif-utils';
+import { isV12 } from '../../utils/version';
 
 interface FlagsDef {
 	discontinued: boolean;
@@ -77,28 +78,30 @@ export default class DevicesSupportedCmd extends Command {
 
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(DevicesSupportedCmd);
-		let deviceTypes: Array<Partial<
-			SDK.DeviceType
-		>> = await getBalenaSdk().models.config.getDeviceTypes();
-		if (!options.discontinued) {
-			deviceTypes = deviceTypes.filter(dt => dt.state !== 'DISCONTINUED');
-		}
-		const fields = ['slug', 'name'];
-		if (options.verbose) {
-			fields.splice(1, 0, 'aliases', 'arch', 'state');
-			deviceTypes = deviceTypes.map(d => {
+		let deviceTypes: Array<Partial<SDK.DeviceType>> = await getBalenaSdk()
+			.models.config.getDeviceTypes()
+			.map(d => {
 				if (d.aliases && d.aliases.length) {
+					// remove aliases that are equal to the slug
 					d.aliases = d.aliases.filter((alias: string) => alias !== d.slug);
 					if (!options.json) {
 						// stringify the aliases array with commas and spaces
 						d.aliases = [d.aliases.join(', ')];
 					}
 				} else {
+					// ensure it is always an array (for the benefit of JSON output)
 					d.aliases = [];
 				}
 				return d;
 			});
+		if (!options.discontinued) {
+			deviceTypes = deviceTypes.filter(dt => dt.state !== 'DISCONTINUED');
 		}
+		const fields = options.verbose
+			? ['slug', 'aliases', 'arch', 'state', 'name']
+			: isV12()
+			? ['slug', 'aliases', 'arch', 'name']
+			: ['slug', 'name'];
 		deviceTypes = _.sortBy(
 			deviceTypes.map(d => _.pick(d, fields) as Partial<SDK.DeviceType>),
 			fields,

@@ -22,6 +22,7 @@ import { expect } from 'chai';
 import { fs } from 'mz';
 import * as path from 'path';
 
+import { isV12 } from '../../build/utils/version';
 import { BalenaAPIMock } from '../balena-api-mock';
 import { BuilderMock, builderResponsePath } from '../builder-mock';
 import { expectStreamNoCRLF, testPushBuildStream } from '../docker-build';
@@ -230,14 +231,23 @@ describe('balena push', function() {
 				'.balena/balena.yml': { fileSize: 12, type: 'file' },
 				'.dockerignore': { fileSize: 438, type: 'file' },
 				'.gitignore': { fileSize: 20, type: 'file' },
-				'.git/bar.txt': { fileSize: 4, type: 'file' },
 				'.git/foo.txt': { fileSize: 4, type: 'file' },
 				'c.txt': { fileSize: 1, type: 'file' },
 				Dockerfile: { fileSize: 13, type: 'file' },
 				'src/.balena/balena.yml': { fileSize: 16, type: 'file' },
 				'src/.gitignore': { fileSize: 10, type: 'file' },
 				'vendor/.git/vendor-git-contents': { fileSize: 20, type: 'file' },
+				...(isV12()
+					? {
+							'a.txt': { fileSize: 1, type: 'file' },
+							'src/src-a.txt': { fileSize: 5, type: 'file' },
+							'src/src-c.txt': { fileSize: 5, type: 'file' },
+					  }
+					: {
+							'.git/bar.txt': { fileSize: 4, type: 'file' },
+					  }),
 			};
+
 			const regSecretsPath = await addRegSecretsEntries(expectedFiles);
 			const responseFilename = 'build-POST-v3.json';
 			const responseBody = await fs.readFile(
@@ -245,14 +255,18 @@ describe('balena push', function() {
 				'utf8',
 			);
 			const expectedResponseLines = [
-				'[Warn] Using file ignore patterns from:',
-				`[Warn] ${path.join(projectPath, '.dockerignore')}`,
-				`[Warn] ${path.join(projectPath, '.gitignore')}`,
-				`[Warn] ${path.join(projectPath, 'src', '.gitignore')}`,
-				'[Warn] balena CLI currently uses gitgnore and dockerignore files, but an upcoming major',
-				'[Warn] version release will disregard gitignore files and use a dockerignore file only.',
-				'[Warn] Use the --nogitignore (-G) option to enable the new behavior already now and',
-				"[Warn] suppress this warning. For more information, see 'balena help push'.",
+				...(!isV12()
+					? [
+							'[Warn] Using file ignore patterns from:',
+							`[Warn] ${path.join(projectPath, '.dockerignore')}`,
+							`[Warn] ${path.join(projectPath, '.gitignore')}`,
+							`[Warn] ${path.join(projectPath, 'src', '.gitignore')}`,
+							'[Warn] balena CLI currently uses gitgnore and dockerignore files, but an upcoming major',
+							'[Warn] version release will disregard gitignore files and use a dockerignore file only.',
+							'[Warn] Use the --nogitignore (-G) option to enable the new behavior already now and',
+							"[Warn] suppress this warning. For more information, see 'balena help push'.",
+					  ]
+					: []),
 				...commonResponseLines[responseFilename],
 			];
 
@@ -486,13 +500,18 @@ describe('balena push: project validation', function() {
 			'basic',
 			'service1',
 		);
-		const expectedErrorLines = [
-			'The --nolive flag is only valid when pushing to a local mode device',
-		];
-		const expectedOutputLines = [
-			'[Warn] "docker-compose.y[a]ml" file found in parent directory: please check',
-			"[Warn] that the correct folder was specified. (Suppress with '--noparent-check'.)",
-		];
+		const expectedErrorLines = isV12()
+			? [
+					'Error: "docker-compose.y[a]ml" file found in parent directory: please check that',
+					"the correct source folder was specified. (Suppress with '--noparent-check'.)",
+			  ]
+			: ['The --nolive flag is only valid when pushing to a local mode device'];
+		const expectedOutputLines = isV12()
+			? []
+			: [
+					'[Warn] "docker-compose.y[a]ml" file found in parent directory: please check that',
+					"[Warn] the correct source folder was specified. (Suppress with '--noparent-check'.)",
+			  ];
 
 		const { out, err } = await runCommand(
 			`push testApp --source ${projectPath} --nolive`,

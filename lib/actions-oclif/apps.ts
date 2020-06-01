@@ -21,6 +21,7 @@ import { stripIndent } from 'common-tags';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals } from '../utils/lazy';
+import { isV12 } from '../utils/version';
 
 interface ExtendedApplication extends Application {
 	device_count?: number;
@@ -49,7 +50,9 @@ export default class AppsCmd extends Command {
 		help: cf.help,
 		verbose: flags.boolean({
 			char: 'v',
-			description: 'add extra columns in the tabular output (SLUG)',
+			description: isV12()
+				? 'No-op since release v12.0.0'
+				: 'add extra columns in the tabular output (SLUG)',
 		}),
 	};
 
@@ -83,7 +86,7 @@ export default class AppsCmd extends Command {
 			getVisuals().table.horizontal(applications, [
 				'id',
 				'app_name',
-				options.verbose ? 'slug' : '',
+				options.verbose || isV12() ? 'slug' : '',
 				'device_type',
 				'online_devices',
 				'device_count',
