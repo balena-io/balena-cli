@@ -11,6 +11,10 @@ process.env.OCLIF_TS_NODE = 0;
 require('fast-boot2').start({
 	cacheScope: __dirname + '/..',
 	cacheFile: __dirname + '/.fast-boot.json'
-})
+});
+
+// Set the desired es version for downstream modules that support it
+require('@balena/es-version').set('es2018');
+
 // Run the CLI
 require('../build/app').run();

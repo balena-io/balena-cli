@@ -175,6 +175,7 @@
   },
   "dependencies": {
     "@balena/dockerignore": "^1.0.2",
+    "@balena/es-version": "^1.0.0",
     "@oclif/command": "^1.5.19",
     "@resin.io/valid-email": "^0.1.0",
     "@sentry/node": "^5.13.2",
