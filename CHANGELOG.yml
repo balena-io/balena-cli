@@ -1,4 +1,45 @@
 - commits:
+    - subject: 'v12 preparations: Add feature switch for project directory validation'
+      hash: 2ab8ae1c1056b6d4bd77b74d44f778f854ec5955
+      body: ''
+      footer:
+        Connects-to: '#1770'
+        connects-to: '#1770'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: 'v12 preparations: Add feature switch for ''balena apps --verbose'''
+      hash: fcc13f9476a5a8a02413e6c163cf6315bc380f97
+      body: ''
+      footer:
+        Connects-to: '#1770'
+        connects-to: '#1770'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: >-
+        v12 preparations: Add feature switch for 'devices supported' default
+        columns
+      hash: a38b41f339733735f585c73fef9c0d0dd14c16fe
+      body: ''
+      footer:
+        Connects-to: '#1770'
+        connects-to: '#1770'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: 'v12 preparations: Amend test cases for ''--nogitignore'' option'
+      hash: 2fc0728a09408953ada5acbb381f794fae2ab0c0
+      body: ''
+      footer:
+        Connects-to: '#1770'
+        connects-to: '#1770'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.35.15
+  date: 2020-06-01T07:46:06.876Z
+- commits:
     - subject: 'v12 preparations: Add feature switch for ''envs --all'''
       hash: 6e5e1c4f5fd3ec480501a90ec3a2c1ae26c6cbab
       body: ''
@@ -11,7 +52,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.35.14
-  date: 2020-05-29T16:59:07.532Z
+  date: 2020-05-29T15:41:57.437Z
 - commits:
     - subject: 'v12 preparations: Add feature switch to remove id from ''tags'' output'
       hash: 1693bd91c0bf135591dbbb7a84126796e990cd38

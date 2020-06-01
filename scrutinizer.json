@@ -5,6 +5,60 @@
     {
       "commits": [
         {
+          "subject": "v12 preparations: Add feature switch for project directory validation",
+          "hash": "2ab8ae1c1056b6d4bd77b74d44f778f854ec5955",
+          "body": "",
+          "footer": {
+            "Connects-to": "#1770",
+            "connects-to": "#1770",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "v12 preparations: Add feature switch for 'balena apps --verbose'",
+          "hash": "fcc13f9476a5a8a02413e6c163cf6315bc380f97",
+          "body": "",
+          "footer": {
+            "Connects-to": "#1770",
+            "connects-to": "#1770",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "v12 preparations: Add feature switch for 'devices supported' default columns",
+          "hash": "a38b41f339733735f585c73fef9c0d0dd14c16fe",
+          "body": "",
+          "footer": {
+            "Connects-to": "#1770",
+            "connects-to": "#1770",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "v12 preparations: Amend test cases for '--nogitignore' option",
+          "hash": "2fc0728a09408953ada5acbb381f794fae2ab0c0",
+          "body": "",
+          "footer": {
+            "Connects-to": "#1770",
+            "connects-to": "#1770",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.35.15",
+      "date": "2020-05-29T21:08:37.138Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "v12 preparations: Add feature switch for 'envs --all'",
           "hash": "6e5e1c4f5fd3ec480501a90ec3a2c1ae26c6cbab",
           "body": "",
@@ -11880,7 +11934,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 243,
+  "stars": 244,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -11983,40 +12037,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-05-29T16:59:53Z",
+  "lastCommitDate": "2020-06-01T07:47:04Z",
   "latestRelease": {
-    "tagName": "v11.35.14",
+    "tagName": "v11.35.15",
     "asssets": [
       {
-        "name": "balena-cli-v11.35.14-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.14/balena-cli-v11.35.14-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.35.15-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.15/balena-cli-v11.35.15-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.14-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.14/balena-cli-v11.35.14-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.35.15-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.15/balena-cli-v11.35.15-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.35.14-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.14/balena-cli-v11.35.14-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.35.15-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.15/balena-cli-v11.35.15-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.14-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.14/balena-cli-v11.35.14-windows-x64-installer.exe"
+        "name": "balena-cli-v11.35.15-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.15/balena-cli-v11.35.15-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.35.14-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.14/balena-cli-v11.35.14-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.35.15-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.15/balena-cli-v11.35.15-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 284,
+    "numberOfIssues": 283,
     "latestIssues": [
-      {
-        "title": "v12 preparations: Add feature switch for 'devices supported' default columns",
-        "url": "https://github.com/balena-io/balena-cli/pull/1853"
-      },
       {
         "title": "`balena ssh <<device>> <<service>>` responds with incorrect list of services on failure",
         "url": "https://github.com/balena-io/balena-cli/issues/1849"
@@ -12092,10 +12142,14 @@
       {
         "title": "sfdisk: /img/balena.img: does not contain a recognized partition table",
         "url": "https://github.com/balena-io/balena-cli/issues/1810"
+      },
+      {
+        "title": "balena device rm --yes should not need a TTY",
+        "url": "https://github.com/balena-io/balena-cli/issues/1808"
       }
     ]
   },
-  "version": "11.35.14",
+  "version": "11.35.15",
   "screenshot": null,
   "logo": null
 }
