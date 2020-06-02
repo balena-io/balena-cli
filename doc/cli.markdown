@@ -174,15 +174,12 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 	- [device identify &#60;uuid&#62;](#device-identify-uuid)
 	- [device reboot &#60;uuid&#62;](#device-reboot-uuid)
 	- [device shutdown &#60;uuid&#62;](#device-shutdown-uuid)
-	- [device public-url enable &#60;uuid&#62;](#device-public-url-enable-uuid)
-	- [device public-url disable &#60;uuid&#62;](#device-public-url-disable-uuid)
-	- [device public-url &#60;uuid&#62;](#device-public-url-uuid)
-	- [device public-url status &#60;uuid&#62;](#device-public-url-status-uuid)
 	- [device rename &#60;uuid&#62; [newName]](#device-rename-uuid-newname)
 	- [device move &#60;uuid&#62;](#device-move-uuid)
 	- [device init](#device-init)
 	- [device os-update &#60;uuid&#62;](#device-os-update-uuid)
 	- [devices supported](#devices-supported)
+	- [device public-url &#60;uuid&#62;](#device-public-url-uuid)
 
 - Environment Variables
 
@@ -555,38 +552,6 @@ Examples:
 
 force action if the update lock is set
 
-## device public-url enable &#60;uuid&#62;
-
-Use this command to enable public URL for a device
-
-Examples:
-
-	$ balena device public-url enable 23c73a1
-
-## device public-url disable &#60;uuid&#62;
-
-Use this command to disable public URL for a device
-
-Examples:
-
-	$ balena device public-url disable 23c73a1
-
-## device public-url &#60;uuid&#62;
-
-Use this command to get the public URL of a device
-
-Examples:
-
-	$ balena device public-url 23c73a1
-
-## device public-url status &#60;uuid&#62;
-
-Use this command to determine if public URL is enabled for a device
-
-Examples:
-
-	$ balena device public-url status 23c73a1
-
 ## device rename &#60;uuid&#62; [newName]
 
 Use this command to rename a device.
@@ -715,6 +680,46 @@ produce JSON output instead of tabular output
 #### -v, --verbose
 
 add extra columns in the tabular output (ALIASES, ARCH, STATE)
+
+## device public-url &#60;uuid&#62;
+
+This command will output the current public URL for the
+specified device.  It can also enable or disable the URL,
+or output the enabled status, using the respective options.
+
+The old command style 'balena device public-url enable <uuid>'
+is deprecated, but still supported.
+
+Examples:
+
+	$ balena device public-url 23c73a1
+	$ balena device public-url 23c73a1 --enable
+	$ balena device public-url 23c73a1 --disable
+	$ balena device public-url 23c73a1 --status
+
+### Arguments
+
+#### UUID
+
+the uuid of the device to manage
+
+#### LEGACYUUID
+
+
+
+### Options
+
+#### --enable
+
+enable the public URL
+
+#### --disable
+
+disable the public URL
+
+#### --status
+
+determine if public URL is enabled
 
 # Environment Variables
 

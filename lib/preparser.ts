@@ -143,6 +143,7 @@ export const convertedCommands = [
 	'app:rm',
 	'apps',
 	'api-key:generate',
+	'device:public-url',
 	'devices:supported',
 	'envs',
 	'env:add',
