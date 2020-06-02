@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'v12 preparations: Add feature switch for build/deploy `--logs` option'
+      hash: 626d32819471f0793fdca69cccb008547ffdded0
+      body: ''
+      footer:
+        Connects-to: '#1770'
+        connects-to: '#1770'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 11.35.16
+  date: 2020-06-02T15:59:17.290Z
+- commits:
     - subject: 'v12 preparations: Add feature switch for project directory validation'
       hash: 2ab8ae1c1056b6d4bd77b74d44f778f854ec5955
       body: ''
