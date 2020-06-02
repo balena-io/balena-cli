@@ -24,6 +24,7 @@ import mock = require('mock-require');
 import { fs } from 'mz';
 import * as path from 'path';
 
+import { isV12 } from '../../build/utils/version';
 import { BalenaAPIMock } from '../balena-api-mock';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../docker-mock';
@@ -98,7 +99,9 @@ describe('balena build', function() {
 			...commonResponseLines[responseFilename],
 			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
 			`[Info] Creating default composition with source: "${projectPath}"`,
-			'[Build] main Image size: 1.14 MB',
+			isV12()
+				? '[Build] main Step 1/4 : FROM busybox'
+				: '[Build] main Image size: 1.14 MB',
 		];
 		if (isWindows) {
 			expectedResponseLines.push(
@@ -153,7 +156,9 @@ describe('balena build', function() {
 			`[Info] Creating default composition with source: "${projectPath}"`,
 			'[Info] Building for rpi/raspberry-pi',
 			'[Info] Emulation is enabled',
-			'[Build] main Image size: 1.14 MB',
+			isV12()
+				? '[Build] main Step 1/4 : FROM busybox'
+				: '[Build] main Image size: 1.14 MB',
 			'[Success] Build succeeded!',
 		];
 		if (isWindows) {
@@ -223,7 +228,9 @@ describe('balena build', function() {
 			...commonResponseLines[responseFilename],
 			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
 			`[Info] Creating default composition with source: "${projectPath}"`,
-			'[Build] main Image size: 1.14 MB',
+			isV12()
+				? '[Build] main Step 1/4 : FROM busybox'
+				: '[Build] main Image size: 1.14 MB',
 		];
 		if (isWindows) {
 			expectedResponseLines.push(
@@ -293,8 +300,15 @@ describe('balena build', function() {
 		};
 		const expectedResponseLines: string[] = [
 			...commonResponseLines[responseFilename],
-			`[Build] service1 Image size: 1.14 MB`,
-			`[Build] service2 Image size: 1.14 MB`,
+			...(isV12()
+				? [
+						'[Build] service1 Step 1/4 : FROM busybox',
+						'[Build] service2 Step 1/4 : FROM busybox',
+				  ]
+				: [
+						`[Build] service1 Image size: 1.14 MB`,
+						`[Build] service2 Image size: 1.14 MB`,
+				  ]),
 		];
 		if (isWindows) {
 			expectedResponseLines.push(

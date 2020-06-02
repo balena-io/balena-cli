@@ -23,6 +23,7 @@ import { fs } from 'mz';
 import * as path from 'path';
 import * as sinon from 'sinon';
 
+import { isV12 } from '../../build/utils/version';
 import { BalenaAPIMock } from '../balena-api-mock';
 import { testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../docker-mock';
@@ -38,7 +39,9 @@ const commonResponseLines = {
 		'[Info] Docker Desktop detected (daemon architecture: "x86_64")',
 		'[Info] Docker itself will determine and enable architecture emulation if required,',
 		'[Info] without balena-cli intervention and regardless of the --emulated option.',
-		'[Build] main Image size: 1.14 MB',
+		isV12()
+			? '[Build] main Step 1/4 : FROM busybox'
+			: '[Build] main Image size: 1.14 MB',
 		'[Info] Creating release...',
 		'[Info] Pushing images to registry...',
 		'[Info] Saving release...',
