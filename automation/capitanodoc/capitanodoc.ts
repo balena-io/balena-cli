@@ -16,7 +16,6 @@
  */
 
 import * as path from 'path';
-
 import { MarkdownFileParser } from './utils';
 
 /**
@@ -53,6 +52,7 @@ const capitanoDoc = {
 			files: [
 				'build/actions/device.js',
 				'build/actions-oclif/devices/supported.js',
+				'build/actions-oclif/device/public-url.js',
 			],
 		},
 		{

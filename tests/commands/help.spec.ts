@@ -41,10 +41,7 @@ Additional commands:
     device init                           initialise a device with balenaOS
     device move <uuid>                    move a device to another application
     device os-update <uuid>               Start a Host OS update for a device
-    device public-url <uuid>              gets the public URL of a device
-    device public-url disable <uuid>      disable public URL for a device
-    device public-url enable <uuid>       enable public URL for a device
-    device public-url status <uuid>       Returns true if public URL is enabled for a device
+	device public-url <uuid>              get or manage the public URL for a device
     device reboot <uuid>                  restart a device
     device register <application>         register a device
     device rename <uuid> [newName]        rename a balena device
