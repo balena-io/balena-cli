@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Convert 'balena device public-url' commands to oclif",
+          "hash": "728c4f4296f10c838781e74245658a6e391aaba1",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.35.17",
+      "date": "2020-06-02T19:41:52.638Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "v12 preparations: Add feature switch for build/deploy `--logs` option",
           "hash": "626d32819471f0793fdca69cccb008547ffdded0",
           "body": "",
@@ -12055,40 +12073,28 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-02T16:27:43Z",
+  "lastCommitDate": "2020-06-02T20:04:51Z",
   "latestRelease": {
-    "tagName": "v11.35.16",
+    "tagName": "v11.35.17",
     "asssets": [
       {
-        "name": "balena-cli-v11.35.16-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.16/balena-cli-v11.35.16-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.35.17-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.17/balena-cli-v11.35.17-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.16-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.16/balena-cli-v11.35.16-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.35.17-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.17/balena-cli-v11.35.17-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.35.16-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.16/balena-cli-v11.35.16-macOS-x64-standalone.zip"
-      },
-      {
-        "name": "balena-cli-v11.35.16-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.16/balena-cli-v11.35.16-windows-x64-installer.exe"
-      },
-      {
-        "name": "balena-cli-v11.35.16-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.16/balena-cli-v11.35.16-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.35.17-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.17/balena-cli-v11.35.17-macOS-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 284,
+    "numberOfIssues": 283,
     "latestIssues": [
-      {
-        "title": "Convert 'balena devices public-url' commands to oclif",
-        "url": "https://github.com/balena-io/balena-cli/pull/1854"
-      },
       {
         "title": "`balena ssh <<device>> <<service>>` responds with incorrect list of services on failure",
         "url": "https://github.com/balena-io/balena-cli/issues/1849"
@@ -12164,10 +12170,14 @@
       {
         "title": "sfdisk: /img/balena.img: does not contain a recognized partition table",
         "url": "https://github.com/balena-io/balena-cli/issues/1810"
+      },
+      {
+        "title": "balena device rm --yes should not need a TTY",
+        "url": "https://github.com/balena-io/balena-cli/issues/1808"
       }
     ]
   },
-  "version": "11.35.16",
+  "version": "11.35.17",
   "screenshot": null,
   "logo": null
 }
