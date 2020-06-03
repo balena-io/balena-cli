@@ -367,7 +367,8 @@ describe('balena push', function() {
 			'src/src-b.txt': { fileSize: 5, type: 'file' },
 			'symlink-a.txt': { fileSize: 5, type: 'file' },
 		};
-		if (isWindows) {
+		const noV12W = isWindows && !isV12();
+		if (noV12W) {
 			// this test uses the old tarDirectory implementation, which uses
 			// the zeit/dockerignore library that has bugs on Windows
 			expectedFiles['src/src-a.txt'] = { fileSize: 5, type: 'file' };
@@ -378,7 +379,7 @@ describe('balena push', function() {
 			path.join(builderResponsePath, responseFilename),
 			'utf8',
 		);
-		const expectedResponseLines = isWindows
+		const expectedResponseLines = noV12W
 			? [
 					'[Warn] Using file ignore patterns from:',
 					`[Warn] ${path.join(projectPath, '.dockerignore')}`,
