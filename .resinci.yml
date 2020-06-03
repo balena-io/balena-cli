@@ -5,31 +5,26 @@ npm:
       os: alpine
       architecture: x86_64
       node_versions:
-        - "8"
         - "10"
     - name: linux
       os: alpine
       architecture: x86
       node_versions:
-        - "8"
         - "10"
     - name: darwin
       os: macos
       architecture: x86_64
       node_versions:
-        - "8"
         - "10"
     - name: windows
       os: windows
       architecture: x86_64
       node_versions:
-        - "8"
         - "10"
     - name: windows
       os: windows
       architecture: x86
       node_versions:
-        - "8"
         - "10"
 
 docker:
