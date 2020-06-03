@@ -57,6 +57,10 @@ describe('compare new and old tarDirectory implementations', function() {
 		await setupDockerignoreTestData({ cleanup: true });
 	});
 
+	// NOTE: if this test or other tests involving symbolic links fail on Windows
+	// (with a mismatched fileSize 13 vs 5 for 'symlink-a.txt'), ensure that the
+	// `core.symlinks` property is set to `true` in the `.git/config` file. Ref:
+	// https://git-scm.com/docs/git-config#Documentation/git-config.txt-coresymlinks
 	it('should produce the expected file list', async function() {
 		const dockerignoreProjDir = path.join(
 			projectsPath,

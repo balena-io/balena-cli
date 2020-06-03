@@ -178,6 +178,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	globalLogger.logInfo(`Starting build on device ${opts.deviceHost}`);
 
 	const project = await loadProject(globalLogger, {
+		convertEol: opts.convertEol,
 		dockerfilePath: opts.dockerfilePath,
 		noParentCheck: opts.noParentCheck,
 		projectName: 'local',

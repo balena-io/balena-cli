@@ -25,7 +25,7 @@ import * as sinon from 'sinon';
 
 import { isV12 } from '../../build/utils/version';
 import { BalenaAPIMock } from '../balena-api-mock';
-import { testDockerBuildStream } from '../docker-build';
+import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../docker-mock';
 import { cleanOutput, runCommand, switchSentry } from '../helpers';
 import { ExpectedTarStreamFiles } from '../projects';
@@ -106,9 +106,14 @@ describe('balena deploy', function() {
 
 	it('should create the expected --build tar stream (single container)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
+		const isV12W = isWindows && isV12();
 		const expectedFiles: ExpectedTarStreamFiles = {
 			'src/start.sh': { fileSize: 89, type: 'file' },
-			'src/windows-crlf.sh': { fileSize: 70, type: 'file' },
+			'src/windows-crlf.sh': {
+				fileSize: isV12W ? 68 : 70,
+				testStream: isV12W ? expectStreamNoCRLF : undefined,
+				type: 'file',
+			},
 			Dockerfile: { fileSize: 88, type: 'file' },
 			'Dockerfile-alt': { fileSize: 30, type: 'file' },
 		};
@@ -123,14 +128,17 @@ describe('balena deploy', function() {
 			`[Info] Creating default composition with source: "${projectPath}"`,
 		];
 		if (isWindows) {
-			expectedResponseLines.push(
-				`[Warn] CRLF (Windows) line endings detected in file: ${path.join(
-					projectPath,
-					'src',
-					'windows-crlf.sh',
-				)}`,
-				'[Warn] Windows-format line endings were detected in some files. Consider using the `--convert-eol` option.',
-			);
+			const fname = path.join(projectPath, 'src', 'windows-crlf.sh');
+			if (isV12()) {
+				expectedResponseLines.push(
+					`[Info] Converting line endings CRLF -> LF for file: ${fname}`,
+				);
+			} else {
+				expectedResponseLines.push(
+					`[Warn] CRLF (Windows) line endings detected in file: ${fname}`,
+					'[Warn] Windows-format line endings were detected in some files. Consider using the `--convert-eol` option.',
+				);
+			}
 		}
 
 		api.expectPatchImage({});
@@ -189,7 +197,7 @@ describe('balena deploy', function() {
 		});
 
 		await testDockerBuildStream({
-			commandLine: `deploy testApp --build --source ${projectPath} -G`,
+			commandLine: `deploy testApp --build --source ${projectPath} --noconvert-eol -G`,
 			dockerMock: docker,
 			expectedFilesByService: { main: expectedFiles },
 			expectedQueryParamsByService: { main: commonQueryParams },

@@ -17,6 +17,7 @@
 
 import { fs } from 'mz';
 import Logger = require('./logger');
+import { isV12 } from './version';
 
 const globalLogger = Logger.getLogger();
 
@@ -110,7 +111,9 @@ export async function readFileWithEolConversion(
 		);
 		// And summary warning later
 		globalLogger.deferredLog(
-			'Windows-format line endings were detected in some files. Consider using the `--convert-eol` option.',
+			isV12()
+				? 'Windows-format line endings were detected in some files, but were not converted due to `--noconvert-eol` option.'
+				: 'Windows-format line endings were detected in some files. Consider using the `--convert-eol` option.',
 			Logger.Level.WARN,
 		);
 

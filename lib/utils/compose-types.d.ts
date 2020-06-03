@@ -47,6 +47,7 @@ export interface TaggedImage {
 }
 
 export interface ComposeOpts {
+	convertEol: boolean;
 	dockerfilePath?: string;
 	inlineLogs?: boolean;
 	noParentCheck: boolean;
