@@ -5,6 +5,34 @@
     {
       "commits": [
         {
+          "subject": "v12 preparations: Add feature switch for default eol-converson",
+          "hash": "1569915fae760eb68da00dfa18f48479d5340a96",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Connects-to": "#1770",
+            "connects-to": "#1770"
+          },
+          "author": "Scott Lowe"
+        },
+        {
+          "subject": "v12 preparations: Fix dockerignore tests on Windows",
+          "hash": "b1552f8e9b32abd985fab2c5b36d81dc3dd9e05a",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "11.35.18",
+      "date": "2020-06-05T15:47:16.860Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert 'balena device public-url' commands to oclif",
           "hash": "728c4f4296f10c838781e74245658a6e391aaba1",
           "body": "",
@@ -11851,12 +11879,12 @@
       "avatar": "https://avatars0.githubusercontent.com/u/7694128?v=4"
     },
     {
-      "username": "thgreasi",
-      "avatar": "https://avatars0.githubusercontent.com/u/1295829?v=4"
-    },
-    {
       "username": "srlowe",
       "avatar": "https://avatars3.githubusercontent.com/u/1562665?v=4"
+    },
+    {
+      "username": "thgreasi",
+      "avatar": "https://avatars0.githubusercontent.com/u/1295829?v=4"
     },
     {
       "username": "lekkas",
@@ -11883,12 +11911,12 @@
       "avatar": "https://avatars1.githubusercontent.com/u/6697261?v=4"
     },
     {
-      "username": "imrehg",
-      "avatar": "https://avatars0.githubusercontent.com/u/38863?v=4"
-    },
-    {
       "username": "bulldozer-balena[bot]",
       "avatar": "https://avatars0.githubusercontent.com/in/58047?v=4"
+    },
+    {
+      "username": "imrehg",
+      "avatar": "https://avatars0.githubusercontent.com/u/38863?v=4"
     },
     {
       "username": "richbayliss",
@@ -11970,7 +11998,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 244,
+  "stars": 245,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -12073,28 +12101,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-02T20:04:51Z",
+  "lastCommitDate": "2020-06-05T19:26:41Z",
   "latestRelease": {
-    "tagName": "v11.35.17",
+    "tagName": "v11.35.18",
     "asssets": [
       {
-        "name": "balena-cli-v11.35.17-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.17/balena-cli-v11.35.17-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.35.18-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.18/balena-cli-v11.35.18-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.17-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.17/balena-cli-v11.35.17-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.35.18-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.18/balena-cli-v11.35.18-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.35.17-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.17/balena-cli-v11.35.17-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.35.18-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.18/balena-cli-v11.35.18-macOS-x64-standalone.zip"
+      },
+      {
+        "name": "balena-cli-v11.35.18-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.18/balena-cli-v11.35.18-windows-x64-installer.exe"
+      },
+      {
+        "name": "balena-cli-v11.35.18-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.18/balena-cli-v11.35.18-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 283,
+    "numberOfIssues": 286,
     "latestIssues": [
+      {
+        "title": "balena device: Add the mac_address field",
+        "url": "https://github.com/balena-io/balena-cli/pull/1859"
+      },
+      {
+        "title": "`balena help ...` output should fit in 80 characters",
+        "url": "https://github.com/balena-io/balena-cli/issues/1858"
+      },
+      {
+        "title": "Should have a mac_address field for devices",
+        "url": "https://github.com/balena-io/balena-cli/issues/1857"
+      },
       {
         "title": "`balena ssh <<device>> <<service>>` responds with incorrect list of services on failure",
         "url": "https://github.com/balena-io/balena-cli/issues/1849"
@@ -12162,22 +12210,10 @@
       {
         "title": "balena os initialize should not require login",
         "url": "https://github.com/balena-io/balena-cli/issues/1814"
-      },
-      {
-        "title": "Install: For windows user we should mention they need ubuntu +WSL",
-        "url": "https://github.com/balena-io/balena-cli/issues/1812"
-      },
-      {
-        "title": "sfdisk: /img/balena.img: does not contain a recognized partition table",
-        "url": "https://github.com/balena-io/balena-cli/issues/1810"
-      },
-      {
-        "title": "balena device rm --yes should not need a TTY",
-        "url": "https://github.com/balena-io/balena-cli/issues/1808"
       }
     ]
   },
-  "version": "11.35.17",
+  "version": "11.35.18",
   "screenshot": null,
   "logo": null
 }
