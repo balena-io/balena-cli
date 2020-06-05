@@ -117,6 +117,7 @@ export const push: CommandDefinition<
 		system?: boolean;
 		env?: string | string[];
 		'convert-eol'?: boolean;
+		'noconvert-eol'?: boolean;
 	}
 > = {
 	signature: 'push <applicationOrDevice>',
@@ -258,11 +259,23 @@ export const push: CommandDefinition<
 		{
 			signature: 'convert-eol',
 			alias: 'l',
-			description: stripIndent`
+			description: isV12()
+				? 'No-op and deprecated since balena CLI v12.0.0'
+				: stripIndent`
 				On Windows only, convert line endings from CRLF (Windows format) to LF (Unix format).
 				Source files are not modified.`,
 			boolean: true,
 		},
+		...(isV12()
+			? [
+					{
+						signature: 'noconvert-eol',
+						description:
+							"Don't convert line endings from CRLF (Windows format) to LF (Unix format).",
+						boolean: true,
+					},
+			  ]
+			: []),
 		{
 			signature: 'nogitignore',
 			alias: 'G',
@@ -307,6 +320,9 @@ export const push: CommandDefinition<
 		);
 
 		const nogitignore = !!options.nogitignore || isV12();
+		const convertEol = isV12()
+			? !options['noconvert-eol']
+			: !!options['convert-eol'];
 
 		const buildTarget = getBuildTarget(appOrDevice);
 		switch (buildTarget) {
@@ -346,7 +362,7 @@ export const push: CommandDefinition<
 							nocache: options.nocache || false,
 							registrySecrets,
 							headless: options.detached || false,
-							convertEol: options['convert-eol'] || false,
+							convertEol,
 						};
 						const args = {
 							app,
@@ -388,7 +404,7 @@ export const push: CommandDefinition<
 							typeof options.env === 'string'
 								? [options.env]
 								: options.env || [],
-						convertEol: options['convert-eol'] || false,
+						convertEol,
 					}),
 				).catch(BuildError, e => {
 					throw new ExpectedError(e.toString());
