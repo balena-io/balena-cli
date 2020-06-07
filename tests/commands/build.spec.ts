@@ -370,7 +370,9 @@ describe('balena build: project validation', function() {
 			`found in source folder "${projectPath}"`,
 		];
 
-		const { out, err } = await runCommand(`build ${projectPath} -a testApp`);
+		const { out, err } = await runCommand(
+			`build ${projectPath} -A amd64 -d nuc`,
+		);
 		expect(
 			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
 		).to.include.members(expectedErrorLines);

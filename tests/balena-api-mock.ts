@@ -145,6 +145,17 @@ export class BalenaAPIMock extends NockMock {
 		});
 	}
 
+	public expectGetDeviceStatus(opts: ScopeOpts = {}) {
+		this.optGet(
+			/^\/v\d+\/device\?.+&\$select=overall_status$/,
+			opts,
+		).replyWithFile(
+			200,
+			path.join(apiResponsePath, 'device-status.json'),
+			jHeader,
+		);
+	}
+
 	public expectGetAppEnvVars(opts: ScopeOpts = {}) {
 		this.optGet(/^\/v\d+\/application_environment_variable($|\?)/, opts).reply(
 			200,

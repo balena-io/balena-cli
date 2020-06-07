@@ -129,9 +129,8 @@ const messages: {
 	`,
 
 	BalenaExpiredToken: () => stripIndent`
-		Looks like your session token has expired.
-		Please try logging in again with:
-			$ balena login`,
+		Looks like the session token has expired.
+		Try logging in again with the "balena login" command.`,
 };
 
 const EXPECTED_ERROR_REGEXES = [
