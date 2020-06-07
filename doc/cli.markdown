@@ -306,7 +306,7 @@ Examples:
 
 #### -v, --verbose
 
-add extra columns in the tabular output (SLUG)
+No-op since release v12.0.0
 
 ## app &#60;name&#62;
 
@@ -729,23 +729,21 @@ List the environment or configuration variables of an application, device or
 service, as selected by the respective command-line options. (A service is
 an application container in a "microservices" application.)
 
+The results include application-wide (fleet), device-wide (multiple services on
+a device) and service-specific variables that apply to the selected application,
+device or service. It can be thought of as including "inherited" variables;
+for example, a service inherits device-wide variables, and a device inherits
+application-wide variables.
+
+The printed output may include DEVICE and/or SERVICE columns to distinguish
+between application-wide, device-specific and service-specific variables.
+An asterisk in these columns indicates that the variable applies to
+"all devices" or "all services".
+
 The --config option is used to list "configuration variables" that control
 balena platform features, as opposed to custom environment variables defined
 by the user. The --config and the --service options are mutually exclusive
 because configuration variables cannot be set for specific services.
-
-The --all option is used to include application-wide (fleet), device-wide
-(multiple services on a device) and service-specific variables that apply to
-the selected application, device or service. It can be thought of as including
-"inherited" variables: for example, a service inherits device-wide variables,
-and a device inherits application-wide variables. Variables are still filtered
-out by type with the --config option, such that configuration and non-
-configuration variables are never listed together.
-
-When the --all option is used, the printed output may include DEVICE and/or
-SERVICE columns to distinguish between application-wide, device-specific and
-service-specific variables. An asterisk in these columns indicates that the
-variable applies to "all devices" or "all services".
 
 The --json option is recommended when scripting the output of this command,
 because the JSON format is less likely to change and it better represents data
@@ -761,21 +759,20 @@ by its owner).
 Examples:
 
 	$ balena envs --application MyApp
-	$ balena envs --application MyApp --all --json
+	$ balena envs --application MyApp --json
 	$ balena envs --application MyApp --service MyService
-	$ balena envs --application MyApp --all --service MyService
+	$ balena envs --application MyApp --service MyService
 	$ balena envs --application MyApp --config
 	$ balena envs --device 7cf02a6
-	$ balena envs --device 7cf02a6 --all --json
-	$ balena envs --device 7cf02a6 --config --all --json
-	$ balena envs --device 7cf02a6 --all --service MyService
+	$ balena envs --device 7cf02a6 --json
+	$ balena envs --device 7cf02a6 --config --json
+	$ balena envs --device 7cf02a6 --service MyService
 
 ### Options
 
 #### --all
 
-include app-wide, device-wide variables that apply to the selected device or service.
-Variables are still filtered out by type with the --config option.
+No-op since balena CLI v12.0.0.
 
 #### -a, --application APPLICATION
 
@@ -1864,25 +1861,16 @@ secrets.json file exists in the balena directory (usually $HOME/.balena),
 this file will be used instead.
 
 DOCKERIGNORE AND GITIGNORE FILES
-By default, both '.dockerignore' and '.gitignore' files are taken into account
-in order to prevent files from being sent to the balenaCloud builder or Docker
-or balenaEngine (balenaOS device).
+The balena CLI will use a '.dockerignore' file (if any) at the source directory
+in order to decide which source files to exclude from the "build context" sent
+to balenaCloud, Docker or balenaEngine.  Previous balena CLI releases (before
+v12.0.0) also took '.gitignore' files into account, but this is no longer the
+case. This allows files to be used for an image build even if they are listed
+in '.gitignore'.
 
-However, this behavior has been DEPRECATED and will change in an upcoming major
-version release. The --nogitignore (-G) option should be used to enable the new
-behavior already now. This option will cause the CLI to:
-
-* Disregard all '.gitignore' files at the source directory and subdirectories,
-  and consider only the '.dockerignore' file (if any) at the source directory.
-* Consequently, allow files to be sent to balenaCloud / Docker / balenaEngine
-  even if they are listed in '.gitignore' files (a longstanding feature request).
-* Use a new '.dockerignore' parser and filter library that improves compatibility
-  with "docker build" and fixes several issues (mainly on Windows).
-* Prevent a warning message from being printed.
-
-When --nogitignore (-G) is provided, a few "hardcoded" dockerignore patterns are
-also used and "merged" (in memory) with the patterns found in the '.dockerignore'
-file (if any), in the following order:
+A few "hardcoded" dockerignore patterns are also used and "merged" (in memory)
+with the patterns found in the '.dockerignore' file (if any), in the following
+order:
 
     **/.git
     < user's patterns from the '.dockerignore' file, if any >
@@ -1978,14 +1966,15 @@ left hand side of the = character will be treated as the variable name.
 
 #### --convert-eol, -l
 
-On Windows only, convert line endings from CRLF (Windows format) to LF (Unix format).
-Source files are not modified.
+No-op and deprecated since balena CLI v12.0.0
+
+#### --noconvert-eol
+
+Don't convert line endings from CRLF (Windows format) to LF (Unix format).
 
 #### --nogitignore, -G
 
-Disregard all .gitignore files, and consider only the .dockerignore file (if any)
-at the source directory. This will be the default behavior in an upcoming major
-version release. For more information, see 'balena help push'.
+No-op and deprecated since balena CLI v12.0.0. See "balena help push".
 
 # Settings
 
@@ -2072,25 +2061,16 @@ secrets.json file exists in the balena directory (usually $HOME/.balena),
 this file will be used instead.
 
 DOCKERIGNORE AND GITIGNORE FILES
-By default, both '.dockerignore' and '.gitignore' files are taken into account
-in order to prevent files from being sent to the balenaCloud builder or Docker
-or balenaEngine (balenaOS device).
+The balena CLI will use a '.dockerignore' file (if any) at the source directory
+in order to decide which source files to exclude from the "build context" sent
+to balenaCloud, Docker or balenaEngine.  Previous balena CLI releases (before
+v12.0.0) also took '.gitignore' files into account, but this is no longer the
+case. This allows files to be used for an image build even if they are listed
+in '.gitignore'.
 
-However, this behavior has been DEPRECATED and will change in an upcoming major
-version release. The --nogitignore (-G) option should be used to enable the new
-behavior already now. This option will cause the CLI to:
-
-* Disregard all '.gitignore' files at the source directory and subdirectories,
-  and consider only the '.dockerignore' file (if any) at the source directory.
-* Consequently, allow files to be sent to balenaCloud / Docker / balenaEngine
-  even if they are listed in '.gitignore' files (a longstanding feature request).
-* Use a new '.dockerignore' parser and filter library that improves compatibility
-  with "docker build" and fixes several issues (mainly on Windows).
-* Prevent a warning message from being printed.
-
-When --nogitignore (-G) is provided, a few "hardcoded" dockerignore patterns are
-also used and "merged" (in memory) with the patterns found in the '.dockerignore'
-file (if any), in the following order:
+A few "hardcoded" dockerignore patterns are also used and "merged" (in memory)
+with the patterns found in the '.dockerignore' file (if any), in the following
+order:
 
     **/.git
     < user's patterns from the '.dockerignore' file, if any >
@@ -2144,13 +2124,15 @@ Alternative Dockerfile name/path, relative to the source folder
 
 #### --logs
 
-Display full log output
+No-op and deprecated since balena CLI v12.0.0. Build logs are now shown by default.
+
+#### --nologs
+
+Hide the image build log output (produce less verbose output)
 
 #### --nogitignore, -G
 
-Disregard all .gitignore files, and consider only the .dockerignore file (if any)
-at the source directory. This will be the default behavior in an upcoming major
-version release. For more information, see 'balena help undefined'.
+No-op and deprecated since balena CLI v12.0.0. See "balena help undefined".
 
 #### --noparent-check
 
@@ -2162,7 +2144,11 @@ Path to a YAML or JSON file with passwords for a private Docker registry
 
 #### --convert-eol, -l
 
-On Windows only, convert line endings from CRLF (Windows format) to LF (Unix format). Source files are not modified.
+No-op and deprecated since balena CLI v12.0.0
+
+#### --noconvert-eol
+
+Don't convert line endings from CRLF (Windows format) to LF (Unix format).
 
 #### --docker, -P &#60;docker&#62;
 
@@ -2255,25 +2241,16 @@ secrets.json file exists in the balena directory (usually $HOME/.balena),
 this file will be used instead.
 
 DOCKERIGNORE AND GITIGNORE FILES
-By default, both '.dockerignore' and '.gitignore' files are taken into account
-in order to prevent files from being sent to the balenaCloud builder or Docker
-or balenaEngine (balenaOS device).
+The balena CLI will use a '.dockerignore' file (if any) at the source directory
+in order to decide which source files to exclude from the "build context" sent
+to balenaCloud, Docker or balenaEngine.  Previous balena CLI releases (before
+v12.0.0) also took '.gitignore' files into account, but this is no longer the
+case. This allows files to be used for an image build even if they are listed
+in '.gitignore'.
 
-However, this behavior has been DEPRECATED and will change in an upcoming major
-version release. The --nogitignore (-G) option should be used to enable the new
-behavior already now. This option will cause the CLI to:
-
-* Disregard all '.gitignore' files at the source directory and subdirectories,
-  and consider only the '.dockerignore' file (if any) at the source directory.
-* Consequently, allow files to be sent to balenaCloud / Docker / balenaEngine
-  even if they are listed in '.gitignore' files (a longstanding feature request).
-* Use a new '.dockerignore' parser and filter library that improves compatibility
-  with "docker build" and fixes several issues (mainly on Windows).
-* Prevent a warning message from being printed.
-
-When --nogitignore (-G) is provided, a few "hardcoded" dockerignore patterns are
-also used and "merged" (in memory) with the patterns found in the '.dockerignore'
-file (if any), in the following order:
+A few "hardcoded" dockerignore patterns are also used and "merged" (in memory)
+with the patterns found in the '.dockerignore' file (if any), in the following
+order:
 
     **/.git
     < user's patterns from the '.dockerignore' file, if any >
@@ -2323,13 +2300,15 @@ Alternative Dockerfile name/path, relative to the source folder
 
 #### --logs
 
-Display full log output
+No-op and deprecated since balena CLI v12.0.0. Build logs are now shown by default.
+
+#### --nologs
+
+Hide the image build log output (produce less verbose output)
 
 #### --nogitignore, -G
 
-Disregard all .gitignore files, and consider only the .dockerignore file (if any)
-at the source directory. This will be the default behavior in an upcoming major
-version release. For more information, see 'balena help undefined'.
+No-op and deprecated since balena CLI v12.0.0. See "balena help undefined".
 
 #### --noparent-check
 
@@ -2341,7 +2320,11 @@ Path to a YAML or JSON file with passwords for a private Docker registry
 
 #### --convert-eol, -l
 
-On Windows only, convert line endings from CRLF (Windows format) to LF (Unix format). Source files are not modified.
+No-op and deprecated since balena CLI v12.0.0
+
+#### --noconvert-eol
+
+Don't convert line endings from CRLF (Windows format) to LF (Unix format).
 
 #### --docker, -P &#60;docker&#62;
 

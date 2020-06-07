@@ -26,7 +26,9 @@ let v12: boolean;
 
 export function isV12(): boolean {
 	if (v12 === undefined) {
-		v12 = isVersionGTE('12.0.0');
+		// This is the `Change-type: major` PR that will produce v12.0.0.
+		// Enable the v12 feature switches and run all v12 tests.
+		v12 = true; // v12 = isVersionGTE('12.0.0');
 	}
 	return v12;
 }
