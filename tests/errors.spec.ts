@@ -15,6 +15,12 @@
  * limitations under the License.
  */
 
+import {
+	BalenaAmbiguousApplication,
+	BalenaApplicationNotFound,
+	BalenaDeviceNotFound,
+	BalenaExpiredToken,
+} from 'balena-errors';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import ErrorsModule from '../build/errors';
@@ -124,10 +130,6 @@ describe('handleError() function', () => {
 	});
 
 	const messagesToMatch = [
-		'BalenaAmbiguousApplication:',
-		'BalenaApplicationNotFound:',
-		'BalenaDeviceNotFound:',
-		'BalenaExpiredToken:',
 		'Missing argument',
 		'Missing arguments',
 		'Unexpected argument',
@@ -143,6 +145,25 @@ describe('handleError() function', () => {
 				printExpectedErrorMessage.calledOnce,
 				`Pattern not expected: ${message}`,
 			).to.be.true;
+
+			expect(printErrorMessage.notCalled).to.be.true;
+			expect(captureException.notCalled).to.be.true;
+			expect(processExit.notCalled).to.be.true;
+		});
+	});
+
+	const typedErrorsToMatch = [
+		new BalenaAmbiguousApplication('test'),
+		new BalenaApplicationNotFound('test'),
+		new BalenaDeviceNotFound('test'),
+		new BalenaExpiredToken('test'),
+	];
+
+	typedErrorsToMatch.forEach(typedError => {
+		it(`should treat typedError ${typedError.name} as expected`, async () => {
+			await ErrorsModule.handleError(typedError);
+
+			expect(printExpectedErrorMessage.calledOnce).to.be.true;
 
 			expect(printErrorMessage.notCalled).to.be.true;
 			expect(captureException.notCalled).to.be.true;
