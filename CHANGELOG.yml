@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix handling of BalenaExpiredToken error
+      hash: 555096db6b54620618a8bc20a35a1a2343f233d3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.35.19
+  date: 2020-06-10T06:24:47.670Z
+- commits:
     - subject: 'v12 preparations: Add feature switch for default eol-converson'
       hash: 1569915fae760eb68da00dfa18f48479d5340a96
       body: ''
@@ -16,7 +28,7 @@
         change-type: patch
       author: Paulo Castro
   version: 11.35.18
-  date: 2020-06-05T19:25:57.864Z
+  date: 2020-06-05T15:47:16.860Z
 - commits:
     - subject: Convert 'balena device public-url' commands to oclif
       hash: 728c4f4296f10c838781e74245658a6e391aaba1
