@@ -135,10 +135,10 @@ const messages: {
 };
 
 const EXPECTED_ERROR_REGEXES = [
-	/^BalenaAmbiguousApplication:/, // balena-sdk
-	/^BalenaApplicationNotFound:/, // balena-sdk
-	/^BalenaDeviceNotFound:/, // balena-sdk
-	/^BalenaExpiredToken:/, // balena-sdk
+	/^BalenaAmbiguousApplication/, // balena-sdk
+	/^BalenaApplicationNotFound/, // balena-sdk
+	/^BalenaDeviceNotFound/, // balena-sdk
+	/^BalenaExpiredToken/, // balena-sdk
 	/^Missing \w+$/, // Capitano, oclif parser: RequiredArgsError, RequiredFlagError
 	/^Unexpected argument/, // oclif parser: UnexpectedArgsError
 	/to be one of/, // oclif parser: FlagInvalidOptionError, ArgInvalidOptionError
@@ -172,7 +172,8 @@ export async function handleError(error: any) {
 	// Expected?
 	const isExpectedError =
 		error instanceof ExpectedError ||
-		EXPECTED_ERROR_REGEXES.some(re => re.test(message[0]));
+		EXPECTED_ERROR_REGEXES.some(re => re.test(message[0])) ||
+		EXPECTED_ERROR_REGEXES.some(re => re.test((error as any).code));
 
 	// Output/report error
 	if (isExpectedError) {
