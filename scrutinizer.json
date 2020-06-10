@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Restrict error handler typing",
+          "hash": "ff282205d55d6f48ee0149390f32c3d4a897fb4b",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "11.35.20",
+      "date": "2020-06-10T10:43:34.720Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix handling of BalenaExpiredToken error",
           "hash": "555096db6b54620618a8bc20a35a1a2343f233d3",
           "body": "",
@@ -12119,29 +12137,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-10T06:25:32Z",
+  "lastCommitDate": "2020-06-10T13:07:09Z",
   "latestRelease": {
-    "tagName": "v11.35.19",
+    "tagName": "v11.35.20",
     "asssets": [
       {
-        "name": "balena-cli-v11.35.19-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.19/balena-cli-v11.35.19-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.35.20-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.20/balena-cli-v11.35.20-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.19-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.19/balena-cli-v11.35.19-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.35.20-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.20/balena-cli-v11.35.20-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.35.19-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.19/balena-cli-v11.35.19-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.35.20-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.20/balena-cli-v11.35.20-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.19-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.19/balena-cli-v11.35.19-windows-x64-installer.exe"
+        "name": "balena-cli-v11.35.20-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.20/balena-cli-v11.35.20-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.35.19-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.19/balena-cli-v11.35.19-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.35.20-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.20/balena-cli-v11.35.20-windows-x64-standalone.zip"
       }
     ]
   },
@@ -12231,7 +12249,7 @@
       }
     ]
   },
-  "version": "11.35.19",
+  "version": "11.35.20",
   "screenshot": null,
   "logo": null
 }

@@ -1,4 +1,16 @@
 - commits:
+    - subject: Restrict error handler typing
+      hash: ff282205d55d6f48ee0149390f32c3d4a897fb4b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 11.35.20
+  date: 2020-06-10T13:06:27.466Z
+- commits:
     - subject: Fix handling of BalenaExpiredToken error
       hash: 555096db6b54620618a8bc20a35a1a2343f233d3
       body: ''
@@ -9,7 +21,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.35.19
-  date: 2020-06-10T06:24:47.670Z
+  date: 2020-06-09T15:44:17.442Z
 - commits:
     - subject: 'v12 preparations: Add feature switch for default eol-converson'
       hash: 1569915fae760eb68da00dfa18f48479d5340a96
