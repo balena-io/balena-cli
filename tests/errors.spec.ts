@@ -59,19 +59,6 @@ describe('handleError() function', () => {
 		sandbox.restore();
 	});
 
-	it('should call printErrorMessage and exit when passed a string', async () => {
-		const errorString = 'a string';
-
-		await ErrorsModule.handleError(errorString);
-
-		expect(printErrorMessage.calledOnce).to.be.true;
-		expect(printErrorMessage.getCall(0).args[0]).to.equal(errorString);
-
-		expect(printExpectedErrorMessage.notCalled).to.be.true;
-		expect(captureException.notCalled).to.be.true;
-		expect(processExit.notCalled).to.be.true;
-	});
-
 	it('should process ExpectedErrors as expected', async () => {
 		const errorMessage = 'an expected error';
 		const error = new ErrorsModule.ExpectedError(errorMessage);

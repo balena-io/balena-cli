@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+import { BalenaError } from 'balena-errors';
 import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 import * as os from 'os';
@@ -149,18 +150,12 @@ async function getSentry() {
 	return await import('@sentry/node');
 }
 
-export async function handleError(error: any) {
+export async function handleError(error: Error) {
 	// Set appropriate exitCode
 	process.exitCode =
-		error.exitCode === 0
+		(error as BalenaError).exitCode === 0
 			? 0
-			: parseInt(error.exitCode, 10) || process.exitCode || 1;
-
-	// Handle non-Error objects (probably strings)
-	if (!(error instanceof Error)) {
-		ErrorsModule.printErrorMessage(String(error));
-		return;
-	}
+			: Math.trunc((error as BalenaError).exitCode) || process.exitCode || 1;
 
 	// Prepare message
 	const message = [interpret(error)];
@@ -173,7 +168,7 @@ export async function handleError(error: any) {
 	const isExpectedError =
 		error instanceof ExpectedError ||
 		EXPECTED_ERROR_REGEXES.some(re => re.test(message[0])) ||
-		EXPECTED_ERROR_REGEXES.some(re => re.test((error as any).code));
+		EXPECTED_ERROR_REGEXES.some(re => re.test((error as BalenaError).code));
 
 	// Output/report error
 	if (isExpectedError) {
