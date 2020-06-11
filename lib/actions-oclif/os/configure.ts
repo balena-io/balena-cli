@@ -46,6 +46,7 @@ interface FlagsDef {
 	help?: void;
 	version?: string;
 	'system-connection': string[];
+	'initial-device-name'?: string;
 }
 
 interface ArgsDef {
@@ -155,6 +156,10 @@ export default class OsConfigureCmd extends Command {
 			description:
 				'device type slug (e.g. "raspberrypi3") to override the application device type',
 		}),
+		'initial-device-name': flags.string({
+			description:
+				'This option will set the device name when the device provisions',
+		}),
 		help: cf.help,
 		version: flags.string({
 			description: 'balenaOS version, for example "2.32.0" or "2.44.0+rev1"',
@@ -232,6 +237,13 @@ export default class OsConfigureCmd extends Command {
 			} else {
 				configJson = await generateApplicationConfig(app!, answers);
 			}
+		}
+
+		if (
+			options['initial-device-name'] &&
+			options['initial-device-name'] !== ''
+		) {
+			configJson!.initialDeviceName = options['initial-device-name'];
 		}
 
 		console.info('Configuring operating system image');
