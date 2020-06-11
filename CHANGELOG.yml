@@ -1,4 +1,16 @@
 - commits:
+    - subject: Allow setting the initialDeviceName
+      hash: d967b942e0cce1df9774fac0cfa3b1f33a2c5fdf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Rich Bayliss <rich@balena.io>
+        signed-off-by: Rich Bayliss <rich@balena.io>
+      author: Rich Bayliss
+  version: 11.35.21
+  date: 2020-06-11T15:38:39.717Z
+- commits:
     - subject: Restrict error handler typing
       hash: ff282205d55d6f48ee0149390f32c3d4a897fb4b
       body: ''
@@ -9,7 +21,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 11.35.20
-  date: 2020-06-10T13:06:27.466Z
+  date: 2020-06-10T10:43:34.720Z
 - commits:
     - subject: Fix handling of BalenaExpiredToken error
       hash: 555096db6b54620618a8bc20a35a1a2343f233d3

@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Allow setting the initialDeviceName",
+          "hash": "d967b942e0cce1df9774fac0cfa3b1f33a2c5fdf",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Rich Bayliss <rich@balena.io>",
+            "signed-off-by": "Rich Bayliss <rich@balena.io>"
+          },
+          "author": "Rich Bayliss"
+        }
+      ],
+      "version": "11.35.21",
+      "date": "2020-06-11T15:06:38.027Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Restrict error handler typing",
           "hash": "ff282205d55d6f48ee0149390f32c3d4a897fb4b",
           "body": "",
@@ -12137,36 +12155,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-10T13:07:09Z",
+  "lastCommitDate": "2020-06-11T15:39:32Z",
   "latestRelease": {
-    "tagName": "v11.35.20",
+    "tagName": "v11.35.21",
     "asssets": [
       {
-        "name": "balena-cli-v11.35.20-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.20/balena-cli-v11.35.20-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.35.21-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.21/balena-cli-v11.35.21-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.20-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.20/balena-cli-v11.35.20-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.35.21-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.21/balena-cli-v11.35.21-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.35.20-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.20/balena-cli-v11.35.20-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.35.21-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.21/balena-cli-v11.35.21-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.20-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.20/balena-cli-v11.35.20-windows-x64-installer.exe"
+        "name": "balena-cli-v11.35.21-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.21/balena-cli-v11.35.21-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.35.20-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.20/balena-cli-v11.35.20-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.35.21-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.21/balena-cli-v11.35.21-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 287,
+    "numberOfIssues": 288,
     "latestIssues": [
+      {
+        "title": "CLI should retry image pulls on livepush (push to local device)",
+        "url": "https://github.com/balena-io/balena-cli/issues/1865"
+      },
       {
         "title": "Release CLI v12",
         "url": "https://github.com/balena-io/balena-cli/pull/1860"
@@ -12242,14 +12264,10 @@
       {
         "title": "balena push: Could not detect project type: Service main: Couldn't satisfy node version >=4 ",
         "url": "https://github.com/balena-io/balena-cli/issues/1819"
-      },
-      {
-        "title": "Consider a check to see if containers are stopped when pushing locally",
-        "url": "https://github.com/balena-io/balena-cli/issues/1816"
       }
     ]
   },
-  "version": "11.35.20",
+  "version": "11.35.21",
   "screenshot": null,
   "logo": null
 }
