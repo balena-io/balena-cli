@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'balena device: Add the mac_address field'
+      hash: 41e5fdbe27f262354b43efd8dbd2ed3d52a74264
+      body: ''
+      footer:
+        Connects-to: '#1857'
+        connects-to: '#1857'
+        HQ: 'https://github.com/balena-io/balena/issues/2195'
+        hq: 'https://github.com/balena-io/balena/issues/2195'
+        Depends-on: 'https://github.com/balena-io/balena-sdk/pull/914'
+        depends-on: 'https://github.com/balena-io/balena-sdk/pull/914'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+  version: 11.36.0
+  date: 2020-06-11T17:03:27.255Z
+- commits:
     - subject: Allow setting the initialDeviceName
       hash: d967b942e0cce1df9774fac0cfa3b1f33a2c5fdf
       body: ''
@@ -9,7 +27,7 @@
         signed-off-by: Rich Bayliss <rich@balena.io>
       author: Rich Bayliss
   version: 11.35.21
-  date: 2020-06-11T15:38:39.717Z
+  date: 2020-06-11T15:06:38.027Z
 - commits:
     - subject: Restrict error handler typing
       hash: ff282205d55d6f48ee0149390f32c3d4a897fb4b

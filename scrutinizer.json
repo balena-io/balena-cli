@@ -5,6 +5,30 @@
     {
       "commits": [
         {
+          "subject": "balena device: Add the mac_address field",
+          "hash": "41e5fdbe27f262354b43efd8dbd2ed3d52a74264",
+          "body": "",
+          "footer": {
+            "Connects-to": "#1857",
+            "connects-to": "#1857",
+            "HQ": "https://github.com/balena-io/balena/issues/2195",
+            "hq": "https://github.com/balena-io/balena/issues/2195",
+            "Depends-on": "https://github.com/balena-io/balena-sdk/pull/914",
+            "depends-on": "https://github.com/balena-io/balena-sdk/pull/914",
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis"
+        }
+      ],
+      "version": "11.36.0",
+      "date": "2020-06-11T16:10:49.789Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Allow setting the initialDeviceName",
           "hash": "d967b942e0cce1df9774fac0cfa3b1f33a2c5fdf",
           "body": "",
@@ -12155,35 +12179,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-11T15:39:32Z",
+  "lastCommitDate": "2020-06-11T17:04:33Z",
   "latestRelease": {
-    "tagName": "v11.35.21",
+    "tagName": "v11.36.0",
     "asssets": [
       {
-        "name": "balena-cli-v11.35.21-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.21/balena-cli-v11.35.21-linux-x64-standalone.zip"
+        "name": "balena-cli-v11.36.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.36.0/balena-cli-v11.36.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.21-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.21/balena-cli-v11.35.21-macOS-x64-installer.pkg"
+        "name": "balena-cli-v11.36.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.36.0/balena-cli-v11.36.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v11.35.21-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.21/balena-cli-v11.35.21-macOS-x64-standalone.zip"
+        "name": "balena-cli-v11.36.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.36.0/balena-cli-v11.36.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v11.35.21-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.21/balena-cli-v11.35.21-windows-x64-installer.exe"
+        "name": "balena-cli-v11.36.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.36.0/balena-cli-v11.36.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v11.35.21-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.35.21/balena-cli-v11.35.21-windows-x64-standalone.zip"
+        "name": "balena-cli-v11.36.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v11.36.0/balena-cli-v11.36.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 288,
+    "numberOfIssues": 286,
     "latestIssues": [
       {
         "title": "CLI should retry image pulls on livepush (push to local device)",
@@ -12194,16 +12218,8 @@
         "url": "https://github.com/balena-io/balena-cli/pull/1860"
       },
       {
-        "title": "balena device: Add the mac_address field",
-        "url": "https://github.com/balena-io/balena-cli/pull/1859"
-      },
-      {
         "title": "`balena help ...` output should fit in 80 characters",
         "url": "https://github.com/balena-io/balena-cli/issues/1858"
-      },
-      {
-        "title": "Should have a mac_address field for devices",
-        "url": "https://github.com/balena-io/balena-cli/issues/1857"
       },
       {
         "title": "`balena ssh <<device>> <<service>>` responds with incorrect list of services on failure",
@@ -12264,10 +12280,18 @@
       {
         "title": "balena push: Could not detect project type: Service main: Couldn't satisfy node version >=4 ",
         "url": "https://github.com/balena-io/balena-cli/issues/1819"
+      },
+      {
+        "title": "Consider a check to see if containers are stopped when pushing locally",
+        "url": "https://github.com/balena-io/balena-cli/issues/1816"
+      },
+      {
+        "title": "balena os initialize should not require login",
+        "url": "https://github.com/balena-io/balena-cli/issues/1814"
       }
     ]
   },
-  "version": "11.35.21",
+  "version": "11.36.0",
   "screenshot": null,
   "logo": null
 }
