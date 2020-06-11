@@ -1550,6 +1550,10 @@ custom device API key (DEPRECATED and only supported with balenaOS 2.0.3+)
 
 device type slug (e.g. "raspberrypi3") to override the application device type
 
+#### --initial-device-name INITIAL-DEVICE-NAME
+
+This option will set the device name when the device provisions
+
 #### --version VERSION
 
 balenaOS version, for example "2.32.0" or "2.44.0+rev1"

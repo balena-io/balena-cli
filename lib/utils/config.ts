@@ -34,6 +34,7 @@ export interface ImgConfig {
 	mixpanelToken: string;
 	wifiSsid?: string;
 	wifiKey?: string;
+	initialDeviceName?: string;
 
 	// props for older OS versions
 	connectivity?: string;

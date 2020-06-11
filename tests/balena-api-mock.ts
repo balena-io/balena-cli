@@ -39,6 +39,33 @@ export class BalenaAPIMock extends NockMock {
 		);
 	}
 
+	public expectDownloadConfig(opts: ScopeOpts = {}) {
+		this.optPost('/download-config', opts).reply(
+			200,
+			JSON.parse(`{
+				"applicationId":1301645,
+				"deviceType":"raspberrypi3",
+				"userId":43699,
+				"appUpdatePollInterval":600000,
+				"listenPort":48484,
+				"vpnPort":443,
+				"apiEndpoint":"https://api.balena-cloud.com",
+				"vpnEndpoint":"vpn.balena-cloud.com",
+				"registryEndpoint":"registry2.balena-cloud.com",
+				"deltaEndpoint":"https://delta.balena-cloud.com",
+				"mixpanelToken":"",
+				"apiKey":"nothingtoseehere"
+			}`),
+		);
+	}
+
+	public expectApplicationProvisioning(opts: ScopeOpts = {}) {
+		this.optPost(/^\/api-key\/application\/[0-9]+\/provisioning$/, opts).reply(
+			200,
+			'dummykey',
+		);
+	}
+
 	public expectGetMyApplication(opts: ScopeOpts = {}) {
 		this.optGet(/^\/v5\/my_application($|[(?])/, opts).reply(
 			200,
