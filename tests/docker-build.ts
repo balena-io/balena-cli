@@ -21,6 +21,7 @@ import * as _ from 'lodash';
 import { fs } from 'mz';
 import * as path from 'path';
 import { PathUtils } from 'resin-multibuild';
+import * as sinon from 'sinon';
 import { Readable } from 'stream';
 import * as tar from 'tar-stream';
 import { streamToBuffer } from 'tar-utils';
@@ -139,6 +140,7 @@ export async function testDockerBuildStream(o: {
 	expectedFilesByService: ExpectedTarStreamFilesByService;
 	expectedQueryParamsByService: { [service: string]: string[][] };
 	expectedErrorLines?: string[];
+	expectedExitCode?: number;
 	expectedResponseLines: string[];
 	projectPath: string;
 	responseCode: number;
@@ -174,7 +176,7 @@ export async function testDockerBuildStream(o: {
 		o.dockerMock.expectGetImages();
 	}
 
-	const { out, err } = await runCommand(o.commandLine);
+	const { exitCode, out, err } = await runCommand(o.commandLine);
 
 	const cleanLines = (lines: string[]) =>
 		cleanOutput(lines).map(line => line.replace(/\s{2,}/g, ' '));
@@ -188,6 +190,13 @@ export async function testDockerBuildStream(o: {
 		expect(cleanLines(out)).to.include.members(expectedResponseLines);
 	} else {
 		expect(out).to.be.empty;
+	}
+	if (o.expectedExitCode != null) {
+		if (process.env.BALENA_CLI_TEST_TYPE !== 'standalone') {
+			// @ts-ignore
+			sinon.assert.calledWith(process.exit);
+		}
+		expect(o.expectedExitCode).to.equal(exitCode);
 	}
 }
 

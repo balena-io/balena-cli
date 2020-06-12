@@ -28,7 +28,7 @@ const jHeader = { 'Content-Type': 'application/json' };
 
 export class BalenaAPIMock extends NockMock {
 	constructor() {
-		super('https://api.balena-cloud.com');
+		super(/api\.balena-cloud\.com/);
 	}
 
 	public expectGetApplication(opts: ScopeOpts = {}) {

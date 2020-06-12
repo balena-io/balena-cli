@@ -62,6 +62,9 @@ const commonComposeQueryParams = [
 	['labels', ''],
 ];
 
+// "itSS" means "it() Skip Standalone"
+const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;
+
 describe('balena build', function() {
 	let api: BalenaAPIMock;
 	let docker: DockerMock;
@@ -135,16 +138,16 @@ describe('balena build', function() {
 		});
 	});
 
-	it('should create the expected tar stream (--emulated)', async () => {
+	itSS('should create the expected tar stream (--emulated)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
 		const isV12W = isWindows && isV12();
 		const transposedDockerfile =
 			stripIndent`
-			FROM busybox
-			COPY [".balena/qemu-execve","/tmp/qemu-execve"]
-			COPY ["./src","/usr/src/"]
-			RUN ["/tmp/qemu-execve","-execve","/bin/sh","-c","chmod a+x /usr/src/*.sh"]
-			CMD ["/usr/src/start.sh"]` + '\n';
+		FROM busybox
+		COPY [".balena/qemu-execve","/tmp/qemu-execve"]
+		COPY ["./src","/usr/src/"]
+		RUN ["/tmp/qemu-execve","-execve","/bin/sh","-c","chmod a+x /usr/src/*.sh"]
+		CMD ["/usr/src/start.sh"]` + '\n';
 		const expectedFiles: ExpectedTarStreamFiles = {
 			'src/start.sh': { fileSize: 89, type: 'file' },
 			'src/windows-crlf.sh': {

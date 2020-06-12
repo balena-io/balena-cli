@@ -173,6 +173,9 @@ describe('balena deploy', function() {
 		const expectedResponseLines = ['[Error] Deploy failed'];
 		const errMsg = 'Patch Image Error';
 		const expectedErrorLines = [errMsg];
+		// The SDK should produce an "unexpected" BalenaRequestError, which
+		// causes the CLI to call process.exit() with process.exitCode = 1
+		const expectedExitCode = 1;
 
 		// Mock this patch HTTP request to return status code 500, in which case
 		// the release status should be saved as "failed" rather than "success"
@@ -202,17 +205,13 @@ describe('balena deploy', function() {
 			expectedFilesByService: { main: expectedFiles },
 			expectedQueryParamsByService: { main: commonQueryParams },
 			expectedErrorLines,
+			expectedExitCode,
 			expectedResponseLines,
 			projectPath,
 			responseBody,
 			responseCode: 200,
 			services: ['main'],
 		});
-		// The SDK should produce an "unexpected" BalenaRequestError, which
-		// causes the CLI to call process.exit() with process.exitCode = 1
-		// @ts-ignore
-		sinon.assert.calledWith(process.exit);
-		expect(process.exitCode).to.equal(1);
 	});
 });
 
@@ -221,6 +220,7 @@ describe('balena deploy: project validation', function() {
 	this.beforeEach(() => {
 		api = new BalenaAPIMock();
 		api.expectGetWhoAmI({ optional: true, persist: true });
+		api.expectGetMixpanel({ optional: true });
 	});
 
 	this.afterEach(() => {

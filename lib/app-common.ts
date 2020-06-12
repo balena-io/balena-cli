@@ -119,11 +119,14 @@ async function setupGlobalHttpProxy(settings: CliSettings) {
 	delete env.https_proxy;
 
 	const proxy = settings.getCatch<ProxyConfig>('proxy');
+	// console.error(`setupGlobalHttpProxy proxy=${proxy} env.BALENARC_PROXY=${env.BALENARC_PROXY}`);
 	if (proxy || env.HTTPS_PROXY || env.HTTP_PROXY) {
 		const semver = await import('semver');
 		if (semver.lt(process.version, '10.16.0')) {
+			// console.error(`Using global-tunnel-ng for proxy=${proxy}`);
 			await setupGlobalTunnelNgProxy(proxy);
 		} else {
+			// console.error(`Using global-agent for proxy=${proxy}`);
 			// use global-agent instead of global-tunnel-ng
 			await setupGlobalAgentProxy(settings, proxy);
 		}
@@ -155,7 +158,8 @@ async function setupGlobalAgentProxy(
 ) {
 	const noProxy = settings.getCatch<string>('noProxy');
 	// Always exclude localhost, even if NO_PROXY is set
-	const requiredNoProxy = ['localhost', '127.0.0.1'];
+	// const requiredNoProxy = ['localhost', '127.0.0.1'];
+	const requiredNoProxy: string[] = [];
 	// Private IPv4 address patterns in `matcher` format: https://www.npmjs.com/package/matcher
 	const privateNoProxy = ['*.local', '10.*', '192.168.*'];
 	for (let i = 16; i <= 31; i++) {
@@ -244,7 +248,7 @@ export function setMaxListeners(maxListeners: number) {
 }
 
 export async function globalInit() {
-	await setupSentry();
+	// await setupSentry();
 	checkNodeVersion();
 	configureBluebird();
 

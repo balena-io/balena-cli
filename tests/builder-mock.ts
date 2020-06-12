@@ -27,7 +27,7 @@ export const builderResponsePath = path.normalize(
 
 export class BuilderMock extends NockMock {
 	constructor() {
-		super('https://builder.balena-cloud.com');
+		super(/builder\.balena-cloud\.com/);
 	}
 
 	public expectPostBuild(opts: {
