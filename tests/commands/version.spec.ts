@@ -25,14 +25,13 @@ const nodeVersion = process.version.startsWith('v')
 
 describe('balena version', function() {
 	it('should print the installed version of the CLI', async () => {
-		const { out } = await runCommand('version');
-
+		const { err, out } = await runCommand('version');
+		expect(err).to.be.empty;
 		expect(out.join('')).to.equal(`${packageJSON.version}\n`);
 	});
 
 	it('should print additional version information with the -a flag', async () => {
 		const { err, out } = await runCommand('version -a');
-
 		expect(err).to.be.empty;
 		expect(out[0].trim()).to.equal(
 			`balena-cli version "${packageJSON.version}"`,
@@ -46,12 +45,9 @@ describe('balena version', function() {
 	});
 
 	it('should print version information as JSON with the the -j flag', async () => {
-		const { out } = await runCommand('version -j');
-
+		const { err, out } = await runCommand('version -j');
+		expect(err).to.be.empty;
 		const json = JSON.parse(out.join(''));
-
-		console.error(`json=${JSON.stringify(json)}`);
-
 		expect(json['balena-cli']).to.equal(packageJSON.version);
 
 		if (process.env.BALENA_CLI_TEST_TYPE === 'standalone') {

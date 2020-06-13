@@ -27,6 +27,8 @@ import * as path from 'path';
 import * as balenaCLI from '../build/app';
 import { setupSentry } from '../build/app-common';
 
+const standalonePath = path.resolve(__dirname, '..', 'build-bin', 'balena');
+
 interface TestOutput {
 	err: string[]; // stderr
 	out: string[]; // stdout
@@ -106,23 +108,26 @@ async function runCommandInSubprocess(
 	cmd: string,
 	proxyPort: number,
 ): Promise<TestOutput> {
-	const binPath = path.resolve(__dirname, '..', 'build-bin', 'balena');
 	let exitCode = 0;
 	let stdout = '';
 	let stderr = '';
-
 	const addedEnvs = {
 		// Use http instead of https, so we can intercept and test the data,
 		// for example the contents of tar streams sent by the CLI to Docker
 		BALENARC_API_URL: 'http://api.balena-cloud.com',
 		BALENARC_BUILDER_URL: 'http://builder.balena-cloud.com',
 		BALENARC_PROXY: `http://127.0.0.1:${proxyPort}`,
-		// override default proxy exclusion to allow proxying to private IP addresses
-		BALENARC_NO_PROXY: 'nono',
+		// override default proxy exclusion to allow proxying of requests to 127.0.0.1
+		BALENARC_DO_PROXY: '127.0.0.1,localhost',
 	};
 	await new Promise(resolve => {
 		const child = execFile(
-			binPath,
+			// '/Users/paulo/.nvm/versions/node/v12.18.0/bin/node',
+			// [
+			// 	'/Users/paulo/balena/balena-io/balena-cli/bin/balena',
+			// 	...cmd.split(' '),
+			// ],
+			standalonePath,
 			cmd.split(' '),
 			{ env: { ...process.env, ...addedEnvs } },
 			($error, $stdout, $stderr) => {
@@ -133,7 +138,7 @@ async function runCommandInSubprocess(
 				// the CLI child process is tested for error conditions.
 				if ($error && process.env.DEBUG) {
 					console.error(`
-[debug] Error (possibly expected) executing child CLI process "${binPath}"
+[debug] Error (possibly expected) executing child CLI process "${standalonePath}"
 ------------------------------------------------------------------
 ${$error}
 ------------------------------------------------------------------`);
@@ -151,6 +156,18 @@ ${$error}
 		});
 	});
 
+	// console.error(
+	// 	'------------------------------------------------------------------------',
+	// );
+	// console.error(`child stderr:\n${stderr}`);
+	// console.error(
+	// 	'------------------------------------------------------------------------',
+	// );
+	// console.error(`child stdout:\n${stdout}`);
+	// console.error(
+	// 	'------------------------------------------------------------------------',
+	// );
+
 	const splitLines = (lines: string) =>
 		lines
 			.split(/[\r\n]/) // includes '\r' in isolation, used in progress bars
@@ -163,9 +180,103 @@ ${$error}
 		out: splitLines(stdout),
 	});
 }
+// async function runCommandInSubprocess(
+// 	cmd: string,
+// 	proxyPort: number,
+// ): Promise<TestOutput> {
+// 	let exitCode = 0;
+// 	let stdout = '';
+// 	let stderr = '';
+// 	const addedEnvs = {
+// 		// Use http instead of https, so we can intercept and test the data,
+// 		// for example the contents of tar streams sent by the CLI to Docker
+// 		BALENARC_API_URL: 'http://api.balena-cloud.com',
+// 		BALENARC_BUILDER_URL: 'http://builder.balena-cloud.com',
+// 		BALENARC_PROXY: `http://127.0.0.1:${proxyPort}`,
+// 		// override default proxy exclusion to allow proxying of requests to 127.0.0.1
+// 		BALENARC_DO_PROXY: '127.0.0.1,localhost',
+// 	};
+// 	await new Promise((resolve, _reject) => {
+// 		const child = spawn(
+// 			'/Users/paulo/.nvm/versions/node/v12.18.0/bin/node',
+// 			[
+// 				'/Users/paulo/balena/balena-io/balena-cli/bin/balena',
+// 				...cmd.split(' '),
+// 			],
+// 			// standalonePath,
+// 			// cmd.split(' '),
+// 			{
+// 				env: { ...process.env, ...addedEnvs },
+// 				stdio: 'inherit',
+// 			},
+// // 			($error, $stdout, $stderr) => {
+// // 				stderr = $stderr || '';
+// // 				stdout = $stdout || '';
+// // 				// $error will be set if the CLI child process exits with a
+// // 				// non-zero exit code. Usually this is harmless/expected, as
+// // 				// the CLI child process is tested for error conditions.
+// // 				if ($error && process.env.DEBUG) {
+// // 					console.error(`
+// // [debug] Error (possibly expected) executing child CLI process "${standalonePath}"
+// // ------------------------------------------------------------------
+// // ${$error}
+// // ------------------------------------------------------------------`);
+// // 				}
+// // 				resolve();
+// // 			},
+// 		);
+// 		child
+// 		.on('error', (err: Error) => {
+// 			console.error(`runCommandInSubprocess spawn on error err=${err}`);
+// 			// reject(err);
+// 			resolve();
+// 		})
+// 		.on('close', (code: number, signal: string) => {
+// 			console.error(`runCommandInSubprocess spawn on close code=${code} signal=${signal}`);
+// 			// reject(err);
+// 		})
+// 		.on('exit', (code: number, signal: string) => {
+// 			console.error(`runCommandInSubprocess spawn on exit code=${code} signal=${signal}`);
+// 			// if (process.env.DEBUG) {
+// 			// 	console.error(
+// 			// 		`CLI child process exited with code=${code} signal=${signal}`,
+// 			// 	);
+// 			// }
+// 			exitCode = code;
+// 			resolve();
+// 		});
+// 	});
+
+// 	console.error(
+// 		'------------------------------------------------------------------------',
+// 	);
+// 	console.error(`child stderr:\n${stderr}`);
+// 	console.error(
+// 		'------------------------------------------------------------------------',
+// 	);
+// 	console.error(`child stdout:\n${stdout}`);
+// 	console.error(
+// 		'------------------------------------------------------------------------',
+// 	);
+
+// 	const splitLines = (lines: string) =>
+// 		lines
+// 			.split(/[\r\n]/) // includes '\r' in isolation, used in progress bars
+// 			.filter(l => l)
+// 			.map(l => l + '\n');
+
+// 	return filterCliOutputForTests({
+// 		exitCode,
+// 		err: splitLines(stderr),
+// 		out: splitLines(stdout),
+// 	});
+// }
 
 export async function runCommand(cmd: string): Promise<TestOutput> {
 	if (process.env.BALENA_CLI_TEST_TYPE === 'standalone') {
+		// if (!(await fs.exists(standalonePath))) {
+		// 	throw new Error(`Standalone executable not found: "${standalonePath}"`);
+		// }
 		const proxy = await import('./proxy-server');
 		const [proxyPort] = await proxy.createProxyServerOnce();
 		return runCommandInSubprocess(cmd, proxyPort);
@@ -192,13 +303,16 @@ export const balenaAPIMock = () => {
 		});
 };
 
-export function cleanOutput(output: string[] | string): string[] {
+export function cleanOutput(
+	output: string[] | string,
+	collapseBlank = false,
+): string[] {
+	const cleanLine = collapseBlank
+		? (line: string) => monochrome(line.trim()).replace(/\s{2,}/g, ' ')
+		: (line: string) => monochrome(line.trim());
+
 	return _(_.castArray(output))
-		.map((log: string) => {
-			return log.split('\n').map(line => {
-				return monochrome(line.trim());
-			});
-		})
+		.map((log: string) => log.split('\n').map(cleanLine))
 		.flatten()
 		.compact()
 		.value();
@@ -213,7 +327,7 @@ export function cleanOutput(output: string[] | string): string[] {
  * coded from observation of a few samples only, and may not cover all cases.
  */
 export function monochrome(text: string): string {
-	return text.replace(/\u001b\[\??\d+?[a-zA-Z]\r?/g, '');
+	return text.replace(/\u001b\[\??(\d+;)*\d+[a-zA-Z]\r?/g, '');
 }
 
 /**

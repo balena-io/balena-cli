@@ -41,6 +41,7 @@ export function displayDeviceLogs(
 ): Bluebird<void> {
 	return new Bluebird((resolve, reject) => {
 		logs.on('data', log => {
+			// console.error(`displayDeviceLogs() on 'data' log=${log}`);
 			displayLogLine(log, logger, system, filterServices);
 		});
 

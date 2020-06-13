@@ -196,18 +196,23 @@ export class DeviceAPI {
 
 	public getLogStream(): Bluebird<Stream.Readable> {
 		const url = this.getUrlForAction('logs');
+		// console.error(`getLogStream url=${url}`);
 
 		// Don't use the promisified version here as we want to stream the output
 		return new Bluebird((resolve, reject) => {
 			const req = request.get(url);
 
 			req.on('error', reject).on('response', async res => {
+				// console.error(
+				// 	`api.ts getLogStream on 'response' statusCode=${res.statusCode} headers=${JSON.stringify(res.headers,null,4)}`,
+				// );
 				if (res.statusCode !== 200) {
 					reject(
 						new ApiErrors.DeviceAPIError(
 							'Non-200 response from log streaming endpoint',
 						),
 					);
+					return;
 				}
 				res.socket.setKeepAlive(true, 1000);
 				if (os.platform() !== 'win32') {

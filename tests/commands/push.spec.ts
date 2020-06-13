@@ -486,9 +486,7 @@ describe('balena push: project validation', function() {
 		const { out, err } = await runCommand(
 			`push testApp --source ${projectPath} --nogitignore`,
 		);
-		expect(
-			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
-		).to.include.members(expectedErrorLines);
+		expect(cleanOutput(err, true)).to.include.members(expectedErrorLines);
 		expect(out).to.be.empty;
 	});
 
@@ -507,9 +505,7 @@ describe('balena push: project validation', function() {
 		const { out, err } = await runCommand(
 			`push testApp --source ${projectPath}`,
 		);
-		expect(
-			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
-		).to.include.members(expectedErrorLines);
+		expect(cleanOutput(err, true)).to.include.members(expectedErrorLines);
 		expect(out).to.be.empty;
 	});
 
@@ -536,12 +532,8 @@ describe('balena push: project validation', function() {
 		const { out, err } = await runCommand(
 			`push testApp --source ${projectPath} --nolive`,
 		);
-		expect(
-			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
-		).to.include.members(expectedErrorLines);
-		expect(
-			cleanOutput(out).map(line => line.replace(/\s{2,}/g, ' ')),
-		).to.include.members(expectedOutputLines);
+		expect(cleanOutput(err, true)).to.include.members(expectedErrorLines);
+		expect(cleanOutput(out, true)).to.include.members(expectedOutputLines);
 	});
 
 	it('should suppress a parent folder check with --noparent-check', async () => {
@@ -558,9 +550,7 @@ describe('balena push: project validation', function() {
 		const { out, err } = await runCommand(
 			`push testApp --source ${projectPath} --nolive --noparent-check`,
 		);
-		expect(
-			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
-		).to.include.members(expectedErrorLines);
+		expect(cleanOutput(err, true)).to.include.members(expectedErrorLines);
 		expect(out).to.be.empty;
 	});
 });

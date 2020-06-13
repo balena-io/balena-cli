@@ -58,6 +58,60 @@ async function createProxyServer(): Promise<[number, number]> {
 		res.end(msg);
 	});
 
+	// proxy.on('proxyReq', function(
+	// 	proxyReq: http.ClientRequest,
+	// 	req: http.IncomingMessage,
+	// 	_res: http.ServerResponse,
+	// 	_options,
+	// ) {
+	// 	console.error(
+	// 		`proxy on proxyReq pReq.method=${proxyReq.method} pReq.path=${
+	// 			proxyReq.path
+	// 		} pReq.headers=${JSON.stringify(proxyReq.getHeaders())}`,
+	// 	);
+	// 	console.error(
+	// 		`proxy on proxyReq req.method=${req.method} req.url=${
+	// 			req.url
+	// 		} req.headers=${JSON.stringify(req.headers)}`,
+	// 	);
+	// 	// if (req.url) {
+	// 	// 	proxyReq.setHeader('x-proxied-for', req.url);
+	// 	// }
+	// });
+
+	// proxy.on('proxyRes', function(
+	// 	proxyRes: http.IncomingMessage,
+	// 	req: http.IncomingMessage,
+	// 	res: http.ServerResponse,
+	// ) {
+	// 	// console.error(
+	// 	// 	`proxy on proxyRes req.method=${req.method} req.url=${
+	// 	// 		req.url
+	// 	// 	} req.headers=${JSON.stringify(req.headers)}`,
+	// 	// );
+	// 	console.error(
+	// 		`proxy on proxyRes pRes.method=${proxyRes.method} pRes.url=${
+	// 			proxyRes.url
+	// 		} pRes.headers=${JSON.stringify(proxyRes.headers)}`,
+	// 	);
+	// });
+
+	// proxy.on('open', function(proxySocket: import('net').Socket) {
+	// 	console.error(`proxy on open`);
+	// 	// listen for messages coming FROM the target here
+	// 	// proxySocket.on('data', (chunk: string | Buffer) => {
+	// 	// 	console.error(`proxySocket on data chunk=${chunk.toString()}`);
+	// 	// });
+	// } as any);
+
+	// proxy.on('close', function(
+	// 	_res: http.IncomingMessage,
+	// 	_socket: import('net').Socket,
+	// 	_proxyHead,
+	// ) {
+	// 	console.error(`proxy on close (client disconnected)`);
+	// });
+
 	const server = http.createServer(function(
 		req: http.IncomingMessage,
 		res: http.ServerResponse,
@@ -133,6 +187,14 @@ async function createInterceptorServer(): Promise<number> {
 						);
 					})
 					.on('response', (srvRes: http.IncomingMessage) => {
+						// console.error(`interceptor on 'response' (${
+						// 							reqOpts.method
+						// 						} request to URL=${reqOpts.protocol}//${reqOpts.host}:${
+						// 							reqOpts.port
+						// 						}${reqOpts.path})
+						// Response headers=${JSON.stringify(srvRes.headers)}`);
+
+						// Copy headers, status code and status message from interceptor to client
 						for (const [key, val] of Object.entries(srvRes.headers)) {
 							if (key && val) {
 								cliRes.setHeader(key, val);
@@ -140,11 +202,53 @@ async function createInterceptorServer(): Promise<number> {
 						}
 						cliRes.statusCode = srvRes.statusCode || cliRes.statusCode;
 						cliRes.statusMessage = srvRes.statusMessage || cliRes.statusMessage;
-						srvRes.pipe(cliRes).on('error', err => {
+						srvRes.pipe(cliRes).on('error', (err: Error) => {
 							console.error(
 								`Interceptor server error piping response to proxy server:\n${err}`,
 							);
+							cliRes.end();
 						});
+						// const chunks: string[] = [];
+						// const isChunked = srvRes.headers['transfer-encoding'] === 'chunked';
+						// let ended = false;
+						// if (isChunked) {
+						// 	srvRes.pipe(cliRes, { end: false });
+						// } else {
+						// 	srvRes.pipe(cliRes, { end: true });
+						// }
+						// srvRes
+						// 	.on('error', err => {
+						// 		console.error(
+						// 			`Interceptor server error piping response to proxy server:\n${err}`,
+						// 		);
+						// 		cliRes.emit('error', err);
+						// 	})
+						// // 	.on('data', (chunk: string | Buffer) => {
+						// // 		const chunkStr = chunk.toString();
+						// // 		console.error(
+						// // 			`interceptor (srvRes) got data chunk=${chunkStr}`,
+						// // 		);
+						// // 		// chunks.push(chunkStr);
+						// // 		const r = cliRes.write(chunkStr);
+						// // 		console.error(
+						// // 			`interceptor (srvRes) write(chunk) returned ${r}`,
+						// // 		);
+						// // 	})
+						// 	.on('close', () => {
+						// 		console.error(`interceptor (srvRes) on close`);
+						// 		if (isChunked && !ended) {
+						// 			ended = true;
+						// 			setTimeout(() => cliRes.end(), 100);
+						// 		}
+						// 	})
+						// 	.on('end', () => {
+						// 		console.error(`interceptor (srvRes) on end`);
+						// 		// cliRes.end(chunks.join(''));
+						// 		if (isChunked && !ended) {
+						// 			ended = true;
+						// 			setTimeout(() => cliRes.end(), 100);
+						// 		}
+						// 	});
 					});
 				cliReq.pipe(srvReq).on('error', (err: Error) => {
 					console.error(

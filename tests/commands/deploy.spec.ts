@@ -243,9 +243,7 @@ describe('balena deploy: project validation', function() {
 		const { out, err } = await runCommand(
 			`deploy testApp --source ${projectPath}`,
 		);
-		expect(
-			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
-		).to.include.members(expectedErrorLines);
+		expect(cleanOutput(err, true)).to.include.members(expectedErrorLines);
 		expect(out).to.be.empty;
 	});
 });

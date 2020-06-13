@@ -83,16 +83,16 @@ export const logs: CommandDefinition<
 		},
 	],
 	primary: true,
-	async action(params, options, done) {
+	async action(params, options) {
 		normalizeUuidProp(params);
 		const balena = getBalenaSdk();
+		const { ExpectedError } = await import('../errors');
 		const { serviceIdToName } = await import('../utils/cloud');
 		const { displayDeviceLogs, displayLogObject } = await import(
 			'../utils/device/logs'
 		);
 		const { validateIPAddress } = await import('../utils/validation');
 		const { checkLoggedIn } = await import('../utils/patterns');
-		const { exitWithExpectedError } = await import('../errors');
 		const Logger = await import('../utils/logger');
 
 		const logger = Logger.getLogger();
@@ -136,15 +136,12 @@ export const logs: CommandDefinition<
 			try {
 				await deviceApi.ping();
 			} catch (e) {
-				exitWithExpectedError(
-					new Error(
-						`Cannot access local mode device at address ${params.uuidOrDevice}`,
-					),
+				throw new ExpectedError(
+					`Cannot access local mode device at address ${params.uuidOrDevice}`,
 				);
 			}
-
 			const logStream = await deviceApi.getLogStream();
-			displayDeviceLogs(
+			await displayDeviceLogs(
 				logStream,
 				logger,
 				options.system || false,
@@ -153,18 +150,17 @@ export const logs: CommandDefinition<
 		} else {
 			await checkLoggedIn();
 			if (options.tail) {
-				return balena.logs
-					.subscribe(params.uuidOrDevice, { count: 100 })
-					.then(function(logStream) {
-						logStream.on('line', displayCloudLog);
-						logStream.on('error', done);
-					})
-					.catch(done);
+				const logStream = await balena.logs.subscribe(params.uuidOrDevice, {
+					count: 100,
+				});
+				// Never resolves (quit with CTRL-C), but errors on a broken network connection
+				await new Promise((_resolve, reject) => {
+					logStream.on('line', displayCloudLog);
+					logStream.on('error', reject);
+				});
 			} else {
-				return balena.logs
-					.history(params.uuidOrDevice)
-					.each(displayCloudLog)
-					.catch(done);
+				const logMessages = await balena.logs.history(params.uuidOrDevice);
+				logMessages.forEach(displayCloudLog);
 			}
 		}
 	},

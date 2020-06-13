@@ -178,16 +178,13 @@ export async function testDockerBuildStream(o: {
 
 	const { exitCode, out, err } = await runCommand(o.commandLine);
 
-	const cleanLines = (lines: string[]) =>
-		cleanOutput(lines).map(line => line.replace(/\s{2,}/g, ' '));
-
 	if (expectedErrorLines.length) {
-		expect(cleanLines(err)).to.include.members(expectedErrorLines);
+		expect(cleanOutput(err, true)).to.include.members(expectedErrorLines);
 	} else {
 		expect(err).to.be.empty;
 	}
 	if (expectedResponseLines.length) {
-		expect(cleanLines(out)).to.include.members(expectedResponseLines);
+		expect(cleanOutput(out, true)).to.include.members(expectedResponseLines);
 	} else {
 		expect(out).to.be.empty;
 	}
@@ -230,7 +227,5 @@ export async function testPushBuildStream(o: {
 	const { out, err } = await runCommand(o.commandLine);
 
 	expect(err).to.be.empty;
-	expect(
-		cleanOutput(out).map(line => line.replace(/\s{2,}/g, ' ')),
-	).to.include.members(expectedResponseLines);
+	expect(cleanOutput(out, true)).to.include.members(expectedResponseLines);
 }

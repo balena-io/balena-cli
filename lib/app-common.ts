@@ -119,14 +119,11 @@ async function setupGlobalHttpProxy(settings: CliSettings) {
 	delete env.https_proxy;
 
 	const proxy = settings.getCatch<ProxyConfig>('proxy');
-	// console.error(`setupGlobalHttpProxy proxy=${proxy} env.BALENARC_PROXY=${env.BALENARC_PROXY}`);
 	if (proxy || env.HTTPS_PROXY || env.HTTP_PROXY) {
 		const semver = await import('semver');
 		if (semver.lt(process.version, '10.16.0')) {
-			// console.error(`Using global-tunnel-ng for proxy=${proxy}`);
 			await setupGlobalTunnelNgProxy(proxy);
 		} else {
-			// console.error(`Using global-agent for proxy=${proxy}`);
 			// use global-agent instead of global-tunnel-ng
 			await setupGlobalAgentProxy(settings, proxy);
 		}
@@ -158,20 +155,28 @@ async function setupGlobalAgentProxy(
 ) {
 	const noProxy = settings.getCatch<string>('noProxy');
 	// Always exclude localhost, even if NO_PROXY is set
-	// const requiredNoProxy = ['localhost', '127.0.0.1'];
-	const requiredNoProxy: string[] = [];
+	const requiredNoProxy = ['localhost', '127.0.0.1'];
 	// Private IPv4 address patterns in `matcher` format: https://www.npmjs.com/package/matcher
 	const privateNoProxy = ['*.local', '10.*', '192.168.*'];
 	for (let i = 16; i <= 31; i++) {
 		privateNoProxy.push(`172.${i}.*`);
 	}
 
+	// BALENARC_DO_PROXY is a list of entries to exclude from BALENARC_NO_PROXY
+	// (so "do proxy" takes precedence over "no proxy"). It is an undocumented
+	// feature/hack added to facilitate testing of the CLI's standalone executable
+	// through a local proxy server, by setting BALENARC_DO_PROXY="localhost,127.0.0.1"
+	// See also runCommandInSubprocess() function in `tests/helpers.ts`.
+	const doProxy = (process.env.BALENARC_DO_PROXY || '').split(',');
+
 	const env = process.env;
 	env.GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE = '';
 	env.NO_PROXY = [
 		...requiredNoProxy,
 		...(noProxy ? noProxy.split(',').filter(v => v) : privateNoProxy),
-	].join(',');
+	]
+		.filter(i => !doProxy.includes(i))
+		.join(',');
 
 	if (proxy) {
 		const proxyUrl: string =

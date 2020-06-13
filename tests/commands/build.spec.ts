@@ -376,9 +376,7 @@ describe('balena build: project validation', function() {
 		const { out, err } = await runCommand(
 			`build ${projectPath} -A amd64 -d nuc`,
 		);
-		expect(
-			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
-		).to.include.members(expectedErrorLines);
+		expect(cleanOutput(err, true)).to.include.members(expectedErrorLines);
 		expect(out).to.be.empty;
 	});
 });
