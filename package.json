@@ -206,7 +206,7 @@
     "express": "^4.13.3",
     "fast-boot2": "^1.0.9",
     "get-stdin": "^7.0.0",
-    "global-agent": "^2.1.8",
+    "global-agent": "^2.1.12",
     "global-tunnel-ng": "^2.1.1",
     "humanize": "0.0.9",
     "ignore": "^5.1.4",
