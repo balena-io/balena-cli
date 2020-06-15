@@ -224,4 +224,3 @@ gotchas to bear in mind:
   `node_modules/balena-sdk/node_modules/balena-errors`  
   In the case of subclasses of `TypedError`, a string comparison may be used instead:  
   `error.name === 'BalenaApplicationNotFound'`
-
