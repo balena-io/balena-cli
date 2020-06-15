@@ -101,7 +101,12 @@ async function getBuilderEndpoint(
 	});
 	// Note that using https (rather than http) is a requirement when using the
 	// --registry-secrets feature, as the secrets are not otherwise encrypted.
-	return `https://builder.${baseUrl}/v3/build?${args}`;
+	let builderUrl =
+		process.env.BALENARC_BUILDER_URL || `https://builder.${baseUrl}`;
+	if (builderUrl.endsWith('/')) {
+		builderUrl = builderUrl.slice(0, -1);
+	}
+	return `${builderUrl}/v3/build?${args}`;
 }
 
 export async function startRemoteBuild(build: RemoteBuild): Promise<void> {

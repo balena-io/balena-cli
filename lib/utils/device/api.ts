@@ -208,6 +208,7 @@ export class DeviceAPI {
 							'Non-200 response from log streaming endpoint',
 						),
 					);
+					return;
 				}
 				res.socket.setKeepAlive(true, 1000);
 				if (os.platform() !== 'win32') {

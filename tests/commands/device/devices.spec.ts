@@ -64,7 +64,7 @@ describe('balena devices', function() {
 	});
 
 	it('should list devices from own and collaborator apps', async () => {
-		api.expectGetWhoAmI({ optional: true });
+		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetMixpanel({ optional: true });
 
 		api.scope

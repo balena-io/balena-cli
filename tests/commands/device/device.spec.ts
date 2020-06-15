@@ -68,7 +68,7 @@ describe('balena device', function() {
 	});
 
 	it('should list device details for provided uuid', async () => {
-		api.expectGetWhoAmI({ optional: true });
+		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetMixpanel({ optional: true });
 
 		api.scope
@@ -91,7 +91,7 @@ describe('balena device', function() {
 	it('correctly handles devices with missing application', async () => {
 		// Devices with missing applications will have application name set to `N/a`.
 		// e.g. When user has a device associated with app that user is no longer a collaborator of.
-		api.expectGetWhoAmI({ optional: true });
+		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetMixpanel({ optional: true });
 
 		api.scope
