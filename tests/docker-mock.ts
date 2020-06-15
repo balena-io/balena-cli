@@ -80,7 +80,7 @@ export class DockerMock extends NockMock {
 		this.optPost(
 			new RegExp(`^/build\\?t=${_.escapeRegExp(opts.tag)}&`),
 			opts,
-		).reply(async function(uri, requestBody, cb) {
+		).reply(async function (uri, requestBody, cb) {
 			let error: Error | null = null;
 			try {
 				await opts.checkURI(uri);

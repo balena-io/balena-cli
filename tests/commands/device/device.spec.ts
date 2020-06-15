@@ -31,7 +31,7 @@ Examples:
 \t$ balena device 7cf02a6
 `;
 
-describe('balena device', function() {
+describe('balena device', function () {
 	let api: BalenaAPIMock;
 
 	beforeEach(() => {

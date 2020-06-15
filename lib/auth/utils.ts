@@ -39,7 +39,7 @@ export const getDashboardLoginURL = (callbackUrl: string) => {
 
 	return getBalenaSdk()
 		.settings.get('dashboardUrl')
-		.then(dashboardUrl =>
+		.then((dashboardUrl) =>
 			url.resolve(dashboardUrl, `/login/cli/${callbackUrl}`),
 		);
 };
@@ -73,12 +73,12 @@ export const loginIfTokenValid = (token: string) => {
 	return balena.auth
 		.getToken()
 		.catchReturn(undefined)
-		.then(currentToken =>
+		.then((currentToken) =>
 			balena.auth
 				.loginWithToken(token)
 				.return(token)
 				.then(balena.auth.isLoggedIn)
-				.tap(isLoggedIn => {
+				.tap((isLoggedIn) => {
 					if (isLoggedIn) {
 						return;
 					}

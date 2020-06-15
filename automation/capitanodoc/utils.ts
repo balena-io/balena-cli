@@ -93,7 +93,7 @@ export class MarkdownFileParser {
 			crlfDelay: Infinity,
 		});
 
-		rl.on('line', line => {
+		rl.on('line', (line) => {
 			// try to match a line like "## Getting Started", where the number
 			// of '#' characters is the sectionLevel ('##' -> 2), and the
 			// sectionTitle is "Getting Started"

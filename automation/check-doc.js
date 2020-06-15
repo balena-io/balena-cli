@@ -40,13 +40,13 @@ async function checkBuildTimestamps() {
 	const stagedFiles = _.uniq([
 		...gitStatus.created,
 		...gitStatus.staged,
-		...gitStatus.renamed.map(o => o.to),
+		...gitStatus.renamed.map((o) => o.to),
 	])
 		// select only staged files that start with lib/ or typings/
-		.filter(f => f.match(/^(lib|typings)[/\\]/))
-		.map(f => path.join(ROOT, f));
+		.filter((f) => f.match(/^(lib|typings)[/\\]/))
+		.map((f) => path.join(ROOT, f));
 
-	const fStats = await Promise.all(stagedFiles.map(f => fs.stat(f)));
+	const fStats = await Promise.all(stagedFiles.map((f) => fs.stat(f)));
 	fStats.forEach((fStat, index) => {
 		if (fStat.mtimeMs > docStat.mtimeMs) {
 			const fPath = stagedFiles[index];

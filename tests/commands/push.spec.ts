@@ -80,7 +80,7 @@ const commonQueryParams = [
 
 const itSkipWindows = process.platform === 'win32' ? it.skip : it;
 
-describe('balena push', function() {
+describe('balena push', function () {
 	let api: BalenaAPIMock;
 	let builder: BuilderMock;
 	const isWindows = process.platform === 'win32';
@@ -167,7 +167,7 @@ describe('balena push', function() {
 			path.join(builderResponsePath, responseFilename),
 			'utf8',
 		);
-		const expectedQueryParams = commonQueryParams.map(i =>
+		const expectedQueryParams = commonQueryParams.map((i) =>
 			i[0] === 'dockerfilePath' ? ['dockerfilePath', 'Dockerfile-alt'] : i,
 		);
 
@@ -471,7 +471,7 @@ describe('balena push', function() {
 	});
 });
 
-describe('balena push: project validation', function() {
+describe('balena push: project validation', function () {
 	it('should raise ExpectedError if the project folder is not a directory', async () => {
 		const projectPath = path.join(
 			projectsPath,

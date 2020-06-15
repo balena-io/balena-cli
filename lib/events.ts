@@ -45,7 +45,7 @@ const getMixpanel = _.once((balenaUrl: string) => {
  */
 export async function trackCommand(commandSignature: string) {
 	const Sentry = await import('@sentry/node');
-	Sentry.configureScope(scope => {
+	Sentry.configureScope((scope) => {
 		scope.setExtra('command', commandSignature);
 	});
 	const balena = getBalenaSdk();
@@ -56,7 +56,7 @@ export async function trackCommand(commandSignature: string) {
 		mixpanel: balenaUrlPromise.then(getMixpanel),
 	})
 		.then(({ username, balenaUrl, mixpanel }) => {
-			Sentry.configureScope(scope => {
+			Sentry.configureScope((scope) => {
 				scope.setUser({
 					id: username,
 					username,

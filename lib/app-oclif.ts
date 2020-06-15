@@ -42,7 +42,7 @@ export async function run(command: string[], options: AppOptions) {
 				return require('@oclif/command/flush');
 			}
 		},
-		error => {
+		(error) => {
 			// oclif sometimes exits with ExitError code 0 (not an error)
 			// (Avoid `error instanceof ExitError` here for the reasons explained
 			// in the CONTRIBUTING.md file regarding the `instanceof` operator.)

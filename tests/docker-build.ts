@@ -89,7 +89,7 @@ export async function inspectTarStream(
 	});
 
 	expect(found).to.deep.equal(
-		_.mapValues(expectedFiles, v => _.omit(v, 'testStream', 'contents')),
+		_.mapValues(expectedFiles, (v) => _.omit(v, 'testStream', 'contents')),
 	);
 }
 
@@ -220,7 +220,7 @@ export async function testPushBuildStream(o: {
 			const queryParams = Array.from(url.searchParams.entries());
 			expect(queryParams).to.have.deep.members(expectedQueryParams);
 		},
-		checkBuildRequestBody: buildRequestBody =>
+		checkBuildRequestBody: (buildRequestBody) =>
 			inspectTarStream(buildRequestBody, o.expectedFiles, o.projectPath),
 	});
 

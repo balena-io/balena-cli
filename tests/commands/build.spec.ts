@@ -65,7 +65,7 @@ const commonComposeQueryParams = [
 // "itSS" means "it() Skip Standalone"
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;
 
-describe('balena build', function() {
+describe('balena build', function () {
 	let api: BalenaAPIMock;
 	let docker: DockerMock;
 	const isWindows = process.platform === 'win32';
@@ -360,7 +360,7 @@ describe('balena build', function() {
 	});
 });
 
-describe('balena build: project validation', function() {
+describe('balena build: project validation', function () {
 	it('should raise ExpectedError if a Dockerfile cannot be found', async () => {
 		const projectPath = path.join(
 			projectsPath,

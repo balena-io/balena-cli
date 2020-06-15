@@ -23,7 +23,7 @@ import { SupervisorMock } from '../supervisor-mock';
 
 const itS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it : it.skip;
 
-describe('balena logs', function() {
+describe('balena logs', function () {
 	let api: BalenaAPIMock;
 	let supervisor: SupervisorMock;
 
@@ -53,7 +53,7 @@ describe('balena logs', function() {
 
 		const removeTimestamps = (logLine: string) =>
 			logLine.replace(/(?<=\[Logs\]) \[.+?\]/, '');
-		const cleanedOut = cleanOutput(out, true).map(l => removeTimestamps(l));
+		const cleanedOut = cleanOutput(out, true).map((l) => removeTimestamps(l));
 
 		expect(cleanedOut).to.deep.equal([
 			'[Logs] Streaming logs',

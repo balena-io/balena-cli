@@ -45,7 +45,7 @@ export default class KeyCmd extends Command {
 		{
 			name: 'id',
 			description: 'balenaCloud ID for the SSH key',
-			parse: x => parseAsInteger(x, 'id'),
+			parse: (x) => parseAsInteger(x, 'id'),
 			required: true,
 		},
 	];

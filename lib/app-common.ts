@@ -54,7 +54,7 @@ export const setupSentry = onceAsync(async () => {
 		dsn: config.sentryDsn,
 		release: packageJSON.version,
 	});
-	Sentry.configureScope(scope => {
+	Sentry.configureScope((scope) => {
 		scope.setExtras({
 			is_pkg: !!(process as any).pkg,
 			node_version: process.version,
@@ -173,9 +173,9 @@ async function setupGlobalAgentProxy(
 	env.GLOBAL_AGENT_ENVIRONMENT_VARIABLE_NAMESPACE = '';
 	env.NO_PROXY = [
 		...requiredNoProxy,
-		...(noProxy ? noProxy.split(',').filter(v => v) : privateNoProxy),
+		...(noProxy ? noProxy.split(',').filter((v) => v) : privateNoProxy),
 	]
-		.filter(i => !doProxy.includes(i))
+		.filter((i) => !doProxy.includes(i))
 		.join(',');
 
 	if (proxy) {

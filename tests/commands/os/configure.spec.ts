@@ -6,7 +6,7 @@ import { runCommand } from '../../helpers';
 import { BalenaAPIMock } from '../../balena-api-mock';
 
 if (process.platform !== 'win32') {
-	describe('balena os configure', function() {
+	describe('balena os configure', function () {
 		let api: BalenaAPIMock;
 
 		beforeEach(async () => {

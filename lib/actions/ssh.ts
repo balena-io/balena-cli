@@ -101,7 +101,7 @@ async function getContainerId(
 		});
 		const containers = await new Promise<string>((resolve, reject) => {
 			const output: string[] = [];
-			subprocess.stdout.on('data', chunk => output.push(chunk.toString()));
+			subprocess.stdout.on('data', (chunk) => output.push(chunk.toString()));
 			subprocess.on('close', (code: number) => {
 				if (code !== 0) {
 					reject(

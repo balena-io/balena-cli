@@ -22,7 +22,7 @@ import { isV12 } from '../../../lib/utils/version';
 import { BalenaAPIMock } from '../../balena-api-mock';
 import { runCommand } from '../../helpers';
 
-describe('balena envs', function() {
+describe('balena envs', function () {
 	const appName = 'test';
 	let fullUUID: string;
 	let shortUUID: string;
@@ -33,9 +33,7 @@ describe('balena envs', function() {
 		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetMixpanel({ optional: true });
 		// Random device UUID used to frustrate _.memoize() in utils/cloud.ts
-		fullUUID = require('crypto')
-			.randomBytes(16)
-			.toString('hex');
+		fullUUID = require('crypto').randomBytes(16).toString('hex');
 		shortUUID = fullUUID.substring(0, 7);
 	});
 

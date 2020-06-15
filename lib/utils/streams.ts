@@ -23,14 +23,11 @@ export function buffer(
 ): Promise<NodeJS.ReadableStream> {
 	const fileWriteStream = fs.createWriteStream(bufferFile);
 
-	return new Promise(function(resolve, reject) {
-		stream
-			.on('error', reject)
-			.on('end', resolve)
-			.pipe(fileWriteStream);
+	return new Promise(function (resolve, reject) {
+		stream.on('error', reject).on('end', resolve).pipe(fileWriteStream);
 	}).then(
 		() =>
-			new Promise(function(resolve, reject) {
+			new Promise(function (resolve, reject) {
 				const fstream = fs.createReadStream(bufferFile);
 
 				fstream.on('open', () => resolve(fstream)).on('error', reject);

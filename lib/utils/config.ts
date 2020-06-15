@@ -72,7 +72,7 @@ export function generateBaseConfig(
 		application.app_name,
 		options,
 	) as Promise<ImgConfig & { apiKey?: string }>;
-	return promise.tap(config => {
+	return promise.tap((config) => {
 		// os.getConfig always returns a config for an app
 		delete config.apiKey;
 
@@ -91,7 +91,7 @@ export function generateApplicationConfig(
 	application: BalenaSdk.Application,
 	options: { version: string; deviceType?: string },
 ) {
-	return generateBaseConfig(application, options).tap(config => {
+	return generateBaseConfig(application, options).tap((config) => {
 		if (semver.satisfies(options.version, '<2.7.8')) {
 			return addApplicationKey(config, application.id);
 		}
@@ -108,12 +108,12 @@ export function generateDeviceConfig(
 ) {
 	return getBalenaSdk()
 		.models.application.get(device.belongs_to__application.__id)
-		.then(application => {
+		.then((application) => {
 			const baseConfigOpts = {
 				...options,
 				deviceType: device.device_type,
 			};
-			return generateBaseConfig(application, baseConfigOpts).tap(config => {
+			return generateBaseConfig(application, baseConfigOpts).tap((config) => {
 				if (
 					deviceApiKey == null &&
 					semver.satisfies(options.version, '<2.0.3')
@@ -123,7 +123,7 @@ export function generateDeviceConfig(
 				return addDeviceKey(config, device.uuid, deviceApiKey || true);
 			});
 		})
-		.then(config => {
+		.then((config) => {
 			// Associate a device, to prevent the supervisor
 			// from creating another one on its own.
 			config.registered_at = Math.floor(Date.now() / 1000);
@@ -137,7 +137,7 @@ export function generateDeviceConfig(
 function addApplicationKey(config: any, applicationNameOrId: string | number) {
 	return getBalenaSdk()
 		.models.application.generateApiKey(applicationNameOrId)
-		.tap(apiKey => {
+		.tap((apiKey) => {
 			config.apiKey = apiKey;
 		});
 }
@@ -145,7 +145,7 @@ function addApplicationKey(config: any, applicationNameOrId: string | number) {
 function addProvisioningKey(config: any, applicationNameOrId: string | number) {
 	return getBalenaSdk()
 		.models.application.generateProvisioningKey(applicationNameOrId)
-		.tap(apiKey => {
+		.tap((apiKey) => {
 			config.apiKey = apiKey;
 		});
 }
@@ -161,7 +161,7 @@ function addDeviceKey(
 		} else {
 			return customDeviceApiKey;
 		}
-	}).tap(deviceApiKey => {
+	}).tap((deviceApiKey) => {
 		config.deviceApiKey = deviceApiKey;
 	});
 }

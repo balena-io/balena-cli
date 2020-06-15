@@ -105,7 +105,7 @@ export class DeviceAPI {
 				json: true,
 			},
 			this.logger,
-		).then(body => {
+		).then((body) => {
 			return body.state;
 		});
 	}
@@ -120,7 +120,7 @@ export class DeviceAPI {
 				json: true,
 			},
 			this.logger,
-		).then(body => {
+		).then((body) => {
 			return body.info;
 		});
 	}
@@ -166,7 +166,7 @@ export class DeviceAPI {
 		return DeviceAPI.promisifiedRequest(request.get, {
 			url,
 			json: true,
-		}).then(body => {
+		}).then((body) => {
 			if (body.status !== 'success') {
 				throw new ApiErrors.DeviceAPIError(
 					'Non-successful response from supervisor version endpoint',
@@ -183,7 +183,7 @@ export class DeviceAPI {
 		return DeviceAPI.promisifiedRequest(request.get, {
 			url,
 			json: true,
-		}).then(body => {
+		}).then((body) => {
 			if (body.status !== 'success') {
 				throw new ApiErrors.DeviceAPIError(
 					'Non-successful response from supervisor status endpoint',
@@ -201,7 +201,7 @@ export class DeviceAPI {
 		return new Bluebird((resolve, reject) => {
 			const req = request.get(url);
 
-			req.on('error', reject).on('response', async res => {
+			req.on('error', reject).on('response', async (res) => {
 				if (res.statusCode !== 200) {
 					reject(
 						new ApiErrors.DeviceAPIError(
@@ -261,7 +261,7 @@ export class DeviceAPI {
 		}
 
 		return Bluebird.fromCallback<[request.Response, { message: string }]>(
-			cb => {
+			(cb) => {
 				return requestMethod(opts, cb);
 			},
 			{ multiArgs: true },

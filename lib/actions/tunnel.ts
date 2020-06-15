@@ -130,7 +130,7 @@ export const tunnel: CommandDefinition<Args, Options> = {
 		logger.logInfo(`Opening a tunnel to ${device.uuid}...`);
 
 		const localListeners = _.chain(ports)
-			.map(mapping => {
+			.map((mapping) => {
 				const regexResult = /^([0-9]+)(?:$|\:(?:([\w\:\.]+)\:|)([0-9]+))$/.exec(
 					mapping,
 				);
@@ -168,7 +168,7 @@ export const tunnel: CommandDefinition<Args, Options> = {
 			})
 			.map(({ localPort, localAddress, remotePort }) => {
 				return tunnelConnectionToDevice(device.uuid, remotePort, sdk)
-					.then(handler =>
+					.then((handler) =>
 						createServer((client: Socket) => {
 							return handler(client)
 								.then(() => {
@@ -181,7 +181,7 @@ export const tunnel: CommandDefinition<Args, Options> = {
 										remotePort,
 									);
 								})
-								.catch(err =>
+								.catch((err) =>
 									logConnection(
 										client.remoteAddress || '',
 										client.remotePort || 0,
@@ -195,7 +195,7 @@ export const tunnel: CommandDefinition<Args, Options> = {
 						}),
 					)
 					.then(
-						server =>
+						(server) =>
 							new Bluebird.Promise<Server>((resolve, reject) => {
 								server.on('error', reject);
 								server.listen(localPort, localAddress, () => {

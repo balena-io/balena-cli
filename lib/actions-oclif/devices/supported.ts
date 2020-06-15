@@ -80,7 +80,7 @@ export default class DevicesSupportedCmd extends Command {
 		const { flags: options } = this.parse<FlagsDef, {}>(DevicesSupportedCmd);
 		let deviceTypes: Array<Partial<SDK.DeviceType>> = await getBalenaSdk()
 			.models.config.getDeviceTypes()
-			.map(d => {
+			.map((d) => {
 				if (d.aliases && d.aliases.length) {
 					// remove aliases that are equal to the slug
 					d.aliases = d.aliases.filter((alias: string) => alias !== d.slug);
@@ -95,7 +95,7 @@ export default class DevicesSupportedCmd extends Command {
 				return d;
 			});
 		if (!options.discontinued) {
-			deviceTypes = deviceTypes.filter(dt => dt.state !== 'DISCONTINUED');
+			deviceTypes = deviceTypes.filter((dt) => dt.state !== 'DISCONTINUED');
 		}
 		const fields = options.verbose
 			? ['slug', 'aliases', 'arch', 'state', 'name']
@@ -103,7 +103,7 @@ export default class DevicesSupportedCmd extends Command {
 			? ['slug', 'aliases', 'arch', 'name']
 			: ['slug', 'name'];
 		deviceTypes = _.sortBy(
-			deviceTypes.map(d => _.pick(d, fields) as Partial<SDK.DeviceType>),
+			deviceTypes.map((d) => _.pick(d, fields) as Partial<SDK.DeviceType>),
 			fields,
 		);
 		if (options.json) {

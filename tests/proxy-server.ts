@@ -58,14 +58,14 @@ import * as http from 'http';
 
 const proxyServers: http.Server[] = [];
 
-after(function() {
+after(function () {
 	if (proxyServers.length) {
 		if (process.env.DEBUG) {
 			console.error(
 				`[debug] Closing proxy servers (count=${proxyServers.length})`,
 			);
 		}
-		proxyServers.forEach(s => s.close());
+		proxyServers.forEach((s) => s.close());
 		proxyServers.splice(0);
 	}
 });
@@ -86,7 +86,7 @@ async function createProxyServer(): Promise<[number, number]> {
 	const interceptorPort = await createInterceptorServer();
 
 	const proxy = httpProxy.createProxyServer();
-	proxy.on('error', function(
+	proxy.on('error', function (
 		err: Error,
 		_req: http.IncomingMessage,
 		res: http.ServerResponse,
@@ -97,7 +97,7 @@ async function createProxyServer(): Promise<[number, number]> {
 		res.end(msg);
 	});
 
-	const server = http.createServer(function(
+	const server = http.createServer(function (
 		req: http.IncomingMessage,
 		res: http.ServerResponse,
 	) {
@@ -166,7 +166,7 @@ async function createInterceptorServer(): Promise<number> {
 				};
 				const srvReq = http.request(reqOpts);
 				srvReq
-					.on('error', err => {
+					.on('error', (err) => {
 						console.error(
 							`Interceptor server error in onward request:\n${err}`,
 						);

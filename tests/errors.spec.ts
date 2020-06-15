@@ -124,7 +124,7 @@ describe('handleError() function', () => {
 		'to be one of',
 	];
 
-	messagesToMatch.forEach(message => {
+	messagesToMatch.forEach((message) => {
 		it(`should match as expected: "${message}"`, async () => {
 			await ErrorsModule.handleError(new Error(message));
 
@@ -146,7 +146,7 @@ describe('handleError() function', () => {
 		new BalenaExpiredToken('test'),
 	];
 
-	typedErrorsToMatch.forEach(typedError => {
+	typedErrorsToMatch.forEach((typedError) => {
 		it(`should treat typedError ${typedError.name} as expected`, async () => {
 			await ErrorsModule.handleError(typedError);
 

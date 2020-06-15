@@ -56,7 +56,7 @@ const commonQueryParams = [
 	['labels', ''],
 ];
 
-describe('balena deploy', function() {
+describe('balena deploy', function () {
 	let api: BalenaAPIMock;
 	let docker: DockerMock;
 	let sentryStatus: boolean | undefined;
@@ -215,7 +215,7 @@ describe('balena deploy', function() {
 	});
 });
 
-describe('balena deploy: project validation', function() {
+describe('balena deploy: project validation', function () {
 	let api: BalenaAPIMock;
 	this.beforeEach(() => {
 		api = new BalenaAPIMock();

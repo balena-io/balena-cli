@@ -37,8 +37,8 @@ export class CommandHelp {
 		return CommandHelp.compact([
 			// this.command.id,
 			(this.command.args || [])
-				.filter(a => !a.hidden)
-				.map(a => this.arg(a))
+				.filter((a) => !a.hidden)
+				.map((a) => this.arg(a))
 				.join(' '),
 		]).join(' ');
 	}
@@ -54,6 +54,6 @@ export function capitanoizeOclifUsage(
 ): string {
 	return (oclifUsage || '')
 		.toString()
-		.replace(/(?<=\s)[A-Z]+(?=(\s|$))/g, match => `<${match}>`)
+		.replace(/(?<=\s)[A-Z]+(?=(\s|$))/g, (match) => `<${match}>`)
 		.toLowerCase();
 }

@@ -47,7 +47,7 @@ export default class KeysCmd extends Command {
 		const keys = await getBalenaSdk().models.key.getAll();
 
 		// Use 'name' instead of 'title' to match dashboard.
-		const displayKeys: Array<{ id: number; name: string }> = keys.map(k => {
+		const displayKeys: Array<{ id: number; name: string }> = keys.map((k) => {
 			return { id: k.id, name: k.title };
 		});
 

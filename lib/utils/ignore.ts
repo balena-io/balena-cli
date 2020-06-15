@@ -93,7 +93,7 @@ export class FileIgnorer {
 	): Promise<void> {
 		const contents = await fs.readFile(fullPath, 'utf8');
 
-		contents.split('\n').forEach(line => {
+		contents.split('\n').forEach((line) => {
 			// ignore empty lines and comments
 			if (/\s*#/.test(line) || _.isEmpty(line)) {
 				return;
@@ -205,7 +205,7 @@ async function listFiles(
 	const files: FileStats[] = [];
 	const dirEntries = await fs.readdir(dir);
 	await Promise.all(
-		dirEntries.map(async entry => {
+		dirEntries.map(async (entry) => {
 			const filePath = path.join(dir, entry);
 			const stats = await fs.stat(filePath);
 			if (stats.isDirectory()) {

@@ -38,7 +38,7 @@ export class BuilderMock extends NockMock {
 		checkURI: (uri: string) => Promise<void>;
 		checkBuildRequestBody: (requestBody: string | Buffer) => Promise<void>;
 	}) {
-		this.optPost(/^\/v3\/build($|[(?])/, opts).reply(async function(
+		this.optPost(/^\/v3\/build($|[(?])/, opts).reply(async function (
 			uri,
 			requestBody,
 			callback,
@@ -48,7 +48,7 @@ export class BuilderMock extends NockMock {
 				await opts.checkURI(uri);
 				if (typeof requestBody === 'string') {
 					const gzipped = Buffer.from(requestBody, 'hex');
-					const gunzipped = await Bluebird.fromCallback<Buffer>(cb => {
+					const gunzipped = await Bluebird.fromCallback<Buffer>((cb) => {
 						zlib.gunzip(gzipped, cb);
 					});
 					await opts.checkBuildRequestBody(gunzipped);

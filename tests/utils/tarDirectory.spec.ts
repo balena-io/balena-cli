@@ -38,7 +38,7 @@ interface TarFiles {
 
 const itSkipWindows = process.platform === 'win32' ? it.skip : it;
 
-describe('compare new and old tarDirectory implementations', function() {
+describe('compare new and old tarDirectory implementations', function () {
 	const extraContent = 'extra';
 	const extraEntry: tar.Headers = {
 		name: 'extra.txt',
@@ -61,7 +61,7 @@ describe('compare new and old tarDirectory implementations', function() {
 	// (with a mismatched fileSize 13 vs 5 for 'symlink-a.txt'), ensure that the
 	// `core.symlinks` property is set to `true` in the `.git/config` file. Ref:
 	// https://git-scm.com/docs/git-config#Documentation/git-config.txt-coresymlinks
-	it('should produce the expected file list', async function() {
+	it('should produce the expected file list', async function () {
 		const dockerignoreProjDir = path.join(
 			projectsPath,
 			'no-docker-compose',
@@ -92,7 +92,7 @@ describe('compare new and old tarDirectory implementations', function() {
 		expect(fileList).to.deep.equal(expectedFiles);
 	});
 
-	it('should produce the expected file list (symbolic links)', async function() {
+	it('should produce the expected file list (symbolic links)', async function () {
 		const projectPath = path.join(
 			projectsPath,
 			'no-docker-compose',
@@ -115,7 +115,7 @@ describe('compare new and old tarDirectory implementations', function() {
 	// Skip Windows because the old tarDirectory() implementation (still used when
 	// '--nogitignore' is not provided) uses the old `zeit/dockerignore` npm package
 	// that is broken on Windows (reason why we created `@balena/dockerignore`).
-	itSkipWindows('should produce a compatible tar stream', async function() {
+	itSkipWindows('should produce a compatible tar stream', async function () {
 		const dockerignoreProjDir = path.join(
 			projectsPath,
 			'no-docker-compose',
@@ -146,7 +146,7 @@ describe('compare new and old tarDirectory implementations', function() {
 
 	itSkipWindows(
 		'should produce a compatible tar stream (symbolic links)',
-		async function() {
+		async function () {
 			const dockerignoreProjDir = path.join(
 				projectsPath,
 				'no-docker-compose',
@@ -179,7 +179,7 @@ async function getTarPackFiles(
 	return await new Promise((resolve, reject) => {
 		extract
 			.on('error', reject)
-			.on('entry', async function(header, stream, next) {
+			.on('entry', async function (header, stream, next) {
 				expect(fileList).to.not.have.property(header.name);
 				fileList[header.name] = {
 					fileSize: header.size,
@@ -188,7 +188,7 @@ async function getTarPackFiles(
 				await drainStream(stream);
 				next();
 			})
-			.on('finish', function() {
+			.on('finish', function () {
 				resolve(fileList);
 			});
 		pack.pipe(extract);

@@ -118,7 +118,7 @@ async function buildPkg() {
 
 	console.log(`\nCopying to build-bin:\n${nativeExtensionPaths.join('\n')}`);
 
-	await Bluebird.map(nativeExtensionPaths, extPath =>
+	await Bluebird.map(nativeExtensionPaths, (extPath) =>
 		fs.copy(
 			extPath,
 			extPath.replace(
@@ -268,7 +268,7 @@ export async function buildOclifInstaller() {
 		}
 		for (const dir of dirs) {
 			console.log(`rimraf(${dir})`);
-			await Bluebird.fromCallback(cb => rimraf(dir, cb));
+			await Bluebird.fromCallback((cb) => rimraf(dir, cb));
 		}
 		console.log('=======================================================');
 		console.log(`oclif-dev "${packCmd}" "${packOpts.join('" "')}"`);

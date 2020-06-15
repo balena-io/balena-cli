@@ -86,7 +86,7 @@ async function spawnAndPipe(
 	await new Promise((resolve, reject) => {
 		const ps: ChildProcess = spawn(spawnCmd, spawnArgs, spawnOpts);
 		ps.on('error', reject);
-		ps.on('exit', codeOrSignal => {
+		ps.on('exit', (codeOrSignal) => {
 			if (codeOrSignal !== 0) {
 				const errMsgCmd = `[${[spawnCmd, ...spawnArgs].join()}]`;
 				reject(

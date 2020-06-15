@@ -92,7 +92,7 @@ const ONLINE_RESOURCES = `
       For bug reports or feature requests, see: https://github.com/balena-io/balena-cli/issues/
 `;
 
-describe('balena help', function() {
+describe('balena help', function () {
 	it('should list primary command summaries', async () => {
 		const { out, err } = await runCommand('help');
 

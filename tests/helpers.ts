@@ -131,7 +131,7 @@ async function runCommandInSubprocess(
 		// override default proxy exclusion to allow proxying of requests to 127.0.0.1
 		BALENARC_DO_PROXY: '127.0.0.1,localhost',
 	};
-	await new Promise(resolve => {
+	await new Promise((resolve) => {
 		const child = execFile(
 			standalonePath,
 			cmd.split(' '),
@@ -165,8 +165,8 @@ ${$error}
 	const splitLines = (lines: string) =>
 		lines
 			.split(/[\r\n]/) // includes '\r' in isolation, used in progress bars
-			.filter(l => l)
-			.map(l => l + '\n');
+			.filter((l) => l)
+			.map((l) => l + '\n');
 
 	return filterCliOutputForTests({
 		exitCode,
@@ -207,17 +207,15 @@ export const balenaAPIMock = () => {
 		nock.activate();
 	}
 
-	return nock(/./)
-		.get('/config/vars')
-		.reply(200, {
-			reservedNames: [],
-			reservedNamespaces: [],
-			invalidRegex: '/^d|W/',
-			whiteListedNames: [],
-			whiteListedNamespaces: [],
-			blackListedNames: [],
-			configVarSchema: [],
-		});
+	return nock(/./).get('/config/vars').reply(200, {
+		reservedNames: [],
+		reservedNamespaces: [],
+		invalidRegex: '/^d|W/',
+		whiteListedNames: [],
+		whiteListedNamespaces: [],
+		blackListedNames: [],
+		configVarSchema: [],
+	});
 };
 
 export function cleanOutput(
@@ -280,7 +278,7 @@ export function fillTemplateArray(
 	templateStringArray: Array<string | string[]>,
 	templateVars: object,
 ): Array<string | string[]> {
-	return templateStringArray.map(i =>
+	return templateStringArray.map((i) =>
 		Array.isArray(i)
 			? fillTemplateArray(i, templateVars)
 			: fillTemplate(i, templateVars),

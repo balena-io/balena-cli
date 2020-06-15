@@ -41,7 +41,7 @@ Options:
     --type, -t <type>                   application device type (Check available types with \`balena devices supported\`)
 `;
 
-describe('balena app create', function() {
+describe('balena app create', function () {
 	let api: BalenaAPIMock;
 
 	beforeEach(() => {

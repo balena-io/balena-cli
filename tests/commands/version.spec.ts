@@ -23,7 +23,7 @@ const nodeVersion = process.version.startsWith('v')
 	? process.version.slice(1)
 	: process.version;
 
-describe('balena version', function() {
+describe('balena version', function () {
 	it('should print the installed version of the CLI', async () => {
 		const { err, out } = await runCommand('version');
 		expect(err).to.be.empty;

@@ -188,7 +188,7 @@ export async function tarDirectory(
 	let readFile: (file: string) => Promise<Buffer>;
 	if (process.platform === 'win32') {
 		const { readFileWithEolConversion } = require('./eol-conversion');
-		readFile = file => readFileWithEolConversion(file, convertEol);
+		readFile = (file) => readFileWithEolConversion(file, convertEol);
 	} else {
 		readFile = fs.readFile;
 	}
@@ -222,7 +222,7 @@ export function printGitignoreWarn(
 	dockerignoreFile: string,
 	gitignoreFiles: string[],
 ) {
-	const ignoreFiles = [dockerignoreFile, ...gitignoreFiles].filter(e => e);
+	const ignoreFiles = [dockerignoreFile, ...gitignoreFiles].filter((e) => e);
 	if (ignoreFiles.length === 0) {
 		return;
 	}
@@ -346,7 +346,7 @@ export async function makeBuildTasks(
 	const buildTasks = await MultiBuild.splitBuildStream(composition, tarStream);
 
 	logger.logDebug('Found build tasks:');
-	_.each(buildTasks, task => {
+	_.each(buildTasks, (task) => {
 		let infoStr: string;
 		if (task.external) {
 			infoStr = `image pull [${task.imageName}]`;
@@ -369,7 +369,7 @@ export async function makeBuildTasks(
 	);
 
 	logger.logDebug('Found project types:');
-	_.each(buildTasks, task => {
+	_.each(buildTasks, (task) => {
 		if (task.external) {
 			logger.logDebug(`    ${task.serviceName}: External image`);
 		} else {
@@ -403,7 +403,7 @@ async function performResolution(
 		);
 		// Do one task at a time (Bluebird.each instead of Bluebird.all)
 		// in order to reduce peak memory usage. Resolves to buildTasks.
-		Bluebird.each(buildTasks, buildTask => {
+		Bluebird.each(buildTasks, (buildTask) => {
 			// buildStream is falsy for "external" tasks (image pull)
 			if (!buildTask.buildStream) {
 				return buildTask;
@@ -551,7 +551,7 @@ export async function validateProjectDirectory(
 			const checkCompose = async (folder: string) => {
 				return _.some(
 					await Promise.all(
-						compositionFileNames.map(filename =>
+						compositionFileNames.map((filename) =>
 							fs.exists(path.join(folder, filename)),
 						),
 					),
@@ -615,7 +615,7 @@ async function pushServiceImages(
 	const { pushAndUpdateServiceImages } = await import('./compose');
 	const releaseMod = await import('balena-release');
 	logger.logInfo('Pushing images to registry...');
-	await pushAndUpdateServiceImages(docker, token, taggedImages, async function(
+	await pushAndUpdateServiceImages(docker, token, taggedImages, async function (
 		serviceImage,
 	) {
 		logger.logDebug(
@@ -713,12 +713,12 @@ function runSpinner(
 	spinner: () => string,
 	msg: string,
 ) {
-	const runloop = createRunLoop(function() {
+	const runloop = createRunLoop(function () {
 		tty.clearLine();
 		tty.writeLine(`${msg} ${spinner()}`);
 		return tty.cursorUp();
 	});
-	runloop.onEnd = function() {
+	runloop.onEnd = function () {
 		tty.clearLine();
 		return tty.writeLine(msg);
 	};

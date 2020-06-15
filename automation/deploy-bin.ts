@@ -61,7 +61,7 @@ export async function release() {
 }
 
 /** Return a cached Octokit instance, creating a new one as needed. */
-const getOctokit = _.once(function() {
+const getOctokit = _.once(function () {
 	const Octokit = (require('@octokit/rest') as typeof import('@octokit/rest')).Octokit.plugin(
 		require('@octokit/plugin-throttling'),
 	);

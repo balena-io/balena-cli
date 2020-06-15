@@ -80,7 +80,7 @@ async function getAppOwner(sdk: BalenaSDK, appName: string) {
 	// user has access to a collab app with the same name as a personal app. We
 	// present a list to the user which shows the fully qualified application
 	// name (user/appname) and allows them to select
-	const entries = _.map(applications, app => {
+	const entries = _.map(applications, (app) => {
 		const username = _.get(app, 'user[0].username');
 		return {
 			name: `${username}/${appName}`,
@@ -406,7 +406,7 @@ export const push: CommandDefinition<
 								: options.env || [],
 						convertEol,
 					}),
-				).catch(BuildError, e => {
+				).catch(BuildError, (e) => {
 					throw new ExpectedError(e.toString());
 				});
 				break;

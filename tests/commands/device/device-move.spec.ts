@@ -36,7 +36,7 @@ Options:
     --application, -a, --app <application> application name
 `;
 
-describe('balena device move', function() {
+describe('balena device move', function () {
 	let api: BalenaAPIMock;
 
 	beforeEach(() => {

@@ -74,9 +74,9 @@ export default class AppsCmd extends Command {
 		);
 
 		// Add extended properties
-		applications.forEach(application => {
+		applications.forEach((application) => {
 			application.device_count = _.size(application.owns__device);
-			application.online_devices = _.sumBy(application.owns__device, d =>
+			application.online_devices = _.sumBy(application.owns__device, (d) =>
 				d.is_online === true ? 1 : 0,
 			);
 		});

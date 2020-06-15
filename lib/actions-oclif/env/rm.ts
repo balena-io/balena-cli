@@ -64,7 +64,7 @@ export default class EnvRmCmd extends Command {
 			name: 'id',
 			required: true,
 			description: "variable's numeric database ID",
-			parse: input => parseAsInteger(input, 'id'),
+			parse: (input) => parseAsInteger(input, 'id'),
 		},
 	];
 

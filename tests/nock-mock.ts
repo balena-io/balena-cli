@@ -91,7 +91,7 @@ export class NockMock {
 		inspectRequest: (uri: string, requestBody: nock.Body) => void,
 		replyBody: nock.ReplyBody,
 	) {
-		return function(
+		return function (
 			this: nock.ReplyFnContext,
 			uri: string,
 			requestBody: nock.Body,
@@ -166,13 +166,13 @@ export class NockMock {
 		let mocks = scope.pendingMocks();
 		console.error(`pending mocks ${mocks.length}: ${mocks}`);
 
-		this.scope.on('request', function(_req, _interceptor, _body) {
+		this.scope.on('request', function (_req, _interceptor, _body) {
 			console.log(`>> REQUEST:` + _req.path);
 			mocks = scope.pendingMocks();
 			console.error(`pending mocks ${mocks.length}: ${mocks}`);
 		});
 
-		this.scope.on('replied', function(_req) {
+		this.scope.on('replied', function (_req) {
 			console.log(`<< REPLIED:` + _req.path);
 		});
 	}

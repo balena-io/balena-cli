@@ -100,7 +100,7 @@ export const osUpdate: CommandDefinition<OsUpdate.Args, OsUpdate.Options> = {
 			targetOsVersion = await form.ask({
 				message: 'Target OS version',
 				type: 'list',
-				choices: hupVersionInfo.versions.map(version => ({
+				choices: hupVersionInfo.versions.map((version) => ({
 					name:
 						hupVersionInfo.recommended === version
 							? `${version} (recommended)`

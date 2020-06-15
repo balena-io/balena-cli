@@ -100,7 +100,7 @@
     }
   },
   "devDependencies": {
-    "@balena/lint": "^4.1.1",
+    "@balena/lint": "^5.1.0",
     "@oclif/config": "^1.14.0",
     "@oclif/dev-cli": "1.22.0",
     "@oclif/parser": "^3.8.4",

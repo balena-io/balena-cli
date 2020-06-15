@@ -21,7 +21,7 @@ import { isV12 } from '../../../build/utils/version';
 import { BalenaAPIMock } from '../../balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
-describe('balena devices supported', function() {
+describe('balena devices supported', function () {
 	let api: BalenaAPIMock;
 
 	beforeEach(() => {
@@ -59,11 +59,11 @@ describe('balena devices supported', function() {
 		expect(lines).to.have.lengthOf.at.least(2);
 
 		// Discontinued devices should be filtered out from results
-		expect(lines.some(l => l.includes('DISCONTINUED'))).to.be.false;
+		expect(lines.some((l) => l.includes('DISCONTINUED'))).to.be.false;
 
 		// Experimental devices should be listed as beta
-		expect(lines.some(l => l.includes('EXPERIMENTAL'))).to.be.false;
-		expect(lines.some(l => l.includes('NEW'))).to.be.true;
+		expect(lines.some((l) => l.includes('EXPERIMENTAL'))).to.be.false;
+		expect(lines.some((l) => l.includes('NEW'))).to.be.true;
 
 		expect(err).to.eql([]);
 	});

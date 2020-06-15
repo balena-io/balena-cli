@@ -36,7 +36,7 @@ const createServer = ({ port }: { port: number }) => {
 	app.set('views', path.join(__dirname, 'pages'));
 
 	const server = app.listen(port);
-	server.on('connection', socket => serverSockets.push(socket));
+	server.on('connection', (socket) => serverSockets.push(socket));
 
 	return { app, server };
 };
@@ -55,7 +55,7 @@ const createServer = ({ port }: { port: number }) => {
  * https://github.com/nodejs/node-v0.x-archive/issues/9066
  */
 export function shutdownServer() {
-	serverSockets.forEach(s => s.unref());
+	serverSockets.forEach((s) => s.unref());
 	serverSockets.splice(0);
 }
 

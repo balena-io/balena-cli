@@ -55,7 +55,7 @@ function renderOclifCommand(command: OclifCommand): string[] {
 	result.push(description);
 
 	if (!_.isEmpty(command.examples)) {
-		result.push('Examples:', command.examples!.map(v => `\t${v}`).join('\n'));
+		result.push('Examples:', command.examples!.map((v) => `\t${v}`).join('\n'));
 	}
 
 	if (!_.isEmpty(command.args)) {
@@ -106,7 +106,7 @@ function renderToc(categories: Category[]): string[] {
 		result.push(`- ${category.title}`);
 		result.push(
 			category.commands
-				.map(command => {
+				.map((command) => {
 					const signature =
 						typeof command === 'object'
 							? command.signature // Capitano
@@ -139,10 +139,7 @@ function sortCommands(doc: Document): void {
 					(cmd: CapitanoCommand | OclifCommand, x: string) =>
 						typeof cmd === 'object' // Capitano vs oclif command
 							? cmd.signature.replace(/\W+/g, ' ').includes(x)
-							: (cmd.usage || '')
-									.toString()
-									.replace(/\W+/g, ' ')
-									.includes(x),
+							: (cmd.usage || '').toString().replace(/\W+/g, ' ').includes(x),
 				),
 			);
 		}

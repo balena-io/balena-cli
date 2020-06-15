@@ -63,7 +63,7 @@ export async function performLocalDeviceSSH(
 
 		const serviceNames: string[] = [];
 		const containers = allContainers
-			.map(container => {
+			.map((container) => {
 				for (const name of container.Names) {
 					if (regex.test(name)) {
 						return { id: container.Id, name };
@@ -75,7 +75,7 @@ export async function performLocalDeviceSSH(
 				}
 				return;
 			})
-			.filter(c => c != null);
+			.filter((c) => c != null);
 
 		if (containers.length === 0) {
 			throw new ExpectedError(
