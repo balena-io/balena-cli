@@ -217,6 +217,17 @@ describe('balena deploy', function() {
 });
 
 describe('balena deploy: project validation', function() {
+	let api: BalenaAPIMock;
+	this.beforeEach(() => {
+		api = new BalenaAPIMock();
+		api.expectGetWhoAmI({ optional: true, persist: true });
+	});
+
+	this.afterEach(() => {
+		// Check all expected api calls have been made and clean up.
+		api.done();
+	});
+
 	it('should raise ExpectedError if a Dockerfile cannot be found', async () => {
 		const projectPath = path.join(
 			projectsPath,
