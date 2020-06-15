@@ -18,37 +18,63 @@
 // tslint:disable-next-line:no-var-requires
 require('./config-tests'); // required for side effects
 
+import { execFile } from 'child_process';
 import intercept = require('intercept-stdout');
 import * as _ from 'lodash';
+import { fs } from 'mz';
 import * as nock from 'nock';
 import * as path from 'path';
 
 import * as balenaCLI from '../build/app';
 import { setupSentry } from '../build/app-common';
 
-export const runCommand = async (cmd: string) => {
+const balenaExe = process.platform === 'win32' ? 'balena.exe' : 'balena';
+const standalonePath = path.resolve(__dirname, '..', 'build-bin', balenaExe);
+
+interface TestOutput {
+	err: string[]; // stderr
+	out: string[]; // stdout
+	exitCode?: number; // process.exitCode
+}
+
+/**
+ * Filter stdout / stderr lines to remove lines that start with `[debug]` and
+ * other lines that can be ignored for testing purposes.
+ * @param testOutput
+ */
+function filterCliOutputForTests(testOutput: TestOutput): TestOutput {
+	return {
+		exitCode: testOutput.exitCode,
+		err: testOutput.err.filter(
+			(line: string) =>
+				!line.match(/\[debug\]/i) &&
+				// TODO stop this warning message from appearing when running
+				// sdk.setSharedOptions multiple times in the same process
+				!line.startsWith('Shared SDK options') &&
+				// Node 12: '[DEP0066] DeprecationWarning: OutgoingMessage.prototype._headers is deprecated'
+				!line.includes('[DEP0066]'),
+		),
+		out: testOutput.out.filter((line: string) => !line.match(/\[debug\]/i)),
+	};
+}
+
+/**
+ * Run the CLI in this same process, by calling the run() function in `app.ts`.
+ * @param cmd Command to execute, e.g. `push myApp` (without 'balena' prefix)
+ */
+async function runCommanInProcess(cmd: string): Promise<TestOutput> {
 	const preArgs = [process.argv[0], path.join(process.cwd(), 'bin', 'balena')];
 
 	const err: string[] = [];
 	const out: string[] = [];
 
 	const stdoutHook = (log: string | Buffer) => {
-		// Skip over debug messages
-		if (typeof log === 'string' && !log.startsWith('[debug]')) {
+		if (typeof log === 'string') {
 			out.push(log);
 		}
 	};
 	const stderrHook = (log: string | Buffer) => {
-		// Skip over debug messages
-		if (
-			typeof log === 'string' &&
-			!log.match(/\[debug\]/i) &&
-			// TODO stop this warning message from appearing when running
-			// sdk.setSharedOptions multiple times in the same process
-			!log.startsWith('Shared SDK options') &&
-			// Node 12: '[DEP0066] DeprecationWarning: OutgoingMessage.prototype._headers is deprecated'
-			!log.includes('[DEP0066]')
-		) {
+		if (typeof log === 'string') {
 			err.push(log);
 		}
 	};
@@ -58,14 +84,123 @@ export const runCommand = async (cmd: string) => {
 		await balenaCLI.run(preArgs.concat(cmd.split(' ')), {
 			noFlush: true,
 		});
-		return {
-			err,
-			out,
-		};
 	} finally {
 		unhookIntercept();
 	}
-};
+	return filterCliOutputForTests({
+		err,
+		out,
+		// this makes sense if `process.exit()` was stubbed with sinon
+		exitCode: process.exitCode,
+	});
+}
+
+/**
+ * Run the command (e.g. `balena xxx args`) in a child process, instead of
+ * the same process as mocha. This is slow and does not allow mocking the
+ * source code, but it is useful for testing the standalone zip package binary.
+ * (Every now and then, bugs surface because of missing entries in the
+ * `pkg.assets` section of `package.json`, usually because of updated
+ * dependencies that don't clearly declare the have compatibility issues
+ * with `pkg`.)
+ *
+ * `mocha` runs on the parent process, and many of the tests inspect network
+ * traffic intercepted with `nock`. But this interception only works in the
+ * parent process itself. To get around this, we run a HTTP proxy server on
+ * the parent process, and get the child process to use it (the CLI already had
+ * support for proxy servers as a product feature, and this testing arrangement
+ * also exercises the proxy capabilities).
+ *
+ * @param cmd Command to execute, e.g. `push myApp` (without 'balena' prefix)
+ * @param proxyPort TCP port number for the HTTP proxy server running on the
+ * parent process
+ */
+async function runCommandInSubprocess(
+	cmd: string,
+	proxyPort: number,
+): Promise<TestOutput> {
+	let exitCode = 0;
+	let stdout = '';
+	let stderr = '';
+	const addedEnvs = {
+		// Use http instead of https, so we can intercept and test the data,
+		// for example the contents of tar streams sent by the CLI to Docker
+		BALENARC_API_URL: 'http://api.balena-cloud.com',
+		BALENARC_BUILDER_URL: 'http://builder.balena-cloud.com',
+		BALENARC_PROXY: `http://127.0.0.1:${proxyPort}`,
+		// override default proxy exclusion to allow proxying of requests to 127.0.0.1
+		BALENARC_DO_PROXY: '127.0.0.1,localhost',
+	};
+	await new Promise(resolve => {
+		const child = execFile(
+			standalonePath,
+			cmd.split(' '),
+			{ env: { ...process.env, ...addedEnvs } },
+			($error, $stdout, $stderr) => {
+				stderr = $stderr || '';
+				stdout = $stdout || '';
+				// $error will be set if the CLI child process exits with a
+				// non-zero exit code. Usually this is harmless/expected, as
+				// the CLI child process is tested for error conditions.
+				if ($error && process.env.DEBUG) {
+					console.error(`
+[debug] Error (possibly expected) executing child CLI process "${standalonePath}"
+------------------------------------------------------------------
+${$error}
+------------------------------------------------------------------`);
+				}
+				resolve();
+			},
+		);
+		child.on('exit', (code: number, signal: string) => {
+			if (process.env.DEBUG) {
+				console.error(
+					`CLI child process exited with code=${code} signal=${signal}`,
+				);
+			}
+			exitCode = code;
+		});
+	});
+
+	const splitLines = (lines: string) =>
+		lines
+			.split(/[\r\n]/) // includes '\r' in isolation, used in progress bars
+			.filter(l => l)
+			.map(l => l + '\n');
+
+	return filterCliOutputForTests({
+		exitCode,
+		err: splitLines(stderr),
+		out: splitLines(stdout),
+	});
+}
+
+/**
+ * Run a CLI command and capture its stdout, stderr and exit code for testing.
+ * If the BALENA_CLI_TEST_TYPE env var is set to 'standalone', then the command
+ * will be executed in a separate child process, and a proxy server will be
+ * started in order to intercept and test HTTP requests.
+ * Otherwise, simply call the CLI's run() entry point in this same process.
+ * @param cmd Command to execute, e.g. `push myApp` (without 'balena' prefix)
+ */
+export async function runCommand(cmd: string): Promise<TestOutput> {
+	if (process.env.BALENA_CLI_TEST_TYPE === 'standalone') {
+		const semver = await import('semver');
+		if (semver.lt(process.version, '10.16.0')) {
+			throw new Error(
+				`The standalone tests require Node.js >= v10.16.0 because of net/proxy features ('global-agent' npm package)`,
+			);
+		}
+		if (!(await fs.exists(standalonePath))) {
+			throw new Error(`Standalone executable not found: "${standalonePath}"`);
+		}
+		const proxy = await import('./proxy-server');
+		const [proxyPort] = await proxy.createProxyServerOnce();
+		return runCommandInSubprocess(cmd, proxyPort);
+	} else {
+		return runCommanInProcess(cmd);
+	}
+}
 
 export const balenaAPIMock = () => {
 	if (!nock.isActive()) {
@@ -85,13 +220,16 @@ export const balenaAPIMock = () => {
 		});
 };
 
-export function cleanOutput(output: string[] | string): string[] {
+export function cleanOutput(
+	output: string[] | string,
+	collapseBlank = false,
+): string[] {
+	const cleanLine = collapseBlank
+		? (line: string) => monochrome(line.trim()).replace(/\s{2,}/g, ' ')
+		: (line: string) => monochrome(line.trim());
+
 	return _(_.castArray(output))
-		.map((log: string) => {
-			return log.split('\n').map(line => {
-				return monochrome(line.trim());
-			});
-		})
+		.map((log: string) => log.split('\n').map(cleanLine))
 		.flatten()
 		.compact()
 		.value();
@@ -106,7 +244,7 @@ export function cleanOutput(output: string[] | string): string[] {
  * coded from observation of a few samples only, and may not cover all cases.
  */
 export function monochrome(text: string): string {
-	return text.replace(/\u001b\[\??\d+?[a-zA-Z]\r?/g, '');
+	return text.replace(/\u001b\[\??(\d+;)*\d+[a-zA-Z]\r?/g, '');
 }
 
 /**

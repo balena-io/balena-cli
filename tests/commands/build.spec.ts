@@ -62,6 +62,9 @@ const commonComposeQueryParams = [
 	['labels', ''],
 ];
 
+// "itSS" means "it() Skip Standalone"
+const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;
+
 describe('balena build', function() {
 	let api: BalenaAPIMock;
 	let docker: DockerMock;
@@ -135,7 +138,7 @@ describe('balena build', function() {
 		});
 	});
 
-	it('should create the expected tar stream (--emulated)', async () => {
+	itSS('should create the expected tar stream (--emulated)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
 		const isV12W = isWindows && isV12();
 		const transposedDockerfile =
@@ -373,9 +376,7 @@ describe('balena build: project validation', function() {
 		const { out, err } = await runCommand(
 			`build ${projectPath} -A amd64 -d nuc`,
 		);
-		expect(
-			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
-		).to.include.members(expectedErrorLines);
+		expect(cleanOutput(err, true)).to.include.members(expectedErrorLines);
 		expect(out).to.be.empty;
 	});
 });
