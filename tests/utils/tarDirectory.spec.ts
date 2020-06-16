@@ -113,7 +113,7 @@ describe('compare new and old tarDirectory implementations', function () {
 	});
 
 	// Skip Windows because the old tarDirectory() implementation (still used when
-	// '--nogitignore' is not provided) uses the old `zeit/dockerignore` npm package
+	// '--gitignore' is provided) uses the old `zeit/dockerignore` npm package
 	// that is broken on Windows (reason why we created `@balena/dockerignore`).
 	itSkipWindows('should produce a compatible tar stream', async function () {
 		const dockerignoreProjDir = path.join(

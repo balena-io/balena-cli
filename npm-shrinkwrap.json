@@ -4448,6 +4448,12 @@
       "integrity": "sha1-s2nW+128E+7PUk+RsHD+7cNXzzQ=",
       "dev": true
     },
+    "deep-object-diff": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/deep-object-diff/-/deep-object-diff-1.1.0.tgz",
+      "integrity": "sha512-b+QLs5vHgS+IoSNcUE4n9HP2NwcHj7aqnJWsjPtuG75Rh5TOaGt0OjAYInh77d5T16V5cRDC+Pw/6ZZZiETBGw==",
+      "dev": true
+    },
     "default-compare": {
       "version": "1.0.0",
       "resolved": "https://registry.npmjs.org/default-compare/-/default-compare-1.0.0.tgz",

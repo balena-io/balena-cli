@@ -37,6 +37,11 @@ interface IgnoreEntry {
 	filePath: string;
 }
 
+/**
+ * This class is used by the CLI v10 / v11 "original" tarDirectory function
+ * in `compose.js`. It is still around for the benefit of the `--gitignore`
+ * option, but is expected to be deleted in CLI v13.
+ */
 export class FileIgnorer {
 	private dockerIgnoreEntries: IgnoreEntry[];
 	private gitIgnoreEntries: IgnoreEntry[];

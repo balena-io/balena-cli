@@ -110,6 +110,7 @@ export const push: CommandDefinition<
 		nocache?: boolean;
 		'noparent-check'?: boolean;
 		'registry-secrets'?: string;
+		gitignore?: boolean;
 		nogitignore?: boolean;
 		nolive?: boolean;
 		detached?: boolean;
@@ -279,13 +280,17 @@ export const push: CommandDefinition<
 		{
 			signature: 'nogitignore',
 			alias: 'G',
-			description: isV12()
-				? 'No-op and deprecated since balena CLI v12.0.0. See "balena help push".'
-				: stripIndent`
-				Disregard all .gitignore files, and consider only the .dockerignore file (if any)
-				at the source directory. This will be the default behavior in an upcoming major
-				version release. For more information, see 'balena help push'.
-			`,
+			description:
+				'No-op (default behavior) since balena CLI v12.0.0. See "balena help push".',
+			boolean: true,
+		},
+		{
+			signature: 'gitignore',
+			alias: 'g',
+			description: stripIndent`
+				Consider .gitignore files in addition to the .dockerignore file. This reverts
+				to the CLI v11 behavior/implementation (deprecated) if compatibility is required
+				until your project can be adapted.`,
 			boolean: true,
 		},
 	],
@@ -319,7 +324,7 @@ export const push: CommandDefinition<
 			},
 		);
 
-		const nogitignore = !!options.nogitignore || isV12();
+		const nogitignore = !options.gitignore;
 		const convertEol = isV12()
 			? !options['noconvert-eol']
 			: !!options['convert-eol'];

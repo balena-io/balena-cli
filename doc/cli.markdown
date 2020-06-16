@@ -1867,12 +1867,20 @@ this file will be used instead.
 DOCKERIGNORE AND GITIGNORE FILES
 The balena CLI will use a '.dockerignore' file (if any) at the source directory
 in order to decide which source files to exclude from the "build context" sent
-to balenaCloud, Docker or balenaEngine.  Previous balena CLI releases (before
-v12.0.0) also took '.gitignore' files into account, but this is no longer the
-case. This allows files to be used for an image build even if they are listed
-in '.gitignore'.
+to balenaCloud, Docker or balenaEngine. In a microservices / multicontainer
+application, the source directory is usually where the 'docker-compose.yml'
+file is located, and therefore the '.dockerignore' file should be located
+alongside the 'docker-compose.yml' file. Matching patterns may be prefixed with
+the service's directory name (relative to the source directory) in order to
+apply to that service only (e.g. 'service1/node_modules').
 
-A few "hardcoded" dockerignore patterns are also used and "merged" (in memory)
+Previous balena CLI releases (before v12.0.0) also took '.gitignore' files
+into account. This behavior is deprecated, but may still be enabled with the
+--gitignore (-g) option if compatibility is required. This option will be
+removed in the CLI's next major version release (v13).
+
+When --gitignore (-g) is NOT provided (i.e. when not in v11 compatibility mode),
+a few "hardcoded" dockerignore patterns are also used and "merged" (in memory)
 with the patterns found in the '.dockerignore' file (if any), in the following
 order:
 
@@ -1978,7 +1986,13 @@ Don't convert line endings from CRLF (Windows format) to LF (Unix format).
 
 #### --nogitignore, -G
 
-No-op and deprecated since balena CLI v12.0.0. See "balena help push".
+No-op (default behavior) since balena CLI v12.0.0. See "balena help push".
+
+#### --gitignore, -g
+
+Consider .gitignore files in addition to the .dockerignore file. This reverts
+to the CLI v11 behavior/implementation (deprecated) if compatibility is required
+until your project can be adapted.
 
 # Settings
 
@@ -2067,12 +2081,20 @@ this file will be used instead.
 DOCKERIGNORE AND GITIGNORE FILES
 The balena CLI will use a '.dockerignore' file (if any) at the source directory
 in order to decide which source files to exclude from the "build context" sent
-to balenaCloud, Docker or balenaEngine.  Previous balena CLI releases (before
-v12.0.0) also took '.gitignore' files into account, but this is no longer the
-case. This allows files to be used for an image build even if they are listed
-in '.gitignore'.
+to balenaCloud, Docker or balenaEngine. In a microservices / multicontainer
+application, the source directory is usually where the 'docker-compose.yml'
+file is located, and therefore the '.dockerignore' file should be located
+alongside the 'docker-compose.yml' file. Matching patterns may be prefixed with
+the service's directory name (relative to the source directory) in order to
+apply to that service only (e.g. 'service1/node_modules').
 
-A few "hardcoded" dockerignore patterns are also used and "merged" (in memory)
+Previous balena CLI releases (before v12.0.0) also took '.gitignore' files
+into account. This behavior is deprecated, but may still be enabled with the
+--gitignore (-g) option if compatibility is required. This option will be
+removed in the CLI's next major version release (v13).
+
+When --gitignore (-g) is NOT provided (i.e. when not in v11 compatibility mode),
+a few "hardcoded" dockerignore patterns are also used and "merged" (in memory)
 with the patterns found in the '.dockerignore' file (if any), in the following
 order:
 
@@ -2134,9 +2156,15 @@ No-op and deprecated since balena CLI v12.0.0. Build logs are now shown by defau
 
 Hide the image build log output (produce less verbose output)
 
+#### --gitignore, -g
+
+Consider .gitignore files in addition to the .dockerignore file. This reverts
+to the CLI v11 behavior/implementation (deprecated) if compatibility is required
+until your project can be adapted.
+
 #### --nogitignore, -G
 
-No-op and deprecated since balena CLI v12.0.0. See "balena help undefined".
+No-op (default behavior) since balena CLI v12.0.0. See "balena help build".
 
 #### --noparent-check
 
@@ -2247,12 +2275,20 @@ this file will be used instead.
 DOCKERIGNORE AND GITIGNORE FILES
 The balena CLI will use a '.dockerignore' file (if any) at the source directory
 in order to decide which source files to exclude from the "build context" sent
-to balenaCloud, Docker or balenaEngine.  Previous balena CLI releases (before
-v12.0.0) also took '.gitignore' files into account, but this is no longer the
-case. This allows files to be used for an image build even if they are listed
-in '.gitignore'.
+to balenaCloud, Docker or balenaEngine. In a microservices / multicontainer
+application, the source directory is usually where the 'docker-compose.yml'
+file is located, and therefore the '.dockerignore' file should be located
+alongside the 'docker-compose.yml' file. Matching patterns may be prefixed with
+the service's directory name (relative to the source directory) in order to
+apply to that service only (e.g. 'service1/node_modules').
 
-A few "hardcoded" dockerignore patterns are also used and "merged" (in memory)
+Previous balena CLI releases (before v12.0.0) also took '.gitignore' files
+into account. This behavior is deprecated, but may still be enabled with the
+--gitignore (-g) option if compatibility is required. This option will be
+removed in the CLI's next major version release (v13).
+
+When --gitignore (-g) is NOT provided (i.e. when not in v11 compatibility mode),
+a few "hardcoded" dockerignore patterns are also used and "merged" (in memory)
 with the patterns found in the '.dockerignore' file (if any), in the following
 order:
 
@@ -2310,9 +2346,15 @@ No-op and deprecated since balena CLI v12.0.0. Build logs are now shown by defau
 
 Hide the image build log output (produce less verbose output)
 
+#### --gitignore, -g
+
+Consider .gitignore files in addition to the .dockerignore file. This reverts
+to the CLI v11 behavior/implementation (deprecated) if compatibility is required
+until your project can be adapted.
+
 #### --nogitignore, -G
 
-No-op and deprecated since balena CLI v12.0.0. See "balena help undefined".
+No-op (default behavior) since balena CLI v12.0.0. See "balena help build".
 
 #### --noparent-check
 

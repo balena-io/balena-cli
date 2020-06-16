@@ -214,7 +214,7 @@ export async function tarDirectory(
 
 /**
  * Print a deprecation warning if any '.gitignore' or '.dockerignore' file is
- * found and the --nogitignore (-G) option has not been provided.
+ * found and the --gitignore (-g) option has been provided.
  * @param dockerignoreFile Absolute path to a .dockerignore file
  * @param gitignoreFiles Array of absolute paths to .gitginore files
  */
@@ -232,21 +232,19 @@ export function printGitignoreWarn(
 	msg.push(...ignoreFiles);
 	if (gitignoreFiles.length) {
 		msg.push(stripIndent`
-			balena CLI currently uses gitgnore and dockerignore files, but an upcoming major
-			version release will disregard gitignore files and use a dockerignore file only.
-			Use the --nogitignore (-G) option to enable the new behavior already now and
-			suppress this warning. For more information, see 'balena help ${Logger.command}'.
+			Note: .gitignore files are being considered because the --gitignore option was
+			used. This option is deprecated and will be removed in the next major version
+			release. For more information, see 'balena help ${Logger.command}'.
 		`);
 		msg.push(hr);
 		Logger.getLogger().logWarn(msg.join('\n'));
 	} else if (dockerignoreFile && process.platform === 'win32') {
 		msg.push(stripIndent`
-			Use the --nogitignore (-G) option to suppress this warning and enable the use
-			of a better dockerignore parser and filter library that fixes several issues
-			on Windows and improves compatibility with "docker build", but which may also
-			cause a different set of files to be filtered out (because of the bug fixes).
-			The --nogitignore option will be the default behavior in an upcoming balena CLI
-			major version release. For more information, see 'balena help ${Logger.command}'.
+			The --gitignore option was used, but not .gitignore files were found.
+			The --gitignore option is deprecated and will be removed in the next major
+			version release. It prevents the use of a better dockerignore parser and
+			filter library that fixes several issues on Windows and improves compatibility
+			with "docker build". For more information, see 'balena help ${Logger.command}'.
 		`);
 		msg.push(hr);
 		Logger.getLogger().logWarn(msg.join('\n'));
