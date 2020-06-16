@@ -12,7 +12,8 @@ The balena CLI is an open source project and your contribution is welcome!
 In order to ease development:
 
 * `npm run build:fast` skips some of the build steps for interactive testing, or
-* `./bin/balena-dev` uses `ts-node/register` and `coffeescript/register` to transpile on the fly.
+* `npm run test:source` skips testing the standalone zip packages (which is rather slow)
+* `./bin/balena-dev` uses `ts-node/register` to transpile on the fly.
 
 Before opening a PR, test your changes with `npm test`. Keep compatibility in mind, as the CLI is
 meant to run on Linux, macOS and Windows. balena CI will run test code on all three platforms, but
@@ -121,22 +122,15 @@ $ npm install  # "cleanly" update the npm-shrinkwrap.json file
 $ git add npm-shrinkwrap.json  # add it for committing (solve merge errors)
 ```
 
-## TypeScript vs CoffeeScript, and Capitano vs oclif
+## TypeScript and oclif
 
-The CLI was originally written in [CoffeeScript](https://coffeescript.org), but we decided to
-migrate to [TypeScript](https://www.typescriptlang.org/) in order to take advantage of static
-typing and formal programming interfaces. The migration is taking place gradually, as part of
-maintenance work or the implementation of new features. The recommended way of making the
-conversion is to first generate plain Javascript, for example using the command:  
-
-```
-npx decaffeinate --use-js-modules file.coffee
-```
-
-Then manually convert plain Javascript to Typescript. There is also a ["Coffeescript Preview"
-Visual Studio Code
-extension](https://marketplace.visualstudio.com/items?itemName=drewbarrett.vscode-coffeescript-preview)
-that you may find handy.
+The CLI currently contains a mix of plain JavaScript and
+[TypeScript](https://www.typescriptlang.org/) code. The goal is to have all code written in
+Typescript, in order to take advantage of static typing and formal programming interfaces.
+The migration towards Typescript is taking place gradually, as part of maintenance work or
+the implementation of new features. Historically, the CLI was originally written in
+[CoffeeScript](https://coffeescript.org), but all CoffeeScript code was migrated to either
+Javascript or Typescript.
 
 Similarly, [Capitano](https://github.com/balena-io/capitano) was originally adopted as the CLI's
 framework, but later we decided to take advantage of [oclif](https://oclif.io/)'s features such

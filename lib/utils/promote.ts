@@ -93,7 +93,7 @@ async function execCommand(
 	const spinner = new visuals.Spinner(`[${deviceIp}] Connecting...`);
 	const innerSpinner = spinner.spinner;
 
-	const stream = through(function(data, _enc, cb) {
+	const stream = through(function (data, _enc, cb) {
 		innerSpinner.setSpinnerTitle(`%s [${deviceIp}] ${msg}`);
 		cb(null, data);
 	});
@@ -160,7 +160,7 @@ async function getOrSelectLocalDevice(deviceIp?: string): Promise<string> {
 	const through = await import('through2');
 
 	let ip: string | null = null;
-	const stream = through(function(data, _enc, cb) {
+	const stream = through(function (data, _enc, cb) {
 		const match = /^==> Selected device: (.*)$/m.exec(data.toString());
 		if (match) {
 			ip = match[1];
@@ -195,7 +195,7 @@ async function selectAppFromList(applications: BalenaSdk.Application[]) {
 	// name (user/appname) and allows them to select.
 	return selectFromList(
 		'Select application',
-		_.map(applications, app => {
+		_.map(applications, (app) => {
 			return { name: app.slug, ...app };
 		}),
 	);
@@ -216,7 +216,7 @@ async function getOrSelectApplication(
 	}
 	const compatibleDeviceTypes = _(allDeviceTypes)
 		.filter(
-			dt =>
+			(dt) =>
 				sdk.models.os.isArchitectureCompatibleWith(
 					deviceTypeManifest.arch,
 					dt.arch,
@@ -224,7 +224,7 @@ async function getOrSelectApplication(
 				!!dt.isDependent === !!deviceTypeManifest.isDependent &&
 				dt.state !== 'DISCONTINUED',
 		)
-		.map(type => type.slug)
+		.map((type) => type.slug)
 		.value();
 
 	if (!appName) {
@@ -270,7 +270,7 @@ async function getOrSelectApplication(
 
 	// We've found at least one app with the given name.
 	// Filter out apps for non-matching device types and see what we're left with.
-	const validApplications = applications.filter(app =>
+	const validApplications = applications.filter((app) =>
 		_.includes(compatibleDeviceTypes, app.device_type),
 	);
 
@@ -382,7 +382,8 @@ async function generateApplicationConfig(
 
 	const manifest = await sdk.models.device.getManifestBySlug(app.device_type);
 	const opts =
-		manifest.options && manifest.options.filter(opt => opt.name !== 'network');
+		manifest.options &&
+		manifest.options.filter((opt) => opt.name !== 'network');
 	const values = {
 		...(opts ? await form.run(opts) : {}),
 		...options,

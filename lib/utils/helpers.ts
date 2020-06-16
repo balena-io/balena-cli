@@ -30,7 +30,7 @@ export function getGroupDefaults(group: {
 }): { [name: string]: string | number | undefined } {
 	return _.chain(group)
 		.get('options')
-		.map(question => [question.name, question.default])
+		.map((question) => [question.name, question.default])
 		.fromPairs()
 		.value();
 }
@@ -96,7 +96,7 @@ export async function sudo(
 
 export function runCommand<T>(command: string): Bluebird<T> {
 	const capitano = require('capitano');
-	return Bluebird.fromCallback(resolver => capitano.run(command, resolver));
+	return Bluebird.fromCallback((resolver) => capitano.run(command, resolver));
 }
 
 export async function getManifest(
@@ -122,7 +122,7 @@ export async function osProgressHandler(step: InitializeEmitter) {
 	step.on('stdout', process.stdout.write.bind(process.stdout));
 	step.on('stderr', process.stderr.write.bind(process.stderr));
 
-	step.on('state', function(state) {
+	step.on('state', function (state) {
 		if (state.operation.command === 'burn') {
 			return;
 		}
@@ -135,7 +135,7 @@ export async function osProgressHandler(step: InitializeEmitter) {
 		check: new visuals.Progress('Validating Device OS'),
 	};
 
-	step.on('burn', state => progressBars[state.type].update(state));
+	step.on('burn', (state) => progressBars[state.type].update(state));
 
 	await new Promise((resolve, reject) => {
 		step.on('error', reject);
@@ -149,7 +149,7 @@ export function getAppWithArch(
 	return Bluebird.join(
 		getApplication(applicationName),
 		getBalenaSdk().models.config.getDeviceTypes(),
-		function(app, deviceTypes) {
+		function (app, deviceTypes) {
 			const config = _.find<BalenaSdk.DeviceType>(deviceTypes, {
 				slug: app.device_type,
 			});
@@ -214,8 +214,9 @@ export function retry<T>(
 		promise = promise.catch((err: Error) => {
 			const delay = backoffScaler ** count * delayMs;
 			console.log(
-				`Retrying "${label}" after ${(delay / 1000).toFixed(2)}s (${count +
-					1} of ${times}) due to: ${err}`,
+				`Retrying "${label}" after ${(delay / 1000).toFixed(2)}s (${
+					count + 1
+				} of ${times}) due to: ${err}`,
 			);
 			return Bluebird.delay(delay).then(() =>
 				retry(func, times, label, delayMs, backoffScaler, count + 1),
@@ -255,7 +256,7 @@ export function getManualSortCompareFunction<T, U = T>(
 	manuallySortedArray: U[],
 	equalityFunc: (a: T, x: U, index: number, array: U[]) => boolean,
 ): (a: T, b: T) => number {
-	return function(a: T, b: T): number {
+	return function (a: T, b: T): number {
 		const indexA = manuallySortedArray.findIndex((x, index, array) =>
 			equalityFunc(a, x, index, array),
 		);
@@ -302,10 +303,10 @@ export function shellEscape(args: string[], detectShell = false): string[] {
 		? isWindowsComExeShell()
 		: process.platform === 'win32';
 	if (isCmdExe) {
-		return args.map(v => windowsCmdExeEscapeArg(v));
+		return args.map((v) => windowsCmdExeEscapeArg(v));
 	} else {
 		const shellEscapeFunc: typeof ShellEscape = require('shell-escape');
-		return args.map(v => shellEscapeFunc([v]));
+		return args.map((v) => shellEscapeFunc([v]));
 	}
 }
 

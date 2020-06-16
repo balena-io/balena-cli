@@ -17,14 +17,14 @@ export class BuildError extends TypedError {
 
 	public toString(): string {
 		let str = 'Some services failed to build:\n';
-		_.each(this.failures, failure => {
+		_.each(this.failures, (failure) => {
 			str += `\t${failure.serviceName}: ${failure.error.message}\n`;
 		});
 		return str;
 	}
 
 	public getServiceError(serviceName: string): string {
-		const failure = _.find(this.failures, f => f.serviceName === serviceName);
+		const failure = _.find(this.failures, (f) => f.serviceName === serviceName);
 		if (failure == null) {
 			return 'Unknown build failure';
 		}

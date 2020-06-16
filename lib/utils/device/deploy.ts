@@ -315,7 +315,7 @@ export async function performBuilds(
 		logger,
 		LOCAL_APPNAME,
 		LOCAL_RELEASEHASH,
-		content => {
+		(content) => {
 			if (!opts.nolive) {
 				return LivepushManager.preprocessDockerfile(content);
 			} else {
@@ -356,7 +356,7 @@ export async function performBuilds(
 
 	// Now tag any external images with the correct name that they should be,
 	// as this won't be done by resin-multibuild
-	await Bluebird.map(localImages, async localImage => {
+	await Bluebird.map(localImages, async (localImage) => {
 		if (localImage.external) {
 			// We can be sure that localImage.name is set here, because of the failure code above
 			const image = docker.getImage(localImage.name!);
@@ -368,7 +368,7 @@ export async function performBuilds(
 		}
 	});
 
-	await Bluebird.map(_.uniq(imagesToRemove), image =>
+	await Bluebird.map(_.uniq(imagesToRemove), (image) =>
 		docker.getImage(image).remove({ force: true }),
 	);
 
@@ -419,7 +419,7 @@ export async function rebuildSingleTask(
 			logger,
 			LOCAL_APPNAME,
 			LOCAL_RELEASEHASH,
-			content => {
+			(content) => {
 				if (!opts.nolive) {
 					return LivepushManager.preprocessDockerfile(content);
 				} else {
@@ -460,16 +460,16 @@ function assignOutputHandlers(
 	logger: Logger,
 	logCb?: (serviceName: string, line: string) => void,
 ) {
-	_.each(buildTasks, task => {
+	_.each(buildTasks, (task) => {
 		if (task.external) {
-			task.progressHook = progressObj => {
+			task.progressHook = (progressObj) => {
 				displayBuildLog(
 					{ serviceName: task.serviceName, message: progressObj.progress },
 					logger,
 				);
 			};
 		} else {
-			task.streamHook = stream => {
+			task.streamHook = (stream) => {
 				stream.on('data', (buf: Buffer) => {
 					const str = _.trimEnd(buf.toString());
 					if (str !== '') {
@@ -601,7 +601,7 @@ async function inspectBuildResults(images: LocalImage[]): Promise<void> {
 
 	const failures: LocalPushErrors.BuildFailure[] = [];
 
-	_.each(images, image => {
+	_.each(images, (image) => {
 		if (!image.successful) {
 			failures.push({
 				error: image.error!,

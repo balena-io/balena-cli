@@ -7,8 +7,8 @@ import { FileIgnorer, IgnoreFileType } from '../../build/utils/ignore';
 // of the FileIgnorer class to prevent a Typescript compilation error (this
 // behavior is by design: see
 // https://github.com/microsoft/TypeScript/issues/19335 )
-describe('File ignorer', function() {
-	it('should detect ignore files', function() {
+describe('File ignorer', function () {
+	it('should detect ignore files', function () {
 		const f = new FileIgnorer(`.${path.sep}`);
 		expect(f.getIgnoreFileType('.gitignore')).to.equal(
 			IgnoreFileType.GitIgnore,
@@ -36,7 +36,7 @@ describe('File ignorer', function() {
 		return expect(f.getIgnoreFileType('./file')).to.equal(null);
 	});
 
-	it('should filter files from the root directory', function() {
+	it('should filter files from the root directory', function () {
 		const ignore = new FileIgnorer(`.${path.sep}`);
 		ignore['gitIgnoreEntries'] = [
 			{ pattern: '*.ignore', filePath: '.gitignore' },
@@ -61,7 +61,7 @@ describe('File ignorer', function() {
 		]);
 	});
 
-	return it('should filter files from subdirectories', function() {
+	return it('should filter files from subdirectories', function () {
 		const ignore = new FileIgnorer(`.${path.sep}`);
 		ignore['gitIgnoreEntries'] = [
 			{ pattern: '*.ignore', filePath: 'lib/.gitignore' },

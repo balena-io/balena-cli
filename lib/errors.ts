@@ -94,9 +94,9 @@ function interpret(error: Error): string {
 const messages: {
 	[key: string]: (error: Error & { path?: string }) => string;
 } = {
-	EISDIR: error => `File is a directory: ${error.path}`,
+	EISDIR: (error) => `File is a directory: ${error.path}`,
 
-	ENOENT: error => `No such file or directory: ${error.path}`,
+	ENOENT: (error) => `No such file or directory: ${error.path}`,
 
 	ENOGIT: () => stripIndent`
 		Git is not installed on this system.
@@ -112,7 +112,7 @@ const messages: {
 
 		If this is not the case, and you're trying to burn an SDCard, check that the write lock is not set.`,
 
-	EACCES: e => messages.EPERM(e),
+	EACCES: (e) => messages.EPERM(e),
 
 	ETIMEDOUT: () =>
 		'Oops something went wrong, please check your connection and try again.',
@@ -130,9 +130,8 @@ const messages: {
 	`,
 
 	BalenaExpiredToken: () => stripIndent`
-		Looks like your session token has expired.
-		Please try logging in again with:
-			$ balena login`,
+		Looks like the session token has expired.
+		Try logging in again with the "balena login" command.`,
 };
 
 const EXPECTED_ERROR_REGEXES = [
@@ -167,8 +166,8 @@ export async function handleError(error: Error) {
 	// Expected?
 	const isExpectedError =
 		error instanceof ExpectedError ||
-		EXPECTED_ERROR_REGEXES.some(re => re.test(message[0])) ||
-		EXPECTED_ERROR_REGEXES.some(re => re.test((error as BalenaError).code));
+		EXPECTED_ERROR_REGEXES.some((re) => re.test(message[0])) ||
+		EXPECTED_ERROR_REGEXES.some((re) => re.test((error as BalenaError).code));
 
 	// Output/report error
 	if (isExpectedError) {
@@ -199,7 +198,7 @@ export function printErrorMessage(message: string) {
 	const messageLines = message.split('\n');
 	console.error(chalk.red(messageLines.shift()));
 
-	messageLines.forEach(line => {
+	messageLines.forEach((line) => {
 		console.error(line);
 	});
 

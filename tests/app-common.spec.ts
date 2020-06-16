@@ -22,7 +22,7 @@ import {
 	makeUrlFromTunnelNgConfig,
 } from '../build/app-common';
 
-describe('makeUrlFromTunnelNgConfig() function', function() {
+describe('makeUrlFromTunnelNgConfig() function', function () {
 	it('should return a URL given a GlobalTunnelNgConfig object', () => {
 		const tunnelNgConfig: GlobalTunnelNgConfig = {
 			host: 'proxy.company.com',

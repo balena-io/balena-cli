@@ -80,7 +80,7 @@ class Logger {
 			livepush: logger.createLogStream('live'),
 		};
 
-		_.forEach(this.streams, function(stream, key) {
+		_.forEach(this.streams, function (stream, key) {
 			if (key !== 'debug') {
 				stream.pipe(process.stdout);
 			} else if (process.env.DEBUG) {
@@ -139,14 +139,14 @@ class Logger {
 	 * Log a message for output later, ignore duplicates.
 	 */
 	public deferredLog(msg: string, level: Level) {
-		if (!this.deferredLogMessages.find(entry => entry[0] === msg)) {
+		if (!this.deferredLogMessages.find((entry) => entry[0] === msg)) {
 			this.deferredLogMessages.push([msg, level]);
 		}
 	}
 
 	/** Output any messages that have been queued for deferred output */
 	public outputDeferredMessages() {
-		this.deferredLogMessages.forEach(m => {
+		this.deferredLogMessages.forEach((m) => {
 			this.streams[m[1]].write(m[0] + eol);
 		});
 		this.deferredLogMessages = [];

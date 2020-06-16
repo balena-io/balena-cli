@@ -91,7 +91,7 @@ export class NockMock {
 		inspectRequest: (uri: string, requestBody: nock.Body) => void,
 		replyBody: nock.ReplyBody,
 	) {
-		return function(
+		return function (
 			this: nock.ReplyFnContext,
 			uri: string,
 			requestBody: nock.Body,
@@ -133,11 +133,22 @@ export class NockMock {
 	}
 
 	protected handleUnexpectedRequest(req: any) {
+		const {
+			interceptorServerPort,
+		} = require('./proxy-server') as typeof import('./proxy-server');
 		const o = req.options || {};
 		const u = o.uri || {};
+		const method = req.method;
+		const proto = req.protocol || req.proto || o.proto || u.protocol;
+		const host = req.host || req.headers?.host || o.host || u.host;
+		const path = req.path || o.path || u.path;
+
+		// Requests made by the local proxy/interceptor server are OK
+		if (host === `127.0.0.1:${interceptorServerPort}`) {
+			return;
+		}
 		console.error(
-			`Unexpected http request!: ${req.method} ${o.proto ||
-				u.protocol}//${o.host || u.host}${req.path || o.path || u.path}`,
+			`NockMock: Unexpected HTTP request: ${method} ${proto}//${host}${path}`,
 		);
 		// Errors thrown here are not causing the tests to fail for some reason.
 		// Possibly due to CLI global error handlers? (error.js)
@@ -155,13 +166,13 @@ export class NockMock {
 		let mocks = scope.pendingMocks();
 		console.error(`pending mocks ${mocks.length}: ${mocks}`);
 
-		this.scope.on('request', function(_req, _interceptor, _body) {
+		this.scope.on('request', function (_req, _interceptor, _body) {
 			console.log(`>> REQUEST:` + _req.path);
 			mocks = scope.pendingMocks();
 			console.error(`pending mocks ${mocks.length}: ${mocks}`);
 		});
 
-		this.scope.on('replied', function(_req) {
+		this.scope.on('replied', function (_req) {
 			console.log(`<< REPLIED:` + _req.path);
 		});
 	}

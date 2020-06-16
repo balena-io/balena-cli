@@ -19,7 +19,7 @@ import { expect } from 'chai';
 
 import { getProxyConfig } from '../../build/utils/helpers';
 
-describe('getProxyConfig() function', function() {
+describe('getProxyConfig() function', function () {
 	let originalProxyConfig: [boolean, object | undefined];
 	let originalHttpProxy: [boolean, string | undefined];
 	let originalHttpsProxy: [boolean, string | undefined];

@@ -75,11 +75,9 @@ export async function routeCliFramework(argv: string[], options: AppOptions) {
 		}
 		if (process.env.DEBUG) {
 			console.log(
-				`[debug] new argv=[${[
-					argv[0],
-					argv[1],
-					...oclifArgs,
-				]}] length=${oclifArgs.length + 2}`,
+				`[debug] new argv=[${[argv[0], argv[1], ...oclifArgs]}] length=${
+					oclifArgs.length + 2
+				}`,
 			);
 		}
 		await (await import('./app-oclif')).run(oclifArgs, options);

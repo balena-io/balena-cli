@@ -199,7 +199,7 @@ export class LivepushManager {
 		process.on('SIGINT', async () => {
 			this.logger.logLivepush('Cleaning up device...');
 			await Promise.all(
-				_.map(this.containers, container => {
+				_.map(this.containers, (container) => {
 					container.livepush.cleanupIntermediateContainers();
 				}),
 			);
@@ -263,8 +263,8 @@ export class LivepushManager {
 		// First we detect if the file changed is the Dockerfile
 		// used to build the service
 		if (
-			_.some(this.dockerfilePaths[serviceName], name =>
-				_.some(updated, changed => name === changed),
+			_.some(this.dockerfilePaths[serviceName], (name) =>
+				_.some(updated, (changed) => name === changed),
 			)
 		) {
 			this.logger.logLivepush(
@@ -330,7 +330,7 @@ export class LivepushManager {
 					this.composition,
 					this.buildContext,
 					this.deployOpts,
-					id => {
+					(id) => {
 						this.rebuildRunningIds[serviceName] = id;
 					},
 				);
@@ -430,10 +430,10 @@ export class LivepushManager {
 		const error = (msg: string) => this.logger.logError(msgString(msg));
 		const debugLog = (msg: string) => this.logger.logDebug(msgString(msg));
 
-		livepush.on('commandExecute', command =>
+		livepush.on('commandExecute', (command) =>
 			log(`Executing command: \`${command.command}\``),
 		);
-		livepush.on('commandOutput', output =>
+		livepush.on('commandOutput', (output) =>
 			log(`   ${output.output.data.toString()}`),
 		);
 		livepush.on('commandReturn', ({ returnCode, command }) => {

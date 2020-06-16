@@ -39,13 +39,13 @@ export function copyQemu(context: string, arch: string) {
 	const binPath = path.join(binDir, QEMU_BIN_NAME);
 
 	return Bluebird.resolve(fs.mkdir(binDir))
-		.catch({ code: 'EEXIST' }, function() {
+		.catch({ code: 'EEXIST' }, function () {
 			// noop
 		})
 		.then(() => getQemuPath(arch))
 		.then(
-			qemu =>
-				new Bluebird(function(resolve, reject) {
+			(qemu) =>
+				new Bluebird(function (resolve, reject) {
 					const read = fs.createReadStream(qemu);
 					const write = fs.createWriteStream(binPath);
 
@@ -60,14 +60,14 @@ export function copyQemu(context: string, arch: string) {
 		.then(() => path.relative(context, binPath));
 }
 
-export const getQemuPath = function(arch: string) {
+export const getQemuPath = function (arch: string) {
 	const balena = getBalenaSdk();
 	const path = require('path') as typeof import('path');
 	const fs = require('mz/fs') as typeof import('mz/fs');
 
-	return balena.settings.get('binDirectory').then(binDir =>
+	return balena.settings.get('binDirectory').then((binDir) =>
 		Bluebird.resolve(fs.mkdir(binDir))
-			.catch({ code: 'EEXIST' }, function() {
+			.catch({ code: 'EEXIST' }, function () {
 				// noop
 			})
 			.then(() =>
@@ -83,8 +83,8 @@ export function installQemu(arch: string) {
 	const tar = require('tar-stream') as typeof import('tar-stream');
 
 	return getQemuPath(arch).then(
-		qemuPath =>
-			new Bluebird(function(resolve, reject) {
+		(qemuPath) =>
+			new Bluebird(function (resolve, reject) {
 				const installStream = fs.createWriteStream(qemuPath);
 
 				const qemuArch = balenaArchToQemuArch(arch);
@@ -96,7 +96,7 @@ export function installQemu(arch: string) {
 				const qemuUrl = `https://github.com/balena-io/qemu/releases/download/${urlVersion}/${urlFile}`;
 
 				const extract = tar.extract();
-				extract.on('entry', function(header, stream, next) {
+				extract.on('entry', function (header, stream, next) {
 					stream.on('end', next);
 					if (header.name.includes(`qemu-${qemuArch}-static`)) {
 						stream.pipe(installStream);
@@ -111,7 +111,7 @@ export function installQemu(arch: string) {
 					.on('error', reject)
 					.pipe(extract)
 					.on('error', reject)
-					.on('finish', function() {
+					.on('finish', function () {
 						fs.chmodSync(qemuPath, '755');
 						resolve();
 					});
@@ -119,7 +119,7 @@ export function installQemu(arch: string) {
 	);
 }
 
-const balenaArchToQemuArch = function(arch: string) {
+const balenaArchToQemuArch = function (arch: string) {
 	switch (arch) {
 		case 'armv7hf':
 		case 'rpi':

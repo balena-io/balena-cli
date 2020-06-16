@@ -261,7 +261,7 @@ export default class OsConfigureCmd extends Command {
 		if (options['system-connection']) {
 			const files = await Bluebird.map(
 				options['system-connection'],
-				async filePath => {
+				async (filePath) => {
 					const content = await fs.readFile(filePath, 'utf8');
 					const name = path.basename(filePath);
 
@@ -485,7 +485,7 @@ function camelifyConfigOptions(options: FlagsDef): { [key: string]: any } {
 		if (key.startsWith('config-')) {
 			return key
 				.substring('config-'.length)
-				.replace(/-[a-z]/g, match => match.substring(1).toUpperCase());
+				.replace(/-[a-z]/g, (match) => match.substring(1).toUpperCase());
 		}
 		return key;
 	});

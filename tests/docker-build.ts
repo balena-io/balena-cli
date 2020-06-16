@@ -21,6 +21,7 @@ import * as _ from 'lodash';
 import { fs } from 'mz';
 import * as path from 'path';
 import { PathUtils } from 'resin-multibuild';
+import * as sinon from 'sinon';
 import { Readable } from 'stream';
 import * as tar from 'tar-stream';
 import { streamToBuffer } from 'tar-utils';
@@ -88,7 +89,7 @@ export async function inspectTarStream(
 	});
 
 	expect(found).to.deep.equal(
-		_.mapValues(expectedFiles, v => _.omit(v, 'testStream', 'contents')),
+		_.mapValues(expectedFiles, (v) => _.omit(v, 'testStream', 'contents')),
 	);
 }
 
@@ -139,6 +140,7 @@ export async function testDockerBuildStream(o: {
 	expectedFilesByService: ExpectedTarStreamFilesByService;
 	expectedQueryParamsByService: { [service: string]: string[][] };
 	expectedErrorLines?: string[];
+	expectedExitCode?: number;
 	expectedResponseLines: string[];
 	projectPath: string;
 	responseCode: number;
@@ -174,20 +176,24 @@ export async function testDockerBuildStream(o: {
 		o.dockerMock.expectGetImages();
 	}
 
-	const { out, err } = await runCommand(o.commandLine);
-
-	const cleanLines = (lines: string[]) =>
-		cleanOutput(lines).map(line => line.replace(/\s{2,}/g, ' '));
+	const { exitCode, out, err } = await runCommand(o.commandLine);
 
 	if (expectedErrorLines.length) {
-		expect(cleanLines(err)).to.include.members(expectedErrorLines);
+		expect(cleanOutput(err, true)).to.include.members(expectedErrorLines);
 	} else {
 		expect(err).to.be.empty;
 	}
 	if (expectedResponseLines.length) {
-		expect(cleanLines(out)).to.include.members(expectedResponseLines);
+		expect(cleanOutput(out, true)).to.include.members(expectedResponseLines);
 	} else {
 		expect(out).to.be.empty;
+	}
+	if (o.expectedExitCode != null) {
+		if (process.env.BALENA_CLI_TEST_TYPE !== 'standalone') {
+			// @ts-ignore
+			sinon.assert.calledWith(process.exit);
+		}
+		expect(o.expectedExitCode).to.equal(exitCode);
 	}
 }
 
@@ -214,14 +220,12 @@ export async function testPushBuildStream(o: {
 			const queryParams = Array.from(url.searchParams.entries());
 			expect(queryParams).to.have.deep.members(expectedQueryParams);
 		},
-		checkBuildRequestBody: buildRequestBody =>
+		checkBuildRequestBody: (buildRequestBody) =>
 			inspectTarStream(buildRequestBody, o.expectedFiles, o.projectPath),
 	});
 
 	const { out, err } = await runCommand(o.commandLine);
 
 	expect(err).to.be.empty;
-	expect(
-		cleanOutput(out).map(line => line.replace(/\s{2,}/g, ' ')),
-	).to.include.members(expectedResponseLines);
+	expect(cleanOutput(out, true)).to.include.members(expectedResponseLines);
 }

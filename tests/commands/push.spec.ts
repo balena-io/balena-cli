@@ -80,7 +80,7 @@ const commonQueryParams = [
 
 const itSkipWindows = process.platform === 'win32' ? it.skip : it;
 
-describe('balena push', function() {
+describe('balena push', function () {
 	let api: BalenaAPIMock;
 	let builder: BuilderMock;
 	const isWindows = process.platform === 'win32';
@@ -167,7 +167,7 @@ describe('balena push', function() {
 			path.join(builderResponsePath, responseFilename),
 			'utf8',
 		);
-		const expectedQueryParams = commonQueryParams.map(i =>
+		const expectedQueryParams = commonQueryParams.map((i) =>
 			i[0] === 'dockerfilePath' ? ['dockerfilePath', 'Dockerfile-alt'] : i,
 		);
 
@@ -471,7 +471,7 @@ describe('balena push', function() {
 	});
 });
 
-describe('balena push: project validation', function() {
+describe('balena push: project validation', function () {
 	it('should raise ExpectedError if the project folder is not a directory', async () => {
 		const projectPath = path.join(
 			projectsPath,
@@ -486,9 +486,7 @@ describe('balena push: project validation', function() {
 		const { out, err } = await runCommand(
 			`push testApp --source ${projectPath} --nogitignore`,
 		);
-		expect(
-			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
-		).to.include.members(expectedErrorLines);
+		expect(cleanOutput(err, true)).to.include.members(expectedErrorLines);
 		expect(out).to.be.empty;
 	});
 
@@ -507,9 +505,7 @@ describe('balena push: project validation', function() {
 		const { out, err } = await runCommand(
 			`push testApp --source ${projectPath}`,
 		);
-		expect(
-			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
-		).to.include.members(expectedErrorLines);
+		expect(cleanOutput(err, true)).to.include.members(expectedErrorLines);
 		expect(out).to.be.empty;
 	});
 
@@ -536,12 +532,8 @@ describe('balena push: project validation', function() {
 		const { out, err } = await runCommand(
 			`push testApp --source ${projectPath} --nolive`,
 		);
-		expect(
-			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
-		).to.include.members(expectedErrorLines);
-		expect(
-			cleanOutput(out).map(line => line.replace(/\s{2,}/g, ' ')),
-		).to.include.members(expectedOutputLines);
+		expect(cleanOutput(err, true)).to.include.members(expectedErrorLines);
+		expect(cleanOutput(out, true)).to.include.members(expectedOutputLines);
 	});
 
 	it('should suppress a parent folder check with --noparent-check', async () => {
@@ -558,9 +550,7 @@ describe('balena push: project validation', function() {
 		const { out, err } = await runCommand(
 			`push testApp --source ${projectPath} --nolive --noparent-check`,
 		);
-		expect(
-			cleanOutput(err).map(line => line.replace(/\s{2,}/g, ' ')),
-		).to.include.members(expectedErrorLines);
+		expect(cleanOutput(err, true)).to.include.members(expectedErrorLines);
 		expect(out).to.be.empty;
 	});
 });

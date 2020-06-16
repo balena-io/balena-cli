@@ -40,7 +40,7 @@ export function displayDeviceLogs(
 	filterServices?: string[],
 ): Bluebird<void> {
 	return new Bluebird((resolve, reject) => {
-		logs.on('data', log => {
+		logs.on('data', (log) => {
 			displayLogLine(log, logger, system, filterServices);
 		});
 

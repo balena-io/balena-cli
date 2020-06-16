@@ -60,13 +60,13 @@ export default class DevicePublicUrlCmd extends Command {
 		{
 			name: 'uuid',
 			description: 'the uuid of the device to manage',
-			parse: dev => tryAsInteger(dev),
+			parse: (dev) => tryAsInteger(dev),
 			required: true,
 		},
 		{
 			// Optional hidden arg to support old command format
 			name: 'legacyUuid',
-			parse: dev => tryAsInteger(dev),
+			parse: (dev) => tryAsInteger(dev),
 			hidden: true,
 		},
 	];

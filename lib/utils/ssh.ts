@@ -95,7 +95,7 @@ export async function execBuffered(
 	await exec(
 		deviceIp,
 		cmd,
-		through(function(data, _enc, cb) {
+		through(function (data, _enc, cb) {
 			buffer.push(data.toString(enc));
 			cb();
 		}),

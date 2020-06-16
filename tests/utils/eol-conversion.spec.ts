@@ -24,7 +24,7 @@ import {
 	detectEncoding,
 } from '../../build/utils/eol-conversion';
 
-describe('convertEolInPlace() function', function() {
+describe('convertEolInPlace() function', function () {
 	it('should return expected values', () => {
 		// pairs of [given input, expected output]
 		const testVector = [
@@ -59,7 +59,7 @@ describe('convertEolInPlace() function', function() {
 	});
 });
 
-describe('detectEncoding() function', function() {
+describe('detectEncoding() function', function () {
 	it('should correctly detect the encoding of a few selected files', async () => {
 		const sampleBinary = [
 			'ext2fs/build/Release/bindings.node',

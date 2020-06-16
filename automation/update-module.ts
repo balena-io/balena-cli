@@ -87,7 +87,7 @@ async function main() {
 
 	const upstreamName = process.argv[2];
 
-	const upstream = upstreams.find(v => v.repo === upstreamName);
+	const upstream = upstreams.find((v) => v.repo === upstreamName);
 
 	if (!upstream) {
 		console.error(

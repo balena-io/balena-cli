@@ -19,7 +19,7 @@ import { Hook } from '@oclif/config';
 let trackResolve: (result: Promise<any>) => void;
 
 // note: trackPromise is subject to a Bluebird.timeout, defined in events.ts
-export const trackPromise = new Promise(resolve => {
+export const trackPromise = new Promise((resolve) => {
 	trackResolve = resolve;
 });
 
@@ -34,7 +34,7 @@ export const trackPromise = new Promise(resolve => {
  * A command signature is something like "env add NAME [VALUE]". That's
  * literally so: 'NAME' and 'VALUE' are NOT replaced with actual values.
  */
-const hook: Hook<'prerun'> = async function(options) {
+const hook: Hook<'prerun'> = async function (options) {
 	const events = await import('../../events');
 	const usage: string | string[] | undefined = options.Command.usage;
 	const cmdSignature =

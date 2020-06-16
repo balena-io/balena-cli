@@ -51,8 +51,8 @@ async function getPage(name: string): Promise<string> {
 	return compiledTpl();
 }
 
-describe('Server:', function() {
-	it('should get 404 if posting to an unknown path', function(done) {
+describe('Server:', function () {
+	it('should get 404 if posting to an unknown path', function (done) {
 		const promise = server.awaitForToken(options);
 		expect(promise).to.be.rejectedWith('Unknown path or verb');
 
@@ -63,7 +63,7 @@ describe('Server:', function() {
 					token: tokens.johndoe.token,
 				},
 			},
-			function(error, response, body) {
+			function (error, response, body) {
 				expect(error).to.not.exist;
 				expect(response.statusCode).to.equal(404);
 				expect(body).to.equal('Not found');
@@ -72,7 +72,7 @@ describe('Server:', function() {
 		);
 	});
 
-	it('should get 404 if not using the correct verb', function(done) {
+	it('should get 404 if not using the correct verb', function (done) {
 		const promise = server.awaitForToken(options);
 		expect(promise).to.be.rejectedWith('Unknown path or verb');
 
@@ -83,7 +83,7 @@ describe('Server:', function() {
 					token: tokens.johndoe.token,
 				},
 			},
-			function(error, response, body) {
+			function (error, response, body) {
 				expect(error).to.not.exist;
 				expect(response.statusCode).to.equal(404);
 				expect(body).to.equal('Not found');
@@ -92,17 +92,17 @@ describe('Server:', function() {
 		);
 	});
 
-	describe('given the token authenticates with the server', function() {
-		beforeEach(function() {
+	describe('given the token authenticates with the server', function () {
+		beforeEach(function () {
 			this.loginIfTokenValidStub = sinon.stub(utils, 'loginIfTokenValid');
 			return this.loginIfTokenValidStub.returns(Bluebird.resolve(true));
 		});
 
-		afterEach(function() {
+		afterEach(function () {
 			return this.loginIfTokenValidStub.restore();
 		});
 
-		return it('should eventually be the token', function(done) {
+		return it('should eventually be the token', function (done) {
 			const promise = server.awaitForToken(options);
 			expect(promise).to.eventually.equal(tokens.johndoe.token);
 
@@ -113,10 +113,10 @@ describe('Server:', function() {
 						token: tokens.johndoe.token,
 					},
 				},
-				function(error, response, body) {
+				function (error, response, body) {
 					expect(error).to.not.exist;
 					expect(response.statusCode).to.equal(200);
-					return getPage('success').then(function(expectedBody) {
+					return getPage('success').then(function (expectedBody) {
 						expect(body).to.equal(expectedBody);
 						return done();
 					});
@@ -125,17 +125,17 @@ describe('Server:', function() {
 		});
 	});
 
-	return describe('given the token does not authenticate with the server', function() {
-		beforeEach(function() {
+	return describe('given the token does not authenticate with the server', function () {
+		beforeEach(function () {
 			this.loginIfTokenValidStub = sinon.stub(utils, 'loginIfTokenValid');
 			return this.loginIfTokenValidStub.returns(Bluebird.resolve(false));
 		});
 
-		afterEach(function() {
+		afterEach(function () {
 			return this.loginIfTokenValidStub.restore();
 		});
 
-		it('should be rejected', function(done) {
+		it('should be rejected', function (done) {
 			const promise = server.awaitForToken(options);
 			expect(promise).to.be.rejectedWith('Invalid token');
 
@@ -146,10 +146,10 @@ describe('Server:', function() {
 						token: tokens.johndoe.token,
 					},
 				},
-				function(error, response, body) {
+				function (error, response, body) {
 					expect(error).to.not.exist;
 					expect(response.statusCode).to.equal(401);
-					return getPage('error').then(function(expectedBody) {
+					return getPage('error').then(function (expectedBody) {
 						expect(body).to.equal(expectedBody);
 						return done();
 					});
@@ -157,7 +157,7 @@ describe('Server:', function() {
 			);
 		});
 
-		it('should be rejected if no token', function(done) {
+		it('should be rejected if no token', function (done) {
 			const promise = server.awaitForToken(options);
 			expect(promise).to.be.rejectedWith('No token');
 
@@ -168,10 +168,10 @@ describe('Server:', function() {
 						token: '',
 					},
 				},
-				function(error, response, body) {
+				function (error, response, body) {
 					expect(error).to.not.exist;
 					expect(response.statusCode).to.equal(401);
-					return getPage('error').then(function(expectedBody) {
+					return getPage('error').then(function (expectedBody) {
 						expect(body).to.equal(expectedBody);
 						return done();
 					});
@@ -179,7 +179,7 @@ describe('Server:', function() {
 			);
 		});
 
-		return it('should be rejected if token is malformed', function(done) {
+		return it('should be rejected if token is malformed', function (done) {
 			const promise = server.awaitForToken(options);
 			expect(promise).to.be.rejectedWith('Invalid token');
 
@@ -190,10 +190,10 @@ describe('Server:', function() {
 						token: 'asdf',
 					},
 				},
-				function(error, response, body) {
+				function (error, response, body) {
 					expect(error).to.not.exist;
 					expect(response.statusCode).to.equal(401);
-					return getPage('error').then(function(expectedBody) {
+					return getPage('error').then(function (expectedBody) {
 						expect(body).to.equal(expectedBody);
 						return done();
 					});

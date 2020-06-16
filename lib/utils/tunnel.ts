@@ -54,14 +54,14 @@ export const tunnelConnectionToDevice = (
 
 		return (client: Socket): Bluebird<void> =>
 			openPortThroughProxy(vpnUrl, 3128, auth, uuid, port)
-				.then(remote => {
+				.then((remote) => {
 					client.pipe(remote);
 					remote.pipe(client);
-					remote.on('error', err => {
+					remote.on('error', (err) => {
 						console.error('Remote: ' + err);
 						client.end();
 					});
-					client.on('error', err => {
+					client.on('error', (err) => {
 						console.error('Client: ' + err);
 						remote.end();
 					});

@@ -40,7 +40,7 @@ Options:
     --application, -a, --app <application> application name
 `;
 
-describe('balena devices', function() {
+describe('balena devices', function () {
 	let api: BalenaAPIMock;
 
 	beforeEach(() => {
@@ -64,7 +64,7 @@ describe('balena devices', function() {
 	});
 
 	it('should list devices from own and collaborator apps', async () => {
-		api.expectGetWhoAmI({ optional: true });
+		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetMixpanel({ optional: true });
 
 		api.scope
@@ -85,11 +85,11 @@ describe('balena devices', function() {
 		);
 		expect(lines).to.have.lengthOf.at.least(2);
 
-		expect(lines.some(l => l.includes('test app'))).to.be.true;
+		expect(lines.some((l) => l.includes('test app'))).to.be.true;
 
 		// Devices with missing applications will have application name set to `N/a`.
 		// e.g. When user has a device associated with app that user is no longer a collaborator of.
-		expect(lines.some(l => l.includes('N/a'))).to.be.true;
+		expect(lines.some((l) => l.includes('N/a'))).to.be.true;
 
 		expect(err).to.eql([]);
 	});

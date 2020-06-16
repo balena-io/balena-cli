@@ -9,8 +9,8 @@ import tokens from './tokens';
 const utils = rewire('../../build/auth/utils');
 const balena = getBalenaSdk();
 
-describe('Utils:', function() {
-	describe('.getDashboardLoginURL()', function() {
+describe('Utils:', function () {
+	describe('.getDashboardLoginURL()', function () {
 		it('should eventually be a valid url', () =>
 			utils
 				.getDashboardLoginURL('https://127.0.0.1:3000/callback')
@@ -22,7 +22,7 @@ describe('Utils:', function() {
 			Promise.props({
 				dashboardUrl: balena.settings.get('dashboardUrl'),
 				loginUrl: utils.getDashboardLoginURL('https://127.0.0.1:3000/callback'),
-			}).then(function({ dashboardUrl, loginUrl }) {
+			}).then(function ({ dashboardUrl, loginUrl }) {
 				const { protocol } = url.parse(loginUrl);
 				return expect(protocol).to.equal(url.parse(dashboardUrl).protocol);
 			}));
@@ -31,7 +31,7 @@ describe('Utils:', function() {
 			Promise.props({
 				dashboardUrl: balena.settings.get('dashboardUrl'),
 				loginUrl: utils.getDashboardLoginURL('http://127.0.0.1:3000'),
-			}).then(function({ dashboardUrl, loginUrl }) {
+			}).then(function ({ dashboardUrl, loginUrl }) {
 				const expectedUrl = `${dashboardUrl}/login/cli/http%253A%252F%252F127.0.0.1%253A3000`;
 				return expect(loginUrl).to.equal(expectedUrl);
 			}));
@@ -40,55 +40,55 @@ describe('Utils:', function() {
 			Promise.props({
 				dashboardUrl: balena.settings.get('dashboardUrl'),
 				loginUrl: utils.getDashboardLoginURL('http://127.0.0.1:3000/callback'),
-			}).then(function({ dashboardUrl, loginUrl }) {
+			}).then(function ({ dashboardUrl, loginUrl }) {
 				const expectedUrl = `${dashboardUrl}/login/cli/http%253A%252F%252F127.0.0.1%253A3000%252Fcallback`;
 				return expect(loginUrl).to.equal(expectedUrl);
 			}));
 	});
 
-	return describe('.loginIfTokenValid()', function() {
-		it('should eventually be false if token is undefined', function() {
+	return describe('.loginIfTokenValid()', function () {
+		it('should eventually be false if token is undefined', function () {
 			const promise = utils.loginIfTokenValid(undefined);
 			return expect(promise).to.eventually.be.false;
 		});
 
-		it('should eventually be false if token is null', function() {
+		it('should eventually be false if token is null', function () {
 			const promise = utils.loginIfTokenValid(null);
 			return expect(promise).to.eventually.be.false;
 		});
 
-		it('should eventually be false if token is an empty string', function() {
+		it('should eventually be false if token is an empty string', function () {
 			const promise = utils.loginIfTokenValid('');
 			return expect(promise).to.eventually.be.false;
 		});
 
-		it('should eventually be false if token is a string containing only spaces', function() {
+		it('should eventually be false if token is a string containing only spaces', function () {
 			const promise = utils.loginIfTokenValid('     ');
 			return expect(promise).to.eventually.be.false;
 		});
 
-		describe('given the token does not authenticate with the server', function() {
-			beforeEach(function() {
+		describe('given the token does not authenticate with the server', function () {
+			beforeEach(function () {
 				this.balenaAuthIsLoggedInStub = sinon.stub(balena.auth, 'isLoggedIn');
 				return this.balenaAuthIsLoggedInStub.returns(Promise.resolve(false));
 			});
 
-			afterEach(function() {
+			afterEach(function () {
 				return this.balenaAuthIsLoggedInStub.restore();
 			});
 
-			it('should eventually be false', function() {
+			it('should eventually be false', function () {
 				const promise = utils.loginIfTokenValid(tokens.johndoe.token);
 				return expect(promise).to.eventually.be.false;
 			});
 
-			describe('given there was a token already', function() {
+			describe('given there was a token already', function () {
 				beforeEach(() => balena.auth.loginWithToken(tokens.janedoe.token));
 
 				return it('should preserve the old token', () =>
 					balena.auth
 						.getToken()
-						.then(function(originalToken: string) {
+						.then(function (originalToken: string) {
 							expect(originalToken).to.equal(tokens.janedoe.token);
 							return utils.loginIfTokenValid(tokens.johndoe.token);
 						})
@@ -98,7 +98,7 @@ describe('Utils:', function() {
 						));
 			});
 
-			return describe('given there was no token', function() {
+			return describe('given there was no token', function () {
 				beforeEach(() => balena.auth.logout());
 
 				return it('should stay without a token', () =>
@@ -109,17 +109,17 @@ describe('Utils:', function() {
 			});
 		});
 
-		return describe('given the token does authenticate with the server', function() {
-			beforeEach(function() {
+		return describe('given the token does authenticate with the server', function () {
+			beforeEach(function () {
 				this.balenaAuthIsLoggedInStub = sinon.stub(balena.auth, 'isLoggedIn');
 				return this.balenaAuthIsLoggedInStub.returns(Promise.resolve(true));
 			});
 
-			afterEach(function() {
+			afterEach(function () {
 				return this.balenaAuthIsLoggedInStub.restore();
 			});
 
-			return it('should eventually be true', function() {
+			return it('should eventually be true', function () {
 				const promise = utils.loginIfTokenValid(tokens.johndoe.token);
 				return expect(promise).to.eventually.be.true;
 			});

@@ -123,9 +123,9 @@ export function askLoginType() {
 export function selectDeviceType() {
 	return getBalenaSdk()
 		.models.config.getDeviceTypes()
-		.then(deviceTypes => {
+		.then((deviceTypes) => {
 			deviceTypes = _.sortBy(deviceTypes, 'name').filter(
-				dt => dt.state !== 'DISCONTINUED',
+				(dt) => dt.state !== 'DISCONTINUED',
 			);
 			return getForm().ask({
 				message: 'Device Type',
@@ -144,7 +144,7 @@ export function confirm(
 	yesMessage?: string,
 	exitIfDeclined = false,
 ) {
-	return Bluebird.try(function() {
+	return Bluebird.try(function () {
 		if (yesOption) {
 			if (yesMessage) {
 				console.log(yesMessage);
@@ -157,7 +157,7 @@ export function confirm(
 			type: 'confirm',
 			default: false,
 		});
-	}).then(function(confirmed) {
+	}).then(function (confirmed) {
 		if (!confirmed) {
 			const err = new Error('Aborted');
 			if (exitIfDeclined) {
@@ -174,7 +174,7 @@ export function selectApplication(
 	const balena = getBalenaSdk();
 	return balena.models.application
 		.hasAny()
-		.then(function(hasAnyApplications) {
+		.then(function (hasAnyApplications) {
 			if (!hasAnyApplications) {
 				throw new Error("You don't have any applications");
 			}
@@ -182,11 +182,11 @@ export function selectApplication(
 			return balena.models.application.getAll();
 		})
 		.filter(filter || _.constant(true))
-		.then(applications => {
+		.then((applications) => {
 			return getForm().ask({
 				message: 'Select an application',
 				type: 'list',
-				choices: _.map(applications, application => ({
+				choices: _.map(applications, (application) => ({
 					name: `${application.app_name} (${application.device_type})`,
 					value: application.app_name,
 				})),
@@ -198,17 +198,17 @@ export function selectOrCreateApplication() {
 	const balena = getBalenaSdk();
 	return balena.models.application
 		.hasAny()
-		.then(hasAnyApplications => {
+		.then((hasAnyApplications) => {
 			if (!hasAnyApplications) {
 				// Just to make TS happy
 				return Promise.resolve(undefined);
 			}
 
-			return balena.models.application.getAll().then(applications => {
+			return balena.models.application.getAll().then((applications) => {
 				const appOptions = _.map<
 					BalenaSdk.Application,
 					{ name: string; value: string | null }
-				>(applications, application => ({
+				>(applications, (application) => ({
 					name: `${application.app_name} (${application.device_type})`,
 					value: application.app_name,
 				}));
@@ -225,7 +225,7 @@ export function selectOrCreateApplication() {
 				});
 			});
 		})
-		.then(application => {
+		.then((application) => {
 			if (application) {
 				return application;
 			}
@@ -240,14 +240,14 @@ export function selectOrCreateApplication() {
 
 export function awaitDevice(uuid: string) {
 	const balena = getBalenaSdk();
-	return balena.models.device.getName(uuid).then(deviceName => {
+	return balena.models.device.getName(uuid).then((deviceName) => {
 		const visuals = getVisuals();
 		const spinner = new visuals.Spinner(
 			`Waiting for ${deviceName} to come online`,
 		);
 
 		const poll = (): Bluebird<void> => {
-			return balena.models.device.isOnline(uuid).then(function(isOnline) {
+			return balena.models.device.isOnline(uuid).then(function (isOnline) {
 				if (isOnline) {
 					spinner.stop();
 					console.info(`The device **${deviceName}** is online!`);
@@ -270,7 +270,7 @@ export function awaitDevice(uuid: string) {
 export function awaitDeviceOsUpdate(uuid: string, targetOsVersion: string) {
 	const balena = getBalenaSdk();
 
-	return balena.models.device.getName(uuid).then(deviceName => {
+	return balena.models.device.getName(uuid).then((deviceName) => {
 		const visuals = getVisuals();
 		const progressBar = new visuals.Progress(
 			`Updating the OS of ${deviceName} to v${targetOsVersion}`,
@@ -314,15 +314,13 @@ export function inferOrSelectDevice(preferredUuid: string) {
 	const balena = getBalenaSdk();
 	return balena.models.device
 		.getAll()
-		.filter<BalenaSdk.Device>(device => device.is_online)
-		.then(onlineDevices => {
+		.filter<BalenaSdk.Device>((device) => device.is_online)
+		.then((onlineDevices) => {
 			if (_.isEmpty(onlineDevices)) {
 				throw new Error("You don't have any devices online");
 			}
 
-			const defaultUuid = _(onlineDevices)
-				.map('uuid')
-				.includes(preferredUuid)
+			const defaultUuid = _(onlineDevices).map('uuid').includes(preferredUuid)
 				? preferredUuid
 				: onlineDevices[0].uuid;
 
@@ -330,7 +328,7 @@ export function inferOrSelectDevice(preferredUuid: string) {
 				message: 'Select a device',
 				type: 'list',
 				default: defaultUuid,
-				choices: _.map(onlineDevices, device => ({
+				choices: _.map(onlineDevices, (device) => ({
 					name: `${device.device_name || 'Untitled'} (${device.uuid.slice(
 						0,
 						7,
@@ -385,7 +383,7 @@ export async function getOnlineTargetUuid(
 			message: 'Select a device',
 			type: 'list',
 			default: devices[0].uuid,
-			choices: _.map(devices, device => ({
+			choices: _.map(devices, (device) => ({
 				name: `${device.device_name || 'Untitled'} (${device.uuid.slice(
 					0,
 					7,
@@ -419,7 +417,7 @@ export function selectFromList<T>(
 	return getForm().ask<T>({
 		message,
 		type: 'list',
-		choices: _.map(choices, s => ({
+		choices: _.map(choices, (s) => ({
 			name: s.name,
 			value: s,
 		})),

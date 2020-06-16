@@ -28,7 +28,7 @@ const jHeader = { 'Content-Type': 'application/json' };
 
 export class BalenaAPIMock extends NockMock {
 	constructor() {
-		super('https://api.balena-cloud.com');
+		super(/api\.balena-cloud\.com/);
 	}
 
 	public expectGetApplication(opts: ScopeOpts = {}) {
@@ -172,6 +172,17 @@ export class BalenaAPIMock extends NockMock {
 		});
 	}
 
+	public expectGetDeviceStatus(opts: ScopeOpts = {}) {
+		this.optGet(
+			/^\/v\d+\/device\?.+&\$select=overall_status$/,
+			opts,
+		).replyWithFile(
+			200,
+			path.join(apiResponsePath, 'device-status.json'),
+			jHeader,
+		);
+	}
+
 	public expectGetAppEnvVars(opts: ScopeOpts = {}) {
 		this.optGet(/^\/v\d+\/application_environment_variable($|\?)/, opts).reply(
 			200,
@@ -206,7 +217,7 @@ export class BalenaAPIMock extends NockMock {
 
 	public expectGetAppServiceVars(opts: ScopeOpts = {}) {
 		this.optGet(/^\/v\d+\/service_environment_variable($|\?)/, opts).reply(
-			function(uri, _requestBody) {
+			function (uri, _requestBody) {
 				const match = uri.match(/service_name%20eq%20%27(.+?)%27/);
 				const serviceName = (match && match[1]) || undefined;
 				let varArray: any[];
@@ -214,7 +225,7 @@ export class BalenaAPIMock extends NockMock {
 					const varObj = appServiceVarsByService[serviceName];
 					varArray = varObj ? [varObj] : [];
 				} else {
-					varArray = _.map(appServiceVarsByService, value => value);
+					varArray = _.map(appServiceVarsByService, (value) => value);
 				}
 				return [200, { d: varArray }];
 			},
@@ -254,7 +265,7 @@ export class BalenaAPIMock extends NockMock {
 		this.optGet(
 			/^\/v\d+\/device_service_environment_variable($|\?)/,
 			opts,
-		).reply(function(uri, _requestBody) {
+		).reply(function (uri, _requestBody) {
 			const match = uri.match(/service_name%20eq%20%27(.+?)%27/);
 			const serviceName = (match && match[1]) || undefined;
 			let varArray: any[];
@@ -262,7 +273,7 @@ export class BalenaAPIMock extends NockMock {
 				const varObj = deviceServiceVarsByService[serviceName];
 				varArray = varObj ? [varObj] : [];
 			} else {
-				varArray = _.map(deviceServiceVarsByService, value => value);
+				varArray = _.map(deviceServiceVarsByService, (value) => value);
 			}
 			return [200, { d: varArray }];
 		});

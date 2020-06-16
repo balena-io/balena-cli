@@ -20,7 +20,7 @@ import { expect } from 'chai';
 import { BalenaAPIMock } from '../../balena-api-mock';
 import { runCommand } from '../../helpers';
 
-describe('balena env rename', function() {
+describe('balena env rename', function () {
 	let api: BalenaAPIMock;
 
 	beforeEach(() => {

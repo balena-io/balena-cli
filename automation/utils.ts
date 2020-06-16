@@ -50,7 +50,7 @@ export async function runUnderMsys(argv?: string[]) {
 	await new Promise((resolve, reject) => {
 		const args = ['-lc', shellEscape(newArgv)];
 		const child = spawn(MSYS2_BASH, args, { stdio: 'inherit' });
-		child.on('close', code => {
+		child.on('close', (code) => {
 			if (code) {
 				console.log(`runUnderMsys: child process exited with code ${code}`);
 				reject(code);
@@ -93,7 +93,7 @@ export async function getSubprocessStdout(
 				// every line provided to the stderr stream
 				const lines = _.filter(
 					stderr.trim().split(/\r?\n/),
-					line => !line.startsWith('[debug]'),
+					(line) => !line.startsWith('[debug]'),
 				);
 				if (lines.length > 0) {
 					reject(
