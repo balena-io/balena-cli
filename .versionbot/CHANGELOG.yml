@@ -1,4 +1,75 @@
 - commits:
+    - subject: 'v12 RELEASE NOTES: see https://git.io/Jf7hz'
+      hash: 98f101643d4162bed63efb7b76e5ab2ea44f5db4
+      body: >
+        Full URL:
+        https://github.com/balena-io/balena-cli/wiki/CLI-v12-Release-Notes
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Update 'balena-lint' and apply new prettier rules
+      hash: c619bd4b999fc9b4de896b7a5615143dd36e4466
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Convert 'logs' command to async/await and add tests
+      hash: 19c3069b229afed0f0f4e5a80e2593bc6929737c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Add tests for standalone executable via proxy server
+      hash: 7e1d58546c1a667299bad9536c69a01749d530f2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: >-
+        Update 'global-agent' (fix proxy server issues with unauthenticated
+        setup)
+      hash: 2c01f8adee4e102fcb15423def8e1ca0cf9d14c7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Update 'balena-sdk' from v12 to v13 and update code and tests as needed
+      hash: 3ecf461d556cbfff19f476e599eb69765acf5b24
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Update 'pkg' dependency (improve support for Node v14)
+      hash: 06ab84fd1079fed710264e3d7ca2f2b11b6c5c85
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Turn v12 feature switch on
+      hash: a7b78d2ccdc434f3e1df2c228893bb53b4629ecc
+      body: |
+        See https://github.com/balena-io/balena-cli/issues/1770
+      footer:
+        Change-type: major
+        change-type: major
+      author: Paulo Castro
+    - subject: Update minimum Node.js requirement from v8 to v10
+      hash: 432109060e9e0cf09aa9cc631df5d17b249f8649
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+      author: Paulo Castro
+  version: 12.0.0
+  date: 2020-06-16T00:14:27.545Z
+- commits:
     - subject: 'balena device: Add the mac_address field'
       hash: 41e5fdbe27f262354b43efd8dbd2ed3d52a74264
       body: ''
