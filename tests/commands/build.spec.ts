@@ -126,7 +126,7 @@ describe('balena build', function () {
 		}
 		docker.expectGetInfo({});
 		await testDockerBuildStream({
-			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 -G`,
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 -g`,
 			dockerMock: docker,
 			expectedFilesByService: { main: expectedFiles },
 			expectedQueryParamsByService: { main: commonQueryParams },
@@ -138,6 +138,8 @@ describe('balena build', function () {
 		});
 	});
 
+	// Skip Standalone because we patch the source code with `mock-require` to avoid
+	// downloading and installing QEMU
 	itSS('should create the expected tar stream (--emulated)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
 		const isV12W = isWindows && isV12();

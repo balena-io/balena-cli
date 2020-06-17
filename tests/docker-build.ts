@@ -88,9 +88,17 @@ export async function inspectTarStream(
 		sourceTarStream.pipe(extract);
 	});
 
-	expect(found).to.deep.equal(
-		_.mapValues(expectedFiles, (v) => _.omit(v, 'testStream', 'contents')),
+	const $expected = _.mapValues(expectedFiles, (v) =>
+		_.omit(v, 'testStream', 'contents'),
 	);
+	try {
+		expect($expected).to.deep.equal(found);
+	} catch (e) {
+		const { diff } = require('deep-object-diff');
+		const diffStr = JSON.stringify(diff($expected, found), null, 4);
+		console.error(`\nexpected vs. found diff:\n${diffStr}\n`);
+		throw e;
+	}
 }
 
 /** Check that a tar stream entry matches the project contents in the filesystem */

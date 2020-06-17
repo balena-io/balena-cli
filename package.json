@@ -153,6 +153,7 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
+    "deep-object-diff": "^1.1.0",
     "ent": "^2.2.0",
     "filehound": "^1.17.4",
     "fs-extra": "^8.0.1",

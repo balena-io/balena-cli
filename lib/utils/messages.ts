@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-import { isV12 } from './version';
-
 const DEBUG_MODE = !!process.env.DEBUG;
 
 export const reachingOut = `\
@@ -69,27 +67,26 @@ If the --registry-secrets option is not specified, and a secrets.yml or
 secrets.json file exists in the balena directory (usually $HOME/.balena),
 this file will be used instead.`;
 
-const dockerignoreHelpV11 = `\
+export const dockerignoreHelp = `\
 DOCKERIGNORE AND GITIGNORE FILES
-By default, both '.dockerignore' and '.gitignore' files are taken into account
-in order to prevent files from being sent to the balenaCloud builder or Docker
-or balenaEngine (balenaOS device).
+The balena CLI will use a '.dockerignore' file (if any) at the source directory
+in order to decide which source files to exclude from the "build context" sent
+to balenaCloud, Docker or balenaEngine. In a microservices / multicontainer
+application, the source directory is usually where the 'docker-compose.yml'
+file is located, and therefore the '.dockerignore' file should be located
+alongside the 'docker-compose.yml' file. Matching patterns may be prefixed with
+the service's directory name (relative to the source directory) in order to
+apply to that service only (e.g. 'service1/node_modules').
 
-However, this behavior has been DEPRECATED and will change in an upcoming major
-version release. The --nogitignore (-G) option should be used to enable the new
-behavior already now. This option will cause the CLI to:
+Previous balena CLI releases (before v12.0.0) also took '.gitignore' files
+into account. This behavior is deprecated, but may still be enabled with the
+--gitignore (-g) option if compatibility is required. This option will be
+removed in the CLI's next major version release (v13).
 
-* Disregard all '.gitignore' files at the source directory and subdirectories,
-  and consider only the '.dockerignore' file (if any) at the source directory.
-* Consequently, allow files to be sent to balenaCloud / Docker / balenaEngine
-  even if they are listed in '.gitignore' files (a longstanding feature request).
-* Use a new '.dockerignore' parser and filter library that improves compatibility
-  with "docker build" and fixes several issues (mainly on Windows).
-* Prevent a warning message from being printed.
-
-When --nogitignore (-G) is provided, a few "hardcoded" dockerignore patterns are
-also used and "merged" (in memory) with the patterns found in the '.dockerignore'
-file (if any), in the following order:
+When --gitignore (-g) is NOT provided (i.e. when not in v11 compatibility mode),
+a few "hardcoded" dockerignore patterns are also used and "merged" (in memory)
+with the patterns found in the '.dockerignore' file (if any), in the following
+order:
 
     **/.git
     < user's patterns from the '.dockerignore' file, if any >
@@ -104,21 +101,3 @@ If necessary, the effect of the '**/.git' pattern may be modified by adding
 For documentation on pattern format, see:
 - https://docs.docker.com/engine/reference/builder/#dockerignore-file
 - https://www.npmjs.com/package/@balena/dockerignore`;
-
-const dockerignoreHelpV12 =
-	`DOCKERIGNORE AND GITIGNORE FILES
-The balena CLI will use a '.dockerignore' file (if any) at the source directory
-in order to decide which source files to exclude from the "build context" sent
-to balenaCloud, Docker or balenaEngine.  Previous balena CLI releases (before
-v12.0.0) also took '.gitignore' files into account, but this is no longer the
-case. This allows files to be used for an image build even if they are listed
-in '.gitignore'.
-
-A few "hardcoded" dockerignore patterns are also used and "merged" (in memory)
-with the patterns found in the '.dockerignore' file (if any), in the following
-order:
-` + dockerignoreHelpV11.substring(dockerignoreHelpV11.indexOf('\n    **/.git'));
-
-export const dockerignoreHelp = isV12()
-	? dockerignoreHelpV12
-	: dockerignoreHelpV11;
