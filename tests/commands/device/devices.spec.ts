@@ -22,22 +22,26 @@ import { apiResponsePath, BalenaAPIMock } from '../../balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
 const HELP_RESPONSE = `
-Usage: devices
+List all devices.
 
-Use this command to list all devices that belong to you.
+USAGE
+  $ balena devices
 
-You can filter the devices by application by using the \`--application\` option.
+OPTIONS
+  -a, --application <application>  application name
+  -h, --help                       show CLI help
+  --app <app>                      same as '--application'
 
-Examples:
+DESCRIPTION
+  list all devices that belong to you.
 
-\t$ balena devices
-\t$ balena devices --application MyApp
-\t$ balena devices --app MyApp
-\t$ balena devices -a MyApp
+  You can filter the devices by application by using the \`--application\` option.
 
-Options:
-
-    --application, -a, --app <application> application name
+EXAMPLES
+  $ balena devices
+  $ balena devices --application MyApp
+  $ balena devices --app MyApp
+  $ balena devices -a MyApp
 `;
 
 describe('balena devices', function () {
@@ -53,7 +57,7 @@ describe('balena devices', function () {
 	});
 
 	it('should print help text with the -h flag', async () => {
-		api.expectGetWhoAmI({ optional: true });
+		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetMixpanel({ optional: true });
 
 		const { out, err } = await runCommand('devices -h');

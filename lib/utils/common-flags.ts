@@ -23,6 +23,10 @@ export const application = flags.string({
 	char: 'a',
 	description: 'application name',
 });
+// TODO: Consider remove second alias 'app' when we can, to simplify.
+export const app = flags.string({
+	description: "same as '--application'",
+});
 
 export const device = flags.string({
 	char: 'd',
@@ -55,4 +59,9 @@ export const verbose: IBooleanFlag<boolean> = flags.boolean({
 export const yes: IBooleanFlag<boolean> = flags.boolean({
 	char: 'y',
 	description: 'answer "yes" to all questions (non interactive use)',
+});
+
+export const force: IBooleanFlag<boolean> = flags.boolean({
+	char: 'f',
+	description: 'force action if the update lock is set',
 });

@@ -117,8 +117,9 @@ describe('handleError() function', () => {
 	});
 
 	const messagesToMatch = [
-		'Missing argument',
-		'Missing arguments',
+		'Missing uuid', // Capitano
+		'Missing 1 required argument', // oclif
+		'Missing 2 required arguments', // oclif
 		'Unexpected argument',
 		'Unexpected arguments',
 		'to be one of',
