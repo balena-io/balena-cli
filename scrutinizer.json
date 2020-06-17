@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Add --gitignore (-g) option to push/build/deploy commands for v11 compatibility",
+          "hash": "146de39b832437d869904843a0d177bd2544ba83",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "12.1.0",
+      "date": "2020-06-17T14:06:12.737Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "v12 RELEASE NOTES: see https://git.io/Jf7hz",
           "hash": "98f101643d4162bed63efb7b76e5ab2ea44f5db4",
           "body": "Full URL: https://github.com/balena-io/balena-cli/wiki/CLI-v12-Release-Notes\n",
@@ -12081,12 +12097,12 @@
       "avatar": "https://avatars0.githubusercontent.com/u/15064535?v=4"
     },
     {
-      "username": "xginn8",
-      "avatar": "https://avatars1.githubusercontent.com/u/6697261?v=4"
-    },
-    {
       "username": "bulldozer-balena[bot]",
       "avatar": "https://avatars0.githubusercontent.com/in/58047?v=4"
+    },
+    {
+      "username": "xginn8",
+      "avatar": "https://avatars1.githubusercontent.com/u/6697261?v=4"
     },
     {
       "username": "imrehg",
@@ -12275,29 +12291,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-16T08:02:40Z",
+  "lastCommitDate": "2020-06-17T15:00:03Z",
   "latestRelease": {
-    "tagName": "v12.0.0",
+    "tagName": "v12.1.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.0.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.0.0/balena-cli-v12.0.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.1.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.0/balena-cli-v12.1.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.0.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.0.0/balena-cli-v12.0.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.1.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.0/balena-cli-v12.1.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.0.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.0.0/balena-cli-v12.0.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.1.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.0/balena-cli-v12.1.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.0.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.0.0/balena-cli-v12.0.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.1.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.0/balena-cli-v12.1.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.0.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.0.0/balena-cli-v12.0.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.1.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.0/balena-cli-v12.1.0-windows-x64-standalone.zip"
       }
     ]
   },
@@ -12305,6 +12321,10 @@
   "openIssues": {
     "numberOfIssues": 284,
     "latestIssues": [
+      {
+        "title": "Add short version of \"balena devices\" output.",
+        "url": "https://github.com/balena-io/balena-cli/issues/1868"
+      },
       {
         "title": "CLI should retry image pulls on livepush (push to local device)",
         "url": "https://github.com/balena-io/balena-cli/issues/1865"
@@ -12366,10 +12386,6 @@
         "url": "https://github.com/balena-io/balena-cli/issues/1828"
       },
       {
-        "title": "Balena push stuck after build",
-        "url": "https://github.com/balena-io/balena-cli/issues/1822"
-      },
-      {
         "title": "balena push: Could not detect project type: Service main: Couldn't satisfy node version >=4 ",
         "url": "https://github.com/balena-io/balena-cli/issues/1819"
       },
@@ -12387,7 +12403,7 @@
       }
     ]
   },
-  "version": "12.0.0",
+  "version": "12.1.0",
   "screenshot": null,
   "logo": null
 }

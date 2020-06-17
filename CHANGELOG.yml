@@ -1,4 +1,16 @@
 - commits:
+    - subject: >-
+        Add --gitignore (-g) option to push/build/deploy commands for v11
+        compatibility
+      hash: 146de39b832437d869904843a0d177bd2544ba83
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+  version: 12.1.0
+  date: 2020-06-17T14:59:17.242Z
+- commits:
     - subject: 'v12 RELEASE NOTES: see https://git.io/Jf7hz'
       hash: 98f101643d4162bed63efb7b76e5ab2ea44f5db4
       body: >
@@ -68,7 +80,7 @@
         change-type: major
       author: Paulo Castro
   version: 12.0.0
-  date: 2020-06-16T08:01:57.225Z
+  date: 2020-06-16T00:14:27.545Z
 - commits:
     - subject: 'balena device: Add the mac_address field'
       hash: 41e5fdbe27f262354b43efd8dbd2ed3d52a74264
