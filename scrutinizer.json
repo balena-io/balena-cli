@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Convert device commands to oclif",
+          "hash": "ab673f884ad14a64a434ea5032b02b79730bf615",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "12.1.1",
+      "date": "2020-06-18T12:19:52.268Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add --gitignore (-g) option to push/build/deploy commands for v11 compatibility",
           "hash": "146de39b832437d869904843a0d177bd2544ba83",
           "body": "",
@@ -12188,7 +12206,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 250,
+  "stars": 249,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -12291,36 +12309,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-17T15:00:03Z",
+  "lastCommitDate": "2020-06-18T19:35:22Z",
   "latestRelease": {
-    "tagName": "v12.1.0",
+    "tagName": "v12.1.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.1.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.0/balena-cli-v12.1.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.1.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.1/balena-cli-v12.1.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.1.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.0/balena-cli-v12.1.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.1.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.1/balena-cli-v12.1.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.1.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.0/balena-cli-v12.1.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.1.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.1/balena-cli-v12.1.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.1.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.0/balena-cli-v12.1.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.1.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.1/balena-cli-v12.1.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.1.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.0/balena-cli-v12.1.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.1.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.1/balena-cli-v12.1.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 284,
+    "numberOfIssues": 285,
     "latestIssues": [
+      {
+        "title": "Convert device os-update command to oclif",
+        "url": "https://github.com/balena-io/balena-cli/pull/1873"
+      },
+      {
+        "title": "`balena device reboot` shows misleading error when device not online.",
+        "url": "https://github.com/balena-io/balena-cli/issues/1872"
+      },
+      {
+        "title": "Consider a .dockerignore file per service for docker-compose compatibility",
+        "url": "https://github.com/balena-io/balena-cli/issues/1870"
+      },
       {
         "title": "Add short version of \"balena devices\" output.",
         "url": "https://github.com/balena-io/balena-cli/issues/1868"
@@ -12388,22 +12418,10 @@
       {
         "title": "balena push: Could not detect project type: Service main: Couldn't satisfy node version >=4 ",
         "url": "https://github.com/balena-io/balena-cli/issues/1819"
-      },
-      {
-        "title": "Consider a check to see if containers are stopped when pushing locally",
-        "url": "https://github.com/balena-io/balena-cli/issues/1816"
-      },
-      {
-        "title": "balena os initialize should not require login",
-        "url": "https://github.com/balena-io/balena-cli/issues/1814"
-      },
-      {
-        "title": "Install: For windows user we should mention they need ubuntu +WSL",
-        "url": "https://github.com/balena-io/balena-cli/issues/1812"
       }
     ]
   },
-  "version": "12.1.0",
+  "version": "12.1.1",
   "screenshot": null,
   "logo": null
 }
