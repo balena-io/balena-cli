@@ -22,6 +22,7 @@ import * as _ from 'lodash';
 import * as os from 'os';
 import * as ShellEscape from 'shell-escape';
 
+import { Device, PineOptionsFor } from 'balena-sdk';
 import { ExpectedError } from '../errors';
 import { getBalenaSdk, getChalk, getVisuals } from './lazy';
 
@@ -466,3 +467,7 @@ export function getProxyConfig(): ProxyConfig | undefined {
 		}
 	}
 }
+
+export const expandForAppName: PineOptionsFor<Device> = {
+	$expand: { belongs_to__application: { $select: 'app_name' } },
+};

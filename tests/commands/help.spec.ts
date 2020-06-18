@@ -14,7 +14,7 @@ Primary commands:
     apps                                    list all applications
     app <name>                              display information about a single application
     devices                                 list all devices
-    device <uuid>                           list a single device
+    device <uuid>                           show info about a single device
     tunnel <deviceOrApplication>            Tunnel local ports to your balenaOS device
     preload <image>                         preload an app on a disk image (or Edison zip archive)
     build [source]                          Build a single image or a multicontainer project locally
@@ -37,14 +37,14 @@ Additional commands:
     config read                           read a device configuration
     config reconfigure                    reconfigure a provisioned device
     config write <key> <value>            write a device configuration
-    device identify <uuid>                identify a device with a UUID
+    device identify <uuid>                identify a device
     device init                           initialise a device with balenaOS
     device move <uuid>                    move a device to another application
     device os-update <uuid>               Start a Host OS update for a device
 	device public-url <uuid>              get or manage the public URL for a device
     device reboot <uuid>                  restart a device
     device register <application>         register a device
-    device rename <uuid> [newName]        rename a balena device
+    device rename <uuid> [newname]        rename a device
     device rm <uuid>                      remove a device
     device shutdown <uuid>                shutdown a device
     devices supported                     list the supported device types (like 'raspberrypi3' or 'intel-nuc')

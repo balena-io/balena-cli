@@ -22,13 +22,22 @@ import { apiResponsePath, BalenaAPIMock } from '../../balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
 const HELP_RESPONSE = `
-Usage: device <uuid>
+Show info about a single device.
 
-Use this command to show information about a single device.
+USAGE
+  $ balena device <uuid>
 
-Examples:
+ARGUMENTS
+  <uuid>  the device uuid
 
-\t$ balena device 7cf02a6
+OPTIONS
+  -h, --help  show CLI help
+
+DESCRIPTION
+  Show information about a single device.
+
+EXAMPLE
+  $ balena device 7cf02a6
 `;
 
 describe('balena device', function () {
@@ -44,7 +53,7 @@ describe('balena device', function () {
 	});
 
 	it('should print help text with the -h flag', async () => {
-		api.expectGetWhoAmI({ optional: true });
+		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetMixpanel({ optional: true });
 
 		const { out, err } = await runCommand('device -h');
@@ -54,16 +63,15 @@ describe('balena device', function () {
 		expect(err).to.eql([]);
 	});
 
-	it.skip('should error if uuid not provided', async () => {
-		// TODO: Figure out how to test for expected errors with current setup
-		//  including exit codes if possible.
-		api.expectGetWhoAmI({ optional: true });
+	it('should error if uuid not provided', async () => {
+		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetMixpanel({ optional: true });
 
 		const { out, err } = await runCommand('device');
 		const errLines = cleanOutput(err);
 
-		expect(errLines[0]).to.equal('Missing uuid');
+		expect(errLines[0]).to.equal('Missing 1 required argument:');
+		expect(errLines[1]).to.equal('uuid : the device uuid');
 		expect(out).to.eql([]);
 	});
 

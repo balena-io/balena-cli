@@ -20,20 +20,28 @@ import { BalenaAPIMock } from '../../balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
 const HELP_RESPONSE = `
-Usage: device move <uuid>
+Move a device to another application.
 
-Use this command to move a device to another application you own.
+USAGE
+  $ balena device move <uuid>
 
-If you omit the application, you'll get asked for it interactively.
+ARGUMENTS
+  <uuid>  the uuid of the device to move
 
-Examples:
+OPTIONS
+  -a, --application <application>  application name
+  -h, --help                       show CLI help
+  --app <app>                      same as '--application'
 
-\t$ balena device move 7cf02a6
-\t$ balena device move 7cf02a6 --application MyNewApp
+DESCRIPTION
+  Move a device to another application.
 
-Options:
+  Note, if the application option is omitted it will be prompted
+  for interactively.
 
-    --application, -a, --app <application> application name
+EXAMPLES
+  $ balena device move 7cf02a6
+  $ balena device move 7cf02a6 --application MyNewApp
 `;
 
 describe('balena device move', function () {
@@ -49,7 +57,7 @@ describe('balena device move', function () {
 	});
 
 	it('should print help text with the -h flag', async () => {
-		api.expectGetWhoAmI({ optional: true });
+		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetMixpanel({ optional: true });
 
 		const { out, err } = await runCommand('device move -h');
@@ -59,16 +67,15 @@ describe('balena device move', function () {
 		expect(err).to.eql([]);
 	});
 
-	it.skip('should error if uuid not provided', async () => {
-		// TODO: Figure out how to test for expected errors with current setup
-		//  including exit codes if possible.
-		api.expectGetWhoAmI({ optional: true });
+	it('should error if uuid not provided', async () => {
+		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetMixpanel({ optional: true });
 
 		const { out, err } = await runCommand('device move');
 		const errLines = cleanOutput(err);
 
-		expect(errLines[0]).to.equal('Missing uuid');
+		expect(errLines[0]).to.equal('Missing 1 required argument:');
+		expect(errLines[1]).to.equal('uuid : the uuid of the device to move');
 		expect(out).to.eql([]);
 	});
 
