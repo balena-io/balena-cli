@@ -61,6 +61,7 @@ const capitanoDoc = {
 				'build/actions-oclif/device/shutdown.js',
 				'build/actions-oclif/devices/index.js',
 				'build/actions-oclif/devices/supported.js',
+				'build/actions-oclif/device/os-update.js',
 				'build/actions-oclif/device/public-url.js',
 			],
 		},

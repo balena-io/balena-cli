@@ -144,6 +144,7 @@ export const convertedCommands = [
 	'device',
 	'device:identify',
 	'device:move',
+	'device:os-update',
 	'device:public-url',
 	'device:reboot',
 	'device:register',

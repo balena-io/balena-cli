@@ -40,7 +40,7 @@ Additional commands:
     device identify <uuid>                identify a device
     device init                           initialise a device with balenaOS
     device move <uuid>                    move a device to another application
-    device os-update <uuid>               Start a Host OS update for a device
+    device os-update <uuid>               start a Host OS update for a device
 	device public-url <uuid>              get or manage the public URL for a device
     device reboot <uuid>                  restart a device
     device register <application>         register a device

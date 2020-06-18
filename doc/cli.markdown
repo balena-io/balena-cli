@@ -168,7 +168,6 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 - Device
 
 	- [device init](#device-init)
-	- [device os-update &#60;uuid&#62;](#device-os-update-uuid)
 	- [device identify &#60;uuid&#62;](#device-identify-uuid)
 	- [device &#60;uuid&#62;](#device-uuid)
 	- [device move &#60;uuid&#62;](#device-move-uuid)
@@ -179,6 +178,7 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 	- [device shutdown &#60;uuid&#62;](#device-shutdown-uuid)
 	- [devices](#devices)
 	- [devices supported](#devices-supported)
+	- [device os-update &#60;uuid&#62;](#device-os-update-uuid)
 	- [device public-url &#60;uuid&#62;](#device-public-url-uuid)
 
 - Environment Variables
@@ -496,30 +496,6 @@ the drive to write the image to, like `/dev/sdb` or `/dev/mmcblk0`. Careful with
 
 path to the config JSON file, see `balena os build-config`
 
-## device os-update &#60;uuid&#62;
-
-Use this command to trigger a Host OS update for a device.
-
-Notice this command will ask for confirmation interactively.
-You can avoid this by passing the `--yes` boolean option.
-
-Requires balenaCloud; will not work with openBalena or standalone balenaOS.
-
-Examples:
-
-	$ balena device os-update 23c73a1
-	$ balena device os-update 23c73a1 --version 2.31.0+rev1.prod
-
-### Options
-
-#### --version &#60;version&#62;
-
-a balenaOS version
-
-#### --yes, -y
-
-confirm non interactively
-
 ## device identify &#60;uuid&#62;
 
 Identify a device by making the ACT LED blink (Raspberry Pi).
@@ -745,6 +721,36 @@ produce JSON output instead of tabular output
 #### -v, --verbose
 
 add extra columns in the tabular output (ALIASES, ARCH, STATE)
+
+## device os-update &#60;uuid&#62;
+
+Start a Host OS update for a device.
+
+Note this command will ask for confirmation interactively.
+This can be avoided by passing the `--yes` option.
+
+Requires balenaCloud; will not work with openBalena or standalone balenaOS.
+
+Examples:
+
+	$ balena device os-update 23c73a1
+	$ balena device os-update 23c73a1 --version 2.31.0+rev1.prod
+
+### Arguments
+
+#### UUID
+
+the uuid of the device to update
+
+### Options
+
+#### --version VERSION
+
+a balenaOS version
+
+#### -y, --yes
+
+answer "yes" to all questions (non interactive use)
 
 ## device public-url &#60;uuid&#62;
 
