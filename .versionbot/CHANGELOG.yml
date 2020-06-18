@@ -1,4 +1,16 @@
 - commits:
+    - subject: Convert device commands to oclif
+      hash: ab673f884ad14a64a434ea5032b02b79730bf615
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 12.1.1
+  date: 2020-06-18T12:19:52.268Z
+- commits:
     - subject: >-
         Add --gitignore (-g) option to push/build/deploy commands for v11
         compatibility
