@@ -1,4 +1,16 @@
 - commits:
+    - subject: Convert device os-update command to oclif
+      hash: ebb0ec5287587beb52a63bbf35052fe643d9c313
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 12.1.2
+  date: 2020-06-19T08:07:20.000Z
+- commits:
     - subject: Convert device commands to oclif
       hash: ab673f884ad14a64a434ea5032b02b79730bf615
       body: ''
