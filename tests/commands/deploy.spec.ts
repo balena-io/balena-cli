@@ -23,7 +23,6 @@ import { fs } from 'mz';
 import * as path from 'path';
 import * as sinon from 'sinon';
 
-import { isV12 } from '../../build/utils/version';
 import { BalenaAPIMock } from '../balena-api-mock';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../docker-mock';
@@ -39,9 +38,7 @@ const commonResponseLines = {
 		'[Info] Docker Desktop detected (daemon architecture: "x86_64")',
 		'[Info] Docker itself will determine and enable architecture emulation if required,',
 		'[Info] without balena-cli intervention and regardless of the --emulated option.',
-		isV12()
-			? '[Build] main Step 1/4 : FROM busybox'
-			: '[Build] main Image size: 1.14 MB',
+		'[Build] main Step 1/4 : FROM busybox',
 		'[Info] Creating release...',
 		'[Info] Pushing images to registry...',
 		'[Info] Saving release...',
@@ -59,19 +56,7 @@ const commonQueryParams = [
 describe('balena deploy', function () {
 	let api: BalenaAPIMock;
 	let docker: DockerMock;
-	let sentryStatus: boolean | undefined;
 	const isWindows = process.platform === 'win32';
-
-	this.beforeAll(async () => {
-		sentryStatus = await switchSentry(false);
-		sinon.stub(process, 'exit');
-	});
-
-	this.afterAll(async () => {
-		await switchSentry(sentryStatus);
-		// @ts-ignore
-		process.exit.restore();
-	});
 
 	this.beforeEach(() => {
 		api = new BalenaAPIMock();
@@ -106,12 +91,12 @@ describe('balena deploy', function () {
 
 	it('should create the expected --build tar stream (single container)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
-		const isV12W = isWindows && isV12();
 		const expectedFiles: ExpectedTarStreamFiles = {
+			'src/.dockerignore': { fileSize: 16, type: 'file' },
 			'src/start.sh': { fileSize: 89, type: 'file' },
 			'src/windows-crlf.sh': {
-				fileSize: isV12W ? 68 : 70,
-				testStream: isV12W ? expectStreamNoCRLF : undefined,
+				fileSize: isWindows ? 68 : 70,
+				testStream: isWindows ? expectStreamNoCRLF : undefined,
 				type: 'file',
 			},
 			Dockerfile: { fileSize: 88, type: 'file' },
@@ -126,19 +111,23 @@ describe('balena deploy', function () {
 			...commonResponseLines[responseFilename],
 			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
 			`[Info] Creating default composition with source: "${projectPath}"`,
+			...[
+				'[Warn] -------------------------------------------------------------------------------',
+				'[Warn] The following .dockerignore file(s) will not be used:',
+				`[Warn] * ${path.join(projectPath, 'src', '.dockerignore')}`,
+				'[Warn] Only one .dockerignore file at the source folder (project root) is used.',
+				'[Warn] Additional .dockerignore files are disregarded. Microservices (multicontainer)',
+				'[Warn] apps should place the .dockerignore file alongside the docker-compose.yml file.',
+				'[Warn] See issue: https://github.com/balena-io/balena-cli/issues/1870',
+				'[Warn] See also CLI v12 release notes: https://git.io/Jf7hz',
+				'[Warn] -------------------------------------------------------------------------------',
+			],
 		];
 		if (isWindows) {
 			const fname = path.join(projectPath, 'src', 'windows-crlf.sh');
-			if (isV12()) {
-				expectedResponseLines.push(
-					`[Info] Converting line endings CRLF -> LF for file: ${fname}`,
-				);
-			} else {
-				expectedResponseLines.push(
-					`[Warn] CRLF (Windows) line endings detected in file: ${fname}`,
-					'[Warn] Windows-format line endings were detected in some files. Consider using the `--convert-eol` option.',
-				);
-			}
+			expectedResponseLines.push(
+				`[Info] Converting line endings CRLF -> LF for file: ${fname}`,
+			);
 		}
 
 		api.expectPatchImage({});
@@ -158,8 +147,10 @@ describe('balena deploy', function () {
 	});
 
 	it('should update a release with status="failed" on error (single container)', async () => {
+		let sentryStatus: boolean | undefined;
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
 		const expectedFiles: ExpectedTarStreamFiles = {
+			'src/.dockerignore': { fileSize: 16, type: 'file' },
 			'src/start.sh': { fileSize: 89, type: 'file' },
 			'src/windows-crlf.sh': { fileSize: 70, type: 'file' },
 			Dockerfile: { fileSize: 88, type: 'file' },
@@ -199,24 +190,34 @@ describe('balena deploy', function () {
 			},
 		});
 
-		await testDockerBuildStream({
-			commandLine: `deploy testApp --build --source ${projectPath} --noconvert-eol -G`,
-			dockerMock: docker,
-			expectedFilesByService: { main: expectedFiles },
-			expectedQueryParamsByService: { main: commonQueryParams },
-			expectedErrorLines,
-			expectedExitCode,
-			expectedResponseLines,
-			projectPath,
-			responseBody,
-			responseCode: 200,
-			services: ['main'],
-		});
+		try {
+			sentryStatus = await switchSentry(false);
+			sinon.stub(process, 'exit');
+
+			await testDockerBuildStream({
+				commandLine: `deploy testApp --build --source ${projectPath} --noconvert-eol -G`,
+				dockerMock: docker,
+				expectedFilesByService: { main: expectedFiles },
+				expectedQueryParamsByService: { main: commonQueryParams },
+				expectedErrorLines,
+				expectedExitCode,
+				expectedResponseLines,
+				projectPath,
+				responseBody,
+				responseCode: 200,
+				services: ['main'],
+			});
+		} finally {
+			await switchSentry(sentryStatus);
+			// @ts-ignore
+			process.exit.restore();
+		}
 	});
 });
 
 describe('balena deploy: project validation', function () {
 	let api: BalenaAPIMock;
+
 	this.beforeEach(() => {
 		api = new BalenaAPIMock();
 		api.expectGetWhoAmI({ optional: true, persist: true });

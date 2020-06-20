@@ -24,7 +24,6 @@ import mock = require('mock-require');
 import { fs } from 'mz';
 import * as path from 'path';
 
-import { isV12 } from '../../build/utils/version';
 import { BalenaAPIMock } from '../balena-api-mock';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../docker-mock';
@@ -87,12 +86,12 @@ describe('balena build', function () {
 
 	it('should create the expected tar stream (single container)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
-		const isV12W = isWindows && isV12();
 		const expectedFiles: ExpectedTarStreamFiles = {
+			'src/.dockerignore': { fileSize: 16, type: 'file' },
 			'src/start.sh': { fileSize: 89, type: 'file' },
 			'src/windows-crlf.sh': {
-				fileSize: isV12W ? 68 : 70,
-				testStream: isV12W ? expectStreamNoCRLF : undefined,
+				fileSize: isWindows ? 68 : 70,
+				testStream: isWindows ? expectStreamNoCRLF : undefined,
 				type: 'file',
 			},
 			Dockerfile: { fileSize: 88, type: 'file' },
@@ -107,13 +106,11 @@ describe('balena build', function () {
 			...commonResponseLines[responseFilename],
 			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
 			`[Info] Creating default composition with source: "${projectPath}"`,
-			isV12()
-				? '[Build] main Step 1/4 : FROM busybox'
-				: '[Build] main Image size: 1.14 MB',
+			'[Build] main Step 1/4 : FROM busybox',
 		];
 		if (isWindows) {
 			const fname = path.join(projectPath, 'src', 'windows-crlf.sh');
-			if (isV12()) {
+			if (isWindows) {
 				expectedResponseLines.push(
 					`[Info] Converting line endings CRLF -> LF for file: ${fname}`,
 				);
@@ -142,7 +139,6 @@ describe('balena build', function () {
 	// downloading and installing QEMU
 	itSS('should create the expected tar stream (--emulated)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
-		const isV12W = isWindows && isV12();
 		const transposedDockerfile =
 			stripIndent`
 			FROM busybox
@@ -151,10 +147,11 @@ describe('balena build', function () {
 			RUN ["/tmp/qemu-execve","-execve","/bin/sh","-c","chmod a+x /usr/src/*.sh"]
 			CMD ["/usr/src/start.sh"]` + '\n';
 		const expectedFiles: ExpectedTarStreamFiles = {
+			'src/.dockerignore': { fileSize: 16, type: 'file' },
 			'src/start.sh': { fileSize: 89, type: 'file' },
 			'src/windows-crlf.sh': {
-				fileSize: isV12W ? 68 : 70,
-				testStream: isV12W ? expectStreamNoCRLF : undefined,
+				fileSize: isWindows ? 68 : 70,
+				testStream: isWindows ? expectStreamNoCRLF : undefined,
 				type: 'file',
 			},
 			Dockerfile: {
@@ -174,23 +171,25 @@ describe('balena build', function () {
 			`[Info] Creating default composition with source: "${projectPath}"`,
 			'[Info] Building for rpi/raspberry-pi',
 			'[Info] Emulation is enabled',
-			isV12()
-				? '[Build] main Step 1/4 : FROM busybox'
-				: '[Build] main Image size: 1.14 MB',
+			...[
+				'[Warn] -------------------------------------------------------------------------------',
+				'[Warn] The following .dockerignore file(s) will not be used:',
+				`[Warn] * ${path.join(projectPath, 'src', '.dockerignore')}`,
+				'[Warn] Only one .dockerignore file at the source folder (project root) is used.',
+				'[Warn] Additional .dockerignore files are disregarded. Microservices (multicontainer)',
+				'[Warn] apps should place the .dockerignore file alongside the docker-compose.yml file.',
+				'[Warn] See issue: https://github.com/balena-io/balena-cli/issues/1870',
+				'[Warn] See also CLI v12 release notes: https://git.io/Jf7hz',
+				'[Warn] -------------------------------------------------------------------------------',
+			],
+			'[Build] main Step 1/4 : FROM busybox',
 			'[Success] Build succeeded!',
 		];
 		if (isWindows) {
 			const fname = path.join(projectPath, 'src', 'windows-crlf.sh');
-			if (isV12()) {
-				expectedResponseLines.push(
-					`[Info] Converting line endings CRLF -> LF for file: ${fname}`,
-				);
-			} else {
-				expectedResponseLines.push(
-					`[Warn] CRLF (Windows) line endings detected in file: ${fname}`,
-					'[Warn] Windows-format line endings were detected in some files. Consider using the `--convert-eol` option.',
-				);
-			}
+			expectedResponseLines.push(
+				`[Info] Converting line endings CRLF -> LF for file: ${fname}`,
+			);
 		}
 		const arch = 'rpi';
 		const deviceType = 'raspberry-pi';
@@ -230,12 +229,11 @@ describe('balena build', function () {
 
 	it('should create the expected tar stream (single container, --[no]convert-eol)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
-		const eol = isWindows && !isV12();
 		const expectedFiles: ExpectedTarStreamFiles = {
+			'src/.dockerignore': { fileSize: 16, type: 'file' },
 			'src/start.sh': { fileSize: 89, type: 'file' },
 			'src/windows-crlf.sh': {
-				fileSize: eol ? 68 : 70,
-				testStream: eol ? expectStreamNoCRLF : undefined,
+				fileSize: 70,
 				type: 'file',
 			},
 			Dockerfile: { fileSize: 88, type: 'file' },
@@ -250,28 +248,29 @@ describe('balena build', function () {
 			...commonResponseLines[responseFilename],
 			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
 			`[Info] Creating default composition with source: "${projectPath}"`,
-			isV12()
-				? '[Build] main Step 1/4 : FROM busybox'
-				: '[Build] main Image size: 1.14 MB',
+			...[
+				'[Warn] -------------------------------------------------------------------------------',
+				'[Warn] The following .dockerignore file(s) will not be used:',
+				`[Warn] * ${path.join(projectPath, 'src', '.dockerignore')}`,
+				'[Warn] Only one .dockerignore file at the source folder (project root) is used.',
+				'[Warn] Additional .dockerignore files are disregarded. Microservices (multicontainer)',
+				'[Warn] apps should place the .dockerignore file alongside the docker-compose.yml file.',
+				'[Warn] See issue: https://github.com/balena-io/balena-cli/issues/1870',
+				'[Warn] See also CLI v12 release notes: https://git.io/Jf7hz',
+				'[Warn] -------------------------------------------------------------------------------',
+			],
+			'[Build] main Step 1/4 : FROM busybox',
 		];
 		if (isWindows) {
 			const fname = path.join(projectPath, 'src', 'windows-crlf.sh');
-			if (isV12()) {
-				expectedResponseLines.push(
-					`[Warn] CRLF (Windows) line endings detected in file: ${fname}`,
-					'[Warn] Windows-format line endings were detected in some files, but were not converted due to `--noconvert-eol` option.',
-				);
-			} else {
-				expectedResponseLines.push(
-					`[Info] Converting line endings CRLF -> LF for file: ${fname}`,
-				);
-			}
+			expectedResponseLines.push(
+				`[Warn] CRLF (Windows) line endings detected in file: ${fname}`,
+				'[Warn] Windows-format line endings were detected in some files, but were not converted due to `--noconvert-eol` option.',
+			);
 		}
 		docker.expectGetInfo({});
 		await testDockerBuildStream({
-			commandLine: isV12()
-				? `build ${projectPath} --deviceType nuc --arch amd64 --noconvert-eol`
-				: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol`,
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --noconvert-eol`,
 			dockerMock: docker,
 			expectedFilesByService: { main: expectedFiles },
 			expectedQueryParamsByService: { main: commonQueryParams },
@@ -302,6 +301,7 @@ describe('balena build', function () {
 				'file1.sh': { fileSize: 12, type: 'file' },
 			},
 			service2: {
+				'.dockerignore': { fileSize: 14, type: 'file' },
 				'Dockerfile-alt': { fileSize: 40, type: 'file' },
 				'file2-crlf.sh': {
 					fileSize: isWindows ? 12 : 14,
@@ -328,15 +328,20 @@ describe('balena build', function () {
 		};
 		const expectedResponseLines: string[] = [
 			...commonResponseLines[responseFilename],
-			...(isV12()
-				? [
-						'[Build] service1 Step 1/4 : FROM busybox',
-						'[Build] service2 Step 1/4 : FROM busybox',
-				  ]
-				: [
-						`[Build] service1 Image size: 1.14 MB`,
-						`[Build] service2 Image size: 1.14 MB`,
-				  ]),
+			...[
+				'[Build] service1 Step 1/4 : FROM busybox',
+				'[Build] service2 Step 1/4 : FROM busybox',
+			],
+			...[
+				'[Warn] The following .dockerignore file(s) will not be used:',
+				`[Warn] * ${path.join(projectPath, 'service2', '.dockerignore')}`,
+				'[Warn] Only one .dockerignore file at the source folder (project root) is used.',
+				'[Warn] Additional .dockerignore files are disregarded. Microservices (multicontainer)',
+				'[Warn] apps should place the .dockerignore file alongside the docker-compose.yml file.',
+				'[Warn] See issue: https://github.com/balena-io/balena-cli/issues/1870',
+				'[Warn] See also CLI v12 release notes: https://git.io/Jf7hz',
+				'[Warn] -------------------------------------------------------------------------------',
+			],
 		];
 		if (isWindows) {
 			expectedResponseLines.push(
