@@ -93,7 +93,7 @@ If you are a Node.js developer, you may wish to install the balena CLI via [npm]
 The npm installation involves building native (platform-specific) binary modules, which require
 some additional development tools to be installed first:
 
-* [Node.js](https://nodejs.org/) version 8, 10 or 12
+* [Node.js](https://nodejs.org/) version 10 or 12 (version 14 is not yet fully supported)
   * **Linux, macOS** and **Windows Subsystem for Linux (WSL):**  
     Installing Node via [nvm](https://github.com/nvm-sh/nvm/blob/master/README.md) is recommended.
     When the "system" or "default" Node.js and npm packages are installed with "apt-get" in Linux
@@ -101,7 +101,6 @@ some additional development tools to be installed first:
     "npm install". This [sample
     Dockerfile](https://gist.github.com/pdcastro/5d4d96652181e7da685a32caf629dd44) shows the CLI
     installation steps on an Ubuntu 18.04 base image.
-  * If using **Node v8,** upgrade `npm` to version 6.9.0 or later with `"npm install -g npm"`
 * [Python 2.7](https://www.python.org/), [git](https://git-scm.com/), [make](https://www.gnu.org/software/make/), [g++](https://gcc.gnu.org/)
   * **Linux** and **Windows Subsystem for Linux (WSL):**  
     `sudo apt-get install -y python git make g++`
@@ -134,9 +133,12 @@ With these dependencies in place, the balena CLI installation command is:
 $ npm install balena-cli -g --production --unsafe-perm
 ```
 
-`--unsafe-perm` is only required on systems where the global install directory is not user-writable.
-This allows npm install steps to download and save prebuilt native binaries. You may be able to omit it,
-especially if you're using a user-managed node install such as [nvm](https://github.com/creationix/nvm).
+`--unsafe-perm` is required when `npm install` is executed as the root user, or on systems where
+the global install directory is not user-writable. It allows npm install steps to download and save
+prebuilt native binaries, and also allows the execution of npm scripts like `postinstall` that are
+used to patch dependencies. It is usually possible to omit `--unsafe-perm` if installing under a
+regular (non-root) user account, especially if using a user-managed node installation such as
+[nvm](https://github.com/creationix/nvm).
 
 
 ## Additional Dependencies
