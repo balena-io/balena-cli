@@ -1,4 +1,21 @@
 - commits:
+    - subject: Add runtime warning for unused .dockerignore files
+      hash: 11d1a3f5a066f826ceda41929290ccf4ce645f0e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Improve error handling for oclif "missing required arg"
+      hash: 2859d16b3172332f400c08d786a6538bf126be90
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 12.1.3
+  date: 2020-06-22T11:51:56.775Z
+- commits:
     - subject: Convert device os-update command to oclif
       hash: ebb0ec5287587beb52a63bbf35052fe643d9c313
       body: ''
@@ -9,7 +26,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 12.1.2
-  date: 2020-06-19T08:34:47.681Z
+  date: 2020-06-19T08:07:20.000Z
 - commits:
     - subject: Convert device commands to oclif
       hash: ab673f884ad14a64a434ea5032b02b79730bf615
