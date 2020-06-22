@@ -15,9 +15,9 @@ limitations under the License.
 */
 
 import { getBalenaSdk } from '../utils/lazy';
-import { awaitForToken, shutdownServer } from './server';
+import { awaitForToken } from './server';
 
-export { shutdownServer };
+export { shutdownServer } from './server';
 
 /**
  * @module auth
