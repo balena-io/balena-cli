@@ -193,8 +193,12 @@ export async function tarDirectory(
 		readFile = fs.readFile;
 	}
 	const pack = tar.pack();
-	const fileStatsList = await filterFilesWithDockerignore(dir);
-	for (const fileStats of fileStatsList) {
+	const {
+		filteredFileList,
+		dockerignoreFiles,
+	} = await filterFilesWithDockerignore(dir);
+	printDockerignoreWarn(dockerignoreFiles);
+	for (const fileStats of filteredFileList) {
 		pack.entry(
 			{
 				name: toPosixPath(fileStats.relPath),
@@ -212,9 +216,40 @@ export async function tarDirectory(
 	return pack;
 }
 
+export function printDockerignoreWarn(
+	dockerignoreFiles: Array<import('./ignore').FileStats>,
+) {
+	const nonRootFiles = dockerignoreFiles.filter(
+		(fileStats: import('./ignore').FileStats) => {
+			const dirname = path.dirname(fileStats.relPath);
+			return !!dirname && dirname !== '.';
+		},
+	);
+	if (nonRootFiles.length === 0) {
+		return;
+	}
+	const hr =
+		'-------------------------------------------------------------------------------';
+	const msg = [
+		' ',
+		hr,
+		'The following .dockerignore file(s) will not be used:',
+	];
+	msg.push(...nonRootFiles.map((fileStats) => `* ${fileStats.filePath}`));
+	msg.push(stripIndent`
+		Only one .dockerignore file at the source folder (project root) is used.
+		Additional .dockerignore files are disregarded. Microservices (multicontainer)
+		apps should place the .dockerignore file alongside the docker-compose.yml file.
+		See issue: https://github.com/balena-io/balena-cli/issues/1870
+		See also CLI v12 release notes: https://git.io/Jf7hz
+	`);
+	msg.push(hr);
+	Logger.getLogger().logWarn(msg.join('\n'));
+}
+
 /**
  * Print a deprecation warning if any '.gitignore' or '.dockerignore' file is
- * found and the --gitignore (-g) option has been provided.
+ * found and the --gitignore (-g) option has been provided (v11 compatibility).
  * @param dockerignoreFile Absolute path to a .dockerignore file
  * @param gitignoreFiles Array of absolute paths to .gitginore files
  */
@@ -229,22 +264,22 @@ export function printGitignoreWarn(
 	const hr =
 		'-------------------------------------------------------------------------------';
 	const msg = [' ', hr, 'Using file ignore patterns from:'];
-	msg.push(...ignoreFiles);
+	msg.push(...ignoreFiles.map((e) => `* ${e}`));
 	if (gitignoreFiles.length) {
 		msg.push(stripIndent`
-			Note: .gitignore files are being considered because the --gitignore option was
-			used. This option is deprecated and will be removed in the next major version
-			release. For more information, see 'balena help ${Logger.command}'.
+			.gitignore files are being considered because the --gitignore option was used.
+			This option is deprecated and will be removed in the next major version release.
+			For more information, see 'balena help ${Logger.command}'.
 		`);
 		msg.push(hr);
 		Logger.getLogger().logWarn(msg.join('\n'));
 	} else if (dockerignoreFile && process.platform === 'win32') {
 		msg.push(stripIndent`
-			The --gitignore option was used, but not .gitignore files were found.
+			The --gitignore option was used, but no .gitignore files were found.
 			The --gitignore option is deprecated and will be removed in the next major
 			version release. It prevents the use of a better dockerignore parser and
 			filter library that fixes several issues on Windows and improves compatibility
-			with "docker build". For more information, see 'balena help ${Logger.command}'.
+			with 'docker build'. For more information, see 'balena help ${Logger.command}'.
 		`);
 		msg.push(hr);
 		Logger.getLogger().logWarn(msg.join('\n'));

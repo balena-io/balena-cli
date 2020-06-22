@@ -22,7 +22,6 @@ import { expect } from 'chai';
 import { fs } from 'mz';
 import * as path from 'path';
 
-import { isV12 } from '../../build/utils/version';
 import { BalenaAPIMock } from '../balena-api-mock';
 import { BuilderMock, builderResponsePath } from '../builder-mock';
 import { expectStreamNoCRLF, testPushBuildStream } from '../docker-build';
@@ -107,12 +106,12 @@ describe('balena push', function () {
 
 	it('should create the expected tar stream (single container)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
-		const isV12W = isWindows && isV12();
 		const expectedFiles: ExpectedTarStreamFiles = {
+			'src/.dockerignore': { fileSize: 16, type: 'file' },
 			'src/start.sh': { fileSize: 89, type: 'file' },
 			'src/windows-crlf.sh': {
-				fileSize: isV12W ? 68 : 70,
-				testStream: isV12W ? expectStreamNoCRLF : undefined,
+				fileSize: isWindows ? 68 : 70,
+				testStream: isWindows ? expectStreamNoCRLF : undefined,
 				type: 'file',
 			},
 			Dockerfile: { fileSize: 88, type: 'file' },
@@ -124,19 +123,24 @@ describe('balena push', function () {
 			path.join(builderResponsePath, responseFilename),
 			'utf8',
 		);
-		const expectedResponseLines = [...commonResponseLines[responseFilename]];
+		const expectedResponseLines = [
+			...commonResponseLines[responseFilename],
+			...[
+				'[Warn] The following .dockerignore file(s) will not be used:',
+				`[Warn] * ${path.join(projectPath, 'src', '.dockerignore')}`,
+				'[Warn] Only one .dockerignore file at the source folder (project root) is used.',
+				'[Warn] Additional .dockerignore files are disregarded. Microservices (multicontainer)',
+				'[Warn] apps should place the .dockerignore file alongside the docker-compose.yml file.',
+				'[Warn] See issue: https://github.com/balena-io/balena-cli/issues/1870',
+				'[Warn] See also CLI v12 release notes: https://git.io/Jf7hz',
+				'[Warn] -------------------------------------------------------------------------------',
+			],
+		];
 		if (isWindows) {
 			const fname = path.join(projectPath, 'src', 'windows-crlf.sh');
-			if (isV12()) {
-				expectedResponseLines.push(
-					`[Info] Converting line endings CRLF -> LF for file: ${fname}`,
-				);
-			} else {
-				expectedResponseLines.push(
-					`[Warn] CRLF (Windows) line endings detected in file: ${fname}`,
-					'[Warn] Windows-format line endings were detected in some files. Consider using the `--convert-eol` option.',
-				);
-			}
+			expectedResponseLines.push(
+				`[Info] Converting line endings CRLF -> LF for file: ${fname}`,
+			);
 		}
 
 		await testPushBuildStream({
@@ -154,6 +158,7 @@ describe('balena push', function () {
 	it('should create the expected tar stream (alternative Dockerfile)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
 		const expectedFiles: ExpectedTarStreamFiles = {
+			'src/.dockerignore': { fileSize: 16, type: 'file' },
 			'src/start.sh': { fileSize: 89, type: 'file' },
 			'src/windows-crlf.sh': { fileSize: 70, type: 'file' },
 			Dockerfile: { fileSize: 88, type: 'file' },
@@ -165,6 +170,19 @@ describe('balena push', function () {
 			path.join(builderResponsePath, responseFilename),
 			'utf8',
 		);
+		const expectedResponseLines = [
+			...commonResponseLines[responseFilename],
+			...[
+				'[Warn] The following .dockerignore file(s) will not be used:',
+				`[Warn] * ${path.join(projectPath, 'src', '.dockerignore')}`,
+				'[Warn] Only one .dockerignore file at the source folder (project root) is used.',
+				'[Warn] Additional .dockerignore files are disregarded. Microservices (multicontainer)',
+				'[Warn] apps should place the .dockerignore file alongside the docker-compose.yml file.',
+				'[Warn] See issue: https://github.com/balena-io/balena-cli/issues/1870',
+				'[Warn] See also CLI v12 release notes: https://git.io/Jf7hz',
+				'[Warn] -------------------------------------------------------------------------------',
+			],
+		];
 		const expectedQueryParams = commonQueryParams.map((i) =>
 			i[0] === 'dockerfilePath' ? ['dockerfilePath', 'Dockerfile-alt'] : i,
 		);
@@ -174,7 +192,7 @@ describe('balena push', function () {
 			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} --dockerfile Dockerfile-alt --noconvert-eol`,
 			expectedFiles,
 			expectedQueryParams,
-			expectedResponseLines: commonResponseLines[responseFilename],
+			expectedResponseLines,
 			projectPath,
 			responseBody,
 			responseCode: 200,
@@ -183,12 +201,11 @@ describe('balena push', function () {
 
 	it('should create the expected tar stream (single container, --[no]convert-eol)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
-		const eol = isWindows && !isV12();
 		const expectedFiles: ExpectedTarStreamFiles = {
+			'src/.dockerignore': { fileSize: 16, type: 'file' },
 			'src/start.sh': { fileSize: 89, type: 'file' },
 			'src/windows-crlf.sh': {
-				fileSize: eol ? 68 : 70,
-				testStream: eol ? expectStreamNoCRLF : undefined,
+				fileSize: 70,
 				type: 'file',
 			},
 			Dockerfile: { fileSize: 88, type: 'file' },
@@ -200,26 +217,30 @@ describe('balena push', function () {
 			path.join(builderResponsePath, responseFilename),
 			'utf8',
 		);
-		const expectedResponseLines = [...commonResponseLines[responseFilename]];
+		const expectedResponseLines = [
+			...commonResponseLines[responseFilename],
+			...[
+				'[Warn] The following .dockerignore file(s) will not be used:',
+				`[Warn] * ${path.join(projectPath, 'src', '.dockerignore')}`,
+				'[Warn] Only one .dockerignore file at the source folder (project root) is used.',
+				'[Warn] Additional .dockerignore files are disregarded. Microservices (multicontainer)',
+				'[Warn] apps should place the .dockerignore file alongside the docker-compose.yml file.',
+				'[Warn] See issue: https://github.com/balena-io/balena-cli/issues/1870',
+				'[Warn] See also CLI v12 release notes: https://git.io/Jf7hz',
+				'[Warn] -------------------------------------------------------------------------------',
+			],
+		];
 		if (isWindows) {
 			const fname = path.join(projectPath, 'src', 'windows-crlf.sh');
-			if (isV12()) {
-				expectedResponseLines.push(
-					`[Warn] CRLF (Windows) line endings detected in file: ${fname}`,
-					'[Warn] Windows-format line endings were detected in some files, but were not converted due to `--noconvert-eol` option.',
-				);
-			} else {
-				expectedResponseLines.push(
-					`[Info] Converting line endings CRLF -> LF for file: ${fname}`,
-				);
-			}
+			expectedResponseLines.push(
+				`[Warn] CRLF (Windows) line endings detected in file: ${fname}`,
+				'[Warn] Windows-format line endings were detected in some files, but were not converted due to `--noconvert-eol` option.',
+			);
 		}
 
 		await testPushBuildStream({
 			builderMock: builder,
-			commandLine: isV12()
-				? `push testApp -s ${projectPath} -R ${regSecretsPath} --noconvert-eol`
-				: `push testApp -s ${projectPath} -R ${regSecretsPath} -l`,
+			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} --noconvert-eol`,
 			expectedFiles,
 			expectedQueryParams: commonQueryParams,
 			expectedResponseLines,
@@ -269,17 +290,15 @@ describe('balena push', function () {
 			'utf8',
 		);
 		const expectedResponseLines = [
-			...(isV12()
-				? [
-						'[Warn] Using file ignore patterns from:',
-						`[Warn] ${path.join(projectPath, '.dockerignore')}`,
-						`[Warn] ${path.join(projectPath, '.gitignore')}`,
-						`[Warn] ${path.join(projectPath, 'src', '.gitignore')}`,
-						'[Warn] Note: .gitignore files are being considered because the --gitignore option was',
-						'[Warn] used. This option is deprecated and will be removed in the next major version',
-						"[Warn] release. For more information, see 'balena help push'.",
-				  ]
-				: []),
+			...[
+				'[Warn] Using file ignore patterns from:',
+				`[Warn] * ${path.join(projectPath, '.dockerignore')}`,
+				`[Warn] * ${path.join(projectPath, '.gitignore')}`,
+				`[Warn] * ${path.join(projectPath, 'src', '.gitignore')}`,
+				'[Warn] .gitignore files are being considered because the --gitignore option was used.',
+				'[Warn] This option is deprecated and will be removed in the next major version release.',
+				"[Warn] For more information, see 'balena help push'.",
+			],
 			...commonResponseLines[responseFilename],
 		];
 
@@ -394,12 +413,12 @@ describe('balena push', function () {
 		const expectedResponseLines = isWindows
 			? [
 					'[Warn] Using file ignore patterns from:',
-					`[Warn] ${path.join(projectPath, '.dockerignore')}`,
-					'[Warn] The --gitignore option was used, but not .gitignore files were found.',
+					`[Warn] * ${path.join(projectPath, '.dockerignore')}`,
+					'[Warn] The --gitignore option was used, but no .gitignore files were found.',
 					'[Warn] The --gitignore option is deprecated and will be removed in the next major',
 					'[Warn] version release. It prevents the use of a better dockerignore parser and',
 					'[Warn] filter library that fixes several issues on Windows and improves compatibility',
-					'[Warn] with "docker build". For more information, see \'balena help push\'.',
+					"[Warn] with 'docker build'. For more information, see 'balena help push'.",
 					...commonResponseLines[responseFilename],
 			  ]
 			: commonResponseLines[responseFilename];
@@ -425,6 +444,7 @@ describe('balena push', function () {
 			'service1/Dockerfile.template': { fileSize: 144, type: 'file' },
 			'service1/file1.sh': { fileSize: 12, type: 'file' },
 			'service2/Dockerfile-alt': { fileSize: 40, type: 'file' },
+			'service2/.dockerignore': { fileSize: 14, type: 'file' },
 			'service2/file2-crlf.sh': {
 				fileSize: isWindows ? 12 : 14,
 				testStream: isWindows ? expectStreamNoCRLF : undefined,
@@ -439,6 +459,16 @@ describe('balena push', function () {
 		);
 		const expectedResponseLines: string[] = [
 			...commonResponseLines[responseFilename],
+			...[
+				'[Warn] The following .dockerignore file(s) will not be used:',
+				`[Warn] * ${path.join(projectPath, 'service2', '.dockerignore')}`,
+				'[Warn] Only one .dockerignore file at the source folder (project root) is used.',
+				'[Warn] Additional .dockerignore files are disregarded. Microservices (multicontainer)',
+				'[Warn] apps should place the .dockerignore file alongside the docker-compose.yml file.',
+				'[Warn] See issue: https://github.com/balena-io/balena-cli/issues/1870',
+				'[Warn] See also CLI v12 release notes: https://git.io/Jf7hz',
+				'[Warn] -------------------------------------------------------------------------------',
+			],
 		];
 		if (isWindows) {
 			expectedResponseLines.push(
@@ -508,24 +538,16 @@ describe('balena push: project validation', function () {
 			'basic',
 			'service1',
 		);
-		const expectedErrorLines = isV12()
-			? [
-					'Error: "docker-compose.y[a]ml" file found in parent directory: please check that',
-					"the correct source folder was specified. (Suppress with '--noparent-check'.)",
-			  ]
-			: ['The --nolive flag is only valid when pushing to a local mode device'];
-		const expectedOutputLines = isV12()
-			? []
-			: [
-					'[Warn] "docker-compose.y[a]ml" file found in parent directory: please check that',
-					"[Warn] the correct source folder was specified. (Suppress with '--noparent-check'.)",
-			  ];
+		const expectedErrorLines = [
+			'Error: "docker-compose.y[a]ml" file found in parent directory: please check that',
+			"the correct source folder was specified. (Suppress with '--noparent-check'.)",
+		];
 
 		const { out, err } = await runCommand(
 			`push testApp --source ${projectPath} --nolive`,
 		);
 		expect(cleanOutput(err, true)).to.include.members(expectedErrorLines);
-		expect(cleanOutput(out, true)).to.include.members(expectedOutputLines);
+		expect(out).to.be.empty;
 	});
 
 	it('should suppress a parent folder check with --noparent-check', async () => {

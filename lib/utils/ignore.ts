@@ -190,7 +190,7 @@ export class FileIgnorer {
 	}
 }
 
-interface FileStats {
+export interface FileStats {
 	filePath: string;
 	relPath: string;
 	stats: fs.Stats;
@@ -256,7 +256,7 @@ async function readDockerIgnoreFile(projectDir: string): Promise<string> {
  */
 export async function filterFilesWithDockerignore(
 	projectDir: string,
-): Promise<FileStats[]> {
+): Promise<{ filteredFileList: FileStats[]; dockerignoreFiles: FileStats[] }> {
 	// path.resolve() also converts forward slashes to backslashes on Windows
 	projectDir = path.resolve(projectDir);
 	const dockerIgnoreStr = await readDockerIgnoreFile(projectDir);
@@ -276,5 +276,12 @@ export async function filterFilesWithDockerignore(
 	]);
 
 	const files = await listFiles(projectDir);
-	return files.filter((file: FileStats) => !ig.ignores(file.relPath));
+	const dockerignoreFiles: FileStats[] = [];
+	const filteredFileList = files.filter((file: FileStats) => {
+		if (path.basename(file.relPath) === '.dockerignore') {
+			dockerignoreFiles.push(file);
+		}
+		return !ig.ignores(file.relPath);
+	});
+	return { filteredFileList, dockerignoreFiles };
 }
