@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Stub the errors module without needing two export methods",
+          "hash": "7794158062e5c50101d2e31d3aa30c5d9fcf4638",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "12.1.4",
+      "date": "2020-06-22T16:19:21.368Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add runtime warning for unused .dockerignore files",
           "hash": "11d1a3f5a066f826ceda41929290ccf4ce645f0e",
           "body": "",
@@ -12353,36 +12369,56 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-22T11:52:51Z",
+  "lastCommitDate": "2020-06-23T16:19:22Z",
   "latestRelease": {
-    "tagName": "v12.1.3",
+    "tagName": "v12.1.4",
     "asssets": [
       {
-        "name": "balena-cli-v12.1.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.3/balena-cli-v12.1.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.1.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.4/balena-cli-v12.1.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.1.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.3/balena-cli-v12.1.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.1.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.4/balena-cli-v12.1.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.1.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.3/balena-cli-v12.1.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.1.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.4/balena-cli-v12.1.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.1.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.3/balena-cli-v12.1.3-windows-x64-installer.exe"
+        "name": "balena-cli-v12.1.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.4/balena-cli-v12.1.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.1.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.3/balena-cli-v12.1.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.1.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.4/balena-cli-v12.1.4-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 284,
+    "numberOfIssues": 289,
     "latestIssues": [
+      {
+        "title": "Use native fs promises rather than promisify or mz",
+        "url": "https://github.com/balena-io/balena-cli/pull/1881"
+      },
+      {
+        "title": "Standardize all references to Bluebird",
+        "url": "https://github.com/balena-io/balena-cli/pull/1880"
+      },
+      {
+        "title": "Convert commands login, logout, whoami to oclif.",
+        "url": "https://github.com/balena-io/balena-cli/pull/1879"
+      },
+      {
+        "title": "Get 65200 illegal hardware instruction when running balena cli commands and the device is in local mode",
+        "url": "https://github.com/balena-io/balena-cli/issues/1878"
+      },
+      {
+        "title": "Simplify some exports",
+        "url": "https://github.com/balena-io/balena-cli/pull/1877"
+      },
       {
         "title": "Use of 'build' and 'image' config options together when using compose file prevents containers launching under local push",
         "url": "https://github.com/balena-io/balena-cli/issues/1874"
@@ -12442,30 +12478,10 @@
       {
         "title": "Allow passing `--device-type` to `device register` command",
         "url": "https://github.com/balena-io/balena-cli/issues/1833"
-      },
-      {
-        "title": "Node apps (without a Dockerfile): should user new balenalib base images for all device types",
-        "url": "https://github.com/balena-io/balena-cli/issues/1832"
-      },
-      {
-        "title": "Node apps (without a Dockerfile): broken for new device types (RPi4, RPi3-64)",
-        "url": "https://github.com/balena-io/balena-cli/issues/1831"
-      },
-      {
-        "title": "Node apps (without a Dockerfile): base image resolution takes several minutes",
-        "url": "https://github.com/balena-io/balena-cli/issues/1830"
-      },
-      {
-        "title": "Livepush process didn't exit after connection hangup",
-        "url": "https://github.com/balena-io/balena-cli/issues/1828"
-      },
-      {
-        "title": "balena push: Could not detect project type: Service main: Couldn't satisfy node version >=4 ",
-        "url": "https://github.com/balena-io/balena-cli/issues/1819"
       }
     ]
   },
-  "version": "12.1.3",
+  "version": "12.1.4",
   "screenshot": null,
   "logo": null
 }
