@@ -65,7 +65,8 @@ export default class DeviceIdentifyCmd extends Command {
 		try {
 			await balena.models.device.identify(params.uuid);
 		} catch (e) {
-			if (e.message === 'Request error: No online device(s) found') {
+			// Expected message: 'Request error: No online device(s) found'
+			if (e.message?.toLowerCase().includes('online')) {
 				throw new ExpectedError(`Device ${params.uuid} is not online`);
 			} else {
 				throw e;

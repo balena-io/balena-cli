@@ -69,7 +69,8 @@ export default class DeviceShutdownCmd extends Command {
 		try {
 			await balena.models.device.shutdown(params.uuid, options);
 		} catch (e) {
-			if (e.message === 'Request error: No online device(s) found') {
+			// Expected message: 'Request error: No online device(s) found'
+			if (e.message?.toLowerCase().includes('online')) {
 				throw new ExpectedError(`Device ${params.uuid} is not online`);
 			} else {
 				throw e;
