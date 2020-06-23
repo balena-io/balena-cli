@@ -23,7 +23,7 @@ import {
 } from 'balena-errors';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import ErrorsModule from '../build/errors';
+import * as ErrorsModule from '../build/errors';
 import { getHelp } from '../build/utils/messages';
 
 function red(s: string) {

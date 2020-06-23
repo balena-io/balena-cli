@@ -22,9 +22,6 @@ import { TypedError } from 'typed-error';
 import { getChalk } from './utils/lazy';
 import { getHelp } from './utils/messages';
 
-// Support stubbing of module functions.
-let ErrorsModule: any;
-
 export class ExpectedError extends TypedError {}
 
 export class NotLoggedInError extends ExpectedError {}
@@ -146,9 +143,9 @@ const EXPECTED_ERROR_REGEXES = [
 ];
 
 // Support unit testing of handleError
-async function getSentry() {
+export const getSentry = async function () {
 	return await import('@sentry/node');
-}
+};
 
 export async function handleError(error: Error) {
 	// Set appropriate exitCode
@@ -172,12 +169,12 @@ export async function handleError(error: Error) {
 
 	// Output/report error
 	if (isExpectedError) {
-		ErrorsModule.printExpectedErrorMessage(message.join('\n'));
+		printExpectedErrorMessage(message.join('\n'));
 	} else {
-		ErrorsModule.printErrorMessage(message.join('\n'));
+		printErrorMessage(message.join('\n'));
 
 		// Report "unexpected" errors via Sentry.io
-		const Sentry = await ErrorsModule.getSentry();
+		const Sentry = await getSentry();
 		Sentry.captureException(error);
 		try {
 			await Sentry.close(1000);
@@ -192,7 +189,7 @@ export async function handleError(error: Error) {
 	}
 }
 
-export function printErrorMessage(message: string) {
+export const printErrorMessage = function (message: string) {
 	const chalk = getChalk();
 
 	// Only first line should be red
@@ -204,11 +201,11 @@ export function printErrorMessage(message: string) {
 	});
 
 	console.error(`\n${getHelp}\n`);
-}
+};
 
-export function printExpectedErrorMessage(message: string) {
+export const printExpectedErrorMessage = function (message: string) {
 	console.error(`${message}\n`);
-}
+};
 
 /**
  * Print a friendly error message and exit the CLI with an error code, BYPASSING
@@ -229,14 +226,3 @@ export function exitWithExpectedError(message: string | Error): never {
 	printErrorMessage(message);
 	process.exit(1);
 }
-
-// Support stubbing of module functions.
-export default ErrorsModule = {
-	ExpectedError,
-	NotLoggedInError,
-	getSentry,
-	handleError,
-	printErrorMessage,
-	printExpectedErrorMessage,
-	exitWithExpectedError,
-};
