@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { fs } from 'mz';
+import { promises as fs } from 'fs';
 import Logger = require('./logger');
 import { isV12 } from './version';
 

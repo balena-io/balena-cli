@@ -73,9 +73,8 @@ export default class KeyAddCmd extends Command {
 
 		let key: string;
 		if (params.path != null) {
-			const { promisify } = await import('util');
-			const readFileAsync = promisify((await import('fs')).readFile);
-			key = await readFileAsync(params.path, 'utf8');
+			const { readFile } = (await import('fs')).promises;
+			key = await readFile(params.path, 'utf8');
 		} else if (this.stdin.length > 0) {
 			key = this.stdin;
 		} else {

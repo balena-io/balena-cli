@@ -16,7 +16,7 @@
  */
 
 import { expect } from 'chai';
-import { fs } from 'mz';
+import { promises as fs } from 'fs';
 import * as path from 'path';
 
 import {

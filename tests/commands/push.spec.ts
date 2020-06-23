@@ -19,7 +19,7 @@
 require('../config-tests'); // required for side effects
 
 import { expect } from 'chai';
-import { fs } from 'mz';
+import { promises as fs } from 'fs';
 import * as path from 'path';
 
 import { BalenaAPIMock } from '../balena-api-mock';

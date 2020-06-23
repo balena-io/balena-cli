@@ -184,7 +184,7 @@ export default class OsConfigureCmd extends Command {
 		await validateOptions(options);
 
 		const devInit = await import('balena-device-init');
-		const fs = await import('mz/fs');
+		const { promises: fs } = await import('fs');
 		const { generateDeviceConfig, generateApplicationConfig } = await import(
 			'../../utils/config'
 		);

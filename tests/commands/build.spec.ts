@@ -21,7 +21,7 @@ require('../config-tests'); // required for side effects
 import { expect } from 'chai';
 import { stripIndent } from 'common-tags';
 import mock = require('mock-require');
-import { fs } from 'mz';
+import { promises as fs } from 'fs';
 import * as path from 'path';
 
 import { BalenaAPIMock } from '../balena-api-mock';
@@ -193,7 +193,7 @@ describe('balena build', function () {
 		}
 		const arch = 'rpi';
 		const deviceType = 'raspberry-pi';
-		const fsModPath = 'mz/fs';
+		const fsModPath = 'fs';
 		const fsMod = await import(fsModPath);
 		const qemuModPath = '../../build/utils/qemu';
 		const qemuMod = require(qemuModPath);
@@ -201,8 +201,11 @@ describe('balena build', function () {
 		try {
 			mock(fsModPath, {
 				...fsMod,
-				exists: async (p: string) =>
-					p === qemuBinPath ? true : fsMod.exists(p),
+				promises: {
+					...fsMod.promises,
+					access: async (p: string) =>
+						p === qemuBinPath ? undefined : fsMod.promises.access(p),
+				},
 			});
 			mock(qemuModPath, {
 				...qemuMod,
