@@ -15,7 +15,7 @@ limitations under the License.
 */
 import BalenaSdk = require('balena-sdk');
 import * as semver from 'balena-semver';
-import Promise = require('bluebird');
+import Bluebird = require('bluebird');
 import { getBalenaSdk } from './lazy';
 
 export interface ImgConfig {
@@ -62,7 +62,7 @@ export function generateBaseConfig(
 			sshKeys?: string[];
 		};
 	},
-): Promise<ImgConfig> {
+): Bluebird<ImgConfig> {
 	options = {
 		...options,
 		appUpdatePollInterval: options.appUpdatePollInterval || 10,
@@ -71,7 +71,7 @@ export function generateBaseConfig(
 	const promise = getBalenaSdk().models.os.getConfig(
 		application.app_name,
 		options,
-	) as Promise<ImgConfig & { apiKey?: string }>;
+	) as Bluebird<ImgConfig & { apiKey?: string }>;
 	return promise.tap((config) => {
 		// os.getConfig always returns a config for an app
 		delete config.apiKey;
@@ -155,7 +155,7 @@ function addDeviceKey(
 	uuid: string,
 	customDeviceApiKey: string | true,
 ) {
-	return Promise.try(() => {
+	return Bluebird.try(() => {
 		if (customDeviceApiKey === true) {
 			return getBalenaSdk().models.device.generateDeviceKey(uuid);
 		} else {

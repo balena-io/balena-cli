@@ -16,6 +16,6 @@
  */
 
 declare module 'nplugm' {
-	import Promise = require('bluebird');
-	export function list(regexp: RegExp): Promise<string[]>;
+	import Bluebird = require('bluebird');
+	export function list(regexp: RegExp): Bluebird<string[]>;
 }
