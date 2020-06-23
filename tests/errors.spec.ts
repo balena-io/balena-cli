@@ -120,9 +120,11 @@ describe('handleError() function', () => {
 		'Missing uuid', // Capitano
 		'Missing 1 required argument', // oclif
 		'Missing 2 required arguments', // oclif
-		'Unexpected argument',
-		'Unexpected arguments',
-		'to be one of',
+		'Missing required flag', // oclif
+		'Unexpected argument', // oclif
+		'Unexpected arguments', // oclif
+		'to be one of', // oclif
+		'must also be provided when using', // oclif
 	];
 
 	messagesToMatch.forEach((message) => {
