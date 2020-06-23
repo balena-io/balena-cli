@@ -165,14 +165,17 @@ export const convertedCommands = [
 	'key:add',
 	'key:rm',
 	'leave',
+	'login',
+	'logout',
 	'note',
 	'os:configure',
+	'scan',
 	'settings',
 	'tags',
 	'tag:rm',
 	'tag:set',
 	'version',
-	'scan',
+	'whoami',
 ];
 
 /**
