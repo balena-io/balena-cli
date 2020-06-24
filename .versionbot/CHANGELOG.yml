@@ -1,4 +1,14 @@
 - commits:
+    - subject: Use `import type` where possible to explicitly import only type info
+      hash: 6dce5c1212ca4ce7ee7339e0262cb16004c1439c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.1.9
+  date: 2020-06-24T13:48:37.916Z
+- commits:
     - subject: Standardize all references to Bluebird
       hash: 420a282bea1632842a77e3d62488f7aa60301d34
       body: ''
