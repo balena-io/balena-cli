@@ -16,9 +16,9 @@ limitations under the License.
 
 // tslint:disable:import-blacklist - the import blacklist is to enforce lazy loading so exempt this file
 
-import * as BalenaSdk from 'balena-sdk';
-import { Chalk } from 'chalk';
-import * as visuals from 'resin-cli-visuals';
+import type * as BalenaSdk from 'balena-sdk';
+import type { Chalk } from 'chalk';
+import type * as visuals from 'resin-cli-visuals';
 
 // Equivalent of _.once but avoiding the need to import lodash for lazy deps
 const once = <T>(fn: () => T) => {

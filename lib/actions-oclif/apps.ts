@@ -16,7 +16,7 @@
  */
 
 import { flags } from '@oclif/command';
-import { Application } from 'balena-sdk';
+import type { Application } from 'balena-sdk';
 import { stripIndent } from 'common-tags';
 import Command from '../command';
 import * as cf from '../utils/common-flags';

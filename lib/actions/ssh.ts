@@ -13,8 +13,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import * as BalenaSdk from 'balena-sdk';
-import { CommandDefinition } from 'capitano';
+import type * as BalenaSdk from 'balena-sdk';
+import type { CommandDefinition } from 'capitano';
 import { stripIndent } from 'common-tags';
 
 import { getBalenaSdk } from '../utils/lazy';

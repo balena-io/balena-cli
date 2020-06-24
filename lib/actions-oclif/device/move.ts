@@ -16,8 +16,8 @@
  */
 
 import { flags } from '@oclif/command';
-import { IArg } from '@oclif/parser/lib/args';
-import { Application, Device } from 'balena-sdk';
+import type { IArg } from '@oclif/parser/lib/args';
+import type { Application, Device } from 'balena-sdk';
 import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 import Command from '../../command';

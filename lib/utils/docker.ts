@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import Dockerode = require('dockerode');
-import * as dockerode from 'dockerode';
+import type * as dockerode from 'dockerode';
 
 export * from './docker-js';
 
@@ -24,7 +23,7 @@ interface BalenaEngineVersion extends dockerode.DockerVersion {
 	Engine?: string;
 }
 
-export async function isBalenaEngine(docker: Dockerode): Promise<boolean> {
+export async function isBalenaEngine(docker: dockerode): Promise<boolean> {
 	// dockerVersion.Engine should equal 'balena-engine' for the current/latest
 	// version of balenaEngine, but it was at one point (mis)spelt 'balaena':
 	// https://github.com/balena-os/balena-engine/pull/32/files

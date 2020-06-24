@@ -14,15 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { InitializeEmitter, OperationState } from 'balena-device-init';
-import * as BalenaSdk from 'balena-sdk';
+import type { InitializeEmitter, OperationState } from 'balena-device-init';
+import type * as BalenaSdk from 'balena-sdk';
 import * as Bluebird from 'bluebird';
 import { spawn, SpawnOptions } from 'child_process';
 import * as _ from 'lodash';
 import * as os from 'os';
 import * as ShellEscape from 'shell-escape';
 
-import { Device, PineOptionsFor } from 'balena-sdk';
+import type { Device, PineOptionsFor } from 'balena-sdk';
 import { ExpectedError } from '../errors';
 import { getBalenaSdk, getChalk, getVisuals } from './lazy';
 

@@ -16,7 +16,7 @@
  */
 
 import { flags } from '@oclif/command';
-import BalenaSdk = require('balena-sdk');
+import type * as BalenaSdk from 'balena-sdk';
 import Bluebird = require('bluebird');
 import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';

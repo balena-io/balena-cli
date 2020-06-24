@@ -15,10 +15,8 @@
  * limitations under the License.
  */
 
-import { Composition, ImageDescriptor } from 'resin-compose-parse';
-import { Pack } from 'tar-stream';
-
-import Logger = require('./logger');
+import type { Composition, ImageDescriptor } from 'resin-compose-parse';
+import type { Pack } from 'tar-stream';
 
 interface Image {
 	context: string;

@@ -17,7 +17,7 @@ limitations under the License.
 import * as Bluebird from 'bluebird';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
-import { Socket } from 'net';
+import type { Socket } from 'net';
 import * as path from 'path';
 
 import * as utils from './utils';

@@ -1,7 +1,7 @@
 import * as Bluebird from 'bluebird';
 import ColorHash = require('color-hash');
 import * as _ from 'lodash';
-import { Readable } from 'stream';
+import type { Readable } from 'stream';
 
 import { getChalk } from '../lazy';
 import Logger = require('../logger');

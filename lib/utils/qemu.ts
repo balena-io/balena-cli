@@ -17,7 +17,7 @@
 
 import * as Bluebird from 'bluebird';
 import { stripIndent } from 'common-tags';
-import Dockerode = require('dockerode');
+import type * as Dockerode from 'dockerode';
 import { getBalenaSdk } from './lazy';
 import Logger = require('./logger');
 

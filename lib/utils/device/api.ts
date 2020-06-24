@@ -16,10 +16,10 @@
  */
 import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
-import { NodeJSSocketWithFileDescriptor } from 'net-keepalive';
+import type { NodeJSSocketWithFileDescriptor } from 'net-keepalive';
 import * as os from 'os';
 import * as request from 'request';
-import * as Stream from 'stream';
+import type * as Stream from 'stream';
 
 import Logger = require('../logger');
 import * as ApiErrors from './errors';

@@ -1,17 +1,18 @@
 import * as Bluebird from 'bluebird';
 import * as chokidar from 'chokidar';
-import * as Dockerode from 'dockerode';
+import type * as Dockerode from 'dockerode';
 import Livepush, { ContainerNotRunningError } from 'livepush';
 import * as _ from 'lodash';
 import * as path from 'path';
-import { Composition } from 'resin-compose-parse';
-import { BuildTask } from 'resin-multibuild';
+import type { Composition } from 'resin-compose-parse';
+import type { BuildTask } from 'resin-multibuild';
 
 import { instanceOf } from '../../errors';
 import Logger = require('../logger');
 
 import { Dockerfile } from 'livepush';
-import DeviceAPI, { DeviceInfo, Status } from './api';
+import type DeviceAPI from './api';
+import type { DeviceInfo, Status } from './api';
 import {
 	DeviceDeployOptions,
 	generateTargetState,
