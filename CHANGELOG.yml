@@ -1,4 +1,14 @@
 - commits:
+    - subject: Update INSTALL.md re supported Node.js versions and '--unsafe-perm'
+      hash: 98c0991fe35db6cbe9825f4016fbb2001e08267b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 12.1.5
+  date: 2020-06-24T08:38:28.056Z
+- commits:
     - subject: Stub the errors module without needing two export methods
       hash: 7794158062e5c50101d2e31d3aa30c5d9fcf4638
       body: ''
@@ -7,7 +17,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 12.1.4
-  date: 2020-06-23T16:18:22.872Z
+  date: 2020-06-22T16:19:21.368Z
 - commits:
     - subject: Add runtime warning for unused .dockerignore files
       hash: 11d1a3f5a066f826ceda41929290ccf4ce645f0e
