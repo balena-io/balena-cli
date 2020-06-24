@@ -1,4 +1,14 @@
 - commits:
+    - subject: Use native fs promises rather than promisify or mz
+      hash: b114697cab11ab27c8cdae74397e97598037db58
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.1.12
+  date: 2020-06-24T23:19:42.256Z
+- commits:
     - subject: Use cacheScope for fast-boot2 to allow caching when globally installed
       hash: c054d5545610464d64516b126caf4389df32e9c4
       body: ''
@@ -7,7 +17,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 12.1.11
-  date: 2020-06-24T17:11:42.000Z
+  date: 2020-06-24T16:44:44.999Z
 - commits:
     - subject: Simplify some exports
       hash: 03eed32f12932dab3ce1c7c8197969892752c869

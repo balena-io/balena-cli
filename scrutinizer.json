@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Use native fs promises rather than promisify or mz",
+          "hash": "b114697cab11ab27c8cdae74397e97598037db58",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "12.1.12",
+      "date": "2020-06-24T22:51:07.582Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Use cacheScope for fast-boot2 to allow caching when globally installed",
           "hash": "c054d5545610464d64516b126caf4389df32e9c4",
           "body": "",
@@ -12472,7 +12488,6 @@
     "mkdirp",
     "moment",
     "moment-duration-format",
-    "mz",
     "node-cleanup",
     "node-unzip-2",
     "oclif",
@@ -12507,43 +12522,39 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-24T17:12:41Z",
+  "lastCommitDate": "2020-06-24T23:20:42Z",
   "latestRelease": {
-    "tagName": "v12.1.11",
+    "tagName": "v12.1.12",
     "asssets": [
       {
-        "name": "balena-cli-v12.1.11-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.11/balena-cli-v12.1.11-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.1.12-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.12/balena-cli-v12.1.12-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.1.11-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.11/balena-cli-v12.1.11-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.1.12-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.12/balena-cli-v12.1.12-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.1.11-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.11/balena-cli-v12.1.11-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.1.12-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.12/balena-cli-v12.1.12-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.1.11-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.11/balena-cli-v12.1.11-windows-x64-installer.exe"
+        "name": "balena-cli-v12.1.12-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.12/balena-cli-v12.1.12-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.1.11-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.11/balena-cli-v12.1.11-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.1.12-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.12/balena-cli-v12.1.12-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 284,
+    "numberOfIssues": 283,
     "latestIssues": [
       {
         "title": "Convert command ssh to oclif.",
         "url": "https://github.com/balena-io/balena-cli/pull/1883"
-      },
-      {
-        "title": "Use native fs promises rather than promisify or mz",
-        "url": "https://github.com/balena-io/balena-cli/pull/1881"
       },
       {
         "title": "Get 65200 illegal hardware instruction when running balena cli commands and the device is in local mode",
@@ -12616,10 +12627,14 @@
       {
         "title": "Node apps (without a Dockerfile): broken for new device types (RPi4, RPi3-64)",
         "url": "https://github.com/balena-io/balena-cli/issues/1831"
+      },
+      {
+        "title": "Node apps (without a Dockerfile): base image resolution takes several minutes",
+        "url": "https://github.com/balena-io/balena-cli/issues/1830"
       }
     ]
   },
-  "version": "12.1.11",
+  "version": "12.1.12",
   "screenshot": null,
   "logo": null
 }
