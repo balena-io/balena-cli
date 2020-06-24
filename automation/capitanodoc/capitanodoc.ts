@@ -45,7 +45,11 @@ const capitanoDoc = {
 		},
 		{
 			title: 'Authentication',
-			files: ['build/actions/auth.js'],
+			files: [
+				'build/actions-oclif/login.js',
+				'build/actions-oclif/logout.js',
+				'build/actions-oclif/whoami.js',
+			],
 		},
 		{
 			title: 'Device',

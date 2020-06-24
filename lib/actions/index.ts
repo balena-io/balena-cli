@@ -14,7 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import * as auth from './auth';
 import * as config from './config';
 import * as device from './device';
 import * as help from './help';
@@ -26,7 +25,7 @@ import * as ssh from './ssh';
 import * as tunnel from './tunnel';
 import * as util from './util';
 
-export { auth, device, logs, local, help, os, config, ssh, util, push, tunnel };
+export { device, logs, local, help, os, config, ssh, util, push, tunnel };
 
 export { build } from './build';
 

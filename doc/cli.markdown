@@ -395,11 +395,11 @@ application name or numeric ID
 
 ## login
 
-Use this command to login to your balena account.
+Login to your balena account.
 
 This command will prompt you to login using the following login types:
 
-- Web authorization: open your web browser and prompt you to authorize the CLI
+- Web authorization: open your web browser and prompt to authorize the CLI
 from the dashboard.
 
 - Credentials: using email/password and 2FA.
@@ -414,31 +414,41 @@ Examples:
 	$ balena login --credentials
 	$ balena login --credentials --email johndoe@gmail.com --password secret
 
+### Arguments
+
+#### TOKEN
+
+
+
 ### Options
 
-#### --token, -t &#60;token&#62;
-
-session token or API key
-
-#### --web, -w
+#### -w, --web
 
 web-based login
 
-#### --credentials, -c
+#### -t, --token
+
+session token or API key
+
+#### -c, --credentials
 
 credential-based login
 
-#### --email, -e, -u &#60;email&#62;
+#### -e, --email EMAIL
 
 email
 
-#### --password, -p &#60;password&#62;
+#### -u, --user USER
+
+
+
+#### -p, --password PASSWORD
 
 password
 
 ## logout
 
-Use this command to logout from your balena account.
+Logout from your balena account.
 
 Examples:
 
@@ -446,7 +456,7 @@ Examples:
 
 ## whoami
 
-Use this command to find out the current logged in username and email address.
+Get the username and email address of the currently logged in user.
 
 Examples:
 
