@@ -1,5 +1,3 @@
-import * as Bluebird from 'bluebird';
-
 const windowSize: { width?: number; height?: number } = {};
 
 const updateWindowSize = () => {
@@ -32,8 +30,8 @@ export = (stream: NodeJS.WriteStream = process.stdout) => {
 	const cursorDown = (rows: number = 0) => stream.write(`\u001B[${rows}B`);
 
 	const cursorHidden = () => {
-		const Promise = require('bluebird') as typeof Bluebird;
-		return Promise.try(hideCursor).disposer(() => {
+		const Bluebird = require('bluebird') as typeof import('bluebird');
+		return Bluebird.try(hideCursor).disposer(() => {
 			showCursor();
 		});
 	};

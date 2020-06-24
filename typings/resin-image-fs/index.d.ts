@@ -16,7 +16,7 @@
  */
 
 declare module 'resin-image-fs' {
-	import Promise = require('bluebird');
+	import Bluebird = require('bluebird');
 
 	export interface ImageDefinition {
 		image: string;
@@ -24,14 +24,16 @@ declare module 'resin-image-fs' {
 		path: string;
 	}
 
-	export function readFile(options: {}): Promise<string>;
+	export function readFile(options: {}): Bluebird<string>;
 	export function writeFile(
 		definition: ImageDefinition,
 		contents: string,
-	): Promise<void>;
+	): Bluebird<void>;
 	export function copy(
 		input: ImageDefinition,
 		output: ImageDefinition,
-	): Promise<void>;
-	export function listDirectory(definition: ImageDefinition): Promise<string[]>;
+	): Bluebird<void>;
+	export function listDirectory(
+		definition: ImageDefinition,
+	): Bluebird<string[]>;
 }

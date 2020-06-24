@@ -1,4 +1,4 @@
-import * as Promise from 'bluebird';
+import * as Bluebird from 'bluebird';
 import { expect } from 'chai';
 import rewire = require('rewire');
 import * as sinon from 'sinon';
@@ -19,7 +19,7 @@ describe('Utils:', function () {
 				));
 
 		it('should eventually contain an https protocol', () =>
-			Promise.props({
+			Bluebird.props({
 				dashboardUrl: balena.settings.get('dashboardUrl'),
 				loginUrl: utils.getDashboardLoginURL('https://127.0.0.1:3000/callback'),
 			}).then(function ({ dashboardUrl, loginUrl }) {
@@ -28,7 +28,7 @@ describe('Utils:', function () {
 			}));
 
 		it('should correctly escape a callback url without a path', () =>
-			Promise.props({
+			Bluebird.props({
 				dashboardUrl: balena.settings.get('dashboardUrl'),
 				loginUrl: utils.getDashboardLoginURL('http://127.0.0.1:3000'),
 			}).then(function ({ dashboardUrl, loginUrl }) {
@@ -37,7 +37,7 @@ describe('Utils:', function () {
 			}));
 
 		return it('should correctly escape a callback url with a path', () =>
-			Promise.props({
+			Bluebird.props({
 				dashboardUrl: balena.settings.get('dashboardUrl'),
 				loginUrl: utils.getDashboardLoginURL('http://127.0.0.1:3000/callback'),
 			}).then(function ({ dashboardUrl, loginUrl }) {
@@ -70,7 +70,7 @@ describe('Utils:', function () {
 		describe('given the token does not authenticate with the server', function () {
 			beforeEach(function () {
 				this.balenaAuthIsLoggedInStub = sinon.stub(balena.auth, 'isLoggedIn');
-				return this.balenaAuthIsLoggedInStub.returns(Promise.resolve(false));
+				return this.balenaAuthIsLoggedInStub.returns(Bluebird.resolve(false));
 			});
 
 			afterEach(function () {
@@ -112,7 +112,7 @@ describe('Utils:', function () {
 		return describe('given the token does authenticate with the server', function () {
 			beforeEach(function () {
 				this.balenaAuthIsLoggedInStub = sinon.stub(balena.auth, 'isLoggedIn');
-				return this.balenaAuthIsLoggedInStub.returns(Promise.resolve(true));
+				return this.balenaAuthIsLoggedInStub.returns(Bluebird.resolve(true));
 			});
 
 			afterEach(function () {

@@ -14,20 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Promise = require('bluebird');
+import Bluebird = require('bluebird');
 import fs = require('fs');
 
 export function buffer(
 	stream: NodeJS.ReadableStream,
 	bufferFile: string,
-): Promise<NodeJS.ReadableStream> {
+): Bluebird<NodeJS.ReadableStream> {
 	const fileWriteStream = fs.createWriteStream(bufferFile);
 
-	return new Promise(function (resolve, reject) {
+	return new Bluebird(function (resolve, reject) {
 		stream.on('error', reject).on('end', resolve).pipe(fileWriteStream);
 	}).then(
 		() =>
-			new Promise(function (resolve, reject) {
+			new Bluebird(function (resolve, reject) {
 				const fstream = fs.createReadStream(bufferFile);
 
 				fstream.on('open', () => resolve(fstream)).on('error', reject);

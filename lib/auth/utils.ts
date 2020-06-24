@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import * as Promise from 'bluebird';
+import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
 import * as url from 'url';
 import { getBalenaSdk } from '../utils/lazy';
@@ -26,7 +26,7 @@ import { getBalenaSdk } from '../utils/lazy';
  *
  * @param {String} callbackUrl - callback url
  * @fulfil {String} - dashboard login url
- * @returns {Promise}
+ * @returns {Bluebird}
  *
  * @example
  * utils.getDashboardLoginURL('http://127.0.0.1:3000').then (url) ->
@@ -58,7 +58,7 @@ export const getDashboardLoginURL = (callbackUrl: string) => {
  *
  * @param {String} token - session token or api key
  * @fulfil {Boolean} - whether the login was successful or not
- * @returns {Promise}
+ * @returns {Bluebird}
  *
  * utils.loginIfTokenValid('...').then (loggedIn) ->
  *   if loggedIn
@@ -66,7 +66,7 @@ export const getDashboardLoginURL = (callbackUrl: string) => {
  */
 export const loginIfTokenValid = (token: string) => {
 	if (_.isEmpty(token?.trim())) {
-		return Promise.resolve(false);
+		return Bluebird.resolve(false);
 	}
 	const balena = getBalenaSdk();
 
