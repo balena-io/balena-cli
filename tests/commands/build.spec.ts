@@ -61,6 +61,9 @@ const commonComposeQueryParams = [
 	['labels', ''],
 ];
 
+const hr =
+	'----------------------------------------------------------------------';
+
 // "itSS" means "it() Skip Standalone"
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;
 
@@ -172,15 +175,14 @@ describe('balena build', function () {
 			'[Info] Building for rpi/raspberry-pi',
 			'[Info] Emulation is enabled',
 			...[
-				'[Warn] -------------------------------------------------------------------------------',
+				`[Warn] ${hr}`,
 				'[Warn] The following .dockerignore file(s) will not be used:',
 				`[Warn] * ${path.join(projectPath, 'src', '.dockerignore')}`,
-				'[Warn] Only one .dockerignore file at the source folder (project root) is used.',
-				'[Warn] Additional .dockerignore files are disregarded. Microservices (multicontainer)',
-				'[Warn] apps should place the .dockerignore file alongside the docker-compose.yml file.',
-				'[Warn] See issue: https://github.com/balena-io/balena-cli/issues/1870',
-				'[Warn] See also CLI v12 release notes: https://git.io/Jf7hz',
-				'[Warn] -------------------------------------------------------------------------------',
+				'[Warn] By default, only one .dockerignore file at the source folder (project root)',
+				'[Warn] is used. Microservices (multicontainer) applications may use a separate',
+				'[Warn] .dockerignore file for each service with the --multi-dockerignore (-m) option.',
+				'[Warn] See "balena help build" for more details.',
+				`[Warn] ${hr}`,
 			],
 			'[Build] main Step 1/4 : FROM busybox',
 			'[Success] Build succeeded!',
@@ -230,7 +232,7 @@ describe('balena build', function () {
 		}
 	});
 
-	it('should create the expected tar stream (single container, --[no]convert-eol)', async () => {
+	it('should create the expected tar stream (single container, --[no]convert-eol, --multi-dockerignore)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
 		const expectedFiles: ExpectedTarStreamFiles = {
 			'src/.dockerignore': { fileSize: 16, type: 'file' },
@@ -252,15 +254,14 @@ describe('balena build', function () {
 			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
 			`[Info] Creating default composition with source: "${projectPath}"`,
 			...[
-				'[Warn] -------------------------------------------------------------------------------',
+				`[Warn] ${hr}`,
 				'[Warn] The following .dockerignore file(s) will not be used:',
 				`[Warn] * ${path.join(projectPath, 'src', '.dockerignore')}`,
-				'[Warn] Only one .dockerignore file at the source folder (project root) is used.',
-				'[Warn] Additional .dockerignore files are disregarded. Microservices (multicontainer)',
-				'[Warn] apps should place the .dockerignore file alongside the docker-compose.yml file.',
-				'[Warn] See issue: https://github.com/balena-io/balena-cli/issues/1870',
-				'[Warn] See also CLI v12 release notes: https://git.io/Jf7hz',
-				'[Warn] -------------------------------------------------------------------------------',
+				'[Warn] When --multi-dockerignore (-m) is used, only .dockerignore files at the root of',
+				"[Warn] each service's build context (in a microservices/multicontainer application),",
+				'[Warn] plus a .dockerignore file at the overall project root, are used.',
+				'[Warn] See "balena help build" for more details.',
+				`[Warn] ${hr}`,
 			],
 			'[Build] main Step 1/4 : FROM busybox',
 		];
@@ -273,7 +274,7 @@ describe('balena build', function () {
 		}
 		docker.expectGetInfo({});
 		await testDockerBuildStream({
-			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --noconvert-eol`,
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --noconvert-eol -m`,
 			dockerMock: docker,
 			expectedFilesByService: { main: expectedFiles },
 			expectedQueryParamsByService: { main: commonQueryParams },
@@ -304,7 +305,93 @@ describe('balena build', function () {
 				'file1.sh': { fileSize: 12, type: 'file' },
 			},
 			service2: {
-				'.dockerignore': { fileSize: 14, type: 'file' },
+				'.dockerignore': { fileSize: 12, type: 'file' },
+				'Dockerfile-alt': { fileSize: 40, type: 'file' },
+				'file2-crlf.sh': {
+					fileSize: isWindows ? 12 : 14,
+					testStream: isWindows ? expectStreamNoCRLF : undefined,
+					type: 'file',
+				},
+				'src/file1.sh': { fileSize: 12, type: 'file' },
+			},
+		};
+		const responseFilename = 'build-POST.json';
+		const responseBody = await fs.readFile(
+			path.join(dockerResponsePath, responseFilename),
+			'utf8',
+		);
+		const expectedQueryParamsByService = {
+			service1: [
+				['t', '${tag}'],
+				[
+					'buildargs',
+					'{"MY_VAR_1":"This is a variable","MY_VAR_2":"Also a variable","SERVICE1_VAR":"This is a service specific variable"}',
+				],
+				['labels', ''],
+			],
+			service2: [...commonComposeQueryParams, ['dockerfile', 'Dockerfile-alt']],
+		};
+		const expectedResponseLines: string[] = [
+			...commonResponseLines[responseFilename],
+			...[
+				'[Build] service1 Step 1/4 : FROM busybox',
+				'[Build] service2 Step 1/4 : FROM busybox',
+			],
+			...[
+				`[Warn] ${hr}`,
+				'[Warn] The following .dockerignore file(s) will not be used:',
+				`[Warn] * ${path.join(projectPath, 'service2', '.dockerignore')}`,
+				'[Warn] By default, only one .dockerignore file at the source folder (project root)',
+				'[Warn] is used. Microservices (multicontainer) applications may use a separate',
+				'[Warn] .dockerignore file for each service with the --multi-dockerignore (-m) option.',
+				'[Warn] See "balena help build" for more details.',
+				`[Warn] ${hr}`,
+			],
+		];
+		if (isWindows) {
+			expectedResponseLines.push(
+				`[Info] Converting line endings CRLF -> LF for file: ${path.join(
+					projectPath,
+					'service2',
+					'file2-crlf.sh',
+				)}`,
+			);
+		}
+		docker.expectGetInfo({});
+		await testDockerBuildStream({
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol -G`,
+			dockerMock: docker,
+			expectedFilesByService,
+			expectedQueryParamsByService,
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+			services: ['service1', 'service2'],
+		});
+	});
+
+	it('should create the expected tar stream (docker-compose, --multi-dockerignore)', async () => {
+		const projectPath = path.join(projectsPath, 'docker-compose', 'basic');
+		const service1Dockerfile = (
+			await fs.readFile(
+				path.join(projectPath, 'service1', 'Dockerfile.template'),
+				'utf8',
+			)
+		).replace('%%BALENA_MACHINE_NAME%%', 'nuc');
+		const expectedFilesByService: ExpectedTarStreamFilesByService = {
+			service1: {
+				Dockerfile: {
+					contents: service1Dockerfile,
+					fileSize: service1Dockerfile.length,
+					type: 'file',
+				},
+				'Dockerfile.template': { fileSize: 144, type: 'file' },
+				'file1.sh': { fileSize: 12, type: 'file' },
+				'test-ignore.txt': { fileSize: 12, type: 'file' },
+			},
+			service2: {
+				'.dockerignore': { fileSize: 12, type: 'file' },
 				'Dockerfile-alt': { fileSize: 40, type: 'file' },
 				'file2-crlf.sh': {
 					fileSize: isWindows ? 12 : 14,
@@ -336,14 +423,11 @@ describe('balena build', function () {
 				'[Build] service2 Step 1/4 : FROM busybox',
 			],
 			...[
-				'[Warn] The following .dockerignore file(s) will not be used:',
-				`[Warn] * ${path.join(projectPath, 'service2', '.dockerignore')}`,
-				'[Warn] Only one .dockerignore file at the source folder (project root) is used.',
-				'[Warn] Additional .dockerignore files are disregarded. Microservices (multicontainer)',
-				'[Warn] apps should place the .dockerignore file alongside the docker-compose.yml file.',
-				'[Warn] See issue: https://github.com/balena-io/balena-cli/issues/1870',
-				'[Warn] See also CLI v12 release notes: https://git.io/Jf7hz',
-				'[Warn] -------------------------------------------------------------------------------',
+				`[Info] ${hr}`,
+				'[Info] The --multi-dockerignore option is being used, and a .dockerignore file was',
+				'[Info] found at the project source (root) directory. Note that this file will not',
+				'[Info] be used to filter service subdirectories. See "balena help build".',
+				`[Info] ${hr}`,
 			],
 		];
 		if (isWindows) {
@@ -357,7 +441,7 @@ describe('balena build', function () {
 		}
 		docker.expectGetInfo({});
 		await testDockerBuildStream({
-			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol -G`,
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol -m`,
 			dockerMock: docker,
 			expectedFilesByService,
 			expectedQueryParamsByService,

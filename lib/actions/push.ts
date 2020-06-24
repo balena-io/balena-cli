@@ -118,6 +118,7 @@ export const push: CommandDefinition<
 		env?: string | string[];
 		'convert-eol'?: boolean;
 		'noconvert-eol'?: boolean;
+		'multi-dockerignore'?: boolean;
 	}
 > = {
 	signature: 'push <applicationOrDevice>',
@@ -277,6 +278,13 @@ export const push: CommandDefinition<
 			  ]
 			: []),
 		{
+			signature: 'multi-dockerignore',
+			alias: 'm',
+			description:
+				'Have each service use its own .dockerignore file. See "balena help push".',
+			boolean: true,
+		},
+		{
 			signature: 'nogitignore',
 			alias: 'G',
 			description:
@@ -306,6 +314,11 @@ export const push: CommandDefinition<
 			params.applicationOrDevice_raw || params.applicationOrDevice;
 		if (appOrDevice == null) {
 			throw new ExpectedError('You must specify an application or a device');
+		}
+		if (options.gitignore && options['multi-dockerignore']) {
+			throw new ExpectedError(
+				'The --gitignore and --multi-dockerignore options cannot be used together',
+			);
 		}
 
 		const source = options.source || '.';
@@ -363,6 +376,7 @@ export const push: CommandDefinition<
 						const opts = {
 							dockerfilePath,
 							emulated: options.emulated || false,
+							multiDockerignore: options['multi-dockerignore'] || false,
 							nocache: options.nocache || false,
 							registrySecrets,
 							headless: options.detached || false,
@@ -397,6 +411,7 @@ export const push: CommandDefinition<
 						deviceHost: device,
 						dockerfilePath,
 						registrySecrets,
+						multiDockerignore: options['multi-dockerignore'] || false,
 						nocache: options.nocache || false,
 						nogitignore,
 						noParentCheck: options['noparent-check'] || false,

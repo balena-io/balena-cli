@@ -249,17 +249,15 @@ async function readDockerIgnoreFile(projectDir: string): Promise<string> {
 }
 
 /**
- * Create a list of files (FileStats[]) for the filesystem subtree rooted at
- * projectDir, filtered against a .dockerignore file (if any) also at projectDir,
- * plus a few hardcoded dockerignore patterns.
- * @param projectDir Source directory to
+ * Create an instance of '@balena/dockerignore', initialized with the contents
+ * of a .dockerignore file (if any) found at the given directory argument, plus
+ * a set of default/hardcoded patterns.
+ * @param directory Directory where to look for a .dockerignore file
  */
-export async function filterFilesWithDockerignore(
-	projectDir: string,
-): Promise<{ filteredFileList: FileStats[]; dockerignoreFiles: FileStats[] }> {
-	// path.resolve() also converts forward slashes to backslashes on Windows
-	projectDir = path.resolve(projectDir);
-	const dockerIgnoreStr = await readDockerIgnoreFile(projectDir);
+async function getDockerIgnoreInstance(
+	directory: string,
+): Promise<import('@balena/dockerignore').Ignore> {
+	const dockerIgnoreStr = await readDockerIgnoreFile(directory);
 	const $dockerIgnore = (await import('@balena/dockerignore')).default;
 	const ig = $dockerIgnore({ ignorecase: false });
 
@@ -274,14 +272,60 @@ export async function filterFilesWithDockerignore(
 		'!**/Dockerfile.*',
 		'!**/docker-compose.yml',
 	]);
+	return ig;
+}
 
+export interface ServiceDirs {
+	[service: string]: string;
+}
+
+/**
+ * Create a list of files (FileStats[]) for the filesystem subtree rooted at
+ * projectDir, filtered against the applicable .dockerignore files, including
+ * a few default/hardcoded dockerignore patterns.
+ * @param projectDir Source directory to
+ * @param serviceDirsByService Map of service names to their subdirectories.
+ * The service directory names/paths must be relative to the project root dir
+ * and be "normalized" (path.normalize()) before the call to this function:
+ * they should use backslashes on Windows, not contain '.' or '..' segments and
+ * not contain multiple consecutive path separators like '//'. Also, relative
+ * paths must not start with './' (e.g. 'a/b' instead of './a/b').
+ */
+export async function filterFilesWithDockerignore(
+	projectDir: string,
+	serviceDirsByService?: ServiceDirs,
+): Promise<{ filteredFileList: FileStats[]; dockerignoreFiles: FileStats[] }> {
+	// path.resolve() also converts forward slashes to backslashes on Windows
+	projectDir = path.resolve(projectDir);
+	// ignoreByDir stores an instance of the dockerignore filter for each service dir
+	const ignoreByDir: {
+		[serviceDir: string]: import('@balena/dockerignore').Ignore;
+	} = {
+		'.': await getDockerIgnoreInstance(projectDir),
+	};
+	const serviceDirs: string[] = Object.values(serviceDirsByService || {})
+		// filter out the project source/root dir
+		.filter((dir) => dir && dir !== '.')
+		// add a trailing '/' (or '\' on Windows) to the path
+		.map((dir) => (dir.endsWith(path.sep) ? dir : dir + path.sep));
+
+	for (const serviceDir of serviceDirs) {
+		ignoreByDir[serviceDir] = await getDockerIgnoreInstance(
+			path.join(projectDir, serviceDir),
+		);
+	}
 	const files = await listFiles(projectDir);
 	const dockerignoreFiles: FileStats[] = [];
 	const filteredFileList = files.filter((file: FileStats) => {
 		if (path.basename(file.relPath) === '.dockerignore') {
 			dockerignoreFiles.push(file);
 		}
-		return !ig.ignores(file.relPath);
+		for (const dir of serviceDirs) {
+			if (file.relPath.startsWith(dir)) {
+				return !ignoreByDir[dir].ignores(file.relPath.substring(dir.length));
+			}
+		}
+		return !ignoreByDir['.'].ignores(file.relPath);
 	});
 	return { filteredFileList, dockerignoreFiles };
 }

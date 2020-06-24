@@ -77,6 +77,9 @@ const commonQueryParams = [
 	['headless', 'false'],
 ];
 
+const hr =
+	'----------------------------------------------------------------------';
+
 describe('balena push', function () {
 	let api: BalenaAPIMock;
 	let builder: BuilderMock;
@@ -126,14 +129,14 @@ describe('balena push', function () {
 		const expectedResponseLines = [
 			...commonResponseLines[responseFilename],
 			...[
+				`[Warn] ${hr}`,
 				'[Warn] The following .dockerignore file(s) will not be used:',
 				`[Warn] * ${path.join(projectPath, 'src', '.dockerignore')}`,
-				'[Warn] Only one .dockerignore file at the source folder (project root) is used.',
-				'[Warn] Additional .dockerignore files are disregarded. Microservices (multicontainer)',
-				'[Warn] apps should place the .dockerignore file alongside the docker-compose.yml file.',
-				'[Warn] See issue: https://github.com/balena-io/balena-cli/issues/1870',
-				'[Warn] See also CLI v12 release notes: https://git.io/Jf7hz',
-				'[Warn] -------------------------------------------------------------------------------',
+				'[Warn] By default, only one .dockerignore file at the source folder (project root)',
+				'[Warn] is used. Microservices (multicontainer) applications may use a separate',
+				'[Warn] .dockerignore file for each service with the --multi-dockerignore (-m) option.',
+				'[Warn] See "balena help push" for more details.',
+				`[Warn] ${hr}`,
 			],
 		];
 		if (isWindows) {
@@ -173,14 +176,14 @@ describe('balena push', function () {
 		const expectedResponseLines = [
 			...commonResponseLines[responseFilename],
 			...[
+				`[Warn] ${hr}`,
 				'[Warn] The following .dockerignore file(s) will not be used:',
 				`[Warn] * ${path.join(projectPath, 'src', '.dockerignore')}`,
-				'[Warn] Only one .dockerignore file at the source folder (project root) is used.',
-				'[Warn] Additional .dockerignore files are disregarded. Microservices (multicontainer)',
-				'[Warn] apps should place the .dockerignore file alongside the docker-compose.yml file.',
-				'[Warn] See issue: https://github.com/balena-io/balena-cli/issues/1870',
-				'[Warn] See also CLI v12 release notes: https://git.io/Jf7hz',
-				'[Warn] -------------------------------------------------------------------------------',
+				'[Warn] By default, only one .dockerignore file at the source folder (project root)',
+				'[Warn] is used. Microservices (multicontainer) applications may use a separate',
+				'[Warn] .dockerignore file for each service with the --multi-dockerignore (-m) option.',
+				'[Warn] See "balena help push" for more details.',
+				`[Warn] ${hr}`,
 			],
 		];
 		const expectedQueryParams = commonQueryParams.map((i) =>
@@ -220,14 +223,14 @@ describe('balena push', function () {
 		const expectedResponseLines = [
 			...commonResponseLines[responseFilename],
 			...[
+				`[Warn] ${hr}`,
 				'[Warn] The following .dockerignore file(s) will not be used:',
 				`[Warn] * ${path.join(projectPath, 'src', '.dockerignore')}`,
-				'[Warn] Only one .dockerignore file at the source folder (project root) is used.',
-				'[Warn] Additional .dockerignore files are disregarded. Microservices (multicontainer)',
-				'[Warn] apps should place the .dockerignore file alongside the docker-compose.yml file.',
-				'[Warn] See issue: https://github.com/balena-io/balena-cli/issues/1870',
-				'[Warn] See also CLI v12 release notes: https://git.io/Jf7hz',
-				'[Warn] -------------------------------------------------------------------------------',
+				'[Warn] By default, only one .dockerignore file at the source folder (project root)',
+				'[Warn] is used. Microservices (multicontainer) applications may use a separate',
+				'[Warn] .dockerignore file for each service with the --multi-dockerignore (-m) option.',
+				'[Warn] See "balena help push" for more details.',
+				`[Warn] ${hr}`,
 			],
 		];
 		if (isWindows) {
@@ -291,6 +294,7 @@ describe('balena push', function () {
 		);
 		const expectedResponseLines = [
 			...[
+				`[Warn] ${hr}`,
 				'[Warn] Using file ignore patterns from:',
 				`[Warn] * ${path.join(projectPath, '.dockerignore')}`,
 				`[Warn] * ${path.join(projectPath, '.gitignore')}`,
@@ -298,6 +302,7 @@ describe('balena push', function () {
 				'[Warn] .gitignore files are being considered because the --gitignore option was used.',
 				'[Warn] This option is deprecated and will be removed in the next major version release.',
 				"[Warn] For more information, see 'balena help push'.",
+				`[Warn] ${hr}`,
 			],
 			...commonResponseLines[responseFilename],
 		];
@@ -364,45 +369,19 @@ describe('balena push', function () {
 			'dockerignore2',
 		);
 		const expectedFiles: ExpectedTarStreamFiles = {
-			'.dockerignore': { fileSize: 34, type: 'file' },
+			'.dockerignore': { fileSize: 33, type: 'file' },
 			'b.txt': { fileSize: 1, type: 'file' },
 			Dockerfile: { fileSize: 13, type: 'file' },
+			'lib/.dockerignore': { fileSize: 10, type: 'file' },
+			'lib/src-b.txt': { fileSize: 5, type: 'file' },
 			'src/src-b.txt': { fileSize: 5, type: 'file' },
 			'symlink-a.txt': { fileSize: 5, type: 'file' },
-			...(isWindows ? { 'src/src-a.txt': { fileSize: 5, type: 'file' } } : {}),
-		};
-		const regSecretsPath = await addRegSecretsEntries(expectedFiles);
-		const responseFilename = 'build-POST-v3.json';
-		const responseBody = await fs.readFile(
-			path.join(builderResponsePath, responseFilename),
-			'utf8',
-		);
-
-		await testPushBuildStream({
-			builderMock: builder,
-			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -l --gitignore`,
-			expectedFiles,
-			expectedQueryParams: commonQueryParams,
-			expectedResponseLines: commonResponseLines[responseFilename],
-			projectPath,
-			responseBody,
-			responseCode: 200,
-		});
-	});
-
-	it('should create the expected tar stream (single container, dockerignore warn)', async () => {
-		const projectPath = path.join(
-			projectsPath,
-			'no-docker-compose',
-			'dockerignore2',
-		);
-		const expectedFiles: ExpectedTarStreamFiles = {
-			'.dockerignore': { fileSize: 34, type: 'file' },
-			'b.txt': { fileSize: 1, type: 'file' },
-			Dockerfile: { fileSize: 13, type: 'file' },
-			'src/src-b.txt': { fileSize: 5, type: 'file' },
-			'symlink-a.txt': { fileSize: 5, type: 'file' },
-			...(isWindows ? { 'src/src-a.txt': { fileSize: 5, type: 'file' } } : {}),
+			...(isWindows
+				? {
+						'lib/src-a.txt': { fileSize: 5, type: 'file' },
+						'src/src-a.txt': { fileSize: 5, type: 'file' },
+				  }
+				: {}),
 		};
 		const regSecretsPath = await addRegSecretsEntries(expectedFiles);
 		const responseFilename = 'build-POST-v3.json';
@@ -412,6 +391,7 @@ describe('balena push', function () {
 		);
 		const expectedResponseLines = isWindows
 			? [
+					`[Warn] ${hr}`,
 					'[Warn] Using file ignore patterns from:',
 					`[Warn] * ${path.join(projectPath, '.dockerignore')}`,
 					'[Warn] The --gitignore option was used, but no .gitignore files were found.',
@@ -419,13 +399,61 @@ describe('balena push', function () {
 					'[Warn] version release. It prevents the use of a better dockerignore parser and',
 					'[Warn] filter library that fixes several issues on Windows and improves compatibility',
 					"[Warn] with 'docker build'. For more information, see 'balena help push'.",
+					`[Warn] ${hr}`,
 					...commonResponseLines[responseFilename],
 			  ]
 			: commonResponseLines[responseFilename];
 
 		await testPushBuildStream({
 			builderMock: builder,
-			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -l -g`,
+			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -l --gitignore`,
+			expectedFiles,
+			expectedQueryParams: commonQueryParams,
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+		});
+	});
+
+	it('should create the expected tar stream (single container, --multi-dockerignore)', async () => {
+		const projectPath = path.join(
+			projectsPath,
+			'no-docker-compose',
+			'dockerignore2',
+		);
+		const expectedFiles: ExpectedTarStreamFiles = {
+			'.dockerignore': { fileSize: 33, type: 'file' },
+			'b.txt': { fileSize: 1, type: 'file' },
+			Dockerfile: { fileSize: 13, type: 'file' },
+			'lib/.dockerignore': { fileSize: 10, type: 'file' },
+			'lib/src-b.txt': { fileSize: 5, type: 'file' },
+			'src/src-b.txt': { fileSize: 5, type: 'file' },
+			'symlink-a.txt': { fileSize: 5, type: 'file' },
+		};
+		const regSecretsPath = await addRegSecretsEntries(expectedFiles);
+		const responseFilename = 'build-POST-v3.json';
+		const responseBody = await fs.readFile(
+			path.join(builderResponsePath, responseFilename),
+			'utf8',
+		);
+		const expectedResponseLines: string[] = [
+			...[
+				`[Warn] ${hr}`,
+				'[Warn] The following .dockerignore file(s) will not be used:',
+				`[Warn] * ${path.join(projectPath, 'lib', '.dockerignore')}`,
+				'[Warn] When --multi-dockerignore (-m) is used, only .dockerignore files at the root of',
+				"[Warn] each service's build context (in a microservices/multicontainer application),",
+				'[Warn] plus a .dockerignore file at the overall project root, are used.',
+				'[Warn] See "balena help push" for more details.',
+				`[Warn] ${hr}`,
+			],
+			...commonResponseLines[responseFilename],
+		];
+
+		await testPushBuildStream({
+			builderMock: builder,
+			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -l -m`,
 			expectedFiles,
 			expectedQueryParams: commonQueryParams,
 			expectedResponseLines,
@@ -444,12 +472,13 @@ describe('balena push', function () {
 			'service1/Dockerfile.template': { fileSize: 144, type: 'file' },
 			'service1/file1.sh': { fileSize: 12, type: 'file' },
 			'service2/Dockerfile-alt': { fileSize: 40, type: 'file' },
-			'service2/.dockerignore': { fileSize: 14, type: 'file' },
+			'service2/.dockerignore': { fileSize: 12, type: 'file' },
 			'service2/file2-crlf.sh': {
 				fileSize: isWindows ? 12 : 14,
 				testStream: isWindows ? expectStreamNoCRLF : undefined,
 				type: 'file',
 			},
+			'service2/src/file1.sh': { fileSize: 12, type: 'file' },
 		};
 		const regSecretsPath = await addRegSecretsEntries(expectedFiles);
 		const responseFilename = 'build-POST-v3.json';
@@ -460,14 +489,14 @@ describe('balena push', function () {
 		const expectedResponseLines: string[] = [
 			...commonResponseLines[responseFilename],
 			...[
+				`[Warn] ${hr}`,
 				'[Warn] The following .dockerignore file(s) will not be used:',
 				`[Warn] * ${path.join(projectPath, 'service2', '.dockerignore')}`,
-				'[Warn] Only one .dockerignore file at the source folder (project root) is used.',
-				'[Warn] Additional .dockerignore files are disregarded. Microservices (multicontainer)',
-				'[Warn] apps should place the .dockerignore file alongside the docker-compose.yml file.',
-				'[Warn] See issue: https://github.com/balena-io/balena-cli/issues/1870',
-				'[Warn] See also CLI v12 release notes: https://git.io/Jf7hz',
-				'[Warn] -------------------------------------------------------------------------------',
+				'[Warn] By default, only one .dockerignore file at the source folder (project root)',
+				'[Warn] is used. Microservices (multicontainer) applications may use a separate',
+				'[Warn] .dockerignore file for each service with the --multi-dockerignore (-m) option.',
+				'[Warn] See "balena help push" for more details.',
+				`[Warn] ${hr}`,
 			],
 		];
 		if (isWindows) {
@@ -483,6 +512,61 @@ describe('balena push', function () {
 		await testPushBuildStream({
 			builderMock: builder,
 			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -l`,
+			expectedFiles,
+			expectedQueryParams: commonQueryParams,
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+		});
+	});
+
+	it('should create the expected tar stream (docker-compose, --multi-dockerignore)', async () => {
+		const projectPath = path.join(projectsPath, 'docker-compose', 'basic');
+		const expectedFiles: ExpectedTarStreamFiles = {
+			'.balena/balena.yml': { fileSize: 197, type: 'file' },
+			'.dockerignore': { fileSize: 22, type: 'file' },
+			'docker-compose.yml': { fileSize: 245, type: 'file' },
+			'service1/Dockerfile.template': { fileSize: 144, type: 'file' },
+			'service1/file1.sh': { fileSize: 12, type: 'file' },
+			'service1/test-ignore.txt': { fileSize: 12, type: 'file' },
+			'service2/Dockerfile-alt': { fileSize: 40, type: 'file' },
+			'service2/.dockerignore': { fileSize: 12, type: 'file' },
+			'service2/file2-crlf.sh': {
+				fileSize: isWindows ? 12 : 14,
+				testStream: isWindows ? expectStreamNoCRLF : undefined,
+				type: 'file',
+			},
+		};
+		const regSecretsPath = await addRegSecretsEntries(expectedFiles);
+		const responseFilename = 'build-POST-v3.json';
+		const responseBody = await fs.readFile(
+			path.join(builderResponsePath, responseFilename),
+			'utf8',
+		);
+		const expectedResponseLines: string[] = [
+			...commonResponseLines[responseFilename],
+			...[
+				`[Info] ${hr}`,
+				'[Info] The --multi-dockerignore option is being used, and a .dockerignore file was',
+				'[Info] found at the project source (root) directory. Note that this file will not',
+				'[Info] be used to filter service subdirectories. See "balena help push".',
+				`[Info] ${hr}`,
+			],
+		];
+		if (isWindows) {
+			expectedResponseLines.push(
+				`[Info] Converting line endings CRLF -> LF for file: ${path.join(
+					projectPath,
+					'service2',
+					'file2-crlf.sh',
+				)}`,
+			);
+		}
+
+		await testPushBuildStream({
+			builderMock: builder,
+			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -l -m`,
 			expectedFiles,
 			expectedQueryParams: commonQueryParams,
 			expectedResponseLines,

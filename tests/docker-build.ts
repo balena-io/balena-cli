@@ -95,7 +95,11 @@ export async function inspectTarStream(
 		expect($expected).to.deep.equal(found);
 	} catch (e) {
 		const { diff } = require('deep-object-diff');
-		const diffStr = JSON.stringify(diff($expected, found), null, 4);
+		const diffStr = JSON.stringify(
+			diff($expected, found),
+			(_k, v) => (v === undefined ? 'undefined' : v),
+			4,
+		);
 		console.error(`\nexpected vs. found diff:\n${diffStr}\n`);
 		throw e;
 	}
@@ -181,7 +185,9 @@ export async function testDockerBuildStream(o: {
 				inspectTarStream(buildRequestBody, expectedFiles, projectPath),
 			tag,
 		});
-		o.dockerMock.expectGetImages();
+		if (o.commandLine.startsWith('build')) {
+			o.dockerMock.expectGetImages();
+		}
 	}
 
 	const { exitCode, out, err } = await runCommand(o.commandLine);

@@ -54,6 +54,7 @@ export interface DeviceDeployOptions {
 	devicePort?: number;
 	dockerfilePath?: string;
 	registrySecrets: RegistrySecrets;
+	multiDockerignore: boolean;
 	nocache: boolean;
 	nogitignore: boolean;
 	noParentCheck: boolean;
@@ -180,6 +181,8 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	const project = await loadProject(globalLogger, {
 		convertEol: opts.convertEol,
 		dockerfilePath: opts.dockerfilePath,
+		multiDockerignore: opts.multiDockerignore,
+		nogitignore: opts.nogitignore,
 		noParentCheck: opts.noParentCheck,
 		projectName: 'local',
 		projectPath: opts.source,
@@ -194,7 +197,9 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	await checkBuildSecretsRequirements(docker, opts.source);
 	globalLogger.logDebug('Tarring all non-ignored files...');
 	const tarStream = await tarDirectory(opts.source, {
+		composition: project.composition,
 		convertEol: opts.convertEol,
+		multiDockerignore: opts.multiDockerignore,
 		nogitignore: opts.nogitignore,
 	});
 
@@ -407,7 +412,9 @@ export async function rebuildSingleTask(
 	};
 
 	const tarStream = await tarDirectory(source, {
+		composition,
 		convertEol: opts.convertEol,
+		multiDockerignore: opts.multiDockerignore,
 		nogitignore: opts.nogitignore,
 	});
 
