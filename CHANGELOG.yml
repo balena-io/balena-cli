@@ -1,4 +1,14 @@
 - commits:
+    - subject: Use cacheScope for fast-boot2 to allow caching when globally installed
+      hash: c054d5545610464d64516b126caf4389df32e9c4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.1.11
+  date: 2020-06-24T17:11:42.000Z
+- commits:
     - subject: Simplify some exports
       hash: 03eed32f12932dab3ce1c7c8197969892752c869
       body: ''
@@ -7,7 +17,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 12.1.10
-  date: 2020-06-24T16:12:41.687Z
+  date: 2020-06-24T15:27:18.539Z
 - commits:
     - subject: Use `import type` where possible to explicitly import only type info
       hash: 6dce5c1212ca4ce7ee7339e0262cb16004c1439c

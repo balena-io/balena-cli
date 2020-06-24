@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Use cacheScope for fast-boot2 to allow caching when globally installed",
+          "hash": "c054d5545610464d64516b126caf4389df32e9c4",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "12.1.11",
+      "date": "2020-06-24T16:44:44.999Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Simplify some exports",
           "hash": "03eed32f12932dab3ce1c7c8197969892752c869",
           "body": "",
@@ -12491,40 +12507,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-24T16:13:43Z",
+  "lastCommitDate": "2020-06-24T17:12:41Z",
   "latestRelease": {
-    "tagName": "v12.1.10",
+    "tagName": "v12.1.11",
     "asssets": [
       {
-        "name": "balena-cli-v12.1.10-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.10/balena-cli-v12.1.10-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.1.11-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.11/balena-cli-v12.1.11-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.1.10-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.10/balena-cli-v12.1.10-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.1.11-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.11/balena-cli-v12.1.11-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.1.10-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.10/balena-cli-v12.1.10-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.1.11-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.11/balena-cli-v12.1.11-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.1.10-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.10/balena-cli-v12.1.10-windows-x64-installer.exe"
+        "name": "balena-cli-v12.1.11-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.11/balena-cli-v12.1.11-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.1.10-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.10/balena-cli-v12.1.10-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.1.11-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.11/balena-cli-v12.1.11-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 285,
+    "numberOfIssues": 284,
     "latestIssues": [
-      {
-        "title": "Use cacheScope for fast-boot2 to allow caching when globally installed",
-        "url": "https://github.com/balena-io/balena-cli/pull/1884"
-      },
       {
         "title": "Convert command ssh to oclif.",
         "url": "https://github.com/balena-io/balena-cli/pull/1883"
@@ -12600,10 +12612,14 @@
       {
         "title": "Node apps (without a Dockerfile): should user new balenalib base images for all device types",
         "url": "https://github.com/balena-io/balena-cli/issues/1832"
+      },
+      {
+        "title": "Node apps (without a Dockerfile): broken for new device types (RPi4, RPi3-64)",
+        "url": "https://github.com/balena-io/balena-cli/issues/1831"
       }
     ]
   },
-  "version": "12.1.10",
+  "version": "12.1.11",
   "screenshot": null,
   "logo": null
 }
