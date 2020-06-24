@@ -9,6 +9,7 @@ process.env.OCLIF_TS_NODE = 0;
 
 // Use fast-boot to cache require lookups, speeding up startup
 require('fast-boot2').start({
+	cacheScope: __dirname + '/..',
 	cacheFile: __dirname + '/.fast-boot.json'
 })
 // Run the CLI

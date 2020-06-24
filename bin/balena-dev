@@ -11,6 +11,7 @@ process.env.UV_THREADPOOL_SIZE = '64';
 
 // Use fast-boot to cache require lookups, speeding up startup
 require('fast-boot2').start({
+	cacheScope: __dirname + '/..',
 	cacheFile: '.fast-boot.json',
 });
 
