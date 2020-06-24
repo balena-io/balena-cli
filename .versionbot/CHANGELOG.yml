@@ -1,4 +1,34 @@
 - commits:
+    - subject: Make offline device error handling more robust.
+      hash: 4656f8f11d2fc73b1eb4043b63b8fd037826b791
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+    - subject: Improve handling of oclif parser errors.
+      hash: 5b5f258685c03a6d60b9ddb7b2c17da919bc312e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+    - subject: 'Convert commands login, logout, whoami to oclif.'
+      hash: 7d2e32777f141e9a91b6c857330087a51b66f1fa
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 12.1.6
+  date: 2020-06-24T10:47:37.947Z
+- commits:
     - subject: Update INSTALL.md re supported Node.js versions and '--unsafe-perm'
       hash: 98c0991fe35db6cbe9825f4016fbb2001e08267b
       body: ''
