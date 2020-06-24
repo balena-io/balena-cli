@@ -336,7 +336,7 @@ export class BalenaAPIMock extends NockMock {
 
 	// User details are cached in the SDK
 	// so often we don't know if we can expect the whoami request
-	public expectGetWhoAmI(opts: ScopeOpts = {}) {
+	public expectGetWhoAmI(opts: ScopeOpts = { optional: true }) {
 		this.optGet('/user/v1/whoami', opts).reply(200, {
 			id: 99999,
 			username: 'gh_user',
