@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Standardize all references to Bluebird",
+          "hash": "420a282bea1632842a77e3d62488f7aa60301d34",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "12.1.8",
+      "date": "2020-06-24T13:24:26.013Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Cache username for a given auth to avoid fetching it every time",
           "hash": "2f7dd54e370467ab7833e02a90e2c41e3964c9fd",
           "body": "",
@@ -12443,29 +12459,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-24T12:05:43Z",
+  "lastCommitDate": "2020-06-24T13:31:24Z",
   "latestRelease": {
-    "tagName": "v12.1.7",
+    "tagName": "v12.1.8",
     "asssets": [
       {
-        "name": "balena-cli-v12.1.7-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.7/balena-cli-v12.1.7-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.1.8-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.8/balena-cli-v12.1.8-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.1.7-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.7/balena-cli-v12.1.7-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.1.8-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.8/balena-cli-v12.1.8-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.1.7-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.7/balena-cli-v12.1.7-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.1.8-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.8/balena-cli-v12.1.8-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.1.7-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.7/balena-cli-v12.1.7-windows-x64-installer.exe"
+        "name": "balena-cli-v12.1.8-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.8/balena-cli-v12.1.8-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.1.7-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.7/balena-cli-v12.1.7-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.1.8-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.8/balena-cli-v12.1.8-windows-x64-standalone.zip"
       }
     ]
   },
@@ -12474,12 +12490,12 @@
     "numberOfIssues": 287,
     "latestIssues": [
       {
-        "title": "Use native fs promises rather than promisify or mz",
-        "url": "https://github.com/balena-io/balena-cli/pull/1881"
+        "title": "Convert command ssh to oclif.",
+        "url": "https://github.com/balena-io/balena-cli/pull/1883"
       },
       {
-        "title": "Standardize all references to Bluebird",
-        "url": "https://github.com/balena-io/balena-cli/pull/1880"
+        "title": "Use native fs promises rather than promisify or mz",
+        "url": "https://github.com/balena-io/balena-cli/pull/1881"
       },
       {
         "title": "Get 65200 illegal hardware instruction when running balena cli commands and the device is in local mode",
@@ -12555,7 +12571,7 @@
       }
     ]
   },
-  "version": "12.1.7",
+  "version": "12.1.8",
   "screenshot": null,
   "logo": null
 }
