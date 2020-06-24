@@ -33,12 +33,12 @@ export function qemuPathInContext(context: string) {
 
 export function copyQemu(context: string, arch: string) {
 	const path = require('path') as typeof import('path');
-	const fs = require('mz/fs') as typeof import('mz/fs');
+	const fs = require('fs') as typeof import('fs');
 	// Create a hidden directory in the build context, containing qemu
 	const binDir = path.join(context, '.balena');
 	const binPath = path.join(binDir, QEMU_BIN_NAME);
 
-	return Bluebird.resolve(fs.mkdir(binDir))
+	return Bluebird.resolve(fs.promises.mkdir(binDir))
 		.catch({ code: 'EEXIST' }, function () {
 			// noop
 		})
@@ -56,14 +56,14 @@ export function copyQemu(context: string, arch: string) {
 						.on('finish', resolve);
 				}),
 		)
-		.then(() => fs.chmod(binPath, '755'))
+		.then(() => fs.promises.chmod(binPath, '755'))
 		.then(() => path.relative(context, binPath));
 }
 
 export const getQemuPath = function (arch: string) {
 	const balena = getBalenaSdk();
 	const path = require('path') as typeof import('path');
-	const fs = require('mz/fs') as typeof import('mz/fs');
+	const { promises: fs } = require('fs') as typeof import('fs');
 
 	return balena.settings.get('binDirectory').then((binDir) =>
 		Bluebird.resolve(fs.mkdir(binDir))
@@ -144,8 +144,12 @@ export async function installQemuIfNeeded(
 	if (!emulated || !needsQemu) {
 		return false;
 	}
-	const fs = await import('mz/fs');
-	if (!(await fs.exists(await getQemuPath(arch)))) {
+	const { promises: fs } = await import('fs');
+	const qemuPath = await getQemuPath(arch);
+	try {
+		await fs.access(qemuPath);
+	} catch {
+		// Qemu doesn't exist so install it
 		logger.logInfo(`Installing qemu for ${arch} emulation...`);
 		await installQemu(arch);
 	}

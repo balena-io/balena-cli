@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import * as fs from 'mz/fs';
+import { promises as fs } from 'fs';
 import * as process from 'process';
 import { runCommand } from '../../helpers';
 

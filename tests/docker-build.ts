@@ -18,7 +18,7 @@
 import { expect } from 'chai';
 import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
-import { fs } from 'mz';
+import { promises as fs } from 'fs';
 import * as path from 'path';
 import { PathUtils } from 'resin-multibuild';
 import * as sinon from 'sinon';

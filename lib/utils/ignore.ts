@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import * as _ from 'lodash';
-import { fs } from 'mz';
+import { promises as fs, Stats } from 'fs';
 import * as path from 'path';
 import * as MultiBuild from 'resin-multibuild';
 
@@ -193,7 +193,7 @@ export class FileIgnorer {
 export interface FileStats {
 	filePath: string;
 	relPath: string;
-	stats: fs.Stats;
+	stats: Stats;
 }
 
 /**

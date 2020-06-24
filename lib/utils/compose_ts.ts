@@ -19,7 +19,7 @@ import * as Bluebird from 'bluebird';
 import { stripIndent } from 'common-tags';
 import type * as Dockerode from 'dockerode';
 import * as _ from 'lodash';
-import { fs } from 'mz';
+import { promises as fs } from 'fs';
 import * as path from 'path';
 import { Composition } from 'resin-compose-parse';
 import * as MultiBuild from 'resin-multibuild';
@@ -45,6 +45,15 @@ export interface RegistrySecrets {
 		password: string;
 	};
 }
+
+const exists = async (filename: string) => {
+	try {
+		await fs.access(filename);
+		return true;
+	} catch {
+		return false;
+	}
+};
 
 const compositionFileNames = ['docker-compose.yml', 'docker-compose.yaml'];
 
@@ -101,11 +110,11 @@ async function resolveProject(
 	let composeFileContents = '';
 	for (const fname of compositionFileNames) {
 		const fpath = path.join(projectRoot, fname);
-		if (await fs.exists(fpath)) {
+		if (await exists(fpath)) {
 			logger.logDebug(`${fname} file found at "${projectRoot}"`);
 			composeFileName = fname;
 			try {
-				composeFileContents = await fs.readFile(fpath, 'utf-8');
+				composeFileContents = await fs.readFile(fpath, 'utf8');
 			} catch (err) {
 				logger.logError(`Error reading composition file "${fpath}":\n${err}`);
 				throw err;
@@ -330,7 +339,7 @@ export async function getRegistrySecrets(
 	];
 
 	for (const potentialPath of potentialPaths) {
-		if (await fs.exists(potentialPath)) {
+		if (await exists(potentialPath)) {
 			return await parseRegistrySecrets(potentialPath);
 		}
 	}
@@ -506,7 +515,7 @@ async function validateSpecifiedDockerfile(
 
 	const fullDockerfilePath = path.join(nativeProjectPath, nativeDockerfilePath);
 
-	if (!(await fs.exists(fullDockerfilePath))) {
+	if (!(await exists(fullDockerfilePath))) {
 		throw new ExpectedError(stripIndent`
 			Error: specified Dockerfile not found:
 			Specified dockerfile: "${fullDockerfilePath}"
@@ -550,7 +559,7 @@ export async function validateProjectDirectory(
 	},
 ): Promise<ProjectValidationResult> {
 	if (
-		!(await fs.exists(opts.projectPath)) ||
+		!(await exists(opts.projectPath)) ||
 		!(await fs.stat(opts.projectPath)).isDirectory()
 	) {
 		throw new ExpectedError(
@@ -585,7 +594,7 @@ export async function validateProjectDirectory(
 				return _.some(
 					await Promise.all(
 						compositionFileNames.map((filename) =>
-							fs.exists(path.join(folder, filename)),
+							exists(path.join(folder, filename)),
 						),
 					),
 				);

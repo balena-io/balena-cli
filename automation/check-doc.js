@@ -17,7 +17,7 @@
 
 const { stripIndent } = require('common-tags');
 const _ = require('lodash');
-const { fs } = require('mz');
+const { promises: fs } = require('fs');
 const path = require('path');
 const simplegit = require('simple-git/promise');
 

@@ -21,7 +21,7 @@ require('./config-tests'); // required for side effects
 import { execFile } from 'child_process';
 import intercept = require('intercept-stdout');
 import * as _ from 'lodash';
-import { fs } from 'mz';
+import { promises as fs } from 'fs';
 import * as nock from 'nock';
 import * as path from 'path';
 
@@ -191,7 +191,9 @@ export async function runCommand(cmd: string): Promise<TestOutput> {
 				`The standalone tests require Node.js >= v10.16.0 because of net/proxy features ('global-agent' npm package)`,
 			);
 		}
-		if (!(await fs.exists(standalonePath))) {
+		try {
+			await fs.access(standalonePath);
+		} catch {
 			throw new Error(`Standalone executable not found: "${standalonePath}"`);
 		}
 		const proxy = await import('./proxy-server');

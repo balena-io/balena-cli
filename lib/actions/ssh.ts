@@ -77,7 +77,7 @@ async function getContainerId(
 		// We need to execute a balena ps command on the device,
 		// and parse the output, looking for a specific
 		// container
-		const { child_process } = await import('mz');
+		const childProcess = await import('child_process');
 		const escapeRegex = await import('lodash/escapeRegExp');
 		const { which } = await import('../utils/helpers');
 		const { deviceContainerEngineBinary } = await import('../utils/device/ssh');
@@ -96,7 +96,7 @@ async function getContainerId(
 		if (process.env.DEBUG) {
 			console.error(`[debug] [${sshBinary}, ${sshArgs.join(', ')}]`);
 		}
-		const subprocess = child_process.spawn(sshBinary, sshArgs, {
+		const subprocess = childProcess.spawn(sshBinary, sshArgs, {
 			stdio: [null, 'pipe', null],
 		});
 		const containers = await new Promise<string>((resolve, reject) => {
