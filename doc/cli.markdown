@@ -213,7 +213,7 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 - Network
 
 	- [scan](#scan)
-	- [ssh &#60;applicationOrDevice&#62; [serviceName]](#ssh-applicationordevice-servicename)
+	- [ssh &#60;applicationordevice&#62; [servicename]](#ssh-applicationordevice-servicename)
 	- [tunnel &#60;deviceOrApplication&#62;](#tunnel-deviceorapplication)
 
 - Notes
@@ -1368,9 +1368,8 @@ scan timeout in seconds
 
 ## ssh &#60;applicationOrDevice&#62; [serviceName]
 
-This command can be used to start a shell on a local or remote device.
-
-If a service name is not provided, a shell will be opened on the host OS.
+Start a shell on a local or remote device. If a service name is not provided,
+a shell will be opened on the host OS.
 
 If an application name is provided, an interactive menu will be presented
 for the selection of an online device. A shell will then be opened for the
@@ -1382,33 +1381,49 @@ is initiated directly to balenaOS on port `22222` via an
 openssh-compatible client. Otherwise, any connection initiated remotely
 traverses the balenaCloud VPN.
 
-Examples:
-	balena ssh MyApp
+Commands may be piped to the standard input for remote execution (see examples).
+Note however that remote command execution on service containers (as opposed to
+the host OS) is not currently possible when a device UUID is used (instead of
+an IP address) because of a balenaCloud backend limitation.
 
-	balena ssh f49cefd
-	balena ssh f49cefd my-service
-	balena ssh f49cefd --port <port>
-
-	balena ssh 192.168.0.1 --verbose
-	balena ssh f49cefd.local my-service
-
-Warning: `balena ssh` requires an openssh-compatible client to be correctly
+Note: `balena ssh` requires an openssh-compatible client to be correctly
 installed in your shell environment. For more information (including Windows
 support) please check:
-	https://github.com/balena-io/balena-cli/blob/master/INSTALL.md#additional-dependencies
+	https://github.com/balena-io/balena-cli/blob/master/INSTALL.md#additional-dependencies,
+
+Examples:
+
+	$ balena ssh MyApp
+	$ balena ssh f49cefd
+	$ balena ssh f49cefd my-service
+	$ balena ssh f49cefd --port <port>
+	$ balena ssh 192.168.0.1 --verbose
+	$ balena ssh f49cefd.local my-service
+	$ echo "uptime; exit;" | balena ssh f49cefd
+	$ echo "uptime; exit;" | balena ssh 192.168.0.1 myService
+
+### Arguments
+
+#### APPLICATIONORDEVICE
+
+application name, device uuid, or address of local device
+
+#### SERVICENAME
+
+service name, if connecting to a container
 
 ### Options
 
-#### --port, -p &#60;port&#62;
+#### -p, --port PORT
 
 SSH server port number (default 22222) if the target is an IP address or .local
 hostname. Otherwise, port number for the balenaCloud gateway (default 22).
 
-#### --tty, -t
+#### -t, --tty
 
 Force pseudo-terminal allocation (bypass TTY autodetection for stdin)
 
-#### --verbose, -v
+#### -v, --verbose
 
 Increase verbosity
 

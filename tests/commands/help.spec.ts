@@ -10,7 +10,7 @@ Primary commands:
     login                                   login to balena
     push <applicationOrDevice>              Start a remote build on the balena cloud build servers or a local mode device
     logs <uuidOrDevice>                     show device logs
-    ssh <applicationOrDevice> [serviceName] SSH into the host or application container of a device
+    ssh <applicationordevice> [servicename] SSH into the host or application container of a device
     apps                                    list all applications
     app <name>                              display information about a single application
     devices                                 list all devices

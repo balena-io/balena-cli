@@ -125,6 +125,7 @@ describe('handleError() function', () => {
 		'Unexpected arguments', // oclif
 		'to be one of', // oclif
 		'must also be provided when using', // oclif
+		'Expected an integer', // oclif
 	];
 
 	messagesToMatch.forEach((message) => {

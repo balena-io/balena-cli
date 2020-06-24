@@ -141,6 +141,7 @@ const EXPECTED_ERROR_REGEXES = [
 	/^Unexpected argument/, // oclif parser: UnexpectedArgsError
 	/to be one of/, // oclif parser: FlagInvalidOptionError, ArgInvalidOptionError
 	/must also be provided when using/, // oclif parser (depends-on)
+	/^Expected an integer/, // oclif parser (flags.integer)
 ];
 
 // Support unit testing of handleError
