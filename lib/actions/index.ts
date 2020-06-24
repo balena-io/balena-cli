@@ -14,18 +14,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import * as config from './config';
-import * as device from './device';
-import * as help from './help';
-import * as local from './local';
-import * as logs from './logs';
-import * as os from './os';
-import * as push from './push';
-import * as ssh from './ssh';
-import * as tunnel from './tunnel';
-import * as util from './util';
-
-export { device, logs, local, help, os, config, ssh, util, push, tunnel };
+export * as config from './config';
+export * as device from './device';
+export * as help from './help';
+export * as local from './local';
+export * as logs from './logs';
+export * as os from './os';
+export * as push from './push';
+export * as ssh from './ssh';
+export * as tunnel from './tunnel';
+export * as util from './util';
 
 export { build } from './build';
 
