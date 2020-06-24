@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Cache username for a given auth to avoid fetching it every time",
+          "hash": "2f7dd54e370467ab7833e02a90e2c41e3964c9fd",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "12.1.7",
+      "date": "2020-06-24T11:38:57.254Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Make offline device error handling more robust.",
           "hash": "4656f8f11d2fc73b1eb4043b63b8fd037826b791",
           "body": "",
@@ -12427,35 +12443,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-24T11:15:03Z",
+  "lastCommitDate": "2020-06-24T12:05:43Z",
   "latestRelease": {
-    "tagName": "v12.1.6",
+    "tagName": "v12.1.7",
     "asssets": [
       {
-        "name": "balena-cli-v12.1.6-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.6/balena-cli-v12.1.6-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.1.7-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.7/balena-cli-v12.1.7-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.1.6-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.6/balena-cli-v12.1.6-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.1.7-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.7/balena-cli-v12.1.7-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.1.6-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.6/balena-cli-v12.1.6-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.1.7-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.7/balena-cli-v12.1.7-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.1.6-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.6/balena-cli-v12.1.6-windows-x64-installer.exe"
+        "name": "balena-cli-v12.1.7-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.7/balena-cli-v12.1.7-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.1.6-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.6/balena-cli-v12.1.6-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.1.7-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.7/balena-cli-v12.1.7-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 288,
+    "numberOfIssues": 287,
     "latestIssues": [
       {
         "title": "Use native fs promises rather than promisify or mz",
@@ -12539,7 +12555,7 @@
       }
     ]
   },
-  "version": "12.1.6",
+  "version": "12.1.7",
   "screenshot": null,
   "logo": null
 }

@@ -1,4 +1,14 @@
 - commits:
+    - subject: Cache username for a given auth to avoid fetching it every time
+      hash: 2f7dd54e370467ab7833e02a90e2c41e3964c9fd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.1.7
+  date: 2020-06-24T12:04:43.297Z
+- commits:
     - subject: Make offline device error handling more robust.
       hash: 4656f8f11d2fc73b1eb4043b63b8fd037826b791
       body: ''
@@ -27,7 +37,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 12.1.6
-  date: 2020-06-24T11:14:17.456Z
+  date: 2020-06-24T10:47:37.947Z
 - commits:
     - subject: Update INSTALL.md re supported Node.js versions and '--unsafe-perm'
       hash: 98c0991fe35db6cbe9825f4016fbb2001e08267b
