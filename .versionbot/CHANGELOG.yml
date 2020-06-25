@@ -1,4 +1,18 @@
 - commits:
+    - subject: Improve documentation regarding Windows support for `os configure`.
+      hash: b50fef8cb40d32c55639090bbf7d710d7d9c37da
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#1812'
+        resolves: '#1812'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 12.1.13
+  date: 2020-06-25T12:02:07.551Z
+- commits:
     - subject: Use native fs promises rather than promisify or mz
       hash: b114697cab11ab27c8cdae74397e97598037db58
       body: ''
