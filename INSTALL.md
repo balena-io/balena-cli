@@ -191,6 +191,11 @@ regular (non-root) user account, especially if using a user-managed node install
     Search for the installation command for your distribution. E.g. for Ubuntu:
     `sudo apt-get install avahi-daemon`
   * macOS comes with [Bonjour](https://en.wikipedia.org/wiki/Bonjour_(software)) built-in.
+  
+* The `balena os configure` command is currently not supported on Windows natively. Windows users are advised 
+  to install the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL) 
+  with Ubuntu, and use the Linux release of the balena CLI.
+  
 
 ## Configuring SSH keys
 
