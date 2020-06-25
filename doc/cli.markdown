@@ -1567,6 +1567,11 @@ https://developer.gnome.org/NetworkManager/stable/nm-settings.html
 The --device-api-key option is deprecated and will be removed in a future release.
 A suitable key is automatically generated or fetched if this option is omitted.
 
+Note: This command is currently not supported on Windows natively. Windows users
+are advised to install the Windows Subsystem for Linux (WSL) with Ubuntu, and use
+the Linux release of the balena CLI:
+https://docs.microsoft.com/en-us/windows/wsl/about
+
 Examples:
 
 	$ balena os configure ../path/rpi3.img --device 7cf02a6
