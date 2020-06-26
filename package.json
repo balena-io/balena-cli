@@ -17,7 +17,8 @@
     "patches0/",
     "patches/",
     "*.md",
-    "npm-shrinkwrap.json"
+    "npm-shrinkwrap.json",
+    "oclif.manifest.json"
   ],
   "bin": {
     "balena": "./bin/balena"
@@ -40,7 +41,8 @@
       "node_modules/opn/xdg-open",
       "node_modules/open/xdg-open",
       "node_modules/windosu/*.bat",
-      "node_modules/windosu/*.cmd"
+      "node_modules/windosu/*.cmd",
+      "oclif.manifest.json"
     ]
   },
   "scripts": {
@@ -48,7 +50,7 @@
     "prebuild": "rimraf build/ build-bin/",
     "build": "npm run build:src && npm run catch-uncommitted",
     "build:src": "npm run lint && npm run build:fast && npm run build:test && npm run build:doc",
-    "build:fast": "gulp pages && tsc",
+    "build:fast": "gulp pages && tsc && npx oclif-dev manifest",
     "build:test": "tsc -P ./tsconfig.dev.json --noEmit && tsc -P ./tsconfig.js.json --noEmit",
     "build:doc": "mkdirp doc/ && ts-node --transpile-only automation/capitanodoc/index.ts > doc/cli.markdown",
     "build:standalone": "ts-node --transpile-only automation/run.ts build:standalone",
