@@ -1,4 +1,16 @@
 - commits:
+    - subject: Import just strip-tags from common-tags to reduce startup time
+      hash: 667358b23e1ac184fdcb2d64f37a5074e6a0075a
+      body: |
+        This saves ~100ms for me on startup with no fast-boot cache and ~50ms
+        with a fast-boot cache
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.1.14
+  date: 2020-06-26T10:26:22.189Z
+- commits:
     - subject: Improve documentation regarding Windows support for `os configure`.
       hash: b50fef8cb40d32c55639090bbf7d710d7d9c37da
       body: ''
@@ -11,7 +23,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 12.1.13
-  date: 2020-06-25T12:28:39.210Z
+  date: 2020-06-25T12:02:07.551Z
 - commits:
     - subject: Use native fs promises rather than promisify or mz
       hash: b114697cab11ab27c8cdae74397e97598037db58
