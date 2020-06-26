@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2020 Balena
+Copyright 2016-2020 Balena Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,10 +19,14 @@ import Bluebird = require('bluebird');
 import _ = require('lodash');
 import _form = require('resin-cli-form');
 
-import { exitWithExpectedError, instanceOf, NotLoggedInError } from '../errors';
+import {
+	exitWithExpectedError,
+	instanceOf,
+	NotLoggedInError,
+	ExpectedError,
+} from '../errors';
 import { getBalenaSdk, getVisuals, stripIndent } from './lazy';
 import validation = require('./validation');
-import { isV12 } from './version';
 
 const getForm = _.once((): typeof _form => require('resin-cli-form'));
 
@@ -65,7 +69,7 @@ export function authenticate(options: {}): Bluebird<void> {
 							error.name === 'BalenaRequestError' &&
 							error.statusCode === 401
 						) {
-							throw new Error('Invalid two factor authentication code');
+							throw new ExpectedError('Invalid two factor authentication code');
 						}
 						throw error;
 					});
@@ -80,16 +84,9 @@ export function authenticate(options: {}): Bluebird<void> {
 export async function checkLoggedIn(): Promise<void> {
 	const balena = getBalenaSdk();
 	if (!(await balena.auth.isLoggedIn())) {
-		if (isV12()) {
-			throw new NotLoggedInError(stripIndent`
-			Login required: use the “balena login” command to log in.
-			`);
-		} else {
-			throw new NotLoggedInError(stripIndent`
-			You have to log in to continue
-			Run the following command to go through the login wizard:
-				$ balena login`);
-		}
+		throw new NotLoggedInError(stripIndent`
+		Login required: use the “balena login” command to log in.
+		`);
 	}
 }
 
@@ -175,7 +172,7 @@ export function selectApplication(
 		.hasAny()
 		.then(function (hasAnyApplications) {
 			if (!hasAnyApplications) {
-				throw new Error("You don't have any applications");
+				throw new ExpectedError("You don't have any applications");
 			}
 
 			return balena.models.application.getAll();
@@ -316,7 +313,7 @@ export function inferOrSelectDevice(preferredUuid: string) {
 		.filter<BalenaSdk.Device>((device) => device.is_online)
 		.then((onlineDevices) => {
 			if (_.isEmpty(onlineDevices)) {
-				throw new Error("You don't have any devices online");
+				throw new ExpectedError("You don't have any devices online");
 			}
 
 			const defaultUuid = _(onlineDevices).map('uuid').includes(preferredUuid)
@@ -348,7 +345,9 @@ export async function getOnlineTargetUuid(
 	const uuidTest = validation.validateUuid(applicationOrDevice);
 
 	if (!appTest && !uuidTest) {
-		throw new Error(`Device or application not found: ${applicationOrDevice}`);
+		throw new ExpectedError(
+			`Device or application not found: ${applicationOrDevice}`,
+		);
 	}
 
 	// if we have a definite device UUID...
@@ -375,7 +374,7 @@ export async function getOnlineTargetUuid(
 		});
 
 		if (_.isEmpty(devices)) {
-			throw new Error('No accessible devices are online');
+			throw new ExpectedError('No accessible devices are online');
 		}
 
 		return await getForm().ask({

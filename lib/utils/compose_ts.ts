@@ -355,7 +355,7 @@ async function parseRegistrySecrets(
 		if (/.+\.ya?ml$/i.test(secretsFilename)) {
 			isYaml = true;
 		} else if (!/.+\.json$/i.test(secretsFilename)) {
-			throw new Error('Filename must end with .json, .yml or .yaml');
+			throw new ExpectedError('Filename must end with .json, .yml or .yaml');
 		}
 		const raw = (await fs.readFile(secretsFilename)).toString();
 		const registrySecrets = new MultiBuild.RegistrySecretValidator().validateRegistrySecrets(
@@ -459,7 +459,7 @@ async function performResolution(
 				(clonedStream: tar.Pack) => {
 					buildTask.buildStream = clonedStream;
 					if (!buildTask.external && !buildTask.resolved) {
-						throw new Error(
+						throw new ExpectedError(
 							`Project type for service "${buildTask.serviceName}" could not be determined. Missing a Dockerfile?`,
 						);
 					}

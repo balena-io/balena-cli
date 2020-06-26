@@ -117,7 +117,7 @@ export default class EnvAddCmd extends Command {
 			params.value = process.env[params.name];
 
 			if (params.value == null) {
-				throw new Error(
+				throw new ExpectedError(
 					`Value not found for environment variable: ${params.name}`,
 				);
 			} else if (!options.quiet) {
