@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Convert command ssh to oclif.",
+          "hash": "512cfa3da145a5ee16b673fa6bd2823637b7594d",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "12.1.15",
+      "date": "2020-06-26T11:16:47.627Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Import just strip-tags from common-tags to reduce startup time",
           "hash": "667358b23e1ac184fdcb2d64f37a5074e6a0075a",
           "body": "This saves ~100ms for me on startup with no fast-boot cache and ~50ms\nwith a fast-boot cache\n",
@@ -12558,40 +12576,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-26T10:27:24Z",
+  "lastCommitDate": "2020-06-26T11:45:30Z",
   "latestRelease": {
-    "tagName": "v12.1.14",
+    "tagName": "v12.1.15",
     "asssets": [
       {
-        "name": "balena-cli-v12.1.14-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.14/balena-cli-v12.1.14-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.1.15-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.15/balena-cli-v12.1.15-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.1.14-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.14/balena-cli-v12.1.14-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.1.15-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.15/balena-cli-v12.1.15-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.1.14-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.14/balena-cli-v12.1.14-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.1.15-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.15/balena-cli-v12.1.15-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.1.14-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.14/balena-cli-v12.1.14-windows-x64-installer.exe"
+        "name": "balena-cli-v12.1.15-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.15/balena-cli-v12.1.15-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.1.14-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.14/balena-cli-v12.1.14-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.1.15-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.15/balena-cli-v12.1.15-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 282,
+    "numberOfIssues": 281,
     "latestIssues": [
-      {
-        "title": "Convert command ssh to oclif.",
-        "url": "https://github.com/balena-io/balena-cli/pull/1883"
-      },
       {
         "title": "Get 65200 illegal hardware instruction when running balena cli commands and the device is in local mode",
         "url": "https://github.com/balena-io/balena-cli/issues/1878"
@@ -12667,10 +12681,14 @@
       {
         "title": "Node apps (without a Dockerfile): base image resolution takes several minutes",
         "url": "https://github.com/balena-io/balena-cli/issues/1830"
+      },
+      {
+        "title": "Livepush process didn't exit after connection hangup",
+        "url": "https://github.com/balena-io/balena-cli/issues/1828"
       }
     ]
   },
-  "version": "12.1.14",
+  "version": "12.1.15",
   "screenshot": null,
   "logo": null
 }

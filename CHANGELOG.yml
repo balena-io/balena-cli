@@ -1,4 +1,16 @@
 - commits:
+    - subject: Convert command ssh to oclif.
+      hash: 512cfa3da145a5ee16b673fa6bd2823637b7594d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 12.1.15
+  date: 2020-06-26T11:44:32.283Z
+- commits:
     - subject: Import just strip-tags from common-tags to reduce startup time
       hash: 667358b23e1ac184fdcb2d64f37a5074e6a0075a
       body: |
@@ -9,7 +21,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 12.1.14
-  date: 2020-06-26T10:26:22.189Z
+  date: 2020-06-25T21:58:57.517Z
 - commits:
     - subject: Improve documentation regarding Windows support for `os configure`.
       hash: b50fef8cb40d32c55639090bbf7d710d7d9c37da
