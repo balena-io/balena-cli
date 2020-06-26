@@ -21,7 +21,6 @@ import { run as oclifRun } from '@oclif/dev-cli';
 import * as archiver from 'archiver';
 import * as Bluebird from 'bluebird';
 import { execFile } from 'child_process';
-import { stripIndent } from 'common-tags';
 import * as filehound from 'filehound';
 import * as fs from 'fs-extra';
 import * as _ from 'lodash';
@@ -31,6 +30,7 @@ import * as rimraf from 'rimraf';
 import * as semver from 'semver';
 import * as util from 'util';
 
+import { stripIndent } from '../lib/utils/lazy';
 import {
 	getSubprocessStdout,
 	loadPackageJson,

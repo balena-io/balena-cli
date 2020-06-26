@@ -16,7 +16,6 @@
  */
 import { BalenaSDK } from 'balena-sdk';
 import * as Bluebird from 'bluebird';
-import { stripIndent } from 'common-tags';
 import type * as Dockerode from 'dockerode';
 import * as _ from 'lodash';
 import { promises as fs } from 'fs';
@@ -25,6 +24,7 @@ import { Composition } from 'resin-compose-parse';
 import * as MultiBuild from 'resin-multibuild';
 import { Readable } from 'stream';
 import * as tar from 'tar-stream';
+import { stripIndent } from './lazy';
 
 import { ExpectedError } from '../errors';
 import { getBalenaSdk, getChalk } from '../utils/lazy';

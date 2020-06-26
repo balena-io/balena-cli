@@ -16,7 +16,6 @@
  */
 
 import { expect } from 'chai';
-import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 import { promises as fs } from 'fs';
 import * as path from 'path';
@@ -27,6 +26,7 @@ import * as tar from 'tar-stream';
 import { streamToBuffer } from 'tar-utils';
 import { URL } from 'url';
 
+import { stripIndent } from '../lib/utils/lazy';
 import { BuilderMock } from './builder-mock';
 import { DockerMock } from './docker-mock';
 import { cleanOutput, fillTemplateArray, runCommand } from './helpers';

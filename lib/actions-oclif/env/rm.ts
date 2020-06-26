@@ -16,11 +16,10 @@
  */
 
 import { flags } from '@oclif/command';
-import { stripIndent } from 'common-tags';
 import Command from '../../command';
 
 import * as ec from '../../utils/env-common';
-import { getBalenaSdk } from '../../utils/lazy';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { CommandHelp } from '../../utils/oclif-utils';
 import { parseAsInteger } from '../../utils/validation';
 

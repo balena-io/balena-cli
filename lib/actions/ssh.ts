@@ -15,9 +15,8 @@ limitations under the License.
 */
 import type * as BalenaSdk from 'balena-sdk';
 import type { CommandDefinition } from 'capitano';
-import { stripIndent } from 'common-tags';
 
-import { getBalenaSdk } from '../utils/lazy';
+import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { validateDotLocalUrl, validateIPAddress } from '../utils/validation';
 
 async function getContainerId(

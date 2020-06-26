@@ -14,12 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { BalenaError } from 'balena-errors';
-import { stripIndent } from 'common-tags';
+import type { BalenaError } from 'balena-errors';
 import * as _ from 'lodash';
 import * as os from 'os';
 import { TypedError } from 'typed-error';
-import { getChalk } from './utils/lazy';
+import { getChalk, stripIndent } from './utils/lazy';
 import { getHelp } from './utils/messages';
 
 export class ExpectedError extends TypedError {}

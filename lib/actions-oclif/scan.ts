@@ -17,10 +17,9 @@
 
 import { flags } from '@oclif/command';
 import type { LocalBalenaOsDevice } from 'balena-sync';
-import { stripIndent } from 'common-tags';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
-import { getVisuals } from '../utils/lazy';
+import { getVisuals, stripIndent } from '../utils/lazy';
 
 interface FlagsDef {
 	verbose: boolean;

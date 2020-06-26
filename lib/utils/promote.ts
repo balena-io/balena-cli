@@ -15,10 +15,9 @@
  * limitations under the License.
  */
 import type * as BalenaSdk from 'balena-sdk';
-import { stripIndent } from 'common-tags';
 
 import { ExpectedError, printErrorMessage } from '../errors';
-import { getVisuals } from './lazy';
+import { getVisuals, stripIndent } from './lazy';
 import Logger = require('./logger');
 import { exec, execBuffered, getDeviceOsRelease } from './ssh';
 

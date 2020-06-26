@@ -16,13 +16,12 @@
  */
 import { flags } from '@oclif/command';
 import type * as SDK from 'balena-sdk';
-import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 import Command from '../command';
 
 import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
-import { getBalenaSdk, getVisuals } from '../utils/lazy';
+import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
 import { CommandHelp } from '../utils/oclif-utils';
 import { isV12 } from '../utils/version';
 

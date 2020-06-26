@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import { stripIndent } from 'common-tags';
 import Command from '../../command';
+import { stripIndent } from '../../utils/lazy';
 import { CommandHelp } from '../../utils/oclif-utils';
 
 // 'Internal' commands are called during the execution of other commands.

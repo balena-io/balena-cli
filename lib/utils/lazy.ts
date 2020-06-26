@@ -19,6 +19,7 @@ limitations under the License.
 import type * as BalenaSdk from 'balena-sdk';
 import type { Chalk } from 'chalk';
 import type * as visuals from 'resin-cli-visuals';
+import type { stripIndent as StripIndent } from 'common-tags';
 
 // Equivalent of _.once but avoiding the need to import lodash for lazy deps
 const once = <T>(fn: () => T) => {
@@ -50,3 +51,7 @@ export const getVisuals = once(
 );
 
 export const getChalk = once(() => require('chalk') as Chalk);
+
+// Directly export stripIndent as we always use it immediately, but importing just `stripIndent` reduces startup time
+// tslint:disable-next-line:no-var-requires
+export const stripIndent = require('common-tags/lib/stripIndent') as typeof StripIndent;

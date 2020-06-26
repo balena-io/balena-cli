@@ -15,9 +15,8 @@ limitations under the License.
 */
 
 import type { CommandDefinition } from 'capitano';
-import { stripIndent } from 'common-tags';
 import type * as SDK from 'etcher-sdk';
-import { getChalk, getVisuals } from '../../utils/lazy';
+import { getChalk, getVisuals, stripIndent } from '../../utils/lazy';
 
 async function getDrive(options: {
 	drive?: string;

@@ -16,7 +16,7 @@
  */
 
 import { expect } from 'chai';
-import { stripIndent } from 'common-tags';
+import { stripIndent } from '../../../lib/utils/lazy';
 
 import { isV12 } from '../../../lib/utils/version';
 import { BalenaAPIMock } from '../../balena-api-mock';

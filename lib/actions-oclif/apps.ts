@@ -17,10 +17,9 @@
 
 import { flags } from '@oclif/command';
 import type { Application } from 'balena-sdk';
-import { stripIndent } from 'common-tags';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
-import { getBalenaSdk, getVisuals } from '../utils/lazy';
+import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
 import { isV12 } from '../utils/version';
 
 interface ExtendedApplication extends Application {

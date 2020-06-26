@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 
-import { stripIndent } from 'common-tags';
 import Command from '../command';
-import { getBalenaSdk, getVisuals } from '../utils/lazy';
+import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
 
 export default class WhoamiCmd extends Command {
 	public static description = stripIndent`

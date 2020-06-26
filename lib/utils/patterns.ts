@@ -16,12 +16,11 @@ limitations under the License.
 import { BalenaApplicationNotFound } from 'balena-errors';
 import type * as BalenaSdk from 'balena-sdk';
 import Bluebird = require('bluebird');
-import { stripIndent } from 'common-tags';
 import _ = require('lodash');
 import _form = require('resin-cli-form');
 
 import { exitWithExpectedError, instanceOf, NotLoggedInError } from '../errors';
-import { getBalenaSdk, getVisuals } from './lazy';
+import { getBalenaSdk, getVisuals, stripIndent } from './lazy';
 import validation = require('./validation');
 import { isV12 } from './version';
 

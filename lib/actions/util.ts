@@ -20,8 +20,7 @@ limitations under the License.
 */
 
 import type { CommandDefinition } from 'capitano';
-import { stripIndent } from 'common-tags';
-import { getChalk, getVisuals } from '../utils/lazy';
+import { getChalk, getVisuals, stripIndent } from '../utils/lazy';
 
 export const availableDrives: CommandDefinition<{}, {}> = {
 	signature: 'util available-drives',

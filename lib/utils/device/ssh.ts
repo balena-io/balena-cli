@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 import type { ContainerInfo } from 'dockerode';
+import { stripIndent } from '../lazy';
 
 export interface DeviceSSHOpts {
 	address: string;
@@ -31,7 +32,6 @@ export async function performLocalDeviceSSH(
 	const reduce = await import('lodash/reduce');
 	const { spawnSshAndExitOnError } = await import('../ssh');
 	const { ExpectedError } = await import('../../errors');
-	const { stripIndent } = await import('common-tags');
 
 	let command = '';
 

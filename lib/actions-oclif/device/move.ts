@@ -18,12 +18,11 @@
 import { flags } from '@oclif/command';
 import type { IArg } from '@oclif/parser/lib/args';
 import type { Application, Device } from 'balena-sdk';
-import { stripIndent } from 'common-tags';
 import * as _ from 'lodash';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
-import { getBalenaSdk } from '../../utils/lazy';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { tryAsInteger } from '../../utils/validation';
 
 interface ExtendedDevice extends Device {

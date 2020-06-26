@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 
-import { stripIndent } from 'common-tags';
 import Command from '../command';
-import { getBalenaSdk } from '../utils/lazy';
+import { getBalenaSdk, stripIndent } from '../utils/lazy';
 
 export default class LogoutCmd extends Command {
 	public static description = stripIndent`

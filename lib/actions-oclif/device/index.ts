@@ -17,11 +17,10 @@
 
 import { flags } from '@oclif/command';
 import { IArg } from '@oclif/parser/lib/args';
-import { stripIndent } from 'common-tags';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
-import { getBalenaSdk, getVisuals } from '../../utils/lazy';
+import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { tryAsInteger } from '../../utils/validation';
 import type { Application, Device } from 'balena-sdk';
 

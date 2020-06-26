@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-const { stripIndent } = require('common-tags');
+const stripIndent = require('common-tags/lib/stripIndent');
 const _ = require('lodash');
 const { promises: fs } = require('fs');
 const path = require('path');

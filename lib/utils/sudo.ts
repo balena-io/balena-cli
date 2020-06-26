@@ -16,7 +16,7 @@
  */
 
 import { ChildProcess, spawn, SpawnOptions } from 'child_process';
-import { stripIndent } from 'common-tags';
+import { stripIndent } from './lazy';
 
 /**
  * Execute a child process with admin / superuser privileges, prompting the user for
