@@ -21,6 +21,7 @@ import type { Socket } from 'net';
 import * as path from 'path';
 
 import * as utils from './utils';
+import { ExpectedError } from '../errors';
 
 const serverSockets: Socket[] = [];
 
@@ -87,11 +88,11 @@ export const awaitForToken = (options: {
 			try {
 				const token = request.body.token?.trim();
 				if (!token) {
-					throw new Error('No token');
+					throw new ExpectedError('No token');
 				}
 				const loggedIn = await utils.loginIfTokenValid(token);
 				if (!loggedIn) {
-					throw new Error('Invalid token');
+					throw new ExpectedError('Invalid token');
 				}
 				response.status(200).render('success');
 				resolve(token);

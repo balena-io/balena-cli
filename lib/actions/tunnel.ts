@@ -21,6 +21,7 @@ import { createServer, Server, Socket } from 'net';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { getOnlineTargetUuid } from '../utils/patterns';
 import { tunnelConnectionToDevice } from '../utils/tunnel';
+import { ExpectedError } from '../errors';
 
 interface Args {
 	deviceOrApplication: string;
@@ -223,7 +224,7 @@ export const tunnel: CommandDefinition<Args, Options> = {
 
 		const results = await Promise.all(localListeners);
 		if (!results.includes(true)) {
-			throw new Error('No ports are valid for tunnelling');
+			throw new ExpectedError('No ports are valid for tunnelling');
 		}
 
 		logger.logInfo('Waiting for connections...');

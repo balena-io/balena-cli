@@ -180,7 +180,7 @@ async function getOrSelectLocalDevice(deviceIp?: string): Promise<string> {
 	});
 
 	if (!ip) {
-		throw new Error('No device selected');
+		throw new ExpectedError('No device selected');
 	}
 
 	return ip;
@@ -211,7 +211,7 @@ async function getOrSelectApplication(
 	const allDeviceTypes = await sdk.models.config.getDeviceTypes();
 	const deviceTypeManifest = _.find(allDeviceTypes, { slug: deviceType });
 	if (!deviceTypeManifest) {
-		throw new Error(`"${deviceType}" is not a valid device type`);
+		throw new ExpectedError(`"${deviceType}" is not a valid device type`);
 	}
 	const compatibleDeviceTypes = _(allDeviceTypes)
 		.filter(
@@ -274,7 +274,7 @@ async function getOrSelectApplication(
 	);
 
 	if (validApplications.length === 0) {
-		throw new Error('No application found with a matching device type');
+		throw new ExpectedError('No application found with a matching device type');
 	}
 
 	if (validApplications.length === 1) {

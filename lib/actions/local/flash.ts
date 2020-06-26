@@ -1,5 +1,5 @@
 /*
-Copyright 2017 Balena
+Copyright 2017-2020 Balena Ltd.
 
 Licensed under the Apache License, Version 2.0 (the 'License');
 you may not use this file except in compliance with the License.
@@ -16,7 +16,9 @@ limitations under the License.
 
 import type { CommandDefinition } from 'capitano';
 import type * as SDK from 'etcher-sdk';
+
 import { getChalk, getVisuals, stripIndent } from '../../utils/lazy';
+import { ExpectedError } from '../../errors';
 
 async function getDrive(options: {
 	drive?: string;
@@ -31,7 +33,7 @@ async function getDrive(options: {
 	try {
 		const d = scanner.getBy('device', drive);
 		if (d === undefined || !(d instanceof sdk.sourceDestination.BlockDevice)) {
-			throw new Error(`Drive not found: ${options.drive}`);
+			throw new ExpectedError(`Drive not found: ${options.drive}`);
 		}
 		return d;
 	} finally {
