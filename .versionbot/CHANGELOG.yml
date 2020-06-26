@@ -1,4 +1,16 @@
 - commits:
+    - subject: Import just strip-tags from common-tags to reduce startup time
+      hash: 667358b23e1ac184fdcb2d64f37a5074e6a0075a
+      body: |
+        This saves ~100ms for me on startup with no fast-boot cache and ~50ms
+        with a fast-boot cache
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.1.14
+  date: 2020-06-25T21:58:57.517Z
+- commits:
     - subject: Improve documentation regarding Windows support for `os configure`.
       hash: b50fef8cb40d32c55639090bbf7d710d7d9c37da
       body: ''
