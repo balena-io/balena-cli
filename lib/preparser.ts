@@ -171,6 +171,7 @@ export const convertedCommands = [
 	'os:configure',
 	'scan',
 	'settings',
+	'ssh',
 	'tags',
 	'tag:rm',
 	'tag:set',

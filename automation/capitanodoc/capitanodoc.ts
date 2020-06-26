@@ -107,7 +107,7 @@ const capitanoDoc = {
 			title: 'Network',
 			files: [
 				'build/actions-oclif/scan.js',
-				'build/actions/ssh.js',
+				'build/actions-oclif/ssh.js',
 				'build/actions/tunnel.js',
 			],
 		},

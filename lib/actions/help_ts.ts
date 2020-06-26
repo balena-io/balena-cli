@@ -55,7 +55,11 @@ function getCmdUsageDescriptionLinePair(cmd: typeof Command): [string, string] {
 	// same effect as the 's' regex flag which is only supported by Node 9+
 	const matches = /\s*([^]+?)\n[^]*/.exec(cmd.description || '');
 	if (matches && matches.length > 1) {
-		description = _.lowerFirst(_.trimEnd(matches[1], '.'));
+		description = _.trimEnd(matches[1], '.');
+		// Only do .lowerFirst() if the second char is not uppercase (e.g. for 'SSH');
+		if (description[1] !== description[1]?.toUpperCase()) {
+			description = _.lowerFirst(description);
+		}
 	}
 	return [usage, description];
 }
