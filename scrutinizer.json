@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Recategorize some errors as expected.",
+          "hash": "1308b64c67f4b0f8d665e086971ed1e7549e22d8",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "12.1.16",
+      "date": "2020-06-26T12:00:17.634Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert command ssh to oclif.",
           "hash": "512cfa3da145a5ee16b673fa6bd2823637b7594d",
           "body": "",
@@ -12576,29 +12594,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-26T11:45:30Z",
+  "lastCommitDate": "2020-06-26T12:29:05Z",
   "latestRelease": {
-    "tagName": "v12.1.15",
+    "tagName": "v12.1.16",
     "asssets": [
       {
-        "name": "balena-cli-v12.1.15-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.15/balena-cli-v12.1.15-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.1.16-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.16/balena-cli-v12.1.16-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.1.15-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.15/balena-cli-v12.1.15-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.1.16-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.16/balena-cli-v12.1.16-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.1.15-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.15/balena-cli-v12.1.15-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.1.16-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.16/balena-cli-v12.1.16-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.1.15-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.15/balena-cli-v12.1.15-windows-x64-installer.exe"
+        "name": "balena-cli-v12.1.16-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.16/balena-cli-v12.1.16-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.1.15-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.15/balena-cli-v12.1.15-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.1.16-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.16/balena-cli-v12.1.16-windows-x64-standalone.zip"
       }
     ]
   },
@@ -12688,7 +12706,7 @@
       }
     ]
   },
-  "version": "12.1.15",
+  "version": "12.1.16",
   "screenshot": null,
   "logo": null
 }

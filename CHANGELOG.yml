@@ -1,4 +1,16 @@
 - commits:
+    - subject: Recategorize some errors as expected.
+      hash: 1308b64c67f4b0f8d665e086971ed1e7549e22d8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 12.1.16
+  date: 2020-06-26T12:28:13.438Z
+- commits:
     - subject: Convert command ssh to oclif.
       hash: 512cfa3da145a5ee16b673fa6bd2823637b7594d
       body: ''
@@ -9,7 +21,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 12.1.15
-  date: 2020-06-26T11:44:32.283Z
+  date: 2020-06-26T11:16:47.627Z
 - commits:
     - subject: Import just strip-tags from common-tags to reduce startup time
       hash: 667358b23e1ac184fdcb2d64f37a5074e6a0075a
