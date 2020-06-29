@@ -1,4 +1,14 @@
 - commits:
+    - subject: Use @balena/es-version to set the desired es version for modules
+      hash: 488d9b901c38910ac3ef285598e3ffac1edf1392
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Pagan Gazzard
+  version: 12.3.0
+  date: 2020-06-29T21:27:44.223Z
+- commits:
     - subject: Prepare for field based retrieval of device overall_status
       hash: 3207a2922aa0d519bbd21701bce5e0ff2dde873a
       body: ''
