@@ -43,6 +43,7 @@ export interface BuildOpts {
 	registrySecrets: RegistrySecrets;
 	headless: boolean;
 	convertEol: boolean;
+	multiDockerignore: boolean;
 }
 
 export interface RemoteBuild {
@@ -306,6 +307,7 @@ async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
 		return await tarDirectory(path.resolve(build.source), {
 			preFinalizeCallback: preFinalizeCb,
 			convertEol: build.opts.convertEol,
+			multiDockerignore: build.opts.multiDockerignore,
 			nogitignore: build.nogitignore,
 		});
 	} finally {

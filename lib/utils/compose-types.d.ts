@@ -48,6 +48,8 @@ export interface ComposeOpts {
 	convertEol: boolean;
 	dockerfilePath?: string;
 	inlineLogs?: boolean;
+	multiDockerignore: boolean;
+	nogitignore: boolean;
 	noParentCheck: boolean;
 	projectName: string;
 	projectPath: string;
@@ -67,7 +69,9 @@ export interface Release {
 }
 
 interface TarDirectoryOptions {
+	composition?: Composition;
 	convertEol?: boolean;
-	preFinalizeCallback?: (pack: Pack) => void | Promise<void>;
+	multiDockerignore?: boolean;
 	nogitignore: boolean;
+	preFinalizeCallback?: (pack: Pack) => void | Promise<void>;
 }

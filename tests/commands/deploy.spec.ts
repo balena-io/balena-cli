@@ -27,7 +27,10 @@ import { BalenaAPIMock } from '../balena-api-mock';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../docker-mock';
 import { cleanOutput, runCommand, switchSentry } from '../helpers';
-import { ExpectedTarStreamFiles } from '../projects';
+import {
+	ExpectedTarStreamFiles,
+	ExpectedTarStreamFilesByService,
+} from '../projects';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
@@ -38,7 +41,7 @@ const commonResponseLines = {
 		'[Info] Docker Desktop detected (daemon architecture: "x86_64")',
 		'[Info] Docker itself will determine and enable architecture emulation if required,',
 		'[Info] without balena-cli intervention and regardless of the --emulated option.',
-		'[Build] main Step 1/4 : FROM busybox',
+		// '[Build] main Step 1/4 : FROM busybox',
 		'[Info] Creating release...',
 		'[Info] Pushing images to registry...',
 		'[Info] Saving release...',
@@ -52,6 +55,18 @@ const commonQueryParams = [
 	['buildargs', '{}'],
 	['labels', ''],
 ];
+
+const commonComposeQueryParams = [
+	['t', '${tag}'],
+	[
+		'buildargs',
+		'{"MY_VAR_1":"This is a variable","MY_VAR_2":"Also a variable"}',
+	],
+	['labels', ''],
+];
+
+const hr =
+	'----------------------------------------------------------------------';
 
 describe('balena deploy', function () {
 	let api: BalenaAPIMock;
@@ -73,8 +88,8 @@ describe('balena deploy', function () {
 		api.expectGetAuth();
 		api.expectPostImage();
 		api.expectPostImageIsPartOfRelease();
-		api.expectPostImageLabel();
 
+		docker.expectGetImages();
 		docker.expectGetPing();
 		docker.expectGetInfo({});
 		docker.expectGetVersion({ persist: true });
@@ -112,15 +127,14 @@ describe('balena deploy', function () {
 			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
 			`[Info] Creating default composition with source: "${projectPath}"`,
 			...[
-				'[Warn] -------------------------------------------------------------------------------',
+				`[Warn] ${hr}`,
 				'[Warn] The following .dockerignore file(s) will not be used:',
 				`[Warn] * ${path.join(projectPath, 'src', '.dockerignore')}`,
-				'[Warn] Only one .dockerignore file at the source folder (project root) is used.',
-				'[Warn] Additional .dockerignore files are disregarded. Microservices (multicontainer)',
-				'[Warn] apps should place the .dockerignore file alongside the docker-compose.yml file.',
-				'[Warn] See issue: https://github.com/balena-io/balena-cli/issues/1870',
-				'[Warn] See also CLI v12 release notes: https://git.io/Jf7hz',
-				'[Warn] -------------------------------------------------------------------------------',
+				'[Warn] By default, only one .dockerignore file at the source folder (project root)',
+				'[Warn] is used. Microservices (multicontainer) applications may use a separate',
+				'[Warn] .dockerignore file for each service with the --multi-dockerignore (-m) option.',
+				'[Warn] See "balena help deploy" for more details.',
+				`[Warn] ${hr}`,
 			],
 		];
 		if (isWindows) {
@@ -132,6 +146,7 @@ describe('balena deploy', function () {
 
 		api.expectPatchImage({});
 		api.expectPatchRelease({});
+		api.expectPostImageLabel();
 
 		await testDockerBuildStream({
 			commandLine: `deploy testApp --build --source ${projectPath} -G`,
@@ -189,6 +204,7 @@ describe('balena deploy', function () {
 				expect(releaseBody.status).to.equal('failed');
 			},
 		});
+		api.expectPostImageLabel();
 
 		try {
 			sentryStatus = await switchSentry(false);
@@ -212,6 +228,98 @@ describe('balena deploy', function () {
 			// @ts-ignore
 			process.exit.restore();
 		}
+	});
+
+	it('should create the expected tar stream (docker-compose, --multi-dockerignore)', async () => {
+		const projectPath = path.join(projectsPath, 'docker-compose', 'basic');
+		const service1Dockerfile = (
+			await fs.readFile(
+				path.join(projectPath, 'service1', 'Dockerfile.template'),
+				'utf8',
+			)
+		).replace('%%BALENA_MACHINE_NAME%%', 'raspberrypi3');
+
+		console.error(
+			`Dockerfile.template (replaced) length=${service1Dockerfile.length}`,
+		);
+		console.error(service1Dockerfile);
+
+		const expectedFilesByService: ExpectedTarStreamFilesByService = {
+			service1: {
+				Dockerfile: {
+					contents: service1Dockerfile,
+					fileSize: service1Dockerfile.length,
+					type: 'file',
+				},
+				'Dockerfile.template': { fileSize: 144, type: 'file' },
+				'file1.sh': { fileSize: 12, type: 'file' },
+				'test-ignore.txt': { fileSize: 12, type: 'file' },
+			},
+			service2: {
+				'.dockerignore': { fileSize: 12, type: 'file' },
+				'Dockerfile-alt': { fileSize: 40, type: 'file' },
+				'file2-crlf.sh': {
+					fileSize: isWindows ? 12 : 14,
+					testStream: isWindows ? expectStreamNoCRLF : undefined,
+					type: 'file',
+				},
+			},
+		};
+		const responseFilename = 'build-POST.json';
+		const responseBody = await fs.readFile(
+			path.join(dockerResponsePath, responseFilename),
+			'utf8',
+		);
+		const expectedQueryParamsByService = {
+			service1: [
+				['t', '${tag}'],
+				[
+					'buildargs',
+					'{"MY_VAR_1":"This is a variable","MY_VAR_2":"Also a variable","SERVICE1_VAR":"This is a service specific variable"}',
+				],
+				['labels', ''],
+			],
+			service2: [...commonComposeQueryParams, ['dockerfile', 'Dockerfile-alt']],
+		};
+		const expectedResponseLines: string[] = [
+			...commonResponseLines[responseFilename],
+			...[
+				'[Build] service1 Step 1/4 : FROM busybox',
+				'[Build] service2 Step 1/4 : FROM busybox',
+			],
+			...[
+				`[Info] ${hr}`,
+				'[Info] The --multi-dockerignore option is being used, and a .dockerignore file was',
+				'[Info] found at the project source (root) directory. Note that this file will not',
+				'[Info] be used to filter service subdirectories. See "balena help deploy".',
+				`[Info] ${hr}`,
+			],
+		];
+		if (isWindows) {
+			expectedResponseLines.push(
+				`[Info] Converting line endings CRLF -> LF for file: ${path.join(
+					projectPath,
+					'service2',
+					'file2-crlf.sh',
+				)}`,
+			);
+		}
+
+		// docker.expectGetImages();
+		api.expectPatchImage({});
+		api.expectPatchRelease({});
+
+		await testDockerBuildStream({
+			commandLine: `deploy testApp --build --source ${projectPath} --multi-dockerignore`,
+			dockerMock: docker,
+			expectedFilesByService,
+			expectedQueryParamsByService,
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+			services: ['service1', 'service2'],
+		});
 	});
 });
 

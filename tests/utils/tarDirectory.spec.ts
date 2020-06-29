@@ -99,9 +99,11 @@ describe('compare new and old tarDirectory implementations', function () {
 			'dockerignore2',
 		);
 		const expectedFiles = {
-			'.dockerignore': { fileSize: 34, type: 'file' },
+			'.dockerignore': { fileSize: 33, type: 'file' },
 			'b.txt': { fileSize: 1, type: 'file' },
 			Dockerfile: { fileSize: 13, type: 'file' },
+			'lib/.dockerignore': { fileSize: 10, type: 'file' },
+			'lib/src-b.txt': { fileSize: 5, type: 'file' },
 			'src/src-b.txt': { fileSize: 5, type: 'file' },
 			'symlink-a.txt': { fileSize: 5, type: 'file' },
 		};
