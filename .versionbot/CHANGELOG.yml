@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add --multi-dockerignore (-m) option to push/build/deploy commands
+      hash: eaf61d801c3e4fdfa131b0a841a2a769a4b3fd8b
+      body: ''
+      footer:
+        Connects-to: '#1870'
+        connects-to: '#1870'
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+  version: 12.2.0
+  date: 2020-06-28T22:58:06.428Z
+- commits:
     - subject: Recategorize some errors as expected.
       hash: 1308b64c67f4b0f8d665e086971ed1e7549e22d8
       body: ''
