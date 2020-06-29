@@ -15,6 +15,9 @@ require('fast-boot2').start({
 	cacheFile: '.fast-boot.json',
 });
 
+// Set the desired es version for downstream modules that support it
+require('@balena/es-version').set('es2018');
+
 const path = require('path');
 const rootDir = path.join(__dirname, '..');
 // Note: before ts-node v6.0.0, 'transpile-only' (no type checking) was the
