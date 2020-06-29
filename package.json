@@ -185,7 +185,6 @@
     "archiver": "^3.1.1",
     "balena-config-json": "^2.1.1",
     "balena-device-init": "^5.0.2",
-    "balena-device-status": "^3.2.1",
     "balena-errors": "^4.3.0",
     "balena-image-manager": "^6.1.2",
     "balena-preload": "^8.4.0",

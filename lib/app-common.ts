@@ -214,7 +214,6 @@ function setupBalenaSdkSharedOptions(settings: CliSettings) {
 	const BalenaSdk = require('balena-sdk');
 	BalenaSdk.setSharedOptions({
 		apiUrl: settings.get<string>('apiUrl'),
-		imageMakerUrl: settings.get<string>('imageMakerUrl'),
 		dataDirectory: settings.get<string>('dataDirectory'),
 		retries: 2,
 	});
