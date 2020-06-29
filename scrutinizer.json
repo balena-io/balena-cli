@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "Add back the device mac_address field",
+          "hash": "6add63c6acc08b6b2cdab255b8368860ee821da9",
+          "body": "Looks like this was accidentally removed during the\noclif refactor of `balena device`\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "See": "https://github.com/balena-io/balena-cli/pull/1871",
+            "see": "https://github.com/balena-io/balena-cli/pull/1871",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis"
+        }
+      ],
+      "version": "12.2.1",
+      "date": "2020-06-29T14:10:28.129Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add --multi-dockerignore (-m) option to push/build/deploy commands",
           "hash": "eaf61d801c3e4fdfa131b0a841a2a769a4b3fd8b",
           "body": "",
@@ -12411,12 +12431,12 @@
       "avatar": "https://avatars2.githubusercontent.com/u/180331?v=4"
     },
     {
-      "username": "dfunckt",
-      "avatar": "https://avatars3.githubusercontent.com/u/130359?v=4"
-    },
-    {
       "username": "bulldozer-balena[bot]",
       "avatar": "https://avatars0.githubusercontent.com/in/58047?v=4"
+    },
+    {
+      "username": "dfunckt",
+      "avatar": "https://avatars3.githubusercontent.com/u/130359?v=4"
     },
     {
       "username": "LucianBuzzo",
@@ -12612,42 +12632,58 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-29T08:55:32Z",
+  "lastCommitDate": "2020-06-29T19:53:40Z",
   "latestRelease": {
-    "tagName": "v12.2.0",
+    "tagName": "v12.2.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.2.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.0/balena-cli-v12.2.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.2.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.1/balena-cli-v12.2.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.2.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.0/balena-cli-v12.2.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.2.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.1/balena-cli-v12.2.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.2.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.0/balena-cli-v12.2.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.2.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.1/balena-cli-v12.2.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.2.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.0/balena-cli-v12.2.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.2.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.1/balena-cli-v12.2.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.2.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.0/balena-cli-v12.2.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.2.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.1/balena-cli-v12.2.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 283,
+    "numberOfIssues": 285,
     "latestIssues": [
+      {
+        "title": "CODEOWNERS: Change to use the respective GitHub team",
+        "url": "https://github.com/balena-io/balena-cli/pull/1895"
+      },
+      {
+        "title": "Use @balena/es-version to set the desired es version for modules",
+        "url": "https://github.com/balena-io/balena-cli/pull/1894"
+      },
+      {
+        "title": "\"Application is ambiguous\" but `balena apps` lists a single app",
+        "url": "https://github.com/balena-io/balena-cli/issues/1893"
+      },
+      {
+        "title": "Convert command `tunnel` to oclif, and fix port map spec issues.",
+        "url": "https://github.com/balena-io/balena-cli/pull/1891"
+      },
       {
         "title": "Push to local device (IP address) fails with `FROM --platform`",
         "url": "https://github.com/balena-io/balena-cli/issues/1889"
       },
       {
-        "title": "Generate an oclif.manifest.json before publishing",
+        "title": "Generate/include an oclif.manifest.json when packaging",
         "url": "https://github.com/balena-io/balena-cli/pull/1888"
       },
       {
@@ -12661,10 +12697,6 @@
       {
         "title": "`balena device reboot` shows misleading error when device not online.",
         "url": "https://github.com/balena-io/balena-cli/issues/1872"
-      },
-      {
-        "title": "Consider a .dockerignore file per service for docker-compose compatibility",
-        "url": "https://github.com/balena-io/balena-cli/issues/1870"
       },
       {
         "title": "Add short version of \"balena devices\" output.",
@@ -12709,22 +12741,10 @@
       {
         "title": "Improve Yaml validation errors",
         "url": "https://github.com/balena-io/balena-cli/issues/1835"
-      },
-      {
-        "title": "Allow passing `--device-type` to `device register` command",
-        "url": "https://github.com/balena-io/balena-cli/issues/1833"
-      },
-      {
-        "title": "Node apps (without a Dockerfile): should user new balenalib base images for all device types",
-        "url": "https://github.com/balena-io/balena-cli/issues/1832"
-      },
-      {
-        "title": "Node apps (without a Dockerfile): broken for new device types (RPi4, RPi3-64)",
-        "url": "https://github.com/balena-io/balena-cli/issues/1831"
       }
     ]
   },
-  "version": "12.2.0",
+  "version": "12.2.1",
   "screenshot": null,
   "logo": null
 }

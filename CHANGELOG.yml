@@ -1,4 +1,20 @@
 - commits:
+    - subject: Add back the device mac_address field
+      hash: 6add63c6acc08b6b2cdab255b8368860ee821da9
+      body: |
+        Looks like this was accidentally removed during the
+        oclif refactor of `balena device`
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: 'https://github.com/balena-io/balena-cli/pull/1871'
+        see: 'https://github.com/balena-io/balena-cli/pull/1871'
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+  version: 12.2.1
+  date: 2020-06-29T19:52:57.486Z
+- commits:
     - subject: Add --multi-dockerignore (-m) option to push/build/deploy commands
       hash: eaf61d801c3e4fdfa131b0a841a2a769a4b3fd8b
       body: ''
@@ -9,7 +25,7 @@
         change-type: minor
       author: Paulo Castro
   version: 12.2.0
-  date: 2020-06-29T08:54:27.899Z
+  date: 2020-06-28T22:58:06.428Z
 - commits:
     - subject: Recategorize some errors as expected.
       hash: 1308b64c67f4b0f8d665e086971ed1e7549e22d8
