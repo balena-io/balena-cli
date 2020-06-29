@@ -1,4 +1,32 @@
 - commits:
+    - subject: Prepare for field based retrieval of device overall_status
+      hash: 3207a2922aa0d519bbd21701bce5e0ff2dde873a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+    - subject: Drop balena-device-status from the dependencies
+      hash: 45f131ec93a94453ac38c31bbe8d4b277f67dc2d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+    - subject: Stop using the removed imageMakerUrl balena-sdk argument
+      hash: bd4d836a314c34f30fc82d35f3eaf62f9bb28627
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+  version: 12.2.2
+  date: 2020-06-29T19:58:13.335Z
+- commits:
     - subject: Add back the device mac_address field
       hash: 6add63c6acc08b6b2cdab255b8368860ee821da9
       body: |
