@@ -5,6 +5,46 @@
     {
       "commits": [
         {
+          "subject": "Prepare for field based retrieval of device overall_status",
+          "hash": "3207a2922aa0d519bbd21701bce5e0ff2dde873a",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis"
+        },
+        {
+          "subject": "Drop balena-device-status from the dependencies",
+          "hash": "45f131ec93a94453ac38c31bbe8d4b277f67dc2d",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Thodoris Greasidis"
+        },
+        {
+          "subject": "Stop using the removed imageMakerUrl balena-sdk argument",
+          "hash": "bd4d836a314c34f30fc82d35f3eaf62f9bb28627",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis"
+        }
+      ],
+      "version": "12.2.2",
+      "date": "2020-06-29T19:58:13.335Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add back the device mac_address field",
           "hash": "6add63c6acc08b6b2cdab255b8368860ee821da9",
           "body": "Looks like this was accidentally removed during the\noclif refactor of `balena device`\n",
@@ -12552,7 +12592,6 @@
     "archiver",
     "balena-config-json",
     "balena-device-init",
-    "balena-device-status",
     "balena-errors",
     "balena-image-manager",
     "balena-preload",
@@ -12632,35 +12671,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-29T19:53:40Z",
+  "lastCommitDate": "2020-06-29T20:54:25Z",
   "latestRelease": {
-    "tagName": "v12.2.1",
+    "tagName": "v12.2.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.2.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.1/balena-cli-v12.2.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.2.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.2/balena-cli-v12.2.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.2.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.1/balena-cli-v12.2.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.2.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.2/balena-cli-v12.2.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.2.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.1/balena-cli-v12.2.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.2.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.2/balena-cli-v12.2.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.2.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.1/balena-cli-v12.2.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.2.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.2/balena-cli-v12.2.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.2.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.1/balena-cli-v12.2.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.2.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.2/balena-cli-v12.2.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 285,
+    "numberOfIssues": 284,
     "latestIssues": [
       {
         "title": "CODEOWNERS: Change to use the respective GitHub team",
@@ -12744,7 +12783,7 @@
       }
     ]
   },
-  "version": "12.2.1",
+  "version": "12.2.2",
   "screenshot": null,
   "logo": null
 }
