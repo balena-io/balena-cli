@@ -1,4 +1,14 @@
 - commits:
+    - subject: Use @balena/es-version to set the desired es version for modules
+      hash: 488d9b901c38910ac3ef285598e3ffac1edf1392
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Pagan Gazzard
+  version: 12.3.0
+  date: 2020-06-29T21:55:18.210Z
+- commits:
     - subject: Prepare for field based retrieval of device overall_status
       hash: 3207a2922aa0d519bbd21701bce5e0ff2dde873a
       body: ''
@@ -25,7 +35,7 @@
         signed-off-by: Thodoris Greasidis <thodoris@balena.io>
       author: Thodoris Greasidis
   version: 12.2.2
-  date: 2020-06-29T20:53:31.939Z
+  date: 2020-06-29T19:58:13.335Z
 - commits:
     - subject: Add back the device mac_address field
       hash: 6add63c6acc08b6b2cdab255b8368860ee821da9

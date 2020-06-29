@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Use @balena/es-version to set the desired es version for modules",
+          "hash": "488d9b901c38910ac3ef285598e3ffac1edf1392",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "12.3.0",
+      "date": "2020-06-29T21:27:44.223Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Prepare for field based retrieval of device overall_status",
           "hash": "3207a2922aa0d519bbd21701bce5e0ff2dde873a",
           "body": "",
@@ -12582,6 +12598,7 @@
   },
   "dependencies": [
     "@balena/dockerignore",
+    "@balena/es-version",
     "@oclif/command",
     "@resin.io/valid-email",
     "@sentry/node",
@@ -12671,43 +12688,39 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-29T20:54:25Z",
+  "lastCommitDate": "2020-06-29T21:56:03Z",
   "latestRelease": {
-    "tagName": "v12.2.2",
+    "tagName": "v12.3.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.2.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.2/balena-cli-v12.2.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.3.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.0/balena-cli-v12.3.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.2.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.2/balena-cli-v12.2.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.3.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.0/balena-cli-v12.3.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.2.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.2/balena-cli-v12.2.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.3.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.0/balena-cli-v12.3.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.2.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.2/balena-cli-v12.2.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.3.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.0/balena-cli-v12.3.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.2.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.2/balena-cli-v12.2.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.3.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.0/balena-cli-v12.3.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 284,
+    "numberOfIssues": 283,
     "latestIssues": [
       {
         "title": "CODEOWNERS: Change to use the respective GitHub team",
         "url": "https://github.com/balena-io/balena-cli/pull/1895"
-      },
-      {
-        "title": "Use @balena/es-version to set the desired es version for modules",
-        "url": "https://github.com/balena-io/balena-cli/pull/1894"
       },
       {
         "title": "\"Application is ambiguous\" but `balena apps` lists a single app",
@@ -12780,10 +12793,14 @@
       {
         "title": "Improve Yaml validation errors",
         "url": "https://github.com/balena-io/balena-cli/issues/1835"
+      },
+      {
+        "title": "Allow passing `--device-type` to `device register` command",
+        "url": "https://github.com/balena-io/balena-cli/issues/1833"
       }
     ]
   },
-  "version": "12.2.2",
+  "version": "12.3.0",
   "screenshot": null,
   "logo": null
 }
