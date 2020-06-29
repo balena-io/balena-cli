@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Add --multi-dockerignore (-m) option to push/build/deploy commands",
+          "hash": "eaf61d801c3e4fdfa131b0a841a2a769a4b3fd8b",
+          "body": "",
+          "footer": {
+            "Connects-to": "#1870",
+            "connects-to": "#1870",
+            "Change-type": "minor",
+            "change-type": "minor"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "12.2.0",
+      "date": "2020-06-28T22:58:06.428Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Recategorize some errors as expected.",
           "hash": "1308b64c67f4b0f8d665e086971ed1e7549e22d8",
           "body": "",
@@ -12492,7 +12510,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 251,
+  "stars": 252,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -12594,36 +12612,44 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-26T12:29:05Z",
+  "lastCommitDate": "2020-06-29T08:55:32Z",
   "latestRelease": {
-    "tagName": "v12.1.16",
+    "tagName": "v12.2.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.1.16-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.16/balena-cli-v12.1.16-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.2.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.0/balena-cli-v12.2.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.1.16-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.16/balena-cli-v12.1.16-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.2.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.0/balena-cli-v12.2.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.1.16-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.16/balena-cli-v12.1.16-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.2.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.0/balena-cli-v12.2.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.1.16-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.16/balena-cli-v12.1.16-windows-x64-installer.exe"
+        "name": "balena-cli-v12.2.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.0/balena-cli-v12.2.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.1.16-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.1.16/balena-cli-v12.1.16-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.2.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.2.0/balena-cli-v12.2.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 281,
+    "numberOfIssues": 283,
     "latestIssues": [
+      {
+        "title": "Push to local device (IP address) fails with `FROM --platform`",
+        "url": "https://github.com/balena-io/balena-cli/issues/1889"
+      },
+      {
+        "title": "Generate an oclif.manifest.json before publishing",
+        "url": "https://github.com/balena-io/balena-cli/pull/1888"
+      },
       {
         "title": "Get 65200 illegal hardware instruction when running balena cli commands and the device is in local mode",
         "url": "https://github.com/balena-io/balena-cli/issues/1878"
@@ -12695,18 +12721,10 @@
       {
         "title": "Node apps (without a Dockerfile): broken for new device types (RPi4, RPi3-64)",
         "url": "https://github.com/balena-io/balena-cli/issues/1831"
-      },
-      {
-        "title": "Node apps (without a Dockerfile): base image resolution takes several minutes",
-        "url": "https://github.com/balena-io/balena-cli/issues/1830"
-      },
-      {
-        "title": "Livepush process didn't exit after connection hangup",
-        "url": "https://github.com/balena-io/balena-cli/issues/1828"
       }
     ]
   },
-  "version": "12.1.16",
+  "version": "12.2.0",
   "screenshot": null,
   "logo": null
 }
