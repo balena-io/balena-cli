@@ -1,4 +1,14 @@
 - commits:
+    - subject: Update dependencies still using balena-sdk 10.x
+      hash: 209ea64b82418f369c2a98e42ecd43d60d4560cc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.3.4
+  date: 2020-06-30T21:22:27.877Z
+- commits:
     - subject: Generate/include an oclif.manifest.json when packaging
       hash: d0a4ff0d6b05a328be76ec593abe1d4b2e3c5d50
       body: |
