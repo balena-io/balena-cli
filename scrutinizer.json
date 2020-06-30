@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Update dependencies still using balena-sdk 10.x",
+          "hash": "209ea64b82418f369c2a98e42ecd43d60d4560cc",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "12.3.4",
+      "date": "2020-06-30T21:22:27.877Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Generate/include an oclif.manifest.json when packaging",
           "hash": "d0a4ff0d6b05a328be76ec593abe1d4b2e3c5d50",
           "body": "This saves ~220ms for me when running oclif commands\n",
@@ -12737,36 +12753,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-30T15:02:52Z",
+  "lastCommitDate": "2020-06-30T22:03:52Z",
   "latestRelease": {
-    "tagName": "v12.3.3",
+    "tagName": "v12.3.4",
     "asssets": [
       {
-        "name": "balena-cli-v12.3.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.3/balena-cli-v12.3.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.3.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.4/balena-cli-v12.3.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.3/balena-cli-v12.3.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.3.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.4/balena-cli-v12.3.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.3.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.3/balena-cli-v12.3.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.3.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.4/balena-cli-v12.3.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.3/balena-cli-v12.3.3-windows-x64-installer.exe"
+        "name": "balena-cli-v12.3.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.4/balena-cli-v12.3.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.3.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.3/balena-cli-v12.3.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.3.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.4/balena-cli-v12.3.4-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 283,
+    "numberOfIssues": 286,
     "latestIssues": [
+      {
+        "title": "Reduce bluebird usage",
+        "url": "https://github.com/balena-io/balena-cli/pull/1902"
+      },
+      {
+        "title": "Add typing info to requires wherever possible",
+        "url": "https://github.com/balena-io/balena-cli/pull/1901"
+      },
+      {
+        "title": "balena scan: Class constructor PinejsClientCore cannot be invoked without 'new'",
+        "url": "https://github.com/balena-io/balena-cli/issues/1899"
+      },
       {
         "title": "ssh: fix \"Cannot find module 'lodash/reduce'\" standalone zip package",
         "url": "https://github.com/balena-io/balena-cli/pull/1897"
@@ -12834,22 +12862,10 @@
       {
         "title": "Resource names that look like numbers are treated as IDs / short UUIDs",
         "url": "https://github.com/balena-io/balena-cli/issues/1842"
-      },
-      {
-        "title": "Add a sequential option for pushing to a device",
-        "url": "https://github.com/balena-io/balena-cli/pull/1836"
-      },
-      {
-        "title": "Improve Yaml validation errors",
-        "url": "https://github.com/balena-io/balena-cli/issues/1835"
-      },
-      {
-        "title": "Allow passing `--device-type` to `device register` command",
-        "url": "https://github.com/balena-io/balena-cli/issues/1833"
       }
     ]
   },
-  "version": "12.3.3",
+  "version": "12.3.4",
   "screenshot": null,
   "logo": null
 }

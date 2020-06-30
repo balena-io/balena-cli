@@ -1,4 +1,14 @@
 - commits:
+    - subject: Update dependencies still using balena-sdk 10.x
+      hash: 209ea64b82418f369c2a98e42ecd43d60d4560cc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.3.4
+  date: 2020-06-30T22:03:07.853Z
+- commits:
     - subject: Generate/include an oclif.manifest.json when packaging
       hash: d0a4ff0d6b05a328be76ec593abe1d4b2e3c5d50
       body: |
@@ -8,7 +18,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 12.3.3
-  date: 2020-06-30T15:02:08.789Z
+  date: 2020-06-30T14:04:37.657Z
 - commits:
     - subject: Stop importing specific lodash files
       hash: 2a3479c7c6a034364b8a1ca6fb83b36766352416
