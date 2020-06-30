@@ -544,7 +544,7 @@ async function performResolution(
 	releaseHash: string,
 	preprocessHook?: (dockerfile: string) => string,
 ): Promise<MultiBuild.BuildTask[]> {
-	const { cloneTarStream } = require('tar-utils');
+	const { cloneTarStream } = await import('tar-utils');
 
 	return await new Promise<MultiBuild.BuildTask[]>((resolve, reject) => {
 		const buildTasks = MultiBuild.performResolution(
@@ -796,7 +796,7 @@ export async function deployProject(
 	apiEndpoint: string,
 	skipLogUpload: boolean,
 ): Promise<Partial<import('balena-release/build/models').ReleaseModel>> {
-	const releaseMod = require('balena-release');
+	const releaseMod = await import('balena-release');
 	const { createRelease, tagServiceImages } = await import('./compose');
 	const tty = (await import('./tty'))(process.stdout);
 

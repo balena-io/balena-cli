@@ -94,7 +94,9 @@ export async function inspectTarStream(
 	try {
 		expect($expected).to.deep.equal(found);
 	} catch (e) {
-		const { diff } = require('deep-object-diff');
+		const {
+			diff,
+		} = require('deep-object-diff') as typeof import('deep-object-diff');
 		const diffStr = JSON.stringify(
 			diff($expected, found),
 			(_k, v) => (v === undefined ? 'undefined' : v),

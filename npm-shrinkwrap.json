@@ -755,12 +755,24 @@
       }
     },
     "@octokit/plugin-throttling": {
-      "version": "2.7.1",
-      "resolved": "https://registry.npmjs.org/@octokit/plugin-throttling/-/plugin-throttling-2.7.1.tgz",
-      "integrity": "sha512-08CKNFCpSpmOEAQBn6/MR8zbJgjP4+bplNUJbKlqJSNBHTO1NdsDHzBD4VeFYopOo7rBEySng4WifxNVaQ5bVw==",
+      "version": "3.3.0",
+      "resolved": "https://registry.npmjs.org/@octokit/plugin-throttling/-/plugin-throttling-3.3.0.tgz",
+      "integrity": "sha512-0hMtpqTAwAvo3XkNoaPQFqX2+csfbuR0bYpruHq3anrBrhQFPt9Gn01RVqqoDla/qBYmIIY2MRirxlaLO21Apg==",
       "dev": true,
       "requires": {
+        "@octokit/types": "^5.0.0",
         "bottleneck": "^2.15.3"
+      },
+      "dependencies": {
+        "@octokit/types": {
+          "version": "5.0.1",
+          "resolved": "https://registry.npmjs.org/@octokit/types/-/types-5.0.1.tgz",
+          "integrity": "sha512-GorvORVwp244fGKEt3cgt/P+M0MGy4xEDbckw+K5ojEezxyMDgCaYPKVct+/eWQfZXOT7uq0xRpmrl/+hliabA==",
+          "dev": true,
+          "requires": {
+            "@types/node": ">= 8"
+          }
+        }
       }
     },
     "@octokit/request": {
@@ -1387,6 +1399,12 @@
       "version": "4.0.0",
       "resolved": "https://registry.npmjs.org/@types/parse-json/-/parse-json-4.0.0.tgz",
       "integrity": "sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==",
+      "dev": true
+    },
+    "@types/parse-link-header": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/@types/parse-link-header/-/parse-link-header-1.0.0.tgz",
+      "integrity": "sha512-fCA3btjE7QFeRLfcD0Sjg+6/CnmC66HpMBoRfRzd2raTaWMJV21CCZ0LO8MOqf8onl5n0EPfjq4zDhbyX8SVwA==",
       "dev": true
     },
     "@types/prettier": {
