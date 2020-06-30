@@ -29,7 +29,7 @@ export const deviceContainerEngineBinary = `$(if [ -f /usr/bin/balena ]; then ec
 export async function performLocalDeviceSSH(
 	opts: DeviceSSHOpts,
 ): Promise<void> {
-	const reduce = await import('lodash/reduce');
+	const { escapeRegExp, reduce } = await import('lodash');
 	const { spawnSshAndExitOnError } = await import('../ssh');
 	const { ExpectedError } = await import('../../errors');
 
@@ -44,13 +44,12 @@ export async function performLocalDeviceSSH(
 		// allows the user to choose the correct container
 
 		const Docker = await import('dockerode');
-		const escapeRegex = await import('lodash/escapeRegExp');
 		const docker = new Docker({
 			host: opts.address,
 			port: 2375,
 		});
 
-		const regex = new RegExp(`\\/?${escapeRegex(opts.service)}_\\d+_\\d+`);
+		const regex = new RegExp(`\\/?${escapeRegExp(opts.service)}_\\d+_\\d+`);
 		const nameRegex = /\/?([a-zA-Z0-9_]+)_\d+_\d+/;
 		let allContainers: ContainerInfo[];
 		try {
