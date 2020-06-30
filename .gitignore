@@ -44,3 +44,4 @@ dist/
 
 # Ignore fast-boot cache file
 **/.fast-boot.json
+/oclif.manifest.json
