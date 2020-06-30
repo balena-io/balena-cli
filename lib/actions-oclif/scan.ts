@@ -105,9 +105,8 @@ export default class ScanCmd extends Command {
 		}
 
 		// Query devices for info
-		const devicesInfo = await Bluebird.map(
-			activeLocalDevices,
-			({ host, address }) => {
+		const devicesInfo = await Promise.all(
+			activeLocalDevices.map(({ host, address }) => {
 				const docker = dockerUtils.createClient({
 					host: address,
 					port: dockerPort,
@@ -123,7 +122,7 @@ export default class ScanCmd extends Command {
 						.versionAsync()
 						.catchReturn('Could not get Docker version'),
 				});
-			},
+			}),
 		);
 
 		// Reduce properties if not --verbose

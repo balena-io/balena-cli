@@ -361,20 +361,24 @@ export async function performBuilds(
 
 	// Now tag any external images with the correct name that they should be,
 	// as this won't be done by resin-multibuild
-	await Bluebird.map(localImages, async (localImage) => {
-		if (localImage.external) {
-			// We can be sure that localImage.name is set here, because of the failure code above
-			const image = docker.getImage(localImage.name!);
-			await image.tag({
-				repo: generateImageName(localImage.serviceName),
-				force: true,
-			});
-			imagesToRemove.push(localImage.name!);
-		}
-	});
+	await Promise.all(
+		localImages.map(async (localImage) => {
+			if (localImage.external) {
+				// We can be sure that localImage.name is set here, because of the failure code above
+				const image = docker.getImage(localImage.name!);
+				await image.tag({
+					repo: generateImageName(localImage.serviceName),
+					force: true,
+				});
+				imagesToRemove.push(localImage.name!);
+			}
+		}),
+	);
 
-	await Bluebird.map(_.uniq(imagesToRemove), (image) =>
-		docker.getImage(image).remove({ force: true }),
+	await Promise.all(
+		_.uniq(imagesToRemove).map((image) =>
+			docker.getImage(image).remove({ force: true }),
+		),
 	);
 
 	return buildTasks;
@@ -512,26 +516,28 @@ async function assignDockerBuildOpts(
 
 	globalLogger.logDebug(`Using ${images.length} on-device images for cache...`);
 
-	await Bluebird.map(buildTasks, async (task: BuildTask) => {
-		task.dockerOpts = {
-			cachefrom: images,
-			labels: {
-				'io.resin.local.image': '1',
-				'io.resin.local.service': task.serviceName,
-			},
-			t: generateImageName(task.serviceName),
-			nocache: opts.nocache,
-			forcerm: true,
-		};
-		if (task.external) {
-			task.dockerOpts.authconfig = await getAuthConfigObj(
-				task.imageName!,
-				opts.registrySecrets,
-			);
-		} else {
-			task.dockerOpts.registryconfig = opts.registrySecrets;
-		}
-	});
+	await Promise.all(
+		buildTasks.map(async (task: BuildTask) => {
+			task.dockerOpts = {
+				cachefrom: images,
+				labels: {
+					'io.resin.local.image': '1',
+					'io.resin.local.service': task.serviceName,
+				},
+				t: generateImageName(task.serviceName),
+				nocache: opts.nocache,
+				forcerm: true,
+			};
+			if (task.external) {
+				task.dockerOpts.authconfig = await getAuthConfigObj(
+					task.imageName!,
+					opts.registrySecrets,
+				);
+			} else {
+				task.dockerOpts.registryconfig = opts.registrySecrets;
+			}
+		}),
+	);
 }
 
 function generateImageName(serviceName: string): string {

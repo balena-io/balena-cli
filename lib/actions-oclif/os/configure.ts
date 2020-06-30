@@ -263,9 +263,8 @@ export default class OsConfigureCmd extends Command {
 		);
 
 		if (options['system-connection']) {
-			const files = await Bluebird.map(
-				options['system-connection'],
-				async (filePath) => {
+			const files = await Promise.all(
+				options['system-connection'].map(async (filePath) => {
 					const content = await fs.readFile(filePath, 'utf8');
 					const name = path.basename(filePath);
 
@@ -273,7 +272,7 @@ export default class OsConfigureCmd extends Command {
 						name,
 						content,
 					};
-				},
+				}),
 			);
 
 			await Bluebird.each(files, async ({ name, content }) => {
