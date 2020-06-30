@@ -1,4 +1,14 @@
 - commits:
+    - subject: Add typing info to requires wherever possible
+      hash: 5e94f3f9c9671fbbb9ff31a9ae2f747a8ccdab42
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.3.5
+  date: 2020-06-30T22:23:34.960Z
+- commits:
     - subject: Update dependencies still using balena-sdk 10.x
       hash: 209ea64b82418f369c2a98e42ecd43d60d4560cc
       body: ''
