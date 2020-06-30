@@ -275,7 +275,7 @@ export default class OsConfigureCmd extends Command {
 				}),
 			);
 
-			await Bluebird.each(files, async ({ name, content }) => {
+			for (const { name, content } of files) {
 				await imagefs.writeFile(
 					{
 						image,
@@ -285,7 +285,7 @@ export default class OsConfigureCmd extends Command {
 					content,
 				);
 				console.info(`Copied system-connection file: ${name}`);
-			});
+			}
 		}
 	}
 }
