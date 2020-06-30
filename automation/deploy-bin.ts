@@ -63,7 +63,8 @@ export async function release() {
 /** Return a cached Octokit instance, creating a new one as needed. */
 const getOctokit = _.once(function () {
 	const Octokit = (require('@octokit/rest') as typeof import('@octokit/rest')).Octokit.plugin(
-		require('@octokit/plugin-throttling'),
+		(require('@octokit/plugin-throttling') as typeof import('@octokit/plugin-throttling'))
+			.throttling,
 	);
 	return new Octokit({
 		auth: GITHUB_TOKEN,
@@ -109,8 +110,11 @@ function getPageNumbers(
 	if (!response.headers.link) {
 		return res;
 	}
-	const parse = require('parse-link-header');
+	const parse = require('parse-link-header') as typeof import('parse-link-header');
 	const parsed = parse(response.headers.link);
+	if (parsed == null) {
+		throw new Error(`Failed to parse link header: '${response.headers.link}'`);
+	}
 	let perPage = perPageDefault;
 	if (parsed.next) {
 		if (parsed.next.per_page) {

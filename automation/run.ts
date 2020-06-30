@@ -83,7 +83,7 @@ export async function run(args?: string[]) {
 	// limitation of some library used by NSIS), as the "current working dir"
 	// provided by balena CI is a rather long path to start with.
 	if (process.platform === 'win32' && !process.env.BUILD_TMP) {
-		const randID = require('crypto')
+		const randID = (await import('crypto'))
 			.randomBytes(6)
 			.toString('base64')
 			.replace(/\+/g, '-')

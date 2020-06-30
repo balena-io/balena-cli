@@ -211,11 +211,10 @@ export function makeUrlFromTunnelNgConfig(cfg: GlobalTunnelNgConfig): string {
 function setupBalenaSdkSharedOptions(settings: CliSettings) {
 	// We don't yet use balena-sdk directly everywhere, but we set up shared
 	// options correctly so we can do safely in submodules
-	const BalenaSdk = require('balena-sdk');
+	const BalenaSdk = require('balena-sdk') as typeof import('balena-sdk');
 	BalenaSdk.setSharedOptions({
 		apiUrl: settings.get<string>('apiUrl'),
 		dataDirectory: settings.get<string>('dataDirectory'),
-		retries: 2,
 	});
 }
 
@@ -232,7 +231,7 @@ export function configureBluebird() {
 		return;
 	}
 	BluebirdConfigured = true;
-	const Bluebird = require('bluebird');
+	const Bluebird = require('bluebird') as typeof import('bluebird');
 	Bluebird.config({
 		longStackTraces: process.env.DEBUG ? true : false,
 	});
@@ -263,5 +262,5 @@ export async function globalInit() {
 	setupBalenaSdkSharedOptions(settings);
 
 	// check for CLI updates once a day
-	require('./utils/update').notify();
+	(await import('./utils/update')).notify();
 }

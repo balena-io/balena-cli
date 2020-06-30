@@ -20,7 +20,7 @@ import * as Bluebird from 'bluebird';
 import { spawn, SpawnOptions } from 'child_process';
 import * as _ from 'lodash';
 import * as os from 'os';
-import * as ShellEscape from 'shell-escape';
+import type * as ShellEscape from 'shell-escape';
 
 import type { Device, PineOptionsFor } from 'balena-sdk';
 import { ExpectedError } from '../errors';

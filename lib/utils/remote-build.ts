@@ -331,7 +331,7 @@ function createRemoteBuildRequest(
 	builderUrl: string,
 	onError: (error: Error) => void,
 ): request.Request {
-	const zlib = require('zlib');
+	const zlib = require('zlib') as typeof import('zlib');
 	if (DEBUG_MODE) {
 		console.error(`[debug] Connecting to builder at ${builderUrl}`);
 	}

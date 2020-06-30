@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-// tslint:disable-next-line:no-var-requires
-require('./config-tests'); // required for side effects
+import './config-tests'; // required for side effects
 
 import { execFile } from 'child_process';
 import intercept = require('intercept-stdout');
