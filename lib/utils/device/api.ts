@@ -194,11 +194,11 @@ export class DeviceAPI {
 		});
 	}
 
-	public getLogStream(): Bluebird<Stream.Readable> {
+	public getLogStream(): Promise<Stream.Readable> {
 		const url = this.getUrlForAction('logs');
 
 		// Don't use the promisified version here as we want to stream the output
-		return new Bluebird((resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			const req = request.get(url);
 
 			req.on('error', reject).on('response', async (res) => {

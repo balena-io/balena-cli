@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as Bluebird from 'bluebird';
 import { spawn, StdioOptions } from 'child_process';
 import * as _ from 'lodash';
 import { TypedError } from 'typed-error';
@@ -71,7 +70,7 @@ export async function exec(
 		'inherit',
 	];
 
-	const exitCode = await new Bluebird<number>((resolve, reject) => {
+	const exitCode = await new Promise<number>((resolve, reject) => {
 		const ps = spawn(program, args, { stdio })
 			.on('error', reject)
 			.on('close', resolve);

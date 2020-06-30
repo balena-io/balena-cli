@@ -17,7 +17,6 @@
 
 import { flags } from '@oclif/command';
 import type * as BalenaSdk from 'balena-sdk';
-import Bluebird = require('bluebird');
 import * as _ from 'lodash';
 import * as path from 'path';
 import Command from '../../command';

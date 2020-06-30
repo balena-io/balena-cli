@@ -52,7 +52,7 @@ export const tunnelConnectionToDevice = (
 			password: token,
 		};
 
-		return (client: Socket): Bluebird<void> =>
+		return (client: Socket): Promise<void> =>
 			openPortThroughProxy(vpnUrl, 3128, auth, uuid, port)
 				.then((remote) => {
 					client.pipe(remote);
@@ -72,8 +72,9 @@ export const tunnelConnectionToDevice = (
 						remote.end();
 					});
 				})
-				.tapCatch(() => {
+				.catch((e) => {
 					client.end();
+					throw e
 				});
 	});
 };
@@ -95,7 +96,7 @@ const openPortThroughProxy = (
 		httpHeaders.push(`Proxy-Authorization: Basic ${credentials}`);
 	}
 
-	return new Bluebird.Promise<Socket>((resolve, reject) => {
+	return new Promise<Socket>((resolve, reject) => {
 		const proxyTunnel = new Socket();
 		proxyTunnel.on('error', reject);
 		proxyTunnel.connect(proxyPort, proxyServer, () => {

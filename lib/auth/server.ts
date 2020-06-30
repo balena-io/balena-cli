@@ -14,7 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import * as Bluebird from 'bluebird';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import type { Socket } from 'net';
@@ -79,10 +78,10 @@ export function shutdownServer() {
 export const awaitForToken = (options: {
 	path: string;
 	port: number;
-}): Bluebird<string> => {
+}): Promise<string> => {
 	const { app, server } = createServer({ port: options.port });
 
-	return new Bluebird<string>((resolve, reject) => {
+	return new Promise<string>((resolve, reject) => {
 		app.post(options.path, async (request, response) => {
 			server.close(); // stop listening for new connections
 			try {
