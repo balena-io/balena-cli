@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 
-import { configureBluebird, setMaxListeners } from '../build/app-common';
+import { setMaxListeners } from '../build/app-common';
 
-configureBluebird();
 setMaxListeners(35); // it appears that 'nock' adds a bunch of listeners - bug?
 // SL: Looks like it's not nock causing this, as have seen the problem triggered from help.spec,
 //     which is not using nock.  Perhaps mocha/chai? (unlikely), or something in the CLI?

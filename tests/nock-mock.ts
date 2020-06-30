@@ -15,10 +15,6 @@
  * limitations under the License.
  */
 
-import { configureBluebird } from '../build/app-common';
-
-configureBluebird();
-
 import * as nock from 'nock';
 
 export interface ScopeOpts {

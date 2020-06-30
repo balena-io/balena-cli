@@ -61,6 +61,13 @@ export async function routeCliFramework(argv: string[], options: AppOptions) {
 		}
 	}
 
+	// Enable bluebird long stack traces when in debug mode, must be set
+	// before the first bluebird require - done here so that it will also
+	// be enabled when using the `--debug` flag to enable debug mode
+	if (process.env.DEBUG) {
+		process.env.BLUEBIRD_LONG_STACK_TRACES = '1';
+	}
+
 	const Logger = await import('./utils/logger');
 	Logger.command = cmdSlice[0];
 
