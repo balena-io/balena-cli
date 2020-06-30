@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'CODEOWNERS: Change to use the respective GitHub team'
+      hash: 7ee59b56c7813d8126482b4485a3462c90267f4e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: >-
+          https://www.flowdock.com/app/rulemotion/i-cli/threads/x_-7-UeioPW_y2qUFbVlRqDyVCD
+        see: >-
+          https://www.flowdock.com/app/rulemotion/i-cli/threads/x_-7-UeioPW_y2qUFbVlRqDyVCD
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+  version: 12.3.1
+  date: 2020-06-30T10:42:03.828Z
+- commits:
     - subject: Use @balena/es-version to set the desired es version for modules
       hash: 488d9b901c38910ac3ef285598e3ffac1edf1392
       body: ''
@@ -7,7 +23,7 @@
         change-type: minor
       author: Pagan Gazzard
   version: 12.3.0
-  date: 2020-06-29T21:55:18.210Z
+  date: 2020-06-29T21:27:44.223Z
 - commits:
     - subject: Prepare for field based retrieval of device overall_status
       hash: 3207a2922aa0d519bbd21701bce5e0ff2dde873a
