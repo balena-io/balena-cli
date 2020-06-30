@@ -5,6 +5,52 @@
     {
       "commits": [
         {
+          "subject": "Switch from Bluebird.join to native version",
+          "hash": "303c3af06145262c56d6534b9b5af0ea8436c5d8",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        },
+        {
+          "subject": "Switch from new Bluebird to native version",
+          "hash": "984d1a3fd60b1fdbda762060c5ce081822f7eb34",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        },
+        {
+          "subject": "Switch from Bluebird.each to native version",
+          "hash": "ef9c2e9c187a3dd84a17dd334f4282742d9c3979",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        },
+        {
+          "subject": "Switch from Bluebird.map to native version",
+          "hash": "d4f288394bf219e24c122d70f3e2b2590159e951",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "12.3.6",
+      "date": "2020-06-30T23:01:13.847Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add typing info to requires wherever possible",
           "hash": "5e94f3f9c9671fbbb9ff31a9ae2f747a8ccdab42",
           "body": "",
@@ -12769,39 +12815,43 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-30T22:51:46Z",
+  "lastCommitDate": "2020-06-30T23:30:55Z",
   "latestRelease": {
-    "tagName": "v12.3.5",
+    "tagName": "v12.3.6",
     "asssets": [
       {
-        "name": "balena-cli-v12.3.5-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.5/balena-cli-v12.3.5-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.3.6-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.6/balena-cli-v12.3.6-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.5-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.5/balena-cli-v12.3.5-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.3.6-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.6/balena-cli-v12.3.6-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.3.5-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.5/balena-cli-v12.3.5-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.3.6-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.6/balena-cli-v12.3.6-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.5-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.5/balena-cli-v12.3.5-windows-x64-installer.exe"
+        "name": "balena-cli-v12.3.6-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.6/balena-cli-v12.3.6-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.3.5-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.5/balena-cli-v12.3.5-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.3.6-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.6/balena-cli-v12.3.6-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 285,
+    "numberOfIssues": 286,
     "latestIssues": [
       {
-        "title": "Reduce bluebird usage",
-        "url": "https://github.com/balena-io/balena-cli/pull/1902"
+        "title": "Enable long stack traces for `--debug` as well as `DEBUG=1`",
+        "url": "https://github.com/balena-io/balena-cli/pull/1904"
+      },
+      {
+        "title": "Update @types/stream-to-promise",
+        "url": "https://github.com/balena-io/balena-cli/pull/1903"
       },
       {
         "title": "balena scan: Class constructor PinejsClientCore cannot be invoked without 'new'",
@@ -12874,14 +12924,10 @@
       {
         "title": "Resource names that look like numbers are treated as IDs / short UUIDs",
         "url": "https://github.com/balena-io/balena-cli/issues/1842"
-      },
-      {
-        "title": "Add a sequential option for pushing to a device",
-        "url": "https://github.com/balena-io/balena-cli/pull/1836"
       }
     ]
   },
-  "version": "12.3.5",
+  "version": "12.3.6",
   "screenshot": null,
   "logo": null
 }
