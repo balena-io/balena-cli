@@ -17,7 +17,6 @@
 
 import { flags } from '@oclif/command';
 import type * as BalenaSdk from 'balena-sdk';
-import Bluebird = require('bluebird');
 import * as _ from 'lodash';
 import * as path from 'path';
 import Command from '../../command';
@@ -263,9 +262,8 @@ export default class OsConfigureCmd extends Command {
 		);
 
 		if (options['system-connection']) {
-			const files = await Bluebird.map(
-				options['system-connection'],
-				async (filePath) => {
+			const files = await Promise.all(
+				options['system-connection'].map(async (filePath) => {
 					const content = await fs.readFile(filePath, 'utf8');
 					const name = path.basename(filePath);
 
@@ -273,10 +271,10 @@ export default class OsConfigureCmd extends Command {
 						name,
 						content,
 					};
-				},
+				}),
 			);
 
-			await Bluebird.each(files, async ({ name, content }) => {
+			for (const { name, content } of files) {
 				await imagefs.writeFile(
 					{
 						image,
@@ -286,7 +284,7 @@ export default class OsConfigureCmd extends Command {
 					content,
 				);
 				console.info(`Copied system-connection file: ${name}`);
-			});
+			}
 		}
 	}
 }

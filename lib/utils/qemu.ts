@@ -44,7 +44,7 @@ export function copyQemu(context: string, arch: string) {
 		.then(() => getQemuPath(arch))
 		.then(
 			(qemu) =>
-				new Bluebird(function (resolve, reject) {
+				new Promise(function (resolve, reject) {
 					const read = fs.createReadStream(qemu);
 					const write = fs.createWriteStream(binPath);
 
@@ -83,7 +83,7 @@ export function installQemu(arch: string) {
 
 	return getQemuPath(arch).then(
 		(qemuPath) =>
-			new Bluebird(function (resolve, reject) {
+			new Promise(function (resolve, reject) {
 				const installStream = fs.createWriteStream(qemuPath);
 
 				const qemuArch = balenaArchToQemuArch(arch);

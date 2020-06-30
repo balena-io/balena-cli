@@ -14,7 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 import type { BalenaSDK } from 'balena-sdk';
-import * as Bluebird from 'bluebird';
 import * as JSONStream from 'JSONStream';
 import * as readline from 'readline';
 import * as request from 'request';
@@ -124,7 +123,7 @@ export async function startRemoteBuild(build: RemoteBuild): Promise<void> {
 	}
 
 	if (!build.opts.headless) {
-		return new Bluebird((resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			// Setup interrupt handlers so we can cancel the build if the user presses
 			// ctrl+c
 

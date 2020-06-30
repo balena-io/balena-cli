@@ -843,7 +843,9 @@ export async function deployProject(
 			throw err;
 		} finally {
 			logger.logDebug('Untagging images...');
-			await Bluebird.map(taggedImages, ({ localImage }) => localImage.remove());
+			await Promise.all(
+				taggedImages.map(({ localImage }) => localImage.remove()),
+			);
 		}
 	} finally {
 		runloop = runSpinner(tty, spinner, `${prefix}Saving release...`);

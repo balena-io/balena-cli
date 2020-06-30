@@ -103,15 +103,17 @@ async function buildPkg() {
 		['*', ['opn', 'xdg-open'], ['xdg-open-402']],
 		['darwin', ['denymount', 'bin', 'denymount'], ['denymount']],
 	];
-	await Bluebird.map(paths, ([platform, source, dest]) => {
-		if (platform === '*' || platform === process.platform) {
-			// eg copy from node_modules/open/xdg-open to build-bin/xdg-open
-			return fs.copy(
-				path.join(ROOT, 'node_modules', ...source),
-				path.join(ROOT, 'build-bin', ...dest),
-			);
-		}
-	});
+	await Promise.all(
+		paths.map(([platform, source, dest]) => {
+			if (platform === '*' || platform === process.platform) {
+				// eg copy from node_modules/open/xdg-open to build-bin/xdg-open
+				return fs.copy(
+					path.join(ROOT, 'node_modules', ...source),
+					path.join(ROOT, 'build-bin', ...dest),
+				);
+			}
+		}),
+	);
 	const nativeExtensionPaths: string[] = await filehound
 		.create()
 		.paths(path.join(ROOT, 'node_modules'))
@@ -120,12 +122,14 @@ async function buildPkg() {
 
 	console.log(`\nCopying to build-bin:\n${nativeExtensionPaths.join('\n')}`);
 
-	await Bluebird.map(nativeExtensionPaths, (extPath) =>
-		fs.copy(
-			extPath,
-			extPath.replace(
-				path.join(ROOT, 'node_modules'),
-				path.join(ROOT, 'build-bin'),
+	await Promise.all(
+		nativeExtensionPaths.map((extPath) =>
+			fs.copy(
+				extPath,
+				extPath.replace(
+					path.join(ROOT, 'node_modules'),
+					path.join(ROOT, 'build-bin'),
+				),
 			),
 		),
 	);

@@ -13,7 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import * as Bluebird from 'bluebird';
 import type { CommandDefinition } from 'capitano';
 import * as _ from 'lodash';
 import { createServer, Server, Socket } from 'net';
@@ -196,7 +195,7 @@ export const tunnel: CommandDefinition<Args, Options> = {
 					)
 					.then(
 						(server) =>
-							new Bluebird.Promise<Server>((resolve, reject) => {
+							new Promise<Server>((resolve, reject) => {
 								server.on('error', reject);
 								server.listen(localPort, localAddress, () => {
 									resolve(server);

@@ -1,4 +1,3 @@
-import * as Bluebird from 'bluebird';
 import ColorHash = require('color-hash');
 import * as _ from 'lodash';
 import type { Readable } from 'stream';
@@ -38,8 +37,8 @@ export function displayDeviceLogs(
 	logger: Logger,
 	system: boolean,
 	filterServices?: string[],
-): Bluebird<void> {
-	return new Bluebird((resolve, reject) => {
+): Promise<void> {
+	return new Promise((resolve, reject) => {
 		logs.on('data', (log) => {
 			displayLogLine(log, logger, system, filterServices);
 		});
