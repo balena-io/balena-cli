@@ -368,33 +368,32 @@ export const push: CommandDefinition<
 
 				const app = appOrDevice;
 				await checkLoggedIn();
-				await Bluebird.join(
+				const [token, baseUrl, owner] = await Promise.all([
 					sdk.auth.getToken(),
 					sdk.settings.get('balenaUrl'),
 					getAppOwner(sdk, app),
-					async (token, baseUrl, owner) => {
-						const opts = {
-							dockerfilePath,
-							emulated: options.emulated || false,
-							multiDockerignore: options['multi-dockerignore'] || false,
-							nocache: options.nocache || false,
-							registrySecrets,
-							headless: options.detached || false,
-							convertEol,
-						};
-						const args = {
-							app,
-							owner,
-							source,
-							auth: token,
-							baseUrl,
-							nogitignore,
-							sdk,
-							opts,
-						};
-						return await remote.startRemoteBuild(args);
-					},
-				);
+				]);
+
+				const opts = {
+					dockerfilePath,
+					emulated: options.emulated || false,
+					multiDockerignore: options['multi-dockerignore'] || false,
+					nocache: options.nocache || false,
+					registrySecrets,
+					headless: options.detached || false,
+					convertEol,
+				};
+				const args = {
+					app,
+					owner,
+					source,
+					auth: token,
+					baseUrl,
+					nogitignore,
+					sdk,
+					opts,
+				};
+				await remote.startRemoteBuild(args);
 				break;
 			case BuildTarget.Device:
 				const device = appOrDevice;

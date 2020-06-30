@@ -64,7 +64,7 @@ export const login = async () => {
 	}, 1000);
 
 	const balena = getBalenaSdk();
-	const token = await awaitForToken(options)
+	const token = await awaitForToken(options);
 	await balena.auth.loginWithToken(token);
-	return token
+	return token;
 };

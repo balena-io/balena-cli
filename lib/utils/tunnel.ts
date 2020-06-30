@@ -74,7 +74,7 @@ export const tunnelConnectionToDevice = (
 				})
 				.catch((e) => {
 					client.end();
-					throw e
+					throw e;
 				});
 	});
 };

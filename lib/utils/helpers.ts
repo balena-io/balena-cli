@@ -146,22 +146,21 @@ export async function osProgressHandler(step: InitializeEmitter) {
 
 export function getAppWithArch(
 	applicationName: string,
-): Bluebird<BalenaSdk.Application & { arch: string }> {
-	return Bluebird.join(
+): Promise<BalenaSdk.Application & { arch: string }> {
+	return Promise.all([
 		getApplication(applicationName),
 		getBalenaSdk().models.config.getDeviceTypes(),
-		function (app, deviceTypes) {
-			const config = _.find<BalenaSdk.DeviceType>(deviceTypes, {
-				slug: app.device_type,
-			});
+	]).then(function ([app, deviceTypes]) {
+		const config = _.find<BalenaSdk.DeviceType>(deviceTypes, {
+			slug: app.device_type,
+		});
 
-			if (!config) {
-				throw new Error('Could not read application information!');
-			}
+		if (!config) {
+			throw new Error('Could not read application information!');
+		}
 
-			return { ...app, arch: config.arch };
-		},
-	);
+		return { ...app, arch: config.arch };
+	});
 }
 
 function getApplication(applicationName: string) {
