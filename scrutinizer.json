@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Add typing info to requires wherever possible",
+          "hash": "5e94f3f9c9671fbbb9ff31a9ae2f747a8ccdab42",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "12.3.5",
+      "date": "2020-06-30T22:23:34.960Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update dependencies still using balena-sdk 10.x",
           "hash": "209ea64b82418f369c2a98e42ecd43d60d4560cc",
           "body": "",
@@ -12753,43 +12769,39 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-30T22:03:52Z",
+  "lastCommitDate": "2020-06-30T22:51:46Z",
   "latestRelease": {
-    "tagName": "v12.3.4",
+    "tagName": "v12.3.5",
     "asssets": [
       {
-        "name": "balena-cli-v12.3.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.4/balena-cli-v12.3.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.3.5-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.5/balena-cli-v12.3.5-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.4/balena-cli-v12.3.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.3.5-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.5/balena-cli-v12.3.5-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.3.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.4/balena-cli-v12.3.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.3.5-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.5/balena-cli-v12.3.5-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.4/balena-cli-v12.3.4-windows-x64-installer.exe"
+        "name": "balena-cli-v12.3.5-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.5/balena-cli-v12.3.5-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.3.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.4/balena-cli-v12.3.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.3.5-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.5/balena-cli-v12.3.5-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 286,
+    "numberOfIssues": 285,
     "latestIssues": [
       {
         "title": "Reduce bluebird usage",
         "url": "https://github.com/balena-io/balena-cli/pull/1902"
-      },
-      {
-        "title": "Add typing info to requires wherever possible",
-        "url": "https://github.com/balena-io/balena-cli/pull/1901"
       },
       {
         "title": "balena scan: Class constructor PinejsClientCore cannot be invoked without 'new'",
@@ -12862,10 +12874,14 @@
       {
         "title": "Resource names that look like numbers are treated as IDs / short UUIDs",
         "url": "https://github.com/balena-io/balena-cli/issues/1842"
+      },
+      {
+        "title": "Add a sequential option for pushing to a device",
+        "url": "https://github.com/balena-io/balena-cli/pull/1836"
       }
     ]
   },
-  "version": "12.3.4",
+  "version": "12.3.5",
   "screenshot": null,
   "logo": null
 }
