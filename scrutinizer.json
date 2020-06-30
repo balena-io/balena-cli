@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Stop importing specific lodash files",
+          "hash": "2a3479c7c6a034364b8a1ca6fb83b36766352416",
+          "body": "We already import the entirety of lodash so importing the individual\nfiles just adds time to also import the single file versions\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "12.3.2",
+      "date": "2020-06-30T12:55:08.499Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "CODEOWNERS: Change to use the respective GitHub team",
           "hash": "7ee59b56c7813d8126482b4485a3462c90267f4e",
           "body": "",
@@ -12705,36 +12721,44 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-30T10:43:09Z",
+  "lastCommitDate": "2020-06-30T13:36:50Z",
   "latestRelease": {
-    "tagName": "v12.3.1",
+    "tagName": "v12.3.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.3.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.1/balena-cli-v12.3.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.3.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.2/balena-cli-v12.3.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.1/balena-cli-v12.3.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.3.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.2/balena-cli-v12.3.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.3.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.1/balena-cli-v12.3.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.3.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.2/balena-cli-v12.3.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.1/balena-cli-v12.3.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.3.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.2/balena-cli-v12.3.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.3.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.1/balena-cli-v12.3.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.3.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.2/balena-cli-v12.3.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 282,
+    "numberOfIssues": 284,
     "latestIssues": [
+      {
+        "title": "ssh: fix \"Cannot find module 'lodash/reduce'\" standalone zip package",
+        "url": "https://github.com/balena-io/balena-cli/pull/1897"
+      },
+      {
+        "title": "Balena ssh not working since 12.1.15",
+        "url": "https://github.com/balena-io/balena-cli/issues/1896"
+      },
       {
         "title": "\"Application is ambiguous\" but `balena apps` lists a single app",
         "url": "https://github.com/balena-io/balena-cli/issues/1893"
@@ -12806,18 +12830,10 @@
       {
         "title": "Improve Yaml validation errors",
         "url": "https://github.com/balena-io/balena-cli/issues/1835"
-      },
-      {
-        "title": "Allow passing `--device-type` to `device register` command",
-        "url": "https://github.com/balena-io/balena-cli/issues/1833"
-      },
-      {
-        "title": "Node apps (without a Dockerfile): should user new balenalib base images for all device types",
-        "url": "https://github.com/balena-io/balena-cli/issues/1832"
       }
     ]
   },
-  "version": "12.3.1",
+  "version": "12.3.2",
   "screenshot": null,
   "logo": null
 }

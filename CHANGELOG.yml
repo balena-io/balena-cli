@@ -1,4 +1,16 @@
 - commits:
+    - subject: Stop importing specific lodash files
+      hash: 2a3479c7c6a034364b8a1ca6fb83b36766352416
+      body: |
+        We already import the entirety of lodash so importing the individual
+        files just adds time to also import the single file versions
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.3.2
+  date: 2020-06-30T13:36:07.331Z
+- commits:
     - subject: 'CODEOWNERS: Change to use the respective GitHub team'
       hash: 7ee59b56c7813d8126482b4485a3462c90267f4e
       body: ''
@@ -13,7 +25,7 @@
         signed-off-by: Thodoris Greasidis <thodoris@balena.io>
       author: Thodoris Greasidis
   version: 12.3.1
-  date: 2020-06-30T10:42:03.828Z
+  date: 2020-06-30T10:15:37.044Z
 - commits:
     - subject: Use @balena/es-version to set the desired es version for modules
       hash: 488d9b901c38910ac3ef285598e3ffac1edf1392
