@@ -309,7 +309,7 @@ export default class NoteCmd extends Command {
 			// and parse the output, looking for a specific
 			// container
 			const childProcess = await import('child_process');
-			const escapeRegex = await import('lodash/escapeRegExp');
+			const { escapeRegExp } = await import('lodash');
 			const { which } = await import('../utils/helpers');
 			const { deviceContainerEngineBinary } = await import(
 				'../utils/device/ssh'
@@ -349,7 +349,7 @@ export default class NoteCmd extends Command {
 			});
 
 			const lines = containers.split('\n');
-			const regex = new RegExp(`\\/?${escapeRegex(serviceName)}_\\d+_\\d+`);
+			const regex = new RegExp(`\\/?${escapeRegExp(serviceName)}_\\d+_\\d+`);
 			for (const container of lines) {
 				const [cId, name] = container.split(' ');
 				if (regex.test(name)) {
