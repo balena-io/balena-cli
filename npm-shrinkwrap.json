@@ -1523,9 +1523,9 @@
       }
     },
     "@types/stream-to-promise": {
-      "version": "2.2.0",
-      "resolved": "https://registry.npmjs.org/@types/stream-to-promise/-/stream-to-promise-2.2.0.tgz",
-      "integrity": "sha512-72kjsHiHUKs+e0A8mUUkM5vQCr32jJEmjoWHFuySqa2t5c4A4B/2yrB24VsMQzhUF311BbCszXuC8El2sqoGvg==",
+      "version": "2.2.1",
+      "resolved": "https://registry.npmjs.org/@types/stream-to-promise/-/stream-to-promise-2.2.1.tgz",
+      "integrity": "sha512-KTa4AVEFG6o4YRIgqIuCbiC4+g5aeJ4FIYUYGHf7Ew9QlGr/5vc2cKbzT7Tf5z/iGPjiwWvMLtXZFJC8cWPhJg==",
       "dev": true,
       "requires": {
         "@types/node": "*"

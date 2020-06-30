@@ -146,7 +146,7 @@
     "@types/shell-escape": "^0.2.0",
     "@types/sinon": "^9.0.3",
     "@types/split": "^1.0.0",
-    "@types/stream-to-promise": "2.2.0",
+    "@types/stream-to-promise": "^2.2.1",
     "@types/tar-stream": "^2.1.0",
     "@types/through2": "^2.0.34",
     "@types/tmp": "0.0.34",
