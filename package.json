@@ -25,15 +25,13 @@
   },
   "pkg": {
     "scripts": [
+      "build/**/*.js",
       "node_modules/balena-sync/build/capitano/*.js",
       "node_modules/balena-sync/build/sync/*.js",
       "node_modules/resin-compose-parse/build/schemas/*.json"
     ],
     "assets": [
-      "build/**/*.js",
-      "build/actions-oclif",
       "build/auth/pages/*.ejs",
-      "build/hooks",
       "node_modules/resin-discoverable-services/services/**/*",
       "node_modules/balena-sdk/node_modules/balena-pine/**/*",
       "node_modules/balena-pine/**/*",
