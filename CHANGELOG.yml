@@ -1,4 +1,15 @@
 - commits:
+    - subject: Generate/include an oclif.manifest.json when packaging
+      hash: d0a4ff0d6b05a328be76ec593abe1d4b2e3c5d50
+      body: |
+        This saves ~220ms for me when running oclif commands
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.3.3
+  date: 2020-06-30T15:02:08.789Z
+- commits:
     - subject: Stop importing specific lodash files
       hash: 2a3479c7c6a034364b8a1ca6fb83b36766352416
       body: |
@@ -9,7 +20,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 12.3.2
-  date: 2020-06-30T13:36:07.331Z
+  date: 2020-06-30T12:55:08.499Z
 - commits:
     - subject: 'CODEOWNERS: Change to use the respective GitHub team'
       hash: 7ee59b56c7813d8126482b4485a3462c90267f4e

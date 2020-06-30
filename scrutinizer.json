@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Generate/include an oclif.manifest.json when packaging",
+          "hash": "d0a4ff0d6b05a328be76ec593abe1d4b2e3c5d50",
+          "body": "This saves ~220ms for me when running oclif commands\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "12.3.3",
+      "date": "2020-06-30T14:04:37.657Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Stop importing specific lodash files",
           "hash": "2a3479c7c6a034364b8a1ca6fb83b36766352416",
           "body": "We already import the entirety of lodash so importing the individual\nfiles just adds time to also import the single file versions\n",
@@ -12721,35 +12737,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-06-30T13:36:50Z",
+  "lastCommitDate": "2020-06-30T15:02:52Z",
   "latestRelease": {
-    "tagName": "v12.3.2",
+    "tagName": "v12.3.3",
     "asssets": [
       {
-        "name": "balena-cli-v12.3.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.2/balena-cli-v12.3.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.3.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.3/balena-cli-v12.3.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.2/balena-cli-v12.3.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.3.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.3/balena-cli-v12.3.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.3.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.2/balena-cli-v12.3.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.3.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.3/balena-cli-v12.3.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.2/balena-cli-v12.3.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.3.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.3/balena-cli-v12.3.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.3.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.2/balena-cli-v12.3.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.3.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.3/balena-cli-v12.3.3-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 284,
+    "numberOfIssues": 283,
     "latestIssues": [
       {
         "title": "ssh: fix \"Cannot find module 'lodash/reduce'\" standalone zip package",
@@ -12770,10 +12786,6 @@
       {
         "title": "Push to local device (IP address) fails with `FROM --platform`",
         "url": "https://github.com/balena-io/balena-cli/issues/1889"
-      },
-      {
-        "title": "Generate/include an oclif.manifest.json when packaging",
-        "url": "https://github.com/balena-io/balena-cli/pull/1888"
       },
       {
         "title": "Get 65200 illegal hardware instruction when running balena cli commands and the device is in local mode",
@@ -12830,10 +12842,14 @@
       {
         "title": "Improve Yaml validation errors",
         "url": "https://github.com/balena-io/balena-cli/issues/1835"
+      },
+      {
+        "title": "Allow passing `--device-type` to `device register` command",
+        "url": "https://github.com/balena-io/balena-cli/issues/1833"
       }
     ]
   },
-  "version": "12.3.2",
+  "version": "12.3.3",
   "screenshot": null,
   "logo": null
 }
