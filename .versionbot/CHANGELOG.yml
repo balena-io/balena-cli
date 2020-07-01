@@ -1,4 +1,14 @@
 - commits:
+    - subject: Enable long stack traces for `--debug` as well as `DEBUG=1`
+      hash: f6ca5ef3978e59739f9b5d9368921791fa67933b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.3.8
+  date: 2020-07-01T13:08:28.168Z
+- commits:
     - subject: 'Convert command `tunnel` to oclif, and fix port map spec issues.'
       hash: 9697081d7300bc2404768d92207636b55669ae46
       body: ''
