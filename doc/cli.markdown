@@ -208,7 +208,7 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 
 - Logs
 
-	- [logs &#60;uuidOrDevice&#62;](#logs-uuidordevice)
+	- [logs &#60;device&#62;](#logs-device)
 
 - Network
 
@@ -1307,9 +1307,9 @@ answer "yes" to all questions (non interactive use)
 
 # Logs
 
-## logs &#60;uuidOrDevice&#62;
+## logs &#60;device&#62;
 
-Use this command to show logs for a specific device.
+Show logs for a specific device.
 
 By default, the command prints all log messages and exits.
 
@@ -1322,30 +1322,38 @@ when this command is provided a local mode device.
 Logs from a single service can be displayed with the --service flag. Just system logs
 can be shown with the --system flag. Note that these flags can be used together.
 
+Note: --service and --system flags must come after the device parameter, as per examples.
+
 Examples:
 
 	$ balena logs 23c73a1
 	$ balena logs 23c73a1 --tail
-
+	
 	$ balena logs 192.168.0.31
 	$ balena logs 192.168.0.31 --service my-service
 	$ balena logs 192.168.0.31 --service my-service-1 --service my-service-2
-
+	
 	$ balena logs 23c73a1.local --system
 	$ balena logs 23c73a1.local --system --service my-service
 
+### Arguments
+
+#### DEVICE
+
+device UUID, IP, or .local address
+
 ### Options
 
-#### --tail, -t
+#### -t, --tail
 
 continuously stream output
 
-#### --service, -s &#60;service&#62;
+#### -s, --service SERVICE
 
 Reject logs not originating from this service.
 This can be used in combination with --system or other --service flags.
 
-#### --system, -S
+#### -S, --system
 
 Only show system logs. This can be used in combination with --service.
 
