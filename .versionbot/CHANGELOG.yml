@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Convert command `tunnel` to oclif, and fix port map spec issues.'
+      hash: 9697081d7300bc2404768d92207636b55669ae46
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 12.3.7
+  date: 2020-07-01T09:27:37.418Z
+- commits:
     - subject: Switch from Bluebird.join to native version
       hash: 303c3af06145262c56d6534b9b5af0ea8436c5d8
       body: ''
