@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Enable long stack traces for `--debug` as well as `DEBUG=1`",
+          "hash": "f6ca5ef3978e59739f9b5d9368921791fa67933b",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "12.3.8",
+      "date": "2020-07-01T13:08:28.168Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert command `tunnel` to oclif, and fix port map spec issues.",
           "hash": "9697081d7300bc2404768d92207636b55669ae46",
           "body": "",
@@ -12750,7 +12766,6 @@
     "@types/update-notifier",
     "@zeit/dockerignore",
     "JSONStream",
-    "any-promise",
     "archiver",
     "balena-config-json",
     "balena-device-init",
@@ -12833,47 +12848,43 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-01T09:53:32Z",
+  "lastCommitDate": "2020-07-01T13:36:19Z",
   "latestRelease": {
-    "tagName": "v12.3.7",
+    "tagName": "v12.3.8",
     "asssets": [
       {
-        "name": "balena-cli-v12.3.7-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.7/balena-cli-v12.3.7-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.3.8-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.8/balena-cli-v12.3.8-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.7-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.7/balena-cli-v12.3.7-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.3.8-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.8/balena-cli-v12.3.8-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.3.7-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.7/balena-cli-v12.3.7-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.3.8-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.8/balena-cli-v12.3.8-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.7-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.7/balena-cli-v12.3.7-windows-x64-installer.exe"
+        "name": "balena-cli-v12.3.8-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.8/balena-cli-v12.3.8-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.3.7-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.7/balena-cli-v12.3.7-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.3.8-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.8/balena-cli-v12.3.8-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 285,
+    "numberOfIssues": 284,
     "latestIssues": [
       {
-        "title": "Enable long stack traces for `--debug` as well as `DEBUG=1`",
-        "url": "https://github.com/balena-io/balena-cli/pull/1904"
+        "title": "Convert lib/actions-oclif/tunnel to async/await",
+        "url": "https://github.com/balena-io/balena-cli/pull/1905"
       },
       {
         "title": "Update @types/stream-to-promise",
         "url": "https://github.com/balena-io/balena-cli/pull/1903"
-      },
-      {
-        "title": "balena scan: Class constructor PinejsClientCore cannot be invoked without 'new'",
-        "url": "https://github.com/balena-io/balena-cli/issues/1899"
       },
       {
         "title": "ssh: fix \"Cannot find module 'lodash/reduce'\" standalone zip package",
@@ -12942,10 +12953,14 @@
       {
         "title": "Add a sequential option for pushing to a device",
         "url": "https://github.com/balena-io/balena-cli/pull/1836"
+      },
+      {
+        "title": "Improve Yaml validation errors",
+        "url": "https://github.com/balena-io/balena-cli/issues/1835"
       }
     ]
   },
-  "version": "12.3.7",
+  "version": "12.3.8",
   "screenshot": null,
   "logo": null
 }
