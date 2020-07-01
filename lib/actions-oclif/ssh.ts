@@ -128,7 +128,7 @@ export default class NoteCmd extends Command {
 		const { checkLoggedIn, getOnlineTargetUuid } = await import(
 			'../utils/patterns'
 		);
-		const { spawnSshAndExitOnError } = await import('../utils/ssh');
+		const { spawnSshAndThrowOnError } = await import('../utils/ssh');
 		const sdk = getBalenaSdk();
 
 		const proxyConfig = getProxyConfig();
@@ -248,7 +248,7 @@ export default class NoteCmd extends Command {
 			username: username!,
 		});
 
-		return spawnSshAndExitOnError(command);
+		return spawnSshAndThrowOnError(command);
 	}
 
 	async getContainerId(

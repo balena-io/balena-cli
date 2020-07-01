@@ -30,7 +30,7 @@ export async function performLocalDeviceSSH(
 	opts: DeviceSSHOpts,
 ): Promise<void> {
 	const { escapeRegExp, reduce } = await import('lodash');
-	const { spawnSshAndExitOnError } = await import('../ssh');
+	const { spawnSshAndThrowOnError } = await import('../ssh');
 	const { ExpectedError } = await import('../../errors');
 
 	let command = '';
@@ -107,7 +107,7 @@ export async function performLocalDeviceSSH(
 		command = `${deviceContainerEngineBinary} exec -i ${ttyFlag} ${containerId} ${shellCmd}`;
 	}
 
-	return spawnSshAndExitOnError([
+	return spawnSshAndThrowOnError([
 		...(opts.verbose ? ['-vvv'] : []),
 		'-t',
 		...['-p', opts.port ? opts.port.toString() : '22222'],

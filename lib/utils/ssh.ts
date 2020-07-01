@@ -18,6 +18,8 @@ import { spawn, StdioOptions } from 'child_process';
 import * as _ from 'lodash';
 import { TypedError } from 'typed-error';
 
+import { ExpectedError } from '../errors';
+
 export class ExecError extends TypedError {
 	public cmd: string;
 	public exitCode: number;
@@ -120,14 +122,13 @@ export const getDeviceOsRelease = _.memoize(async (deviceIp: string) =>
 /**
  * Obtain the full path for ssh using which, then spawn a child process.
  * - If the child process returns error code 0, return the function normally
- *   (do not call process.exit()).
- * - If the child process returns a non-zero error code, print a single-line
- *   warning message and call process.exit(code) with the same non-zero error
- *   code.
- * - If the child process is terminated by a process signal, print a
- *   single-line warning message and call process.exit(1).
+ *   (do not throw an error).
+ * - If the child process returns a non-zero error code, set process.exitCode
+ *   to that error code, and throw ExpectedError with a warning message.
+ * - If the child process is terminated by a process signal, set
+ *   process.exitCode = 1, and throw ExpectedError with a warning message.
  */
-export async function spawnSshAndExitOnError(
+export async function spawnSshAndThrowOnError(
 	args: string[],
 	options?: import('child_process').SpawnOptions,
 ) {
@@ -145,14 +146,10 @@ export async function spawnSshAndExitOnError(
 		// Another example, typing "exit 1" on an interactive shell causes ssh
 		// to return exit code 1. In these cases, print a short one-line warning
 		// message, and exits the CLI process with the same error code.
-		const codeMsg = exitSignal
-			? `was terminated with signal "${exitSignal}"`
-			: `exited with non-zero code "${exitCode}"`;
-		console.error(`Warning: ssh process ${codeMsg}`);
-		// TODO: avoid process.exit by refactoring CLI error handling to allow
-		// exiting with an error code and single-line warning "without a fuss"
-		// about contacting support and filing Github issues. (ExpectedError
-		// does not currently devlivers that.)
-		process.exit(exitCode || 1);
+		process.exitCode = exitCode;
+		const msg = exitSignal
+			? `Warning: ssh process was terminated with signal "${exitSignal}"`
+			: `Warning: ssh process exited with non-zero code "${exitCode}"`;
+		throw new ExpectedError(msg);
 	}
 }

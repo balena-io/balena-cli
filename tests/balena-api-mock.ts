@@ -31,12 +31,24 @@ export class BalenaAPIMock extends NockMock {
 		super(/api\.balena-cloud\.com/);
 	}
 
-	public expectGetApplication(opts: ScopeOpts = {}) {
-		this.optGet(/^\/v5\/application($|[(?])/, opts).replyWithFile(
-			200,
-			path.join(apiResponsePath, 'application-GET-v5-expanded-app-type.json'),
-			jHeader,
-		);
+	public expectGetApplication({
+		notFound = false,
+		optional = false,
+		persist = false,
+	} = {}) {
+		const interceptor = this.optGet(/^\/v5\/application($|[(?])/, {
+			optional,
+			persist,
+		});
+		if (notFound) {
+			interceptor.reply(200, { d: [] });
+		} else {
+			interceptor.replyWithFile(
+				200,
+				path.join(apiResponsePath, 'application-GET-v5-expanded-app-type.json'),
+				jHeader,
+			);
+		}
 	}
 
 	public expectDownloadConfig(opts: ScopeOpts = {}) {
