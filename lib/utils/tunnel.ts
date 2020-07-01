@@ -14,7 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 import type { BalenaSDK } from 'balena-sdk';
-import * as Bluebird from 'bluebird';
 import { Socket } from 'net';
 import { TypedError } from 'typed-error';
 
@@ -42,11 +41,11 @@ export const tunnelConnectionToDevice = (
 	port: number,
 	sdk: BalenaSDK,
 ) => {
-	return Bluebird.props({
-		vpnUrl: sdk.settings.get('vpnUrl'),
-		whoami: sdk.auth.whoami(),
-		token: sdk.auth.getToken(),
-	}).then(({ vpnUrl, whoami, token }) => {
+	return Promise.all([
+		sdk.settings.get('vpnUrl'),
+		sdk.auth.whoami(),
+		sdk.auth.getToken(),
+	]).then(([vpnUrl, whoami, token]) => {
 		const auth = {
 			user: whoami || 'root',
 			password: token,

@@ -14,11 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import * as Bluebird from 'bluebird';
-
 import * as capitano from 'capitano';
 import * as actions from './actions';
 import * as events from './events';
+import { promisify } from 'util';
 
 capitano.permission('user', (done) =>
 	require('./utils/patterns').checkLoggedIn().then(done, done),
@@ -76,17 +75,17 @@ capitano.command(actions.local.flash);
 // ---------- Public utils ----------
 capitano.command(actions.util.availableDrives);
 
-//------------ Local build and deploy -------
+// ------------ Local build and deploy -------
 capitano.command(actions.build);
 capitano.command(actions.deploy);
 
-//------------ Push/remote builds -------
+// ------------ Push/remote builds -------
 capitano.command(actions.push.push);
 
-export function run(argv) {
+export function run(argv: string[]) {
 	const cli = capitano.parse(argv.slice(2));
 	const runCommand = function () {
-		const capitanoExecuteAsync = Bluebird.promisify(capitano.execute);
+		const capitanoExecuteAsync = promisify(capitano.execute);
 		if (cli.global?.help) {
 			return capitanoExecuteAsync({
 				command: `help ${cli.command ?? ''}`,
@@ -97,9 +96,7 @@ export function run(argv) {
 	};
 
 	const trackCommand = function () {
-		const getMatchCommandAsync = Bluebird.promisify(
-			capitano.state.getMatchCommand,
-		);
+		const getMatchCommandAsync = promisify(capitano.state.getMatchCommand);
 		return getMatchCommandAsync(cli.command).then(function (command) {
 			// cmdSignature is literally a string like, for example:
 			//     "push <applicationOrDevice>"
@@ -111,7 +108,7 @@ export function run(argv) {
 		});
 	};
 
-	return Bluebird.all([trackCommand(), runCommand()]).catch(
+	return Promise.all([trackCommand(), runCommand()]).catch(
 		require('./errors').handleError,
 	);
 }

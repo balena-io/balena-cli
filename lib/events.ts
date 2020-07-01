@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
 import * as Mixpanel from 'mixpanel';
 
@@ -49,15 +48,15 @@ interface CachedUsername {
  * (mainly unexpected/unhandled exceptions -- see also `lib/errors.ts`).
  */
 export async function trackCommand(commandSignature: string) {
-	const Sentry = await import('@sentry/node');
-	Sentry.configureScope((scope) => {
-		scope.setExtra('command', commandSignature);
-	});
-	const settings = await import('balena-settings-client');
-	const balenaUrl = settings.get('balenaUrl') as string;
+	try {
+		const Sentry = await import('@sentry/node');
+		Sentry.configureScope((scope) => {
+			scope.setExtra('command', commandSignature);
+		});
+		const settings = await import('balena-settings-client');
+		const balenaUrl = settings.get('balenaUrl') as string;
 
-	return Bluebird.props({
-		username: (async () => {
+		const username = await (async () => {
 			const getStorage = await import('balena-settings-storage');
 			const dataDirectory = settings.get('dataDirectory') as string;
 			const storage = getStorage({ dataDirectory });
@@ -78,34 +77,34 @@ export async function trackCommand(commandSignature: string) {
 			}
 			try {
 				const balena = getBalenaSdk();
-				const username = await balena.auth.whoami();
+				const $username = await balena.auth.whoami();
 				storage.set('cachedUsername', {
 					token,
-					username,
+					username: $username,
 				} as CachedUsername);
-				return username;
+				return $username;
 			} catch {
 				return;
 			}
-		})(),
-		mixpanel: getMixpanel(balenaUrl),
-	})
-		.then(({ username, mixpanel }) => {
-			Sentry.configureScope((scope) => {
-				scope.setUser({
-					id: username,
-					username,
-				});
+		})();
+
+		const mixpanel = getMixpanel(balenaUrl);
+
+		Sentry.configureScope((scope) => {
+			scope.setUser({
+				id: username,
+				username,
 			});
-			return mixpanel.track(`[CLI] ${commandSignature}`, {
-				distinct_id: username,
-				version: packageJSON.version,
-				node: process.version,
-				arch: process.arch,
-				balenaUrl, // e.g. 'balena-cloud.com' or 'balena-staging.com'
-				platform: process.platform,
-			});
-		})
-		.timeout(100)
-		.catchReturn(undefined);
+		});
+		await mixpanel.track(`[CLI] ${commandSignature}`, {
+			distinct_id: username,
+			version: packageJSON.version,
+			node: process.version,
+			arch: process.arch,
+			balenaUrl, // e.g. 'balena-cloud.com' or 'balena-staging.com'
+			platform: process.platform,
+		});
+	} catch {
+		// ignore
+	}
 }

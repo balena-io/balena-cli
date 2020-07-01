@@ -81,9 +81,13 @@ declare module 'capitano' {
 		globalOptions: OptionDefinition[];
 	};
 
+	export function run(
+		command: string,
+		callback: (err: Error | null, result: any) => void,
+	): void;
 	export function execute(
 		args: any,
-		callback: (err?: any, result: any) => void,
+		callback: (err?: Error, result: any) => void,
 	): void;
 	export function globalOption(option: OptionDefinition): void;
 	export function permission(

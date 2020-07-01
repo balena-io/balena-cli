@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import * as Bluebird from 'bluebird';
 import type * as Dockerode from 'dockerode';
 import { getBalenaSdk, stripIndent } from './lazy';
 import Logger = require('./logger');
@@ -37,9 +36,14 @@ export function copyQemu(context: string, arch: string) {
 	const binDir = path.join(context, '.balena');
 	const binPath = path.join(binDir, QEMU_BIN_NAME);
 
-	return Bluebird.resolve(fs.promises.mkdir(binDir))
-		.catch({ code: 'EEXIST' }, function () {
-			// noop
+	return fs.promises
+		.mkdir(binDir)
+		.catch(function (err) {
+			if (err.code === 'EEXIST') {
+				// ignore
+				return;
+			}
+			throw err;
 		})
 		.then(() => getQemuPath(arch))
 		.then(
@@ -65,9 +69,14 @@ export const getQemuPath = function (arch: string) {
 	const { promises: fs } = require('fs') as typeof import('fs');
 
 	return balena.settings.get('binDirectory').then((binDir) =>
-		Bluebird.resolve(fs.mkdir(binDir))
-			.catch({ code: 'EEXIST' }, function () {
-				// noop
+		fs
+			.mkdir(binDir)
+			.catch(function (err) {
+				if (err.code === 'EEXIST') {
+					// ignore
+					return;
+				}
+				throw err;
 			})
 			.then(() =>
 				path.join(binDir, `${QEMU_BIN_NAME}-${arch}-${QEMU_VERSION}`),
