@@ -218,28 +218,6 @@ function setupBalenaSdkSharedOptions(settings: CliSettings) {
 	});
 }
 
-let BluebirdConfigured = false;
-
-/**
- * Configure Bluebird and assign it as the global promise library.
- * Modules like `stream-to-promise` will otherwise produce native promises,
- * which leads to errors as much of the CLI JavaScript code expects Bluebird
- * promises.
- */
-export function configureBluebird() {
-	if (BluebirdConfigured) {
-		return;
-	}
-	BluebirdConfigured = true;
-	const Bluebird = require('bluebird') as typeof import('bluebird');
-	Bluebird.config({
-		longStackTraces: process.env.DEBUG ? true : false,
-	});
-	if (!(global as any)['@@any-promise/REGISTRATION']) {
-		require('any-promise/register/bluebird');
-	}
-}
-
 /**
  * Addresses the console warning:
  * (node:49500) MaxListenersExceededWarning: Possible EventEmitter memory
@@ -253,7 +231,6 @@ export function setMaxListeners(maxListeners: number) {
 export async function globalInit() {
 	await setupSentry();
 	checkNodeVersion();
-	configureBluebird();
 
 	const settings = new CliSettings();
 
