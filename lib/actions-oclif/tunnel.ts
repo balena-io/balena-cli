@@ -28,7 +28,6 @@ import { getOnlineTargetUuid } from '../utils/patterns';
 import * as _ from 'lodash';
 import { tunnelConnectionToDevice } from '../utils/tunnel';
 import { createServer, Server, Socket } from 'net';
-import * as Bluebird from 'bluebird';
 import { tryAsInteger } from '../utils/validation';
 import { IArg } from '@oclif/parser/lib/args';
 
@@ -139,59 +138,59 @@ export default class TunnelCmd extends Command {
 			.map((mapping) => {
 				return this.parsePortMapping(mapping);
 			})
-			.map(({ localPort, localAddress, remotePort }) => {
-				return tunnelConnectionToDevice(device.uuid, remotePort, sdk)
-					.then((handler) =>
-						createServer((client: Socket) => {
-							return handler(client)
-								.then(() => {
-									logConnection(
-										client.remoteAddress || '',
-										client.remotePort || 0,
-										client.localAddress,
-										client.localPort,
-										device.vpn_address || '',
-										remotePort,
-									);
-								})
-								.catch((err) =>
-									logConnection(
-										client.remoteAddress || '',
-										client.remotePort || 0,
-										client.localAddress,
-										client.localPort,
-										device.vpn_address || '',
-										remotePort,
-										err,
-									),
-								);
-						}),
-					)
-					.then(
-						(server) =>
-							new Bluebird.Promise<Server>((resolve, reject) => {
-								server.on('error', reject);
-								server.listen(localPort, localAddress, () => {
-									resolve(server);
-								});
-							}),
-					)
-					.then(() => {
-						logger.logInfo(
-							` - tunnelling ${localAddress}:${localPort} to ${device.uuid}:${remotePort}`,
-						);
+			.map(async ({ localPort, localAddress, remotePort }) => {
+				try {
+					const handler = await tunnelConnectionToDevice(
+						device.uuid,
+						remotePort,
+						sdk,
+					);
 
-						return true;
-					})
-					.catch((err: Error) => {
-						logger.logWarn(
-							` - not tunnelling ${localAddress}:${localPort} to ${
-								device.uuid
-							}:${remotePort}, failed ${JSON.stringify(err.message)}`,
-						);
-
-						return false;
+					const server = createServer(async (client: Socket) => {
+						try {
+							await handler(client);
+							logConnection(
+								client.remoteAddress || '',
+								client.remotePort || 0,
+								client.localAddress,
+								client.localPort,
+								device.vpn_address || '',
+								remotePort,
+							);
+						} catch (err) {
+							logConnection(
+								client.remoteAddress || '',
+								client.remotePort || 0,
+								client.localAddress,
+								client.localPort,
+								device.vpn_address || '',
+								remotePort,
+								err,
+							);
+						}
 					});
+
+					await new Promise<Server>((resolve, reject) => {
+						server.on('error', reject);
+						server.listen(localPort, localAddress, () => {
+							resolve(server);
+						});
+					});
+
+					logger.logInfo(
+						` - tunnelling ${localAddress}:${localPort} to ${device.uuid}:${remotePort}`,
+					);
+
+					return true;
+				} catch (err) {
+					logger.logWarn(
+						` - not tunnelling ${localAddress}:${localPort} to ${
+							device.uuid
+						}:${remotePort}, failed ${JSON.stringify(err.message)}`,
+					);
+
+					return false;
+				}
 			})
 			.value();
 
