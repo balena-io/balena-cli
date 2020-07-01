@@ -214,7 +214,7 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 
 	- [scan](#scan)
 	- [ssh &#60;applicationordevice&#62; [servicename]](#ssh-applicationordevice-servicename)
-	- [tunnel &#60;deviceOrApplication&#62;](#tunnel-deviceorapplication)
+	- [tunnel &#60;deviceorapplication&#62;](#tunnel-deviceorapplication)
 
 - Notes
 
@@ -1438,30 +1438,41 @@ Use this command to open local ports which tunnel to listening ports on your bal
 For example, you could open port 8080 on your local machine to connect to your managed balenaOS
 device running a web server listening on port 3000.
 
+Port mappings are specified in the format: <remotePort>[:[localIP:]localPort]
+localIP defaults to 'localhost', and localPort defaults to the specified remotePort value.
+
 You can tunnel multiple ports at any given time.
+
+Note: Port mappings must come after the deviceOrApplication parameter, as per examples.
 
 Examples:
 
 	# map remote port 22222 to localhost:22222
-	$ balena tunnel abcde12345 -p 22222
-
+	$ balena tunnel myApp -p 22222
+	
 	# map remote port 22222 to localhost:222
-	$ balena tunnel abcde12345 -p 22222:222
-
+	$ balena tunnel 2ead211 -p 22222:222
+	
 	# map remote port 22222 to any address on your host machine, port 22222
-	$ balena tunnel abcde12345 -p 22222:0.0.0.0
-
+	$ balena tunnel 1546690 -p 22222:0.0.0.0
+	
 	# map remote port 22222 to any address on your host machine, port 222
-	$ balena tunnel abcde12345 -p 22222:0.0.0.0:222
-
+	$ balena tunnel myApp -p 22222:0.0.0.0:222
+	
 	# multiple port tunnels can be specified at any one time
-	$ balena tunnel abcde12345 -p 8080:3000 -p 8081:9000
+	$ balena tunnel myApp -p 8080:3000 -p 8081:9000
+
+### Arguments
+
+#### DEVICEORAPPLICATION
+
+device uuid or application name/id
 
 ### Options
 
-#### --port, -p &#60;port&#62;
+#### -p, --port PORT
 
-The mapping of remote to local ports.
+port mapping in the format <remotePort>[:[localIP:]localPort]
 
 # Notes
 

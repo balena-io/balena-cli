@@ -27,6 +27,18 @@ export class NotLoggedInError extends ExpectedError {}
 
 export class InsufficientPrivilegesError extends ExpectedError {}
 
+export class InvalidPortMappingError extends ExpectedError {
+	constructor(mapping: string) {
+		super(`'${mapping}' is not a valid port mapping.`);
+	}
+}
+
+export class NoPortsDefinedError extends ExpectedError {
+	constructor() {
+		super('No ports have been provided.');
+	}
+}
+
 /**
  * instanceOf is a more reliable implementation of the plain `instanceof`
  * typescript operator, for use with TypedError errors when the error

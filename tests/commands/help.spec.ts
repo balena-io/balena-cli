@@ -15,7 +15,7 @@ Primary commands:
     app <name>                              display information about a single application
     devices                                 list all devices
     device <uuid>                           show info about a single device
-    tunnel <deviceOrApplication>            Tunnel local ports to your balenaOS device
+    tunnel <deviceorapplication>            tunnel local ports to your balenaOS device
     preload <image>                         preload an app on a disk image (or Edison zip archive)
     build [source]                          Build a single image or a multicontainer project locally
     deploy <appName> [image]                Deploy a single image or a multicontainer project to a balena application

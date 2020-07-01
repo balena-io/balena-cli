@@ -175,6 +175,7 @@ export const convertedCommands = [
 	'tags',
 	'tag:rm',
 	'tag:set',
+	'tunnel',
 	'version',
 	'whoami',
 ];

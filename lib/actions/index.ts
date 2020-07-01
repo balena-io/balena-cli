@@ -21,7 +21,6 @@ export * as local from './local';
 export * as logs from './logs';
 export * as os from './os';
 export * as push from './push';
-export * as tunnel from './tunnel';
 export * as util from './util';
 
 export { build } from './build';
