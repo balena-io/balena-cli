@@ -16,7 +16,6 @@ limitations under the License.
 
 import type { InitializeEmitter, OperationState } from 'balena-device-init';
 import type * as BalenaSdk from 'balena-sdk';
-import * as Bluebird from 'bluebird';
 import { spawn, SpawnOptions } from 'child_process';
 import * as _ from 'lodash';
 import * as os from 'os';
@@ -25,6 +24,7 @@ import type * as ShellEscape from 'shell-escape';
 import type { Device, PineOptionsFor } from 'balena-sdk';
 import { ExpectedError } from '../errors';
 import { getBalenaSdk, getChalk, getVisuals } from './lazy';
+import { promisify } from 'util';
 
 export function getGroupDefaults(group: {
 	options: Array<{ name: string; default?: string }>;
@@ -95,9 +95,10 @@ export async function sudo(
 	await executeWithPrivileges(command, stderr, isCLIcmd);
 }
 
-export function runCommand<T>(command: string): Bluebird<T> {
-	const capitano = require('capitano');
-	return Bluebird.fromCallback((resolver) => capitano.run(command, resolver));
+export function runCommand<T>(command: string): Promise<T> {
+	const capitano = require('capitano') as typeof import('capitano');
+	const capitanoRunAsync = promisify(capitano.run);
+	return capitanoRunAsync(command);
 }
 
 export async function getManifest(
@@ -188,6 +189,8 @@ function getApplication(applicationName: string) {
 	return balena.models.application.get(applicationName, extraOptions);
 }
 
+export const delay = promisify(setTimeout);
+
 /**
  * Call `func`, and if func() throws an error or returns a promise that
  * eventually rejects, retry it `times` many times, each time printing a
@@ -197,33 +200,31 @@ function getApplication(applicationName: string) {
  * @param func: The function to call and, if needed, retry calling
  * @param times: How many times to retry calling func()
  * @param label: Label to include in the retry log message
- * @param delayMs: How long to wait before the first retry
+ * @param startingDelayMs: How long to wait before the first retry
  * @param backoffScaler: Multiplier to previous wait time
  * @param count: Used "internally" for the recursive calls
  */
-export function retry<T>(
+export async function retry<T>(
 	func: () => T,
 	times: number,
 	label: string,
-	delayMs = 1000,
+	startingDelayMs = 1000,
 	backoffScaler = 2,
-	count = 0,
-): Bluebird<T> {
-	let promise = Bluebird.try(func);
-	if (count < times) {
-		promise = promise.catch((err: Error) => {
-			const delay = backoffScaler ** count * delayMs;
+): Promise<T> {
+	for (let count = 0; count < times - 1; count++) {
+		try {
+			return await func();
+		} catch (err) {
+			const delayMS = backoffScaler ** count * startingDelayMs;
 			console.log(
-				`Retrying "${label}" after ${(delay / 1000).toFixed(2)}s (${
+				`Retrying "${label}" after ${(delayMS / 1000).toFixed(2)}s (${
 					count + 1
 				} of ${times}) due to: ${err}`,
 			);
-			return Bluebird.delay(delay).then(() =>
-				retry(func, times, label, delayMs, backoffScaler, count + 1),
-			);
-		});
+			await delay(delayMS);
+		}
 	}
-	return promise;
+	return await func();
 }
 
 /**

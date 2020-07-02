@@ -15,7 +15,6 @@ limitations under the License.
 */
 import { BalenaApplicationNotFound } from 'balena-errors';
 import type * as BalenaSdk from 'balena-sdk';
-import Bluebird = require('bluebird');
 import _ = require('lodash');
 import _form = require('resin-cli-form');
 
@@ -27,10 +26,11 @@ import {
 } from '../errors';
 import { getBalenaSdk, getVisuals, stripIndent } from './lazy';
 import validation = require('./validation');
+import { delay } from './helpers';
 
 const getForm = _.once((): typeof _form => require('resin-cli-form'));
 
-export function authenticate(options: {}): Bluebird<void> {
+export function authenticate(options: {}): Promise<void> {
 	const balena = getBalenaSdk();
 	return getForm()
 		.run(
@@ -134,34 +134,32 @@ export function selectDeviceType() {
 		});
 }
 
-export function confirm(
+export async function confirm(
 	yesOption: boolean,
 	message: string,
 	yesMessage?: string,
 	exitIfDeclined = false,
 ) {
-	return Bluebird.try(function () {
-		if (yesOption) {
-			if (yesMessage) {
-				console.log(yesMessage);
-			}
-			return true;
+	if (yesOption) {
+		if (yesMessage) {
+			console.log(yesMessage);
 		}
+		return;
+	}
 
-		return getForm().ask<boolean>({
-			message,
-			type: 'confirm',
-			default: false,
-		});
-	}).then(function (confirmed) {
-		if (!confirmed) {
-			const err = new Error('Aborted');
-			if (exitIfDeclined) {
-				exitWithExpectedError(err);
-			}
-			throw err;
-		}
+	const confirmed = await getForm().ask<boolean>({
+		message,
+		type: 'confirm',
+		default: false,
 	});
+
+	if (!confirmed) {
+		const err = new Error('Aborted');
+		if (exitIfDeclined) {
+			exitWithExpectedError(err);
+		}
+		throw err;
+	}
 }
 
 export function selectApplication(
@@ -234,76 +232,82 @@ export function selectOrCreateApplication() {
 		});
 }
 
-export function awaitDevice(uuid: string) {
+export async function awaitDevice(uuid: string) {
 	const balena = getBalenaSdk();
-	return balena.models.device.getName(uuid).then((deviceName) => {
-		const visuals = getVisuals();
-		const spinner = new visuals.Spinner(
-			`Waiting for ${deviceName} to come online`,
-		);
+	const deviceName = await balena.models.device.getName(uuid);
+	const visuals = getVisuals();
+	const spinner = new visuals.Spinner(
+		`Waiting for ${deviceName} to come online`,
+	);
 
-		const poll = (): Bluebird<void> => {
-			return balena.models.device.isOnline(uuid).then(function (isOnline) {
-				if (isOnline) {
-					spinner.stop();
-					console.info(`The device **${deviceName}** is online!`);
-					return;
-				} else {
-					// Spinner implementation is smart enough to
-					// not start again if it was already started
-					spinner.start();
+	const poll = async (): Promise<void> => {
+		const isOnline = await balena.models.device.isOnline(uuid);
+		if (isOnline) {
+			spinner.stop();
+			console.info(`The device **${deviceName}** is online!`);
+			return;
+		} else {
+			// Spinner implementation is smart enough to
+			// not start again if it was already started
+			spinner.start();
 
-					return Bluebird.delay(3000).then(poll);
-				}
-			});
-		};
+			await delay(3000);
+			await poll();
+		}
+	};
 
-		console.info(`Waiting for ${deviceName} to connect to balena...`);
-		return poll().return(uuid);
-	});
+	console.info(`Waiting for ${deviceName} to connect to balena...`);
+	await poll();
+	return uuid;
 }
 
-export function awaitDeviceOsUpdate(uuid: string, targetOsVersion: string) {
+export async function awaitDeviceOsUpdate(
+	uuid: string,
+	targetOsVersion: string,
+) {
 	const balena = getBalenaSdk();
 
-	return balena.models.device.getName(uuid).then((deviceName) => {
-		const visuals = getVisuals();
-		const progressBar = new visuals.Progress(
-			`Updating the OS of ${deviceName} to v${targetOsVersion}`,
-		);
-		progressBar.update({ percentage: 0 });
+	const deviceName = await balena.models.device.getName(uuid);
+	const visuals = getVisuals();
+	const progressBar = new visuals.Progress(
+		`Updating the OS of ${deviceName} to v${targetOsVersion}`,
+	);
+	progressBar.update({ percentage: 0 });
 
-		const poll = (): Bluebird<void> => {
-			return Bluebird.all([
-				balena.models.device.getOsUpdateStatus(uuid),
-				balena.models.device.get(uuid, { $select: 'overall_progress' }),
-			]).then(([osUpdateStatus, { overall_progress: osUpdateProgress }]) => {
-				if (osUpdateStatus.status === 'done') {
-					console.info(
-						`The device ${deviceName} has been updated to v${targetOsVersion} and will restart shortly!`,
-					);
-					return;
-				}
+	const poll = async (): Promise<void> => {
+		const [
+			osUpdateStatus,
+			{ overall_progress: osUpdateProgress },
+		] = await Promise.all([
+			balena.models.device.getOsUpdateStatus(uuid),
+			balena.models.device.get(uuid, { $select: 'overall_progress' }),
+		]);
+		if (osUpdateStatus.status === 'done') {
+			console.info(
+				`The device ${deviceName} has been updated to v${targetOsVersion} and will restart shortly!`,
+			);
+			return;
+		}
 
-				if (osUpdateStatus.error) {
-					console.error(
-						`Failed to complete Host OS update on device ${deviceName}!`,
-					);
-					exitWithExpectedError(osUpdateStatus.error);
-					return;
-				}
+		if (osUpdateStatus.error) {
+			console.error(
+				`Failed to complete Host OS update on device ${deviceName}!`,
+			);
+			exitWithExpectedError(osUpdateStatus.error);
+			return;
+		}
 
-				if (osUpdateProgress !== null) {
-					// Avoid resetting to 0% at end of process when device goes offline.
-					progressBar.update({ percentage: osUpdateProgress });
-				}
+		if (osUpdateProgress !== null) {
+			// Avoid resetting to 0% at end of process when device goes offline.
+			progressBar.update({ percentage: osUpdateProgress });
+		}
 
-				return Bluebird.delay(3000).then(poll);
-			});
-		};
+		await delay(3000);
+		await poll();
+	};
 
-		return poll().return(uuid);
-	});
+	await poll();
+	return uuid;
 }
 
 export function inferOrSelectDevice(preferredUuid: string) {
@@ -411,7 +415,7 @@ export async function getOnlineTargetUuid(
 export function selectFromList<T>(
 	message: string,
 	choices: Array<T & { name: string }>,
-): Bluebird<T> {
+): Promise<T> {
 	return getForm().ask<T>({
 		message,
 		type: 'list',

@@ -1,4 +1,3 @@
-import * as Bluebird from 'bluebird';
 import * as chokidar from 'chokidar';
 import type * as Dockerode from 'dockerode';
 import Livepush, { ContainerNotRunningError } from 'livepush';
@@ -20,6 +19,7 @@ import {
 } from './deploy';
 import { BuildError } from './errors';
 import { getServiceColourFn } from './logs';
+import { delay } from '../helpers';
 
 // How often do we want to check the device state
 // engine has settled (delay in ms)
@@ -251,7 +251,7 @@ export class LivepushManager {
 		this.logger.logDebug(
 			`Device state not settled, retrying in ${DEVICE_STATUS_SETTLE_CHECK_INTERVAL}ms`,
 		);
-		await Bluebird.delay(DEVICE_STATUS_SETTLE_CHECK_INTERVAL);
+		await delay(DEVICE_STATUS_SETTLE_CHECK_INTERVAL);
 		await this.awaitDeviceStateSettle();
 	}
 
@@ -308,7 +308,7 @@ export class LivepushManager {
 			);
 			await this.cancelRebuild(serviceName);
 			while (this.rebuildsCancelled[serviceName]) {
-				await Bluebird.delay(1000);
+				await delay(1000);
 			}
 		}
 
