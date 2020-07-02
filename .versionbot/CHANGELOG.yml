@@ -1,4 +1,14 @@
 - commits:
+    - subject: Convert lib/actions-oclif/tunnel to async/await
+      hash: c35f701190da7a7d8c62cd900f620057fbcd4eec
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.3.10
+  date: 2020-07-02T12:29:58.955Z
+- commits:
     - subject: 'balena ssh: Refactor error handling and test cases'
       hash: 2307a15b105006f5704056fae0f67b15ff322595
       body: ''
