@@ -1,4 +1,14 @@
 - commits:
+    - subject: Convert lib/actions-oclif/tunnel to async/await
+      hash: c35f701190da7a7d8c62cd900f620057fbcd4eec
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.3.10
+  date: 2020-07-02T12:55:29.610Z
+- commits:
     - subject: 'balena ssh: Refactor error handling and test cases'
       hash: 2307a15b105006f5704056fae0f67b15ff322595
       body: ''
@@ -18,7 +28,7 @@
         change-type: patch
       author: Paulo Castro
   version: 12.3.9
-  date: 2020-07-02T08:49:37.626Z
+  date: 2020-07-02T08:24:37.101Z
 - commits:
     - subject: Enable long stack traces for `--debug` as well as `DEBUG=1`
       hash: f6ca5ef3978e59739f9b5d9368921791fa67933b

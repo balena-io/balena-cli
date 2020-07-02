@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Convert lib/actions-oclif/tunnel to async/await",
+          "hash": "c35f701190da7a7d8c62cd900f620057fbcd4eec",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "12.3.10",
+      "date": "2020-07-02T12:29:58.955Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "balena ssh: Refactor error handling and test cases",
           "hash": "2307a15b105006f5704056fae0f67b15ff322595",
           "body": "",
@@ -12878,28 +12894,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-02T08:50:21Z",
+  "lastCommitDate": "2020-07-02T12:56:37Z",
   "latestRelease": {
-    "tagName": "v12.3.9",
+    "tagName": "v12.3.10",
     "asssets": [
       {
-        "name": "balena-cli-v12.3.9-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.9/balena-cli-v12.3.9-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.3.10-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.10/balena-cli-v12.3.10-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.9-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.9/balena-cli-v12.3.9-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.3.10-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.10/balena-cli-v12.3.10-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.3.9-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.9/balena-cli-v12.3.9-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.3.10-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.10/balena-cli-v12.3.10-macOS-x64-standalone.zip"
+      },
+      {
+        "name": "balena-cli-v12.3.10-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.10/balena-cli-v12.3.10-windows-x64-installer.exe"
+      },
+      {
+        "name": "balena-cli-v12.3.10-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.10/balena-cli-v12.3.10-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 286,
+    "numberOfIssues": 285,
     "latestIssues": [
+      {
+        "title": "balena ssh: Add test cases",
+        "url": "https://github.com/balena-io/balena-cli/pull/1910"
+      },
       {
         "title": "Allow setting `release_version` during a deploy/push operation",
         "url": "https://github.com/balena-io/balena-cli/issues/1908"
@@ -12913,16 +12941,8 @@
         "url": "https://github.com/balena-io/balena-cli/pull/1906"
       },
       {
-        "title": "Convert lib/actions-oclif/tunnel to async/await",
-        "url": "https://github.com/balena-io/balena-cli/pull/1905"
-      },
-      {
         "title": "Update @types/stream-to-promise",
         "url": "https://github.com/balena-io/balena-cli/pull/1903"
-      },
-      {
-        "title": "Balena ssh not working since 12.1.15",
-        "url": "https://github.com/balena-io/balena-cli/issues/1896"
       },
       {
         "title": "\"Application is ambiguous\" but `balena apps` lists a single app",
@@ -12979,10 +12999,14 @@
       {
         "title": "Resource names that look like numbers are treated as IDs / short UUIDs",
         "url": "https://github.com/balena-io/balena-cli/issues/1842"
+      },
+      {
+        "title": "Add a sequential option for pushing to a device",
+        "url": "https://github.com/balena-io/balena-cli/pull/1836"
       }
     ]
   },
-  "version": "12.3.9",
+  "version": "12.3.10",
   "screenshot": null,
   "logo": null
 }
