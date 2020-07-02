@@ -54,8 +54,8 @@ const capitanoDoc = {
 		{
 			title: 'Device',
 			files: [
-				'build/actions/device.js',
 				'build/actions-oclif/device/identify.js',
+				'build/actions-oclif/device/init.js',
 				'build/actions-oclif/device/index.js',
 				'build/actions-oclif/device/move.js',
 				'build/actions-oclif/device/reboot.js',
