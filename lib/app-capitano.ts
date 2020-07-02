@@ -46,9 +46,6 @@ capitano.globalOption({
 // ---------- Help Module ----------
 capitano.command(actions.help.help);
 
-// ---------- Device Module ----------
-capitano.command(actions.device.init);
-
 // ---------- OS Module ----------
 capitano.command(actions.os.versions);
 capitano.command(actions.os.download);
