@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Remove all module level bluebird usage from eagerly loaded modules",
+          "hash": "178c3f91547b6d94c7bcd98db4a6320e90440e33",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "12.3.11",
+      "date": "2020-07-02T15:46:17.395Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert lib/actions-oclif/tunnel to async/await",
           "hash": "c35f701190da7a7d8c62cd900f620057fbcd4eec",
           "body": "",
@@ -12894,29 +12910,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-02T12:56:37Z",
+  "lastCommitDate": "2020-07-02T16:13:32Z",
   "latestRelease": {
-    "tagName": "v12.3.10",
+    "tagName": "v12.3.11",
     "asssets": [
       {
-        "name": "balena-cli-v12.3.10-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.10/balena-cli-v12.3.10-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.3.11-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.11/balena-cli-v12.3.11-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.10-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.10/balena-cli-v12.3.10-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.3.11-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.11/balena-cli-v12.3.11-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.3.10-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.10/balena-cli-v12.3.10-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.3.11-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.11/balena-cli-v12.3.11-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.10-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.10/balena-cli-v12.3.10-windows-x64-installer.exe"
+        "name": "balena-cli-v12.3.11-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.11/balena-cli-v12.3.11-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.3.10-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.10/balena-cli-v12.3.10-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.3.11-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.11/balena-cli-v12.3.11-windows-x64-standalone.zip"
       }
     ]
   },
@@ -12925,16 +12941,16 @@
     "numberOfIssues": 285,
     "latestIssues": [
       {
+        "title": "Fix cross-framework command calls and convert `device init` to oclif",
+        "url": "https://github.com/balena-io/balena-cli/pull/1911"
+      },
+      {
         "title": "balena ssh: Add test cases",
         "url": "https://github.com/balena-io/balena-cli/pull/1910"
       },
       {
         "title": "Allow setting `release_version` during a deploy/push operation",
         "url": "https://github.com/balena-io/balena-cli/issues/1908"
-      },
-      {
-        "title": "Remove all module level bluebird usage from eagerly loaded modules",
-        "url": "https://github.com/balena-io/balena-cli/pull/1907"
       },
       {
         "title": "Convert `logs` command to oclif",
@@ -13006,7 +13022,7 @@
       }
     ]
   },
-  "version": "12.3.10",
+  "version": "12.3.11",
   "screenshot": null,
   "logo": null
 }

@@ -1,4 +1,14 @@
 - commits:
+    - subject: Remove all module level bluebird usage from eagerly loaded modules
+      hash: 178c3f91547b6d94c7bcd98db4a6320e90440e33
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.3.11
+  date: 2020-07-02T16:12:47.445Z
+- commits:
     - subject: Convert lib/actions-oclif/tunnel to async/await
       hash: c35f701190da7a7d8c62cd900f620057fbcd4eec
       body: ''
@@ -7,7 +17,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 12.3.10
-  date: 2020-07-02T12:55:29.610Z
+  date: 2020-07-02T12:29:58.955Z
 - commits:
     - subject: 'balena ssh: Refactor error handling and test cases'
       hash: 2307a15b105006f5704056fae0f67b15ff322595
