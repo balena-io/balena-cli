@@ -1,4 +1,25 @@
 - commits:
+    - subject: Convert `device init` to async await and oclif
+      hash: 40f643c07f0b26ff9996ba5a5eb2371ff6833d58
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+    - subject: Fix cross-framework nested commands
+      hash: 402e48c8f89e2e42b35c73a14ee6f4a5884f0e1a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 12.3.12
+  date: 2020-07-02T20:00:27.622Z
+- commits:
     - subject: Remove all module level bluebird usage from eagerly loaded modules
       hash: 178c3f91547b6d94c7bcd98db4a6320e90440e33
       body: ''
@@ -7,7 +28,7 @@
         change-type: patch
       author: Pagan Gazzard
   version: 12.3.11
-  date: 2020-07-02T16:12:47.445Z
+  date: 2020-07-02T15:46:17.395Z
 - commits:
     - subject: Convert lib/actions-oclif/tunnel to async/await
       hash: c35f701190da7a7d8c62cd900f620057fbcd4eec

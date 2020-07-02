@@ -5,6 +5,36 @@
     {
       "commits": [
         {
+          "subject": "Convert `device init` to async await and oclif",
+          "hash": "40f643c07f0b26ff9996ba5a5eb2371ff6833d58",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        },
+        {
+          "subject": "Fix cross-framework nested commands",
+          "hash": "402e48c8f89e2e42b35c73a14ee6f4a5884f0e1a",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "12.3.12",
+      "date": "2020-07-02T18:38:57.890Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Remove all module level bluebird usage from eagerly loaded modules",
           "hash": "178c3f91547b6d94c7bcd98db4a6320e90440e33",
           "body": "",
@@ -12910,29 +12940,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-02T16:13:32Z",
+  "lastCommitDate": "2020-07-02T20:01:13Z",
   "latestRelease": {
-    "tagName": "v12.3.11",
+    "tagName": "v12.3.12",
     "asssets": [
       {
-        "name": "balena-cli-v12.3.11-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.11/balena-cli-v12.3.11-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.3.12-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.12/balena-cli-v12.3.12-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.11-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.11/balena-cli-v12.3.11-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.3.12-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.12/balena-cli-v12.3.12-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.3.11-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.11/balena-cli-v12.3.11-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.3.12-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.12/balena-cli-v12.3.12-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.11-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.11/balena-cli-v12.3.11-windows-x64-installer.exe"
+        "name": "balena-cli-v12.3.12-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.12/balena-cli-v12.3.12-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.3.11-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.11/balena-cli-v12.3.11-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.3.12-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.12/balena-cli-v12.3.12-windows-x64-standalone.zip"
       }
     ]
   },
@@ -12941,8 +12971,8 @@
     "numberOfIssues": 285,
     "latestIssues": [
       {
-        "title": "Fix cross-framework command calls and convert `device init` to oclif",
-        "url": "https://github.com/balena-io/balena-cli/pull/1911"
+        "title": "Add explicit dependency on balena-settings-storage",
+        "url": "https://github.com/balena-io/balena-cli/pull/1912"
       },
       {
         "title": "balena ssh: Add test cases",
@@ -13022,7 +13052,7 @@
       }
     ]
   },
-  "version": "12.3.11",
+  "version": "12.3.12",
   "screenshot": null,
   "logo": null
 }
