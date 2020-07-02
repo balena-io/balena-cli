@@ -5,6 +5,36 @@
     {
       "commits": [
         {
+          "subject": "balena ssh: Refactor error handling and test cases",
+          "hash": "2307a15b105006f5704056fae0f67b15ff322595",
+          "body": "",
+          "footer": {
+            "Connects-to": "#1896",
+            "connects-to": "#1896",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        },
+        {
+          "subject": "Improve pkg dependency resolution (standalone zip package reliability)",
+          "hash": "fe5e6a1dae3a83ee86870601bd98b2b08c792227",
+          "body": "",
+          "footer": {
+            "Connects-to": "#1896",
+            "connects-to": "#1896",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "12.3.9",
+      "date": "2020-07-02T08:24:37.101Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Enable long stack traces for `--debug` as well as `DEBUG=1`",
           "hash": "f6ca5ef3978e59739f9b5d9368921791fa67933b",
           "body": "",
@@ -12848,36 +12878,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-01T13:36:19Z",
+  "lastCommitDate": "2020-07-02T08:50:21Z",
   "latestRelease": {
-    "tagName": "v12.3.8",
+    "tagName": "v12.3.9",
     "asssets": [
       {
-        "name": "balena-cli-v12.3.8-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.8/balena-cli-v12.3.8-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.3.9-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.9/balena-cli-v12.3.9-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.8-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.8/balena-cli-v12.3.8-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.3.9-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.9/balena-cli-v12.3.9-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.3.8-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.8/balena-cli-v12.3.8-macOS-x64-standalone.zip"
-      },
-      {
-        "name": "balena-cli-v12.3.8-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.8/balena-cli-v12.3.8-windows-x64-installer.exe"
-      },
-      {
-        "name": "balena-cli-v12.3.8-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.8/balena-cli-v12.3.8-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.3.9-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.9/balena-cli-v12.3.9-macOS-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 284,
+    "numberOfIssues": 286,
     "latestIssues": [
+      {
+        "title": "Allow setting `release_version` during a deploy/push operation",
+        "url": "https://github.com/balena-io/balena-cli/issues/1908"
+      },
+      {
+        "title": "Remove all module level bluebird usage from eagerly loaded modules",
+        "url": "https://github.com/balena-io/balena-cli/pull/1907"
+      },
+      {
+        "title": "Convert `logs` command to oclif",
+        "url": "https://github.com/balena-io/balena-cli/pull/1906"
+      },
       {
         "title": "Convert lib/actions-oclif/tunnel to async/await",
         "url": "https://github.com/balena-io/balena-cli/pull/1905"
@@ -12885,10 +12919,6 @@
       {
         "title": "Update @types/stream-to-promise",
         "url": "https://github.com/balena-io/balena-cli/pull/1903"
-      },
-      {
-        "title": "ssh: fix \"Cannot find module 'lodash/reduce'\" standalone zip package",
-        "url": "https://github.com/balena-io/balena-cli/pull/1897"
       },
       {
         "title": "Balena ssh not working since 12.1.15",
@@ -12949,18 +12979,10 @@
       {
         "title": "Resource names that look like numbers are treated as IDs / short UUIDs",
         "url": "https://github.com/balena-io/balena-cli/issues/1842"
-      },
-      {
-        "title": "Add a sequential option for pushing to a device",
-        "url": "https://github.com/balena-io/balena-cli/pull/1836"
-      },
-      {
-        "title": "Improve Yaml validation errors",
-        "url": "https://github.com/balena-io/balena-cli/issues/1835"
       }
     ]
   },
-  "version": "12.3.8",
+  "version": "12.3.9",
   "screenshot": null,
   "logo": null
 }
