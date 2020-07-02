@@ -150,6 +150,7 @@ export const convertedCommands = [
 	'api-key:generate',
 	'device',
 	'device:identify',
+	'device:init',
 	'device:move',
 	'device:os-update',
 	'device:public-url',
@@ -195,7 +196,7 @@ export const convertedCommands = [
  *          oclif "topics" (colon-separated subcommands like `env:add`)
  * @param argvSlice process.argv.slice(2)
  */
-function isOclifCommand(argvSlice: string[]): [boolean, boolean] {
+export function isOclifCommand(argvSlice: string[]): [boolean, boolean] {
 	// Look for commands that have been transitioned to oclif
 	// const { convertedCommands } = require('oclif/utils/command');
 	const arg0 = argvSlice.length > 0 ? argvSlice[0] : '';
