@@ -132,11 +132,13 @@ export async function getManifest(
 }
 
 export const areDeviceTypesCompatible = (
-	deviceTypeA: BalenaSdk.DeviceType,
-	deviceTypeB: BalenaSdk.DeviceType,
+	appDeviceType: BalenaSdk.DeviceType,
+	osDeviceType: BalenaSdk.DeviceType,
 ) =>
-	deviceTypeA.arch === deviceTypeB.arch &&
-	!!deviceTypeA.isDependent === !!deviceTypeB.isDependent;
+	getBalenaSdk().models.os.isArchitectureCompatibleWith(
+		osDeviceType.arch,
+		appDeviceType.arch,
+	) && !!appDeviceType.isDependent === !!osDeviceType.isDependent;
 
 export async function osProgressHandler(step: InitializeEmitter) {
 	step.on('stdout', process.stdout.write.bind(process.stdout));
