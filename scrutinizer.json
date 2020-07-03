@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Publish '.fast-boot.json' to the npm registry to avoid stale caching",
+          "hash": "224f721a7242da926061db8a93f858428b4a17d5",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "12.3.15",
+      "date": "2020-07-03T18:40:07.532Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "balena ssh: Add test cases",
           "hash": "69e92227039a8d106cacbc3144a4d1a9dcdf5743",
           "body": "",
@@ -12985,44 +13001,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-03T18:37:21Z",
+  "lastCommitDate": "2020-07-03T21:29:51Z",
   "latestRelease": {
-    "tagName": "v12.3.14",
+    "tagName": "v12.3.15",
     "asssets": [
       {
-        "name": "balena-cli-v12.3.14-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.14/balena-cli-v12.3.14-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.3.15-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.15/balena-cli-v12.3.15-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.14-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.14/balena-cli-v12.3.14-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.3.15-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.15/balena-cli-v12.3.15-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.3.14-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.14/balena-cli-v12.3.14-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.3.15-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.15/balena-cli-v12.3.15-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.14-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.14/balena-cli-v12.3.14-windows-x64-installer.exe"
+        "name": "balena-cli-v12.3.15-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.15/balena-cli-v12.3.15-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.3.14-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.14/balena-cli-v12.3.14-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.3.15-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.15/balena-cli-v12.3.15-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 288,
+    "numberOfIssues": 286,
     "latestIssues": [
-      {
-        "title": "Publish '.fast-boot.json' to the npm registry to avoid stale caching",
-        "url": "https://github.com/balena-io/balena-cli/pull/1917"
-      },
-      {
-        "title": "tap is not a function / catchReturn is not a function",
-        "url": "https://github.com/balena-io/balena-cli/issues/1916"
-      },
       {
         "title": "config generate, os configure: Add support for mixed arch fleets",
         "url": "https://github.com/balena-io/balena-cli/pull/1915"
@@ -13094,10 +13102,18 @@
       {
         "title": "balena build fails to detect docker version when using docker-machine in OS X",
         "url": "https://github.com/balena-io/balena-cli/issues/1844"
+      },
+      {
+        "title": "Resource identification with database IDs should not be allowed",
+        "url": "https://github.com/balena-io/balena-cli/issues/1843"
+      },
+      {
+        "title": "Resource names that look like numbers are treated as IDs / short UUIDs",
+        "url": "https://github.com/balena-io/balena-cli/issues/1842"
       }
     ]
   },
-  "version": "12.3.14",
+  "version": "12.3.15",
   "screenshot": null,
   "logo": null
 }
