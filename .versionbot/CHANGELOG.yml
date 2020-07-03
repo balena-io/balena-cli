@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'balena ssh: Add test cases'
+      hash: 69e92227039a8d106cacbc3144a4d1a9dcdf5743
+      body: ''
+      footer:
+        Connects-to: '#1896'
+        connects-to: '#1896'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+    - subject: Update `os download` help re openBalena support
+      hash: 238e5cb9d2543a0f3460d60a69736ae505c570d2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 12.3.14
+  date: 2020-07-03T17:56:26.641Z
+- commits:
     - subject: Add explicit dependency on balena-settings-storage
       hash: afc660762f2bae700967eff6b766b3f44fee87d5
       body: ''
