@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'config generate, os configure: Add support for mixed arch fleets'
+      hash: 497023965f6a1a1acd08eb20e4deefc9340a1961
+      body: ''
+      footer:
+        Resolves: '#1914'
+        resolves: '#1914'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+  version: 12.5.0
+  date: 2020-07-03T22:32:32.076Z
+- commits:
     - subject: 'os download: Allow not logged in users to download images'
       hash: edeea18b15295397b49ae14d3a3f9a29032aca16
       body: |
@@ -15,7 +29,7 @@
         signed-off-by: Thodoris Greasidis <thodoris@balena.io>
       author: Thodoris Greasidis
   version: 12.4.0
-  date: 2020-07-03T21:59:17.499Z
+  date: 2020-07-03T21:33:27.919Z
 - commits:
     - subject: Publish '.fast-boot.json' to the npm registry to avoid stale caching
       hash: 224f721a7242da926061db8a93f858428b4a17d5

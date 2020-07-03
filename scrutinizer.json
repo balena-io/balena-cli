@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "config generate, os configure: Add support for mixed arch fleets",
+          "hash": "497023965f6a1a1acd08eb20e4deefc9340a1961",
+          "body": "",
+          "footer": {
+            "Resolves": "#1914",
+            "resolves": "#1914",
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis"
+        }
+      ],
+      "version": "12.5.0",
+      "date": "2020-07-03T22:05:02.722Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "os download: Allow not logged in users to download images",
           "hash": "edeea18b15295397b49ae14d3a3f9a29032aca16",
           "body": "This allows unauthenticated users to download\nunconfigured images. Balena-pine v11 that started\nbeing user by balena-sdk v13 now support\nunauthenticated requests.\n",
@@ -13021,44 +13041,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-03T22:00:01Z",
+  "lastCommitDate": "2020-07-03T22:33:30Z",
   "latestRelease": {
-    "tagName": "v12.4.0",
+    "tagName": "v12.5.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.4.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.4.0/balena-cli-v12.4.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.5.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.0/balena-cli-v12.5.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.4.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.4.0/balena-cli-v12.4.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.5.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.0/balena-cli-v12.5.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.4.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.4.0/balena-cli-v12.4.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.5.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.0/balena-cli-v12.5.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.4.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.4.0/balena-cli-v12.4.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.5.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.0/balena-cli-v12.5.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.4.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.4.0/balena-cli-v12.4.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.5.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.0/balena-cli-v12.5.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 285,
+    "numberOfIssues": 283,
     "latestIssues": [
-      {
-        "title": "config generate, os configure: Add support for mixed arch fleets",
-        "url": "https://github.com/balena-io/balena-cli/pull/1915"
-      },
-      {
-        "title": "config generate: Should support mixed architecture fleets",
-        "url": "https://github.com/balena-io/balena-cli/issues/1914"
-      },
       {
         "title": "Modify runCommand to accept args array instead of string",
         "url": "https://github.com/balena-io/balena-cli/pull/1913"
@@ -13130,10 +13142,18 @@
       {
         "title": "Resource names that look like numbers are treated as IDs / short UUIDs",
         "url": "https://github.com/balena-io/balena-cli/issues/1842"
+      },
+      {
+        "title": "Add a sequential option for pushing to a device",
+        "url": "https://github.com/balena-io/balena-cli/pull/1836"
+      },
+      {
+        "title": "Improve Yaml validation errors",
+        "url": "https://github.com/balena-io/balena-cli/issues/1835"
       }
     ]
   },
-  "version": "12.4.0",
+  "version": "12.5.0",
   "screenshot": null,
   "logo": null
 }
