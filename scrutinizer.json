@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "os download: Allow not logged in users to download images",
+          "hash": "edeea18b15295397b49ae14d3a3f9a29032aca16",
+          "body": "This allows unauthenticated users to download\nunconfigured images. Balena-pine v11 that started\nbeing user by balena-sdk v13 now support\nunauthenticated requests.\n",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "See": "https://github.com/balena-io/balena-cli/pull/1742",
+            "see": "https://github.com/balena-io/balena-cli/pull/1742",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis"
+        }
+      ],
+      "version": "12.4.0",
+      "date": "2020-07-03T21:33:27.919Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Publish '.fast-boot.json' to the npm registry to avoid stale caching",
           "hash": "224f721a7242da926061db8a93f858428b4a17d5",
           "body": "",
@@ -13001,35 +13021,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-03T21:29:51Z",
+  "lastCommitDate": "2020-07-03T22:00:01Z",
   "latestRelease": {
-    "tagName": "v12.3.15",
+    "tagName": "v12.4.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.3.15-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.15/balena-cli-v12.3.15-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.4.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.4.0/balena-cli-v12.4.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.15-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.15/balena-cli-v12.3.15-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.4.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.4.0/balena-cli-v12.4.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.3.15-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.15/balena-cli-v12.3.15-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.4.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.4.0/balena-cli-v12.4.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.15-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.15/balena-cli-v12.3.15-windows-x64-installer.exe"
+        "name": "balena-cli-v12.4.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.4.0/balena-cli-v12.4.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.3.15-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.15/balena-cli-v12.3.15-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.4.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.4.0/balena-cli-v12.4.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 286,
+    "numberOfIssues": 285,
     "latestIssues": [
       {
         "title": "config generate, os configure: Add support for mixed arch fleets",
@@ -13113,7 +13133,7 @@
       }
     ]
   },
-  "version": "12.3.15",
+  "version": "12.4.0",
   "screenshot": null,
   "logo": null
 }
