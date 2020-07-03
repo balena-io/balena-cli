@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Add explicit dependency on balena-settings-storage",
+          "hash": "afc660762f2bae700967eff6b766b3f44fee87d5",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "12.3.13",
+      "date": "2020-07-03T12:32:57.526Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert `device init` to async await and oclif",
           "hash": "40f643c07f0b26ff9996ba5a5eb2371ff6833d58",
           "body": "",
@@ -12868,6 +12884,7 @@
     "balena-sdk",
     "balena-semver",
     "balena-settings-client",
+    "balena-settings-storage",
     "balena-sync",
     "bluebird",
     "body-parser",
@@ -12940,29 +12957,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-02T20:01:13Z",
+  "lastCommitDate": "2020-07-03T13:13:32Z",
   "latestRelease": {
-    "tagName": "v12.3.12",
+    "tagName": "v12.3.13",
     "asssets": [
       {
-        "name": "balena-cli-v12.3.12-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.12/balena-cli-v12.3.12-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.3.13-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.13/balena-cli-v12.3.13-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.12-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.12/balena-cli-v12.3.12-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.3.13-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.13/balena-cli-v12.3.13-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.3.12-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.12/balena-cli-v12.3.12-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.3.13-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.13/balena-cli-v12.3.13-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.3.12-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.12/balena-cli-v12.3.12-windows-x64-installer.exe"
+        "name": "balena-cli-v12.3.13-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.13/balena-cli-v12.3.13-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.3.12-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.12/balena-cli-v12.3.12-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.3.13-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.3.13/balena-cli-v12.3.13-windows-x64-standalone.zip"
       }
     ]
   },
@@ -12971,8 +12988,8 @@
     "numberOfIssues": 285,
     "latestIssues": [
       {
-        "title": "Add explicit dependency on balena-settings-storage",
-        "url": "https://github.com/balena-io/balena-cli/pull/1912"
+        "title": "Modify runCommand to accept args array instead of string",
+        "url": "https://github.com/balena-io/balena-cli/pull/1913"
       },
       {
         "title": "balena ssh: Add test cases",
@@ -13052,7 +13069,7 @@
       }
     ]
   },
-  "version": "12.3.12",
+  "version": "12.3.13",
   "screenshot": null,
   "logo": null
 }
