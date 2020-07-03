@@ -1,4 +1,14 @@
 - commits:
+    - subject: Publish '.fast-boot.json' to the npm registry to avoid stale caching
+      hash: 224f721a7242da926061db8a93f858428b4a17d5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 12.3.15
+  date: 2020-07-03T18:40:07.532Z
+- commits:
     - subject: 'balena ssh: Add test cases'
       hash: 69e92227039a8d106cacbc3144a4d1a9dcdf5743
       body: ''
