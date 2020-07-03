@@ -144,28 +144,34 @@ export default class DeviceInitCmd extends Command {
 
 	async downloadOsImage(path: string, deviceType: string, options: FlagsDef) {
 		const osVersion = options['os-version'] || 'default';
-		await runCommand(
-			`os download ${deviceType} --output '${path}' --version ${osVersion}`,
-		);
+		await runCommand([
+			'os',
+			'download',
+			deviceType,
+			'--output',
+			path,
+			'--version',
+			osVersion,
+		]);
 	}
 
 	async configureOsImage(path: string, uuid: string, options: FlagsDef) {
-		let configureCommand = `os configure ${path} --device ${uuid}`;
+		const configureCommand = ['os', 'configure', path, '--device', uuid];
 		if (options.config) {
-			configureCommand += ` --config ${options.config}`;
+			configureCommand.push('--config', options.config);
 		} else if (options.advanced) {
-			configureCommand += ' --advanced';
+			configureCommand.push('--advanced');
 		}
 		await runCommand(configureCommand);
 	}
 
 	async writeOsImage(path: string, deviceType: string, options: FlagsDef) {
-		let osInitCommand = `os initialize '${path}' --type ${deviceType}`;
+		const osInitCommand = ['os', 'initialize', path, '--type', deviceType];
 		if (options.yes) {
-			osInitCommand += ' --yes';
+			osInitCommand.push('--yes');
 		}
 		if (options.drive) {
-			osInitCommand += ` --drive ${options.drive}`;
+			osInitCommand.push('--drive', options.drive);
 		}
 		await runCommand(osInitCommand);
 	}

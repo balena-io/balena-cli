@@ -96,8 +96,7 @@ export async function sudo(
 	await executeWithPrivileges(command, stderr, isCLIcmd);
 }
 
-export function runCommand<T>(command: string): Promise<T> {
-	let commandArgs = command.split(' ');
+export function runCommand<T>(commandArgs: string[]): Promise<T> {
 	const [isOclif, isOclifTopic] = isOclifCommand(commandArgs);
 	if (isOclif) {
 		if (isOclifTopic) {
@@ -115,7 +114,7 @@ export function runCommand<T>(command: string): Promise<T> {
 		require('../app-capitano');
 
 		const capitanoRunAsync = promisify(capitano.run);
-		return capitanoRunAsync(command);
+		return capitanoRunAsync(commandArgs);
 	}
 }
 
