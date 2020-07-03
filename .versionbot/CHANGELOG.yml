@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'config generate, os configure: Add support for mixed arch fleets'
+      hash: 497023965f6a1a1acd08eb20e4deefc9340a1961
+      body: ''
+      footer:
+        Resolves: '#1914'
+        resolves: '#1914'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+  version: 12.5.0
+  date: 2020-07-03T22:05:02.722Z
+- commits:
     - subject: 'os download: Allow not logged in users to download images'
       hash: edeea18b15295397b49ae14d3a3f9a29032aca16
       body: |
