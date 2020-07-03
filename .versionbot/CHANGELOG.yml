@@ -1,4 +1,14 @@
 - commits:
+    - subject: Add explicit dependency on balena-settings-storage
+      hash: afc660762f2bae700967eff6b766b3f44fee87d5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.3.13
+  date: 2020-07-03T12:32:57.526Z
+- commits:
     - subject: Convert `device init` to async await and oclif
       hash: 40f643c07f0b26ff9996ba5a5eb2371ff6833d58
       body: ''
