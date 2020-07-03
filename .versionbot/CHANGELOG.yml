@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'os download: Allow not logged in users to download images'
+      hash: edeea18b15295397b49ae14d3a3f9a29032aca16
+      body: |
+        This allows unauthenticated users to download
+        unconfigured images. Balena-pine v11 that started
+        being user by balena-sdk v13 now support
+        unauthenticated requests.
+      footer:
+        Change-type: minor
+        change-type: minor
+        See: 'https://github.com/balena-io/balena-cli/pull/1742'
+        see: 'https://github.com/balena-io/balena-cli/pull/1742'
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+  version: 12.4.0
+  date: 2020-07-03T21:33:27.919Z
+- commits:
     - subject: Publish '.fast-boot.json' to the npm registry to avoid stale caching
       hash: 224f721a7242da926061db8a93f858428b4a17d5
       body: ''
