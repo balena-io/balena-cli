@@ -1,4 +1,16 @@
 - commits:
+    - subject: Convert `logs` command to oclif
+      hash: 4cdaf29348ef67f0bd2b0879fb0ce30f6f44bfff
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 12.5.1
+  date: 2020-07-06T09:58:07.671Z
+- commits:
     - subject: 'config generate, os configure: Add support for mixed arch fleets'
       hash: 497023965f6a1a1acd08eb20e4deefc9340a1961
       body: ''
