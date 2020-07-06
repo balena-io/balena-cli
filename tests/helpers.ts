@@ -61,7 +61,7 @@ function filterCliOutputForTests(testOutput: TestOutput): TestOutput {
  * Run the CLI in this same process, by calling the run() function in `app.ts`.
  * @param cmd Command to execute, e.g. `push myApp` (without 'balena' prefix)
  */
-async function runCommanInProcess(cmd: string): Promise<TestOutput> {
+async function runCommandInProcess(cmd: string): Promise<TestOutput> {
 	const preArgs = [process.argv[0], path.join(process.cwd(), 'bin', 'balena')];
 
 	const err: string[] = [];
@@ -199,7 +199,7 @@ export async function runCommand(cmd: string): Promise<TestOutput> {
 		const [proxyPort] = await proxy.createProxyServerOnce();
 		return runCommandInSubprocess(cmd, proxyPort);
 	} else {
-		return runCommanInProcess(cmd);
+		return runCommandInProcess(cmd);
 	}
 }
 

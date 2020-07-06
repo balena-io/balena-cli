@@ -82,7 +82,7 @@ declare module 'capitano' {
 	};
 
 	export function run(
-		command: string,
+		command: string | string[],
 		callback: (err: Error | null, result: any) => void,
 	): void;
 	export function execute(
