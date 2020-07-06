@@ -101,7 +101,7 @@ const capitanoDoc = {
 		},
 		{
 			title: 'Logs',
-			files: ['build/actions/logs.js'],
+			files: ['build/actions-oclif/logs.js'],
 		},
 		{
 			title: 'Network',

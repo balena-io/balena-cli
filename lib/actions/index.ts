@@ -17,7 +17,6 @@ limitations under the License.
 export * as config from './config';
 export * as help from './help';
 export * as local from './local';
-export * as logs from './logs';
 export * as os from './os';
 export * as push from './push';
 export * as util from './util';

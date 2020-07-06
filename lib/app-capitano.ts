@@ -59,9 +59,6 @@ capitano.command(actions.config.inject);
 capitano.command(actions.config.reconfigure);
 capitano.command(actions.config.generate);
 
-// ---------- Logs Module ----------
-capitano.command(actions.logs.logs);
-
 // ---------- Preload Module ----------
 capitano.command(actions.preload);
 

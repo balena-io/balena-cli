@@ -175,6 +175,7 @@ export const convertedCommands = [
 	'leave',
 	'login',
 	'logout',
+	'logs',
 	'note',
 	'os:configure',
 	'scan',
