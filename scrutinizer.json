@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Convert `logs` command to oclif",
+          "hash": "4cdaf29348ef67f0bd2b0879fb0ce30f6f44bfff",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe"
+        }
+      ],
+      "version": "12.5.1",
+      "date": "2020-07-06T09:58:07.671Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "config generate, os configure: Add support for mixed arch fleets",
           "hash": "497023965f6a1a1acd08eb20e4deefc9340a1961",
           "body": "",
@@ -13041,36 +13059,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-03T22:33:30Z",
+  "lastCommitDate": "2020-07-06T10:47:11Z",
   "latestRelease": {
-    "tagName": "v12.5.0",
+    "tagName": "v12.5.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.5.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.0/balena-cli-v12.5.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.5.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.1/balena-cli-v12.5.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.5.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.0/balena-cli-v12.5.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.5.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.1/balena-cli-v12.5.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.5.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.0/balena-cli-v12.5.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.5.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.1/balena-cli-v12.5.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.5.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.0/balena-cli-v12.5.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.5.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.1/balena-cli-v12.5.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.5.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.0/balena-cli-v12.5.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.5.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.1/balena-cli-v12.5.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 283,
+    "numberOfIssues": 285,
     "latestIssues": [
+      {
+        "title": "Clarify -c flag in balena push",
+        "url": "https://github.com/balena-io/balena-cli/pull/1920"
+      },
+      {
+        "title": "Add an error when generating config with different device type",
+        "url": "https://github.com/balena-io/balena-cli/issues/1919"
+      },
+      {
+        "title": "Add a `--device-type` parameter to the `belana device register` command",
+        "url": "https://github.com/balena-io/balena-cli/issues/1918"
+      },
       {
         "title": "Modify runCommand to accept args array instead of string",
         "url": "https://github.com/balena-io/balena-cli/pull/1913"
@@ -13078,10 +13108,6 @@
       {
         "title": "Allow setting `release_version` during a deploy/push operation",
         "url": "https://github.com/balena-io/balena-cli/issues/1908"
-      },
-      {
-        "title": "Convert `logs` command to oclif",
-        "url": "https://github.com/balena-io/balena-cli/pull/1906"
       },
       {
         "title": "Update @types/stream-to-promise",
@@ -13142,18 +13168,10 @@
       {
         "title": "Resource names that look like numbers are treated as IDs / short UUIDs",
         "url": "https://github.com/balena-io/balena-cli/issues/1842"
-      },
-      {
-        "title": "Add a sequential option for pushing to a device",
-        "url": "https://github.com/balena-io/balena-cli/pull/1836"
-      },
-      {
-        "title": "Improve Yaml validation errors",
-        "url": "https://github.com/balena-io/balena-cli/issues/1835"
       }
     ]
   },
-  "version": "12.5.0",
+  "version": "12.5.1",
   "screenshot": null,
   "logo": null
 }
