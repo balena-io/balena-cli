@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        build/deploy/preload: Accept DOCKER_CERT_PATH and DOCKER_TLS_VERIFY env
+        vars
+      hash: f326994f8ecc0b757365db98bba8ad5353723ea3
+      body: |
+        This allows the build and deploy commands to work with 'docker-machine'
+        (the preload command still does not work with docker-machine, though).
+      footer:
+        Resolves: '#1844'
+        resolves: '#1844'
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+  version: 12.6.0
+  date: 2020-07-06T22:14:47.299Z
+- commits:
     - subject: Modify runCommand to accept args array instead of string
       hash: e20265518dfecffe9e414807917a132dec08195d
       body: ''
