@@ -2447,12 +2447,12 @@
       }
     },
     "balena-preload": {
-      "version": "9.0.0",
-      "resolved": "https://registry.npmjs.org/balena-preload/-/balena-preload-9.0.0.tgz",
-      "integrity": "sha512-K1tmZMGQHzAFHkry8mOVwTyDwsPJnn4EXYl0Sv6Ke9+B8IbdfxJzQ3uIihkBvSASME1BvbkOLX2mE+0TC2929A==",
+      "version": "10.2.0",
+      "resolved": "https://registry.npmjs.org/balena-preload/-/balena-preload-10.2.0.tgz",
+      "integrity": "sha512-2FDL/Piy70TDEj2JRLzx7LAfyo+wUP4Y/TDFk5OKVyjqu9bDQNgzVY0COHUMS9xHKjwpCqim6Yh62GyNQ6FyDA==",
       "requires": {
         "archiver": "^3.1.1",
-        "balena-sdk": "^13.8.0",
+        "balena-sdk": "^14.0.0",
         "bluebird": "^3.7.2",
         "compare-versions": "^3.6.0",
         "docker-progress": "^3.0.5",
@@ -2467,6 +2467,54 @@
         "unzipper": "^0.8.14"
       },
       "dependencies": {
+        "balena-errors": {
+          "version": "4.4.1",
+          "resolved": "https://registry.npmjs.org/balena-errors/-/balena-errors-4.4.1.tgz",
+          "integrity": "sha512-912lPp1LyBjkpxRg6m/EpOCssqMhgkzyYbrKwtT2uRvixm89WOlJrj5sPkxnbPnp5IoMNaoRONxFt1jtiQf50Q==",
+          "requires": {
+            "tslib": "^2.0.0",
+            "typed-error": "^3.0.0"
+          }
+        },
+        "balena-sdk": {
+          "version": "14.8.0",
+          "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-14.8.0.tgz",
+          "integrity": "sha512-GptB/Ju8BtE1E9NODHioScdF4HW8svcDhfdMHPrDjMFWbs38KOoTgiKogDjLlvEjoAg5FIvz8DaUeH27EtZ1Rg==",
+          "requires": {
+            "@balena/es-version": "^1.0.0",
+            "@types/bluebird": "^3.5.30",
+            "@types/lodash": "^4.14.150",
+            "@types/memoizee": "^0.4.3",
+            "@types/node": "^10.17.20",
+            "abortcontroller-polyfill": "^1.4.0",
+            "balena-auth": "^3.1.0",
+            "balena-errors": "^4.4.0",
+            "balena-hup-action-utils": "~4.0.1",
+            "balena-pine": "^11.2.0",
+            "balena-register-device": "^6.1.1",
+            "balena-request": "^10.0.9",
+            "balena-semver": "^2.3.0",
+            "balena-settings-client": "^4.0.4",
+            "bluebird": "^3.7.2",
+            "lodash": "^4.17.15",
+            "memoizee": "^0.4.14",
+            "moment": "~2.24.0 || ^2.25.1",
+            "ndjson": "^1.5.0",
+            "semver": "^7.3.2",
+            "tslib": "^2.0.0"
+          }
+        },
+        "balena-semver": {
+          "version": "2.3.0",
+          "resolved": "https://registry.npmjs.org/balena-semver/-/balena-semver-2.3.0.tgz",
+          "integrity": "sha512-dlUBaYz22ZxHh3umciI/87aLcwX+HRlT1RjkpuiClO8wjkuR8U/2ZvtS16iMNe30rm2kNgAV2myamQ5eA8SxVQ==",
+          "requires": {
+            "@types/lodash": "^4.14.149",
+            "@types/semver": "^7.1.0",
+            "lodash": "^4.17.15",
+            "semver": "^7.1.3"
+          }
+        },
         "docker-progress": {
           "version": "3.0.5",
           "resolved": "https://registry.npmjs.org/docker-progress/-/docker-progress-3.0.5.tgz",
@@ -2479,6 +2527,13 @@
             "lodash": "^4.0.0",
             "request": "^2.65.0",
             "semver": "^5.3.0"
+          },
+          "dependencies": {
+            "semver": {
+              "version": "5.7.1",
+              "resolved": "https://registry.npmjs.org/semver/-/semver-5.7.1.tgz",
+              "integrity": "sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ=="
+            }
           }
         },
         "pump": {
@@ -2491,9 +2546,9 @@
           }
         },
         "semver": {
-          "version": "5.7.1",
-          "resolved": "https://registry.npmjs.org/semver/-/semver-5.7.1.tgz",
-          "integrity": "sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ=="
+          "version": "7.3.2",
+          "resolved": "https://registry.npmjs.org/semver/-/semver-7.3.2.tgz",
+          "integrity": "sha512-OrOb32TeeambH6UrhtShmF7CRDqhL6/5XpPNp2DuRH6+9QLw/orhp72j87v8Qa1ScDkvrrBNpZcDejAirJmfXQ=="
         },
         "tar-fs": {
           "version": "2.1.0",
@@ -2513,6 +2568,11 @@
           "requires": {
             "os-tmpdir": "~1.0.2"
           }
+        },
+        "tslib": {
+          "version": "2.0.0",
+          "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.0.0.tgz",
+          "integrity": "sha512-lTqkx847PI7xEDYJntxZH89L2/aXInsyF2luSafe/+0fHOMjlBNXdH6th7f70qxLDhul7KZK0zC8V5ZIyHl0/g=="
         }
       }
     },

@@ -1929,7 +1929,7 @@ Examples:
 
 #### --app, -a &#60;appId&#62;
 
-id of the application to preload
+Name, slug or numeric ID of the application to preload
 
 #### --commit, -c &#60;hash&#62;
 
