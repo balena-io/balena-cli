@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "build/deploy/preload: Accept DOCKER_CERT_PATH and DOCKER_TLS_VERIFY env vars",
+          "hash": "f326994f8ecc0b757365db98bba8ad5353723ea3",
+          "body": "This allows the build and deploy commands to work with 'docker-machine'\n(the preload command still does not work with docker-machine, though).\n",
+          "footer": {
+            "Resolves": "#1844",
+            "resolves": "#1844",
+            "Change-type": "minor",
+            "change-type": "minor"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "12.6.0",
+      "date": "2020-07-06T22:14:47.299Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Modify runCommand to accept args array instead of string",
           "hash": "e20265518dfecffe9e414807917a132dec08195d",
           "body": "",
@@ -12975,7 +12993,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 252,
+  "stars": 253,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -13077,29 +13095,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-06T11:24:21Z",
+  "lastCommitDate": "2020-07-07T00:25:23Z",
   "latestRelease": {
-    "tagName": "v12.5.2",
+    "tagName": "v12.6.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.5.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.2/balena-cli-v12.5.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.6.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.0/balena-cli-v12.6.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.5.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.2/balena-cli-v12.5.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.6.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.0/balena-cli-v12.6.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.5.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.2/balena-cli-v12.5.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.6.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.0/balena-cli-v12.6.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.5.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.2/balena-cli-v12.5.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.6.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.0/balena-cli-v12.6.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.5.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.5.2/balena-cli-v12.5.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.6.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.0/balena-cli-v12.6.0-windows-x64-standalone.zip"
       }
     ]
   },
@@ -13107,6 +13125,10 @@
   "openIssues": {
     "numberOfIssues": 284,
     "latestIssues": [
+      {
+        "title": "Balena Preload broken",
+        "url": "https://github.com/balena-io/balena-cli/issues/1922"
+      },
       {
         "title": "Clarify -c flag in balena push",
         "url": "https://github.com/balena-io/balena-cli/pull/1920"
@@ -13172,10 +13194,6 @@
         "url": "https://github.com/balena-io/balena-cli/issues/1847"
       },
       {
-        "title": "balena build fails to detect docker version when using docker-machine in OS X",
-        "url": "https://github.com/balena-io/balena-cli/issues/1844"
-      },
-      {
         "title": "Resource identification with database IDs should not be allowed",
         "url": "https://github.com/balena-io/balena-cli/issues/1843"
       },
@@ -13189,7 +13207,7 @@
       }
     ]
   },
-  "version": "12.5.2",
+  "version": "12.6.0",
   "screenshot": null,
   "logo": null
 }

@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        build/deploy/preload: Accept DOCKER_CERT_PATH and DOCKER_TLS_VERIFY env
+        vars
+      hash: f326994f8ecc0b757365db98bba8ad5353723ea3
+      body: |
+        This allows the build and deploy commands to work with 'docker-machine'
+        (the preload command still does not work with docker-machine, though).
+      footer:
+        Resolves: '#1844'
+        resolves: '#1844'
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+  version: 12.6.0
+  date: 2020-07-07T00:24:37.838Z
+- commits:
     - subject: Modify runCommand to accept args array instead of string
       hash: e20265518dfecffe9e414807917a132dec08195d
       body: ''
@@ -9,7 +25,7 @@
         signed-off-by: Scott Lowe <scott@balena.io>
       author: Scott Lowe
   version: 12.5.2
-  date: 2020-07-06T11:23:37.457Z
+  date: 2020-07-06T10:52:17.942Z
 - commits:
     - subject: Convert `logs` command to oclif
       hash: 4cdaf29348ef67f0bd2b0879fb0ce30f6f44bfff
