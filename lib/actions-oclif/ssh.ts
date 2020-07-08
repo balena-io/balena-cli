@@ -123,17 +123,6 @@ export default class NoteCmd extends Command {
 			NoteCmd,
 		);
 
-		const { ExpectedError } = await import('../errors');
-		const { getProxyConfig, which } = await import('../utils/helpers');
-		const { checkLoggedIn, getOnlineTargetUuid } = await import(
-			'../utils/patterns'
-		);
-		const { spawnSshAndThrowOnError } = await import('../utils/ssh');
-		const sdk = getBalenaSdk();
-
-		const proxyConfig = getProxyConfig();
-		const useProxy = !!proxyConfig && !options.noproxy;
-
 		// if we're doing a direct SSH connection locally...
 		if (
 			validateDotLocalUrl(params.applicationOrDevice) ||
@@ -148,6 +137,15 @@ export default class NoteCmd extends Command {
 				service: params.serviceName,
 			});
 		}
+
+		const { getProxyConfig, which } = await import('../utils/helpers');
+		const { checkLoggedIn, getOnlineTargetUuid } = await import(
+			'../utils/patterns'
+		);
+		const sdk = getBalenaSdk();
+
+		const proxyConfig = getProxyConfig();
+		const useProxy = !!proxyConfig && !options.noproxy;
 
 		// this will be a tunnelled SSH connection...
 		await checkLoggedIn();
@@ -207,6 +205,7 @@ export default class NoteCmd extends Command {
 		const proxyCommand = useProxy ? getSshProxyCommand() : undefined;
 
 		if (username == null) {
+			const { ExpectedError } = await import('../errors');
 			throw new ExpectedError(
 				`Opening an SSH connection to a remote device requires you to be logged in.`,
 			);
@@ -248,6 +247,7 @@ export default class NoteCmd extends Command {
 			username: username!,
 		});
 
+		const { spawnSshAndThrowOnError } = await import('../utils/ssh');
 		return spawnSshAndThrowOnError(command);
 	}
 

@@ -20,6 +20,7 @@ import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import type * as BalenaSDK from 'balena-sdk';
 
 interface FlagsDef {
 	type?: string; // application device type
@@ -75,11 +76,12 @@ export default class AppCreateCmd extends Command {
 		);
 
 		const balena = getBalenaSdk();
-		const patterns = await import('../../utils/patterns');
 
 		// Create application
-		const deviceType = options.type || (await patterns.selectDeviceType());
-		let application: import('balena-sdk').Application;
+		const deviceType =
+			options.type ||
+			(await (await import('../../utils/patterns')).selectDeviceType());
+		let application: BalenaSDK.Application;
 		try {
 			application = await balena.models.application.create({
 				name: params.name,

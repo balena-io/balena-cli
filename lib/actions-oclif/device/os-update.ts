@@ -77,7 +77,6 @@ export default class DeviceOsUpdateCmd extends Command {
 		);
 
 		const sdk = getBalenaSdk();
-		const patterns = await import('../../utils/patterns');
 
 		// Get device info
 		const {
@@ -133,6 +132,7 @@ export default class DeviceOsUpdateCmd extends Command {
 			});
 		}
 
+		const patterns = await import('../../utils/patterns');
 		// Confirm and start update
 		await patterns.confirm(
 			options.yes || false,

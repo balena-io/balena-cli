@@ -92,7 +92,6 @@ export default class DeviceInitCmd extends Command {
 		const tmpNameAsync = promisify(tmp.tmpName);
 		tmp.setGracefulCleanup();
 		const balena = getBalenaSdk();
-		const patterns = await import('../../utils/patterns');
 		const Logger = await import('../../utils/logger');
 
 		const logger = Logger.getLogger();
@@ -103,7 +102,8 @@ export default class DeviceInitCmd extends Command {
 
 		// Get application and
 		const application = await balena.models.application.get(
-			options['application'] || (await patterns.selectApplication()),
+			options['application'] ||
+				(await (await import('../../utils/patterns')).selectApplication()),
 		);
 
 		// Register new device

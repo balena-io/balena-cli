@@ -192,7 +192,6 @@ export default class OsConfigureCmd extends Command {
 			'../../utils/config'
 		);
 		const helpers = await import('../../utils/helpers');
-		const imagefs = await require('resin-image-fs');
 		let app: BalenaSdk.Application | undefined;
 		let device: BalenaSdk.Device | undefined;
 		let deviceTypeSlug: string;
@@ -273,6 +272,7 @@ export default class OsConfigureCmd extends Command {
 					};
 				}),
 			);
+			const imagefs = await import('resin-image-fs');
 
 			for (const { name, content } of files) {
 				await imagefs.writeFile(
@@ -396,7 +396,6 @@ async function askQuestionsForDeviceType(
 	options: FlagsDef,
 	configJson?: import('../../utils/config').ImgConfig,
 ): Promise<Answers> {
-	const helpers = await import('../../utils/helpers');
 	const answerSources: any[] = [camelifyConfigOptions(options)];
 	const defaultAnswers: Partial<Answers> = {};
 	const questions: any = deviceType.options;
@@ -412,6 +411,7 @@ async function askQuestionsForDeviceType(
 			isGroup: true,
 		});
 		if (!_.isEmpty(advancedGroup)) {
+			const helpers = await import('../../utils/helpers');
 			answerSources.push(helpers.getGroupDefaults(advancedGroup));
 		}
 	}
