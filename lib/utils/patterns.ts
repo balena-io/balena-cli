@@ -16,7 +16,6 @@ limitations under the License.
 import { BalenaApplicationNotFound } from 'balena-errors';
 import type * as BalenaSdk from 'balena-sdk';
 import _ = require('lodash');
-import _form = require('resin-cli-form');
 
 import {
 	exitWithExpectedError,
@@ -24,15 +23,13 @@ import {
 	NotLoggedInError,
 	ExpectedError,
 } from '../errors';
-import { getBalenaSdk, getVisuals, stripIndent } from './lazy';
+import { getBalenaSdk, getVisuals, stripIndent, getCliForm } from './lazy';
 import validation = require('./validation');
 import { delay } from './helpers';
 
-const getForm = _.once((): typeof _form => require('resin-cli-form'));
-
 export function authenticate(options: {}): Promise<void> {
 	const balena = getBalenaSdk();
-	return getForm()
+	return getCliForm()
 		.run(
 			[
 				{
@@ -56,7 +53,7 @@ export function authenticate(options: {}): Promise<void> {
 				return;
 			}
 
-			return getForm()
+			return getCliForm()
 				.ask({
 					message: 'Two factor auth challenge:',
 					name: 'code',
@@ -91,7 +88,7 @@ export async function checkLoggedIn(): Promise<void> {
 }
 
 export function askLoginType() {
-	return getForm().ask<'web' | 'credentials' | 'token' | 'register'>({
+	return getCliForm().ask<'web' | 'credentials' | 'token' | 'register'>({
 		message: 'How would you like to login?',
 		name: 'loginType',
 		type: 'list',
@@ -123,7 +120,7 @@ export function selectDeviceType() {
 			deviceTypes = _.sortBy(deviceTypes, 'name').filter(
 				(dt) => dt.state !== 'DISCONTINUED',
 			);
-			return getForm().ask({
+			return getCliForm().ask({
 				message: 'Device Type',
 				type: 'list',
 				choices: _.map(deviceTypes, ({ slug: value, name }) => ({
@@ -147,7 +144,7 @@ export async function confirm(
 		return;
 	}
 
-	const confirmed = await getForm().ask<boolean>({
+	const confirmed = await getCliForm().ask<boolean>({
 		message,
 		type: 'confirm',
 		default: false,
@@ -177,7 +174,7 @@ export function selectApplication(
 		})
 		.filter(filter || _.constant(true))
 		.then((applications) => {
-			return getForm().ask({
+			return getCliForm().ask({
 				message: 'Select an application',
 				type: 'list',
 				choices: _.map(applications, (application) => ({
@@ -212,7 +209,7 @@ export function selectOrCreateApplication() {
 					value: null,
 				});
 
-				return getForm().ask({
+				return getCliForm().ask({
 					message: 'Select an application',
 					type: 'list',
 					choices: appOptions,
@@ -224,7 +221,7 @@ export function selectOrCreateApplication() {
 				return application;
 			}
 
-			return getForm().ask({
+			return getCliForm().ask({
 				message: 'Choose a Name for your new application',
 				type: 'input',
 				validate: validation.validateApplicationName,
@@ -324,7 +321,7 @@ export function inferOrSelectDevice(preferredUuid: string) {
 				? preferredUuid
 				: onlineDevices[0].uuid;
 
-			return getForm().ask({
+			return getCliForm().ask({
 				message: 'Select a device',
 				type: 'list',
 				default: defaultUuid,
@@ -381,7 +378,7 @@ export async function getOnlineTargetUuid(
 			throw new ExpectedError('No accessible devices are online');
 		}
 
-		return await getForm().ask({
+		return await getCliForm().ask({
 			message: 'Select a device',
 			type: 'list',
 			default: devices[0].uuid,
@@ -416,7 +413,7 @@ export function selectFromList<T>(
 	message: string,
 	choices: Array<T & { name: string }>,
 ): Promise<T> {
-	return getForm().ask<T>({
+	return getCliForm().ask<T>({
 		message,
 		type: 'list',
 		choices: _.map(choices, (s) => ({

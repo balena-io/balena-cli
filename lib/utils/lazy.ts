@@ -19,6 +19,7 @@ limitations under the License.
 import type * as BalenaSdk from 'balena-sdk';
 import type { Chalk } from 'chalk';
 import type * as visuals from 'resin-cli-visuals';
+import type * as CliForm from 'resin-cli-form';
 import type { stripIndent as StripIndent } from 'common-tags';
 
 // Equivalent of _.once but avoiding the need to import lodash for lazy deps
@@ -51,6 +52,10 @@ export const getVisuals = once(
 );
 
 export const getChalk = once(() => require('chalk') as Chalk);
+
+export const getCliForm = once(
+	() => require('resin-cli-form') as typeof CliForm,
+);
 
 // Directly export stripIndent as we always use it immediately, but importing just `stripIndent` reduces startup time
 // tslint:disable-next-line:no-var-requires

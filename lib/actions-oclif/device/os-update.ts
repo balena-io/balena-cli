@@ -19,7 +19,7 @@ import { flags } from '@oclif/command';
 import type { IArg } from '@oclif/parser/lib/args';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
 import { tryAsInteger } from '../../utils/validation';
 import type { Device } from 'balena-sdk';
 import { ExpectedError } from '../../errors';
@@ -78,7 +78,6 @@ export default class DeviceOsUpdateCmd extends Command {
 
 		const sdk = getBalenaSdk();
 		const patterns = await import('../../utils/patterns');
-		const form = await import('resin-cli-form');
 
 		// Get device info
 		const {
@@ -121,7 +120,7 @@ export default class DeviceOsUpdateCmd extends Command {
 				);
 			}
 		} else {
-			targetOsVersion = await form.ask({
+			targetOsVersion = await getCliForm().ask({
 				message: 'Target OS version',
 				type: 'list',
 				choices: hupVersionInfo.versions.map((version) => ({

@@ -19,7 +19,7 @@ import { flags } from '@oclif/command';
 import type { IArg } from '@oclif/parser/lib/args';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
 import { tryAsInteger } from '../../utils/validation';
 
 interface FlagsDef {
@@ -69,11 +69,10 @@ export default class DeviceRenameCmd extends Command {
 		const { args: params } = this.parse<FlagsDef, ArgsDef>(DeviceRenameCmd);
 
 		const balena = getBalenaSdk();
-		const form = await import('resin-cli-form');
 
 		const newName =
 			params.newName ||
-			(await form.ask({
+			(await getCliForm().ask({
 				message: 'How do you want to name this device?',
 				type: 'input',
 			})) ||

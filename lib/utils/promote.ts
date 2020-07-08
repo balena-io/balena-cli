@@ -17,7 +17,7 @@
 import type * as BalenaSdk from 'balena-sdk';
 
 import { ExpectedError, printErrorMessage } from '../errors';
-import { getVisuals, stripIndent } from './lazy';
+import { getVisuals, stripIndent, getCliForm } from './lazy';
 import Logger = require('./logger');
 import { exec, execBuffered, getDeviceOsRelease } from './ssh';
 
@@ -206,7 +206,6 @@ async function getOrSelectApplication(
 	appName?: string,
 ): Promise<BalenaSdk.Application> {
 	const _ = await import('lodash');
-	const form = await import('resin-cli-form');
 
 	const allDeviceTypes = await sdk.models.config.getDeviceTypes();
 	const deviceTypeManifest = _.find(allDeviceTypes, { slug: deviceType });
@@ -227,12 +226,7 @@ async function getOrSelectApplication(
 		.value();
 
 	if (!appName) {
-		return createOrSelectAppOrExit(
-			form,
-			sdk,
-			compatibleDeviceTypes,
-			deviceType,
-		);
+		return createOrSelectAppOrExit(sdk, compatibleDeviceTypes, deviceType);
 	}
 
 	const options: BalenaSdk.PineOptionsFor<BalenaSdk.Application> = {};
@@ -254,7 +248,7 @@ async function getOrSelectApplication(
 	const applications = await sdk.models.application.getAll(options);
 
 	if (applications.length === 0) {
-		const shouldCreateApp = await form.ask({
+		const shouldCreateApp = await getCliForm().ask({
 			message:
 				`No application found with name "${appName}".\n` +
 				'Would you like to create it now?',
@@ -288,7 +282,6 @@ async function getOrSelectApplication(
 // `getOrSelectApplication` above in order to satisfy some resin-lint v3
 // rules, but it looks like there's a fair amount of duplicate logic.
 async function createOrSelectAppOrExit(
-	form: any,
 	sdk: BalenaSdk.BalenaSDK,
 	compatibleDeviceTypes: string[],
 	deviceType: string,
@@ -301,7 +294,7 @@ async function createOrSelectAppOrExit(
 	const applications = await sdk.models.application.getAll(options);
 
 	if (applications.length === 0) {
-		const shouldCreateApp = await form.ask({
+		const shouldCreateApp = await getCliForm().ask({
 			message:
 				'You have no applications this device can join.\n' +
 				'Would you like to create one now?',
@@ -322,7 +315,6 @@ async function createApplication(
 	deviceType: string,
 	name?: string,
 ): Promise<BalenaSdk.Application> {
-	const form = await import('resin-cli-form');
 	const validation = await import('./validation');
 
 	let username = await sdk.auth.whoami();
@@ -334,7 +326,7 @@ async function createApplication(
 	const applicationName = await new Promise<string>(async (resolve, reject) => {
 		while (true) {
 			try {
-				const appName = await form.ask({
+				const appName = await getCliForm().ask({
 					message: 'Enter a name for your new application:',
 					type: 'input',
 					default: name,
@@ -376,7 +368,6 @@ async function generateApplicationConfig(
 	app: BalenaSdk.Application,
 	options: { version: string },
 ) {
-	const form = await import('resin-cli-form');
 	const { generateApplicationConfig: configGen } = await import('./config');
 
 	const manifest = await sdk.models.device.getManifestBySlug(app.device_type);
@@ -384,7 +375,7 @@ async function generateApplicationConfig(
 		manifest.options &&
 		manifest.options.filter((opt) => opt.name !== 'network');
 	const values = {
-		...(opts ? await form.run(opts) : {}),
+		...(opts ? await getCliForm().run(opts) : {}),
 		...options,
 	};
 
