@@ -1,4 +1,14 @@
 - commits:
+    - subject: Remove rindle dependency
+      hash: 11afbf3da27f79552661273dfc5c51d5e3cda45d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.6.2
+  date: 2020-07-08T14:58:13.811Z
+- commits:
     - subject: 'preload: Expand dockerd stderr logs in case of errors'
       hash: 3d7833a64041e417724fe6a041e84d06526839d0
       body: ''
@@ -7,7 +17,7 @@
         change-type: patch
       author: Paulo Castro
   version: 12.6.1
-  date: 2020-07-08T09:54:28.183Z
+  date: 2020-07-08T09:19:23.988Z
 - commits:
     - subject: >-
         build/deploy/preload: Accept DOCKER_CERT_PATH and DOCKER_TLS_VERIFY env
