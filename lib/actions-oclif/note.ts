@@ -16,7 +16,6 @@
  */
 
 import { flags } from '@oclif/command';
-import * as _ from 'lodash';
 import Command from '../command';
 import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
@@ -75,14 +74,14 @@ export default class NoteCmd extends Command {
 
 		params.note = params.note || this.stdin;
 
-		if (_.isEmpty(params.note)) {
+		if (params.note.length === 0) {
 			throw new ExpectedError('Missing note content');
 		}
 
 		options.device = options.device || options.dev;
 		delete options.dev;
 
-		if (_.isEmpty(options.device)) {
+		if (options.device == null || options.device.length === 0) {
 			throw new ExpectedError('Missing device UUID (--device)');
 		}
 

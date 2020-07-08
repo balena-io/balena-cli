@@ -76,7 +76,6 @@ export default class DeviceOsUpdateCmd extends Command {
 			DeviceOsUpdateCmd,
 		);
 
-		const _ = await import('lodash');
 		const sdk = getBalenaSdk();
 		const patterns = await import('../../utils/patterns');
 		const form = await import('resin-cli-form');
@@ -116,7 +115,7 @@ export default class DeviceOsUpdateCmd extends Command {
 		// Get target OS version
 		let targetOsVersion = options.version;
 		if (targetOsVersion != null) {
-			if (!_.includes(hupVersionInfo.versions, targetOsVersion)) {
+			if (!hupVersionInfo.versions.includes(targetOsVersion)) {
 				throw new ExpectedError(
 					`The provided version ${targetOsVersion} is not in the Host OS update targets for this device`,
 				);

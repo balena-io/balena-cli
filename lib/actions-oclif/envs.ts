@@ -229,7 +229,7 @@ export default class EnvsCmd extends Command {
 				...(await getDeviceVars(balena, fullUUID, appName, options)),
 			);
 		}
-		if (!options.json && _.isEmpty(variables)) {
+		if (!options.json && variables.length === 0) {
 			const target =
 				(options.service ? `service "${options.service}" of ` : '') +
 				(options.application
@@ -249,7 +249,7 @@ export default class EnvsCmd extends Command {
 
 		if (options.all) {
 			// Replace undefined app names with 'N/A' or null
-			varArray = _.map(varArray, (i: EnvironmentVariableInfo) => {
+			varArray = varArray.map((i: EnvironmentVariableInfo) => {
 				i.appName = i.appName || (options.json ? null : 'N/A');
 				return i;
 			});
@@ -286,7 +286,7 @@ async function validateServiceName(
 	const services = await sdk.models.service.getAllByApplication(appName, {
 		$filter: { service_name: serviceName },
 	});
-	if (_.isEmpty(services)) {
+	if (services.length === 0) {
 		throw new ExpectedError(
 			`Service "${serviceName}" not found for application "${appName}"`,
 		);
@@ -407,13 +407,11 @@ function fillInInfoFields(
 	for (const envVar of varArray) {
 		if ('service' in envVar) {
 			// envVar is of type ServiceEnvironmentVariableInfo
-			envVar.serviceName = _.at(envVar as any, 'service[0].service_name')[0];
+			envVar.serviceName = (envVar.service as SDK.Service[])[0]?.service_name;
 		} else if ('service_install' in envVar) {
 			// envVar is of type DeviceServiceEnvironmentVariableInfo
-			envVar.serviceName = _.at(
-				envVar as any,
-				'service_install[0].installs__service[0].service_name',
-			)[0];
+			envVar.serviceName = ((envVar.service_install as SDK.ServiceInstall[])[0]
+				?.installs__service as SDK.Service[])[0]?.service_name;
 		}
 		envVar.appName = appName;
 		envVar.serviceName = envVar.serviceName || '*';
@@ -429,7 +427,7 @@ function stringifyVarArray<T = Dictionary<any>>(
 	varArray: T[],
 	fields: string[],
 ): string {
-	const transformed = _.map(varArray, (o: Dictionary<any>) =>
+	const transformed = varArray.map((o: Dictionary<any>) =>
 		_.transform(
 			o,
 			(result, value, key) => {
