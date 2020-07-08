@@ -1,4 +1,16 @@
 - commits:
+    - subject: Improve help description for --nocache option of `balena push`
+      hash: b1ab0337c08c6a0d9773b71fafd0e5fdd2c24981
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Vipul Gupta (@vipulgupta2048) <vipul@balena.io>
+        signed-off-by: Vipul Gupta (@vipulgupta2048) <vipul@balena.io>
+      author: Vipul Gupta (@vipulgupta2048)
+  version: 12.6.3
+  date: 2020-07-08T15:39:07.730Z
+- commits:
     - subject: Remove rindle dependency
       hash: 11afbf3da27f79552661273dfc5c51d5e3cda45d
       body: ''
