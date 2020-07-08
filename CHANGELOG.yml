@@ -1,4 +1,14 @@
 - commits:
+    - subject: Reduce lodash usage in oclif actions
+      hash: 5242510481bd7aa6c233e22a6029affb10f0954a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.6.4
+  date: 2020-07-08T17:45:06.610Z
+- commits:
     - subject: Improve help description for --nocache option of `balena push`
       hash: b1ab0337c08c6a0d9773b71fafd0e5fdd2c24981
       body: ''
@@ -9,7 +19,7 @@
         signed-off-by: Vipul Gupta (@vipulgupta2048) <vipul@balena.io>
       author: Vipul Gupta (@vipulgupta2048)
   version: 12.6.3
-  date: 2020-07-08T16:11:52.582Z
+  date: 2020-07-08T15:39:07.730Z
 - commits:
     - subject: Remove rindle dependency
       hash: 11afbf3da27f79552661273dfc5c51d5e3cda45d

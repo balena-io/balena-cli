@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Reduce lodash usage in oclif actions",
+          "hash": "5242510481bd7aa6c233e22a6029affb10f0954a",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "12.6.4",
+      "date": "2020-07-08T17:06:24.665Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Improve help description for --nocache option of `balena push`",
           "hash": "b1ab0337c08c6a0d9773b71fafd0e5fdd2c24981",
           "body": "",
@@ -13144,36 +13160,44 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-08T16:12:51Z",
+  "lastCommitDate": "2020-07-08T17:46:13Z",
   "latestRelease": {
-    "tagName": "v12.6.3",
+    "tagName": "v12.6.4",
     "asssets": [
       {
-        "name": "balena-cli-v12.6.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.3/balena-cli-v12.6.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.6.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.4/balena-cli-v12.6.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.6.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.3/balena-cli-v12.6.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.6.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.4/balena-cli-v12.6.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.6.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.3/balena-cli-v12.6.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.6.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.4/balena-cli-v12.6.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.6.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.3/balena-cli-v12.6.3-windows-x64-installer.exe"
+        "name": "balena-cli-v12.6.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.4/balena-cli-v12.6.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.6.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.3/balena-cli-v12.6.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.6.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.4/balena-cli-v12.6.4-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 284,
+    "numberOfIssues": 286,
     "latestIssues": [
+      {
+        "title": "Be lazier with imports in oclif actions",
+        "url": "https://github.com/balena-io/balena-cli/pull/1928"
+      },
+      {
+        "title": "Enforce and improve lazy loading of resin-cli-form",
+        "url": "https://github.com/balena-io/balena-cli/pull/1927"
+      },
       {
         "title": "Enable `balena deploy` to update individual images in a multicontainer app",
         "url": "https://github.com/balena-io/balena-cli/issues/1923"
@@ -13245,18 +13269,10 @@
       {
         "title": "Resource identification with database IDs should not be allowed",
         "url": "https://github.com/balena-io/balena-cli/issues/1843"
-      },
-      {
-        "title": "Resource names that look like numbers are treated as IDs / short UUIDs",
-        "url": "https://github.com/balena-io/balena-cli/issues/1842"
-      },
-      {
-        "title": "Add a sequential option for pushing to a device",
-        "url": "https://github.com/balena-io/balena-cli/pull/1836"
       }
     ]
   },
-  "version": "12.6.3",
+  "version": "12.6.4",
   "screenshot": null,
   "logo": null
 }
