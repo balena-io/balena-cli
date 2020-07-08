@@ -192,7 +192,12 @@ export const push: CommandDefinition<
 		{
 			signature: 'nocache',
 			alias: 'c',
-			description: "Don't use cache when building this project",
+			description: stripIndent`
+                Don't use cached layers of previously built images for this project. This ensures
+                that the latest base image and packages are pulled. Note that build logs may still
+                display the message _"Pulling previous images for caching purposes" (as the cloud
+                builder needs previous images to compute delta updates), but the logs will not
+                display the "Using cache" lines for each build step of a Dockerfile.`,
 			boolean: true,
 		},
 		{
