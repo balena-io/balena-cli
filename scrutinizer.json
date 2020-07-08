@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "preload: Expand dockerd stderr logs in case of errors",
+          "hash": "3d7833a64041e417724fe6a041e84d06526839d0",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro"
+        }
+      ],
+      "version": "12.6.1",
+      "date": "2020-07-08T09:19:23.988Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "build/deploy/preload: Accept DOCKER_CERT_PATH and DOCKER_TLS_VERIFY env vars",
           "hash": "f326994f8ecc0b757365db98bba8ad5353723ea3",
           "body": "This allows the build and deploy commands to work with 'docker-machine'\n(the preload command still does not work with docker-machine, though).\n",
@@ -12893,12 +12909,12 @@
       "avatar": "https://avatars0.githubusercontent.com/u/525832?v=4"
     },
     {
-      "username": "zvin",
-      "avatar": "https://avatars2.githubusercontent.com/u/180331?v=4"
-    },
-    {
       "username": "bulldozer-balena[bot]",
       "avatar": "https://avatars0.githubusercontent.com/in/58047?v=4"
+    },
+    {
+      "username": "zvin",
+      "avatar": "https://avatars2.githubusercontent.com/u/180331?v=4"
     },
     {
       "username": "dfunckt",
@@ -13095,36 +13111,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-07T00:25:23Z",
+  "lastCommitDate": "2020-07-08T09:55:11Z",
   "latestRelease": {
-    "tagName": "v12.6.0",
+    "tagName": "v12.6.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.6.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.0/balena-cli-v12.6.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.6.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.1/balena-cli-v12.6.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.6.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.0/balena-cli-v12.6.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.6.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.1/balena-cli-v12.6.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.6.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.0/balena-cli-v12.6.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.6.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.1/balena-cli-v12.6.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.6.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.0/balena-cli-v12.6.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.6.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.1/balena-cli-v12.6.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.6.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.0/balena-cli-v12.6.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.6.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.1/balena-cli-v12.6.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 284,
+    "numberOfIssues": 285,
     "latestIssues": [
+      {
+        "title": "Enable `balena deploy` to update individual images in a multicontainer app",
+        "url": "https://github.com/balena-io/balena-cli/issues/1923"
+      },
       {
         "title": "Balena Preload broken",
         "url": "https://github.com/balena-io/balena-cli/issues/1922"
@@ -13200,14 +13220,10 @@
       {
         "title": "Resource names that look like numbers are treated as IDs / short UUIDs",
         "url": "https://github.com/balena-io/balena-cli/issues/1842"
-      },
-      {
-        "title": "Add a sequential option for pushing to a device",
-        "url": "https://github.com/balena-io/balena-cli/pull/1836"
       }
     ]
   },
-  "version": "12.6.0",
+  "version": "12.6.1",
   "screenshot": null,
   "logo": null
 }

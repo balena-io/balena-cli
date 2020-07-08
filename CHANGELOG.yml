@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'preload: Expand dockerd stderr logs in case of errors'
+      hash: 3d7833a64041e417724fe6a041e84d06526839d0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+  version: 12.6.1
+  date: 2020-07-08T09:54:28.183Z
+- commits:
     - subject: >-
         build/deploy/preload: Accept DOCKER_CERT_PATH and DOCKER_TLS_VERIFY env
         vars
@@ -13,7 +23,7 @@
         change-type: minor
       author: Paulo Castro
   version: 12.6.0
-  date: 2020-07-07T00:24:37.838Z
+  date: 2020-07-06T22:14:47.299Z
 - commits:
     - subject: Modify runCommand to accept args array instead of string
       hash: e20265518dfecffe9e414807917a132dec08195d
