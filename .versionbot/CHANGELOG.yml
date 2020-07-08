@@ -1,4 +1,14 @@
 - commits:
+    - subject: Reduce lodash usage in oclif actions
+      hash: 5242510481bd7aa6c233e22a6029affb10f0954a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.6.4
+  date: 2020-07-08T17:06:24.665Z
+- commits:
     - subject: Improve help description for --nocache option of `balena push`
       hash: b1ab0337c08c6a0d9773b71fafd0e5fdd2c24981
       body: ''
