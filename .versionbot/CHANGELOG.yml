@@ -1,4 +1,14 @@
 - commits:
+    - subject: Remove rindle dependency
+      hash: 11afbf3da27f79552661273dfc5c51d5e3cda45d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.6.2
+  date: 2020-07-08T14:31:28.098Z
+- commits:
     - subject: 'preload: Expand dockerd stderr logs in case of errors'
       hash: 3d7833a64041e417724fe6a041e84d06526839d0
       body: ''
