@@ -1,0 +1,20 @@
+diff --git a/node_modules/balena-preload/src/preload.py b/node_modules/balena-preload/src/preload.py
+index 887eaf3..0c5cc7f 100755
+--- a/node_modules/balena-preload/src/preload.py
++++ b/node_modules/balena-preload/src/preload.py
+@@ -489,8 +489,13 @@ def start_docker_daemon(storage_driver, docker_dir):
+         if running_dockerd.process.exit_code is not None:
+             # There is no reason for dockerd to exit with a 0 status now.
+             assert running_dockerd.process.exit_code != 0
+-            # This will raise an sh.ErrorReturnCode_X exception.
+-            running_dockerd.wait()
++            try:
++                # This will raise an sh.ErrorReturnCode_X exception.
++                running_dockerd.wait()
++            except:
++                print("An error has occurred executing 'dockerd':\n{}".format(
++                    running_dockerd.stderr.decode("utf8")), file=sys.stderr, flush=True)
++                raise
+         # Check that we can connect to dockerd.
+         output = docker("version", _ok_code=[0, 1])
+         ok = output.exit_code == 0
