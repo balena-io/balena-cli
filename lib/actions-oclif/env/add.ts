@@ -17,7 +17,6 @@
 
 import { flags } from '@oclif/command';
 import type * as BalenaSdk from 'balena-sdk';
-import * as _ from 'lodash';
 import Command from '../../command';
 
 import { ExpectedError } from '../../errors';
@@ -129,8 +128,8 @@ export default class EnvAddCmd extends Command {
 
 		const balena = getBalenaSdk();
 		const reservedPrefixes = await getReservedPrefixes(balena);
-		const isConfigVar = _.some(reservedPrefixes, (prefix) =>
-			_.startsWith(params.name, prefix),
+		const isConfigVar = reservedPrefixes.some((prefix) =>
+			params.name.startsWith(prefix),
 		);
 
 		if (options.service) {
@@ -212,7 +211,7 @@ async function getServiceIdForApp(
 	const services = await sdk.models.service.getAllByApplication(appName, {
 		$filter: { service_name: serviceName },
 	});
-	if (!_.isEmpty(services)) {
+	if (services.length > 0) {
 		serviceId = services[0].id;
 	}
 	if (serviceId === undefined) {

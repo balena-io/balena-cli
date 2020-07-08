@@ -16,7 +16,6 @@
  */
 
 import { flags } from '@oclif/command';
-import * as _ from 'lodash';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
@@ -82,7 +81,7 @@ export default class DevicesCmd extends Command {
 			devices = await balena.models.device.getAll(expandForAppName);
 		}
 
-		devices = _.map(devices, function (device) {
+		devices = devices.map(function (device) {
 			device.dashboard_url = balena.models.device.getDashboardUrl(device.uuid);
 
 			const belongsToApplication = device.belongs_to__application as Application[];

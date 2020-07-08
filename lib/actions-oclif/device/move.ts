@@ -18,7 +18,6 @@
 import { flags } from '@oclif/command';
 import type { IArg } from '@oclif/parser/lib/args';
 import type { Application, Device } from 'balena-sdk';
-import * as _ from 'lodash';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
@@ -114,12 +113,11 @@ export default class DeviceMoveCmd extends Command {
 					dt.state !== 'DISCONTINUED',
 			);
 
-			application = await patterns.selectApplication((app: Application) =>
-				_.every([
-					_.some(compatibleDeviceTypes, (dt) => dt.slug === app.device_type),
+			application = await patterns.selectApplication(
+				(app: Application) =>
+					compatibleDeviceTypes.some((dt) => dt.slug === app.device_type) &&
 					// @ts-ignore using the extended device object prop
 					device.application_name !== app.app_name,
-				]),
 			);
 		}
 
