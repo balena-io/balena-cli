@@ -1,4 +1,23 @@
+/**
+ * @license
+ * Copyright 2019-2020 Balena Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import { expect } from 'chai';
+
+import { BalenaAPIMock } from '../balena-api-mock';
 import { cleanOutput, runCommand } from '../helpers';
 
 const SIMPLE_HELP = `
@@ -93,6 +112,18 @@ const ONLINE_RESOURCES = `
 `;
 
 describe('balena help', function () {
+	let api: BalenaAPIMock;
+
+	this.beforeEach(() => {
+		api = new BalenaAPIMock();
+		api.expectGetMixpanel({ optional: true });
+	});
+
+	this.afterEach(() => {
+		// Check all expected api calls have been made and clean up.
+		api.done();
+	});
+
 	it('should list primary command summaries', async () => {
 		const { out, err } = await runCommand('help');
 

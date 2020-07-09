@@ -45,6 +45,8 @@ describe('balena device', function () {
 
 	beforeEach(() => {
 		api = new BalenaAPIMock();
+		api.expectGetWhoAmI({ optional: true, persist: true });
+		api.expectGetMixpanel({ optional: true });
 	});
 
 	afterEach(() => {
@@ -53,9 +55,6 @@ describe('balena device', function () {
 	});
 
 	it('should print help text with the -h flag', async () => {
-		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetMixpanel({ optional: true });
-
 		const { out, err } = await runCommand('device -h');
 
 		expect(cleanOutput(out)).to.deep.equal(cleanOutput([HELP_RESPONSE]));
@@ -64,9 +63,6 @@ describe('balena device', function () {
 	});
 
 	it('should error if uuid not provided', async () => {
-		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetMixpanel({ optional: true });
-
 		const { out, err } = await runCommand('device');
 		const errLines = cleanOutput(err);
 
@@ -76,8 +72,6 @@ describe('balena device', function () {
 	});
 
 	it('should list device details for provided uuid', async () => {
-		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetMixpanel({ optional: true });
 		api.scope
 			.get(
 				/^\/v5\/device\?.+&\$expand=belongs_to__application\(\$select=app_name\)/,
@@ -100,8 +94,6 @@ describe('balena device', function () {
 	it('correctly handles devices with missing application', async () => {
 		// Devices with missing applications will have application name set to `N/a`.
 		// e.g. When user has a device associated with app that user is no longer a collaborator of.
-		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetMixpanel({ optional: true });
 		api.scope
 			.get(
 				/^\/v5\/device\?.+&\$expand=belongs_to__application\(\$select=app_name\)/,

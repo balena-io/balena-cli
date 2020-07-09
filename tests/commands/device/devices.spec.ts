@@ -49,6 +49,8 @@ describe('balena devices', function () {
 
 	beforeEach(() => {
 		api = new BalenaAPIMock();
+		api.expectGetWhoAmI({ optional: true, persist: true });
+		api.expectGetMixpanel({ optional: true });
 	});
 
 	afterEach(() => {
@@ -57,9 +59,6 @@ describe('balena devices', function () {
 	});
 
 	it('should print help text with the -h flag', async () => {
-		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetMixpanel({ optional: true });
-
 		const { out, err } = await runCommand('devices -h');
 
 		expect(cleanOutput(out)).to.deep.equal(cleanOutput([HELP_RESPONSE]));
@@ -68,9 +67,6 @@ describe('balena devices', function () {
 	});
 
 	it('should list devices from own and collaborator apps', async () => {
-		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetMixpanel({ optional: true });
-
 		api.scope
 			.get(
 				'/v5/device?$orderby=device_name%20asc&$expand=belongs_to__application($select=app_name)',

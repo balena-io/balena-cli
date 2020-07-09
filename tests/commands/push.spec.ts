@@ -578,6 +578,18 @@ describe('balena push', function () {
 });
 
 describe('balena push: project validation', function () {
+	let api: BalenaAPIMock;
+
+	this.beforeEach(() => {
+		api = new BalenaAPIMock();
+		api.expectGetMixpanel({ optional: true });
+	});
+
+	this.afterEach(() => {
+		// Check all expected api calls have been made and clean up.
+		api.done();
+	});
+
 	it('should raise ExpectedError if the project folder is not a directory', async () => {
 		const projectPath = path.join(
 			projectsPath,
