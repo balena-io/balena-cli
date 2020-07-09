@@ -69,19 +69,26 @@ export default class DeviceCmd extends Command {
 
 		const balena = getBalenaSdk();
 
-		const [device, overallStatus] = await Promise.all([
-			balena.models.device.get(params.uuid, expandForAppName) as Promise<
-				ExtendedDevice
-			>,
-			// TODO: drop this and add `overall_status` to a $select in the above
-			// pine query once the overall_status field is moved to open-balena-api.
-			// See: https://github.com/balena-io/open-balena-api/issues/338
-			balena.models.device
-				.get(params.uuid, { $select: 'overall_status' })
-				.then(({ overall_status }) => overall_status)
-				.catchReturn(''),
-		]);
-		device.status = overallStatus;
+		const device: ExtendedDevice = await balena.models.device.get(params.uuid, {
+			$select: [
+				'device_name',
+				'id',
+				'device_type',
+				'overall_status',
+				'is_online',
+				'ip_address',
+				'mac_address',
+				'last_connectivity_event',
+				'uuid',
+				'is_on__commit',
+				'supervisor_version',
+				'is_web_accessible',
+				'note',
+				'os_version',
+			],
+			...expandForAppName,
+		});
+		device.status = device.overall_status;
 
 		device.dashboard_url = balena.models.device.getDashboardUrl(device.uuid);
 
