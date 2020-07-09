@@ -96,14 +96,17 @@ export async function trackCommand(commandSignature: string) {
 				username,
 			});
 		});
-		await mixpanel.track(`[CLI] ${commandSignature}`, {
-			distinct_id: username,
-			version: packageJSON.version,
-			node: process.version,
-			arch: process.arch,
-			balenaUrl, // e.g. 'balena-cloud.com' or 'balena-staging.com'
-			platform: process.platform,
-		});
+		// Don't actually call mixpanel.track() while running test cases
+		if (!process.env.BALENA_CLI_TEST_TYPE) {
+			await mixpanel.track(`[CLI] ${commandSignature}`, {
+				distinct_id: username,
+				version: packageJSON.version,
+				node: process.version,
+				arch: process.arch,
+				balenaUrl, // e.g. 'balena-cloud.com' or 'balena-staging.com'
+				platform: process.platform,
+			});
+		}
 	} catch {
 		// ignore
 	}
