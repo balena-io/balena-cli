@@ -78,7 +78,6 @@ describe('balena device', function () {
 	it('should list device details for provided uuid', async () => {
 		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetMixpanel({ optional: true });
-		api.expectGetDeviceStatus();
 		api.scope
 			.get(
 				/^\/v5\/device\?.+&\$expand=belongs_to__application\(\$select=app_name\)/,
@@ -91,7 +90,7 @@ describe('balena device', function () {
 
 		const lines = cleanOutput(out);
 
-		expect(lines).to.have.lengthOf(13);
+		expect(lines).to.have.lengthOf(14);
 		expect(lines[0]).to.equal('== SPARKLING WOOD');
 		expect(lines[6].split(':')[1].trim()).to.equal('test app');
 
@@ -103,7 +102,6 @@ describe('balena device', function () {
 		// e.g. When user has a device associated with app that user is no longer a collaborator of.
 		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetMixpanel({ optional: true });
-		api.expectGetDeviceStatus();
 		api.scope
 			.get(
 				/^\/v5\/device\?.+&\$expand=belongs_to__application\(\$select=app_name\)/,
@@ -120,7 +118,7 @@ describe('balena device', function () {
 
 		const lines = cleanOutput(out);
 
-		expect(lines).to.have.lengthOf(13);
+		expect(lines).to.have.lengthOf(14);
 		expect(lines[0]).to.equal('== SPARKLING WOOD');
 		expect(lines[6].split(':')[1].trim()).to.equal('N/a');
 
