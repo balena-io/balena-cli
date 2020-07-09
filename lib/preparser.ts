@@ -185,6 +185,7 @@ export const convertedCommands = [
 	'tag:rm',
 	'tag:set',
 	'tunnel',
+	'util:available-drives',
 	'version',
 	'whoami',
 ];

@@ -149,7 +149,7 @@ const capitanoDoc = {
 		},
 		{
 			title: 'Utilities',
-			files: ['build/actions/util.js'],
+			files: ['build/actions-oclif/util/available-drives.js'],
 		},
 	],
 };

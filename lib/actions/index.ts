@@ -19,7 +19,6 @@ export * as help from './help';
 export * as local from './local';
 export * as os from './os';
 export * as push from './push';
-export * as util from './util';
 
 export { build } from './build';
 
