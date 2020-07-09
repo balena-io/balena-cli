@@ -76,7 +76,7 @@ Additional commands:
     key rm <id>                           remove an SSH key from balenaCloud
     keys                                  list the SSH keys in balenaCloud
     local configure <target>              (Re)configure a balenaOS drive or image
-    local flash <image>                   Flash an image to a drive
+    local flash <image>                   flash an image to a drive
     logout                                logout from balena
     note <|note>                          set a device note
     os build-config <image> <device-type> build the OS config and save it to the JSON file

@@ -64,7 +64,6 @@ capitano.command(actions.preload);
 
 // ---------- Local balenaOS Module ----------
 capitano.command(actions.local.configure);
-capitano.command(actions.local.flash);
 
 // ------------ Local build and deploy -------
 capitano.command(actions.build);

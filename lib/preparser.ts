@@ -173,6 +173,7 @@ export const convertedCommands = [
 	'key:add',
 	'key:rm',
 	'leave',
+	'local:flash',
 	'login',
 	'logout',
 	'logs',

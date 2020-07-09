@@ -250,8 +250,8 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 
 - Local
 
-	- [local configure &#60;target&#62;](#local-configure-target)
 	- [local flash &#60;image&#62;](#local-flash-image)
+	- [local configure &#60;target&#62;](#local-configure-target)
 
 - Deploy
 
@@ -2161,6 +2161,36 @@ Examples:
 
 # Local
 
+## local flash &#60;image&#62;
+
+Flash a balenaOS image to a drive.
+Image file may be one of: .img|.zip|.gz|.bz2|.xz
+
+If --drive is not specified, then it will interactively
+show a list of available drives for selection.
+
+Examples:
+
+	$ balena local flash path/to/balenaos.img
+	$ balena local flash path/to/balenaos.img --drive /dev/disk2
+	$ balena local flash path/to/balenaos.img --drive /dev/disk2 --yes
+
+### Arguments
+
+#### IMAGE
+
+path to OS image
+
+### Options
+
+#### -d, --drive DRIVE
+
+drive to flash
+
+#### -y, --yes
+
+answer "yes" to all questions (non interactive use)
+
 ## local configure &#60;target&#62;
 
 Use this command to configure or reconfigure a balenaOS drive or image.
@@ -2169,26 +2199,6 @@ Examples:
 
 	$ balena local configure /dev/sdc
 	$ balena local configure path/to/image.img
-
-## local flash &#60;image&#62;
-
-Use this command to flash a balenaOS image to a drive.
-
-Examples:
-
-	$ balena local flash path/to/balenaos.img[.zip|.gz|.bz2|.xz]
-	$ balena local flash path/to/balenaos.img --drive /dev/disk2
-	$ balena local flash path/to/balenaos.img --drive /dev/disk2 --yes
-
-### Options
-
-#### --yes, -y
-
-confirm non-interactively
-
-#### --drive, -d &#60;drive&#62;
-
-drive
 
 # Deploy
 
