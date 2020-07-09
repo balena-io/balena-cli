@@ -1,4 +1,15 @@
 - commits:
+    - subject: Fix opn patch for some strange edge case
+      hash: 88b7b9273a97c0f8f3ce3013945d9c1498bce2eb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 12.6.8
+  date: 2020-07-09T16:23:22.657Z
+- commits:
     - subject: Be lazier with imports in oclif actions
       hash: d6f1328238c18c77c614f16885366353236ae80c
       body: ''
