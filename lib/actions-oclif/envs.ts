@@ -201,12 +201,12 @@ export default class EnvsCmd extends Command {
 		}
 
 		const balena = getBalenaSdk();
-		const { getDeviceAndMaybeAppFromUUID } = await import('../utils/cloud');
 
 		let appName = options.application;
 		let fullUUID: string | undefined; // as oppposed to the short, 7-char UUID
 
 		if (options.device) {
+			const { getDeviceAndMaybeAppFromUUID } = await import('../utils/cloud');
 			const [device, app] = await getDeviceAndMaybeAppFromUUID(
 				balena,
 				options.device,

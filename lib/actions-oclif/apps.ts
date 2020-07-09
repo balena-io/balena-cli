@@ -61,7 +61,6 @@ export default class AppsCmd extends Command {
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(AppsCmd);
 
-		const _ = await import('lodash');
 		const balena = getBalenaSdk();
 
 		// Get applications
@@ -72,6 +71,7 @@ export default class AppsCmd extends Command {
 			},
 		);
 
+		const _ = await import('lodash');
 		// Add extended properties
 		applications.forEach((application) => {
 			application.device_count = application.owns__device?.length ?? 0;

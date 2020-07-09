@@ -123,6 +123,7 @@ export default class LoginCmd extends Command {
 		console.log(messages.balenaAsciiArt);
 		console.log(`\nLogging in to ${balenaUrl}`);
 		await this.doLogin(options, params.token);
+
 		const username = await balena.auth.whoami();
 
 		console.info(`Successfully logged in as: ${username}`);
@@ -141,9 +142,6 @@ ${messages.reachingOut}`);
 	}
 
 	async doLogin(loginOptions: FlagsDef, token?: string): Promise<void> {
-		const patterns = await import('../utils/patterns');
-		const balena = getBalenaSdk();
-
 		// Token
 		if (loginOptions.token) {
 			if (!token) {
@@ -153,6 +151,7 @@ ${messages.reachingOut}`);
 					type: 'input',
 				});
 			}
+			const balena = getBalenaSdk();
 			await balena.auth.loginWithToken(token!);
 			if (!(await balena.auth.whoami())) {
 				throw new ExpectedError('Token authentication failed');
@@ -161,6 +160,7 @@ ${messages.reachingOut}`);
 		}
 		// Credentials
 		else if (loginOptions.credentials) {
+			const patterns = await import('../utils/patterns');
 			return patterns.authenticate(loginOptions);
 		}
 		// Web
@@ -168,19 +168,20 @@ ${messages.reachingOut}`);
 			const auth = await import('../auth');
 			await auth.login();
 			return;
-		}
+		} else {
+			const patterns = await import('../utils/patterns');
+			// User had not selected login preference, prompt interactively
+			const loginType = await patterns.askLoginType();
+			if (loginType === 'register') {
+				const signupUrl = 'https://dashboard.balena-cloud.com/signup';
+				const open = await import('open');
+				open(signupUrl, { wait: false });
+				throw new ExpectedError(`Please sign up at ${signupUrl}`);
+			}
 
-		// User had not selected login preference, prompt interactively
-		const loginType = await patterns.askLoginType();
-		if (loginType === 'register') {
-			const signupUrl = 'https://dashboard.balena-cloud.com/signup';
-			const open = await import('open');
-			open(signupUrl, { wait: false });
-			throw new ExpectedError(`Please sign up at ${signupUrl}`);
+			// Set login options flag from askLoginType, and run again
+			loginOptions[loginType] = true;
+			return this.doLogin(loginOptions);
 		}
-
-		// Set login options flag from askLoginType, and run again
-		loginOptions[loginType] = true;
-		return this.doLogin(loginOptions);
 	}
 }

@@ -102,7 +102,6 @@ export default class LogsCmd extends Command {
 		);
 
 		const balena = getBalenaSdk();
-		const { ExpectedError } = await import('../errors');
 		const { serviceIdToName } = await import('../utils/cloud');
 		const { displayDeviceLogs, displayLogObject } = await import(
 			'../utils/device/logs'
@@ -147,6 +146,7 @@ export default class LogsCmd extends Command {
 			try {
 				await deviceApi.ping();
 			} catch (e) {
+				const { ExpectedError } = await import('../errors');
 				throw new ExpectedError(
 					`Cannot access device at address ${params.device}.  Device may not be in local mode.`,
 				);

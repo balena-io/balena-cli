@@ -77,7 +77,6 @@ export default class DeviceMoveCmd extends Command {
 		);
 
 		const balena = getBalenaSdk();
-		const patterns = await import('../../utils/patterns');
 
 		// Consolidate application options
 		options.application = options.application || options.app;
@@ -113,6 +112,7 @@ export default class DeviceMoveCmd extends Command {
 					dt.state !== 'DISCONTINUED',
 			);
 
+			const patterns = await import('../../utils/patterns');
 			application = await patterns.selectApplication(
 				(app: Application) =>
 					compatibleDeviceTypes.some((dt) => dt.slug === app.device_type) &&

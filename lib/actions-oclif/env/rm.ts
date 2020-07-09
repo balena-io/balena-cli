@@ -87,11 +87,10 @@ export default class EnvRmCmd extends Command {
 		const { args: params, flags: opt } = this.parse<FlagsDef, ArgsDef>(
 			EnvRmCmd,
 		);
-		const balena = getBalenaSdk();
-		const { confirm } = await import('../../utils/patterns');
 
 		await Command.checkLoggedIn();
 
+		const { confirm } = await import('../../utils/patterns');
 		await confirm(
 			opt.yes || false,
 			'Are you sure you want to delete the environment variable?',
@@ -99,6 +98,7 @@ export default class EnvRmCmd extends Command {
 			true,
 		);
 
+		const balena = getBalenaSdk();
 		await balena.pine.delete({
 			resource: ec.getVarResourceName(opt.config, opt.device, opt.service),
 			id: params.id,

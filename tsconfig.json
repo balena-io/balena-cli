@@ -21,6 +21,7 @@
 		"allowJs": true
 	},
 	"include": [
-		"./lib/**/*"
+		"./lib/**/*",
+		"./typings/**/*"
 	]
 }
