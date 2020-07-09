@@ -1,4 +1,16 @@
 - commits:
+    - subject: Convert `util available-drives` to oclif
+      hash: 6f265b24aa3cd6c60f6ac045dbc4bad2469800df
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+  version: 12.6.6
+  date: 2020-07-09T12:01:57.037Z
+- commits:
     - subject: Enforce and improve lazy loading of resin-cli-form
       hash: eea8c83bff0bc135bf7e5fb8d881aea5671462b8
       body: ''
