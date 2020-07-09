@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Be lazier with imports in oclif actions",
+          "hash": "d6f1328238c18c77c614f16885366353236ae80c",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "12.6.7",
+      "date": "2020-07-09T14:06:27.784Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert `util available-drives` to oclif",
           "hash": "6f265b24aa3cd6c60f6ac045dbc4bad2469800df",
           "body": "",
@@ -13194,29 +13210,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-09T12:30:13Z",
+  "lastCommitDate": "2020-07-09T14:42:21Z",
   "latestRelease": {
-    "tagName": "v12.6.6",
+    "tagName": "v12.6.7",
     "asssets": [
       {
-        "name": "balena-cli-v12.6.6-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.6/balena-cli-v12.6.6-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.6.7-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.7/balena-cli-v12.6.7-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.6.6-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.6/balena-cli-v12.6.6-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.6.7-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.7/balena-cli-v12.6.7-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.6.6-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.6/balena-cli-v12.6.6-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.6.7-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.7/balena-cli-v12.6.7-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.6.6-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.6/balena-cli-v12.6.6-windows-x64-installer.exe"
+        "name": "balena-cli-v12.6.7-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.7/balena-cli-v12.6.7-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.6.6-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.6/balena-cli-v12.6.6-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.6.7-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.7/balena-cli-v12.6.7-windows-x64-standalone.zip"
       }
     ]
   },
@@ -13225,8 +13241,8 @@
     "numberOfIssues": 285,
     "latestIssues": [
       {
-        "title": "Be lazier with imports in oclif actions",
-        "url": "https://github.com/balena-io/balena-cli/pull/1928"
+        "title": "Device: explicitly fetch only the presented fields",
+        "url": "https://github.com/balena-io/balena-cli/pull/1930"
       },
       {
         "title": "Enable `balena deploy` to update individual images in a multicontainer app",
@@ -13306,7 +13322,7 @@
       }
     ]
   },
-  "version": "12.6.6",
+  "version": "12.6.7",
   "screenshot": null,
   "logo": null
 }
