@@ -1,14 +1,15 @@
 diff --git a/node_modules/opn/index.js b/node_modules/opn/index.js
-index 13dcb66..16c5b2a 100644
+index 13dcb66..0f0c1df 100644
 --- a/node_modules/opn/index.js
 +++ b/node_modules/opn/index.js
-@@ -52,6 +52,9 @@ module.exports = function (target, opts) {
+@@ -51,7 +51,9 @@ module.exports = function (target, opts) {
+ 		if (opts.app) {
  			cmd = opts.app;
  		} else {
- 			cmd = path.join(__dirname, 'xdg-open');
+-			cmd = path.join(__dirname, 'xdg-open');
 +			cmd = process.pkg
 +				? path.join(path.dirname(process.execPath), 'xdg-open-402')
 +				: path.join(__dirname, 'xdg-open');
  		}
-
+ 
  		if (appArgs.length > 0) {
