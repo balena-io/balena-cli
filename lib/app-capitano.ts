@@ -66,9 +66,6 @@ capitano.command(actions.preload);
 capitano.command(actions.local.configure);
 capitano.command(actions.local.flash);
 
-// ---------- Public utils ----------
-capitano.command(actions.util.availableDrives);
-
 // ------------ Local build and deploy -------
 capitano.command(actions.build);
 capitano.command(actions.deploy);

@@ -2681,5 +2681,7 @@ the device IP or hostname
 
 ## util available-drives
 
-Use this command to list your machine's drives usable for writing the OS image to.
-Skips the system drives.
+List available drives which are usable for writing an OS image to.
+Does not list system drives.
+
+### Options
