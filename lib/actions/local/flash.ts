@@ -17,7 +17,12 @@ limitations under the License.
 import type { CommandDefinition } from 'capitano';
 import type * as SDK from 'etcher-sdk';
 
-import { getChalk, getVisuals, stripIndent } from '../../utils/lazy';
+import {
+	getChalk,
+	getVisuals,
+	stripIndent,
+	getCliForm,
+} from '../../utils/lazy';
 import { ExpectedError } from '../../errors';
 
 async function getDrive(options: {
@@ -71,14 +76,13 @@ export const flash: CommandDefinition<
 		},
 	],
 	async action(params, options) {
-		const form = await import('resin-cli-form');
 		const { sourceDestination, multiWrite } = await import('etcher-sdk');
 
 		const drive = await getDrive(options);
 
 		const yes =
 			options.yes ||
-			(await form.ask({
+			(await getCliForm().ask({
 				message: 'This will erase the selected drive. Are you sure?',
 				type: 'confirm',
 				name: 'yes',

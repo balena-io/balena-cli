@@ -23,7 +23,7 @@ import Command from '../../command';
 
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
 import { CommandHelp } from '../../utils/oclif-utils';
 
 const BOOT_PARTITION = 1;
@@ -396,7 +396,6 @@ async function askQuestionsForDeviceType(
 	options: FlagsDef,
 	configJson?: import('../../utils/config').ImgConfig,
 ): Promise<Answers> {
-	const form = await import('resin-cli-form');
 	const helpers = await import('../../utils/helpers');
 	const answerSources: any[] = [camelifyConfigOptions(options)];
 	const defaultAnswers: Partial<Answers> = {};
@@ -436,7 +435,7 @@ async function askQuestionsForDeviceType(
 		extraOpts = { override: defaultAnswers };
 	}
 
-	return form.run(questions, extraOpts);
+	return getCliForm().run(questions, extraOpts);
 }
 
 /**

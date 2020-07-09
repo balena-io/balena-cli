@@ -18,13 +18,13 @@
 declare module 'resin-cli-form' {
 	import Bluebird = require('bluebird');
 
-	type TypeOrPromiseLike<T> = T | PromiseLike<T>;
+	export type TypeOrPromiseLike<T> = T | PromiseLike<T>;
 
-	type Validate = (
+	export type Validate = (
 		input: any,
 	) => TypeOrPromiseLike<boolean | string | undefined>;
 
-	interface AskOptions<T> {
+	export interface AskOptions<T> {
 		message: string;
 		type?: string;
 		name?: string;
@@ -36,20 +36,16 @@ declare module 'resin-cli-form' {
 		validate?: Validate;
 	}
 
-	interface RunQuestion {
+	export interface RunQuestion {
 		message: string;
 		name: string;
 		type?: string;
 		validate?: Validate;
 	}
 
-	const form: {
-		ask: <T = string>(options: AskOptions<T>) => Bluebird<T>;
-		run: <T = any>(
-			questions?: RunQuestion[],
-			extraOptions?: { override?: object },
-		) => Bluebird<T>;
-	};
-
-	export = form;
+	export const ask: <T = string>(options: AskOptions<T>) => Bluebird<T>;
+	export const run: <T = any>(
+		questions?: RunQuestion[],
+		extraOptions?: { override?: object },
+	) => Bluebird<T>;
 }

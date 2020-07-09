@@ -18,7 +18,7 @@
 import { flags } from '@oclif/command';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../utils/lazy';
+import { getBalenaSdk, stripIndent, getCliForm } from '../utils/lazy';
 import { ExpectedError } from '../errors';
 
 interface FlagsDef {
@@ -147,8 +147,7 @@ ${messages.reachingOut}`);
 		// Token
 		if (loginOptions.token) {
 			if (!token) {
-				const form = await import('resin-cli-form');
-				token = await form.ask({
+				token = await getCliForm().ask({
 					message: 'Session token or API key from the preferences page',
 					name: 'token',
 					type: 'input',
