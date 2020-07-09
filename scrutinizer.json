@@ -5,6 +5,40 @@
     {
       "commits": [
         {
+          "subject": "Device: Fix the last_seen field not showing up",
+          "hash": "477c48f831f475479e378f730c615fe73d120d08",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis",
+          "nested": []
+        },
+        {
+          "subject": "Device: explicitly fetch only the presented fields",
+          "hash": "fb9943a375a258d1fcd5a4d05ef2cf9e66d23adb",
+          "body": "Depends on open-balena adding the mac_address &\nthe overall_status device fields, but the latest cli\nversion is probably already not working, since some\nof its dependencies already use the v14 SDK which\nneeds the v6 model, that the open-balena-api doesn't\nhave yet either.\n",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "See": "https://github.com/balena-io/balena-sdk/issues/920",
+            "see": "https://github.com/balena-io/balena-sdk/issues/920",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis",
+          "nested": []
+        }
+      ],
+      "version": "12.7.0",
+      "date": "2020-07-09T18:15:23.029Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix opn patch for some strange edge case",
           "hash": "88b7b9273a97c0f8f3ce3013945d9c1498bce2eb",
           "body": "",
@@ -13227,35 +13261,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-09T16:54:11Z",
+  "lastCommitDate": "2020-07-09T18:43:41Z",
   "latestRelease": {
-    "tagName": "v12.6.8",
+    "tagName": "v12.7.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.6.8-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.8/balena-cli-v12.6.8-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.7.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.0/balena-cli-v12.7.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.6.8-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.8/balena-cli-v12.6.8-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.7.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.0/balena-cli-v12.7.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.6.8-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.8/balena-cli-v12.6.8-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.7.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.0/balena-cli-v12.7.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.6.8-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.8/balena-cli-v12.6.8-windows-x64-installer.exe"
+        "name": "balena-cli-v12.7.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.0/balena-cli-v12.7.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.6.8-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.8/balena-cli-v12.6.8-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.7.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.0/balena-cli-v12.7.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 287,
+    "numberOfIssues": 286,
     "latestIssues": [
       {
         "title": "Update net-keepalive to 1.3.1",
@@ -13264,10 +13298,6 @@
       {
         "title": "Test cases: Re-add nock checks for unexpected HTTP requests",
         "url": "https://github.com/balena-io/balena-cli/pull/1931"
-      },
-      {
-        "title": "Device: explicitly fetch only the presented fields",
-        "url": "https://github.com/balena-io/balena-cli/pull/1930"
       },
       {
         "title": "Enable `balena deploy` to update individual images in a multicontainer app",
@@ -13336,10 +13366,14 @@
       {
         "title": "`balena push <ipAddress>` crashes with Node 14",
         "url": "https://github.com/balena-io/balena-cli/issues/1847"
+      },
+      {
+        "title": "Resource identification with database IDs should not be allowed",
+        "url": "https://github.com/balena-io/balena-cli/issues/1843"
       }
     ]
   },
-  "version": "12.6.8",
+  "version": "12.7.0",
   "screenshot": null,
   "logo": null
 }
