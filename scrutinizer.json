@@ -5,6 +5,22 @@
     {
       "commits": [
         {
+          "subject": "Enforce and improve lazy loading of resin-cli-form",
+          "hash": "eea8c83bff0bc135bf7e5fb8d881aea5671462b8",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard"
+        }
+      ],
+      "version": "12.6.5",
+      "date": "2020-07-09T09:53:48.653Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Reduce lodash usage in oclif actions",
           "hash": "5242510481bd7aa6c233e22a6029affb10f0954a",
           "body": "",
@@ -13160,43 +13176,39 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-08T17:46:13Z",
+  "lastCommitDate": "2020-07-09T10:22:52Z",
   "latestRelease": {
-    "tagName": "v12.6.4",
+    "tagName": "v12.6.5",
     "asssets": [
       {
-        "name": "balena-cli-v12.6.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.4/balena-cli-v12.6.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.6.5-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.5/balena-cli-v12.6.5-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.6.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.4/balena-cli-v12.6.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.6.5-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.5/balena-cli-v12.6.5-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.6.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.4/balena-cli-v12.6.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.6.5-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.5/balena-cli-v12.6.5-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.6.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.4/balena-cli-v12.6.4-windows-x64-installer.exe"
+        "name": "balena-cli-v12.6.5-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.5/balena-cli-v12.6.5-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.6.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.4/balena-cli-v12.6.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.6.5-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.5/balena-cli-v12.6.5-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 286,
+    "numberOfIssues": 285,
     "latestIssues": [
       {
         "title": "Be lazier with imports in oclif actions",
         "url": "https://github.com/balena-io/balena-cli/pull/1928"
-      },
-      {
-        "title": "Enforce and improve lazy loading of resin-cli-form",
-        "url": "https://github.com/balena-io/balena-cli/pull/1927"
       },
       {
         "title": "Enable `balena deploy` to update individual images in a multicontainer app",
@@ -13269,10 +13281,14 @@
       {
         "title": "Resource identification with database IDs should not be allowed",
         "url": "https://github.com/balena-io/balena-cli/issues/1843"
+      },
+      {
+        "title": "Resource names that look like numbers are treated as IDs / short UUIDs",
+        "url": "https://github.com/balena-io/balena-cli/issues/1842"
       }
     ]
   },
-  "version": "12.6.4",
+  "version": "12.6.5",
   "screenshot": null,
   "logo": null
 }
