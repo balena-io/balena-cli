@@ -1,4 +1,14 @@
 - commits:
+    - subject: Enforce and improve lazy loading of resin-cli-form
+      hash: eea8c83bff0bc135bf7e5fb8d881aea5671462b8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+  version: 12.6.5
+  date: 2020-07-09T09:53:48.653Z
+- commits:
     - subject: Reduce lodash usage in oclif actions
       hash: 5242510481bd7aa6c233e22a6029affb10f0954a
       body: ''
