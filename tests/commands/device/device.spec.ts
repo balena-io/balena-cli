@@ -90,7 +90,7 @@ describe('balena device', function () {
 
 		const lines = cleanOutput(out);
 
-		expect(lines).to.have.lengthOf(13);
+		expect(lines).to.have.lengthOf(14);
 		expect(lines[0]).to.equal('== SPARKLING WOOD');
 		expect(lines[6].split(':')[1].trim()).to.equal('test app');
 
@@ -118,7 +118,7 @@ describe('balena device', function () {
 
 		const lines = cleanOutput(out);
 
-		expect(lines).to.have.lengthOf(13);
+		expect(lines).to.have.lengthOf(14);
 		expect(lines[0]).to.equal('== SPARKLING WOOD');
 		expect(lines[6].split(':')[1].trim()).to.equal('N/a');
 

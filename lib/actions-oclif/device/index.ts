@@ -28,6 +28,7 @@ interface ExtendedDevice extends Device {
 	dashboard_url?: string;
 	application_name?: string;
 	commit?: string;
+	last_seen?: string;
 }
 
 interface FlagsDef {
@@ -98,6 +99,7 @@ export default class DeviceCmd extends Command {
 			: 'N/a';
 
 		device.commit = device.is_on__commit;
+		device.last_seen = device.last_connectivity_event;
 
 		console.log(
 			getVisuals().table.vertical(device, [

@@ -15,6 +15,7 @@
 	  "is_on__commit": "18756d3386c25a044db66b89e0409804",
 	  "note": null,
 	  "is_online": false,
+	  "last_connectivity_event": "2019-11-23T00:26:35.074Z",
 	  "ip_address": "192.168.0.112",
 	  "mac_address": null,
 	  "os_version": "balenaOS 2.44.0+rev3",
