@@ -1,4 +1,35 @@
 - commits:
+    - subject: 'Device: Fix the last_seen field not showing up'
+      hash: 477c48f831f475479e378f730c615fe73d120d08
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+    - subject: 'Device: explicitly fetch only the presented fields'
+      hash: fb9943a375a258d1fcd5a4d05ef2cf9e66d23adb
+      body: |
+        Depends on open-balena adding the mac_address &
+        the overall_status device fields, but the latest cli
+        version is probably already not working, since some
+        of its dependencies already use the v14 SDK which
+        needs the v6 model, that the open-balena-api doesn't
+        have yet either.
+      footer:
+        Change-type: minor
+        change-type: minor
+        See: 'https://github.com/balena-io/balena-sdk/issues/920'
+        see: 'https://github.com/balena-io/balena-sdk/issues/920'
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 12.7.0
+  date: 2020-07-09T18:15:23.029Z
+- commits:
     - subject: Fix opn patch for some strange edge case
       hash: 88b7b9273a97c0f8f3ce3013945d9c1498bce2eb
       body: ''
