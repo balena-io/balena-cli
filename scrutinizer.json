@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Fix opn patch for some strange edge case",
+          "hash": "88b7b9273a97c0f8f3ce3013945d9c1498bce2eb",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        }
+      ],
+      "version": "12.6.8",
+      "date": "2020-07-09T16:23:22.657Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Be lazier with imports in oclif actions",
           "hash": "d6f1328238c18c77c614f16885366353236ae80c",
           "body": "",
@@ -13210,36 +13227,44 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-09T14:42:21Z",
+  "lastCommitDate": "2020-07-09T16:54:11Z",
   "latestRelease": {
-    "tagName": "v12.6.7",
+    "tagName": "v12.6.8",
     "asssets": [
       {
-        "name": "balena-cli-v12.6.7-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.7/balena-cli-v12.6.7-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.6.8-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.8/balena-cli-v12.6.8-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.6.7-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.7/balena-cli-v12.6.7-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.6.8-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.8/balena-cli-v12.6.8-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.6.7-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.7/balena-cli-v12.6.7-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.6.8-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.8/balena-cli-v12.6.8-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.6.7-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.7/balena-cli-v12.6.7-windows-x64-installer.exe"
+        "name": "balena-cli-v12.6.8-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.8/balena-cli-v12.6.8-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.6.7-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.7/balena-cli-v12.6.7-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.6.8-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.6.8/balena-cli-v12.6.8-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 285,
+    "numberOfIssues": 287,
     "latestIssues": [
+      {
+        "title": "Update net-keepalive to 1.3.1",
+        "url": "https://github.com/balena-io/balena-cli/pull/1932"
+      },
+      {
+        "title": "Test cases: Re-add nock checks for unexpected HTTP requests",
+        "url": "https://github.com/balena-io/balena-cli/pull/1931"
+      },
       {
         "title": "Device: explicitly fetch only the presented fields",
         "url": "https://github.com/balena-io/balena-cli/pull/1930"
@@ -13311,18 +13336,10 @@
       {
         "title": "`balena push <ipAddress>` crashes with Node 14",
         "url": "https://github.com/balena-io/balena-cli/issues/1847"
-      },
-      {
-        "title": "Resource identification with database IDs should not be allowed",
-        "url": "https://github.com/balena-io/balena-cli/issues/1843"
-      },
-      {
-        "title": "Resource names that look like numbers are treated as IDs / short UUIDs",
-        "url": "https://github.com/balena-io/balena-cli/issues/1842"
       }
     ]
   },
-  "version": "12.6.7",
+  "version": "12.6.8",
   "screenshot": null,
   "logo": null
 }
