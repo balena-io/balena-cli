@@ -1,4 +1,17 @@
 - commits:
+    - subject: Convert `local flash` to oclif
+      hash: 7ebc94c1e567f87bd4d64057a611ebf85d58f874
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.7.2
+  date: 2020-07-10T09:57:37.435Z
+- commits:
     - subject: Disable mixpanel.track() calls while running automated tests
       hash: 17a9d71e59c32c5186d7f36dac6739448aa56708
       body: ''
