@@ -60,7 +60,7 @@
     "test": "npm run test:source && npm run test:standalone",
     "test:source": "cross-env BALENA_CLI_TEST_TYPE=source mocha --timeout 6000 -r ts-node/register/transpile-only \"tests/**/*.spec.ts\"",
     "test:standalone": "npm run build:standalone && npm run test:standalone:fast",
-    "test:standalone:fast": "cross-env BALENA_CLI_TEST_TYPE=standalone npm run test:source",
+    "test:standalone:fast": "cross-env BALENA_CLI_TEST_TYPE=standalone mocha --timeout 6000 -r ts-node/register/transpile-only \"tests/**/*.spec.ts\"",
     "test:fast": "npm run build:fast && npm run test:source",
     "test:only": "npm run build:fast && cross-env BALENA_CLI_TEST_TYPE=source mocha --timeout 6000 -r ts-node/register/transpile-only \"tests/**/${npm_config_test}.spec.ts\"",
     "catch-uncommitted": "ts-node --transpile-only automation/run.ts catch-uncommitted",
