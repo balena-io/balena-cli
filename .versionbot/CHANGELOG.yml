@@ -1,4 +1,15 @@
 - commits:
+    - subject: Fix env var for standalone executable tests in package.json
+      hash: da6c048a3b4ed7146594d3792ac016e9d476216d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.7.3
+  date: 2020-07-10T18:12:47.518Z
+- commits:
     - subject: Convert `local flash` to oclif
       hash: 7ebc94c1e567f87bd4d64057a611ebf85d58f874
       body: ''
