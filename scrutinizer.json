@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Fix env var for standalone executable tests in package.json",
+          "hash": "da6c048a3b4ed7146594d3792ac016e9d476216d",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.7.3",
+      "date": "2020-07-10T18:12:47.518Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert `local flash` to oclif",
           "hash": "7ebc94c1e567f87bd4d64057a611ebf85d58f874",
           "body": "",
@@ -13310,36 +13327,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-10T10:51:11Z",
+  "lastCommitDate": "2020-07-10T19:17:17Z",
   "latestRelease": {
-    "tagName": "v12.7.2",
+    "tagName": "v12.7.3",
     "asssets": [
       {
-        "name": "balena-cli-v12.7.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.2/balena-cli-v12.7.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.7.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.3/balena-cli-v12.7.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.7.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.2/balena-cli-v12.7.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.7.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.3/balena-cli-v12.7.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.7.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.2/balena-cli-v12.7.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.7.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.3/balena-cli-v12.7.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.7.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.2/balena-cli-v12.7.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.7.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.3/balena-cli-v12.7.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.7.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.2/balena-cli-v12.7.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.7.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.3/balena-cli-v12.7.3-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 287,
+    "numberOfIssues": 288,
     "latestIssues": [
+      {
+        "title": "Convert `local configure` to oclif, typescript",
+        "url": "https://github.com/balena-io/balena-cli/pull/1937"
+      },
       {
         "title": "Give a better error message on \"balena ssh\" when the keys don't match",
         "url": "https://github.com/balena-io/balena-cli/pull/1935"
@@ -13415,14 +13436,10 @@
       {
         "title": "balena deploy: Allow image layer caching when pushing to the registry",
         "url": "https://github.com/balena-io/balena-cli/pull/1848"
-      },
-      {
-        "title": "`balena push <ipAddress>` crashes with Node 14",
-        "url": "https://github.com/balena-io/balena-cli/issues/1847"
       }
     ]
   },
-  "version": "12.7.2",
+  "version": "12.7.3",
   "screenshot": null,
   "logo": null
 }

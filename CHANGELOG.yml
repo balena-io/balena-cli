@@ -1,4 +1,15 @@
 - commits:
+    - subject: Fix env var for standalone executable tests in package.json
+      hash: da6c048a3b4ed7146594d3792ac016e9d476216d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.7.3
+  date: 2020-07-10T19:16:01.714Z
+- commits:
     - subject: Convert `local flash` to oclif
       hash: 7ebc94c1e567f87bd4d64057a611ebf85d58f874
       body: ''
@@ -10,7 +21,7 @@
       author: Scott Lowe
       nested: []
   version: 12.7.2
-  date: 2020-07-10T10:50:27.848Z
+  date: 2020-07-10T09:57:37.435Z
 - commits:
     - subject: Disable mixpanel.track() calls while running automated tests
       hash: 17a9d71e59c32c5186d7f36dac6739448aa56708
