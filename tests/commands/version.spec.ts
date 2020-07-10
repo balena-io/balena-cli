@@ -16,6 +16,8 @@
  */
 import { expect } from 'chai';
 import * as fs from 'fs';
+
+import { BalenaAPIMock } from '../balena-api-mock';
 import { runCommand } from '../helpers';
 
 const packageJSON = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
@@ -24,6 +26,18 @@ const nodeVersion = process.version.startsWith('v')
 	: process.version;
 
 describe('balena version', function () {
+	let api: BalenaAPIMock;
+
+	this.beforeEach(() => {
+		api = new BalenaAPIMock();
+		api.expectGetMixpanel({ optional: true });
+	});
+
+	this.afterEach(() => {
+		// Check all expected api calls have been made and clean up.
+		api.done();
+	});
+
 	it('should print the installed version of the CLI', async () => {
 		const { err, out } = await runCommand('version');
 		expect(err).to.be.empty;

@@ -49,6 +49,8 @@ describe('balena device move', function () {
 
 	beforeEach(() => {
 		api = new BalenaAPIMock();
+		api.expectGetWhoAmI({ optional: true, persist: true });
+		api.expectGetMixpanel({ optional: true });
 	});
 
 	afterEach(() => {
@@ -57,9 +59,6 @@ describe('balena device move', function () {
 	});
 
 	it('should print help text with the -h flag', async () => {
-		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetMixpanel({ optional: true });
-
 		const { out, err } = await runCommand('device move -h');
 
 		expect(cleanOutput(out)).to.deep.equal(cleanOutput([HELP_RESPONSE]));
@@ -68,9 +67,6 @@ describe('balena device move', function () {
 	});
 
 	it('should error if uuid not provided', async () => {
-		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetMixpanel({ optional: true });
-
 		const { out, err } = await runCommand('device move');
 		const errLines = cleanOutput(err);
 

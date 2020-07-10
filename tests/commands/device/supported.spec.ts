@@ -26,6 +26,8 @@ describe('balena devices supported', function () {
 
 	beforeEach(() => {
 		api = new BalenaAPIMock();
+		api.expectGetWhoAmI({ optional: true });
+		api.expectGetMixpanel({ optional: true });
 	});
 
 	afterEach(() => {
@@ -34,9 +36,6 @@ describe('balena devices supported', function () {
 	});
 
 	it('should print help text with the -h flag', async () => {
-		api.expectGetWhoAmI({ optional: true });
-		api.expectGetMixpanel({ optional: true });
-
 		const { out, err } = await runCommand('devices supported -h');
 
 		expect(cleanOutput(out)).to.contain('$ balena devices supported');
@@ -45,8 +44,6 @@ describe('balena devices supported', function () {
 	});
 
 	it('should list currently supported devices, with correct filtering', async () => {
-		api.expectGetWhoAmI({ optional: true });
-		api.expectGetMixpanel({ optional: true });
 		api.expectGetDeviceTypes();
 
 		const { out, err } = await runCommand('devices supported');
