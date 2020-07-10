@@ -1,4 +1,25 @@
 - commits:
+    - subject: Disable mixpanel.track() calls while running automated tests
+      hash: 17a9d71e59c32c5186d7f36dac6739448aa56708
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'Test cases: Re-add nock checks for unexpected HTTP requests'
+      hash: 6fe8fb7c6e33a45431b8d19a8d122c1f5941c268
+      body: ''
+      footer:
+        Connects-to: '#1910'
+        connects-to: '#1910'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.7.1
+  date: 2020-07-10T07:56:11.987Z
+- commits:
     - subject: 'Device: Fix the last_seen field not showing up'
       hash: 477c48f831f475479e378f730c615fe73d120d08
       body: ''
@@ -28,7 +49,7 @@
       author: Thodoris Greasidis
       nested: []
   version: 12.7.0
-  date: 2020-07-09T18:42:31.680Z
+  date: 2020-07-09T18:15:23.029Z
 - commits:
     - subject: Fix opn patch for some strange edge case
       hash: 88b7b9273a97c0f8f3ce3013945d9c1498bce2eb
