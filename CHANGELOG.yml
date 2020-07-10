@@ -1,4 +1,17 @@
 - commits:
+    - subject: Convert `local flash` to oclif
+      hash: 7ebc94c1e567f87bd4d64057a611ebf85d58f874
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.7.2
+  date: 2020-07-10T10:50:27.848Z
+- commits:
     - subject: Disable mixpanel.track() calls while running automated tests
       hash: 17a9d71e59c32c5186d7f36dac6739448aa56708
       body: ''
@@ -18,7 +31,7 @@
       author: Paulo Castro
       nested: []
   version: 12.7.1
-  date: 2020-07-10T07:56:11.987Z
+  date: 2020-07-09T18:57:27.408Z
 - commits:
     - subject: 'Device: Fix the last_seen field not showing up'
       hash: 477c48f831f475479e378f730c615fe73d120d08
