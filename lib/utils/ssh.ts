@@ -147,9 +147,22 @@ export async function spawnSshAndThrowOnError(
 		// to return exit code 1. In these cases, print a short one-line warning
 		// message, and exits the CLI process with the same error code.
 		process.exitCode = exitCode;
-		const msg = exitSignal
-			? `Warning: ssh process was terminated with signal "${exitSignal}"`
-			: `Warning: ssh process exited with non-zero code "${exitCode}"`;
-		throw new ExpectedError(msg);
+		throw new ExpectedError(sshErrorMessage(exitSignal, exitCode));
 	}
+}
+
+function sshErrorMessage(exitSignal?: string, exitCode?: number) {
+	const msg: string[] = [];
+	if (exitSignal) {
+		msg.push(`Warning: ssh process was terminated with signal "${exitSignal}"`);
+	} else {
+		msg.push(`Warning: ssh process exited with non-zero code "${exitCode}"`);
+		switch (exitCode) {
+			case 255:
+				msg.push(`
+Are the SSH keys correctly configured in balenaCloud? See:
+https://www.balena.io/docs/learn/manage/ssh-access/#add-an-ssh-key-to-balenacloud`);
+		}
+	}
+	return msg.join('\n');
 }
