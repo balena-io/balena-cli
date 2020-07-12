@@ -93,7 +93,7 @@ If you are a Node.js developer, you may wish to install the balena CLI via [npm]
 The npm installation involves building native (platform-specific) binary modules, which require
 some additional development tools to be installed first:
 
-* [Node.js](https://nodejs.org/) version 10 or 12 (version 14 is not yet fully supported)
+* [Node.js](https://nodejs.org/) version 10 (min **10.20.0**) or 12 (version 14 is not yet fully supported)
   * **Linux, macOS** and **Windows Subsystem for Linux (WSL):**  
     Installing Node via [nvm](https://github.com/nvm-sh/nvm/blob/master/README.md) is recommended.
     When the "system" or "default" Node.js and npm packages are installed with "apt-get" in Linux
