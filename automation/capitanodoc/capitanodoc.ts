@@ -138,8 +138,8 @@ const capitanoDoc = {
 		{
 			title: 'Local',
 			files: [
+				'build/actions-oclif/local/configure.js',
 				'build/actions-oclif/local/flash.js',
-				'build/actions/local/index.js',
 			],
 		},
 		{

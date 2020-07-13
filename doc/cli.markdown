@@ -250,8 +250,8 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 
 - Local
 
-	- [local flash &#60;image&#62;](#local-flash-image)
 	- [local configure &#60;target&#62;](#local-configure-target)
+	- [local flash &#60;image&#62;](#local-flash-image)
 
 - Deploy
 
@@ -2161,6 +2161,23 @@ Examples:
 
 # Local
 
+## local configure &#60;target&#62;
+
+Configure or reconfigure a balenaOS drive or image.
+
+Examples:
+
+	$ balena local configure /dev/sdc
+	$ balena local configure path/to/image.img
+
+### Arguments
+
+#### TARGET
+
+path of drive or image to configure
+
+### Options
+
 ## local flash &#60;image&#62;
 
 Flash a balenaOS image to a drive.
@@ -2190,15 +2207,6 @@ drive to flash
 #### -y, --yes
 
 answer "yes" to all questions (non interactive use)
-
-## local configure &#60;target&#62;
-
-Use this command to configure or reconfigure a balenaOS drive or image.
-
-Examples:
-
-	$ balena local configure /dev/sdc
-	$ balena local configure path/to/image.img
 
 # Deploy
 

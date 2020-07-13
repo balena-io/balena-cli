@@ -65,10 +65,10 @@ export default class ScanCmd extends Command {
 		const { discover } = await import('balena-sync');
 		const prettyjson = await import('prettyjson');
 		const { ExpectedError } = await import('../errors');
-		const { dockerPort, dockerTimeout } = await import(
-			'../actions/local/common'
-		);
 		const dockerUtils = await import('../utils/docker');
+
+		const dockerPort = 2375;
+		const dockerTimeout = 2000;
 
 		const { flags: options } = this.parse<FlagsDef, {}>(ScanCmd);
 
