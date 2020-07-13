@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'balena ssh: Improve error message in case of misconfigured SSH keys'
+      hash: d9cf95149a5f6e68b5afe7f53c59782bc27c78c4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Nick
+      nested: []
+  version: 12.7.4
+  date: 2020-07-13T10:41:17.511Z
+- commits:
     - subject: Fix env var for standalone executable tests in package.json
       hash: da6c048a3b4ed7146594d3792ac016e9d476216d
       body: ''
@@ -8,7 +19,7 @@
       author: Paulo Castro
       nested: []
   version: 12.7.3
-  date: 2020-07-10T19:16:01.714Z
+  date: 2020-07-10T18:12:47.518Z
 - commits:
     - subject: Convert `local flash` to oclif
       hash: 7ebc94c1e567f87bd4d64057a611ebf85d58f874
