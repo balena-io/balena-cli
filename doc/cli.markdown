@@ -1538,14 +1538,14 @@ device type
 
 ## os download &#60;type&#62;
 
-Use this command to download an unconfigured os image for a certain device type.
+Download an unconfigured OS image for a certain device type.
 Check available types with `balena devices supported`
 
-> Note: Currently this command only works with balenaCloud, not openBalena.
-> If using openBalena, please download the OS from: https://www.balena.io/os/
+Note: Currently this command only works with balenaCloud, not openBalena.
+If using openBalena, please download the OS from: https://www.balena.io/os/
 
 If version is not specified the newest stable (non-pre-release) version of OS
-is downloaded if available, or the newest version otherwise (if all existing
+is downloaded (if available), otherwise the newest version (if all existing
 versions for the given device type are pre-release).
 
 You can pass `--version menu` to pick the OS version from the interactive menu
@@ -1560,13 +1560,19 @@ Examples:
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu
 
+### Arguments
+
+#### TYPE
+
+the device type
+
 ### Options
 
-#### --output, -o &#60;output&#62;
+#### -o, --output OUTPUT
 
 output path
 
-#### --version &#60;version&#62;
+#### --version VERSION
 
 exact version number, or a valid semver range,
 or 'latest' (includes pre-releases),

@@ -17,7 +17,7 @@
 
 import type * as SDK from 'balena-sdk';
 import * as _ from 'lodash';
-import { stripIndent } from './lazy';
+import { getBalenaSdk, getCliForm, getVisuals, stripIndent } from './lazy';
 
 import { ExpectedError } from '../errors';
 
@@ -106,3 +106,104 @@ export const getDeviceAndMaybeAppFromUUID = _.memoize(
 	// Memoize the call based on UUID
 	(_sdk, deviceUUID) => deviceUUID,
 );
+
+/**
+ * Download balenaOS image for the specified `deviceType`.
+ * `OSVersion` may be one of:
+ *  - exact version number,
+ *  - valid semver range,
+ *  - `latest` (includes pre-releases),
+ *  - `default` (excludes pre-releases if at  least one stable version is available),
+ *  - `recommended` (excludes pre-releases, will fail if only pre-release versions are available),
+ *  - `menu` (will show the interactive menu )
+ * If not provided, OSVersion will be set to `default`
+ *
+ * @param deviceType
+ * @param outputPath
+ * @param OSVersion
+ */
+export async function downloadOSImage(
+	deviceType: string,
+	outputPath: string,
+	OSVersion?: string,
+) {
+	console.info(`Getting device operating system for ${deviceType}`);
+
+	if (!OSVersion) {
+		console.warn(
+			'Using default OS version: the latest stable version, or the latest version for pre-release devices',
+		);
+	}
+
+	OSVersion = OSVersion
+		? await resolveOSVersion(deviceType, OSVersion)
+		: 'default';
+
+	const displayVersion = OSVersion === 'default' ? '' : ` ${OSVersion}`;
+
+	const manager = await import('balena-image-manager');
+	const stream = await manager.get(deviceType, OSVersion);
+
+	const visuals = getVisuals();
+	const bar = new visuals.Progress(`Downloading Device OS${displayVersion}`);
+	const spinner = new visuals.Spinner(
+		`Downloading Device OS${displayVersion} (size unknown)`,
+	);
+
+	stream.on('progress', (state: any) => {
+		if (state != null) {
+			return bar.update(state);
+		} else {
+			return spinner.start();
+		}
+	});
+
+	stream.on('end', () => {
+		spinner.stop();
+	});
+
+	// We completely rely on the `mime` custom property
+	// to make this decision.
+	// The actual stream should be checked instead.
+	let output;
+	if (stream.mime === 'application/zip') {
+		const unzip = await import('node-unzip-2');
+		output = unzip.Extract({ path: outputPath });
+	} else {
+		const fs = await import('fs');
+		output = fs.createWriteStream(outputPath);
+	}
+
+	const streamToPromise = await import('stream-to-promise');
+	await streamToPromise(stream.pipe(output));
+
+	console.info('The image was downloaded successfully');
+
+	return outputPath;
+}
+
+async function resolveOSVersion(deviceType: string, version: string) {
+	if (version !== 'menu') {
+		if (version[0] === 'v') {
+			version = version.slice(1);
+		}
+		return version;
+	}
+
+	const {
+		versions: vs,
+		recommended,
+	} = await getBalenaSdk().models.os.getSupportedVersions(deviceType);
+
+	const choices = vs.map((v) => ({
+		value: v,
+		name: `v${v}` + (v === recommended ? ' (recommended)' : ''),
+	}));
+
+	return getCliForm().ask({
+		message: 'Select the OS version:',
+		type: 'list',
+		choices,
+		default: recommended,
+	});
+}
