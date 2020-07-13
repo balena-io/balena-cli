@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Convert `local configure` to oclif, typescript",
+          "hash": "4f831ef443076ab99f51ea1b124f57ec45315a29",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.7.5",
+      "date": "2020-07-13T11:17:48.315Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "balena ssh: Improve error message in case of misconfigured SSH keys",
           "hash": "d9cf95149a5f6e68b5afe7f53c59782bc27c78c4",
           "body": "",
@@ -13344,43 +13363,39 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-13T10:42:03Z",
+  "lastCommitDate": "2020-07-13T12:01:52Z",
   "latestRelease": {
-    "tagName": "v12.7.4",
+    "tagName": "v12.7.5",
     "asssets": [
       {
-        "name": "balena-cli-v12.7.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.4/balena-cli-v12.7.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.7.5-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.5/balena-cli-v12.7.5-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.7.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.4/balena-cli-v12.7.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.7.5-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.5/balena-cli-v12.7.5-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.7.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.4/balena-cli-v12.7.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.7.5-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.5/balena-cli-v12.7.5-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.7.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.4/balena-cli-v12.7.4-windows-x64-installer.exe"
+        "name": "balena-cli-v12.7.5-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.5/balena-cli-v12.7.5-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.7.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.4/balena-cli-v12.7.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.7.5-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.5/balena-cli-v12.7.5-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 287,
+    "numberOfIssues": 286,
     "latestIssues": [
       {
         "title": "balena device: Add ability to move multiple devices in one command",
         "url": "https://github.com/balena-io/balena-cli/pull/1939"
-      },
-      {
-        "title": "Convert `local configure` to oclif, typescript",
-        "url": "https://github.com/balena-io/balena-cli/pull/1937"
       },
       {
         "title": "Adjustments for balena-preload v10 (SDK v14). Improved error reporting.",
@@ -13453,10 +13468,14 @@
       {
         "title": "balena deploy: Allow image layer caching when pushing to the registry",
         "url": "https://github.com/balena-io/balena-cli/pull/1848"
+      },
+      {
+        "title": "`balena push <ipAddress>` crashes with Node 14",
+        "url": "https://github.com/balena-io/balena-cli/issues/1847"
       }
     ]
   },
-  "version": "12.7.4",
+  "version": "12.7.5",
   "screenshot": null,
   "logo": null
 }
