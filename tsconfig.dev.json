@@ -3,6 +3,7 @@
 	"include": [
 		"./automation/**/*",
 		"./lib/**/*",
+		"./patches/*",
 		"./tests/**/*",
 		"./typings/**/*",
 		"gulpfile.js"

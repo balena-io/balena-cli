@@ -45,7 +45,7 @@
     ]
   },
   "scripts": {
-    "postinstall": "patch-package --patch-dir patches0 && patch-package",
+    "postinstall": "node patches/apply-patches.js",
     "prebuild": "rimraf build/ build-bin/",
     "build": "npm run build:src && npm run catch-uncommitted",
     "build:src": "npm run lint && npm run build:fast && npm run build:test && npm run build:doc",
