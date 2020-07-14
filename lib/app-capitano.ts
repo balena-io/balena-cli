@@ -47,7 +47,6 @@ capitano.globalOption({
 capitano.command(actions.help.help);
 
 // ---------- OS Module ----------
-capitano.command(actions.os.download);
 capitano.command(actions.os.buildConfig);
 capitano.command(actions.os.initialize);
 

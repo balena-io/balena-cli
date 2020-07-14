@@ -92,6 +92,7 @@ export default class DeviceInitCmd extends Command {
 		const tmpNameAsync = promisify(tmp.tmpName);
 		tmp.setGracefulCleanup();
 		const balena = getBalenaSdk();
+		const { downloadOSImage } = await import('../../utils/cloud');
 		const Logger = await import('../../utils/logger');
 
 		const logger = Logger.getLogger();
@@ -116,7 +117,8 @@ export default class DeviceInitCmd extends Command {
 		const tmpPath = (await tmpNameAsync()) as string;
 		try {
 			logger.logDebug(`Downloading OS image...`);
-			await this.downloadOsImage(tmpPath, application.device_type, options);
+			const osVersion = options['os-version'] || 'default';
+			await downloadOSImage(application.device_type, tmpPath, osVersion);
 
 			logger.logDebug(`Configuring OS image...`);
 			await this.configureOsImage(tmpPath, device.uuid, options);
@@ -140,19 +142,6 @@ export default class DeviceInitCmd extends Command {
 
 		console.log('Done');
 		return device.uuid;
-	}
-
-	async downloadOsImage(path: string, deviceType: string, options: FlagsDef) {
-		const osVersion = options['os-version'] || 'default';
-		await runCommand([
-			'os',
-			'download',
-			deviceType,
-			'--output',
-			path,
-			'--version',
-			osVersion,
-		]);
 	}
 
 	async configureOsImage(path: string, uuid: string, options: FlagsDef) {

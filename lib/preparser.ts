@@ -181,6 +181,7 @@ export const convertedCommands = [
 	'note',
 	'os:configure',
 	'os:versions',
+	'os:download',
 	'scan',
 	'settings',
 	'ssh',
