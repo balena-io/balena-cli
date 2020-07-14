@@ -187,7 +187,7 @@ export const push: CommandDefinition<
 			signature: 'dockerfile',
 			parameter: 'Dockerfile',
 			description:
-				'Alternative Dockerfile name/path, relative to the source folder',
+				'Alternative Dockerfile (or docker-compose file) name/path, relative to the source folder',
 		},
 		{
 			signature: 'nocache',
