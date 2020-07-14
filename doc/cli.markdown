@@ -2545,7 +2545,7 @@ Run an emulated build using Qemu
 
 #### --dockerfile &#60;Dockerfile&#62;
 
-Alternative Dockerfile name/path, relative to the source folder
+Alternative Dockerfile (or docker-compose file) name/path, relative to the source folder
 
 #### --logs
 
