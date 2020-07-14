@@ -83,7 +83,7 @@ Additional commands:
     os configure <image>                  configure a previously downloaded balenaOS image
     os download <type>                    download an unconfigured os image
     os initialize <image>                 initialize an os image
-    os versions <type>                    show the available balenaOS versions for the given device type
+    os versions <type>                    show available balenaOS versions for the given device type
     settings                              print current settings
     tag rm <tagkey>                       remove a tag from an application, device or release
     tag set <tagkey> [value]              set a tag on an application, device or release

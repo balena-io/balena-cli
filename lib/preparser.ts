@@ -180,6 +180,7 @@ export const convertedCommands = [
 	'logs',
 	'note',
 	'os:configure',
+	'os:versions',
 	'scan',
 	'settings',
 	'ssh',
