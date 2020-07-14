@@ -1521,12 +1521,20 @@ device UUID
 
 ## os versions &#60;type&#62;
 
-Use this command to show the available balenaOS versions for a certain device type.
-Check available types with `balena devices supported`
+Show the available balenaOS versions for the given device type.
+Check available types with `balena devices supported`.
 
-Example:
+Examples:
 
 	$ balena os versions raspberrypi3
+
+### Arguments
+
+#### TYPE
+
+device type
+
+### Options
 
 ## os download &#60;type&#62;
 
