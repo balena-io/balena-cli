@@ -5,6 +5,38 @@
     {
       "commits": [
         {
+          "subject": "Remove `os download` command dependency for `device init`",
+          "hash": "5d3625f6aee641e9775af750033a23ba15f01bba",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        },
+        {
+          "subject": "Convert `os download` to oclif, typescript",
+          "hash": "1c17572db0adad672b9e63536f3a0d4b2c2d8f07",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.7.7",
+      "date": "2020-07-14T21:49:38.194Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert `os versions` to oclif, typescript",
           "hash": "41635c746b3c2ef705f548b4d707240d14a3d378",
           "body": "",
@@ -13382,29 +13414,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-14T15:48:43Z",
+  "lastCommitDate": "2020-07-14T22:19:21Z",
   "latestRelease": {
-    "tagName": "v12.7.6",
+    "tagName": "v12.7.7",
     "asssets": [
       {
-        "name": "balena-cli-v12.7.6-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.6/balena-cli-v12.7.6-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.7.7-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.7/balena-cli-v12.7.7-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.7.6-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.6/balena-cli-v12.7.6-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.7.7-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.7/balena-cli-v12.7.7-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.7.6-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.6/balena-cli-v12.7.6-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.7.7-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.7/balena-cli-v12.7.7-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.7.6-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.6/balena-cli-v12.7.6-windows-x64-installer.exe"
+        "name": "balena-cli-v12.7.7-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.7/balena-cli-v12.7.7-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.7.6-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.6/balena-cli-v12.7.6-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.7.7-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.7/balena-cli-v12.7.7-windows-x64-standalone.zip"
       }
     ]
   },
@@ -13413,12 +13445,12 @@
     "numberOfIssues": 289,
     "latestIssues": [
       {
-        "title": "push <ip-address>: incorrect error message when device is not in local mode",
-        "url": "https://github.com/balena-io/balena-cli/issues/1942"
+        "title": "Add \"balena logs <app>\" command",
+        "url": "https://github.com/balena-io/balena-cli/issues/1946"
       },
       {
-        "title": "Convert `os download` to oclif, typescript",
-        "url": "https://github.com/balena-io/balena-cli/pull/1941"
+        "title": "push <ip-address>: incorrect error message when device is not in local mode",
+        "url": "https://github.com/balena-io/balena-cli/issues/1942"
       },
       {
         "title": "Update net-keepalive and pkg, Node.js >= v10.20.0 (steps towards Node.js v14)",
@@ -13494,7 +13526,7 @@
       }
     ]
   },
-  "version": "12.7.6",
+  "version": "12.7.7",
   "screenshot": null,
   "logo": null
 }

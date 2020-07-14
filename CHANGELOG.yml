@@ -1,4 +1,27 @@
 - commits:
+    - subject: Remove `os download` command dependency for `device init`
+      hash: 5d3625f6aee641e9775af750033a23ba15f01bba
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+    - subject: 'Convert `os download` to oclif, typescript'
+      hash: 1c17572db0adad672b9e63536f3a0d4b2c2d8f07
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.7.7
+  date: 2020-07-14T22:18:22.748Z
+- commits:
     - subject: 'Convert `os versions` to oclif, typescript'
       hash: 41635c746b3c2ef705f548b4d707240d14a3d378
       body: ''
@@ -10,7 +33,7 @@
       author: Scott Lowe
       nested: []
   version: 12.7.6
-  date: 2020-07-14T15:47:48.132Z
+  date: 2020-07-14T15:15:38.383Z
 - commits:
     - subject: 'Convert `local configure` to oclif, typescript'
       hash: 4f831ef443076ab99f51ea1b124f57ec45315a29
