@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Convert `os versions` to oclif, typescript'
+      hash: 41635c746b3c2ef705f548b4d707240d14a3d378
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.7.6
+  date: 2020-07-14T15:47:48.132Z
+- commits:
     - subject: 'Convert `local configure` to oclif, typescript'
       hash: 4f831ef443076ab99f51ea1b124f57ec45315a29
       body: ''
@@ -10,7 +23,7 @@
       author: Scott Lowe
       nested: []
   version: 12.7.5
-  date: 2020-07-13T12:01:08.173Z
+  date: 2020-07-13T11:17:48.315Z
 - commits:
     - subject: 'balena ssh: Improve error message in case of misconfigured SSH keys'
       hash: d9cf95149a5f6e68b5afe7f53c59782bc27c78c4

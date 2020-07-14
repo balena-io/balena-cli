@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Convert `os versions` to oclif, typescript",
+          "hash": "41635c746b3c2ef705f548b4d707240d14a3d378",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.7.6",
+      "date": "2020-07-14T15:15:38.383Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert `local configure` to oclif, typescript",
           "hash": "4f831ef443076ab99f51ea1b124f57ec45315a29",
           "body": "",
@@ -13363,36 +13382,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-13T12:01:52Z",
+  "lastCommitDate": "2020-07-14T15:48:43Z",
   "latestRelease": {
-    "tagName": "v12.7.5",
+    "tagName": "v12.7.6",
     "asssets": [
       {
-        "name": "balena-cli-v12.7.5-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.5/balena-cli-v12.7.5-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.7.6-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.6/balena-cli-v12.7.6-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.7.5-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.5/balena-cli-v12.7.5-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.7.6-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.6/balena-cli-v12.7.6-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.7.5-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.5/balena-cli-v12.7.5-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.7.6-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.6/balena-cli-v12.7.6-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.7.5-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.5/balena-cli-v12.7.5-windows-x64-installer.exe"
+        "name": "balena-cli-v12.7.6-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.6/balena-cli-v12.7.6-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.7.5-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.5/balena-cli-v12.7.5-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.7.6-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.7.6/balena-cli-v12.7.6-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 286,
+    "numberOfIssues": 289,
     "latestIssues": [
+      {
+        "title": "push <ip-address>: incorrect error message when device is not in local mode",
+        "url": "https://github.com/balena-io/balena-cli/issues/1942"
+      },
+      {
+        "title": "Convert `os download` to oclif, typescript",
+        "url": "https://github.com/balena-io/balena-cli/pull/1941"
+      },
+      {
+        "title": "Update net-keepalive and pkg, Node.js >= v10.20.0 (steps towards Node.js v14)",
+        "url": "https://github.com/balena-io/balena-cli/pull/1940"
+      },
       {
         "title": "balena device: Add ability to move multiple devices in one command",
         "url": "https://github.com/balena-io/balena-cli/pull/1939"
@@ -13460,22 +13491,10 @@
       {
         "title": "`balena help ...` output should fit in 80 characters",
         "url": "https://github.com/balena-io/balena-cli/issues/1858"
-      },
-      {
-        "title": "`balena ssh <<device>> <<service>>` responds with incorrect list of services on failure",
-        "url": "https://github.com/balena-io/balena-cli/issues/1849"
-      },
-      {
-        "title": "balena deploy: Allow image layer caching when pushing to the registry",
-        "url": "https://github.com/balena-io/balena-cli/pull/1848"
-      },
-      {
-        "title": "`balena push <ipAddress>` crashes with Node 14",
-        "url": "https://github.com/balena-io/balena-cli/issues/1847"
       }
     ]
   },
-  "version": "12.7.5",
+  "version": "12.7.6",
   "screenshot": null,
   "logo": null
 }
