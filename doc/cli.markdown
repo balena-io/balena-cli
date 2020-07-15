@@ -521,7 +521,9 @@ or 'menu' (will show the interactive menu)
 
 #### -d, --drive DRIVE
 
-the drive to write the image to, eg. `/dev/sdb` or `/dev/mmcblk0`. 				Careful with this as you can erase your hard drive. 				Check `balena util available-drives` for available options.
+the drive to write the image to, eg. `/dev/sdb` or `/dev/mmcblk0`.
+Careful with this as you can erase your hard drive.
+Check `balena util available-drives` for available options.
 
 #### --config CONFIG
 
@@ -1704,28 +1706,38 @@ paths to local files to place into the 'system-connections' directory
 
 ## os initialize &#60;image&#62;
 
-Use this command to initialize a device with previously configured operating system image.
+Initialize an os image for a device with a previously
+		configured operating system image.
+		
 
 Note: Initializing the device may ask for administrative permissions
 because we need to access the raw devices directly.
 
 Examples:
 
-	$ balena os initialize ../path/rpi.img --type 'raspberry-pi'
+	$ balena os initialize ../path/rpi.img --type raspberry-pi
+
+### Arguments
+
+#### IMAGE
+
+path to OS image
 
 ### Options
 
-#### --yes, -y
-
-confirm non interactively
-
-#### --type, -t &#60;type&#62;
+#### -t, --type TYPE
 
 device type (Check available types with `balena devices supported`)
 
-#### --drive, -d &#60;drive&#62;
+#### -d, --drive DRIVE
 
-the drive to write the image to, like `/dev/sdb` or `/dev/mmcblk0`. Careful with this as you can erase your hard drive. Check `balena util available-drives` for available options.
+the drive to write the image to, eg. `/dev/sdb` or `/dev/mmcblk0`.
+Careful with this as you can erase your hard drive.
+Check `balena util available-drives` for available options.
+
+#### -y, --yes
+
+answer "yes" to all questions (non interactive use)
 
 # Config
 
@@ -2217,7 +2229,9 @@ path to OS image
 
 #### -d, --drive DRIVE
 
-drive to flash
+the drive to write the image to, eg. `/dev/sdb` or `/dev/mmcblk0`.
+Careful with this as you can erase your hard drive.
+Check `balena util available-drives` for available options.
 
 #### -y, --yes
 

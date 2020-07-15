@@ -82,7 +82,7 @@ Additional commands:
     os build-config <image> <device-type> build the OS config and save it to the JSON file
     os configure <image>                  configure a previously downloaded balenaOS image
     os download <type>                    download an unconfigured OS image
-    os initialize <image>                 initialize an os image
+    os initialize <image>                 initialize an os image for a device
     os versions <type>                    show available balenaOS versions for the given device type
     settings                              print current settings
     tag rm <tagkey>                       remove a tag from an application, device or release

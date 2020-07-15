@@ -66,14 +66,7 @@ export default class DeviceInitCmd extends Command {
 				or 'menu' (will show the interactive menu)
 				`,
 		}),
-		drive: flags.string({
-			char: 'd',
-			description: stripIndent`
-				the drive to write the image to, eg. \`/dev/sdb\` or \`/dev/mmcblk0\`. \
-				Careful with this as you can erase your hard drive. \
-				Check \`balena util available-drives\` for available options.
-				`,
-		}),
+		drive: cf.drive,
 		config: flags.string({
 			description: 'path to the config JSON file, see `balena os build-config`',
 		}),

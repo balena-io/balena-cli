@@ -48,7 +48,6 @@ capitano.command(actions.help.help);
 
 // ---------- OS Module ----------
 capitano.command(actions.os.buildConfig);
-capitano.command(actions.os.initialize);
 
 // ---------- Config Module ----------
 capitano.command(actions.config.read);

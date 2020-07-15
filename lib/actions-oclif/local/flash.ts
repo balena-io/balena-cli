@@ -65,10 +65,7 @@ export default class LocalFlashCmd extends Command {
 	public static usage = 'local flash <image>';
 
 	public static flags: flags.Input<FlagsDef> = {
-		drive: flags.string({
-			description: 'drive to flash',
-			char: 'd',
-		}),
+		drive: cf.drive,
 		yes: cf.yes,
 		help: cf.help,
 	};

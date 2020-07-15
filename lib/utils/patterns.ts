@@ -130,6 +130,15 @@ export function selectDeviceType() {
 		});
 }
 
+/**
+ * Display interactive confirmation prompt.
+ * If the user declines, then either an error will be thrown,
+ * or `exitWithExpectedError` will be called (if exitIfDeclined true).
+ * @param yesOption - automatically confirm if true
+ * @param message - message to display with prompt
+ * @param yesMessage - message to display if automatically confirming
+ * @param exitIfDeclined - exitWithExpectedError when decline if true
+ */
 export async function confirm(
 	yesOption: boolean,
 	message: string,

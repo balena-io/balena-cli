@@ -18,10 +18,10 @@
 declare module 'umount' {
 	export const umount: (
 		device: string,
-		callback: (err?: any, stdout?: any, stderr?: any) => void,
+		callback: (err?: Error, stdout?: any, stderr?: any) => void,
 	) => void;
 	export const isMounted: (
 		device: string,
-		callback: (err?: any, isMounted?: boolean) => void,
+		callback: (err?: Error, isMounted?: boolean) => void,
 	) => void;
 }

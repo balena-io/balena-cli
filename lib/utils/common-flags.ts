@@ -18,6 +18,7 @@
 import { flags } from '@oclif/command';
 
 import type { IBooleanFlag } from '@oclif/parser/lib/flags';
+import { stripIndent } from './lazy';
 
 export const application = flags.string({
 	char: 'a',
@@ -64,4 +65,13 @@ export const yes: IBooleanFlag<boolean> = flags.boolean({
 export const force: IBooleanFlag<boolean> = flags.boolean({
 	char: 'f',
 	description: 'force action if the update lock is set',
+});
+
+export const drive = flags.string({
+	char: 'd',
+	description: stripIndent`
+		the drive to write the image to, eg. \`/dev/sdb\` or \`/dev/mmcblk0\`.
+		Careful with this as you can erase your hard drive.
+		Check \`balena util available-drives\` for available options.
+	`,
 });
