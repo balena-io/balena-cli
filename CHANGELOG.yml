@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'device move: Add ability to move multiple devices in one command'
+      hash: edaf76e3297378fbc36245b8ec15c9bb6d372baf
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Nick
+      nested: []
+  version: 12.8.0
+  date: 2020-07-15T15:01:24.920Z
+- commits:
     - subject: Remove `os download` command dependency for `device init`
       hash: 5d3625f6aee641e9775af750033a23ba15f01bba
       body: ''
@@ -20,7 +31,7 @@
       author: Scott Lowe
       nested: []
   version: 12.7.7
-  date: 2020-07-14T22:18:22.748Z
+  date: 2020-07-14T21:49:38.194Z
 - commits:
     - subject: 'Convert `os versions` to oclif, typescript'
       hash: 41635c746b3c2ef705f548b4d707240d14a3d378
