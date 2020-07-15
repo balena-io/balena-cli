@@ -22,7 +22,6 @@ import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { CommandHelp } from '../../utils/oclif-utils';
-import { isV12 } from '../../utils/version';
 
 interface FlagsDef {
 	discontinued: boolean;
@@ -38,7 +37,7 @@ export default class DevicesSupportedCmd extends Command {
 		List the supported device types (like 'raspberrypi3' or 'intel-nuc').
 
 		The --verbose option adds extra columns/fields to the output, including the
-		"STATE" column whose values are one of 'beta', 'released' or 'discontinued'.
+		"STATE" column whose values are one of 'new', 'released' or 'discontinued'.
 		However, 'discontinued' device types are only listed if the '--discontinued'
 		option is used.
 
@@ -98,11 +97,14 @@ export default class DevicesSupportedCmd extends Command {
 		}
 		const fields = options.verbose
 			? ['slug', 'aliases', 'arch', 'state', 'name']
-			: isV12()
-			? ['slug', 'aliases', 'arch', 'name']
-			: ['slug', 'name'];
+			: ['slug', 'aliases', 'arch', 'name'];
 		deviceTypes = _.sortBy(
-			deviceTypes.map((d) => _.pick(d, fields) as Partial<SDK.DeviceType>),
+			deviceTypes.map((d) => {
+				const picked = _.pick<Partial<SDK.DeviceType>>(d, fields);
+				// 'BETA' renamed to 'NEW'
+				picked.state = picked.state === 'BETA' ? 'NEW' : picked.state;
+				return picked;
+			}),
 			fields,
 		);
 		if (options.json) {
