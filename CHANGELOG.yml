@@ -1,4 +1,35 @@
 - commits:
+    - subject: Update INSTALL.md re new minimum Node.js version of 10.20.0
+      hash: 0534ab1cb48985f563de12a5c845921ac7fe78ce
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: >-
+        Update net-keepalive and pkg, Node.js >= v10.20.0 (steps towards Node.js
+        v14)
+      hash: a6a8dc822f0e01edd833643ac1625858ac4deddd
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+    - subject: >-
+        Add ability to conditionally apply patches per platform (Linux, Mac,
+        Windows)
+      hash: b0dce6b4778a82051e9ad1860d69ba27089ad424
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.9.0
+  date: 2020-07-15T18:04:08.691Z
+- commits:
     - subject: 'device move: Add ability to move multiple devices in one command'
       hash: edaf76e3297378fbc36245b8ec15c9bb6d372baf
       body: ''
@@ -8,7 +39,7 @@
       author: Nick
       nested: []
   version: 12.8.0
-  date: 2020-07-15T15:01:24.920Z
+  date: 2020-07-15T14:34:57.668Z
 - commits:
     - subject: Remove `os download` command dependency for `device init`
       hash: 5d3625f6aee641e9775af750033a23ba15f01bba
