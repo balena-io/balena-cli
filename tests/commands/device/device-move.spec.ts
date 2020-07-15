@@ -20,13 +20,13 @@ import { BalenaAPIMock } from '../../balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
 const HELP_RESPONSE = `
-Move a device to another application.
+Move one or more devices to another application.
 
 USAGE
-  $ balena device move <uuid>
+  $ balena device move <uuid(s)>
 
 ARGUMENTS
-  <uuid>  the uuid of the device to move
+  <uuid>  comma-separated list (no blank spaces) of device UUIDs to be moved
 
 OPTIONS
   -a, --application <application>  application name
@@ -34,13 +34,14 @@ OPTIONS
   --app <app>                      same as '--application'
 
 DESCRIPTION
-  Move a device to another application.
+  Move one or more devices to another application.
 
   Note, if the application option is omitted it will be prompted
   for interactively.
 
 EXAMPLES
   $ balena device move 7cf02a6
+  $ balena device move 7cf02a6,dc39e52
   $ balena device move 7cf02a6 --application MyNewApp
 `;
 
@@ -71,7 +72,9 @@ describe('balena device move', function () {
 		const errLines = cleanOutput(err);
 
 		expect(errLines[0]).to.equal('Missing 1 required argument:');
-		expect(errLines[1]).to.equal('uuid : the uuid of the device to move');
+		expect(errLines[1]).to.equal(
+			'uuid : comma-separated list (no blank spaces) of device UUIDs to be moved',
+		);
 		expect(out).to.eql([]);
 	});
 
