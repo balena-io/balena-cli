@@ -170,7 +170,7 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 	- [device identify &#60;uuid&#62;](#device-identify-uuid)
 	- [device init](#device-init)
 	- [device &#60;uuid&#62;](#device-uuid)
-	- [device move &#60;uuid&#62;](#device-move-uuid)
+	- [device move &#60;uuid(s)&#62;](#device-move-uuid-s)
 	- [device reboot &#60;uuid&#62;](#device-reboot-uuid)
 	- [device register &#60;application&#62;](#device-register-application)
 	- [device rename &#60;uuid&#62; [newname]](#device-rename-uuid-newname)
@@ -543,9 +543,9 @@ the device uuid
 
 ### Options
 
-## device move &#60;uuid&#62;
+## device move &#60;uuid(s)&#62;
 
-Move a device to another application.
+Move one or more devices to another application.
 
 Note, if the application option is omitted it will be prompted
 for interactively.
@@ -553,13 +553,14 @@ for interactively.
 Examples:
 
 	$ balena device move 7cf02a6
+	$ balena device move 7cf02a6,dc39e52
 	$ balena device move 7cf02a6 --application MyNewApp
 
 ### Arguments
 
 #### UUID
 
-the uuid of the device to move
+comma-separated list (no blank spaces) of device UUIDs to be moved
 
 ### Options
 

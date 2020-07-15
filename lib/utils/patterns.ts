@@ -160,6 +160,7 @@ export async function confirm(
 
 export function selectApplication(
 	filter?: (app: BalenaSdk.Application) => boolean,
+	errorOnEmptySelection = false,
 ) {
 	const balena = getBalenaSdk();
 	return balena.models.application
@@ -173,6 +174,9 @@ export function selectApplication(
 		})
 		.filter(filter || _.constant(true))
 		.then((applications) => {
+			if (errorOnEmptySelection && applications.length === 0) {
+				throw new ExpectedError('No suitable applications found for selection');
+			}
 			return getCliForm().ask({
 				message: 'Select an application',
 				type: 'list',
