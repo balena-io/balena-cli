@@ -130,9 +130,7 @@ export async function downloadOSImage(
 	console.info(`Getting device operating system for ${deviceType}`);
 
 	if (!OSVersion) {
-		console.warn(
-			'Using default OS version: the latest stable version, or the latest version for pre-release devices',
-		);
+		console.warn('OS version not specified: using latest stable version');
 	}
 
 	OSVersion = OSVersion
