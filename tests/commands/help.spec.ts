@@ -79,7 +79,7 @@ Additional commands:
     local flash <image>                   flash an image to a drive
     logout                                logout from balena
     note <|note>                          set a device note
-    os build-config <image> <device-type> build the OS config and save it to the JSON file
+    os build-config <image> <device-type> build an OS config and save it to a JSON file
     os configure <image>                  configure a previously downloaded balenaOS image
     os download <type>                    download an unconfigured OS image
     os initialize <image>                 initialize an os image for a device

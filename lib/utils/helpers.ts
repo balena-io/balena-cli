@@ -28,7 +28,7 @@ import { promisify } from 'util';
 import { isOclifCommand } from '../preparser';
 
 export function getGroupDefaults(group: {
-	options: Array<{ name: string; default?: string }>;
+	options: Array<{ name: string; default: string | number }>;
 }): { [name: string]: string | number | undefined } {
 	return _.chain(group)
 		.get('options')
