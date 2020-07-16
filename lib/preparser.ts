@@ -182,6 +182,7 @@ export const convertedCommands = [
 	'os:configure',
 	'os:versions',
 	'os:download',
+	'os:initialize',
 	'scan',
 	'settings',
 	'ssh',

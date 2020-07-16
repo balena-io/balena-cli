@@ -122,6 +122,7 @@ const capitanoDoc = {
 				'build/actions-oclif/os/configure.js',
 				'build/actions-oclif/os/versions.js',
 				'build/actions-oclif/os/download.js',
+				'build/actions-oclif/os/initialize.js',
 			],
 		},
 		{
