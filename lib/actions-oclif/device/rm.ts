@@ -33,28 +33,30 @@ interface ArgsDef {
 
 export default class DeviceRmCmd extends Command {
 	public static description = stripIndent`
-		Remove a device.
+		Remove one or more devices.
 
-		Remove a device from balena.
+		Remove one or more devices from balena.
 
 		Note this command asks for confirmation interactively.
 		You can avoid this by passing the \`--yes\` option.
 		`;
 	public static examples = [
 		'$ balena device rm 7cf02a6',
+		'$ balena device rm 7cf02a6,dc39e52',
 		'$ balena device rm 7cf02a6 --yes',
 	];
 
 	public static args: Array<IArg<any>> = [
 		{
 			name: 'uuid',
-			description: 'the uuid of the device to remove',
+			description:
+				'comma-separated list (no blank spaces) of device UUIDs to be removed',
 			parse: (dev) => tryAsInteger(dev),
 			required: true,
 		},
 	];
 
-	public static usage = 'device rm <uuid>';
+	public static usage = 'device rm <uuid(s)>';
 
 	public static flags: flags.Input<FlagsDef> = {
 		yes: cf.yes,
@@ -72,12 +74,23 @@ export default class DeviceRmCmd extends Command {
 		const patterns = await import('../../utils/patterns');
 
 		// Confirm
+		const uuids = params.uuid.split(',');
 		await patterns.confirm(
 			options.yes,
-			'Are you sure you want to delete the device?',
+			uuids.length > 1
+				? `Are you sure you want to delete ${uuids.length} devices?`
+				: `Are you sure you want to delete device ${uuids[0]} ?`,
 		);
 
 		// Remove
-		await balena.models.device.remove(params.uuid);
+		for (const uuid of params.uuid.split(',')) {
+			try {
+				await balena.models.device.remove(uuid);
+			} catch (err) {
+				console.info(`${err.message}, uuid: ${uuid}`);
+				process.exitCode = 1;
+				continue;
+			}
+		}
 	}
 }
