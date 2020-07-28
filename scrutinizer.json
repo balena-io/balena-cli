@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Update net-keepalive to v1.3.3, reclaiming ~200MB disk space (npm install)",
+          "hash": "d4de25e545661ad020ebb1e695c4a2b63552126b",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.9.3",
+      "date": "2020-07-28T14:40:16.832Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "devices supported: Rename 'BETA' to 'NEW' in verbose output",
           "hash": "7eb398c6ef6c50c98189aa17e0156fa4f67d0bc6",
           "body": "",
@@ -13517,35 +13534,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-28T14:28:54Z",
+  "lastCommitDate": "2020-07-28T15:12:50Z",
   "latestRelease": {
-    "tagName": "v12.9.2",
+    "tagName": "v12.9.3",
     "asssets": [
       {
-        "name": "balena-cli-v12.9.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.2/balena-cli-v12.9.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.9.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.3/balena-cli-v12.9.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.9.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.2/balena-cli-v12.9.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.9.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.3/balena-cli-v12.9.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.9.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.2/balena-cli-v12.9.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.9.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.3/balena-cli-v12.9.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.9.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.2/balena-cli-v12.9.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.9.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.3/balena-cli-v12.9.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.9.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.2/balena-cli-v12.9.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.9.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.3/balena-cli-v12.9.3-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 300,
+    "numberOfIssues": 299,
     "latestIssues": [
       {
         "title": "Convert `config` commands to typescript, oclif",
@@ -13588,10 +13605,6 @@
         "url": "https://github.com/balena-io/balena-cli/issues/1955"
       },
       {
-        "title": "Update net-keepalive to v1.3.3, reclaiming ~200MB disk space (npm install)",
-        "url": "https://github.com/balena-io/balena-cli/pull/1954"
-      },
-      {
         "title": "Convert `os build-config` to oclif, typescript",
         "url": "https://github.com/balena-io/balena-cli/pull/1953"
       },
@@ -13626,10 +13639,14 @@
       {
         "title": "Enable `balena deploy` to update individual images in a multicontainer app",
         "url": "https://github.com/balena-io/balena-cli/issues/1923"
+      },
+      {
+        "title": "Add an error when generating config with different device type",
+        "url": "https://github.com/balena-io/balena-cli/issues/1919"
       }
     ]
   },
-  "version": "12.9.2",
+  "version": "12.9.3",
   "screenshot": null,
   "logo": null
 }
