@@ -16,11 +16,8 @@ limitations under the License.
 
 export * as config from './config';
 export * as help from './help';
-export * as os from './os';
 export * as push from './push';
 
 export { build } from './build';
-
 export { deploy } from './deploy';
-
 export { preload } from './preload';

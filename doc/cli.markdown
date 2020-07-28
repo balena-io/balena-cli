@@ -1585,22 +1585,33 @@ or 'menu' (will show the interactive menu)
 
 ## os build-config &#60;image&#62; &#60;device-type&#62;
 
-Use this command to prebuild the OS config once and skip the interactive part of `balena os configure`.
+Interactively generate an OS config once, so that the generated config
+file can be used in `balena os configure`, skipping the interactive part.
 
-Example:
+Examples:
 
 	$ balena os build-config ../path/rpi3.img raspberrypi3 --output rpi3-config.json
 	$ balena os configure ../path/rpi3.img --device 7cf02a6 --config rpi3-config.json
 
+### Arguments
+
+#### IMAGE
+
+os image
+
+#### DEVICE-TYPE
+
+device type
+
 ### Options
 
-#### --advanced, -v
+#### -v, --advanced
 
 show advanced configuration options
 
-#### --output, -o &#60;output&#62;
+#### -o, --output OUTPUT
 
-the path to the output JSON file
+path to output JSON file
 
 ## os configure IMAGE
 

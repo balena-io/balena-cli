@@ -46,9 +46,6 @@ capitano.globalOption({
 // ---------- Help Module ----------
 capitano.command(actions.help.help);
 
-// ---------- OS Module ----------
-capitano.command(actions.os.buildConfig);
-
 // ---------- Config Module ----------
 capitano.command(actions.config.read);
 capitano.command(actions.config.write);

@@ -179,6 +179,7 @@ export const convertedCommands = [
 	'logout',
 	'logs',
 	'note',
+	'os:build-config',
 	'os:configure',
 	'os:versions',
 	'os:download',
