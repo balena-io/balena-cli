@@ -1,4 +1,15 @@
 - commits:
+    - subject: Adjustments for balena-preload v10 (SDK v14). Improved error reporting.
+      hash: f6529eec26c1b0884797b6897c902907c60ad62e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.9.5
+  date: 2020-07-28T16:44:09.550Z
+- commits:
     - subject: 'Convert `os build-config` to oclif, typescript'
       hash: 3fc25cd745f3fe15daacf4eca8dcf180a80b2dfc
       body: ''
