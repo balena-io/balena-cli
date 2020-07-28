@@ -1,7 +1,7 @@
-diff --git a/node_modules/net-keepalive/node_modules/node-gyp-build/index.js b/node_modules/net-keepalive/node_modules/node-gyp-build/index.js
+diff --git a/node_modules/node-gyp-build/index.js b/node_modules/node-gyp-build/index.js
 index 3e39703..5e84906 100644
---- a/node_modules/net-keepalive/node_modules/node-gyp-build/index.js
-+++ b/node_modules/net-keepalive/node_modules/node-gyp-build/index.js
+--- a/node_modules/node-gyp-build/index.js
++++ b/node_modules/node-gyp-build/index.js
 @@ -29,6 +29,9 @@ load.path = function (dir) {
      if (process.env[name + '_PREBUILD']) dir = process.env[name + '_PREBUILD']
    } catch (err) {}
