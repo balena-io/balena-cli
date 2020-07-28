@@ -230,11 +230,11 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 
 - Config
 
-	- [config read](#config-read)
-	- [config write &#60;key&#62; &#60;value&#62;](#config-write-key-value)
-	- [config inject &#60;file&#62;](#config-inject-file)
-	- [config reconfigure](#config-reconfigure)
 	- [config generate](#config-generate)
+	- [config inject &#60;file&#62;](#config-inject-file)
+	- [config read](#config-read)
+	- [config reconfigure](#config-reconfigure)
+	- [config write &#60;key&#62; &#60;value&#62;](#config-write-key-value)
 
 - Preload
 
@@ -1752,96 +1752,13 @@ answer "yes" to all questions (non interactive use)
 
 # Config
 
-## config read
-
-Use this command to read the config.json file from the mounted filesystem (e.g. SD card) of a provisioned device"
-
-Examples:
-
-	$ balena config read --type raspberry-pi
-	$ balena config read --type raspberry-pi --drive /dev/disk2
-
-### Options
-
-#### --type, -t &#60;type&#62;
-
-device type (Check available types with `balena devices supported`)
-
-#### --drive, -d &#60;drive&#62;
-
-drive
-
-## config write &#60;key&#62; &#60;value&#62;
-
-Use this command to write the config.json file to the mounted filesystem (e.g. SD card) of a provisioned device
-
-Examples:
-
-	$ balena config write --type raspberry-pi username johndoe
-	$ balena config write --type raspberry-pi --drive /dev/disk2 username johndoe
-	$ balena config write --type raspberry-pi files.network/settings "..."
-
-### Options
-
-#### --type, -t &#60;type&#62;
-
-device type (Check available types with `balena devices supported`)
-
-#### --drive, -d &#60;drive&#62;
-
-drive
-
-## config inject &#60;file&#62;
-
-Use this command to inject a config.json file to the mounted filesystem
-(e.g. SD card or mounted balenaOS image) of a provisioned device"
-
-Examples:
-
-	$ balena config inject my/config.json --type raspberry-pi
-	$ balena config inject my/config.json --type raspberry-pi --drive /dev/disk2
-
-### Options
-
-#### --type, -t &#60;type&#62;
-
-device type (Check available types with `balena devices supported`)
-
-#### --drive, -d &#60;drive&#62;
-
-drive
-
-## config reconfigure
-
-Use this command to reconfigure a provisioned device
-
-Examples:
-
-	$ balena config reconfigure --type raspberry-pi
-	$ balena config reconfigure --type raspberry-pi --advanced
-	$ balena config reconfigure --type raspberry-pi --drive /dev/disk2
-
-### Options
-
-#### --type, -t &#60;type&#62;
-
-device type (Check available types with `balena devices supported`)
-
-#### --drive, -d &#60;drive&#62;
-
-drive
-
-#### --advanced, -v
-
-show advanced commands
-
 ## config generate
 
-Use this command to generate a config.json for a device or application.
+Generate a config.json file for a device or application.
 
 Calling this command with the exact version number of the targeted image is required.
 
-This is interactive by default, but you can do this automatically without interactivity
+This command is interactive by default, but you can do this automatically without interactivity
 by specifying an option for each question on the command line, if you know the questions
 that will be asked for the relevant device type.
 
@@ -1861,23 +1778,27 @@ Examples:
 
 ### Options
 
-#### --version &#60;version&#62;
+#### --version VERSION
 
 a balenaOS version
 
-#### --application, -a, --app &#60;application&#62;
+#### -a, --application APPLICATION
 
 application name
 
-#### --device, -d &#60;device&#62;
+#### --app APP
+
+same as '--application'
+
+#### -d, --device DEVICE
 
 device uuid
 
-#### --deviceApiKey, -k &#60;device-api-key&#62;
+#### -k, --deviceApiKey DEVICEAPIKEY
 
 custom device key - note that this is only supported on balenaOS 2.0.3+
 
-#### --deviceType &#60;device-type&#62;
+#### --deviceType DEVICETYPE
 
 device type slug
 
@@ -1885,25 +1806,126 @@ device type slug
 
 generate a fresh device key for the device
 
-#### --output, -o &#60;output&#62;
+#### -o, --output OUTPUT
 
-output
+path of output file
 
-#### --network &#60;network&#62;
+#### --network NETWORK
 
 the network type to use: ethernet or wifi
 
-#### --wifiSsid &#60;wifiSsid&#62;
+#### --wifiSsid WIFISSID
 
 the wifi ssid to use (used only if --network is set to wifi)
 
-#### --wifiKey &#60;wifiKey&#62;
+#### --wifiKey WIFIKEY
 
 the wifi key to use (used only if --network is set to wifi)
 
-#### --appUpdatePollInterval &#60;appUpdatePollInterval&#62;
+#### --appUpdatePollInterval APPUPDATEPOLLINTERVAL
 
 how frequently (in minutes) to poll for application updates
+
+## config inject &#60;file&#62;
+
+Inject a config.json file to the mounted filesystem,
+e.g. the SD card of a provisioned device or balenaOS image.
+
+Examples:
+
+	$ balena config inject my/config.json --type raspberrypi3
+	$ balena config inject my/config.json --type raspberrypi3 --drive /dev/disk2
+
+### Arguments
+
+#### FILE
+
+the path to the config.json file to inject
+
+### Options
+
+#### -t, --type TYPE
+
+device type (Check available types with `balena devices supported`)
+
+#### -d, --drive DRIVE
+
+device filesystem or OS image location
+
+## config read
+
+Read the config.json file from the mounted filesystem,
+e.g. the SD card of a provisioned device or balenaOS image.
+
+Examples:
+
+	$ balena config read --type raspberrypi3
+	$ balena config read --type raspberrypi3 --drive /dev/disk2
+
+### Options
+
+#### -t, --type TYPE
+
+device type (Check available types with `balena devices supported`)
+
+#### -d, --drive DRIVE
+
+device filesystem or OS image location
+
+## config reconfigure
+
+Interactively reconfigure a provisioned device or OS image.
+
+Examples:
+
+	$ balena config reconfigure --type raspberrypi3
+	$ balena config reconfigure --type raspberrypi3 --advanced
+	$ balena config reconfigure --type raspberrypi3 --drive /dev/disk2
+
+### Options
+
+#### -t, --type TYPE
+
+device type (Check available types with `balena devices supported`)
+
+#### -d, --drive DRIVE
+
+device filesystem or OS image location
+
+#### -v, --advanced
+
+show advanced commands
+
+## config write &#60;key&#62; &#60;value&#62;
+
+Write a key-value pair to the config.json file on the mounted filesystem,
+e.g. the SD card of a provisioned device or balenaOS image.
+
+Examples:
+
+	$ balena config write --type raspberrypi3 username johndoe
+	$ balena config write --type raspberrypi3 --drive /dev/disk2 username johndoe
+	$ balena config write --type raspberrypi3 files.network/settings "..."
+
+### Arguments
+
+#### KEY
+
+the key of the config parameter to write
+
+#### VALUE
+
+the value of the config parameter to write
+
+### Options
+
+#### -t, --type TYPE
+
+device type (Check available types with `balena devices supported`)
+
+#### -d, --drive DRIVE
+
+device filesystem or OS image location
 
 # Preload
 

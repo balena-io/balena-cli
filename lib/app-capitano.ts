@@ -46,13 +46,6 @@ capitano.globalOption({
 // ---------- Help Module ----------
 capitano.command(actions.help.help);
 
-// ---------- Config Module ----------
-capitano.command(actions.config.read);
-capitano.command(actions.config.write);
-capitano.command(actions.config.inject);
-capitano.command(actions.config.reconfigure);
-capitano.command(actions.config.generate);
-
 // ---------- Preload Module ----------
 capitano.command(actions.preload);
 
