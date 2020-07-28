@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Convert `os build-config` to oclif, typescript'
+      hash: 3fc25cd745f3fe15daacf4eca8dcf180a80b2dfc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.9.4
+  date: 2020-07-28T15:35:47.988Z
+- commits:
     - subject: >-
         Update net-keepalive to v1.3.3, reclaiming ~200MB disk space (npm
         install)
