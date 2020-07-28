@@ -189,7 +189,7 @@
     "balena-device-init": "^5.0.2",
     "balena-errors": "^4.3.0",
     "balena-image-manager": "^7.0.1",
-    "balena-preload": "^9.0.0",
+    "balena-preload": "^10.2.0",
     "balena-release": "^2.1.0",
     "balena-sdk": "^13.6.0",
     "balena-semver": "^2.2.0",
