@@ -1,4 +1,17 @@
 - commits:
+    - subject: >-
+        Update net-keepalive to v1.3.3, reclaiming ~200MB disk space (npm
+        install)
+      hash: d4de25e545661ad020ebb1e695c4a2b63552126b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.9.3
+  date: 2020-07-28T14:40:16.832Z
+- commits:
     - subject: 'devices supported: Rename ''BETA'' to ''NEW'' in verbose output'
       hash: 7eb398c6ef6c50c98189aa17e0156fa4f67d0bc6
       body: ''
