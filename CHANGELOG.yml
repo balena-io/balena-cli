@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'devices supported: Rename ''BETA'' to ''NEW'' in verbose output'
+      hash: 7eb398c6ef6c50c98189aa17e0156fa4f67d0bc6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'os download: Improve warning message re default balenaOS version'
+      hash: 9ed3bb2f70c813a410d6df2b99eda91bb1351d3b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.9.2
+  date: 2020-07-28T14:28:11.019Z
+- commits:
     - subject: 'Convert `os initialize` to oclif, typescript'
       hash: b7c74598b2efec263679bc351cf39284555c3f90
       body: ''
@@ -10,7 +29,7 @@
       author: Scott Lowe
       nested: []
   version: 12.9.1
-  date: 2020-07-16T14:40:48.021Z
+  date: 2020-07-16T14:09:27.209Z
 - commits:
     - subject: Update INSTALL.md re new minimum Node.js version of 10.20.0
       hash: 0534ab1cb48985f563de12a5c845921ac7fe78ce

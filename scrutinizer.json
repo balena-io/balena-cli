@@ -5,6 +5,34 @@
     {
       "commits": [
         {
+          "subject": "devices supported: Rename 'BETA' to 'NEW' in verbose output",
+          "hash": "7eb398c6ef6c50c98189aa17e0156fa4f67d0bc6",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "os download: Improve warning message re default balenaOS version",
+          "hash": "9ed3bb2f70c813a410d6df2b99eda91bb1351d3b",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.9.2",
+      "date": "2020-07-28T13:44:31.018Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert `os initialize` to oclif, typescript",
           "hash": "b7c74598b2efec263679bc351cf39284555c3f90",
           "body": "",
@@ -13284,12 +13312,12 @@
       "avatar": "https://avatars3.githubusercontent.com/u/5211478?v=4"
     },
     {
-      "username": "emirotin",
-      "avatar": "https://avatars0.githubusercontent.com/u/525832?v=4"
-    },
-    {
       "username": "bulldozer-balena[bot]",
       "avatar": "https://avatars0.githubusercontent.com/in/58047?v=4"
+    },
+    {
+      "username": "emirotin",
+      "avatar": "https://avatars0.githubusercontent.com/u/525832?v=4"
     },
     {
       "username": "zvin",
@@ -13388,7 +13416,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 255,
+  "stars": 256,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -13489,36 +13517,80 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-16T14:41:39Z",
+  "lastCommitDate": "2020-07-28T14:28:54Z",
   "latestRelease": {
-    "tagName": "v12.9.1",
+    "tagName": "v12.9.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.9.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.1/balena-cli-v12.9.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.9.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.2/balena-cli-v12.9.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.9.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.1/balena-cli-v12.9.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.9.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.2/balena-cli-v12.9.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.9.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.1/balena-cli-v12.9.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.9.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.2/balena-cli-v12.9.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.9.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.1/balena-cli-v12.9.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.9.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.2/balena-cli-v12.9.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.9.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.1/balena-cli-v12.9.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.9.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.2/balena-cli-v12.9.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 291,
+    "numberOfIssues": 300,
     "latestIssues": [
+      {
+        "title": "Convert `config` commands to typescript, oclif",
+        "url": "https://github.com/balena-io/balena-cli/pull/1964"
+      },
+      {
+        "title": "Add ability to remove multiple env vars with one command",
+        "url": "https://github.com/balena-io/balena-cli/pull/1963"
+      },
+      {
+        "title": "Add ability to add multiple env vars in one command",
+        "url": "https://github.com/balena-io/balena-cli/pull/1962"
+      },
+      {
+        "title": "Remove temporary v12 switches",
+        "url": "https://github.com/balena-io/balena-cli/pull/1961"
+      },
+      {
+        "title": "Convert command `push` to oclif",
+        "url": "https://github.com/balena-io/balena-cli/pull/1960"
+      },
+      {
+        "title": "Consider normalizing `join`, `leave`, `note`",
+        "url": "https://github.com/balena-io/balena-cli/issues/1959"
+      },
+      {
+        "title": "yarn add on OSX fails (since 12.9.0)",
+        "url": "https://github.com/balena-io/balena-cli/issues/1958"
+      },
+      {
+        "title": "Remove an environment variable from multiple applications, devices, or services",
+        "url": "https://github.com/balena-io/balena-cli/issues/1957"
+      },
+      {
+        "title": "Add an environment variable to multiple applications, devices, or services.",
+        "url": "https://github.com/balena-io/balena-cli/issues/1956"
+      },
+      {
+        "title": "nocache parameter is ignored in some cases",
+        "url": "https://github.com/balena-io/balena-cli/issues/1955"
+      },
+      {
+        "title": "Update net-keepalive to v1.3.3, reclaiming ~200MB disk space (npm install)",
+        "url": "https://github.com/balena-io/balena-cli/pull/1954"
+      },
       {
         "title": "Convert `os build-config` to oclif, typescript",
         "url": "https://github.com/balena-io/balena-cli/pull/1953"
@@ -13540,10 +13612,6 @@
         "url": "https://github.com/balena-io/balena-cli/issues/1949"
       },
       {
-        "title": "Rename BETA to NEW in `devices supported -v`",
-        "url": "https://github.com/balena-io/balena-cli/pull/1947"
-      },
-      {
         "title": "Add \"balena logs <app>\" command",
         "url": "https://github.com/balena-io/balena-cli/issues/1946"
       },
@@ -13558,50 +13626,10 @@
       {
         "title": "Enable `balena deploy` to update individual images in a multicontainer app",
         "url": "https://github.com/balena-io/balena-cli/issues/1923"
-      },
-      {
-        "title": "Balena Preload broken",
-        "url": "https://github.com/balena-io/balena-cli/issues/1922"
-      },
-      {
-        "title": "Add an error when generating config with different device type",
-        "url": "https://github.com/balena-io/balena-cli/issues/1919"
-      },
-      {
-        "title": "Add a `--device-type` parameter to the `belana device register` command",
-        "url": "https://github.com/balena-io/balena-cli/issues/1918"
-      },
-      {
-        "title": "Allow setting `release_version` during a deploy/push operation",
-        "url": "https://github.com/balena-io/balena-cli/issues/1908"
-      },
-      {
-        "title": "Update @types/stream-to-promise",
-        "url": "https://github.com/balena-io/balena-cli/pull/1903"
-      },
-      {
-        "title": "\"Application is ambiguous\" but `balena apps` lists a single app",
-        "url": "https://github.com/balena-io/balena-cli/issues/1893"
-      },
-      {
-        "title": "Push to local device (IP address) fails with `FROM --platform`",
-        "url": "https://github.com/balena-io/balena-cli/issues/1889"
-      },
-      {
-        "title": "Get 65200 illegal hardware instruction when running balena cli commands and the device is in local mode",
-        "url": "https://github.com/balena-io/balena-cli/issues/1878"
-      },
-      {
-        "title": "Use of 'build' and 'image' config options together when using compose file prevents containers launching under local push",
-        "url": "https://github.com/balena-io/balena-cli/issues/1874"
-      },
-      {
-        "title": "`balena device reboot` shows misleading error when device not online.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1872"
       }
     ]
   },
-  "version": "12.9.1",
+  "version": "12.9.2",
   "screenshot": null,
   "logo": null
 }
