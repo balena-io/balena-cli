@@ -58,7 +58,7 @@ describe('balena devices supported', function () {
 		// Discontinued devices should be filtered out from results
 		expect(lines.some((l) => l.includes('DISCONTINUED'))).to.be.false;
 
-		// Experimental devices should be listed as beta
+		// Experimental devices should be listed as new
 		expect(lines.some((l) => l.includes('EXPERIMENTAL'))).to.be.false;
 		expect(lines.some((l) => l.includes('NEW'))).to.be.true;
 

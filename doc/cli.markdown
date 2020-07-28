@@ -710,7 +710,7 @@ same as '--application'
 List the supported device types (like 'raspberrypi3' or 'intel-nuc').
 
 The --verbose option adds extra columns/fields to the output, including the
-"STATE" column whose values are one of 'beta', 'released' or 'discontinued'.
+"STATE" column whose values are one of 'new', 'released' or 'discontinued'.
 However, 'discontinued' device types are only listed if the '--discontinued'
 option is used.
 
