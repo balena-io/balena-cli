@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Adjustments for balena-preload v10 (SDK v14). Improved error reporting.",
+          "hash": "f6529eec26c1b0884797b6897c902907c60ad62e",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.9.5",
+      "date": "2020-07-28T16:44:09.550Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert `os build-config` to oclif, typescript",
           "hash": "3fc25cd745f3fe15daacf4eca8dcf180a80b2dfc",
           "body": "",
@@ -13553,35 +13570,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-28T16:08:34Z",
+  "lastCommitDate": "2020-07-28T17:22:34Z",
   "latestRelease": {
-    "tagName": "v12.9.4",
+    "tagName": "v12.9.5",
     "asssets": [
       {
-        "name": "balena-cli-v12.9.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.4/balena-cli-v12.9.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.9.5-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.5/balena-cli-v12.9.5-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.9.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.4/balena-cli-v12.9.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.9.5-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.5/balena-cli-v12.9.5-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.9.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.4/balena-cli-v12.9.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.9.5-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.5/balena-cli-v12.9.5-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.9.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.4/balena-cli-v12.9.4-windows-x64-installer.exe"
+        "name": "balena-cli-v12.9.5-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.5/balena-cli-v12.9.5-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.9.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.4/balena-cli-v12.9.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.9.5-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.5/balena-cli-v12.9.5-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 297,
+    "numberOfIssues": 296,
     "latestIssues": [
       {
         "title": "Convert `config` commands to typescript, oclif",
@@ -13644,10 +13661,6 @@
         "url": "https://github.com/balena-io/balena-cli/issues/1942"
       },
       {
-        "title": "Adjustments for balena-preload v10 (SDK v14). Improved error reporting.",
-        "url": "https://github.com/balena-io/balena-cli/pull/1934"
-      },
-      {
         "title": "Enable `balena deploy` to update individual images in a multicontainer app",
         "url": "https://github.com/balena-io/balena-cli/issues/1923"
       },
@@ -13662,10 +13675,14 @@
       {
         "title": "Allow setting `release_version` during a deploy/push operation",
         "url": "https://github.com/balena-io/balena-cli/issues/1908"
+      },
+      {
+        "title": "Update @types/stream-to-promise",
+        "url": "https://github.com/balena-io/balena-cli/pull/1903"
       }
     ]
   },
-  "version": "12.9.4",
+  "version": "12.9.5",
   "screenshot": null,
   "logo": null
 }
