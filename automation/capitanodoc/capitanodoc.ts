@@ -141,7 +141,7 @@ const capitanoDoc = {
 		},
 		{
 			title: 'Push',
-			files: ['build/actions/push.js'],
+			files: ['build/actions-oclif/push.js'],
 		},
 		{
 			title: 'Settings',

@@ -309,7 +309,7 @@ describe('balena push', function () {
 
 		await testPushBuildStream({
 			builderMock: builder,
-			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -l -g`,
+			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -g`,
 			expectedFiles,
 			expectedQueryParams: commonQueryParams,
 			expectedResponseLines,
@@ -348,7 +348,7 @@ describe('balena push', function () {
 
 		await testPushBuildStream({
 			builderMock: builder,
-			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -l -G`,
+			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -G`,
 			expectedFiles,
 			expectedQueryParams: commonQueryParams,
 			expectedResponseLines: commonResponseLines[responseFilename],
@@ -406,7 +406,7 @@ describe('balena push', function () {
 
 		await testPushBuildStream({
 			builderMock: builder,
-			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -l --gitignore`,
+			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} --gitignore`,
 			expectedFiles,
 			expectedQueryParams: commonQueryParams,
 			expectedResponseLines,
@@ -453,7 +453,7 @@ describe('balena push', function () {
 
 		await testPushBuildStream({
 			builderMock: builder,
-			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -l -m`,
+			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -m`,
 			expectedFiles,
 			expectedQueryParams: commonQueryParams,
 			expectedResponseLines,
@@ -511,7 +511,7 @@ describe('balena push', function () {
 
 		await testPushBuildStream({
 			builderMock: builder,
-			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -l`,
+			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath}`,
 			expectedFiles,
 			expectedQueryParams: commonQueryParams,
 			expectedResponseLines,
@@ -566,7 +566,7 @@ describe('balena push', function () {
 
 		await testPushBuildStream({
 			builderMock: builder,
-			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -l -m`,
+			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -m`,
 			expectedFiles,
 			expectedQueryParams: commonQueryParams,
 			expectedResponseLines,

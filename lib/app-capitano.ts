@@ -53,9 +53,6 @@ capitano.command(actions.preload);
 capitano.command(actions.build);
 capitano.command(actions.deploy);
 
-// ------------ Push/remote builds -------
-capitano.command(actions.push.push);
-
 export function run(argv: string[]) {
 	const cli = capitano.parse(argv.slice(2));
 	const runCommand = function () {

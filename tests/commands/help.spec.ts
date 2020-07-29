@@ -27,7 +27,7 @@ Primary commands:
 
     help [command...]                       show help
     login                                   login to balena
-    push <applicationOrDevice>              Start a remote build on the balena cloud build servers or a local mode device
+    push <applicationordevice>              start a remote build on the balena cloud build servers or a local mode device
     logs <device>                           show device logs
     ssh <applicationordevice> [servicename] SSH into the host or application container of a device
     apps                                    list all applications

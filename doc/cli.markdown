@@ -242,7 +242,7 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 
 - Push
 
-	- [push &#60;applicationOrDevice&#62;](#push-applicationordevice)
+	- [push &#60;applicationordevice&#62;](#push-applicationordevice)
 
 - Settings
 
@@ -2006,7 +2006,7 @@ Docker host TLS key file
 
 ## push &#60;applicationOrDevice&#62;
 
-This command can be used to start a build on the remote balena cloud builders,
+start a build on the remote balena cloud builders,
 or a local mode balena device.
 
 When building on the balenaCloud servers, the given source directory will be
@@ -2103,36 +2103,45 @@ adding counter patterns to the applicable .dockerignore file(s), for example
 - https://docs.docker.com/engine/reference/builder/#dockerignore-file
 - https://www.npmjs.com/package/@balena/dockerignore
 
+Note: --service and --env flags must come after the applicationOrDevice parameter,
+as per examples.
+
 Examples:
 
 	$ balena push myApp
 	$ balena push myApp --source <source directory>
 	$ balena push myApp -s <source directory>
-
+	
 	$ balena push 10.0.0.1
 	$ balena push 10.0.0.1 --source <source directory>
 	$ balena push 10.0.0.1 --service my-service
 	$ balena push 10.0.0.1 --env MY_ENV_VAR=value --env my-service:SERVICE_VAR=value
 	$ balena push 10.0.0.1 --nolive
-
+	
 	$ balena push 23c73a1.local --system
 	$ balena push 23c73a1.local --system --service my-service
 
+### Arguments
+
+#### APPLICATIONORDEVICE
+
+application name, or device address (for local pushes)
+
 ### Options
 
-#### --source, -s &#60;source&#62;
+#### -s, --source SOURCE
 
 Source directory to be sent to balenaCloud or balenaOS device (default: current working dir)
 
-#### --emulated, -e
+#### -f, --emulated
 
 Force an emulated build to occur on the remote builder
 
-#### --dockerfile &#60;Dockerfile&#62;
+#### --dockerfile DOCKERFILE
 
 Alternative Dockerfile name/path, relative to the source folder
 
-#### --nocache, -c
+#### -c, --nocache
 
 Don't use cached layers of previously built images for this project. This ensures
 that the latest base image and packages are pulled. Note that build logs may still
@@ -2144,7 +2153,7 @@ display the "Using cache" lines for each build step of a Dockerfile.
 
 Disable project validation check of 'docker-compose.yml' file in parent folder
 
-#### --registry-secrets, -R &#60;secrets.yml|.json&#62;
+#### -R, --registry-secrets REGISTRY-SECRETS
 
 Path to a local YAML or JSON file containing Docker registry passwords used to pull base images.
 Note that if registry-secrets are not provided on the command line, a secrets configuration
@@ -2156,7 +2165,7 @@ Don't run a live session on this push. The filesystem will not be monitored, and
 will not be synchronized to any running containers. Note that both this flag and --detached
 and required to cause the process to end once the initial build has completed.
 
-#### --detached, -d
+#### -d, --detached
 
 When pushing to the cloud, this option will cause the build to start, then return execution
 back to the shell, with the status and release ID (if applicable).
@@ -2164,7 +2173,7 @@ back to the shell, with the status and release ID (if applicable).
 When pushing to a local mode device, this option will cause the command to not tail application logs when the build
 has completed.
 
-#### --service &#60;service&#62;
+#### --service SERVICE
 
 Reject logs not originating from this service.
 This can be used in combination with --system and other --service flags.
@@ -2175,7 +2184,7 @@ Only valid when pushing to a local mode device.
 Only show system logs. This can be used in combination with --service.
 Only valid when pushing to a local mode device.
 
-#### --env &#60;env&#62;
+#### --env ENV
 
 When performing a push to device, run the built containers with environment
 variables provided with this argument. Environment variables can be applied
@@ -2185,7 +2194,7 @@ separated by a colon, e.g:
 Note that if the service name cannot be found in the composition, the entire
 left hand side of the = character will be treated as the variable name.
 
-#### --convert-eol, -l
+#### -l, --convert-eol
 
 No-op and deprecated since balena CLI v12.0.0
 
@@ -2193,15 +2202,15 @@ No-op and deprecated since balena CLI v12.0.0
 
 Don't convert line endings from CRLF (Windows format) to LF (Unix format).
 
-#### --multi-dockerignore, -m
+#### -m, --multi-dockerignore
 
 Have each service use its own .dockerignore file. See "balena help push".
 
-#### --nogitignore, -G
+#### -G, --nogitignore
 
 No-op (default behavior) since balena CLI v12.0.0. See "balena help push".
 
-#### --gitignore, -g
+#### -g, --gitignore
 
 Consider .gitignore files in addition to the .dockerignore file. This reverts
 to the CLI v11 behavior/implementation (deprecated) if compatibility is required

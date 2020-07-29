@@ -15,7 +15,6 @@ limitations under the License.
 */
 
 export * as help from './help';
-export * as push from './push';
 
 export { build } from './build';
 export { deploy } from './deploy';

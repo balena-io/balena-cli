@@ -39,7 +39,8 @@ export default class NoteCmd extends Command {
 		it will be read from stdin.
 
 		To view device notes, use the \`balena device <uuid>\` command.
-`;
+	`;
+
 	public static examples = [
 		'$ balena note "My useful note" --device 7cf02a6',
 		'$ cat note.txt | balena note --device 7cf02a6',
