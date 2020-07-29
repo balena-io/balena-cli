@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Convert command `push` to oclif",
+          "hash": "0f058a444139df541597dca741b0665ffb9bdbea",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.9.7",
+      "date": "2020-07-29T12:39:16.600Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert `config` commands to typescript, oclif",
           "hash": "56cc70cd50c6c5ee6f98e1213c6327c6aecebf1e",
           "body": "",
@@ -13589,35 +13608,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-29T10:52:06Z",
+  "lastCommitDate": "2020-07-29T13:10:35Z",
   "latestRelease": {
-    "tagName": "v12.9.6",
+    "tagName": "v12.9.7",
     "asssets": [
       {
-        "name": "balena-cli-v12.9.6-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.6/balena-cli-v12.9.6-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.9.7-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.7/balena-cli-v12.9.7-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.9.6-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.6/balena-cli-v12.9.6-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.9.7-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.7/balena-cli-v12.9.7-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.9.6-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.6/balena-cli-v12.9.6-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.9.7-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.7/balena-cli-v12.9.7-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.9.6-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.6/balena-cli-v12.9.6-windows-x64-installer.exe"
+        "name": "balena-cli-v12.9.7-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.7/balena-cli-v12.9.7-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.9.6-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.6/balena-cli-v12.9.6-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.9.7-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.7/balena-cli-v12.9.7-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 295,
+    "numberOfIssues": 294,
     "latestIssues": [
       {
         "title": "Add ability to remove multiple env vars with one command",
@@ -13630,10 +13649,6 @@
       {
         "title": "Remove temporary v12 switches",
         "url": "https://github.com/balena-io/balena-cli/pull/1961"
-      },
-      {
-        "title": "Convert command `push` to oclif",
-        "url": "https://github.com/balena-io/balena-cli/pull/1960"
       },
       {
         "title": "Consider normalizing `join`, `leave`, `note`",
@@ -13698,10 +13713,14 @@
       {
         "title": "\"Application is ambiguous\" but `balena apps` lists a single app",
         "url": "https://github.com/balena-io/balena-cli/issues/1893"
+      },
+      {
+        "title": "Push to local device (IP address) fails with `FROM --platform`",
+        "url": "https://github.com/balena-io/balena-cli/issues/1889"
       }
     ]
   },
-  "version": "12.9.6",
+  "version": "12.9.7",
   "screenshot": null,
   "logo": null
 }
