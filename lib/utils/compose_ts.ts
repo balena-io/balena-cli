@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { BalenaSDK } from 'balena-sdk';
-import * as Bluebird from 'bluebird';
 import type * as Dockerode from 'dockerode';
 import * as _ from 'lodash';
 import { promises as fs } from 'fs';
@@ -249,7 +248,7 @@ export async function tarDirectory(
 		preFinalizeCallback,
 	}: TarDirectoryOptions,
 ): Promise<import('stream').Readable> {
-	(await import('assert')).strict.strictEqual(nogitignore, true);
+	(await import('assert')).strict.equal(nogitignore, true);
 	const { filterFilesWithDockerignore } = await import('./ignore');
 	const { toPosixPath } = (await import('resin-multibuild')).PathUtils;
 
@@ -558,30 +557,34 @@ async function performResolution(
 			},
 			preprocessHook,
 		);
-		// Do one task at a time (Bluebird.each instead of Bluebird.all)
-		// in order to reduce peak memory usage. Resolves to buildTasks.
-		Bluebird.each(buildTasks, (buildTask) => {
-			// buildStream is falsy for "external" tasks (image pull)
-			if (!buildTask.buildStream) {
-				return buildTask;
-			}
-			// Consume each task.buildStream in order to trigger the
-			// resolution events that define fields like:
-			//     task.dockerfile, task.dockerfilePath,
-			//     task.projectType, task.resolved
-			// This mimics what is currently done in `resin-builder`.
-			return cloneTarStream(buildTask.buildStream).then(
-				(clonedStream: tar.Pack) => {
+		(async () => {
+			try {
+				// Do one task at a time in order to reduce peak memory usage. Resolves to buildTasks.
+				for (const buildTask of buildTasks) {
+					// buildStream is falsy for "external" tasks (image pull)
+					if (!buildTask.buildStream) {
+						continue;
+					}
+					// Consume each task.buildStream in order to trigger the
+					// resolution events that define fields like:
+					//     task.dockerfile, task.dockerfilePath,
+					//     task.projectType, task.resolved
+					// This mimics what is currently done in `resin-builder`.
+					const clonedStream: tar.Pack = await cloneTarStream(
+						buildTask.buildStream,
+					);
 					buildTask.buildStream = clonedStream;
 					if (!buildTask.external && !buildTask.resolved) {
 						throw new ExpectedError(
 							`Project type for service "${buildTask.serviceName}" could not be determined. Missing a Dockerfile?`,
 						);
 					}
-					return buildTask;
-				},
-			);
-		}).then(resolve, reject);
+				}
+				resolve(buildTasks);
+			} catch (e) {
+				reject(e);
+			}
+		})();
 	});
 }
 

@@ -15,7 +15,6 @@ limitations under the License.
 */
 import type * as BalenaSdk from 'balena-sdk';
 import * as semver from 'balena-semver';
-import Bluebird = require('bluebird');
 import { getBalenaSdk } from './lazy';
 
 export interface ImgConfig {
@@ -52,7 +51,7 @@ export interface ImgConfig {
 	};
 }
 
-export function generateBaseConfig(
+export async function generateBaseConfig(
 	application: BalenaSdk.Application,
 	options: {
 		version: string;
@@ -62,41 +61,44 @@ export function generateBaseConfig(
 			sshKeys?: string[];
 		};
 	},
-): Bluebird<ImgConfig> {
+): Promise<ImgConfig> {
 	options = {
 		...options,
 		appUpdatePollInterval: options.appUpdatePollInterval || 10,
 	};
 
-	const promise = getBalenaSdk().models.os.getConfig(
+	const config = (await getBalenaSdk().models.os.getConfig(
 		application.app_name,
 		options,
-	) as Bluebird<ImgConfig & { apiKey?: string }>;
-	return promise.tap((config) => {
-		// os.getConfig always returns a config for an app
-		delete config.apiKey;
+	)) as ImgConfig & { apiKey?: string };
+	// os.getConfig always returns a config for an app
+	delete config.apiKey;
 
-		// merge sshKeys to config, when they have been specified
-		if (options.os && options.os.sshKeys) {
-			// Create config.os object if it does not exist
-			config.os = config.os ? config.os : {};
-			config.os.sshKeys = config.os.sshKeys
-				? [...config.os.sshKeys, ...options.os.sshKeys]
-				: options.os.sshKeys;
-		}
-	});
+	// merge sshKeys to config, when they have been specified
+	if (options.os && options.os.sshKeys) {
+		// Create config.os object if it does not exist
+		config.os = config.os ? config.os : {};
+		config.os.sshKeys = config.os.sshKeys
+			? [...config.os.sshKeys, ...options.os.sshKeys]
+			: options.os.sshKeys;
+	}
+
+	return config;
 }
 
-export function generateApplicationConfig(
+export async function generateApplicationConfig(
 	application: BalenaSdk.Application,
 	options: { version: string; deviceType?: string },
 ) {
-	return generateBaseConfig(application, options).tap((config) => {
-		if (semver.satisfies(options.version, '<2.7.8')) {
-			return addApplicationKey(config, application.id);
-		}
-		return addProvisioningKey(config, application.id);
-	});
+	const config = await generateBaseConfig(application, options);
+
+	if (semver.satisfies(options.version, '<2.7.8')) {
+		await addApplicationKey(config, application.id);
+	} else {
+		await addProvisioningKey(config, application.id);
+	}
+
+	return config;
 }
 
 export function generateDeviceConfig(
@@ -108,20 +110,20 @@ export function generateDeviceConfig(
 ) {
 	return getBalenaSdk()
 		.models.application.get(device.belongs_to__application.__id)
-		.then((application) => {
+		.then(async (application) => {
 			const baseConfigOpts = {
 				...options,
 				deviceType: device.device_type,
 			};
-			return generateBaseConfig(application, baseConfigOpts).tap((config) => {
-				if (
-					deviceApiKey == null &&
-					semver.satisfies(options.version, '<2.0.3')
-				) {
-					return addApplicationKey(config, application.id);
-				}
-				return addDeviceKey(config, device.uuid, deviceApiKey || true);
-			});
+			const config = await generateBaseConfig(application, baseConfigOpts);
+
+			if (deviceApiKey == null && semver.satisfies(options.version, '<2.0.3')) {
+				await addApplicationKey(config, application.id);
+			} else {
+				await addDeviceKey(config, device.uuid, deviceApiKey || true);
+			}
+
+			return config;
 		})
 		.then((config) => {
 			// Associate a device, to prevent the supervisor
@@ -150,18 +152,16 @@ function addProvisioningKey(config: any, applicationNameOrId: string | number) {
 		});
 }
 
-function addDeviceKey(
+async function addDeviceKey(
 	config: any,
 	uuid: string,
 	customDeviceApiKey: string | true,
 ) {
-	return Bluebird.try(() => {
-		if (customDeviceApiKey === true) {
-			return getBalenaSdk().models.device.generateDeviceKey(uuid);
-		} else {
-			return customDeviceApiKey;
-		}
-	}).tap((deviceApiKey) => {
-		config.deviceApiKey = deviceApiKey;
-	});
+	if (customDeviceApiKey === true) {
+		config.deviceApiKey = await getBalenaSdk().models.device.generateDeviceKey(
+			uuid,
+		);
+	} else {
+		config.deviceApiKey = customDeviceApiKey;
+	}
 }

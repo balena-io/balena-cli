@@ -22,6 +22,6 @@ declare module 'umount' {
 	) => void;
 	export const isMounted: (
 		device: string,
-		callback: (err?: Error, isMounted?: boolean) => void,
+		callback: (err: Error | null, isMounted?: boolean) => void,
 	) => void;
 }
