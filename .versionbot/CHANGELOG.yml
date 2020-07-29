@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Convert `config` commands to typescript, oclif'
+      hash: 56cc70cd50c6c5ee6f98e1213c6327c6aecebf1e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.9.6
+  date: 2020-07-29T10:13:40.208Z
+- commits:
     - subject: Adjustments for balena-preload v10 (SDK v14). Improved error reporting.
       hash: f6529eec26c1b0884797b6897c902907c60ad62e
       body: ''
