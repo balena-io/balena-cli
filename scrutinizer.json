@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Convert `config` commands to typescript, oclif",
+          "hash": "56cc70cd50c6c5ee6f98e1213c6327c6aecebf1e",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.9.6",
+      "date": "2020-07-29T10:13:40.208Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Adjustments for balena-preload v10 (SDK v14). Improved error reporting.",
           "hash": "f6529eec26c1b0884797b6897c902907c60ad62e",
           "body": "",
@@ -13570,40 +13589,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-28T17:22:34Z",
+  "lastCommitDate": "2020-07-29T10:52:06Z",
   "latestRelease": {
-    "tagName": "v12.9.5",
+    "tagName": "v12.9.6",
     "asssets": [
       {
-        "name": "balena-cli-v12.9.5-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.5/balena-cli-v12.9.5-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.9.6-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.6/balena-cli-v12.9.6-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.9.5-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.5/balena-cli-v12.9.5-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.9.6-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.6/balena-cli-v12.9.6-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.9.5-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.5/balena-cli-v12.9.5-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.9.6-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.6/balena-cli-v12.9.6-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.9.5-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.5/balena-cli-v12.9.5-windows-x64-installer.exe"
+        "name": "balena-cli-v12.9.6-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.6/balena-cli-v12.9.6-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.9.5-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.5/balena-cli-v12.9.5-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.9.6-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.6/balena-cli-v12.9.6-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 296,
+    "numberOfIssues": 295,
     "latestIssues": [
-      {
-        "title": "Convert `config` commands to typescript, oclif",
-        "url": "https://github.com/balena-io/balena-cli/pull/1964"
-      },
       {
         "title": "Add ability to remove multiple env vars with one command",
         "url": "https://github.com/balena-io/balena-cli/pull/1963"
@@ -13679,10 +13694,14 @@
       {
         "title": "Update @types/stream-to-promise",
         "url": "https://github.com/balena-io/balena-cli/pull/1903"
+      },
+      {
+        "title": "\"Application is ambiguous\" but `balena apps` lists a single app",
+        "url": "https://github.com/balena-io/balena-cli/issues/1893"
       }
     ]
   },
-  "version": "12.9.5",
+  "version": "12.9.6",
   "screenshot": null,
   "logo": null
 }
