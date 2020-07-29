@@ -127,7 +127,13 @@ const capitanoDoc = {
 		},
 		{
 			title: 'Config',
-			files: ['build/actions/config.js'],
+			files: [
+				'build/actions-oclif/config/generate.js',
+				'build/actions-oclif/config/inject.js',
+				'build/actions-oclif/config/read.js',
+				'build/actions-oclif/config/reconfigure.js',
+				'build/actions-oclif/config/write.js',
+			],
 		},
 		{
 			title: 'Preload',

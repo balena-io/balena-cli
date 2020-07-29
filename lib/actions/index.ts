@@ -14,7 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-export * as config from './config';
 export * as help from './help';
 export * as push from './push';
 

@@ -52,10 +52,10 @@ Additional commands:
     app restart <name>                    restart an application
     app rm <name>                         remove an application
     config generate                       generate a config.json file
-    config inject <file>                  inject a device configuration file
-    config read                           read a device configuration
-    config reconfigure                    reconfigure a provisioned device
-    config write <key> <value>            write a device configuration
+    config inject <file>                  inject a configuration file into a device or OS image
+    config read                           read the configuration of a device or OS image
+    config reconfigure                    interactively reconfigure a device or OS image
+    config write <key> <value>            write a key-value pair to configuration of a device or OS image
     device identify <uuid>                identify a device
     device init                           initialise a device with balenaOS
     device move <uuid(s)>                 move one or more devices to another application
