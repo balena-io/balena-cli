@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "device rm: Add ability to remove multiple devices in one command",
+          "hash": "47e9d39c6f9f14ff8a6157b0029ecb6883cc9c8a",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor"
+          },
+          "author": "Nick Neisen",
+          "nested": []
+        }
+      ],
+      "version": "12.10.0",
+      "date": "2020-07-30T18:48:02.682Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert command `build` to typescript, oclif, and refactor",
           "hash": "09b8cc495c3c4f0292ded6f84e0f525b055dcff3",
           "body": "",
@@ -13495,6 +13512,10 @@
       "avatar": "https://avatars3.githubusercontent.com/u/466713?v=4"
     },
     {
+      "username": "nwneisen",
+      "avatar": "https://avatars0.githubusercontent.com/u/5108029?v=4"
+    },
+    {
       "username": "wrboyce",
       "avatar": "https://avatars2.githubusercontent.com/u/28401?v=4"
     },
@@ -13517,10 +13538,6 @@
     {
       "username": "Jazzagi",
       "avatar": "https://avatars0.githubusercontent.com/u/48051894?v=4"
-    },
-    {
-      "username": "nwneisen",
-      "avatar": "https://avatars0.githubusercontent.com/u/5108029?v=4"
     }
   ],
   "docs": [],
@@ -13644,35 +13661,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-30T14:31:34Z",
+  "lastCommitDate": "2020-07-30T19:22:32Z",
   "latestRelease": {
-    "tagName": "v12.9.9",
+    "tagName": "v12.10.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.9.9-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.9/balena-cli-v12.9.9-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.10.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.0/balena-cli-v12.10.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.9.9-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.9/balena-cli-v12.9.9-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.10.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.0/balena-cli-v12.10.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.9.9-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.9/balena-cli-v12.9.9-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.10.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.0/balena-cli-v12.10.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.9.9-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.9/balena-cli-v12.9.9-windows-x64-installer.exe"
+        "name": "balena-cli-v12.10.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.0/balena-cli-v12.10.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.9.9-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.9/balena-cli-v12.9.9-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.10.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.0/balena-cli-v12.10.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 294,
+    "numberOfIssues": 292,
     "latestIssues": [
       {
         "title": "Remove some bluebird usage",
@@ -13715,14 +13732,6 @@
         "url": "https://github.com/balena-io/balena-cli/issues/1955"
       },
       {
-        "title": "Add ability to remove multiple devices in one command",
-        "url": "https://github.com/balena-io/balena-cli/pull/1952"
-      },
-      {
-        "title": "Allow remove device to accept an array of UUIDs",
-        "url": "https://github.com/balena-io/balena-cli/issues/1951"
-      },
-      {
         "title": "balena livepush does not appear to push changes when working with balena-go-hello-world",
         "url": "https://github.com/balena-io/balena-cli/issues/1949"
       },
@@ -13753,10 +13762,18 @@
       {
         "title": "Update @types/stream-to-promise",
         "url": "https://github.com/balena-io/balena-cli/pull/1903"
+      },
+      {
+        "title": "\"Application is ambiguous\" but `balena apps` lists a single app",
+        "url": "https://github.com/balena-io/balena-cli/issues/1893"
+      },
+      {
+        "title": "Push to local device (IP address) fails with `FROM --platform`",
+        "url": "https://github.com/balena-io/balena-cli/issues/1889"
       }
     ]
   },
-  "version": "12.9.9",
+  "version": "12.10.0",
   "screenshot": null,
   "logo": null
 }
