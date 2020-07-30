@@ -174,7 +174,7 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 	- [device reboot &#60;uuid&#62;](#device-reboot-uuid)
 	- [device register &#60;application&#62;](#device-register-application)
 	- [device rename &#60;uuid&#62; [newname]](#device-rename-uuid-newname)
-	- [device rm &#60;uuid&#62;](#device-rm-uuid)
+	- [device rm &#60;uuid(s)&#62;](#device-rm-uuid-s)
 	- [device shutdown &#60;uuid&#62;](#device-shutdown-uuid)
 	- [devices](#devices)
 	- [devices supported](#devices-supported)
@@ -638,9 +638,9 @@ the new name for the device
 
 ### Options
 
-## device rm &#60;uuid&#62;
+## device rm &#60;uuid(s)&#62;
 
-Remove a device from balena.
+Remove one or more devices from balena.
 
 Note this command asks for confirmation interactively.
 You can avoid this by passing the `--yes` option.
@@ -648,13 +648,14 @@ You can avoid this by passing the `--yes` option.
 Examples:
 
 	$ balena device rm 7cf02a6
+	$ balena device rm 7cf02a6,dc39e52
 	$ balena device rm 7cf02a6 --yes
 
 ### Arguments
 
 #### UUID
 
-the uuid of the device to remove
+comma-separated list (no blank spaces) of device UUIDs to be removed
 
 ### Options
 

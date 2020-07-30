@@ -64,7 +64,7 @@ Additional commands:
     device reboot <uuid>                  restart a device
     device register <application>         register a device
     device rename <uuid> [newname]        rename a device
-    device rm <uuid>                      remove a device
+    device rm <uuid(s)>                   remove one or more devices
     device shutdown <uuid>                shutdown a device
     devices supported                     list the supported device types (like 'raspberrypi3' or 'intel-nuc')
     env add <name> [value]                add an environment or config variable to an application, device or service
