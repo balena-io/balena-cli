@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'device rm: Add ability to remove multiple devices in one command'
+      hash: 47e9d39c6f9f14ff8a6157b0029ecb6883cc9c8a
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Nick Neisen
+      nested: []
+  version: 12.10.0
+  date: 2020-07-30T18:48:02.682Z
+- commits:
     - subject: 'Convert command `build` to typescript, oclif, and refactor'
       hash: 09b8cc495c3c4f0292ded6f84e0f525b055dcff3
       body: ''
