@@ -2288,8 +2288,7 @@ the provided docker daemon in your development machine or balena device.
 (See also the `balena push` command for the option of building images in the
 balenaCloud build servers.)
 
-You must provide either an application or a device-type/architecture pair to use
-the balena Dockerfile pre-processor (e.g. Dockerfile.template -> Dockerfile).
+You must provide either an application or a device-type/architecture pair.
 
 This command will look into the given source directory (or the current working
 directory if one isn't specified) for a docker-compose.yml file, and if found,
@@ -2373,37 +2372,38 @@ adding counter patterns to the applicable .dockerignore file(s), for example
 
 Examples:
 
-	$ balena build
-	$ balena build ./source/
+	$ balena build --application myApp
+	$ balena build ./source/ --application myApp
 	$ balena build --deviceType raspberrypi3 --arch armv7hf --emulated
-	$ balena build --application MyApp ./source/
-	$ balena build --docker /var/run/docker.sock   # Linux, Mac
-	$ balena build --docker //./pipe/docker_engine # Windows
-	$ balena build --dockerHost my.docker.host --dockerPort 2376 --ca ca.pem --key key.pem --cert cert.pem
+	$ balena build --docker /var/run/docker.sock --application myApp   # Linux, Mac
+	$ balena build --docker //./pipe/docker_engine --application myApp # Windows
+	$ balena build --dockerHost my.docker.host --dockerPort 2376 --ca ca.pem --key key.pem --cert cert.pem -a myApp
+
+### Arguments
+
+#### SOURCE
+
+path of project source directory
 
 ### Options
 
-#### --arch, -A &#60;arch&#62;
+#### -A, --arch ARCH
 
-The architecture to build for
+the architecture to build for
 
-#### --deviceType, -d &#60;deviceType&#62;
+#### -d, --deviceType DEVICETYPE
 
-The type of device this build is for
+the type of device this build is for
 
-#### --application, -a &#60;application&#62;
+#### -a, --application APPLICATION
 
-The target balena application this build is for
+name of the target balena application this build is for
 
-#### --projectName, -n &#60;projectName&#62;
-
-Specify an alternate project name; default is the directory name
-
-#### --emulated, -e
+#### -e, --emulated
 
 Run an emulated build using Qemu
 
-#### --dockerfile &#60;Dockerfile&#62;
+#### --dockerfile DOCKERFILE
 
 Alternative Dockerfile name/path, relative to the source folder
 
@@ -2415,17 +2415,17 @@ No-op and deprecated since balena CLI v12.0.0. Build logs are now shown by defau
 
 Hide the image build log output (produce less verbose output)
 
-#### --gitignore, -g
+#### -g, --gitignore
 
 Consider .gitignore files in addition to the .dockerignore file. This reverts
 to the CLI v11 behavior/implementation (deprecated) if compatibility is required
 until your project can be adapted.
 
-#### --multi-dockerignore, -m
+#### -m, --multi-dockerignore
 
 Have each service use its own .dockerignore file. See "balena help build".
 
-#### --nogitignore, -G
+#### -G, --nogitignore
 
 No-op (default behavior) since balena CLI v12.0.0. See "balena help build".
 
@@ -2433,11 +2433,11 @@ No-op (default behavior) since balena CLI v12.0.0. See "balena help build".
 
 Disable project validation check of 'docker-compose.yml' file in parent folder
 
-#### --registry-secrets, -R &#60;secrets.yml|.json&#62;
+#### -R, --registry-secrets REGISTRY-SECRETS
 
 Path to a YAML or JSON file with passwords for a private Docker registry
 
-#### --convert-eol, -l
+#### -l, --convert-eol
 
 No-op and deprecated since balena CLI v12.0.0
 
@@ -2445,39 +2445,19 @@ No-op and deprecated since balena CLI v12.0.0
 
 Don't convert line endings from CRLF (Windows format) to LF (Unix format).
 
-#### --docker, -P &#60;docker&#62;
+#### -n, --projectName PROJECTNAME
 
-Path to a local docker socket (e.g. /var/run/docker.sock)
+Specify an alternate project name; default is the directory name
 
-#### --dockerHost, -h &#60;dockerHost&#62;
-
-Docker daemon hostname or IP address (dev machine or balena device) 
-
-#### --dockerPort, -p &#60;dockerPort&#62;
-
-Docker daemon TCP port number (hint: 2375 for balena devices)
-
-#### --ca &#60;ca&#62;
-
-Docker host TLS certificate authority file
-
-#### --cert &#60;cert&#62;
-
-Docker host TLS certificate file
-
-#### --key &#60;key&#62;
-
-Docker host TLS key file
-
-#### --tag, -t &#60;tag&#62;
+#### -t, --tag TAG
 
 The alias to the generated image
 
-#### --buildArg, -B &#60;arg&#62;
+#### -B, --buildArg BUILDARG
 
 Set a build-time variable (eg. "-B 'ARG=value'"). Can be specified multiple times.
 
-#### --cache-from &#60;image-list&#62;
+#### --cache-from CACHE-FROM
 
 Comma-separated list (no spaces) of image names for build cache resolution. Implements the same feature as the "docker build --cache-from" option.
 
@@ -2606,10 +2586,6 @@ Force a rebuild before deploy
 
 Don't upload build logs to the dashboard with image (if building)
 
-#### --projectName, -n &#60;projectName&#62;
-
-Specify an alternate project name; default is the directory name
-
 #### --emulated, -e
 
 Run an emulated build using Qemu
@@ -2655,6 +2631,10 @@ No-op and deprecated since balena CLI v12.0.0
 #### --noconvert-eol
 
 Don't convert line endings from CRLF (Windows format) to LF (Unix format).
+
+#### --projectName, -n &#60;projectName&#62;
+
+Specify an alternate project name; default is the directory name
 
 #### --docker, -P &#60;docker&#62;
 

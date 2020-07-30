@@ -153,6 +153,7 @@ export const convertedCommands = [
 	'config:read',
 	'config:reconfigure',
 	'config:write',
+	'build',
 	'device',
 	'device:identify',
 	'device:init',

@@ -24,12 +24,11 @@ import { Composition } from 'resin-compose-parse';
 import * as MultiBuild from 'resin-multibuild';
 import { Readable } from 'stream';
 import * as tar from 'tar-stream';
-import { stripIndent } from './lazy';
-
 import { ExpectedError } from '../errors';
-import { getBalenaSdk, getChalk } from '../utils/lazy';
+import { getBalenaSdk, getChalk, stripIndent } from './lazy';
 import {
 	BuiltImage,
+	ComposeCliFlags,
 	ComposeOpts,
 	ComposeProject,
 	Release,
@@ -38,6 +37,7 @@ import {
 } from './compose-types';
 import { DeviceInfo } from './device/api';
 import Logger = require('./logger');
+import { flags } from '@oclif/command';
 
 export interface RegistrySecrets {
 	[registryAddress: string]: {
@@ -897,3 +897,60 @@ export function createRunLoop(tick: (...args: any[]) => void) {
 	};
 	return runloop;
 }
+
+export const composeCliFlags: flags.Input<ComposeCliFlags> = {
+	emulated: flags.boolean({
+		description: 'Run an emulated build using Qemu',
+		char: 'e',
+	}),
+	dockerfile: flags.string({
+		description:
+			'Alternative Dockerfile name/path, relative to the source folder',
+	}),
+	logs: flags.boolean({
+		description:
+			'No-op and deprecated since balena CLI v12.0.0. Build logs are now shown by default.',
+	}),
+	nologs: flags.boolean({
+		description:
+			'Hide the image build log output (produce less verbose output)',
+	}),
+	gitignore: flags.boolean({
+		description: stripIndent`
+				Consider .gitignore files in addition to the .dockerignore file. This reverts
+				to the CLI v11 behavior/implementation (deprecated) if compatibility is required
+				until your project can be adapted.`,
+		char: 'g',
+	}),
+	'multi-dockerignore': flags.boolean({
+		description:
+			'Have each service use its own .dockerignore file. See "balena help build".',
+		char: 'm',
+	}),
+	nogitignore: flags.boolean({
+		description: `No-op (default behavior) since balena CLI v12.0.0. See "balena help build".`,
+		char: 'G',
+	}),
+	'noparent-check': flags.boolean({
+		description:
+			"Disable project validation check of 'docker-compose.yml' file in parent folder",
+	}),
+	'registry-secrets': flags.string({
+		description:
+			'Path to a YAML or JSON file with passwords for a private Docker registry',
+		char: 'R',
+	}),
+	'convert-eol': flags.boolean({
+		description: 'No-op and deprecated since balena CLI v12.0.0',
+		char: 'l',
+	}),
+	'noconvert-eol': flags.boolean({
+		description:
+			"Don't convert line endings from CRLF (Windows format) to LF (Unix format).",
+	}),
+	projectName: flags.string({
+		description:
+			'Specify an alternate project name; default is the directory name',
+		char: 'n',
+	}),
+};
