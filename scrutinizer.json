@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Convert command `build` to typescript, oclif, and refactor",
+          "hash": "09b8cc495c3c4f0292ded6f84e0f525b055dcff3",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.9.9",
+      "date": "2020-07-30T13:56:41.344Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Tests: improve reliability of os/configure.spec.ts",
           "hash": "5d7d687d6c1a9f9be85b2eb6384ce41bbb1dc0d3",
           "body": "",
@@ -13625,40 +13644,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-30T13:04:09Z",
+  "lastCommitDate": "2020-07-30T14:31:34Z",
   "latestRelease": {
-    "tagName": "v12.9.8",
+    "tagName": "v12.9.9",
     "asssets": [
       {
-        "name": "balena-cli-v12.9.8-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.8/balena-cli-v12.9.8-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.9.9-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.9/balena-cli-v12.9.9-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.9.8-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.8/balena-cli-v12.9.8-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.9.9-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.9/balena-cli-v12.9.9-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.9.8-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.8/balena-cli-v12.9.8-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.9.9-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.9/balena-cli-v12.9.9-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.9.8-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.8/balena-cli-v12.9.8-windows-x64-installer.exe"
+        "name": "balena-cli-v12.9.9-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.9/balena-cli-v12.9.9-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.9.8-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.8/balena-cli-v12.9.8-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.9.9-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.9/balena-cli-v12.9.9-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 295,
+    "numberOfIssues": 294,
     "latestIssues": [
-      {
-        "title": "Convert command `build` to typescript, oclif, and refactor",
-        "url": "https://github.com/balena-io/balena-cli/pull/1967"
-      },
       {
         "title": "Remove some bluebird usage",
         "url": "https://github.com/balena-io/balena-cli/pull/1966"
@@ -13734,10 +13749,14 @@
       {
         "title": "Allow setting `release_version` during a deploy/push operation",
         "url": "https://github.com/balena-io/balena-cli/issues/1908"
+      },
+      {
+        "title": "Update @types/stream-to-promise",
+        "url": "https://github.com/balena-io/balena-cli/pull/1903"
       }
     ]
   },
-  "version": "12.9.8",
+  "version": "12.9.9",
   "screenshot": null,
   "logo": null
 }
