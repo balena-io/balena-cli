@@ -148,7 +148,7 @@ export default class DeviceMoveCmd extends Command {
 				await balena.models.device.move(uuid, tryAsInteger(application));
 				console.info(`${uuid} was moved to ${application}`);
 			} catch (err) {
-				console.info(`${err.message}, uuid: ${uuid}`);
+				console.error(`${err.message}, uuid: ${uuid}`);
 				process.exitCode = 1;
 			}
 		}
