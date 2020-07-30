@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Tests: improve reliability of os/configure.spec.ts",
+          "hash": "5d7d687d6c1a9f9be85b2eb6384ce41bbb1dc0d3",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        }
+      ],
+      "version": "12.9.8",
+      "date": "2020-07-30T12:28:26.937Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert command `push` to oclif",
           "hash": "0f058a444139df541597dca741b0665ffb9bdbea",
           "body": "",
@@ -13608,36 +13625,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-29T13:10:35Z",
+  "lastCommitDate": "2020-07-30T13:04:09Z",
   "latestRelease": {
-    "tagName": "v12.9.7",
+    "tagName": "v12.9.8",
     "asssets": [
       {
-        "name": "balena-cli-v12.9.7-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.7/balena-cli-v12.9.7-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.9.8-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.8/balena-cli-v12.9.8-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.9.7-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.7/balena-cli-v12.9.7-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.9.8-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.8/balena-cli-v12.9.8-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.9.7-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.7/balena-cli-v12.9.7-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.9.8-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.8/balena-cli-v12.9.8-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.9.7-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.7/balena-cli-v12.9.7-windows-x64-installer.exe"
+        "name": "balena-cli-v12.9.8-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.8/balena-cli-v12.9.8-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.9.7-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.7/balena-cli-v12.9.7-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.9.8-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.9.8/balena-cli-v12.9.8-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 294,
+    "numberOfIssues": 295,
     "latestIssues": [
+      {
+        "title": "Convert command `build` to typescript, oclif, and refactor",
+        "url": "https://github.com/balena-io/balena-cli/pull/1967"
+      },
+      {
+        "title": "Remove some bluebird usage",
+        "url": "https://github.com/balena-io/balena-cli/pull/1966"
+      },
+      {
+        "title": "Livepush: Environment variables passed via the CLI are lost after a change to a Dockerfile",
+        "url": "https://github.com/balena-io/balena-cli/issues/1965"
+      },
       {
         "title": "Add ability to remove multiple env vars with one command",
         "url": "https://github.com/balena-io/balena-cli/pull/1963"
@@ -13705,22 +13734,10 @@
       {
         "title": "Allow setting `release_version` during a deploy/push operation",
         "url": "https://github.com/balena-io/balena-cli/issues/1908"
-      },
-      {
-        "title": "Update @types/stream-to-promise",
-        "url": "https://github.com/balena-io/balena-cli/pull/1903"
-      },
-      {
-        "title": "\"Application is ambiguous\" but `balena apps` lists a single app",
-        "url": "https://github.com/balena-io/balena-cli/issues/1893"
-      },
-      {
-        "title": "Push to local device (IP address) fails with `FROM --platform`",
-        "url": "https://github.com/balena-io/balena-cli/issues/1889"
       }
     ]
   },
-  "version": "12.9.7",
+  "version": "12.9.8",
   "screenshot": null,
   "logo": null
 }

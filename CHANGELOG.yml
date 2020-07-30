@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'Tests: improve reliability of os/configure.spec.ts'
+      hash: 5d7d687d6c1a9f9be85b2eb6384ce41bbb1dc0d3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 12.9.8
+  date: 2020-07-30T13:03:21.902Z
+- commits:
     - subject: Convert command `push` to oclif
       hash: 0f058a444139df541597dca741b0665ffb9bdbea
       body: ''
@@ -10,7 +21,7 @@
       author: Scott Lowe
       nested: []
   version: 12.9.7
-  date: 2020-07-29T13:09:51.392Z
+  date: 2020-07-29T12:39:16.600Z
 - commits:
     - subject: 'Convert `config` commands to typescript, oclif'
       hash: 56cc70cd50c6c5ee6f98e1213c6327c6aecebf1e
