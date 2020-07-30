@@ -1,0 +1,269 @@
+/**
+ * @license
+ * Copyright 2016-2020 Balena Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import { flags } from '@oclif/command';
+import Command from '../command';
+import * as cf from '../utils/common-flags';
+import { getBalenaSdk } from '../utils/lazy';
+import * as compose from '../utils/compose';
+import type { Application, ApplicationType, BalenaSDK } from 'balena-sdk';
+import { dockerignoreHelp, registrySecretsHelp } from '../utils/messages';
+import type { ComposeCliFlags, ComposeOpts } from '../utils/compose-types';
+import { composeCliFlags } from '../utils/compose_ts';
+import type { DockerCliFlags } from '../utils/docker';
+import { dockerCliFlags } from '../utils/docker';
+
+interface FlagsDef extends ComposeCliFlags, DockerCliFlags {
+	arch?: string;
+	deviceType?: string;
+	application?: string;
+	source?: string; // Not part of command profile - source param copied here.
+	help: void;
+}
+
+interface ArgsDef {
+	source?: string;
+}
+
+export default class BuildCmd extends Command {
+	public static description = `\
+Build a project locally.
+
+Use this command to build an image or a complete multicontainer project with
+the provided docker daemon in your development machine or balena device.
+(See also the \`balena push\` command for the option of building images in the
+balenaCloud build servers.)
+
+You must provide either an application or a device-type/architecture pair.
+
+This command will look into the given source directory (or the current working
+directory if one isn't specified) for a docker-compose.yml file, and if found,
+each service defined in the compose file will be built. If a compose file isn't
+found, it will look for a Dockerfile[.template] file (or alternative Dockerfile
+specified with the \`--dockerfile\` option), and if no dockerfile is found, it
+will try to generate one.
+
+${registrySecretsHelp}
+
+${dockerignoreHelp}
+`;
+	public static examples = [
+		'$ balena build --application myApp',
+		'$ balena build ./source/ --application myApp',
+		'$ balena build --deviceType raspberrypi3 --arch armv7hf --emulated',
+		'$ balena build --docker /var/run/docker.sock --application myApp   # Linux, Mac',
+		'$ balena build --docker //./pipe/docker_engine --application myApp # Windows',
+		'$ balena build --dockerHost my.docker.host --dockerPort 2376 --ca ca.pem --key key.pem --cert cert.pem -a myApp',
+	];
+
+	public static args = [
+		{
+			name: 'source',
+			description: 'path of project source directory',
+		},
+	];
+
+	public static usage = 'build [source]';
+
+	public static flags: flags.Input<FlagsDef> = {
+		arch: flags.string({
+			description: 'the architecture to build for',
+			char: 'A',
+		}),
+		deviceType: flags.string({
+			description: 'the type of device this build is for',
+			char: 'd',
+		}),
+		application: flags.string({
+			description: 'name of the target balena application this build is for',
+			char: 'a',
+		}),
+		...composeCliFlags,
+		...dockerCliFlags,
+		help: cf.help,
+	};
+
+	public static primary = true;
+
+	public async run() {
+		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
+			BuildCmd,
+		);
+
+		await Command.checkLoggedInIf(!!options.application);
+
+		// compositions with many services trigger misleading warnings
+		// @ts-ignore editing property that isn't typed but does exist
+		(await import('events')).defaultMaxListeners = 1000;
+
+		const sdk = getBalenaSdk();
+
+		const logger = await Command.getLogger();
+		logger.logDebug('Parsing input...');
+
+		this.translateParams(params, options);
+		await this.validateOptions(options, sdk);
+
+		const app = await this.getAppAndResolveArch(options);
+
+		const { docker, buildOpts, composeOpts } = await this.prepareBuild(options);
+
+		try {
+			await this.buildProject(docker, logger, composeOpts, {
+				app,
+				arch: options.arch!,
+				deviceType: options.deviceType!,
+				buildEmulated: options.emulated,
+				buildOpts,
+			});
+		} catch (err) {
+			logger.logError('Build failed.');
+			throw err;
+		}
+
+		logger.outputDeferredMessages();
+		logger.logSuccess('Build succeeded!');
+	}
+
+	protected translateParams(params: ArgsDef, options: FlagsDef) {
+		// Copy flags to those expected by other modules
+		options.arg = options.buildArg;
+		delete options.buildArg;
+		options['image-list'] = options['cache-from'];
+		delete options['cache-from'];
+
+		// `build` accepts `[source]` as a parameter, but compose expects it
+		// as an option. swap them here
+		if (options.source == null) {
+			options.source = params.source;
+		}
+		delete params.source;
+	}
+
+	protected async validateOptions(opts: FlagsDef, sdk: BalenaSDK) {
+		// Validate option combinations
+		if (
+			(opts.application == null &&
+				(opts.arch == null || opts.deviceType == null)) ||
+			(opts.application != null &&
+				(opts.arch != null || opts.deviceType != null))
+		) {
+			const { ExpectedError } = await import('../errors');
+			throw new ExpectedError(
+				'You must specify either an application or an arch/deviceType pair to build for',
+			);
+		}
+
+		// Validate project directory
+		const { validateProjectDirectory } = await import('../utils/compose_ts');
+		const { dockerfilePath, registrySecrets } = await validateProjectDirectory(
+			sdk,
+			{
+				dockerfilePath: opts.dockerfile,
+				noParentCheck: opts['noparent-check'] || false,
+				projectPath: opts.source || '.',
+				registrySecretsPath: opts['registry-secrets'],
+			},
+		);
+
+		opts.dockerfile = dockerfilePath;
+		opts['registry-secrets'] = registrySecrets;
+	}
+
+	protected async getAppAndResolveArch(opts: FlagsDef) {
+		if (opts.application) {
+			const { getAppWithArch } = await import('../utils/helpers');
+			const app = await getAppWithArch(opts.application);
+			opts.arch = app.arch;
+			opts.deviceType = app.device_type;
+			return app;
+		}
+	}
+
+	protected async prepareBuild(options: FlagsDef) {
+		const { getDocker, generateBuildOpts } = await import('../utils/docker');
+		const [docker, buildOpts, composeOpts] = await Promise.all([
+			getDocker(options),
+			generateBuildOpts(options),
+			compose.generateOpts(options),
+		]);
+		return {
+			docker,
+			buildOpts,
+			composeOpts,
+		};
+	}
+
+	/**
+	 * Opts must be an object with the following keys:
+	 *   app: the app this build is for (optional)
+	 *   arch: the architecture to build for
+	 *   deviceType: the device type to build for
+	 *   buildEmulated
+	 *   buildOpts: arguments to forward to docker build command
+	 *
+	 * @param {DockerToolbelt} docker
+	 * @param {Logger} logger
+	 * @param {ComposeOpts} composeOpts
+	 * @param opts
+	 */
+	protected async buildProject(
+		docker: import('docker-toolbelt'),
+		logger: import('../utils/logger'),
+		composeOpts: ComposeOpts,
+		opts: {
+			app?: Application;
+			arch: string;
+			deviceType: string;
+			buildEmulated: boolean;
+			buildOpts: any;
+		},
+	) {
+		const { loadProject } = await import('../utils/compose_ts');
+
+		const project = await loadProject(logger, composeOpts);
+
+		const appType = (opts.app?.application_type as ApplicationType[])?.[0];
+		if (
+			appType != null &&
+			project.descriptors.length > 1 &&
+			!appType.supports_multicontainer
+		) {
+			logger.logWarn(
+				'Target application does not support multiple containers.\n' +
+					'Continuing with build, but you will not be able to deploy.',
+			);
+		}
+
+		await compose.buildProject(
+			docker,
+			logger,
+			project.path,
+			project.name,
+			project.composition,
+			opts.arch,
+			opts.deviceType,
+			opts.buildEmulated,
+			opts.buildOpts,
+			composeOpts.inlineLogs,
+			composeOpts.convertEol,
+			composeOpts.dockerfilePath,
+			composeOpts.nogitignore,
+			composeOpts.multiDockerignore,
+		);
+	}
+}

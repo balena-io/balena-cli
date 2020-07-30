@@ -78,9 +78,23 @@ export default abstract class BalenaCommand extends Command {
 	 *  Note, currently public to allow use outside of derived commands
 	 *  (as some command implementations require this. Can be made protected
 	 *  if this changes).
+	 *
+	 * @throws {NotLoggedInError}
 	 */
 	public static async checkLoggedIn() {
 		await (await import('./utils/patterns')).checkLoggedIn();
+	}
+
+	/**
+	 * Throw NotLoggedInError if not logged in when condition true.
+	 *
+	 * @param {boolean} doCheck - will check if true.
+	 * @throws {NotLoggedInError}
+	 */
+	public static async checkLoggedInIf(doCheck: boolean) {
+		if (doCheck) {
+			await this.checkLoggedIn();
+		}
 	}
 
 	/**
@@ -91,6 +105,13 @@ export default abstract class BalenaCommand extends Command {
 	 */
 	protected async getStdin() {
 		this.stdin = await (await import('get-stdin'))();
+	}
+
+	/**
+	 * Get a logger instance.
+	 */
+	protected static async getLogger() {
+		return (await import('./utils/logger')).getLogger();
 	}
 
 	protected async init() {

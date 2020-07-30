@@ -50,7 +50,6 @@ capitano.command(actions.help.help);
 capitano.command(actions.preload);
 
 // ------------ Local build and deploy -------
-capitano.command(actions.build);
 capitano.command(actions.deploy);
 
 export function run(argv: string[]) {

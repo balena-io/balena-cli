@@ -55,6 +55,21 @@ export interface ComposeOpts {
 	projectPath: string;
 }
 
+export interface ComposeCliFlags {
+	emulated: boolean;
+	dockerfile?: string;
+	logs: boolean;
+	nologs: boolean;
+	gitignore: boolean;
+	'multi-dockerignore': boolean;
+	nogitignore: boolean;
+	'noparent-check': boolean;
+	'registry-secrets'?: string | RegistrySecrets;
+	'convert-eol': boolean;
+	'noconvert-eol': boolean;
+	projectName?: string;
+}
+
 export interface ComposeProject {
 	path: string;
 	name: string;
