@@ -4,3 +4,11 @@ publishMetadata: true
 upstream:
   - repo: 'balena-sdk'
     url: 'https://github.com/balena-io/balena-sdk'
+  - repo: 'balena-config-json'
+    url: 'https://github.com/balena-io-modules/balena-config-json'
+  - repo: 'balena-image-manager'
+    url: 'https://github.com/balena-io-modules/balena-image-manager'
+  - repo: 'balena-preload'
+    url: 'https://github.com/balena-io-modules/balena-preload'
+  - repo: 'balena-sync'
+    url: 'https://github.com/balena-io-modules/balena-sync'

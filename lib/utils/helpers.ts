@@ -183,6 +183,7 @@ export function getAppWithArch(
 	});
 }
 
+// TODO: Drop this. The sdk now has this baked in application.get().
 function getApplication(
 	applicationName: string,
 ): Promise<ApplicationWithDeviceType> {
@@ -207,10 +208,13 @@ function getApplication(
 			match[1],
 			match[0],
 			extraOptions,
-		);
+		) as Promise<ApplicationWithDeviceType>;
 	}
 
-	return balena.models.application.get(applicationName, extraOptions);
+	return balena.models.application.get(
+		applicationName,
+		extraOptions,
+	) as Promise<ApplicationWithDeviceType>;
 }
 
 export const delay = promisify(setTimeout);

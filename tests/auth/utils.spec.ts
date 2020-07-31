@@ -70,7 +70,7 @@ describe('Utils:', function () {
 		describe('given the token does not authenticate with the server', function () {
 			beforeEach(function () {
 				this.balenaAuthIsLoggedInStub = sinon.stub(balena.auth, 'isLoggedIn');
-				return this.balenaAuthIsLoggedInStub.returns(Bluebird.resolve(false));
+				return this.balenaAuthIsLoggedInStub.resolves(false);
 			});
 
 			afterEach(function () {
@@ -112,7 +112,7 @@ describe('Utils:', function () {
 		return describe('given the token does authenticate with the server', function () {
 			beforeEach(function () {
 				this.balenaAuthIsLoggedInStub = sinon.stub(balena.auth, 'isLoggedIn');
-				return this.balenaAuthIsLoggedInStub.returns(Bluebird.resolve(true));
+				return this.balenaAuthIsLoggedInStub.resolves(true);
 			});
 
 			afterEach(function () {
