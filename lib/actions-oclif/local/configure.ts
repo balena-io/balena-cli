@@ -59,13 +59,13 @@ export default class LocalConfigureCmd extends Command {
 	public async run() {
 		const { args: params } = this.parse<FlagsDef, ArgsDef>(LocalConfigureCmd);
 
-		const Bluebird = await import('bluebird');
+		const { promisify } = await import('util');
 		const path = await import('path');
 		const umount = await import('umount');
-		const umountAsync = Bluebird.promisify(umount.umount);
-		const isMountedAsync = Bluebird.promisify(umount.isMounted);
+		const umountAsync = promisify(umount.umount);
+		const isMountedAsync = promisify(umount.isMounted);
 		const reconfix = await import('reconfix');
-		const denymount = Bluebird.promisify(await import('denymount'));
+		const denymount = promisify(await import('denymount'));
 		const Logger = await import('../../utils/logger');
 
 		const logger = Logger.getLogger();

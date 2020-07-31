@@ -20,7 +20,7 @@ declare module 'denymount' {
 		target: string,
 		handler: (cb: typeof callback) => void,
 		opts?: { autoMountOnSuccess?: boolean; executablePath?: string },
-		callback: (err?: any) => void,
+		callback: (err?: Error) => void,
 	) => void;
 	export = denymount;
 }

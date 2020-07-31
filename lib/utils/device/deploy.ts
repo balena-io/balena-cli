@@ -16,7 +16,6 @@
  */
 
 import * as semver from 'balena-semver';
-import * as Bluebird from 'bluebird';
 import * as Docker from 'dockerode';
 import * as _ from 'lodash';
 import { Composition } from 'resin-compose-parse';
@@ -258,7 +257,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 			deployOpts: opts,
 		});
 
-		const promises: Array<Bluebird<void> | Promise<void>> = [livepush.init()];
+		const promises: Array<Promise<void>> = [livepush.init()];
 		// Only show logs if we're not detaching
 		if (!opts.detached) {
 			const logStream = await api.getLogStream();
@@ -298,7 +297,7 @@ function connectToDocker(host: string, port: number): Docker {
 	return new Docker({
 		host,
 		port,
-		Promise: Bluebird as any,
+		Promise: require('bluebird'),
 	});
 }
 
