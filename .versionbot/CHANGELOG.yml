@@ -1,4 +1,15 @@
 - commits:
+    - subject: Remove some bluebird usage
+      hash: 9aacb7ec56aafa498fc1e599917b71d9b1f88312
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 12.10.1
+  date: 2020-07-31T10:36:06.780Z
+- commits:
     - subject: 'device rm: Add ability to remove multiple devices in one command'
       hash: 47e9d39c6f9f14ff8a6157b0029ecb6883cc9c8a
       body: ''
