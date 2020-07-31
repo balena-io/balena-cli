@@ -189,7 +189,7 @@ ${dockerignoreHelp}
 			const { getAppWithArch } = await import('../utils/helpers');
 			const app = await getAppWithArch(opts.application);
 			opts.arch = app.arch;
-			opts.deviceType = app.device_type;
+			opts.deviceType = app.is_for__device_type[0].slug;
 			return app;
 		}
 	}

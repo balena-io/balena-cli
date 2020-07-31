@@ -16,13 +16,12 @@
  */
 
 import { flags } from '@oclif/command';
-import type { Application } from 'balena-sdk';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
 import { isV12 } from '../utils/version';
 
-interface ExtendedApplication extends Application {
+interface ExtendedApplication extends ApplicationWithDeviceType {
 	device_count?: number;
 	online_devices?: number;
 }
@@ -64,12 +63,13 @@ export default class AppsCmd extends Command {
 		const balena = getBalenaSdk();
 
 		// Get applications
-		const applications: ExtendedApplication[] = await balena.models.application.getAll(
-			{
-				$select: ['id', 'app_name', 'slug', 'device_type'],
-				$expand: { owns__device: { $select: 'is_online' } },
+		const applications = (await balena.models.application.getAll({
+			$select: ['id', 'app_name', 'slug'],
+			$expand: {
+				is_for__device_type: { $select: 'slug' },
+				owns__device: { $select: 'is_online' },
 			},
-		);
+		})) as ExtendedApplication[];
 
 		const _ = await import('lodash');
 		// Add extended properties
@@ -78,6 +78,8 @@ export default class AppsCmd extends Command {
 			application.online_devices = _.sumBy(application.owns__device, (d) =>
 				d.is_online === true ? 1 : 0,
 			);
+			// @ts-expect-error
+			application.device_type = application.is_for__device_type[0].slug;
 		});
 
 		// Display

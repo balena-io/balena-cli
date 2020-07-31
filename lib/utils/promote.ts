@@ -40,10 +40,12 @@ export async function join(
 
 	logger.logDebug('Determining application...');
 	const app = await getOrSelectApplication(sdk, deviceType, appName);
-	logger.logDebug(`Using application: ${app.app_name} (${app.device_type})`);
-	if (app.device_type !== deviceType) {
+	logger.logDebug(
+		`Using application: ${app.app_name} (${app.is_for__device_type[0].slug})`,
+	);
+	if (app.is_for__device_type[0].slug !== deviceType) {
 		logger.logDebug(`Forcing device type to: ${deviceType}`);
-		app.device_type = deviceType;
+		app.is_for__device_type[0].slug = deviceType;
 	}
 
 	logger.logDebug('Determining device OS version...');
@@ -186,7 +188,9 @@ async function getOrSelectLocalDevice(deviceIp?: string): Promise<string> {
 	return ip;
 }
 
-async function selectAppFromList(applications: BalenaSdk.Application[]) {
+async function selectAppFromList(
+	applications: ApplicationWithDeviceType[],
+): Promise<ApplicationWithDeviceType> {
 	const _ = await import('lodash');
 	const { selectFromList } = await import('../utils/patterns');
 
@@ -204,7 +208,7 @@ async function getOrSelectApplication(
 	sdk: BalenaSdk.BalenaSDK,
 	deviceType: string,
 	appName?: string,
-): Promise<BalenaSdk.Application> {
+): Promise<ApplicationWithDeviceType> {
 	const _ = await import('lodash');
 
 	const allDeviceTypes = await sdk.models.config.getDeviceTypes();
@@ -229,7 +233,11 @@ async function getOrSelectApplication(
 		return createOrSelectAppOrExit(sdk, compatibleDeviceTypes, deviceType);
 	}
 
-	const options: BalenaSdk.PineOptionsFor<BalenaSdk.Application> = {};
+	const options: BalenaSdk.PineOptions<BalenaSdk.Application> = {
+		$expand: {
+			is_for__device_type: { $select: 'slug' },
+		},
+	};
 
 	// Check for an app of the form `user/application` and update the API query.
 	let name: string;
@@ -245,7 +253,9 @@ async function getOrSelectApplication(
 		name = appName;
 	}
 
-	const applications = await sdk.models.application.getAll(options);
+	const applications = (await sdk.models.application.getAll(
+		options,
+	)) as ApplicationWithDeviceType[];
 
 	if (applications.length === 0) {
 		const shouldCreateApp = await getCliForm().ask({
@@ -264,7 +274,7 @@ async function getOrSelectApplication(
 	// We've found at least one app with the given name.
 	// Filter out apps for non-matching device types and see what we're left with.
 	const validApplications = applications.filter((app) =>
-		_.includes(compatibleDeviceTypes, app.device_type),
+		_.includes(compatibleDeviceTypes, app.is_for__device_type[0].slug),
 	);
 
 	if (validApplications.length === 0) {
@@ -285,13 +295,19 @@ async function createOrSelectAppOrExit(
 	sdk: BalenaSdk.BalenaSDK,
 	compatibleDeviceTypes: string[],
 	deviceType: string,
-) {
-	const options = {
-		$filter: { device_type: { $in: compatibleDeviceTypes } },
-	};
-
+): Promise<ApplicationWithDeviceType> {
 	// No application specified, show a list to select one.
-	const applications = await sdk.models.application.getAll(options);
+	const applications = (await sdk.models.application.getAll({
+		$expand: { is_for__device_type: { $select: 'slug' } },
+		$filter: {
+			is_for__device_type: {
+				$any: {
+					$alias: 'dt',
+					$expr: { dt: { slug: { $in: compatibleDeviceTypes } } },
+				},
+			},
+		},
+	})) as ApplicationWithDeviceType[];
 
 	if (applications.length === 0) {
 		const shouldCreateApp = await getCliForm().ask({
@@ -314,14 +330,13 @@ async function createApplication(
 	sdk: BalenaSdk.BalenaSDK,
 	deviceType: string,
 	name?: string,
-): Promise<BalenaSdk.Application> {
+): Promise<ApplicationWithDeviceType> {
 	const validation = await import('./validation');
 
-	let username = await sdk.auth.whoami();
+	const username = await sdk.auth.whoami();
 	if (!username) {
 		throw new sdk.errors.BalenaNotLoggedIn();
 	}
-	username = username.toLowerCase();
 
 	const applicationName = await new Promise<string>(async (resolve, reject) => {
 		while (true) {
@@ -337,7 +352,7 @@ async function createApplication(
 					await sdk.models.application.get(appName, {
 						$filter: {
 							$or: [
-								{ slug: { $startswith: `${username}/` } },
+								{ slug: { $startswith: `${username!.toLowerCase()}/` } },
 								{ $not: { slug: { $contains: '/' } } },
 							],
 						},
@@ -357,20 +372,28 @@ async function createApplication(
 		}
 	});
 
-	return sdk.models.application.create({
+	const app = await sdk.models.application.create({
 		name: applicationName,
 		deviceType,
+		organization: username,
 	});
+	return (await sdk.models.application.get(app.id, {
+		$expand: {
+			is_for__device_type: { $select: 'slug' },
+		},
+	})) as ApplicationWithDeviceType;
 }
 
 async function generateApplicationConfig(
 	sdk: BalenaSdk.BalenaSDK,
-	app: BalenaSdk.Application,
+	app: ApplicationWithDeviceType,
 	options: { version: string },
 ) {
 	const { generateApplicationConfig: configGen } = await import('./config');
 
-	const manifest = await sdk.models.device.getManifestBySlug(app.device_type);
+	const manifest = await sdk.models.device.getManifestBySlug(
+		app.is_for__device_type[0].slug,
+	);
 	const opts =
 		manifest.options &&
 		manifest.options.filter((opt) => opt.name !== 'network');

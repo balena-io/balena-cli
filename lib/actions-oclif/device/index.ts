@@ -22,11 +22,12 @@ import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { tryAsInteger } from '../../utils/validation';
-import type { Application, Device } from 'balena-sdk';
+import type { Application, Release } from 'balena-sdk';
 
-interface ExtendedDevice extends Device {
+interface ExtendedDevice extends DeviceWithDeviceType {
 	dashboard_url?: string;
 	application_name?: string;
+	device_type?: string;
 	commit?: string;
 	last_seen?: string;
 }
@@ -70,25 +71,23 @@ export default class DeviceCmd extends Command {
 
 		const balena = getBalenaSdk();
 
-		const device: ExtendedDevice = await balena.models.device.get(params.uuid, {
+		const device = (await balena.models.device.get(params.uuid, {
 			$select: [
 				'device_name',
 				'id',
-				'device_type',
 				'overall_status',
 				'is_online',
 				'ip_address',
 				'mac_address',
 				'last_connectivity_event',
 				'uuid',
-				'is_on__commit',
 				'supervisor_version',
 				'is_web_accessible',
 				'note',
 				'os_version',
 			],
 			...expandForAppName,
-		});
+		})) as ExtendedDevice;
 		device.status = device.overall_status;
 
 		device.dashboard_url = balena.models.device.getDashboardUrl(device.uuid);
@@ -98,8 +97,9 @@ export default class DeviceCmd extends Command {
 			? belongsToApplication[0].app_name
 			: 'N/a';
 
-		device.commit = device.is_on__commit;
-		device.last_seen = device.last_connectivity_event;
+		device.device_type = device.is_of__device_type[0].slug;
+		device.commit = (device.is_running__release as Release[])[0].commit;
+		device.last_seen = device.last_connectivity_event ?? undefined;
 
 		console.log(
 			getVisuals().table.vertical(device, [

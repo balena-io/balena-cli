@@ -20,7 +20,7 @@ import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getCliForm, stripIndent } from '../../utils/lazy';
 import * as _ from 'lodash';
-import type { DeviceType } from 'balena-sdk';
+import type { DeviceTypeJson } from 'balena-sdk';
 
 interface FlagsDef {
 	advanced: boolean;
@@ -104,7 +104,7 @@ export default class OsBuildConfigCmd extends Command {
 	}
 
 	async buildConfigForDeviceType(
-		deviceTypeManifest: DeviceType,
+		deviceTypeManifest: DeviceTypeJson.DeviceType,
 		advanced: boolean,
 	) {
 		if (advanced == null) {

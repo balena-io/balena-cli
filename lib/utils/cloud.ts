@@ -92,7 +92,7 @@ export const getDeviceAndMaybeAppFromUUID = _.memoize(
 			$expand: selectAppFields
 				? { belongs_to__application: { $select: selectAppFields } }
 				: 'belongs_to__application',
-		} as SDK.PineOptionsFor<SDK.Device>;
+		} as SDK.PineOptions<SDK.Device>;
 		if (selectDeviceFields) {
 			pineOpts.$select = selectDeviceFields as any;
 		}

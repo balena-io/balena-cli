@@ -21,8 +21,16 @@
 			"actor": 3423895,
 			"app_name": "testApp",
 			"slug": "gh_user/testApp",
-			"commit": "96eec431d57e6976d3a756df33fde7e2",
-			"device_type": "raspberrypi3",
+			"should_be__running_release": [
+				{
+					"commit": "96eec431d57e6976d3a756df33fde7e2"
+				}
+			],
+			"is_for__device_type": [
+				{
+					"slug": "raspberrypi3"
+				}
+			],
 			"should_track_latest_release": true,
 			"is_accessible_by_support_until__date": null,
 			"is_public": false,

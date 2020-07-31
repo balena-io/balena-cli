@@ -2243,44 +2243,6 @@
         "resin-image-fs": "^5.0.9"
       },
       "dependencies": {
-        "balena-sdk": {
-          "version": "14.1.0",
-          "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-14.1.0.tgz",
-          "integrity": "sha512-J/T1F3zQI6GChK0zZp5YKdNhBSynx3VaXk7tGcGykNnLuN4ZVeApHPZ7vVLUuyN/hvckax55iKSPO5JSEYA0sg==",
-          "requires": {
-            "@balena/es-version": "^1.0.0",
-            "@types/bluebird": "^3.5.30",
-            "@types/lodash": "^4.14.150",
-            "@types/memoizee": "^0.4.3",
-            "@types/node": "^10.17.20",
-            "abortcontroller-polyfill": "^1.4.0",
-            "balena-auth": "^3.1.0",
-            "balena-errors": "^4.4.0",
-            "balena-hup-action-utils": "~4.0.1",
-            "balena-pine": "^11.2.0",
-            "balena-register-device": "^6.1.1",
-            "balena-request": "^10.0.9",
-            "balena-semver": "^2.3.0",
-            "balena-settings-client": "^4.0.4",
-            "bluebird": "^3.7.2",
-            "lodash": "^4.17.15",
-            "memoizee": "^0.4.14",
-            "moment": "~2.24.0 || ^2.25.1",
-            "ndjson": "^1.5.0",
-            "semver": "^7.3.2"
-          },
-          "dependencies": {
-            "balena-errors": {
-              "version": "4.4.0",
-              "resolved": "https://registry.npmjs.org/balena-errors/-/balena-errors-4.4.0.tgz",
-              "integrity": "sha512-w5Zje97Gl0veNKpAhH4OQ3R7ACt0MYNUBfb37o1/Yq7EeeB7HsVFsvXNhZwBn8DIBvJamxZWSIbqjw53GKjUzQ==",
-              "requires": {
-                "tslib": "^1.11.1",
-                "typed-error": "^3.0.0"
-              }
-            }
-          }
-        },
         "balena-semver": {
           "version": "2.3.0",
           "resolved": "https://registry.npmjs.org/balena-semver/-/balena-semver-2.3.0.tgz",
@@ -2354,44 +2316,6 @@
         "rimraf": "^3.0.2"
       },
       "dependencies": {
-        "balena-sdk": {
-          "version": "14.1.0",
-          "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-14.1.0.tgz",
-          "integrity": "sha512-J/T1F3zQI6GChK0zZp5YKdNhBSynx3VaXk7tGcGykNnLuN4ZVeApHPZ7vVLUuyN/hvckax55iKSPO5JSEYA0sg==",
-          "requires": {
-            "@balena/es-version": "^1.0.0",
-            "@types/bluebird": "^3.5.30",
-            "@types/lodash": "^4.14.150",
-            "@types/memoizee": "^0.4.3",
-            "@types/node": "^10.17.20",
-            "abortcontroller-polyfill": "^1.4.0",
-            "balena-auth": "^3.1.0",
-            "balena-errors": "^4.4.0",
-            "balena-hup-action-utils": "~4.0.1",
-            "balena-pine": "^11.2.0",
-            "balena-register-device": "^6.1.1",
-            "balena-request": "^10.0.9",
-            "balena-semver": "^2.3.0",
-            "balena-settings-client": "^4.0.4",
-            "bluebird": "^3.7.2",
-            "lodash": "^4.17.15",
-            "memoizee": "^0.4.14",
-            "moment": "~2.24.0 || ^2.25.1",
-            "ndjson": "^1.5.0",
-            "semver": "^7.3.2"
-          },
-          "dependencies": {
-            "balena-errors": {
-              "version": "4.4.0",
-              "resolved": "https://registry.npmjs.org/balena-errors/-/balena-errors-4.4.0.tgz",
-              "integrity": "sha512-w5Zje97Gl0veNKpAhH4OQ3R7ACt0MYNUBfb37o1/Yq7EeeB7HsVFsvXNhZwBn8DIBvJamxZWSIbqjw53GKjUzQ==",
-              "requires": {
-                "tslib": "^1.11.1",
-                "typed-error": "^3.0.0"
-              }
-            }
-          }
-        },
         "balena-semver": {
           "version": "2.3.0",
           "resolved": "https://registry.npmjs.org/balena-semver/-/balena-semver-2.3.0.tgz",
@@ -2472,34 +2396,6 @@
           "requires": {
             "tslib": "^2.0.0",
             "typed-error": "^3.0.0"
-          }
-        },
-        "balena-sdk": {
-          "version": "14.8.0",
-          "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-14.8.0.tgz",
-          "integrity": "sha512-GptB/Ju8BtE1E9NODHioScdF4HW8svcDhfdMHPrDjMFWbs38KOoTgiKogDjLlvEjoAg5FIvz8DaUeH27EtZ1Rg==",
-          "requires": {
-            "@balena/es-version": "^1.0.0",
-            "@types/bluebird": "^3.5.30",
-            "@types/lodash": "^4.14.150",
-            "@types/memoizee": "^0.4.3",
-            "@types/node": "^10.17.20",
-            "abortcontroller-polyfill": "^1.4.0",
-            "balena-auth": "^3.1.0",
-            "balena-errors": "^4.4.0",
-            "balena-hup-action-utils": "~4.0.1",
-            "balena-pine": "^11.2.0",
-            "balena-register-device": "^6.1.1",
-            "balena-request": "^10.0.9",
-            "balena-semver": "^2.3.0",
-            "balena-settings-client": "^4.0.4",
-            "bluebird": "^3.7.2",
-            "lodash": "^4.17.15",
-            "memoizee": "^0.4.14",
-            "moment": "~2.24.0 || ^2.25.1",
-            "ndjson": "^1.5.0",
-            "semver": "^7.3.2",
-            "tslib": "^2.0.0"
           }
         },
         "balena-semver": {
@@ -2638,19 +2534,20 @@
       }
     },
     "balena-sdk": {
-      "version": "13.8.0",
-      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-13.8.0.tgz",
-      "integrity": "sha512-EhaXZq7kNCewhp0oSMeeTslvRIhvaV0QxlS7u3SWmdMoDjH1gdg01sG2I3b20DkN8oDAIoNkaD14eo2eTf0C8w==",
+      "version": "14.8.0",
+      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-14.8.0.tgz",
+      "integrity": "sha512-GptB/Ju8BtE1E9NODHioScdF4HW8svcDhfdMHPrDjMFWbs38KOoTgiKogDjLlvEjoAg5FIvz8DaUeH27EtZ1Rg==",
       "requires": {
+        "@balena/es-version": "^1.0.0",
         "@types/bluebird": "^3.5.30",
         "@types/lodash": "^4.14.150",
         "@types/memoizee": "^0.4.3",
         "@types/node": "^10.17.20",
         "abortcontroller-polyfill": "^1.4.0",
-        "balena-auth": "^3.0.1",
+        "balena-auth": "^3.1.0",
         "balena-errors": "^4.4.0",
         "balena-hup-action-utils": "~4.0.1",
-        "balena-pine": "^11.0.1",
+        "balena-pine": "^11.2.0",
         "balena-register-device": "^6.1.1",
         "balena-request": "^10.0.9",
         "balena-semver": "^2.3.0",
@@ -2660,15 +2557,16 @@
         "memoizee": "^0.4.14",
         "moment": "~2.24.0 || ^2.25.1",
         "ndjson": "^1.5.0",
-        "semver": "^7.3.2"
+        "semver": "^7.3.2",
+        "tslib": "^2.0.0"
       },
       "dependencies": {
         "balena-errors": {
-          "version": "4.4.0",
-          "resolved": "https://registry.npmjs.org/balena-errors/-/balena-errors-4.4.0.tgz",
-          "integrity": "sha512-w5Zje97Gl0veNKpAhH4OQ3R7ACt0MYNUBfb37o1/Yq7EeeB7HsVFsvXNhZwBn8DIBvJamxZWSIbqjw53GKjUzQ==",
+          "version": "4.4.1",
+          "resolved": "https://registry.npmjs.org/balena-errors/-/balena-errors-4.4.1.tgz",
+          "integrity": "sha512-912lPp1LyBjkpxRg6m/EpOCssqMhgkzyYbrKwtT2uRvixm89WOlJrj5sPkxnbPnp5IoMNaoRONxFt1jtiQf50Q==",
           "requires": {
-            "tslib": "^1.11.1",
+            "tslib": "^2.0.0",
             "typed-error": "^3.0.0"
           }
         },
@@ -2689,9 +2587,9 @@
           "integrity": "sha512-OrOb32TeeambH6UrhtShmF7CRDqhL6/5XpPNp2DuRH6+9QLw/orhp72j87v8Qa1ScDkvrrBNpZcDejAirJmfXQ=="
         },
         "tslib": {
-          "version": "1.13.0",
-          "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.13.0.tgz",
-          "integrity": "sha512-i/6DQjL8Xf3be4K/E6Wgpekn5Qasl1usyw++dAA35Ue5orEn65VIxOA+YvNNl9HV3qv70T7CNwjODHZrLwvd1Q=="
+          "version": "2.0.0",
+          "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.0.0.tgz",
+          "integrity": "sha512-lTqkx847PI7xEDYJntxZH89L2/aXInsyF2luSafe/+0fHOMjlBNXdH6th7f70qxLDhul7KZK0zC8V5ZIyHl0/g=="
         }
       }
     },
@@ -2792,33 +2690,6 @@
               "resolved": "https://registry.npmjs.org/typed-error/-/typed-error-3.2.0.tgz",
               "integrity": "sha512-n0NojMTp7jD2MMgJxtjzS1it/sKIlDfQwqOECSPAGwsIU2jns3G0R6alnakRelQzxz7t8PhjYrlqYoQKUVGOsQ=="
             }
-          }
-        },
-        "balena-sdk": {
-          "version": "14.1.0",
-          "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-14.1.0.tgz",
-          "integrity": "sha512-J/T1F3zQI6GChK0zZp5YKdNhBSynx3VaXk7tGcGykNnLuN4ZVeApHPZ7vVLUuyN/hvckax55iKSPO5JSEYA0sg==",
-          "requires": {
-            "@balena/es-version": "^1.0.0",
-            "@types/bluebird": "^3.5.30",
-            "@types/lodash": "^4.14.150",
-            "@types/memoizee": "^0.4.3",
-            "@types/node": "^10.17.20",
-            "abortcontroller-polyfill": "^1.4.0",
-            "balena-auth": "^3.1.0",
-            "balena-errors": "^4.4.0",
-            "balena-hup-action-utils": "~4.0.1",
-            "balena-pine": "^11.2.0",
-            "balena-register-device": "^6.1.1",
-            "balena-request": "^10.0.9",
-            "balena-semver": "^2.3.0",
-            "balena-settings-client": "^4.0.4",
-            "bluebird": "^3.7.2",
-            "lodash": "^4.17.15",
-            "memoizee": "^0.4.14",
-            "moment": "~2.24.0 || ^2.25.1",
-            "ndjson": "^1.5.0",
-            "semver": "^7.3.2"
           }
         },
         "balena-semver": {
@@ -12604,9 +12475,9 @@
       }
     },
     "ref-napi": {
-      "version": "2.0.3",
-      "resolved": "https://registry.npmjs.org/ref-napi/-/ref-napi-2.0.3.tgz",
-      "integrity": "sha512-zsAhPhh9gUlk0pP5iR9nhvwFeC/E9G1X0cdH/qQRTwx3VDgVi40Aflq/EdbobcVg++RNaMxZsbaQV+/E2u57LQ==",
+      "version": "2.0.4",
+      "resolved": "https://registry.npmjs.org/ref-napi/-/ref-napi-2.0.4.tgz",
+      "integrity": "sha512-Ees+O+abgS4skRDU/RyICk9gbSaVjYCN1FXivAlcxdj/yW9N+GFKbB9fYACa+lgBjjqjSGHw5SkoP5GU0anwwQ==",
       "optional": true,
       "requires": {
         "debug": "^4.1.1",

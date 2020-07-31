@@ -81,12 +81,17 @@ export default class DeviceOsUpdateCmd extends Command {
 		// Get device info
 		const {
 			uuid,
-			device_type,
+			is_of__device_type,
 			os_version,
 			os_variant,
-		} = await sdk.models.device.get(params.uuid, {
-			$select: ['uuid', 'device_type', 'os_version', 'os_variant'],
-		});
+		} = (await sdk.models.device.get(params.uuid, {
+			$select: ['uuid', 'os_version', 'os_variant'],
+			$expand: {
+				is_of__device_type: {
+					$select: 'slug',
+				},
+			},
+		})) as DeviceWithDeviceType;
 
 		// Get current device OS version
 		const currentOsVersion = sdk.models.device.getOsVersion({
@@ -101,7 +106,7 @@ export default class DeviceOsUpdateCmd extends Command {
 
 		// Get supported OS update versions
 		const hupVersionInfo = await sdk.models.os.getSupportedOsUpdateVersions(
-			device_type,
+			is_of__device_type[0].slug,
 			currentOsVersion,
 		);
 		if (hupVersionInfo.versions.length === 0) {

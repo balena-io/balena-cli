@@ -19,7 +19,7 @@ import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getCliForm, stripIndent } from '../../utils/lazy';
-import type { Device, Application, PineDeferred } from 'balena-sdk';
+import type { Application, PineDeferred } from 'balena-sdk';
 
 interface FlagsDef {
 	version: string; // OS version
@@ -130,27 +130,34 @@ export default class ConfigGenerateCmd extends Command {
 
 		await this.validateOptions(options);
 
+		let deviceType = options.deviceType;
 		// Get device | application
 		let resource;
 		if (options.device != null) {
 			const { tryAsInteger } = await import('../../utils/validation');
-			resource = (await balena.models.device.get(
-				tryAsInteger(options.device),
-			)) as Device & { belongs_to__application: PineDeferred };
+			resource = (await balena.models.device.get(tryAsInteger(options.device), {
+				$expand: {
+					is_of__device_type: { $select: 'slug' },
+				},
+			})) as DeviceWithDeviceType & { belongs_to__application: PineDeferred };
+			deviceType = deviceType || resource.is_of__device_type[0].slug;
 		} else {
-			resource = await balena.models.application.get(options.application!);
+			resource = (await balena.models.application.get(options.application!, {
+				$expand: {
+					is_for__device_type: { $select: 'slug' },
+				},
+			})) as ApplicationWithDeviceType;
+			deviceType = deviceType || resource.is_for__device_type[0].slug;
 		}
 
-		const deviceType = options.deviceType || resource.device_type;
-
 		const deviceManifest = await balena.models.device.getManifestBySlug(
-			deviceType,
+			deviceType!,
 		);
 
 		// Check compatibility if application and deviceType provided
 		if (options.application && options.deviceType) {
 			const appDeviceManifest = await balena.models.device.getManifestBySlug(
-				resource.device_type,
+				deviceType!,
 			);
 
 			const helpers = await import('../../utils/helpers');
