@@ -64,6 +64,7 @@ fixed it.
 # Specifications
 
 - **balena CLI version:** e.g. 1.2.3 (output of the `"balena version -a"` command)
+- **Cloud backend: openBalena or balenaCloud?** If unsure, it will be balenaCloud
 - **Operating system version:** e.g. Windows 10, Ubuntu 18.04, macOS 10.14.5
 - **32/64 bit OS and processor:** e.g. 32-bit Windows on 64-bit Intel processor
 - **Install method:** npm or zip package or executable installer
