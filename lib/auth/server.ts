@@ -15,6 +15,7 @@ limitations under the License.
 */
 
 import * as bodyParser from 'body-parser';
+import { EventEmitter } from 'events';
 import * as express from 'express';
 import type { Socket } from 'net';
 import * as path from 'path';
@@ -22,68 +23,55 @@ import * as path from 'path';
 import * as utils from './utils';
 import { ExpectedError } from '../errors';
 
-const serverSockets: Socket[] = [];
+export class LoginServer extends EventEmitter {
+	protected expressApp: express.Express;
+	protected server: import('net').Server;
+	protected serverSockets: Socket[] = [];
+	protected firstError: Error;
+	protected token: string;
 
-const createServer = ({ port }: { port: number }) => {
-	const app = express();
-	app.use(
-		bodyParser.urlencoded({
-			extended: true,
-		}),
-	);
+	public readonly loginPath = '/auth';
 
-	app.set('view engine', 'ejs');
-	app.set('views', path.join(__dirname, 'pages'));
+	/**
+	 * Start the HTTP server, listening on the given IP address and port number.
+	 * If the port number is 0, the OS will allocate a free port number.
+	 */
+	public async start({ host = '127.0.0.1', port = 0 } = {}): Promise<{
+		host: string;
+		port: number;
+		urlPath: string;
+	}> {
+		this.once('error', (err: Error) => {
+			this.firstError = err;
+		});
+		this.on('token', (token: string) => {
+			this.token = token;
+		});
 
-	const server = app.listen(port);
-	server.on('connection', (socket) => serverSockets.push(socket));
+		const app = (this.expressApp = express());
+		app.use(
+			bodyParser.urlencoded({
+				extended: true,
+			}),
+		);
 
-	return { app, server };
-};
+		app.set('view engine', 'ejs');
+		app.set('views', path.join(__dirname, 'pages'));
 
-/**
- * By design (more like a bug, but they won't admit it), a Node.js `http.server`
- * instance prevents the process from exiting for up to 2 minutes (by default) if a
- * client keeps a HTTP connection open, and regardless of whether `server.close()`
- * was called: the `server.close(callback)` callback takes just as long to be called.
- * Setting `server.timeout` to some value like 3 seconds works, but then the CLI
- * process hangs for "only" 3 seconds (not good enough). Reducing the timeout to 1
- * second may cause authentication failure if the laptop or CI server are slow for
- * any reason. The only reliable way around it seems to be to explicitly unref the
- * sockets, so the event loop stops waiting for it. See:
- * https://github.com/nodejs/node/issues/2642
- * https://github.com/nodejs/node-v0.x-archive/issues/9066
- */
-export function shutdownServer() {
-	serverSockets.forEach((s) => s.unref());
-	serverSockets.splice(0);
-}
+		this.server = await new Promise<import('net').Server>((resolve, reject) => {
+			const server = app.listen(port, host, (err: Error) => {
+				if (err) {
+					this.emit('error', err);
+					reject(err);
+				} else {
+					resolve(server);
+				}
+			});
+			server.on('connection', (socket) => this.serverSockets.push(socket));
+		});
 
-/**
- * @summary Await for token
- * @function
- * @protected
- *
- * @param {Object} options - options
- * @param {String} options.path - callback path
- * @param {Number} options.port - http port
- *
- * @example
- * server.awaitForToken
- * 	path: '/auth'
- * 	port: 9001
- * .then (token) ->
- *   console.log(token)
- */
-export const awaitForToken = (options: {
-	path: string;
-	port: number;
-}): Promise<string> => {
-	const { app, server } = createServer({ port: options.port });
-
-	return new Promise<string>((resolve, reject) => {
-		app.post(options.path, async (request, response) => {
-			server.close(); // stop listening for new connections
+		this.expressApp.post(this.loginPath, async (request, response) => {
+			this.server.close(); // stop listening for new connections
 			try {
 				const token = request.body.token?.trim();
 				if (!token) {
@@ -93,18 +81,68 @@ export const awaitForToken = (options: {
 				if (!loggedIn) {
 					throw new ExpectedError('Invalid token');
 				}
+				this.emit('token', token);
 				response.status(200).render('success');
-				resolve(token);
 			} catch (error) {
+				this.emit('error', error);
 				response.status(401).render('error');
-				reject(new Error(error.message));
 			}
 		});
 
-		app.use((_request, response) => {
-			server.close(); // stop listening for new connections
+		this.expressApp.use((_request, response) => {
+			this.server.close(); // stop listening for new connections
+			this.emit('error', new Error('Unknown path or verb'));
 			response.status(404).send('Not found');
-			reject(new Error('Unknown path or verb'));
 		});
-	});
-};
+
+		return this.getAddress();
+	}
+
+	public getAddress(): { host: string; port: number; urlPath: string } {
+		const info = this.server.address() as import('net').AddressInfo;
+		return {
+			host: info.address,
+			port: info.port,
+			urlPath: this.loginPath,
+		};
+	}
+
+	/**
+	 * Shut the server down.
+	 * Call this method to avoid the process hanging in some situations.
+	 */
+	public shutdown() {
+		// A Node.js `http.server` instance prevents the process from exiting for up to
+		// 2 minutes (by default) if a client keeps a HTTP connection open, and regardless
+		// of whether `server.close()` was called: the `server.close(callback)` callback
+		// takes just as long to complete. Setting `server.timeout` to some value like
+		// 3 seconds works, but then the CLI process hangs for "only" 3 seconds. Reducing
+		// the timeout to 1 second may cause authentication failure if the laptop or CI
+		// server are slow for any reason. The only reliable way around it seems to be to
+		// explicitly unref the sockets, so the event loop stops waiting for it. See:
+		// https://github.com/nodejs/node/issues/2642
+		// https://github.com/nodejs/node-v0.x-archive/issues/9066
+		//
+		this.serverSockets.forEach((s) => s.unref());
+		this.serverSockets.splice(0);
+	}
+
+	/**
+	 * Await for the user to complete login through a web browser.
+	 * Resolve to the authentication token string.
+	 *
+	 * @return Promise that resolves to the authentication token string
+	 */
+	public async awaitForToken(): Promise<string> {
+		if (this.firstError) {
+			throw this.firstError;
+		}
+		if (this.token) {
+			return this.token;
+		}
+		return new Promise<string>((resolve, reject) => {
+			this.on('error', reject);
+			this.on('token', resolve);
+		});
+	}
+}

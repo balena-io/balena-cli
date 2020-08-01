@@ -446,6 +446,10 @@ email
 
 password
 
+#### -P, --port PORT
+
+TCP port number of local HTTP login server (--web auth only)
+
 ## logout
 
 Logout from your balena account.

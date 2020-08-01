@@ -28,6 +28,7 @@ interface FlagsDef {
 	email?: string;
 	user?: string;
 	password?: string;
+	port?: number;
 	help: void;
 }
 
@@ -73,14 +74,17 @@ export default class LoginCmd extends Command {
 		web: flags.boolean({
 			char: 'w',
 			description: 'web-based login',
+			exclusive: ['token', 'credentials'],
 		}),
 		token: flags.boolean({
 			char: 't',
 			description: 'session token or API key',
+			exclusive: ['web', 'credentials'],
 		}),
 		credentials: flags.boolean({
 			char: 'c',
 			description: 'credential-based login',
+			exclusive: ['web', 'token'],
 		}),
 		email: flags.string({
 			char: 'e',
@@ -100,6 +104,12 @@ export default class LoginCmd extends Command {
 			char: 'p',
 			description: 'password',
 			dependsOn: ['credentials'],
+		}),
+		port: flags.integer({
+			char: 'P',
+			description:
+				'TCP port number of local HTTP login server (--web auth only)',
+			dependsOn: ['web'],
 		}),
 		help: cf.help,
 	};
@@ -134,11 +144,6 @@ Find out about the available commands by running:
   $ balena help
 
 ${messages.reachingOut}`);
-
-		if (options.web) {
-			const { shutdownServer } = await import('../auth');
-			shutdownServer();
-		}
 	}
 
 	async doLogin(loginOptions: FlagsDef, token?: string): Promise<void> {
@@ -166,7 +171,7 @@ ${messages.reachingOut}`);
 		// Web
 		else if (loginOptions.web) {
 			const auth = await import('../auth');
-			await auth.login();
+			await auth.login({ port: loginOptions.port });
 			return;
 		} else {
 			const patterns = await import('../utils/patterns');
