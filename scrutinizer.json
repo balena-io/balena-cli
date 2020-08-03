@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Fix performance regressions from #1967",
+          "hash": "ddb87f403dfc0df1d7051fad9a25120691da618e",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        }
+      ],
+      "version": "12.10.2",
+      "date": "2020-08-03T14:58:49.903Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Remove some bluebird usage",
           "hash": "9aacb7ec56aafa498fc1e599917b71d9b1f88312",
           "body": "",
@@ -13577,7 +13594,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 256,
+  "stars": 257,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -13678,36 +13695,56 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-07-31T12:00:00Z",
+  "lastCommitDate": "2020-08-03T15:57:08Z",
   "latestRelease": {
-    "tagName": "v12.10.1",
+    "tagName": "v12.10.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.10.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.1/balena-cli-v12.10.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.10.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.2/balena-cli-v12.10.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.10.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.1/balena-cli-v12.10.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.10.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.2/balena-cli-v12.10.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.10.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.1/balena-cli-v12.10.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.10.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.2/balena-cli-v12.10.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.10.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.1/balena-cli-v12.10.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.10.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.2/balena-cli-v12.10.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.10.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.1/balena-cli-v12.10.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.10.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.2/balena-cli-v12.10.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 291,
+    "numberOfIssues": 296,
     "latestIssues": [
+      {
+        "title": "Update balena-sdk to 15.x",
+        "url": "https://github.com/balena-io/balena-cli/pull/1974"
+      },
+      {
+        "title": "login: Use any free port number instead of 8989 for web authentication",
+        "url": "https://github.com/balena-io/balena-cli/pull/1972"
+      },
+      {
+        "title": "sudo balena config inject fails and returns \"TypeError: Class constructor PinejsClientCore cannot be invoked without 'new'\"",
+        "url": "https://github.com/balena-io/balena-cli/issues/1971"
+      },
+      {
+        "title": "$ balena device generates an Internal Server Error",
+        "url": "https://github.com/balena-io/balena-cli/issues/1970"
+      },
+      {
+        "title": "Update balena-sdk to 14.x",
+        "url": "https://github.com/balena-io/balena-cli/pull/1969"
+      },
       {
         "title": "Livepush: Environment variables passed via the CLI are lost after a change to a Dockerfile",
         "url": "https://github.com/balena-io/balena-cli/issues/1965"
@@ -13767,30 +13804,10 @@
       {
         "title": "Add a `--device-type` parameter to the `belana device register` command",
         "url": "https://github.com/balena-io/balena-cli/issues/1918"
-      },
-      {
-        "title": "Allow setting `release_version` during a deploy/push operation",
-        "url": "https://github.com/balena-io/balena-cli/issues/1908"
-      },
-      {
-        "title": "Update @types/stream-to-promise",
-        "url": "https://github.com/balena-io/balena-cli/pull/1903"
-      },
-      {
-        "title": "\"Application is ambiguous\" but `balena apps` lists a single app",
-        "url": "https://github.com/balena-io/balena-cli/issues/1893"
-      },
-      {
-        "title": "Push to local device (IP address) fails with `FROM --platform`",
-        "url": "https://github.com/balena-io/balena-cli/issues/1889"
-      },
-      {
-        "title": "Get 65200 illegal hardware instruction when running balena cli commands and the device is in local mode",
-        "url": "https://github.com/balena-io/balena-cli/issues/1878"
       }
     ]
   },
-  "version": "12.10.1",
+  "version": "12.10.2",
   "screenshot": null,
   "logo": null
 }
