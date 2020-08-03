@@ -961,15 +961,16 @@ do not prompt for confirmation before deleting the variable
 
 ## env add NAME [VALUE]
 
-Add an environment or config variable to an application, device or service,
-as selected by the respective command-line options. Either the --application
-or the --device option must be provided, and either may be be used alongside
-the --service option to define a service-specific variable. (A service is an
-application container in a "microservices" application.) When the --service
-option is used in conjunction with the --device option, the service variable
-applies to the selected device only. Otherwise, it applies to all devices of
-the selected application (i.e., the application's fleet). If the --service
-option is omitted, the variable applies to all services.
+Add an environment or config variable to one or more applications, devices 
+or services, as selected by the respective command-line options. Either the 
+--application or the --device option must be provided, and either may be be 
+used alongside the --service option to define a service-specific variable. 
+(A service is an application container in a "microservices" application.) 
+When the --service option is used in conjunction with the --device option, 
+the service variable applies to the selected device only. Otherwise, it 
+applies to all devices of the selected application (i.e., the application's 
+fleet). If the --service option is omitted, the variable applies to all 
+services.
 
 If VALUE is omitted, the CLI will attempt to use the value of the environment
 variable of same name in the CLI process' environment. In this case, a warning
@@ -988,9 +989,13 @@ Examples:
 
 	$ balena env add TERM --application MyApp
 	$ balena env add EDITOR vim --application MyApp
+	$ balena env add EDITOR vim --application MyApp,MyApp2
 	$ balena env add EDITOR vim --application MyApp --service MyService
+	$ balena env add EDITOR vim --application MyApp,MyApp2 --service MyService,MyService2
 	$ balena env add EDITOR vim --device 7cf02a6
+	$ balena env add EDITOR vim --device 7cf02a6,d6f1433
 	$ balena env add EDITOR vim --device 7cf02a6 --service MyService
+	$ balena env add EDITOR vim --device 7cf02a6,d6f1433 --service MyService,MyService2
 
 ### Arguments
 
