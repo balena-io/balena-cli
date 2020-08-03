@@ -19,9 +19,9 @@ import type * as Dockerode from 'dockerode';
 import * as _ from 'lodash';
 import { promises as fs } from 'fs';
 import * as path from 'path';
-import { Composition } from 'resin-compose-parse';
-import * as MultiBuild from 'resin-multibuild';
-import { Readable } from 'stream';
+import type { Composition } from 'resin-compose-parse';
+import type * as MultiBuild from 'resin-multibuild';
+import type { Readable } from 'stream';
 import * as tar from 'tar-stream';
 import { ExpectedError } from '../errors';
 import { getBalenaSdk, getChalk, stripIndent } from './lazy';
@@ -472,10 +472,11 @@ async function parseRegistrySecrets(
 			throw new ExpectedError('Filename must end with .json, .yml or .yaml');
 		}
 		const raw = (await fs.readFile(secretsFilename)).toString();
-		const registrySecrets = new MultiBuild.RegistrySecretValidator().validateRegistrySecrets(
+		const multiBuild = await import('resin-multibuild');
+		const registrySecrets = new multiBuild.RegistrySecretValidator().validateRegistrySecrets(
 			isYaml ? require('js-yaml').safeLoad(raw) : JSON.parse(raw),
 		);
-		MultiBuild.addCanonicalDockerHubEntry(registrySecrets);
+		multiBuild.addCanonicalDockerHubEntry(registrySecrets);
 		return registrySecrets;
 	} catch (error) {
 		throw new ExpectedError(
@@ -499,7 +500,8 @@ export async function makeBuildTasks(
 	releaseHash: string = 'unavailable',
 	preprocessHook?: (dockerfile: string) => string,
 ): Promise<MultiBuild.BuildTask[]> {
-	const buildTasks = await MultiBuild.splitBuildStream(composition, tarStream);
+	const multiBuild = await import('resin-multibuild');
+	const buildTasks = await multiBuild.splitBuildStream(composition, tarStream);
 
 	logger.logDebug('Found build tasks:');
 	_.each(buildTasks, (task) => {
@@ -544,9 +546,10 @@ async function performResolution(
 	preprocessHook?: (dockerfile: string) => string,
 ): Promise<MultiBuild.BuildTask[]> {
 	const { cloneTarStream } = await import('tar-utils');
+	const multiBuild = await import('resin-multibuild');
 
 	return await new Promise<MultiBuild.BuildTask[]>((resolve, reject) => {
-		const buildTasks = MultiBuild.performResolution(
+		const buildTasks = multiBuild.performResolution(
 			tasks,
 			deviceInfo.arch,
 			deviceInfo.deviceType,
@@ -604,7 +607,9 @@ async function validateSpecifiedDockerfile(
 	projectPath: string,
 	dockerfilePath: string,
 ): Promise<string> {
-	const { contains, toNativePath, toPosixPath } = MultiBuild.PathUtils;
+	const { contains, toNativePath, toPosixPath } = (
+		await import('resin-multibuild')
+	).PathUtils;
 
 	const nativeProjectPath = path.normalize(projectPath);
 	const nativeDockerfilePath = path.normalize(toNativePath(dockerfilePath));
