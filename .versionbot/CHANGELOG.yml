@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'Fix performance regressions from #1967'
+      hash: ddb87f403dfc0df1d7051fad9a25120691da618e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 12.10.2
+  date: 2020-08-03T14:58:49.903Z
+- commits:
     - subject: Remove some bluebird usage
       hash: 9aacb7ec56aafa498fc1e599917b71d9b1f88312
       body: ''
