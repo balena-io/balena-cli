@@ -15,9 +15,7 @@ limitations under the License.
 */
 
 import { getBalenaSdk } from '../utils/lazy';
-import { awaitForToken } from './server';
-
-export { shutdownServer } from './server';
+import { LoginServer } from './server';
 
 /**
  * @module auth
@@ -43,28 +41,26 @@ export { shutdownServer } from './server';
  *   console.log('I\'m logged in!')
  *   console.log("My session token is: #{sessionToken}")
  */
-export const login = async () => {
+export async function login({ host = '127.0.0.1', port = 0 }) {
 	const utils = await import('./utils');
 
-	const options = {
-		port: 8989,
-		path: '/auth',
-	};
+	const loginServer = new LoginServer();
+	const {
+		host: actualHost,
+		port: actualPort,
+		urlPath,
+	} = await loginServer.start({ host, port });
 
-	// Needs to be 127.0.0.1 not localhost, because the ip only is whitelisted
-	// from mixed content warnings (as the target of a form in the result page)
-	const callbackUrl = `http://127.0.0.1:${options.port}${options.path}`;
+	const callbackUrl = `http://${actualHost}:${actualPort}${urlPath}`;
 	const loginUrl = await utils.getDashboardLoginURL(callbackUrl);
+
 	console.info(`Opening web browser for URL:\n${loginUrl}`);
-	// Leave a bit of time for the
-	// server to get up and runing
-	setTimeout(async () => {
-		const open = await import('open');
-		open(loginUrl, { wait: false });
-	}, 1000);
+	const open = await import('open');
+	open(loginUrl, { wait: false });
 
 	const balena = getBalenaSdk();
-	const token = await awaitForToken(options);
+	const token = await loginServer.awaitForToken();
 	await balena.auth.loginWithToken(token);
+	loginServer.shutdown();
 	return token;
-};
+}
