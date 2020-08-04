@@ -80,11 +80,12 @@ describe('balena deploy', function () {
 		api.expectGetMixpanel({ optional: true });
 		api.expectGetDeviceTypes();
 		api.expectGetApplication();
+		api.expectGetApplicationV6();
 		api.expectPostRelease();
 		api.expectGetRelease();
-		api.expectGetUser();
+		api.expectGetUserV6();
 		api.expectGetService({ serviceName: 'main' });
-		api.expectPostService404();
+		api.expectPostService409();
 		api.expectGetAuth();
 		api.expectPostImage();
 		api.expectPostImageIsPartOfRelease();
