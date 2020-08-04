@@ -51,6 +51,26 @@ export class BalenaAPIMock extends NockMock {
 		}
 	}
 
+	public expectGetApplicationV6({
+		notFound = false,
+		optional = false,
+		persist = false,
+	} = {}) {
+		const interceptor = this.optGet(/^\/v6\/application($|[(?])/, {
+			optional,
+			persist,
+		});
+		if (notFound) {
+			interceptor.reply(200, { d: [] });
+		} else {
+			interceptor.replyWithFile(
+				200,
+				path.join(apiResponsePath, 'application-GET-v6-expanded-app-type.json'),
+				jHeader,
+			);
+		}
+	}
+
 	public expectDownloadConfig(opts: ScopeOpts = {}) {
 		this.optPost('/download-config', opts).reply(
 			200,
@@ -110,16 +130,16 @@ export class BalenaAPIMock extends NockMock {
 		optional = false,
 		persist = false,
 	}) {
-		this.optPatch(/^\/v5\/release($|[(?])/, { optional, persist }).reply(
+		this.optPatch(/^\/v6\/release($|[(?])/, { optional, persist }).reply(
 			statusCode,
 			this.getInspectedReplyBodyFunction(inspectRequest, replyBody),
 		);
 	}
 
 	public expectPostRelease(opts: ScopeOpts = {}) {
-		this.optPost(/^\/v5\/release($|[(?])/, opts).replyWithFile(
+		this.optPost(/^\/v6\/release($|[(?])/, opts).replyWithFile(
 			200,
-			path.join(apiResponsePath, 'release-POST-v5.json'),
+			path.join(apiResponsePath, 'release-POST-v6.json'),
 			jHeader,
 		);
 	}
@@ -131,35 +151,35 @@ export class BalenaAPIMock extends NockMock {
 		optional = false,
 		persist = false,
 	}) {
-		this.optPatch(/^\/v5\/image($|[(?])/, { optional, persist }).reply(
+		this.optPatch(/^\/v6\/image($|[(?])/, { optional, persist }).reply(
 			statusCode,
 			this.getInspectedReplyBodyFunction(inspectRequest, replyBody),
 		);
 	}
 
 	public expectPostImage(opts: ScopeOpts = {}) {
-		this.optPost(/^\/v5\/image($|[(?])/, opts).replyWithFile(
+		this.optPost(/^\/v6\/image($|[(?])/, opts).replyWithFile(
 			201,
-			path.join(apiResponsePath, 'image-POST-v5.json'),
+			path.join(apiResponsePath, 'image-POST-v6.json'),
 			jHeader,
 		);
 	}
 
 	public expectPostImageLabel(opts: ScopeOpts = {}) {
-		this.optPost(/^\/v5\/image_label($|[(?])/, opts).replyWithFile(
+		this.optPost(/^\/v6\/image_label($|[(?])/, opts).replyWithFile(
 			201,
-			path.join(apiResponsePath, 'image-label-POST-v5.json'),
+			path.join(apiResponsePath, 'image-label-POST-v6.json'),
 			jHeader,
 		);
 	}
 
 	public expectPostImageIsPartOfRelease(opts: ScopeOpts = {}) {
 		this.optPost(
-			/^\/v5\/image__is_part_of__release($|[(?])/,
+			/^\/v6\/image__is_part_of__release($|[(?])/,
 			opts,
 		).replyWithFile(
 			200,
-			path.join(apiResponsePath, 'image-is-part-of-release-POST-v5.json'),
+			path.join(apiResponsePath, 'image-is-part-of-release-POST-v6.json'),
 			jHeader,
 		);
 	}
@@ -323,15 +343,31 @@ export class BalenaAPIMock extends NockMock {
 		});
 	}
 
-	public expectPostService404(opts: ScopeOpts = {}) {
+	public expectPostService409(opts: ScopeOpts = {}) {
 		this.optPost(/^\/v\d+\/service$/, opts).reply(
-			404,
+			409,
 			'Unique key constraint violated',
 		);
 	}
 
 	public expectGetUser(opts: ScopeOpts = {}) {
 		this.optGet(/^\/v5\/user/, opts).reply(200, {
+			d: [
+				{
+					id: 99999,
+					actor: 1234567,
+					username: 'gh_user',
+					created_at: '2018-08-19T13:55:04.485Z',
+					__metadata: {
+						uri: '/resin/user(@id)?@id=43699',
+					},
+				},
+			],
+		});
+	}
+
+	public expectGetUserV6(opts: ScopeOpts = {}) {
+		this.optGet(/^\/v6\/user/, opts).reply(200, {
 			d: [
 				{
 					id: 99999,

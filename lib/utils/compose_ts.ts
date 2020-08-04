@@ -772,7 +772,7 @@ async function getTokenForPreviousRepos(
 async function pushServiceImages(
 	docker: import('docker-toolbelt'),
 	logger: Logger,
-	pineClient: import('pinejs-client'),
+	pineClient: ReturnType<typeof import('balena-release').createClient>,
 	taggedImages: TaggedImage[],
 	token: string,
 	skipLogUpload: boolean,

@@ -78,7 +78,7 @@ export interface ComposeProject {
 }
 
 export interface Release {
-	client: import('pinejs-client').ApiClient;
+	client: ReturnType<typeof import('balena-release').createClient>;
 	release: Partial<import('balena-release/build/models').ReleaseModel>;
 	serviceImages: Partial<import('balena-release/build/models').ImageModel>;
 }
