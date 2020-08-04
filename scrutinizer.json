@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "os build-config: Fix output file containing 'undefined' word since v12.9.4",
+          "hash": "74c6f8a627860e8b4c9d0540c50fb922017c18b2",
+          "body": "",
+          "footer": {
+            "Resolves": "#1975",
+            "resolves": "#1975",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.11.2",
+      "date": "2020-08-04T16:29:31.721Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update balena-release to v3",
           "hash": "a52a623fdfb4126edd87104b5f68e0469a2bda27",
           "body": "",
@@ -13652,7 +13671,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 257,
+  "stars": 258,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -13753,47 +13772,43 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-08-04T16:25:57Z",
+  "lastCommitDate": "2020-08-04T17:23:26Z",
   "latestRelease": {
-    "tagName": "v12.11.1",
+    "tagName": "v12.11.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.11.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.1/balena-cli-v12.11.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.11.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.2/balena-cli-v12.11.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.11.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.1/balena-cli-v12.11.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.11.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.2/balena-cli-v12.11.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.11.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.1/balena-cli-v12.11.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.11.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.2/balena-cli-v12.11.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.11.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.1/balena-cli-v12.11.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.11.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.2/balena-cli-v12.11.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.11.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.1/balena-cli-v12.11.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.11.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.2/balena-cli-v12.11.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 297,
+    "numberOfIssues": 296,
     "latestIssues": [
       {
-        "title": "os build-config: Fix output file containing 'undefined' word since v12.9.4",
-        "url": "https://github.com/balena-io/balena-cli/pull/1978"
+        "title": "Misleading error message when the CLI's socket times out with the `tunnel` subcommand",
+        "url": "https://github.com/balena-io/balena-cli/issues/1979"
       },
       {
         "title": "Reduce bluebird usage",
         "url": "https://github.com/balena-io/balena-cli/pull/1977"
-      },
-      {
-        "title": "`balena os build-config ../path/rpi3.img raspberrypi3 --output test-config.json` results in a file that only contains 'undefined'",
-        "url": "https://github.com/balena-io/balena-cli/issues/1975"
       },
       {
         "title": "Update balena-sdk to 15.x",
@@ -13862,10 +13877,14 @@
       {
         "title": "Enable `balena deploy` to update individual images in a multicontainer app",
         "url": "https://github.com/balena-io/balena-cli/issues/1923"
+      },
+      {
+        "title": "Add an error when generating config with different device type",
+        "url": "https://github.com/balena-io/balena-cli/issues/1919"
       }
     ]
   },
-  "version": "12.11.1",
+  "version": "12.11.2",
   "screenshot": null,
   "logo": null
 }

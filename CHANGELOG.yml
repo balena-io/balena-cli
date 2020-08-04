@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        os build-config: Fix output file containing 'undefined' word since
+        v12.9.4
+      hash: 74c6f8a627860e8b4c9d0540c50fb922017c18b2
+      body: ''
+      footer:
+        Resolves: '#1975'
+        resolves: '#1975'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.11.2
+  date: 2020-08-04T17:22:21.654Z
+- commits:
     - subject: Update balena-release to v3
       hash: a52a623fdfb4126edd87104b5f68e0469a2bda27
       body: ''
@@ -10,7 +25,7 @@
       author: Thodoris Greasidis
       nested: []
   version: 12.11.1
-  date: 2020-08-04T16:25:11.720Z
+  date: 2020-08-04T15:37:26.592Z
 - commits:
     - subject: 'login: Use any free port number instead of 8989 for web authentication'
       hash: cf894d98a580ee6ef5f483bf47be44fe9b0ff6b9
