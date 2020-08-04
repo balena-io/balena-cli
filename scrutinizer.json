@@ -5,6 +5,45 @@
     {
       "commits": [
         {
+          "subject": "login: Use any free port number instead of 8989 for web authentication",
+          "hash": "cf894d98a580ee6ef5f483bf47be44fe9b0ff6b9",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "Testing: Increase mocha timeout from 6s to 12s (experimental)",
+          "hash": "d18f25cb9c1e4c58d498f557b5b6bb75988ad4d2",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "Update GitHub issue template (request openBalena vs balenaCloud info)",
+          "hash": "4cdff9694e047de49e0250995644f1295368f6c8",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.11.0",
+      "date": "2020-08-03T19:29:22.562Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix performance regressions from #1967",
           "hash": "ddb87f403dfc0df1d7051fad9a25120691da618e",
           "body": "",
@@ -13695,43 +13734,51 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-08-03T15:57:08Z",
+  "lastCommitDate": "2020-08-04T15:34:05Z",
   "latestRelease": {
-    "tagName": "v12.10.2",
+    "tagName": "v12.11.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.10.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.2/balena-cli-v12.10.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.11.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.0/balena-cli-v12.11.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.10.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.2/balena-cli-v12.10.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.11.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.0/balena-cli-v12.11.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.10.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.2/balena-cli-v12.10.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.11.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.0/balena-cli-v12.11.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.10.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.2/balena-cli-v12.10.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.11.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.0/balena-cli-v12.11.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.10.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.10.2/balena-cli-v12.10.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.11.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.0/balena-cli-v12.11.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 296,
+    "numberOfIssues": 297,
     "latestIssues": [
+      {
+        "title": "Reduce bluebird usage",
+        "url": "https://github.com/balena-io/balena-cli/pull/1977"
+      },
+      {
+        "title": "Update balena-release to v3",
+        "url": "https://github.com/balena-io/balena-cli/pull/1976"
+      },
+      {
+        "title": "`balena os build-config ../path/rpi3.img raspberrypi3 --output test-config.json` results in a file that only contains 'undefined'",
+        "url": "https://github.com/balena-io/balena-cli/issues/1975"
+      },
       {
         "title": "Update balena-sdk to 15.x",
         "url": "https://github.com/balena-io/balena-cli/pull/1974"
-      },
-      {
-        "title": "login: Use any free port number instead of 8989 for web authentication",
-        "url": "https://github.com/balena-io/balena-cli/pull/1972"
       },
       {
         "title": "sudo balena config inject fails and returns \"TypeError: Class constructor PinejsClientCore cannot be invoked without 'new'\"",
@@ -13796,18 +13843,10 @@
       {
         "title": "Enable `balena deploy` to update individual images in a multicontainer app",
         "url": "https://github.com/balena-io/balena-cli/issues/1923"
-      },
-      {
-        "title": "Add an error when generating config with different device type",
-        "url": "https://github.com/balena-io/balena-cli/issues/1919"
-      },
-      {
-        "title": "Add a `--device-type` parameter to the `belana device register` command",
-        "url": "https://github.com/balena-io/balena-cli/issues/1918"
       }
     ]
   },
-  "version": "12.10.2",
+  "version": "12.11.0",
   "screenshot": null,
   "logo": null
 }
