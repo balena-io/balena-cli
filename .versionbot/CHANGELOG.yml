@@ -1,4 +1,31 @@
 - commits:
+    - subject: 'login: Use any free port number instead of 8989 for web authentication'
+      hash: cf894d98a580ee6ef5f483bf47be44fe9b0ff6b9
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+    - subject: 'Testing: Increase mocha timeout from 6s to 12s (experimental)'
+      hash: d18f25cb9c1e4c58d498f557b5b6bb75988ad4d2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Update GitHub issue template (request openBalena vs balenaCloud info)
+      hash: 4cdff9694e047de49e0250995644f1295368f6c8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.11.0
+  date: 2020-08-03T19:29:22.562Z
+- commits:
     - subject: 'Fix performance regressions from #1967'
       hash: ddb87f403dfc0df1d7051fad9a25120691da618e
       body: ''
