@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update balena-release to v3
+      hash: a52a623fdfb4126edd87104b5f68e0469a2bda27
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 12.11.1
+  date: 2020-08-04T16:25:11.720Z
+- commits:
     - subject: 'login: Use any free port number instead of 8989 for web authentication'
       hash: cf894d98a580ee6ef5f483bf47be44fe9b0ff6b9
       body: ''
@@ -24,7 +37,7 @@
       author: Paulo Castro
       nested: []
   version: 12.11.0
-  date: 2020-08-04T15:33:21.640Z
+  date: 2020-08-03T19:29:22.562Z
 - commits:
     - subject: 'Fix performance regressions from #1967'
       hash: ddb87f403dfc0df1d7051fad9a25120691da618e

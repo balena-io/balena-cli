@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Update balena-release to v3",
+          "hash": "a52a623fdfb4126edd87104b5f68e0469a2bda27",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis",
+          "nested": []
+        }
+      ],
+      "version": "12.11.1",
+      "date": "2020-08-04T15:37:26.592Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "login: Use any free port number instead of 8989 for web authentication",
           "hash": "cf894d98a580ee6ef5f483bf47be44fe9b0ff6b9",
           "body": "",
@@ -13734,29 +13753,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-08-04T15:34:05Z",
+  "lastCommitDate": "2020-08-04T16:25:57Z",
   "latestRelease": {
-    "tagName": "v12.11.0",
+    "tagName": "v12.11.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.11.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.0/balena-cli-v12.11.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.11.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.1/balena-cli-v12.11.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.11.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.0/balena-cli-v12.11.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.11.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.1/balena-cli-v12.11.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.11.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.0/balena-cli-v12.11.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.11.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.1/balena-cli-v12.11.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.11.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.0/balena-cli-v12.11.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.11.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.1/balena-cli-v12.11.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.11.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.0/balena-cli-v12.11.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.11.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.1/balena-cli-v12.11.1-windows-x64-standalone.zip"
       }
     ]
   },
@@ -13765,12 +13784,12 @@
     "numberOfIssues": 297,
     "latestIssues": [
       {
-        "title": "Reduce bluebird usage",
-        "url": "https://github.com/balena-io/balena-cli/pull/1977"
+        "title": "os build-config: Fix output file containing 'undefined' word since v12.9.4",
+        "url": "https://github.com/balena-io/balena-cli/pull/1978"
       },
       {
-        "title": "Update balena-release to v3",
-        "url": "https://github.com/balena-io/balena-cli/pull/1976"
+        "title": "Reduce bluebird usage",
+        "url": "https://github.com/balena-io/balena-cli/pull/1977"
       },
       {
         "title": "`balena os build-config ../path/rpi3.img raspberrypi3 --output test-config.json` results in a file that only contains 'undefined'",
@@ -13846,7 +13865,7 @@
       }
     ]
   },
-  "version": "12.11.0",
+  "version": "12.11.1",
   "screenshot": null,
   "logo": null
 }
