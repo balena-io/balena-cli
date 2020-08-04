@@ -91,7 +91,7 @@ export default class OsBuildConfigCmd extends Command {
 
 		await writeFile(options.output, JSON.stringify(config, null, 4));
 
-		console.info(`Config file ${params.image} created successfully.`);
+		console.info(`Config file "${options.output}" created successfully.`);
 	}
 
 	async buildConfig(image: string, deviceTypeSlug: string, advanced: boolean) {
@@ -100,7 +100,7 @@ export default class OsBuildConfigCmd extends Command {
 		const { getManifest } = await import('../../utils/helpers');
 
 		const deviceTypeManifest = await getManifest(image, deviceTypeSlug);
-		await this.buildConfigForDeviceType(deviceTypeManifest, advanced);
+		return this.buildConfigForDeviceType(deviceTypeManifest, advanced);
 	}
 
 	async buildConfigForDeviceType(
