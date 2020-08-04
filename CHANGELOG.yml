@@ -1,4 +1,15 @@
 - commits:
+    - subject: Dont set the preloader config device type to intel-nuc
+      hash: 505acc19db3c488f4149b6c823f3f6e7ec0a7c38
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Alexis Svinartchouk
+      nested: []
+  version: 12.11.3
+  date: 2020-08-04T19:27:51.821Z
+- commits:
     - subject: >-
         os build-config: Fix output file containing 'undefined' word since
         v12.9.4
@@ -12,7 +23,7 @@
       author: Paulo Castro
       nested: []
   version: 12.11.2
-  date: 2020-08-04T17:22:21.654Z
+  date: 2020-08-04T16:29:31.721Z
 - commits:
     - subject: Update balena-release to v3
       hash: a52a623fdfb4126edd87104b5f68e0469a2bda27

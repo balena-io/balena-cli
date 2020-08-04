@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Dont set the preloader config device type to intel-nuc",
+          "hash": "505acc19db3c488f4149b6c823f3f6e7ec0a7c38",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Alexis Svinartchouk",
+          "nested": []
+        }
+      ],
+      "version": "12.11.3",
+      "date": "2020-08-04T18:15:21.428Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "os build-config: Fix output file containing 'undefined' word since v12.9.4",
           "hash": "74c6f8a627860e8b4c9d0540c50fb922017c18b2",
           "body": "",
@@ -13772,29 +13789,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-08-04T17:23:26Z",
+  "lastCommitDate": "2020-08-04T19:28:57Z",
   "latestRelease": {
-    "tagName": "v12.11.2",
+    "tagName": "v12.11.3",
     "asssets": [
       {
-        "name": "balena-cli-v12.11.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.2/balena-cli-v12.11.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.11.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.3/balena-cli-v12.11.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.11.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.2/balena-cli-v12.11.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.11.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.3/balena-cli-v12.11.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.11.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.2/balena-cli-v12.11.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.11.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.3/balena-cli-v12.11.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.11.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.2/balena-cli-v12.11.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.11.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.3/balena-cli-v12.11.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.11.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.2/balena-cli-v12.11.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.11.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.3/balena-cli-v12.11.3-windows-x64-standalone.zip"
       }
     ]
   },
@@ -13884,7 +13901,7 @@
       }
     ]
   },
-  "version": "12.11.2",
+  "version": "12.11.3",
   "screenshot": null,
   "logo": null
 }
