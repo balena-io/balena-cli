@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "env add: Add ability to add env var to multiple locations in one command",
+          "hash": "bab98df87b181b9c1e16853ea5e5c17727a9bd3d",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor"
+          },
+          "author": "Nick Neisen",
+          "nested": []
+        }
+      ],
+      "version": "12.12.0",
+      "date": "2020-08-04T23:54:02.400Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Dont set the preloader config device type to intel-nuc",
           "hash": "505acc19db3c488f4149b6c823f3f6e7ec0a7c38",
           "body": "",
@@ -13628,6 +13645,10 @@
       "avatar": "https://avatars3.githubusercontent.com/u/3415366?v=4"
     },
     {
+      "username": "nwneisen",
+      "avatar": "https://avatars0.githubusercontent.com/u/5108029?v=4"
+    },
+    {
       "username": "Atiklabsl",
       "avatar": "https://avatars1.githubusercontent.com/u/44225870?v=4"
     },
@@ -13638,10 +13659,6 @@
     {
       "username": "pcgeek86",
       "avatar": "https://avatars3.githubusercontent.com/u/466713?v=4"
-    },
-    {
-      "username": "nwneisen",
-      "avatar": "https://avatars0.githubusercontent.com/u/5108029?v=4"
     },
     {
       "username": "wrboyce",
@@ -13789,35 +13806,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-08-04T19:28:57Z",
+  "lastCommitDate": "2020-08-05T00:27:13Z",
   "latestRelease": {
-    "tagName": "v12.11.3",
+    "tagName": "v12.12.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.11.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.3/balena-cli-v12.11.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.12.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.0/balena-cli-v12.12.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.11.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.3/balena-cli-v12.11.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.12.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.0/balena-cli-v12.12.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.11.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.3/balena-cli-v12.11.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.12.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.0/balena-cli-v12.12.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.11.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.3/balena-cli-v12.11.3-windows-x64-installer.exe"
+        "name": "balena-cli-v12.12.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.0/balena-cli-v12.12.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.11.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.11.3/balena-cli-v12.11.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.12.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.0/balena-cli-v12.12.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 296,
+    "numberOfIssues": 294,
     "latestIssues": [
       {
         "title": "Misleading error message when the CLI's socket times out with the `tunnel` subcommand",
@@ -13852,10 +13869,6 @@
         "url": "https://github.com/balena-io/balena-cli/pull/1963"
       },
       {
-        "title": "Add ability to add env var to multiple locations in one command",
-        "url": "https://github.com/balena-io/balena-cli/pull/1962"
-      },
-      {
         "title": "Remove temporary v12 switches",
         "url": "https://github.com/balena-io/balena-cli/pull/1961"
       },
@@ -13870,10 +13883,6 @@
       {
         "title": "Remove an environment variable from multiple applications, devices, or services",
         "url": "https://github.com/balena-io/balena-cli/issues/1957"
-      },
-      {
-        "title": "Add an environment variable to multiple applications, devices, or services.",
-        "url": "https://github.com/balena-io/balena-cli/issues/1956"
       },
       {
         "title": "nocache parameter is ignored in some cases",
@@ -13898,10 +13907,18 @@
       {
         "title": "Add an error when generating config with different device type",
         "url": "https://github.com/balena-io/balena-cli/issues/1919"
+      },
+      {
+        "title": "Add a `--device-type` parameter to the `belana device register` command",
+        "url": "https://github.com/balena-io/balena-cli/issues/1918"
+      },
+      {
+        "title": "Allow setting `release_version` during a deploy/push operation",
+        "url": "https://github.com/balena-io/balena-cli/issues/1908"
       }
     ]
   },
-  "version": "12.11.3",
+  "version": "12.12.0",
   "screenshot": null,
   "logo": null
 }

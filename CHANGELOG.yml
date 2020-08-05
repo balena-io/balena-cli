@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'env add: Add ability to add env var to multiple locations in one command'
+      hash: bab98df87b181b9c1e16853ea5e5c17727a9bd3d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Nick Neisen
+      nested: []
+  version: 12.12.0
+  date: 2020-08-05T00:26:16.719Z
+- commits:
     - subject: Dont set the preloader config device type to intel-nuc
       hash: 505acc19db3c488f4149b6c823f3f6e7ec0a7c38
       body: ''
@@ -8,7 +19,7 @@
       author: Alexis Svinartchouk
       nested: []
   version: 12.11.3
-  date: 2020-08-04T19:27:51.821Z
+  date: 2020-08-04T18:15:21.428Z
 - commits:
     - subject: >-
         os build-config: Fix output file containing 'undefined' word since
