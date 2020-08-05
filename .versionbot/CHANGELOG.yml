@@ -1,4 +1,15 @@
 - commits:
+    - subject: Reduce bluebird usage
+      hash: 6ca7c34e57c53fb0ca8ba3e4a1c8273489778ff4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 12.12.1
+  date: 2020-08-05T12:39:56.623Z
+- commits:
     - subject: 'env add: Add ability to add env var to multiple locations in one command'
       hash: bab98df87b181b9c1e16853ea5e5c17727a9bd3d
       body: ''
