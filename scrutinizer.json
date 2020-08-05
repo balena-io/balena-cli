@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Reduce bluebird usage",
+          "hash": "6ca7c34e57c53fb0ca8ba3e4a1c8273489778ff4",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        }
+      ],
+      "version": "12.12.1",
+      "date": "2020-08-05T12:39:56.623Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "env add: Add ability to add env var to multiple locations in one command",
           "hash": "bab98df87b181b9c1e16853ea5e5c17727a9bd3d",
           "body": "",
@@ -13806,29 +13823,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-08-05T00:27:13Z",
+  "lastCommitDate": "2020-08-05T13:14:57Z",
   "latestRelease": {
-    "tagName": "v12.12.0",
+    "tagName": "v12.12.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.12.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.0/balena-cli-v12.12.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.12.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.1/balena-cli-v12.12.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.12.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.0/balena-cli-v12.12.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.12.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.1/balena-cli-v12.12.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.12.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.0/balena-cli-v12.12.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.12.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.1/balena-cli-v12.12.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.12.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.0/balena-cli-v12.12.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.12.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.1/balena-cli-v12.12.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.12.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.0/balena-cli-v12.12.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.12.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.1/balena-cli-v12.12.1-windows-x64-standalone.zip"
       }
     ]
   },
@@ -13837,12 +13854,12 @@
     "numberOfIssues": 294,
     "latestIssues": [
       {
-        "title": "Misleading error message when the CLI's socket times out with the `tunnel` subcommand",
-        "url": "https://github.com/balena-io/balena-cli/issues/1979"
+        "title": "Allow rebasing of npm-shrinkwrap",
+        "url": "https://github.com/balena-io/balena-cli/pull/1982"
       },
       {
-        "title": "Reduce bluebird usage",
-        "url": "https://github.com/balena-io/balena-cli/pull/1977"
+        "title": "Misleading error message when the CLI's socket times out with the `tunnel` subcommand",
+        "url": "https://github.com/balena-io/balena-cli/issues/1979"
       },
       {
         "title": "Update balena-sdk to 15.x",
@@ -13918,7 +13935,7 @@
       }
     ]
   },
-  "version": "12.12.0",
+  "version": "12.12.1",
   "screenshot": null,
   "logo": null
 }

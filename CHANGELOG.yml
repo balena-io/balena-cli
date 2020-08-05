@@ -1,4 +1,15 @@
 - commits:
+    - subject: Reduce bluebird usage
+      hash: 6ca7c34e57c53fb0ca8ba3e4a1c8273489778ff4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 12.12.1
+  date: 2020-08-05T13:14:11.628Z
+- commits:
     - subject: 'env add: Add ability to add env var to multiple locations in one command'
       hash: bab98df87b181b9c1e16853ea5e5c17727a9bd3d
       body: ''
@@ -8,7 +19,7 @@
       author: Nick Neisen
       nested: []
   version: 12.12.0
-  date: 2020-08-05T00:26:16.719Z
+  date: 2020-08-04T23:54:02.400Z
 - commits:
     - subject: Dont set the preloader config device type to intel-nuc
       hash: 505acc19db3c488f4149b6c823f3f6e7ec0a7c38
