@@ -59,7 +59,6 @@ export default class ScanCmd extends Command {
 	public static root = true;
 
 	public async run() {
-		const Bluebird = await import('bluebird');
 		const _ = await import('lodash');
 		const { SpinnerPromise } = getVisuals();
 		const { discover } = await import('balena-sync');
@@ -106,22 +105,22 @@ export default class ScanCmd extends Command {
 
 		// Query devices for info
 		const devicesInfo = await Promise.all(
-			activeLocalDevices.map(({ host, address }) => {
+			activeLocalDevices.map(async ({ host, address }) => {
 				const docker = dockerUtils.createClient({
 					host: address,
 					port: dockerPort,
 					timeout: dockerTimeout,
 				}) as any;
-				return Bluebird.props({
+				const [dockerInfo, dockerVersion] = await Promise.all([
+					docker.infoAsync().catchReturn('Could not get Docker info'),
+					docker.versionAsync().catchReturn('Could not get Docker version'),
+				]);
+				return {
 					host,
 					address,
-					dockerInfo: docker
-						.infoAsync()
-						.catchReturn('Could not get Docker info'),
-					dockerVersion: docker
-						.versionAsync()
-						.catchReturn('Could not get Docker version'),
-				});
+					dockerInfo,
+					dockerVersion,
+				};
 			}),
 		);
 

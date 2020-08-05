@@ -79,7 +79,7 @@ export default class DeviceInitCmd extends Command {
 		const { flags: options } = this.parse<FlagsDef, {}>(DeviceInitCmd);
 
 		// Imports
-		const { promisify } = await import('bluebird');
+		const { promisify } = await import('util');
 		const rimraf = promisify(await import('rimraf'));
 		const tmp = await import('tmp');
 		const tmpNameAsync = promisify(tmp.tmpName);

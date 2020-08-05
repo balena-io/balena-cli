@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
 import type { NodeJSSocketWithFileDescriptor } from 'net-keepalive';
 import * as os from 'os';
@@ -85,8 +84,8 @@ export class DeviceAPI {
 	public async setTargetState(state: any): Promise<void> {
 		const url = this.getUrlForAction('setTargetState');
 		return DeviceAPI.promisifiedRequest(
-			request.post,
 			{
+				method: 'POST',
 				url,
 				json: true,
 				body: state,
@@ -99,8 +98,8 @@ export class DeviceAPI {
 		const url = this.getUrlForAction('getTargetState');
 
 		return DeviceAPI.promisifiedRequest(
-			request.get,
 			{
+				method: 'GET',
 				url,
 				json: true,
 			},
@@ -114,8 +113,8 @@ export class DeviceAPI {
 		const url = this.getUrlForAction('getDeviceInformation');
 
 		return DeviceAPI.promisifiedRequest(
-			request.get,
 			{
+				method: 'GET',
 				url,
 				json: true,
 			},
@@ -129,8 +128,8 @@ export class DeviceAPI {
 		const url = this.getUrlForAction('containerId');
 
 		const body = await DeviceAPI.promisifiedRequest(
-			request.get,
 			{
+				method: 'GET',
 				url,
 				json: true,
 				qs: {
@@ -152,8 +151,8 @@ export class DeviceAPI {
 		const url = this.getUrlForAction('ping');
 
 		return DeviceAPI.promisifiedRequest(
-			request.get,
 			{
+				method: 'GET',
 				url,
 			},
 			this.logger,
@@ -163,7 +162,8 @@ export class DeviceAPI {
 	public getVersion(): Promise<string> {
 		const url = this.getUrlForAction('version');
 
-		return DeviceAPI.promisifiedRequest(request.get, {
+		return DeviceAPI.promisifiedRequest({
+			method: 'GET',
 			url,
 			json: true,
 		}).then((body) => {
@@ -180,7 +180,8 @@ export class DeviceAPI {
 	public getStatus(): Promise<Status> {
 		const url = this.getUrlForAction('status');
 
-		return DeviceAPI.promisifiedRequest(request.get, {
+		return DeviceAPI.promisifiedRequest({
+			method: 'GET',
 			url,
 			json: true,
 		}).then((body) => {
@@ -233,14 +234,9 @@ export class DeviceAPI {
 
 	// A helper method for promisifying general (non-streaming) requests. Streaming
 	// requests should use a seperate setup
-	private static async promisifiedRequest<T>(
-		requestMethod: (
-			opts: T,
-			cb: (err?: any, res?: any, body?: any) => void,
-		) => void,
-		opts: T,
-		logger?: Logger,
-	): Promise<any> {
+	private static async promisifiedRequest<
+		T extends Parameters<typeof request>[0]
+	>(opts: T, logger?: Logger): Promise<any> {
 		interface ObjectWithUrl {
 			url?: string;
 		}
@@ -260,22 +256,24 @@ export class DeviceAPI {
 			}
 		}
 
-		return Bluebird.fromCallback<[request.Response, { message: string }]>(
-			(cb) => {
-				return requestMethod(opts, cb);
-			},
-			{ multiArgs: true },
-		).then(([response, body]) => {
-			switch (response.statusCode) {
-				case 200:
-					return body;
-				case 400:
-					throw new ApiErrors.BadRequestDeviceAPIError(body.message);
-				case 503:
-					throw new ApiErrors.ServiceUnavailableAPIError(body.message);
-				default:
-					throw new ApiErrors.DeviceAPIError(body.message);
-			}
+		return new Promise((resolve, reject) => {
+			return request(opts, (err, response, body) => {
+				if (err) {
+					return reject(err);
+				}
+				switch (response.statusCode) {
+					case 200:
+						return resolve(body);
+					case 400:
+						return reject(new ApiErrors.BadRequestDeviceAPIError(body.message));
+					case 503:
+						return reject(
+							new ApiErrors.ServiceUnavailableAPIError(body.message),
+						);
+					default:
+						return reject(new ApiErrors.DeviceAPIError(body.message));
+				}
+			});
 		});
 	}
 }
