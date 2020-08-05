@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'env add: Add ability to add env var to multiple locations in one command'
+      hash: bab98df87b181b9c1e16853ea5e5c17727a9bd3d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Nick Neisen
+      nested: []
+  version: 12.12.0
+  date: 2020-08-04T23:54:02.400Z
+- commits:
     - subject: Dont set the preloader config device type to intel-nuc
       hash: 505acc19db3c488f4149b6c823f3f6e7ec0a7c38
       body: ''
