@@ -409,3 +409,12 @@ export async function catchUncommitted(): Promise<void> {
 		]);
 	}
 }
+
+export async function testShrinkwrap(): Promise<void> {
+	if (process.env.DEBUG) {
+		console.error(`[debug] platform=${process.platform}`);
+	}
+	if (process.platform !== 'win32') {
+		await whichSpawn(path.resolve(__dirname, 'test-lock-deduplicated.sh'));
+	}
+}
