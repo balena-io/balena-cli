@@ -25,17 +25,18 @@ import * as filehound from 'filehound';
 import * as fs from 'fs-extra';
 import * as _ from 'lodash';
 import * as path from 'path';
-import { exec as execPkg } from 'pkg';
 import * as rimraf from 'rimraf';
 import * as semver from 'semver';
 import * as util from 'util';
 
 import { stripIndent } from '../lib/utils/lazy';
 import {
+	diffLines,
 	getSubprocessStdout,
 	loadPackageJson,
 	MSYS2_BASH,
 	ROOT,
+	StdOutTap,
 	whichSpawn,
 } from './utils';
 
@@ -72,6 +73,99 @@ export const finalReleaseAssets: { [platform: string]: string[] } = {
 	darwin: [standaloneZips['darwin'], renamedOclifInstallers['darwin']],
 	linux: [standaloneZips['linux']],
 };
+
+/**
+ * Given the output of `pkg` as a string (containing warning messages),
+ * diff it against previously saved output of known "safe" warnings.
+ * Throw an error if the diff is not empty.
+ */
+async function diffPkgOutput(pkgOut: string) {
+	const { monochrome } = await import('../tests/helpers');
+	const relSavedPath = path.join(
+		'tests',
+		'test-data',
+		'pkg',
+		`expected-warnings-${process.platform}.txt`,
+	);
+	const absSavedPath = path.join(ROOT, relSavedPath);
+	const ignoreStartsWith = [
+		'> pkg@',
+		'> Fetching base Node.js binaries',
+		'  fetched-',
+	];
+	const modulesRE =
+		process.platform === 'win32'
+			? /(?<=[ '])([A-Z]:)?\\.+?\\node_modules(?=\\)/
+			: /(?<=[ '])\/.+?\/node_modules(?=\/)/;
+	const buildRE =
+		process.platform === 'win32'
+			? /(?<=[ '])([A-Z]:)?\\.+\\build(?=\\)/
+			: /(?<=[ '])\/.+\/build(?=\/)/;
+
+	const cleanLines = (chunks: string | string[]) => {
+		const lines = typeof chunks === 'string' ? chunks.split('\n') : chunks;
+		return lines
+			.map((line: string) => monochrome(line)) // remove ASCII colors
+			.filter((line: string) => !/^\s*$/.test(line)) // blank lines
+			.filter((line: string) =>
+				ignoreStartsWith.every((i) => !line.startsWith(i)),
+			)
+			.map((line: string) => {
+				// replace absolute paths with relative paths
+				let replaced = line.replace(modulesRE, 'node_modules');
+				if (replaced === line) {
+					replaced = line.replace(buildRE, 'build');
+				}
+				return replaced;
+			});
+	};
+
+	pkgOut = cleanLines(pkgOut).join('\n');
+	const { readFile } = (await import('fs')).promises;
+	const expectedOut = cleanLines(await readFile(absSavedPath, 'utf8')).join(
+		'\n',
+	);
+	if (expectedOut !== pkgOut) {
+		const sep =
+			'================================================================================';
+		const diff = diffLines(expectedOut, pkgOut);
+		const msg = `pkg output does not match expected output from "${relSavedPath}"
+Diff:
+${sep}
+${diff}
+${sep}
+Check whether the new or changed pkg warnings are safe to ignore, then update
+"${relSavedPath}"
+and share the result of your investigation as comments on the pull request.
+Hint: the fix is often a matter of updating the 'pkg.scripts' or 'pkg.assets'
+sections in the CLI's 'package.json' file, or a matter of updating the
+'buildPkg' function in 'automation/build-bin.ts'.  Sometimes it requires
+patching dependencies: See for example 'patches/all/open+7.0.2.patch'.
+${sep}
+`;
+		throw new Error(msg);
+	}
+}
+
+/**
+ * Call `pkg.exec` to generate the standalone zip file, capturing its warning
+ * messages (stdout and stderr) in order to call diffPkgOutput().
+ */
+async function execPkg(...args: any[]) {
+	const { exec: pkgExec } = await import('pkg');
+	const outTap = new StdOutTap(true);
+	try {
+		outTap.tap();
+		await (pkgExec as any)(...args);
+	} catch (err) {
+		outTap.untap();
+		console.log(outTap.stdoutBuf.join(''));
+		console.error(outTap.stderrBuf.join(''));
+		throw err;
+	}
+	outTap.untap();
+	await diffPkgOutput(outTap.allBuf.join(''));
+}
 
 /**
  * Use the 'pkg' module to create a single large executable file with
@@ -208,11 +302,11 @@ export async function buildStandaloneZip() {
 		await buildPkg();
 		await testPkg();
 		await zipPkg();
+		console.log(`Standalone zip package build completed`);
 	} catch (error) {
-		console.log(`Error creating or testing standalone zip package:\n ${error}`);
-		process.exit(1);
+		console.error(`Error creating or testing standalone zip package`);
+		throw error;
 	}
-	console.log(`Standalone zip package build completed`);
 }
 
 async function renameInstallerFiles() {
