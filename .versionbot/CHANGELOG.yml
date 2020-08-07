@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Live push: Accept Dockerfile ENV instructions in live push to local
+        device
+      hash: e8eb031253fb632f86970ae0c8fb2d3dc94b8ddf
+      body: |
+        Update livepush, chokidar and @types/dockerode dependencies
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+  version: 12.14.0
+  date: 2020-08-07T20:12:47.522Z
+- commits:
     - subject: 'devices: Add ''--json'' option to help with scripting'
       hash: 62dfae371c31b1267d5f517226f5f117d5a6986e
       body: ''
