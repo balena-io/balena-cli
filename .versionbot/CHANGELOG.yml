@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'devices: Add ''--json'' option to help with scripting'
+      hash: 62dfae371c31b1267d5f517226f5f117d5a6986e
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+  version: 12.13.0
+  date: 2020-08-07T14:32:11.498Z
+- commits:
     - subject: 'Tests: add verification of ''pkg'' warnings against saved output'
       hash: 94f3825119e6b0d9324caeb4fad331f4a9aca6d9
       body: ''
