@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Tests: add verification of 'pkg' warnings against saved output",
+          "hash": "94f3825119e6b0d9324caeb4fad331f4a9aca6d9",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.12.2",
+      "date": "2020-08-07T00:49:51.111Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Reduce bluebird usage",
           "hash": "6ca7c34e57c53fb0ca8ba3e4a1c8273489778ff4",
           "body": "",
@@ -13823,35 +13840,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-08-05T13:14:57Z",
+  "lastCommitDate": "2020-08-07T12:26:38Z",
   "latestRelease": {
-    "tagName": "v12.12.1",
+    "tagName": "v12.12.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.12.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.1/balena-cli-v12.12.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.12.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.2/balena-cli-v12.12.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.12.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.1/balena-cli-v12.12.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.12.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.2/balena-cli-v12.12.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.12.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.1/balena-cli-v12.12.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.12.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.2/balena-cli-v12.12.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.12.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.1/balena-cli-v12.12.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.12.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.2/balena-cli-v12.12.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.12.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.1/balena-cli-v12.12.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.12.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.12.2/balena-cli-v12.12.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 294,
+    "numberOfIssues": 293,
     "latestIssues": [
       {
         "title": "Allow rebasing of npm-shrinkwrap",
@@ -13880,10 +13897,6 @@
       {
         "title": "Livepush: Environment variables passed via the CLI are lost after a change to a Dockerfile",
         "url": "https://github.com/balena-io/balena-cli/issues/1965"
-      },
-      {
-        "title": "Add ability to remove env var from multiple locations in one command",
-        "url": "https://github.com/balena-io/balena-cli/pull/1963"
       },
       {
         "title": "Remove temporary v12 switches",
@@ -13932,10 +13945,14 @@
       {
         "title": "Allow setting `release_version` during a deploy/push operation",
         "url": "https://github.com/balena-io/balena-cli/issues/1908"
+      },
+      {
+        "title": "Update @types/stream-to-promise",
+        "url": "https://github.com/balena-io/balena-cli/pull/1903"
       }
     ]
   },
-  "version": "12.12.1",
+  "version": "12.12.2",
   "screenshot": null,
   "logo": null
 }

@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'Tests: add verification of ''pkg'' warnings against saved output'
+      hash: 94f3825119e6b0d9324caeb4fad331f4a9aca6d9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.12.2
+  date: 2020-08-07T12:25:35.361Z
+- commits:
     - subject: Reduce bluebird usage
       hash: 6ca7c34e57c53fb0ca8ba3e4a1c8273489778ff4
       body: ''
@@ -8,7 +19,7 @@
       author: Pagan Gazzard
       nested: []
   version: 12.12.1
-  date: 2020-08-05T13:14:11.628Z
+  date: 2020-08-05T12:39:56.623Z
 - commits:
     - subject: 'env add: Add ability to add env var to multiple locations in one command'
       hash: bab98df87b181b9c1e16853ea5e5c17727a9bd3d
