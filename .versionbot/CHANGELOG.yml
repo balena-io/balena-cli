@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'Tests: add verification of ''pkg'' warnings against saved output'
+      hash: 94f3825119e6b0d9324caeb4fad331f4a9aca6d9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.12.2
+  date: 2020-08-07T00:49:51.111Z
+- commits:
     - subject: Reduce bluebird usage
       hash: 6ca7c34e57c53fb0ca8ba3e4a1c8273489778ff4
       body: ''
