@@ -168,7 +168,7 @@ export async function confirm(
 }
 
 export function selectApplication(
-	filter?: (app: BalenaSdk.Application) => boolean,
+	filter?: (app: ApplicationWithDeviceType) => boolean,
 	errorOnEmptySelection = false,
 ) {
 	const balena = getBalenaSdk();
@@ -179,7 +179,7 @@ export function selectApplication(
 				throw new ExpectedError("You don't have any applications");
 			}
 
-			return balena.models.application.getAll();
+			return balena.models.application.getAll() as Promise<ApplicationWithDeviceType[]>;
 		})
 		.filter(filter || _.constant(true))
 		.then((applications) => {
@@ -190,7 +190,7 @@ export function selectApplication(
 				message: 'Select an application',
 				type: 'list',
 				choices: _.map(applications, (application) => ({
-					name: `${application.app_name} (${application.device_type})`,
+					name: `${application.app_name} (${application.is_for__device_type[0].slug})`,
 					value: application.app_name,
 				})),
 			});
@@ -207,14 +207,20 @@ export function selectOrCreateApplication() {
 				return Promise.resolve(undefined);
 			}
 
-			return balena.models.application.getAll().then((applications) => {
-				const appOptions = _.map<
-					BalenaSdk.Application,
-					{ name: string; value: string | null }
-				>(applications, (application) => ({
-					name: `${application.app_name} (${application.device_type})`,
-					value: application.app_name,
-				}));
+			return (balena.models.application.getAll({
+				$expand: {
+					is_for__device_type: {
+						$select: 'slug',
+					},
+				},
+			}) as Promise<ApplicationWithDeviceType[]>).then((applications) => {
+				const appOptions: Array<{ name: string; value: string | null }> = _.map(
+					applications,
+					(application) => ({
+						name: `${application.app_name} (${application.is_for__device_type[0].slug})`,
+						value: application.app_name,
+					}),
+				);
 
 				appOptions.unshift({
 					name: 'Create a new application',

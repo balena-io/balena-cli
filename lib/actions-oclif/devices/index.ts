@@ -21,9 +21,9 @@ import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { tryAsInteger } from '../../utils/validation';
-import type { Device, Application } from 'balena-sdk';
+import type { Application } from 'balena-sdk';
 
-interface ExtendedDevice extends Device {
+interface ExtendedDevice extends DeviceWithDeviceType {
 	dashboard_url?: string;
 	application_name?: string;
 }
@@ -80,15 +80,17 @@ export default class DevicesCmd extends Command {
 		options.application = options.application || options.app;
 		delete options.app;
 
-		let devices: ExtendedDevice[];
+		let devices;
 
 		if (options.application != null) {
-			devices = await balena.models.device.getAllByApplication(
+			devices = (await balena.models.device.getAllByApplication(
 				tryAsInteger(options.application),
 				expandForAppName,
-			);
+			)) as ExtendedDevice[];
 		} else {
-			devices = await balena.models.device.getAll(expandForAppName);
+			devices = (await balena.models.device.getAll(
+				expandForAppName,
+			)) as ExtendedDevice[];
 		}
 
 		devices = devices.map(function (device) {
@@ -100,6 +102,9 @@ export default class DevicesCmd extends Command {
 				: 'N/a';
 
 			device.uuid = device.uuid.slice(0, 7);
+
+			// @ts-ignore
+			device.device_type = device.is_of__device_type[0].slug;
 			return device;
 		});
 

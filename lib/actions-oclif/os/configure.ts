@@ -51,10 +51,6 @@ interface ArgsDef {
 	image: string;
 }
 
-interface DeferredDevice extends BalenaSdk.Device {
-	belongs_to__application: BalenaSdk.PineDeferred;
-}
-
 interface Answers {
 	appUpdatePollInterval: number; // in minutes
 	deviceType: string; // e.g. "raspberrypi3"
@@ -192,18 +188,29 @@ export default class OsConfigureCmd extends Command {
 			'../../utils/config'
 		);
 		const helpers = await import('../../utils/helpers');
-		let app: BalenaSdk.Application | undefined;
-		let device: BalenaSdk.Device | undefined;
+		let app: ApplicationWithDeviceType | undefined;
+		let device;
 		let deviceTypeSlug: string;
 
 		const balena = getBalenaSdk();
 		if (options.device) {
-			device = await balena.models['device'].get(options.device);
-			deviceTypeSlug = device.device_type;
+			device = (await balena.models.device.get(options.device, {
+				$expand: {
+					is_of__device_type: { $select: 'slug' },
+				},
+			})) as DeviceWithDeviceType & {
+				belongs_to__application: BalenaSdk.PineDeferred;
+			};
+			deviceTypeSlug = device.is_of__device_type[0].slug;
 		} else {
-			app = await balena.models['application'].get(options.application!);
+			app = (await balena.models.application.get(options.application!, {
+				$expand: {
+					is_for__device_type: { $select: 'slug' },
+				},
+			})) as ApplicationWithDeviceType;
 			await checkDeviceTypeCompatibility(balena, options, app);
-			deviceTypeSlug = options['device-type'] || app.device_type;
+			deviceTypeSlug =
+				options['device-type'] || app.is_for__device_type[0].slug;
 		}
 
 		const deviceTypeManifest = await helpers.getManifest(
@@ -232,7 +239,7 @@ export default class OsConfigureCmd extends Command {
 		if (_.isEmpty(configJson)) {
 			if (device) {
 				configJson = await generateDeviceConfig(
-					device as DeferredDevice,
+					device,
 					options['device-api-key'],
 					answers,
 				);
@@ -335,7 +342,7 @@ async function validateOptions(options: FlagsDef) {
  */
 async function getOsVersionFromImage(
 	imagePath: string,
-	deviceTypeManifest: BalenaSdk.DeviceType,
+	deviceTypeManifest: BalenaSdk.DeviceTypeJson.DeviceType,
 	devInit: typeof import('balena-device-init'),
 ): Promise<string> {
 	const osVersion = await devInit.getImageOsVersion(
@@ -361,11 +368,11 @@ async function getOsVersionFromImage(
 async function checkDeviceTypeCompatibility(
 	sdk: BalenaSdk.BalenaSDK,
 	options: FlagsDef,
-	app: BalenaSdk.Application,
+	app: ApplicationWithDeviceType,
 ) {
 	if (options['device-type']) {
 		const [appDeviceType, optionDeviceType] = await Promise.all([
-			sdk.models.device.getManifestBySlug(app.device_type),
+			sdk.models.device.getManifestBySlug(app.is_for__device_type[0].slug),
 			sdk.models.device.getManifestBySlug(options['device-type']),
 		]);
 		const helpers = await import('../../utils/helpers');
@@ -392,7 +399,7 @@ async function checkDeviceTypeCompatibility(
  * The questions are extracted from the given deviceType "manifest".
  */
 async function askQuestionsForDeviceType(
-	deviceType: BalenaSdk.DeviceType,
+	deviceType: BalenaSdk.DeviceTypeJson.DeviceType,
 	options: FlagsDef,
 	configJson?: import('../../utils/config').ImgConfig,
 ): Promise<Answers> {
@@ -460,14 +467,17 @@ async function askQuestionsForDeviceType(
  *     [ 'network', 'wifiSsid', 'wifiKey', 'appUpdatePollInterval' ]
  */
 function getQuestionNames(
-	deviceType: BalenaSdk.DeviceType,
+	deviceType: BalenaSdk.DeviceTypeJson.DeviceType,
 ): Array<keyof Answers> {
 	const questionNames: string[] = _.chain(deviceType.options)
 		.flatMap(
-			(group: BalenaSdk.DeviceTypeOptions) =>
+			(group: BalenaSdk.DeviceTypeJson.DeviceTypeOptions) =>
 				(group.isGroup && group.options) || [],
 		)
-		.map((groupOption: BalenaSdk.DeviceTypeOptionsGroup) => groupOption.name)
+		.map(
+			(groupOption: BalenaSdk.DeviceTypeJson.DeviceTypeOptionsGroup) =>
+				groupOption.name,
+		)
 		.filter()
 		.value();
 	return questionNames as Array<keyof Answers>;

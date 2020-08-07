@@ -26,6 +26,7 @@
   "pkg": {
     "scripts": [
       "build/**/*.js",
+      "node_modules/balena-sdk/es2018/index.js",
       "node_modules/balena-sync/build/capitano/*.js",
       "node_modules/balena-sync/build/sync/*.js",
       "node_modules/pinejs-client-request/node_modules/pinejs-client-core/es2018/index.js",
@@ -192,7 +193,7 @@
     "balena-image-manager": "^7.0.1",
     "balena-preload": "^10.2.0",
     "balena-release": "^3.0.0",
-    "balena-sdk": "^13.6.0",
+    "balena-sdk": "^14.8.0",
     "balena-semver": "^2.2.0",
     "balena-settings-client": "^4.0.5",
     "balena-settings-storage": "^6.0.0",

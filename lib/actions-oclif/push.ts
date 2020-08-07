@@ -20,7 +20,7 @@ import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { dockerignoreHelp, registrySecretsHelp } from '../utils/messages';
-import type { BalenaSDK } from 'balena-sdk';
+import type { BalenaSDK, Application, Organization } from 'balena-sdk';
 import { ExpectedError, instanceOf } from '../errors';
 
 enum BuildTarget {
@@ -362,17 +362,21 @@ export default class PushCmd extends Command {
 	async getAppOwner(sdk: BalenaSDK, appName: string) {
 		const _ = await import('lodash');
 
-		const applications = await sdk.models.application.getAll({
+		const applications = (await sdk.models.application.getAll({
 			$expand: {
-				user: {
-					$select: ['username'],
+				organization: {
+					$select: ['handle'],
 				},
 			},
 			$filter: {
 				$eq: [{ $tolower: { $: 'app_name' } }, appName.toLowerCase()],
 			},
 			$select: ['id'],
-		});
+		})) as Array<
+			Application & {
+				organization: [Organization];
+			}
+		>;
 
 		if (applications == null || applications.length === 0) {
 			throw new ExpectedError(
@@ -385,7 +389,7 @@ export default class PushCmd extends Command {
 		}
 
 		if (applications.length === 1) {
-			return _.get(applications, '[0].user[0].username');
+			return applications[0].organization[0].handle;
 		}
 
 		// If we got more than one application with the same name it means that the
@@ -393,7 +397,7 @@ export default class PushCmd extends Command {
 		// present a list to the user which shows the fully qualified application
 		// name (user/appname) and allows them to select
 		const entries = _.map(applications, (app) => {
-			const username = _.get(app, 'user[0].username');
+			const username = app.organization[0].handle;
 			return {
 				name: `${username}/${appName}`,
 				extra: username,

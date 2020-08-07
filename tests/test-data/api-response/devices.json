@@ -16,11 +16,14 @@
 			},
 			"is_managed_by__device": null,
 			"actor": 4180757,
-			"should_be_running__release": null,
 			"device_name": "sparkling-wood",
-			"device_type": "raspberrypi4-64",
+			"is_of__device_type": [{ "slug": "raspberrypi4-64" }],
 			"uuid": "fda508c8583011b8466c26abdd5159f2",
-			"is_on__commit": "18756d3386c25a044db66b89e0409804",
+			"is_running__release": [
+				{
+					"commit": "18756d3386c25a044db66b89e0409804"
+				}
+			],
 			"note": null,
 			"local_id": null,
 			"status": "Idle",
@@ -61,8 +64,7 @@
 			}
 		},
 		{
-			"belongs_to__application": [
-			],
+			"belongs_to__application": [],
 			"id": 1747416,
 			"belongs_to__user": {
 				"__deferred": {
@@ -72,11 +74,14 @@
 			},
 			"is_managed_by__device": null,
 			"actor": 4180757,
-			"should_be_running__release": null,
 			"device_name": "dashing-spruce",
-			"device_type": "raspberrypi4-64",
+			"is_of__device_type": [{ "slug": "raspberrypi4-64" }],
 			"uuid": "fda508c8583011b8466c26abdd5159f3",
-			"is_on__commit": "18756d3386c25a044db66b89e0409804",
+			"is_running__release": [
+				{
+					"commit": "18756d3386c25a044db66b89e0409804"
+				}
+			],
 			"note": null,
 			"local_id": null,
 			"status": "Idle",

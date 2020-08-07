@@ -21,7 +21,7 @@ import * as _ from 'lodash';
 import * as os from 'os';
 import type * as ShellEscape from 'shell-escape';
 
-import type { Device, PineOptionsFor } from 'balena-sdk';
+import type { Device, PineOptions } from 'balena-sdk';
 import { ExpectedError } from '../errors';
 import { getBalenaSdk, getChalk, getVisuals } from './lazy';
 import { promisify } from 'util';
@@ -121,7 +121,7 @@ export function runCommand<T>(commandArgs: string[]): Promise<T> {
 export async function getManifest(
 	image: string,
 	deviceType: string,
-): Promise<BalenaSdk.DeviceType> {
+): Promise<BalenaSdk.DeviceTypeJson.DeviceType> {
 	const init = await import('balena-device-init');
 	const manifest = await init.getImageManifest(image);
 	if (manifest != null) {
@@ -131,8 +131,8 @@ export async function getManifest(
 }
 
 export const areDeviceTypesCompatible = (
-	appDeviceType: BalenaSdk.DeviceType,
-	osDeviceType: BalenaSdk.DeviceType,
+	appDeviceType: BalenaSdk.DeviceTypeJson.DeviceType,
+	osDeviceType: BalenaSdk.DeviceTypeJson.DeviceType,
 ) =>
 	getBalenaSdk().models.os.isArchitectureCompatibleWith(
 		osDeviceType.arch,
@@ -166,13 +166,13 @@ export async function osProgressHandler(step: InitializeEmitter) {
 
 export function getAppWithArch(
 	applicationName: string,
-): Promise<BalenaSdk.Application & { arch: string }> {
+): Promise<ApplicationWithDeviceType & { arch: string }> {
 	return Promise.all([
 		getApplication(applicationName),
 		getBalenaSdk().models.config.getDeviceTypes(),
 	]).then(function ([app, deviceTypes]) {
-		const config = _.find<BalenaSdk.DeviceType>(deviceTypes, {
-			slug: app.device_type,
+		const config = _.find<BalenaSdk.DeviceTypeJson.DeviceType>(deviceTypes, {
+			slug: app.is_for__device_type[0].slug,
 		});
 
 		if (!config) {
@@ -183,15 +183,20 @@ export function getAppWithArch(
 	});
 }
 
-function getApplication(applicationName: string) {
+function getApplication(
+	applicationName: string,
+): Promise<ApplicationWithDeviceType> {
 	// Check for an app of the form `user/application`, and send
 	// that off to a special handler (before importing any modules)
 	const match = applicationName.split('/');
 
-	const extraOptions: BalenaSdk.PineOptionsFor<BalenaSdk.Application> = {
+	const extraOptions: BalenaSdk.PineOptions<BalenaSdk.Application> = {
 		$expand: {
 			application_type: {
 				$select: ['name', 'slug', 'supports_multicontainer', 'is_legacy'],
+			},
+			is_for__device_type: {
+				$select: 'slug',
 			},
 		},
 	};
@@ -487,6 +492,10 @@ export function getProxyConfig(): ProxyConfig | undefined {
 	}
 }
 
-export const expandForAppName: PineOptionsFor<Device> = {
-	$expand: { belongs_to__application: { $select: 'app_name' } },
+export const expandForAppName: PineOptions<Device> = {
+	$expand: {
+		belongs_to__application: { $select: 'app_name' },
+		is_of__device_type: { $select: 'slug' },
+		is_running__release: { $select: 'commit' },
+	},
 };

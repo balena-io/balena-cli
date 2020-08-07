@@ -317,7 +317,7 @@ async function getAppVars(
 		appVars.push(...vars);
 	}
 	if (!options.config && (options.service || options.all)) {
-		const pineOpts: SDK.PineOptionsFor<SDK.ServiceEnvironmentVariable> = {
+		const pineOpts: SDK.PineOptions<SDK.ServiceEnvironmentVariable> = {
 			$expand: {
 				service: {},
 			},
@@ -359,7 +359,7 @@ async function getDeviceVars(
 		deviceVars.push(...deviceConfigVars);
 	} else {
 		if (options.service || options.all) {
-			const pineOpts: SDK.PineOptionsFor<SDK.DeviceServiceEnvironmentVariable> = {
+			const pineOpts: SDK.PineOptions<SDK.DeviceServiceEnvironmentVariable> = {
 				$expand: {
 					service_install: {
 						$expand: 'installs__service',

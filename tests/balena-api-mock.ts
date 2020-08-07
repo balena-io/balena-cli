@@ -36,26 +36,6 @@ export class BalenaAPIMock extends NockMock {
 		optional = false,
 		persist = false,
 	} = {}) {
-		const interceptor = this.optGet(/^\/v5\/application($|[(?])/, {
-			optional,
-			persist,
-		});
-		if (notFound) {
-			interceptor.reply(200, { d: [] });
-		} else {
-			interceptor.replyWithFile(
-				200,
-				path.join(apiResponsePath, 'application-GET-v5-expanded-app-type.json'),
-				jHeader,
-			);
-		}
-	}
-
-	public expectGetApplicationV6({
-		notFound = false,
-		optional = false,
-		persist = false,
-	} = {}) {
 		const interceptor = this.optGet(/^\/v6\/application($|[(?])/, {
 			optional,
 			persist,
@@ -99,10 +79,10 @@ export class BalenaAPIMock extends NockMock {
 	}
 
 	public expectGetMyApplication(opts: ScopeOpts = {}) {
-		this.optGet(/^\/v5\/my_application($|[(?])/, opts).reply(
+		this.optGet(/^\/v6\/my_application($|[(?])/, opts).reply(
 			200,
 			JSON.parse(`{"d": [{
-				"user": [{ "username": "bob", "__metadata": {} }],
+				"organization": [{ "handle": "bob", "__metadata": {} }],
 				"id": 1301645,
 				"__metadata": { "uri": "/resin/my_application(@id)?@id=1301645" }}]}
 			`),
@@ -116,13 +96,16 @@ export class BalenaAPIMock extends NockMock {
 	}
 
 	public expectGetRelease(opts: ScopeOpts = {}) {
-		this.optGet(/^\/v5\/release($|[(?])/, opts).replyWithFile(
+		this.optGet(/^\/v6\/release($|[(?])/, opts).replyWithFile(
 			200,
-			path.join(apiResponsePath, 'release-GET-v5.json'),
+			path.join(apiResponsePath, 'release-GET-v6.json'),
 			jHeader,
 		);
 	}
 
+	/**
+	 * Mocks balena-release call
+	 */
 	public expectPatchRelease({
 		replyBody = 'OK',
 		statusCode = 200,
@@ -136,6 +119,9 @@ export class BalenaAPIMock extends NockMock {
 		);
 	}
 
+	/**
+	 * Mocks balena-release call
+	 */
 	public expectPostRelease(opts: ScopeOpts = {}) {
 		this.optPost(/^\/v6\/release($|[(?])/, opts).replyWithFile(
 			200,
@@ -144,6 +130,9 @@ export class BalenaAPIMock extends NockMock {
 		);
 	}
 
+	/**
+	 * Mocks balena-release call
+	 */
 	public expectPatchImage({
 		replyBody = 'OK',
 		statusCode = 200,
@@ -157,6 +146,9 @@ export class BalenaAPIMock extends NockMock {
 		);
 	}
 
+	/**
+	 * Mocks balena-release call
+	 */
 	public expectPostImage(opts: ScopeOpts = {}) {
 		this.optPost(/^\/v6\/image($|[(?])/, opts).replyWithFile(
 			201,
@@ -165,6 +157,9 @@ export class BalenaAPIMock extends NockMock {
 		);
 	}
 
+	/**
+	 * Mocks balena-release call
+	 */
 	public expectPostImageLabel(opts: ScopeOpts = {}) {
 		this.optPost(/^\/v6\/image_label($|[(?])/, opts).replyWithFile(
 			201,
@@ -173,6 +168,9 @@ export class BalenaAPIMock extends NockMock {
 		);
 	}
 
+	/**
+	 * Mocks balena-release call
+	 */
 	public expectPostImageIsPartOfRelease(opts: ScopeOpts = {}) {
 		this.optPost(
 			/^\/v6\/image__is_part_of__release($|[(?])/,
@@ -350,23 +348,10 @@ export class BalenaAPIMock extends NockMock {
 		);
 	}
 
+	/**
+	 * Mocks balena-release call
+	 */
 	public expectGetUser(opts: ScopeOpts = {}) {
-		this.optGet(/^\/v5\/user/, opts).reply(200, {
-			d: [
-				{
-					id: 99999,
-					actor: 1234567,
-					username: 'gh_user',
-					created_at: '2018-08-19T13:55:04.485Z',
-					__metadata: {
-						uri: '/resin/user(@id)?@id=43699',
-					},
-				},
-			],
-		});
-	}
-
-	public expectGetUserV6(opts: ScopeOpts = {}) {
 		this.optGet(/^\/v6\/user/, opts).reply(200, {
 			d: [
 				{

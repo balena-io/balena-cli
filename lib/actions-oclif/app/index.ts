@@ -20,6 +20,7 @@ import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { tryAsInteger } from '../../utils/validation';
+import { Release } from 'balena-sdk';
 
 interface FlagsDef {
 	help: void;
@@ -57,10 +58,22 @@ export default class AppCmd extends Command {
 	public async run() {
 		const { args: params } = this.parse<FlagsDef, ArgsDef>(AppCmd);
 
-		const application = await getBalenaSdk().models.application.get(
+		const application = (await getBalenaSdk().models.application.get(
 			tryAsInteger(params.name),
-		);
+			{
+				$expand: {
+					is_for__device_type: { $select: 'slug' },
+					should_be_running__release: { $select: 'commit' },
+				},
+			},
+		)) as ApplicationWithDeviceType & {
+			should_be_running__release: [Release?];
+		};
 
+		// @ts-expect-error
+		application.device_type = application.is_for__device_type[0].slug;
+		// @ts-expect-error
+		application.commit = application.should_be_running__release[0]?.commit;
 		console.log(
 			getVisuals().table.vertical(application, [
 				`$${application.app_name}$`,

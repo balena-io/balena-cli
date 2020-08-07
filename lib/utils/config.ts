@@ -102,7 +102,7 @@ export async function generateApplicationConfig(
 }
 
 export function generateDeviceConfig(
-	device: BalenaSdk.Device & {
+	device: DeviceWithDeviceType & {
 		belongs_to__application: BalenaSdk.PineDeferred;
 	},
 	deviceApiKey: string | true | undefined,
@@ -113,7 +113,7 @@ export function generateDeviceConfig(
 		.then(async (application) => {
 			const baseConfigOpts = {
 				...options,
-				deviceType: device.device_type,
+				deviceType: device.is_of__device_type[0].slug,
 			};
 			const config = await generateBaseConfig(application, baseConfigOpts);
 

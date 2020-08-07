@@ -86,6 +86,7 @@ export default class AppCreateCmd extends Command {
 			application = await balena.models.application.create({
 				name: params.name,
 				deviceType,
+				organization: (await balena.auth.whoami())!,
 			});
 		} catch (err) {
 			// BalenaRequestError: Request error: Unique key constraint violated
@@ -97,7 +98,7 @@ export default class AppCreateCmd extends Command {
 			throw err;
 		}
 		console.info(
-			`Application created: ${application.slug} (${application.device_type}, id ${application.id})`,
+			`Application created: ${application.slug} (${deviceType}, id ${application.id})`,
 		);
 	}
 }

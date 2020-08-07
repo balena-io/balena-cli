@@ -95,10 +95,17 @@ export default class DeviceInitCmd extends Command {
 		delete options.app;
 
 		// Get application and
-		const application = await balena.models.application.get(
+		const application = (await balena.models.application.get(
 			options['application'] ||
 				(await (await import('../../utils/patterns')).selectApplication()),
-		);
+			{
+				$expand: {
+					is_for__device_type: {
+						$select: 'slug',
+					},
+				},
+			},
+		)) as ApplicationWithDeviceType;
 
 		// Register new device
 		const deviceUuid = balena.models.device.generateUniqueKey();
@@ -111,13 +118,14 @@ export default class DeviceInitCmd extends Command {
 		try {
 			logger.logDebug(`Downloading OS image...`);
 			const osVersion = options['os-version'] || 'default';
-			await downloadOSImage(application.device_type, tmpPath, osVersion);
+			const deviceType = application.is_for__device_type[0].slug;
+			await downloadOSImage(deviceType, tmpPath, osVersion);
 
 			logger.logDebug(`Configuring OS image...`);
 			await this.configureOsImage(tmpPath, device.uuid, options);
 
 			logger.logDebug(`Writing OS image...`);
-			await this.writeOsImage(tmpPath, application.device_type, options);
+			await this.writeOsImage(tmpPath, deviceType, options);
 		} catch (e) {
 			// Remove device in failed cases
 			try {

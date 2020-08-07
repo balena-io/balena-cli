@@ -74,7 +74,7 @@ describe('balena device', function () {
 	it('should list device details for provided uuid', async () => {
 		api.scope
 			.get(
-				/^\/v5\/device\?.+&\$expand=belongs_to__application\(\$select=app_name\)/,
+				/^\/v6\/device\?.+&\$expand=belongs_to__application\(\$select=app_name\)/,
 			)
 			.replyWithFile(200, path.join(apiResponsePath, 'device.json'), {
 				'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ describe('balena device', function () {
 		// e.g. When user has a device associated with app that user is no longer a collaborator of.
 		api.scope
 			.get(
-				/^\/v5\/device\?.+&\$expand=belongs_to__application\(\$select=app_name\)/,
+				/^\/v6\/device\?.+&\$expand=belongs_to__application\(\$select=app_name\)/,
 			)
 			.replyWithFile(
 				200,
