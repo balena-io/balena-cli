@@ -30,12 +30,18 @@ USAGE
 OPTIONS
   -a, --application <application>  application name
   -h, --help                       show CLI help
+  -j, --json                       produce JSON output instead of tabular output
   --app <app>                      same as '--application'
 
 DESCRIPTION
   list all devices that belong to you.
 
   You can filter the devices by application by using the \`--application\` option.
+
+  The --json option is recommended when scripting the output of this command,
+  because field names are less likely to change in JSON format and because it
+  better represents data types like arrays and empty strings. The 'jq' utility
+  may also be helpful in shell scripts (https://stedolan.github.io/jq/manual/).
 
 EXAMPLES
   $ balena devices

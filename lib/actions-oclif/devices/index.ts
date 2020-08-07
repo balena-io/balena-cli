@@ -32,6 +32,7 @@ interface FlagsDef {
 	application?: string;
 	app?: string;
 	help: void;
+	json: boolean;
 }
 
 export default class DevicesCmd extends Command {
@@ -41,6 +42,11 @@ export default class DevicesCmd extends Command {
 		list all devices that belong to you.
 
 		You can filter the devices by application by using the \`--application\` option.
+
+		The --json option is recommended when scripting the output of this command,
+		because field names are less likely to change in JSON format and because it
+		better represents data types like arrays and empty strings. The 'jq' utility
+		may also be helpful in shell scripts (https://stedolan.github.io/jq/manual/).
 	`;
 	public static examples = [
 		'$ balena devices',
@@ -55,6 +61,10 @@ export default class DevicesCmd extends Command {
 		application: cf.application,
 		app: cf.app,
 		help: cf.help,
+		json: flags.boolean({
+			char: 'j',
+			description: 'produce JSON output instead of tabular output',
+		}),
 	};
 
 	public static primary = true;
@@ -93,19 +103,29 @@ export default class DevicesCmd extends Command {
 			return device;
 		});
 
-		console.log(
-			getVisuals().table.horizontal(devices, [
-				'id',
-				'uuid',
-				'device_name',
-				'device_type',
-				'application_name',
-				'status',
-				'is_online',
-				'supervisor_version',
-				'os_version',
-				'dashboard_url',
-			]),
-		);
+		const fields = [
+			'id',
+			'uuid',
+			'device_name',
+			'device_type',
+			'application_name',
+			'status',
+			'is_online',
+			'supervisor_version',
+			'os_version',
+			'dashboard_url',
+		];
+		if (options.json) {
+			const _ = await import('lodash');
+			console.log(
+				JSON.stringify(
+					devices.map((device) => _.pick(device, fields)),
+					null,
+					4,
+				),
+			);
+		} else {
+			console.log(getVisuals().table.horizontal(devices, fields));
+		}
 	}
 }
