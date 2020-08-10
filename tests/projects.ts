@@ -17,7 +17,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { Headers } from 'tar-stream';
+import type { Headers } from 'tar-stream';
 import { promisify } from 'util';
 
 const statAsync = promisify(fs.stat);
