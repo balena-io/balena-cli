@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Lazy load tar-stream",
+          "hash": "497c8cd49be08082a2f0048499eb50a8511fc0b8",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        }
+      ],
+      "version": "12.14.2",
+      "date": "2020-08-10T11:04:45.415Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update balena-sdk to 14.x",
           "hash": "e1c42405a175f724af9bcd4600b36893d8c7e4cf",
           "body": "Update balena-sdk from 13.6.0 to 14.8.0\n",
@@ -15013,7 +15030,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 258,
+  "stars": 259,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -15114,29 +15131,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-08-07T22:23:00Z",
+  "lastCommitDate": "2020-08-10T13:46:37Z",
   "latestRelease": {
-    "tagName": "v12.14.1",
+    "tagName": "v12.14.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.14.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.1/balena-cli-v12.14.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.14.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.2/balena-cli-v12.14.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.14.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.1/balena-cli-v12.14.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.14.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.2/balena-cli-v12.14.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.14.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.1/balena-cli-v12.14.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.14.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.2/balena-cli-v12.14.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.14.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.1/balena-cli-v12.14.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.14.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.2/balena-cli-v12.14.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.14.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.1/balena-cli-v12.14.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.14.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.2/balena-cli-v12.14.2-windows-x64-standalone.zip"
       }
     ]
   },
@@ -15226,7 +15243,7 @@
       }
     ]
   },
-  "version": "12.14.1",
+  "version": "12.14.2",
   "screenshot": null,
   "logo": null
 }
