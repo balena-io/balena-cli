@@ -22,7 +22,7 @@ import * as path from 'path';
 import type { Composition } from 'resin-compose-parse';
 import type * as MultiBuild from 'resin-multibuild';
 import type { Readable } from 'stream';
-import * as tar from 'tar-stream';
+import type { Pack } from 'tar-stream';
 import { ExpectedError } from '../errors';
 import { getBalenaSdk, getChalk, stripIndent } from './lazy';
 import {
@@ -263,6 +263,7 @@ export async function tarDirectory(
 	} else {
 		readFile = fs.readFile;
 	}
+	const tar = await import('tar-stream');
 	const pack = tar.pack();
 	const {
 		filteredFileList,
@@ -573,7 +574,7 @@ async function performResolution(
 					//     task.dockerfile, task.dockerfilePath,
 					//     task.projectType, task.resolved
 					// This mimics what is currently done in `resin-builder`.
-					const clonedStream: tar.Pack = await cloneTarStream(
+					const clonedStream: Pack = await cloneTarStream(
 						buildTask.buildStream,
 					);
 					buildTask.buildStream = clonedStream;
