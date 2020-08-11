@@ -5,6 +5,56 @@
     {
       "commits": [
         {
+          "subject": "Tests: Specify es2018 as preferred, matching normal usage",
+          "hash": "c35472e94ddd8e840014a7877daf0b6fe64f067f",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        },
+        {
+          "subject": "Tests: Use a tmp data dir to avoid conflicts/overwriting existing data",
+          "hash": "511bb05cb987d605f377d97fa4424facb0e14841",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        },
+        {
+          "subject": "Tests: Use a mocha file helper to always load config-tests first",
+          "hash": "53b2b54b23c69f0dfa6960b0d7b233a192da50ea",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        },
+        {
+          "subject": "Tests: Share mocha options between commands in package.json",
+          "hash": "e7f753007ff36c0e675907345b20f458c62c3c7b",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        }
+      ],
+      "version": "12.14.4",
+      "date": "2020-08-11T15:53:00.903Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "CI: Avoid duplicate windows/mac tests",
           "hash": "4c664167f64d6c340ae83880a5b48c5fe0a981dd",
           "body": "",
@@ -15148,35 +15198,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-08-11T13:06:00Z",
+  "lastCommitDate": "2020-08-11T16:27:44Z",
   "latestRelease": {
-    "tagName": "v12.14.3",
+    "tagName": "v12.14.4",
     "asssets": [
       {
-        "name": "balena-cli-v12.14.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.3/balena-cli-v12.14.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.14.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.4/balena-cli-v12.14.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.14.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.3/balena-cli-v12.14.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.14.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.4/balena-cli-v12.14.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.14.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.3/balena-cli-v12.14.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.14.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.4/balena-cli-v12.14.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.14.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.3/balena-cli-v12.14.3-windows-x64-installer.exe"
+        "name": "balena-cli-v12.14.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.4/balena-cli-v12.14.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.14.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.3/balena-cli-v12.14.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.14.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.4/balena-cli-v12.14.4-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 292,
+    "numberOfIssues": 291,
     "latestIssues": [
       {
         "title": "Allow rebasing of npm-shrinkwrap",
@@ -15260,7 +15310,7 @@
       }
     ]
   },
-  "version": "12.14.3",
+  "version": "12.14.4",
   "screenshot": null,
   "logo": null
 }
