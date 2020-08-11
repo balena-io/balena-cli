@@ -59,11 +59,11 @@
     "release": "ts-node --transpile-only automation/run.ts release",
     "pretest": "npm run build",
     "test": "npm run test:source && npm run test:standalone",
-    "test:source": "cross-env BALENA_CLI_TEST_TYPE=source mocha --timeout 12000 -r ts-node/register/transpile-only \"tests/**/*.spec.ts\"",
+    "test:source": "cross-env BALENA_CLI_TEST_TYPE=source mocha",
     "test:standalone": "npm run build:standalone && npm run test:standalone:fast",
-    "test:standalone:fast": "cross-env BALENA_CLI_TEST_TYPE=standalone mocha --timeout 12000 -r ts-node/register/transpile-only \"tests/**/*.spec.ts\"",
+    "test:standalone:fast": "cross-env BALENA_CLI_TEST_TYPE=standalone mocha",
     "test:fast": "npm run build:fast && npm run test:source",
-    "test:only": "npm run build:fast && cross-env BALENA_CLI_TEST_TYPE=source mocha --timeout 12000 -r ts-node/register/transpile-only \"tests/**/${npm_config_test}.spec.ts\"",
+    "test:only": "npm run build:fast && cross-env BALENA_CLI_TEST_TYPE=source mocha \"tests/**/${npm_config_test}.spec.ts\"",
     "catch-uncommitted": "ts-node --transpile-only automation/run.ts catch-uncommitted",
     "ci": "npm run test && npm run catch-uncommitted",
     "watch": "gulp watch",
@@ -90,6 +90,13 @@
     "hooks": {
       "pre-commit": "node automation/check-npm-version.js && node automation/check-doc.js"
     }
+  },
+  "mocha": {
+    "reporter": "spec",
+    "require": "ts-node/register/transpile-only",
+    "file": "./tests/config-tests",
+    "timeout": 12000,
+    "_": "tests/**/*.spec.ts"
   },
   "oclif": {
     "bin": "balena",
