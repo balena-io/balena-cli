@@ -174,14 +174,21 @@ export function selectApplication(
 	const balena = getBalenaSdk();
 	return balena.models.application
 		.hasAny()
-		.then(function (hasAnyApplications) {
+		.then(async (hasAnyApplications) => {
 			if (!hasAnyApplications) {
 				throw new ExpectedError("You don't have any applications");
 			}
 
-			return balena.models.application.getAll() as Promise<ApplicationWithDeviceType[]>;
+			const apps = (await balena.models.application.getAll({
+				$select: 'app_name',
+				$expand: {
+					is_for__device_type: {
+						$select: 'slug',
+					},
+				},
+			})) as ApplicationWithDeviceType[];
+			return apps.filter(filter || _.constant(true));
 		})
-		.filter(filter || _.constant(true))
 		.then((applications) => {
 			if (errorOnEmptySelection && applications.length === 0) {
 				throw new ExpectedError('No suitable applications found for selection');
@@ -327,31 +334,29 @@ export async function awaitDeviceOsUpdate(
 
 export function inferOrSelectDevice(preferredUuid: string) {
 	const balena = getBalenaSdk();
-	return balena.models.device
-		.getAll()
-		.filter<BalenaSdk.Device>((device) => device.is_online)
-		.then((onlineDevices) => {
-			if (_.isEmpty(onlineDevices)) {
-				throw new ExpectedError("You don't have any devices online");
-			}
+	return balena.models.device.getAll().then((devices) => {
+		const onlineDevices = devices.filter((device) => device.is_online);
+		if (_.isEmpty(onlineDevices)) {
+			throw new ExpectedError("You don't have any devices online");
+		}
 
-			const defaultUuid = _(onlineDevices).map('uuid').includes(preferredUuid)
-				? preferredUuid
-				: onlineDevices[0].uuid;
+		const defaultUuid = _(onlineDevices).map('uuid').includes(preferredUuid)
+			? preferredUuid
+			: onlineDevices[0].uuid;
 
-			return getCliForm().ask({
-				message: 'Select a device',
-				type: 'list',
-				default: defaultUuid,
-				choices: _.map(onlineDevices, (device) => ({
-					name: `${device.device_name || 'Untitled'} (${device.uuid.slice(
-						0,
-						7,
-					)})`,
-					value: device.uuid,
-				})),
-			});
+		return getCliForm().ask({
+			message: 'Select a device',
+			type: 'list',
+			default: defaultUuid,
+			choices: _.map(onlineDevices, (device) => ({
+				name: `${device.device_name || 'Untitled'} (${device.uuid.slice(
+					0,
+					7,
+				)})`,
+				value: device.uuid,
+			})),
 		});
+	});
 }
 
 export async function getOnlineTargetUuid(

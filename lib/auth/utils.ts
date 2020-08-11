@@ -63,30 +63,27 @@ export const getDashboardLoginURL = (callbackUrl: string) => {
  *   if loggedIn
  *     console.log('Token is valid!')
  */
-export const loginIfTokenValid = async (token: string) => {
+export const loginIfTokenValid = async (token: string): Promise<boolean> => {
 	if (_.isEmpty(token?.trim())) {
 		return false;
 	}
 	const balena = getBalenaSdk();
 
-	return balena.auth
-		.getToken()
-		.catchReturn(undefined)
-		.then((currentToken) =>
-			balena.auth
-				.loginWithToken(token)
-				.return(token)
-				.then(balena.auth.isLoggedIn)
-				.tap((isLoggedIn) => {
-					if (isLoggedIn) {
-						return;
-					}
+	let currentToken;
+	try {
+		currentToken = await balena.auth.getToken();
+	} catch {
+		// ignore
+	}
 
-					if (currentToken != null) {
-						return balena.auth.loginWithToken(currentToken);
-					} else {
-						return balena.auth.logout();
-					}
-				}),
-		);
+	await balena.auth.loginWithToken(token);
+	const isLoggedIn = await balena.auth.isLoggedIn();
+	if (!isLoggedIn) {
+		if (currentToken != null) {
+			await balena.auth.loginWithToken(currentToken);
+		} else {
+			await balena.auth.logout();
+		}
+	}
+	return isLoggedIn;
 };

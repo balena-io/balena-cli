@@ -80,20 +80,22 @@ export default class DevicesSupportedCmd extends Command {
 			SDK.DeviceTypeJson.DeviceType
 		>> = await getBalenaSdk()
 			.models.config.getDeviceTypes()
-			.map((d) => {
-				if (d.aliases && d.aliases.length) {
-					// remove aliases that are equal to the slug
-					d.aliases = d.aliases.filter((alias: string) => alias !== d.slug);
-					if (!options.json) {
-						// stringify the aliases array with commas and spaces
-						d.aliases = [d.aliases.join(', ')];
+			.then((dts) =>
+				dts.map((d) => {
+					if (d.aliases && d.aliases.length) {
+						// remove aliases that are equal to the slug
+						d.aliases = d.aliases.filter((alias: string) => alias !== d.slug);
+						if (!options.json) {
+							// stringify the aliases array with commas and spaces
+							d.aliases = [d.aliases.join(', ')];
+						}
+					} else {
+						// ensure it is always an array (for the benefit of JSON output)
+						d.aliases = [];
 					}
-				} else {
-					// ensure it is always an array (for the benefit of JSON output)
-					d.aliases = [];
-				}
-				return d;
-			});
+					return d;
+				}),
+			);
 		if (!options.discontinued) {
 			deviceTypes = deviceTypes.filter((dt) => dt.state !== 'DISCONTINUED');
 		}

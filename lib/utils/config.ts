@@ -139,16 +139,18 @@ export function generateDeviceConfig(
 function addApplicationKey(config: any, applicationNameOrId: string | number) {
 	return getBalenaSdk()
 		.models.application.generateApiKey(applicationNameOrId)
-		.tap((apiKey) => {
+		.then((apiKey) => {
 			config.apiKey = apiKey;
+			return apiKey;
 		});
 }
 
 function addProvisioningKey(config: any, applicationNameOrId: string | number) {
 	return getBalenaSdk()
 		.models.application.generateProvisioningKey(applicationNameOrId)
-		.tap((apiKey) => {
+		.then((apiKey) => {
 			config.apiKey = apiKey;
+			return apiKey;
 		});
 }
 
