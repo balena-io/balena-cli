@@ -15,6 +15,11 @@
  * limitations under the License.
  */
 
+import * as tmp from 'tmp';
+tmp.setGracefulCleanup();
+// Use a temporary dir for tests data
+process.env.BALENARC_DATA_DIRECTORY = tmp.dirSync().name;
+
 import { EventEmitter } from 'events';
 EventEmitter.defaultMaxListeners = 35; // it appears that 'nock' adds a bunch of listeners - bug?
 // SL: Looks like it's not nock causing this, as have seen the problem triggered from help.spec,
