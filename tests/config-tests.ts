@@ -15,6 +15,10 @@
  * limitations under the License.
  */
 
+import { set as setEsVersion } from '@balena/es-version';
+// Set the desired es version for downstream modules that support it
+setEsVersion('es2018');
+
 import * as tmp from 'tmp';
 tmp.setGracefulCleanup();
 // Use a temporary dir for tests data
