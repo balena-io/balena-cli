@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-import './config-tests'; // required for side effects
-
 import { execFile } from 'child_process';
 import intercept = require('intercept-stdout');
 import * as _ from 'lodash';

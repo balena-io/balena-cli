@@ -15,9 +15,6 @@
  * limitations under the License.
  */
 
-// tslint:disable-next-line:no-var-requires
-require('./../config-tests'); // required for side effects
-
 import { expect } from 'chai';
 import * as _ from 'lodash';
 import * as path from 'path';

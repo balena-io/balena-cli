@@ -15,18 +15,12 @@
  * limitations under the License.
  */
 
-import { setMaxListeners } from '../build/app-common';
-
-setMaxListeners(35); // it appears that 'nock' adds a bunch of listeners - bug?
+import { EventEmitter } from 'events';
+EventEmitter.defaultMaxListeners = 35; // it appears that 'nock' adds a bunch of listeners - bug?
 // SL: Looks like it's not nock causing this, as have seen the problem triggered from help.spec,
 //     which is not using nock.  Perhaps mocha/chai? (unlikely), or something in the CLI?
 
 import { config as chaiCfg } from 'chai';
-
-function configChai() {
-	chaiCfg.showDiff = true;
-	// enable diff comparison of large objects / arrays
-	chaiCfg.truncateThreshold = 0;
-}
-
-configChai();
+chaiCfg.showDiff = true;
+// enable diff comparison of large objects / arrays
+chaiCfg.truncateThreshold = 0;
