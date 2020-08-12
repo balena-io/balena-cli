@@ -10,6 +10,3 @@ doc/cli.markdown text eol=lf
 # crlf for the eol conversion test files
 tests/test-data/projects/docker-compose/basic/service2/file2-crlf.sh eol=crlf
 tests/test-data/projects/no-docker-compose/basic/src/windows-crlf.sh eol=crlf
-
-# Prevent auto merging of the npm-shrinkwrap.json file: see notes in CONTRIBUTING.md
-/npm-shrinkwrap.json merge=binary

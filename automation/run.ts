@@ -21,6 +21,7 @@ import {
 	buildOclifInstaller,
 	buildStandaloneZip,
 	catchUncommitted,
+	testShrinkwrap,
 } from './build-bin';
 import {
 	release,
@@ -63,6 +64,7 @@ export async function run(args?: string[]) {
 		'build:installer': buildOclifInstaller,
 		'build:standalone': buildStandaloneZip,
 		'catch-uncommitted': catchUncommitted,
+		'test-shrinkwrap': testShrinkwrap,
 		fix1359: updateDescriptionOfReleasesAffectedByIssue1359,
 		release,
 	};
