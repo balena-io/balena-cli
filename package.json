@@ -111,7 +111,7 @@
   },
   "devDependencies": {
     "@balena/lint": "^5.1.0",
-    "@oclif/config": "^1.14.0",
+    "@oclif/config": "^1.17.0",
     "@oclif/dev-cli": "1.22.0",
     "@oclif/parser": "^3.8.4",
     "@octokit/plugin-throttling": "^3.3.0",
@@ -189,7 +189,7 @@
   "dependencies": {
     "@balena/dockerignore": "^1.0.2",
     "@balena/es-version": "^1.0.0",
-    "@oclif/command": "^1.5.19",
+    "@oclif/command": "^1.8.0",
     "@resin.io/valid-email": "^0.1.0",
     "@sentry/node": "^5.13.2",
     "@types/update-notifier": "^4.1.0",
@@ -213,6 +213,7 @@
     "chalk": "^3.0.0",
     "chokidar": "^3.3.1",
     "cli-truncate": "^1.1.0",
+    "cli-ux": "^5.4.10",
     "color-hash": "^1.0.3",
     "columnify": "^1.5.2",
     "common-tags": "^1.7.2",

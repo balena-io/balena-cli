@@ -304,6 +304,38 @@ Examples:
 
 ### Options
 
+#### --columns COLUMNS
+
+only show provided columns (comma-separated)
+
+#### --sort SORT
+
+property to sort by (prepend '-' for descending)
+
+#### --filter FILTER
+
+filter property by partial string matching, ex: name=foo
+
+#### --csv
+
+output is csv format [alias: --output=csv]
+
+#### --output OUTPUT
+
+output in a more machine friendly format
+
+#### -x, --extended
+
+show extra columns
+
+#### --no-truncate
+
+do not truncate output to fit screen
+
+#### --no-header
+
+hide table header from output
+
 #### -v, --verbose
 
 No-op since release v12.0.0

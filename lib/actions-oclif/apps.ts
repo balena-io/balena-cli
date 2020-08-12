@@ -20,6 +20,7 @@ import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
 import { isV12 } from '../utils/version';
+import { table } from 'cli-ux/lib/styled/table';
 
 interface ExtendedApplication extends ApplicationWithDeviceType {
 	device_count?: number;
@@ -45,6 +46,7 @@ export default class AppsCmd extends Command {
 	public static usage = 'apps';
 
 	public static flags: flags.Input<FlagsDef> = {
+		...table.flags(),
 		help: cf.help,
 		verbose: flags.boolean({
 			char: 'v',
@@ -73,18 +75,22 @@ export default class AppsCmd extends Command {
 
 		const _ = await import('lodash');
 		// Add extended properties
-		applications.forEach((application) => {
-			application.device_count = application.owns__device?.length ?? 0;
-			application.online_devices = _.sumBy(application.owns__device, (d) =>
-				d.is_online === true ? 1 : 0,
-			);
-			// @ts-expect-error
-			application.device_type = application.is_for__device_type[0].slug;
+		const displayApps = applications.map((app) => {
+			return {
+				id: app.id,
+				app_name: app.app_name,
+				slug: app.slug,
+				device_type: app.is_for__device_type[0].slug,
+				online_devices: _.sumBy(app.owns__device, (d) =>
+					d.is_online === true ? 1 : 0,
+				),
+				device_count: app.owns__device?.length ?? 0,
+			};
 		});
 
 		// Display
 		console.log(
-			getVisuals().table.horizontal(applications, [
+			getVisuals().table.horizontal(displayApps, [
 				'id',
 				'app_name',
 				options.verbose || isV12() ? 'slug' : '',
@@ -92,6 +98,18 @@ export default class AppsCmd extends Command {
 				'online_devices',
 				'device_count',
 			]),
+		);
+		table(
+			displayApps,
+			{
+				id: {},
+				app_name: {},
+				...(options.verbose || isV12() ? { slug: {} } : {}),
+				device_type: {},
+				online_devices: {},
+				device_count: {},
+			},
+			options,
 		);
 	}
 }
