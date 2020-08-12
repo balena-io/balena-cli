@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'Tests: check shrinkwrap is deduped'
+      hash: 648a73fd917abf7c776f521cdc437301c06ae419
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+    - subject: Allow rebasing of npm-shrinkwrap
+      hash: 3691ae148e248032fd8824be91b35f333460a732
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 12.14.6
+  date: 2020-08-12T14:38:51.164Z
+- commits:
     - subject: Update balena-sdk to 15.x
       hash: e021ad9af61b6c0e66ed20b5e18ffeff65f3ab63
       body: |
