@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'build / push: Fix sudden process crash (update tar-utils dependency)'
+      hash: 1ee12b70bcf777cff3ebcd969685aa6f4cdf5894
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.14.8
+  date: 2020-08-13T22:50:21.376Z
+- commits:
     - subject: Update dependencies
       hash: 230677e5e897aff7f5694b321a286cd50f5ef728
       body: |
@@ -175,7 +186,7 @@
           version: balena-sdk-15.3.0
           date: 2020-08-12T09:04:18.740Z
   version: 12.14.7
-  date: 2020-08-13T15:02:41.324Z
+  date: 2020-08-13T13:38:52.402Z
 - commits:
     - subject: 'Tests: check shrinkwrap is deduped'
       hash: 648a73fd917abf7c776f521cdc437301c06ae419

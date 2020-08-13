@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "build / push: Fix sudden process crash (update tar-utils dependency)",
+          "hash": "1ee12b70bcf777cff3ebcd969685aa6f4cdf5894",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.14.8",
+      "date": "2020-08-13T22:14:01.721Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update dependencies",
           "hash": "230677e5e897aff7f5694b321a286cd50f5ef728",
           "body": "Update balena-sdk from 15.2.5 to 15.3.0\n",
@@ -18054,36 +18071,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-08-13T15:03:37Z",
+  "lastCommitDate": "2020-08-13T22:51:05Z",
   "latestRelease": {
-    "tagName": "v12.14.7",
+    "tagName": "v12.14.8",
     "asssets": [
       {
-        "name": "balena-cli-v12.14.7-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.7/balena-cli-v12.14.7-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.14.8-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.8/balena-cli-v12.14.8-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.14.7-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.7/balena-cli-v12.14.7-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.14.8-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.8/balena-cli-v12.14.8-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.14.7-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.7/balena-cli-v12.14.7-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.14.8-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.8/balena-cli-v12.14.8-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.14.7-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.7/balena-cli-v12.14.7-windows-x64-installer.exe"
+        "name": "balena-cli-v12.14.8-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.8/balena-cli-v12.14.8-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.14.7-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.7/balena-cli-v12.14.7-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.14.8-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.8/balena-cli-v12.14.8-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 292,
+    "numberOfIssues": 293,
     "latestIssues": [
+      {
+        "title": "Update dependencies",
+        "url": "https://github.com/balena-io/balena-cli/pull/1995"
+      },
       {
         "title": "Preload boot splash screen doesn't work on newer balenaOS versions",
         "url": "https://github.com/balena-io/balena-cli/issues/1993"
@@ -18159,14 +18180,10 @@
       {
         "title": "Add a `--device-type` parameter to the `belana device register` command",
         "url": "https://github.com/balena-io/balena-cli/issues/1918"
-      },
-      {
-        "title": "Allow setting `release_version` during a deploy/push operation",
-        "url": "https://github.com/balena-io/balena-cli/issues/1908"
       }
     ]
   },
-  "version": "12.14.7",
+  "version": "12.14.8",
   "screenshot": null,
   "logo": null
 }
