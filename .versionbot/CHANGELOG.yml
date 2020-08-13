@@ -1,4 +1,182 @@
 - commits:
+    - subject: Update dependencies
+      hash: 230677e5e897aff7f5694b321a286cd50f5ef728
+      body: |
+        Update balena-sdk from 15.2.5 to 15.3.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested:
+        - commits:
+            - subject: Update balena-pine and add custom typings for prepare/subscribe
+              hash: e283039053835c55216e6df41adb3f072de0b245
+              body: |
+                Update balena-pine from 12.2.0 to 12.3.0
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Pagan Gazzard
+              nested:
+                - commits:
+                    - subject: Update pinejs-client-core to 6.6.1
+                      hash: 96d53221b12928b10c7b78a32d9187c3bd78ea90
+                      body: |
+                        Update pinejs-client-core from 6.1.0 to 6.6.1
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                      author: Pagan Gazzard
+                      nested:
+                        - commits:
+                            - subject: >-
+                                Fix typing when id is specified to be `AnyObject
+                                | undefined`
+                              hash: c4802cb748b1552345f036120c3aa6254e6cc946
+                              body: ''
+                              footer:
+                                Change-type: patch
+                                change-type: patch
+                              author: Pagan Gazzard
+                          version: pinejs-client-js-6.6.1
+                          date: 2020-08-11T17:10:09.498Z
+                        - commits:
+                            - subject: 'Deprecate `$expand: { ''a/$count'': {...} }`'
+                              hash: 8be33ad064905476e3f21978b7e1d760f5e27f4e
+                              body: ''
+                              footer:
+                                Change-type: minor
+                                change-type: minor
+                              author: Pagan Gazzard
+                            - subject: >-
+                                Deprecate `resource: 'a/$count'` and update
+                                typings to reflect it
+                              hash: 779cc424cb6d2562aa9a98a3ff083b68308d9797
+                              body: ''
+                              footer:
+                                Change-type: minor
+                                change-type: minor
+                              author: Pagan Gazzard
+                          version: pinejs-client-js-6.6.0
+                          date: 2020-08-11T16:18:59.088Z
+                        - commits:
+                            - subject: >-
+                                Add `options: { $count: { ... } }` sugar for top
+                                level $count
+                              hash: 13072f715da6c0ca3eab08584eaa48f39ea985b2
+                              body: ''
+                              footer:
+                                Change-type: minor
+                                change-type: minor
+                              author: Pagan Gazzard
+                            - subject: >-
+                                Add `$expand: { a: { $count: { ... } } }` sugar
+                                for $count in expands
+                              hash: b2afb397c09a31c9ab3c1c370846c1b8762db32d
+                              body: ''
+                              footer:
+                                Change-type: minor
+                                change-type: minor
+                              author: Pagan Gazzard
+                          version: pinejs-client-js-6.5.0
+                          date: 2020-08-11T10:25:19.860Z
+                        - commits:
+                            - subject: Improve return typing of `subscribe` method
+                              hash: 2311fe03b04f4e6149693a9e5c392f9f0bb2a549
+                              body: ''
+                              footer:
+                                Change-type: minor
+                                change-type: minor
+                              author: Pagan Gazzard
+                          version: pinejs-client-js-6.4.0
+                          date: 2020-08-11T10:16:40.301Z
+                        - commits:
+                            - subject: Fix Poll.on typings
+                              hash: 315697d9c2c0e59652bcceddb7f36cb498269f64
+                              body: ''
+                              footer:
+                                Change-type: patch
+                                change-type: patch
+                              author: Pagan Gazzard
+                            - subject: >-
+                                Improve return typing when id is passed to GET
+                                methods
+                              hash: 2d174f758314a20c01a171ac5826b71e4f623dcc
+                              body: ''
+                              footer:
+                                Change-type: minor
+                                change-type: minor
+                              author: Pagan Gazzard
+                            - subject: >-
+                                Remove `PromiseResult` type, use
+                                `Promise<PromiseResultTypes>` instead
+                              hash: 905f275731af6ce2560c37f41343052f05365cd1
+                              body: ''
+                              footer:
+                                Change-type: minor
+                                change-type: minor
+                              author: Pagan Gazzard
+                            - subject: >-
+                                Remove `PromiseObj` type, use `Promise<{}>`
+                                instead
+                              hash: 78aa2410aa86bf73cc4831f2149fc85e28a6ea23
+                              body: ''
+                              footer:
+                                Change-type: minor
+                                change-type: minor
+                              author: Pagan Gazzard
+                          version: pinejs-client-js-6.3.0
+                          date: 2020-08-11T08:57:09.655Z
+                        - commits:
+                            - subject: >-
+                                Add `$filter: { a: { $count: 1 } }` sugar for
+                                $count in filters
+                              hash: f2fef3833f321bf81543c62a9a3db09d7fbc0a4a
+                              body: ''
+                              footer:
+                                Change-type: minor
+                                change-type: minor
+                              author: Pagan Gazzard
+                          version: pinejs-client-js-6.2.0
+                          date: 2020-08-10T16:44:49.238Z
+                        - commits:
+                            - subject: >-
+                                Remove redundant ParamsObj/SubscribeParamsObj
+                                types
+                              hash: f5fc6762aa8f1918424fb5e1c1a05435f07af285
+                              body: ''
+                              footer:
+                                Change-type: patch
+                                change-type: patch
+                              author: Pagan Gazzard
+                          version: pinejs-client-js-6.1.2
+                          date: 2020-08-10T16:32:09.666Z
+                        - commits:
+                            - subject: Make use of `mapObj` helper in more places
+                              hash: 2189f9918cb515071d2f6ecb941b0d838ee6c5ea
+                              body: ''
+                              footer:
+                                Change-type: patch
+                                change-type: patch
+                              author: Pagan Gazzard
+                            - subject: >-
+                                Use `Object.keys` in preference to
+                                `hasOwnProperty` where applicable
+                              hash: 2ea0e9549974150ef9e7f82206f25000407e37ba
+                              body: ''
+                              footer:
+                                Change-type: patch
+                                change-type: patch
+                              author: Pagan Gazzard
+                          version: pinejs-client-js-6.1.1
+                          date: 2020-08-10T15:42:09.364Z
+                  version: balena-pine-12.3.0
+                  date: 2020-08-12T07:16:41.003Z
+          version: balena-sdk-15.3.0
+          date: 2020-08-12T09:04:18.740Z
+  version: 12.14.7
+  date: 2020-08-13T13:38:52.402Z
+- commits:
     - subject: 'Tests: check shrinkwrap is deduped'
       hash: 648a73fd917abf7c776f521cdc437301c06ae419
       body: ''
