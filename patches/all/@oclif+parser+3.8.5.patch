@@ -1,8 +1,8 @@
 diff --git a/node_modules/@oclif/parser/lib/errors.js b/node_modules/@oclif/parser/lib/errors.js
-index 93912ca..c4cac1d 100644
+index 0c93a81..95d06be 100644
 --- a/node_modules/@oclif/parser/lib/errors.js
 +++ b/node_modules/@oclif/parser/lib/errors.js
-@@ -10,7 +10,8 @@ const m = deps_1.default()
+@@ -13,7 +13,8 @@ const m = deps_1.default()
      .add('list', () => require('./list'));
  class CLIParseError extends errors_1.CLIError {
      constructor(options) {
@@ -12,7 +12,7 @@ index 93912ca..c4cac1d 100644
          super(options.message);
          this.parse = options.parse;
      }
-@@ -31,22 +32,24 @@ class InvalidArgsSpecError extends CLIParseError {
+@@ -34,22 +35,24 @@ class InvalidArgsSpecError extends CLIParseError {
  exports.InvalidArgsSpecError = InvalidArgsSpecError;
  class RequiredArgsError extends CLIParseError {
      constructor({ args, parse }) {
@@ -20,7 +20,7 @@ index 93912ca..c4cac1d 100644
 +        const command = 'balena ' + parse.input.context.id.replace(/:/g, ' ');
 +        let message = `Missing ${args.length} required argument${args.length === 1 ? '' : 's'}`;
          const namedArgs = args.filter(a => a.name);
-         if (namedArgs.length) {
+         if (namedArgs.length > 0) {
              const list = m.list.renderList(namedArgs.map(a => [a.name, a.description]));
              message += `:\n${list}`;
          }
