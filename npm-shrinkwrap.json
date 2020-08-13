@@ -15325,13 +15325,37 @@
       }
     },
     "tar-utils": {
-      "version": "2.1.0",
-      "resolved": "https://registry.npmjs.org/tar-utils/-/tar-utils-2.1.0.tgz",
-      "integrity": "sha512-52IEUtHFpGIawEpYpvhZDyZUSyTcAq26DE77uE4rRSLmP5r5Bf+FwNCiPIisX0gm4s8emHJvgEINYy7I2FoRcw==",
+      "version": "2.1.1",
+      "resolved": "https://registry.npmjs.org/tar-utils/-/tar-utils-2.1.1.tgz",
+      "integrity": "sha512-d5ZaeyjbbRRDRiOodoeFtm/4ctQor+QH4VhKu6ZzgFE59SpeGRasdqgyuYHz8lqI+EAu7JgUNPpcUONIv5B1Bg==",
       "requires": {
         "bluebird": "^3.7.2",
         "lodash": "^4.17.15",
-        "tar-stream": "^2.1.0"
+        "tar-stream": "2.1.1"
+      },
+      "dependencies": {
+        "readable-stream": {
+          "version": "3.6.0",
+          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-3.6.0.tgz",
+          "integrity": "sha512-BViHy7LKeTz4oNnkcLJ+lVSL6vpiFeX6/d3oSH8zCW7UxP2onchk+vTGB143xuFjHS3deTgkKoXXymXqymiIdA==",
+          "requires": {
+            "inherits": "^2.0.3",
+            "string_decoder": "^1.1.1",
+            "util-deprecate": "^1.0.1"
+          }
+        },
+        "tar-stream": {
+          "version": "2.1.1",
+          "resolved": "https://registry.npmjs.org/tar-stream/-/tar-stream-2.1.1.tgz",
+          "integrity": "sha512-GZjLk64XcE/58qwIc1ZfXGqTSE4OutPMEkfBE/oh9eJ4x1eMRjYkgrLrav7PzddpvIpSJSGi8FgNNYXdB9Vumg==",
+          "requires": {
+            "bl": "^4.0.1",
+            "end-of-stream": "^1.4.1",
+            "fs-constants": "^1.0.0",
+            "inherits": "^2.0.3",
+            "readable-stream": "^3.1.1"
+          }
+        }
       }
     },
     "temp": {
