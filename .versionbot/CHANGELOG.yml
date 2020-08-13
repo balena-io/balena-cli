@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'build / push: Fix sudden process crash (update tar-utils dependency)'
+      hash: 1ee12b70bcf777cff3ebcd969685aa6f4cdf5894
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.14.8
+  date: 2020-08-13T22:14:01.721Z
+- commits:
     - subject: Update dependencies
       hash: 230677e5e897aff7f5694b321a286cd50f5ef728
       body: |
