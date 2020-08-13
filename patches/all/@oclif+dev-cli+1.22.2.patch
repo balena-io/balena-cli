@@ -187,7 +187,7 @@ index 320fc52..efe3f2f 100644
                  return qq.join(base, [target.platform, target.arch].join('-'), config.s3Key('baseDir', target));
              return qq.join(base, config.s3Key('baseDir', target));
 diff --git a/node_modules/@oclif/dev-cli/lib/tarballs/node.js b/node_modules/@oclif/dev-cli/lib/tarballs/node.js
-index 343eb00..5521e2d 100644
+index b3918c5..073515a 100644
 --- a/node_modules/@oclif/dev-cli/lib/tarballs/node.js
 +++ b/node_modules/@oclif/dev-cli/lib/tarballs/node.js
 @@ -1,28 +1,58 @@
@@ -248,14 +248,13 @@ index 343eb00..5521e2d 100644
 +    console.log(`fetchNodeBinary using tmp="${tmp}`);
 +
      if (arch === 'arm')
-         arch = 'armv6l';
+         arch = 'armv7l';
      let nodeBase = `node-v${nodeVersion}-${platform}-${arch}`;
      let tarball = path.join(tmp, 'node', `${nodeBase}.tar.xz`);
      let url = `https://nodejs.org/dist/v${nodeVersion}/${nodeBase}.tar.xz`;
--    if (platform === 'win32') {
++    let zPath = '';
+     if (platform === 'win32') {
 -        await checkFor7Zip();
-+	let zPath = '';
-+	if (platform === 'win32') {
 +        zPath = await checkFor7Zip(projectRootPath);
          nodeBase = `node-v${nodeVersion}-win-${arch}`;
          tarball = path.join(tmp, 'node', `${nodeBase}.7z`);
