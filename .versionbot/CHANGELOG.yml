@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'build: Fix --buildArg and --cache-from options (broken since v12.9.9)'
+      hash: af1c4b0d03aef17faa6873aa89164a37f4e44c77
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.14.10
+  date: 2020-08-14T22:20:30.315Z
+- commits:
     - subject: Update dependencies
       hash: d7f49d2442bdf7860ed1ffd60d7c777d2e933429
       body: |
