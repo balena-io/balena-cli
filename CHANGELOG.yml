@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'build: Fix --buildArg and --cache-from options (broken since v12.9.9)'
+      hash: af1c4b0d03aef17faa6873aa89164a37f4e44c77
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.14.10
+  date: 2020-08-14T22:49:11.257Z
+- commits:
     - subject: Update dependencies
       hash: d7f49d2442bdf7860ed1ffd60d7c777d2e933429
       body: |
@@ -45,7 +56,7 @@
           version: balena-sdk-15.3.1
           date: 2020-08-13T13:40:31.151Z
   version: 12.14.9
-  date: 2020-08-14T13:48:46.009Z
+  date: 2020-08-14T13:13:17.811Z
 - commits:
     - subject: 'build / push: Fix sudden process crash (update tar-utils dependency)'
       hash: 1ee12b70bcf777cff3ebcd969685aa6f4cdf5894
