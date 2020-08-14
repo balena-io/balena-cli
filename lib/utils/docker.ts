@@ -36,10 +36,8 @@ export interface DockerConnectionCliFlags {
 
 export interface DockerCliFlags extends DockerConnectionCliFlags {
 	tag?: string;
-	buildArg?: string; // maps to 'arg'
-	arg?: string; // Not part of command profile
-	'cache-from'?: string; // maps to 'image-list'
-	'image-list'?: string; // Not part of command profile
+	buildArg?: string[];
+	'cache-from'?: string;
 	nocache: boolean;
 	squash: boolean;
 }
@@ -80,13 +78,12 @@ export const dockerCliFlags: flags.Input<DockerCliFlags> = {
 		description:
 			'Set a build-time variable (eg. "-B \'ARG=value\'"). Can be specified multiple times.',
 		char: 'B',
-		// Maps to flag `arg`
+		multiple: true,
 	}),
 	'cache-from': flags.string({
 		description: `\
 Comma-separated list (no spaces) of image names for build cache resolution. \
 Implements the same feature as the "docker build --cache-from" option.`,
-		// Maps to flag `image-list`
 	}),
 	nocache: flags.boolean({
 		description: "Don't use docker layer caching when building",

@@ -78,7 +78,7 @@ export class DockerMock extends NockMock {
 		checkBuildRequestBody: (requestBody: string) => Promise<void>;
 	}) {
 		this.optPost(
-			new RegExp(`^/build\\?t=${_.escapeRegExp(opts.tag)}&`),
+			new RegExp(`^/build\\?(|.+&)t=${_.escapeRegExp(opts.tag)}&`),
 			opts,
 		).reply(async function (uri, requestBody, cb) {
 			let error: Error | null = null;
