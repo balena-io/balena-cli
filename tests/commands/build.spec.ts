@@ -43,20 +43,17 @@ const commonResponseLines: { [key: string]: string[] } = {
 	],
 };
 
-const commonQueryParams = [
-	['t', '${tag}'],
-	['buildargs', '{}'],
-	['labels', ''],
-];
+const commonQueryParams = {
+	t: '${tag}',
+	buildargs: '{}',
+	labels: '',
+};
 
-const commonComposeQueryParams = [
-	['t', '${tag}'],
-	[
-		'buildargs',
-		'{"MY_VAR_1":"This is a variable","MY_VAR_2":"Also a variable"}',
-	],
-	['labels', ''],
-];
+const commonComposeQueryParams = {
+	t: '${tag}',
+	buildargs: '{"MY_VAR_1":"This is a variable","MY_VAR_2":"Also a variable"}',
+	labels: '',
+};
 
 const hr =
 	'----------------------------------------------------------------------';
@@ -126,7 +123,65 @@ describe('balena build', function () {
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 -g`,
 			dockerMock: docker,
 			expectedFilesByService: { main: expectedFiles },
-			expectedQueryParamsByService: { main: commonQueryParams },
+			expectedQueryParamsByService: { main: Object.entries(commonQueryParams) },
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+			services: ['main'],
+		});
+	});
+
+	it('should create the expected tar stream (--buildArg and --cache-from)', async () => {
+		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
+		const expectedFiles: ExpectedTarStreamFiles = {
+			'src/.dockerignore': { fileSize: 16, type: 'file' },
+			'src/start.sh': { fileSize: 89, type: 'file' },
+			'src/windows-crlf.sh': {
+				fileSize: isWindows ? 68 : 70,
+				testStream: isWindows ? expectStreamNoCRLF : undefined,
+				type: 'file',
+			},
+			Dockerfile: { fileSize: 88, type: 'file' },
+			'Dockerfile-alt': { fileSize: 30, type: 'file' },
+		};
+		const expectedQueryParams = {
+			...commonQueryParams,
+			buildargs: '{"BARG1":"b1","barg2":"B2"}',
+			cachefrom: '["my/img1","my/img2"]',
+		};
+		const responseFilename = 'build-POST.json';
+		const responseBody = await fs.readFile(
+			path.join(dockerResponsePath, responseFilename),
+			'utf8',
+		);
+		const expectedResponseLines = [
+			...commonResponseLines[responseFilename],
+			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
+			`[Info] Creating default composition with source: "${projectPath}"`,
+			'[Build] main Step 1/4 : FROM busybox',
+		];
+		if (isWindows) {
+			const fname = path.join(projectPath, 'src', 'windows-crlf.sh');
+			if (isWindows) {
+				expectedResponseLines.push(
+					`[Info] Converting line endings CRLF -> LF for file: ${fname}`,
+				);
+			} else {
+				expectedResponseLines.push(
+					`[Warn] CRLF (Windows) line endings detected in file: ${fname}`,
+					'[Warn] Windows-format line endings were detected in some files. Consider using the `--convert-eol` option.',
+				);
+			}
+		}
+		docker.expectGetInfo({});
+		await testDockerBuildStream({
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 -B BARG1=b1 -B barg2=B2 --cache-from my/img1,my/img2`,
+			dockerMock: docker,
+			expectedFilesByService: { main: expectedFiles },
+			expectedQueryParamsByService: {
+				main: Object.entries(expectedQueryParams),
+			},
 			expectedResponseLines,
 			projectPath,
 			responseBody,
@@ -216,7 +271,9 @@ describe('balena build', function () {
 				commandLine: `build ${projectPath} --emulated --deviceType ${deviceType} --arch ${arch} --nogitignore`,
 				dockerMock: docker,
 				expectedFilesByService: { main: expectedFiles },
-				expectedQueryParamsByService: { main: commonQueryParams },
+				expectedQueryParamsByService: {
+					main: Object.entries(commonQueryParams),
+				},
 				expectedResponseLines,
 				projectPath,
 				responseBody,
@@ -274,7 +331,7 @@ describe('balena build', function () {
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --noconvert-eol -m`,
 			dockerMock: docker,
 			expectedFilesByService: { main: expectedFiles },
-			expectedQueryParamsByService: { main: commonQueryParams },
+			expectedQueryParamsByService: { main: Object.entries(commonQueryParams) },
 			expectedResponseLines,
 			projectPath,
 			responseBody,
@@ -318,15 +375,19 @@ describe('balena build', function () {
 			'utf8',
 		);
 		const expectedQueryParamsByService = {
-			service1: [
-				['t', '${tag}'],
-				[
-					'buildargs',
-					'{"MY_VAR_1":"This is a variable","MY_VAR_2":"Also a variable","SERVICE1_VAR":"This is a service specific variable"}',
-				],
-				['labels', ''],
-			],
-			service2: [...commonComposeQueryParams, ['dockerfile', 'Dockerfile-alt']],
+			service1: Object.entries({
+				...commonComposeQueryParams,
+				buildargs:
+					'{"BARG1":"b1","barg2":"B2","MY_VAR_1":"This is a variable","MY_VAR_2":"Also a variable","SERVICE1_VAR":"This is a service specific variable"}',
+				cachefrom: '["my/img1","my/img2"]',
+			}),
+			service2: Object.entries({
+				...commonComposeQueryParams,
+				buildargs:
+					'{"BARG1":"b1","barg2":"B2","MY_VAR_1":"This is a variable","MY_VAR_2":"Also a variable"}',
+				cachefrom: '["my/img1","my/img2"]',
+				dockerfile: 'Dockerfile-alt',
+			}),
 		};
 		const expectedResponseLines: string[] = [
 			...commonResponseLines[responseFilename],
@@ -356,7 +417,7 @@ describe('balena build', function () {
 		}
 		docker.expectGetInfo({});
 		await testDockerBuildStream({
-			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol -G`,
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol -G -B BARG1=b1 -B barg2=B2 --cache-from my/img1,my/img2`,
 			dockerMock: docker,
 			expectedFilesByService,
 			expectedQueryParamsByService,
@@ -403,15 +464,15 @@ describe('balena build', function () {
 			'utf8',
 		);
 		const expectedQueryParamsByService = {
-			service1: [
-				['t', '${tag}'],
-				[
-					'buildargs',
+			service1: Object.entries({
+				...commonComposeQueryParams,
+				buildargs:
 					'{"MY_VAR_1":"This is a variable","MY_VAR_2":"Also a variable","SERVICE1_VAR":"This is a service specific variable"}',
-				],
-				['labels', ''],
-			],
-			service2: [...commonComposeQueryParams, ['dockerfile', 'Dockerfile-alt']],
+			}),
+			service2: Object.entries({
+				...commonComposeQueryParams,
+				dockerfile: 'Dockerfile-alt',
+			}),
 		};
 		const expectedResponseLines: string[] = [
 			...commonResponseLines[responseFilename],

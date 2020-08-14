@@ -115,7 +115,10 @@ ${dockerignoreHelp}
 		const logger = await Command.getLogger();
 		logger.logDebug('Parsing input...');
 
-		this.translateParams(params, options);
+		// `build` accepts `source` as a parameter, but compose expects it as an option
+		options.source = params.source;
+		delete params.source;
+
 		await this.validateOptions(options, sdk);
 
 		const app = await this.getAppAndResolveArch(options);
@@ -137,21 +140,6 @@ ${dockerignoreHelp}
 
 		logger.outputDeferredMessages();
 		logger.logSuccess('Build succeeded!');
-	}
-
-	protected translateParams(params: ArgsDef, options: FlagsDef) {
-		// Copy flags to those expected by other modules
-		options.arg = options.buildArg;
-		delete options.buildArg;
-		options['image-list'] = options['cache-from'];
-		delete options['cache-from'];
-
-		// `build` accepts `[source]` as a parameter, but compose expects it
-		// as an option. swap them here
-		if (options.source == null) {
-			options.source = params.source;
-		}
-		delete params.source;
 	}
 
 	protected async validateOptions(opts: FlagsDef, sdk: BalenaSDK) {
