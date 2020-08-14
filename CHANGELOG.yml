@@ -1,4 +1,52 @@
 - commits:
+    - subject: Update dependencies
+      hash: d7f49d2442bdf7860ed1ffd60d7c777d2e933429
+      body: |
+        Update balena-sdk from 15.3.0 to 15.3.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested:
+        - commits:
+            - subject: >-
+                Bump balena-request to fix breaking user's stored token on token
+                refresh
+              hash: 9befc8d0d60e4240c7c23df850669a9eac70fe50
+              body: |
+                Update balena-request from 11.1.0 to 11.1.1
+              footer:
+                Change-type: patch
+                change-type: patch
+                See: >-
+                  https://www.flowdock.com/app/rulemotion/resin-frontend/threads/XVvB7BhMFMXAXsQNwACFg5seFyQ
+                see: >-
+                  https://www.flowdock.com/app/rulemotion/resin-frontend/threads/XVvB7BhMFMXAXsQNwACFg5seFyQ
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested:
+                - commits:
+                    - subject: Stop refreshing the token on absolute urls
+                      hash: a61c8bb2a7c144748048e41b201f1ee2f7d6e7c7
+                      body: |
+                        Essentially reverting v11.0.1 but rejecting with a
+                        better error than before.
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                        See: 'https://github.com/balena-io/balena-ui/issues/3942'
+                        see: 'https://github.com/balena-io/balena-ui/issues/3942'
+                        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                      author: Thodoris Greasidis
+                  version: balena-request-11.1.1
+                  date: 2020-08-13T13:01:55.868Z
+          version: balena-sdk-15.3.1
+          date: 2020-08-13T13:40:31.151Z
+  version: 12.14.9
+  date: 2020-08-14T13:48:46.009Z
+- commits:
     - subject: 'build / push: Fix sudden process crash (update tar-utils dependency)'
       hash: 1ee12b70bcf777cff3ebcd969685aa6f4cdf5894
       body: ''
@@ -8,7 +56,7 @@
       author: Paulo Castro
       nested: []
   version: 12.14.8
-  date: 2020-08-13T22:50:21.376Z
+  date: 2020-08-13T22:14:01.721Z
 - commits:
     - subject: Update dependencies
       hash: 230677e5e897aff7f5694b321a286cd50f5ef728
