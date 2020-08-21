@@ -156,7 +156,7 @@ const capitanoDoc = {
 		},
 		{
 			title: 'Deploy',
-			files: ['build/actions-oclif/build.js', 'build/actions/deploy.js'],
+			files: ['build/actions-oclif/build.js', 'build/actions-oclif/deploy.js'],
 		},
 		{
 			title: 'Platform',

@@ -91,6 +91,7 @@ Implements the same feature as the "docker build --cache-from" option.`,
 	squash: flags.boolean({
 		description: 'Squash newly built layers into a single new layer',
 	}),
+	...dockerConnectionCliFlags,
 };
 
 export async function isBalenaEngine(docker: dockerode): Promise<boolean> {

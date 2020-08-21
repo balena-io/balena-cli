@@ -256,7 +256,7 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 - Deploy
 
 	- [build [source]](#build-source)
-	- [deploy &#60;appName&#62; [image]](#deploy-appname-image)
+	- [deploy &#60;appname&#62; [image]](#deploy-appname-image)
 
 - Platform
 
@@ -2488,6 +2488,30 @@ Don't use docker layer caching when building
 
 Squash newly built layers into a single new layer
 
+#### -P, --docker DOCKER
+
+Path to a local docker socket (e.g. /var/run/docker.sock)
+
+#### -h, --dockerHost DOCKERHOST
+
+Docker daemon hostname or IP address (dev machine or balena device) 
+
+#### -p, --dockerPort DOCKERPORT
+
+Docker daemon TCP port number (hint: 2375 for balena devices)
+
+#### --ca CA
+
+Docker host TLS certificate authority file
+
+#### --cert CERT
+
+Docker host TLS certificate file
+
+#### --key KEY
+
+Docker host TLS key file
+
 ## deploy &#60;appName&#62; [image]
 
 Usage: `deploy <appName> ([image] | --build [--source build-dir])`
@@ -2508,9 +2532,6 @@ will try to generate one.
 
 To deploy to an app on which you're a collaborator, use
 `balena deploy <appOwnerUsername>/<appName>`.
-
-When --build is used, all options supported by `balena build` are also supported
-by this command.
 
 REGISTRY SECRETS  
 The --registry-secrets option specifies a JSON or YAML file containing private
@@ -2591,25 +2612,35 @@ Examples:
 	$ balena deploy myApp --build --source myBuildDir/
 	$ balena deploy myApp myApp/myImage
 
+### Arguments
+
+#### APPNAME
+
+the name of the application to deploy to
+
+#### IMAGE
+
+the image to deploy
+
 ### Options
 
-#### --source, -s &#60;source&#62;
+#### -s, --source SOURCE
 
-Specify an alternate source directory; default is the working directory
+specify an alternate source directory; default is the working directory
 
-#### --build, -b
+#### -b, --build
 
-Force a rebuild before deploy
+force a rebuild before deploy
 
 #### --nologupload
 
-Don't upload build logs to the dashboard with image (if building)
+don't upload build logs to the dashboard with image (if building)
 
-#### --emulated, -e
+#### -e, --emulated
 
 Run an emulated build using Qemu
 
-#### --dockerfile &#60;Dockerfile&#62;
+#### --dockerfile DOCKERFILE
 
 Alternative Dockerfile name/path, relative to the source folder
 
@@ -2621,17 +2652,17 @@ No-op and deprecated since balena CLI v12.0.0. Build logs are now shown by defau
 
 Hide the image build log output (produce less verbose output)
 
-#### --gitignore, -g
+#### -g, --gitignore
 
 Consider .gitignore files in addition to the .dockerignore file. This reverts
 to the CLI v11 behavior/implementation (deprecated) if compatibility is required
 until your project can be adapted.
 
-#### --multi-dockerignore, -m
+#### -m, --multi-dockerignore
 
 Have each service use its own .dockerignore file. See "balena help build".
 
-#### --nogitignore, -G
+#### -G, --nogitignore
 
 No-op (default behavior) since balena CLI v12.0.0. See "balena help build".
 
@@ -2639,11 +2670,11 @@ No-op (default behavior) since balena CLI v12.0.0. See "balena help build".
 
 Disable project validation check of 'docker-compose.yml' file in parent folder
 
-#### --registry-secrets, -R &#60;secrets.yml|.json&#62;
+#### -R, --registry-secrets REGISTRY-SECRETS
 
 Path to a YAML or JSON file with passwords for a private Docker registry
 
-#### --convert-eol, -l
+#### -l, --convert-eol
 
 No-op and deprecated since balena CLI v12.0.0
 
@@ -2651,43 +2682,19 @@ No-op and deprecated since balena CLI v12.0.0
 
 Don't convert line endings from CRLF (Windows format) to LF (Unix format).
 
-#### --projectName, -n &#60;projectName&#62;
+#### -n, --projectName PROJECTNAME
 
 Specify an alternate project name; default is the directory name
 
-#### --docker, -P &#60;docker&#62;
-
-Path to a local docker socket (e.g. /var/run/docker.sock)
-
-#### --dockerHost, -h &#60;dockerHost&#62;
-
-Docker daemon hostname or IP address (dev machine or balena device) 
-
-#### --dockerPort, -p &#60;dockerPort&#62;
-
-Docker daemon TCP port number (hint: 2375 for balena devices)
-
-#### --ca &#60;ca&#62;
-
-Docker host TLS certificate authority file
-
-#### --cert &#60;cert&#62;
-
-Docker host TLS certificate file
-
-#### --key &#60;key&#62;
-
-Docker host TLS key file
-
-#### --tag, -t &#60;tag&#62;
+#### -t, --tag TAG
 
 The alias to the generated image
 
-#### --buildArg, -B &#60;arg&#62;
+#### -B, --buildArg BUILDARG
 
 Set a build-time variable (eg. "-B 'ARG=value'"). Can be specified multiple times.
 
-#### --cache-from &#60;image-list&#62;
+#### --cache-from CACHE-FROM
 
 Comma-separated list (no spaces) of image names for build cache resolution. Implements the same feature as the "docker build --cache-from" option.
 
@@ -2698,6 +2705,30 @@ Don't use docker layer caching when building
 #### --squash
 
 Squash newly built layers into a single new layer
+
+#### -P, --docker DOCKER
+
+Path to a local docker socket (e.g. /var/run/docker.sock)
+
+#### -h, --dockerHost DOCKERHOST
+
+Docker daemon hostname or IP address (dev machine or balena device) 
+
+#### -p, --dockerPort DOCKERPORT
+
+Docker daemon TCP port number (hint: 2375 for balena devices)
+
+#### --ca CA
+
+Docker host TLS certificate authority file
+
+#### --cert CERT
+
+Docker host TLS certificate file
+
+#### --key KEY
+
+Docker host TLS key file
 
 # Platform
 

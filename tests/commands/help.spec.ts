@@ -37,7 +37,7 @@ Primary commands:
     tunnel <deviceorapplication>            tunnel local ports to your balenaOS device
     preload <image>                         preload an app on a disk image (or Edison zip archive)
     build [source]                          build a project locally
-    deploy <appName> [image]                Deploy a single image or a multicontainer project to a balena application
+    deploy <appname> [image]                deploy a single image or a multicontainer project to a balena application
     join [deviceiporhostname]               move a local device to an application on another balena server
     leave [deviceiporhostname]              remove a local device from its balena application
     scan                                    scan for balenaOS devices on your local network
