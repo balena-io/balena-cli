@@ -5,6 +5,38 @@
     {
       "commits": [
         {
+          "subject": "Shorten `env add` command summary to prevent wrapping",
+          "hash": "358a9092145f48456278105bdf35da91f5e8f49d",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        },
+        {
+          "subject": "Fix help template bug affecting discrete value options",
+          "hash": "eb74ca631aac80f03418186ba7bd78cff0d68686",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.14.11",
+      "date": "2020-08-21T10:49:41.813Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "build: Fix --buildArg and --cache-from options (broken since v12.9.9)",
           "hash": "af1c4b0d03aef17faa6873aa89164a37f4e44c77",
           "body": "",
@@ -18048,7 +18080,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 259,
+  "stars": 260,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -18147,36 +18179,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-08-14T22:49:55Z",
+  "lastCommitDate": "2020-08-21T11:28:43Z",
   "latestRelease": {
-    "tagName": "v12.14.10",
+    "tagName": "v12.14.11",
     "asssets": [
       {
-        "name": "balena-cli-v12.14.10-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.10/balena-cli-v12.14.10-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.14.11-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.11/balena-cli-v12.14.11-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.14.10-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.10/balena-cli-v12.14.10-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.14.11-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.11/balena-cli-v12.14.11-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.14.10-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.10/balena-cli-v12.14.10-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.14.11-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.11/balena-cli-v12.14.11-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.14.10-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.10/balena-cli-v12.14.10-windows-x64-installer.exe"
+        "name": "balena-cli-v12.14.11-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.11/balena-cli-v12.14.11-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.14.10-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.10/balena-cli-v12.14.10-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.14.11-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.11/balena-cli-v12.14.11-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 291,
+    "numberOfIssues": 293,
     "latestIssues": [
+      {
+        "title": "Convert deploy command to oclif",
+        "url": "https://github.com/balena-io/balena-cli/pull/2000"
+      },
+      {
+        "title": "Balena-push on PiSupply Lora Gateway Hat",
+        "url": "https://github.com/balena-io/balena-cli/issues/1999"
+      },
+      {
+        "title": "Balena CLI version > v12.13.0 incompatible with last openbalena",
+        "url": "https://github.com/balena-io/balena-cli/issues/1998"
+      },
       {
         "title": "Preload boot splash screen doesn't work on newer balenaOS versions",
         "url": "https://github.com/balena-io/balena-cli/issues/1993"
@@ -18244,22 +18288,10 @@
       {
         "title": "Add an error when generating config with different device type",
         "url": "https://github.com/balena-io/balena-cli/issues/1919"
-      },
-      {
-        "title": "Add a `--device-type` parameter to the `belana device register` command",
-        "url": "https://github.com/balena-io/balena-cli/issues/1918"
-      },
-      {
-        "title": "Allow setting `release_version` during a deploy/push operation",
-        "url": "https://github.com/balena-io/balena-cli/issues/1908"
-      },
-      {
-        "title": "Update @types/stream-to-promise",
-        "url": "https://github.com/balena-io/balena-cli/pull/1903"
       }
     ]
   },
-  "version": "12.14.10",
+  "version": "12.14.11",
   "screenshot": null,
   "logo": null
 }
