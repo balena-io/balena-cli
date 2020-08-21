@@ -1,4 +1,27 @@
 - commits:
+    - subject: Shorten `env add` command summary to prevent wrapping
+      hash: 358a9092145f48456278105bdf35da91f5e8f49d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+    - subject: Fix help template bug affecting discrete value options
+      hash: eb74ca631aac80f03418186ba7bd78cff0d68686
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.14.11
+  date: 2020-08-21T10:49:41.813Z
+- commits:
     - subject: 'build: Fix --buildArg and --cache-from options (broken since v12.9.9)'
       hash: af1c4b0d03aef17faa6873aa89164a37f4e44c77
       body: ''
