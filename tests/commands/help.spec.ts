@@ -67,7 +67,7 @@ Additional commands:
     device rm <uuid(s)>                   remove one or more devices
     device shutdown <uuid>                shutdown a device
     devices supported                     list the supported device types (like 'raspberrypi3' or 'intel-nuc')
-    env add <name> [value]                add an environment or config variable to one or more applications, devices or services
+    env add <name> [value]                add env or config variable to application(s), device(s) or service(s)
     env rename <id> <value>               change the value of a config or env var for an app, device or service
     env rm <id>                           remove a config or env var from an application, device or service
     envs                                  list the environment or config variables of an application, device or service
