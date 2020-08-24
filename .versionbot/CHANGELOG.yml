@@ -1,4 +1,17 @@
 - commits:
+    - subject: Convert deploy command to oclif
+      hash: 8cb413c1c95263c5c0ffa9501460949ec00736c7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.14.12
+  date: 2020-08-22T10:01:51.813Z
+- commits:
     - subject: Shorten `env add` command summary to prevent wrapping
       hash: 358a9092145f48456278105bdf35da91f5e8f49d
       body: ''
