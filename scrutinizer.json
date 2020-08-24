@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Convert deploy command to oclif",
+          "hash": "8cb413c1c95263c5c0ffa9501460949ec00736c7",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.14.12",
+      "date": "2020-08-22T10:01:51.813Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Shorten `env add` command summary to prevent wrapping",
           "hash": "358a9092145f48456278105bdf35da91f5e8f49d",
           "body": "",
@@ -18080,7 +18099,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 260,
+  "stars": 262,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -18179,29 +18198,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-08-21T11:28:43Z",
+  "lastCommitDate": "2020-08-24T10:14:10Z",
   "latestRelease": {
-    "tagName": "v12.14.11",
+    "tagName": "v12.14.12",
     "asssets": [
       {
-        "name": "balena-cli-v12.14.11-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.11/balena-cli-v12.14.11-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.14.12-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.12/balena-cli-v12.14.12-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.14.11-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.11/balena-cli-v12.14.11-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.14.12-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.12/balena-cli-v12.14.12-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.14.11-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.11/balena-cli-v12.14.11-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.14.12-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.12/balena-cli-v12.14.12-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.14.11-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.11/balena-cli-v12.14.11-windows-x64-installer.exe"
+        "name": "balena-cli-v12.14.12-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.12/balena-cli-v12.14.12-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.14.11-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.11/balena-cli-v12.14.11-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.14.12-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.12/balena-cli-v12.14.12-windows-x64-standalone.zip"
       }
     ]
   },
@@ -18210,8 +18229,8 @@
     "numberOfIssues": 293,
     "latestIssues": [
       {
-        "title": "Convert deploy command to oclif",
-        "url": "https://github.com/balena-io/balena-cli/pull/2000"
+        "title": "Ensure options ordered alphabetically in help / docs.",
+        "url": "https://github.com/balena-io/balena-cli/issues/2002"
       },
       {
         "title": "Balena-push on PiSupply Lora Gateway Hat",
@@ -18291,7 +18310,7 @@
       }
     ]
   },
-  "version": "12.14.11",
+  "version": "12.14.12",
   "screenshot": null,
   "logo": null
 }

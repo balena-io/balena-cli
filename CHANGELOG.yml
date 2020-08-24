@@ -1,4 +1,17 @@
 - commits:
+    - subject: Convert deploy command to oclif
+      hash: 8cb413c1c95263c5c0ffa9501460949ec00736c7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.14.12
+  date: 2020-08-24T10:13:09.121Z
+- commits:
     - subject: Shorten `env add` command summary to prevent wrapping
       hash: 358a9092145f48456278105bdf35da91f5e8f49d
       body: ''
@@ -20,7 +33,7 @@
       author: Scott Lowe
       nested: []
   version: 12.14.11
-  date: 2020-08-21T11:27:52.562Z
+  date: 2020-08-21T10:49:41.813Z
 - commits:
     - subject: 'build: Fix --buildArg and --cache-from options (broken since v12.9.9)'
       hash: af1c4b0d03aef17faa6873aa89164a37f4e44c77
