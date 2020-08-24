@@ -49,9 +49,6 @@ capitano.command(actions.help.help);
 // ---------- Preload Module ----------
 capitano.command(actions.preload);
 
-// ------------ Local build and deploy -------
-capitano.command(actions.deploy);
-
 export function run(argv: string[]) {
 	const cli = capitano.parse(argv.slice(2));
 	const runCommand = function () {

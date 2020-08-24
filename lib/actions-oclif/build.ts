@@ -17,7 +17,6 @@
 
 import { flags } from '@oclif/command';
 import Command from '../command';
-import * as cf from '../utils/common-flags';
 import { getBalenaSdk } from '../utils/lazy';
 import * as compose from '../utils/compose';
 import type { Application, ApplicationType, BalenaSDK } from 'balena-sdk';
@@ -94,7 +93,9 @@ ${dockerignoreHelp}
 		}),
 		...composeCliFlags,
 		...dockerCliFlags,
-		help: cf.help,
+		// NOTE: Not supporting -h for help, because of clash with -h in DockerCliFlags
+		// Revisit this in future release.
+		help: flags.help({}),
 	};
 
 	public static primary = true;

@@ -142,18 +142,19 @@ function checkDeletedCommand(argvSlice: string[]): void {
 }
 
 export const convertedCommands = [
+	'api-key:generate',
 	'app',
 	'app:create',
 	'app:restart',
 	'app:rm',
 	'apps',
-	'api-key:generate',
+	'build',
 	'config:generate',
 	'config:inject',
 	'config:read',
 	'config:reconfigure',
 	'config:write',
-	'build',
+	'deploy',
 	'device',
 	'device:identify',
 	'device:init',
