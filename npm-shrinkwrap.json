@@ -2699,19 +2699,19 @@
       }
     },
     "balena-preload": {
-      "version": "10.2.4",
-      "resolved": "https://registry.npmjs.org/balena-preload/-/balena-preload-10.2.4.tgz",
-      "integrity": "sha512-YcbuAeycp3PO1GZXD/NsRRpMvmSN8FFb8SzAmJCPn0k7S7Gu8YsdYuh6Xt1KUhokd7VNJoRovFN74LThPgtu/g==",
+      "version": "10.3.1",
+      "resolved": "https://registry.npmjs.org/balena-preload/-/balena-preload-10.3.1.tgz",
+      "integrity": "sha512-pz0IRzi2ByjgGROO9ryMlRI24RIp1IMfx7zcLyf99cOveOPFwCgu0N2CE8kkq9hnmlJuqqDoOYLqkoTJ5zv8xw==",
       "requires": {
         "archiver": "^3.1.1",
-        "balena-sdk": "^15.2.1",
+        "balena-sdk": "^15.3.1",
         "bluebird": "^3.7.2",
         "compare-versions": "^3.6.0",
-        "docker-progress": "^3.0.5",
+        "docker-progress": "^4.0.3",
         "dockerode": "^2.5.8",
         "get-folder-size": "^2.0.1",
         "get-port": "^3.2.0",
-        "lodash": "^4.17.19",
+        "lodash": "^4.17.20",
         "node-cleanup": "^2.1.2",
         "resin-cli-visuals": "^1.7.0",
         "tar-fs": "^2.1.0",
@@ -2720,23 +2720,18 @@
       },
       "dependencies": {
         "docker-progress": {
-          "version": "3.0.5",
-          "resolved": "https://registry.npmjs.org/docker-progress/-/docker-progress-3.0.5.tgz",
-          "integrity": "sha512-uvNwbfTw0G8kDr21hL0E2J4FEt9m1y2n5rMWGVZuWH1iYkFlbABtPe3fQ9oEZyVbhlLbvalRSfL7PzpMlQ7CQA==",
+          "version": "4.0.3",
+          "resolved": "https://registry.npmjs.org/docker-progress/-/docker-progress-4.0.3.tgz",
+          "integrity": "sha512-RgL8bL/TPe/nmb03yyiL4gS19gu6fSCCZxR+3ZsD93XYghFn/M9dGP//b53Kw20yoBo0vyg6uqSrQ388PRU1WQ==",
           "requires": {
-            "@types/bluebird": "^3.5.18",
+            "@types/bluebird": "^3.5.30",
             "JSONStream": "^1.3.5",
-            "bluebird": "^3.0.0",
-            "docker-toolbelt": "^3.0.1",
-            "lodash": "^4.0.0",
-            "request": "^2.65.0",
-            "semver": "^5.3.0"
+            "bluebird": "^3.7.2",
+            "docker-toolbelt": "^3.3.7",
+            "lodash": "^4.17.15",
+            "request": "^2.88.2",
+            "semver": "^7.1.3"
           }
-        },
-        "semver": {
-          "version": "5.7.1",
-          "resolved": "https://registry.npmjs.org/semver/-/semver-5.7.1.tgz",
-          "integrity": "sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ=="
         },
         "tmp": {
           "version": "0.0.33",
