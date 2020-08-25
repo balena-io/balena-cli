@@ -359,10 +359,31 @@ export function inferOrSelectDevice(preferredUuid: string) {
 	});
 }
 
+async function getApplicationByIdOrName(
+	sdk: BalenaSdk.BalenaSDK,
+	idOrName: string,
+) {
+	if (validation.looksLikeInteger(idOrName)) {
+		try {
+			return await sdk.models.application.get(Number(idOrName));
+		} catch (error) {
+			const { BalenaApplicationNotFound } = await import('balena-errors');
+			if (!instanceOf(error, BalenaApplicationNotFound)) {
+				throw error;
+			}
+		}
+	}
+	return await sdk.models.application.get(idOrName);
+}
+
 export async function getOnlineTargetUuid(
 	sdk: BalenaSdk.BalenaSDK,
 	applicationOrDevice: string,
 ) {
+	// applicationOrDevice can be:
+	// * an application name
+	// * an application ID (integer)
+	// * a device uuid
 	const Logger = await import('../utils/logger');
 	const logger = Logger.getLogger();
 	const appTest = validation.validateApplicationName(applicationOrDevice);
@@ -390,9 +411,9 @@ export async function getOnlineTargetUuid(
 	// otherwise, it may be a device OR an application...
 	try {
 		logger.logDebug(
-			`Fetching application by name ${applicationOrDevice} (${typeof applicationOrDevice})`,
+			`Fetching application by ID or name ${applicationOrDevice} (${typeof applicationOrDevice})`,
 		);
-		const app = await sdk.models.application.get(applicationOrDevice);
+		const app = await getApplicationByIdOrName(sdk, applicationOrDevice);
 		const devices = await sdk.models.device.getAllByApplication(app.id, {
 			$filter: { is_online: true },
 		});
