@@ -15,5 +15,3 @@ limitations under the License.
 */
 
 export * as help from './help';
-
-export { preload } from './preload';

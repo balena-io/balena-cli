@@ -46,9 +46,6 @@ capitano.globalOption({
 // ---------- Help Module ----------
 capitano.command(actions.help.help);
 
-// ---------- Preload Module ----------
-capitano.command(actions.preload);
-
 export function run(argv: string[]) {
 	const cli = capitano.parse(argv.slice(2));
 	const runCommand = function () {
