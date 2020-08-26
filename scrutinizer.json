@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Fix device UUID parsing for 'balena tunnel'",
+          "hash": "99a478ee39a7777c24d98593b0fbb5e8676534bb",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Alexis Svinartchouk",
+          "nested": []
+        }
+      ],
+      "version": "12.14.14",
+      "date": "2020-08-26T13:12:20.494Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "preload: Fix splash image file name for balenaOS >= 2.53.0",
           "hash": "f772957d29709d30340901751a4d0324f11f83bc",
           "body": "",
@@ -18217,29 +18234,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-08-26T10:40:27Z",
+  "lastCommitDate": "2020-08-26T14:13:46Z",
   "latestRelease": {
-    "tagName": "v12.14.13",
+    "tagName": "v12.14.14",
     "asssets": [
       {
-        "name": "balena-cli-v12.14.13-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.13/balena-cli-v12.14.13-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.14.14-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.14/balena-cli-v12.14.14-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.14.13-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.13/balena-cli-v12.14.13-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.14.14-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.14/balena-cli-v12.14.14-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.14.13-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.13/balena-cli-v12.14.13-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.14.14-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.14/balena-cli-v12.14.14-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.14.13-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.13/balena-cli-v12.14.13-windows-x64-installer.exe"
+        "name": "balena-cli-v12.14.14-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.14/balena-cli-v12.14.14-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.14.13-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.13/balena-cli-v12.14.13-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.14.14-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.14/balena-cli-v12.14.14-windows-x64-standalone.zip"
       }
     ]
   },
@@ -18248,16 +18265,16 @@
     "numberOfIssues": 295,
     "latestIssues": [
       {
+        "title": "`preload` does not update splash image if \"Nothing new to preload\"",
+        "url": "https://github.com/balena-io/balena-cli/issues/2008"
+      },
+      {
+        "title": "Convert command preload to oclif, typescript",
+        "url": "https://github.com/balena-io/balena-cli/pull/2007"
+      },
+      {
         "title": "`os versions` and `os download` not listing balenaOS ESR releases",
         "url": "https://github.com/balena-io/balena-cli/issues/2005"
-      },
-      {
-        "title": "Don't try to parse deviceOrApplication as an integer in the tunnel action",
-        "url": "https://github.com/balena-io/balena-cli/pull/2004"
-      },
-      {
-        "title": "`balena tunnel <short uuid>` fails if the uuid can be parsed as an integer",
-        "url": "https://github.com/balena-io/balena-cli/issues/2003"
       },
       {
         "title": "Ensure options ordered alphabetically in help / docs.",
@@ -18329,7 +18346,7 @@
       }
     ]
   },
-  "version": "12.14.13",
+  "version": "12.14.14",
   "screenshot": null,
   "logo": null
 }
