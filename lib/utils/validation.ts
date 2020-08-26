@@ -75,9 +75,13 @@ export function validateUuid(input: string): boolean {
 	return validateLongUuid(input) || validateShortUuid(input);
 }
 
-export function parseAsInteger(input: string, paramName?: string) {
+export function looksLikeInteger(input: string) {
 	// Allow only digits, no leading 0
-	if (!/^(0|[1-9][0-9]*)$/.test(input)) {
+	return /^(?:0|[1-9][0-9]*)$/.test(input);
+}
+
+export function parseAsInteger(input: string, paramName?: string) {
+	if (!looksLikeInteger(input)) {
 		const message =
 			paramName == null
 				? 'The parameter must be an integer.'

@@ -28,7 +28,6 @@ import { getOnlineTargetUuid } from '../utils/patterns';
 import * as _ from 'lodash';
 import { tunnelConnectionToDevice } from '../utils/tunnel';
 import { createServer, Server, Socket } from 'net';
-import { tryAsInteger } from '../utils/validation';
 import { IArg } from '@oclif/parser/lib/args';
 
 interface FlagsDef {
@@ -78,7 +77,6 @@ export default class TunnelCmd extends Command {
 		{
 			name: 'deviceOrApplication',
 			description: 'device uuid or application name/id',
-			parse: (x) => tryAsInteger(x),
 			required: true,
 		},
 	];
