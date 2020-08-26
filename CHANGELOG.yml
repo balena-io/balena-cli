@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'preload: Fix splash image file name for balenaOS >= 2.53.0'
+      hash: f772957d29709d30340901751a4d0324f11f83bc
+      body: ''
+      footer:
+        Resolves: '#1993'
+        resolves: '#1993'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.14.13
+  date: 2020-08-26T10:39:42.641Z
+- commits:
     - subject: Convert deploy command to oclif
       hash: 8cb413c1c95263c5c0ffa9501460949ec00736c7
       body: ''
@@ -10,7 +23,7 @@
       author: Scott Lowe
       nested: []
   version: 12.14.12
-  date: 2020-08-24T10:13:09.121Z
+  date: 2020-08-22T10:01:51.813Z
 - commits:
     - subject: Shorten `env add` command summary to prevent wrapping
       hash: 358a9092145f48456278105bdf35da91f5e8f49d

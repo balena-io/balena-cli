@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "preload: Fix splash image file name for balenaOS >= 2.53.0",
+          "hash": "f772957d29709d30340901751a4d0324f11f83bc",
+          "body": "",
+          "footer": {
+            "Resolves": "#1993",
+            "resolves": "#1993",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.14.13",
+      "date": "2020-08-26T09:54:08.232Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert deploy command to oclif",
           "hash": "8cb413c1c95263c5c0ffa9501460949ec00736c7",
           "body": "",
@@ -18099,7 +18118,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 262,
+  "stars": 263,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -18198,36 +18217,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-08-24T10:14:10Z",
+  "lastCommitDate": "2020-08-26T10:40:27Z",
   "latestRelease": {
-    "tagName": "v12.14.12",
+    "tagName": "v12.14.13",
     "asssets": [
       {
-        "name": "balena-cli-v12.14.12-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.12/balena-cli-v12.14.12-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.14.13-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.13/balena-cli-v12.14.13-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.14.12-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.12/balena-cli-v12.14.12-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.14.13-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.13/balena-cli-v12.14.13-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.14.12-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.12/balena-cli-v12.14.12-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.14.13-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.13/balena-cli-v12.14.13-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.14.12-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.12/balena-cli-v12.14.12-windows-x64-installer.exe"
+        "name": "balena-cli-v12.14.13-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.13/balena-cli-v12.14.13-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.14.12-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.12/balena-cli-v12.14.12-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.14.13-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.13/balena-cli-v12.14.13-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 293,
+    "numberOfIssues": 295,
     "latestIssues": [
+      {
+        "title": "`os versions` and `os download` not listing balenaOS ESR releases",
+        "url": "https://github.com/balena-io/balena-cli/issues/2005"
+      },
+      {
+        "title": "Don't try to parse deviceOrApplication as an integer in the tunnel action",
+        "url": "https://github.com/balena-io/balena-cli/pull/2004"
+      },
+      {
+        "title": "`balena tunnel <short uuid>` fails if the uuid can be parsed as an integer",
+        "url": "https://github.com/balena-io/balena-cli/issues/2003"
+      },
       {
         "title": "Ensure options ordered alphabetically in help / docs.",
         "url": "https://github.com/balena-io/balena-cli/issues/2002"
@@ -18239,10 +18270,6 @@
       {
         "title": "Balena CLI version > v12.13.0 incompatible with last openbalena",
         "url": "https://github.com/balena-io/balena-cli/issues/1998"
-      },
-      {
-        "title": "Preload boot splash screen doesn't work on newer balenaOS versions",
-        "url": "https://github.com/balena-io/balena-cli/issues/1993"
       },
       {
         "title": "POC: Using cli-ux table",
@@ -18299,18 +18326,10 @@
       {
         "title": "push <ip-address>: incorrect error message when device is not in local mode",
         "url": "https://github.com/balena-io/balena-cli/issues/1942"
-      },
-      {
-        "title": "Enable `balena deploy` to update individual images in a multicontainer app",
-        "url": "https://github.com/balena-io/balena-cli/issues/1923"
-      },
-      {
-        "title": "Add an error when generating config with different device type",
-        "url": "https://github.com/balena-io/balena-cli/issues/1919"
       }
     ]
   },
-  "version": "12.14.12",
+  "version": "12.14.13",
   "screenshot": null,
   "logo": null
 }
