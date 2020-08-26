@@ -1,4 +1,15 @@
 - commits:
+    - subject: Fix device UUID parsing for 'balena tunnel'
+      hash: 99a478ee39a7777c24d98593b0fbb5e8676534bb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Alexis Svinartchouk
+      nested: []
+  version: 12.14.14
+  date: 2020-08-26T13:12:20.494Z
+- commits:
     - subject: 'preload: Fix splash image file name for balenaOS >= 2.53.0'
       hash: f772957d29709d30340901751a4d0324f11f83bc
       body: ''
