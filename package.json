@@ -111,7 +111,7 @@
     }
   },
   "devDependencies": {
-    "@balena/lint": "^5.1.0",
+    "@balena/lint": "^5.2.0",
     "@oclif/config": "^1.17.0",
     "@oclif/dev-cli": "^1.22.2",
     "@oclif/parser": "^3.8.5",
@@ -180,14 +180,14 @@
     "mock-require": "^3.0.3",
     "nock": "^12.0.3",
     "parse-link-header": "~1.0.1",
-    "pkg": "^4.4.9",
     "pinejs-client-core": "^6.7.3",
+    "pkg": "^4.4.9",
     "publish-release": "^1.6.1",
     "rewire": "^4.0.1",
     "simple-git": "^1.132.0",
     "sinon": "^9.0.3",
     "ts-node": "^8.10.2",
-    "typescript": "^3.9.7"
+    "typescript": "^4.0.2"
   },
   "dependencies": {
     "@balena/dockerignore": "^1.0.2",

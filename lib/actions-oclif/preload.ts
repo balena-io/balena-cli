@@ -40,17 +40,11 @@ import type { ResourceExpand } from 'pinejs-client-core';
 
 interface FlagsDef extends DockerConnectionCliFlags {
 	app?: string;
-	appId?: string; // Internal use.
 	commit?: string;
 	'splash-image'?: string;
-	splashImage?: string; // Internal use.
 	'dont-check-arch': boolean;
-	dontCheckArch?: boolean; // Internal use.
 	'pin-device-to-release': boolean;
-	pinDevice?: boolean; // Internal use.
 	'add-certificate'?: string;
-	image?: string; // Internal use.
-	proxy?: string; // Internal use.
 	help: void;
 }
 
@@ -169,12 +163,9 @@ Can be repeated to add multiple certificates.\
 			name: string;
 			percentage: number;
 		}) {
-			let progressBar = progressBars[event.name];
-			if (!progressBar) {
-				progressBar = progressBars[event.name] = new visuals.Progress(
-					event.name,
-				);
-			}
+			const progressBar = (progressBars[event.name] ??= new visuals.Progress(
+				event.name,
+			));
 			return progressBar.update({ percentage: event.percentage });
 		};
 
@@ -183,10 +174,9 @@ Can be repeated to add multiple certificates.\
 		} = {};
 
 		const spinnerHandler = function (event: { name: string; action: string }) {
-			let spinner = spinners[event.name];
-			if (!spinner) {
-				spinner = spinners[event.name] = new visuals.Spinner(event.name);
-			}
+			const spinner = (spinners[event.name] ??= new visuals.Spinner(
+				event.name,
+			));
 			if (event.action === 'start') {
 				return spinner.start();
 			} else {
@@ -195,26 +185,22 @@ Can be repeated to add multiple certificates.\
 			}
 		};
 
-		options.commit = this.isCurrentCommit(options.commit || '')
+		const commit = this.isCurrentCommit(options.commit || '')
 			? 'latest'
 			: options.commit;
-		options.image = params.image;
-		options.appId = options.app;
-		delete options.app;
+		const image = params.image;
+		const appId = options.app;
 
-		options.splashImage = options['splash-image'];
-		delete options['splash-image'];
+		const splashImage = options['splash-image'];
 
-		options.dontCheckArch = options['dont-check-arch'] || false;
-		delete options['dont-check-arch'];
-		if (options.dontCheckArch && !options.appId) {
+		const dontCheckArch = options['dont-check-arch'] || false;
+		const pinDevice = options['pin-device-to-release'] || false;
+
+		if (dontCheckArch && !appId) {
 			throw new ExpectedError(
 				'You need to specify an app id if you disable the architecture check.',
 			);
 		}
-
-		options.pinDevice = options['pin-device-to-release'] || false;
-		delete options['pin-device-to-release'];
 
 		let certificates: string[];
 		if (Array.isArray(options['add-certificate'])) {
@@ -236,13 +222,13 @@ Can be repeated to add multiple certificates.\
 		const preloader = new balenaPreload.Preloader(
 			null,
 			docker,
-			options.appId,
-			options.commit,
-			options.image,
-			options.splashImage,
-			options.proxy, // TODO: Currently always undefined, investigate approach in ssh command.
-			options.dontCheckArch,
-			options.pinDevice,
+			appId,
+			commit,
+			image,
+			splashImage,
+			undefined, // TODO: Currently always undefined, investigate approach in ssh command.
+			dontCheckArch,
+			pinDevice,
 			certificates,
 		);
 
@@ -270,7 +256,13 @@ Can be repeated to add multiple certificates.\
 		try {
 			await new Promise((resolve, reject) => {
 				preloader.on('error', reject);
-				resolve(this.prepareAndPreload(preloader, balena, options));
+				resolve(
+					this.prepareAndPreload(preloader, balena, {
+						appId,
+						commit,
+						pinDevice,
+					}),
+				);
 			});
 		} catch (err) {
 			if (instanceOf(err, balena.errors.BalenaError)) {
@@ -494,7 +486,11 @@ Would you like to disable automatic updates for this application now?\
 	async prepareAndPreload(
 		preloader: Preloader,
 		balenaSdk: BalenaSDK,
-		options: FlagsDef,
+		options: {
+			appId?: string;
+			commit?: string;
+			pinDevice: boolean;
+		},
 	) {
 		await preloader.prepare();
 
@@ -543,7 +539,7 @@ Would you like to disable automatic updates for this application now?\
 		await this.offerToDisableAutomaticUpdates(
 			application,
 			commit,
-			options.pinDevice!,
+			options.pinDevice,
 		);
 
 		// All options are ready: preload the image.
