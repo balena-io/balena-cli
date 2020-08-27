@@ -1966,58 +1966,64 @@ Examples:
 	$ balena preload balena.img --app 1234 --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image image.png
 	$ balena preload balena.img
 
+### Arguments
+
+#### IMAGE
+
+the image file path
+
 ### Options
 
-#### --app, -a &#60;appId&#62;
+#### -a, --app APP
 
-Name, slug or numeric ID of the application to preload
+name, slug or numeric ID of the application to preload
 
-#### --commit, -c &#60;hash&#62;
+#### -c, --commit COMMIT
 
 The commit hash for a specific application release to preload, use "current" to specify the current
 release (ignored if no appId is given). The current release is usually also the latest, but can be
 manually pinned using https://github.com/balena-io-projects/staged-releases .
 
-#### --splash-image, -s &#60;splashImage.png&#62;
+#### -s, --splash-image SPLASH-IMAGE
 
 path to a png image to replace the splash screen
 
 #### --dont-check-arch
 
-Disables check for matching architecture in image and application
+disables check for matching architecture in image and application
 
-#### --pin-device-to-release, -p
+#### -p, --pin-device-to-release
 
-Pin the preloaded device to the preloaded release on provision
+pin the preloaded device to the preloaded release on provision
 
-#### --add-certificate &#60;certificate.crt&#62;
+#### --add-certificate ADD-CERTIFICATE
 
 Add the given certificate (in PEM format) to /etc/ssl/certs in the preloading container.
 The file name must end with '.crt' and must not be already contained in the preloader's
 /etc/ssl/certs folder.
 Can be repeated to add multiple certificates.
 
-#### --docker, -P &#60;docker&#62;
+#### -P, --docker DOCKER
 
 Path to a local docker socket (e.g. /var/run/docker.sock)
 
-#### --dockerHost, -h &#60;dockerHost&#62;
+#### -h, --dockerHost DOCKERHOST
 
 Docker daemon hostname or IP address (dev machine or balena device) 
 
-#### --dockerPort &#60;dockerPort&#62;
+#### --dockerPort DOCKERPORT
 
 Docker daemon TCP port number (hint: 2375 for balena devices)
 
-#### --ca &#60;ca&#62;
+#### --ca CA
 
 Docker host TLS certificate authority file
 
-#### --cert &#60;cert&#62;
+#### --cert CERT
 
 Docker host TLS certificate file
 
-#### --key &#60;key&#62;
+#### --key KEY
 
 Docker host TLS key file
 

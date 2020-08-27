@@ -137,7 +137,7 @@ const capitanoDoc = {
 		},
 		{
 			title: 'Preload',
-			files: ['build/actions/preload.js'],
+			files: ['build/actions-oclif/preload.js'],
 		},
 		{
 			title: 'Push',

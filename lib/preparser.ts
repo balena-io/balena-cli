@@ -191,6 +191,7 @@ export const convertedCommands = [
 	'os:versions',
 	'os:download',
 	'os:initialize',
+	'preload',
 	'push',
 	'scan',
 	'settings',

@@ -12302,9 +12302,9 @@
       "integrity": "sha1-5aSs0sEB/fPZpNB/DbxNtJ3SgXY="
     },
     "pinejs-client-core": {
-      "version": "6.7.1",
-      "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-6.7.1.tgz",
-      "integrity": "sha512-xFNgRtJQmpwUXV1Ze7LqtGzLAxhgDJa+T5O8Ys2v8t3cnoBg6gYdpCd6R8UF46+8vXRBOtP5fCwo7hSQPaBpPA==",
+      "version": "6.7.3",
+      "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-6.7.3.tgz",
+      "integrity": "sha512-VXX/EpbDC/LiEPix/S9gENsaruoa2N0GHzmEbf9jYZ7qhwGNJjGlnQXQ1AnE/cjHYgHOo2RnMYKJ+iBakFgnWQ==",
       "requires": {
         "@balena/es-version": "^1.0.0"
       }
