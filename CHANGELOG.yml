@@ -1,4 +1,112 @@
 - commits:
+    - subject: 'preload: Improve the typings'
+      hash: 2e1570149df1ba7f5b89884d725eaf92ffbbad0e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Depends-on: 'https://github.com/balena-io/balena-sdk/pull/980'
+        depends-on: 'https://github.com/balena-io/balena-sdk/pull/980'
+        See: >-
+          https://github.com/balena-io/balena-cli/pull/2007#discussion_r478330624
+        see: >-
+          https://github.com/balena-io/balena-cli/pull/2007#discussion_r478330624
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Update balena-sdk to 15.3.7
+      hash: c647989054b3e3b48d053144c8dd550abcbc463d
+      body: |
+        Update balena-sdk from 15.3.1 to 15.3.7
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: 'Improve $orderby typing to allow `[{a: ''desc''}, {b: ''asc''}]`'
+              hash: 0ded115ec8609c17a73f0dea6ab0cc8eea5fb530
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+              nested: []
+          version: balena-sdk-15.3.7
+          date: 2020-08-27T11:00:20.808Z
+        - commits:
+            - subject: Document how to use with pkg
+              hash: ebe99cda636c5c513236a473c6e45d6b8eb49a09
+              body: ''
+              footer:
+                Resolves: '#973'
+                resolves: '#973'
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.3.6
+          date: 2020-08-26T21:39:20.309Z
+        - commits:
+            - subject: Use a more semantic parameter name for device.getDeviceSlug
+              hash: 8e1a76bb152d529e336b4056c9588ae0bcb690c2
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.3.5
+          date: 2020-08-26T16:37:20.927Z
+        - commits:
+            - subject: >-
+                tests: Update the tests for the new maximum application name
+                size
+              hash: 19f3c01a03c272875702676d40b3408642f90b2b
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.3.4
+          date: 2020-08-26T11:43:20.617Z
+        - commits:
+            - subject: 'typings: Fix nested $count support in the strict pine variant'
+              hash: c3c08ab4665acdfad675e65a78162eabaaa71b11
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.3.3
+          date: 2020-08-21T17:38:00.841Z
+        - commits:
+            - subject: Update TypeScript to 4.0
+              hash: 606f4c02972cf656b261e67f49a2b2af8e6dd292
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.3.2
+          date: 2020-08-20T18:20:29.879Z
+  version: 12.14.17
+  date: 2020-08-27T14:49:50.182Z
+- commits:
     - subject: Update to typescript 4.0
       hash: 787966a0b61abf3d94a16ca407b42bf05abfbae2
       body: ''
@@ -8,7 +116,7 @@
       author: Pagan Gazzard
       nested: []
   version: 12.14.16
-  date: 2020-08-27T12:37:03.677Z
+  date: 2020-08-27T10:53:30.252Z
 - commits:
     - subject: 'Convert command preload to oclif, typescript'
       hash: d21a18f353c5d9cf9b47e9ed85c15c635d44a44e
