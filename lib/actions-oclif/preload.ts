@@ -30,13 +30,12 @@ import type {
 	Application,
 	BalenaSDK,
 	DeviceTypeJson,
-	PineOptions,
+	PineExpand,
 	Release,
 } from 'balena-sdk';
 import type { Preloader } from 'balena-preload';
 import { parseAsInteger } from '../utils/validation';
 import { ExpectedError } from '../errors';
-import type { ResourceExpand } from 'pinejs-client-core';
 
 interface FlagsDef extends DockerConnectionCliFlags {
 	app?: string;
@@ -278,7 +277,7 @@ Can be repeated to add multiple certificates.\
 		}
 	}
 
-	readonly applicationExpandOptions: ResourceExpand = {
+	readonly applicationExpandOptions: PineExpand<Application> = {
 		owns__release: {
 			$select: ['id', 'commit', 'end_timestamp', 'composition'],
 			$orderby: [{ end_timestamp: 'desc' }, { id: 'desc' }],
@@ -340,38 +339,43 @@ Can be repeated to add multiple certificates.\
 
 		return this.getDeviceTypesWithSameArch(deviceTypeSlug).then(
 			(deviceTypes) => {
-				const options: PineOptions<
-					ApplicationWithDeviceType & { should_be_running__release: [Release?] }
-				> = {
-					$filter: {
-						is_for__device_type: {
-							$any: {
-								$alias: 'dt',
-								$expr: {
-									dt: {
-										slug: { $in: deviceTypes },
-									},
-								},
-							},
-						},
-						owns__release: {
-							$any: {
-								$alias: 'r',
-								$expr: {
-									r: {
-										status: 'success',
-									},
-								},
-							},
-						},
-					},
-					$expand: this.applicationExpandOptions,
-					$select: ['id', 'app_name', 'should_track_latest_release'],
-					$orderby: 'app_name asc',
-				};
-				return balena.pine.get({
+				// TODO: remove the explicit types once https://github.com/balena-io/balena-sdk/pull/889 gets merged
+				return balena.pine.get<
+					Application,
+					Array<
+						ApplicationWithDeviceType & {
+							should_be_running__release: [Release?];
+						}
+					>
+				>({
 					resource: 'my_application',
-					options,
+					options: {
+						$filter: {
+							is_for__device_type: {
+								$any: {
+									$alias: 'dt',
+									$expr: {
+										dt: {
+											slug: { $in: deviceTypes },
+										},
+									},
+								},
+							},
+							owns__release: {
+								$any: {
+									$alias: 'r',
+									$expr: {
+										r: {
+											status: 'success',
+										},
+									},
+								},
+							},
+						},
+						$expand: this.applicationExpandOptions,
+						$select: ['id', 'app_name', 'should_track_latest_release'],
+						$orderby: 'app_name asc',
+					},
 				});
 			},
 		);
