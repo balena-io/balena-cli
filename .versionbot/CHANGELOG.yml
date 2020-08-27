@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Convert command preload to oclif, typescript'
+      hash: d21a18f353c5d9cf9b47e9ed85c15c635d44a44e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.14.15
+  date: 2020-08-27T08:22:51.203Z
+- commits:
     - subject: Fix device UUID parsing for 'balena tunnel'
       hash: 99a478ee39a7777c24d98593b0fbb5e8676534bb
       body: ''
