@@ -107,9 +107,7 @@ export default class OsBuildConfigCmd extends Command {
 		deviceTypeManifest: DeviceTypeJson.DeviceType,
 		advanced: boolean,
 	) {
-		if (advanced == null) {
-			advanced = false;
-		}
+		advanced ??= false;
 
 		let override;
 		const questions = deviceTypeManifest.options;

@@ -115,10 +115,8 @@ export default class LogsCmd extends Command {
 
 		const displayCloudLog = async (line: LogMessage) => {
 			if (!line.isSystem) {
-				let serviceName = await serviceIdToName(balena, line.serviceId);
-				if (serviceName == null) {
-					serviceName = 'Unknown service';
-				}
+				const serviceName =
+					(await serviceIdToName(balena, line.serviceId)) ?? 'Unknown service';
 				displayLogObject(
 					{ serviceName, ...line },
 					logger,

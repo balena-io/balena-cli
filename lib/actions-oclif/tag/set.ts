@@ -110,9 +110,7 @@ export default class TagSetCmd extends Command {
 			throw new ExpectedError(TagSetCmd.missingResourceMessage);
 		}
 
-		if (params.value == null) {
-			params.value = '';
-		}
+		params.value ??= '';
 
 		if (options.application) {
 			return balena.models.application.tags.set(

@@ -29,7 +29,7 @@ export interface ScopeOpts {
 export class NockMock {
 	public readonly scope: nock.Scope;
 	// Expose `scope` as `expect` to allow for better semantics in tests
-	public readonly expect = this.scope;
+	public readonly expect;
 	protected static instanceCount = 0;
 
 	constructor(public basePathPattern: string | RegExp) {
@@ -45,6 +45,7 @@ export class NockMock {
 		}
 		NockMock.instanceCount += 1;
 		this.scope = nock(this.basePathPattern);
+		this.expect = this.scope;
 	}
 
 	public optGet(

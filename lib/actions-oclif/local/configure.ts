@@ -119,9 +119,7 @@ export default class LocalConfigureCmd extends Command {
 	readonly CONNECTIONS_FOLDER = '/system-connections';
 
 	getConfigurationSchema(connectionFileName?: string) {
-		if (connectionFileName == null) {
-			connectionFileName = 'resin-wifi';
-		}
+		connectionFileName ??= 'resin-wifi';
 		return {
 			mapper: [
 				{

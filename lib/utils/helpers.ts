@@ -90,9 +90,7 @@ export async function sudo(
 				'Admin privileges required: you may be asked for your computer password to continue.',
 		);
 	}
-	if (isCLIcmd == null) {
-		isCLIcmd = true;
-	}
+	isCLIcmd ??= true;
 	await executeWithPrivileges(command, stderr, isCLIcmd);
 }
 
