@@ -1,4 +1,15 @@
 - commits:
+    - subject: Update to typescript 4.0
+      hash: 787966a0b61abf3d94a16ca407b42bf05abfbae2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 12.14.16
+  date: 2020-08-27T10:53:30.252Z
+- commits:
     - subject: 'Convert command preload to oclif, typescript'
       hash: d21a18f353c5d9cf9b47e9ed85c15c635d44a44e
       body: ''
