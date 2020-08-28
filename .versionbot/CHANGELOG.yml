@@ -1,4 +1,15 @@
 - commits:
+    - subject: Convert oclif actions to async/await
+      hash: 42c6e1010f2df5aabb611b5206226175d9930901
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 12.14.18
+  date: 2020-08-28T12:46:41.596Z
+- commits:
     - subject: 'preload: Improve the typings'
       hash: 2e1570149df1ba7f5b89884d725eaf92ffbbad0e
       body: ''
