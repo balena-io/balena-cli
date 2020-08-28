@@ -1,4 +1,15 @@
 - commits:
+    - subject: Convert oclif actions to async/await
+      hash: 42c6e1010f2df5aabb611b5206226175d9930901
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 12.14.18
+  date: 2020-08-28T14:09:51.669Z
+- commits:
     - subject: 'preload: Improve the typings'
       hash: 2e1570149df1ba7f5b89884d725eaf92ffbbad0e
       body: ''
@@ -105,7 +116,7 @@
           version: balena-sdk-15.3.2
           date: 2020-08-20T18:20:29.879Z
   version: 12.14.17
-  date: 2020-08-27T14:49:50.182Z
+  date: 2020-08-27T13:48:49.210Z
 - commits:
     - subject: Update to typescript 4.0
       hash: 787966a0b61abf3d94a16ca407b42bf05abfbae2

@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Convert oclif actions to async/await",
+          "hash": "42c6e1010f2df5aabb611b5206226175d9930901",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        }
+      ],
+      "version": "12.14.18",
+      "date": "2020-08-28T12:46:41.596Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "preload: Improve the typings",
           "hash": "2e1570149df1ba7f5b89884d725eaf92ffbbad0e",
           "body": "",
@@ -18320,7 +18337,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 263,
+  "stars": 264,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -18419,36 +18436,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-08-27T14:51:29Z",
+  "lastCommitDate": "2020-08-28T14:10:37Z",
   "latestRelease": {
-    "tagName": "v12.14.17",
+    "tagName": "v12.14.18",
     "asssets": [
       {
-        "name": "balena-cli-v12.14.17-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.17/balena-cli-v12.14.17-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.14.18-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.18/balena-cli-v12.14.18-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.14.17-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.17/balena-cli-v12.14.17-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.14.18-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.18/balena-cli-v12.14.18-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.14.17-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.17/balena-cli-v12.14.17-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.14.18-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.18/balena-cli-v12.14.18-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.14.17-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.17/balena-cli-v12.14.17-windows-x64-installer.exe"
+        "name": "balena-cli-v12.14.18-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.18/balena-cli-v12.14.18-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.14.17-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.17/balena-cli-v12.14.17-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.14.18-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.18/balena-cli-v12.14.18-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 295,
+    "numberOfIssues": 296,
     "latestIssues": [
+      {
+        "title": "`os versions`: Add balenaOS ESR releases to the list",
+        "url": "https://github.com/balena-io/balena-cli/pull/2012"
+      },
       {
         "title": "Drop no longer used pkg dependency config",
         "url": "https://github.com/balena-io/balena-cli/pull/2009"
@@ -18524,14 +18545,10 @@
       {
         "title": "Add \"balena logs <app>\" command",
         "url": "https://github.com/balena-io/balena-cli/issues/1946"
-      },
-      {
-        "title": "push <ip-address>: incorrect error message when device is not in local mode",
-        "url": "https://github.com/balena-io/balena-cli/issues/1942"
       }
     ]
   },
-  "version": "12.14.17",
+  "version": "12.14.18",
   "screenshot": null,
   "logo": null
 }
