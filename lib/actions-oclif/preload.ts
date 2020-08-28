@@ -302,86 +302,72 @@ Can be repeated to add multiple certificates.\
 
 	allDeviceTypes: DeviceTypeJson.DeviceType[];
 	async getDeviceTypes() {
-		if (this.allDeviceTypes !== undefined) {
-			return this.allDeviceTypes;
+		if (this.allDeviceTypes === undefined) {
+			const balena = getBalenaSdk();
+			const deviceTypes = await balena.models.config.getDeviceTypes();
+			this.allDeviceTypes = _.sortBy(deviceTypes, 'name');
 		}
-		const balena = getBalenaSdk();
-		return balena.models.config
-			.getDeviceTypes()
-			.then((deviceTypes) => _.sortBy(deviceTypes, 'name'))
-			.then((deviceTypes) => {
-				this.allDeviceTypes = deviceTypes;
-				return deviceTypes;
-			});
+		return this.allDeviceTypes;
 	}
 
 	isCurrentCommit(commit: string) {
 		return commit === 'latest' || commit === 'current';
 	}
 
-	getDeviceTypesWithSameArch(deviceTypeSlug: string) {
-		return this.getDeviceTypes().then((deviceTypes) => {
-			const deviceType = _.find(deviceTypes, { slug: deviceTypeSlug });
-			if (!deviceType) {
-				throw new Error(
-					`Device type "${deviceTypeSlug}" not found in API query`,
-				);
-			}
-			return _(deviceTypes)
-				.filter({ arch: deviceType.arch })
-				.map('slug')
-				.value();
-		});
+	async getDeviceTypesWithSameArch(deviceTypeSlug: string) {
+		const deviceTypes = await this.getDeviceTypes();
+		const deviceType = _.find(deviceTypes, { slug: deviceTypeSlug });
+		if (!deviceType) {
+			throw new Error(`Device type "${deviceTypeSlug}" not found in API query`);
+		}
+		return _(deviceTypes).filter({ arch: deviceType.arch }).map('slug').value();
 	}
 
-	getApplicationsWithSuccessfulBuilds(deviceTypeSlug: string) {
+	async getApplicationsWithSuccessfulBuilds(deviceTypeSlug: string) {
 		const balena = getBalenaSdk();
 
-		return this.getDeviceTypesWithSameArch(deviceTypeSlug).then(
-			(deviceTypes) => {
-				// TODO: remove the explicit types once https://github.com/balena-io/balena-sdk/pull/889 gets merged
-				return balena.pine.get<
-					Application,
-					Array<
-						ApplicationWithDeviceType & {
-							should_be_running__release: [Release?];
-						}
-					>
-				>({
-					resource: 'my_application',
-					options: {
-						$filter: {
-							is_for__device_type: {
-								$any: {
-									$alias: 'dt',
-									$expr: {
-										dt: {
-											slug: { $in: deviceTypes },
-										},
-									},
-								},
-							},
-							owns__release: {
-								$any: {
-									$alias: 'r',
-									$expr: {
-										r: {
-											status: 'success',
-										},
-									},
+		const deviceTypes = await this.getDeviceTypesWithSameArch(deviceTypeSlug);
+		// TODO: remove the explicit types once https://github.com/balena-io/balena-sdk/pull/889 gets merged
+		return balena.pine.get<
+			Application,
+			Array<
+				ApplicationWithDeviceType & {
+					should_be_running__release: [Release?];
+				}
+			>
+		>({
+			resource: 'my_application',
+			options: {
+				$filter: {
+					is_for__device_type: {
+						$any: {
+							$alias: 'dt',
+							$expr: {
+								dt: {
+									slug: { $in: deviceTypes },
 								},
 							},
 						},
-						$expand: this.applicationExpandOptions,
-						$select: ['id', 'app_name', 'should_track_latest_release'],
-						$orderby: 'app_name asc',
 					},
-				});
+					owns__release: {
+						$any: {
+							$alias: 'r',
+							$expr: {
+								r: {
+									status: 'success',
+								},
+							},
+						},
+					},
+				},
+				$expand: this.applicationExpandOptions,
+				$select: ['id', 'app_name', 'should_track_latest_release'],
+				$orderby: 'app_name asc',
 			},
-		);
+		});
 	}
 
-	selectApplication(deviceTypeSlug: string) {
+	async selectApplication(deviceTypeSlug: string) {
 		const visuals = getVisuals();
 
 		const applicationInfoSpinner = new visuals.Spinner(
@@ -389,24 +375,23 @@ Can be repeated to add multiple certificates.\
 		);
 		applicationInfoSpinner.start();
 
-		return this.getApplicationsWithSuccessfulBuilds(deviceTypeSlug).then(
-			(applications) => {
-				applicationInfoSpinner.stop();
-				if (applications.length === 0) {
-					throw new ExpectedError(
-						`You have no apps with successful releases for a '${deviceTypeSlug}' device type.`,
-					);
-				}
-				return getCliForm().ask({
-					message: 'Select an application',
-					type: 'list',
-					choices: applications.map((app) => ({
-						name: app.app_name,
-						value: app,
-					})),
-				});
-			},
+		const applications = await this.getApplicationsWithSuccessfulBuilds(
+			deviceTypeSlug,
 		);
+		applicationInfoSpinner.stop();
+		if (applications.length === 0) {
+			throw new ExpectedError(
+				`You have no apps with successful releases for a '${deviceTypeSlug}' device type.`,
+			);
+		}
+		return getCliForm().ask({
+			message: 'Select an application',
+			type: 'list',
+			choices: applications.map((app) => ({
+				name: app.app_name,
+				value: app,
+			})),
+		});
 	}
 
 	selectApplicationCommit(releases: Release[]) {
@@ -462,23 +447,20 @@ preloaded device to the selected release.
 
 Would you like to disable automatic updates for this application now?\
 `;
-		return getCliForm()
-			.ask({
-				message,
-				type: 'confirm',
-			})
-			.then(function (update) {
-				if (!update) {
-					return;
-				}
-				return balena.pine.patch({
-					resource: 'application',
-					id: application.id,
-					body: {
-						should_track_latest_release: false,
-					},
-				});
-			});
+		const update = await getCliForm().ask({
+			message,
+			type: 'confirm',
+		});
+		if (!update) {
+			return;
+		}
+		return await balena.pine.patch({
+			resource: 'application',
+			id: application.id,
+			body: {
+				should_track_latest_release: false,
+			},
+		});
 	}
 
 	getAppWithReleases(balenaSdk: BalenaSDK, appId: string | number) {
