@@ -196,7 +196,6 @@ ${dockerignoreHelp}
 			buildOpts: any; // arguments to forward to docker build command
 		},
 	) {
-		const Bluebird = await import('bluebird');
 		const _ = await import('lodash');
 		const doodles = await import('resin-doodles');
 		const sdk = getBalenaSdk();
@@ -206,149 +205,139 @@ ${dockerignoreHelp}
 
 		const appType = (opts.app?.application_type as ApplicationType[])?.[0];
 
-		return loadProject(logger, composeOpts, opts.image)
-			.then(function (project) {
-				if (
-					project.descriptors.length > 1 &&
-					!appType?.supports_multicontainer
-				) {
-					throw new ExpectedError(
-						'Target application does not support multiple containers. Aborting!',
-					);
-				}
+		try {
+			const project = await loadProject(logger, composeOpts, opts.image);
+			if (project.descriptors.length > 1 && !appType?.supports_multicontainer) {
+				throw new ExpectedError(
+					'Target application does not support multiple containers. Aborting!',
+				);
+			}
 
-				// find which services use images that already exist locally
-				return (
-					Bluebird.map(project.descriptors, function (d: any) {
-						// unconditionally build (or pull) if explicitly requested
-						if (opts.shouldPerformBuild) {
-							return d;
-						}
-						return docker
+			// find which services use images that already exist locally
+			let servicesToSkip = await Promise.all(
+				project.descriptors.map(async function (d: any) {
+					// unconditionally build (or pull) if explicitly requested
+					if (opts.shouldPerformBuild) {
+						return d;
+					}
+					try {
+						await docker
 							.getImage(
 								(typeof d.image === 'string' ? d.image : d.image.tag) || '',
 							)
-							.inspect()
-							.then(() => {
-								return d.serviceName;
-							})
-							.catch(() => {
-								// Ignore
-							});
-					})
-						.filter((d) => !!d)
-						.then(function (servicesToSkip: any[]) {
-							// multibuild takes in a composition and always attempts to
-							// build or pull all services. we workaround that here by
-							// passing a modified composition.
-							const compositionToBuild = _.cloneDeep(project.composition);
-							compositionToBuild.services = _.omit(
-								compositionToBuild.services,
-								servicesToSkip,
-							);
-							if (_.size(compositionToBuild.services) === 0) {
-								logger.logInfo(
-									'Everything is up to date (use --build to force a rebuild)',
-								);
-								return {};
-							}
-							return compose
-								.buildProject(
-									docker,
-									logger,
-									project.path,
-									project.name,
-									compositionToBuild,
-									opts.app.arch,
-									(opts.app?.is_for__device_type as DeviceType[])?.[0].slug,
-									opts.buildEmulated,
-									opts.buildOpts,
-									composeOpts.inlineLogs,
-									composeOpts.convertEol,
-									composeOpts.dockerfilePath,
-									composeOpts.nogitignore,
-									composeOpts.multiDockerignore,
-								)
-								.then((builtImages) => _.keyBy(builtImages, 'serviceName'));
-						})
-						.then((builtImages: any) =>
-							project.descriptors.map(
-								(d) =>
-									builtImages[d.serviceName] ?? {
-										serviceName: d.serviceName,
-										name: typeof d.image === 'string' ? d.image : d.image.tag,
-										logs: 'Build skipped; image for service already exists.',
-										props: {},
-									},
-							),
-						)
-						// @ts-ignore slightly different return types of partial vs non-partial release
-						.then(function (images) {
-							if (appType?.is_legacy) {
-								const { deployLegacy } = require('../utils/deploy-legacy');
+							.inspect();
 
-								const msg = getChalk().yellow(
-									'Target application requires legacy deploy method.',
-								);
-								logger.logWarn(msg);
+						return d.serviceName;
+					} catch {
+						// Ignore
+					}
+				}),
+			);
+			servicesToSkip = servicesToSkip.filter((d) => !!d);
 
-								return Promise.all([
-									sdk.auth.getToken(),
-									sdk.auth.whoami(),
-									sdk.settings.get('balenaUrl'),
-									{
-										// opts.appName may be prefixed by 'owner/', unlike opts.app.app_name
-										appName: opts.appName,
-										imageName: images[0].name,
-										buildLogs: images[0].logs,
-										shouldUploadLogs: opts.shouldUploadLogs,
-									},
-								])
-									.then(([token, username, url, options]) => {
-										return deployLegacy(
-											docker,
-											logger,
-											token,
-											username,
-											url,
-											options,
-										);
-									})
-									.then((releaseId) =>
-										sdk.models.release.get(releaseId, { $select: ['commit'] }),
-									);
-							}
-							return Promise.all([
-								sdk.auth.getUserId(),
-								sdk.auth.getToken(),
-								sdk.settings.get('apiUrl'),
-							]).then(([userId, auth, apiEndpoint]) =>
-								$deployProject(
-									docker,
-									logger,
-									project.composition,
-									images,
-									opts.app.id,
-									userId,
-									`Bearer ${auth}`,
-									apiEndpoint,
-									!opts.shouldUploadLogs,
-								),
-							);
-						})
+			// multibuild takes in a composition and always attempts to
+			// build or pull all services. we workaround that here by
+			// passing a modified composition.
+			const compositionToBuild = _.cloneDeep(project.composition);
+			compositionToBuild.services = _.omit(
+				compositionToBuild.services,
+				servicesToSkip,
+			);
+			if (_.size(compositionToBuild.services) === 0) {
+				logger.logInfo(
+					'Everything is up to date (use --build to force a rebuild)',
 				);
-			})
-			.then(function (release: any) {
-				logger.outputDeferredMessages();
-				logger.logSuccess('Deploy succeeded!');
-				logger.logSuccess(`Release: ${release.commit}`);
-				console.log();
-				console.log(doodles.getDoodle()); // Show charlie
-				console.log();
-			})
-			.catch((err) => {
-				logger.logError('Deploy failed');
-				throw err;
-			});
+				return {};
+			}
+			const builtImages = await compose.buildProject(
+				docker,
+				logger,
+				project.path,
+				project.name,
+				compositionToBuild,
+				opts.app.arch,
+				(opts.app?.is_for__device_type as DeviceType[])?.[0].slug,
+				opts.buildEmulated,
+				opts.buildOpts,
+				composeOpts.inlineLogs,
+				composeOpts.convertEol,
+				composeOpts.dockerfilePath,
+				composeOpts.nogitignore,
+				composeOpts.multiDockerignore,
+			);
+			const builtImagesByService = _.keyBy(builtImages, 'serviceName');
+
+			const images = project.descriptors.map(
+				(d) =>
+					builtImagesByService[d.serviceName] ?? {
+						serviceName: d.serviceName,
+						name: typeof d.image === 'string' ? d.image : d.image.tag,
+						logs: 'Build skipped; image for service already exists.',
+						props: {},
+					},
+			);
+
+			let release;
+			if (appType?.is_legacy) {
+				const { deployLegacy } = require('../utils/deploy-legacy');
+
+				const msg = getChalk().yellow(
+					'Target application requires legacy deploy method.',
+				);
+				logger.logWarn(msg);
+
+				const [token, username, url, options] = await Promise.all([
+					sdk.auth.getToken(),
+					sdk.auth.whoami(),
+					sdk.settings.get('balenaUrl'),
+					{
+						// opts.appName may be prefixed by 'owner/', unlike opts.app.app_name
+						appName: opts.appName,
+						imageName: images[0].name,
+						buildLogs: images[0].logs,
+						shouldUploadLogs: opts.shouldUploadLogs,
+					},
+				]);
+				const releaseId = await deployLegacy(
+					docker,
+					logger,
+					token,
+					username,
+					url,
+					options,
+				);
+
+				release = await sdk.models.release.get(releaseId, {
+					$select: ['commit'],
+				});
+			} else {
+				const [userId, auth, apiEndpoint] = await Promise.all([
+					sdk.auth.getUserId(),
+					sdk.auth.getToken(),
+					sdk.settings.get('apiUrl'),
+				]);
+				release = await $deployProject(
+					docker,
+					logger,
+					project.composition,
+					images,
+					opts.app.id,
+					userId,
+					`Bearer ${auth}`,
+					apiEndpoint,
+					!opts.shouldUploadLogs,
+				);
+			}
+
+			logger.outputDeferredMessages();
+			logger.logSuccess('Deploy succeeded!');
+			logger.logSuccess(`Release: ${release.commit}`);
+			console.log();
+			console.log(doodles.getDoodle()); // Show charlie
+			console.log();
+		} catch (err) {
+			logger.logError('Deploy failed');
+			throw err;
+		}
 	}
 }

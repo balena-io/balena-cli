@@ -76,26 +76,23 @@ export default class DevicesSupportedCmd extends Command {
 
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(DevicesSupportedCmd);
-		let deviceTypes: Array<Partial<
-			SDK.DeviceTypeJson.DeviceType
-		>> = await getBalenaSdk()
-			.models.config.getDeviceTypes()
-			.then((dts) =>
-				dts.map((d) => {
-					if (d.aliases && d.aliases.length) {
-						// remove aliases that are equal to the slug
-						d.aliases = d.aliases.filter((alias: string) => alias !== d.slug);
-						if (!options.json) {
-							// stringify the aliases array with commas and spaces
-							d.aliases = [d.aliases.join(', ')];
-						}
-					} else {
-						// ensure it is always an array (for the benefit of JSON output)
-						d.aliases = [];
+		const dts = await getBalenaSdk().models.config.getDeviceTypes();
+		let deviceTypes: Array<Partial<SDK.DeviceTypeJson.DeviceType>> = dts.map(
+			(d) => {
+				if (d.aliases && d.aliases.length) {
+					// remove aliases that are equal to the slug
+					d.aliases = d.aliases.filter((alias: string) => alias !== d.slug);
+					if (!options.json) {
+						// stringify the aliases array with commas and spaces
+						d.aliases = [d.aliases.join(', ')];
 					}
-					return d;
-				}),
-			);
+				} else {
+					// ensure it is always an array (for the benefit of JSON output)
+					d.aliases = [];
+				}
+				return d;
+			},
+		);
 		if (!options.discontinued) {
 			deviceTypes = deviceTypes.filter((dt) => dt.state !== 'DISCONTINUED');
 		}

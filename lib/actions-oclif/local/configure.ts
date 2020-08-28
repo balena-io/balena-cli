@@ -89,20 +89,17 @@ export default class LocalConfigureCmd extends Command {
 		const dmHandler = (cb: () => void) =>
 			reconfix
 				.readConfiguration(configurationSchema, params.target)
-				.tap((config: any) => {
+				.then(async (config: any) => {
 					logger.logDebug('Current config:');
 					logger.logDebug(JSON.stringify(config));
-				})
-				.then((config: any) => this.getConfiguration(config))
-				.tap((config: any) => {
+					const answers = await this.getConfiguration(config);
 					logger.logDebug('New config:');
-					logger.logDebug(JSON.stringify(config));
-				})
-				.then(async (answers: any) => {
+					logger.logDebug(JSON.stringify(answers));
+
 					if (!answers.hostname) {
 						await this.removeHostname(configurationSchema);
 					}
-					return reconfix.writeConfiguration(
+					return await reconfix.writeConfiguration(
 						configurationSchema,
 						answers,
 						params.target,
@@ -220,9 +217,8 @@ export default class LocalConfigureCmd extends Command {
 			persistentLogging: data.persistentLogging || false,
 		});
 
-		return inquirer
-			.prompt(this.inquirerOptions(data))
-			.then((answers: any) => _.merge(data, answers));
+		const answers = await inquirer.prompt(this.inquirerOptions(data));
+		return _.merge(data, answers);
 	};
 
 	// Taken from https://goo.gl/kr1kCt
@@ -259,62 +255,50 @@ export default class LocalConfigureCmd extends Command {
 		const _ = await import('lodash');
 		const imagefs = await import('resin-image-fs');
 
-		return imagefs
-			.listDirectory({
-				image: target,
-				partition: this.BOOT_PARTITION,
-				path: this.CONNECTIONS_FOLDER,
-			})
-			.then((files: string[]) => {
-				// The required file already exists
-				if (_.includes(files, 'resin-wifi')) {
-					return null;
-				}
+		const files = await imagefs.listDirectory({
+			image: target,
+			partition: this.BOOT_PARTITION,
+			path: this.CONNECTIONS_FOLDER,
+		});
 
-				// Fresh image, new mode, accoding to https://github.com/balena-os/meta-balena/pull/770/files
-				if (_.includes(files, 'resin-sample.ignore')) {
-					return imagefs
-						.copy(
-							{
-								image: target,
-								partition: this.BOOT_PARTITION,
-								path: `${this.CONNECTIONS_FOLDER}/resin-sample.ignore`,
-							},
-							{
-								image: target,
-								partition: this.BOOT_PARTITION,
-								path: `${this.CONNECTIONS_FOLDER}/resin-wifi`,
-							},
-						)
-						.thenReturn(null);
-				}
-
-				// Legacy mode, to be removed later
-				// We return the file name override from this branch
-				// When it is removed the following cleanup should be done:
-				// * delete all the null returns from this method
-				// * turn `getConfigurationSchema` back into the constant, with the connection filename always being `resin-wifi`
-				// * drop the final `then` from this method
-				// * adapt the code in the main listener to not receive the config from this method, and use that constant instead
-				if (_.includes(files, 'resin-sample')) {
-					return 'resin-sample';
-				}
-
-				// In case there's no file at all (shouldn't happen normally, but the file might have been removed)
-				return imagefs
-					.writeFile(
-						{
-							image: target,
-							partition: this.BOOT_PARTITION,
-							path: `${this.CONNECTIONS_FOLDER}/resin-wifi`,
-						},
-						this.CONNECTION_FILE,
-					)
-					.thenReturn(null);
-			})
-			.then((connectionFileName) =>
-				this.getConfigurationSchema(connectionFileName || undefined),
+		let connectionFileName;
+		if (_.includes(files, 'resin-wifi')) {
+			// The required file already exists, nothing to do
+		} else if (_.includes(files, 'resin-sample.ignore')) {
+			// Fresh image, new mode, accoding to https://github.com/balena-os/meta-balena/pull/770/files
+			await imagefs.copy(
+				{
+					image: target,
+					partition: this.BOOT_PARTITION,
+					path: `${this.CONNECTIONS_FOLDER}/resin-sample.ignore`,
+				},
+				{
+					image: target,
+					partition: this.BOOT_PARTITION,
+					path: `${this.CONNECTIONS_FOLDER}/resin-wifi`,
+				},
 			);
+		} else if (_.includes(files, 'resin-sample')) {
+			// Legacy mode, to be removed later
+			// We return the file name override from this branch
+			// When it is removed the following cleanup should be done:
+			// * delete all the null returns from this method
+			// * turn `getConfigurationSchema` back into the constant, with the connection filename always being `resin-wifi`
+			// * drop the final `then` from this method
+			// * adapt the code in the main listener to not receive the config from this method, and use that constant instead
+			connectionFileName = 'resin-sample';
+		} else {
+			// In case there's no file at all (shouldn't happen normally, but the file might have been removed)
+			await imagefs.writeFile(
+				{
+					image: target,
+					partition: this.BOOT_PARTITION,
+					path: `${this.CONNECTIONS_FOLDER}/resin-wifi`,
+				},
+				this.CONNECTION_FILE,
+			);
+		}
+		return await this.getConfigurationSchema(connectionFileName);
 	}
 
 	async removeHostname(schema: any) {
