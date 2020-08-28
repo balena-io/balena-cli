@@ -205,3 +205,28 @@ async function resolveOSVersion(deviceType: string, version: string) {
 		default: recommended,
 	});
 }
+
+/**
+ * Return an object with device type aliases, for example:
+ * {
+ *   "beaglebone": "beaglebone-black",
+ *   "raspberrypi": "raspberry-pi",
+ *   "raspberrypi2": "raspberry-pi2"
+ *   "nuc": "intel-nuc",
+ *   ...
+ * }
+ */
+export async function getDeviceTypeAliases(): Promise<{
+	[alias: string]: string;
+}> {
+	const aliasToDeviceType: { [alias: string]: string } = {};
+	const deviceTypes = await getBalenaSdk().models.config.getDeviceTypes();
+	for (const deviceType of deviceTypes) {
+		for (const alias of deviceType.aliases || []) {
+			if (alias !== deviceType.slug) {
+				aliasToDeviceType[alias] = deviceType.slug;
+			}
+		}
+	}
+	return aliasToDeviceType;
+}

@@ -16,9 +16,11 @@
  */
 
 import { flags } from '@oclif/command';
+
 import Command from '../../command';
+import { getDeviceTypeAliases } from '../../utils/cloud';
 import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import { stripIndent } from '../../utils/lazy';
 
 interface FlagsDef {
 	help: void;
@@ -34,6 +36,9 @@ export default class OsVersionsCmd extends Command {
 
 		Show the available balenaOS versions for the given device type.
 		Check available types with \`balena devices supported\`.
+
+		This command also accepts device type aliases (e.g. "nuc" instead of
+		"intel-nuc"), but it runs significantly slower when aliases are used.
 	`;
 
 	public static examples = ['$ balena os versions raspberrypi3'];
@@ -54,13 +59,41 @@ export default class OsVersionsCmd extends Command {
 	public async run() {
 		const { args: params } = this.parse<FlagsDef, ArgsDef>(OsVersionsCmd);
 
-		const {
-			versions: vs,
-			recommended,
-		} = await getBalenaSdk().models.os.getSupportedVersions(params.type);
+		let versions = await this.getOsVersionsForDeviceType(params.type);
+		if (versions.length === 0) {
+			const aliases = await getDeviceTypeAliases();
+			if (aliases[params.type]) {
+				versions = await this.getOsVersionsForDeviceType(aliases[params.type]);
+			}
+		}
+		console.log(versions.join('\n'));
+	}
 
-		vs.forEach((v) => {
-			console.log(`v${v}` + (v === recommended ? ' (recommended)' : ''));
+	protected async getOsVersionsForDeviceType(
+		deviceType: string,
+	): Promise<string[]> {
+		const osUtils = await import('../../utils/os');
+		const allVersions = await osUtils.getAllOsVersions([deviceType]);
+		const versionObjects = allVersions[deviceType] || [];
+		return versionObjects.map((vObj) => {
+			let fv = vObj.formattedVersion;
+			if (vObj.variant) {
+				// Add '.dev' or '.prod', e.g. v2.38.0+rev1 -> v2.38.0+rev1.dev
+				let i = fv.indexOf(' ');
+				i = i < 0 ? fv.length : i;
+				fv = fv.slice(0, i) + `.${vObj.variant}` + fv.slice(i);
+			}
+			if (vObj.osType === 'esr') {
+				// Add 'ESR' to the attribute list in brackets, e.g.:
+				// v2019.10.2.prod (sunset) -> v2019.10.2.prod (ESR, sunset)
+				let i = fv.indexOf('(');
+				if (i++ > 0) {
+					fv = fv.slice(0, i) + 'ESR, ' + fv.slice(i);
+				} else {
+					fv += ' (ESR)';
+				}
+			}
+			return fv;
 		});
 	}
 }

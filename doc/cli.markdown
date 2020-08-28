@@ -1546,6 +1546,9 @@ device UUID
 Show the available balenaOS versions for the given device type.
 Check available types with `balena devices supported`.
 
+This command also accepts device type aliases (e.g. "nuc" instead of
+"intel-nuc"), but it runs significantly slower when aliases are used.
+
 Examples:
 
 	$ balena os versions raspberrypi3
