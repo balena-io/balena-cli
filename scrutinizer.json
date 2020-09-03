@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Add support for new device metrics to device command",
+          "hash": "88569066b58d7ca8e0035fac36e59918747654d7",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.15.0",
+      "date": "2020-09-03T16:52:42.403Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert oclif actions to async/await",
           "hash": "42c6e1010f2df5aabb611b5206226175d9930901",
           "body": "",
@@ -18337,7 +18356,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 264,
+  "stars": 267,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -18436,35 +18455,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-08-28T14:10:37Z",
+  "lastCommitDate": "2020-09-03T17:31:45Z",
   "latestRelease": {
-    "tagName": "v12.14.18",
+    "tagName": "v12.15.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.14.18-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.18/balena-cli-v12.14.18-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.15.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.0/balena-cli-v12.15.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.14.18-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.18/balena-cli-v12.14.18-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.15.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.0/balena-cli-v12.15.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.14.18-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.18/balena-cli-v12.14.18-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.15.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.0/balena-cli-v12.15.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.14.18-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.18/balena-cli-v12.14.18-windows-x64-installer.exe"
+        "name": "balena-cli-v12.15.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.0/balena-cli-v12.15.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.14.18-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.14.18/balena-cli-v12.14.18-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.15.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.0/balena-cli-v12.15.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 296,
+    "numberOfIssues": 294,
     "latestIssues": [
       {
         "title": "`os versions`: Add balenaOS ESR releases to the list",
@@ -18485,10 +18504,6 @@
       {
         "title": "Ensure options ordered alphabetically in help / docs.",
         "url": "https://github.com/balena-io/balena-cli/issues/2002"
-      },
-      {
-        "title": "Balena-push on PiSupply Lora Gateway Hat",
-        "url": "https://github.com/balena-io/balena-cli/issues/1999"
       },
       {
         "title": "Balena CLI version > v12.13.0 incompatible with last openbalena",
@@ -18535,20 +18550,24 @@
         "url": "https://github.com/balena-io/balena-cli/issues/1957"
       },
       {
-        "title": "nocache parameter is ignored in some cases",
-        "url": "https://github.com/balena-io/balena-cli/issues/1955"
-      },
-      {
         "title": "balena livepush does not appear to push changes when working with balena-go-hello-world",
         "url": "https://github.com/balena-io/balena-cli/issues/1949"
       },
       {
         "title": "Add \"balena logs <app>\" command",
         "url": "https://github.com/balena-io/balena-cli/issues/1946"
+      },
+      {
+        "title": "push <ip-address>: incorrect error message when device is not in local mode",
+        "url": "https://github.com/balena-io/balena-cli/issues/1942"
+      },
+      {
+        "title": "Enable `balena deploy` to update individual images in a multicontainer app",
+        "url": "https://github.com/balena-io/balena-cli/issues/1923"
       }
     ]
   },
-  "version": "12.14.18",
+  "version": "12.15.0",
   "screenshot": null,
   "logo": null
 }
