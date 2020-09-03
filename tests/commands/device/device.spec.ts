@@ -84,6 +84,30 @@ describe('balena device', function () {
 
 		const lines = cleanOutput(out);
 
+		expect(lines).to.have.lengthOf(25);
+		expect(lines[0]).to.equal('== SPARKLING WOOD');
+		expect(lines[6].split(':')[1].trim()).to.equal('test app');
+
+		expect(err).to.eql([]);
+	});
+
+	it.skip('correctly handles devices with missing fields', async () => {
+		api.scope
+			.get(
+				/^\/v6\/device\?.+&\$expand=belongs_to__application\(\$select=app_name\)/,
+			)
+			.replyWithFile(
+				200,
+				path.join(apiResponsePath, 'device-missing-fields.json'),
+				{
+					'Content-Type': 'application/json',
+				},
+			);
+
+		const { out, err } = await runCommand('device 27fda508c');
+
+		const lines = cleanOutput(out);
+
 		expect(lines).to.have.lengthOf(14);
 		expect(lines[0]).to.equal('== SPARKLING WOOD');
 		expect(lines[6].split(':')[1].trim()).to.equal('test app');
@@ -110,7 +134,7 @@ describe('balena device', function () {
 
 		const lines = cleanOutput(out);
 
-		expect(lines).to.have.lengthOf(14);
+		expect(lines).to.have.lengthOf(25);
 		expect(lines[0]).to.equal('== SPARKLING WOOD');
 		expect(lines[6].split(':')[1].trim()).to.equal('N/a');
 

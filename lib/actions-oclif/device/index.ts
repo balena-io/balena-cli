@@ -30,6 +30,15 @@ interface ExtendedDevice extends DeviceWithDeviceType {
 	device_type?: string;
 	commit?: string;
 	last_seen?: string;
+	memory_usage_mb: number | null;
+	memory_total_mb: number | null;
+	memory_usage_percent?: number;
+	storage_usage_mb: number | null;
+	storage_total_mb: number | null;
+	storage_usage_percent?: number;
+	cpu_temp_c: number | null;
+	cpu_usage_percent: number | null;
+	undervoltage_detected?: boolean;
 }
 
 interface FlagsDef {
@@ -85,6 +94,15 @@ export default class DeviceCmd extends Command {
 				'is_web_accessible',
 				'note',
 				'os_version',
+				'memory_usage',
+				'memory_total',
+				'storage_block_device',
+				'storage_usage',
+				'storage_total',
+				'cpu_usage',
+				'cpu_temp',
+				'cpu_id',
+				'is_undervolted',
 			],
 			...expandForAppName,
 		})) as ExtendedDevice;
@@ -100,6 +118,39 @@ export default class DeviceCmd extends Command {
 		device.device_type = device.is_of__device_type[0].slug;
 		device.commit = (device.is_running__release as Release[])[0].commit;
 		device.last_seen = device.last_connectivity_event ?? undefined;
+
+		// Memory/Storage are really MiB
+		// Consider changing headings to MiB once we can do lowercase
+
+		device.memory_usage_mb = device.memory_usage;
+		device.memory_total_mb = device.memory_total;
+
+		device.storage_usage_mb = device.storage_usage;
+		device.storage_total_mb = device.storage_total;
+
+		device.cpu_temp_c = device.cpu_temp;
+		device.cpu_usage_percent = device.cpu_usage;
+		device.undervoltage_detected = device.is_undervolted;
+
+		if (
+			device.memory_usage != null &&
+			device.memory_total != null &&
+			device.memory_total !== 0
+		) {
+			device.memory_usage_percent = Math.round(
+				(device.memory_usage / device.memory_total) * 100,
+			);
+		}
+
+		if (
+			device.storage_usage != null &&
+			device.storage_total != null &&
+			device.storage_total !== 0
+		) {
+			device.storage_usage_percent = Math.round(
+				(device.storage_usage / device.storage_total) * 100,
+			);
+		}
 
 		console.log(
 			getVisuals().table.vertical(device, [
@@ -119,6 +170,17 @@ export default class DeviceCmd extends Command {
 				'note',
 				'os_version',
 				'dashboard_url',
+				'cpu_usage_percent',
+				'cpu_temp_c',
+				'cpu_id',
+				'memory_usage_mb',
+				'memory_total_mb',
+				'memory_usage_percent',
+				'storage_block_device',
+				'storage_usage_mb',
+				'storage_total_mb',
+				'storage_usage_percent',
+				'undervoltage_detected',
 			]),
 		);
 	}

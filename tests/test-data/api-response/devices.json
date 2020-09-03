@@ -59,6 +59,15 @@
 			"created_at": "2019-11-18T12:27:37.423Z",
 			"is_active": true,
 			"api_heartbeat_state": "offline",
+			"cpu_usage" : 34,
+			"cpu_temp" : 56.2,
+			"cpu_id" :  "some cpu id",
+			"memory_usage" : 1000,
+			"memory_total" : 4000,
+			"storage_block_device" : "/dev/mmcblk0",
+			"storage_usage" :  1000,
+			"storage_total" : 64000,
+			"is_undervolted" : true,
 			"__metadata": {
 				"uri": "/resin/device(@id)?@id=1747415"
 			}
@@ -117,6 +126,15 @@
 			"created_at": "2019-11-18T12:27:37.423Z",
 			"is_active": true,
 			"api_heartbeat_state": "offline",
+			"cpu_usage" : 34,
+			"cpu_temp" : 56.2,
+			"cpu_id" :  "some cpu id",
+			"memory_usage" : 1000,
+			"memory_total" : 4000,
+			"storage_block_device" : "/dev/mmcblk0",
+			"storage_usage" :  1000,
+			"storage_total" : 64000,
+			"is_undervolted" : true,
 			"__metadata": {
 				"uri": "/resin/device(@id)?@id=1747415"
 			}
