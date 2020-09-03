@@ -256,7 +256,7 @@
     "resin-compose-parse": "^2.1.2",
     "resin-doodles": "^0.1.1",
     "resin-image-fs": "^5.0.9",
-    "resin-multibuild": "^4.7.2",
+    "resin-multibuild": "^4.10.0",
     "resin-stream-logger": "^0.1.2",
     "rimraf": "^3.0.2",
     "semver": "^7.3.2",

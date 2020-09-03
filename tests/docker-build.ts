@@ -195,9 +195,6 @@ export async function testDockerBuildStream(o: {
 				inspectTarStream(buildRequestBody, expectedFiles, projectPath),
 			tag,
 		});
-		if (o.commandLine.startsWith('build')) {
-			o.dockerMock.expectGetImages();
-		}
 	}
 
 	resetDockerignoreCache();

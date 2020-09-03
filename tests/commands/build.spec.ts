@@ -38,8 +38,6 @@ const commonResponseLines: { [key: string]: string[] } = {
 	'build-POST.json': [
 		'[Info] Building for amd64/nuc',
 		'[Info] Docker Desktop detected (daemon architecture: "x86_64")',
-		'[Info] Docker itself will determine and enable architecture emulation if required,',
-		'[Info] without balena-cli intervention and regardless of the --emulated option.',
 		'[Success] Build succeeded!',
 	],
 };
@@ -48,6 +46,7 @@ const commonQueryParams = {
 	t: '${tag}',
 	buildargs: {},
 	labels: '',
+	platform: 'linux/amd64',
 };
 
 const commonComposeQueryParams = {
@@ -57,6 +56,7 @@ const commonComposeQueryParams = {
 		MY_VAR_2: 'Also a variable',
 	},
 	labels: '',
+	platform: 'linux/amd64',
 };
 
 const hr =
@@ -76,7 +76,10 @@ describe('balena build', function () {
 		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetMixpanel({ optional: true });
 		docker.expectGetPing();
-		docker.expectGetVersion();
+		// Docker version is cached by the CLI, hence optional: true
+		// Docker version is also called by resin-multibuild, hence persist: true
+		docker.expectGetVersion({ optional: true, persist: true });
+		docker.expectGetImages();
 	});
 
 	this.afterEach(() => {
@@ -122,7 +125,7 @@ describe('balena build', function () {
 				);
 			}
 		}
-		docker.expectGetInfo({});
+		docker.expectGetInfo({ optional: true }); // cached, hence optional
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 -g`,
 			dockerMock: docker,
@@ -178,7 +181,7 @@ describe('balena build', function () {
 				);
 			}
 		}
-		docker.expectGetInfo({});
+		docker.expectGetInfo({ optional: true }); // cached, hence optional
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 -B BARG1=b1 -B barg2=B2 --cache-from my/img1,my/img2`,
 			dockerMock: docker,
@@ -273,6 +276,8 @@ describe('balena build', function () {
 				...qemuMod,
 				copyQemu: async () => '',
 			});
+			// Forget cached values by re-requiring the modules
+			mock.reRequire('../../build/utils/docker');
 			mock.reRequire('../../build/utils/qemu');
 			docker.expectGetInfo({ OperatingSystem: 'balenaOS 2.44.0+rev1' });
 			await testDockerBuildStream({
@@ -280,7 +285,10 @@ describe('balena build', function () {
 				dockerMock: docker,
 				expectedFilesByService: { main: expectedFiles },
 				expectedQueryParamsByService: {
-					main: Object.entries(commonQueryParams),
+					main: Object.entries({
+						...commonQueryParams,
+						platform: 'linux/arm/v6',
+					}),
 				},
 				expectedResponseLines,
 				projectPath,
@@ -291,6 +299,8 @@ describe('balena build', function () {
 		} finally {
 			mock.stop(fsModPath);
 			mock.stop(qemuModPath);
+			// Forget cached values by re-requiring the modules
+			mock.reRequire('../../build/utils/docker');
 		}
 	});
 
@@ -334,7 +344,7 @@ describe('balena build', function () {
 				'[Warn] Windows-format line endings were detected in some files, but were not converted due to `--noconvert-eol` option.',
 			);
 		}
-		docker.expectGetInfo({});
+		docker.expectGetInfo({ optional: true }); // cached, hence optional
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --noconvert-eol -m`,
 			dockerMock: docker,
@@ -430,7 +440,7 @@ describe('balena build', function () {
 				)}`,
 			);
 		}
-		docker.expectGetInfo({});
+		docker.expectGetInfo({ optional: true }); // cached, hence optional
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol -G -B COMPOSE_ARG=A -B barg=b --cache-from my/img1,my/img2`,
 			dockerMock: docker,
@@ -516,7 +526,7 @@ describe('balena build', function () {
 				)}`,
 			);
 		}
-		docker.expectGetInfo({});
+		docker.expectGetInfo({ optional: true }); // cached, hence optional
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol -m`,
 			dockerMock: docker,

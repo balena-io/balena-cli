@@ -243,7 +243,7 @@ export async function buildProject(opts: {
 	projectPath: string;
 	projectName: string;
 	composition: Composition;
-	arch: string;
+	arch: string; // --arch option or application's architecture
 	deviceType: string;
 	emulated: boolean;
 	buildOpts: import('./docker').BuildOpts;
@@ -265,6 +265,7 @@ export async function buildProject(opts: {
 	);
 	const renderer = await startRenderer({ imageDescriptors, ...opts });
 	try {
+		await checkDockerPlatformCompatibility(opts);
 		await checkBuildSecretsRequirements(opts.docker, opts.projectPath);
 
 		const needsQemu = await installQemuIfNeeded({ ...opts, imageDescriptors });
@@ -904,6 +905,114 @@ export function printGitignoreWarn(
 		`);
 		msg.push(hr);
 		Logger.getLogger().logWarn(msg.join('\n'));
+	}
+}
+
+/**
+ * Conditionally print hint messages regarding the --emulated and --pull
+ * options depending on a comparison between the app architecture and the
+ * architecture of the CPU where Docker or balenaEngine is running.
+ * @param arch App architecture, or --arch flag
+ * @param buildOpts Build options
+ * @param docker Dockerode instance
+ * @param emulated The --emulated flag
+ */
+async function checkDockerPlatformCompatibility({
+	arch, // --arch option or application's architecture
+	buildOpts,
+	docker,
+	emulated,
+}: {
+	arch: string;
+	buildOpts: import('./docker').BuildOpts;
+	docker: Dockerode;
+	emulated: boolean;
+}) {
+	const semver = await import('semver');
+	const {
+		asBalenaArch,
+		getDockerVersion,
+		isCompatibleArchitecture,
+	} = await import('./docker');
+	const { platformNeedsQemu } = await import('./qemu');
+	const { Arch: engineArch, Version: engineVersion } = await getDockerVersion(
+		docker,
+	);
+	// Docker Engine versions 20.10.0 to 20.10.3 are "affected by a feature"
+	// whereby certain image builds are aborted with an error similar to:
+	//   "image with reference balenalib/raspberrypi3-alpine was found
+	//    but does not match the specified platform:
+	//    wanted linux/arm/v7, actual: linux/amd64"
+	// The feature intended to enforce that a requested platform (through the
+	// `platform` property of the Docker Engine API `ImageBuild` request,
+	// as constructed by the `resin-multibuild` module) matched the image's
+	// manifest. However, Docker then realised that too many images had missing,
+	// incomplete or incorrect manifests -- including single-arch balenalib base
+	// images -- and did a U-turn in Docker engine version 20.10.4 and later.
+	// References:
+	// * https://github.com/docker/for-linux/issues/1170
+	// * https://github.com/balena-io-library/resin-rpi-raspbian/issues/104
+	// * https://github.com/balena-io-modules/resin-multibuild/blob/v4.10.0/lib/resolve.ts#L52
+	// * https://www.flowdock.com/app/rulemotion/i-cli/threads/RuSu1KiWOn62xaGy7O2sn8m8BUc
+	//
+	const svOpt = { loose: true }; // treat v19.03.15 the same as v19.3.15
+	if (
+		semver.valid(engineVersion, svOpt) &&
+		semver.satisfies(engineVersion, '>= 20.10.0 <= 20.10.3', svOpt)
+	) {
+		Logger.getLogger().logWarn(stripIndent`
+			${hr}
+			Docker Engine version ${engineVersion} detected. This version is affected by
+			an issue that causes some image builds to fail with an error similar to:
+				"image was found but does not match the specified platform"
+			If you experience that error, please take any one of the following actions:
+			* Upgrade Docker Engine to version 20.10.4 or later. If you are using
+			  Docker Desktop for Mac or Windows, upgrade it to version 3.2.1 or later.
+			* Downgrade Docker Engine to version 19.X.X. If you are using Docker Desktop
+			  for Mac or Windows, downgrade it to version 2.X.X.
+			* Downgrade the balena CLI to v12.40.3 or earlier. This would however cause
+			  support for multi-architecture base images to be lost.
+			* Manually run the 'docker pull' command for all base images listed in your
+			  Dockerfile(s) prior to executing the 'balena build' or 'balena deploy'
+			  commands, and then do not use the balena CLI's '--pull' flag.
+			${hr}
+		`);
+	}
+	// --emulated specifically means ARM emulation on x86 CPUs, so only useful
+	// if the Docker daemon is running on an x86 CPU and the app is ARM
+	const needsEmulatedOption =
+		['amd64', '386'].includes(engineArch) &&
+		(await platformNeedsQemu(docker, emulated));
+
+	const isCompatibleArch = isCompatibleArchitecture(arch, engineArch);
+	const pull = !!buildOpts.pull;
+
+	// Print hints regarding the --emulated and --pull options if their usage
+	// is likely to be helpful based on best-effort detection.
+	if (
+		!isCompatibleArch &&
+		(pull !== true || (needsEmulatedOption && emulated !== true))
+	) {
+		const balenaArch = asBalenaArch(engineArch);
+		const msg = [
+			`Note: Host architecture '${balenaArch}' (where Docker or balenaEngine is running)`,
+			`does not match the balena application architecture '${arch}'.`,
+		];
+		// TODO: improve on `--pull` suggestion by querying the architecture of
+		// any cached base image and comparing it with the app architecture.
+		if (pull !== true) {
+			msg.push(
+				'If multiarch base images are being used, the `--pull` option may be used to',
+				'ensure that cached base images are pulled again for a different architecture.',
+			);
+		}
+		if (needsEmulatedOption && emulated !== true) {
+			msg.push(
+				'The `--emulated` option may be used to enable ARM architecture emulation',
+				'with QEMU during the image build.',
+			);
+		}
+		Logger.getLogger().logInfo(msg.join('\n  '));
 	}
 }
 

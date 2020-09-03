@@ -37,9 +37,6 @@ const commonResponseLines = {
 	'build-POST.json': [
 		'[Info] Building for armv7hf/raspberrypi3',
 		'[Info] Docker Desktop detected (daemon architecture: "x86_64")',
-		'[Info] Docker itself will determine and enable architecture emulation if required,',
-		'[Info] without balena-cli intervention and regardless of the --emulated option.',
-		// '[Build] main Step 1/4 : FROM busybox',
 		'[Info] Creating release...',
 		'[Info] Pushing images to registry...',
 		'[Info] Saving release...',
@@ -52,6 +49,7 @@ const commonQueryParams = [
 	['t', '${tag}'],
 	['buildargs', '{}'],
 	['labels', ''],
+	['platform', 'linux/arm/v7'],
 ];
 
 const commonComposeQueryParams = {
@@ -61,6 +59,7 @@ const commonComposeQueryParams = {
 		MY_VAR_2: 'Also a variable',
 	},
 	labels: '',
+	platform: 'linux/arm/v7',
 };
 
 const hr =
@@ -89,8 +88,10 @@ describe('balena deploy', function () {
 
 		docker.expectGetImages();
 		docker.expectGetPing();
-		docker.expectGetInfo({});
-		docker.expectGetVersion({ persist: true });
+		// optional because docker.info() and docker.version() are cached
+		docker.expectGetInfo({ optional: true });
+		// docker.version() is also called by resin-multibuild, hence persist: true
+		docker.expectGetVersion({ optional: true, persist: true });
 		docker.expectPostImagesTag();
 		docker.expectPostImagesPush();
 		docker.expectDeleteImages();
@@ -307,7 +308,6 @@ describe('balena deploy', function () {
 			);
 		}
 
-		// docker.expectGetImages();
 		api.expectPatchImage({});
 		api.expectPatchRelease({});
 

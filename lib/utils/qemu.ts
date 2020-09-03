@@ -163,7 +163,7 @@ export async function installQemuIfNeeded(
 ): Promise<boolean> {
 	// call platformNeedsQemu() regardless of whether emulation is required,
 	// because it logs useful information
-	const needsQemu = await platformNeedsQemu(docker, logger);
+	const needsQemu = await platformNeedsQemu(docker, emulated, logger);
 	if (!emulated || !needsQemu) {
 		return false;
 	}
@@ -196,30 +196,27 @@ export async function installQemuIfNeeded(
  * - https://stackoverflow.com/questions/55388725/run-linux-arm-container-via-qemu-binfmt-misc-on-docker-lcow
  *
  * @param docker Dockerode instance
+ * @param emulated The --emulated command-line option
+ * @param logger Logger instance
  */
-async function platformNeedsQemu(
+export async function platformNeedsQemu(
 	docker: Dockerode,
-	logger: Logger,
+	emulated: boolean,
+	logger?: Logger,
 ): Promise<boolean> {
-	const dockerInfo = await docker.info();
-	// Docker Desktop (Windows and Mac) with Docker Engine 19.03 reports:
-	//     OperatingSystem: Docker Desktop
-	//     OSType: linux
-	// Docker for Mac with Docker Engine 18.06 reports:
-	//     OperatingSystem: Docker for Mac
-	//     OSType: linux
-	// On Ubuntu (standard Docker installation):
-	//     OperatingSystem: Ubuntu 18.04.2 LTS (containerized)
-	//     OSType: linux
-	// https://stackoverflow.com/questions/38223965/how-can-i-detect-if-docker-for-mac-is-installed
-	const isDockerDesktop = /(?:Docker Desktop)|(?:Docker for Mac)/i.test(
-		dockerInfo.OperatingSystem,
-	);
-	if (isDockerDesktop) {
-		logger.logInfo(stripIndent`
-			Docker Desktop detected (daemon architecture: "${dockerInfo.Architecture}")
-			  Docker itself will determine and enable architecture emulation if required,
-			  without balena-cli intervention and regardless of the --emulated option.`);
+	const { isDockerDesktop } = await import('./docker');
+	const [isDD, dockerInfo] = await isDockerDesktop(docker);
+	if (logger && isDD) {
+		const msg = [
+			`Docker Desktop detected (daemon architecture: "${dockerInfo.Architecture}")`,
+		];
+		if (emulated) {
+			msg.push(
+				'The --emulated option will be ignored because Docker Desktop has built-in',
+				'"binfmt_misc" QEMU emulation.',
+			);
+		}
+		logger.logInfo(msg.join('\n  '));
 	}
-	return !isDockerDesktop;
+	return !isDD;
 }

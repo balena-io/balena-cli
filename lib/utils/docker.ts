@@ -164,12 +164,85 @@ export function generateBuildOpts(options: {
 	return opts;
 }
 
+/** Detect whether the docker daemon is balenaEngine */
 export async function isBalenaEngine(docker: dockerode): Promise<boolean> {
-	// dockerVersion.Engine should equal 'balena-engine' for the current/latest
-	// version of balenaEngine, but it was at one point (mis)spelt 'balaena':
-	// https://github.com/balena-os/balena-engine/pull/32/files
-	const dockerVersion = (await docker.version()) as BalenaEngineVersion;
+	const dockerVersion = await getDockerVersion(docker);
 	return !!(
-		dockerVersion.Engine && dockerVersion.Engine.match(/balena|balaena/)
+		// dockerVersion.Engine should be 'balena-engine' for the current
+		// version of balenaEngine, but at one point it was spelt 'balaena':
+		// https://github.com/balena-os/balena-engine/pull/32/files
+		(dockerVersion.Engine && dockerVersion.Engine.match(/balena|balaena/))
 	);
+}
+
+/** Detect whether the docker daemon is Docker Desktop (Windows or Mac) */
+export async function isDockerDesktop(
+	docker: dockerode,
+): Promise<[boolean, any]> {
+	// Docker Desktop (Windows and Mac) with Docker Engine 19.03 reports:
+	//     OperatingSystem: Docker Desktop
+	//     OSType: linux
+	// Docker for Mac with Docker Engine 18.06 reports:
+	//     OperatingSystem: Docker for Mac
+	//     OSType: linux
+	// On Ubuntu (standard Docker installation):
+	//     OperatingSystem: Ubuntu 18.04.2 LTS (containerized)
+	//     OSType: linux
+	// https://stackoverflow.com/questions/38223965/how-can-i-detect-if-docker-for-mac-is-installed
+	//
+	const dockerInfo = await getDockerInfo(docker);
+	const isDD = /(?:Docker Desktop)|(?:Docker for Mac)/i.test(
+		dockerInfo.OperatingSystem,
+	);
+	return [isDD, dockerInfo];
+}
+
+/**
+ * Convert a Docker arch identifier to a balena arch identifier.
+ * @param engineArch One of the GOARCH values (used by Docker) listed at:
+ * https://golang.org/doc/install/source#environment
+ */
+export function asBalenaArch(engineArch: string): string {
+	const archs: { [arch: string]: string } = {
+		arm: 'armv7hf', // could also be 'rpi' though
+		arm64: 'aarch64',
+		amd64: 'amd64',
+		'386': 'i386',
+	};
+	return archs[engineArch] || '';
+}
+
+/**
+ * Determine whether the given balena arch identifier and the given
+ * Docker arch identifier represent compatible architectures.
+ * @param balenaArch One of: rpi, armv7hf, amd64, i386
+ * @param engineArch One of the GOARCH values: arm, arm64, amd64, 386
+ */
+export function isCompatibleArchitecture(
+	balenaArch: string,
+	engineArch: string,
+): boolean {
+	return (
+		(balenaArch === 'rpi' && engineArch === 'arm') ||
+		balenaArch === asBalenaArch(engineArch)
+	);
+}
+
+let cachedDockerInfo: any;
+let cachedDockerVersion: BalenaEngineVersion;
+
+export async function getDockerInfo(docker: dockerode): Promise<any> {
+	if (cachedDockerInfo == null) {
+		cachedDockerInfo = await docker.info();
+	}
+	return cachedDockerInfo;
+}
+
+export async function getDockerVersion(
+	docker: dockerode,
+): Promise<BalenaEngineVersion> {
+	if (cachedDockerVersion == null) {
+		cachedDockerVersion = await docker.version();
+	}
+	return cachedDockerVersion;
 }
