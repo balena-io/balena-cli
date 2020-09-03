@@ -2790,9 +2790,9 @@
       }
     },
     "balena-sdk": {
-      "version": "15.3.7",
-      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-15.3.7.tgz",
-      "integrity": "sha512-2d4rPHd4DHAWLFL10dsle+E+Zpiu2tfFcWtgYQR8OT1yszVt4Y4bt4/ubWumlpQPMqvvgC/uGGXZx6Lt0XTdLg==",
+      "version": "15.6.0",
+      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-15.6.0.tgz",
+      "integrity": "sha512-yurPtF7+loQVcoPfWjJQV9WziMaLUxvppGZPOVH5GVOoWYjQSaO6avtOw97VLmMglufQIV+PN/BoseIRG7XxXg==",
       "requires": {
         "@balena/es-version": "^1.0.0",
         "@types/lodash": "^4.14.159",
