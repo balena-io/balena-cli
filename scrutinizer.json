@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "build, deploy: Add --pull option to force pulling base images again",
+          "hash": "d1539f405aa2af75c8ccd3ae22e4e59c46c67d55",
+          "body": "",
+          "footer": {
+            "Resolves": "#1584",
+            "resolves": "#1584",
+            "Change-type": "minor",
+            "change-type": "minor"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.16.0",
+      "date": "2020-09-04T09:31:22.391Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Modify undervoltage status display in device command",
           "hash": "ffa8e245ba2fa024f4e35316a6e0cd5d6f91fdd0",
           "body": "",
@@ -18474,40 +18493,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-09-04T09:26:57Z",
+  "lastCommitDate": "2020-09-04T11:09:05Z",
   "latestRelease": {
-    "tagName": "v12.15.1",
+    "tagName": "v12.16.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.15.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.1/balena-cli-v12.15.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.16.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.16.0/balena-cli-v12.16.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.15.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.1/balena-cli-v12.15.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.16.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.16.0/balena-cli-v12.16.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.15.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.1/balena-cli-v12.15.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.16.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.16.0/balena-cli-v12.16.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.15.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.1/balena-cli-v12.15.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.16.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.16.0/balena-cli-v12.16.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.15.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.1/balena-cli-v12.15.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.16.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.16.0/balena-cli-v12.16.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 294,
+    "numberOfIssues": 292,
     "latestIssues": [
-      {
-        "title": "build, deploy: Add --pull option to force pulling base images again",
-        "url": "https://github.com/balena-io/balena-cli/pull/2015"
-      },
       {
         "title": "`os versions`: Add balenaOS ESR releases to the list",
         "url": "https://github.com/balena-io/balena-cli/pull/2012"
@@ -18583,10 +18598,14 @@
       {
         "title": "Enable `balena deploy` to update individual images in a multicontainer app",
         "url": "https://github.com/balena-io/balena-cli/issues/1923"
+      },
+      {
+        "title": "Add an error when generating config with different device type",
+        "url": "https://github.com/balena-io/balena-cli/issues/1919"
       }
     ]
   },
-  "version": "12.15.1",
+  "version": "12.16.0",
   "screenshot": null,
   "logo": null
 }
