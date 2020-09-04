@@ -130,7 +130,12 @@ export default class DeviceCmd extends Command {
 
 		device.cpu_temp_c = device.cpu_temp;
 		device.cpu_usage_percent = device.cpu_usage;
-		device.undervoltage_detected = device.is_undervolted;
+
+		// Only show undervoltage status if true
+		// API sends false even for devices which are not detecting this.
+		if (device.is_undervolted) {
+			device.undervoltage_detected = device.is_undervolted;
+		}
 
 		if (
 			device.memory_usage != null &&
