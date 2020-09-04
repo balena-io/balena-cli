@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'build, deploy: Add --pull option to force pulling base images again'
+      hash: d1539f405aa2af75c8ccd3ae22e4e59c46c67d55
+      body: ''
+      footer:
+        Resolves: '#1584'
+        resolves: '#1584'
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+  version: 12.16.0
+  date: 2020-09-04T09:31:22.391Z
+- commits:
     - subject: Modify undervoltage status display in device command
       hash: ffa8e245ba2fa024f4e35316a6e0cd5d6f91fdd0
       body: ''
