@@ -2490,6 +2490,10 @@ Comma-separated list (no spaces) of image names for build cache resolution. Impl
 
 Don't use docker layer caching when building
 
+#### --pull
+
+Pull the base images again even if they exist locally
+
 #### --squash
 
 Squash newly built layers into a single new layer
@@ -2707,6 +2711,10 @@ Comma-separated list (no spaces) of image names for build cache resolution. Impl
 #### --nocache
 
 Don't use docker layer caching when building
+
+#### --pull
+
+Pull the base images again even if they exist locally
 
 #### --squash
 

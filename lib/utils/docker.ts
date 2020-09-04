@@ -39,6 +39,7 @@ export interface DockerCliFlags extends DockerConnectionCliFlags {
 	buildArg?: string[];
 	'cache-from'?: string;
 	nocache: boolean;
+	pull?: boolean;
 	squash: boolean;
 }
 
@@ -87,6 +88,9 @@ Implements the same feature as the "docker build --cache-from" option.`,
 	}),
 	nocache: flags.boolean({
 		description: "Don't use docker layer caching when building",
+	}),
+	pull: flags.boolean({
+		description: 'Pull the base images again even if they exist locally',
 	}),
 	squash: flags.boolean({
 		description: 'Squash newly built layers into a single new layer',
