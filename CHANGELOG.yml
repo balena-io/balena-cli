@@ -1,4 +1,17 @@
 - commits:
+    - subject: Modify undervoltage status display in device command
+      hash: ffa8e245ba2fa024f4e35316a6e0cd5d6f91fdd0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.15.1
+  date: 2020-09-04T09:26:11.919Z
+- commits:
     - subject: Add support for new device metrics to device command
       hash: 88569066b58d7ca8e0035fac36e59918747654d7
       body: ''
@@ -10,7 +23,7 @@
       author: Scott Lowe
       nested: []
   version: 12.15.0
-  date: 2020-09-03T17:30:48.300Z
+  date: 2020-09-03T16:52:42.403Z
 - commits:
     - subject: Convert oclif actions to async/await
       hash: 42c6e1010f2df5aabb611b5206226175d9930901

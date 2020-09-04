@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Modify undervoltage status display in device command",
+          "hash": "ffa8e245ba2fa024f4e35316a6e0cd5d6f91fdd0",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.15.1",
+      "date": "2020-09-04T08:36:31.301Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add support for new device metrics to device command",
           "hash": "88569066b58d7ca8e0035fac36e59918747654d7",
           "body": "",
@@ -18455,29 +18474,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-09-03T17:31:45Z",
+  "lastCommitDate": "2020-09-04T09:26:57Z",
   "latestRelease": {
-    "tagName": "v12.15.0",
+    "tagName": "v12.15.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.15.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.0/balena-cli-v12.15.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.15.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.1/balena-cli-v12.15.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.15.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.0/balena-cli-v12.15.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.15.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.1/balena-cli-v12.15.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.15.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.0/balena-cli-v12.15.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.15.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.1/balena-cli-v12.15.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.15.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.0/balena-cli-v12.15.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.15.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.1/balena-cli-v12.15.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.15.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.0/balena-cli-v12.15.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.15.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.15.1/balena-cli-v12.15.1-windows-x64-standalone.zip"
       }
     ]
   },
@@ -18485,6 +18504,10 @@
   "openIssues": {
     "numberOfIssues": 294,
     "latestIssues": [
+      {
+        "title": "build, deploy: Add --pull option to force pulling base images again",
+        "url": "https://github.com/balena-io/balena-cli/pull/2015"
+      },
       {
         "title": "`os versions`: Add balenaOS ESR releases to the list",
         "url": "https://github.com/balena-io/balena-cli/pull/2012"
@@ -18534,10 +18557,6 @@
         "url": "https://github.com/balena-io/balena-cli/issues/1965"
       },
       {
-        "title": "Remove temporary v12 switches",
-        "url": "https://github.com/balena-io/balena-cli/pull/1961"
-      },
-      {
         "title": "Consider normalizing `join`, `leave`, `note`",
         "url": "https://github.com/balena-io/balena-cli/issues/1959"
       },
@@ -18567,7 +18586,7 @@
       }
     ]
   },
-  "version": "12.15.0",
+  "version": "12.15.1",
   "screenshot": null,
   "logo": null
 }
