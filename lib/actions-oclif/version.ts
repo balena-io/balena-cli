@@ -40,11 +40,15 @@ export default class VersionCmd extends Command {
 		because the JSON format is less likely to change and it better represents
 		data types like lists and empty strings. The 'jq' utility may be helpful
 		in shell scripts (https://stedolan.github.io/jq/manual/).
+
+		This command can also be invoked with 'balena --version' or 'balena -v'.
 `;
 	public static examples = [
 		'$ balena version',
 		'$ balena version -a',
 		'$ balena version -j',
+		`$ balena --version`,
+		`$ balena -v`,
 	];
 
 	public static usage = 'version';

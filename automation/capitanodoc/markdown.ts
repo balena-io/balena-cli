@@ -20,33 +20,10 @@ import * as _ from 'lodash';
 
 import { getManualSortCompareFunction } from '../../lib/utils/helpers';
 import { capitanoizeOclifUsage } from '../../lib/utils/oclif-utils';
-import { CapitanoCommand, Category, Document, OclifCommand } from './doc-types';
-import * as utils from './utils';
-
-function renderCapitanoCommand(command: CapitanoCommand): string[] {
-	const result = [`## ${ent.encode(command.signature)}`, command.help!];
-
-	if (!_.isEmpty(command.options)) {
-		result.push('### Options');
-
-		for (const option of command.options!) {
-			if (option == null) {
-				throw new Error(`Undefined option in markdown generation!`);
-			}
-			if (option.description == null) {
-				throw new Error(`Undefined option.description in markdown generation!`);
-			}
-			result.push(
-				`#### ${utils.parseCapitanoOption(option)}`,
-				option.description,
-			);
-		}
-	}
-	return result;
-}
+import { Category, Document, OclifCommand } from './doc-types';
 
 function renderOclifCommand(command: OclifCommand): string[] {
-	const result = [`## ${ent.encode(command.usage)}`];
+	const result = [`## ${ent.encode(command.usage || '')}`];
 	const description = (command.description || '')
 		.split('\n')
 		.slice(1) // remove the first line, which oclif uses as help header
@@ -86,11 +63,7 @@ function renderOclifCommand(command: OclifCommand): string[] {
 function renderCategory(category: Category): string[] {
 	const result = [`# ${category.title}`];
 	for (const command of category.commands) {
-		result.push(
-			...(typeof command === 'object'
-				? renderCapitanoCommand(command)
-				: renderOclifCommand(command)),
-		);
+		result.push(...renderOclifCommand(command));
 	}
 	return result;
 }
@@ -107,10 +80,7 @@ function renderToc(categories: Category[]): string[] {
 		result.push(
 			category.commands
 				.map((command) => {
-					const signature =
-						typeof command === 'object'
-							? command.signature // Capitano
-							: capitanoizeOclifUsage(command.usage); // oclif
+					const signature = capitanoizeOclifUsage(command.usage);
 					return `\t- [${ent.encode(signature)}](${getAnchor(signature)})`;
 				})
 				.join('\n'),
@@ -134,12 +104,10 @@ function sortCommands(doc: Document): void {
 	for (const category of doc.categories) {
 		if (category.title in manualCategorySorting) {
 			category.commands = category.commands.sort(
-				getManualSortCompareFunction<CapitanoCommand | OclifCommand, string>(
+				getManualSortCompareFunction<OclifCommand, string>(
 					manualCategorySorting[category.title],
-					(cmd: CapitanoCommand | OclifCommand, x: string) =>
-						typeof cmd === 'object' // Capitano vs oclif command
-							? cmd.signature.replace(/\W+/g, ' ').includes(x)
-							: (cmd.usage || '').toString().replace(/\W+/g, ' ').includes(x),
+					(cmd: OclifCommand, x: string) =>
+						(cmd.usage || '').toString().replace(/\W+/g, ' ').includes(x),
 				),
 			);
 		}

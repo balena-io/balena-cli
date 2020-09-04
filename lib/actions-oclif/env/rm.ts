@@ -20,7 +20,6 @@ import Command from '../../command';
 
 import * as ec from '../../utils/env-common';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { CommandHelp } from '../../utils/oclif-utils';
 import { parseAsInteger } from '../../utils/validation';
 
 type IArg<T> = import('@oclif/parser').args.IArg<T>;
@@ -67,9 +66,7 @@ export default class EnvRmCmd extends Command {
 		},
 	];
 
-	// hardcoded 'env rm' to avoid oclif's 'env:rm' topic syntax
-	public static usage =
-		'env rm ' + new CommandHelp({ args: EnvRmCmd.args }).defaultUsage();
+	public static usage = 'env rm <id>';
 
 	public static flags: flags.Input<FlagsDef> = {
 		config: ec.booleanConfig,

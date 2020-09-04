@@ -24,7 +24,6 @@ import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
-import { CommandHelp } from '../../utils/oclif-utils';
 
 const BOOT_PARTITION = 1;
 const CONNECTIONS_FOLDER = '/system-connections';
@@ -111,10 +110,7 @@ export default class OsConfigureCmd extends Command {
 		},
 	];
 
-	// hardcoded 'os configure' to avoid oclif's 'os:configure' topic syntax
-	public static usage =
-		'os configure ' +
-		new CommandHelp({ args: OsConfigureCmd.args }).defaultUsage();
+	public static usage = 'os configure <image>';
 
 	public static flags: flags.Input<FlagsDef> = {
 		advanced: flags.boolean({

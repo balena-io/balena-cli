@@ -36,7 +36,7 @@ interface FlagsDef {
 
 interface ArgsDef {
 	applicationOrDevice: string;
-	serviceName?: string;
+	service?: string;
 }
 
 export default class NoteCmd extends Command {
@@ -85,13 +85,13 @@ export default class NoteCmd extends Command {
 			required: true,
 		},
 		{
-			name: 'serviceName',
+			name: 'service',
 			description: 'service name, if connecting to a container',
 			required: false,
 		},
 	];
 
-	public static usage = 'ssh <applicationOrDevice> [serviceName]';
+	public static usage = 'ssh <applicationOrDevice> [service]';
 
 	public static flags: flags.Input<FlagsDef> = {
 		port: flags.integer({
@@ -134,7 +134,7 @@ export default class NoteCmd extends Command {
 				port: options.port,
 				forceTTY: options.tty,
 				verbose: options.verbose,
-				service: params.serviceName,
+				service: params.service,
 			});
 		}
 
@@ -214,11 +214,11 @@ export default class NoteCmd extends Command {
 		// At this point, we have a long uuid with a device
 		// that we know exists and is accessible
 		let containerId: string | undefined;
-		if (params.serviceName != null) {
+		if (params.service != null) {
 			containerId = await this.getContainerId(
 				sdk,
 				uuid,
-				params.serviceName,
+				params.service,
 				{
 					port: options.port,
 					proxyCommand,

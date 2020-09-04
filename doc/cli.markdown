@@ -186,7 +186,7 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 	- [envs](#envs)
 	- [env rm &#60;id&#62;](#env-rm-id)
 	- [env add &#60;name&#62; [value]](#env-add-name-value)
-	- [env rename &#60;id&#62; &#60;value&#62;](#env-rename-id-value)
+	- [env rename &#60;name&#62; &#60;value&#62;](#env-rename-name-value)
 
 - Tags
 
@@ -196,7 +196,7 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 
 - Help and Version
 
-	- [help [command...]](#help-command)
+	- [help [command]](#help-command)
 	- [version](#version)
 
 - Keys
@@ -213,7 +213,7 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 - Network
 
 	- [scan](#scan)
-	- [ssh &#60;applicationordevice&#62; [servicename]](#ssh-applicationordevice-servicename)
+	- [ssh &#60;applicationordevice&#62; [service]](#ssh-applicationordevice-service)
 	- [tunnel &#60;deviceorapplication&#62;](#tunnel-deviceorapplication)
 
 - Notes
@@ -901,7 +901,7 @@ produce verbose output
 
 service name
 
-## env rm ID
+## env rm &#60;id&#62;
 
 Remove a configuration or environment variable from an application, device
 or service, as selected by command-line options.
@@ -968,7 +968,7 @@ select a service variable (may be used together with the --device option)
 
 do not prompt for confirmation before deleting the variable
 
-## env add NAME [VALUE]
+## env add &#60;name&#62; [value]
 
 Add an environment or config variable to one or more applications, devices
 or services, as selected by the respective command-line options. Either the
@@ -1034,7 +1034,7 @@ suppress warning messages
 
 service name
 
-## env rename ID VALUE
+## env rename &#60;name&#62; &#60;value&#62;
 
 Change the value of a configuration or environment variable for an application,
 device or service, as selected by command-line options.
@@ -1212,18 +1212,25 @@ same as '--application'
 
 # Help and Version
 
-## help [command...]
+## help [command]
 
-Get detailed help for an specific command.
+List balena commands, or get detailed help for an specific command.
 
 Examples:
 
+	$ balena help
 	$ balena help apps
 	$ balena help os download
 
+### Arguments
+
+#### COMMAND
+
+command to show help for
+
 ### Options
 
-#### --verbose, -v
+#### --v, --verbose
 
 show additional commands
 
@@ -1236,11 +1243,15 @@ because the JSON format is less likely to change and it better represents
 data types like lists and empty strings. The 'jq' utility may be helpful
 in shell scripts (https://stedolan.github.io/jq/manual/).
 
+This command can also be invoked with 'balena --version' or 'balena -v'.
+
 Examples:
 
 	$ balena version
 	$ balena version -a
 	$ balena version -j
+	$ balena --version
+	$ balena -v
 
 ### Options
 
@@ -1401,7 +1412,7 @@ display full info
 
 scan timeout in seconds
 
-## ssh &#60;applicationOrDevice&#62; [serviceName]
+## ssh &#60;applicationOrDevice&#62; [service]
 
 Start a shell on a local or remote device. If a service name is not provided,
 a shell will be opened on the host OS.
@@ -1443,7 +1454,7 @@ Examples:
 
 application name, device uuid, or address of local device
 
-#### SERVICENAME
+#### SERVICE
 
 service name, if connecting to a container
 
@@ -1632,7 +1643,7 @@ show advanced configuration options
 
 path to output JSON file
 
-## os configure IMAGE
+## os configure &#60;image&#62;
 
 Configure a previously downloaded balenaOS image for a specific device type or
 balena application.

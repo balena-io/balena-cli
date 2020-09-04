@@ -88,7 +88,7 @@ const capitanoDoc = {
 		},
 		{
 			title: 'Help and Version',
-			files: ['build/actions/help.js', 'build/actions-oclif/version.js'],
+			files: ['help', 'build/actions-oclif/version.js'],
 		},
 		{
 			title: 'Keys',

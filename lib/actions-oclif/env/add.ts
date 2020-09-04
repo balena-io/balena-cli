@@ -22,7 +22,6 @@ import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { CommandHelp } from '../../utils/oclif-utils';
 
 interface FlagsDef {
 	application?: string; // application name
@@ -91,9 +90,7 @@ export default class EnvAddCmd extends Command {
 		},
 	];
 
-	// hardcoded 'env add' to avoid oclif's 'env:add' topic syntax
-	public static usage =
-		'env add ' + new CommandHelp({ args: EnvAddCmd.args }).defaultUsage();
+	public static usage = 'env add <name> [value]';
 
 	public static flags: flags.Input<FlagsDef> = {
 		application: { exclusive: ['device'], ...cf.application },

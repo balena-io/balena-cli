@@ -15,28 +15,20 @@
  * limitations under the License.
  */
 import { stripIndent } from './utils/lazy';
-
-import { exitWithExpectedError } from './errors';
+import { ExpectedError } from './errors';
 
 export interface AppOptions {
 	// Prevent the default behavior of flushing stdout after running a command
 	noFlush?: boolean;
 }
 
-/**
- * Simple command-line pre-parsing to choose between oclif or Capitano.
- * @param argv process.argv
- */
-export async function routeCliFramework(argv: string[], options: AppOptions) {
+export async function preparseArgs(argv: string[]): Promise<string[]> {
 	if (process.env.DEBUG) {
 		console.log(
 			`[debug] original argv0="${process.argv0}" argv=[${argv}] length=${argv.length}`,
 		);
 	}
 	const cmdSlice = argv.slice(2);
-
-	// Look for commands that have been removed and if so, exit with a notice
-	checkDeletedCommand(cmdSlice);
 
 	if (cmdSlice.length > 0) {
 		// convert 'balena --version' or 'balena -v' to 'balena version'
@@ -48,7 +40,11 @@ export async function routeCliFramework(argv: string[], options: AppOptions) {
 			cmdSlice[0] = 'help';
 		}
 		// convert e.g. 'balena help env add' to 'balena env add --help'
-		if (cmdSlice.length > 1 && cmdSlice[0] === 'help') {
+		if (
+			cmdSlice.length > 1 &&
+			cmdSlice[0] === 'help' &&
+			cmdSlice[1][0] !== '-'
+		) {
 			cmdSlice.shift();
 			cmdSlice.push('--help');
 		}
@@ -71,34 +67,31 @@ export async function routeCliFramework(argv: string[], options: AppOptions) {
 	const Logger = await import('./utils/logger');
 	Logger.command = cmdSlice[0];
 
-	const [isOclif, isTopic] = isOclifCommand(cmdSlice);
+	let args = cmdSlice;
 
-	if (isOclif) {
-		let oclifArgs = cmdSlice;
-		if (isTopic) {
-			// convert space-separated commands to oclif's topic:command syntax
-			oclifArgs = [cmdSlice[0] + ':' + cmdSlice[1], ...cmdSlice.slice(2)];
-			Logger.command = `${cmdSlice[0]} ${cmdSlice[1]}`;
-		}
-		if (process.env.DEBUG) {
-			console.log(
-				`[debug] new argv=[${[argv[0], argv[1], ...oclifArgs]}] length=${
-					oclifArgs.length + 2
-				}`,
-			);
-		}
-		await (await import('./app-oclif')).run(oclifArgs, options);
-	} else {
-		await (await import('./app-capitano')).run(argv);
+	// Convert space separated subcommands (e.g. `end add`), to colon-separated format (e.g. `env:add`)
+	if (isSubcommand(cmdSlice)) {
+		// convert space-separated commands to oclif's topic:command syntax
+		args = [cmdSlice[0] + ':' + cmdSlice[1], ...cmdSlice.slice(2)];
+		Logger.command = `${cmdSlice[0]} ${cmdSlice[1]}`;
 	}
+
+	if (process.env.DEBUG) {
+		console.log(
+			`[debug] new argv=[${[argv[0], argv[1], ...args]}] length=${
+				args.length + 2
+			}`,
+		);
+	}
+
+	return args;
 }
 
 /**
  * Check whether the command line refers to a command that has been deprecated
  * and removed and, if so, exit with an informative error message.
- * @param argvSlice process.argv.slice(2)
  */
-function checkDeletedCommand(argvSlice: string[]): void {
+export function checkDeletedCommand(argvSlice: string[]): void {
 	if (argvSlice[0] === 'help') {
 		argvSlice = argvSlice.slice(1);
 	}
@@ -108,7 +101,7 @@ function checkDeletedCommand(argvSlice: string[]): void {
 		version: string,
 		verb = 'replaced',
 	) {
-		exitWithExpectedError(stripIndent`
+		throw new ExpectedError(stripIndent`
 			Note: the command "balena ${oldCmd}" was ${verb} in CLI version ${version}.
 			Please use "balena ${alternative}" instead.
 		`);
@@ -118,7 +111,7 @@ function checkDeletedCommand(argvSlice: string[]): void {
 		if (alternative) {
 			msg = [msg, alternative].join('\n');
 		}
-		exitWithExpectedError(msg);
+		throw new ExpectedError(msg);
 	}
 	const stopAlternative =
 		'Please use "balena ssh -s" to access the host OS, then use `balena-engine stop`.';
@@ -141,7 +134,14 @@ function checkDeletedCommand(argvSlice: string[]): void {
 	}
 }
 
-export const convertedCommands = [
+// Check if this is a space separated 'topic command' style command subcommand (e.g. `end add`)
+// by comparing with oclif style colon-separated subcommand list (e.g. `env:add`)
+// TODO: Need to find a way of doing this that does not require maintaining list of IDs
+export function isSubcommand(args: string[]) {
+	return oclifCommandIds.includes(`${args[0] || ''}:${args[1] || ''}`);
+}
+
+export const oclifCommandIds = [
 	'api-key:generate',
 	'app',
 	'app:create',
@@ -172,6 +172,7 @@ export const convertedCommands = [
 	'env:add',
 	'env:rename',
 	'env:rm',
+	'help',
 	'internal:scandevices',
 	'internal:osinit',
 	'join',
@@ -204,26 +205,3 @@ export const convertedCommands = [
 	'version',
 	'whoami',
 ];
-
-/**
- * Determine whether the CLI command has been converted from Capitano to oclif.
- * Return an array of two boolean values:
- *   r[0] : whether the CLI command is implemented with oclif
- *   r[1] : if r[0] is true, whether the CLI command is implemented with
- *          oclif "topics" (colon-separated subcommands like `env:add`)
- * @param argvSlice process.argv.slice(2)
- */
-export function isOclifCommand(argvSlice: string[]): [boolean, boolean] {
-	// Look for commands that have been transitioned to oclif
-	// const { convertedCommands } = require('oclif/utils/command');
-	const arg0 = argvSlice.length > 0 ? argvSlice[0] : '';
-	const arg1 = argvSlice.length > 1 ? argvSlice[1] : '';
-
-	if (convertedCommands.includes(`${arg0}:${arg1}`)) {
-		return [true, true];
-	}
-	if (convertedCommands.includes(arg0)) {
-		return [true, false];
-	}
-	return [false, false];
-}

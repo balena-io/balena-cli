@@ -27,7 +27,6 @@
     "scripts": [
       "build/**/*.js",
       "node_modules/balena-sdk/es2018/index.js",
-      "node_modules/balena-sync/build/capitano/*.js",
       "node_modules/balena-sync/build/sync/*.js",
       "node_modules/pinejs-client-request/node_modules/pinejs-client-core/es2018/index.js",
       "node_modules/resin-compose-parse/build/schemas/*.json"
@@ -102,13 +101,17 @@
   "oclif": {
     "bin": "balena",
     "commands": "./build/actions-oclif",
+    "helpClass": "./build/help",
     "hooks": {
       "prerun": "./build/hooks/prerun/track"
     },
     "macos": {
       "identifier": "io.balena.cli",
       "sign": "Developer ID Installer: Rulemotion Ltd (66H43P8FRG)"
-    }
+    },
+    "plugins": [
+      "@oclif/plugin-help"
+    ]
   },
   "devDependencies": {
     "@balena/lint": "^5.2.0",
@@ -210,7 +213,6 @@
     "balena-sync": "^11.0.2",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
-    "capitano": "^1.9.2",
     "chalk": "^3.0.0",
     "chokidar": "^3.3.1",
     "cli-truncate": "^2.1.0",
