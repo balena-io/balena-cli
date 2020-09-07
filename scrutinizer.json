@@ -5,6 +5,38 @@
     {
       "commits": [
         {
+          "subject": "Display command suggestions, when command not recognized",
+          "hash": "273ea5ce4d5f169486f1e68be1157d7091338798",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        },
+        {
+          "subject": "Convert help to oclif, remove capitano",
+          "hash": "d56fec6e36b88c1a1029858acfac7404080a1581",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.17.0",
+      "date": "2020-09-07T12:45:01.828Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "build, deploy: Add --pull option to force pulling base images again",
           "hash": "d1539f405aa2af75c8ccd3ae22e4e59c46c67d55",
           "body": "",
@@ -18410,6 +18442,7 @@
     "@oclif/command",
     "@resin.io/valid-email",
     "@sentry/node",
+    "@types/fast-levenshtein",
     "@types/update-notifier",
     "@zeit/dockerignore",
     "JSONStream",
@@ -18426,7 +18459,6 @@
     "balena-sync",
     "bluebird",
     "body-parser",
-    "capitano",
     "chalk",
     "chokidar",
     "cli-truncate",
@@ -18444,6 +18476,7 @@
     "event-stream",
     "express",
     "fast-boot2",
+    "fast-levenshtein",
     "get-stdin",
     "global-agent",
     "global-tunnel-ng",
@@ -18493,29 +18526,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-09-04T11:09:05Z",
+  "lastCommitDate": "2020-09-07T13:31:25Z",
   "latestRelease": {
-    "tagName": "v12.16.0",
+    "tagName": "v12.17.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.16.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.16.0/balena-cli-v12.16.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.17.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.0/balena-cli-v12.17.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.16.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.16.0/balena-cli-v12.16.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.17.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.0/balena-cli-v12.17.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.16.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.16.0/balena-cli-v12.16.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.17.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.0/balena-cli-v12.17.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.16.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.16.0/balena-cli-v12.16.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.17.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.0/balena-cli-v12.17.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.16.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.16.0/balena-cli-v12.16.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.17.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.0/balena-cli-v12.17.0-windows-x64-standalone.zip"
       }
     ]
   },
@@ -18605,7 +18638,7 @@
       }
     ]
   },
-  "version": "12.16.0",
+  "version": "12.17.0",
   "screenshot": null,
   "logo": null
 }
