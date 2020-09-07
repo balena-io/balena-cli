@@ -1,4 +1,27 @@
 - commits:
+    - subject: 'Display command suggestions, when command not recognized'
+      hash: 273ea5ce4d5f169486f1e68be1157d7091338798
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+    - subject: 'Convert help to oclif, remove capitano'
+      hash: d56fec6e36b88c1a1029858acfac7404080a1581
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.17.0
+  date: 2020-09-07T12:45:01.828Z
+- commits:
     - subject: 'build, deploy: Add --pull option to force pulling base images again'
       hash: d1539f405aa2af75c8ccd3ae22e4e59c46c67d55
       body: ''
