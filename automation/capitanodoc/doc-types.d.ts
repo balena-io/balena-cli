@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import { Command as OclifCommandClass } from '@oclif/command';
-import { CommandDefinition as CapitanoCommand } from 'capitano';
 
 type OclifCommand = typeof OclifCommandClass;
 
@@ -27,7 +26,7 @@ export interface Document {
 
 export interface Category {
 	title: string;
-	commands: Array<CapitanoCommand | OclifCommand>;
+	commands: OclifCommand[];
 }
 
-export { CapitanoCommand, OclifCommand };
+export { OclifCommand };

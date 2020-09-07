@@ -37,13 +37,18 @@ export async function run(
 	}
 
 	const { globalInit } = await import('./app-common');
-	const { routeCliFramework } = await import('./preparser');
+	const { preparseArgs, checkDeletedCommand } = await import('./preparser');
 
 	// globalInit() must be called very early on (before other imports) because
 	// it sets up Sentry error reporting, global HTTP proxy settings, balena-sdk
 	// shared options, and performs node version requirement checks.
 	await globalInit();
-	await routeCliFramework(cliArgs, options);
+
+	// Look for commands that have been removed and if so, exit with a notice
+	checkDeletedCommand(cliArgs.slice(2));
+
+	const args = await preparseArgs(cliArgs);
+	await (await import('./app-oclif')).run(args, options);
 
 	// Windows fix: reading from stdin prevents the process from exiting
 	process.stdin.pause();

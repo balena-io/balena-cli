@@ -20,7 +20,6 @@ import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import * as ec from '../../utils/env-common';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { CommandHelp } from '../../utils/oclif-utils';
 import { parseAsInteger } from '../../utils/validation';
 
 type IArg<T> = import('@oclif/parser').args.IArg<T>;
@@ -70,9 +69,7 @@ export default class EnvRenameCmd extends Command {
 		},
 	];
 
-	// hardcoded 'env rename' to avoid oclif's 'env:rename' topic syntax
-	public static usage =
-		'env rename ' + new CommandHelp({ args: EnvRenameCmd.args }).defaultUsage();
+	public static usage = 'env rename <name> <value>';
 
 	public static flags: flags.Input<FlagsDef> = {
 		config: ec.booleanConfig,

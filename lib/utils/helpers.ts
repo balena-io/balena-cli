@@ -25,7 +25,7 @@ import type { Device, PineOptions } from 'balena-sdk';
 import { ExpectedError } from '../errors';
 import { getBalenaSdk, getChalk, getVisuals } from './lazy';
 import { promisify } from 'util';
-import { isOclifCommand } from '../preparser';
+import { isSubcommand } from '../preparser';
 
 export function getGroupDefaults(group: {
 	options: Array<{ name: string; default: string | number }>;
@@ -95,25 +95,14 @@ export async function sudo(
 }
 
 export function runCommand<T>(commandArgs: string[]): Promise<T> {
-	const [isOclif, isOclifTopic] = isOclifCommand(commandArgs);
-	if (isOclif) {
-		if (isOclifTopic) {
-			commandArgs = [
-				commandArgs[0] + ':' + commandArgs[1],
-				...commandArgs.slice(2),
-			];
-		}
-		const { run } = require('@oclif/command');
-		return run(commandArgs);
-	} else {
-		const capitano = require('capitano') as typeof import('capitano');
-		// Need to require app-capitano to register capitano commands,
-		// in case calling command is oclif
-		require('../app-capitano');
-
-		const capitanoRunAsync = promisify(capitano.run);
-		return capitanoRunAsync(commandArgs);
+	if (isSubcommand(commandArgs)) {
+		commandArgs = [
+			commandArgs[0] + ':' + commandArgs[1],
+			...commandArgs.slice(2),
+		];
 	}
+	const { run } = require('@oclif/command');
+	return run(commandArgs);
 }
 
 export async function getManifest(

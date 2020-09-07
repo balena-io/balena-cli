@@ -20,7 +20,7 @@ import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
 
 export default class WhoamiCmd extends Command {
 	public static description = stripIndent`
-		Get current username and email address.
+		Display account information for current user.
 
 		Get the username and email address of the currently logged in user.
 	`;

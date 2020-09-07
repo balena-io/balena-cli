@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as _ from 'lodash';
 import * as path from 'path';
-
 import { getCapitanoDoc } from './capitanodoc';
-import { CapitanoCommand, Category, Document, OclifCommand } from './doc-types';
+import { Category, Document, OclifCommand } from './doc-types';
 import * as markdown from './markdown';
+import { stripIndent } from '../../lib/utils/lazy';
 
 /**
  * Generates the markdown document (as a string) for the CLI documentation
@@ -40,11 +39,7 @@ export async function renderMarkdown(): Promise<string> {
 		};
 
 		for (const jsFilename of commandCategory.files) {
-			category.commands.push(
-				...(jsFilename.includes('actions-oclif')
-					? importOclifCommands(jsFilename)
-					: importCapitanoCommands(jsFilename)),
-			);
+			category.commands.push(...importOclifCommands(jsFilename));
 		}
 		result.categories.push(category);
 	}
@@ -52,27 +47,48 @@ export async function renderMarkdown(): Promise<string> {
 	return markdown.render(result);
 }
 
-function importCapitanoCommands(jsFilename: string): CapitanoCommand[] {
-	const actions = require(path.join(process.cwd(), jsFilename));
-	const commands: CapitanoCommand[] = [];
+// Help is now managed via a plugin
+// This fake command allows capitanodoc to include help in docs
+class FakeHelpCommand {
+	description = stripIndent`
+		List balena commands, or get detailed help for an specific command.
 
-	if (actions.signature) {
-		commands.push(_.omit(actions, 'action') as any);
-	} else {
-		for (const actionName of Object.keys(actions)) {
-			const actionCommand = actions[actionName];
-			commands.push(_.omit(actionCommand, 'action') as any);
-		}
-	}
-	return commands;
+		List balena commands, or get detailed help for an specific command.
+	`;
+
+	examples = [
+		'$ balena help',
+		'$ balena help apps',
+		'$ balena help os download',
+	];
+
+	args = [
+		{
+			name: 'command',
+			description: 'command to show help for',
+		},
+	];
+
+	usage = 'help [command]';
+
+	flags = {
+		verbose: {
+			description: 'show additional commands',
+			char: '-v',
+		},
+	};
 }
 
 function importOclifCommands(jsFilename: string): OclifCommand[] {
 	// TODO: Currently oclif commands with no `usage` overridden will cause
 	//  an error when parsed.  This should be improved so that `usage` does not have
 	//  to be overridden if not necessary.
-	const command: OclifCommand = require(path.join(process.cwd(), jsFilename))
-		.default as OclifCommand;
+
+	const command: OclifCommand =
+		jsFilename === 'help'
+			? ((new FakeHelpCommand() as unknown) as OclifCommand)
+			: (require(path.join(process.cwd(), jsFilename)).default as OclifCommand);
+
 	return [command];
 }
 
