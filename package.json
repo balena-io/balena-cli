@@ -103,7 +103,8 @@
     "commands": "./build/actions-oclif",
     "helpClass": "./build/help",
     "hooks": {
-      "prerun": "./build/hooks/prerun/track"
+      "prerun": "./build/hooks/prerun/track",
+      "command_not_found": "./build/hooks/command-not-found/suggest"
     },
     "macos": {
       "identifier": "io.balena.cli",
@@ -197,6 +198,7 @@
     "@oclif/command": "^1.8.0",
     "@resin.io/valid-email": "^0.1.0",
     "@sentry/node": "^5.21.1",
+    "@types/fast-levenshtein": "0.0.1",
     "@types/update-notifier": "^4.1.1",
     "@zeit/dockerignore": "0.0.3",
     "JSONStream": "^1.0.3",
@@ -230,6 +232,7 @@
     "event-stream": "3.3.4",
     "express": "^4.13.3",
     "fast-boot2": "^1.1.0",
+    "fast-levenshtein": "^3.0.0",
     "get-stdin": "^8.0.0",
     "global-agent": "^2.1.12",
     "global-tunnel-ng": "^2.1.1",
