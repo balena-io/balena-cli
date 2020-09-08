@@ -5,6 +5,57 @@
     {
       "commits": [
         {
+          "subject": "Fix usage info for env rename",
+          "hash": "5e5a2c1c85d09020fb53a0e80db9efee9940e885",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Resolves": "#2019",
+            "resolves": "#2019",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        },
+        {
+          "subject": "Fix typo in docs help section",
+          "hash": "238c371adef610309265a64e4833d4e415f3c51d",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Resolves": "#2020",
+            "resolves": "#2020",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        },
+        {
+          "subject": "Fix issue with replaced command checks",
+          "hash": "504877c232d9c23f82c1b692b7b20a44150e91f4",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Resolves": "#2022",
+            "resolves": "#2022",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.17.1",
+      "date": "2020-09-08T11:35:40.792Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Display command suggestions, when command not recognized",
           "hash": "273ea5ce4d5f169486f1e68be1157d7091338798",
           "body": "",
@@ -18306,12 +18357,12 @@
       "avatar": "https://avatars3.githubusercontent.com/u/360115?v=4"
     },
     {
-      "username": "CameronDiver",
-      "avatar": "https://avatars0.githubusercontent.com/u/7694128?v=4"
-    },
-    {
       "username": "srlowe",
       "avatar": "https://avatars3.githubusercontent.com/u/1562665?v=4"
+    },
+    {
+      "username": "CameronDiver",
+      "avatar": "https://avatars0.githubusercontent.com/u/7694128?v=4"
     },
     {
       "username": "bulldozer-balena[bot]",
@@ -18526,36 +18577,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-09-07T13:31:25Z",
+  "lastCommitDate": "2020-09-08T12:16:37Z",
   "latestRelease": {
-    "tagName": "v12.17.0",
+    "tagName": "v12.17.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.17.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.0/balena-cli-v12.17.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.17.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.1/balena-cli-v12.17.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.17.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.0/balena-cli-v12.17.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.17.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.1/balena-cli-v12.17.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.17.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.0/balena-cli-v12.17.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.17.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.1/balena-cli-v12.17.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.17.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.0/balena-cli-v12.17.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.17.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.1/balena-cli-v12.17.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.17.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.0/balena-cli-v12.17.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.17.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.1/balena-cli-v12.17.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 292,
+    "numberOfIssues": 295,
     "latestIssues": [
+      {
+        "title": "Fix error displaying info for devices without commits",
+        "url": "https://github.com/balena-io/balena-cli/pull/2026"
+      },
+      {
+        "title": "`balena device` :  Cannot read property 'commit' of undefined",
+        "url": "https://github.com/balena-io/balena-cli/issues/2024"
+      },
+      {
+        "title": "Command suggestion does not work well for multi-word commands (topics)",
+        "url": "https://github.com/balena-io/balena-cli/issues/2021"
+      },
       {
         "title": "`os versions`: Add balenaOS ESR releases to the list",
         "url": "https://github.com/balena-io/balena-cli/pull/2012"
@@ -18623,22 +18686,10 @@
       {
         "title": "Add \"balena logs <app>\" command",
         "url": "https://github.com/balena-io/balena-cli/issues/1946"
-      },
-      {
-        "title": "push <ip-address>: incorrect error message when device is not in local mode",
-        "url": "https://github.com/balena-io/balena-cli/issues/1942"
-      },
-      {
-        "title": "Enable `balena deploy` to update individual images in a multicontainer app",
-        "url": "https://github.com/balena-io/balena-cli/issues/1923"
-      },
-      {
-        "title": "Add an error when generating config with different device type",
-        "url": "https://github.com/balena-io/balena-cli/issues/1919"
       }
     ]
   },
-  "version": "12.17.0",
+  "version": "12.17.1",
   "screenshot": null,
   "logo": null
 }
