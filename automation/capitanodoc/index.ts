@@ -51,9 +51,9 @@ export async function renderMarkdown(): Promise<string> {
 // This fake command allows capitanodoc to include help in docs
 class FakeHelpCommand {
 	description = stripIndent`
-		List balena commands, or get detailed help for an specific command.
+		List balena commands, or get detailed help for a specific command.
 
-		List balena commands, or get detailed help for an specific command.
+		List balena commands, or get detailed help for a specific command.
 	`;
 
 	examples = [

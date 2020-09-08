@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { stripIndent } from './utils/lazy';
-import { ExpectedError } from './errors';
+import { exitWithExpectedError } from './errors';
 
 export interface AppOptions {
 	// Prevent the default behavior of flushing stdout after running a command
@@ -101,7 +101,7 @@ export function checkDeletedCommand(argvSlice: string[]): void {
 		version: string,
 		verb = 'replaced',
 	) {
-		throw new ExpectedError(stripIndent`
+		exitWithExpectedError(stripIndent`
 			Note: the command "balena ${oldCmd}" was ${verb} in CLI version ${version}.
 			Please use "balena ${alternative}" instead.
 		`);
@@ -111,7 +111,7 @@ export function checkDeletedCommand(argvSlice: string[]): void {
 		if (alternative) {
 			msg = [msg, alternative].join('\n');
 		}
-		throw new ExpectedError(msg);
+		exitWithExpectedError(msg);
 	}
 	const stopAlternative =
 		'Please use "balena ssh -s" to access the host OS, then use `balena-engine stop`.';
