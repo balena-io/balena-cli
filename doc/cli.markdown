@@ -2091,17 +2091,18 @@ this file will be used instead.
 DOCKERIGNORE AND GITIGNORE FILES  
 By default, the balena CLI will use a single ".dockerignore" file (if any) at
 the project root (--source directory) in order to decide which source files to
-exclude from the "build context" (tar stream) sent to balenaCloud, Docker daemon
-or balenaEngine. In a microservices (multicontainer) application, the source
-directory is the directory that contains the "docker-compose.yml" file.
+exclude from the "build context" (tar stream) sent to balenaCloud, Docker
+daemon or balenaEngine. In a microservices (multicontainer) application, the
+source directory is the directory that contains the "docker-compose.yml" file.
 
-The --multi-dockerignore (-m) option may be used with microservices (multicontainer)
-applications that define a docker-compose.yml file. When this option is used,
-each service subdirectory (defined by the `build` or `build.context` service
-properties in the docker-compose.yml file) is filtered separately according to
-a .dockerignore file defined in the service subdirectory. If no .dockerignore
-file exists in a service subdirectory, then only the default .dockerignore
-patterns (see below) apply for that service subdirectory.
+The --multi-dockerignore (-m) option may be used with microservices
+(multicontainer) applications that define a docker-compose.yml file. When
+this option is used, each service subdirectory (defined by the `build` or
+`build.context` service properties in the docker-compose.yml file) is
+filtered separately according to a .dockerignore file defined in the service
+subdirectory. If no .dockerignore file exists in a service subdirectory, then
+only the default .dockerignore patterns (see below) apply for that service
+subdirectory.
 
 When the --multi-dockerignore (-m) option is used, the .dockerignore file (if
 any) defined at the overall project root will be used to filter files and
@@ -2139,8 +2140,8 @@ adding counter patterns to the applicable .dockerignore file(s), for example
 - https://docs.docker.com/engine/reference/builder/#dockerignore-file
 - https://www.npmjs.com/package/@balena/dockerignore
 
-Note: --service and --env flags must come after the applicationOrDevice parameter,
-as per examples.
+Note: the --service and --env flags must come after the applicationOrDevice
+parameter, as per examples.
 
 Examples:
 
@@ -2167,7 +2168,8 @@ application name, or device address (for local pushes)
 
 #### -s, --source SOURCE
 
-Source directory to be sent to balenaCloud or balenaOS device (default: current working dir)
+Source directory to be sent to balenaCloud or balenaOS device
+(default: current working dir)
 
 #### -f, --emulated
 
@@ -2179,11 +2181,12 @@ Alternative Dockerfile name/path, relative to the source folder
 
 #### -c, --nocache
 
-Don't use cached layers of previously built images for this project. This ensures
-that the latest base image and packages are pulled. Note that build logs may still
-display the message _"Pulling previous images for caching purposes" (as the cloud
-builder needs previous images to compute delta updates), but the logs will not
-display the "Using cache" lines for each build step of a Dockerfile.
+Don't use cached layers of previously built images for this project. This
+ensures that the latest base image and packages are pulled. Note that build
+logs may still display the message _"Pulling previous images for caching
+purposes" (as the cloud builder needs previous images to compute delta
+updates), but the logs will not display the "Using cache" lines for each
+build step of a Dockerfile.
 
 #### --noparent-check
 
@@ -2191,23 +2194,24 @@ Disable project validation check of 'docker-compose.yml' file in parent folder
 
 #### -R, --registry-secrets REGISTRY-SECRETS
 
-Path to a local YAML or JSON file containing Docker registry passwords used to pull base images.
-Note that if registry-secrets are not provided on the command line, a secrets configuration
-file from the balena directory will be used (usually $HOME/.balena/secrets.yml|.json)
+Path to a local YAML or JSON file containing Docker registry passwords used
+to pull base images. Note that if registry-secrets are not provided on the
+command line, a secrets configuration file from the balena directory will be
+used (usually $HOME/.balena/secrets.yml|.json)
 
 #### --nolive
 
-Don't run a live session on this push. The filesystem will not be monitored, and changes
-will not be synchronized to any running containers. Note that both this flag and --detached
-and required to cause the process to end once the initial build has completed.
+Don't run a live session on this push. The filesystem will not be monitored,
+and changes will not be synchronized to any running containers. Note that both
+this flag and --detached and required to cause the process to end once the
+initial build has completed.
 
 #### -d, --detached
 
-When pushing to the cloud, this option will cause the build to start, then return execution
-back to the shell, with the status and release ID (if applicable).
-
-When pushing to a local mode device, this option will cause the command to not tail application logs when the build
-has completed.
+When pushing to the cloud, this option will cause the build to start, then
+return execution back to the shell, with the status and release ID (if
+applicable).  When pushing to a local mode device, this option will cause
+the command to not tail application logs when the build has completed.
 
 #### --service SERVICE
 
@@ -2249,8 +2253,8 @@ No-op (default behavior) since balena CLI v12.0.0. See "balena help push".
 #### -g, --gitignore
 
 Consider .gitignore files in addition to the .dockerignore file. This reverts
-to the CLI v11 behavior/implementation (deprecated) if compatibility is required
-until your project can be adapted.
+to the CLI v11 behavior/implementation (deprecated) if compatibility is
+required until your project can be adapted.
 
 # Settings
 
@@ -2358,17 +2362,18 @@ this file will be used instead.
 DOCKERIGNORE AND GITIGNORE FILES  
 By default, the balena CLI will use a single ".dockerignore" file (if any) at
 the project root (--source directory) in order to decide which source files to
-exclude from the "build context" (tar stream) sent to balenaCloud, Docker daemon
-or balenaEngine. In a microservices (multicontainer) application, the source
-directory is the directory that contains the "docker-compose.yml" file.
+exclude from the "build context" (tar stream) sent to balenaCloud, Docker
+daemon or balenaEngine. In a microservices (multicontainer) application, the
+source directory is the directory that contains the "docker-compose.yml" file.
 
-The --multi-dockerignore (-m) option may be used with microservices (multicontainer)
-applications that define a docker-compose.yml file. When this option is used,
-each service subdirectory (defined by the `build` or `build.context` service
-properties in the docker-compose.yml file) is filtered separately according to
-a .dockerignore file defined in the service subdirectory. If no .dockerignore
-file exists in a service subdirectory, then only the default .dockerignore
-patterns (see below) apply for that service subdirectory.
+The --multi-dockerignore (-m) option may be used with microservices
+(multicontainer) applications that define a docker-compose.yml file. When
+this option is used, each service subdirectory (defined by the `build` or
+`build.context` service properties in the docker-compose.yml file) is
+filtered separately according to a .dockerignore file defined in the service
+subdirectory. If no .dockerignore file exists in a service subdirectory, then
+only the default .dockerignore patterns (see below) apply for that service
+subdirectory.
 
 When the --multi-dockerignore (-m) option is used, the .dockerignore file (if
 any) defined at the overall project root will be used to filter files and
@@ -2579,17 +2584,18 @@ this file will be used instead.
 DOCKERIGNORE AND GITIGNORE FILES  
 By default, the balena CLI will use a single ".dockerignore" file (if any) at
 the project root (--source directory) in order to decide which source files to
-exclude from the "build context" (tar stream) sent to balenaCloud, Docker daemon
-or balenaEngine. In a microservices (multicontainer) application, the source
-directory is the directory that contains the "docker-compose.yml" file.
+exclude from the "build context" (tar stream) sent to balenaCloud, Docker
+daemon or balenaEngine. In a microservices (multicontainer) application, the
+source directory is the directory that contains the "docker-compose.yml" file.
 
-The --multi-dockerignore (-m) option may be used with microservices (multicontainer)
-applications that define a docker-compose.yml file. When this option is used,
-each service subdirectory (defined by the `build` or `build.context` service
-properties in the docker-compose.yml file) is filtered separately according to
-a .dockerignore file defined in the service subdirectory. If no .dockerignore
-file exists in a service subdirectory, then only the default .dockerignore
-patterns (see below) apply for that service subdirectory.
+The --multi-dockerignore (-m) option may be used with microservices
+(multicontainer) applications that define a docker-compose.yml file. When
+this option is used, each service subdirectory (defined by the `build` or
+`build.context` service properties in the docker-compose.yml file) is
+filtered separately according to a .dockerignore file defined in the service
+subdirectory. If no .dockerignore file exists in a service subdirectory, then
+only the default .dockerignore patterns (see below) apply for that service
+subdirectory.
 
 When the --multi-dockerignore (-m) option is used, the .dockerignore file (if
 any) defined at the overall project root will be used to filter files and
