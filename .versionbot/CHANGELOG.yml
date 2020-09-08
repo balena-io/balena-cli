@@ -1,4 +1,43 @@
 - commits:
+    - subject: Fix usage info for env rename
+      hash: 5e5a2c1c85d09020fb53a0e80db9efee9940e885
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#2019'
+        resolves: '#2019'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+    - subject: Fix typo in docs help section
+      hash: 238c371adef610309265a64e4833d4e415f3c51d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#2020'
+        resolves: '#2020'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+    - subject: Fix issue with replaced command checks
+      hash: 504877c232d9c23f82c1b692b7b20a44150e91f4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#2022'
+        resolves: '#2022'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.17.1
+  date: 2020-09-08T11:35:40.792Z
+- commits:
     - subject: 'Display command suggestions, when command not recognized'
       hash: 273ea5ce4d5f169486f1e68be1157d7091338798
       body: ''
