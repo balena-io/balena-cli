@@ -1214,7 +1214,7 @@ same as '--application'
 
 ## help [command]
 
-List balena commands, or get detailed help for an specific command.
+List balena commands, or get detailed help for a specific command.
 
 Examples:
 
