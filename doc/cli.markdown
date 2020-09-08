@@ -186,7 +186,7 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 	- [envs](#envs)
 	- [env rm &#60;id&#62;](#env-rm-id)
 	- [env add &#60;name&#62; [value]](#env-add-name-value)
-	- [env rename &#60;name&#62; &#60;value&#62;](#env-rename-name-value)
+	- [env rename &#60;id&#62; &#60;value&#62;](#env-rename-id-value)
 
 - Tags
 
@@ -1034,7 +1034,7 @@ suppress warning messages
 
 service name
 
-## env rename &#60;name&#62; &#60;value&#62;
+## env rename &#60;id&#62; &#60;value&#62;
 
 Change the value of a configuration or environment variable for an application,
 device or service, as selected by command-line options.
