@@ -33,6 +33,7 @@ interface FlagsDef {
 	emulated: boolean;
 	dockerfile?: string; // DeviceDeployOptions.dockerfilePath (alternative Dockerfile)
 	nocache?: boolean;
+	pull?: boolean;
 	'noparent-check'?: boolean;
 	'registry-secrets'?: string;
 	gitignore?: boolean;
@@ -137,6 +138,11 @@ export default class PushCmd extends Command {
 				updates), but the logs will not display the "Using cache" lines for each
 				build step of a Dockerfile.`,
 			char: 'c',
+		}),
+		pull: flags.boolean({
+			description: stripIndent`
+				When pushing to a local device, force the base images to be pulled again.
+				Currently this option is ignored when pushing to the balenaCloud builders.`,
 		}),
 		'noparent-check': flags.boolean({
 			description: stripIndent`
@@ -310,6 +316,7 @@ export default class PushCmd extends Command {
 						registrySecrets,
 						multiDockerignore: options['multi-dockerignore'] || false,
 						nocache: options.nocache || false,
+						pull: options.pull || false,
 						nogitignore,
 						noParentCheck: options['noparent-check'] || false,
 						nolive: options.nolive || false,

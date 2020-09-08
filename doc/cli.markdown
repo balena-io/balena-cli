@@ -2188,6 +2188,11 @@ purposes" (as the cloud builder needs previous images to compute delta
 updates), but the logs will not display the "Using cache" lines for each
 build step of a Dockerfile.
 
+#### --pull
+
+When pushing to a local device, force the base images to be pulled again.
+Currently this option is ignored when pushing to the balenaCloud builders.
+
 #### --noparent-check
 
 Disable project validation check of 'docker-compose.yml' file in parent folder
