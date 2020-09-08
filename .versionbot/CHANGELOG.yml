@@ -1,4 +1,19 @@
 - commits:
+    - subject: Fix error displaying info for devices without commits
+      hash: e0c65bdef89e2cc1922e2e445fc2d2ff4968b944
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#2024'
+        resolves: '#2024'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.17.2
+  date: 2020-09-08T17:00:11.674Z
+- commits:
     - subject: Fix usage info for env rename
       hash: 5e5a2c1c85d09020fb53a0e80db9efee9940e885
       body: ''
