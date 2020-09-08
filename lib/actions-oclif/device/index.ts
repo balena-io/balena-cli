@@ -116,7 +116,10 @@ export default class DeviceCmd extends Command {
 			: 'N/a';
 
 		device.device_type = device.is_of__device_type[0].slug;
-		device.commit = (device.is_running__release as Release[])[0].commit;
+
+		const isRunningRelease = device.is_running__release as Release[];
+		device.commit = isRunningRelease?.[0] ? isRunningRelease[0].commit : 'N/a';
+
 		device.last_seen = device.last_connectivity_event ?? undefined;
 
 		// Memory/Storage are really MiB
