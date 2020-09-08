@@ -1,4 +1,19 @@
 - commits:
+    - subject: Fix error displaying info for devices without commits
+      hash: e0c65bdef89e2cc1922e2e445fc2d2ff4968b944
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#2024'
+        resolves: '#2024'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.17.2
+  date: 2020-09-08T18:16:01.166Z
+- commits:
     - subject: Fix usage info for env rename
       hash: 5e5a2c1c85d09020fb53a0e80db9efee9940e885
       body: ''
@@ -36,7 +51,7 @@
       author: Scott Lowe
       nested: []
   version: 12.17.1
-  date: 2020-09-08T12:15:39.111Z
+  date: 2020-09-08T11:35:40.792Z
 - commits:
     - subject: 'Display command suggestions, when command not recognized'
       hash: 273ea5ce4d5f169486f1e68be1157d7091338798

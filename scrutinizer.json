@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "Fix error displaying info for devices without commits",
+          "hash": "e0c65bdef89e2cc1922e2e445fc2d2ff4968b944",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Resolves": "#2024",
+            "resolves": "#2024",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.17.2",
+      "date": "2020-09-08T17:00:11.674Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix usage info for env rename",
           "hash": "5e5a2c1c85d09020fb53a0e80db9efee9940e885",
           "body": "",
@@ -18577,44 +18598,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-09-08T12:16:37Z",
+  "lastCommitDate": "2020-09-08T18:16:44Z",
   "latestRelease": {
-    "tagName": "v12.17.1",
+    "tagName": "v12.17.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.17.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.1/balena-cli-v12.17.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.17.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.2/balena-cli-v12.17.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.17.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.1/balena-cli-v12.17.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.17.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.2/balena-cli-v12.17.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.17.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.1/balena-cli-v12.17.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.17.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.2/balena-cli-v12.17.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.17.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.1/balena-cli-v12.17.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.17.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.2/balena-cli-v12.17.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.17.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.1/balena-cli-v12.17.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.17.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.17.2/balena-cli-v12.17.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 295,
+    "numberOfIssues": 293,
     "latestIssues": [
-      {
-        "title": "Fix error displaying info for devices without commits",
-        "url": "https://github.com/balena-io/balena-cli/pull/2026"
-      },
-      {
-        "title": "`balena device` :  Cannot read property 'commit' of undefined",
-        "url": "https://github.com/balena-io/balena-cli/issues/2024"
-      },
       {
         "title": "Command suggestion does not work well for multi-word commands (topics)",
         "url": "https://github.com/balena-io/balena-cli/issues/2021"
@@ -18686,10 +18699,18 @@
       {
         "title": "Add \"balena logs <app>\" command",
         "url": "https://github.com/balena-io/balena-cli/issues/1946"
+      },
+      {
+        "title": "push <ip-address>: incorrect error message when device is not in local mode",
+        "url": "https://github.com/balena-io/balena-cli/issues/1942"
+      },
+      {
+        "title": "Enable `balena deploy` to update individual images in a multicontainer app",
+        "url": "https://github.com/balena-io/balena-cli/issues/1923"
       }
     ]
   },
-  "version": "12.17.1",
+  "version": "12.17.2",
   "screenshot": null,
   "logo": null
 }
