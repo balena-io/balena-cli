@@ -88,7 +88,11 @@ export async function generateBaseConfig(
 
 export async function generateApplicationConfig(
 	application: BalenaSdk.Application,
-	options: { version: string; deviceType?: string },
+	options: {
+		version: string;
+		deviceType?: string;
+		appUpdatePollInterval?: number;
+	},
 ) {
 	const config = await generateBaseConfig(application, options);
 

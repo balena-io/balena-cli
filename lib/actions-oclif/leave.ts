@@ -19,6 +19,7 @@ import { flags } from '@oclif/command';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
+import { parseAsLocalHostnameOrIp } from '../utils/validation';
 
 interface FlagsDef {
 	help?: void;
@@ -54,10 +55,10 @@ export default class LeaveCmd extends Command {
 		{
 			name: 'deviceIpOrHostname',
 			description: 'the device IP or hostname',
+			parse: parseAsLocalHostnameOrIp,
 		},
 	];
 
-	// Hardcoded to preserve camelcase
 	public static usage = 'leave [deviceIpOrHostname]';
 
 	public static flags: flags.Input<FlagsDef> = {
@@ -70,10 +71,9 @@ export default class LeaveCmd extends Command {
 	public async run() {
 		const { args: params } = this.parse<FlagsDef, ArgsDef>(LeaveCmd);
 
-		const Logger = await import('../utils/logger');
 		const promote = await import('../utils/promote');
 		const sdk = getBalenaSdk();
-		const logger = Logger.getLogger();
+		const logger = await Command.getLogger();
 		return promote.leave(logger, sdk, params.deviceIpOrHostname);
 	}
 }
