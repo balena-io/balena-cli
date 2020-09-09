@@ -1,4 +1,29 @@
 - commits:
+    - subject: >-
+        push (local device): Add --pull option to force pulling base images
+        again
+      hash: 93e18bea27cb494ea7e37a5fea044047a95c6414
+      body: ''
+      footer:
+        Connects-to: '#1584'
+        connects-to: '#1584'
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+    - subject: 'push: Reformat help output to fit in 80 characters'
+      hash: 73f49765ec8ddeb58aefa6f0f22dcd1b7a7e671f
+      body: ''
+      footer:
+        Connects-to: '#1858'
+        connects-to: '#1858'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.18.0
+  date: 2020-09-09T11:01:51.327Z
+- commits:
     - subject: Fix error displaying info for devices without commits
       hash: e0c65bdef89e2cc1922e2e445fc2d2ff4968b944
       body: ''
