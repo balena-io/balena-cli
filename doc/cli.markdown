@@ -2805,6 +2805,10 @@ the IP or hostname of device
 
 application name
 
+#### -i, --pollInterval POLLINTERVAL
+
+the interval in minutes to check for updates
+
 ## leave [deviceIpOrHostname]
 
 Remove a local device from its balena application, causing the device to

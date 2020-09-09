@@ -40,7 +40,16 @@ export default class ScandevicesCmd extends Command {
 
 	public async run() {
 		const { forms } = await import('balena-sync');
-		const hostnameOrIp = await forms.selectLocalBalenaOsDevice();
-		return console.error(`==> Selected device: ${hostnameOrIp}`);
+		try {
+			const hostnameOrIp = await forms.selectLocalBalenaOsDevice();
+			return console.error(`==> Selected device: ${hostnameOrIp}`);
+		} catch (e) {
+			if (e.message.toLowerCase().includes('could not find any')) {
+				const { ExpectedError } = await import('../../errors');
+				throw new ExpectedError(e);
+			} else {
+				throw e;
+			}
+		}
 	}
 }

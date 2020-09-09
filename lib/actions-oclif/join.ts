@@ -19,9 +19,11 @@ import { flags } from '@oclif/command';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
+import { parseAsLocalHostnameOrIp } from '../utils/validation';
 
 interface FlagsDef {
 	application?: string;
+	pollInterval?: number;
 	help?: void;
 }
 
@@ -61,6 +63,7 @@ export default class JoinCmd extends Command {
 		{
 			name: 'deviceIpOrHostname',
 			description: 'the IP or hostname of device',
+			parse: parseAsLocalHostnameOrIp,
 		},
 	];
 
@@ -72,6 +75,10 @@ export default class JoinCmd extends Command {
 			description: 'the name of the application the device should join',
 			...cf.application,
 		},
+		pollInterval: flags.integer({
+			description: 'the interval in minutes to check for updates',
+			char: 'i',
+		}),
 		help: cf.help,
 	};
 
@@ -83,15 +90,15 @@ export default class JoinCmd extends Command {
 			JoinCmd,
 		);
 
-		const Logger = await import('../utils/logger');
 		const promote = await import('../utils/promote');
 		const sdk = getBalenaSdk();
-		const logger = Logger.getLogger();
+		const logger = await Command.getLogger();
 		return promote.join(
 			logger,
 			sdk,
 			params.deviceIpOrHostname,
 			options.application,
+			options.pollInterval,
 		);
 	}
 }

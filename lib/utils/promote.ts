@@ -28,6 +28,7 @@ export async function join(
 	sdk: BalenaSdk.BalenaSDK,
 	deviceHostnameOrIp?: string,
 	appName?: string,
+	appUpdatePollInterval?: number,
 ): Promise<void> {
 	logger.logDebug('Determining device...');
 	const deviceIp = await getOrSelectLocalDevice(deviceHostnameOrIp);
@@ -55,6 +56,7 @@ export async function join(
 	logger.logDebug('Generating application config...');
 	const config = await generateApplicationConfig(sdk, app, {
 		version: deviceOsVersion,
+		appUpdatePollInterval,
 	});
 	logger.logDebug(`Using config: ${JSON.stringify(config, null, 2)}`);
 
@@ -387,7 +389,10 @@ async function createApplication(
 async function generateApplicationConfig(
 	sdk: BalenaSdk.BalenaSDK,
 	app: ApplicationWithDeviceType,
-	options: { version: string },
+	options: {
+		version: string;
+		appUpdatePollInterval?: number;
+	},
 ) {
 	const { generateApplicationConfig: configGen } = await import('./config');
 
@@ -397,8 +402,13 @@ async function generateApplicationConfig(
 	const opts =
 		manifest.options &&
 		manifest.options.filter((opt) => opt.name !== 'network');
+
+	const override = {
+		appUpdatePollInterval: options.appUpdatePollInterval,
+	};
+
 	const values = {
-		...(opts ? await getCliForm().run(opts) : {}),
+		...(opts ? await getCliForm().run(opts, { override }) : {}),
 		...options,
 	};
 

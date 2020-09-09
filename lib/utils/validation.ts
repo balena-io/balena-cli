@@ -57,6 +57,10 @@ export function validateDotLocalUrl(input: string): boolean {
 	return DOTLOCAL_REGEX.test(input);
 }
 
+export function validateLocalHostnameOrIp(input: string): boolean {
+	return validateIPAddress(input) || validateDotLocalUrl(input);
+}
+
 export function validateLongUuid(input: string): boolean {
 	if (input.length !== 32 && input.length !== 62) {
 		return false;
@@ -99,4 +103,17 @@ export function tryAsInteger(input: string): number | string {
 	} catch {
 		return input;
 	}
+}
+
+export function parseAsLocalHostnameOrIp(input: string, paramName?: string) {
+	if (input && !validateLocalHostnameOrIp(input)) {
+		const message =
+			paramName == null
+				? 'The parameter must be a local hostname or IP address.'
+				: `The parameter '${paramName}' must be a local hostname or IP address.`;
+
+		throw new ExpectedError(message);
+	}
+
+	return input;
 }
