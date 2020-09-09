@@ -33,6 +33,7 @@ interface FlagsDef {
 	emulated: boolean;
 	dockerfile?: string; // DeviceDeployOptions.dockerfilePath (alternative Dockerfile)
 	nocache?: boolean;
+	pull?: boolean;
 	'noparent-check'?: boolean;
 	'registry-secrets'?: string;
 	gitignore?: boolean;
@@ -84,8 +85,8 @@ export default class PushCmd extends Command {
 
 		${dockerignoreHelp.split('\n').join('\n\t\t')}
 
-		Note: --service and --env flags must come after the applicationOrDevice parameter,
-		as per examples.
+		Note: the --service and --env flags must come after the applicationOrDevice
+		parameter, as per examples.
 	`;
 
 	public static examples = [
@@ -115,8 +116,9 @@ export default class PushCmd extends Command {
 
 	public static flags: flags.Input<FlagsDef> = {
 		source: flags.string({
-			description:
-				'Source directory to be sent to balenaCloud or balenaOS device (default: current working dir)',
+			description: stripIndent`
+				Source directory to be sent to balenaCloud or balenaOS device
+				(default: current working dir)`,
 			char: 's',
 		}),
 		emulated: flags.boolean({
@@ -129,38 +131,44 @@ export default class PushCmd extends Command {
 		}),
 		nocache: flags.boolean({
 			description: stripIndent`
-                Don't use cached layers of previously built images for this project. This ensures
-                that the latest base image and packages are pulled. Note that build logs may still
-                display the message _"Pulling previous images for caching purposes" (as the cloud
-                builder needs previous images to compute delta updates), but the logs will not
-                display the "Using cache" lines for each build step of a Dockerfile.`,
-
+				Don't use cached layers of previously built images for this project. This
+				ensures that the latest base image and packages are pulled. Note that build
+				logs may still display the message _"Pulling previous images for caching
+				purposes" (as the cloud builder needs previous images to compute delta
+				updates), but the logs will not display the "Using cache" lines for each
+				build step of a Dockerfile.`,
 			char: 'c',
 		}),
+		pull: flags.boolean({
+			description: stripIndent`
+				When pushing to a local device, force the base images to be pulled again.
+				Currently this option is ignored when pushing to the balenaCloud builders.`,
+		}),
 		'noparent-check': flags.boolean({
-			description: `Disable project validation check of 'docker-compose.yml' file in parent folder`,
+			description: stripIndent`
+				Disable project validation check of 'docker-compose.yml' file in parent folder`,
 		}),
 		'registry-secrets': flags.string({
 			description: stripIndent`
-				Path to a local YAML or JSON file containing Docker registry passwords used to pull base images.
-				Note that if registry-secrets are not provided on the command line, a secrets configuration
-				file from the balena directory will be used (usually $HOME/.balena/secrets.yml|.json)`,
+				Path to a local YAML or JSON file containing Docker registry passwords used
+				to pull base images. Note that if registry-secrets are not provided on the
+				command line, a secrets configuration file from the balena directory will be
+				used (usually $HOME/.balena/secrets.yml|.json)`,
 			char: 'R',
 		}),
 		nolive: flags.boolean({
 			description: stripIndent`
-				Don't run a live session on this push. The filesystem will not be monitored, and changes
-				will not be synchronized to any running containers. Note that both this flag and --detached
-				and required to cause the process to end once the initial build has completed.`,
+				Don't run a live session on this push. The filesystem will not be monitored,
+				and changes will not be synchronized to any running containers. Note that both
+				this flag and --detached and required to cause the process to end once the
+				initial build has completed.`,
 		}),
 		detached: flags.boolean({
 			description: stripIndent`
-				When pushing to the cloud, this option will cause the build to start, then return execution
-				back to the shell, with the status and release ID (if applicable).
-
-				When pushing to a local mode device, this option will cause the command to not tail application logs when the build
-				has completed.`,
-
+				When pushing to the cloud, this option will cause the build to start, then
+				return execution back to the shell, with the status and release ID (if
+				applicable).  When pushing to a local mode device, this option will cause
+				the command to not tail application logs when the build has completed.`,
 			char: 'd',
 		}),
 		service: flags.string({
@@ -210,8 +218,8 @@ export default class PushCmd extends Command {
 		gitignore: flags.boolean({
 			description: stripIndent`
 				Consider .gitignore files in addition to the .dockerignore file. This reverts
-				to the CLI v11 behavior/implementation (deprecated) if compatibility is required
-				until your project can be adapted.`,
+				to the CLI v11 behavior/implementation (deprecated) if compatibility is
+				required until your project can be adapted.`,
 			char: 'g',
 			exclusive: ['multi-dockerignore'],
 		}),
@@ -308,6 +316,7 @@ export default class PushCmd extends Command {
 						registrySecrets,
 						multiDockerignore: options['multi-dockerignore'] || false,
 						nocache: options.nocache || false,
+						pull: options.pull || false,
 						nogitignore,
 						noParentCheck: options['noparent-check'] || false,
 						nolive: options.nolive || false,
@@ -328,15 +337,9 @@ export default class PushCmd extends Command {
 				break;
 
 			default:
-				throw new ExpectedError(
-					stripIndent`
-					Build target not recognized. Please provide either an application name or device address.
-
-					The only supported device addresses currently are IP addresses.
-
-					If you believe your build target should have been detected, and this is an error, please
-					create an issue.`,
-				);
+				throw new ExpectedError(stripIndent`
+					Build target not recognized. Please provide either an application name or
+					device IP address.`);
 		}
 	}
 

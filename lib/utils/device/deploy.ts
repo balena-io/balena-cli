@@ -58,6 +58,7 @@ export interface DeviceDeployOptions {
 	nogitignore: boolean;
 	noParentCheck: boolean;
 	nolive: boolean;
+	pull: boolean;
 	detached: boolean;
 	services?: string[];
 	system: boolean;
@@ -526,6 +527,7 @@ async function assignDockerBuildOpts(
 				t: generateImageName(task.serviceName),
 				nocache: opts.nocache,
 				forcerm: true,
+				pull: opts.pull,
 			};
 			if (task.external) {
 				task.dockerOpts.authconfig = await getAuthConfigObj(

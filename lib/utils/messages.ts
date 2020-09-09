@@ -71,17 +71,18 @@ export const dockerignoreHelp = `\
 DOCKERIGNORE AND GITIGNORE FILES  
 By default, the balena CLI will use a single ".dockerignore" file (if any) at
 the project root (--source directory) in order to decide which source files to
-exclude from the "build context" (tar stream) sent to balenaCloud, Docker daemon
-or balenaEngine. In a microservices (multicontainer) application, the source
-directory is the directory that contains the "docker-compose.yml" file.
+exclude from the "build context" (tar stream) sent to balenaCloud, Docker
+daemon or balenaEngine. In a microservices (multicontainer) application, the
+source directory is the directory that contains the "docker-compose.yml" file.
 
-The --multi-dockerignore (-m) option may be used with microservices (multicontainer)
-applications that define a docker-compose.yml file. When this option is used,
-each service subdirectory (defined by the \`build\` or \`build.context\` service
-properties in the docker-compose.yml file) is filtered separately according to
-a .dockerignore file defined in the service subdirectory. If no .dockerignore
-file exists in a service subdirectory, then only the default .dockerignore
-patterns (see below) apply for that service subdirectory.
+The --multi-dockerignore (-m) option may be used with microservices
+(multicontainer) applications that define a docker-compose.yml file. When
+this option is used, each service subdirectory (defined by the \`build\` or
+\`build.context\` service properties in the docker-compose.yml file) is
+filtered separately according to a .dockerignore file defined in the service
+subdirectory. If no .dockerignore file exists in a service subdirectory, then
+only the default .dockerignore patterns (see below) apply for that service
+subdirectory.
 
 When the --multi-dockerignore (-m) option is used, the .dockerignore file (if
 any) defined at the overall project root will be used to filter files and
