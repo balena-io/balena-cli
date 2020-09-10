@@ -42,6 +42,7 @@ export default class OsVersionsCmd extends Command {
 		{
 			name: 'type',
 			description: 'device type',
+			required: true,
 		},
 	];
 
