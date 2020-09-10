@@ -22,10 +22,12 @@ import type { IConfig } from '@oclif/config';
  A modified version of the command-not-found plugin logic,
  which deals with spaces separators stead of colons, and
  prints suggested commands instead of prompting interactively.
+
+ Also see help.ts showHelp() for handling of topics.
  */
 
 const hook: Hook<'command-not-found'> = async function (
-	opts: object & { config: IConfig; id?: string },
+	opts: object & { config: IConfig; id?: string; argv?: string[] },
 ) {
 	const Levenshtein = await import('fast-levenshtein');
 	const _ = await import('lodash');
@@ -44,16 +46,36 @@ const hook: Hook<'command-not-found'> = async function (
 		return _.minBy(commandIDs, (c) => Levenshtein.get(cmd, c))!;
 	}
 
+	const suggestions: string[] = [];
+	suggestions.push(closest(commandId).replace(':', ' ') || '');
+
+	// opts.argv contains everything after the first command word
+	// if there's something there, also test if it might be a double
+	// word command spelt wrongly, rather than command args.
+	if (opts.argv?.[0]) {
+		suggestions.unshift(
+			closest(`${commandId}: + ${opts.argv[0]}`).replace(':', ' ') || '',
+		);
+	}
+
+	// Output suggestions
 	console.error(
 		`${color.yellow(command)} is not a recognized balena command.\n`,
 	);
-
-	const suggestion = closest(commandId).replace(':', ' ') || '';
-	console.log(`Did you mean: ${color.cmd(suggestion)} ? `);
-	console.log(
-		`Run ${color.cmd('balena help -v')} for a list of available commands.`,
+	console.error(`Did you mean: ? `);
+	suggestions.forEach((s) => {
+		console.error(`  ${color.cmd(s)}`);
+	});
+	console.error(
+		`\nRun ${color.cmd('balena help -v')} for a list of available commands,`,
+	);
+	console.error(
+		` or ${color.cmd(
+			'balena help <command>',
+		)} for detailed help on a specific command.`,
 	);
 
+	// Exit
 	const COMMAND_NOT_FOUND = 127;
 	process.exit(COMMAND_NOT_FOUND);
 };
