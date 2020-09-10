@@ -40,6 +40,27 @@ export default class BalenaHelp extends Help {
 			return;
 		}
 
+		// If they've typed a topic (e.g. `balena os`) that isn't also a command (e.g. `balena device`)
+		// then list the associated commands.
+		const topicCommands = this.config.commands.filter((c) => {
+			return c.id.startsWith(`${subject}:`);
+		});
+		if (topicCommands.length > 0) {
+			console.log(`${chalk.yellow(subject)} commands include:`);
+			console.log(this.formatCommands(topicCommands));
+			console.log(
+				`\nRun ${chalk.cyan.bold(
+					'balena help -v',
+				)} for a list of all available commands,`,
+			);
+			console.log(
+				` or ${chalk.cyan.bold(
+					'balena help <command>',
+				)} for detailed help on a specific command.`,
+			);
+			return;
+		}
+
 		throw new ExpectedError(`command ${chalk.cyan.bold(subject)} not found`);
 	}
 

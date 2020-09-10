@@ -82,7 +82,7 @@ export default class DeviceRmCmd extends Command {
 		);
 
 		// Remove
-		for (const uuid of params.uuid.split(',')) {
+		for (const uuid of uuids) {
 			try {
 				await balena.models.device.remove(tryAsInteger(uuid));
 			} catch (err) {
