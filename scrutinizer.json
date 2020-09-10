@@ -5,6 +5,53 @@
     {
       "commits": [
         {
+          "subject": "Minor fix to device rm",
+          "hash": "b180eb7b73a7d340d0cde534425d06f5f06b7396",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        },
+        {
+          "subject": "Update registry secrets example URL",
+          "hash": "9805854eab2ae7bb6dbc0e545f9f06a9dc2be714",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        },
+        {
+          "subject": "Improve command suggestions, add topic help",
+          "hash": "00c956394d44cd0270eda93fba4498ea2e4f9881",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Resolves": "#2021",
+            "resolves": "#2021",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.20.0",
+      "date": "2020-09-10T17:55:01.446Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix numerical id support in device rm",
           "hash": "f9224b05af886944fb4ec5f5de2a0dfda1b712e8",
           "body": "",
@@ -18493,12 +18540,12 @@
       "avatar": "https://avatars3.githubusercontent.com/u/1562665?v=4"
     },
     {
-      "username": "CameronDiver",
-      "avatar": "https://avatars0.githubusercontent.com/u/7694128?v=4"
-    },
-    {
       "username": "bulldozer-balena[bot]",
       "avatar": "https://avatars0.githubusercontent.com/in/58047?v=4"
+    },
+    {
+      "username": "CameronDiver",
+      "avatar": "https://avatars0.githubusercontent.com/u/7694128?v=4"
     },
     {
       "username": "thgreasi",
@@ -18609,7 +18656,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 267,
+  "stars": 268,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -18709,43 +18756,39 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-09-10T12:09:25Z",
+  "lastCommitDate": "2020-09-10T18:28:04Z",
   "latestRelease": {
-    "tagName": "v12.19.0",
+    "tagName": "v12.20.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.19.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.19.0/balena-cli-v12.19.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.20.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.20.0/balena-cli-v12.20.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.19.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.19.0/balena-cli-v12.19.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.20.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.20.0/balena-cli-v12.20.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.19.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.19.0/balena-cli-v12.19.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.20.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.20.0/balena-cli-v12.20.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.19.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.19.0/balena-cli-v12.19.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.20.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.20.0/balena-cli-v12.20.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.19.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.19.0/balena-cli-v12.19.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.20.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.20.0/balena-cli-v12.20.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 291,
+    "numberOfIssues": 290,
     "latestIssues": [
       {
         "title": "Consider replacing oclif patches with overrides",
         "url": "https://github.com/balena-io/balena-cli/issues/2029"
-      },
-      {
-        "title": "Command suggestion does not work well for multi-word commands (topics)",
-        "url": "https://github.com/balena-io/balena-cli/issues/2021"
       },
       {
         "title": "`os versions`: Add balenaOS ESR releases to the list",
@@ -18818,10 +18861,14 @@
       {
         "title": "push <ip-address>: incorrect error message when device is not in local mode",
         "url": "https://github.com/balena-io/balena-cli/issues/1942"
+      },
+      {
+        "title": "Enable `balena deploy` to update individual images in a multicontainer app",
+        "url": "https://github.com/balena-io/balena-cli/issues/1923"
       }
     ]
   },
-  "version": "12.19.0",
+  "version": "12.20.0",
   "screenshot": null,
   "logo": null
 }
