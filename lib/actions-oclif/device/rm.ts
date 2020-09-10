@@ -51,7 +51,6 @@ export default class DeviceRmCmd extends Command {
 			name: 'uuid',
 			description:
 				'comma-separated list (no blank spaces) of device UUIDs to be removed',
-			parse: (dev) => tryAsInteger(dev),
 			required: true,
 		},
 	];
@@ -85,7 +84,7 @@ export default class DeviceRmCmd extends Command {
 		// Remove
 		for (const uuid of params.uuid.split(',')) {
 			try {
-				await balena.models.device.remove(uuid);
+				await balena.models.device.remove(tryAsInteger(uuid));
 			} catch (err) {
 				console.info(`${err.message}, uuid: ${uuid}`);
 				process.exitCode = 1;
