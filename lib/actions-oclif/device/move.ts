@@ -17,7 +17,7 @@
 
 import { flags } from '@oclif/command';
 import type { IArg } from '@oclif/parser/lib/args';
-import type { Application } from 'balena-sdk';
+import type { Application, BalenaSDK } from 'balena-sdk';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
@@ -59,7 +59,6 @@ export default class DeviceMoveCmd extends Command {
 			name: 'uuid',
 			description:
 				'comma-separated list (no blank spaces) of device UUIDs to be moved',
-			parse: (dev) => tryAsInteger(dev),
 			required: true,
 		},
 	];
@@ -81,21 +80,25 @@ export default class DeviceMoveCmd extends Command {
 
 		const balena = getBalenaSdk();
 
-		// Consolidate application options
 		options.application = options.application || options.app;
 		delete options.app;
 
+		// Parse ids string into array of correct types
+		const deviceIds: Array<string | number> = params.uuid
+			.split(',')
+			.map((id) => tryAsInteger(id));
+
+		// Get devices
 		const devices = await Promise.all(
-			params.uuid
-				.split(',')
-				.map(
-					(uuid) =>
-						balena.models.device.get(uuid, expandForAppName) as Promise<
-							ExtendedDevice
-						>,
-				),
+			deviceIds.map(
+				(uuid) =>
+					balena.models.device.get(uuid, expandForAppName) as Promise<
+						ExtendedDevice
+					>,
+			),
 		);
 
+		// Map application name for each device
 		for (const device of devices) {
 			const belongsToApplication = device.belongs_to__application as Application[];
 			device.application_name = belongsToApplication?.[0]
@@ -104,55 +107,12 @@ export default class DeviceMoveCmd extends Command {
 		}
 
 		// Get destination application
-		let application;
-		if (options.application) {
-			application = options.application;
-		} else {
-			const [deviceDeviceTypes, deviceTypes] = await Promise.all([
-				Promise.all(
-					devices.map((device) =>
-						balena.models.device.getManifestBySlug(
-							device.is_of__device_type[0].slug,
-						),
-					),
-				),
-				balena.models.config.getDeviceTypes(),
-			]);
+		const application =
+			options.application ||
+			(await this.interactivelySelectApplication(balena, devices));
 
-			const compatibleDeviceTypes = deviceTypes.filter((dt) =>
-				deviceDeviceTypes.every(
-					(deviceDeviceType) =>
-						balena.models.os.isArchitectureCompatibleWith(
-							deviceDeviceType.arch,
-							dt.arch,
-						) &&
-						!!dt.isDependent === !!deviceDeviceType.isDependent &&
-						dt.state !== 'DISCONTINUED',
-				),
-			);
-
-			const patterns = await import('../../utils/patterns');
-			try {
-				application = await patterns.selectApplication(
-					(app) =>
-						compatibleDeviceTypes.some(
-							(dt) => dt.slug === app.is_for__device_type[0].slug,
-						) &&
-						// @ts-ignore using the extended device object prop
-						devices.some((device) => device.application_name !== app.app_name),
-					true,
-				);
-			} catch (err) {
-				if (deviceDeviceTypes.length) {
-					throw new ExpectedError(
-						`${err.message}\nDo all devices have a compatible architecture?`,
-					);
-				}
-				throw err;
-			}
-		}
-
-		for (const uuid of params.uuid.split(',')) {
+		// Move each device
+		for (const uuid of deviceIds) {
 			try {
 				await balena.models.device.move(uuid, tryAsInteger(application));
 				console.info(`${uuid} was moved to ${application}`);
@@ -160,6 +120,55 @@ export default class DeviceMoveCmd extends Command {
 				console.info(`${err.message}, uuid: ${uuid}`);
 				process.exitCode = 1;
 			}
+		}
+	}
+
+	async interactivelySelectApplication(
+		balena: BalenaSDK,
+		devices: ExtendedDevice[],
+	) {
+		const [deviceDeviceTypes, deviceTypes] = await Promise.all([
+			Promise.all(
+				devices.map((device) =>
+					balena.models.device.getManifestBySlug(
+						device.is_of__device_type[0].slug,
+					),
+				),
+			),
+			balena.models.config.getDeviceTypes(),
+		]);
+
+		const compatibleDeviceTypes = deviceTypes.filter((dt) =>
+			deviceDeviceTypes.every(
+				(deviceDeviceType) =>
+					balena.models.os.isArchitectureCompatibleWith(
+						deviceDeviceType.arch,
+						dt.arch,
+					) &&
+					!!dt.isDependent === !!deviceDeviceType.isDependent &&
+					dt.state !== 'DISCONTINUED',
+			),
+		);
+
+		const patterns = await import('../../utils/patterns');
+		try {
+			const application = await patterns.selectApplication(
+				(app) =>
+					compatibleDeviceTypes.some(
+						(dt) => dt.slug === app.is_for__device_type[0].slug,
+					) &&
+					// @ts-ignore using the extended device object prop
+					devices.some((device) => device.application_name !== app.app_name),
+				true,
+			);
+			return application;
+		} catch (err) {
+			if (deviceDeviceTypes.length) {
+				throw new ExpectedError(
+					`${err.message}\nDo all devices have a compatible architecture?`,
+				);
+			}
+			throw err;
 		}
 	}
 }
