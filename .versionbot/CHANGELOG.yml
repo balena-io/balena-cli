@@ -1,4 +1,39 @@
 - commits:
+    - subject: Minor fix to device rm
+      hash: b180eb7b73a7d340d0cde534425d06f5f06b7396
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+    - subject: Update registry secrets example URL
+      hash: 9805854eab2ae7bb6dbc0e545f9f06a9dc2be714
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+    - subject: 'Improve command suggestions, add topic help'
+      hash: 00c956394d44cd0270eda93fba4498ea2e4f9881
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Resolves: '#2021'
+        resolves: '#2021'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.20.0
+  date: 2020-09-10T17:55:01.446Z
+- commits:
     - subject: Fix numerical id support in device rm
       hash: f9224b05af886944fb4ec5f5de2a0dfda1b712e8
       body: ''
