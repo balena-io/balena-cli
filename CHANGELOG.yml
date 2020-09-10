@@ -1,4 +1,65 @@
 - commits:
+    - subject: Fix numerical id support in device rm
+      hash: f9224b05af886944fb4ec5f5de2a0dfda1b712e8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#2031'
+        resolves: '#2031'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+    - subject: Fix numerical id support in device move
+      hash: ece4d88bfde3dd1749bbe618ed534bf2820a6711
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#2030'
+        resolves: '#2030'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+    - subject: Fix required status of param in os versions
+      hash: 0dd7c33237da613246b4a2a1a911c688be140995
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+    - subject: Add ability to specify poll interval in join command
+      hash: 0ca1faba0939215e10c2fdd36097d204b50f8890
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Resolves: '#1432 #1697 #1670'
+        resolves: '#1432 #1697 #1670'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+    - subject: Improve error handling in internal scandevices
+      hash: 9f8569e33fd01bcac4249172338d64537a4eeaf7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#1703'
+        connects-to: '#1703'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.19.0
+  date: 2020-09-10T12:08:20.819Z
+- commits:
     - subject: >-
         push (local device): Add --pull option to force pulling base images
         again
@@ -22,7 +83,7 @@
       author: Paulo Castro
       nested: []
   version: 12.18.0
-  date: 2020-09-09T11:37:44.037Z
+  date: 2020-09-09T11:01:51.327Z
 - commits:
     - subject: Fix error displaying info for devices without commits
       hash: e0c65bdef89e2cc1922e2e445fc2d2ff4968b944
