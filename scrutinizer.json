@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "Add new command `app rename`",
+          "hash": "3706db2436371cd797501eaf26132003b4902ad0",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Resolves": "#1567",
+            "resolves": "#1567",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.21.0",
+      "date": "2020-09-16T14:40:41.774Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Minor fix to device rm",
           "hash": "b180eb7b73a7d340d0cde534425d06f5f06b7396",
           "body": "",
@@ -18656,7 +18677,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 268,
+  "stars": 267,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -18756,35 +18777,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-09-10T18:28:04Z",
+  "lastCommitDate": "2020-09-16T15:16:57Z",
   "latestRelease": {
-    "tagName": "v12.20.0",
+    "tagName": "v12.21.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.20.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.20.0/balena-cli-v12.20.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.21.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.21.0/balena-cli-v12.21.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.20.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.20.0/balena-cli-v12.20.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.21.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.21.0/balena-cli-v12.21.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.20.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.20.0/balena-cli-v12.20.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.21.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.21.0/balena-cli-v12.21.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.20.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.20.0/balena-cli-v12.20.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.21.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.21.0/balena-cli-v12.21.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.20.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.20.0/balena-cli-v12.20.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.21.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.21.0/balena-cli-v12.21.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 290,
+    "numberOfIssues": 285,
     "latestIssues": [
       {
         "title": "Consider replacing oclif patches with overrides",
@@ -18868,7 +18889,7 @@
       }
     ]
   },
-  "version": "12.20.0",
+  "version": "12.21.0",
   "screenshot": null,
   "logo": null
 }

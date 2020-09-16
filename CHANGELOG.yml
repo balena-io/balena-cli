@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add new command `app rename`
+      hash: 3706db2436371cd797501eaf26132003b4902ad0
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Resolves: '#1567'
+        resolves: '#1567'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.21.0
+  date: 2020-09-16T15:15:56.058Z
+- commits:
     - subject: Minor fix to device rm
       hash: b180eb7b73a7d340d0cde534425d06f5f06b7396
       body: ''
@@ -32,7 +47,7 @@
       author: Scott Lowe
       nested: []
   version: 12.20.0
-  date: 2020-09-10T18:27:06.968Z
+  date: 2020-09-10T17:55:01.446Z
 - commits:
     - subject: Fix numerical id support in device rm
       hash: f9224b05af886944fb4ec5f5de2a0dfda1b712e8
