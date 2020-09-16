@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add new command `app rename`
+      hash: 3706db2436371cd797501eaf26132003b4902ad0
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Resolves: '#1567'
+        resolves: '#1567'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.21.0
+  date: 2020-09-16T14:40:41.774Z
+- commits:
     - subject: Minor fix to device rm
       hash: b180eb7b73a7d340d0cde534425d06f5f06b7396
       body: ''
