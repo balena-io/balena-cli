@@ -88,13 +88,20 @@ HTTP(S) proxies can be configured through any of the following methods, in prece
 * The `HTTPS_PROXY` and/or `HTTP_PROXY` environment variables, in the same URL format as
   `BALENARC_PROXY`.
 
-> Note: The `balena ssh` command has additional setup requirements to work behind a proxy.
-> Check the [installation instructions](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md),
-> and ensure that the proxy server is configured to allow proxy requests to ssh port 22, using
-> SSL encryption. For example, in the case of the [Squid](http://www.squid-cache.org/) proxy
-> server, it should be configured with the following rules in the `squid.conf` file:  
-> `acl SSL_ports port 22`  
-> `acl Safe_ports port 22`  
+#### Proxy setup for balena ssh
+
+In order to work behind a proxy server, the `balena ssh` command requires the
+[`proxytunnel`](http://proxytunnel.sourceforge.net/) package (command-line tool) to be installed.
+`proxytunnel` is available for Linux distributions like Ubuntu/Debian (`apt install proxytunnel`),
+and for macOS through [Homebrew](https://brew.sh/). Windows support is limited to the [Windows
+Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (e.g., by installing
+Ubuntu through the Microsoft App Store).
+
+Ensure that the proxy server is configured to allow proxy requests to ssh port 22, using
+SSL encryption. For example, in the case of the [Squid](http://www.squid-cache.org/) proxy
+server, it should be configured with the following rules in the `squid.conf` file:  
+`acl SSL_ports port 22`  
+`acl Safe_ports port 22`  
 
 #### Proxy exclusion
 
