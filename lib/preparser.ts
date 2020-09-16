@@ -145,6 +145,7 @@ export const oclifCommandIds = [
 	'api-key:generate',
 	'app',
 	'app:create',
+	'app:rename',
 	'app:restart',
 	'app:rm',
 	'apps',
