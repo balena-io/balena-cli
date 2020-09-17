@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'scan: Fix "CLI could not be loaded" with the standalone zip installer'
+      hash: 799e0f9dea608be28836083f894f93a3a9626c3e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.21.1
+  date: 2020-09-17T00:47:25.423Z
+- commits:
     - subject: Add new command `app rename`
       hash: 3706db2436371cd797501eaf26132003b4902ad0
       body: ''
@@ -12,7 +23,7 @@
       author: Scott Lowe
       nested: []
   version: 12.21.0
-  date: 2020-09-16T15:15:56.058Z
+  date: 2020-09-16T14:40:41.774Z
 - commits:
     - subject: Minor fix to device rm
       hash: b180eb7b73a7d340d0cde534425d06f5f06b7396

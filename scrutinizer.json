@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "scan: Fix \"CLI could not be loaded\" with the standalone zip installer",
+          "hash": "799e0f9dea608be28836083f894f93a3a9626c3e",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.21.1",
+      "date": "2020-09-16T23:41:01.211Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add new command `app rename`",
           "hash": "3706db2436371cd797501eaf26132003b4902ad0",
           "body": "",
@@ -18677,7 +18694,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 267,
+  "stars": 268,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -18777,36 +18794,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-09-16T15:16:57Z",
+  "lastCommitDate": "2020-09-17T00:48:23Z",
   "latestRelease": {
-    "tagName": "v12.21.0",
+    "tagName": "v12.21.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.21.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.21.0/balena-cli-v12.21.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.21.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.21.1/balena-cli-v12.21.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.21.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.21.0/balena-cli-v12.21.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.21.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.21.1/balena-cli-v12.21.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.21.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.21.0/balena-cli-v12.21.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.21.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.21.1/balena-cli-v12.21.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.21.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.21.0/balena-cli-v12.21.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.21.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.21.1/balena-cli-v12.21.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.21.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.21.0/balena-cli-v12.21.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.21.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.21.1/balena-cli-v12.21.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 285,
+    "numberOfIssues": 286,
     "latestIssues": [
+      {
+        "title": "login: Sentry reports a large number of BalenaRequestError Request error: Unauthorized",
+        "url": "https://github.com/balena-io/balena-cli/issues/2035"
+      },
       {
         "title": "Consider replacing oclif patches with overrides",
         "url": "https://github.com/balena-io/balena-cli/issues/2029"
@@ -18882,14 +18903,10 @@
       {
         "title": "push <ip-address>: incorrect error message when device is not in local mode",
         "url": "https://github.com/balena-io/balena-cli/issues/1942"
-      },
-      {
-        "title": "Enable `balena deploy` to update individual images in a multicontainer app",
-        "url": "https://github.com/balena-io/balena-cli/issues/1923"
       }
     ]
   },
-  "version": "12.21.0",
+  "version": "12.21.1",
   "screenshot": null,
   "logo": null
 }
