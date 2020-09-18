@@ -165,6 +165,7 @@ export const oclifCommandIds = [
 	'device:reboot',
 	'device:register',
 	'device:rename',
+	'device:restart',
 	'device:rm',
 	'device:shutdown',
 	'devices',
