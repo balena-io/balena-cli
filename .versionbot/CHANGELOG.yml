@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add new command `device restart`
+      hash: abdaf0043fea01d21d29116bb128d6763b01d576
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Resolves: '#1542'
+        resolves: '#1542'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.22.0
+  date: 2020-09-18T10:42:08.067Z
+- commits:
     - subject: 'scan: Fix "CLI could not be loaded" with the standalone zip installer'
       hash: 799e0f9dea608be28836083f894f93a3a9626c3e
       body: ''
