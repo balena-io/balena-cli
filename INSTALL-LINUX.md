@@ -15,7 +15,13 @@ Selected operating system: **Linux**
    `balena-cli` folder.
 
 3. Add the `balena-cli` folder to the system's `PATH` environment variable. There are several
-   ways of achieving this on Linux: See this [StackOverflow post](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix).
+   ways of achieving this on Linux: See this [StackOverflow post](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix). Close and reopen the terminal window
+   so that the changes to PATH can take effect.
+
+4. Check that the installation was successful by running the following commands on a
+   command terminal:  
+   * `balena version` - should print balenaCLI's version
+   * `balena help` - should print a list of available commands
 
 No further steps are required to run most balenaCLI commands. The `balena ssh`, `scan`, `build`,
 `deploy` and `preload` commands may require additional software to be installed, as described

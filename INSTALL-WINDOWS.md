@@ -18,8 +18,8 @@ Selected operating system: **Windows**
 
 3. Check that the installation was successful by running the following commands on a
    command terminal:  
-   * `balena version` - should print the installed CLI version
-   * `balena help` - should print the balenaCLI help
+   * `balena version` - should print balenaCLI's version
+   * `balena help` - should print a list of available commands
 
 No further steps are required to run most balenaCLI commands. The `balena ssh`, `scan`, `build`,
 `deploy`, `preload` and `os configure` commands may require additional software to be installed, as

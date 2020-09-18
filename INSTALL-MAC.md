@@ -18,8 +18,8 @@ Selected operating system: **macOS**
 
 3. Check that the installation was successful by running the following commands on a
    command terminal:  
-   * `balena version` - should print the installed CLI version
-   * `balena help` - should print the balenaCLI help
+   * `balena version` - should print balenaCLI's version
+   * `balena help` - should print a list of available commands
 
 No further steps are required to run most balenaCLI commands. The `balena ssh`, `build`, `deploy`
 and `preload` commands may require additional software to be installed, as described below.

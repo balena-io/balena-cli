@@ -1,31 +1,30 @@
-# balena CLI
+# balenaCLI
 
-The official balena CLI tool.
+The official balena Command Line Interface.
 
 [![npm version](https://badge.fury.io/js/balena-cli.svg)](http://badge.fury.io/js/balena-cli)
 [![dependencies](https://david-dm.org/balena-io/balena-cli.svg)](https://david-dm.org/balena-io/balena-cli)
 
 ## About
 
-The balena CLI (Command-Line Interface) allows you to interact with the balenaCloud and the
-[balena API](https://www.balena.io/docs/reference/api/overview/) through a terminal window
-on Linux, macOS or Windows. You can also write shell scripts around it, or import its Node.js
-modules to use it programmatically.
-As an [open-source project on GitHub](https://github.com/balena-io/balena-cli/), your contribution
-is also welcome!
+balenaCLI is a Command Line Interface for [balenaCloud](https://www.balena.io/cloud/) or
+[openBalena](https://www.balena.io/open/). It is a software tool available for Windows, macOS and
+Linux, used through a command prompt / terminal window. It can be used interactively or invoked in
+scripts. balenaCLI builds on the [balena API](https://www.balena.io/docs/reference/api/overview/)
+and the [balena SDK](https://www.balena.io/docs/reference/sdk/node-sdk/), and can also be directly
+imported in Node.js applications. balenaCLI is an [open-source project on
+GitHub](https://github.com/balena-io/balena-cli/), and your contribution is also welcome!
 
 ## Installation
 
-Check the [balena CLI installation instructions on GitHub](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).
+Check the [balenaCLI installation instructions on
+GitHub](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).
 
-## Getting Started
-
-### Choosing a shell (command prompt/terminal)
+## Choosing a shell (command prompt/terminal)
 
 On **Windows,** the standard Command Prompt (`cmd.exe`) and
 [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/getting-started/getting-started-with-windows-powershell?view=powershell-6)
-are supported. We are aware of users also having a good experience with alternative shells,
-including:
+are supported. Alternative shells include:
 
 * [MSYS2](https://www.msys2.org/):
   * Install additional packages with the command:  
@@ -43,17 +42,17 @@ including:
     [comment](https://github.com/balena-io/balena-cli/issues/598#issuecomment-556513098).
 * Microsoft's [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about)
   (WSL). In this case, a Linux distribution like Ubuntu is installed via the Microsoft Store, and a
-  balena CLI release **for Linux** is recommended. See
-  [FAQ](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md) for using balena
-  CLI with WSL and Docker Desktop for Windows.
+  balenaCLI release **for Linux** should be selected. See
+  [FAQ](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md) for using balenaCLI
+  with WSL and Docker Desktop for Windows.
 
-On **macOS** and **Linux,** the standard terminal window is supported. _Optionally,_ `bash` command
+On **macOS** and **Linux,** the standard terminal window is supported. Optionally, `bash` command
 auto completion may be enabled by copying the
 [balena-completion.bash](https://github.com/balena-io/balena-cli/blob/master/balena-completion.bash)
 file to your system's `bash_completion` directory: check [Docker's command completion
 guide](https://docs.docker.com/compose/completion/) for system setup instructions.
 
-### Logging in
+## Logging in
 
 Several CLI commands require access to your balenaCloud account, for example in order to push a
 new release to your application. Those commands require creating a CLI login session by running:
@@ -62,7 +61,7 @@ new release to your application. Those commands require creating a CLI login ses
 $ balena login
 ```
 
-### Proxy support
+## Proxy support
 
 HTTP(S) proxies can be configured through any of the following methods, in precedence order
 (from higher to lower):
@@ -88,7 +87,7 @@ HTTP(S) proxies can be configured through any of the following methods, in prece
 * The `HTTPS_PROXY` and/or `HTTP_PROXY` environment variables, in the same URL format as
   `BALENARC_PROXY`.
 
-#### Proxy setup for balena ssh
+### Proxy setup for balena ssh
 
 In order to work behind a proxy server, the `balena ssh` command requires the
 [`proxytunnel`](http://proxytunnel.sourceforge.net/) package (command-line tool) to be installed.
@@ -103,11 +102,11 @@ server, it should be configured with the following rules in the `squid.conf` fil
 `acl SSL_ports port 22`  
 `acl Safe_ports port 22`  
 
-#### Proxy exclusion
+### Proxy exclusion
 
 The `BALENARC_NO_PROXY` variable may be used to exclude specified destinations from proxying.
 
-> * This feature requires balena CLI version 11.30.8 or later. In the case of the npm [installation
+> * This feature requires balenaCLI version 11.30.8 or later. In the case of the npm [installation
 >   option](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md), it also requires
 >   Node.js version 10.16.0 or later.
 > * To exclude a `balena ssh` target from proxying (IP address or `.local` hostname), the
@@ -136,7 +135,7 @@ address like `192.168.1.2`.
 ## Command reference documentation
 
 The full CLI command reference is available [on the web](https://www.balena.io/docs/reference/cli/
-) or by running `balena help` and `balena help --verbose`.
+) or by running `balena help --verbose`.
 
 ## Support, FAQ and troubleshooting
 
@@ -149,19 +148,19 @@ If you come across any problems or would like to get in touch:
 
 ## Deprecation policy
 
-The balena CLI uses [semver versioning](https://semver.org/), with the concepts
+balenaCLI uses [semver versioning](https://semver.org/), with the concepts
 of major, minor and patch version releases.
 
-The latest release of the previous major version of the balena CLI will remain
-compatible with the balenaCloud backend services for one year from the date when
-the next major version is released. For example, balena CLI v10.17.5, as the
+The latest release of a major version of balenaCLI will remain compatible with
+the balenaCloud backend services for at least one year from the date when the
+following major version is released. For example, balenaCLI v10.17.5, as the
 latest v10 release, would remain compatible with the balenaCloud backend for one
 year from the date when v11.0.0 is released.
 
 At the end of this period, the older major version is considered deprecated and
 some of the functionality that depends on balenaCloud services may stop working
 at any time.
-Users are encouraged to regularly update the balena CLI to the latest version.
+Users are encouraged to regularly update balenaCLI to the latest version.
 
 ## Contributing (including editing documentation files)
 

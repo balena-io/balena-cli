@@ -90,7 +90,7 @@ export default class OsConfigureCmd extends Command {
 
 		Note: This command is currently not supported on Windows natively. Windows users
 		are advised to install the Windows Subsystem for Linux (WSL) with Ubuntu, and use
-		the Linux release of the balena CLI:
+		the Linux release of balenaCLI:
 		https://docs.microsoft.com/en-us/windows/wsl/about
 	`;
 	public static examples = [
@@ -297,11 +297,11 @@ async function validateOptions(options: FlagsDef) {
 		throw new ExpectedError(stripIndent`
 			Unsupported platform error: the 'balena os configure' command currently requires
 			the Windows Subsystem for Linux in order to run on Windows. It was tested with
-			the Ubuntu 18.04 distribution from the Microsoft Store. With WSL, a balena CLI
+			the Ubuntu 18.04 distribution from the Microsoft Store. With WSL, a balenaCLI
 			release for Linux (rather than Windows) should be installed: for example, the
 			standalone zip package for Linux. (It is possible to have both a Windows CLI
 			release and a Linux CLI release installed simultaneously.) For more information
-			on WSL and the balena CLI installation options, please check:
+			on WSL and the balenaCLI installation options, please check:
 			- https://docs.microsoft.com/en-us/windows/wsl/about
 			- https://github.com/balena-io/balena-cli/blob/master/INSTALL.md
 		`);
