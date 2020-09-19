@@ -55,10 +55,9 @@ interface ArgsDef {
 
 export default class PushCmd extends Command {
 	public static description = stripIndent`
-		Start a remote build on the balena cloud build servers or a local mode device.
+		Start a remote build on the balenaCloud build servers or a local mode device.
 
-		start a build on the remote balena cloud builders,
-		or a local mode balena device.
+		Start a build on the remote balenaCloud builders, or a local mode balena device.
 
 		When building on the balenaCloud servers, the given source directory will be
 		sent to the remote server. This can be used as a drop-in replacement for the
@@ -196,7 +195,7 @@ export default class PushCmd extends Command {
 			multiple: true,
 		}),
 		'convert-eol': flags.boolean({
-			description: 'No-op and deprecated since balena CLI v12.0.0',
+			description: 'No-op and deprecated since balenaCLI v12.0.0',
 			char: 'l',
 			hidden: true,
 		}),
@@ -211,7 +210,7 @@ export default class PushCmd extends Command {
 		}),
 		nogitignore: flags.boolean({
 			description:
-				'No-op (default behavior) since balena CLI v12.0.0. See "balena help push".',
+				'No-op (default behavior) since balenaCLI v12.0.0. See "balena help push".',
 			char: 'G',
 			hidden: true,
 		}),

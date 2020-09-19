@@ -384,7 +384,7 @@ async function getRemoteBuildStream(
 	if (process.stdout.isTTY) {
 		const visuals = getVisuals();
 		uploadSpinner = new visuals.Spinner(
-			'Uploading source package to balena cloud',
+			'Uploading source package to balenaCloud',
 		);
 		exitOnError = (error: Error): never => {
 			uploadSpinner.stop();

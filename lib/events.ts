@@ -34,7 +34,7 @@ interface CachedUsername {
 }
 
 /**
- * Mixpanel.com analytics tracking (information on balena CLI usage).
+ * Mixpanel.com analytics tracking (information on balenaCLI usage).
  *
  * @param commandSignature A string like, for example:
  *      "push <applicationOrDevice>"

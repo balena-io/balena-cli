@@ -22,7 +22,7 @@ import { LoginServer } from './server';
  */
 
 /**
- * @summary Login to the balena CLI using the web dashboard
+ * @summary Login to balenaCLI using the web dashboard
  * @function
  * @public
  *

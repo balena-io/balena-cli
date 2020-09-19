@@ -1,62 +1,50 @@
-# FAQ & Troubleshooting
+# balenaCLI FAQ & Troubleshooting
 
-This document contains some common issues, questions and answers related to the balena CLI.
-
-## Where is my configuration file?
+## Where is balenaCLI's configuration file located?
 
 The per-user configuration file lives in `$HOME/.balenarc.yml` or `%UserProfile%\_balenarc.yml`, in
 Unix based operating systems and Windows respectively.
 
-The balena CLI also attempts to read a `balenarc.yml` file in the current directory, which takes
+balenaCLI also attempts to read a `balenarc.yml` file in the current directory, which takes
 precedence over the per-user configuration file.
 
-## How do I point the balena CLI to staging?
+## How do I point balenaCLI to the staging environment?
 
-The easiest way is to set the `BALENARC_BALENA_URL=balena-staging.com` environment variable.
+Set the `BALENARC_BALENA_URL=balena-staging.com` environment variable, or add
+`balenaUrl: balena-staging.com` to balenaCLI's configuration file.
 
-Alternatively, you can edit your configuration file and set `balenaUrl: balena-staging.com` to
-persist this setting.
+## How do I make balenaCLI persist data in another directory?
 
-## How do I make the balena CLI persist data in another directory?
+balenaCLI persists the session token, as well as cached assets, to `$HOME/.balena` or
+`%UserProfile%\_balena`. This directory can be changed by setting an environment variable,
+`BALENARC_DATA_DIRECTORY=/opt/balena`, or by adding `dataDirectory: /opt/balena` to balenaCLI's
+configuration file, replacing `/opt/balena` with the desired directory.
 
-The balena CLI persists your session token, as well as cached images in `$HOME/.balena` or
-`%UserProfile%\_balena`.
+## After burning to an SD card, my device doesn't boot
 
-Pointing the balena CLI to persist data in another location is necessary in certain environments,
-like a server, where there is no home directory, or a device running balenaOS, which erases all
-data after a restart.
+Check whether the downloaded image is incomplete (download was interrupted) or corrupted.
 
-You can accomplish this by setting `BALENARC_DATA_DIRECTORY=/opt/balena` or adding `dataDirectory:
-/opt/balena` to your configuration file, replacing `/opt/balena` with your desired directory.
+Try clearing the cache (`%HOME/.balena/cache` or `C:\Users\<user>\_balena\cache`) and running the
+command again.
 
-## After burning to an sdcard, my device doesn't boot
+## I get a permission error when burning to an SD card
 
-- The downloaded image is not complete (download was interrupted).
+Check whether the SD card is locked (a physical switch on the side of the card).
 
-Please clean the cache (`%HOME/.balena/cache` or `C:\Users\<user>\_balena\cache`) and run the command again. In the future, the CLI will check that the image is not complete and clean the cache for you.
+## I get EINVAL errors on Cygwin
 
-## I get a permission error when burning to an sdcard
-
-- The SDCard is locked.
-
-### I get EINVAL errors on Cygwin
-
-The errors look something like this:
+The errors may look something like this:
 
 ```
 net.js:156
     this._handle.open(options.fd);
                  ^
 Error: EINVAL, invalid argument
-  at new Socket (net.js:156:18)
-  at process.stdin (node.js:664:19)
-  at Object.Interface.createInterface (C:\cygwin\home\Juan Cruz Viotti\Projects\balena-cli\node_modules\inquirer\node_modules\readline2\index.js:31:43)
-  at PromptUI.UI (C:\cygwin\home\Juan Cruz Viotti\Projects\balena-cli\node_modules\inquirer\lib\ui\baseUI.js:23:40)
-  at new PromptUI (C:\cygwin\home\Juan Cruz Viotti\Projects\balena-cli\node_modules\inquirer\lib\ui\prompt.js:26:8)
-  at Object.promptModule [as prompt] (C:\cygwin\home\Juan Cruz Viotti\Projects\balena-cli\node_modules\inquirer\lib\inquirer.js:27:14)
 ```
 
-- Some interactive widgets don't work on `Cygwin`. If you're running Windows, it's preferrable that you use `cmd.exe`, as `Cygwin` is [not official supported by Node.js](https://github.com/chjj/blessed/issues/56#issuecomment-42671945).
+Some interactive widgets don't work on `Cygwin`. On Windows, PowerShell or `cmd.exe` are better
+supported. Alternative shells are [listed in the README
+file](./README.md#choosing-a-shell-command-promptterminal).
 
 ## I get `Invalid MBR boot signature` when configuring a device
 
@@ -76,7 +64,9 @@ Or in Windows:
 
 ## I get `EACCES: permission denied` when logging in
 
-The balena CLI stores the session token in `$HOME/.balena` or `C:\Users\<user>\_balena` in UNIX based operating systems and Windows respectively. This error usually indicates that the user doesn't have permissions over that directory, which can happen if you ran the balena CLI as `root`, and thus the directory got owned by him.
+balenaCLI stores the session token in `$HOME/.balena` or `C:\Users\<user>\_balena` in UNIX based
+operating systems and Windows respectively. This error usually indicates that the user doesn't have
+permissions over that directory, which can happen if balenaCLI was executed as the `root` user.
 
 Try resetting the ownership by running:
 
@@ -86,7 +76,7 @@ $ sudo chown -R <user> $HOME/.balena
 
 ## Broken line wrapping / cursor behavior with `balena ssh`
 
-Users sometimes come across broken line wrapping or cursor behavior in text terminals, for example when long command lines are typed in a `balena ssh` session, or when using text editors like `vim` or `nano`. This is not something specific to the balena CLI, being also a commonly reported issue with standard remote terminal tools like `ssh` or `telnet`. It is often a remote shell configuration issue (files like `/etc/profile`, `~/.bash_profile`, `~/.bash_login`, `~/.profile` and the like), including UTF-8 misconfiguration, the use of unsupported ASCII control characters in shell prompt formatting (e.g. the `$PS1` env var) or the output of tools or log files that use colored text. The issue can sometimes be fixed by resizing the client terminal window, or by running one or more of the following commands on the shell:
+Users sometimes come across broken line wrapping or cursor behavior in text terminals, for example when long command lines are typed in a `balena ssh` session, or when using text editors like `vim` or `nano`. This is not something specific to balenaCLI, being also a commonly reported issue with standard remote terminal tools like `ssh` or `telnet`. It is often a remote shell configuration issue (files like `/etc/profile`, `~/.bash_profile`, `~/.bash_login`, `~/.profile` and the like), including UTF-8 misconfiguration, the use of unsupported ASCII control characters in shell prompt formatting (e.g. the `$PS1` env var) or the output of tools or log files that use colored text. The issue can sometimes be fixed by resizing the client terminal window, or by running one or more of the following commands on the shell:
 
 ```sh
 export TERMINAL=linux
@@ -112,10 +102,10 @@ If nothing seems to help, consider also using a different client-side terminal a
 ## "Docker seems to be unavailable" error when using Windows Subsystem for Linux (WSL)
 
 When running on WSL, the recommendation is to install a CLI release for Linux, like the standalone
-zip package for Linux. However, commands like "balena build" that contact a local Docker daemon,
-like the Docker Desktop for Windows, will try to reach Docker at the Unix socket path
-`/var/run/docker.sock`, while Docker Desktop for Windows uses a Windows named pipe at
-`//./pipe/docker_engine` (which the Linux CLI on WSL cannot use). A solution is:
+zip package for Linux. However, commands like "balena build" will, by default, attempt to reach the
+Docker daemon at the Unix socket path `/var/run/docker.sock`, while Docker Desktop for Windows uses
+a Windows named pipe at `//./pipe/docker_engine` (which the Linux CLI on WSL cannot use). A
+solution is:
 
 - Open the Docker Desktop for Windows settings panel and tick the checkbox _"Expose daemon on tcp://localhost:2375 without TLS"._
 - On the WSL command line, set an env var:  

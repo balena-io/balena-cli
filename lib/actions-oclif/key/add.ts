@@ -34,15 +34,30 @@ export default class KeyAddCmd extends Command {
 	public static description = stripIndent`
 		Add an SSH key to balenaCloud.
 
-		Register an SSH in balenaCloud for the logged in user.
+		Add an SSH key to the balenaCloud account of the logged in user.
 
-		If \`path\` is omitted, the command will attempt
-		to read the SSH key from stdin.
+		If \`path\` is omitted, the command will attempt to read the SSH key from stdin.
+
+		About SSH keys  
+		An "SSH key" actually consists of a public/private key pair. A typical name
+		for the private key file is "id_rsa", and a typical name for the public key
+		file is "id_rsa.pub". Both key files are saved to your computer (with the
+		private key optionally protected by a password), but only the public key is
+		saved to your balena account.  This means that if you change computers or
+		otherwise lose the private key, you cannot recover the private key through
+		your balena account. You can however add new keys, and delete the old ones.
+		
+		To generate a new SSH key pair, a nice guide can be found in GitHub's docs:
+		https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+		Skip the step about adding the key to a GitHub account, and instead add it to
+		your balena account.
 	`;
 
 	public static examples = [
 		'$ balena key add Main ~/.ssh/id_rsa.pub',
 		'$ cat ~/.ssh/id_rsa.pub | balena key add Main',
+		'# Windows 10 (cmd.exe prompt) example',
+		'$ balena key add Main %userprofile%.sshid_rsa.pub',
 	];
 
 	public static args = [

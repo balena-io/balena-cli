@@ -32,9 +32,9 @@ export interface JsonVersions {
 
 export default class VersionCmd extends Command {
 	public static description = stripIndent`
-		Display version information for the balena CLI and/or Node.js.
+		Display version information for balenaCLI and/or Node.js.
 
-		Display version information for the balena CLI and/or Node.js.
+		Display version information for balenaCLI and/or Node.js.
 
 		The --json option is recommended when scripting the output of this command,
 		because the JSON format is less likely to change and it better represents

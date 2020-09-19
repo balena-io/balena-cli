@@ -26,7 +26,7 @@ import { MarkdownFileParser } from './utils';
  * some content to this object.
  */
 const capitanoDoc = {
-	title: 'Balena CLI Documentation',
+	title: 'balenaCLI Documentation',
 	introduction: '',
 	categories: [
 		{
@@ -191,7 +191,9 @@ export async function getCapitanoDoc(): Promise<typeof capitanoDoc> {
 			return match && match[2];
 		}),
 		mdParser.getSectionOfTitle('Installation'),
-		mdParser.getSectionOfTitle('Getting Started'),
+		mdParser.getSectionOfTitle('Choosing a shell (command prompt/terminal)'),
+		mdParser.getSectionOfTitle('Logging in'),
+		mdParser.getSectionOfTitle('Proxy support'),
 		mdParser.getSectionOfTitle('Support, FAQ and troubleshooting'),
 		mdParser.getSectionOfTitle('Deprecation policy'),
 	]);
