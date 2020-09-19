@@ -1,4 +1,23 @@
 - commits:
+    - subject: Style "balena CLI" as "balenaCLI" and "balena cloud" as "balenaCloud"
+      hash: b1897a512d42ce2fe3fec859cd375524637f8fce
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Reorganize and simplify installation instructions
+      hash: f98c25eaee2f15f5e13f26f05361829fb1e5b5dd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.22.1
+  date: 2020-09-19T09:22:16.861Z
+- commits:
     - subject: Add new command `device restart`
       hash: abdaf0043fea01d21d29116bb128d6763b01d576
       body: ''
@@ -12,7 +31,7 @@
       author: Scott Lowe
       nested: []
   version: 12.22.0
-  date: 2020-09-18T12:40:31.437Z
+  date: 2020-09-18T10:42:08.067Z
 - commits:
     - subject: 'scan: Fix "CLI could not be loaded" with the standalone zip installer'
       hash: 799e0f9dea608be28836083f894f93a3a9626c3e
