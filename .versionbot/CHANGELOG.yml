@@ -1,4 +1,23 @@
 - commits:
+    - subject: Style "balena CLI" as "balenaCLI" and "balena cloud" as "balenaCloud"
+      hash: b1897a512d42ce2fe3fec859cd375524637f8fce
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Reorganize and simplify installation instructions
+      hash: f98c25eaee2f15f5e13f26f05361829fb1e5b5dd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.22.1
+  date: 2020-09-19T00:24:21.430Z
+- commits:
     - subject: Add new command `device restart`
       hash: abdaf0043fea01d21d29116bb128d6763b01d576
       body: ''
