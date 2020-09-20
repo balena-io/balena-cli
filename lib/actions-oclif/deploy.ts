@@ -243,30 +243,30 @@ ${dockerignoreHelp}
 				compositionToBuild.services,
 				servicesToSkip,
 			);
+			let builtImagesByService: Dictionary<any> = {};
 			if (_.size(compositionToBuild.services) === 0) {
 				logger.logInfo(
 					'Everything is up to date (use --build to force a rebuild)',
 				);
-				return {};
+			} else {
+				const builtImages = await compose.buildProject(
+					docker,
+					logger,
+					project.path,
+					project.name,
+					compositionToBuild,
+					opts.app.arch,
+					(opts.app?.is_for__device_type as DeviceType[])?.[0].slug,
+					opts.buildEmulated,
+					opts.buildOpts,
+					composeOpts.inlineLogs,
+					composeOpts.convertEol,
+					composeOpts.dockerfilePath,
+					composeOpts.nogitignore,
+					composeOpts.multiDockerignore,
+				);
+				builtImagesByService = _.keyBy(builtImages, 'serviceName');
 			}
-			const builtImages = await compose.buildProject(
-				docker,
-				logger,
-				project.path,
-				project.name,
-				compositionToBuild,
-				opts.app.arch,
-				(opts.app?.is_for__device_type as DeviceType[])?.[0].slug,
-				opts.buildEmulated,
-				opts.buildOpts,
-				composeOpts.inlineLogs,
-				composeOpts.convertEol,
-				composeOpts.dockerfilePath,
-				composeOpts.nogitignore,
-				composeOpts.multiDockerignore,
-			);
-			const builtImagesByService = _.keyBy(builtImages, 'serviceName');
-
 			const images = project.descriptors.map(
 				(d) =>
 					builtImagesByService[d.serviceName] ?? {
