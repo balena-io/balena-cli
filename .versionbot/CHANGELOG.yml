@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'deploy: Fix unexpected exit with "Everything is up to date"'
+      hash: 889fafcffce017373d7b6896ce9fd0a18b6b55f2
+      body: ''
+      footer:
+        Resolves: '#2040'
+        resolves: '#2040'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.22.2
+  date: 2020-09-19T23:41:31.910Z
+- commits:
     - subject: Style "balena CLI" as "balenaCLI" and "balena cloud" as "balenaCloud"
       hash: b1897a512d42ce2fe3fec859cd375524637f8fce
       body: ''
