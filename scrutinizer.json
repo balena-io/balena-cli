@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "deploy: Fix unexpected exit with \"Everything is up to date\"",
+          "hash": "889fafcffce017373d7b6896ce9fd0a18b6b55f2",
+          "body": "",
+          "footer": {
+            "Resolves": "#2040",
+            "resolves": "#2040",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.22.2",
+      "date": "2020-09-19T23:41:31.910Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Style \"balena CLI\" as \"balenaCLI\" and \"balena cloud\" as \"balenaCloud\"",
           "hash": "b1897a512d42ce2fe3fec859cd375524637f8fce",
           "body": "",
@@ -18843,29 +18862,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-09-19T09:23:16Z",
+  "lastCommitDate": "2020-09-20T00:20:05Z",
   "latestRelease": {
-    "tagName": "v12.22.1",
+    "tagName": "v12.22.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.22.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.22.1/balena-cli-v12.22.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.22.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.22.2/balena-cli-v12.22.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.22.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.22.1/balena-cli-v12.22.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.22.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.22.2/balena-cli-v12.22.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.22.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.22.1/balena-cli-v12.22.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.22.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.22.2/balena-cli-v12.22.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.22.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.22.1/balena-cli-v12.22.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.22.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.22.2/balena-cli-v12.22.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.22.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.22.1/balena-cli-v12.22.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.22.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.22.2/balena-cli-v12.22.2-windows-x64-standalone.zip"
       }
     ]
   },
@@ -18955,7 +18974,7 @@
       }
     ]
   },
-  "version": "12.22.1",
+  "version": "12.22.2",
   "screenshot": null,
   "logo": null
 }
