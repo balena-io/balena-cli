@@ -163,6 +163,7 @@ Users are encouraged to regularly update balenaCLI to the latest version.
 	- [app &#60;name&#62;](#app-name)
 	- [app create &#60;name&#62;](#app-create-name)
 	- [app rm &#60;name&#62;](#app-rm-name)
+	- [app rename &#60;name&#62; [newname]](#app-rename-name-newname)
 	- [app restart &#60;name&#62;](#app-restart-name)
 
 - Authentication
@@ -181,6 +182,7 @@ Users are encouraged to regularly update balenaCLI to the latest version.
 	- [device register &#60;application&#62;](#device-register-application)
 	- [device rename &#60;uuid&#62; [newname]](#device-rename-uuid-newname)
 	- [device rm &#60;uuid(s)&#62;](#device-rm-uuid-s)
+	- [device restart &#60;uuid&#62;](#device-restart-uuid)
 	- [device shutdown &#60;uuid&#62;](#device-shutdown-uuid)
 	- [devices](#devices)
 	- [devices supported](#devices-supported)
@@ -272,6 +274,10 @@ Users are encouraged to regularly update balenaCLI to the latest version.
 - Utilities
 
 	- [util available-drives](#util-available-drives)
+
+- Support
+
+	- [support &#60;action&#62;](#support-action)
 
 # API keys
 
@@ -380,6 +386,30 @@ application name or numeric ID
 #### -y, --yes
 
 answer "yes" to all questions (non interactive use)
+
+## app rename &#60;name&#62; [newName]
+
+Rename an application.
+
+Note, if the `newName` parameter is omitted, it will be
+prompted for interactively.
+
+Examples:
+
+	$ balena app rename OldName
+	$ balena app rename OldName NewName
+
+### Arguments
+
+#### NAME
+
+application name or numeric ID
+
+#### NEWNAME
+
+the new name for the application
+
+### Options
 
 ## app restart &#60;name&#62;
 
@@ -672,6 +702,36 @@ comma-separated list (no blank spaces) of device UUIDs to be removed
 #### -y, --yes
 
 answer "yes" to all questions (non interactive use)
+
+## device restart &#60;uuid&#62;
+
+Restart containers on a device.
+If the --service flag is provided, then only those services' containers
+will be restarted, otherwise all containers on the device will be restarted.
+
+Multiple devices and services may be specified with a comma-separated list
+of values (no spaces).
+
+Note this does not reboot the device, to do so use instead `balena device reboot`.
+
+Examples:
+
+	$ balena device restart 23c73a1
+	$ balena device restart 55d43b3,23c73a1
+	$ balena device restart 23c73a1 --service myService
+	$ balena device restart 23c73a1 -s myService1,myService2
+
+### Arguments
+
+#### UUID
+
+comma-separated list (no blank spaces) of device UUIDs to restart
+
+### Options
+
+#### -s, --service SERVICE
+
+comma-separated list (no blank spaces) of service names to restart
 
 ## device shutdown &#60;uuid&#62;
 
@@ -2864,3 +2924,43 @@ List available drives which are usable for writing an OS image to.
 Does not list system drives.
 
 ### Options
+
+# Support
+
+## support &#60;action&#62;
+
+Grant or revoke balena support agent access to devices and applications
+on balenaCloud. (This command does not apply to openBalena.)
+Access will be automatically revoked once the specified duration has elapsed.
+
+Duration defaults to 24h, but can be specified using --duration flag in days
+or hours, e.g. '12h', '2d'.
+
+Both --device and --application flags accept multiple values, specified as
+a comma-separated list (with no spaces).
+
+Examples:
+
+	balena support enable --device ab346f,cd457a --duration 3d
+	balena support enable --application app3 --duration 12h
+	balena support disable -a myApp
+
+### Arguments
+
+#### ACTION
+
+enable|disable support access
+
+### Options
+
+#### -d, --device DEVICE
+
+comma-separated list (no spaces) of device UUIDs
+
+#### -a, --application APPLICATION
+
+comma-separated list (no spaces) of application names
+
+#### -t, --duration DURATION
+
+length of time to enable support for, in (h)ours or (d)ays, e.g. 12h, 2d

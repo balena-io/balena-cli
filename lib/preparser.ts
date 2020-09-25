@@ -199,6 +199,7 @@ export const oclifCommandIds = [
 	'scan',
 	'settings',
 	'ssh',
+	'support',
 	'tags',
 	'tag:rm',
 	'tag:set',
