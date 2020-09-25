@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add new command `support`
+      hash: 0a8b3ce4e4a5b333f8aa6fd5f51e98444a42d966
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Resolves: '#766 #1546'
+        resolves: '#766 #1546'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.23.0
+  date: 2020-09-25T14:24:11.954Z
+- commits:
     - subject: 'deploy: Fix unexpected exit with "Everything is up to date"'
       hash: 889fafcffce017373d7b6896ce9fd0a18b6b55f2
       body: ''
