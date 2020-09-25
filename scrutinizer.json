@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "Add new command `support`",
+          "hash": "0a8b3ce4e4a5b333f8aa6fd5f51e98444a42d966",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Resolves": "#766 #1546",
+            "resolves": "#766 #1546",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.23.0",
+      "date": "2020-09-25T14:24:11.954Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "deploy: Fix unexpected exit with \"Everything is up to date\"",
           "hash": "889fafcffce017373d7b6896ce9fd0a18b6b55f2",
           "body": "",
@@ -18762,7 +18783,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 268,
+  "stars": 270,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -18862,36 +18883,56 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-09-20T00:20:05Z",
+  "lastCommitDate": "2020-09-25T15:13:07Z",
   "latestRelease": {
-    "tagName": "v12.22.2",
+    "tagName": "v12.23.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.22.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.22.2/balena-cli-v12.22.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.23.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.0/balena-cli-v12.23.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.22.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.22.2/balena-cli-v12.22.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.23.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.0/balena-cli-v12.23.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.22.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.22.2/balena-cli-v12.22.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.23.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.0/balena-cli-v12.23.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.22.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.22.2/balena-cli-v12.22.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.23.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.0/balena-cli-v12.23.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.22.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.22.2/balena-cli-v12.22.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.23.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.0/balena-cli-v12.23.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 284,
+    "numberOfIssues": 287,
     "latestIssues": [
+      {
+        "title": "Fix issue with subclassed errors and instanceof",
+        "url": "https://github.com/balena-io/balena-cli/pull/2047"
+      },
+      {
+        "title": "preload: stuck at \"Reading image information\" spinner, errors not reported",
+        "url": "https://github.com/balena-io/balena-cli/issues/2045"
+      },
+      {
+        "title": "[feature request] Time of last deploy",
+        "url": "https://github.com/balena-io/balena-cli/issues/2044"
+      },
+      {
+        "title": "Preloaded OS several times larger than expected",
+        "url": "https://github.com/balena-io/balena-cli/issues/2043"
+      },
+      {
+        "title": "tunnel command uses unencrypted connection to backend server",
+        "url": "https://github.com/balena-io/balena-cli/issues/2042"
+      },
       {
         "title": "login: Sentry reports a large number of BalenaRequestError Request error: Unauthorized",
         "url": "https://github.com/balena-io/balena-cli/issues/2035"
@@ -18951,30 +18992,10 @@
       {
         "title": "Consider normalizing `join`, `leave`, `note`",
         "url": "https://github.com/balena-io/balena-cli/issues/1959"
-      },
-      {
-        "title": "yarn add on OSX fails (since 12.9.0)",
-        "url": "https://github.com/balena-io/balena-cli/issues/1958"
-      },
-      {
-        "title": "Remove an environment variable from multiple applications, devices, or services",
-        "url": "https://github.com/balena-io/balena-cli/issues/1957"
-      },
-      {
-        "title": "balena livepush does not appear to push changes when working with balena-go-hello-world",
-        "url": "https://github.com/balena-io/balena-cli/issues/1949"
-      },
-      {
-        "title": "Add \"balena logs <app>\" command",
-        "url": "https://github.com/balena-io/balena-cli/issues/1946"
-      },
-      {
-        "title": "push <ip-address>: incorrect error message when device is not in local mode",
-        "url": "https://github.com/balena-io/balena-cli/issues/1942"
       }
     ]
   },
-  "version": "12.22.2",
+  "version": "12.23.0",
   "screenshot": null,
   "logo": null
 }
