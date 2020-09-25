@@ -40,6 +40,7 @@ const capitanoDoc = {
 				'build/actions-oclif/app/index.js',
 				'build/actions-oclif/app/create.js',
 				'build/actions-oclif/app/rm.js',
+				'build/actions-oclif/app/rename.js',
 				'build/actions-oclif/app/restart.js',
 			],
 		},
@@ -62,6 +63,7 @@ const capitanoDoc = {
 				'build/actions-oclif/device/register.js',
 				'build/actions-oclif/device/rename.js',
 				'build/actions-oclif/device/rm.js',
+				'build/actions-oclif/device/restart.js',
 				'build/actions-oclif/device/shutdown.js',
 				'build/actions-oclif/devices/index.js',
 				'build/actions-oclif/devices/supported.js',
@@ -165,6 +167,10 @@ const capitanoDoc = {
 		{
 			title: 'Utilities',
 			files: ['build/actions-oclif/util/available-drives.js'],
+		},
+		{
+			title: 'Support',
+			files: ['build/actions-oclif/support.js'],
 		},
 	],
 };

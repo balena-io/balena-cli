@@ -148,13 +148,13 @@ const EXPECTED_ERROR_REGEXES = [
 	/^BalenaDeviceNotFound/, // balena-sdk
 	/^BalenaExpiredToken/, // balena-sdk
 	/^BalenaInvalidDeviceType/, // balena-sdk
-	/^Missing \w+$/, // Capitano,
 	/^Missing \d+ required arg/, // oclif parser: RequiredArgsError
 	/Missing required flag/, // oclif parser: RequiredFlagError
 	/^Unexpected argument/, // oclif parser: UnexpectedArgsError
 	/to be one of/, // oclif parser: FlagInvalidOptionError, ArgInvalidOptionError
 	/must also be provided when using/, // oclif parser (depends-on)
 	/^Expected an integer/, // oclif parser (flags.integer)
+	/^Flag .* expects a value/, // oclif parser
 ];
 
 // Support unit testing of handleError

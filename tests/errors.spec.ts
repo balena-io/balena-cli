@@ -117,7 +117,6 @@ describe('handleError() function', () => {
 	});
 
 	const messagesToMatch = [
-		'Missing uuid', // Capitano
 		'Missing 1 required argument', // oclif
 		'Missing 2 required arguments', // oclif
 		'Missing required flag', // oclif
@@ -126,6 +125,7 @@ describe('handleError() function', () => {
 		'to be one of', // oclif
 		'must also be provided when using', // oclif
 		'Expected an integer', // oclif
+		'Flag --foo expects a value', // oclif
 	];
 
 	messagesToMatch.forEach((message) => {
