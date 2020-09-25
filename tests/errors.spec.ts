@@ -25,6 +25,13 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as ErrorsModule from '../build/errors';
 import { getHelp } from '../build/utils/messages';
+import {
+	ExpectedError,
+	NotLoggedInError,
+	InsufficientPrivilegesError,
+	InvalidPortMappingError,
+	NoPortsDefinedError,
+} from '../lib/errors';
 
 function red(s: string) {
 	if (process.env.CI) {
@@ -126,6 +133,7 @@ describe('handleError() function', () => {
 		'to be one of', // oclif
 		'must also be provided when using', // oclif
 		'Expected an integer', // oclif
+		'BalenaRequestError: Request error: Unauthorized', // sdk
 	];
 
 	messagesToMatch.forEach((message) => {
@@ -204,5 +212,20 @@ describe('printExpectedErrorMessage() function', () => {
 		expect(consoleError.getCall(0).args[0]).to.equal(errorMessage + '\n');
 
 		consoleError.restore();
+	});
+});
+
+describe('custom subclassed errors', () => {
+	// We ran into an issue where subclassed errors were not working with instanceof, due to
+	// a TS limitation re extending builtins.  Workaround required setting correct prototypes manually.
+	// https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
+	// https://github.com/microsoft/TypeScript/issues/13965
+
+	it('Subclasses of ExpectedError should work properly with instanceof', () => {
+		expect(new NotLoggedInError('') instanceof ExpectedError).to.be.true;
+		expect(new InsufficientPrivilegesError('') instanceof ExpectedError).to.be
+			.true;
+		expect(new InvalidPortMappingError('') instanceof ExpectedError).to.be.true;
+		expect(new NoPortsDefinedError() instanceof ExpectedError).to.be.true;
 	});
 });

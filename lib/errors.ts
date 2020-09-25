@@ -23,19 +23,36 @@ import { getHelp } from './utils/messages';
 
 export class ExpectedError extends TypedError {}
 
-export class NotLoggedInError extends ExpectedError {}
+// Note: Because of a nasty TS limitation re extending builtins, instanceof was not working correctly with
+// subclassed errors.  The workaround is to set their prototypes manually.
+// https://github.com/Microsoft/TypeScript/wiki/Breaking-Changes#extending-built-ins-like-error-array-and-map-may-no-longer-work
+// https://github.com/microsoft/TypeScript/issues/13965
 
-export class InsufficientPrivilegesError extends ExpectedError {}
+export class NotLoggedInError extends ExpectedError {
+	constructor(m: string) {
+		super(m);
+		Object.setPrototypeOf(this, ExpectedError.prototype);
+	}
+}
+
+export class InsufficientPrivilegesError extends ExpectedError {
+	constructor(m: string) {
+		super(m);
+		Object.setPrototypeOf(this, ExpectedError.prototype);
+	}
+}
 
 export class InvalidPortMappingError extends ExpectedError {
 	constructor(mapping: string) {
 		super(`'${mapping}' is not a valid port mapping.`);
+		Object.setPrototypeOf(this, ExpectedError.prototype);
 	}
 }
 
 export class NoPortsDefinedError extends ExpectedError {
 	constructor() {
 		super('No ports have been provided.');
+		Object.setPrototypeOf(this, ExpectedError.prototype);
 	}
 }
 
@@ -147,6 +164,7 @@ const EXPECTED_ERROR_REGEXES = [
 	/^BalenaApplicationNotFound/, // balena-sdk
 	/^BalenaDeviceNotFound/, // balena-sdk
 	/^BalenaExpiredToken/, // balena-sdk
+	/Request error: Unauthorized$/, // balena-sdk
 	/^BalenaInvalidDeviceType/, // balena-sdk
 	/^Missing \w+$/, // Capitano,
 	/^Missing \d+ required arg/, // oclif parser: RequiredArgsError
