@@ -121,8 +121,10 @@ export default class PushCmd extends Command {
 			char: 's',
 		}),
 		emulated: flags.boolean({
-			description: 'Force an emulated build to occur on the remote builder',
-			char: 'f',
+			description: stripIndent`
+				Don't use native ARM servers; force QEMU ARM emulation on Intel x86-64
+				servers during the image build (balenaCloud).`,
+			char: 'e',
 		}),
 		dockerfile: flags.string({
 			description:

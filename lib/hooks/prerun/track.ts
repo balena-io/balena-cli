@@ -28,9 +28,7 @@ export const trackPromise = new Promise((resolve) => {
  * parsed by oclif, but before the command's run() function is called.
  * See: https://oclif.io/docs/hooks
  *
- * This hook is used to track CLI command signatures with mixpanel. This
- * is the oclif version of what is already done for Capitano commands.
- *
+ * This hook is used to track CLI command signatures with mixpanel.
  * A command signature is something like "env add NAME [VALUE]". That's
  * literally so: 'NAME' and 'VALUE' are NOT replaced with actual values.
  */

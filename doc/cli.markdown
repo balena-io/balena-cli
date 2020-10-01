@@ -2251,9 +2251,10 @@ application name, or device address (for local pushes)
 Source directory to be sent to balenaCloud or balenaOS device
 (default: current working dir)
 
-#### -f, --emulated
+#### -e, --emulated
 
-Force an emulated build to occur on the remote builder
+Don't use native ARM servers; force QEMU ARM emulation on Intel x86-64
+servers during the image build (balenaCloud).
 
 #### --dockerfile DOCKERFILE
 
@@ -2527,7 +2528,7 @@ name of the target balena application this build is for
 
 #### -e, --emulated
 
-Run an emulated build using Qemu
+Use QEMU for ARM architecture emulation during the image build
 
 #### --dockerfile DOCKERFILE
 
@@ -2750,7 +2751,7 @@ don't upload build logs to the dashboard with image (if building)
 
 #### -e, --emulated
 
-Run an emulated build using Qemu
+Use QEMU for ARM architecture emulation during the image build
 
 #### --dockerfile DOCKERFILE
 
