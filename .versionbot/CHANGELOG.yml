@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'push: Fix accidental rename of `-e` (emulated) option'
+      hash: 6133bb209687d5fe208ee1c31d19a435d9c077c3
+      body: |
+        Accidentally renamed during oclif conversion in CLI v12.9.7.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.23.2
+  date: 2020-10-02T09:00:21.328Z
+- commits:
     - subject: Update the CONTRIBUTING.md document
       hash: 48076464daa4d3aa6e86db6fe133d64ed50cf932
       body: ''
