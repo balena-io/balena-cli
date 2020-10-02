@@ -1,4 +1,15 @@
 - commits:
+    - subject: Update the CONTRIBUTING.md document
+      hash: 48076464daa4d3aa6e86db6fe133d64ed50cf932
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.23.1
+  date: 2020-09-28T14:22:42.550Z
+- commits:
     - subject: Add new command `support`
       hash: 0a8b3ce4e4a5b333f8aa6fd5f51e98444a42d966
       body: ''
