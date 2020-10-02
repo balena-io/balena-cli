@@ -21,31 +21,6 @@ Before opening a PR, test your changes with `npm test`. Keep compatibility in mi
 meant to run on Linux, macOS and Windows. balena CI will run test code on all three platforms, but
 this will only help if you add some test cases for your new code!
 
-## ./bin/balena-dev and oclif
-
-When using `./bin/balena-dev`, it is currently necessary to manually edit the `oclif` section of
-`package.json` to replace `./build` with `./lib` as follows:
-
-Change from:
-```
-  "oclif": {
-    "commands": "./build/commands",
-    "hooks": {
-      "prerun": "./build/hooks/prerun/track"
-```
-
-To:
-```
-  "oclif": {
-    "commands": "./lib/commands",
-    "hooks": {
-      "prerun": "./lib/hooks/prerun/track"
-```
-
-And then remember to change it back before pushing the pull request. This is obviously error prone
-and inconvenient, and improvement suggestions are welcome: is there a better solution than
-automatically editing `package.json`? It is doable, if it is what needs to be done.
-
 ## Semantic versioning, commit messages and the ChangeLog
 
 The CLI version numbering adheres to [Semantic Versioning](http://semver.org/). The following
