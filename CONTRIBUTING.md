@@ -29,7 +29,7 @@ When using `./bin/balena-dev`, it is currently necessary to manually edit the `o
 Change from:
 ```
   "oclif": {
-    "commands": "./build/actions-oclif",
+    "commands": "./build/commands",
     "hooks": {
       "prerun": "./build/hooks/prerun/track"
 ```
@@ -37,7 +37,7 @@ Change from:
 To:
 ```
   "oclif": {
-    "commands": "./lib/actions-oclif",
+    "commands": "./lib/commands",
     "hooks": {
       "prerun": "./lib/hooks/prerun/track"
 ```
@@ -92,9 +92,9 @@ The content sources for the auto generation of `doc/cli.markdown` are:
 * [Selected
   sections](https://github.com/balena-io/balena-cli/blob/v12.23.0/automation/capitanodoc/capitanodoc.ts#L199-L204)
   of the README file.
-* The CLI's command documentation in source code (`/lib/actions-oclif/` folder), for example:
-  * `lib/actions-oclif/push.ts`
-  * `lib/actions-oclif/env/add.ts`
+* The CLI's command documentation in source code (`lib/commands/` folder), for example:
+  * `lib/commands/push.ts`
+  * `lib/commands/env/add.ts`
 
 The README file is manually edited, but subsections are automatically extracted for inclusion in
 `doc/cli.markdown` by the `getCapitanoDoc()` function in
