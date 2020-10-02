@@ -909,7 +909,8 @@ export function createRunLoop(tick: (...args: any[]) => void) {
 
 export const composeCliFlags: flags.Input<ComposeCliFlags> = {
 	emulated: flags.boolean({
-		description: 'Run an emulated build using Qemu',
+		description:
+			'Use QEMU for ARM architecture emulation during the image build',
 		char: 'e',
 	}),
 	dockerfile: flags.string({
