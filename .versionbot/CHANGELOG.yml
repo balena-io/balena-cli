@@ -1,4 +1,17 @@
 - commits:
+    - subject: Rename actions-oclif/ to commands/
+      hash: eddbdfe0dcea8df801d11d398e72f34c8354f7e1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.23.3
+  date: 2020-10-02T11:45:45.519Z
+- commits:
     - subject: 'push: Fix accidental rename of `-e` (emulated) option'
       hash: 6133bb209687d5fe208ee1c31d19a435d9c077c3
       body: |
