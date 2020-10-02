@@ -67,7 +67,7 @@
     "catch-uncommitted": "ts-node --transpile-only automation/run.ts catch-uncommitted",
     "ci": "npm run test && npm run catch-uncommitted",
     "watch": "gulp watch",
-    "lint": "balena-lint -e ts -e js --typescript --fix automation/ lib/ typings/ tests/ gulpfile.js",
+    "lint": "balena-lint -e ts -e js --typescript --fix automation/ lib/ typings/ tests/ bin/balena bin/balena-dev gulpfile.js",
     "update": "ts-node --transpile-only ./automation/update-module.ts",
     "prepare": "echo {} > bin/.fast-boot.json",
     "prepublishOnly": "npm run build"

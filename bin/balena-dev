@@ -5,19 +5,24 @@
 // Before opening a PR you should build and test your changes using bin/balena
 // ****************************************************************************
 
+// tslint:disable:no-var-requires
+
 // We boost the threadpool size as ext2fs can deadlock with some
 // operations otherwise, if the pool runs out.
 process.env.UV_THREADPOOL_SIZE = '64';
+
+const path = require('path');
+const rootDir = path.join(__dirname, '..');
 
 // Allow balena-dev to work with oclif by temporarily
 // pointing oclif config options to lib/ instead of build/
 modifyOclifPaths();
 // Undo changes on exit
-process.on('exit', function() {
+process.on('exit', function () {
 	modifyOclifPaths(true);
 });
 // Undo changes in case of ctrl-v
-process.on('SIGINT', function() {
+process.on('SIGINT', function () {
 	modifyOclifPaths(true);
 });
 
@@ -30,8 +35,6 @@ require('fast-boot2').start({
 // Set the desired es version for downstream modules that support it
 require('@balena/es-version').set('es2018');
 
-const path = require('path');
-const rootDir = path.join(__dirname, '..');
 // Note: before ts-node v6.0.0, 'transpile-only' (no type checking) was the
 // default option. We upgraded ts-node and found that adding 'transpile-only'
 // was necessary to avoid a mysterious 'null' error message. On the plus side,
@@ -46,20 +49,26 @@ require('../lib/app').run();
 // Modify package.json oclif paths from build/ -> lib/, or vice versa
 function modifyOclifPaths(revert) {
 	const fs = require('fs');
-	const path = './package.json';
+	const packageJsonPath = path.join(rootDir, 'package.json');
 
-	const packageJson = fs.readFileSync(path, 'utf8');
+	const packageJson = fs.readFileSync(packageJsonPath, 'utf8');
 	const packageObj = JSON.parse(packageJson);
 
-	if(!packageObj.oclif) { return; }
+	if (!packageObj.oclif) {
+		return;
+	}
 
 	let oclifSectionText = JSON.stringify(packageObj.oclif);
-	if(!revert) {
-		oclifSectionText = oclifSectionText.replace(/build/g, 'lib')
+	if (!revert) {
+		oclifSectionText = oclifSectionText.replace(/\/build\//g, '/lib/');
 	} else {
-		oclifSectionText = oclifSectionText.replace(/lib/g, 'build')
+		oclifSectionText = oclifSectionText.replace(/\/lib\//g, '/build/');
 	}
 
 	packageObj.oclif = JSON.parse(oclifSectionText);
-	fs.writeFileSync(path, `${JSON.stringify(packageObj,  null, 2)}\n`, 'utf8');
+	fs.writeFileSync(
+		packageJsonPath,
+		`${JSON.stringify(packageObj, null, 2)}\n`,
+		'utf8',
+	);
 }
