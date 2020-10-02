@@ -100,7 +100,7 @@
   },
   "oclif": {
     "bin": "balena",
-    "commands": "./build/actions-oclif",
+    "commands": "./build/commands",
     "helpClass": "./build/help",
     "hooks": {
       "prerun": "./build/hooks/prerun/track",
