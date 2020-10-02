@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "push: Fix accidental rename of `-e` (emulated) option",
+          "hash": "6133bb209687d5fe208ee1c31d19a435d9c077c3",
+          "body": "Accidentally renamed during oclif conversion in CLI v12.9.7.\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.23.2",
+      "date": "2020-10-02T09:00:21.328Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update the CONTRIBUTING.md document",
           "hash": "48076464daa4d3aa6e86db6fe133d64ed50cf932",
           "body": "",
@@ -18900,40 +18917,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-10-02T08:50:46Z",
+  "lastCommitDate": "2020-10-02T09:35:48Z",
   "latestRelease": {
-    "tagName": "v12.23.1",
+    "tagName": "v12.23.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.23.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.1/balena-cli-v12.23.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.23.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.2/balena-cli-v12.23.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.23.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.1/balena-cli-v12.23.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.23.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.2/balena-cli-v12.23.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.23.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.1/balena-cli-v12.23.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.23.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.2/balena-cli-v12.23.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.23.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.1/balena-cli-v12.23.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.23.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.2/balena-cli-v12.23.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.23.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.1/balena-cli-v12.23.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.23.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.2/balena-cli-v12.23.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 289,
+    "numberOfIssues": 288,
     "latestIssues": [
-      {
-        "title": "push: Fix accidental rename of `-e` (emulated) option",
-        "url": "https://github.com/balena-io/balena-cli/pull/2051"
-      },
       {
         "title": "Improve error message to access balena settings",
         "url": "https://github.com/balena-io/balena-cli/pull/2050"
@@ -19009,10 +19022,14 @@
       {
         "title": "$ balena device generates an Internal Server Error",
         "url": "https://github.com/balena-io/balena-cli/issues/1970"
+      },
+      {
+        "title": "Livepush: Environment variables passed via the CLI are lost after a change to a Dockerfile",
+        "url": "https://github.com/balena-io/balena-cli/issues/1965"
       }
     ]
   },
-  "version": "12.23.1",
+  "version": "12.23.2",
   "screenshot": null,
   "logo": null
 }
