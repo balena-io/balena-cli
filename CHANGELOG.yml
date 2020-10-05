@@ -1,4 +1,33 @@
 - commits:
+    - subject: Update CONTRIBUTING.md re balena-dev workflow
+      hash: 89782218666af4db1297b8672560913d3de8fd8c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Add bin/balena* scripts to linter paths
+      hash: 2974c203b5f4a1339e0feea8bf127cecbe9f13c3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Workaround balena-dev/oclif compatibility issues
+      hash: c85acbd90bbb5de3dae13638555365b7a1cb472c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.23.4
+  date: 2020-10-05T21:47:41.394Z
+- commits:
     - subject: Rename actions-oclif/ to commands/
       hash: eddbdfe0dcea8df801d11d398e72f34c8354f7e1
       body: ''
@@ -10,7 +39,7 @@
       author: Scott Lowe
       nested: []
   version: 12.23.3
-  date: 2020-10-02T12:21:51.079Z
+  date: 2020-10-02T11:45:45.519Z
 - commits:
     - subject: 'push: Fix accidental rename of `-e` (emulated) option'
       hash: 6133bb209687d5fe208ee1c31d19a435d9c077c3
