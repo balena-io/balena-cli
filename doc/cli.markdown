@@ -1493,6 +1493,10 @@ display full info
 
 scan timeout in seconds
 
+#### -j, --json
+
+produce JSON output instead of tabular output
+
 ## ssh &#60;applicationOrDevice&#62; [service]
 
 Start a shell on a local or remote device. If a service name is not provided,

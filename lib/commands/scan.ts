@@ -22,6 +22,7 @@ import * as cf from '../utils/common-flags';
 import { getVisuals, stripIndent } from '../utils/lazy';
 
 interface FlagsDef {
+	json?: boolean;
 	verbose: boolean;
 	timeout?: number;
 	help: void;
@@ -53,6 +54,10 @@ export default class ScanCmd extends Command {
 			description: 'scan timeout in seconds',
 		}),
 		help: cf.help,
+		json: flags.boolean({
+			char: 'j',
+			description: 'produce JSON output instead of tabular output',
+		}),
 	};
 
 	public static primary = true;
@@ -78,7 +83,7 @@ export default class ScanCmd extends Command {
 		const activeLocalDevices: LocalBalenaOsDevice[] = await new SpinnerPromise({
 			promise: discover.discoverLocalBalenaOsDevices(discoverTimeout),
 			startMessage: 'Scanning for local balenaOS devices..',
-			stopMessage: 'Reporting scan results',
+			stopMessage: options.json ? '' : 'Reporting scan results',
 		}).filter(async ({ address }: { address: string }) => {
 			const docker = dockerUtils.createClient({
 				host: address,
@@ -137,7 +142,11 @@ export default class ScanCmd extends Command {
 		}
 
 		// Output results
-		console.log(prettyjson.render(devicesInfo, { noColor: true }));
+		console.log(
+			options.json
+				? JSON.stringify(devicesInfo, null, 4)
+				: prettyjson.render(devicesInfo, { noColor: true }),
+		);
 	}
 
 	protected static dockerInfoProperties = [
