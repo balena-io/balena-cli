@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'scan: Add ''--json'' option to help with scripting'
+      hash: 8a506bc4c01e2082073b7858ab79874e707cf59d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+  version: 12.24.0
+  date: 2020-10-06T17:09:31.036Z
+- commits:
     - subject: Update CONTRIBUTING.md re balena-dev workflow
       hash: 89782218666af4db1297b8672560913d3de8fd8c
       body: ''
