@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "scan: Add '--json' option to help with scripting",
+          "hash": "8a506bc4c01e2082073b7858ab79874e707cf59d",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.24.0",
+      "date": "2020-10-06T17:09:31.036Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update CONTRIBUTING.md re balena-dev workflow",
           "hash": "89782218666af4db1297b8672560913d3de8fd8c",
           "body": "",
@@ -18977,35 +18994,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-10-05T21:48:28Z",
+  "lastCommitDate": "2020-10-06T20:10:25Z",
   "latestRelease": {
-    "tagName": "v12.23.4",
+    "tagName": "v12.24.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.23.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.4/balena-cli-v12.23.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.24.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.24.0/balena-cli-v12.24.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.23.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.4/balena-cli-v12.23.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.24.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.24.0/balena-cli-v12.24.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.23.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.4/balena-cli-v12.23.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.24.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.24.0/balena-cli-v12.24.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.23.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.4/balena-cli-v12.23.4-windows-x64-installer.exe"
+        "name": "balena-cli-v12.24.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.24.0/balena-cli-v12.24.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.23.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.23.4/balena-cli-v12.23.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.24.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.24.0/balena-cli-v12.24.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 288,
+    "numberOfIssues": 287,
     "latestIssues": [
       {
         "title": "balena CLI shouldn't show dashboard URL because there is no dashboard in openBalena",
@@ -19089,7 +19106,7 @@
       }
     ]
   },
-  "version": "12.23.4",
+  "version": "12.24.0",
   "screenshot": null,
   "logo": null
 }

@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'scan: Add ''--json'' option to help with scripting'
+      hash: 8a506bc4c01e2082073b7858ab79874e707cf59d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+  version: 12.24.0
+  date: 2020-10-06T20:09:31.026Z
+- commits:
     - subject: Update CONTRIBUTING.md re balena-dev workflow
       hash: 89782218666af4db1297b8672560913d3de8fd8c
       body: ''
@@ -26,7 +37,7 @@
       author: Scott Lowe
       nested: []
   version: 12.23.4
-  date: 2020-10-05T21:47:41.394Z
+  date: 2020-10-05T21:13:25.405Z
 - commits:
     - subject: Rename actions-oclif/ to commands/
       hash: eddbdfe0dcea8df801d11d398e72f34c8354f7e1
