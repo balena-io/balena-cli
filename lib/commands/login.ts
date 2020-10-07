@@ -132,7 +132,7 @@ export default class LoginCmd extends Command {
 
 		console.log(messages.balenaAsciiArt);
 		console.log(`\nLogging in to ${balenaUrl}`);
-		await this.doLogin(options, params.token);
+		await this.doLogin(options, balenaUrl, params.token);
 
 		const username = await balena.auth.whoami();
 
@@ -146,7 +146,11 @@ Find out about the available commands by running:
 ${messages.reachingOut}`);
 	}
 
-	async doLogin(loginOptions: FlagsDef, token?: string): Promise<void> {
+	async doLogin(
+		loginOptions: FlagsDef,
+		balenaUrl: string = 'balena-cloud.com',
+		token?: string,
+	): Promise<void> {
 		// Token
 		if (loginOptions.token) {
 			if (!token) {
@@ -178,8 +182,8 @@ ${messages.reachingOut}`);
 			// User had not selected login preference, prompt interactively
 			const loginType = await patterns.askLoginType();
 			if (loginType === 'register') {
-				const signupUrl = 'https://dashboard.balena-cloud.com/signup';
 				const open = await import('open');
+				const signupUrl = `https://dashboard.${balenaUrl}/signup`;
 				open(signupUrl, { wait: false });
 				throw new ExpectedError(`Please sign up at ${signupUrl}`);
 			}
