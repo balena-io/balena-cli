@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'login: sign up at the configured balena instance'
+      hash: af70f16a9b8de7150bcdd8d76a89f72c59614526
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Matthew McGinn <matthew@balena.io>
+        signed-off-by: Matthew McGinn <matthew@balena.io>
+      author: Matthew McGinn
+      nested: []
+  version: 12.24.1
+  date: 2020-10-07T16:28:11.533Z
+- commits:
     - subject: 'scan: Add ''--json'' option to help with scripting'
       hash: 8a506bc4c01e2082073b7858ab79874e707cf59d
       body: ''
@@ -8,7 +21,7 @@
       author: Paulo Castro
       nested: []
   version: 12.24.0
-  date: 2020-10-06T20:09:31.026Z
+  date: 2020-10-06T17:09:31.036Z
 - commits:
     - subject: Update CONTRIBUTING.md re balena-dev workflow
       hash: 89782218666af4db1297b8672560913d3de8fd8c
