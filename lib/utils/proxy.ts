@@ -15,70 +15,10 @@
  * limitations under the License.
  */
 
-import * as packageJSON from '../package.json';
-import { onceAsync, stripIndent } from './utils/lazy';
-
-class CliSettings {
-	public readonly settings: any;
-	constructor() {
-		this.settings = require('balena-settings-client') as typeof import('balena-settings-client');
-	}
-
-	public get<T>(name: string): T {
-		return this.settings.get(name);
-	}
-
-	/**
-	 * Like settings.get(), but return `undefined` instead of throwing an
-	 * error if the setting is not found / not defined.
-	 */
-	public getCatch<T>(name: string): T | undefined {
-		try {
-			return this.settings.get(name);
-		} catch (err) {
-			if (!/Setting not found/i.test(err.message)) {
-				throw err;
-			}
-		}
-	}
-}
-
-/**
- * Sentry.io setup
- * @see https://docs.sentry.io/error-reporting/quickstart/?platform=node
- */
-export const setupSentry = onceAsync(async () => {
-	const config = await import('./config');
-	const Sentry = await import('@sentry/node');
-	Sentry.init({
-		dsn: config.sentryDsn,
-		release: packageJSON.version,
-	});
-	Sentry.configureScope((scope) => {
-		scope.setExtras({
-			is_pkg: !!(process as any).pkg,
-			node_version: process.version,
-			platform: process.platform,
-		});
-	});
-	return Sentry.getCurrentHub();
-});
-
-async function checkNodeVersion() {
-	const validNodeVersions = packageJSON.engines.node;
-	if (!(await import('semver')).satisfies(process.version, validNodeVersions)) {
-		console.warn(stripIndent`
-			------------------------------------------------------------------------------
-			Warning: Node version "${process.version}" does not match required versions "${validNodeVersions}".
-			This may cause unexpected behavior. To upgrade Node, visit:
-			https://nodejs.org/en/download/
-			------------------------------------------------------------------------------
-			`);
-	}
-}
-
 import type { Options as GlobalTunnelNgConfig } from 'global-tunnel-ng';
 export type { GlobalTunnelNgConfig };
+
+import { CliSettings } from './bootstrap';
 
 type ProxyConfig = string | GlobalTunnelNgConfig;
 
@@ -104,7 +44,7 @@ type ProxyConfig = string | GlobalTunnelNgConfig;
  * 'localhost' and '127.0.0.1' are always excluded. If NO_PROXY is not defined,
  * default exclusion patterns are added for all private IPv4 address ranges.
  */
-async function setupGlobalHttpProxy(settings: CliSettings) {
+export async function setupGlobalHttpProxy(settings: CliSettings) {
 	// `global-tunnel-ng` accepts lowercase variables with higher precedence
 	// than uppercase variables, but `global-agent` does not accept lowercase.
 	// Set uppercase versions for backwards compatibility.
@@ -206,43 +146,4 @@ export function makeUrlFromTunnelNgConfig(cfg: GlobalTunnelNgConfig): string {
 		url = `${url}:${cfg.port}`;
 	}
 	return url;
-}
-
-function setupBalenaSdkSharedOptions(settings: CliSettings) {
-	// We don't yet use balena-sdk directly everywhere, but we set up shared
-	// options correctly so we can do safely in submodules
-	const BalenaSdk = require('balena-sdk') as typeof import('balena-sdk');
-	BalenaSdk.setSharedOptions({
-		apiUrl: settings.get<string>('apiUrl'),
-		dataDirectory: settings.get<string>('dataDirectory'),
-	});
-}
-
-/**
- * Addresses the console warning:
- * (node:49500) MaxListenersExceededWarning: Possible EventEmitter memory
- * leak detected. 11 error listeners added. Use emitter.setMaxListeners() to
- * increase limit
- */
-export function setMaxListeners(maxListeners: number) {
-	require('events').EventEmitter.defaultMaxListeners = maxListeners;
-}
-
-export async function globalInit() {
-	(await import('./utils/bootstrap')).normalizeEnvVar('BALENARC_NO_SENTRY');
-	if (process.env.BALENARC_NO_SENTRY) {
-		console.error(`WARN: disabling Sentry.io error reporting`);
-	} else {
-		await setupSentry();
-	}
-	checkNodeVersion();
-
-	const settings = new CliSettings();
-
-	// Proxy setup should be done early on, before loading balena-sdk
-	await setupGlobalHttpProxy(settings);
-	setupBalenaSdkSharedOptions(settings);
-
-	// check for CLI updates once a day
-	(await import('./utils/update')).notify();
 }

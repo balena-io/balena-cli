@@ -23,7 +23,6 @@ import * as nock from 'nock';
 import * as path from 'path';
 
 import * as balenaCLI from '../build/app';
-import { setupSentry } from '../build/app-common';
 
 const balenaExe = process.platform === 'win32' ? 'balena.exe' : 'balena';
 const standalonePath = path.resolve(__dirname, '..', 'build-bin', balenaExe);
@@ -287,7 +286,7 @@ export function fillTemplateArray(
 export async function switchSentry(
 	enabled: boolean | undefined,
 ): Promise<boolean | undefined> {
-	const sentryOpts = (await setupSentry()).getClient()?.getOptions();
+	const sentryOpts = (await balenaCLI.setupSentry()).getClient()?.getOptions();
 	if (sentryOpts) {
 		const sentryStatus = sentryOpts.enabled;
 		sentryOpts.enabled = enabled;
