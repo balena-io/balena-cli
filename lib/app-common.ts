@@ -229,7 +229,12 @@ export function setMaxListeners(maxListeners: number) {
 }
 
 export async function globalInit() {
-	await setupSentry();
+	(await import('./utils/bootstrap')).normalizeEnvVar('BALENARC_NO_SENTRY');
+	if (process.env.BALENARC_NO_SENTRY) {
+		console.error(`WARN: disabling Sentry.io error reporting`);
+	} else {
+		await setupSentry();
+	}
 	checkNodeVersion();
 
 	const settings = new CliSettings();

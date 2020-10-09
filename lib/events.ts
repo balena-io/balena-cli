@@ -49,10 +49,13 @@ interface CachedUsername {
  */
 export async function trackCommand(commandSignature: string) {
 	try {
-		const Sentry = await import('@sentry/node');
-		Sentry.configureScope((scope) => {
-			scope.setExtra('command', commandSignature);
-		});
+		let Sentry: typeof import('@sentry/node');
+		if (!process.env.BALENARC_NO_SENTRY) {
+			Sentry = await import('@sentry/node');
+			Sentry.configureScope((scope) => {
+				scope.setExtra('command', commandSignature);
+			});
+		}
 		const settings = await import('balena-settings-client');
 		const balenaUrl = settings.get('balenaUrl') as string;
 
@@ -90,12 +93,14 @@ export async function trackCommand(commandSignature: string) {
 
 		const mixpanel = getMixpanel(balenaUrl);
 
-		Sentry.configureScope((scope) => {
-			scope.setUser({
-				id: username,
-				username,
+		if (!process.env.BALENARC_NO_SENTRY) {
+			Sentry!.configureScope((scope) => {
+				scope.setUser({
+					id: username,
+					username,
+				});
 			});
-		});
+		}
 		// Don't actually call mixpanel.track() while running test cases
 		if (!process.env.BALENA_CLI_TEST_TYPE) {
 			await mixpanel.track(`[CLI] ${commandSignature}`, {
