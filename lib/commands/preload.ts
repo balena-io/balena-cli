@@ -80,8 +80,6 @@ export default class PreloadCmd extends Command {
 		},
 	];
 
-	public static usage = 'preload <image>';
-
 	public static flags: flags.Input<FlagsDef> = {
 		app: flags.string({
 			description: 'name, slug or numeric ID of the application to preload',

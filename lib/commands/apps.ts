@@ -42,8 +42,6 @@ export default class AppsCmd extends Command {
 `;
 	public static examples = ['$ balena apps'];
 
-	public static usage = 'apps';
-
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
 		verbose: flags.boolean({

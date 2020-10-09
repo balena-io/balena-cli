@@ -91,8 +91,6 @@ export default class NoteCmd extends Command {
 		},
 	];
 
-	public static usage = 'ssh <applicationOrDevice> [service]';
-
 	public static flags: flags.Input<FlagsDef> = {
 		port: flags.integer({
 			description: stripIndent`

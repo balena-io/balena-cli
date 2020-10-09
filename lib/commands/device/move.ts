@@ -63,6 +63,7 @@ export default class DeviceMoveCmd extends Command {
 		},
 	];
 
+	// Manually set usage because of (s)
 	public static usage = 'device move <uuid(s)>';
 
 	public static flags: flags.Input<FlagsDef> = {

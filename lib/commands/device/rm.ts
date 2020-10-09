@@ -55,6 +55,7 @@ export default class DeviceRmCmd extends Command {
 		},
 	];
 
+	// Manually set usage because of (s)
 	public static usage = 'device rm <uuid(s)>';
 
 	public static flags: flags.Input<FlagsDef> = {

@@ -27,8 +27,6 @@ export default class WhoamiCmd extends Command {
 
 	public static examples = ['$ balena whoami'];
 
-	public static usage = 'whoami';
-
 	public static authenticated = true;
 
 	public async run() {

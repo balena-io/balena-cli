@@ -26,8 +26,6 @@ export default class LogoutCmd extends Command {
 `;
 	public static examples = ['$ balena logout'];
 
-	public static usage = 'logout';
-
 	public async run() {
 		this.parse<{}, {}>(LogoutCmd);
 		await getBalenaSdk().auth.logout();

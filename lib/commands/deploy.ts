@@ -89,8 +89,6 @@ ${dockerignoreHelp}
 		},
 	];
 
-	public static usage = 'deploy <appName> [image]';
-
 	public static flags: flags.Input<FlagsDef> = {
 		source: flags.string({
 			description:

@@ -76,8 +76,6 @@ ${dockerignoreHelp}
 		},
 	];
 
-	public static usage = 'build [source]';
-
 	public static flags: flags.Input<FlagsDef> = {
 		arch: flags.string({
 			description: 'the architecture to build for',

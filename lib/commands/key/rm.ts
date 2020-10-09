@@ -52,8 +52,6 @@ export default class KeyRmCmd extends Command {
 		},
 	];
 
-	public static usage = 'key rm <id>';
-
 	public static flags: flags.Input<FlagsDef> = {
 		yes: cf.yes,
 		help: cf.help,

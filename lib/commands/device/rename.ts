@@ -57,8 +57,6 @@ export default class DeviceRenameCmd extends Command {
 		},
 	];
 
-	public static usage = 'device rename <uuid> [newName]';
-
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
 	};

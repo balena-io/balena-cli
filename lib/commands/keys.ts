@@ -32,8 +32,6 @@ export default class KeysCmd extends Command {
 	`;
 	public static examples = ['$ balena keys'];
 
-	public static usage = 'keys';
-
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
 	};

@@ -1,11 +1,27 @@
 import Help from '@oclif/plugin-help';
+import type * as Config from '@oclif/config';
 import * as indent from 'indent-string';
 import { getChalk } from './utils/lazy';
 import { renderList } from '@oclif/plugin-help/lib/list';
 import { ExpectedError } from './errors';
 
-// Partially overrides standard implementation of help plugin
-// https://github.com/oclif/plugin-help/blob/master/src/index.ts
+const manuallySortedPrimaryCommands = [
+	'login',
+	'push',
+	'logs',
+	'ssh',
+	'apps',
+	'app',
+	'devices',
+	'device',
+	'tunnel',
+	'preload',
+	'build',
+	'deploy',
+	'join',
+	'leave',
+	'scan',
+];
 
 function getHelpSubject(args: string[]): string | undefined {
 	for (const arg of args) {
@@ -21,6 +37,10 @@ function getHelpSubject(args: string[]): string | undefined {
 		return arg;
 	}
 }
+
+// Partially overrides standard implementation of help plugin
+// https://oclif.io/docs/help_classes#extending-the-default-help-class
+// https://github.com/oclif/plugin-help/blob/master/src/index.ts
 
 export default class BalenaHelp extends Help {
 	public static usage: 'help [command]';
@@ -64,53 +84,46 @@ export default class BalenaHelp extends Help {
 		throw new ExpectedError(`command ${chalk.cyan.bold(subject)} not found`);
 	}
 
-	showCustomRootHelp(showAllCommands: boolean): void {
+	protected showCustomRootHelp(showAllCommands: boolean): void {
 		const chalk = getChalk();
 		const bold = chalk.bold;
 		const cmd = chalk.cyan.bold;
 
-		let commands = this.config.commands;
+		let commands = this.config.commands as Config.Command[];
 		commands = commands.filter((c) => this.opts.all || !c.hidden);
 
 		// Get Primary Commands, sorted as in manual list
-		const primaryCommands = this.manuallySortedPrimaryCommands.map((pc) => {
-			return commands.find((c) => c.id === pc.replace(' ', ':'));
-		});
+		const primaryCommands: Config.Command[] = manuallySortedPrimaryCommands.map(
+			(pc) => {
+				return commands.find((c) => c.id === pc.replace(' ', ':'))!;
+			},
+		);
 
 		// Get the rest as Additional Commands
 		const additionalCommands = commands.filter(
 			(c) =>
-				!this.manuallySortedPrimaryCommands.includes(c.id.replace(':', ' ')),
+				!manuallySortedPrimaryCommands.includes(c.id.replace(':', ' ')) &&
+				c.id !== 'help',
 		);
 
 		// Find longest usage, and pad usage of first command in each category
 		// This is to ensure that both categories align visually
-		const usageLength = commands
-			.map((c) => c.usage?.length || 0)
+		const longestUsageLength = commands
+			.map((c) => this.getUsage(c).length || 0)
 			.reduce((longest, l) => {
 				return l > longest ? l : longest;
 			});
-
-		if (
-			typeof primaryCommands[0]?.usage === 'string' &&
-			typeof additionalCommands[0]?.usage === 'string'
-		) {
-			primaryCommands[0].usage = primaryCommands[0].usage.padEnd(usageLength);
-			additionalCommands[0].usage = additionalCommands[0].usage.padEnd(
-				usageLength,
-			);
-		}
 
 		// Output help
 		console.log(bold('USAGE'));
 		console.log('$ balena [COMMAND] [OPTIONS]');
 
 		console.log(bold('\nPRIMARY COMMANDS'));
-		console.log(this.formatCommands(primaryCommands));
+		console.log(this.formatCommands(primaryCommands, longestUsageLength));
 
 		if (showAllCommands) {
 			console.log(bold('\nADDITIONAL COMMANDS'));
-			console.log(this.formatCommands(additionalCommands));
+			console.log(this.formatCommands(additionalCommands, longestUsageLength));
 		} else {
 			console.log(
 				`\n${bold('...MORE')} run ${cmd(
@@ -135,15 +148,25 @@ export default class BalenaHelp extends Help {
 		);
 	}
 
-	protected formatCommands(commands: any[]): string {
+	public showCommandHelp(command: Config.Command) {
+		// Set usage here, to avoid overriding CommandHelp logic
+		command.usage = this.getUsage(command);
+		super.showCommandHelp(command);
+	}
+
+	protected formatCommands(
+		commands: Config.Command[],
+		longestUsageLength: number = 0,
+	): string {
 		if (commands.length === 0) {
 			return '';
 		}
 
 		const body = renderList(
-			commands
-				.filter((c) => c.usage != null && c.usage !== '')
-				.map((c) => [c.usage, this.formatDescription(c.description)]),
+			commands.map((c) => [
+				this.getUsage(c).padEnd(longestUsageLength),
+				this.formatDescription(c.description),
+			]),
 			{
 				spacer: '\n',
 				stripAnsi: this.opts.stripAnsi,
@@ -169,21 +192,20 @@ export default class BalenaHelp extends Help {
 		return chalk.grey(desc);
 	}
 
-	readonly manuallySortedPrimaryCommands = [
-		'login',
-		'push',
-		'logs',
-		'ssh',
-		'apps',
-		'app',
-		'devices',
-		'device',
-		'tunnel',
-		'preload',
-		'build',
-		'deploy',
-		'join',
-		'leave',
-		'scan',
-	];
+	protected getUsage(command: Config.Command): string {
+		if (command.usage) {
+			return command.usage as string;
+		}
+
+		let usage = command.id.replace(/:/g, ' ');
+
+		command.args.forEach((arg) => {
+			const brackets = arg.required ? ['<', '>'] : ['[', ']'];
+			if (!arg.hidden) {
+				usage += ` ${brackets[0]}${arg.name}${brackets[1]}`;
+			}
+		});
+
+		return usage;
+	}
 }

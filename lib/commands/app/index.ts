@@ -46,8 +46,6 @@ export default class AppCmd extends Command {
 		},
 	];
 
-	public static usage = 'app <name>';
-
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
 	};

@@ -59,8 +59,6 @@ export default class OsBuildConfigCmd extends Command {
 		},
 	];
 
-	public static usage = 'os build-config <image> <device-type>';
-
 	public static flags: flags.Input<FlagsDef> = {
 		advanced: flags.boolean({
 			description: 'show advanced configuration options',

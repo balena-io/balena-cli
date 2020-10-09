@@ -55,8 +55,6 @@ export default class DevicesCmd extends Command {
 		'$ balena devices -a MyApp',
 	];
 
-	public static usage = 'devices';
-
 	public static flags: flags.Input<FlagsDef> = {
 		application: cf.application,
 		app: cf.app,

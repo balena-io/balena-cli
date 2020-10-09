@@ -21,7 +21,6 @@ import Command from '../../command';
 
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { CommandHelp } from '../../utils/oclif-utils';
 
 interface FlagsDef {
 	discontinued: boolean;
@@ -52,11 +51,6 @@ export default class DevicesSupportedCmd extends Command {
 		'$ balena devices supported --verbose',
 		'$ balena devices supported -vj',
 	];
-
-	public static usage = (
-		'devices supported ' +
-		new CommandHelp({ args: DevicesSupportedCmd.args }).defaultUsage()
-	).trim();
 
 	public static flags: flags.Input<FlagsDef> = {
 		discontinued: flags.boolean({

@@ -48,8 +48,6 @@ export default class DeviceIdentifyCmd extends Command {
 		},
 	];
 
-	public static usage = 'device identify <uuid>';
-
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
 	};

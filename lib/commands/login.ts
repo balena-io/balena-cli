@@ -68,8 +68,6 @@ export default class LoginCmd extends Command {
 		},
 	];
 
-	public static usage = 'login';
-
 	public static flags: flags.Input<FlagsDef> = {
 		web: flags.boolean({
 			char: 'w',

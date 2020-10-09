@@ -51,8 +51,6 @@ export default class DeviceRegisterCmd extends Command {
 		},
 	];
 
-	public static usage = 'device register <application>';
-
 	public static flags: flags.Input<FlagsDef> = {
 		uuid: flags.string({
 			description: 'custom uuid',

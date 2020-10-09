@@ -33,8 +33,6 @@ export default class ScandevicesCmd extends Command {
 		Don't use this command directly!
 	`;
 
-	public static usage = 'internal scandevices';
-
 	public static root = true;
 	public static hidden = true;
 

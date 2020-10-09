@@ -70,8 +70,6 @@ export default class DevicePublicUrlCmd extends Command {
 		},
 	];
 
-	public static usage = 'device public-url <uuid>';
-
 	public static flags: flags.Input<FlagsDef> = {
 		enable: flags.boolean({
 			description: 'enable the public URL',

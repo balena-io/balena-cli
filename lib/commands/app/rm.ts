@@ -51,8 +51,6 @@ export default class AppRmCmd extends Command {
 		},
 	];
 
-	public static usage = 'app rm <name>';
-
 	public static flags: flags.Input<FlagsDef> = {
 		yes: cf.yes,
 		help: cf.help,

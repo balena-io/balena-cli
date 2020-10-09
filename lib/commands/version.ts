@@ -51,8 +51,6 @@ export default class VersionCmd extends Command {
 		`$ balena -v`,
 	];
 
-	public static usage = 'version';
-
 	public static flags: flags.Input<FlagsDef> = {
 		all: flags.boolean({
 			char: 'a',

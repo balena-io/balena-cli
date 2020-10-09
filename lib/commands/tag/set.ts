@@ -70,8 +70,6 @@ export default class TagSetCmd extends Command {
 		},
 	];
 
-	public static usage = 'tag set <tagKey> [value]';
-
 	public static flags: flags.Input<FlagsDef> = {
 		application: {
 			...cf.application,

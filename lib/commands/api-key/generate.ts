@@ -49,8 +49,6 @@ export default class GenerateCmd extends Command {
 		},
 	];
 
-	public static usage = 'api-key generate <name>';
-
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
 	};

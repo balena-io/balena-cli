@@ -53,6 +53,7 @@ export default class NoteCmd extends Command {
 		},
 	];
 
+	// Set manually to show pipe
 	public static usage = 'note <|note>';
 
 	public static flags: flags.Input<FlagsDef> = {

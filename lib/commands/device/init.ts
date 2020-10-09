@@ -47,8 +47,6 @@ export default class DeviceInitCmd extends Command {
 		'$ balena device init --application MyApp',
 	];
 
-	public static usage = 'device init';
-
 	public static flags: flags.Input<FlagsDef> = {
 		application: cf.application,
 		app: cf.app,

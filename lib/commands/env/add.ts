@@ -90,8 +90,6 @@ export default class EnvAddCmd extends Command {
 		},
 	];
 
-	public static usage = 'env add <name> [value]';
-
 	public static flags: flags.Input<FlagsDef> = {
 		application: { exclusive: ['device'], ...cf.application },
 		device: { exclusive: ['application'], ...cf.device },

@@ -66,8 +66,6 @@ export default class EnvRmCmd extends Command {
 		},
 	];
 
-	public static usage = 'env rm <id>';
-
 	public static flags: flags.Input<FlagsDef> = {
 		config: ec.booleanConfig,
 		device: ec.booleanDevice,

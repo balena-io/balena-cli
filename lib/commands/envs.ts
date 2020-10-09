@@ -22,7 +22,6 @@ import Command from '../command';
 import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
-import { CommandHelp } from '../utils/oclif-utils';
 import { isV12 } from '../utils/version';
 
 interface FlagsDef {
@@ -151,10 +150,6 @@ export default class EnvsCmd extends Command {
 				'$ balena envs --device 7cf02a6 --config --all --json',
 				'$ balena envs --device 7cf02a6 --all --service MyService',
 		  ];
-
-	public static usage = (
-		'envs ' + new CommandHelp({ args: EnvsCmd.args }).defaultUsage()
-	).trim();
 
 	public static flags: flags.Input<FlagsDef> = {
 		...(isV12()

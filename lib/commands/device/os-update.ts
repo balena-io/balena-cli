@@ -59,8 +59,6 @@ export default class DeviceOsUpdateCmd extends Command {
 		},
 	];
 
-	public static usage = 'device os-update <uuid>';
-
 	public static flags: flags.Input<FlagsDef> = {
 		version: flags.string({
 			description: 'a balenaOS version',

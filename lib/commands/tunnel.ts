@@ -81,8 +81,6 @@ export default class TunnelCmd extends Command {
 		},
 	];
 
-	public static usage = 'tunnel <deviceOrApplication>';
-
 	public static flags: flags.Input<FlagsDef> = {
 		port: flags.string({
 			description:

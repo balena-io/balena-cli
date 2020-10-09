@@ -39,8 +39,6 @@ export default class ConfigReadCmd extends Command {
 		'$ balena config read --type raspberrypi3 --drive /dev/disk2',
 	];
 
-	public static usage = 'config read';
-
 	public static flags: flags.Input<FlagsDef> = {
 		type: flags.string({
 			description:

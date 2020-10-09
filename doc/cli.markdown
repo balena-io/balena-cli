@@ -155,74 +155,74 @@ Users are encouraged to regularly update balenaCLI to the latest version.
 
 - API keys
 
-	- [api-key generate &#60;name&#62;](#api-key-generate-name)
+	- [](#)
 
 - Application
 
-	- [apps](#apps)
-	- [app &#60;name&#62;](#app-name)
-	- [app create &#60;name&#62;](#app-create-name)
-	- [app rm &#60;name&#62;](#app-rm-name)
-	- [app rename &#60;name&#62; [newname]](#app-rename-name-newname)
-	- [app restart &#60;name&#62;](#app-restart-name)
+	- [](#)
+	- [](#)
+	- [](#)
+	- [](#)
+	- [](#)
+	- [](#)
 
 - Authentication
 
-	- [login](#login)
-	- [logout](#logout)
-	- [whoami](#whoami)
+	- [](#)
+	- [](#)
+	- [](#)
 
 - Device
 
-	- [device identify &#60;uuid&#62;](#device-identify-uuid)
-	- [device init](#device-init)
-	- [device &#60;uuid&#62;](#device-uuid)
+	- [](#)
+	- [](#)
+	- [](#)
 	- [device move &#60;uuid(s)&#62;](#device-move-uuid-s)
-	- [device reboot &#60;uuid&#62;](#device-reboot-uuid)
-	- [device register &#60;application&#62;](#device-register-application)
-	- [device rename &#60;uuid&#62; [newname]](#device-rename-uuid-newname)
+	- [](#)
+	- [](#)
+	- [](#)
 	- [device rm &#60;uuid(s)&#62;](#device-rm-uuid-s)
-	- [device restart &#60;uuid&#62;](#device-restart-uuid)
-	- [device shutdown &#60;uuid&#62;](#device-shutdown-uuid)
-	- [devices](#devices)
-	- [devices supported](#devices-supported)
-	- [device os-update &#60;uuid&#62;](#device-os-update-uuid)
-	- [device public-url &#60;uuid&#62;](#device-public-url-uuid)
+	- [](#)
+	- [](#)
+	- [](#)
+	- [](#)
+	- [](#)
+	- [](#)
 
 - Environment Variables
 
-	- [envs](#envs)
-	- [env rm &#60;id&#62;](#env-rm-id)
-	- [env add &#60;name&#62; [value]](#env-add-name-value)
-	- [env rename &#60;id&#62; &#60;value&#62;](#env-rename-id-value)
+	- [](#)
+	- [](#)
+	- [](#)
+	- [](#)
 
 - Tags
 
-	- [tags](#tags)
-	- [tag rm &#60;tagkey&#62;](#tag-rm-tagkey)
-	- [tag set &#60;tagkey&#62; [value]](#tag-set-tagkey-value)
+	- [](#)
+	- [](#)
+	- [](#)
 
 - Help and Version
 
 	- [help [command]](#help-command)
-	- [version](#version)
+	- [](#)
 
 - Keys
 
-	- [keys](#keys)
-	- [key &#60;id&#62;](#key-id)
-	- [key add &#60;name&#62; [path]](#key-add-name-path)
-	- [key rm &#60;id&#62;](#key-rm-id)
+	- [](#)
+	- [](#)
+	- [](#)
+	- [](#)
 
 - Logs
 
-	- [logs &#60;device&#62;](#logs-device)
+	- [](#)
 
 - Network
 
-	- [scan](#scan)
-	- [ssh &#60;applicationordevice&#62; [service]](#ssh-applicationordevice-service)
-	- [tunnel &#60;deviceorapplication&#62;](#tunnel-deviceorapplication)
+	- [](#)
+	- [](#)
+	- [](#)
 
 - Notes
 
@@ -230,58 +230,58 @@ Users are encouraged to regularly update balenaCLI to the latest version.
 
 - OS
 
-	- [os versions &#60;type&#62;](#os-versions-type)
-	- [os download &#60;type&#62;](#os-download-type)
-	- [os build-config &#60;image&#62; &#60;device-type&#62;](#os-build-config-image-device-type)
-	- [os configure &#60;image&#62;](#os-configure-image)
-	- [os initialize &#60;image&#62;](#os-initialize-image)
+	- [](#)
+	- [](#)
+	- [](#)
+	- [](#)
+	- [](#)
 
 - Config
 
-	- [config generate](#config-generate)
-	- [config inject &#60;file&#62;](#config-inject-file)
-	- [config read](#config-read)
-	- [config reconfigure](#config-reconfigure)
-	- [config write &#60;key&#62; &#60;value&#62;](#config-write-key-value)
+	- [](#)
+	- [](#)
+	- [](#)
+	- [](#)
+	- [](#)
 
 - Preload
 
-	- [preload &#60;image&#62;](#preload-image)
+	- [](#)
 
 - Push
 
-	- [push &#60;applicationordevice&#62;](#push-applicationordevice)
+	- [](#)
 
 - Settings
 
-	- [settings](#settings)
+	- [](#)
 
 - Local
 
-	- [local configure &#60;target&#62;](#local-configure-target)
-	- [local flash &#60;image&#62;](#local-flash-image)
+	- [](#)
+	- [](#)
 
 - Deploy
 
-	- [build [source]](#build-source)
-	- [deploy &#60;appname&#62; [image]](#deploy-appname-image)
+	- [](#)
+	- [](#)
 
 - Platform
 
-	- [join [deviceiporhostname]](#join-deviceiporhostname)
-	- [leave [deviceiporhostname]](#leave-deviceiporhostname)
+	- [](#)
+	- [](#)
 
 - Utilities
 
-	- [util available-drives](#util-available-drives)
+	- [](#)
 
 - Support
 
-	- [support &#60;action&#62;](#support-action)
+	- [](#)
 
 # API keys
 
-## api-key generate &#60;name&#62;
+## 
 
 Generate a new balenaCloud API key for the current user, with the given
 name. The key will be logged to the console.
@@ -303,7 +303,7 @@ the API key name
 
 # Application
 
-## apps
+## 
 
 list all your balena applications.
 
@@ -320,7 +320,7 @@ Examples:
 
 No-op since release v12.0.0
 
-## app &#60;name&#62;
+## 
 
 Display detailed information about a single balena application.
 
@@ -336,7 +336,7 @@ application name or numeric ID
 
 ### Options
 
-## app create &#60;name&#62;
+## 
 
 Create a new balena application.
 
@@ -364,7 +364,7 @@ application name
 
 application device type (Check available types with `balena devices supported`)
 
-## app rm &#60;name&#62;
+## 
 
 Permanently remove a balena application.
 
@@ -387,7 +387,7 @@ application name or numeric ID
 
 answer "yes" to all questions (non interactive use)
 
-## app rename &#60;name&#62; [newName]
+## 
 
 Rename an application.
 
@@ -411,7 +411,7 @@ the new name for the application
 
 ### Options
 
-## app restart &#60;name&#62;
+## 
 
 Restart all devices that belongs to a certain application.
 
@@ -429,7 +429,7 @@ application name or numeric ID
 
 # Authentication
 
-## login
+## 
 
 Login to your balena account.
 
@@ -486,7 +486,7 @@ password
 
 TCP port number of local HTTP login server (--web auth only)
 
-## logout
+## 
 
 Logout from your balena account.
 
@@ -494,7 +494,7 @@ Examples:
 
 	$ balena logout
 
-## whoami
+## 
 
 Get the username and email address of the currently logged in user.
 
@@ -504,7 +504,7 @@ Examples:
 
 # Device
 
-## device identify &#60;uuid&#62;
+## 
 
 Identify a device by making the ACT LED blink (Raspberry Pi).
 
@@ -520,7 +520,7 @@ the uuid of the device to identify
 
 ### Options
 
-## device init
+## 
 
 Initialise a device by downloading the OS image of a certain application
 and writing it to an SD Card.
@@ -569,7 +569,7 @@ Check `balena util available-drives` for available options.
 
 path to the config JSON file, see `balena os build-config`
 
-## device &#60;uuid&#62;
+## 
 
 Show information about a single device.
 
@@ -614,7 +614,7 @@ application name
 
 same as '--application'
 
-## device reboot &#60;uuid&#62;
+## 
 
 Remotely reboot a device.
 
@@ -634,7 +634,7 @@ the uuid of the device to reboot
 
 force action if the update lock is set
 
-## device register &#60;application&#62;
+## 
 
 Register a device to an application.
 
@@ -655,7 +655,7 @@ the name or id of application to register device with
 
 custom uuid
 
-## device rename &#60;uuid&#62; [newName]
+## 
 
 Rename a device.
 
@@ -703,7 +703,7 @@ comma-separated list (no blank spaces) of device UUIDs to be removed
 
 answer "yes" to all questions (non interactive use)
 
-## device restart &#60;uuid&#62;
+## 
 
 Restart containers on a device.
 If the --service flag is provided, then only those services' containers
@@ -733,7 +733,7 @@ comma-separated list (no blank spaces) of device UUIDs to restart
 
 comma-separated list (no blank spaces) of service names to restart
 
-## device shutdown &#60;uuid&#62;
+## 
 
 Remotely shutdown a device.
 
@@ -753,7 +753,7 @@ the uuid of the device to shutdown
 
 force action if the update lock is set
 
-## devices
+## 
 
 list all devices that belong to you.
 
@@ -785,7 +785,7 @@ same as '--application'
 
 produce JSON output instead of tabular output
 
-## devices supported
+## 
 
 List the supported device types (like 'raspberrypi3' or 'intel-nuc').
 
@@ -820,7 +820,7 @@ produce JSON output instead of tabular output
 
 add extra columns in the tabular output (ALIASES, ARCH, STATE)
 
-## device os-update &#60;uuid&#62;
+## 
 
 Start a Host OS update for a device.
 
@@ -850,7 +850,7 @@ a balenaOS version
 
 answer "yes" to all questions (non interactive use)
 
-## device public-url &#60;uuid&#62;
+## 
 
 This command will output the current public URL for the
 specified device.  It can also enable or disable the URL,
@@ -892,7 +892,203 @@ determine if public URL is enabled
 
 # Environment Variables
 
-## envs
+## 
+
+Add an environment or config variable to one or more applications, devices
+or services, as selected by the respective command-line options. Either the
+--application or the --device option must be provided, and either may be be
+used alongside the --service option to define a service-specific variable.
+(A service is an application container in a "microservices" application.)
+When the --service option is used in conjunction with the --device option,
+the service variable applies to the selected device only. Otherwise, it
+applies to all devices of the selected application (i.e., the application's
+fleet). If the --service option is omitted, the variable applies to all
+services.
+
+If VALUE is omitted, the CLI will attempt to use the value of the environment
+variable of same name in the CLI process' environment. In this case, a warning
+message will be printed. Use `--quiet` to suppress it.
+
+'BALENA_' or 'RESIN_' are reserved variable name prefixes used to identify
+"configuration variables". Configuration variables control balena platform
+features and are treated specially by balenaOS and the balena supervisor
+running on devices. They are also stored differently in the balenaCloud API
+database. Configuration variables cannot be set for specific services,
+therefore the --service option cannot be used when the variable name starts
+with a reserved prefix. When defining custom application variables, please
+avoid the reserved prefixes.
+
+Examples:
+
+	$ balena env add TERM --application MyApp
+	$ balena env add EDITOR vim --application MyApp
+	$ balena env add EDITOR vim --application MyApp,MyApp2
+	$ balena env add EDITOR vim --application MyApp --service MyService
+	$ balena env add EDITOR vim --application MyApp,MyApp2 --service MyService,MyService2
+	$ balena env add EDITOR vim --device 7cf02a6
+	$ balena env add EDITOR vim --device 7cf02a6,d6f1433
+	$ balena env add EDITOR vim --device 7cf02a6 --service MyService
+	$ balena env add EDITOR vim --device 7cf02a6,d6f1433 --service MyService,MyService2
+
+### Arguments
+
+#### NAME
+
+environment or config variable name
+
+#### VALUE
+
+variable value; if omitted, use value from this process' environment
+
+### Options
+
+#### -a, --application APPLICATION
+
+application name
+
+#### -d, --device DEVICE
+
+device UUID
+
+#### -q, --quiet
+
+suppress warning messages
+
+#### -s, --service SERVICE
+
+service name
+
+## 
+
+Change the value of a configuration or environment variable for an application,
+device or service, as selected by command-line options.
+
+Variables are selected by their database ID (as reported by the 'balena envs'
+command) and one of six database "resource types":
+
+- application (fleet) environment variable
+- application (fleet) configuration variable (--config)
+- application (fleet) service variable (--service)
+- device environment variable (--device)
+- device configuration variable (--device --config)
+- device service variable (--device --service)
+
+The --device option selects a device-specific variable instead of an application
+(fleet) variable.
+
+The --config option selects a configuration variable. Configuration variable
+names typically start with the 'BALENA_' or 'RESIN_' prefixes and are used to
+configure balena platform features.
+
+The --service option selects a service variable, which is an environment variable
+that applies to a specifc service (application container) in a microservices
+(multicontainer) application.
+
+The --service and --config options cannot be used together, but they can be
+used alongside the --device option to select a device-specific service or
+configuration variable.
+
+Examples:
+
+	$ balena env rename 123123 emacs
+	$ balena env rename 234234 emacs --service
+	$ balena env rename 345345 emacs --device
+	$ balena env rename 456456 emacs --device --service
+	$ balena env rename 567567 1 --config
+	$ balena env rename 678678 1 --device --config
+
+### Arguments
+
+#### ID
+
+variable's numeric database ID
+
+#### VALUE
+
+variable value; if omitted, use value from this process' environment
+
+### Options
+
+#### -c, --config
+
+select a configuration variable (may be used together with the --device option)
+
+#### -d, --device
+
+select a device-specific variable instead of an application (fleet) variable
+
+#### -s, --service
+
+select a service variable (may be used together with the --device option)
+
+## 
+
+Remove a configuration or environment variable from an application, device
+or service, as selected by command-line options.
+
+Variables are selected by their database ID (as reported by the 'balena envs'
+command) and one of six database "resource types":
+
+- application (fleet) environment variable
+- application (fleet) configuration variable (--config)
+- application (fleet) service variable (--service)
+- device environment variable (--device)
+- device configuration variable (--device --config)
+- device service variable (--device --service)
+
+The --device option selects a device-specific variable instead of an application
+(fleet) variable.
+
+The --config option selects a configuration variable. Configuration variable
+names typically start with the 'BALENA_' or 'RESIN_' prefixes and are used to
+configure balena platform features.
+
+The --service option selects a service variable, which is an environment variable
+that applies to a specifc service (application container) in a microservices
+(multicontainer) application.
+
+The --service and --config options cannot be used together, but they can be
+used alongside the --device option to select a device-specific service or
+configuration variable.
+
+Interactive confirmation is normally asked before the variable is deleted.
+The --yes option disables this behavior.
+
+Examples:
+
+	$ balena env rm 123123
+	$ balena env rm 234234 --yes
+	$ balena env rm 345345 --config
+	$ balena env rm 456456 --service
+	$ balena env rm 567567 --device
+	$ balena env rm 678678 --device --config
+	$ balena env rm 789789 --device --service --yes
+
+### Arguments
+
+#### ID
+
+variable's numeric database ID
+
+### Options
+
+#### -c, --config
+
+select a configuration variable (may be used together with the --device option)
+
+#### -d, --device
+
+select a device-specific variable instead of an application (fleet) variable
+
+#### -s, --service
+
+select a service variable (may be used together with the --device option)
+
+#### -y, --yes
+
+do not prompt for confirmation before deleting the variable
+
+## 
 
 List the environment or configuration variables of an application, device or
 service, as selected by the respective command-line options. (A service is
@@ -967,205 +1163,9 @@ produce verbose output
 
 service name
 
-## env rm &#60;id&#62;
-
-Remove a configuration or environment variable from an application, device
-or service, as selected by command-line options.
-
-Variables are selected by their database ID (as reported by the 'balena envs'
-command) and one of six database "resource types":
-
-- application (fleet) environment variable
-- application (fleet) configuration variable (--config)
-- application (fleet) service variable (--service)
-- device environment variable (--device)
-- device configuration variable (--device --config)
-- device service variable (--device --service)
-
-The --device option selects a device-specific variable instead of an application
-(fleet) variable.
-
-The --config option selects a configuration variable. Configuration variable
-names typically start with the 'BALENA_' or 'RESIN_' prefixes and are used to
-configure balena platform features.
-
-The --service option selects a service variable, which is an environment variable
-that applies to a specifc service (application container) in a microservices
-(multicontainer) application.
-
-The --service and --config options cannot be used together, but they can be
-used alongside the --device option to select a device-specific service or
-configuration variable.
-
-Interactive confirmation is normally asked before the variable is deleted.
-The --yes option disables this behavior.
-
-Examples:
-
-	$ balena env rm 123123
-	$ balena env rm 234234 --yes
-	$ balena env rm 345345 --config
-	$ balena env rm 456456 --service
-	$ balena env rm 567567 --device
-	$ balena env rm 678678 --device --config
-	$ balena env rm 789789 --device --service --yes
-
-### Arguments
-
-#### ID
-
-variable's numeric database ID
-
-### Options
-
-#### -c, --config
-
-select a configuration variable (may be used together with the --device option)
-
-#### -d, --device
-
-select a device-specific variable instead of an application (fleet) variable
-
-#### -s, --service
-
-select a service variable (may be used together with the --device option)
-
-#### -y, --yes
-
-do not prompt for confirmation before deleting the variable
-
-## env add &#60;name&#62; [value]
-
-Add an environment or config variable to one or more applications, devices
-or services, as selected by the respective command-line options. Either the
---application or the --device option must be provided, and either may be be
-used alongside the --service option to define a service-specific variable.
-(A service is an application container in a "microservices" application.)
-When the --service option is used in conjunction with the --device option,
-the service variable applies to the selected device only. Otherwise, it
-applies to all devices of the selected application (i.e., the application's
-fleet). If the --service option is omitted, the variable applies to all
-services.
-
-If VALUE is omitted, the CLI will attempt to use the value of the environment
-variable of same name in the CLI process' environment. In this case, a warning
-message will be printed. Use `--quiet` to suppress it.
-
-'BALENA_' or 'RESIN_' are reserved variable name prefixes used to identify
-"configuration variables". Configuration variables control balena platform
-features and are treated specially by balenaOS and the balena supervisor
-running on devices. They are also stored differently in the balenaCloud API
-database. Configuration variables cannot be set for specific services,
-therefore the --service option cannot be used when the variable name starts
-with a reserved prefix. When defining custom application variables, please
-avoid the reserved prefixes.
-
-Examples:
-
-	$ balena env add TERM --application MyApp
-	$ balena env add EDITOR vim --application MyApp
-	$ balena env add EDITOR vim --application MyApp,MyApp2
-	$ balena env add EDITOR vim --application MyApp --service MyService
-	$ balena env add EDITOR vim --application MyApp,MyApp2 --service MyService,MyService2
-	$ balena env add EDITOR vim --device 7cf02a6
-	$ balena env add EDITOR vim --device 7cf02a6,d6f1433
-	$ balena env add EDITOR vim --device 7cf02a6 --service MyService
-	$ balena env add EDITOR vim --device 7cf02a6,d6f1433 --service MyService,MyService2
-
-### Arguments
-
-#### NAME
-
-environment or config variable name
-
-#### VALUE
-
-variable value; if omitted, use value from this process' environment
-
-### Options
-
-#### -a, --application APPLICATION
-
-application name
-
-#### -d, --device DEVICE
-
-device UUID
-
-#### -q, --quiet
-
-suppress warning messages
-
-#### -s, --service SERVICE
-
-service name
-
-## env rename &#60;id&#62; &#60;value&#62;
-
-Change the value of a configuration or environment variable for an application,
-device or service, as selected by command-line options.
-
-Variables are selected by their database ID (as reported by the 'balena envs'
-command) and one of six database "resource types":
-
-- application (fleet) environment variable
-- application (fleet) configuration variable (--config)
-- application (fleet) service variable (--service)
-- device environment variable (--device)
-- device configuration variable (--device --config)
-- device service variable (--device --service)
-
-The --device option selects a device-specific variable instead of an application
-(fleet) variable.
-
-The --config option selects a configuration variable. Configuration variable
-names typically start with the 'BALENA_' or 'RESIN_' prefixes and are used to
-configure balena platform features.
-
-The --service option selects a service variable, which is an environment variable
-that applies to a specifc service (application container) in a microservices
-(multicontainer) application.
-
-The --service and --config options cannot be used together, but they can be
-used alongside the --device option to select a device-specific service or
-configuration variable.
-
-Examples:
-
-	$ balena env rename 123123 emacs
-	$ balena env rename 234234 emacs --service
-	$ balena env rename 345345 emacs --device
-	$ balena env rename 456456 emacs --device --service
-	$ balena env rename 567567 1 --config
-	$ balena env rename 678678 1 --device --config
-
-### Arguments
-
-#### ID
-
-variable's numeric database ID
-
-#### VALUE
-
-variable value; if omitted, use value from this process' environment
-
-### Options
-
-#### -c, --config
-
-select a configuration variable (may be used together with the --device option)
-
-#### -d, --device
-
-select a device-specific variable instead of an application (fleet) variable
-
-#### -s, --service
-
-select a service variable (may be used together with the --device option)
-
 # Tags
 
-## tags
+## 
 
 List all tags and their values for a particular application,
 device or release.
@@ -1195,7 +1195,7 @@ release id
 
 same as '--application'
 
-## tag rm &#60;tagKey&#62;
+## 
 
 Remove a tag from an application, device or release.
 
@@ -1230,7 +1230,7 @@ release id
 
 same as '--application'
 
-## tag set &#60;tagKey&#62; [value]
+## 
 
 Set a tag on an application, device or release.
 
@@ -1300,7 +1300,7 @@ command to show help for
 
 show additional commands
 
-## version
+## 
 
 Display version information for balenaCLI and/or Node.js.
 
@@ -1331,7 +1331,7 @@ output version information in JSON format for programmatic use
 
 # Keys
 
-## keys
+## 
 
 List all SSH keys registered in balenaCloud for the logged in user.
 
@@ -1341,7 +1341,7 @@ Examples:
 
 ### Options
 
-## key &#60;id&#62;
+## 
 
 Display a single SSH key registered in balenaCloud for the logged in user.
 
@@ -1357,13 +1357,13 @@ balenaCloud ID for the SSH key
 
 ### Options
 
-## key add &#60;name&#62; [path]
+## 
 
 Add an SSH key to the balenaCloud account of the logged in user.
 
 If `path` is omitted, the command will attempt to read the SSH key from stdin.
 
-About SSH keys  
+About SSH keys
 An "SSH key" actually consists of a public/private key pair. A typical name
 for the private key file is "id_rsa", and a typical name for the public key
 file is "id_rsa.pub". Both key files are saved to your computer (with the
@@ -1396,7 +1396,7 @@ the path to the public key file
 
 ### Options
 
-## key rm &#60;id&#62;
+## 
 
 Remove a single SSH key registered in balenaCloud for the logged in user.
 
@@ -1421,7 +1421,7 @@ answer "yes" to all questions (non interactive use)
 
 # Logs
 
-## logs &#60;device&#62;
+## 
 
 Show logs for a specific device.
 
@@ -1473,7 +1473,7 @@ Only show system logs. This can be used in combination with --service.
 
 # Network
 
-## scan
+## 
 
 Scan for balenaOS devices on your local network.
 
@@ -1497,7 +1497,7 @@ scan timeout in seconds
 
 produce JSON output instead of tabular output
 
-## ssh &#60;applicationOrDevice&#62; [service]
+## 
 
 Start a shell on a local or remote device. If a service name is not provided,
 a shell will be opened on the host OS.
@@ -1562,7 +1562,7 @@ Increase verbosity
 
 Bypass global proxy configuration for the ssh connection
 
-## tunnel &#60;deviceOrApplication&#62;
+## 
 
 Use this command to open local ports which tunnel to listening ports on your balenaOS device.
 
@@ -1637,68 +1637,7 @@ device UUID
 
 # OS
 
-## os versions &#60;type&#62;
-
-Show the available balenaOS versions for the given device type.
-Check available types with `balena devices supported`.
-
-Examples:
-
-	$ balena os versions raspberrypi3
-
-### Arguments
-
-#### TYPE
-
-device type
-
-### Options
-
-## os download &#60;type&#62;
-
-Download an unconfigured OS image for a certain device type.
-Check available types with `balena devices supported`
-
-Note: Currently this command only works with balenaCloud, not openBalena.
-If using openBalena, please download the OS from: https://www.balena.io/os/
-
-If version is not specified the newest stable (non-pre-release) version of OS
-is downloaded (if available), otherwise the newest version (if all existing
-versions for the given device type are pre-release).
-
-You can pass `--version menu` to pick the OS version from the interactive menu
-of all available versions.
-
-Examples:
-
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 1.24.1
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^1.20.0
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu
-
-### Arguments
-
-#### TYPE
-
-the device type
-
-### Options
-
-#### -o, --output OUTPUT
-
-output path
-
-#### --version VERSION
-
-exact version number, or a valid semver range,
-or 'latest' (includes pre-releases),
-or 'default' (excludes pre-releases if at least one stable version is available),
-or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
-or 'menu' (will show the interactive menu)
-
-## os build-config &#60;image&#62; &#60;device-type&#62;
+## 
 
 Interactively generate an OS config once, so that the generated config
 file can be used in `balena os configure`, skipping the interactive part.
@@ -1728,7 +1667,7 @@ show advanced configuration options
 
 path to output JSON file
 
-## os configure &#60;image&#62;
+## 
 
 Configure a previously downloaded balenaOS image for a specific device type or
 balena application.
@@ -1830,7 +1769,51 @@ balenaOS version, for example "2.32.0" or "2.44.0+rev1"
 
 paths to local files to place into the 'system-connections' directory
 
-## os initialize &#60;image&#62;
+## 
+
+Download an unconfigured OS image for a certain device type.
+Check available types with `balena devices supported`
+
+Note: Currently this command only works with balenaCloud, not openBalena.
+If using openBalena, please download the OS from: https://www.balena.io/os/
+
+If version is not specified the newest stable (non-pre-release) version of OS
+is downloaded (if available), otherwise the newest version (if all existing
+versions for the given device type are pre-release).
+
+You can pass `--version menu` to pick the OS version from the interactive menu
+of all available versions.
+
+Examples:
+
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 1.24.1
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^1.20.0
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu
+
+### Arguments
+
+#### TYPE
+
+the device type
+
+### Options
+
+#### -o, --output OUTPUT
+
+output path
+
+#### --version VERSION
+
+exact version number, or a valid semver range,
+or 'latest' (includes pre-releases),
+or 'default' (excludes pre-releases if at least one stable version is available),
+or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
+or 'menu' (will show the interactive menu)
+
+## 
 
 Initialize an os image for a device with a previously
 		configured operating system image.
@@ -1865,9 +1848,26 @@ Check `balena util available-drives` for available options.
 
 answer "yes" to all questions (non interactive use)
 
+## 
+
+Show the available balenaOS versions for the given device type.
+Check available types with `balena devices supported`.
+
+Examples:
+
+	$ balena os versions raspberrypi3
+
+### Arguments
+
+#### TYPE
+
+device type
+
+### Options
+
 # Config
 
-## config generate
+## 
 
 Generate a config.json file for a device or application.
 
@@ -1941,7 +1941,7 @@ the wifi key to use (used only if --network is set to wifi)
 
 how frequently (in minutes) to poll for application updates
 
-## config inject &#60;file&#62;
+## 
 
 Inject a config.json file to the mounted filesystem,
 e.g. the SD card of a provisioned device or balenaOS image.
@@ -1967,7 +1967,7 @@ device type (Check available types with `balena devices supported`)
 
 device filesystem or OS image location
 
-## config read
+## 
 
 Read the config.json file from the mounted filesystem,
 e.g. the SD card of a provisioned device or balenaOS image.
@@ -1987,7 +1987,7 @@ device type (Check available types with `balena devices supported`)
 
 device filesystem or OS image location
 
-## config reconfigure
+## 
 
 Interactively reconfigure a provisioned device or OS image.
 
@@ -2011,7 +2011,7 @@ device filesystem or OS image location
 
 show advanced commands
 
-## config write &#60;key&#62; &#60;value&#62;
+## 
 
 Write a key-value pair to the config.json file on the mounted filesystem,
 e.g. the SD card of a provisioned device or balenaOS image.
@@ -2044,7 +2044,7 @@ device filesystem or OS image location
 
 # Preload
 
-## preload &#60;image&#62;
+## 
 
 Preload a balena application release (app images/containers), and optionally
 a balenaOS splash screen, in a previously downloaded '.img' balenaOS image file
@@ -2125,7 +2125,7 @@ Docker host TLS key file
 
 # Push
 
-## push &#60;applicationOrDevice&#62;
+## 
 
 Start a build on the remote balenaCloud builders, or a local mode balena device.
 
@@ -2348,7 +2348,7 @@ required until your project can be adapted.
 
 # Settings
 
-## settings
+## 
 
 Use this command to display current balenaCLI settings.
 
@@ -2360,7 +2360,7 @@ Examples:
 
 # Local
 
-## local configure &#60;target&#62;
+## 
 
 Configure or reconfigure a balenaOS drive or image.
 
@@ -2377,7 +2377,7 @@ path of drive or image to configure
 
 ### Options
 
-## local flash &#60;image&#62;
+## 
 
 Flash a balenaOS image to a drive.
 Image file may be one of: .img|.zip|.gz|.bz2|.xz
@@ -2411,7 +2411,7 @@ answer "yes" to all questions (non interactive use)
 
 # Deploy
 
-## build [source]
+## 
 
 Use this command to build an image or a complete multicontainer project with
 the provided docker daemon in your development machine or balena device.
@@ -2628,7 +2628,7 @@ Docker host TLS certificate file
 
 Docker host TLS key file
 
-## deploy &#60;appName&#62; [image]
+## 
 
 Usage: `deploy <appName> ([image] | --build [--source build-dir])`
 
@@ -2853,7 +2853,7 @@ Docker host TLS key file
 
 # Platform
 
-## join [deviceIpOrHostname]
+## 
 
 Move a local device to an application on another balena server, causing
 the device to "join" the new server. The device must be running balenaOS.
@@ -2894,7 +2894,7 @@ application name
 
 the interval in minutes to check for updates
 
-## leave [deviceIpOrHostname]
+## 
 
 Remove a local device from its balena application, causing the device to
 "leave" the server it is provisioned on. This effectively makes the device
@@ -2923,7 +2923,7 @@ the device IP or hostname
 
 # Utilities
 
-## util available-drives
+## 
 
 List available drives which are usable for writing an OS image to.
 Does not list system drives.
@@ -2932,7 +2932,7 @@ Does not list system drives.
 
 # Support
 
-## support &#60;action&#62;
+## 
 
 Grant or revoke balena support agent access to devices and applications
 on balenaCloud. (This command does not apply to openBalena.)

@@ -111,8 +111,6 @@ export default class PushCmd extends Command {
 		},
 	];
 
-	public static usage = 'push <applicationOrDevice>';
-
 	public static flags: flags.Input<FlagsDef> = {
 		source: flags.string({
 			description: stripIndent`

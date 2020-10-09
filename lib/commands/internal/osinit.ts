@@ -17,7 +17,6 @@
 
 import Command from '../../command';
 import { stripIndent } from '../../utils/lazy';
-import { CommandHelp } from '../../utils/oclif-utils';
 
 // 'Internal' commands are called during the execution of other commands.
 // `osinit` is called during `os initialize`
@@ -55,11 +54,6 @@ export default class OsinitCmd extends Command {
 			required: true,
 		},
 	];
-
-	public static usage = (
-		'internal osinit ' +
-		new CommandHelp({ args: OsinitCmd.args }).defaultUsage()
-	).trim();
 
 	public static hidden = true;
 	public static root = true;

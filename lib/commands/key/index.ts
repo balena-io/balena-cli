@@ -49,8 +49,6 @@ export default class KeyCmd extends Command {
 		},
 	];
 
-	public static usage = 'key <id>';
-
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
 	};

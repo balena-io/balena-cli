@@ -47,8 +47,6 @@ export default class TagsCmd extends Command {
 		'$ balena tags --release b376b0e544e9429483b656490e5b9443b4349bd6',
 	];
 
-	public static usage = 'tags';
-
 	public static flags: flags.Input<FlagsDef> = {
 		application: {
 			...cf.application,

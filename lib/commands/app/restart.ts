@@ -45,8 +45,6 @@ export default class AppRestartCmd extends Command {
 		},
 	];
 
-	public static usage = 'app restart <name>';
-
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
 	};

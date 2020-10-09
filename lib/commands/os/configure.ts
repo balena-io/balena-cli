@@ -110,8 +110,6 @@ export default class OsConfigureCmd extends Command {
 		},
 	];
 
-	public static usage = 'os configure <image>';
-
 	public static flags: flags.Input<FlagsDef> = {
 		advanced: flags.boolean({
 			char: 'v',

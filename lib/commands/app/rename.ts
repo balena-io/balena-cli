@@ -57,8 +57,6 @@ export default class AppRenameCmd extends Command {
 		},
 	];
 
-	public static usage = 'app rename <name> [newName]';
-
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
 	};

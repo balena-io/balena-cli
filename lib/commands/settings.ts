@@ -32,8 +32,6 @@ export default class SettingsCmd extends Command {
 `;
 	public static examples = ['$ balena settings'];
 
-	public static usage = 'settings';
-
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
 	};

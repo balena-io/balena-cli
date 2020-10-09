@@ -32,8 +32,6 @@ export default class UtilAvailableDrivesCmd extends Command {
 		Does not list system drives.
 	`;
 
-	public static usage = 'util available-drives';
-
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
 	};

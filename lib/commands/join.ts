@@ -67,9 +67,6 @@ export default class JoinCmd extends Command {
 		},
 	];
 
-	// Hardcoded to preserve camelcase
-	public static usage = 'join [deviceIpOrHostname]';
-
 	public static flags: flags.Input<FlagsDef> = {
 		application: {
 			description: 'the name of the application the device should join',

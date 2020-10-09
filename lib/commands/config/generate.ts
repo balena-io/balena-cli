@@ -65,8 +65,6 @@ export default class ConfigGenerateCmd extends Command {
 		'$ balena config generate --app MyApp --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1',
 	];
 
-	public static usage = 'config generate';
-
 	public static flags: flags.Input<FlagsDef> = {
 		version: flags.string({
 			description: 'a balenaOS version',

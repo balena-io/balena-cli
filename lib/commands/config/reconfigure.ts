@@ -39,8 +39,6 @@ export default class ConfigReconfigureCmd extends Command {
 		'$ balena config reconfigure --type raspberrypi3 --drive /dev/disk2',
 	];
 
-	public static usage = 'config reconfigure';
-
 	public static flags: flags.Input<FlagsDef> = {
 		type: flags.string({
 			description:
