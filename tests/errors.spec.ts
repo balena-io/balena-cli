@@ -126,6 +126,7 @@ describe('handleError() function', () => {
 		'must also be provided when using', // oclif
 		'Expected an integer', // oclif
 		'Flag --foo expects a value', // oclif
+		'BalenaRequestError: Request error: Unauthorized', // sdk
 	];
 
 	messagesToMatch.forEach((message) => {
