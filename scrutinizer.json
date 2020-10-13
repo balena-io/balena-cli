@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "Treat authorization errors as expected",
+          "hash": "592efd0a2e5c0c46f4cbf0b1107b135ccab55211",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Resolves": "#2035",
+            "resolves": "#2035",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.25.1",
+      "date": "2020-10-13T08:21:31.203Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Refactor initialization code (delete app-oclif.ts and app-common.ts)",
           "hash": "d0e4fa0e59b9c6a4c3f414361c089c68f1dfd872",
           "body": "",
@@ -19052,35 +19073,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-10-13T08:01:54Z",
+  "lastCommitDate": "2020-10-13T08:58:10Z",
   "latestRelease": {
-    "tagName": "v12.25.0",
+    "tagName": "v12.25.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.25.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.0/balena-cli-v12.25.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.25.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.1/balena-cli-v12.25.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.25.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.0/balena-cli-v12.25.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.25.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.1/balena-cli-v12.25.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.25.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.0/balena-cli-v12.25.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.25.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.1/balena-cli-v12.25.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.25.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.0/balena-cli-v12.25.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.25.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.1/balena-cli-v12.25.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.25.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.0/balena-cli-v12.25.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.25.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.1/balena-cli-v12.25.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 290,
+    "numberOfIssues": 288,
     "latestIssues": [
       {
         "title": "os initialize: Privilege elevation is broken on Windows",
@@ -19101,10 +19122,6 @@
       {
         "title": "balena CLI shouldn't show dashboard URL because there is no dashboard in openBalena",
         "url": "https://github.com/balena-io/balena-cli/issues/2055"
-      },
-      {
-        "title": "Treat authorization errors as expected",
-        "url": "https://github.com/balena-io/balena-cli/pull/2054"
       },
       {
         "title": "Improve error message to access balena settings",
@@ -19129,10 +19146,6 @@
       {
         "title": "tunnel command uses unencrypted connection to backend server",
         "url": "https://github.com/balena-io/balena-cli/issues/2042"
-      },
-      {
-        "title": "login: Sentry reports a large number of BalenaRequestError Request error: Unauthorized",
-        "url": "https://github.com/balena-io/balena-cli/issues/2035"
       },
       {
         "title": "Consider replacing oclif patches with overrides",
@@ -19161,10 +19174,18 @@
       {
         "title": "Balena CLI version > v12.13.0 incompatible with last openbalena",
         "url": "https://github.com/balena-io/balena-cli/issues/1998"
+      },
+      {
+        "title": "POC: Using cli-ux table",
+        "url": "https://github.com/balena-io/balena-cli/pull/1991"
+      },
+      {
+        "title": "`os configure` crashes with \"Illegal instruction: 4\" (npm install with Node v14)",
+        "url": "https://github.com/balena-io/balena-cli/issues/1990"
       }
     ]
   },
-  "version": "12.25.0",
+  "version": "12.25.1",
   "screenshot": null,
   "logo": null
 }

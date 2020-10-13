@@ -1,4 +1,19 @@
 - commits:
+    - subject: Treat authorization errors as expected
+      hash: 592efd0a2e5c0c46f4cbf0b1107b135ccab55211
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#2035'
+        resolves: '#2035'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.25.1
+  date: 2020-10-13T08:57:17.016Z
+- commits:
     - subject: Refactor initialization code (delete app-oclif.ts and app-common.ts)
       hash: d0e4fa0e59b9c6a4c3f414361c089c68f1dfd872
       body: ''
@@ -24,7 +39,7 @@
       author: Paulo Castro
       nested: []
   version: 12.25.0
-  date: 2020-10-13T08:00:48.301Z
+  date: 2020-10-11T00:06:46.011Z
 - commits:
     - subject: 'login: sign up at the configured balena instance'
       hash: af70f16a9b8de7150bcdd8d76a89f72c59614526
