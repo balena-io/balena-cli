@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import { Main } from '@oclif/command';
 import type * as Config from '@oclif/config';
 
 /**
@@ -45,6 +46,17 @@ export class CommandHelp {
 
 	public static compact<T>(array: Array<T | undefined>): T[] {
 		return array.filter((a): a is T => !!a);
+	}
+}
+
+export class CustomMain extends Main {
+	protected _helpOverride(): boolean {
+		// Disable oclif's default handler for the 'version' command
+		if (['-v', '--version', 'version'].includes(this.argv[0])) {
+			return false;
+		} else {
+			return super._helpOverride();
+		}
 	}
 }
 

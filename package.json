@@ -197,7 +197,7 @@
     "@balena/es-version": "^1.0.0",
     "@oclif/command": "^1.8.0",
     "@resin.io/valid-email": "^0.1.0",
-    "@sentry/node": "^5.21.1",
+    "@sentry/node": "^5.25.0",
     "@types/fast-levenshtein": "0.0.1",
     "@types/update-notifier": "^4.1.1",
     "@zeit/dockerignore": "0.0.3",

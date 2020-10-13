@@ -1,0 +1,103 @@
+/**
+ * @license
+ * Copyright 2019-2020 Balena Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * THIS MODULE SHOULD NOT IMPORT / REQUIRE ANYTHING AT THE GLOBAL LEVEL.
+ * It is meant to contain elementary helper functions or classes that
+ * can be used very early on during CLI startup, before anything else
+ * like Sentry error reporting, preparser, oclif parser and the like.
+ */
+
+export class CliSettings {
+	public readonly settings: any;
+	constructor() {
+		this.settings = require('balena-settings-client') as typeof import('balena-settings-client');
+	}
+
+	public get<T>(name: string): T {
+		return this.settings.get(name);
+	}
+
+	/**
+	 * Like settings.get(), but return `undefined` instead of throwing an
+	 * error if the setting is not found / not defined.
+	 */
+	public getCatch<T>(name: string): T | undefined {
+		try {
+			return this.settings.get(name);
+		} catch (err) {
+			if (!/Setting not found/i.test(err.message)) {
+				throw err;
+			}
+		}
+	}
+}
+
+export function parseBoolEnvVar(varName: string): boolean {
+	return !['0', 'no', 'false', '', undefined].includes(
+		process.env[varName]?.toLowerCase(),
+	);
+}
+
+export function normalizeEnvVar(varName: string) {
+	process.env[varName] = parseBoolEnvVar(varName) ? '1' : '';
+}
+
+const bootstrapVars = ['DEBUG', 'BALENARC_NO_SENTRY'];
+
+export function normalizeEnvVars(varNames: string[] = bootstrapVars) {
+	for (const varName of varNames) {
+		normalizeEnvVar(varName);
+	}
+}
+
+/**
+ * Implements the 'pkgExec' command, used as a way to provide a Node.js
+ * interpreter for child_process.spawn()-like operations when the CLI is
+ * executing as a standalone zip package (built-in Node interpreter) and
+ * the system may not have a separate Node.js installation. A present use
+ * case is a patched version of the 'windosu' package that requires a
+ * Node.js interpreter to spawn a privileged child process.
+ *
+ * @param modFunc Path to a JS module that will be executed via require().
+ * The modFunc argument may optionally contain a function name separated
+ * by '::', for example '::main' in:
+ * 'C:\\snapshot\\balena-cli\\node_modules\\windosu\\lib\\pipe.js::main'
+ * in which case that function is executed in the require'd module.
+ * @param args Optional arguments to passed through process.argv and as
+ * arguments to the function specified via modFunc.
+ */
+export async function pkgExec(modFunc: string, args: string[]) {
+	const [modPath, funcName] = modFunc.split('::');
+	let replacedModPath = modPath;
+	const match = modPath
+		.replace(/\\/g, '/')
+		.match(/\/snapshot\/balena-cli\/(.+)/);
+	if (match) {
+		replacedModPath = `../${match[1]}`;
+	}
+	process.argv = [process.argv[0], process.argv[1], ...args];
+	try {
+		const mod: any = await import(replacedModPath);
+		if (funcName) {
+			await mod[funcName](...args);
+		}
+	} catch (err) {
+		console.error(`Error executing pkgExec "${modFunc}" [${args.join()}]`);
+		console.error(err);
+	}
+}
