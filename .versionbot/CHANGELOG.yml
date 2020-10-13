@@ -1,4 +1,31 @@
 - commits:
+    - subject: Refactor initialization code (delete app-oclif.ts and app-common.ts)
+      hash: d0e4fa0e59b9c6a4c3f414361c089c68f1dfd872
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Support BALENARC_NO_SENTRY env var to disable Sentry.io error reporting
+      hash: cf376316bc4863b98223bac9c81697c2245341ae
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+    - subject: Update Sentry package (may fix "Maximum call stack size exceeded")
+      hash: 8f0f3bda294acda75be15d630967b526581a3c1f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.25.0
+  date: 2020-10-11T00:06:46.011Z
+- commits:
     - subject: 'login: sign up at the configured balena instance'
       hash: af70f16a9b8de7150bcdd8d76a89f72c59614526
       body: ''
