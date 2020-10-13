@@ -5,6 +5,45 @@
     {
       "commits": [
         {
+          "subject": "Refactor initialization code (delete app-oclif.ts and app-common.ts)",
+          "hash": "d0e4fa0e59b9c6a4c3f414361c089c68f1dfd872",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "Support BALENARC_NO_SENTRY env var to disable Sentry.io error reporting",
+          "hash": "cf376316bc4863b98223bac9c81697c2245341ae",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "Update Sentry package (may fix \"Maximum call stack size exceeded\")",
+          "hash": "8f0f3bda294acda75be15d630967b526581a3c1f",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.25.0",
+      "date": "2020-10-11T00:06:46.011Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "login: sign up at the configured balena instance",
           "hash": "af70f16a9b8de7150bcdd8d76a89f72c59614526",
           "body": "",
@@ -18913,7 +18952,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 271,
+  "stars": 273,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -19013,36 +19052,52 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-10-07T16:28:54Z",
+  "lastCommitDate": "2020-10-13T08:01:54Z",
   "latestRelease": {
-    "tagName": "v12.24.1",
+    "tagName": "v12.25.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.24.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.24.1/balena-cli-v12.24.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.25.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.0/balena-cli-v12.25.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.24.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.24.1/balena-cli-v12.24.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.25.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.0/balena-cli-v12.25.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.24.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.24.1/balena-cli-v12.24.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.25.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.0/balena-cli-v12.25.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.24.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.24.1/balena-cli-v12.24.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.25.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.0/balena-cli-v12.25.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.24.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.24.1/balena-cli-v12.24.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.25.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.0/balena-cli-v12.25.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 287,
+    "numberOfIssues": 290,
     "latestIssues": [
+      {
+        "title": "os initialize: Privilege elevation is broken on Windows",
+        "url": "https://github.com/balena-io/balena-cli/issues/2062"
+      },
+      {
+        "title": "RangeError: Maximum call stack size exceeded (@sentry/node/dist/integrations/console.js)",
+        "url": "https://github.com/balena-io/balena-cli/issues/2060"
+      },
+      {
+        "title": "`balena create` command",
+        "url": "https://github.com/balena-io/balena-cli/issues/2059"
+      },
+      {
+        "title": "Auto-generate command usage notes",
+        "url": "https://github.com/balena-io/balena-cli/pull/2058"
+      },
       {
         "title": "balena CLI shouldn't show dashboard URL because there is no dashboard in openBalena",
         "url": "https://github.com/balena-io/balena-cli/issues/2055"
@@ -19106,26 +19161,10 @@
       {
         "title": "Balena CLI version > v12.13.0 incompatible with last openbalena",
         "url": "https://github.com/balena-io/balena-cli/issues/1998"
-      },
-      {
-        "title": "POC: Using cli-ux table",
-        "url": "https://github.com/balena-io/balena-cli/pull/1991"
-      },
-      {
-        "title": "`os configure` crashes with \"Illegal instruction: 4\" (npm install with Node v14)",
-        "url": "https://github.com/balena-io/balena-cli/issues/1990"
-      },
-      {
-        "title": "Misleading error message when the CLI's socket times out with the `tunnel` subcommand",
-        "url": "https://github.com/balena-io/balena-cli/issues/1979"
-      },
-      {
-        "title": "sudo balena config inject fails and returns \"TypeError: Class constructor PinejsClientCore cannot be invoked without 'new'\"",
-        "url": "https://github.com/balena-io/balena-cli/issues/1971"
       }
     ]
   },
-  "version": "12.24.1",
+  "version": "12.25.0",
   "screenshot": null,
   "logo": null
 }
