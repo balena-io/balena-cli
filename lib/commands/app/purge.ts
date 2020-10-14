@@ -31,11 +31,12 @@ interface ArgsDef {
 
 export default class AppRestartCmd extends Command {
 	public static description = stripIndent`
-		Restart an application.
+		Purge data from an application.
 
-		Restart all devices belonging to an application.
+		Purge data from all devices belonging to an application.
+		This will clear the application's /data directory.
 `;
-	public static examples = ['$ balena app restart MyApp'];
+	public static examples = ['$ balena app purge MyApp'];
 
 	public static args = [
 		{
@@ -45,7 +46,7 @@ export default class AppRestartCmd extends Command {
 		},
 	];
 
-	public static usage = 'app restart <name>';
+	public static usage = 'app purge <name>';
 
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
@@ -56,6 +57,26 @@ export default class AppRestartCmd extends Command {
 	public async run() {
 		const { args: params } = this.parse<FlagsDef, ArgsDef>(AppRestartCmd);
 
-		await getBalenaSdk().models.application.restart(tryAsInteger(params.name));
+		const balena = getBalenaSdk();
+
+		// balena.models.application.purge only accepts a numeric id
+		// so we must first fetch the app to get it's id, if we have been given a name
+		let nameOrId = tryAsInteger(params.name);
+
+		if (typeof nameOrId === 'string') {
+			const app = await balena.models.application.get(nameOrId);
+			nameOrId = app.id;
+		}
+
+		try {
+			await balena.models.application.purge(nameOrId);
+		} catch (e) {
+			if (e.message.toLowerCase().includes('no online device(s) found')) {
+				// application.purge throws an error if no devices are online
+				// ignore in this case.
+			} else {
+				throw e;
+			}
+		}
 	}
 }
