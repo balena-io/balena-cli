@@ -30,6 +30,8 @@ export interface BuiltImage {
 		dockerfile?: string;
 		projectType?: string;
 		size?: number;
+		startTime?: Date;
+		endTime?: Date;
 	};
 	serviceName: string;
 }
@@ -64,7 +66,7 @@ export interface ComposeCliFlags {
 	'multi-dockerignore': boolean;
 	nogitignore: boolean;
 	'noparent-check': boolean;
-	'registry-secrets'?: string | RegistrySecrets;
+	'registry-secrets'?: RegistrySecrets;
 	'convert-eol': boolean;
 	'noconvert-eol': boolean;
 	projectName?: string;
