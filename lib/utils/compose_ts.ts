@@ -313,14 +313,23 @@ function setTaskAttributes({
 		// multibuild (splitBuildStream) parses the composition internally so
 		// any tags we've set before are lost; re-assign them here
 		task.tag ??= [projectName, task.serviceName].join('_').toLowerCase();
-
-		task.dockerOpts ??= {};
 		if (isBuildConfig(d.image)) {
 			d.image.tag = task.tag;
-			if (d.image.args) {
-				task.dockerOpts.buildargs ??= {};
-				_.merge(task.dockerOpts.buildargs, d.image.args);
-			}
+		}
+		// reassign task.args so that the `--buildArg` flag takes precedence
+		// over assignments in the docker-compose.yml file (service.build.args)
+		task.args = {
+			...task.args,
+			...buildOpts.buildargs,
+		};
+
+		// Docker image build options
+		task.dockerOpts ??= {};
+		if (task.args && Object.keys(task.args).length) {
+			task.dockerOpts.buildargs = {
+				...task.dockerOpts.buildargs,
+				...task.args,
+			};
 		}
 		_.merge(task.dockerOpts, buildOpts, { t: task.tag });
 	}
