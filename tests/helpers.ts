@@ -47,6 +47,7 @@ function filterCliOutputForTests(testOutput: TestOutput): TestOutput {
 				// TODO stop this warning message from appearing when running
 				// sdk.setSharedOptions multiple times in the same process
 				!line.startsWith('Shared SDK options') &&
+				!line.startsWith('WARN: disabling Sentry.io error reporting') &&
 				// Node 12: '[DEP0066] DeprecationWarning: OutgoingMessage.prototype._headers is deprecated'
 				!line.includes('[DEP0066]'),
 		),
@@ -264,23 +265,55 @@ export function fillTemplate(
 	return unescaped;
 }
 
-export function fillTemplateArray(
-	templateStringArray: string[],
-	templateVars: object,
-): string[];
-export function fillTemplateArray(
-	templateStringArray: Array<string | string[]>,
-	templateVars: object,
-): Array<string | string[]>;
-export function fillTemplateArray(
-	templateStringArray: Array<string | string[]>,
-	templateVars: object,
-): Array<string | string[]> {
-	return templateStringArray.map((i) =>
-		Array.isArray(i)
-			? fillTemplateArray(i, templateVars)
-			: fillTemplate(i, templateVars),
-	);
+/**
+ * Recursively navigate the `data` argument (if it is an array or object),
+ * finding and replacing "template strings" such as 'hello ${name}!' with
+ * the variable values given in `templateVars` such as { name: 'world' }.
+ *
+ * @param data Any data type (array, object, string) containing template
+ * strings to be replaced
+ * @param templateVars Map of template variable names to values
+ */
+export function deepTemplateReplace(
+	data: any,
+	templateVars: { [key: string]: any },
+): any {
+	switch (typeof data) {
+		case 'string':
+			return fillTemplate(data, templateVars);
+		case 'object':
+			if (Array.isArray(data)) {
+				return data.map((i) => deepTemplateReplace(i, templateVars));
+			}
+			return _.mapValues(data, (value) =>
+				deepTemplateReplace(value, templateVars),
+			);
+		default:
+			// number, undefined, null, or something else
+			return data;
+	}
+}
+
+export const fillTemplateArray = deepTemplateReplace;
+
+/**
+ * Recursively navigate the `data` argument (if it is an array or object),
+ * looking for strings that start with `[` or `{` which are assumed to contain
+ * JSON arrays or objects that are then parsed with JSON.parse().
+ * @param data
+ */
+export function deepJsonParse(data: any): any {
+	if (typeof data === 'string') {
+		const maybeJson = data.trim();
+		if (maybeJson.startsWith('{') || maybeJson.startsWith('[')) {
+			return JSON.parse(maybeJson);
+		}
+	} else if (Array.isArray(data)) {
+		return data.map((i) => deepJsonParse(i));
+	} else if (typeof data === 'object') {
+		return _.mapValues(data, (value) => deepJsonParse(value));
+	}
+	return data;
 }
 
 export async function switchSentry(
