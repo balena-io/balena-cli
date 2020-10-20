@@ -1,4 +1,4 @@
-# balenaCLI Installation Instructions for Windows
+# balena CLI Installation Instructions for Windows
 
 These instructions are for the recommended installation option. Advanced users may also be
 interested in [advanced installation options](./INSTALL-ADVANCED.md).
@@ -18,10 +18,10 @@ Selected operating system: **Windows**
 
 3. Check that the installation was successful by running the following commands on a
    command terminal:  
-   * `balena version` - should print balenaCLI's version
+   * `balena version` - should print the CLI's version
    * `balena help` - should print a list of available commands
 
-No further steps are required to run most balenaCLI commands. The `balena ssh`, `scan`, `build`,
+No further steps are required to run most CLI commands. The `balena ssh`, `scan`, `build`,
 `deploy`, `preload` and `os configure` commands may require additional software to be installed, as
 described below.
 
@@ -33,7 +33,7 @@ These commands require [Docker](https://docs.docker.com/install/overview/) or
 [balenaEngine](https://www.balena.io/engine/) to be available (on a local or remote machine). Most
 users will simply follow [Docker's installation
 instructions](https://docs.docker.com/install/overview/) to install Docker on the same laptop (dev
-machine) where balenaCLI is installed. The [advanced installation
+machine) where the balena CLI is installed. The [advanced installation
 options](./INSTALL-ADVANCED.md) document describes other possibilities.
 
 ### balena ssh
@@ -69,8 +69,8 @@ present workaround is to either:
 
 * Downgrade Docker Desktop to version 18.06.1. Link: [Docker CE for
   Windows](https://docs.docker.com/docker-for-windows/release-notes/#docker-community-edition-18061-ce-win73-2018-08-29)
-* Install balenaCLI on a Linux machine (as Docker for Linux still supports AUFS). A Linux Virtual
-  Machine also works, but a Docker container is _not_ recommended.
+* Install the balena CLI on a Linux machine (as Docker for Linux still supports AUFS). A Linux
+  Virtual Machine also works, but a Docker container is _not_ recommended.
 
 Long term, we are working on replacing AUFS with overlay2 for the affected device types.
 
@@ -78,5 +78,5 @@ Long term, we are working on replacing AUFS with overlay2 for the affected devic
 
 * The `balena os configure` command is currently not supported on Windows natively, but works with
   the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL). When
-  using WSL, [install balenaCLI for
+  using WSL, [install the balena CLI for
   Linux](https://github.com/balena-io/balena-cli/blob/master/INSTALL-LINUX.md).

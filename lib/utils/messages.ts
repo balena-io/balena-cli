@@ -69,7 +69,7 @@ this file will be used instead.`;
 
 export const dockerignoreHelp = `\
 DOCKERIGNORE AND GITIGNORE FILES  
-By default, balenaCLI will use a single ".dockerignore" file (if any) at
+By default, the balena CLI will use a single ".dockerignore" file (if any) at
 the project root (--source directory) in order to decide which source files to
 exclude from the "build context" (tar stream) sent to balenaCloud, Docker
 daemon or balenaEngine. In a microservices (multicontainer) application, the
@@ -94,7 +94,7 @@ compatibility with the standard docker-compose tool, while still allowing a
 root .dockerignore file (at the overall project root) to filter files and
 folders that are outside service subdirectories.
 
-balenaCLI releases older than v12.0.0 also took .gitignore files into account.
+balena CLI releases older than v12.0.0 also took .gitignore files into account.
 This behavior is deprecated, but may still be enabled with the --gitignore (-g)
 option if compatibility is required. This option is mutually exclusive with
 --multi-dockerignore (-m) and will be removed in the CLI's next major version

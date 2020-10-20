@@ -26,7 +26,7 @@ import { MarkdownFileParser } from './utils';
  * some content to this object.
  */
 const capitanoDoc = {
-	title: 'balenaCLI Documentation',
+	title: 'balena CLI Documentation',
 	introduction: '',
 	categories: [
 		{

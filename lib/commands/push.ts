@@ -197,7 +197,7 @@ export default class PushCmd extends Command {
 			multiple: true,
 		}),
 		'convert-eol': flags.boolean({
-			description: 'No-op and deprecated since balenaCLI v12.0.0',
+			description: 'No-op and deprecated since balena CLI v12.0.0',
 			char: 'l',
 			hidden: true,
 		}),
@@ -212,7 +212,7 @@ export default class PushCmd extends Command {
 		}),
 		nogitignore: flags.boolean({
 			description:
-				'No-op (default behavior) since balenaCLI v12.0.0. See "balena help push".',
+				'No-op (default behavior) since balena CLI v12.0.0. See "balena help push".',
 			char: 'G',
 			hidden: true,
 		}),

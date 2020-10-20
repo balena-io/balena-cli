@@ -1,4 +1,4 @@
-# balenaCLI Advanced Installation Options
+# balena CLI Advanced Installation Options
 
 **These are alternative, advanced installation options. Most users would prefer the [recommended,
 streamlined installation
@@ -8,11 +8,11 @@ There are 3 options to choose from to install balena's CLI:
 
 * [Executable Installer](#executable-installer): the easiest method on Windows and macOS, using the
   traditional graphical desktop application installers.
-* [Standalone Zip Package](#standalone-zip-package): these are plain zip files with the balenaCLI
+* [Standalone Zip Package](#standalone-zip-package): these are plain zip files with the balena CLI
   executable in them: extract and run. Available for all platforms: Linux, Windows, macOS.
   Recommended also for scripted installation in CI (continuous integration) environments.
 * [NPM Installation](#npm-installation): recommended for Node.js developers who may be interested
-  in integrating balenaCLI in their existing projects or workflow.
+  in integrating the balena CLI in their existing projects or workflow.
 
 Some specific CLI commands have a few extra installation steps: see section [Additional
 Dependencies](#additional-dependencies).
@@ -74,7 +74,7 @@ as described above.
 
 ## NPM Installation
 
-If you are a Node.js developer, you may wish to install balenaCLI via [npm](https://www.npmjs.com).
+If you are a Node.js developer, you may wish to install the balena CLI via [npm](https://www.npmjs.com).
 The npm installation involves building native (platform-specific) binary modules, which require
 some additional development tools to be installed first:
 
@@ -112,7 +112,7 @@ On **Windows (not WSL),** the dependencies above and additional ones can be met 
   
   `npm install -g --production windows-build-tools`
 
-With these dependencies in place, the balenaCLI installation command is:
+With these dependencies in place, the balena CLI installation command is:
 
 ```sh
 $ npm install balena-cli -g --production --unsafe-perm

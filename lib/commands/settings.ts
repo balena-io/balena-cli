@@ -28,7 +28,7 @@ export default class SettingsCmd extends Command {
 	public static description = stripIndent`
 		Print current settings.
 
-		Use this command to display current balenaCLI settings.
+		Use this command to display the current balena CLI settings.
 `;
 	public static examples = ['$ balena settings'];
 

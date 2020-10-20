@@ -57,7 +57,7 @@ export class MarkdownFileParser {
 	 * Extract the lines of a markdown document section with the given title.
 	 * For example, consider this sample markdown document:
 	 * ```
-	 *     # balenaCLI
+	 *     # balena CLI
 	 *
 	 *     ## Introduction
 	 *     Lorem ipsum dolor sit amet, consectetur adipiscing elit,
