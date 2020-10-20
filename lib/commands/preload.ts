@@ -43,7 +43,7 @@ interface FlagsDef extends DockerConnectionCliFlags {
 	'splash-image'?: string;
 	'dont-check-arch': boolean;
 	'pin-device-to-release': boolean;
-	'add-certificate'?: string;
+	'add-certificate'?: string[];
 	help: void;
 }
 
@@ -84,7 +84,7 @@ export default class PreloadCmd extends Command {
 
 	public static flags: flags.Input<FlagsDef> = {
 		app: flags.string({
-			description: 'name, slug or numeric ID of the application to preload',
+			description: 'name of the application to preload',
 			char: 'a',
 		}),
 		commit: flags.string({
@@ -115,6 +115,7 @@ The file name must end with '.crt' and must not be already contained in the prel
 /etc/ssl/certs folder.
 Can be repeated to add multiple certificates.\
 `,
+			multiple: true,
 		}),
 		...dockerConnectionCliFlags,
 		// Redefining --dockerPort here (defined already in dockerConnectionCliFlags)
@@ -201,14 +202,7 @@ Can be repeated to add multiple certificates.\
 			);
 		}
 
-		let certificates: string[];
-		if (Array.isArray(options['add-certificate'])) {
-			certificates = options['add-certificate'];
-		} else if (options['add-certificate'] === undefined) {
-			certificates = [];
-		} else {
-			certificates = [options['add-certificate']];
-		}
+		const certificates: string[] = options['add-certificate'] || [];
 		for (const certificate of certificates) {
 			if (!certificate.endsWith('.crt')) {
 				throw new ExpectedError('Certificate file name must end with ".crt"');

@@ -2072,7 +2072,7 @@ the image file path
 
 #### -a, --app APP
 
-name, slug or numeric ID of the application to preload
+name of the application to preload
 
 #### -c, --commit COMMIT
 
