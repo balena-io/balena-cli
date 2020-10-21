@@ -1,4 +1,39 @@
 - commits:
+    - subject: Revert styling of "balena CLI" as "balenaCLI"
+      hash: 478b5dd363288e2556e26b86d91d08e923788bae
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: >-
+        Add help note regarding the version of Node.js printed by `balena
+        version -a`
+      hash: 0708608c7eb710c8cd7749845384e897ba39c741
+      body: ''
+      footer:
+        Connects-to: '#2068'
+        connects-to: '#2068'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: >-
+        preload: Fix parsing of `--add-certificate` option, amend help for
+        `--app`
+      hash: c245dc70c244f82ee20f8c50110d302a0e86824d
+      body: ''
+      footer:
+        Connects-to: '#2063'
+        connects-to: '#2063'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.25.2
+  date: 2020-10-21T11:24:21.642Z
+- commits:
     - subject: Treat authorization errors as expected
       hash: 592efd0a2e5c0c46f4cbf0b1107b135ccab55211
       body: ''
