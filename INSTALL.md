@@ -1,4 +1,4 @@
-# balenaCLI Installation Instructions
+# balena CLI Installation Instructions
 
 Please select your operating system:
 

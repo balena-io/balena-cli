@@ -31,7 +31,7 @@ import { stripIndent } from './lazy';
  * differences between bash/sh and the Windows cmd.exe in relation to escape
  * characters.
  * @param stderr Optional stream to which stderr should be piped
- * @param isCLIcmd (default: true) Whether the command array is a balenaCLI command
+ * @param isCLIcmd (default: true) Whether the command array is a balena CLI command
  * (e.g. ['internal', 'osinit', ...]), in which case process.argv[0] and argv[1] are
  * added as necessary, depending on whether the CLI is running as a standalone zip
  * package (with Node built in).

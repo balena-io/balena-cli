@@ -1,23 +1,23 @@
-# balenaCLI FAQ & Troubleshooting
+# balena CLI FAQ & Troubleshooting
 
-## Where is balenaCLI's configuration file located?
+## Where is the balena CLI's configuration file located?
 
 The per-user configuration file lives in `$HOME/.balenarc.yml` or `%UserProfile%\_balenarc.yml`, in
 Unix based operating systems and Windows respectively.
 
-balenaCLI also attempts to read a `balenarc.yml` file in the current directory, which takes
+The balena CLI also attempts to read a `balenarc.yml` file in the current directory, which takes
 precedence over the per-user configuration file.
 
-## How do I point balenaCLI to the staging environment?
+## How do I point the balena CLI to the staging environment?
 
 Set the `BALENARC_BALENA_URL=balena-staging.com` environment variable, or add
-`balenaUrl: balena-staging.com` to balenaCLI's configuration file.
+`balenaUrl: balena-staging.com` to the balena CLI's configuration file.
 
-## How do I make balenaCLI persist data in another directory?
+## How do I make the balena CLI persist data in another directory?
 
-balenaCLI persists the session token, as well as cached assets, to `$HOME/.balena` or
+The balena CLI persists the session token, as well as cached assets, to `$HOME/.balena` or
 `%UserProfile%\_balena`. This directory can be changed by setting an environment variable,
-`BALENARC_DATA_DIRECTORY=/opt/balena`, or by adding `dataDirectory: /opt/balena` to balenaCLI's
+`BALENARC_DATA_DIRECTORY=/opt/balena`, or by adding `dataDirectory: /opt/balena` to the CLI's
 configuration file, replacing `/opt/balena` with the desired directory.
 
 ## After burning to an SD card, my device doesn't boot
@@ -64,9 +64,9 @@ Or in Windows:
 
 ## I get `EACCES: permission denied` when logging in
 
-balenaCLI stores the session token in `$HOME/.balena` or `C:\Users\<user>\_balena` in UNIX based
+The balena CLI stores the session token in `$HOME/.balena` or `C:\Users\<user>\_balena` in UNIX based
 operating systems and Windows respectively. This error usually indicates that the user doesn't have
-permissions over that directory, which can happen if balenaCLI was executed as the `root` user.
+permissions over that directory, which can happen if the CLI was executed as the `root` user.
 
 Try resetting the ownership by running:
 
@@ -76,7 +76,15 @@ $ sudo chown -R <user> $HOME/.balena
 
 ## Broken line wrapping / cursor behavior with `balena ssh`
 
-Users sometimes come across broken line wrapping or cursor behavior in text terminals, for example when long command lines are typed in a `balena ssh` session, or when using text editors like `vim` or `nano`. This is not something specific to balenaCLI, being also a commonly reported issue with standard remote terminal tools like `ssh` or `telnet`. It is often a remote shell configuration issue (files like `/etc/profile`, `~/.bash_profile`, `~/.bash_login`, `~/.profile` and the like), including UTF-8 misconfiguration, the use of unsupported ASCII control characters in shell prompt formatting (e.g. the `$PS1` env var) or the output of tools or log files that use colored text. The issue can sometimes be fixed by resizing the client terminal window, or by running one or more of the following commands on the shell:
+Users sometimes come across broken line wrapping or cursor behavior in text terminals, for example
+when long command lines are typed in a `balena ssh` session, or when using text editors like `vim`
+or `nano`. This is not something specific to the balena CLI, being also a commonly reported issue
+with standard remote terminal tools like `ssh` or `telnet`.  It is often a remote shell
+configuration issue (files like `/etc/profile`, `~/.bash_profile`, `~/.bash_login`, `~/.profile`
+and the like on the remote machine), including UTF-8 misconfiguration, the use of unsupported ASCII
+control characters in shell prompt formatting (e.g. the `$PS1` env var) or the output of tools or
+log files that use colored text. The issue can sometimes be fixed by simply resizing the client
+terminal window, or by running one or more of the following commands on the shell:
 
 ```sh
 export TERMINAL=linux

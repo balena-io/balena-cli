@@ -34,7 +34,7 @@ interface CachedUsername {
 }
 
 /**
- * Mixpanel.com analytics tracking (information on balenaCLI usage).
+ * Mixpanel.com analytics tracking (information on balena CLI usage).
  *
  * @param commandSignature A string like, for example:
  *      "push <applicationOrDevice>"
@@ -46,6 +46,9 @@ interface CachedUsername {
  * The username and command signature are also added as extra context
  * information in Sentry.io error reporting, for CLI debugging purposes
  * (mainly unexpected/unhandled exceptions -- see also `lib/errors.ts`).
+ *
+ * For more details on the data collected by balena generally, check this page:
+ * https://www.balena.io/docs/learn/more/collected-data/
  */
 export async function trackCommand(commandSignature: string) {
 	try {

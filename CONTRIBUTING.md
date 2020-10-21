@@ -1,6 +1,6 @@
 # Contributing
 
-balenaCLI is an open source project and your contribution is welcome!
+The balena CLI is an open source project and your contribution is welcome!
 
 * Install the dependencies listed in the [NPM Installation
   section](./INSTALL-ADVANCED.md#npm-installation) section of the installation instructions. Check

@@ -919,7 +919,7 @@ export const composeCliFlags: flags.Input<ComposeCliFlags> = {
 	}),
 	logs: flags.boolean({
 		description:
-			'No-op and deprecated since balenaCLI v12.0.0. Build logs are now shown by default.',
+			'No-op and deprecated since balena CLI v12.0.0. Build logs are now shown by default.',
 	}),
 	nologs: flags.boolean({
 		description:
@@ -938,7 +938,7 @@ export const composeCliFlags: flags.Input<ComposeCliFlags> = {
 		char: 'm',
 	}),
 	nogitignore: flags.boolean({
-		description: `No-op (default behavior) since balenaCLI v12.0.0. See "balena help build".`,
+		description: `No-op (default behavior) since balena CLI v12.0.0. See "balena help build".`,
 		char: 'G',
 	}),
 	'noparent-check': flags.boolean({
@@ -951,7 +951,7 @@ export const composeCliFlags: flags.Input<ComposeCliFlags> = {
 		char: 'R',
 	}),
 	'convert-eol': flags.boolean({
-		description: 'No-op and deprecated since balenaCLI v12.0.0',
+		description: 'No-op and deprecated since balena CLI v12.0.0',
 		char: 'l',
 	}),
 	'noconvert-eol': flags.boolean({

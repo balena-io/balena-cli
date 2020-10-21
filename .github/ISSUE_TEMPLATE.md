@@ -1,7 +1,7 @@
 
 # About this issue tracker
 
-*balenaCLI (Command Line Interface) is a tool used to interact with the balena platform.
+*The balena CLI (Command Line Interface) is a tool used to interact with the balena platform.
 This GitHub issue tracker is used for bug reports and feature requests regarding the CLI
 tool. General and troubleshooting questions (such as setting up your project to work with a
 balenalib base image) are encouraged to be posted to the [balena
@@ -12,7 +12,7 @@ community can both contribute and benefit from the answers.*
 the same problem or feature please add comments to the existing issue.*
 
 *Thank you for your time and effort creating the issue report, and helping us improve
-balenaCLI!*
+the balena CLI!*
 
 ---
 
@@ -63,7 +63,7 @@ fixed it.
 
 # Specifications
 
-- **balenaCLI version:** e.g. 1.2.3 (output of the `"balena version -a"` command)
+- **balena CLI version:** e.g. 1.2.3 (output of the `"balena version -a"` command)
 - **Cloud backend: openBalena or balenaCloud?** If unsure, it will be balenaCloud
 - **Operating system version:** e.g. Windows 10, Ubuntu 18.04, macOS 10.14.5
 - **32/64 bit OS and processor:** e.g. 32-bit Windows on 64-bit Intel processor

@@ -32,9 +32,13 @@ export interface JsonVersions {
 
 export default class VersionCmd extends Command {
 	public static description = stripIndent`
-		Display version information for balenaCLI and/or Node.js.
+		Display version information for the balena CLI and/or Node.js.
 
-		Display version information for balenaCLI and/or Node.js.
+		Display version information for the balena CLI and/or Node.js. Note that the
+		balena CLI executable installers for Windows and macOS, and the standalone
+		zip packages, ship with a built-in copy of Node.js.  In this case, the
+		reported version of Node.js regards this built-in copy, rather than any
+		other \`node\` engine that may also be available on the command prompt.
 
 		The --json option is recommended when scripting the output of this command,
 		because the JSON format is less likely to change and it better represents
