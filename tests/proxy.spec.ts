@@ -20,7 +20,7 @@ import { expect } from 'chai';
 import {
 	GlobalTunnelNgConfig,
 	makeUrlFromTunnelNgConfig,
-} from '../build/app-common';
+} from '../build/utils/proxy';
 
 describe('makeUrlFromTunnelNgConfig() function', function () {
 	it('should return a URL given a GlobalTunnelNgConfig object', () => {

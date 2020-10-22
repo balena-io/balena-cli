@@ -34,7 +34,7 @@ interface CachedUsername {
 }
 
 /**
- * Mixpanel.com analytics tracking (information on balenaCLI usage).
+ * Mixpanel.com analytics tracking (information on balena CLI usage).
  *
  * @param commandSignature A string like, for example:
  *      "push <applicationOrDevice>"
@@ -46,13 +46,19 @@ interface CachedUsername {
  * The username and command signature are also added as extra context
  * information in Sentry.io error reporting, for CLI debugging purposes
  * (mainly unexpected/unhandled exceptions -- see also `lib/errors.ts`).
+ *
+ * For more details on the data collected by balena generally, check this page:
+ * https://www.balena.io/docs/learn/more/collected-data/
  */
 export async function trackCommand(commandSignature: string) {
 	try {
-		const Sentry = await import('@sentry/node');
-		Sentry.configureScope((scope) => {
-			scope.setExtra('command', commandSignature);
-		});
+		let Sentry: typeof import('@sentry/node');
+		if (!process.env.BALENARC_NO_SENTRY) {
+			Sentry = await import('@sentry/node');
+			Sentry.configureScope((scope) => {
+				scope.setExtra('command', commandSignature);
+			});
+		}
 		const settings = await import('balena-settings-client');
 		const balenaUrl = settings.get('balenaUrl') as string;
 
@@ -90,12 +96,14 @@ export async function trackCommand(commandSignature: string) {
 
 		const mixpanel = getMixpanel(balenaUrl);
 
-		Sentry.configureScope((scope) => {
-			scope.setUser({
-				id: username,
-				username,
+		if (!process.env.BALENARC_NO_SENTRY) {
+			Sentry!.configureScope((scope) => {
+				scope.setUser({
+					id: username,
+					username,
+				});
 			});
-		});
+		}
 		// Don't actually call mixpanel.track() while running test cases
 		if (!process.env.BALENA_CLI_TEST_TYPE) {
 			await mixpanel.track(`[CLI] ${commandSignature}`, {

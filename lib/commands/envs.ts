@@ -161,7 +161,7 @@ export default class EnvsCmd extends Command {
 			? {
 					all: flags.boolean({
 						description: stripIndent`
-				No-op since balenaCLI v12.0.0.`,
+				No-op since balena CLI v12.0.0.`,
 						hidden: true,
 					}),
 			  }

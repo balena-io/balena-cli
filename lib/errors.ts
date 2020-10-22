@@ -148,6 +148,7 @@ const EXPECTED_ERROR_REGEXES = [
 	/^BalenaDeviceNotFound/, // balena-sdk
 	/^BalenaExpiredToken/, // balena-sdk
 	/^BalenaInvalidDeviceType/, // balena-sdk
+	/Request error: Unauthorized$/, // balena-sdk
 	/^Missing \d+ required arg/, // oclif parser: RequiredArgsError
 	/Missing required flag/, // oclif parser: RequiredFlagError
 	/^Unexpected argument/, // oclif parser: UnexpectedArgsError
@@ -161,6 +162,18 @@ const EXPECTED_ERROR_REGEXES = [
 export const getSentry = async function () {
 	return await import('@sentry/node');
 };
+
+async function sentryCaptureException(error: Error) {
+	const Sentry = await getSentry();
+	Sentry.captureException(error);
+	try {
+		await Sentry.close(1000);
+	} catch (e) {
+		if (process.env.DEBUG) {
+			console.error('Timeout reporting error to sentry.io');
+		}
+	}
+}
 
 export async function handleError(error: Error) {
 	// Set appropriate exitCode
@@ -189,15 +202,10 @@ export async function handleError(error: Error) {
 		printErrorMessage(message.join('\n'));
 
 		// Report "unexpected" errors via Sentry.io
-		const Sentry = await getSentry();
-		Sentry.captureException(error);
-		try {
-			await Sentry.close(1000);
-		} catch (e) {
-			if (process.env.DEBUG) {
-				console.error('Timeout reporting error to sentry.io');
-			}
+		if (!process.env.BALENARC_NO_SENTRY) {
+			await sentryCaptureException(error);
 		}
+
 		// Unhandled/unexpected error: ensure that the process terminates.
 		// The exit error code was set above through `process.exitCode`.
 		process.exit();

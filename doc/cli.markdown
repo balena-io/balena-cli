@@ -1,16 +1,16 @@
-# balenaCLI Documentation
+# balena CLI Documentation
 
-balenaCLI is a Command Line Interface for [balenaCloud](https://www.balena.io/cloud/) or
+The balena CLI is a Command Line Interface for [balenaCloud](https://www.balena.io/cloud/) or
 [openBalena](https://www.balena.io/open/). It is a software tool available for Windows, macOS and
 Linux, used through a command prompt / terminal window. It can be used interactively or invoked in
-scripts. balenaCLI builds on the [balena API](https://www.balena.io/docs/reference/api/overview/)
+scripts. The balena CLI builds on the [balena API](https://www.balena.io/docs/reference/api/overview/)
 and the [balena SDK](https://www.balena.io/docs/reference/sdk/node-sdk/), and can also be directly
-imported in Node.js applications. balenaCLI is an [open-source project on
+imported in Node.js applications. The balena CLI is an [open-source project on
 GitHub](https://github.com/balena-io/balena-cli/), and your contribution is also welcome!
 
 ## Installation
 
-Check the [balenaCLI installation instructions on
+Check the [balena CLI installation instructions on
 GitHub](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).
 
 ## Choosing a shell (command prompt/terminal)
@@ -35,9 +35,9 @@ are supported. Alternative shells include:
     [comment](https://github.com/balena-io/balena-cli/issues/598#issuecomment-556513098).
 * Microsoft's [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about)
   (WSL). In this case, a Linux distribution like Ubuntu is installed via the Microsoft Store, and a
-  balenaCLI release **for Linux** should be selected. See
-  [FAQ](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md) for using balenaCLI
-  with WSL and Docker Desktop for Windows.
+  balena CLI release **for Linux** should be selected. See
+  [FAQ](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md) for using the
+  balena CLI with WSL and Docker Desktop for Windows.
 
 On **macOS** and **Linux,** the standard terminal window is supported. Optionally, `bash` command
 auto completion may be enabled by copying the
@@ -99,7 +99,7 @@ server, it should be configured with the following rules in the `squid.conf` fil
 
 The `BALENARC_NO_PROXY` variable may be used to exclude specified destinations from proxying.
 
-> * This feature requires balenaCLI version 11.30.8 or later. In the case of the npm [installation
+> * This feature requires CLI version 11.30.8 or later. In the case of the npm [installation
 >   option](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md), it also requires
 >   Node.js version 10.16.0 or later.
 > * To exclude a `balena ssh` target from proxying (IP address or `.local` hostname), the
@@ -136,19 +136,19 @@ If you come across any problems or would like to get in touch:
 
 ## Deprecation policy
 
-balenaCLI uses [semver versioning](https://semver.org/), with the concepts
+The balena CLI uses [semver versioning](https://semver.org/), with the concepts
 of major, minor and patch version releases.
 
-The latest release of a major version of balenaCLI will remain compatible with
+The latest release of a major version of the balena CLI will remain compatible with
 the balenaCloud backend services for at least one year from the date when the
-following major version is released. For example, balenaCLI v10.17.5, as the
+following major version is released. For example, balena CLI v10.17.5, as the
 latest v10 release, would remain compatible with the balenaCloud backend for one
 year from the date when v11.0.0 is released.
 
 At the end of this period, the older major version is considered deprecated and
 some of the functionality that depends on balenaCloud services may stop working
 at any time.
-Users are encouraged to regularly update balenaCLI to the latest version.
+Users are encouraged to regularly update the balena CLI to the latest version.
 
 
 # CLI Command Reference
@@ -941,7 +941,7 @@ Examples:
 
 #### --all
 
-No-op since balenaCLI v12.0.0.
+No-op since balena CLI v12.0.0.
 
 #### -a, --application APPLICATION
 
@@ -1302,7 +1302,11 @@ show additional commands
 
 ## version
 
-Display version information for balenaCLI and/or Node.js.
+Display version information for the balena CLI and/or Node.js. Note that the
+balena CLI executable installers for Windows and macOS, and the standalone
+zip packages, ship with a built-in copy of Node.js.  In this case, the
+reported version of Node.js regards this built-in copy, rather than any
+other `node` engine that may also be available on the command prompt.
 
 The --json option is recommended when scripting the output of this command,
 because the JSON format is less likely to change and it better represents
@@ -1492,6 +1496,10 @@ display full info
 #### -t, --timeout TIMEOUT
 
 scan timeout in seconds
+
+#### -j, --json
+
+produce JSON output instead of tabular output
 
 ## ssh &#60;applicationOrDevice&#62; [service]
 
@@ -1750,7 +1758,7 @@ A suitable key is automatically generated or fetched if this option is omitted.
 
 Note: This command is currently not supported on Windows natively. Windows users
 are advised to install the Windows Subsystem for Linux (WSL) with Ubuntu, and use
-the Linux release of balenaCLI:
+the Linux release of the balena CLI:
 https://docs.microsoft.com/en-us/windows/wsl/about
 
 Examples:
@@ -2068,7 +2076,7 @@ the image file path
 
 #### -a, --app APP
 
-name, slug or numeric ID of the application to preload
+name of the application to preload
 
 #### -c, --commit COMMIT
 
@@ -2169,7 +2177,7 @@ secrets.json file exists in the balena directory (usually $HOME/.balena),
 this file will be used instead.
 
 DOCKERIGNORE AND GITIGNORE FILES  
-By default, balenaCLI will use a single ".dockerignore" file (if any) at
+By default, the balena CLI will use a single ".dockerignore" file (if any) at
 the project root (--source directory) in order to decide which source files to
 exclude from the "build context" (tar stream) sent to balenaCloud, Docker
 daemon or balenaEngine. In a microservices (multicontainer) application, the
@@ -2194,7 +2202,7 @@ compatibility with the standard docker-compose tool, while still allowing a
 root .dockerignore file (at the overall project root) to filter files and
 folders that are outside service subdirectories.
 
-balenaCLI releases older than v12.0.0 also took .gitignore files into account.
+balena CLI releases older than v12.0.0 also took .gitignore files into account.
 This behavior is deprecated, but may still be enabled with the --gitignore (-g)
 option if compatibility is required. This option is mutually exclusive with
 --multi-dockerignore (-m) and will be removed in the CLI's next major version
@@ -2251,9 +2259,10 @@ application name, or device address (for local pushes)
 Source directory to be sent to balenaCloud or balenaOS device
 (default: current working dir)
 
-#### -f, --emulated
+#### -e, --emulated
 
-Force an emulated build to occur on the remote builder
+Don't use native ARM servers; force QEMU ARM emulation on Intel x86-64
+servers during the image build (balenaCloud).
 
 #### --dockerfile DOCKERFILE
 
@@ -2321,7 +2330,7 @@ left hand side of the = character will be treated as the variable name.
 
 #### -l, --convert-eol
 
-No-op and deprecated since balenaCLI v12.0.0
+No-op and deprecated since balena CLI v12.0.0
 
 #### --noconvert-eol
 
@@ -2333,7 +2342,7 @@ Have each service use its own .dockerignore file. See "balena help push".
 
 #### -G, --nogitignore
 
-No-op (default behavior) since balenaCLI v12.0.0. See "balena help push".
+No-op (default behavior) since balena CLI v12.0.0. See "balena help push".
 
 #### -g, --gitignore
 
@@ -2345,7 +2354,7 @@ required until your project can be adapted.
 
 ## settings
 
-Use this command to display current balenaCLI settings.
+Use this command to display the current balena CLI settings.
 
 Examples:
 
@@ -2445,7 +2454,7 @@ secrets.json file exists in the balena directory (usually $HOME/.balena),
 this file will be used instead.
 
 DOCKERIGNORE AND GITIGNORE FILES  
-By default, balenaCLI will use a single ".dockerignore" file (if any) at
+By default, the balena CLI will use a single ".dockerignore" file (if any) at
 the project root (--source directory) in order to decide which source files to
 exclude from the "build context" (tar stream) sent to balenaCloud, Docker
 daemon or balenaEngine. In a microservices (multicontainer) application, the
@@ -2470,7 +2479,7 @@ compatibility with the standard docker-compose tool, while still allowing a
 root .dockerignore file (at the overall project root) to filter files and
 folders that are outside service subdirectories.
 
-balenaCLI releases older than v12.0.0 also took .gitignore files into account.
+balena CLI releases older than v12.0.0 also took .gitignore files into account.
 This behavior is deprecated, but may still be enabled with the --gitignore (-g)
 option if compatibility is required. This option is mutually exclusive with
 --multi-dockerignore (-m) and will be removed in the CLI's next major version
@@ -2527,7 +2536,7 @@ name of the target balena application this build is for
 
 #### -e, --emulated
 
-Run an emulated build using Qemu
+Use QEMU for ARM architecture emulation during the image build
 
 #### --dockerfile DOCKERFILE
 
@@ -2535,7 +2544,7 @@ Alternative Dockerfile name/path, relative to the source folder
 
 #### --logs
 
-No-op and deprecated since balenaCLI v12.0.0. Build logs are now shown by default.
+No-op and deprecated since balena CLI v12.0.0. Build logs are now shown by default.
 
 #### --nologs
 
@@ -2553,7 +2562,7 @@ Have each service use its own .dockerignore file. See "balena help build".
 
 #### -G, --nogitignore
 
-No-op (default behavior) since balenaCLI v12.0.0. See "balena help build".
+No-op (default behavior) since balena CLI v12.0.0. See "balena help build".
 
 #### --noparent-check
 
@@ -2565,7 +2574,7 @@ Path to a YAML or JSON file with passwords for a private Docker registry
 
 #### -l, --convert-eol
 
-No-op and deprecated since balenaCLI v12.0.0
+No-op and deprecated since balena CLI v12.0.0
 
 #### --noconvert-eol
 
@@ -2667,7 +2676,7 @@ secrets.json file exists in the balena directory (usually $HOME/.balena),
 this file will be used instead.
 
 DOCKERIGNORE AND GITIGNORE FILES  
-By default, balenaCLI will use a single ".dockerignore" file (if any) at
+By default, the balena CLI will use a single ".dockerignore" file (if any) at
 the project root (--source directory) in order to decide which source files to
 exclude from the "build context" (tar stream) sent to balenaCloud, Docker
 daemon or balenaEngine. In a microservices (multicontainer) application, the
@@ -2692,7 +2701,7 @@ compatibility with the standard docker-compose tool, while still allowing a
 root .dockerignore file (at the overall project root) to filter files and
 folders that are outside service subdirectories.
 
-balenaCLI releases older than v12.0.0 also took .gitignore files into account.
+balena CLI releases older than v12.0.0 also took .gitignore files into account.
 This behavior is deprecated, but may still be enabled with the --gitignore (-g)
 option if compatibility is required. This option is mutually exclusive with
 --multi-dockerignore (-m) and will be removed in the CLI's next major version
@@ -2750,7 +2759,7 @@ don't upload build logs to the dashboard with image (if building)
 
 #### -e, --emulated
 
-Run an emulated build using Qemu
+Use QEMU for ARM architecture emulation during the image build
 
 #### --dockerfile DOCKERFILE
 
@@ -2758,7 +2767,7 @@ Alternative Dockerfile name/path, relative to the source folder
 
 #### --logs
 
-No-op and deprecated since balenaCLI v12.0.0. Build logs are now shown by default.
+No-op and deprecated since balena CLI v12.0.0. Build logs are now shown by default.
 
 #### --nologs
 
@@ -2776,7 +2785,7 @@ Have each service use its own .dockerignore file. See "balena help build".
 
 #### -G, --nogitignore
 
-No-op (default behavior) since balenaCLI v12.0.0. See "balena help build".
+No-op (default behavior) since balena CLI v12.0.0. See "balena help build".
 
 #### --noparent-check
 
@@ -2788,7 +2797,7 @@ Path to a YAML or JSON file with passwords for a private Docker registry
 
 #### -l, --convert-eol
 
-No-op and deprecated since balenaCLI v12.0.0
+No-op and deprecated since balena CLI v12.0.0
 
 #### --noconvert-eol
 

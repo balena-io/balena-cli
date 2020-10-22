@@ -1,4 +1,4 @@
-# balenaCLI Installation Instructions for Linux
+# balena CLI Installation Instructions for Linux
 
 These instructions are for the recommended installation option. They are suitable for most Linux
 distributions, except notably for **Linux Alpine** or **Busybox**. For these distros, see [advanced
@@ -20,14 +20,14 @@ Selected operating system: **Linux**
 
 4. Check that the installation was successful by running the following commands on a
    command terminal:  
-   * `balena version` - should print balenaCLI's version
+   * `balena version` - should print the CLI's version
    * `balena help` - should print a list of available commands
 
-No further steps are required to run most balenaCLI commands. The `balena ssh`, `scan`, `build`,
+No further steps are required to run most CLI commands. The `balena ssh`, `scan`, `build`,
 `deploy` and `preload` commands may require additional software to be installed, as described
 below.
 
-To update balenaCLI to a new version, download a new release zip file and replace the previous
+To update the balena CLI to a new version, download a new release zip file and replace the previous
 installation folder. To uninstall, simply delete the folder and edit the PATH environment variable
 as described above.
 
@@ -39,7 +39,7 @@ These commands require [Docker](https://docs.docker.com/install/overview/) or
 [balenaEngine](https://www.balena.io/engine/) to be available (on a local or remote machine). Most
 users will simply follow [Docker's installation
 instructions](https://docs.docker.com/install/overview/) to install Docker on the same laptop (dev
-machine) where balenaCLI is installed. The [advanced installation
+machine) where the balena CLI is installed. The [advanced installation
 options](./INSTALL-ADVANCED.md) document describes other possibilities.
 
 ### balena ssh

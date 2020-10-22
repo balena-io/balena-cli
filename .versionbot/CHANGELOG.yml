@@ -1,4 +1,170 @@
 - commits:
+    - subject: Revert styling of "balena CLI" as "balenaCLI"
+      hash: 478b5dd363288e2556e26b86d91d08e923788bae
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: >-
+        Add help note regarding the version of Node.js printed by `balena
+        version -a`
+      hash: 0708608c7eb710c8cd7749845384e897ba39c741
+      body: ''
+      footer:
+        Connects-to: '#2068'
+        connects-to: '#2068'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: >-
+        preload: Fix parsing of `--add-certificate` option, amend help for
+        `--app`
+      hash: c245dc70c244f82ee20f8c50110d302a0e86824d
+      body: ''
+      footer:
+        Connects-to: '#2063'
+        connects-to: '#2063'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.25.2
+  date: 2020-10-21T11:24:21.642Z
+- commits:
+    - subject: Treat authorization errors as expected
+      hash: 592efd0a2e5c0c46f4cbf0b1107b135ccab55211
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#2035'
+        resolves: '#2035'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.25.1
+  date: 2020-10-13T08:21:31.203Z
+- commits:
+    - subject: Refactor initialization code (delete app-oclif.ts and app-common.ts)
+      hash: d0e4fa0e59b9c6a4c3f414361c089c68f1dfd872
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Support BALENARC_NO_SENTRY env var to disable Sentry.io error reporting
+      hash: cf376316bc4863b98223bac9c81697c2245341ae
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+    - subject: Update Sentry package (may fix "Maximum call stack size exceeded")
+      hash: 8f0f3bda294acda75be15d630967b526581a3c1f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.25.0
+  date: 2020-10-11T00:06:46.011Z
+- commits:
+    - subject: 'login: sign up at the configured balena instance'
+      hash: af70f16a9b8de7150bcdd8d76a89f72c59614526
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Matthew McGinn <matthew@balena.io>
+        signed-off-by: Matthew McGinn <matthew@balena.io>
+      author: Matthew McGinn
+      nested: []
+  version: 12.24.1
+  date: 2020-10-07T13:28:42.250Z
+- commits:
+    - subject: 'scan: Add ''--json'' option to help with scripting'
+      hash: 8a506bc4c01e2082073b7858ab79874e707cf59d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+  version: 12.24.0
+  date: 2020-10-06T17:09:31.036Z
+- commits:
+    - subject: Update CONTRIBUTING.md re balena-dev workflow
+      hash: 89782218666af4db1297b8672560913d3de8fd8c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Add bin/balena* scripts to linter paths
+      hash: 2974c203b5f4a1339e0feea8bf127cecbe9f13c3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Workaround balena-dev/oclif compatibility issues
+      hash: c85acbd90bbb5de3dae13638555365b7a1cb472c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.23.4
+  date: 2020-10-05T21:13:25.405Z
+- commits:
+    - subject: Rename actions-oclif/ to commands/
+      hash: eddbdfe0dcea8df801d11d398e72f34c8354f7e1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.23.3
+  date: 2020-10-02T11:45:45.519Z
+- commits:
+    - subject: 'push: Fix accidental rename of `-e` (emulated) option'
+      hash: 6133bb209687d5fe208ee1c31d19a435d9c077c3
+      body: |
+        Accidentally renamed during oclif conversion in CLI v12.9.7.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.23.2
+  date: 2020-10-02T09:00:21.328Z
+- commits:
+    - subject: Update the CONTRIBUTING.md document
+      hash: 48076464daa4d3aa6e86db6fe133d64ed50cf932
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.23.1
+  date: 2020-09-28T14:22:42.550Z
+- commits:
     - subject: Add new command `support`
       hash: 0a8b3ce4e4a5b333f8aa6fd5f51e98444a42d966
       body: ''

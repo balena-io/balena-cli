@@ -1,4 +1,4 @@
-# balenaCLI
+# balena CLI
 
 The official balena Command Line Interface.
 
@@ -7,17 +7,17 @@ The official balena Command Line Interface.
 
 ## About
 
-balenaCLI is a Command Line Interface for [balenaCloud](https://www.balena.io/cloud/) or
+The balena CLI is a Command Line Interface for [balenaCloud](https://www.balena.io/cloud/) or
 [openBalena](https://www.balena.io/open/). It is a software tool available for Windows, macOS and
 Linux, used through a command prompt / terminal window. It can be used interactively or invoked in
-scripts. balenaCLI builds on the [balena API](https://www.balena.io/docs/reference/api/overview/)
+scripts. The balena CLI builds on the [balena API](https://www.balena.io/docs/reference/api/overview/)
 and the [balena SDK](https://www.balena.io/docs/reference/sdk/node-sdk/), and can also be directly
-imported in Node.js applications. balenaCLI is an [open-source project on
+imported in Node.js applications. The balena CLI is an [open-source project on
 GitHub](https://github.com/balena-io/balena-cli/), and your contribution is also welcome!
 
 ## Installation
 
-Check the [balenaCLI installation instructions on
+Check the [balena CLI installation instructions on
 GitHub](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).
 
 ## Choosing a shell (command prompt/terminal)
@@ -42,9 +42,9 @@ are supported. Alternative shells include:
     [comment](https://github.com/balena-io/balena-cli/issues/598#issuecomment-556513098).
 * Microsoft's [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about)
   (WSL). In this case, a Linux distribution like Ubuntu is installed via the Microsoft Store, and a
-  balenaCLI release **for Linux** should be selected. See
-  [FAQ](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md) for using balenaCLI
-  with WSL and Docker Desktop for Windows.
+  balena CLI release **for Linux** should be selected. See
+  [FAQ](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md) for using the
+  balena CLI with WSL and Docker Desktop for Windows.
 
 On **macOS** and **Linux,** the standard terminal window is supported. Optionally, `bash` command
 auto completion may be enabled by copying the
@@ -110,7 +110,7 @@ server, it should be configured with the following rules in the `squid.conf` fil
 
 The `BALENARC_NO_PROXY` variable may be used to exclude specified destinations from proxying.
 
-> * This feature requires balenaCLI version 11.30.8 or later. In the case of the npm [installation
+> * This feature requires CLI version 11.30.8 or later. In the case of the npm [installation
 >   option](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md), it also requires
 >   Node.js version 10.16.0 or later.
 > * To exclude a `balena ssh` target from proxying (IP address or `.local` hostname), the
@@ -152,19 +152,19 @@ If you come across any problems or would like to get in touch:
 
 ## Deprecation policy
 
-balenaCLI uses [semver versioning](https://semver.org/), with the concepts
+The balena CLI uses [semver versioning](https://semver.org/), with the concepts
 of major, minor and patch version releases.
 
-The latest release of a major version of balenaCLI will remain compatible with
+The latest release of a major version of the balena CLI will remain compatible with
 the balenaCloud backend services for at least one year from the date when the
-following major version is released. For example, balenaCLI v10.17.5, as the
+following major version is released. For example, balena CLI v10.17.5, as the
 latest v10 release, would remain compatible with the balenaCloud backend for one
 year from the date when v11.0.0 is released.
 
 At the end of this period, the older major version is considered deprecated and
 some of the functionality that depends on balenaCloud services may stop working
 at any time.
-Users are encouraged to regularly update balenaCLI to the latest version.
+Users are encouraged to regularly update the balena CLI to the latest version.
 
 ## Contributing (including editing documentation files)
 

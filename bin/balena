@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// tslint:disable:no-var-requires
+
 // We boost the threadpool size as ext2fs can deadlock with some
 // operations otherwise, if the pool runs out.
 process.env.UV_THREADPOOL_SIZE = '64';
@@ -10,7 +12,7 @@ process.env.OCLIF_TS_NODE = 0;
 // Use fast-boot to cache require lookups, speeding up startup
 require('fast-boot2').start({
 	cacheScope: __dirname + '/..',
-	cacheFile: __dirname + '/.fast-boot.json'
+	cacheFile: __dirname + '/.fast-boot.json',
 });
 
 // Set the desired es version for downstream modules that support it

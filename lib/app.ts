@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019 Balena Ltd.
+ * Copyright 2019-2020 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,78 +15,138 @@
  * limitations under the License.
  */
 
+import * as packageJSON from '../package.json';
+import { CliSettings } from './utils/bootstrap';
+import { onceAsync, stripIndent } from './utils/lazy';
+
 /**
- * CLI entrypoint, but see also `bin/balena` and `bin/balena-dev` which
- * call this function.
+ * Sentry.io setup
+ * @see https://docs.sentry.io/error-reporting/quickstart/?platform=node
  */
+export const setupSentry = onceAsync(async () => {
+	const config = await import('./config');
+	const Sentry = await import('@sentry/node');
+	Sentry.init({
+		dsn: config.sentryDsn,
+		release: packageJSON.version,
+	});
+	Sentry.configureScope((scope) => {
+		scope.setExtras({
+			is_pkg: !!(process as any).pkg,
+			node_version: process.version,
+			platform: process.platform,
+		});
+	});
+	return Sentry.getCurrentHub();
+});
+
+async function checkNodeVersion() {
+	const validNodeVersions = packageJSON.engines.node;
+	if (!(await import('semver')).satisfies(process.version, validNodeVersions)) {
+		console.warn(stripIndent`
+			------------------------------------------------------------------------------
+			Warning: Node version "${process.version}" does not match required versions "${validNodeVersions}".
+			This may cause unexpected behavior. To upgrade Node, visit:
+			https://nodejs.org/en/download/
+			------------------------------------------------------------------------------
+			`);
+	}
+}
+
+/** Setup balena-sdk options that are shared with imported packages */
+function setupBalenaSdkSharedOptions(settings: CliSettings) {
+	const BalenaSdk = require('balena-sdk') as typeof import('balena-sdk');
+	BalenaSdk.setSharedOptions({
+		apiUrl: settings.get<string>('apiUrl'),
+		dataDirectory: settings.get<string>('dataDirectory'),
+	});
+}
+
+/**
+ * Addresses the console warning:
+ * (node:49500) MaxListenersExceededWarning: Possible EventEmitter memory
+ * leak detected. 11 error listeners added. Use emitter.setMaxListeners() to
+ * increase limit
+ */
+export function setMaxListeners(maxListeners: number) {
+	require('events').EventEmitter.defaultMaxListeners = maxListeners;
+}
+
+/** Selected CLI initialization steps */
+async function init() {
+	if (process.env.BALENARC_NO_SENTRY) {
+		console.error(`WARN: disabling Sentry.io error reporting`);
+	} else {
+		await setupSentry();
+	}
+	checkNodeVersion();
+
+	const settings = new CliSettings();
+
+	// Proxy setup should be done early on, before loading balena-sdk
+	await (await import('./utils/proxy')).setupGlobalHttpProxy(settings);
+
+	setupBalenaSdkSharedOptions(settings);
+
+	// check for CLI updates once a day
+	(await import('./utils/update')).notify();
+}
+
+/** Execute the oclif parser and the CLI command. */
+async function oclifRun(
+	command: string[],
+	options: import('./preparser').AppOptions,
+) {
+	const { CustomMain } = await import('./utils/oclif-utils');
+	const runPromise = CustomMain.run(command).then(
+		() => {
+			if (!options.noFlush) {
+				return require('@oclif/command/flush');
+			}
+		},
+		(error) => {
+			// oclif sometimes exits with ExitError code 0 (not an error)
+			// (Avoid `error instanceof ExitError` here for the reasons explained
+			// in the CONTRIBUTING.md file regarding the `instanceof` operator.)
+			if (error.oclif?.exit === 0) {
+				return;
+			} else {
+				throw error;
+			}
+		},
+	);
+	const { trackPromise } = await import('./hooks/prerun/track');
+	await Promise.all([trackPromise, runPromise]);
+}
+
+/** CLI entrypoint. Called by the `bin/balena` and `bin/balena-dev` scripts. */
 export async function run(
 	cliArgs = process.argv,
 	options: import('./preparser').AppOptions = {},
 ) {
-	// DEBUG set to falsy for negative values else is truthy
-	process.env.DEBUG = ['0', 'no', 'false', '', undefined].includes(
-		process.env.DEBUG?.toLowerCase(),
-	)
-		? ''
-		: '1';
-
-	// The 'pkgExec' special/internal command provides a Node.js interpreter
-	// for use of the standalone zip package. See pkgExec function.
-	if (cliArgs.length > 3 && cliArgs[2] === 'pkgExec') {
-		return pkgExec(cliArgs[3], cliArgs.slice(4));
-	}
-
-	const { globalInit } = await import('./app-common');
-	const { preparseArgs, checkDeletedCommand } = await import('./preparser');
-
-	// globalInit() must be called very early on (before other imports) because
-	// it sets up Sentry error reporting, global HTTP proxy settings, balena-sdk
-	// shared options, and performs node version requirement checks.
-	await globalInit();
-
-	// Look for commands that have been removed and if so, exit with a notice
-	checkDeletedCommand(cliArgs.slice(2));
-
-	const args = await preparseArgs(cliArgs);
-	await (await import('./app-oclif')).run(args, options);
-
-	// Windows fix: reading from stdin prevents the process from exiting
-	process.stdin.pause();
-}
-
-/**
- * Implements the 'pkgExec' command, used as a way to provide a Node.js
- * interpreter for child_process.spawn()-like operations when the CLI is
- * executing as a standalone zip package (built-in Node interpreter) and
- * the system may not have a separate Node.js installation. A present use
- * case is a patched version of the 'windosu' package that requires a
- * Node.js interpreter to spawn a privileged child process.
- *
- * @param modFunc Path to a JS module that will be executed via require().
- * The modFunc argument may optionally contain a function name separated
- * by '::', for example '::main' in:
- * 'C:\\snapshot\\balena-cli\\node_modules\\windosu\\lib\\pipe.js::main'
- * in which case that function is executed in the require'd module.
- * @param args Optional arguments to passed through process.argv and as
- * arguments to the function specified via modFunc.
- */
-async function pkgExec(modFunc: string, args: string[]) {
-	const [modPath, funcName] = modFunc.split('::');
-	let replacedModPath = modPath;
-	const match = modPath
-		.replace(/\\/g, '/')
-		.match(/\/snapshot\/balena-cli\/(.+)/);
-	if (match) {
-		replacedModPath = `../${match[1]}`;
-	}
-	process.argv = [process.argv[0], process.argv[1], ...args];
 	try {
-		const mod: any = await import(replacedModPath);
-		if (funcName) {
-			await mod[funcName](...args);
+		const { normalizeEnvVars, pkgExec } = await import('./utils/bootstrap');
+		normalizeEnvVars();
+
+		// The 'pkgExec' special/internal command provides a Node.js interpreter
+		// for use of the standalone zip package. See pkgExec function.
+		if (cliArgs.length > 3 && cliArgs[2] === 'pkgExec') {
+			return pkgExec(cliArgs[3], cliArgs.slice(4));
 		}
+
+		await init();
+
+		const { preparseArgs, checkDeletedCommand } = await import('./preparser');
+
+		// Look for commands that have been removed and if so, exit with a notice
+		checkDeletedCommand(cliArgs.slice(2));
+
+		const args = await preparseArgs(cliArgs);
+		await oclifRun(args, options);
 	} catch (err) {
-		console.error(`Error executing pkgExec "${modFunc}" [${args.join()}]`);
-		console.error(err);
+		await (await import('./errors')).handleError(err);
+	} finally {
+		// Windows fix: reading from stdin prevents the process from exiting
+		process.stdin.pause();
 	}
 }

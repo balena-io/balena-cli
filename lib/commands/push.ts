@@ -121,8 +121,10 @@ export default class PushCmd extends Command {
 			char: 's',
 		}),
 		emulated: flags.boolean({
-			description: 'Force an emulated build to occur on the remote builder',
-			char: 'f',
+			description: stripIndent`
+				Don't use native ARM servers; force QEMU ARM emulation on Intel x86-64
+				servers during the image build (balenaCloud).`,
+			char: 'e',
 		}),
 		dockerfile: flags.string({
 			description:
@@ -195,7 +197,7 @@ export default class PushCmd extends Command {
 			multiple: true,
 		}),
 		'convert-eol': flags.boolean({
-			description: 'No-op and deprecated since balenaCLI v12.0.0',
+			description: 'No-op and deprecated since balena CLI v12.0.0',
 			char: 'l',
 			hidden: true,
 		}),
@@ -210,7 +212,7 @@ export default class PushCmd extends Command {
 		}),
 		nogitignore: flags.boolean({
 			description:
-				'No-op (default behavior) since balenaCLI v12.0.0. See "balena help push".',
+				'No-op (default behavior) since balena CLI v12.0.0. See "balena help push".',
 			char: 'G',
 			hidden: true,
 		}),

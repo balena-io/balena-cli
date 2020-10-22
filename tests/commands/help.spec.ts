@@ -87,7 +87,7 @@ ADDITIONAL COMMANDS
   tag set <tagKey> [value]               set a tag on an application, device or release
   tags                                   list all tags for an application, device or release
   util available-drives                  list available drives
-  version                                display version information for balenaCLI and/or Node.js
+  version                                display version information for the balena CLI and/or Node.js
   whoami                                 display account information for current user
 
 `;

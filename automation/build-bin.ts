@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import type { JsonVersions } from '../lib/actions-oclif/version';
+import type { JsonVersions } from '../lib/commands/version';
 
 import { run as oclifRun } from '@oclif/dev-cli';
 import * as archiver from 'archiver';
