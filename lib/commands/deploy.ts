@@ -16,14 +16,24 @@
  */
 
 import { flags } from '@oclif/command';
+import type { ImageDescriptor } from 'resin-compose-parse';
+
 import Command from '../command';
 import { ExpectedError } from '../errors';
 import { getBalenaSdk, getChalk } from '../utils/lazy';
 import { dockerignoreHelp, registrySecretsHelp } from '../utils/messages';
 import * as compose from '../utils/compose';
-import type { ComposeCliFlags, ComposeOpts } from '../utils/compose-types';
+import type {
+	BuiltImage,
+	ComposeCliFlags,
+	ComposeOpts,
+} from '../utils/compose-types';
 import type { DockerCliFlags } from '../utils/docker';
-import { composeCliFlags } from '../utils/compose_ts';
+import {
+	buildProject,
+	composeCliFlags,
+	isBuildConfig,
+} from '../utils/compose_ts';
 import { dockerCliFlags } from '../utils/docker';
 import type { Application, ApplicationType, DeviceType } from 'balena-sdk';
 
@@ -214,22 +224,21 @@ ${dockerignoreHelp}
 			}
 
 			// find which services use images that already exist locally
-			let servicesToSkip = await Promise.all(
-				project.descriptors.map(async function (d: any) {
+			let servicesToSkip: string[] = await Promise.all(
+				project.descriptors.map(async function (d: ImageDescriptor) {
 					// unconditionally build (or pull) if explicitly requested
 					if (opts.shouldPerformBuild) {
-						return d;
+						return '';
 					}
 					try {
 						await docker
-							.getImage(
-								(typeof d.image === 'string' ? d.image : d.image.tag) || '',
-							)
+							.getImage((isBuildConfig(d.image) ? d.image.tag : d.image) || '')
 							.inspect();
 
 						return d.serviceName;
 					} catch {
 						// Ignore
+						return '';
 					}
 				}),
 			);
@@ -243,35 +252,35 @@ ${dockerignoreHelp}
 				compositionToBuild.services,
 				servicesToSkip,
 			);
-			let builtImagesByService: Dictionary<any> = {};
+			let builtImagesByService: Dictionary<BuiltImage> = {};
 			if (_.size(compositionToBuild.services) === 0) {
 				logger.logInfo(
 					'Everything is up to date (use --build to force a rebuild)',
 				);
 			} else {
-				const builtImages = await compose.buildProject(
+				const builtImages = await buildProject({
 					docker,
 					logger,
-					project.path,
-					project.name,
-					compositionToBuild,
-					opts.app.arch,
-					(opts.app?.is_for__device_type as DeviceType[])?.[0].slug,
-					opts.buildEmulated,
-					opts.buildOpts,
-					composeOpts.inlineLogs,
-					composeOpts.convertEol,
-					composeOpts.dockerfilePath,
-					composeOpts.nogitignore,
-					composeOpts.multiDockerignore,
-				);
+					projectPath: project.path,
+					projectName: project.name,
+					composition: compositionToBuild,
+					arch: opts.app.arch,
+					deviceType: (opts.app?.is_for__device_type as DeviceType[])?.[0].slug,
+					emulated: opts.buildEmulated,
+					buildOpts: opts.buildOpts,
+					inlineLogs: composeOpts.inlineLogs,
+					convertEol: composeOpts.convertEol,
+					dockerfilePath: composeOpts.dockerfilePath,
+					nogitignore: composeOpts.nogitignore,
+					multiDockerignore: composeOpts.multiDockerignore,
+				});
 				builtImagesByService = _.keyBy(builtImages, 'serviceName');
 			}
-			const images = project.descriptors.map(
+			const images: BuiltImage[] = project.descriptors.map(
 				(d) =>
 					builtImagesByService[d.serviceName] ?? {
 						serviceName: d.serviceName,
-						name: typeof d.image === 'string' ? d.image : d.image.tag,
+						name: (isBuildConfig(d.image) ? d.image.tag : d.image) || '',
 						logs: 'Build skipped; image for service already exists.',
 						props: {},
 					},

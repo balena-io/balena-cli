@@ -12,3 +12,5 @@ services:
     build:
       context: ./service2
       dockerfile: Dockerfile-alt
+      args:
+        - 'COMPOSE_ARG=an argument defined in the docker-compose.yml file'

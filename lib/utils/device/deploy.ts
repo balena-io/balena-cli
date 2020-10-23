@@ -32,6 +32,7 @@ import {
 	checkBuildSecretsRequirements,
 	loadProject,
 	makeBuildTasks,
+	tarDirectory,
 } from '../compose_ts';
 import Logger = require('../logger');
 import { DeviceAPI, DeviceInfo } from './api';
@@ -121,7 +122,6 @@ async function environmentFromInput(
 }
 
 export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
-	const { tarDirectory } = await import('../compose');
 	const { exitWithExpectedError } = await import('../../errors');
 	const { displayDeviceLogs } = await import('./logs');
 
@@ -400,7 +400,6 @@ export async function rebuildSingleTask(
 	// this should provide the following callback
 	containerIdCb?: (id: string) => void,
 ): Promise<string> {
-	const { tarDirectory } = await import('../compose');
 	const multibuild = await import('resin-multibuild');
 	// First we run the build task, to get the new image id
 	let buildLogs = '';

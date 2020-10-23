@@ -14,17 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { flags } from '@oclif/command';
 import { BalenaSDK } from 'balena-sdk';
+import type { TransposeOptions } from 'docker-qemu-transpose';
 import type * as Dockerode from 'dockerode';
 import * as _ from 'lodash';
 import { promises as fs } from 'fs';
 import * as path from 'path';
-import type { Composition } from 'resin-compose-parse';
+import type {
+	BuildConfig,
+	Composition,
+	ImageDescriptor,
+} from 'resin-compose-parse';
 import type * as MultiBuild from 'resin-multibuild';
-import type { Readable } from 'stream';
+import type { Duplex, Readable } from 'stream';
 import type { Pack } from 'tar-stream';
+
 import { ExpectedError } from '../errors';
-import { getBalenaSdk, getChalk, stripIndent } from './lazy';
 import {
 	BuiltImage,
 	ComposeCliFlags,
@@ -34,16 +40,9 @@ import {
 	TaggedImage,
 	TarDirectoryOptions,
 } from './compose-types';
-import { DeviceInfo } from './device/api';
+import type { DeviceInfo } from './device/api';
+import { getBalenaSdk, getChalk, stripIndent } from './lazy';
 import Logger = require('./logger');
-import { flags } from '@oclif/command';
-
-export interface RegistrySecrets {
-	[registryAddress: string]: {
-		username: string;
-		password: string;
-	};
-}
 
 const exists = async (filename: string) => {
 	try {
@@ -54,8 +53,8 @@ const exists = async (filename: string) => {
 	}
 };
 
+const LOG_LENGTH_MAX = 512 * 1024; // 512KB
 const compositionFileNames = ['docker-compose.yml', 'docker-compose.yaml'];
-
 const hr =
 	'----------------------------------------------------------------------';
 
@@ -129,6 +128,372 @@ async function resolveProject(
 		logger.logInfo(`No "docker-compose.yml" file found at "${projectRoot}"`);
 	}
 	return [composeFileName, composeFileContents];
+}
+
+interface BuildTaskPlus extends MultiBuild.BuildTask {
+	logBuffer?: string[];
+}
+
+interface Renderer {
+	start: () => void;
+	end: (buildSummaryByService?: Dictionary<string>) => void;
+	streams: Dictionary<NodeJS.ReadWriteStream>;
+}
+
+export async function buildProject(opts: {
+	docker: Dockerode;
+	logger: Logger;
+	projectPath: string;
+	projectName: string;
+	composition: Composition;
+	arch: string;
+	deviceType: string;
+	emulated: boolean;
+	buildOpts: import('./docker').BuildOpts;
+	inlineLogs?: boolean;
+	convertEol: boolean;
+	dockerfilePath?: string;
+	nogitignore: boolean;
+	multiDockerignore: boolean;
+}): Promise<BuiltImage[]> {
+	const { logger, projectName } = opts;
+	logger.logInfo(`Building for ${opts.arch}/${opts.deviceType}`);
+
+	let buildSummaryByService: Dictionary<string> | undefined;
+	const compose = await import('resin-compose-parse');
+	const imageDescriptors = compose.parse(opts.composition);
+	const imageDescriptorsByServiceName = _.keyBy(
+		imageDescriptors,
+		'serviceName',
+	);
+	const renderer = await startRenderer({ imageDescriptors, ...opts });
+	try {
+		await checkBuildSecretsRequirements(opts.docker, opts.projectPath);
+
+		const needsQemu = await installQemuIfNeeded({ ...opts, imageDescriptors });
+
+		const tarStream = await tarDirectory(opts.projectPath, opts);
+
+		const tasks: BuildTaskPlus[] = await makeBuildTasks(
+			opts.composition,
+			tarStream,
+			opts,
+			logger,
+			projectName,
+		);
+
+		setTaskAttributes({ tasks, imageDescriptorsByServiceName, ...opts });
+
+		const transposeOptArray: Array<
+			TransposeOptions | undefined
+		> = await Promise.all(
+			tasks.map((task) => {
+				// Setup emulation if needed
+				if (needsQemu && !task.external) {
+					return qemuTransposeBuildStream({ task, ...opts });
+				}
+			}),
+		);
+
+		await Promise.all(
+			// transposeOptions may be undefined. That's OK.
+			transposeOptArray.map((transposeOptions, index) =>
+				setTaskProgressHooks({
+					task: tasks[index],
+					renderer,
+					transposeOptions,
+					...opts,
+				}),
+			),
+		);
+
+		logger.logDebug('Prepared tasks; building...');
+
+		const { BALENA_ENGINE_TMP_PATH } = await import('../config');
+		const builder = await import('resin-multibuild');
+
+		const builtImages = await builder.performBuilds(
+			tasks,
+			opts.docker,
+			BALENA_ENGINE_TMP_PATH,
+		);
+
+		const [images, summaryMsgByService] = await inspectBuiltImages({
+			builtImages,
+			imageDescriptorsByServiceName,
+			tasks,
+			...opts,
+		});
+		buildSummaryByService = summaryMsgByService;
+
+		return images;
+	} finally {
+		renderer.end(buildSummaryByService);
+	}
+}
+
+async function startRenderer({
+	imageDescriptors,
+	inlineLogs,
+	logger,
+}: {
+	imageDescriptors: ImageDescriptor[];
+	inlineLogs?: boolean;
+	logger: Logger;
+}): Promise<Renderer> {
+	let renderer: Renderer;
+	if (inlineLogs) {
+		renderer = new (await import('./compose')).BuildProgressInline(
+			logger.streams['build'],
+			imageDescriptors,
+		);
+	} else {
+		const tty = (await import('./tty'))(process.stdout);
+		renderer = new (await import('./compose')).BuildProgressUI(
+			tty,
+			imageDescriptors,
+		);
+	}
+	renderer.start();
+	return renderer;
+}
+
+async function installQemuIfNeeded({
+	arch,
+	docker,
+	emulated,
+	imageDescriptors,
+	logger,
+	projectPath,
+}: {
+	arch: string;
+	docker: Dockerode;
+	emulated: boolean;
+	imageDescriptors: ImageDescriptor[];
+	logger: Logger;
+	projectPath: string;
+}): Promise<boolean> {
+	const qemu = await import('./qemu');
+	const needsQemu = await qemu.installQemuIfNeeded(
+		emulated,
+		logger,
+		arch,
+		docker,
+	);
+	if (needsQemu) {
+		logger.logInfo('Emulation is enabled');
+		// Copy qemu into all build contexts
+		await Promise.all(
+			imageDescriptors.map(function (d) {
+				if (isBuildConfig(d.image)) {
+					return qemu.copyQemu(
+						path.join(projectPath, d.image.context || '.'),
+						arch,
+					);
+				}
+			}),
+		);
+	}
+	return needsQemu;
+}
+
+function setTaskAttributes({
+	tasks,
+	buildOpts,
+	imageDescriptorsByServiceName,
+	projectName,
+}: {
+	tasks: BuildTaskPlus[];
+	buildOpts: import('./docker').BuildOpts;
+	imageDescriptorsByServiceName: Dictionary<ImageDescriptor>;
+	projectName: string;
+}) {
+	for (const task of tasks) {
+		const d = imageDescriptorsByServiceName[task.serviceName];
+		// multibuild (splitBuildStream) parses the composition internally so
+		// any tags we've set before are lost; re-assign them here
+		task.tag ??= [projectName, task.serviceName].join('_').toLowerCase();
+		if (isBuildConfig(d.image)) {
+			d.image.tag = task.tag;
+		}
+		// reassign task.args so that the `--buildArg` flag takes precedence
+		// over assignments in the docker-compose.yml file (service.build.args)
+		task.args = {
+			...task.args,
+			...buildOpts.buildargs,
+		};
+
+		// Docker image build options
+		task.dockerOpts ??= {};
+		if (task.args && Object.keys(task.args).length) {
+			task.dockerOpts.buildargs = {
+				...task.dockerOpts.buildargs,
+				...task.args,
+			};
+		}
+		_.merge(task.dockerOpts, buildOpts, { t: task.tag });
+	}
+}
+
+async function qemuTransposeBuildStream({
+	task,
+	dockerfilePath,
+	projectPath,
+}: {
+	task: BuildTaskPlus;
+	dockerfilePath?: string;
+	projectPath: string;
+}): Promise<TransposeOptions> {
+	const qemu = await import('./qemu');
+	const binPath = qemu.qemuPathInContext(
+		path.join(projectPath, task.context ?? ''),
+	);
+	if (task.buildStream == null) {
+		throw new Error(`No buildStream for task '${task.tag}'`);
+	}
+
+	const transpose = await import('docker-qemu-transpose');
+	const { toPosixPath } = (await import('resin-multibuild')).PathUtils;
+
+	const transposeOptions: TransposeOptions = {
+		hostQemuPath: toPosixPath(binPath),
+		containerQemuPath: `/tmp/${qemu.QEMU_BIN_NAME}`,
+		qemuFileMode: 0o555,
+	};
+
+	task.buildStream = (await transpose.transposeTarStream(
+		task.buildStream,
+		transposeOptions,
+		dockerfilePath || undefined,
+	)) as Pack;
+
+	return transposeOptions;
+}
+
+async function setTaskProgressHooks({
+	inlineLogs,
+	renderer,
+	task,
+	transposeOptions,
+}: {
+	inlineLogs?: boolean;
+	renderer: Renderer;
+	task: BuildTaskPlus;
+	transposeOptions?: import('docker-qemu-transpose').TransposeOptions;
+}) {
+	const transpose = await import('docker-qemu-transpose');
+	// Get the service-specific log stream
+	const logStream = renderer.streams[task.serviceName];
+	task.logBuffer = [];
+	const captureStream = buildLogCapture(task.external, task.logBuffer);
+
+	if (task.external) {
+		// External image -- there's no build to be performed,
+		// just follow pull progress.
+		captureStream.pipe(logStream);
+		task.progressHook = pullProgressAdapter(captureStream);
+	} else {
+		task.streamHook = function (stream) {
+			let rawStream;
+			stream = createLogStream(stream);
+			if (transposeOptions) {
+				const buildThroughStream = transpose.getBuildThroughStream(
+					transposeOptions,
+				);
+				rawStream = stream.pipe(buildThroughStream);
+			} else {
+				rawStream = stream;
+			}
+			// `stream` sends out raw strings in contrast to `task.progressHook`
+			// where we're given objects. capture these strings as they come
+			// before we parse them.
+			return rawStream
+				.pipe(dropEmptyLinesStream())
+				.pipe(captureStream)
+				.pipe(buildProgressAdapter(!!inlineLogs))
+				.pipe(logStream);
+		};
+	}
+}
+
+async function inspectBuiltImages({
+	builtImages,
+	docker,
+	imageDescriptorsByServiceName,
+	tasks,
+}: {
+	builtImages: MultiBuild.LocalImage[];
+	docker: Dockerode;
+	imageDescriptorsByServiceName: Dictionary<ImageDescriptor>;
+	tasks: BuildTaskPlus[];
+}): Promise<[BuiltImage[], Dictionary<string>]> {
+	const images: BuiltImage[] = await Promise.all(
+		builtImages.map((builtImage: MultiBuild.LocalImage) =>
+			inspectBuiltImage({
+				builtImage,
+				docker,
+				imageDescriptorsByServiceName,
+				tasks,
+			}),
+		),
+	);
+
+	const humanize = require('humanize');
+	const summaryMsgByService: { [serviceName: string]: string } = {};
+	for (const image of images) {
+		summaryMsgByService[image.serviceName] = `Image size: ${humanize.filesize(
+			image.props.size,
+		)}`;
+	}
+
+	return [images, summaryMsgByService];
+}
+
+async function inspectBuiltImage({
+	builtImage,
+	docker,
+	imageDescriptorsByServiceName,
+	tasks,
+}: {
+	builtImage: MultiBuild.LocalImage;
+	docker: Dockerode;
+	imageDescriptorsByServiceName: Dictionary<ImageDescriptor>;
+	tasks: BuildTaskPlus[];
+}): Promise<BuiltImage> {
+	if (!builtImage.successful) {
+		const error: Error & { serviceName?: string } =
+			builtImage.error ?? new Error();
+		error.serviceName = builtImage.serviceName;
+		throw error;
+	}
+
+	const d = imageDescriptorsByServiceName[builtImage.serviceName];
+	const task = _.find(tasks, {
+		serviceName: builtImage.serviceName,
+	});
+
+	const image: BuiltImage = {
+		serviceName: d.serviceName,
+		name: (isBuildConfig(d.image) ? d.image.tag : d.image) || '',
+		logs: truncateString(task?.logBuffer?.join('\n') || '', LOG_LENGTH_MAX),
+		props: {
+			dockerfile: builtImage.dockerfile,
+			projectType: builtImage.projectType,
+		},
+	};
+
+	// Times here are timestamps, so test whether they're null
+	// before creating a date out of them, as `new Date(null)`
+	// creates a date representing UNIX time 0.
+	if (builtImage.startTime) {
+		image.props.startTime = new Date(builtImage.startTime);
+	}
+	if (builtImage.endTime) {
+		image.props.endTime = new Date(builtImage.endTime);
+	}
+	image.props.size = (await docker.getImage(image.name).inspect()).Size;
+
+	return image;
 }
 
 /**
@@ -207,9 +572,9 @@ async function getServiceDirsFromComposition(
 		const relPrefix = '.' + path.sep;
 		for (const [serviceName, service] of Object.entries(composition.services)) {
 			let dir =
-				typeof service.build === 'string'
+				(typeof service.build === 'string'
 					? service.build
-					: service.build?.context || '.';
+					: service.build?.context) || '.';
 			// Convert forward slashes to backslashes on Windows
 			dir = path.normalize(dir);
 			// Make sure the path is relative to the project directory
@@ -231,14 +596,57 @@ async function getServiceDirsFromComposition(
 }
 
 /**
+ * Return true if `image` is actually a docker-compose.yml `services.service.build`
+ * configuration object, rather than an "external image" (`services.service.image`).
+ *
+ * The `image` argument may therefore refere to either a `build` or `image` property
+ * of a service in a docker-compose.yml file, which is a bit confusing but it matches
+ * the `ImageDescriptor.image` property as defined by `resin-compose-parse`.
+ *
+ * Note that `resin-compose-parse` "normalizes" the docker-compose.yml file such
+ * that, if `services.service.build` is a string, it is converted to a BuildConfig
+ * object with the string value assigned to `services.service.build.context`:
+ * https://github.com/balena-io-modules/resin-compose-parse/blob/v2.1.3/src/compose.ts#L166-L167
+ * This is why this implementation works when `services.service.build` is defined
+ * as a string in the docker-compose.yml file.
+ *
+ * @param image The `ImageDescriptor.image` attribute parsed with `resin-compose-parse`
+ */
+export function isBuildConfig(
+	image: string | BuildConfig,
+): image is BuildConfig {
+	return image != null && typeof image !== 'string';
+}
+
+/**
  * Create a tar stream out of the local filesystem at the given directory,
  * while optionally applying file filters such as '.dockerignore' and
  * optionally converting text file line endings (CRLF to LF).
  * @param dir Source directory
  * @param param Options
- * @returns {Promise<import('stream').Readable>}
+ * @returns Readable stream
  */
 export async function tarDirectory(
+	dir: string,
+	param: TarDirectoryOptions,
+): Promise<import('stream').Readable> {
+	const { nogitignore = false } = param;
+	if (nogitignore) {
+		return newTarDirectory(dir, param);
+	} else {
+		return (await import('./compose')).originalTarDirectory(dir, param);
+	}
+}
+
+/**
+ * Create a tar stream out of the local filesystem at the given directory,
+ * while optionally applying file filters such as '.dockerignore' and
+ * optionally converting text file line endings (CRLF to LF).
+ * @param dir Source directory
+ * @param param Options
+ * @returns Readable stream
+ */
+async function newTarDirectory(
 	dir: string,
 	{
 		composition,
@@ -441,7 +849,7 @@ export async function checkBuildSecretsRequirements(
 export async function getRegistrySecrets(
 	sdk: BalenaSDK,
 	inputFilename?: string,
-): Promise<RegistrySecrets> {
+): Promise<MultiBuild.RegistrySecrets> {
 	if (inputFilename != null) {
 		return await parseRegistrySecrets(inputFilename);
 	}
@@ -464,7 +872,7 @@ export async function getRegistrySecrets(
 
 async function parseRegistrySecrets(
 	secretsFilename: string,
-): Promise<RegistrySecrets> {
+): Promise<MultiBuild.RegistrySecrets> {
 	try {
 		let isYaml = false;
 		if (/.+\.ya?ml$/i.test(secretsFilename)) {
@@ -661,7 +1069,7 @@ async function validateSpecifiedDockerfile(
 
 export interface ProjectValidationResult {
 	dockerfilePath: string;
-	registrySecrets: RegistrySecrets;
+	registrySecrets: MultiBuild.RegistrySecrets;
 }
 
 /**
@@ -797,7 +1205,7 @@ async function pushServiceImages(
 export async function deployProject(
 	docker: import('docker-toolbelt'),
 	logger: Logger,
-	composition: import('resin-compose-parse').Composition,
+	composition: Composition,
 	images: BuiltImage[],
 	appId: number,
 	userId: number,
@@ -905,6 +1313,123 @@ export function createRunLoop(tick: (...args: any[]) => void) {
 		},
 	};
 	return runloop;
+}
+
+function createLogStream(input: Readable) {
+	const split = require('split') as typeof import('split');
+	const stripAnsi = require('strip-ansi-stream');
+	return input.pipe<Duplex>(stripAnsi()).pipe(split());
+}
+
+function dropEmptyLinesStream() {
+	const through = require('through2') as typeof import('through2');
+	return through(function (data, _enc, cb) {
+		const str = data.toString('utf-8');
+		if (str.trim()) {
+			this.push(str);
+		}
+		return cb();
+	});
+}
+
+function buildLogCapture(objectMode: boolean, buffer: string[]) {
+	const through = require('through2') as typeof import('through2');
+
+	return through({ objectMode }, function (data, _enc, cb) {
+		// data from pull stream
+		if (data.error) {
+			buffer.push(`${data.error}`);
+		} else if (data.progress && data.status) {
+			buffer.push(`${data.progress}% ${data.status}`);
+		} else if (data.status) {
+			buffer.push(`${data.status}`);
+
+			// data from build stream
+		} else {
+			buffer.push(data);
+		}
+
+		return cb(null, data);
+	});
+}
+
+function buildProgressAdapter(inline: boolean) {
+	const through = require('through2') as typeof import('through2');
+
+	const stepRegex = /^\s*Step\s+(\d+)\/(\d+)\s*: (.+)$/;
+
+	let step = '';
+	let numSteps = '';
+	let progress: number | undefined;
+
+	return through({ objectMode: true }, function (str, _enc, cb) {
+		if (str == null) {
+			return cb(null, str);
+		}
+
+		if (inline) {
+			return cb(null, { status: str });
+		}
+
+		if (!/^Successfully tagged /.test(str)) {
+			const match = stepRegex.exec(str);
+			if (match) {
+				step = match[1];
+				numSteps ??= match[2];
+				str = match[3];
+			}
+			if (step) {
+				str = `Step ${step}/${numSteps}: ${str}`;
+				progress = Math.floor(
+					(parseInt(step, 10) * 100) / parseInt(numSteps, 10),
+				);
+			}
+		}
+
+		return cb(null, { status: str, progress });
+	});
+}
+
+function pullProgressAdapter(outStream: Duplex) {
+	return function ({
+		status,
+		id,
+		percentage,
+		error,
+		errorDetail,
+	}: {
+		status: string;
+		id: string;
+		percentage: number | undefined;
+		error: Error;
+		errorDetail: Error;
+	}) {
+		if (status != null) {
+			status = status.replace(/^Status: /, '');
+		}
+		if (id != null) {
+			status = `${id}: ${status}`;
+		}
+		if (percentage === 100) {
+			percentage = undefined;
+		}
+		return outStream.write({
+			status,
+			progress: percentage,
+			error: errorDetail?.message ?? error,
+		});
+	};
+}
+
+function truncateString(str: string, len: number): string {
+	if (str.length < len) {
+		return str;
+	}
+	str = str.slice(0, len);
+	// return everything up to the last line. this is a cheeky way to avoid
+	// having to deal with splitting the string midway through some special
+	// character sequence.
+	return str.slice(0, str.lastIndexOf('\n'));
 }
 
 export const composeCliFlags: flags.Input<ComposeCliFlags> = {

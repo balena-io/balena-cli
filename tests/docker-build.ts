@@ -29,7 +29,12 @@ import { URL } from 'url';
 import { stripIndent } from '../lib/utils/lazy';
 import { BuilderMock } from './builder-mock';
 import { DockerMock } from './docker-mock';
-import { cleanOutput, fillTemplateArray, runCommand } from './helpers';
+import {
+	cleanOutput,
+	deepJsonParse,
+	deepTemplateReplace,
+	runCommand,
+} from './helpers';
 import {
 	ExpectedTarStreamFile,
 	ExpectedTarStreamFiles,
@@ -152,7 +157,7 @@ export async function testDockerBuildStream(o: {
 	commandLine: string;
 	dockerMock: DockerMock;
 	expectedFilesByService: ExpectedTarStreamFilesByService;
-	expectedQueryParamsByService: { [service: string]: string[][] };
+	expectedQueryParamsByService: { [service: string]: any[][] };
 	expectedErrorLines?: string[];
 	expectedExitCode?: number;
 	expectedResponseLines: string[];
@@ -161,15 +166,15 @@ export async function testDockerBuildStream(o: {
 	responseBody: string;
 	services: string[]; // e.g. ['main'] or ['service1', 'service2']
 }) {
-	const expectedErrorLines = fillTemplateArray(o.expectedErrorLines || [], o);
-	const expectedResponseLines = fillTemplateArray(o.expectedResponseLines, o);
+	const expectedErrorLines = deepTemplateReplace(o.expectedErrorLines || [], o);
+	const expectedResponseLines = deepTemplateReplace(o.expectedResponseLines, o);
 
 	for (const service of o.services) {
 		// tagPrefix is, for example, 'myApp' if the path is 'path/to/myApp'
 		const tagPrefix = o.projectPath.split(path.sep).pop();
 		const tag = `${tagPrefix}_${service}`;
 		const expectedFiles = o.expectedFilesByService[service];
-		const expectedQueryParams = fillTemplateArray(
+		const expectedQueryParams = deepTemplateReplace(
 			o.expectedQueryParamsByService[service],
 			{ tag, ...o },
 		);
@@ -181,7 +186,9 @@ export async function testDockerBuildStream(o: {
 			checkURI: async (uri: string) => {
 				const url = new URL(uri, 'http://test.net/');
 				const queryParams = Array.from(url.searchParams.entries());
-				expect(queryParams).to.have.deep.members(expectedQueryParams);
+				expect(deepJsonParse(queryParams)).to.have.deep.members(
+					deepJsonParse(expectedQueryParams),
+				);
 			},
 			checkBuildRequestBody: (buildRequestBody: string) =>
 				inspectTarStream(buildRequestBody, expectedFiles, projectPath),
@@ -226,15 +233,17 @@ export async function testPushBuildStream(o: {
 	responseCode: number;
 	responseBody: string;
 }) {
-	const expectedQueryParams = fillTemplateArray(o.expectedQueryParams, o);
-	const expectedResponseLines = fillTemplateArray(o.expectedResponseLines, o);
+	const expectedQueryParams = deepTemplateReplace(o.expectedQueryParams, o);
+	const expectedResponseLines = deepTemplateReplace(o.expectedResponseLines, o);
 
 	o.builderMock.expectPostBuild({
 		...o,
 		checkURI: async (uri: string) => {
 			const url = new URL(uri, 'http://test.net/');
 			const queryParams = Array.from(url.searchParams.entries());
-			expect(queryParams).to.have.deep.members(expectedQueryParams);
+			expect(deepJsonParse(queryParams)).to.have.deep.members(
+				deepJsonParse(expectedQueryParams),
+			);
 		},
 		checkBuildRequestBody: (buildRequestBody) =>
 			inspectTarStream(buildRequestBody, o.expectedFiles, o.projectPath),

@@ -17,6 +17,8 @@
 
 import type * as dockerode from 'dockerode';
 import { flags } from '@oclif/command';
+
+import { ExpectedError } from '../errors';
 import { parseAsInteger } from './validation';
 
 export * from './docker-js';
@@ -97,6 +99,70 @@ Implements the same feature as the "docker build --cache-from" option.`,
 	}),
 	...dockerConnectionCliFlags,
 };
+
+export interface BuildOpts {
+	buildargs?: Dictionary<string>;
+	cachefrom?: string[];
+	nocache?: boolean;
+	pull?: boolean;
+	registryconfig?: import('resin-multibuild').RegistrySecrets;
+	squash?: boolean;
+	t?: string;
+}
+
+function parseBuildArgs(args: string[]): Dictionary<string> {
+	if (!Array.isArray(args)) {
+		args = [args];
+	}
+	const buildArgs: Dictionary<string> = {};
+	args.forEach(function (arg) {
+		// note: [^] matches any character, including line breaks
+		const pair = /^([^\s]+?)=([^]*)$/.exec(arg);
+		if (pair != null) {
+			buildArgs[pair[1]] = pair[2] ?? '';
+		} else {
+			throw new ExpectedError(`Could not parse build argument: '${arg}'`);
+		}
+	});
+	return buildArgs;
+}
+
+export function generateBuildOpts(options: {
+	buildArg?: string[];
+	'cache-from'?: string;
+	nocache: boolean;
+	pull?: boolean;
+	'registry-secrets'?: import('resin-multibuild').RegistrySecrets;
+	squash: boolean;
+	tag?: string;
+}): BuildOpts {
+	const opts: BuildOpts = {};
+	if (options.buildArg != null) {
+		opts.buildargs = parseBuildArgs(options.buildArg);
+	}
+	if (options['cache-from']?.trim()) {
+		opts.cachefrom = options['cache-from'].split(',').filter((i) => !!i.trim());
+	}
+	if (options.nocache != null) {
+		opts.nocache = true;
+	}
+	if (options.pull != null) {
+		opts.pull = true;
+	}
+	if (
+		options['registry-secrets'] &&
+		Object.keys(options['registry-secrets']).length
+	) {
+		opts.registryconfig = options['registry-secrets'];
+	}
+	if (options.squash != null) {
+		opts.squash = true;
+	}
+	if (options.tag != null) {
+		opts.t = options.tag;
+	}
+	return opts;
+}
 
 export async function isBalenaEngine(docker: dockerode): Promise<boolean> {
 	// dockerVersion.Engine should equal 'balena-engine' for the current/latest

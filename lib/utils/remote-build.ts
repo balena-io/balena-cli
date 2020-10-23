@@ -24,7 +24,7 @@ import type { Pack } from 'tar-stream';
 
 import { ExpectedError } from '../errors';
 import { exitWithExpectedError } from '../errors';
-import { tarDirectory } from './compose';
+import { tarDirectory } from './compose_ts';
 import { getVisuals, stripIndent } from './lazy';
 import Logger = require('./logger');
 
