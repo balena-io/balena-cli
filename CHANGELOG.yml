@@ -1,4 +1,49 @@
 - commits:
+    - subject: 'build/deploy: Add more test cases (--buildArg option)'
+      hash: 6b208ec2abde887ffd11cfdfb624382ea7bfc049
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Fix typing (don't assume that 'docker-toolbelt' uses Bluebird promises)
+      hash: 099d755900ff9e3d994b517225da872025c3f445
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'build/deploy: Fix --buildArg option with docker-compose.yml projects'
+      hash: 3199f15662373ca53fe1c7541259b31799e42315
+      body: ''
+      footer:
+        Resolves: '#1053'
+        resolves: '#1053'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'build/deploy: Fix image size notice at end of build'
+      hash: 4c8dc29946067aeaf46789058ecb310d0d862750
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Convert more code to Typescript (compose.js)
+      hash: 2b22fb89f1a2b25c532a5ec278c800e83cdcfeac
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.25.3
+  date: 2020-10-23T10:06:24.593Z
+- commits:
     - subject: Revert styling of "balena CLI" as "balenaCLI"
       hash: 478b5dd363288e2556e26b86d91d08e923788bae
       body: ''
@@ -32,7 +77,7 @@
       author: Paulo Castro
       nested: []
   version: 12.25.2
-  date: 2020-10-21T12:01:42.078Z
+  date: 2020-10-21T11:24:21.642Z
 - commits:
     - subject: Treat authorization errors as expected
       hash: 592efd0a2e5c0c46f4cbf0b1107b135ccab55211
