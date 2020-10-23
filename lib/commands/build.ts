@@ -22,8 +22,8 @@ import * as compose from '../utils/compose';
 import type { Application, ApplicationType, BalenaSDK } from 'balena-sdk';
 import { dockerignoreHelp, registrySecretsHelp } from '../utils/messages';
 import type { ComposeCliFlags, ComposeOpts } from '../utils/compose-types';
-import { composeCliFlags } from '../utils/compose_ts';
-import type { DockerCliFlags } from '../utils/docker';
+import { buildProject, composeCliFlags } from '../utils/compose_ts';
+import type { BuildOpts, DockerCliFlags } from '../utils/docker';
 import { dockerCliFlags } from '../utils/docker';
 
 interface FlagsDef extends ComposeCliFlags, DockerCliFlags {
@@ -219,7 +219,7 @@ ${dockerignoreHelp}
 			arch: string;
 			deviceType: string;
 			buildEmulated: boolean;
-			buildOpts: any;
+			buildOpts: BuildOpts;
 		},
 	) {
 		const { loadProject } = await import('../utils/compose_ts');
@@ -238,21 +238,21 @@ ${dockerignoreHelp}
 			);
 		}
 
-		await compose.buildProject(
+		await buildProject({
 			docker,
 			logger,
-			project.path,
-			project.name,
-			project.composition,
-			opts.arch,
-			opts.deviceType,
-			opts.buildEmulated,
-			opts.buildOpts,
-			composeOpts.inlineLogs,
-			composeOpts.convertEol,
-			composeOpts.dockerfilePath,
-			composeOpts.nogitignore,
-			composeOpts.multiDockerignore,
-		);
+			projectPath: project.path,
+			projectName: project.name,
+			composition: project.composition,
+			arch: opts.arch,
+			deviceType: opts.deviceType,
+			emulated: opts.buildEmulated,
+			buildOpts: opts.buildOpts,
+			inlineLogs: composeOpts.inlineLogs,
+			convertEol: composeOpts.convertEol,
+			dockerfilePath: composeOpts.dockerfilePath,
+			nogitignore: composeOpts.nogitignore,
+			multiDockerignore: composeOpts.multiDockerignore,
+		});
 	}
 }

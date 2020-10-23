@@ -16,6 +16,7 @@
  */
 
 import { expect } from 'chai';
+import * as _ from 'lodash';
 import mock = require('mock-require');
 import { promises as fs } from 'fs';
 import * as path from 'path';
@@ -45,13 +46,16 @@ const commonResponseLines: { [key: string]: string[] } = {
 
 const commonQueryParams = {
 	t: '${tag}',
-	buildargs: '{}',
+	buildargs: {},
 	labels: '',
 };
 
 const commonComposeQueryParams = {
 	t: '${tag}',
-	buildargs: '{"MY_VAR_1":"This is a variable","MY_VAR_2":"Also a variable"}',
+	buildargs: {
+		MY_VAR_1: 'This is a variable',
+		MY_VAR_2: 'Also a variable',
+	},
 	labels: '',
 };
 
@@ -375,19 +379,26 @@ describe('balena build', function () {
 			'utf8',
 		);
 		const expectedQueryParamsByService = {
-			service1: Object.entries({
-				...commonComposeQueryParams,
-				buildargs:
-					'{"BARG1":"b1","barg2":"B2","MY_VAR_1":"This is a variable","MY_VAR_2":"Also a variable","SERVICE1_VAR":"This is a service specific variable"}',
-				cachefrom: '["my/img1","my/img2"]',
-			}),
-			service2: Object.entries({
-				...commonComposeQueryParams,
-				buildargs:
-					'{"BARG1":"b1","barg2":"B2","MY_VAR_1":"This is a variable","MY_VAR_2":"Also a variable"}',
-				cachefrom: '["my/img1","my/img2"]',
-				dockerfile: 'Dockerfile-alt',
-			}),
+			service1: Object.entries(
+				_.merge({}, commonComposeQueryParams, {
+					buildargs: {
+						COMPOSE_ARG: 'A',
+						barg: 'b',
+						SERVICE1_VAR: 'This is a service specific variable',
+					},
+					cachefrom: ['my/img1', 'my/img2'],
+				}),
+			),
+			service2: Object.entries(
+				_.merge({}, commonComposeQueryParams, {
+					buildargs: {
+						COMPOSE_ARG: 'A',
+						barg: 'b',
+					},
+					cachefrom: ['my/img1', 'my/img2'],
+					dockerfile: 'Dockerfile-alt',
+				}),
+			),
 		};
 		const expectedResponseLines: string[] = [
 			...commonResponseLines[responseFilename],
@@ -417,7 +428,7 @@ describe('balena build', function () {
 		}
 		docker.expectGetInfo({});
 		await testDockerBuildStream({
-			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol -G -B BARG1=b1 -B barg2=B2 --cache-from my/img1,my/img2`,
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol -G -B COMPOSE_ARG=A -B barg=b --cache-from my/img1,my/img2`,
 			dockerMock: docker,
 			expectedFilesByService,
 			expectedQueryParamsByService,
@@ -464,15 +475,19 @@ describe('balena build', function () {
 			'utf8',
 		);
 		const expectedQueryParamsByService = {
-			service1: Object.entries({
-				...commonComposeQueryParams,
-				buildargs:
-					'{"MY_VAR_1":"This is a variable","MY_VAR_2":"Also a variable","SERVICE1_VAR":"This is a service specific variable"}',
-			}),
-			service2: Object.entries({
-				...commonComposeQueryParams,
-				dockerfile: 'Dockerfile-alt',
-			}),
+			service1: Object.entries(
+				_.merge({}, commonComposeQueryParams, {
+					buildargs: { SERVICE1_VAR: 'This is a service specific variable' },
+				}),
+			),
+			service2: Object.entries(
+				_.merge({}, commonComposeQueryParams, {
+					buildargs: {
+						COMPOSE_ARG: 'an argument defined in the docker-compose.yml file',
+					},
+					dockerfile: 'Dockerfile-alt',
+				}),
+			),
 		};
 		const expectedResponseLines: string[] = [
 			...commonResponseLines[responseFilename],

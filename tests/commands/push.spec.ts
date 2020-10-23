@@ -465,7 +465,7 @@ describe('balena push', function () {
 		const expectedFiles: ExpectedTarStreamFiles = {
 			'.balena/balena.yml': { fileSize: 197, type: 'file' },
 			'.dockerignore': { fileSize: 22, type: 'file' },
-			'docker-compose.yml': { fileSize: 245, type: 'file' },
+			'docker-compose.yml': { fileSize: 332, type: 'file' },
 			'service1/Dockerfile.template': { fileSize: 144, type: 'file' },
 			'service1/file1.sh': { fileSize: 12, type: 'file' },
 			'service2/Dockerfile-alt': { fileSize: 40, type: 'file' },
@@ -523,7 +523,7 @@ describe('balena push', function () {
 		const expectedFiles: ExpectedTarStreamFiles = {
 			'.balena/balena.yml': { fileSize: 197, type: 'file' },
 			'.dockerignore': { fileSize: 22, type: 'file' },
-			'docker-compose.yml': { fileSize: 245, type: 'file' },
+			'docker-compose.yml': { fileSize: 332, type: 'file' },
 			'service1/Dockerfile.template': { fileSize: 144, type: 'file' },
 			'service1/file1.sh': { fileSize: 12, type: 'file' },
 			'service1/test-ignore.txt': { fileSize: 12, type: 'file' },

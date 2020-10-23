@@ -17,6 +17,7 @@
 
 import { expect } from 'chai';
 import { promises as fs } from 'fs';
+import * as _ from 'lodash';
 import * as path from 'path';
 import * as sinon from 'sinon';
 
@@ -53,14 +54,14 @@ const commonQueryParams = [
 	['labels', ''],
 ];
 
-const commonComposeQueryParams = [
-	['t', '${tag}'],
-	[
-		'buildargs',
-		'{"MY_VAR_1":"This is a variable","MY_VAR_2":"Also a variable"}',
-	],
-	['labels', ''],
-];
+const commonComposeQueryParams = {
+	t: '${tag}',
+	buildargs: {
+		MY_VAR_1: 'This is a variable',
+		MY_VAR_2: 'Also a variable',
+	},
+	labels: '',
+};
 
 const hr =
 	'----------------------------------------------------------------------';
@@ -268,15 +269,19 @@ describe('balena deploy', function () {
 			'utf8',
 		);
 		const expectedQueryParamsByService = {
-			service1: [
-				['t', '${tag}'],
-				[
-					'buildargs',
-					'{"MY_VAR_1":"This is a variable","MY_VAR_2":"Also a variable","SERVICE1_VAR":"This is a service specific variable"}',
-				],
-				['labels', ''],
-			],
-			service2: [...commonComposeQueryParams, ['dockerfile', 'Dockerfile-alt']],
+			service1: Object.entries(
+				_.merge({}, commonComposeQueryParams, {
+					buildargs: { SERVICE1_VAR: 'This is a service specific variable' },
+				}),
+			),
+			service2: Object.entries(
+				_.merge({}, commonComposeQueryParams, {
+					buildargs: {
+						COMPOSE_ARG: 'an argument defined in the docker-compose.yml file',
+					},
+					dockerfile: 'Dockerfile-alt',
+				}),
+			),
 		};
 		const expectedResponseLines: string[] = [
 			...commonResponseLines[responseFilename],
