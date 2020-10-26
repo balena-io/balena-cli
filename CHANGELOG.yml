@@ -1,4 +1,33 @@
 - commits:
+    - subject: Update Contributing document re commit messages / versionbot / changelog
+      hash: 077e25ebc4e1b3f1cf5aefefcc8601f9dbe38d1f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'config generate: Fix "Application is ambiguous" when app slug is used'
+      hash: 709f009f9b0014acc087f154bca2f5f3ac7dec71
+      body: ''
+      footer:
+        Connects-to: '#1893'
+        connects-to: '#1893'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'config generate: Fix device type compatibility check'
+      hash: 116ab1fbc16be7ebc0e66192779a4f44d248d502
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.25.4
+  date: 2020-10-26T06:22:47.581Z
+- commits:
     - subject: 'build/deploy: Add more test cases (--buildArg option)'
       hash: 6b208ec2abde887ffd11cfdfb624382ea7bfc049
       body: ''
@@ -42,7 +71,7 @@
       author: Paulo Castro
       nested: []
   version: 12.25.3
-  date: 2020-10-23T10:06:24.593Z
+  date: 2020-10-21T13:37:13.594Z
 - commits:
     - subject: Revert styling of "balena CLI" as "balenaCLI"
       hash: 478b5dd363288e2556e26b86d91d08e923788bae
