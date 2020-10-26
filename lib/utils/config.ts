@@ -68,7 +68,7 @@ export async function generateBaseConfig(
 	};
 
 	const config = (await getBalenaSdk().models.os.getConfig(
-		application.app_name,
+		application.slug,
 		options,
 	)) as ImgConfig & { apiKey?: string };
 	// os.getConfig always returns a config for an app

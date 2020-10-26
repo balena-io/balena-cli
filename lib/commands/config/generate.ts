@@ -130,7 +130,7 @@ export default class ConfigGenerateCmd extends Command {
 
 		await this.validateOptions(options);
 
-		let deviceType = options.deviceType;
+		let resourceDeviceType: string;
 		// Get device | application
 		let resource;
 		if (options.device != null) {
@@ -140,24 +140,26 @@ export default class ConfigGenerateCmd extends Command {
 					is_of__device_type: { $select: 'slug' },
 				},
 			})) as DeviceWithDeviceType & { belongs_to__application: PineDeferred };
-			deviceType = deviceType || resource.is_of__device_type[0].slug;
+			resourceDeviceType = resource.is_of__device_type[0].slug;
 		} else {
 			resource = (await balena.models.application.get(options.application!, {
 				$expand: {
 					is_for__device_type: { $select: 'slug' },
 				},
 			})) as ApplicationWithDeviceType;
-			deviceType = deviceType || resource.is_for__device_type[0].slug;
+			resourceDeviceType = resource.is_for__device_type[0].slug;
 		}
 
+		const deviceType = options.deviceType || resourceDeviceType;
+
 		const deviceManifest = await balena.models.device.getManifestBySlug(
-			deviceType!,
+			deviceType,
 		);
 
 		// Check compatibility if application and deviceType provided
 		if (options.application && options.deviceType) {
 			const appDeviceManifest = await balena.models.device.getManifestBySlug(
-				deviceType!,
+				resourceDeviceType,
 			);
 
 			const helpers = await import('../../utils/helpers');

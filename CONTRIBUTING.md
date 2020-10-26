@@ -23,25 +23,73 @@ this will only help if you add some test cases for your new code!
 
 ## Semantic versioning, commit messages and the ChangeLog
 
-The CLI version numbering adheres to [Semantic Versioning](http://semver.org/). The following
-header/row is required in the body of a commit message, and will cause the CI build to fail if absent:
+When a pull request is merged, Balena's versionbot / Continuous Integration system takes care of
+automatically creating a new CLI release on both the [npm
+registry](https://www.npmjs.com/package/balena-cli) and the GitHub [releases
+page](https://github.com/balena-io/balena-cli/releases). The release version numbering adheres to
+the [Semantic Versioning's](http://semver.org/) concept of patch, minor and major releases.
+Generally, bug fixes and documentation changes are classed as patch changes, while new features are
+classed as minor changes. If a change breaks backwards compatibility, it is a major change.
 
-```
+A new version entry is also automatically added to the
+[CHANGELOG.md](https://github.com/balena-io/balena-cli/blob/master/CHANGELOG.md) file when a pull
+request is merged. Each pull request corresponds to a single version / release. Each commit in the
+pull request becomes a bullet point entry in the Changelog. The Changelog file should not be
+manually edited.
+
+To support this automation, a commit message should be structured as follows:
+
+```text
+The first line becomes a bullet point in the CHANGELOG file
+
+Optionally, a more detailed description in one or more paragraphs.
+The detailed description can be seen with `git log`, but it is not copied
+to the CHANGELOG file.
+
 Change-type: patch|minor|major
 ```
 
-Version numbers and commit messages are automatically added to the `CHANGELOG.md` file by the CI
-build flow, after a pull request is merged. It should not be manually edited.
+Only the first line of the commit message is copied to the Changelog file. The `Change-type` footer
+must be preceded by a blank line, and indicates the commit's semver change type. When a PR consists
+of multiple commits, the commits may have different change type values. As a whole, the PR will
+produce a release of the "highest" change type. For example, two commits mixing patch and minor
+change types will produce a minor CLI release, while two commits mixing minor and major change
+types will produce a major CLI release.
+
+The commit message is parsed / checked by versionbot with the
+[resin-commit-lint](https://github.com/balena-io-modules/resin-commit-lint#resin-commit-lint)
+package.
+
+Because of the way that the Changelog file is automatically updated from commit messages, which
+become the source of "what's new" for CLI end users, we advocate "meaningful commits" and
+user-focused commit messages. A meaningful commit is one that, in isolation, introduces a fix or
+feature (or part of a fix or feature) that makes sense at the Changelog level, and which leaves the
+CLI in a non-broken state. Sometimes, in the course of preparing a single pull request, a developer
+creates several commits as a way of saving their "work in progress", which may even fail to build
+(e.g. `npm run build` fails), and which is then fixed or undone by further commits in the same PR.
+In this situation, the recommendation is to "squash" or "fixup" the work-in-progress commits into
+fewer, meaningful commits. Interactive rebase is a good tool to achieve this:
+[blog](https://thoughtbot.com/blog/git-interactive-rebase-squash-amend-rewriting-history),
+[docs](https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History).
+
+Mixing multiple distinct features or bug fixes in a single commit is discouraged, because the
+description will likely not fit in the single-line Changelog bullet point and also because it
+makes it harder to review the pull request (especially a large one) and harder to isolate and
+revert individual changes in case a bug is found later on. Create a separate commit for each
+feature / bug fix, or even separate pull requests.
+
+If you need to catch up with changes to the master branch while working on a pull request,
+use rebase instead of merge: [docs](https://git-scm.com/book/en/v2/Git-Branching-Rebasing).
 
 If `package.json` is updated for dependencies listed in the `repo.yml` file (like `balena-sdk`),
-the commit message body should include a line in the following format:
+the commit message body should also include a line in the following format:
 ```
 Update balena-sdk from 12.0.0 to 12.1.0
 ```
 
-This allows the CI to produce nested change logs (with expandable arrows), pulling in commit
-messages from the upstream repositories. The following npm script can be used to automatically
-produce a commit with a suitable commit message:
+This allows versionbot to produce nested Changelog entries (with expandable arrows), pulling in
+commit messages from the upstream repositories. The following npm script can be used to
+automatically produce a commit with a suitable commit message:
 ```
 npm run update balena-sdk ^12.1.0
 ```
@@ -49,7 +97,7 @@ npm run update balena-sdk ^12.1.0
 The script will create a new branch (only if `master` is currently checked out), run `npm update`
 with the given target version and commit the `package.json` and `npm-shrinkwrap.json` files. The
 script by default will set the `Change-type` to `patch` or `minor`, depending on the semver change
-of the updated dependency. For a `major` change type, it can specified as an extra argument:
+of the updated dependency. A `major` change type can specified as an extra argument:
 ```
 npm run update balena-sdk ^12.14.0 patch
 npm run update balena-sdk ^13.0.0 major
