@@ -69,3 +69,17 @@ export function capitanoizeOclifUsage(
 		.replace(/(?<=\s)[A-Z]+(?=(\s|$))/g, (match) => `<${match}>`)
 		.toLowerCase();
 }
+
+export async function getCommandsFromManifest() {
+	const manifest = require('../../oclif.manifest.json');
+
+	if (manifest.commands == null) {
+		throw new Error('Commands section not found in manifest.');
+	}
+	return manifest.commands;
+}
+
+export async function getCommandIdsFromManifest() {
+	const commands = await getCommandsFromManifest();
+	return Object.keys(commands);
+}

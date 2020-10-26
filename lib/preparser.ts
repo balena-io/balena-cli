@@ -70,7 +70,7 @@ export async function preparseArgs(argv: string[]): Promise<string[]> {
 	let args = cmdSlice;
 
 	// Convert space separated subcommands (e.g. `end add`), to colon-separated format (e.g. `env:add`)
-	if (isSubcommand(cmdSlice)) {
+	if (await isSubcommand(cmdSlice)) {
 		// convert space-separated commands to oclif's topic:command syntax
 		args = [cmdSlice[0] + ':' + cmdSlice[1], ...cmdSlice.slice(2)];
 		Logger.command = `${cmdSlice[0]} ${cmdSlice[1]}`;
@@ -136,75 +136,8 @@ export function checkDeletedCommand(argvSlice: string[]): void {
 
 // Check if this is a space separated 'topic command' style command subcommand (e.g. `end add`)
 // by comparing with oclif style colon-separated subcommand list (e.g. `env:add`)
-// TODO: Need to find a way of doing this that does not require maintaining list of IDs
-export function isSubcommand(args: string[]) {
-	return oclifCommandIds.includes(`${args[0] || ''}:${args[1] || ''}`);
+export async function isSubcommand(args: string[]) {
+	const { getCommandIdsFromManifest } = await import('./utils/oclif-utils');
+	const commandIds = await getCommandIdsFromManifest();
+	return commandIds.includes(`${args[0] || ''}:${args[1] || ''}`);
 }
-
-export const oclifCommandIds = [
-	'api-key:generate',
-	'app',
-	'app:create',
-	'app:rename',
-	'app:restart',
-	'app:rm',
-	'apps',
-	'build',
-	'config:generate',
-	'config:inject',
-	'config:read',
-	'config:reconfigure',
-	'config:write',
-	'deploy',
-	'device',
-	'device:identify',
-	'device:init',
-	'device:move',
-	'device:os-update',
-	'device:public-url',
-	'device:reboot',
-	'device:register',
-	'device:rename',
-	'device:restart',
-	'device:rm',
-	'device:shutdown',
-	'devices',
-	'devices:supported',
-	'envs',
-	'env:add',
-	'env:rename',
-	'env:rm',
-	'help',
-	'internal:scandevices',
-	'internal:osinit',
-	'join',
-	'keys',
-	'key',
-	'key:add',
-	'key:rm',
-	'leave',
-	'local:configure',
-	'local:flash',
-	'login',
-	'logout',
-	'logs',
-	'note',
-	'os:build-config',
-	'os:configure',
-	'os:versions',
-	'os:download',
-	'os:initialize',
-	'preload',
-	'push',
-	'scan',
-	'settings',
-	'ssh',
-	'support',
-	'tags',
-	'tag:rm',
-	'tag:set',
-	'tunnel',
-	'util:available-drives',
-	'version',
-	'whoami',
-];
