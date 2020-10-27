@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove need for hardcoded list of command ids
+      hash: c48564e85a618af64c5f63722f0039f6e75862ba
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.25.5
+  date: 2020-10-27T11:09:07.323Z
+- commits:
     - subject: Update Contributing document re commit messages / versionbot / changelog
       hash: 077e25ebc4e1b3f1cf5aefefcc8601f9dbe38d1f
       body: ''
@@ -26,7 +39,7 @@
       author: Paulo Castro
       nested: []
   version: 12.25.4
-  date: 2020-10-26T06:22:47.581Z
+  date: 2020-10-25T17:29:17.581Z
 - commits:
     - subject: 'build/deploy: Add more test cases (--buildArg option)'
       hash: 6b208ec2abde887ffd11cfdfb624382ea7bfc049

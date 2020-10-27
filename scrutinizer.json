@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Remove need for hardcoded list of command ids",
+          "hash": "c48564e85a618af64c5f63722f0039f6e75862ba",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.25.5",
+      "date": "2020-10-27T09:39:31.007Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update Contributing document re commit messages / versionbot / changelog",
           "hash": "077e25ebc4e1b3f1cf5aefefcc8601f9dbe38d1f",
           "body": "",
@@ -19220,29 +19239,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-10-26T06:23:55Z",
+  "lastCommitDate": "2020-10-27T11:10:06Z",
   "latestRelease": {
-    "tagName": "v12.25.4",
+    "tagName": "v12.25.5",
     "asssets": [
       {
-        "name": "balena-cli-v12.25.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.4/balena-cli-v12.25.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.25.5-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.5/balena-cli-v12.25.5-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.25.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.4/balena-cli-v12.25.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.25.5-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.5/balena-cli-v12.25.5-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.25.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.4/balena-cli-v12.25.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.25.5-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.5/balena-cli-v12.25.5-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.25.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.4/balena-cli-v12.25.4-windows-x64-installer.exe"
+        "name": "balena-cli-v12.25.5-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.5/balena-cli-v12.25.5-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.25.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.4/balena-cli-v12.25.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.25.5-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.5/balena-cli-v12.25.5-windows-x64-standalone.zip"
       }
     ]
   },
@@ -19332,7 +19351,7 @@
       }
     ]
   },
-  "version": "12.25.4",
+  "version": "12.25.5",
   "screenshot": null,
   "logo": null
 }
