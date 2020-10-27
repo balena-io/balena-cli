@@ -25,7 +25,8 @@ import type { Application } from 'balena-sdk';
 
 interface ExtendedDevice extends DeviceWithDeviceType {
 	dashboard_url?: string;
-	application_name?: string;
+	application_name?: string | null;
+	device_type?: string | null;
 }
 
 interface FlagsDef {
@@ -45,8 +46,9 @@ export default class DevicesCmd extends Command {
 
 		The --json option is recommended when scripting the output of this command,
 		because field names are less likely to change in JSON format and because it
-		better represents data types like arrays and empty strings. The 'jq' utility
-		may also be helpful in shell scripts (https://stedolan.github.io/jq/manual/).
+		better represents data types like arrays, empty strings and null values.
+		The 'jq' utility may be helpful for querying JSON fields in shell scripts
+		(https://stedolan.github.io/jq/manual/).
 	`;
 	public static examples = [
 		'$ balena devices',
@@ -97,14 +99,11 @@ export default class DevicesCmd extends Command {
 			device.dashboard_url = balena.models.device.getDashboardUrl(device.uuid);
 
 			const belongsToApplication = device.belongs_to__application as Application[];
-			device.application_name = belongsToApplication?.[0]
-				? belongsToApplication[0].app_name
-				: 'N/a';
+			device.application_name = belongsToApplication?.[0]?.app_name || null;
 
 			device.uuid = device.uuid.slice(0, 7);
 
-			// @ts-ignore
-			device.device_type = device.is_of__device_type[0].slug;
+			device.device_type = device.is_of__device_type?.[0]?.slug || null;
 			return device;
 		});
 
@@ -120,8 +119,8 @@ export default class DevicesCmd extends Command {
 			'os_version',
 			'dashboard_url',
 		];
+		const _ = await import('lodash');
 		if (options.json) {
-			const _ = await import('lodash');
 			console.log(
 				JSON.stringify(
 					devices.map((device) => _.pick(device, fields)),
@@ -130,7 +129,12 @@ export default class DevicesCmd extends Command {
 				),
 			);
 		} else {
-			console.log(getVisuals().table.horizontal(devices, fields));
+			console.log(
+				getVisuals().table.horizontal(
+					devices.map((dev) => _.mapValues(dev, (val) => val ?? 'N/a')),
+					fields,
+				),
+			);
 		}
 	}
 }
