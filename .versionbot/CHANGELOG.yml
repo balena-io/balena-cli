@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'ssh: Fix "Found more than one container with a service name <name>"'
+      hash: 7f000ee8c338c88af4a41dee1a2fb924c2c2ee00
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.25.6
+  date: 2020-10-28T01:11:21.452Z
+- commits:
     - subject: Remove need for hardcoded list of command ids
       hash: c48564e85a618af64c5f63722f0039f6e75862ba
       body: ''
