@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "ssh: Fix \"Found more than one container with a service name <name>\"",
+          "hash": "7f000ee8c338c88af4a41dee1a2fb924c2c2ee00",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.25.6",
+      "date": "2020-10-28T01:11:21.452Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Remove need for hardcoded list of command ids",
           "hash": "c48564e85a618af64c5f63722f0039f6e75862ba",
           "body": "",
@@ -19239,29 +19256,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-10-27T11:10:06Z",
+  "lastCommitDate": "2020-10-28T10:36:54Z",
   "latestRelease": {
-    "tagName": "v12.25.5",
+    "tagName": "v12.25.6",
     "asssets": [
       {
-        "name": "balena-cli-v12.25.5-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.5/balena-cli-v12.25.5-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.25.6-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.6/balena-cli-v12.25.6-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.25.5-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.5/balena-cli-v12.25.5-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.25.6-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.6/balena-cli-v12.25.6-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.25.5-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.5/balena-cli-v12.25.5-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.25.6-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.6/balena-cli-v12.25.6-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.25.5-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.5/balena-cli-v12.25.5-windows-x64-installer.exe"
+        "name": "balena-cli-v12.25.6-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.6/balena-cli-v12.25.6-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.25.5-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.5/balena-cli-v12.25.5-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.25.6-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.6/balena-cli-v12.25.6-windows-x64-standalone.zip"
       }
     ]
   },
@@ -19269,6 +19286,10 @@
   "openIssues": {
     "numberOfIssues": 293,
     "latestIssues": [
+      {
+        "title": "devices: Fix \"TypeError: Cannot read property 'slug' of undefined\"",
+        "url": "https://github.com/balena-io/balena-cli/pull/2074"
+      },
       {
         "title": "balena-cli-windows-error-correction",
         "url": "https://github.com/balena-io/balena-cli/pull/2071"
@@ -19344,14 +19365,10 @@
       {
         "title": "`os versions`: Add balenaOS ESR releases to the list",
         "url": "https://github.com/balena-io/balena-cli/pull/2012"
-      },
-      {
-        "title": "Drop no longer used pkg dependency config",
-        "url": "https://github.com/balena-io/balena-cli/pull/2009"
       }
     ]
   },
-  "version": "12.25.5",
+  "version": "12.25.6",
   "screenshot": null,
   "logo": null
 }
