@@ -49,7 +49,7 @@ export async function performLocalDeviceSSH(
 			port: 2375,
 		});
 
-		const regex = new RegExp(`\\/?${escapeRegExp(opts.service)}_\\d+_\\d+`);
+		const regex = new RegExp(`(^|\\/)${escapeRegExp(opts.service)}_\\d+_\\d+`);
 		const nameRegex = /\/?([a-zA-Z0-9_]+)_\d+_\d+/;
 		let allContainers: ContainerInfo[];
 		try {
@@ -61,21 +61,19 @@ export async function performLocalDeviceSSH(
 		}
 
 		const serviceNames: string[] = [];
-		const containers = allContainers
-			.map((container) => {
-				for (const name of container.Names) {
-					if (regex.test(name)) {
-						return { id: container.Id, name };
-					}
-					const match = name.match(nameRegex);
-					if (match) {
-						serviceNames.push(match[1]);
-					}
+		const containers: Array<{ id: string; name: string }> = [];
+		for (const container of allContainers) {
+			for (const name of container.Names) {
+				if (regex.test(name)) {
+					containers.push({ id: container.Id, name });
+					break;
 				}
-				return;
-			})
-			.filter((c) => c != null);
-
+				const match = name.match(nameRegex);
+				if (match) {
+					serviceNames.push(match[1]);
+				}
+			}
+		}
 		if (containers.length === 0) {
 			throw new ExpectedError(
 				`Could not find a service on device with name ${opts.service}. ${
@@ -91,12 +89,13 @@ export async function performLocalDeviceSSH(
 		}
 		if (containers.length > 1) {
 			throw new ExpectedError(stripIndent`
-				Found more than one container with a service name ${opts.service}.
-				This state is not supported, please contact support.
+				Found more than one container matching service name "${opts.service}":
+				${containers.map((container) => container.name).join(', ')}
+				Use different service names to avoid ambiguity.
 			`);
 		}
 
-		const containerId = containers[0]!.id;
+		const containerId = containers[0].id;
 		const shellCmd = `/bin/sh -c "if [ -e /bin/bash ]; then exec /bin/bash; else exec /bin/sh; fi"`;
 		// stdin (fd=0) is not a tty when data is piped in, for example
 		// echo 'ls -la; exit;' | balena ssh 192.168.0.20 service1
