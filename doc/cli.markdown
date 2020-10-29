@@ -174,20 +174,21 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 
 - Device
 
+	- [devices](#devices)
+	- [devices supported](#devices-supported)
+	- [device &#60;uuid&#62;](#device-uuid)
 	- [device identify &#60;uuid&#62;](#device-identify-uuid)
 	- [device init](#device-init)
-	- [device &#60;uuid&#62;](#device-uuid)
 	- [device move &#60;uuid(s)&#62;](#device-move-uuid-s)
+	- [device os-update &#60;uuid&#62;](#device-os-update-uuid)
+	- [device public-url &#60;uuid&#62;](#device-public-url-uuid)
+	- [device purge &#60;uuid&#62;](#device-purge-uuid)
 	- [device reboot &#60;uuid&#62;](#device-reboot-uuid)
 	- [device register &#60;application&#62;](#device-register-application)
 	- [device rename &#60;uuid&#62; [newname]](#device-rename-uuid-newname)
-	- [device rm &#60;uuid(s)&#62;](#device-rm-uuid-s)
 	- [device restart &#60;uuid&#62;](#device-restart-uuid)
+	- [device rm &#60;uuid(s)&#62;](#device-rm-uuid-s)
 	- [device shutdown &#60;uuid&#62;](#device-shutdown-uuid)
-	- [devices](#devices)
-	- [devices supported](#devices-supported)
-	- [device os-update &#60;uuid&#62;](#device-os-update-uuid)
-	- [device public-url &#60;uuid&#62;](#device-public-url-uuid)
 
 - Environment Variables
 
@@ -504,255 +505,6 @@ Examples:
 
 # Device
 
-## device identify &#60;uuid&#62;
-
-Identify a device by making the ACT LED blink (Raspberry Pi).
-
-Examples:
-
-	$ balena device identify 23c73a1
-
-### Arguments
-
-#### UUID
-
-the uuid of the device to identify
-
-### Options
-
-## device init
-
-Initialise a device by downloading the OS image of a certain application
-and writing it to an SD Card.
-
-Note, if the application option is omitted it will be prompted
-for interactively.
-
-Examples:
-
-	$ balena device init
-	$ balena device init --application MyApp
-
-### Options
-
-#### -a, --application APPLICATION
-
-application name
-
-#### --app APP
-
-same as '--application'
-
-#### -y, --yes
-
-answer "yes" to all questions (non interactive use)
-
-#### -v, --advanced
-
-show advanced configuration options
-
-#### --os-version OS-VERSION
-
-exact version number, or a valid semver range,
-or 'latest' (includes pre-releases),
-or 'default' (excludes pre-releases if at least one stable version is available),
-or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
-or 'menu' (will show the interactive menu)
-
-#### -d, --drive DRIVE
-
-the drive to write the image to, eg. `/dev/sdb` or `/dev/mmcblk0`.
-Careful with this as you can erase your hard drive.
-Check `balena util available-drives` for available options.
-
-#### --config CONFIG
-
-path to the config JSON file, see `balena os build-config`
-
-## device &#60;uuid&#62;
-
-Show information about a single device.
-
-Examples:
-
-	$ balena device 7cf02a6
-
-### Arguments
-
-#### UUID
-
-the device uuid
-
-### Options
-
-## device move &#60;uuid(s)&#62;
-
-Move one or more devices to another application.
-
-Note, if the application option is omitted it will be prompted
-for interactively.
-
-Examples:
-
-	$ balena device move 7cf02a6
-	$ balena device move 7cf02a6,dc39e52
-	$ balena device move 7cf02a6 --application MyNewApp
-
-### Arguments
-
-#### UUID
-
-comma-separated list (no blank spaces) of device UUIDs to be moved
-
-### Options
-
-#### -a, --application APPLICATION
-
-application name
-
-#### --app APP
-
-same as '--application'
-
-## device reboot &#60;uuid&#62;
-
-Remotely reboot a device.
-
-Examples:
-
-	$ balena device reboot 23c73a1
-
-### Arguments
-
-#### UUID
-
-the uuid of the device to reboot
-
-### Options
-
-#### -f, --force
-
-force action if the update lock is set
-
-## device register &#60;application&#62;
-
-Register a device to an application.
-
-Examples:
-
-	$ balena device register MyApp
-	$ balena device register MyApp --uuid <uuid>
-
-### Arguments
-
-#### APPLICATION
-
-the name or id of application to register device with
-
-### Options
-
-#### -u, --uuid UUID
-
-custom uuid
-
-## device rename &#60;uuid&#62; [newName]
-
-Rename a device.
-
-Note, if the name is omitted, it will be prompted for interactively.
-
-Examples:
-
-	$ balena device rename 7cf02a6
-	$ balena device rename 7cf02a6 MyPi
-
-### Arguments
-
-#### UUID
-
-the uuid of the device to rename
-
-#### NEWNAME
-
-the new name for the device
-
-### Options
-
-## device rm &#60;uuid(s)&#62;
-
-Remove one or more devices from balena.
-
-Note this command asks for confirmation interactively.
-You can avoid this by passing the `--yes` option.
-
-Examples:
-
-	$ balena device rm 7cf02a6
-	$ balena device rm 7cf02a6,dc39e52
-	$ balena device rm 7cf02a6 --yes
-
-### Arguments
-
-#### UUID
-
-comma-separated list (no blank spaces) of device UUIDs to be removed
-
-### Options
-
-#### -y, --yes
-
-answer "yes" to all questions (non interactive use)
-
-## device restart &#60;uuid&#62;
-
-Restart containers on a device.
-If the --service flag is provided, then only those services' containers
-will be restarted, otherwise all containers on the device will be restarted.
-
-Multiple devices and services may be specified with a comma-separated list
-of values (no spaces).
-
-Note this does not reboot the device, to do so use instead `balena device reboot`.
-
-Examples:
-
-	$ balena device restart 23c73a1
-	$ balena device restart 55d43b3,23c73a1
-	$ balena device restart 23c73a1 --service myService
-	$ balena device restart 23c73a1 -s myService1,myService2
-
-### Arguments
-
-#### UUID
-
-comma-separated list (no blank spaces) of device UUIDs to restart
-
-### Options
-
-#### -s, --service SERVICE
-
-comma-separated list (no blank spaces) of service names to restart
-
-## device shutdown &#60;uuid&#62;
-
-Remotely shutdown a device.
-
-Examples:
-
-	$ balena device shutdown 23c73a1
-
-### Arguments
-
-#### UUID
-
-the uuid of the device to shutdown
-
-### Options
-
-#### -f, --force
-
-force action if the update lock is set
-
 ## devices
 
 list all devices that belong to you.
@@ -819,6 +571,116 @@ produce JSON output instead of tabular output
 #### -v, --verbose
 
 add extra columns in the tabular output (ALIASES, ARCH, STATE)
+
+## device &#60;uuid&#62;
+
+Show information about a single device.
+
+Examples:
+
+	$ balena device 7cf02a6
+
+### Arguments
+
+#### UUID
+
+the device uuid
+
+### Options
+
+## device identify &#60;uuid&#62;
+
+Identify a device by making the ACT LED blink (Raspberry Pi).
+
+Examples:
+
+	$ balena device identify 23c73a1
+
+### Arguments
+
+#### UUID
+
+the uuid of the device to identify
+
+### Options
+
+## device init
+
+Initialise a device by downloading the OS image of a certain application
+and writing it to an SD Card.
+
+Note, if the application option is omitted it will be prompted
+for interactively.
+
+Examples:
+
+	$ balena device init
+	$ balena device init --application MyApp
+
+### Options
+
+#### -a, --application APPLICATION
+
+application name
+
+#### --app APP
+
+same as '--application'
+
+#### -y, --yes
+
+answer "yes" to all questions (non interactive use)
+
+#### -v, --advanced
+
+show advanced configuration options
+
+#### --os-version OS-VERSION
+
+exact version number, or a valid semver range,
+or 'latest' (includes pre-releases),
+or 'default' (excludes pre-releases if at least one stable version is available),
+or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
+or 'menu' (will show the interactive menu)
+
+#### -d, --drive DRIVE
+
+the drive to write the image to, eg. `/dev/sdb` or `/dev/mmcblk0`.
+Careful with this as you can erase your hard drive.
+Check `balena util available-drives` for available options.
+
+#### --config CONFIG
+
+path to the config JSON file, see `balena os build-config`
+
+## device move &#60;uuid(s)&#62;
+
+Move one or more devices to another application.
+
+Note, if the application option is omitted it will be prompted
+for interactively.
+
+Examples:
+
+	$ balena device move 7cf02a6
+	$ balena device move 7cf02a6,dc39e52
+	$ balena device move 7cf02a6 --application MyNewApp
+
+### Arguments
+
+#### UUID
+
+comma-separated list (no blank spaces) of device UUIDs to be moved
+
+### Options
+
+#### -a, --application APPLICATION
+
+application name
+
+#### --app APP
+
+same as '--application'
 
 ## device os-update &#60;uuid&#62;
 
@@ -889,6 +751,166 @@ disable the public URL
 #### --status
 
 determine if public URL is enabled
+
+## device purge &#60;uuid&#62;
+
+Purge application data from a device.
+This will clear the application's /data directory.
+
+Multiple devices may be specified with a comma-separated list
+of values (no spaces).
+
+Examples:
+
+	$ balena device purge 23c73a1
+	$ balena device purge 55d43b3,23c73a1
+
+### Arguments
+
+#### UUID
+
+comma-separated list (no blank spaces) of device UUIDs
+
+### Options
+
+## device reboot &#60;uuid&#62;
+
+Remotely reboot a device.
+
+Examples:
+
+	$ balena device reboot 23c73a1
+
+### Arguments
+
+#### UUID
+
+the uuid of the device to reboot
+
+### Options
+
+#### -f, --force
+
+force action if the update lock is set
+
+## device register &#60;application&#62;
+
+Register a device to an application.
+
+Examples:
+
+	$ balena device register MyApp
+	$ balena device register MyApp --uuid <uuid>
+
+### Arguments
+
+#### APPLICATION
+
+the name or id of application to register device with
+
+### Options
+
+#### -u, --uuid UUID
+
+custom uuid
+
+## device rename &#60;uuid&#62; [newName]
+
+Rename a device.
+
+Note, if the name is omitted, it will be prompted for interactively.
+
+Examples:
+
+	$ balena device rename 7cf02a6
+	$ balena device rename 7cf02a6 MyPi
+
+### Arguments
+
+#### UUID
+
+the uuid of the device to rename
+
+#### NEWNAME
+
+the new name for the device
+
+### Options
+
+## device restart &#60;uuid&#62;
+
+Restart containers on a device.
+If the --service flag is provided, then only those services' containers
+will be restarted, otherwise all containers on the device will be restarted.
+
+Multiple devices and services may be specified with a comma-separated list
+of values (no spaces).
+
+Note this does not reboot the device, to do so use instead `balena device reboot`.
+
+Examples:
+
+	$ balena device restart 23c73a1
+	$ balena device restart 55d43b3,23c73a1
+	$ balena device restart 23c73a1 --service myService
+	$ balena device restart 23c73a1 -s myService1,myService2
+
+### Arguments
+
+#### UUID
+
+comma-separated list (no blank spaces) of device UUIDs to restart
+
+### Options
+
+#### -s, --service SERVICE
+
+comma-separated list (no blank spaces) of service names to restart
+
+## device rm &#60;uuid(s)&#62;
+
+Remove one or more devices from balena.
+
+Note this command asks for confirmation interactively.
+You can avoid this by passing the `--yes` option.
+
+Examples:
+
+	$ balena device rm 7cf02a6
+	$ balena device rm 7cf02a6,dc39e52
+	$ balena device rm 7cf02a6 --yes
+
+### Arguments
+
+#### UUID
+
+comma-separated list (no blank spaces) of device UUIDs to be removed
+
+### Options
+
+#### -y, --yes
+
+answer "yes" to all questions (non interactive use)
+
+## device shutdown &#60;uuid&#62;
+
+Remotely shutdown a device.
+
+Examples:
+
+	$ balena device shutdown 23c73a1
+
+### Arguments
+
+#### UUID
+
+the uuid of the device to shutdown
+
+### Options
+
+#### -f, --force
+
+force action if the update lock is set
 
 # Environment Variables
 
