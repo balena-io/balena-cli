@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "Add command device purge",
+          "hash": "47fcffe36813dfdbe59986ed6ae0e4a1a441ea63",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Resolves": "#1547",
+            "resolves": "#1547",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.26.0",
+      "date": "2020-10-29T10:06:17.048Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "ssh: Fix \"Found more than one container with a service name <name>\"",
           "hash": "7f000ee8c338c88af4a41dee1a2fb924c2c2ee00",
           "body": "",
@@ -19156,7 +19177,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 274,
+  "stars": 275,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -19256,36 +19277,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-10-28T10:36:54Z",
+  "lastCommitDate": "2020-10-29T10:40:24Z",
   "latestRelease": {
-    "tagName": "v12.25.6",
+    "tagName": "v12.26.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.25.6-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.6/balena-cli-v12.25.6-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.26.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.0/balena-cli-v12.26.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.25.6-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.6/balena-cli-v12.25.6-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.26.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.0/balena-cli-v12.26.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.25.6-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.6/balena-cli-v12.25.6-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.26.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.0/balena-cli-v12.26.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.25.6-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.6/balena-cli-v12.25.6-windows-x64-installer.exe"
+        "name": "balena-cli-v12.26.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.0/balena-cli-v12.26.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.25.6-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.25.6/balena-cli-v12.25.6-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.26.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.0/balena-cli-v12.26.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 293,
+    "numberOfIssues": 289,
     "latestIssues": [
+      {
+        "title": "BalenaApplicationNotFound: Application not found: 1234",
+        "url": "https://github.com/balena-io/balena-cli/issues/2077"
+      },
       {
         "title": "devices: Fix \"TypeError: Cannot read property 'slug' of undefined\"",
         "url": "https://github.com/balena-io/balena-cli/pull/2074"
@@ -19297,10 +19322,6 @@
       {
         "title": "Add command app purge",
         "url": "https://github.com/balena-io/balena-cli/pull/2067"
-      },
-      {
-        "title": "Add command device purge",
-        "url": "https://github.com/balena-io/balena-cli/pull/2066"
       },
       {
         "title": "balena cli push timeout",
@@ -19368,7 +19389,7 @@
       }
     ]
   },
-  "version": "12.25.6",
+  "version": "12.26.0",
   "screenshot": null,
   "logo": null
 }
