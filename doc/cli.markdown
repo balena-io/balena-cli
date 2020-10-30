@@ -675,13 +675,45 @@ comma-separated list (no blank spaces) of device UUIDs to be moved
 
 ### Options
 
-#### -a, --application APPLICATION
+#### --uuid UUID
 
-application name
+comma-separated list of device UUIDs
+
+#### --id ID
+
+comma-separated list of numeric device database IDs
 
 #### --app APP
 
-same as '--application'
+alias for --application
+
+#### --app-name APP-NAME
+
+alias for --application-name
+
+#### --app-uuid APP-UUID
+
+alias for --application-uuid
+
+#### --app-id APP-ID
+
+alias for --application-id
+
+#### --application APPLICATION
+
+application name, UUID or numeric database ID
+
+#### --application-name APPLICATION-NAME
+
+application name
+
+#### --application-uuid APPLICATION-UUID
+
+application UUID
+
+#### --application-id APPLICATION-ID
+
+application numeric database ID
 
 ## device os-update &#60;uuid&#62;
 

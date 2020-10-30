@@ -22,7 +22,7 @@ import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { tryAsInteger } from '../../utils/validation';
+import { parseAsInteger, tryAsInteger } from '../../utils/validation';
 import { ExpectedError } from '../../errors';
 
 interface ExtendedDevice extends DeviceWithDeviceType {
@@ -31,7 +31,16 @@ interface ExtendedDevice extends DeviceWithDeviceType {
 
 interface FlagsDef {
 	application?: string;
+	'application-id'?: number;
+	'application-name'?: string;
+	'application-uuid'?: string;
 	app?: string;
+	'app-id'?: number;
+	'app-name'?: string;
+	'app-uuid'?: string;
+	id?: string; // comma-separated list of device database IDs
+	uuid?: string; // comma-separated list of device UUIDs
+	foo?: string;
 	help: void;
 }
 
@@ -54,20 +63,20 @@ export default class DeviceMoveCmd extends Command {
 		'$ balena device move 7cf02a6 --application MyNewApp',
 	];
 
-	public static args: Array<IArg<any>> = [
+	public static args: IArg[] = [
 		{
 			name: 'uuid',
 			description:
 				'comma-separated list (no blank spaces) of device UUIDs to be moved',
-			required: true,
+			required: false,
 		},
 	];
 
 	public static usage = 'device move <uuid(s)>';
 
 	public static flags: flags.Input<FlagsDef> = {
-		application: cf.application,
-		app: cf.app,
+		...cf.mkDeviceArgFlagCombo(true),
+		...cf.mkAppFlagCombo(),
 		help: cf.help,
 	};
 
@@ -78,15 +87,37 @@ export default class DeviceMoveCmd extends Command {
 			DeviceMoveCmd,
 		);
 
+		await cf.checkExclusiveArgFlags(
+			{ uuid: params.uuid },
+			{ uuid: options.uuid, id: options.id },
+		);
+
 		const balena = getBalenaSdk();
 
-		options.application = options.application || options.app;
-		delete options.app;
+		options.app ||= options.application;
+		options['app-name'] ||= options['application-name'];
+		options['app-uuid'] ||= options['application-uuid'];
+		options['app-id'] ||= options['application-id'];
+		delete options.application;
+		delete options['application-name'];
+		delete options['application-uuid'];
+		delete options['application-id'];
 
 		// Parse ids string into array of correct types
-		const deviceIds: Array<string | number> = params.uuid
+		const deviceIds: Array<string | number> = (
+			params.uuid ||
+			options.uuid ||
+			options.id ||
+			''
+		)
 			.split(',')
-			.map((id) => tryAsInteger(id));
+			.map((id: string) =>
+				options.id
+					? parseAsInteger(id, 'id')
+					: params.uuid
+					? tryAsInteger(id)
+					: id,
+			);
 
 		// Get devices
 		const devices = await Promise.all(
@@ -107,14 +138,16 @@ export default class DeviceMoveCmd extends Command {
 		}
 
 		// Get destination application
-		const application =
-			options.application ||
-			(await this.interactivelySelectApplication(balena, devices));
+		let application: string | number = options.app
+			? tryAsInteger(options.app)
+			: options['app-name'] || options['app-uuid'] || options['app-id'] || '';
+
+		application ||= await this.interactivelySelectApplication(balena, devices);
 
 		// Move each device
 		for (const uuid of deviceIds) {
 			try {
-				await balena.models.device.move(uuid, tryAsInteger(application));
+				await balena.models.device.move(uuid, application);
 				console.info(`${uuid} was moved to ${application}`);
 			} catch (err) {
 				console.info(`${err.message}, uuid: ${uuid}`);

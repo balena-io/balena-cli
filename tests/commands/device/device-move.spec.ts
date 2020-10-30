@@ -26,12 +26,20 @@ USAGE
   $ balena device move <uuid(s)>
 
 ARGUMENTS
-  <uuid>  comma-separated list (no blank spaces) of device UUIDs to be moved
+  [uuid]  comma-separated list (no blank spaces) of device UUIDs to be moved
 
 OPTIONS
-  -a, --application <application>  application name
-  -h, --help                       show CLI help
-  --app <app>                      same as '--application'
+  -h, --help                             show CLI help
+  --app <app>                            alias for --application
+  --app-id <app-id>                      alias for --application-id
+  --app-name <app-name>                  alias for --application-name
+  --app-uuid <app-uuid>                  alias for --application-uuid
+  --application <application>            application name, UUID or numeric database ID
+  --application-id <application-id>      application numeric database ID
+  --application-name <application-name>  application name
+  --application-uuid <application-uuid>  application UUID
+  --id <id>                              comma-separated list of numeric device database IDs
+  --uuid <uuid>                          comma-separated list of device UUIDs
 
 DESCRIPTION
   Move one or more devices to another application.
@@ -71,9 +79,8 @@ describe('balena device move', function () {
 		const { out, err } = await runCommand('device move');
 		const errLines = cleanOutput(err);
 
-		expect(errLines[0]).to.equal('Missing 1 required argument:');
-		expect(errLines[1]).to.equal(
-			'uuid : comma-separated list (no blank spaces) of device UUIDs to be moved',
+		expect(errLines[0]).to.equal(
+			'At least one "uuid" positional argument or "--uuid" or "--id" options must be provided',
 		);
 		expect(out).to.eql([]);
 	});
