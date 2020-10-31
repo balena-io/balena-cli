@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'devices: Fix "TypeError: Cannot read property ''slug'' of undefined"'
+      hash: 9d177609f5adfa357363ba5356f51027a388f635
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.26.1
+  date: 2020-10-31T00:34:10.685Z
+- commits:
     - subject: Add command device purge
       hash: 47fcffe36813dfdbe59986ed6ae0e4a1a441ea63
       body: ''
