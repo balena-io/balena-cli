@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "devices: Fix \"TypeError: Cannot read property 'slug' of undefined\"",
+          "hash": "9d177609f5adfa357363ba5356f51027a388f635",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.26.1",
+      "date": "2020-10-31T00:34:10.685Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add command device purge",
           "hash": "47fcffe36813dfdbe59986ed6ae0e4a1a441ea63",
           "body": "",
@@ -19277,43 +19294,47 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-10-29T10:40:24Z",
+  "lastCommitDate": "2020-10-31T01:09:18Z",
   "latestRelease": {
-    "tagName": "v12.26.0",
+    "tagName": "v12.26.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.26.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.0/balena-cli-v12.26.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.26.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.1/balena-cli-v12.26.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.26.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.0/balena-cli-v12.26.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.26.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.1/balena-cli-v12.26.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.26.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.0/balena-cli-v12.26.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.26.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.1/balena-cli-v12.26.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.26.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.0/balena-cli-v12.26.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.26.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.1/balena-cli-v12.26.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.26.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.0/balena-cli-v12.26.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.26.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.1/balena-cli-v12.26.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 289,
+    "numberOfIssues": 290,
     "latestIssues": [
+      {
+        "title": "Should support Node 14 and higher",
+        "url": "https://github.com/balena-io/balena-cli/issues/2079"
+      },
+      {
+        "title": "User can't see the release commit of newly created release b/c its color almost matches their terminal's background color",
+        "url": "https://github.com/balena-io/balena-cli/issues/2078"
+      },
       {
         "title": "BalenaApplicationNotFound: Application not found: 1234",
         "url": "https://github.com/balena-io/balena-cli/issues/2077"
-      },
-      {
-        "title": "devices: Fix \"TypeError: Cannot read property 'slug' of undefined\"",
-        "url": "https://github.com/balena-io/balena-cli/pull/2074"
       },
       {
         "title": "balena-cli-windows-error-correction",
@@ -19382,14 +19403,10 @@
       {
         "title": "Consider replacing oclif patches with overrides",
         "url": "https://github.com/balena-io/balena-cli/issues/2029"
-      },
-      {
-        "title": "`os versions`: Add balenaOS ESR releases to the list",
-        "url": "https://github.com/balena-io/balena-cli/pull/2012"
       }
     ]
   },
-  "version": "12.26.0",
+  "version": "12.26.1",
   "screenshot": null,
   "logo": null
 }
