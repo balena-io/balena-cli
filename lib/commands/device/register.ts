@@ -20,7 +20,6 @@ import type { IArg } from '@oclif/parser/lib/args';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { tryAsInteger } from '../../utils/validation';
 
 interface FlagsDef {
 	uuid?: string;
@@ -46,7 +45,6 @@ export default class DeviceRegisterCmd extends Command {
 		{
 			name: 'application',
 			description: 'the name or id of application to register device with',
-			parse: (app) => tryAsInteger(app),
 			required: true,
 		},
 	];
@@ -68,9 +66,11 @@ export default class DeviceRegisterCmd extends Command {
 			DeviceRegisterCmd,
 		);
 
+		const { getApplication } = await import('../../utils/sdk');
+
 		const balena = getBalenaSdk();
 
-		const application = await balena.models.application.get(params.application);
+		const application = await getApplication(balena, params.application);
 		const uuid = options.uuid ?? balena.models.device.generateUniqueKey();
 
 		console.info(`Registering to ${application.app_name}: ${uuid}`);

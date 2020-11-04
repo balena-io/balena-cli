@@ -69,12 +69,13 @@ export default class AppRenameCmd extends Command {
 		const { args: params } = this.parse<FlagsDef, ArgsDef>(AppRenameCmd);
 
 		const { ExpectedError, instanceOf } = await import('../../errors');
+		const { getApplication } = await import('../../utils/sdk');
 		const balena = getBalenaSdk();
 
 		// Get app
 		let app;
 		try {
-			app = await balena.models.application.get(params.name, {
+			app = await getApplication(balena, params.name, {
 				$expand: {
 					application_type: {
 						$select: ['is_legacy'],

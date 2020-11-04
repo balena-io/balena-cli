@@ -19,8 +19,7 @@ import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { tryAsInteger } from '../../utils/validation';
-import { Release } from 'balena-sdk';
+import type { Release } from 'balena-sdk';
 
 interface FlagsDef {
 	help: void;
@@ -58,15 +57,14 @@ export default class AppCmd extends Command {
 	public async run() {
 		const { args: params } = this.parse<FlagsDef, ArgsDef>(AppCmd);
 
-		const application = (await getBalenaSdk().models.application.get(
-			tryAsInteger(params.name),
-			{
-				$expand: {
-					is_for__device_type: { $select: 'slug' },
-					should_be_running__release: { $select: 'commit' },
-				},
+		const { getApplication } = await import('../../utils/sdk');
+
+		const application = (await getApplication(getBalenaSdk(), params.name, {
+			$expand: {
+				is_for__device_type: { $select: 'slug' },
+				should_be_running__release: { $select: 'commit' },
 			},
-		)) as ApplicationWithDeviceType & {
+		})) as ApplicationWithDeviceType & {
 			should_be_running__release: [Release?];
 		};
 

@@ -126,6 +126,8 @@ export default class ConfigGenerateCmd extends Command {
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(ConfigGenerateCmd);
 
+		const { getApplication } = await import('../../utils/sdk');
+
 		const balena = getBalenaSdk();
 
 		await this.validateOptions(options);
@@ -152,7 +154,7 @@ export default class ConfigGenerateCmd extends Command {
 			};
 			resourceDeviceType = device.is_of__device_type[0].slug;
 		} else {
-			application = (await balena.models.application.get(options.application!, {
+			application = (await getApplication(balena, options.application!, {
 				$expand: {
 					is_for__device_type: { $select: 'slug' },
 				},

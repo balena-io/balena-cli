@@ -84,18 +84,19 @@ export default class DeviceInitCmd extends Command {
 		const tmp = await import('tmp');
 		const tmpNameAsync = promisify(tmp.tmpName);
 		tmp.setGracefulCleanup();
-		const balena = getBalenaSdk();
 		const { downloadOSImage } = await import('../../utils/cloud');
-		const Logger = await import('../../utils/logger');
+		const { getApplication } = await import('../../utils/sdk');
 
-		const logger = Logger.getLogger();
+		const logger = await Command.getLogger();
+		const balena = getBalenaSdk();
 
 		// Consolidate application options
 		options.application = options.application || options.app;
 		delete options.app;
 
 		// Get application and
-		const application = (await balena.models.application.get(
+		const application = (await getApplication(
+			balena,
 			options['application'] ||
 				(await (await import('../../utils/patterns')).selectApplication()),
 			{

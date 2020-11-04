@@ -184,6 +184,8 @@ export default class OsConfigureCmd extends Command {
 			'../../utils/config'
 		);
 		const helpers = await import('../../utils/helpers');
+		const { getApplication } = await import('../../utils/sdk');
+
 		let app: ApplicationWithDeviceType | undefined;
 		let device;
 		let deviceTypeSlug: string;
@@ -199,7 +201,7 @@ export default class OsConfigureCmd extends Command {
 			};
 			deviceTypeSlug = device.is_of__device_type[0].slug;
 		} else {
-			app = (await balena.models.application.get(options.application!, {
+			app = (await getApplication(balena, options.application!, {
 				$expand: {
 					is_for__device_type: { $select: 'slug' },
 				},

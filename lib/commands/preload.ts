@@ -457,10 +457,12 @@ Would you like to disable automatic updates for this application now?\
 		});
 	}
 
-	getAppWithReleases(balenaSdk: BalenaSDK, appId: string | number) {
-		return balenaSdk.models.application.get(appId, {
+	async getAppWithReleases(balenaSdk: BalenaSDK, appId: string | number) {
+		const { getApplication } = await import('../utils/sdk');
+
+		return (await getApplication(balenaSdk, appId, {
 			$expand: this.applicationExpandOptions,
-		}) as Promise<Application & { should_be_running__release: [Release?] }>;
+		})) as Application & { should_be_running__release: [Release?] };
 	}
 
 	async prepareAndPreload(
