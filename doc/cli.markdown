@@ -162,9 +162,10 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 	- [apps](#apps)
 	- [app &#60;name&#62;](#app-name)
 	- [app create &#60;name&#62;](#app-create-name)
-	- [app rm &#60;name&#62;](#app-rm-name)
+	- [app purge &#60;name&#62;](#app-purge-name)
 	- [app rename &#60;name&#62; [newname]](#app-rename-name-newname)
 	- [app restart &#60;name&#62;](#app-restart-name)
+	- [app rm &#60;name&#62;](#app-rm-name)
 
 - Authentication
 
@@ -365,16 +366,14 @@ application name
 
 application device type (Check available types with `balena devices supported`)
 
-## app rm &#60;name&#62;
+## app purge &#60;name&#62;
 
-Permanently remove a balena application.
-
-The --yes option may be used to avoid interactive confirmation.
+Purge data from all devices belonging to an application.
+This will clear the application's /data directory.
 
 Examples:
 
-	$ balena app rm MyApp
-	$ balena app rm MyApp --yes
+	$ balena app purge MyApp
 
 ### Arguments
 
@@ -383,10 +382,6 @@ Examples:
 application name or numeric ID
 
 ### Options
-
-#### -y, --yes
-
-answer "yes" to all questions (non interactive use)
 
 ## app rename &#60;name&#62; [newName]
 
@@ -414,7 +409,7 @@ the new name for the application
 
 ## app restart &#60;name&#62;
 
-Restart all devices that belongs to a certain application.
+Restart all devices belonging to an application.
 
 Examples:
 
@@ -427,6 +422,29 @@ Examples:
 application name or numeric ID
 
 ### Options
+
+## app rm &#60;name&#62;
+
+Permanently remove a balena application.
+
+The --yes option may be used to avoid interactive confirmation.
+
+Examples:
+
+	$ balena app rm MyApp
+	$ balena app rm MyApp --yes
+
+### Arguments
+
+#### NAME
+
+application name or numeric ID
+
+### Options
+
+#### -y, --yes
+
+answer "yes" to all questions (non interactive use)
 
 # Authentication
 

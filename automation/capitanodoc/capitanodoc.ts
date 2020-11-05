@@ -39,9 +39,10 @@ const capitanoDoc = {
 				'build/commands/apps.js',
 				'build/commands/app/index.js',
 				'build/commands/app/create.js',
-				'build/commands/app/rm.js',
+				'build/commands/app/purge.js',
 				'build/commands/app/rename.js',
 				'build/commands/app/restart.js',
+				'build/commands/app/rm.js',
 			],
 		},
 		{
