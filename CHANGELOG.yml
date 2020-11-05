@@ -1,4 +1,17 @@
 - commits:
+    - subject: >-
+        config generate + openBalena v3: Fix "Cannot read property '__id' of
+        undefined"
+      hash: 6b4c28a0268c61413633af7351cc3f35b346d123
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.26.2
+  date: 2020-11-05T14:02:57.799Z
+- commits:
     - subject: 'devices: Fix "TypeError: Cannot read property ''slug'' of undefined"'
       hash: 9d177609f5adfa357363ba5356f51027a388f635
       body: ''
@@ -8,7 +21,7 @@
       author: Paulo Castro
       nested: []
   version: 12.26.1
-  date: 2020-10-31T01:08:32.244Z
+  date: 2020-10-31T00:34:10.685Z
 - commits:
     - subject: Add command device purge
       hash: 47fcffe36813dfdbe59986ed6ae0e4a1a441ea63
