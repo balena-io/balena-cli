@@ -19,7 +19,7 @@ import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getCliForm, stripIndent } from '../../utils/lazy';
-import type { Application, PineDeferred } from 'balena-sdk';
+import type { PineDeferred } from 'balena-sdk';
 
 interface FlagsDef {
 	version: string; // OS version
@@ -131,23 +131,33 @@ export default class ConfigGenerateCmd extends Command {
 		await this.validateOptions(options);
 
 		let resourceDeviceType: string;
-		// Get device | application
-		let resource;
+		let application: ApplicationWithDeviceType | null = null;
+		let device:
+			| (DeviceWithDeviceType & { belongs_to__application: PineDeferred })
+			| null = null;
 		if (options.device != null) {
 			const { tryAsInteger } = await import('../../utils/validation');
-			resource = (await balena.models.device.get(tryAsInteger(options.device), {
-				$expand: {
-					is_of__device_type: { $select: 'slug' },
-				},
-			})) as DeviceWithDeviceType & { belongs_to__application: PineDeferred };
-			resourceDeviceType = resource.is_of__device_type[0].slug;
+			const rawDevice = await balena.models.device.get(
+				tryAsInteger(options.device),
+				{ $expand: { is_of__device_type: { $select: 'slug' } } },
+			);
+			if (!rawDevice.belongs_to__application) {
+				const { ExpectedError } = await import('../../errors');
+				throw new ExpectedError(stripIndent`
+					Device ${options.device} does not appear to belong to an accessible application.
+					Try with a different device, or use '--application' instead of '--device'.`);
+			}
+			device = rawDevice as DeviceWithDeviceType & {
+				belongs_to__application: PineDeferred;
+			};
+			resourceDeviceType = device.is_of__device_type[0].slug;
 		} else {
-			resource = (await balena.models.application.get(options.application!, {
+			application = (await balena.models.application.get(options.application!, {
 				$expand: {
 					is_for__device_type: { $select: 'slug' },
 				},
 			})) as ApplicationWithDeviceType;
-			resourceDeviceType = resource.is_for__device_type[0].slug;
+			resourceDeviceType = application.is_for__device_type[0].slug;
 		}
 
 		const deviceType = options.deviceType || resourceDeviceType;
@@ -186,18 +196,15 @@ export default class ConfigGenerateCmd extends Command {
 		);
 
 		let config;
-		if ('uuid' in resource && resource.uuid != null) {
+		if (device) {
 			config = await generateDeviceConfig(
-				resource,
+				device,
 				options.deviceApiKey || options['generate-device-api-key'] || undefined,
 				answers,
 			);
-		} else {
+		} else if (application) {
 			answers.deviceType = deviceType;
-			config = await generateApplicationConfig(
-				resource as Application,
-				answers,
-			);
+			config = await generateApplicationConfig(application, answers);
 		}
 
 		// Output
