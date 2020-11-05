@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add command app purge
+      hash: 1e18096873bf35c016a5812f91c0bf4e8ce743ba
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.27.0
+  date: 2020-11-05T16:11:52.151Z
+- commits:
     - subject: >-
         config generate + openBalena v3: Fix "Cannot read property '__id' of
         undefined"
