@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Add command app purge",
+          "hash": "1e18096873bf35c016a5812f91c0bf4e8ce743ba",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.27.0",
+      "date": "2020-11-05T16:11:52.151Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "config generate + openBalena v3: Fix \"Cannot read property '__id' of undefined\"",
           "hash": "6b4c28a0268c61413633af7351cc3f35b346d123",
           "body": "",
@@ -19311,36 +19330,44 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-11-05T14:03:57Z",
+  "lastCommitDate": "2020-11-05T16:45:17Z",
   "latestRelease": {
-    "tagName": "v12.26.2",
+    "tagName": "v12.27.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.26.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.2/balena-cli-v12.26.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.27.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.0/balena-cli-v12.27.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.26.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.2/balena-cli-v12.26.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.27.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.0/balena-cli-v12.27.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.26.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.2/balena-cli-v12.26.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.27.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.0/balena-cli-v12.27.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.26.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.2/balena-cli-v12.26.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.27.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.0/balena-cli-v12.27.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.26.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.26.2/balena-cli-v12.26.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.27.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.0/balena-cli-v12.27.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 294,
+    "numberOfIssues": 295,
     "latestIssues": [
+      {
+        "title": "Error handling when not logged in",
+        "url": "https://github.com/balena-io/balena-cli/issues/2090"
+      },
+      {
+        "title": "Ideally `balena devices` should not show dashboard url in openBalena context",
+        "url": "https://github.com/balena-io/balena-cli/issues/2089"
+      },
       {
         "title": "balena deploy --build : Payload Too Large",
         "url": "https://github.com/balena-io/balena-cli/issues/2086"
@@ -19378,10 +19405,6 @@
         "url": "https://github.com/balena-io/balena-cli/pull/2071"
       },
       {
-        "title": "Add command app purge",
-        "url": "https://github.com/balena-io/balena-cli/pull/2067"
-      },
-      {
         "title": "balena cli push timeout",
         "url": "https://github.com/balena-io/balena-cli/issues/2065"
       },
@@ -19416,14 +19439,10 @@
       {
         "title": "\"$balena login\" not working on Windows 10 Pro",
         "url": "https://github.com/balena-io/balena-cli/issues/2048"
-      },
-      {
-        "title": "preload: stuck at \"Reading image information\" spinner, errors not reported",
-        "url": "https://github.com/balena-io/balena-cli/issues/2045"
       }
     ]
   },
-  "version": "12.26.2",
+  "version": "12.27.0",
   "screenshot": null,
   "logo": null
 }

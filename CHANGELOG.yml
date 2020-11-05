@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add command app purge
+      hash: 1e18096873bf35c016a5812f91c0bf4e8ce743ba
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.27.0
+  date: 2020-11-05T16:44:17.943Z
+- commits:
     - subject: >-
         config generate + openBalena v3: Fix "Cannot read property '__id' of
         undefined"
@@ -10,7 +23,7 @@
       author: Paulo Castro
       nested: []
   version: 12.26.2
-  date: 2020-11-05T14:02:57.799Z
+  date: 2020-11-05T13:29:37.895Z
 - commits:
     - subject: 'devices: Fix "TypeError: Cannot read property ''slug'' of undefined"'
       hash: 9d177609f5adfa357363ba5356f51027a388f635
