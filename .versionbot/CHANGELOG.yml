@@ -1,4 +1,19 @@
 - commits:
+    - subject: Improve application-identifier disambiguation
+      hash: 46249e319ba3ee8aa1b951f5241dafa625175045
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#2077'
+        resolves: '#2077'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.27.1
+  date: 2020-11-06T09:01:07.764Z
+- commits:
     - subject: Add command app purge
       hash: 1e18096873bf35c016a5812f91c0bf4e8ce743ba
       body: ''
