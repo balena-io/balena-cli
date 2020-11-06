@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "Improve application-identifier disambiguation",
+          "hash": "46249e319ba3ee8aa1b951f5241dafa625175045",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Resolves": "#2077",
+            "resolves": "#2077",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.27.1",
+      "date": "2020-11-06T09:01:07.764Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add command app purge",
           "hash": "1e18096873bf35c016a5812f91c0bf4e8ce743ba",
           "body": "",
@@ -19330,35 +19351,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-11-05T16:45:17Z",
+  "lastCommitDate": "2020-11-06T09:36:38Z",
   "latestRelease": {
-    "tagName": "v12.27.0",
+    "tagName": "v12.27.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.27.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.0/balena-cli-v12.27.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.27.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.1/balena-cli-v12.27.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.27.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.0/balena-cli-v12.27.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.27.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.1/balena-cli-v12.27.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.27.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.0/balena-cli-v12.27.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.27.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.1/balena-cli-v12.27.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.27.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.0/balena-cli-v12.27.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.27.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.1/balena-cli-v12.27.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.27.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.0/balena-cli-v12.27.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.27.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.1/balena-cli-v12.27.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 295,
+    "numberOfIssues": 293,
     "latestIssues": [
       {
         "title": "Error handling when not logged in",
@@ -19381,10 +19402,6 @@
         "url": "https://github.com/balena-io/balena-cli/pull/2084"
       },
       {
-        "title": "Improve application-identifier disambiguation",
-        "url": "https://github.com/balena-io/balena-cli/pull/2081"
-      },
-      {
         "title": "device move: Add '-name', '-uuid' and '-id' application and device options",
         "url": "https://github.com/balena-io/balena-cli/pull/2080"
       },
@@ -19395,10 +19412,6 @@
       {
         "title": "User can't see the release commit of newly created release b/c its color almost matches their terminal's background color",
         "url": "https://github.com/balena-io/balena-cli/issues/2078"
-      },
-      {
-        "title": "BalenaApplicationNotFound: Application not found: 1234",
-        "url": "https://github.com/balena-io/balena-cli/issues/2077"
       },
       {
         "title": "balena-cli-windows-error-correction",
@@ -19439,10 +19452,18 @@
       {
         "title": "\"$balena login\" not working on Windows 10 Pro",
         "url": "https://github.com/balena-io/balena-cli/issues/2048"
+      },
+      {
+        "title": "preload: stuck at \"Reading image information\" spinner, errors not reported",
+        "url": "https://github.com/balena-io/balena-cli/issues/2045"
+      },
+      {
+        "title": "[feature request] Time of last deploy",
+        "url": "https://github.com/balena-io/balena-cli/issues/2044"
       }
     ]
   },
-  "version": "12.27.0",
+  "version": "12.27.1",
   "screenshot": null,
   "logo": null
 }
