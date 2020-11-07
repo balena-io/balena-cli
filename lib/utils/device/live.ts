@@ -221,21 +221,14 @@ export class LivepushManager {
 		}
 
 		// Setup cleanup handlers for the device
-
-		// This is necessary because the `exit-hook` module is used by several
-		// dependencies, and will exit without calling the following handler.
-		// Once https://github.com/balena-io/balena-cli/issues/867 has been solved,
-		// we are free to (and definitely should) remove the below line
-		process.removeAllListeners('SIGINT');
-		process.on('SIGINT', async () => {
+		process.once('SIGINT', async () => {
 			this.logger.logLivepush('Cleaning up device...');
 			await Promise.all(
 				_.map(this.containers, (container) => {
 					container.livepush.cleanupIntermediateContainers();
 				}),
 			);
-
-			process.exit(0);
+			this.logger.logDebug('Cleaning up done.');
 		});
 	}
 

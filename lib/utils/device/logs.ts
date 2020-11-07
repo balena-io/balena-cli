@@ -42,12 +42,13 @@ export function displayDeviceLogs(
 		logs.on('data', (log) => {
 			displayLogLine(log, logger, system, filterServices);
 		});
-
-		logs.on('error', reject);
-		logs.on('end', () => {
-			logger.logError('Connection to device lost');
+		logs.once('error', reject);
+		logs.once('end', () => {
+			logger.logWarn('Connection to device lost');
 			resolve();
 		});
+		process.once('SIGINT', () => logs.emit('close'));
+		process.once('SIGTERM', () => logs.emit('close'));
 	});
 }
 

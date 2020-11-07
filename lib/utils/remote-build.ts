@@ -123,32 +123,7 @@ export async function startRemoteBuild(build: RemoteBuild): Promise<void> {
 	}
 
 	if (!build.opts.headless) {
-		return new Promise((resolve, reject) => {
-			// Setup interrupt handlers so we can cancel the build if the user presses
-			// ctrl+c
-
-			// This is necessary because the `exit-hook` module is used by several
-			// dependencies, and will exit without calling the following handler.
-			// Once https://github.com/balena-io/balena-cli/issues/867 has been solved,
-			// we are free to (and definitely should) remove the below line
-			process.removeAllListeners('SIGINT');
-			process.on('SIGINT', () => {
-				process.stderr.write('Received SIGINT, cleaning up. Please wait.\n');
-				cancelBuildIfNecessary(build).then(() => {
-					stream.end();
-					process.exit(130);
-				});
-			});
-
-			stream.on('data', getBuilderMessageHandler(build));
-			stream.on('end', resolve);
-			stream.on('error', reject);
-		}).then(() => {
-			globalLogger.outputDeferredMessages();
-			if (build.hadError) {
-				throw new RemoteBuildFailedError();
-			}
-		});
+		return awaitRemoteBuildStream(build, stream);
 	}
 
 	// We're running a headless build, which means we'll
@@ -164,6 +139,42 @@ export async function startRemoteBuild(build: RemoteBuild): Promise<void> {
 		);
 	}
 	handleHeadlessBuildMessage(result);
+}
+
+async function awaitRemoteBuildStream(
+	build: RemoteBuild,
+	stream: NodeJS.ReadWriteStream,
+) {
+	let sigintHandler: (() => Promise<void>) | null = null;
+	try {
+		await new Promise((resolve, reject) => {
+			// Setup interrupt handlers so we can cancel the build if the user presses
+			// ctrl+c
+			sigintHandler = async () => {
+				process.exitCode = 130;
+				console.error('Received SIGINT, cleaning up. Please wait.');
+				try {
+					await cancelBuildIfNecessary(build);
+				} catch (err) {
+					console.error(err.message);
+				} finally {
+					stream.end();
+				}
+			};
+			process.once('SIGINT', sigintHandler);
+			stream.on('data', getBuilderMessageHandler(build));
+			stream.on('end', resolve);
+			stream.on('error', reject);
+		});
+	} finally {
+		if (sigintHandler) {
+			process.removeListener('SIGINT', sigintHandler);
+		}
+		globalLogger.outputDeferredMessages();
+	}
+	if (build.hadError) {
+		throw new RemoteBuildFailedError();
+	}
 }
 
 function handleHeadlessBuildMessage(message: HeadlessBuilderMessage) {
