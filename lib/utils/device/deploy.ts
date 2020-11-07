@@ -123,7 +123,6 @@ async function environmentFromInput(
 
 export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	const { exitWithExpectedError } = await import('../../errors');
-	const { displayDeviceLogs } = await import('./logs');
 
 	// Resolve .local addresses to IP to avoid
 	// issue with Windows and rapid repeat lookups.
@@ -220,6 +219,10 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		buildLogs,
 	);
 
+	globalLogger.outputDeferredMessages();
+	// Print a newline to clearly separate build time and runtime
+	console.log();
+
 	const envs = await environmentFromInput(
 		opts.env,
 		Object.getOwnPropertyNames(project.composition.services),
@@ -244,10 +247,11 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	// Now that we've set the target state, the device will do it's thing
 	// so we can either just display the logs, or start a livepush session
 	// (whilst also display logs)
+	const promises: Array<Promise<void>> = [streamDeviceLogs(api, opts)];
+	let livepush: LivepushManager | null = null;
+
 	if (!opts.nolive) {
-		// Print a newline to clear seperate build time and runtime
-		console.log();
-		const livepush = new LivepushManager({
+		livepush = new LivepushManager({
 			api,
 			buildContext: opts.source,
 			buildTasks,
@@ -257,43 +261,37 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 			buildLogs: buildLogs!,
 			deployOpts: opts,
 		});
-
-		const promises: Array<Promise<void>> = [livepush.init()];
-		// Only show logs if we're not detaching
-		if (!opts.detached) {
-			const logStream = await api.getLogStream();
-			globalLogger.logInfo('Streaming device logs...');
-			promises.push(
-				displayDeviceLogs(logStream, globalLogger, opts.system, opts.services),
-			);
-		} else {
+		promises.push(livepush.init());
+		if (opts.detached) {
 			globalLogger.logLivepush(
 				'Running in detached mode, no service logs will be shown',
 			);
 		}
 		globalLogger.logLivepush('Watching for file changes...');
-		globalLogger.outputDeferredMessages();
-		await Promise.all(promises);
-
-		livepush.close();
-	} else {
-		if (opts.detached) {
-			return;
-		}
-		// Print an empty newline to separate the build output
-		// from the device output
-		console.log();
-		// Now all we need to do is stream back the logs
-		const logStream = await api.getLogStream();
-		globalLogger.logInfo('Streaming device logs...');
-		globalLogger.outputDeferredMessages();
-		await displayDeviceLogs(
-			logStream,
-			globalLogger,
-			opts.system,
-			opts.services,
-		);
 	}
+	await Promise.all(promises).finally(() => {
+		// Stop watching files after log streaming ends (e.g. on SIGINT)
+		livepush?.close();
+	});
+}
+
+async function streamDeviceLogs(
+	deviceApi: DeviceAPI,
+	opts: DeviceDeployOptions,
+) {
+	// Only show logs if we're not detaching
+	if (opts.detached) {
+		return;
+	}
+	globalLogger.logInfo('Streaming device logs...');
+	const { connectAndDisplayDeviceLogs } = await import('./logs');
+	return connectAndDisplayDeviceLogs({
+		deviceApi,
+		logger: globalLogger,
+		system: opts.system || false,
+		filterServices: opts.services,
+		maxAttempts: 1001,
+	});
 }
 
 function connectToDocker(host: string, port: number): Docker {

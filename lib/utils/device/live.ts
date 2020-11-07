@@ -283,6 +283,7 @@ export class LivepushManager {
 		return monitor;
 	}
 
+	/** Stop the filesystem watcher, allowing the Node process to exit gracefully */
 	public close() {
 		for (const container of Object.values(this.containers)) {
 			container.monitor.close().catch((err) => {
