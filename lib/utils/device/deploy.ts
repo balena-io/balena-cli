@@ -274,6 +274,8 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		globalLogger.logLivepush('Watching for file changes...');
 		globalLogger.outputDeferredMessages();
 		await Promise.all(promises);
+
+		livepush.close();
 	} else {
 		if (opts.detached) {
 			return;
