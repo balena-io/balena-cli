@@ -1506,6 +1506,11 @@ device UUID, IP, or .local address
 
 ### Options
 
+#### --max-retry MAX-RETRY
+
+Maximum number of reconnection attempts on "connection lost" errors
+(use 0 to disable auto reconnection).
+
 #### -t, --tail
 
 continuously stream output
