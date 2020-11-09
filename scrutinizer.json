@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Modify `os download` help to mention dev images",
+          "hash": "7da9a800ccd2af0fbb051f1d95707e5d8623e227",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Thomas Manning <thomasm@balena.io>",
+            "signed-off-by": "Thomas Manning <thomasm@balena.io>"
+          },
+          "author": "Thomas Manning",
+          "nested": []
+        }
+      ],
+      "version": "12.27.2",
+      "date": "2020-11-09T12:08:41.495Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Improve application-identifier disambiguation",
           "hash": "46249e319ba3ee8aa1b951f5241dafa625175045",
           "body": "",
@@ -19351,29 +19370,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-11-06T09:36:38Z",
+  "lastCommitDate": "2020-11-09T12:41:47Z",
   "latestRelease": {
-    "tagName": "v12.27.1",
+    "tagName": "v12.27.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.27.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.1/balena-cli-v12.27.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.27.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.2/balena-cli-v12.27.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.27.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.1/balena-cli-v12.27.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.27.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.2/balena-cli-v12.27.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.27.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.1/balena-cli-v12.27.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.27.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.2/balena-cli-v12.27.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.27.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.1/balena-cli-v12.27.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.27.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.2/balena-cli-v12.27.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.27.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.1/balena-cli-v12.27.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.27.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.2/balena-cli-v12.27.2-windows-x64-standalone.zip"
       }
     ]
   },
@@ -19382,12 +19401,16 @@
     "numberOfIssues": 293,
     "latestIssues": [
       {
-        "title": "Error handling when not logged in",
-        "url": "https://github.com/balena-io/balena-cli/issues/2090"
+        "title": "Patch oclif/dev-cli to fix permission issues with .deb packaging",
+        "url": "https://github.com/balena-io/balena-cli/pull/2092"
       },
       {
-        "title": "Ideally `balena devices` should not show dashboard url in openBalena context",
-        "url": "https://github.com/balena-io/balena-cli/issues/2089"
+        "title": "Livepush should not watch files that are ignored with .dockerignore",
+        "url": "https://github.com/balena-io/balena-cli/issues/2091"
+      },
+      {
+        "title": "Error handling when not logged in",
+        "url": "https://github.com/balena-io/balena-cli/issues/2090"
       },
       {
         "title": "balena deploy --build : Payload Too Large",
@@ -19396,10 +19419,6 @@
       {
         "title": "application rename should be refactored to use sdk rename method instead of pine",
         "url": "https://github.com/balena-io/balena-cli/issues/2085"
-      },
-      {
-        "title": "Modify `os download` help to mention `-dev` suffix",
-        "url": "https://github.com/balena-io/balena-cli/pull/2084"
       },
       {
         "title": "device move: Add '-name', '-uuid' and '-id' application and device options",
@@ -19463,7 +19482,7 @@
       }
     ]
   },
-  "version": "12.27.1",
+  "version": "12.27.2",
   "screenshot": null,
   "logo": null
 }
