@@ -46,11 +46,15 @@ export default class OsDownloadCmd extends Command {
 
 		You can pass \`--version menu\` to pick the OS version from the interactive menu
 		of all available versions.
+
+		To download a development image append \`.dev\` to the version or select from
+		the interactive menu.
 `;
 	public static examples = [
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img',
-		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 1.24.1',
-		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^1.20.0',
+		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1',
+		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1.dev',
+		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^2.60.0',
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest',
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default',
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu',
