@@ -1,4 +1,17 @@
 - commits:
+    - subject: Modify `os download` help to mention dev images
+      hash: 7da9a800ccd2af0fbb051f1d95707e5d8623e227
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thomas Manning <thomasm@balena.io>
+        signed-off-by: Thomas Manning <thomasm@balena.io>
+      author: Thomas Manning
+      nested: []
+  version: 12.27.2
+  date: 2020-11-09T12:08:41.495Z
+- commits:
     - subject: Improve application-identifier disambiguation
       hash: 46249e319ba3ee8aa1b951f5241dafa625175045
       body: ''
