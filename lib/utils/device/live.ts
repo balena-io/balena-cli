@@ -20,6 +20,8 @@ import {
 import { BuildError } from './errors';
 import { getServiceColourFn } from './logs';
 import { delay } from '../helpers';
+import { getServiceDirsFromComposition } from '../compose_ts';
+import { getDockerignoreByDir } from '../ignore';
 
 // How often do we want to check the device state
 // engine has settled (delay in ms)
@@ -162,11 +164,31 @@ export class LivepushManager {
 					eventQueue.push(changedPath);
 					this.getDebouncedEventHandler(serviceName)();
 				};
+
+				// Prepare dockerignore data for file watcher
+				const serviceDirsByService = this.deployOpts.multiDockerignore
+					? await getServiceDirsFromComposition(
+							this.deployOpts.source,
+							this.composition,
+					  )
+					: {};
+				const { ignoreByDir, serviceDirs } = await getDockerignoreByDir(
+					this.deployOpts.source,
+					serviceDirsByService,
+				);
+
 				// TODO: Memoize this for containers which share a context
 				const monitor = chokidar.watch('.', {
 					cwd: context,
 					ignoreInitial: true,
-					ignored: '.git',
+					ignored: (filePath: string) => {
+						for (const dir of serviceDirs) {
+							if (filePath.startsWith(dir)) {
+								return ignoreByDir[dir].ignores(filePath.substring(dir.length));
+							}
+						}
+						return ignoreByDir['.'].ignores(filePath);
+					},
 				});
 				monitor.on('add', (changedPath: string) =>
 					addEvent(this.updateEventsWaiting[serviceName], changedPath),

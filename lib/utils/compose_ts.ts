@@ -552,7 +552,7 @@ async function loadBuildMetatada(
  * @param sourceDir Project source directory (project root)
  * @param composition Optional previously parsed composition object
  */
-async function getServiceDirsFromComposition(
+export async function getServiceDirsFromComposition(
 	sourceDir: string,
 	composition?: Composition,
 ): Promise<Dictionary<string>> {

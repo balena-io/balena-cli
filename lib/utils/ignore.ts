@@ -21,6 +21,7 @@ import * as MultiBuild from 'resin-multibuild';
 
 import dockerIgnore = require('@zeit/dockerignore');
 import ignore from 'ignore';
+import { Ignore } from '@balena/dockerignore';
 
 import { ExpectedError } from '../errors';
 
@@ -254,7 +255,7 @@ async function readDockerIgnoreFile(projectDir: string): Promise<string> {
  * a set of default/hardcoded patterns.
  * @param directory Directory where to look for a .dockerignore file
  */
-async function getDockerIgnoreInstance(
+export async function getDockerIgnoreInstance(
 	directory: string,
 ): Promise<import('@balena/dockerignore').Ignore> {
 	const dockerIgnoreStr = await readDockerIgnoreFile(directory);
@@ -295,25 +296,10 @@ export async function filterFilesWithDockerignore(
 	projectDir: string,
 	serviceDirsByService?: ServiceDirs,
 ): Promise<{ filteredFileList: FileStats[]; dockerignoreFiles: FileStats[] }> {
-	// path.resolve() also converts forward slashes to backslashes on Windows
-	projectDir = path.resolve(projectDir);
-	// ignoreByDir stores an instance of the dockerignore filter for each service dir
-	const ignoreByDir: {
-		[serviceDir: string]: import('@balena/dockerignore').Ignore;
-	} = {
-		'.': await getDockerIgnoreInstance(projectDir),
-	};
-	const serviceDirs: string[] = Object.values(serviceDirsByService || {})
-		// filter out the project source/root dir
-		.filter((dir) => dir && dir !== '.')
-		// add a trailing '/' (or '\' on Windows) to the path
-		.map((dir) => (dir.endsWith(path.sep) ? dir : dir + path.sep));
-
-	for (const serviceDir of serviceDirs) {
-		ignoreByDir[serviceDir] = await getDockerIgnoreInstance(
-			path.join(projectDir, serviceDir),
-		);
-	}
+	const { ignoreByDir, serviceDirs } = await getDockerignoreByDir(
+		projectDir,
+		serviceDirsByService,
+	);
 	const files = await listFiles(projectDir);
 	const dockerignoreFiles: FileStats[] = [];
 	const filteredFileList = files.filter((file: FileStats) => {
@@ -328,4 +314,39 @@ export async function filterFilesWithDockerignore(
 		return !ignoreByDir['.'].ignores(file.relPath);
 	});
 	return { filteredFileList, dockerignoreFiles };
+}
+
+/**
+ * Get dockerignore instances for root and all service directories in the project.
+ * Also return the list of service directories found.
+ * @param projectDir Source directory to
+ * @param serviceDirsByService Map of service names to their subdirectories.
+ */
+export async function getDockerignoreByDir(
+	projectDir: string,
+	serviceDirsByService?: ServiceDirs,
+): Promise<{
+	ignoreByDir: { [serviceDir: string]: Ignore };
+	serviceDirs: string[];
+}> {
+	// path.resolve() also converts forward slashes to backslashes on Windows
+	projectDir = path.resolve(projectDir);
+	// ignoreByDir stores an instance of the dockerignore filter for each service dir
+	const ignoreByDir: {
+		[serviceDir: string]: Ignore;
+	} = {
+		'.': await getDockerIgnoreInstance(projectDir),
+	};
+	const serviceDirs: string[] = Object.values(serviceDirsByService || {})
+		// filter out the project source/root dir
+		.filter((dir) => dir && dir !== '.')
+		// add a trailing '/' (or '\' on Windows) to the path
+		.map((dir) => (dir.endsWith(path.sep) ? dir : dir + path.sep));
+
+	for (const serviceDir of serviceDirs) {
+		ignoreByDir[serviceDir] = await getDockerIgnoreInstance(
+			path.join(projectDir, serviceDir),
+		);
+	}
+	return { serviceDirs, ignoreByDir };
 }
