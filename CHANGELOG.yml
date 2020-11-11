@@ -1,4 +1,19 @@
 - commits:
+    - subject: Avoid reporting balenarc parsing errors
+      hash: 1b0c14feab4e3c12d459d26539f65895519f89cf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#1100'
+        connects-to: '#1100'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.27.3
+  date: 2020-11-11T17:25:03.432Z
+- commits:
     - subject: Modify `os download` help to mention dev images
       hash: 7da9a800ccd2af0fbb051f1d95707e5d8623e227
       body: ''
@@ -10,7 +25,7 @@
       author: Thomas Manning
       nested: []
   version: 12.27.2
-  date: 2020-11-09T12:41:01.506Z
+  date: 2020-11-09T12:08:41.495Z
 - commits:
     - subject: Improve application-identifier disambiguation
       hash: 46249e319ba3ee8aa1b951f5241dafa625175045

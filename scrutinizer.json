@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "Avoid reporting balenarc parsing errors",
+          "hash": "1b0c14feab4e3c12d459d26539f65895519f89cf",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Connects-to": "#1100",
+            "connects-to": "#1100",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.27.3",
+      "date": "2020-11-11T16:54:11.888Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Modify `os download` help to mention dev images",
           "hash": "7da9a800ccd2af0fbb051f1d95707e5d8623e227",
           "body": "",
@@ -19230,6 +19251,10 @@
       "avatar": "https://avatars3.githubusercontent.com/u/466713?v=4"
     },
     {
+      "username": "codewithcheese",
+      "avatar": "https://avatars1.githubusercontent.com/u/989237?v=4"
+    },
+    {
       "username": "wrboyce",
       "avatar": "https://avatars2.githubusercontent.com/u/28401?v=4"
     },
@@ -19244,10 +19269,6 @@
     {
       "username": "grahammcculloch",
       "avatar": "https://avatars3.githubusercontent.com/u/2925657?v=4"
-    },
-    {
-      "username": "jacintoArias",
-      "avatar": "https://avatars0.githubusercontent.com/u/7511199?v=4"
     }
   ],
   "docs": [],
@@ -19370,29 +19391,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-11-09T12:41:47Z",
+  "lastCommitDate": "2020-11-11T17:25:53Z",
   "latestRelease": {
-    "tagName": "v12.27.2",
+    "tagName": "v12.27.3",
     "asssets": [
       {
-        "name": "balena-cli-v12.27.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.2/balena-cli-v12.27.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.27.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.3/balena-cli-v12.27.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.27.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.2/balena-cli-v12.27.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.27.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.3/balena-cli-v12.27.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.27.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.2/balena-cli-v12.27.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.27.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.3/balena-cli-v12.27.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.27.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.2/balena-cli-v12.27.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.27.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.3/balena-cli-v12.27.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.27.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.2/balena-cli-v12.27.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.27.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.3/balena-cli-v12.27.3-windows-x64-standalone.zip"
       }
     ]
   },
@@ -19400,6 +19421,10 @@
   "openIssues": {
     "numberOfIssues": 293,
     "latestIssues": [
+      {
+        "title": "Livepush: Ignore paths set in .dockerignore files",
+        "url": "https://github.com/balena-io/balena-cli/pull/2093"
+      },
       {
         "title": "Patch oclif/dev-cli to fix permission issues with .deb packaging",
         "url": "https://github.com/balena-io/balena-cli/pull/2092"
@@ -19409,7 +19434,7 @@
         "url": "https://github.com/balena-io/balena-cli/issues/2091"
       },
       {
-        "title": "Error handling when not logged in",
+        "title": "Error handling when not logged in (openBalena)",
         "url": "https://github.com/balena-io/balena-cli/issues/2090"
       },
       {
@@ -19475,14 +19500,10 @@
       {
         "title": "preload: stuck at \"Reading image information\" spinner, errors not reported",
         "url": "https://github.com/balena-io/balena-cli/issues/2045"
-      },
-      {
-        "title": "[feature request] Time of last deploy",
-        "url": "https://github.com/balena-io/balena-cli/issues/2044"
       }
     ]
   },
-  "version": "12.27.2",
+  "version": "12.27.3",
   "screenshot": null,
   "logo": null
 }
