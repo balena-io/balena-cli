@@ -543,12 +543,10 @@ async function loadBuildMetatada(
 }
 
 /**
- * Return a map of service name to service subdirectory, obtained from the given
- * composition object. If a composition object is not provided, an attempt will
- * be made to parse a 'docker-compose.yml' file at the given sourceDir.
- * Entries will be NOT be returned for subdirectories equal to '.' (e.g. the
- * 'main' "service" of a single-container application).
- *
+ * Return a map of service name to service subdirectory (relative to sourceDir),
+ * obtained from the given composition object. If a composition object is not
+ * provided, an attempt will be made to parse a 'docker-compose.yml' file at
+ * the given sourceDir.
  * @param sourceDir Project source directory (project root)
  * @param composition Optional previously parsed composition object
  */
@@ -585,11 +583,8 @@ export async function getServiceDirsFromComposition(
 			dir = dir.endsWith(path.sep) ? dir.slice(0, -1) : dir;
 			// remove './' prefix (or '.\\' on Windows)
 			dir = dir.startsWith(relPrefix) ? dir.slice(2) : dir;
-			// filter out a '.' service directory (e.g. for the 'main' service
-			// of a single-container application)
-			if (dir && dir !== '.') {
-				serviceDirs[serviceName] = dir;
-			}
+
+			serviceDirs[serviceName] = dir || '.';
 		}
 	}
 	return serviceDirs;
@@ -660,10 +655,6 @@ async function newTarDirectory(
 	const { filterFilesWithDockerignore } = await import('./ignore');
 	const { toPosixPath } = (await import('resin-multibuild')).PathUtils;
 
-	const serviceDirs = multiDockerignore
-		? await getServiceDirsFromComposition(dir, composition)
-		: {};
-
 	let readFile: (file: string) => Promise<Buffer>;
 	if (process.platform === 'win32') {
 		const { readFileWithEolConversion } = require('./eol-conversion');
@@ -673,10 +664,11 @@ async function newTarDirectory(
 	}
 	const tar = await import('tar-stream');
 	const pack = tar.pack();
+	const serviceDirs = await getServiceDirsFromComposition(dir, composition);
 	const {
 		filteredFileList,
 		dockerignoreFiles,
-	} = await filterFilesWithDockerignore(dir, serviceDirs);
+	} = await filterFilesWithDockerignore(dir, multiDockerignore, serviceDirs);
 	printDockerignoreWarn(dockerignoreFiles, serviceDirs, multiDockerignore);
 	for (const fileStats of filteredFileList) {
 		pack.entry(
@@ -703,7 +695,7 @@ async function newTarDirectory(
  * @param serviceDirsByService Map of service names to service subdirectories
  * @param multiDockerignore Whether --multi-dockerignore (-m) was provided
  */
-export function printDockerignoreWarn(
+function printDockerignoreWarn(
 	dockerignoreFiles: Array<import('./ignore').FileStats>,
 	serviceDirsByService: Dictionary<string>,
 	multiDockerignore: boolean,
