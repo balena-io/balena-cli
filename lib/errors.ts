@@ -156,6 +156,7 @@ const EXPECTED_ERROR_REGEXES = [
 	/must also be provided when using/, // oclif parser (depends-on)
 	/^Expected an integer/, // oclif parser (flags.integer)
 	/^Flag .* expects a value/, // oclif parser
+	/^Error parsing config file.*balenarc\.yml/,
 ];
 
 // Support unit testing of handleError
