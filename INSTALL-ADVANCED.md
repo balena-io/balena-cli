@@ -59,7 +59,7 @@ macOS:   | `/usr/local/lib/balena-cli/` <br> `/usr/local/bin/balena`
    [macOS](https://www.architectryan.com/2012/10/02/add-to-the-path-on-mac-os-x-mountain-lion/#.Uydjga1dXDg) |
    [Windows](https://www.computerhope.com/issues/ch000549.htm)
 
-> * If you are using macOS Catalina (10.15), [check this known issue and
+> * If you are using macOS 10.15 or later (Catalina, Big Sur), [check this known issue and
 >   workaround](https://github.com/balena-io/balena-cli/issues/1479).
 > * **Linux Alpine** and **Busybox:** the standalone zip package is not currently compatible with
 >   these "compact" Linux distributions, because of the alternative C libraries they ship with.
