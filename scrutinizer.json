@@ -5,6 +5,34 @@
     {
       "commits": [
         {
+          "subject": "Test code optimization: avoid running ~70 test cases twice",
+          "hash": "6a556131995eebc318f5a02831a1cc1e2fb03b36",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "docs: Add note about macOS Big Sur notarization workaround",
+          "hash": "893a39e8918756db8dd4cdd5135f430a405a409e",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.27.4",
+      "date": "2020-11-15T23:42:22.338Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Avoid reporting balenarc parsing errors",
           "hash": "1b0c14feab4e3c12d459d26539f65895519f89cf",
           "body": "",
@@ -19291,7 +19319,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 275,
+  "stars": 276,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -19391,29 +19419,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-11-11T17:25:53Z",
+  "lastCommitDate": "2020-11-16T15:35:40Z",
   "latestRelease": {
-    "tagName": "v12.27.3",
+    "tagName": "v12.27.4",
     "asssets": [
       {
-        "name": "balena-cli-v12.27.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.3/balena-cli-v12.27.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.27.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.4/balena-cli-v12.27.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.27.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.3/balena-cli-v12.27.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.27.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.4/balena-cli-v12.27.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.27.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.3/balena-cli-v12.27.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.27.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.4/balena-cli-v12.27.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.27.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.3/balena-cli-v12.27.3-windows-x64-installer.exe"
+        "name": "balena-cli-v12.27.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.4/balena-cli-v12.27.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.27.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.3/balena-cli-v12.27.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.27.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.4/balena-cli-v12.27.4-windows-x64-standalone.zip"
       }
     ]
   },
@@ -19503,7 +19531,7 @@
       }
     ]
   },
-  "version": "12.27.3",
+  "version": "12.27.4",
   "screenshot": null,
   "logo": null
 }
