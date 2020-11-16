@@ -61,13 +61,13 @@
     "test:shrinkwrap": "ts-node --transpile-only automation/run.ts test-shrinkwrap",
     "test:source": "cross-env BALENA_CLI_TEST_TYPE=source mocha",
     "test:standalone": "npm run build:standalone && npm run test:standalone:fast",
-    "test:standalone:fast": "cross-env BALENA_CLI_TEST_TYPE=standalone mocha",
+    "test:standalone:fast": "cross-env BALENA_CLI_TEST_TYPE=standalone mocha --config .mocharc-standalone.js",
     "test:fast": "npm run build:fast && npm run test:source",
     "test:only": "npm run build:fast && cross-env BALENA_CLI_TEST_TYPE=source mocha \"tests/**/${npm_config_test}.spec.ts\"",
     "catch-uncommitted": "ts-node --transpile-only automation/run.ts catch-uncommitted",
     "ci": "npm run test && npm run catch-uncommitted",
     "watch": "gulp watch",
-    "lint": "balena-lint -e ts -e js --typescript --fix automation/ lib/ typings/ tests/ bin/balena bin/balena-dev gulpfile.js",
+    "lint": "balena-lint -e ts -e js --typescript --fix automation/ lib/ typings/ tests/ bin/balena bin/balena-dev gulpfile.js .mocharc.js .mocharc-standalone.js",
     "update": "ts-node --transpile-only ./automation/update-module.ts",
     "prepare": "echo {} > bin/.fast-boot.json",
     "prepublishOnly": "npm run build"
@@ -90,13 +90,6 @@
     "hooks": {
       "pre-commit": "node automation/check-npm-version.js && node automation/check-doc.js"
     }
-  },
-  "mocha": {
-    "reporter": "spec",
-    "require": "ts-node/register/transpile-only",
-    "file": "./tests/config-tests",
-    "timeout": 12000,
-    "_": "tests/**/*.spec.ts"
   },
   "oclif": {
     "bin": "balena",
@@ -142,7 +135,7 @@
     "@types/klaw": "^3.0.1",
     "@types/lodash": "^4.14.159",
     "@types/mixpanel": "^2.14.2",
-    "@types/mocha": "^5.2.7",
+    "@types/mocha": "^8.0.4",
     "@types/mock-require": "^2.0.0",
     "@types/moment-duration-format": "^2.2.2",
     "@types/net-keepalive": "^0.4.1",
@@ -180,7 +173,7 @@
     "intercept-stdout": "^0.1.2",
     "jsonwebtoken": "^8.5.1",
     "mkdirp": "^0.5.5",
-    "mocha": "^6.2.3",
+    "mocha": "^8.2.1",
     "mock-require": "^3.0.3",
     "nock": "^12.0.3",
     "parse-link-header": "~1.0.1",
