@@ -198,37 +198,6 @@ export interface FileStats {
 }
 
 /**
- * Create a list of files (FileStats[]) for the filesystem subtree rooted at
- * projectDir, listing each file with both a full path and a relative path,
- * but excluding entries for directories themselves.
- * @param projectDir Source directory (root of subtree to be listed)
- * @param dir Used for recursive calls only (omit on first function call)
- */
-async function listFiles(
-	projectDir: string,
-	dir: string = projectDir,
-): Promise<FileStats[]> {
-	const files: FileStats[] = [];
-	const dirEntries = await fs.readdir(dir);
-	await Promise.all(
-		dirEntries.map(async (entry) => {
-			const filePath = path.join(dir, entry);
-			const stats = await fs.stat(filePath);
-			if (stats.isDirectory()) {
-				files.push(...(await listFiles(projectDir, filePath)));
-			} else if (stats.isFile()) {
-				files.push({
-					filePath,
-					relPath: path.relative(projectDir, filePath),
-					stats,
-				});
-			}
-		}),
-	);
-	return files;
-}
-
-/**
  * Return the contents of a .dockerignore file at projectDir, as a string.
  * Return an empty string if a .dockerignore file does not exist.
  * @param projectDir Source directory
@@ -322,19 +291,44 @@ export async function filterFilesWithDockerignore(
 	const dockerignoreServiceDirs: string[] = multiDockerignore
 		? Object.keys(ignoreByDir).filter((dir) => dir && dir !== root)
 		: [];
-
-	const files = await listFiles(projectDir);
 	const dockerignoreFiles: FileStats[] = [];
-	const filteredFileList = files.filter((file: FileStats) => {
-		if (path.basename(file.relPath) === '.dockerignore') {
-			dockerignoreFiles.push(file);
-		}
-		for (const dir of dockerignoreServiceDirs) {
-			if (file.relPath.startsWith(dir)) {
-				return !ignoreByDir[dir].ignores(file.relPath.substring(dir.length));
-			}
-		}
-		return !ignoreByDir[root].ignores(file.relPath);
+	const filteredFileList: FileStats[] = [];
+	const klaw = await import('klaw');
+
+	await new Promise((resolve, reject) => {
+		// Looking at klaw's source code, `preserveSymlinks` appears to only
+		// afect the `stats` argument to the `data` event handler
+		klaw(projectDir, { preserveSymlinks: false })
+			.on('error', reject)
+			.on('end', resolve)
+			.on('data', (item: { path: string; stats: Stats }) => {
+				const { path: filePath, stats } = item;
+				// With `preserveSymlinks: false`, filePath cannot be a symlink.
+				// filePath may be a directory or a regular or special file
+				if (!stats.isFile()) {
+					return;
+				}
+				const relPath = path.relative(projectDir, filePath);
+				const fileInfo = {
+					filePath,
+					relPath,
+					stats,
+				};
+				if (path.basename(relPath) === '.dockerignore') {
+					dockerignoreFiles.push(fileInfo);
+				}
+				for (const dir of dockerignoreServiceDirs) {
+					if (relPath.startsWith(dir)) {
+						if (!ignoreByDir[dir].ignores(relPath.substring(dir.length))) {
+							filteredFileList.push(fileInfo);
+						}
+						return;
+					}
+				}
+				if (!ignoreByDir[root].ignores(relPath)) {
+					filteredFileList.push(fileInfo);
+				}
+			});
 	});
 	return { filteredFileList, dockerignoreFiles };
 }
