@@ -187,7 +187,7 @@ describe('printErrorMessage() function', () => {
 		expect(consoleError.getCall(0).args[0]).to.equal(expectedOutputMessages[0]);
 		expect(consoleError.getCall(1).args[0]).to.equal(expectedOutputMessages[1]);
 		expect(consoleError.getCall(2).args[0]).to.equal(expectedOutputMessages[2]);
-		expect(consoleError.getCall(3).args[0]).to.equal(`\n${getHelp}\n`);
+		expect(consoleError.getCall(3).args[0]).to.equal(`\n${getHelp()}\n`);
 
 		consoleError.restore();
 	});

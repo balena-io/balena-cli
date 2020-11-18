@@ -224,7 +224,7 @@ export const printErrorMessage = function (message: string) {
 		console.error(line);
 	});
 
-	console.error(`\n${getHelp}\n`);
+	console.error(`\n${getHelp()}\n`);
 };
 
 export const printExpectedErrorMessage = function (message: string) {
