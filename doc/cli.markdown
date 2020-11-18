@@ -127,12 +127,14 @@ address like `192.168.1.2`.
 
 ## Support, FAQ and troubleshooting
 
-If you come across any problems or would like to get in touch:
+To learn more, troubleshoot issues, or to contact us for support:
 
-* Check our [FAQ / troubleshooting document](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md).
-* Ask us a question through the [balenaCloud forum](https://forums.balena.io/c/balena-cloud).
-* For bug reports or feature requests,
-  [have a look at the GitHub issues or create a new one](https://github.com/balena-io/balena-cli/issues/).
+* Check the [masterclass tutorials](https://www.balena.io/docs/learn/more/masterclasses/overview/)
+* Check our [FAQ / troubleshooting document](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md)
+* Ask us a question through the [balenaCloud forum](https://forums.balena.io/c/balena-cloud)
+
+For CLI bug reports or feature requests, check the
+[CLI GitHub issues](https://github.com/balena-io/balena-cli/issues/).
 
 ## Deprecation policy
 

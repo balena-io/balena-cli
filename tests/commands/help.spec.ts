@@ -19,6 +19,7 @@ import { expect } from 'chai';
 
 import { BalenaAPIMock } from '../balena-api-mock';
 import { cleanOutput, runCommand } from '../helpers';
+import * as messages from '../../build/utils/messages';
 
 const SIMPLE_HELP = `
 USAGE
@@ -103,10 +104,7 @@ GLOBAL OPTIONS
 
 `;
 
-const ONLINE_RESOURCES = `
-For help, visit our support forums: https://forums.balena.io
-For bug reports or feature requests, see: https://github.com/balena-io/balena-cli/issues/
-`;
+const ONLINE_RESOURCES = messages.reachingOut;
 
 describe.skip('balena help', function () {
 	let api: BalenaAPIMock;
