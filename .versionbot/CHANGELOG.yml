@@ -1,4 +1,33 @@
 - commits:
+    - subject: 'push: Reduce memory usage when filtering files with dockerignore'
+      hash: 4768f763856aa9f761988477f97ec872d226b004
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'Livepush: Refactor dockerignore filtering and add test cases'
+      hash: d6b324927481ce03217c15509db2e046d74cb208
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'Livepush: Ignore paths set in .dockerignore files'
+      hash: 02a54667469982ba676da5e0b8a0f0f379b320e5
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 12.28.0
+  date: 2020-11-19T17:07:59.865Z
+- commits:
     - subject: 'Test code optimization: avoid running ~70 test cases twice'
       hash: 6a556131995eebc318f5a02831a1cc1e2fb03b36
       body: ''
