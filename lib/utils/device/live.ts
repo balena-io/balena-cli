@@ -1,5 +1,23 @@
+/**
+ * @license
+ * Copyright 2019-2020 Balena Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import * as chokidar from 'chokidar';
 import type * as Dockerode from 'dockerode';
+import * as fs from 'fs';
 import Livepush, { ContainerNotRunningError } from 'livepush';
 import * as _ from 'lodash';
 import * as path from 'path';
@@ -92,8 +110,22 @@ export class LivepushManager {
 		// Split the composition into a load of differents paths
 		// which we can
 		this.logger.logLivepush('Device state settled');
-		// create livepush instances for
 
+		// Prepare dockerignore data for file watcher
+		const { getDockerignoreByService } = await import('../ignore');
+		const { getServiceDirsFromComposition } = await import('../compose_ts');
+		const rootContext = path.resolve(this.buildContext);
+		const serviceDirsByService = await getServiceDirsFromComposition(
+			this.deployOpts.source,
+			this.composition,
+		);
+		const dockerignoreByService = await getDockerignoreByService(
+			this.deployOpts.source,
+			this.deployOpts.multiDockerignore,
+			serviceDirsByService,
+		);
+
+		// create livepush instances for each service
 		for (const serviceName of _.keys(this.composition.services)) {
 			const service = this.composition.services[serviceName];
 			const buildTask = _.find(this.buildTasks, { serviceName });
@@ -106,7 +138,6 @@ export class LivepushManager {
 
 			// We only care about builds
 			if (service.build != null) {
-				const context = path.join(this.buildContext, service.build.context);
 				if (buildTask.dockerfile == null) {
 					throw new Error(
 						`Could not detect dockerfile for service: ${serviceName}`,
@@ -137,6 +168,10 @@ export class LivepushManager {
 					return;
 				}
 
+				// path.resolve() converts to an absolute path, removes trailing slashes,
+				// and also converts forward slashes to backslashes on Windows.
+				const context = path.resolve(rootContext, service.build.context);
+
 				const livepush = await Livepush.init({
 					dockerfile,
 					context,
@@ -155,27 +190,22 @@ export class LivepushManager {
 
 				this.updateEventsWaiting[serviceName] = [];
 				this.deleteEventsWaiting[serviceName] = [];
-				const addEvent = (eventQueue: string[], changedPath: string) => {
+				const addEvent = ($serviceName: string, changedPath: string) => {
 					this.logger.logDebug(
-						`Got an add filesystem event for service: ${serviceName}. File: ${changedPath}`,
+						`Got an add filesystem event for service: ${$serviceName}. File: ${changedPath}`,
 					);
+					const eventQueue = this.updateEventsWaiting[$serviceName];
 					eventQueue.push(changedPath);
-					this.getDebouncedEventHandler(serviceName)();
+					this.getDebouncedEventHandler($serviceName)();
 				};
-				// TODO: Memoize this for containers which share a context
-				const monitor = chokidar.watch('.', {
-					cwd: context,
-					ignoreInitial: true,
-					ignored: '.git',
-				});
-				monitor.on('add', (changedPath: string) =>
-					addEvent(this.updateEventsWaiting[serviceName], changedPath),
-				);
-				monitor.on('change', (changedPath: string) =>
-					addEvent(this.updateEventsWaiting[serviceName], changedPath),
-				);
-				monitor.on('unlink', (changedPath: string) =>
-					addEvent(this.deleteEventsWaiting[serviceName], changedPath),
+
+				const monitor = this.setupFilesystemWatcher(
+					serviceName,
+					rootContext,
+					context,
+					addEvent,
+					dockerignoreByService,
+					this.deployOpts.multiDockerignore,
 				);
 
 				this.containers[serviceName] = {
@@ -207,6 +237,57 @@ export class LivepushManager {
 
 			process.exit(0);
 		});
+	}
+
+	protected setupFilesystemWatcher(
+		serviceName: string,
+		rootContext: string,
+		serviceContext: string,
+		changedPathHandler: (serviceName: string, changedPath: string) => void,
+		dockerignoreByService: {
+			[serviceName: string]: import('@balena/dockerignore').Ignore;
+		},
+		multiDockerignore: boolean,
+	): chokidar.FSWatcher {
+		const contextForDockerignore = multiDockerignore
+			? serviceContext
+			: rootContext;
+		const dockerignore = dockerignoreByService[serviceName];
+		// TODO: Memoize this for services that share a context
+		const monitor = chokidar.watch('.', {
+			cwd: serviceContext,
+			followSymlinks: true,
+			ignoreInitial: true,
+			ignored: (filePath: string, stats: fs.Stats | undefined) => {
+				if (!stats) {
+					try {
+						// sync because chokidar defines a sync interface
+						stats = fs.lstatSync(filePath);
+					} catch (err) {
+						// OK: the file may have been deleted. See also:
+						// https://github.com/paulmillr/chokidar/blob/3.4.3/lib/fsevents-handler.js#L326-L328
+						// https://github.com/paulmillr/chokidar/blob/3.4.3/lib/nodefs-handler.js#L364
+					}
+				}
+				if (stats && !stats.isFile() && !stats.isSymbolicLink()) {
+					// never ignore directories for compatibility with
+					// dockerignore exclusion patterns
+					return !stats.isDirectory();
+				}
+				const relPath = path.relative(contextForDockerignore, filePath);
+				return dockerignore.ignores(relPath);
+			},
+		});
+		monitor.on('add', (changedPath: string) =>
+			changedPathHandler(serviceName, changedPath),
+		);
+		monitor.on('change', (changedPath: string) =>
+			changedPathHandler(serviceName, changedPath),
+		);
+		monitor.on('unlink', (changedPath: string) =>
+			changedPathHandler(serviceName, changedPath),
+		);
+		return monitor;
 	}
 
 	public static preprocessDockerfile(content: string): string {

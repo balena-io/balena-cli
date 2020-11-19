@@ -20,6 +20,7 @@ import * as _ from 'lodash';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import { PathUtils } from 'resin-multibuild';
+import rewire = require('rewire');
 import * as sinon from 'sinon';
 import { Readable } from 'stream';
 import * as tar from 'tar-stream';
@@ -199,6 +200,8 @@ export async function testDockerBuildStream(o: {
 		}
 	}
 
+	resetDockerignoreCache();
+
 	const { exitCode, out, err } = await runCommand(o.commandLine);
 
 	if (expectedErrorLines.length) {
@@ -249,8 +252,20 @@ export async function testPushBuildStream(o: {
 			inspectTarStream(buildRequestBody, o.expectedFiles, o.projectPath),
 	});
 
+	resetDockerignoreCache();
+
 	const { out, err } = await runCommand(o.commandLine);
 
 	expect(err).to.be.empty;
 	expect(cleanOutput(out, true)).to.include.members(expectedResponseLines);
+}
+
+export function resetDockerignoreCache() {
+	if (process.env.BALENA_CLI_TEST_TYPE !== 'source') {
+		return;
+	}
+	const ignorePath = '../build/utils/ignore';
+	delete require.cache[require.resolve(ignorePath)];
+	const ignoreMod = rewire(ignorePath);
+	ignoreMod.__set__('dockerignoreByService', null);
 }
