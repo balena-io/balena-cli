@@ -1,3 +1,19 @@
+/**
+ * @license
+ * Copyright 2017-2020 Balena Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import Help from '@oclif/plugin-help';
 import * as indent from 'indent-string';
 import { getChalk } from './utils/lazy';
@@ -123,16 +139,10 @@ export default class BalenaHelp extends Help {
 		console.log('  --help, -h');
 		console.log('  --debug\n');
 
-		console.log(
-			`For help, visit our support forums: ${chalk.grey(
-				'https://forums.balena.io',
-			)}`,
-		);
-		console.log(
-			`For bug reports or feature requests, see: ${chalk.grey(
-				'https://github.com/balena-io/balena-cli/issues/',
-			)}\n`,
-		);
+		const {
+			reachingOut,
+		} = require('./utils/messages') as typeof import('./utils/messages');
+		console.log(reachingOut);
 	}
 
 	protected formatCommands(commands: any[]): string {

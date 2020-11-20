@@ -84,7 +84,7 @@ export async function trackCommand(commandSignature: string) {
 			try {
 				const balena = getBalenaSdk();
 				const $username = await balena.auth.whoami();
-				storage.set('cachedUsername', {
+				await storage.set('cachedUsername', {
 					token,
 					username: $username,
 				} as CachedUsername);

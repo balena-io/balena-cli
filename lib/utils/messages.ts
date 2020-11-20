@@ -15,26 +15,20 @@
  * limitations under the License.
  */
 
-const DEBUG_MODE = !!process.env.DEBUG;
-
 export const reachingOut = `\
-If you need help, or just want to say hi, don't hesitate in reaching out
-through our discussion and support forums at https://forums.balena.io
-
-For bug reports or feature requests, have a look at the GitHub issues or
-create a new one at: https://github.com/balena-io/balena-cli/issues/\
+For further help or support, visit:
+https://www.balena.io/docs/reference/balena-cli/#support-faq-and-troubleshooting
 `;
 
 const debugHint = `\
 Additional information may be available with the \`--debug\` flag.
-`;
+\n`;
 
-export const help = `\
-For help, visit our support forums: https://forums.balena.io
-For bug reports or feature requests, see: https://github.com/balena-io/balena-cli/issues/
-`;
+export const help = reachingOut;
 
-export const getHelp = (DEBUG_MODE ? '' : debugHint) + help;
+// Note that the value of process.env.DEBUG may change after the --debug flag
+// is parsed, so its evaluation cannot happen at module loading time.
+export const getHelp = () => (process.env.DEBUG ? '' : debugHint) + help;
 
 export const balenaAsciiArt = `\
  _            _
