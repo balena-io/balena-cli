@@ -1,4 +1,35 @@
 - commits:
+    - subject: 'docs: Add references to the masterclasses in the CLI help and README'
+      hash: 2bf59530c4aebdd302814e9f59d41c7b9d2672c3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: >-
+        Fix debug message logic (don't suggest --debug if it is already being
+        used)
+      hash: a4fd7d6118a04e8e9f0e718a765b508fb11209e6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Fix unhandled promise rejection when ~/.balena is not accessible
+      hash: 65f053dd6e2d6e212b90e905be7af5d13772c7e6
+      body: ''
+      footer:
+        Resolves: '#2096'
+        resolves: '#2096'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.28.2
+  date: 2020-11-20T12:07:27.250Z
+- commits:
     - subject: 'scan: Prevent spinner animation output to stdout when --json is used'
       hash: 2f9212d622f7affe4391e0d6bac1a06e859b7488
       body: ''
