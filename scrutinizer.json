@@ -5,6 +5,64 @@
     {
       "commits": [
         {
+          "subject": "scan: Prevent spinner animation output to stdout when --json is used",
+          "hash": "2f9212d622f7affe4391e0d6bac1a06e859b7488",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.28.1",
+      "date": "2020-11-20T00:26:37.290Z"
+    },
+    {
+      "commits": [
+        {
+          "subject": "push: Reduce memory usage when filtering files with dockerignore",
+          "hash": "4768f763856aa9f761988477f97ec872d226b004",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "Livepush: Refactor dockerignore filtering and add test cases",
+          "hash": "d6b324927481ce03217c15509db2e046d74cb208",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "Livepush: Ignore paths set in .dockerignore files",
+          "hash": "02a54667469982ba676da5e0b8a0f0f379b320e5",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Josh Bowling <josh@balena.io>",
+            "signed-off-by": "Josh Bowling <josh@balena.io>"
+          },
+          "author": "Josh Bowling",
+          "nested": []
+        }
+      ],
+      "version": "12.28.0",
+      "date": "2020-11-19T17:07:59.865Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Test code optimization: avoid running ~70 test cases twice",
           "hash": "6a556131995eebc318f5a02831a1cc1e2fb03b36",
           "body": "",
@@ -19319,7 +19377,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 276,
+  "stars": 279,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -19419,29 +19477,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-11-16T15:35:40Z",
+  "lastCommitDate": "2020-11-20T10:57:08Z",
   "latestRelease": {
-    "tagName": "v12.27.4",
+    "tagName": "v12.28.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.27.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.4/balena-cli-v12.27.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.28.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.1/balena-cli-v12.28.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.27.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.4/balena-cli-v12.27.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.28.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.1/balena-cli-v12.28.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.27.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.4/balena-cli-v12.27.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.28.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.1/balena-cli-v12.28.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.27.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.4/balena-cli-v12.27.4-windows-x64-installer.exe"
+        "name": "balena-cli-v12.28.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.1/balena-cli-v12.28.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.27.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.27.4/balena-cli-v12.27.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.28.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.1/balena-cli-v12.28.1-windows-x64-standalone.zip"
       }
     ]
   },
@@ -19450,16 +19508,16 @@
     "numberOfIssues": 293,
     "latestIssues": [
       {
-        "title": "Livepush: Ignore paths set in .dockerignore files",
-        "url": "https://github.com/balena-io/balena-cli/pull/2093"
+        "title": "Fix unhandled rejection, --debug logic and add doc references to masterclasses",
+        "url": "https://github.com/balena-io/balena-cli/pull/2097"
+      },
+      {
+        "title": "login: This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch()",
+        "url": "https://github.com/balena-io/balena-cli/issues/2096"
       },
       {
         "title": "Patch oclif/dev-cli to fix permission issues with .deb packaging",
         "url": "https://github.com/balena-io/balena-cli/pull/2092"
-      },
-      {
-        "title": "Livepush should not watch files that are ignored with .dockerignore",
-        "url": "https://github.com/balena-io/balena-cli/issues/2091"
       },
       {
         "title": "Error handling when not logged in (openBalena)",
@@ -19531,7 +19589,7 @@
       }
     ]
   },
-  "version": "12.27.4",
+  "version": "12.28.1",
   "screenshot": null,
   "logo": null
 }
