@@ -19,7 +19,7 @@ import { flags } from '@oclif/command';
 import type { LocalBalenaOsDevice } from 'balena-sync';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
-import { getVisuals, stripIndent } from '../utils/lazy';
+import { getCliUx, stripIndent } from '../utils/lazy';
 
 interface FlagsDef {
 	json?: boolean;
@@ -65,10 +65,8 @@ export default class ScanCmd extends Command {
 
 	public async run() {
 		const _ = await import('lodash');
-		const { SpinnerPromise } = getVisuals();
 		const { discover } = await import('balena-sync');
 		const prettyjson = await import('prettyjson');
-		const { ExpectedError } = await import('../errors');
 		const dockerUtils = await import('../utils/docker');
 
 		const dockerPort = 2375;
@@ -80,33 +78,30 @@ export default class ScanCmd extends Command {
 			options.timeout != null ? options.timeout * 1000 : undefined;
 
 		// Find active local devices
-		const activeLocalDevices: LocalBalenaOsDevice[] = await new SpinnerPromise({
-			promise: discover.discoverLocalBalenaOsDevices(discoverTimeout),
-			startMessage: 'Scanning for local balenaOS devices..',
-			stopMessage: options.json ? '' : 'Reporting scan results',
-		}).filter(async ({ address }: { address: string }) => {
-			const docker = dockerUtils.createClient({
-				host: address,
-				port: dockerPort,
-				timeout: dockerTimeout,
-			}) as any;
-			try {
-				await docker.pingAsync();
-				return true;
-			} catch (err) {
-				return false;
-			}
-		});
+		const ux = getCliUx();
+		ux.action.start('Scanning for local balenaOS devices');
 
-		// Exit with message if no devices found
-		if (_.isEmpty(activeLocalDevices)) {
-			// TODO: Consider whether this should really be an error
-			throw new ExpectedError(
-				process.platform === 'win32'
-					? ScanCmd.noDevicesFoundMessage + ScanCmd.windowsTipMessage
-					: ScanCmd.noDevicesFoundMessage,
-			);
-		}
+		const localDevices: LocalBalenaOsDevice[] = await discover.discoverLocalBalenaOsDevices(
+			discoverTimeout,
+		);
+		const engineReachableDevices: boolean[] = await Promise.all(
+			localDevices.map(async ({ address }: { address: string }) => {
+				const docker = dockerUtils.createClient({
+					host: address,
+					port: dockerPort,
+					timeout: dockerTimeout,
+				}) as any;
+				try {
+					await docker.pingAsync();
+					return true;
+				} catch (err) {
+					return false;
+				}
+			}),
+		);
+		const activeLocalDevices: LocalBalenaOsDevice[] = localDevices.filter(
+			(_localDevice, index) => engineReachableDevices[index],
+		);
 
 		// Query devices for info
 		const devicesInfo = await Promise.all(
@@ -129,6 +124,8 @@ export default class ScanCmd extends Command {
 			}),
 		);
 
+		ux.action.stop('Reporting scan results');
+
 		// Reduce properties if not --verbose
 		if (!options.verbose) {
 			devicesInfo.forEach((d: any) => {
@@ -142,6 +139,14 @@ export default class ScanCmd extends Command {
 		}
 
 		// Output results
+		if (!options.json && devicesInfo.length === 0) {
+			console.error(
+				process.platform === 'win32'
+					? ScanCmd.noDevicesFoundMessage + ScanCmd.windowsTipMessage
+					: ScanCmd.noDevicesFoundMessage,
+			);
+			return;
+		}
 		console.log(
 			options.json
 				? JSON.stringify(devicesInfo, null, 4)
