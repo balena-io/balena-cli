@@ -104,8 +104,11 @@ export async function trackCommand(commandSignature: string) {
 				});
 			});
 		}
-		// Don't actually call mixpanel.track() while running test cases
-		if (!process.env.BALENA_CLI_TEST_TYPE) {
+		// Don't actually call mixpanel.track() while running test cases, or if suppressed
+		if (
+			!process.env.BALENA_CLI_TEST_TYPE &&
+			!process.env.BALENARC_NO_ANALYTICS
+		) {
 			await mixpanel.track(`[CLI] ${commandSignature}`, {
 				distinct_id: username,
 				version: packageJSON.version,
