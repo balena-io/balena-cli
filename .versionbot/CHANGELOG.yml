@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add ability to disable analytics for performance testing
+      hash: 950d173d276f97cb3fcfd4bb9b578b5888572a69
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#1708'
+        connects-to: '#1708'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.28.3
+  date: 2020-11-26T12:55:50.969Z
+- commits:
     - subject: 'docs: Add references to the masterclasses in the CLI help and README'
       hash: 2bf59530c4aebdd302814e9f59d41c7b9d2672c3
       body: ''
