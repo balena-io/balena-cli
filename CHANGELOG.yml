@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add ability to disable analytics for performance testing
+      hash: 950d173d276f97cb3fcfd4bb9b578b5888572a69
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#1708'
+        connects-to: '#1708'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.28.3
+  date: 2020-11-26T14:47:52.329Z
+- commits:
     - subject: 'docs: Add references to the masterclasses in the CLI help and README'
       hash: 2bf59530c4aebdd302814e9f59d41c7b9d2672c3
       body: ''
@@ -28,7 +43,7 @@
       author: Paulo Castro
       nested: []
   version: 12.28.2
-  date: 2020-11-20T12:43:41.537Z
+  date: 2020-11-20T12:07:27.250Z
 - commits:
     - subject: 'scan: Prevent spinner animation output to stdout when --json is used'
       hash: 2f9212d622f7affe4391e0d6bac1a06e859b7488

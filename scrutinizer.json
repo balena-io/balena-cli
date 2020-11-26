@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "Add ability to disable analytics for performance testing",
+          "hash": "950d173d276f97cb3fcfd4bb9b578b5888572a69",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Connects-to": "#1708",
+            "connects-to": "#1708",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.28.3",
+      "date": "2020-11-26T12:55:50.969Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "docs: Add references to the masterclasses in the CLI help and README",
           "hash": "2bf59530c4aebdd302814e9f59d41c7b9d2672c3",
           "body": "",
@@ -19418,7 +19439,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 279,
+  "stars": 280,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -19518,36 +19539,52 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-11-20T12:44:30Z",
+  "lastCommitDate": "2020-11-26T14:48:38Z",
   "latestRelease": {
-    "tagName": "v12.28.2",
+    "tagName": "v12.28.3",
     "asssets": [
       {
-        "name": "balena-cli-v12.28.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.2/balena-cli-v12.28.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.28.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.3/balena-cli-v12.28.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.28.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.2/balena-cli-v12.28.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.28.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.3/balena-cli-v12.28.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.28.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.2/balena-cli-v12.28.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.28.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.3/balena-cli-v12.28.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.28.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.2/balena-cli-v12.28.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.28.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.3/balena-cli-v12.28.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.28.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.2/balena-cli-v12.28.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.28.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.3/balena-cli-v12.28.3-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 291,
+    "numberOfIssues": 295,
     "latestIssues": [
+      {
+        "title": "Image name mismatch error",
+        "url": "https://github.com/balena-io/balena-cli/issues/2103"
+      },
+      {
+        "title": "Local flash does not work for Fin devices",
+        "url": "https://github.com/balena-io/balena-cli/issues/2102"
+      },
+      {
+        "title": "allow privilege elevation for non-root users in `balena config`",
+        "url": "https://github.com/balena-io/balena-cli/issues/2101"
+      },
+      {
+        "title": "Livepush: Tries to sync non-existent temporary files",
+        "url": "https://github.com/balena-io/balena-cli/issues/2100"
+      },
       {
         "title": "Patch oclif/dev-cli to fix permission issues with .deb packaging",
         "url": "https://github.com/balena-io/balena-cli/pull/2092"
@@ -19611,26 +19648,10 @@
       {
         "title": "Improve error message to access balena settings",
         "url": "https://github.com/balena-io/balena-cli/pull/2050"
-      },
-      {
-        "title": "\"$balena login\" not working on Windows 10 Pro",
-        "url": "https://github.com/balena-io/balena-cli/issues/2048"
-      },
-      {
-        "title": "preload: stuck at \"Reading image information\" spinner, errors not reported",
-        "url": "https://github.com/balena-io/balena-cli/issues/2045"
-      },
-      {
-        "title": "[feature request] Time of last deploy",
-        "url": "https://github.com/balena-io/balena-cli/issues/2044"
-      },
-      {
-        "title": "Preloaded OS several times larger than expected",
-        "url": "https://github.com/balena-io/balena-cli/issues/2043"
       }
     ]
   },
-  "version": "12.28.2",
+  "version": "12.28.3",
   "screenshot": null,
   "logo": null
 }
