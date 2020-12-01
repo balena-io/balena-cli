@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'scan: Print production devices'' info on scan'
+      hash: 7d5a64f59a47c3a051fb2cbe9e45a71029cca694
+      body: ''
+      footer:
+        Resolves: '#1713'
+        resolves: '#1713'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+  version: 12.29.0
+  date: 2020-12-01T13:33:03.012Z
+- commits:
     - subject: Add ability to disable analytics for performance testing
       hash: 950d173d276f97cb3fcfd4bb9b578b5888572a69
       body: ''
