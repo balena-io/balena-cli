@@ -33,6 +33,11 @@ export default class ScanCmd extends Command {
 		Scan for balenaOS devices on your local network.
 
 		Scan for balenaOS devices on your local network.
+
+		The output includes device information collected through balenaEngine for
+		devices running a development image of balenaOS. Devices running a production
+		image do not expose balenaEngine (on TCP port 2375), which is why less
+		information is printed about them.
 `;
 
 	public static examples = [
@@ -99,13 +104,33 @@ export default class ScanCmd extends Command {
 				}
 			}),
 		);
-		const activeLocalDevices: LocalBalenaOsDevice[] = localDevices.filter(
+
+		const developmentDevices: LocalBalenaOsDevice[] = localDevices.filter(
 			(_localDevice, index) => engineReachableDevices[index],
+		);
+
+		const productionDevices = _.differenceWith(
+			localDevices,
+			developmentDevices,
+			_.isEqual,
+		);
+
+		const productionDevicesInfo = _.map(
+			productionDevices,
+			(device: LocalBalenaOsDevice) => {
+				return {
+					host: device.host,
+					address: device.address,
+					osVariant: 'production',
+					dockerInfo: undefined,
+					dockerVersion: undefined,
+				};
+			},
 		);
 
 		// Query devices for info
 		const devicesInfo = await Promise.all(
-			activeLocalDevices.map(async ({ host, address }) => {
+			developmentDevices.map(async ({ host, address }) => {
 				const docker = dockerUtils.createClient({
 					host: address,
 					port: dockerPort,
@@ -118,6 +143,7 @@ export default class ScanCmd extends Command {
 				return {
 					host,
 					address,
+					osVariant: 'development',
 					dockerInfo,
 					dockerVersion,
 				};
@@ -138,8 +164,10 @@ export default class ScanCmd extends Command {
 			});
 		}
 
+		const cmdOutput = productionDevicesInfo.concat(devicesInfo);
+
 		// Output results
-		if (!options.json && devicesInfo.length === 0) {
+		if (!options.json && cmdOutput.length === 0) {
 			console.error(
 				process.platform === 'win32'
 					? ScanCmd.noDevicesFoundMessage + ScanCmd.windowsTipMessage
@@ -149,8 +177,8 @@ export default class ScanCmd extends Command {
 		}
 		console.log(
 			options.json
-				? JSON.stringify(devicesInfo, null, 4)
-				: prettyjson.render(devicesInfo, { noColor: true }),
+				? JSON.stringify(cmdOutput, null, 4)
+				: prettyjson.render(cmdOutput, { noColor: true }),
 		);
 	}
 
