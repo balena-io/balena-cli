@@ -95,10 +95,20 @@ export interface Release {
 	serviceImages: Partial<import('balena-release/build/models').ImageModel>;
 }
 
+export interface ParsedBuildArguments {
+	services: {
+		[serviceName: string]: { [key: string]: string };
+	};
+	global: {
+		[key: string]: string;
+	};
+}
+
 interface TarDirectoryOptions {
 	composition?: Composition;
 	convertEol?: boolean;
 	multiDockerignore?: boolean;
 	nogitignore: boolean;
 	preFinalizeCallback?: (pack: Pack) => void | Promise<void>;
+	buildArgs?: string[];
 }

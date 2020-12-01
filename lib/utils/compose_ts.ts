@@ -36,6 +36,7 @@ import {
 	ComposeCliFlags,
 	ComposeOpts,
 	ComposeProject,
+	ParsedBuildArguments,
 	Release,
 	TaggedImage,
 	TarDirectoryOptions,
@@ -43,6 +44,73 @@ import {
 import type { DeviceInfo } from './device/api';
 import { getBalenaSdk, getChalk, stripIndent } from './lazy';
 import Logger = require('./logger');
+
+/**
+ * Return a set of build arguments passed in as flag options.
+ *
+ * @param buildArgs List of raw build argument strings
+ * @param composition Optional previously parsed composition object
+ */
+async function buildArgumentsFromInput(
+	buildArgs: string[],
+	composition?: Composition,
+): Promise<ParsedBuildArguments> {
+	const serviceNames: string[] =
+		composition && composition.services
+			? Object.keys(composition.services)
+			: [];
+
+	// A normal variable regex, with an added part
+	// to find a colon followed service name at the start
+	const varRegex = /^(?:([^\s:]+):)?([^\s]+?)=(.*)$/;
+
+	const ret: ParsedBuildArguments = {
+		global: {},
+		services: {},
+	};
+	// Populate the object with the service names, as it also
+	// means that we can do a fast lookup of whether a service exists
+	for (const service of serviceNames) {
+		ret.services[service] = {};
+	}
+
+	for (const buildArg of buildArgs) {
+		const maybeMatch = buildArg.match(varRegex);
+		if (maybeMatch == null) {
+			throw new ExpectedError(
+				`Unable to parse build argument variable: ${buildArg}`,
+			);
+		}
+		const match = maybeMatch!;
+		let service: string | undefined;
+		if (match[1]) {
+			// This is for a service, we check that it actually exists
+			if (!(match[1] in ret.services)) {
+				Logger.getLogger().logWarn(
+					`Warning: Cannot find a service with name ${match[1]}. Treating the string as part of the build argument variable name.`,
+				);
+				match[2] = `${match[1]}:${match[2]}`;
+			} else {
+				service = match[1];
+			}
+		}
+
+		if (service != null) {
+			ret.services[service][match[2]] = match[3];
+		} else {
+			ret.global[match[2]] = match[3];
+		}
+	}
+
+	// Remove services that have no build variables.
+	for (const service of serviceNames) {
+		if (_.isEmpty(ret.services[service])) {
+			Reflect.deleteProperty(ret.services, service);
+		}
+	}
+
+	return ret;
+}
 
 /**
  * Given an array representing the raw `--release-tag` flag of the deploy and
@@ -604,7 +672,7 @@ async function inspectBuiltImage({
  * "build variables".
  * @returns Pair of metadata object and metadata file path
  */
-async function loadBuildMetatada(
+async function loadBuildMetadata(
 	sourceDir: string,
 ): Promise<[MultiBuild.ParsedBalenaYml, string]> {
 	let metadataPath = '';
@@ -735,6 +803,46 @@ export async function tarDirectory(
 	}
 }
 
+function setConfig(
+	configPath: string,
+	configData: MultiBuild.ParsedBalenaYml,
+	buildArgs: ParsedBuildArguments,
+): string {
+	const config = configData as any;
+	config['build-variables'] ||= {};
+
+	// Set global build variables if specified
+	if (!_.isEmpty(buildArgs.global)) {
+		config['build-variables'].global ||= [];
+		config['build-variables'].global = [
+			...config['build-variables'].global,
+			..._.map(buildArgs.global, (value: string, key: string) => {
+				return `${key}=${value}`;
+			}),
+		];
+	}
+
+	// Set service-level build variables if specified
+	if (!_.isEmpty(buildArgs.services)) {
+		config['build-variables'].services ||= {};
+		Object.keys(buildArgs.services).forEach((service: string) => {
+			config['build-variables'].services[service] ||= [];
+			config['build-variables'].services[service] = [
+				...config['build-variables'].services[service],
+				..._.map(buildArgs.services[service], (value: string, key: string) => {
+					return `${key}=${value}`;
+				}),
+			];
+		});
+	}
+
+	if (configPath.endsWith('json')) {
+		return JSON.stringify(config);
+	} else {
+		return require('js-yaml').dump(config);
+	}
+}
+
 /**
  * Create a tar stream out of the local filesystem at the given directory,
  * while optionally applying file filters such as '.dockerignore' and
@@ -751,6 +859,7 @@ async function newTarDirectory(
 		multiDockerignore = false,
 		nogitignore = false,
 		preFinalizeCallback,
+		buildArgs = [],
 	}: TarDirectoryOptions,
 ): Promise<import('stream').Readable> {
 	(await import('assert')).strict.equal(nogitignore, true);
@@ -764,6 +873,11 @@ async function newTarDirectory(
 	} else {
 		readFile = fs.readFile;
 	}
+
+	// Get balena config so we can set extra build variables if provided
+	const parsedBuildArgs = await buildArgumentsFromInput(buildArgs, composition);
+	const [config, configPath] = await loadBuildMetadata(dir);
+
 	const tar = await import('tar-stream');
 	const pack = tar.pack();
 	const serviceDirs = await getServiceDirsFromComposition(dir, composition);
@@ -780,7 +894,22 @@ async function newTarDirectory(
 				mode: fileStats.stats.mode,
 				size: fileStats.stats.size,
 			},
-			await readFile(fileStats.filePath),
+			fileStats.relPath === configPath
+				? setConfig(configPath, config, parsedBuildArgs)
+				: await readFile(fileStats.filePath),
+		);
+	}
+	if (
+		configPath === '' &&
+		(!_.isEmpty(parsedBuildArgs.global) || !_.isEmpty(parsedBuildArgs.services))
+	) {
+		const configData = setConfig('.balena/balena.yml', {}, parsedBuildArgs);
+		pack.entry(
+			{
+				name: toPosixPath('.balena/balena.yml'),
+				size: configData.length,
+			},
+			configData,
 		);
 	}
 	if (preFinalizeCallback) {
@@ -923,7 +1052,7 @@ export async function checkBuildSecretsRequirements(
 	docker: Dockerode,
 	sourceDir: string,
 ) {
-	const [metaObj, metaFilename] = await loadBuildMetatada(sourceDir);
+	const [metaObj, metaFilename] = await loadBuildMetadata(sourceDir);
 	if (metaObj && !_.isEmpty(metaObj['build-secrets'])) {
 		const dockerUtils = await import('./docker');
 		const isBalenaEngine = await dockerUtils.isBalenaEngine(docker);

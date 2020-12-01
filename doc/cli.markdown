@@ -2747,6 +2747,15 @@ Set release tags if the push to a cloud application is successful. Multiple
 arguments may be provided, alternating tag keys and values (see examples).
 Hint: Empty values may be specified with "" (bash, cmd.exe) or '""' (PowerShell).
 
+#### -B, --buildArg BUILDARG
+
+Set a build-time variable (eg. "-B 'ARG=value'"). Can be specified multiple times.
+Build arguments can be applied to individual services by adding their service name
+before the argument, separated by a colon, e.g:
+	--buildArg main:MY_ENV=value
+Note that if the service name cannot be found in the composition, the entire
+left hand side of the = character will be treated as the variable name.
+
 # Settings
 
 ## settings

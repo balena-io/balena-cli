@@ -42,6 +42,7 @@ export interface BuildOpts {
 	headless: boolean;
 	convertEol: boolean;
 	multiDockerignore: boolean;
+	buildArgs?: string[];
 }
 
 export interface RemoteBuild {
@@ -320,6 +321,7 @@ async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
 			convertEol: build.opts.convertEol,
 			multiDockerignore: build.opts.multiDockerignore,
 			nogitignore: build.nogitignore,
+			buildArgs: build.opts.buildArgs,
 		});
 	} finally {
 		tarSpinner.stop();

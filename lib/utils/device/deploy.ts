@@ -66,6 +66,7 @@ export interface DeviceDeployOptions {
 	system: boolean;
 	env: string[];
 	convertEol: boolean;
+	buildArgs: string[];
 }
 
 interface ParsedEnvironment {
@@ -202,6 +203,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		convertEol: opts.convertEol,
 		multiDockerignore: opts.multiDockerignore,
 		nogitignore: opts.nogitignore,
+		buildArgs: opts.buildArgs,
 	});
 
 	// Try to detect the device information
