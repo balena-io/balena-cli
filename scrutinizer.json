@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "scan: Print production devices' info on scan",
+          "hash": "7d5a64f59a47c3a051fb2cbe9e45a71029cca694",
+          "body": "",
+          "footer": {
+            "Resolves": "#1713",
+            "resolves": "#1713",
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Marios Balamatsias <mbalamatsias@gmail.com>",
+            "signed-off-by": "Marios Balamatsias <mbalamatsias@gmail.com>"
+          },
+          "author": "Marios Balamatsias",
+          "nested": []
+        }
+      ],
+      "version": "12.29.0",
+      "date": "2020-12-01T13:33:03.012Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add ability to disable analytics for performance testing",
           "hash": "950d173d276f97cb3fcfd4bb9b578b5888572a69",
           "body": "",
@@ -19539,29 +19560,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-11-26T14:48:38Z",
+  "lastCommitDate": "2020-12-01T14:07:38Z",
   "latestRelease": {
-    "tagName": "v12.28.3",
+    "tagName": "v12.29.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.28.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.3/balena-cli-v12.28.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.29.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.29.0/balena-cli-v12.29.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.28.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.3/balena-cli-v12.28.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.29.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.29.0/balena-cli-v12.29.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.28.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.3/balena-cli-v12.28.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.29.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.29.0/balena-cli-v12.29.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.28.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.3/balena-cli-v12.28.3-windows-x64-installer.exe"
+        "name": "balena-cli-v12.29.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.29.0/balena-cli-v12.29.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.28.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.28.3/balena-cli-v12.28.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.29.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.29.0/balena-cli-v12.29.0-windows-x64-standalone.zip"
       }
     ]
   },
@@ -19570,8 +19591,16 @@
     "numberOfIssues": 295,
     "latestIssues": [
       {
-        "title": "Image name mismatch error",
-        "url": "https://github.com/balena-io/balena-cli/issues/2103"
+        "title": "Add --buildArg support for local push",
+        "url": "https://github.com/balena-io/balena-cli/pull/2110"
+      },
+      {
+        "title": "Fix 'balena ssh' test cases when using the Windows built-in ssh tool",
+        "url": "https://github.com/balena-io/balena-cli/pull/2109"
+      },
+      {
+        "title": "Livepush: Files copied to incorrect location when using wildcards",
+        "url": "https://github.com/balena-io/balena-cli/issues/2105"
       },
       {
         "title": "Local flash does not work for Fin devices",
@@ -19634,24 +19663,16 @@
         "url": "https://github.com/balena-io/balena-cli/issues/2062"
       },
       {
-        "title": "`balena create` command",
-        "url": "https://github.com/balena-io/balena-cli/issues/2059"
-      },
-      {
         "title": "Auto-generate command usage notes",
         "url": "https://github.com/balena-io/balena-cli/pull/2058"
       },
       {
         "title": "balena CLI shouldn't show dashboard URL because there is no dashboard in openBalena",
         "url": "https://github.com/balena-io/balena-cli/issues/2055"
-      },
-      {
-        "title": "Improve error message to access balena settings",
-        "url": "https://github.com/balena-io/balena-cli/pull/2050"
       }
     ]
   },
-  "version": "12.28.3",
+  "version": "12.29.0",
   "screenshot": null,
   "logo": null
 }
