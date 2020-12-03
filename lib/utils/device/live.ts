@@ -219,17 +219,17 @@ export class LivepushManager {
 				this.rebuildsCancelled[serviceName] = false;
 			}
 		}
+	}
 
-		// Setup cleanup handlers for the device
-		process.once('SIGINT', async () => {
-			this.logger.logLivepush('Cleaning up device...');
-			await Promise.all(
-				_.map(this.containers, (container) => {
-					container.livepush.cleanupIntermediateContainers();
-				}),
-			);
-			this.logger.logDebug('Cleaning up done.');
-		});
+	/** Delete intermediate build containers from the device */
+	public async cleanup() {
+		this.logger.logLivepush('Cleaning up device...');
+		await Promise.all(
+			_.map(this.containers, (container) =>
+				container.livepush.cleanupIntermediateContainers(),
+			),
+		);
+		this.logger.logDebug('Cleaning up done.');
 	}
 
 	protected setupFilesystemWatcher(
