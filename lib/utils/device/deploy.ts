@@ -28,6 +28,7 @@ import {
 import type { Readable } from 'stream';
 
 import { BALENA_ENGINE_TMP_PATH } from '../../config';
+import { ExpectedError } from '../../errors';
 import {
 	checkBuildSecretsRequirements,
 	loadProject,
@@ -37,7 +38,6 @@ import {
 import Logger = require('../logger');
 import { DeviceAPI, DeviceInfo } from './api';
 import * as LocalPushErrors from './errors';
-import { DeviceAPIError } from './errors';
 import LivepushManager from './live';
 import { displayBuildLog } from './logs';
 
@@ -76,7 +76,6 @@ async function environmentFromInput(
 	serviceNames: string[],
 	logger: Logger,
 ): Promise<ParsedEnvironment> {
-	const { exitWithExpectedError } = await import('../../errors');
 	// A normal environment variable regex, with an added part
 	// to find a colon followed servicename at the start
 	const varRegex = /^(?:([^\s:]+):)?([^\s]+?)=(.*)$/;
@@ -92,7 +91,7 @@ async function environmentFromInput(
 	for (const env of envs) {
 		const maybeMatch = env.match(varRegex);
 		if (maybeMatch == null) {
-			exitWithExpectedError(`Unable to parse environment variable: ${env}`);
+			throw new ExpectedError(`Unable to parse environment variable: ${env}`);
 		}
 		const match = maybeMatch!;
 		let service: string | undefined;
@@ -122,8 +121,6 @@ async function environmentFromInput(
 }
 
 export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
-	const { exitWithExpectedError } = await import('../../errors');
-
 	// Resolve .local addresses to IP to avoid
 	// issue with Windows and rapid repeat lookups.
 	// see: https://github.com/balena-io/balena-cli/issues/1518
@@ -143,7 +140,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		globalLogger.logDebug('Checking we can access device');
 		await api.ping();
 	} catch (e) {
-		exitWithExpectedError(
+		throw new ExpectedError(
 			`Could not communicate with local mode device at address ${opts.deviceHost}`,
 		);
 	}
@@ -157,7 +154,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		const version = await api.getVersion();
 		globalLogger.logDebug(`Checking device version: ${version}`);
 		if (!semver.satisfies(version, '>=7.21.4')) {
-			exitWithExpectedError(versionError);
+			throw new ExpectedError(versionError);
 		}
 		if (!opts.nolive && !semver.satisfies(version, '>=9.7.0')) {
 			globalLogger.logWarn(
@@ -168,8 +165,8 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	} catch (e) {
 		// Very old supervisor versions do not support /version endpoint
 		// a DeviceAPIError is expected in this case
-		if (e instanceof DeviceAPIError) {
-			exitWithExpectedError(versionError);
+		if (e instanceof LocalPushErrors.DeviceAPIError) {
+			throw new ExpectedError(versionError);
 		} else {
 			throw e;
 		}
@@ -209,7 +206,10 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 	if (!opts.nolive) {
 		buildLogs = {};
 	}
-	const buildTasks = await performBuilds(
+
+	const { awaitInterruptibleTask } = await import('../helpers');
+	const buildTasks = await awaitInterruptibleTask<typeof performBuilds>(
+		performBuilds,
 		project.composition,
 		tarStream,
 		docker,
@@ -269,10 +269,13 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		}
 		globalLogger.logLivepush('Watching for file changes...');
 	}
-	await Promise.all(promises).finally(() => {
+	try {
+		await awaitInterruptibleTask(() => Promise.all(promises));
+	} finally {
 		// Stop watching files after log streaming ends (e.g. on SIGINT)
 		livepush?.close();
-	});
+		await livepush?.cleanup();
+	}
 }
 
 async function streamDeviceLogs(
@@ -441,7 +444,9 @@ export async function rebuildSingleTask(
 	);
 
 	if (task == null) {
-		throw new Error(`Could not find build task for service ${serviceName}`);
+		throw new ExpectedError(
+			`Could not find build task for service ${serviceName}`,
+		);
 	}
 
 	await assignDockerBuildOpts(docker, [task], opts);
@@ -610,8 +615,6 @@ export function generateTargetState(
 }
 
 async function inspectBuildResults(images: LocalImage[]): Promise<void> {
-	const { exitWithExpectedError } = await import('../../errors');
-
 	const failures: LocalPushErrors.BuildFailure[] = [];
 
 	_.each(images, (image) => {
@@ -624,6 +627,6 @@ async function inspectBuildResults(images: LocalImage[]): Promise<void> {
 	});
 
 	if (failures.length > 0) {
-		exitWithExpectedError(new LocalPushErrors.BuildError(failures).toString());
+		throw new LocalPushErrors.BuildError(failures).toString();
 	}
 }

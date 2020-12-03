@@ -21,7 +21,10 @@ import { TypedError } from 'typed-error';
 import { getChalk, stripIndent } from './utils/lazy';
 import { getHelp } from './utils/messages';
 
-export class ExpectedError extends TypedError {}
+export class ExpectedError extends TypedError {
+	public code?: string;
+	public exitCode?: number;
+}
 
 export class NotLoggedInError extends ExpectedError {}
 
@@ -38,6 +41,8 @@ export class NoPortsDefinedError extends ExpectedError {
 		super('No ports have been provided.');
 	}
 }
+
+export class SIGINTError extends ExpectedError {}
 
 /**
  * instanceOf is a more reliable implementation of the plain `instanceof`
@@ -172,7 +177,7 @@ async function sentryCaptureException(error: Error) {
 		await Sentry.close(1000);
 	} catch (e) {
 		if (process.env.DEBUG) {
-			console.error('Timeout reporting error to sentry.io');
+			console.error('[debug] Timeout reporting error to sentry.io');
 		}
 	}
 }
@@ -207,8 +212,9 @@ export async function handleError(error: Error) {
 		if (!process.env.BALENARC_NO_SENTRY) {
 			await sentryCaptureException(error);
 		}
-
-		// Unhandled/unexpected error: ensure that the process terminates.
+	}
+	if (error instanceof SIGINTError || !isExpectedError) {
+		// SIGINT or unexpected error: ensure that the process terminates.
 		// The exit error code was set above through `process.exitCode`.
 		process.exit();
 	}
@@ -242,6 +248,7 @@ export const printExpectedErrorMessage = function (message: string) {
  * them and call this function.
  *
  * DEPRECATED: Use `throw new ExpectedError(<message>)` instead.
+ * If a specific process exit code x must be set, use process.exitCode = x
  */
 export function exitWithExpectedError(message: string | Error): never {
 	if (message instanceof Error) {

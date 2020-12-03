@@ -22,8 +22,7 @@ import type * as Stream from 'stream';
 import streamToPromise = require('stream-to-promise');
 import type { Pack } from 'tar-stream';
 
-import { ExpectedError } from '../errors';
-import { exitWithExpectedError } from '../errors';
+import { ExpectedError, SIGINTError } from '../errors';
 import { tarDirectory } from './compose_ts';
 import { getVisuals, stripIndent } from './lazy';
 import Logger = require('./logger');
@@ -110,79 +109,76 @@ async function getBuilderEndpoint(
 }
 
 export async function startRemoteBuild(build: RemoteBuild): Promise<void> {
-	const stream = await getRemoteBuildStream(build);
+	const [buildRequest, stream] = await getRemoteBuildStream(build);
 
-	// Special windows handling (win64 also reports win32)
-	if (process.platform === 'win32') {
-		const rl = readline.createInterface({
-			input: process.stdin,
-			output: process.stdout,
-		});
+	// Setup CTRL-C handler so the user can interrupt the build
+	let cancellationPromise = Promise.resolve();
+	const sigintHandler = () => {
+		process.exitCode = 130;
+		console.error('\nReceived SIGINT, cleaning up. Please wait.');
+		try {
+			cancellationPromise = cancelBuildIfNecessary(build);
+		} catch (err) {
+			console.error(err.message);
+		} finally {
+			buildRequest.abort();
+			const sigintErr = new SIGINTError('Build aborted on SIGINT signal');
+			sigintErr.code = 'SIGINT';
+			stream.emit('error', sigintErr);
+		}
+	};
 
-		rl.on('SIGINT', () => process.emit('SIGINT' as any));
-	}
+	const { addSIGINTHandler } = await import('./helpers');
+	addSIGINTHandler(sigintHandler);
 
-	if (!build.opts.headless) {
-		return awaitRemoteBuildStream(build, stream);
-	}
-
-	// We're running a headless build, which means we'll
-	// get a single object back, detailing if the build has
-	// been started
-	let result: HeadlessBuilderMessage;
 	try {
-		const response = await streamToPromise(stream);
-		result = JSON.parse(response.toString());
-	} catch (e) {
-		throw new Error(
-			`There was an error reading the response from the remote builder: ${e}`,
-		);
+		if (build.opts.headless) {
+			await handleHeadlessBuildStream(stream);
+		} else {
+			await handleRemoteBuildStream(build, stream);
+		}
+	} finally {
+		process.removeListener('SIGINT', sigintHandler);
+		globalLogger.outputDeferredMessages();
+		await cancellationPromise;
 	}
-	handleHeadlessBuildMessage(result);
 }
 
-async function awaitRemoteBuildStream(
+async function handleRemoteBuildStream(
 	build: RemoteBuild,
-	stream: NodeJS.ReadWriteStream,
+	stream: Stream.Stream,
 ) {
-	let sigintHandler: (() => Promise<void>) | null = null;
-	try {
-		await new Promise((resolve, reject) => {
-			// Setup interrupt handlers so we can cancel the build if the user presses
-			// ctrl+c
-			sigintHandler = async () => {
-				process.exitCode = 130;
-				console.error('Received SIGINT, cleaning up. Please wait.');
-				try {
-					await cancelBuildIfNecessary(build);
-				} catch (err) {
-					console.error(err.message);
-				} finally {
-					stream.end();
-				}
-			};
-			process.once('SIGINT', sigintHandler);
-			stream.on('data', getBuilderMessageHandler(build));
-			stream.on('end', resolve);
-			stream.on('error', reject);
-		});
-	} finally {
-		if (sigintHandler) {
-			process.removeListener('SIGINT', sigintHandler);
-		}
-		globalLogger.outputDeferredMessages();
-	}
+	await new Promise((resolve, reject) => {
+		const msgHandler = getBuilderMessageHandler(build);
+		stream.on('data', msgHandler);
+		stream.once('end', resolve);
+		stream.once('error', reject);
+	});
 	if (build.hadError) {
 		throw new RemoteBuildFailedError();
 	}
 }
 
-function handleHeadlessBuildMessage(message: HeadlessBuilderMessage) {
+async function handleHeadlessBuildStream(stream: Stream.Stream) {
+	// We're running a headless build, which means we'll
+	// get a single object back, detailing if the build has
+	// been started
+	let message: HeadlessBuilderMessage;
+	try {
+		const response = await streamToPromise(stream as NodeJS.ReadWriteStream);
+		message = JSON.parse(response.toString());
+	} catch (e) {
+		if (e.code === 'SIGINT') {
+			throw e;
+		}
+		throw new Error(
+			`There was an error reading the response from the remote builder: ${e}`,
+		);
+	}
 	if (!process.stdout.isTTY) {
 		process.stdout.write(JSON.stringify(message));
 		return;
 	}
-
 	if (message.started) {
 		console.log('Build successfully started');
 		console.log(`  Release ID: ${message.releaseId!}`);
@@ -266,6 +262,9 @@ function getBuilderMessageHandler(
 
 async function cancelBuildIfNecessary(build: RemoteBuild): Promise<void> {
 	if (build.releaseId != null) {
+		console.error(
+			`Setting 'cancelled' release status for release ID ${build.releaseId} ...`,
+		);
 		await build.sdk.pine.patch({
 			resource: 'release',
 			id: build.releaseId,
@@ -352,7 +351,7 @@ function createRemoteBuildRequest(
 			headers: { 'Content-Encoding': 'gzip' },
 			body: tarStream.pipe(zlib.createGzip({ level: 6 })),
 		})
-		.on('error', onError)
+		.once('error', onError) // `.once` because the handler re-emits
 		.once('response', (response: request.RequestResponse) => {
 			if (response.statusCode >= 100 && response.statusCode < 400) {
 				if (DEBUG_MODE) {
@@ -368,28 +367,31 @@ function createRemoteBuildRequest(
 				if (response.body) {
 					msgArr.push(response.body);
 				}
-				onError(new Error(msgArr.join('\n')));
+				onError(new ExpectedError(msgArr.join('\n')));
 			}
 		});
 }
 
 async function getRemoteBuildStream(
 	build: RemoteBuild,
-): Promise<NodeJS.ReadWriteStream> {
+): Promise<[request.Request, Stream.Stream]> {
 	const builderUrl = await getBuilderEndpoint(
 		build.baseUrl,
 		build.owner,
 		build.app,
 		build.opts,
 	);
-
+	let stream: Stream.Stream;
 	let uploadSpinner = {
 		stop: () => {
 			/* noop */
 		},
 	};
-	let exitOnError = (error: Error) => {
-		return exitWithExpectedError(error);
+	const onError = (error: Error) => {
+		uploadSpinner.stop();
+		if (stream) {
+			stream.emit('error', error);
+		}
 	};
 	// We only show the spinner when outputting to a tty
 	if (process.stdout.isTTY) {
@@ -397,36 +399,26 @@ async function getRemoteBuildStream(
 		uploadSpinner = new visuals.Spinner(
 			'Uploading source package to balenaCloud',
 		);
-		exitOnError = (error: Error): never => {
-			uploadSpinner.stop();
-			return exitWithExpectedError(error);
-		};
-		// This is not strongly typed to start with, so we cast
-		// to any to allow the method call
 		(uploadSpinner as any).start();
 	}
 
-	try {
-		const tarStream = await getTarStream(build);
-		const buildRequest = createRemoteBuildRequest(
-			build,
-			tarStream,
-			builderUrl,
-			exitOnError,
-		);
-		let stream: NodeJS.ReadWriteStream;
-		if (build.opts.headless) {
-			stream = (buildRequest as unknown) as NodeJS.ReadWriteStream;
-		} else {
-			stream = buildRequest.pipe(JSONStream.parse('*'));
-		}
-		return stream
-			.once('close', () => uploadSpinner.stop())
-			.once('data', () => uploadSpinner.stop())
-			.once('end', () => uploadSpinner.stop())
-			.once('error', () => uploadSpinner.stop())
-			.once('finish', () => uploadSpinner.stop());
-	} catch (error) {
-		return exitOnError(error);
+	const tarStream = await getTarStream(build);
+	const buildRequest = createRemoteBuildRequest(
+		build,
+		tarStream,
+		builderUrl,
+		onError,
+	);
+	if (build.opts.headless) {
+		stream = buildRequest;
+	} else {
+		stream = buildRequest.pipe(JSONStream.parse('*'));
 	}
+	stream = stream
+		.once('error', () => uploadSpinner.stop())
+		.once('close', () => uploadSpinner.stop())
+		.once('data', () => uploadSpinner.stop())
+		.once('end', () => uploadSpinner.stop())
+		.once('finish', () => uploadSpinner.stop());
+	return [buildRequest, stream];
 }

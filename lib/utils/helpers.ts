@@ -22,7 +22,7 @@ import * as os from 'os';
 import type * as ShellEscape from 'shell-escape';
 
 import type { Device, PineOptions } from 'balena-sdk';
-import { ExpectedError } from '../errors';
+import { ExpectedError, SIGINTError } from '../errors';
 import { getBalenaSdk, getChalk, getVisuals } from './lazy';
 import { promisify } from 'util';
 import { isSubcommand } from '../preparser';
@@ -244,6 +244,10 @@ export async function retry<T>({
 		try {
 			return await func();
 		} catch (err) {
+			// Don't retry on SIGINT (CTRL-C)
+			if (err instanceof SIGINTError) {
+				throw err;
+			}
 			if (count) {
 				// use Math.max to work around system time changes, e.g. DST
 				const elapsedMs = Math.max(0, Date.now() - lastAttemptMs);
@@ -513,3 +517,61 @@ export const expandForAppName: PineOptions<Device> = {
 		is_running__release: { $select: 'commit' },
 	},
 };
+
+/**
+ * Use the `readline` library on Windows to install SIGINT handlers.
+ * This appears to be necessary on MSYS / Git for Windows, and also useful
+ * with PowerShell to avoid the built-in "Terminate batch job? (Y/N)" prompt
+ * that appears to result in ungraceful / abrupt process termination.
+ */
+const installReadlineSigintEmitter = _.once(function emitSigint() {
+	if (process.platform === 'win32') {
+		const readline = require('readline') as typeof import('readline');
+		const rl = readline.createInterface({
+			input: process.stdin,
+			output: process.stdout,
+		});
+		rl.on('SIGINT', () => process.emit('SIGINT' as any));
+	}
+});
+
+/**
+ * Centralized cross-platform logic to install a SIGINT handler
+ * @param sigintHandler The handler function
+ * @param once Whether the handler should be called no more than once
+ */
+export function addSIGINTHandler(sigintHandler: () => void, once = true) {
+	installReadlineSigintEmitter();
+	if (once) {
+		process.once('SIGINT', sigintHandler);
+	} else {
+		process.on('SIGINT', sigintHandler);
+	}
+}
+
+/**
+ * Call the given task function (which returns a promise) with the given
+ * arguments, await the returned promise and resolve to the same result.
+ * While awaiting for that promise, also await for a SIGINT signal (if any),
+ * with a new SIGINT handler that is automatically removed on return.
+ * If a SIGINT signal is received while awaiting for the task function,
+ * immediately return a promise that rejects with SIGINTError.
+ * @param task An async function to be executed and awaited
+ * @param theArgs Arguments to be passed to the task function
+ */
+export async function awaitInterruptibleTask<
+	T extends (...args: any[]) => Promise<any>
+>(task: T, ...theArgs: Parameters<T>): Promise<ReturnType<T>> {
+	let sigintHandler: () => void = () => undefined;
+	const sigintPromise = new Promise<T>((_resolve, reject) => {
+		sigintHandler = () => {
+			reject(new SIGINTError('Task aborted on SIGINT signal'));
+		};
+		addSIGINTHandler(sigintHandler);
+	});
+	try {
+		return await Promise.race([sigintPromise, task(...theArgs)]);
+	} finally {
+		process.removeListener('SIGINT', sigintHandler);
+	}
+}

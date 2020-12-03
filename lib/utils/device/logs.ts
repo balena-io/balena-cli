@@ -20,7 +20,7 @@ import type { Readable } from 'stream';
 
 import { getChalk } from '../lazy';
 import Logger = require('../logger');
-import { ExpectedError } from '../../errors';
+import { ExpectedError, SIGINTError } from '../../errors';
 
 class DeviceConnectionLostError extends ExpectedError {
 	public static defaultMsg = 'Connection to device lost';
@@ -62,15 +62,16 @@ async function displayDeviceLogs(
 	system: boolean,
 	filterServices?: string[],
 ): Promise<void> {
+	const { addSIGINTHandler } = await import('../helpers');
 	let gotSignal = false;
 	const handleSignal = () => {
 		gotSignal = true;
 		logs.emit('close');
 	};
-	process.once('SIGINT', handleSignal);
+	addSIGINTHandler(handleSignal);
 	process.once('SIGTERM', handleSignal);
 	try {
-		await new Promise((resolve, reject) => {
+		await new Promise((_resolve, reject) => {
 			logs.on('data', (log) => {
 				displayLogLine(log, logger, system, filterServices);
 			});
@@ -78,7 +79,7 @@ async function displayDeviceLogs(
 			logs.once('end', () => {
 				logger.logWarn(DeviceConnectionLostError.defaultMsg);
 				if (gotSignal) {
-					resolve();
+					reject(new SIGINTError('Log streaming aborted on SIGINT signal'));
 				} else {
 					reject(new DeviceConnectionLostError());
 				}
@@ -90,6 +91,12 @@ async function displayDeviceLogs(
 	}
 }
 
+/**
+ * Open a TCP connection to the device's supervisor (TCP port 48484) and tail
+ * (display) device logs. Retry (reconnect) up to maxAttempts times if the
+ * TCP connection drops. Don't retry on SIGINT (CTRL-C).
+ * See function `displayDeviceLogs` for parameter documentation.
+ */
 export async function connectAndDisplayDeviceLogs({
 	deviceApi,
 	logger,
