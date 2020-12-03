@@ -101,7 +101,7 @@ export default class DevicesCmd extends Command {
 			const belongsToApplication = device.belongs_to__application as Application[];
 			device.application_name = belongsToApplication?.[0]?.app_name || null;
 
-			device.uuid = device.uuid.slice(0, 7);
+			device.uuid = options.json ? device.uuid : device.uuid.slice(0, 7);
 
 			device.device_type = device.is_of__device_type?.[0]?.slug || null;
 			return device;
