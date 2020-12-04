@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'devices: Don''t truncate device UUID to 7 chars when --json is used'
+      hash: aae6aff3e900c058eb746265f4ee95f677509791
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.29.1
+  date: 2020-12-04T01:21:06.995Z
+- commits:
     - subject: 'scan: Print production devices'' info on scan'
       hash: 7d5a64f59a47c3a051fb2cbe9e45a71029cca694
       body: ''
@@ -12,7 +23,7 @@
       author: Marios Balamatsias
       nested: []
   version: 12.29.0
-  date: 2020-12-01T14:06:17.050Z
+  date: 2020-12-01T13:33:03.012Z
 - commits:
     - subject: Add ability to disable analytics for performance testing
       hash: 950d173d276f97cb3fcfd4bb9b578b5888572a69

@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "devices: Don't truncate device UUID to 7 chars when --json is used",
+          "hash": "aae6aff3e900c058eb746265f4ee95f677509791",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.29.1",
+      "date": "2020-12-04T00:47:17.501Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "scan: Print production devices' info on scan",
           "hash": "7d5a64f59a47c3a051fb2cbe9e45a71029cca694",
           "body": "",
@@ -19460,7 +19477,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 280,
+  "stars": 282,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -19560,36 +19577,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-12-01T14:07:38Z",
+  "lastCommitDate": "2020-12-04T01:22:19Z",
   "latestRelease": {
-    "tagName": "v12.29.0",
+    "tagName": "v12.29.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.29.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.29.0/balena-cli-v12.29.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.29.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.29.1/balena-cli-v12.29.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.29.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.29.0/balena-cli-v12.29.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.29.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.29.1/balena-cli-v12.29.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.29.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.29.0/balena-cli-v12.29.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.29.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.29.1/balena-cli-v12.29.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.29.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.29.0/balena-cli-v12.29.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.29.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.29.1/balena-cli-v12.29.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.29.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.29.0/balena-cli-v12.29.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.29.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.29.1/balena-cli-v12.29.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 295,
+    "numberOfIssues": 298,
     "latestIssues": [
+      {
+        "title": "Livepush, logs: Automatically reconnect on 'Connection to device lost'",
+        "url": "https://github.com/balena-io/balena-cli/pull/2113"
+      },
+      {
+        "title": "device: Add deactivate command",
+        "url": "https://github.com/balena-io/balena-cli/pull/2112"
+      },
+      {
+        "title": "--app does not work when using --config in balena os configure",
+        "url": "https://github.com/balena-io/balena-cli/issues/2111"
+      },
       {
         "title": "Add --buildArg support for local push",
         "url": "https://github.com/balena-io/balena-cli/pull/2110"
@@ -19657,22 +19686,10 @@
       {
         "title": "BalenaApplicationNotFound for valid app id - preload cmd",
         "url": "https://github.com/balena-io/balena-cli/issues/2063"
-      },
-      {
-        "title": "os initialize: Privilege elevation is broken on Windows",
-        "url": "https://github.com/balena-io/balena-cli/issues/2062"
-      },
-      {
-        "title": "Auto-generate command usage notes",
-        "url": "https://github.com/balena-io/balena-cli/pull/2058"
-      },
-      {
-        "title": "balena CLI shouldn't show dashboard URL because there is no dashboard in openBalena",
-        "url": "https://github.com/balena-io/balena-cli/issues/2055"
       }
     ]
   },
-  "version": "12.29.0",
+  "version": "12.29.1",
   "screenshot": null,
   "logo": null
 }
