@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'devices: Don''t truncate device UUID to 7 chars when --json is used'
+      hash: aae6aff3e900c058eb746265f4ee95f677509791
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.29.1
+  date: 2020-12-04T00:47:17.501Z
+- commits:
     - subject: 'scan: Print production devices'' info on scan'
       hash: 7d5a64f59a47c3a051fb2cbe9e45a71029cca694
       body: ''
