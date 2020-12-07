@@ -1,4 +1,17 @@
 - commits:
+    - subject: Standardize boolean flag typing
+      hash: 19fab403987edef486956cbe3820c0dbb89a84a3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.30.1
+  date: 2020-12-07T14:13:22.194Z
+- commits:
     - subject: 'packages: Bump balena-sdk and balena-errors'
       hash: 8a3e386d214227d24833f9277927d0531df95a66
       body: |
@@ -671,7 +684,7 @@
       author: Marios Balamatsias
       nested: []
   version: 12.30.0
-  date: 2020-12-07T12:29:06.897Z
+  date: 2020-12-07T11:22:11.652Z
 - commits:
     - subject: 'devices: Don''t truncate device UUID to 7 chars when --json is used'
       hash: aae6aff3e900c058eb746265f4ee95f677509791
