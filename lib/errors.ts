@@ -144,6 +144,7 @@ const messages: {
 
 const EXPECTED_ERROR_REGEXES = [
 	/^BalenaAmbiguousApplication/, // balena-sdk
+	/^BalenaAmbiguousDevice/, // balena-sdk
 	/^BalenaApplicationNotFound/, // balena-sdk
 	/^BalenaDeviceNotFound/, // balena-sdk
 	/^BalenaExpiredToken/, // balena-sdk
