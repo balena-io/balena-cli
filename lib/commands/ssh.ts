@@ -102,15 +102,18 @@ export default class NoteCmd extends Command {
 			parse: (p) => parseAsInteger(p, 'port'),
 		}),
 		tty: flags.boolean({
+			default: false,
 			description:
 				'Force pseudo-terminal allocation (bypass TTY autodetection for stdin)',
 			char: 't',
 		}),
 		verbose: flags.boolean({
+			default: false,
 			description: 'Increase verbosity',
 			char: 'v',
 		}),
 		noproxy: flags.boolean({
+			default: false,
 			description: 'Bypass global proxy configuration for the ssh connection',
 		}),
 		help: cf.help,

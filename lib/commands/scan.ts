@@ -50,8 +50,8 @@ export default class ScanCmd extends Command {
 
 	public static flags: flags.Input<FlagsDef> = {
 		verbose: flags.boolean({
-			char: 'v',
 			default: false,
+			char: 'v',
 			description: 'display full info',
 		}),
 		timeout: flags.integer({
@@ -60,6 +60,7 @@ export default class ScanCmd extends Command {
 		}),
 		help: cf.help,
 		json: flags.boolean({
+			default: false,
 			char: 'j',
 			description: 'produce JSON output instead of tabular output',
 		}),

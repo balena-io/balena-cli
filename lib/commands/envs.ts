@@ -160,6 +160,7 @@ export default class EnvsCmd extends Command {
 		...(isV12()
 			? {
 					all: flags.boolean({
+						default: false,
 						description: stripIndent`
 				No-op since balena CLI v12.0.0.`,
 						hidden: true,
@@ -167,6 +168,7 @@ export default class EnvsCmd extends Command {
 			  }
 			: {
 					all: flags.boolean({
+						default: false,
 						description: stripIndent`
 				include app-wide, device-wide variables that apply to the selected device or service.
 				Variables are still filtered out by type with the --config option.`,
@@ -174,6 +176,7 @@ export default class EnvsCmd extends Command {
 			  }),
 		application: { exclusive: ['device'], ...cf.application },
 		config: flags.boolean({
+			default: false,
 			char: 'c',
 			description: 'show configuration variables only',
 			exclusive: ['service'],
@@ -181,6 +184,7 @@ export default class EnvsCmd extends Command {
 		device: { exclusive: ['application'], ...cf.device },
 		help: cf.help,
 		json: flags.boolean({
+			default: false,
 			char: 'j',
 			description: 'produce JSON output instead of tabular output',
 		}),

@@ -76,6 +76,7 @@ export default class LogsCmd extends Command {
 
 	public static flags: flags.Input<FlagsDef> = {
 		tail: flags.boolean({
+			default: false,
 			description: 'continuously stream output',
 			char: 't',
 		}),
@@ -87,6 +88,7 @@ export default class LogsCmd extends Command {
 			multiple: true,
 		}),
 		system: flags.boolean({
+			default: false,
 			description:
 				'Only show system logs. This can be used in combination with --service.',
 			char: 'S',
