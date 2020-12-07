@@ -20,8 +20,8 @@ import Command from '../command';
 import { stripIndent } from '../utils/lazy';
 
 interface FlagsDef {
-	all?: boolean;
-	json?: boolean;
+	all: boolean;
+	json: boolean;
 	help: void;
 }
 
@@ -59,14 +59,14 @@ export default class VersionCmd extends Command {
 
 	public static flags: flags.Input<FlagsDef> = {
 		all: flags.boolean({
-			char: 'a',
 			default: false,
+			char: 'a',
 			description:
 				'include version information for additional components (Node.js)',
 		}),
 		json: flags.boolean({
-			char: 'j',
 			default: false,
+			char: 'j',
 			description:
 				'output version information in JSON format for programmatic use',
 		}),

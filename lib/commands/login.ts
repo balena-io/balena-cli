@@ -72,16 +72,19 @@ export default class LoginCmd extends Command {
 
 	public static flags: flags.Input<FlagsDef> = {
 		web: flags.boolean({
+			default: false,
 			char: 'w',
 			description: 'web-based login',
 			exclusive: ['token', 'credentials'],
 		}),
 		token: flags.boolean({
+			default: false,
 			char: 't',
 			description: 'session token or API key',
 			exclusive: ['web', 'credentials'],
 		}),
 		credentials: flags.boolean({
+			default: false,
 			char: 'c',
 			description: 'credential-based login',
 			exclusive: ['web', 'token'],

@@ -28,7 +28,7 @@ interface ExtendedApplication extends ApplicationWithDeviceType {
 
 interface FlagsDef {
 	help: void;
-	verbose?: boolean;
+	verbose: boolean;
 }
 
 export default class AppsCmd extends Command {
@@ -47,6 +47,7 @@ export default class AppsCmd extends Command {
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
 		verbose: flags.boolean({
+			default: false,
 			char: 'v',
 			description: isV12()
 				? 'No-op since release v12.0.0'
