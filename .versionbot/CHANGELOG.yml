@@ -1,4 +1,17 @@
 - commits:
+    - subject: Standardize boolean flag typing
+      hash: 19fab403987edef486956cbe3820c0dbb89a84a3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.30.1
+  date: 2020-12-07T13:39:08.771Z
+- commits:
     - subject: 'packages: Bump balena-sdk and balena-errors'
       hash: 8a3e386d214227d24833f9277927d0531df95a66
       body: |
