@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Remove remaining v12 switches",
+          "hash": "3edf7a038fccc8c1ddf5d09f29c37194a1104c84",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.30.2",
+      "date": "2020-12-08T10:03:01.854Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Standardize boolean flag typing",
           "hash": "19fab403987edef486956cbe3820c0dbb89a84a3",
           "body": "",
@@ -20395,7 +20414,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 284,
+  "stars": 285,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -20495,29 +20514,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-12-07T14:14:13Z",
+  "lastCommitDate": "2020-12-08T11:02:07Z",
   "latestRelease": {
-    "tagName": "v12.30.1",
+    "tagName": "v12.30.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.30.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.1/balena-cli-v12.30.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.30.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.2/balena-cli-v12.30.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.30.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.1/balena-cli-v12.30.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.30.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.2/balena-cli-v12.30.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.30.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.1/balena-cli-v12.30.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.30.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.2/balena-cli-v12.30.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.30.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.1/balena-cli-v12.30.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.30.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.2/balena-cli-v12.30.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.30.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.1/balena-cli-v12.30.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.30.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.2/balena-cli-v12.30.2-windows-x64-standalone.zip"
       }
     ]
   },
@@ -20526,12 +20545,12 @@
     "numberOfIssues": 298,
     "latestIssues": [
       {
-        "title": "errors: Add expected errors for device deactivation",
-        "url": "https://github.com/balena-io/balena-cli/pull/2117"
+        "title": "balena scan should show development devices first",
+        "url": "https://github.com/balena-io/balena-cli/issues/2118"
       },
       {
-        "title": "Remove remaining v12 switches",
-        "url": "https://github.com/balena-io/balena-cli/pull/2116"
+        "title": "errors: Add expected errors for device deactivation",
+        "url": "https://github.com/balena-io/balena-cli/pull/2117"
       },
       {
         "title": "Livepush, logs: Automatically reconnect on 'Connection to device lost'",
@@ -20607,7 +20626,7 @@
       }
     ]
   },
-  "version": "12.30.1",
+  "version": "12.30.2",
   "screenshot": null,
   "logo": null
 }
