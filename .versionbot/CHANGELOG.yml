@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove remaining v12 switches
+      hash: 3edf7a038fccc8c1ddf5d09f29c37194a1104c84
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.30.2
+  date: 2020-12-08T10:03:01.854Z
+- commits:
     - subject: Standardize boolean flag typing
       hash: 19fab403987edef486956cbe3820c0dbb89a84a3
       body: ''
