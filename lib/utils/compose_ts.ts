@@ -1128,15 +1128,10 @@ export async function validateProjectDirectory(
 				checkCompose(path.join(opts.projectPath, '..')),
 			]);
 			if (!hasCompose && hasParentCompose) {
-				const { isV12 } = await import('./version');
 				const msg = stripIndent`
 					"docker-compose.y[a]ml" file found in parent directory: please check that
 					the correct source folder was specified. (Suppress with '--noparent-check'.)`;
-				if (isV12()) {
-					throw new ExpectedError(`Error: ${msg}`);
-				} else {
-					Logger.getLogger().logWarn(msg);
-				}
+				throw new ExpectedError(`Error: ${msg}`);
 			}
 		}
 	}
