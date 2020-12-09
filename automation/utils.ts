@@ -20,7 +20,8 @@ import * as _ from 'lodash';
 import * as path from 'path';
 import * as shellEscape from 'shell-escape';
 
-export const MSYS2_BASH = 'C:\\msys64\\usr\\bin\\bash.exe';
+export const MSYS2_BASH =
+	process.env.MSYSSHELLPATH || 'C:\\msys64\\usr\\bin\\bash.exe';
 export const ROOT = path.join(__dirname, '..');
 
 /** Tap and buffer this process' stdout and stderr */
