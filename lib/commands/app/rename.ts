@@ -20,14 +20,15 @@ import type { IArg } from '@oclif/parser/lib/args';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
-import type { Application, ApplicationType, BalenaSDK } from 'balena-sdk';
+import { lowercaseIfSlug } from '../../utils/normalization';
+import type { ApplicationType } from 'balena-sdk';
 
 interface FlagsDef {
 	help: void;
 }
 
 interface ArgsDef {
-	name: string;
+	nameOrSlug: string;
 	newName?: string;
 }
 
@@ -39,16 +40,19 @@ export default class AppRenameCmd extends Command {
 
 		Note, if the \`newName\` parameter is omitted, it will be
 		prompted for interactively.
-		`;
+	`;
+
 	public static examples = [
 		'$ balena app rename OldName',
 		'$ balena app rename OldName NewName',
+		'$ balena app rename myorg/oldname NewName',
 	];
 
 	public static args: Array<IArg<any>> = [
 		{
-			name: 'name',
-			description: 'application name or numeric ID',
+			name: 'nameOrSlug',
+			description: 'application name or org/name slug',
+			parse: lowercaseIfSlug,
 			required: true,
 		},
 		{
@@ -57,7 +61,7 @@ export default class AppRenameCmd extends Command {
 		},
 	];
 
-	public static usage = 'app rename <name> [newName]';
+	public static usage = 'app rename <nameOrSlug> [newName]';
 
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
@@ -68,38 +72,37 @@ export default class AppRenameCmd extends Command {
 	public async run() {
 		const { args: params } = this.parse<FlagsDef, ArgsDef>(AppRenameCmd);
 
-		const { ExpectedError, instanceOf } = await import('../../errors');
-		const { getApplication } = await import('../../utils/sdk');
+		const { validateApplicationName } = await import('../../utils/validation');
+		const { ExpectedError } = await import('../../errors');
+
 		const balena = getBalenaSdk();
 
-		// Get app
-		let app;
-		try {
-			app = await getApplication(balena, params.name, {
-				$expand: {
-					application_type: {
-						$select: ['is_legacy'],
-					},
+		// Disambiguate target application (if nameOrSlug is a number, it could either be an ID or a numerical name)
+		const { getApplication } = await import('../../utils/sdk');
+		const application = await getApplication(balena, params.nameOrSlug, {
+			$expand: {
+				application_type: {
+					$select: ['is_legacy'],
 				},
-			});
-		} catch (e) {
-			const { BalenaApplicationNotFound } = await import('balena-errors');
-			if (instanceOf(e, BalenaApplicationNotFound)) {
-				throw new ExpectedError(`Application ${params.name} not found.`);
-			} else {
-				throw e;
-			}
-		}
+			},
+		});
 
-		// Check app supports renaming
-		const appType = (app.application_type as ApplicationType[])?.[0];
-		if (appType.is_legacy) {
+		// Check app exists
+		if (!application) {
 			throw new ExpectedError(
-				`Application ${params.name} is of 'legacy' type, and cannot be renamed.`,
+				'Error: application ${params.nameOrSlug} not found.',
 			);
 		}
 
-		const { validateApplicationName } = await import('../../utils/validation');
+		// Check app supports renaming
+		const appType = (application.application_type as ApplicationType[])?.[0];
+		if (appType.is_legacy) {
+			throw new ExpectedError(
+				`Application ${params.nameOrSlug} is of 'legacy' type, and cannot be renamed.`,
+			);
+		}
+
+		// Ascertain new name
 		const newName =
 			params.newName ||
 			(await getCliForm().ask({
@@ -109,28 +112,20 @@ export default class AppRenameCmd extends Command {
 			})) ||
 			'';
 
+		// Rename
 		try {
-			await this.renameApplication(balena, app.id, newName);
+			await balena.models.application.rename(application.id, newName);
 		} catch (e) {
-			// BalenaRequestError: Request error: Unique key constraint violated
+			// BalenaRequestError: Request error: "organization" and "app_name" must be unique.
 			if ((e.message || '').toLowerCase().includes('unique')) {
 				throw new ExpectedError(
-					`Error: application ${params.name} already exists.`,
+					`Error: application ${params.nameOrSlug} already exists.`,
 				);
 			}
 			throw e;
 		}
 
-		console.log(`Application ${params.name} renamed to ${newName}`);
-	}
-
-	async renameApplication(balena: BalenaSDK, id: number, newName: string) {
-		return balena.pine.patch<Application>({
-			resource: 'application',
-			id,
-			body: {
-				app_name: newName,
-			},
-		});
+		// Output result
+		console.log(`Application ${params.nameOrSlug} renamed to ${newName}`);
 	}
 }
