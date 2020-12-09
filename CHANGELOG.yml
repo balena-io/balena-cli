@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'errors: Add expected errors for device deactivation'
+      hash: a19132d3bfe2e02456b4738fb16d4aa813fe6211
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+  version: 12.30.3
+  date: 2020-12-09T17:06:31.676Z
+- commits:
     - subject: Remove remaining v12 switches
       hash: 3edf7a038fccc8c1ddf5d09f29c37194a1104c84
       body: ''
@@ -10,7 +23,7 @@
       author: Scott Lowe
       nested: []
   version: 12.30.2
-  date: 2020-12-08T11:01:08.266Z
+  date: 2020-12-08T10:03:01.854Z
 - commits:
     - subject: Standardize boolean flag typing
       hash: 19fab403987edef486956cbe3820c0dbb89a84a3

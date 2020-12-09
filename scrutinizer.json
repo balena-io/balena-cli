@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "errors: Add expected errors for device deactivation",
+          "hash": "a19132d3bfe2e02456b4738fb16d4aa813fe6211",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Marios Balamatsias <mbalamatsias@gmail.com>",
+            "signed-off-by": "Marios Balamatsias <mbalamatsias@gmail.com>"
+          },
+          "author": "Marios Balamatsias",
+          "nested": []
+        }
+      ],
+      "version": "12.30.3",
+      "date": "2020-12-09T12:55:51.417Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Remove remaining v12 switches",
           "hash": "3edf7a038fccc8c1ddf5d09f29c37194a1104c84",
           "body": "",
@@ -20354,12 +20373,12 @@
       "avatar": "https://avatars1.githubusercontent.com/u/590207?v=4"
     },
     {
-      "username": "afitzek",
-      "avatar": "https://avatars3.githubusercontent.com/u/3415366?v=4"
-    },
-    {
       "username": "mbalamat",
       "avatar": "https://avatars1.githubusercontent.com/u/7872396?v=4"
+    },
+    {
+      "username": "afitzek",
+      "avatar": "https://avatars3.githubusercontent.com/u/3415366?v=4"
     },
     {
       "username": "nwneisen",
@@ -20514,43 +20533,71 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-12-08T11:02:07Z",
+  "lastCommitDate": "2020-12-09T17:07:19Z",
   "latestRelease": {
-    "tagName": "v12.30.2",
+    "tagName": "v12.30.3",
     "asssets": [
       {
-        "name": "balena-cli-v12.30.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.2/balena-cli-v12.30.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.30.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.3/balena-cli-v12.30.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.30.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.2/balena-cli-v12.30.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.30.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.3/balena-cli-v12.30.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.30.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.2/balena-cli-v12.30.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.30.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.3/balena-cli-v12.30.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.30.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.2/balena-cli-v12.30.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.30.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.3/balena-cli-v12.30.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.30.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.2/balena-cli-v12.30.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.30.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.3/balena-cli-v12.30.3-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 298,
+    "numberOfIssues": 305,
     "latestIssues": [
+      {
+        "title": "Add organizations support to app rename command",
+        "url": "https://github.com/balena-io/balena-cli/pull/2128"
+      },
+      {
+        "title": "Add organizations support to app create command",
+        "url": "https://github.com/balena-io/balena-cli/pull/2127"
+      },
+      {
+        "title": "Need to uniquely identify errors",
+        "url": "https://github.com/balena-io/balena-cli/issues/2126"
+      },
+      {
+        "title": "Fix app name output in app command",
+        "url": "https://github.com/balena-io/balena-cli/pull/2125"
+      },
+      {
+        "title": "Updates balena-cli to build on balenaCI v6",
+        "url": "https://github.com/balena-io/balena-cli/pull/2122"
+      },
+      {
+        "title": "push: Cancelling build with CTRL-C is not reliable",
+        "url": "https://github.com/balena-io/balena-cli/issues/2121"
+      },
+      {
+        "title": "app create: Blank space somehow inserted in app name",
+        "url": "https://github.com/balena-io/balena-cli/issues/2120"
+      },
+      {
+        "title": "Add orgs support to CLI commands",
+        "url": "https://github.com/balena-io/balena-cli/issues/2119"
+      },
       {
         "title": "balena scan should show development devices first",
         "url": "https://github.com/balena-io/balena-cli/issues/2118"
-      },
-      {
-        "title": "errors: Add expected errors for device deactivation",
-        "url": "https://github.com/balena-io/balena-cli/pull/2117"
       },
       {
         "title": "Livepush, logs: Automatically reconnect on 'Connection to device lost'",
@@ -20595,38 +20642,10 @@
       {
         "title": "balena deploy --build : Payload Too Large",
         "url": "https://github.com/balena-io/balena-cli/issues/2086"
-      },
-      {
-        "title": "application rename should be refactored to use sdk rename method instead of pine",
-        "url": "https://github.com/balena-io/balena-cli/issues/2085"
-      },
-      {
-        "title": "device move: Add '-name', '-uuid' and '-id' application and device options",
-        "url": "https://github.com/balena-io/balena-cli/pull/2080"
-      },
-      {
-        "title": "Should support Node 14 and higher",
-        "url": "https://github.com/balena-io/balena-cli/issues/2079"
-      },
-      {
-        "title": "User can't see the release commit of newly created release b/c its color almost matches their terminal's background color",
-        "url": "https://github.com/balena-io/balena-cli/issues/2078"
-      },
-      {
-        "title": "balena-cli-windows-error-correction",
-        "url": "https://github.com/balena-io/balena-cli/pull/2071"
-      },
-      {
-        "title": "balena cli push timeout",
-        "url": "https://github.com/balena-io/balena-cli/issues/2065"
-      },
-      {
-        "title": "`balena tunnel` for .local",
-        "url": "https://github.com/balena-io/balena-cli/issues/2064"
       }
     ]
   },
-  "version": "12.30.2",
+  "version": "12.30.3",
   "screenshot": null,
   "logo": null
 }
