@@ -345,17 +345,26 @@ application name or org/name slug
 
 Create a new balena application.
 
-You can specify the application device type with the `--type` option.
-Otherwise, an interactive dropdown will be shown for you to select from.
+You can specify the organization the application should belong to using
+the `--organization` option. The organization's handle, not its name,
+should be provided. Organization handles can be listed with the
+`balena orgs` command.
 
-You can see a list of supported device types with:
+The application's default device type is specified with the `--type` option.
+The `balena devices supported` command can be used to list the available
+device types.
 
-$ balena devices supported
+Interactive dropdowns will be shown for selection if no device type or
+organization is specified and there are multiple options to choose from.
+If there is a single option to choose from, it will be chosen automatically.
+This interactive behavior can be disabled by explicitly specifying a device
+type and organization.
 
 Examples:
 
 	$ balena app create MyApp
-	$ balena app create MyApp --type raspberry-pi
+	$ balena app create MyApp --organization mmyorg
+	$ balena app create MyApp -o myorg --type raspberry-pi
 
 ### Arguments
 
@@ -364,6 +373,10 @@ Examples:
 application name
 
 ### Options
+
+#### -o, --organization ORGANIZATION
+
+handle of the organization the application should belong to
 
 #### -t, --type TYPE
 

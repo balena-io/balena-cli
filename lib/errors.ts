@@ -189,6 +189,7 @@ const EXPECTED_ERROR_REGEXES = [
 	/^BalenaInvalidDeviceType/, // balena-sdk
 	/Cannot deactivate devices/i, // balena-api
 	/Devices must be offline in order to be deactivated\.$/i, // balena-api
+	/^BalenaOrganizationNotFound/, // balena-sdk
 	/Request error: Unauthorized$/, // balena-sdk
 	/^Missing \d+ required arg/, // oclif parser: RequiredArgsError
 	/Missing required flag/, // oclif parser: RequiredFlagError
