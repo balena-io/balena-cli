@@ -1524,6 +1524,11 @@ Only show system logs. This can be used in combination with --service.
 
 Scan for balenaOS devices on your local network.
 
+The output includes device information collected through balenaEngine for
+devices running a development image of balenaOS. Devices running a production
+image do not expose balenaEngine (on TCP port 2375), which is why less
+information is printed about them.
+
 Examples:
 
 	$ balena scan

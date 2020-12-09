@@ -55,16 +55,19 @@ export const service = flags.string({
 export const verbose: IBooleanFlag<boolean> = flags.boolean({
 	char: 'v',
 	description: 'produce verbose output',
+	default: false,
 });
 
 export const yes: IBooleanFlag<boolean> = flags.boolean({
 	char: 'y',
 	description: 'answer "yes" to all questions (non interactive use)',
+	default: false,
 });
 
 export const force: IBooleanFlag<boolean> = flags.boolean({
 	char: 'f',
 	description: 'force action if the update lock is set',
+	default: false,
 });
 
 export const drive = flags.string({

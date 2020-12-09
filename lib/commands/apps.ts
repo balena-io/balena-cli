@@ -19,7 +19,6 @@ import { flags } from '@oclif/command';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
-import { isV12 } from '../utils/version';
 
 interface ExtendedApplication extends ApplicationWithDeviceType {
 	device_count?: number;
@@ -28,7 +27,7 @@ interface ExtendedApplication extends ApplicationWithDeviceType {
 
 interface FlagsDef {
 	help: void;
-	verbose?: boolean;
+	verbose: boolean;
 }
 
 export default class AppsCmd extends Command {
@@ -47,10 +46,9 @@ export default class AppsCmd extends Command {
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
 		verbose: flags.boolean({
+			default: false,
 			char: 'v',
-			description: isV12()
-				? 'No-op since release v12.0.0'
-				: 'add extra columns in the tabular output (SLUG)',
+			description: 'No-op since release v12.0.0',
 		}),
 	};
 
@@ -87,7 +85,7 @@ export default class AppsCmd extends Command {
 			getVisuals().table.horizontal(applications, [
 				'id',
 				'app_name',
-				options.verbose || isV12() ? 'slug' : '',
+				options.verbose || 'slug',
 				'device_type',
 				'online_devices',
 				'device_count',

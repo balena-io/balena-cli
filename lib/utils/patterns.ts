@@ -25,6 +25,7 @@ import {
 import { getBalenaSdk, getVisuals, stripIndent, getCliForm } from './lazy';
 import validation = require('./validation');
 import { delay } from './helpers';
+import { isV13 } from './version';
 
 export function authenticate(options: {}): Promise<void> {
 	const balena = getBalenaSdk();
@@ -147,7 +148,11 @@ export async function confirm(
 ) {
 	if (yesOption) {
 		if (yesMessage) {
-			console.log(yesMessage);
+			if (isV13()) {
+				console.error(yesMessage);
+			} else {
+				console.log(yesMessage);
+			}
 		}
 		return;
 	}
@@ -159,7 +164,8 @@ export async function confirm(
 	});
 
 	if (!confirmed) {
-		const err = new Error('Aborted');
+		const err = new ExpectedError('Aborted');
+		// TODO remove this deprecated function (exitWithExpectedError)
 		if (exitIfDeclined) {
 			exitWithExpectedError(err);
 		}

@@ -142,12 +142,18 @@ const messages: {
 		Try logging in again with the "balena login" command.`,
 };
 
+// TODO remove these regexes when we have a way of uniquely indentifying errors.
+// related issue https://github.com/balena-io/balena-sdk/issues/1025
+// related issue https://github.com/balena-io/balena-cli/issues/2126
 const EXPECTED_ERROR_REGEXES = [
 	/^BalenaAmbiguousApplication/, // balena-sdk
+	/^BalenaAmbiguousDevice/, // balena-sdk
 	/^BalenaApplicationNotFound/, // balena-sdk
 	/^BalenaDeviceNotFound/, // balena-sdk
 	/^BalenaExpiredToken/, // balena-sdk
 	/^BalenaInvalidDeviceType/, // balena-sdk
+	/Cannot deactivate devices/i, // balena-api
+	/Devices must be offline in order to be deactivated\.$/i, // balena-api
 	/Request error: Unauthorized$/, // balena-sdk
 	/^Missing \d+ required arg/, // oclif parser: RequiredArgsError
 	/Missing required flag/, // oclif parser: RequiredFlagError

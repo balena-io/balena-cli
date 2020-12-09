@@ -22,11 +22,9 @@ import Command from '../command';
 import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
-import { CommandHelp } from '../utils/oclif-utils';
-import { isV12 } from '../utils/version';
+import { isV13 } from '../utils/version';
 
 interface FlagsDef {
-	all?: boolean; // whether to include application-wide, device-wide variables //TODO: REMOVE
 	application?: string; // application name
 	config: boolean;
 	device?: string; // device UUID
@@ -57,8 +55,7 @@ interface ServiceEnvironmentVariableInfo
 }
 
 export default class EnvsCmd extends Command {
-	public static description = isV12()
-		? stripIndent`
+	public static description = stripIndent`
 		List the environment or config variables of an application, device or service.
 
 		List the environment or configuration variables of an application, device or
@@ -91,89 +88,36 @@ export default class EnvsCmd extends Command {
 		application linked to the device is no longer accessible by the current user
 		(for example, in case the current user has been removed from the application
 		by its owner).
-`
-		: stripIndent`
-		List the environment or config variables of an application, device or service.
-
-		List the environment or configuration variables of an application, device or
-		service, as selected by the respective command-line options. (A service is
-		an application container in a "microservices" application.)
-
-		The --config option is used to list "configuration variables" that control
-		balena platform features, as opposed to custom environment variables defined
-		by the user. The --config and the --service options are mutually exclusive
-		because configuration variables cannot be set for specific services.
-
-		The --all option is used to include application-wide (fleet), device-wide
-		(multiple services on a device) and service-specific variables that apply to
-		the selected application, device or service. It can be thought of as including
-		"inherited" variables: for example, a service inherits device-wide variables,
-		and a device inherits application-wide variables. Variables are still filtered
-		out by type with the --config option, such that configuration and non-
-		configuration variables are never listed together.
-
-		When the --all option is used, the printed output may include DEVICE and/or
-		SERVICE columns to distinguish between application-wide, device-specific and
-		service-specific variables. An asterisk in these columns indicates that the
-		variable applies to "all devices" or "all services".
-
-		The --json option is recommended when scripting the output of this command,
-		because the JSON format is less likely to change and it better represents data
-		types like lists and empty strings. The 'jq' utility may be helpful in shell
-		scripts (https://stedolan.github.io/jq/manual/). When --json is used, an empty
-		JSON array ([]) is printed instead of an error message when no variables exist
-		for the given query. When querying variables for a device, note that the
-		application name may be null in JSON output (or 'N/A' in tabular output) if the
-		application linked to the device is no longer accessible by the current user
-		(for example, in case the current user has been removed from the application
-		by its owner).
 `;
-	public static examples = isV12()
-		? [
-				'$ balena envs --application MyApp',
-				'$ balena envs --application MyApp --json',
-				'$ balena envs --application MyApp --service MyService',
-				'$ balena envs --application MyApp --service MyService',
-				'$ balena envs --application MyApp --config',
-				'$ balena envs --device 7cf02a6',
-				'$ balena envs --device 7cf02a6 --json',
-				'$ balena envs --device 7cf02a6 --config --json',
-				'$ balena envs --device 7cf02a6 --service MyService',
-		  ]
-		: [
-				'$ balena envs --application MyApp',
-				'$ balena envs --application MyApp --all --json',
-				'$ balena envs --application MyApp --service MyService',
-				'$ balena envs --application MyApp --all --service MyService',
-				'$ balena envs --application MyApp --config',
-				'$ balena envs --device 7cf02a6',
-				'$ balena envs --device 7cf02a6 --all --json',
-				'$ balena envs --device 7cf02a6 --config --all --json',
-				'$ balena envs --device 7cf02a6 --all --service MyService',
-		  ];
+	public static examples = [
+		'$ balena envs --application MyApp',
+		'$ balena envs --application MyApp --json',
+		'$ balena envs --application MyApp --service MyService',
+		'$ balena envs --application MyApp --service MyService',
+		'$ balena envs --application MyApp --config',
+		'$ balena envs --device 7cf02a6',
+		'$ balena envs --device 7cf02a6 --json',
+		'$ balena envs --device 7cf02a6 --config --json',
+		'$ balena envs --device 7cf02a6 --service MyService',
+	];
 
-	public static usage = (
-		'envs ' + new CommandHelp({ args: EnvsCmd.args }).defaultUsage()
-	).trim();
+	public static usage = 'envs';
 
 	public static flags: flags.Input<FlagsDef> = {
-		...(isV12()
-			? {
+		...(isV13()
+			? {}
+			: {
 					all: flags.boolean({
+						default: false,
 						description: stripIndent`
 				No-op since balena CLI v12.0.0.`,
 						hidden: true,
 					}),
-			  }
-			: {
-					all: flags.boolean({
-						description: stripIndent`
-				include app-wide, device-wide variables that apply to the selected device or service.
-				Variables are still filtered out by type with the --config option.`,
-					}),
 			  }),
+
 		application: { exclusive: ['device'], ...cf.application },
 		config: flags.boolean({
+			default: false,
 			char: 'c',
 			description: 'show configuration variables only',
 			exclusive: ['service'],
@@ -181,6 +125,7 @@ export default class EnvsCmd extends Command {
 		device: { exclusive: ['application'], ...cf.device },
 		help: cf.help,
 		json: flags.boolean({
+			default: false,
 			char: 'j',
 			description: 'produce JSON output instead of tabular output',
 		}),
@@ -191,8 +136,6 @@ export default class EnvsCmd extends Command {
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(EnvsCmd);
 		const variables: EnvironmentVariableInfo[] = [];
-
-		options.all = options.all || isV12();
 
 		await Command.checkLoggedIn();
 
@@ -221,9 +164,7 @@ export default class EnvsCmd extends Command {
 		if (appName && options.service) {
 			await validateServiceName(balena, options.service, appName);
 		}
-		if (options.application || options.all) {
-			variables.push(...(await getAppVars(balena, appName, options)));
-		}
+		variables.push(...(await getAppVars(balena, appName, options)));
 		if (fullUUID) {
 			variables.push(
 				...(await getDeviceVars(balena, fullUUID, appName, options)),
@@ -247,20 +188,18 @@ export default class EnvsCmd extends Command {
 	) {
 		const fields = ['id', 'name', 'value'];
 
-		if (options.all) {
-			// Replace undefined app names with 'N/A' or null
-			varArray = varArray.map((i: EnvironmentVariableInfo) => {
-				i.appName = i.appName || (options.json ? null : 'N/A');
-				return i;
-			});
+		// Replace undefined app names with 'N/A' or null
+		varArray = varArray.map((i: EnvironmentVariableInfo) => {
+			i.appName = i.appName || (options.json ? null : 'N/A');
+			return i;
+		});
 
-			fields.push(options.json ? 'appName' : 'appName => APPLICATION');
-			if (options.device) {
-				fields.push(options.json ? 'deviceUUID' : 'deviceUUID => DEVICE');
-			}
-			if (!options.config) {
-				fields.push(options.json ? 'serviceName' : 'serviceName => SERVICE');
-			}
+		fields.push(options.json ? 'appName' : 'appName => APPLICATION');
+		if (options.device) {
+			fields.push(options.json ? 'deviceUUID' : 'deviceUUID => DEVICE');
+		}
+		if (!options.config) {
+			fields.push(options.json ? 'serviceName' : 'serviceName => SERVICE');
 		}
 
 		if (options.json) {
@@ -309,14 +248,12 @@ async function getAppVars(
 	if (!appName) {
 		return appVars;
 	}
-	if (options.config || options.all || !options.service) {
-		const vars = await sdk.models.application[
-			options.config ? 'configVar' : 'envVar'
-		].getAllByApplication(appName);
-		fillInInfoFields(vars, appName);
-		appVars.push(...vars);
-	}
-	if (!options.config && (options.service || options.all)) {
+	const vars = await sdk.models.application[
+		options.config ? 'configVar' : 'envVar'
+	].getAllByApplication(appName);
+	fillInInfoFields(vars, appName);
+	appVars.push(...vars);
+	if (!options.config) {
 		const pineOpts: SDK.PineOptions<SDK.ServiceEnvironmentVariable> = {
 			$expand: {
 				service: {},
@@ -358,35 +295,32 @@ async function getDeviceVars(
 		fillInInfoFields(deviceConfigVars, appName, printedUUID);
 		deviceVars.push(...deviceConfigVars);
 	} else {
-		if (options.service || options.all) {
-			const pineOpts: SDK.PineOptions<SDK.DeviceServiceEnvironmentVariable> = {
-				$expand: {
-					service_install: {
-						$expand: 'installs__service',
-					},
+		const pineOpts: SDK.PineOptions<SDK.DeviceServiceEnvironmentVariable> = {
+			$expand: {
+				service_install: {
+					$expand: 'installs__service',
+				},
+			},
+		};
+		if (options.service) {
+			pineOpts.$filter = {
+				service_install: {
+					installs__service: { service_name: options.service },
 				},
 			};
-			if (options.service) {
-				pineOpts.$filter = {
-					service_install: {
-						installs__service: { service_name: options.service },
-					},
-				};
-			}
-			const deviceServiceVars = await sdk.models.device.serviceVar.getAllByDevice(
-				fullUUID,
-				pineOpts,
-			);
-			fillInInfoFields(deviceServiceVars, appName, printedUUID);
-			deviceVars.push(...deviceServiceVars);
 		}
-		if (!options.service || options.all) {
-			const deviceEnvVars = await sdk.models.device.envVar.getAllByDevice(
-				fullUUID,
-			);
-			fillInInfoFields(deviceEnvVars, appName, printedUUID);
-			deviceVars.push(...deviceEnvVars);
-		}
+		const deviceServiceVars = await sdk.models.device.serviceVar.getAllByDevice(
+			fullUUID,
+			pineOpts,
+		);
+		fillInInfoFields(deviceServiceVars, appName, printedUUID);
+		deviceVars.push(...deviceServiceVars);
+
+		const deviceEnvVars = await sdk.models.device.envVar.getAllByDevice(
+			fullUUID,
+		);
+		fillInInfoFields(deviceEnvVars, appName, printedUUID);
+		deviceVars.push(...deviceEnvVars);
 	}
 	return deviceVars;
 }

@@ -100,10 +100,12 @@ manually pinned using https://github.com/balena-io-projects/staged-releases .\
 			char: 's',
 		}),
 		'dont-check-arch': flags.boolean({
+			default: false,
 			description:
 				'disables check for matching architecture in image and application',
 		}),
 		'pin-device-to-release': flags.boolean({
+			default: false,
 			description:
 				'pin the preloaded device to the preloaded release on provision',
 			char: 'p',

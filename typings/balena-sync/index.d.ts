@@ -23,6 +23,7 @@ declare module 'balena-sync' {
 	export interface LocalBalenaOsDevice {
 		address: string;
 		host: string;
+		osVariant: string;
 		port: number;
 	}
 
