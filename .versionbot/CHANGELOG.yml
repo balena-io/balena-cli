@@ -1,4 +1,51 @@
 - commits:
+    - subject: Removes hardcoded path
+      hash: 0147e0e9922430857f361ee7b9d14fed366e5256
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: ab77
+      nested: []
+    - subject: Fix Windows installer build in new balena CI workers (qqjs patch)
+      hash: b73bd428410e810d00cc4297f9f1d3c03e9cd79a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: empty
+      hash: 6d22854e9342b59562dcd8ec48e0468f3fd6feeb
+      body: ''
+      footer:
+        Changelog-entry: empty
+        changelog-entry: empty
+        Change-type: patch
+        change-type: patch
+      author: ab77
+      nested: []
+    - subject: Fix 'balena ssh' test cases when using the Windows built-in ssh tool
+      hash: c588918c06521369b708942192cb2cd2f102ea5d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: empty
+      hash: b897bf054b96bab61b388fd6014646ac48d16f88
+      body: ''
+      footer:
+        Changelog-entry: empty
+        changelog-entry: empty
+        Change-type: patch
+        change-type: patch
+      author: ab77
+      nested: []
+  version: 12.30.3
+  date: 2020-12-09T04:44:23.233Z
+- commits:
     - subject: Remove remaining v12 switches
       hash: 3edf7a038fccc8c1ddf5d09f29c37194a1104c84
       body: ''
