@@ -1,4 +1,43 @@
 - commits:
+    - subject: >-
+        Livepush: Extend CTRL-C availability (don't ignore CTRL-C during image
+        build)
+      hash: 07666e953fd9fb0e773e9158ec9068516c1233ef
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'Livepush, logs: Automatically reconnect on ''Connection to device lost'''
+      hash: 54731c2d204803fbf87c1a5c57989762071ae359
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+    - subject: 'logs: Fix CTRL-C ignored on Windows (PowerShell, MSYS, Git for Windows)'
+      hash: d00db5ea8c6bb33bcc9abe6c2dfd71c93b7e910d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'Livepush: Fix process not exiting on "Connection to device lost"'
+      hash: 54978357280f70196fd6ef535c272980acfb6296
+      body: ''
+      footer:
+        Resolves: '#1828'
+        resolves: '#1828'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.31.0
+  date: 2020-12-10T12:37:40.077Z
+- commits:
     - subject: Fix app name output in app command
       hash: fc8b7c71fc2cab5949b0bebc86a757d28f510343
       body: ''
@@ -12,7 +51,7 @@
       author: Scott Lowe
       nested: []
   version: 12.30.4
-  date: 2020-12-10T08:19:41.597Z
+  date: 2020-12-10T07:35:10.577Z
 - commits:
     - subject: 'errors: Add expected errors for device deactivation'
       hash: a19132d3bfe2e02456b4738fb16d4aa813fe6211
