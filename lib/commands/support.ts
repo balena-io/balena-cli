@@ -20,6 +20,7 @@ import Command from '../command';
 import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getCliUx, stripIndent } from '../utils/lazy';
+import { applicationIdInfo } from '../utils/messages';
 
 interface FlagsDef {
 	application?: string;
@@ -45,12 +46,14 @@ export default class SupportCmd extends Command {
 
 		Both --device and --application flags accept multiple values, specified as
 		a comma-separated list (with no spaces).
+
+		${applicationIdInfo.split('\n').join('\n\t\t')}
 	`;
 
 	public static examples = [
 		'balena support enable --device ab346f,cd457a --duration 3d',
 		'balena support enable --application app3 --duration 12h',
-		'balena support disable -a myApp',
+		'balena support disable -a myorg/myapp',
 	];
 
 	public static args = [
@@ -68,10 +71,11 @@ export default class SupportCmd extends Command {
 			description: 'comma-separated list (no spaces) of device UUIDs',
 			char: 'd',
 		}),
-		application: flags.string({
-			description: 'comma-separated list (no spaces) of application names',
-			char: 'a',
-		}),
+		application: {
+			...cf.application,
+			description:
+				'comma-separated list (no spaces) of application names or org/name slugs',
+		},
 		duration: flags.string({
 			description:
 				'length of time to enable support for, in (h)ours or (d)ays, e.g. 12h, 2d',

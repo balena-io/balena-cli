@@ -17,12 +17,14 @@
 
 import { flags } from '@oclif/command';
 import Command from '../command';
+import * as cf from '../utils/common-flags';
 import {
 	getBalenaSdk,
 	getCliForm,
 	getVisuals,
 	stripIndent,
 } from '../utils/lazy';
+import { applicationIdInfo } from '../utils/messages';
 import type { DockerConnectionCliFlags } from '../utils/docker';
 import { dockerConnectionCliFlags } from '../utils/docker';
 import * as _ from 'lodash';
@@ -62,13 +64,16 @@ export default class PreloadCmd extends Command {
 		When the device boots, it will not need to download the application, as it was
 		preloaded.
 
+		${applicationIdInfo.split('\n').join('\n\t\t')}
+
 		Warning: "balena preload" requires Docker to be correctly installed in
 		your shell environment. For more information (including Windows support)
 		check: https://github.com/balena-io/balena-cli/blob/master/INSTALL.md
 	`;
 
 	public static examples = [
-		'$ balena preload balena.img --app 1234 --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image image.png',
+		'$ balena preload balena.img --app MyApp --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0',
+		'$ balena preload balena.img --app myorg/myapp --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image image.png',
 		'$ balena preload balena.img',
 	];
 
@@ -83,10 +88,8 @@ export default class PreloadCmd extends Command {
 	public static usage = 'preload <image>';
 
 	public static flags: flags.Input<FlagsDef> = {
-		app: flags.string({
-			description: 'name of the application to preload',
-			char: 'a',
-		}),
+		// TODO: Replace with application/a in #v13?
+		app: cf.application,
 		commit: flags.string({
 			description: `\
 The commit hash for a specific application release to preload, use "current" to specify the current
@@ -160,6 +163,7 @@ Can be repeated to add multiple certificates.\
 		// balena-preload currently does not work with numerical app IDs
 		// Load app here, and use app slug from hereon
 		if (options.app && !options.app.includes('/')) {
+			// Disambiguate application (if is a number, it could either be an ID or a numerical name)
 			const { getApplication } = await import('../utils/sdk');
 			const application = await getApplication(balena, options.app);
 			if (!application) {

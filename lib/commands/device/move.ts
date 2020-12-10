@@ -20,9 +20,8 @@ import type { IArg } from '@oclif/parser/lib/args';
 import type { Application, BalenaSDK } from 'balena-sdk';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
-import { expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { tryAsInteger } from '../../utils/validation';
+import { applicationIdInfo } from '../../utils/messages';
 import { ExpectedError } from '../../errors';
 
 interface ExtendedDevice extends DeviceWithDeviceType {
@@ -47,11 +46,15 @@ export default class DeviceMoveCmd extends Command {
 
 		Note, if the application option is omitted it will be prompted
 		for interactively.
-		`;
+
+		${applicationIdInfo.split('\n').join('\n\t\t')}
+	`;
+
 	public static examples = [
 		'$ balena device move 7cf02a6',
 		'$ balena device move 7cf02a6,dc39e52',
 		'$ balena device move 7cf02a6 --application MyNewApp',
+		'$ balena device move 7cf02a6 -a myorg/mynewapp',
 	];
 
 	public static args: Array<IArg<any>> = [
@@ -80,6 +83,9 @@ export default class DeviceMoveCmd extends Command {
 
 		const balena = getBalenaSdk();
 
+		const { tryAsInteger } = await import('../../utils/validation');
+		const { expandForAppName } = await import('../../utils/helpers');
+
 		options.application = options.application || options.app;
 		delete options.app;
 
@@ -106,16 +112,21 @@ export default class DeviceMoveCmd extends Command {
 				: 'N/a';
 		}
 
+		// Disambiguate application (if is a number, it could either be an ID or a numerical name)
+		const { getApplication } = await import('../../utils/sdk');
+
 		// Get destination application
-		const application =
-			options.application ||
-			(await this.interactivelySelectApplication(balena, devices));
+		const application = options.application
+			? await getApplication(balena, options.application)
+			: await this.interactivelySelectApplication(balena, devices);
 
 		// Move each device
 		for (const uuid of deviceIds) {
 			try {
-				await balena.models.device.move(uuid, tryAsInteger(application));
-				console.info(`${uuid} was moved to ${application}`);
+				await balena.models.device.move(uuid, application.id);
+				console.info(
+					`Device ${uuid} was moved to application ${application.slug}`,
+				);
 			} catch (err) {
 				console.info(`${err.message}, uuid: ${uuid}`);
 				process.exitCode = 1;

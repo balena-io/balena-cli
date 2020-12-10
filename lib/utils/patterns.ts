@@ -187,7 +187,6 @@ export function selectApplication(
 			}
 
 			const apps = (await balena.models.application.getAll({
-				$select: 'app_name',
 				$expand: {
 					is_for__device_type: {
 						$select: 'slug',
@@ -204,8 +203,8 @@ export function selectApplication(
 				message: 'Select an application',
 				type: 'list',
 				choices: _.map(applications, (application) => ({
-					name: `${application.app_name} (${application.is_for__device_type[0].slug})`,
-					value: application.app_name,
+					name: `${application.app_name} (${application.slug}) [${application.is_for__device_type[0].slug}]`,
+					value: application,
 				})),
 			});
 		});

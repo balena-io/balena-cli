@@ -19,6 +19,7 @@ import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getCliForm, stripIndent } from '../../utils/lazy';
+import { applicationIdInfo } from '../../utils/messages';
 import type { PineDeferred } from 'balena-sdk';
 
 interface FlagsDef {
@@ -51,7 +52,9 @@ export default class ConfigGenerateCmd extends Command {
 		that will be asked for the relevant device type.
 
 		In case that you want to configure an image for an application with mixed device types,
-		you can pass the --device-type argument along with --app to specify the target device type.
+		you can pass the --deviceType argument along with --application to specify the target device type.
+
+		${applicationIdInfo.split('\n').join('\n\t\t')}
 	`;
 
 	public static examples = [
@@ -60,7 +63,8 @@ export default class ConfigGenerateCmd extends Command {
 		'$ balena config generate --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>',
 		'$ balena config generate --device 7cf02a6 --version 2.12.7 --output config.json',
 		'$ balena config generate --app MyApp --version 2.12.7',
-		'$ balena config generate --app MyApp --version 2.12.7 --device-type fincm3',
+		'$ balena config generate --app myorg/myapp --version 2.12.7',
+		'$ balena config generate --app MyApp --version 2.12.7 --deviceType fincm3',
 		'$ balena config generate --app MyApp --version 2.12.7 --output config.json',
 		'$ balena config generate --app MyApp --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1',
 	];
@@ -72,15 +76,8 @@ export default class ConfigGenerateCmd extends Command {
 			description: 'a balenaOS version',
 			required: true,
 		}),
-		application: flags.string({
-			description: 'application name',
-			char: 'a',
-			exclusive: ['app', 'device'],
-		}),
-		app: flags.string({
-			description: "same as '--application'",
-			exclusive: ['application', 'device'],
-		}),
+		application: { ...cf.application, exclusive: ['app', 'device'] },
+		app: { ...cf.app, exclusive: ['application', 'device'] },
 		device: flags.string({
 			description: 'device uuid',
 			char: 'd',
@@ -154,6 +151,7 @@ export default class ConfigGenerateCmd extends Command {
 			};
 			resourceDeviceType = device.is_of__device_type[0].slug;
 		} else {
+			// Disambiguate application (if is a number, it could either be an ID or a numerical name)
 			application = (await getApplication(balena, options.application!, {
 				$expand: {
 					is_for__device_type: { $select: 'slug' },
@@ -227,17 +225,8 @@ export default class ConfigGenerateCmd extends Command {
 		  $ balena help config generate
   	`;
 
-	protected readonly deviceTypeNotAllowedMessage = stripIndent`
-		Specifying a different device type is only supported when
-		generating a config for an application:
-
-		* An application, with --app <appname>
-		* A specific device type, with --device-type <deviceTypeSlug>
-
-		See the help page for examples:
-
-		  $ balena help config generate
-	`;
+	protected readonly deviceTypeNotAllowedMessage =
+		'The --deviceType option can only be used alongside the --application option';
 
 	protected async validateOptions(options: FlagsDef) {
 		const { ExpectedError } = await import('../../errors');

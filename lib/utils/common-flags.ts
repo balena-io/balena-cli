@@ -19,14 +19,17 @@ import { flags } from '@oclif/command';
 
 import type { IBooleanFlag } from '@oclif/parser/lib/flags';
 import { stripIndent } from './lazy';
+import { lowercaseIfSlug } from './normalization';
 
 export const application = flags.string({
 	char: 'a',
-	description: 'application name',
+	description: 'application name, slug (preferred), or numeric ID (deprecated)',
+	parse: lowercaseIfSlug,
 });
 // TODO: Consider remove second alias 'app' when we can, to simplify.
 export const app = flags.string({
 	description: "same as '--application'",
+	parse: lowercaseIfSlug,
 });
 
 export const device = flags.string({
@@ -77,4 +80,10 @@ export const drive = flags.string({
 		Careful with this as you can erase your hard drive.
 		Check \`balena util available-drives\` for available options.
 	`,
+});
+
+export const json: IBooleanFlag<boolean> = flags.boolean({
+	char: 'j',
+	description: 'produce JSON output instead of tabular output',
+	default: false,
 });

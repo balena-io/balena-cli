@@ -19,6 +19,7 @@ import { flags } from '@oclif/command';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
+import { applicationIdInfo } from '../utils/messages';
 import { parseAsLocalHostnameOrIp } from '../utils/validation';
 
 interface FlagsDef {
@@ -49,12 +50,15 @@ export default class JoinCmd extends Command {
 		scan the local network for balenaOS devices and prompt you to select one
 		from an interactive picker. This requires root privileges.  Likewise, if
 		the application flag is not provided then a picker will be shown.
+
+		${applicationIdInfo.split('\n').join('\n\t\t')}
 	`;
 
 	public static examples = [
 		'$ balena join',
 		'$ balena join balena.local',
 		'$ balena join balena.local --application MyApp',
+		'$ balena join balena.local -a myorg/myapp',
 		'$ balena join 192.168.1.25',
 		'$ balena join 192.168.1.25 --application MyApp',
 	];
@@ -71,10 +75,7 @@ export default class JoinCmd extends Command {
 	public static usage = 'join [deviceIpOrHostname]';
 
 	public static flags: flags.Input<FlagsDef> = {
-		application: {
-			description: 'the name of the application the device should join',
-			...cf.application,
-		},
+		application: cf.application,
 		pollInterval: flags.integer({
 			description: 'the interval in minutes to check for updates',
 			char: 'i',

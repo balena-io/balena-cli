@@ -18,8 +18,9 @@
 import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
+import * as ca from '../../utils/common-args';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { tryAsInteger } from '../../utils/validation';
+import { applicationIdInfo } from '../../utils/messages';
 
 interface FlagsDef {
 	yes: boolean;
@@ -27,7 +28,7 @@ interface FlagsDef {
 }
 
 interface ArgsDef {
-	name: string;
+	application: string;
 }
 
 export default class AppRmCmd extends Command {
@@ -37,21 +38,19 @@ export default class AppRmCmd extends Command {
 		Permanently remove a balena application.
 
 		The --yes option may be used to avoid interactive confirmation.
-`;
+
+		${applicationIdInfo.split('\n').join('\n\t\t')}
+	`;
+
 	public static examples = [
 		'$ balena app rm MyApp',
 		'$ balena app rm MyApp --yes',
+		'$ balena app rm myorg/myapp',
 	];
 
-	public static args = [
-		{
-			name: 'name',
-			description: 'application name or numeric ID',
-			required: true,
-		},
-	];
+	public static args = [ca.applicationRequired];
 
-	public static usage = 'app rm <name>';
+	public static usage = 'app rm <application>';
 
 	public static flags: flags.Input<FlagsDef> = {
 		yes: cf.yes,
@@ -65,15 +64,20 @@ export default class AppRmCmd extends Command {
 			AppRmCmd,
 		);
 
-		const patterns = await import('../../utils/patterns');
+		const { confirm } = await import('../../utils/patterns');
+		const { getApplication } = await import('../../utils/sdk');
+		const balena = getBalenaSdk();
 
 		// Confirm
-		await patterns.confirm(
+		await confirm(
 			options.yes ?? false,
-			`Are you sure you want to delete application ${params.name}?`,
+			`Are you sure you want to delete application ${params.application}?`,
 		);
 
+		// Disambiguate application (if is a number, it could either be an ID or a numerical name)
+		const application = await getApplication(balena, params.application);
+
 		// Remove
-		await getBalenaSdk().models.application.remove(tryAsInteger(params.name));
+		await balena.models.application.remove(application.id);
 	}
 }

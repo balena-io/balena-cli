@@ -18,35 +18,36 @@
 import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
+import * as ca from '../../utils/common-args';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { tryAsInteger } from '../../utils/validation';
+import { applicationIdInfo } from '../../utils/messages';
 
 interface FlagsDef {
 	help: void;
 }
 
 interface ArgsDef {
-	name: string;
+	application: string;
 }
 
-export default class AppRestartCmd extends Command {
+export default class AppPurgeCmd extends Command {
 	public static description = stripIndent`
 		Purge data from an application.
 
 		Purge data from all devices belonging to an application.
 		This will clear the application's /data directory.
-`;
-	public static examples = ['$ balena app purge MyApp'];
 
-	public static args = [
-		{
-			name: 'name',
-			description: 'application name or numeric ID',
-			required: true,
-		},
+		${applicationIdInfo.split('\n').join('\n\t\t')}
+	`;
+
+	public static examples = [
+		'$ balena app purge MyApp',
+		'$ balena app purge myorg/myapp',
 	];
 
-	public static usage = 'app purge <name>';
+	public static args = [ca.applicationRequired];
+
+	public static usage = 'app purge <application>';
 
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
@@ -55,21 +56,18 @@ export default class AppRestartCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(AppRestartCmd);
+		const { args: params } = this.parse<FlagsDef, ArgsDef>(AppPurgeCmd);
+
+		const { getApplication } = await import('../../utils/sdk');
 
 		const balena = getBalenaSdk();
 
 		// balena.models.application.purge only accepts a numeric id
-		// so we must first fetch the app to get it's id, if we have been given a name
-		let nameOrId = tryAsInteger(params.name);
-
-		if (typeof nameOrId === 'string') {
-			const app = await balena.models.application.get(nameOrId);
-			nameOrId = app.id;
-		}
+		// so we must first fetch the app to get it's id,
+		const application = await getApplication(balena, params.application);
 
 		try {
-			await balena.models.application.purge(nameOrId);
+			await balena.models.application.purge(application.id);
 		} catch (e) {
 			if (e.message.toLowerCase().includes('no online device(s) found')) {
 				// application.purge throws an error if no devices are online

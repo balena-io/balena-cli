@@ -20,7 +20,7 @@ import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { tryAsInteger } from '../../utils/validation';
+import { applicationIdInfo, jsonInfo } from '../../utils/messages';
 import type { Application } from 'balena-sdk';
 
 interface ExtendedDevice extends DeviceWithDeviceType {
@@ -44,17 +44,16 @@ export default class DevicesCmd extends Command {
 
 		You can filter the devices by application by using the \`--application\` option.
 
-		The --json option is recommended when scripting the output of this command,
-		because field names are less likely to change in JSON format and because it
-		better represents data types like arrays, empty strings and null values.
-		The 'jq' utility may be helpful for querying JSON fields in shell scripts
-		(https://stedolan.github.io/jq/manual/).
+		${applicationIdInfo.split('\n').join('\n\t\t')}
+
+		${jsonInfo.split('\n').join('\n\t\t')}
 	`;
 	public static examples = [
 		'$ balena devices',
 		'$ balena devices --application MyApp',
 		'$ balena devices --app MyApp',
 		'$ balena devices -a MyApp',
+		'$ balena devices -a myorg/myapp',
 	];
 
 	public static usage = 'devices';
@@ -62,11 +61,8 @@ export default class DevicesCmd extends Command {
 	public static flags: flags.Input<FlagsDef> = {
 		application: cf.application,
 		app: cf.app,
+		json: cf.json,
 		help: cf.help,
-		json: flags.boolean({
-			char: 'j',
-			description: 'produce JSON output instead of tabular output',
-		}),
 	};
 
 	public static primary = true;
@@ -85,8 +81,10 @@ export default class DevicesCmd extends Command {
 		let devices;
 
 		if (options.application != null) {
+			const { getApplication } = await import('../../utils/sdk');
+			const application = await getApplication(balena, options.application);
 			devices = (await balena.models.device.getAllByApplication(
-				tryAsInteger(options.application),
+				application.id,
 				expandForAppName,
 			)) as ExtendedDevice[];
 		} else {
