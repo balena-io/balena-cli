@@ -16,18 +16,7 @@
  */
 
 import type { BalenaSDK } from 'balena-sdk';
-import _ = require('lodash');
 import { ExpectedError } from '../errors';
-
-export function normalizeUuidProp(
-	params: { [key: string]: any },
-	propName = 'uuid',
-) {
-	if (typeof params[propName] === 'number') {
-		params[propName] =
-			params[propName + '_raw'] || _.toString(params[propName]);
-	}
-}
 
 /**
  * Takes a string which may represent one of:
@@ -84,4 +73,11 @@ export async function disambiguateReleaseParam(
 
 	// Must be a number only uuid/hash (or nonexistent release)
 	return (await balena.models.release.get(release, { $select: 'id' })).id;
+}
+
+/**
+ * Convert to lowercase if looks like slug
+ */
+export function lowercaseIfSlug(s: string) {
+	return s.includes('/') ? s.toLowerCase() : s;
 }

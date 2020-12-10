@@ -165,7 +165,7 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 	- [app &#60;nameorslug&#62;](#app-nameorslug)
 	- [app create &#60;name&#62;](#app-create-name)
 	- [app purge &#60;name&#62;](#app-purge-name)
-	- [app rename &#60;name&#62; [newname]](#app-rename-name-newname)
+	- [app rename &#60;nameorslug&#62; [newname]](#app-rename-nameorslug-newname)
 	- [app restart &#60;name&#62;](#app-restart-name)
 	- [app rm &#60;name&#62;](#app-rm-name)
 
@@ -386,7 +386,7 @@ application name or numeric ID
 
 ### Options
 
-## app rename &#60;name&#62; [newName]
+## app rename &#60;nameOrSlug&#62; [newName]
 
 Rename an application.
 
@@ -397,12 +397,13 @@ Examples:
 
 	$ balena app rename OldName
 	$ balena app rename OldName NewName
+	$ balena app rename myorg/oldname NewName
 
 ### Arguments
 
-#### NAME
+#### NAMEORSLUG
 
-application name or numeric ID
+application name or org/name slug
 
 #### NEWNAME
 
