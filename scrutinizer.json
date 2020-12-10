@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "Fix app name output in app command",
+          "hash": "fc8b7c71fc2cab5949b0bebc86a757d28f510343",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Resolves": "#2120",
+            "resolves": "#2120",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.30.4",
+      "date": "2020-12-10T07:35:10.577Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "errors: Add expected errors for device deactivation",
           "hash": "a19132d3bfe2e02456b4738fb16d4aa813fe6211",
           "body": "",
@@ -20533,36 +20554,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-12-09T17:07:19Z",
+  "lastCommitDate": "2020-12-10T08:20:29Z",
   "latestRelease": {
-    "tagName": "v12.30.3",
+    "tagName": "v12.30.4",
     "asssets": [
       {
-        "name": "balena-cli-v12.30.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.3/balena-cli-v12.30.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.30.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.4/balena-cli-v12.30.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.30.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.3/balena-cli-v12.30.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.30.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.4/balena-cli-v12.30.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.30.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.3/balena-cli-v12.30.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.30.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.4/balena-cli-v12.30.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.30.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.3/balena-cli-v12.30.3-windows-x64-installer.exe"
+        "name": "balena-cli-v12.30.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.4/balena-cli-v12.30.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.30.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.3/balena-cli-v12.30.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.30.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.30.4/balena-cli-v12.30.4-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 305,
+    "numberOfIssues": 303,
     "latestIssues": [
+      {
+        "title": "Makes balena-cli build on refreshed on-prem workers",
+        "url": "https://github.com/balena-io/balena-cli/pull/2130"
+      },
       {
         "title": "Add organizations support to app rename command",
         "url": "https://github.com/balena-io/balena-cli/pull/2128"
@@ -20576,20 +20601,8 @@
         "url": "https://github.com/balena-io/balena-cli/issues/2126"
       },
       {
-        "title": "Fix app name output in app command",
-        "url": "https://github.com/balena-io/balena-cli/pull/2125"
-      },
-      {
-        "title": "Updates balena-cli to build on balenaCI v6",
-        "url": "https://github.com/balena-io/balena-cli/pull/2122"
-      },
-      {
         "title": "push: Cancelling build with CTRL-C is not reliable",
         "url": "https://github.com/balena-io/balena-cli/issues/2121"
-      },
-      {
-        "title": "app create: Blank space somehow inserted in app name",
-        "url": "https://github.com/balena-io/balena-cli/issues/2120"
       },
       {
         "title": "Add orgs support to CLI commands",
@@ -20642,10 +20655,18 @@
       {
         "title": "balena deploy --build : Payload Too Large",
         "url": "https://github.com/balena-io/balena-cli/issues/2086"
+      },
+      {
+        "title": "application rename should be refactored to use sdk rename method instead of pine",
+        "url": "https://github.com/balena-io/balena-cli/issues/2085"
+      },
+      {
+        "title": "device move: Add '-name', '-uuid' and '-id' application and device options",
+        "url": "https://github.com/balena-io/balena-cli/pull/2080"
       }
     ]
   },
-  "version": "12.30.3",
+  "version": "12.30.4",
   "screenshot": null,
   "logo": null
 }

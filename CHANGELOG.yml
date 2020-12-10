@@ -1,4 +1,19 @@
 - commits:
+    - subject: Fix app name output in app command
+      hash: fc8b7c71fc2cab5949b0bebc86a757d28f510343
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#2120'
+        resolves: '#2120'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.30.4
+  date: 2020-12-10T08:19:41.597Z
+- commits:
     - subject: 'errors: Add expected errors for device deactivation'
       hash: a19132d3bfe2e02456b4738fb16d4aa813fe6211
       body: ''
@@ -10,7 +25,7 @@
       author: Marios Balamatsias
       nested: []
   version: 12.30.3
-  date: 2020-12-09T17:06:31.676Z
+  date: 2020-12-09T12:55:51.417Z
 - commits:
     - subject: Remove remaining v12 switches
       hash: 3edf7a038fccc8c1ddf5d09f29c37194a1104c84
