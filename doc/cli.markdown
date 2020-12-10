@@ -162,7 +162,7 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 - Application
 
 	- [apps](#apps)
-	- [app &#60;name&#62;](#app-name)
+	- [app &#60;nameorslug&#62;](#app-nameorslug)
 	- [app create &#60;name&#62;](#app-create-name)
 	- [app purge &#60;name&#62;](#app-purge-name)
 	- [app rename &#60;name&#62; [newname]](#app-rename-name-newname)
@@ -324,19 +324,20 @@ Examples:
 
 No-op since release v12.0.0
 
-## app &#60;name&#62;
+## app &#60;nameOrSlug&#62;
 
 Display detailed information about a single balena application.
 
 Examples:
 
 	$ balena app MyApp
+	$ balena app myorg/myapp
 
 ### Arguments
 
-#### NAME
+#### NAMEORSLUG
 
-application name or numeric ID
+application name or org/name slug
 
 ### Options
 

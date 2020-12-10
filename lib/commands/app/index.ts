@@ -26,7 +26,7 @@ interface FlagsDef {
 }
 
 interface ArgsDef {
-	name: string;
+	nameOrSlug: string;
 }
 
 export default class AppCmd extends Command {
@@ -35,17 +35,17 @@ export default class AppCmd extends Command {
 
 		Display detailed information about a single balena application.
 `;
-	public static examples = ['$ balena app MyApp'];
+	public static examples = ['$ balena app MyApp', '$ balena app myorg/myapp'];
 
 	public static args = [
 		{
-			name: 'name',
-			description: 'application name or numeric ID',
+			name: 'nameOrSlug',
+			description: 'application name or org/name slug',
 			required: true,
 		},
 	];
 
-	public static usage = 'app <name>';
+	public static usage = 'app <nameOrSlug>';
 
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
@@ -59,22 +59,29 @@ export default class AppCmd extends Command {
 
 		const { getApplication } = await import('../../utils/sdk');
 
-		const application = (await getApplication(getBalenaSdk(), params.name, {
-			$expand: {
-				is_for__device_type: { $select: 'slug' },
-				should_be_running__release: { $select: 'commit' },
+		const application = (await getApplication(
+			getBalenaSdk(),
+			params.nameOrSlug,
+			{
+				$expand: {
+					is_for__device_type: { $select: 'slug' },
+					should_be_running__release: { $select: 'commit' },
+				},
 			},
-		})) as ApplicationWithDeviceType & {
+		)) as ApplicationWithDeviceType & {
 			should_be_running__release: [Release?];
+			// For display purposes:
+			device_type: string;
+			commit?: string;
 		};
 
-		// @ts-expect-error
 		application.device_type = application.is_for__device_type[0].slug;
-		// @ts-expect-error
 		application.commit = application.should_be_running__release[0]?.commit;
+
+		// Emulate table.vertical title output, but avoid uppercasing and inserting spaces
+		console.log(`== ${application.app_name}`);
 		console.log(
 			getVisuals().table.vertical(application, [
-				`$${application.app_name}$`,
 				'id',
 				'device_type',
 				'slug',
