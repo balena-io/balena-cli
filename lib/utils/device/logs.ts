@@ -1,9 +1,33 @@
+/**
+ * @license
+ * Copyright 2018-2020 Balena Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import ColorHash = require('color-hash');
 import * as _ from 'lodash';
 import type { Readable } from 'stream';
 
 import { getChalk } from '../lazy';
 import Logger = require('../logger');
+import { ExpectedError, SIGINTError } from '../../errors';
+
+class DeviceConnectionLostError extends ExpectedError {
+	public static defaultMsg = 'Connection to device lost';
+	constructor(msg?: string) {
+		super(msg || DeviceConnectionLostError.defaultMsg);
+	}
+}
 
 interface Log {
 	message: string;
@@ -32,23 +56,81 @@ interface BuildLog {
  * @param filterService Filter the logs so that only logs
  * 	from a single service will be displayed
  */
-export function displayDeviceLogs(
+async function displayDeviceLogs(
 	logs: Readable,
 	logger: Logger,
 	system: boolean,
 	filterServices?: string[],
 ): Promise<void> {
-	return new Promise((resolve, reject) => {
-		logs.on('data', (log) => {
-			displayLogLine(log, logger, system, filterServices);
+	const { addSIGINTHandler } = await import('../helpers');
+	let gotSignal = false;
+	const handleSignal = () => {
+		gotSignal = true;
+		logs.emit('close');
+	};
+	addSIGINTHandler(handleSignal);
+	process.once('SIGTERM', handleSignal);
+	try {
+		await new Promise((_resolve, reject) => {
+			logs.on('data', (log) => {
+				displayLogLine(log, logger, system, filterServices);
+			});
+			logs.once('error', reject);
+			logs.once('end', () => {
+				logger.logWarn(DeviceConnectionLostError.defaultMsg);
+				if (gotSignal) {
+					reject(new SIGINTError('Log streaming aborted on SIGINT signal'));
+				} else {
+					reject(new DeviceConnectionLostError());
+				}
+			});
 		});
+	} finally {
+		process.removeListener('SIGINT', handleSignal);
+		process.removeListener('SIGTERM', handleSignal);
+	}
+}
 
-		logs.on('error', reject);
-		logs.on('end', () => {
-			logger.logError('Connection to device lost');
-			resolve();
+/**
+ * Open a TCP connection to the device's supervisor (TCP port 48484) and tail
+ * (display) device logs. Retry (reconnect) up to maxAttempts times if the
+ * TCP connection drops. Don't retry on SIGINT (CTRL-C).
+ * See function `displayDeviceLogs` for parameter documentation.
+ */
+export async function connectAndDisplayDeviceLogs({
+	deviceApi,
+	logger,
+	system,
+	filterServices,
+	maxAttempts = 3,
+}: {
+	deviceApi: import('./api').DeviceAPI;
+	logger: Logger;
+	system: boolean;
+	filterServices?: string[];
+	maxAttempts?: number;
+}) {
+	async function connectAndDisplay() {
+		// Open a new connection to the device's supervisor, TCP port 48484
+		const logStream = await deviceApi.getLogStream();
+		return displayDeviceLogs(logStream, logger, system, filterServices);
+	}
+
+	const { retry } = await import('../../utils/helpers');
+	try {
+		await retry({
+			func: connectAndDisplay,
+			maxAttempts,
+			label: 'Streaming logs',
 		});
-	});
+	} catch (err) {
+		if (err instanceof DeviceConnectionLostError) {
+			err.message = `Max retry count (${
+				maxAttempts - 1
+			}) exceeded while attempting to reconnect to the device`;
+		}
+		throw err;
+	}
 }
 
 export function displayBuildLog(log: BuildLog, logger: Logger): void {

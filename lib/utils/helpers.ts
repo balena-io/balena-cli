@@ -22,7 +22,7 @@ import * as os from 'os';
 import type * as ShellEscape from 'shell-escape';
 
 import type { Device, PineOptions } from 'balena-sdk';
-import { ExpectedError } from '../errors';
+import { ExpectedError, SIGINTError } from '../errors';
 import { getBalenaSdk, getChalk, getVisuals } from './lazy';
 import { promisify } from 'util';
 import { isSubcommand } from '../preparser';
@@ -204,39 +204,66 @@ function getApplication(
 	) as Promise<ApplicationWithDeviceType>;
 }
 
+const second = 1000; // 1000 milliseconds
+const minute = 60 * second;
 export const delay = promisify(setTimeout);
 
 /**
  * Call `func`, and if func() throws an error or returns a promise that
- * eventually rejects, retry it `times` many times, each time printing a
- * log message including the given `label` and the error that led to
- * retrying. Wait delayMs before the first retry, multiplying the wait
- * by backoffScaler for each further attempt.
+ * eventually rejects, retry it `times` many times, each time printing a log
+ * message including the given `label` and the error that led to retrying.
+ * Wait initialDelayMs before the first retry. Before each further retry,
+ * the delay is reduced by the time elapsed since the last retry, and
+ * increased by multiplying the result by backoffScaler.
  * @param func: The function to call and, if needed, retry calling
- * @param times: How many times to retry calling func()
+ * @param maxAttempts: How many times (max) to try calling func().
+ * func() will always be called at least once.
  * @param label: Label to include in the retry log message
- * @param startingDelayMs: How long to wait before the first retry
+ * @param initialDelayMs: How long to wait before the first retry
  * @param backoffScaler: Multiplier to previous wait time
- * @param count: Used "internally" for the recursive calls
+ * @param maxSingleDelayMs: Maximum interval between retries
  */
-export async function retry<T>(
-	func: () => T,
-	times: number,
-	label: string,
-	startingDelayMs = 1000,
+export async function retry<T>({
+	func,
+	maxAttempts,
+	label,
+	initialDelayMs = 1000,
 	backoffScaler = 2,
-): Promise<T> {
-	for (let count = 0; count < times - 1; count++) {
+	maxSingleDelayMs = 1 * minute,
+}: {
+	func: () => T;
+	maxAttempts: number;
+	label: string;
+	initialDelayMs?: number;
+	backoffScaler?: number;
+	maxSingleDelayMs?: number;
+}): Promise<T> {
+	let delayMs = initialDelayMs;
+	for (let count = 0; count < maxAttempts - 1; count++) {
+		const lastAttemptMs = Date.now();
 		try {
 			return await func();
 		} catch (err) {
-			const delayMS = backoffScaler ** count * startingDelayMs;
+			// Don't retry on SIGINT (CTRL-C)
+			if (err instanceof SIGINTError) {
+				throw err;
+			}
+			if (count) {
+				// use Math.max to work around system time changes, e.g. DST
+				const elapsedMs = Math.max(0, Date.now() - lastAttemptMs);
+				// reduce delayMs by the time elapsed since the last attempt
+				delayMs = Math.max(initialDelayMs, delayMs - elapsedMs);
+				// increase delayMs by the backoffScaler factor
+				delayMs = Math.min(maxSingleDelayMs, delayMs * backoffScaler);
+			}
+			const sec = delayMs / 1000;
+			const secStr = sec < 10 ? sec.toFixed(1) : Math.round(sec).toString();
 			console.log(
-				`Retrying "${label}" after ${(delayMS / 1000).toFixed(2)}s (${
-					count + 1
-				} of ${times}) due to: ${err}`,
+				`Retrying "${label}" after ${secStr}s (${count + 1} of ${
+					maxAttempts - 1
+				}) due to: ${err}`,
 			);
-			await delay(delayMS);
+			await delay(delayMs);
 		}
 	}
 	return await func();
@@ -490,3 +517,61 @@ export const expandForAppName: PineOptions<Device> = {
 		is_running__release: { $select: 'commit' },
 	},
 };
+
+/**
+ * Use the `readline` library on Windows to install SIGINT handlers.
+ * This appears to be necessary on MSYS / Git for Windows, and also useful
+ * with PowerShell to avoid the built-in "Terminate batch job? (Y/N)" prompt
+ * that appears to result in ungraceful / abrupt process termination.
+ */
+const installReadlineSigintEmitter = _.once(function emitSigint() {
+	if (process.platform === 'win32') {
+		const readline = require('readline') as typeof import('readline');
+		const rl = readline.createInterface({
+			input: process.stdin,
+			output: process.stdout,
+		});
+		rl.on('SIGINT', () => process.emit('SIGINT' as any));
+	}
+});
+
+/**
+ * Centralized cross-platform logic to install a SIGINT handler
+ * @param sigintHandler The handler function
+ * @param once Whether the handler should be called no more than once
+ */
+export function addSIGINTHandler(sigintHandler: () => void, once = true) {
+	installReadlineSigintEmitter();
+	if (once) {
+		process.once('SIGINT', sigintHandler);
+	} else {
+		process.on('SIGINT', sigintHandler);
+	}
+}
+
+/**
+ * Call the given task function (which returns a promise) with the given
+ * arguments, await the returned promise and resolve to the same result.
+ * While awaiting for that promise, also await for a SIGINT signal (if any),
+ * with a new SIGINT handler that is automatically removed on return.
+ * If a SIGINT signal is received while awaiting for the task function,
+ * immediately return a promise that rejects with SIGINTError.
+ * @param task An async function to be executed and awaited
+ * @param theArgs Arguments to be passed to the task function
+ */
+export async function awaitInterruptibleTask<
+	T extends (...args: any[]) => Promise<any>
+>(task: T, ...theArgs: Parameters<T>): Promise<ReturnType<T>> {
+	let sigintHandler: () => void = () => undefined;
+	const sigintPromise = new Promise<T>((_resolve, reject) => {
+		sigintHandler = () => {
+			reject(new SIGINTError('Task aborted on SIGINT signal'));
+		};
+		addSIGINTHandler(sigintHandler);
+	});
+	try {
+		return await Promise.race([sigintPromise, task(...theArgs)]);
+	} finally {
+		process.removeListener('SIGINT', sigintHandler);
+	}
+}

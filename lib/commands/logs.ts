@@ -23,6 +23,7 @@ import { LogMessage } from 'balena-sdk';
 import { IArg } from '@oclif/parser/lib/args';
 
 interface FlagsDef {
+	'max-retry'?: number;
 	tail?: boolean;
 	service?: string[];
 	system?: boolean;
@@ -32,6 +33,8 @@ interface FlagsDef {
 interface ArgsDef {
 	device: string;
 }
+
+const MAX_RETRY = 1000;
 
 export default class LogsCmd extends Command {
 	public static description = stripIndent`
@@ -75,6 +78,11 @@ export default class LogsCmd extends Command {
 	public static usage = 'logs <device>';
 
 	public static flags: flags.Input<FlagsDef> = {
+		'max-retry': flags.integer({
+			description: stripIndent`
+				Maximum number of reconnection attempts on "connection lost" errors
+				(use 0 to disable auto reconnection).`,
+		}),
 		tail: flags.boolean({
 			default: false,
 			description: 'continuously stream output',
@@ -105,7 +113,7 @@ export default class LogsCmd extends Command {
 
 		const balena = getBalenaSdk();
 		const { serviceIdToName } = await import('../utils/cloud');
-		const { displayDeviceLogs, displayLogObject } = await import(
+		const { connectAndDisplayDeviceLogs, displayLogObject } = await import(
 			'../utils/device/logs'
 		);
 		const { validateIPAddress, validateDotLocalUrl } = await import(
@@ -153,13 +161,13 @@ export default class LogsCmd extends Command {
 			}
 
 			logger.logDebug('Streaming logs');
-			const logStream = await deviceApi.getLogStream();
-			await displayDeviceLogs(
-				logStream,
+			await connectAndDisplayDeviceLogs({
+				deviceApi,
 				logger,
-				options.system || false,
-				options.service,
-			);
+				system: options.system || false,
+				filterServices: options.service,
+				maxAttempts: 1 + (options['max-retry'] ?? MAX_RETRY),
+			});
 		} else {
 			// Logs from cloud
 			await Command.checkLoggedIn();

@@ -1,0 +1,17 @@
+diff --git a/node_modules/exit-hook/index.js b/node_modules/exit-hook/index.js
+index e18013f..3366356 100644
+--- a/node_modules/exit-hook/index.js
++++ b/node_modules/exit-hook/index.js
+@@ -14,9 +14,9 @@ function exit(exit, signal) {
+ 		el();
+ 	});
+ 
+-	if (exit === true) {
+-		process.exit(128 + signal);
+-	}
++	// if (exit === true) {
++	// 	process.exit(128 + signal);
++	// }
+ };
+ 
+ module.exports = function (cb) {

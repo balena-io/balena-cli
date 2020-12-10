@@ -219,24 +219,17 @@ export class LivepushManager {
 				this.rebuildsCancelled[serviceName] = false;
 			}
 		}
+	}
 
-		// Setup cleanup handlers for the device
-
-		// This is necessary because the `exit-hook` module is used by several
-		// dependencies, and will exit without calling the following handler.
-		// Once https://github.com/balena-io/balena-cli/issues/867 has been solved,
-		// we are free to (and definitely should) remove the below line
-		process.removeAllListeners('SIGINT');
-		process.on('SIGINT', async () => {
-			this.logger.logLivepush('Cleaning up device...');
-			await Promise.all(
-				_.map(this.containers, (container) => {
-					container.livepush.cleanupIntermediateContainers();
-				}),
-			);
-
-			process.exit(0);
-		});
+	/** Delete intermediate build containers from the device */
+	public async cleanup() {
+		this.logger.logLivepush('Cleaning up device...');
+		await Promise.all(
+			_.map(this.containers, (container) =>
+				container.livepush.cleanupIntermediateContainers(),
+			),
+		);
+		this.logger.logDebug('Cleaning up done.');
 	}
 
 	protected setupFilesystemWatcher(
@@ -288,6 +281,17 @@ export class LivepushManager {
 			changedPathHandler(serviceName, changedPath),
 		);
 		return monitor;
+	}
+
+	/** Stop the filesystem watcher, allowing the Node process to exit gracefully */
+	public close() {
+		for (const container of Object.values(this.containers)) {
+			container.monitor.close().catch((err) => {
+				if (process.env.DEBUG) {
+					this.logger.logDebug(`chokidar.close() ${err.message}`);
+				}
+			});
+		}
 	}
 
 	public static preprocessDockerfile(content: string): string {
