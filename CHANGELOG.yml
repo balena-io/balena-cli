@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add organizations support to app rename command
+      hash: 665e0cf9d7f1f10d5067a1c8888790d4b46fa50a
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#2119'
+        connects-to: '#2119'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.32.0
+  date: 2020-12-10T16:41:31.379Z
+- commits:
     - subject: >-
         Livepush: Extend CTRL-C availability (don't ignore CTRL-C during image
         build)
@@ -36,7 +51,7 @@
       author: Paulo Castro
       nested: []
   version: 12.31.0
-  date: 2020-12-10T12:37:40.077Z
+  date: 2020-12-10T12:03:51.309Z
 - commits:
     - subject: Fix app name output in app command
       hash: fc8b7c71fc2cab5949b0bebc86a757d28f510343

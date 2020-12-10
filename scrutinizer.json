@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "Add organizations support to app rename command",
+          "hash": "665e0cf9d7f1f10d5067a1c8888790d4b46fa50a",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Connects-to": "#2119",
+            "connects-to": "#2119",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.32.0",
+      "date": "2020-12-10T13:02:22.165Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Livepush: Extend CTRL-C availability (don't ignore CTRL-C during image build)",
           "hash": "07666e953fd9fb0e773e9158ec9068516c1233ef",
           "body": "",
@@ -20606,29 +20627,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-12-10T12:38:47Z",
+  "lastCommitDate": "2020-12-10T16:42:18Z",
   "latestRelease": {
-    "tagName": "v12.31.0",
+    "tagName": "v12.32.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.31.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.31.0/balena-cli-v12.31.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.32.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.0/balena-cli-v12.32.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.31.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.31.0/balena-cli-v12.31.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.32.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.0/balena-cli-v12.32.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.31.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.31.0/balena-cli-v12.31.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.32.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.0/balena-cli-v12.32.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.31.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.31.0/balena-cli-v12.31.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.32.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.0/balena-cli-v12.32.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.31.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.31.0/balena-cli-v12.31.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.32.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.0/balena-cli-v12.32.0-windows-x64-standalone.zip"
       }
     ]
   },
@@ -20637,16 +20658,16 @@
     "numberOfIssues": 302,
     "latestIssues": [
       {
+        "title": "Should dynamically check that `postinstall` was successfully executed (patches were applied)",
+        "url": "https://github.com/balena-io/balena-cli/issues/2132"
+      },
+      {
         "title": "Update various commands to support organizations",
         "url": "https://github.com/balena-io/balena-cli/pull/2131"
       },
       {
         "title": "Makes balena-cli build on refreshed on-prem workers",
         "url": "https://github.com/balena-io/balena-cli/pull/2130"
-      },
-      {
-        "title": "Add organizations support to app rename command",
-        "url": "https://github.com/balena-io/balena-cli/pull/2128"
       },
       {
         "title": "Add organizations support to app create command",
@@ -20718,7 +20739,7 @@
       }
     ]
   },
-  "version": "12.31.0",
+  "version": "12.32.0",
   "screenshot": null,
   "logo": null
 }
