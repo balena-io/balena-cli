@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "Add orgs command",
+          "hash": "a11f9ec7055ff7ff8f621157809a6b8dcc2cbc61",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Connects-to": "#2119",
+            "connects-to": "#2119",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.33.0",
+      "date": "2020-12-11T12:06:55.833Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "apps: Fix \"column.match is not a function\" when --verbose is used",
           "hash": "055ad834e70b811f47a04d2c01b309dd7ef756f1",
           "body": "",
@@ -20661,36 +20682,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-12-11T01:11:16Z",
+  "lastCommitDate": "2020-12-11T15:12:40Z",
   "latestRelease": {
-    "tagName": "v12.32.2",
+    "tagName": "v12.33.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.32.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.2/balena-cli-v12.32.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.33.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.33.0/balena-cli-v12.33.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.32.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.2/balena-cli-v12.32.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.33.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.33.0/balena-cli-v12.33.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.32.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.2/balena-cli-v12.32.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.33.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.33.0/balena-cli-v12.33.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.32.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.2/balena-cli-v12.32.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.33.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.33.0/balena-cli-v12.33.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.32.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.2/balena-cli-v12.32.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.33.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.33.0/balena-cli-v12.33.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 302,
+    "numberOfIssues": 303,
     "latestIssues": [
+      {
+        "title": "Fix preload command support for application IDs",
+        "url": "https://github.com/balena-io/balena-cli/pull/2136"
+      },
       {
         "title": "livepush loses track of deleted files",
         "url": "https://github.com/balena-io/balena-cli/issues/2134"
@@ -20766,14 +20791,10 @@
       {
         "title": "application rename should be refactored to use sdk rename method instead of pine",
         "url": "https://github.com/balena-io/balena-cli/issues/2085"
-      },
-      {
-        "title": "device move: Add '-name', '-uuid' and '-id' application and device options",
-        "url": "https://github.com/balena-io/balena-cli/pull/2080"
       }
     ]
   },
-  "version": "12.32.2",
+  "version": "12.33.0",
   "screenshot": null,
   "logo": null
 }

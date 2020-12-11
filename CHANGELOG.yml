@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add orgs command
+      hash: a11f9ec7055ff7ff8f621157809a6b8dcc2cbc61
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#2119'
+        connects-to: '#2119'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.33.0
+  date: 2020-12-11T15:11:38.973Z
+- commits:
     - subject: 'apps: Fix "column.match is not a function" when --verbose is used'
       hash: 055ad834e70b811f47a04d2c01b309dd7ef756f1
       body: ''
@@ -8,7 +23,7 @@
       author: Paulo Castro
       nested: []
   version: 12.32.2
-  date: 2020-12-11T01:10:08.693Z
+  date: 2020-12-11T00:36:12.818Z
 - commits:
     - subject: Make balena-cli build on refreshed on-prem workers
       hash: 511d0dbe2688098f522af9fb81fe6c4503689a22
