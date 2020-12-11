@@ -157,6 +157,17 @@ Can be repeated to add multiple certificates.\
 			);
 		}
 
+		// balena-preload currently does not work with numerical app IDs
+		// Load app here, and use app slug from hereon
+		if (options.app && !options.app.includes('/')) {
+			const { getApplication } = await import('../utils/sdk');
+			const application = await getApplication(balena, options.app);
+			if (!application) {
+				throw new ExpectedError(`Application not found: ${options.app}`);
+			}
+			options.app = application.slug;
+		}
+
 		const progressBars: {
 			[key: string]: ReturnType<typeof getVisuals>['Progress'];
 		} = {};
@@ -200,7 +211,7 @@ Can be repeated to add multiple certificates.\
 
 		if (dontCheckArch && !appId) {
 			throw new ExpectedError(
-				'You need to specify an app id if you disable the architecture check.',
+				'You need to specify an application if you disable the architecture check.',
 			);
 		}
 
