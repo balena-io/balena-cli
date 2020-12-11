@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "apps: Fix \"column.match is not a function\" when --verbose is used",
+          "hash": "055ad834e70b811f47a04d2c01b309dd7ef756f1",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.32.2",
+      "date": "2020-12-11T00:36:12.818Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Make balena-cli build on refreshed on-prem workers",
           "hash": "511d0dbe2688098f522af9fb81fe6c4503689a22",
           "body": "* Fix 'balena ssh' test cases when using the Windows built-in ssh tool\n* Fix Windows installer build in new balena CI workers (qqjs patch)\n* Remove hardcoded path\n",
@@ -20644,43 +20661,39 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-12-11T00:30:10Z",
+  "lastCommitDate": "2020-12-11T01:11:16Z",
   "latestRelease": {
-    "tagName": "v12.32.1",
+    "tagName": "v12.32.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.32.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.1/balena-cli-v12.32.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.32.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.2/balena-cli-v12.32.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.32.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.1/balena-cli-v12.32.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.32.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.2/balena-cli-v12.32.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.32.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.1/balena-cli-v12.32.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.32.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.2/balena-cli-v12.32.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.32.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.1/balena-cli-v12.32.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.32.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.2/balena-cli-v12.32.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.32.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.1/balena-cli-v12.32.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.32.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.32.2/balena-cli-v12.32.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 303,
+    "numberOfIssues": 302,
     "latestIssues": [
       {
         "title": "livepush loses track of deleted files",
         "url": "https://github.com/balena-io/balena-cli/issues/2134"
-      },
-      {
-        "title": "apps: Fix \"column.match is not a function\" when --verbose is used",
-        "url": "https://github.com/balena-io/balena-cli/pull/2133"
       },
       {
         "title": "Should dynamically check that `postinstall` was successfully executed (patches were applied)",
@@ -20753,10 +20766,14 @@
       {
         "title": "application rename should be refactored to use sdk rename method instead of pine",
         "url": "https://github.com/balena-io/balena-cli/issues/2085"
+      },
+      {
+        "title": "device move: Add '-name', '-uuid' and '-id' application and device options",
+        "url": "https://github.com/balena-io/balena-cli/pull/2080"
       }
     ]
   },
-  "version": "12.32.1",
+  "version": "12.32.2",
   "screenshot": null,
   "logo": null
 }
