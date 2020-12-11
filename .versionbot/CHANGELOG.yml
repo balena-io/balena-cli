@@ -1,4 +1,18 @@
 - commits:
+    - subject: Make balena-cli build on refreshed on-prem workers
+      hash: 511d0dbe2688098f522af9fb81fe6c4503689a22
+      body: |
+        * Fix 'balena ssh' test cases when using the Windows built-in ssh tool
+        * Fix Windows installer build in new balena CI workers (qqjs patch)
+        * Remove hardcoded path
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.32.1
+  date: 2020-12-10T20:34:43.475Z
+- commits:
     - subject: Add organizations support to app rename command
       hash: 665e0cf9d7f1f10d5067a1c8888790d4b46fa50a
       body: ''
