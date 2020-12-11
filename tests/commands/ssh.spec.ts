@@ -120,6 +120,13 @@ describe('balena ssh', function () {
 async function checkSsh(): Promise<boolean> {
 	const { which } = await import('../../build/utils/helpers');
 	const sshPath = await which('ssh', false);
+	if ((sshPath || '').includes('\\Windows\\System32\\OpenSSH\\ssh')) {
+		// don't use Windows' built-in ssh tool for these test cases
+		// because it messes up with the terminal window such that
+		// "line breaks stop working" (and not even '\033c' fixes it)
+		// and all mocha output gets printed on a single very long line...
+		return false;
+	}
 	return !!sshPath;
 }
 
@@ -127,11 +134,13 @@ async function checkSsh(): Promise<boolean> {
 async function startMockSshServer(): Promise<[Server, number]> {
 	const server = createServer((c) => {
 		// 'connection' listener
-		c.on('end', () => {
+		const handler = (msg: string) => {
 			if (process.env.DEBUG) {
-				console.error('[debug] mock ssh server: client disconnected');
+				console.error(`[debug] mock ssh server: ${msg}`);
 			}
-		});
+		};
+		c.on('error', (err) => handler(err.message));
+		c.on('end', () => handler('client disconnected'));
 		c.end();
 	});
 	server.on('error', (err) => {
