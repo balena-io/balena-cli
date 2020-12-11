@@ -1,4 +1,19 @@
 - commits:
+    - subject: Fix preload command support for application IDs
+      hash: fe24280adfca5550c95bb80d30b651bfe4713cf4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#2063'
+        resolves: '#2063'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.33.1
+  date: 2020-12-11T16:42:49.596Z
+- commits:
     - subject: Add orgs command
       hash: a11f9ec7055ff7ff8f621157809a6b8dcc2cbc61
       body: ''
@@ -12,7 +27,7 @@
       author: Scott Lowe
       nested: []
   version: 12.33.0
-  date: 2020-12-11T15:11:38.973Z
+  date: 2020-12-11T12:06:55.833Z
 - commits:
     - subject: 'apps: Fix "column.match is not a function" when --verbose is used'
       hash: 055ad834e70b811f47a04d2c01b309dd7ef756f1
