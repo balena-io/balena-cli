@@ -15,7 +15,12 @@
  * limitations under the License.
  */
 
-import type { Application, BalenaSDK, PineOptions } from 'balena-sdk';
+import type {
+	Application,
+	BalenaSDK,
+	Organization,
+	PineOptions,
+} from 'balena-sdk';
 
 /**
  * Wraps the sdk application.get method,
@@ -46,4 +51,28 @@ export async function getApplication(
 		}
 	}
 	return sdk.models.application.get(nameOrSlugOrId, options);
+}
+
+/**
+ * Wraps the sdk organization.getAll method,
+ * restricting to those orgs user is a member of
+ */
+export async function getOwnOrganizations(
+	sdk: BalenaSDK,
+): Promise<Organization[]> {
+	return await sdk.models.organization.getAll({
+		$filter: {
+			organization_membership: {
+				$any: {
+					$alias: 'orm',
+					$expr: {
+						orm: {
+							user: await sdk.auth.getUserId(),
+						},
+					},
+				},
+			},
+		},
+		$orderby: 'name asc',
+	});
 }
