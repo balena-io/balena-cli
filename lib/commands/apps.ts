@@ -56,7 +56,7 @@ export default class AppsCmd extends Command {
 	public static primary = true;
 
 	public async run() {
-		const { flags: options } = this.parse<FlagsDef, {}>(AppsCmd);
+		this.parse<FlagsDef, {}>(AppsCmd);
 
 		const balena = getBalenaSdk();
 
@@ -85,7 +85,7 @@ export default class AppsCmd extends Command {
 			getVisuals().table.horizontal(applications, [
 				'id',
 				'app_name',
-				options.verbose || 'slug',
+				'slug',
 				'device_type',
 				'online_devices',
 				'device_count',
