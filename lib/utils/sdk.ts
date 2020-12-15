@@ -32,10 +32,6 @@ export async function getApplication(
 	nameOrSlugOrId: string | number,
 	options?: PineOptions<Application>,
 ): Promise<Application> {
-	// TODO: Consider whether it would be useful to generally include interactive selection of application here,
-	//       when nameOrSlugOrId not provided.
-	//       e.g. nameOrSlugOrId || (await (await import('../../utils/patterns')).selectApplication()),
-	//       See commands/device/init.ts ~ln100 for example
 	const { looksLikeInteger } = await import('./validation');
 	if (looksLikeInteger(nameOrSlugOrId as string)) {
 		try {

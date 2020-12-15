@@ -26,6 +26,7 @@ import { getBalenaSdk, getVisuals, stripIndent, getCliForm } from './lazy';
 import validation = require('./validation');
 import { delay } from './helpers';
 import { isV13 } from './version';
+import { Organization } from 'balena-sdk';
 
 export function authenticate(options: {}): Promise<void> {
 	const balena = getBalenaSdk();
@@ -210,54 +211,18 @@ export function selectApplication(
 		});
 }
 
-export function selectOrCreateApplication() {
-	const balena = getBalenaSdk();
-	return balena.models.application
-		.hasAny()
-		.then((hasAnyApplications) => {
-			if (!hasAnyApplications) {
-				// Just to make TS happy
-				return Promise.resolve(undefined);
-			}
-
-			return (balena.models.application.getAll({
-				$expand: {
-					is_for__device_type: {
-						$select: 'slug',
-					},
-				},
-			}) as Promise<ApplicationWithDeviceType[]>).then((applications) => {
-				const appOptions: Array<{ name: string; value: string | null }> = _.map(
-					applications,
-					(application) => ({
-						name: `${application.app_name} (${application.is_for__device_type[0].slug})`,
-						value: application.app_name,
-					}),
-				);
-
-				appOptions.unshift({
-					name: 'Create a new application',
-					value: null,
-				});
-
-				return getCliForm().ask({
-					message: 'Select an application',
-					type: 'list',
-					choices: appOptions,
-				});
-			});
-		})
-		.then((application) => {
-			if (application) {
-				return application;
-			}
-
-			return getCliForm().ask({
-				message: 'Choose a Name for your new application',
-				type: 'input',
-				validate: validation.validateApplicationName,
-			});
-		});
+export async function selectOrganization(organizations?: Organization[]) {
+	// Use either provided orgs (if e.g. already loaded) or load from cloud
+	organizations =
+		organizations || (await getBalenaSdk().models.organization.getAll());
+	return getCliForm().ask({
+		message: 'Select an organization',
+		type: 'list',
+		choices: organizations.map((org) => ({
+			name: `${org.name} (${org.handle})`,
+			value: org.handle,
+		})),
+	});
 }
 
 export async function awaitDevice(uuid: string) {
