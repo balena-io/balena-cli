@@ -1,4 +1,18 @@
 - commits:
+    - subject: Improve error message for issues to access balena settings
+      hash: 439d8391eea61f0be2075121aa725286d9606110
+      body: |
+        Update balena-settings-storage from 6.0.1 to 7.0.0
+      footer:
+        Resolves: '#1667'
+        resolves: '#1667'
+        Change-type: patch
+        change-type: patch
+      author: josecoelho
+      nested: []
+  version: 12.33.2
+  date: 2020-12-15T07:39:12.435Z
+- commits:
     - subject: Fix preload command support for application IDs
       hash: fe24280adfca5550c95bb80d30b651bfe4713cf4
       body: ''
@@ -12,7 +26,7 @@
       author: Scott Lowe
       nested: []
   version: 12.33.1
-  date: 2020-12-11T16:42:49.596Z
+  date: 2020-12-11T16:24:24.516Z
 - commits:
     - subject: Add orgs command
       hash: a11f9ec7055ff7ff8f621157809a6b8dcc2cbc61
