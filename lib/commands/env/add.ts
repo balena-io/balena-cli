@@ -18,13 +18,13 @@
 import { flags } from '@oclif/command';
 import type * as BalenaSdk from 'balena-sdk';
 import Command from '../../command';
-
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import { applicationIdInfo } from '../../utils/messages';
 
 interface FlagsDef {
-	application?: string; // application name
+	application?: string;
 	device?: string; // device UUID
 	help: void;
 	quiet: boolean;
@@ -63,10 +63,14 @@ export default class EnvAddCmd extends Command {
 		therefore the --service option cannot be used when the variable name starts
 		with a reserved prefix. When defining custom application variables, please
 		avoid the reserved prefixes.
-`;
+
+		${applicationIdInfo.split('\n').join('\n\t\t')}
+	`;
+
 	public static examples = [
 		'$ balena env add TERM --application MyApp',
 		'$ balena env add EDITOR vim --application MyApp',
+		'$ balena env add EDITOR vim -a myorg/myapp',
 		'$ balena env add EDITOR vim --application MyApp,MyApp2',
 		'$ balena env add EDITOR vim --application MyApp --service MyService',
 		'$ balena env add EDITOR vim --application MyApp,MyApp2 --service MyService,MyService2',
@@ -93,8 +97,8 @@ export default class EnvAddCmd extends Command {
 	public static usage = 'env add <name> [value]';
 
 	public static flags: flags.Input<FlagsDef> = {
-		application: { exclusive: ['device'], ...cf.application },
-		device: { exclusive: ['application'], ...cf.device },
+		application: { ...cf.application, exclusive: ['device'] },
+		device: { ...cf.device, exclusive: ['application'] },
 		help: cf.help,
 		quiet: cf.quiet,
 		service: cf.service,
@@ -108,7 +112,7 @@ export default class EnvAddCmd extends Command {
 
 		if (!options.application && !options.device) {
 			throw new ExpectedError(
-				'Either the --application or the --device option must always be used',
+				'Either the --application or the --device option must be specified',
 			);
 		}
 

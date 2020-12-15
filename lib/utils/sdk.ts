@@ -26,6 +26,7 @@ import type {
  * Wraps the sdk application.get method,
  * adding disambiguation in cases where the provided
  * identifier could be interpreted in multiple valid ways.
+ * // TODO: Remove this once support for numeric App IDs is removed.
  */
 export async function getApplication(
 	sdk: BalenaSDK,

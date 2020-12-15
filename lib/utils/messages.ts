@@ -38,9 +38,9 @@ export const balenaAsciiArt = `\
 |_.__/ \\__,_||_| \\____/|_| |_| \\__,_|
 `;
 
-export const registrySecretsHelp = `\
-REGISTRY SECRETS  
-The --registry-secrets option specifies a JSON or YAML file containing private
+export const registrySecretsHelp =
+	'REGISTRY SECRETS  \n' +
+	`The --registry-secrets option specifies a JSON or YAML file containing private
 Docker registry usernames and passwords to be used when pulling base images.
 Sample registry-secrets YAML file:
 \`\`\`
@@ -61,9 +61,9 @@ If the --registry-secrets option is not specified, and a secrets.yml or
 secrets.json file exists in the balena directory (usually $HOME/.balena),
 this file will be used instead.`;
 
-export const dockerignoreHelp = `\
-DOCKERIGNORE AND GITIGNORE FILES  
-By default, the balena CLI will use a single ".dockerignore" file (if any) at
+export const dockerignoreHelp =
+	'DOCKERIGNORE AND GITIGNORE FILES  \n' +
+	`By default, the balena CLI will use a single ".dockerignore" file (if any) at
 the project root (--source directory) in order to decide which source files to
 exclude from the "build context" (tar stream) sent to balenaCloud, Docker
 daemon or balenaEngine. In a microservices (multicontainer) application, the
@@ -94,8 +94,8 @@ option if compatibility is required. This option is mutually exclusive with
 --multi-dockerignore (-m) and will be removed in the CLI's next major version
 release (v13).
 
-Default .dockerignore patterns  
-When --gitignore (-g) is NOT used (i.e. when not in v11 compatibility mode), a
+Default .dockerignore patterns  \n` +
+	`When --gitignore (-g) is NOT used (i.e. when not in v11 compatibility mode), a
 few default/hardcoded dockerignore patterns are "merged" (in memory) with the
 patterns found in the applicable .dockerignore files, in the following order:
 \`\`\`
@@ -113,3 +113,24 @@ adding counter patterns to the applicable .dockerignore file(s), for example
 \`!mysubmodule/.git\`. For documentation on pattern format, see:
 - https://docs.docker.com/engine/reference/builder/#dockerignore-file
 - https://www.npmjs.com/package/@balena/dockerignore`;
+
+export const applicationIdInfo = `\
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the \`balena apps\` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.`;
+
+export const jsonInfo = `\
+The --json option is recommended when scripting the output of this command,
+because field names are less likely to change in JSON format and because it
+better represents data types like arrays, empty strings and null values.
+The 'jq' utility may be helpful for querying JSON fields in shell scripts
+(https://stedolan.github.io/jq/manual/).`;

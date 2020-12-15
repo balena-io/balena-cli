@@ -17,11 +17,9 @@
 
 import { flags } from '@oclif/command';
 import Command from '../../command';
-import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { disambiguateReleaseParam } from '../../utils/normalization';
-import { tryAsInteger } from '../../utils/validation';
+import { applicationIdInfo } from '../../utils/messages';
 
 interface FlagsDef {
 	application?: string;
@@ -45,10 +43,13 @@ export default class TagSetCmd extends Command {
 		You can optionally provide a value to be associated with the created
 		tag, as an extra argument after the tag key. If a value isn't
 		provided, a tag with an empty value is created.
+
+		${applicationIdInfo.split('\n').join('\n\t\t')}
 	`;
 
 	public static examples = [
 		'$ balena tag set mySimpleTag --application MyApp',
+		'$ balena tag set mySimpleTag -a myorg/myapp',
 		'$ balena tag set myCompositeTag myTagValue --application MyApp',
 		'$ balena tag set myCompositeTag myTagValue --device 7cf02a6',
 		'$ balena tag set myCompositeTag "my tag value with whitespaces" --device 7cf02a6',
@@ -77,6 +78,10 @@ export default class TagSetCmd extends Command {
 			...cf.application,
 			exclusive: ['app', 'device', 'release'],
 		},
+		app: {
+			...cf.app,
+			exclusive: ['application', 'device', 'release'],
+		},
 		device: {
 			...cf.device,
 			exclusive: ['app', 'application', 'release'],
@@ -86,10 +91,6 @@ export default class TagSetCmd extends Command {
 			exclusive: ['app', 'application', 'device'],
 		},
 		help: cf.help,
-		app: flags.string({
-			description: "same as '--application'",
-			exclusive: ['application', 'device', 'release'],
-		}),
 	};
 
 	public static authenticated = true;
@@ -107,10 +108,13 @@ export default class TagSetCmd extends Command {
 
 		// Check user has specified one of application/device/release
 		if (!options.application && !options.device && !options.release) {
+			const { ExpectedError } = await import('../../errors');
 			throw new ExpectedError(TagSetCmd.missingResourceMessage);
 		}
 
 		params.value ??= '';
+
+		const { tryAsInteger } = await import('../../utils/validation');
 
 		if (options.application) {
 			return balena.models.application.tags.set(
@@ -127,6 +131,9 @@ export default class TagSetCmd extends Command {
 			);
 		}
 		if (options.release) {
+			const { disambiguateReleaseParam } = await import(
+				'../../utils/normalization'
+			);
 			const releaseParam = await disambiguateReleaseParam(
 				balena,
 				options.release,
@@ -143,7 +150,7 @@ export default class TagSetCmd extends Command {
 	protected static missingResourceMessage = stripIndent`
 					To set a resource tag, you must provide exactly one of:
 
-					  * An application, with --application <appname>
+					  * An application, with --application <appNameOrSlug>
 					  * A device, with --device <uuid>
 					  * A release, with --release <id or commit>
 

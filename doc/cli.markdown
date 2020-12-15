@@ -164,10 +164,10 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 	- [apps](#apps)
 	- [app &#60;nameorslug&#62;](#app-nameorslug)
 	- [app create &#60;name&#62;](#app-create-name)
-	- [app purge &#60;name&#62;](#app-purge-name)
-	- [app rename &#60;nameorslug&#62; [newname]](#app-rename-nameorslug-newname)
-	- [app restart &#60;name&#62;](#app-restart-name)
-	- [app rm &#60;name&#62;](#app-rm-name)
+	- [app purge &#60;application&#62;](#app-purge-application)
+	- [app rename &#60;application&#62; [newname]](#app-rename-application-newname)
+	- [app restart &#60;application&#62;](#app-restart-application)
+	- [app rm &#60;application&#62;](#app-rm-application)
 
 - Authentication
 
@@ -312,7 +312,7 @@ the API key name
 list all your balena applications.
 
 For detailed information on a particular application,
-use `balena app <name> instead`.
+use `balena app <application>` instead.
 
 Examples:
 
@@ -328,6 +328,19 @@ No-op since release v12.0.0
 
 Display detailed information about a single balena application.
 
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the `balena apps` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.
+
 Examples:
 
 	$ balena app MyApp
@@ -335,9 +348,9 @@ Examples:
 
 ### Arguments
 
-#### NAMEORSLUG
+#### APPLICATION
 
-application name or org/name slug
+application name, slug (preferred), or numeric ID (deprecated)
 
 ### Options
 
@@ -382,29 +395,56 @@ handle of the organization the application should belong to
 
 application device type (Check available types with `balena devices supported`)
 
-## app purge &#60;name&#62;
+## app purge &#60;application&#62;
 
 Purge data from all devices belonging to an application.
 This will clear the application's /data directory.
 
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the `balena apps` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.
+
 Examples:
 
 	$ balena app purge MyApp
+	$ balena app purge myorg/myapp
 
 ### Arguments
 
-#### NAME
+#### APPLICATION
 
-application name or numeric ID
+application name, slug (preferred), or numeric ID (deprecated)
 
 ### Options
 
-## app rename &#60;nameOrSlug&#62; [newName]
+## app rename &#60;application&#62; [newName]
 
 Rename an application.
 
 Note, if the `newName` parameter is omitted, it will be
 prompted for interactively.
+
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the `balena apps` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.
 
 Examples:
 
@@ -414,9 +454,9 @@ Examples:
 
 ### Arguments
 
-#### NAMEORSLUG
+#### APPLICATION
 
-application name or org/name slug
+application name, slug (preferred), or numeric ID (deprecated)
 
 #### NEWNAME
 
@@ -424,38 +464,66 @@ the new name for the application
 
 ### Options
 
-## app restart &#60;name&#62;
+## app restart &#60;application&#62;
 
 Restart all devices belonging to an application.
+
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the `balena apps` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.
 
 Examples:
 
 	$ balena app restart MyApp
+	$ balena app restart myorg/myapp
 
 ### Arguments
 
-#### NAME
+#### APPLICATION
 
-application name or numeric ID
+application name, slug (preferred), or numeric ID (deprecated)
 
 ### Options
 
-## app rm &#60;name&#62;
+## app rm &#60;application&#62;
 
 Permanently remove a balena application.
 
 The --yes option may be used to avoid interactive confirmation.
 
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the `balena apps` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.
+
 Examples:
 
 	$ balena app rm MyApp
 	$ balena app rm MyApp --yes
+	$ balena app rm myorg/myapp
 
 ### Arguments
 
-#### NAME
+#### APPLICATION
 
-application name or numeric ID
+application name, slug (preferred), or numeric ID (deprecated)
 
 ### Options
 
@@ -546,6 +614,19 @@ list all devices that belong to you.
 
 You can filter the devices by application by using the `--application` option.
 
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the `balena apps` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.
+
 The --json option is recommended when scripting the output of this command,
 because field names are less likely to change in JSON format and because it
 better represents data types like arrays, empty strings and null values.
@@ -558,12 +639,13 @@ Examples:
 	$ balena devices --application MyApp
 	$ balena devices --app MyApp
 	$ balena devices -a MyApp
+	$ balena devices -a myorg/myapp
 
 ### Options
 
 #### -a, --application APPLICATION
 
-application name
+application name, slug (preferred), or numeric ID (deprecated)
 
 #### --app APP
 
@@ -642,22 +724,36 @@ the uuid of the device to identify
 
 ## device init
 
-Initialise a device by downloading the OS image of a certain application
+Initialize a device by downloading the OS image of a certain application
 and writing it to an SD Card.
 
 Note, if the application option is omitted it will be prompted
 for interactively.
 
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the `balena apps` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.
+
 Examples:
 
 	$ balena device init
 	$ balena device init --application MyApp
+	$ balena device init -a myorg/myapp
 
 ### Options
 
 #### -a, --application APPLICATION
 
-application name
+application name, slug (preferred), or numeric ID (deprecated)
 
 #### --app APP
 
@@ -696,11 +792,25 @@ Move one or more devices to another application.
 Note, if the application option is omitted it will be prompted
 for interactively.
 
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the `balena apps` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.
+
 Examples:
 
 	$ balena device move 7cf02a6
 	$ balena device move 7cf02a6,dc39e52
 	$ balena device move 7cf02a6 --application MyNewApp
+	$ balena device move 7cf02a6 -a myorg/mynewapp
 
 ### Arguments
 
@@ -712,7 +822,7 @@ comma-separated list (no blank spaces) of device UUIDs to be moved
 
 #### -a, --application APPLICATION
 
-application name
+application name, slug (preferred), or numeric ID (deprecated)
 
 #### --app APP
 
@@ -833,16 +943,30 @@ force action if the update lock is set
 
 Register a device to an application.
 
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the `balena apps` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.
+
 Examples:
 
 	$ balena device register MyApp
 	$ balena device register MyApp --uuid <uuid>
+	$ balena device register myorg/myapp --uuid <uuid>
 
 ### Arguments
 
 #### APPLICATION
 
-the name or id of application to register device with
+application name, slug (preferred), or numeric ID (deprecated)
 
 ### Options
 
@@ -983,9 +1107,23 @@ application linked to the device is no longer accessible by the current user
 (for example, in case the current user has been removed from the application
 by its owner).
 
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the `balena apps` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.
+
 Examples:
 
 	$ balena envs --application MyApp
+	$ balena envs --application myorg/myapp
 	$ balena envs --application MyApp --json
 	$ balena envs --application MyApp --service MyService
 	$ balena envs --application MyApp --service MyService
@@ -1003,7 +1141,7 @@ No-op since balena CLI v12.0.0.
 
 #### -a, --application APPLICATION
 
-application name
+application name, slug (preferred), or numeric ID (deprecated)
 
 #### -c, --config
 
@@ -1118,10 +1256,24 @@ therefore the --service option cannot be used when the variable name starts
 with a reserved prefix. When defining custom application variables, please
 avoid the reserved prefixes.
 
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the `balena apps` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.
+
 Examples:
 
 	$ balena env add TERM --application MyApp
 	$ balena env add EDITOR vim --application MyApp
+	$ balena env add EDITOR vim -a myorg/myapp
 	$ balena env add EDITOR vim --application MyApp,MyApp2
 	$ balena env add EDITOR vim --application MyApp --service MyService
 	$ balena env add EDITOR vim --application MyApp,MyApp2 --service MyService,MyService2
@@ -1144,7 +1296,7 @@ variable value; if omitted, use value from this process' environment
 
 #### -a, --application APPLICATION
 
-application name
+application name, slug (preferred), or numeric ID (deprecated)
 
 #### -d, --device DEVICE
 
@@ -1228,9 +1380,23 @@ select a service variable (may be used together with the --device option)
 List all tags and their values for a particular application,
 device or release.
 
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the `balena apps` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.
+
 Examples:
 
 	$ balena tags --application MyApp
+	$ balena tags -a myorg/myapp
 	$ balena tags --device 7cf02a6
 	$ balena tags --release 1234
 	$ balena tags --release b376b0e544e9429483b656490e5b9443b4349bd6
@@ -1239,7 +1405,11 @@ Examples:
 
 #### -a, --application APPLICATION
 
-application name
+application name, slug (preferred), or numeric ID (deprecated)
+
+#### --app APP
+
+same as '--application'
 
 #### -d, --device DEVICE
 
@@ -1249,17 +1419,27 @@ device UUID
 
 release id
 
-#### --app APP
-
-same as '--application'
-
 ## tag rm &#60;tagKey&#62;
 
 Remove a tag from an application, device or release.
 
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the `balena apps` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.
+
 Examples:
 
 	$ balena tag rm myTagKey --application MyApp
+	$ balena tag rm myTagKey -a myorg/myapp
 	$ balena tag rm myTagKey --device 7cf02a6
 	$ balena tag rm myTagKey --release 1234
 	$ balena tag rm myTagKey --release b376b0e544e9429483b656490e5b9443b4349bd6
@@ -1274,7 +1454,11 @@ the key string of the tag
 
 #### -a, --application APPLICATION
 
-application name
+application name, slug (preferred), or numeric ID (deprecated)
+
+#### --app APP
+
+same as '--application'
 
 #### -d, --device DEVICE
 
@@ -1284,10 +1468,6 @@ device UUID
 
 release id
 
-#### --app APP
-
-same as '--application'
-
 ## tag set &#60;tagKey&#62; [value]
 
 Set a tag on an application, device or release.
@@ -1296,9 +1476,23 @@ You can optionally provide a value to be associated with the created
 tag, as an extra argument after the tag key. If a value isn't
 provided, a tag with an empty value is created.
 
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the `balena apps` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.
+
 Examples:
 
 	$ balena tag set mySimpleTag --application MyApp
+	$ balena tag set mySimpleTag -a myorg/myapp
 	$ balena tag set myCompositeTag myTagValue --application MyApp
 	$ balena tag set myCompositeTag myTagValue --device 7cf02a6
 	$ balena tag set myCompositeTag "my tag value with whitespaces" --device 7cf02a6
@@ -1320,7 +1514,11 @@ the optional value associated with the tag
 
 #### -a, --application APPLICATION
 
-application name
+application name, slug (preferred), or numeric ID (deprecated)
+
+#### --app APP
+
+same as '--application'
 
 #### -d, --device DEVICE
 
@@ -1329,10 +1527,6 @@ device UUID
 #### -r, --release RELEASE
 
 release id
-
-#### --app APP
-
-same as '--application'
 
 # Help and Version
 
@@ -1828,6 +2022,19 @@ https://developer.gnome.org/NetworkManager/stable/nm-settings.html
 The --device-api-key option is deprecated and will be removed in a future release.
 A suitable key is automatically generated or fetched if this option is omitted.
 
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the `balena apps` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.
+
 Note: This command is currently not supported on Windows natively. Windows users
 are advised to install the Windows Subsystem for Linux (WSL) with Ubuntu, and use
 the Linux release of the balena CLI:
@@ -1838,6 +2045,7 @@ Examples:
 	$ balena os configure ../path/rpi3.img --device 7cf02a6
 	$ balena os configure ../path/rpi3.img --device 7cf02a6 --device-api-key <existingDeviceKey>
 	$ balena os configure ../path/rpi3.img --app MyApp
+	$ balena os configure ../path/rpi3.img -a myorg/myapp
 	$ balena os configure ../path/rpi3.img --app MyApp --version 2.12.7
 	$ balena os configure ../path/rpi3.img --app MyFinApp --device-type raspberrypi3
 	$ balena os configure ../path/rpi3.img --app MyFinApp --device-type raspberrypi3 --config myWifiConfig.json
@@ -1854,13 +2062,13 @@ path to a balenaOS image file, e.g. "rpi3.img"
 
 ask advanced configuration questions (when in interactive mode)
 
+#### -a, --application APPLICATION
+
+application name, slug (preferred), or numeric ID (deprecated)
+
 #### --app APP
 
 same as '--application'
-
-#### -a, --application APPLICATION
-
-application name
 
 #### --config CONFIG
 
@@ -1954,7 +2162,20 @@ by specifying an option for each question on the command line, if you know the q
 that will be asked for the relevant device type.
 
 In case that you want to configure an image for an application with mixed device types,
-you can pass the --device-type argument along with --app to specify the target device type.
+you can pass the --deviceType argument along with --application to specify the target device type.
+
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the `balena apps` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.
 
 Examples:
 
@@ -1963,7 +2184,8 @@ Examples:
 	$ balena config generate --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>
 	$ balena config generate --device 7cf02a6 --version 2.12.7 --output config.json
 	$ balena config generate --app MyApp --version 2.12.7
-	$ balena config generate --app MyApp --version 2.12.7 --device-type fincm3
+	$ balena config generate --app myorg/myapp --version 2.12.7
+	$ balena config generate --app MyApp --version 2.12.7 --deviceType fincm3
 	$ balena config generate --app MyApp --version 2.12.7 --output config.json
 	$ balena config generate --app MyApp --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1
 
@@ -1975,7 +2197,7 @@ a balenaOS version
 
 #### -a, --application APPLICATION
 
-application name
+application name, slug (preferred), or numeric ID (deprecated)
 
 #### --app APP
 
@@ -2129,13 +2351,27 @@ After preloading, the balenaOS image file can be flashed to a device's SD card.
 When the device boots, it will not need to download the application, as it was
 preloaded.
 
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the `balena apps` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.
+
 Warning: "balena preload" requires Docker to be correctly installed in
 your shell environment. For more information (including Windows support)
 check: https://github.com/balena-io/balena-cli/blob/master/INSTALL.md
 
 Examples:
 
-	$ balena preload balena.img --app 1234 --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image image.png
+	$ balena preload balena.img --app MyApp --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0
+	$ balena preload balena.img --app myorg/myapp --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image image.png
 	$ balena preload balena.img
 
 ### Arguments
@@ -2148,7 +2384,7 @@ the image file path
 
 #### -a, --app APP
 
-name of the application to preload
+application name, slug (preferred), or numeric ID (deprecated)
 
 #### -c, --commit COMMIT
 
@@ -2946,11 +3182,25 @@ scan the local network for balenaOS devices and prompt you to select one
 from an interactive picker. This requires root privileges.  Likewise, if
 the application flag is not provided then a picker will be shown.
 
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the `balena apps` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.
+
 Examples:
 
 	$ balena join
 	$ balena join balena.local
 	$ balena join balena.local --application MyApp
+	$ balena join balena.local -a myorg/myapp
 	$ balena join 192.168.1.25
 	$ balena join 192.168.1.25 --application MyApp
 
@@ -2964,7 +3214,7 @@ the IP or hostname of device
 
 #### -a, --application APPLICATION
 
-application name
+application name, slug (preferred), or numeric ID (deprecated)
 
 #### -i, --pollInterval POLLINTERVAL
 
@@ -3020,11 +3270,24 @@ or hours, e.g. '12h', '2d'.
 Both --device and --application flags accept multiple values, specified as
 a comma-separated list (with no spaces).
 
+Applications may be specified by app name, slug, or numeric ID. App slugs
+are the recommended option, as they are unique and unambiguous. Slugs
+can be listed with the `balena apps` command. Note that slugs may change
+if the application is renamed.
+App names are not unique and may result in "Application is ambiguous" errors
+at any time (even if it "used to work in the past"), for example if the name
+clashes with a newly created public application, or with apps from other balena
+accounts that you may have been invited to as a member. For this reason, app
+names are especially discouraged in scripts (e.g. CI environments).
+Numeric app IDs are deprecated because they consist of an implementation detail
+of the balena backend. We intend to remove support for numeric IDs at some point
+in the future.
+
 Examples:
 
 	balena support enable --device ab346f,cd457a --duration 3d
 	balena support enable --application app3 --duration 12h
-	balena support disable -a myApp
+	balena support disable -a myorg/myapp
 
 ### Arguments
 
@@ -3040,7 +3303,7 @@ comma-separated list (no spaces) of device UUIDs
 
 #### -a, --application APPLICATION
 
-comma-separated list (no spaces) of application names
+comma-separated list (no spaces) of application names or org/name slugs
 
 #### -t, --duration DURATION
 

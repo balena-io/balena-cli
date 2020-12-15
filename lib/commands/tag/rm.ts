@@ -17,11 +17,9 @@
 
 import { flags } from '@oclif/command';
 import Command from '../../command';
-import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { disambiguateReleaseParam } from '../../utils/normalization';
-import { tryAsInteger } from '../../utils/validation';
+import { applicationIdInfo } from '../../utils/messages';
 
 interface FlagsDef {
 	application?: string;
@@ -40,10 +38,13 @@ export default class TagRmCmd extends Command {
 		Remove a tag from an application, device or release.
 
 		Remove a tag from an application, device or release.
+
+		${applicationIdInfo.split('\n').join('\n\t\t')}
 	`;
 
 	public static examples = [
 		'$ balena tag rm myTagKey --application MyApp',
+		'$ balena tag rm myTagKey -a myorg/myapp',
 		'$ balena tag rm myTagKey --device 7cf02a6',
 		'$ balena tag rm myTagKey --release 1234',
 		'$ balena tag rm myTagKey --release b376b0e544e9429483b656490e5b9443b4349bd6',
@@ -64,6 +65,10 @@ export default class TagRmCmd extends Command {
 			...cf.application,
 			exclusive: ['app', 'device', 'release'],
 		},
+		app: {
+			...cf.app,
+			exclusive: ['application', 'device', 'release'],
+		},
 		device: {
 			...cf.device,
 			exclusive: ['app', 'application', 'release'],
@@ -73,10 +78,6 @@ export default class TagRmCmd extends Command {
 			exclusive: ['app', 'application', 'device'],
 		},
 		help: cf.help,
-		app: flags.string({
-			description: "same as '--application'",
-			exclusive: ['application', 'device', 'release'],
-		}),
 	};
 
 	public static authenticated = true;
@@ -94,8 +95,11 @@ export default class TagRmCmd extends Command {
 
 		// Check user has specified one of application/device/release
 		if (!options.application && !options.device && !options.release) {
+			const { ExpectedError } = await import('../../errors');
 			throw new ExpectedError(TagRmCmd.missingResourceMessage);
 		}
+
+		const { tryAsInteger } = await import('../../utils/validation');
 
 		if (options.application) {
 			return balena.models.application.tags.remove(
@@ -110,6 +114,9 @@ export default class TagRmCmd extends Command {
 			);
 		}
 		if (options.release) {
+			const { disambiguateReleaseParam } = await import(
+				'../../utils/normalization'
+			);
 			const releaseParam = await disambiguateReleaseParam(
 				balena,
 				options.release,
@@ -122,7 +129,7 @@ export default class TagRmCmd extends Command {
 	protected static missingResourceMessage = stripIndent`
 					To remove a resource tag, you must provide exactly one of:
 
-					  * An application, with --application <appname>
+					  * An application, with --application <appNameOrSlug>
 					  * A device, with --device <uuid>
 					  * A release, with --release <id or commit>
 

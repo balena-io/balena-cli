@@ -19,32 +19,6 @@ import { expect } from 'chai';
 import { BalenaAPIMock } from '../../balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
-const HELP_RESPONSE = `
-Move one or more devices to another application.
-
-USAGE
-  $ balena device move <uuid(s)>
-
-ARGUMENTS
-  <uuid>  comma-separated list (no blank spaces) of device UUIDs to be moved
-
-OPTIONS
-  -a, --application <application>  application name
-  -h, --help                       show CLI help
-  --app <app>                      same as '--application'
-
-DESCRIPTION
-  Move one or more devices to another application.
-
-  Note, if the application option is omitted it will be prompted
-  for interactively.
-
-EXAMPLES
-  $ balena device move 7cf02a6
-  $ balena device move 7cf02a6,dc39e52
-  $ balena device move 7cf02a6 --application MyNewApp
-`;
-
 describe('balena device move', function () {
 	let api: BalenaAPIMock;
 
@@ -57,14 +31,6 @@ describe('balena device move', function () {
 	afterEach(() => {
 		// Check all expected api calls have been made and clean up.
 		api.done();
-	});
-
-	it('should print help text with the -h flag', async () => {
-		const { out, err } = await runCommand('device move -h');
-
-		expect(cleanOutput(out)).to.deep.equal(cleanOutput([HELP_RESPONSE]));
-
-		expect(err).to.eql([]);
 	});
 
 	it('should error if uuid not provided', async () => {

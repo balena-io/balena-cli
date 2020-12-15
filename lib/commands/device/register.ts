@@ -19,7 +19,9 @@ import { flags } from '@oclif/command';
 import type { IArg } from '@oclif/parser/lib/args';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
+import * as ca from '../../utils/common-args';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import { applicationIdInfo } from '../../utils/messages';
 
 interface FlagsDef {
 	uuid?: string;
@@ -35,19 +37,17 @@ export default class DeviceRegisterCmd extends Command {
 		Register a device.
 
 		Register a device to an application.
-		`;
+
+		${applicationIdInfo.split('\n').join('\n\t\t')}
+	`;
+
 	public static examples = [
 		'$ balena device register MyApp',
 		'$ balena device register MyApp --uuid <uuid>',
+		'$ balena device register myorg/myapp --uuid <uuid>',
 	];
 
-	public static args: Array<IArg<any>> = [
-		{
-			name: 'application',
-			description: 'the name or id of application to register device with',
-			required: true,
-		},
-	];
+	public static args: Array<IArg<any>> = [ca.applicationRequired];
 
 	public static usage = 'device register <application>';
 

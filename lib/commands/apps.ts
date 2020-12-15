@@ -37,8 +37,9 @@ export default class AppsCmd extends Command {
 		list all your balena applications.
 
 		For detailed information on a particular application,
-		use \`balena app <name> instead\`.
-`;
+		use \`balena app <application>\` instead.
+	`;
+
 	public static examples = ['$ balena apps'];
 
 	public static usage = 'apps';

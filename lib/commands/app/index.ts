@@ -18,7 +18,9 @@
 import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
+import * as ca from '../../utils/common-args';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import { applicationIdInfo } from '../../utils/messages';
 import type { Release } from 'balena-sdk';
 
 interface FlagsDef {
@@ -26,7 +28,7 @@ interface FlagsDef {
 }
 
 interface ArgsDef {
-	nameOrSlug: string;
+	application: string;
 }
 
 export default class AppCmd extends Command {
@@ -34,16 +36,12 @@ export default class AppCmd extends Command {
 		Display information about a single application.
 
 		Display detailed information about a single balena application.
+
+		${applicationIdInfo.split('\n').join('\n\t\t')}
 `;
 	public static examples = ['$ balena app MyApp', '$ balena app myorg/myapp'];
 
-	public static args = [
-		{
-			name: 'nameOrSlug',
-			description: 'application name or org/name slug',
-			required: true,
-		},
-	];
+	public static args = [ca.applicationRequired];
 
 	public static usage = 'app <nameOrSlug>';
 
@@ -61,7 +59,7 @@ export default class AppCmd extends Command {
 
 		const application = (await getApplication(
 			getBalenaSdk(),
-			params.nameOrSlug,
+			params.application,
 			{
 				$expand: {
 					is_for__device_type: { $select: 'slug' },

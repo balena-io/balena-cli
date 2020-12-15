@@ -18,14 +18,14 @@ import { flags } from '@oclif/command';
 import type * as SDK from 'balena-sdk';
 import * as _ from 'lodash';
 import Command from '../command';
-
 import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
+import { applicationIdInfo } from '../utils/messages';
 import { isV13 } from '../utils/version';
 
 interface FlagsDef {
-	application?: string; // application name
+	application?: string;
 	config: boolean;
 	device?: string; // device UUID
 	json: boolean;
@@ -88,9 +88,13 @@ export default class EnvsCmd extends Command {
 		application linked to the device is no longer accessible by the current user
 		(for example, in case the current user has been removed from the application
 		by its owner).
-`;
+
+		${applicationIdInfo.split('\n').join('\n\t\t')}
+	`;
+
 	public static examples = [
 		'$ balena envs --application MyApp',
+		'$ balena envs --application myorg/myapp',
 		'$ balena envs --application MyApp --json',
 		'$ balena envs --application MyApp --service MyService',
 		'$ balena envs --application MyApp --service MyService',
@@ -124,11 +128,7 @@ export default class EnvsCmd extends Command {
 		}),
 		device: { exclusive: ['application'], ...cf.device },
 		help: cf.help,
-		json: flags.boolean({
-			default: false,
-			char: 'j',
-			description: 'produce JSON output instead of tabular output',
-		}),
+		json: cf.json,
 		verbose: cf.verbose,
 		service: { exclusive: ['config'], ...cf.service },
 	};
@@ -145,7 +145,7 @@ export default class EnvsCmd extends Command {
 
 		const balena = getBalenaSdk();
 
-		let appName = options.application;
+		let appNameOrSlug = options.application;
 		let fullUUID: string | undefined; // as oppposed to the short, 7-char UUID
 
 		if (options.device) {
@@ -158,16 +158,16 @@ export default class EnvsCmd extends Command {
 			);
 			fullUUID = device.uuid;
 			if (app) {
-				appName = app.app_name;
+				appNameOrSlug = app.app_name;
 			}
 		}
-		if (appName && options.service) {
-			await validateServiceName(balena, options.service, appName);
+		if (appNameOrSlug && options.service) {
+			await validateServiceName(balena, options.service, appNameOrSlug);
 		}
-		variables.push(...(await getAppVars(balena, appName, options)));
+		variables.push(...(await getAppVars(balena, appNameOrSlug, options)));
 		if (fullUUID) {
 			variables.push(
-				...(await getDeviceVars(balena, fullUUID, appName, options)),
+				...(await getDeviceVars(balena, fullUUID, appNameOrSlug, options)),
 			);
 		}
 		if (!options.json && variables.length === 0) {
@@ -241,17 +241,17 @@ async function validateServiceName(
  */
 async function getAppVars(
 	sdk: SDK.BalenaSDK,
-	appName: string | undefined,
+	appNameOrSlug: string | undefined,
 	options: FlagsDef,
 ): Promise<EnvironmentVariableInfo[]> {
 	const appVars: EnvironmentVariableInfo[] = [];
-	if (!appName) {
+	if (!appNameOrSlug) {
 		return appVars;
 	}
 	const vars = await sdk.models.application[
 		options.config ? 'configVar' : 'envVar'
-	].getAllByApplication(appName);
-	fillInInfoFields(vars, appName);
+	].getAllByApplication(appNameOrSlug);
+	fillInInfoFields(vars, appNameOrSlug);
 	appVars.push(...vars);
 	if (!options.config) {
 		const pineOpts: SDK.PineOptions<SDK.ServiceEnvironmentVariable> = {
@@ -267,10 +267,10 @@ async function getAppVars(
 			};
 		}
 		const serviceVars = await sdk.models.service.var.getAllByApplication(
-			appName,
+			appNameOrSlug,
 			pineOpts,
 		);
-		fillInInfoFields(serviceVars, appName);
+		fillInInfoFields(serviceVars, appNameOrSlug);
 		appVars.push(...serviceVars);
 	}
 	return appVars;
@@ -283,7 +283,7 @@ async function getAppVars(
 async function getDeviceVars(
 	sdk: SDK.BalenaSDK,
 	fullUUID: string,
-	appName: string | undefined,
+	appNameOrSlug: string | undefined,
 	options: FlagsDef,
 ): Promise<EnvironmentVariableInfo[]> {
 	const printedUUID = options.json ? fullUUID : options.device!;
@@ -292,7 +292,7 @@ async function getDeviceVars(
 		const deviceConfigVars = await sdk.models.device.configVar.getAllByDevice(
 			fullUUID,
 		);
-		fillInInfoFields(deviceConfigVars, appName, printedUUID);
+		fillInInfoFields(deviceConfigVars, appNameOrSlug, printedUUID);
 		deviceVars.push(...deviceConfigVars);
 	} else {
 		const pineOpts: SDK.PineOptions<SDK.DeviceServiceEnvironmentVariable> = {
@@ -313,13 +313,13 @@ async function getDeviceVars(
 			fullUUID,
 			pineOpts,
 		);
-		fillInInfoFields(deviceServiceVars, appName, printedUUID);
+		fillInInfoFields(deviceServiceVars, appNameOrSlug, printedUUID);
 		deviceVars.push(...deviceServiceVars);
 
 		const deviceEnvVars = await sdk.models.device.envVar.getAllByDevice(
 			fullUUID,
 		);
-		fillInInfoFields(deviceEnvVars, appName, printedUUID);
+		fillInInfoFields(deviceEnvVars, appNameOrSlug, printedUUID);
 		deviceVars.push(...deviceEnvVars);
 	}
 	return deviceVars;
@@ -335,7 +335,7 @@ function fillInInfoFields(
 		| EnvironmentVariableInfo[]
 		| DeviceServiceEnvironmentVariableInfo[]
 		| ServiceEnvironmentVariableInfo[],
-	appName?: string,
+	appNameOrSlug?: string,
 	deviceUUID?: string,
 ) {
 	for (const envVar of varArray) {
@@ -347,7 +347,7 @@ function fillInInfoFields(
 			envVar.serviceName = ((envVar.service_install as SDK.ServiceInstall[])[0]
 				?.installs__service as SDK.Service[])[0]?.service_name;
 		}
-		envVar.appName = appName;
+		envVar.appName = appNameOrSlug;
 		envVar.serviceName = envVar.serviceName || '*';
 		envVar.deviceUUID = deviceUUID || '*';
 	}

@@ -18,15 +18,16 @@
 import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
+import * as ca from '../../utils/common-args';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { tryAsInteger } from '../../utils/validation';
+import { applicationIdInfo } from '../../utils/messages';
 
 interface FlagsDef {
 	help: void;
 }
 
 interface ArgsDef {
-	name: string;
+	application: string;
 }
 
 export default class AppRestartCmd extends Command {
@@ -34,18 +35,18 @@ export default class AppRestartCmd extends Command {
 		Restart an application.
 
 		Restart all devices belonging to an application.
-`;
-	public static examples = ['$ balena app restart MyApp'];
 
-	public static args = [
-		{
-			name: 'name',
-			description: 'application name or numeric ID',
-			required: true,
-		},
+		${applicationIdInfo.split('\n').join('\n\t\t')}
+	`;
+
+	public static examples = [
+		'$ balena app restart MyApp',
+		'$ balena app restart myorg/myapp',
 	];
 
-	public static usage = 'app restart <name>';
+	public static args = [ca.applicationRequired];
+
+	public static usage = 'app restart <application>';
 
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
@@ -56,6 +57,13 @@ export default class AppRestartCmd extends Command {
 	public async run() {
 		const { args: params } = this.parse<FlagsDef, ArgsDef>(AppRestartCmd);
 
-		await getBalenaSdk().models.application.restart(tryAsInteger(params.name));
+		const { getApplication } = await import('../../utils/sdk');
+
+		const balena = getBalenaSdk();
+
+		// Disambiguate application (if is a number, it could either be an ID or a numerical name)
+		const application = await getApplication(balena, params.application);
+
+		await balena.models.application.restart(application.id);
 	}
 }

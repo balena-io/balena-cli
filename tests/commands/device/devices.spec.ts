@@ -21,36 +21,6 @@ import * as path from 'path';
 import { apiResponsePath, BalenaAPIMock } from '../../balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
-const HELP_RESPONSE = `
-List all devices.
-
-USAGE
-  $ balena devices
-
-OPTIONS
-  -a, --application <application>  application name
-  -h, --help                       show CLI help
-  -j, --json                       produce JSON output instead of tabular output
-  --app <app>                      same as '--application'
-
-DESCRIPTION
-  list all devices that belong to you.
-
-  You can filter the devices by application by using the \`--application\` option.
-
-  The --json option is recommended when scripting the output of this command,
-  because field names are less likely to change in JSON format and because it
-  better represents data types like arrays, empty strings and null values.
-  The 'jq' utility may be helpful for querying JSON fields in shell scripts
-  (https://stedolan.github.io/jq/manual/).
-
-EXAMPLES
-  $ balena devices
-  $ balena devices --application MyApp
-  $ balena devices --app MyApp
-  $ balena devices -a MyApp
-`;
-
 describe('balena devices', function () {
 	let api: BalenaAPIMock;
 
@@ -63,14 +33,6 @@ describe('balena devices', function () {
 	afterEach(() => {
 		// Check all expected api calls have been made and clean up.
 		api.done();
-	});
-
-	it('should print help text with the -h flag', async () => {
-		const { out, err } = await runCommand('devices -h');
-
-		expect(cleanOutput(out)).to.deep.equal(cleanOutput([HELP_RESPONSE]));
-
-		expect(err).to.eql([]);
 	});
 
 	it('should list devices from own and collaborator apps', async () => {

@@ -19,6 +19,7 @@ import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import { applicationIdInfo } from '../../utils/messages';
 import { runCommand } from '../../utils/helpers';
 
 interface FlagsDef {
@@ -34,17 +35,21 @@ interface FlagsDef {
 
 export default class DeviceInitCmd extends Command {
 	public static description = stripIndent`
-		Initialise a device with balenaOS.
+		Initialize a device with balenaOS.
 
-		Initialise a device by downloading the OS image of a certain application
+		Initialize a device by downloading the OS image of a certain application
 		and writing it to an SD Card.
 
 		Note, if the application option is omitted it will be prompted
 		for interactively.
-		`;
+
+		${applicationIdInfo.split('\n').join('\n\t\t')}
+	`;
+
 	public static examples = [
 		'$ balena device init',
 		'$ balena device init --application MyApp',
+		'$ balena device init -a myorg/myapp',
 	];
 
 	public static usage = 'device init';
@@ -98,7 +103,7 @@ export default class DeviceInitCmd extends Command {
 		const application = (await getApplication(
 			balena,
 			options['application'] ||
-				(await (await import('../../utils/patterns')).selectApplication()),
+				(await (await import('../../utils/patterns')).selectApplication()).id,
 			{
 				$expand: {
 					is_for__device_type: {
