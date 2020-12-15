@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "Update various commands to support organizations",
+          "hash": "c8987474682d284e8d3e685300ad47a3b716e8ef",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Connects-to": "#2119",
+            "connects-to": "#2119",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.35.0",
+      "date": "2020-12-15T15:10:35.099Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add organizations support to app create command",
           "hash": "611f59a0da95a9bbbecd027d41f5fb9ded2b6460",
           "body": "",
@@ -20743,35 +20764,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-12-15T14:47:17Z",
+  "lastCommitDate": "2020-12-15T15:46:38Z",
   "latestRelease": {
-    "tagName": "v12.34.0",
+    "tagName": "v12.35.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.34.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.34.0/balena-cli-v12.34.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.35.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.0/balena-cli-v12.35.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.34.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.34.0/balena-cli-v12.34.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.35.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.0/balena-cli-v12.35.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.34.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.34.0/balena-cli-v12.34.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.35.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.0/balena-cli-v12.35.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.34.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.34.0/balena-cli-v12.34.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.35.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.0/balena-cli-v12.35.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.34.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.34.0/balena-cli-v12.34.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.35.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.0/balena-cli-v12.35.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 297,
+    "numberOfIssues": 296,
     "latestIssues": [
       {
         "title": "livepush loses track of deleted files",
@@ -20780,10 +20801,6 @@
       {
         "title": "Should dynamically check that `postinstall` was successfully executed (patches were applied)",
         "url": "https://github.com/balena-io/balena-cli/issues/2132"
-      },
-      {
-        "title": "Update various commands to support organizations",
-        "url": "https://github.com/balena-io/balena-cli/pull/2131"
       },
       {
         "title": "Need to uniquely identify errors",
@@ -20852,10 +20869,14 @@
       {
         "title": "User can't see the release commit of newly created release b/c its color almost matches their terminal's background color",
         "url": "https://github.com/balena-io/balena-cli/issues/2078"
+      },
+      {
+        "title": "balena-cli-windows-error-correction",
+        "url": "https://github.com/balena-io/balena-cli/pull/2071"
       }
     ]
   },
-  "version": "12.34.0",
+  "version": "12.35.0",
   "screenshot": null,
   "logo": null
 }
