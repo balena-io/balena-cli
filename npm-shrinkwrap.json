@@ -2534,18 +2534,6 @@
         "balena-settings-storage": "^7.0.0",
         "jwt-decode": "^2.2.0",
         "tslib": "^2.0.0"
-      },
-      "dependencies": {
-        "balena-settings-storage": {
-          "version": "7.0.0",
-          "resolved": "https://registry.npmjs.org/balena-settings-storage/-/balena-settings-storage-7.0.0.tgz",
-          "integrity": "sha512-gufzVJznyt9e1CvpBuLe2caU5KcEwl1YHCbK5OMz09zXDA2OMAICPXsLlViK+KiuZwZrBx3tyU2FZjAzRZFgwQ==",
-          "requires": {
-            "@types/node": "^10.17.26",
-            "balena-errors": "^4.7.1",
-            "tslib": "^2.0.0"
-          }
-        }
       }
     },
     "balena-config-json": {
@@ -2793,11 +2781,12 @@
       }
     },
     "balena-settings-storage": {
-      "version": "6.0.1",
-      "resolved": "https://registry.npmjs.org/balena-settings-storage/-/balena-settings-storage-6.0.1.tgz",
-      "integrity": "sha512-jdDoKzbJXlF696EZSbwD6lZ1dMe98aUtx7btFE4j4PRCSeh2BWx5P5VLGh9Bk3sH2FUcqYg0iw/wdKvkcv44oA==",
+      "version": "7.0.0",
+      "resolved": "https://registry.npmjs.org/balena-settings-storage/-/balena-settings-storage-7.0.0.tgz",
+      "integrity": "sha512-gufzVJznyt9e1CvpBuLe2caU5KcEwl1YHCbK5OMz09zXDA2OMAICPXsLlViK+KiuZwZrBx3tyU2FZjAzRZFgwQ==",
       "requires": {
         "@types/node": "^10.17.26",
+        "balena-errors": "^4.7.1",
         "tslib": "^2.0.0"
       }
     },

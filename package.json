@@ -204,7 +204,7 @@
     "balena-sdk": "^15.20.0",
     "balena-semver": "^2.3.0",
     "balena-settings-client": "^4.0.5",
-    "balena-settings-storage": "^6.0.1",
+    "balena-settings-storage": "^7.0.0",
     "balena-sync": "^11.0.2",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
