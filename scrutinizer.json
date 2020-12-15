@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "Add organizations support to app create command",
+          "hash": "611f59a0da95a9bbbecd027d41f5fb9ded2b6460",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Connects-to": "#2119",
+            "connects-to": "#2119",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.34.0",
+      "date": "2020-12-15T14:03:51.740Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Improve error message for issues to access balena settings",
           "hash": "439d8391eea61f0be2075121aa725286d9606110",
           "body": "Update balena-settings-storage from 6.0.1 to 7.0.0\n",
@@ -20722,35 +20743,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-12-15T07:40:26Z",
+  "lastCommitDate": "2020-12-15T14:47:17Z",
   "latestRelease": {
-    "tagName": "v12.33.2",
+    "tagName": "v12.34.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.33.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.33.2/balena-cli-v12.33.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.34.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.34.0/balena-cli-v12.34.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.33.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.33.2/balena-cli-v12.33.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.34.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.34.0/balena-cli-v12.34.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.33.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.33.2/balena-cli-v12.33.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.34.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.34.0/balena-cli-v12.34.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.33.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.33.2/balena-cli-v12.33.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.34.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.34.0/balena-cli-v12.34.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.33.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.33.2/balena-cli-v12.33.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.34.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.34.0/balena-cli-v12.34.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 299,
+    "numberOfIssues": 297,
     "latestIssues": [
       {
         "title": "livepush loses track of deleted files",
@@ -20763,10 +20784,6 @@
       {
         "title": "Update various commands to support organizations",
         "url": "https://github.com/balena-io/balena-cli/pull/2131"
-      },
-      {
-        "title": "Add organizations support to app create command",
-        "url": "https://github.com/balena-io/balena-cli/pull/2127"
       },
       {
         "title": "Need to uniquely identify errors",
@@ -20825,16 +20842,20 @@
         "url": "https://github.com/balena-io/balena-cli/issues/2086"
       },
       {
-        "title": "application rename should be refactored to use sdk rename method instead of pine",
-        "url": "https://github.com/balena-io/balena-cli/issues/2085"
-      },
-      {
         "title": "device move: Add '-name', '-uuid' and '-id' application and device options",
         "url": "https://github.com/balena-io/balena-cli/pull/2080"
+      },
+      {
+        "title": "Should support Node 14 and higher",
+        "url": "https://github.com/balena-io/balena-cli/issues/2079"
+      },
+      {
+        "title": "User can't see the release commit of newly created release b/c its color almost matches their terminal's background color",
+        "url": "https://github.com/balena-io/balena-cli/issues/2078"
       }
     ]
   },
-  "version": "12.33.2",
+  "version": "12.34.0",
   "screenshot": null,
   "logo": null
 }

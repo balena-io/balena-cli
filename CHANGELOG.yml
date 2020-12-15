@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add organizations support to app create command
+      hash: 611f59a0da95a9bbbecd027d41f5fb9ded2b6460
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#2119'
+        connects-to: '#2119'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.34.0
+  date: 2020-12-15T14:46:16.490Z
+- commits:
     - subject: Improve error message for issues to access balena settings
       hash: 439d8391eea61f0be2075121aa725286d9606110
       body: |
@@ -11,7 +26,7 @@
       author: josecoelho
       nested: []
   version: 12.33.2
-  date: 2020-12-15T07:39:12.435Z
+  date: 2020-12-15T07:20:44.514Z
 - commits:
     - subject: Fix preload command support for application IDs
       hash: fe24280adfca5550c95bb80d30b651bfe4713cf4
