@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add organizations support to app create command
+      hash: 611f59a0da95a9bbbecd027d41f5fb9ded2b6460
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#2119'
+        connects-to: '#2119'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.34.0
+  date: 2020-12-15T14:03:51.740Z
+- commits:
     - subject: Improve error message for issues to access balena settings
       hash: 439d8391eea61f0be2075121aa725286d9606110
       body: |
