@@ -22,6 +22,7 @@ import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { dockerignoreHelp, registrySecretsHelp } from '../utils/messages';
 import type { BalenaSDK, Application, Organization } from 'balena-sdk';
 import { ExpectedError, instanceOf } from '../errors';
+import type { RegistrySecrets } from 'resin-multibuild';
 
 enum BuildTarget {
 	Cloud,
@@ -46,6 +47,7 @@ interface FlagsDef {
 	'convert-eol'?: boolean;
 	'noconvert-eol'?: boolean;
 	'multi-dockerignore'?: boolean;
+	'release-tag'?: string[];
 	help: void;
 }
 
@@ -92,6 +94,7 @@ export default class PushCmd extends Command {
 		'$ balena push myApp',
 		'$ balena push myApp --source <source directory>',
 		'$ balena push myApp -s <source directory>',
+		'$ balena push myApp --release-tag key1 "" key2 "value2 with spaces"',
 		'',
 		'$ balena push 10.0.0.1',
 		'$ balena push 10.0.0.1 --source <source directory>',
@@ -224,6 +227,15 @@ export default class PushCmd extends Command {
 			char: 'g',
 			exclusive: ['multi-dockerignore'],
 		}),
+		'release-tag': flags.string({
+			description: stripIndent`
+				Set release tags if the push to a cloud application is successful. Multiple
+				arguments may be provided, alternating tag keys and values (see examples).
+				Hint: Empty values may be specified with "" (bash, cmd.exe) or '""' (PowerShell).
+			`,
+			multiple: true,
+			exclusive: ['detached'],
+		}),
 		help: cf.help,
 	};
 
@@ -259,88 +271,174 @@ export default class PushCmd extends Command {
 		const buildTarget = await this.getBuildTarget(appOrDevice);
 		switch (buildTarget) {
 			case BuildTarget.Cloud:
-				const remote = await import('../utils/remote-build');
-
-				// Check for invalid options
-				const localOnlyOptions = ['nolive', 'service', 'system', 'env'];
-
-				localOnlyOptions.forEach((opt) => {
-					// @ts-ignore : Not sure why typescript wont let me do this?
-					if (options[opt]) {
-						throw new ExpectedError(
-							`The --${opt} flag is only valid when pushing to a local mode device`,
-						);
-					}
-				});
-
-				const app = appOrDevice;
-				await Command.checkLoggedIn();
-				const [token, baseUrl, owner] = await Promise.all([
-					sdk.auth.getToken(),
-					sdk.settings.get('balenaUrl'),
-					this.getAppOwner(sdk, app),
-				]);
-
-				const opts = {
-					dockerfilePath,
-					emulated: options.emulated || false,
-					multiDockerignore: options['multi-dockerignore'] || false,
-					nocache: options.nocache || false,
-					registrySecrets,
-					headless: options.detached || false,
-					convertEol,
-				};
-				const args = {
-					app,
-					owner,
-					source,
-					auth: token,
-					baseUrl,
-					nogitignore,
+				await this.pushToCloud(
+					options,
 					sdk,
-					opts,
-				};
-				await remote.startRemoteBuild(args);
+					appOrDevice,
+					dockerfilePath,
+					registrySecrets,
+					convertEol,
+					source,
+					nogitignore,
+				);
 				break;
 
 			case BuildTarget.Device:
-				const deviceDeploy = await import('../utils/device/deploy');
-				const device = appOrDevice;
-				const servicesToDisplay = options.service;
-
-				// TODO: Support passing a different port
-				try {
-					await deviceDeploy.deployToDevice({
-						source,
-						deviceHost: device,
-						dockerfilePath,
-						registrySecrets,
-						multiDockerignore: options['multi-dockerignore'] || false,
-						nocache: options.nocache || false,
-						pull: options.pull || false,
-						nogitignore,
-						noParentCheck: options['noparent-check'] || false,
-						nolive: options.nolive || false,
-						detached: options.detached || false,
-						services: servicesToDisplay,
-						system: options.system || false,
-						env: options.env || [],
-						convertEol,
-					});
-				} catch (e) {
-					const { BuildError } = await import('../utils/device/errors');
-					if (instanceOf(e, BuildError)) {
-						throw new ExpectedError(e.toString());
-					} else {
-						throw e;
-					}
-				}
+				await this.pushToDevice(
+					options,
+					sdk,
+					appOrDevice,
+					dockerfilePath,
+					registrySecrets,
+					convertEol,
+					source,
+					nogitignore,
+				);
 				break;
 
 			default:
 				throw new ExpectedError(stripIndent`
 					Build target not recognized. Please provide either an application name or
 					device IP address.`);
+		}
+	}
+
+	async pushToCloud(
+		options: FlagsDef,
+		sdk: BalenaSDK,
+		appOrDevice: string,
+		dockerfilePath: string,
+		registrySecrets: RegistrySecrets,
+		convertEol: boolean,
+		source: string,
+		nogitignore: boolean,
+	) {
+		const _ = await import('lodash');
+		const remote = await import('../utils/remote-build');
+
+		// Check for invalid options
+		const localOnlyOptions: Array<keyof FlagsDef> = [
+			'nolive',
+			'service',
+			'system',
+			'env',
+		];
+		this.checkInvalidOptions(
+			localOnlyOptions,
+			options,
+			'is only valid when pushing to a local mode device',
+		);
+
+		const releaseTags = options['release-tag'] ?? [];
+		const releaseTagKeys = releaseTags.filter((_v, i) => i % 2 === 0);
+		const releaseTagValues = releaseTags.filter((_v, i) => i % 2 === 1);
+
+		releaseTagKeys.forEach((key) => {
+			if (key === '') {
+				throw new ExpectedError(`Error: --release-tag keys cannot be empty`);
+			}
+			if (/\s/.test(key)) {
+				throw new ExpectedError(
+					`Error: --release-tag keys cannot contain whitespaces`,
+				);
+			}
+		});
+		if (releaseTagKeys.length !== releaseTagValues.length) {
+			releaseTagValues.push('');
+		}
+
+		const app = appOrDevice;
+		await Command.checkLoggedIn();
+		const [token, baseUrl, owner] = await Promise.all([
+			sdk.auth.getToken(),
+			sdk.settings.get('balenaUrl'),
+			this.getAppOwner(sdk, app),
+		]);
+
+		const opts = {
+			dockerfilePath,
+			emulated: options.emulated || false,
+			multiDockerignore: options['multi-dockerignore'] || false,
+			nocache: options.nocache || false,
+			registrySecrets,
+			headless: options.detached || false,
+			convertEol,
+		};
+		const args = {
+			app,
+			owner,
+			source,
+			auth: token,
+			baseUrl,
+			nogitignore,
+			sdk,
+			opts,
+		};
+		const releaseId = await remote.startRemoteBuild(args);
+		if (releaseId) {
+			// Above we have checked that releaseTagKeys and releaseTagValues are of the same size
+			await Promise.all(
+				(_.zip(releaseTagKeys, releaseTagValues) as Array<
+					[string, string]
+				>).map(async ([key, value]) => {
+					await sdk.models.release.tags.set(releaseId, key, value);
+				}),
+			);
+		} else if (releaseTagKeys.length > 0) {
+			throw new Error(stripIndent`
+				A release ID could not be parsed out of the builder's output.
+				As a result, the release tags have not been set.`);
+		}
+	}
+
+	async pushToDevice(
+		options: FlagsDef,
+		_sdk: BalenaSDK,
+		appOrDevice: string,
+		dockerfilePath: string,
+		registrySecrets: RegistrySecrets,
+		convertEol: boolean,
+		source: string,
+		nogitignore: boolean,
+	) {
+		// Check for invalid options
+		const remoteOnlyOptions: Array<keyof FlagsDef> = ['release-tag'];
+		this.checkInvalidOptions(
+			remoteOnlyOptions,
+			options,
+			'is only valid when pushing to an application',
+		);
+
+		const deviceDeploy = await import('../utils/device/deploy');
+		const device = appOrDevice;
+		const servicesToDisplay = options.service;
+
+		// TODO: Support passing a different port
+		try {
+			await deviceDeploy.deployToDevice({
+				source,
+				deviceHost: device,
+				dockerfilePath,
+				registrySecrets,
+				multiDockerignore: options['multi-dockerignore'] || false,
+				nocache: options.nocache || false,
+				pull: options.pull || false,
+				nogitignore,
+				noParentCheck: options['noparent-check'] || false,
+				nolive: options.nolive || false,
+				detached: options.detached || false,
+				services: servicesToDisplay,
+				system: options.system || false,
+				env: options.env || [],
+				convertEol,
+			});
+		} catch (e) {
+			const { BuildError } = await import('../utils/device/errors');
+			if (instanceOf(e, BuildError)) {
+				throw new ExpectedError(e.toString());
+			} else {
+				throw e;
+			}
 		}
 	}
 
@@ -415,5 +513,17 @@ export default class PushCmd extends Command {
 		);
 
 		return selected.extra;
+	}
+
+	checkInvalidOptions(
+		invalidOptions: Array<keyof FlagsDef>,
+		options: FlagsDef,
+		errorMessage: string,
+	) {
+		invalidOptions.forEach((opt) => {
+			if (options[opt]) {
+				throw new ExpectedError(`The --${opt} flag ${errorMessage}`);
+			}
+		});
 	}
 }

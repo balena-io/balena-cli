@@ -2544,6 +2544,7 @@ Examples:
 	$ balena push myApp
 	$ balena push myApp --source <source directory>
 	$ balena push myApp -s <source directory>
+	$ balena push myApp --release-tag key1 "" key2 "value2 with spaces"
 	
 	$ balena push 10.0.0.1
 	$ balena push 10.0.0.1 --source <source directory>
@@ -2657,6 +2658,12 @@ No-op (default behavior) since balena CLI v12.0.0. See "balena help push".
 Consider .gitignore files in addition to the .dockerignore file. This reverts
 to the CLI v11 behavior/implementation (deprecated) if compatibility is
 required until your project can be adapted.
+
+#### --release-tag RELEASE-TAG
+
+Set release tags if the push to a cloud application is successful. Multiple
+arguments may be provided, alternating tag keys and values (see examples).
+Hint: Empty values may be specified with "" (bash, cmd.exe) or '""' (PowerShell).
 
 # Settings
 
