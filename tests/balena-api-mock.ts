@@ -185,6 +185,7 @@ export class BalenaAPIMock extends NockMock {
 	public expectGetDevice(opts: {
 		fullUUID: string;
 		inaccessibleApp?: boolean;
+		isOnline?: boolean;
 		optional?: boolean;
 		persist?: boolean;
 	}) {
@@ -194,6 +195,7 @@ export class BalenaAPIMock extends NockMock {
 				{
 					id,
 					uuid: opts.fullUUID,
+					is_online: opts.isOnline,
 					belongs_to__application: opts.inaccessibleApp
 						? []
 						: [{ app_name: 'test' }],

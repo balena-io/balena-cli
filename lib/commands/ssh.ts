@@ -19,11 +19,7 @@ import { flags } from '@oclif/command';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
-import {
-	parseAsInteger,
-	validateDotLocalUrl,
-	validateIPAddress,
-} from '../utils/validation';
+import { parseAsInteger, validateLocalHostnameOrIp } from '../utils/validation';
 import * as BalenaSdk from 'balena-sdk';
 
 interface FlagsDef {
@@ -39,14 +35,14 @@ interface ArgsDef {
 	service?: string;
 }
 
-export default class NoteCmd extends Command {
+export default class SshCmd extends Command {
 	public static description = stripIndent`
 		SSH into the host or application container of a device.
 
 		Start a shell on a local or remote device. If a service name is not provided,
 		a shell will be opened on the host OS.
 
-		If an application name is provided, an interactive menu will be presented
+		If an application is provided, an interactive menu will be presented
 		for the selection of an online device. A shell will then be opened for the
 		host OS or service container of the chosen device.
 
@@ -81,7 +77,8 @@ export default class NoteCmd extends Command {
 	public static args = [
 		{
 			name: 'applicationOrDevice',
-			description: 'application name, device uuid, or address of local device',
+			description:
+				'application name/slug/id, device uuid, or address of local device',
 			required: true,
 		},
 		{
@@ -104,17 +101,17 @@ export default class NoteCmd extends Command {
 		tty: flags.boolean({
 			default: false,
 			description:
-				'Force pseudo-terminal allocation (bypass TTY autodetection for stdin)',
+				'force pseudo-terminal allocation (bypass TTY autodetection for stdin)',
 			char: 't',
 		}),
 		verbose: flags.boolean({
 			default: false,
-			description: 'Increase verbosity',
+			description: 'increase verbosity',
 			char: 'v',
 		}),
 		noproxy: flags.boolean({
 			default: false,
-			description: 'Bypass global proxy configuration for the ssh connection',
+			description: 'bypass global proxy configuration for the ssh connection',
 		}),
 		help: cf.help,
 	};
@@ -123,14 +120,11 @@ export default class NoteCmd extends Command {
 
 	public async run() {
 		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			NoteCmd,
+			SshCmd,
 		);
 
-		// if we're doing a direct SSH connection locally...
-		if (
-			validateDotLocalUrl(params.applicationOrDevice) ||
-			validateIPAddress(params.applicationOrDevice)
-		) {
+		// Local connection
+		if (validateLocalHostnameOrIp(params.applicationOrDevice)) {
 			const { performLocalDeviceSSH } = await import('../utils/device/ssh');
 			return await performLocalDeviceSSH({
 				address: params.applicationOrDevice,
@@ -141,26 +135,27 @@ export default class NoteCmd extends Command {
 			});
 		}
 
+		// Remote connection
 		const { getProxyConfig, which } = await import('../utils/helpers');
-		const { checkLoggedIn, getOnlineTargetUuid } = await import(
-			'../utils/patterns'
-		);
+		const { getOnlineTargetDeviceUuid } = await import('../utils/patterns');
 		const sdk = getBalenaSdk();
 
 		const proxyConfig = getProxyConfig();
 		const useProxy = !!proxyConfig && !options.noproxy;
 
 		// this will be a tunnelled SSH connection...
-		await checkLoggedIn();
-		const uuid = await getOnlineTargetUuid(sdk, params.applicationOrDevice);
-		let version: string | undefined;
-		let id: number | undefined;
+		await Command.checkLoggedIn();
+		const deviceUuid = await getOnlineTargetDeviceUuid(
+			sdk,
+			params.applicationOrDevice,
+		);
 
-		const device = await sdk.models.device.get(uuid, {
+		const device = await sdk.models.device.get(deviceUuid, {
 			$select: ['id', 'supervisor_version', 'is_online'],
 		});
-		id = device.id;
-		version = device.supervisor_version;
+
+		const deviceId = device.id;
+		const supervisorVersion = device.supervisor_version;
 
 		const [whichProxytunnel, username, proxyUrl] = await Promise.all([
 			useProxy ? which('proxytunnel', false) : undefined,
@@ -207,20 +202,13 @@ export default class NoteCmd extends Command {
 
 		const proxyCommand = useProxy ? getSshProxyCommand() : undefined;
 
-		if (username == null) {
-			const { ExpectedError } = await import('../errors');
-			throw new ExpectedError(
-				`Opening an SSH connection to a remote device requires you to be logged in.`,
-			);
-		}
-
-		// At this point, we have a long uuid with a device
+		// At this point, we have a long uuid of a device
 		// that we know exists and is accessible
 		let containerId: string | undefined;
 		if (params.service != null) {
 			containerId = await this.getContainerId(
 				sdk,
-				uuid,
+				deviceUuid,
 				params.service,
 				{
 					port: options.port,
@@ -228,20 +216,20 @@ export default class NoteCmd extends Command {
 					proxyUrl: proxyUrl || '',
 					username: username!,
 				},
-				version,
-				id,
+				supervisorVersion,
+				deviceId,
 			);
 		}
 
 		let accessCommand: string;
 		if (containerId != null) {
-			accessCommand = `enter ${uuid} ${containerId}`;
+			accessCommand = `enter ${deviceUuid} ${containerId}`;
 		} else {
-			accessCommand = `host ${uuid}`;
+			accessCommand = `host ${deviceUuid}`;
 		}
 
 		const command = this.generateVpnSshCommand({
-			uuid,
+			uuid: deviceUuid,
 			command: accessCommand,
 			verbose: options.verbose,
 			port: options.port,
