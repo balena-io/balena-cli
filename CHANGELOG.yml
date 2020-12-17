@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'Update commands ssh, tunnel to support orgs'
+      hash: 9d2884aab7544d8b7330cdd6fa1a020344f6309c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#2119'
+        connects-to: '#2119'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.35.1
+  date: 2020-12-17T15:05:52.054Z
+- commits:
     - subject: Update various commands to support organizations
       hash: c8987474682d284e8d3e685300ad47a3b716e8ef
       body: ''
@@ -12,7 +27,7 @@
       author: Scott Lowe
       nested: []
   version: 12.35.0
-  date: 2020-12-15T15:45:33.746Z
+  date: 2020-12-15T15:10:35.099Z
 - commits:
     - subject: Add organizations support to app create command
       hash: 611f59a0da95a9bbbecd027d41f5fb9ded2b6460
