@@ -26,7 +26,8 @@ import { getBalenaSdk, getVisuals, stripIndent, getCliForm } from './lazy';
 import validation = require('./validation');
 import { delay } from './helpers';
 import { isV13 } from './version';
-import { Organization } from 'balena-sdk';
+import type { Application, Device, Organization } from 'balena-sdk';
+import { getApplication } from './sdk';
 
 export function authenticate(options: {}): Promise<void> {
 	const balena = getBalenaSdk();
@@ -329,99 +330,94 @@ export function inferOrSelectDevice(preferredUuid: string) {
 	});
 }
 
-async function getApplicationByIdOrName(
-	sdk: BalenaSdk.BalenaSDK,
-	idOrName: string,
-) {
-	if (validation.looksLikeInteger(idOrName)) {
-		try {
-			return await sdk.models.application.get(Number(idOrName));
-		} catch (error) {
-			const { BalenaApplicationNotFound } = await import('balena-errors');
-			if (!instanceOf(error, BalenaApplicationNotFound)) {
-				throw error;
-			}
-		}
-	}
-	return await sdk.models.application.get(idOrName);
-}
-
-export async function getOnlineTargetUuid(
+/*
+ * Given applicationOrDevice, which may be
+ *  - an application name
+ *  - an application slug
+ *  - an application id (integer)
+ *  - a device uuid
+ * Either:
+ *  - in case of device uuid, return uuid of device after verifying that it exists and is online.
+ *  - in case of application, return uuid of device user selects from list of online devices.
+ *
+ * 	TODO: Modify this when app IDs dropped.
+ */
+export async function getOnlineTargetDeviceUuid(
 	sdk: BalenaSdk.BalenaSDK,
 	applicationOrDevice: string,
 ) {
-	// applicationOrDevice can be:
-	// * an application name
-	// * an application ID (integer)
-	// * a device uuid
-	const Logger = await import('../utils/logger');
-	const logger = Logger.getLogger();
-	const appTest = validation.validateApplicationName(applicationOrDevice);
-	const uuidTest = validation.validateUuid(applicationOrDevice);
+	const logger = (await import('../utils/logger')).getLogger();
 
-	if (!appTest && !uuidTest) {
-		throw new ExpectedError(
-			`Device or application not found: ${applicationOrDevice}`,
-		);
+	// If looks like UUID, probably device
+	if (validation.validateUuid(applicationOrDevice)) {
+		let device: Device;
+		try {
+			logger.logDebug(
+				`Trying to fetch device by UUID ${applicationOrDevice} (${typeof applicationOrDevice})`,
+			);
+			device = await sdk.models.device.get(applicationOrDevice, {
+				$select: ['uuid', 'is_online'],
+			});
+
+			if (!device.is_online) {
+				throw new ExpectedError(
+					`Device with UUID ${applicationOrDevice} is offline`,
+				);
+			}
+
+			return device.uuid;
+		} catch (err) {
+			const { BalenaDeviceNotFound } = await import('balena-errors');
+			if (instanceOf(err, BalenaDeviceNotFound)) {
+				logger.logDebug(`Device with UUID ${applicationOrDevice} not found`);
+				// Now try app
+			} else {
+				throw err;
+			}
+		}
 	}
 
-	// if we have a definite device UUID...
-	if (uuidTest && !appTest) {
-		logger.logDebug(
-			`Fetching device by UUID ${applicationOrDevice} (${typeof applicationOrDevice})`,
-		);
-		return (
-			await sdk.models.device.get(applicationOrDevice, {
-				$select: ['uuid'],
-				$filter: { is_online: true },
-			})
-		).uuid;
-	}
-
-	// otherwise, it may be a device OR an application...
+	// Not a device UUID, try app
+	let app: Application;
 	try {
 		logger.logDebug(
-			`Fetching application by ID or name ${applicationOrDevice} (${typeof applicationOrDevice})`,
+			`Trying to fetch application by name/slug/ID: ${applicationOrDevice}`,
 		);
-		const app = await getApplicationByIdOrName(sdk, applicationOrDevice);
-		const devices = await sdk.models.device.getAllByApplication(app.id, {
-			$filter: { is_online: true },
-		});
-
-		if (_.isEmpty(devices)) {
-			throw new ExpectedError('No accessible devices are online');
-		}
-
-		return await getCliForm().ask({
-			message: 'Select a device',
-			type: 'list',
-			default: devices[0].uuid,
-			choices: _.map(devices, (device) => ({
-				name: `${device.device_name || 'Untitled'} (${device.uuid.slice(
-					0,
-					7,
-				)})`,
-				value: device.uuid,
-			})),
-		});
+		app = await getApplication(sdk, applicationOrDevice);
 	} catch (err) {
 		const { BalenaApplicationNotFound } = await import('balena-errors');
-		if (!instanceOf(err, BalenaApplicationNotFound)) {
+		if (instanceOf(err, BalenaApplicationNotFound)) {
+			throw new ExpectedError(
+				`Application or Device not found: ${applicationOrDevice}`,
+			);
+		} else {
 			throw err;
 		}
-		logger.logDebug(`Application not found`);
 	}
 
-	// it wasn't an application, maybe it's a device...
-	logger.logDebug(
-		`Fetching device by UUID ${applicationOrDevice} (${typeof applicationOrDevice})`,
-	);
-	return (
-		await sdk.models.device.get(applicationOrDevice, {
-			$select: ['uuid'],
-			$filter: { is_online: true },
-		})
-	).uuid;
+	// App found, load its devices
+	const devices = await sdk.models.device.getAllByApplication(app.id, {
+		$select: ['device_name', 'uuid'],
+		$filter: { is_online: true },
+	});
+
+	// Throw if no devices online
+	if (_.isEmpty(devices)) {
+		throw new ExpectedError(
+			`Application ${app.slug} found, but has no devices online.`,
+		);
+	}
+
+	// Ask user to select from online devices for application
+	return getCliForm().ask({
+		message: `Select a device on application ${app.slug}`,
+		type: 'list',
+		default: devices[0].uuid,
+		choices: _.map(devices, (device) => ({
+			name: `${device.device_name || 'Untitled'} (${device.uuid.slice(0, 7)})`,
+			value: device.uuid,
+		})),
+	});
 }
 
 export function selectFromList<T>(

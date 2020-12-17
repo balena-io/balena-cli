@@ -1768,7 +1768,7 @@ produce JSON output instead of tabular output
 Start a shell on a local or remote device. If a service name is not provided,
 a shell will be opened on the host OS.
 
-If an application name is provided, an interactive menu will be presented
+If an application is provided, an interactive menu will be presented
 for the selection of an online device. A shell will then be opened for the
 host OS or service container of the chosen device.
 
@@ -1803,7 +1803,7 @@ Examples:
 
 #### APPLICATIONORDEVICE
 
-application name, device uuid, or address of local device
+application name/slug/id, device uuid, or address of local device
 
 #### SERVICE
 
@@ -1818,15 +1818,15 @@ hostname. Otherwise, port number for the balenaCloud gateway (default 22).
 
 #### -t, --tty
 
-Force pseudo-terminal allocation (bypass TTY autodetection for stdin)
+force pseudo-terminal allocation (bypass TTY autodetection for stdin)
 
 #### -v, --verbose
 
-Increase verbosity
+increase verbosity
 
 #### --noproxy
 
-Bypass global proxy configuration for the ssh connection
+bypass global proxy configuration for the ssh connection
 
 ## tunnel &#60;deviceOrApplication&#62;
 
@@ -1863,7 +1863,7 @@ Examples:
 
 #### DEVICEORAPPLICATION
 
-device uuid or application name/id
+device uuid or application name/slug/id
 
 ### Options
 

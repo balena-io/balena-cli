@@ -66,11 +66,11 @@ describe('balena ssh', function () {
 	itSS('should succeed (mocked, device UUID)', async () => {
 		const deviceUUID = 'abc1234';
 		api.expectGetWhoAmI({ optional: true, persist: true });
-		api.expectGetApplication({ notFound: true });
-		api.expectGetDevice({ fullUUID: deviceUUID });
+		api.expectGetDevice({ fullUUID: deviceUUID, isOnline: true });
 		mockedExitCode = 0;
 
 		const { err, out } = await runCommand(`ssh ${deviceUUID}`);
+
 		expect(err).to.be.empty;
 		expect(out).to.be.empty;
 	});
@@ -90,8 +90,7 @@ describe('balena ssh', function () {
 				'Warning: ssh process exited with non-zero code "255"',
 			];
 			api.expectGetWhoAmI({ optional: true, persist: true });
-			api.expectGetApplication({ notFound: true });
-			api.expectGetDevice({ fullUUID: deviceUUID });
+			api.expectGetDevice({ fullUUID: deviceUUID, isOnline: true });
 			mockedExitCode = 255;
 
 			const { err, out } = await runCommand(`ssh ${deviceUUID}`);
@@ -111,6 +110,19 @@ describe('balena ssh', function () {
 		const { err, out } = await runCommand(
 			`ssh 127.0.0.1 -p ${sshServerPort} --noproxy`,
 		);
+		expect(cleanOutput(err, true)).to.include.members(expectedErrLines);
+		expect(out).to.be.empty;
+	});
+
+	it('should fail if device not online (mocked, device UUID)', async () => {
+		const deviceUUID = 'abc1234';
+		const expectedErrLines = ['Device with UUID abc1234 is offline'];
+		api.expectGetWhoAmI({ optional: true, persist: true });
+		api.expectGetDevice({ fullUUID: deviceUUID, isOnline: false });
+		mockedExitCode = 0;
+
+		const { err, out } = await runCommand(`ssh ${deviceUUID}`);
+
 		expect(cleanOutput(err, true)).to.include.members(expectedErrLines);
 		expect(out).to.be.empty;
 	});

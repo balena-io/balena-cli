@@ -162,6 +162,7 @@ function sshErrorMessage(exitSignal?: string, exitCode?: number) {
 				msg.push(`
 Are the SSH keys correctly configured in balenaCloud? See:
 https://www.balena.io/docs/learn/manage/ssh-access/#add-an-ssh-key-to-balenacloud`);
+				msg.push('Are you accidentally using `sudo`?');
 		}
 	}
 	return msg.join('\n');

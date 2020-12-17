@@ -24,11 +24,7 @@ import {
 } from '../errors';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
-import { getOnlineTargetUuid } from '../utils/patterns';
-import * as _ from 'lodash';
-import { tunnelConnectionToDevice } from '../utils/tunnel';
-import { createServer, Server, Socket } from 'net';
-import { IArg } from '@oclif/parser/lib/args';
+import type { Server, Socket } from 'net';
 
 interface FlagsDef {
 	port: string[];
@@ -73,10 +69,10 @@ export default class TunnelCmd extends Command {
 		'$ balena tunnel myApp -p 8080:3000 -p 8081:9000',
 	];
 
-	public static args: Array<IArg<any>> = [
+	public static args = [
 		{
 			name: 'deviceOrApplication',
-			description: 'device uuid or application name/id',
+			description: 'device uuid or application name/slug/id',
 			required: true,
 		},
 	];
@@ -101,8 +97,7 @@ export default class TunnelCmd extends Command {
 			TunnelCmd,
 		);
 
-		const Logger = await import('../utils/logger');
-		const logger = Logger.getLogger();
+		const logger = await Command.getLogger();
 		const sdk = getBalenaSdk();
 
 		const logConnection = (
@@ -127,23 +122,30 @@ export default class TunnelCmd extends Command {
 			throw new NoPortsDefinedError();
 		}
 
-		const uuid = await getOnlineTargetUuid(sdk, params.deviceOrApplication);
+		// Ascertain device uuid
+		const { getOnlineTargetDeviceUuid } = await import('../utils/patterns');
+		const uuid = await getOnlineTargetDeviceUuid(
+			sdk,
+			params.deviceOrApplication,
+		);
 		const device = await sdk.models.device.get(uuid);
-
 		logger.logInfo(`Opening a tunnel to ${device.uuid}...`);
 
+		const _ = await import('lodash');
 		const localListeners = _.chain(options.port)
 			.map((mapping) => {
 				return this.parsePortMapping(mapping);
 			})
 			.map(async ({ localPort, localAddress, remotePort }) => {
 				try {
+					const { tunnelConnectionToDevice } = await import('../utils/tunnel');
 					const handler = await tunnelConnectionToDevice(
 						device.uuid,
 						remotePort,
 						sdk,
 					);
 
+					const { createServer } = await import('net');
 					const server = createServer(async (client: Socket) => {
 						try {
 							await handler(client);
