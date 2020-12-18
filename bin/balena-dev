@@ -21,9 +21,14 @@ modifyOclifPaths();
 process.on('exit', function () {
 	modifyOclifPaths(true);
 });
-// Undo changes in case of ctrl-v
+// Undo changes in case of ctrl-c
 process.on('SIGINT', function () {
 	modifyOclifPaths(true);
+	// Note process exit here will interfere with commands that do their own SIGINT handling,
+	// but without it commands can not be exited.
+	// So currently using balena-dev does not guarantee proper exit behaviour when using ctrl-c.
+	// Ideally a better solution is needed.
+	process.exit();
 });
 
 // Use fast-boot to cache require lookups, speeding up startup
