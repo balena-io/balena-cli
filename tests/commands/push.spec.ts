@@ -66,7 +66,7 @@ const commonResponseLines = {
 };
 
 const commonQueryParams = [
-	['owner', 'bob'],
+	['owner', 'gh_user'],
 	['app', 'testApp'],
 	['dockerfilePath', ''],
 	['emulated', 'false'],
@@ -87,7 +87,7 @@ describe('balena push', function () {
 		builder = new BuilderMock();
 		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetMixpanel({ optional: true });
-		api.expectGetMyApplication();
+		api.expectGetApplication();
 	});
 
 	this.afterEach(() => {
@@ -145,7 +145,7 @@ describe('balena push', function () {
 
 		await testPushBuildStream({
 			builderMock: builder,
-			commandLine: `push testApp --source ${projectPath} -R ${regSecretsPath} -G`,
+			commandLine: `push testApp --source ${projectPath} -R ${regSecretsPath}`,
 			expectedFiles,
 			expectedQueryParams: commonQueryParams,
 			expectedResponseLines,
@@ -345,7 +345,7 @@ describe('balena push', function () {
 
 		await testPushBuildStream({
 			builderMock: builder,
-			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -G`,
+			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath}`,
 			expectedFiles,
 			expectedQueryParams: commonQueryParams,
 			expectedResponseLines: commonResponseLines[responseFilename],

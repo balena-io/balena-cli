@@ -17,6 +17,11 @@
 				},
 				"__id": 43699
 			},
+			"organization": [
+				{
+					"handle": "gh_user"
+				}
+			],
 			"depends_on__application": null,
 			"actor": 3423895,
 			"app_name": "testApp",

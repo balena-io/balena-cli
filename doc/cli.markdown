@@ -2439,7 +2439,7 @@ Docker host TLS key file
 
 ## push &#60;applicationOrDevice&#62;
 
-Start a build on the remote balenaCloud builders, or a local mode balena device.
+Start a build on the remote balenaCloud build servers, or a local mode device.
 
 When building on the balenaCloud servers, the given source directory will be
 sent to the remote server. This can be used as a drop-in replacement for the
@@ -2545,6 +2545,7 @@ Examples:
 	$ balena push myApp --source <source directory>
 	$ balena push myApp -s <source directory>
 	$ balena push myApp --release-tag key1 "" key2 "value2 with spaces"
+	$ balena push myorg/myapp
 	
 	$ balena push 10.0.0.1
 	$ balena push 10.0.0.1 --source <source directory>
@@ -2559,7 +2560,7 @@ Examples:
 
 #### APPLICATIONORDEVICE
 
-application name, or device address (for local pushes)
+application name or slug, or local device IP address or hostname
 
 ### Options
 
