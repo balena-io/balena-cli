@@ -1,4 +1,17 @@
 - commits:
+    - subject: Modify handling of SIGINT in balena-dev
+      hash: 5c93df921e1d3112f827c81c87424e1bee793594
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.35.2
+  date: 2020-12-18T09:25:13.668Z
+- commits:
     - subject: 'Update commands ssh, tunnel to support orgs'
       hash: 9d2884aab7544d8b7330cdd6fa1a020344f6309c
       body: ''
