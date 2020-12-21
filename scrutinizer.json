@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Improve id disambiguation for tag commands",
+          "hash": "584aa745f7a5f2d2cc7fb3209ac5c07c366ea04b",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.35.3",
+      "date": "2020-12-21T10:45:52.324Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Modify handling of SIGINT in balena-dev",
           "hash": "5c93df921e1d3112f827c81c87424e1bee793594",
           "body": "",
@@ -20704,7 +20723,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 289,
+  "stars": 290,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -20804,36 +20823,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-12-18T09:44:48Z",
+  "lastCommitDate": "2020-12-21T11:18:38Z",
   "latestRelease": {
-    "tagName": "v12.35.2",
+    "tagName": "v12.35.3",
     "asssets": [
       {
-        "name": "balena-cli-v12.35.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.2/balena-cli-v12.35.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.35.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.3/balena-cli-v12.35.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.35.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.2/balena-cli-v12.35.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.35.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.3/balena-cli-v12.35.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.35.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.2/balena-cli-v12.35.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.35.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.3/balena-cli-v12.35.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.35.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.2/balena-cli-v12.35.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.35.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.3/balena-cli-v12.35.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.35.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.2/balena-cli-v12.35.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.35.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.3/balena-cli-v12.35.3-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 298,
+    "numberOfIssues": 301,
     "latestIssues": [
+      {
+        "title": "build, deploy: Add support for multi-architecture base images",
+        "url": "https://github.com/balena-io/balena-cli/pull/2145"
+      },
+      {
+        "title": "Update push command for organizations, and refactor",
+        "url": "https://github.com/balena-io/balena-cli/pull/2144"
+      },
+      {
+        "title": "Balena preload - Error: failed to register layer - no space left on device",
+        "url": "https://github.com/balena-io/balena-cli/issues/2142"
+      },
       {
         "title": "Support Windows for `balena os configure` command",
         "url": "https://github.com/balena-io/balena-cli/issues/2140"
@@ -20901,22 +20932,10 @@
       {
         "title": "Error handling when not logged in (openBalena)",
         "url": "https://github.com/balena-io/balena-cli/issues/2090"
-      },
-      {
-        "title": "balena deploy --build : Payload Too Large",
-        "url": "https://github.com/balena-io/balena-cli/issues/2086"
-      },
-      {
-        "title": "device move: Add '-name', '-uuid' and '-id' application and device options",
-        "url": "https://github.com/balena-io/balena-cli/pull/2080"
-      },
-      {
-        "title": "Should support Node 14 and higher",
-        "url": "https://github.com/balena-io/balena-cli/issues/2079"
       }
     ]
   },
-  "version": "12.35.2",
+  "version": "12.35.3",
   "screenshot": null,
   "logo": null
 }
