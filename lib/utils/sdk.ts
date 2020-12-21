@@ -26,7 +26,6 @@ import type {
  * Wraps the sdk application.get method,
  * adding disambiguation in cases where the provided
  * identifier could be interpreted in multiple valid ways.
- * // TODO: Remove this once support for numeric App IDs is removed.
  */
 export async function getApplication(
 	sdk: BalenaSDK,
@@ -48,6 +47,46 @@ export async function getApplication(
 		}
 	}
 	return sdk.models.application.get(nameOrSlugOrId, options);
+}
+
+/**
+ * Given an string representation of an application identifier,
+ * which could be one of:
+ *  - name (including numeric names)
+ *  - slug
+ *  - numerical id
+ *  disambiguate and return a properly typed identifier.
+ *
+ *  Attempts to minimise the number of API calls required.
+ * TODO: Remove this once support for numeric App IDs is removed.
+ */
+export async function getTypedApplicationIdentifier(
+	sdk: BalenaSDK,
+	nameOrSlugOrId: string,
+) {
+	const { looksLikeInteger } = await import('./validation');
+	// If there's no possible ambiguity,
+	// return the passed identifier unchanged
+	if (!looksLikeInteger(nameOrSlugOrId)) {
+		return nameOrSlugOrId;
+	}
+
+	// Resolve ambiguity
+	try {
+		// Test for existence of app with this numerical ID,
+		// and return typed id if found
+		return (await sdk.models.application.get(Number(nameOrSlugOrId))).id;
+	} catch (e) {
+		const { instanceOf } = await import('../errors');
+		const { BalenaApplicationNotFound } = await import('balena-errors');
+		if (!instanceOf(e, BalenaApplicationNotFound)) {
+			throw e;
+		}
+	}
+
+	// App with this numerical id not found
+	// return the passed identifier unchanged
+	return nameOrSlugOrId;
 }
 
 /**

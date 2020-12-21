@@ -102,8 +102,9 @@ export default class TagRmCmd extends Command {
 		const { tryAsInteger } = await import('../../utils/validation');
 
 		if (options.application) {
+			const { getTypedApplicationIdentifier } = await import('../../utils/sdk');
 			return balena.models.application.tags.remove(
-				tryAsInteger(options.application),
+				await getTypedApplicationIdentifier(balena, options.application),
 				params.tagKey,
 			);
 		}
