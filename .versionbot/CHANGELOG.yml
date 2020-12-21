@@ -1,4 +1,17 @@
 - commits:
+    - subject: Improve id disambiguation for tag commands
+      hash: 584aa745f7a5f2d2cc7fb3209ac5c07c366ea04b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.35.3
+  date: 2020-12-21T10:45:52.324Z
+- commits:
     - subject: Modify handling of SIGINT in balena-dev
       hash: 5c93df921e1d3112f827c81c87424e1bee793594
       body: ''
