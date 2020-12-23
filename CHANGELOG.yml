@@ -1,4 +1,36 @@
 - commits:
+    - subject: 'errors: Make all exclusive flag errors expected'
+      hash: 074fe010bdc543c30754ac2eddba58d68bd8e0ae
+      body: |
+        eg Don't report errors if during a push --release-tag
+        and --detached flags are used.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: 'push: Add --release-tag flag'
+      hash: 34557e35eed227c22482b7fe91b7239c6e5908b9
+      body: |
+        You can have 0 or multiple keys without values,
+        if you use values then you should have as many
+        values as you have keys. If you don't want to set
+        a value for a key set its value to "" (bash, cmd.exe)
+        or '""' (powershell).
+      footer:
+        Connects-to: '#892'
+        connects-to: '#892'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+  version: 12.36.0
+  date: 2020-12-23T07:35:49.743Z
+- commits:
     - subject: Improve id disambiguation for tag commands
       hash: 584aa745f7a5f2d2cc7fb3209ac5c07c366ea04b
       body: ''
@@ -10,7 +42,7 @@
       author: Scott Lowe
       nested: []
   version: 12.35.3
-  date: 2020-12-21T11:17:51.455Z
+  date: 2020-12-21T10:45:52.324Z
 - commits:
     - subject: Modify handling of SIGINT in balena-dev
       hash: 5c93df921e1d3112f827c81c87424e1bee793594

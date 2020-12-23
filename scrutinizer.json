@@ -5,6 +5,40 @@
     {
       "commits": [
         {
+          "subject": "errors: Make all exclusive flag errors expected",
+          "hash": "074fe010bdc543c30754ac2eddba58d68bd8e0ae",
+          "body": "eg Don't report errors if during a push --release-tag\nand --detached flags are used.\n",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Marios Balamatsias <mbalamatsias@gmail.com>",
+            "signed-off-by": "Marios Balamatsias <mbalamatsias@gmail.com>"
+          },
+          "author": "Marios Balamatsias",
+          "nested": []
+        },
+        {
+          "subject": "push: Add --release-tag flag",
+          "hash": "34557e35eed227c22482b7fe91b7239c6e5908b9",
+          "body": "You can have 0 or multiple keys without values,\nif you use values then you should have as many\nvalues as you have keys. If you don't want to set\na value for a key set its value to \"\" (bash, cmd.exe)\nor '\"\"' (powershell).\n",
+          "footer": {
+            "Connects-to": "#892",
+            "connects-to": "#892",
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Marios Balamatsias <mbalamatsias@gmail.com>",
+            "signed-off-by": "Marios Balamatsias <mbalamatsias@gmail.com>"
+          },
+          "author": "Marios Balamatsias",
+          "nested": []
+        }
+      ],
+      "version": "12.36.0",
+      "date": "2020-12-22T15:12:43.426Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Improve id disambiguation for tag commands",
           "hash": "584aa745f7a5f2d2cc7fb3209ac5c07c366ea04b",
           "body": "",
@@ -20655,16 +20689,16 @@
       "avatar": "https://avatars2.githubusercontent.com/u/633741?v=4"
     },
     {
+      "username": "mbalamat",
+      "avatar": "https://avatars1.githubusercontent.com/u/7872396?v=4"
+    },
+    {
       "username": "pcarranzav",
       "avatar": "https://avatars1.githubusercontent.com/u/2223590?v=4"
     },
     {
       "username": "dansku",
       "avatar": "https://avatars1.githubusercontent.com/u/590207?v=4"
-    },
-    {
-      "username": "mbalamat",
-      "avatar": "https://avatars1.githubusercontent.com/u/7872396?v=4"
     },
     {
       "username": "afitzek",
@@ -20823,35 +20857,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-12-21T11:18:38Z",
+  "lastCommitDate": "2020-12-23T07:36:42Z",
   "latestRelease": {
-    "tagName": "v12.35.3",
+    "tagName": "v12.36.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.35.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.3/balena-cli-v12.35.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.36.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.0/balena-cli-v12.36.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.35.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.3/balena-cli-v12.35.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.36.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.0/balena-cli-v12.36.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.35.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.3/balena-cli-v12.35.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.36.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.0/balena-cli-v12.36.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.35.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.3/balena-cli-v12.35.3-windows-x64-installer.exe"
+        "name": "balena-cli-v12.36.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.0/balena-cli-v12.36.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.35.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.35.3/balena-cli-v12.35.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.36.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.0/balena-cli-v12.36.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 301,
+    "numberOfIssues": 299,
     "latestIssues": [
       {
         "title": "build, deploy: Add support for multi-architecture base images",
@@ -20868,10 +20902,6 @@
       {
         "title": "Support Windows for `balena os configure` command",
         "url": "https://github.com/balena-io/balena-cli/issues/2140"
-      },
-      {
-        "title": "push: Add tag flag",
-        "url": "https://github.com/balena-io/balena-cli/pull/2138"
       },
       {
         "title": "livepush loses track of deleted files",
@@ -20932,10 +20962,14 @@
       {
         "title": "Error handling when not logged in (openBalena)",
         "url": "https://github.com/balena-io/balena-cli/issues/2090"
+      },
+      {
+        "title": "balena deploy --build : Payload Too Large",
+        "url": "https://github.com/balena-io/balena-cli/issues/2086"
       }
     ]
   },
-  "version": "12.35.3",
+  "version": "12.36.0",
   "screenshot": null,
   "logo": null
 }
