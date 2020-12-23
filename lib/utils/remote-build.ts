@@ -108,7 +108,9 @@ async function getBuilderEndpoint(
 	return `${builderUrl}/v3/build?${args}`;
 }
 
-export async function startRemoteBuild(build: RemoteBuild): Promise<void> {
+export async function startRemoteBuild(
+	build: RemoteBuild,
+): Promise<number | undefined> {
 	const [buildRequest, stream] = await getRemoteBuildStream(build);
 
 	// Setup CTRL-C handler so the user can interrupt the build
@@ -133,7 +135,7 @@ export async function startRemoteBuild(build: RemoteBuild): Promise<void> {
 
 	try {
 		if (build.opts.headless) {
-			await handleHeadlessBuildStream(stream);
+			await handleHeadlessBuildStream(build, stream);
 		} else {
 			await handleRemoteBuildStream(build, stream);
 		}
@@ -142,6 +144,7 @@ export async function startRemoteBuild(build: RemoteBuild): Promise<void> {
 		globalLogger.outputDeferredMessages();
 		await cancellationPromise;
 	}
+	return build.releaseId;
 }
 
 async function handleRemoteBuildStream(
@@ -159,7 +162,10 @@ async function handleRemoteBuildStream(
 	}
 }
 
-async function handleHeadlessBuildStream(stream: Stream.Stream) {
+async function handleHeadlessBuildStream(
+	build: RemoteBuild,
+	stream: Stream.Stream,
+) {
 	// We're running a headless build, which means we'll
 	// get a single object back, detailing if the build has
 	// been started
@@ -182,6 +188,7 @@ async function handleHeadlessBuildStream(stream: Stream.Stream) {
 	if (message.started) {
 		console.log('Build successfully started');
 		console.log(`  Release ID: ${message.releaseId!}`);
+		build.releaseId = message.releaseId;
 	} else {
 		console.log('Failed to start remote build');
 		console.log(`  Error: ${message.error!}`);

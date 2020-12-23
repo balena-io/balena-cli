@@ -180,6 +180,7 @@ const messages: {
 // related issue https://github.com/balena-io/balena-sdk/issues/1025
 // related issue https://github.com/balena-io/balena-cli/issues/2126
 const EXPECTED_ERROR_REGEXES = [
+	/cannot also be provided when using/, // Exclusive flag errors are all expected
 	/^BalenaSettingsPermissionError/, // balena-settings-storage
 	/^BalenaAmbiguousApplication/, // balena-sdk
 	/^BalenaAmbiguousDevice/, // balena-sdk
