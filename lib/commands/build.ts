@@ -17,7 +17,7 @@
 
 import { flags } from '@oclif/command';
 import Command from '../command';
-import { getBalenaSdk } from '../utils/lazy';
+import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import * as compose from '../utils/compose';
 import type { Application, ApplicationType, BalenaSDK } from 'balena-sdk';
 import { dockerignoreHelp, registrySecretsHelp } from '../utils/messages';
@@ -25,6 +25,7 @@ import type { ComposeCliFlags, ComposeOpts } from '../utils/compose-types';
 import { buildProject, composeCliFlags } from '../utils/compose_ts';
 import type { BuildOpts, DockerCliFlags } from '../utils/docker';
 import { dockerCliFlags } from '../utils/docker';
+import { lowercaseIfSlug } from '../utils/normalization';
 
 interface FlagsDef extends ComposeCliFlags, DockerCliFlags {
 	arch?: string;
@@ -39,27 +40,28 @@ interface ArgsDef {
 }
 
 export default class BuildCmd extends Command {
-	public static description = `\
-Build a project locally.
+	public static description = stripIndent`
+		Build a project locally.
 
-Use this command to build an image or a complete multicontainer project with
-the provided docker daemon in your development machine or balena device.
-(See also the \`balena push\` command for the option of building images in the
-balenaCloud build servers.)
+		Use this command to build an image or a complete multicontainer project with
+		the provided docker daemon in your development machine or balena device.
+		(See also the \`balena push\` command for the option of building images in the
+		balenaCloud build servers.)
 
-You must provide either an application or a device-type/architecture pair.
+		You must provide either an application or a device-type/architecture pair.
 
-This command will look into the given source directory (or the current working
-directory if one isn't specified) for a docker-compose.yml file, and if found,
-each service defined in the compose file will be built. If a compose file isn't
-found, it will look for a Dockerfile[.template] file (or alternative Dockerfile
-specified with the \`--dockerfile\` option), and if no dockerfile is found, it
-will try to generate one.
+		This command will look into the given source directory (or the current working
+		directory if one isn't specified) for a docker-compose.yml file, and if found,
+		each service defined in the compose file will be built. If a compose file isn't
+		found, it will look for a Dockerfile[.template] file (or alternative Dockerfile
+		specified with the \`--dockerfile\` option), and if no dockerfile is found, it
+		will try to generate one.
 
-${registrySecretsHelp}
+		${registrySecretsHelp}.split('\n').join('\n\t\t')}
 
-${dockerignoreHelp}
-`;
+		${dockerignoreHelp}.split('\n').join('\n\t\t')}
+	`;
+
 	public static examples = [
 		'$ balena build --application myApp',
 		'$ balena build ./source/ --application myApp',
@@ -88,8 +90,9 @@ ${dockerignoreHelp}
 			char: 'd',
 		}),
 		application: flags.string({
-			description: 'name of the target balena application this build is for',
+			description: 'name or slug of the target application this build is for',
 			char: 'a',
+			parse: lowercaseIfSlug,
 		}),
 		...composeCliFlags,
 		...dockerCliFlags,
@@ -122,7 +125,7 @@ ${dockerignoreHelp}
 
 		await this.validateOptions(options, sdk);
 
-		const app = await this.getAppAndResolveArch(options);
+		const app = await this.getAppAndResolveArch(sdk, options);
 
 		const { docker, buildOpts, composeOpts } = await this.prepareBuild(options);
 
@@ -173,10 +176,10 @@ ${dockerignoreHelp}
 		opts['registry-secrets'] = registrySecrets;
 	}
 
-	protected async getAppAndResolveArch(opts: FlagsDef) {
+	protected async getAppAndResolveArch(sdk: BalenaSDK, opts: FlagsDef) {
 		if (opts.application) {
-			const { getAppWithArch } = await import('../utils/helpers');
-			const app = await getAppWithArch(opts.application);
+			const { getAppWithArch } = await import('../utils/sdk');
+			const app = await getAppWithArch(sdk, opts.application);
 			opts.arch = app.arch;
 			opts.deviceType = app.is_for__device_type[0].slug;
 			return app;

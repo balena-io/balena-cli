@@ -246,9 +246,9 @@ export default class PushCmd extends Command {
 			  }),
 		gitignore: flags.boolean({
 			description: stripIndent`
-		Consider .gitignore files in addition to the .dockerignore file. This reverts
-		to the CLI v11 behavior/implementation (deprecated) if compatibility is
-		required until your project can be adapted.`,
+				Consider .gitignore files in addition to the .dockerignore file. This reverts
+				to the CLI v11 behavior/implementation (deprecated) if compatibility is
+				required until your project can be adapted.`,
 			char: 'g',
 			default: false,
 			exclusive: ['multi-dockerignore'],

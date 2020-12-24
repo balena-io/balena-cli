@@ -2734,20 +2734,20 @@ answer "yes" to all questions (non interactive use)
 ## build [source]
 
 Use this command to build an image or a complete multicontainer project with
-the provided docker daemon in your development machine or balena device.
-(See also the `balena push` command for the option of building images in the
-balenaCloud build servers.)
+		the provided docker daemon in your development machine or balena device.
+		(See also the `balena push` command for the option of building images in the
+		balenaCloud build servers.)
 
-You must provide either an application or a device-type/architecture pair.
+		You must provide either an application or a device-type/architecture pair.
 
-This command will look into the given source directory (or the current working
-directory if one isn't specified) for a docker-compose.yml file, and if found,
-each service defined in the compose file will be built. If a compose file isn't
-found, it will look for a Dockerfile[.template] file (or alternative Dockerfile
-specified with the `--dockerfile` option), and if no dockerfile is found, it
-will try to generate one.
+		This command will look into the given source directory (or the current working
+		directory if one isn't specified) for a docker-compose.yml file, and if found,
+		each service defined in the compose file will be built. If a compose file isn't
+		found, it will look for a Dockerfile[.template] file (or alternative Dockerfile
+		specified with the `--dockerfile` option), and if no dockerfile is found, it
+		will try to generate one.
 
-REGISTRY SECRETS  
+		REGISTRY SECRETS  
 The --registry-secrets option specifies a JSON or YAML file containing private
 Docker registry usernames and passwords to be used when pulling base images.
 Sample registry-secrets YAML file:
@@ -2767,9 +2767,11 @@ check: https://github.com/balena-io-examples/sample-gcr-registry-secrets
 
 If the --registry-secrets option is not specified, and a secrets.yml or
 secrets.json file exists in the balena directory (usually $HOME/.balena),
-this file will be used instead.
+this file will be used instead..split('
+').join('
+		')}
 
-DOCKERIGNORE AND GITIGNORE FILES  
+		DOCKERIGNORE AND GITIGNORE FILES  
 By default, the balena CLI will use a single ".dockerignore" file (if any) at
 the project root (--source directory) in order to decide which source files to
 exclude from the "build context" (tar stream) sent to balenaCloud, Docker
@@ -2819,7 +2821,9 @@ project. If necessary, the effect of the `**/.git` pattern may be modified by
 adding counter patterns to the applicable .dockerignore file(s), for example
 `!mysubmodule/.git`. For documentation on pattern format, see:
 - https://docs.docker.com/engine/reference/builder/#dockerignore-file
-- https://www.npmjs.com/package/@balena/dockerignore
+- https://www.npmjs.com/package/@balena/dockerignore.split('
+').join('
+		')}
 
 Examples:
 
@@ -2848,7 +2852,7 @@ the type of device this build is for
 
 #### -a, --application APPLICATION
 
-name of the target balena application this build is for
+name or slug of the target application this build is for
 
 #### -e, --emulated
 

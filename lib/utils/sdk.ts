@@ -18,9 +18,12 @@
 import type {
 	Application,
 	BalenaSDK,
+	DeviceType,
 	Organization,
 	PineOptions,
 } from 'balena-sdk';
+import { getBalenaSdk } from './lazy';
+import * as BalenaSdk from 'balena-sdk';
 
 /**
  * Wraps the sdk application.get method,
@@ -111,4 +114,29 @@ export async function getOwnOrganizations(
 		},
 		$orderby: 'name asc',
 	});
+}
+
+export async function getAppWithArch(
+	sdk: BalenaSDK,
+	appNameOrSlug: string,
+): Promise<ApplicationWithDeviceType & { arch: string }> {
+	const [app, deviceTypes] = await Promise.all([
+		getApplication(sdk, appNameOrSlug, {
+			$expand: {
+				is_for__device_type: { $select: 'slug' },
+			},
+		}) as Promise<ApplicationWithDeviceType>,
+		getBalenaSdk().models.config.getDeviceTypes(),
+	]);
+
+	const _ = await import('lodash');
+	const config = _.find<BalenaSdk.DeviceTypeJson.DeviceType>(deviceTypes, {
+		slug: (app.is_for__device_type as DeviceType[])[0].slug,
+	});
+
+	if (!config) {
+		throw new Error('Could not read application information!');
+	}
+
+	return { ...app, arch: config.arch };
 }
