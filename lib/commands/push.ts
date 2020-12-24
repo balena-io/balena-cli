@@ -22,7 +22,9 @@ import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { dockerignoreHelp, registrySecretsHelp } from '../utils/messages';
 import type { BalenaSDK, Application, Organization } from 'balena-sdk';
 import { ExpectedError, instanceOf } from '../errors';
-import type { RegistrySecrets } from 'resin-multibuild';
+import { isV13 } from '../utils/version';
+import { RegistrySecrets } from 'resin-multibuild';
+import { lowercaseIfSlug } from '../utils/normalization';
 
 enum BuildTarget {
 	Cloud,
@@ -30,23 +32,23 @@ enum BuildTarget {
 }
 
 interface FlagsDef {
-	source?: string;
+	source: string;
 	emulated: boolean;
 	dockerfile?: string; // DeviceDeployOptions.dockerfilePath (alternative Dockerfile)
-	nocache?: boolean;
-	pull?: boolean;
-	'noparent-check'?: boolean;
+	nocache: boolean;
+	pull: boolean;
+	'noparent-check': boolean;
 	'registry-secrets'?: string;
 	gitignore?: boolean;
 	nogitignore?: boolean;
-	nolive?: boolean;
-	detached?: boolean;
+	nolive: boolean;
+	detached: boolean;
 	service?: string[];
-	system?: boolean;
+	system: boolean;
 	env?: string[];
 	'convert-eol'?: boolean;
-	'noconvert-eol'?: boolean;
-	'multi-dockerignore'?: boolean;
+	'noconvert-eol': boolean;
+	'multi-dockerignore': boolean;
 	'release-tag'?: string[];
 	help: void;
 }
@@ -57,9 +59,9 @@ interface ArgsDef {
 
 export default class PushCmd extends Command {
 	public static description = stripIndent`
-		Start a remote build on the balenaCloud build servers or a local mode device.
+		Start a build on the remote balenaCloud build servers, or a local mode device.
 
-		Start a build on the remote balenaCloud builders, or a local mode balena device.
+		Start a build on the remote balenaCloud build servers, or a local mode device.
 
 		When building on the balenaCloud servers, the given source directory will be
 		sent to the remote server. This can be used as a drop-in replacement for the
@@ -95,6 +97,7 @@ export default class PushCmd extends Command {
 		'$ balena push myApp --source <source directory>',
 		'$ balena push myApp -s <source directory>',
 		'$ balena push myApp --release-tag key1 "" key2 "value2 with spaces"',
+		'$ balena push myorg/myapp',
 		'',
 		'$ balena push 10.0.0.1',
 		'$ balena push 10.0.0.1 --source <source directory>',
@@ -109,8 +112,10 @@ export default class PushCmd extends Command {
 	public static args = [
 		{
 			name: 'applicationOrDevice',
-			description: 'application name, or device address (for local pushes)',
+			description:
+				'application name or slug, or local device IP address or hostname',
 			required: true,
+			parse: lowercaseIfSlug,
 		},
 	];
 
@@ -122,12 +127,14 @@ export default class PushCmd extends Command {
 				Source directory to be sent to balenaCloud or balenaOS device
 				(default: current working dir)`,
 			char: 's',
+			default: '.',
 		}),
 		emulated: flags.boolean({
 			description: stripIndent`
 				Don't use native ARM servers; force QEMU ARM emulation on Intel x86-64
 				servers during the image build (balenaCloud).`,
 			char: 'e',
+			default: false,
 		}),
 		dockerfile: flags.string({
 			description:
@@ -142,15 +149,18 @@ export default class PushCmd extends Command {
 				updates), but the logs will not display the "Using cache" lines for each
 				build step of a Dockerfile.`,
 			char: 'c',
+			default: false,
 		}),
 		pull: flags.boolean({
 			description: stripIndent`
 				When pushing to a local device, force the base images to be pulled again.
 				Currently this option is ignored when pushing to the balenaCloud builders.`,
+			default: false,
 		}),
 		'noparent-check': flags.boolean({
 			description: stripIndent`
 				Disable project validation check of 'docker-compose.yml' file in parent folder`,
+			default: false,
 		}),
 		'registry-secrets': flags.string({
 			description: stripIndent`
@@ -166,6 +176,7 @@ export default class PushCmd extends Command {
 				and changes will not be synchronized to any running containers. Note that both
 				this flag and --detached and required to cause the process to end once the
 				initial build has completed.`,
+			default: false,
 		}),
 		detached: flags.boolean({
 			description: stripIndent`
@@ -174,6 +185,7 @@ export default class PushCmd extends Command {
 				applicable).  When pushing to a local mode device, this option will cause
 				the command to not tail application logs when the build has completed.`,
 			char: 'd',
+			default: false,
 		}),
 		service: flags.string({
 			description: stripIndent`
@@ -186,6 +198,7 @@ export default class PushCmd extends Command {
 			description: stripIndent`
 				Only show system logs. This can be used in combination with --service.
 				Only valid when pushing to a local mode device.`,
+			default: false,
 		}),
 		env: flags.string({
 			description: stripIndent`
@@ -199,32 +212,45 @@ export default class PushCmd extends Command {
 			`,
 			multiple: true,
 		}),
-		'convert-eol': flags.boolean({
-			description: 'No-op and deprecated since balena CLI v12.0.0',
-			char: 'l',
-			hidden: true,
-		}),
+		...(isV13()
+			? {}
+			: {
+					'convert-eol': flags.boolean({
+						description: 'No-op and deprecated since balena CLI v12.0.0',
+						char: 'l',
+						hidden: true,
+						default: false,
+					}),
+			  }),
 		'noconvert-eol': flags.boolean({
 			description: `Don't convert line endings from CRLF (Windows format) to LF (Unix format).`,
+			default: false,
 		}),
 		'multi-dockerignore': flags.boolean({
 			description:
 				'Have each service use its own .dockerignore file. See "balena help push".',
 			char: 'm',
+			default: false,
 			exclusive: ['gitignore'],
 		}),
-		nogitignore: flags.boolean({
-			description:
-				'No-op (default behavior) since balena CLI v12.0.0. See "balena help push".',
-			char: 'G',
-			hidden: true,
-		}),
+		...(isV13()
+			? {}
+			: {
+					nogitignore: flags.boolean({
+						description:
+							'No-op (default behavior) since balena CLI v12.0.0. See "balena help push".',
+						char: 'G',
+						hidden: true,
+						default: false,
+					}),
+			  }),
 		gitignore: flags.boolean({
 			description: stripIndent`
-				Consider .gitignore files in addition to the .dockerignore file. This reverts
-				to the CLI v11 behavior/implementation (deprecated) if compatibility is
-				required until your project can be adapted.`,
+		Consider .gitignore files in addition to the .dockerignore file. This reverts
+		to the CLI v11 behavior/implementation (deprecated) if compatibility is
+		required until your project can be adapted.`,
 			char: 'g',
+			default: false,
 			exclusive: ['multi-dockerignore'],
 		}),
 		'release-tag': flags.string({
@@ -246,75 +272,59 @@ export default class PushCmd extends Command {
 			PushCmd,
 		);
 
+		const logger = await Command.getLogger();
+		logger.logDebug(`Using build source directory: ${options.source} `);
+
 		const sdk = getBalenaSdk();
 		const { validateProjectDirectory } = await import('../utils/compose_ts');
-
-		const source = options.source || '.';
-		if (process.env.DEBUG) {
-			console.error(`[debug] Using ${source} as build source`);
-		}
-
 		const { dockerfilePath, registrySecrets } = await validateProjectDirectory(
 			sdk,
 			{
 				dockerfilePath: options.dockerfile,
-				noParentCheck: options['noparent-check'] || false,
-				projectPath: source,
+				noParentCheck: options['noparent-check'],
+				projectPath: options.source,
 				registrySecretsPath: options['registry-secrets'],
 			},
 		);
 
-		const nogitignore = !options.gitignore;
-		const convertEol = !options['noconvert-eol'];
-
-		const appOrDevice = params.applicationOrDevice;
-		const buildTarget = await this.getBuildTarget(appOrDevice);
-		switch (buildTarget) {
+		switch (await this.getBuildTarget(params.applicationOrDevice)) {
 			case BuildTarget.Cloud:
+				logger.logDebug(
+					`Pushing to cloud for application: ${params.applicationOrDevice}`,
+				);
+
 				await this.pushToCloud(
+					params.applicationOrDevice,
 					options,
 					sdk,
-					appOrDevice,
 					dockerfilePath,
 					registrySecrets,
-					convertEol,
-					source,
-					nogitignore,
 				);
 				break;
 
 			case BuildTarget.Device:
+				logger.logDebug(
+					`Pushing to local device: ${params.applicationOrDevice}`,
+				);
 				await this.pushToDevice(
+					params.applicationOrDevice,
 					options,
-					sdk,
-					appOrDevice,
 					dockerfilePath,
 					registrySecrets,
-					convertEol,
-					source,
-					nogitignore,
 				);
 				break;
-
-			default:
-				throw new ExpectedError(stripIndent`
-					Build target not recognized. Please provide either an application name or
-					device IP address.`);
 		}
 	}
 
-	async pushToCloud(
+	protected async pushToCloud(
+		appNameOrSlug: string,
 		options: FlagsDef,
 		sdk: BalenaSDK,
-		appOrDevice: string,
 		dockerfilePath: string,
 		registrySecrets: RegistrySecrets,
-		convertEol: boolean,
-		source: string,
-		nogitignore: boolean,
 	) {
-		const _ = await import('lodash');
 		const remote = await import('../utils/remote-build');
+		const { getApplication } = await import('../utils/sdk');
 
 		// Check for invalid options
 		const localOnlyOptions: Array<keyof FlagsDef> = [
@@ -347,36 +357,46 @@ export default class PushCmd extends Command {
 			releaseTagValues.push('');
 		}
 
-		const app = appOrDevice;
 		await Command.checkLoggedIn();
-		const [token, baseUrl, owner] = await Promise.all([
+		const [token, baseUrl] = await Promise.all([
 			sdk.auth.getToken(),
 			sdk.settings.get('balenaUrl'),
-			this.getAppOwner(sdk, app),
 		]);
+
+		const application = (await getApplication(sdk, appNameOrSlug, {
+			$expand: {
+				organization: {
+					$select: ['handle'],
+				},
+			},
+			$select: ['app_name'],
+		})) as Application & {
+			organization: [Organization];
+		};
 
 		const opts = {
 			dockerfilePath,
-			emulated: options.emulated || false,
-			multiDockerignore: options['multi-dockerignore'] || false,
-			nocache: options.nocache || false,
+			emulated: options.emulated,
+			multiDockerignore: options['multi-dockerignore'],
+			nocache: options.nocache,
 			registrySecrets,
-			headless: options.detached || false,
-			convertEol,
+			headless: options.detached,
+			convertEol: !options['noconvert-eol'],
 		};
 		const args = {
-			app,
-			owner,
-			source,
+			app: application.app_name,
+			owner: application.organization[0].handle,
+			source: options.source,
 			auth: token,
 			baseUrl,
-			nogitignore,
+			nogitignore: !options.gitignore,
 			sdk,
 			opts,
 		};
 		const releaseId = await remote.startRemoteBuild(args);
 		if (releaseId) {
 			// Above we have checked that releaseTagKeys and releaseTagValues are of the same size
+			const _ = await import('lodash');
 			await Promise.all(
 				(_.zip(releaseTagKeys, releaseTagValues) as Array<
 					[string, string]
@@ -391,15 +411,11 @@ export default class PushCmd extends Command {
 		}
 	}
 
-	async pushToDevice(
+	protected async pushToDevice(
+		localDeviceAddress: string,
 		options: FlagsDef,
-		_sdk: BalenaSDK,
-		appOrDevice: string,
 		dockerfilePath: string,
 		registrySecrets: RegistrySecrets,
-		convertEol: boolean,
-		source: string,
-		nogitignore: boolean,
 	) {
 		// Check for invalid options
 		const remoteOnlyOptions: Array<keyof FlagsDef> = ['release-tag'];
@@ -410,27 +426,24 @@ export default class PushCmd extends Command {
 		);
 
 		const deviceDeploy = await import('../utils/device/deploy');
-		const device = appOrDevice;
-		const servicesToDisplay = options.service;
 
-		// TODO: Support passing a different port
 		try {
 			await deviceDeploy.deployToDevice({
-				source,
-				deviceHost: device,
+				source: options.source,
+				deviceHost: localDeviceAddress,
 				dockerfilePath,
 				registrySecrets,
-				multiDockerignore: options['multi-dockerignore'] || false,
-				nocache: options.nocache || false,
-				pull: options.pull || false,
-				nogitignore,
-				noParentCheck: options['noparent-check'] || false,
-				nolive: options.nolive || false,
-				detached: options.detached || false,
-				services: servicesToDisplay,
-				system: options.system || false,
+				multiDockerignore: options['multi-dockerignore'],
+				nocache: options.nocache,
+				pull: options.pull,
+				nogitignore: !options.gitignore,
+				noParentCheck: options['noparent-check'],
+				nolive: options.nolive,
+				detached: options.detached,
+				services: options.service,
+				system: options.system,
 				env: options.env || [],
-				convertEol,
+				convertEol: !options['noconvert-eol'],
 			});
 		} catch (e) {
 			const { BuildError } = await import('../utils/device/errors');
@@ -442,80 +455,15 @@ export default class PushCmd extends Command {
 		}
 	}
 
-	async getBuildTarget(appOrDevice: string): Promise<BuildTarget | null> {
-		const {
-			validateApplicationName,
-			validateDotLocalUrl,
-			validateIPAddress,
-		} = await import('../utils/validation');
+	protected async getBuildTarget(appOrDevice: string): Promise<BuildTarget> {
+		const { validateLocalHostnameOrIp } = await import('../utils/validation');
 
-		// First try the application regex from the api
-		if (validateApplicationName(appOrDevice)) {
-			return BuildTarget.Cloud;
-		}
-
-		if (validateIPAddress(appOrDevice) || validateDotLocalUrl(appOrDevice)) {
-			return BuildTarget.Device;
-		}
-
-		return null;
+		return validateLocalHostnameOrIp(appOrDevice)
+			? BuildTarget.Device
+			: BuildTarget.Cloud;
 	}
 
-	async getAppOwner(sdk: BalenaSDK, appName: string) {
-		const _ = await import('lodash');
-
-		const applications = (await sdk.models.application.getAll({
-			$expand: {
-				organization: {
-					$select: ['handle'],
-				},
-			},
-			$filter: {
-				$eq: [{ $tolower: { $: 'app_name' } }, appName.toLowerCase()],
-			},
-			$select: ['id'],
-		})) as Array<
-			Application & {
-				organization: [Organization];
-			}
-		>;
-
-		if (applications == null || applications.length === 0) {
-			throw new ExpectedError(
-				stripIndent`
-			No applications found with name: ${appName}.
-
-			This could mean that the application does not exist, or you do
-			not have the permissions required to access it.`,
-			);
-		}
-
-		if (applications.length === 1) {
-			return applications[0].organization[0].handle;
-		}
-
-		// If we got more than one application with the same name it means that the
-		// user has access to a collab app with the same name as a personal app. We
-		// present a list to the user which shows the fully qualified application
-		// name (user/appname) and allows them to select
-		const entries = _.map(applications, (app) => {
-			const username = app.organization[0].handle;
-			return {
-				name: `${username}/${appName}`,
-				extra: username,
-			};
-		});
-
-		const { selectFromList } = await import('../utils/patterns');
-		const selected = await selectFromList(
-			`${entries.length} applications found with that name, please select the application you would like to push to`,
-			entries,
-		);
-
-		return selected.extra;
-	}
-
-	checkInvalidOptions(
+	protected checkInvalidOptions(
 		invalidOptions: Array<keyof FlagsDef>,
 		options: FlagsDef,
 		errorMessage: string,
