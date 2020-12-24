@@ -1,4 +1,19 @@
 - commits:
+    - subject: Update push command for organizations
+      hash: 27e2b03702dca731c999003be80576192134c153
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#2119'
+        connects-to: '#2119'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.36.1
+  date: 2020-12-24T00:19:29.976Z
+- commits:
     - subject: 'errors: Make all exclusive flag errors expected'
       hash: 074fe010bdc543c30754ac2eddba58d68bd8e0ae
       body: |
@@ -29,7 +44,7 @@
       author: Marios Balamatsias
       nested: []
   version: 12.36.0
-  date: 2020-12-23T07:35:49.743Z
+  date: 2020-12-22T15:12:43.426Z
 - commits:
     - subject: Improve id disambiguation for tag commands
       hash: 584aa745f7a5f2d2cc7fb3209ac5c07c366ea04b

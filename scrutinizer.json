@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "Update push command for organizations",
+          "hash": "27e2b03702dca731c999003be80576192134c153",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Connects-to": "#2119",
+            "connects-to": "#2119",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.36.1",
+      "date": "2020-12-23T15:07:02.635Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "errors: Make all exclusive flag errors expected",
           "hash": "074fe010bdc543c30754ac2eddba58d68bd8e0ae",
           "body": "eg Don't report errors if during a push --release-tag\nand --detached flags are used.\n",
@@ -20857,43 +20878,39 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-12-23T07:36:42Z",
+  "lastCommitDate": "2020-12-24T00:20:29Z",
   "latestRelease": {
-    "tagName": "v12.36.0",
+    "tagName": "v12.36.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.36.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.0/balena-cli-v12.36.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.36.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.1/balena-cli-v12.36.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.36.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.0/balena-cli-v12.36.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.36.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.1/balena-cli-v12.36.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.36.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.0/balena-cli-v12.36.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.36.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.1/balena-cli-v12.36.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.36.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.0/balena-cli-v12.36.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.36.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.1/balena-cli-v12.36.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.36.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.0/balena-cli-v12.36.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.36.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.1/balena-cli-v12.36.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 299,
+    "numberOfIssues": 298,
     "latestIssues": [
       {
         "title": "build, deploy: Add support for multi-architecture base images",
         "url": "https://github.com/balena-io/balena-cli/pull/2145"
-      },
-      {
-        "title": "Update push command for organizations, and refactor",
-        "url": "https://github.com/balena-io/balena-cli/pull/2144"
       },
       {
         "title": "Balena preload - Error: failed to register layer - no space left on device",
@@ -20966,10 +20983,14 @@
       {
         "title": "balena deploy --build : Payload Too Large",
         "url": "https://github.com/balena-io/balena-cli/issues/2086"
+      },
+      {
+        "title": "device move: Add '-name', '-uuid' and '-id' application and device options",
+        "url": "https://github.com/balena-io/balena-cli/pull/2080"
       }
     ]
   },
-  "version": "12.36.0",
+  "version": "12.36.1",
   "screenshot": null,
   "logo": null
 }
