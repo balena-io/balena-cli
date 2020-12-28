@@ -45,6 +45,7 @@ interface FlagsDef extends DockerConnectionCliFlags {
 	'splash-image'?: string;
 	'dont-check-arch': boolean;
 	'pin-device-to-release': boolean;
+	'additional-space'?: number;
 	'add-certificate'?: string[];
 	help: void;
 }
@@ -112,6 +113,11 @@ manually pinned using https://github.com/balena-io-projects/staged-releases .\
 			description:
 				'pin the preloaded device to the preloaded release on provision',
 			char: 'p',
+		}),
+		'additional-space': flags.integer({
+			description:
+				'expand the image by this amount of bytes instead of automatically estimating the required amount',
+			parse: (x) => parseAsInteger(x, 'additional-space'),
 		}),
 		'add-certificate': flags.string({
 			description: `\
@@ -209,6 +215,7 @@ Can be repeated to add multiple certificates.\
 		const appId = options.app;
 
 		const splashImage = options['splash-image'];
+		const additionalSpace = options['additional-space'];
 
 		const dontCheckArch = options['dont-check-arch'] || false;
 		const pinDevice = options['pin-device-to-release'] || false;
@@ -240,6 +247,7 @@ Can be repeated to add multiple certificates.\
 			dontCheckArch,
 			pinDevice,
 			certificates,
+			additionalSpace,
 		);
 
 		let gotSignal = false;

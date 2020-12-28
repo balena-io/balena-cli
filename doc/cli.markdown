@@ -2404,6 +2404,10 @@ disables check for matching architecture in image and application
 
 pin the preloaded device to the preloaded release on provision
 
+#### --additional-space ADDITIONAL-SPACE
+
+expand the image by this amount of bytes instead of automatically estimating the required amount
+
 #### --add-certificate ADD-CERTIFICATE
 
 Add the given certificate (in PEM format) to /etc/ssl/certs in the preloading container.
