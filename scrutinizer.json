@@ -5,6 +5,34 @@
     {
       "commits": [
         {
+          "subject": "Add --additional-space flag to preload",
+          "hash": "9fff9266d4e10a90c2bfebbac3896a76e31213f9",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor"
+          },
+          "author": "Alexis Svinartchouk",
+          "nested": []
+        },
+        {
+          "subject": "Update balena-preload to 10.4.1",
+          "hash": "0e7f953f72413b56430f467da77b49fae70a7c69",
+          "body": "10.4.0 improves image size estimation\n10.4.1 prevents running out of space while pulling images because of temporary files\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Alexis Svinartchouk",
+          "nested": []
+        }
+      ],
+      "version": "12.37.0",
+      "date": "2020-12-28T16:11:48.896Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update push command for organizations",
           "hash": "27e2b03702dca731c999003be80576192134c153",
           "body": "",
@@ -20778,7 +20806,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 290,
+  "stars": 289,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -20878,43 +20906,39 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2020-12-24T00:20:29Z",
+  "lastCommitDate": "2020-12-29T10:58:58Z",
   "latestRelease": {
-    "tagName": "v12.36.1",
+    "tagName": "v12.37.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.36.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.1/balena-cli-v12.36.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.37.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.0/balena-cli-v12.37.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.36.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.1/balena-cli-v12.36.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.37.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.0/balena-cli-v12.37.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.36.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.1/balena-cli-v12.36.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.37.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.0/balena-cli-v12.37.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.36.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.1/balena-cli-v12.36.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.37.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.0/balena-cli-v12.37.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.36.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.36.1/balena-cli-v12.36.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.37.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.0/balena-cli-v12.37.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 298,
+    "numberOfIssues": 297,
     "latestIssues": [
       {
         "title": "build, deploy: Add support for multi-architecture base images",
         "url": "https://github.com/balena-io/balena-cli/pull/2145"
-      },
-      {
-        "title": "Balena preload - Error: failed to register layer - no space left on device",
-        "url": "https://github.com/balena-io/balena-cli/issues/2142"
       },
       {
         "title": "Support Windows for `balena os configure` command",
@@ -20987,10 +21011,14 @@
       {
         "title": "device move: Add '-name', '-uuid' and '-id' application and device options",
         "url": "https://github.com/balena-io/balena-cli/pull/2080"
+      },
+      {
+        "title": "Should support Node 14 and higher",
+        "url": "https://github.com/balena-io/balena-cli/issues/2079"
       }
     ]
   },
-  "version": "12.36.1",
+  "version": "12.37.0",
   "screenshot": null,
   "logo": null
 }

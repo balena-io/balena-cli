@@ -1,4 +1,27 @@
 - commits:
+    - subject: Add --additional-space flag to preload
+      hash: 9fff9266d4e10a90c2bfebbac3896a76e31213f9
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Alexis Svinartchouk
+      nested: []
+    - subject: Update balena-preload to 10.4.1
+      hash: 0e7f953f72413b56430f467da77b49fae70a7c69
+      body: >
+        10.4.0 improves image size estimation
+
+        10.4.1 prevents running out of space while pulling images because of
+        temporary files
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Alexis Svinartchouk
+      nested: []
+  version: 12.37.0
+  date: 2020-12-29T10:57:58.904Z
+- commits:
     - subject: Update push command for organizations
       hash: 27e2b03702dca731c999003be80576192134c153
       body: ''
@@ -12,7 +35,7 @@
       author: Scott Lowe
       nested: []
   version: 12.36.1
-  date: 2020-12-24T00:19:29.976Z
+  date: 2020-12-23T15:07:02.635Z
 - commits:
     - subject: 'errors: Make all exclusive flag errors expected'
       hash: 074fe010bdc543c30754ac2eddba58d68bd8e0ae
