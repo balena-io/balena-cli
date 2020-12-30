@@ -48,8 +48,8 @@ export default class JoinCmd extends Command {
 
 		If you don't specify a device hostname or IP, this command will automatically
 		scan the local network for balenaOS devices and prompt you to select one
-		from an interactive picker. This requires root privileges.  Likewise, if
-		the application flag is not provided then a picker will be shown.
+		from an interactive picker. This may require administrator/root privileges.
+		Likewise, if the application flag is not provided then a picker will be shown.
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
 	`;

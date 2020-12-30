@@ -3191,8 +3191,8 @@ To move a device between applications on the same server, use the
 
 If you don't specify a device hostname or IP, this command will automatically
 scan the local network for balenaOS devices and prompt you to select one
-from an interactive picker. This requires root privileges.  Likewise, if
-the application flag is not provided then a picker will be shown.
+from an interactive picker. This may require administrator/root privileges.
+Likewise, if the application flag is not provided then a picker will be shown.
 
 Applications may be specified by app name, slug, or numeric ID. App slugs
 are the recommended option, as they are unique and unambiguous. Slugs
@@ -3243,7 +3243,7 @@ so the device can subsequently re-join the server if needed.
 
 If you don't specify a device hostname or IP, this command will automatically
 scan the local network for balenaOS devices and prompt you to select one
-from an interactive picker. This usually requires root privileges.
+from an interactive picker. This may require administrator/root privileges.
 
 Examples:
 

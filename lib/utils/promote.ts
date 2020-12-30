@@ -31,12 +31,12 @@ export async function join(
 	appUpdatePollInterval?: number,
 ): Promise<void> {
 	logger.logDebug('Determining device...');
-	const deviceIp = await getOrSelectLocalDevice(deviceHostnameOrIp);
-	await assertDeviceIsCompatible(deviceIp);
-	logger.logDebug(`Using device: ${deviceIp}`);
+	deviceHostnameOrIp = deviceHostnameOrIp || (await selectLocalDevice());
+	await assertDeviceIsCompatible(deviceHostnameOrIp);
+	logger.logDebug(`Using device: ${deviceHostnameOrIp}`);
 
 	logger.logDebug('Determining device type...');
-	const deviceType = await getDeviceType(deviceIp);
+	const deviceType = await getDeviceType(deviceHostnameOrIp);
 	logger.logDebug(`Device type: ${deviceType}`);
 
 	logger.logDebug('Determining application...');
@@ -50,7 +50,7 @@ export async function join(
 	}
 
 	logger.logDebug('Determining device OS version...');
-	const deviceOsVersion = await getOsVersion(deviceIp);
+	const deviceOsVersion = await getOsVersion(deviceHostnameOrIp);
 	logger.logDebug(`Device OS version: ${deviceOsVersion}`);
 
 	logger.logDebug('Generating application config...');
@@ -61,8 +61,7 @@ export async function join(
 	logger.logDebug(`Using config: ${JSON.stringify(config, null, 2)}`);
 
 	logger.logDebug('Configuring...');
-	await configure(deviceIp, config);
-	logger.logDebug('All done.');
+	await configure(deviceHostnameOrIp, config);
 
 	const platformUrl = await sdk.settings.get('balenaUrl');
 	logger.logSuccess(`Device successfully joined ${platformUrl}!`);
@@ -70,17 +69,15 @@ export async function join(
 
 export async function leave(
 	logger: Logger,
-	_sdk: BalenaSdk.BalenaSDK,
 	deviceHostnameOrIp?: string,
 ): Promise<void> {
 	logger.logDebug('Determining device...');
-	const deviceIp = await getOrSelectLocalDevice(deviceHostnameOrIp);
-	await assertDeviceIsCompatible(deviceIp);
-	logger.logDebug(`Using device: ${deviceIp}`);
+	deviceHostnameOrIp = deviceHostnameOrIp || (await selectLocalDevice());
+	await assertDeviceIsCompatible(deviceHostnameOrIp);
+	logger.logDebug(`Using device: ${deviceHostnameOrIp}`);
 
 	logger.logDebug('Deconfiguring...');
-	await deconfigure(deviceIp);
-	logger.logDebug('All done.');
+	await deconfigure(deviceHostnameOrIp);
 
 	logger.logSuccess('Device successfully left the platform.');
 }
@@ -155,39 +152,21 @@ async function getOsVersion(deviceIp: string): Promise<string> {
 	return match[1];
 }
 
-async function getOrSelectLocalDevice(deviceIp?: string): Promise<string> {
-	if (deviceIp) {
-		return deviceIp;
-	}
-
-	const through = await import('through2');
-
-	let ip: string | null = null;
-	const stream = through(function (data, _enc, cb) {
-		const match = /^==> Selected device: (.*)$/m.exec(data.toString());
-		if (match) {
-			ip = match[1];
-			cb();
+async function selectLocalDevice(): Promise<string> {
+	const { forms } = await import('balena-sync');
+	let hostnameOrIp;
+	try {
+		hostnameOrIp = await forms.selectLocalBalenaOsDevice();
+		console.error(`==> Selected device: ${hostnameOrIp}`);
+	} catch (e) {
+		if (e.message.toLowerCase().includes('could not find any')) {
+			throw new ExpectedError(e);
 		} else {
-			cb(null, data);
+			throw e;
 		}
-	});
-
-	stream.pipe(process.stderr);
-
-	const { sudo } = await import('../utils/helpers');
-	const command = ['internal', 'scandevices'];
-	await sudo(command, {
-		stderr: stream,
-		msg:
-			'Scanning for local devices. If asked, please type your computer password.',
-	});
-
-	if (!ip) {
-		throw new ExpectedError('No device selected');
 	}
 
-	return ip;
+	return hostnameOrIp;
 }
 
 async function selectAppFromList(
