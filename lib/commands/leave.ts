@@ -18,7 +18,7 @@
 import { flags } from '@oclif/command';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../utils/lazy';
+import { stripIndent } from '../utils/lazy';
 import { parseAsLocalHostnameOrIp } from '../utils/validation';
 
 interface FlagsDef {
@@ -42,7 +42,7 @@ export default class LeaveCmd extends Command {
 
 		If you don't specify a device hostname or IP, this command will automatically
 		scan the local network for balenaOS devices and prompt you to select one
-		from an interactive picker. This usually requires root privileges.
+		from an interactive picker. This may require administrator/root privileges.
 	`;
 
 	public static examples = [
@@ -72,8 +72,7 @@ export default class LeaveCmd extends Command {
 		const { args: params } = this.parse<FlagsDef, ArgsDef>(LeaveCmd);
 
 		const promote = await import('../utils/promote');
-		const sdk = getBalenaSdk();
 		const logger = await Command.getLogger();
-		return promote.leave(logger, sdk, params.deviceIpOrHostname);
+		return promote.leave(logger, params.deviceIpOrHostname);
 	}
 }
