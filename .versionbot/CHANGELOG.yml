@@ -1,4 +1,17 @@
 - commits:
+    - subject: Refactor out command internal scandevices
+      hash: aeff5997d02289619f3a2f1e3041144d559feb43
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.37.1
+  date: 2021-01-06T14:03:21.672Z
+- commits:
     - subject: Add --additional-space flag to preload
       hash: 9fff9266d4e10a90c2bfebbac3896a76e31213f9
       body: ''
