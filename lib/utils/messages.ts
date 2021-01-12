@@ -83,7 +83,7 @@ any) defined at the overall project root will be used to filter files and
 subdirectories other than service subdirectories. It will not have any effect
 on service subdirectories, whether or not a service subdirectory defines its
 own .dockerignore file. Multiple .dockerignore files are not merged or added
-together, and cannot override or extend other files. This behavior maximises
+together, and cannot override or extend other files. This behavior maximizes
 compatibility with the standard docker-compose tool, while still allowing a
 root .dockerignore file (at the overall project root) to filter files and
 folders that are outside service subdirectories.
