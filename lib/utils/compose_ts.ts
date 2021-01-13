@@ -44,6 +44,60 @@ import type { DeviceInfo } from './device/api';
 import { getBalenaSdk, getChalk, stripIndent } from './lazy';
 import Logger = require('./logger');
 
+/**
+ * Given an array representing the raw `--release-tag` flag of the deploy and
+ * push commands, parse it into separate arrays of release tag keys and values.
+ * The returned keys and values arrays are guaranteed to be of the same length.
+ */
+export function parseReleaseTagKeysAndValues(
+	releaseTags: string[],
+): { releaseTagKeys: string[]; releaseTagValues: string[] } {
+	if (releaseTags.length === 0) {
+		return { releaseTagKeys: [], releaseTagValues: [] };
+	}
+
+	const releaseTagKeys = releaseTags.filter((_v, i) => i % 2 === 0);
+	const releaseTagValues = releaseTags.filter((_v, i) => i % 2 === 1);
+
+	releaseTagKeys.forEach((key: string) => {
+		if (key === '') {
+			throw new ExpectedError(`Error: --release-tag keys cannot be empty`);
+		}
+		if (/\s/.test(key)) {
+			throw new ExpectedError(
+				`Error: --release-tag keys cannot contain whitespaces`,
+			);
+		}
+	});
+	if (releaseTagKeys.length !== releaseTagValues.length) {
+		releaseTagValues.push('');
+	}
+	return { releaseTagKeys, releaseTagValues };
+}
+
+/**
+ * Use the balena SDK `models.release.tags.set()` method to set release tags
+ * for the given release ID. The releaseTagKeys and releaseTagValues arrays
+ * must be of the same length; their items map 1-to-1 to form key-value pairs.
+ */
+export async function applyReleaseTagKeysAndValues(
+	sdk: BalenaSDK,
+	releaseId: number,
+	releaseTagKeys: string[],
+	releaseTagValues: string[],
+) {
+	if (releaseTagKeys.length === 0) {
+		return;
+	}
+	await Promise.all(
+		(_.zip(releaseTagKeys, releaseTagValues) as Array<[string, string]>).map(
+			async ([key, value]) => {
+				await sdk.models.release.tags.set(releaseId, key, value);
+			},
+		),
+	);
+}
+
 const exists = async (filename: string) => {
 	try {
 		await fs.access(filename);
@@ -1199,7 +1253,7 @@ export async function deployProject(
 	auth: string,
 	apiEndpoint: string,
 	skipLogUpload: boolean,
-): Promise<Partial<import('balena-release/build/models').ReleaseModel>> {
+): Promise<import('balena-release/build/models').ReleaseModel> {
 	const releaseMod = await import('balena-release');
 	const { createRelease, tagServiceImages } = await import('./compose');
 	const tty = (await import('./tty'))(process.stdout);

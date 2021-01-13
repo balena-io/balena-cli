@@ -81,7 +81,16 @@ export interface ComposeProject {
 
 export interface Release {
 	client: ReturnType<typeof import('balena-release').createClient>;
-	release: Partial<import('balena-release/build/models').ReleaseModel>;
+	release: Pick<
+		import('balena-release/build/models').ReleaseModel,
+		| 'id'
+		| 'status'
+		| 'commit'
+		| 'composition'
+		| 'source'
+		| 'start_timestamp'
+		| 'end_timestamp'
+	>;
 	serviceImages: Partial<import('balena-release/build/models').ImageModel>;
 }
 

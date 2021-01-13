@@ -20,22 +20,30 @@ import type { ImageDescriptor } from 'resin-compose-parse';
 
 import Command from '../command';
 import { ExpectedError } from '../errors';
-import { getBalenaSdk, getChalk } from '../utils/lazy';
+import { getBalenaSdk, getChalk, stripIndent } from '../utils/lazy';
 import { dockerignoreHelp, registrySecretsHelp } from '../utils/messages';
 import * as compose from '../utils/compose';
 import type {
 	BuiltImage,
 	ComposeCliFlags,
 	ComposeOpts,
+	Release as ComposeReleaseInfo,
 } from '../utils/compose-types';
 import type { DockerCliFlags } from '../utils/docker';
 import {
+	applyReleaseTagKeysAndValues,
 	buildProject,
 	composeCliFlags,
 	isBuildConfig,
+	parseReleaseTagKeysAndValues,
 } from '../utils/compose_ts';
 import { dockerCliFlags } from '../utils/docker';
-import type { Application, ApplicationType, DeviceType } from 'balena-sdk';
+import type {
+	Application,
+	ApplicationType,
+	DeviceType,
+	Release,
+} from 'balena-sdk';
 
 interface ApplicationWithArch extends Application {
 	arch: string;
@@ -45,6 +53,7 @@ interface FlagsDef extends ComposeCliFlags, DockerCliFlags {
 	source?: string;
 	build: boolean;
 	nologupload: boolean;
+	'release-tag'?: string[];
 	help: void;
 }
 
@@ -85,6 +94,7 @@ ${dockerignoreHelp}
 		'$ balena deploy myApp',
 		'$ balena deploy myApp --build --source myBuildDir/',
 		'$ balena deploy myApp myApp/myImage',
+		'$ balena deploy myApp myApp/myImage --release-tag key1 "" key2 "value2 with spaces"',
 	];
 
 	public static args = [
@@ -114,6 +124,14 @@ ${dockerignoreHelp}
 		nologupload: flags.boolean({
 			description:
 				"don't upload build logs to the dashboard with image (if building)",
+		}),
+		'release-tag': flags.string({
+			description: stripIndent`
+				Set release tags if the image deployment is successful. Multiple 
+				arguments may be provided, alternating tag keys and values (see examples).
+				Hint: Empty values may be specified with "" (bash, cmd.exe) or '""' (PowerShell).
+			`,
+			multiple: true,
 		}),
 		...composeCliFlags,
 		...dockerCliFlags,
@@ -151,6 +169,10 @@ ${dockerignoreHelp}
 			'../utils/compose_ts'
 		);
 
+		const { releaseTagKeys, releaseTagValues } = parseReleaseTagKeysAndValues(
+			options['release-tag'] ?? [],
+		);
+
 		if (image) {
 			options['registry-secrets'] = await getRegistrySecrets(
 				sdk,
@@ -180,7 +202,7 @@ ${dockerignoreHelp}
 			compose.generateOpts(options),
 		]);
 
-		await this.deployProject(docker, logger, composeOpts, {
+		const release = await this.deployProject(docker, logger, composeOpts, {
 			app,
 			appName, // may be prefixed by 'owner/', unlike app.app_name
 			image,
@@ -189,6 +211,12 @@ ${dockerignoreHelp}
 			buildEmulated: !!options.emulated,
 			buildOpts,
 		});
+		await applyReleaseTagKeysAndValues(
+			sdk,
+			release.id,
+			releaseTagKeys,
+			releaseTagValues,
+		);
 	}
 
 	async deployProject(
@@ -286,7 +314,7 @@ ${dockerignoreHelp}
 					},
 			);
 
-			let release;
+			let release: Release | ComposeReleaseInfo['release'];
 			if (appType?.is_legacy) {
 				const { deployLegacy } = require('../utils/deploy-legacy');
 
@@ -344,6 +372,7 @@ ${dockerignoreHelp}
 			console.log();
 			console.log(doodles.getDoodle()); // Show charlie
 			console.log();
+			return release;
 		} catch (err) {
 			logger.logError('Deploy failed');
 			throw err;

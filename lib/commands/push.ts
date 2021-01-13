@@ -25,10 +25,18 @@ import { ExpectedError, instanceOf } from '../errors';
 import { isV13 } from '../utils/version';
 import { RegistrySecrets } from 'resin-multibuild';
 import { lowercaseIfSlug } from '../utils/normalization';
+import {
+	applyReleaseTagKeysAndValues,
+	parseReleaseTagKeysAndValues,
+} from '../utils/compose_ts';
 
 enum BuildTarget {
 	Cloud,
 	Device,
+}
+
+interface ArgsDef {
+	applicationOrDevice: string;
 }
 
 interface FlagsDef {
@@ -51,10 +59,6 @@ interface FlagsDef {
 	'multi-dockerignore': boolean;
 	'release-tag'?: string[];
 	help: void;
-}
-
-interface ArgsDef {
-	applicationOrDevice: string;
 }
 
 export default class PushCmd extends Command {
@@ -339,23 +343,9 @@ export default class PushCmd extends Command {
 			'is only valid when pushing to a local mode device',
 		);
 
-		const releaseTags = options['release-tag'] ?? [];
-		const releaseTagKeys = releaseTags.filter((_v, i) => i % 2 === 0);
-		const releaseTagValues = releaseTags.filter((_v, i) => i % 2 === 1);
-
-		releaseTagKeys.forEach((key) => {
-			if (key === '') {
-				throw new ExpectedError(`Error: --release-tag keys cannot be empty`);
-			}
-			if (/\s/.test(key)) {
-				throw new ExpectedError(
-					`Error: --release-tag keys cannot contain whitespaces`,
-				);
-			}
-		});
-		if (releaseTagKeys.length !== releaseTagValues.length) {
-			releaseTagValues.push('');
-		}
+		const { releaseTagKeys, releaseTagValues } = parseReleaseTagKeysAndValues(
+			options['release-tag'] ?? [],
+		);
 
 		await Command.checkLoggedIn();
 		const [token, baseUrl] = await Promise.all([
@@ -395,14 +385,11 @@ export default class PushCmd extends Command {
 		};
 		const releaseId = await remote.startRemoteBuild(args);
 		if (releaseId) {
-			// Above we have checked that releaseTagKeys and releaseTagValues are of the same size
-			const _ = await import('lodash');
-			await Promise.all(
-				(_.zip(releaseTagKeys, releaseTagValues) as Array<
-					[string, string]
-				>).map(async ([key, value]) => {
-					await sdk.models.release.tags.set(releaseId, key, value);
-				}),
+			await applyReleaseTagKeysAndValues(
+				sdk,
+				releaseId,
+				releaseTagKeys,
+				releaseTagValues,
 			);
 		} else if (releaseTagKeys.length > 0) {
 			throw new Error(stripIndent`
