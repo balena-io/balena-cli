@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "deploy: Add --release-tag flag",
+          "hash": "8d56fe9678d2397698b908b0c5a88d01b5490f45",
+          "body": "Now we can do:\n`balena deploy myApp myApp/myImage --release-tag key1 value1`\n\nRefactor and reuse the logic that parses and applies the\nrelease tag options from the push command to the deploy\ncommand.\n",
+          "footer": {
+            "Resolves": "#892",
+            "resolves": "#892",
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Marios Balamatsias <mbalamatsias@gmail.com>",
+            "signed-off-by": "Marios Balamatsias <mbalamatsias@gmail.com>"
+          },
+          "author": "Marios Balamatsias",
+          "nested": []
+        }
+      ],
+      "version": "12.38.0",
+      "date": "2021-01-14T22:49:09.570Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "docs: americanize the spelling of words in sourced markdown",
           "hash": "e71184ed3aaff88fb2d3d2ea5d086ab8971993db",
           "body": "",
@@ -20844,7 +20865,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 293,
+  "stars": 294,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -20944,43 +20965,39 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-01-14T14:50:48Z",
+  "lastCommitDate": "2021-01-14T23:27:04Z",
   "latestRelease": {
-    "tagName": "v12.37.2",
+    "tagName": "v12.38.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.37.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.2/balena-cli-v12.37.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.38.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.0/balena-cli-v12.38.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.37.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.2/balena-cli-v12.37.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.38.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.0/balena-cli-v12.38.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.37.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.2/balena-cli-v12.37.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.38.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.0/balena-cli-v12.38.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.37.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.2/balena-cli-v12.37.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.38.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.0/balena-cli-v12.38.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.37.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.2/balena-cli-v12.37.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.38.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.0/balena-cli-v12.38.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 304,
+    "numberOfIssues": 302,
     "latestIssues": [
       {
         "title": "Single copy of directory does not `balena push` successfully",
         "url": "https://github.com/balena-io/balena-cli/issues/2155"
-      },
-      {
-        "title": "Add release-tag on deploy command",
-        "url": "https://github.com/balena-io/balena-cli/pull/2154"
       },
       {
         "title": "balena os download hangs on 83%, errors out with unexpected end of file at Zlib.zlibOnError ",
@@ -21053,10 +21070,14 @@
       {
         "title": "Local flash does not work for Fin devices",
         "url": "https://github.com/balena-io/balena-cli/issues/2102"
+      },
+      {
+        "title": "allow privilege elevation for non-root users in `balena config`",
+        "url": "https://github.com/balena-io/balena-cli/issues/2101"
       }
     ]
   },
-  "version": "12.37.2",
+  "version": "12.38.0",
   "screenshot": null,
   "logo": null
 }
