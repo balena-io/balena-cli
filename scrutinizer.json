@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "docs: americanize the spelling of words in sourced markdown",
+          "hash": "e71184ed3aaff88fb2d3d2ea5d086ab8971993db",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Matthew McGinn <matthew@balena.io>",
+            "signed-off-by": "Matthew McGinn <matthew@balena.io>"
+          },
+          "author": "Matthew McGinn",
+          "nested": []
+        }
+      ],
+      "version": "12.37.2",
+      "date": "2021-01-13T15:15:11.564Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Refactor out command internal scandevices",
           "hash": "aeff5997d02289619f3a2f1e3041144d559feb43",
           "body": "",
@@ -20825,7 +20844,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 291,
+  "stars": 293,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -20925,36 +20944,52 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-01-06T15:30:57Z",
+  "lastCommitDate": "2021-01-14T14:50:48Z",
   "latestRelease": {
-    "tagName": "v12.37.1",
+    "tagName": "v12.37.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.37.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.1/balena-cli-v12.37.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.37.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.2/balena-cli-v12.37.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.37.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.1/balena-cli-v12.37.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.37.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.2/balena-cli-v12.37.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.37.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.1/balena-cli-v12.37.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.37.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.2/balena-cli-v12.37.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.37.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.1/balena-cli-v12.37.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.37.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.2/balena-cli-v12.37.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.37.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.1/balena-cli-v12.37.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.37.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.37.2/balena-cli-v12.37.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 300,
+    "numberOfIssues": 304,
     "latestIssues": [
+      {
+        "title": "Single copy of directory does not `balena push` successfully",
+        "url": "https://github.com/balena-io/balena-cli/issues/2155"
+      },
+      {
+        "title": "Add release-tag on deploy command",
+        "url": "https://github.com/balena-io/balena-cli/pull/2154"
+      },
+      {
+        "title": "balena os download hangs on 83%, errors out with unexpected end of file at Zlib.zlibOnError ",
+        "url": "https://github.com/balena-io/balena-cli/issues/2152"
+      },
+      {
+        "title": "Handle 'push' edge case with application access",
+        "url": "https://github.com/balena-io/balena-cli/pull/2151"
+      },
       {
         "title": "`balena scan` on WSL2 does not find any devices.",
         "url": "https://github.com/balena-io/balena-cli/issues/2150"
@@ -21018,26 +21053,10 @@
       {
         "title": "Local flash does not work for Fin devices",
         "url": "https://github.com/balena-io/balena-cli/issues/2102"
-      },
-      {
-        "title": "allow privilege elevation for non-root users in `balena config`",
-        "url": "https://github.com/balena-io/balena-cli/issues/2101"
-      },
-      {
-        "title": "Livepush: Tries to sync non-existent temporary files",
-        "url": "https://github.com/balena-io/balena-cli/issues/2100"
-      },
-      {
-        "title": "Patch oclif/dev-cli to fix permission issues with .deb packaging",
-        "url": "https://github.com/balena-io/balena-cli/pull/2092"
-      },
-      {
-        "title": "Error handling when not logged in (openBalena)",
-        "url": "https://github.com/balena-io/balena-cli/issues/2090"
       }
     ]
   },
-  "version": "12.37.1",
+  "version": "12.37.2",
   "screenshot": null,
   "logo": null
 }
