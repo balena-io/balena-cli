@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix handling of thrown strings
+      hash: d3586696b42240e51e428d5ace95d833a25687ea
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.38.1
+  date: 2021-01-15T15:47:32.274Z
+- commits:
     - subject: 'deploy: Add --release-tag flag'
       hash: 8d56fe9678d2397698b908b0c5a88d01b5490f45
       body: |
