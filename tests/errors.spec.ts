@@ -99,6 +99,18 @@ describe('handleError() function', () => {
 		expect(printExpectedErrorMessage.notCalled);
 	});
 
+	it('should process thrown strings correctly', async () => {
+		const error = 'an thrown string';
+		await ErrorsModule.handleError(error);
+
+		expect(printErrorMessage.calledOnce).to.be.true;
+		expect(printErrorMessage.getCall(0).args[0]).to.equal(error);
+		expect(captureException.calledOnce).to.be.true;
+		expect(processExit.calledOnce).to.be.true;
+
+		expect(printExpectedErrorMessage.notCalled);
+	});
+
 	it('should process unexpected errors correctly (debug)', async () => {
 		sandbox.stub(process, 'env').value({ DEBUG: true });
 
