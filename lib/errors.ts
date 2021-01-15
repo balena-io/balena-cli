@@ -219,7 +219,12 @@ async function sentryCaptureException(error: Error) {
 	}
 }
 
-export async function handleError(error: Error) {
+export async function handleError(error: Error | string) {
+	// If a module has thrown a string, convert to error
+	if (typeof error === 'string') {
+		error = new Error(error);
+	}
+
 	// Set appropriate exitCode
 	process.exitCode =
 		(error as BalenaError).exitCode === 0
