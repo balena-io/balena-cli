@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Fix handling of thrown strings",
+          "hash": "d3586696b42240e51e428d5ace95d833a25687ea",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.38.1",
+      "date": "2021-01-15T15:47:32.274Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "deploy: Add --release-tag flag",
           "hash": "8d56fe9678d2397698b908b0c5a88d01b5490f45",
           "body": "Now we can do:\n`balena deploy myApp myApp/myImage --release-tag key1 value1`\n\nRefactor and reuse the logic that parses and applies the\nrelease tag options from the push command to the deploy\ncommand.\n",
@@ -20745,12 +20764,12 @@
       "avatar": "https://avatars1.githubusercontent.com/u/6157842?v=4"
     },
     {
-      "username": "Page-",
-      "avatar": "https://avatars3.githubusercontent.com/u/360115?v=4"
-    },
-    {
       "username": "bulldozer-balena[bot]",
       "avatar": "https://avatars0.githubusercontent.com/in/58047?v=4"
+    },
+    {
+      "username": "Page-",
+      "avatar": "https://avatars3.githubusercontent.com/u/360115?v=4"
     },
     {
       "username": "srlowe",
@@ -20965,47 +20984,59 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-01-14T23:27:04Z",
+  "lastCommitDate": "2021-01-15T16:54:21Z",
   "latestRelease": {
-    "tagName": "v12.38.0",
+    "tagName": "v12.38.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.38.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.0/balena-cli-v12.38.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.38.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.1/balena-cli-v12.38.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.0/balena-cli-v12.38.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.38.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.1/balena-cli-v12.38.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.38.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.0/balena-cli-v12.38.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.38.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.1/balena-cli-v12.38.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.0/balena-cli-v12.38.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.38.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.1/balena-cli-v12.38.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.38.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.0/balena-cli-v12.38.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.38.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.1/balena-cli-v12.38.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 302,
+    "numberOfIssues": 305,
     "latestIssues": [
       {
-        "title": "Single copy of directory does not `balena push` successfully",
+        "title": "Handle 'push' edge case with application access",
+        "url": "https://github.com/balena-io/balena-cli/pull/2161"
+      },
+      {
+        "title": "dockerfiles: initial commit of balenalib dockerfiles",
+        "url": "https://github.com/balena-io/balena-cli/pull/2159"
+      },
+      {
+        "title": "Delete old config files for Travis and AppVeyor to avoid confusion",
+        "url": "https://github.com/balena-io/balena-cli/pull/2158"
+      },
+      {
+        "title": "feat(ci): add github action flow",
+        "url": "https://github.com/balena-io/balena-cli/pull/2157"
+      },
+      {
+        "title": "'balena push' should print the amount of data and number of files being uploaded",
         "url": "https://github.com/balena-io/balena-cli/issues/2155"
       },
       {
         "title": "balena os download hangs on 83%, errors out with unexpected end of file at Zlib.zlibOnError ",
         "url": "https://github.com/balena-io/balena-cli/issues/2152"
-      },
-      {
-        "title": "Handle 'push' edge case with application access",
-        "url": "https://github.com/balena-io/balena-cli/pull/2151"
       },
       {
         "title": "`balena scan` on WSL2 does not find any devices.",
@@ -21062,22 +21093,10 @@
       {
         "title": "Fix 'balena ssh' test cases when using the Windows built-in ssh tool",
         "url": "https://github.com/balena-io/balena-cli/pull/2109"
-      },
-      {
-        "title": "Livepush: Files copied to incorrect location when using wildcards",
-        "url": "https://github.com/balena-io/balena-cli/issues/2105"
-      },
-      {
-        "title": "Local flash does not work for Fin devices",
-        "url": "https://github.com/balena-io/balena-cli/issues/2102"
-      },
-      {
-        "title": "allow privilege elevation for non-root users in `balena config`",
-        "url": "https://github.com/balena-io/balena-cli/issues/2101"
       }
     ]
   },
-  "version": "12.38.0",
+  "version": "12.38.1",
   "screenshot": null,
   "logo": null
 }
