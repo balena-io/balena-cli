@@ -1,4 +1,15 @@
 - commits:
+    - subject: Delete old config files for Travis and AppVeyor to avoid confusion
+      hash: f73e3db4deb10dbba9132c277b7abdb314ed53d0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.38.2
+  date: 2021-01-19T08:21:31.600Z
+- commits:
     - subject: Fix handling of thrown strings
       hash: d3586696b42240e51e428d5ace95d833a25687ea
       body: ''
@@ -10,7 +21,7 @@
       author: Scott Lowe
       nested: []
   version: 12.38.1
-  date: 2021-01-15T16:53:13.915Z
+  date: 2021-01-15T15:47:32.274Z
 - commits:
     - subject: 'deploy: Add --release-tag flag'
       hash: 8d56fe9678d2397698b908b0c5a88d01b5490f45
