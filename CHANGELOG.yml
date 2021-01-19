@@ -1,4 +1,17 @@
 - commits:
+    - subject: Handle 'push' edge case with application access
+      hash: a1cf602f6f0f556f46780509be1d61a473c4b469
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.38.3
+  date: 2021-01-19T17:18:08.231Z
+- commits:
     - subject: Delete old config files for Travis and AppVeyor to avoid confusion
       hash: f73e3db4deb10dbba9132c277b7abdb314ed53d0
       body: ''
@@ -8,7 +21,7 @@
       author: Paulo Castro
       nested: []
   version: 12.38.2
-  date: 2021-01-19T08:21:31.600Z
+  date: 2021-01-18T23:21:07.706Z
 - commits:
     - subject: Fix handling of thrown strings
       hash: d3586696b42240e51e428d5ace95d833a25687ea

@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Handle 'push' edge case with application access",
+          "hash": "a1cf602f6f0f556f46780509be1d61a473c4b469",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.38.3",
+      "date": "2021-01-19T12:41:36.462Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Delete old config files for Travis and AppVeyor to avoid confusion",
           "hash": "f73e3db4deb10dbba9132c277b7abdb314ed53d0",
           "body": "",
@@ -21001,29 +21020,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-01-19T08:22:20Z",
+  "lastCommitDate": "2021-01-19T17:19:10Z",
   "latestRelease": {
-    "tagName": "v12.38.2",
+    "tagName": "v12.38.3",
     "asssets": [
       {
-        "name": "balena-cli-v12.38.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.2/balena-cli-v12.38.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.38.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.3/balena-cli-v12.38.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.2/balena-cli-v12.38.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.38.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.3/balena-cli-v12.38.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.38.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.2/balena-cli-v12.38.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.38.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.3/balena-cli-v12.38.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.2/balena-cli-v12.38.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.38.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.3/balena-cli-v12.38.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.38.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.2/balena-cli-v12.38.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.38.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.3/balena-cli-v12.38.3-windows-x64-standalone.zip"
       }
     ]
   },
@@ -21032,12 +21051,12 @@
     "numberOfIssues": 304,
     "latestIssues": [
       {
-        "title": "livepush: Allow specifying whether to unconditionally kill containers, or first send SIGTERM",
-        "url": "https://github.com/balena-io/balena-cli/issues/2162"
+        "title": "tls: Use TLS for tunnel connection",
+        "url": "https://github.com/balena-io/balena-cli/pull/2163"
       },
       {
-        "title": "Handle 'push' edge case with application access",
-        "url": "https://github.com/balena-io/balena-cli/pull/2161"
+        "title": "livepush: Allow specifying whether to unconditionally kill containers, or first send SIGTERM",
+        "url": "https://github.com/balena-io/balena-cli/issues/2162"
       },
       {
         "title": "dockerfiles: initial commit of balenalib dockerfiles",
@@ -21113,7 +21132,7 @@
       }
     ]
   },
-  "version": "12.38.2",
+  "version": "12.38.3",
   "screenshot": null,
   "logo": null
 }
