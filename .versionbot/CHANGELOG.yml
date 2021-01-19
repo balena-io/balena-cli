@@ -1,4 +1,15 @@
 - commits:
+    - subject: Delete old config files for Travis and AppVeyor to avoid confusion
+      hash: f73e3db4deb10dbba9132c277b7abdb314ed53d0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.38.2
+  date: 2021-01-18T23:21:07.706Z
+- commits:
     - subject: Fix handling of thrown strings
       hash: d3586696b42240e51e428d5ace95d833a25687ea
       body: ''
