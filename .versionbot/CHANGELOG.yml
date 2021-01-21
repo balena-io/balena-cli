@@ -1,4 +1,15 @@
 - commits:
+    - subject: Update supported Node.js version range in package.json (<13.0.0)
+      hash: b363d28664a78f9f3c40ac6bfccb1eea544879c3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.38.4
+  date: 2021-01-21T16:39:03.644Z
+- commits:
     - subject: Handle 'push' edge case with application access
       hash: a1cf602f6f0f556f46780509be1d61a473c4b469
       body: ''
