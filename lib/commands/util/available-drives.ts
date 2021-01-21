@@ -43,7 +43,9 @@ export default class UtilAvailableDrivesCmd extends Command {
 
 		const sdk = await import('etcher-sdk');
 
-		const adapter = new sdk.scanner.adapters.BlockDeviceAdapter(() => false);
+		const adapter = new sdk.scanner.adapters.BlockDeviceAdapter({
+			includeSystemDrives: () => false,
+		});
 		const scanner = new sdk.scanner.Scanner([adapter]);
 		await scanner.start();
 

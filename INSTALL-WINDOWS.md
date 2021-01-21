@@ -79,10 +79,3 @@ because the AUFS storage driver is not present in the Linux kernel used by the n
 of Docker Desktop for Windows or macOS.
 
 We are working on replacing AUFS with overlay2 in balenaOS images of the affected device types.
-
-### balena os configure
-
-* The `balena os configure` command is currently not supported on Windows natively, but works with
-  the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about) (WSL). When
-  using WSL, [install the balena CLI for
-  Linux](https://github.com/balena-io/balena-cli/blob/master/INSTALL-LINUX.md).

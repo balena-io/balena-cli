@@ -39,6 +39,9 @@ interface TestOutput {
  * @param testOutput
  */
 function filterCliOutputForTests(testOutput: TestOutput): TestOutput {
+	const {
+		matchesNodeEngineVersionWarn,
+	} = require('../automation/utils') as typeof import('../automation/utils');
 	return {
 		exitCode: testOutput.exitCode,
 		err: testOutput.err.filter(
@@ -48,8 +51,7 @@ function filterCliOutputForTests(testOutput: TestOutput): TestOutput {
 				// sdk.setSharedOptions multiple times in the same process
 				!line.startsWith('Shared SDK options') &&
 				!line.startsWith('WARN: disabling Sentry.io error reporting') &&
-				// Node 12: '[DEP0066] DeprecationWarning: OutgoingMessage.prototype._headers is deprecated'
-				!line.includes('[DEP0066]'),
+				!matchesNodeEngineVersionWarn(line),
 		),
 		out: testOutput.out.filter((line: string) => !line.match(/\[debug\]/i)),
 	};

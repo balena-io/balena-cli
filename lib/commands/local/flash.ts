@@ -16,6 +16,7 @@
  */
 
 import { flags } from '@oclif/command';
+import type { BlockDevice } from 'etcher-sdk/build/source-destination';
 import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
@@ -25,7 +26,6 @@ import {
 	getVisuals,
 	stripIndent,
 } from '../../utils/lazy';
-import type * as SDK from 'etcher-sdk';
 
 interface FlagsDef {
 	yes: boolean;
@@ -75,6 +75,23 @@ export default class LocalFlashCmd extends Command {
 			LocalFlashCmd,
 		);
 
+		if (process.platform === 'linux') {
+			const { promisify } = await import('util');
+			const { exec } = await import('child_process');
+			const execAsync = promisify(exec);
+			let distroVersion = '';
+			try {
+				const info = await execAsync('cat /proc/version');
+				distroVersion = info.stdout.toLowerCase();
+				// tslint:disable-next-line: no-empty
+			} catch {}
+			if (distroVersion.includes('microsoft')) {
+				throw new ExpectedError(stripIndent`
+				This command is known not to work on WSL. Please use a CLI release
+				for Windows (not WSL), or balenaEtcher.`);
+			}
+		}
+
 		const { sourceDestination, multiWrite } = await import('etcher-sdk');
 
 		const drive = await this.getDrive(options);
@@ -93,10 +110,9 @@ export default class LocalFlashCmd extends Command {
 			process.exit(0);
 		}
 
-		const file = new sourceDestination.File(
-			params.image,
-			sourceDestination.File.OpenFlags.Read,
-		);
+		const file = new sourceDestination.File({
+			path: params.image,
+		});
 		const source = await file.getInnerSource();
 
 		const visuals = getVisuals();
@@ -105,29 +121,37 @@ export default class LocalFlashCmd extends Command {
 			verifying: new visuals.Progress('Validating'),
 		};
 
-		await multiWrite.pipeSourceToDestinations(
+		await multiWrite.pipeSourceToDestinations({
 			source,
-			[drive],
-			(_, error) => {
-				// onFail
-				console.log(getChalk().red.bold(error.message));
+			destinations: [drive],
+			onFail: (_, error) => {
+				console.error(getChalk().red.bold(error.message));
+				if (error.message.includes('EACCES')) {
+					console.error(
+						getChalk().red.bold(
+							'Try running this command with elevated privileges, with sudo or in a shell running with admininstrator privileges.',
+						),
+					);
+				}
 			},
-			(progress: SDK.multiWrite.MultiDestinationProgress) => {
-				// onProgress
+			onProgress: (progress) => {
 				progressBars[progress.type].update(progress);
 			},
-			true, // verify
-		);
+			verify: true,
+		});
 	}
 
-	async getDrive(options: {
-		drive?: string;
-	}): Promise<SDK.sourceDestination.BlockDevice> {
+	async getDrive(options: { drive?: string }): Promise<BlockDevice> {
 		const drive = options.drive || (await getVisuals().drive('Select a drive'));
 
 		const sdk = await import('etcher-sdk');
 
-		const adapter = new sdk.scanner.adapters.BlockDeviceAdapter(() => false);
+		const adapter = new sdk.scanner.adapters.BlockDeviceAdapter({
+			includeSystemDrives: () => false,
+			unmountOnSuccess: false,
+			write: true,
+			direct: true,
+		});
 		const scanner = new sdk.scanner.Scanner([adapter]);
 		await scanner.start();
 		try {
