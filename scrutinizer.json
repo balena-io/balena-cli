@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Update supported Node.js version range in package.json (<13.0.0)",
+          "hash": "b363d28664a78f9f3c40ac6bfccb1eea544879c3",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.38.4",
+      "date": "2021-01-21T16:39:03.644Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Handle 'push' edge case with application access",
           "hash": "a1cf602f6f0f556f46780509be1d61a473c4b469",
           "body": "",
@@ -20785,119 +20802,119 @@
   "contributors": [
     {
       "username": "pdcastro",
-      "avatar": "https://avatars3.githubusercontent.com/u/15091591?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/15091591?v=4"
     },
     {
       "username": "jviotti",
-      "avatar": "https://avatars0.githubusercontent.com/u/2192773?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/2192773?v=4"
     },
     {
       "username": "pimterry",
-      "avatar": "https://avatars0.githubusercontent.com/u/1526883?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/1526883?v=4"
     },
     {
       "username": "resin-io-versionbot[bot]",
-      "avatar": "https://avatars1.githubusercontent.com/u/6157842?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/6157842?v=4"
     },
     {
       "username": "bulldozer-balena[bot]",
-      "avatar": "https://avatars0.githubusercontent.com/in/58047?v=4"
+      "avatar": "https://avatars.githubusercontent.com/in/58047?v=4"
     },
     {
       "username": "Page-",
-      "avatar": "https://avatars3.githubusercontent.com/u/360115?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/360115?v=4"
     },
     {
       "username": "srlowe",
-      "avatar": "https://avatars3.githubusercontent.com/u/1562665?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/1562665?v=4"
     },
     {
       "username": "thgreasi",
-      "avatar": "https://avatars0.githubusercontent.com/u/1295829?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/1295829?v=4"
     },
     {
       "username": "lekkas",
-      "avatar": "https://avatars3.githubusercontent.com/u/5211478?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/5211478?v=4"
     },
     {
       "username": "emirotin",
-      "avatar": "https://avatars0.githubusercontent.com/u/525832?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/525832?v=4"
     },
     {
       "username": "zvin",
-      "avatar": "https://avatars2.githubusercontent.com/u/180331?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/180331?v=4"
     },
     {
       "username": "CameronDiver",
-      "avatar": "https://avatars0.githubusercontent.com/u/7694128?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/7694128?v=4"
     },
     {
       "username": "dfunckt",
-      "avatar": "https://avatars3.githubusercontent.com/u/130359?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/130359?v=4"
     },
     {
       "username": "LucianBuzzo",
-      "avatar": "https://avatars0.githubusercontent.com/u/15064535?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/15064535?v=4"
     },
     {
       "username": "xginn8",
-      "avatar": "https://avatars1.githubusercontent.com/u/6697261?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/6697261?v=4"
     },
     {
       "username": "imrehg",
-      "avatar": "https://avatars0.githubusercontent.com/u/38863?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/38863?v=4"
     },
     {
       "username": "richbayliss",
-      "avatar": "https://avatars2.githubusercontent.com/u/633741?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/633741?v=4"
     },
     {
       "username": "mbalamat",
-      "avatar": "https://avatars1.githubusercontent.com/u/7872396?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/7872396?v=4"
     },
     {
       "username": "pcarranzav",
-      "avatar": "https://avatars1.githubusercontent.com/u/2223590?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/2223590?v=4"
     },
     {
       "username": "dansku",
-      "avatar": "https://avatars1.githubusercontent.com/u/590207?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/590207?v=4"
     },
     {
       "username": "afitzek",
-      "avatar": "https://avatars3.githubusercontent.com/u/3415366?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/3415366?v=4"
     },
     {
       "username": "nwneisen",
-      "avatar": "https://avatars0.githubusercontent.com/u/5108029?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/5108029?v=4"
     },
     {
       "username": "Atiklabsl",
-      "avatar": "https://avatars1.githubusercontent.com/u/44225870?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/44225870?v=4"
     },
     {
       "username": "lifeeth",
-      "avatar": "https://avatars3.githubusercontent.com/u/19370?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/19370?v=4"
     },
     {
       "username": "pcgeek86",
-      "avatar": "https://avatars3.githubusercontent.com/u/466713?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/466713?v=4"
     },
     {
       "username": "codewithcheese",
-      "avatar": "https://avatars1.githubusercontent.com/u/989237?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/989237?v=4"
     },
     {
       "username": "wrboyce",
-      "avatar": "https://avatars2.githubusercontent.com/u/28401?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/28401?v=4"
     },
     {
       "username": "chrisys",
-      "avatar": "https://avatars0.githubusercontent.com/u/521698?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/521698?v=4"
     },
     {
       "username": "nazrhom",
-      "avatar": "https://avatars1.githubusercontent.com/u/6810908?v=4"
+      "avatar": "https://avatars.githubusercontent.com/u/6810908?v=4"
     }
   ],
   "docs": [],
@@ -20920,12 +20937,12 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 294,
+  "stars": 295,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
   "owner": {
-    "avatar": "https://avatars1.githubusercontent.com/u/6157842?v=4",
+    "avatar": "https://avatars.githubusercontent.com/u/6157842?v=4",
     "handle": "balena-io",
     "url": "https://github.com/balena-io",
     "type": "Organization"
@@ -21020,36 +21037,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-01-19T17:19:10Z",
+  "lastCommitDate": "2021-01-21T17:14:47Z",
   "latestRelease": {
-    "tagName": "v12.38.3",
+    "tagName": "v12.38.4",
     "asssets": [
       {
-        "name": "balena-cli-v12.38.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.3/balena-cli-v12.38.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.38.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.4/balena-cli-v12.38.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.3/balena-cli-v12.38.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.38.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.4/balena-cli-v12.38.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.38.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.3/balena-cli-v12.38.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.38.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.4/balena-cli-v12.38.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.3/balena-cli-v12.38.3-windows-x64-installer.exe"
+        "name": "balena-cli-v12.38.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.4/balena-cli-v12.38.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.38.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.3/balena-cli-v12.38.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.38.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.4/balena-cli-v12.38.4-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 304,
+    "numberOfIssues": 307,
     "latestIssues": [
+      {
+        "title": "`balena join` does not preserve local mode state, causing volumes to be lost",
+        "url": "https://github.com/balena-io/balena-cli/issues/2167"
+      },
+      {
+        "title": "livepush: CLI exits unexpectedly (no error) with Node.js v14",
+        "url": "https://github.com/balena-io/balena-cli/issues/2165"
+      },
+      {
+        "title": "Cannot push wifi-repeater-master to my application",
+        "url": "https://github.com/balena-io/balena-cli/issues/2164"
+      },
       {
         "title": "tls: Use TLS for tunnel connection",
         "url": "https://github.com/balena-io/balena-cli/pull/2163"
@@ -21117,22 +21146,10 @@
       {
         "title": "balena scan should show development devices first",
         "url": "https://github.com/balena-io/balena-cli/issues/2118"
-      },
-      {
-        "title": "--app does not work when using --config in balena os configure",
-        "url": "https://github.com/balena-io/balena-cli/issues/2111"
-      },
-      {
-        "title": "Add --buildArg support for local push",
-        "url": "https://github.com/balena-io/balena-cli/pull/2110"
-      },
-      {
-        "title": "Fix 'balena ssh' test cases when using the Windows built-in ssh tool",
-        "url": "https://github.com/balena-io/balena-cli/pull/2109"
       }
     ]
   },
-  "version": "12.38.3",
+  "version": "12.38.4",
   "screenshot": null,
   "logo": null
 }
