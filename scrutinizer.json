@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "tls: Use TLS for tunnel connection",
+          "hash": "7ae83d9ce578dc82d8324fa78f3b59c4bc965e4f",
+          "body": "Switch to using the exposed tunnelUrl and TLS for making\ntunnels to the device, to improve security.\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Rich Bayliss <rich@balena.io>",
+            "signed-off-by": "Rich Bayliss <rich@balena.io>"
+          },
+          "author": "Balena CI",
+          "nested": []
+        }
+      ],
+      "version": "12.38.5",
+      "date": "2021-01-21T23:26:41.306Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update supported Node.js version range in package.json (<13.0.0)",
           "hash": "b363d28664a78f9f3c40ac6bfccb1eea544879c3",
           "body": "",
@@ -21037,29 +21056,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-01-21T17:14:47Z",
+  "lastCommitDate": "2021-01-22T10:59:32Z",
   "latestRelease": {
-    "tagName": "v12.38.4",
+    "tagName": "v12.38.5",
     "asssets": [
       {
-        "name": "balena-cli-v12.38.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.4/balena-cli-v12.38.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.38.5-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.5/balena-cli-v12.38.5-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.4/balena-cli-v12.38.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.38.5-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.5/balena-cli-v12.38.5-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.38.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.4/balena-cli-v12.38.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.38.5-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.5/balena-cli-v12.38.5-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.4/balena-cli-v12.38.4-windows-x64-installer.exe"
+        "name": "balena-cli-v12.38.5-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.5/balena-cli-v12.38.5-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.38.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.4/balena-cli-v12.38.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.38.5-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.5/balena-cli-v12.38.5-windows-x64-standalone.zip"
       }
     ]
   },
@@ -21068,20 +21087,20 @@
     "numberOfIssues": 307,
     "latestIssues": [
       {
+        "title": "Improve build-time checks (automation/test-lock-deduplicated.sh)",
+        "url": "https://github.com/balena-io/balena-cli/pull/2169"
+      },
+      {
+        "title": "WIP: Make the cli work with Node 14",
+        "url": "https://github.com/balena-io/balena-cli/pull/2168"
+      },
+      {
         "title": "`balena join` does not preserve local mode state, causing volumes to be lost",
         "url": "https://github.com/balena-io/balena-cli/issues/2167"
       },
       {
         "title": "livepush: CLI exits unexpectedly (no error) with Node.js v14",
         "url": "https://github.com/balena-io/balena-cli/issues/2165"
-      },
-      {
-        "title": "Cannot push wifi-repeater-master to my application",
-        "url": "https://github.com/balena-io/balena-cli/issues/2164"
-      },
-      {
-        "title": "tls: Use TLS for tunnel connection",
-        "url": "https://github.com/balena-io/balena-cli/pull/2163"
       },
       {
         "title": "livepush: Allow specifying whether to unconditionally kill containers, or first send SIGTERM",
@@ -21149,7 +21168,7 @@
       }
     ]
   },
-  "version": "12.38.4",
+  "version": "12.38.5",
   "screenshot": null,
   "logo": null
 }
