@@ -2760,9 +2760,9 @@
       }
     },
     "balena-settings-client": {
-      "version": "4.0.5",
-      "resolved": "https://registry.npmjs.org/balena-settings-client/-/balena-settings-client-4.0.5.tgz",
-      "integrity": "sha512-w1SWIQYViMP51PYnPvbwgGavipkBv8wbRj1ISjPYZ5M45oEVRcktDfix8c3xOlWl+vWqW8aA4L8BjhqnxhAvRQ==",
+      "version": "4.0.6",
+      "resolved": "https://registry.npmjs.org/balena-settings-client/-/balena-settings-client-4.0.6.tgz",
+      "integrity": "sha512-bB14Zvg1N6t7XXPJqZs48SajgTuk2WTMm2AnxcOfoIQ2d/Lh0RsEGxD9toF2v+WhF2Ip4u7ko5tKlCr2kFddXA==",
       "requires": {
         "@resin.io/types-hidepath": "1.0.1",
         "@resin.io/types-home-or-tmp": "3.0.0",

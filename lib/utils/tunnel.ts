@@ -15,9 +15,13 @@ limitations under the License.
 */
 import type { BalenaSDK } from 'balena-sdk';
 import { Socket } from 'net';
+import * as tls from 'tls';
 import { TypedError } from 'typed-error';
+import { ExpectedError } from '../errors';
 
 const PROXY_CONNECT_TIMEOUT_MS = 10000;
+
+class TunnelServerNotTrustedError extends ExpectedError {}
 
 class UnableToConnectError extends TypedError {
 	public status: string;
@@ -42,17 +46,17 @@ export const tunnelConnectionToDevice = (
 	sdk: BalenaSDK,
 ) => {
 	return Promise.all([
-		sdk.settings.get('vpnUrl'),
+		sdk.settings.get('tunnelUrl'),
 		sdk.auth.whoami(),
 		sdk.auth.getToken(),
-	]).then(([vpnUrl, whoami, token]) => {
+	]).then(([tunnelUrl, whoami, token]) => {
 		const auth = {
 			user: whoami || 'root',
 			password: token,
 		};
 
 		return (client: Socket): Promise<void> =>
-			openPortThroughProxy(vpnUrl, 3128, auth, uuid, port)
+			openPortThroughProxy(tunnelUrl, 443, auth, uuid, port)
 				.then((remote) => {
 					client.pipe(remote);
 					remote.pipe(client);
@@ -96,30 +100,41 @@ const openPortThroughProxy = (
 	}
 
 	return new Promise<Socket>((resolve, reject) => {
-		const proxyTunnel = new Socket();
-		proxyTunnel.on('error', reject);
-		proxyTunnel.connect(proxyPort, proxyServer, () => {
-			const proxyConnectionHandler = (data: Buffer) => {
-				proxyTunnel.removeListener('data', proxyConnectionHandler);
-				const [httpStatus] = data.toString('utf8').split('\r\n');
-				const [, httpStatusCode, ...httpMessage] = httpStatus.split(' ');
-
-				if (parseInt(httpStatusCode, 10) === 200) {
-					proxyTunnel.setTimeout(0);
-					resolve(proxyTunnel);
-				} else {
+		const proxyTunnel = tls.connect(
+			proxyPort,
+			proxyServer,
+			{ servername: proxyServer }, // send the hostname in the SNI field
+			() => {
+				if (!proxyTunnel.authorized) {
+					console.error('Unable to authorize the tunnel server');
 					reject(
-						new UnableToConnectError(httpStatusCode, httpMessage.join(' ')),
+						new TunnelServerNotTrustedError(proxyTunnel.authorizationError),
 					);
+					return;
 				}
-			};
 
-			proxyTunnel.on('timeout', () => {
-				reject(new RemoteSocketNotListening(devicePort));
-			});
-			proxyTunnel.on('data', proxyConnectionHandler);
-			proxyTunnel.setTimeout(PROXY_CONNECT_TIMEOUT_MS);
-			proxyTunnel.write(httpHeaders.join('\r\n').concat('\r\n\r\n'));
-		});
+				proxyTunnel.once('data', (data: Buffer) => {
+					const [httpStatus] = data.toString('utf8').split('\r\n');
+					const [, httpStatusCode, ...httpMessage] = httpStatus.split(' ');
+
+					if (parseInt(httpStatusCode, 10) === 200) {
+						proxyTunnel.setTimeout(0);
+						resolve(proxyTunnel);
+					} else {
+						reject(
+							new UnableToConnectError(httpStatusCode, httpMessage.join(' ')),
+						);
+					}
+				});
+
+				proxyTunnel.on('timeout', () => {
+					reject(new RemoteSocketNotListening(devicePort));
+				});
+
+				proxyTunnel.setTimeout(PROXY_CONNECT_TIMEOUT_MS);
+				proxyTunnel.write(httpHeaders.join('\r\n').concat('\r\n\r\n'));
+			},
+		);
+		proxyTunnel.on('error', reject);
 	});
 };
