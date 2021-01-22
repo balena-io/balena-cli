@@ -152,7 +152,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 
 	try {
 		const version = await api.getVersion();
-		globalLogger.logDebug(`Checking device version: ${version}`);
+		globalLogger.logDebug(`Checking device supervisor version: ${version}`);
 		if (!semver.satisfies(version, '>=7.21.4')) {
 			throw new ExpectedError(versionError);
 		}
