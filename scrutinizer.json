@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "logging: note that the device supervisor version is operative",
+          "hash": "53926067caeb8d021b3ff1dae600c3eab4946426",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Matthew McGinn <matthew@balena.io>",
+            "signed-off-by": "Matthew McGinn <matthew@balena.io>"
+          },
+          "author": "Matthew McGinn",
+          "nested": []
+        }
+      ],
+      "version": "12.38.6",
+      "date": "2021-01-22T21:56:21.475Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "tls: Use TLS for tunnel connection",
           "hash": "7ae83d9ce578dc82d8324fa78f3b59c4bc965e4f",
           "body": "Switch to using the exposed tunnelUrl and TLS for making\ntunnels to the device, to improve security.\n",
@@ -21056,29 +21075,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-01-22T10:59:32Z",
+  "lastCommitDate": "2021-01-23T01:09:50Z",
   "latestRelease": {
-    "tagName": "v12.38.5",
+    "tagName": "v12.38.6",
     "asssets": [
       {
-        "name": "balena-cli-v12.38.5-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.5/balena-cli-v12.38.5-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.38.6-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.6/balena-cli-v12.38.6-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.5-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.5/balena-cli-v12.38.5-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.38.6-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.6/balena-cli-v12.38.6-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.38.5-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.5/balena-cli-v12.38.5-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.38.6-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.6/balena-cli-v12.38.6-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.5-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.5/balena-cli-v12.38.5-windows-x64-installer.exe"
+        "name": "balena-cli-v12.38.6-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.6/balena-cli-v12.38.6-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.38.5-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.5/balena-cli-v12.38.5-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.38.6-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.6/balena-cli-v12.38.6-windows-x64-standalone.zip"
       }
     ]
   },
@@ -21086,6 +21105,10 @@
   "openIssues": {
     "numberOfIssues": 307,
     "latestIssues": [
+      {
+        "title": "tunnel: Add note re openBalena version compatibility",
+        "url": "https://github.com/balena-io/balena-cli/pull/2170"
+      },
       {
         "title": "Improve build-time checks (automation/test-lock-deduplicated.sh)",
         "url": "https://github.com/balena-io/balena-cli/pull/2169"
@@ -21161,14 +21184,10 @@
       {
         "title": "Add orgs support to CLI commands",
         "url": "https://github.com/balena-io/balena-cli/issues/2119"
-      },
-      {
-        "title": "balena scan should show development devices first",
-        "url": "https://github.com/balena-io/balena-cli/issues/2118"
       }
     ]
   },
-  "version": "12.38.5",
+  "version": "12.38.6",
   "screenshot": null,
   "logo": null
 }

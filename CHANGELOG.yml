@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'logging: note that the device supervisor version is operative'
+      hash: 53926067caeb8d021b3ff1dae600c3eab4946426
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Matthew McGinn <matthew@balena.io>
+        signed-off-by: Matthew McGinn <matthew@balena.io>
+      author: Matthew McGinn
+      nested: []
+  version: 12.38.6
+  date: 2021-01-23T01:08:41.373Z
+- commits:
     - subject: 'tls: Use TLS for tunnel connection'
       hash: 7ae83d9ce578dc82d8324fa78f3b59c4bc965e4f
       body: |
@@ -12,7 +25,7 @@
       author: Balena CI
       nested: []
   version: 12.38.5
-  date: 2021-01-22T10:58:27.804Z
+  date: 2021-01-21T23:26:41.306Z
 - commits:
     - subject: Update supported Node.js version range in package.json (<13.0.0)
       hash: b363d28664a78f9f3c40ac6bfccb1eea544879c3
