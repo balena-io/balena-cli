@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'logging: note that the device supervisor version is operative'
+      hash: 53926067caeb8d021b3ff1dae600c3eab4946426
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Matthew McGinn <matthew@balena.io>
+        signed-off-by: Matthew McGinn <matthew@balena.io>
+      author: Matthew McGinn
+      nested: []
+  version: 12.38.6
+  date: 2021-01-22T21:56:21.475Z
+- commits:
     - subject: 'tls: Use TLS for tunnel connection'
       hash: 7ae83d9ce578dc82d8324fa78f3b59c4bc965e4f
       body: |
