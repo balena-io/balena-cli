@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'tunnel: Add note re openBalena version compatibility'
+      hash: 941c36525951f41f1c8b5933dc76d64b9e16a205
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.38.7
+  date: 2021-01-25T17:37:22.165Z
+- commits:
     - subject: 'logging: note that the device supervisor version is operative'
       hash: 53926067caeb8d021b3ff1dae600c3eab4946426
       body: ''
