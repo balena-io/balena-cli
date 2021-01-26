@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'tunnel: Add note re openBalena version compatibility'
+      hash: 941c36525951f41f1c8b5933dc76d64b9e16a205
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.38.7
+  date: 2021-01-26T08:30:41.760Z
+- commits:
     - subject: 'logging: note that the device supervisor version is operative'
       hash: 53926067caeb8d021b3ff1dae600c3eab4946426
       body: ''
@@ -10,7 +21,7 @@
       author: Matthew McGinn
       nested: []
   version: 12.38.6
-  date: 2021-01-23T01:08:41.373Z
+  date: 2021-01-22T21:56:21.475Z
 - commits:
     - subject: 'tls: Use TLS for tunnel connection'
       hash: 7ae83d9ce578dc82d8324fa78f3b59c4bc965e4f

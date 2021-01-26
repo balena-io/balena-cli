@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "tunnel: Add note re openBalena version compatibility",
+          "hash": "941c36525951f41f1c8b5933dc76d64b9e16a205",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.38.7",
+      "date": "2021-01-25T17:37:22.165Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "logging: note that the device supervisor version is operative",
           "hash": "53926067caeb8d021b3ff1dae600c3eab4946426",
           "body": "",
@@ -20975,7 +20992,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 295,
+  "stars": 296,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -21075,40 +21092,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-01-23T01:09:50Z",
+  "lastCommitDate": "2021-01-26T08:31:28Z",
   "latestRelease": {
-    "tagName": "v12.38.6",
+    "tagName": "v12.38.7",
     "asssets": [
       {
-        "name": "balena-cli-v12.38.6-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.6/balena-cli-v12.38.6-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.38.7-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.7/balena-cli-v12.38.7-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.6-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.6/balena-cli-v12.38.6-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.38.7-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.7/balena-cli-v12.38.7-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.38.6-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.6/balena-cli-v12.38.6-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.38.7-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.7/balena-cli-v12.38.7-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.6-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.6/balena-cli-v12.38.6-windows-x64-installer.exe"
+        "name": "balena-cli-v12.38.7-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.7/balena-cli-v12.38.7-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.38.6-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.6/balena-cli-v12.38.6-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.38.7-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.7/balena-cli-v12.38.7-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 307,
+    "numberOfIssues": 306,
     "latestIssues": [
-      {
-        "title": "tunnel: Add note re openBalena version compatibility",
-        "url": "https://github.com/balena-io/balena-cli/pull/2170"
-      },
       {
         "title": "Improve build-time checks (automation/test-lock-deduplicated.sh)",
         "url": "https://github.com/balena-io/balena-cli/pull/2169"
@@ -21184,10 +21197,14 @@
       {
         "title": "Add orgs support to CLI commands",
         "url": "https://github.com/balena-io/balena-cli/issues/2119"
+      },
+      {
+        "title": "balena scan should show development devices first",
+        "url": "https://github.com/balena-io/balena-cli/issues/2118"
       }
     ]
   },
-  "version": "12.38.6",
+  "version": "12.38.7",
   "screenshot": null,
   "logo": null
 }
