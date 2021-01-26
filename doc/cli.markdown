@@ -1830,17 +1830,25 @@ bypass global proxy configuration for the ssh connection
 
 ## tunnel &#60;deviceOrApplication&#62;
 
-Use this command to open local ports which tunnel to listening ports on your balenaOS device.
+Use this command to open local TCP ports that tunnel to listening sockets in a
+balenaOS device.
 
-For example, you could open port 8080 on your local machine to connect to your managed balenaOS
-device running a web server listening on port 3000.
+For example, this command could be used to expose the ssh server of a balenaOS
+device (port number 22222) on the local machine, or to expose a web server
+running on the device. The port numbers do not have be the same between the
+device and the local machine, and multiple ports may be tunneled in a single
+command line.
 
 Port mappings are specified in the format: <remotePort>[:[localIP:]localPort]
-localIP defaults to 'localhost', and localPort defaults to the specified remotePort value.
+localIP defaults to 'localhost', and localPort defaults to the specified
+remotePort value.
 
-You can tunnel multiple ports at any given time.
+Note: the -p (--port) flag must be provided at the end of the command line,
+as per examples.
 
-Note: Port mappings must come after the deviceOrApplication parameter, as per examples.
+In the case of openBalena, the tunnel command in CLI v12.38.5 or later requires
+openBalena v3.1.2 or later. Older CLI versions work with older openBalena
+versions.
 
 Examples:
 
