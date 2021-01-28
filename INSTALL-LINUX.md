@@ -14,7 +14,7 @@ Selected operating system: **Linux**
 2. Extract the zip file contents to any folder you choose. The extracted contents will include a
    `balena-cli` folder.
 
-3. Add the `balena-cli` folder to the system's `PATH` environment variable. There are several
+3. Add the full path to the `balena-cli` folder to the system's `PATH` environment variable. There are several
    ways of achieving this on Linux: See this [StackOverflow post](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix). Close and reopen the terminal window
    so that the changes to PATH can take effect.
 
@@ -58,6 +58,12 @@ The `balena scan` command requires a multicast DNS (mDNS) service like
 [Avahi](https://en.wikipedia.org/wiki/Avahi_(software)), which is installed by default on most
 desktop Linux distributions. Otherwise, on Debian or Ubuntu, the installation command would be
 `sudo apt-get install avahi-daemon`.
+
+`balena scan` needs to be run with sudo privileges, but in some cases this will return the message "sudo: balena: command not found". In this case, you have to add the install location of `balena` to your sudoers file.
+
+Open the sudoers file with `sudo visudo` and add the full path to the `balena-cli` folder to the `secure_path="..."` entry. There are already a couple of paths in this line, the new path needs to be separated from the others with a `:`. If you're done, save and close the file. 
+
+For more information on this issue, have a look into [#2149](https://github.com/balena-io/balena-cli/issues/2149).
 
 ### balena preload
 
