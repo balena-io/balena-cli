@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "build/deploy: Update QEMU to speed up emulated builds",
+          "hash": "9636985ee7648dca6967cf35ddd7bb122cfbc65c",
+          "body": "QEMU v5 has quite a few improvements over v4, and the speed\ndifference when emulating arm is quite noticible.\n\nWe tested this with, and without, our single-core limitation\npatch and have not been able to reproduce the stability\nissues we were seeing in v4 so the patch was removed in\nthis release.\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Connects-to": "https://github.com/balena-io/balena-io/issues/2340",
+            "connects-to": "https://github.com/balena-io/balena-io/issues/2340",
+            "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+            "signed-off-by": "Kyle Harding <kyle@balena.io>"
+          },
+          "author": "Kyle Harding",
+          "nested": []
+        }
+      ],
+      "version": "12.38.8",
+      "date": "2021-01-29T14:30:42.894Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "tunnel: Add note re openBalena version compatibility",
           "hash": "941c36525951f41f1c8b5933dc76d64b9e16a205",
           "body": "",
@@ -21092,29 +21113,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-01-26T08:31:28Z",
+  "lastCommitDate": "2021-01-29T15:04:38Z",
   "latestRelease": {
-    "tagName": "v12.38.7",
+    "tagName": "v12.38.8",
     "asssets": [
       {
-        "name": "balena-cli-v12.38.7-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.7/balena-cli-v12.38.7-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.38.8-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.8/balena-cli-v12.38.8-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.7-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.7/balena-cli-v12.38.7-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.38.8-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.8/balena-cli-v12.38.8-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.38.7-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.7/balena-cli-v12.38.7-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.38.8-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.8/balena-cli-v12.38.8-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.7-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.7/balena-cli-v12.38.7-windows-x64-installer.exe"
+        "name": "balena-cli-v12.38.8-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.8/balena-cli-v12.38.8-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.38.7-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.7/balena-cli-v12.38.7-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.38.8-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.8/balena-cli-v12.38.8-windows-x64-standalone.zip"
       }
     ]
   },
@@ -21122,6 +21143,10 @@
   "openIssues": {
     "numberOfIssues": 306,
     "latestIssues": [
+      {
+        "title": "balena tunnel: [Error] connect ETIMEDOUT",
+        "url": "https://github.com/balena-io/balena-cli/issues/2172"
+      },
       {
         "title": "Improve build-time checks (automation/test-lock-deduplicated.sh)",
         "url": "https://github.com/balena-io/balena-cli/pull/2169"
@@ -21197,14 +21222,10 @@
       {
         "title": "Add orgs support to CLI commands",
         "url": "https://github.com/balena-io/balena-cli/issues/2119"
-      },
-      {
-        "title": "balena scan should show development devices first",
-        "url": "https://github.com/balena-io/balena-cli/issues/2118"
       }
     ]
   },
-  "version": "12.38.7",
+  "version": "12.38.8",
   "screenshot": null,
   "logo": null
 }
