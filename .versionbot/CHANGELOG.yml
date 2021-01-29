@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'build/deploy: Update QEMU to speed up emulated builds'
+      hash: 9636985ee7648dca6967cf35ddd7bb122cfbc65c
+      body: |
+        QEMU v5 has quite a few improvements over v4, and the speed
+        difference when emulating arm is quite noticible.
+
+        We tested this with, and without, our single-core limitation
+        patch and have not been able to reproduce the stability
+        issues we were seeing in v4 so the patch was removed in
+        this release.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: 'https://github.com/balena-io/balena-io/issues/2340'
+        connects-to: 'https://github.com/balena-io/balena-io/issues/2340'
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 12.38.8
+  date: 2021-01-29T14:30:42.894Z
+- commits:
     - subject: 'tunnel: Add note re openBalena version compatibility'
       hash: 941c36525951f41f1c8b5933dc76d64b9e16a205
       body: ''
