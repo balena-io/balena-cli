@@ -19,7 +19,7 @@ import type * as Dockerode from 'dockerode';
 import { getBalenaSdk, stripIndent } from './lazy';
 import Logger = require('./logger');
 
-export const QEMU_VERSION = 'v4.0.0+balena2';
+export const QEMU_VERSION = 'v5.2.0+balena1';
 export const QEMU_BIN_NAME = 'qemu-execve';
 
 export function qemuPathInContext(context: string) {
@@ -96,7 +96,7 @@ export function installQemu(arch: string) {
 				const installStream = fs.createWriteStream(qemuPath);
 
 				const qemuArch = balenaArchToQemuArch(arch);
-				const fileVersion = QEMU_VERSION.replace(/^v/, '').replace('+', '.');
+				const fileVersion = QEMU_VERSION.replace('+', '.');
 				const urlFile = encodeURIComponent(
 					`qemu-${fileVersion}-${qemuArch}.tar.gz`,
 				);
