@@ -45,16 +45,13 @@ export interface BuildOpts {
 }
 
 export interface RemoteBuild {
-	app: string;
-	owner: string;
+	appSlug: string;
 	source: string;
 	auth: string;
 	baseUrl: string;
 	nogitignore: boolean;
 	opts: BuildOpts;
-
 	sdk: BalenaSDK;
-
 	// For internal use
 	releaseId?: number;
 	hadError?: boolean;
@@ -85,14 +82,12 @@ export class RemoteBuildFailedError extends ExpectedError {
 
 async function getBuilderEndpoint(
 	baseUrl: string,
-	owner: string,
-	app: string,
+	appSlug: string,
 	opts: BuildOpts,
 ): Promise<string> {
 	const querystring = await import('querystring');
 	const args = querystring.stringify({
-		owner,
-		app,
+		slug: appSlug,
 		dockerfilePath: opts.dockerfilePath,
 		emulated: opts.emulated,
 		nocache: opts.nocache,
@@ -384,8 +379,7 @@ async function getRemoteBuildStream(
 ): Promise<[request.Request, Stream.Stream]> {
 	const builderUrl = await getBuilderEndpoint(
 		build.baseUrl,
-		build.owner,
-		build.app,
+		build.appSlug,
 		build.opts,
 	);
 	let stream: Stream.Stream;

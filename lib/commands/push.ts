@@ -20,7 +20,7 @@ import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { dockerignoreHelp, registrySecretsHelp } from '../utils/messages';
-import type { BalenaSDK, Application, Organization } from 'balena-sdk';
+import type { BalenaSDK } from 'balena-sdk';
 import { ExpectedError, instanceOf } from '../errors';
 import { isV13 } from '../utils/version';
 import { RegistrySecrets } from 'resin-multibuild';
@@ -353,32 +353,9 @@ export default class PushCmd extends Command {
 			sdk.settings.get('balenaUrl'),
 		]);
 
-		const application = (await getApplication(sdk, appNameOrSlug, {
-			$expand: {
-				organization: {
-					$select: ['handle'],
-				},
-			},
+		const application = await getApplication(sdk, appNameOrSlug, {
 			$select: ['app_name', 'slug'],
-		})) as Application & {
-			organization: [Organization];
-		};
-
-		// * Temporary fix *
-		// When doing `$expand organization` on a public app (when not the owner)
-		// a partial document is returned without any organization data.
-		// So e.g. `balena push balena-sound` will break this commands logic.
-		// The balena cloud builder api will soon change to accept application slugs
-		// instead of `owner, app`, after which we will not need to do the expand
-		//
-		// Users should not be pushing to public apps anyway, so for now catch this situation:
-		if (!application.organization[0]) {
-			throw new ExpectedError(stripIndent`
-				You do not have permissions to push to application ${application.slug}.
-				If you are trying to deploy a public app, please make sure that you have created
-				your own application first.
-			`);
-		}
+		});
 
 		const opts = {
 			dockerfilePath,
@@ -390,8 +367,7 @@ export default class PushCmd extends Command {
 			convertEol: !options['noconvert-eol'],
 		};
 		const args = {
-			app: application.app_name,
-			owner: application.organization[0].handle,
+			appSlug: application.slug,
 			source: options.source,
 			auth: token,
 			baseUrl,
