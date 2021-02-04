@@ -1,4 +1,15 @@
 - commits:
+    - subject: Improve build-time checks (automation/test-lock-deduplicated.sh)
+      hash: 6e0638f3bec0bbe35bd0f132f263be99b44009e1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.38.10
+  date: 2021-02-04T14:59:54.100Z
+- commits:
     - subject: Modify push to pass app slug to builder
       hash: e6b85c9cf8784b8b4056795a35ed208570aa4164
       body: ''
@@ -10,7 +21,7 @@
       author: Scott Lowe
       nested: []
   version: 12.38.9
-  date: 2021-02-04T13:57:38.406Z
+  date: 2021-02-04T09:43:33.008Z
 - commits:
     - subject: 'build/deploy: Update QEMU to speed up emulated builds'
       hash: 9636985ee7648dca6967cf35ddd7bb122cfbc65c

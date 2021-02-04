@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Improve build-time checks (automation/test-lock-deduplicated.sh)",
+          "hash": "6e0638f3bec0bbe35bd0f132f263be99b44009e1",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.38.10",
+      "date": "2021-02-04T14:25:32.930Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Modify push to pass app slug to builder",
           "hash": "e6b85c9cf8784b8b4056795a35ed208570aa4164",
           "body": "",
@@ -21132,35 +21149,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-02-04T13:59:06Z",
+  "lastCommitDate": "2021-02-04T15:00:43Z",
   "latestRelease": {
-    "tagName": "v12.38.9",
+    "tagName": "v12.38.10",
     "asssets": [
       {
-        "name": "balena-cli-v12.38.9-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.9/balena-cli-v12.38.9-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.38.10-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.10/balena-cli-v12.38.10-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.9-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.9/balena-cli-v12.38.9-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.38.10-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.10/balena-cli-v12.38.10-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.38.9-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.9/balena-cli-v12.38.9-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.38.10-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.10/balena-cli-v12.38.10-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.9-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.9/balena-cli-v12.38.9-windows-x64-installer.exe"
+        "name": "balena-cli-v12.38.10-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.10/balena-cli-v12.38.10-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.38.9-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.9/balena-cli-v12.38.9-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.38.10-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.10/balena-cli-v12.38.10-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 310,
+    "numberOfIssues": 309,
     "latestIssues": [
       {
         "title": "Consider a \"PSA\" notification mechanism",
@@ -21181,10 +21198,6 @@
       {
         "title": "balena tunnel: [Error] connect ETIMEDOUT",
         "url": "https://github.com/balena-io/balena-cli/issues/2172"
-      },
-      {
-        "title": "Improve build-time checks (automation/test-lock-deduplicated.sh)",
-        "url": "https://github.com/balena-io/balena-cli/pull/2169"
       },
       {
         "title": "WIP: Make the cli work with Node 14",
@@ -21241,10 +21254,14 @@
       {
         "title": "livepush loses track of deleted files",
         "url": "https://github.com/balena-io/balena-cli/issues/2134"
+      },
+      {
+        "title": "Should dynamically check that `postinstall` was successfully executed (patches were applied)",
+        "url": "https://github.com/balena-io/balena-cli/issues/2132"
       }
     ]
   },
-  "version": "12.38.9",
+  "version": "12.38.10",
   "screenshot": null,
   "logo": null
 }
