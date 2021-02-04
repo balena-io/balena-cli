@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add command `device local-mode`
+      hash: e47fd0c887f3b8fc30dd15e4ea5528c85296b738
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Resolves: '#1304'
+        resolves: '#1304'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.39.0
+  date: 2021-02-04T17:40:22.912Z
+- commits:
     - subject: Improve build-time checks (automation/test-lock-deduplicated.sh)
       hash: 6e0638f3bec0bbe35bd0f132f263be99b44009e1
       body: ''
@@ -8,7 +23,7 @@
       author: Paulo Castro
       nested: []
   version: 12.38.10
-  date: 2021-02-04T14:59:54.100Z
+  date: 2021-02-04T14:25:32.930Z
 - commits:
     - subject: Modify push to pass app slug to builder
       hash: e6b85c9cf8784b8b4056795a35ed208570aa4164

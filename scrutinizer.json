@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "Add command `device local-mode`",
+          "hash": "e47fd0c887f3b8fc30dd15e4ea5528c85296b738",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Resolves": "#1304",
+            "resolves": "#1304",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.39.0",
+      "date": "2021-02-04T17:05:01.299Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Improve build-time checks (automation/test-lock-deduplicated.sh)",
           "hash": "6e0638f3bec0bbe35bd0f132f263be99b44009e1",
           "body": "",
@@ -21149,35 +21170,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-02-04T15:00:43Z",
+  "lastCommitDate": "2021-02-04T17:41:10Z",
   "latestRelease": {
-    "tagName": "v12.38.10",
+    "tagName": "v12.39.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.38.10-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.10/balena-cli-v12.38.10-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.39.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.39.0/balena-cli-v12.39.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.10-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.10/balena-cli-v12.38.10-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.39.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.39.0/balena-cli-v12.39.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.38.10-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.10/balena-cli-v12.38.10-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.39.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.39.0/balena-cli-v12.39.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.10-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.10/balena-cli-v12.38.10-windows-x64-installer.exe"
+        "name": "balena-cli-v12.39.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.39.0/balena-cli-v12.39.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.38.10-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.10/balena-cli-v12.38.10-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.39.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.39.0/balena-cli-v12.39.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 309,
+    "numberOfIssues": 307,
     "latestIssues": [
       {
         "title": "Consider a \"PSA\" notification mechanism",
@@ -21186,10 +21207,6 @@
       {
         "title": "Add support for docker-compose dev overlay",
         "url": "https://github.com/balena-io/balena-cli/pull/2177"
-      },
-      {
-        "title": "Add command `device local-mode`",
-        "url": "https://github.com/balena-io/balena-cli/pull/2176"
       },
       {
         "title": "build/deploy: emulation does not apply to multiarch image pulls",
@@ -21258,10 +21275,14 @@
       {
         "title": "Should dynamically check that `postinstall` was successfully executed (patches were applied)",
         "url": "https://github.com/balena-io/balena-cli/issues/2132"
+      },
+      {
+        "title": "Need to uniquely identify errors",
+        "url": "https://github.com/balena-io/balena-cli/issues/2126"
       }
     ]
   },
-  "version": "12.38.10",
+  "version": "12.39.0",
   "screenshot": null,
   "logo": null
 }
