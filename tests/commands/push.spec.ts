@@ -66,8 +66,7 @@ const commonResponseLines = {
 };
 
 const commonQueryParams = [
-	['owner', 'gh_user'],
-	['app', 'testApp'],
+	['slug', 'gh_user/testApp'],
 	['dockerfilePath', ''],
 	['emulated', 'false'],
 	['nocache', 'false'],
