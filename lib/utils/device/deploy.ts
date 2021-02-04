@@ -40,6 +40,7 @@ import { DeviceAPI, DeviceInfo } from './api';
 import * as LocalPushErrors from './errors';
 import LivepushManager from './live';
 import { displayBuildLog } from './logs';
+import { stripIndent } from '../lazy';
 
 const LOCAL_APPNAME = 'localapp';
 const LOCAL_RELEASEHASH = 'localrelease';
@@ -133,16 +134,19 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		opts.deviceHost = address;
 	}
 
-	const api = new DeviceAPI(globalLogger, opts.deviceHost);
+	const port = 48484;
+	const api = new DeviceAPI(globalLogger, opts.deviceHost, port);
 
 	// First check that we can access the device with a ping
 	try {
 		globalLogger.logDebug('Checking we can access device');
 		await api.ping();
 	} catch (e) {
-		throw new ExpectedError(
-			`Could not communicate with local mode device at address ${opts.deviceHost}`,
-		);
+		throw new ExpectedError(stripIndent`
+			Could not communicate with device supervisor at address ${opts.deviceHost}:${port}.
+			Device may not have local mode enabled. Check with:
+			  balena device local-mode <device-uuid>
+		`);
 	}
 
 	const versionError = new Error(
