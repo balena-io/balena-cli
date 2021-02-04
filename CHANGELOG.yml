@@ -1,4 +1,17 @@
 - commits:
+    - subject: Modify push to pass app slug to builder
+      hash: e6b85c9cf8784b8b4056795a35ed208570aa4164
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.38.9
+  date: 2021-02-04T13:57:38.406Z
+- commits:
     - subject: 'build/deploy: Update QEMU to speed up emulated builds'
       hash: 9636985ee7648dca6967cf35ddd7bb122cfbc65c
       body: |
@@ -19,7 +32,7 @@
       author: Kyle Harding
       nested: []
   version: 12.38.8
-  date: 2021-01-29T15:03:27.411Z
+  date: 2021-01-29T14:30:42.894Z
 - commits:
     - subject: 'tunnel: Add note re openBalena version compatibility'
       hash: 941c36525951f41f1c8b5933dc76d64b9e16a205

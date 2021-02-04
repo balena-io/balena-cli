@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Modify push to pass app slug to builder",
+          "hash": "e6b85c9cf8784b8b4056795a35ed208570aa4164",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.38.9",
+      "date": "2021-02-04T09:43:33.008Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "build/deploy: Update QEMU to speed up emulated builds",
           "hash": "9636985ee7648dca6967cf35ddd7bb122cfbc65c",
           "body": "QEMU v5 has quite a few improvements over v4, and the speed\ndifference when emulating arm is quite noticible.\n\nWe tested this with, and without, our single-core limitation\npatch and have not been able to reproduce the stability\nissues we were seeing in v4 so the patch was removed in\nthis release.\n",
@@ -21013,7 +21032,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 296,
+  "stars": 295,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -21113,36 +21132,52 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-01-29T15:04:38Z",
+  "lastCommitDate": "2021-02-04T13:59:06Z",
   "latestRelease": {
-    "tagName": "v12.38.8",
+    "tagName": "v12.38.9",
     "asssets": [
       {
-        "name": "balena-cli-v12.38.8-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.8/balena-cli-v12.38.8-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.38.9-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.9/balena-cli-v12.38.9-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.8-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.8/balena-cli-v12.38.8-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.38.9-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.9/balena-cli-v12.38.9-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.38.8-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.8/balena-cli-v12.38.8-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.38.9-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.9/balena-cli-v12.38.9-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.38.8-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.8/balena-cli-v12.38.8-windows-x64-installer.exe"
+        "name": "balena-cli-v12.38.9-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.9/balena-cli-v12.38.9-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.38.8-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.8/balena-cli-v12.38.8-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.38.9-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.38.9/balena-cli-v12.38.9-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 306,
+    "numberOfIssues": 310,
     "latestIssues": [
+      {
+        "title": "Consider a \"PSA\" notification mechanism",
+        "url": "https://github.com/balena-io/balena-cli/issues/2178"
+      },
+      {
+        "title": "Add support for docker-compose dev overlay",
+        "url": "https://github.com/balena-io/balena-cli/pull/2177"
+      },
+      {
+        "title": "Add command `device local-mode`",
+        "url": "https://github.com/balena-io/balena-cli/pull/2176"
+      },
+      {
+        "title": "build/deploy: emulation does not apply to multiarch image pulls",
+        "url": "https://github.com/balena-io/balena-cli/issues/2174"
+      },
       {
         "title": "balena tunnel: [Error] connect ETIMEDOUT",
         "url": "https://github.com/balena-io/balena-cli/issues/2172"
@@ -21206,26 +21241,10 @@
       {
         "title": "livepush loses track of deleted files",
         "url": "https://github.com/balena-io/balena-cli/issues/2134"
-      },
-      {
-        "title": "Should dynamically check that `postinstall` was successfully executed (patches were applied)",
-        "url": "https://github.com/balena-io/balena-cli/issues/2132"
-      },
-      {
-        "title": "Need to uniquely identify errors",
-        "url": "https://github.com/balena-io/balena-cli/issues/2126"
-      },
-      {
-        "title": "push: Cancelling build with CTRL-C is not reliable",
-        "url": "https://github.com/balena-io/balena-cli/issues/2121"
-      },
-      {
-        "title": "Add orgs support to CLI commands",
-        "url": "https://github.com/balena-io/balena-cli/issues/2119"
       }
     ]
   },
-  "version": "12.38.8",
+  "version": "12.38.9",
   "screenshot": null,
   "logo": null
 }
