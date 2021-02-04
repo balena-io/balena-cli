@@ -55,6 +55,7 @@ export interface ComposeOpts {
 	noParentCheck: boolean;
 	projectName: string;
 	projectPath: string;
+	isLocal?: boolean;
 }
 
 export interface ComposeCliFlags {
