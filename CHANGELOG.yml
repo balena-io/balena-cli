@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'build/deploy: fix emulated builds to use fully static qemu binaries'
+      hash: 15fc805f893d330af3c733c40bd2d7ae35a2cb98
+      body: |
+        Avoid possible situations where the local glibc may not support
+        the required syscalls for arm emulation during build/deploy.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Conneted-to: 'https://github.com/balena-io/qemu/issues/21'
+        conneted-to: 'https://github.com/balena-io/qemu/issues/21'
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 12.39.1
+  date: 2021-02-06T23:07:21.593Z
+- commits:
     - subject: Add command `device local-mode`
       hash: e47fd0c887f3b8fc30dd15e4ea5528c85296b738
       body: ''
@@ -12,7 +29,7 @@
       author: Scott Lowe
       nested: []
   version: 12.39.0
-  date: 2021-02-04T17:40:22.912Z
+  date: 2021-02-04T17:05:01.299Z
 - commits:
     - subject: Improve build-time checks (automation/test-lock-deduplicated.sh)
       hash: 6e0638f3bec0bbe35bd0f132f263be99b44009e1

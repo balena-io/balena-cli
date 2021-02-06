@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "build/deploy: fix emulated builds to use fully static qemu binaries",
+          "hash": "15fc805f893d330af3c733c40bd2d7ae35a2cb98",
+          "body": "Avoid possible situations where the local glibc may not support\nthe required syscalls for arm emulation during build/deploy.\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Conneted-to": "https://github.com/balena-io/qemu/issues/21",
+            "conneted-to": "https://github.com/balena-io/qemu/issues/21",
+            "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+            "signed-off-by": "Kyle Harding <kyle@balena.io>"
+          },
+          "author": "Kyle Harding",
+          "nested": []
+        }
+      ],
+      "version": "12.39.1",
+      "date": "2021-02-06T15:01:02.577Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add command `device local-mode`",
           "hash": "e47fd0c887f3b8fc30dd15e4ea5528c85296b738",
           "body": "",
@@ -21170,35 +21191,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-02-04T17:41:10Z",
+  "lastCommitDate": "2021-02-06T23:08:07Z",
   "latestRelease": {
-    "tagName": "v12.39.0",
+    "tagName": "v12.39.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.39.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.39.0/balena-cli-v12.39.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.39.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.39.1/balena-cli-v12.39.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.39.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.39.0/balena-cli-v12.39.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.39.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.39.1/balena-cli-v12.39.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.39.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.39.0/balena-cli-v12.39.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.39.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.39.1/balena-cli-v12.39.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.39.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.39.0/balena-cli-v12.39.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.39.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.39.1/balena-cli-v12.39.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.39.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.39.0/balena-cli-v12.39.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.39.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.39.1/balena-cli-v12.39.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 307,
+    "numberOfIssues": 306,
     "latestIssues": [
       {
         "title": "Consider a \"PSA\" notification mechanism",
@@ -21282,7 +21303,7 @@
       }
     ]
   },
-  "version": "12.39.0",
+  "version": "12.39.1",
   "screenshot": null,
   "logo": null
 }
