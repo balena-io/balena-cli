@@ -15,6 +15,14 @@ Selected operating system: **macOS**
    terminal](https://www.balena.io/docs/reference/cli/#choosing-a-shell-command-promptterminal)
    windows (so that the changes made by the installer to the PATH environment variable can take
    effect).
+	
+	Note: If you encounter the following warning, right clicking on the installer and selecting `Open` will bypass it.
+	
+	![image](https://user-images.githubusercontent.com/15091591/67145203-5570da00-f277-11e9-8823-176e5fd29012.png)
+	
+	![solution_1](https://user-images.githubusercontent.com/15091591/67145315-78e85480-f278-11e9-8fe2-5e0f8b281b46.png)
+	
+	![solution_2](https://user-images.githubusercontent.com/15091591/67145465-c618f600-f279-11e9-898e-dec441f92df6.png)
 
 3. Check that the installation was successful by running the following commands on a
    command terminal:  
