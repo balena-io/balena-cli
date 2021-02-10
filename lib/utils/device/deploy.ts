@@ -186,6 +186,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		noParentCheck: opts.noParentCheck,
 		projectName: 'local',
 		projectPath: opts.source,
+		isLocal: true,
 	});
 
 	// Attempt to attach to the device's docker daemon
