@@ -28,7 +28,7 @@ import * as path from 'path';
 import * as rimraf from 'rimraf';
 import * as semver from 'semver';
 import * as util from 'util';
-import * as afterSignHook from './afterSignHook'
+import * as afterSignHook from './afterSignHook';
 
 import { stripIndent } from '../lib/utils/lazy';
 import {
@@ -383,7 +383,9 @@ export async function buildOclifInstaller() {
 		if (process.platform === 'win32') {
 			await signWindowsInstaller();
 		}
-		await afterSignHook.sign(path.join(ROOT, 'dist', renamedOclifInstallers.darwin)); // File to notarize
+		await afterSignHook.sign(
+			path.join(ROOT, 'dist', renamedOclifInstallers.darwin),
+		); // File to notarize
 		console.log(`oclif installer build completed`);
 	}
 }
