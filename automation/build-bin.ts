@@ -28,7 +28,6 @@ import * as path from 'path';
 import * as rimraf from 'rimraf';
 import * as semver from 'semver';
 import * as util from 'util';
-import { notarize } from 'electron-notarize';
 
 import { stripIndent } from '../lib/utils/lazy';
 import {
@@ -346,7 +345,7 @@ async function signWindowsInstaller() {
 
 async function afterSignHook(filePath: string): Promise<void> {
 	const appleId = 'accounts+apple@balena.io';
-
+	const { notarize } = await import('electron-notarize');
 	await notarize({
 		appBundleId: 'io.balena.etcher',
 		appPath: filePath,
