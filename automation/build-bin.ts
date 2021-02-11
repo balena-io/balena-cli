@@ -343,12 +343,12 @@ async function signWindowsInstaller() {
 	}
 }
 
-async function afterSignHook(filePath: string): Promise<void> {
+async function afterSignHook(): Promise<void> {
 	const appleId = 'accounts+apple@balena.io';
 	const { notarize } = await import('electron-notarize');
 	await notarize({
 		appBundleId: 'io.balena.etcher',
-		appPath: filePath,
+		appPath: renamedOclifInstallers.darwin,
 		appleId,
 		appleIdPassword: '@keychain:CLI_PASSWORD',
 	});
@@ -393,7 +393,7 @@ export async function buildOclifInstaller() {
 		if (process.platform === 'win32') {
 			await signWindowsInstaller();
 		}
-		await afterSignHook(path.join(ROOT, 'dist', renamedOclifInstallers.darwin)); // File to notarize
+		await afterSignHook(); // File to notarize
 		console.log(`oclif installer build completed`);
 	}
 }
