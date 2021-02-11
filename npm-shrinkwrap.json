@@ -5229,6 +5229,33 @@
         "jake": "^10.6.1"
       }
     },
+    "electron-notarize": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/electron-notarize/-/electron-notarize-1.0.0.tgz",
+      "integrity": "sha512-dsib1IAquMn0onCrNMJ6gtEIZn/azG8hZMCYOuZIMVMUeRMgBYHK1s5TK9P8xAcrAjh/2aN5WYHzgVSWX314og==",
+      "requires": {
+        "debug": "^4.1.1",
+        "fs-extra": "^9.0.1"
+      },
+      "dependencies": {
+        "fs-extra": {
+          "version": "9.1.0",
+          "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-9.1.0.tgz",
+          "integrity": "sha512-hcg3ZmepS30/7BSFqRvoo3DOMQu7IjqxO5nCDt+zM9XWjb33Wg7ziNT+Qvqbuc3+gWpzO02JubVyk2G4Zvo1OQ==",
+          "requires": {
+            "at-least-node": "^1.0.0",
+            "graceful-fs": "^4.2.0",
+            "jsonfile": "^6.0.1",
+            "universalify": "^2.0.0"
+          }
+        },
+        "universalify": {
+          "version": "2.0.0",
+          "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.0.tgz",
+          "integrity": "sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ=="
+        }
+      }
+    },
     "emoji-regex": {
       "version": "8.0.0",
       "resolved": "https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz",
