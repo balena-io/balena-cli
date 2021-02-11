@@ -28,7 +28,7 @@ import * as path from 'path';
 import * as rimraf from 'rimraf';
 import * as semver from 'semver';
 import * as util from 'util';
-import * as afterSignHook from './afterSignHook';
+import { notarize } from 'electron-notarize';
 
 import { stripIndent } from '../lib/utils/lazy';
 import {
@@ -344,6 +344,17 @@ async function signWindowsInstaller() {
 	}
 }
 
+async function afterSignHook(filePath: string): Promise<void> {
+	const appleId = 'accounts+apple@balena.io';
+
+	await notarize({
+		appBundleId: 'io.balena.etcher',
+		appPath: filePath,
+		appleId,
+		appleIdPassword: '@keychain:CLI_PASSWORD',
+	});
+}
+
 /**
  * Run the `oclif-dev pack:win` or `pack:macos` command (depending on the value
  * of process.platform) to generate the native installers (which end up under
@@ -383,9 +394,7 @@ export async function buildOclifInstaller() {
 		if (process.platform === 'win32') {
 			await signWindowsInstaller();
 		}
-		await afterSignHook.sign(
-			path.join(ROOT, 'dist', renamedOclifInstallers.darwin),
-		); // File to notarize
+		await afterSignHook(path.join(ROOT, 'dist', renamedOclifInstallers.darwin)); // File to notarize
 		console.log(`oclif installer build completed`);
 	}
 }
