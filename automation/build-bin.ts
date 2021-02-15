@@ -343,6 +343,9 @@ async function signWindowsInstaller() {
 	}
 }
 
+/**
+ * Wait for Apple Installer Notarization to continue
+ */
 async function afterSignHook(): Promise<void> {
 	const appleId = 'accounts+apple@balena.io';
 	const { notarize } = await import('electron-notarize');
