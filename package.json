@@ -104,6 +104,11 @@
       "identifier": "io.balena.cli",
       "sign": "Developer ID Installer: Balena Ltd (66H43P8FRG)"
     },
+    "update": {
+      "s3": {
+        "bucket": "2048cli"
+      }
+    },
     "plugins": [
       "@oclif/plugin-help"
     ]
