@@ -21,7 +21,7 @@
     "oclif.manifest.json"
   ],
   "bin": {
-    "balena": "bin/balena"
+    "balena": "./bin/balena"
   },
   "pkg": {
     "scripts": [
