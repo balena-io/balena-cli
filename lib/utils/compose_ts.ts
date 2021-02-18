@@ -86,15 +86,15 @@ async function buildArgumentsFromInput(
 		if (match[1]) {
 			// This is for a service, we check that it actually exists
 			if (!(match[1] in ret.services)) {
-				Logger.getLogger().logWarn(
-					`Warning: Cannot find a service with name ${match[1]}. Treating the string as part of the build argument variable name.`,
+				throw new ExpectedError(
+					`Cannot find a service with name ${match[1]} specified in build argument: ${buildArg}`,
 				);
-				match[2] = `${match[1]}:${match[2]}`;
 			} else {
 				service = match[1];
 			}
 		}
 
+		// Set build argument either as global or service specific
 		if (service != null) {
 			ret.services[service][match[2]] = match[3];
 		} else {
@@ -803,43 +803,77 @@ export async function tarDirectory(
 	}
 }
 
-function setConfig(
-	configPath: string,
-	configData: MultiBuild.ParsedBalenaYml,
+/**
+ * Add or override a `build-variables` section to the `.balena/balena.yml`
+ * build metadata, with the contents of any `--buildArgs` flags provided
+ * on the command line.
+ */
+function addBuildVariablesToBuildMetadata(
+	metadataPath: string,
+	metadata: MultiBuild.ParsedBalenaYml,
 	buildArgs: ParsedBuildArguments,
 ): string {
-	const config = configData as any;
-	config['build-variables'] ||= {};
+	metadata['build-variables'] ||= {};
+	metadata['build-variables'].services ||= {};
 
-	// Set global build variables if specified
-	if (!_.isEmpty(buildArgs.global)) {
-		config['build-variables'].global ||= [];
-		config['build-variables'].global = [
-			...config['build-variables'].global,
-			..._.map(buildArgs.global, (value: string, key: string) => {
-				return `${key}=${value}`;
-			}),
-		];
+	// Convert build variable sets to dictionaries if necessary
+	if (_.isArray(metadata['build-variables'].global)) {
+		const cloned = _.clone(metadata['build-variables'].global);
+		metadata['build-variables'].global = {};
+		for (const buildVar of cloned) {
+			const [key, value] = buildVar.split('=');
+			if (metadata['build-variables'] && metadata['build-variables'].global) {
+				metadata['build-variables'].global[key] = value;
+			}
+		}
+	}
+	if (metadata['build-variables'] && metadata['build-variables'].services) {
+		Object.keys(metadata['build-variables'].services).forEach(
+			(service: string) => {
+				if (
+					metadata['build-variables'] &&
+					metadata['build-variables'].services &&
+					_.isArray(metadata['build-variables'].services[service])
+				) {
+					const cloned = _.clone(metadata['build-variables'].services[service]);
+					metadata['build-variables'].services[service] = {};
+					_.forEach(cloned, (buildVar: string) => {
+						if (
+							metadata['build-variables'] &&
+							metadata['build-variables'].services
+						) {
+							const [key, value] = buildVar.split('=');
+							metadata['build-variables'].services[service][key] = value;
+						}
+					});
+				}
+			},
+		);
 	}
 
-	// Set service-level build variables if specified
+	// Set build variables if specified
+	if (!_.isEmpty(buildArgs.global)) {
+		metadata['build-variables'].global = {
+			...metadata['build-variables'].global,
+			...buildArgs.global,
+		};
+	}
 	if (!_.isEmpty(buildArgs.services)) {
-		config['build-variables'].services ||= {};
+		metadata['build-variables'].services ||= {};
 		Object.keys(buildArgs.services).forEach((service: string) => {
-			config['build-variables'].services[service] ||= [];
-			config['build-variables'].services[service] = [
-				...config['build-variables'].services[service],
-				..._.map(buildArgs.services[service], (value: string, key: string) => {
-					return `${key}=${value}`;
-				}),
-			];
+			if (metadata['build-variables'] && metadata['build-variables'].services) {
+				metadata['build-variables'].services[service] = {
+					...metadata['build-variables'].services[service],
+					...buildArgs.services[service],
+				};
+			}
 		});
 	}
 
-	if (configPath.endsWith('json')) {
-		return JSON.stringify(config);
+	if (metadataPath.endsWith('json')) {
+		return JSON.stringify(metadata);
 	} else {
-		return require('js-yaml').dump(config);
+		return require('js-yaml').dump(metadata);
 	}
 }
 
@@ -876,7 +910,11 @@ async function newTarDirectory(
 
 	// Get balena config so we can set extra build variables if provided
 	const parsedBuildArgs = await buildArgumentsFromInput(buildArgs, composition);
-	const [config, configPath] = await loadBuildMetadata(dir);
+	const buildMetadata = await loadBuildMetadata(dir);
+	const metadata = buildMetadata[0];
+
+	// dir and metadataPath are either both relative or both absolute
+	const metadataPath = path.normalize(path.relative(dir, buildMetadata[1]));
 
 	const tar = await import('tar-stream');
 	const pack = tar.pack();
@@ -886,6 +924,7 @@ async function newTarDirectory(
 		dockerignoreFiles,
 	} = await filterFilesWithDockerignore(dir, multiDockerignore, serviceDirs);
 	printDockerignoreWarn(dockerignoreFiles, serviceDirs, multiDockerignore);
+	let foundConfig = false;
 	for (const fileStats of filteredFileList) {
 		pack.entry(
 			{
@@ -894,22 +933,34 @@ async function newTarDirectory(
 				mode: fileStats.stats.mode,
 				size: fileStats.stats.size,
 			},
-			fileStats.relPath === configPath
-				? setConfig(configPath, config, parsedBuildArgs)
+			metadataPath && fileStats.relPath === metadataPath
+				? addBuildVariablesToBuildMetadata(
+						metadataPath,
+						metadata,
+						parsedBuildArgs,
+				  )
 				: await readFile(fileStats.filePath),
 		);
+		if (metadataPath && fileStats.relPath === metadataPath) {
+			foundConfig = true;
+		}
 	}
 	if (
-		configPath === '' &&
+		!foundConfig &&
 		(!_.isEmpty(parsedBuildArgs.global) || !_.isEmpty(parsedBuildArgs.services))
 	) {
-		const configData = setConfig('.balena/balena.yml', {}, parsedBuildArgs);
+		const configData = addBuildVariablesToBuildMetadata(
+			'.balena/balena.yml',
+			{},
+			parsedBuildArgs,
+		);
+		const buf = Buffer.from(configData);
 		pack.entry(
 			{
-				name: toPosixPath('.balena/balena.yml'),
-				size: configData.length,
+				name: '.balena/balena.yml',
+				size: buf.length,
 			},
-			configData,
+			buf,
 		);
 	}
 	if (preFinalizeCallback) {
