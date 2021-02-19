@@ -813,67 +813,43 @@ function addBuildVariablesToBuildMetadata(
 	metadata: MultiBuild.ParsedBalenaYml,
 	buildArgs: ParsedBuildArguments,
 ): string {
+	const { parseBuildArgs } = require('./docker') as typeof import('./docker');
 	metadata['build-variables'] ||= {};
-	metadata['build-variables'].services ||= {};
+	const bvars = metadata['build-variables'];
 
-	// Convert build variable sets to dictionaries if necessary
-	if (_.isArray(metadata['build-variables'].global)) {
-		const cloned = _.clone(metadata['build-variables'].global);
-		metadata['build-variables'].global = {};
-		for (const buildVar of cloned) {
-			const [key, value] = buildVar.split('=');
-			if (metadata['build-variables'] && metadata['build-variables'].global) {
-				metadata['build-variables'].global[key] = value;
-			}
-		}
+	// Convert build variable arrays to dictionaries if necessary
+	if (Array.isArray(bvars.global)) {
+		bvars.global = parseBuildArgs(bvars.global);
 	}
-	if (metadata['build-variables'] && metadata['build-variables'].services) {
-		Object.keys(metadata['build-variables'].services).forEach(
-			(service: string) => {
-				if (
-					metadata['build-variables'] &&
-					metadata['build-variables'].services &&
-					_.isArray(metadata['build-variables'].services[service])
-				) {
-					const cloned = _.clone(metadata['build-variables'].services[service]);
-					metadata['build-variables'].services[service] = {};
-					_.forEach(cloned, (buildVar: string) => {
-						if (
-							metadata['build-variables'] &&
-							metadata['build-variables'].services
-						) {
-							const [key, value] = buildVar.split('=');
-							metadata['build-variables'].services[service][key] = value;
-						}
-					});
-				}
-			},
-		);
+	for (const [service, vars] of Object.entries(bvars.services || {})) {
+		if (Array.isArray(vars)) {
+			bvars.services![service] = parseBuildArgs(vars);
+		}
 	}
 
 	// Set build variables if specified
 	if (!_.isEmpty(buildArgs.global)) {
-		metadata['build-variables'].global = {
-			...metadata['build-variables'].global,
+		bvars.global = {
+			...bvars.global,
 			...buildArgs.global,
 		};
 	}
 	if (!_.isEmpty(buildArgs.services)) {
-		metadata['build-variables'].services ||= {};
-		Object.keys(buildArgs.services).forEach((service: string) => {
-			if (metadata['build-variables'] && metadata['build-variables'].services) {
-				metadata['build-variables'].services[service] = {
-					...metadata['build-variables'].services[service],
-					...buildArgs.services[service],
-				};
-			}
-		});
+		bvars.services ||= {};
+		for (const [service, vars] of Object.entries(bvars.services)) {
+			bvars.services[service] = {
+				...vars,
+				...buildArgs.services[service],
+			};
+		}
 	}
 
 	if (metadataPath.endsWith('json')) {
-		return JSON.stringify(metadata);
+		return JSON.stringify(metadata, null, 4);
 	} else {
-		return require('js-yaml').dump(metadata);
+		return (require('js-yaml') as typeof import('js-yaml')).dump(metadata, {
+			indent: 4,
+		});
 	}
 }
 
@@ -923,9 +899,22 @@ async function newTarDirectory(
 		filteredFileList,
 		dockerignoreFiles,
 	} = await filterFilesWithDockerignore(dir, multiDockerignore, serviceDirs);
+
 	printDockerignoreWarn(dockerignoreFiles, serviceDirs, multiDockerignore);
+
 	let foundConfig = false;
 	for (const fileStats of filteredFileList) {
+		let buf: Buffer | string;
+		if (metadataPath && fileStats.relPath === metadataPath) {
+			buf = addBuildVariablesToBuildMetadata(
+				metadataPath,
+				metadata,
+				parsedBuildArgs,
+			);
+			foundConfig = true;
+		} else {
+			buf = await readFile(fileStats.filePath);
+		}
 		pack.entry(
 			{
 				name: toPosixPath(fileStats.relPath),
@@ -933,17 +922,8 @@ async function newTarDirectory(
 				mode: fileStats.stats.mode,
 				size: fileStats.stats.size,
 			},
-			metadataPath && fileStats.relPath === metadataPath
-				? addBuildVariablesToBuildMetadata(
-						metadataPath,
-						metadata,
-						parsedBuildArgs,
-				  )
-				: await readFile(fileStats.filePath),
+			buf,
 		);
-		if (metadataPath && fileStats.relPath === metadataPath) {
-			foundConfig = true;
-		}
 	}
 	if (
 		!foundConfig &&

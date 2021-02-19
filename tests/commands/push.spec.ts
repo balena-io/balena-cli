@@ -76,6 +76,16 @@ const commonQueryParams = [
 const hr =
 	'----------------------------------------------------------------------';
 
+const modifiedBalenaYml = `\
+build-variables:
+    global:
+        MY_VAR_1: This is a variable
+        MY_VAR_2: Also a variable
+    services:
+        service1:
+            SERVICE1_VAR: This is a service specific variable
+`;
+
 describe('balena push', function () {
 	let api: BalenaAPIMock;
 	let builder: BuilderMock;
@@ -256,7 +266,7 @@ describe('balena push', function () {
 			'dockerignore1',
 		);
 		const expectedFiles: ExpectedTarStreamFiles = {
-			'.balena/balena.yml': { fileSize: 12, type: 'file' },
+			'.balena/balena.yml': { fileSize: 196, type: 'file' },
 			'.dockerignore': { fileSize: 438, type: 'file' },
 			'.gitignore': { fileSize: 20, type: 'file' },
 			'.git/bar.txt': { fileSize: 4, type: 'file' },
@@ -322,7 +332,11 @@ describe('balena push', function () {
 			'dockerignore1',
 		);
 		const expectedFiles: ExpectedTarStreamFiles = {
-			'.balena/balena.yml': { fileSize: 12, type: 'file' },
+			'.balena/balena.yml': {
+				contents: modifiedBalenaYml,
+				fileSize: modifiedBalenaYml.length,
+				type: 'file',
+			},
 			'.dockerignore': { fileSize: 438, type: 'file' },
 			'.gitignore': { fileSize: 20, type: 'file' },
 			'.git/foo.txt': { fileSize: 4, type: 'file' },
@@ -462,7 +476,11 @@ describe('balena push', function () {
 	it('should create the expected tar stream (docker-compose)', async () => {
 		const projectPath = path.join(projectsPath, 'docker-compose', 'basic');
 		const expectedFiles: ExpectedTarStreamFiles = {
-			'.balena/balena.yml': { fileSize: 197, type: 'file' },
+			'.balena/balena.yml': {
+				contents: modifiedBalenaYml,
+				fileSize: modifiedBalenaYml.length,
+				type: 'file',
+			},
 			'.dockerignore': { fileSize: 22, type: 'file' },
 			'docker-compose.yml': { fileSize: 332, type: 'file' },
 			'service1/Dockerfile.template': { fileSize: 144, type: 'file' },
@@ -520,7 +538,11 @@ describe('balena push', function () {
 	it('should create the expected tar stream (docker-compose, --multi-dockerignore)', async () => {
 		const projectPath = path.join(projectsPath, 'docker-compose', 'basic');
 		const expectedFiles: ExpectedTarStreamFiles = {
-			'.balena/balena.yml': { fileSize: 197, type: 'file' },
+			'.balena/balena.yml': {
+				contents: modifiedBalenaYml,
+				fileSize: modifiedBalenaYml.length,
+				type: 'file',
+			},
 			'.dockerignore': { fileSize: 22, type: 'file' },
 			'docker-compose.yml': { fileSize: 332, type: 'file' },
 			'service1/Dockerfile.template': { fileSize: 144, type: 'file' },

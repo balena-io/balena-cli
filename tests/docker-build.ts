@@ -136,7 +136,10 @@ async function defaultTestStream(
 	]);
 	const msg = stripIndent`
 		contents mismatch for tar stream entry "${header.name}"
-		stream length=${buf.length}, filesystem length=${buf2.length}`;
+		stream length=${buf.length}, filesystem length=${buf2.length}
+		stream contents:\n${buf.toString()}
+		filesystem contents:\n${buf2.toString()}
+		`;
 
 	expect(buf.equals(buf2), msg).to.be.true;
 }
