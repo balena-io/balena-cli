@@ -2618,16 +2618,6 @@
         "balena-errors": "^4.2.1",
         "pinejs-client-core": "^6.9.0",
         "tslib": "^2.0.1"
-      },
-      "dependencies": {
-        "pinejs-client-core": {
-          "version": "6.9.3",
-          "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-6.9.3.tgz",
-          "integrity": "sha512-0UbVdM0dYu0UKX57RcpMBYbMO+pgBe4EOxq+7SQrAkeHQN/lJgm2sj0blLgVfVrn34wCcw8JZZzGv7YnrDjTqg==",
-          "requires": {
-            "@balena/es-version": "^1.0.0"
-          }
-        }
       }
     },
     "balena-preload": {
@@ -2688,9 +2678,9 @@
       }
     },
     "balena-release": {
-      "version": "3.0.0",
-      "resolved": "https://registry.npmjs.org/balena-release/-/balena-release-3.0.0.tgz",
-      "integrity": "sha512-LYgPGBUnqJY+ajhTWE2BizyaRNxitxPSIZp4xGWDHbpVHmwKaV4p3d6nw1Hf9kEHP4dLELJvnNXq2EKV2IpTFA==",
+      "version": "3.0.1-release-version-46a2c6ce263be21fa53d1cf5bd89d1f169714639",
+      "resolved": "https://registry.npmjs.org/balena-release/-/balena-release-3.0.1-release-version-46a2c6ce263be21fa53d1cf5bd89d1f169714639.tgz",
+      "integrity": "sha512-S6frw8vWxu95/wYdTH4/YsFtQLg/yQEGSyu4gXPRIZvJQK0Omk+3qIO0uBKITO7YFs8yzbeRm4K3P2QVjkGbWQ==",
       "requires": {
         "@types/bluebird": "^3.5.18",
         "@types/node": "^8.0.55",
@@ -2702,9 +2692,9 @@
       },
       "dependencies": {
         "@types/node": {
-          "version": "8.10.62",
-          "resolved": "https://registry.npmjs.org/@types/node/-/node-8.10.62.tgz",
-          "integrity": "sha512-76fupxOYVxk36kb7O/6KtrAPZ9jnSK3+qisAX4tQMEuGNdlvl7ycwatlHqjoE6jHfVtXFM3pCrCixZOidc5cuw=="
+          "version": "8.10.66",
+          "resolved": "https://registry.npmjs.org/@types/node/-/node-8.10.66.tgz",
+          "integrity": "sha512-tktOkFUA4kXx2hhhrB8bIFb5TbwzS4uOhKEmwiD+NoiL0qtP2OQ9mFldbgD4dV1djrlBYP6eBuQZiWjuHUpqFw=="
         }
       }
     },
@@ -12024,26 +12014,33 @@
       "integrity": "sha1-5aSs0sEB/fPZpNB/DbxNtJ3SgXY="
     },
     "pinejs-client-core": {
-      "version": "6.7.3",
-      "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-6.7.3.tgz",
-      "integrity": "sha512-VXX/EpbDC/LiEPix/S9gENsaruoa2N0GHzmEbf9jYZ7qhwGNJjGlnQXQ1AnE/cjHYgHOo2RnMYKJ+iBakFgnWQ==",
+      "version": "6.9.3",
+      "resolved": "https://registry.npmjs.org/pinejs-client-core/-/pinejs-client-core-6.9.3.tgz",
+      "integrity": "sha512-0UbVdM0dYu0UKX57RcpMBYbMO+pgBe4EOxq+7SQrAkeHQN/lJgm2sj0blLgVfVrn34wCcw8JZZzGv7YnrDjTqg==",
       "requires": {
         "@balena/es-version": "^1.0.0"
       }
     },
     "pinejs-client-request": {
-      "version": "7.2.0",
-      "resolved": "https://registry.npmjs.org/pinejs-client-request/-/pinejs-client-request-7.2.0.tgz",
-      "integrity": "sha512-rzUbSc3AkxHKlEz3TeJ5txABoxVsrYGSLjcv9uS3A7oVuObF8vD/CUFredJ/5m3hnvSRRIpRl0nPyugRAqTS+g==",
+      "version": "7.3.0",
+      "resolved": "https://registry.npmjs.org/pinejs-client-request/-/pinejs-client-request-7.3.0.tgz",
+      "integrity": "sha512-l3nyLCOqYRo9agvSODnpyY38HWjxAafpl27aGS/pBp39z5Dn9VHdVvAHaVccr5i+OA3TxugqJxsSjlgUjZ4hMw==",
       "requires": {
-        "@types/lodash": "^4.14.159",
+        "@types/lodash": "^4.14.165",
         "@types/lru-cache": "^5.1.0",
         "@types/request": "^2.48.5",
-        "lodash": "^4.17.19",
+        "lodash": "^4.17.20",
         "lru-cache": "^6.0.0",
-        "pinejs-client-core": "^6.6.1",
+        "pinejs-client-core": "^6.9.3",
         "request": "^2.88.2",
         "typed-error": "^3.2.1"
+      },
+      "dependencies": {
+        "@types/lodash": {
+          "version": "4.14.168",
+          "resolved": "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.168.tgz",
+          "integrity": "sha512-oVfRvqHV/V6D1yifJbVRU3TMp8OT6o6BG+U9MkwuJ3U8/CsDHvalRpsxBqivn71ztOFZBTfJMvETbqHiaNSj7Q=="
+        }
       }
     },
     "pinkie": {

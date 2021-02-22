@@ -54,6 +54,7 @@ interface FlagsDef extends ComposeCliFlags, DockerCliFlags {
 	build: boolean;
 	nologupload: boolean;
 	'release-tag'?: string[];
+	'release-version'?: string;
 	help: void;
 }
 
@@ -94,6 +95,7 @@ ${dockerignoreHelp}
 		'$ balena deploy myApp',
 		'$ balena deploy myApp --build --source myBuildDir/',
 		'$ balena deploy myApp myApp/myImage',
+		'$ balena deploy myApp myApp/myImage --release-version "v1.1.1"',
 		'$ balena deploy myApp myApp/myImage --release-tag key1 "" key2 "value2 with spaces"',
 	];
 
@@ -124,6 +126,11 @@ ${dockerignoreHelp}
 		nologupload: flags.boolean({
 			description:
 				"don't upload build logs to the dashboard with image (if building)",
+		}),
+		'release-version': flags.string({
+			description: stripIndent`
+				Set release version to uniquely identify this release within your app.
+			`,
 		}),
 		'release-tag': flags.string({
 			description: stripIndent`
@@ -210,6 +217,7 @@ ${dockerignoreHelp}
 			shouldUploadLogs: !options.nologupload,
 			buildEmulated: !!options.emulated,
 			buildOpts,
+			version: options['release-version'],
 		});
 		await applyReleaseTagKeysAndValues(
 			sdk,
@@ -232,6 +240,7 @@ ${dockerignoreHelp}
 			shouldUploadLogs: boolean;
 			buildEmulated: boolean;
 			buildOpts: any; // arguments to forward to docker build command
+			version?: string;
 		},
 	) {
 		const _ = await import('lodash');
@@ -363,6 +372,7 @@ ${dockerignoreHelp}
 					`Bearer ${auth}`,
 					apiEndpoint,
 					!opts.shouldUploadLogs,
+					opts.version,
 				);
 			}
 

@@ -91,6 +91,7 @@ export interface Release {
 		| 'source'
 		| 'start_timestamp'
 		| 'end_timestamp'
+		| 'release_version'
 	>;
 	serviceImages: Partial<import('balena-release/build/models').ImageModel>;
 }

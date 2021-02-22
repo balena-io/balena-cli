@@ -1296,6 +1296,7 @@ export async function deployProject(
 	auth: string,
 	apiEndpoint: string,
 	skipLogUpload: boolean,
+	version?: string,
 ): Promise<import('balena-release/build/models').ReleaseModel> {
 	const releaseMod = await import('balena-release');
 	const { createRelease, tagServiceImages } = await import('./compose');
@@ -1313,6 +1314,7 @@ export async function deployProject(
 			userId,
 			appId,
 			composition,
+			version,
 		);
 	} finally {
 		runloop.end();
