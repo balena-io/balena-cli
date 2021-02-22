@@ -395,8 +395,9 @@ export async function buildOclifInstaller() {
 		// (`oclif.macos.sign` section).
 		if (process.platform === 'win32') {
 			await signWindowsInstaller();
+		} else if (process.platform === 'darwin') {
+			await afterSignHook(); // File to notarize
 		}
-		await afterSignHook(); // File to notarize
 		console.log(`oclif installer build completed`);
 	}
 }
