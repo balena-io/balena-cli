@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "docs: Fix missing markdown docs for device `deactivate` and `local-mode`",
+          "hash": "b90c9b0d7e59353101213c6be22eaff9a9c0b274",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.40.2",
+      "date": "2021-02-23T22:17:49.326Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "docs: emphasize that push emulation is not required in most cases",
           "hash": "c8e4d2c9a69e23ea0d324fadd424340a67ba9a08",
           "body": "",
@@ -21229,39 +21246,43 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-02-23T14:55:03Z",
+  "lastCommitDate": "2021-02-23T22:45:01Z",
   "latestRelease": {
-    "tagName": "v12.40.1",
+    "tagName": "v12.40.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.40.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.1/balena-cli-v12.40.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.40.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.2/balena-cli-v12.40.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.40.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.1/balena-cli-v12.40.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.40.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.2/balena-cli-v12.40.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.40.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.1/balena-cli-v12.40.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.40.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.2/balena-cli-v12.40.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.40.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.1/balena-cli-v12.40.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.40.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.2/balena-cli-v12.40.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.40.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.1/balena-cli-v12.40.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.40.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.2/balena-cli-v12.40.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 316,
+    "numberOfIssues": 317,
     "latestIssues": [
       {
-        "title": "deploy: support passing in `release_version` as an arg",
-        "url": "https://github.com/balena-io/balena-cli/pull/2193"
+        "title": "Support local mode in \"balena tunnel\"",
+        "url": "https://github.com/balena-io/balena-cli/issues/2196"
+      },
+      {
+        "title": "Livepush not restarting container",
+        "url": "https://github.com/balena-io/balena-cli/issues/2195"
       },
       {
         "title": "npm-shrinkwrap github URLs not supported by Yocto bitbake npmsw handler",
@@ -21334,14 +21355,10 @@
       {
         "title": "dockerfiles: initial commit of balenalib dockerfiles",
         "url": "https://github.com/balena-io/balena-cli/pull/2159"
-      },
-      {
-        "title": "feat(ci): add github action flow",
-        "url": "https://github.com/balena-io/balena-cli/pull/2157"
       }
     ]
   },
-  "version": "12.40.1",
+  "version": "12.40.2",
   "screenshot": null,
   "logo": null
 }
