@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'docs: emphasize that push emulation is not required in most cases'
+      hash: c8e4d2c9a69e23ea0d324fadd424340a67ba9a08
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 12.40.1
+  date: 2021-02-23T13:58:03.059Z
+- commits:
     - subject: Add support for docker-compose dev overlay in local pushes
       hash: f3d750a0247ae0f272392666d9d243ed65e8e4e6
       body: ''
