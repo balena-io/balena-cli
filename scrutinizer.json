@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "docs: emphasize that push emulation is not required in most cases",
+          "hash": "c8e4d2c9a69e23ea0d324fadd424340a67ba9a08",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+            "signed-off-by": "Kyle Harding <kyle@balena.io>"
+          },
+          "author": "Kyle Harding",
+          "nested": []
+        }
+      ],
+      "version": "12.40.1",
+      "date": "2021-02-23T13:58:03.059Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add support for docker-compose dev overlay in local pushes",
           "hash": "f3d750a0247ae0f272392666d9d243ed65e8e4e6",
           "body": "",
@@ -21066,6 +21085,10 @@
       "avatar": "https://avatars.githubusercontent.com/u/44225870?v=4"
     },
     {
+      "username": "klutchell",
+      "avatar": "https://avatars.githubusercontent.com/u/20458272?v=4"
+    },
+    {
       "username": "lifeeth",
       "avatar": "https://avatars.githubusercontent.com/u/19370?v=4"
     },
@@ -21084,10 +21107,6 @@
     {
       "username": "chrisys",
       "avatar": "https://avatars.githubusercontent.com/u/521698?v=4"
-    },
-    {
-      "username": "nazrhom",
-      "avatar": "https://avatars.githubusercontent.com/u/6810908?v=4"
     }
   ],
   "docs": [],
@@ -21110,7 +21129,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 295,
+  "stars": 302,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -21210,39 +21229,71 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-02-10T01:28:52Z",
+  "lastCommitDate": "2021-02-23T14:55:03Z",
   "latestRelease": {
-    "tagName": "v12.40.0",
+    "tagName": "v12.40.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.40.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.0/balena-cli-v12.40.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.40.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.1/balena-cli-v12.40.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.40.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.0/balena-cli-v12.40.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.40.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.1/balena-cli-v12.40.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.40.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.0/balena-cli-v12.40.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.40.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.1/balena-cli-v12.40.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.40.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.0/balena-cli-v12.40.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.40.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.1/balena-cli-v12.40.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.40.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.0/balena-cli-v12.40.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.40.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.1/balena-cli-v12.40.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 308,
+    "numberOfIssues": 316,
     "latestIssues": [
       {
-        "title": "Test CLI notarization",
-        "url": "https://github.com/balena-io/balena-cli/pull/2182"
+        "title": "deploy: support passing in `release_version` as an arg",
+        "url": "https://github.com/balena-io/balena-cli/pull/2193"
+      },
+      {
+        "title": "npm-shrinkwrap github URLs not supported by Yocto bitbake npmsw handler",
+        "url": "https://github.com/balena-io/balena-cli/issues/2192"
+      },
+      {
+        "title": "`balena build` incorrectly reports ARM v7 or v8 instead of ARM v6",
+        "url": "https://github.com/balena-io/balena-cli/issues/2190"
+      },
+      {
+        "title": "[analytics] identify when running in container",
+        "url": "https://github.com/balena-io/balena-cli/issues/2188"
+      },
+      {
+        "title": "[analytics] Start tracking `contract_repo_name` and `contract_repo_url`",
+        "url": "https://github.com/balena-io/balena-cli/issues/2187"
+      },
+      {
+        "title": "Update macOS installer to avoid Apple's warning pop-up",
+        "url": "https://github.com/balena-io/balena-cli/pull/2186"
+      },
+      {
+        "title": "When using local mode, any multi-line prints to the console will not be sent back using either balena push or balena logs.",
+        "url": "https://github.com/balena-io/balena-cli/issues/2185"
+      },
+      {
+        "title": "Replace direct Pine.js usage with balena Node SDK",
+        "url": "https://github.com/balena-io/balena-cli/issues/2184"
+      },
+      {
+        "title": "`balena deploy` should parse, validate, and create a contract as part of the release it creates",
+        "url": "https://github.com/balena-io/balena-cli/issues/2183"
       },
       {
         "title": "Update INSTALL-MAC.md",
@@ -21287,42 +21338,10 @@
       {
         "title": "feat(ci): add github action flow",
         "url": "https://github.com/balena-io/balena-cli/pull/2157"
-      },
-      {
-        "title": "'balena push' should print the amount of data and number of files being uploaded",
-        "url": "https://github.com/balena-io/balena-cli/issues/2155"
-      },
-      {
-        "title": "balena os download hangs on 83%, errors out with unexpected end of file at Zlib.zlibOnError ",
-        "url": "https://github.com/balena-io/balena-cli/issues/2152"
-      },
-      {
-        "title": "`balena scan` on WSL2 does not find any devices.",
-        "url": "https://github.com/balena-io/balena-cli/issues/2150"
-      },
-      {
-        "title": "`balena scan` sudo issue",
-        "url": "https://github.com/balena-io/balena-cli/issues/2149"
-      },
-      {
-        "title": "v13 preparations: Standardize command data output",
-        "url": "https://github.com/balena-io/balena-cli/pull/2147"
-      },
-      {
-        "title": "build, deploy: Add support for multi-architecture base images",
-        "url": "https://github.com/balena-io/balena-cli/pull/2145"
-      },
-      {
-        "title": "Support Windows for `balena os configure` command",
-        "url": "https://github.com/balena-io/balena-cli/issues/2140"
-      },
-      {
-        "title": "livepush loses track of deleted files",
-        "url": "https://github.com/balena-io/balena-cli/issues/2134"
       }
     ]
   },
-  "version": "12.40.0",
+  "version": "12.40.1",
   "screenshot": null,
   "logo": null
 }

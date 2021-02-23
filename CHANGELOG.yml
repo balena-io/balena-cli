@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'docs: emphasize that push emulation is not required in most cases'
+      hash: c8e4d2c9a69e23ea0d324fadd424340a67ba9a08
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 12.40.1
+  date: 2021-02-23T14:53:59.016Z
+- commits:
     - subject: Add support for docker-compose dev overlay in local pushes
       hash: f3d750a0247ae0f272392666d9d243ed65e8e4e6
       body: ''
@@ -10,7 +23,7 @@
       author: Scott Lowe
       nested: []
   version: 12.40.0
-  date: 2021-02-10T01:27:51.368Z
+  date: 2021-02-09T12:18:40.185Z
 - commits:
     - subject: 'build/deploy: fix emulated builds to use fully static qemu binaries'
       hash: 15fc805f893d330af3c733c40bd2d7ae35a2cb98
