@@ -135,8 +135,9 @@ export default class PushCmd extends Command {
 		}),
 		emulated: flags.boolean({
 			description: stripIndent`
-				Don't use native ARM servers; force QEMU ARM emulation on Intel x86-64
-				servers during the image build (balenaCloud).`,
+				Don't use the faster, native balenaCloud ARM builders; force slower QEMU ARM
+				emulation on Intel x86-64 builders. This flag is sometimes used to investigate
+				suspected issues with the balenaCloud backend.`,
 			char: 'e',
 			default: false,
 		}),
