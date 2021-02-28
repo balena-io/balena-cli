@@ -43,7 +43,7 @@ are supported. Alternative shells include:
 
 On **macOS** and **Linux,** the standard terminal window is supported. Optionally, `bash` command
 auto completion may be enabled by copying the
-[balena-completion.bash](https://github.com/balena-io/balena-cli/blob/master/balena-completion.bash)
+[balena_comp](https://github.com/balena-io/balena-cli/blob/master/completion/balena-completion.bash)
 file to your system's `bash_completion` directory: check [Docker's command completion
 guide](https://docs.docker.com/compose/completion/) for system setup instructions.
 
