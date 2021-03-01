@@ -112,9 +112,9 @@ export interface BuildOpts {
 
 /**
  * Convert an array of variable assignment strings such as:
- *     [ "var1=value1", "var1=value2", "var+3=value3=something" ]
+ *     [ "var1=value1", "var1=value2", "svc:var=value3=something" ]
  * to a dictionary such as:
- *     { var1: "value2", "var+3": "value3=something" }
+ *     { var1: "value2", "svc:var": "value3=something" }
  */
 export function parseBuildArgs(args: string[]): Dictionary<string> {
 	if (!Array.isArray(args)) {

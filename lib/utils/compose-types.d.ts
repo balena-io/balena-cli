@@ -110,5 +110,5 @@ interface TarDirectoryOptions {
 	multiDockerignore?: boolean;
 	nogitignore: boolean;
 	preFinalizeCallback?: (pack: Pack) => void | Promise<void>;
-	buildArgs?: string[];
+	buildargs: Dictionary<string>;
 }

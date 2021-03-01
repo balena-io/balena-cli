@@ -253,6 +253,7 @@ ${dockerignoreHelp}
 			dockerfilePath: composeOpts.dockerfilePath,
 			nogitignore: composeOpts.nogitignore,
 			multiDockerignore: composeOpts.multiDockerignore,
+			buildargs: opts.buildOpts.buildargs || {},
 		});
 	}
 }

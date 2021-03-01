@@ -46,66 +46,37 @@ import { getBalenaSdk, getChalk, stripIndent } from './lazy';
 import Logger = require('./logger');
 
 /**
- * Return a set of build arguments passed in as flag options.
- *
- * @param buildArgs List of raw build argument strings
- * @param composition Optional previously parsed composition object
+ * Parse build argument input from flags like `--buildArg service1:var1=value1`
+ * to produce an object in a similar format as the build-variables section of
+ * the `./.balena/balena.yml` file, separating service-specific build arguments
+ * from global build arguments.
+ * @param buildargs --buildArg flag input in dictionary format
  */
-async function buildArgumentsFromInput(
-	buildArgs: string[],
+async function parseMetadataFromFlags(
+	buildargs: Dictionary<string>,
 	composition?: Composition,
 ): Promise<ParsedBuildArguments> {
-	const serviceNames: string[] =
-		composition && composition.services
-			? Object.keys(composition.services)
-			: [];
-
-	// A normal variable regex, with an added part
-	// to find a colon followed service name at the start
-	const varRegex = /^(?:([^\s:]+):)?([^\s]+?)=(.*)$/;
-
+	const serviceNames = Object.keys(composition?.services || {});
 	const ret: ParsedBuildArguments = {
 		global: {},
 		services: {},
 	};
-	// Populate the object with the service names, as it also
-	// means that we can do a fast lookup of whether a service exists
-	for (const service of serviceNames) {
-		ret.services[service] = {};
-	}
 
-	for (const buildArg of buildArgs) {
-		const maybeMatch = buildArg.match(varRegex);
-		if (maybeMatch == null) {
+	for (const [argSpec, argValue] of Object.entries(buildargs)) {
+		const i = argSpec.indexOf(':', 1);
+		const service = i > 0 ? argSpec.substring(0, i) : '';
+		const argName = i > 0 ? argSpec.substring(i + 1) : argSpec;
+		if (service && !serviceNames.includes(service)) {
 			throw new ExpectedError(
-				`Unable to parse build argument variable: ${buildArg}`,
+				`Cannot find a service with name ${service} specified in build argument: ${argSpec}`,
 			);
 		}
-		const match = maybeMatch!;
-		let service: string | undefined;
-		if (match[1]) {
-			// This is for a service, we check that it actually exists
-			if (!(match[1] in ret.services)) {
-				throw new ExpectedError(
-					`Cannot find a service with name ${match[1]} specified in build argument: ${buildArg}`,
-				);
-			} else {
-				service = match[1];
-			}
-		}
-
 		// Set build argument either as global or service specific
-		if (service != null) {
-			ret.services[service][match[2]] = match[3];
+		if (service) {
+			ret.services[service] ||= {};
+			ret.services[service][argName] = argValue;
 		} else {
-			ret.global[match[2]] = match[3];
-		}
-	}
-
-	// Remove services that have no build variables.
-	for (const service of serviceNames) {
-		if (_.isEmpty(ret.services[service])) {
-			Reflect.deleteProperty(ret.services, service);
+			ret.global[argName] = argValue;
 		}
 	}
 
@@ -325,6 +296,7 @@ export async function buildProject(opts: {
 	dockerfilePath?: string;
 	nogitignore: boolean;
 	multiDockerignore: boolean;
+	buildargs: Dictionary<string>;
 }): Promise<BuiltImage[]> {
 	const { logger, projectName } = opts;
 	logger.logInfo(`Building for ${opts.arch}/${opts.deviceType}`);
@@ -804,18 +776,19 @@ export async function tarDirectory(
 }
 
 /**
- * Add or override a `build-variables` section to the `.balena/balena.yml`
- * build metadata, with the contents of any `--buildArgs` flags provided
- * on the command line.
+ * Add or override a `build-variables` section in the `.balena/balena.yml`
+ * metadata file (`metadataFromFile`), with the contents of any `--buildArgs`
+ * flags provided on the command line (`metadataFromFlags`), so that the
+ * command line flags take precedence.
  */
-function addBuildVariablesToBuildMetadata(
+function mergeMetadataFromFlags(
 	metadataPath: string,
-	metadata: MultiBuild.ParsedBalenaYml,
-	buildArgs: ParsedBuildArguments,
+	metadataFromFile: MultiBuild.ParsedBalenaYml,
+	metadataFromFlags: ParsedBuildArguments,
 ): string {
 	const { parseBuildArgs } = require('./docker') as typeof import('./docker');
-	metadata['build-variables'] ||= {};
-	const bvars = metadata['build-variables'];
+	metadataFromFile['build-variables'] ||= {};
+	const bvars = metadataFromFile['build-variables'];
 
 	// Convert build variable arrays to dictionaries if necessary
 	if (Array.isArray(bvars.global)) {
@@ -828,28 +801,31 @@ function addBuildVariablesToBuildMetadata(
 	}
 
 	// Set build variables if specified
-	if (!_.isEmpty(buildArgs.global)) {
+	if (!_.isEmpty(metadataFromFlags.global)) {
 		bvars.global = {
 			...bvars.global,
-			...buildArgs.global,
+			...metadataFromFlags.global,
 		};
 	}
-	if (!_.isEmpty(buildArgs.services)) {
+	if (!_.isEmpty(metadataFromFlags.services)) {
 		bvars.services ||= {};
 		for (const [service, vars] of Object.entries(bvars.services)) {
 			bvars.services[service] = {
 				...vars,
-				...buildArgs.services[service],
+				...metadataFromFlags.services[service],
 			};
 		}
 	}
 
 	if (metadataPath.endsWith('json')) {
-		return JSON.stringify(metadata, null, 4);
+		return JSON.stringify(metadataFromFile, null, 4);
 	} else {
-		return (require('js-yaml') as typeof import('js-yaml')).dump(metadata, {
-			indent: 4,
-		});
+		return (require('js-yaml') as typeof import('js-yaml')).dump(
+			metadataFromFile,
+			{
+				indent: 4,
+			},
+		);
 	}
 }
 
@@ -869,7 +845,7 @@ async function newTarDirectory(
 		multiDockerignore = false,
 		nogitignore = false,
 		preFinalizeCallback,
-		buildArgs = [],
+		buildargs = {},
 	}: TarDirectoryOptions,
 ): Promise<import('stream').Readable> {
 	(await import('assert')).strict.equal(nogitignore, true);
@@ -885,12 +861,15 @@ async function newTarDirectory(
 	}
 
 	// Get balena config so we can set extra build variables if provided
-	const parsedBuildArgs = await buildArgumentsFromInput(buildArgs, composition);
-	const buildMetadata = await loadBuildMetadata(dir);
-	const metadata = buildMetadata[0];
+	const metadataFromFlags = await parseMetadataFromFlags(
+		buildargs,
+		composition,
+	);
+	const [metadataFromFile, rawPath] = await loadBuildMetadata(dir);
+	// const metadata = buildMetadata[0];
 
 	// dir and metadataPath are either both relative or both absolute
-	const metadataPath = path.normalize(path.relative(dir, buildMetadata[1]));
+	const metadataPath = path.normalize(path.relative(dir, rawPath));
 
 	const tar = await import('tar-stream');
 	const pack = tar.pack();
@@ -906,10 +885,10 @@ async function newTarDirectory(
 	for (const fileStats of filteredFileList) {
 		let buf: Buffer | string;
 		if (metadataPath && fileStats.relPath === metadataPath) {
-			buf = addBuildVariablesToBuildMetadata(
+			buf = mergeMetadataFromFlags(
 				metadataPath,
-				metadata,
-				parsedBuildArgs,
+				metadataFromFile,
+				metadataFromFlags,
 			);
 			foundConfig = true;
 		} else {
@@ -927,12 +906,13 @@ async function newTarDirectory(
 	}
 	if (
 		!foundConfig &&
-		(!_.isEmpty(parsedBuildArgs.global) || !_.isEmpty(parsedBuildArgs.services))
+		(!_.isEmpty(metadataFromFlags.global) ||
+			!_.isEmpty(metadataFromFlags.services))
 	) {
-		const configData = addBuildVariablesToBuildMetadata(
+		const configData = mergeMetadataFromFlags(
 			'.balena/balena.yml',
 			{},
-			parsedBuildArgs,
+			metadataFromFlags,
 		);
 		const buf = Buffer.from(configData);
 		pack.entry(

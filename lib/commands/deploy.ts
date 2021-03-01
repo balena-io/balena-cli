@@ -301,6 +301,7 @@ ${dockerignoreHelp}
 					dockerfilePath: composeOpts.dockerfilePath,
 					nogitignore: composeOpts.nogitignore,
 					multiDockerignore: composeOpts.multiDockerignore,
+					buildargs: opts.buildOpts.buildargs,
 				});
 				builtImagesByService = _.keyBy(builtImages, 'serviceName');
 			}
