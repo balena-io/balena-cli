@@ -53,10 +53,20 @@ import Logger = require('./logger');
  * @param buildargs --buildArg flag input in dictionary format
  */
 async function parseMetadataFromFlags(
+	dir: string,
 	buildargs: Dictionary<string>,
 	composition?: Composition,
 ): Promise<ParsedBuildArguments> {
-	const serviceNames = Object.keys(composition?.services || {});
+	const yaml = await import('js-yaml');
+	const mergedComposition: Composition = yaml.load(
+		await mergeDevComposeOverlay(
+			Logger.getLogger(),
+			yaml.dump(composition),
+			dir,
+		),
+	);
+
+	const serviceNames = Object.keys(mergedComposition?.services || {});
 	const ret: ParsedBuildArguments = {
 		global: {},
 		services: {},
@@ -862,6 +872,7 @@ async function newTarDirectory(
 
 	// Get balena config so we can set extra build variables if provided
 	const metadataFromFlags = await parseMetadataFromFlags(
+		dir,
 		buildargs,
 		composition,
 	);
