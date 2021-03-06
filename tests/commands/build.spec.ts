@@ -257,12 +257,16 @@ describe('balena build', function () {
 		const qemuMod = require(qemuModPath);
 		const qemuBinPath = await qemuMod.getQemuPath(arch);
 		try {
+			// patch fs.access and fs.stat to pretend that a copy of the Qemu binary
+			// already exists locally, thus preventing a download during tests
 			mock(fsModPath, {
 				...fsMod,
 				promises: {
 					...fsMod.promises,
 					access: async (p: string) =>
 						p === qemuBinPath ? undefined : fsMod.promises.access(p),
+					stat: async (p: string) =>
+						p === qemuBinPath ? { size: 1 } : fsMod.promises.stat(p),
 				},
 			});
 			mock(qemuModPath, {

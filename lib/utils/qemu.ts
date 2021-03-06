@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2017-2020 Balena Ltd.
+ * Copyright 2017-2021 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
  */
 
 import type * as Dockerode from 'dockerode';
+
+import { ExpectedError } from '../errors';
 import { getBalenaSdk, stripIndent } from './lazy';
 import Logger = require('./logger');
 
@@ -63,7 +65,8 @@ export function copyQemu(context: string, arch: string) {
 		.then(() => path.relative(context, binPath));
 }
 
-export const getQemuPath = function (arch: string) {
+export const getQemuPath = function (balenaArch: string) {
+	const qemuArch = balenaArchToQemuArch(balenaArch);
 	const balena = getBalenaSdk();
 	const path = require('path') as typeof import('path');
 	const { promises: fs } = require('fs') as typeof import('fs');
@@ -79,64 +82,76 @@ export const getQemuPath = function (arch: string) {
 				throw err;
 			})
 			.then(() =>
-				path.join(binDir, `${QEMU_BIN_NAME}-${arch}-${QEMU_VERSION}`),
+				path.join(binDir, `${QEMU_BIN_NAME}-${qemuArch}-${QEMU_VERSION}`),
 			),
 	);
 };
 
-export function installQemu(arch: string) {
-	const request = require('request') as typeof import('request');
-	const fs = require('fs') as typeof import('fs');
-	const zlib = require('zlib') as typeof import('zlib');
-	const tar = require('tar-stream') as typeof import('tar-stream');
+async function installQemu(arch: string, qemuPath: string) {
+	const qemuArch = balenaArchToQemuArch(arch);
+	const fileVersion = QEMU_VERSION.replace('v', '').replace('+', '.');
+	const urlFile = encodeURIComponent(`qemu-${fileVersion}-${qemuArch}.tar.gz`);
+	const urlVersion = encodeURIComponent(QEMU_VERSION);
+	const qemuUrl = `https://github.com/balena-io/qemu/releases/download/${urlVersion}/${urlFile}`;
 
-	return getQemuPath(arch).then(
-		(qemuPath) =>
-			new Promise(function (resolve, reject) {
-				const installStream = fs.createWriteStream(qemuPath);
+	const request = await import('request');
+	const fs = await import('fs');
+	const zlib = await import('zlib');
+	const tar = await import('tar-stream');
 
-				const qemuArch = balenaArchToQemuArch(arch);
-				const fileVersion = QEMU_VERSION.replace('v', '').replace('+', '.');
-				const urlFile = encodeURIComponent(
-					`qemu-${fileVersion}-${qemuArch}.tar.gz`,
-				);
-				const urlVersion = encodeURIComponent(QEMU_VERSION);
-				const qemuUrl = `https://github.com/balena-io/qemu/releases/download/${urlVersion}/${urlFile}`;
-
-				const extract = tar.extract();
-				extract.on('entry', function (header, stream, next) {
+	// createWriteStream creates a zero-length file on disk that
+	// needs to be deleted if the download fails
+	const installStream = fs.createWriteStream(qemuPath);
+	try {
+		await new Promise<void>((resolve, reject) => {
+			const extract = tar.extract();
+			extract.on('entry', function (header, stream, next) {
+				try {
 					stream.on('end', next);
 					if (header.name.includes(`qemu-${qemuArch}-static`)) {
 						stream.pipe(installStream);
 					} else {
 						stream.resume();
 					}
+				} catch (err) {
+					reject(err);
+				}
+			});
+			request(qemuUrl)
+				.on('error', reject)
+				.pipe(zlib.createGunzip())
+				.on('error', reject)
+				.pipe(extract)
+				.on('error', reject)
+				.on('finish', function () {
+					fs.chmodSync(qemuPath, '755');
+					resolve();
 				});
-
-				return request(qemuUrl)
-					.on('error', reject)
-					.pipe(zlib.createGunzip())
-					.on('error', reject)
-					.pipe(extract)
-					.on('error', reject)
-					.on('finish', function () {
-						fs.chmodSync(qemuPath, '755');
-						resolve();
-					});
-			}),
-	);
+		});
+	} catch (err) {
+		try {
+			await fs.promises.unlink(qemuPath);
+		} catch {
+			// ignore
+		}
+		throw err;
+	}
 }
 
 const balenaArchToQemuArch = function (arch: string) {
 	switch (arch) {
-		case 'armv7hf':
 		case 'rpi':
+		case 'arm':
 		case 'armhf':
+		case 'armv7hf':
 			return 'arm';
+		case 'arm64':
 		case 'aarch64':
 			return 'aarch64';
 		default:
-			throw new Error(`Cannot install emulator for architecture ${arch}`);
+			throw new ExpectedError(stripIndent`
+				Unknown ARM architecture identifier "${arch}".
+				Known ARM identifiers: rpi arm armhf armv7hf arm64 aarch64`);
 	}
 };
 
@@ -155,11 +170,17 @@ export async function installQemuIfNeeded(
 	const { promises: fs } = await import('fs');
 	const qemuPath = await getQemuPath(arch);
 	try {
+		const stats = await fs.stat(qemuPath);
+		// Earlier versions of the CLI with broken error handling would leave
+		// behind files with size 0. If such a file is found, delete it.
+		if (stats.size === 0) {
+			await fs.unlink(qemuPath);
+		}
 		await fs.access(qemuPath);
 	} catch {
-		// Qemu doesn't exist so install it
+		// QEMU not found in cache folder (~/.balena/bin/), so install it
 		logger.logInfo(`Installing qemu for ${arch} emulation...`);
-		await installQemu(arch);
+		await installQemu(arch, qemuPath);
 	}
 	return true;
 }
