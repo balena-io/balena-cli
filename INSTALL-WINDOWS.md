@@ -30,10 +30,10 @@ described below.
 ### build and deploy
 
 These commands require [Docker](https://docs.docker.com/install/overview/) or
-[balenaEngine](https://www.balena.io/engine/) to be available (on a local or remote machine). Most
-users will simply follow [Docker's installation
-instructions](https://docs.docker.com/install/overview/) to install Docker on the same laptop (dev
-machine) where the balena CLI is installed. The [advanced installation
+[balenaEngine](https://www.balena.io/engine/) to be available (on a local or remote
+machine). Most users will follow [Docker's installation
+instructions](https://docs.docker.com/install/overview/) to install Docker on the same
+workstation (laptop) as the balena CLI. The [advanced installation
 options](./INSTALL-ADVANCED.md) document describes other possibilities.
 
 ### balena ssh

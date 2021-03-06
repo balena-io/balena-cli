@@ -11,35 +11,52 @@ Selected operating system: **Linux**
    with "-standalone.zip", for example:  
    `balena-cli-vX.Y.Z-linux-x64-standalone.zip`
 
-2. Extract the zip file contents to any folder you choose. The extracted contents will include a
-   `balena-cli` folder.
+2. Extract the zip file contents to any folder you choose, for example `/home/james`.
+   The extracted contents will include a `balena-cli` folder.
 
-3. Add the `balena-cli` folder to the system's `PATH` environment variable. There are several
-   ways of achieving this on Linux: See this [StackOverflow post](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix). Close and reopen the terminal window
-   so that the changes to PATH can take effect.
+3. Add that folder (e.g. `/home/james/balena-cli`) to the `PATH` environment variable.
+   Check this [StackOverflow
+   post](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix)
+   for instructions. Close and reopen the terminal window so that the changes to `PATH`
+   can take effect.
 
 4. Check that the installation was successful by running the following commands on a
-   command terminal:  
+   terminal window:  
    * `balena version` - should print the CLI's version
    * `balena help` - should print a list of available commands
-
-No further steps are required to run most CLI commands. The `balena ssh`, `scan`, `build`,
-`deploy` and `preload` commands may require additional software to be installed, as described
-below.
 
 To update the balena CLI to a new version, download a new release zip file and replace the previous
 installation folder. To uninstall, simply delete the folder and edit the PATH environment variable
 as described above.
+
+## sudo configuration
+
+A few CLI commands require execution through sudo, e.g. `sudo balena scan`.  
+If your Linux distribution has an `/etc/sudoers` file that defines a `secure_path`
+setting, run `sudo visudo` to edit it and add the balena CLI's installation folder to
+the ***pre-existing*** `secure_path` setting, for example:
+
+```text
+Defaults   secure_path="/home/james/balena-cli:<pre-existing entries go here>"
+```
+
+If an `/etc/sudoers` file does not exist, or if it does not contain a pre-existing
+`secure_path` setting, do not change it.
+
+If you also have Docker installed, ensure that it can be executed ***without*** `sudo`, so that
+CLI commands like `balena build` and `balena preload` can also be executed without `sudo`.
+Check Docker's [post-installation
+steps](https://docs.docker.com/engine/install/linux-postinstall/) on how to achieve this.
 
 ## Additional Dependencies
 
 ### build, deploy
 
 These commands require [Docker](https://docs.docker.com/install/overview/) or
-[balenaEngine](https://www.balena.io/engine/) to be available (on a local or remote machine). Most
-users will simply follow [Docker's installation
-instructions](https://docs.docker.com/install/overview/) to install Docker on the same laptop (dev
-machine) where the balena CLI is installed. The [advanced installation
+[balenaEngine](https://www.balena.io/engine/) to be available (on a local or remote
+machine). Most users will follow [Docker's installation
+instructions](https://docs.docker.com/install/overview/) to install Docker on the same
+workstation (laptop) as the balena CLI. The [advanced installation
 options](./INSTALL-ADVANCED.md) document describes other possibilities.
 
 ### balena ssh
