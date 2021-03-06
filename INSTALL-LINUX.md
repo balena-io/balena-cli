@@ -59,9 +59,9 @@ The `balena scan` command requires a multicast DNS (mDNS) service like
 desktop Linux distributions. Otherwise, on Debian or Ubuntu, the installation command would be
 `sudo apt-get install avahi-daemon`.
 
-`balena scan` needs to be run with sudo privileges, but in some cases this will return the message "sudo: balena: command not found". In this case, you have to add the install location of `balena` to your sudoers file.
+`balena scan` needs to be run with sudo privileges, but in some cases this will return the message "sudo: balena: command not found". If this happens, you have to add the install location of `balena` to your sudoers file.
 
-Open the sudoers file with `sudo visudo` and add the full path to the `balena-cli` folder to the `secure_path="..."` entry. There are already a couple of paths in this line, the new path needs to be separated from the others with a `:`. If you're done, save and close the file. 
+Open the sudoers file with `sudo visudo` and add the full path to the `balena-cli` folder to the `secure_path="..."` entry. There are already a couple of paths in this line, the new path needs to be separated from the others with a `:`. When you're done, save and close the file. 
 
 For more information on this issue, have a look into [#2149](https://github.com/balena-io/balena-cli/issues/2149).
 
