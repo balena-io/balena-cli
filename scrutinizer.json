@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "build, deploy: Fix error handling when QEMU download fails",
+          "hash": "bcea5193a1cffe00a062f35f2121db7dc6e4cbf5",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.40.3",
+      "date": "2021-03-06T16:21:42.621Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "docs: Fix missing markdown docs for device `deactivate` and `local-mode`",
           "hash": "b90c9b0d7e59353101213c6be22eaff9a9c0b274",
           "body": "",
@@ -21146,7 +21163,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 302,
+  "stars": 305,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -21246,42 +21263,66 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-02-23T22:45:01Z",
+  "lastCommitDate": "2021-03-06T16:51:02Z",
   "latestRelease": {
-    "tagName": "v12.40.2",
+    "tagName": "v12.40.3",
     "asssets": [
       {
-        "name": "balena-cli-v12.40.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.2/balena-cli-v12.40.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.40.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.3/balena-cli-v12.40.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.40.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.2/balena-cli-v12.40.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.40.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.3/balena-cli-v12.40.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.40.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.2/balena-cli-v12.40.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.40.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.3/balena-cli-v12.40.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.40.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.2/balena-cli-v12.40.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.40.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.3/balena-cli-v12.40.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.40.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.2/balena-cli-v12.40.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.40.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.3/balena-cli-v12.40.3-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 317,
+    "numberOfIssues": 323,
     "latestIssues": [
+      {
+        "title": "Adds info about fixing \"sudo balena\" issues to docs",
+        "url": "https://github.com/balena-io/balena-cli/pull/2206"
+      },
+      {
+        "title": "macOS GUI installer: Update signing certificate name",
+        "url": "https://github.com/balena-io/balena-cli/pull/2205"
+      },
+      {
+        "title": "'config generate' should warn and patch the API DB when reusing a device UUID",
+        "url": "https://github.com/balena-io/balena-cli/issues/2203"
+      },
+      {
+        "title": "balena push fails with fatal error",
+        "url": "https://github.com/balena-io/balena-cli/issues/2200"
+      },
+      {
+        "title": "Completion",
+        "url": "https://github.com/balena-io/balena-cli/pull/2199"
+      },
+      {
+        "title": "Feature request: Add ability to delete releases with cli",
+        "url": "https://github.com/balena-io/balena-cli/issues/2198"
+      },
       {
         "title": "Support local mode in \"balena tunnel\"",
         "url": "https://github.com/balena-io/balena-cli/issues/2196"
       },
       {
-        "title": "Livepush not restarting container",
+        "title": "Livepush not restarting container with Dockerfile.template",
         "url": "https://github.com/balena-io/balena-cli/issues/2195"
       },
       {
@@ -21331,34 +21372,10 @@
       {
         "title": "build/deploy: emulation does not apply to multiarch image pulls",
         "url": "https://github.com/balena-io/balena-cli/issues/2174"
-      },
-      {
-        "title": "balena tunnel: [Error] connect ETIMEDOUT",
-        "url": "https://github.com/balena-io/balena-cli/issues/2172"
-      },
-      {
-        "title": "WIP: Make the cli work with Node 14",
-        "url": "https://github.com/balena-io/balena-cli/pull/2168"
-      },
-      {
-        "title": "`balena join` does not preserve local mode state, causing volumes to be lost",
-        "url": "https://github.com/balena-io/balena-cli/issues/2167"
-      },
-      {
-        "title": "livepush: CLI exits unexpectedly (no error) with Node.js v14",
-        "url": "https://github.com/balena-io/balena-cli/issues/2165"
-      },
-      {
-        "title": "livepush: Allow specifying whether to unconditionally kill containers, or first send SIGTERM",
-        "url": "https://github.com/balena-io/balena-cli/issues/2162"
-      },
-      {
-        "title": "dockerfiles: initial commit of balenalib dockerfiles",
-        "url": "https://github.com/balena-io/balena-cli/pull/2159"
       }
     ]
   },
-  "version": "12.40.2",
+  "version": "12.40.3",
   "screenshot": null,
   "logo": null
 }
