@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'macOS GUI installer: Update signing certificate name'
+      hash: c62445a39995fb41a54636ab559462e2a7c4324b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.40.4
+  date: 2021-03-09T16:43:40.230Z
+- commits:
     - subject: 'build, deploy: Fix error handling when QEMU download fails'
       hash: bcea5193a1cffe00a062f35f2121db7dc6e4cbf5
       body: ''
