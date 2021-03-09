@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'macOS GUI installer: Update signing certificate name'
+      hash: c62445a39995fb41a54636ab559462e2a7c4324b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.40.4
+  date: 2021-03-09T17:35:10.344Z
+- commits:
     - subject: 'build, deploy: Fix error handling when QEMU download fails'
       hash: bcea5193a1cffe00a062f35f2121db7dc6e4cbf5
       body: ''
@@ -8,7 +19,7 @@
       author: Paulo Castro
       nested: []
   version: 12.40.3
-  date: 2021-03-06T16:50:09.276Z
+  date: 2021-03-06T16:21:42.621Z
 - commits:
     - subject: 'docs: Fix missing markdown docs for device `deactivate` and `local-mode`'
       hash: b90c9b0d7e59353101213c6be22eaff9a9c0b274

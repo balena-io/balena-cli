@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "macOS GUI installer: Update signing certificate name",
+          "hash": "c62445a39995fb41a54636ab559462e2a7c4324b",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.40.4",
+      "date": "2021-03-09T16:43:40.230Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "build, deploy: Fix error handling when QEMU download fails",
           "hash": "bcea5193a1cffe00a062f35f2121db7dc6e4cbf5",
           "body": "",
@@ -21263,29 +21280,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-03-06T16:51:02Z",
+  "lastCommitDate": "2021-03-09T17:36:10Z",
   "latestRelease": {
-    "tagName": "v12.40.3",
+    "tagName": "v12.40.4",
     "asssets": [
       {
-        "name": "balena-cli-v12.40.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.3/balena-cli-v12.40.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.40.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.4/balena-cli-v12.40.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.40.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.3/balena-cli-v12.40.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.40.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.4/balena-cli-v12.40.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.40.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.3/balena-cli-v12.40.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.40.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.4/balena-cli-v12.40.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.40.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.3/balena-cli-v12.40.3-windows-x64-installer.exe"
+        "name": "balena-cli-v12.40.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.4/balena-cli-v12.40.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.40.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.3/balena-cli-v12.40.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.40.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.4/balena-cli-v12.40.4-windows-x64-standalone.zip"
       }
     ]
   },
@@ -21294,12 +21311,12 @@
     "numberOfIssues": 323,
     "latestIssues": [
       {
-        "title": "Adds info about fixing \"sudo balena\" issues to docs",
-        "url": "https://github.com/balena-io/balena-cli/pull/2206"
+        "title": "Linux installation instructions: Add sudo configuration section",
+        "url": "https://github.com/balena-io/balena-cli/pull/2208"
       },
       {
-        "title": "macOS GUI installer: Update signing certificate name",
-        "url": "https://github.com/balena-io/balena-cli/pull/2205"
+        "title": "Adds info about fixing \"sudo balena\" issues to docs",
+        "url": "https://github.com/balena-io/balena-cli/pull/2206"
       },
       {
         "title": "'config generate' should warn and patch the API DB when reusing a device UUID",
@@ -21375,7 +21392,7 @@
       }
     ]
   },
-  "version": "12.40.3",
+  "version": "12.40.4",
   "screenshot": null,
   "logo": null
 }
