@@ -36,7 +36,7 @@ RUN CLI_CMDS=$(jq -r '.commands | keys | map(.[0:index(":")]) | unique | join("\
     sed -ie "s/CLI_CMDS=\"help\"/CLI_CMDS=\"help\\ ${CLI_CMDS}\"/" init.sh && \
     chmod +x init.sh
 
-ENTRYPOINT [ "./init.sh" ]
+ENTRYPOINT [ "/usr/src/app/init.sh" ]
 
 CMD [ "help" ]
 

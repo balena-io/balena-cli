@@ -13,7 +13,7 @@ There are 3 options to choose from to install balena's CLI:
   Recommended also for scripted installation in CI (continuous integration) environments.
 * [NPM Installation](#npm-installation): recommended for Node.js developers who may be interested
   in integrating the balena CLI in their existing projects or workflow.
-* [Docker Installation](#docker-installation): recommended for Linux users that would like to run the
+* [Docker Installation](#docker-installation): recommended for users that would like to run the
   CLI on edge devices or systems where npm installation may not be an option.
 
 Some specific CLI commands have a few extra installation steps: see section [Additional
