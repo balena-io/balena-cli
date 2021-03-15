@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "docker: Fix path to init when workdir is changed",
+          "hash": "3cff091e3a4e24a2fea8d576691dcd7d7f0b6489",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+            "signed-off-by": "Kyle Harding <kyle@balena.io>"
+          },
+          "author": "Kyle Harding",
+          "nested": []
+        }
+      ],
+      "version": "12.41.1",
+      "date": "2021-03-15T14:36:14.162Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "docker: Add Docker images with the CLI and Docker-in-Docker",
           "hash": "65d5bdff0815f743cb63f474be53ef2d92486f15",
           "body": "Add Dockerfiles for alpine and debian images, based on\nbalenalib/arch-distro-node images.\n",
@@ -21299,36 +21318,52 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-03-15T14:07:04Z",
+  "lastCommitDate": "2021-03-15T18:39:53Z",
   "latestRelease": {
-    "tagName": "v12.41.0",
+    "tagName": "v12.41.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.41.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.0/balena-cli-v12.41.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.41.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.1/balena-cli-v12.41.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.41.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.0/balena-cli-v12.41.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.41.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.1/balena-cli-v12.41.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.41.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.0/balena-cli-v12.41.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.41.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.1/balena-cli-v12.41.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.41.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.0/balena-cli-v12.41.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.41.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.1/balena-cli-v12.41.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.41.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.0/balena-cli-v12.41.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.41.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.1/balena-cli-v12.41.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 324,
+    "numberOfIssues": 328,
     "latestIssues": [
+      {
+        "title": "docker: Add balena-CI tests via docker-compose.tests.yml",
+        "url": "https://github.com/balena-io/balena-cli/issues/2216"
+      },
+      {
+        "title": "docker: Add env var(s) to identify container runtime to sentry.io and amplitude",
+        "url": "https://github.com/balena-io/balena-cli/issues/2215"
+      },
+      {
+        "title": "docker: npm run build should update dockerfile base images",
+        "url": "https://github.com/balena-io/balena-cli/issues/2214"
+      },
+      {
+        "title": "docker: Replace src copy with only required files and folders",
+        "url": "https://github.com/balena-io/balena-cli/issues/2213"
+      },
       {
         "title": "openBalena: \"Cannot GET /whoami\" error and premature login expiry",
         "url": "https://github.com/balena-io/balena-cli/issues/2211"
@@ -21392,26 +21427,10 @@
       {
         "title": "When using local mode, any multi-line prints to the console will not be sent back using either balena push or balena logs.",
         "url": "https://github.com/balena-io/balena-cli/issues/2185"
-      },
-      {
-        "title": "Replace direct Pine.js usage with balena Node SDK",
-        "url": "https://github.com/balena-io/balena-cli/issues/2184"
-      },
-      {
-        "title": "`balena deploy` should parse, validate, and create a contract as part of the release it creates",
-        "url": "https://github.com/balena-io/balena-cli/issues/2183"
-      },
-      {
-        "title": "Update INSTALL-MAC.md",
-        "url": "https://github.com/balena-io/balena-cli/pull/2181"
-      },
-      {
-        "title": "Add malware warning note to INSTALL_MAC.md",
-        "url": "https://github.com/balena-io/balena-cli/issues/2180"
       }
     ]
   },
-  "version": "12.41.0",
+  "version": "12.41.1",
   "screenshot": null,
   "logo": null
 }

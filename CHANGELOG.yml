@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'docker: Fix path to init when workdir is changed'
+      hash: 3cff091e3a4e24a2fea8d576691dcd7d7f0b6489
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 12.41.1
+  date: 2021-03-15T18:38:48.132Z
+- commits:
     - subject: 'docker: Add Docker images with the CLI and Docker-in-Docker'
       hash: 65d5bdff0815f743cb63f474be53ef2d92486f15
       body: |
@@ -12,7 +25,7 @@
       author: Kyle Harding
       nested: []
   version: 12.41.0
-  date: 2021-03-15T14:05:59.277Z
+  date: 2021-03-15T12:38:32.977Z
 - commits:
     - subject: 'macOS GUI installer: Update signing certificate name'
       hash: c62445a39995fb41a54636ab559462e2a7c4324b
