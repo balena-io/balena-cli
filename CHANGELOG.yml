@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'docker: Add Docker images with the CLI and Docker-in-Docker'
+      hash: 65d5bdff0815f743cb63f474be53ef2d92486f15
+      body: |
+        Add Dockerfiles for alpine and debian images, based on
+        balenalib/arch-distro-node images.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 12.41.0
+  date: 2021-03-15T14:05:59.277Z
+- commits:
     - subject: 'macOS GUI installer: Update signing certificate name'
       hash: c62445a39995fb41a54636ab559462e2a7c4324b
       body: ''
@@ -8,7 +23,7 @@
       author: Paulo Castro
       nested: []
   version: 12.40.4
-  date: 2021-03-09T17:35:10.344Z
+  date: 2021-03-09T16:43:40.230Z
 - commits:
     - subject: 'build, deploy: Fix error handling when QEMU download fails'
       hash: bcea5193a1cffe00a062f35f2121db7dc6e4cbf5

@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "docker: Add Docker images with the CLI and Docker-in-Docker",
+          "hash": "65d5bdff0815f743cb63f474be53ef2d92486f15",
+          "body": "Add Dockerfiles for alpine and debian images, based on\nbalenalib/arch-distro-node images.\n",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+            "signed-off-by": "Kyle Harding <kyle@balena.io>"
+          },
+          "author": "Kyle Harding",
+          "nested": []
+        }
+      ],
+      "version": "12.41.0",
+      "date": "2021-03-15T12:38:32.977Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "macOS GUI installer: Update signing certificate name",
           "hash": "c62445a39995fb41a54636ab559462e2a7c4324b",
           "body": "",
@@ -21124,6 +21143,10 @@
       "avatar": "https://avatars.githubusercontent.com/u/590207?v=4"
     },
     {
+      "username": "klutchell",
+      "avatar": "https://avatars.githubusercontent.com/u/20458272?v=4"
+    },
+    {
       "username": "afitzek",
       "avatar": "https://avatars.githubusercontent.com/u/3415366?v=4"
     },
@@ -21134,10 +21157,6 @@
     {
       "username": "Atiklabsl",
       "avatar": "https://avatars.githubusercontent.com/u/44225870?v=4"
-    },
-    {
-      "username": "klutchell",
-      "avatar": "https://avatars.githubusercontent.com/u/20458272?v=4"
     },
     {
       "username": "lifeeth",
@@ -21180,7 +21199,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 305,
+  "stars": 310,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -21280,36 +21299,44 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-03-09T17:36:10Z",
+  "lastCommitDate": "2021-03-15T14:07:04Z",
   "latestRelease": {
-    "tagName": "v12.40.4",
+    "tagName": "v12.41.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.40.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.4/balena-cli-v12.40.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.41.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.0/balena-cli-v12.41.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.40.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.4/balena-cli-v12.40.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.41.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.0/balena-cli-v12.41.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.40.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.4/balena-cli-v12.40.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.41.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.0/balena-cli-v12.41.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.40.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.4/balena-cli-v12.40.4-windows-x64-installer.exe"
+        "name": "balena-cli-v12.41.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.0/balena-cli-v12.41.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.40.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.40.4/balena-cli-v12.40.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.41.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.0/balena-cli-v12.41.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 323,
+    "numberOfIssues": 324,
     "latestIssues": [
+      {
+        "title": "openBalena: \"Cannot GET /whoami\" error and premature login expiry",
+        "url": "https://github.com/balena-io/balena-cli/issues/2211"
+      },
+      {
+        "title": "Add macOS uninstall script (sudo /usr/local/lib/balena-cli/bin/uninstall)",
+        "url": "https://github.com/balena-io/balena-cli/pull/2210"
+      },
       {
         "title": "Linux installation instructions: Add sudo configuration section",
         "url": "https://github.com/balena-io/balena-cli/pull/2208"
@@ -21381,18 +21408,10 @@
       {
         "title": "Add malware warning note to INSTALL_MAC.md",
         "url": "https://github.com/balena-io/balena-cli/issues/2180"
-      },
-      {
-        "title": "Consider a \"PSA\" notification mechanism",
-        "url": "https://github.com/balena-io/balena-cli/issues/2178"
-      },
-      {
-        "title": "build/deploy: emulation does not apply to multiarch image pulls",
-        "url": "https://github.com/balena-io/balena-cli/issues/2174"
       }
     ]
   },
-  "version": "12.40.4",
+  "version": "12.41.0",
   "screenshot": null,
   "logo": null
 }
