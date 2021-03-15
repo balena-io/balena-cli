@@ -17,4 +17,75 @@ npm:
         - "14"
 
 docker:
-  publish: false
+  builds:
+    - path: .
+      dockerfile: ./docker/alpine/Dockerfile
+      docker_repo: balenalib/amd64-alpine-balenacli
+      args:
+        - BUILD_BASE=balenalib/amd64-alpine-node:12.19.1-build-20201211
+        - RUN_BASE=balenalib/amd64-alpine-node:12.19.1-run-20201211
+      publish: true
+
+    - path: .
+      dockerfile: ./docker/alpine/Dockerfile
+      docker_repo: balenalib/armv7hf-alpine-balenacli
+      args:
+        - BUILD_BASE=balenalib/armv7hf-alpine-node:12.19.1-build-20201211
+        - RUN_BASE=balenalib/armv7hf-alpine-node:12.19.1-run-20201211
+      publish: true
+        
+    - path: .
+      dockerfile: ./docker/alpine/Dockerfile
+      docker_repo: balenalib/i386-alpine-balenacli
+      args:
+        - BUILD_BASE=balenalib/i386-alpine-node:12.19.1-build-20201211
+        - RUN_BASE=balenalib/i386-alpine-node:12.19.1-run-20201211
+      publish: true
+
+    - path: .
+      dockerfile: ./docker/alpine/Dockerfile
+      docker_repo: balenalib/rpi-alpine-balenacli
+      args:
+        - BUILD_BASE=balenalib/rpi-alpine-node:12.19.1-build-20201211
+        - RUN_BASE=balenalib/rpi-alpine-node:12.19.1-run-20201211
+      publish: true
+
+    - path: .
+      dockerfile: ./docker/debian/Dockerfile
+      docker_repo: balenalib/aarch64-debian-balenacli
+      args:
+        - BUILD_BASE=balenalib/aarch64-debian-node:12.19.1-build-20201118
+        - RUN_BASE=balenalib/aarch64-debian-node:12.19.1-run-20201118
+      publish: true
+
+    - path: .
+      dockerfile: ./docker/debian/Dockerfile
+      docker_repo: balenalib/amd64-debian-balenacli
+      args:
+        - BUILD_BASE=balenalib/amd64-debian-node:12.19.1-build-20201211
+        - RUN_BASE=balenalib/amd64-debian-node:12.19.1-run-20201211
+      publish: true
+
+    - path: .
+      dockerfile: ./docker/debian/Dockerfile
+      docker_repo: balenalib/armv7hf-debian-balenacli
+      args:
+        - BUILD_BASE=balenalib/armv7hf-debian-node:12.19.1-build-20201211
+        - RUN_BASE=balenalib/armv7hf-debian-node:12.19.1-run-20201211
+      publish: true
+        
+    - path: .
+      dockerfile: ./docker/debian/Dockerfile
+      docker_repo: balenalib/i386-debian-balenacli
+      args:
+        - BUILD_BASE=balenalib/i386-debian-node:12.16.3-build-20200518
+        - RUN_BASE=balenalib/i386-debian-node:12.16.3-build-20200518
+      publish: true
+
+    - path: .
+      dockerfile: ./docker/debian/Dockerfile
+      docker_repo: balenalib/rpi-debian-balenacli
+      args:
+        - BUILD_BASE=balenalib/rpi-debian-node:12.19.1-build-20201211
+        - RUN_BASE=balenalib/rpi-debian-node:12.19.1-run-20201211
+      publish: true
