@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'Linux installation instructions: Add sudo configuration section'
+      hash: b233ea3e3e93b8f07721dd9de5f5ccaa83ecc049
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.41.2
+  date: 2021-03-17T02:10:54.150Z
+- commits:
     - subject: 'docker: Fix path to init when workdir is changed'
       hash: 3cff091e3a4e24a2fea8d576691dcd7d7f0b6489
       body: ''
