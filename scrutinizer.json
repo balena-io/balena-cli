@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Linux installation instructions: Add sudo configuration section",
+          "hash": "b233ea3e3e93b8f07721dd9de5f5ccaa83ecc049",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.41.2",
+      "date": "2021-03-17T02:10:54.150Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "docker: Fix path to init when workdir is changed",
           "hash": "3cff091e3a4e24a2fea8d576691dcd7d7f0b6489",
           "body": "",
@@ -21318,36 +21335,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-03-15T18:39:53Z",
+  "lastCommitDate": "2021-03-17T08:46:32Z",
   "latestRelease": {
-    "tagName": "v12.41.1",
+    "tagName": "v12.41.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.41.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.1/balena-cli-v12.41.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.41.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.2/balena-cli-v12.41.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.41.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.1/balena-cli-v12.41.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.41.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.2/balena-cli-v12.41.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.41.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.1/balena-cli-v12.41.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.41.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.2/balena-cli-v12.41.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.41.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.1/balena-cli-v12.41.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.41.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.2/balena-cli-v12.41.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.41.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.1/balena-cli-v12.41.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.41.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.2/balena-cli-v12.41.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 328,
+    "numberOfIssues": 330,
     "latestIssues": [
+      {
+        "title": "Fix for NodeJS>13.0.0 and Balena Engine for Apple Silicon?",
+        "url": "https://github.com/balena-io/balena-cli/issues/2219"
+      },
+      {
+        "title": "Public address",
+        "url": "https://github.com/balena-io/balena-cli/pull/2218"
+      },
+      {
+        "title": "[DO NOT MERGE] Nothing",
+        "url": "https://github.com/balena-io/balena-cli/pull/2217"
+      },
       {
         "title": "docker: Add balena-CI tests via docker-compose.tests.yml",
         "url": "https://github.com/balena-io/balena-cli/issues/2216"
@@ -21371,10 +21400,6 @@
       {
         "title": "Add macOS uninstall script (sudo /usr/local/lib/balena-cli/bin/uninstall)",
         "url": "https://github.com/balena-io/balena-cli/pull/2210"
-      },
-      {
-        "title": "Linux installation instructions: Add sudo configuration section",
-        "url": "https://github.com/balena-io/balena-cli/pull/2208"
       },
       {
         "title": "Adds info about fixing \"sudo balena\" issues to docs",
@@ -21419,18 +21444,10 @@
       {
         "title": "[analytics] Start tracking `contract_repo_name` and `contract_repo_url`",
         "url": "https://github.com/balena-io/balena-cli/issues/2187"
-      },
-      {
-        "title": "Update macOS installer to avoid Apple's warning pop-up",
-        "url": "https://github.com/balena-io/balena-cli/pull/2186"
-      },
-      {
-        "title": "When using local mode, any multi-line prints to the console will not be sent back using either balena push or balena logs.",
-        "url": "https://github.com/balena-io/balena-cli/issues/2185"
       }
     ]
   },
-  "version": "12.41.1",
+  "version": "12.41.2",
   "screenshot": null,
   "logo": null
 }
