@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update supported npm version range in package.json (<7.0.0)
+      hash: 5fc009a6ae736a2d6f1bdbb1d2d83f9169eaeaa4
+      body: ''
+      footer:
+        Connects-to: '#2221'
+        connects-to: '#2221'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.41.3
+  date: 2021-03-17T15:35:44.346Z
+- commits:
     - subject: 'Linux installation instructions: Add sudo configuration section'
       hash: b233ea3e3e93b8f07721dd9de5f5ccaa83ecc049
       body: ''
