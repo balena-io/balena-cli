@@ -68,7 +68,6 @@ HTTP(S) proxies can be configured through any of the following methods, in prece
   file](https://www.npmjs.com/package/balena-settings-client#documentation). It may be:
   * A string in URL format, e.g. `proxy: 'http://localhost:8000'`
   * An object in the format:
-
     ```yaml
     proxy:
         protocol: 'http'
