@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'balena device: Display public IP address field'
+      hash: 50af0760ce36e4f96e02ed37bb9eaf802ad4386c
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Chris Wiggins
+      nested: []
+    - subject: Update balena-sdk from 15.20.0 to 15.29.0
+      hash: 43906d22c8540a4179f0545287042c1b2b652b43
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Chris Wiggins
+      nested: []
+  version: 12.42.0
+  date: 2021-03-19T01:43:58.678Z
+- commits:
     - subject: Update supported npm version range in package.json (<7.0.0)
       hash: 5fc009a6ae736a2d6f1bdbb1d2d83f9169eaeaa4
       body: ''
