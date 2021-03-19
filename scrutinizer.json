@@ -5,6 +5,34 @@
     {
       "commits": [
         {
+          "subject": "balena device: Display public IP address field",
+          "hash": "50af0760ce36e4f96e02ed37bb9eaf802ad4386c",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor"
+          },
+          "author": "Chris Wiggins",
+          "nested": []
+        },
+        {
+          "subject": "Update balena-sdk from 15.20.0 to 15.29.0",
+          "hash": "43906d22c8540a4179f0545287042c1b2b652b43",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Chris Wiggins",
+          "nested": []
+        }
+      ],
+      "version": "12.42.0",
+      "date": "2021-03-19T01:43:58.678Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update supported npm version range in package.json (<7.0.0)",
           "hash": "5fc009a6ae736a2d6f1bdbb1d2d83f9169eaeaa4",
           "body": "",
@@ -21354,29 +21382,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-03-17T16:45:08Z",
+  "lastCommitDate": "2021-03-19T13:28:52Z",
   "latestRelease": {
-    "tagName": "v12.41.3",
+    "tagName": "v12.42.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.41.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.3/balena-cli-v12.41.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.42.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.42.0/balena-cli-v12.42.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.41.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.3/balena-cli-v12.41.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.42.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.42.0/balena-cli-v12.42.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.41.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.3/balena-cli-v12.41.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.42.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.42.0/balena-cli-v12.42.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.41.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.3/balena-cli-v12.41.3-windows-x64-installer.exe"
+        "name": "balena-cli-v12.42.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.42.0/balena-cli-v12.42.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.41.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.41.3/balena-cli-v12.41.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.42.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.42.0/balena-cli-v12.42.0-windows-x64-standalone.zip"
       }
     ]
   },
@@ -21384,6 +21412,10 @@
   "openIssues": {
     "numberOfIssues": 331,
     "latestIssues": [
+      {
+        "title": "fix proxy support bullet point spacing",
+        "url": "https://github.com/balena-io/balena-cli/pull/2224"
+      },
       {
         "title": "Should support npm v7",
         "url": "https://github.com/balena-io/balena-cli/issues/2221"
@@ -21395,10 +21427,6 @@
       {
         "title": "Fix for NodeJS>13.0.0 and Balena Engine for Apple Silicon?",
         "url": "https://github.com/balena-io/balena-cli/issues/2219"
-      },
-      {
-        "title": "Public address",
-        "url": "https://github.com/balena-io/balena-cli/pull/2218"
       },
       {
         "title": "docker: Add balena-CI tests via docker-compose.tests.yml",
@@ -21466,7 +21494,7 @@
       }
     ]
   },
-  "version": "12.41.3",
+  "version": "12.42.0",
   "screenshot": null,
   "logo": null
 }
