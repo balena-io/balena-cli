@@ -28,6 +28,8 @@ import * as path from 'path';
 import * as rimraf from 'rimraf';
 import * as semver from 'semver';
 import * as util from 'util';
+import * as klaw from 'klaw';
+import { Stats } from 'fs';
 
 import { stripIndent } from '../lib/utils/lazy';
 import {
@@ -38,6 +40,7 @@ import {
 	StdOutTap,
 	whichSpawn,
 } from './utils';
+
 export const packageJSON = loadPackageJson();
 export const version = 'v' + packageJSON.version;
 const arch = process.arch;
@@ -296,6 +299,88 @@ async function zipPkg() {
 	});
 }
 
+async function signFilesForNotarization() {
+	console.log('Deleting unneeded zip files...');
+	await new Promise((resolve, reject) => {
+		klaw('node_modules/')
+			.on('data', (item: { path: string; stats: Stats }) => {
+				if (!item.stats.isFile()) {
+					return;
+				}
+				if (
+					path.basename(item.path).endsWith('.zip') &&
+					path.dirname(item.path).includes('test')
+				) {
+					console.log('Removing zip', item.path);
+					fs.unlinkSync(item.path);
+				}
+			})
+			.on('end', resolve)
+			.on('error', reject);
+	});
+	// Sign all .node files first
+	console.log('Signing .node files...');
+	await new Promise((resolve, reject) => {
+		klaw('node_modules/')
+			.on('data', async (item: { path: string; stats: Stats }) => {
+				if (!item.stats.isFile()) {
+					return;
+				}
+				if (path.basename(item.path).endsWith('.node')) {
+					console.log('running command:', 'codesign', [
+						'-d',
+						'-f',
+						'-s',
+						'Developer ID Application: Balena Ltd (66H43P8FRG)',
+						item.path,
+					]);
+					await whichSpawn('codesign', [
+						'-d',
+						'-f',
+						'-s',
+						'Developer ID Application: Balena Ltd (66H43P8FRG)',
+						item.path,
+					]);
+				}
+			})
+			.on('end', resolve)
+			.on('error', reject);
+	});
+	console.log('Signing other binaries...');
+	console.log('running command:', 'codesign', [
+		'-d',
+		'-f',
+		'--options=runtime',
+		'-s',
+		'Developer ID Application: Balena Ltd (66H43P8FRG)',
+		'node_modules/denymount/bin/denymount',
+	]);
+	await whichSpawn('codesign', [
+		'-d',
+		'-f',
+		'--options=runtime',
+		'-s',
+		'Developer ID Application: Balena Ltd (66H43P8FRG)',
+		'node_modules/denymount/bin/denymount',
+	]);
+	console.log('running command:', 'codesign', [
+		'-d',
+		'-f',
+		'--options=runtime',
+		'-s',
+		'Developer ID Application: Balena Ltd (66H43P8FRG)',
+		'node_modules/macmount/bin/macmount',
+	]);
+	await whichSpawn('codesign', [
+		'-d',
+		'-f',
+		'--options=runtime',
+		'-s',
+		'Developer ID Application: Balena Ltd (66H43P8FRG)',
+		'node_modules/macmount/bin/macmount',
+	]);
+}
+
 export async function buildStandaloneZip() {
 	console.log(`Building standalone zip package for CLI ${version}`);
 	try {
@@ -344,6 +429,20 @@ async function signWindowsInstaller() {
 }
 
 /**
+ * Wait for Apple Installer Notarization to continue
+ */
+async function notarizeMacInstaller(): Promise<void> {
+	const appleId = 'accounts+apple@balena.io';
+	const { notarize } = await import('electron-notarize');
+	await notarize({
+		appBundleId: 'io.balena.etcher',
+		appPath: renamedOclifInstallers.darwin,
+		appleId,
+		appleIdPassword: '@keychain:CLI_PASSWORD',
+	});
+}
+
+/**
  * Run the `oclif-dev pack:win` or `pack:macos` command (depending on the value
  * of process.platform) to generate the native installers (which end up under
  * the 'dist' folder). There are some harcoded options such as selecting only
@@ -369,6 +468,10 @@ export async function buildOclifInstaller() {
 			console.log(`rimraf(${dir})`);
 			await Bluebird.fromCallback((cb) => rimraf(dir, cb));
 		}
+		if (process.platform === 'darwin') {
+			console.log('Signing files for notarization...');
+			await signFilesForNotarization();
+		}
 		console.log('=======================================================');
 		console.log(`oclif-dev "${packCmd}" "${packOpts.join('" "')}"`);
 		console.log(`cwd="${process.cwd()}" ROOT="${ROOT}"`);
@@ -381,6 +484,10 @@ export async function buildOclifInstaller() {
 		// (`oclif.macos.sign` section).
 		if (process.platform === 'win32') {
 			await signWindowsInstaller();
+		} else if (process.platform === 'darwin') {
+			console.log('Notarizing package...');
+			await notarizeMacInstaller(); // Notarize
+			console.log('Package notarized.');
 		}
 		console.log(`oclif installer build completed`);
 	}
