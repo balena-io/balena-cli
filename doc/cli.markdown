@@ -26,6 +26,7 @@ are supported. Alternative shells include:
   * Note that a bug in the MSYS2 launch script (`msys2_shell.cmd`) makes text-based interactive CLI
     menus to break. [Check this Github issue for a
     workaround](https://github.com/msys2/MINGW-packages/issues/1633#issuecomment-240583890).
+
 * [MSYS](http://www.mingw.org/wiki/MSYS): select the `msys-rsync` and `msys-openssh` packages too
 * [Git for Windows](https://git-for-windows.github.io/)
   * During the installation, you will be prompted to choose between _"Use MinTTY"_ and _"Use
@@ -33,6 +34,7 @@ are supported. Alternative shells include:
     bug](https://github.com/msys2/MINGW-packages/issues/1633) mentioned above (Git for Windows
     actually uses MSYS2). For a screenshot, check this
     [comment](https://github.com/balena-io/balena-cli/issues/598#issuecomment-556513098).
+
 * Microsoft's [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/about)
   (WSL). In this case, a Linux distribution like Ubuntu is installed via the Microsoft Store, and a
   balena CLI release **for Linux** should be selected. See
@@ -68,7 +70,6 @@ HTTP(S) proxies can be configured through any of the following methods, in prece
   file](https://www.npmjs.com/package/balena-settings-client#documentation). It may be:
   * A string in URL format, e.g. `proxy: 'http://localhost:8000'`
   * An object in the format:
-
     ```yaml
     proxy:
         protocol: 'http'
