@@ -58,7 +58,7 @@ const getUpstreams = async () => {
 	const repoYaml = fs.readFileSync(__dirname + '/../repo.yml', 'utf8');
 
 	const yaml = await import('js-yaml');
-	const { upstream } = yaml.safeLoad(repoYaml) as {
+	const { upstream } = yaml.load(repoYaml) as {
 		upstream: Upstream[];
 	};
 

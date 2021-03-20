@@ -179,13 +179,18 @@ async function mergeDevComposeOverlay(
 		logger.logInfo(
 			`Docker compose dev overlay detected (${devOverlayFilename}) - merging.`,
 		);
+		interface ComposeObj {
+			services?: object;
+		}
+		const yaml = await import('js-yaml');
+		const loadObj = (inputStr: string): ComposeObj =>
+			(yaml.load(inputStr) || {}) as ComposeObj;
 		try {
-			const yaml = await import('js-yaml');
-			const compose = yaml.load(composeStr);
-			const devOverlay = yaml.load(await fs.readFile(devOverlayPath, 'utf8'));
+			const compose = loadObj(composeStr);
+			const devOverlay = loadObj(await fs.readFile(devOverlayPath, 'utf8'));
 			// We only want to merge the services section
 			compose.services = { ...compose.services, ...devOverlay.services };
-			composeStr = yaml.dump(compose);
+			composeStr = yaml.dump(compose, { styles: { '!!null': 'empty' } });
 		} catch (err) {
 			err.message = `Error merging docker compose dev overlay file "${devOverlayPath}":\n${err.message}`;
 			throw err;
@@ -629,7 +634,7 @@ async function loadBuildMetatada(
 		if (metadataPath.endsWith('json')) {
 			buildMetadata = JSON.parse(rawString);
 		} else {
-			buildMetadata = require('js-yaml').safeLoad(rawString);
+			buildMetadata = require('js-yaml').load(rawString);
 		}
 	} catch (err) {
 		throw new ExpectedError(
@@ -972,7 +977,7 @@ async function parseRegistrySecrets(
 		const raw = (await fs.readFile(secretsFilename)).toString();
 		const multiBuild = await import('resin-multibuild');
 		const registrySecrets = new multiBuild.RegistrySecretValidator().validateRegistrySecrets(
-			isYaml ? require('js-yaml').safeLoad(raw) : JSON.parse(raw),
+			isYaml ? require('js-yaml').load(raw) : JSON.parse(raw),
 		);
 		multiBuild.addCanonicalDockerHubEntry(registrySecrets);
 		return registrySecrets;
