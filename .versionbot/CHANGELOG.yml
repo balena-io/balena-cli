@@ -1,4 +1,17 @@
 - commits:
+    - subject: >-
+        push: Fix docker-compose.dev.yml serialization ("should be object,null"
+        error)
+      hash: 37c2880996be297e61bef5f5e28119d217ce8cfd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.42.2
+  date: 2021-03-20T22:20:57.959Z
+- commits:
     - subject: Make README.md bullet point spacing uniform
       hash: 88072173d0da94bc57af0f3f989690f2b57c6773
       body: ''
