@@ -127,11 +127,15 @@ The `INSTALL*.md` and `TROUBLESHOOTING.md` files are also manually edited.
 
 ## Windows
 
-The `npm run build:installer` script (which generates the `.exe` executable installer on Windows)
-specifically requires [MSYS2](https://www.msys2.org/) to be installed.  Other than that, the
-standard Command Prompt or PowerShell can be used (though MSYS2 is still handy, as it provides
-'git' and a number of common unix utilities). If changes are made to npm scripts in `package.json`,
-check that they also run on a standard Windows Command Prompt.
+Besides the regular npm installation dependencies, the `npm run build:installer` script
+that produces the `.exe` graphical installer on Windows also requires
+[NSIS](https://sourceforge.net/projects/nsis/) and [MSYS2](https://www.msys2.org/) to be
+installed. Be sure to add `C:\Program Files (x86)\NSIS` to the PATH, so that `makensis`
+is available. MSYS2 is recommended when developing the balena CLI on Windows.
+
+If changes are made to npm scripts in `package.json`, don't assume that a Unix shell like
+bash is available. For example, some Windows shells don't have the `cp` and `rm` commands,
+which is why you'll often find `ncp` and `rimraf` used in `package.json` scripts.
 
 ## Updating the 'npm-shrinkwrap.json' file
 

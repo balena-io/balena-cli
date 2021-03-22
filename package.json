@@ -111,7 +111,7 @@
   "devDependencies": {
     "@balena/lint": "^5.2.0",
     "@oclif/config": "^1.17.0",
-    "@oclif/dev-cli": "^1.22.2",
+    "@oclif/dev-cli": "^1.26.0",
     "@oclif/parser": "^3.8.5",
     "@octokit/plugin-throttling": "^3.3.0",
     "@octokit/rest": "^16.43.2",

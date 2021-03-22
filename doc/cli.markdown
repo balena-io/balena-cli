@@ -21,13 +21,13 @@ are supported. Alternative shells include:
 
 * [MSYS2](https://www.msys2.org/):
   * Install additional packages with the command:  
-    `pacman -S git openssh rsync`
+    `pacman -S git gcc make openssh p7zip`
   * [Set a Windows environment variable](https://www.onmsft.com/how-to/how-to-set-an-environment-variable-in-windows-10): `MSYS2_PATH_TYPE=inherit`
   * Note that a bug in the MSYS2 launch script (`msys2_shell.cmd`) makes text-based interactive CLI
     menus to break. [Check this Github issue for a
     workaround](https://github.com/msys2/MINGW-packages/issues/1633#issuecomment-240583890).
 
-* [MSYS](http://www.mingw.org/wiki/MSYS): select the `msys-rsync` and `msys-openssh` packages too
+* [MSYS](http://www.mingw.org/wiki/MSYS)
 * [Git for Windows](https://git-for-windows.github.io/)
   * During the installation, you will be prompted to choose between _"Use MinTTY"_ and _"Use
     Windows' default console window"._ Choose the latter, because of the same [MSYS2

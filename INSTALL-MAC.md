@@ -22,7 +22,15 @@ Selected operating system: **macOS**
    * `balena help` - should print a list of available commands
 
 No further steps are required to run most CLI commands. The `balena ssh`, `build`, `deploy`
-and `preload` commands may require additional software to be installed, as described below.
+and `preload` commands may require additional software to be installed, as described
+in the next section.
+
+To update the balena CLI, repeat the steps above for the new version.  
+To uninstall it, run the following command on a terminal prompt:
+
+```text
+sudo /usr/local/lib/balena-cli/bin/uninstall
+```
 
 ## Additional Dependencies
 

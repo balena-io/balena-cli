@@ -95,9 +95,8 @@ some additional development tools to be installed first:
 On **Windows (not WSL),** the dependencies above and additional ones can be met by installing:
 
 * Node.js from the [Nodejs.org download page](https://nodejs.org/en/download/).
-* The [MSYS2 shell](https://www.msys2.org/), which provides `git`, `make`, `g++`, `ssh`, `rsync`
-  and more:
-  * `pacman -S git openssh rsync gcc make`
+* The [MSYS2 shell](https://www.msys2.org/), which provides `git`, `make`, `g++`, `7z` and more:
+  * `pacman -S git gcc make openssh p7zip`
   * [Set a Windows environment variable](https://www.onmsft.com/how-to/how-to-set-an-environment-variable-in-windows-10): `MSYS2_PATH_TYPE=inherit`
   * Note that a bug in the MSYS2 launch script (`msys2_shell.cmd`) makes text-based
     interactive CLI menus to misbehave. [Check this Github issue for a
