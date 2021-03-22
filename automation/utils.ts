@@ -18,10 +18,7 @@
 import { spawn } from 'child_process';
 import * as _ from 'lodash';
 import * as path from 'path';
-import * as shellEscape from 'shell-escape';
 
-export const MSYS2_BASH =
-	process.env.MSYSSHELLPATH || 'C:\\msys64\\usr\\bin\\bash.exe';
 export const ROOT = path.join(__dirname, '..');
 
 /** Tap and buffer this process' stdout and stderr */
@@ -89,40 +86,6 @@ export function diffLines(str1: string, str2: string): string {
 
 export function loadPackageJson() {
 	return require(path.join(ROOT, 'package.json'));
-}
-
-/**
- * Convert e.g. 'C:\myfolder' -> '/C/myfolder' so that the path can be given
- * as argument to "unix tools" like 'tar' under MSYS or MSYS2 on Windows.
- */
-export function fixPathForMsys(p: string): string {
-	return p.replace(/\\/g, '/').replace(/^([a-zA-Z]):/, '/$1');
-}
-
-/**
- * Run the MSYS2 bash.exe shell in a child process (child_process.spawn()).
- * The given argv arguments are escaped using the 'shell-escape' package,
- * so that backslashes in Windows paths, and other bash-special characters,
- * are preserved. If argv is not provided, defaults to process.argv, to the
- * effect that this current (parent) process is re-executed under MSYS2 bash.
- * This is useful to change the default shell from cmd.exe to MSYS2 bash on
- * Windows.
- * @param argv Arguments to be shell-escaped and given to MSYS2 bash.exe.
- */
-export async function runUnderMsys(argv?: string[]) {
-	const newArgv = argv || process.argv;
-	await new Promise((resolve, reject) => {
-		const args = ['-lc', shellEscape(newArgv)];
-		const child = spawn(MSYS2_BASH, args, { stdio: 'inherit' });
-		child.on('close', (code) => {
-			if (code) {
-				console.log(`runUnderMsys: child process exited with code ${code}`);
-				reject(code);
-			} else {
-				resolve();
-			}
-		});
-	});
 }
 
 /**

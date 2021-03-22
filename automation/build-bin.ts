@@ -34,15 +34,15 @@ import {
 	diffLines,
 	getSubprocessStdout,
 	loadPackageJson,
-	MSYS2_BASH,
 	ROOT,
 	StdOutTap,
 	whichSpawn,
 } from './utils';
-
 export const packageJSON = loadPackageJson();
 export const version = 'v' + packageJSON.version;
 const arch = process.arch;
+const MSYS2_BASH =
+	process.env.MSYSSHELLPATH || 'C:\\msys64\\usr\\bin\\bash.exe';
 
 function dPath(...paths: string[]) {
 	return path.join(ROOT, 'dist', ...paths);
