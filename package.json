@@ -247,7 +247,7 @@
     "node-unzip-2": "^0.2.8",
     "oclif": "^1.16.1",
     "open": "^7.1.0",
-    "patch-package": "6.2.2",
+    "patch-package": "^6.4.7",
     "prettyjson": "^1.1.3",
     "progress-stream": "^2.0.0",
     "reconfix": "^0.1.0",
