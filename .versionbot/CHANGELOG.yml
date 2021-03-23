@@ -1,4 +1,33 @@
 - commits:
+    - subject: Refactor automation scripts (reduce need for MSYS to build on Windows)
+      hash: 68b61e74245981a3b78f3332b6f5e6fb2e081c37
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: >-
+        Add macOS uninstall script (sudo
+        /usr/local/lib/balena-cli/bin/uninstall)
+      hash: 329b84d01e1279d13b1e0ac4f1b720af8a4b929e
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+    - subject: Bump `patch-package` dependency and remove its own patch file
+      hash: 25b1dff5d8b11d9360be38c99272a2dd03b29b59
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.43.0
+  date: 2021-03-23T00:07:08.109Z
+- commits:
     - subject: >-
         push: Fix docker-compose.dev.yml serialization ("should be object,null"
         error)
