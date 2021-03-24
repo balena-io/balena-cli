@@ -65,7 +65,7 @@ restriction that Docker must be installed on the local machine (because Docker's
 feature is used). Also, for some device types (such as the Raspberry Pi), the `preload` command
 requires Docker to support the [AUFS storage
 driver](https://docs.docker.com/storage/storagedriver/aufs-driver/). Unfortunately, Docker Desktop
-for Windows dropped support for the AUFS filesystem in Docker CE versions greater than 18.06.1. The
+for Mac dropped support for the AUFS filesystem in Docker CE versions greater than 18.06.1. The
 present workaround is to either:
 
 * Downgrade Docker Desktop to version 18.06.1. Link: [Docker CE for
