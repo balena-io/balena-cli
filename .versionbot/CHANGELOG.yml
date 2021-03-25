@@ -1,4 +1,17 @@
 - commits:
+    - subject: Improve installation docs regarding Docker Desktop version requirements
+      hash: 6d4faa7b2cd510f36b08580a5dddb481021202c2
+      body: ''
+      footer:
+        Connects-to: '#2228'
+        connects-to: '#2228'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.43.1
+  date: 2021-03-25T21:25:13.519Z
+- commits:
     - subject: Refactor automation scripts (reduce need for MSYS to build on Windows)
       hash: 68b61e74245981a3b78f3332b6f5e6fb2e081c37
       body: ''
