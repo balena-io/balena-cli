@@ -68,7 +68,7 @@ These environment variables are available for additional functionality included 
 In most cases these are optional, but some examples will highlight when environment variables are required.
 
 - `-e "SSH_PRIVATE_KEY=$(</path/to/priv/key)"`: copy your private SSH key file contents as an environment variable
-- `-e "DOCKERD=1"`: enable the included Docker-in-Docker daemon (requires `--cap-add SYS_ADMIN`)
+- `-e "DOCKERD=1"`: enable the included Docker-in-Docker daemon (requires `--privileged`)
 
 ## Keeping the CLI image up to date
 
@@ -269,8 +269,6 @@ $ docker run --rm -it -v "balena_data:/root/.balena" \
 > exit
 ```
 
-
-
 ### preload
 
 - <https://www.balena.io/docs/reference/balena-cli/#os-download-type>
@@ -284,7 +282,7 @@ The easiest way to run this command is to use the included Docker-in-Docker daem
 ```bash
 $ docker run --rm -it -v "balena_data:/root/.balena" \
     -v "docker_data:/var/lib/docker" \
-    -e "DOCKERD=1" --cap-add SYS_ADMIN \
+    -e "DOCKERD=1" --privileged \
     balenalib/amd64-debian-balenacli /bin/bash
 
 > balena os download raspberrypi3 -o raspberry-pi.img
@@ -331,7 +329,7 @@ This bind mount is required so the CLI has access to your app sources.
 ```bash
 $ docker run --rm -it -v "balena_data:/root/.balena" \
     -v "docker_data:/var/lib/docker" \
-    -e DOCKERD=1 --cap-add SYS_ADMIN \
+    -e DOCKERD=1 --privileged \
     -v "$PWD:$PWD" -w "$PWD" \
     balenalib/amd64-debian-balenacli /bin/bash
 
