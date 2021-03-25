@@ -62,15 +62,21 @@ command set can also be used to list and manage SSH keys: see `balena help -v`.
 
 Like the `build` and `deploy` commands, the `preload` command requires Docker, with the additional
 restriction that Docker must be installed on the local machine (because Docker's bind mounting
-feature is used). Also, for some device types (such as the Raspberry Pi), the `preload` command
-requires Docker to support the [AUFS storage
+feature is used). Also, preloading balenaOS images for some older device types (like the Raspberry
+Pi 3, but not the Raspberry 4) requires Docker to support the [AUFS storage
 driver](https://docs.docker.com/storage/storagedriver/aufs-driver/). Unfortunately, Docker Desktop
-for Windows dropped support for the AUFS filesystem in Docker CE versions greater than 18.06.1. The
-present workaround is to either:
+for Windows or macOS dropped support for the AUFS filesystem in Docker CE versions greater than
+18.06.1. The present workarounds are to either:
 
+* Install the balena CLI on Linux (e.g. Ubuntu) with a virtual machine like VirtualBox.
+  This works because Docker for Linux still supports AUFS. Hint: if using a virtual machine,
+  copy the image file over, rather than accessing it through "file sharing", to avoid errors.
 * Downgrade Docker Desktop to version 18.06.1. Link: [Docker CE for
   Mac](https://docs.docker.com/docker-for-mac/release-notes/#docker-community-edition-18061-ce-mac73-2018-08-29)
-* Install the balena CLI on a Linux machine (as Docker for Linux still supports AUFS). A Linux
-  Virtual Machine also works, but a Docker container is _not_ recommended.
 
-Long term, we are working on replacing AUFS with overlay2 for the affected device types.
+The [balena CLI Docker images](./docker/DOCKER.md) also support the `balena preload` command,
+but they do not avoid the requirement of using a Linux physical or virtual machine. This is
+because the AUFS storage driver is not present in the Linux kernel used by the newer versions
+of Docker Desktop for Windows or macOS.
+
+We are working on replacing AUFS with overlay2 in balenaOS images of the affected device types.
