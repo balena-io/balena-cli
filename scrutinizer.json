@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Improve installation docs regarding Docker Desktop version requirements",
+          "hash": "6d4faa7b2cd510f36b08580a5dddb481021202c2",
+          "body": "",
+          "footer": {
+            "Connects-to": "#2228",
+            "connects-to": "#2228",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.43.1",
+      "date": "2021-03-25T21:25:13.519Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Refactor automation scripts (reduce need for MSYS to build on Windows)",
           "hash": "68b61e74245981a3b78f3332b6f5e6fb2e081c37",
           "body": "",
@@ -21457,36 +21476,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-03-23T01:01:51Z",
+  "lastCommitDate": "2021-03-25T23:15:19Z",
   "latestRelease": {
-    "tagName": "v12.43.0",
+    "tagName": "v12.43.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.43.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.0/balena-cli-v12.43.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.43.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.1/balena-cli-v12.43.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.43.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.0/balena-cli-v12.43.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.43.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.1/balena-cli-v12.43.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.43.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.0/balena-cli-v12.43.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.43.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.1/balena-cli-v12.43.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.43.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.0/balena-cli-v12.43.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.43.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.1/balena-cli-v12.43.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.43.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.0/balena-cli-v12.43.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.43.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.1/balena-cli-v12.43.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 329,
+    "numberOfIssues": 330,
     "latestIssues": [
+      {
+        "title": "docker: Improve handling of Docker-in-Docker errors",
+        "url": "https://github.com/balena-io/balena-cli/pull/2229"
+      },
       {
         "title": "Should support npm v7",
         "url": "https://github.com/balena-io/balena-cli/issues/2221"
@@ -21562,14 +21585,10 @@
       {
         "title": "[analytics] Start tracking `contract_repo_name` and `contract_repo_url`",
         "url": "https://github.com/balena-io/balena-cli/issues/2187"
-      },
-      {
-        "title": "Update macOS installer to avoid Apple's warning pop-up",
-        "url": "https://github.com/balena-io/balena-cli/pull/2186"
       }
     ]
   },
-  "version": "12.43.0",
+  "version": "12.43.1",
   "screenshot": null,
   "logo": null
 }
