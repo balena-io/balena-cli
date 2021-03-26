@@ -1,4 +1,33 @@
 - commits:
+    - subject: 'docker: Improve handling of Docker-in-Docker errors'
+      hash: 9036ce9af373eb8d328f105839163db0cae38ae6
+      body: >
+        The `local` logging driver captures output from container’s
+        stdout/stderr
+
+        and writes them to an internal storage that is optimized for performance
+        and disk use.
+
+
+        We also want to capture these logs on startup to wait for
+        success/failure.
+
+
+        Advise the use of `--privileged` when running Docker-in-Docker to avoid
+
+        various permissions issues encountered in testing.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Changlelog-entry: 'docker: Improve handling of Docker-in-Docker errors'
+        changlelog-entry: 'docker: Improve handling of Docker-in-Docker errors'
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 12.43.2
+  date: 2021-03-26T12:59:15.682Z
+- commits:
     - subject: Improve installation docs regarding Docker Desktop version requirements
       hash: 6d4faa7b2cd510f36b08580a5dddb481021202c2
       body: ''
