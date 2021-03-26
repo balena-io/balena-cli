@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "docker: Improve handling of Docker-in-Docker errors",
+          "hash": "9036ce9af373eb8d328f105839163db0cae38ae6",
+          "body": "The `local` logging driver captures output from container’s stdout/stderr\nand writes them to an internal storage that is optimized for performance and disk use.\n\nWe also want to capture these logs on startup to wait for success/failure.\n\nAdvise the use of `--privileged` when running Docker-in-Docker to avoid\nvarious permissions issues encountered in testing.\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Changlelog-entry": "docker: Improve handling of Docker-in-Docker errors",
+            "changlelog-entry": "docker: Improve handling of Docker-in-Docker errors",
+            "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+            "signed-off-by": "Kyle Harding <kyle@balena.io>"
+          },
+          "author": "Kyle Harding",
+          "nested": []
+        }
+      ],
+      "version": "12.43.2",
+      "date": "2021-03-26T12:59:15.682Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Improve installation docs regarding Docker Desktop version requirements",
           "hash": "6d4faa7b2cd510f36b08580a5dddb481021202c2",
           "body": "",
@@ -21312,16 +21333,16 @@
       "avatar": "https://avatars.githubusercontent.com/u/7872396?v=4"
     },
     {
+      "username": "klutchell",
+      "avatar": "https://avatars.githubusercontent.com/u/20458272?v=4"
+    },
+    {
       "username": "pcarranzav",
       "avatar": "https://avatars.githubusercontent.com/u/2223590?v=4"
     },
     {
       "username": "dansku",
       "avatar": "https://avatars.githubusercontent.com/u/590207?v=4"
-    },
-    {
-      "username": "klutchell",
-      "avatar": "https://avatars.githubusercontent.com/u/20458272?v=4"
     },
     {
       "username": "afitzek",
@@ -21476,39 +21497,43 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-03-25T23:15:19Z",
+  "lastCommitDate": "2021-03-26T15:31:50Z",
   "latestRelease": {
-    "tagName": "v12.43.1",
+    "tagName": "v12.43.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.43.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.1/balena-cli-v12.43.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.43.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.2/balena-cli-v12.43.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.43.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.1/balena-cli-v12.43.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.43.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.2/balena-cli-v12.43.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.43.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.1/balena-cli-v12.43.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.43.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.2/balena-cli-v12.43.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.43.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.1/balena-cli-v12.43.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.43.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.2/balena-cli-v12.43.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.43.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.1/balena-cli-v12.43.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.43.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.2/balena-cli-v12.43.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 330,
+    "numberOfIssues": 331,
     "latestIssues": [
       {
-        "title": "docker: Improve handling of Docker-in-Docker errors",
-        "url": "https://github.com/balena-io/balena-cli/pull/2229"
+        "title": "docker: Install official static docker binaries",
+        "url": "https://github.com/balena-io/balena-cli/pull/2232"
+      },
+      {
+        "title": "balena preload fails with version >12.37.0 and openBalena 3.2.1",
+        "url": "https://github.com/balena-io/balena-cli/issues/2231"
       },
       {
         "title": "Should support npm v7",
@@ -21581,14 +21606,10 @@
       {
         "title": "[analytics] identify when running in container",
         "url": "https://github.com/balena-io/balena-cli/issues/2188"
-      },
-      {
-        "title": "[analytics] Start tracking `contract_repo_name` and `contract_repo_url`",
-        "url": "https://github.com/balena-io/balena-cli/issues/2187"
       }
     ]
   },
-  "version": "12.43.1",
+  "version": "12.43.2",
   "screenshot": null,
   "logo": null
 }
