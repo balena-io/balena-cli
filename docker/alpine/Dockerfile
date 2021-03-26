@@ -41,3 +41,6 @@ ENTRYPOINT [ "/usr/src/app/init.sh" ]
 CMD [ "help" ]
 
 ENV SSH_AUTH_SOCK "/ssh-agent"
+
+# docker data must be a volume or tmpfs
+VOLUME /var/lib/docker

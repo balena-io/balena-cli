@@ -4,7 +4,12 @@
 if [ "${DOCKERD}" = "1" ]
 then
     [ -e /var/run/docker.sock ] && rm /var/run/docker.sock
-    dockerd &
+    dockerd --log-driver=local 2>&1 | tee /tmp/dockerd.log &
+    while ! grep -q 'API listen on' /tmp/dockerd.log
+    do
+        grep -q 'Error starting daemon' /tmp/dockerd.log && exit 1
+        sleep 1
+    done
 fi
 
 # load private ssh key if one is provided
