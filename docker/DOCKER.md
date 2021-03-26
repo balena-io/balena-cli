@@ -397,12 +397,12 @@ export BALENA_DISTRO="debian"
 # provide the architecture where you will be testing the image
 export BALENA_ARCH="amd64"
 
-# optionally register QEMU binfmt if building for other architectures (eg. armv7hf)
-$ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+# optionally register QEMU binfmt if building for other architectures (eg. rpi)
+docker run --rm --privileged multiarch/qemu-user-static:5.2.0-2 --reset -p yes
 
 # build and tag an image with docker
 docker build . -f docker/${BALENA_DISTRO}/Dockerfile \
-    --build-arg "BUILD_BASE=balenalib/${BALENA_ARCH}-${BALENA_DISTRO}-node:12.19.1-build" \
-    --build-arg "RUN_BASE=balenalib/${BALENA_ARCH}-${BALENA_DISTRO}-node:12.19.1-run" \
+    --build-arg "BUILD_BASE=balenalib/${BALENA_ARCH}-${BALENA_DISTRO}-node:12.19-build" \
+    --build-arg "RUN_BASE=balenalib/${BALENA_ARCH}-${BALENA_DISTRO}-node:12.19-run" \
     --tag "balenalib/${BALENA_ARCH}-${BALENA_DISTRO}-balenacli"
 ```

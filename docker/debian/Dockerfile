@@ -3,6 +3,25 @@ ARG RUN_BASE=balenalib/amd64-debian-node:12.19.1-run
 
 FROM ${BUILD_BASE} as build
 
+WORKDIR /usr/src/docker
+
+ARG DOCKER_VERSION=19.03.8
+
+# set pipefail before running shell commands with a pipe
+# https://github.com/hadolint/hadolint/wiki/DL4006
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# install official static docker binaries
+# https://github.com/docker-library/docker/blob/master/20.10/Dockerfile
+RUN case "$(dpkg --print-architecture)" in \
+        'arm64') DOCKER_ARCH='aarch64' ;; \
+        'amd64') DOCKER_ARCH='x86_64' ;; \
+        'armhf') DOCKER_ARCH='armel' ;; \
+        'i386') DOCKER_ARCH='x86_64' ;; \
+        *) echo >&2 "error: unsupported architecture ($(dpkg --print-architecture))"; exit 1 ;; \
+    esac && \
+    curl -L https://download.docker.com/linux/static/stable/$DOCKER_ARCH/docker-$DOCKER_VERSION.tgz | tar xzv --strip-components 1
+
 WORKDIR /usr/src/app
 
 COPY . .
@@ -18,17 +37,20 @@ RUN npm prune --production
 
 FROM ${RUN_BASE}
 
+# https://github.com/balena-io/balena-cli/blob/master/INSTALL-LINUX.md#additional-dependencies
+RUN install_packages avahi-daemon ca-certificates iptables jq openssh-client && \
+    update-alternatives --set iptables /usr/sbin/iptables-legacy && \
+    update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+
 WORKDIR /usr/src/app
 
-COPY --from=build /usr/src/app/ .
+COPY --from=build /usr/src/app/ /usr/src/app/
+COPY --from=build /usr/src/docker/ /usr/local/bin/
 
 ENV PATH $PATH:/usr/src/app/bin
 
-# fail early if balena binary won't run
-RUN balena --version
-
-# https://github.com/balena-io/balena-cli/blob/master/INSTALL-LINUX.md#additional-dependencies
-RUN install_packages avahi-daemon ca-certificates docker.io jq openssh-client
+# fail if binaries are missing or won't run
+RUN echo -n "balena CLI version " && balena --version && dockerd --version && docker --version
 
 COPY docker/docker-init.sh init.sh
 
