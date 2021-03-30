@@ -84,7 +84,7 @@ export default class OsConfigureCmd extends Command {
 		WiFi or ethernet connections. This option may be passed multiple times in case there
 		are multiple files to inject. See connection profile examples and reference at:
 		https://www.balena.io/docs/reference/OS/network/2.x/
-		https://developer.gnome.org/NetworkManager/stable/nm-settings.html
+		https://developer.gnome.org/NetworkManager/stable/ref-settings.html
 
 		${deviceApiKeyDeprecationMsg.split('\n').join('\n\t\t')}
 
