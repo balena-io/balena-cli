@@ -10,7 +10,7 @@ so they include many of the features you see there.
 - Multiple Architectures:
     - `rpi`
     - `armv7hf`
-    - `aarch64` (debian only)
+    - `aarch64`
     - `amd64`
     - `i386`
 - Multiple Distributions
@@ -402,7 +402,7 @@ $ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
 # build and tag an image with docker
 docker build . -f docker/${BALENA_DISTRO}/Dockerfile \
-    --build-arg "BUILD_BASE=balenalib/${BALENA_ARCH}-${BALENA_DISTRO}-node:12.19.1-build" \
-    --build-arg "RUN_BASE=balenalib/${BALENA_ARCH}-${BALENA_DISTRO}-node:12.19.1-run" \
+    --build-arg "BUILD_BASE=balenalib/${BALENA_ARCH}-${BALENA_DISTRO}-node:12.19-build" \
+    --build-arg "RUN_BASE=balenalib/${BALENA_ARCH}-${BALENA_DISTRO}-node:12.19-run" \
     --tag "balenalib/${BALENA_ARCH}-${BALENA_DISTRO}-balenacli"
 ```

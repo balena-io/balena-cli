@@ -20,6 +20,14 @@ docker:
   builds:
     - path: .
       dockerfile: ./docker/alpine/Dockerfile
+      docker_repo: balenalib/aarch64-debian-balenacli
+      args:
+        - BUILD_BASE=balenalib/aarch64-alpine-node:12.19.0-build-20201101
+        - RUN_BASE=balenalib/aarch64-alpine-node:12.19.0-run-20201101
+      publish: true
+
+    - path: .
+      dockerfile: ./docker/alpine/Dockerfile
       docker_repo: balenalib/amd64-alpine-balenacli
       args:
         - BUILD_BASE=balenalib/amd64-alpine-node:12.19.1-build-20201211
