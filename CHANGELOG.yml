@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'os/configure: Fix broken NetworkManager URL'
+      hash: 6437bb7511cb8ab580577b5242d7d2b0b4d4aaa6
+      body: |
+        Update the broken NM URL to match the rest of the documentation.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: balena-io/docs/#1757 balena-io/docs/#1522
+        connects-to: balena-io/docs/#1757 balena-io/docs/#1522
+        Changelog-entry: 'os/configure: Fix broken NetworkManager URL'
+        changelog-entry: 'os/configure: Fix broken NetworkManager URL'
+        Signed-off-by: Mark Corbin <mark@balena.io>
+        signed-off-by: Mark Corbin <mark@balena.io>
+      author: Mark Corbin
+      nested: []
+  version: 12.44.1
+  date: 2021-03-31T16:14:33.172Z
+- commits:
     - subject: 'osConfigure/localFlash: Add support for Node.js v14'
       hash: ac96616e4e5f9e246dcdfbf38252812f4b3109bb
       body: "* Replace old resin-image-fs with newer balena-image-fs\n* package.json: Remove resin-image-fs package\n* package: Install dependencies that work with node14\n* Remove resin-image-fs typings\n* Fix etcher-sdk related types\n* local/flash: Add unmountOnSuccess, write, direct properties on flash\n\tTaken from https://github.com/balena-io-modules/etcher-sdk/blob/master/examples/multi-destination.ts\n* tests/utils/eol-conversion: Remove ext2fs sample binary\n\tSpecifically ext2fs/build/Release/bindings.node\n\tI removed it because the file doesn't exist\n* tests/test-data/pkg: Add new expected warnings darwin/linux/windows\n* os/configure: Remove windows check\n* local/flash: Check if environment is WSL and show warning message\n* Get tests to pass with certain Node v14 warning messages\n* INSTALL-WINDOWS: Remove os configure warning\n\nImprove push and logs support for Node.js v14 (bump 'net-keepalive')\n"
@@ -12,7 +30,7 @@
       author: Marios Balamatsias
       nested: []
   version: 12.44.0
-  date: 2021-03-31T12:12:23.675Z
+  date: 2021-03-30T22:22:13.821Z
 - commits:
     - subject: 'docker: Improve handling of Docker-in-Docker errors'
       hash: 9036ce9af373eb8d328f105839163db0cae38ae6

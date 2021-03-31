@@ -5,6 +5,29 @@
     {
       "commits": [
         {
+          "subject": "os/configure: Fix broken NetworkManager URL",
+          "hash": "6437bb7511cb8ab580577b5242d7d2b0b4d4aaa6",
+          "body": "Update the broken NM URL to match the rest of the documentation.\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Connects-to": "balena-io/docs/#1757 balena-io/docs/#1522",
+            "connects-to": "balena-io/docs/#1757 balena-io/docs/#1522",
+            "Changelog-entry": "os/configure: Fix broken NetworkManager URL",
+            "changelog-entry": "os/configure: Fix broken NetworkManager URL",
+            "Signed-off-by": "Mark Corbin <mark@balena.io>",
+            "signed-off-by": "Mark Corbin <mark@balena.io>"
+          },
+          "author": "Mark Corbin",
+          "nested": []
+        }
+      ],
+      "version": "12.44.1",
+      "date": "2021-03-31T14:43:34.212Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "osConfigure/localFlash: Add support for Node.js v14",
           "hash": "ac96616e4e5f9e246dcdfbf38252812f4b3109bb",
           "body": "* Replace old resin-image-fs with newer balena-image-fs\n* package.json: Remove resin-image-fs package\n* package: Install dependencies that work with node14\n* Remove resin-image-fs typings\n* Fix etcher-sdk related types\n* local/flash: Add unmountOnSuccess, write, direct properties on flash\n\tTaken from https://github.com/balena-io-modules/etcher-sdk/blob/master/examples/multi-destination.ts\n* tests/utils/eol-conversion: Remove ext2fs sample binary\n\tSpecifically ext2fs/build/Release/bindings.node\n\tI removed it because the file doesn't exist\n* tests/test-data/pkg: Add new expected warnings darwin/linux/windows\n* os/configure: Remove windows check\n* local/flash: Check if environment is WSL and show warning message\n* Get tests to pass with certain Node v14 warning messages\n* INSTALL-WINDOWS: Remove os configure warning\n\nImprove push and logs support for Node.js v14 (bump 'net-keepalive')\n",
@@ -21518,35 +21541,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-03-31T12:13:11Z",
+  "lastCommitDate": "2021-03-31T16:15:26Z",
   "latestRelease": {
-    "tagName": "v12.44.0",
+    "tagName": "v12.44.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.44.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.0/balena-cli-v12.44.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.44.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.1/balena-cli-v12.44.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.0/balena-cli-v12.44.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.44.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.1/balena-cli-v12.44.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.44.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.0/balena-cli-v12.44.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.44.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.1/balena-cli-v12.44.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.0/balena-cli-v12.44.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.44.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.1/balena-cli-v12.44.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.44.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.0/balena-cli-v12.44.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.44.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.1/balena-cli-v12.44.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 331,
+    "numberOfIssues": 330,
     "latestIssues": [
       {
         "title": "add --use-commit-as-release-id flag",
@@ -21555,10 +21578,6 @@
       {
         "title": "docker: Add support for aarch64-alpine images",
         "url": "https://github.com/balena-io/balena-cli/pull/2236"
-      },
-      {
-        "title": "os/configure: Fix broken NetworkManager URL",
-        "url": "https://github.com/balena-io/balena-cli/pull/2235"
       },
       {
         "title": "balena push --registry-secrets fails when certain passwords are used",
@@ -21627,10 +21646,14 @@
       {
         "title": "Livepush not restarting container with Dockerfile.template",
         "url": "https://github.com/balena-io/balena-cli/issues/2195"
+      },
+      {
+        "title": "npm-shrinkwrap github URLs not supported by Yocto bitbake npmsw handler",
+        "url": "https://github.com/balena-io/balena-cli/issues/2192"
       }
     ]
   },
-  "version": "12.44.0",
+  "version": "12.44.1",
   "screenshot": null,
   "logo": null
 }
