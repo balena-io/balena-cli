@@ -21,6 +21,22 @@ import * as path from 'path';
 
 export const ROOT = path.join(__dirname, '..');
 
+const nodeEngineWarn = `\
+------------------------------------------------------------------------------
+Warning: Node version "v14.x.x" does not match required versions ">=10.20.0 <13.0.0".
+This may cause unexpected behavior. To upgrade Node, visit:
+https://nodejs.org/en/download/
+------------------------------------------------------------------------------
+`;
+const nodeEngineWarnArray = nodeEngineWarn.split('\n').filter((l) => l);
+
+export function matchesNodeEngineVersionWarn(line: string) {
+	line = line.replace(/"v14\.\d{1,3}\.\d{1,3}"/, '"v14.x.x"');
+	return (
+		line === nodeEngineWarn || nodeEngineWarnArray.includes(line.trimEnd())
+	);
+}
+
 /** Tap and buffer this process' stdout and stderr */
 export class StdOutTap {
 	public stdoutBuf: string[] = [];
@@ -120,7 +136,8 @@ export async function getSubprocessStdout(
 				// every line provided to the stderr stream
 				const lines = _.filter(
 					stderr.trim().split(/\r?\n/),
-					(line) => !line.startsWith('[debug]'),
+					(line) =>
+						!line.startsWith('[debug]') && !matchesNodeEngineVersionWarn(line),
 				);
 				if (lines.length > 0) {
 					reject(

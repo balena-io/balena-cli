@@ -62,7 +62,6 @@ describe('convertEolInPlace() function', function () {
 describe('detectEncoding() function', function () {
 	it('should correctly detect the encoding of a few selected files', async () => {
 		const sampleBinary = [
-			'ext2fs/build/Release/bindings.node',
 			'drivelist/build/Release/drivelist.node',
 			'@balena.io/usb/build/Release/usb_bindings.node',
 			'xxhash/build/Release/hash.node',
