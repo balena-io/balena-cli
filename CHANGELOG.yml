@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'osConfigure/localFlash: Add support for Node.js v14'
+      hash: ac96616e4e5f9e246dcdfbf38252812f4b3109bb
+      body: "* Replace old resin-image-fs with newer balena-image-fs\n* package.json: Remove resin-image-fs package\n* package: Install dependencies that work with node14\n* Remove resin-image-fs typings\n* Fix etcher-sdk related types\n* local/flash: Add unmountOnSuccess, write, direct properties on flash\n\tTaken from https://github.com/balena-io-modules/etcher-sdk/blob/master/examples/multi-destination.ts\n* tests/utils/eol-conversion: Remove ext2fs sample binary\n\tSpecifically ext2fs/build/Release/bindings.node\n\tI removed it because the file doesn't exist\n* tests/test-data/pkg: Add new expected warnings darwin/linux/windows\n* os/configure: Remove windows check\n* local/flash: Check if environment is WSL and show warning message\n* Get tests to pass with certain Node v14 warning messages\n* INSTALL-WINDOWS: Remove os configure warning\n\nImprove push and logs support for Node.js v14 (bump 'net-keepalive')\n"
+      footer:
+        Resolves: '#1990'
+        resolves: '#1990'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+  version: 12.44.0
+  date: 2021-03-31T12:12:23.675Z
+- commits:
     - subject: 'docker: Improve handling of Docker-in-Docker errors'
       hash: 9036ce9af373eb8d328f105839163db0cae38ae6
       body: >
@@ -26,7 +41,7 @@
       author: Kyle Harding
       nested: []
   version: 12.43.2
-  date: 2021-03-26T15:31:03.967Z
+  date: 2021-03-26T12:59:15.682Z
 - commits:
     - subject: Improve installation docs regarding Docker Desktop version requirements
       hash: 6d4faa7b2cd510f36b08580a5dddb481021202c2

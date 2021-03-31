@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "osConfigure/localFlash: Add support for Node.js v14",
+          "hash": "ac96616e4e5f9e246dcdfbf38252812f4b3109bb",
+          "body": "* Replace old resin-image-fs with newer balena-image-fs\n* package.json: Remove resin-image-fs package\n* package: Install dependencies that work with node14\n* Remove resin-image-fs typings\n* Fix etcher-sdk related types\n* local/flash: Add unmountOnSuccess, write, direct properties on flash\n\tTaken from https://github.com/balena-io-modules/etcher-sdk/blob/master/examples/multi-destination.ts\n* tests/utils/eol-conversion: Remove ext2fs sample binary\n\tSpecifically ext2fs/build/Release/bindings.node\n\tI removed it because the file doesn't exist\n* tests/test-data/pkg: Add new expected warnings darwin/linux/windows\n* os/configure: Remove windows check\n* local/flash: Check if environment is WSL and show warning message\n* Get tests to pass with certain Node v14 warning messages\n* INSTALL-WINDOWS: Remove os configure warning\n\nImprove push and logs support for Node.js v14 (bump 'net-keepalive')\n",
+          "footer": {
+            "Resolves": "#1990",
+            "resolves": "#1990",
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Marios Balamatsias <mbalamatsias@gmail.com>",
+            "signed-off-by": "Marios Balamatsias <mbalamatsias@gmail.com>"
+          },
+          "author": "Marios Balamatsias",
+          "nested": []
+        }
+      ],
+      "version": "12.44.0",
+      "date": "2021-03-30T22:22:13.821Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "docker: Improve handling of Docker-in-Docker errors",
           "hash": "9036ce9af373eb8d328f105839163db0cae38ae6",
           "body": "The `local` logging driver captures output from container’s stdout/stderr\nand writes them to an internal storage that is optimized for performance and disk use.\n\nWe also want to capture these logs on startup to wait for success/failure.\n\nAdvise the use of `--privileged` when running Docker-in-Docker to avoid\nvarious permissions issues encountered in testing.\n",
@@ -21325,12 +21346,12 @@
       "avatar": "https://avatars.githubusercontent.com/u/38863?v=4"
     },
     {
-      "username": "richbayliss",
-      "avatar": "https://avatars.githubusercontent.com/u/633741?v=4"
-    },
-    {
       "username": "mbalamat",
       "avatar": "https://avatars.githubusercontent.com/u/7872396?v=4"
+    },
+    {
+      "username": "richbayliss",
+      "avatar": "https://avatars.githubusercontent.com/u/633741?v=4"
     },
     {
       "username": "klutchell",
@@ -21397,7 +21418,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 310,
+  "stars": 312,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -21420,6 +21441,7 @@
     "balena-config-json",
     "balena-device-init",
     "balena-errors",
+    "balena-image-fs",
     "balena-image-manager",
     "balena-preload",
     "balena-release",
@@ -21477,7 +21499,6 @@
     "resin-cli-visuals",
     "resin-compose-parse",
     "resin-doodles",
-    "resin-image-fs",
     "resin-multibuild",
     "resin-stream-logger",
     "rimraf",
@@ -21497,29 +21518,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-03-26T15:31:50Z",
+  "lastCommitDate": "2021-03-31T12:13:11Z",
   "latestRelease": {
-    "tagName": "v12.43.2",
+    "tagName": "v12.44.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.43.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.2/balena-cli-v12.43.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.44.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.0/balena-cli-v12.44.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.43.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.2/balena-cli-v12.43.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.44.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.0/balena-cli-v12.44.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.43.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.2/balena-cli-v12.43.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.44.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.0/balena-cli-v12.44.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.43.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.2/balena-cli-v12.43.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.44.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.0/balena-cli-v12.44.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.43.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.43.2/balena-cli-v12.43.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.44.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.0/balena-cli-v12.44.0-windows-x64-standalone.zip"
       }
     ]
   },
@@ -21527,6 +21548,22 @@
   "openIssues": {
     "numberOfIssues": 331,
     "latestIssues": [
+      {
+        "title": "add --use-commit-as-release-id flag",
+        "url": "https://github.com/balena-io/balena-cli/issues/2237"
+      },
+      {
+        "title": "docker: Add support for aarch64-alpine images",
+        "url": "https://github.com/balena-io/balena-cli/pull/2236"
+      },
+      {
+        "title": "os/configure: Fix broken NetworkManager URL",
+        "url": "https://github.com/balena-io/balena-cli/pull/2235"
+      },
+      {
+        "title": "balena push --registry-secrets fails when certain passwords are used",
+        "url": "https://github.com/balena-io/balena-cli/issues/2233"
+      },
       {
         "title": "docker: Install official static docker binaries",
         "url": "https://github.com/balena-io/balena-cli/pull/2232"
@@ -21576,10 +21613,6 @@
         "url": "https://github.com/balena-io/balena-cli/issues/2203"
       },
       {
-        "title": "balena push fails with fatal error",
-        "url": "https://github.com/balena-io/balena-cli/issues/2200"
-      },
-      {
         "title": "Completion",
         "url": "https://github.com/balena-io/balena-cli/pull/2199"
       },
@@ -21594,22 +21627,10 @@
       {
         "title": "Livepush not restarting container with Dockerfile.template",
         "url": "https://github.com/balena-io/balena-cli/issues/2195"
-      },
-      {
-        "title": "npm-shrinkwrap github URLs not supported by Yocto bitbake npmsw handler",
-        "url": "https://github.com/balena-io/balena-cli/issues/2192"
-      },
-      {
-        "title": "`balena build` incorrectly reports ARM v7 or v8 instead of ARM v6",
-        "url": "https://github.com/balena-io/balena-cli/issues/2190"
-      },
-      {
-        "title": "[analytics] identify when running in container",
-        "url": "https://github.com/balena-io/balena-cli/issues/2188"
       }
     ]
   },
-  "version": "12.43.2",
+  "version": "12.44.0",
   "screenshot": null,
   "logo": null
 }
