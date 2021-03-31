@@ -2084,7 +2084,7 @@ profiles for additional network interfaces, such as cellular/GSM or additional
 WiFi or ethernet connections. This option may be passed multiple times in case there
 are multiple files to inject. See connection profile examples and reference at:
 https://www.balena.io/docs/reference/OS/network/2.x/
-https://developer.gnome.org/NetworkManager/stable/nm-settings.html
+https://developer.gnome.org/NetworkManager/stable/ref-settings.html
 
 The --device-api-key option is deprecated and will be removed in a future release.
 A suitable key is automatically generated or fetched if this option is omitted.
