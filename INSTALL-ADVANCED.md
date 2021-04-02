@@ -13,8 +13,6 @@ There are 3 options to choose from to install balena's CLI:
   Recommended also for scripted installation in CI (continuous integration) environments.
 * [NPM Installation](#npm-installation): recommended for Node.js developers who may be interested
   in integrating the balena CLI in their existing projects or workflow.
-* [Docker Installation](#docker-installation): recommended for users that would like to run the
-  CLI on edge devices or systems where npm installation may not be an option.
 
 Some specific CLI commands have a few extra installation steps: see section [Additional
 Dependencies](#additional-dependencies).
@@ -147,10 +145,3 @@ To use a remote Docker Engine (daemon) or balenaEngine, specify the remote machi
 port number with the `--dockerHost` and `--dockerPort` command-line options. For more details,
 check `balena help build` or the [online
 reference](https://www.balena.io/docs/reference/cli/#cli-command-reference).
-
-## Docker Installation
-
-[balenalib images](https://www.balena.io/docs/reference/base-images/base-images/)
-are available for the balena CLI. They can be used interactively with `docker run`, or
-as a base image for your application containers. Check out [Docker.md](docker/DOCKER.md)
-on how to pick an image and get started!
