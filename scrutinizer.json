@@ -5,6 +5,36 @@
     {
       "commits": [
         {
+          "subject": "docker: Remove references to CLI docker images in the installation docs",
+          "hash": "431c4b6e4a8c812d7aeb2969aaaee57dc2a26cfd",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "docker: Remove balenalib images and docs",
+          "hash": "d12490f8169f7ff8678bec9b66e4590015a920e6",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+            "signed-off-by": "Kyle Harding <kyle@balena.io>"
+          },
+          "author": "Kyle Harding",
+          "nested": []
+        }
+      ],
+      "version": "12.44.2",
+      "date": "2021-04-02T17:09:45.529Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "os/configure: Fix broken NetworkManager URL",
           "hash": "6437bb7511cb8ab580577b5242d7d2b0b4d4aaa6",
           "body": "Update the broken NM URL to match the rest of the documentation.\n",
@@ -21541,36 +21571,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-03-31T16:15:26Z",
+  "lastCommitDate": "2021-04-02T17:25:58Z",
   "latestRelease": {
-    "tagName": "v12.44.1",
+    "tagName": "v12.44.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.44.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.1/balena-cli-v12.44.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.44.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.2/balena-cli-v12.44.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.1/balena-cli-v12.44.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.44.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.2/balena-cli-v12.44.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.44.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.1/balena-cli-v12.44.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.44.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.2/balena-cli-v12.44.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.1/balena-cli-v12.44.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.44.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.2/balena-cli-v12.44.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.44.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.1/balena-cli-v12.44.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.44.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.2/balena-cli-v12.44.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 330,
+    "numberOfIssues": 332,
     "latestIssues": [
+      {
+        "title": "Rename supported docker-compose overlay file",
+        "url": "https://github.com/balena-io/balena-cli/pull/2241"
+      },
+      {
+        "title": "balena local configure fails when resin-wifi is not available on the image",
+        "url": "https://github.com/balena-io/balena-cli/issues/2239"
+      },
+      {
+        "title": "Remember last app that was pushed to and warn when using a different one",
+        "url": "https://github.com/balena-io/balena-cli/issues/2238"
+      },
       {
         "title": "add --use-commit-as-release-id flag",
         "url": "https://github.com/balena-io/balena-cli/issues/2237"
@@ -21638,22 +21680,10 @@
       {
         "title": "Feature request: Add ability to delete releases with cli",
         "url": "https://github.com/balena-io/balena-cli/issues/2198"
-      },
-      {
-        "title": "Support local mode in \"balena tunnel\"",
-        "url": "https://github.com/balena-io/balena-cli/issues/2196"
-      },
-      {
-        "title": "Livepush not restarting container with Dockerfile.template",
-        "url": "https://github.com/balena-io/balena-cli/issues/2195"
-      },
-      {
-        "title": "npm-shrinkwrap github URLs not supported by Yocto bitbake npmsw handler",
-        "url": "https://github.com/balena-io/balena-cli/issues/2192"
       }
     ]
   },
-  "version": "12.44.1",
+  "version": "12.44.2",
   "screenshot": null,
   "logo": null
 }

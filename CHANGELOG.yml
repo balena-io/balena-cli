@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'docker: Remove references to CLI docker images in the installation docs'
+      hash: 431c4b6e4a8c812d7aeb2969aaaee57dc2a26cfd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'docker: Remove balenalib images and docs'
+      hash: d12490f8169f7ff8678bec9b66e4590015a920e6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 12.44.2
+  date: 2021-04-02T17:25:07.766Z
+- commits:
     - subject: 'os/configure: Fix broken NetworkManager URL'
       hash: 6437bb7511cb8ab580577b5242d7d2b0b4d4aaa6
       body: |
@@ -15,7 +36,7 @@
       author: Mark Corbin
       nested: []
   version: 12.44.1
-  date: 2021-03-31T16:14:33.172Z
+  date: 2021-03-31T14:43:34.212Z
 - commits:
     - subject: 'osConfigure/localFlash: Add support for Node.js v14'
       hash: ac96616e4e5f9e246dcdfbf38252812f4b3109bb
