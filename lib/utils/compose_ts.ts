@@ -172,7 +172,7 @@ async function mergeDevComposeOverlay(
 	composeStr: string,
 	projectRoot: string,
 ) {
-	const devOverlayFilename = 'docker-compose.dev.yml';
+	const devOverlayFilename = 'docker-compose.override.yml';
 	const devOverlayPath = path.join(projectRoot, devOverlayFilename);
 
 	if (await exists(devOverlayPath)) {
