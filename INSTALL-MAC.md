@@ -74,9 +74,4 @@ for Windows or macOS dropped support for the AUFS filesystem in Docker CE versio
 * Downgrade Docker Desktop to version 18.06.1. Link: [Docker CE for
   Mac](https://docs.docker.com/docker-for-mac/release-notes/#docker-community-edition-18061-ce-mac73-2018-08-29)
 
-The [balena CLI Docker images](./docker/DOCKER.md) also support the `balena preload` command,
-but they do not avoid the requirement of using a Linux physical or virtual machine. This is
-because the AUFS storage driver is not present in the Linux kernel used by the newer versions
-of Docker Desktop for Windows or macOS.
-
 We are working on replacing AUFS with overlay2 in balenaOS images of the affected device types.
