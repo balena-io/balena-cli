@@ -124,7 +124,7 @@ regular (non-root) user account, especially if using a user-managed node install
 
 ## Additional Dependencies
 
-The `balena ssh`, `scan`, `build`, `deploy`, `preload` and `os configure` commands may require
+The `balena ssh`, `scan`, `build`, `deploy` and `preload` commands may require
 additional software to be installed. Check the Additional Dependencies sections for each operating
 system:
 
@@ -132,8 +132,8 @@ system:
 * [macOS](./INSTALL-MAC.md#additional-dependencies)
 * [Linux](./INSTALL-LINUX.md#additional-dependencies)
 
-The `build` and `deploy` commands are also capable of using Docker or balenaEngine on a remote
-server, or on a balenaOS device running a [balenaOS development
+Where Docker or balenaEngine are required, they may be installed on the local machine (where the
+balena CLI is executed), on a remote server, or on a balenaOS device running a [balenaOS development
 image](https://www.balena.io/docs/reference/OS/overview/2.x/#dev-vs-prod-images)). Reasons why this
 may be desirable include:
 
@@ -142,6 +142,7 @@ may be desirable include:
 * To build or run images "natively" on an ARM device, avoiding the need for QEMU emulation.
 
 To use a remote Docker Engine (daemon) or balenaEngine, specify the remote machine's IP address and
-port number with the `--dockerHost` and `--dockerPort` command-line options. For more details,
-check `balena help build` or the [online
+port number with the `--dockerHost` and `--dockerPort` command-line options. The `preload` command
+has additional requirements because the bind mount feature is used. For more details, see
+`balena help` for each command or the [online
 reference](https://www.balena.io/docs/reference/cli/#cli-command-reference).

@@ -2416,7 +2416,12 @@ a balenaOS splash screen, in a previously downloaded '.img' balenaOS image file
 in the local disk (a zip file is only accepted for the Intel Edison device type).
 After preloading, the balenaOS image file can be flashed to a device's SD card.
 When the device boots, it will not need to download the application, as it was
-preloaded.
+preloaded. This is usually combined with release pinning
+(https://www.balena.io/docs/learn/deploy/release-strategy/release-policy/)
+to avoid the device dowloading a newer release straight away, if one is available.
+Check also the Preloading and Preregistering section of the balena CLI's advanced
+masterclass document:
+https://www.balena.io/docs/learn/more/masterclasses/advanced-cli/#5-preloading-and-preregistering
 
 Applications may be specified by app name, slug, or numeric ID. App slugs
 are the recommended option, as they are unique and unambiguous. Slugs
@@ -2431,9 +2436,13 @@ Numeric app IDs are deprecated because they consist of an implementation detail
 of the balena backend. We intend to remove support for numeric IDs at some point
 in the future.
 
-Warning: "balena preload" requires Docker to be correctly installed in
-your shell environment. For more information (including Windows support)
-check: https://github.com/balena-io/balena-cli/blob/master/INSTALL.md
+Note that the this command requires Docker to be installed, as further detailed
+in the balena CLI's installation instructions:
+https://github.com/balena-io/balena-cli/blob/master/INSTALL.md
+The `--dockerHost` and `--dockerPort` flags allow a remote Docker engine to
+be used, however the image file must be accessible to the remote Docker engine
+on the same path given on the command line. This is because Docker's bind mount
+feature is used to "share" the image with a container that performs the preload.
 
 Examples:
 
