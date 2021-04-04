@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "docs: Further clarify Docker requirements for preload",
+          "hash": "f53e658ca225290c32b6caa2d33e156d2ef9861e",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.44.3",
+      "date": "2021-04-04T22:06:53.485Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "docker: Remove references to CLI docker images in the installation docs",
           "hash": "431c4b6e4a8c812d7aeb2969aaaee57dc2a26cfd",
           "body": "",
@@ -21571,29 +21588,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-04-02T17:25:58Z",
+  "lastCommitDate": "2021-04-04T22:47:08Z",
   "latestRelease": {
-    "tagName": "v12.44.2",
+    "tagName": "v12.44.3",
     "asssets": [
       {
-        "name": "balena-cli-v12.44.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.2/balena-cli-v12.44.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.44.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.3/balena-cli-v12.44.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.2/balena-cli-v12.44.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.44.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.3/balena-cli-v12.44.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.44.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.2/balena-cli-v12.44.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.44.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.3/balena-cli-v12.44.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.2/balena-cli-v12.44.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.44.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.3/balena-cli-v12.44.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.44.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.2/balena-cli-v12.44.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.44.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.3/balena-cli-v12.44.3-windows-x64-standalone.zip"
       }
     ]
   },
@@ -21683,7 +21700,7 @@
       }
     ]
   },
-  "version": "12.44.2",
+  "version": "12.44.3",
   "screenshot": null,
   "logo": null
 }
