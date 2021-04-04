@@ -53,11 +53,11 @@ steps](https://docs.docker.com/engine/install/linux-postinstall/) on how to achi
 ### build, deploy
 
 These commands require [Docker](https://docs.docker.com/install/overview/) or
-[balenaEngine](https://www.balena.io/engine/) to be available (on a local or remote
-machine). Most users will follow [Docker's installation
+[balenaEngine](https://www.balena.io/engine/) to be available on a local or remote
+machine. Most users will follow [Docker's installation
 instructions](https://docs.docker.com/install/overview/) to install Docker on the same
-workstation (laptop) as the balena CLI. The [advanced installation
-options](./INSTALL-ADVANCED.md) document describes other possibilities.
+workstation as the balena CLI. The [advanced installation
+options](./INSTALL-ADVANCED.md#additional-dependencies) document describes other possibilities.
 
 ### balena ssh
 

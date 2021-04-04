@@ -22,7 +22,7 @@ Selected operating system: **Windows**
    * `balena help` - should print a list of available commands
 
 No further steps are required to run most CLI commands. The `balena ssh`, `scan`, `build`,
-`deploy`, `preload` and `os configure` commands may require additional software to be installed, as
+`deploy` and `preload` commands may require additional software to be installed, as
 described below.
 
 ## Additional Dependencies
@@ -30,11 +30,11 @@ described below.
 ### build and deploy
 
 These commands require [Docker](https://docs.docker.com/install/overview/) or
-[balenaEngine](https://www.balena.io/engine/) to be available (on a local or remote
-machine). Most users will follow [Docker's installation
+[balenaEngine](https://www.balena.io/engine/) to be available on a local or remote
+machine. Most users will follow [Docker's installation
 instructions](https://docs.docker.com/install/overview/) to install Docker on the same
-workstation (laptop) as the balena CLI. The [advanced installation
-options](./INSTALL-ADVANCED.md) document describes other possibilities.
+workstation as the balena CLI. The [advanced installation
+options](./INSTALL-ADVANCED.md#additional-dependencies) document describes other possibilities.
 
 ### balena ssh
 
@@ -59,12 +59,11 @@ Otherwise, Bonjour for Windows can be downloaded and installed from: https://sup
 
 ### balena preload
 
-Like the `build` and `deploy` commands, the `preload` command requires Docker, with the additional
-restriction that Docker must be installed on the local machine (because Docker's bind mounting
-feature is used). Also, preloading balenaOS images for some older device types (like the Raspberry
+Like the `build` and `deploy` commands, the `preload` command requires Docker.
+Preloading balenaOS images for some older device types (like the Raspberry
 Pi 3, but not the Raspberry 4) requires Docker to support the [AUFS storage
 driver](https://docs.docker.com/storage/storagedriver/aufs-driver/). Unfortunately, Docker Desktop
-for Windows or macOS dropped support for the AUFS filesystem in Docker CE versions greater than
+for Windows and macOS dropped support for the AUFS filesystem in Docker CE versions greater than
 18.06.1. The present workarounds are to either:
 
 * Install the balena CLI on Linux (e.g. Ubuntu) with a virtual machine like VirtualBox.
