@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Add notarization for macOS graphical installer",
+          "hash": "973f1a9c408a79f4b8058b83c0c71b80cc12113e",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Dan Goodman",
+          "nested": []
+        }
+      ],
+      "version": "12.44.4",
+      "date": "2021-04-06T21:00:22.401Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "docs: Further clarify Docker requirements for preload",
           "hash": "f53e658ca225290c32b6caa2d33e156d2ef9861e",
           "body": "",
@@ -21588,35 +21605,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-04-04T22:47:08Z",
+  "lastCommitDate": "2021-04-06T21:42:46Z",
   "latestRelease": {
-    "tagName": "v12.44.3",
+    "tagName": "v12.44.4",
     "asssets": [
       {
-        "name": "balena-cli-v12.44.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.3/balena-cli-v12.44.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.44.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.4/balena-cli-v12.44.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.3/balena-cli-v12.44.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.44.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.4/balena-cli-v12.44.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.44.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.3/balena-cli-v12.44.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.44.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.4/balena-cli-v12.44.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.3/balena-cli-v12.44.3-windows-x64-installer.exe"
+        "name": "balena-cli-v12.44.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.4/balena-cli-v12.44.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.44.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.3/balena-cli-v12.44.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.44.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.4/balena-cli-v12.44.4-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 332,
+    "numberOfIssues": 330,
     "latestIssues": [
       {
         "title": "Rename supported docker-compose overlay file",
@@ -21683,10 +21700,6 @@
         "url": "https://github.com/balena-io/balena-cli/issues/2211"
       },
       {
-        "title": "Adds info about fixing \"sudo balena\" issues to docs",
-        "url": "https://github.com/balena-io/balena-cli/pull/2206"
-      },
-      {
         "title": "'config generate' should warn and patch the API DB when reusing a device UUID",
         "url": "https://github.com/balena-io/balena-cli/issues/2203"
       },
@@ -21697,10 +21710,14 @@
       {
         "title": "Feature request: Add ability to delete releases with cli",
         "url": "https://github.com/balena-io/balena-cli/issues/2198"
+      },
+      {
+        "title": "Support local mode in \"balena tunnel\"",
+        "url": "https://github.com/balena-io/balena-cli/issues/2196"
       }
     ]
   },
-  "version": "12.44.3",
+  "version": "12.44.4",
   "screenshot": null,
   "logo": null
 }
