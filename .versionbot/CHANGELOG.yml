@@ -1,4 +1,15 @@
 - commits:
+    - subject: Add notarization for macOS graphical installer
+      hash: 973f1a9c408a79f4b8058b83c0c71b80cc12113e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Dan Goodman
+      nested: []
+  version: 12.44.4
+  date: 2021-04-06T21:00:22.401Z
+- commits:
     - subject: 'docs: Further clarify Docker requirements for preload'
       hash: f53e658ca225290c32b6caa2d33e156d2ef9861e
       body: ''
