@@ -1,4 +1,47 @@
 - commits:
+    - subject: 'docs: Update install instructions re macOS installer notarization'
+      hash: d44afa8c399e67613a65963529386a67da85fc1a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Update resin-compose-parse from 2.1.2 to 2.1.3
+      hash: b7500fc2c21d0dace8f3481806e7599342e710d1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Update balena-config-json from 4.1.0 to 4.1.1
+      hash: dc6c8d7472c42e7f2c731e9b772ad28bffa909ec
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Update etcher-sdk from 6.2.0 to 6.2.1
+      hash: 5c5be8f7b70134040666cc41a5a2e6f0f0a82bc6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Update balena-sdk from 15.29.0 to 15.31.0
+      hash: 5bdd6c6034f74eaa1ff36a4e05c66ce7d6f5a28d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.44.5
+  date: 2021-04-07T16:31:54.380Z
+- commits:
     - subject: Add notarization for macOS graphical installer
       hash: 973f1a9c408a79f4b8058b83c0c71b80cc12113e
       body: ''
