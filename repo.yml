@@ -12,3 +12,5 @@ upstream:
     url: 'https://github.com/balena-io-modules/balena-preload'
   - repo: 'balena-sync'
     url: 'https://github.com/balena-io-modules/balena-sync'
+  - repo: 'etcher-sdk'
+    url: 'https://github.com/balena-io-modules/etcher-sdk/'
