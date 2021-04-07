@@ -60,7 +60,7 @@ macOS:   | `/usr/local/lib/balena-cli/` <br> `/usr/local/bin/balena`
    [Windows](https://www.computerhope.com/issues/ch000549.htm)
 
 > * If you are using macOS 10.15 or later (Catalina, Big Sur), [check this known issue and
->   workaround](https://github.com/balena-io/balena-cli/issues/1479).
+>   workaround](https://github.com/balena-io/balena-cli/issues/2244).
 > * **Linux Alpine** and **Busybox:** the standalone zip package is not currently compatible with
 >   these "compact" Linux distributions, because of the alternative C libraries they ship with.
 >   For these, consider the [NPM Installation](#npm-installation) option.
