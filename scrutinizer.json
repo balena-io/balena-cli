@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Direct missing release installs to npm install method",
+          "hash": "91fd515266785012e5797c20edb3360e3d30334b",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Miguel Casqueira <miguel@balena.io>",
+            "signed-off-by": "Miguel Casqueira <miguel@balena.io>"
+          },
+          "author": "Miguel Casqueira",
+          "nested": []
+        }
+      ],
+      "version": "12.44.6",
+      "date": "2021-04-07T17:59:51.038Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "docs: Update install instructions re macOS installer notarization",
           "hash": "d44afa8c399e67613a65963529386a67da85fc1a",
           "body": "",
@@ -21666,29 +21685,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-04-07T16:59:18Z",
+  "lastCommitDate": "2021-04-07T19:44:44Z",
   "latestRelease": {
-    "tagName": "v12.44.5",
+    "tagName": "v12.44.6",
     "asssets": [
       {
-        "name": "balena-cli-v12.44.5-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.5/balena-cli-v12.44.5-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.44.6-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.6/balena-cli-v12.44.6-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.5-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.5/balena-cli-v12.44.5-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.44.6-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.6/balena-cli-v12.44.6-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.44.5-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.5/balena-cli-v12.44.5-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.44.6-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.6/balena-cli-v12.44.6-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.5-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.5/balena-cli-v12.44.5-windows-x64-installer.exe"
+        "name": "balena-cli-v12.44.6-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.6/balena-cli-v12.44.6-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.44.5-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.5/balena-cli-v12.44.5-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.44.6-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.6/balena-cli-v12.44.6-windows-x64-standalone.zip"
       }
     ]
   },
@@ -21778,7 +21797,7 @@
       }
     ]
   },
-  "version": "12.44.5",
+  "version": "12.44.6",
   "screenshot": null,
   "logo": null
 }

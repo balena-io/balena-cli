@@ -1,4 +1,17 @@
 - commits:
+    - subject: Direct missing release installs to npm install method
+      hash: 91fd515266785012e5797c20edb3360e3d30334b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Miguel Casqueira <miguel@balena.io>
+        signed-off-by: Miguel Casqueira <miguel@balena.io>
+      author: Miguel Casqueira
+      nested: []
+  version: 12.44.6
+  date: 2021-04-07T19:43:30.278Z
+- commits:
     - subject: 'docs: Update install instructions re macOS installer notarization'
       hash: d44afa8c399e67613a65963529386a67da85fc1a
       body: ''
@@ -40,7 +53,7 @@
       author: Paulo Castro
       nested: []
   version: 12.44.5
-  date: 2021-04-07T16:57:43.798Z
+  date: 2021-04-07T16:31:54.380Z
 - commits:
     - subject: Add notarization for macOS graphical installer
       hash: 973f1a9c408a79f4b8058b83c0c71b80cc12113e
