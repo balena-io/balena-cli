@@ -53,20 +53,15 @@ import Logger = require('./logger');
  * @param buildargs --buildArg flag input in dictionary format
  */
 async function parseMetadataFromFlags(
-	dir: string,
+	projectRoot: string,
 	buildargs: Dictionary<string>,
 	composition?: Composition,
 ): Promise<ParsedBuildArguments> {
-	const yaml = await import('js-yaml');
-	const mergedComposition: Composition = yaml.load(
-		await mergeDevComposeOverlay(
-			Logger.getLogger(),
-			yaml.dump(composition),
-			dir,
-		),
-	);
+	const mergedComposition: Partial<Composition> = await mergeDevComposeOverlay<
+		Partial<Composition>
+	>(Logger.getLogger(), composition || {}, projectRoot);
 
-	const serviceNames = Object.keys(mergedComposition?.services || {});
+	const serviceNames = Object.keys(mergedComposition.services || {});
 	const ret: ParsedBuildArguments = {
 		global: {},
 		services: {},
@@ -213,14 +208,17 @@ export async function loadProject(
 }
 
 /**
- * Check for existence of docker-compose dev overlay file
- * and merge in services definitions.
+ * Check for existence of docker-compose dev overlay file and merge in service
+ * definitions. The given composition may be a JS object (Composition) or a
+ * string representing a Yaml file (docker-compose.yml). The return type
+ * matches the input type: either a JS object (Composition) or a string
+ * (docker-compose.yml).
  */
-async function mergeDevComposeOverlay(
+async function mergeDevComposeOverlay<T extends Partial<Composition> | string>(
 	logger: Logger,
-	composeStr: string,
+	composition: T,
 	projectRoot: string,
-) {
+): Promise<T> {
 	const devOverlayFilename = 'docker-compose.dev.yml';
 	const devOverlayPath = path.join(projectRoot, devOverlayFilename);
 
@@ -228,25 +226,52 @@ async function mergeDevComposeOverlay(
 		logger.logInfo(
 			`Docker compose dev overlay detected (${devOverlayFilename}) - merging.`,
 		);
-		interface ComposeObj {
-			services?: object;
-		}
-		const yaml = await import('js-yaml');
-		const loadObj = (inputStr: string): ComposeObj =>
-			(yaml.load(inputStr) || {}) as ComposeObj;
 		try {
-			const compose = loadObj(composeStr);
-			const devOverlay = loadObj(await fs.readFile(devOverlayPath, 'utf8'));
+			const compose: Partial<Composition> =
+				typeof composition === 'string'
+					? loadComposition(composition, 'probably docker-compose.yml')
+					: { ...(composition as Partial<Composition>) };
+			const devOverlay = loadComposition(
+				await fs.readFile(devOverlayPath, 'utf8'),
+				devOverlayPath,
+			);
 			// We only want to merge the services section
 			compose.services = { ...compose.services, ...devOverlay.services };
-			composeStr = yaml.dump(compose, { styles: { '!!null': 'empty' } });
+			return (typeof composition === 'string'
+				? dumpComposition(compose)
+				: compose) as T;
 		} catch (err) {
 			err.message = `Error merging docker compose dev overlay file "${devOverlayPath}":\n${err.message}`;
 			throw err;
 		}
 	}
 
-	return composeStr;
+	return composition;
+}
+
+/** Call `yaml.load` and check that the result is an object. */
+function loadComposition(composeStr: string, hint = ''): Partial<Composition> {
+	const yaml = require('js-yaml') as typeof import('js-yaml');
+	const parsed = yaml.load(composeStr);
+	if (!parsed) {
+		return {};
+	} else if (typeof parsed === 'object') {
+		return parsed;
+	}
+	throw new ExpectedError(
+		'Invalid composition string' + (hint ? ` (${hint})` : ''),
+	);
+}
+
+/**
+ * Call `yaml.dump` with the special `{'!!null': 'empty'}` style. This style
+ * choice is important to avoid an error in the `resin-compose-parse` module.
+ */
+function dumpComposition(composeObj: Partial<Composition>): string {
+	const yaml = require('js-yaml') as typeof import('js-yaml');
+	// The need for `styles: { '!!null': 'empty' }` is explained in:
+	// https://github.com/balena-io/balena-cli/pull/2227
+	return yaml.dump(composeObj, { styles: { '!!null': 'empty' } });
 }
 
 /**
