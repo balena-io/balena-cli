@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "lib/commands/local/configure: Fix local configure when resin-wifi is not available on the image",
+          "hash": "213e54feb1c2f1df1a53551cf9079bdc51a49b5b",
+          "body": "",
+          "footer": {
+            "Resolves": "#2239",
+            "resolves": "#2239",
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Marios Balamatsias <mbalamatsias@gmail.com>",
+            "signed-off-by": "Marios Balamatsias <mbalamatsias@gmail.com>"
+          },
+          "author": "Marios Balamatsias",
+          "nested": []
+        }
+      ],
+      "version": "12.44.7",
+      "date": "2021-04-09T18:34:00.866Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Direct missing release installs to npm install method",
           "hash": "91fd515266785012e5797c20edb3360e3d30334b",
           "body": "",
@@ -21509,12 +21530,12 @@
       "avatar": "https://avatars.githubusercontent.com/u/6697261?v=4"
     },
     {
-      "username": "imrehg",
-      "avatar": "https://avatars.githubusercontent.com/u/38863?v=4"
-    },
-    {
       "username": "mbalamat",
       "avatar": "https://avatars.githubusercontent.com/u/7872396?v=4"
+    },
+    {
+      "username": "imrehg",
+      "avatar": "https://avatars.githubusercontent.com/u/38863?v=4"
     },
     {
       "username": "richbayliss",
@@ -21585,7 +21606,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 312,
+  "stars": 313,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -21685,43 +21706,39 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-04-07T19:44:44Z",
+  "lastCommitDate": "2021-04-09T19:00:07Z",
   "latestRelease": {
-    "tagName": "v12.44.6",
+    "tagName": "v12.44.7",
     "asssets": [
       {
-        "name": "balena-cli-v12.44.6-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.6/balena-cli-v12.44.6-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.44.7-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.7/balena-cli-v12.44.7-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.6-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.6/balena-cli-v12.44.6-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.44.7-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.7/balena-cli-v12.44.7-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.44.6-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.6/balena-cli-v12.44.6-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.44.7-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.7/balena-cli-v12.44.7-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.6-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.6/balena-cli-v12.44.6-windows-x64-installer.exe"
+        "name": "balena-cli-v12.44.7-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.7/balena-cli-v12.44.7-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.44.6-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.6/balena-cli-v12.44.6-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.44.7-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.7/balena-cli-v12.44.7-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 329,
+    "numberOfIssues": 328,
     "latestIssues": [
       {
         "title": "macOS: \"balena\" cannot be opened because the developer cannot be verified",
         "url": "https://github.com/balena-io/balena-cli/issues/2244"
-      },
-      {
-        "title": "balena local configure fails when resin-wifi is not available on the image",
-        "url": "https://github.com/balena-io/balena-cli/issues/2239"
       },
       {
         "title": "Remember last app that was pushed to and warn when using a different one",
@@ -21794,10 +21811,14 @@
       {
         "title": "Support local mode in \"balena tunnel\"",
         "url": "https://github.com/balena-io/balena-cli/issues/2196"
+      },
+      {
+        "title": "Livepush not restarting container with Dockerfile.template",
+        "url": "https://github.com/balena-io/balena-cli/issues/2195"
       }
     ]
   },
-  "version": "12.44.6",
+  "version": "12.44.7",
   "screenshot": null,
   "logo": null
 }

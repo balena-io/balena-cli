@@ -1,4 +1,21 @@
 - commits:
+    - subject: >-
+        lib/commands/local/configure: Fix local configure when resin-wifi is not
+        available on the image
+      hash: 213e54feb1c2f1df1a53551cf9079bdc51a49b5b
+      body: ''
+      footer:
+        Resolves: '#2239'
+        resolves: '#2239'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+  version: 12.44.7
+  date: 2021-04-09T18:59:14.268Z
+- commits:
     - subject: Direct missing release installs to npm install method
       hash: 91fd515266785012e5797c20edb3360e3d30334b
       body: ''
@@ -10,7 +27,7 @@
       author: Miguel Casqueira
       nested: []
   version: 12.44.6
-  date: 2021-04-07T19:43:30.278Z
+  date: 2021-04-07T17:59:51.038Z
 - commits:
     - subject: 'docs: Update install instructions re macOS installer notarization'
       hash: d44afa8c399e67613a65963529386a67da85fc1a
