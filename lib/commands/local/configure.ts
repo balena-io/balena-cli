@@ -269,9 +269,15 @@ export default class LocalConfigureCmd extends Command {
 		} else if (_.includes(files, 'resin-sample.ignore')) {
 			// Fresh image, new mode, accoding to https://github.com/balena-os/meta-balena/pull/770/files
 			await imagefs.interact(target, this.BOOT_PARTITION, async (_fs) => {
-				return await promisify(_fs.copyFile)(
+				const readFileAsync = promisify(_fs.readFile);
+				const writeFileAsync = promisify(_fs.writeFile);
+				const contents = await readFileAsync(
 					`${this.CONNECTIONS_FOLDER}/resin-sample.ignore`,
+					{ encoding: 'utf8' },
+				);
+				return await writeFileAsync(
 					`${this.CONNECTIONS_FOLDER}/resin-wifi`,
+					contents,
 				);
 			});
 		} else if (_.includes(files, 'resin-sample')) {
