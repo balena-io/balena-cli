@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2018-2020 Balena Ltd.
+ * Copyright 2018-2021 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,6 +63,7 @@ async function displayDeviceLogs(
 	filterServices?: string[],
 ): Promise<void> {
 	const { addSIGINTHandler } = await import('../helpers');
+	const { parse: ndjsonParse } = await import('ndjson');
 	let gotSignal = false;
 	const handleSignal = () => {
 		gotSignal = true;
@@ -72,8 +73,12 @@ async function displayDeviceLogs(
 	process.once('SIGTERM', handleSignal);
 	try {
 		await new Promise((_resolve, reject) => {
-			logs.on('data', (log) => {
-				displayLogLine(log, logger, system, filterServices);
+			const jsonStream = ndjsonParse();
+			jsonStream.on('data', (log) => {
+				displayLogObject(log, logger, system, filterServices);
+			});
+			jsonStream.on('error', (e) => {
+				logger.logWarn(`Error parsing NDJSON log chunk: ${e}`);
 			});
 			logs.once('error', reject);
 			logs.once('end', () => {
@@ -84,6 +89,7 @@ async function displayDeviceLogs(
 					reject(new DeviceConnectionLostError());
 				}
 			});
+			logs.pipe(jsonStream);
 		});
 	} finally {
 		process.removeListener('SIGINT', handleSignal);
@@ -138,21 +144,6 @@ export function displayBuildLog(log: BuildLog, logger: Logger): void {
 		`[${log.serviceName}]`,
 	)} ${log.message}`;
 	logger.logBuild(toPrint);
-}
-
-// mutates serviceColours
-function displayLogLine(
-	log: string | Buffer,
-	logger: Logger,
-	system: boolean,
-	filterServices?: string[],
-): void {
-	try {
-		const obj: Log = JSON.parse(log.toString());
-		displayLogObject(obj, logger, system, filterServices);
-	} catch (e) {
-		logger.logDebug(`Dropping device log due to failed parsing: ${e}`);
-	}
 }
 
 export function displayLogObject<T extends Log>(
