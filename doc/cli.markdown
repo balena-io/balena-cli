@@ -2330,7 +2330,7 @@ device type (Check available types with `balena devices supported`)
 
 #### -d, --drive DRIVE
 
-device filesystem or OS image location
+path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)
 
 ## config read
 
@@ -2350,7 +2350,7 @@ device type (Check available types with `balena devices supported`)
 
 #### -d, --drive DRIVE
 
-device filesystem or OS image location
+path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)
 
 ## config reconfigure
 
@@ -2370,7 +2370,7 @@ device type (Check available types with `balena devices supported`)
 
 #### -d, --drive DRIVE
 
-device filesystem or OS image location
+path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)
 
 #### -v, --advanced
 
@@ -2405,7 +2405,7 @@ device type (Check available types with `balena devices supported`)
 
 #### -d, --drive DRIVE
 
-device filesystem or OS image location
+path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)
 
 # Preload
 

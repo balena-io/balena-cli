@@ -579,3 +579,16 @@ export async function awaitInterruptibleTask<
 		process.removeListener('SIGINT', sigintHandler);
 	}
 }
+
+/** Check if `drive` is mounted, and if so umount it. No-op on Windows. */
+export async function safeUmount(drive: string) {
+	if (!drive) {
+		return;
+	}
+	const { isMounted, umount } = await import('umount');
+	const isMountedAsync = promisify(isMounted);
+	if (await isMountedAsync(drive)) {
+		const umountAsync = promisify(umount);
+		await umountAsync(drive);
+	}
+}
