@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'config inject/read/write: Fix umount errors with OS image files'
+      hash: 0f9d78ab50aeb10222332dfc60352ffd62872602
+      body: ''
+      footer:
+        Resolves: '#1003'
+        resolves: '#1003'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Refactor dependency import in utils/helpers.ts for performance
+      hash: 06f76838370fae7a2e9faf99d1698c9bf75d0d15
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.44.9
+  date: 2021-04-14T01:04:59.963Z
+- commits:
     - subject: 'push, logs: Fix parsing of local mode device logs (NDJSON stream)'
       hash: d50d18d49216fe423cb7bae58217e80a8f368f2e
       body: ''
@@ -10,7 +31,7 @@
       author: Paulo Castro
       nested: []
   version: 12.44.8
-  date: 2021-04-09T23:36:53.187Z
+  date: 2021-04-09T23:01:23.105Z
 - commits:
     - subject: >-
         lib/commands/local/configure: Fix local configure when resin-wifi is not
