@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2016-2020 Balena Ltd.
+ * Copyright 2016-2021 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,16 +54,8 @@ export default class ConfigInjectCmd extends Command {
 	public static usage = 'config inject <file>';
 
 	public static flags: flags.Input<FlagsDef> = {
-		type: flags.string({
-			description:
-				'device type (Check available types with `balena devices supported`)',
-			char: 't',
-			required: true,
-		}),
-		drive: flags.string({
-			description: 'device filesystem or OS image location',
-			char: 'd',
-		}),
+		type: cf.deviceType,
+		drive: cf.driveOrImg,
 		help: cf.help,
 	};
 
@@ -76,12 +68,11 @@ export default class ConfigInjectCmd extends Command {
 			ConfigInjectCmd,
 		);
 
-		const { promisify } = await import('util');
-		const umountAsync = promisify((await import('umount')).umount);
+		const { safeUmount } = await import('../../utils/helpers');
 
 		const drive =
 			options.drive || (await getVisuals().drive('Select the device/OS drive'));
-		await umountAsync(drive);
+		await safeUmount(drive);
 
 		const fs = await import('fs');
 		const configJSON = JSON.parse(

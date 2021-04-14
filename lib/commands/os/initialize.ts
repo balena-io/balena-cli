@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2016-2020 Balena Ltd.
+ * Copyright 2016-2021 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,12 +61,7 @@ export default class OsInitializeCmd extends Command {
 	public static usage = 'os initialize <image>';
 
 	public static flags: flags.Input<FlagsDef> = {
-		type: flags.string({
-			description:
-				'device type (Check available types with `balena devices supported`)',
-			char: 't',
-			required: true,
-		}),
+		type: cf.deviceType,
 		drive: cf.drive,
 		yes: cf.yes,
 		help: cf.help,
@@ -79,9 +74,9 @@ export default class OsInitializeCmd extends Command {
 			OsInitializeCmd,
 		);
 
-		const { promisify } = await import('util');
-		const umountAsync = promisify((await import('umount')).umount);
-		const { getManifest, sudo } = await import('../../utils/helpers');
+		const { getManifest, safeUmount, sudo } = await import(
+			'../../utils/helpers'
+		);
 
 		console.info(`Initializing device ${INIT_WARNING_MESSAGE}`);
 
@@ -101,7 +96,7 @@ export default class OsInitializeCmd extends Command {
 				`Going to erase ${answers.drive}.`,
 				true,
 			);
-			await umountAsync(answers.drive);
+			await safeUmount(answers.drive);
 		}
 
 		await sudo([
@@ -113,22 +108,7 @@ export default class OsInitializeCmd extends Command {
 		]);
 
 		if (answers.drive != null) {
-			// TODO: balena local makes use of ejectAsync, see below
-			// DO we need this / should we do that here?
-
-			// getDrive = (drive) ->
-			// 	driveListAsync().then (drives) ->
-			// 		selectedDrive = _.find(drives, device: drive)
-
-			// 		if not selectedDrive?
-			// 			throw new Error("Drive not found: #{drive}")
-
-			// 		return selectedDrive
-			// if (os.platform() is 'win32') and selectedDrive.mountpoint?
-			// 	ejectAsync = Promise.promisify(require('removedrive').eject)
-			// 	return ejectAsync(selectedDrive.mountpoint)
-
-			await umountAsync(answers.drive);
+			await safeUmount(answers.drive);
 			console.info(`You can safely remove ${answers.drive} now`);
 		}
 	}

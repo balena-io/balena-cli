@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2020 Balena
+Copyright 2016-2021 Balena Ltd.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,16 +16,11 @@ limitations under the License.
 
 import type { InitializeEmitter, OperationState } from 'balena-device-init';
 import type * as BalenaSdk from 'balena-sdk';
-import { spawn, SpawnOptions } from 'child_process';
-import * as _ from 'lodash';
-import * as os from 'os';
-import type * as ShellEscape from 'shell-escape';
 
-import type { Device, PineOptions } from 'balena-sdk';
-import { ExpectedError, SIGINTError } from '../errors';
-import { getBalenaSdk, getChalk, getVisuals } from './lazy';
+import * as _ from 'lodash';
 import { promisify } from 'util';
-import { isSubcommand } from '../preparser';
+
+import { getBalenaSdk, getChalk, getVisuals } from './lazy';
 
 export function getGroupDefaults(group: {
 	options: Array<{ name: string; default: string | number }>;
@@ -84,7 +79,7 @@ export async function sudo(
 ) {
 	const { executeWithPrivileges } = await import('./sudo');
 
-	if (os.platform() !== 'win32') {
+	if (process.platform !== 'win32') {
 		console.log(
 			msg ||
 				'Admin privileges required: you may be asked for your computer password to continue.',
@@ -95,6 +90,9 @@ export async function sudo(
 }
 
 export function runCommand<T>(commandArgs: string[]): Promise<T> {
+	const {
+		isSubcommand,
+	} = require('../preparser') as typeof import('../preparser');
 	if (isSubcommand(commandArgs)) {
 		commandArgs = [
 			commandArgs[0] + ':' + commandArgs[1],
@@ -238,6 +236,7 @@ export async function retry<T>({
 	backoffScaler?: number;
 	maxSingleDelayMs?: number;
 }): Promise<T> {
+	const { SIGINTError } = await import('../errors');
 	let delayMs = initialDelayMs;
 	for (let count = 0; count < maxAttempts - 1; count++) {
 		const lastAttemptMs = Date.now();
@@ -348,7 +347,7 @@ export function shellEscape(args: string[], detectShell = false): string[] {
 	if (isCmdExe) {
 		return args.map((v) => windowsCmdExeEscapeArg(v));
 	} else {
-		const shellEscapeFunc: typeof ShellEscape = require('shell-escape');
+		const shellEscapeFunc: typeof import('shell-escape') = require('shell-escape');
 		return args.map((v) => shellEscapeFunc([v]));
 	}
 }
@@ -392,6 +391,7 @@ export async function which(
 	} catch (err) {
 		if (err.code === 'ENOENT') {
 			if (rejectOnMissing) {
+				const { ExpectedError } = await import('../errors');
 				throw new ExpectedError(
 					`'${program}' program not found. Is it installed?`,
 				);
@@ -422,9 +422,10 @@ export async function which(
 export async function whichSpawn(
 	programName: string,
 	args: string[],
-	options: SpawnOptions = { stdio: 'inherit' },
+	options: import('child_process').SpawnOptions = { stdio: 'inherit' },
 	returnExitCodeOrSignal = false,
 ): Promise<[number | undefined, string | undefined]> {
+	const { spawn } = await import('child_process');
 	const program = await which(programName);
 	if (process.env.DEBUG) {
 		console.error(`[debug] [${program}, ${args.join(', ')}]`);
@@ -510,7 +511,7 @@ export function getProxyConfig(): ProxyConfig | undefined {
 	}
 }
 
-export const expandForAppName: PineOptions<Device> = {
+export const expandForAppName: BalenaSdk.PineOptions<BalenaSdk.Device> = {
 	$expand: {
 		belongs_to__application: { $select: 'app_name' },
 		is_of__device_type: { $select: 'slug' },
@@ -565,6 +566,9 @@ export async function awaitInterruptibleTask<
 	let sigintHandler: () => void = () => undefined;
 	const sigintPromise = new Promise<T>((_resolve, reject) => {
 		sigintHandler = () => {
+			const {
+				SIGINTError,
+			} = require('../errors') as typeof import('../errors');
 			reject(new SIGINTError('Task aborted on SIGINT signal'));
 		};
 		addSIGINTHandler(sigintHandler);
@@ -573,5 +577,18 @@ export async function awaitInterruptibleTask<
 		return await Promise.race([sigintPromise, task(...theArgs)]);
 	} finally {
 		process.removeListener('SIGINT', sigintHandler);
+	}
+}
+
+/** Check if `drive` is mounted, and if so umount it. No-op on Windows. */
+export async function safeUmount(drive: string) {
+	if (!drive) {
+		return;
+	}
+	const { isMounted, umount } = await import('umount');
+	const isMountedAsync = promisify(isMounted);
+	if (await isMountedAsync(drive)) {
+		const umountAsync = promisify(umount);
+		await umountAsync(drive);
 	}
 }

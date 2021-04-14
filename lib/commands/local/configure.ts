@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2016-2020 Balena Ltd.
+ * Copyright 2016-2021 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,20 +61,16 @@ export default class LocalConfigureCmd extends Command {
 		const { args: params } = this.parse<FlagsDef, ArgsDef>(LocalConfigureCmd);
 
 		const path = await import('path');
-		const umount = await import('umount');
-		const umountAsync = promisify(umount.umount);
-		const isMountedAsync = promisify(umount.isMounted);
 		const reconfix = await import('reconfix');
 		const denymount = promisify(await import('denymount'));
+		const { safeUmount } = await import('../../utils/helpers');
 		const Logger = await import('../../utils/logger');
 
 		const logger = Logger.getLogger();
 
 		const configurationSchema = await this.prepareConnectionFile(params.target);
 
-		if (await isMountedAsync(params.target)) {
-			await umountAsync(params.target);
-		}
+		await safeUmount(params.target);
 
 		const dmOpts: any = {};
 		if (process.pkg) {

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019 Balena Ltd.
+ * Copyright 2019-2021 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,6 +80,19 @@ export const drive = flags.string({
 		Careful with this as you can erase your hard drive.
 		Check \`balena util available-drives\` for available options.
 	`,
+});
+
+export const driveOrImg = flags.string({
+	char: 'd',
+	description:
+		'path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)',
+});
+
+export const deviceType = flags.string({
+	description:
+		'device type (Check available types with `balena devices supported`)',
+	char: 't',
+	required: true,
 });
 
 export const json: IBooleanFlag<boolean> = flags.boolean({
