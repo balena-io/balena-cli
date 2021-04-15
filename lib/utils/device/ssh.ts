@@ -50,7 +50,7 @@ export async function performLocalDeviceSSH(
 		});
 
 		const regex = new RegExp(`(^|\\/)${escapeRegExp(opts.service)}_\\d+_\\d+`);
-		const nameRegex = /\/?([a-zA-Z0-9_]+)_\d+_\d+/;
+		const nameRegex = /\/?([a-zA-Z0-9_-]+)_\d+_\d+/;
 		let allContainers: ContainerInfo[];
 		try {
 			allContainers = await docker.listContainers();
