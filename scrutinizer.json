@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "ssh: fix incorrect service name parsing in local mode",
+          "hash": "8780a24fb5a67ea25bcae98dd2253f5a587fb23b",
+          "body": "",
+          "footer": {
+            "Resolves": "#2252",
+            "resolves": "#2252",
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Tomás Migone <tomas@balena.io>",
+            "signed-off-by": "Tomás Migone <tomas@balena.io>"
+          },
+          "author": "Tomás Migone",
+          "nested": []
+        }
+      ],
+      "version": "12.44.10",
+      "date": "2021-04-15T15:25:54.475Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "config inject/read/write: Fix umount errors with OS image files",
           "hash": "0f9d78ab50aeb10222332dfc60352ffd62872602",
           "body": "",
@@ -21756,36 +21777,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-04-14T01:06:00Z",
+  "lastCommitDate": "2021-04-15T22:24:55Z",
   "latestRelease": {
-    "tagName": "v12.44.9",
+    "tagName": "v12.44.10",
     "asssets": [
       {
-        "name": "balena-cli-v12.44.9-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.9/balena-cli-v12.44.9-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.44.10-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.10/balena-cli-v12.44.10-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.9-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.9/balena-cli-v12.44.9-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.44.10-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.10/balena-cli-v12.44.10-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.44.9-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.9/balena-cli-v12.44.9-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.44.10-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.10/balena-cli-v12.44.10-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.9-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.9/balena-cli-v12.44.9-windows-x64-installer.exe"
+        "name": "balena-cli-v12.44.10-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.10/balena-cli-v12.44.10-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.44.9-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.9/balena-cli-v12.44.9-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.44.10-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.10/balena-cli-v12.44.10-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 328,
+    "numberOfIssues": 329,
     "latestIssues": [
+      {
+        "title": "Deploy local mode balena push images to registry",
+        "url": "https://github.com/balena-io/balena-cli/issues/2254"
+      },
       {
         "title": "preload: Error starting daemon: Devices cgroup isn't mounted",
         "url": "https://github.com/balena-io/balena-cli/issues/2250"
@@ -21861,14 +21886,10 @@
       {
         "title": "Completion",
         "url": "https://github.com/balena-io/balena-cli/pull/2199"
-      },
-      {
-        "title": "Feature request: Add ability to delete releases with cli",
-        "url": "https://github.com/balena-io/balena-cli/issues/2198"
       }
     ]
   },
-  "version": "12.44.9",
+  "version": "12.44.10",
   "screenshot": null,
   "logo": null
 }

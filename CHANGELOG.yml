@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'ssh: fix incorrect service name parsing in local mode'
+      hash: 8780a24fb5a67ea25bcae98dd2253f5a587fb23b
+      body: ''
+      footer:
+        Resolves: '#2252'
+        resolves: '#2252'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Tomás Migone <tomas@balena.io>
+        signed-off-by: Tomás Migone <tomas@balena.io>
+      author: Tomás Migone
+      nested: []
+  version: 12.44.10
+  date: 2021-04-15T22:23:51.522Z
+- commits:
     - subject: 'config inject/read/write: Fix umount errors with OS image files'
       hash: 0f9d78ab50aeb10222332dfc60352ffd62872602
       body: ''
@@ -18,7 +33,7 @@
       author: Paulo Castro
       nested: []
   version: 12.44.9
-  date: 2021-04-14T01:04:59.963Z
+  date: 2021-04-13T22:33:44.552Z
 - commits:
     - subject: 'push, logs: Fix parsing of local mode device logs (NDJSON stream)'
       hash: d50d18d49216fe423cb7bae58217e80a8f368f2e
