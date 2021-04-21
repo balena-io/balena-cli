@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        Add message regarding deprecation of --buildArg option in build/deploy
+        commands
+      hash: fa2600464892865a15cfc70d733bffc0b652bc81
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.44.11
+  date: 2021-04-21T13:45:55.179Z
+- commits:
     - subject: 'ssh: fix incorrect service name parsing in local mode'
       hash: 8780a24fb5a67ea25bcae98dd2253f5a587fb23b
       body: ''
@@ -12,7 +27,7 @@
       author: Tomás Migone
       nested: []
   version: 12.44.10
-  date: 2021-04-15T22:23:51.522Z
+  date: 2021-04-15T15:25:54.475Z
 - commits:
     - subject: 'config inject/read/write: Fix umount errors with OS image files'
       hash: 0f9d78ab50aeb10222332dfc60352ffd62872602
