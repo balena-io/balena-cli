@@ -132,7 +132,7 @@ To learn more, troubleshoot issues, or to contact us for support:
 
 * Check the [masterclass tutorials](https://www.balena.io/docs/learn/more/masterclasses/overview/)
 * Check our [FAQ / troubleshooting document](https://github.com/balena-io/balena-cli/blob/master/TROUBLESHOOTING.md)
-* Ask us a question through the [balenaCloud forum](https://forums.balena.io/c/balena-cloud)
+* Ask us a question in the [balena forums](https://forums.balena.io/c/product-support)
 
 For CLI bug reports or feature requests, check the
 [CLI GitHub issues](https://github.com/balena-io/balena-cli/issues/).
