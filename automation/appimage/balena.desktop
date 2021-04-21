@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=balena
+Exec=balena
+Icon=icon
+Type=Application
+Terminal=true
+Categories=Utility;
