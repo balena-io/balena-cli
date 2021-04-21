@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        Add message regarding deprecation of --buildArg option in build/deploy
+        commands
+      hash: fa2600464892865a15cfc70d733bffc0b652bc81
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.44.11
+  date: 2021-04-21T05:32:37.844Z
+- commits:
     - subject: 'ssh: fix incorrect service name parsing in local mode'
       hash: 8780a24fb5a67ea25bcae98dd2253f5a587fb23b
       body: ''
