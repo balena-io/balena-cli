@@ -2987,7 +2987,7 @@ The alias to the generated image
 
 #### -B, --buildArg BUILDARG
 
-Set a build-time variable (eg. "-B 'ARG=value'"). Can be specified multiple times.
+[Deprecated] Set a build-time variable (eg. "-B 'ARG=value'"). Can be specified multiple times.
 
 #### --cache-from CACHE-FROM
 
@@ -3157,7 +3157,7 @@ don't upload build logs to the dashboard with image (if building)
 
 #### --release-tag RELEASE-TAG
 
-Set release tags if the image deployment is successful. Multiple 
+Set release tags if the image deployment is successful. Multiple
 arguments may be provided, alternating tag keys and values (see examples).
 Hint: Empty values may be specified with "" (bash, cmd.exe) or '""' (PowerShell).
 
@@ -3217,7 +3217,7 @@ The alias to the generated image
 
 #### -B, --buildArg BUILDARG
 
-Set a build-time variable (eg. "-B 'ARG=value'"). Can be specified multiple times.
+[Deprecated] Set a build-time variable (eg. "-B 'ARG=value'"). Can be specified multiple times.
 
 #### --cache-from CACHE-FROM
 
