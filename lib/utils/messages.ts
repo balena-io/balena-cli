@@ -134,3 +134,12 @@ because field names are less likely to change in JSON format and because it
 better represents data types like arrays, empty strings and null values.
 The 'jq' utility may be helpful for querying JSON fields in shell scripts
 (https://stedolan.github.io/jq/manual/).`;
+
+export const buildArgDeprecation = `\
+WARNING: You have specified a '--buildArg' option, which is now deprecated, and
+may be removed in the future.  The recommended alternative is build-time secrets:
+https://www.balena.io/docs/learn/deploy/deployment/#build-time-secrets-and-variables
+
+If you have a particular use for buildArg, which is not satisfied by build-time
+secrets, please contact us via support or the forums: https://forums.balena.io/
+\n`;

@@ -20,7 +20,11 @@ import Command from '../command';
 import { getBalenaSdk } from '../utils/lazy';
 import * as compose from '../utils/compose';
 import type { Application, ApplicationType, BalenaSDK } from 'balena-sdk';
-import { dockerignoreHelp, registrySecretsHelp } from '../utils/messages';
+import {
+	buildArgDeprecation,
+	dockerignoreHelp,
+	registrySecretsHelp,
+} from '../utils/messages';
 import type { ComposeCliFlags, ComposeOpts } from '../utils/compose-types';
 import { buildProject, composeCliFlags } from '../utils/compose_ts';
 import type { BuildOpts, DockerCliFlags } from '../utils/docker';
@@ -121,6 +125,11 @@ ${dockerignoreHelp}
 		delete params.source;
 
 		await this.validateOptions(options, sdk);
+
+		// Build args are under consideration for removal - warn user
+		if (options.buildArg) {
+			console.log(buildArgDeprecation);
+		}
 
 		const app = await this.getAppAndResolveArch(options);
 

@@ -79,7 +79,7 @@ export const dockerCliFlags: flags.Input<DockerCliFlags> = {
 	}),
 	buildArg: flags.string({
 		description:
-			'Set a build-time variable (eg. "-B \'ARG=value\'"). Can be specified multiple times.',
+			'[Deprecated] Set a build-time variable (eg. "-B \'ARG=value\'"). Can be specified multiple times.',
 		char: 'B',
 		multiple: true,
 	}),

@@ -21,7 +21,11 @@ import type { ImageDescriptor } from 'resin-compose-parse';
 import Command from '../command';
 import { ExpectedError } from '../errors';
 import { getBalenaSdk, getChalk, stripIndent } from '../utils/lazy';
-import { dockerignoreHelp, registrySecretsHelp } from '../utils/messages';
+import {
+	dockerignoreHelp,
+	registrySecretsHelp,
+	buildArgDeprecation,
+} from '../utils/messages';
 import * as compose from '../utils/compose';
 import type {
 	BuiltImage,
@@ -127,7 +131,7 @@ ${dockerignoreHelp}
 		}),
 		'release-tag': flags.string({
 			description: stripIndent`
-				Set release tags if the image deployment is successful. Multiple 
+				Set release tags if the image deployment is successful. Multiple
 				arguments may be provided, alternating tag keys and values (see examples).
 				Hint: Empty values may be specified with "" (bash, cmd.exe) or '""' (PowerShell).
 			`,
@@ -157,6 +161,11 @@ ${dockerignoreHelp}
 		logger.logDebug('Parsing input...');
 
 		const { appName, image } = params;
+
+		// Build args are under consideration for removal - warn user
+		if (options.buildArg) {
+			console.log(buildArgDeprecation);
+		}
 
 		if (image != null && options.build) {
 			throw new ExpectedError(
