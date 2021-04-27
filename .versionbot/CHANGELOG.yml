@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'preload: Update to Docker 20.10 with cgroups v2 support'
+      hash: 0f2780744faee1d56aad9b1667c9e0ef29522543
+      body: |
+        Update balena-preload from 10.4.1 to 10.4.2.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Changelog-entry: 'preload: Update to Docker 20.10 with cgroups v2 support'
+        changelog-entry: 'preload: Update to Docker 20.10 with cgroups v2 support'
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 12.44.12
+  date: 2021-04-27T14:12:10.509Z
+- commits:
     - subject: >-
         Add message regarding deprecation of --buildArg option in build/deploy
         commands
