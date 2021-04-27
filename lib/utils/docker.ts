@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2018-2019 Balena Ltd.
+ * Copyright 2018-2021 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,6 @@ import { flags } from '@oclif/command';
 
 import { ExpectedError } from '../errors';
 import { parseAsInteger } from './validation';
-
-export * from './docker-js';
 
 interface BalenaEngineVersion extends dockerode.DockerVersion {
 	Engine?: string;
@@ -172,4 +170,121 @@ export async function isBalenaEngine(docker: dockerode): Promise<boolean> {
 	return !!(
 		dockerVersion.Engine && dockerVersion.Engine.match(/balena|balaena/)
 	);
+}
+
+export interface ExtendedDockerOptions extends dockerode.DockerOptions {
+	docker?: string; // socket path, e.g. /var/run/docker.sock
+	dockerHost?: string; // host name or IP address
+	dockerPort?: number; // TCP port number, e.g. 2375
+}
+
+export async function getDocker(
+	options: ExtendedDockerOptions,
+): Promise<dockerode> {
+	const connectOpts = await generateConnectOpts(options);
+	const client = await createClient(connectOpts);
+	await checkThatDockerIsReachable(client);
+	return client;
+}
+
+export async function createClient(
+	opts: dockerode.DockerOptions,
+): Promise<dockerode> {
+	const Docker = await import('dockerode');
+	const docker = new Docker(opts);
+	const { modem } = docker;
+	// Workaround for a docker-modem 2.0.x bug where it sets a default
+	// socketPath on Windows even if the input options specify a host/port.
+	if (modem.socketPath && modem.host) {
+		if (opts.socketPath) {
+			modem.host = undefined;
+			modem.port = undefined;
+		} else if (opts.host) {
+			modem.socketPath = undefined;
+		}
+	}
+	return docker;
+}
+
+async function generateConnectOpts(opts: ExtendedDockerOptions) {
+	let connectOpts: dockerode.DockerOptions = {};
+
+	// Start with docker-modem defaults which take several env vars into account,
+	// including DOCKER_HOST, DOCKER_TLS_VERIFY, DOCKER_CERT_PATH, SSH_AUTH_SOCK
+	// https://github.com/apocas/docker-modem/blob/v3.0.0/lib/modem.js#L15-L70
+	const Modem = require('docker-modem');
+	const defaultOpts = new Modem();
+	const optsOfInterest: Array<keyof dockerode.DockerOptions> = [
+		'ca',
+		'cert',
+		'key',
+		'host',
+		'port',
+		'socketPath',
+		'protocol',
+		'username',
+		'timeout',
+	];
+	for (const opt of optsOfInterest) {
+		connectOpts[opt] = defaultOpts[opt];
+	}
+
+	// Now override the default options with any explicit command line options
+	if (opts.docker != null && opts.dockerHost == null) {
+		// good, local docker socket
+		connectOpts.socketPath = opts.docker;
+		delete connectOpts.host;
+		delete connectOpts.port;
+	} else if (opts.dockerHost != null && opts.docker == null) {
+		// Good a host is provided, and local socket isn't
+		connectOpts.host = opts.dockerHost;
+		connectOpts.port = opts.dockerPort || 2376;
+		delete connectOpts.socketPath;
+	} else if (opts.docker != null && opts.dockerHost != null) {
+		// Both provided, no obvious way to continue
+		throw new ExpectedError(
+			"Both a local docker socket and docker host have been provided. Don't know how to continue.",
+		);
+	}
+
+	// Process TLS options
+	// These should be file paths (strings)
+	const tlsOpts = [opts.ca, opts.cert, opts.key];
+
+	// If any are set...
+	if (tlsOpts.some((opt) => opt)) {
+		// but not all ()
+		if (!tlsOpts.every((opt) => opt)) {
+			throw new ExpectedError(
+				'You must provide a CA, certificate and key in order to use TLS',
+			);
+		}
+		if (!isStringArray(tlsOpts)) {
+			throw new ExpectedError(
+				'TLS options (CA, certificate and key) must be file paths (strings)',
+			);
+		}
+		const { promises: fs } = await import('fs');
+		const [ca, cert, key] = await Promise.all(
+			tlsOpts.map((opt: string) => fs.readFile(opt, 'utf8')),
+		);
+		connectOpts = { ...connectOpts, ca, cert, key };
+	}
+
+	return connectOpts;
+}
+
+// TypeScript "type guard" with "type predicate"
+function isStringArray(array: any[]): array is string[] {
+	return array.every((opt) => typeof opt === 'string');
+}
+
+async function checkThatDockerIsReachable(docker: dockerode) {
+	try {
+		await docker.ping();
+	} catch (e) {
+		throw new ExpectedError(
+			`Docker seems to be unavailable. Is it installed and running?\n${e}`,
+		);
+	}
 }

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2018-2020 Balena Ltd.
+ * Copyright 2018-2021 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1249,7 +1249,6 @@ export async function validateProjectDirectory(
 }
 
 async function getTokenForPreviousRepos(
-	docker: import('docker-toolbelt'),
 	logger: Logger,
 	appId: number,
 	apiEndpoint: string,
@@ -1258,7 +1257,7 @@ async function getTokenForPreviousRepos(
 	logger.logDebug('Authorizing push...');
 	const { authorizePush, getPreviousRepos } = await import('./compose');
 	const sdk = getBalenaSdk();
-	const previousRepos = await getPreviousRepos(sdk, docker, logger, appId);
+	const previousRepos = await getPreviousRepos(sdk, logger, appId);
 
 	const token = await authorizePush(
 		sdk,
@@ -1271,7 +1270,7 @@ async function getTokenForPreviousRepos(
 }
 
 async function pushServiceImages(
-	docker: import('docker-toolbelt'),
+	docker: import('dockerode'),
 	logger: Logger,
 	pineClient: ReturnType<typeof import('balena-release').createClient>,
 	taggedImages: TaggedImage[],
@@ -1295,7 +1294,7 @@ async function pushServiceImages(
 }
 
 export async function deployProject(
-	docker: import('docker-toolbelt'),
+	docker: import('dockerode'),
 	logger: Logger,
 	composition: Composition,
 	images: BuiltImage[],
@@ -1332,7 +1331,6 @@ export async function deployProject(
 		const taggedImages = await tagServiceImages(docker, images, serviceImages);
 		try {
 			const token = await getTokenForPreviousRepos(
-				docker,
 				logger,
 				appId,
 				apiEndpoint,
