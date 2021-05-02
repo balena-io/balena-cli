@@ -1493,10 +1493,15 @@ function pullProgressAdapter(outStream: Duplex) {
 		error: Error;
 		errorDetail: Error;
 	}) {
-		if (status != null) {
+		id ||= '';
+		status ||= '';
+		const isTotal = id && id.toLowerCase() === 'total';
+		if (status) {
 			status = status.replace(/^Status: /, '');
+		} else if (isTotal && typeof percentage === 'number') {
+			status = `Pull progress: ${percentage}%`;
 		}
-		if (id != null) {
+		if (id && status && !isTotal) {
 			status = `${id}: ${status}`;
 		}
 		if (percentage === 100) {
