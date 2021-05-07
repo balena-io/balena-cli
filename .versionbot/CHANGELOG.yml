@@ -1,4 +1,127 @@
 - commits:
+    - subject: >-
+        Update dependencies (multibuild, dockerode, docker-toolbelt,
+        docker-progress)
+      hash: 2c922ee6d238dc05b353bc2daa05ee5d0f1e69ee
+      body: |
+        Update resin-multibuild from 4.7.2 to 4.11.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'preload: Improve error handling (stop spinning wheels)'
+      hash: d9821939d9ad346a14f7674a98bdc7607ecc6e31
+      body: |
+        Update balena-preload from 10.4.2 to 10.4.6
+      footer:
+        Connects-to: '#2045'
+        connects-to: '#2045'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested:
+        - commits:
+            - subject: 'Update dependencies (dockerode, docker-progress)'
+              hash: efb8f4699c8988f5b9c1a4a04b53249837c10aeb
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Paulo Castro
+              nested: []
+            - subject: Don't assume that 'docker' argument uses Bluebird promises
+              hash: 35ae62f855412f80c0fa92ed0217ad41f5afcdc7
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Paulo Castro
+              nested: []
+          version: balena-preload-10.4.6
+          date: 2021-05-06T20:44:51.420Z
+        - commits:
+            - subject: >-
+                Enhance comms between CLI process and Python process in
+                container
+              hash: dbd60732b5eab238475bcb34157856f783678edb
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Paulo Castro
+              nested: []
+          version: balena-preload-10.4.5
+          date: 2021-05-05T00:29:11.127Z
+        - commits:
+            - subject: Fix unhandled exception on container.wait()
+              hash: cce395e588f066c6ef968119be0f39a76005ccb9
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Paulo Castro
+              nested: []
+            - subject: Emit error on container status code '137' too (OOM SIGKILL)
+              hash: c9286e1fb9e4e69c197cbfaadb21d3126cf99563
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Paulo Castro
+              nested: []
+            - subject: Add flake8 npm script
+              hash: 7f49e975263c6d701d2c57108de46b0cdcaf32e1
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Paulo Castro
+              nested: []
+          version: balena-preload-10.4.4
+          date: 2021-05-05T00:07:20.081Z
+        - commits:
+            - subject: >-
+                Don't truncate error logs (add _truncate_exc option to python sh
+                commands)
+              hash: fb4dbe26eccae10a555d6f88244f5e940fa9348b
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Paulo Castro
+              nested: []
+            - subject: >-
+                Add keyword args to RetryCounter key computation. Remove unused
+                args.
+              hash: 7633628293b0fb463de68653abb82c5b57ab5b6a
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Paulo Castro
+              nested: []
+          version: balena-preload-10.4.3
+          date: 2021-05-04T12:42:11.746Z
+    - subject: 'build: Workaround issue with Docker v20.10 + single-arch base images'
+      hash: 732fc2d5390a401346ac0e30cd489c4aa644852a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'build: Fix "Total: undefined" image pull progress report'
+      hash: 535a443d7cb5b88d743e9e1a50667f1d8c79e028
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.44.13
+  date: 2021-05-07T10:51:33.708Z
+- commits:
     - subject: 'preload: Update to Docker 20.10 with cgroups v2 support'
       hash: 0f2780744faee1d56aad9b1667c9e0ef29522543
       body: |
