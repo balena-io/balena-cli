@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2020 Balena Ltd.
+ * Copyright 2017-2021 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -92,13 +92,13 @@ export default class ScanCmd extends Command {
 		);
 		const engineReachableDevices: boolean[] = await Promise.all(
 			localDevices.map(async ({ address }: { address: string }) => {
-				const docker = dockerUtils.createClient({
+				const docker = await dockerUtils.createClient({
 					host: address,
 					port: dockerPort,
 					timeout: dockerTimeout,
-				}) as any;
+				});
 				try {
-					await docker.pingAsync();
+					await docker.ping();
 					return true;
 				} catch (err) {
 					return false;
@@ -132,14 +132,14 @@ export default class ScanCmd extends Command {
 		// Query devices for info
 		const devicesInfo = await Promise.all(
 			developmentDevices.map(async ({ host, address }) => {
-				const docker = dockerUtils.createClient({
+				const docker = await dockerUtils.createClient({
 					host: address,
 					port: dockerPort,
 					timeout: dockerTimeout,
-				}) as any;
+				});
 				const [dockerInfo, dockerVersion] = await Promise.all([
-					docker.infoAsync().catchReturn('Could not get Docker info'),
-					docker.versionAsync().catchReturn('Could not get Docker version'),
+					docker.info(),
+					docker.version(),
 				]);
 				return {
 					host,
@@ -165,7 +165,13 @@ export default class ScanCmd extends Command {
 			});
 		}
 
-		const cmdOutput = productionDevicesInfo.concat(devicesInfo);
+		const cmdOutput: Array<{
+			host: string;
+			address: string;
+			osVariant: string;
+			dockerInfo: any;
+			dockerVersion: import('dockerode').DockerVersion | undefined;
+		}> = [...productionDevicesInfo, ...devicesInfo];
 
 		// Output results
 		if (!options.json && cmdOutput.length === 0) {
