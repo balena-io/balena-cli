@@ -1,4 +1,15 @@
 - commits:
+    - subject: Add completion generator from oclif.manifest.json
+      hash: a3e90182bc2cb366f8dea6214afefba0ad295b10
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pierre Kancir
+      nested: []
+  version: 12.44.14
+  date: 2021-05-09T09:09:03.549Z
+- commits:
     - subject: >-
         Update dependencies (multibuild, dockerode, docker-toolbelt,
         docker-progress)
