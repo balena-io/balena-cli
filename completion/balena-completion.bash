@@ -1,24 +1,26 @@
 #!/bin/bash
 
+#GENERATED FILE DON'T MODIFY#
+
 _balena_complete()
 {
   local cur prev
 
   # Valid top-level completions
-  commands="app apps build config deploy device devices env envs help key \
-            keys local login logout logs note os preload quickstart settings \
-            scan ssh util version whoami"
+  main_commands="apps build deploy envs join keys leave login logout logs note orgs preload push scan settings ssh support tags tunnel version whoami api-key app app config device device devices env internal key key local os tag util"
   # Sub-completions
-  app_cmds="create restart rm"
+  api_key_cmds="generate"
+  app_cmds="create purge rename restart rm"
   config_cmds="generate inject read reconfigure write"
-  device_cmds="identify init move public-url reboot register rename rm \
-               shutdown"
-  device_public_url_cmds="disable enable status"
+  device_cmds="deactivate identify init local-mode move os-update public-url purge reboot register rename restart rm shutdown"
+  devices_cmds="supported"
   env_cmds="add rename rm"
+  internal_cmds="osinit"
   key_cmds="add rm"
   local_cmds="configure flash"
   os_cmds="build-config configure download initialize versions"
-  util_cmds="available-drives"
+  tag_cmds="rm set"
+
 
 
   COMPREPLY=()
@@ -27,43 +29,44 @@ _balena_complete()
 
   if [ $COMP_CWORD -eq 1 ]
   then
-    COMPREPLY=( $(compgen -W "${commands}" -- $cur) )
+    COMPREPLY=( $(compgen -W "${main_commands}" -- $cur) )
   elif [ $COMP_CWORD -eq 2 ]
   then
     case "$prev" in
-      "app")
+      api-key)
+        COMPREPLY=( $(compgen -W "$api_key_cmds" -- $cur) )
+        ;;
+      app)
         COMPREPLY=( $(compgen -W "$app_cmds" -- $cur) )
         ;;
-      "config")
+      config)
         COMPREPLY=( $(compgen -W "$config_cmds" -- $cur) )
         ;;
-      "device")
+      device)
         COMPREPLY=( $(compgen -W "$device_cmds" -- $cur) )
         ;;
-      "env")
+      devices)
+        COMPREPLY=( $(compgen -W "$devices_cmds" -- $cur) )
+        ;;
+      env)
         COMPREPLY=( $(compgen -W "$env_cmds" -- $cur) )
         ;;
-      "key")
+      internal)
+        COMPREPLY=( $(compgen -W "$internal_cmds" -- $cur) )
+        ;;
+      key)
         COMPREPLY=( $(compgen -W "$key_cmds" -- $cur) )
         ;;
-      "local")
+      local)
         COMPREPLY=( $(compgen -W "$local_cmds" -- $cur) )
         ;;
-      "os")
+      os)
         COMPREPLY=( $(compgen -W "$os_cmds" -- $cur) )
         ;;
-      "util")
-        COMPREPLY=( $(compgen -W "$util_cmds" -- $cur) )
+      tag)
+        COMPREPLY=( $(compgen -W "$tag_cmds" -- $cur) )
         ;;
-      "*")
-        ;;
-    esac
-  elif [ $COMP_CWORD -eq 3 ]
-  then
-    case "$prev" in
-      "public-url")
-        COMPREPLY=( $(compgen -W "$device_public_url_cmds" -- $cur) )
-        ;;
+
       "*")
         ;;
     esac
