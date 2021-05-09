@@ -1,4 +1,15 @@
 - commits:
+    - subject: Add completion generator from oclif.manifest.json
+      hash: a3e90182bc2cb366f8dea6214afefba0ad295b10
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pierre Kancir
+      nested: []
+  version: 12.44.14
+  date: 2021-05-09T22:08:42.936Z
+- commits:
     - subject: >-
         Update dependencies (multibuild, dockerode, docker-toolbelt,
         docker-progress)
@@ -120,7 +131,7 @@
       author: Paulo Castro
       nested: []
   version: 12.44.13
-  date: 2021-05-07T17:54:05.486Z
+  date: 2021-05-07T10:51:33.708Z
 - commits:
     - subject: 'preload: Update to Docker 20.10 with cgroups v2 support'
       hash: 0f2780744faee1d56aad9b1667c9e0ef29522543
