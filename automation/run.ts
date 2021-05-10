@@ -18,7 +18,7 @@
 import * as _ from 'lodash';
 
 import {
-	buildOclifInstaller,
+	buildInstallers,
 	buildStandaloneZip,
 	catchUncommitted,
 	testShrinkwrap,
@@ -57,7 +57,7 @@ export async function run(args?: string[]) {
 		return exitWithError('missing command-line arguments');
 	}
 	const commands: { [cmd: string]: () => void | Promise<void> } = {
-		'build:installer': buildOclifInstaller,
+		'build:installer': buildInstallers,
 		'build:standalone': buildStandaloneZip,
 		'catch-uncommitted': catchUncommitted,
 		'test-shrinkwrap': testShrinkwrap,

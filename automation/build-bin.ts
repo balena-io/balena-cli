@@ -71,10 +71,19 @@ const renamedOclifInstallers: PathByPlatform = {
 	win32: dPath(`balena-cli-${version}-windows-${arch}-installer.exe`),
 };
 
+export const caxaInstallers: PathByPlatform = {
+	darwin: dPath(`balena-cli-${version}-macOS-${arch}-installer`),
+	linux: dPath(`balena-cli-${version}-linux-${arch}-installer`),
+};
+
 export const finalReleaseAssets: { [platform: string]: string[] } = {
 	win32: [standaloneZips['win32'], renamedOclifInstallers['win32']],
-	darwin: [standaloneZips['darwin'], renamedOclifInstallers['darwin']],
-	linux: [standaloneZips['linux']],
+	darwin: [
+		standaloneZips['darwin'],
+		renamedOclifInstallers['darwin'],
+		caxaInstallers['darwin'],
+	],
+	linux: [standaloneZips['linux'], caxaInstallers['linux']],
 };
 
 /**
@@ -491,6 +500,14 @@ export async function buildOclifInstaller() {
 		}
 		console.log(`oclif installer build completed`);
 	}
+}
+
+export async function buildInstallers() {
+	if (process.platform !== 'win32') {
+		const { makeCaxaInstaller } = await import('./make-caxa-installer');
+		await makeCaxaInstaller();
+	}
+	await buildOclifInstaller();
 }
 
 /**

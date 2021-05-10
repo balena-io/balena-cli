@@ -165,16 +165,25 @@ export async function getSubprocessStdout(
  * so hash -r is not needed when the PATH changes."
  *
  * @param program Basename of a program, for example 'ssh'
+ * @param rejectOnMissing If the program cannot be found, reject the promise
+ * with an ExpectedError instead of fulfilling it with an empty string.
  * @returns The program's full path, e.g. 'C:\WINDOWS\System32\OpenSSH\ssh.EXE'
  */
-export async function which(program: string): Promise<string> {
+export async function which(
+	program: string,
+	rejectOnMissing = true,
+): Promise<string> {
 	const whichMod = await import('which');
 	let programPath: string;
 	try {
 		programPath = await whichMod(program);
 	} catch (err) {
 		if (err.code === 'ENOENT') {
-			throw new Error(`'${program}' program not found. Is it installed?`);
+			if (rejectOnMissing) {
+				throw new Error(`'${program}' program not found. Is it installed?`);
+			} else {
+				return '';
+			}
 		}
 		throw err;
 	}
