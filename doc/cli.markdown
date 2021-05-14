@@ -662,10 +662,11 @@ produce JSON output instead of tabular output
 
 List the supported device types (like 'raspberrypi3' or 'intel-nuc').
 
-The --verbose option adds extra columns/fields to the output, including the
-"STATE" column whose values are one of 'new', 'released' or 'discontinued'.
-However, 'discontinued' device types are only listed if the '--discontinued'
-option is used.
+The --verbose option may add extra columns/fields to the output. Currently
+this includes the "STATE" column which is DEPRECATED and whose values are one
+of 'new', 'released' or 'discontinued'. However, 'discontinued' device types
+are only listed if the '--discontinued' option is also used, and this option
+is also DEPRECATED.
 
 The --json option is recommended when scripting the output of this command,
 because the JSON format is less likely to change and it better represents data
@@ -683,7 +684,7 @@ Examples:
 
 #### --discontinued
 
-include "discontinued" device types
+include "discontinued" device types (DEPRECATED)
 
 #### -j, --json
 
@@ -691,7 +692,7 @@ produce JSON output instead of tabular output
 
 #### -v, --verbose
 
-add extra columns in the tabular output (ALIASES, ARCH, STATE)
+add extra columns in the tabular output (DEPRECATED)
 
 ## device &#60;uuid&#62;
 

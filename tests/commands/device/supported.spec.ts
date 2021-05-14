@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019-2020 Balena Ltd.
+ * Copyright 2019-2021 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@ import { expect } from 'chai';
 
 import { BalenaAPIMock } from '../../balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
+
+import { isV13 } from '../../../lib/utils/version';
 
 describe('balena devices supported', function () {
 	let api: BalenaAPIMock;
@@ -44,20 +46,35 @@ describe('balena devices supported', function () {
 
 	it('should list currently supported devices, with correct filtering', async () => {
 		api.expectGetDeviceTypes();
+		api.expectGetConfigDeviceTypes();
 
-		const { out, err } = await runCommand('devices supported');
+		const { out, err } = await runCommand('devices supported -v');
 
-		const lines = cleanOutput(out);
+		const lines = cleanOutput(out, true);
 
-		expect(lines[0].replace(/  +/g, ' ')).to.equal('SLUG ALIASES ARCH NAME');
+		expect(lines[0]).to.equal(
+			isV13() ? 'SLUG ALIASES ARCH NAME' : 'SLUG ALIASES ARCH STATE NAME',
+		);
 		expect(lines).to.have.lengthOf.at.least(2);
+		expect(lines).to.contain(
+			isV13()
+				? 'intel-nuc nuc amd64 Intel NUC'
+				: 'intel-nuc nuc amd64 RELEASED Intel NUC',
+		);
+		expect(lines).to.contain(
+			isV13()
+				? 'odroid-xu4 odroid-ux3, odroid-u3+ armv7hf ODROID-XU4'
+				: 'odroid-xu4 odroid-ux3, odroid-u3+ armv7hf RELEASED ODROID-XU4',
+		);
 
 		// Discontinued devices should be filtered out from results
 		expect(lines.some((l) => l.includes('DISCONTINUED'))).to.be.false;
 
-		// Experimental devices should be listed as new
-		expect(lines.some((l) => l.includes('EXPERIMENTAL'))).to.be.false;
-		expect(lines.some((l) => l.includes('NEW'))).to.be.true;
+		// Beta devices should be listed as new
+		expect(lines.some((l) => l.includes('BETA'))).to.be.false;
+		expect(lines.some((l) => l.includes('NEW'))).to.equal(
+			isV13() ? false : true,
+		);
 
 		expect(err).to.eql([]);
 	});
