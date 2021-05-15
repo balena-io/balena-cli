@@ -25,7 +25,6 @@ import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
 
-const BOOT_PARTITION = 1;
 const CONNECTIONS_FOLDER = '/system-connections';
 
 interface FlagsDef {
@@ -281,10 +280,12 @@ export default class OsConfigureCmd extends Command {
 				}),
 			);
 
+			const bootPartition = await helpers.getBootPartition(params.image);
+
 			const imagefs = await import('balena-image-fs');
 
 			for (const { name, content } of files) {
-				await imagefs.interact(image, BOOT_PARTITION, async (_fs) => {
+				await imagefs.interact(image, bootPartition, async (_fs) => {
 					return await promisify(_fs.writeFile)(
 						path.join(CONNECTIONS_FOLDER, name),
 						content,
