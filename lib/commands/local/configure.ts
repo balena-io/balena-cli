@@ -108,10 +108,9 @@ export default class LocalConfigureCmd extends Command {
 		console.log('Done!');
 	}
 
-	readonly BOOT_PARTITION = 1;
 	readonly CONNECTIONS_FOLDER = '/system-connections';
 
-	getConfigurationSchema(connectionFileName?: string) {
+	getConfigurationSchema(bootPartition: number, connectionFileName?: string) {
 		connectionFileName ??= 'resin-wifi';
 		return {
 			mapper: [
@@ -150,14 +149,14 @@ export default class LocalConfigureCmd extends Command {
 						path: this.CONNECTIONS_FOLDER.slice(1),
 						// Reconfix still uses the older resin-image-fs, so still needs an
 						// object-based partition definition.
-						partition: this.BOOT_PARTITION,
+						partition: bootPartition,
 					},
 				},
 				config_json: {
 					type: 'json',
 					location: {
 						path: 'config.json',
-						partition: this.BOOT_PARTITION,
+						partition: bootPartition,
 					},
 				},
 			},
@@ -250,21 +249,20 @@ export default class LocalConfigureCmd extends Command {
 	async prepareConnectionFile(target: string) {
 		const _ = await import('lodash');
 		const imagefs = await import('balena-image-fs');
+		const helpers = await import('../../utils/helpers');
 
-		const files = await imagefs.interact(
-			target,
-			this.BOOT_PARTITION,
-			async (_fs) => {
-				return await promisify(_fs.readdir)(this.CONNECTIONS_FOLDER);
-			},
-		);
+		const bootPartition = await helpers.getBootPartition(target);
+
+		const files = await imagefs.interact(target, bootPartition, async (_fs) => {
+			return await promisify(_fs.readdir)(this.CONNECTIONS_FOLDER);
+		});
 
 		let connectionFileName;
 		if (_.includes(files, 'resin-wifi')) {
 			// The required file already exists, nothing to do
 		} else if (_.includes(files, 'resin-sample.ignore')) {
 			// Fresh image, new mode, accoding to https://github.com/balena-os/meta-balena/pull/770/files
-			await imagefs.interact(target, this.BOOT_PARTITION, async (_fs) => {
+			await imagefs.interact(target, bootPartition, async (_fs) => {
 				const readFileAsync = promisify(_fs.readFile);
 				const writeFileAsync = promisify(_fs.writeFile);
 				const contents = await readFileAsync(
@@ -287,14 +285,14 @@ export default class LocalConfigureCmd extends Command {
 			connectionFileName = 'resin-sample';
 		} else {
 			// In case there's no file at all (shouldn't happen normally, but the file might have been removed)
-			await imagefs.interact(target, this.BOOT_PARTITION, async (_fs) => {
+			await imagefs.interact(target, bootPartition, async (_fs) => {
 				return await promisify(_fs.writeFile)(
 					`${this.CONNECTIONS_FOLDER}/resin-wifi`,
 					this.CONNECTION_FILE,
 				);
 			});
 		}
-		return await this.getConfigurationSchema(connectionFileName);
+		return await this.getConfigurationSchema(bootPartition, connectionFileName);
 	}
 
 	async removeHostname(schema: any) {
