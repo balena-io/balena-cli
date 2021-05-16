@@ -1,4 +1,28 @@
 - commits:
+    - subject: 'os configure, local configure: Fix "Unsupported filesystem" error'
+      hash: 501882fd26bbe729754e2452819f8d472a91b439
+      body: >
+        When configuring a BalenaOS image with system connections using the CLI,
+
+        the function assumed that the boot partition was always 1. This is not
+
+        the case for every supported board. Therefore, a new function is added,
+
+        which automatically determines the boot partition number and allows
+
+        users to configure the image with system connection settings.
+
+
+        This change affects both the `balena local configure` and `balena os
+        configure` commands.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Roland Kajatin
+      nested: []
+  version: 12.44.15
+  date: 2021-05-16T19:14:59.380Z
+- commits:
     - subject: Add completion generator from oclif.manifest.json
       hash: a3e90182bc2cb366f8dea6214afefba0ad295b10
       body: ''
@@ -8,7 +32,7 @@
       author: Pierre Kancir
       nested: []
   version: 12.44.14
-  date: 2021-05-09T22:08:42.936Z
+  date: 2021-05-09T09:09:03.549Z
 - commits:
     - subject: >-
         Update dependencies (multibuild, dockerode, docker-toolbelt,

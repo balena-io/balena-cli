@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "os configure, local configure: Fix \"Unsupported filesystem\" error",
+          "hash": "501882fd26bbe729754e2452819f8d472a91b439",
+          "body": "When configuring a BalenaOS image with system connections using the CLI,\nthe function assumed that the boot partition was always 1. This is not\nthe case for every supported board. Therefore, a new function is added,\nwhich automatically determines the boot partition number and allows\nusers to configure the image with system connection settings.\n\nThis change affects both the `balena local configure` and `balena os configure` commands.\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Roland Kajatin",
+          "nested": []
+        }
+      ],
+      "version": "12.44.15",
+      "date": "2021-05-16T16:12:53.207Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add completion generator from oclif.manifest.json",
           "hash": "a3e90182bc2cb366f8dea6214afefba0ad295b10",
           "body": "",
@@ -21949,6 +21966,7 @@
     "express",
     "fast-boot2",
     "fast-levenshtein",
+    "file-disk",
     "get-stdin",
     "global-agent",
     "global-tunnel-ng",
@@ -21970,6 +21988,7 @@
     "node-unzip-2",
     "oclif",
     "open",
+    "partitioninfo",
     "patch-package",
     "prettyjson",
     "progress-stream",
@@ -21998,36 +22017,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-05-09T22:09:23Z",
+  "lastCommitDate": "2021-05-16T19:17:02Z",
   "latestRelease": {
-    "tagName": "v12.44.14",
+    "tagName": "v12.44.15",
     "asssets": [
       {
-        "name": "balena-cli-v12.44.14-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.14/balena-cli-v12.44.14-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.44.15-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.15/balena-cli-v12.44.15-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.14-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.14/balena-cli-v12.44.14-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.44.15-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.15/balena-cli-v12.44.15-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.44.14-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.14/balena-cli-v12.44.14-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.44.15-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.15/balena-cli-v12.44.15-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.14-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.14/balena-cli-v12.44.14-windows-x64-installer.exe"
+        "name": "balena-cli-v12.44.15-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.15/balena-cli-v12.44.15-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.44.14-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.14/balena-cli-v12.44.14-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.44.15-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.15/balena-cli-v12.44.15-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 327,
+    "numberOfIssues": 329,
     "latestIssues": [
+      {
+        "title": "Replace remaining occurrences of models.config.getDeviceTypes() with new DeviceType resource",
+        "url": "https://github.com/balena-io/balena-cli/issues/2266"
+      },
+      {
+        "title": "devices supported: Use new DeviceType data model as source of truth ",
+        "url": "https://github.com/balena-io/balena-cli/pull/2265"
+      },
+      {
+        "title": "Build cache not working in local mode",
+        "url": "https://github.com/balena-io/balena-cli/issues/2264"
+      },
       {
         "title": "Supervisor above (insert future release) requires to use app UUIDs in the preloading target state",
         "url": "https://github.com/balena-io/balena-cli/issues/2263"
@@ -22095,22 +22126,10 @@
       {
         "title": "docker: Add balena-CI tests via docker-compose.tests.yml",
         "url": "https://github.com/balena-io/balena-cli/issues/2216"
-      },
-      {
-        "title": "docker: Add env var(s) to identify container runtime to sentry.io and amplitude",
-        "url": "https://github.com/balena-io/balena-cli/issues/2215"
-      },
-      {
-        "title": "docker: npm run build should update dockerfile base images",
-        "url": "https://github.com/balena-io/balena-cli/issues/2214"
-      },
-      {
-        "title": "docker: Replace src copy with only required files and folders",
-        "url": "https://github.com/balena-io/balena-cli/issues/2213"
       }
     ]
   },
-  "version": "12.44.14",
+  "version": "12.44.15",
   "screenshot": null,
   "logo": null
 }
