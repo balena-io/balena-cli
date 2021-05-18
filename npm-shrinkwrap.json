@@ -3443,9 +3443,9 @@
       }
     },
     "balena-preload": {
-      "version": "10.4.6",
-      "resolved": "https://registry.npmjs.org/balena-preload/-/balena-preload-10.4.6.tgz",
-      "integrity": "sha512-/wcAd8LNMTEbIWsNiXUJZov1SZBTjr0A4fpOJAkDn9woCSm4UBsNQfOJ3Wj7eYB1G5meD1XmmCTxQwa9suZa6A==",
+      "version": "10.4.7",
+      "resolved": "https://registry.npmjs.org/balena-preload/-/balena-preload-10.4.7.tgz",
+      "integrity": "sha512-lsE0aVhgm7pPFVm1Rvt12RvZpP4pN8N5mXDEvETh6o16RQLNwJAek9HzBY0yenM/D0CEoFjRkI/QavCiSdgn+A==",
       "requires": {
         "archiver": "^3.1.1",
         "balena-sdk": "^15.3.1",
