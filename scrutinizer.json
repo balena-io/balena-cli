@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "preload: Avoid hardcoded registry2 URLs with openBalena",
+          "hash": "b17dad8c60555ab9896fb4c911522e4d2141abcb",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Changelog-entry": "preload: Avoid hardcoded registry2 URLs with openBalena",
+            "changelog-entry": "preload: Avoid hardcoded registry2 URLs with openBalena",
+            "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+            "signed-off-by": "Kyle Harding <kyle@balena.io>"
+          },
+          "author": "Kyle Harding",
+          "nested": []
+        }
+      ],
+      "version": "12.44.16",
+      "date": "2021-05-18T15:11:23.344Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "os configure, local configure: Fix \"Unsupported filesystem\" error",
           "hash": "501882fd26bbe729754e2452819f8d472a91b439",
           "body": "When configuring a BalenaOS image with system connections using the CLI,\nthe function assumed that the boot partition was always 1. This is not\nthe case for every supported board. Therefore, a new function is added,\nwhich automatically determines the boot partition number and allows\nusers to configure the image with system connection settings.\n\nThis change affects both the `balena local configure` and `balena os configure` commands.\n",
@@ -21839,16 +21860,16 @@
       "avatar": "https://avatars.githubusercontent.com/u/6697261?v=4"
     },
     {
+      "username": "klutchell",
+      "avatar": "https://avatars.githubusercontent.com/u/20458272?v=4"
+    },
+    {
       "username": "mbalamat",
       "avatar": "https://avatars.githubusercontent.com/u/7872396?v=4"
     },
     {
       "username": "imrehg",
       "avatar": "https://avatars.githubusercontent.com/u/38863?v=4"
-    },
-    {
-      "username": "klutchell",
-      "avatar": "https://avatars.githubusercontent.com/u/20458272?v=4"
     },
     {
       "username": "richbayliss",
@@ -21915,7 +21936,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 321,
+  "stars": 322,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -22017,29 +22038,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-05-16T19:17:02Z",
+  "lastCommitDate": "2021-05-18T15:35:46Z",
   "latestRelease": {
-    "tagName": "v12.44.15",
+    "tagName": "v12.44.16",
     "asssets": [
       {
-        "name": "balena-cli-v12.44.15-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.15/balena-cli-v12.44.15-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.44.16-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.16/balena-cli-v12.44.16-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.15-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.15/balena-cli-v12.44.15-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.44.16-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.16/balena-cli-v12.44.16-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.44.15-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.15/balena-cli-v12.44.15-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.44.16-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.16/balena-cli-v12.44.16-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.15-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.15/balena-cli-v12.44.15-windows-x64-installer.exe"
+        "name": "balena-cli-v12.44.16-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.16/balena-cli-v12.44.16-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.44.15-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.15/balena-cli-v12.44.15-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.44.16-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.16/balena-cli-v12.44.16-windows-x64-standalone.zip"
       }
     ]
   },
@@ -22054,6 +22075,10 @@
       {
         "title": "devices supported: Use new DeviceType data model as source of truth ",
         "url": "https://github.com/balena-io/balena-cli/pull/2265"
+      },
+      {
+        "title": "Document the cache used by balenaCLI",
+        "url": "https://github.com/balena-io/balena-cli/issues/2268"
       },
       {
         "title": "Build cache not working in local mode",
@@ -22108,10 +22133,6 @@
         "url": "https://github.com/balena-io/balena-cli/pull/2232"
       },
       {
-        "title": "balena preload fails with version >12.37.0 and openBalena 3.2.1",
-        "url": "https://github.com/balena-io/balena-cli/issues/2231"
-      },
-      {
         "title": "Should support npm v7",
         "url": "https://github.com/balena-io/balena-cli/issues/2221"
       },
@@ -22129,7 +22150,7 @@
       }
     ]
   },
-  "version": "12.44.15",
+  "version": "12.44.16",
   "screenshot": null,
   "logo": null
 }
