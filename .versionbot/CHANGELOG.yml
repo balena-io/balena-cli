@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'preload: Avoid hardcoded registry2 URLs with openBalena'
+      hash: b17dad8c60555ab9896fb4c911522e4d2141abcb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Changelog-entry: 'preload: Avoid hardcoded registry2 URLs with openBalena'
+        changelog-entry: 'preload: Avoid hardcoded registry2 URLs with openBalena'
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 12.44.16
+  date: 2021-05-18T15:11:23.344Z
+- commits:
     - subject: 'os configure, local configure: Fix "Unsupported filesystem" error'
       hash: 501882fd26bbe729754e2452819f8d472a91b439
       body: >
