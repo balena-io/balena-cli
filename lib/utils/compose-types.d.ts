@@ -89,6 +89,9 @@ export interface Release {
 		| 'commit'
 		| 'composition'
 		| 'source'
+		| 'is_final'
+		| 'contract'
+		| 'semver'
 		| 'start_timestamp'
 		| 'end_timestamp'
 	>;

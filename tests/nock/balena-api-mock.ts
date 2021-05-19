@@ -122,11 +122,18 @@ export class BalenaAPIMock extends NockMock {
 	/**
 	 * Mocks balena-release call
 	 */
-	public expectPostRelease(opts: ScopeOpts = {}) {
-		this.optPost(/^\/v6\/release($|[(?])/, opts).replyWithFile(
-			200,
-			path.join(apiResponsePath, 'release-POST-v6.json'),
-			jHeader,
+	public expectPostRelease({
+		statusCode = 200,
+		inspectRequest = this.inspectNoOp,
+		optional = false,
+		persist = false,
+	}) {
+		this.optPost(/^\/v6\/release($|[(?])/, { optional, persist }).reply(
+			statusCode,
+			this.getInspectedReplyFileFunction(
+				inspectRequest,
+				path.join(apiResponsePath, 'release-POST-v6.json'),
+			),
 		);
 	}
 

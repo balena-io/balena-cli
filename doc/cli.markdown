@@ -3369,6 +3369,13 @@ Set release tags if the image deployment is successful. Multiple
 arguments may be provided, alternating tag keys and values (see examples).
 Hint: Empty values may be specified with "" (bash, cmd.exe) or '""' (PowerShell).
 
+#### --draft
+
+Deploy the release as a draft. Draft releases are ignored
+by the 'track latest' release policy but can be used through release pinning.
+Draft releases can be marked as final through the API. Releases as created
+as final by default unless this option is given.
+
 #### -e, --emulated
 
 Use QEMU for ARM architecture emulation during the image build

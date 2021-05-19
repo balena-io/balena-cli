@@ -16,6 +16,7 @@
  */
 
 import * as nock from 'nock';
+import * as fs from 'fs';
 
 export interface ScopeOpts {
 	optional?: boolean;
@@ -99,6 +100,27 @@ export class NockMock {
 			} catch (err) {
 				cb(err, '');
 			}
+			cb(null, replyBody);
+		};
+	}
+
+	protected getInspectedReplyFileFunction(
+		inspectRequest: (uri: string, requestBody: nock.Body) => void,
+		replyBodyFile: string,
+	) {
+		return function (
+			this: nock.ReplyFnContext,
+			uri: string,
+			requestBody: nock.Body,
+			cb: (err: NodeJS.ErrnoException | null, result: nock.ReplyBody) => void,
+		) {
+			try {
+				inspectRequest(uri, requestBody);
+			} catch (err) {
+				cb(err, '');
+			}
+
+			const replyBody = fs.readFileSync(replyBodyFile);
 			cb(null, replyBody);
 		};
 	}
