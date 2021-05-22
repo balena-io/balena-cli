@@ -9,14 +9,15 @@ process.env.UV_THREADPOOL_SIZE = '64';
 // Disable oclif registering ts-node
 process.env.OCLIF_TS_NODE = 0;
 
-// Use fast-boot to cache require lookups, speeding up startup
-require('fast-boot2').start({
-	cacheScope: __dirname + '/..',
-	cacheFile: __dirname + '/.fast-boot.json',
-});
+async function run() {
+	// Use fast-boot to cache require lookups, speeding up startup
+	await require('../build/fast-boot').start();
 
-// Set the desired es version for downstream modules that support it
-require('@balena/es-version').set('es2018');
+	// Set the desired es version for downstream modules that support it
+	require('@balena/es-version').set('es2018');
 
-// Run the CLI
-require('../build/app').run();
+	// Run the CLI
+	await require('../build/app').run();
+}
+
+run();

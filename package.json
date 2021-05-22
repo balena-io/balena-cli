@@ -41,6 +41,7 @@
       "node_modules/open/xdg-open",
       "node_modules/windosu/*.bat",
       "node_modules/windosu/*.cmd",
+      "npm-shrinkwrap.json",
       "oclif.manifest.json"
     ]
   },
