@@ -3042,10 +3042,12 @@ the image in the balenaCloud build servers.)
 Unless an image is specified, this command will look into the current directory
 (or the one specified by --source) for a docker-compose.yml file.  If one is
 found, this command will deploy each service defined in the compose file,
-building it first if an image for it doesn't exist. If a compose file isn't
-found, the command will look for a Dockerfile[.template] file (or alternative
-Dockerfile specified with the `-f` option), and if yet that isn't found, it
-will try to generate one.
+building it first if an image for it doesn't exist. Image names will be looked
+up according to the scheme: `<projectName>_<serviceName>`.
+
+If a compose file isn't found, the command will look for a Dockerfile[.template]
+file (or alternative Dockerfile specified with the `-f` option), and if yet
+that isn't found, it will try to generate one.
 
 To deploy to an app on which you're a collaborator, use
 `balena deploy <appOwnerUsername>/<appName>`.
