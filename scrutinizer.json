@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "doc: Document the image nameing scheme used by deploy",
+          "hash": "e04242db642fca1639cc0ee08a1ab1bf18219308",
+          "body": "When using deploy to create a release for a multi-container project one\nneeds to follow this to avoid triggering a build. Relevant for CI/CD scenarios\nwith their own build pipeline.\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Robert Günzler <robertg@balena.io>",
+            "signed-off-by": "Robert Günzler <robertg@balena.io>"
+          },
+          "author": "Robert Günzler",
+          "nested": []
+        }
+      ],
+      "version": "12.44.17",
+      "date": "2021-05-24T14:28:43.435Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "preload: Avoid hardcoded registry2 URLs with openBalena",
           "hash": "b17dad8c60555ab9896fb4c911522e4d2141abcb",
           "body": "",
@@ -22038,36 +22057,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-05-18T15:35:46Z",
+  "lastCommitDate": "2021-05-24T15:17:54Z",
   "latestRelease": {
-    "tagName": "v12.44.16",
+    "tagName": "v12.44.17",
     "asssets": [
       {
-        "name": "balena-cli-v12.44.16-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.16/balena-cli-v12.44.16-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.44.17-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.17/balena-cli-v12.44.17-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.16-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.16/balena-cli-v12.44.16-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.44.17-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.17/balena-cli-v12.44.17-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.44.16-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.16/balena-cli-v12.44.16-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.44.17-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.17/balena-cli-v12.44.17-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.16-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.16/balena-cli-v12.44.16-windows-x64-installer.exe"
+        "name": "balena-cli-v12.44.17-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.17/balena-cli-v12.44.17-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.44.16-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.16/balena-cli-v12.44.16-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.44.17-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.17/balena-cli-v12.44.17-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 329,
+    "numberOfIssues": 332,
     "latestIssues": [
+      {
+        "title": "Fix fast-boot module caching with read-only installation folders",
+        "url": "https://github.com/balena-io/balena-cli/pull/2273"
+      },
+      {
+        "title": "Add caxa-based installer for Linux",
+        "url": "https://github.com/balena-io/balena-cli/pull/2271"
+      },
+      {
+        "title": "Add `--draft` option to `balena push`",
+        "url": "https://github.com/balena-io/balena-cli/pull/2270"
+      },
       {
         "title": "Replace remaining occurrences of models.config.getDeviceTypes() with new DeviceType resource",
         "url": "https://github.com/balena-io/balena-cli/issues/2266"
@@ -22135,22 +22166,10 @@
       {
         "title": "Should support npm v7",
         "url": "https://github.com/balena-io/balena-cli/issues/2221"
-      },
-      {
-        "title": "Os configure throws `IO: Input/output error` if you apply the command more that one time on the same image.",
-        "url": "https://github.com/balena-io/balena-cli/issues/2220"
-      },
-      {
-        "title": "Fix for NodeJS>13.0.0 and Balena Engine for Apple Silicon?",
-        "url": "https://github.com/balena-io/balena-cli/issues/2219"
-      },
-      {
-        "title": "docker: Add balena-CI tests via docker-compose.tests.yml",
-        "url": "https://github.com/balena-io/balena-cli/issues/2216"
       }
     ]
   },
-  "version": "12.44.16",
+  "version": "12.44.17",
   "screenshot": null,
   "logo": null
 }
