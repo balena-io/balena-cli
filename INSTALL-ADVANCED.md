@@ -76,24 +76,48 @@ as described above.
 
 If you are a Node.js developer, you may wish to install the balena CLI via [npm](https://www.npmjs.com).
 The npm installation involves building native (platform-specific) binary modules, which require
-some additional development tools to be installed first:
+some development tools to be installed first, as follows.
 
-* [Node.js](https://nodejs.org/) version 10 (min **10.20.0**) or 12 (version 14 is not yet fully supported)
-  * **Linux, macOS** and **Windows Subsystem for Linux (WSL):**  
-    Installing Node via [nvm](https://github.com/nvm-sh/nvm/blob/master/README.md) is recommended.
-    When the "system" or "default" Node.js and npm packages are installed with "apt-get" in Linux
-    distributions like Ubuntu, users often report permission or compilation errors when running
-    "npm install".
-* [Python 2.7](https://www.python.org/), [git](https://git-scm.com/), [make](https://www.gnu.org/software/make/), [g++](https://gcc.gnu.org/)
-  * **Linux** and **Windows Subsystem for Linux (WSL):**  
-    `sudo apt-get install -y python git make g++`
-  * **macOS:** install Apple's Command Line Tools by running on a Terminal window:  
-    `xcode-select --install`
+> **The balena CLI currently requires Node.js version 10 (min 10.20.0) or 12.**  
+> **Versions 13 and later are not yet fully supported.**
 
-On **Windows (not WSL),** the dependencies above and additional ones can be met by installing:
+### Install development tools
 
-* Node.js from the [Nodejs.org download page](https://nodejs.org/en/download/).
-* The [MSYS2 shell](https://www.msys2.org/), which provides `git`, `make`, `g++`, `7z` and more:
+#### **Linux or WSL** (Windows Subsystem for Linux)
+
+```sh
+$ sudo apt-get update && sudo apt-get -y install curl python3 git make g++
+$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+$ . ~/.bashrc
+$ nvm install 12
+```
+
+The `curl` command line above uses
+[nvm](https://github.com/nvm-sh/nvm/blob/master/README.md#install--update-script) to install
+Node.js, instead of using `apt-get`. Installing Node.js through `apt-get` is a common source of
+problems from permission errors to conflict with other system packages, and therefore not
+recommended.
+
+#### **macOS**
+
+* Download and install Apple's Command Line Tools from https://developer.apple.com/downloads/
+* Install Node.js through [nvm](https://github.com/nvm-sh/nvm/blob/master/README.md#install--update-script):
+
+```sh
+$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+$ . ~/.bashrc
+$ nvm install 12
+```
+
+#### **Windows** (not WSL)
+
+Install:
+
+* Node.js v12 from the [Nodejs.org releases page](https://nodejs.org/en/download/releases/).
+  * If you'd like the ability to switch between Node.js versions, install
+    [nvm-windows](https://github.com/coreybutler/nvm-windows#node-version-manager-nvm-for-windows)
+    instead.
+* The [MSYS2 shell](https://www.msys2.org/), which provides `git`, `make`, `g++` and more:
   * `pacman -S git gcc make openssh p7zip`
   * [Set a Windows environment variable](https://www.onmsft.com/how-to/how-to-set-an-environment-variable-in-windows-10): `MSYS2_PATH_TYPE=inherit`
   * Note that a bug in the MSYS2 launch script (`msys2_shell.cmd`) makes text-based
@@ -101,26 +125,23 @@ On **Windows (not WSL),** the dependencies above and additional ones can be met 
     workaround](https://github.com/msys2/MINGW-packages/issues/1633#issuecomment-240583890).
 * The Windows Driver Kit (WDK), which is needed to compile some native Node modules. It is **not**
   necessary to install Visual Studio, only the WDK, which is "step 2" in the following guides:
-  * [WDK for Windows 10](https://docs.microsoft.com/en-us/windows-hardware/drivers/download-the-wdk#download-icon-step-2-install-wdk-for-windows-10-version-1903)
+  * [WDK for Windows 10](https://docs.microsoft.com/en-us/windows-hardware/drivers/download-the-wdk#download-icon-step-2-install-refreshed-wdk-for-windows-10-version-2004)
   * [WDK for earlier versions of Windows](https://docs.microsoft.com/en-us/windows-hardware/drivers/other-wdk-downloads#step-2-install-the-wdk)
-* The [windows-build-tools](https://www.npmjs.com/package/windows-build-tools) npm package (which
-  provides Python 2.7 and more), by running the following command on an [administrator
-  console](https://www.howtogeek.com/194041/how-to-open-the-command-prompt-as-administrator-in-windows-8.1/):
-  
-  `npm install -g --production windows-build-tools`
+* The [windows-build-tools](https://www.npmjs.com/package/windows-build-tools) npm package,
+  by running the following command on an [administrator
+  console](https://www.howtogeek.com/194041/how-to-open-the-command-prompt-as-administrator-in-windows-8.1/):  
+  `npm install --global --production windows-build-tools`
 
-With these dependencies in place, the balena CLI installation command is:
+### Install the balena CLI
+
+After installing the development tools, install the balena CLI with:
 
 ```sh
-$ npm install balena-cli -g --production --unsafe-perm
+$ npm install balena-cli --global --production --unsafe-perm
 ```
 
-`--unsafe-perm` is required when `npm install` is executed as the root user, or on systems where
-the global install directory is not user-writable. It allows npm install steps to download and save
-prebuilt native binaries, and also allows the execution of npm scripts like `postinstall` that are
-used to patch dependencies. It is usually possible to omit `--unsafe-perm` if installing under a
-regular (non-root) user account, especially if using a user-managed node installation such as
-[nvm](https://github.com/creationix/nvm).
+`--unsafe-perm` is needed when `npm install` is executed as the `root` user (e.g. in a Docker
+container) in order to allow npm scripts like `postinstall` to be executed.
 
 ## Additional Dependencies
 
@@ -134,7 +155,7 @@ system:
 
 Where Docker or balenaEngine are required, they may be installed on the local machine (where the
 balena CLI is executed), on a remote server, or on a balenaOS device running a [balenaOS development
-image](https://www.balena.io/docs/reference/OS/overview/2.x/#dev-vs-prod-images)). Reasons why this
+image](https://www.balena.io/docs/reference/OS/overview/2.x/#dev-vs-prod-images). Reasons why this
 may be desirable include:
 
 * To avoid having to install Docker on the development machine / laptop.
