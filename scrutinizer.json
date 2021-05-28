@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Update advanced installation instructions",
+          "hash": "460022a7cfc04a3828662f3f078f17816ea9bcff",
+          "body": "Replace 'python' with 'python3' in apt-get install command line, and\nrefactor for clarity.\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.44.18",
+      "date": "2021-05-27T21:06:42.932Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "doc: Document the image nameing scheme used by deploy",
           "hash": "e04242db642fca1639cc0ee08a1ab1bf18219308",
           "body": "When using deploy to create a release for a multi-container project one\nneeds to follow this to avoid triggering a build. Relevant for CI/CD scenarios\nwith their own build pipeline.\n",
@@ -22057,29 +22074,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-05-24T15:17:54Z",
+  "lastCommitDate": "2021-05-28T13:17:00Z",
   "latestRelease": {
-    "tagName": "v12.44.17",
+    "tagName": "v12.44.18",
     "asssets": [
       {
-        "name": "balena-cli-v12.44.17-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.17/balena-cli-v12.44.17-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.44.18-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.18/balena-cli-v12.44.18-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.17-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.17/balena-cli-v12.44.17-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.44.18-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.18/balena-cli-v12.44.18-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.44.17-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.17/balena-cli-v12.44.17-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.44.18-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.18/balena-cli-v12.44.18-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.17-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.17/balena-cli-v12.44.17-windows-x64-installer.exe"
+        "name": "balena-cli-v12.44.18-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.18/balena-cli-v12.44.18-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.44.17-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.17/balena-cli-v12.44.17-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.44.18-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.18/balena-cli-v12.44.18-windows-x64-standalone.zip"
       }
     ]
   },
@@ -22087,6 +22104,10 @@
   "openIssues": {
     "numberOfIssues": 332,
     "latestIssues": [
+      {
+        "title": "Add balena.yml handling to `balena deploy` release creation",
+        "url": "https://github.com/balena-io/balena-cli/pull/2274"
+      },
       {
         "title": "Fix fast-boot module caching with read-only installation folders",
         "url": "https://github.com/balena-io/balena-cli/pull/2273"
@@ -22162,14 +22183,10 @@
       {
         "title": "docker: Install official static docker binaries",
         "url": "https://github.com/balena-io/balena-cli/pull/2232"
-      },
-      {
-        "title": "Should support npm v7",
-        "url": "https://github.com/balena-io/balena-cli/issues/2221"
       }
     ]
   },
-  "version": "12.44.17",
+  "version": "12.44.18",
   "screenshot": null,
   "logo": null
 }

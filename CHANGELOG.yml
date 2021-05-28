@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update advanced installation instructions
+      hash: 460022a7cfc04a3828662f3f078f17816ea9bcff
+      body: |
+        Replace 'python' with 'python3' in apt-get install command line, and
+        refactor for clarity.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.44.18
+  date: 2021-05-28T13:15:41.584Z
+- commits:
     - subject: 'doc: Document the image nameing scheme used by deploy'
       hash: e04242db642fca1639cc0ee08a1ab1bf18219308
       body: >
@@ -16,7 +29,7 @@
       author: Robert Günzler
       nested: []
   version: 12.44.17
-  date: 2021-05-24T15:16:40.529Z
+  date: 2021-05-24T14:28:43.435Z
 - commits:
     - subject: 'preload: Avoid hardcoded registry2 URLs with openBalena'
       hash: b17dad8c60555ab9896fb4c911522e4d2141abcb
