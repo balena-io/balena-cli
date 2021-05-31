@@ -97,24 +97,38 @@ async function oclifRun(
 	command: string[],
 	options: import('./preparser').AppOptions,
 ) {
-	const { CustomMain } = await import('./utils/oclif-utils');
-	const runPromise = CustomMain.run(command).then(
-		() => {
-			if (!options.noFlush) {
-				return require('@oclif/command/flush');
-			}
-		},
-		(error) => {
-			// oclif sometimes exits with ExitError code 0 (not an error)
+	const runPromise = (async function (shouldFlush: boolean) {
+		const { CustomMain } = await import('./utils/oclif-utils');
+		let isEEXIT = false;
+		try {
+			await CustomMain.run(command);
+		} catch (error) {
+			// oclif sometimes exits with ExitError code EEXIT 0 (not an error),
+			// for example the `balena help` command.
 			// (Avoid `error instanceof ExitError` here for the reasons explained
 			// in the CONTRIBUTING.md file regarding the `instanceof` operator.)
 			if (error.oclif?.exit === 0) {
-				return;
+				isEEXIT = true;
 			} else {
 				throw error;
 			}
-		},
-	);
+		}
+		if (shouldFlush) {
+			await import('@oclif/command/flush');
+		}
+		// TODO: figure out why we need to call fast-boot stop() here, in
+		// addition to calling it in the main `run()` function in this file.
+		// If it is not called here as well, there is a process exit delay of
+		// 1 second when the fast-boot2 cache is modified (1 second is the
+		// default cache saving timeout). Try for example `balena help`.
+		// I have found that, when oclif's `Error: EEXIT: 0` is caught in
+		// the try/catch block above, execution does not get past the
+		// Promise.all() call below, but I don't understand why.
+		if (isEEXIT) {
+			(await import('./fast-boot')).stop();
+		}
+	})(!options.noFlush);
+
 	const { trackPromise } = await import('./hooks/prerun/track');
 	await Promise.all([trackPromise, runPromise]);
 }
@@ -146,6 +160,13 @@ export async function run(
 	} catch (err) {
 		await (await import('./errors')).handleError(err);
 	} finally {
+		try {
+			(await import('./fast-boot')).stop();
+		} catch (e) {
+			if (process.env.DEBUG) {
+				console.error(`[debug] Stopping fast-boot: ${e}`);
+			}
+		}
 		// Windows fix: reading from stdin prevents the process from exiting
 		process.stdin.pause();
 	}
