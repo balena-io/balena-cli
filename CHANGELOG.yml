@@ -1,4 +1,22 @@
 - commits:
+    - subject: Fix fast-boot module caching with read-only installation folders
+      hash: d15b54cf40ad462112eeb9f7beb93bb1c25d3eb1
+      body: |
+        * Add missing fast-boot `stop()` call on CLI exit to avoid 1s timeout.
+        * Move `.fast-boot.json` to `~/.balena/cli-module-cache.json` to
+        address scenarios where the CLI is installed to a read-only folder:
+        - pkg's internal 'snapshot' filesystem (standalone zip package)
+        - Root-owned folder without write permission to regular users,
+          like `/usr[/local]/lib/balena-cli` (the case of caxa-based
+          installers or the GUI installer for macOS).
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.44.19
+  date: 2021-05-31T08:46:17.107Z
+- commits:
     - subject: Update advanced installation instructions
       hash: 460022a7cfc04a3828662f3f078f17816ea9bcff
       body: |
@@ -10,7 +28,7 @@
       author: Paulo Castro
       nested: []
   version: 12.44.18
-  date: 2021-05-28T13:15:41.584Z
+  date: 2021-05-27T21:06:42.932Z
 - commits:
     - subject: 'doc: Document the image nameing scheme used by deploy'
       hash: e04242db642fca1639cc0ee08a1ab1bf18219308
