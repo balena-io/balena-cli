@@ -503,10 +503,10 @@ export async function buildOclifInstaller() {
 }
 
 export async function buildInstallers() {
-	if (process.platform !== 'win32') {
-		const { makeCaxaInstaller } = await import('./make-caxa-installer');
-		await makeCaxaInstaller();
-	}
+	// if (process.platform !== 'win32') {
+	// 	const { makeCaxaInstaller } = await import('./make-caxa-installer');
+	// 	await makeCaxaInstaller();
+	// }
 	await buildOclifInstaller();
 }
 

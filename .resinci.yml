@@ -1,4 +1,47 @@
 ---
+docker:
+  builds:
+    - path: .
+      dockerfile: ./automation/caxa/Dockerfile
+      args:
+        - BUILD_BASE=balenalib/amd64-debian-node:12.22.1-build-20210506
+        - GITHUB_TOKEN
+      docker_repo: repo-name-not-used-because-not-published
+      publish: false
+
+    # caxa does not currently produce 32-bit x86/ia32/i386 stubs
+    # - path: .
+    #   dockerfile: ./automation/caxa/Dockerfile
+    #   args:
+    #     - BUILD_BASE=balenalib/i386-debian-node:12.16.3-build-20200518
+    #     - GITHUB_TOKEN
+    #   docker_repo: repo-name-not-used-because-not-published
+    #   publish: false
+
+    - path: .
+      dockerfile: ./automation/caxa/Dockerfile
+      args:
+        - BUILD_BASE=balenalib/aarch64-debian-node:12.20.1-build-20210119
+        - GITHUB_TOKEN
+      docker_repo: repo-name-not-used-because-not-published
+      publish: false
+
+    - path: .
+      dockerfile: ./automation/caxa/Dockerfile
+      args:
+        - BUILD_BASE=balenalib/armv7hf-debian-node:12.22.1-build-20210603
+        - GITHUB_TOKEN
+      docker_repo: repo-name-not-used-because-not-published
+      publish: false
+
+    - path: .
+      dockerfile: ./automation/caxa/Dockerfile
+      args:
+        - BUILD_BASE=balenalib/rpi-debian-node:12.20.1-build-20210201
+        - GITHUB_TOKEN
+      docker_repo: repo-name-not-used-because-not-published
+      publish: false
+
 npm:
   platforms:
     - name: linux
