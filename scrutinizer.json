@@ -5,6 +5,326 @@
     {
       "commits": [
         {
+          "subject": "devices supported: Use new DeviceType data model as source of truth",
+          "hash": "a254e461186e4cfddcffd3285e9420451e31cb24",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "Update balena-sdk from 15.31.0 to 15.36.0",
+          "hash": "6e7a0defb7eadd4aff9413b3c552d2f2005e8d29",
+          "body": "Update balena-sdk from 15.31.0 to 15.36.0\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": [
+            {
+              "commits": [
+                {
+                  "subject": "Add is_of__class in application model",
+                  "hash": "17bc4ae8bcfd6fbed681eccc7bcf2a90a5801785",
+                  "body": "Add is_of__class in application model\n",
+                  "footer": {
+                    "Change-type": "minor",
+                    "change-type": "minor",
+                    "Signed-off-by": "Andrea Rosci <andrear@balena.io>",
+                    "signed-off-by": "Andrea Rosci <andrear@balena.io>"
+                  },
+                  "author": "JSReds",
+                  "nested": []
+                }
+              ],
+              "version": "balena-sdk-15.36.0",
+              "date": "2021-05-13T17:59:00.188Z"
+            },
+            {
+              "commits": [
+                {
+                  "subject": "Fix lint after prittier update",
+                  "hash": "18c6b8ee635af7aa422e54a5adc94dce34f4346d",
+                  "body": "Fix lint after prittier update\n",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch",
+                    "Signed-off-by": "Andrea Rosci <andrear@balena.io>",
+                    "signed-off-by": "Andrea Rosci <andrear@balena.io>"
+                  },
+                  "author": "JSReds",
+                  "nested": []
+                }
+              ],
+              "version": "balena-sdk-15.35.2",
+              "date": "2021-05-13T16:47:06.740Z"
+            },
+            {
+              "commits": [
+                {
+                  "subject": "Add missing types for the Service & Image resources",
+                  "hash": "822491d7a49ee9d2d88a5c115eca98b7af091fe3",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": []
+                },
+                {
+                  "subject": "release.getLatestByApplication: Fix the return type to be optional",
+                  "hash": "69a95806703a2b060b5a45620a48aaf7c3912f39",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": []
+                }
+              ],
+              "version": "balena-sdk-15.35.1",
+              "date": "2021-05-06T13:53:12.627Z"
+            },
+            {
+              "commits": [
+                {
+                  "subject": "Deprecate application.getAllWithDeviceServiceDetails()",
+                  "hash": "95b7bf7541b72d9ad35af1558b9c89841f2a3f66",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": []
+                },
+                {
+                  "subject": "Deprecate targeting/retrieving apps by name in all models",
+                  "hash": "c9ee6fec718c1631d1b533592dda8d8f9a641838",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": []
+                },
+                {
+                  "subject": "Add application.getAppByName method",
+                  "hash": "2a5d548235b71e87ce195578f57f9c4c833c98e5",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "minor",
+                    "change-type": "minor",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": []
+                }
+              ],
+              "version": "balena-sdk-15.35.0",
+              "date": "2021-05-05T14:19:23.255Z"
+            },
+            {
+              "commits": [
+                {
+                  "subject": "Abstract & update device os info that are used in tests",
+                  "hash": "1672dd269c3372ea9b30bce52b58b41c48f51bc9",
+                  "body": "This also fixes those tests failing b/c of relying on a\nreally old invalidated os release.\n",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch",
+                    "See": "https://www.flowdock.com/app/rulemotion/resin-tech/threads/3WDfDVeEH8raYKGJ4iSRVaHFw_p",
+                    "see": "https://www.flowdock.com/app/rulemotion/resin-tech/threads/3WDfDVeEH8raYKGJ4iSRVaHFw_p",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": []
+                }
+              ],
+              "version": "balena-sdk-15.34.2",
+              "date": "2021-05-05T13:48:24.436Z"
+            },
+            {
+              "commits": [
+                {
+                  "subject": "types: Deprecate Device is_in_local_mode property",
+                  "hash": "bbd2696f65c15a9678e2ee2651e2835b5e04597a",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": []
+                }
+              ],
+              "version": "balena-sdk-15.34.1",
+              "date": "2021-04-14T14:42:52.571Z"
+            },
+            {
+              "commits": [
+                {
+                  "subject": "Deprecate user__is_member_of__application in favor of the term form",
+                  "hash": "74fc904fe93d8aa47a7239da35b4fcfd7caf3b20",
+                  "body": "Deprecated in favor of its term form\nuser_application_membership.\n",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": []
+                },
+                {
+                  "subject": "types/models: Add `user_application_membership` to the User & Team",
+                  "hash": "507aef969720181309c4f6b012c5a26dff82fab4",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "minor",
+                    "change-type": "minor",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": []
+                }
+              ],
+              "version": "balena-sdk-15.34.0",
+              "date": "2021-04-13T12:50:12.445Z"
+            },
+            {
+              "commits": [
+                {
+                  "subject": "types/modes: Deprecate Subscription's discounts__plan_addon property",
+                  "hash": "ba5b427f83c16dd0c7bd6106ab4ba94841e34dc4",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch",
+                    "See": "https://github.com/balena-io/balena-api/pull/3085",
+                    "see": "https://github.com/balena-io/balena-api/pull/3085",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": []
+                },
+                {
+                  "subject": "types/models: Add `subscription_addon_discount` to the Subscription",
+                  "hash": "7cafbc7a7406a35500223d597a7f8a6b35ac5566",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "minor",
+                    "change-type": "minor",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": []
+                }
+              ],
+              "version": "balena-sdk-15.33.0",
+              "date": "2021-04-12T11:39:32.410Z"
+            },
+            {
+              "commits": [
+                {
+                  "subject": "Add the auth.getUserActorId() method",
+                  "hash": "7c15854a86fffda21a7a7b5bf01ce5c0ecfdfd83",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "minor",
+                    "change-type": "minor",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": []
+                }
+              ],
+              "version": "balena-sdk-15.32.0",
+              "date": "2021-04-08T16:14:12.052Z"
+            },
+            {
+              "commits": [
+                {
+                  "subject": "models/application: Fix examples incorrectly showing a short device uuid",
+                  "hash": "e38d7c5024f36bd4356343b3479f20329ed6380f",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": []
+                },
+                {
+                  "subject": "Add application.get example using the application slug",
+                  "hash": "4a7c4e77c9f7c006ac753ff47b3d3814ceb73159",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": []
+                }
+              ],
+              "version": "balena-sdk-15.31.2",
+              "date": "2021-04-08T11:48:41.294Z"
+            },
+            {
+              "commits": [
+                {
+                  "subject": "Refactor the resource get by field tests",
+                  "hash": "b0c79a6b50e46d853f60501ccddc887eaf86b34c",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": []
+                }
+              ],
+              "version": "balena-sdk-15.31.1",
+              "date": "2021-04-07T21:17:50.660Z"
+            }
+          ]
+        }
+      ],
+      "version": "12.44.20",
+      "date": "2021-06-14T20:41:04.820Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix fast-boot module caching with read-only installation folders",
           "hash": "d15b54cf40ad462112eeb9f7beb93bb1c25d3eb1",
           "body": "* Add missing fast-boot `stop()` call on CLI exit to avoid 1s timeout.\n* Move `.fast-boot.json` to `~/.balena/cli-module-cache.json` to\naddress scenarios where the CLI is installed to a read-only folder:\n- pkg's internal 'snapshot' filesystem (standalone zip package)\n- Root-owned folder without write permission to regular users,\n  like `/usr[/local]/lib/balena-cli` (the case of caxa-based\n  installers or the GUI installer for macOS).\n",
@@ -21925,10 +22245,6 @@
       "avatar": "https://avatars.githubusercontent.com/u/38863?v=4"
     },
     {
-      "username": "richbayliss",
-      "avatar": "https://avatars.githubusercontent.com/u/633741?v=4"
-    },
-    {
       "username": "pcarranzav",
       "avatar": "https://avatars.githubusercontent.com/u/2223590?v=4"
     },
@@ -21967,6 +22283,10 @@
     {
       "username": "chrisys",
       "avatar": "https://avatars.githubusercontent.com/u/521698?v=4"
+    },
+    {
+      "username": "chriswiggins",
+      "avatar": "https://avatars.githubusercontent.com/u/2830609?v=4"
     }
   ],
   "docs": [],
@@ -21989,7 +22309,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 321,
+  "stars": 324,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -22091,36 +22411,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-05-31T08:47:23Z",
+  "lastCommitDate": "2021-06-14T21:10:05Z",
   "latestRelease": {
-    "tagName": "v12.44.19",
+    "tagName": "v12.44.20",
     "asssets": [
       {
-        "name": "balena-cli-v12.44.19-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.19/balena-cli-v12.44.19-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.44.20-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.20/balena-cli-v12.44.20-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.19-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.19/balena-cli-v12.44.19-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.44.20-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.20/balena-cli-v12.44.20-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.44.19-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.19/balena-cli-v12.44.19-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.44.20-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.20/balena-cli-v12.44.20-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.19-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.19/balena-cli-v12.44.19-windows-x64-installer.exe"
+        "name": "balena-cli-v12.44.20-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.20/balena-cli-v12.44.20-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.44.19-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.19/balena-cli-v12.44.19-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.44.20-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.20/balena-cli-v12.44.20-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 331,
+    "numberOfIssues": 330,
     "latestIssues": [
+      {
+        "title": "Documentation: balena push to local device - Overlay of docker-compose.dev.yml (Mechanism and Usecase)",
+        "url": "https://github.com/balena-io/balena-cli/issues/2278"
+      },
       {
         "title": "Add balena.yml handling to `balena deploy` release creation",
         "url": "https://github.com/balena-io/balena-cli/pull/2274"
@@ -22136,10 +22460,6 @@
       {
         "title": "Replace remaining occurrences of models.config.getDeviceTypes() with new DeviceType resource",
         "url": "https://github.com/balena-io/balena-cli/issues/2266"
-      },
-      {
-        "title": "devices supported: Use new DeviceType data model as source of truth ",
-        "url": "https://github.com/balena-io/balena-cli/pull/2265"
       },
       {
         "title": "Document the cache used by balenaCLI",
@@ -22158,7 +22478,7 @@
         "url": "https://github.com/balena-io/balena-cli/issues/2262"
       },
       {
-        "title": "balena-cli 12.44.10 OSX build issue",
+        "title": "[homebrew] balena-cli 12.44.10 OSX build issue",
         "url": "https://github.com/balena-io/balena-cli/issues/2261"
       },
       {
@@ -22203,7 +22523,7 @@
       }
     ]
   },
-  "version": "12.44.19",
+  "version": "12.44.20",
   "screenshot": null,
   "logo": null
 }
