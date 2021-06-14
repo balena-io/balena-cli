@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019-2020 Balena Ltd.
+ * Copyright 2019-2021 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -311,10 +311,18 @@ export class BalenaAPIMock extends NockMock {
 		});
 	}
 
-	public expectGetDeviceTypes(opts: ScopeOpts = {}) {
+	public expectGetConfigDeviceTypes(opts: ScopeOpts = {}) {
 		this.optGet('/device-types/v1', opts).replyWithFile(
 			200,
 			path.join(apiResponsePath, 'device-types-GET-v1.json'),
+			jHeader,
+		);
+	}
+
+	public expectGetDeviceTypes(opts: ScopeOpts = {}) {
+		this.optGet(/^\/v\d+\/device_type($|\?)/, opts).replyWithFile(
+			200,
+			path.join(apiResponsePath, 'device-type-GET-v6.json'),
 			jHeader,
 		);
 	}

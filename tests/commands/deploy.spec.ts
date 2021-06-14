@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2020 Balena Ltd.
+ * Copyright 2020-2021 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,7 +76,7 @@ describe('balena deploy', function () {
 		docker = new DockerMock();
 		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetMixpanel({ optional: true });
-		api.expectGetDeviceTypes();
+		api.expectGetConfigDeviceTypes();
 		api.expectGetApplication();
 		api.expectPostRelease();
 		api.expectGetRelease();
