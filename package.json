@@ -83,7 +83,7 @@
     "resin.io",
     "git"
   ],
-  "author": "Juan Cruz Viotti <juan@balena.io>",
+  "author": "Balena Inc. (https://balena.io/)",
   "license": "Apache-2.0",
   "engines": {
     "node": ">=10.20.0 <13.0.0",
