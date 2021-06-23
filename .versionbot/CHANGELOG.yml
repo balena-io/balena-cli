@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'Update author details in package.json, Windows Programs and Features'
+      hash: 4d588e51a762e25c7fbee34786e9d90d809ecdb5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.44.21
+  date: 2021-06-22T10:53:24.115Z
+- commits:
     - subject: 'devices supported: Use new DeviceType data model as source of truth'
       hash: a254e461186e4cfddcffd3285e9420451e31cb24
       body: ''
