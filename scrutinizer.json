@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Update author details in package.json, Windows Programs and Features",
+          "hash": "4d588e51a762e25c7fbee34786e9d90d809ecdb5",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.44.21",
+      "date": "2021-06-22T10:53:24.115Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "devices supported: Use new DeviceType data model as source of truth",
           "hash": "a254e461186e4cfddcffd3285e9420451e31cb24",
           "body": "",
@@ -22411,36 +22428,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-06-14T21:10:05Z",
+  "lastCommitDate": "2021-06-23T13:54:41Z",
   "latestRelease": {
-    "tagName": "v12.44.20",
+    "tagName": "v12.44.21",
     "asssets": [
       {
-        "name": "balena-cli-v12.44.20-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.20/balena-cli-v12.44.20-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.44.21-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.21/balena-cli-v12.44.21-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.20-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.20/balena-cli-v12.44.20-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.44.21-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.21/balena-cli-v12.44.21-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.44.20-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.20/balena-cli-v12.44.20-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.44.21-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.21/balena-cli-v12.44.21-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.20-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.20/balena-cli-v12.44.20-windows-x64-installer.exe"
+        "name": "balena-cli-v12.44.21-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.21/balena-cli-v12.44.21-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.44.20-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.20/balena-cli-v12.44.20-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.44.21-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.21/balena-cli-v12.44.21-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 330,
+    "numberOfIssues": 332,
     "latestIssues": [
+      {
+        "title": "`balena devices supported` produces wrong results for openBalena",
+        "url": "https://github.com/balena-io/balena-cli/issues/2281"
+      },
+      {
+        "title": "Empty directories not being handled correctly ",
+        "url": "https://github.com/balena-io/balena-cli/issues/2280"
+      },
+      {
+        "title": "balena build bails on dockerfiles containing what it thinks are query parameters",
+        "url": "https://github.com/balena-io/balena-cli/issues/2279"
+      },
       {
         "title": "Documentation: balena push to local device - Overlay of docker-compose.dev.yml (Mechanism and Usecase)",
         "url": "https://github.com/balena-io/balena-cli/issues/2278"
@@ -22490,10 +22519,6 @@
         "url": "https://github.com/balena-io/balena-cli/pull/2256"
       },
       {
-        "title": "Balena Preload Fails",
-        "url": "https://github.com/balena-io/balena-cli/issues/2249"
-      },
-      {
         "title": "macOS: \"balena\" cannot be opened because the developer cannot be verified",
         "url": "https://github.com/balena-io/balena-cli/issues/2244"
       },
@@ -22512,18 +22537,10 @@
       {
         "title": "balena push --registry-secrets fails when certain passwords are used",
         "url": "https://github.com/balena-io/balena-cli/issues/2233"
-      },
-      {
-        "title": "docker: Install official static docker binaries",
-        "url": "https://github.com/balena-io/balena-cli/pull/2232"
-      },
-      {
-        "title": "Should support npm v7",
-        "url": "https://github.com/balena-io/balena-cli/issues/2221"
       }
     ]
   },
-  "version": "12.44.20",
+  "version": "12.44.21",
   "screenshot": null,
   "logo": null
 }
