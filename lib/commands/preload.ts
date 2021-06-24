@@ -169,6 +169,14 @@ Can be repeated to add multiple certificates.\
 		try {
 			const fs = await import('fs');
 			await fs.promises.access(params.image);
+			const path = await import('path');
+			if (path.extname(params.image) === '.zip') {
+				console.warn(stripIndent`
+					------------------------------------------------------------------------------
+					Warning: A zip file is only accepted for the Intel Edison device type.
+					------------------------------------------------------------------------------
+					`);
+			}
 		} catch (error) {
 			throw new ExpectedError(
 				`The provided image path does not exist: ${params.image}`,
