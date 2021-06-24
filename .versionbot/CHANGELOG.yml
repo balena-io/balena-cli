@@ -1,4 +1,29 @@
 - commits:
+    - subject: 'preload: Warn that zip files are only accepted for Intel Edison'
+      hash: fec96b41ee59c61f6074aab907de6d05d431ba99
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+    - subject: 'preload: Catch sfdisk errors that result in an endless spinner'
+      hash: 1dba5cc7c1119a024c1138c7d8b6f980fcfe0d39
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Changelog-entry: 'preload: Catch sfdisk errors that result in an endless spinner'
+        changelog-entry: 'preload: Catch sfdisk errors that result in an endless spinner'
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 12.44.22
+  date: 2021-06-24T15:07:51.415Z
+- commits:
     - subject: 'Update author details in package.json, Windows Programs and Features'
       hash: 4d588e51a762e25c7fbee34786e9d90d809ecdb5
       body: ''
