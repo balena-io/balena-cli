@@ -18,7 +18,7 @@
 import { expect } from 'chai';
 import { stripIndent } from '../../../lib/utils/lazy';
 
-import { BalenaAPIMock } from '../../balena-api-mock';
+import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { runCommand } from '../../helpers';
 
 import {

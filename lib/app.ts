@@ -16,8 +16,14 @@
  */
 
 import * as packageJSON from '../package.json';
+import {
+	AppOptions,
+	checkDeletedCommand,
+	preparseArgs,
+	unsupportedFlag,
+} from './preparser';
 import { CliSettings } from './utils/bootstrap';
-import { onceAsync, stripIndent } from './utils/lazy';
+import { onceAsync } from './utils/lazy';
 
 /**
  * Sentry.io setup
@@ -43,13 +49,8 @@ export const setupSentry = onceAsync(async () => {
 async function checkNodeVersion() {
 	const validNodeVersions = packageJSON.engines.node;
 	if (!(await import('semver')).satisfies(process.version, validNodeVersions)) {
-		console.warn(stripIndent`
-			------------------------------------------------------------------------------
-			Warning: Node version "${process.version}" does not match required versions "${validNodeVersions}".
-			This may cause unexpected behavior. To upgrade Node, visit:
-			https://nodejs.org/en/download/
-			------------------------------------------------------------------------------
-			`);
+		const { getNodeEngineVersionWarn } = await import('./utils/messages');
+		console.warn(getNodeEngineVersionWarn(process.version, validNodeVersions));
 	}
 }
 
@@ -93,10 +94,20 @@ async function init() {
 }
 
 /** Execute the oclif parser and the CLI command. */
-async function oclifRun(
-	command: string[],
-	options: import('./preparser').AppOptions,
-) {
+async function oclifRun(command: string[], options: AppOptions) {
+	let deprecationPromise: Promise<void>;
+	// check and enforce the CLI's deprecation policy
+	if (unsupportedFlag) {
+		deprecationPromise = Promise.resolve();
+	} else {
+		const { DeprecationChecker } = await import('./deprecation');
+		const deprecationChecker = new DeprecationChecker(packageJSON.version);
+		// warnAndAbortIfDeprecated uses previously cached data only
+		await deprecationChecker.warnAndAbortIfDeprecated();
+		// checkForNewReleasesIfNeeded may query the npm registry
+		deprecationPromise = deprecationChecker.checkForNewReleasesIfNeeded();
+	}
+
 	const runPromise = (async function (shouldFlush: boolean) {
 		const { CustomMain } = await import('./utils/oclif-utils');
 		let isEEXIT = false;
@@ -130,14 +141,12 @@ async function oclifRun(
 	})(!options.noFlush);
 
 	const { trackPromise } = await import('./hooks/prerun/track');
-	await Promise.all([trackPromise, runPromise]);
+
+	await Promise.all([trackPromise, deprecationPromise, runPromise]);
 }
 
 /** CLI entrypoint. Called by the `bin/balena` and `bin/balena-dev` scripts. */
-export async function run(
-	cliArgs = process.argv,
-	options: import('./preparser').AppOptions = {},
-) {
+export async function run(cliArgs = process.argv, options: AppOptions = {}) {
 	try {
 		const { normalizeEnvVars, pkgExec } = await import('./utils/bootstrap');
 		normalizeEnvVars();
@@ -149,8 +158,6 @@ export async function run(
 		}
 
 		await init();
-
-		const { preparseArgs, checkDeletedCommand } = await import('./preparser');
 
 		// Look for commands that have been removed and if so, exit with a notice
 		checkDeletedCommand(cliArgs.slice(2));

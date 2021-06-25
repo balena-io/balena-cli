@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { stripIndent } from './utils/lazy';
-import { exitWithExpectedError } from './errors';
+
+export let unsupportedFlag = false;
 
 export interface AppOptions {
 	// Prevent the default behavior of flushing stdout after running a command
@@ -50,11 +50,10 @@ export async function preparseArgs(argv: string[]): Promise<string[]> {
 		}
 
 		// support global --debug flag
-		const debugIndex = cmdSlice.indexOf('--debug');
-		if (debugIndex > -1) {
+		if (extractBooleanFlag(cmdSlice, '--debug')) {
 			process.env.DEBUG = '1';
-			cmdSlice.splice(debugIndex, 1);
 		}
+		unsupportedFlag = extractBooleanFlag(cmdSlice, '--unsupported');
 	}
 
 	// Enable bluebird long stack traces when in debug mode, must be set
@@ -87,11 +86,22 @@ export async function preparseArgs(argv: string[]): Promise<string[]> {
 	return args;
 }
 
+function extractBooleanFlag(argv: string[], flag: string): boolean {
+	const index = argv.indexOf(flag);
+	if (index >= 0) {
+		argv.splice(index, 1);
+		return true;
+	}
+	return false;
+}
+
 /**
  * Check whether the command line refers to a command that has been deprecated
  * and removed and, if so, exit with an informative error message.
  */
 export function checkDeletedCommand(argvSlice: string[]): void {
+	const { ExpectedError } = require('./errors') as typeof import('./errors');
+
 	if (argvSlice[0] === 'help') {
 		argvSlice = argvSlice.slice(1);
 	}
@@ -101,17 +111,16 @@ export function checkDeletedCommand(argvSlice: string[]): void {
 		version: string,
 		verb = 'replaced',
 	) {
-		exitWithExpectedError(stripIndent`
-			Note: the command "balena ${oldCmd}" was ${verb} in CLI version ${version}.
-			Please use "balena ${alternative}" instead.
-		`);
+		throw new ExpectedError(`\
+Note: the command "balena ${oldCmd}" was ${verb} in CLI version ${version}.
+Please use "balena ${alternative}" instead.`);
 	}
 	function removed(oldCmd: string, alternative: string, version: string) {
 		let msg = `Note: the command "balena ${oldCmd}" was removed in CLI version ${version}.`;
 		if (alternative) {
 			msg = [msg, alternative].join('\n');
 		}
-		exitWithExpectedError(msg);
+		throw new ExpectedError(msg);
 	}
 	const stopAlternative =
 		'Please use "balena ssh -s" to access the host OS, then use `balena-engine stop`.';

@@ -19,7 +19,7 @@ import { expect } from 'chai';
 import mock = require('mock-require');
 import { createServer, Server } from 'net';
 
-import { BalenaAPIMock } from '../balena-api-mock';
+import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../helpers';
 
 // "itSS" means "it() Skip Standalone"

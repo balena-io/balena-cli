@@ -17,7 +17,7 @@
 import { expect } from 'chai';
 import * as fs from 'fs';
 
-import { BalenaAPIMock } from '../balena-api-mock';
+import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { runCommand } from '../helpers';
 
 const packageJSON = JSON.parse(fs.readFileSync('./package.json', 'utf8'));

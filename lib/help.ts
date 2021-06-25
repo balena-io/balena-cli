@@ -46,7 +46,7 @@ export default class BalenaHelp extends Help {
 		const subject = getHelpSubject(argv);
 		if (!subject) {
 			const verbose = argv.includes('-v') || argv.includes('--verbose');
-			this.showCustomRootHelp(verbose);
+			console.log(this.getCustomRootHelp(verbose));
 			return;
 		}
 
@@ -80,67 +80,106 @@ export default class BalenaHelp extends Help {
 		throw new ExpectedError(`command ${chalk.cyan.bold(subject)} not found`);
 	}
 
-	showCustomRootHelp(showAllCommands: boolean): void {
-		const chalk = getChalk();
-		const bold = chalk.bold;
-		const cmd = chalk.cyan.bold;
+	getCustomRootHelp(showAllCommands: boolean): string {
+		const { bold, cyan } = getChalk();
 
 		let commands = this.config.commands;
 		commands = commands.filter((c) => this.opts.all || !c.hidden);
 
 		// Get Primary Commands, sorted as in manual list
-		const primaryCommands = this.manuallySortedPrimaryCommands.map((pc) => {
-			return commands.find((c) => c.id === pc.replace(' ', ':'));
-		});
+		const primaryCommands = this.manuallySortedPrimaryCommands
+			.map((pc) => {
+				return commands.find((c) => c.id === pc.replace(' ', ':'));
+			})
+			.filter((c): c is typeof commands[0] => !!c);
 
-		// Get the rest as Additional Commands
-		const additionalCommands = commands.filter(
-			(c) =>
-				!this.manuallySortedPrimaryCommands.includes(c.id.replace(':', ' ')),
-		);
-
-		// Find longest usage, and pad usage of first command in each category
-		// This is to ensure that both categories align visually
-		const usageLength = commands
-			.map((c) => c.usage?.length || 0)
-			.reduce((longest, l) => {
-				return l > longest ? l : longest;
-			});
-
-		if (
-			typeof primaryCommands[0]?.usage === 'string' &&
-			typeof additionalCommands[0]?.usage === 'string'
-		) {
-			primaryCommands[0].usage = primaryCommands[0].usage.padEnd(usageLength);
-			additionalCommands[0].usage =
-				additionalCommands[0].usage.padEnd(usageLength);
+		let usageLength = 0;
+		for (const cmd of primaryCommands) {
+			usageLength = Math.max(usageLength, cmd.usage?.length || 0);
 		}
 
-		// Output help
-		console.log(bold('USAGE'));
-		console.log('$ balena [COMMAND] [OPTIONS]');
-
-		console.log(bold('\nPRIMARY COMMANDS'));
-		console.log(this.formatCommands(primaryCommands));
-
+		let additionalCmdSection: string[];
 		if (showAllCommands) {
-			console.log(bold('\nADDITIONAL COMMANDS'));
-			console.log(this.formatCommands(additionalCommands));
+			// Get the rest as Additional Commands
+			const additionalCommands = commands.filter(
+				(c) =>
+					!this.manuallySortedPrimaryCommands.includes(c.id.replace(':', ' ')),
+			);
+
+			// Find longest usage, and pad usage of first command in each category
+			// This is to ensure that both categories align visually
+			for (const cmd of additionalCommands) {
+				usageLength = Math.max(usageLength, cmd.usage?.length || 0);
+			}
+
+			if (
+				typeof primaryCommands[0].usage === 'string' &&
+				typeof additionalCommands[0].usage === 'string'
+			) {
+				primaryCommands[0].usage = primaryCommands[0].usage.padEnd(usageLength);
+				additionalCommands[0].usage =
+					additionalCommands[0].usage.padEnd(usageLength);
+			}
+
+			additionalCmdSection = [
+				bold('\nADDITIONAL COMMANDS'),
+				this.formatCommands(additionalCommands),
+			];
 		} else {
-			console.log(
-				`\n${bold('...MORE')} run ${cmd(
-					'balena help --verbose',
-				)} to list additional commands.`,
+			const cmd = cyan.bold('balena help --verbose');
+			additionalCmdSection = [
+				`\n${bold('...MORE')} run ${cmd} to list additional commands.`,
+			];
+		}
+
+		const globalOps = [
+			['--help, -h', 'display command help'],
+			['--debug', 'enable debug output'],
+			[
+				'--unsupported',
+				`\
+prevent exit with an error as per Deprecation Policy
+See: https://git.io/JRHUW#deprecation-policy`,
+			],
+		];
+		globalOps[0][0] = globalOps[0][0].padEnd(usageLength);
+
+		const { deprecationPolicyNote, reachingOut } =
+			require('./utils/messages') as typeof import('./utils/messages');
+
+		return [
+			bold('USAGE'),
+			'$ balena [COMMAND] [OPTIONS]',
+			bold('\nPRIMARY COMMANDS'),
+			this.formatCommands(primaryCommands),
+			...additionalCmdSection,
+			bold('\nGLOBAL OPTIONS'),
+			this.formatGlobalOpts(globalOps),
+			bold('\nDeprecation Policy Reminder'),
+			deprecationPolicyNote,
+			reachingOut,
+		].join('\n');
+	}
+
+	protected formatGlobalOpts(opts: string[][]) {
+		const { dim } = getChalk();
+		const outLines: string[] = [];
+		let flagWidth = 0;
+		for (const opt of opts) {
+			flagWidth = Math.max(flagWidth, opt[0].length);
+		}
+		for (const opt of opts) {
+			const descriptionLines = opt[1].split('\n');
+			outLines.push(
+				`  ${opt[0].padEnd(flagWidth + 2)}${dim(descriptionLines[0])}`,
+			);
+			outLines.push(
+				...descriptionLines
+					.slice(1)
+					.map((line) => `  ${' '.repeat(flagWidth + 2)}${dim(line)}`),
 			);
 		}
-
-		console.log(bold('\nGLOBAL OPTIONS'));
-		console.log('  --help, -h');
-		console.log('  --debug\n');
-
-		const { reachingOut } =
-			require('./utils/messages') as typeof import('./utils/messages');
-		console.log(reachingOut);
+		return outLines.join('\n');
 	}
 
 	protected formatCommands(commands: any[]): string {

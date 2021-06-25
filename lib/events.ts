@@ -60,11 +60,11 @@ export async function trackCommand(commandSignature: string) {
 			});
 		}
 		const settings = await import('balena-settings-client');
-		const balenaUrl = settings.get('balenaUrl') as string;
+		const balenaUrl = settings.get<string>('balenaUrl');
 
 		const username = await (async () => {
 			const getStorage = await import('balena-settings-storage');
-			const dataDirectory = settings.get('dataDirectory') as string;
+			const dataDirectory = settings.get<string>('dataDirectory');
 			const storage = getStorage({ dataDirectory });
 			let token;
 			try {

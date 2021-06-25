@@ -18,7 +18,7 @@
 import { expect } from 'chai';
 import * as path from 'path';
 
-import { apiResponsePath, BalenaAPIMock } from '../../balena-api-mock';
+import { apiResponsePath, BalenaAPIMock } from '../../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
 import { appToFleetOutputMsg, warnify } from '../../../build/utils/messages';

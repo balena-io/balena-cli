@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019-2020 Balena Ltd.
+ * Copyright 2019-2021 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,41 @@
  * limitations under the License.
  */
 
-import { execFile } from 'child_process';
-import intercept = require('intercept-stdout');
 import * as _ from 'lodash';
-import { promises as fs } from 'fs';
-import * as nock from 'nock';
 import * as path from 'path';
 
-import * as balenaCLI from '../build/app';
+import * as packageJSON from '../package.json';
 
 const balenaExe = process.platform === 'win32' ? 'balena.exe' : 'balena';
 const standalonePath = path.resolve(__dirname, '..', 'build-bin', balenaExe);
 
-interface TestOutput {
+export interface TestOutput {
 	err: string[]; // stderr
 	out: string[]; // stdout
 	exitCode?: number; // process.exitCode
+}
+
+function matchesNodeEngineVersionWarn(msg: string) {
+	if (/^-----+\r?\n?$/.test(msg)) {
+		return true;
+	}
+	const cleanup = (line: string): string[] =>
+		line
+			.replace(/-----+/g, '')
+			.replace(/"\d+\.\d+\.\d+"/, '"x.y.z"')
+			.split(/\r?\n/)
+			.map((l) => l.trim())
+			.filter((l) => l);
+
+	const { getNodeEngineVersionWarn } = require('../build/utils/messages');
+	let nodeEngineWarn: string = getNodeEngineVersionWarn(
+		'x.y.z',
+		packageJSON.engines.node,
+	);
+	const nodeEngineWarnArray = cleanup(nodeEngineWarn);
+	nodeEngineWarn = nodeEngineWarnArray.join('\n');
+	msg = cleanup(msg).join('\n');
+	return msg === nodeEngineWarn || nodeEngineWarnArray.includes(msg);
 }
 
 /**
@@ -38,13 +57,17 @@ interface TestOutput {
  * other lines that can be ignored for testing purposes.
  * @param testOutput
  */
-function filterCliOutputForTests(testOutput: TestOutput): TestOutput {
-	const { matchesNodeEngineVersionWarn } =
-		require('../automation/utils') as typeof import('../automation/utils');
+export function filterCliOutputForTests({
+	err,
+	out,
+}: {
+	err: string[];
+	out: string[];
+}): { err: string[]; out: string[] } {
 	return {
-		exitCode: testOutput.exitCode,
-		err: testOutput.err.filter(
+		err: err.filter(
 			(line: string) =>
+				line &&
 				!line.match(/\[debug\]/i) &&
 				// TODO stop this warning message from appearing when running
 				// sdk.setSharedOptions multiple times in the same process
@@ -52,7 +75,7 @@ function filterCliOutputForTests(testOutput: TestOutput): TestOutput {
 				!line.startsWith('WARN: disabling Sentry.io error reporting') &&
 				!matchesNodeEngineVersionWarn(line),
 		),
-		out: testOutput.out.filter((line: string) => !line.match(/\[debug\]/i)),
+		out: out.filter((line: string) => line && !line.match(/\[debug\]/i)),
 	};
 }
 
@@ -61,6 +84,9 @@ function filterCliOutputForTests(testOutput: TestOutput): TestOutput {
  * @param cmd Command to execute, e.g. `push myApp` (without 'balena' prefix)
  */
 async function runCommandInProcess(cmd: string): Promise<TestOutput> {
+	const balenaCLI = await import('../build/app');
+	const intercept = await import('intercept-stdout');
+
 	const preArgs = [process.argv[0], path.join(process.cwd(), 'bin', 'balena')];
 
 	const err: string[] = [];
@@ -85,12 +111,13 @@ async function runCommandInProcess(cmd: string): Promise<TestOutput> {
 	} finally {
 		unhookIntercept();
 	}
-	return filterCliOutputForTests({
-		err,
-		out,
+	const filtered = filterCliOutputForTests({ err, out });
+	return {
+		err: filtered.err,
+		out: filtered.out,
 		// this makes sense if `process.exit()` was stubbed with sinon
 		exitCode: process.exitCode,
-	});
+	};
 }
 
 /**
@@ -129,6 +156,7 @@ async function runCommandInSubprocess(
 		// override default proxy exclusion to allow proxying of requests to 127.0.0.1
 		BALENARC_DO_PROXY: '127.0.0.1,localhost',
 	};
+	const { execFile } = await import('child_process');
 	await new Promise<void>((resolve) => {
 		const child = execFile(
 			standalonePath,
@@ -141,11 +169,12 @@ async function runCommandInSubprocess(
 				// non-zero exit code. Usually this is harmless/expected, as
 				// the CLI child process is tested for error conditions.
 				if ($error && process.env.DEBUG) {
-					console.error(`
-[debug] Error (possibly expected) executing child CLI process "${standalonePath}"
-------------------------------------------------------------------
-${$error}
-------------------------------------------------------------------`);
+					const msg = `
+Error (possibly expected) executing child CLI process "${standalonePath}"
+${$error}`;
+					const { warnify } =
+						require('../build/utils/messages') as typeof import('../build/utils/messages');
+					console.error(warnify(msg, '[debug] '));
 				}
 				resolve();
 			},
@@ -166,11 +195,16 @@ ${$error}
 			.filter((l) => l)
 			.map((l) => l + '\n');
 
-	return filterCliOutputForTests({
-		exitCode,
+	const filtered = filterCliOutputForTests({
 		err: splitLines(stderr),
 		out: splitLines(stdout),
 	});
+	return {
+		err: filtered.err,
+		out: filtered.out,
+		// this makes sense if `process.exit()` was stubbed with sinon
+		exitCode,
+	};
 }
 
 /**
@@ -190,33 +224,18 @@ export async function runCommand(cmd: string): Promise<TestOutput> {
 			);
 		}
 		try {
+			const { promises: fs } = await import('fs');
 			await fs.access(standalonePath);
 		} catch {
 			throw new Error(`Standalone executable not found: "${standalonePath}"`);
 		}
-		const proxy = await import('./proxy-server');
+		const proxy = await import('./nock/proxy-server');
 		const [proxyPort] = await proxy.createProxyServerOnce();
 		return runCommandInSubprocess(cmd, proxyPort);
 	} else {
 		return runCommandInProcess(cmd);
 	}
 }
-
-export const balenaAPIMock = () => {
-	if (!nock.isActive()) {
-		nock.activate();
-	}
-
-	return nock(/./).get('/config/vars').reply(200, {
-		reservedNames: [],
-		reservedNamespaces: [],
-		invalidRegex: '/^d|W/',
-		whiteListedNames: [],
-		whiteListedNamespaces: [],
-		blackListedNames: [],
-		configVarSchema: [],
-	});
-};
 
 export function cleanOutput(
 	output: string[] | string,
@@ -226,11 +245,17 @@ export function cleanOutput(
 		? (line: string) => monochrome(line.trim()).replace(/\s{2,}/g, ' ')
 		: (line: string) => monochrome(line.trim());
 
-	return _(_.castArray(output))
-		.map((log: string) => log.split('\n').map(cleanLine))
-		.flatten()
-		.compact()
-		.value();
+	const result: string[] = [];
+	output = typeof output === 'string' ? [output] : output;
+	for (const lines of output) {
+		for (let line of lines.split('\n')) {
+			line = cleanLine(line);
+			if (line) {
+				result.push(line);
+			}
+		}
+	}
+	return result;
 }
 
 /**
@@ -320,6 +345,7 @@ export function deepJsonParse(data: any): any {
 export async function switchSentry(
 	enabled: boolean | undefined,
 ): Promise<boolean | undefined> {
+	const balenaCLI = await import('../build/app');
 	const sentryOpts = (await balenaCLI.setupSentry()).getClient()?.getOptions();
 	if (sentryOpts) {
 		const sentryStatus = sentryOpts.enabled;

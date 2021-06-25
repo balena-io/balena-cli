@@ -28,8 +28,8 @@ import { streamToBuffer } from 'tar-utils';
 import { URL } from 'url';
 
 import { stripIndent } from '../lib/utils/lazy';
-import { BuilderMock } from './builder-mock';
-import { DockerMock } from './docker-mock';
+import { BuilderMock } from './nock/builder-mock';
+import { DockerMock } from './nock/docker-mock';
 import {
 	cleanOutput,
 	deepJsonParse,

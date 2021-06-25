@@ -21,7 +21,7 @@ import * as path from 'path';
 import { NockMock, ScopeOpts } from './nock-mock';
 
 export const apiResponsePath = path.normalize(
-	path.join(__dirname, 'test-data', 'api-response'),
+	path.join(__dirname, '..', 'test-data', 'api-response'),
 );
 
 const jHeader = { 'Content-Type': 'application/json' };

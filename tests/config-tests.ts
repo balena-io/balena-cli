@@ -19,10 +19,20 @@ import { set as setEsVersion } from '@balena/es-version';
 // Set the desired es version for downstream modules that support it
 setEsVersion('es2018');
 
+// Disable Sentry.io error reporting while running test code
+process.env.BALENARC_NO_SENTRY = '1';
+
+// Disable deprecation checks while running test code
+import { DeprecationChecker } from '../build/deprecation';
+DeprecationChecker.disable();
+
 import * as tmp from 'tmp';
 tmp.setGracefulCleanup();
 // Use a temporary dir for tests data
 process.env.BALENARC_DATA_DIRECTORY = tmp.dirSync().name;
+console.error(
+	`[debug] tests/config-tests.ts: BALENARC_DATA_DIRECTORY="${process.env.BALENARC_DATA_DIRECTORY}"`,
+);
 
 import { EventEmitter } from 'events';
 EventEmitter.defaultMaxListeners = 35; // it appears that 'nock' adds a bunch of listeners - bug?

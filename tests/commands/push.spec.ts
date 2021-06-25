@@ -19,8 +19,8 @@ import { expect } from 'chai';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 
-import { BalenaAPIMock } from '../balena-api-mock';
-import { BuilderMock, builderResponsePath } from '../builder-mock';
+import { BalenaAPIMock } from '../nock/balena-api-mock';
+import { BuilderMock, builderResponsePath } from '../nock/builder-mock';
 import { expectStreamNoCRLF, testPushBuildStream } from '../docker-build';
 import { cleanOutput, runCommand } from '../helpers';
 import {

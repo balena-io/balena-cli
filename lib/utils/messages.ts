@@ -30,6 +30,12 @@ export const help = reachingOut;
 // is parsed, so its evaluation cannot happen at module loading time.
 export const getHelp = () => (process.env.DEBUG ? '' : debugHint) + help;
 
+export const deprecationPolicyNote = `\
+The balena CLI enforces its deprecation policy by exiting with an error a year
+after the release of the next major version, unless the --unsupported option is
+used. Find out more at: https://git.io/JRHUW#deprecation-policy
+`;
+
 /**
  * Take a multiline string like:
  *     Line One
@@ -41,8 +47,8 @@ export const getHelp = () => (process.env.DEBUG ? '' : debugHint) + help;
  *     ---------------
  * where the length of the dash rows matches the length of the longest line.
  */
-export function warnify(msg: string) {
-	const lines = msg.split('\n').map((l) => `[Warn] ${l}`);
+export function warnify(msg: string, prefix = '[Warn] ') {
+	const lines = msg.split('\n').map((l) => `${prefix}${l}`);
 	const maxLength = Math.max(...lines.map((l) => l.length));
 	const hr = '-'.repeat(maxLength);
 	return [hr, ...lines, hr].join('\n');
@@ -184,3 +190,13 @@ the next major version of the CLI (v13). The --v13 option may be used
 to enable the new names already now, and suppress a warning message.
 (The --v13 option will be silently ignored in CLI v13.)
 Find out more at: https://git.io/JRuZr`;
+
+export function getNodeEngineVersionWarn(
+	version: string,
+	validVersions: string,
+) {
+	version = version.startsWith('v') ? version.substring(1) : version;
+	return warnify(`\
+Node.js version "${version}" does not satisfy requirement "${validVersions}"
+This may cause unexpected behavior.`);
+}

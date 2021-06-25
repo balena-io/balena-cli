@@ -21,22 +21,6 @@ import * as path from 'path';
 
 export const ROOT = path.join(__dirname, '..');
 
-const nodeEngineWarn = `\
-------------------------------------------------------------------------------
-Warning: Node version "v14.x.x" does not match required versions ">=10.20.0 <13.0.0".
-This may cause unexpected behavior. To upgrade Node, visit:
-https://nodejs.org/en/download/
-------------------------------------------------------------------------------
-`;
-const nodeEngineWarnArray = nodeEngineWarn.split('\n').filter((l) => l);
-
-export function matchesNodeEngineVersionWarn(line: string) {
-	line = line.replace(/"v14\.\d{1,3}\.\d{1,3}"/, '"v14.x.x"');
-	return (
-		line === nodeEngineWarn || nodeEngineWarnArray.includes(line.trimEnd())
-	);
-}
-
 /** Tap and buffer this process' stdout and stderr */
 export class StdOutTap {
 	public stdoutBuf: string[] = [];
@@ -102,60 +86,6 @@ export function diffLines(str1: string, str2: string): string {
 
 export function loadPackageJson() {
 	return require(path.join(ROOT, 'package.json'));
-}
-
-/**
- * Run the executable at execPath as a child process, and resolve a promise
- * to the executable's stdout output as a string. Reject the promise if
- * anything is printed to stderr, or if the child process exits with a
- * non-zero exit code.
- * @param execPath Executable path
- * @param args Command-line argument for the executable
- */
-export async function getSubprocessStdout(
-	execPath: string,
-	args: string[],
-): Promise<string> {
-	const child = spawn(execPath, args);
-	return new Promise((resolve, reject) => {
-		let stdout = '';
-		child.stdout.on('error', reject);
-		child.stderr.on('error', reject);
-		child.stdout.on('data', (data: Buffer) => {
-			try {
-				stdout = data.toString();
-			} catch (err) {
-				reject(err);
-			}
-		});
-		child.stderr.on('data', (data: Buffer) => {
-			try {
-				const stderr = data.toString();
-
-				// ignore any debug lines, but ensure that we parse
-				// every line provided to the stderr stream
-				const lines = _.filter(
-					stderr.trim().split(/\r?\n/),
-					(line) =>
-						!line.startsWith('[debug]') && !matchesNodeEngineVersionWarn(line),
-				);
-				if (lines.length > 0) {
-					reject(
-						new Error(`"${execPath}": non-empty stderr "${lines.join('\n')}"`),
-					);
-				}
-			} catch (err) {
-				reject(err);
-			}
-		});
-		child.on('exit', (code: number) => {
-			if (code) {
-				reject(new Error(`"${execPath}": non-zero exit code "${code}"`));
-			} else {
-				resolve(stdout);
-			}
-		});
-	});
 }
 
 /**
