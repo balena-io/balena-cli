@@ -1,4 +1,15 @@
 - commits:
+    - subject: Delete CODEOWNERS
+      hash: 2986e6cea3ab245c5546cc3da2c7c22fcf193e60
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: dfunckt
+      nested: []
+  version: 12.44.23
+  date: 2021-06-30T15:59:54.226Z
+- commits:
     - subject: 'preload: Warn that zip files are only accepted for Intel Edison'
       hash: fec96b41ee59c61f6074aab907de6d05d431ba99
       body: ''
