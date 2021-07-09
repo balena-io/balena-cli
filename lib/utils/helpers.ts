@@ -145,7 +145,7 @@ export async function osProgressHandler(step: InitializeEmitter) {
 
 	await new Promise((resolve, reject) => {
 		step.on('error', reject);
-		step.on('end', resolve);
+		step.on('end' as any, resolve);
 	});
 }
 

@@ -114,7 +114,7 @@ async function createProxyServer(): Promise<[number, number]> {
 
 	let proxyPort = 0; // TCP port number, 0 means automatic allocation
 
-	await new Promise((resolve, reject) => {
+	await new Promise<void>((resolve, reject) => {
 		const listener = server.listen(0, '127.0.0.1', (err: Error) => {
 			if (err) {
 				console.error(`Error starting proxy server:\n${err}`);
@@ -197,7 +197,7 @@ async function createInterceptorServer(): Promise<number> {
 
 	let interceptorPort = 0;
 
-	await new Promise((resolve, reject) => {
+	await new Promise<void>((resolve, reject) => {
 		const listener = server.listen(0, '127.0.0.1', (err: Error) => {
 			if (err) {
 				console.error(`Error starting interceptor server:\n${err}`);

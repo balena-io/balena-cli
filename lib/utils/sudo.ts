@@ -83,7 +83,7 @@ async function spawnAndPipe(
 	spawnOpts: SpawnOptions,
 	stderr?: NodeJS.WritableStream,
 ) {
-	await new Promise((resolve, reject) => {
+	await new Promise<void>((resolve, reject) => {
 		const ps: ChildProcess = spawn(spawnCmd, spawnArgs, spawnOpts);
 		ps.on('error', reject);
 		ps.on('exit', (codeOrSignal) => {

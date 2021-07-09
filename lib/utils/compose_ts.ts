@@ -753,7 +753,7 @@ async function newTarDirectory(
 		preFinalizeCallback,
 	}: TarDirectoryOptions,
 ): Promise<import('stream').Readable> {
-	(await import('assert')).strict.equal(nogitignore, true);
+	require('assert').strict.equal(nogitignore, true);
 	const { filterFilesWithDockerignore } = await import('./ignore');
 	const { toPosixPath } = (await import('resin-multibuild')).PathUtils;
 

@@ -85,13 +85,22 @@ export default class ConfigWriteCmd extends Command {
 		const configJSON = await config.read(drive, options.type);
 
 		console.info(`Setting ${params.key} to ${params.value}`);
-		const _ = await import('lodash');
-		_.set(configJSON, params.key, params.value);
+		ConfigWriteCmd.updateConfigJson(configJSON, params.key, params.value);
 
 		await safeUmount(drive);
 
 		await config.write(drive, options.type, configJSON);
 
 		console.info('Done');
+	}
+
+	/** Call Lodash's _.setWith(). Moved here for ease of testing. */
+	static updateConfigJson(configJSON: object, key: string, value: string) {
+		const _ = require('lodash') as typeof import('lodash');
+		// note: _.setWith() is needed instead of _.set() because, given a key
+		// like `os.udevRules.101`, _.set() creates a udevRules array (rather
+		// than a dictionary) and sets the 101st array element to value, while
+		// we actually want udevRules to be dictionary like { '101': value }
+		_.setWith(configJSON, key, value, (v) => v || {});
 	}
 }
