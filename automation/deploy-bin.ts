@@ -158,7 +158,8 @@ async function updateGitHubReleaseDescriptions(
 		per_page: perPage,
 	});
 	let errCount = 0;
-	for await (const response of octokit.paginate.iterator(options)) {
+	type Release = import('@octokit/rest').RestEndpointMethodTypes['repos']['listReleases']['response']['data'][0];
+	for await (const response of octokit.paginate.iterator<Release>(options)) {
 		const { page: thisPage, pages: totalPages, ordinal } = getPageNumbers(
 			response,
 			perPage,

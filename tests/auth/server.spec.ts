@@ -73,7 +73,7 @@ describe('Login server:', function () {
 		const post = opt.verb
 			? ((request as any)[opt.verb] as typeof request.post)
 			: request.post;
-		await new Promise((resolve, reject) => {
+		await new Promise<void>((resolve, reject) => {
 			post(
 				`http://${addr.host}:${addr.port}${opt.urlPath}`,
 				{

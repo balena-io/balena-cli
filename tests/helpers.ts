@@ -130,7 +130,7 @@ async function runCommandInSubprocess(
 		// override default proxy exclusion to allow proxying of requests to 127.0.0.1
 		BALENARC_DO_PROXY: '127.0.0.1,localhost',
 	};
-	await new Promise((resolve) => {
+	await new Promise<void>((resolve) => {
 		const child = execFile(
 			standalonePath,
 			cmd.split(' '),

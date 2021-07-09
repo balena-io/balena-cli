@@ -59,14 +59,15 @@ export class LoginServer extends EventEmitter {
 		app.set('views', path.join(__dirname, 'pages'));
 
 		this.server = await new Promise<import('net').Server>((resolve, reject) => {
-			const server = app.listen(port, host, (err: Error) => {
+			const callback = (err: Error) => {
 				if (err) {
 					this.emit('error', err);
 					reject(err);
 				} else {
 					resolve(server);
 				}
-			});
+			};
+			const server = app.listen(port, host, callback as any);
 			server.on('connection', (socket) => this.serverSockets.push(socket));
 		});
 
