@@ -1,4 +1,23 @@
 - commits:
+    - subject: Update 'devDependencies' in package.json
+      hash: cfd790a193b205c7caf1e6c2c066ae9fbbf55788
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'config write: Fix parsing of ''key'' argument with numeric components'
+      hash: 36f4c1312b65f3b2169357f82eed891cac71c2ef
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.44.24
+  date: 2021-07-09T21:29:43.132Z
+- commits:
     - subject: Delete CODEOWNERS
       hash: 2986e6cea3ab245c5546cc3da2c7c22fcf193e60
       body: ''
@@ -8,7 +27,7 @@
       author: dfunckt
       nested: []
   version: 12.44.23
-  date: 2021-06-30T16:25:28.416Z
+  date: 2021-06-30T15:59:54.226Z
 - commits:
     - subject: 'preload: Warn that zip files are only accepted for Intel Edison'
       hash: fec96b41ee59c61f6074aab907de6d05d431ba99
