@@ -21,10 +21,16 @@ import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import {
+	applicationIdInfo,
+	appToFleetFlagMsg,
+	warnify,
+} from '../../utils/messages';
+import { isV13 } from '../../utils/version';
 
 interface FlagsDef {
 	application?: string;
+	fleet?: string;
 	device?: string; // device UUID
 	help: void;
 	quiet: boolean;
@@ -38,18 +44,17 @@ interface ArgsDef {
 
 export default class EnvAddCmd extends Command {
 	public static description = stripIndent`
-		Add env or config variable to application(s), device(s) or service(s).
+		Add env or config variable to fleets, devices or services.
 
-		Add an environment or config variable to one or more applications, devices
-		or services, as selected by the respective command-line options. Either the
-		--application or the --device option must be provided, and either may be be
+		Add an environment or config variable to one or more fleets, devices or
+		services, as selected by the respective command-line options. Either the
+		--fleet or the --device option must be provided,  and either may be be
 		used alongside the --service option to define a service-specific variable.
-		(A service is an application container in a "microservices" application.)
+		(A service corresponds to a Docker image/container in a microservices fleet.)
 		When the --service option is used in conjunction with the --device option,
-		the service variable applies to the selected device only. Otherwise, it
-		applies to all devices of the selected application (i.e., the application's
-		fleet). If the --service option is omitted, the variable applies to all
-		services.
+		the service variable applies to the selected device only.  Otherwise, it
+		applies to all devices of the selected fleet. If the --service option is
+		omitted, the variable applies to all services.
 
 		If VALUE is omitted, the CLI will attempt to use the value of the environment
 		variable of same name in the CLI process' environment. In this case, a warning
@@ -61,19 +66,18 @@ export default class EnvAddCmd extends Command {
 		running on devices. They are also stored differently in the balenaCloud API
 		database. Configuration variables cannot be set for specific services,
 		therefore the --service option cannot be used when the variable name starts
-		with a reserved prefix. When defining custom application variables, please
-		avoid the reserved prefixes.
+		with a reserved prefix. When defining custom fleet variables, please avoid
+		these reserved prefixes.
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
 	`;
 
 	public static examples = [
-		'$ balena env add TERM --application MyApp',
-		'$ balena env add EDITOR vim --application MyApp',
-		'$ balena env add EDITOR vim -a myorg/myapp',
-		'$ balena env add EDITOR vim --application MyApp,MyApp2',
-		'$ balena env add EDITOR vim --application MyApp --service MyService',
-		'$ balena env add EDITOR vim --application MyApp,MyApp2 --service MyService,MyService2',
+		'$ balena env add TERM --fleet MyFleet',
+		'$ balena env add EDITOR vim -f myorg/myfleet',
+		'$ balena env add EDITOR vim --fleet MyFleet,MyFleet2',
+		'$ balena env add EDITOR vim --fleet MyFleet --service MyService',
+		'$ balena env add EDITOR vim --fleet MyFleet,MyFleet2 --service MyService,MyService2',
 		'$ balena env add EDITOR vim --device 7cf02a6',
 		'$ balena env add EDITOR vim --device 7cf02a6,d6f1433',
 		'$ balena env add EDITOR vim --device 7cf02a6 --service MyService',
@@ -97,8 +101,11 @@ export default class EnvAddCmd extends Command {
 	public static usage = 'env add <name> [value]';
 
 	public static flags: flags.Input<FlagsDef> = {
-		application: { ...cf.application, exclusive: ['device'] },
-		device: { ...cf.device, exclusive: ['application'] },
+		...(isV13()
+			? {}
+			: { application: { ...cf.application, exclusive: ['fleet', 'device'] } }),
+		fleet: { ...cf.fleet, exclusive: ['application', 'device'] },
+		device: { ...cf.device, exclusive: ['application', 'fleet'] },
 		help: cf.help,
 		quiet: cf.quiet,
 		service: cf.service,
@@ -110,9 +117,13 @@ export default class EnvAddCmd extends Command {
 		);
 		const cmd = this;
 
+		if (options.application && process.stderr.isTTY) {
+			console.error(warnify(appToFleetFlagMsg));
+		}
+		options.application ||= options.fleet;
 		if (!options.application && !options.device) {
 			throw new ExpectedError(
-				'Either the --application or the --device option must be specified',
+				'Either the --fleet or the --device option must be specified',
 			);
 		}
 
@@ -161,7 +172,7 @@ export default class EnvAddCmd extends Command {
 						params.value,
 					);
 				} catch (err) {
-					console.error(`${err.message}, app: ${app}`);
+					console.error(`${err.message}, fleet: ${app}`);
 					process.exitCode = 1;
 				}
 			}
@@ -183,7 +194,7 @@ export default class EnvAddCmd extends Command {
 }
 
 /**
- * Add service variables for a device or application.
+ * Add service variables for a device or fleet.
  */
 async function setServiceVars(
 	sdk: BalenaSdk.BalenaSDK,
@@ -201,7 +212,7 @@ async function setServiceVars(
 						params.value!,
 					);
 				} catch (err) {
-					console.error(`${err.message}, application: ${app}`);
+					console.error(`${err.message}, fleet: ${app}`);
 					process.exitCode = 1;
 				}
 			}
@@ -262,7 +273,7 @@ async function getServiceIdForApp(
 	}
 	if (serviceId === undefined) {
 		throw new ExpectedError(
-			`Cannot find service ${serviceName} for application ${appName}`,
+			`Cannot find service ${serviceName} for fleet ${appName}`,
 		);
 	}
 	return serviceId;

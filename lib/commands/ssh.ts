@@ -31,20 +31,20 @@ interface FlagsDef {
 }
 
 interface ArgsDef {
-	applicationOrDevice: string;
+	fleetOrDevice: string;
 	service?: string;
 }
 
 export default class SshCmd extends Command {
 	public static description = stripIndent`
-		SSH into the host or application container of a device.
+		Open a SSH prompt on a device's host OS or service container.
 
 		Start a shell on a local or remote device. If a service name is not provided,
 		a shell will be opened on the host OS.
 
-		If an application is provided, an interactive menu will be presented
-		for the selection of an online device. A shell will then be opened for the
-		host OS or service container of the chosen device.
+		If a fleet is provided, an interactive menu will be presented for the selection
+		of an online device. A shell will then be opened for the host OS or service
+		container of the chosen device.
 
 		For local devices, the IP address and .local domain name are supported.
 		If the device is referenced by IP or \`.local\` address, the connection
@@ -64,7 +64,7 @@ export default class SshCmd extends Command {
 	`;
 
 	public static examples = [
-		'$ balena ssh MyApp',
+		'$ balena ssh MyFleet',
 		'$ balena ssh f49cefd',
 		'$ balena ssh f49cefd my-service',
 		'$ balena ssh f49cefd --port <port>',
@@ -76,9 +76,9 @@ export default class SshCmd extends Command {
 
 	public static args = [
 		{
-			name: 'applicationOrDevice',
+			name: 'fleetOrDevice',
 			description:
-				'application name/slug/id, device uuid, or address of local device',
+				'fleet name/slug/id, device uuid, or address of local device',
 			required: true,
 		},
 		{
@@ -88,7 +88,7 @@ export default class SshCmd extends Command {
 		},
 	];
 
-	public static usage = 'ssh <applicationOrDevice> [service]';
+	public static usage = 'ssh <fleetOrDevice> [service]';
 
 	public static flags: flags.Input<FlagsDef> = {
 		port: flags.integer({
@@ -124,10 +124,10 @@ export default class SshCmd extends Command {
 		);
 
 		// Local connection
-		if (validateLocalHostnameOrIp(params.applicationOrDevice)) {
+		if (validateLocalHostnameOrIp(params.fleetOrDevice)) {
 			const { performLocalDeviceSSH } = await import('../utils/device/ssh');
 			return await performLocalDeviceSSH({
-				address: params.applicationOrDevice,
+				address: params.fleetOrDevice,
 				port: options.port,
 				forceTTY: options.tty,
 				verbose: options.verbose,
@@ -147,7 +147,7 @@ export default class SshCmd extends Command {
 		await Command.checkLoggedIn();
 		const deviceUuid = await getOnlineTargetDeviceUuid(
 			sdk,
-			params.applicationOrDevice,
+			params.fleetOrDevice,
 		);
 
 		const device = await sdk.models.device.get(deviceUuid, {

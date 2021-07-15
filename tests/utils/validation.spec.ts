@@ -56,20 +56,20 @@ describe('validatePassword() function', () => {
 });
 
 describe('validateApplicationName() function', () => {
-	it('should reject applications names shorter than 4 characters, with a message', () => {
-		const errorMessage = 'The application name should be at least 4 characters';
+	it('should reject fleet names shorter than 4 characters, with a message', () => {
+		const errorMessage = 'The fleet name should be at least 4 characters long';
 		expect(v.validateApplicationName('abc')).to.equal(errorMessage);
 		expect(v.validateApplicationName('')).to.equal(errorMessage);
 	});
 
-	it('should return false for application names with characters other than `a-z,A-Z,0-9,_-`', () => {
+	it('should return false for fleet names with characters other than `a-z,A-Z,0-9,_-`', () => {
 		expect(v.validateApplicationName('abcd.')).to.equal(false);
 		expect(v.validateApplicationName('abcd$')).to.equal(false);
 		expect(v.validateApplicationName('ab cd')).to.equal(false);
 		expect(v.validateApplicationName('(abcd)')).to.equal(false);
 	});
 
-	it('should return true for valid application names', () => {
+	it('should return true for valid fleet names', () => {
 		expect(v.validateApplicationName('Test-Application1')).to.equal(true);
 		expect(v.validateApplicationName('test_application2')).to.equal(true);
 	});

@@ -184,7 +184,7 @@ export function selectApplication(
 		.hasAny()
 		.then(async (hasAnyApplications) => {
 			if (!hasAnyApplications) {
-				throw new ExpectedError("You don't have any applications");
+				throw new ExpectedError('No fleets found');
 			}
 
 			const apps = (await balena.models.application.getAll({
@@ -198,7 +198,7 @@ export function selectApplication(
 		})
 		.then((applications) => {
 			if (errorOnEmptySelection && applications.length === 0) {
-				throw new ExpectedError('No suitable applications found for selection');
+				throw new ExpectedError('No suitable fleets found for selection');
 			}
 			return getCliForm().ask({
 				message: 'Select an application',
@@ -378,15 +378,13 @@ export async function getOnlineTargetDeviceUuid(
 	// Not a device UUID, try app
 	let app: Application;
 	try {
-		logger.logDebug(
-			`Trying to fetch application by name/slug/ID: ${applicationOrDevice}`,
-		);
+		logger.logDebug(`Fetching fleet ${applicationOrDevice}`);
 		app = await getApplication(sdk, applicationOrDevice);
 	} catch (err) {
 		const { BalenaApplicationNotFound } = await import('balena-errors');
 		if (instanceOf(err, BalenaApplicationNotFound)) {
 			throw new ExpectedError(
-				`Application or Device not found: ${applicationOrDevice}`,
+				`Fleet or Device not found: ${applicationOrDevice}`,
 			);
 		} else {
 			throw err;
@@ -402,13 +400,13 @@ export async function getOnlineTargetDeviceUuid(
 	// Throw if no devices online
 	if (_.isEmpty(devices)) {
 		throw new ExpectedError(
-			`Application ${app.slug} found, but has no devices online.`,
+			`Fleet ${app.slug} found, but has no devices online.`,
 		);
 	}
 
 	// Ask user to select from online devices for application
 	return getCliForm().ask({
-		message: `Select a device on application ${app.slug}`,
+		message: `Select a device on fleet ${app.slug}`,
 		type: 'list',
 		default: devices[0].uuid,
 		choices: _.map(devices, (device) => ({

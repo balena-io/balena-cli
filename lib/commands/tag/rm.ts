@@ -19,14 +19,20 @@ import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import {
+	applicationIdInfo,
+	appToFleetFlagMsg,
+	warnify,
+} from '../../utils/messages';
+import { isV13 } from '../../utils/version';
 
 interface FlagsDef {
+	app?: string;
 	application?: string;
+	fleet?: string;
 	device?: string;
 	release?: string;
 	help: void;
-	app?: string;
 }
 
 interface ArgsDef {
@@ -35,16 +41,16 @@ interface ArgsDef {
 
 export default class TagRmCmd extends Command {
 	public static description = stripIndent`
-		Remove a tag from an application, device or release.
+		Remove a tag from a fleet, device or release.
 
-		Remove a tag from an application, device or release.
+		Remove a tag from a fleet, device or release.
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
 	`;
 
 	public static examples = [
-		'$ balena tag rm myTagKey --application MyApp',
-		'$ balena tag rm myTagKey -a myorg/myapp',
+		'$ balena tag rm myTagKey --fleet MyFleet',
+		'$ balena tag rm myTagKey -f myorg/myfleet',
 		'$ balena tag rm myTagKey --device 7cf02a6',
 		'$ balena tag rm myTagKey --release 1234',
 		'$ balena tag rm myTagKey --release b376b0e544e9429483b656490e5b9443b4349bd6',
@@ -61,21 +67,29 @@ export default class TagRmCmd extends Command {
 	public static usage = 'tag rm <tagKey>';
 
 	public static flags: flags.Input<FlagsDef> = {
-		application: {
-			...cf.application,
-			exclusive: ['app', 'device', 'release'],
-		},
-		app: {
-			...cf.app,
-			exclusive: ['application', 'device', 'release'],
+		...(isV13()
+			? {}
+			: {
+					application: {
+						...cf.application,
+						exclusive: ['app', 'fleet', 'device', 'release'],
+					},
+					app: {
+						...cf.app,
+						exclusive: ['application', 'fleet', 'device', 'release'],
+					},
+			  }),
+		fleet: {
+			...cf.fleet,
+			exclusive: ['app', 'application', 'device', 'release'],
 		},
 		device: {
 			...cf.device,
-			exclusive: ['app', 'application', 'release'],
+			exclusive: ['app', 'application', 'fleet', 'release'],
 		},
 		release: {
 			...cf.release,
-			exclusive: ['app', 'application', 'device'],
+			exclusive: ['app', 'application', 'fleet', 'device'],
 		},
 		help: cf.help,
 	};
@@ -87,9 +101,10 @@ export default class TagRmCmd extends Command {
 			TagRmCmd,
 		);
 
-		// Prefer options.application over options.app
-		options.application = options.application || options.app;
-		delete options.app;
+		if ((options.application || options.app) && process.stderr.isTTY) {
+			console.error(warnify(appToFleetFlagMsg));
+		}
+		options.application ||= options.app || options.fleet;
 
 		const balena = getBalenaSdk();
 
@@ -130,9 +145,9 @@ export default class TagRmCmd extends Command {
 	protected static missingResourceMessage = stripIndent`
 					To remove a resource tag, you must provide exactly one of:
 
-					  * An application, with --application <appNameOrSlug>
-					  * A device, with --device <uuid>
-					  * A release, with --release <id or commit>
+					  * A fleet, with --fleet <fleetNameOrSlug>
+					  * A device, with --device <UUID>
+					  * A release, with --release <ID or commit>
 
 					See the help page for examples:
 

@@ -37,9 +37,9 @@ interface CachedUsername {
  * Mixpanel.com analytics tracking (information on balena CLI usage).
  *
  * @param commandSignature A string like, for example:
- *      "push <applicationOrDevice>"
- * That's literally so: "applicationOrDevice" is NOT replaced with the actual
- * application ID or device ID. The purpose is to find out the most / least
+ *      "push <fleetOrDevice>"
+ * That's literally so: "fleetOrDevice" is NOT replaced with the actual
+ * fleet ID or device ID. The purpose is to find out the most / least
  * used command verbs, so we can focus our development effort where it is most
  * beneficial to end users.
  *

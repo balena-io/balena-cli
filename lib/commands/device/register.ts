@@ -29,27 +29,29 @@ interface FlagsDef {
 }
 
 interface ArgsDef {
-	application: string;
+	fleet: string;
 }
 
 export default class DeviceRegisterCmd extends Command {
 	public static description = stripIndent`
-		Register a device.
+		Register a new device.
 
-		Register a device to an application.
+		Register a new device with a balena fleet.
+
+		If --uuid is not provided, a new UUID will be automatically assigned.
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
 	`;
 
 	public static examples = [
-		'$ balena device register MyApp',
-		'$ balena device register MyApp --uuid <uuid>',
-		'$ balena device register myorg/myapp --uuid <uuid>',
+		'$ balena device register MyFleet',
+		'$ balena device register MyFleet --uuid <uuid>',
+		'$ balena device register myorg/myfleet --uuid <uuid>',
 	];
 
-	public static args: Array<IArg<any>> = [ca.applicationRequired];
+	public static args: Array<IArg<any>> = [ca.fleetRequired];
 
-	public static usage = 'device register <application>';
+	public static usage = 'device register <fleet>';
 
 	public static flags: flags.Input<FlagsDef> = {
 		uuid: flags.string({
@@ -70,7 +72,7 @@ export default class DeviceRegisterCmd extends Command {
 
 		const balena = getBalenaSdk();
 
-		const application = await getApplication(balena, params.application);
+		const application = await getApplication(balena, params.fleet);
 		const uuid = options.uuid ?? balena.models.device.generateUniqueKey();
 
 		console.info(`Registering to ${application.app_name}: ${uuid}`);

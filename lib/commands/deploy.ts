@@ -26,6 +26,7 @@ import {
 	registrySecretsHelp,
 	buildArgDeprecation,
 } from '../utils/messages';
+import * as ca from '../utils/common-args';
 import * as compose from '../utils/compose';
 import type {
 	BuiltImage,
@@ -62,18 +63,18 @@ interface FlagsDef extends ComposeCliFlags, DockerCliFlags {
 }
 
 interface ArgsDef {
-	appName: string;
+	fleet: string;
 	image?: string;
 }
 
 export default class DeployCmd extends Command {
 	public static description = `\
-Deploy a single image or a multicontainer project to a balena application.
+Deploy a single image or a multicontainer project to a balena fleet.
 
-Usage: \`deploy <appName> ([image] | --build [--source build-dir])\`
+Usage: \`deploy <fleet> ([image] | --build [--source build-dir])\`
 
-Use this command to deploy an image or a complete multicontainer project to an
-application, optionally building it first. The source images are searched for
+Use this command to deploy an image or a complete multicontainer project to a
+fleet, optionally building it first. The source images are searched for
 (and optionally built) using the docker daemon in your development machine or
 balena device. (See also the \`balena push\` command for the option of building
 the image in the balenaCloud build servers.)
@@ -88,8 +89,8 @@ If a compose file isn't found, the command will look for a Dockerfile[.template]
 file (or alternative Dockerfile specified with the \`-f\` option), and if yet
 that isn't found, it will try to generate one.
 
-To deploy to an app on which you're a collaborator, use
-\`balena deploy <appOwnerUsername>/<appName>\`.
+To deploy to a fleet where you are a collaborator, use fleet slug including the
+organization:  \`balena deploy <organization>/<fleet>\`.
 
 ${registrySecretsHelp}
 
@@ -97,25 +98,21 @@ ${dockerignoreHelp}
 `;
 
 	public static examples = [
-		'$ balena deploy myApp',
-		'$ balena deploy myApp --build --source myBuildDir/',
-		'$ balena deploy myApp myApp/myImage',
-		'$ balena deploy myApp myApp/myImage --release-tag key1 "" key2 "value2 with spaces"',
+		'$ balena deploy myFleet',
+		'$ balena deploy myorg/myfleet --build --source myBuildDir/',
+		'$ balena deploy myorg/myfleet myRepo/myImage',
+		'$ balena deploy myFleet myRepo/myImage --release-tag key1 "" key2 "value2 with spaces"',
 	];
 
 	public static args = [
-		{
-			name: 'appName',
-			description: 'the name of the application to deploy to',
-			required: true,
-		},
+		ca.fleetRequired,
 		{
 			name: 'image',
 			description: 'the image to deploy',
 		},
 	];
 
-	public static usage = 'deploy <appName> [image]';
+	public static usage = 'deploy <fleet> [image]';
 
 	public static flags: flags.Input<FlagsDef> = {
 		source: flags.string({
@@ -160,7 +157,7 @@ ${dockerignoreHelp}
 		const logger = await Command.getLogger();
 		logger.logDebug('Parsing input...');
 
-		const { appName, image } = params;
+		const { fleet, image } = params;
 
 		// Build args are under consideration for removal - warn user
 		if (options.buildArg) {
@@ -200,7 +197,7 @@ ${dockerignoreHelp}
 		}
 
 		const helpers = await import('../utils/helpers');
-		const app = await helpers.getAppWithArch(appName);
+		const app = await helpers.getAppWithArch(fleet);
 
 		const dockerUtils = await import('../utils/docker');
 		const [docker, buildOpts, composeOpts] = await Promise.all([
@@ -211,7 +208,7 @@ ${dockerignoreHelp}
 
 		const release = await this.deployProject(docker, logger, composeOpts, {
 			app,
-			appName, // may be prefixed by 'owner/', unlike app.app_name
+			appName: fleet, // may be prefixed by 'owner/', unlike app.app_name
 			image,
 			shouldPerformBuild: !!options.build,
 			shouldUploadLogs: !options.nologupload,
@@ -254,7 +251,7 @@ ${dockerignoreHelp}
 			const project = await loadProject(logger, composeOpts, opts.image);
 			if (project.descriptors.length > 1 && !appType?.supports_multicontainer) {
 				throw new ExpectedError(
-					'Target application does not support multiple containers. Aborting!',
+					'Target fleet does not support multiple containers. Aborting!',
 				);
 			}
 
@@ -326,7 +323,7 @@ ${dockerignoreHelp}
 				const { deployLegacy } = require('../utils/deploy-legacy');
 
 				const msg = getChalk().yellow(
-					'Target application requires legacy deploy method.',
+					'Target fleet requires legacy deploy method.',
 				);
 				logger.logWarn(msg);
 

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2016-2019 Balena Ltd.
+ * Copyright 2016-2021 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,17 +21,24 @@ import Command from '../command';
 import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
-import { applicationIdInfo } from '../utils/messages';
+import {
+	applicationIdInfo,
+	appToFleetFlagMsg,
+	appToFleetOutputMsg,
+	warnify,
+} from '../utils/messages';
 import { isV13 } from '../utils/version';
 
 interface FlagsDef {
 	application?: string;
+	fleet?: string;
 	config: boolean;
 	device?: string; // device UUID
 	json: boolean;
 	help: void;
 	service?: string; // service name
 	verbose: boolean;
+	v13: boolean;
 }
 
 interface EnvironmentVariableInfo extends SDK.EnvironmentVariableBase {
@@ -56,20 +63,20 @@ interface ServiceEnvironmentVariableInfo
 
 export default class EnvsCmd extends Command {
 	public static description = stripIndent`
-		List the environment or config variables of an application, device or service.
+		List the environment or config variables of a fleet, device or service.
 
-		List the environment or configuration variables of an application, device or
-		service, as selected by the respective command-line options. (A service is
-		an application container in a "microservices" application.)
+		List the environment or configuration variables of a fleet, device or
+		service, as selected by the respective command-line options. (A service
+		corresponds to a Docker image/container in a microservices fleet.)
 
-		The results include application-wide (fleet), device-wide (multiple services on
-		a device) and service-specific variables that apply to the selected application,
-		device or service. It can be thought of as including "inherited" variables;
-		for example, a service inherits device-wide variables, and a device inherits
-		application-wide variables.
+		The results include fleet-wide (multiple devices), device-specific (multiple
+		services on a specific device) and service-specific variables that apply to the
+		selected fleet, device or service. It can be thought of as including inherited
+		variables; for example, a service inherits device-wide variables, and a device
+		inherits fleet-wide variables.
 
 		The printed output may include DEVICE and/or SERVICE columns to distinguish
-		between application-wide, device-specific and service-specific variables.
+		between fleet-wide, device-specific and service-specific variables.
 		An asterisk in these columns indicates that the variable applies to
 		"all devices" or "all services".
 
@@ -83,22 +90,22 @@ export default class EnvsCmd extends Command {
 		types like lists and empty strings. The 'jq' utility may be helpful in shell
 		scripts (https://stedolan.github.io/jq/manual/). When --json is used, an empty
 		JSON array ([]) is printed instead of an error message when no variables exist
-		for the given query. When querying variables for a device, note that the
-		application name may be null in JSON output (or 'N/A' in tabular output) if the
-		application linked to the device is no longer accessible by the current user
-		(for example, in case the current user has been removed from the application
-		by its owner).
+		for the given query. When querying variables for a device, note that the fleet
+		name may be null in JSON output (or 'N/A' in tabular output) if the fleet that
+		the device belonged to is no longer accessible by the current user (for example,
+		in case the current user was removed from the fleet by the fleet's owner).
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
+
+		${appToFleetOutputMsg.split('\n').join('\n\t\t')}
 	`;
 
 	public static examples = [
-		'$ balena envs --application MyApp',
-		'$ balena envs --application myorg/myapp',
-		'$ balena envs --application MyApp --json',
-		'$ balena envs --application MyApp --service MyService',
-		'$ balena envs --application MyApp --service MyService',
-		'$ balena envs --application MyApp --config',
+		'$ balena envs --fleet myorg/myfleet',
+		'$ balena envs --fleet MyFleet --json',
+		'$ balena envs --fleet MyFleet --service MyService',
+		'$ balena envs --fleet MyFleet --service MyService',
+		'$ balena envs --fleet MyFleet --config',
 		'$ balena envs --device 7cf02a6',
 		'$ balena envs --device 7cf02a6 --json',
 		'$ balena envs --device 7cf02a6 --config --json',
@@ -113,34 +120,47 @@ export default class EnvsCmd extends Command {
 			: {
 					all: flags.boolean({
 						default: false,
-						description: stripIndent`
-				No-op since balena CLI v12.0.0.`,
+						description: 'No-op since balena CLI v12.0.0.',
 						hidden: true,
 					}),
+					application: {
+						exclusive: ['device', 'fleet', 'v13'],
+						...cf.application,
+					},
 			  }),
-
-		application: { exclusive: ['device'], ...cf.application },
+		fleet: { exclusive: ['device', 'application'], ...cf.fleet },
 		config: flags.boolean({
 			default: false,
 			char: 'c',
 			description: 'show configuration variables only',
 			exclusive: ['service'],
 		}),
-		device: { exclusive: ['application'], ...cf.device },
+		device: { exclusive: ['fleet', 'application'], ...cf.device },
 		help: cf.help,
 		json: cf.json,
 		verbose: cf.verbose,
 		service: { exclusive: ['config'], ...cf.service },
+		v13: cf.v13,
 	};
+
+	protected useAppWord = false;
+	protected hasWarned = false;
 
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(EnvsCmd);
+		this.useAppWord = !options.fleet && !options.v13 && !isV13();
+
 		const variables: EnvironmentVariableInfo[] = [];
 
 		await Command.checkLoggedIn();
 
+		if (options.application && !options.json && process.stderr.isTTY) {
+			this.hasWarned = true;
+			console.error(warnify(appToFleetFlagMsg));
+		}
+		options.application ||= options.fleet;
 		if (!options.application && !options.device) {
-			throw new ExpectedError('You must specify an application or device');
+			throw new ExpectedError('Missing --fleet or --device option');
 		}
 
 		const balena = getBalenaSdk();
@@ -174,7 +194,7 @@ export default class EnvsCmd extends Command {
 			const target =
 				(options.service ? `service "${options.service}" of ` : '') +
 				(options.application
-					? `application "${options.application}"`
+					? `fleet "${options.application}"`
 					: `device "${options.device}"`);
 			throw new ExpectedError(`No environment variables found for ${target}`);
 		}
@@ -194,7 +214,9 @@ export default class EnvsCmd extends Command {
 			return i;
 		});
 
-		fields.push(options.json ? 'appName' : 'appName => APPLICATION');
+		const jName = this.useAppWord ? 'appName' : 'fleetName';
+		const tName = this.useAppWord ? 'APPLICATION' : 'FLEET';
+		fields.push(options.json ? `appName => ${jName}` : `appName => ${tName}`);
 		if (options.device) {
 			fields.push(options.json ? 'deviceUUID' : 'deviceUUID => DEVICE');
 		}
@@ -203,10 +225,13 @@ export default class EnvsCmd extends Command {
 		}
 
 		if (options.json) {
-			this.log(
-				stringifyVarArray<SDK.EnvironmentVariableBase>(varArray, fields),
-			);
+			const { pickAndRename } = await import('../utils/helpers');
+			const mapped = varArray.map((o) => pickAndRename(o, fields));
+			this.log(JSON.stringify(mapped, null, 4));
 		} else {
+			if (!this.hasWarned && this.useAppWord && process.stderr.isTTY) {
+				console.error(warnify(appToFleetOutputMsg));
+			}
 			this.log(
 				getVisuals().table.horizontal(
 					_.sortBy(varArray, (v: SDK.EnvironmentVariableBase) => v.name),
@@ -227,7 +252,7 @@ async function validateServiceName(
 	});
 	if (services.length === 0) {
 		throw new ExpectedError(
-			`Service "${serviceName}" not found for application "${appName}"`,
+			`Service "${serviceName}" not found for fleet "${appName}"`,
 		);
 	}
 }
@@ -353,26 +378,4 @@ function fillInInfoFields(
 		envVar.serviceName = envVar.serviceName || '*';
 		envVar.deviceUUID = deviceUUID || '*';
 	}
-}
-
-/**
- * Transform each object (item) of varArray to preserve only the
- * fields (keys) listed in the fields argument.
- */
-function stringifyVarArray<T = Dictionary<any>>(
-	varArray: T[],
-	fields: string[],
-): string {
-	const transformed = varArray.map((o: Dictionary<any>) =>
-		_.transform(
-			o,
-			(result, value, key) => {
-				if (fields.includes(key)) {
-					result[key] = value;
-				}
-			},
-			{} as Dictionary<any>,
-		),
-	);
-	return JSON.stringify(transformed, null, 4);
 }

@@ -43,7 +43,7 @@ export function validatePassword(input: string) {
 
 export function validateApplicationName(input: string) {
 	if (input.length < 4) {
-		return 'The application name should be at least 4 characters';
+		return 'The fleet name should be at least 4 characters long';
 	}
 
 	return APPNAME_REGEX.test(input);

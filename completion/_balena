@@ -8,7 +8,7 @@ _balena() {
   local context state line curcontext="$curcontext"
 
   # Valid top-level completions
-  main_commands=( apps build deploy envs join keys leave login logout logs note orgs preload push scan settings ssh support tags tunnel version whoami api-key app app config device device devices env internal key key local os tag util )
+  main_commands=( apps build deploy envs fleets join keys leave login logout logs note orgs preload push scan settings ssh support tags tunnel version whoami api-key app app config device device devices env fleet fleet internal key key local os tag util )
   # Sub-completions
   api_key_cmds=( generate )
   app_cmds=( create purge rename restart rm )
@@ -16,6 +16,7 @@ _balena() {
   device_cmds=( deactivate identify init local-mode move os-update public-url purge reboot register rename restart rm shutdown )
   devices_cmds=( supported )
   env_cmds=( add rename rm )
+  fleet_cmds=( create purge rename restart rm )
   internal_cmds=( osinit )
   key_cmds=( add rm )
   local_cmds=( configure flash )
@@ -56,6 +57,9 @@ _balena_sec_cmds() {
       ;;
       "env")
         _describe -t env_cmds 'env_cmd' env_cmds "$@" && ret=0
+      ;;
+      "fleet")
+        _describe -t fleet_cmds 'fleet_cmd' fleet_cmds "$@" && ret=0
       ;;
       "internal")
         _describe -t internal_cmds 'internal_cmd' internal_cmds "$@" && ret=0

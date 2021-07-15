@@ -26,6 +26,8 @@ import { cleanOutput, runCommand } from '../helpers';
 import {
 	addRegSecretsEntries,
 	ExpectedTarStreamFiles,
+	getDockerignoreWarn1,
+	getDockerignoreWarn2,
 	setupDockerignoreTestData,
 } from '../projects';
 
@@ -124,16 +126,10 @@ describe('balena push', function () {
 		);
 		const expectedResponseLines = [
 			...commonResponseLines[responseFilename],
-			...[
-				`[Warn] ${hr}`,
-				'[Warn] The following .dockerignore file(s) will not be used:',
-				`[Warn] * ${path.join(projectPath, 'src', '.dockerignore')}`,
-				'[Warn] By default, only one .dockerignore file at the source folder (project root)',
-				'[Warn] is used. Microservices (multicontainer) applications may use a separate',
-				'[Warn] .dockerignore file for each service with the --multi-dockerignore (-m) option.',
-				'[Warn] See "balena help push" for more details.',
-				`[Warn] ${hr}`,
-			],
+			...getDockerignoreWarn1(
+				[path.join(projectPath, 'src', '.dockerignore')],
+				'push',
+			),
 		];
 		if (isWindows) {
 			const fname = path.join(projectPath, 'src', 'windows-crlf.sh');
@@ -171,16 +167,10 @@ describe('balena push', function () {
 		);
 		const expectedResponseLines = [
 			...commonResponseLines[responseFilename],
-			...[
-				`[Warn] ${hr}`,
-				'[Warn] The following .dockerignore file(s) will not be used:',
-				`[Warn] * ${path.join(projectPath, 'src', '.dockerignore')}`,
-				'[Warn] By default, only one .dockerignore file at the source folder (project root)',
-				'[Warn] is used. Microservices (multicontainer) applications may use a separate',
-				'[Warn] .dockerignore file for each service with the --multi-dockerignore (-m) option.',
-				'[Warn] See "balena help push" for more details.',
-				`[Warn] ${hr}`,
-			],
+			...getDockerignoreWarn1(
+				[path.join(projectPath, 'src', '.dockerignore')],
+				'push',
+			),
 		];
 		const expectedQueryParams = commonQueryParams.map((i) =>
 			i[0] === 'dockerfilePath' ? ['dockerfilePath', 'Dockerfile-alt'] : i,
@@ -218,16 +208,10 @@ describe('balena push', function () {
 		);
 		const expectedResponseLines = [
 			...commonResponseLines[responseFilename],
-			...[
-				`[Warn] ${hr}`,
-				'[Warn] The following .dockerignore file(s) will not be used:',
-				`[Warn] * ${path.join(projectPath, 'src', '.dockerignore')}`,
-				'[Warn] By default, only one .dockerignore file at the source folder (project root)',
-				'[Warn] is used. Microservices (multicontainer) applications may use a separate',
-				'[Warn] .dockerignore file for each service with the --multi-dockerignore (-m) option.',
-				'[Warn] See "balena help push" for more details.',
-				`[Warn] ${hr}`,
-			],
+			...getDockerignoreWarn1(
+				[path.join(projectPath, 'src', '.dockerignore')],
+				'push',
+			),
 		];
 		if (isWindows) {
 			const fname = path.join(projectPath, 'src', 'windows-crlf.sh');
@@ -434,16 +418,10 @@ describe('balena push', function () {
 			'utf8',
 		);
 		const expectedResponseLines: string[] = [
-			...[
-				`[Warn] ${hr}`,
-				'[Warn] The following .dockerignore file(s) will not be used:',
-				`[Warn] * ${path.join(projectPath, 'lib', '.dockerignore')}`,
-				'[Warn] When --multi-dockerignore (-m) is used, only .dockerignore files at the root of',
-				"[Warn] each service's build context (in a microservices/multicontainer application),",
-				'[Warn] plus a .dockerignore file at the overall project root, are used.',
-				'[Warn] See "balena help push" for more details.',
-				`[Warn] ${hr}`,
-			],
+			...getDockerignoreWarn2(
+				[path.join(projectPath, 'lib', '.dockerignore')],
+				'push',
+			),
 			...commonResponseLines[responseFilename],
 		];
 
@@ -484,16 +462,10 @@ describe('balena push', function () {
 		);
 		const expectedResponseLines: string[] = [
 			...commonResponseLines[responseFilename],
-			...[
-				`[Warn] ${hr}`,
-				'[Warn] The following .dockerignore file(s) will not be used:',
-				`[Warn] * ${path.join(projectPath, 'service2', '.dockerignore')}`,
-				'[Warn] By default, only one .dockerignore file at the source folder (project root)',
-				'[Warn] is used. Microservices (multicontainer) applications may use a separate',
-				'[Warn] .dockerignore file for each service with the --multi-dockerignore (-m) option.',
-				'[Warn] See "balena help push" for more details.',
-				`[Warn] ${hr}`,
-			],
+			...getDockerignoreWarn1(
+				[path.join(projectPath, 'service2', '.dockerignore')],
+				'push',
+			),
 		];
 		if (isWindows) {
 			expectedResponseLines.push(

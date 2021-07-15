@@ -32,8 +32,7 @@ export const booleanConfig: IBooleanFlag<boolean> = flags.boolean({
 
 export const booleanDevice: IBooleanFlag<boolean> = flags.boolean({
 	char: 'd',
-	description:
-		'select a device-specific variable instead of an application (fleet) variable',
+	description: 'select a device-specific variable instead of a fleet variable',
 	default: false,
 });
 
@@ -49,23 +48,23 @@ export const rmRenameHelp = stripIndent`
 	Variables are selected by their database ID (as reported by the 'balena envs'
 	command) and one of six database "resource types":
 
-	- application (fleet) environment variable
-	- application (fleet) configuration variable (--config)
-	- application (fleet) service variable (--service)
+	- fleet environment variable
+	- fleet configuration variable (--config)
+	- fleet service variable (--service)
 	- device environment variable (--device)
 	- device configuration variable (--device --config)
 	- device service variable (--device --service)
 
-	The --device option selects a device-specific variable instead of an application
-	(fleet) variable.
+	The --device option selects a device-specific variable instead of a fleet
+	variable.
 
 	The --config option selects a configuration variable. Configuration variable
 	names typically start with the 'BALENA_' or 'RESIN_' prefixes and are used to
 	configure balena platform features.
 
 	The --service option selects a service variable, which is an environment variable
-	that applies to a specifc service (application container) in a microservices
-	(multicontainer) application.
+	that applies to a specifc service (container) in a microservices (multicontainer)
+	fleet.
 
 	The --service and --config options cannot be used together, but they can be
 	used alongside the --device option to select a device-specific service or

@@ -15,38 +15,44 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import type { flags } from '@oclif/command';
+import type { Output as ParserOutput } from '@oclif/parser';
+
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import * as ca from '../../utils/common-args';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import {
+	applicationIdInfo,
+	appToFleetCmdMsg,
+	warnify,
+} from '../../utils/messages';
 
 interface FlagsDef {
 	help: void;
 }
 
 interface ArgsDef {
-	application: string;
+	fleet: string;
 }
 
-export default class AppRestartCmd extends Command {
+export class FleetRestartCmd extends Command {
 	public static description = stripIndent`
-		Restart an application.
+		Restart a fleet.
 
-		Restart all devices belonging to an application.
+		Restart all devices belonging to a fleet.
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
 	`;
 
 	public static examples = [
-		'$ balena app restart MyApp',
-		'$ balena app restart myorg/myapp',
+		'$ balena fleet restart MyFleet',
+		'$ balena fleet restart myorg/myfleet',
 	];
 
-	public static args = [ca.applicationRequired];
+	public static args = [ca.fleetRequired];
 
-	public static usage = 'app restart <application>';
+	public static usage = 'fleet restart <fleet>';
 
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
@@ -54,16 +60,45 @@ export default class AppRestartCmd extends Command {
 
 	public static authenticated = true;
 
-	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(AppRestartCmd);
+	public async run(parserOutput?: ParserOutput<FlagsDef, ArgsDef>) {
+		const { args: params } =
+			parserOutput || this.parse<FlagsDef, ArgsDef>(FleetRestartCmd);
 
 		const { getApplication } = await import('../../utils/sdk');
 
 		const balena = getBalenaSdk();
 
 		// Disambiguate application (if is a number, it could either be an ID or a numerical name)
-		const application = await getApplication(balena, params.application);
+		const application = await getApplication(balena, params.fleet);
 
 		await balena.models.application.restart(application.id);
+	}
+}
+
+export default class AppRestartCmd extends FleetRestartCmd {
+	public static description = stripIndent`
+		DEPRECATED alias for the 'fleet restart' command
+
+		${appToFleetCmdMsg
+			.split('\n')
+			.map((l) => `\t\t${l}`)
+			.join('\n')}
+
+		For command usage, see 'balena help fleet restart'
+	`;
+	public static examples = [];
+	public static usage = 'app restart <fleet>';
+	public static args = FleetRestartCmd.args;
+	public static flags = FleetRestartCmd.flags;
+	public static authenticated = FleetRestartCmd.authenticated;
+	public static primary = FleetRestartCmd.primary;
+
+	public async run() {
+		// call this.parse() before deprecation message to parse '-h'
+		const parserOutput = this.parse<FlagsDef, ArgsDef>(AppRestartCmd);
+		if (process.stderr.isTTY) {
+			console.error(warnify(appToFleetCmdMsg));
+		}
+		await super.run(parserOutput);
 	}
 }

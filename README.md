@@ -57,7 +57,7 @@ guide](https://docs.docker.com/compose/completion/) for system setup instruction
 ## Logging in
 
 Several CLI commands require access to your balenaCloud account, for example in order to push a
-new release to your application. Those commands require creating a CLI login session by running:
+new release to your fleet. Those commands require creating a CLI login session by running:
 
 ```sh
 $ balena login

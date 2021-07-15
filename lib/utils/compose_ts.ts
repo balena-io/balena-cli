@@ -824,16 +824,16 @@ function printDockerignoreWarn(
 		);
 		if (multiDockerignore) {
 			msg.push(stripIndent`
-				When --multi-dockerignore (-m) is used, only .dockerignore files at the root of
-				each service's build context (in a microservices/multicontainer application),
-				plus a .dockerignore file at the overall project root, are used.
+				When --multi-dockerignore (-m) is used, only .dockerignore files at the
+				root of each service's build context (in a microservices/multicontainer
+				fleet), plus a .dockerignore file at the overall project root, are used.
 				See "balena help ${Logger.command}" for more details.`);
 		} else {
 			msg.push(stripIndent`
-				By default, only one .dockerignore file at the source folder (project root)
-				is used. Microservices (multicontainer) applications may use a separate
-				.dockerignore file for each service with the --multi-dockerignore (-m) option.
-				See "balena help ${Logger.command}" for more details.`);
+				By default, only one .dockerignore file at the source folder (project
+				root) is used. Microservices (multicontainer) fleets may use a separate
+				.dockerignore file for each service with the --multi-dockerignore (-m)
+				option. See "balena help ${Logger.command}" for more details.`);
 		}
 	}
 	// No unused .dockerignore files. Print info-level advice in some cases.
@@ -853,7 +853,7 @@ function printDockerignoreWarn(
 			msg.push(
 				stripIndent`
 				The --multi-dockerignore (-m) option was specified, but it has no effect for
-				single-container (non-microservices) apps. Only one .dockerignore file at the
+				single-container (non-microservices) fleets. Only one .dockerignore file at the
 				project source (root) directory, if any, is used. See "balena help ${Logger.command}".`,
 			);
 		}

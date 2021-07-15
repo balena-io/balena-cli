@@ -58,7 +58,7 @@ class FakeHelpCommand {
 
 	examples = [
 		'$ balena help',
-		'$ balena help apps',
+		'$ balena help login',
 		'$ balena help os download',
 	];
 

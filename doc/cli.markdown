@@ -50,7 +50,7 @@ guide](https://docs.docker.com/compose/completion/) for system setup instruction
 ## Logging in
 
 Several CLI commands require access to your balenaCloud account, for example in order to push a
-new release to your application. Those commands require creating a CLI login session by running:
+new release to your fleet. Those commands require creating a CLI login session by running:
 
 ```sh
 $ balena login
@@ -160,15 +160,22 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 
 	- [api-key generate &#60;name&#62;](#api-key-generate-name)
 
-- Application
+- Fleet
 
 	- [apps](#apps)
-	- [app &#60;nameorslug&#62;](#app-nameorslug)
+	- [fleets](#fleets)
+	- [app &#60;fleet&#62;](#app-fleet)
+	- [fleet &#60;fleet&#62;](#fleet-fleet)
 	- [app create &#60;name&#62;](#app-create-name)
-	- [app purge &#60;application&#62;](#app-purge-application)
-	- [app rename &#60;application&#62; [newname]](#app-rename-application-newname)
-	- [app restart &#60;application&#62;](#app-restart-application)
-	- [app rm &#60;application&#62;](#app-rm-application)
+	- [fleet create &#60;name&#62;](#fleet-create-name)
+	- [app purge &#60;fleet&#62;](#app-purge-fleet)
+	- [fleet purge &#60;fleet&#62;](#fleet-purge-fleet)
+	- [app rename &#60;fleet&#62; [newname]](#app-rename-fleet-newname)
+	- [fleet rename &#60;fleet&#62; [newname]](#fleet-rename-fleet-newname)
+	- [app restart &#60;fleet&#62;](#app-restart-fleet)
+	- [fleet restart &#60;fleet&#62;](#fleet-restart-fleet)
+	- [app rm &#60;fleet&#62;](#app-rm-fleet)
+	- [fleet rm &#60;fleet&#62;](#fleet-rm-fleet)
 
 - Authentication
 
@@ -190,7 +197,7 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 	- [device public-url &#60;uuid&#62;](#device-public-url-uuid)
 	- [device purge &#60;uuid&#62;](#device-purge-uuid)
 	- [device reboot &#60;uuid&#62;](#device-reboot-uuid)
-	- [device register &#60;application&#62;](#device-register-application)
+	- [device register &#60;fleet&#62;](#device-register-fleet)
 	- [device rename &#60;uuid&#62; [newname]](#device-rename-uuid-newname)
 	- [device restart &#60;uuid&#62;](#device-restart-uuid)
 	- [device rm &#60;uuid(s)&#62;](#device-rm-uuid-s)
@@ -228,8 +235,8 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 - Network
 
 	- [scan](#scan)
-	- [ssh &#60;applicationordevice&#62; [service]](#ssh-applicationordevice-service)
-	- [tunnel &#60;deviceorapplication&#62;](#tunnel-deviceorapplication)
+	- [ssh &#60;fleetordevice&#62; [service]](#ssh-fleetordevice-service)
+	- [tunnel &#60;deviceorfleet&#62;](#tunnel-deviceorfleet)
 
 - Notes
 
@@ -257,7 +264,7 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 
 - Push
 
-	- [push &#60;applicationordevice&#62;](#push-applicationordevice)
+	- [push &#60;fleetordevice&#62;](#push-fleetordevice)
 
 - Settings
 
@@ -271,7 +278,7 @@ Users are encouraged to regularly update the balena CLI to the latest version.
 - Deploy
 
 	- [build [source]](#build-source)
-	- [deploy &#60;appname&#62; [image]](#deploy-appname-image)
+	- [deploy &#60;fleet&#62; [image]](#deploy-fleet-image)
 
 - Platform
 
@@ -308,18 +315,17 @@ the API key name
 
 ### Options
 
-# Application
+# Fleet
 
 ## apps
 
-list all your balena applications.
+Renaming notice: The 'apps' command was renamed to 'fleets', and 'apps'
+is now an alias. THE ALIAS WILL BE REMOVED in the next major version
+of the balena CLI (so that a different 'apps' command can be implemented
+in the future). Use 'fleets' instead of 'apps' to avoid this warning.
+Find out more at: https://git.io/JRuZr
 
-For detailed information on a particular application,
-use `balena app <application>` instead.
-
-Examples:
-
-	$ balena apps
+For command usage, see 'balena help fleets'
 
 ### Options
 
@@ -327,46 +333,106 @@ Examples:
 
 No-op since release v12.0.0
 
-## app &#60;nameOrSlug&#62;
+## fleets
 
-Display detailed information about a single balena application.
+List all your balena fleets.
 
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the `balena apps` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.
+For detailed information on a particular fleet, use
+`balena fleet <fleet>`
 
 Examples:
 
-	$ balena app MyApp
-	$ balena app myorg/myapp
+	$ balena fleets
+
+### Options
+
+#### -v, --verbose
+
+No-op since release v12.0.0
+
+## app &#60;fleet&#62;
+
+Renaming notice: The 'app' command was renamed to 'fleet', and 'app'
+is now an alias. THE ALIAS WILL BE REMOVED in the next major version
+of the balena CLI (so that a different 'app' command can be implemented
+in the future). Use 'fleet' instead of 'app' to avoid this warning.
+Find out more at: https://git.io/JRuZr
+
+For command usage, see 'balena help fleet'
 
 ### Arguments
 
-#### APPLICATION
+#### FLEET
 
-application name, slug (preferred), or numeric ID (deprecated)
+fleet name, slug (preferred), or numeric ID (deprecated)
+
+### Options
+
+## fleet &#60;fleet&#62;
+
+Display detailed information about a single fleet.
+
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.
+
+Examples:
+
+	$ balena fleet MyFleet
+	$ balena fleet myorg/myfleet
+
+### Arguments
+
+#### FLEET
+
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 ### Options
 
 ## app create &#60;name&#62;
 
-Create a new balena application.
+Renaming notice: The 'app' command was renamed to 'fleet', and 'app'
+is now an alias. THE ALIAS WILL BE REMOVED in the next major version
+of the balena CLI (so that a different 'app' command can be implemented
+in the future). Use 'fleet' instead of 'app' to avoid this warning.
+Find out more at: https://git.io/JRuZr
 
-You can specify the organization the application should belong to using
+For command usage, see 'balena help fleet create'
+
+### Arguments
+
+#### NAME
+
+fleet name
+
+### Options
+
+#### -o, --organization ORGANIZATION
+
+handle of the organization the fleet should belong to
+
+#### -t, --type TYPE
+
+fleet device type (Check available types with `balena devices supported`)
+
+## fleet create &#60;name&#62;
+
+Create a new balena fleet.
+
+You can specify the organization the fleet should belong to using
 the `--organization` option. The organization's handle, not its name,
 should be provided. Organization handles can be listed with the
 `balena orgs` command.
 
-The application's default device type is specified with the `--type` option.
+The fleet's default device type is specified with the `--type` option.
 The `balena devices supported` command can be used to list the available
 device types.
 
@@ -378,155 +444,231 @@ type and organization.
 
 Examples:
 
-	$ balena app create MyApp
-	$ balena app create MyApp --organization mmyorg
-	$ balena app create MyApp -o myorg --type raspberry-pi
+	$ balena fleet create MyFleet
+	$ balena fleet create MyFleet --organization mmyorg
+	$ balena fleet create MyFleet -o myorg --type raspberry-pi
 
 ### Arguments
 
 #### NAME
 
-application name
+fleet name
 
 ### Options
 
 #### -o, --organization ORGANIZATION
 
-handle of the organization the application should belong to
+handle of the organization the fleet should belong to
 
 #### -t, --type TYPE
 
-application device type (Check available types with `balena devices supported`)
+fleet device type (Check available types with `balena devices supported`)
 
-## app purge &#60;application&#62;
+## app purge &#60;fleet&#62;
 
-Purge data from all devices belonging to an application.
-This will clear the application's /data directory.
+Renaming notice: The 'app' command was renamed to 'fleet', and 'app'
+is now an alias. THE ALIAS WILL BE REMOVED in the next major version
+of the balena CLI (so that a different 'app' command can be implemented
+in the future). Use 'fleet' instead of 'app' to avoid this warning.
+Find out more at: https://git.io/JRuZr
 
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the `balena apps` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.
-
-Examples:
-
-	$ balena app purge MyApp
-	$ balena app purge myorg/myapp
+For command usage, see 'balena help fleet purge'
 
 ### Arguments
 
-#### APPLICATION
+#### FLEET
 
-application name, slug (preferred), or numeric ID (deprecated)
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 ### Options
 
-## app rename &#60;application&#62; [newName]
+## fleet purge &#60;fleet&#62;
 
-Rename an application.
+Purge data from all devices belonging to a fleet.
+This will clear the fleet's '/data' directory.
+
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.
+
+Examples:
+
+	$ balena fleet purge MyFleet
+	$ balena fleet purge myorg/myfleet
+
+### Arguments
+
+#### FLEET
+
+fleet name, slug (preferred), or numeric ID (deprecated)
+
+### Options
+
+## app rename &#60;fleet&#62; [newName]
+
+Renaming notice: The 'app' command was renamed to 'fleet', and 'app'
+is now an alias. THE ALIAS WILL BE REMOVED in the next major version
+of the balena CLI (so that a different 'app' command can be implemented
+in the future). Use 'fleet' instead of 'app' to avoid this warning.
+Find out more at: https://git.io/JRuZr
+
+For command usage, see 'balena help fleet rename'
+
+### Arguments
+
+#### FLEET
+
+fleet name, slug (preferred), or numeric ID (deprecated)
+
+#### NEWNAME
+
+the new name for the fleet
+
+### Options
+
+## fleet rename &#60;fleet&#62; [newName]
+
+Rename a fleet.
 
 Note, if the `newName` parameter is omitted, it will be
 prompted for interactively.
 
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the `balena apps` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.
 
 Examples:
 
-	$ balena app rename OldName
-	$ balena app rename OldName NewName
-	$ balena app rename myorg/oldname NewName
+	$ balena fleet rename OldName
+	$ balena fleet rename OldName NewName
+	$ balena fleet rename myorg/oldname NewName
 
 ### Arguments
 
-#### APPLICATION
+#### FLEET
 
-application name, slug (preferred), or numeric ID (deprecated)
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 #### NEWNAME
 
-the new name for the application
+the new name for the fleet
 
 ### Options
 
-## app restart &#60;application&#62;
+## app restart &#60;fleet&#62;
 
-Restart all devices belonging to an application.
+Renaming notice: The 'app' command was renamed to 'fleet', and 'app'
+is now an alias. THE ALIAS WILL BE REMOVED in the next major version
+of the balena CLI (so that a different 'app' command can be implemented
+in the future). Use 'fleet' instead of 'app' to avoid this warning.
+Find out more at: https://git.io/JRuZr
 
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the `balena apps` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.
-
-Examples:
-
-	$ balena app restart MyApp
-	$ balena app restart myorg/myapp
+For command usage, see 'balena help fleet restart'
 
 ### Arguments
 
-#### APPLICATION
+#### FLEET
 
-application name, slug (preferred), or numeric ID (deprecated)
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 ### Options
 
-## app rm &#60;application&#62;
+## fleet restart &#60;fleet&#62;
 
-Permanently remove a balena application.
+Restart all devices belonging to a fleet.
+
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.
+
+Examples:
+
+	$ balena fleet restart MyFleet
+	$ balena fleet restart myorg/myfleet
+
+### Arguments
+
+#### FLEET
+
+fleet name, slug (preferred), or numeric ID (deprecated)
+
+### Options
+
+## app rm &#60;fleet&#62;
+
+Renaming notice: The 'app' command was renamed to 'fleet', and 'app'
+is now an alias. THE ALIAS WILL BE REMOVED in the next major version
+of the balena CLI (so that a different 'app' command can be implemented
+in the future). Use 'fleet' instead of 'app' to avoid this warning.
+Find out more at: https://git.io/JRuZr
+
+For command usage, see 'balena help fleet rm'
+
+### Arguments
+
+#### FLEET
+
+fleet name, slug (preferred), or numeric ID (deprecated)
+
+### Options
+
+#### -y, --yes
+
+answer "yes" to all questions (non interactive use)
+
+## fleet rm &#60;fleet&#62;
+
+Permanently remove a fleet.
 
 The --yes option may be used to avoid interactive confirmation.
 
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the `balena apps` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.
 
 Examples:
 
-	$ balena app rm MyApp
-	$ balena app rm MyApp --yes
-	$ balena app rm myorg/myapp
+	$ balena fleet rm MyFleet
+	$ balena fleet rm MyFleet --yes
+	$ balena fleet rm myorg/myfleet
 
 ### Arguments
 
-#### APPLICATION
+#### FLEET
 
-application name, slug (preferred), or numeric ID (deprecated)
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 ### Options
 
@@ -613,22 +755,21 @@ Examples:
 
 ## devices
 
-list all devices that belong to you.
+List all of your devices.
 
-You can filter the devices by application by using the `--application` option.
+Devices can be filtered by fleet with the `--fleet` option.
 
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the `balena apps` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.
 
 The --json option is recommended when scripting the output of this command,
 because field names are less likely to change in JSON format and because it
@@ -639,24 +780,31 @@ The 'jq' utility may be helpful for querying JSON fields in shell scripts
 Examples:
 
 	$ balena devices
-	$ balena devices --application MyApp
-	$ balena devices --app MyApp
-	$ balena devices -a MyApp
-	$ balena devices -a myorg/myapp
+	$ balena devices --fleet MyFleet
+	$ balena devices -f myorg/myfleet
 
 ### Options
 
 #### -a, --application APPLICATION
 
-application name, slug (preferred), or numeric ID (deprecated)
+DEPRECATED alias for -f, --fleet
 
 #### --app APP
 
-same as '--application'
+DEPRECATED alias for -f, --fleet
+
+#### -f, --fleet FLEET
+
+fleet name, slug (preferred), or numeric ID
 
 #### -j, --json
 
 produce JSON output instead of tabular output
+
+#### --v13
+
+enable selected balena CLI v13 pre-release features, like the renaming
+from "application" to "fleet" in command output
 
 ## devices supported
 
@@ -710,6 +858,11 @@ the device uuid
 
 ### Options
 
+#### --v13
+
+enable selected balena CLI v13 pre-release features, like the renaming
+from "application" to "fleet" in command output
+
 ## device deactivate &#60;uuid&#62;
 
 Deactivate a device.
@@ -752,40 +905,42 @@ the uuid of the device to identify
 
 ## device init
 
-Initialize a device by downloading the OS image of a certain application
+Initialize a device by downloading the OS image of the specified fleet
 and writing it to an SD Card.
 
-Note, if the application option is omitted it will be prompted
-for interactively.
+If the --fleet option is omitted, it will be prompted for interactively.
 
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the `balena apps` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.
 
 Examples:
 
 	$ balena device init
-	$ balena device init --application MyApp
-	$ balena device init -a myorg/myapp
+	$ balena device init --fleet MyFleet
+	$ balena device init -f myorg/myfleet
 
 ### Options
 
 #### -a, --application APPLICATION
 
-application name, slug (preferred), or numeric ID (deprecated)
+DEPRECATED alias for -f, --fleet
 
 #### --app APP
 
-same as '--application'
+DEPRECATED alias for -f, --fleet
+
+#### -f, --fleet FLEET
+
+fleet name, slug (preferred), or numeric ID
 
 #### -y, --yes
 
@@ -847,30 +1002,28 @@ output boolean indicating local mode status
 
 ## device move &#60;uuid(s)&#62;
 
-Move one or more devices to another application.
+Move one or more devices to another fleet.
 
-Note, if the application option is omitted it will be prompted
-for interactively.
+If --fleet is omitted, the fleet will be prompted for interactively.
 
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the `balena apps` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.
 
 Examples:
 
 	$ balena device move 7cf02a6
 	$ balena device move 7cf02a6,dc39e52
-	$ balena device move 7cf02a6 --application MyNewApp
-	$ balena device move 7cf02a6 -a myorg/mynewapp
+	$ balena device move 7cf02a6 --fleet MyNewFleet
+	$ balena device move 7cf02a6 -f myorg/mynewfleet
 
 ### Arguments
 
@@ -880,13 +1033,17 @@ comma-separated list (no blank spaces) of device UUIDs to be moved
 
 ### Options
 
-#### -a, --application APPLICATION
-
-application name, slug (preferred), or numeric ID (deprecated)
-
 #### --app APP
 
-same as '--application'
+DEPRECATED alias for -f, --fleet
+
+#### -a, --application APPLICATION
+
+DEPRECATED alias for -f, --fleet
+
+#### -f, --fleet FLEET
+
+fleet name, slug (preferred), or numeric ID
 
 ## device os-update &#60;uuid&#62;
 
@@ -960,8 +1117,8 @@ determine if public URL is enabled
 
 ## device purge &#60;uuid&#62;
 
-Purge application data from a device.
-This will clear the application's /data directory.
+Purge data from a device.
+This will clear the device's "/data" directory.
 
 Multiple devices may be specified with a comma-separated list
 of values (no spaces).
@@ -999,34 +1156,35 @@ the uuid of the device to reboot
 
 force action if the update lock is set
 
-## device register &#60;application&#62;
+## device register &#60;fleet&#62;
 
-Register a device to an application.
+Register a new device with a balena fleet.
 
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the `balena apps` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.
+If --uuid is not provided, a new UUID will be automatically assigned.
+
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.
 
 Examples:
 
-	$ balena device register MyApp
-	$ balena device register MyApp --uuid <uuid>
-	$ balena device register myorg/myapp --uuid <uuid>
+	$ balena device register MyFleet
+	$ balena device register MyFleet --uuid <uuid>
+	$ balena device register myorg/myfleet --uuid <uuid>
 
 ### Arguments
 
-#### APPLICATION
+#### FLEET
 
-application name, slug (preferred), or numeric ID (deprecated)
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 ### Options
 
@@ -1136,18 +1294,18 @@ force action if the update lock is set
 
 ## envs
 
-List the environment or configuration variables of an application, device or
-service, as selected by the respective command-line options. (A service is
-an application container in a "microservices" application.)
+List the environment or configuration variables of a fleet, device or
+service, as selected by the respective command-line options. (A service
+corresponds to a Docker image/container in a microservices fleet.)
 
-The results include application-wide (fleet), device-wide (multiple services on
-a device) and service-specific variables that apply to the selected application,
-device or service. It can be thought of as including "inherited" variables;
-for example, a service inherits device-wide variables, and a device inherits
-application-wide variables.
+The results include fleet-wide (multiple devices), device-specific (multiple
+services on a specific device) and service-specific variables that apply to the
+selected fleet, device or service. It can be thought of as including inherited
+variables; for example, a service inherits device-wide variables, and a device
+inherits fleet-wide variables.
 
 The printed output may include DEVICE and/or SERVICE columns to distinguish
-between application-wide, device-specific and service-specific variables.
+between fleet-wide, device-specific and service-specific variables.
 An asterisk in these columns indicates that the variable applies to
 "all devices" or "all services".
 
@@ -1161,33 +1319,37 @@ because the JSON format is less likely to change and it better represents data
 types like lists and empty strings. The 'jq' utility may be helpful in shell
 scripts (https://stedolan.github.io/jq/manual/). When --json is used, an empty
 JSON array ([]) is printed instead of an error message when no variables exist
-for the given query. When querying variables for a device, note that the
-application name may be null in JSON output (or 'N/A' in tabular output) if the
-application linked to the device is no longer accessible by the current user
-(for example, in case the current user has been removed from the application
-by its owner).
+for the given query. When querying variables for a device, note that the fleet
+name may be null in JSON output (or 'N/A' in tabular output) if the fleet that
+the device belonged to is no longer accessible by the current user (for example,
+in case the current user was removed from the fleet by the fleet's owner).
 
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the `balena apps` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.
+
+Renaming notice: The 'app' or 'application' words in table headers
+or in JSON object keys/properties will be replaced with 'fleet' in
+the next major version of the CLI (v13). The --v13 option may be used
+to enable the new names already now, and suppress a warning message.
+(The --v13 option will be silently ignored in CLI v13.)
+Find out more at: https://git.io/JRuZr
 
 Examples:
 
-	$ balena envs --application MyApp
-	$ balena envs --application myorg/myapp
-	$ balena envs --application MyApp --json
-	$ balena envs --application MyApp --service MyService
-	$ balena envs --application MyApp --service MyService
-	$ balena envs --application MyApp --config
+	$ balena envs --fleet myorg/myfleet
+	$ balena envs --fleet MyFleet --json
+	$ balena envs --fleet MyFleet --service MyService
+	$ balena envs --fleet MyFleet --service MyService
+	$ balena envs --fleet MyFleet --config
 	$ balena envs --device 7cf02a6
 	$ balena envs --device 7cf02a6 --json
 	$ balena envs --device 7cf02a6 --config --json
@@ -1201,7 +1363,11 @@ No-op since balena CLI v12.0.0.
 
 #### -a, --application APPLICATION
 
-application name, slug (preferred), or numeric ID (deprecated)
+DEPRECATED alias for -f, --fleet
+
+#### -f, --fleet FLEET
+
+fleet name, slug (preferred), or numeric ID
 
 #### -c, --config
 
@@ -1223,31 +1389,36 @@ produce verbose output
 
 service name
 
+#### --v13
+
+enable selected balena CLI v13 pre-release features, like the renaming
+from "application" to "fleet" in command output
+
 ## env rm &#60;id&#62;
 
-Remove a configuration or environment variable from an application, device
+Remove a configuration or environment variable from a fleet, device
 or service, as selected by command-line options.
 
 Variables are selected by their database ID (as reported by the 'balena envs'
 command) and one of six database "resource types":
 
-- application (fleet) environment variable
-- application (fleet) configuration variable (--config)
-- application (fleet) service variable (--service)
+- fleet environment variable
+- fleet configuration variable (--config)
+- fleet service variable (--service)
 - device environment variable (--device)
 - device configuration variable (--device --config)
 - device service variable (--device --service)
 
-The --device option selects a device-specific variable instead of an application
-(fleet) variable.
+The --device option selects a device-specific variable instead of a fleet
+variable.
 
 The --config option selects a configuration variable. Configuration variable
 names typically start with the 'BALENA_' or 'RESIN_' prefixes and are used to
 configure balena platform features.
 
 The --service option selects a service variable, which is an environment variable
-that applies to a specifc service (application container) in a microservices
-(multicontainer) application.
+that applies to a specifc service (container) in a microservices (multicontainer)
+fleet.
 
 The --service and --config options cannot be used together, but they can be
 used alongside the --device option to select a device-specific service or
@@ -1280,7 +1451,7 @@ select a configuration variable (may be used together with the --device option)
 
 #### -d, --device
 
-select a device-specific variable instead of an application (fleet) variable
+select a device-specific variable instead of a fleet variable
 
 #### -s, --service
 
@@ -1292,16 +1463,15 @@ do not prompt for confirmation before deleting the variable
 
 ## env add &#60;name&#62; [value]
 
-Add an environment or config variable to one or more applications, devices
-or services, as selected by the respective command-line options. Either the
---application or the --device option must be provided, and either may be be
+Add an environment or config variable to one or more fleets, devices or
+services, as selected by the respective command-line options. Either the
+--fleet or the --device option must be provided,  and either may be be
 used alongside the --service option to define a service-specific variable.
-(A service is an application container in a "microservices" application.)
+(A service corresponds to a Docker image/container in a microservices fleet.)
 When the --service option is used in conjunction with the --device option,
-the service variable applies to the selected device only. Otherwise, it
-applies to all devices of the selected application (i.e., the application's
-fleet). If the --service option is omitted, the variable applies to all
-services.
+the service variable applies to the selected device only.  Otherwise, it
+applies to all devices of the selected fleet. If the --service option is
+omitted, the variable applies to all services.
 
 If VALUE is omitted, the CLI will attempt to use the value of the environment
 variable of same name in the CLI process' environment. In this case, a warning
@@ -1313,30 +1483,28 @@ features and are treated specially by balenaOS and the balena supervisor
 running on devices. They are also stored differently in the balenaCloud API
 database. Configuration variables cannot be set for specific services,
 therefore the --service option cannot be used when the variable name starts
-with a reserved prefix. When defining custom application variables, please
-avoid the reserved prefixes.
+with a reserved prefix. When defining custom fleet variables, please avoid
+these reserved prefixes.
 
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the `balena apps` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.
 
 Examples:
 
-	$ balena env add TERM --application MyApp
-	$ balena env add EDITOR vim --application MyApp
-	$ balena env add EDITOR vim -a myorg/myapp
-	$ balena env add EDITOR vim --application MyApp,MyApp2
-	$ balena env add EDITOR vim --application MyApp --service MyService
-	$ balena env add EDITOR vim --application MyApp,MyApp2 --service MyService,MyService2
+	$ balena env add TERM --fleet MyFleet
+	$ balena env add EDITOR vim -f myorg/myfleet
+	$ balena env add EDITOR vim --fleet MyFleet,MyFleet2
+	$ balena env add EDITOR vim --fleet MyFleet --service MyService
+	$ balena env add EDITOR vim --fleet MyFleet,MyFleet2 --service MyService,MyService2
 	$ balena env add EDITOR vim --device 7cf02a6
 	$ balena env add EDITOR vim --device 7cf02a6,d6f1433
 	$ balena env add EDITOR vim --device 7cf02a6 --service MyService
@@ -1356,7 +1524,11 @@ variable value; if omitted, use value from this process' environment
 
 #### -a, --application APPLICATION
 
-application name, slug (preferred), or numeric ID (deprecated)
+DEPRECATED alias for -f, --fleet
+
+#### -f, --fleet FLEET
+
+fleet name, slug (preferred), or numeric ID
 
 #### -d, --device DEVICE
 
@@ -1372,29 +1544,29 @@ service name
 
 ## env rename &#60;id&#62; &#60;value&#62;
 
-Change the value of a configuration or environment variable for an application,
+Change the value of a configuration or environment variable for a fleet,
 device or service, as selected by command-line options.
 
 Variables are selected by their database ID (as reported by the 'balena envs'
 command) and one of six database "resource types":
 
-- application (fleet) environment variable
-- application (fleet) configuration variable (--config)
-- application (fleet) service variable (--service)
+- fleet environment variable
+- fleet configuration variable (--config)
+- fleet service variable (--service)
 - device environment variable (--device)
 - device configuration variable (--device --config)
 - device service variable (--device --service)
 
-The --device option selects a device-specific variable instead of an application
-(fleet) variable.
+The --device option selects a device-specific variable instead of a fleet
+variable.
 
 The --config option selects a configuration variable. Configuration variable
 names typically start with the 'BALENA_' or 'RESIN_' prefixes and are used to
 configure balena platform features.
 
 The --service option selects a service variable, which is an environment variable
-that applies to a specifc service (application container) in a microservices
-(multicontainer) application.
+that applies to a specifc service (container) in a microservices (multicontainer)
+fleet.
 
 The --service and --config options cannot be used together, but they can be
 used alongside the --device option to select a device-specific service or
@@ -1427,7 +1599,7 @@ select a configuration variable (may be used together with the --device option)
 
 #### -d, --device
 
-select a device-specific variable instead of an application (fleet) variable
+select a device-specific variable instead of a fleet variable
 
 #### -s, --service
 
@@ -1437,26 +1609,24 @@ select a service variable (may be used together with the --device option)
 
 ## tags
 
-List all tags and their values for a particular application,
-device or release.
+List all tags and their values for the specified fleet, device or release.
 
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the `balena apps` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.
 
 Examples:
 
-	$ balena tags --application MyApp
-	$ balena tags -a myorg/myapp
+	$ balena tags --fleet MyFleet
+	$ balena tags -f myorg/myfleet
 	$ balena tags --device 7cf02a6
 	$ balena tags --release 1234
 	$ balena tags --release b376b0e544e9429483b656490e5b9443b4349bd6
@@ -1465,11 +1635,15 @@ Examples:
 
 #### -a, --application APPLICATION
 
-application name, slug (preferred), or numeric ID (deprecated)
+DEPRECATED alias for -f, --fleet
 
 #### --app APP
 
-same as '--application'
+DEPRECATED alias for -f, --fleet
+
+#### -f, --fleet FLEET
+
+fleet name, slug (preferred), or numeric ID
 
 #### -d, --device DEVICE
 
@@ -1481,25 +1655,24 @@ release id
 
 ## tag rm &#60;tagKey&#62;
 
-Remove a tag from an application, device or release.
+Remove a tag from a fleet, device or release.
 
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the `balena apps` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.
 
 Examples:
 
-	$ balena tag rm myTagKey --application MyApp
-	$ balena tag rm myTagKey -a myorg/myapp
+	$ balena tag rm myTagKey --fleet MyFleet
+	$ balena tag rm myTagKey -f myorg/myfleet
 	$ balena tag rm myTagKey --device 7cf02a6
 	$ balena tag rm myTagKey --release 1234
 	$ balena tag rm myTagKey --release b376b0e544e9429483b656490e5b9443b4349bd6
@@ -1514,11 +1687,15 @@ the key string of the tag
 
 #### -a, --application APPLICATION
 
-application name, slug (preferred), or numeric ID (deprecated)
+DEPRECATED alias for -f, --fleet
 
 #### --app APP
 
-same as '--application'
+DEPRECATED alias for -f, --fleet
+
+#### -f, --fleet FLEET
+
+fleet name, slug (preferred), or numeric ID
 
 #### -d, --device DEVICE
 
@@ -1530,30 +1707,29 @@ release id
 
 ## tag set &#60;tagKey&#62; [value]
 
-Set a tag on an application, device or release.
+Set a tag on a fleet, device or release.
 
 You can optionally provide a value to be associated with the created
 tag, as an extra argument after the tag key. If a value isn't
 provided, a tag with an empty value is created.
 
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the `balena apps` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.
 
 Examples:
 
-	$ balena tag set mySimpleTag --application MyApp
-	$ balena tag set mySimpleTag -a myorg/myapp
-	$ balena tag set myCompositeTag myTagValue --application MyApp
+	$ balena tag set mySimpleTag --fleet MyFleet
+	$ balena tag set mySimpleTag -f myorg/myfleet
+	$ balena tag set myCompositeTag myTagValue --fleet MyFleet
 	$ balena tag set myCompositeTag myTagValue --device 7cf02a6
 	$ balena tag set myCompositeTag "my tag value with whitespaces" --device 7cf02a6
 	$ balena tag set myCompositeTag myTagValue --release 1234
@@ -1574,11 +1750,15 @@ the optional value associated with the tag
 
 #### -a, --application APPLICATION
 
-application name, slug (preferred), or numeric ID (deprecated)
+DEPRECATED alias for -f, --fleet
 
 #### --app APP
 
-same as '--application'
+DEPRECATED alias for -f, --fleet
+
+#### -f, --fleet FLEET
+
+fleet name, slug (preferred), or numeric ID
 
 #### -d, --device DEVICE
 
@@ -1597,7 +1777,7 @@ List balena commands, or get detailed help for a specific command.
 Examples:
 
 	$ balena help
-	$ balena help apps
+	$ balena help login
 	$ balena help os download
 
 ### Arguments
@@ -1823,14 +2003,14 @@ scan timeout in seconds
 
 produce JSON output instead of tabular output
 
-## ssh &#60;applicationOrDevice&#62; [service]
+## ssh &#60;fleetOrDevice&#62; [service]
 
 Start a shell on a local or remote device. If a service name is not provided,
 a shell will be opened on the host OS.
 
-If an application is provided, an interactive menu will be presented
-for the selection of an online device. A shell will then be opened for the
-host OS or service container of the chosen device.
+If a fleet is provided, an interactive menu will be presented for the selection
+of an online device. A shell will then be opened for the host OS or service
+container of the chosen device.
 
 For local devices, the IP address and .local domain name are supported.
 If the device is referenced by IP or `.local` address, the connection
@@ -1850,7 +2030,7 @@ support) please check:
 
 Examples:
 
-	$ balena ssh MyApp
+	$ balena ssh MyFleet
 	$ balena ssh f49cefd
 	$ balena ssh f49cefd my-service
 	$ balena ssh f49cefd --port <port>
@@ -1861,9 +2041,9 @@ Examples:
 
 ### Arguments
 
-#### APPLICATIONORDEVICE
+#### FLEETORDEVICE
 
-application name/slug/id, device uuid, or address of local device
+fleet name/slug/id, device uuid, or address of local device
 
 #### SERVICE
 
@@ -1888,7 +2068,7 @@ increase verbosity
 
 bypass global proxy configuration for the ssh connection
 
-## tunnel &#60;deviceOrApplication&#62;
+## tunnel &#60;deviceOrFleet&#62;
 
 Use this command to open local TCP ports that tunnel to listening sockets in a
 balenaOS device.
@@ -1913,7 +2093,7 @@ versions.
 Examples:
 
 	# map remote port 22222 to localhost:22222
-	$ balena tunnel myApp -p 22222
+	$ balena tunnel myFleet -p 22222
 	
 	# map remote port 22222 to localhost:222
 	$ balena tunnel 2ead211 -p 22222:222
@@ -1922,16 +2102,16 @@ Examples:
 	$ balena tunnel 1546690 -p 22222:0.0.0.0
 	
 	# map remote port 22222 to any address on your host machine, port 222
-	$ balena tunnel myApp -p 22222:0.0.0.0:222
+	$ balena tunnel myFleet -p 22222:0.0.0.0:222
 	
 	# multiple port tunnels can be specified at any one time
-	$ balena tunnel myApp -p 8080:3000 -p 8081:9000
+	$ balena tunnel myFleet -p 8080:3000 -p 8081:9000
 
 ### Arguments
 
-#### DEVICEORAPPLICATION
+#### DEVICEORFLEET
 
-device uuid or application name/slug/id
+device UUID or fleet name/slug/ID
 
 ### Options
 
@@ -2068,8 +2248,8 @@ path to output JSON file
 
 ## os configure &#60;image&#62;
 
-Configure a previously downloaded balenaOS image for a specific device type or
-balena application.
+Configure a previously downloaded balenaOS image for a specific device type
+or fleet.
 
 Configuration settings such as WiFi authentication will be taken from the
 following sources, in precedence order:
@@ -2077,8 +2257,8 @@ following sources, in precedence order:
 2. A given `config.json` file specified with the `--config` option.
 3. User input through interactive prompts (text menus).
 
-The --device-type option may be used to override the application's default
-device type, in case of an application with mixed device types.
+The --device-type option may be used to override the fleet's default device
+type, in case of a fleet with mixed device types.
 
 The --system-connection (-c) option can be used to inject NetworkManager connection
 profiles for additional network interfaces, such as cellular/GSM or additional
@@ -2090,18 +2270,17 @@ https://developer.gnome.org/NetworkManager/stable/ref-settings.html
 The --device-api-key option is deprecated and will be removed in a future release.
 A suitable key is automatically generated or fetched if this option is omitted.
 
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the `balena apps` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.
 
 Note: This command is currently not supported on Windows natively. Windows users
 are advised to install the Windows Subsystem for Linux (WSL) with Ubuntu, and use
@@ -2112,11 +2291,10 @@ Examples:
 
 	$ balena os configure ../path/rpi3.img --device 7cf02a6
 	$ balena os configure ../path/rpi3.img --device 7cf02a6 --device-api-key <existingDeviceKey>
-	$ balena os configure ../path/rpi3.img --app MyApp
-	$ balena os configure ../path/rpi3.img -a myorg/myapp
-	$ balena os configure ../path/rpi3.img --app MyApp --version 2.12.7
-	$ balena os configure ../path/rpi3.img --app MyFinApp --device-type raspberrypi3
-	$ balena os configure ../path/rpi3.img --app MyFinApp --device-type raspberrypi3 --config myWifiConfig.json
+	$ balena os configure ../path/rpi3.img --fleet myorg/myfleet
+	$ balena os configure ../path/rpi3.img --fleet MyFleet --version 2.12.7
+	$ balena os configure ../path/rpi3.img -f MyFinFleet --device-type raspberrypi3
+	$ balena os configure ../path/rpi3.img -f MyFinFleet --device-type raspberrypi3 --config myWifiConfig.json
 
 ### Arguments
 
@@ -2132,11 +2310,15 @@ ask advanced configuration questions (when in interactive mode)
 
 #### -a, --application APPLICATION
 
-application name, slug (preferred), or numeric ID (deprecated)
+DEPRECATED alias for -f, --fleet
 
 #### --app APP
 
-same as '--application'
+DEPRECATED alias for -f, --fleet
+
+#### -f, --fleet FLEET
+
+fleet name, slug (preferred), or numeric ID
 
 #### --config CONFIG
 
@@ -2144,7 +2326,7 @@ path to a pre-generated config.json file to be injected in the OS image
 
 #### --config-app-update-poll-interval CONFIG-APP-UPDATE-POLL-INTERVAL
 
-interval (in minutes) for the on-device balena supervisor periodic app update check
+supervisor cloud polling interval in minutes (e.g. for variable updates)
 
 #### --config-network CONFIG-NETWORK
 
@@ -2168,7 +2350,7 @@ custom device API key (DEPRECATED and only supported with balenaOS 2.0.3+)
 
 #### --device-type DEVICE-TYPE
 
-device type slug (e.g. "raspberrypi3") to override the application device type
+device type slug (e.g. "raspberrypi3") to override the fleet device type
 
 #### --initial-device-name INITIAL-DEVICE-NAME
 
@@ -2221,29 +2403,27 @@ answer "yes" to all questions (non interactive use)
 
 ## config generate
 
-Generate a config.json file for a device or application.
+Generate a config.json file for a device or fleet.
 
-Calling this command with the exact version number of the targeted image is required.
+The target balenaOS version must be specified with the --version option.
 
-This command is interactive by default, but you can do this automatically without interactivity
-by specifying an option for each question on the command line, if you know the questions
-that will be asked for the relevant device type.
+To configure an image for a fleet of mixed device types, use the --fleet option
+alongside the --deviceType option to specify the target device type.
 
-In case that you want to configure an image for an application with mixed device types,
-you can pass the --deviceType argument along with --application to specify the target device type.
+To avoid interactive questions, specify a command line option for each question that
+would otherwise be asked.
 
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the `balena apps` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.
 
 Examples:
 
@@ -2251,11 +2431,11 @@ Examples:
 	$ balena config generate --device 7cf02a6 --version 2.12.7 --generate-device-api-key
 	$ balena config generate --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>
 	$ balena config generate --device 7cf02a6 --version 2.12.7 --output config.json
-	$ balena config generate --app MyApp --version 2.12.7
-	$ balena config generate --app myorg/myapp --version 2.12.7
-	$ balena config generate --app MyApp --version 2.12.7 --deviceType fincm3
-	$ balena config generate --app MyApp --version 2.12.7 --output config.json
-	$ balena config generate --app MyApp --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1
+	$ balena config generate --fleet MyFleet --version 2.12.7
+	$ balena config generate --fleet myorg/myfleet --version 2.12.7
+	$ balena config generate --fleet MyFleet --version 2.12.7 --deviceType fincm3
+	$ balena config generate --fleet MyFleet --version 2.12.7 --output config.json
+	$ balena config generate --fleet MyFleet --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 15
 
 ### Options
 
@@ -2265,15 +2445,23 @@ a balenaOS version
 
 #### -a, --application APPLICATION
 
-application name, slug (preferred), or numeric ID (deprecated)
+DEPRECATED alias for -f, --fleet
 
 #### --app APP
 
-same as '--application'
+DEPRECATED alias for -f, --fleet
+
+#### --appUpdatePollInterval APPUPDATEPOLLINTERVAL
+
+supervisor cloud polling interval in minutes (e.g. for variable updates)
+
+#### -f, --fleet FLEET
+
+fleet name, slug (preferred), or numeric ID
 
 #### -d, --device DEVICE
 
-device uuid
+device UUID
 
 #### -k, --deviceApiKey DEVICEAPIKEY
 
@@ -2281,7 +2469,7 @@ custom device key - note that this is only supported on balenaOS 2.0.3+
 
 #### --deviceType DEVICETYPE
 
-device type slug
+device type slug (run 'balena devices supported' for possible values)
 
 #### --generate-device-api-key
 
@@ -2302,10 +2490,6 @@ the wifi ssid to use (used only if --network is set to wifi)
 #### --wifiKey WIFIKEY
 
 the wifi key to use (used only if --network is set to wifi)
-
-#### --appUpdatePollInterval APPUPDATEPOLLINTERVAL
-
-how frequently (in minutes) to poll for application updates
 
 ## config inject &#60;file&#62;
 
@@ -2412,30 +2596,29 @@ path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)
 
 ## preload &#60;image&#62;
 
-Preload a balena application release (app images/containers), and optionally
+Preload a release (service images/containers) from a balena fleet, and optionally
 a balenaOS splash screen, in a previously downloaded '.img' balenaOS image file
 in the local disk (a zip file is only accepted for the Intel Edison device type).
 After preloading, the balenaOS image file can be flashed to a device's SD card.
-When the device boots, it will not need to download the application, as it was
+When the device boots, it will not need to download the release, as it was
 preloaded. This is usually combined with release pinning
 (https://www.balena.io/docs/learn/deploy/release-strategy/release-policy/)
-to avoid the device dowloading a newer release straight away, if one is available.
+to avoid the device downloading a newer release straight away, if available.
 Check also the Preloading and Preregistering section of the balena CLI's advanced
 masterclass document:
 https://www.balena.io/docs/learn/more/masterclasses/advanced-cli/#5-preloading-and-preregistering
 
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the `balena apps` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.
 
 Note that the this command requires Docker to be installed, as further detailed
 in the balena CLI's installation instructions:
@@ -2447,8 +2630,8 @@ feature is used to "share" the image with a container that performs the preload.
 
 Examples:
 
-	$ balena preload balena.img --app MyApp --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0
-	$ balena preload balena.img --app myorg/myapp --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image image.png
+	$ balena preload balena.img --fleet MyFleet --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0
+	$ balena preload balena.img --fleet myorg/myfleet --splash-image image.png
 	$ balena preload balena.img
 
 ### Arguments
@@ -2461,13 +2644,20 @@ the image file path
 
 #### -a, --app APP
 
-application name, slug (preferred), or numeric ID (deprecated)
+DEPRECATED alias for -f, --fleet
+
+#### -f, --fleet FLEET
+
+fleet name, slug (preferred), or numeric ID
 
 #### -c, --commit COMMIT
 
-The commit hash for a specific application release to preload, use "current" to specify the current
-release (ignored if no appId is given). The current release is usually also the latest, but can be
-manually pinned using https://github.com/balena-io-projects/staged-releases .
+The commit hash of the release to preload. Use "current" to specify the current
+release (ignored if no appId is given). The current release is usually also the
+latest, but can be pinned to a specific release. See:  
+https://www.balena.io/docs/learn/deploy/release-strategy/release-policy/  
+https://www.balena.io/docs/learn/more/masterclasses/fleet-management/#63-pin-using-the-api  
+https://github.com/balena-io-examples/staged-releases
 
 #### -s, --splash-image SPLASH-IMAGE
 
@@ -2475,7 +2665,7 @@ path to a png image to replace the splash screen
 
 #### --dont-check-arch
 
-disables check for matching architecture in image and application
+disable architecture compatibility check between image and fleet
 
 #### -p, --pin-device-to-release
 
@@ -2518,9 +2708,9 @@ Docker host TLS key file
 
 # Push
 
-## push &#60;applicationOrDevice&#62;
+## push &#60;fleetOrDevice&#62;
 
-Start a build on the remote balenaCloud build servers, or a local mode device.
+Build release images on balenaCloud servers or on a local mode device.
 
 When building on the balenaCloud servers, the given source directory will be
 sent to the remote server. This can be used as a drop-in replacement for the
@@ -2569,12 +2759,12 @@ DOCKERIGNORE AND GITIGNORE FILES
 By default, the balena CLI will use a single ".dockerignore" file (if any) at
 the project root (--source directory) in order to decide which source files to
 exclude from the "build context" (tar stream) sent to balenaCloud, Docker
-daemon or balenaEngine. In a microservices (multicontainer) application, the
+daemon or balenaEngine.  In a microservices (multicontainer) fleet, the
 source directory is the directory that contains the "docker-compose.yml" file.
 
 The --multi-dockerignore (-m) option may be used with microservices
-(multicontainer) applications that define a docker-compose.yml file. When
-this option is used, each service subdirectory (defined by the `build` or
+(multicontainer) fleets that define a docker-compose.yml file. When this
+option is used, each service subdirectory (defined by the `build` or
 `build.context` service properties in the docker-compose.yml file) is
 filtered separately according to a .dockerignore file defined in the service
 subdirectory. If no .dockerignore file exists in a service subdirectory, then
@@ -2617,16 +2807,16 @@ adding counter patterns to the applicable .dockerignore file(s), for example
 - https://docs.docker.com/engine/reference/builder/#dockerignore-file
 - https://www.npmjs.com/package/@balena/dockerignore
 
-Note: the --service and --env flags must come after the applicationOrDevice
+Note: the --service and --env flags must come after the fleetOrDevice
 parameter, as per examples.
 
 Examples:
 
-	$ balena push myApp
-	$ balena push myApp --source <source directory>
-	$ balena push myApp -s <source directory>
-	$ balena push myApp --release-tag key1 "" key2 "value2 with spaces"
-	$ balena push myorg/myapp
+	$ balena push myFleet
+	$ balena push myFleet --source <source directory>
+	$ balena push myFleet -s <source directory>
+	$ balena push myFleet --release-tag key1 "" key2 "value2 with spaces"
+	$ balena push myorg/myfleet
 	
 	$ balena push 10.0.0.1
 	$ balena push 10.0.0.1 --source <source directory>
@@ -2639,9 +2829,9 @@ Examples:
 
 ### Arguments
 
-#### APPLICATIONORDEVICE
+#### FLEETORDEVICE
 
-application name or slug, or local device IP address or hostname
+fleet name or slug, or local device IP address or ".local" hostname
 
 ### Options
 
@@ -2697,7 +2887,7 @@ initial build has completed.
 When pushing to the cloud, this option will cause the build to start, then
 return execution back to the shell, with the status and release ID (if
 applicable).  When pushing to a local mode device, this option will cause
-the command to not tail application logs when the build has completed.
+the command to not tail logs when the build has completed.
 
 #### --service SERVICE
 
@@ -2744,7 +2934,7 @@ required until your project can be adapted.
 
 #### --release-tag RELEASE-TAG
 
-Set release tags if the push to a cloud application is successful. Multiple
+Set release tags if the image build is successful (balenaCloud only). Multiple
 arguments may be provided, alternating tag keys and values (see examples).
 Hint: Empty values may be specified with "" (bash, cmd.exe) or '""' (PowerShell).
 
@@ -2820,7 +3010,7 @@ the provided docker daemon in your development machine or balena device.
 (See also the `balena push` command for the option of building images in the
 balenaCloud build servers.)
 
-You must provide either an application or a device-type/architecture pair.
+You must specify either a fleet, or the device type and architecture.
 
 This command will look into the given source directory (or the current working
 directory if one isn't specified) for a docker-compose.yml file, and if found,
@@ -2855,12 +3045,12 @@ DOCKERIGNORE AND GITIGNORE FILES
 By default, the balena CLI will use a single ".dockerignore" file (if any) at
 the project root (--source directory) in order to decide which source files to
 exclude from the "build context" (tar stream) sent to balenaCloud, Docker
-daemon or balenaEngine. In a microservices (multicontainer) application, the
+daemon or balenaEngine.  In a microservices (multicontainer) fleet, the
 source directory is the directory that contains the "docker-compose.yml" file.
 
 The --multi-dockerignore (-m) option may be used with microservices
-(multicontainer) applications that define a docker-compose.yml file. When
-this option is used, each service subdirectory (defined by the `build` or
+(multicontainer) fleets that define a docker-compose.yml file. When this
+option is used, each service subdirectory (defined by the `build` or
 `build.context` service properties in the docker-compose.yml file) is
 filtered separately according to a .dockerignore file defined in the service
 subdirectory. If no .dockerignore file exists in a service subdirectory, then
@@ -2905,12 +3095,12 @@ adding counter patterns to the applicable .dockerignore file(s), for example
 
 Examples:
 
-	$ balena build --application myApp
-	$ balena build ./source/ --application myApp
+	$ balena build --fleet myFleet
+	$ balena build ./source/ --fleet myorg/myfleet
 	$ balena build --deviceType raspberrypi3 --arch armv7hf --emulated
-	$ balena build --docker /var/run/docker.sock --application myApp   # Linux, Mac
-	$ balena build --docker //./pipe/docker_engine --application myApp # Windows
-	$ balena build --dockerHost my.docker.host --dockerPort 2376 --ca ca.pem --key key.pem --cert cert.pem -a myApp
+	$ balena build --docker /var/run/docker.sock --fleet myFleet   # Linux, Mac
+	$ balena build --docker //./pipe/docker_engine --fleet myFleet # Windows
+	$ balena build --dockerHost my.docker.host --dockerPort 2376 --ca ca.pem --key key.pem --cert cert.pem -f myFleet
 
 ### Arguments
 
@@ -2930,7 +3120,11 @@ the type of device this build is for
 
 #### -a, --application APPLICATION
 
-name of the target balena application this build is for
+DEPRECATED alias for -f, --fleet
+
+#### -f, --fleet FLEET
+
+fleet name, slug (preferred), or numeric ID
 
 #### -e, --emulated
 
@@ -3030,12 +3224,12 @@ Docker host TLS certificate file
 
 Docker host TLS key file
 
-## deploy &#60;appName&#62; [image]
+## deploy &#60;fleet&#62; [image]
 
-Usage: `deploy <appName> ([image] | --build [--source build-dir])`
+Usage: `deploy <fleet> ([image] | --build [--source build-dir])`
 
-Use this command to deploy an image or a complete multicontainer project to an
-application, optionally building it first. The source images are searched for
+Use this command to deploy an image or a complete multicontainer project to a
+fleet, optionally building it first. The source images are searched for
 (and optionally built) using the docker daemon in your development machine or
 balena device. (See also the `balena push` command for the option of building
 the image in the balenaCloud build servers.)
@@ -3050,8 +3244,8 @@ If a compose file isn't found, the command will look for a Dockerfile[.template]
 file (or alternative Dockerfile specified with the `-f` option), and if yet
 that isn't found, it will try to generate one.
 
-To deploy to an app on which you're a collaborator, use
-`balena deploy <appOwnerUsername>/<appName>`.
+To deploy to a fleet where you are a collaborator, use fleet slug including the
+organization:  `balena deploy <organization>/<fleet>`.
 
 REGISTRY SECRETS  
 The --registry-secrets option specifies a JSON or YAML file containing private
@@ -3079,12 +3273,12 @@ DOCKERIGNORE AND GITIGNORE FILES
 By default, the balena CLI will use a single ".dockerignore" file (if any) at
 the project root (--source directory) in order to decide which source files to
 exclude from the "build context" (tar stream) sent to balenaCloud, Docker
-daemon or balenaEngine. In a microservices (multicontainer) application, the
+daemon or balenaEngine.  In a microservices (multicontainer) fleet, the
 source directory is the directory that contains the "docker-compose.yml" file.
 
 The --multi-dockerignore (-m) option may be used with microservices
-(multicontainer) applications that define a docker-compose.yml file. When
-this option is used, each service subdirectory (defined by the `build` or
+(multicontainer) fleets that define a docker-compose.yml file. When this
+option is used, each service subdirectory (defined by the `build` or
 `build.context` service properties in the docker-compose.yml file) is
 filtered separately according to a .dockerignore file defined in the service
 subdirectory. If no .dockerignore file exists in a service subdirectory, then
@@ -3129,16 +3323,16 @@ adding counter patterns to the applicable .dockerignore file(s), for example
 
 Examples:
 
-	$ balena deploy myApp
-	$ balena deploy myApp --build --source myBuildDir/
-	$ balena deploy myApp myApp/myImage
-	$ balena deploy myApp myApp/myImage --release-tag key1 "" key2 "value2 with spaces"
+	$ balena deploy myFleet
+	$ balena deploy myorg/myfleet --build --source myBuildDir/
+	$ balena deploy myorg/myfleet myRepo/myImage
+	$ balena deploy myFleet myRepo/myImage --release-tag key1 "" key2 "value2 with spaces"
 
 ### Arguments
 
-#### APPNAME
+#### FLEET
 
-the name of the application to deploy to
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 #### IMAGE
 
@@ -3266,42 +3460,41 @@ Docker host TLS key file
 
 ## join [deviceIpOrHostname]
 
-Move a local device to an application on another balena server, causing
+Move a local device to a fleet on another balena server, causing
 the device to "join" the new server. The device must be running balenaOS.
 
 For example, you could provision a device against an openBalena installation
 where you perform end-to-end tests and then move it to balenaCloud when it's
 ready for production.
 
-To move a device between applications on the same server, use the
+To move a device between fleets on the same server, use the
 `balena device move` command instead of `balena join`.
 
 If you don't specify a device hostname or IP, this command will automatically
 scan the local network for balenaOS devices and prompt you to select one
 from an interactive picker. This may require administrator/root privileges.
-Likewise, if the application flag is not provided then a picker will be shown.
+Likewise, if the fleet option is not provided then a picker will be shown.
 
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the `balena apps` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.
 
 Examples:
 
 	$ balena join
 	$ balena join balena.local
-	$ balena join balena.local --application MyApp
-	$ balena join balena.local -a myorg/myapp
+	$ balena join balena.local --fleet MyFleet
+	$ balena join balena.local -f myorg/myfleet
 	$ balena join 192.168.1.25
-	$ balena join 192.168.1.25 --application MyApp
+	$ balena join 192.168.1.25 --fleet MyFleet
 
 ### Arguments
 
@@ -3313,7 +3506,11 @@ the IP or hostname of device
 
 #### -a, --application APPLICATION
 
-application name, slug (preferred), or numeric ID (deprecated)
+DEPRECATED alias for -f, --fleet
+
+#### -f, --fleet FLEET
+
+fleet name, slug (preferred), or numeric ID
 
 #### -i, --pollInterval POLLINTERVAL
 
@@ -3321,7 +3518,7 @@ the interval in minutes to check for updates
 
 ## leave [deviceIpOrHostname]
 
-Remove a local device from its balena application, causing the device to
+Remove a local device from its balena fleet, causing the device to
 "leave" the server it is provisioned on. This effectively makes the device
 "unmanaged". The device must be running balenaOS.
 
@@ -3359,34 +3556,33 @@ Does not list system drives.
 
 ## support &#60;action&#62;
 
-Grant or revoke balena support agent access to devices and applications
+Grant or revoke balena support agent access to devices or fleets
 on balenaCloud. (This command does not apply to openBalena.)
 Access will be automatically revoked once the specified duration has elapsed.
 
 Duration defaults to 24h, but can be specified using --duration flag in days
 or hours, e.g. '12h', '2d'.
 
-Both --device and --application flags accept multiple values, specified as
+Both --device and --fleet flags accept multiple values, specified as
 a comma-separated list (with no spaces).
 
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the `balena apps` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the `balena fleets` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.
 
 Examples:
 
 	balena support enable --device ab346f,cd457a --duration 3d
-	balena support enable --application app3 --duration 12h
-	balena support disable -a myorg/myapp
+	balena support enable --fleet myFleet --duration 12h
+	balena support disable -f myorg/myfleet
 
 ### Arguments
 
@@ -3402,7 +3598,11 @@ comma-separated list (no spaces) of device UUIDs
 
 #### -a, --application APPLICATION
 
-comma-separated list (no spaces) of application names or org/name slugs
+DEPRECATED alias for -f, --fleet
+
+#### -f, --fleet FLEET
+
+comma-separated list (no spaces) of fleet names or org/name slugs
 
 #### -t, --duration DURATION
 

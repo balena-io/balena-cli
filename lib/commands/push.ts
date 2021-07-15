@@ -36,7 +36,7 @@ enum BuildTarget {
 }
 
 interface ArgsDef {
-	applicationOrDevice: string;
+	fleetOrDevice: string;
 }
 
 interface FlagsDef {
@@ -63,9 +63,9 @@ interface FlagsDef {
 
 export default class PushCmd extends Command {
 	public static description = stripIndent`
-		Start a build on the remote balenaCloud build servers, or a local mode device.
+		Build release images on balenaCloud servers or on a local mode device.
 
-		Start a build on the remote balenaCloud build servers, or a local mode device.
+		Build release images on balenaCloud servers or on a local mode device.
 
 		When building on the balenaCloud servers, the given source directory will be
 		sent to the remote server. This can be used as a drop-in replacement for the
@@ -92,16 +92,16 @@ export default class PushCmd extends Command {
 
 		${dockerignoreHelp.split('\n').join('\n\t\t')}
 
-		Note: the --service and --env flags must come after the applicationOrDevice
+		Note: the --service and --env flags must come after the fleetOrDevice
 		parameter, as per examples.
 	`;
 
 	public static examples = [
-		'$ balena push myApp',
-		'$ balena push myApp --source <source directory>',
-		'$ balena push myApp -s <source directory>',
-		'$ balena push myApp --release-tag key1 "" key2 "value2 with spaces"',
-		'$ balena push myorg/myapp',
+		'$ balena push myFleet',
+		'$ balena push myFleet --source <source directory>',
+		'$ balena push myFleet -s <source directory>',
+		'$ balena push myFleet --release-tag key1 "" key2 "value2 with spaces"',
+		'$ balena push myorg/myfleet',
 		'',
 		'$ balena push 10.0.0.1',
 		'$ balena push 10.0.0.1 --source <source directory>',
@@ -115,15 +115,15 @@ export default class PushCmd extends Command {
 
 	public static args = [
 		{
-			name: 'applicationOrDevice',
+			name: 'fleetOrDevice',
 			description:
-				'application name or slug, or local device IP address or hostname',
+				'fleet name or slug, or local device IP address or ".local" hostname',
 			required: true,
 			parse: lowercaseIfSlug,
 		},
 	];
 
-	public static usage = 'push <applicationOrDevice>';
+	public static usage = 'push <fleetOrDevice>';
 
 	public static flags: flags.Input<FlagsDef> = {
 		source: flags.string({
@@ -188,7 +188,7 @@ export default class PushCmd extends Command {
 				When pushing to the cloud, this option will cause the build to start, then
 				return execution back to the shell, with the status and release ID (if
 				applicable).  When pushing to a local mode device, this option will cause
-				the command to not tail application logs when the build has completed.`,
+				the command to not tail logs when the build has completed.`,
 			char: 'd',
 			default: false,
 		}),
@@ -260,7 +260,7 @@ export default class PushCmd extends Command {
 		}),
 		'release-tag': flags.string({
 			description: stripIndent`
-				Set release tags if the push to a cloud application is successful. Multiple
+				Set release tags if the image build is successful (balenaCloud only). Multiple
 				arguments may be provided, alternating tag keys and values (see examples).
 				Hint: Empty values may be specified with "" (bash, cmd.exe) or '""' (PowerShell).
 			`,
@@ -292,14 +292,12 @@ export default class PushCmd extends Command {
 			},
 		);
 
-		switch (await this.getBuildTarget(params.applicationOrDevice)) {
+		switch (await this.getBuildTarget(params.fleetOrDevice)) {
 			case BuildTarget.Cloud:
-				logger.logDebug(
-					`Pushing to cloud for application: ${params.applicationOrDevice}`,
-				);
+				logger.logDebug(`Pushing to cloud for fleet: ${params.fleetOrDevice}`);
 
 				await this.pushToCloud(
-					params.applicationOrDevice,
+					params.fleetOrDevice,
 					options,
 					sdk,
 					dockerfilePath,
@@ -308,11 +306,9 @@ export default class PushCmd extends Command {
 				break;
 
 			case BuildTarget.Device:
-				logger.logDebug(
-					`Pushing to local device: ${params.applicationOrDevice}`,
-				);
+				logger.logDebug(`Pushing to local device: ${params.fleetOrDevice}`);
 				await this.pushToDevice(
-					params.applicationOrDevice,
+					params.fleetOrDevice,
 					options,
 					dockerfilePath,
 					registrySecrets,
@@ -402,7 +398,7 @@ export default class PushCmd extends Command {
 		this.checkInvalidOptions(
 			remoteOnlyOptions,
 			options,
-			'is only valid when pushing to an application',
+			'is only valid when pushing to a fleet',
 		);
 
 		const deviceDeploy = await import('../utils/device/deploy');

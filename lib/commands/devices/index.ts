@@ -20,7 +20,15 @@ import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo, jsonInfo } from '../../utils/messages';
+import {
+	applicationIdInfo,
+	appToFleetFlagMsg,
+	appToFleetOutputMsg,
+	jsonInfo,
+	warnify,
+} from '../../utils/messages';
+import { isV13 } from '../../utils/version';
+
 import type { Application } from 'balena-sdk';
 
 interface ExtendedDevice extends DeviceWithDeviceType {
@@ -32,17 +40,19 @@ interface ExtendedDevice extends DeviceWithDeviceType {
 interface FlagsDef {
 	application?: string;
 	app?: string;
+	fleet?: string;
 	help: void;
 	json: boolean;
+	v13: boolean;
 }
 
 export default class DevicesCmd extends Command {
 	public static description = stripIndent`
 		List all devices.
 
-		list all devices that belong to you.
+		List all of your devices.
 
-		You can filter the devices by application by using the \`--application\` option.
+		Devices can be filtered by fleet with the \`--fleet\` option.
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
 
@@ -50,33 +60,51 @@ export default class DevicesCmd extends Command {
 	`;
 	public static examples = [
 		'$ balena devices',
-		'$ balena devices --application MyApp',
-		'$ balena devices --app MyApp',
-		'$ balena devices -a MyApp',
-		'$ balena devices -a myorg/myapp',
+		'$ balena devices --fleet MyFleet',
+		'$ balena devices -f myorg/myfleet',
 	];
 
 	public static usage = 'devices';
 
 	public static flags: flags.Input<FlagsDef> = {
-		application: cf.application,
-		app: cf.app,
+		...(isV13()
+			? {}
+			: {
+					application: {
+						...cf.application,
+						exclusive: ['app', 'fleet', 'v13'],
+					},
+					app: { ...cf.app, exclusive: ['application', 'fleet', 'v13'] },
+			  }),
+		fleet: { ...cf.fleet, exclusive: ['app', 'application'] },
 		json: cf.json,
 		help: cf.help,
+		v13: cf.v13,
 	};
 
 	public static primary = true;
 
 	public static authenticated = true;
 
+	protected useAppWord = false;
+	protected hasWarned = false;
+
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(DevicesCmd);
+		this.useAppWord = !options.fleet && !options.v13 && !isV13();
 
 		const balena = getBalenaSdk();
 
+		if (
+			(options.application || options.app) &&
+			!options.json &&
+			process.stderr.isTTY
+		) {
+			this.hasWarned = true;
+			console.error(warnify(appToFleetFlagMsg));
+		}
 		// Consolidate application options
-		options.application = options.application || options.app;
-		delete options.app;
+		options.application ||= options.app || options.fleet;
 
 		let devices;
 
@@ -106,28 +134,32 @@ export default class DevicesCmd extends Command {
 			return device;
 		});
 
+		const jName = this.useAppWord ? 'application_name' : 'fleet_name';
+		const tName = this.useAppWord ? 'APPLICATION NAME' : 'FLEET';
 		const fields = [
 			'id',
 			'uuid',
 			'device_name',
 			'device_type',
-			'application_name',
+			options.json
+				? `application_name => ${jName}`
+				: `application_name => ${tName}`,
 			'status',
 			'is_online',
 			'supervisor_version',
 			'os_version',
 			'dashboard_url',
 		];
-		const _ = await import('lodash');
+
 		if (options.json) {
-			console.log(
-				JSON.stringify(
-					devices.map((device) => _.pick(device, fields)),
-					null,
-					4,
-				),
-			);
+			const { pickAndRename } = await import('../../utils/helpers');
+			const mapped = devices.map((device) => pickAndRename(device, fields));
+			console.log(JSON.stringify(mapped, null, 4));
 		} else {
+			if (!this.hasWarned && this.useAppWord && process.stderr.isTTY) {
+				console.error(warnify(appToFleetOutputMsg));
+			}
+			const _ = await import('lodash');
 			console.log(
 				getVisuals().table.horizontal(
 					devices.map((dev) => _.mapValues(dev, (val) => val ?? 'N/a')),

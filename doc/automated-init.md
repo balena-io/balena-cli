@@ -7,7 +7,7 @@ It requires collecting some preliminary information _once_.
 The final command to provision the device looks like this:
 
 ```bash
-balena device init --app APP_ID --os-version OS_VERSION --drive DRIVE --config CONFIG_FILE --yes
+balena device init --fleet FLEET_ID --os-version OS_VERSION --drive DRIVE --config CONFIG_FILE --yes
 
 ```
 
@@ -24,7 +24,7 @@ But before you can run it you need to collect the parameters and build the confi
 	```
 	and find the _slug_ for your target device type, like _raspberrypi3_.
 
-1. `APP_ID`. Create an application (`balena app create APP_NAME --type DEVICE_TYPE`) or find an existing one (`balena apps`) and notice its ID.
+1. `FLEET_ID`. Create a fleet (`balena fleet create FLEET_NAME --type DEVICE_TYPE`) or find an existing one (`balena fleets`) and notice its ID.
 
 1. `OS_VERSION`. Run
 	```bash

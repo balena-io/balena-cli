@@ -24,6 +24,8 @@ import {
 } from '../errors';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
+import { lowercaseIfSlug } from '../utils/normalization';
+
 import type { Server, Socket } from 'net';
 
 interface FlagsDef {
@@ -32,7 +34,7 @@ interface FlagsDef {
 }
 
 interface ArgsDef {
-	deviceOrApplication: string;
+	deviceOrFleet: string;
 }
 
 export default class TunnelCmd extends Command {
@@ -62,7 +64,7 @@ export default class TunnelCmd extends Command {
 
 	public static examples = [
 		'# map remote port 22222 to localhost:22222',
-		'$ balena tunnel myApp -p 22222',
+		'$ balena tunnel myFleet -p 22222',
 		'',
 		'# map remote port 22222 to localhost:222',
 		'$ balena tunnel 2ead211 -p 22222:222',
@@ -71,21 +73,22 @@ export default class TunnelCmd extends Command {
 		'$ balena tunnel 1546690 -p 22222:0.0.0.0',
 		'',
 		'# map remote port 22222 to any address on your host machine, port 222',
-		'$ balena tunnel myApp -p 22222:0.0.0.0:222',
+		'$ balena tunnel myFleet -p 22222:0.0.0.0:222',
 		'',
 		'# multiple port tunnels can be specified at any one time',
-		'$ balena tunnel myApp -p 8080:3000 -p 8081:9000',
+		'$ balena tunnel myFleet -p 8080:3000 -p 8081:9000',
 	];
 
 	public static args = [
 		{
-			name: 'deviceOrApplication',
-			description: 'device uuid or application name/slug/id',
+			name: 'deviceOrFleet',
+			description: 'device UUID or fleet name/slug/ID',
 			required: true,
+			parse: lowercaseIfSlug,
 		},
 	];
 
-	public static usage = 'tunnel <deviceOrApplication>';
+	public static usage = 'tunnel <deviceOrFleet>';
 
 	public static flags: flags.Input<FlagsDef> = {
 		port: flags.string({
@@ -132,10 +135,7 @@ export default class TunnelCmd extends Command {
 
 		// Ascertain device uuid
 		const { getOnlineTargetDeviceUuid } = await import('../utils/patterns');
-		const uuid = await getOnlineTargetDeviceUuid(
-			sdk,
-			params.deviceOrApplication,
-		);
+		const uuid = await getOnlineTargetDeviceUuid(sdk, params.deviceOrFleet);
 		const device = await sdk.models.device.get(uuid);
 		logger.logInfo(`Opening a tunnel to ${device.uuid}...`);
 

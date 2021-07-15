@@ -21,9 +21,11 @@ import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { applicationIdInfo } from '../utils/messages';
 import { parseAsLocalHostnameOrIp } from '../utils/validation';
+import { isV13 } from '../utils/version';
 
 interface FlagsDef {
 	application?: string;
+	fleet?: string;
 	pollInterval?: number;
 	help?: void;
 }
@@ -34,22 +36,22 @@ interface ArgsDef {
 
 export default class JoinCmd extends Command {
 	public static description = stripIndent`
-		Move a local device to an application on another balena server.
+		Move a local device to a fleet on another balena server.
 
-		Move a local device to an application on another balena server, causing
+		Move a local device to a fleet on another balena server, causing
 		the device to "join" the new server. The device must be running balenaOS.
 
 		For example, you could provision a device against an openBalena installation
 		where you perform end-to-end tests and then move it to balenaCloud when it's
 		ready for production.
 
-		To move a device between applications on the same server, use the
+		To move a device between fleets on the same server, use the
 		\`balena device move\` command instead of \`balena join\`.
 
 		If you don't specify a device hostname or IP, this command will automatically
 		scan the local network for balenaOS devices and prompt you to select one
 		from an interactive picker. This may require administrator/root privileges.
-		Likewise, if the application flag is not provided then a picker will be shown.
+		Likewise, if the fleet option is not provided then a picker will be shown.
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
 	`;
@@ -57,10 +59,10 @@ export default class JoinCmd extends Command {
 	public static examples = [
 		'$ balena join',
 		'$ balena join balena.local',
-		'$ balena join balena.local --application MyApp',
-		'$ balena join balena.local -a myorg/myapp',
+		'$ balena join balena.local --fleet MyFleet',
+		'$ balena join balena.local -f myorg/myfleet',
 		'$ balena join 192.168.1.25',
-		'$ balena join 192.168.1.25 --application MyApp',
+		'$ balena join 192.168.1.25 --fleet MyFleet',
 	];
 
 	public static args = [
@@ -75,7 +77,8 @@ export default class JoinCmd extends Command {
 	public static usage = 'join [deviceIpOrHostname]';
 
 	public static flags: flags.Input<FlagsDef> = {
-		application: cf.application,
+		...(isV13() ? {} : { application: cf.application }),
+		fleet: cf.fleet,
 		pollInterval: flags.integer({
 			description: 'the interval in minutes to check for updates',
 			char: 'i',
@@ -98,7 +101,7 @@ export default class JoinCmd extends Command {
 			logger,
 			sdk,
 			params.deviceIpOrHostname,
-			options.application,
+			options.application || options.fleet,
 			options.pollInterval,
 		);
 	}

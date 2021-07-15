@@ -37,9 +37,9 @@ interface ArgsDef {
 
 export default class EnvRmCmd extends Command {
 	public static description = stripIndent`
-		Remove a config or env var from an application, device or service.
+		Remove a config or env var from a fleet, device or service.
 
-		Remove a configuration or environment variable from an application, device
+		Remove a configuration or environment variable from a fleet, device
 		or service, as selected by command-line options.
 
 		${ec.rmRenameHelp.split('\n').join('\n\t\t')}

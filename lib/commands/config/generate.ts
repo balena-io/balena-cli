@@ -19,13 +19,19 @@ import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getCliForm, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import {
+	applicationIdInfo,
+	appToFleetFlagMsg,
+	warnify,
+} from '../../utils/messages';
+import { isV13 } from '../../utils/version';
 import type { PineDeferred } from 'balena-sdk';
 
 interface FlagsDef {
 	version: string; // OS version
 	application?: string;
 	app?: string; // application alias
+	fleet?: string;
 	device?: string;
 	deviceApiKey?: string;
 	deviceType?: string;
@@ -43,16 +49,15 @@ export default class ConfigGenerateCmd extends Command {
 	public static description = stripIndent`
 		Generate a config.json file.
 
-		Generate a config.json file for a device or application.
+		Generate a config.json file for a device or fleet.
 
-		Calling this command with the exact version number of the targeted image is required.
+		The target balenaOS version must be specified with the --version option.
 
-		This command is interactive by default, but you can do this automatically without interactivity
-		by specifying an option for each question on the command line, if you know the questions
-		that will be asked for the relevant device type.
+		To configure an image for a fleet of mixed device types, use the --fleet option
+		alongside the --deviceType option to specify the target device type.
 
-		In case that you want to configure an image for an application with mixed device types,
-		you can pass the --deviceType argument along with --application to specify the target device type.
+		To avoid interactive questions, specify a command line option for each question that
+		would otherwise be asked.
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
 	`;
@@ -62,11 +67,11 @@ export default class ConfigGenerateCmd extends Command {
 		'$ balena config generate --device 7cf02a6 --version 2.12.7 --generate-device-api-key',
 		'$ balena config generate --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>',
 		'$ balena config generate --device 7cf02a6 --version 2.12.7 --output config.json',
-		'$ balena config generate --app MyApp --version 2.12.7',
-		'$ balena config generate --app myorg/myapp --version 2.12.7',
-		'$ balena config generate --app MyApp --version 2.12.7 --deviceType fincm3',
-		'$ balena config generate --app MyApp --version 2.12.7 --output config.json',
-		'$ balena config generate --app MyApp --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1',
+		'$ balena config generate --fleet MyFleet --version 2.12.7',
+		'$ balena config generate --fleet myorg/myfleet --version 2.12.7',
+		'$ balena config generate --fleet MyFleet --version 2.12.7 --deviceType fincm3',
+		'$ balena config generate --fleet MyFleet --version 2.12.7 --output config.json',
+		'$ balena config generate --fleet MyFleet --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 15',
 	];
 
 	public static usage = 'config generate';
@@ -76,20 +81,28 @@ export default class ConfigGenerateCmd extends Command {
 			description: 'a balenaOS version',
 			required: true,
 		}),
-		application: { ...cf.application, exclusive: ['app', 'device'] },
-		app: { ...cf.app, exclusive: ['application', 'device'] },
-		device: flags.string({
-			description: 'device uuid',
-			char: 'd',
-			exclusive: ['application', 'app'],
-		}),
+		...(isV13()
+			? {}
+			: {
+					application: {
+						...cf.application,
+						exclusive: ['app', 'fleet', 'device'],
+					},
+					app: { ...cf.app, exclusive: ['application', 'fleet', 'device'] },
+					appUpdatePollInterval: flags.string({
+						description: 'DEPRECATED alias for --updatePollInterval',
+					}),
+			  }),
+		fleet: { ...cf.fleet, exclusive: ['application', 'app', 'device'] },
+		device: { ...cf.device, exclusive: ['application', 'app', 'fleet'] },
 		deviceApiKey: flags.string({
 			description:
 				'custom device key - note that this is only supported on balenaOS 2.0.3+',
 			char: 'k',
 		}),
 		deviceType: flags.string({
-			description: 'device type slug',
+			description:
+				"device type slug (run 'balena devices supported' for possible values)",
 		}),
 		'generate-device-api-key': flags.boolean({
 			description: 'generate a fresh device key for the device',
@@ -113,7 +126,7 @@ export default class ConfigGenerateCmd extends Command {
 		}),
 		appUpdatePollInterval: flags.string({
 			description:
-				'how frequently (in minutes) to poll for application updates',
+				'supervisor cloud polling interval in minutes (e.g. for variable updates)',
 		}),
 		help: cf.help,
 	};
@@ -143,8 +156,8 @@ export default class ConfigGenerateCmd extends Command {
 			if (!rawDevice.belongs_to__application) {
 				const { ExpectedError } = await import('../../errors');
 				throw new ExpectedError(stripIndent`
-					Device ${options.device} does not appear to belong to an accessible application.
-					Try with a different device, or use '--application' instead of '--device'.`);
+					Device ${options.device} does not appear to belong to an accessible fleet.
+					Try with a different device, or use '--fleet' instead of '--device'.`);
 			}
 			device = rawDevice as DeviceWithDeviceType & {
 				belongs_to__application: PineDeferred;
@@ -177,7 +190,7 @@ export default class ConfigGenerateCmd extends Command {
 				!helpers.areDeviceTypesCompatible(appDeviceManifest, deviceManifest)
 			) {
 				throw new balena.errors.BalenaInvalidDeviceType(
-					`Device type ${options.deviceType} is incompatible with application ${options.application}`,
+					`Device type ${options.deviceType} is incompatible with fleet ${options.application}`,
 				);
 			}
 		}
@@ -218,7 +231,7 @@ export default class ConfigGenerateCmd extends Command {
 	}
 
 	protected readonly missingDeviceOrAppMessage = stripIndent`
-		Either a device or an application must be specified.
+		Either a device or a fleet must be specified.
 
 		See the help page for examples:
 
@@ -226,13 +239,16 @@ export default class ConfigGenerateCmd extends Command {
   	`;
 
 	protected readonly deviceTypeNotAllowedMessage =
-		'The --deviceType option can only be used alongside the --application option';
+		'The --deviceType option can only be used alongside the --fleet option';
 
 	protected async validateOptions(options: FlagsDef) {
 		const { ExpectedError } = await import('../../errors');
 
+		if ((options.application || options.app) && process.stderr.isTTY) {
+			console.error(warnify(appToFleetFlagMsg));
+		}
+		options.application ||= options.app || options.fleet;
 		// Prefer options.application over options.app
-		options.application = options.application || options.app;
 		delete options.app;
 
 		if (options.device == null && options.application == null) {

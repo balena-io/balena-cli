@@ -31,9 +31,9 @@ interface ArgsDef {
 
 export default class LeaveCmd extends Command {
 	public static description = stripIndent`
-		Remove a local device from its balena application.
+		Remove a local device from its balena fleet.
 
-		Remove a local device from its balena application, causing the device to
+		Remove a local device from its balena fleet, causing the device to
 		"leave" the server it is provisioned on. This effectively makes the device
 		"unmanaged". The device must be running balenaOS.
 

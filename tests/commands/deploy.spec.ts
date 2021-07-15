@@ -28,6 +28,7 @@ import { cleanOutput, runCommand, switchSentry } from '../helpers';
 import {
 	ExpectedTarStreamFiles,
 	ExpectedTarStreamFilesByService,
+	getDockerignoreWarn1,
 } from '../projects';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
@@ -124,16 +125,10 @@ describe('balena deploy', function () {
 			...commonResponseLines[responseFilename],
 			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
 			`[Info] Creating default composition with source: "${projectPath}"`,
-			...[
-				`[Warn] ${hr}`,
-				'[Warn] The following .dockerignore file(s) will not be used:',
-				`[Warn] * ${path.join(projectPath, 'src', '.dockerignore')}`,
-				'[Warn] By default, only one .dockerignore file at the source folder (project root)',
-				'[Warn] is used. Microservices (multicontainer) applications may use a separate',
-				'[Warn] .dockerignore file for each service with the --multi-dockerignore (-m) option.',
-				'[Warn] See "balena help deploy" for more details.',
-				`[Warn] ${hr}`,
-			],
+			...getDockerignoreWarn1(
+				[path.join(projectPath, 'src', '.dockerignore')],
+				'deploy',
+			),
 		];
 		if (isWindows) {
 			const fname = path.join(projectPath, 'src', 'windows-crlf.sh');

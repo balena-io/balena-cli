@@ -64,8 +64,8 @@ export const getDeviceAndAppFromUUID = _.memoize(
 		);
 		if (app == null) {
 			throw new ExpectedError(stripIndent`
-				Unable to access the application that device ${deviceUUID} belongs to.
-				Hint: check whether the application owner might have withdrawn access to it.
+				Unable to access the fleet that device ${deviceUUID} belongs to.
+				Hint: check whether the fleet owner withdrew access to it.
 			`);
 		}
 		return [device, app];

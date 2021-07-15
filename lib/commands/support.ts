@@ -20,10 +20,16 @@ import Command from '../command';
 import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getCliUx, stripIndent } from '../utils/lazy';
-import { applicationIdInfo } from '../utils/messages';
+import {
+	applicationIdInfo,
+	appToFleetFlagMsg,
+	warnify,
+} from '../utils/messages';
+import { isV13 } from '../utils/version';
 
 interface FlagsDef {
 	application?: string;
+	fleet?: string;
 	device?: string;
 	duration?: string;
 	help: void;
@@ -35,16 +41,16 @@ interface ArgsDef {
 
 export default class SupportCmd extends Command {
 	public static description = stripIndent`
-		Grant or revoke support access for devices and applications.
+		Grant or revoke support access for devices or fleets.
 
-		Grant or revoke balena support agent access to devices and applications
+		Grant or revoke balena support agent access to devices or fleets
 		on balenaCloud. (This command does not apply to openBalena.)
 		Access will be automatically revoked once the specified duration has elapsed.
 
 		Duration defaults to 24h, but can be specified using --duration flag in days
 		or hours, e.g. '12h', '2d'.
 
-		Both --device and --application flags accept multiple values, specified as
+		Both --device and --fleet flags accept multiple values, specified as
 		a comma-separated list (with no spaces).
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
@@ -52,8 +58,8 @@ export default class SupportCmd extends Command {
 
 	public static examples = [
 		'balena support enable --device ab346f,cd457a --duration 3d',
-		'balena support enable --application app3 --duration 12h',
-		'balena support disable -a myorg/myapp',
+		'balena support enable --fleet myFleet --duration 12h',
+		'balena support disable -f myorg/myfleet',
 	];
 
 	public static args = [
@@ -71,10 +77,11 @@ export default class SupportCmd extends Command {
 			description: 'comma-separated list (no spaces) of device UUIDs',
 			char: 'd',
 		}),
-		application: {
-			...cf.application,
+		...(isV13() ? {} : { application: cf.application }),
+		fleet: {
+			...cf.fleet,
 			description:
-				'comma-separated list (no spaces) of application names or org/name slugs',
+				'comma-separated list (no spaces) of fleet names or org/name slugs',
 		},
 		duration: flags.string({
 			description:
@@ -91,6 +98,11 @@ export default class SupportCmd extends Command {
 			SupportCmd,
 		);
 
+		if (options.application && process.stderr.isTTY) {
+			console.error(warnify(appToFleetFlagMsg));
+		}
+		options.application ||= options.fleet;
+
 		const balena = getBalenaSdk();
 		const ux = getCliUx();
 
@@ -98,9 +110,7 @@ export default class SupportCmd extends Command {
 
 		// Validation
 		if (!options.device && !options.application) {
-			throw new ExpectedError(
-				'At least one device or application must be specified',
-			);
+			throw new ExpectedError('At least one device or fleet must be specified');
 		}
 
 		if (options.duration != null && !enabling) {
@@ -135,10 +145,10 @@ export default class SupportCmd extends Command {
 		// Process applications
 		for (const appName of appNames) {
 			if (enabling) {
-				ux.action.start(`${enablingMessage} application ${appName}`);
+				ux.action.start(`${enablingMessage} fleet ${appName}`);
 				await balena.models.application.grantSupportAccess(appName, expiryTs);
 			} else if (params.action === 'disable') {
-				ux.action.start(`${disablingMessage} application ${appName}`);
+				ux.action.start(`${disablingMessage} fleet ${appName}`);
 				await balena.models.application.revokeSupportAccess(appName);
 			}
 			ux.action.stop();

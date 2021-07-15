@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2020 Balena Ltd.
+ * Copyright 2021 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { lowercaseIfSlug } from './normalization';
 
-export const fleetRequired = {
-	name: 'fleet',
-	description: 'fleet name, slug (preferred), or numeric ID (deprecated)',
-	required: true,
-	parse: lowercaseIfSlug,
-};
+import { FleetPurgeCmd } from '../app/purge';
+
+export default FleetPurgeCmd;
