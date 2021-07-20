@@ -36,7 +36,6 @@ import {
 	ComposeCliFlags,
 	ComposeOpts,
 	ComposeProject,
-	Release,
 	TaggedImage,
 	TarDirectoryOptions,
 } from './compose-types';
@@ -1310,20 +1309,13 @@ export async function deployProject(
 
 	const prefix = getChalk().cyan('[Info]') + '    ';
 	const spinner = createSpinner();
-	let runloop = runSpinner(tty, spinner, `${prefix}Creating release...`);
 
-	let $release: Release;
-	try {
-		$release = await createRelease(
-			apiEndpoint,
-			auth,
-			userId,
-			appId,
-			composition,
-		);
-	} finally {
-		runloop.end();
-	}
+	const $release = await runSpinner(
+		tty,
+		spinner,
+		`${prefix}Creating release...`,
+		() => createRelease(apiEndpoint, auth, userId, appId, composition),
+	);
 	const { client: pineClient, release, serviceImages } = $release;
 
 	try {
@@ -1355,15 +1347,12 @@ export async function deployProject(
 			);
 		}
 	} finally {
-		runloop = runSpinner(tty, spinner, `${prefix}Saving release...`);
-		release.end_timestamp = new Date();
-		if (release.id != null) {
-			try {
+		await runSpinner(tty, spinner, `${prefix}Saving release...`, async () => {
+			release.end_timestamp = new Date();
+			if (release.id != null) {
 				await releaseMod.updateRelease(pineClient, release.id, release);
-			} finally {
-				runloop.end();
 			}
-		}
+		});
 	}
 	return release;
 }
@@ -1374,21 +1363,26 @@ export function createSpinner() {
 	return () => chars[index++ % chars.length];
 }
 
-function runSpinner(
+async function runSpinner<T>(
 	tty: ReturnType<typeof import('./tty')>,
 	spinner: () => string,
 	msg: string,
-) {
+	fn: () => Promise<T>,
+): Promise<T> {
 	const runloop = createRunLoop(function () {
 		tty.clearLine();
 		tty.writeLine(`${msg} ${spinner()}`);
-		return tty.cursorUp();
+		tty.cursorUp();
 	});
 	runloop.onEnd = function () {
 		tty.clearLine();
-		return tty.writeLine(msg);
+		tty.writeLine(msg);
 	};
-	return runloop;
+	try {
+		return await fn();
+	} finally {
+		runloop.end();
+	}
 }
 
 export function createRunLoop(tick: (...args: any[]) => void) {
