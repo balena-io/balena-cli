@@ -39,9 +39,8 @@ interface TestOutput {
  * @param testOutput
  */
 function filterCliOutputForTests(testOutput: TestOutput): TestOutput {
-	const {
-		matchesNodeEngineVersionWarn,
-	} = require('../automation/utils') as typeof import('../automation/utils');
+	const { matchesNodeEngineVersionWarn } =
+		require('../automation/utils') as typeof import('../automation/utils');
 	return {
 		exitCode: testOutput.exitCode,
 		err: testOutput.err.filter(

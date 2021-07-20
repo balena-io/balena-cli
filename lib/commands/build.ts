@@ -111,8 +111,6 @@ ${dockerignoreHelp}
 
 		await Command.checkLoggedInIf(!!options.application);
 
-		// compositions with many services trigger misleading warnings
-		// @ts-ignore editing property that isn't typed but does exist
 		(await import('events')).defaultMaxListeners = 1000;
 
 		const sdk = getBalenaSdk();

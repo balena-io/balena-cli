@@ -42,15 +42,17 @@ import {
 import type { DeviceInfo } from './device/api';
 import { getBalenaSdk, getChalk, stripIndent } from './lazy';
 import Logger = require('./logger');
+import { exists } from './which';
 
 /**
  * Given an array representing the raw `--release-tag` flag of the deploy and
  * push commands, parse it into separate arrays of release tag keys and values.
  * The returned keys and values arrays are guaranteed to be of the same length.
  */
-export function parseReleaseTagKeysAndValues(
-	releaseTags: string[],
-): { releaseTagKeys: string[]; releaseTagValues: string[] } {
+export function parseReleaseTagKeysAndValues(releaseTags: string[]): {
+	releaseTagKeys: string[];
+	releaseTagValues: string[];
+} {
 	if (releaseTags.length === 0) {
 		return { releaseTagKeys: [], releaseTagValues: [] };
 	}
@@ -96,15 +98,6 @@ export async function applyReleaseTagKeysAndValues(
 		),
 	);
 }
-
-const exists = async (filename: string) => {
-	try {
-		await fs.access(filename);
-		return true;
-	} catch {
-		return false;
-	}
-};
 
 const LOG_LENGTH_MAX = 512 * 1024; // 512KB
 const compositionFileNames = ['docker-compose.yml', 'docker-compose.yaml'];
@@ -285,16 +278,15 @@ export async function buildProject(opts: {
 
 		setTaskAttributes({ tasks, imageDescriptorsByServiceName, ...opts });
 
-		const transposeOptArray: Array<
-			TransposeOptions | undefined
-		> = await Promise.all(
-			tasks.map((task) => {
-				// Setup emulation if needed
-				if (needsQemu && !task.external) {
-					return qemuTransposeBuildStream({ task, ...opts });
-				}
-			}),
-		);
+		const transposeOptArray: Array<TransposeOptions | undefined> =
+			await Promise.all(
+				tasks.map((task) => {
+					// Setup emulation if needed
+					if (needsQemu && !task.external) {
+						return qemuTransposeBuildStream({ task, ...opts });
+					}
+				}),
+			);
 
 		await Promise.all(
 			// transposeOptions may be undefined. That's OK.
@@ -498,9 +490,8 @@ async function setTaskProgressHooks({
 			let rawStream;
 			stream = createLogStream(stream);
 			if (transposeOptions) {
-				const buildThroughStream = transpose.getBuildThroughStream(
-					transposeOptions,
-				);
+				const buildThroughStream =
+					transpose.getBuildThroughStream(transposeOptions);
 				rawStream = stream.pipe(buildThroughStream);
 			} else {
 				rawStream = stream;
@@ -766,10 +757,8 @@ async function newTarDirectory(
 	const tar = await import('tar-stream');
 	const pack = tar.pack();
 	const serviceDirs = await getServiceDirsFromComposition(dir, composition);
-	const {
-		filteredFileList,
-		dockerignoreFiles,
-	} = await filterFilesWithDockerignore(dir, multiDockerignore, serviceDirs);
+	const { filteredFileList, dockerignoreFiles } =
+		await filterFilesWithDockerignore(dir, multiDockerignore, serviceDirs);
 	printDockerignoreWarn(dockerignoreFiles, serviceDirs, multiDockerignore);
 	for (const fileStats of filteredFileList) {
 		pack.entry(
@@ -975,9 +964,10 @@ async function parseRegistrySecrets(
 		}
 		const raw = (await fs.readFile(secretsFilename)).toString();
 		const multiBuild = await import('resin-multibuild');
-		const registrySecrets = new multiBuild.RegistrySecretValidator().validateRegistrySecrets(
-			isYaml ? require('js-yaml').load(raw) : JSON.parse(raw),
-		);
+		const registrySecrets =
+			new multiBuild.RegistrySecretValidator().validateRegistrySecrets(
+				isYaml ? require('js-yaml').load(raw) : JSON.parse(raw),
+			);
 		multiBuild.addCanonicalDockerHubEntry(registrySecrets);
 		return registrySecrets;
 	} catch (error) {
@@ -1279,17 +1269,20 @@ async function pushServiceImages(
 	const { pushAndUpdateServiceImages } = await import('./compose');
 	const releaseMod = await import('balena-release');
 	logger.logInfo('Pushing images to registry...');
-	await pushAndUpdateServiceImages(docker, token, taggedImages, async function (
-		serviceImage,
-	) {
-		logger.logDebug(
-			`Saving image ${serviceImage.is_stored_at__image_location}`,
-		);
-		if (skipLogUpload) {
-			delete serviceImage.build_log;
-		}
-		await releaseMod.updateImage(pineClient, serviceImage.id, serviceImage);
-	});
+	await pushAndUpdateServiceImages(
+		docker,
+		token,
+		taggedImages,
+		async function (serviceImage) {
+			logger.logDebug(
+				`Saving image ${serviceImage.is_stored_at__image_location}`,
+			);
+			if (skipLogUpload) {
+				delete serviceImage.build_log;
+			}
+			await releaseMod.updateImage(pineClient, serviceImage.id, serviceImage);
+		},
+	);
 }
 
 export async function deployProject(

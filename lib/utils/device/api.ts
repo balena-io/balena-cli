@@ -216,7 +216,7 @@ export class DeviceAPI {
 					const NetKeepalive = await import('net-keepalive');
 					// Certain versions of typescript won't convert
 					// this automatically
-					const sock = (res.socket as any) as NodeJSSocketWithFileDescriptor;
+					const sock = res.socket as any as NodeJSSocketWithFileDescriptor;
 					// We send a tcp keepalive probe once every 5 seconds
 					NetKeepalive.setKeepAliveInterval(sock, 5000);
 					// After 5 failed probes, the connection is marked as
@@ -235,7 +235,7 @@ export class DeviceAPI {
 	// A helper method for promisifying general (non-streaming) requests. Streaming
 	// requests should use a seperate setup
 	private static async promisifiedRequest<
-		T extends Parameters<typeof request>[0]
+		T extends Parameters<typeof request>[0],
 	>(opts: T, logger?: Logger): Promise<any> {
 		interface ObjectWithUrl {
 			url?: string;
