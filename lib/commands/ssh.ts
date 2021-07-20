@@ -136,7 +136,7 @@ export default class SshCmd extends Command {
 		}
 
 		// Remote connection
-		const { getProxyConfig, which } = await import('../utils/helpers');
+		const { getProxyConfig } = await import('../utils/helpers');
 		const { getOnlineTargetDeviceUuid } = await import('../utils/patterns');
 		const sdk = getBalenaSdk();
 
@@ -156,6 +156,7 @@ export default class SshCmd extends Command {
 
 		const deviceId = device.id;
 		const supervisorVersion = device.supervisor_version;
+		const { which } = await import('../utils/which');
 
 		const [whichProxytunnel, username, proxyUrl] = await Promise.all([
 			useProxy ? which('proxytunnel', false) : undefined,
@@ -301,7 +302,7 @@ export default class SshCmd extends Command {
 			// container
 			const childProcess = await import('child_process');
 			const { escapeRegExp } = await import('lodash');
-			const { which } = await import('../utils/helpers');
+			const { which } = await import('../utils/which');
 			const { deviceContainerEngineBinary } = await import(
 				'../utils/device/ssh'
 			);

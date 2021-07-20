@@ -36,7 +36,7 @@ export async function exec(
 	cmd: string,
 	stdout?: NodeJS.WritableStream,
 ): Promise<void> {
-	const { which } = await import('./helpers');
+	const { which } = await import('./which');
 	const program = await which('ssh');
 	const args = [
 		'-n',
@@ -132,7 +132,7 @@ export async function spawnSshAndThrowOnError(
 	args: string[],
 	options?: import('child_process').SpawnOptions,
 ) {
-	const { whichSpawn } = await import('./helpers');
+	const { whichSpawn } = await import('./which');
 	const [exitCode, exitSignal] = await whichSpawn(
 		'ssh',
 		args,

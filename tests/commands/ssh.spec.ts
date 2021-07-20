@@ -37,7 +37,7 @@ describe('balena ssh', function () {
 		if (hasSshExecutable) {
 			[sshServer, sshServerPort] = await startMockSshServer();
 		}
-		const modPath = '../../build/utils/helpers';
+		const modPath = '../../build/utils/which';
 		const mod = await import(modPath);
 		mock(modPath, {
 			...mod,
@@ -130,7 +130,7 @@ describe('balena ssh', function () {
 
 /** Check whether the 'ssh' tool (executable) exists in the PATH */
 async function checkSsh(): Promise<boolean> {
-	const { which } = await import('../../build/utils/helpers');
+	const { which } = await import('../../build/utils/which');
 	const sshPath = await which('ssh', false);
 	if ((sshPath || '').includes('\\Windows\\System32\\OpenSSH\\ssh')) {
 		// don't use Windows' built-in ssh tool for these test cases

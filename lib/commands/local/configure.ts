@@ -63,7 +63,7 @@ export default class LocalConfigureCmd extends Command {
 		const path = await import('path');
 		const reconfix = await import('reconfix');
 		const denymount = promisify(await import('denymount'));
-		const { safeUmount } = await import('../../utils/helpers');
+		const { safeUmount } = await import('../../utils/umount');
 		const Logger = await import('../../utils/logger');
 
 		const logger = Logger.getLogger();
