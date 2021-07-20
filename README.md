@@ -62,7 +62,11 @@ new release to your application. Those commands require creating a CLI login ses
 ```sh
 $ balena login
 ```
+**NOTE** : If you are logging in from a Windows device use the command given below to execute the above function
 
+```sh
+balena login
+```
 ## Proxy support
 
 HTTP(S) proxies can be configured through any of the following methods, in precedence order
