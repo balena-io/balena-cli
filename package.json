@@ -34,7 +34,6 @@
     "assets": [
       "build/auth/pages/*.ejs",
       "node_modules/resin-discoverable-services/services/**/*",
-      "node_modules/balena-sdk/node_modules/balena-pine/**/*",
       "node_modules/balena-pine/**/*",
       "node_modules/pinejs-client-core/**/*",
       "node_modules/opn/xdg-open",
