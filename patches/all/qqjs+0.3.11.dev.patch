@@ -1,0 +1,16 @@
+diff --git a/node_modules/qqjs/lib/exec.js b/node_modules/qqjs/lib/exec.js
+index d9293a9..442fea8 100644
+--- a/node_modules/qqjs/lib/exec.js
++++ b/node_modules/qqjs/lib/exec.js
+@@ -5,6 +5,11 @@ const m = {
+     m: {},
+     get execa() { return this.m.execa = this.m.execa || require('execa'); },
+ };
++const { isCygwin, isMinGW, isMSYS2 } = require('execa');
++exports.isCygwin = isCygwin;
++exports.isMinGW = isMinGW;
++exports.isMSYS2 = isMSYS2;
++console.log(`qqjs exec.js MSYSTEM=${process.env.MSYSTEM} OSTYPE=${process.env.OSTYPE} isMSYS2=${isMSYS2} isMingGW=${isMinGW} isCygwin=${isCygwin}`);
+ /**
+  * easy access to process.env
+  */
