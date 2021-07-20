@@ -2255,6 +2255,7 @@ Examples:
 	$ balena config generate --app myorg/myapp --version 2.12.7
 	$ balena config generate --app MyApp --version 2.12.7 --deviceType fincm3
 	$ balena config generate --app MyApp --version 2.12.7 --output config.json
+	$ balena config generate --app MyApp --version 2.12.7 --provisioningKeyName remoteDevice --output config.json
 	$ balena config generate --app MyApp --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 1
 
 ### Options
@@ -2306,6 +2307,10 @@ the wifi key to use (used only if --network is set to wifi)
 #### --appUpdatePollInterval APPUPDATEPOLLINTERVAL
 
 how frequently (in minutes) to poll for application updates
+
+#### --provisioningKeyName PROVISIONINGKEYNAME
+
+custom key name assigned to generated provisioning api key
 
 ## config inject &#60;file&#62;
 

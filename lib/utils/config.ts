@@ -92,6 +92,7 @@ export async function generateApplicationConfig(
 		version: string;
 		deviceType?: string;
 		appUpdatePollInterval?: number;
+		provisioningKeyName?: string;
 	},
 ) {
 	const config = await generateBaseConfig(application, options);
@@ -99,7 +100,11 @@ export async function generateApplicationConfig(
 	if (semver.satisfies(options.version, '<2.7.8')) {
 		await addApplicationKey(config, application.id);
 	} else {
-		await addProvisioningKey(config, application.id);
+		await addProvisioningKey(
+			config,
+			application.id,
+			options.provisioningKeyName,
+		);
 	}
 
 	return config;
@@ -149,9 +154,16 @@ function addApplicationKey(config: any, applicationNameOrId: string | number) {
 		});
 }
 
-function addProvisioningKey(config: any, applicationNameOrId: string | number) {
+function addProvisioningKey(
+	config: any,
+	applicationNameOrId: string | number,
+	provisioningKeyName?: string,
+) {
 	return getBalenaSdk()
-		.models.application.generateProvisioningKey(applicationNameOrId)
+		.models.application.generateProvisioningKey(
+			applicationNameOrId,
+			provisioningKeyName,
+		)
 		.then((apiKey) => {
 			config.apiKey = apiKey;
 			return apiKey;
