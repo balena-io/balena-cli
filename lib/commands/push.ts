@@ -58,6 +58,7 @@ interface FlagsDef {
 	'noconvert-eol': boolean;
 	'multi-dockerignore': boolean;
 	'release-tag'?: string[];
+	draft: boolean;
 	help: void;
 }
 
@@ -267,6 +268,14 @@ export default class PushCmd extends Command {
 			multiple: true,
 			exclusive: ['detached'],
 		}),
+		draft: flags.boolean({
+			description: stripIndent`
+				Instruct the builder to create the release as a draft. Draft releases are ignored
+				by the 'track latest' release policy but can be used through release pinning.
+				Draft releases can be marked as final through the API. Releases are created
+				as final by default unless this option is given.`,
+			default: false,
+		}),
 		help: cf.help,
 	};
 
@@ -366,6 +375,7 @@ export default class PushCmd extends Command {
 			registrySecrets,
 			headless: options.detached,
 			convertEol: !options['noconvert-eol'],
+			isDraft: options.draft,
 		};
 		const args = {
 			appSlug: application.slug,
@@ -398,7 +408,7 @@ export default class PushCmd extends Command {
 		registrySecrets: RegistrySecrets,
 	) {
 		// Check for invalid options
-		const remoteOnlyOptions: Array<keyof FlagsDef> = ['release-tag'];
+		const remoteOnlyOptions: Array<keyof FlagsDef> = ['release-tag', 'draft'];
 		this.checkInvalidOptions(
 			remoteOnlyOptions,
 			options,

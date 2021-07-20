@@ -42,6 +42,7 @@ export interface BuildOpts {
 	headless: boolean;
 	convertEol: boolean;
 	multiDockerignore: boolean;
+	isDraft: boolean;
 }
 
 export interface RemoteBuild {
@@ -92,6 +93,7 @@ async function getBuilderEndpoint(
 		emulated: opts.emulated,
 		nocache: opts.nocache,
 		headless: opts.headless,
+		isdraft: opts.isDraft,
 	});
 	// Note that using https (rather than http) is a requirement when using the
 	// --registry-secrets feature, as the secrets are not otherwise encrypted.
