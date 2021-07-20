@@ -49,6 +49,7 @@ interface FlagsDef {
 	version?: string;
 	'system-connection': string[];
 	'initial-device-name'?: string;
+	'provisioning-key-name'?: string;
 }
 
 interface ArgsDef {
@@ -62,6 +63,7 @@ interface Answers {
 	version: string; // e.g. "2.32.0+rev1"
 	wifiSsid?: string;
 	wifiKey?: string;
+	provisioningKeyName?: string;
 }
 
 const deviceApiKeyDeprecationMsg = stripIndent`
@@ -145,6 +147,7 @@ export default class OsConfigureCmd extends Command {
 		config: flags.string({
 			description:
 				'path to a pre-generated config.json file to be injected in the OS image',
+			exclusive: ['provisioning-key-name'],
 		}),
 		'config-app-update-poll-interval': flags.integer({
 			description:
@@ -160,7 +163,10 @@ export default class OsConfigureCmd extends Command {
 		'config-wifi-ssid': flags.string({
 			description: 'WiFi SSID (network name) (non-interactive configuration)',
 		}),
-		device: { exclusive: ['app', 'application', 'fleet'], ...cf.device },
+		device: {
+			exclusive: ['app', 'application', 'fleet', 'provisioning-key-name'],
+			...cf.device,
+		},
 		'device-api-key': flags.string({
 			char: 'k',
 			description:
@@ -183,6 +189,10 @@ export default class OsConfigureCmd extends Command {
 			required: false,
 			description:
 				"paths to local files to place into the 'system-connections' directory",
+		}),
+		'provisioning-key-name': flags.string({
+			description: 'custom key name assigned to generated provisioning api key',
+			exclusive: ['config', 'device'],
 		}),
 		help: cf.help,
 	};
@@ -255,6 +265,8 @@ export default class OsConfigureCmd extends Command {
 		answers.version =
 			options.version ||
 			(await getOsVersionFromImage(params.image, deviceTypeManifest, devInit));
+
+		answers.provisioningKeyName = options['provisioning-key-name'];
 
 		if (_.isEmpty(configJson)) {
 			if (device) {

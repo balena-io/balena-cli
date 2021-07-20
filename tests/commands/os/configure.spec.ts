@@ -58,6 +58,7 @@ if (process.platform !== 'win32') {
 				'--config-app-update-poll-interval 10',
 				'--config-network ethernet',
 				'--initial-device-name testDeviceName',
+				'--provisioning-key-name testKey',
 			];
 
 			const { err } = await runCommand(command.join(' '));
