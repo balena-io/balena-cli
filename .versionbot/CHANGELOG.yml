@@ -1,4 +1,15 @@
 - commits:
+    - subject: Simplify runSpinner api
+      hash: f79ccc0c9521049b762de7ff275fe817773c12b3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 12.44.25
+  date: 2021-07-20T15:25:19.967Z
+- commits:
     - subject: Update 'devDependencies' in package.json
       hash: cfd790a193b205c7caf1e6c2c066ae9fbbf55788
       body: ''
