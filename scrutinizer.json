@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Simplify runSpinner api",
+          "hash": "f79ccc0c9521049b762de7ff275fe817773c12b3",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        }
+      ],
+      "version": "12.44.25",
+      "date": "2021-07-20T15:25:19.967Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update 'devDependencies' in package.json",
           "hash": "cfd790a193b205c7caf1e6c2c066ae9fbbf55788",
           "body": "",
@@ -22403,7 +22420,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 325,
+  "stars": 327,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -22505,36 +22522,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-07-09T21:30:25Z",
+  "lastCommitDate": "2021-07-20T15:56:54Z",
   "latestRelease": {
-    "tagName": "v12.44.24",
+    "tagName": "v12.44.25",
     "asssets": [
       {
-        "name": "balena-cli-v12.44.24-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.24/balena-cli-v12.44.24-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.44.25-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.25/balena-cli-v12.44.25-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.24-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.24/balena-cli-v12.44.24-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.44.25-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.25/balena-cli-v12.44.25-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.44.24-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.24/balena-cli-v12.44.24-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.44.25-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.25/balena-cli-v12.44.25-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.24-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.24/balena-cli-v12.44.24-windows-x64-installer.exe"
+        "name": "balena-cli-v12.44.25-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.25/balena-cli-v12.44.25-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.44.24-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.24/balena-cli-v12.44.24-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.44.25-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.25/balena-cli-v12.44.25-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 332,
+    "numberOfIssues": 335,
     "latestIssues": [
+      {
+        "title": "[WIP] Add provisioning key name option to config generate options",
+        "url": "https://github.com/balena-io/balena-cli/pull/2294"
+      },
+      {
+        "title": "Warn when zip file is provided to image config commands",
+        "url": "https://github.com/balena-io/balena-cli/issues/2293"
+      },
+      {
+        "title": "`balena ssh <ip-addr>` should attempt `<username>@<ip-addr>` in addition to `<root>@<ip-addr>`",
+        "url": "https://github.com/balena-io/balena-cli/issues/2292"
+      },
       {
         "title": "Balena Preload Image not available",
         "url": "https://github.com/balena-io/balena-cli/issues/2290"
@@ -22602,22 +22631,10 @@
       {
         "title": "ssh: device not found when logged in with an API key instead of web auth / session token",
         "url": "https://github.com/balena-io/balena-cli/issues/2257"
-      },
-      {
-        "title": "Fix forums support link in README.md",
-        "url": "https://github.com/balena-io/balena-cli/pull/2256"
-      },
-      {
-        "title": "macOS: \"balena\" cannot be opened because the developer cannot be verified",
-        "url": "https://github.com/balena-io/balena-cli/issues/2244"
-      },
-      {
-        "title": "Remember last app that was pushed to and warn when using a different one",
-        "url": "https://github.com/balena-io/balena-cli/issues/2238"
       }
     ]
   },
-  "version": "12.44.24",
+  "version": "12.44.25",
   "screenshot": null,
   "logo": null
 }
