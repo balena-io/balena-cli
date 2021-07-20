@@ -75,7 +75,7 @@ export default class ConfigWriteCmd extends Command {
 			ConfigWriteCmd,
 		);
 
-		const { safeUmount } = await import('../../utils/helpers');
+		const { safeUmount } = await import('../../utils/umount');
 
 		const drive =
 			options.drive || (await getVisuals().drive('Select the device drive'));

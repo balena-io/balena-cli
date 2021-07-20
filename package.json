@@ -231,7 +231,9 @@
     "fast-boot2": "^1.1.0",
     "fast-levenshtein": "^3.0.0",
     "file-disk": "^8.0.1",
+    "filenamify": "^4.3.0",
     "get-stdin": "^8.0.0",
+    "glob": "^7.1.7",
     "global-agent": "^2.1.12",
     "global-tunnel-ng": "^2.1.1",
     "humanize": "0.0.9",
@@ -276,7 +278,6 @@
     "through2": "^2.0.3",
     "tmp": "^0.2.1",
     "typed-error": "^3.2.1",
-    "umount": "^1.1.6",
     "update-notifier": "^4.1.0",
     "which": "^2.0.2",
     "window-size": "^1.1.0"

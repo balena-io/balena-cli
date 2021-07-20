@@ -42,6 +42,7 @@ import {
 import type { DeviceInfo } from './device/api';
 import { getBalenaSdk, getChalk, stripIndent } from './lazy';
 import Logger = require('./logger');
+import { exists } from './which';
 
 /**
  * Given an array representing the raw `--release-tag` flag of the deploy and
@@ -97,15 +98,6 @@ export async function applyReleaseTagKeysAndValues(
 		),
 	);
 }
-
-const exists = async (filename: string) => {
-	try {
-		await fs.access(filename);
-		return true;
-	} catch {
-		return false;
-	}
-};
 
 const LOG_LENGTH_MAX = 512 * 1024; // 512KB
 const compositionFileNames = ['docker-compose.yml', 'docker-compose.yaml'];

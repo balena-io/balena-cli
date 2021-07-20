@@ -54,7 +54,7 @@ export default class ConfigReadCmd extends Command {
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(ConfigReadCmd);
 
-		const { safeUmount } = await import('../../utils/helpers');
+		const { safeUmount } = await import('../../utils/umount');
 
 		const drive =
 			options.drive || (await getVisuals().drive('Select the device drive'));

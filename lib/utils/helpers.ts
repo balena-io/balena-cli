@@ -405,90 +405,6 @@ function windowsCmdExeEscapeArg(arg: string): string {
 	return `"${arg.replace(/["]/g, '""')}"`;
 }
 
-/**
- * Error handling wrapper around the npm `which` package:
- * "Like the unix which utility. Finds the first instance of a specified
- * executable in the PATH environment variable. Does not cache the results,
- * so hash -r is not needed when the PATH changes."
- *
- * @param program Basename of a program, for example 'ssh'
- * @param rejectOnMissing If the program cannot be found, reject the promise
- * with an ExpectedError instead of fulfilling it with an empty string.
- * @returns The program's full path, e.g. 'C:\WINDOWS\System32\OpenSSH\ssh.EXE'
- */
-export async function which(
-	program: string,
-	rejectOnMissing = true,
-): Promise<string> {
-	const whichMod = await import('which');
-	let programPath: string;
-	try {
-		programPath = await whichMod(program);
-	} catch (err) {
-		if (err.code === 'ENOENT') {
-			if (rejectOnMissing) {
-				const { ExpectedError } = await import('../errors');
-				throw new ExpectedError(
-					`'${program}' program not found. Is it installed?`,
-				);
-			} else {
-				return '';
-			}
-		}
-		throw err;
-	}
-	return programPath;
-}
-
-/**
- * Call which(programName) and spawn() with the given arguments.
- *
- * If returnExitCodeOrSignal is true, the returned promise will resolve to
- * an array [code, signal] with the child process exit code number or exit
- * signal string respectively (as provided by the spawn close event).
- *
- * If returnExitCodeOrSignal is false, the returned promise will reject with
- * a custom error if the child process returns a non-zero exit code or a
- * non-empty signal string (as reported by the spawn close event).
- *
- * In either case and if spawn itself emits an error event or fails synchronously,
- * the returned promise will reject with a custom error that includes the error
- * message of spawn's error.
- */
-export async function whichSpawn(
-	programName: string,
-	args: string[],
-	options: import('child_process').SpawnOptions = { stdio: 'inherit' },
-	returnExitCodeOrSignal = false,
-): Promise<[number | undefined, string | undefined]> {
-	const { spawn } = await import('child_process');
-	const program = await which(programName);
-	if (process.env.DEBUG) {
-		console.error(`[debug] [${program}, ${args.join(', ')}]`);
-	}
-	let error: Error | undefined;
-	let exitCode: number | undefined;
-	let exitSignal: string | undefined;
-	try {
-		[exitCode, exitSignal] = await new Promise((resolve, reject) => {
-			spawn(program, args, options)
-				.on('error', reject)
-				.on('close', (code, signal) => resolve([code, signal]));
-		});
-	} catch (err) {
-		error = err;
-	}
-	if (error || (!returnExitCodeOrSignal && (exitCode || exitSignal))) {
-		const msg = [
-			`${programName} failed with exit code=${exitCode} signal=${exitSignal}:`,
-			`[${program}, ${args.join(', ')}]`,
-			...(error ? [`${error}`] : []),
-		];
-		throw new Error(msg.join('\n'));
-	}
-	return [exitCode, exitSignal];
-}
-
 export interface ProxyConfig {
 	host: string;
 	port: string;
@@ -612,18 +528,5 @@ export async function awaitInterruptibleTask<
 		return await Promise.race([sigintPromise, task(...theArgs)]);
 	} finally {
 		process.removeListener('SIGINT', sigintHandler);
-	}
-}
-
-/** Check if `drive` is mounted, and if so umount it. No-op on Windows. */
-export async function safeUmount(drive: string) {
-	if (!drive) {
-		return;
-	}
-	const { isMounted, umount } = await import('umount');
-	const isMountedAsync = promisify(isMounted);
-	if (await isMountedAsync(drive)) {
-		const umountAsync = promisify(umount);
-		await umountAsync(drive);
 	}
 }
