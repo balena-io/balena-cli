@@ -223,7 +223,7 @@ describe('balena deploy', function () {
 			});
 		} finally {
 			await switchSentry(sentryStatus);
-			// @ts-ignore
+			// @ts-expect-error
 			process.exit.restore();
 		}
 	});

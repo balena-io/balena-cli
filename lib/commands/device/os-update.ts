@@ -79,19 +79,15 @@ export default class DeviceOsUpdateCmd extends Command {
 		const sdk = getBalenaSdk();
 
 		// Get device info
-		const {
-			uuid,
-			is_of__device_type,
-			os_version,
-			os_variant,
-		} = (await sdk.models.device.get(params.uuid, {
-			$select: ['uuid', 'os_version', 'os_variant'],
-			$expand: {
-				is_of__device_type: {
-					$select: 'slug',
+		const { uuid, is_of__device_type, os_version, os_variant } =
+			(await sdk.models.device.get(params.uuid, {
+				$select: ['uuid', 'os_version', 'os_variant'],
+				$expand: {
+					is_of__device_type: {
+						$select: 'slug',
+					},
 				},
-			},
-		})) as DeviceWithDeviceType;
+			})) as DeviceWithDeviceType;
 
 		// Get current device OS version
 		const currentOsVersion = sdk.models.device.getOsVersion({

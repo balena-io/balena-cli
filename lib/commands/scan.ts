@@ -87,9 +87,8 @@ export default class ScanCmd extends Command {
 		const ux = getCliUx();
 		ux.action.start('Scanning for local balenaOS devices');
 
-		const localDevices: LocalBalenaOsDevice[] = await discover.discoverLocalBalenaOsDevices(
-			discoverTimeout,
-		);
+		const localDevices: LocalBalenaOsDevice[] =
+			await discover.discoverLocalBalenaOsDevices(discoverTimeout);
 		const engineReachableDevices: boolean[] = await Promise.all(
 			localDevices.map(async ({ address }: { address: string }) => {
 				const docker = await dockerUtils.createClient({

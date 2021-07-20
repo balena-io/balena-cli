@@ -268,13 +268,11 @@ export async function awaitDeviceOsUpdate(
 	progressBar.update({ percentage: 0 });
 
 	const poll = async (): Promise<void> => {
-		const [
-			osUpdateStatus,
-			{ overall_progress: osUpdateProgress },
-		] = await Promise.all([
-			balena.models.device.getOsUpdateStatus(uuid),
-			balena.models.device.get(uuid, { $select: 'overall_progress' }),
-		]);
+		const [osUpdateStatus, { overall_progress: osUpdateProgress }] =
+			await Promise.all([
+				balena.models.device.getOsUpdateStatus(uuid),
+				balena.models.device.get(uuid, { $select: 'overall_progress' }),
+			]);
 		if (osUpdateStatus.status === 'done') {
 			console.info(
 				`The device ${deviceName} has been updated to v${targetOsVersion} and will restart shortly!`,

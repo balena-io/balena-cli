@@ -48,7 +48,7 @@ describe('handleError() function', () => {
 			'printExpectedErrorMessage',
 		);
 		captureException = sinon.stub();
-		// @ts-ignore
+		// @ts-expect-error
 		sandbox.stub(ErrorsModule, 'getSentry').resolves({ captureException });
 		processExit = sandbox.stub(process, 'exit');
 

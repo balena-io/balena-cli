@@ -86,16 +86,19 @@ async function createProxyServer(): Promise<[number, number]> {
 	const interceptorPort = await createInterceptorServer();
 
 	const proxy = httpProxy.createProxyServer();
-	proxy.on('error', function (
-		err: Error,
-		_req: http.IncomingMessage,
-		res: http.ServerResponse,
-	) {
-		res.writeHead(500, { 'Content-Type': 'text/plain' });
-		const msg = `Proxy server error: ${err}`;
-		console.error(msg);
-		res.end(msg);
-	});
+	proxy.on(
+		'error',
+		function (
+			err: Error,
+			_req: http.IncomingMessage,
+			res: http.ServerResponse,
+		) {
+			res.writeHead(500, { 'Content-Type': 'text/plain' });
+			const msg = `Proxy server error: ${err}`;
+			console.error(msg);
+			res.end(msg);
+		},
+	);
 
 	const server = http.createServer(function (
 		req: http.IncomingMessage,
@@ -150,10 +153,9 @@ async function createInterceptorServer(): Promise<number> {
 				if (process.env.DEBUG) {
 					console.error(`[debug] Interceptor forwarding for ${proxiedFor}`);
 				}
-				// tslint:disable-next-line:prefer-const
-				let { protocol, hostname, port, path: urlPath, hash } = url.parse(
-					proxiedFor,
-				);
+				const parsed = url.parse(proxiedFor);
+				const { hash, hostname, path: urlPath } = parsed;
+				let { port, protocol } = parsed;
 				protocol = (protocol || 'http:').toLowerCase();
 				port = port || (protocol === 'https:' ? '443' : '80');
 				const reqOpts = {

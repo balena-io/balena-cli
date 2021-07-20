@@ -69,7 +69,7 @@
     "catch-uncommitted": "ts-node --transpile-only automation/run.ts catch-uncommitted",
     "ci": "npm run test && npm run catch-uncommitted",
     "watch": "gulp watch",
-    "lint": "balena-lint -e ts -e js --typescript --fix automation/ completion/ lib/ typings/ tests/ bin/balena bin/balena-dev gulpfile.js .mocharc.js .mocharc-standalone.js",
+    "lint": "balena-lint -e ts -e js --fix automation/ completion/ lib/ typings/ tests/ bin/balena bin/balena-dev gulpfile.js .mocharc.js .mocharc-standalone.js",
     "update": "ts-node --transpile-only ./automation/update-module.ts",
     "prepare": "echo {} > bin/.fast-boot.json",
     "prepublishOnly": "npm run build"
@@ -111,7 +111,7 @@
     ]
   },
   "devDependencies": {
-    "@balena/lint": "^5.2.0",
+    "@balena/lint": "^6.1.1",
     "@oclif/config": "^1.17.0",
     "@oclif/dev-cli": "^1.26.0",
     "@oclif/parser": "^3.8.5",

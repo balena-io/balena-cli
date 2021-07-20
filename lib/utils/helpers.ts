@@ -90,9 +90,8 @@ export async function sudo(
 }
 
 export function runCommand<T>(commandArgs: string[]): Promise<T> {
-	const {
-		isSubcommand,
-	} = require('../preparser') as typeof import('../preparser');
+	const { isSubcommand } =
+		require('../preparser') as typeof import('../preparser');
 	if (isSubcommand(commandArgs)) {
 		commandArgs = [
 			commandArgs[0] + ':' + commandArgs[1],
@@ -598,14 +597,13 @@ export function addSIGINTHandler(sigintHandler: () => void, once = true) {
  * @param theArgs Arguments to be passed to the task function
  */
 export async function awaitInterruptibleTask<
-	T extends (...args: any[]) => Promise<any>
+	T extends (...args: any[]) => Promise<any>,
 >(task: T, ...theArgs: Parameters<T>): Promise<ReturnType<T>> {
 	let sigintHandler: () => void = () => undefined;
 	const sigintPromise = new Promise<T>((_resolve, reject) => {
 		sigintHandler = () => {
-			const {
-				SIGINTError,
-			} = require('../errors') as typeof import('../errors');
+			const { SIGINTError } =
+				require('../errors') as typeof import('../errors');
 			reject(new SIGINTError('Task aborted on SIGINT signal'));
 		};
 		addSIGINTHandler(sigintHandler);

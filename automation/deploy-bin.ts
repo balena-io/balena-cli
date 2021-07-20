@@ -62,9 +62,12 @@ export async function release() {
 
 /** Return a cached Octokit instance, creating a new one as needed. */
 const getOctokit = _.once(function () {
-	const Octokit = (require('@octokit/rest') as typeof import('@octokit/rest')).Octokit.plugin(
-		(require('@octokit/plugin-throttling') as typeof import('@octokit/plugin-throttling'))
-			.throttling,
+	const Octokit = (
+		require('@octokit/rest') as typeof import('@octokit/rest')
+	).Octokit.plugin(
+		(
+			require('@octokit/plugin-throttling') as typeof import('@octokit/plugin-throttling')
+		).throttling,
 	);
 	return new Octokit({
 		auth: GITHUB_TOKEN,
@@ -110,7 +113,8 @@ function getPageNumbers(
 	if (!response.headers.link) {
 		return res;
 	}
-	const parse = require('parse-link-header') as typeof import('parse-link-header');
+	const parse =
+		require('parse-link-header') as typeof import('parse-link-header');
 	const parsed = parse(response.headers.link);
 	if (parsed == null) {
 		throw new Error(`Failed to parse link header: '${response.headers.link}'`);
@@ -158,12 +162,14 @@ async function updateGitHubReleaseDescriptions(
 		per_page: perPage,
 	});
 	let errCount = 0;
-	type Release = import('@octokit/rest').RestEndpointMethodTypes['repos']['listReleases']['response']['data'][0];
+	type Release =
+		import('@octokit/rest').RestEndpointMethodTypes['repos']['listReleases']['response']['data'][0];
 	for await (const response of octokit.paginate.iterator<Release>(options)) {
-		const { page: thisPage, pages: totalPages, ordinal } = getPageNumbers(
-			response,
-			perPage,
-		);
+		const {
+			page: thisPage,
+			pages: totalPages,
+			ordinal,
+		} = getPageNumbers(response, perPage);
 		let i = 0;
 		for (const cliRelease of response.data) {
 			const prefix = `[#${ordinal + i++} pg ${thisPage}/${totalPages}]`;
