@@ -25,7 +25,8 @@
 export class CliSettings {
 	public readonly settings: any;
 	constructor() {
-		this.settings = require('balena-settings-client') as typeof import('balena-settings-client');
+		this.settings =
+			require('balena-settings-client') as typeof import('balena-settings-client');
 	}
 
 	public get<T>(name: string): T {

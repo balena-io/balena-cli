@@ -155,8 +155,6 @@ ${dockerignoreHelp}
 			DeployCmd,
 		);
 
-		// compositions with many services trigger misleading warnings
-		// @ts-ignore editing property that isn't typed but does exist
 		(await import('events')).defaultMaxListeners = 1000;
 
 		const logger = await Command.getLogger();
@@ -190,15 +188,13 @@ ${dockerignoreHelp}
 				options['registry-secrets'],
 			);
 		} else {
-			const {
-				dockerfilePath,
-				registrySecrets,
-			} = await validateProjectDirectory(sdk, {
-				dockerfilePath: options.dockerfile,
-				noParentCheck: options['noparent-check'] || false,
-				projectPath: options.source || '.',
-				registrySecretsPath: options['registry-secrets'],
-			});
+			const { dockerfilePath, registrySecrets } =
+				await validateProjectDirectory(sdk, {
+					dockerfilePath: options.dockerfile,
+					noParentCheck: options['noparent-check'] || false,
+					projectPath: options.source || '.',
+					registrySecretsPath: options['registry-secrets'],
+				});
 			options.dockerfile = dockerfilePath;
 			options['registry-secrets'] = registrySecrets;
 		}

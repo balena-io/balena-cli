@@ -151,9 +151,8 @@ export class LivepushManager {
 					// only happens when the dockerfile path is
 					// specified differently - this should be patched
 					// in resin-bundle-resolve
-					this.dockerfilePaths[
-						buildTask.serviceName
-					] = this.getDockerfilePathFromTask(buildTask);
+					this.dockerfilePaths[buildTask.serviceName] =
+						this.getDockerfilePathFromTask(buildTask);
 				} else {
 					this.dockerfilePaths[buildTask.serviceName] = [
 						buildTask.dockerfilePath,

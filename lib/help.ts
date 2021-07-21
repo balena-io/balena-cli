@@ -112,9 +112,8 @@ export default class BalenaHelp extends Help {
 			typeof additionalCommands[0]?.usage === 'string'
 		) {
 			primaryCommands[0].usage = primaryCommands[0].usage.padEnd(usageLength);
-			additionalCommands[0].usage = additionalCommands[0].usage.padEnd(
-				usageLength,
-			);
+			additionalCommands[0].usage =
+				additionalCommands[0].usage.padEnd(usageLength);
 		}
 
 		// Output help
@@ -139,9 +138,8 @@ export default class BalenaHelp extends Help {
 		console.log('  --help, -h');
 		console.log('  --debug\n');
 
-		const {
-			reachingOut,
-		} = require('./utils/messages') as typeof import('./utils/messages');
+		const { reachingOut } =
+			require('./utils/messages') as typeof import('./utils/messages');
 		console.log(reachingOut);
 	}
 

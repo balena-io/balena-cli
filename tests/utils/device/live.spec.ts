@@ -46,7 +46,8 @@ class MockLivepushManager extends LivepushManager {
 			api: {} as import('../../../lib/utils/device/api').DeviceAPI,
 			logger: {} as import('../../../lib/utils/logger'),
 			buildLogs: {},
-			deployOpts: {} as import('../../../lib/utils/device/deploy').DeviceDeployOptions,
+			deployOpts:
+				{} as import('../../../lib/utils/device/deploy').DeviceDeployOptions,
 		});
 	}
 

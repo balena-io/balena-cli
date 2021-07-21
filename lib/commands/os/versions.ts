@@ -55,10 +55,8 @@ export default class OsVersionsCmd extends Command {
 	public async run() {
 		const { args: params } = this.parse<FlagsDef, ArgsDef>(OsVersionsCmd);
 
-		const {
-			versions: vs,
-			recommended,
-		} = await getBalenaSdk().models.os.getSupportedVersions(params.type);
+		const { versions: vs, recommended } =
+			await getBalenaSdk().models.os.getSupportedVersions(params.type);
 
 		vs.forEach((v) => {
 			console.log(`v${v}` + (v === recommended ? ' (recommended)' : ''));

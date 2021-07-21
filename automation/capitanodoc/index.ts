@@ -86,7 +86,7 @@ function importOclifCommands(jsFilename: string): OclifCommand[] {
 
 	const command: OclifCommand =
 		jsFilename === 'help'
-			? ((new FakeHelpCommand() as unknown) as OclifCommand)
+			? (new FakeHelpCommand() as unknown as OclifCommand)
 			: (require(path.join(process.cwd(), jsFilename)).default as OclifCommand);
 
 	return [command];

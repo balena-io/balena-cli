@@ -96,7 +96,8 @@ export default class DevicesCmd extends Command {
 		devices = devices.map(function (device) {
 			device.dashboard_url = balena.models.device.getDashboardUrl(device.uuid);
 
-			const belongsToApplication = device.belongs_to__application as Application[];
+			const belongsToApplication =
+				device.belongs_to__application as Application[];
 			device.application_name = belongsToApplication?.[0]?.app_name || null;
 
 			device.uuid = options.json ? device.uuid : device.uuid.slice(0, 7);

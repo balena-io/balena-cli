@@ -98,15 +98,17 @@ export default class DeviceMoveCmd extends Command {
 		const devices = await Promise.all(
 			deviceIds.map(
 				(uuid) =>
-					balena.models.device.get(uuid, expandForAppName) as Promise<
-						ExtendedDevice
-					>,
+					balena.models.device.get(
+						uuid,
+						expandForAppName,
+					) as Promise<ExtendedDevice>,
 			),
 		);
 
 		// Map application name for each device
 		for (const device of devices) {
-			const belongsToApplication = device.belongs_to__application as Application[];
+			const belongsToApplication =
+				device.belongs_to__application as Application[];
 			device.application_name = belongsToApplication?.[0]
 				? belongsToApplication[0].app_name
 				: 'N/a';
@@ -168,7 +170,6 @@ export default class DeviceMoveCmd extends Command {
 					compatibleDeviceTypes.some(
 						(dt) => dt.slug === app.is_for__device_type[0].slug,
 					) &&
-					// @ts-ignore using the extended device object prop
 					devices.some((device) => device.application_name !== app.app_name),
 				true,
 			);

@@ -188,10 +188,8 @@ async function resolveOSVersion(deviceType: string, version: string) {
 		return version;
 	}
 
-	const {
-		versions: vs,
-		recommended,
-	} = await getBalenaSdk().models.os.getSupportedVersions(deviceType);
+	const { versions: vs, recommended } =
+		await getBalenaSdk().models.os.getSupportedVersions(deviceType);
 
 	const choices = vs.map((v) => ({
 		value: v,

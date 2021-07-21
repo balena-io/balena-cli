@@ -344,8 +344,10 @@ function fillInInfoFields(
 			envVar.serviceName = (envVar.service as SDK.Service[])[0]?.service_name;
 		} else if ('service_install' in envVar) {
 			// envVar is of type DeviceServiceEnvironmentVariableInfo
-			envVar.serviceName = ((envVar.service_install as SDK.ServiceInstall[])[0]
-				?.installs__service as SDK.Service[])[0]?.service_name;
+			envVar.serviceName = (
+				(envVar.service_install as SDK.ServiceInstall[])[0]
+					?.installs__service as SDK.Service[]
+			)[0]?.service_name;
 		}
 		envVar.appName = appNameOrSlug;
 		envVar.serviceName = envVar.serviceName || '*';
