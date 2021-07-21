@@ -75,7 +75,7 @@ export default class ConfigWriteCmd extends Command {
 			ConfigWriteCmd,
 		);
 
-		const { safeUmount } = await import('../../utils/umount');
+		const { denyMount, safeUmount } = await import('../../utils/umount');
 
 		const drive =
 			options.drive || (await getVisuals().drive('Select the device drive'));
@@ -87,9 +87,10 @@ export default class ConfigWriteCmd extends Command {
 		console.info(`Setting ${params.key} to ${params.value}`);
 		ConfigWriteCmd.updateConfigJson(configJSON, params.key, params.value);
 
-		await safeUmount(drive);
-
-		await config.write(drive, options.type, configJSON);
+		await denyMount(drive, async () => {
+			await safeUmount(drive);
+			await config.write(drive, options.type, configJSON);
+		});
 
 		console.info('Done');
 	}
