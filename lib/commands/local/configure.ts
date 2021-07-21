@@ -60,29 +60,16 @@ export default class LocalConfigureCmd extends Command {
 	public async run() {
 		const { args: params } = this.parse<FlagsDef, ArgsDef>(LocalConfigureCmd);
 
-		const path = await import('path');
 		const reconfix = await import('reconfix');
-		const denymount = promisify(await import('denymount'));
-		const { safeUmount } = await import('../../utils/umount');
+		const { denyMount, safeUmount } = await import('../../utils/umount');
 		const Logger = await import('../../utils/logger');
 
 		const logger = Logger.getLogger();
 
 		const configurationSchema = await this.prepareConnectionFile(params.target);
 
-		await safeUmount(params.target);
-
-		const dmOpts: any = {};
-		if (process.pkg) {
-			// when running in a standalone pkg install, the 'denymount'
-			// executable is placed on the same folder as process.execPath
-			dmOpts.executablePath = path.join(
-				path.dirname(process.execPath),
-				'denymount',
-			);
-		}
-
-		const dmHandler = (cb: () => void) =>
+		await denyMount(params.target, async () => {
+			await safeUmount(params.target);
 			reconfix
 				.readConfiguration(configurationSchema, params.target)
 				.then(async (config: any) => {
@@ -100,10 +87,8 @@ export default class LocalConfigureCmd extends Command {
 						answers,
 						params.target,
 					);
-				})
-				.asCallback(cb);
-
-		await denymount(params.target, dmHandler, dmOpts);
+				});
+		});
 
 		console.log('Done!');
 	}

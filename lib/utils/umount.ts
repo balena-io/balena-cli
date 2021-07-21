@@ -25,8 +25,9 @@
  *   https://www.npmjs.com/advisories/1512
  */
 
-import { promisify } from 'util';
 import * as child_process from 'child_process';
+import * as path from 'path';
+import { promisify } from 'util';
 
 const execFile = promisify(child_process.execFile);
 
@@ -87,4 +88,34 @@ export async function safeUmount(drive: string) {
 			console.error(`[debug] ${err.message}`);
 		}
 	}
+}
+
+/**
+ * Wrapper around the `denymount` package. See:
+ * https://github.com/balena-io-modules/denymount
+ */
+export async function denyMount(
+	target: string,
+	handler: () => any,
+	opts: { autoMountOnSuccess?: boolean; executablePath?: string } = {},
+) {
+	const denymount = promisify(await import('denymount'));
+	if (process.pkg) {
+		// when running in a standalone pkg install, the 'denymount'
+		// executable is placed on the same folder as process.execPath
+		opts.executablePath ||= path.join(
+			path.dirname(process.execPath),
+			'denymount',
+		);
+	}
+	const dmHandler = async (cb: (err?: Error) => void) => {
+		let err: Error | undefined;
+		try {
+			await handler();
+		} catch (e) {
+			err = e;
+		}
+		cb(err);
+	};
+	await denymount(target, dmHandler, opts);
 }
