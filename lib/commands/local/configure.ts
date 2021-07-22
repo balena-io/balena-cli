@@ -60,50 +60,36 @@ export default class LocalConfigureCmd extends Command {
 	public async run() {
 		const { args: params } = this.parse<FlagsDef, ArgsDef>(LocalConfigureCmd);
 
-		const path = await import('path');
 		const reconfix = await import('reconfix');
-		const denymount = promisify(await import('denymount'));
-		const { safeUmount } = await import('../../utils/helpers');
+		const { denyMount, safeUmount } = await import('../../utils/umount');
 		const Logger = await import('../../utils/logger');
 
 		const logger = Logger.getLogger();
 
 		const configurationSchema = await this.prepareConnectionFile(params.target);
 
-		await safeUmount(params.target);
-
-		const dmOpts: any = {};
-		if (process.pkg) {
-			// when running in a standalone pkg install, the 'denymount'
-			// executable is placed on the same folder as process.execPath
-			dmOpts.executablePath = path.join(
-				path.dirname(process.execPath),
-				'denymount',
+		await denyMount(params.target, async () => {
+			// TODO: safeUmount umounts drives like '/dev/sdc', but does not
+			// umount image files like 'balena.img'
+			await safeUmount(params.target);
+			const config = await reconfix.readConfiguration(
+				configurationSchema,
+				params.target,
 			);
-		}
-
-		const dmHandler = (cb: () => void) =>
-			reconfix
-				.readConfiguration(configurationSchema, params.target)
-				.then(async (config: any) => {
-					logger.logDebug('Current config:');
-					logger.logDebug(JSON.stringify(config));
-					const answers = await this.getConfiguration(config);
-					logger.logDebug('New config:');
-					logger.logDebug(JSON.stringify(answers));
-
-					if (!answers.hostname) {
-						await this.removeHostname(configurationSchema);
-					}
-					return await reconfix.writeConfiguration(
-						configurationSchema,
-						answers,
-						params.target,
-					);
-				})
-				.asCallback(cb);
-
-		await denymount(params.target, dmHandler, dmOpts);
+			logger.logDebug('Current config:');
+			logger.logDebug(JSON.stringify(config));
+			const answers = await this.getConfiguration(config);
+			logger.logDebug('New config:');
+			logger.logDebug(JSON.stringify(answers));
+			if (!answers.hostname) {
+				await this.removeHostname(configurationSchema);
+			}
+			await reconfix.writeConfiguration(
+				configurationSchema,
+				answers,
+				params.target,
+			);
+		});
 
 		console.log('Done!');
 	}

@@ -83,8 +83,9 @@ export default class LocalFlashCmd extends Command {
 			try {
 				const info = await execAsync('cat /proc/version');
 				distroVersion = info.stdout.toLowerCase();
-				// tslint:disable-next-line: no-empty
-			} catch {}
+			} catch {
+				// pass
+			}
 			if (distroVersion.includes('microsoft')) {
 				throw new ExpectedError(stripIndent`
 				This command is known not to work on WSL. Please use a CLI release

@@ -74,9 +74,7 @@ export default class OsInitializeCmd extends Command {
 			OsInitializeCmd,
 		);
 
-		const { getManifest, safeUmount, sudo } = await import(
-			'../../utils/helpers'
-		);
+		const { getManifest, sudo } = await import('../../utils/helpers');
 
 		console.info(`Initializing device ${INIT_WARNING_MESSAGE}`);
 
@@ -96,6 +94,7 @@ export default class OsInitializeCmd extends Command {
 				`Going to erase ${answers.drive}.`,
 				true,
 			);
+			const { safeUmount } = await import('../../utils/umount');
 			await safeUmount(answers.drive);
 		}
 
@@ -108,6 +107,7 @@ export default class OsInitializeCmd extends Command {
 		]);
 
 		if (answers.drive != null) {
+			const { safeUmount } = await import('../../utils/umount');
 			await safeUmount(answers.drive);
 			console.info(`You can safely remove ${answers.drive} now`);
 		}

@@ -61,5 +61,6 @@ export const getCliForm = once(
 export const getCliUx = once(() => require('cli-ux').ux as typeof ux);
 
 // Directly export stripIndent as we always use it immediately, but importing just `stripIndent` reduces startup time
-// tslint:disable-next-line:no-var-requires
-export const stripIndent = require('common-tags/lib/stripIndent') as typeof StripIndent;
+export const stripIndent =
+	// tslint:disable-next-line:no-var-requires
+	require('common-tags/lib/stripIndent') as typeof StripIndent;

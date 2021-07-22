@@ -69,7 +69,7 @@
     "catch-uncommitted": "ts-node --transpile-only automation/run.ts catch-uncommitted",
     "ci": "npm run test && npm run catch-uncommitted",
     "watch": "gulp watch",
-    "lint": "balena-lint -e ts -e js --typescript --fix automation/ completion/ lib/ typings/ tests/ bin/balena bin/balena-dev gulpfile.js .mocharc.js .mocharc-standalone.js",
+    "lint": "balena-lint -e ts -e js --fix automation/ completion/ lib/ typings/ tests/ bin/balena bin/balena-dev gulpfile.js .mocharc.js .mocharc-standalone.js",
     "update": "ts-node --transpile-only ./automation/update-module.ts",
     "prepare": "echo {} > bin/.fast-boot.json",
     "prepublishOnly": "npm run build"
@@ -111,7 +111,7 @@
     ]
   },
   "devDependencies": {
-    "@balena/lint": "^5.2.0",
+    "@balena/lint": "^6.1.1",
     "@oclif/config": "^1.17.0",
     "@oclif/dev-cli": "^1.26.0",
     "@oclif/parser": "^3.8.5",
@@ -231,7 +231,9 @@
     "fast-boot2": "^1.1.0",
     "fast-levenshtein": "^3.0.0",
     "file-disk": "^8.0.1",
+    "filenamify": "^4.3.0",
     "get-stdin": "^8.0.0",
+    "glob": "^7.1.7",
     "global-agent": "^2.1.12",
     "global-tunnel-ng": "^2.1.1",
     "humanize": "0.0.9",
@@ -242,7 +244,7 @@
     "js-yaml": "^4.0.0",
     "klaw": "^3.0.0",
     "livepush": "^3.5.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "minimatch": "^3.0.4",
     "mixpanel": "^0.10.3",
     "moment": "^2.27.0",
@@ -250,7 +252,7 @@
     "ndjson": "^2.0.0",
     "node-cleanup": "^2.1.2",
     "node-unzip-2": "^0.2.8",
-    "oclif": "^1.16.1",
+    "oclif": "^1.18.1",
     "open": "^7.1.0",
     "partitioninfo": "^6.0.2",
     "patch-package": "^6.4.7",
@@ -276,7 +278,6 @@
     "through2": "^2.0.3",
     "tmp": "^0.2.1",
     "typed-error": "^3.2.1",
-    "umount": "^1.1.6",
     "update-notifier": "^4.1.0",
     "which": "^2.0.2",
     "window-size": "^1.1.0"

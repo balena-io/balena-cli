@@ -100,9 +100,8 @@ export async function inspectTarStream(
 	try {
 		expect($expected).to.deep.equal(found);
 	} catch (e) {
-		const {
-			diff,
-		} = require('deep-object-diff') as typeof import('deep-object-diff');
+		const { diff } =
+			require('deep-object-diff') as typeof import('deep-object-diff');
 		const diffStr = JSON.stringify(
 			diff($expected, found),
 			(_k, v) => (v === undefined ? 'undefined' : v),
@@ -216,7 +215,7 @@ export async function testDockerBuildStream(o: {
 	}
 	if (o.expectedExitCode != null) {
 		if (process.env.BALENA_CLI_TEST_TYPE !== 'standalone') {
-			// @ts-ignore
+			// @ts-expect-error
 			sinon.assert.calledWith(process.exit);
 		}
 		expect(o.expectedExitCode).to.equal(exitCode);

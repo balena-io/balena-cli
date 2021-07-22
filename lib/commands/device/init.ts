@@ -103,7 +103,9 @@ export default class DeviceInitCmd extends Command {
 		const application = (await getApplication(
 			balena,
 			options['application'] ||
-				(await (await import('../../utils/patterns')).selectApplication()).id,
+				(
+					await (await import('../../utils/patterns')).selectApplication()
+				).id,
 			{
 				$expand: {
 					is_for__device_type: {
