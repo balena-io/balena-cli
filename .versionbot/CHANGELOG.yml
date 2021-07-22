@@ -1,4 +1,48 @@
 - commits:
+    - subject: 'config write: Fix EBUSY error on macOS'
+      hash: e624726e4470e2093370ad4ff44eaaf50ff2823a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'chore: Remove ''umount'' dependency (as advised by "npm audit")'
+      hash: f914fa2d8afb28f5dacb1751f23ce1faf8c9290a
+      body: |
+        Address security advisory https://www.npmjs.com/advisories/1512
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'chore: Update oclif'
+      hash: c8f5542c8a7f2b54f1c09248e4bb40e275998407
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'chore: Update dependencies ("npm audit fix")'
+      hash: a2cad7bf53953e4f9d31009a6ab2ca6891d028ae
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'chore: Update balena-lint'
+      hash: 3a871a0003b89b45140ecb4e5eb34c061d4d5ff9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.44.26
+  date: 2021-07-21T23:55:29.462Z
+- commits:
     - subject: Simplify runSpinner api
       hash: f79ccc0c9521049b762de7ff275fe817773c12b3
       body: ''
