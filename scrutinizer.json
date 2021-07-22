@@ -5,6 +5,67 @@
     {
       "commits": [
         {
+          "subject": "config write: Fix EBUSY error on macOS",
+          "hash": "e624726e4470e2093370ad4ff44eaaf50ff2823a",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "chore: Remove 'umount' dependency (as advised by \"npm audit\")",
+          "hash": "f914fa2d8afb28f5dacb1751f23ce1faf8c9290a",
+          "body": "Address security advisory https://www.npmjs.com/advisories/1512\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "chore: Update oclif",
+          "hash": "c8f5542c8a7f2b54f1c09248e4bb40e275998407",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "chore: Update dependencies (\"npm audit fix\")",
+          "hash": "a2cad7bf53953e4f9d31009a6ab2ca6891d028ae",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "chore: Update balena-lint",
+          "hash": "3a871a0003b89b45140ecb4e5eb34c061d4d5ff9",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.44.26",
+      "date": "2021-07-21T23:55:29.462Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Simplify runSpinner api",
           "hash": "f79ccc0c9521049b762de7ff275fe817773c12b3",
           "body": "",
@@ -22472,7 +22533,9 @@
     "fast-boot2",
     "fast-levenshtein",
     "file-disk",
+    "filenamify",
     "get-stdin",
+    "glob",
     "global-agent",
     "global-tunnel-ng",
     "humanize",
@@ -22517,40 +22580,39 @@
     "through2",
     "tmp",
     "typed-error",
-    "umount",
     "update-notifier",
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-07-20T15:56:54Z",
+  "lastCommitDate": "2021-07-22T01:31:34Z",
   "latestRelease": {
-    "tagName": "v12.44.25",
+    "tagName": "v12.44.26",
     "asssets": [
       {
-        "name": "balena-cli-v12.44.25-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.25/balena-cli-v12.44.25-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.44.26-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.26/balena-cli-v12.44.26-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.25-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.25/balena-cli-v12.44.25-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.44.26-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.26/balena-cli-v12.44.26-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.44.25-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.25/balena-cli-v12.44.25-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.44.26-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.26/balena-cli-v12.44.26-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.25-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.25/balena-cli-v12.44.25-windows-x64-installer.exe"
+        "name": "balena-cli-v12.44.26-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.26/balena-cli-v12.44.26-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.44.25-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.25/balena-cli-v12.44.25-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.44.26-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.26/balena-cli-v12.44.26-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 335,
+    "numberOfIssues": 334,
     "latestIssues": [
       {
         "title": "[WIP] Add provisioning key name option to config generate options",
@@ -22634,7 +22696,7 @@
       }
     ]
   },
-  "version": "12.44.25",
+  "version": "12.44.26",
   "screenshot": null,
   "logo": null
 }
