@@ -174,6 +174,13 @@ const messages: {
 	BalenaExpiredToken: () => stripIndent`
 		Looks like the session token has expired.
 		Try logging in again with the "balena login" command.`,
+
+	BalenaInvalidDeviceType: (error: Error & { deviceTypeSlug?: string }) => {
+		const slug = error.deviceTypeSlug ? `"${error.deviceTypeSlug}"` : 'slug';
+		return stripIndent`
+			Device type ${slug} not recognized. Perhaps misspelled?
+			Check available device types with "balena devices supported"`;
+	},
 };
 
 // TODO remove these regexes when we have a way of uniquely indentifying errors.
