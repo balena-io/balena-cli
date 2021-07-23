@@ -31,6 +31,11 @@ command again.
 
 Check whether the SD card is locked (a physical switch on the side of the card).
 
+## I get `connect ETIMEDOUT` with `balena tunnel`
+
+Please update the CLI to the latest version. This issue was fixed in v12.38.5.
+For more details, see: https://github.com/balena-io/balena-cli/issues/2172
+
 ## I get EINVAL errors on Cygwin
 
 The errors may look something like this:
