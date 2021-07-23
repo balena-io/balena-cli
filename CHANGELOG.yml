@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'os download: Improve error message for misspelled device type names'
+      hash: 8338e2e933a95b93c14cf1699741f7b16d2a364b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.44.28
+  date: 2021-07-23T14:54:53.545Z
+- commits:
     - subject: >-
         docs: Add entry to FAQ/Troubleshooting for ETIMEDOUT with 'balena
         tunnel'
@@ -10,7 +21,7 @@
       author: Paulo Castro
       nested: []
   version: 12.44.27
-  date: 2021-07-23T11:24:11.166Z
+  date: 2021-07-23T11:00:42.485Z
 - commits:
     - subject: 'config write: Fix EBUSY error on macOS'
       hash: e624726e4470e2093370ad4ff44eaaf50ff2823a
