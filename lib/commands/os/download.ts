@@ -95,6 +95,11 @@ export default class OsDownloadCmd extends Command {
 
 		const { downloadOSImage } = await import('../../utils/cloud');
 
-		await downloadOSImage(params.type, options.output, options.version);
+		try {
+			await downloadOSImage(params.type, options.output, options.version);
+		} catch (e) {
+			e.deviceTypeSlug = params.type;
+			throw e;
+		}
 	}
 }
