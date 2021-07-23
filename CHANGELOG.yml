@@ -1,4 +1,17 @@
 - commits:
+    - subject: >-
+        docs: Add entry to FAQ/Troubleshooting for ETIMEDOUT with 'balena
+        tunnel'
+      hash: 07eef7bb494425f0758514594d9f0294ef8ec83b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.44.27
+  date: 2021-07-23T11:24:11.166Z
+- commits:
     - subject: 'config write: Fix EBUSY error on macOS'
       hash: e624726e4470e2093370ad4ff44eaaf50ff2823a
       body: ''
@@ -41,7 +54,7 @@
       author: Paulo Castro
       nested: []
   version: 12.44.26
-  date: 2021-07-22T01:30:52.816Z
+  date: 2021-07-21T23:55:29.462Z
 - commits:
     - subject: Simplify runSpinner api
       hash: f79ccc0c9521049b762de7ff275fe817773c12b3
