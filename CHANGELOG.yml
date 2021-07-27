@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'preload: Fix storage driver detection in balenaOS v2.80.9'
+      hash: 6cb28937502252e27bb0108c1327b3b9b92b1735
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 12.44.29
+  date: 2021-07-27T13:48:29.898Z
+- commits:
     - subject: 'os download: Improve error message for misspelled device type names'
       hash: 8338e2e933a95b93c14cf1699741f7b16d2a364b
       body: ''
@@ -8,7 +21,7 @@
       author: Paulo Castro
       nested: []
   version: 12.44.28
-  date: 2021-07-23T14:54:53.545Z
+  date: 2021-07-23T14:13:00.731Z
 - commits:
     - subject: >-
         docs: Add entry to FAQ/Troubleshooting for ETIMEDOUT with 'balena

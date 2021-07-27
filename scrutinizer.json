@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "preload: Fix storage driver detection in balenaOS v2.80.9",
+          "hash": "6cb28937502252e27bb0108c1327b3b9b92b1735",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+            "signed-off-by": "Kyle Harding <kyle@balena.io>"
+          },
+          "author": "Kyle Harding",
+          "nested": []
+        }
+      ],
+      "version": "12.44.29",
+      "date": "2021-07-26T16:07:13.663Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "os download: Improve error message for misspelled device type names",
           "hash": "8338e2e933a95b93c14cf1699741f7b16d2a364b",
           "body": "",
@@ -22618,29 +22637,25 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-07-23T14:55:35Z",
+  "lastCommitDate": "2021-07-27T13:49:35Z",
   "latestRelease": {
-    "tagName": "v12.44.28",
+    "tagName": "v12.44.29",
     "asssets": [
       {
-        "name": "balena-cli-v12.44.28-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.28/balena-cli-v12.44.28-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.44.29-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.29/balena-cli-v12.44.29-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.28-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.28/balena-cli-v12.44.28-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.44.29-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.29/balena-cli-v12.44.29-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.44.28-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.28/balena-cli-v12.44.28-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.44.29-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.29/balena-cli-v12.44.29-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.44.28-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.28/balena-cli-v12.44.28-windows-x64-installer.exe"
-      },
-      {
-        "name": "balena-cli-v12.44.28-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.28/balena-cli-v12.44.28-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.44.29-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.44.29/balena-cli-v12.44.29-macOS-x64-installer.pkg"
       }
     ]
   },
@@ -22730,7 +22745,7 @@
       }
     ]
   },
-  "version": "12.44.28",
+  "version": "12.44.29",
   "screenshot": null,
   "logo": null
 }
