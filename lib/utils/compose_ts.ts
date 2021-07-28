@@ -1051,9 +1051,6 @@ export async function makeBuildTasks(
 			infoStr = `build [${task.context}]`;
 		}
 		logger.logDebug(`    ${task.serviceName}: ${infoStr}`);
-		// Workaround for Docker v20.10 + single-arch base images. See:
-		// https://www.flowdock.com/app/rulemotion/i-cli/threads/RuSu1KiWOn62xaGy7O2sn8m8BUc
-		task.dockerPlatform = 'none';
 	});
 
 	logger.logDebug(

@@ -6497,6 +6497,14 @@
         }
       }
     },
+    "dockerfile-ast": {
+      "version": "0.2.1",
+      "resolved": "https://registry.npmjs.org/dockerfile-ast/-/dockerfile-ast-0.2.1.tgz",
+      "integrity": "sha512-ut04CVM1G6zIITTcYPDIXhPZk9mCa21m4dfW8FcDDGxwgTQhYyHDu6U7M8klZ7QsjqVcJhryKi+TGOX6bjgKdQ==",
+      "requires": {
+        "vscode-languageserver-types": "^3.16.0"
+      }
+    },
     "dockerfile-template": {
       "version": "0.2.0",
       "resolved": "https://registry.npmjs.org/dockerfile-template/-/dockerfile-template-0.2.0.tgz",
@@ -8202,9 +8210,9 @@
       "integrity": "sha1-mMI9qxF1ZXuMBXPozszZGw/xjIQ="
     },
     "fp-ts": {
-      "version": "2.10.5",
-      "resolved": "https://registry.npmjs.org/fp-ts/-/fp-ts-2.10.5.tgz",
-      "integrity": "sha512-X2KfTIV0cxIk3d7/2Pvp/pxL/xr2MV1WooyEzKtTWYSc1+52VF4YzjBTXqeOlSiZsPCxIBpDGfT9Dyo7WEY0DQ=="
+      "version": "2.11.2",
+      "resolved": "https://registry.npmjs.org/fp-ts/-/fp-ts-2.11.2.tgz",
+      "integrity": "sha512-G1rD89nmbbgTNRBKohjB3Qv4IxOHQ5KV3ZvYfpaQZyrGt+ZQUFrcnCqE567bcEdvwoAUKDQM7isOcv7xcM/qAQ=="
     },
     "fragment-cache": {
       "version": "0.2.1",
@@ -15556,9 +15564,12 @@
           }
         },
         "@types/klaw": {
-          "version": "1.3.5",
-          "resolved": "https://registry.npmjs.org/@types/klaw/-/klaw-1.3.5.tgz",
-          "integrity": "sha512-KZfv4ea6bEbdQhfwpxtDuTPO2mHAAXMQqPOZyS4MgNyCymKoLHp0FVzzYq3H2zCeIotN4h1453TahLCCm8rf2w=="
+          "version": "1.3.6",
+          "resolved": "https://registry.npmjs.org/@types/klaw/-/klaw-1.3.6.tgz",
+          "integrity": "sha512-4pr2RxwhfsLxFYa4Ip8JxrdXIvPX7fAqyBh9ofZPedMwf8M5CIcSQskqvX6/5Y/zpCBHtuC3218t8H+XJsg5FA==",
+          "requires": {
+            "@types/node": "*"
+          }
         },
         "bl": {
           "version": "1.2.3",
@@ -15755,13 +15766,14 @@
       }
     },
     "resin-multibuild": {
-      "version": "4.11.0",
-      "resolved": "https://registry.npmjs.org/resin-multibuild/-/resin-multibuild-4.11.0.tgz",
-      "integrity": "sha512-rIYV9GDNuI8pU9N+wGdVRIOGAnw1BFdbyt3BkvERFxbf+b/e7jpBjHkbK8VPQdRMlKPyu137ZxQlR3z7EivJBg==",
+      "version": "4.12.1",
+      "resolved": "https://registry.npmjs.org/resin-multibuild/-/resin-multibuild-4.12.1.tgz",
+      "integrity": "sha512-ORtzaDZGS5wftNo4KXi4yOcqSsjU0/56oY7mXlc8XcmqusOOfr1N3rnFpXkjQ7COJLcPvfPT+OEeJuQ7l7cOmg==",
       "requires": {
         "ajv": "^6.12.3",
         "bluebird": "^3.7.2",
         "docker-progress": "^5.0.0",
+        "dockerfile-ast": "^0.2.1",
         "dockerfile-template": "^0.2.0",
         "dockerode": "^2.5.8",
         "fp-ts": "^2.8.1",
@@ -18526,6 +18538,11 @@
           }
         }
       }
+    },
+    "vscode-languageserver-types": {
+      "version": "3.16.0",
+      "resolved": "https://registry.npmjs.org/vscode-languageserver-types/-/vscode-languageserver-types-3.16.0.tgz",
+      "integrity": "sha512-k8luDIWJWyenLc5ToFQQMaSrqCHiLwyKPHKPQZ5zz21vM+vIVUSvsRpcbiECH4WR88K2XZqc4ScRcZ7nk/jbeA=="
     },
     "wcwidth": {
       "version": "1.0.1",
