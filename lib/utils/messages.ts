@@ -30,6 +30,24 @@ export const help = reachingOut;
 // is parsed, so its evaluation cannot happen at module loading time.
 export const getHelp = () => (process.env.DEBUG ? '' : debugHint) + help;
 
+/**
+ * Take a multiline string like:
+ *     Line One
+ *     Line Two
+ * and return a string like:
+ *     ---------------
+ *     [Warn] Line One
+ *     [Warn] Line Two
+ *     ---------------
+ * where the length of the dash rows matches the length of the longest line.
+ */
+export function warnify(msg: string) {
+	const lines = msg.split('\n').map((l) => `[Warn] ${l}`);
+	const maxLength = Math.max(...lines.map((l) => l.length));
+	const hr = '-'.repeat(maxLength);
+	return [hr, ...lines, hr].join('\n');
+}
+
 export const balenaAsciiArt = `\
  _            _
 | |__   __ _ | |  ____  _ __    __ _
@@ -66,12 +84,12 @@ export const dockerignoreHelp =
 	`By default, the balena CLI will use a single ".dockerignore" file (if any) at
 the project root (--source directory) in order to decide which source files to
 exclude from the "build context" (tar stream) sent to balenaCloud, Docker
-daemon or balenaEngine. In a microservices (multicontainer) application, the
+daemon or balenaEngine.  In a microservices (multicontainer) fleet, the
 source directory is the directory that contains the "docker-compose.yml" file.
 
 The --multi-dockerignore (-m) option may be used with microservices
-(multicontainer) applications that define a docker-compose.yml file. When
-this option is used, each service subdirectory (defined by the \`build\` or
+(multicontainer) fleets that define a docker-compose.yml file. When this
+option is used, each service subdirectory (defined by the \`build\` or
 \`build.context\` service properties in the docker-compose.yml file) is
 filtered separately according to a .dockerignore file defined in the service
 subdirectory. If no .dockerignore file exists in a service subdirectory, then
@@ -115,18 +133,17 @@ adding counter patterns to the applicable .dockerignore file(s), for example
 - https://www.npmjs.com/package/@balena/dockerignore`;
 
 export const applicationIdInfo = `\
-Applications may be specified by app name, slug, or numeric ID. App slugs
-are the recommended option, as they are unique and unambiguous. Slugs
-can be listed with the \`balena apps\` command. Note that slugs may change
-if the application is renamed.
-App names are not unique and may result in "Application is ambiguous" errors
-at any time (even if it "used to work in the past"), for example if the name
-clashes with a newly created public application, or with apps from other balena
-accounts that you may have been invited to as a member. For this reason, app
-names are especially discouraged in scripts (e.g. CI environments).
-Numeric app IDs are deprecated because they consist of an implementation detail
-of the balena backend. We intend to remove support for numeric IDs at some point
-in the future.`;
+Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+the recommended option, as they are unique and unambiguous. Slugs can be
+listed with the \`balena fleets\` command. Note that slugs may change if the
+fleet is renamed. Fleet names are not unique and may result in  "Fleet is
+ambiguous" errors at any time (even if it "used to work in the past"), for
+example if the name clashes with a newly created public fleet, or with fleets
+from other balena accounts that you may be invited to join under any role.
+For this reason, fleet names are especially discouraged in scripts (e.g. CI
+environments). Numeric fleet IDs are deprecated because they consist of an
+implementation detail of the balena backend. We intend to remove support for
+numeric IDs at some point in the future.`;
 
 export const jsonInfo = `\
 The --json option is recommended when scripting the output of this command,
@@ -143,3 +160,27 @@ https://www.balena.io/docs/learn/deploy/deployment/#build-time-secrets-and-varia
 If you have a particular use for buildArg, which is not satisfied by build-time
 secrets, please contact us via support or the forums: https://forums.balena.io/
 \n`;
+
+// Note: if you edit this message, check that the regex replace
+// logic in lib/commands/apps.ts still works.
+export const appToFleetCmdMsg = `\
+Renaming notice: The 'app' command was renamed to 'fleet', and 'app'
+is now an alias. THE ALIAS WILL BE REMOVED in the next major version
+of the balena CLI (so that a different 'app' command can be implemented
+in the future). Use 'fleet' instead of 'app' to avoid this warning.
+Find out more at: https://git.io/JRuZr`;
+
+export const appToFleetFlagMsg = `\
+Renaming notice: The '-a', '--app' or '--application' options are now
+aliases for the '-f' or '--fleet' options. THE ALIASES WILL BE REMOVED
+in the next major version of the balena CLI (so that a different '--app'
+option can be implemented in the future). Use '-f' or '--fleet' instead.
+Find out more at: https://git.io/JRuZr`;
+
+export const appToFleetOutputMsg = `\
+Renaming notice: The 'app' or 'application' words in table headers
+or in JSON object keys/properties will be replaced with 'fleet' in
+the next major version of the CLI (v13). The --v13 option may be used
+to enable the new names already now, and suppress a warning message.
+(The --v13 option will be silently ignored in CLI v13.)
+Find out more at: https://git.io/JRuZr`;

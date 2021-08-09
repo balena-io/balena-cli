@@ -15,39 +15,45 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import type { flags } from '@oclif/command';
+import type { Output as ParserOutput } from '@oclif/parser';
+
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import * as ca from '../../utils/common-args';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import {
+	applicationIdInfo,
+	appToFleetCmdMsg,
+	warnify,
+} from '../../utils/messages';
 
 interface FlagsDef {
 	help: void;
 }
 
 interface ArgsDef {
-	application: string;
+	fleet: string;
 }
 
-export default class AppPurgeCmd extends Command {
+export class FleetPurgeCmd extends Command {
 	public static description = stripIndent`
-		Purge data from an application.
+		Purge data from a fleet.
 
-		Purge data from all devices belonging to an application.
-		This will clear the application's /data directory.
+		Purge data from all devices belonging to a fleet.
+		This will clear the fleet's '/data' directory.
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
 	`;
 
 	public static examples = [
-		'$ balena app purge MyApp',
-		'$ balena app purge myorg/myapp',
+		'$ balena fleet purge MyFleet',
+		'$ balena fleet purge myorg/myfleet',
 	];
 
-	public static args = [ca.applicationRequired];
+	public static args = [ca.fleetRequired];
 
-	public static usage = 'app purge <application>';
+	public static usage = 'fleet purge <fleet>';
 
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
@@ -55,8 +61,9 @@ export default class AppPurgeCmd extends Command {
 
 	public static authenticated = true;
 
-	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(AppPurgeCmd);
+	public async run(parserOutput?: ParserOutput<FlagsDef, ArgsDef>) {
+		const { args: params } =
+			parserOutput || this.parse<FlagsDef, ArgsDef>(FleetPurgeCmd);
 
 		const { getApplication } = await import('../../utils/sdk');
 
@@ -64,7 +71,7 @@ export default class AppPurgeCmd extends Command {
 
 		// balena.models.application.purge only accepts a numeric id
 		// so we must first fetch the app to get it's id,
-		const application = await getApplication(balena, params.application);
+		const application = await getApplication(balena, params.fleet);
 
 		try {
 			await balena.models.application.purge(application.id);
@@ -76,5 +83,33 @@ export default class AppPurgeCmd extends Command {
 				throw e;
 			}
 		}
+	}
+}
+
+export default class AppPurgeCmd extends FleetPurgeCmd {
+	public static description = stripIndent`
+		DEPRECATED alias for the 'fleet purge' command
+
+		${appToFleetCmdMsg
+			.split('\n')
+			.map((l) => `\t\t${l}`)
+			.join('\n')}
+
+		For command usage, see 'balena help fleet purge'
+	`;
+	public static examples = [];
+	public static usage = 'app purge <fleet>';
+	public static args = FleetPurgeCmd.args;
+	public static flags = FleetPurgeCmd.flags;
+	public static authenticated = FleetPurgeCmd.authenticated;
+	public static primary = FleetPurgeCmd.primary;
+
+	public async run() {
+		// call this.parse() before deprecation message to parse '-h'
+		const parserOutput = this.parse<FlagsDef, ArgsDef>(AppPurgeCmd);
+		if (process.stderr.isTTY) {
+			console.error(warnify(appToFleetCmdMsg));
+		}
+		await super.run(parserOutput);
 	}
 }

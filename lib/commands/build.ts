@@ -18,22 +18,27 @@
 import { flags } from '@oclif/command';
 import Command from '../command';
 import { getBalenaSdk } from '../utils/lazy';
+import * as cf from '../utils/common-flags';
 import * as compose from '../utils/compose';
 import type { Application, ApplicationType, BalenaSDK } from 'balena-sdk';
 import {
+	appToFleetFlagMsg,
 	buildArgDeprecation,
 	dockerignoreHelp,
 	registrySecretsHelp,
+	warnify,
 } from '../utils/messages';
 import type { ComposeCliFlags, ComposeOpts } from '../utils/compose-types';
 import { buildProject, composeCliFlags } from '../utils/compose_ts';
 import type { BuildOpts, DockerCliFlags } from '../utils/docker';
 import { dockerCliFlags } from '../utils/docker';
+import { isV13 } from '../utils/version';
 
 interface FlagsDef extends ComposeCliFlags, DockerCliFlags {
 	arch?: string;
 	deviceType?: string;
 	application?: string;
+	fleet?: string;
 	source?: string; // Not part of command profile - source param copied here.
 	help: void;
 }
@@ -51,7 +56,7 @@ the provided docker daemon in your development machine or balena device.
 (See also the \`balena push\` command for the option of building images in the
 balenaCloud build servers.)
 
-You must provide either an application or a device-type/architecture pair.
+You must specify either a fleet, or the device type and architecture.
 
 This command will look into the given source directory (or the current working
 directory if one isn't specified) for a docker-compose.yml file, and if found,
@@ -65,12 +70,12 @@ ${registrySecretsHelp}
 ${dockerignoreHelp}
 `;
 	public static examples = [
-		'$ balena build --application myApp',
-		'$ balena build ./source/ --application myApp',
+		'$ balena build --fleet myFleet',
+		'$ balena build ./source/ --fleet myorg/myfleet',
 		'$ balena build --deviceType raspberrypi3 --arch armv7hf --emulated',
-		'$ balena build --docker /var/run/docker.sock --application myApp   # Linux, Mac',
-		'$ balena build --docker //./pipe/docker_engine --application myApp # Windows',
-		'$ balena build --dockerHost my.docker.host --dockerPort 2376 --ca ca.pem --key key.pem --cert cert.pem -a myApp',
+		'$ balena build --docker /var/run/docker.sock --fleet myFleet   # Linux, Mac',
+		'$ balena build --docker //./pipe/docker_engine --fleet myFleet # Windows',
+		'$ balena build --dockerHost my.docker.host --dockerPort 2376 --ca ca.pem --key key.pem --cert cert.pem -f myFleet',
 	];
 
 	public static args = [
@@ -91,10 +96,8 @@ ${dockerignoreHelp}
 			description: 'the type of device this build is for',
 			char: 'd',
 		}),
-		application: flags.string({
-			description: 'name of the target balena application this build is for',
-			char: 'a',
-		}),
+		...(isV13() ? {} : { application: cf.application }),
+		fleet: cf.fleet,
 		...composeCliFlags,
 		...dockerCliFlags,
 		// NOTE: Not supporting -h for help, because of clash with -h in DockerCliFlags
@@ -108,6 +111,11 @@ ${dockerignoreHelp}
 		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
 			BuildCmd,
 		);
+
+		if (options.application && process.stderr.isTTY) {
+			console.error(warnify(appToFleetFlagMsg));
+		}
+		options.application ||= options.fleet;
 
 		await Command.checkLoggedInIf(!!options.application);
 
@@ -160,7 +168,7 @@ ${dockerignoreHelp}
 		) {
 			const { ExpectedError } = await import('../errors');
 			throw new ExpectedError(
-				'You must specify either an application or an arch/deviceType pair to build for',
+				'You must specify either a fleet (-f), or the device type (-d) and architecture (-A)',
 			);
 		}
 
@@ -240,7 +248,7 @@ ${dockerignoreHelp}
 			!appType.supports_multicontainer
 		) {
 			logger.logWarn(
-				'Target application does not support multiple containers.\n' +
+				'Target fleet does not support multiple containers.\n' +
 					'Continuing with build, but you will not be able to deploy.',
 			);
 		}

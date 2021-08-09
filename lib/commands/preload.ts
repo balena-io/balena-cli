@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
 import Command from '../command';
+import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
 import {
 	getBalenaSdk,
@@ -24,9 +24,17 @@ import {
 	getVisuals,
 	stripIndent,
 } from '../utils/lazy';
-import { applicationIdInfo } from '../utils/messages';
+import {
+	applicationIdInfo,
+	appToFleetFlagMsg,
+	warnify,
+} from '../utils/messages';
 import type { DockerConnectionCliFlags } from '../utils/docker';
 import { dockerConnectionCliFlags } from '../utils/docker';
+import { parseAsInteger } from '../utils/validation';
+import { isV13 } from '../utils/version';
+
+import { flags } from '@oclif/command';
 import * as _ from 'lodash';
 import type {
 	Application,
@@ -36,11 +44,10 @@ import type {
 	Release,
 } from 'balena-sdk';
 import type { Preloader } from 'balena-preload';
-import { parseAsInteger } from '../utils/validation';
-import { ExpectedError } from '../errors';
 
 interface FlagsDef extends DockerConnectionCliFlags {
 	app?: string;
+	fleet?: string;
 	commit?: string;
 	'splash-image'?: string;
 	'dont-check-arch': boolean;
@@ -56,16 +63,16 @@ interface ArgsDef {
 
 export default class PreloadCmd extends Command {
 	public static description = stripIndent`
-		Preload an app on a disk image (or Edison zip archive).
+		Preload a release on a disk image (or Edison zip archive).
 
-		Preload a balena application release (app images/containers), and optionally
+		Preload a release (service images/containers) from a balena fleet, and optionally
 		a balenaOS splash screen, in a previously downloaded '.img' balenaOS image file
 		in the local disk (a zip file is only accepted for the Intel Edison device type).
 		After preloading, the balenaOS image file can be flashed to a device's SD card.
-		When the device boots, it will not need to download the application, as it was
+		When the device boots, it will not need to download the release, as it was
 		preloaded. This is usually combined with release pinning
 		(https://www.balena.io/docs/learn/deploy/release-strategy/release-policy/)
-		to avoid the device dowloading a newer release straight away, if one is available.
+		to avoid the device downloading a newer release straight away, if available.
 		Check also the Preloading and Preregistering section of the balena CLI's advanced
 		masterclass document:
 		https://www.balena.io/docs/learn/more/masterclasses/advanced-cli/#5-preloading-and-preregistering
@@ -82,8 +89,8 @@ export default class PreloadCmd extends Command {
 	`;
 
 	public static examples = [
-		'$ balena preload balena.img --app MyApp --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0',
-		'$ balena preload balena.img --app myorg/myapp --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image image.png',
+		'$ balena preload balena.img --fleet MyFleet --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0',
+		'$ balena preload balena.img --fleet myorg/myfleet --splash-image image.png',
 		'$ balena preload balena.img',
 	];
 
@@ -98,13 +105,16 @@ export default class PreloadCmd extends Command {
 	public static usage = 'preload <image>';
 
 	public static flags: flags.Input<FlagsDef> = {
-		// TODO: Replace with application/a in #v13?
-		app: cf.application,
+		...(isV13() ? {} : { app: cf.application }),
+		fleet: cf.fleet,
 		commit: flags.string({
 			description: `\
-The commit hash for a specific application release to preload, use "current" to specify the current
-release (ignored if no appId is given). The current release is usually also the latest, but can be
-manually pinned using https://github.com/balena-io-projects/staged-releases .\
+The commit hash of the release to preload. Use "current" to specify the current
+release (ignored if no appId is given). The current release is usually also the
+latest, but can be pinned to a specific release. See:  
+https://www.balena.io/docs/learn/deploy/release-strategy/release-policy/  
+https://www.balena.io/docs/learn/more/masterclasses/fleet-management/#63-pin-using-the-api  
+https://github.com/balena-io-examples/staged-releases\
 `,
 			char: 'c',
 		}),
@@ -115,7 +125,7 @@ manually pinned using https://github.com/balena-io-projects/staged-releases .\
 		'dont-check-arch': flags.boolean({
 			default: false,
 			description:
-				'disables check for matching architecture in image and application',
+				'disable architecture compatibility check between image and fleet',
 		}),
 		'pin-device-to-release': flags.boolean({
 			default: false,
@@ -159,6 +169,11 @@ Can be repeated to add multiple certificates.\
 			PreloadCmd,
 		);
 
+		if (options.app && process.stderr.isTTY) {
+			console.error(warnify(appToFleetFlagMsg));
+		}
+		options.app ||= options.fleet;
+
 		const balena = getBalenaSdk();
 		const balenaPreload = await import('balena-preload');
 		const visuals = getVisuals();
@@ -190,7 +205,7 @@ Can be repeated to add multiple certificates.\
 			const { getApplication } = await import('../utils/sdk');
 			const application = await getApplication(balena, options.app);
 			if (!application) {
-				throw new ExpectedError(`Application not found: ${options.app}`);
+				throw new ExpectedError(`Fleet not found: ${options.app}`);
 			}
 			options.app = application.slug;
 		}
@@ -239,7 +254,7 @@ Can be repeated to add multiple certificates.\
 
 		if (dontCheckArch && !appId) {
 			throw new ExpectedError(
-				'You need to specify an application if you disable the architecture check.',
+				'You need to specify a fleet if you disable the architecture check.',
 			);
 		}
 
@@ -417,11 +432,11 @@ Can be repeated to add multiple certificates.\
 		applicationInfoSpinner.stop();
 		if (applications.length === 0) {
 			throw new ExpectedError(
-				`You have no apps with successful releases for a '${deviceTypeSlug}' device type.`,
+				`No fleets found with successful releases for device type '${deviceTypeSlug}'`,
 			);
 		}
 		return getCliForm().ask({
-			message: 'Select an application',
+			message: 'Select a fleet',
 			type: 'list',
 			choices: applications.map((app) => ({
 				name: app.app_name,
@@ -432,7 +447,7 @@ Can be repeated to add multiple certificates.\
 
 	selectApplicationCommit(releases: Release[]) {
 		if (releases.length === 0) {
-			throw new ExpectedError('This application has no successful releases.');
+			throw new ExpectedError('This fleet has no successful releases.');
 		}
 		const DEFAULT_CHOICE = { name: 'current', value: 'current' };
 		const choices = [DEFAULT_CHOICE].concat(
@@ -465,23 +480,23 @@ Can be repeated to add multiple certificates.\
 		}
 		const message = `\
 
-This application is set to track the latest release, and non-pinned devices
+This fleet is set to track the latest release, and non-pinned devices
 are automatically updated when a new release is available. This may lead to
 unexpected behavior: The preloaded device will download and install the latest
 release once it is online.
 
-This prompt gives you the opportunity to disable automatic updates for this
-application now. Note that this would result in the application being pinned
-to the current latest release, rather than some other release that may have
+This prompt gives you the opportunity to disable automatic updates for
+this fleet now. Note that this would result in the fleet being pinned to
+the current latest release, rather than some other release that may have
 been selected for preloading. The pinned released may be further managed
 through the web dashboard or programatically through the balena API / SDK.
-Documentation about release policies and app/device pinning can be found at:
+Documentation about release policies and pinning can be found at:
 https://www.balena.io/docs/learn/deploy/release-strategy/release-policy/
 
 Alternatively, the --pin-device-to-release flag may be used to pin only the
 preloaded device to the selected release.
 
-Would you like to disable automatic updates for this application now?\
+Would you like to disable automatic updates for this fleet now?\
 `;
 		const update = await getCliForm().ask({
 			message,
@@ -531,7 +546,7 @@ Would you like to disable automatic updates for this application now?\
 			if (this.isCurrentCommit(options.commit)) {
 				if (!appCommit) {
 					throw new Error(
-						`Unexpected empty commit hash for app ID "${application.id}"`,
+						`Unexpected empty commit hash for fleet ID "${application.id}"`,
 					);
 				}
 				// handle `--commit current` (and its `--commit latest` synonym)

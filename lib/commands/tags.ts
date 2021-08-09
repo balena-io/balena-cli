@@ -20,29 +20,34 @@ import Command from '../command';
 import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
-import { applicationIdInfo } from '../utils/messages';
+import {
+	applicationIdInfo,
+	appToFleetFlagMsg,
+	warnify,
+} from '../utils/messages';
+import { isV13 } from '../utils/version';
 
 interface FlagsDef {
+	app?: string;
 	application?: string;
+	fleet?: string;
 	device?: string;
 	release?: string;
 	help: void;
-	app?: string;
 }
 
 export default class TagsCmd extends Command {
 	public static description = stripIndent`
-		List all tags for an application, device or release.
+		List all tags for a fleet, device or release.
 
-		List all tags and their values for a particular application,
-		device or release.
+		List all tags and their values for the specified fleet, device or release.
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
 	`;
 
 	public static examples = [
-		'$ balena tags --application MyApp',
-		'$ balena tags -a myorg/myapp',
+		'$ balena tags --fleet MyFleet',
+		'$ balena tags -f myorg/myfleet',
 		'$ balena tags --device 7cf02a6',
 		'$ balena tags --release 1234',
 		'$ balena tags --release b376b0e544e9429483b656490e5b9443b4349bd6',
@@ -51,21 +56,29 @@ export default class TagsCmd extends Command {
 	public static usage = 'tags';
 
 	public static flags: flags.Input<FlagsDef> = {
-		application: {
-			...cf.application,
-			exclusive: ['app', 'device', 'release'],
-		},
-		app: {
-			...cf.app,
-			exclusive: ['application', 'device', 'release'],
+		...(isV13()
+			? {}
+			: {
+					application: {
+						...cf.application,
+						exclusive: ['app', 'fleet', 'device', 'release'],
+					},
+					app: {
+						...cf.app,
+						exclusive: ['application', 'fleet', 'device', 'release'],
+					},
+			  }),
+		fleet: {
+			...cf.fleet,
+			exclusive: ['app', 'application', 'device', 'release'],
 		},
 		device: {
 			...cf.device,
-			exclusive: ['app', 'application', 'release'],
+			exclusive: ['app', 'application', 'fleet', 'release'],
 		},
 		release: {
 			...cf.release,
-			exclusive: ['app', 'application', 'device'],
+			exclusive: ['app', 'application', 'fleet', 'device'],
 		},
 		help: cf.help,
 	};
@@ -75,9 +88,10 @@ export default class TagsCmd extends Command {
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(TagsCmd);
 
-		// Prefer options.application over options.app
-		options.application = options.application || options.app;
-		delete options.app;
+		if ((options.application || options.app) && process.stderr.isTTY) {
+			console.error(warnify(appToFleetFlagMsg));
+		}
+		options.application ||= options.app || options.fleet;
 
 		const balena = getBalenaSdk();
 
@@ -123,7 +137,7 @@ export default class TagsCmd extends Command {
 	protected missingResourceMessage = stripIndent`
 					To list tags for a resource, you must provide exactly one of:
 
-					  * An application, with --application <appNameOrSlug>
+					  * A fleet, with --fleet <fleetNameOrSlug>
 					  * A device, with --device <uuid>
 					  * A release, with --release <id or commit>
 

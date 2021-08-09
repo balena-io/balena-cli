@@ -15,12 +15,18 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import type { flags } from '@oclif/command';
+import type { Output as ParserOutput } from '@oclif/parser';
+
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import * as ca from '../../utils/common-args';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import {
+	applicationIdInfo,
+	appToFleetCmdMsg,
+	warnify,
+} from '../../utils/messages';
 
 interface FlagsDef {
 	yes: boolean;
@@ -28,14 +34,14 @@ interface FlagsDef {
 }
 
 interface ArgsDef {
-	application: string;
+	fleet: string;
 }
 
-export default class AppRmCmd extends Command {
+export class FleetRmCmd extends Command {
 	public static description = stripIndent`
-		Remove an application.
+		Remove a fleet.
 
-		Permanently remove a balena application.
+		Permanently remove a fleet.
 
 		The --yes option may be used to avoid interactive confirmation.
 
@@ -43,14 +49,14 @@ export default class AppRmCmd extends Command {
 	`;
 
 	public static examples = [
-		'$ balena app rm MyApp',
-		'$ balena app rm MyApp --yes',
-		'$ balena app rm myorg/myapp',
+		'$ balena fleet rm MyFleet',
+		'$ balena fleet rm MyFleet --yes',
+		'$ balena fleet rm myorg/myfleet',
 	];
 
-	public static args = [ca.applicationRequired];
+	public static args = [ca.fleetRequired];
 
-	public static usage = 'app rm <application>';
+	public static usage = 'fleet rm <fleet>';
 
 	public static flags: flags.Input<FlagsDef> = {
 		yes: cf.yes,
@@ -59,10 +65,9 @@ export default class AppRmCmd extends Command {
 
 	public static authenticated = true;
 
-	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			AppRmCmd,
-		);
+	public async run(parserOutput?: ParserOutput<FlagsDef, ArgsDef>) {
+		const { args: params, flags: options } =
+			parserOutput || this.parse<FlagsDef, ArgsDef>(FleetRmCmd);
 
 		const { confirm } = await import('../../utils/patterns');
 		const { getApplication } = await import('../../utils/sdk');
@@ -71,13 +76,41 @@ export default class AppRmCmd extends Command {
 		// Confirm
 		await confirm(
 			options.yes ?? false,
-			`Are you sure you want to delete application ${params.application}?`,
+			`Are you sure you want to delete fleet ${params.fleet}?`,
 		);
 
 		// Disambiguate application (if is a number, it could either be an ID or a numerical name)
-		const application = await getApplication(balena, params.application);
+		const application = await getApplication(balena, params.fleet);
 
 		// Remove
 		await balena.models.application.remove(application.id);
+	}
+}
+
+export default class AppRmCmd extends FleetRmCmd {
+	public static description = stripIndent`
+		DEPRECATED alias for the 'fleet rm' command
+
+		${appToFleetCmdMsg
+			.split('\n')
+			.map((l) => `\t\t${l}`)
+			.join('\n')}
+
+		For command usage, see 'balena help fleet rm'
+	`;
+	public static examples = [];
+	public static usage = 'app rm <fleet>';
+	public static args = FleetRmCmd.args;
+	public static flags = FleetRmCmd.flags;
+	public static authenticated = FleetRmCmd.authenticated;
+	public static primary = FleetRmCmd.primary;
+
+	public async run() {
+		// call this.parse() before deprecation message to parse '-h'
+		const parserOutput = this.parse<FlagsDef, ArgsDef>(AppRmCmd);
+		if (process.stderr.isTTY) {
+			console.error(warnify(appToFleetCmdMsg));
+		}
+		await super.run(parserOutput);
 	}
 }

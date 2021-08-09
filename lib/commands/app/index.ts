@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2016-2020 Balena Ltd.
+ * Copyright 2016-2021 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,35 +15,44 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import type { flags } from '@oclif/command';
+import type { Output as ParserOutput } from '@oclif/parser';
+import type { Release } from 'balena-sdk';
+
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import * as ca from '../../utils/common-args';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
-import type { Release } from 'balena-sdk';
+import {
+	applicationIdInfo,
+	appToFleetCmdMsg,
+	warnify,
+} from '../../utils/messages';
 
 interface FlagsDef {
 	help: void;
 }
 
 interface ArgsDef {
-	application: string;
+	fleet: string;
 }
 
-export default class AppCmd extends Command {
+export class FleetCmd extends Command {
 	public static description = stripIndent`
-		Display information about a single application.
+		Display information about a single fleet.
 
-		Display detailed information about a single balena application.
+		Display detailed information about a single fleet.
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
 `;
-	public static examples = ['$ balena app MyApp', '$ balena app myorg/myapp'];
+	public static examples = [
+		'$ balena fleet MyFleet',
+		'$ balena fleet myorg/myfleet',
+	];
 
-	public static args = [ca.applicationRequired];
+	public static args = [ca.fleetRequired];
 
-	public static usage = 'app <nameOrSlug>';
+	public static usage = 'fleet <fleet>';
 
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
@@ -52,21 +61,18 @@ export default class AppCmd extends Command {
 	public static authenticated = true;
 	public static primary = true;
 
-	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(AppCmd);
+	public async run(parserOutput?: ParserOutput<FlagsDef, ArgsDef>) {
+		const { args: params } =
+			parserOutput || this.parse<FlagsDef, ArgsDef>(FleetCmd);
 
 		const { getApplication } = await import('../../utils/sdk');
 
-		const application = (await getApplication(
-			getBalenaSdk(),
-			params.application,
-			{
-				$expand: {
-					is_for__device_type: { $select: 'slug' },
-					should_be_running__release: { $select: 'commit' },
-				},
+		const application = (await getApplication(getBalenaSdk(), params.fleet, {
+			$expand: {
+				is_for__device_type: { $select: 'slug' },
+				should_be_running__release: { $select: 'commit' },
 			},
-		)) as ApplicationWithDeviceType & {
+		})) as ApplicationWithDeviceType & {
 			should_be_running__release: [Release?];
 			// For display purposes:
 			device_type: string;
@@ -86,5 +92,33 @@ export default class AppCmd extends Command {
 				'commit',
 			]),
 		);
+	}
+}
+
+export default class AppCmd extends FleetCmd {
+	public static description = stripIndent`
+		DEPRECATED alias for the 'fleet' command
+
+		${appToFleetCmdMsg
+			.split('\n')
+			.map((l) => `\t\t${l}`)
+			.join('\n')}
+
+		For command usage, see 'balena help fleet'
+	`;
+	public static examples = [];
+	public static usage = 'app <fleet>';
+	public static args = FleetCmd.args;
+	public static flags = FleetCmd.flags;
+	public static authenticated = FleetCmd.authenticated;
+	public static primary = FleetCmd.primary;
+
+	public async run() {
+		// call this.parse() before deprecation message to parse '-h'
+		const parserOutput = this.parse<FlagsDef, ArgsDef>(AppCmd);
+		if (process.stderr.isTTY) {
+			console.error(warnify(appToFleetCmdMsg));
+		}
+		await super.run(parserOutput);
 	}
 }

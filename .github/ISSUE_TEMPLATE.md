@@ -32,11 +32,11 @@ Please describe what actually happened instead:
   Examples:
 
 ```
-balena push myApp
+balena push myFleet
 balena push 192.168.0.12
-balena deploy myApp
-balena deploy myApp --build
-balena build . -a myApp
+balena deploy myFleet
+balena deploy myFleet --build
+balena build . -f myFleet
 balena build . -A armv7hf -d raspberrypi3
 ```
 
@@ -48,7 +48,7 @@ additional information. The `--logs` option reveals additional information for t
 
 ```
 balena build . --logs
-balena deploy myApp --build --logs
+balena deploy myFleet --build --logs
 ```
 
 # Steps to Reproduce the Problem

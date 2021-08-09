@@ -38,9 +38,9 @@ interface ArgsDef {
 
 export default class EnvRenameCmd extends Command {
 	public static description = stripIndent`
-		Change the value of a config or env var for an app, device or service.
+		Change the value of a config or env var for a fleet, device or service.
 
-		Change the value of a configuration or environment variable for an application,
+		Change the value of a configuration or environment variable for a fleet,
 		device or service, as selected by command-line options.
 
 		${ec.rmRenameHelp.split('\n').join('\n\t\t')}

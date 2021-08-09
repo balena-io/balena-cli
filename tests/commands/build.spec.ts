@@ -29,6 +29,8 @@ import { cleanOutput, runCommand } from '../helpers';
 import {
 	ExpectedTarStreamFiles,
 	ExpectedTarStreamFilesByService,
+	getDockerignoreWarn1,
+	getDockerignoreWarn2,
 } from '../projects';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
@@ -230,16 +232,10 @@ describe('balena build', function () {
 			`[Info] Creating default composition with source: "${projectPath}"`,
 			'[Info] Building for rpi/raspberry-pi',
 			'[Info] Emulation is enabled',
-			...[
-				`[Warn] ${hr}`,
-				'[Warn] The following .dockerignore file(s) will not be used:',
-				`[Warn] * ${path.join(projectPath, 'src', '.dockerignore')}`,
-				'[Warn] By default, only one .dockerignore file at the source folder (project root)',
-				'[Warn] is used. Microservices (multicontainer) applications may use a separate',
-				'[Warn] .dockerignore file for each service with the --multi-dockerignore (-m) option.',
-				'[Warn] See "balena help build" for more details.',
-				`[Warn] ${hr}`,
-			],
+			...getDockerignoreWarn1(
+				[path.join(projectPath, 'src', '.dockerignore')],
+				'build',
+			),
 			'[Build] main Step 1/4 : FROM busybox',
 			'[Success] Build succeeded!',
 		];
@@ -315,16 +311,10 @@ describe('balena build', function () {
 			...commonResponseLines[responseFilename],
 			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
 			`[Info] Creating default composition with source: "${projectPath}"`,
-			...[
-				`[Warn] ${hr}`,
-				'[Warn] The following .dockerignore file(s) will not be used:',
-				`[Warn] * ${path.join(projectPath, 'src', '.dockerignore')}`,
-				'[Warn] When --multi-dockerignore (-m) is used, only .dockerignore files at the root of',
-				"[Warn] each service's build context (in a microservices/multicontainer application),",
-				'[Warn] plus a .dockerignore file at the overall project root, are used.',
-				'[Warn] See "balena help build" for more details.',
-				`[Warn] ${hr}`,
-			],
+			...getDockerignoreWarn2(
+				[path.join(projectPath, 'src', '.dockerignore')],
+				'build',
+			),
 			'[Build] main Step 1/4 : FROM busybox',
 		];
 		if (isWindows) {
@@ -410,16 +400,10 @@ describe('balena build', function () {
 				'[Build] service1 Step 1/4 : FROM busybox',
 				'[Build] service2 Step 1/4 : FROM busybox',
 			],
-			...[
-				`[Warn] ${hr}`,
-				'[Warn] The following .dockerignore file(s) will not be used:',
-				`[Warn] * ${path.join(projectPath, 'service2', '.dockerignore')}`,
-				'[Warn] By default, only one .dockerignore file at the source folder (project root)',
-				'[Warn] is used. Microservices (multicontainer) applications may use a separate',
-				'[Warn] .dockerignore file for each service with the --multi-dockerignore (-m) option.',
-				'[Warn] See "balena help build" for more details.',
-				`[Warn] ${hr}`,
-			],
+			...getDockerignoreWarn1(
+				[path.join(projectPath, 'service2', '.dockerignore')],
+				'build',
+			),
 		];
 		if (isWindows) {
 			expectedResponseLines.push(

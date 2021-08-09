@@ -34,15 +34,22 @@ const capitanoDoc = {
 			files: ['build/commands/api-key/generate.js'],
 		},
 		{
-			title: 'Application',
+			title: 'Fleet',
 			files: [
 				'build/commands/apps.js',
+				'build/commands/fleets.js',
 				'build/commands/app/index.js',
+				'build/commands/fleet/index.js',
 				'build/commands/app/create.js',
+				'build/commands/fleet/create.js',
 				'build/commands/app/purge.js',
+				'build/commands/fleet/purge.js',
 				'build/commands/app/rename.js',
+				'build/commands/fleet/rename.js',
 				'build/commands/app/restart.js',
+				'build/commands/fleet/restart.js',
 				'build/commands/app/rm.js',
+				'build/commands/fleet/rm.js',
 			],
 		},
 		{

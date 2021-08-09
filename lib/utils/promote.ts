@@ -39,10 +39,10 @@ export async function join(
 	const deviceType = await getDeviceType(deviceHostnameOrIp);
 	logger.logDebug(`Device type: ${deviceType}`);
 
-	logger.logDebug('Determining application...');
+	logger.logDebug('Determining fleet...');
 	const app = await getOrSelectApplication(sdk, deviceType, appName);
 	logger.logDebug(
-		`Using application: ${app.app_name} (${app.is_for__device_type[0].slug})`,
+		`Using fleet: ${app.app_name} (${app.is_for__device_type[0].slug})`,
 	);
 	if (app.is_for__device_type[0].slug !== deviceType) {
 		logger.logDebug(`Forcing device type to: ${deviceType}`);
@@ -53,7 +53,7 @@ export async function join(
 	const deviceOsVersion = await getOsVersion(deviceHostnameOrIp);
 	logger.logDebug(`Device OS version: ${deviceOsVersion}`);
 
-	logger.logDebug('Generating application config...');
+	logger.logDebug('Generating fleet config...');
 	const config = await generateApplicationConfig(sdk, app, {
 		version: deviceOsVersion,
 		appUpdatePollInterval,
@@ -175,10 +175,10 @@ async function selectAppFromList(
 	const _ = await import('lodash');
 	const { selectFromList } = await import('../utils/patterns');
 
-	// Present a list to the user which shows the fully qualified application
-	// name (user/appname) and allows them to select.
+	// Present a list to the user which shows the fully qualified fleet
+	// name (user/fleetname) and allows them to select.
 	return selectFromList(
-		'Select application',
+		'Select fleet',
 		_.map(applications, (app) => {
 			return { name: app.slug, ...app };
 		}),
@@ -220,11 +220,11 @@ async function getOrSelectApplication(
 		},
 	};
 
-	// Check for an app of the form `user/application` and update the API query.
+	// Check for a fleet slug of the form `user/fleet` and update the API query.
 	let name: string;
 	const match = appName.split('/');
 	if (match.length > 1) {
-		// These will match at most one app
+		// These will match at most one fleet
 		options.$filter = { slug: appName.toLowerCase() };
 		name = match[1];
 	} else {
@@ -241,7 +241,7 @@ async function getOrSelectApplication(
 	if (applications.length === 0) {
 		const shouldCreateApp = await getCliForm().ask({
 			message:
-				`No application found with name "${appName}".\n` +
+				`No fleet found with name "${appName}".\n` +
 				'Would you like to create it now?',
 			type: 'confirm',
 			default: true,
@@ -252,14 +252,14 @@ async function getOrSelectApplication(
 		process.exit(1);
 	}
 
-	// We've found at least one app with the given name.
-	// Filter out apps for non-matching device types and see what we're left with.
+	// We've found at least one fleet with the given name.
+	// Filter out fleets for non-matching device types and see what we're left with.
 	const validApplications = applications.filter((app) =>
 		_.includes(compatibleDeviceTypes, app.is_for__device_type[0].slug),
 	);
 
 	if (validApplications.length === 0) {
-		throw new ExpectedError('No application found with a matching device type');
+		throw new ExpectedError('No fleet found with a matching device type');
 	}
 
 	if (validApplications.length === 1) {
@@ -277,7 +277,7 @@ async function createOrSelectAppOrExit(
 	compatibleDeviceTypes: string[],
 	deviceType: string,
 ): Promise<ApplicationWithDeviceType> {
-	// No application specified, show a list to select one.
+	// No fleet specified, show a list to select one.
 	const applications = (await sdk.models.application.getAll({
 		$expand: { is_for__device_type: { $select: 'slug' } },
 		$filter: {
@@ -293,7 +293,7 @@ async function createOrSelectAppOrExit(
 	if (applications.length === 0) {
 		const shouldCreateApp = await getCliForm().ask({
 			message:
-				'You have no applications this device can join.\n' +
+				'You have no fleets this device can join.\n' +
 				'Would you like to create one now?',
 			type: 'confirm',
 			default: true,
@@ -323,7 +323,7 @@ async function createApplication(
 		while (true) {
 			try {
 				const appName = await getCliForm().ask({
-					message: 'Enter a name for your new application:',
+					message: 'Enter a name for your new fleet:',
 					type: 'input',
 					default: name,
 					validate: validation.validateApplicationName,
@@ -341,7 +341,7 @@ async function createApplication(
 					// TODO: This is the only example in the codebase where `printErrorMessage()`
 					//  is called directly.  Consider refactoring.
 					printErrorMessage(
-						'You already have an application with that name; please choose another.',
+						'You already have a fleet with that name; please choose another.',
 					);
 					continue;
 				} catch (err) {

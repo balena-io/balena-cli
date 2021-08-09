@@ -15,14 +15,19 @@
  * limitations under the License.
  */
 
-import { flags } from '@oclif/command';
+import type { flags } from '@oclif/command';
 import type { IArg } from '@oclif/parser/lib/args';
 import type { Application, BalenaSDK } from 'balena-sdk';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
 import { ExpectedError } from '../../errors';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import {
+	applicationIdInfo,
+	appToFleetFlagMsg,
+	warnify,
+} from '../../utils/messages';
+import { isV13 } from '../../utils/version';
 
 interface ExtendedDevice extends DeviceWithDeviceType {
 	application_name?: string;
@@ -31,6 +36,7 @@ interface ExtendedDevice extends DeviceWithDeviceType {
 interface FlagsDef {
 	application?: string;
 	app?: string;
+	fleet?: string;
 	help: void;
 }
 
@@ -40,12 +46,11 @@ interface ArgsDef {
 
 export default class DeviceMoveCmd extends Command {
 	public static description = stripIndent`
-		Move one or more devices to another application.
+		Move one or more devices to another fleet.
 
-		Move one or more devices to another application.
+		Move one or more devices to another fleet.
 
-		Note, if the application option is omitted it will be prompted
-		for interactively.
+		If --fleet is omitted, the fleet will be prompted for interactively.
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
 	`;
@@ -53,8 +58,8 @@ export default class DeviceMoveCmd extends Command {
 	public static examples = [
 		'$ balena device move 7cf02a6',
 		'$ balena device move 7cf02a6,dc39e52',
-		'$ balena device move 7cf02a6 --application MyNewApp',
-		'$ balena device move 7cf02a6 -a myorg/mynewapp',
+		'$ balena device move 7cf02a6 --fleet MyNewFleet',
+		'$ balena device move 7cf02a6 -f myorg/mynewfleet',
 	];
 
 	public static args: Array<IArg<any>> = [
@@ -69,8 +74,8 @@ export default class DeviceMoveCmd extends Command {
 	public static usage = 'device move <uuid(s)>';
 
 	public static flags: flags.Input<FlagsDef> = {
-		application: cf.application,
-		app: cf.app,
+		...(isV13() ? {} : { app: cf.app, application: cf.application }),
+		fleet: cf.fleet,
 		help: cf.help,
 	};
 
@@ -81,13 +86,15 @@ export default class DeviceMoveCmd extends Command {
 			DeviceMoveCmd,
 		);
 
+		if ((options.application || options.app) && process.stderr.isTTY) {
+			console.error(warnify(appToFleetFlagMsg));
+		}
+		options.application ||= options.app || options.fleet;
+
 		const balena = getBalenaSdk();
 
 		const { tryAsInteger } = await import('../../utils/validation');
 		const { expandForAppName } = await import('../../utils/helpers');
-
-		options.application = options.application || options.app;
-		delete options.app;
 
 		// Parse ids string into array of correct types
 		const deviceIds: Array<string | number> = params.uuid
@@ -126,9 +133,7 @@ export default class DeviceMoveCmd extends Command {
 		for (const uuid of deviceIds) {
 			try {
 				await balena.models.device.move(uuid, application.id);
-				console.info(
-					`Device ${uuid} was moved to application ${application.slug}`,
-				);
+				console.info(`Device ${uuid} was moved to fleet ${application.slug}`);
 			} catch (err) {
 				console.info(`${err.message}, uuid: ${uuid}`);
 				process.exitCode = 1;

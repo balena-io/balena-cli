@@ -19,14 +19,20 @@ import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import {
+	applicationIdInfo,
+	appToFleetFlagMsg,
+	warnify,
+} from '../../utils/messages';
+import { isV13 } from '../../utils/version';
 
 interface FlagsDef {
+	app?: string;
 	application?: string;
+	fleet?: string;
 	device?: string;
 	release?: string;
 	help: void;
-	app?: string;
 }
 
 interface ArgsDef {
@@ -36,9 +42,9 @@ interface ArgsDef {
 
 export default class TagSetCmd extends Command {
 	public static description = stripIndent`
-		Set a tag on an application, device or release.
+		Set a tag on a fleet, device or release.
 
-		Set a tag on an application, device or release.
+		Set a tag on a fleet, device or release.
 
 		You can optionally provide a value to be associated with the created
 		tag, as an extra argument after the tag key. If a value isn't
@@ -48,9 +54,9 @@ export default class TagSetCmd extends Command {
 	`;
 
 	public static examples = [
-		'$ balena tag set mySimpleTag --application MyApp',
-		'$ balena tag set mySimpleTag -a myorg/myapp',
-		'$ balena tag set myCompositeTag myTagValue --application MyApp',
+		'$ balena tag set mySimpleTag --fleet MyFleet',
+		'$ balena tag set mySimpleTag -f myorg/myfleet',
+		'$ balena tag set myCompositeTag myTagValue --fleet MyFleet',
 		'$ balena tag set myCompositeTag myTagValue --device 7cf02a6',
 		'$ balena tag set myCompositeTag "my tag value with whitespaces" --device 7cf02a6',
 		'$ balena tag set myCompositeTag myTagValue --release 1234',
@@ -74,21 +80,29 @@ export default class TagSetCmd extends Command {
 	public static usage = 'tag set <tagKey> [value]';
 
 	public static flags: flags.Input<FlagsDef> = {
-		application: {
-			...cf.application,
-			exclusive: ['app', 'device', 'release'],
-		},
-		app: {
-			...cf.app,
-			exclusive: ['application', 'device', 'release'],
+		...(isV13()
+			? {}
+			: {
+					application: {
+						...cf.application,
+						exclusive: ['app', 'fleet', 'device', 'release'],
+					},
+					app: {
+						...cf.app,
+						exclusive: ['application', 'fleet', 'device', 'release'],
+					},
+			  }),
+		fleet: {
+			...cf.fleet,
+			exclusive: ['app', 'application', 'device', 'release'],
 		},
 		device: {
 			...cf.device,
-			exclusive: ['app', 'application', 'release'],
+			exclusive: ['app', 'application', 'fleet', 'release'],
 		},
 		release: {
 			...cf.release,
-			exclusive: ['app', 'application', 'device'],
+			exclusive: ['app', 'application', 'fleet', 'device'],
 		},
 		help: cf.help,
 	};
@@ -100,9 +114,10 @@ export default class TagSetCmd extends Command {
 			TagSetCmd,
 		);
 
-		// Prefer options.application over options.app
-		options.application = options.application || options.app;
-		delete options.app;
+		if ((options.application || options.app) && process.stderr.isTTY) {
+			console.error(warnify(appToFleetFlagMsg));
+		}
+		options.application ||= options.app || options.fleet;
 
 		const balena = getBalenaSdk();
 
@@ -151,9 +166,9 @@ export default class TagSetCmd extends Command {
 	protected static missingResourceMessage = stripIndent`
 					To set a resource tag, you must provide exactly one of:
 
-					  * An application, with --application <appNameOrSlug>
-					  * A device, with --device <uuid>
-					  * A release, with --release <id or commit>
+					  * A fleet, with --fleet <fleetNameOrSlug>
+					  * A device, with --device <UUID>
+					  * A release, with --release <ID or commit>
 
 					See the help page for examples:
 

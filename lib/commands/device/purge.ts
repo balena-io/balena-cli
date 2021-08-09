@@ -31,10 +31,10 @@ interface ArgsDef {
 
 export default class DevicePurgeCmd extends Command {
 	public static description = stripIndent`
-		Purge application data from a device.
+		Purge data from a device.
 
-		Purge application data from a device.
-		This will clear the application's /data directory.
+		Purge data from a device.
+		This will clear the device's "/data" directory.
 
 		Multiple devices may be specified with a comma-separated list
 		of values (no spaces).

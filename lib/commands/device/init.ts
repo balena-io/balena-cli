@@ -19,12 +19,18 @@ import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import {
+	applicationIdInfo,
+	appToFleetFlagMsg,
+	warnify,
+} from '../../utils/messages';
 import { runCommand } from '../../utils/helpers';
+import { isV13 } from '../../utils/version';
 
 interface FlagsDef {
 	application?: string;
 	app?: string;
+	fleet?: string;
 	yes: boolean;
 	advanced: boolean;
 	'os-version'?: string;
@@ -37,26 +43,30 @@ export default class DeviceInitCmd extends Command {
 	public static description = stripIndent`
 		Initialize a device with balenaOS.
 
-		Initialize a device by downloading the OS image of a certain application
+		Initialize a device by downloading the OS image of the specified fleet
 		and writing it to an SD Card.
 
-		Note, if the application option is omitted it will be prompted
-		for interactively.
+		If the --fleet option is omitted, it will be prompted for interactively.
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
 	`;
 
 	public static examples = [
 		'$ balena device init',
-		'$ balena device init --application MyApp',
-		'$ balena device init -a myorg/myapp',
+		'$ balena device init --fleet MyFleet',
+		'$ balena device init -f myorg/myfleet',
 	];
 
 	public static usage = 'device init';
 
 	public static flags: flags.Input<FlagsDef> = {
-		application: cf.application,
-		app: cf.app,
+		...(isV13()
+			? {}
+			: {
+					application: cf.application,
+					app: cf.app,
+			  }),
+		fleet: cf.fleet,
 		yes: cf.yes,
 		advanced: flags.boolean({
 			char: 'v',
@@ -95,8 +105,11 @@ export default class DeviceInitCmd extends Command {
 		const logger = await Command.getLogger();
 		const balena = getBalenaSdk();
 
+		if ((options.application || options.app) && process.stderr.isTTY) {
+			console.error(warnify(appToFleetFlagMsg));
+		}
 		// Consolidate application options
-		options.application = options.application || options.app;
+		options.application ||= options.app || options.fleet;
 		delete options.app;
 
 		// Get application and

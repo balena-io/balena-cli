@@ -21,6 +21,9 @@ import * as path from 'path';
 import { apiResponsePath, BalenaAPIMock } from '../../balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
+import { appToFleetOutputMsg, warnify } from '../../../build/utils/messages';
+import { isV13 } from '../../../build/utils/version';
+
 describe('balena devices', function () {
 	let api: BalenaAPIMock;
 
@@ -34,6 +37,13 @@ describe('balena devices', function () {
 		// Check all expected api calls have been made and clean up.
 		api.done();
 	});
+
+	const expectedWarn =
+		!isV13() &&
+		process.stderr.isTTY &&
+		process.env.BALENA_CLI_TEST_TYPE !== 'standalone'
+			? warnify(appToFleetOutputMsg) + '\n'
+			: '';
 
 	it('should list devices from own and collaborator apps', async () => {
 		api.scope
@@ -60,6 +70,6 @@ describe('balena devices', function () {
 		// e.g. When user has a device associated with app that user is no longer a collaborator of.
 		expect(lines.some((l) => l.includes('N/a'))).to.be.true;
 
-		expect(err).to.eql([]);
+		expect(err.join('')).to.eql(expectedWarn);
 	});
 });

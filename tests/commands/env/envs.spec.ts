@@ -21,6 +21,13 @@ import { stripIndent } from '../../../lib/utils/lazy';
 import { BalenaAPIMock } from '../../balena-api-mock';
 import { runCommand } from '../../helpers';
 
+import {
+	appToFleetFlagMsg,
+	appToFleetOutputMsg,
+	warnify,
+} from '../../../build/utils/messages';
+import { isV13 } from '../../../build/utils/version';
+
 describe('balena envs', function () {
 	const appName = 'test';
 	let fullUUID: string;
@@ -41,7 +48,21 @@ describe('balena envs', function () {
 		api.done();
 	});
 
-	it('should successfully list env vars for a test app', async () => {
+	const appToFleetFlagWarn =
+		!isV13() &&
+		process.stderr.isTTY &&
+		process.env.BALENA_CLI_TEST_TYPE !== 'standalone'
+			? warnify(appToFleetFlagMsg) + '\n'
+			: '';
+
+	const appToFleetOutputWarn =
+		!isV13() &&
+		process.stderr.isTTY &&
+		process.env.BALENA_CLI_TEST_TYPE !== 'standalone'
+			? warnify(appToFleetOutputMsg) + '\n'
+			: '';
+
+	it('should successfully list env vars for a test fleet', async () => {
 		api.expectGetApplication();
 		api.expectGetAppEnvVars();
 		api.expectGetAppServiceVars();
@@ -57,18 +78,18 @@ describe('balena envs', function () {
 			120102 var2  22          test        *
 		` + '\n',
 		);
-		expect(err.join('')).to.equal('');
+		expect(err.join('')).to.equal(appToFleetFlagWarn);
 	});
 
-	it('should successfully list config vars for a test app', async () => {
+	it('should successfully list config vars for a test fleet', async () => {
 		api.expectGetApplication();
 		api.expectGetAppConfigVars();
 
-		const { out, err } = await runCommand(`envs -a ${appName} --config`);
+		const { out, err } = await runCommand(`envs -f ${appName} --config`);
 
 		expect(out.join('')).to.equal(
 			stripIndent`
-			ID     NAME                           VALUE APPLICATION
+			ID     NAME                           VALUE FLEET
 			120300 RESIN_SUPERVISOR_NATIVE_LOGGER false test
 		` + '\n',
 		);
@@ -76,7 +97,7 @@ describe('balena envs', function () {
 		expect(err.join('')).to.equal('');
 	});
 
-	it('should successfully list config vars for a test app (JSON output)', async () => {
+	it('should successfully list config vars for a test fleet (JSON output)', async () => {
 		api.expectGetApplication();
 		api.expectGetAppConfigVars();
 
@@ -93,7 +114,7 @@ describe('balena envs', function () {
 		expect(err.join('')).to.equal('');
 	});
 
-	it('should successfully list service variables for a test app (-s flag)', async () => {
+	it('should successfully list service variables for a test fleet (-s flag)', async () => {
 		const serviceName = 'service2';
 		api.expectGetService({ serviceName });
 		api.expectGetApplication();
@@ -112,10 +133,10 @@ describe('balena envs', function () {
 		120102 var2  22          test        *
 		` + '\n',
 		);
-		expect(err.join('')).to.equal('');
+		expect(err.join('')).to.equal(appToFleetFlagWarn);
 	});
 
-	it('should successfully list env and service vars for a test app (-s flags)', async () => {
+	it('should successfully list env and service vars for a test fleet (-s flags)', async () => {
 		const serviceName = 'service1';
 		api.expectGetService({ serviceName });
 		api.expectGetApplication();
@@ -134,7 +155,7 @@ describe('balena envs', function () {
 		120102 var2  22          test        *
 		` + '\n',
 		);
-		expect(err.join('')).to.equal('');
+		expect(err.join('')).to.equal(appToFleetFlagWarn);
 	});
 
 	it('should successfully list env variables for a test device', async () => {
@@ -162,7 +183,7 @@ describe('balena envs', function () {
 		` + '\n',
 		);
 
-		expect(err.join('')).to.equal('');
+		expect(err.join('')).to.equal(appToFleetOutputWarn);
 	});
 
 	it('should successfully list env variables for a test device (JSON output)', async () => {
@@ -207,7 +228,7 @@ describe('balena envs', function () {
 		` + '\n',
 		);
 
-		expect(err.join('')).to.equal('');
+		expect(err.join('')).to.equal(appToFleetOutputWarn);
 	});
 
 	it('should successfully list service variables for a test device (-s flag)', async () => {
@@ -235,10 +256,10 @@ describe('balena envs', function () {
 		` + '\n',
 		);
 
-		expect(err.join('')).to.equal('');
+		expect(err.join('')).to.equal(appToFleetOutputWarn);
 	});
 
-	it('should successfully list env and service variables for a test device (unknown app)', async () => {
+	it('should successfully list env and service variables for a test device (unknown fleet)', async () => {
 		api.expectGetDevice({ fullUUID, inaccessibleApp: true });
 		api.expectGetDeviceEnvVars();
 		api.expectGetDeviceServiceVars();
@@ -256,7 +277,7 @@ describe('balena envs', function () {
 			120204 var4  44          N/A         ${uuid} *
 			` + '\n',
 		);
-		expect(err.join('')).to.equal('');
+		expect(err.join('')).to.equal(appToFleetOutputWarn);
 	});
 
 	it('should successfully list env and service vars for a test device (-s flags)', async () => {
@@ -283,7 +304,7 @@ describe('balena envs', function () {
 		120204 var4  44          test        ${uuid} *
 		` + '\n',
 		);
-		expect(err.join('')).to.equal('');
+		expect(err.join('')).to.equal(appToFleetOutputWarn);
 	});
 
 	it('should successfully list env and service vars for a test device (-js flags)', async () => {

@@ -55,7 +55,7 @@ if (process.platform !== 'win32') {
 				`os configure ${tmpPath}`,
 				'--device-type raspberrypi3',
 				'--version 2.47.0+rev1',
-				'--application testApp',
+				'--fleet testApp',
 				'--config-app-update-poll-interval 10',
 				'--config-network ethernet',
 				'--initial-device-name testDeviceName',

@@ -21,24 +21,8 @@ import * as path from 'path';
 import { apiResponsePath, BalenaAPIMock } from '../../balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
-const HELP_RESPONSE = `
-Show info about a single device.
-
-USAGE
-  $ balena device <uuid>
-
-ARGUMENTS
-  <uuid>  the device uuid
-
-OPTIONS
-  -h, --help  show CLI help
-
-DESCRIPTION
-  Show information about a single device.
-
-EXAMPLE
-  $ balena device 7cf02a6
-`;
+import { appToFleetOutputMsg, warnify } from '../../../build/utils/messages';
+import { isV13 } from '../../../build/utils/version';
 
 describe('balena device', function () {
 	let api: BalenaAPIMock;
@@ -54,13 +38,12 @@ describe('balena device', function () {
 		api.done();
 	});
 
-	it('should print help text with the -h flag', async () => {
-		const { out, err } = await runCommand('device -h');
-
-		expect(cleanOutput(out)).to.deep.equal(cleanOutput([HELP_RESPONSE]));
-
-		expect(err).to.eql([]);
-	});
+	const expectedWarn =
+		!isV13() &&
+		process.stderr.isTTY &&
+		process.env.BALENA_CLI_TEST_TYPE !== 'standalone'
+			? warnify(appToFleetOutputMsg) + '\n'
+			: '';
 
 	it('should error if uuid not provided', async () => {
 		const { out, err } = await runCommand('device');
@@ -88,7 +71,7 @@ describe('balena device', function () {
 		expect(lines[0]).to.equal('== SPARKLING WOOD');
 		expect(lines[6].split(':')[1].trim()).to.equal('test app');
 
-		expect(err).to.eql([]);
+		expect(err.join('')).to.eql(expectedWarn);
 	});
 
 	it.skip('correctly handles devices with missing fields', async () => {
@@ -112,7 +95,7 @@ describe('balena device', function () {
 		expect(lines[0]).to.equal('== SPARKLING WOOD');
 		expect(lines[6].split(':')[1].trim()).to.equal('test app');
 
-		expect(err).to.eql([]);
+		expect(err.join('')).to.eql(expectedWarn);
 	});
 
 	it('correctly handles devices with missing application', async () => {
@@ -138,6 +121,6 @@ describe('balena device', function () {
 		expect(lines[0]).to.equal('== SPARKLING WOOD');
 		expect(lines[6].split(':')[1].trim()).to.equal('N/a');
 
-		expect(err).to.eql([]);
+		expect(err.join('')).to.eql(expectedWarn);
 	});
 });

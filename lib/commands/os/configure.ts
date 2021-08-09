@@ -23,7 +23,12 @@ import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import {
+	applicationIdInfo,
+	appToFleetFlagMsg,
+	warnify,
+} from '../../utils/messages';
+import { isV13 } from '../../utils/version';
 
 const CONNECTIONS_FOLDER = '/system-connections';
 
@@ -31,6 +36,7 @@ interface FlagsDef {
 	advanced?: boolean;
 	application?: string;
 	app?: string;
+	fleet?: string;
 	config?: string;
 	'config-app-update-poll-interval'?: number;
 	'config-network'?: string;
@@ -66,8 +72,8 @@ export default class OsConfigureCmd extends Command {
 	public static description = stripIndent`
 		Configure a previously downloaded balenaOS image.
 
-		Configure a previously downloaded balenaOS image for a specific device type or
-		balena application.
+		Configure a previously downloaded balenaOS image for a specific device type
+		or fleet.
 
 		Configuration settings such as WiFi authentication will be taken from the
 		following sources, in precedence order:
@@ -75,8 +81,8 @@ export default class OsConfigureCmd extends Command {
 		2. A given \`config.json\` file specified with the \`--config\` option.
 		3. User input through interactive prompts (text menus).
 
-		The --device-type option may be used to override the application's default
-		device type, in case of an application with mixed device types.
+		The --device-type option may be used to override the fleet's default device
+		type, in case of a fleet with mixed device types.
 
 		The --system-connection (-c) option can be used to inject NetworkManager connection
 		profiles for additional network interfaces, such as cellular/GSM or additional
@@ -98,11 +104,10 @@ export default class OsConfigureCmd extends Command {
 	public static examples = [
 		'$ balena os configure ../path/rpi3.img --device 7cf02a6',
 		'$ balena os configure ../path/rpi3.img --device 7cf02a6 --device-api-key <existingDeviceKey>',
-		'$ balena os configure ../path/rpi3.img --app MyApp',
-		'$ balena os configure ../path/rpi3.img -a myorg/myapp',
-		'$ balena os configure ../path/rpi3.img --app MyApp --version 2.12.7',
-		'$ balena os configure ../path/rpi3.img --app MyFinApp --device-type raspberrypi3',
-		'$ balena os configure ../path/rpi3.img --app MyFinApp --device-type raspberrypi3 --config myWifiConfig.json',
+		'$ balena os configure ../path/rpi3.img --fleet myorg/myfleet',
+		'$ balena os configure ../path/rpi3.img --fleet MyFleet --version 2.12.7',
+		'$ balena os configure ../path/rpi3.img -f MyFinFleet --device-type raspberrypi3',
+		'$ balena os configure ../path/rpi3.img -f MyFinFleet --device-type raspberrypi3 --config myWifiConfig.json',
 	];
 
 	public static args = [
@@ -121,15 +126,29 @@ export default class OsConfigureCmd extends Command {
 			description:
 				'ask advanced configuration questions (when in interactive mode)',
 		}),
-		application: { ...cf.application, exclusive: ['app', 'device'] },
-		app: { ...cf.app, exclusive: ['application', 'device'] },
+		...(isV13()
+			? {}
+			: {
+					application: {
+						...cf.application,
+						exclusive: ['app', 'fleet', 'device'],
+					},
+					app: {
+						...cf.app,
+						exclusive: ['application', 'fleet', 'device'],
+					},
+			  }),
+		fleet: {
+			...cf.fleet,
+			exclusive: ['app', 'application', 'device'],
+		},
 		config: flags.string({
 			description:
 				'path to a pre-generated config.json file to be injected in the OS image',
 		}),
 		'config-app-update-poll-interval': flags.integer({
 			description:
-				'interval (in minutes) for the on-device balena supervisor periodic app update check',
+				'supervisor cloud polling interval in minutes (e.g. for variable updates)',
 		}),
 		'config-network': flags.string({
 			description: 'device network type (non-interactive configuration)',
@@ -141,7 +160,7 @@ export default class OsConfigureCmd extends Command {
 		'config-wifi-ssid': flags.string({
 			description: 'WiFi SSID (network name) (non-interactive configuration)',
 		}),
-		device: { exclusive: ['app', 'application'], ...cf.device },
+		device: { exclusive: ['app', 'application', 'fleet'], ...cf.device },
 		'device-api-key': flags.string({
 			char: 'k',
 			description:
@@ -149,7 +168,7 @@ export default class OsConfigureCmd extends Command {
 		}),
 		'device-type': flags.string({
 			description:
-				'device type slug (e.g. "raspberrypi3") to override the application device type',
+				'device type slug (e.g. "raspberrypi3") to override the fleet device type',
 		}),
 		'initial-device-name': flags.string({
 			description:
@@ -172,9 +191,10 @@ export default class OsConfigureCmd extends Command {
 		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
 			OsConfigureCmd,
 		);
-		// Prefer options.application over options.app
-		options.application = options.application || options.app;
-		delete options.app;
+		if ((options.application || options.app) && process.stderr.isTTY) {
+			console.error(warnify(appToFleetFlagMsg));
+		}
+		options.application ||= options.app || options.fleet;
 
 		await validateOptions(options);
 
@@ -302,12 +322,12 @@ async function validateOptions(options: FlagsDef) {
 	// flag definitions above, so oclif will enforce that they are not both used together.
 	if (!options.device && !options.application) {
 		throw new ExpectedError(
-			"Either the '--device' or the '--application' option must be provided",
+			"Either the '--device' or the '--fleet' option must be provided",
 		);
 	}
 	if (!options.application && options['device-type']) {
 		throw new ExpectedError(
-			"The '--device-type' option can only be used in conjunction with the '--application' option",
+			"The '--device-type' option can only be used in conjunction with the '--fleet' option",
 		);
 	}
 	if (options['device-api-key']) {
@@ -366,7 +386,7 @@ async function checkDeviceTypeCompatibility(
 		const helpers = await import('../../utils/helpers');
 		if (!helpers.areDeviceTypesCompatible(appDeviceType, optionDeviceType)) {
 			throw new ExpectedError(
-				`Device type ${options['device-type']} is incompatible with application ${options.application}`,
+				`Device type ${options['device-type']} is incompatible with fleet ${options.application}`,
 			);
 		}
 	}

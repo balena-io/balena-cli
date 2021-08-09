@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2016-2020 Balena Ltd.
+ * Copyright 2016-2021 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,14 @@
  */
 
 import { flags } from '@oclif/command';
+import type { Output as ParserOutput } from '@oclif/parser';
+import type { Application } from 'balena-sdk';
+
 import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import type { Application } from 'balena-sdk';
+import { appToFleetCmdMsg, warnify } from '../../utils/messages';
 
 interface FlagsDef {
 	organization?: string;
@@ -32,18 +35,18 @@ interface ArgsDef {
 	name: string;
 }
 
-export default class AppCreateCmd extends Command {
+export class FleetCreateCmd extends Command {
 	public static description = stripIndent`
-		Create an application.
+		Create a fleet.
 
-		Create a new balena application.
+		Create a new balena fleet.
 
-		You can specify the organization the application should belong to using
+		You can specify the organization the fleet should belong to using
 		the \`--organization\` option. The organization's handle, not its name,
 		should be provided. Organization handles can be listed with the
 		\`balena orgs\` command.
 
-		The application's default device type is specified with the \`--type\` option.
+		The fleet's default device type is specified with the \`--type\` option.
 		The \`balena devices supported\` command can be used to list the available
 		device types.
 
@@ -55,41 +58,39 @@ export default class AppCreateCmd extends Command {
 	`;
 
 	public static examples = [
-		'$ balena app create MyApp',
-		'$ balena app create MyApp --organization mmyorg',
-		'$ balena app create MyApp -o myorg --type raspberry-pi',
+		'$ balena fleet create MyFleet',
+		'$ balena fleet create MyFleet --organization mmyorg',
+		'$ balena fleet create MyFleet -o myorg --type raspberry-pi',
 	];
 
 	public static args = [
 		{
 			name: 'name',
-			description: 'application name',
+			description: 'fleet name',
 			required: true,
 		},
 	];
 
-	public static usage = 'app create <name>';
+	public static usage = 'fleet create <name>';
 
 	public static flags: flags.Input<FlagsDef> = {
 		organization: flags.string({
 			char: 'o',
-			description:
-				'handle of the organization the application should belong to',
+			description: 'handle of the organization the fleet should belong to',
 		}),
 		type: flags.string({
 			char: 't',
 			description:
-				'application device type (Check available types with `balena devices supported`)',
+				'fleet device type (Check available types with `balena devices supported`)',
 		}),
 		help: cf.help,
 	};
 
 	public static authenticated = true;
 
-	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			AppCreateCmd,
-		);
+	public async run(parserOutput?: ParserOutput<FlagsDef, ArgsDef>) {
+		const { args: params, flags: options } =
+			parserOutput || this.parse<FlagsDef, ArgsDef>(FleetCreateCmd);
 
 		// Ascertain device type
 		const deviceType =
@@ -112,12 +113,12 @@ export default class AppCreateCmd extends Command {
 			if ((err.message || '').toLowerCase().includes('unique')) {
 				// BalenaRequestError: Request error: "organization" and "app_name" must be unique.
 				throw new ExpectedError(
-					`Error: application "${params.name}" already exists in organization "${organization}".`,
+					`Error: fleet "${params.name}" already exists in organization "${organization}".`,
 				);
 			} else if ((err.message || '').toLowerCase().includes('unauthorized')) {
 				// BalenaRequestError: Request error: Unauthorized
 				throw new ExpectedError(
-					`Error: You are not authorized to create applications in organization "${organization}".`,
+					`Error: You are not authorized to create fleets in organization "${organization}".`,
 				);
 			}
 
@@ -128,8 +129,8 @@ export default class AppCreateCmd extends Command {
 		const { isV13 } = await import('../../utils/version');
 		console.log(
 			isV13()
-				? `Application created: slug "${application.slug}", device type "${deviceType}"`
-				: `Application created: ${application.slug} (${deviceType}, id ${application.id})`,
+				? `Fleet created: slug "${application.slug}", device type "${deviceType}"`
+				: `Fleet created: ${application.slug} (${deviceType}, id ${application.id})`,
 		);
 	}
 
@@ -148,5 +149,33 @@ export default class AppCreateCmd extends Command {
 			const { selectOrganization } = await import('../../utils/patterns');
 			return selectOrganization(organizations);
 		}
+	}
+}
+
+export default class AppCreateCmd extends FleetCreateCmd {
+	public static description = stripIndent`
+		DEPRECATED alias for the 'fleet create' command
+
+		${appToFleetCmdMsg
+			.split('\n')
+			.map((l) => `\t\t${l}`)
+			.join('\n')}
+
+		For command usage, see 'balena help fleet create'
+	`;
+	public static examples = [];
+	public static usage = 'app create <name>';
+	public static args = FleetCreateCmd.args;
+	public static flags = FleetCreateCmd.flags;
+	public static authenticated = FleetCreateCmd.authenticated;
+	public static primary = FleetCreateCmd.primary;
+
+	public async run() {
+		// call this.parse() before deprecation message to parse '-h'
+		const parserOutput = this.parse<FlagsDef, ArgsDef>(AppCreateCmd);
+		if (process.stderr.isTTY) {
+			console.error(warnify(appToFleetCmdMsg));
+		}
+		await super.run(parserOutput);
 	}
 }

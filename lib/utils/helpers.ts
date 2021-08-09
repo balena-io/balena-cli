@@ -160,7 +160,7 @@ export function getAppWithArch(
 		});
 
 		if (!config) {
-			throw new Error('Could not read application information!');
+			throw new Error(`balena API request failed for fleet ${applicationName}`);
 		}
 
 		return { ...app, arch: config.arch };
@@ -529,4 +529,32 @@ export async function awaitInterruptibleTask<
 	} finally {
 		process.removeListener('SIGINT', sigintHandler);
 	}
+}
+
+/**
+ * Pick object fields like lodash _.pick(), but also interpret "renaming
+ * specifications" for object keys such as "appName => fleetName" as used
+ * by the 'resin-cli-visuals' package.
+ *
+ * Sample input:  ({ 'a': 1, 'b': 2, 'c': 3 }, ['b => x', 'c', 'd'])
+ * Sample output: { 'x': 2, 'c': 3 }
+ */
+export function pickAndRename<T extends Dictionary<any>>(
+	obj: T,
+	fields: string[],
+): Dictionary<any> {
+	const rename: Dictionary<any> = {};
+	// map 'a => b' to 'a' and setup rename['a'] = 'b'
+	fields = fields.map((f) => {
+		let renameFrom = f;
+		let renameTo = f;
+		const match = f.match(/(?<from>\S+)\s+=>\s+(?<to>\S+)/);
+		if (match && match.groups) {
+			renameFrom = match.groups.from;
+			renameTo = match.groups.to;
+		}
+		rename[renameFrom] = renameTo;
+		return renameFrom;
+	});
+	return _.mapKeys(_.pick(obj, fields), (_val, key) => rename[key]);
 }
