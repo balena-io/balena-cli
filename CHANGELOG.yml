@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'Rename applications to fleets (stage 1). See: https://git.io/JRuZr'
+      hash: 64a44e7a5f6113952eda2a0fc3236331c8acf82e
+      body: |
+        - Add fleet(s) commands and -f, --fleet flags as aliases to the app(s)
+          commands and -a, --app, --application flags.
+        - Conditionally rename column/row headers and JSON object properties
+          from 'application' to 'fleet', with some variations.
+        - Print warning messages regarding the renaming, provided that stderr
+          is attached to an interactive terminal.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Resolves: '#2302'
+        resolves: '#2302'
+      author: Paulo Castro
+      nested: []
+  version: 12.45.0
+  date: 2021-08-09T16:34:47.519Z
+- commits:
     - subject: 'preload: Fix storage driver detection in balenaOS v2.80.9'
       hash: 6cb28937502252e27bb0108c1327b3b9b92b1735
       body: ''
@@ -10,7 +29,7 @@
       author: Kyle Harding
       nested: []
   version: 12.44.29
-  date: 2021-07-27T13:48:29.898Z
+  date: 2021-07-26T16:07:13.663Z
 - commits:
     - subject: 'os download: Improve error message for misspelled device type names'
       hash: 8338e2e933a95b93c14cf1699741f7b16d2a364b
