@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'envs, env add: Fix "Application is ambiguous" when using device UUID'
+      hash: 58704b08d3a08dec642d29da34fbe459ba1ef00b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.45.1
+  date: 2021-08-11T01:07:07.936Z
+- commits:
     - subject: 'Rename applications to fleets (stage 1). See: https://git.io/JRuZr'
       hash: 64a44e7a5f6113952eda2a0fc3236331c8acf82e
       body: |
