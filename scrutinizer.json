@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "envs, env add: Fix \"Application is ambiguous\" when using device UUID",
+          "hash": "58704b08d3a08dec642d29da34fbe459ba1ef00b",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.45.1",
+      "date": "2021-08-11T01:07:07.936Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Rename applications to fleets (stage 1). See: https://git.io/JRuZr",
           "hash": "64a44e7a5f6113952eda2a0fc3236331c8acf82e",
           "body": "- Add fleet(s) commands and -f, --fleet flags as aliases to the app(s)\n  commands and -a, --app, --application flags.\n- Conditionally rename column/row headers and JSON object properties\n  from 'application' to 'fleet', with some variations.\n- Print warning messages regarding the renaming, provided that stderr\n  is attached to an interactive terminal.\n",
@@ -22656,29 +22673,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-08-09T16:35:52Z",
+  "lastCommitDate": "2021-08-11T14:27:05Z",
   "latestRelease": {
-    "tagName": "v12.45.0",
+    "tagName": "v12.45.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.45.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.0/balena-cli-v12.45.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.45.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.1/balena-cli-v12.45.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.45.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.0/balena-cli-v12.45.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.45.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.1/balena-cli-v12.45.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.45.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.0/balena-cli-v12.45.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.45.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.1/balena-cli-v12.45.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.45.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.0/balena-cli-v12.45.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.45.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.1/balena-cli-v12.45.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.45.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.0/balena-cli-v12.45.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.45.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.1/balena-cli-v12.45.1-windows-x64-standalone.zip"
       }
     ]
   },
@@ -22768,7 +22785,7 @@
       }
     ]
   },
-  "version": "12.45.0",
+  "version": "12.45.1",
   "screenshot": null,
   "logo": null
 }
