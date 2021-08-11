@@ -174,11 +174,11 @@ export default class EnvsCmd extends Command {
 				balena,
 				options.device,
 				['uuid'],
-				['app_name'],
+				['slug'],
 			);
 			fullUUID = device.uuid;
 			if (app) {
-				appNameOrSlug = app.app_name;
+				appNameOrSlug = app.slug;
 			}
 		}
 		if (appNameOrSlug && options.service) {
@@ -210,7 +210,14 @@ export default class EnvsCmd extends Command {
 
 		// Replace undefined app names with 'N/A' or null
 		varArray = varArray.map((i: EnvironmentVariableInfo) => {
-			i.appName = i.appName || (options.json ? null : 'N/A');
+			if (i.appName) {
+				// use slug in v13, app name in v12 for compatibility
+				i.appName = isV13()
+					? i.appName
+					: i.appName.substring(i.appName.indexOf('/') + 1);
+			} else {
+				i.appName = options.json ? null : 'N/A';
+			}
 			return i;
 		});
 

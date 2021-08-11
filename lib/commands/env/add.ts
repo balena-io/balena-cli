@@ -227,7 +227,7 @@ async function setServiceVars(
 					sdk,
 					uuid,
 					['id'],
-					['app_name'],
+					['slug'],
 				);
 			} catch (err) {
 				console.error(`${err.message}, device: ${uuid}`);
@@ -236,11 +236,7 @@ async function setServiceVars(
 			}
 			for (const service of options.service!.split(',')) {
 				try {
-					const serviceId = await getServiceIdForApp(
-						sdk,
-						app.app_name,
-						service,
-					);
+					const serviceId = await getServiceIdForApp(sdk, app.slug, service);
 					await sdk.models.device.serviceVar.set(
 						device.id,
 						serviceId,

@@ -198,7 +198,7 @@ export class BalenaAPIMock extends NockMock {
 					is_online: opts.isOnline,
 					belongs_to__application: opts.inaccessibleApp
 						? []
-						: [{ app_name: 'test' }],
+						: [{ app_name: 'test', slug: 'org/test' }],
 				},
 			],
 		});
