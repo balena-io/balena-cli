@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "push, build: Improve error handling (identify which service failed)",
+          "hash": "c7bbbc4159185d804c0d05c8768252a5ce4b0341",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.45.2",
+      "date": "2021-08-13T23:59:02.681Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "envs, env add: Fix \"Application is ambiguous\" when using device UUID",
           "hash": "58704b08d3a08dec642d29da34fbe459ba1ef00b",
           "body": "",
@@ -22570,7 +22587,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 329,
+  "stars": 330,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -22673,40 +22690,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-08-11T14:27:05Z",
+  "lastCommitDate": "2021-08-14T00:23:04Z",
   "latestRelease": {
-    "tagName": "v12.45.1",
+    "tagName": "v12.45.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.45.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.1/balena-cli-v12.45.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.45.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.2/balena-cli-v12.45.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.45.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.1/balena-cli-v12.45.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.45.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.2/balena-cli-v12.45.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.45.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.1/balena-cli-v12.45.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.45.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.2/balena-cli-v12.45.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.45.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.1/balena-cli-v12.45.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.45.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.2/balena-cli-v12.45.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.45.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.1/balena-cli-v12.45.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.45.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.45.2/balena-cli-v12.45.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 336,
+    "numberOfIssues": 335,
     "latestIssues": [
-      {
-        "title": "push, build: Improve error handling (identify which service failed)",
-        "url": "https://github.com/balena-io/balena-cli/pull/2305"
-      },
       {
         "title": "preload: Restore support for armv7 with custom preload image",
         "url": "https://github.com/balena-io/balena-cli/pull/2303"
@@ -22782,10 +22795,14 @@
       {
         "title": "Supervisor above (insert future release) requires to use app UUIDs in the preloading target state",
         "url": "https://github.com/balena-io/balena-cli/issues/2263"
+      },
+      {
+        "title": "Modify the apps preloading to merge to an existing `apps.json` file if it exists",
+        "url": "https://github.com/balena-io/balena-cli/issues/2262"
       }
     ]
   },
-  "version": "12.45.1",
+  "version": "12.45.2",
   "screenshot": null,
   "logo": null
 }
