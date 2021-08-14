@@ -1063,18 +1063,21 @@ async function performResolution(
 					if (!buildTask.buildStream) {
 						continue;
 					}
-					// Consume each task.buildStream in order to trigger the
-					// resolution events that define fields like:
-					//     task.dockerfile, task.dockerfilePath,
-					//     task.projectType, task.resolved
-					// This mimics what is currently done in `resin-builder`.
-					const clonedStream: Pack = await cloneTarStream(
-						buildTask.buildStream,
-					);
-					buildTask.buildStream = clonedStream;
-					if (!buildTask.external && !buildTask.resolved) {
+					let error: Error | undefined;
+					try {
+						// Consume each task.buildStream in order to trigger the
+						// resolution events that define fields like:
+						//     task.dockerfile, task.dockerfilePath,
+						//     task.projectType, task.resolved
+						// This mimics what is currently done in `resin-builder`.
+						buildTask.buildStream = await cloneTarStream(buildTask.buildStream);
+					} catch (e) {
+						error = e;
+					}
+					if (error || (!buildTask.external && !buildTask.resolved)) {
+						const cause = error ? `${error}\n` : '';
 						throw new ExpectedError(
-							`Project type for service "${buildTask.serviceName}" could not be determined. Missing a Dockerfile?`,
+							`${cause}Project type for service "${buildTask.serviceName}" could not be determined. Missing a Dockerfile?`,
 						);
 					}
 				}
