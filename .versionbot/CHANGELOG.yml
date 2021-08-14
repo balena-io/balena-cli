@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'push, build: Improve error handling (identify which service failed)'
+      hash: c7bbbc4159185d804c0d05c8768252a5ce4b0341
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.45.2
+  date: 2021-08-13T23:59:02.681Z
+- commits:
     - subject: 'envs, env add: Fix "Application is ambiguous" when using device UUID'
       hash: 58704b08d3a08dec642d29da34fbe459ba1ef00b
       body: ''
