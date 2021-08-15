@@ -2938,6 +2938,13 @@ Set release tags if the image build is successful (balenaCloud only). Multiple
 arguments may be provided, alternating tag keys and values (see examples).
 Hint: Empty values may be specified with "" (bash, cmd.exe) or '""' (PowerShell).
 
+#### --draft
+
+Instruct the builder to create the release as a draft. Draft releases are ignored
+by the 'track latest' release policy but can be used through release pinning.
+Draft releases can be marked as final through the API. Releases are created
+as final by default unless this option is given.
+
 # Settings
 
 ## settings

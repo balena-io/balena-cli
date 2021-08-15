@@ -73,6 +73,7 @@ const commonQueryParams = [
 	['emulated', 'false'],
 	['nocache', 'false'],
 	['headless', 'false'],
+	['isdraft', 'false'],
 ];
 
 const hr =
