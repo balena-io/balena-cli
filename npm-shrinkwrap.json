@@ -3792,9 +3792,9 @@
       }
     },
     "balena-preload": {
-      "version": "10.4.20",
-      "resolved": "https://registry.npmjs.org/balena-preload/-/balena-preload-10.4.20.tgz",
-      "integrity": "sha512-uKbccD1oh7BQ9XUMXYQvGklfws1v9+oaWkYxE0eheh+0GcHP+CVWr/TIUx+P3eplh7cAfeZAxw0wx0jp8H1Ttg==",
+      "version": "10.5.0",
+      "resolved": "https://registry.npmjs.org/balena-preload/-/balena-preload-10.5.0.tgz",
+      "integrity": "sha512-tgnTyOSOLB3HxIqlR1NFrTsy1eiiew5Vzmplb82/eZc/vJTrOqal2tFNn6aFay6UQ8+OASUJwANC99zBu1e8mQ==",
       "requires": {
         "archiver": "^3.1.1",
         "balena-sdk": "^15.44.0",
@@ -3828,9 +3828,9 @@
           }
         },
         "balena-sdk": {
-          "version": "15.45.0",
-          "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-15.45.0.tgz",
-          "integrity": "sha512-lfz6x8yL7nV+zHTC2+w30Dtv7I5rz8IxoO6Ifjb4/ewkhz6LyX1/UhH/a4k83oaQMXIuoYnmwWE6iVx/zl9xXQ==",
+          "version": "15.48.0",
+          "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-15.48.0.tgz",
+          "integrity": "sha512-wZnfeZhPSl04HsnovXheWJc0+yoQY6XMZ/iMt0hYFOMmhdtNSj8PQTnPRnlnxiXEjXOQ2mOUYcGCLpykeuAWPg==",
           "requires": {
             "@balena/es-version": "^1.0.0",
             "@types/lodash": "^4.14.168",
@@ -3938,9 +3938,9 @@
           }
         },
         "tslib": {
-          "version": "2.3.0",
-          "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.3.0.tgz",
-          "integrity": "sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg=="
+          "version": "2.3.1",
+          "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.3.1.tgz",
+          "integrity": "sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw=="
         },
         "zip-stream": {
           "version": "2.1.3",
