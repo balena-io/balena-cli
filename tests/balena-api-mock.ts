@@ -72,10 +72,10 @@ export class BalenaAPIMock extends NockMock {
 	}
 
 	public expectApplicationProvisioning(opts: ScopeOpts = {}) {
-		this.optPost(/^\/api-key\/application\/[0-9]+\/provisioning$/, opts).reply(
-			200,
-			'dummykey',
-		);
+		// The endpoint changed in balena-sdk v15.45.0:
+		// before: '/api-key/application/${applicationId}/provisioning'
+		// after:  '/api-key/v1/'
+		this.optPost(/^\/api-key\/v[0-9]\/?$/, opts).reply(200, 'dummykey');
 	}
 
 	public expectGetMyApplication(opts: ScopeOpts = {}) {
