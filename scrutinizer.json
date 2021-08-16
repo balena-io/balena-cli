@@ -5,6 +5,71 @@
     {
       "commits": [
         {
+          "subject": "preload: Restore support for armv7 with custom preload image",
+          "hash": "19fd3094d1b94e1b465653a587a7852b26cae739",
+          "body": "Update balena-preload from 10.4.20 to 10.5.0\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+            "signed-off-by": "Kyle Harding <kyle@balena.io>"
+          },
+          "author": "Kyle Harding",
+          "nested": [
+            {
+              "commits": [
+                {
+                  "subject": "Remove mutually exclusive args from sfdisk",
+                  "hash": "da4864336db4c148de725449353329f01d872178",
+                  "body": "In sfdisk 2.35.2 both --json and --dump are exclusive\nargs and cannot be used together.\n",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch",
+                    "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+                    "signed-off-by": "Kyle Harding <kyle@balena.io>"
+                  },
+                  "author": "Kyle Harding",
+                  "nested": []
+                },
+                {
+                  "subject": "Explicitly disable tls to avoid startup delays",
+                  "hash": "d9be2174e1d7b809f876b89ebbc596c30a277022",
+                  "body": "Currently the daemon will slow startup to print some warnings\nif we don't include this flag. Future releases will require this\nflag in order to start insecure mode at all.\n",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch",
+                    "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+                    "signed-off-by": "Kyle Harding <kyle@balena.io>"
+                  },
+                  "author": "Kyle Harding",
+                  "nested": []
+                },
+                {
+                  "subject": "Use custom dind image based on alpine",
+                  "hash": "264219936aee06e92145f983a3ef75cec549111c",
+                  "body": "This allows us to continue supporting armv7 even though\nthe official dind images stopped at docker v19.\n",
+                  "footer": {
+                    "Change-type": "minor",
+                    "change-type": "minor",
+                    "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+                    "signed-off-by": "Kyle Harding <kyle@balena.io>"
+                  },
+                  "author": "Kyle Harding",
+                  "nested": []
+                }
+              ],
+              "version": "balena-preload-10.5.0",
+              "date": "2021-08-04T19:51:31.860Z"
+            }
+          ]
+        }
+      ],
+      "version": "12.46.1",
+      "date": "2021-08-16T13:32:17.931Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add `--draft` option to `balena push`",
           "hash": "254ef1c8cfd8c8faeebb4097c8853e83ecfee190",
           "body": "This change will allow to build releases as draft and have them being\nset as final at a later stage. This change is part of a larger feature towards\nusing the builder as part of CI/CD pipelines.\n",
@@ -22606,7 +22671,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 330,
+  "stars": 332,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -22709,40 +22774,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-08-15T17:09:40Z",
+  "lastCommitDate": "2021-08-16T15:08:37Z",
   "latestRelease": {
-    "tagName": "v12.46.0",
+    "tagName": "v12.46.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.46.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.46.0/balena-cli-v12.46.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.46.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.46.1/balena-cli-v12.46.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.46.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.46.0/balena-cli-v12.46.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.46.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.46.1/balena-cli-v12.46.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.46.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.46.0/balena-cli-v12.46.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.46.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.46.1/balena-cli-v12.46.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.46.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.46.0/balena-cli-v12.46.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.46.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.46.1/balena-cli-v12.46.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.46.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.46.0/balena-cli-v12.46.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.46.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.46.1/balena-cli-v12.46.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 334,
+    "numberOfIssues": 332,
     "latestIssues": [
-      {
-        "title": "preload: Restore support for armv7 with custom preload image",
-        "url": "https://github.com/balena-io/balena-cli/pull/2303"
-      },
       {
         "title": "WIP - Add multiarch support",
         "url": "https://github.com/balena-io/balena-cli/pull/2301"
@@ -22758,10 +22819,6 @@
       {
         "title": "`balena ssh <ip-addr>` should attempt `<username>@<ip-addr>` in addition to `<root>@<ip-addr>`",
         "url": "https://github.com/balena-io/balena-cli/issues/2292"
-      },
-      {
-        "title": "Balena Preload Image not available",
-        "url": "https://github.com/balena-io/balena-cli/issues/2290"
       },
       {
         "title": "When configuring image, check if device option was provided in config before checking for the device option in options",
@@ -22818,10 +22875,18 @@
       {
         "title": "[homebrew] balena-cli 12.44.10 OSX build issue",
         "url": "https://github.com/balena-io/balena-cli/issues/2261"
+      },
+      {
+        "title": "ssh: device not found when logged in with an API key instead of web auth / session token",
+        "url": "https://github.com/balena-io/balena-cli/issues/2257"
+      },
+      {
+        "title": "Fix forums support link in README.md",
+        "url": "https://github.com/balena-io/balena-cli/pull/2256"
       }
     ]
   },
-  "version": "12.46.0",
+  "version": "12.46.1",
   "screenshot": null,
   "logo": null
 }
