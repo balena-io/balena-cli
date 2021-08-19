@@ -1,4 +1,15 @@
 - commits:
+    - subject: Add deprecation policy checker and --unsupported global flag
+      hash: c2d3eee7cca9570a3307acfc903cf600406667ea
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+  version: 12.47.0
+  date: 2021-08-19T22:27:03.141Z
+- commits:
     - subject: Update dependencies (balena-sdk from v15.36.0 to v15.48.0)
       hash: 318de8f01776114a7af3227457013fc59bde60b8
       body: |
