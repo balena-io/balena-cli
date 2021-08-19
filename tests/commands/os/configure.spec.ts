@@ -25,7 +25,7 @@ import * as tmp from 'tmp';
 tmp.setGracefulCleanup();
 const tmpNameAsync = promisify(tmp.tmpName);
 
-import { BalenaAPIMock } from '../../balena-api-mock';
+import { BalenaAPIMock } from '../../nock/balena-api-mock';
 
 if (process.platform !== 'win32') {
 	describe('balena os configure', function () {

@@ -17,7 +17,7 @@
 
 import { expect } from 'chai';
 
-import { BalenaAPIMock } from '../../balena-api-mock';
+import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
 import { isV13 } from '../../../lib/utils/version';

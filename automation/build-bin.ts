@@ -22,24 +22,25 @@ import * as archiver from 'archiver';
 import * as Bluebird from 'bluebird';
 import { execFile } from 'child_process';
 import * as filehound from 'filehound';
+import { Stats } from 'fs';
 import * as fs from 'fs-extra';
+import * as klaw from 'klaw';
 import * as _ from 'lodash';
 import * as path from 'path';
 import * as rimraf from 'rimraf';
 import * as semver from 'semver';
-import * as util from 'util';
-import * as klaw from 'klaw';
-import { Stats } from 'fs';
+import { promisify } from 'util';
 
 import { stripIndent } from '../lib/utils/lazy';
 import {
 	diffLines,
-	getSubprocessStdout,
 	loadPackageJson,
 	ROOT,
 	StdOutTap,
 	whichSpawn,
 } from './utils';
+
+const execFileAsync = promisify(execFile);
 
 export const packageJSON = loadPackageJson();
 export const version = 'v' + packageJSON.version;
@@ -246,7 +247,17 @@ async function testPkg() {
 	console.log(`Testing standalone package "${pkgBalenaPath}"...`);
 	// Run `balena version -j`, parse its stdout as JSON, and check that the
 	// reported Node.js major version matches semver.major(process.version)
-	const stdout = await getSubprocessStdout(pkgBalenaPath, ['version', '-j']);
+	let { stdout, stderr } = await execFileAsync(pkgBalenaPath, [
+		'version',
+		'-j',
+	]);
+	const { filterCliOutputForTests } = await import('../tests/helpers');
+	const filtered = filterCliOutputForTests({
+		err: stderr.split(/\r?\n/),
+		out: stdout.split(/\r?\n/),
+	});
+	stdout = filtered.out.join('\n');
+	stderr = filtered.err.join('\n');
 	let pkgNodeVersion = '';
 	let pkgNodeMajorVersion = 0;
 	try {
@@ -262,6 +273,10 @@ async function testPkg() {
 		throw new Error(
 			`Mismatched major version: built-in pkg Node version="${pkgNodeVersion}" vs process.version="${process.version}"`,
 		);
+	}
+	if (filtered.err.length > 0) {
+		const err = filtered.err.join('\n');
+		throw new Error(`"${pkgBalenaPath}": non-empty stderr "${err}"`);
 	}
 	console.log('Success! (standalone package test successful)');
 }
@@ -411,8 +426,6 @@ async function renameInstallerFiles() {
 async function signWindowsInstaller() {
 	if (process.env.CSC_LINK && process.env.CSC_KEY_PASSWORD) {
 		const exeName = renamedOclifInstallers[process.platform];
-		const execFileAsync = util.promisify<string, string[], void>(execFile);
-
 		console.log(`Signing installer "${exeName}"`);
 		await execFileAsync(MSYS2_BASH, [
 			'sign-exe.sh',

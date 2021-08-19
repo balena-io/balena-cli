@@ -21,9 +21,9 @@ import * as _ from 'lodash';
 import * as path from 'path';
 import * as sinon from 'sinon';
 
-import { BalenaAPIMock } from '../balena-api-mock';
+import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
-import { DockerMock, dockerResponsePath } from '../docker-mock';
+import { DockerMock, dockerResponsePath } from '../nock/docker-mock';
 import { cleanOutput, runCommand, switchSentry } from '../helpers';
 import {
 	ExpectedTarStreamFiles,
