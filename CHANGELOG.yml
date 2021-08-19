@@ -1,4 +1,15 @@
 - commits:
+    - subject: Add deprecation policy checker and --unsupported global flag
+      hash: c2d3eee7cca9570a3307acfc903cf600406667ea
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+  version: 12.47.0
+  date: 2021-08-19T23:14:32.964Z
+- commits:
     - subject: Update dependencies (balena-sdk from v15.36.0 to v15.48.0)
       hash: 318de8f01776114a7af3227457013fc59bde60b8
       body: |
@@ -380,7 +391,7 @@
           version: balena-sdk-15.37.0
           date: 2021-05-17T09:44:23.198Z
   version: 12.46.2
-  date: 2021-08-16T23:26:42.891Z
+  date: 2021-08-16T22:45:10.465Z
 - commits:
     - subject: 'preload: Restore support for armv7 with custom preload image'
       hash: 19fd3094d1b94e1b465653a587a7852b26cae739
