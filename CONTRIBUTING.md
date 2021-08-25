@@ -259,3 +259,12 @@ gotchas to bear in mind:
   `node_modules/balena-sdk/node_modules/balena-errors`  
   In the case of subclasses of `TypedError`, a string comparison may be used instead:  
   `error.name === 'BalenaApplicationNotFound'`
+
+## Further debugging notes
+
+* If you need to selectively run specific tests, `it.only` will not work in cases when authorization is required as part of the test cycle.  In order to target specific tests, control execution via `.mocharc.js` instead.  Here is an example of targeting the `deploy` tests.
+
+	replace: `spec: 'tests/**/*.spec.ts',`
+
+	with: `spec: ['tests/auth/*.spec.ts', 'tests/**/deploy.spec.ts'],`
+

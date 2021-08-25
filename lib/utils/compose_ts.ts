@@ -45,6 +45,8 @@ import Logger = require('./logger');
 import { exists } from './which';
 import jsyaml = require('js-yaml');
 
+const allowedContractTypes = ['sw.application', 'sw.block'];
+
 /**
  * Given an array representing the raw `--release-tag` flag of the deploy and
  * push commands, parse it into separate arrays of release tag keys and values.
@@ -1312,11 +1314,17 @@ export async function deployProject(
 	const prefix = getChalk().cyan('[Info]') + '    ';
 	const spinner = createSpinner();
 
-	const contract = await getContractContent(`${projectPath}/balena.yml`);
-
+	const contract = await getContractContent(
+		path.join(projectPath, 'balena.yml'),
+	);
 	if (contract?.version && !PLAIN_SEMVER_REGEX.test(contract?.version)) {
 		throw new ExpectedError(
-			stripIndent`Error: expected the version field in ${projectPath}/balena.yml to be a valid semver (e.g.: 1.0.0). Got '${contract.version}' instead`,
+			stripIndent`Error: expected the version field in ${path.join(
+				projectPath,
+				'balena.yml',
+			)} to be a basic semver in the format '1.2.3'. Got '${
+				contract.version
+			}' instead`,
 		);
 	}
 
@@ -1423,26 +1431,29 @@ export function createRunLoop(tick: (...args: any[]) => void) {
 	return runloop;
 }
 
-async function getContractContent(filePath: string): Promise<any | undefined> {
+async function getContractContent(
+	filePath: string,
+): Promise<Dictionary<any> | undefined> {
 	let fileContentAsString;
 	try {
 		fileContentAsString = await fs.readFile(filePath, 'utf8');
-	} catch {
-		// File does not exist. Return undefined
-		return;
+	} catch (e) {
+		if (e.code === 'ENOENT') {
+			return; // File does not exist
+		}
+		throw e;
 	}
 
 	let asJson;
 	try {
-		asJson = jsyaml.load(fileContentAsString) as any;
+		asJson = jsyaml.load(fileContentAsString);
 	} catch (err) {
 		throw new ExpectedError(
 			`Error parsing file "${filePath}":\n ${err.message}`,
 		);
 	}
 
-	const allowedContractTypes = ['sw.application', 'sw.block'];
-	if (!asJson?.type || !allowedContractTypes.includes(asJson.type)) {
+	if (!isContract(asJson)) {
 		throw new ExpectedError(
 			stripIndent`Error: application contract in '${filePath}' needs to
 				define a top level "type" field with an allowed application type.
@@ -1450,6 +1461,10 @@ async function getContractContent(filePath: string): Promise<any | undefined> {
 		);
 	}
 	return asJson;
+}
+
+function isContract(obj: any): obj is Dictionary<any> {
+	return obj?.type && allowedContractTypes.includes(obj.type);
 }
 
 function createLogStream(input: Readable) {
