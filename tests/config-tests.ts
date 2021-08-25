@@ -43,3 +43,7 @@ import { config as chaiCfg } from 'chai';
 chaiCfg.showDiff = true;
 // enable diff comparison of large objects / arrays
 chaiCfg.truncateThreshold = 0;
+// Because mocks are pointed at "production", we need to make sure this is set to prod.
+// Otherwise if the user has BALENARC_BALENA_URL pointing at something else like staging, tests
+// will fail.
+process.env.BALENARC_BALENA_URL = 'balena-cloud.com';
