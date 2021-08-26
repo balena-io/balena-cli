@@ -43,6 +43,9 @@ import type { DeviceInfo } from './device/api';
 import { getBalenaSdk, getChalk, stripIndent } from './lazy';
 import Logger = require('./logger');
 import { exists } from './which';
+import jsyaml = require('js-yaml');
+
+const allowedContractTypes = ['sw.application', 'sw.block'];
 
 /**
  * Given an array representing the raw `--release-tag` flag of the deploy and
@@ -1288,6 +1291,9 @@ async function pushServiceImages(
 	);
 }
 
+// TODO: This should be shared between the CLI & the Builder
+const PLAIN_SEMVER_REGEX = /^([0-9]+)\.([0-9]+)\.([0-9]+)$/;
+
 export async function deployProject(
 	docker: import('dockerode'),
 	logger: Logger,
@@ -1298,6 +1304,8 @@ export async function deployProject(
 	auth: string,
 	apiEndpoint: string,
 	skipLogUpload: boolean,
+	projectPath: string,
+	isDraft: boolean,
 ): Promise<import('balena-release/build/models').ReleaseModel> {
 	const releaseMod = await import('balena-release');
 	const { createRelease, tagServiceImages } = await import('./compose');
@@ -1306,11 +1314,29 @@ export async function deployProject(
 	const prefix = getChalk().cyan('[Info]') + '    ';
 	const spinner = createSpinner();
 
+	const contractPath = path.join(projectPath, 'balena.yml');
+	const contract = await getContractContent(contractPath);
+	if (contract?.version && !PLAIN_SEMVER_REGEX.test(contract?.version)) {
+		throw new ExpectedError(stripIndent`\
+			Error: expected the version field in "${contractPath}"
+			to be a basic semver in the format '1.2.3'. Got '${contract.version}' instead`);
+	}
+
 	const $release = await runSpinner(
 		tty,
 		spinner,
 		`${prefix}Creating release...`,
-		() => createRelease(apiEndpoint, auth, userId, appId, composition),
+		() =>
+			createRelease(
+				apiEndpoint,
+				auth,
+				userId,
+				appId,
+				composition,
+				isDraft,
+				contract?.version,
+				contract ? JSON.stringify(contract) : undefined,
+			),
 	);
 	const { client: pineClient, release, serviceImages } = $release;
 
@@ -1393,6 +1419,42 @@ export function createRunLoop(tick: (...args: any[]) => void) {
 		},
 	};
 	return runloop;
+}
+
+async function getContractContent(
+	filePath: string,
+): Promise<Dictionary<any> | undefined> {
+	let fileContentAsString;
+	try {
+		fileContentAsString = await fs.readFile(filePath, 'utf8');
+	} catch (e) {
+		if (e.code === 'ENOENT') {
+			return; // File does not exist
+		}
+		throw e;
+	}
+
+	let asJson;
+	try {
+		asJson = jsyaml.load(fileContentAsString);
+	} catch (err) {
+		throw new ExpectedError(
+			`Error parsing file "${filePath}":\n ${err.message}`,
+		);
+	}
+
+	if (!isContract(asJson)) {
+		throw new ExpectedError(
+			stripIndent`Error: application contract in '${filePath}' needs to
+				define a top level "type" field with an allowed application type.
+				Allowed application types are: ${allowedContractTypes.join(', ')}`,
+		);
+	}
+	return asJson;
+}
+
+function isContract(obj: any): obj is Dictionary<any> {
+	return obj?.type && allowedContractTypes.includes(obj.type);
 }
 
 function createLogStream(input: Readable) {

@@ -15,9 +15,11 @@
  * limitations under the License.
  */
 
+import type { Request as ReleaseRequest } from 'balena-release';
 import { expect } from 'chai';
 import { promises as fs } from 'fs';
 import * as _ from 'lodash';
+import * as nock from 'nock';
 import * as path from 'path';
 import * as sinon from 'sinon';
 
@@ -79,7 +81,6 @@ describe('balena deploy', function () {
 		api.expectGetMixpanel({ optional: true });
 		api.expectGetConfigDeviceTypes();
 		api.expectGetApplication();
-		api.expectPostRelease();
 		api.expectGetRelease();
 		api.expectGetUser();
 		api.expectGetService({ serviceName: 'main' });
@@ -137,12 +138,110 @@ describe('balena deploy', function () {
 			);
 		}
 
+		api.expectPostRelease({});
 		api.expectPatchImage({});
 		api.expectPatchRelease({});
 		api.expectPostImageLabel();
 
 		await testDockerBuildStream({
 			commandLine: `deploy testApp --build --source ${projectPath} -G`,
+			dockerMock: docker,
+			expectedFilesByService: { main: expectedFiles },
+			expectedQueryParamsByService: { main: commonQueryParams },
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+			services: ['main'],
+		});
+	});
+
+	it('should handle the contract and final status for a final (non-draft) release', async () => {
+		const projectPath = path.join(
+			projectsPath,
+			'no-docker-compose',
+			'with-contract',
+		);
+		const expectedFiles: ExpectedTarStreamFiles = {
+			'src/start.sh': { fileSize: 30, type: 'file' },
+			Dockerfile: { fileSize: 88, type: 'file' },
+			'balena.yml': { fileSize: 55, type: 'file' },
+		};
+		const responseFilename = 'build-POST.json';
+		const responseBody = await fs.readFile(
+			path.join(dockerResponsePath, responseFilename),
+			'utf8',
+		);
+		const expectedResponseLines = [
+			...commonResponseLines[responseFilename],
+			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
+			`[Info] Creating default composition with source: "${projectPath}"`,
+		];
+
+		api.expectPostRelease({
+			inspectRequest: (_uri: string, requestBody: nock.Body) => {
+				const body = requestBody.valueOf() as Partial<ReleaseRequest>;
+				expect(body.contract).to.be.equal(
+					'{"name":"testContract","type":"sw.application","version":"1.5.2"}',
+				);
+				expect(body.is_final).to.be.true;
+			},
+		});
+		api.expectPatchImage({});
+		api.expectPatchRelease({});
+		api.expectPostImageLabel();
+
+		await testDockerBuildStream({
+			commandLine: `deploy testApp --build --source ${projectPath}`,
+			dockerMock: docker,
+			expectedFilesByService: { main: expectedFiles },
+			expectedQueryParamsByService: { main: commonQueryParams },
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+			services: ['main'],
+		});
+	});
+
+	it('should handle the contract and final status for a draft release', async () => {
+		const projectPath = path.join(
+			projectsPath,
+			'no-docker-compose',
+			'with-contract',
+		);
+		const expectedFiles: ExpectedTarStreamFiles = {
+			'src/start.sh': { fileSize: 30, type: 'file' },
+			Dockerfile: { fileSize: 88, type: 'file' },
+			'balena.yml': { fileSize: 55, type: 'file' },
+		};
+		const responseFilename = 'build-POST.json';
+		const responseBody = await fs.readFile(
+			path.join(dockerResponsePath, responseFilename),
+			'utf8',
+		);
+		const expectedResponseLines = [
+			...commonResponseLines[responseFilename],
+			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
+			`[Info] Creating default composition with source: "${projectPath}"`,
+		];
+
+		api.expectPostRelease({
+			inspectRequest: (_uri: string, requestBody: nock.Body) => {
+				const body = requestBody.valueOf() as Partial<ReleaseRequest>;
+				expect(body.contract).to.be.equal(
+					'{"name":"testContract","type":"sw.application","version":"1.5.2"}',
+				);
+				expect(body.semver).to.be.equal('1.5.2');
+				expect(body.is_final).to.be.false;
+			},
+		});
+		api.expectPatchImage({});
+		api.expectPatchRelease({});
+		api.expectPostImageLabel();
+
+		await testDockerBuildStream({
+			commandLine: `deploy testApp --build --draft --source ${projectPath}`,
 			dockerMock: docker,
 			expectedFilesByService: { main: expectedFiles },
 			expectedQueryParamsByService: { main: commonQueryParams },
@@ -175,6 +274,8 @@ describe('balena deploy', function () {
 		// The SDK should produce an "unexpected" BalenaRequestError, which
 		// causes the CLI to call process.exit() with process.exitCode = 1
 		const expectedExitCode = 1;
+
+		api.expectPostRelease({});
 
 		// Mock this patch HTTP request to return status code 500, in which case
 		// the release status should be saved as "failed" rather than "success"
@@ -302,7 +403,7 @@ describe('balena deploy', function () {
 			);
 		}
 
-		// docker.expectGetImages();
+		api.expectPostRelease({});
 		api.expectPatchImage({});
 		api.expectPatchRelease({});
 
