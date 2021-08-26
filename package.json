@@ -206,7 +206,7 @@
     "balena-image-fs": "^7.0.6",
     "balena-image-manager": "^7.0.3",
     "balena-preload": "^10.5.0",
-    "balena-release": "^3.1.0",
+    "balena-release": "^3.2.0",
     "balena-sdk": "^15.48.0",
     "balena-semver": "^2.3.0",
     "balena-settings-client": "^4.0.7",

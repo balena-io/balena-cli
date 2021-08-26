@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import type { Request as ReleaseRequest } from 'balena-release';
 import { expect } from 'chai';
 import { promises as fs } from 'fs';
 import * as _ from 'lodash';
@@ -162,10 +163,9 @@ describe('balena deploy', function () {
 			'with-contract',
 		);
 		const expectedFiles: ExpectedTarStreamFiles = {
-			'src/.dockerignore': { fileSize: 16, type: 'file' },
 			'src/start.sh': { fileSize: 30, type: 'file' },
 			Dockerfile: { fileSize: 88, type: 'file' },
-			'balena.yml': { fileSize: 58, type: 'file' },
+			'balena.yml': { fileSize: 55, type: 'file' },
 		};
 		const responseFilename = 'build-POST.json';
 		const responseBody = await fs.readFile(
@@ -176,19 +176,14 @@ describe('balena deploy', function () {
 			...commonResponseLines[responseFilename],
 			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
 			`[Info] Creating default composition with source: "${projectPath}"`,
-			...getDockerignoreWarn1(
-				[path.join(projectPath, 'src', '.dockerignore')],
-				'deploy',
-			),
 		];
 
 		api.expectPostRelease({
 			inspectRequest: (_uri: string, requestBody: nock.Body) => {
-				const body = requestBody.valueOf() as {
-					semver: string;
-					is_final: boolean;
-				};
-				expect(body.semver).to.be.equal('1.5.2');
+				const body = requestBody.valueOf() as Partial<ReleaseRequest>;
+				expect(body.contract).to.be.equal(
+					'{"name":"testContract","type":"sw.application","version":"1.5.2"}',
+				);
 				expect(body.is_final).to.be.true;
 			},
 		});
@@ -216,10 +211,9 @@ describe('balena deploy', function () {
 			'with-contract',
 		);
 		const expectedFiles: ExpectedTarStreamFiles = {
-			'src/.dockerignore': { fileSize: 16, type: 'file' },
 			'src/start.sh': { fileSize: 30, type: 'file' },
 			Dockerfile: { fileSize: 88, type: 'file' },
-			'balena.yml': { fileSize: 58, type: 'file' },
+			'balena.yml': { fileSize: 55, type: 'file' },
 		};
 		const responseFilename = 'build-POST.json';
 		const responseBody = await fs.readFile(
@@ -230,18 +224,14 @@ describe('balena deploy', function () {
 			...commonResponseLines[responseFilename],
 			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
 			`[Info] Creating default composition with source: "${projectPath}"`,
-			...getDockerignoreWarn1(
-				[path.join(projectPath, 'src', '.dockerignore')],
-				'deploy',
-			),
 		];
 
 		api.expectPostRelease({
 			inspectRequest: (_uri: string, requestBody: nock.Body) => {
-				const body = requestBody.valueOf() as {
-					semver: string;
-					is_final: boolean;
-				};
+				const body = requestBody.valueOf() as Partial<ReleaseRequest>;
+				expect(body.contract).to.be.equal(
+					'{"name":"testContract","type":"sw.application","version":"1.5.2"}',
+				);
 				expect(body.semver).to.be.equal('1.5.2');
 				expect(body.is_final).to.be.false;
 			},

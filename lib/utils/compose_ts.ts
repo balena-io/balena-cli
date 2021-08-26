@@ -1314,18 +1314,12 @@ export async function deployProject(
 	const prefix = getChalk().cyan('[Info]') + '    ';
 	const spinner = createSpinner();
 
-	const contract = await getContractContent(
-		path.join(projectPath, 'balena.yml'),
-	);
+	const contractPath = path.join(projectPath, 'balena.yml');
+	const contract = await getContractContent(contractPath);
 	if (contract?.version && !PLAIN_SEMVER_REGEX.test(contract?.version)) {
-		throw new ExpectedError(
-			stripIndent`Error: expected the version field in ${path.join(
-				projectPath,
-				'balena.yml',
-			)} to be a basic semver in the format '1.2.3'. Got '${
-				contract.version
-			}' instead`,
-		);
+		throw new ExpectedError(stripIndent`\
+			Error: expected the version field in "${contractPath}"
+			to be a basic semver in the format '1.2.3'. Got '${contract.version}' instead`);
 	}
 
 	const $release = await runSpinner(
@@ -1341,6 +1335,7 @@ export async function deployProject(
 				composition,
 				isDraft,
 				contract?.version,
+				contract ? JSON.stringify(contract) : undefined,
 			),
 	);
 	const { client: pineClient, release, serviceImages } = $release;
@@ -1376,11 +1371,6 @@ export async function deployProject(
 	} finally {
 		await runSpinner(tty, spinner, `${prefix}Saving release...`, async () => {
 			release.end_timestamp = new Date();
-
-			// Add contract contents to the release
-			if (contract) {
-				release.contract = JSON.stringify(contract);
-			}
 			if (release.id != null) {
 				await releaseMod.updateRelease(pineClient, release.id, release);
 			}

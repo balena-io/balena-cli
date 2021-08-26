@@ -3969,9 +3969,9 @@
       }
     },
     "balena-release": {
-      "version": "3.1.0",
-      "resolved": "https://registry.npmjs.org/balena-release/-/balena-release-3.1.0.tgz",
-      "integrity": "sha512-FEbu6mdRUXgqZM0UTEz80zS5fLJDPPJ1ztF0+kmFR4VQ1Cr/s1Xn3m35GCREZlq5quOWLQnWr5Xe2TESH7IdIA==",
+      "version": "3.2.0",
+      "resolved": "https://registry.npmjs.org/balena-release/-/balena-release-3.2.0.tgz",
+      "integrity": "sha512-jwmAjIZCJ5I46/yQNN+dA73RWlre0+jBVmo2QeJl1pK83obTLyifJeWNVf5irzP8KFE7WQzo9ICK1cCpLtygFA==",
       "requires": {
         "@types/bluebird": "^3.5.18",
         "@types/node": "^8.0.55",

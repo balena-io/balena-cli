@@ -141,7 +141,7 @@ ${dockerignoreHelp}
 			description: stripIndent`
 				Deploy the release as a draft. Draft releases are ignored
 				by the 'track latest' release policy but can be used through release pinning.
-				Draft releases can be marked as final through the API. Releases as created
+				Draft releases can be marked as final through the API. Releases are created
 				as final by default unless this option is given.`,
 			default: false,
 		}),
