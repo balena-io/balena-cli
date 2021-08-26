@@ -1,4 +1,42 @@
 - commits:
+    - subject: Add contract contents at release creation time
+      hash: d0cdc900a2f89a30631cc835d7691ea7ebdb2be3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Fix env variable to avoid test failures
+      hash: 972c2470c54c51bd6b4e22ea5bf9b3ff257963c3
+      body: ''
+      footer:
+        Signed-off-by: Paul Jonathan <pj@balena.io>
+        signed-off-by: Paul Jonathan <pj@balena.io>
+        Change-type: patch
+        change-type: patch
+      author: toochevere
+      nested: []
+    - subject: >-
+        Add balena.yml handling and `--draft` to `balena deploy` release
+        creation
+      hash: 7d568a928b4297671e3776b72f64a6e2845d5f72
+      body: >
+        This change allows use of a contract and release semver when doing a
+        push,
+
+        and is part of the larger feature to use the builder as part of a CI/CD
+        pipeline.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Paul Jonathan <pj@balena.io>
+        signed-off-by: Paul Jonathan <pj@balena.io>
+      author: toochevere
+      nested: []
+  version: 12.48.0
+  date: 2021-08-26T15:16:03.095Z
+- commits:
     - subject: Add deprecation policy checker and --unsupported global flag
       hash: c2d3eee7cca9570a3307acfc903cf600406667ea
       body: ''
