@@ -41,17 +41,25 @@ function checkNpmVersion() {
 		// the reason is that it would unnecessarily prevent end users from
 		// using npm v6.4.1 that ships with Node 8.  (It is OK for the
 		// shrinkwrap file to get damaged if it is not going to be reused.)
-		console.error(`\
--------------------------------------------------------------------------------
+		throw new Error(`\
+-----------------------------------------------------------------------------
 Error: npm version '${npmVersion}' detected. Please upgrade to npm v${requiredVersion} or later
 because of a bug that causes the 'npm-shrinkwrap.json' file to be damaged.
 At this point, however, your 'npm-shrinkwrap.json' file has already been
 damaged. Please revert it to the master branch state with a command such as:
 "git checkout master -- npm-shrinkwrap.json"
 Then re-run "npm install" using npm version ${requiredVersion} or later.
--------------------------------------------------------------------------------`);
-		process.exit(1);
+-----------------------------------------------------------------------------`);
 	}
 }
 
-checkNpmVersion();
+function main() {
+	try {
+		checkNpmVersion();
+	} catch (e) {
+		console.error(e.message || e);
+		process.exitCode = 1;
+	}
+}
+
+main();

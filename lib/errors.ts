@@ -286,24 +286,3 @@ export const printErrorMessage = function (message: string) {
 export const printExpectedErrorMessage = function (message: string) {
 	console.error(`${message}\n`);
 };
-
-/**
- * Print a friendly error message and exit the CLI with an error code, BYPASSING
- * error reporting through Sentry.io's platform (raven.Raven.captureException).
- * Note that lib/errors.ts provides top-level error handling code to catch any
- * otherwise uncaught errors, AND to report them through Sentry.io. But many
- * "expected" errors (say, a JSON parsing error in a file provided by the user)
- * don't warrant reporting through Sentry.io.  For such mundane errors, catch
- * them and call this function.
- *
- * DEPRECATED: Use `throw new ExpectedError(<message>)` instead.
- * If a specific process exit code x must be set, use process.exitCode = x
- */
-export function exitWithExpectedError(message: string | Error): never {
-	if (message instanceof Error) {
-		({ message } = message);
-	}
-
-	printErrorMessage(message);
-	process.exit(1);
-}

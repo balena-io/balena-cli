@@ -16,18 +16,12 @@ limitations under the License.
 import type * as BalenaSdk from 'balena-sdk';
 import _ = require('lodash');
 
-import {
-	exitWithExpectedError,
-	instanceOf,
-	NotLoggedInError,
-	ExpectedError,
-} from '../errors';
+import { instanceOf, NotLoggedInError, ExpectedError } from '../errors';
 import { getBalenaSdk, getVisuals, stripIndent, getCliForm } from './lazy';
 import validation = require('./validation');
 import { delay } from './helpers';
 import { isV13 } from './version';
 import type { Application, Device, Organization } from 'balena-sdk';
-import { getApplication } from './sdk';
 
 export function authenticate(options: {}): Promise<void> {
 	const balena = getBalenaSdk();
@@ -135,18 +129,16 @@ export function selectDeviceType() {
 
 /**
  * Display interactive confirmation prompt.
- * If the user declines, then either an error will be thrown,
- * or `exitWithExpectedError` will be called (if exitIfDeclined true).
+ * Throw ExpectedError if the user declines.
  * @param yesOption - automatically confirm if true
  * @param message - message to display with prompt
  * @param yesMessage - message to display if automatically confirming
- * @param exitIfDeclined - exitWithExpectedError when decline if true
  */
 export async function confirm(
 	yesOption: boolean,
 	message: string,
 	yesMessage?: string,
-	exitIfDeclined = false,
+	defaultValue = false,
 ) {
 	if (yesOption) {
 		if (yesMessage) {
@@ -162,16 +154,11 @@ export async function confirm(
 	const confirmed = await getCliForm().ask<boolean>({
 		message,
 		type: 'confirm',
-		default: false,
+		default: defaultValue,
 	});
 
 	if (!confirmed) {
-		const err = new ExpectedError('Aborted');
-		// TODO remove this deprecated function (exitWithExpectedError)
-		if (exitIfDeclined) {
-			exitWithExpectedError(err);
-		}
-		throw err;
+		throw new ExpectedError('Aborted');
 	}
 }
 
@@ -281,11 +268,9 @@ export async function awaitDeviceOsUpdate(
 		}
 
 		if (osUpdateStatus.error) {
-			console.error(
-				`Failed to complete Host OS update on device ${deviceName}!`,
+			throw new ExpectedError(
+				`Failed to complete Host OS update on device ${deviceName}\n${osUpdateStatus.error}`,
 			);
-			exitWithExpectedError(osUpdateStatus.error);
-			return;
 		}
 
 		if (osUpdateProgress !== null) {
@@ -379,6 +364,7 @@ export async function getOnlineTargetDeviceUuid(
 	let app: Application;
 	try {
 		logger.logDebug(`Fetching fleet ${applicationOrDevice}`);
+		const { getApplication } = await import('./sdk');
 		app = await getApplication(sdk, applicationOrDevice);
 	} catch (err) {
 		const { BalenaApplicationNotFound } = await import('balena-errors');

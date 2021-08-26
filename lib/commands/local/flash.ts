@@ -20,12 +20,7 @@ import type { BlockDevice } from 'etcher-sdk/build/source-destination';
 import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
-import {
-	getChalk,
-	getCliForm,
-	getVisuals,
-	stripIndent,
-} from '../../utils/lazy';
+import { getChalk, getVisuals, stripIndent } from '../../utils/lazy';
 
 interface FlagsDef {
 	yes: boolean;
@@ -93,24 +88,15 @@ export default class LocalFlashCmd extends Command {
 			}
 		}
 
-		const { sourceDestination, multiWrite } = await import('etcher-sdk');
-
 		const drive = await this.getDrive(options);
 
-		const yes =
-			options.yes ||
-			(await getCliForm().ask({
-				message: 'This will erase the selected drive. Are you sure?',
-				type: 'confirm',
-				name: 'yes',
-				default: false,
-			}));
+		const { confirm } = await import('../../utils/patterns');
+		await confirm(
+			options.yes,
+			'This will erase the selected drive. Are you sure?',
+		);
 
-		if (!yes) {
-			console.log(getChalk().red.bold('Aborted image flash'));
-			process.exit(0);
-		}
-
+		const { sourceDestination, multiWrite } = await import('etcher-sdk');
 		const file = new sourceDestination.File({
 			path: params.image,
 		});

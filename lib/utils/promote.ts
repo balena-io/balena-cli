@@ -19,6 +19,7 @@ import type * as BalenaSdk from 'balena-sdk';
 import { ExpectedError, printErrorMessage } from '../errors';
 import { getVisuals, stripIndent, getCliForm } from './lazy';
 import Logger = require('./logger');
+import { confirm } from './patterns';
 import { exec, execBuffered, getDeviceOsRelease } from './ssh';
 
 const MIN_BALENAOS_VERSION = 'v2.14.0';
@@ -211,7 +212,7 @@ async function getOrSelectApplication(
 		.value();
 
 	if (!appName) {
-		return createOrSelectAppOrExit(sdk, compatibleDeviceTypes, deviceType);
+		return createOrSelectApp(sdk, compatibleDeviceTypes, deviceType);
 	}
 
 	const options: BalenaSdk.PineOptions<BalenaSdk.Application> = {
@@ -239,17 +240,14 @@ async function getOrSelectApplication(
 	)) as ApplicationWithDeviceType[];
 
 	if (applications.length === 0) {
-		const shouldCreateApp = await getCliForm().ask({
-			message:
-				`No fleet found with name "${appName}".\n` +
+		await confirm(
+			false,
+			`No fleet found with name "${appName}".\n` +
 				'Would you like to create it now?',
-			type: 'confirm',
-			default: true,
-		});
-		if (shouldCreateApp) {
-			return createApplication(sdk, deviceType, name);
-		}
-		process.exit(1);
+			undefined,
+			true,
+		);
+		return await createApplication(sdk, deviceType, name);
 	}
 
 	// We've found at least one fleet with the given name.
@@ -269,10 +267,7 @@ async function getOrSelectApplication(
 	return selectAppFromList(applications);
 }
 
-// TODO: revisit this function's purpose. It was refactored out of
-// `getOrSelectApplication` above in order to satisfy some resin-lint v3
-// rules, but it looks like there's a fair amount of duplicate logic.
-async function createOrSelectAppOrExit(
+async function createOrSelectApp(
 	sdk: BalenaSdk.BalenaSDK,
 	compatibleDeviceTypes: string[],
 	deviceType: string,
@@ -291,17 +286,14 @@ async function createOrSelectAppOrExit(
 	})) as ApplicationWithDeviceType[];
 
 	if (applications.length === 0) {
-		const shouldCreateApp = await getCliForm().ask({
-			message:
-				'You have no fleets this device can join.\n' +
+		await confirm(
+			false,
+			'You have no fleets this device can join.\n' +
 				'Would you like to create one now?',
-			type: 'confirm',
-			default: true,
-		});
-		if (shouldCreateApp) {
-			return createApplication(sdk, deviceType);
-		}
-		process.exit(1);
+			undefined,
+			true,
+		);
+		return await createApplication(sdk, deviceType);
 	}
 
 	return selectAppFromList(applications);
