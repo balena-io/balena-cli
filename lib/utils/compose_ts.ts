@@ -237,7 +237,7 @@ interface Renderer {
 	streams: Dictionary<NodeJS.ReadWriteStream>;
 }
 
-export async function buildProject(opts: {
+export interface BuildProjectOpts {
 	docker: Dockerode;
 	logger: Logger;
 	projectPath: string;
@@ -252,80 +252,97 @@ export async function buildProject(opts: {
 	dockerfilePath?: string;
 	nogitignore: boolean;
 	multiDockerignore: boolean;
-}): Promise<BuiltImage[]> {
-	const { logger, projectName } = opts;
-	logger.logInfo(`Building for ${opts.arch}/${opts.deviceType}`);
+}
 
-	let buildSummaryByService: Dictionary<string> | undefined;
+export async function buildProject(
+	opts: BuildProjectOpts,
+): Promise<BuiltImage[]> {
+	await checkBuildSecretsRequirements(opts.docker, opts.projectPath);
 	const compose = await import('resin-compose-parse');
 	const imageDescriptors = compose.parse(opts.composition);
-	const imageDescriptorsByServiceName = _.keyBy(
-		imageDescriptors,
-		'serviceName',
-	);
 	const renderer = await startRenderer({ imageDescriptors, ...opts });
+	let buildSummaryByService: Dictionary<string> | undefined;
 	try {
-		await checkBuildSecretsRequirements(opts.docker, opts.projectPath);
-
-		const needsQemu = await installQemuIfNeeded({ ...opts, imageDescriptors });
-
-		const tarStream = await tarDirectory(opts.projectPath, opts);
-
-		const tasks: BuildTaskPlus[] = await makeBuildTasks(
-			opts.composition,
-			tarStream,
+		const { awaitInterruptibleTask } = await import('./helpers');
+		const [images, summaryMsgByService] = await awaitInterruptibleTask(
+			$buildProject,
+			imageDescriptors,
+			renderer,
 			opts,
-			logger,
-			projectName,
 		);
-
-		setTaskAttributes({ tasks, imageDescriptorsByServiceName, ...opts });
-
-		const transposeOptArray: Array<TransposeOptions | undefined> =
-			await Promise.all(
-				tasks.map((task) => {
-					// Setup emulation if needed
-					if (needsQemu && !task.external) {
-						return qemuTransposeBuildStream({ task, ...opts });
-					}
-				}),
-			);
-
-		await Promise.all(
-			// transposeOptions may be undefined. That's OK.
-			transposeOptArray.map((transposeOptions, index) =>
-				setTaskProgressHooks({
-					task: tasks[index],
-					renderer,
-					transposeOptions,
-					...opts,
-				}),
-			),
-		);
-
-		logger.logDebug('Prepared tasks; building...');
-
-		const { BALENA_ENGINE_TMP_PATH } = await import('../config');
-		const builder = await import('resin-multibuild');
-
-		const builtImages = await builder.performBuilds(
-			tasks,
-			opts.docker,
-			BALENA_ENGINE_TMP_PATH,
-		);
-
-		const [images, summaryMsgByService] = await inspectBuiltImages({
-			builtImages,
-			imageDescriptorsByServiceName,
-			tasks,
-			...opts,
-		});
 		buildSummaryByService = summaryMsgByService;
-
 		return images;
 	} finally {
 		renderer.end(buildSummaryByService);
 	}
+}
+
+async function $buildProject(
+	imageDescriptors: ImageDescriptor[],
+	renderer: Renderer,
+	opts: BuildProjectOpts,
+): Promise<[BuiltImage[], Dictionary<string>]> {
+	const { logger, projectName } = opts;
+	logger.logInfo(`Building for ${opts.arch}/${opts.deviceType}`);
+
+	const needsQemu = await installQemuIfNeeded({ ...opts, imageDescriptors });
+
+	const tarStream = await tarDirectory(opts.projectPath, opts);
+
+	const tasks: BuildTaskPlus[] = await makeBuildTasks(
+		opts.composition,
+		tarStream,
+		opts,
+		logger,
+		projectName,
+	);
+
+	const imageDescriptorsByServiceName = _.keyBy(
+		imageDescriptors,
+		'serviceName',
+	);
+
+	setTaskAttributes({ tasks, imageDescriptorsByServiceName, ...opts });
+
+	const transposeOptArray: Array<TransposeOptions | undefined> =
+		await Promise.all(
+			tasks.map((task) => {
+				// Setup emulation if needed
+				if (needsQemu && !task.external) {
+					return qemuTransposeBuildStream({ task, ...opts });
+				}
+			}),
+		);
+
+	await Promise.all(
+		// transposeOptions may be undefined. That's OK.
+		transposeOptArray.map((transposeOptions, index) =>
+			setTaskProgressHooks({
+				task: tasks[index],
+				renderer,
+				transposeOptions,
+				...opts,
+			}),
+		),
+	);
+
+	logger.logDebug('Prepared tasks; building...');
+
+	const { BALENA_ENGINE_TMP_PATH } = await import('../config');
+	const builder = await import('resin-multibuild');
+
+	const builtImages = await builder.performBuilds(
+		tasks,
+		opts.docker,
+		BALENA_ENGINE_TMP_PATH,
+	);
+
+	return await inspectBuiltImages({
+		builtImages,
+		imageDescriptorsByServiceName,
+		tasks,
+		...opts,
+	});
 }
 
 async function startRenderer({
@@ -1344,20 +1361,25 @@ export async function deployProject(
 		logger.logDebug('Tagging images...');
 		const taggedImages = await tagServiceImages(docker, images, serviceImages);
 		try {
-			const token = await getTokenForPreviousRepos(
-				logger,
-				appId,
-				apiEndpoint,
-				taggedImages,
-			);
-			await pushServiceImages(
-				docker,
-				logger,
-				pineClient,
-				taggedImages,
-				token,
-				skipLogUpload,
-			);
+			const { awaitInterruptibleTask } = await import('./helpers');
+			// awaitInterruptibleTask throws SIGINTError on CTRL-C,
+			// causing the release status to be set to 'failed'
+			await awaitInterruptibleTask(async () => {
+				const token = await getTokenForPreviousRepos(
+					logger,
+					appId,
+					apiEndpoint,
+					taggedImages,
+				);
+				await pushServiceImages(
+					docker,
+					logger,
+					pineClient,
+					taggedImages,
+					token,
+					skipLogUpload,
+				);
+			});
 			release.status = 'success';
 		} catch (err) {
 			release.status = 'failed';
