@@ -10,16 +10,14 @@ Selected operating system: **macOS**
    Look for a file name that ends with "-installer.pkg":  
    `balena-cli-vX.Y.Z-macOS-x64-installer.pkg`  
 
-2. Double click the downloaded file to run the installer. After the installation completes,
-   close and re-open any open [command
-   terminal](https://www.balena.io/docs/reference/cli/#choosing-a-shell-command-promptterminal)
-   windows (so that the changes made by the installer to the PATH environment variable can take
-   effect).
+2. Double click on the downloaded file to run the installer and follow the installer's
+   instructions.
 
-3. Check that the installation was successful by running the following commands on a
-   command terminal:  
-   * `balena version` - should print the CLI's version
-   * `balena help` - should print a list of available commands
+3. Check that the installation was successful:
+   - [Open the Terminal
+   app](https://support.apple.com/en-gb/guide/terminal/apd5265185d-f365-44cb-8b09-71a064a42125/mac).
+   - On the terminal prompt, type `balena version` and hit Enter. It should display
+     the version of the balena CLI that you have installed.
 
 No further steps are required to run most CLI commands. The `balena ssh`, `build`, `deploy`
 and `preload` commands may require additional software to be installed, as described

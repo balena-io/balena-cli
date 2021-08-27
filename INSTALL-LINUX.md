@@ -1,6 +1,10 @@
 # balena CLI Installation Instructions for Linux
 
-These instructions are suitable for most Linux distributions on Intel x86, except notably for **Linux Alpine** or **Busybox**. For these distros or for the ARM architecture, follow the [NPM Installation](./INSTALL-ADVANCED.md#npm-installation) method.
+These instructions are suitable for most Linux distributions on Intel x86, such as
+Ubuntu, Debian, Fedora, Arch Linux and other glibc-based distributions.
+For the ARM architecture and for Linux distributions not based on glibc, such as
+Alpine Linux, follow the [NPM Installation](./INSTALL-ADVANCED.md#npm-installation)
+method.
 
 Selected operating system: **Linux**
 
