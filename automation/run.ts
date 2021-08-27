@@ -35,11 +35,6 @@ process.env.DEBUG = ['0', 'no', 'false', '', undefined].includes(
 	? ''
 	: '1';
 
-function exitWithError(error: Error | string): never {
-	console.error(`Error: ${error}`);
-	process.exit(1);
-}
-
 /**
  * Trivial command-line parser. Check whether the command-line argument is one
  * of the following strings, then call the appropriate functions:
@@ -49,12 +44,12 @@ function exitWithError(error: Error | string): never {
  *
  * @param args Arguments to parse (default is process.argv.slice(2))
  */
-export async function run(args?: string[]) {
+async function parse(args?: string[]) {
 	args = args || process.argv.slice(2);
-	console.log(`automation/run.ts process.argv=[${process.argv}]\n`);
-	console.log(`automation/run.ts args=[${args}]`);
+	console.error(`[debug] automation/run.ts process.argv=[${process.argv}]`);
+	console.error(`[debug] automation/run.ts args=[${args}]`);
 	if (_.isEmpty(args)) {
-		return exitWithError('missing command-line arguments');
+		throw new Error('missing command-line arguments');
 	}
 	const commands: { [cmd: string]: () => void | Promise<void> } = {
 		'build:installer': buildOclifInstaller,
@@ -66,7 +61,7 @@ export async function run(args?: string[]) {
 	};
 	for (const arg of args) {
 		if (!commands.hasOwnProperty(arg)) {
-			return exitWithError(`command unknown: ${arg}`);
+			throw new Error(`command unknown: ${arg}`);
 		}
 	}
 
@@ -90,8 +85,21 @@ export async function run(args?: string[]) {
 			const cmdFunc = commands[arg];
 			await cmdFunc();
 		} catch (err) {
-			return exitWithError(`"${arg}": ${err}`);
+			if (typeof err === 'object') {
+				err.message = `"${arg}": ${err.message}`;
+			}
+			throw err;
 		}
+	}
+}
+
+/** See jsdoc for parse() function above */
+export async function run(args?: string[]) {
+	try {
+		await parse(args);
+	} catch (e) {
+		console.error(e.message ? `Error: ${e.message}` : e);
+		process.exitCode = 1;
 	}
 }
 

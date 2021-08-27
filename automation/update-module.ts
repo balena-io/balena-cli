@@ -11,8 +11,7 @@ const validateChangeType = (maybeChangeType: string = 'minor') => {
 		case 'major':
 			return maybeChangeType;
 		default:
-			console.error(`Invalid change type: '${maybeChangeType}'`);
-			return process.exit(1);
+			throw new Error(`Invalid change type: '${maybeChangeType}'`);
 	}
 };
 
@@ -65,24 +64,17 @@ const getUpstreams = async () => {
 	return upstream;
 };
 
-const printUsage = (upstreams: Upstream[], upstreamName: string) => {
-	console.error(
-		`
+const getUsage = (upstreams: Upstream[], upstreamName: string) => `
 Usage: npm run update ${upstreamName} $version [$changeType=minor]
 
 Upstream names: ${upstreams.map(({ repo }) => repo).join(', ')}
-`,
-	);
-	return process.exit(1);
-};
+`;
 
-// TODO: Drop the wrapper function once we move to TS 3.8,
-// which will support top level await.
-async function main() {
+async function $main() {
 	const upstreams = await getUpstreams();
 
 	if (process.argv.length < 3) {
-		return printUsage(upstreams, '$upstreamName');
+		throw new Error(getUsage(upstreams, '$upstreamName'));
 	}
 
 	const upstreamName = process.argv[2];
@@ -90,16 +82,15 @@ async function main() {
 	const upstream = upstreams.find((v) => v.repo === upstreamName);
 
 	if (!upstream) {
-		console.error(
+		throw new Error(
 			`Invalid upstream name '${upstreamName}', valid options: ${upstreams
 				.map(({ repo }) => repo)
 				.join(', ')}`,
 		);
-		return process.exit(1);
 	}
 
 	if (process.argv.length < 4) {
-		printUsage(upstreams, upstreamName);
+		throw new Error(getUsage(upstreams, upstreamName));
 	}
 
 	const packageName = upstream.module || upstream.repo;
@@ -108,8 +99,7 @@ async function main() {
 	await run(`npm install ${packageName}@${process.argv[3]}`);
 	const newVersion = await getVersion(packageName);
 	if (newVersion === oldVersion) {
-		console.error(`Already on version '${newVersion}'`);
-		return process.exit(1);
+		throw new Error(`Already on version '${newVersion}'`);
 	}
 
 	console.log(`Updated ${upstreamName} from ${oldVersion} to ${newVersion}`);
@@ -135,6 +125,15 @@ async function main() {
 	await run(
 		`git commit --message "Update ${upstreamName} to ${newVersion}" --message "Update ${upstreamName} from ${oldVersion} to ${newVersion}" --message "Change-type: ${changeType}"`,
 	);
+}
+
+async function main() {
+	try {
+		await $main();
+	} catch (e) {
+		console.error(e);
+		process.exitCode = 1;
+	}
 }
 
 main();

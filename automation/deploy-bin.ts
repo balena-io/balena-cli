@@ -54,9 +54,7 @@ export async function release() {
 	try {
 		await createGitHubRelease();
 	} catch (err) {
-		console.error('Release failed');
-		console.error(err);
-		process.exit(1);
+		throw new Error(`Error creating GitHub release:\n${err}`);
 	}
 }
 

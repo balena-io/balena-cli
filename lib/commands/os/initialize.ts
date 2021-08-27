@@ -92,7 +92,6 @@ export default class OsInitializeCmd extends Command {
 				options.yes,
 				`This will erase ${answers.drive}. Are you sure?`,
 				`Going to erase ${answers.drive}.`,
-				true,
 			);
 			const { safeUmount } = await import('../../utils/umount');
 			await safeUmount(answers.drive);

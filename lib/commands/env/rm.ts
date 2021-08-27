@@ -91,8 +91,6 @@ export default class EnvRmCmd extends Command {
 		await confirm(
 			opt.yes || false,
 			'Are you sure you want to delete the environment variable?',
-			undefined,
-			true,
 		);
 
 		const balena = getBalenaSdk();
