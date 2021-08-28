@@ -2644,9 +2644,9 @@
       "integrity": "sha512-ssE3Vlrys7sdIzs5LOxCzTVMsU7i9oa/IaW92wF32JFb3CVczqOkru2xspuKczHEbG3nvmPY7IFqVmGGHdNbYw=="
     },
     "@types/memoizee": {
-      "version": "0.4.5",
-      "resolved": "https://registry.npmjs.org/@types/memoizee/-/memoizee-0.4.5.tgz",
-      "integrity": "sha512-+ZzZZ3+0a7/ajBPeAAD4+LxrBsCat0EFZQtO3o0rwpIeLmDmSaM8KF/oYPuFxeUFAMiHIHFcGucFnY/8S4Hszg=="
+      "version": "0.4.6",
+      "resolved": "https://registry.npmjs.org/@types/memoizee/-/memoizee-0.4.6.tgz",
+      "integrity": "sha512-qJezGqoi3pW9Pset2w1Gfv8jATvmHHHnpO9Dq8x8pJGyYIpiUZJqRU0NM7xenmN0AcXEe7vqshI8H98KeFLYcg=="
     },
     "@types/mime": {
       "version": "1.3.2",
@@ -2937,9 +2937,9 @@
       }
     },
     "@types/uuid": {
-      "version": "8.3.0",
-      "resolved": "https://registry.npmjs.org/@types/uuid/-/uuid-8.3.0.tgz",
-      "integrity": "sha512-eQ9qFW/fhfGJF8WKHGEHZEyVWfZxrT+6CLIJGBcZPfxUh/+BnEj+UCGYMlr9qZuX/2AltsvwrGqp0LhEW8D0zQ=="
+      "version": "8.3.1",
+      "resolved": "https://registry.npmjs.org/@types/uuid/-/uuid-8.3.1.tgz",
+      "integrity": "sha512-Y2mHTRAbqfFkpjldbkHGY8JIzRN6XqYRliG8/24FcHm2D2PwW24fl5xMRTVGdrb7iMrwCaIEbLWerGIkXuFWVg=="
     },
     "@types/which": {
       "version": "2.0.1",
@@ -3764,9 +3764,9 @@
       }
     },
     "balena-hup-action-utils": {
-      "version": "4.0.2",
-      "resolved": "https://registry.npmjs.org/balena-hup-action-utils/-/balena-hup-action-utils-4.0.2.tgz",
-      "integrity": "sha512-N2HVaqXodwR18HKnbOwJDzDZOLpQoPzH6MD4Ibs09Sb9OGBizgjAHiK4Qs20qX1wvztqm8sy8zWJ8nXEOFAplg==",
+      "version": "4.0.3",
+      "resolved": "https://registry.npmjs.org/balena-hup-action-utils/-/balena-hup-action-utils-4.0.3.tgz",
+      "integrity": "sha512-PdHMpSjaQriB4y4zmeAmm0Mxudencc/BVjI3jHVH3/SCZ6OqIIGlyFJU2tS0vsghED8PiEyQSjUdDCGzv7zUiQ==",
       "requires": {
         "balena-semver": "^2.0.0",
         "tslib": "^2.0.0"
@@ -3962,9 +3962,9 @@
       },
       "dependencies": {
         "tslib": {
-          "version": "2.2.0",
-          "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.2.0.tgz",
-          "integrity": "sha512-gS9GVHRU+RGn5KQM2rllAlR3dU6m7AcpJKdtH8gFvQiC4Otgk98XnmMU+nZenHt/+VhnBPWwgrJsyrdcw6i23w=="
+          "version": "2.3.1",
+          "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.3.1.tgz",
+          "integrity": "sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw=="
         }
       }
     },
@@ -3990,9 +3990,9 @@
       }
     },
     "balena-request": {
-      "version": "11.4.0",
-      "resolved": "https://registry.npmjs.org/balena-request/-/balena-request-11.4.0.tgz",
-      "integrity": "sha512-wfPaWX/+NgT2xNplQqA8oCNLJXG6eLMbf9IOX8T4ZX+nqBoA9bydoIRLunGExMNfUWpxApvBh5ls8fJOd9VTjQ==",
+      "version": "11.4.1",
+      "resolved": "https://registry.npmjs.org/balena-request/-/balena-request-11.4.1.tgz",
+      "integrity": "sha512-id7xS09QGY+Ppw0PVMgc/B30BGd2j9qt+xi2MYSugJCqOsO0iP5ERMXjjx9XQLmayKXpgSd/OCV8twl9+bpJ0g==",
       "requires": {
         "@balena/node-web-streams": "^0.2.3",
         "balena-errors": "^4.7.1",
@@ -4004,9 +4004,9 @@
       }
     },
     "balena-sdk": {
-      "version": "15.48.0",
-      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-15.48.0.tgz",
-      "integrity": "sha512-wZnfeZhPSl04HsnovXheWJc0+yoQY6XMZ/iMt0hYFOMmhdtNSj8PQTnPRnlnxiXEjXOQ2mOUYcGCLpykeuAWPg==",
+      "version": "15.48.3",
+      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-15.48.3.tgz",
+      "integrity": "sha512-2TeF1hiLlVjGWce7QEupR+GRMosuiYtMy6vyV5w+cMcxEMB+W35l7kc915W+Dvhe0U2I+6oFGZvRZTLZTvWE+A==",
       "requires": {
         "@balena/es-version": "^1.0.0",
         "@types/lodash": "^4.14.168",
@@ -4018,7 +4018,7 @@
         "balena-hup-action-utils": "~4.0.2",
         "balena-pine": "^12.4.0",
         "balena-register-device": "^7.1.0",
-        "balena-request": "^11.4.0",
+        "balena-request": "^11.4.1",
         "balena-semver": "^2.3.0",
         "balena-settings-client": "^4.0.6",
         "lodash": "^4.17.21",
