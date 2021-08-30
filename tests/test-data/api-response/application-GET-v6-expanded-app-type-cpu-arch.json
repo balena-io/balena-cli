@@ -1,0 +1,53 @@
+{
+	"d": [
+		{
+			"application_type": [
+				{
+					"name": "Starter",
+					"slug": "microservices-starter",
+					"supports_multicontainer": true,
+					"is_legacy": false,
+					"__metadata": {}
+				}
+			],
+			"id": 1301645,
+			"user": {
+				"__deferred": {
+					"uri": "/resin/user(43699)"
+				},
+				"__id": 43699
+			},
+			"organization": [
+				{
+					"handle": "gh_user"
+				}
+			],
+			"depends_on__application": null,
+			"actor": 3423895,
+			"app_name": "testApp",
+			"slug": "gh_user/testApp",
+			"should_be__running_release": [
+				{
+					"commit": "96eec431d57e6976d3a756df33fde7e2"
+				}
+			],
+			"is_for__device_type": [
+				{
+					"slug": "raspberrypi3",
+					"is_of__cpu_architecture": [
+						{
+							"slug": "armv7hf"
+						}
+					]
+				}
+			],
+			"should_track_latest_release": true,
+			"is_accessible_by_support_until__date": null,
+			"is_public": false,
+			"is_host": false,
+			"__metadata": {
+				"uri": "/resin/application(@id)?@id=1301645"
+			}
+		}
+	]
+}
