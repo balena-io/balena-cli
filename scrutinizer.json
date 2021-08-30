@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Clarify installation instructions",
+          "hash": "3fd5981085ac6db4c54522746ab544478f4d446b",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.48.2",
+      "date": "2021-08-30T13:51:22.656Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Improve error handling (remove most occurrences of process.exit())",
           "hash": "deb3e4c4ac1b23e96b283848580428f61de4eb05",
           "body": "Finally delete the deprecated exitWithExpectedError() function from\n'lib/errors.ts'.\n",
@@ -23365,36 +23382,56 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-08-27T00:23:23Z",
+  "lastCommitDate": "2021-08-30T23:23:23Z",
   "latestRelease": {
-    "tagName": "v12.48.1",
+    "tagName": "v12.48.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.48.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.1/balena-cli-v12.48.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.48.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.2/balena-cli-v12.48.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.1/balena-cli-v12.48.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.48.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.2/balena-cli-v12.48.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.48.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.1/balena-cli-v12.48.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.48.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.2/balena-cli-v12.48.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.1/balena-cli-v12.48.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.48.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.2/balena-cli-v12.48.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.48.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.1/balena-cli-v12.48.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.48.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.2/balena-cli-v12.48.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 329,
+    "numberOfIssues": 334,
     "latestIssues": [
+      {
+        "title": "Should move away from the device-types/v1 endpoints in favor of the model",
+        "url": "https://github.com/balena-io/balena-cli/issues/2318"
+      },
+      {
+        "title": "balena deploy: Retrieve the cpu arch as part of the device type resource",
+        "url": "https://github.com/balena-io/balena-cli/pull/2317"
+      },
+      {
+        "title": "os download: Use the hostApps instead of the device-types/v1 endpoint",
+        "url": "https://github.com/balena-io/balena-cli/pull/2316"
+      },
+      {
+        "title": "Update balena-sdk to v15.48.3",
+        "url": "https://github.com/balena-io/balena-cli/pull/2315"
+      },
+      {
+        "title": "Error message regarding compose file unclear",
+        "url": "https://github.com/balena-io/balena-cli/issues/2314"
+      },
       {
         "title": "Registry Connection Timeout",
         "url": "https://github.com/balena-io/balena-cli/issues/2310"
@@ -23454,30 +23491,10 @@
       {
         "title": "Build cache not working in local mode",
         "url": "https://github.com/balena-io/balena-cli/issues/2264"
-      },
-      {
-        "title": "Supervisor above (insert future release) requires to use app UUIDs in the preloading target state",
-        "url": "https://github.com/balena-io/balena-cli/issues/2263"
-      },
-      {
-        "title": "Modify the apps preloading to merge to an existing `apps.json` file if it exists",
-        "url": "https://github.com/balena-io/balena-cli/issues/2262"
-      },
-      {
-        "title": "[homebrew] balena-cli 12.44.10 OSX build issue",
-        "url": "https://github.com/balena-io/balena-cli/issues/2261"
-      },
-      {
-        "title": "ssh: device not found when logged in with an API key instead of web auth / session token",
-        "url": "https://github.com/balena-io/balena-cli/issues/2257"
-      },
-      {
-        "title": "Fix forums support link in README.md",
-        "url": "https://github.com/balena-io/balena-cli/pull/2256"
       }
     ]
   },
-  "version": "12.48.1",
+  "version": "12.48.2",
   "screenshot": null,
   "logo": null
 }

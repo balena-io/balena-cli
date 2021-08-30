@@ -1,4 +1,15 @@
 - commits:
+    - subject: Clarify installation instructions
+      hash: 3fd5981085ac6db4c54522746ab544478f4d446b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.48.2
+  date: 2021-08-30T23:22:27.913Z
+- commits:
     - subject: Improve error handling (remove most occurrences of process.exit())
       hash: deb3e4c4ac1b23e96b283848580428f61de4eb05
       body: |
@@ -23,7 +34,7 @@
       author: Paulo Castro
       nested: []
   version: 12.48.1
-  date: 2021-08-27T00:22:42.513Z
+  date: 2021-08-27T00:01:06.667Z
 - commits:
     - subject: Add contract contents at release creation time
       hash: d0cdc900a2f89a30631cc835d7691ea7ebdb2be3
