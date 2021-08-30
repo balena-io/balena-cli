@@ -10,16 +10,14 @@ Selected operating system: **Windows**
    Look for a file name that ends with "-installer.exe":  
    `balena-cli-vX.Y.Z-windows-x64-installer.exe`  
 
-2. Double click the downloaded file to run the installer. After the installation completes,
-   close and re-open any open [command
-   terminal](https://www.balena.io/docs/reference/cli/#choosing-a-shell-command-promptterminal)
-   windows (so that the changes made by the installer to the PATH environment variable can take
-   effect).
+2. Double click on the downloaded file to run the installer and follow the installer's
+   instructions.
 
-3. Check that the installation was successful by running the following commands on a
-   command terminal:  
-   * `balena version` - should print the CLI's version
-   * `balena help` - should print a list of available commands
+3. Check that the installation was successful:
+   - Click on the Windows Start Menu, type PowerShell, and then click
+     on Windows PowerShell.
+   - On the command prompt, type `balena version` and hit Enter. It should display
+     the version of the balena CLI that you have installed.
 
 No further steps are required to run most CLI commands. The `balena ssh`, `scan`, `build`,
 `deploy` and `preload` commands may require additional software to be installed, as
