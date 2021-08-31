@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "os download: Use the hostApps instead of the device-types/v1 endpoint",
+          "hash": "d34073f6957634b315a75bf9862155015f13b3f6",
+          "body": "",
+          "footer": {
+            "Connects-to": "#2318",
+            "connects-to": "#2318",
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis",
+          "nested": []
+        }
+      ],
+      "version": "12.48.4",
+      "date": "2021-08-31T01:07:33.366Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "balena deploy: Retrieve the cpu arch as part of the device type resource",
           "hash": "24fe6666e4391e5e5524b519612ce4580fdad4ff",
           "body": "",
@@ -23173,12 +23194,12 @@
       "avatar": "https://avatars.githubusercontent.com/u/2192773?v=4"
     },
     {
-      "username": "pimterry",
-      "avatar": "https://avatars.githubusercontent.com/u/1526883?v=4"
-    },
-    {
       "username": "bulldozer-balena[bot]",
       "avatar": "https://avatars.githubusercontent.com/in/58047?v=4"
+    },
+    {
+      "username": "pimterry",
+      "avatar": "https://avatars.githubusercontent.com/u/1526883?v=4"
     },
     {
       "username": "resin-io-versionbot[bot]",
@@ -23403,43 +23424,39 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-08-31T01:03:14Z",
+  "lastCommitDate": "2021-08-31T01:34:45Z",
   "latestRelease": {
-    "tagName": "v12.48.3",
+    "tagName": "v12.48.4",
     "asssets": [
       {
-        "name": "balena-cli-v12.48.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.3/balena-cli-v12.48.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.48.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.4/balena-cli-v12.48.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.3/balena-cli-v12.48.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.48.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.4/balena-cli-v12.48.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.48.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.3/balena-cli-v12.48.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.48.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.4/balena-cli-v12.48.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.3/balena-cli-v12.48.3-windows-x64-installer.exe"
+        "name": "balena-cli-v12.48.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.4/balena-cli-v12.48.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.48.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.3/balena-cli-v12.48.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.48.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.4/balena-cli-v12.48.4-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 333,
+    "numberOfIssues": 332,
     "latestIssues": [
       {
         "title": "Should move away from the device-types/v1 endpoints in favor of the model",
         "url": "https://github.com/balena-io/balena-cli/issues/2318"
-      },
-      {
-        "title": "os download: Use the hostApps instead of the device-types/v1 endpoint",
-        "url": "https://github.com/balena-io/balena-cli/pull/2316"
       },
       {
         "title": "Update balena-sdk to v15.48.3",
@@ -23512,10 +23529,14 @@
       {
         "title": "Supervisor above (insert future release) requires to use app UUIDs in the preloading target state",
         "url": "https://github.com/balena-io/balena-cli/issues/2263"
+      },
+      {
+        "title": "Modify the apps preloading to merge to an existing `apps.json` file if it exists",
+        "url": "https://github.com/balena-io/balena-cli/issues/2262"
       }
     ]
   },
-  "version": "12.48.3",
+  "version": "12.48.4",
   "screenshot": null,
   "logo": null
 }
