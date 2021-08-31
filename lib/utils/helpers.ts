@@ -148,23 +148,18 @@ export async function osProgressHandler(step: InitializeEmitter) {
 	});
 }
 
-export function getAppWithArch(
+export async function getAppWithArch(
 	applicationName: string,
 ): Promise<ApplicationWithDeviceType & { arch: string }> {
-	return Promise.all([
-		getApplication(applicationName),
-		getBalenaSdk().models.config.getDeviceTypes(),
-	]).then(function ([app, deviceTypes]) {
-		const config = _.find<BalenaSdk.DeviceTypeJson.DeviceType>(deviceTypes, {
-			slug: app.is_for__device_type[0].slug,
-		});
+	const app = await getApplication(applicationName);
+	const { getExpanded } = await import('./pine');
 
-		if (!config) {
-			throw new Error(`balena API request failed for fleet ${applicationName}`);
-		}
-
-		return { ...app, arch: config.arch };
-	});
+	return {
+		...app,
+		arch: getExpanded(
+			getExpanded(app.is_for__device_type)!.is_of__cpu_architecture,
+		)!.slug,
+	};
 }
 
 // TODO: Drop this. The sdk now has this baked in application.get().
@@ -182,6 +177,11 @@ function getApplication(
 			},
 			is_for__device_type: {
 				$select: 'slug',
+				$expand: {
+					is_of__cpu_architecture: {
+						$select: 'slug',
+					},
+				},
 			},
 		},
 	};

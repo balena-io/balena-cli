@@ -79,8 +79,7 @@ describe('balena deploy', function () {
 		docker = new DockerMock();
 		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetMixpanel({ optional: true });
-		api.expectGetConfigDeviceTypes();
-		api.expectGetApplication();
+		api.expectGetApplication({ expandArchitecture: true });
 		api.expectGetRelease();
 		api.expectGetUser();
 		api.expectGetService({ serviceName: 'main' });
