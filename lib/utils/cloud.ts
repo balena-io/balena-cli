@@ -188,18 +188,21 @@ async function resolveOSVersion(deviceType: string, version: string) {
 		return version;
 	}
 
-	const { versions: vs, recommended } =
-		await getBalenaSdk().models.os.getSupportedVersions(deviceType);
+	const vs = (
+		(await getBalenaSdk().models.hostapp.getAllOsVersions([deviceType]))[
+			deviceType
+		] ?? []
+	).filter((v) => v.osType === 'default');
 
 	const choices = vs.map((v) => ({
-		value: v,
-		name: `v${v}` + (v === recommended ? ' (recommended)' : ''),
+		value: v.rawVersion,
+		name: `v${v.rawVersion}` + (v.isRecommended ? ' (recommended)' : ''),
 	}));
 
 	return getCliForm().ask({
 		message: 'Select the OS version:',
 		type: 'list',
 		choices,
-		default: recommended,
+		default: (vs.find((v) => v.isRecommended) ?? vs[0])?.rawVersion,
 	});
 }
