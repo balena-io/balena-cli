@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'balena deploy: Retrieve the cpu arch as part of the device type resource'
+      hash: 24fe6666e4391e5e5524b519612ce4580fdad4ff
+      body: ''
+      footer:
+        Connects-to: '#2318'
+        connects-to: '#2318'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 12.48.3
+  date: 2021-08-31T01:02:32.791Z
+- commits:
     - subject: Clarify installation instructions
       hash: 3fd5981085ac6db4c54522746ab544478f4d446b
       body: ''
@@ -8,7 +23,7 @@
       author: Paulo Castro
       nested: []
   version: 12.48.2
-  date: 2021-08-30T23:22:27.913Z
+  date: 2021-08-30T13:51:22.656Z
 - commits:
     - subject: Improve error handling (remove most occurrences of process.exit())
       hash: deb3e4c4ac1b23e96b283848580428f61de4eb05
