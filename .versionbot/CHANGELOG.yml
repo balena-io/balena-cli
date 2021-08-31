@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'os download: Use the hostApps instead of the device-types/v1 endpoint'
+      hash: d34073f6957634b315a75bf9862155015f13b3f6
+      body: ''
+      footer:
+        Connects-to: '#2318'
+        connects-to: '#2318'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 12.48.4
+  date: 2021-08-31T01:07:33.366Z
+- commits:
     - subject: 'balena deploy: Retrieve the cpu arch as part of the device type resource'
       hash: 24fe6666e4391e5e5524b519612ce4580fdad4ff
       body: ''
