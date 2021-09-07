@@ -17,7 +17,12 @@
 
 import type { flags } from '@oclif/command';
 import type { IArg } from '@oclif/parser/lib/args';
-import type { Application, BalenaSDK } from 'balena-sdk';
+import type {
+	BalenaSDK,
+	Device,
+	DeviceType,
+	PineTypedResult,
+} from 'balena-sdk';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { ExpectedError } from '../../errors';
@@ -29,9 +34,12 @@ import {
 } from '../../utils/messages';
 import { isV13 } from '../../utils/version';
 
-interface ExtendedDevice extends DeviceWithDeviceType {
+type ExtendedDevice = PineTypedResult<
+	Device,
+	typeof import('../../utils/helpers').expandForAppNameAndCpuArch
+> & {
 	application_name?: string;
-}
+};
 
 interface FlagsDef {
 	application?: string;
@@ -94,7 +102,7 @@ export default class DeviceMoveCmd extends Command {
 		const balena = getBalenaSdk();
 
 		const { tryAsInteger } = await import('../../utils/validation');
-		const { expandForAppName } = await import('../../utils/helpers');
+		const { expandForAppNameAndCpuArch } = await import('../../utils/helpers');
 
 		// Parse ids string into array of correct types
 		const deviceIds: Array<string | number> = params.uuid
@@ -107,15 +115,14 @@ export default class DeviceMoveCmd extends Command {
 				(uuid) =>
 					balena.models.device.get(
 						uuid,
-						expandForAppName,
+						expandForAppNameAndCpuArch,
 					) as Promise<ExtendedDevice>,
 			),
 		);
 
 		// Map application name for each device
 		for (const device of devices) {
-			const belongsToApplication =
-				device.belongs_to__application as Application[];
+			const belongsToApplication = device.belongs_to__application;
 			device.application_name = belongsToApplication?.[0]
 				? belongsToApplication[0].app_name
 				: 'N/a';
@@ -145,42 +152,56 @@ export default class DeviceMoveCmd extends Command {
 		balena: BalenaSDK,
 		devices: ExtendedDevice[],
 	) {
-		const [deviceDeviceTypes, deviceTypes] = await Promise.all([
-			Promise.all(
-				devices.map((device) =>
-					balena.models.device.getManifestBySlug(
-						device.is_of__device_type[0].slug,
-					),
+		const { getExpandedProp } = await import('../../utils/pine');
+		// deduplicate the slugs
+		const deviceCpuArchs = Array.from(
+			new Set(
+				devices.map(
+					(d) => d.is_of__device_type[0].is_of__cpu_architecture[0].slug,
 				),
 			),
-			balena.models.config.getDeviceTypes(),
-		]);
+		);
 
-		const compatibleDeviceTypes = deviceTypes.filter((dt) =>
-			deviceDeviceTypes.every(
-				(deviceDeviceType) =>
-					balena.models.os.isArchitectureCompatibleWith(
-						deviceDeviceType.arch,
-						dt.arch,
-					) &&
-					!!dt.isDependent === !!deviceDeviceType.isDependent &&
-					dt.state !== 'DISCONTINUED',
-			),
+		const deviceTypeOptions = {
+			$select: 'slug',
+			$expand: {
+				is_of__cpu_architecture: {
+					$select: 'slug',
+				},
+			},
+		} as const;
+		const deviceTypes = (await balena.models.deviceType.getAllSupported(
+			deviceTypeOptions,
+		)) as Array<PineTypedResult<DeviceType, typeof deviceTypeOptions>>;
+
+		const compatibleDeviceTypeSlugs = new Set(
+			deviceTypes
+				.filter((deviceType) => {
+					const deviceTypeArch = getExpandedProp(
+						deviceType.is_of__cpu_architecture,
+						'slug',
+					)!;
+					return deviceCpuArchs.every((deviceCpuArch) =>
+						balena.models.os.isArchitectureCompatibleWith(
+							deviceCpuArch,
+							deviceTypeArch,
+						),
+					);
+				})
+				.map((deviceType) => deviceType.slug),
 		);
 
 		const patterns = await import('../../utils/patterns');
 		try {
 			const application = await patterns.selectApplication(
 				(app) =>
-					compatibleDeviceTypes.some(
-						(dt) => dt.slug === app.is_for__device_type[0].slug,
-					) &&
+					compatibleDeviceTypeSlugs.has(app.is_for__device_type[0].slug) &&
 					devices.some((device) => device.application_name !== app.app_name),
 				true,
 			);
 			return application;
 		} catch (err) {
-			if (deviceDeviceTypes.length) {
+			if (!compatibleDeviceTypeSlugs.size) {
 				throw new ExpectedError(
 					`${err.message}\nDo all devices have a compatible architecture?`,
 				);
