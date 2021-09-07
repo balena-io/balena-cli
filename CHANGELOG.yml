@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'preload: Rely on the device type model to get the compatible apps'
+      hash: 6bb8df30dd0b45aa613759bfa73dfd075d4dd844
+      body: ''
+      footer:
+        Connects-to: '#2318'
+        connects-to: '#2318'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 12.48.6
+  date: 2021-09-07T13:54:22.861Z
+- commits:
     - subject: 'preload: Replace my_application query with the SDKs application.getAll()'
       hash: d7933352872504e344edb1b1ba3dfe1c3b0d69fd
       body: ''
@@ -10,7 +25,7 @@
       author: Thodoris Greasidis
       nested: []
   version: 12.48.5
-  date: 2021-09-07T11:11:44.140Z
+  date: 2021-09-07T07:36:19.017Z
 - commits:
     - subject: 'os download: Use the hostApps instead of the device-types/v1 endpoint'
       hash: d34073f6957634b315a75bf9862155015f13b3f6

@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "preload: Rely on the device type model to get the compatible apps",
+          "hash": "6bb8df30dd0b45aa613759bfa73dfd075d4dd844",
+          "body": "",
+          "footer": {
+            "Connects-to": "#2318",
+            "connects-to": "#2318",
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis",
+          "nested": []
+        }
+      ],
+      "version": "12.48.6",
+      "date": "2021-09-07T11:56:10.230Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "preload: Replace my_application query with the SDKs application.getAll()",
           "hash": "d7933352872504e344edb1b1ba3dfe1c3b0d69fd",
           "body": "",
@@ -23443,29 +23464,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-09-07T11:12:24Z",
+  "lastCommitDate": "2021-09-07T13:55:22Z",
   "latestRelease": {
-    "tagName": "v12.48.5",
+    "tagName": "v12.48.6",
     "asssets": [
       {
-        "name": "balena-cli-v12.48.5-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.5/balena-cli-v12.48.5-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.48.6-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.6/balena-cli-v12.48.6-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.5-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.5/balena-cli-v12.48.5-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.48.6-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.6/balena-cli-v12.48.6-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.48.5-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.5/balena-cli-v12.48.5-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.48.6-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.6/balena-cli-v12.48.6-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.5-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.5/balena-cli-v12.48.5-windows-x64-installer.exe"
+        "name": "balena-cli-v12.48.6-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.6/balena-cli-v12.48.6-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.48.5-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.5/balena-cli-v12.48.5-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.48.6-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.6/balena-cli-v12.48.6-windows-x64-standalone.zip"
       }
     ]
   },
@@ -23474,8 +23495,8 @@
     "numberOfIssues": 337,
     "latestIssues": [
       {
-        "title": "preload: Rely on the device type model to get the compatible apps",
-        "url": "https://github.com/balena-io/balena-cli/pull/2324"
+        "title": "device move: Rely on the device type model to get the compatible apps",
+        "url": "https://github.com/balena-io/balena-cli/pull/2325"
       },
       {
         "title": "[openBalena, balenaMachine] User would like to run `balena fleet create` in an air-gapped (no internet) environment",
@@ -23555,7 +23576,7 @@
       }
     ]
   },
-  "version": "12.48.5",
+  "version": "12.48.6",
   "screenshot": null,
   "logo": null
 }
