@@ -5,6 +5,42 @@
     {
       "commits": [
         {
+          "subject": "device move: Improve types & reduce the number of API requests",
+          "hash": "0327ed766d81bb84ce3208d44457898e6a30e76b",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis",
+          "nested": []
+        },
+        {
+          "subject": "device move: Rely on the device type model to get the compatible apps",
+          "hash": "9c821511b117c6128134936af115d368c1d743ce",
+          "body": "",
+          "footer": {
+            "Connects-to": "#2318",
+            "connects-to": "#2318",
+            "Change-type": "patch",
+            "change-type": "patch",
+            "See": "https://www.flowdock.com/app/rulemotion/i-cli/threads/s6x4Z_LoH8IG4PC_YeXMC0TP6v-",
+            "see": "https://www.flowdock.com/app/rulemotion/i-cli/threads/s6x4Z_LoH8IG4PC_YeXMC0TP6v-",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis",
+          "nested": []
+        }
+      ],
+      "version": "12.48.7",
+      "date": "2021-09-07T15:01:08.694Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "preload: Rely on the device type model to get the compatible apps",
           "hash": "6bb8df30dd0b45aa613759bfa73dfd075d4dd844",
           "body": "",
@@ -23464,40 +23500,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-09-07T13:55:22Z",
+  "lastCommitDate": "2021-09-07T15:28:57Z",
   "latestRelease": {
-    "tagName": "v12.48.6",
+    "tagName": "v12.48.7",
     "asssets": [
       {
-        "name": "balena-cli-v12.48.6-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.6/balena-cli-v12.48.6-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.48.7-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.7/balena-cli-v12.48.7-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.6-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.6/balena-cli-v12.48.6-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.48.7-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.7/balena-cli-v12.48.7-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.48.6-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.6/balena-cli-v12.48.6-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.48.7-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.7/balena-cli-v12.48.7-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.6-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.6/balena-cli-v12.48.6-windows-x64-installer.exe"
+        "name": "balena-cli-v12.48.7-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.7/balena-cli-v12.48.7-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.48.6-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.6/balena-cli-v12.48.6-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.48.7-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.7/balena-cli-v12.48.7-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 337,
+    "numberOfIssues": 336,
     "latestIssues": [
-      {
-        "title": "device move: Rely on the device type model to get the compatible apps",
-        "url": "https://github.com/balena-io/balena-cli/pull/2325"
-      },
       {
         "title": "[openBalena, balenaMachine] User would like to run `balena fleet create` in an air-gapped (no internet) environment",
         "url": "https://github.com/balena-io/balena-cli/issues/2322"
@@ -23573,10 +23605,14 @@
       {
         "title": "Add caxa-based installer for Linux",
         "url": "https://github.com/balena-io/balena-cli/pull/2271"
+      },
+      {
+        "title": "Replace remaining occurrences of models.config.getDeviceTypes() with new DeviceType resource",
+        "url": "https://github.com/balena-io/balena-cli/issues/2266"
       }
     ]
   },
-  "version": "12.48.6",
+  "version": "12.48.7",
   "screenshot": null,
   "logo": null
 }
