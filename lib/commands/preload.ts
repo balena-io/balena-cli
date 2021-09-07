@@ -331,7 +331,6 @@ Can be repeated to add multiple certificates.\
 	readonly applicationExpandOptions: PineExpand<Application> = {
 		owns__release: {
 			$select: ['id', 'commit', 'end_timestamp', 'composition'],
-			$orderby: [{ end_timestamp: 'desc' }, { id: 'desc' }],
 			$expand: {
 				contains__image: {
 					$select: ['image'],
@@ -345,6 +344,7 @@ Can be repeated to add multiple certificates.\
 			$filter: {
 				status: 'success',
 			},
+			$orderby: [{ end_timestamp: 'desc' }, { id: 'desc' }],
 		},
 		should_be_running__release: {
 			$select: 'commit',
@@ -378,44 +378,37 @@ Can be repeated to add multiple certificates.\
 		const balena = getBalenaSdk();
 
 		const deviceTypes = await this.getDeviceTypesWithSameArch(deviceTypeSlug);
-		// TODO: remove the explicit types once https://github.com/balena-io/balena-sdk/pull/889 gets merged
-		return balena.pine.get<
-			Application,
-			Array<
-				ApplicationWithDeviceType & {
-					should_be_running__release: [Release?];
-				}
-			>
-		>({
-			resource: 'my_application',
-			options: {
-				$filter: {
-					is_for__device_type: {
-						$any: {
-							$alias: 'dt',
-							$expr: {
-								dt: {
-									slug: { $in: deviceTypes },
-								},
-							},
-						},
-					},
-					owns__release: {
-						$any: {
-							$alias: 'r',
-							$expr: {
-								r: {
-									status: 'success',
-								},
+		return (await balena.models.application.getAll({
+			$select: ['id', 'app_name', 'should_track_latest_release'],
+			$expand: this.applicationExpandOptions,
+			$filter: {
+				is_for__device_type: {
+					$any: {
+						$alias: 'dt',
+						$expr: {
+							dt: {
+								slug: { $in: deviceTypes },
 							},
 						},
 					},
 				},
-				$expand: this.applicationExpandOptions,
-				$select: ['id', 'app_name', 'should_track_latest_release'],
-				$orderby: 'app_name asc',
+				owns__release: {
+					$any: {
+						$alias: 'r',
+						$expr: {
+							r: {
+								status: 'success',
+							},
+						},
+					},
+				},
 			},
-		});
+			$orderby: 'app_name asc',
+		})) as Array<
+			ApplicationWithDeviceType & {
+				should_be_running__release: [Release?];
+			}
+		>;
 	}
 
 	async selectApplication(deviceTypeSlug: string) {
