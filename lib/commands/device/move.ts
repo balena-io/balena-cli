@@ -145,28 +145,45 @@ export default class DeviceMoveCmd extends Command {
 		balena: BalenaSDK,
 		devices: ExtendedDevice[],
 	) {
+		const { getExpandedProp } = await import('../../utils/pine');
 		const [deviceDeviceTypes, deviceTypes] = await Promise.all([
-			Promise.all(
-				devices.map((device) =>
-					balena.models.device.getManifestBySlug(
-						device.is_of__device_type[0].slug,
-					),
-				),
-			),
-			balena.models.config.getDeviceTypes(),
+			balena.models.deviceType.getAll({
+				$select: 'slug',
+				$expand: {
+					is_of__cpu_architecture: {
+						$select: 'slug',
+					},
+				},
+				$filter: {
+					slug: {
+						// deduplicate the device type slugs
+						$in: Array.from(
+							new Set(
+								devices.map((device) => device.is_of__device_type[0].slug),
+							),
+						),
+					},
+				},
+			}),
+			balena.models.deviceType.getAllSupported({
+				$select: 'slug',
+				$expand: {
+					is_of__cpu_architecture: {
+						$select: 'slug',
+					},
+				},
+			}),
 		]);
 
-		const compatibleDeviceTypes = deviceTypes.filter((dt) =>
-			deviceDeviceTypes.every(
-				(deviceDeviceType) =>
-					balena.models.os.isArchitectureCompatibleWith(
-						deviceDeviceType.arch,
-						dt.arch,
-					) &&
-					!!dt.isDependent === !!deviceDeviceType.isDependent &&
-					dt.state !== 'DISCONTINUED',
-			),
-		);
+		const compatibleDeviceTypes = deviceTypes.filter((dt) => {
+			const dtArch = getExpandedProp(dt.is_of__cpu_architecture, 'slug')!;
+			return deviceDeviceTypes.every((deviceDeviceType) =>
+				balena.models.os.isArchitectureCompatibleWith(
+					getExpandedProp(deviceDeviceType.is_of__cpu_architecture, 'slug')!,
+					dtArch,
+				),
+			);
+		});
 
 		const patterns = await import('../../utils/patterns');
 		try {
