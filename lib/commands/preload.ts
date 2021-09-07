@@ -36,13 +36,7 @@ import { isV13 } from '../utils/version';
 
 import { flags } from '@oclif/command';
 import * as _ from 'lodash';
-import type {
-	Application,
-	BalenaSDK,
-	DeviceTypeJson,
-	PineExpand,
-	Release,
-} from 'balena-sdk';
+import type { Application, BalenaSDK, PineExpand, Release } from 'balena-sdk';
 import type { Preloader } from 'balena-preload';
 
 interface FlagsDef extends DockerConnectionCliFlags {
@@ -351,43 +345,47 @@ Can be repeated to add multiple certificates.\
 		},
 	};
 
-	allDeviceTypes: DeviceTypeJson.DeviceType[];
-	async getDeviceTypes() {
-		if (this.allDeviceTypes === undefined) {
-			const balena = getBalenaSdk();
-			const deviceTypes = await balena.models.config.getDeviceTypes();
-			this.allDeviceTypes = _.sortBy(deviceTypes, 'name');
-		}
-		return this.allDeviceTypes;
-	}
-
 	isCurrentCommit(commit: string) {
 		return commit === 'latest' || commit === 'current';
-	}
-
-	async getDeviceTypesWithSameArch(deviceTypeSlug: string) {
-		const deviceTypes = await this.getDeviceTypes();
-		const deviceType = _.find(deviceTypes, { slug: deviceTypeSlug });
-		if (!deviceType) {
-			throw new Error(`Device type "${deviceTypeSlug}" not found in API query`);
-		}
-		return _(deviceTypes).filter({ arch: deviceType.arch }).map('slug').value();
 	}
 
 	async getApplicationsWithSuccessfulBuilds(deviceTypeSlug: string) {
 		const balena = getBalenaSdk();
 
-		const deviceTypes = await this.getDeviceTypesWithSameArch(deviceTypeSlug);
+		try {
+			await balena.models.deviceType.get(deviceTypeSlug);
+		} catch {
+			throw new Error(`Device type "${deviceTypeSlug}" not found in API query`);
+		}
 		return (await balena.models.application.getAll({
 			$select: ['id', 'app_name', 'should_track_latest_release'],
 			$expand: this.applicationExpandOptions,
 			$filter: {
+				// get the apps that are of the same arch as the device type of the image
 				is_for__device_type: {
 					$any: {
 						$alias: 'dt',
 						$expr: {
 							dt: {
-								slug: { $in: deviceTypes },
+								is_of__cpu_architecture: {
+									$any: {
+										$alias: 'ioca',
+										$expr: {
+											ioca: {
+												is_supported_by__device_type: {
+													$any: {
+														$alias: 'isbdt',
+														$expr: {
+															isbdt: {
+																slug: deviceTypeSlug,
+															},
+														},
+													},
+												},
+											},
+										},
+									},
+								},
 							},
 						},
 					},
