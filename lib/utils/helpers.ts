@@ -463,13 +463,27 @@ export function getProxyConfig(): ProxyConfig | undefined {
 	}
 }
 
-export const expandForAppName: BalenaSdk.PineOptions<BalenaSdk.Device> = {
+export const expandForAppName = {
 	$expand: {
 		belongs_to__application: { $select: 'app_name' },
 		is_of__device_type: { $select: 'slug' },
 		is_running__release: { $select: 'commit' },
 	},
-};
+} as const;
+
+export const expandForAppNameAndCpuArch = {
+	$expand: {
+		...expandForAppName.$expand,
+		is_of__device_type: {
+			$select: 'slug',
+			$expand: {
+				is_of__cpu_architecture: {
+					$select: 'slug',
+				},
+			},
+		},
+	},
+} as const;
 
 /**
  * Use the `readline` library on Windows to install SIGINT handlers.
