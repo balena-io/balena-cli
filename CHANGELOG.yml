@@ -1,4 +1,33 @@
 - commits:
+    - subject: >-
+        v13 preparations: Add feature switch for removal of '--gitignore' (push,
+        build)
+      hash: d6faf060e65ac0c8bee79af3fc8c0389c5b6e839
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'v13 preparations: Adjust test cases for ''balena envs'''
+      hash: 352fd197b76f4239fdb72be725edcacffa50dfcf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'v13 preparations: Adjust test cases for ''balena devices'''
+      hash: afb6f938b772a186a202e68e49851f5d89458160
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.48.8
+  date: 2021-09-08T21:26:13.172Z
+- commits:
     - subject: 'device move: Improve types & reduce the number of API requests'
       hash: 0327ed766d81bb84ce3208d44457898e6a30e76b
       body: ''
@@ -26,7 +55,7 @@
       author: Thodoris Greasidis
       nested: []
   version: 12.48.7
-  date: 2021-09-07T15:27:54.243Z
+  date: 2021-09-07T15:01:08.694Z
 - commits:
     - subject: 'preload: Rely on the device type model to get the compatible apps'
       hash: 6bb8df30dd0b45aa613759bfa73dfd075d4dd844

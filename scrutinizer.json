@@ -5,6 +5,45 @@
     {
       "commits": [
         {
+          "subject": "v13 preparations: Add feature switch for removal of '--gitignore' (push, build)",
+          "hash": "d6faf060e65ac0c8bee79af3fc8c0389c5b6e839",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "v13 preparations: Adjust test cases for 'balena envs'",
+          "hash": "352fd197b76f4239fdb72be725edcacffa50dfcf",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "v13 preparations: Adjust test cases for 'balena devices'",
+          "hash": "afb6f938b772a186a202e68e49851f5d89458160",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.48.8",
+      "date": "2021-09-08T17:26:45.069Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "device move: Improve types & reduce the number of API requests",
           "hash": "0327ed766d81bb84ce3208d44457898e6a30e76b",
           "body": "",
@@ -23396,7 +23435,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 333,
+  "stars": 334,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -23500,29 +23539,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-09-07T15:28:57Z",
+  "lastCommitDate": "2021-09-08T21:27:52Z",
   "latestRelease": {
-    "tagName": "v12.48.7",
+    "tagName": "v12.48.8",
     "asssets": [
       {
-        "name": "balena-cli-v12.48.7-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.7/balena-cli-v12.48.7-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.48.8-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.8/balena-cli-v12.48.8-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.7-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.7/balena-cli-v12.48.7-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.48.8-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.8/balena-cli-v12.48.8-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.48.7-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.7/balena-cli-v12.48.7-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.48.8-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.8/balena-cli-v12.48.8-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.7-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.7/balena-cli-v12.48.7-windows-x64-installer.exe"
+        "name": "balena-cli-v12.48.8-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.8/balena-cli-v12.48.8-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.48.7-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.7/balena-cli-v12.48.7-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.48.8-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.8/balena-cli-v12.48.8-windows-x64-standalone.zip"
       }
     ]
   },
@@ -23612,7 +23651,7 @@
       }
     ]
   },
-  "version": "12.48.7",
+  "version": "12.48.8",
   "screenshot": null,
   "logo": null
 }
