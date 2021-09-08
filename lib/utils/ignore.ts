@@ -27,6 +27,7 @@ import { ExpectedError } from '../errors';
 
 const { toPosixPath } = MultiBuild.PathUtils;
 
+// v13: delete this enum
 export enum IgnoreFileType {
 	DockerIgnore,
 	GitIgnore,
@@ -42,6 +43,8 @@ interface IgnoreEntry {
  * This class is used by the CLI v10 / v11 "original" tarDirectory function
  * in `compose.js`. It is still around for the benefit of the `--gitignore`
  * option, but is expected to be deleted in CLI v13.
+ *
+ * v13: delete this class
  */
 export class FileIgnorer {
 	private dockerIgnoreEntries: IgnoreEntry[];

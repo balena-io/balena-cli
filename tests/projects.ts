@@ -86,7 +86,6 @@ export async function addRegSecretsEntries(
 
 export function getDockerignoreWarn1(paths: string[], cmd: string) {
 	const lines = [
-		'[Warn] ----------------------------------------------------------------------',
 		'[Warn] The following .dockerignore file(s) will not be used:',
 	];
 	lines.push(...paths.map((p) => `[Warn] * ${p}`));
@@ -96,7 +95,6 @@ export function getDockerignoreWarn1(paths: string[], cmd: string) {
 			'[Warn] root) is used. Microservices (multicontainer) fleets may use a separate',
 			'[Warn] .dockerignore file for each service with the --multi-dockerignore (-m)',
 			`[Warn] option. See "balena help ${cmd}" for more details.`,
-			'[Warn] ----------------------------------------------------------------------',
 		],
 	);
 	return lines;
@@ -104,7 +102,6 @@ export function getDockerignoreWarn1(paths: string[], cmd: string) {
 
 export function getDockerignoreWarn2(paths: string[], cmd: string) {
 	const lines = [
-		'[Warn] ----------------------------------------------------------------------',
 		'[Warn] The following .dockerignore file(s) will not be used:',
 	];
 	lines.push(...paths.map((p) => `[Warn] * ${p}`));
@@ -114,7 +111,6 @@ export function getDockerignoreWarn2(paths: string[], cmd: string) {
 			"[Warn] root of each service's build context (in a microservices/multicontainer",
 			'[Warn] fleet), plus a .dockerignore file at the overall project root, are used.',
 			`[Warn] See "balena help ${cmd}" for more details.`,
-			'[Warn] ----------------------------------------------------------------------',
 		],
 	);
 	return lines;

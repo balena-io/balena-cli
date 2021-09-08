@@ -19,6 +19,7 @@ import { expect } from 'chai';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 
+import { isV13 } from '../../build/utils/version';
 import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { BuilderMock, builderResponsePath } from '../nock/builder-mock';
 import { expectStreamNoCRLF, testPushBuildStream } from '../docker-build';
@@ -33,6 +34,8 @@ import {
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
+
+const itNoV13 = isV13() ? it.skip : it;
 
 const commonResponseLines = {
 	'build-POST-v3.json': [
@@ -234,71 +237,74 @@ describe('balena push', function () {
 		});
 	});
 
-	it('should create the expected tar stream (single container, --gitignore)', async () => {
-		const projectPath = path.join(
-			projectsPath,
-			'no-docker-compose',
-			'dockerignore1',
-		);
-		const expectedFiles: ExpectedTarStreamFiles = {
-			'.balena/balena.yml': { fileSize: 12, type: 'file' },
-			'.dockerignore': { fileSize: 438, type: 'file' },
-			'.gitignore': { fileSize: 20, type: 'file' },
-			'.git/bar.txt': { fileSize: 4, type: 'file' },
-			'.git/foo.txt': { fileSize: 4, type: 'file' },
-			'c.txt': { fileSize: 1, type: 'file' },
-			Dockerfile: { fileSize: 13, type: 'file' },
-			'src/.balena/balena.yml': { fileSize: 16, type: 'file' },
-			'src/.gitignore': { fileSize: 10, type: 'file' },
-			'vendor/.git/vendor-git-contents': { fileSize: 20, type: 'file' },
-			// When --gitignore (-g) is provided for v11 compatibility, the old
-			// `zeit/dockerignore` npm package is still used but it is broken on
-			// Windows (reason why we created `@balena/dockerignore`).
-			...(isWindows
-				? {
-						'src/src-b.txt': { fileSize: 5, type: 'file' },
-						'dot.git/bar.txt': { fileSize: 4, type: 'file' },
-						'dot.git/foo.txt': { fileSize: 4, type: 'file' },
-						'vendor/dot.git/vendor-git-contents': {
-							fileSize: 20,
-							type: 'file',
-						},
-				  }
-				: {}),
-		};
+	itNoV13(
+		'should create the expected tar stream (single container, --gitignore)',
+		async () => {
+			const projectPath = path.join(
+				projectsPath,
+				'no-docker-compose',
+				'dockerignore1',
+			);
+			const expectedFiles: ExpectedTarStreamFiles = {
+				'.balena/balena.yml': { fileSize: 12, type: 'file' },
+				'.dockerignore': { fileSize: 438, type: 'file' },
+				'.gitignore': { fileSize: 20, type: 'file' },
+				'.git/bar.txt': { fileSize: 4, type: 'file' },
+				'.git/foo.txt': { fileSize: 4, type: 'file' },
+				'c.txt': { fileSize: 1, type: 'file' },
+				Dockerfile: { fileSize: 13, type: 'file' },
+				'src/.balena/balena.yml': { fileSize: 16, type: 'file' },
+				'src/.gitignore': { fileSize: 10, type: 'file' },
+				'vendor/.git/vendor-git-contents': { fileSize: 20, type: 'file' },
+				// When --gitignore (-g) is provided for v11 compatibility, the old
+				// `zeit/dockerignore` npm package is still used but it is broken on
+				// Windows (reason why we created `@balena/dockerignore`).
+				...(isWindows
+					? {
+							'src/src-b.txt': { fileSize: 5, type: 'file' },
+							'dot.git/bar.txt': { fileSize: 4, type: 'file' },
+							'dot.git/foo.txt': { fileSize: 4, type: 'file' },
+							'vendor/dot.git/vendor-git-contents': {
+								fileSize: 20,
+								type: 'file',
+							},
+					  }
+					: {}),
+			};
 
-		const regSecretsPath = await addRegSecretsEntries(expectedFiles);
-		const responseFilename = 'build-POST-v3.json';
-		const responseBody = await fs.readFile(
-			path.join(builderResponsePath, responseFilename),
-			'utf8',
-		);
-		const expectedResponseLines = [
-			...[
-				`[Warn] ${hr}`,
-				'[Warn] Using file ignore patterns from:',
-				`[Warn] * ${path.join(projectPath, '.dockerignore')}`,
-				`[Warn] * ${path.join(projectPath, '.gitignore')}`,
-				`[Warn] * ${path.join(projectPath, 'src', '.gitignore')}`,
-				'[Warn] .gitignore files are being considered because the --gitignore option was used.',
-				'[Warn] This option is deprecated and will be removed in the next major version release.',
-				"[Warn] For more information, see 'balena help push'.",
-				`[Warn] ${hr}`,
-			],
-			...commonResponseLines[responseFilename],
-		];
+			const regSecretsPath = await addRegSecretsEntries(expectedFiles);
+			const responseFilename = 'build-POST-v3.json';
+			const responseBody = await fs.readFile(
+				path.join(builderResponsePath, responseFilename),
+				'utf8',
+			);
+			const expectedResponseLines = [
+				...[
+					`[Warn] ${hr}`,
+					'[Warn] Using file ignore patterns from:',
+					`[Warn] * ${path.join(projectPath, '.dockerignore')}`,
+					`[Warn] * ${path.join(projectPath, '.gitignore')}`,
+					`[Warn] * ${path.join(projectPath, 'src', '.gitignore')}`,
+					'[Warn] .gitignore files are being considered because the --gitignore option was used.',
+					'[Warn] This option is deprecated and will be removed in the next major version release.',
+					"[Warn] For more information, see 'balena help push'.",
+					`[Warn] ${hr}`,
+				],
+				...commonResponseLines[responseFilename],
+			];
 
-		await testPushBuildStream({
-			builderMock: builder,
-			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -g`,
-			expectedFiles,
-			expectedQueryParams: commonQueryParams,
-			expectedResponseLines,
-			projectPath,
-			responseBody,
-			responseCode: 200,
-		});
-	});
+			await testPushBuildStream({
+				builderMock: builder,
+				commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} -g`,
+				expectedFiles,
+				expectedQueryParams: commonQueryParams,
+				expectedResponseLines,
+				projectPath,
+				responseBody,
+				responseCode: 200,
+			});
+		},
+	);
 
 	it('should create the expected tar stream (single container, --nogitignore)', async () => {
 		const projectPath = path.join(
@@ -370,24 +376,27 @@ describe('balena push', function () {
 			path.join(builderResponsePath, responseFilename),
 			'utf8',
 		);
-		const expectedResponseLines = isWindows
-			? [
-					`[Warn] ${hr}`,
-					'[Warn] Using file ignore patterns from:',
-					`[Warn] * ${path.join(projectPath, '.dockerignore')}`,
-					'[Warn] The --gitignore option was used, but no .gitignore files were found.',
-					'[Warn] The --gitignore option is deprecated and will be removed in the next major',
-					'[Warn] version release. It prevents the use of a better dockerignore parser and',
-					'[Warn] filter library that fixes several issues on Windows and improves compatibility',
-					"[Warn] with 'docker build'. For more information, see 'balena help push'.",
-					`[Warn] ${hr}`,
-					...commonResponseLines[responseFilename],
-			  ]
-			: commonResponseLines[responseFilename];
+		const expectedResponseLines =
+			!isV13() && isWindows
+				? [
+						`[Warn] ${hr}`,
+						'[Warn] Using file ignore patterns from:',
+						`[Warn] * ${path.join(projectPath, '.dockerignore')}`,
+						'[Warn] The --gitignore option was used, but no .gitignore files were found.',
+						'[Warn] The --gitignore option is deprecated and will be removed in the next major',
+						'[Warn] version release. It prevents the use of a better dockerignore parser and',
+						'[Warn] filter library that fixes several issues on Windows and improves compatibility',
+						"[Warn] with 'docker build'. For more information, see 'balena help push'.",
+						`[Warn] ${hr}`,
+						...commonResponseLines[responseFilename],
+				  ]
+				: commonResponseLines[responseFilename];
 
 		await testPushBuildStream({
 			builderMock: builder,
-			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} --gitignore`,
+			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath} ${
+				isV13() ? '' : '--gitignore'
+			}`,
 			expectedFiles,
 			expectedQueryParams: commonQueryParams,
 			expectedResponseLines,
@@ -516,11 +525,11 @@ describe('balena push', function () {
 		const expectedResponseLines: string[] = [
 			...commonResponseLines[responseFilename],
 			...[
-				`[Info] ${hr}`,
+				`[Info] ---------------------------------------------------------------------------`,
 				'[Info] The --multi-dockerignore option is being used, and a .dockerignore file was',
 				'[Info] found at the project source (root) directory. Note that this file will not',
 				'[Info] be used to filter service subdirectories. See "balena help push".',
-				`[Info] ${hr}`,
+				`[Info] ---------------------------------------------------------------------------`,
 			],
 		];
 		if (isWindows) {
@@ -571,7 +580,7 @@ describe('balena push: project validation', function () {
 		];
 
 		const { out, err } = await runCommand(
-			`push testApp --source ${projectPath} --gitignore`,
+			`push testApp --source ${projectPath}`,
 		);
 		expect(cleanOutput(err, true)).to.include.members(expectedErrorLines);
 		expect(out).to.be.empty;

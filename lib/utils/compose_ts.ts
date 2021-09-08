@@ -18,8 +18,9 @@ import { flags } from '@oclif/command';
 import { BalenaSDK } from 'balena-sdk';
 import type { TransposeOptions } from 'docker-qemu-transpose';
 import type * as Dockerode from 'dockerode';
-import * as _ from 'lodash';
 import { promises as fs } from 'fs';
+import jsyaml = require('js-yaml');
+import * as _ from 'lodash';
 import * as path from 'path';
 import type {
 	BuildConfig,
@@ -42,8 +43,8 @@ import {
 import type { DeviceInfo } from './device/api';
 import { getBalenaSdk, getChalk, stripIndent } from './lazy';
 import Logger = require('./logger');
+import { isV13 } from './version';
 import { exists } from './which';
-import jsyaml = require('js-yaml');
 
 const allowedContractTypes = ['sw.application', 'sw.block'];
 
@@ -250,7 +251,7 @@ export interface BuildProjectOpts {
 	inlineLogs?: boolean;
 	convertEol: boolean;
 	dockerfilePath?: string;
-	nogitignore: boolean;
+	nogitignore: boolean; // v13: delete this line
 	multiDockerignore: boolean;
 }
 
@@ -737,8 +738,8 @@ export async function tarDirectory(
 	dir: string,
 	param: TarDirectoryOptions,
 ): Promise<import('stream').Readable> {
-	const { nogitignore = false } = param;
-	if (nogitignore) {
+	const { nogitignore = false } = param; // v13: delete this line
+	if (isV13() || nogitignore) {
 		return newTarDirectory(dir, param);
 	} else {
 		return (await import('./compose')).originalTarDirectory(dir, param);
@@ -759,11 +760,13 @@ async function newTarDirectory(
 		composition,
 		convertEol = false,
 		multiDockerignore = false,
-		nogitignore = false,
+		nogitignore = false, // v13: delete this line
 		preFinalizeCallback,
 	}: TarDirectoryOptions,
 ): Promise<import('stream').Readable> {
-	require('assert').strict.equal(nogitignore, true);
+	if (!isV13()) {
+		require('assert').strict.equal(nogitignore, true);
+	}
 	const { filterFilesWithDockerignore } = await import('./ignore');
 	const { toPosixPath } = (await import('resin-multibuild')).PathUtils;
 
@@ -879,7 +882,8 @@ function printDockerignoreWarn(
 		}
 	}
 	if (msg.length) {
-		logFunc.call(logger, [' ', hr, ...msg, hr].join('\n'));
+		const { warnify } = require('./messages') as typeof import('./messages');
+		logFunc.call(logger, ' \n' + warnify(msg.join('\n'), ''));
 	}
 }
 
@@ -888,11 +892,16 @@ function printDockerignoreWarn(
  * found and the --gitignore (-g) option has been provided (v11 compatibility).
  * @param dockerignoreFile Absolute path to a .dockerignore file
  * @param gitignoreFiles Array of absolute paths to .gitginore files
+ *
+ * v13: delete this function
  */
 export function printGitignoreWarn(
 	dockerignoreFile: string,
 	gitignoreFiles: string[],
 ) {
+	if (isV13()) {
+		return;
+	}
 	const ignoreFiles = [dockerignoreFile, ...gitignoreFiles].filter((e) => e);
 	if (ignoreFiles.length === 0) {
 		return;
@@ -1619,21 +1628,25 @@ export const composeCliFlags: flags.Input<ComposeCliFlags> = {
 		description:
 			'Hide the image build log output (produce less verbose output)',
 	}),
-	gitignore: flags.boolean({
-		description: stripIndent`
-				Consider .gitignore files in addition to the .dockerignore file. This reverts
-				to the CLI v11 behavior/implementation (deprecated) if compatibility is required
-				until your project can be adapted.`,
-		char: 'g',
-	}),
+	...(isV13()
+		? {}
+		: {
+				gitignore: flags.boolean({
+					description: stripIndent`
+					Consider .gitignore files in addition to the .dockerignore file. This reverts
+					to the CLI v11 behavior/implementation (deprecated) if compatibility is required
+					until your project can be adapted.`,
+					char: 'g',
+				}),
+				nogitignore: flags.boolean({
+					description: `No-op (default behavior) since balena CLI v12.0.0. See "balena help build".`,
+					char: 'G',
+				}),
+		  }),
 	'multi-dockerignore': flags.boolean({
 		description:
 			'Have each service use its own .dockerignore file. See "balena help build".',
 		char: 'm',
-	}),
-	nogitignore: flags.boolean({
-		description: `No-op (default behavior) since balena CLI v12.0.0. See "balena help build".`,
-		char: 'G',
 	}),
 	'noparent-check': flags.boolean({
 		description:

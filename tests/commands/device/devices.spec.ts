@@ -59,8 +59,9 @@ describe('balena devices', function () {
 		const lines = cleanOutput(out);
 
 		expect(lines[0].replace(/  +/g, ' ')).to.equal(
-			'ID UUID DEVICE NAME DEVICE TYPE APPLICATION NAME STATUS ' +
-				'IS ONLINE SUPERVISOR VERSION OS VERSION DASHBOARD URL',
+			isV13()
+				? 'ID UUID DEVICE NAME DEVICE TYPE FLEET STATUS IS ONLINE SUPERVISOR VERSION OS VERSION DASHBOARD URL'
+				: 'ID UUID DEVICE NAME DEVICE TYPE APPLICATION NAME STATUS IS ONLINE SUPERVISOR VERSION OS VERSION DASHBOARD URL',
 		);
 		expect(lines).to.have.lengthOf.at.least(2);
 

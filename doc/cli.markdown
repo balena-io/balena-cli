@@ -2926,15 +2926,15 @@ Don't convert line endings from CRLF (Windows format) to LF (Unix format).
 
 Have each service use its own .dockerignore file. See "balena help push".
 
-#### -G, --nogitignore
-
-No-op (default behavior) since balena CLI v12.0.0. See "balena help push".
-
 #### -g, --gitignore
 
 Consider .gitignore files in addition to the .dockerignore file. This reverts
 to the CLI v11 behavior/implementation (deprecated) if compatibility is
 required until your project can be adapted.
+
+#### -G, --nogitignore
+
+No-op (default behavior) since balena CLI v12.0.0. See "balena help push".
 
 #### --release-tag RELEASE-TAG
 
@@ -3159,13 +3159,13 @@ Consider .gitignore files in addition to the .dockerignore file. This reverts
 to the CLI v11 behavior/implementation (deprecated) if compatibility is required
 until your project can be adapted.
 
-#### -m, --multi-dockerignore
-
-Have each service use its own .dockerignore file. See "balena help build".
-
 #### -G, --nogitignore
 
 No-op (default behavior) since balena CLI v12.0.0. See "balena help build".
+
+#### -m, --multi-dockerignore
+
+Have each service use its own .dockerignore file. See "balena help build".
 
 #### --noparent-check
 
@@ -3398,13 +3398,13 @@ Consider .gitignore files in addition to the .dockerignore file. This reverts
 to the CLI v11 behavior/implementation (deprecated) if compatibility is required
 until your project can be adapted.
 
-#### -m, --multi-dockerignore
-
-Have each service use its own .dockerignore file. See "balena help build".
-
 #### -G, --nogitignore
 
 No-op (default behavior) since balena CLI v12.0.0. See "balena help build".
+
+#### -m, --multi-dockerignore
+
+Have each service use its own .dockerignore file. See "balena help build".
 
 #### --noparent-check
 
