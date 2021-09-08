@@ -7,6 +7,9 @@ import { FileIgnorer, IgnoreFileType } from '../../build/utils/ignore';
 // of the FileIgnorer class to prevent a Typescript compilation error (this
 // behavior is by design: see
 // https://github.com/microsoft/TypeScript/issues/19335 )
+//
+// v13: delete this file
+//
 describe('File ignorer', function () {
 	it('should detect ignore files', function () {
 		const f = new FileIgnorer(`.${path.sep}`);

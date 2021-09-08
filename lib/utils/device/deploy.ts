@@ -57,7 +57,7 @@ export interface DeviceDeployOptions {
 	registrySecrets: RegistrySecrets;
 	multiDockerignore: boolean;
 	nocache: boolean;
-	nogitignore: boolean;
+	nogitignore: boolean; // v13: delete this line
 	noParentCheck: boolean;
 	nolive: boolean;
 	pull: boolean;
@@ -182,7 +182,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		convertEol: opts.convertEol,
 		dockerfilePath: opts.dockerfilePath,
 		multiDockerignore: opts.multiDockerignore,
-		nogitignore: opts.nogitignore,
+		nogitignore: opts.nogitignore, // v13: delete this line
 		noParentCheck: opts.noParentCheck,
 		projectName: 'local',
 		projectPath: opts.source,
@@ -201,7 +201,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		composition: project.composition,
 		convertEol: opts.convertEol,
 		multiDockerignore: opts.multiDockerignore,
-		nogitignore: opts.nogitignore,
+		nogitignore: opts.nogitignore, // v13: delete this line
 	});
 
 	// Try to detect the device information
@@ -426,7 +426,7 @@ export async function rebuildSingleTask(
 		composition,
 		convertEol: opts.convertEol,
 		multiDockerignore: opts.multiDockerignore,
-		nogitignore: opts.nogitignore,
+		nogitignore: opts.nogitignore, // v13: delete this line
 	});
 
 	const task = _.find(

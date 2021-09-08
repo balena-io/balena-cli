@@ -23,6 +23,7 @@ import * as nock from 'nock';
 import * as path from 'path';
 import * as sinon from 'sinon';
 
+import { isV13 } from '../../build/utils/version';
 import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../nock/docker-mock';
@@ -65,9 +66,6 @@ const commonComposeQueryParams = {
 	},
 	labels: '',
 };
-
-const hr =
-	'----------------------------------------------------------------------';
 
 describe('balena deploy', function () {
 	let api: BalenaAPIMock;
@@ -143,7 +141,9 @@ describe('balena deploy', function () {
 		api.expectPostImageLabel();
 
 		await testDockerBuildStream({
-			commandLine: `deploy testApp --build --source ${projectPath} -G`,
+			commandLine: `deploy testApp --build --source ${projectPath} ${
+				isV13() ? '' : '-G'
+			}`,
 			dockerMock: docker,
 			expectedFilesByService: { main: expectedFiles },
 			expectedQueryParamsByService: { main: commonQueryParams },
@@ -304,7 +304,9 @@ describe('balena deploy', function () {
 			sinon.stub(process, 'exit');
 
 			await testDockerBuildStream({
-				commandLine: `deploy testApp --build --source ${projectPath} --noconvert-eol -G`,
+				commandLine: `deploy testApp --build --source ${projectPath} --noconvert-eol ${
+					isV13() ? '' : '-G'
+				}`,
 				dockerMock: docker,
 				expectedFilesByService: { main: expectedFiles },
 				expectedQueryParamsByService: { main: commonQueryParams },
@@ -385,11 +387,11 @@ describe('balena deploy', function () {
 				'[Build] service2 Step 1/4 : FROM busybox',
 			],
 			...[
-				`[Info] ${hr}`,
+				`[Info] ---------------------------------------------------------------------------`,
 				'[Info] The --multi-dockerignore option is being used, and a .dockerignore file was',
 				'[Info] found at the project source (root) directory. Note that this file will not',
 				'[Info] be used to filter service subdirectories. See "balena help deploy".',
-				`[Info] ${hr}`,
+				`[Info] ---------------------------------------------------------------------------`,
 			],
 		];
 		if (isWindows) {

@@ -21,7 +21,8 @@ import mock = require('mock-require');
 import { promises as fs } from 'fs';
 import * as path from 'path';
 
-import { stripIndent } from '../../lib/utils/lazy';
+import { stripIndent } from '../../build/utils/lazy';
+import { isV13 } from '../../build/utils/version';
 import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../nock/docker-mock';
@@ -60,9 +61,6 @@ const commonComposeQueryParams = {
 	},
 	labels: '',
 };
-
-const hr =
-	'----------------------------------------------------------------------';
 
 // "itSS" means "it() Skip Standalone"
 const itSS = process.env.BALENA_CLI_TEST_TYPE === 'standalone' ? it.skip : it;
@@ -126,7 +124,9 @@ describe('balena build', function () {
 		}
 		docker.expectGetInfo({});
 		await testDockerBuildStream({
-			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 -g`,
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 ${
+				isV13() ? '' : '-g'
+			}`,
 			dockerMock: docker,
 			expectedFilesByService: { main: expectedFiles },
 			expectedQueryParamsByService: { main: Object.entries(commonQueryParams) },
@@ -272,7 +272,9 @@ describe('balena build', function () {
 			mock.reRequire('../../build/utils/qemu');
 			docker.expectGetInfo({ OperatingSystem: 'balenaOS 2.44.0+rev1' });
 			await testDockerBuildStream({
-				commandLine: `build ${projectPath} --emulated --deviceType ${deviceType} --arch ${arch} --nogitignore`,
+				commandLine: `build ${projectPath} --emulated --deviceType ${deviceType} --arch ${arch} ${
+					isV13() ? '' : '--nogitignore'
+				}`,
 				dockerMock: docker,
 				expectedFilesByService: { main: expectedFiles },
 				expectedQueryParamsByService: {
@@ -416,7 +418,9 @@ describe('balena build', function () {
 		}
 		docker.expectGetInfo({});
 		await testDockerBuildStream({
-			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol -G -B COMPOSE_ARG=A -B barg=b --cache-from my/img1,my/img2`,
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol ${
+				isV13() ? '' : '-G'
+			} -B COMPOSE_ARG=A -B barg=b --cache-from my/img1,my/img2`,
 			dockerMock: docker,
 			expectedFilesByService,
 			expectedQueryParamsByService,
@@ -484,11 +488,11 @@ describe('balena build', function () {
 				'[Build] service2 Step 1/4 : FROM busybox',
 			],
 			...[
-				`[Info] ${hr}`,
+				`[Info] ---------------------------------------------------------------------------`,
 				'[Info] The --multi-dockerignore option is being used, and a .dockerignore file was',
 				'[Info] found at the project source (root) directory. Note that this file will not',
 				'[Info] be used to filter service subdirectories. See "balena help build".',
-				`[Info] ${hr}`,
+				`[Info] ---------------------------------------------------------------------------`,
 			],
 		];
 		if (isWindows) {

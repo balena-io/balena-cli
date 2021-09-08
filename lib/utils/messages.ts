@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import { isV13 } from './version';
+
 export const reachingOut = `\
 For further help or support, visit:
 https://www.balena.io/docs/reference/balena-cli/#support-faq-and-troubleshooting
@@ -48,7 +50,8 @@ used. Find out more at: https://git.io/JRHUW#deprecation-policy
  * where the length of the dash rows matches the length of the longest line.
  */
 export function warnify(msg: string, prefix = '[Warn] ') {
-	const lines = msg.split('\n').map((l) => `${prefix}${l}`);
+	let lines = msg.split('\n');
+	lines = prefix ? lines.map((l) => `${prefix}${l}`) : lines;
 	const maxLength = Math.max(...lines.map((l) => l.length));
 	const hr = '-'.repeat(maxLength);
 	return [hr, ...lines, hr].join('\n');
@@ -85,7 +88,7 @@ If the --registry-secrets option is not specified, and a secrets.yml or
 secrets.json file exists in the balena directory (usually $HOME/.balena),
 this file will be used instead.`;
 
-export const dockerignoreHelp =
+const dockerignoreHelpV12 =
 	'DOCKERIGNORE AND GITIGNORE FILES  \n' +
 	`By default, the balena CLI will use a single ".dockerignore" file (if any) at
 the project root (--source directory) in order to decide which source files to
@@ -137,6 +140,60 @@ adding counter patterns to the applicable .dockerignore file(s), for example
 \`!mysubmodule/.git\`. For documentation on pattern format, see:
 - https://docs.docker.com/engine/reference/builder/#dockerignore-file
 - https://www.npmjs.com/package/@balena/dockerignore`;
+
+const dockerignoreHelpV13 =
+	'DOCKERIGNORE AND GITIGNORE FILES  \n' +
+	`By default, the balena CLI will use a single ".dockerignore" file (if any) at
+the project root (--source directory) in order to decide which source files to
+exclude from the "build context" (tar stream) sent to balenaCloud, Docker
+daemon or balenaEngine.  In a microservices (multicontainer) fleet, the
+source directory is the directory that contains the "docker-compose.yml" file.
+
+The --multi-dockerignore (-m) option may be used with microservices
+(multicontainer) fleets that define a docker-compose.yml file. When this
+option is used, each service subdirectory (defined by the \`build\` or
+\`build.context\` service properties in the docker-compose.yml file) is
+filtered separately according to a .dockerignore file defined in the service
+subdirectory. If no .dockerignore file exists in a service subdirectory, then
+only the default .dockerignore patterns (see below) apply for that service
+subdirectory.
+
+When the --multi-dockerignore (-m) option is used, the .dockerignore file (if
+any) defined at the overall project root will be used to filter files and
+subdirectories other than service subdirectories. It will not have any effect
+on service subdirectories, whether or not a service subdirectory defines its
+own .dockerignore file. Multiple .dockerignore files are not merged or added
+together, and cannot override or extend other files. This behavior maximizes
+compatibility with the standard docker-compose tool, while still allowing a
+root .dockerignore file (at the overall project root) to filter files and
+folders that are outside service subdirectories.
+
+balena CLI v11 also took .gitignore files into account. This behavior was
+deprecated in CLI v12 and removed in CLI v13. Please use .dockerignore files
+instead.
+
+Default .dockerignore patterns  \n` +
+	`A few default/hardcoded dockerignore patterns are "merged" (in memory) with the
+patterns found in the applicable .dockerignore files, in the following order:
+\`\`\`
+    **/.git
+    < user's patterns from the applicable '.dockerignore' file, if any >
+    !**/.balena
+    !**/.resin
+    !**/Dockerfile
+    !**/Dockerfile.*
+    !**/docker-compose.yml
+\`\`\`
+These patterns always apply, whether or not .dockerignore files exist in the
+project. If necessary, the effect of the \`**/.git\` pattern may be modified by
+adding exception patterns to the applicable .dockerignore file(s), for example
+\`!mysubmodule/.git\`. For documentation on pattern format, see:
+- https://docs.docker.com/engine/reference/builder/#dockerignore-file
+- https://www.npmjs.com/package/@balena/dockerignore`;
+
+export const dockerignoreHelp = isV13()
+	? dockerignoreHelpV13
+	: dockerignoreHelpV12;
 
 export const applicationIdInfo = `\
 Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are

@@ -47,8 +47,8 @@ interface FlagsDef {
 	pull: boolean;
 	'noparent-check': boolean;
 	'registry-secrets'?: string;
-	gitignore?: boolean;
-	nogitignore?: boolean;
+	gitignore?: boolean; // v13: delete this flag
+	nogitignore?: boolean; // v13: delete this flag
 	nolive: boolean;
 	detached: boolean;
 	service?: string[];
@@ -237,11 +237,20 @@ export default class PushCmd extends Command {
 				'Have each service use its own .dockerignore file. See "balena help push".',
 			char: 'm',
 			default: false,
-			exclusive: ['gitignore'],
+			exclusive: ['gitignore'], // v13: delete this line
 		}),
 		...(isV13()
 			? {}
 			: {
+					gitignore: flags.boolean({
+						description: stripIndent`
+					Consider .gitignore files in addition to the .dockerignore file. This reverts
+					to the CLI v11 behavior/implementation (deprecated) if compatibility is
+					required until your project can be adapted.`,
+						char: 'g',
+						default: false,
+						exclusive: ['multi-dockerignore'],
+					}),
 					nogitignore: flags.boolean({
 						description:
 							'No-op (default behavior) since balena CLI v12.0.0. See "balena help push".',
@@ -250,15 +259,6 @@ export default class PushCmd extends Command {
 						default: false,
 					}),
 			  }),
-		gitignore: flags.boolean({
-			description: stripIndent`
-		Consider .gitignore files in addition to the .dockerignore file. This reverts
-		to the CLI v11 behavior/implementation (deprecated) if compatibility is
-		required until your project can be adapted.`,
-			char: 'g',
-			default: false,
-			exclusive: ['multi-dockerignore'],
-		}),
 		'release-tag': flags.string({
 			description: stripIndent`
 				Set release tags if the image build is successful (balenaCloud only). Multiple
@@ -378,7 +378,7 @@ export default class PushCmd extends Command {
 			source: options.source,
 			auth: token,
 			baseUrl,
-			nogitignore: !options.gitignore,
+			nogitignore: !options.gitignore, // v13: delete this line
 			sdk,
 			opts,
 		};
@@ -422,7 +422,7 @@ export default class PushCmd extends Command {
 				multiDockerignore: options['multi-dockerignore'],
 				nocache: options.nocache,
 				pull: options.pull,
-				nogitignore: !options.gitignore,
+				nogitignore: !options.gitignore, // v13: delete this line
 				noParentCheck: options['noparent-check'],
 				nolive: options.nolive,
 				detached: options.detached,

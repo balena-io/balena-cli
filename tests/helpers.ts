@@ -105,7 +105,7 @@ async function runCommandInProcess(cmd: string): Promise<TestOutput> {
 	const unhookIntercept = intercept(stdoutHook, stderrHook);
 
 	try {
-		await balenaCLI.run(preArgs.concat(cmd.split(' ')), {
+		await balenaCLI.run(preArgs.concat(cmd.split(' ').filter((c) => c)), {
 			noFlush: true,
 		});
 	} finally {
@@ -160,7 +160,7 @@ async function runCommandInSubprocess(
 	await new Promise<void>((resolve) => {
 		const child = execFile(
 			standalonePath,
-			cmd.split(' '),
+			cmd.split(' ').filter((c) => c),
 			{ env: { ...process.env, ...addedEnvs } },
 			($error, $stdout, $stderr) => {
 				stderr = $stderr || '';
