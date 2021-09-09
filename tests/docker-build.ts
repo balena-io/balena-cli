@@ -27,7 +27,8 @@ import * as tar from 'tar-stream';
 import { streamToBuffer } from 'tar-utils';
 import { URL } from 'url';
 
-import { stripIndent } from '../lib/utils/lazy';
+import { makeImageName } from '../build/utils/compose_ts';
+import { stripIndent } from '../build/utils/lazy';
 import { BuilderMock } from './nock/builder-mock';
 import { DockerMock } from './nock/docker-mock';
 import {
@@ -161,22 +162,24 @@ export async function testDockerBuildStream(o: {
 	expectedErrorLines?: string[];
 	expectedExitCode?: number;
 	expectedResponseLines: string[];
+	projectName?: string; // --projectName command line flag
 	projectPath: string;
 	responseCode: number;
 	responseBody: string;
 	services: string[]; // e.g. ['main'] or ['service1', 'service2']
+	tag?: string; // --tag command line flag
 }) {
 	const expectedErrorLines = deepTemplateReplace(o.expectedErrorLines || [], o);
 	const expectedResponseLines = deepTemplateReplace(o.expectedResponseLines, o);
 
 	for (const service of o.services) {
 		// tagPrefix is, for example, 'myApp' if the path is 'path/to/myApp'
-		const tagPrefix = o.projectPath.split(path.sep).pop();
-		const tag = `${tagPrefix}_${service}`;
+		const projectName = o.projectName || path.basename(o.projectPath);
+		const tag = makeImageName(projectName, service, o.tag);
 		const expectedFiles = o.expectedFilesByService[service];
 		const expectedQueryParams = deepTemplateReplace(
 			o.expectedQueryParamsByService[service],
-			{ tag, ...o },
+			{ ...o, tag },
 		);
 		const projectPath =
 			service === 'main' ? o.projectPath : path.join(o.projectPath, service);

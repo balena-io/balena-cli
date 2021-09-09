@@ -118,6 +118,7 @@ export async function loadProject(
 	logger: Logger,
 	opts: ComposeOpts,
 	image?: string,
+	imageTag?: string,
 ): Promise<ComposeProject> {
 	const compose = await import('resin-compose-parse');
 	const { createProject } = await import('./compose');
@@ -156,7 +157,12 @@ export async function loadProject(
 		}
 	}
 	logger.logDebug('Creating project...');
-	return createProject(opts.projectPath, composeStr, opts.projectName);
+	return createProject(
+		opts.projectPath,
+		composeStr,
+		opts.projectName,
+		imageTag,
+	);
 }
 
 /**
@@ -411,6 +417,18 @@ async function installQemuIfNeeded({
 	return needsQemu;
 }
 
+export function makeImageName(
+	projectName: string,
+	serviceName: string,
+	tag?: string,
+) {
+	let name = `${projectName}_${serviceName}`;
+	if (tag) {
+		name = [name, tag].map((s) => s.replace(/:/g, '_')).join(':');
+	}
+	return name.toLowerCase();
+}
+
 function setTaskAttributes({
 	tasks,
 	buildOpts,
@@ -426,7 +444,7 @@ function setTaskAttributes({
 		const d = imageDescriptorsByServiceName[task.serviceName];
 		// multibuild (splitBuildStream) parses the composition internally so
 		// any tags we've set before are lost; re-assign them here
-		task.tag ??= [projectName, task.serviceName].join('_').toLowerCase();
+		task.tag ??= makeImageName(projectName, task.serviceName, buildOpts.t);
 		if (isBuildConfig(d.image)) {
 			d.image.tag = task.tag;
 		}
@@ -707,7 +725,7 @@ export async function getServiceDirsFromComposition(
  * Return true if `image` is actually a docker-compose.yml `services.service.build`
  * configuration object, rather than an "external image" (`services.service.image`).
  *
- * The `image` argument may therefore refere to either a `build` or `image` property
+ * The `image` argument may therefore refer to either a `build` or `image` property
  * of a service in a docker-compose.yml file, which is a bit confusing but it matches
  * the `ImageDescriptor.image` property as defined by `resin-compose-parse`.
  *
@@ -1666,8 +1684,9 @@ export const composeCliFlags: flags.Input<ComposeCliFlags> = {
 			"Don't convert line endings from CRLF (Windows format) to LF (Unix format).",
 	}),
 	projectName: flags.string({
-		description:
-			'Specify an alternate project name; default is the directory name',
+		description: stripIndent`\
+			Name prefix for locally built images. This is the 'projectName' portion
+			in 'projectName_serviceName:tag'. The default is the directory name.`,
 		char: 'n',
 	}),
 };

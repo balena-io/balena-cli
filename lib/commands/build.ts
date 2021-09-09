@@ -239,7 +239,12 @@ ${dockerignoreHelp}
 	) {
 		const { loadProject } = await import('../utils/compose_ts');
 
-		const project = await loadProject(logger, composeOpts);
+		const project = await loadProject(
+			logger,
+			composeOpts,
+			undefined,
+			opts.buildOpts.t,
+		);
 
 		const appType = (opts.app?.application_type as ApplicationType[])?.[0];
 		if (

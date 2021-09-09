@@ -310,7 +310,7 @@ function connectToDocker(host: string, port: number): Docker {
 	});
 }
 
-export async function performBuilds(
+async function performBuilds(
 	composition: Composition,
 	tarStream: Readable,
 	docker: Docker,

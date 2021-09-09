@@ -20,7 +20,7 @@ import { expect } from 'chai';
 import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
-import { isV13 } from '../../../lib/utils/version';
+import { isV13 } from '../../../build/utils/version';
 
 describe('balena devices supported', function () {
 	let api: BalenaAPIMock;
