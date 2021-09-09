@@ -20,6 +20,7 @@ import * as os from 'os';
 import * as request from 'request';
 import type * as Stream from 'stream';
 
+import { retry } from '../helpers';
 import Logger = require('../logger');
 import * as ApiErrors from './errors';
 
@@ -260,24 +261,35 @@ export class DeviceAPI {
 			}
 		}
 
-		return new Promise((resolve, reject) => {
-			return request(opts, (err, response, body) => {
-				if (err) {
-					return reject(err);
-				}
-				switch (response.statusCode) {
-					case 200:
-						return resolve(body);
-					case 400:
-						return reject(new ApiErrors.BadRequestDeviceAPIError(body.message));
-					case 503:
-						return reject(
-							new ApiErrors.ServiceUnavailableAPIError(body.message),
-						);
-					default:
-						return reject(new ApiErrors.DeviceAPIError(body.message));
-				}
+		const doRequest = async () => {
+			return await new Promise((resolve, reject) => {
+				return request(opts, (err, response, body) => {
+					if (err) {
+						return reject(err);
+					}
+					switch (response.statusCode) {
+						case 200:
+							return resolve(body);
+						case 400:
+							return reject(
+								new ApiErrors.BadRequestDeviceAPIError(body.message),
+							);
+						case 503:
+							return reject(
+								new ApiErrors.ServiceUnavailableAPIError(body.message),
+							);
+						default:
+							return reject(new ApiErrors.DeviceAPIError(body.message));
+					}
+				});
 			});
+		};
+
+		return await retry({
+			func: doRequest,
+			initialDelayMs: 2000,
+			maxAttempts: 6,
+			label: `Supervisor API (${opts.method} ${(opts as any).url})`,
 		});
 	}
 }

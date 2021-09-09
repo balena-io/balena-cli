@@ -80,16 +80,19 @@ async function displayDeviceLogs(
 			jsonStream.on('error', (e) => {
 				logger.logWarn(`Error parsing NDJSON log chunk: ${e}`);
 			});
-			logs.once('error', reject);
-			logs.once('end', () => {
+			logs.once('error', handleError);
+			logs.once('end', handleError);
+			logs.pipe(jsonStream);
+
+			function handleError(error?: Error | string) {
 				logger.logWarn(DeviceConnectionLostError.defaultMsg);
 				if (gotSignal) {
 					reject(new SIGINTError('Log streaming aborted on SIGINT signal'));
 				} else {
-					reject(new DeviceConnectionLostError());
+					const msg = typeof error === 'string' ? error : error?.message;
+					reject(new DeviceConnectionLostError(msg));
 				}
-			});
-			logs.pipe(jsonStream);
+			}
 		});
 	} finally {
 		process.removeListener('SIGINT', handleSignal);
