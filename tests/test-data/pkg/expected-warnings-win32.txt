@@ -1,5 +1,3 @@
-> Warning Cannot find module 'net-keepalive' from 'build\utils\device'
-  %1: build\utils\device\api.js
 > Warning Cannot resolve 'module'
   node_modules\balena-sync\build\index.js
   Dynamic require may fail at run time, because the requested file
