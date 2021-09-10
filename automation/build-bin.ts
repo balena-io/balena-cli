@@ -31,7 +31,7 @@ import * as rimraf from 'rimraf';
 import * as semver from 'semver';
 import { promisify } from 'util';
 
-import { stripIndent } from '../lib/utils/lazy';
+import { stripIndent } from '../build/utils/lazy';
 import {
 	diffLines,
 	loadPackageJson,

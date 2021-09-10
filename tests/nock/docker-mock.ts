@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-import * as _ from 'lodash';
 import * as path from 'path';
+import * as qs from 'querystring';
 
 import { NockMock, ScopeOpts } from './nock-mock';
 
@@ -78,7 +78,7 @@ export class DockerMock extends NockMock {
 		checkBuildRequestBody: (requestBody: string) => Promise<void>;
 	}) {
 		this.optPost(
-			new RegExp(`^/build\\?(|.+&)t=${_.escapeRegExp(opts.tag)}&`),
+			new RegExp(`^/build\\?(|.+&)${qs.stringify({ t: opts.tag })}&`),
 			opts,
 		).reply(async function (uri, requestBody, cb) {
 			let error: Error | null = null;

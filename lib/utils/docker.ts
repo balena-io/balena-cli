@@ -72,7 +72,9 @@ export const dockerConnectionCliFlags: flags.Input<DockerConnectionCliFlags> = {
 
 export const dockerCliFlags: flags.Input<DockerCliFlags> = {
 	tag: flags.string({
-		description: 'The alias to the generated image',
+		description: `\
+Tag locally built Docker images. This is the 'tag' portion
+in 'projectName_serviceName:tag'. The default is 'latest'.`,
 		char: 't',
 	}),
 	buildArg: flags.string({
@@ -105,7 +107,7 @@ export interface BuildOpts {
 	pull?: boolean;
 	registryconfig?: import('resin-multibuild').RegistrySecrets;
 	squash?: boolean;
-	t?: string;
+	t?: string; // only the tag portion of the image name, e.g. 'abc' in 'myimg:abc'
 }
 
 function parseBuildArgs(args: string[]): Dictionary<string> {

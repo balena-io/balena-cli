@@ -34,7 +34,7 @@ import type {
 	ComposeOpts,
 	Release as ComposeReleaseInfo,
 } from '../utils/compose-types';
-import type { DockerCliFlags } from '../utils/docker';
+import type { BuildOpts, DockerCliFlags } from '../utils/docker';
 import {
 	applyReleaseTagKeysAndValues,
 	buildProject,
@@ -245,7 +245,7 @@ ${dockerignoreHelp}
 			shouldPerformBuild: boolean;
 			shouldUploadLogs: boolean;
 			buildEmulated: boolean;
-			buildOpts: any; // arguments to forward to docker build command
+			buildOpts: BuildOpts;
 			createAsDraft: boolean;
 		},
 	) {
@@ -259,7 +259,12 @@ ${dockerignoreHelp}
 		const appType = (opts.app?.application_type as ApplicationType[])?.[0];
 
 		try {
-			const project = await loadProject(logger, composeOpts, opts.image);
+			const project = await loadProject(
+				logger,
+				composeOpts,
+				opts.image,
+				opts.buildOpts.t,
+			);
 			if (project.descriptors.length > 1 && !appType?.supports_multicontainer) {
 				throw new ExpectedError(
 					'Target fleet does not support multiple containers. Aborting!',

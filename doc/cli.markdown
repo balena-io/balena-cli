@@ -3185,11 +3185,13 @@ Don't convert line endings from CRLF (Windows format) to LF (Unix format).
 
 #### -n, --projectName PROJECTNAME
 
-Specify an alternate project name; default is the directory name
+Name prefix for locally built images. This is the 'projectName' portion
+in 'projectName_serviceName:tag'. The default is the directory name.
 
 #### -t, --tag TAG
 
-The alias to the generated image
+Tag locally built Docker images. This is the 'tag' portion
+in 'projectName_serviceName:tag'. The default is 'latest'.
 
 #### -B, --buildArg BUILDARG
 
@@ -3424,11 +3426,13 @@ Don't convert line endings from CRLF (Windows format) to LF (Unix format).
 
 #### -n, --projectName PROJECTNAME
 
-Specify an alternate project name; default is the directory name
+Name prefix for locally built images. This is the 'projectName' portion
+in 'projectName_serviceName:tag'. The default is the directory name.
 
 #### -t, --tag TAG
 
-The alias to the generated image
+Tag locally built Docker images. This is the 'tag' portion
+in 'projectName_serviceName:tag'. The default is 'latest'.
 
 #### -B, --buildArg BUILDARG
 

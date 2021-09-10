@@ -517,6 +517,96 @@ describe('balena build', function () {
 			services: ['service1', 'service2'],
 		});
 	});
+
+	it('should create the expected tar stream (--projectName and --tag)', async () => {
+		const projectPath = path.join(projectsPath, 'docker-compose', 'basic');
+		const service1Dockerfile = (
+			await fs.readFile(
+				path.join(projectPath, 'service1', 'Dockerfile.template'),
+				'utf8',
+			)
+		).replace('%%BALENA_MACHINE_NAME%%', 'nuc');
+		const expectedFilesByService: ExpectedTarStreamFilesByService = {
+			service1: {
+				Dockerfile: {
+					contents: service1Dockerfile,
+					fileSize: service1Dockerfile.length,
+					type: 'file',
+				},
+				'Dockerfile.template': { fileSize: 144, type: 'file' },
+				'file1.sh': { fileSize: 12, type: 'file' },
+				'test-ignore.txt': { fileSize: 12, type: 'file' },
+			},
+			service2: {
+				'.dockerignore': { fileSize: 12, type: 'file' },
+				'Dockerfile-alt': { fileSize: 40, type: 'file' },
+				'file2-crlf.sh': {
+					fileSize: isWindows ? 12 : 14,
+					testStream: isWindows ? expectStreamNoCRLF : undefined,
+					type: 'file',
+				},
+			},
+		};
+		const responseFilename = 'build-POST.json';
+		const responseBody = await fs.readFile(
+			path.join(dockerResponsePath, responseFilename),
+			'utf8',
+		);
+		const expectedQueryParamsByService = {
+			service1: Object.entries(
+				_.merge({}, commonComposeQueryParams, {
+					buildargs: { SERVICE1_VAR: 'This is a service specific variable' },
+				}),
+			),
+			service2: Object.entries(
+				_.merge({}, commonComposeQueryParams, {
+					buildargs: {
+						COMPOSE_ARG: 'an argument defined in the docker-compose.yml file',
+					},
+					dockerfile: 'Dockerfile-alt',
+				}),
+			),
+		};
+		const expectedResponseLines: string[] = [
+			...commonResponseLines[responseFilename],
+			...[
+				'[Build] service1 Step 1/4 : FROM busybox',
+				'[Build] service2 Step 1/4 : FROM busybox',
+			],
+			...[
+				`[Info] ---------------------------------------------------------------------------`,
+				'[Info] The --multi-dockerignore option is being used, and a .dockerignore file was',
+				'[Info] found at the project source (root) directory. Note that this file will not',
+				'[Info] be used to filter service subdirectories. See "balena help build".',
+				`[Info] ---------------------------------------------------------------------------`,
+			],
+		];
+		if (isWindows) {
+			expectedResponseLines.push(
+				`[Info] Converting line endings CRLF -> LF for file: ${path.join(
+					projectPath,
+					'service2',
+					'file2-crlf.sh',
+				)}`,
+			);
+		}
+		const projectName = 'spectest';
+		const tag = 'myTag';
+		docker.expectGetInfo({});
+		await testDockerBuildStream({
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol -m --tag ${tag} --projectName ${projectName}`,
+			dockerMock: docker,
+			expectedFilesByService,
+			expectedQueryParamsByService,
+			expectedResponseLines,
+			projectName,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+			services: ['service1', 'service2'],
+			tag,
+		});
+	});
 });
 
 describe('balena build: project validation', function () {
