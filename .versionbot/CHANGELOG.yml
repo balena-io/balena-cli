@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'build, deploy: Fix processing of ''--tag'' option'
+      hash: 305c9045f0257e83be9b3a9587772dbe7ce0780f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Resolves: '#1018'
+        resolves: '#1018'
+      author: Paulo Castro
+      nested: []
+  version: 12.48.11
+  date: 2021-09-10T22:14:09.250Z
+- commits:
     - subject: 'push: Await and retry supervisor API requests to a local device'
       hash: b30075a18b79ec032943e77d9585b24f48730fa7
       body: ''
