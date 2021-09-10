@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'chore: Update net-keepalive dependency (fix CLI packaging errors)'
+      hash: 6244af34641c80830daa0cfc6245711399b85521
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.48.9
+  date: 2021-09-10T00:43:14.180Z
+- commits:
     - subject: >-
         v13 preparations: Add feature switch for removal of '--gitignore' (push,
         build)
@@ -26,7 +37,7 @@
       author: Paulo Castro
       nested: []
   version: 12.48.8
-  date: 2021-09-08T21:26:13.172Z
+  date: 2021-09-08T17:26:45.069Z
 - commits:
     - subject: 'device move: Improve types & reduce the number of API requests'
       hash: 0327ed766d81bb84ce3208d44457898e6a30e76b

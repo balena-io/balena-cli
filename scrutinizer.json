@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "chore: Update net-keepalive dependency (fix CLI packaging errors)",
+          "hash": "6244af34641c80830daa0cfc6245711399b85521",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.48.9",
+      "date": "2021-09-09T23:29:03.208Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "v13 preparations: Add feature switch for removal of '--gitignore' (push, build)",
           "hash": "d6faf060e65ac0c8bee79af3fc8c0389c5b6e839",
           "body": "",
@@ -23507,6 +23524,7 @@
     "moment",
     "moment-duration-format",
     "ndjson",
+    "net-keepalive",
     "node-cleanup",
     "node-unzip-2",
     "oclif",
@@ -23539,36 +23557,52 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-09-08T21:27:52Z",
+  "lastCommitDate": "2021-09-10T00:44:17Z",
   "latestRelease": {
-    "tagName": "v12.48.8",
+    "tagName": "v12.48.9",
     "asssets": [
       {
-        "name": "balena-cli-v12.48.8-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.8/balena-cli-v12.48.8-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.48.9-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.9/balena-cli-v12.48.9-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.8-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.8/balena-cli-v12.48.8-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.48.9-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.9/balena-cli-v12.48.9-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.48.8-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.8/balena-cli-v12.48.8-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.48.9-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.9/balena-cli-v12.48.9-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.8-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.8/balena-cli-v12.48.8-windows-x64-installer.exe"
+        "name": "balena-cli-v12.48.9-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.9/balena-cli-v12.48.9-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.48.8-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.8/balena-cli-v12.48.8-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.48.9-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.9/balena-cli-v12.48.9-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 336,
+    "numberOfIssues": 340,
     "latestIssues": [
+      {
+        "title": "push: Await and retry supervisor API requests to a local device",
+        "url": "https://github.com/balena-io/balena-cli/pull/2331"
+      },
+      {
+        "title": "push to local device: \"ECONNRESET: socket hang up\" and process exits with non-zero error code",
+        "url": "https://github.com/balena-io/balena-cli/issues/2330"
+      },
+      {
+        "title": "Should add support for the release model",
+        "url": "https://github.com/balena-io/balena-cli/issues/2329"
+      },
+      {
+        "title": "build, deploy: Fix processing of '--tag' option",
+        "url": "https://github.com/balena-io/balena-cli/pull/2328"
+      },
       {
         "title": "[openBalena, balenaMachine] User would like to run `balena fleet create` in an air-gapped (no internet) environment",
         "url": "https://github.com/balena-io/balena-cli/issues/2322"
@@ -23632,26 +23666,10 @@
       {
         "title": "Empty directories not being handled correctly ",
         "url": "https://github.com/balena-io/balena-cli/issues/2280"
-      },
-      {
-        "title": "balena build bails on dockerfiles containing what it thinks are query parameters",
-        "url": "https://github.com/balena-io/balena-cli/issues/2279"
-      },
-      {
-        "title": "Documentation: balena push to local device - Overlay of docker-compose.dev.yml (Mechanism and Usecase)",
-        "url": "https://github.com/balena-io/balena-cli/issues/2278"
-      },
-      {
-        "title": "Add caxa-based installer for Linux",
-        "url": "https://github.com/balena-io/balena-cli/pull/2271"
-      },
-      {
-        "title": "Replace remaining occurrences of models.config.getDeviceTypes() with new DeviceType resource",
-        "url": "https://github.com/balena-io/balena-cli/issues/2266"
       }
     ]
   },
-  "version": "12.48.8",
+  "version": "12.48.9",
   "screenshot": null,
   "logo": null
 }
