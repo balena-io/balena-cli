@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "push: Await and retry supervisor API requests to a local device",
+          "hash": "b30075a18b79ec032943e77d9585b24f48730fa7",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.48.10",
+      "date": "2021-09-10T00:47:43.380Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "chore: Update net-keepalive dependency (fix CLI packaging errors)",
           "hash": "6244af34641c80830daa0cfc6245711399b85521",
           "body": "",
@@ -23557,46 +23574,42 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-09-10T00:44:17Z",
+  "lastCommitDate": "2021-09-10T11:25:45Z",
   "latestRelease": {
-    "tagName": "v12.48.9",
+    "tagName": "v12.48.10",
     "asssets": [
       {
-        "name": "balena-cli-v12.48.9-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.9/balena-cli-v12.48.9-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.48.10-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.10/balena-cli-v12.48.10-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.9-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.9/balena-cli-v12.48.9-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.48.10-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.10/balena-cli-v12.48.10-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.48.9-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.9/balena-cli-v12.48.9-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.48.10-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.10/balena-cli-v12.48.10-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.9-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.9/balena-cli-v12.48.9-windows-x64-installer.exe"
+        "name": "balena-cli-v12.48.10-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.10/balena-cli-v12.48.10-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.48.9-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.9/balena-cli-v12.48.9-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.48.10-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.10/balena-cli-v12.48.10-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 340,
+    "numberOfIssues": 339,
     "latestIssues": [
-      {
-        "title": "push: Await and retry supervisor API requests to a local device",
-        "url": "https://github.com/balena-io/balena-cli/pull/2331"
-      },
       {
         "title": "push to local device: \"ECONNRESET: socket hang up\" and process exits with non-zero error code",
         "url": "https://github.com/balena-io/balena-cli/issues/2330"
       },
       {
-        "title": "Should add support for the release model",
+        "title": "Add support for the release model",
         "url": "https://github.com/balena-io/balena-cli/issues/2329"
       },
       {
@@ -23666,10 +23679,14 @@
       {
         "title": "Empty directories not being handled correctly ",
         "url": "https://github.com/balena-io/balena-cli/issues/2280"
+      },
+      {
+        "title": "balena build bails on dockerfiles containing what it thinks are query parameters",
+        "url": "https://github.com/balena-io/balena-cli/issues/2279"
       }
     ]
   },
-  "version": "12.48.9",
+  "version": "12.48.10",
   "screenshot": null,
   "logo": null
 }

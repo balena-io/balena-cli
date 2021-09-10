@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'push: Await and retry supervisor API requests to a local device'
+      hash: b30075a18b79ec032943e77d9585b24f48730fa7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.48.10
+  date: 2021-09-10T11:24:49.193Z
+- commits:
     - subject: 'chore: Update net-keepalive dependency (fix CLI packaging errors)'
       hash: 6244af34641c80830daa0cfc6245711399b85521
       body: ''
@@ -8,7 +19,7 @@
       author: Paulo Castro
       nested: []
   version: 12.48.9
-  date: 2021-09-10T00:43:14.180Z
+  date: 2021-09-09T23:29:03.208Z
 - commits:
     - subject: >-
         v13 preparations: Add feature switch for removal of '--gitignore' (push,
