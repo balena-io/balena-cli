@@ -211,17 +211,21 @@ export class DeviceAPI {
 					);
 					return;
 				}
-				res.socket.setKeepAlive(true, 1000);
-				if (os.platform() !== 'win32') {
-					const NetKeepalive = await import('net-keepalive');
-					// Certain versions of typescript won't convert
-					// this automatically
-					const sock = res.socket as any as NodeJSSocketWithFileDescriptor;
-					// We send a tcp keepalive probe once every 5 seconds
-					NetKeepalive.setKeepAliveInterval(sock, 5000);
-					// After 5 failed probes, the connection is marked as
-					// closed
-					NetKeepalive.setKeepAliveProbes(sock, 5);
+				try {
+					res.socket.setKeepAlive(true, 1000);
+					if (os.platform() !== 'win32') {
+						const NetKeepalive = await import('net-keepalive');
+						// Certain versions of typescript won't convert
+						// this automatically
+						const sock = res.socket as any as NodeJSSocketWithFileDescriptor;
+						// We send a tcp keepalive probe once every 5 seconds
+						NetKeepalive.setKeepAliveInterval(sock, 5000);
+						// After 5 failed probes, the connection is marked as
+						// closed
+						NetKeepalive.setKeepAliveProbes(sock, 5);
+					}
+				} catch (error) {
+					reject(error);
 				}
 				resolve(res);
 			});

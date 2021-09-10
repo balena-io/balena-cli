@@ -7779,7 +7779,6 @@
       "version": "4.0.3",
       "resolved": "https://registry.npmjs.org/ffi-napi/-/ffi-napi-4.0.3.tgz",
       "integrity": "sha512-PMdLCIvDY9mS32RxZ0XGb95sonPRal8aqRhLbeEtWKZTe2A87qRFG9HjOhvG8EX2UmQw5XNRMIOT+1MYlWmdeg==",
-      "optional": true,
       "requires": {
         "debug": "^4.1.1",
         "get-uv-event-loop-napi-h": "^1.0.5",
@@ -7790,10 +7789,9 @@
       },
       "dependencies": {
         "node-addon-api": {
-          "version": "3.1.0",
-          "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-3.1.0.tgz",
-          "integrity": "sha512-flmrDNB06LIl5lywUz7YlNGZH/5p0M7W28k8hzd9Lshtdh1wshD2Y+U4h9LD6KObOy1f+fEVdgprPrEymjM5uw==",
-          "optional": true
+          "version": "3.2.1",
+          "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-3.2.1.tgz",
+          "integrity": "sha512-mmcei9JghVNDYydghQmeDX8KoAm0FAiYyIcUt/N4nhyAipB17pllZQDOJD2fotxABnt4Mdz+dKTO7eftLg4d0A=="
         }
       }
     },
@@ -8434,14 +8432,12 @@
     "get-symbol-from-current-process-h": {
       "version": "1.0.2",
       "resolved": "https://registry.npmjs.org/get-symbol-from-current-process-h/-/get-symbol-from-current-process-h-1.0.2.tgz",
-      "integrity": "sha512-syloC6fsCt62ELLrr1VKBM1ggOpMdetX9hTrdW77UQdcApPHLmf7CI7OKcN1c9kYuNxKcDe4iJ4FY9sX3aw2xw==",
-      "optional": true
+      "integrity": "sha512-syloC6fsCt62ELLrr1VKBM1ggOpMdetX9hTrdW77UQdcApPHLmf7CI7OKcN1c9kYuNxKcDe4iJ4FY9sX3aw2xw=="
     },
     "get-uv-event-loop-napi-h": {
       "version": "1.0.6",
       "resolved": "https://registry.npmjs.org/get-uv-event-loop-napi-h/-/get-uv-event-loop-napi-h-1.0.6.tgz",
       "integrity": "sha512-t5c9VNR84nRoF+eLiz6wFrEp1SE2Acg0wS+Ysa2zF0eROes+LzOfuTaVHxGy8AbS8rq7FHEJzjnCZo1BupwdJg==",
-      "optional": true,
       "requires": {
         "get-symbol-from-current-process-h": "^1.0.1"
       }
@@ -12590,10 +12586,9 @@
       }
     },
     "net-keepalive": {
-      "version": "2.0.3",
-      "resolved": "https://registry.npmjs.org/net-keepalive/-/net-keepalive-2.0.3.tgz",
-      "integrity": "sha512-VNWUXuLR0tUkZT2VVanJ5VqlBTJL8O5tGVsgq/FrvhHO7vjVC8gfU0ogRL+hxnfYuzSkMaiTHZfdIqwu7Q4zXA==",
-      "optional": true,
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/net-keepalive/-/net-keepalive-3.0.0.tgz",
+      "integrity": "sha512-wfDa7VPeSltY5aIQcujS7AiWnO2JHJCpO3is4nwQ7kFYs4YMpzDNMwiuILPkWwgMbPMSHzO7O1tuL8rC0SP3ag==",
       "requires": {
         "ffi-napi": "^4.0.1",
         "ref-napi": "^3.0.0"
@@ -12684,8 +12679,7 @@
     "node-gyp-build": {
       "version": "4.2.3",
       "resolved": "https://registry.npmjs.org/node-gyp-build/-/node-gyp-build-4.2.3.tgz",
-      "integrity": "sha512-MN6ZpzmfNCRM+3t57PTJHgHyw/h4OWnZ6mR8P5j/uZtqQr46RRuDE/P+g3n0YR/AiYXeWixZZzaip77gdICfRg==",
-      "optional": true
+      "integrity": "sha512-MN6ZpzmfNCRM+3t57PTJHgHyw/h4OWnZ6mR8P5j/uZtqQr46RRuDE/P+g3n0YR/AiYXeWixZZzaip77gdICfRg=="
     },
     "node-pre-gyp": {
       "version": "0.14.0",
@@ -15187,22 +15181,20 @@
       }
     },
     "ref-napi": {
-      "version": "3.0.2",
-      "resolved": "https://registry.npmjs.org/ref-napi/-/ref-napi-3.0.2.tgz",
-      "integrity": "sha512-5YE0XrvWteoTr5DR2sEqxefL06aml7c6qS7hGv3u27do4HlGQphwvB+zD1NYep9utMKScvwOZsSs9EPYdGBVsg==",
-      "optional": true,
+      "version": "3.0.3",
+      "resolved": "https://registry.npmjs.org/ref-napi/-/ref-napi-3.0.3.tgz",
+      "integrity": "sha512-LiMq/XDGcgodTYOMppikEtJelWsKQERbLQsYm0IOOnzhwE9xYZC7x8txNnFC9wJNOkPferQI4vD4ZkC0mDyrOA==",
       "requires": {
         "debug": "^4.1.1",
         "get-symbol-from-current-process-h": "^1.0.2",
-        "node-addon-api": "^2.0.0",
+        "node-addon-api": "^3.0.0",
         "node-gyp-build": "^4.2.1"
       },
       "dependencies": {
         "node-addon-api": {
-          "version": "2.0.2",
-          "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-2.0.2.tgz",
-          "integrity": "sha512-Ntyt4AIXyaLIuMHF6IOoTakB3K+RWxwtsHNRxllEoA6vPwP9o4866g6YWDLUdnucilZhmkxiHwHr11gAENw+QA==",
-          "optional": true
+          "version": "3.2.1",
+          "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-3.2.1.tgz",
+          "integrity": "sha512-mmcei9JghVNDYydghQmeDX8KoAm0FAiYyIcUt/N4nhyAipB17pllZQDOJD2fotxABnt4Mdz+dKTO7eftLg4d0A=="
         }
       }
     },
@@ -15210,7 +15202,6 @@
       "version": "1.1.1",
       "resolved": "https://registry.npmjs.org/ref-struct-di/-/ref-struct-di-1.1.1.tgz",
       "integrity": "sha512-2Xyn/0Qgz89VT+++WP0sTosdm9oeowLP23wRJYhG4BFdMUrLj3jhwHZNEytYNYgtPKLNTP3KJX4HEgBvM1/Y2g==",
-      "optional": true,
       "requires": {
         "debug": "^3.1.0"
       },
@@ -15219,7 +15210,6 @@
           "version": "3.2.7",
           "resolved": "https://registry.npmjs.org/debug/-/debug-3.2.7.tgz",
           "integrity": "sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==",
-          "optional": true,
           "requires": {
             "ms": "^2.1.1"
           }

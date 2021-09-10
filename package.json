@@ -252,6 +252,7 @@
     "moment": "^2.27.0",
     "moment-duration-format": "^2.3.2",
     "ndjson": "^2.0.0",
+    "net-keepalive": "^3.0.0",
     "node-cleanup": "^2.1.2",
     "node-unzip-2": "^0.2.8",
     "oclif": "^1.18.1",
@@ -285,7 +286,6 @@
     "window-size": "^1.1.0"
   },
   "optionalDependencies": {
-    "net-keepalive": "^2.0.3",
     "windosu": "^0.3.0"
   },
   "versionist": {
