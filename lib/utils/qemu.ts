@@ -21,7 +21,7 @@ import { ExpectedError } from '../errors';
 import { getBalenaSdk, stripIndent } from './lazy';
 import Logger = require('./logger');
 
-export const QEMU_VERSION = 'v5.2.0+balena4';
+export const QEMU_VERSION = 'v6.0.0+balena1';
 export const QEMU_BIN_NAME = 'qemu-execve';
 
 export function qemuPathInContext(context: string) {
