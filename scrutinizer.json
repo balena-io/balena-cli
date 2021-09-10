@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "build, deploy: Fix processing of '--tag' option",
+          "hash": "305c9045f0257e83be9b3a9587772dbe7ce0780f",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Resolves": "#1018",
+            "resolves": "#1018"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.48.11",
+      "date": "2021-09-10T22:14:09.250Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "push: Await and retry supervisor API requests to a local device",
           "hash": "b30075a18b79ec032943e77d9585b24f48730fa7",
           "body": "",
@@ -23574,36 +23593,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-09-10T11:25:45Z",
+  "lastCommitDate": "2021-09-10T22:38:46Z",
   "latestRelease": {
-    "tagName": "v12.48.10",
+    "tagName": "v12.48.11",
     "asssets": [
       {
-        "name": "balena-cli-v12.48.10-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.10/balena-cli-v12.48.10-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.48.11-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.11/balena-cli-v12.48.11-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.10-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.10/balena-cli-v12.48.10-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.48.11-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.11/balena-cli-v12.48.11-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.48.10-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.10/balena-cli-v12.48.10-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.48.11-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.11/balena-cli-v12.48.11-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.10-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.10/balena-cli-v12.48.10-windows-x64-installer.exe"
+        "name": "balena-cli-v12.48.11-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.11/balena-cli-v12.48.11-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.48.10-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.10/balena-cli-v12.48.10-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.48.11-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.11/balena-cli-v12.48.11-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 339,
+    "numberOfIssues": 337,
     "latestIssues": [
+      {
+        "title": "build/deploy: Update QEMU to 6.0.0 for emulated builds",
+        "url": "https://github.com/balena-io/balena-cli/pull/2333"
+      },
       {
         "title": "push to local device: \"ECONNRESET: socket hang up\" and process exits with non-zero error code",
         "url": "https://github.com/balena-io/balena-cli/issues/2330"
@@ -23611,10 +23634,6 @@
       {
         "title": "Add support for the release model",
         "url": "https://github.com/balena-io/balena-cli/issues/2329"
-      },
-      {
-        "title": "build, deploy: Fix processing of '--tag' option",
-        "url": "https://github.com/balena-io/balena-cli/pull/2328"
       },
       {
         "title": "[openBalena, balenaMachine] User would like to run `balena fleet create` in an air-gapped (no internet) environment",
@@ -23686,7 +23705,7 @@
       }
     ]
   },
-  "version": "12.48.10",
+  "version": "12.48.11",
   "screenshot": null,
   "logo": null
 }
