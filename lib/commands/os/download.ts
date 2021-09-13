@@ -34,21 +34,22 @@ export default class OsDownloadCmd extends Command {
 	public static description = stripIndent`
 		Download an unconfigured OS image.
 
-		Download an unconfigured OS image for a certain device type.
-		Check available types with \`balena devices supported\`
+		Download an unconfigured OS image for the specified device type.
+		Check available device types with 'balena devices supported'.
 
 		Note: Currently this command only works with balenaCloud, not openBalena.
 		If using openBalena, please download the OS from: https://www.balena.io/os/
 
-		If version is not specified the newest stable (non-pre-release) version of OS
-		is downloaded (if available), otherwise the newest version (if all existing
-		versions for the given device type are pre-release).
+		The '--version' option is used to select the balenaOS version. If omitted,
+		the latest released version is downloaded (and if only pre-release versions
+		exist, the latest pre-release version is downloaded).
 
-		You can pass \`--version menu\` to pick the OS version from the interactive menu
-		of all available versions.
+		Use '--version menu' or '--version menu-esr' to interactively select the
+		OS version. The latter lists ESR versions which are only available for
+		download on Production and Enterprise plans. See also:
+		https://www.balena.io/docs/reference/OS/extended-support-release/
 
-		To download a development image append \`.dev\` to the version or select from
-		the interactive menu.
+		Development images can be selected by appending \`.dev\` to the version.
 `;
 	public static examples = [
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img',
@@ -78,11 +79,13 @@ export default class OsDownloadCmd extends Command {
 		}),
 		version: flags.string({
 			description: stripIndent`
-				exact version number, or a valid semver range,
+				version number (ESR or non-ESR versions),
+				or semver range (non-ESR versions only),
 				or 'latest' (includes pre-releases),
-				or 'default' (excludes pre-releases if at least one stable version is available),
+				or 'default' (excludes pre-releases if at least one released version is available),
 				or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
-				or 'menu' (will show the interactive menu)
+				or 'menu' (interactive menu, non-ESR versions),
+				or 'menu-esr' (interactive menu, ESR versions)
 				`,
 		}),
 		help: cf.help,

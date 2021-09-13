@@ -130,7 +130,7 @@ export async function downloadOSImage(
 	console.info(`Getting device operating system for ${deviceType}`);
 
 	if (!OSVersion) {
-		console.warn('OS version not specified: using latest stable version');
+		console.warn('OS version not specified: using latest released version');
 	}
 
 	OSVersion = OSVersion
@@ -183,28 +183,29 @@ export async function downloadOSImage(
 	const streamToPromise = await import('stream-to-promise');
 	await streamToPromise(stream.pipe(output));
 
-	console.info('The image was downloaded successfully');
+	console.info(
+		`balenaOS image version ${displayVersion} downloaded successfully`,
+	);
 
 	return outputPath;
 }
 
-async function resolveOSVersion(deviceType: string, version: string) {
-	if (version !== 'menu') {
+async function resolveOSVersion(
+	deviceType: string,
+	version: string,
+): Promise<string> {
+	if (!['menu', 'menu-esr'].includes(version)) {
 		if (version[0] === 'v') {
 			version = version.slice(1);
 		}
 		return version;
 	}
 
-	const vs = (
-		(await getBalenaSdk().models.hostapp.getAllOsVersions([deviceType]))[
-			deviceType
-		] ?? []
-	).filter((v) => v.osType === 'default');
+	const vs = await getFormattedOsVersions(deviceType, version === 'menu-esr');
 
 	const choices = vs.map((v) => ({
 		value: v.rawVersion,
-		name: `v${v.rawVersion}` + (v.isRecommended ? ' (recommended)' : ''),
+		name: v.formattedVersion,
 	}));
 
 	return getCliForm().ask({
@@ -213,4 +214,36 @@ async function resolveOSVersion(deviceType: string, version: string) {
 		choices,
 		default: (vs.find((v) => v.isRecommended) ?? vs[0])?.rawVersion,
 	});
+}
+
+/**
+ * Return the output of sdk.models.hostapp.getAvailableOsVersions(), filtered
+ * regarding ESR or non-ESR versions, and having the `formattedVersion` field
+ * reformatted for compatibility with the pre-existing output format of the
+ * `os versions` and `os download` commands.
+ */
+export async function getFormattedOsVersions(
+	deviceType: string,
+	esr: boolean,
+): Promise<SDK.OsVersion[]> {
+	const versions: SDK.OsVersion[] = (
+		(await getBalenaSdk().models.hostapp.getAvailableOsVersions([deviceType]))[
+			deviceType
+		] ?? []
+	)
+		.filter((v: SDK.OsVersion) => v.osType === (esr ? 'esr' : 'default'))
+		.map((v: SDK.OsVersion) => {
+			const i = v.formattedVersion.indexOf(' ');
+			v.formattedVersion =
+				i < 0
+					? `v${v.rawVersion}`
+					: `v${v.rawVersion}${v.formattedVersion.substring(i)}`;
+			return v;
+		});
+	if (!versions.length) {
+		throw new ExpectedError(stripIndent`
+			Error: No balenaOS versions found for device type '${deviceType}'.
+			Double-check the device type slug with 'balena devices supported'.`);
+	}
+	return versions;
 }

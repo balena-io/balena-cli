@@ -18,9 +18,10 @@
 import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
-import { getBalenaSdk, stripIndent } from '../../utils/lazy';
+import { stripIndent } from '../../utils/lazy';
 
 interface FlagsDef {
+	esr?: boolean;
 	help: void;
 }
 
@@ -34,6 +35,9 @@ export default class OsVersionsCmd extends Command {
 
 		Show the available balenaOS versions for the given device type.
 		Check available types with \`balena devices supported\`.
+
+		balenaOS ESR versions can be listed with the '--esr' option. See also:
+		https://www.balena.io/docs/reference/OS/extended-support-release/
 	`;
 
 	public static examples = ['$ balena os versions raspberrypi3'];
@@ -50,16 +54,20 @@ export default class OsVersionsCmd extends Command {
 
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
+		esr: flags.boolean({
+			description: 'select balenaOS ESR versions',
+			default: false,
+		}),
 	};
 
 	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(OsVersionsCmd);
+		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
+			OsVersionsCmd,
+		);
 
-		const { versions: vs, recommended } =
-			await getBalenaSdk().models.os.getSupportedVersions(params.type);
+		const { getFormattedOsVersions } = await import('../../utils/cloud');
+		const vs = await getFormattedOsVersions(params.type, !!options.esr);
 
-		vs.forEach((v) => {
-			console.log(`v${v}` + (v === recommended ? ' (recommended)' : ''));
-		});
+		console.log(vs.map((v) => v.formattedVersion).join('\n'));
 	}
 }
