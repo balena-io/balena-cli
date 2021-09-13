@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "build/deploy: Update QEMU to 6.0.0 for emulated builds",
+          "hash": "b701151769a1bf8bd4a161419d84ddf173c1893a",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+            "signed-off-by": "Kyle Harding <kyle@balena.io>"
+          },
+          "author": "Kyle Harding",
+          "nested": []
+        }
+      ],
+      "version": "12.48.12",
+      "date": "2021-09-10T23:24:48.796Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "build, deploy: Fix processing of '--tag' option",
           "hash": "305c9045f0257e83be9b3a9587772dbe7ce0780f",
           "body": "",
@@ -23488,7 +23507,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 334,
+  "stars": 335,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -23593,40 +23612,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-09-10T22:38:46Z",
+  "lastCommitDate": "2021-09-13T15:28:39Z",
   "latestRelease": {
-    "tagName": "v12.48.11",
+    "tagName": "v12.48.12",
     "asssets": [
       {
-        "name": "balena-cli-v12.48.11-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.11/balena-cli-v12.48.11-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.48.12-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.12/balena-cli-v12.48.12-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.11-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.11/balena-cli-v12.48.11-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.48.12-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.12/balena-cli-v12.48.12-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.48.11-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.11/balena-cli-v12.48.11-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.48.12-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.12/balena-cli-v12.48.12-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.11-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.11/balena-cli-v12.48.11-windows-x64-installer.exe"
+        "name": "balena-cli-v12.48.12-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.12/balena-cli-v12.48.12-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.48.11-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.11/balena-cli-v12.48.11-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.48.12-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.12/balena-cli-v12.48.12-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 337,
+    "numberOfIssues": 336,
     "latestIssues": [
-      {
-        "title": "build/deploy: Update QEMU to 6.0.0 for emulated builds",
-        "url": "https://github.com/balena-io/balena-cli/pull/2333"
-      },
       {
         "title": "push to local device: \"ECONNRESET: socket hang up\" and process exits with non-zero error code",
         "url": "https://github.com/balena-io/balena-cli/issues/2330"
@@ -23702,10 +23717,14 @@
       {
         "title": "balena build bails on dockerfiles containing what it thinks are query parameters",
         "url": "https://github.com/balena-io/balena-cli/issues/2279"
+      },
+      {
+        "title": "Documentation: balena push to local device - Overlay of docker-compose.dev.yml (Mechanism and Usecase)",
+        "url": "https://github.com/balena-io/balena-cli/issues/2278"
       }
     ]
   },
-  "version": "12.48.11",
+  "version": "12.48.12",
   "screenshot": null,
   "logo": null
 }
