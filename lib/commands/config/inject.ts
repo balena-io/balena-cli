@@ -34,8 +34,11 @@ export default class ConfigInjectCmd extends Command {
 	public static description = stripIndent`
 		Inject a configuration file into a device or OS image.
 
-		Inject a config.json file to the mounted filesystem,
-		e.g. the SD card of a provisioned device or balenaOS image.
+		Inject a config.json file to a mounted filesystem, e.g. the SD card of a
+		provisioned device or balenaOS image.
+
+		Note: if using a private/custom device type, please ensure you are logged in
+		('balena login' command). Public device types do not require logging in.
 	`;
 
 	public static examples = [
@@ -58,8 +61,6 @@ export default class ConfigInjectCmd extends Command {
 		drive: cf.driveOrImg,
 		help: cf.help,
 	};
-
-	public static authenticated = true;
 
 	public static root = true;
 

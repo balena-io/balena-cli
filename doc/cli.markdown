@@ -2497,8 +2497,11 @@ the wifi key to use (used only if --network is set to wifi)
 
 ## config inject &#60;file&#62;
 
-Inject a config.json file to the mounted filesystem,
-e.g. the SD card of a provisioned device or balenaOS image.
+Inject a config.json file to a mounted filesystem, e.g. the SD card of a
+provisioned device or balenaOS image.
+
+Note: if using a private/custom device type, please ensure you are logged in
+('balena login' command). Public device types do not require logging in.
 
 Examples:
 
