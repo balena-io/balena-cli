@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'config inject: Remove requirement of being logged in'
+      hash: 09a4e8db2d840f0b207afee7c5d99a47f967093d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.48.13
+  date: 2021-09-17T14:00:52.708Z
+- commits:
     - subject: 'build/deploy: Update QEMU to 6.0.0 for emulated builds'
       hash: b701151769a1bf8bd4a161419d84ddf173c1893a
       body: ''
@@ -10,7 +21,7 @@
       author: Kyle Harding
       nested: []
   version: 12.48.12
-  date: 2021-09-13T15:27:54.027Z
+  date: 2021-09-10T23:24:48.796Z
 - commits:
     - subject: 'build, deploy: Fix processing of ''--tag'' option'
       hash: 305c9045f0257e83be9b3a9587772dbe7ce0780f

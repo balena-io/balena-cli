@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "config inject: Remove requirement of being logged in",
+          "hash": "09a4e8db2d840f0b207afee7c5d99a47f967093d",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.48.13",
+      "date": "2021-09-17T13:02:03.385Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "build/deploy: Update QEMU to 6.0.0 for emulated builds",
           "hash": "b701151769a1bf8bd4a161419d84ddf173c1893a",
           "body": "",
@@ -23507,7 +23524,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 335,
+  "stars": 336,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -23612,36 +23629,72 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-09-13T15:28:39Z",
+  "lastCommitDate": "2021-09-17T14:01:55Z",
   "latestRelease": {
-    "tagName": "v12.48.12",
+    "tagName": "v12.48.13",
     "asssets": [
       {
-        "name": "balena-cli-v12.48.12-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.12/balena-cli-v12.48.12-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.48.13-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.13/balena-cli-v12.48.13-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.12-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.12/balena-cli-v12.48.12-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.48.13-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.13/balena-cli-v12.48.13-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.48.12-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.12/balena-cli-v12.48.12-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.48.13-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.13/balena-cli-v12.48.13-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.12-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.12/balena-cli-v12.48.12-windows-x64-installer.exe"
+        "name": "balena-cli-v12.48.13-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.13/balena-cli-v12.48.13-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.48.12-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.12/balena-cli-v12.48.12-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.48.13-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.13/balena-cli-v12.48.13-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 336,
+    "numberOfIssues": 344,
     "latestIssues": [
+      {
+        "title": "`balena push` randomly stops streaming logs when pushing in local mode",
+        "url": "https://github.com/balena-io/balena-cli/issues/2344"
+      },
+      {
+        "title": "Remove connectivity requirement for commands that can work without API access",
+        "url": "https://github.com/balena-io/balena-cli/issues/2343"
+      },
+      {
+        "title": "balena ssh: Cannot execute command on service / container",
+        "url": "https://github.com/balena-io/balena-cli/issues/2342"
+      },
+      {
+        "title": "Allow the usage of -tt to force TTY allocation when connecting inside containers",
+        "url": "https://github.com/balena-io/balena-cli/issues/2341"
+      },
+      {
+        "title": "livepush: Show progress when downloading base images",
+        "url": "https://github.com/balena-io/balena-cli/issues/2338"
+      },
+      {
+        "title": "Can't specify pre-release versions in `balena.yml`",
+        "url": "https://github.com/balena-io/balena-cli/issues/2337"
+      },
+      {
+        "title": "Add way to specify release version with using `balena push` [Enhancement request]",
+        "url": "https://github.com/balena-io/balena-cli/issues/2336"
+      },
+      {
+        "title": "preload: TypeError: Cannot destructure property __id of 'undefined' or 'null'",
+        "url": "https://github.com/balena-io/balena-cli/issues/2335"
+      },
+      {
+        "title": "os versions, os download: Add support for balenaOS ESR versions",
+        "url": "https://github.com/balena-io/balena-cli/pull/2334"
+      },
       {
         "title": "push to local device: \"ECONNRESET: socket hang up\" and process exits with non-zero error code",
         "url": "https://github.com/balena-io/balena-cli/issues/2330"
@@ -23683,48 +23736,12 @@
         "url": "https://github.com/balena-io/balena-cli/issues/2310"
       },
       {
-        "title": "WIP - Add multiarch support",
+        "title": "Add multiarch support",
         "url": "https://github.com/balena-io/balena-cli/pull/2301"
-      },
-      {
-        "title": "[WIP] Add provisioning key name option to config generate options",
-        "url": "https://github.com/balena-io/balena-cli/pull/2294"
-      },
-      {
-        "title": "Warn when zip file is provided to image config commands",
-        "url": "https://github.com/balena-io/balena-cli/issues/2293"
-      },
-      {
-        "title": "`balena ssh <ip-addr>` should attempt `<username>@<ip-addr>` in addition to `<root>@<ip-addr>`",
-        "url": "https://github.com/balena-io/balena-cli/issues/2292"
-      },
-      {
-        "title": "When configuring image, check if device option was provided in config before checking for the device option in options",
-        "url": "https://github.com/balena-io/balena-cli/issues/2288"
-      },
-      {
-        "title": "Create new `--track` flag for live push to allow for live pushing of specified containers",
-        "url": "https://github.com/balena-io/balena-cli/issues/2286"
-      },
-      {
-        "title": "`balena devices supported` produces wrong results for openBalena",
-        "url": "https://github.com/balena-io/balena-cli/issues/2281"
-      },
-      {
-        "title": "Empty directories not being handled correctly ",
-        "url": "https://github.com/balena-io/balena-cli/issues/2280"
-      },
-      {
-        "title": "balena build bails on dockerfiles containing what it thinks are query parameters",
-        "url": "https://github.com/balena-io/balena-cli/issues/2279"
-      },
-      {
-        "title": "Documentation: balena push to local device - Overlay of docker-compose.dev.yml (Mechanism and Usecase)",
-        "url": "https://github.com/balena-io/balena-cli/issues/2278"
       }
     ]
   },
-  "version": "12.48.12",
+  "version": "12.48.13",
   "screenshot": null,
   "logo": null
 }
