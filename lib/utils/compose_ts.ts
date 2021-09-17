@@ -1051,6 +1051,7 @@ export async function makeBuildTasks(
 			infoStr = `build [${task.context}]`;
 		}
 		logger.logDebug(`    ${task.serviceName}: ${infoStr}`);
+		task.logger = logger.getAdapter();
 	});
 
 	logger.logDebug(

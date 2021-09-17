@@ -30,6 +30,14 @@ enum Level {
 	LIVEPUSH = 'livepush',
 }
 
+interface LoggerAdapter {
+	debug: (msg: string) => void;
+	error: (msg: string) => void;
+	info: (msg: string) => void;
+	log: (msg: string) => void;
+	warn: (msg: string) => void;
+}
+
 /**
  * General purpose logger class with support for log streams and colours.
  * Call `Logger.getLogger()` to retrieve a global shared instance of this
@@ -56,6 +64,8 @@ class Logger {
 	public formatMessage: (name: string, message: string) => string;
 
 	protected deferredLogMessages: Array<[string, Level]>;
+
+	protected adapter: LoggerAdapter;
 
 	protected constructor() {
 		const logger = new StreamLogger();
@@ -91,6 +101,14 @@ class Logger {
 		this.formatMessage = logger.formatWithPrefix.bind(logger);
 
 		this.deferredLogMessages = [];
+
+		this.adapter = {
+			debug: (msg: string) => this.logDebug(msg),
+			error: (msg: string) => this.logError(msg),
+			info: (msg: string) => this.logInfo(msg),
+			log: (msg: string) => this.logLogs(msg),
+			warn: (msg: string) => this.logWarn(msg),
+		};
 	}
 
 	protected static logger: Logger;
@@ -150,6 +168,10 @@ class Logger {
 			this.streams[m[1]].write(m[0] + eol);
 		});
 		this.deferredLogMessages = [];
+	}
+
+	public getAdapter(): LoggerAdapter {
+		return this.adapter;
 	}
 }
 
