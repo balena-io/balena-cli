@@ -101,12 +101,27 @@ export class BalenaAPIMock extends NockMock {
 		});
 	}
 
-	public expectGetRelease(opts: ScopeOpts = {}) {
-		this.optGet(/^\/v6\/release($|[(?])/, opts).replyWithFile(
-			200,
-			path.join(apiResponsePath, 'release-GET-v6.json'),
-			jHeader,
-		);
+	public expectGetRelease({
+		notFound = false,
+		optional = false,
+		persist = false,
+	} = {}) {
+		const interceptor = this.optGet(/^\/v6\/release($|[(?])/, {
+			persist,
+			optional,
+		});
+		if (notFound) {
+			interceptor.reply(200, { d: [] });
+		} else {
+			this.optGet(/^\/v6\/release($|[(?])/, {
+				persist,
+				optional,
+			}).replyWithFile(
+				200,
+				path.join(apiResponsePath, 'release-GET-v6.json'),
+				jHeader,
+			);
+		}
 	}
 
 	/**

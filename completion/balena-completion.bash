@@ -7,7 +7,7 @@ _balena_complete()
   local cur prev
 
   # Valid top-level completions
-  main_commands="apps build deploy envs fleets join keys leave login logout logs note orgs preload push scan settings ssh support tags tunnel version whoami api-key app app config device device devices env fleet fleet internal key key local os tag util"
+  main_commands="apps build deploy envs fleets join keys leave login logout logs note orgs preload push releases scan settings ssh support tags tunnel version whoami api-key app app config device device devices env fleet fleet internal key key local os release release tag util"
   # Sub-completions
   api_key_cmds="generate"
   app_cmds="create purge rename restart rm"
@@ -20,6 +20,7 @@ _balena_complete()
   key_cmds="add rm"
   local_cmds="configure flash"
   os_cmds="build-config configure download initialize versions"
+  release_cmds="finalize"
   tag_cmds="rm set"
 
 
@@ -66,6 +67,9 @@ _balena_complete()
         ;;
       os)
         COMPREPLY=( $(compgen -W "$os_cmds" -- $cur) )
+        ;;
+      release)
+        COMPREPLY=( $(compgen -W "$release_cmds" -- $cur) )
         ;;
       tag)
         COMPREPLY=( $(compgen -W "$tag_cmds" -- $cur) )
