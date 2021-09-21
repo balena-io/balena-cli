@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "os download: Avoid incomplete os downloads appearing as successful",
+          "hash": "7f6738c73cd36cdfce0726c4eadbf51fecaebdc1",
+          "body": "By forcing the zlib flush mode to Z_NO_FLUSH we are more likely to\nsee an error on image download pipelines vs silent failure and\nincomplete files.\n\nThis is part of a larger investigation and may be removed in the\nfuture when the root cause of the pipeline failures are identified.\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+            "signed-off-by": "Kyle Harding <kyle@balena.io>"
+          },
+          "author": "Kyle Harding",
+          "nested": []
+        }
+      ],
+      "version": "12.48.14",
+      "date": "2021-09-20T17:38:23.398Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "config inject: Remove requirement of being logged in",
           "hash": "09a4e8db2d840f0b207afee7c5d99a47f967093d",
           "body": "",
@@ -23524,7 +23543,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 336,
+  "stars": 339,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -23629,36 +23648,44 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-09-17T14:01:55Z",
+  "lastCommitDate": "2021-09-21T21:37:13Z",
   "latestRelease": {
-    "tagName": "v12.48.13",
+    "tagName": "v12.48.14",
     "asssets": [
       {
-        "name": "balena-cli-v12.48.13-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.13/balena-cli-v12.48.13-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.48.14-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.14/balena-cli-v12.48.14-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.13-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.13/balena-cli-v12.48.13-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.48.14-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.14/balena-cli-v12.48.14-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.48.13-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.13/balena-cli-v12.48.13-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.48.14-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.14/balena-cli-v12.48.14-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.13-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.13/balena-cli-v12.48.13-windows-x64-installer.exe"
+        "name": "balena-cli-v12.48.14-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.14/balena-cli-v12.48.14-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.48.13-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.13/balena-cli-v12.48.13-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.48.14-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.14/balena-cli-v12.48.14-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 344,
+    "numberOfIssues": 346,
     "latestIssues": [
+      {
+        "title": "Update balena-sdk to 15.51.0",
+        "url": "https://github.com/balena-io/balena-cli/pull/2346"
+      },
+      {
+        "title": "Add support for releases",
+        "url": "https://github.com/balena-io/balena-cli/pull/2345"
+      },
       {
         "title": "`balena push` randomly stops streaming logs when pushing in local mode",
         "url": "https://github.com/balena-io/balena-cli/issues/2344"
@@ -23730,18 +23757,10 @@
       {
         "title": "Error message regarding compose file unclear",
         "url": "https://github.com/balena-io/balena-cli/issues/2314"
-      },
-      {
-        "title": "Registry Connection Timeout",
-        "url": "https://github.com/balena-io/balena-cli/issues/2310"
-      },
-      {
-        "title": "Add multiarch support",
-        "url": "https://github.com/balena-io/balena-cli/pull/2301"
       }
     ]
   },
-  "version": "12.48.13",
+  "version": "12.48.14",
   "screenshot": null,
   "logo": null
 }
