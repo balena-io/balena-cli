@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'os download: Avoid incomplete os downloads appearing as successful'
+      hash: 7f6738c73cd36cdfce0726c4eadbf51fecaebdc1
+      body: |
+        By forcing the zlib flush mode to Z_NO_FLUSH we are more likely to
+        see an error on image download pipelines vs silent failure and
+        incomplete files.
+
+        This is part of a larger investigation and may be removed in the
+        future when the root cause of the pipeline failures are identified.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 12.48.14
+  date: 2021-09-20T17:38:23.398Z
+- commits:
     - subject: 'config inject: Remove requirement of being logged in'
       hash: 09a4e8db2d840f0b207afee7c5d99a47f967093d
       body: ''
