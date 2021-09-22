@@ -1,4 +1,183 @@
 - commits:
+    - subject: Update balena-sdk to 15.51.1
+      hash: de95262f9351f6ed8a54b05eedac7b6162036ba1
+      body: |
+        Update balena-sdk from 15.48.0 to 15.51.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Nitish Agarwal
+      nested:
+        - commits:
+            - subject: Update balena-request to v11.4.2
+              hash: 09aeebd00e8d4247d9b961275230f384f5729323
+              body: |
+                Update balena-request from 11.4.1 to 11.4.2
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Kyle Harding <kyle@balena.io>
+                signed-off-by: Kyle Harding <kyle@balena.io>
+              author: Kyle Harding
+              nested:
+                - commits:
+                    - subject: Allow overriding the default zlib flush setting
+                      hash: e3bab85ca37f37aac5e3d84caf91c7884655717d
+                      body: ''
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                        Signed-off-by: Kyle Harding <kyle@balena.io>
+                        signed-off-by: Kyle Harding <kyle@balena.io>
+                      author: Kyle Harding
+                  version: balena-request-11.4.2
+                  date: 2021-09-20T16:46:49.698Z
+          version: balena-sdk-15.51.1
+          date: 2021-09-20T18:03:51.216Z
+        - commits:
+            - subject: 'os.getConfig: Add typings for the provisioningKeyName option'
+              hash: 30374d8f750247f450552e44d34dd75b46df57aa
+              body: ''
+              footer:
+                Change-Type: minor
+                change-type: minor
+                Signed-off-by: Nitish Agarwal 1592163+nitishagar@users.noreply.github.com
+                signed-off-by: Nitish Agarwal 1592163+nitishagar@users.noreply.github.com
+              author: Nitish Agarwal
+              nested: []
+          version: balena-sdk-15.51.0
+          date: 2021-09-16T10:09:05.726Z
+        - commits:
+            - subject: 'models/os: Always first normalize the device type slug'
+              hash: 72d597c11a9924ce2be18ee6196933551c28c180
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.50.1
+          date: 2021-09-13T22:09:51.957Z
+        - commits:
+            - subject: Add release.finalize to promote draft releases to final
+              hash: 3ff1a104bb33c7d864aae872ec385df538a38fe2
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Paul Jonathan <pj@balena.io>
+                signed-off-by: Paul Jonathan <pj@balena.io>
+                See: 'https://github.com/balena-io/balena-sdk/issues/1122'
+                see: 'https://github.com/balena-io/balena-sdk/issues/1122'
+              author: toochevere
+              nested: []
+          version: balena-sdk-15.50.0
+          date: 2021-09-10T17:46:20.553Z
+        - commits:
+            - subject: 'typings: Drop the v5-model-only application_type.is_host_os'
+              hash: b5ff0ec9888450ae800813fff34d4f62716b1e70
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.49.1
+          date: 2021-09-10T14:32:30.889Z
+        - commits:
+            - subject: 'os.getSupportedOsUpdateVersions: Use the hostApp releases'
+              hash: 97727ec085d004022fc167ef1eac74b770b0bc49
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: 'os.download: Use the hostApp for finding the latest release'
+              hash: 8d1d85c65e6af04886b8de70f149602212353369
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.49.0
+          date: 2021-09-06T17:35:41.134Z
+        - commits:
+            - subject: Update balena-request to 11.4.1
+              hash: de5c18f7b55d25a23ae3b78fda8ea0ee4494e4ad
+              body: |
+                Update balena-request from 11.4.0 to 11.4.1
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Kyle Harding <kyle@balena.io>
+                signed-off-by: Kyle Harding <kyle@balena.io>
+              author: Kyle Harding
+              nested:
+                - commits:
+                    - subject: Allow more lenient gzip decompression
+                      hash: 9c7bc3051b279c9d09ec501a78dbe9f506d65650
+                      body: >
+                        Be more lenient with decoding compressed responses,
+                        since (very rarely)
+
+                        servers send slightly invalid gzip responses that are
+                        still accepted
+
+                        by common browsers.
+
+
+                        Always using Z_SYNC_FLUSH is what cURL does.
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                        Signed-off-by: Kyle Harding <kyle@balena.io>
+                        signed-off-by: Kyle Harding <kyle@balena.io>
+                      author: Kyle Harding
+                  version: balena-request-11.4.1
+                  date: 2021-08-27T19:10:59.811Z
+          version: balena-sdk-15.48.3
+          date: 2021-08-27T19:53:51.776Z
+        - commits:
+            - subject: >-
+                Improve hostapp.getAllOsVersions performance & reduce fetched
+                data
+              hash: 61307d83ebaa03d69197b5140ddcb5c50c9c4159
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.48.2
+          date: 2021-08-27T10:38:18.157Z
+        - commits:
+            - subject: Update typescript to 4.4.2
+              hash: 5d6e2b69633d8aca0747a64f121bd4b7e670a3c5
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.48.1
+          date: 2021-08-27T07:07:50.896Z
+  version: 12.48.15
+  date: 2021-09-22T07:20:44.659Z
+- commits:
     - subject: 'os download: Avoid incomplete os downloads appearing as successful'
       hash: 7f6738c73cd36cdfce0726c4eadbf51fecaebdc1
       body: |
