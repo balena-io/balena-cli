@@ -137,8 +137,6 @@ export async function downloadOSImage(
 		? await resolveOSVersion(deviceType, OSVersion)
 		: 'default';
 
-	const displayVersion = OSVersion === 'default' ? '' : ` ${OSVersion}`;
-
 	// Override the default zlib flush value as we've seen cases of
 	// incomplete files being identified as successful downloads when using Z_SYNC_FLUSH.
 	// Using Z_NO_FLUSH results in a Z_BUF_ERROR instead of a corrupt image file.
@@ -150,10 +148,17 @@ export async function downloadOSImage(
 	const manager = await import('balena-image-manager');
 	const stream = await manager.get(deviceType, OSVersion);
 
+	const displayVersion = await new Promise((resolve, reject) => {
+		stream.on('error', reject);
+		stream.on('balena-image-manager:resolved-version', resolve);
+	});
+
 	const visuals = getVisuals();
-	const bar = new visuals.Progress(`Downloading Device OS${displayVersion}`);
+	const bar = new visuals.Progress(
+		`Downloading balenaOS version ${displayVersion}`,
+	);
 	const spinner = new visuals.Spinner(
-		`Downloading Device OS${displayVersion} (size unknown)`,
+		`Downloading balenaOS version ${displayVersion} (size unknown)`,
 	);
 
 	stream.on('progress', (state: any) => {
