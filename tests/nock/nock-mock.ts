@@ -33,7 +33,10 @@ export class NockMock {
 	public readonly expect;
 	protected static instanceCount = 0;
 
-	constructor(public basePathPattern: string | RegExp) {
+	constructor(
+		public basePathPattern: string | RegExp,
+		public allowUnmocked: boolean = false,
+	) {
 		if (NockMock.instanceCount === 0) {
 			if (!nock.isActive()) {
 				nock.activate();
@@ -45,7 +48,7 @@ export class NockMock {
 			);
 		}
 		NockMock.instanceCount += 1;
-		this.scope = nock(this.basePathPattern);
+		this.scope = nock(this.basePathPattern, { allowUnmocked });
 		this.expect = this.scope;
 	}
 

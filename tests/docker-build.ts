@@ -198,7 +198,7 @@ export async function testDockerBuildStream(o: {
 			tag,
 		});
 		if (o.commandLine.startsWith('build')) {
-			o.dockerMock.expectGetImages();
+			o.dockerMock.expectGetImages({ optional: true });
 		}
 	}
 

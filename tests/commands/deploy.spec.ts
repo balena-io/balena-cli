@@ -53,6 +53,7 @@ const commonResponseLines = {
 };
 
 const commonQueryParams = [
+	['platform', 'linux/arm/v7'],
 	['t', '${tag}'],
 	['buildargs', '{}'],
 	['labels', ''],
@@ -65,6 +66,11 @@ const commonComposeQueryParams = {
 		MY_VAR_2: 'Also a variable',
 	},
 	labels: '',
+};
+
+const commonComposeQueryParamsArmV7 = {
+	...commonComposeQueryParams,
+	platform: 'linux/arm/v7',
 };
 
 describe('balena deploy', function () {
@@ -139,6 +145,7 @@ describe('balena deploy', function () {
 		api.expectPatchImage({});
 		api.expectPatchRelease({});
 		api.expectPostImageLabel();
+		docker.expectGetManifestBusybox();
 
 		await testDockerBuildStream({
 			commandLine: `deploy testApp --build --source ${projectPath} ${
@@ -189,6 +196,7 @@ describe('balena deploy', function () {
 		api.expectPatchImage({});
 		api.expectPatchRelease({});
 		api.expectPostImageLabel();
+		docker.expectGetManifestBusybox();
 
 		await testDockerBuildStream({
 			commandLine: `deploy testApp --build --source ${projectPath}`,
@@ -238,6 +246,7 @@ describe('balena deploy', function () {
 		api.expectPatchImage({});
 		api.expectPatchRelease({});
 		api.expectPostImageLabel();
+		docker.expectGetManifestBusybox();
 
 		await testDockerBuildStream({
 			commandLine: `deploy testApp --build --draft --source ${projectPath}`,
@@ -275,6 +284,7 @@ describe('balena deploy', function () {
 		const expectedExitCode = 1;
 
 		api.expectPostRelease({});
+		docker.expectGetManifestBusybox();
 
 		// Mock this patch HTTP request to return status code 500, in which case
 		// the release status should be saved as "failed" rather than "success"
@@ -352,7 +362,7 @@ describe('balena deploy', function () {
 			},
 			service2: {
 				'.dockerignore': { fileSize: 12, type: 'file' },
-				'Dockerfile-alt': { fileSize: 40, type: 'file' },
+				'Dockerfile-alt': { fileSize: 13, type: 'file' },
 				'file2-crlf.sh': {
 					fileSize: isWindows ? 12 : 14,
 					testStream: isWindows ? expectStreamNoCRLF : undefined,
@@ -372,7 +382,7 @@ describe('balena deploy', function () {
 				}),
 			),
 			service2: Object.entries(
-				_.merge({}, commonComposeQueryParams, {
+				_.merge({}, commonComposeQueryParamsArmV7, {
 					buildargs: {
 						COMPOSE_ARG: 'an argument defined in the docker-compose.yml file',
 					},
@@ -407,6 +417,8 @@ describe('balena deploy', function () {
 		api.expectPostRelease({});
 		api.expectPatchImage({});
 		api.expectPatchRelease({});
+		docker.expectGetManifestRpi3Alpine();
+		docker.expectGetManifestBusybox();
 
 		await testDockerBuildStream({
 			commandLine: `deploy testApp --build --source ${projectPath} --multi-dockerignore`,

@@ -1,1 +1,1 @@
-alternative Dockerfile (basic/service2)
+FROM busybox

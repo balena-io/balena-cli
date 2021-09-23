@@ -133,4 +133,42 @@ export class DockerMock extends NockMock {
 			},
 		);
 	}
+
+	public expectGetManifestBusybox(opts: ScopeOpts = {}) {
+		// 		this.optGet(/^\/distribution\/.*/, opts).replyWithFile(
+		this.optGet('/distribution/busybox/json', opts).replyWithFile(
+			200,
+			path.join(dockerResponsePath, 'distribution-busybox-GET.json'),
+			{
+				'api-version': '1.38',
+				'Content-Type': 'application/json',
+			},
+		);
+	}
+
+	public expectGetManifestRpi3Alpine(opts: ScopeOpts = {}) {
+		this.optGet(
+			'/distribution/balenalib/raspberrypi3-alpine/json',
+			opts,
+		).replyWithFile(
+			200,
+			path.join(dockerResponsePath, 'distribution-rpi3alpine.json'),
+			{
+				'api-version': '1.38',
+				'Content-Type': 'application/json',
+			},
+		);
+	}
+
+	public expectGetManifestNucAlpine(opts: ScopeOpts = {}) {
+		// NOTE:  This URL does no work in real life... it's "intel-nuc", not "nuc"
+		this.optGet('/distribution/balenalib/nuc-alpine/json', opts).replyWithFile(
+			200,
+			path.join(dockerResponsePath, 'distribution-nucalpine.json'),
+			{
+				'api-version': '1.38',
+				'Content-Type': 'application/json',
+			},
+		);
+	}
 }

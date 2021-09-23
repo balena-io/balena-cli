@@ -53,6 +53,16 @@ const commonQueryParams = {
 	labels: '',
 };
 
+const commonQueryParamsIntel = {
+	...commonQueryParams,
+	platform: 'linux/amd64',
+};
+
+const commonQueryParamsArmV6 = {
+	...commonQueryParams,
+	platform: 'linux/arm/v6',
+};
+
 const commonComposeQueryParams = {
 	t: '${tag}',
 	buildargs: {
@@ -60,6 +70,11 @@ const commonComposeQueryParams = {
 		MY_VAR_2: 'Also a variable',
 	},
 	labels: '',
+};
+
+const commonComposeQueryParamsIntel = {
+	...commonComposeQueryParams,
+	platform: 'linux/amd64',
 };
 
 // "itSS" means "it() Skip Standalone"
@@ -76,7 +91,7 @@ describe('balena build', function () {
 		api.expectGetWhoAmI({ optional: true, persist: true });
 		api.expectGetMixpanel({ optional: true });
 		docker.expectGetPing();
-		docker.expectGetVersion();
+		docker.expectGetVersion({ persist: true });
 	});
 
 	this.afterEach(() => {
@@ -123,13 +138,16 @@ describe('balena build', function () {
 			}
 		}
 		docker.expectGetInfo({});
+		docker.expectGetManifestBusybox();
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 ${
 				isV13() ? '' : '-g'
 			}`,
 			dockerMock: docker,
 			expectedFilesByService: { main: expectedFiles },
-			expectedQueryParamsByService: { main: Object.entries(commonQueryParams) },
+			expectedQueryParamsByService: {
+				main: Object.entries(commonQueryParamsIntel),
+			},
 			expectedResponseLines,
 			projectPath,
 			responseBody,
@@ -152,7 +170,7 @@ describe('balena build', function () {
 			'Dockerfile-alt': { fileSize: 30, type: 'file' },
 		};
 		const expectedQueryParams = {
-			...commonQueryParams,
+			...commonQueryParamsIntel,
 			buildargs: '{"BARG1":"b1","barg2":"B2"}',
 			cachefrom: '["my/img1","my/img2"]',
 		};
@@ -181,6 +199,7 @@ describe('balena build', function () {
 			}
 		}
 		docker.expectGetInfo({});
+		docker.expectGetManifestBusybox();
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 -B BARG1=b1 -B barg2=B2 --cache-from my/img1,my/img2`,
 			dockerMock: docker,
@@ -271,6 +290,7 @@ describe('balena build', function () {
 			});
 			mock.reRequire('../../build/utils/qemu');
 			docker.expectGetInfo({ OperatingSystem: 'balenaOS 2.44.0+rev1' });
+			docker.expectGetManifestBusybox();
 			await testDockerBuildStream({
 				commandLine: `build ${projectPath} --emulated --deviceType ${deviceType} --arch ${arch} ${
 					isV13() ? '' : '--nogitignore'
@@ -278,7 +298,7 @@ describe('balena build', function () {
 				dockerMock: docker,
 				expectedFilesByService: { main: expectedFiles },
 				expectedQueryParamsByService: {
-					main: Object.entries(commonQueryParams),
+					main: Object.entries(commonQueryParamsArmV6),
 				},
 				expectedResponseLines,
 				projectPath,
@@ -327,11 +347,15 @@ describe('balena build', function () {
 			);
 		}
 		docker.expectGetInfo({});
+		docker.expectGetManifestBusybox();
+
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --noconvert-eol -m`,
 			dockerMock: docker,
 			expectedFilesByService: { main: expectedFiles },
-			expectedQueryParamsByService: { main: Object.entries(commonQueryParams) },
+			expectedQueryParamsByService: {
+				main: Object.entries(commonQueryParamsIntel),
+			},
 			expectedResponseLines,
 			projectPath,
 			responseBody,
@@ -360,7 +384,7 @@ describe('balena build', function () {
 			},
 			service2: {
 				'.dockerignore': { fileSize: 12, type: 'file' },
-				'Dockerfile-alt': { fileSize: 40, type: 'file' },
+				'Dockerfile-alt': { fileSize: 13, type: 'file' },
 				'file2-crlf.sh': {
 					fileSize: isWindows ? 12 : 14,
 					testStream: isWindows ? expectStreamNoCRLF : undefined,
@@ -386,7 +410,7 @@ describe('balena build', function () {
 				}),
 			),
 			service2: Object.entries(
-				_.merge({}, commonComposeQueryParams, {
+				_.merge({}, commonComposeQueryParamsIntel, {
 					buildargs: {
 						COMPOSE_ARG: 'A',
 						barg: 'b',
@@ -417,6 +441,8 @@ describe('balena build', function () {
 			);
 		}
 		docker.expectGetInfo({});
+		docker.expectGetManifestNucAlpine();
+		docker.expectGetManifestBusybox();
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol ${
 				isV13() ? '' : '-G'
@@ -453,7 +479,7 @@ describe('balena build', function () {
 			},
 			service2: {
 				'.dockerignore': { fileSize: 12, type: 'file' },
-				'Dockerfile-alt': { fileSize: 40, type: 'file' },
+				'Dockerfile-alt': { fileSize: 13, type: 'file' },
 				'file2-crlf.sh': {
 					fileSize: isWindows ? 12 : 14,
 					testStream: isWindows ? expectStreamNoCRLF : undefined,
@@ -473,7 +499,7 @@ describe('balena build', function () {
 				}),
 			),
 			service2: Object.entries(
-				_.merge({}, commonComposeQueryParams, {
+				_.merge({}, commonComposeQueryParamsIntel, {
 					buildargs: {
 						COMPOSE_ARG: 'an argument defined in the docker-compose.yml file',
 					},
@@ -505,6 +531,9 @@ describe('balena build', function () {
 			);
 		}
 		docker.expectGetInfo({});
+		docker.expectGetManifestBusybox();
+		docker.expectGetManifestNucAlpine();
+
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol -m`,
 			dockerMock: docker,
@@ -539,7 +568,7 @@ describe('balena build', function () {
 			},
 			service2: {
 				'.dockerignore': { fileSize: 12, type: 'file' },
-				'Dockerfile-alt': { fileSize: 40, type: 'file' },
+				'Dockerfile-alt': { fileSize: 13, type: 'file' },
 				'file2-crlf.sh': {
 					fileSize: isWindows ? 12 : 14,
 					testStream: isWindows ? expectStreamNoCRLF : undefined,
@@ -559,7 +588,7 @@ describe('balena build', function () {
 				}),
 			),
 			service2: Object.entries(
-				_.merge({}, commonComposeQueryParams, {
+				_.merge({}, commonComposeQueryParamsIntel, {
 					buildargs: {
 						COMPOSE_ARG: 'an argument defined in the docker-compose.yml file',
 					},
@@ -593,6 +622,9 @@ describe('balena build', function () {
 		const projectName = 'spectest';
 		const tag = 'myTag';
 		docker.expectGetInfo({});
+		docker.expectGetManifestBusybox();
+		docker.expectGetManifestNucAlpine();
+
 		await testDockerBuildStream({
 			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol -m --tag ${tag} --projectName ${projectName}`,
 			dockerMock: docker,

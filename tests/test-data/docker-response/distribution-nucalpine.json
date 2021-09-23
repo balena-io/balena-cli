@@ -1,0 +1,13 @@
+{
+	"Descriptor": {
+	  "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+	  "digest": "sha256:d70bb0dd863198b41ea5d638993a9fbb912b3ea54b36480d1dc13e6b5b29021a",
+	  "size": 2610
+	},
+	"Platforms": [
+	  {
+		"architecture": "amd64",
+		"os": "linux"
+	  }
+	]
+  }

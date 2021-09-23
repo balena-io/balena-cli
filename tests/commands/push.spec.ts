@@ -455,7 +455,7 @@ describe('balena push', function () {
 			'docker-compose.yml': { fileSize: 332, type: 'file' },
 			'service1/Dockerfile.template': { fileSize: 144, type: 'file' },
 			'service1/file1.sh': { fileSize: 12, type: 'file' },
-			'service2/Dockerfile-alt': { fileSize: 40, type: 'file' },
+			'service2/Dockerfile-alt': { fileSize: 13, type: 'file' },
 			'service2/.dockerignore': { fileSize: 12, type: 'file' },
 			'service2/file2-crlf.sh': {
 				fileSize: isWindows ? 12 : 14,
@@ -508,7 +508,7 @@ describe('balena push', function () {
 			'service1/Dockerfile.template': { fileSize: 144, type: 'file' },
 			'service1/file1.sh': { fileSize: 12, type: 'file' },
 			'service1/test-ignore.txt': { fileSize: 12, type: 'file' },
-			'service2/Dockerfile-alt': { fileSize: 40, type: 'file' },
+			'service2/Dockerfile-alt': { fileSize: 13, type: 'file' },
 			'service2/.dockerignore': { fileSize: 12, type: 'file' },
 			'service2/file2-crlf.sh': {
 				fileSize: isWindows ? 12 : 14,
