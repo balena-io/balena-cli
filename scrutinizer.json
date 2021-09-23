@@ -5,6 +5,38 @@
     {
       "commits": [
         {
+          "subject": "build, deploy: Improve logging of image build messages",
+          "hash": "8bb211e4418981523c9f133e25cfac2043e46328",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "build, deploy: Add support for multiarch base images",
+          "hash": "ffccbfba126f9cbd09611dc43508aba73a8bf97a",
+          "body": "Bump version of balena-multibuild to the one that supports multiarch\nRemove previous hack to avoid sending platform information to multibuild\n",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Signed-off-by": "Paul Jonathan <pj@balena.io>",
+            "signed-off-by": "Paul Jonathan <pj@balena.io>",
+            "See": "https://github.com/balena-io/balena-cli/issues/1508",
+            "see": "https://github.com/balena-io/balena-cli/issues/1508"
+          },
+          "author": "toochevere",
+          "nested": []
+        }
+      ],
+      "version": "12.49.0",
+      "date": "2021-09-23T19:56:39.460Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update balena-sdk to 15.51.1",
           "hash": "de95262f9351f6ed8a54b05eedac7b6162036ba1",
           "body": "Update balena-sdk from 15.48.0 to 15.51.1\n",
@@ -23735,6 +23767,10 @@
       "avatar": "https://avatars.githubusercontent.com/u/3415366?v=4"
     },
     {
+      "username": "toochevere",
+      "avatar": "https://avatars.githubusercontent.com/u/17306525?v=4"
+    },
+    {
       "username": "nwneisen",
       "avatar": "https://avatars.githubusercontent.com/u/5108029?v=4"
     },
@@ -23749,10 +23785,6 @@
     {
       "username": "pcgeek86",
       "avatar": "https://avatars.githubusercontent.com/u/466713?v=4"
-    },
-    {
-      "username": "toochevere",
-      "avatar": "https://avatars.githubusercontent.com/u/17306525?v=4"
     },
     {
       "username": "codewithcheese",
@@ -23785,7 +23817,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 339,
+  "stars": 340,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -23890,36 +23922,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-09-22T14:52:15Z",
+  "lastCommitDate": "2021-09-23T20:56:47Z",
   "latestRelease": {
-    "tagName": "v12.48.15",
+    "tagName": "v12.49.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.48.15-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.15/balena-cli-v12.48.15-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.49.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.49.0/balena-cli-v12.49.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.15-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.15/balena-cli-v12.48.15-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.49.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.49.0/balena-cli-v12.49.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.48.15-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.15/balena-cli-v12.48.15-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.49.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.49.0/balena-cli-v12.49.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.48.15-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.15/balena-cli-v12.48.15-windows-x64-installer.exe"
+        "name": "balena-cli-v12.49.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.49.0/balena-cli-v12.49.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.48.15-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.48.15/balena-cli-v12.48.15-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.49.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.49.0/balena-cli-v12.49.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 346,
+    "numberOfIssues": 344,
     "latestIssues": [
+      {
+        "title": "`balena inject` should not require an internet connection",
+        "url": "https://github.com/balena-io/balena-cli/issues/2349"
+      },
       {
         "title": "Add recommended balena-cli update method for all supported plarforms",
         "url": "https://github.com/balena-io/balena-cli/issues/2348"
@@ -23993,16 +24029,12 @@
         "url": "https://github.com/balena-io/balena-cli/issues/2318"
       },
       {
-        "title": "Update balena-sdk to v15.48.3",
-        "url": "https://github.com/balena-io/balena-cli/pull/2315"
-      },
-      {
         "title": "Error message regarding compose file unclear",
         "url": "https://github.com/balena-io/balena-cli/issues/2314"
       }
     ]
   },
-  "version": "12.48.15",
+  "version": "12.49.0",
   "screenshot": null,
   "logo": null
 }

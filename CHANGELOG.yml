@@ -1,4 +1,29 @@
 - commits:
+    - subject: 'build, deploy: Improve logging of image build messages'
+      hash: 8bb211e4418981523c9f133e25cfac2043e46328
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'build, deploy: Add support for multiarch base images'
+      hash: ffccbfba126f9cbd09611dc43508aba73a8bf97a
+      body: |
+        Bump version of balena-multibuild to the one that supports multiarch
+        Remove previous hack to avoid sending platform information to multibuild
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Paul Jonathan <pj@balena.io>
+        signed-off-by: Paul Jonathan <pj@balena.io>
+        See: 'https://github.com/balena-io/balena-cli/issues/1508'
+        see: 'https://github.com/balena-io/balena-cli/issues/1508'
+      author: toochevere
+      nested: []
+  version: 12.49.0
+  date: 2021-09-23T20:55:54.162Z
+- commits:
     - subject: Update balena-sdk to 15.51.1
       hash: de95262f9351f6ed8a54b05eedac7b6162036ba1
       body: |
@@ -176,7 +201,7 @@
           version: balena-sdk-15.48.1
           date: 2021-08-27T07:07:50.896Z
   version: 12.48.15
-  date: 2021-09-22T14:51:33.132Z
+  date: 2021-09-22T07:20:44.659Z
 - commits:
     - subject: 'os download: Avoid incomplete os downloads appearing as successful'
       hash: 7f6738c73cd36cdfce0726c4eadbf51fecaebdc1
