@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add support for releases
+      hash: a18e182ae425d273b68fdb230a5f308283e8b6f5
+      body: ''
+      footer:
+        Signed-off-by: Paul Jonathan <pj@balena.io>
+        signed-off-by: Paul Jonathan <pj@balena.io>
+        Change-type: minor
+        change-type: minor
+      author: Paul Jonathan Zoulin
+      nested: []
+  version: 12.50.0
+  date: 2021-09-28T15:06:48.628Z
+- commits:
     - subject: 'build, deploy: Improve logging of image build messages'
       hash: 8bb211e4418981523c9f133e25cfac2043e46328
       body: ''
@@ -22,7 +35,7 @@
       author: toochevere
       nested: []
   version: 12.49.0
-  date: 2021-09-23T20:55:54.162Z
+  date: 2021-09-23T19:56:39.460Z
 - commits:
     - subject: Update balena-sdk to 15.51.1
       hash: de95262f9351f6ed8a54b05eedac7b6162036ba1

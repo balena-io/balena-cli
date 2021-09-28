@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Add support for releases",
+          "hash": "a18e182ae425d273b68fdb230a5f308283e8b6f5",
+          "body": "",
+          "footer": {
+            "Signed-off-by": "Paul Jonathan <pj@balena.io>",
+            "signed-off-by": "Paul Jonathan <pj@balena.io>",
+            "Change-type": "minor",
+            "change-type": "minor"
+          },
+          "author": "Paul Jonathan Zoulin",
+          "nested": []
+        }
+      ],
+      "version": "12.50.0",
+      "date": "2021-09-28T14:32:04.363Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "build, deploy: Improve logging of image build messages",
           "hash": "8bb211e4418981523c9f133e25cfac2043e46328",
           "body": "",
@@ -23763,12 +23782,12 @@
       "avatar": "https://avatars.githubusercontent.com/u/590207?v=4"
     },
     {
-      "username": "afitzek",
-      "avatar": "https://avatars.githubusercontent.com/u/3415366?v=4"
-    },
-    {
       "username": "toochevere",
       "avatar": "https://avatars.githubusercontent.com/u/17306525?v=4"
+    },
+    {
+      "username": "afitzek",
+      "avatar": "https://avatars.githubusercontent.com/u/3415366?v=4"
     },
     {
       "username": "nwneisen",
@@ -23817,7 +23836,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 340,
+  "stars": 341,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -23922,29 +23941,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-09-23T20:56:47Z",
+  "lastCommitDate": "2021-09-28T15:07:49Z",
   "latestRelease": {
-    "tagName": "v12.49.0",
+    "tagName": "v12.50.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.49.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.49.0/balena-cli-v12.49.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.50.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.0/balena-cli-v12.50.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.49.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.49.0/balena-cli-v12.49.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.50.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.0/balena-cli-v12.50.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.49.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.49.0/balena-cli-v12.49.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.50.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.0/balena-cli-v12.50.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.49.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.49.0/balena-cli-v12.49.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.50.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.0/balena-cli-v12.50.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.49.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.49.0/balena-cli-v12.49.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.50.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.0/balena-cli-v12.50.0-windows-x64-standalone.zip"
       }
     ]
   },
@@ -23953,16 +23972,16 @@
     "numberOfIssues": 344,
     "latestIssues": [
       {
-        "title": "`balena inject` should not require an internet connection",
+        "title": "Flash speed is slow using cli compared to Etcher",
+        "url": "https://github.com/balena-io/balena-cli/issues/2350"
+      },
+      {
+        "title": "`config inject` should not require an internet connection",
         "url": "https://github.com/balena-io/balena-cli/issues/2349"
       },
       {
         "title": "Add recommended balena-cli update method for all supported plarforms",
         "url": "https://github.com/balena-io/balena-cli/issues/2348"
-      },
-      {
-        "title": "Add support for releases",
-        "url": "https://github.com/balena-io/balena-cli/pull/2345"
       },
       {
         "title": "`balena push` randomly stops streaming logs when pushing in local mode",
@@ -24034,7 +24053,7 @@
       }
     ]
   },
-  "version": "12.49.0",
+  "version": "12.50.0",
   "screenshot": null,
   "logo": null
 }
