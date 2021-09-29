@@ -14,19 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as _ from 'lodash';
-import * as Mixpanel from 'mixpanel';
 
 import * as packageJSON from '../package.json';
 import { getBalenaSdk } from './utils/lazy';
-
-const getMixpanel = _.once((balenaUrl: string) => {
-	return Mixpanel.init('balena-main', {
-		host: `api.${balenaUrl}`,
-		path: '/mixpanel',
-		protocol: 'https',
-	});
-});
 
 interface CachedUsername {
 	token: string;
@@ -34,7 +24,7 @@ interface CachedUsername {
 }
 
 /**
- * Mixpanel.com analytics tracking (information on balena CLI usage).
+ * Track balena CLI usage events (product improvement analytics).
  *
  * @param commandSignature A string like, for example:
  *      "push <fleetOrDevice>"
@@ -60,7 +50,6 @@ export async function trackCommand(commandSignature: string) {
 			});
 		}
 		const settings = await import('balena-settings-client');
-		const balenaUrl = settings.get<string>('balenaUrl');
 
 		const username = await (async () => {
 			const getStorage = await import('balena-settings-storage');
@@ -94,8 +83,6 @@ export async function trackCommand(commandSignature: string) {
 			}
 		})();
 
-		const mixpanel = getMixpanel(balenaUrl);
-
 		if (!process.env.BALENARC_NO_SENTRY) {
 			Sentry!.configureScope((scope) => {
 				scope.setUser({
@@ -109,16 +96,43 @@ export async function trackCommand(commandSignature: string) {
 			!process.env.BALENA_CLI_TEST_TYPE &&
 			!process.env.BALENARC_NO_ANALYTICS
 		) {
-			await mixpanel.track(`[CLI] ${commandSignature}`, {
-				distinct_id: username,
-				version: packageJSON.version,
-				node: process.version,
-				arch: process.arch,
-				balenaUrl, // e.g. 'balena-cloud.com' or 'balena-staging.com'
-				platform: process.platform,
-			});
+			const balenaUrl = settings.get<string>('balenaUrl');
+			await sendEvent(balenaUrl, `[CLI] ${commandSignature}`, username);
 		}
 	} catch {
 		// ignore
+	}
+}
+
+/**
+ * Make the event tracking HTTPS request to balenaCloud's '/mixpanel' endpoint.
+ */
+async function sendEvent(balenaUrl: string, event: string, username?: string) {
+	const { default: got } = await import('got');
+	const trackData = {
+		event,
+		properties: {
+			arch: process.arch,
+			balenaUrl, // e.g. 'balena-cloud.com' or 'balena-staging.com'
+			distinct_id: username,
+			mp_lib: 'node',
+			node: process.version,
+			platform: process.platform,
+			token: 'balena-main',
+			version: packageJSON.version,
+		},
+	};
+	const url = `https://api.${balenaUrl}/mixpanel/track`;
+	const searchParams = {
+		ip: 0,
+		verbose: 0,
+		data: Buffer.from(JSON.stringify(trackData)).toString('base64'),
+	};
+	try {
+		await got(url, { searchParams, retry: 0 });
+	} catch (e) {
+		if (process.env.DEBUG) {
+			console.error(`[debug] Event tracking error: ${e.message || e}`);
+		}
 	}
 }

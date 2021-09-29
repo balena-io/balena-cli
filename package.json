@@ -249,7 +249,6 @@
     "livepush": "^3.5.0",
     "lodash": "^4.17.21",
     "minimatch": "^3.0.4",
-    "mixpanel": "^0.10.3",
     "moment": "^2.27.0",
     "moment-duration-format": "^2.3.2",
     "ndjson": "^2.0.0",
