@@ -23,8 +23,8 @@ setEsVersion('es2018');
 process.env.BALENARC_NO_SENTRY = '1';
 
 // Disable deprecation checks while running test code
-import { DeprecationChecker } from '../build/deprecation';
-DeprecationChecker.disable();
+// Like the global `--unsupported` flag
+process.env.BALENARC_UNSUPPORTED = '1';
 
 import * as tmp from 'tmp';
 tmp.setGracefulCleanup();

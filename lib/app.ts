@@ -97,7 +97,7 @@ async function init() {
 async function oclifRun(command: string[], options: AppOptions) {
 	let deprecationPromise: Promise<void>;
 	// check and enforce the CLI's deprecation policy
-	if (unsupportedFlag) {
+	if (unsupportedFlag || process.env.BALENARC_UNSUPPORTED) {
 		deprecationPromise = Promise.resolve();
 	} else {
 		const { DeprecationChecker } = await import('./deprecation');
