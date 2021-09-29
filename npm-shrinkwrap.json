@@ -2169,68 +2169,68 @@
       "integrity": "sha512-STcqSvk+c7ArMrZgYxhM92p6O6F7t0SUbGr+zm8s9fJple5EdJAMwP3dXqgdXeF95xWhBpha5kjEqNAIdI0r4w=="
     },
     "@sentry/core": {
-      "version": "5.25.0",
-      "resolved": "https://registry.npmjs.org/@sentry/core/-/core-5.25.0.tgz",
-      "integrity": "sha512-hY6Zmo7t/RV+oZuvXHP6nyAj/QnZr2jW0e7EbL5YKMV8q0vlnjcE0LgqFXme726OJemoLk67z+sQOJic/Ztehg==",
+      "version": "6.13.2",
+      "resolved": "https://registry.npmjs.org/@sentry/core/-/core-6.13.2.tgz",
+      "integrity": "sha512-snXNNFLwlS7yYxKTX4DBXebvJK+6ikBWN6noQ1CHowvM3ReFBlrdrs0Z0SsSFEzXm2S4q7f6HHbm66GSQZ/8FQ==",
       "requires": {
-        "@sentry/hub": "5.25.0",
-        "@sentry/minimal": "5.25.0",
-        "@sentry/types": "5.25.0",
-        "@sentry/utils": "5.25.0",
+        "@sentry/hub": "6.13.2",
+        "@sentry/minimal": "6.13.2",
+        "@sentry/types": "6.13.2",
+        "@sentry/utils": "6.13.2",
         "tslib": "^1.9.3"
       },
       "dependencies": {
         "tslib": {
-          "version": "1.14.0",
-          "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.14.0.tgz",
-          "integrity": "sha512-+Zw5lu0D9tvBMjGP8LpvMb0u2WW2QV3y+D8mO6J+cNzCYIN4sVy43Bf9vl92nqFahutN0I8zHa7cc4vihIshnw=="
+          "version": "1.14.1",
+          "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz",
+          "integrity": "sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg=="
         }
       }
     },
     "@sentry/hub": {
-      "version": "5.25.0",
-      "resolved": "https://registry.npmjs.org/@sentry/hub/-/hub-5.25.0.tgz",
-      "integrity": "sha512-kOlOiJV8wMX50lYpzMlOXBoH7MNG0Ho4RTusdZnXZBaASq5/ljngDJkLr6uylNjceZQP21wzipCQajsJMYB7EQ==",
+      "version": "6.13.2",
+      "resolved": "https://registry.npmjs.org/@sentry/hub/-/hub-6.13.2.tgz",
+      "integrity": "sha512-sppSuJdNMiMC/vFm/dQowCBh11uTrmvks00fc190YWgxHshodJwXMdpc+pN61VSOmy2QA4MbQ5aMAgHzPzel3A==",
       "requires": {
-        "@sentry/types": "5.25.0",
-        "@sentry/utils": "5.25.0",
+        "@sentry/types": "6.13.2",
+        "@sentry/utils": "6.13.2",
         "tslib": "^1.9.3"
       },
       "dependencies": {
         "tslib": {
-          "version": "1.14.0",
-          "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.14.0.tgz",
-          "integrity": "sha512-+Zw5lu0D9tvBMjGP8LpvMb0u2WW2QV3y+D8mO6J+cNzCYIN4sVy43Bf9vl92nqFahutN0I8zHa7cc4vihIshnw=="
+          "version": "1.14.1",
+          "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz",
+          "integrity": "sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg=="
         }
       }
     },
     "@sentry/minimal": {
-      "version": "5.25.0",
-      "resolved": "https://registry.npmjs.org/@sentry/minimal/-/minimal-5.25.0.tgz",
-      "integrity": "sha512-9JFKuW7U+1vPO86k3+XRtJyooiVZsVOsFFO4GulBzepi3a0ckNyPgyjUY1saLH+cEHx18hu8fGgajvI8ANUF2g==",
+      "version": "6.13.2",
+      "resolved": "https://registry.npmjs.org/@sentry/minimal/-/minimal-6.13.2.tgz",
+      "integrity": "sha512-6iJfEvHzzpGBHDfLxSHcGObh73XU1OSQKWjuhDOe7UQDyI4BQmTfcXAC+Fr8sm8C/tIsmpVi/XJhs8cubFdSMw==",
       "requires": {
-        "@sentry/hub": "5.25.0",
-        "@sentry/types": "5.25.0",
+        "@sentry/hub": "6.13.2",
+        "@sentry/types": "6.13.2",
         "tslib": "^1.9.3"
       },
       "dependencies": {
         "tslib": {
-          "version": "1.14.0",
-          "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.14.0.tgz",
-          "integrity": "sha512-+Zw5lu0D9tvBMjGP8LpvMb0u2WW2QV3y+D8mO6J+cNzCYIN4sVy43Bf9vl92nqFahutN0I8zHa7cc4vihIshnw=="
+          "version": "1.14.1",
+          "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz",
+          "integrity": "sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg=="
         }
       }
     },
     "@sentry/node": {
-      "version": "5.25.0",
-      "resolved": "https://registry.npmjs.org/@sentry/node/-/node-5.25.0.tgz",
-      "integrity": "sha512-zxoUVdAFTeK9kdEGY95TMs6g8Zx/P55HxG4gHD80BG/XIEvWiGPcGCLOspO4IdGqYXkGS74KfBOIXmmCawWwLg==",
+      "version": "6.13.2",
+      "resolved": "https://registry.npmjs.org/@sentry/node/-/node-6.13.2.tgz",
+      "integrity": "sha512-0Vw22amG143MTiNaSny66YGU3+uW7HxyGI9TLGE7aJY1nNmC0DE+OgqQYGBRCrrPu+VFXRDxrOg9b15A1gKqjA==",
       "requires": {
-        "@sentry/core": "5.25.0",
-        "@sentry/hub": "5.25.0",
-        "@sentry/tracing": "5.25.0",
-        "@sentry/types": "5.25.0",
-        "@sentry/utils": "5.25.0",
+        "@sentry/core": "6.13.2",
+        "@sentry/hub": "6.13.2",
+        "@sentry/tracing": "6.13.2",
+        "@sentry/types": "6.13.2",
+        "@sentry/utils": "6.13.2",
         "cookie": "^0.4.1",
         "https-proxy-agent": "^5.0.0",
         "lru_map": "^0.3.3",
@@ -2238,49 +2238,49 @@
       },
       "dependencies": {
         "tslib": {
-          "version": "1.14.0",
-          "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.14.0.tgz",
-          "integrity": "sha512-+Zw5lu0D9tvBMjGP8LpvMb0u2WW2QV3y+D8mO6J+cNzCYIN4sVy43Bf9vl92nqFahutN0I8zHa7cc4vihIshnw=="
+          "version": "1.14.1",
+          "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz",
+          "integrity": "sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg=="
         }
       }
     },
     "@sentry/tracing": {
-      "version": "5.25.0",
-      "resolved": "https://registry.npmjs.org/@sentry/tracing/-/tracing-5.25.0.tgz",
-      "integrity": "sha512-KcyHEGFpqSDubHrdWT/vF2hKkjw/ts6NpJ6tPDjBXUNz98BHdAyMKtLOFTCeJFply7/s5fyiAYu44M+M6IG3Bw==",
+      "version": "6.13.2",
+      "resolved": "https://registry.npmjs.org/@sentry/tracing/-/tracing-6.13.2.tgz",
+      "integrity": "sha512-bHJz+C/nd6biWTNcYAu91JeRilsvVgaye4POkdzWSmD0XoLWHVMrpCQobGpXe7onkp2noU3YQjhqgtBqPHtnpw==",
       "requires": {
-        "@sentry/hub": "5.25.0",
-        "@sentry/minimal": "5.25.0",
-        "@sentry/types": "5.25.0",
-        "@sentry/utils": "5.25.0",
+        "@sentry/hub": "6.13.2",
+        "@sentry/minimal": "6.13.2",
+        "@sentry/types": "6.13.2",
+        "@sentry/utils": "6.13.2",
         "tslib": "^1.9.3"
       },
       "dependencies": {
         "tslib": {
-          "version": "1.14.0",
-          "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.14.0.tgz",
-          "integrity": "sha512-+Zw5lu0D9tvBMjGP8LpvMb0u2WW2QV3y+D8mO6J+cNzCYIN4sVy43Bf9vl92nqFahutN0I8zHa7cc4vihIshnw=="
+          "version": "1.14.1",
+          "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz",
+          "integrity": "sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg=="
         }
       }
     },
     "@sentry/types": {
-      "version": "5.25.0",
-      "resolved": "https://registry.npmjs.org/@sentry/types/-/types-5.25.0.tgz",
-      "integrity": "sha512-8M4PREbcar+15wrtEqcwfcU33SS+2wBSIOd/NrJPXJPTYxi49VypCN1mZBDyWkaK+I+AuQwI3XlRPCfsId3D1A=="
+      "version": "6.13.2",
+      "resolved": "https://registry.npmjs.org/@sentry/types/-/types-6.13.2.tgz",
+      "integrity": "sha512-6WjGj/VjjN8LZDtqJH5ikeB1o39rO1gYS6anBxiS3d0sXNBb3Ux0pNNDFoBxQpOhmdDHXYS57MEptX9EV82gmg=="
     },
     "@sentry/utils": {
-      "version": "5.25.0",
-      "resolved": "https://registry.npmjs.org/@sentry/utils/-/utils-5.25.0.tgz",
-      "integrity": "sha512-Hz5spdIkMSRH5NR1YFOp5qbsY5Ud2lKhEQWlqxcVThMG5YNUc10aYv5ijL19v0YkrC2rqPjCRm7GrVtzOc7bXQ==",
+      "version": "6.13.2",
+      "resolved": "https://registry.npmjs.org/@sentry/utils/-/utils-6.13.2.tgz",
+      "integrity": "sha512-foF4PbxqPMWNbuqdXkdoOmKm3quu3PP7Q7j/0pXkri4DtCuvF/lKY92mbY0V9rHS/phCoj+3/Se5JvM2ymh2/w==",
       "requires": {
-        "@sentry/types": "5.25.0",
+        "@sentry/types": "6.13.2",
         "tslib": "^1.9.3"
       },
       "dependencies": {
         "tslib": {
-          "version": "1.14.0",
-          "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.14.0.tgz",
-          "integrity": "sha512-+Zw5lu0D9tvBMjGP8LpvMb0u2WW2QV3y+D8mO6J+cNzCYIN4sVy43Bf9vl92nqFahutN0I8zHa7cc4vihIshnw=="
+          "version": "1.14.1",
+          "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz",
+          "integrity": "sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg=="
         }
       }
     },
@@ -3093,9 +3093,9 @@
       "dev": true
     },
     "agent-base": {
-      "version": "6.0.1",
-      "resolved": "https://registry.npmjs.org/agent-base/-/agent-base-6.0.1.tgz",
-      "integrity": "sha512-01q25QQDwLSsyfhrKbn8yuur+JNw0H+0Y4JiGIKd3z9aYk/w/2kxD/Upc+t2ZBBSUNff50VjPsSW2YxM8QYKVg==",
+      "version": "6.0.2",
+      "resolved": "https://registry.npmjs.org/agent-base/-/agent-base-6.0.2.tgz",
+      "integrity": "sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==",
       "requires": {
         "debug": "4"
       }

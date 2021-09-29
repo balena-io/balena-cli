@@ -33,6 +33,7 @@ export const setupSentry = onceAsync(async () => {
 	const config = await import('./config');
 	const Sentry = await import('@sentry/node');
 	Sentry.init({
+		autoSessionTracking: false,
 		dsn: config.sentryDsn,
 		release: packageJSON.version,
 	});
