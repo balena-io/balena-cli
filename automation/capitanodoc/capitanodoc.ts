@@ -83,6 +83,14 @@ const capitanoDoc = {
 			],
 		},
 		{
+			title: 'Releases',
+			files: [
+				'build/commands/releases.js',
+				'build/commands/release/index.js',
+				'build/commands/release/finalize.js',
+			],
+		},
+		{
 			title: 'Environment Variables',
 			files: [
 				'build/commands/envs.js',
