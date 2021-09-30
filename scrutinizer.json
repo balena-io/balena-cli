@@ -5,6 +5,56 @@
     {
       "commits": [
         {
+          "subject": "Update dependencies (@sentry/node error reporting)",
+          "hash": "08dfc945f3ed1c518a7d1830a5a37d72fd5739fd",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "Replace mixpanel dependency with simple GET request",
+          "hash": "8791c2f4e1ad9f77a6f81aa9cb6df327de9d32c2",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "Avoid NockMock warnings during standalone executable testing",
+          "hash": "be306e6a207b984d01a843c6cb8eb418ffb0dbf9",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "Fix help output for 'release finalize' command",
+          "hash": "6cfff72c59c47d1dd061eeb5958dee1c5c266a54",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.50.1",
+      "date": "2021-09-30T00:16:32.368Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add support for releases",
           "hash": "a18e182ae425d273b68fdb230a5f308283e8b6f5",
           "body": "",
@@ -23904,7 +23954,6 @@
     "livepush",
     "lodash",
     "minimatch",
-    "mixpanel",
     "moment",
     "moment-duration-format",
     "ndjson",
@@ -23941,29 +23990,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-09-28T15:07:49Z",
+  "lastCommitDate": "2021-09-30T00:51:16Z",
   "latestRelease": {
-    "tagName": "v12.50.0",
+    "tagName": "v12.50.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.50.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.0/balena-cli-v12.50.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.50.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.1/balena-cli-v12.50.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.50.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.0/balena-cli-v12.50.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.50.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.1/balena-cli-v12.50.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.50.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.0/balena-cli-v12.50.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.50.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.1/balena-cli-v12.50.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.50.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.0/balena-cli-v12.50.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.50.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.1/balena-cli-v12.50.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.50.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.0/balena-cli-v12.50.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.50.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.1/balena-cli-v12.50.1-windows-x64-standalone.zip"
       }
     ]
   },
@@ -23971,6 +24020,14 @@
   "openIssues": {
     "numberOfIssues": 344,
     "latestIssues": [
+      {
+        "title": "Add ability to delete a release",
+        "url": "https://github.com/balena-io/balena-cli/issues/2352"
+      },
+      {
+        "title": "Add support for --json flag for releases",
+        "url": "https://github.com/balena-io/balena-cli/issues/2351"
+      },
       {
         "title": "Flash speed is slow using cli compared to Etcher",
         "url": "https://github.com/balena-io/balena-cli/issues/2350"
@@ -24024,10 +24081,6 @@
         "url": "https://github.com/balena-io/balena-cli/issues/2330"
       },
       {
-        "title": "Add support for the release model",
-        "url": "https://github.com/balena-io/balena-cli/issues/2329"
-      },
-      {
         "title": "[openBalena, balenaMachine] User would like to run `balena fleet create` in an air-gapped (no internet) environment",
         "url": "https://github.com/balena-io/balena-cli/issues/2322"
       },
@@ -24046,14 +24099,10 @@
       {
         "title": "Should move away from the device-types/v1 endpoints in favor of the model",
         "url": "https://github.com/balena-io/balena-cli/issues/2318"
-      },
-      {
-        "title": "Error message regarding compose file unclear",
-        "url": "https://github.com/balena-io/balena-cli/issues/2314"
       }
     ]
   },
-  "version": "12.50.0",
+  "version": "12.50.1",
   "screenshot": null,
   "logo": null
 }

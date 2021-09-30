@@ -1,4 +1,39 @@
 - commits:
+    - subject: Update dependencies (@sentry/node error reporting)
+      hash: 08dfc945f3ed1c518a7d1830a5a37d72fd5739fd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Replace mixpanel dependency with simple GET request
+      hash: 8791c2f4e1ad9f77a6f81aa9cb6df327de9d32c2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Avoid NockMock warnings during standalone executable testing
+      hash: be306e6a207b984d01a843c6cb8eb418ffb0dbf9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Fix help output for 'release finalize' command
+      hash: 6cfff72c59c47d1dd061eeb5958dee1c5c266a54
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.50.1
+  date: 2021-09-30T00:50:19.435Z
+- commits:
     - subject: Add support for releases
       hash: a18e182ae425d273b68fdb230a5f308283e8b6f5
       body: ''
@@ -10,7 +45,7 @@
       author: Paul Jonathan Zoulin
       nested: []
   version: 12.50.0
-  date: 2021-09-28T15:06:48.628Z
+  date: 2021-09-28T14:32:04.363Z
 - commits:
     - subject: 'build, deploy: Improve logging of image build messages'
       hash: 8bb211e4418981523c9f133e25cfac2043e46328
