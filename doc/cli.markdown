@@ -207,6 +207,12 @@ are encouraged to regularly update the balena CLI to the latest version.
 	- [device rm &#60;uuid(s)&#62;](#device-rm-uuid-s)
 	- [device shutdown &#60;uuid&#62;](#device-shutdown-uuid)
 
+- Releases
+
+	- [releases &#60;fleet&#62;](#releases-fleet)
+	- [release &#60;commitorid&#62;](#release-commitorid)
+	- [release finalize &#60;commitorid&#62;](#release-finalize-commitorid)
+
 - Environment Variables
 
 	- [envs](#envs)
@@ -1293,6 +1299,80 @@ the uuid of the device to shutdown
 #### -f, --force
 
 force action if the update lock is set
+
+# Releases
+
+## releases &#60;fleet&#62;
+
+List all releases of the given fleet.
+
+Fleets may be specified by fleet name or slug. Slugs are recommended because
+they are unique and unambiguous. Slugs can be listed with the `balena fleets`
+command. Note that slugs may change if the fleet is renamed. Fleet names are
+not unique and may result in "Fleet is ambiguous" errors at any time (even if
+"it used to work in the past"), for example if the name clashes with a newly
+created public/open fleet, or with fleets from other balena accounts that you
+may be invited to join under any role.  For this reason, fleet names are
+especially discouraged in scripts (e.g. CI environments).
+
+Examples:
+
+	$ balena releases myorg/myfleet
+
+### Arguments
+
+#### FLEET
+
+fleet name or slug
+
+### Options
+
+## release &#60;commitOrId&#62;
+
+
+
+Examples:
+
+	$ balena release a777f7345fe3d655c1c981aa642e5555
+	$ balena release 1234567
+
+### Arguments
+
+#### COMMITORID
+
+the commit or ID of the release to get information
+
+### Options
+
+#### -c, --composition
+
+Return the release composition
+
+## release finalize &#60;commitOrId&#62;
+
+Finalize a release. Releases can be "draft" or "final", and this command
+changes a draft release into a final release. Draft releases can be created
+with the `--draft` option of the `balena build` or `balena deploy`
+commands.
+
+Draft releases are not automatically deployed to devices tracking the latest
+release. For a draft release to be deployed to a device, the device should be
+explicity pinned to that release. Conversely, final releases may trigger immediate
+deployment to unpinned devices (subject to a device's  polling period) and, for
+this reason, final releases cannot be changed back to draft status.
+
+Examples:
+
+	$ balena release finalize a777f7345fe3d655c1c981aa642e5555
+	$ balena release finalize 1234567
+
+### Arguments
+
+#### COMMITORID
+
+the commit or ID of the release to finalize
+
+### Options
 
 # Environment Variables
 

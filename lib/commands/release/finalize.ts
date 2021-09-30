@@ -38,7 +38,7 @@ export default class ReleaseFinalizeCmd extends Command {
 		with the \`--draft\` option of the \`balena build\` or \`balena deploy\`
 		commands.
 
-		Draft releases are not automatically deployed to devices tracking the latest application
+		Draft releases are not automatically deployed to devices tracking the latest
 		release. For a draft release to be deployed to a device, the device should be
 		explicity pinned to that release. Conversely, final releases may trigger immediate
 		deployment to unpinned devices (subject to a device's  polling period) and, for
@@ -49,7 +49,7 @@ export default class ReleaseFinalizeCmd extends Command {
 		'$ balena release finalize 1234567',
 	];
 
-	public static usage = 'finalize <commitOrId>';
+	public static usage = 'release finalize <commitOrId>';
 
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,

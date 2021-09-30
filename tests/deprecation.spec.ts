@@ -54,10 +54,16 @@ describe('DeprecationChecker', function () {
 		Parameters<typeof mockStorage.set>,
 		ReturnType<typeof mockStorage.set>
 	>;
+	let originalUnsupported: string | undefined;
 
-	// see also DeprecationChecker.disable() in tests/config-tests.ts
-	this.beforeAll(() => DeprecationChecker.enable());
-	this.afterAll(() => DeprecationChecker.disable());
+	this.beforeAll(() => {
+		// Temporarily undo settings from `tests/config-tests.ts`
+		originalUnsupported = process.env.BALENARC_UNSUPPORTED;
+		delete process.env.BALENARC_UNSUPPORTED;
+	});
+	this.afterAll(() => {
+		process.env.BALENARC_UNSUPPORTED = originalUnsupported;
+	});
 
 	this.beforeEach(() => {
 		npm = new NpmMock();

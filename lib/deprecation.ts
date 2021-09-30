@@ -38,7 +38,6 @@ export interface ReleaseTimestampsByVersion {
  * https://jel.ly.fish/ed8d2395-9323-418c-bb67-d11d32a17d00
  */
 export class DeprecationChecker {
-	protected static disabled = false; // for the benefit of testing
 	readonly majorVersionFetchIntervalDays = 7;
 	readonly expiryDays = 365;
 	readonly deprecationDays = Math.ceil(this.expiryDays / 2);
@@ -131,7 +130,7 @@ or release date not available`);
 	 * `majorVersionFetchIntervalDays`.
 	 */
 	public async checkForNewReleasesIfNeeded() {
-		if (DeprecationChecker.disabled) {
+		if (process.env.BALENARC_UNSUPPORTED) {
 			return; // for the benefit of code testing
 		}
 		await this.init();
@@ -182,7 +181,7 @@ or release date not available`);
 	 * in which case warn about it and conditionally throw an error.
 	 */
 	public async warnAndAbortIfDeprecated() {
-		if (DeprecationChecker.disabled) {
+		if (process.env.BALENARC_UNSUPPORTED) {
 			return; // for the benefit of code testing
 		}
 		await this.init();
@@ -227,15 +226,5 @@ The --unsupported flag may be used to bypass this deprecation check and
 continue using this version of the CLI. However, note that the balenaCloud
 or openBalena backends may be updated in a way that is no longer compatible
 with this CLI version.`;
-	}
-
-	/** Disable deprecation checks (for the benefit of code testing). */
-	public static disable() {
-		DeprecationChecker.disabled = true;
-	}
-
-	/** Re-enable deprecation checks (for the benefit of code testing). */
-	public static enable() {
-		DeprecationChecker.disabled = false;
 	}
 }
