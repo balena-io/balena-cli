@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'README: add instructions for development build'
+      hash: a92db0f0685321b9d47a6a50d85eccda7b97233e
+      body: |
+        The readme currently only details how to install the CLI from a binary
+        package, not how to build the CLI for testing during development. Add
+        instructions for how to build and test changes.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Joseph Kogut <joseph@balena.io>
+        signed-off-by: Joseph Kogut <joseph@balena.io>
+      author: Joseph Kogut
+      nested: []
+  version: 12.50.2
+  date: 2021-10-01T19:35:32.290Z
+- commits:
     - subject: Update dependencies (@sentry/node error reporting)
       hash: 08dfc945f3ed1c518a7d1830a5a37d72fd5739fd
       body: ''
