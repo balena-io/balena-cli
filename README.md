@@ -20,6 +20,14 @@ GitHub](https://github.com/balena-io/balena-cli/), and your contribution is also
 Check the [balena CLI installation instructions on
 GitHub](https://github.com/balena-io/balena-cli/blob/master/INSTALL.md).
 
+## Development
+
+You can build the CLI for testing during development like so:
+
+`npm install && npm run build`
+
+After the build is completed, run `bin/balena` to test your changes.
+
 ## Choosing a shell (command prompt/terminal)
 
 On **Windows,** the standard Command Prompt (`cmd.exe`) and
