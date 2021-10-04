@@ -120,7 +120,7 @@ export class FleetRenameCmd extends Command {
 		} catch (e) {
 			// BalenaRequestError: Request error: "organization" and "app_name" must be unique.
 			if ((e.message || '').toLowerCase().includes('unique')) {
-				throw new ExpectedError(`Error: fleet ${params.fleet} already exists.`);
+				throw new ExpectedError(`Error: fleet ${newName} already exists.`);
 			}
 			throw e;
 		}
