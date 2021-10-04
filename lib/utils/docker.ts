@@ -105,7 +105,7 @@ export interface BuildOpts {
 	cachefrom?: string[];
 	nocache?: boolean;
 	pull?: boolean;
-	registryconfig?: import('resin-multibuild').RegistrySecrets;
+	registryconfig?: import('@balena/multibuild').RegistrySecrets;
 	squash?: boolean;
 	t?: string; // only the tag portion of the image name, e.g. 'abc' in 'myimg:abc'
 }
@@ -132,7 +132,7 @@ export function generateBuildOpts(options: {
 	'cache-from'?: string;
 	nocache: boolean;
 	pull?: boolean;
-	'registry-secrets'?: import('resin-multibuild').RegistrySecrets;
+	'registry-secrets'?: import('@balena/multibuild').RegistrySecrets;
 	squash: boolean;
 	tag?: string;
 }): BuildOpts {

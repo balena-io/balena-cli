@@ -27,7 +27,7 @@ import type {
 	Composition,
 	ImageDescriptor,
 } from '@balena/compose-parse';
-import type * as MultiBuild from 'resin-multibuild';
+import type * as MultiBuild from '@balena/multibuild';
 import type { Duplex, Readable } from 'stream';
 import type { Pack } from 'tar-stream';
 
@@ -336,7 +336,7 @@ async function $buildProject(
 	logger.logDebug('Prepared tasks; building...');
 
 	const { BALENA_ENGINE_TMP_PATH } = await import('../config');
-	const builder = await import('resin-multibuild');
+	const builder = await import('@balena/multibuild');
 
 	const builtImages = await builder.performBuilds(
 		tasks,
@@ -485,7 +485,7 @@ async function qemuTransposeBuildStream({
 	}
 
 	const transpose = await import('docker-qemu-transpose');
-	const { toPosixPath } = (await import('resin-multibuild')).PathUtils;
+	const { toPosixPath } = (await import('@balena/multibuild')).PathUtils;
 
 	const transposeOptions: TransposeOptions = {
 		hostQemuPath: toPosixPath(binPath),
@@ -786,7 +786,7 @@ async function newTarDirectory(
 		require('assert').strict.equal(nogitignore, true);
 	}
 	const { filterFilesWithDockerignore } = await import('./ignore');
-	const { toPosixPath } = (await import('resin-multibuild')).PathUtils;
+	const { toPosixPath } = (await import('@balena/multibuild')).PathUtils;
 
 	let readFile: (file: string) => Promise<Buffer>;
 	if (process.platform === 'win32') {
@@ -1010,7 +1010,7 @@ async function parseRegistrySecrets(
 			throw new ExpectedError('Filename must end with .json, .yml or .yaml');
 		}
 		const raw = (await fs.readFile(secretsFilename)).toString();
-		const multiBuild = await import('resin-multibuild');
+		const multiBuild = await import('@balena/multibuild');
 		const registrySecrets =
 			new multiBuild.RegistrySecretValidator().validateRegistrySecrets(
 				isYaml ? require('js-yaml').load(raw) : JSON.parse(raw),
@@ -1039,7 +1039,7 @@ export async function makeBuildTasks(
 	releaseHash: string = 'unavailable',
 	preprocessHook?: (dockerfile: string) => string,
 ): Promise<MultiBuild.BuildTask[]> {
-	const multiBuild = await import('resin-multibuild');
+	const multiBuild = await import('@balena/multibuild');
 	const buildTasks = await multiBuild.splitBuildStream(composition, tarStream);
 
 	logger.logDebug('Found build tasks:');
@@ -1085,7 +1085,7 @@ async function performResolution(
 	releaseHash: string,
 	preprocessHook?: (dockerfile: string) => string,
 ): Promise<MultiBuild.BuildTask[]> {
-	const multiBuild = await import('resin-multibuild');
+	const multiBuild = await import('@balena/multibuild');
 	const resolveListeners: MultiBuild.ResolveListeners = {};
 	const resolvePromise = new Promise<never>((_resolve, reject) => {
 		resolveListeners.error = [reject];
@@ -1150,7 +1150,7 @@ async function validateSpecifiedDockerfile(
 	dockerfilePath: string,
 ): Promise<string> {
 	const { contains, toNativePath, toPosixPath } = (
-		await import('resin-multibuild')
+		await import('@balena/multibuild')
 	).PathUtils;
 
 	const nativeProjectPath = path.normalize(projectPath);

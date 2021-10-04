@@ -16,3 +16,5 @@ upstream:
     url: 'https://github.com/balena-io-modules/etcher-sdk/'
   - repo: 'balena-compose-parse'
     url: 'https://github.com/balena-io-modules/balena-compose-parse'
+  - repo: 'balena-multibuild'
+    url: 'https://github.com/balena-io-modules/balena-multibuild'

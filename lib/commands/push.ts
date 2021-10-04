@@ -23,7 +23,7 @@ import { dockerignoreHelp, registrySecretsHelp } from '../utils/messages';
 import type { BalenaSDK } from 'balena-sdk';
 import { ExpectedError, instanceOf } from '../errors';
 import { isV13 } from '../utils/version';
-import { RegistrySecrets } from 'resin-multibuild';
+import { RegistrySecrets } from '@balena/multibuild';
 import { lowercaseIfSlug } from '../utils/normalization';
 import {
 	applyReleaseTagKeysAndValues,

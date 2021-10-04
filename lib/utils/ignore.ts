@@ -17,7 +17,7 @@
 import * as _ from 'lodash';
 import { promises as fs, Stats } from 'fs';
 import * as path from 'path';
-import * as MultiBuild from 'resin-multibuild';
+import * as MultiBuild from '@balena/multibuild';
 
 import dockerIgnore = require('@zeit/dockerignore');
 import ignore from 'ignore';

@@ -22,7 +22,7 @@ import Livepush, { ContainerNotRunningError } from 'livepush';
 import * as _ from 'lodash';
 import * as path from 'path';
 import type { Composition } from '@balena/compose-parse';
-import type { BuildTask } from 'resin-multibuild';
+import type { BuildTask } from '@balena/multibuild';
 
 import { instanceOf } from '../../errors';
 import Logger = require('../logger');

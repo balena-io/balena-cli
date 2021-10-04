@@ -19,7 +19,7 @@ import { expect } from 'chai';
 import * as _ from 'lodash';
 import { promises as fs } from 'fs';
 import * as path from 'path';
-import { PathUtils } from 'resin-multibuild';
+import { PathUtils } from '@balena/multibuild';
 import rewire = require('rewire');
 import * as sinon from 'sinon';
 import { Readable } from 'stream';
