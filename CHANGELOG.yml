@@ -1,4 +1,17 @@
 - commits:
+    - subject: Error message when renaming a fleet now mentions the target name.
+      hash: c493c33e3896784ee60c9d4ac79721ca6b96a778
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+      author: Carlo Miguel F. Cruz
+      nested: []
+  version: 12.50.2
+  date: 2021-10-05T10:31:02.691Z
+- commits:
     - subject: Update dependencies (@sentry/node error reporting)
       hash: 08dfc945f3ed1c518a7d1830a5a37d72fd5739fd
       body: ''
@@ -32,7 +45,7 @@
       author: Paulo Castro
       nested: []
   version: 12.50.1
-  date: 2021-09-30T00:50:19.435Z
+  date: 2021-09-30T00:16:32.368Z
 - commits:
     - subject: Add support for releases
       hash: a18e182ae425d273b68fdb230a5f308283e8b6f5
