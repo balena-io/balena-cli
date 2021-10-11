@@ -74,7 +74,6 @@ describe('detectEncoding() function', function () {
 			'node_modules/.bin/gulp',
 			'node_modules/.bin/tsc',
 			'node_modules/.bin/balena-lint',
-			'node_modules/.bin/balena-preload',
 			'node_modules/.bin/catch-uncommitted',
 		];
 
