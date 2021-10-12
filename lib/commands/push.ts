@@ -112,13 +112,15 @@ export default class PushCmd extends Command {
 		'',
 		'$ balena push 23c73a1.local --system',
 		'$ balena push 23c73a1.local --system --service my-service',
+		'',
+		'$ balena push 9f0cc5e4-0707-487c-ba84-edd0c36ff1c9',
 	];
 
 	public static args = [
 		{
 			name: 'fleetOrDevice',
 			description:
-				'fleet name or slug, or local device IP address or ".local" hostname',
+				'fleet name or slug, device UUID, or local device IP address or ".local" hostname',
 			required: true,
 			parse: lowercaseIfSlug,
 		},
@@ -315,7 +317,7 @@ export default class PushCmd extends Command {
 				break;
 
 			case BuildTarget.Device:
-				logger.logDebug(`Pushing to local device: ${params.fleetOrDevice}`);
+				logger.logDebug(`Pushing to device: ${params.fleetOrDevice}`);
 				await this.pushToDevice(
 					params.fleetOrDevice,
 					options,
@@ -442,9 +444,9 @@ export default class PushCmd extends Command {
 	}
 
 	protected async getBuildTarget(appOrDevice: string): Promise<BuildTarget> {
-		const { validateLocalHostnameOrIp } = await import('../utils/validation');
+		const { validateDeviceAddress } = await import('../utils/validation');
 
-		return validateLocalHostnameOrIp(appOrDevice)
+		return validateDeviceAddress(appOrDevice)
 			? BuildTarget.Device
 			: BuildTarget.Cloud;
 	}

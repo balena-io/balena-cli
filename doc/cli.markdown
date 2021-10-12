@@ -2913,12 +2913,14 @@ Examples:
 	
 	$ balena push 23c73a1.local --system
 	$ balena push 23c73a1.local --system --service my-service
+	
+	$ balena push 9f0cc5e4-0707-487c-ba84-edd0c36ff1c9
 
 ### Arguments
 
 #### FLEETORDEVICE
 
-fleet name or slug, or local device IP address or ".local" hostname
+fleet name or slug, device UUID, or local device IP address or ".local" hostname
 
 ### Options
 

@@ -40,7 +40,10 @@ import { DeviceAPI, DeviceInfo } from './api';
 import * as LocalPushErrors from './errors';
 import LivepushManager from './live';
 import { displayBuildLog } from './logs';
-import { stripIndent } from '../lazy';
+import { getBalenaSdk, stripIndent } from '../lazy';
+import { validateIPAddress } from '../validation';
+import { Server, Socket } from 'net';
+import { BalenaSDK, Device } from 'balena-sdk';
 
 const LOCAL_APPNAME = 'localapp';
 const LOCAL_RELEASEHASH = 'localrelease';
@@ -121,7 +124,110 @@ async function environmentFromInput(
 	return ret;
 }
 
+const logConnection = (
+	logger: Logger,
+	fromHost: string,
+	fromPort: number,
+	localAddress: string,
+	localPort: number,
+	deviceAddress: string,
+	devicePort: number,
+	err?: Error,
+) => {
+	const logMessage = `${fromHost}:${fromPort} => ${localAddress}:${localPort} ===> ${deviceAddress}:${devicePort}`;
+
+	if (err) {
+		logger.logError(`${logMessage} :: ${err.message}`);
+	} else {
+		logger.logLogs(logMessage);
+	}
+};
+
+async function openTunnel(
+	logger: Logger,
+	device: Device,
+	sdk: BalenaSDK,
+	port: number,
+): Promise<any> {
+	const localhost = 'localhost';
+	try {
+		const { tunnelConnectionToDevice } = await import('../tunnel');
+		const handler = await tunnelConnectionToDevice(device.uuid, port, sdk);
+
+		const { createServer } = await import('net');
+		const server = createServer(async (client: Socket) => {
+			try {
+				await handler(client);
+				logConnection(
+					logger,
+					client.remoteAddress || '',
+					client.remotePort || 0,
+					client.localAddress,
+					client.localPort,
+					device.vpn_address || '',
+					port,
+				);
+			} catch (err: any) {
+				logConnection(
+					logger,
+					client.remoteAddress || '',
+					client.remotePort || 0,
+					client.localAddress,
+					client.localPort,
+					device.vpn_address || '',
+					port,
+					err,
+				);
+			}
+		});
+
+		await new Promise<Server>((resolve, reject) => {
+			server.on('error', reject);
+			server.listen(port, localhost, () => {
+				resolve(server);
+			});
+		});
+
+		logger.logInfo(
+			` - tunnelling ${localhost}:${port} to ${device.uuid}:${port}`,
+		);
+
+		// opts.deviceHost = localhost;
+	} catch (err: any) {
+		logger.logWarn(
+			` - tunnel failed ${localhost}:${port} to ${
+				device.uuid
+			}:${port}, failed ${JSON.stringify(err.message)}`,
+		);
+	}
+}
+
 export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
+	// Can only communicate with device using IP if local
+	const isLocal =
+		opts.deviceHost.includes('.local') || validateIPAddress(opts.deviceHost)
+			? true
+			: false;
+	if (!isLocal) {
+		// 1. Open tunnel from remote device to localhost
+		// 2. Deploy to localhost
+		const logger = Logger.getLogger();
+		const sdk = getBalenaSdk();
+
+		// Ascertain device uuid
+		const { getOnlineTargetDeviceUuid } = await import('../patterns');
+		const uuid = await getOnlineTargetDeviceUuid(sdk, opts.deviceHost);
+		const device = await sdk.models.device.get(uuid);
+		logger.logInfo(`Opening a tunnel to ${device.uuid}...`);
+
+		await openTunnel(logger, device, sdk, 48484);
+		await openTunnel(logger, device, sdk, 2375);
+
+		logger.logInfo('Opened tunnels to supervisor and docker...');
+
+		opts.deviceHost = 'localhost';
+	}
+
 	// Resolve .local addresses to IP to avoid
 	// issue with Windows and rapid repeat lookups.
 	// see: https://github.com/balena-io/balena-cli/issues/1518
@@ -145,7 +251,7 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		throw new ExpectedError(stripIndent`
 			Could not communicate with device supervisor at address ${opts.deviceHost}:${port}.
 			Device may not have local mode enabled. Check with:
-			  balena device local-mode <device-uuid>
+			balena device local-mode <device-uuid>
 		`);
 	}
 

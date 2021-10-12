@@ -57,6 +57,10 @@ export function validateDotLocalUrl(input: string): boolean {
 	return DOTLOCAL_REGEX.test(input);
 }
 
+export function validateDeviceAddress(input: string): boolean {
+	return validateLocalHostnameOrIp(input) || validateUuid(input);
+}
+
 export function validateLocalHostnameOrIp(input: string): boolean {
 	return validateIPAddress(input) || validateDotLocalUrl(input);
 }
