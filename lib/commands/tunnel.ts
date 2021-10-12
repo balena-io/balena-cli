@@ -26,8 +26,6 @@ import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { lowercaseIfSlug } from '../utils/normalization';
 
-import type { Server, Socket } from 'net';
-
 interface FlagsDef {
 	port: string[];
 	help: void;
@@ -111,24 +109,6 @@ export default class TunnelCmd extends Command {
 		const logger = await Command.getLogger();
 		const sdk = getBalenaSdk();
 
-		const logConnection = (
-			fromHost: string,
-			fromPort: number,
-			localAddress: string,
-			localPort: number,
-			deviceAddress: string,
-			devicePort: number,
-			err?: Error,
-		) => {
-			const logMessage = `${fromHost}:${fromPort} => ${localAddress}:${localPort} ===> ${deviceAddress}:${devicePort}`;
-
-			if (err) {
-				logger.logError(`${logMessage} :: ${err.message}`);
-			} else {
-				logger.logLogs(logMessage);
-			}
-		};
-
 		if (options.port === undefined) {
 			throw new NoPortsDefinedError();
 		}
@@ -139,66 +119,22 @@ export default class TunnelCmd extends Command {
 		const device = await sdk.models.device.get(uuid);
 		logger.logInfo(`Opening a tunnel to ${device.uuid}...`);
 
+		const { openTunnel } = await import('../utils/tunnel');
 		const _ = await import('lodash');
 		const localListeners = _.chain(options.port)
 			.map((mapping) => {
 				return this.parsePortMapping(mapping);
 			})
 			.map(async ({ localPort, localAddress, remotePort }) => {
-				try {
-					const { tunnelConnectionToDevice } = await import('../utils/tunnel');
-					const handler = await tunnelConnectionToDevice(
-						device.uuid,
-						remotePort,
-						sdk,
-					);
-
-					const { createServer } = await import('net');
-					const server = createServer(async (client: Socket) => {
-						try {
-							await handler(client);
-							logConnection(
-								client.remoteAddress || '',
-								client.remotePort || 0,
-								client.localAddress,
-								client.localPort,
-								device.vpn_address || '',
-								remotePort,
-							);
-						} catch (err) {
-							logConnection(
-								client.remoteAddress || '',
-								client.remotePort || 0,
-								client.localAddress,
-								client.localPort,
-								device.vpn_address || '',
-								remotePort,
-								err,
-							);
-						}
-					});
-
-					await new Promise<Server>((resolve, reject) => {
-						server.on('error', reject);
-						server.listen(localPort, localAddress, () => {
-							resolve(server);
-						});
-					});
-
-					logger.logInfo(
-						` - tunnelling ${localAddress}:${localPort} to ${device.uuid}:${remotePort}`,
-					);
-
-					return true;
-				} catch (err) {
-					logger.logWarn(
-						` - not tunnelling ${localAddress}:${localPort} to ${
-							device.uuid
-						}:${remotePort}, failed ${JSON.stringify(err.message)}`,
-					);
-
-					return false;
-				}
+				const result = await openTunnel(
+					logger,
+					device,
+					sdk,
+					localPort,
+					localAddress,
+					remotePort,
+				);
+				return result;
 			})
 			.value();
 

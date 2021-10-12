@@ -113,7 +113,7 @@ export default class PushCmd extends Command {
 		'$ balena push 23c73a1.local --system',
 		'$ balena push 23c73a1.local --system --service my-service',
 		'',
-		'$ balena push 9f0cc5e4-0707-487c-ba84-edd0c36ff1c9',
+		'$ balena push 8dd2c780aad4dbd3455b5a9412e6e902',
 	];
 
 	public static args = [

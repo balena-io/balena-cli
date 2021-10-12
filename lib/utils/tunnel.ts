@@ -13,11 +13,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import type { BalenaSDK } from 'balena-sdk';
-import { Socket } from 'net';
+import type { BalenaSDK, Device } from 'balena-sdk';
+import { Server, Socket } from 'net';
 import * as tls from 'tls';
 import { TypedError } from 'typed-error';
 import { ExpectedError } from '../errors';
+import Logger = require('./logger');
 
 const PROXY_CONNECT_TIMEOUT_MS = 10000;
 
@@ -39,6 +40,90 @@ class RemoteSocketNotListening extends TypedError {
 		super(`Device is not listening on port ${port}`);
 	}
 }
+
+export const logConnection = (
+	logger: Logger,
+	fromHost: string,
+	fromPort: number,
+	localAddress: string,
+	localPort: number,
+	deviceAddress: string,
+	devicePort: number,
+	err?: Error,
+) => {
+	const logMessage = `${fromHost}:${fromPort} => ${localAddress}:${localPort} ===> ${deviceAddress}:${devicePort}`;
+
+	if (err) {
+		logger.logError(`${logMessage} :: ${err.message}`);
+	} else {
+		logger.logLogs(logMessage);
+	}
+};
+
+export const openTunnel = async (
+	logger: Logger,
+	device: Device,
+	sdk: BalenaSDK,
+	localPort: number,
+	localAddress: string,
+	remotePort: number,
+) => {
+	try {
+		const handler = await tunnelConnectionToDevice(
+			device.uuid,
+			remotePort,
+			sdk,
+		);
+
+		const { createServer } = await import('net');
+		const server = createServer(async (client: Socket) => {
+			try {
+				await handler(client);
+				logConnection(
+					logger,
+					client.remoteAddress || '',
+					client.remotePort || 0,
+					client.localAddress,
+					client.localPort,
+					device.vpn_address || '',
+					remotePort,
+				);
+			} catch (err: any) {
+				logConnection(
+					logger,
+					client.remoteAddress || '',
+					client.remotePort || 0,
+					client.localAddress,
+					client.localPort,
+					device.vpn_address || '',
+					remotePort,
+					err,
+				);
+			}
+		});
+
+		await new Promise<Server>((resolve, reject) => {
+			server.on('error', reject);
+			server.listen(localPort, localAddress, () => {
+				resolve(server);
+			});
+		});
+
+		logger.logInfo(
+			` - tunnelling ${localAddress}:${localPort} to ${device.uuid}:${remotePort}`,
+		);
+
+		return true;
+	} catch (err: any) {
+		logger.logWarn(
+			` - tunnel failed ${localAddress}:${localPort} to ${
+				device.uuid
+			}:${remotePort}, failed ${JSON.stringify(err.message)}`,
+		);
+
+		return false;
+	}
+};
 
 export const tunnelConnectionToDevice = (
 	uuid: string,
