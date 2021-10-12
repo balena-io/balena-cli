@@ -41,7 +41,7 @@ import * as LocalPushErrors from './errors';
 import LivepushManager from './live';
 import { displayBuildLog } from './logs';
 import { getBalenaSdk, stripIndent } from '../lazy';
-import { validateIPAddress } from '../validation';
+import { validateUuid } from '../validation';
 import { openTunnel } from '../tunnel';
 
 const LOCAL_APPNAME = 'localapp';
@@ -124,14 +124,8 @@ async function environmentFromInput(
 }
 
 export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
-	// Can only communicate with device using IP if local
-	const isLocal =
-		opts.deviceHost.includes('.local') || validateIPAddress(opts.deviceHost)
-			? true
-			: false;
-	if (!isLocal) {
-		// 1. Open tunnel from remote device to localhost
-		// 2. Deploy to localhost
+	// Set up tunnels for remote device
+	if (validateUuid(opts.deviceHost)) {
 		const logger = Logger.getLogger();
 		const sdk = getBalenaSdk();
 
@@ -139,11 +133,11 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		const { getOnlineTargetDeviceUuid } = await import('../patterns');
 		const uuid = await getOnlineTargetDeviceUuid(sdk, opts.deviceHost);
 		const device = await sdk.models.device.get(uuid);
-		logger.logInfo(`Opening a tunnel to ${device.uuid}...`);
+		logger.logInfo(`Opening tunnels to ${device.uuid}...`);
 
 		await openTunnel(logger, device, sdk, 48484, 'localhost', 48484);
 		await openTunnel(logger, device, sdk, 2375, 'localhost', 2375);
-		logger.logInfo('Opened tunnels to supervisor and docker...');
+		logger.logInfo(`Opened tunnels to ${device.uuid}...`);
 
 		opts.deviceHost = 'localhost';
 	}
