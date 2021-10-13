@@ -100,7 +100,7 @@ export default class InstanceInitCmd extends Command {
 			},
 			body: JSON.stringify({
 				name: 'balenaOS',
-				url: `https://api.balena-cloud.com/download?fileType=.gz&appId=${configFile.applicationId}&deviceType=qemux86-64`,
+				url: `https://api.balena-cloud.com/download?fileType=.gz&appId=1833771&deviceType=qemux86-64`,
 				distribution: 'Unknown',
 				region: 'nyc1',
 				description: 'balenaOS',
@@ -148,11 +148,15 @@ export default class InstanceInitCmd extends Command {
 				tags: [
 					'balenaOS'
 				]
-			})
+			}),
+			headers: {
+				authorization: `Bearer ${options.apiKey}`
+			}
 		})
 
 		responseBody = await res.json()
-		const createURL = responseBody.links.actions.filter((link: any) => link.rel === 'created')[0]
+		console.log(responseBody)
+		const createURL = responseBody.links.actions.filter((action: any) => action.rel === 'created')[0]
 		if (!createURL) {
 			console.error('Failed to get a create url!')
 		}
