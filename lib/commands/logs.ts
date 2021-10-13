@@ -116,7 +116,7 @@ export default class LogsCmd extends Command {
 		const { connectAndDisplayDeviceLogs, displayLogObject } = await import(
 			'../utils/device/logs'
 		);
-		const { validateIPAddress, validateDotLocalUrl } = await import(
+		const { validateDeviceAddress, validateUuid } = await import(
 			'../utils/validation'
 		);
 		const Logger = await import('../utils/logger');
@@ -143,20 +143,32 @@ export default class LogsCmd extends Command {
 			}
 		};
 
-		if (
-			validateIPAddress(params.device) ||
-			validateDotLocalUrl(params.device)
-		) {
+		if (validateDeviceAddress(params.device)) {
+			let deviceAddress = params.device;
+
+			// Set up tunnels to localhost for remote device
+			if (validateUuid(deviceAddress)) {
+				const { openTunnel } = await import('../utils/tunnel');
+				const { getOnlineTargetDeviceUuid } = await import('../utils/patterns');
+				const uuid = await getOnlineTargetDeviceUuid(balena, deviceAddress);
+				const device = await balena.models.device.get(uuid);
+				logger.logInfo(`Opening tunnels to ${deviceAddress}`);
+				await openTunnel(logger, device, balena, 48484, 'localhost', 48484);
+				// await openTunnel(logger, device, balena, 2375, 'localhost', 2375);
+				logger.logInfo(`Opened tunnels to ${deviceAddress}...`);
+				deviceAddress = '127.0.0.1';
+			}
+
 			// Logs from local device
 			const { DeviceAPI } = await import('../utils/device/api');
-			const deviceApi = new DeviceAPI(logger, params.device);
+			const deviceApi = new DeviceAPI(logger, deviceAddress);
 			logger.logDebug('Checking we can access device');
 			try {
 				await deviceApi.ping();
 			} catch (e) {
 				const { ExpectedError } = await import('../errors');
 				throw new ExpectedError(
-					`Cannot access device at address ${params.device}.  Device may not be in local mode.`,
+					`Cannot access device at address ${deviceAddress}.  Device may not be in local mode.`,
 				);
 			}
 
