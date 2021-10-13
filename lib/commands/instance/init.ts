@@ -100,7 +100,7 @@ export default class InstanceInitCmd extends Command {
 			},
 			body: JSON.stringify({
 				name: 'balenaOS',
-				url: `https://api.balena-cloud.com/download?fileType=.gz&appId=${configFile.applicationID}&deviceType=qemux86-64`,
+				url: `https://api.balena-cloud.com/download?fileType=.gz&appId=${configFile.applicationId}&deviceType=qemux86-64`,
 				distribution: 'Unknown',
 				region: 'nyc1',
 				description: 'balenaOS',
