@@ -135,8 +135,8 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 		const device = await sdk.models.device.get(uuid);
 		logger.logInfo(`Opening tunnels to ${device.uuid}...`);
 
-		await openTunnel(logger, device, sdk, 48484, 'localhost', 48484);
-		await openTunnel(logger, device, sdk, 2375, 'localhost', 2375);
+		await openTunnel(logger, device, sdk, 48484, 'localhost', '48484');
+		await openTunnel(logger, device, sdk, 2375, 'localhost', '2375');
 		logger.logInfo(`Opened tunnels to ${device.uuid}...`);
 
 		opts.deviceHost = 'localhost';

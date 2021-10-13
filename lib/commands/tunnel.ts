@@ -157,8 +157,8 @@ export default class TunnelCmd extends Command {
 		let localAddress = 'localhost';
 
 		// First element is always remotePort
-		const remotePort = parseInt(mappingElements[0], undefined);
-		let localPort = remotePort;
+		const remotePort = mappingElements[0];
+		let localPort = parseInt(remotePort, undefined);
 
 		if (mappingElements.length === 2) {
 			// [1] could be localAddress or localPort
@@ -176,7 +176,7 @@ export default class TunnelCmd extends Command {
 		}
 
 		// Validate results
-		if (!this.isValidPort(remotePort) || !this.isValidPort(localPort)) {
+		if (!this.isValidPort(localPort)) {
 			throw new InvalidPortMappingError(portMapping);
 		}
 

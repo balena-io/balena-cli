@@ -35,8 +35,8 @@ class UnableToConnectError extends TypedError {
 }
 
 class RemoteSocketNotListening extends TypedError {
-	public port: number;
-	constructor(port: number) {
+	public port: string;
+	constructor(port: string) {
 		super(`Device is not listening on port ${port}`);
 	}
 }
@@ -48,7 +48,7 @@ export const logConnection = (
 	localAddress: string,
 	localPort: number,
 	deviceAddress: string,
-	devicePort: number,
+	devicePort: string,
 	err?: Error,
 ) => {
 	const logMessage = `${fromHost}:${fromPort} => ${localAddress}:${localPort} ===> ${deviceAddress}:${devicePort}`;
@@ -66,7 +66,7 @@ export const openTunnel = async (
 	sdk: BalenaSDK,
 	localPort: number,
 	localAddress: string,
-	remotePort: number,
+	remotePort: string,
 ) => {
 	try {
 		const handler = await tunnelConnectionToDevice(
@@ -127,7 +127,7 @@ export const openTunnel = async (
 
 export const tunnelConnectionToDevice = (
 	uuid: string,
-	port: number,
+	port: string,
 	sdk: BalenaSDK,
 ) => {
 	return Promise.all([
@@ -172,7 +172,7 @@ const openPortThroughProxy = (
 	proxyPort: number,
 	proxyAuth: { user: string; password: string } | null,
 	deviceUuid: string,
-	devicePort: number,
+	devicePort: string,
 ) => {
 	const httpHeaders = [`CONNECT ${deviceUuid}.balena:${devicePort} HTTP/1.0`];
 

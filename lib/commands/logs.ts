@@ -153,7 +153,7 @@ export default class LogsCmd extends Command {
 				const uuid = await getOnlineTargetDeviceUuid(balena, deviceAddress);
 				const device = await balena.models.device.get(uuid);
 				logger.logInfo(`Opening tunnels to ${deviceAddress}`);
-				await openTunnel(logger, device, balena, 48484, 'localhost', 48484);
+				await openTunnel(logger, device, balena, 48484, 'localhost', '48484');
 				// await openTunnel(logger, device, balena, 2375, 'localhost', 2375);
 				logger.logInfo(`Opened tunnels to ${deviceAddress}...`);
 				deviceAddress = '127.0.0.1';
