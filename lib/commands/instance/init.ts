@@ -26,7 +26,6 @@ import * as fs from 'fs'
 import * as fetch from 'isomorphic-fetch'
 import * as cf from '../../utils/common-flags';
 import { flags } from '@oclif/command';
-import { uniqueId } from 'lodash';
 
 interface FlagsDef {
 	help: void;
@@ -114,7 +113,7 @@ export default class InstanceInitCmd extends Command {
 		let responseBody = await res.json()
 		const imageID = responseBody.image.id
 		do {
-			console.log('Checking image status...')
+			console.log('Waiting for image to be ready...')
 			await new Promise((r) => setTimeout(() => r(null), 2000)) // Sleep for 2 seconds
 			res = await fetch(`https://api.digitalocean.com/v2/images/${imageID}`, {
 				headers: {
@@ -139,7 +138,7 @@ export default class InstanceInitCmd extends Command {
 		res = await fetch('https://api.digitalocean.com/v2/droplets', {
 			method: 'POST',
 			body: JSON.stringify({
-				name: uniqueId(),
+				name: 'test-doprnifouieru',
 				region: 'nyc1',
 				size: 's-2vcpu-4gb',
 				image: imageID,
@@ -150,21 +149,22 @@ export default class InstanceInitCmd extends Command {
 				]
 			}),
 			headers: {
-				authorization: `Bearer ${options.apiKey}`
+				authorization: `Bearer ${options.apiKey}`,
+				'content-type': 'application/json'
 			}
 		})
 
 		responseBody = await res.json()
-		console.log(responseBody)
-		const createURL = responseBody.links.actions.filter((action: any) => action.rel === 'created')[0]
+		const createURL = responseBody.links.actions.filter((action: any) => action.rel === 'create')[0]
 		if (!createURL) {
-			console.error('Failed to get a create url!')
+			console.error('Failed to get a create check url! You will probably want to cleanup the image and droplet in your dashboard.')
+			return
 		}
 
 		do {
-			console.log('Checking droplet creation status...')
+			console.log('Wait for droplet to be created...')
 			await new Promise((r) => setTimeout(() => r(null), 2000)) // Sleep for 2 seconds
-			res = await fetch(createURL, {
+			res = await fetch(createURL.href, {
 				headers: {
 					authorization: `Bearer ${options.apiKey}`
 				}
