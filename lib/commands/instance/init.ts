@@ -27,7 +27,6 @@ import * as fetch from 'isomorphic-fetch'
 import * as cf from '../../utils/common-flags';
 import { flags } from '@oclif/command';
 import { uniqueId } from 'lodash';
-import { json } from 'body-parser';
 
 interface FlagsDef {
 	help: void;
