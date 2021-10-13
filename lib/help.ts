@@ -232,5 +232,6 @@ See: https://git.io/JRHUW#deprecation-policy`,
 		'join',
 		'leave',
 		'scan',
+		'instance',
 	];
 }
