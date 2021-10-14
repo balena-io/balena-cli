@@ -42,27 +42,25 @@ interface FlagsDef {
 	region?: string;
 	size?: string;
 	imageName?: string;
+	num?: number;
 }
 
 export default class InstanceInitCmd extends Command {
 	public static description = stripIndent`
-		Initialize an instance with balenaOS.
+		Initialize a new balenaOS device in the cloud.
 
-		Initialize a device by downloading the OS image of the specified fleet
-		and writing it to an SD Card.
+		This will upload a balenaOS image to your specific cloud provider (if it does not already exist), create a new cloud instance, and join it to the fleet with the provided config.json
 
-		If the --fleet option is omitted, it will be prompted for interactively.
+		Note: depending on the instance size this can take 5-15 minutes after image upload
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
 	`;
 
 	public static examples = [
-		'$ balena instance init',
-		'$ balena instance init --fleet MyFleet',
-		'$ balena instance init -f myorg/myfleet',
+		'$ balena instance init digitalocean config.json --apiKey <api key>',
 	];
 
-	public static usage = 'instance init';
+	public static usage = 'instance init <provider> <config.json path>';
 
 	public static args: Array<IArg<any>> = [
 		{
@@ -89,6 +87,9 @@ export default class InstanceInitCmd extends Command {
 		size: flags.string({
 			description: 'DigitalOcean droplet size',
 		}),
+		num: flags.integer({
+			description: 'Number of instances to create',
+		}),
 		imageName: flags.string({
 			description: 'custom image name',
 		})
@@ -98,7 +99,7 @@ export default class InstanceInitCmd extends Command {
 
 	public async run() {
 		const { args: params, flags: options } = this.parse<FlagsDef, { configFile: string, provider: string }>(InstanceInitCmd);
-		
+
 		if (!['do', 'digitalocean'].includes(params.provider)) {
 			console.error('Only DigitalOcean is supported as a provider, please use "do" or "digitalocean" as your provider positional argument.')
 			return
@@ -124,6 +125,7 @@ export default class InstanceInitCmd extends Command {
 		let res
 		let responseBody
 		let images = []
+		const num = options.num || 1
 
 		do {
 			res = await fetch(`https://api.digitalocean.com/v2/images?per_page=200&page=${page}`, {
@@ -196,13 +198,16 @@ export default class InstanceInitCmd extends Command {
 		responseBody = await res.json()
 
 		const sshKeyID = responseBody.ssh_keys[0].id
-		const randomDropletID = randomName()
+		const dropletNames = []
 
-		console.log('Creating droplet...')
+		for (let i = 0; i < num; i++) {
+			dropletNames.push(randomName())
+		}
+		console.log('Creating droplets', dropletNames.join(', '))
 		res = await fetch('https://api.digitalocean.com/v2/droplets', {
 			method: 'POST',
 			body: JSON.stringify({
-				name: randomDropletID,
+				names: dropletNames,
 				region: options.region || 'nyc1',
 				size: options.size || 's-2vcpu-4gb',
 				image: imageID,
@@ -217,24 +222,6 @@ export default class InstanceInitCmd extends Command {
 				'content-type': 'application/json'
 			}
 		})
-
-		responseBody = await res.json()
-		const createURL = responseBody.links.actions.filter((action: any) => action.rel === 'create')[0]
-		if (!createURL) {
-			console.error('Failed to get a create check url! You will probably want to cleanup the image and droplet in your dashboard.')
-			return
-		}
-
-		do {
-			console.log('Wait for droplet to be created...')
-			await new Promise((r) => setTimeout(() => r(null), 2000)) // Sleep for 2 seconds
-			res = await fetch(createURL.href, {
-				headers: {
-					authorization: `Bearer ${options.apiKey}`
-				}
-			})
-			responseBody = await res.json()
-		} while (responseBody.action.status !== 'completed')
 
 		console.log('Done! the device should show soon!')
 
