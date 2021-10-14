@@ -227,6 +227,31 @@ export default class InstanceInitCmd extends Command {
 				'content-type': 'application/json'
 			}
 		})
+		responseBody = await res.json()
+
+		const visuals = getVisuals();
+		const spinner = new visuals.Spinner(
+			`Waiting for droplets to be created`,
+		);
+
+		spinner.start();
+		// God tier code incoming
+		await Promise.all(responseBody.links.actions.map(async (action: any) => {
+			let respBody: any
+			do {
+				await new Promise((r) => setTimeout(() => r(null), 2000)) // Sleep for 2 seconds
+				const waitResp = await fetch(action.href, {
+					headers: {
+						authorization: `Bearer ${options.apiKey}`
+					}
+				})
+				respBody = await waitResp.json()
+				if (respBody.action.status === 'errored') {
+					throw new Error('Error creating droplet')
+				}
+			} while (respBody.action.status !== 'completed')
+		}))
+		spinner.stop();
 
 		console.log('Done! The device should appear in your Dashboard in a few minutes!')
 
