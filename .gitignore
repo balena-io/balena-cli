@@ -34,3 +34,5 @@
 /package-lock.json
 /resinrc.yml
 /tmp/
+
+config.json
