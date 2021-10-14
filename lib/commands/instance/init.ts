@@ -34,6 +34,7 @@ interface FlagsDef {
 	apiKey?: string;
 	region?: string;
 	size?: string;
+	imageName?: string;
 }
 
 export default class InstanceInitCmd extends Command {
@@ -68,8 +69,17 @@ export default class InstanceInitCmd extends Command {
 		help: cf.help,
 		v13: cf.v13,
 		apiKey: flags.string({
-			description: 'digitalocean api key',
+			description: 'DigitalOcean api key',
 		}),
+		region: flags.string({
+			description: 'DigitalOcean region',
+		}),
+		size: flags.string({
+			description: 'DigitalOcean droplet size',
+		}),
+		imageName: flags.string({
+			description: 'custom image name',
+		})
 	};
 
 	public static authenticated = true;
@@ -87,6 +97,17 @@ export default class InstanceInitCmd extends Command {
 
 		const configFile = JSON.parse(fs.readFileSync(params.configFile).toString())
 
+		console.log('Checking if image already exists...')
+
+		let res = await fetch('https://api.digitalocean.com/v2/images?per_page=200', {
+			headers: {
+				authorization: `Bearer ${options.apiKey}`
+			}
+		})
+
+		let responseBody = await res.json()
+		for (const )
+
 		console.log('Creating digitalocean image')
 
 		if (!options.apiKey) {
@@ -94,7 +115,7 @@ export default class InstanceInitCmd extends Command {
 		}
 
 		console.log('Uploading image...')
-		let res = await fetch('https://api.digitalocean.com/v2/images', {
+		res = await fetch('https://api.digitalocean.com/v2/images', {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json',
@@ -113,7 +134,7 @@ export default class InstanceInitCmd extends Command {
 		})
 		console.log('Image sent.')
 
-		let responseBody = await res.json()
+		responseBody = await res.json()
 		const imageID = responseBody.image.id
 		do {
 			console.log('Waiting for image to be ready...')
