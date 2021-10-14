@@ -17,7 +17,7 @@
 
 import { IArg } from '@oclif/parser/lib/args';
 import Command from '../../command';
-import { stripIndent } from '../../utils/lazy';
+import { stripIndent, getVisuals } from '../../utils/lazy';
 import {
 	applicationIdInfo,
 } from '../../utils/messages';
@@ -115,8 +115,6 @@ export default class InstanceInitCmd extends Command {
 
 		const configFile = JSON.parse(fs.readFileSync(params.configFile).toString())
 
-		console.log('Checking if image already exists...')
-
 		const imageName = options.imageName || 'balenaOS-qemux86-64'
 		let skipUpload = false
 		let imageID = 0
@@ -127,6 +125,8 @@ export default class InstanceInitCmd extends Command {
 		let images = []
 		const num = options.num || 1
 
+		console.log(`Checking if image '${imageName}' already exists...`)
+
 		do {
 			res = await fetch(`https://api.digitalocean.com/v2/images?per_page=200&page=${page}`, {
 				headers: {
@@ -134,10 +134,9 @@ export default class InstanceInitCmd extends Command {
 				}
 			})
 			responseBody = await res.json()
-			console.log(responseBody.images.length)
 			for (const image of responseBody.images) {
 				if (image.name === imageName) {
-					console.log('Image already exists, skipping upload.')
+					console.log('Image exists, skipping upload.')
 					skipUpload = true
 					imageID = image.id
 					break
@@ -148,13 +147,12 @@ export default class InstanceInitCmd extends Command {
 		} while (images.length === 200)
 
 		if (!skipUpload) {
-			console.log('Existing image with same name not found, creating digitalocean image...')
 
 			if (!options.apiKey) {
-				console.log('Missing digitalocean api key, please provide with --apiKey <api_key>')
+				console.log('DigitalOcean API key is required, please provide with --apiKey <api_key>')
 			}
 
-			console.log('Uploading image...')
+			console.log('Uploading image to DigitalOcean...')
 			res = await fetch('https://api.digitalocean.com/v2/images', {
 				method: 'POST',
 				headers: {
@@ -165,19 +163,25 @@ export default class InstanceInitCmd extends Command {
 					name: imageName,
 					url: `https://api.balena-cloud.com/download?fileType=.gz&appId=1833771&deviceType=qemux86-64`,
 					distribution: 'Unknown',
-					region: 'nyc1',
+					region: options.region || 'nyc1',
 					description: 'balenaOS custom image',
 					tags: [
 						'balenaOS'
 					]
 				})
 			})
-			console.log('Image sent.')
+			console.log('Image uploaded.')
+
+			const visuals = getVisuals();
+			const spinner = new visuals.Spinner(
+				`Waiting for image to be ready`,
+			);
 
 			responseBody = await res.json()
 			imageID = responseBody.image.id
+			spinner.start();
 			do {
-				console.log('Waiting for image to be ready...')
+				// console.log('Waiting for image to be ready...')
 				await new Promise((r) => setTimeout(() => r(null), 2000)) // Sleep for 2 seconds
 				res = await fetch(`https://api.digitalocean.com/v2/images/${imageID}`, {
 					headers: {
@@ -186,10 +190,11 @@ export default class InstanceInitCmd extends Command {
 				})
 				responseBody = await res.json()
 			} while (responseBody.image.status !== 'available')
-			console.log('Image available.')
+			// console.log('Image available.')
+			spinner.stop();
 		}
 
-		console.log('Getting ssh key info')
+		console.log('Getting DigitalOcean SSH keys...')
 		res = await fetch('https://api.digitalocean.com/v2/account/keys', {
 			headers: {
 				authorization: `Bearer ${options.apiKey}`
@@ -203,7 +208,7 @@ export default class InstanceInitCmd extends Command {
 		for (let i = 0; i < num; i++) {
 			dropletNames.push(randomName())
 		}
-		console.log('Creating droplets', dropletNames.join(', '))
+		console.log('Creating DigitalOcean droplets:', dropletNames.join(', '))
 		res = await fetch('https://api.digitalocean.com/v2/droplets', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -223,7 +228,7 @@ export default class InstanceInitCmd extends Command {
 			}
 		})
 
-		console.log('Done! the device should show soon!')
+		console.log('Done! The device should appear in your Dashboard in a few minutes!')
 
 	}
 }
