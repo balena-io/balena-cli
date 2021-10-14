@@ -99,54 +99,76 @@ export default class InstanceInitCmd extends Command {
 
 		console.log('Checking if image already exists...')
 
-		let res = await fetch('https://api.digitalocean.com/v2/images?per_page=200', {
-			headers: {
-				authorization: `Bearer ${options.apiKey}`
-			}
-		})
+		const imageName = options.imageName || 'balenaOS-qemux86-64'
+		let skipUpload = false
+		let imageID = 0
+		let page = 1
 
-		let responseBody = await res.json()
-		for (const )
+		let res
+		let responseBody
+		let images = []
 
-		console.log('Creating digitalocean image')
-
-		if (!options.apiKey) {
-			console.log('Missing digitalocean api key, please provide with --apiKey <api_key>')
-		}
-
-		console.log('Uploading image...')
-		res = await fetch('https://api.digitalocean.com/v2/images', {
-			method: 'POST',
-			headers: {
-				'content-type': 'application/json',
-				authorization: `Bearer ${options.apiKey}`
-			},
-			body: JSON.stringify({
-				name: 'balenaOS',
-				url: `https://api.balena-cloud.com/download?fileType=.gz&appId=1833771&deviceType=qemux86-64`,
-				distribution: 'Unknown',
-				region: 'nyc1',
-				description: 'balenaOS',
-				tags: [
-					'balenaOS'
-				]
-			})
-		})
-		console.log('Image sent.')
-
-		responseBody = await res.json()
-		const imageID = responseBody.image.id
 		do {
-			console.log('Waiting for image to be ready...')
-			await new Promise((r) => setTimeout(() => r(null), 2000)) // Sleep for 2 seconds
-			res = await fetch(`https://api.digitalocean.com/v2/images/${imageID}`, {
+			res = await fetch(`https://api.digitalocean.com/v2/images?per_page=200&page=${page}`, {
 				headers: {
 					authorization: `Bearer ${options.apiKey}`
 				}
 			})
 			responseBody = await res.json()
-		} while (responseBody.image.status !== 'available')
-		console.log('Image available.')
+			console.log(responseBody.images.length)
+			for (const image of responseBody.images) {
+				if (image.name === imageName) {
+					console.log('Image already exists, skipping upload.')
+					skipUpload = true
+					imageID = image.id
+					break
+				}
+			}
+			page++
+			images = responseBody.images
+		} while (images.length === 200)
+
+		if (!skipUpload) {
+			console.log('Existing image with same name not found, creating digitalocean image...')
+
+			if (!options.apiKey) {
+				console.log('Missing digitalocean api key, please provide with --apiKey <api_key>')
+			}
+
+			console.log('Uploading image...')
+			res = await fetch('https://api.digitalocean.com/v2/images', {
+				method: 'POST',
+				headers: {
+					'content-type': 'application/json',
+					authorization: `Bearer ${options.apiKey}`
+				},
+				body: JSON.stringify({
+					name: imageName,
+					url: `https://api.balena-cloud.com/download?fileType=.gz&appId=1833771&deviceType=qemux86-64`,
+					distribution: 'Unknown',
+					region: 'nyc1',
+					description: 'balenaOS custom image',
+					tags: [
+						'balenaOS'
+					]
+				})
+			})
+			console.log('Image sent.')
+
+			responseBody = await res.json()
+			imageID = responseBody.image.id
+			do {
+				console.log('Waiting for image to be ready...')
+				await new Promise((r) => setTimeout(() => r(null), 2000)) // Sleep for 2 seconds
+				res = await fetch(`https://api.digitalocean.com/v2/images/${imageID}`, {
+					headers: {
+						authorization: `Bearer ${options.apiKey}`
+					}
+				})
+				responseBody = await res.json()
+			} while (responseBody.image.status !== 'available')
+			console.log('Image available.')
+		}
 
 		console.log('Getting ssh key info')
 		res = await fetch('https://api.digitalocean.com/v2/account/keys', {
