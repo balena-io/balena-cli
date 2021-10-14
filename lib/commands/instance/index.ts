@@ -16,6 +16,7 @@
  */
 
 import { flags } from '@oclif/command';
+import { IArg } from '@oclif/parser/lib/args';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { stripIndent } from '../../utils/lazy';
@@ -25,13 +26,23 @@ interface FlagsDef {
 	v13: boolean;
 }
 
+
 export default class InstanceCmd extends Command {
+	public static args: Array<IArg<any>> = [
+		{
+			name: 'provider',
+			description: 'the cloud provider',
+			required: true,
+		},
+	];
+
+
 	public static description = stripIndent`
 		Initialize a new cloud instance running balenaOS
 
 		A config.json must first be generated using the 'balena config generate' command
 		`;
-	public static examples = ['$ balena instance init'];
+	public static examples = ['$ balena instance init digitalocean'];
 
 	public static usage = 'instance [COMMAND]';
 

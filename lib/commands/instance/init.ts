@@ -66,6 +66,11 @@ export default class InstanceInitCmd extends Command {
 
 	public static args: Array<IArg<any>> = [
 		{
+			name: 'provider',
+			description: 'the cloud provider: do | digitalocean | aws | gcp',
+			required: true,
+		},
+		{
 			name: 'configFile',
 			description: 'the config.json file path',
 			required: true,
@@ -92,7 +97,12 @@ export default class InstanceInitCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, { configFile: string }>(InstanceInitCmd);
+		const { args: params, flags: options } = this.parse<FlagsDef, { configFile: string, provider: string }>(InstanceInitCmd);
+		
+		if (!['do', 'digitalocean'].includes(params.provider)) {
+			console.error('Only DigitalOcean is supported as a provider, please use "do" or "digitalocean" as your provider positional argument.')
+			return
+		}
 
 		// Check if the config file exists
 		console.log('Reading config file')
