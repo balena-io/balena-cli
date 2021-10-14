@@ -26,11 +26,14 @@ import * as fs from 'fs'
 import * as fetch from 'isomorphic-fetch'
 import * as cf from '../../utils/common-flags';
 import { flags } from '@oclif/command';
+import { nanoid } from 'nanoid/non-secure';
 
 interface FlagsDef {
 	help: void;
 	v13: boolean;
 	apiKey?: string;
+	region?: string;
+	size?: string;
 }
 
 export default class InstanceInitCmd extends Command {
@@ -133,14 +136,15 @@ export default class InstanceInitCmd extends Command {
 		responseBody = await res.json()
 
 		const sshKeyID = responseBody.ssh_keys[0].id
+		const randomDropletID = nanoid()
 
 		console.log('Creating droplet...')
 		res = await fetch('https://api.digitalocean.com/v2/droplets', {
 			method: 'POST',
 			body: JSON.stringify({
-				name: 'test-doprnifouieru',
-				region: 'nyc1',
-				size: 's-2vcpu-4gb',
+				name: randomDropletID,
+				region: options.region || 'nyc1',
+				size: options.size || 's-2vcpu-4gb',
 				image: imageID,
 				ssh_keys: [sshKeyID],
 				user_data: JSON.stringify(configFile),
