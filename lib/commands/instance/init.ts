@@ -26,7 +26,14 @@ import * as fs from 'fs'
 import * as fetch from 'isomorphic-fetch'
 import * as cf from '../../utils/common-flags';
 import { flags } from '@oclif/command';
-import { nanoid } from 'nanoid/non-secure';
+import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-generator'
+
+function randomName() {
+	return uniqueNamesGenerator({
+		dictionaries: [adjectives, colors, animals],
+		separator: '-'
+	})
+}
 
 interface FlagsDef {
 	help: void;
@@ -179,7 +186,7 @@ export default class InstanceInitCmd extends Command {
 		responseBody = await res.json()
 
 		const sshKeyID = responseBody.ssh_keys[0].id
-		const randomDropletID = nanoid()
+		const randomDropletID = randomName()
 
 		console.log('Creating droplet...')
 		res = await fetch('https://api.digitalocean.com/v2/droplets', {

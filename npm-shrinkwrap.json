@@ -12439,11 +12439,6 @@
       "resolved": "https://registry.npmjs.org/nan/-/nan-2.14.1.tgz",
       "integrity": "sha512-isWHgVjnFjh2x2yuJ/tj3JbwoHu3UC2dX5G/88Cm24yB6YopVgxvBObDY7n5xW6ExmFhJpSEQqFPvq9zaXc8Jw=="
     },
-    "nanoid": {
-      "version": "3.1.30",
-      "resolved": "https://registry.npmjs.org/nanoid/-/nanoid-3.1.30.tgz",
-      "integrity": "sha512-zJpuPDwOv8D2zq2WRoMe1HsfZthVewpel9CAvTfc/2mBD1uUT/agc5f7GHGWXlYkFvi1mVxe4IjvP2HNrop7nQ=="
-    },
     "nanomatch": {
       "version": "1.2.13",
       "resolved": "https://registry.npmjs.org/nanomatch/-/nanomatch-1.2.13.tgz",
@@ -18096,6 +18091,11 @@
         "is-extendable": "^0.1.1",
         "set-value": "^2.0.1"
       }
+    },
+    "unique-names-generator": {
+      "version": "4.6.0",
+      "resolved": "https://registry.npmjs.org/unique-names-generator/-/unique-names-generator-4.6.0.tgz",
+      "integrity": "sha512-m0fke1emBeT96UYn2psPQYwljooDWRTKt9oUZ5vlt88ZFMBGxqwPyLHXwCfkbgdm8jzioCp7oIpo6KdM+fnUlQ=="
     },
     "unique-stream": {
       "version": "2.3.1",

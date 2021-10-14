@@ -253,7 +253,6 @@
     "minimatch": "^3.0.4",
     "moment": "^2.27.0",
     "moment-duration-format": "^2.3.2",
-    "nanoid": "^3.1.30",
     "ndjson": "^2.0.0",
     "net-keepalive": "^3.0.0",
     "node-cleanup": "^2.1.2",
@@ -284,6 +283,7 @@
     "through2": "^2.0.3",
     "tmp": "^0.2.1",
     "typed-error": "^3.2.1",
+    "unique-names-generator": "^4.6.0",
     "update-notifier": "^4.1.0",
     "which": "^2.0.2",
     "window-size": "^1.1.0"
