@@ -15440,9 +15440,9 @@
       }
     },
     "resin-compose-parse": {
-      "version": "2.1.3",
-      "resolved": "https://registry.npmjs.org/resin-compose-parse/-/resin-compose-parse-2.1.3.tgz",
-      "integrity": "sha512-X5WQo+OHoPe+FV8JliGzSIL4glLX0PPFvtnopppYef1UqKcJm+GHaiEZBOj3C7vIEDqQrsNrKXY/BpadlOFiWA==",
+      "version": "2.3.0",
+      "resolved": "https://registry.npmjs.org/resin-compose-parse/-/resin-compose-parse-2.3.0.tgz",
+      "integrity": "sha512-9vE+ascGEXuyTYjLmhwmVOYNkws99Cq7/RtUrgT8VCYJRuhqZMpGMOJPrjEIF6PvsBY7B6+u32x1HPCR4gWHBQ==",
       "requires": {
         "@types/lodash": "^4.14.86",
         "@types/node": "^8.0.55",
