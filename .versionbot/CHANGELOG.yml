@@ -1,4 +1,20 @@
 - commits:
+    - subject: Update resin-compose-parse from 2.1.3 to 2.3.0
+      hash: 9b6fb62e4f9e206c2c51cf5b386580e0af8dc723
+      body: |
+        This adds support for Docker compose v2.4
+      footer:
+        Closes: '#2364'
+        closes: '#2364'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Tomás Migone <tomas@balena.io>
+        signed-off-by: Tomás Migone <tomas@balena.io>
+      author: Tomás Migone
+      nested: []
+  version: 12.50.3
+  date: 2021-10-19T20:02:16.327Z
+- commits:
     - subject: Error message when renaming a fleet now mentions the target name.
       hash: c493c33e3896784ee60c9d4ac79721ca6b96a778
       body: ''
