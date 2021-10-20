@@ -5,6 +5,111 @@
     {
       "commits": [
         {
+          "subject": "preload: Avoid possible ValueError when parsing storage driver",
+          "hash": "48053ecefc00e451f3ee5c9b82b2b398978ec229",
+          "body": "Update balena-preload from 10.5.0 to 11.0.0\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+            "signed-off-by": "Kyle Harding <kyle@balena.io>"
+          },
+          "author": "Kyle Harding",
+          "nested": [
+            {
+              "commits": [
+                {
+                  "subject": "Avoid creating multiple preload containers",
+                  "hash": "6b5b6428833ce2cd5c53c2051d6f515f1b3e4c37",
+                  "body": "This was only caught when we started correctly naming\nthe preload container by switching from `Name` to `name` in\nour createContainer options.\n\nPreviously we were creating two containers but they had unique\nrandom names so we never saw the conflict.\n",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch",
+                    "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+                    "signed-off-by": "Kyle Harding <kyle@balena.io>"
+                  },
+                  "author": "Kyle Harding",
+                  "nested": []
+                },
+                {
+                  "subject": "major: Remove balena-preload script in favor of use with CLI",
+                  "hash": "7de06434155913b199024683e62c85e94f1d1cb1",
+                  "body": "",
+                  "footer": {
+                    "Signed-off-by": "Lorenzo Alberto Maria Ambrosi <lorenzothunder.ambrosi@gmail.com>",
+                    "signed-off-by": "Lorenzo Alberto Maria Ambrosi <lorenzothunder.ambrosi@gmail.com>"
+                  },
+                  "author": "Lorenzo Alberto Maria Ambrosi",
+                  "nested": []
+                },
+                {
+                  "subject": "Fix missing 'await' for getEdisonPartitions()",
+                  "hash": "9a2ebfdb2a5375304ee5cf2ba6321b93f93886ed",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch"
+                  },
+                  "author": "Paulo Castro",
+                  "nested": []
+                },
+                {
+                  "subject": "Add extra type information (refactor bind mount array)",
+                  "hash": "5b8d21e68d9da902f7304a210cb1abe22420d1d0",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch"
+                  },
+                  "author": "Paulo Castro",
+                  "nested": []
+                },
+                {
+                  "subject": "Run linter",
+                  "hash": "456c727e6518317588b31e28ffb734377fb85e76",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch"
+                  },
+                  "author": "Paulo Castro",
+                  "nested": []
+                },
+                {
+                  "subject": "major: Convert to typescript",
+                  "hash": "ce241be0a780bdff87f4513e4d5a0ec63d72ac7e",
+                  "body": "",
+                  "footer": {
+                    "Signed-off-by": "Lorenzo Alberto Maria Ambrosi <lorenzothunder.ambrosi@gmail.com>",
+                    "signed-off-by": "Lorenzo Alberto Maria Ambrosi <lorenzothunder.ambrosi@gmail.com>"
+                  },
+                  "author": "Lorenzo Alberto Maria Ambrosi",
+                  "nested": []
+                },
+                {
+                  "subject": "patch: Fix incorrect python List index check",
+                  "hash": "85d404000ac6e9b4ac83ce1feed33789deca182b",
+                  "body": "",
+                  "footer": {
+                    "Signed-off-by": "Lorenzo Alberto Maria Ambrosi <lorenzothunder.ambrosi@gmail.com>",
+                    "signed-off-by": "Lorenzo Alberto Maria Ambrosi <lorenzothunder.ambrosi@gmail.com>"
+                  },
+                  "author": "Lorenzo Alberto Maria Ambrosi",
+                  "nested": []
+                }
+              ],
+              "version": "balena-preload-11.0.0",
+              "date": "2021-10-13T18:20:43.867Z"
+            }
+          ]
+        }
+      ],
+      "version": "12.50.3",
+      "date": "2021-10-20T15:30:14.694Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Error message when renaming a fleet now mentions the target name.",
           "hash": "c493c33e3896784ee60c9d4ac79721ca6b96a778",
           "body": "",
@@ -23905,7 +24010,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 341,
+  "stars": 346,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -24009,43 +24114,63 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-10-05T10:32:02Z",
+  "lastCommitDate": "2021-10-20T16:33:37Z",
   "latestRelease": {
-    "tagName": "v12.50.2",
+    "tagName": "v12.50.3",
     "asssets": [
       {
-        "name": "balena-cli-v12.50.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.2/balena-cli-v12.50.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.50.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.3/balena-cli-v12.50.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.50.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.2/balena-cli-v12.50.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.50.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.3/balena-cli-v12.50.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.50.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.2/balena-cli-v12.50.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.50.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.3/balena-cli-v12.50.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.50.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.2/balena-cli-v12.50.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.50.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.3/balena-cli-v12.50.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.50.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.2/balena-cli-v12.50.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.50.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.3/balena-cli-v12.50.3-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 346,
+    "numberOfIssues": 351,
     "latestIssues": [
+      {
+        "title": "Add support for YAML anchors and aliases",
+        "url": "https://github.com/balena-io/balena-cli/pull/2367"
+      },
+      {
+        "title": "tunnel: \"500 Internal Server Error\" when connecting to remote port bound to 127.0.0.1",
+        "url": "https://github.com/balena-io/balena-cli/issues/2366"
+      },
+      {
+        "title": "Update resin-compose-parse from 2.1.3 to 2.3.0",
+        "url": "https://github.com/balena-io/balena-cli/pull/2365"
+      },
+      {
+        "title": "Update resin-compose-parse version to 2.3.0",
+        "url": "https://github.com/balena-io/balena-cli/issues/2364"
+      },
+      {
+        "title": "preload should retry balena API requests and print clearer BalenaRequestError messages",
+        "url": "https://github.com/balena-io/balena-cli/issues/2363"
+      },
+      {
+        "title": "[FEATURE] `balena login` automatically logs in with API Key Environment Variable",
+        "url": "https://github.com/balena-io/balena-cli/issues/2361"
+      },
       {
         "title": "Update resin-multibuild to 4.13.0",
         "url": "https://github.com/balena-io/balena-cli/pull/2358"
-      },
-      {
-        "title": "README: add instructions for development build",
-        "url": "https://github.com/balena-io/balena-cli/pull/2356"
       },
       {
         "title": "Make multi-dockerignore the default and/or a configuration option",
@@ -24098,30 +24223,10 @@
       {
         "title": "Add way to specify release version with using `balena push` [Enhancement request]",
         "url": "https://github.com/balena-io/balena-cli/issues/2336"
-      },
-      {
-        "title": "preload: TypeError: Cannot destructure property __id of 'undefined' or 'null'",
-        "url": "https://github.com/balena-io/balena-cli/issues/2335"
-      },
-      {
-        "title": "os versions, os download: Add support for balenaOS ESR versions",
-        "url": "https://github.com/balena-io/balena-cli/pull/2334"
-      },
-      {
-        "title": "push to local device: \"ECONNRESET: socket hang up\" and process exits with non-zero error code",
-        "url": "https://github.com/balena-io/balena-cli/issues/2330"
-      },
-      {
-        "title": "[openBalena, balenaMachine] User would like to run `balena fleet create` in an air-gapped (no internet) environment",
-        "url": "https://github.com/balena-io/balena-cli/issues/2322"
-      },
-      {
-        "title": "avoid using `fstype` from the device-type v1 endpoint",
-        "url": "https://github.com/balena-io/balena-cli/issues/2321"
       }
     ]
   },
-  "version": "12.50.2",
+  "version": "12.50.3",
   "screenshot": null,
   "logo": null
 }
