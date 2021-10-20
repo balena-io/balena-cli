@@ -1,4 +1,97 @@
 - commits:
+    - subject: 'preload: Avoid possible ValueError when parsing storage driver'
+      hash: 48053ecefc00e451f3ee5c9b82b2b398978ec229
+      body: |
+        Update balena-preload from 10.5.0 to 11.0.0
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested:
+        - commits:
+            - subject: Avoid creating multiple preload containers
+              hash: 6b5b6428833ce2cd5c53c2051d6f515f1b3e4c37
+              body: |
+                This was only caught when we started correctly naming
+                the preload container by switching from `Name` to `name` in
+                our createContainer options.
+
+                Previously we were creating two containers but they had unique
+                random names so we never saw the conflict.
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Kyle Harding <kyle@balena.io>
+                signed-off-by: Kyle Harding <kyle@balena.io>
+              author: Kyle Harding
+              nested: []
+            - subject: 'major: Remove balena-preload script in favor of use with CLI'
+              hash: 7de06434155913b199024683e62c85e94f1d1cb1
+              body: ''
+              footer:
+                Signed-off-by: >-
+                  Lorenzo Alberto Maria Ambrosi
+                  <lorenzothunder.ambrosi@gmail.com>
+                signed-off-by: >-
+                  Lorenzo Alberto Maria Ambrosi
+                  <lorenzothunder.ambrosi@gmail.com>
+              author: Lorenzo Alberto Maria Ambrosi
+              nested: []
+            - subject: Fix missing 'await' for getEdisonPartitions()
+              hash: 9a2ebfdb2a5375304ee5cf2ba6321b93f93886ed
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Paulo Castro
+              nested: []
+            - subject: Add extra type information (refactor bind mount array)
+              hash: 5b8d21e68d9da902f7304a210cb1abe22420d1d0
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Paulo Castro
+              nested: []
+            - subject: Run linter
+              hash: 456c727e6518317588b31e28ffb734377fb85e76
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Paulo Castro
+              nested: []
+            - subject: 'major: Convert to typescript'
+              hash: ce241be0a780bdff87f4513e4d5a0ec63d72ac7e
+              body: ''
+              footer:
+                Signed-off-by: >-
+                  Lorenzo Alberto Maria Ambrosi
+                  <lorenzothunder.ambrosi@gmail.com>
+                signed-off-by: >-
+                  Lorenzo Alberto Maria Ambrosi
+                  <lorenzothunder.ambrosi@gmail.com>
+              author: Lorenzo Alberto Maria Ambrosi
+              nested: []
+            - subject: 'patch: Fix incorrect python List index check'
+              hash: 85d404000ac6e9b4ac83ce1feed33789deca182b
+              body: ''
+              footer:
+                Signed-off-by: >-
+                  Lorenzo Alberto Maria Ambrosi
+                  <lorenzothunder.ambrosi@gmail.com>
+                signed-off-by: >-
+                  Lorenzo Alberto Maria Ambrosi
+                  <lorenzothunder.ambrosi@gmail.com>
+              author: Lorenzo Alberto Maria Ambrosi
+              nested: []
+          version: balena-preload-11.0.0
+          date: 2021-10-13T18:20:43.867Z
+  version: 12.50.3
+  date: 2021-10-20T15:30:14.694Z
+- commits:
     - subject: Error message when renaming a fleet now mentions the target name.
       hash: c493c33e3896784ee60c9d4ac79721ca6b96a778
       body: ''
