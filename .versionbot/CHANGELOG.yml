@@ -1,4 +1,118 @@
 - commits:
+    - subject: Update balena-compose-parse to v3.0.0
+      hash: 6b900e5227ad3152925207f524f92fd279dd5b60
+      body: |
+        Update balena-compose-parse from v2.1.3 to v3.0.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Akis Kesoglou
+      nested:
+        - commits:
+            - subject: Rename to balena-compose-parse
+              hash: 06a6b8af7bc9beb38c2185892ff0a84f88cc71b6
+              body: ''
+              footer:
+                Change-type: major
+                change-type: major
+                Signed-off-by: Robert Günzler <robertg@balena.io>
+                signed-off-by: Robert Günzler <robertg@balena.io>
+              author: Robert Günzler
+          version: balena-compose-parse-3.0.0
+          date: 2021-10-22T14:04:42.462Z
+        - commits:
+            - subject: Annotate service validation errors with their service name
+              hash: 9b668fd34185a14f94b85b95bb9f260315ee95d9
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Akis Kesoglou
+            - subject: Add partial support for long form of `depends_on`
+              hash: 70e7460677e04a46cdf571a8d68b4bee74565bb5
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Akis Kesoglou
+            - subject: Only track latest version of each major compose version
+              hash: a80077fa4b86883cd2a37267ceb4518e41e8a2b0
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Akis Kesoglou
+          version: balena-compose-parse-2.4.0
+          date: 2021-10-22T12:44:27.047Z
+        - commits:
+            - subject: Support compose version 2.4
+              hash: 1193a1f788ee4b6fbdd1deea59b9e1f30e334f9a
+              body: >
+                Bumps the supported compose version to the most recent v2
+                release.
+
+                The new properties include:
+                  * long volume syntax (new default internal representation of volume
+                    references)
+                  * more build config fields (including `target`)
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Robert Günzler <robertg@balena.io>
+                signed-off-by: Robert Günzler <robertg@balena.io>
+              author: Robert Günzler
+          version: balena-compose-parse-2.3.0
+          date: 2021-09-27T15:08:05.514Z
+        - commits:
+            - subject: Support for env_file tags in composition
+              hash: 2c562e024a0f9e521e93918c07ee8320348cc402
+              body: |
+                Reads and normalizes env_file tag files from
+                composition.
+                Reads env_files from project dir and
+                generates a composition with expanded context.
+                Added interface to call normalize with a callback
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: fisehara <harald@balena.io>
+                signed-off-by: fisehara <harald@balena.io>
+              author: fisehara
+          version: balena-compose-parse-2.2.0
+          date: 2021-08-10T18:34:25.982Z
+        - commits:
+            - subject: Drop circle ci checks
+              hash: cc6308168569c2e2aac88192d3e09495ade378cb
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Robert Günzler <robertg@balena.io>
+                signed-off-by: Robert Günzler <robertg@balena.io>
+              author: Robert Günzler
+          version: balena-compose-parse-2.1.4
+          date: 2021-06-30T12:51:34.697Z
+    - subject: Add support for YAML anchors and aliases in 'docker-compose.yml'
+      hash: 8e712ac91055c4efde885854488000a27c6b483d
+      body: >
+        This allows project files to define services from generic fragments by
+        leveraging YAML's anchors and aliases. See here for an example:
+        https://github.com/compose-spec/compose-spec/blob/43f6537b2c8f01b6d3f0e184d13a0f3cb93d38d7/spec.md#fragments
+
+
+        Removing the FAILSAFE_SCHEMA flag is not expected to break existing
+        project files, since the default behaviour is more liberal, or cause
+        problems down the road given we perform validation immediately after.
+        Docs for the flag:
+        https://github.com/nodeca/js-yaml#load-string---options-
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: dfunckt
+      nested: []
+  version: 12.51.0
+  date: 2021-10-22T17:12:51.716Z
+- commits:
     - subject: 'preload: Avoid possible ValueError when parsing storage driver'
       hash: 48053ecefc00e451f3ee5c9b82b2b398978ec229
       body: |
