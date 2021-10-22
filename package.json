@@ -29,7 +29,7 @@
       "node_modules/balena-sdk/es2018/index.js",
       "node_modules/balena-sync/build/**/*.js",
       "node_modules/pinejs-client-request/node_modules/pinejs-client-core/es2018/index.js",
-      "node_modules/resin-compose-parse/build/schemas/*.json"
+      "node_modules/@balena/compose-parse/build/schemas/*.json"
     ],
     "assets": [
       "build/auth/pages/*.ejs",
@@ -194,6 +194,7 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
+    "@balena/compose-parse": "^3.0.0",
     "@balena/dockerignore": "^1.0.2",
     "@balena/es-version": "^1.0.0",
     "@oclif/command": "^1.8.0",
@@ -209,7 +210,7 @@
     "balena-image-fs": "^7.0.6",
     "balena-image-manager": "^7.1.0",
     "balena-preload": "^11.0.0",
-    "balena-release": "^3.2.0",
+    "balena-release": "^3.3.0",
     "balena-sdk": "^15.51.1",
     "balena-semver": "^2.3.0",
     "balena-settings-client": "^4.0.7",
@@ -265,7 +266,6 @@
     "request": "^2.88.2",
     "resin-cli-form": "^2.0.2",
     "resin-cli-visuals": "^1.8.0",
-    "resin-compose-parse": "^2.1.3",
     "resin-doodles": "^0.1.1",
     "resin-multibuild": "^4.12.2",
     "resin-stream-logger": "^0.1.2",

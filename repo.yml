@@ -14,5 +14,5 @@ upstream:
     url: 'https://github.com/balena-io-modules/balena-sync'
   - repo: 'etcher-sdk'
     url: 'https://github.com/balena-io-modules/etcher-sdk/'
-  - repo: 'resin-compose-parse'
-    url: 'https://github.com/balena-io-modules/resin-compose-parse'
+  - repo: 'balena-compose-parse'
+    url: 'https://github.com/balena-io-modules/balena-compose-parse'

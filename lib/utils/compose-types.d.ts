@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import type { Composition, ImageDescriptor } from 'resin-compose-parse';
+import type { Composition, ImageDescriptor } from '@balena/compose-parse';
 import type { Pack } from 'tar-stream';
 
 interface Image {

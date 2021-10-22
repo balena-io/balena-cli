@@ -26,7 +26,7 @@ import type {
 	BuildConfig,
 	Composition,
 	ImageDescriptor,
-} from 'resin-compose-parse';
+} from '@balena/compose-parse';
 import type * as MultiBuild from 'resin-multibuild';
 import type { Duplex, Readable } from 'stream';
 import type { Pack } from 'tar-stream';
@@ -120,7 +120,7 @@ export async function loadProject(
 	image?: string,
 	imageTag?: string,
 ): Promise<ComposeProject> {
-	const compose = await import('resin-compose-parse');
+	const compose = await import('@balena/compose-parse');
 	const { createProject } = await import('./compose');
 	let composeName: string;
 	let composeStr: string;
@@ -265,7 +265,7 @@ export async function buildProject(
 	opts: BuildProjectOpts,
 ): Promise<BuiltImage[]> {
 	await checkBuildSecretsRequirements(opts.docker, opts.projectPath);
-	const compose = await import('resin-compose-parse');
+	const compose = await import('@balena/compose-parse');
 	const imageDescriptors = compose.parse(opts.composition);
 	const renderer = await startRenderer({ imageDescriptors, ...opts });
 	let buildSummaryByService: Dictionary<string> | undefined;
@@ -727,16 +727,16 @@ export async function getServiceDirsFromComposition(
  *
  * The `image` argument may therefore refer to either a `build` or `image` property
  * of a service in a docker-compose.yml file, which is a bit confusing but it matches
- * the `ImageDescriptor.image` property as defined by `resin-compose-parse`.
+ * the `ImageDescriptor.image` property as defined by `@balena/compose-parse`.
  *
- * Note that `resin-compose-parse` "normalizes" the docker-compose.yml file such
+ * Note that `@balena/compose-parse` "normalizes" the docker-compose.yml file such
  * that, if `services.service.build` is a string, it is converted to a BuildConfig
  * object with the string value assigned to `services.service.build.context`:
- * https://github.com/balena-io-modules/resin-compose-parse/blob/v2.1.3/src/compose.ts#L166-L167
+ * https://github.com/balena-io-modules/balena-compose-parse/blob/v3.0.0/src/compose.ts#L314-L315
  * This is why this implementation works when `services.service.build` is defined
  * as a string in the docker-compose.yml file.
  *
- * @param image The `ImageDescriptor.image` attribute parsed with `resin-compose-parse`
+ * @param image The `ImageDescriptor.image` attribute parsed with `@balena/compose-parse`
  */
 export function isBuildConfig(
 	image: string | BuildConfig,

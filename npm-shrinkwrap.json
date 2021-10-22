@@ -1235,6 +1235,25 @@
         "sax": "^1.2.4"
       }
     },
+    "@balena/compose-parse": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/@balena/compose-parse/-/compose-parse-3.0.0.tgz",
+      "integrity": "sha512-Wd2DSwcjtj+Nt7z2P9dqt2C8jHZWPxNhVGOsAgyxBfDP61s8v49iv8trb/3cPaGupwM3JZx2FJ8yIj0YJWfwoA==",
+      "requires": {
+        "@types/lodash": "^4.14.86",
+        "@types/node": "^8.0.55",
+        "ajv": "^6.0.1",
+        "lodash": "^4.17.4",
+        "typed-error": "^3.0.0"
+      },
+      "dependencies": {
+        "@types/node": {
+          "version": "8.10.66",
+          "resolved": "https://registry.npmjs.org/@types/node/-/node-8.10.66.tgz",
+          "integrity": "sha512-tktOkFUA4kXx2hhhrB8bIFb5TbwzS4uOhKEmwiD+NoiL0qtP2OQ9mFldbgD4dV1djrlBYP6eBuQZiWjuHUpqFw=="
+        }
+      }
+    },
     "@balena/dockerignore": {
       "version": "1.0.2",
       "resolved": "https://registry.npmjs.org/@balena/dockerignore/-/dockerignore-1.0.2.tgz",
@@ -3950,16 +3969,16 @@
       }
     },
     "balena-release": {
-      "version": "3.2.0",
-      "resolved": "https://registry.npmjs.org/balena-release/-/balena-release-3.2.0.tgz",
-      "integrity": "sha512-jwmAjIZCJ5I46/yQNN+dA73RWlre0+jBVmo2QeJl1pK83obTLyifJeWNVf5irzP8KFE7WQzo9ICK1cCpLtygFA==",
+      "version": "3.3.0",
+      "resolved": "https://registry.npmjs.org/balena-release/-/balena-release-3.3.0.tgz",
+      "integrity": "sha512-Ult7Tdg12ASCphDze6wkqrh3nx3bEkHsXF8jFz6vJ/HNmcojOJlZxlgbQbnhxxTsJa045QCW3wXvqgPFf06ckQ==",
       "requires": {
+        "@balena/compose-parse": "^3.0.0",
         "@types/bluebird": "^3.5.18",
         "@types/node": "^8.0.55",
         "@types/request": "^2.0.8",
         "bluebird": "^3.5.1",
         "pinejs-client-request": "^7.1.0",
-        "resin-compose-parse": "^2.0.0",
         "typed-error": "^3.0.0"
       },
       "dependencies": {
@@ -8145,9 +8164,9 @@
       "integrity": "sha1-mMI9qxF1ZXuMBXPozszZGw/xjIQ="
     },
     "fp-ts": {
-      "version": "2.11.3",
-      "resolved": "https://registry.npmjs.org/fp-ts/-/fp-ts-2.11.3.tgz",
-      "integrity": "sha512-qHI5iaVSFNFmdl6yDensWfFMk32iafAINCnqx8m486DV1+Jht/bTnA9CyahL+Xm7h2y3erinviVBIAWvv5bPYw=="
+      "version": "2.11.5",
+      "resolved": "https://registry.npmjs.org/fp-ts/-/fp-ts-2.11.5.tgz",
+      "integrity": "sha512-OqlwJq1BdpB83BZXTqI+dNcA6uYk6qk4u9Cgnt64Y+XS7dwdbp/mobx8S2KXf2AXH+scNmA/UVK3SEFHR3vHZA=="
     },
     "fragment-cache": {
       "version": "0.2.1",
@@ -15263,9 +15282,9 @@
       }
     },
     "resin-compose-parse": {
-      "version": "2.1.3",
-      "resolved": "https://registry.npmjs.org/resin-compose-parse/-/resin-compose-parse-2.1.3.tgz",
-      "integrity": "sha512-X5WQo+OHoPe+FV8JliGzSIL4glLX0PPFvtnopppYef1UqKcJm+GHaiEZBOj3C7vIEDqQrsNrKXY/BpadlOFiWA==",
+      "version": "2.4.0",
+      "resolved": "https://registry.npmjs.org/resin-compose-parse/-/resin-compose-parse-2.4.0.tgz",
+      "integrity": "sha512-JldqZbHp+YWSC7UwIrI5ZZJwNPln+28a+nIM2cDMVIJliE8ofQFLTwEQzvvh8SoLqJgGh9cXtKEA7vkS3V9W7A==",
       "requires": {
         "@types/lodash": "^4.14.86",
         "@types/node": "^8.0.55",
@@ -15625,17 +15644,6 @@
             "ms": "^2.1.1"
           }
         },
-        "docker-modem": {
-          "version": "1.0.9",
-          "resolved": "https://registry.npmjs.org/docker-modem/-/docker-modem-1.0.9.tgz",
-          "integrity": "sha512-lVjqCSCIAUDZPAZIeyM125HXfNvOmYYInciphNrLrylUtKyW66meAjSPXWchKVzoIYZx69TPnAepVSSkeawoIw==",
-          "requires": {
-            "JSONStream": "1.3.2",
-            "debug": "^3.2.6",
-            "readable-stream": "~1.0.26-4",
-            "split-ca": "^1.0.0"
-          }
-        },
         "dockerode": {
           "version": "2.5.8",
           "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-2.5.8.tgz",
@@ -15644,6 +15652,19 @@
             "concat-stream": "~1.6.2",
             "docker-modem": "^1.0.8",
             "tar-fs": "~1.16.3"
+          },
+          "dependencies": {
+            "docker-modem": {
+              "version": "1.0.9",
+              "resolved": "https://registry.npmjs.org/docker-modem/-/docker-modem-1.0.9.tgz",
+              "integrity": "sha512-lVjqCSCIAUDZPAZIeyM125HXfNvOmYYInciphNrLrylUtKyW66meAjSPXWchKVzoIYZx69TPnAepVSSkeawoIw==",
+              "requires": {
+                "JSONStream": "1.3.2",
+                "debug": "^3.2.6",
+                "readable-stream": "~1.0.26-4",
+                "split-ca": "^1.0.0"
+              }
+            }
           }
         },
         "isarray": {
@@ -15657,15 +15678,6 @@
           "integrity": "sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==",
           "requires": {
             "argparse": "^2.0.1"
-          }
-        },
-        "pump": {
-          "version": "1.0.3",
-          "resolved": "https://registry.npmjs.org/pump/-/pump-1.0.3.tgz",
-          "integrity": "sha512-8k0JupWme55+9tCVE+FS5ULT3K6AbgqrGa58lTT49RpyfwwcGedHqaC5LlQNdEAumn/wFsu6aPwkuPMioy8kqw==",
-          "requires": {
-            "end-of-stream": "^1.1.0",
-            "once": "^1.3.1"
           }
         },
         "readable-stream": {
@@ -15707,6 +15719,15 @@
               "version": "1.0.0",
               "resolved": "https://registry.npmjs.org/isarray/-/isarray-1.0.0.tgz",
               "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
+            },
+            "pump": {
+              "version": "1.0.3",
+              "resolved": "https://registry.npmjs.org/pump/-/pump-1.0.3.tgz",
+              "integrity": "sha512-8k0JupWme55+9tCVE+FS5ULT3K6AbgqrGa58lTT49RpyfwwcGedHqaC5LlQNdEAumn/wFsu6aPwkuPMioy8kqw==",
+              "requires": {
+                "end-of-stream": "^1.1.0",
+                "once": "^1.3.1"
+              }
             },
             "readable-stream": {
               "version": "2.3.7",
