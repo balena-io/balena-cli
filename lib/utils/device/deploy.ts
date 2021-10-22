@@ -18,7 +18,7 @@
 import * as semver from 'balena-semver';
 import * as Docker from 'dockerode';
 import * as _ from 'lodash';
-import { Composition } from 'resin-compose-parse';
+import { Composition } from '@balena/compose-parse';
 import {
 	BuildTask,
 	getAuthConfigObj,

@@ -1235,6 +1235,25 @@
         "sax": "^1.2.4"
       }
     },
+    "@balena/compose-parse": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/@balena/compose-parse/-/compose-parse-3.0.0.tgz",
+      "integrity": "sha512-Wd2DSwcjtj+Nt7z2P9dqt2C8jHZWPxNhVGOsAgyxBfDP61s8v49iv8trb/3cPaGupwM3JZx2FJ8yIj0YJWfwoA==",
+      "requires": {
+        "@types/lodash": "^4.14.86",
+        "@types/node": "^8.0.55",
+        "ajv": "^6.0.1",
+        "lodash": "^4.17.4",
+        "typed-error": "^3.0.0"
+      },
+      "dependencies": {
+        "@types/node": {
+          "version": "8.10.66",
+          "resolved": "https://registry.npmjs.org/@types/node/-/node-8.10.66.tgz",
+          "integrity": "sha512-tktOkFUA4kXx2hhhrB8bIFb5TbwzS4uOhKEmwiD+NoiL0qtP2OQ9mFldbgD4dV1djrlBYP6eBuQZiWjuHUpqFw=="
+        }
+      }
+    },
     "@balena/dockerignore": {
       "version": "1.0.2",
       "resolved": "https://registry.npmjs.org/@balena/dockerignore/-/dockerignore-1.0.2.tgz",
@@ -3952,16 +3971,16 @@
       }
     },
     "balena-release": {
-      "version": "3.2.0",
-      "resolved": "https://registry.npmjs.org/balena-release/-/balena-release-3.2.0.tgz",
-      "integrity": "sha512-jwmAjIZCJ5I46/yQNN+dA73RWlre0+jBVmo2QeJl1pK83obTLyifJeWNVf5irzP8KFE7WQzo9ICK1cCpLtygFA==",
+      "version": "3.3.0",
+      "resolved": "https://registry.npmjs.org/balena-release/-/balena-release-3.3.0.tgz",
+      "integrity": "sha512-Ult7Tdg12ASCphDze6wkqrh3nx3bEkHsXF8jFz6vJ/HNmcojOJlZxlgbQbnhxxTsJa045QCW3wXvqgPFf06ckQ==",
       "requires": {
+        "@balena/compose-parse": "^3.0.0",
         "@types/bluebird": "^3.5.18",
         "@types/node": "^8.0.55",
         "@types/request": "^2.0.8",
         "bluebird": "^3.5.1",
         "pinejs-client-request": "^7.1.0",
-        "resin-compose-parse": "^2.0.0",
         "typed-error": "^3.0.0"
       },
       "dependencies": {
@@ -8180,9 +8199,9 @@
       "integrity": "sha1-mMI9qxF1ZXuMBXPozszZGw/xjIQ="
     },
     "fp-ts": {
-      "version": "2.11.3",
-      "resolved": "https://registry.npmjs.org/fp-ts/-/fp-ts-2.11.3.tgz",
-      "integrity": "sha512-qHI5iaVSFNFmdl6yDensWfFMk32iafAINCnqx8m486DV1+Jht/bTnA9CyahL+Xm7h2y3erinviVBIAWvv5bPYw=="
+      "version": "2.11.5",
+      "resolved": "https://registry.npmjs.org/fp-ts/-/fp-ts-2.11.5.tgz",
+      "integrity": "sha512-OqlwJq1BdpB83BZXTqI+dNcA6uYk6qk4u9Cgnt64Y+XS7dwdbp/mobx8S2KXf2AXH+scNmA/UVK3SEFHR3vHZA=="
     },
     "fragment-cache": {
       "version": "0.2.1",
@@ -15423,9 +15442,9 @@
       }
     },
     "resin-compose-parse": {
-      "version": "2.1.3",
-      "resolved": "https://registry.npmjs.org/resin-compose-parse/-/resin-compose-parse-2.1.3.tgz",
-      "integrity": "sha512-X5WQo+OHoPe+FV8JliGzSIL4glLX0PPFvtnopppYef1UqKcJm+GHaiEZBOj3C7vIEDqQrsNrKXY/BpadlOFiWA==",
+      "version": "2.4.0",
+      "resolved": "https://registry.npmjs.org/resin-compose-parse/-/resin-compose-parse-2.4.0.tgz",
+      "integrity": "sha512-JldqZbHp+YWSC7UwIrI5ZZJwNPln+28a+nIM2cDMVIJliE8ofQFLTwEQzvvh8SoLqJgGh9cXtKEA7vkS3V9W7A==",
       "requires": {
         "@types/lodash": "^4.14.86",
         "@types/node": "^8.0.55",
@@ -15701,23 +15720,23 @@
       }
     },
     "resin-multibuild": {
-      "version": "4.12.2",
-      "resolved": "https://registry.npmjs.org/resin-multibuild/-/resin-multibuild-4.12.2.tgz",
-      "integrity": "sha512-FkRqGEM588wA6v03pQbodPqWQdAs6aMh+GWvYQBz5IxqSVecn4FLHaRE0pF6VFKtjf/XBuPw7dtqiFzH+NIz5g==",
+      "version": "4.13.0-rgz-pass-build-options-fc2a1fc5c5111d5c371fcc162d3586360d13b728",
+      "resolved": "https://registry.npmjs.org/resin-multibuild/-/resin-multibuild-4.13.0-rgz-pass-build-options-fc2a1fc5c5111d5c371fcc162d3586360d13b728.tgz",
+      "integrity": "sha512-Cz40vMSN3orA1WPgpJ3SVImGXVhod/7XQl4zIVNZqRSg9QtaexTHD8+p1GBRUD8JapPviAHvGL5xNBzk19/nEg==",
       "requires": {
         "ajv": "^6.12.3",
         "bluebird": "^3.7.2",
         "docker-progress": "^5.0.0",
         "dockerfile-ast": "^0.2.1",
         "dockerfile-template": "^0.2.0",
-        "dockerode": "^2.5.8",
+        "dockerode": "^3.3.1",
         "fp-ts": "^2.8.1",
         "io-ts": "^2.2.9",
         "io-ts-reporters": "^1.2.2",
         "js-yaml": "^4.1.0",
         "lodash": "^4.17.19",
         "resin-bundle-resolve": "^4.3.0",
-        "resin-compose-parse": "^2.1.2",
+        "resin-compose-parse": "^2.4.0",
         "resin-docker-build": "^1.1.5",
         "semver": "^7.3.5",
         "tar-stream": "^2.1.3",
@@ -15725,91 +15744,19 @@
         "typed-error": "^3.2.1"
       },
       "dependencies": {
-        "JSONStream": {
-          "version": "1.3.2",
-          "resolved": "https://registry.npmjs.org/JSONStream/-/JSONStream-1.3.2.tgz",
-          "integrity": "sha1-wQI3G27Dp887hHygDCC7D85Mbeo=",
-          "requires": {
-            "jsonparse": "^1.2.0",
-            "through": ">=2.2.7 <3"
-          }
-        },
         "argparse": {
           "version": "2.0.1",
           "resolved": "https://registry.npmjs.org/argparse/-/argparse-2.0.1.tgz",
           "integrity": "sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q=="
         },
-        "bl": {
-          "version": "1.2.3",
-          "resolved": "https://registry.npmjs.org/bl/-/bl-1.2.3.tgz",
-          "integrity": "sha512-pvcNpa0UU69UT341rO6AYy4FVAIkUHuZXRIWbq+zHnsVcRzDDjIAhGuuYoi0d//cwIwtt4pkpKycWEfjdV+vww==",
-          "requires": {
-            "readable-stream": "^2.3.5",
-            "safe-buffer": "^5.1.1"
-          },
-          "dependencies": {
-            "isarray": {
-              "version": "1.0.0",
-              "resolved": "https://registry.npmjs.org/isarray/-/isarray-1.0.0.tgz",
-              "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
-            },
-            "readable-stream": {
-              "version": "2.3.7",
-              "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-2.3.7.tgz",
-              "integrity": "sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw==",
-              "requires": {
-                "core-util-is": "~1.0.0",
-                "inherits": "~2.0.3",
-                "isarray": "~1.0.0",
-                "process-nextick-args": "~2.0.0",
-                "safe-buffer": "~5.1.1",
-                "string_decoder": "~1.1.1",
-                "util-deprecate": "~1.0.1"
-              }
-            },
-            "string_decoder": {
-              "version": "1.1.1",
-              "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.1.1.tgz",
-              "integrity": "sha512-n/ShnvDi6FHbbVfviro+WojiFzv+s8MPMHBczVePfUpDJLwoLT0ht1l4YwBCbi8pJAveEEdnkHyPyTP/mzRfwg==",
-              "requires": {
-                "safe-buffer": "~5.1.0"
-              }
-            }
-          }
-        },
-        "debug": {
-          "version": "3.2.7",
-          "resolved": "https://registry.npmjs.org/debug/-/debug-3.2.7.tgz",
-          "integrity": "sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==",
-          "requires": {
-            "ms": "^2.1.1"
-          }
-        },
-        "docker-modem": {
-          "version": "1.0.9",
-          "resolved": "https://registry.npmjs.org/docker-modem/-/docker-modem-1.0.9.tgz",
-          "integrity": "sha512-lVjqCSCIAUDZPAZIeyM125HXfNvOmYYInciphNrLrylUtKyW66meAjSPXWchKVzoIYZx69TPnAepVSSkeawoIw==",
-          "requires": {
-            "JSONStream": "1.3.2",
-            "debug": "^3.2.6",
-            "readable-stream": "~1.0.26-4",
-            "split-ca": "^1.0.0"
-          }
-        },
         "dockerode": {
-          "version": "2.5.8",
-          "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-2.5.8.tgz",
-          "integrity": "sha512-+7iOUYBeDTScmOmQqpUYQaE7F4vvIt6+gIZNHWhqAQEI887tiPFB9OvXI/HzQYqfUNvukMK+9myLW63oTJPZpw==",
+          "version": "3.3.1",
+          "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-3.3.1.tgz",
+          "integrity": "sha512-AS2mr8Lp122aa5n6d99HkuTNdRV1wkkhHwBdcnY6V0+28D3DSYwhxAk85/mM9XwD3RMliTxyr63iuvn5ZblFYQ==",
           "requires": {
-            "concat-stream": "~1.6.2",
-            "docker-modem": "^1.0.8",
-            "tar-fs": "~1.16.3"
+            "docker-modem": "^3.0.0",
+            "tar-fs": "~2.0.1"
           }
-        },
-        "isarray": {
-          "version": "0.0.1",
-          "resolved": "https://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz",
-          "integrity": "sha1-ihis/Kmo9Bd+Cav8YDiTmwXR7t8="
         },
         "js-yaml": {
           "version": "4.1.0",
@@ -15817,26 +15764,6 @@
           "integrity": "sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==",
           "requires": {
             "argparse": "^2.0.1"
-          }
-        },
-        "pump": {
-          "version": "1.0.3",
-          "resolved": "https://registry.npmjs.org/pump/-/pump-1.0.3.tgz",
-          "integrity": "sha512-8k0JupWme55+9tCVE+FS5ULT3K6AbgqrGa58lTT49RpyfwwcGedHqaC5LlQNdEAumn/wFsu6aPwkuPMioy8kqw==",
-          "requires": {
-            "end-of-stream": "^1.1.0",
-            "once": "^1.3.1"
-          }
-        },
-        "readable-stream": {
-          "version": "1.0.34",
-          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-1.0.34.tgz",
-          "integrity": "sha1-Elgg40vIQtLyqq+v5MKRbuMsFXw=",
-          "requires": {
-            "core-util-is": "~1.0.0",
-            "inherits": "~2.0.1",
-            "isarray": "0.0.1",
-            "string_decoder": "~0.10.x"
           }
         },
         "semver": {
@@ -15847,63 +15774,15 @@
             "lru-cache": "^6.0.0"
           }
         },
-        "string_decoder": {
-          "version": "0.10.31",
-          "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-0.10.31.tgz",
-          "integrity": "sha1-YuIDvEF2bGwoyfyEMB2rHFMQ+pQ="
-        },
         "tar-fs": {
-          "version": "1.16.3",
-          "resolved": "https://registry.npmjs.org/tar-fs/-/tar-fs-1.16.3.tgz",
-          "integrity": "sha512-NvCeXpYx7OsmOh8zIOP/ebG55zZmxLE0etfWRbWok+q2Qo8x/vOR/IJT1taADXPe+jsiu9axDb3X4B+iIgNlKw==",
+          "version": "2.0.1",
+          "resolved": "https://registry.npmjs.org/tar-fs/-/tar-fs-2.0.1.tgz",
+          "integrity": "sha512-6tzWDMeroL87uF/+lin46k+Q+46rAJ0SyPGz7OW7wTgblI273hsBqk2C1j0/xNadNLKDTUL9BukSjB7cwgmlPA==",
           "requires": {
-            "chownr": "^1.0.1",
-            "mkdirp": "^0.5.1",
-            "pump": "^1.0.0",
-            "tar-stream": "^1.1.2"
-          },
-          "dependencies": {
-            "isarray": {
-              "version": "1.0.0",
-              "resolved": "https://registry.npmjs.org/isarray/-/isarray-1.0.0.tgz",
-              "integrity": "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
-            },
-            "readable-stream": {
-              "version": "2.3.7",
-              "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-2.3.7.tgz",
-              "integrity": "sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw==",
-              "requires": {
-                "core-util-is": "~1.0.0",
-                "inherits": "~2.0.3",
-                "isarray": "~1.0.0",
-                "process-nextick-args": "~2.0.0",
-                "safe-buffer": "~5.1.1",
-                "string_decoder": "~1.1.1",
-                "util-deprecate": "~1.0.1"
-              }
-            },
-            "string_decoder": {
-              "version": "1.1.1",
-              "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.1.1.tgz",
-              "integrity": "sha512-n/ShnvDi6FHbbVfviro+WojiFzv+s8MPMHBczVePfUpDJLwoLT0ht1l4YwBCbi8pJAveEEdnkHyPyTP/mzRfwg==",
-              "requires": {
-                "safe-buffer": "~5.1.0"
-              }
-            },
-            "tar-stream": {
-              "version": "1.6.2",
-              "resolved": "https://registry.npmjs.org/tar-stream/-/tar-stream-1.6.2.tgz",
-              "integrity": "sha512-rzS0heiNf8Xn7/mpdSVVSMAWAoy9bfb1WOTYC78Z0UQKeKa/CWS8FOq0lKGNa8DWKAn9gxjCvMLYc5PGXYlK2A==",
-              "requires": {
-                "bl": "^1.0.0",
-                "buffer-alloc": "^1.2.0",
-                "end-of-stream": "^1.0.0",
-                "fs-constants": "^1.0.0",
-                "readable-stream": "^2.3.0",
-                "to-buffer": "^1.1.1",
-                "xtend": "^4.0.0"
-              }
-            }
+            "chownr": "^1.1.1",
+            "mkdirp-classic": "^0.5.2",
+            "pump": "^3.0.0",
+            "tar-stream": "^2.0.0"
           }
         }
       }
