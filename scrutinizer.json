@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Add support for YAML anchors and aliases in 'docker-compose.yml'",
+          "hash": "8e712ac91055c4efde885854488000a27c6b483d",
+          "body": "This allows project files to define services from generic fragments by leveraging YAML's anchors and aliases. See here for an example: https://github.com/compose-spec/compose-spec/blob/43f6537b2c8f01b6d3f0e184d13a0f3cb93d38d7/spec.md#fragments\n\nRemoving the FAILSAFE_SCHEMA flag is not expected to break existing project files, since the default behaviour is more liberal, or cause problems down the road given we perform validation immediately after. Docs for the flag: https://github.com/nodeca/js-yaml#load-string---options-\n",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor"
+          },
+          "author": "dfunckt",
+          "nested": []
+        }
+      ],
+      "version": "12.51.0",
+      "date": "2021-10-22T16:50:50.004Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "preload: Avoid possible ValueError when parsing storage driver",
           "hash": "48053ecefc00e451f3ee5c9b82b2b398978ec229",
           "body": "Update balena-preload from 10.5.0 to 11.0.0\n",
@@ -24114,29 +24131,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-10-20T16:33:37Z",
+  "lastCommitDate": "2021-10-22T19:13:44Z",
   "latestRelease": {
-    "tagName": "v12.50.3",
+    "tagName": "v12.51.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.50.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.3/balena-cli-v12.50.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.51.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.0/balena-cli-v12.51.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.50.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.3/balena-cli-v12.50.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.51.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.0/balena-cli-v12.51.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.50.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.3/balena-cli-v12.50.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.51.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.0/balena-cli-v12.51.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.50.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.3/balena-cli-v12.50.3-windows-x64-installer.exe"
+        "name": "balena-cli-v12.51.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.0/balena-cli-v12.51.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.50.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.50.3/balena-cli-v12.50.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.51.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.0/balena-cli-v12.51.0-windows-x64-standalone.zip"
       }
     ]
   },
@@ -24145,8 +24162,8 @@
     "numberOfIssues": 351,
     "latestIssues": [
       {
-        "title": "Add support for YAML anchors and aliases",
-        "url": "https://github.com/balena-io/balena-cli/pull/2367"
+        "title": "Update balena-compose-parse to v3.0.0",
+        "url": "https://github.com/balena-io/balena-cli/pull/2368"
       },
       {
         "title": "tunnel: \"500 Internal Server Error\" when connecting to remote port bound to 127.0.0.1",
@@ -24226,7 +24243,7 @@
       }
     ]
   },
-  "version": "12.50.3",
+  "version": "12.51.0",
   "screenshot": null,
   "logo": null
 }
