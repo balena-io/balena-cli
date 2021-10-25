@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix forums support link in README.md
+      hash: 112a7b8194d098e9c66754eb256590e13f54fe29
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.51.1
+  date: 2021-10-25T17:53:29.951Z
+- commits:
     - subject: Add support for YAML anchors and aliases in 'docker-compose.yml'
       hash: 8e712ac91055c4efde885854488000a27c6b483d
       body: >
@@ -18,7 +31,7 @@
       author: dfunckt
       nested: []
   version: 12.51.0
-  date: 2021-10-22T19:13:00.631Z
+  date: 2021-10-22T16:50:50.004Z
 - commits:
     - subject: 'preload: Avoid possible ValueError when parsing storage driver'
       hash: 48053ecefc00e451f3ee5c9b82b2b398978ec229
