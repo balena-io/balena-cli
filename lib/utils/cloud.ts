@@ -181,7 +181,7 @@ export async function downloadOSImage(
 	}
 
 	const streamToPromise = await import('stream-to-promise');
-	await streamToPromise(stream.pipe(output));
+	await streamToPromise(stream.pipe(output, { end: false }));
 
 	console.info('The image was downloaded successfully');
 
