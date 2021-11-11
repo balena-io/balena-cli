@@ -301,7 +301,23 @@ export async function filterFilesWithDockerignore(
 	await new Promise((resolve, reject) => {
 		// Looking at klaw's source code, `preserveSymlinks` appears to only
 		// afect the `stats` argument to the `data` event handler
-		klaw(projectDir, { preserveSymlinks: false })
+		klaw(projectDir, {
+			preserveSymlinks: false,
+			filter: (value) => {
+				const relPath = path.relative(projectDir, value);
+				for (const dir of dockerignoreServiceDirs) {
+					if (relPath.startsWith(dir)) {
+						if (!ignoreByDir[dir].ignores(relPath.substring(dir.length))) {
+							return true;
+						}
+					}
+				}
+				if (!ignoreByDir[root].ignores(relPath)) {
+					return true;
+				}
+				return false;
+			},
+		})
 			.on('error', reject)
 			.on('end', resolve)
 			.on('data', (item: { path: string; stats: Stats }) => {
@@ -320,17 +336,7 @@ export async function filterFilesWithDockerignore(
 				if (path.basename(relPath) === '.dockerignore') {
 					dockerignoreFiles.push(fileInfo);
 				}
-				for (const dir of dockerignoreServiceDirs) {
-					if (relPath.startsWith(dir)) {
-						if (!ignoreByDir[dir].ignores(relPath.substring(dir.length))) {
-							filteredFileList.push(fileInfo);
-						}
-						return;
-					}
-				}
-				if (!ignoreByDir[root].ignores(relPath)) {
-					filteredFileList.push(fileInfo);
-				}
+				filteredFileList.push(fileInfo);
 			});
 	});
 	return { filteredFileList, dockerignoreFiles };
