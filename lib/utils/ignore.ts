@@ -201,6 +201,48 @@ export interface FileStats {
 }
 
 /**
+ * Create a list of files for the filesystem subtree rooted at
+ * projectDir, excluding entries for directories themselves.
+ * @param projectDir Source directory (root of subtree to be listed)
+ */
+async function listFiles(projectDir: string): Promise<string[]> {
+	const dirs: string[] = [];
+	const files: string[] = [];
+	dirs.push(projectDir);
+	async function walk(currentDirs: string[]): Promise<string[]> {
+		if (!currentDirs.length) {
+			return files;
+		}
+
+		const foundDirs: string[] = [];
+
+		// Because `currentDirs` can be of arbitrary length, process them in smaller batches
+		// to avoid out of memory errors.
+		// This approach is significantly faster than using Bluebird.map with a
+		// concurrency setting
+		const chunks = _.chunk(currentDirs, 100);
+		for (const chunk of chunks) {
+			await Promise.all(
+				chunk.map(async (dir) => {
+					const _files = await fs.readdir(dir, { withFileTypes: true });
+					for (const entry of _files) {
+						const fpath = path.join(dir, entry.name);
+						if (entry.isDirectory()) {
+							foundDirs.push(fpath);
+							dirs.push(fpath);
+						} else {
+							files.push(fpath);
+						}
+					}
+				}),
+			);
+		}
+		return walk(foundDirs);
+	}
+	return walk([projectDir]);
+}
+
+/**
  * Return the contents of a .dockerignore file at projectDir, as a string.
  * Return an empty string if a .dockerignore file does not exist.
  * @param projectDir Source directory
@@ -211,7 +253,7 @@ async function readDockerIgnoreFile(projectDir: string): Promise<string> {
 	let dockerIgnoreStr = '';
 	try {
 		dockerIgnoreStr = await fs.readFile(dockerIgnorePath, 'utf8');
-	} catch (err) {
+	} catch (err: any) {
 		if (err.code !== 'ENOENT') {
 			throw new ExpectedError(
 				`Error reading file "${dockerIgnorePath}": ${err.message}`,
@@ -269,7 +311,10 @@ export async function filterFilesWithDockerignore(
 	projectDir: string,
 	multiDockerignore: boolean,
 	serviceDirsByService: ServiceDirs,
-): Promise<{ filteredFileList: FileStats[]; dockerignoreFiles: FileStats[] }> {
+): Promise<{
+	filteredFileList: FileStats[];
+	dockerignoreFiles: FileStats[];
+}> {
 	// path.resolve() also converts forward slashes to backslashes on Windows
 	projectDir = path.resolve(projectDir);
 	const root = '.' + path.sep;
@@ -294,45 +339,65 @@ export async function filterFilesWithDockerignore(
 	const dockerignoreServiceDirs: string[] = multiDockerignore
 		? Object.keys(ignoreByDir).filter((dir) => dir && dir !== root)
 		: [];
+	const files = await listFiles(projectDir);
+
 	const dockerignoreFiles: FileStats[] = [];
 	const filteredFileList: FileStats[] = [];
-	const klaw = await import('klaw');
 
-	await new Promise((resolve, reject) => {
-		// Looking at klaw's source code, `preserveSymlinks` appears to only
-		// afect the `stats` argument to the `data` event handler
-		klaw(projectDir, { preserveSymlinks: false })
-			.on('error', reject)
-			.on('end', resolve)
-			.on('data', (item: { path: string; stats: Stats }) => {
-				const { path: filePath, stats } = item;
-				// With `preserveSymlinks: false`, filePath cannot be a symlink.
-				// filePath may be a directory or a regular or special file
-				if (!stats.isFile()) {
-					return;
-				}
+	// Because `files` can be of arbitrary length, process them in smaller batches
+	// to avoid out of memory errors.
+	// This approach is significantly faster than using Bluebird.map with a
+	// concurrency setting
+	const chunks = _.chunk(files, 750);
+	for (const chunk of chunks) {
+		await Promise.all(
+			chunk.map(async (filePath) => {
 				const relPath = path.relative(projectDir, filePath);
-				const fileInfo = {
-					filePath,
-					relPath,
-					stats,
-				};
+
+				// .dockerignore files are always added to a list of known dockerignore files
 				if (path.basename(relPath) === '.dockerignore') {
-					dockerignoreFiles.push(fileInfo);
+					const diStats = await fs.stat(filePath);
+					dockerignoreFiles.push({
+						filePath,
+						relPath,
+						stats: diStats,
+					});
 				}
-				for (const dir of dockerignoreServiceDirs) {
-					if (relPath.startsWith(dir)) {
-						if (!ignoreByDir[dir].ignores(relPath.substring(dir.length))) {
-							filteredFileList.push(fileInfo);
-						}
+
+				// First check if the file is ignored by a .dockerignore file in a service directory
+				const matchingDir = dockerignoreServiceDirs.find((dir) => {
+					return relPath.startsWith(dir);
+				});
+
+				// If the file is ignore in a service directory, exit early, otherwise check if it is ignored by the root .dockerignore file.
+				// Crucially, if the file is in a known service directory, and isn't ignored, the root .dockerignore file should not be checked.
+				if (matchingDir) {
+					if (
+						ignoreByDir[matchingDir].ignores(
+							relPath.substring(matchingDir.length),
+						)
+					) {
 						return;
 					}
+				} else if (ignoreByDir[root].ignores(relPath)) {
+					return;
 				}
-				if (!ignoreByDir[root].ignores(relPath)) {
-					filteredFileList.push(fileInfo);
+
+				// At this point we can do a final stat of the file, and check if it should be included
+				const stats = await fs.stat(filePath);
+
+				// filePath may be a special file that we should ignore, such as a socket
+				if (stats.isFile()) {
+					filteredFileList.push({
+						filePath,
+						relPath,
+						stats,
+					});
 				}
-			});
-	});
+			}),
+		);
+	}
+
 	return { filteredFileList, dockerignoreFiles };
 }
 
