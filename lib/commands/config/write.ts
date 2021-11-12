@@ -40,9 +40,9 @@ export default class ConfigWriteCmd extends Command {
 	`;
 
 	public static examples = [
-		'$ balena config write --type raspberrypi3 username johndoe',
-		'$ balena config write --type raspberrypi3 --drive /dev/disk2 username johndoe',
-		'$ balena config write --type raspberrypi3 files.network/settings "..."',
+		'$ balena config write username johndoe',
+		'$ balena config write --drive /dev/disk2 username johndoe',
+		'$ balena config write files.network/settings "..."',
 	];
 
 	public static args = [

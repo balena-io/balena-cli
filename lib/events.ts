@@ -129,7 +129,7 @@ async function sendEvent(balenaUrl: string, event: string, username?: string) {
 		data: Buffer.from(JSON.stringify(trackData)).toString('base64'),
 	};
 	try {
-		await got(url, { searchParams, retry: 0 });
+		await got(url, { searchParams, retry: 0, timeout: 4000 });
 	} catch (e) {
 		if (process.env.DEBUG) {
 			console.error(`[debug] Event tracking error: ${e.message || e}`);

@@ -2611,8 +2611,8 @@ e.g. the SD card of a provisioned device or balenaOS image.
 
 Examples:
 
-	$ balena config read --type raspberrypi3
-	$ balena config read --type raspberrypi3 --drive /dev/disk2
+	$ balena config read
+	$ balena config read --drive /dev/disk2
 
 ### Options
 
@@ -2634,9 +2634,9 @@ Interactively reconfigure a provisioned device or OS image.
 
 Examples:
 
-	$ balena config reconfigure --type raspberrypi3
-	$ balena config reconfigure --type raspberrypi3 --advanced
-	$ balena config reconfigure --type raspberrypi3 --drive /dev/disk2
+	$ balena config reconfigure
+	$ balena config reconfigure --advanced
+	$ balena config reconfigure --drive /dev/disk2
 
 ### Options
 
@@ -2659,9 +2659,9 @@ e.g. the SD card of a provisioned device or balenaOS image.
 
 Examples:
 
-	$ balena config write --type raspberrypi3 username johndoe
-	$ balena config write --type raspberrypi3 --drive /dev/disk2 username johndoe
-	$ balena config write --type raspberrypi3 files.network/settings "..."
+	$ balena config write username johndoe
+	$ balena config write --drive /dev/disk2 username johndoe
+	$ balena config write files.network/settings "..."
 
 ### Arguments
 

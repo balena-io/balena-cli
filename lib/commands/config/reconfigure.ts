@@ -34,9 +34,9 @@ export default class ConfigReconfigureCmd extends Command {
 		Interactively reconfigure a provisioned device or OS image.
 `;
 	public static examples = [
-		'$ balena config reconfigure --type raspberrypi3',
-		'$ balena config reconfigure --type raspberrypi3 --advanced',
-		'$ balena config reconfigure --type raspberrypi3 --drive /dev/disk2',
+		'$ balena config reconfigure',
+		'$ balena config reconfigure --advanced',
+		'$ balena config reconfigure --drive /dev/disk2',
 	];
 
 	public static usage = 'config reconfigure';

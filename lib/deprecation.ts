@@ -104,7 +104,11 @@ export class DeprecationChecker {
 		const url = this.getNpmUrl(version);
 		let response: import('got').Response<Dictionary<any>> | undefined;
 		try {
-			response = await got(url, { responseType: 'json', retry: 0 });
+			response = await got(url, {
+				responseType: 'json',
+				retry: 0,
+				timeout: 4000,
+			});
 		} catch (e) {
 			// 404 is expected if `version` hasn't been published yet
 			if (e.response?.statusCode !== 404) {

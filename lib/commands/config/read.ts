@@ -36,8 +36,8 @@ export default class ConfigReadCmd extends Command {
 	`;
 
 	public static examples = [
-		'$ balena config read --type raspberrypi3',
-		'$ balena config read --type raspberrypi3 --drive /dev/disk2',
+		'$ balena config read',
+		'$ balena config read --drive /dev/disk2',
 	];
 
 	public static usage = 'config read';
