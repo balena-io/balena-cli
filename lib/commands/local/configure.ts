@@ -56,6 +56,7 @@ export default class LocalConfigureCmd extends Command {
 	};
 
 	public static root = true;
+	public static offlineCompatible = true;
 
 	public async run() {
 		const { args: params } = this.parse<FlagsDef, ArgsDef>(LocalConfigureCmd);

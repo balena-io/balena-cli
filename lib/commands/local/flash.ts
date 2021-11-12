@@ -65,6 +65,8 @@ export default class LocalFlashCmd extends Command {
 		help: cf.help,
 	};
 
+	public static offlineCompatible = true;
+
 	public async run() {
 		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
 			LocalFlashCmd,

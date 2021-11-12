@@ -117,6 +117,7 @@ export default class SshCmd extends Command {
 	};
 
 	public static primary = true;
+	public static offlineCompatible = true;
 
 	public async run() {
 		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
@@ -144,6 +145,7 @@ export default class SshCmd extends Command {
 		const useProxy = !!proxyConfig && !options.noproxy;
 
 		// this will be a tunnelled SSH connection...
+		await Command.checkNotUsingOfflineMode();
 		await Command.checkLoggedIn();
 		const deviceUuid = await getOnlineTargetDeviceUuid(
 			sdk,

@@ -31,6 +31,8 @@ export class NotLoggedInError extends ExpectedError {}
 
 export class InsufficientPrivilegesError extends ExpectedError {}
 
+export class NotAvailableInOfflineModeError extends ExpectedError {}
+
 export class InvalidPortMappingError extends ExpectedError {
 	constructor(mapping: string) {
 		super(`'${mapping}' is not a valid port mapping.`);

@@ -77,11 +77,13 @@ export function setMaxListeners(maxListeners: number) {
 /** Selected CLI initialization steps */
 async function init() {
 	if (process.env.BALENARC_NO_SENTRY) {
-		console.error(`WARN: disabling Sentry.io error reporting`);
+		if (process.env.DEBUG) {
+			console.error(`WARN: disabling Sentry.io error reporting`);
+		}
 	} else {
 		await setupSentry();
 	}
-	checkNodeVersion();
+	await checkNodeVersion();
 
 	const settings = new CliSettings();
 
@@ -91,7 +93,9 @@ async function init() {
 	setupBalenaSdkSharedOptions(settings);
 
 	// check for CLI updates once a day
-	(await import('./utils/update')).notify();
+	if (!process.env.BALENARC_OFFLINE_MODE) {
+		(await import('./utils/update')).notify();
+	}
 }
 
 /** Execute the oclif parser and the CLI command. */
@@ -149,7 +153,10 @@ async function oclifRun(command: string[], options: AppOptions) {
 /** CLI entrypoint. Called by the `bin/balena` and `bin/balena-dev` scripts. */
 export async function run(cliArgs = process.argv, options: AppOptions = {}) {
 	try {
-		const { normalizeEnvVars, pkgExec } = await import('./utils/bootstrap');
+		const { setOfflineModeEnvVars, normalizeEnvVars, pkgExec } = await import(
+			'./utils/bootstrap'
+		);
+		setOfflineModeEnvVars();
 		normalizeEnvVars();
 
 		// The 'pkgExec' special/internal command provides a Node.js interpreter

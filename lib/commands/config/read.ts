@@ -54,6 +54,7 @@ export default class ConfigReadCmd extends Command {
 	};
 
 	public static root = true;
+	public static offlineCompatible = true;
 
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(ConfigReadCmd);

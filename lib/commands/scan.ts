@@ -68,6 +68,7 @@ export default class ScanCmd extends Command {
 
 	public static primary = true;
 	public static root = true;
+	public static offlineCompatible = true;
 
 	public async run() {
 		const _ = await import('lodash');

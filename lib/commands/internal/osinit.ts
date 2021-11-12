@@ -63,6 +63,7 @@ export default class OsinitCmd extends Command {
 
 	public static hidden = true;
 	public static root = true;
+	public static offlineCompatible = true;
 
 	public async run() {
 		const { args: params } = this.parse<{}, ArgsDef>(OsinitCmd);
