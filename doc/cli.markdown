@@ -2624,6 +2624,10 @@ ignored - no longer required
 
 path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)
 
+#### -j, --json
+
+produce JSON output instead of tabular output
+
 ## config reconfigure
 
 Interactively reconfigure a provisioned device or OS image.
