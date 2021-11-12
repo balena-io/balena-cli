@@ -21,7 +21,7 @@ import * as cf from '../../utils/common-flags';
 import { getVisuals, stripIndent } from '../../utils/lazy';
 
 interface FlagsDef {
-	type: string;
+	type?: string;
 	drive?: string;
 	advanced: boolean;
 	help: void;
@@ -42,7 +42,7 @@ export default class ConfigReconfigureCmd extends Command {
 	public static usage = 'config reconfigure';
 
 	public static flags: flags.Input<FlagsDef> = {
-		type: cf.deviceType,
+		type: cf.deviceTypeIgnored,
 		drive: cf.driveOrImg,
 		advanced: flags.boolean({
 			description: 'show advanced commands',
@@ -65,7 +65,7 @@ export default class ConfigReconfigureCmd extends Command {
 		await safeUmount(drive);
 
 		const config = await import('balena-config-json');
-		const { uuid } = await config.read(drive, options.type);
+		const { uuid } = await config.read(drive, '');
 		await safeUmount(drive);
 
 		const configureCommand = ['os', 'configure', drive, '--device', uuid];

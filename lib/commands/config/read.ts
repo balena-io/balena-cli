@@ -21,7 +21,7 @@ import * as cf from '../../utils/common-flags';
 import { getVisuals, stripIndent } from '../../utils/lazy';
 
 interface FlagsDef {
-	type: string;
+	type?: string;
 	drive?: string;
 	help: void;
 }
@@ -42,12 +42,10 @@ export default class ConfigReadCmd extends Command {
 	public static usage = 'config read';
 
 	public static flags: flags.Input<FlagsDef> = {
-		type: cf.deviceType,
+		type: cf.deviceTypeIgnored,
 		drive: cf.driveOrImg,
 		help: cf.help,
 	};
-
-	public static authenticated = true;
 
 	public static root = true;
 
@@ -61,7 +59,7 @@ export default class ConfigReadCmd extends Command {
 		await safeUmount(drive);
 
 		const config = await import('balena-config-json');
-		const configJSON = await config.read(drive, options.type);
+		const configJSON = await config.read(drive, '');
 
 		const prettyjson = await import('prettyjson');
 		console.info(prettyjson.render(configJSON));

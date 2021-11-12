@@ -21,7 +21,7 @@ import * as cf from '../../utils/common-flags';
 import { getVisuals, stripIndent } from '../../utils/lazy';
 
 interface FlagsDef {
-	type: string;
+	type?: string;
 	drive?: string;
 	help: void;
 }
@@ -61,12 +61,10 @@ export default class ConfigWriteCmd extends Command {
 	public static usage = 'config write <key> <value>';
 
 	public static flags: flags.Input<FlagsDef> = {
-		type: cf.deviceType,
+		type: cf.deviceTypeIgnored,
 		drive: cf.driveOrImg,
 		help: cf.help,
 	};
-
-	public static authenticated = true;
 
 	public static root = true;
 
@@ -82,14 +80,14 @@ export default class ConfigWriteCmd extends Command {
 		await safeUmount(drive);
 
 		const config = await import('balena-config-json');
-		const configJSON = await config.read(drive, options.type);
+		const configJSON = await config.read(drive, '');
 
 		console.info(`Setting ${params.key} to ${params.value}`);
 		ConfigWriteCmd.updateConfigJson(configJSON, params.key, params.value);
 
 		await denyMount(drive, async () => {
 			await safeUmount(drive);
-			await config.write(drive, options.type, configJSON);
+			await config.write(drive, '', configJSON);
 		});
 
 		console.info('Done');

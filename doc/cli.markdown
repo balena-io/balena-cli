@@ -2585,8 +2585,8 @@ Note: if using a private/custom device type, please ensure you are logged in
 
 Examples:
 
-	$ balena config inject my/config.json --type raspberrypi3
-	$ balena config inject my/config.json --type raspberrypi3 --drive /dev/disk2
+	$ balena config inject my/config.json
+	$ balena config inject my/config.json --drive /dev/disk2
 
 ### Arguments
 
@@ -2598,7 +2598,7 @@ the path to the config.json file to inject
 
 #### -t, --type TYPE
 
-device type (Check available types with `balena devices supported`)
+ignored - no longer required
 
 #### -d, --drive DRIVE
 
@@ -2618,7 +2618,7 @@ Examples:
 
 #### -t, --type TYPE
 
-device type (Check available types with `balena devices supported`)
+ignored - no longer required
 
 #### -d, --drive DRIVE
 
@@ -2638,7 +2638,7 @@ Examples:
 
 #### -t, --type TYPE
 
-device type (Check available types with `balena devices supported`)
+ignored - no longer required
 
 #### -d, --drive DRIVE
 
@@ -2673,7 +2673,7 @@ the value of the config parameter to write
 
 #### -t, --type TYPE
 
-device type (Check available types with `balena devices supported`)
+ignored - no longer required
 
 #### -d, --drive DRIVE
 

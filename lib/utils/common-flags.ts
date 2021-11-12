@@ -113,6 +113,13 @@ export const deviceType = flags.string({
 	required: true,
 });
 
+export const deviceTypeIgnored = flags.string({
+	description: 'ignored - no longer required',
+	char: 't',
+	required: false,
+	hidden: isV13(),
+});
+
 export const json: IBooleanFlag<boolean> = flags.boolean({
 	char: 'j',
 	description: 'produce JSON output instead of tabular output',
