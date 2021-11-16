@@ -1,3 +1,20 @@
+/**
+ * @license
+ * Copyright 2018-2021 Balena Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 const windowSize: { width?: number; height?: number } = {};
 
 const updateWindowSize = () => {
@@ -29,13 +46,6 @@ export = (stream: NodeJS.WriteStream = process.stdout) => {
 
 	const cursorDown = (rows: number = 0) => stream.write(`\u001B[${rows}B`);
 
-	const cursorHidden = () => {
-		const Bluebird = require('bluebird') as typeof import('bluebird');
-		return Bluebird.try(hideCursor).disposer(() => {
-			showCursor();
-		});
-	};
-
 	const write = (str: string) => stream.write(str);
 
 	const writeLine = (str: string) => stream.write(`${str}\n`);
@@ -54,7 +64,6 @@ export = (stream: NodeJS.WriteStream = process.stdout) => {
 		currentWindowSize,
 		hideCursor,
 		showCursor,
-		cursorHidden,
 		cursorUp,
 		cursorDown,
 		write,

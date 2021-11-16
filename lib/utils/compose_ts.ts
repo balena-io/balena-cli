@@ -1306,15 +1306,101 @@ async function getTokenForPreviousRepos(
 	return token;
 }
 
+async function pushAndUpdateServiceImages(
+	docker: Dockerode,
+	token: string,
+	images: TaggedImage[],
+	afterEach: (
+		serviceImage: import('balena-release/build/models').ImageModel,
+		props: object,
+	) => void,
+) {
+	const { DockerProgress } = await import('docker-progress');
+	const { retry } = await import('./helpers');
+	const { pushProgressRenderer } = await import('./compose');
+	const tty = (await import('./tty'))(process.stdout);
+	const opts = { authconfig: { registrytoken: token } };
+	const progress = new DockerProgress({ docker });
+	const renderer = pushProgressRenderer(
+		tty,
+		getChalk().blue('[Push]') + '    ',
+	);
+	const reporters = progress.aggregateProgress(images.length, renderer);
+
+	const pushImage = async (
+		localImage: Dockerode.Image,
+		index: number,
+	): Promise<string> => {
+		try {
+			// TODO 'localImage as any': find out exactly why tsc warns about
+			// 'name' that exists as a matter of fact, with a value similar to:
+			// "name": "registry2.balena-cloud.com/v2/aa27790dff571ec7d2b4fbcf3d4648d5:latest"
+			const imgName: string = (localImage as any).name || '';
+			const imageDigest: string = await retry({
+				func: () => progress.push(imgName, reporters[index], opts),
+				maxAttempts: 3, // try calling func 3 times (max)
+				label: imgName, // label for retry log messages
+				initialDelayMs: 2000, // wait 2 seconds before the 1st retry
+				backoffScaler: 1.4, // wait multiplier for each retry
+			});
+			if (!imageDigest) {
+				throw new ExpectedError(stripIndent`\
+					Unable to extract image digest (content hash) from image upload progress stream for image:
+					${imgName}`);
+			}
+			return imageDigest;
+		} finally {
+			renderer.end();
+		}
+	};
+
+	const inspectAndPushImage = async (
+		{ serviceImage, localImage, props, logs }: TaggedImage,
+		index: number,
+	) => {
+		try {
+			const [imgInfo, imgDigest] = await Promise.all([
+				localImage.inspect(),
+				pushImage(localImage, index),
+			]);
+			serviceImage.image_size = imgInfo.Size;
+			serviceImage.content_hash = imgDigest;
+			serviceImage.build_log = logs;
+			serviceImage.dockerfile = props.dockerfile;
+			serviceImage.project_type = props.projectType;
+			if (props.startTime) {
+				serviceImage.start_timestamp = props.startTime;
+			}
+			if (props.endTime) {
+				serviceImage.end_timestamp = props.endTime;
+			}
+			serviceImage.push_timestamp = new Date();
+			serviceImage.status = 'success';
+		} catch (error) {
+			serviceImage.error_message = '' + error;
+			serviceImage.status = 'failed';
+			throw error;
+		} finally {
+			await afterEach(serviceImage, props);
+		}
+	};
+
+	tty.hideCursor();
+	try {
+		await Promise.all(images.map(inspectAndPushImage));
+	} finally {
+		tty.showCursor();
+	}
+}
+
 async function pushServiceImages(
-	docker: import('dockerode'),
+	docker: Dockerode,
 	logger: Logger,
 	pineClient: ReturnType<typeof import('balena-release').createClient>,
 	taggedImages: TaggedImage[],
 	token: string,
 	skipLogUpload: boolean,
 ): Promise<void> {
-	const { pushAndUpdateServiceImages } = await import('./compose');
 	const releaseMod = await import('balena-release');
 	logger.logInfo('Pushing images to registry...');
 	await pushAndUpdateServiceImages(
@@ -1337,7 +1423,7 @@ async function pushServiceImages(
 const PLAIN_SEMVER_REGEX = /^([0-9]+)\.([0-9]+)\.([0-9]+)$/;
 
 export async function deployProject(
-	docker: import('dockerode'),
+	docker: Dockerode,
 	logger: Logger,
 	composition: Composition,
 	images: BuiltImage[],
