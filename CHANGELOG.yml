@@ -1,4 +1,15 @@
 - commits:
+    - subject: Update balena CI configuration (remove Node v10 from npm pipeline list)
+      hash: ae5ea0f4e85008624ff46fe10998fadbd8a48b15
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.51.2
+  date: 2021-11-16T11:50:07.926Z
+- commits:
     - subject: Fix forums support link in README.md
       hash: 112a7b8194d098e9c66754eb256590e13f54fe29
       body: ''
@@ -10,7 +21,7 @@
       author: Scott Lowe
       nested: []
   version: 12.51.1
-  date: 2021-10-25T17:53:29.951Z
+  date: 2021-10-25T17:29:36.975Z
 - commits:
     - subject: Add support for YAML anchors and aliases in 'docker-compose.yml'
       hash: 8e712ac91055c4efde885854488000a27c6b483d

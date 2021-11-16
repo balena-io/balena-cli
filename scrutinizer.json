@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Update balena CI configuration (remove Node v10 from npm pipeline list)",
+          "hash": "ae5ea0f4e85008624ff46fe10998fadbd8a48b15",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.51.2",
+      "date": "2021-11-16T00:07:56.053Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix forums support link in README.md",
           "hash": "112a7b8194d098e9c66754eb256590e13f54fe29",
           "body": "",
@@ -24046,7 +24063,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 345,
+  "stars": 348,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -24150,36 +24167,64 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-10-25T17:54:12Z",
+  "lastCommitDate": "2021-11-16T11:50:52Z",
   "latestRelease": {
-    "tagName": "v12.51.1",
+    "tagName": "v12.51.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.51.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.1/balena-cli-v12.51.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.51.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.2/balena-cli-v12.51.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.51.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.1/balena-cli-v12.51.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.51.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.2/balena-cli-v12.51.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.51.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.1/balena-cli-v12.51.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.51.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.2/balena-cli-v12.51.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.51.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.1/balena-cli-v12.51.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.51.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.2/balena-cli-v12.51.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.51.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.1/balena-cli-v12.51.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.51.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.2/balena-cli-v12.51.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 349,
+    "numberOfIssues": 354,
     "latestIssues": [
+      {
+        "title": "Add short request timeouts for deprecation check and event tracking",
+        "url": "https://github.com/balena-io/balena-cli/pull/2378"
+      },
+      {
+        "title": "Improve directory scan speed prior to tarballing",
+        "url": "https://github.com/balena-io/balena-cli/pull/2376"
+      },
+      {
+        "title": "deploy: Ensure the release fails if an image's digest (hash) is missing",
+        "url": "https://github.com/balena-io/balena-cli/pull/2375"
+      },
+      {
+        "title": "balena ssh fails with error: \"no mutual signature algorithm\"",
+        "url": "https://github.com/balena-io/balena-cli/issues/2373"
+      },
+      {
+        "title": "balena ssh: Remove unneeded communication with the API when using local mode",
+        "url": "https://github.com/balena-io/balena-cli/issues/2372"
+      },
+      {
+        "title": "os download: Prevent image cache from closing the stream early",
+        "url": "https://github.com/balena-io/balena-cli/pull/2371"
+      },
+      {
+        "title": "Named buiid stages are treated as not supporting multiarch",
+        "url": "https://github.com/balena-io/balena-cli/issues/2370"
+      },
       {
         "title": "config read/write/inject: Avoid need for internet access",
         "url": "https://github.com/balena-io/balena-cli/pull/2369"
@@ -24201,7 +24246,7 @@
         "url": "https://github.com/balena-io/balena-cli/issues/2361"
       },
       {
-        "title": "Update resin-multibuild to 4.13.0",
+        "title": "Update balena-multibuild to 5.1.0",
         "url": "https://github.com/balena-io/balena-cli/pull/2358"
       },
       {
@@ -24231,38 +24276,10 @@
       {
         "title": "`balena push` randomly stops streaming logs when pushing in local mode",
         "url": "https://github.com/balena-io/balena-cli/issues/2344"
-      },
-      {
-        "title": "Remove connectivity requirement for commands that can work without API access",
-        "url": "https://github.com/balena-io/balena-cli/issues/2343"
-      },
-      {
-        "title": "balena ssh: Cannot execute command on service / container",
-        "url": "https://github.com/balena-io/balena-cli/issues/2342"
-      },
-      {
-        "title": "Allow the usage of -tt to force TTY allocation when connecting inside containers",
-        "url": "https://github.com/balena-io/balena-cli/issues/2341"
-      },
-      {
-        "title": "livepush: Show progress when downloading base images",
-        "url": "https://github.com/balena-io/balena-cli/issues/2338"
-      },
-      {
-        "title": "Can't specify pre-release versions in `balena.yml`",
-        "url": "https://github.com/balena-io/balena-cli/issues/2337"
-      },
-      {
-        "title": "Add way to specify release version with using `balena push` [Enhancement request]",
-        "url": "https://github.com/balena-io/balena-cli/issues/2336"
-      },
-      {
-        "title": "preload: TypeError: Cannot destructure property __id of 'undefined' or 'null'",
-        "url": "https://github.com/balena-io/balena-cli/issues/2335"
       }
     ]
   },
-  "version": "12.51.1",
+  "version": "12.51.2",
   "screenshot": null,
   "logo": null
 }
