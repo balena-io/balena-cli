@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "deploy: Ensure the release fails if an image's digest (hash) is missing",
+          "hash": "23b07f8a41c82c0b23a38bac55cbd3874300dd58",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.51.3",
+      "date": "2021-11-16T11:58:31.895Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update balena CI configuration (remove Node v10 from npm pipeline list)",
           "hash": "ae5ea0f4e85008624ff46fe10998fadbd8a48b15",
           "body": "",
@@ -24167,35 +24184,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-11-16T11:50:52Z",
+  "lastCommitDate": "2021-11-16T17:10:36Z",
   "latestRelease": {
-    "tagName": "v12.51.2",
+    "tagName": "v12.51.3",
     "asssets": [
       {
-        "name": "balena-cli-v12.51.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.2/balena-cli-v12.51.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.51.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.3/balena-cli-v12.51.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.51.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.2/balena-cli-v12.51.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.51.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.3/balena-cli-v12.51.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.51.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.2/balena-cli-v12.51.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.51.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.3/balena-cli-v12.51.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.51.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.2/balena-cli-v12.51.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.51.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.3/balena-cli-v12.51.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.51.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.2/balena-cli-v12.51.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.51.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.51.3/balena-cli-v12.51.3-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 354,
+    "numberOfIssues": 353,
     "latestIssues": [
       {
         "title": "Add short request timeouts for deprecation check and event tracking",
@@ -24204,10 +24221,6 @@
       {
         "title": "Improve directory scan speed prior to tarballing",
         "url": "https://github.com/balena-io/balena-cli/pull/2376"
-      },
-      {
-        "title": "deploy: Ensure the release fails if an image's digest (hash) is missing",
-        "url": "https://github.com/balena-io/balena-cli/pull/2375"
       },
       {
         "title": "balena ssh fails with error: \"no mutual signature algorithm\"",
@@ -24276,10 +24289,14 @@
       {
         "title": "`balena push` randomly stops streaming logs when pushing in local mode",
         "url": "https://github.com/balena-io/balena-cli/issues/2344"
+      },
+      {
+        "title": "Remove connectivity requirement for commands that can work without API access",
+        "url": "https://github.com/balena-io/balena-cli/issues/2343"
       }
     ]
   },
-  "version": "12.51.2",
+  "version": "12.51.3",
   "screenshot": null,
   "logo": null
 }
