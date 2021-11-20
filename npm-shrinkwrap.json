@@ -3785,9 +3785,9 @@
       }
     },
     "balena-image-manager": {
-      "version": "7.0.3",
-      "resolved": "https://registry.npmjs.org/balena-image-manager/-/balena-image-manager-7.0.3.tgz",
-      "integrity": "sha512-KLb/5JksYxCR7JClq+MAuCMYPNMAXB9MgqubUvzj4mI/Yec3XD4xZ2BMITwINrl4sMKui/G7t/R5tBNFZsFe9w==",
+      "version": "7.1.0",
+      "resolved": "https://registry.npmjs.org/balena-image-manager/-/balena-image-manager-7.1.0.tgz",
+      "integrity": "sha512-W8Etn0PBQJUlTJ1m1rCuQQ8TTLdkBoNP2SRHQqez2HANQp+T38wFjQXVx9PhQ6J7eqOYuW87SkJiKLpnmlz79Q==",
       "requires": {
         "balena-sdk": "^15.2.1",
         "mime": "^2.4.6",
