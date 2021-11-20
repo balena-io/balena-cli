@@ -1,4 +1,25 @@
 - commits:
+    - subject: >-
+        os download: Display OS version actually downloaded (range or
+        'recommended')
+      hash: f46452f6de7bbfa00e073986d47a85608e5a9fea
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'os versions, os download: Add support for balenaOS ESR versions'
+      hash: c166ec75979fcaa8bd123a1bf84f379279050fd4
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+  version: 12.52.0
+  date: 2021-11-20T01:18:13.651Z
+- commits:
     - subject: 'deploy: Ensure the release fails if an image''s digest (hash) is missing'
       hash: 23b07f8a41c82c0b23a38bac55cbd3874300dd58
       body: ''
@@ -8,7 +29,7 @@
       author: Paulo Castro
       nested: []
   version: 12.51.3
-  date: 2021-11-16T17:09:48.077Z
+  date: 2021-11-16T11:58:31.895Z
 - commits:
     - subject: Update balena CI configuration (remove Node v10 from npm pipeline list)
       hash: ae5ea0f4e85008624ff46fe10998fadbd8a48b15
