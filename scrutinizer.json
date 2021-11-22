@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "push/build: Add test cases for .dockerignore filtering corner cases",
+          "hash": "d64b6deb81d32fe16c79d97ab5a4699512b74387",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.52.1",
+      "date": "2021-11-22T01:53:27.126Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "os download: Display OS version actually downloaded (range or 'recommended')",
           "hash": "f46452f6de7bbfa00e073986d47a85608e5a9fea",
           "body": "",
@@ -24212,36 +24229,44 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-11-20T01:19:00Z",
+  "lastCommitDate": "2021-11-22T02:25:10Z",
   "latestRelease": {
-    "tagName": "v12.52.0",
+    "tagName": "v12.52.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.52.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.0/balena-cli-v12.52.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.52.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.1/balena-cli-v12.52.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.52.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.0/balena-cli-v12.52.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.52.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.1/balena-cli-v12.52.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.52.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.0/balena-cli-v12.52.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.52.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.1/balena-cli-v12.52.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.52.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.0/balena-cli-v12.52.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.52.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.1/balena-cli-v12.52.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.52.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.0/balena-cli-v12.52.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.52.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.1/balena-cli-v12.52.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 354,
+    "numberOfIssues": 356,
     "latestIssues": [
+      {
+        "title": "push/build/deploy: socket files should be included in built image",
+        "url": "https://github.com/balena-io/balena-cli/issues/2385"
+      },
+      {
+        "title": "push/build/deploy: .dockerignore patterns should also be matched against symlink targets",
+        "url": "https://github.com/balena-io/balena-cli/issues/2383"
+      },
       {
         "title": "Should push & deploy should offer a `--note(s)` argument to allow users to set the `release.note` field.",
         "url": "https://github.com/balena-io/balena-cli/issues/2382"
@@ -24313,18 +24338,10 @@
       {
         "title": "Add support for --json flag for releases",
         "url": "https://github.com/balena-io/balena-cli/issues/2351"
-      },
-      {
-        "title": "Flash speed is slow using cli compared to Etcher",
-        "url": "https://github.com/balena-io/balena-cli/issues/2350"
-      },
-      {
-        "title": "`config inject` should not require an internet connection",
-        "url": "https://github.com/balena-io/balena-cli/issues/2349"
       }
     ]
   },
-  "version": "12.52.0",
+  "version": "12.52.1",
   "screenshot": null,
   "logo": null
 }

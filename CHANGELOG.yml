@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'push/build: Add test cases for .dockerignore filtering corner cases'
+      hash: d64b6deb81d32fe16c79d97ab5a4699512b74387
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.52.1
+  date: 2021-11-22T02:24:20.525Z
+- commits:
     - subject: >-
         os download: Display OS version actually downloaded (range or
         'recommended')
@@ -18,7 +29,7 @@
       author: Paulo Castro
       nested: []
   version: 12.52.0
-  date: 2021-11-20T01:18:13.651Z
+  date: 2021-11-20T00:51:09.369Z
 - commits:
     - subject: 'deploy: Ensure the release fails if an image''s digest (hash) is missing'
       hash: 23b07f8a41c82c0b23a38bac55cbd3874300dd58
