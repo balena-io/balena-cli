@@ -32,6 +32,7 @@ import {
 	ExpectedTarStreamFilesByService,
 	getDockerignoreWarn1,
 	getDockerignoreWarn2,
+	getDockerignoreWarn3,
 } from '../projects';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
@@ -184,6 +185,10 @@ describe('balena build', function () {
 			`[Info] No "docker-compose.yml" file found at "${projectPath}"`,
 			`[Info] Creating default composition with source: "${projectPath}"`,
 			'[Build] main Step 1/4 : FROM busybox',
+			...getDockerignoreWarn1(
+				[path.join(projectPath, 'src', '.dockerignore')],
+				'build',
+			),
 		];
 		if (isWindows) {
 			const fname = path.join(projectPath, 'src', 'windows-crlf.sh');
@@ -383,7 +388,6 @@ describe('balena build', function () {
 				'file1.sh': { fileSize: 12, type: 'file' },
 			},
 			service2: {
-				'.dockerignore': { fileSize: 12, type: 'file' },
 				'Dockerfile-alt': { fileSize: 13, type: 'file' },
 				'file2-crlf.sh': {
 					fileSize: isWindows ? 12 : 14,
@@ -513,13 +517,7 @@ describe('balena build', function () {
 				'[Build] service1 Step 1/4 : FROM busybox',
 				'[Build] service2 Step 1/4 : FROM busybox',
 			],
-			...[
-				`[Info] ---------------------------------------------------------------------------`,
-				'[Info] The --multi-dockerignore option is being used, and a .dockerignore file was',
-				'[Info] found at the project source (root) directory. Note that this file will not',
-				'[Info] be used to filter service subdirectories. See "balena help build".',
-				`[Info] ---------------------------------------------------------------------------`,
-			],
+			...getDockerignoreWarn3('build'),
 		];
 		if (isWindows) {
 			expectedResponseLines.push(
@@ -602,13 +600,7 @@ describe('balena build', function () {
 				'[Build] service1 Step 1/4 : FROM busybox',
 				'[Build] service2 Step 1/4 : FROM busybox',
 			],
-			...[
-				`[Info] ---------------------------------------------------------------------------`,
-				'[Info] The --multi-dockerignore option is being used, and a .dockerignore file was',
-				'[Info] found at the project source (root) directory. Note that this file will not',
-				'[Info] be used to filter service subdirectories. See "balena help build".',
-				`[Info] ---------------------------------------------------------------------------`,
-			],
+			...getDockerignoreWarn3('build'),
 		];
 		if (isWindows) {
 			expectedResponseLines.push(
