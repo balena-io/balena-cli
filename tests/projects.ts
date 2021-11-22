@@ -15,12 +15,9 @@
  * limitations under the License.
  */
 
-import * as fs from 'fs';
+import { promises as fs } from 'fs';
 import * as path from 'path';
 import type { Headers } from 'tar-stream';
-import { promisify } from 'util';
-
-const statAsync = promisify(fs.stat);
 
 export interface ExpectedTarStreamFile {
 	contents?: string;
@@ -48,6 +45,15 @@ export const projectsPath = path.join(
 	'test-data',
 	'projects',
 );
+
+export async function exists(fPath: string) {
+	try {
+		await fs.stat(fPath);
+		return true;
+	} catch (e) {
+		return false;
+	}
+}
 
 export async function setupDockerignoreTestData({ cleanup = false } = {}) {
 	const { copy, remove } = await import('fs-extra');
@@ -78,7 +84,7 @@ export async function addRegSecretsEntries(
 ): Promise<string> {
 	const regSecretsPath = path.join(projectsPath, 'registry-secrets.json');
 	expectedFiles['.balena/registry-secrets.json'] = {
-		fileSize: (await statAsync(regSecretsPath)).size,
+		fileSize: (await fs.stat(regSecretsPath)).size,
 		type: 'file',
 	};
 	return regSecretsPath;
@@ -114,4 +120,14 @@ export function getDockerignoreWarn2(paths: string[], cmd: string) {
 		],
 	);
 	return lines;
+}
+
+export function getDockerignoreWarn3(cmd: string) {
+	return [
+		`[Info] ---------------------------------------------------------------------------`,
+		'[Info] The --multi-dockerignore option is being used, and a .dockerignore file was',
+		'[Info] found at the project source (root) directory. Note that this file will not',
+		`[Info] be used to filter service subdirectories. See "balena help ${cmd}".`,
+		`[Info] ---------------------------------------------------------------------------`,
+	];
 }

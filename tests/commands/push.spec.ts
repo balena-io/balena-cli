@@ -26,9 +26,11 @@ import { expectStreamNoCRLF, testPushBuildStream } from '../docker-build';
 import { cleanOutput, runCommand } from '../helpers';
 import {
 	addRegSecretsEntries,
+	exists,
 	ExpectedTarStreamFiles,
 	getDockerignoreWarn1,
 	getDockerignoreWarn2,
+	getDockerignoreWarn3,
 	setupDockerignoreTestData,
 } from '../projects';
 
@@ -36,6 +38,7 @@ const repoPath = path.normalize(path.join(__dirname, '..', '..'));
 const projectsPath = path.join(repoPath, 'tests', 'test-data', 'projects');
 
 const itNoV13 = isV13() ? it.skip : it;
+const itNoWin = process.platform === 'win32' ? it.skip : it;
 
 const commonResponseLines = {
 	'build-POST-v3.json': [
@@ -451,12 +454,10 @@ describe('balena push', function () {
 		const projectPath = path.join(projectsPath, 'docker-compose', 'basic');
 		const expectedFiles: ExpectedTarStreamFiles = {
 			'.balena/balena.yml': { fileSize: 197, type: 'file' },
-			'.dockerignore': { fileSize: 22, type: 'file' },
 			'docker-compose.yml': { fileSize: 332, type: 'file' },
 			'service1/Dockerfile.template': { fileSize: 144, type: 'file' },
 			'service1/file1.sh': { fileSize: 12, type: 'file' },
 			'service2/Dockerfile-alt': { fileSize: 13, type: 'file' },
-			'service2/.dockerignore': { fileSize: 12, type: 'file' },
 			'service2/file2-crlf.sh': {
 				fileSize: isWindows ? 12 : 14,
 				testStream: isWindows ? expectStreamNoCRLF : undefined,
@@ -503,7 +504,6 @@ describe('balena push', function () {
 		const projectPath = path.join(projectsPath, 'docker-compose', 'basic');
 		const expectedFiles: ExpectedTarStreamFiles = {
 			'.balena/balena.yml': { fileSize: 197, type: 'file' },
-			'.dockerignore': { fileSize: 22, type: 'file' },
 			'docker-compose.yml': { fileSize: 332, type: 'file' },
 			'service1/Dockerfile.template': { fileSize: 144, type: 'file' },
 			'service1/file1.sh': { fileSize: 12, type: 'file' },
@@ -524,13 +524,7 @@ describe('balena push', function () {
 		);
 		const expectedResponseLines: string[] = [
 			...commonResponseLines[responseFilename],
-			...[
-				`[Info] ---------------------------------------------------------------------------`,
-				'[Info] The --multi-dockerignore option is being used, and a .dockerignore file was',
-				'[Info] found at the project source (root) directory. Note that this file will not',
-				'[Info] be used to filter service subdirectories. See "balena help push".',
-				`[Info] ---------------------------------------------------------------------------`,
-			],
+			...getDockerignoreWarn3('push'),
 		];
 		if (isWindows) {
 			expectedResponseLines.push(
@@ -552,6 +546,66 @@ describe('balena push', function () {
 			responseBody,
 			responseCode: 200,
 		});
+	});
+
+	// Skip on Windows because this test uses Unix domain sockets
+	itNoWin('should create the expected tar stream (socket file)', async () => {
+		// This test creates project files dynamically in a temp dir, where
+		// a Unix domain socket file is created and listened on. A specific
+		// reason use use a temp dir is that Unix domain socket paths are
+		// limited in length to just over 100 characters, while the project
+		// paths in the test-data folder easily exceed that limit.
+		const tmp = await import('tmp');
+		tmp.setGracefulCleanup();
+		const projectPath = await new Promise<string>((resolve, reject) => {
+			const opts = { template: 'tmp-XXXXXX', unsafeCleanup: true };
+			tmp.dir(opts, (e, p) => (e ? reject(e) : resolve(p)));
+		});
+		console.error(`[debug] Temp project dir: ${projectPath}`);
+
+		// Create a Unix Domain Socket file that should not be included in the tar stream
+		const net = await import('net');
+		const server = net.createServer();
+		const socketPath = path.join(projectPath, 'socket');
+		await new Promise<void>((resolve, reject) => {
+			server.on('error', reject);
+			try {
+				server.listen(socketPath, resolve);
+			} catch (e) {
+				reject(e);
+			}
+		});
+		console.error(`[debug] Checking existence of socket at '${socketPath}'`);
+		expect(await exists(socketPath), 'Socket existence').to.be.true;
+
+		await fs.writeFile(path.join(projectPath, 'Dockerfile'), 'FROM busybox\n');
+
+		const expectedFiles: ExpectedTarStreamFiles = {
+			Dockerfile: { fileSize: 13, type: 'file' },
+		};
+		const responseFilename = 'build-POST-v3.json';
+		const responseBody = await fs.readFile(
+			path.join(builderResponsePath, responseFilename),
+			'utf8',
+		);
+
+		await testPushBuildStream({
+			builderMock: builder,
+			commandLine: `push testApp -s ${projectPath}`,
+			expectedFiles,
+			expectedQueryParams: commonQueryParams,
+			expectedResponseLines: commonResponseLines[responseFilename],
+			projectPath,
+			responseBody,
+			responseCode: 200,
+		});
+
+		// Terminate Unix Domain Socket server
+		await new Promise<void>((resolve, reject) => {
+			server.close((e) => (e ? reject(e) : resolve()));
+		});
+
+		expect(await exists(socketPath), 'Socket existence').to.be.false;
 	});
 });
 

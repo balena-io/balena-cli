@@ -32,6 +32,7 @@ import {
 	ExpectedTarStreamFiles,
 	ExpectedTarStreamFilesByService,
 	getDockerignoreWarn1,
+	getDockerignoreWarn3,
 } from '../projects';
 
 const repoPath = path.normalize(path.join(__dirname, '..', '..'));
@@ -396,13 +397,7 @@ describe('balena deploy', function () {
 				'[Build] service1 Step 1/4 : FROM busybox',
 				'[Build] service2 Step 1/4 : FROM busybox',
 			],
-			...[
-				`[Info] ---------------------------------------------------------------------------`,
-				'[Info] The --multi-dockerignore option is being used, and a .dockerignore file was',
-				'[Info] found at the project source (root) directory. Note that this file will not',
-				'[Info] be used to filter service subdirectories. See "balena help deploy".',
-				`[Info] ---------------------------------------------------------------------------`,
-			],
+			...getDockerignoreWarn3('deploy'),
 		];
 		if (isWindows) {
 			expectedResponseLines.push(

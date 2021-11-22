@@ -1,1 +1,2 @@
 service1/test-ignore*
+**/.dockerignore
