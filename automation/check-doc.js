@@ -24,15 +24,15 @@ const simplegit = require('simple-git/promise');
 const ROOT = path.normalize(path.join(__dirname, '..'));
 
 /**
- * Compare the timestamp of cli.markdown with the timestamp of staged files,
- * issuing an error if cli.markdown is older.
- * If cli.markdown does not require updating and the developer cannot run
+ * Compare the timestamp of balena-cli.md with the timestamp of staged files,
+ * issuing an error if balena-cli.md is older.
+ * If balena-cli.md does not require updating and the developer cannot run
  * `npm run build` on their laptop, the error message suggests a workaround
  * using `touch`.
  */
 async function checkBuildTimestamps() {
 	const git = simplegit(ROOT);
-	const docFile = path.join(ROOT, 'doc', 'cli.markdown');
+	const docFile = path.join(ROOT, 'docs', 'balena-cli.md');
 	const [docStat, gitStatus] = await Promise.all([
 		fs.stat(docFile),
 		git.status(),

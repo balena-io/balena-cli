@@ -6,7 +6,7 @@
 *.sh text eol=lf
 
 # lf for the docs as it's auto-generated and will otherwise trigger an uncommited error on windows
-doc/cli.markdown text eol=lf
+docs/balena-cli.md text eol=lf
 # crlf for the eol conversion test files
 tests/test-data/projects/docker-compose/basic/service2/file2-crlf.sh eol=crlf
 tests/test-data/projects/no-docker-compose/basic/src/windows-crlf.sh eol=crlf
