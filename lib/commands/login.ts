@@ -187,7 +187,7 @@ ${messages.reachingOut}`);
 			if (loginType === 'register') {
 				const open = await import('open');
 				const signupUrl = `https://dashboard.${balenaUrl}/signup`;
-				open(signupUrl, { wait: false });
+				await open(signupUrl, { wait: false });
 				throw new ExpectedError(`Please sign up at ${signupUrl}`);
 			}
 

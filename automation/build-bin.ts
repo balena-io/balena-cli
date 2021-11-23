@@ -310,7 +310,7 @@ async function zipPkg() {
 		archive.on('warning', console.warn);
 
 		archive.pipe(outputStream);
-		archive.finalize();
+		archive.finalize().catch(reject);
 	});
 }
 

@@ -282,10 +282,17 @@ Can be repeated to add multiple certificates.\
 			if (signal) {
 				gotSignal = true;
 				nodeCleanup.uninstall(); // don't call cleanup handler again
-				preloader.cleanup().then(() => {
-					// calling process.exit() won't inform parent process of signal
-					process.kill(process.pid, signal);
-				});
+				preloader
+					.cleanup()
+					.then(() => {
+						// calling process.exit() won't inform parent process of signal
+						process.kill(process.pid, signal);
+					})
+					.catch((e) => {
+						if (process.env.DEBUG) {
+							console.error(e);
+						}
+					});
 				return false;
 			}
 		});

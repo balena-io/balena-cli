@@ -1085,53 +1085,52 @@ async function performResolution(
 	releaseHash: string,
 	preprocessHook?: (dockerfile: string) => string,
 ): Promise<MultiBuild.BuildTask[]> {
-	const { cloneTarStream } = await import('tar-utils');
 	const multiBuild = await import('resin-multibuild');
-
-	return await new Promise<MultiBuild.BuildTask[]>((resolve, reject) => {
-		const buildTasks = multiBuild.performResolution(
-			tasks,
-			deviceInfo.arch,
-			deviceInfo.deviceType,
-			{ error: [reject] },
-			{
-				BALENA_RELEASE_HASH: releaseHash,
-				BALENA_APP_NAME: appName,
-			},
-			preprocessHook,
-		);
-		(async () => {
-			try {
-				// Do one task at a time in order to reduce peak memory usage. Resolves to buildTasks.
-				for (const buildTask of buildTasks) {
-					// buildStream is falsy for "external" tasks (image pull)
-					if (!buildTask.buildStream) {
-						continue;
-					}
-					let error: Error | undefined;
-					try {
-						// Consume each task.buildStream in order to trigger the
-						// resolution events that define fields like:
-						//     task.dockerfile, task.dockerfilePath,
-						//     task.projectType, task.resolved
-						// This mimics what is currently done in `resin-builder`.
-						buildTask.buildStream = await cloneTarStream(buildTask.buildStream);
-					} catch (e) {
-						error = e;
-					}
-					if (error || (!buildTask.external && !buildTask.resolved)) {
-						const cause = error ? `${error}\n` : '';
-						throw new ExpectedError(
-							`${cause}Project type for service "${buildTask.serviceName}" could not be determined. Missing a Dockerfile?`,
-						);
-					}
-				}
-				resolve(buildTasks);
-			} catch (e) {
-				reject(e);
-			}
-		})();
+	const resolveListeners: MultiBuild.ResolveListeners = {};
+	const resolvePromise = new Promise<never>((_resolve, reject) => {
+		resolveListeners.error = [reject];
 	});
+	const buildTasks = multiBuild.performResolution(
+		tasks,
+		deviceInfo.arch,
+		deviceInfo.deviceType,
+		resolveListeners,
+		{
+			BALENA_RELEASE_HASH: releaseHash,
+			BALENA_APP_NAME: appName,
+		},
+		preprocessHook,
+	);
+	await Promise.race([resolvePromise, resolveTasks(buildTasks)]);
+	return buildTasks;
+}
+
+async function resolveTasks(buildTasks: MultiBuild.BuildTask[]) {
+	const { cloneTarStream } = await import('tar-utils');
+	// Do one task at a time in order to reduce peak memory usage. Resolves to buildTasks.
+	for (const buildTask of buildTasks) {
+		// buildStream is falsy for "external" tasks (image pull)
+		if (!buildTask.buildStream) {
+			continue;
+		}
+		let error: Error | undefined;
+		try {
+			// Consume each task.buildStream in order to trigger the
+			// resolution events that define fields like:
+			//     task.dockerfile, task.dockerfilePath,
+			//     task.projectType, task.resolved
+			// This mimics what is currently done in `resin-builder`.
+			buildTask.buildStream = await cloneTarStream(buildTask.buildStream);
+		} catch (e) {
+			error = e;
+		}
+		if (error || (!buildTask.external && !buildTask.resolved)) {
+			const cause = error ? `${error}\n` : '';
+			throw new ExpectedError(
+				`${cause}Project type for service "${buildTask.serviceName}" could not be determined. Missing a Dockerfile?`,
+			);
+		}
+	}
 }
 
 /**

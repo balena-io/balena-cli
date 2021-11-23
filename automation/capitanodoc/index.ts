@@ -105,4 +105,5 @@ async function printMarkdown() {
 	}
 }
 
+// tslint:disable-next-line:no-floating-promises
 printMarkdown();

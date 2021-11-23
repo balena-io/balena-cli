@@ -103,4 +103,5 @@ export async function run(args?: string[]) {
 	}
 }
 
+// tslint:disable-next-line:no-floating-promises
 run();
