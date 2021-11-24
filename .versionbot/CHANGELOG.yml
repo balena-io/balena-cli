@@ -1,4 +1,15 @@
 - commits:
+    - subject: Delete 'doc/automated-init.md' and improve 'balena help device init'
+      hash: 952d782e905c733f7d98fc4524850d399adbefdc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.52.2
+  date: 2021-11-24T18:31:20.275Z
+- commits:
     - subject: 'push/build: Add test cases for .dockerignore filtering corner cases'
       hash: d64b6deb81d32fe16c79d97ab5a4699512b74387
       body: ''
