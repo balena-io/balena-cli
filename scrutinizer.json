@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Delete 'doc/automated-init.md' and improve 'balena help device init'",
+          "hash": "952d782e905c733f7d98fc4524850d399adbefdc",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.52.2",
+      "date": "2021-11-24T18:31:20.275Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "push/build: Add test cases for .dockerignore filtering corner cases",
           "hash": "d64b6deb81d32fe16c79d97ab5a4699512b74387",
           "body": "",
@@ -24229,36 +24246,52 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-11-22T02:25:10Z",
+  "lastCommitDate": "2021-11-24T18:59:10Z",
   "latestRelease": {
-    "tagName": "v12.52.1",
+    "tagName": "v12.52.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.52.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.1/balena-cli-v12.52.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.52.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.2/balena-cli-v12.52.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.52.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.1/balena-cli-v12.52.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.52.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.2/balena-cli-v12.52.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.52.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.1/balena-cli-v12.52.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.52.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.2/balena-cli-v12.52.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.52.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.1/balena-cli-v12.52.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.52.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.2/balena-cli-v12.52.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.52.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.1/balena-cli-v12.52.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.52.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.2/balena-cli-v12.52.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 356,
+    "numberOfIssues": 360,
     "latestIssues": [
+      {
+        "title": "Bump 'balena-lint' and fix 'no-floating-promises' warnings",
+        "url": "https://github.com/balena-io/balena-cli/pull/2389"
+      },
+      {
+        "title": "Transitional changes to doc files for landr implementation",
+        "url": "https://github.com/balena-io/balena-cli/pull/2388"
+      },
+      {
+        "title": "os download: should not require '.prod' suffix for ESR versions",
+        "url": "https://github.com/balena-io/balena-cli/issues/2387"
+      },
+      {
+        "title": "os download, os versions: should support device type aliases",
+        "url": "https://github.com/balena-io/balena-cli/issues/2386"
+      },
       {
         "title": "push/build/deploy: socket files should be included in built image",
         "url": "https://github.com/balena-io/balena-cli/issues/2385"
@@ -24322,26 +24355,10 @@
       {
         "title": "[FEATURE] `balena login` automatically logs in with API Key Environment Variable",
         "url": "https://github.com/balena-io/balena-cli/issues/2361"
-      },
-      {
-        "title": "Update balena-multibuild to 5.1.0",
-        "url": "https://github.com/balena-io/balena-cli/pull/2358"
-      },
-      {
-        "title": "Make multi-dockerignore the default and/or a configuration option",
-        "url": "https://github.com/balena-io/balena-cli/issues/2355"
-      },
-      {
-        "title": "Add ability to delete a release",
-        "url": "https://github.com/balena-io/balena-cli/issues/2352"
-      },
-      {
-        "title": "Add support for --json flag for releases",
-        "url": "https://github.com/balena-io/balena-cli/issues/2351"
       }
     ]
   },
-  "version": "12.52.1",
+  "version": "12.52.2",
   "screenshot": null,
   "logo": null
 }
