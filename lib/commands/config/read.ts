@@ -21,7 +21,7 @@ import * as cf from '../../utils/common-flags';
 import { getVisuals, stripIndent } from '../../utils/lazy';
 
 interface FlagsDef {
-	type: string;
+	type?: string;
 	drive?: string;
 	help: void;
 	json: boolean;
@@ -29,27 +29,29 @@ interface FlagsDef {
 
 export default class ConfigReadCmd extends Command {
 	public static description = stripIndent`
-		Read the configuration of a device or OS image.
+		Read the config.json file of a balenaOS image or attached media.
 
-		Read the config.json file from the mounted filesystem,
-		e.g. the SD card of a provisioned device or balenaOS image.
+		Read the 'config.json' file of a balenaOS image file or attached SD card or
+		USB stick.
+
+		Documentation for the balenaOS 'config.json' file can be found at:
+		https://www.balena.io/docs/reference/OS/configuration/
 	`;
 
 	public static examples = [
-		'$ balena config read --type raspberrypi3',
-		'$ balena config read --type raspberrypi3 --drive /dev/disk2',
+		'$ balena config read',
+		'$ balena config read --drive /dev/disk2',
+		'$ balena config read --drive balena.img',
 	];
 
 	public static usage = 'config read';
 
 	public static flags: flags.Input<FlagsDef> = {
-		type: cf.deviceType,
+		type: cf.deviceTypeIgnored,
 		drive: cf.driveOrImg,
 		help: cf.help,
 		json: cf.json,
 	};
-
-	public static authenticated = true;
 
 	public static root = true;
 
@@ -63,7 +65,7 @@ export default class ConfigReadCmd extends Command {
 		await safeUmount(drive);
 
 		const config = await import('balena-config-json');
-		const configJSON = await config.read(drive, options.type);
+		const configJSON = await config.read(drive, '');
 
 		if (options.json) {
 			console.log(JSON.stringify(configJSON, null, 4));

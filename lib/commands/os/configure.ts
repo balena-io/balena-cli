@@ -187,6 +187,8 @@ export default class OsConfigureCmd extends Command {
 		help: cf.help,
 	};
 
+	public static authenticated = true;
+
 	public async run() {
 		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
 			OsConfigureCmd,

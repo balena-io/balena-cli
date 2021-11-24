@@ -21,7 +21,7 @@ import * as cf from '../../utils/common-flags';
 import { getVisuals, stripIndent } from '../../utils/lazy';
 
 interface FlagsDef {
-	type: string;
+	type?: string;
 	drive?: string;
 	help: void;
 }
@@ -33,16 +33,19 @@ interface ArgsDef {
 
 export default class ConfigWriteCmd extends Command {
 	public static description = stripIndent`
-		Write a key-value pair to configuration of a device or OS image.
+		Write a key-value pair to the config.json file of an OS image or attached media.
 
-		Write a key-value pair to the config.json file on the mounted filesystem,
-		e.g. the SD card of a provisioned device or balenaOS image.
+		Write a key-value pair to the 'config.json' file of a balenaOS image file or
+		attached SD card or USB stick.
+
+		Documentation for the balenaOS 'config.json' file can be found at:
+		https://www.balena.io/docs/reference/OS/configuration/
 	`;
 
 	public static examples = [
-		'$ balena config write --type raspberrypi3 username johndoe',
-		'$ balena config write --type raspberrypi3 --drive /dev/disk2 username johndoe',
-		'$ balena config write --type raspberrypi3 files.network/settings "..."',
+		'$ balena config write ntpServers "0.resinio.pool.ntp.org 1.resinio.pool.ntp.org"',
+		'$ balena config write --drive /dev/disk2 hostname custom-hostname',
+		'$ balena config write --drive balena.img os.network.connectivity.interval 300',
 	];
 
 	public static args = [
@@ -61,12 +64,10 @@ export default class ConfigWriteCmd extends Command {
 	public static usage = 'config write <key> <value>';
 
 	public static flags: flags.Input<FlagsDef> = {
-		type: cf.deviceType,
+		type: cf.deviceTypeIgnored,
 		drive: cf.driveOrImg,
 		help: cf.help,
 	};
-
-	public static authenticated = true;
 
 	public static root = true;
 
@@ -82,14 +83,14 @@ export default class ConfigWriteCmd extends Command {
 		await safeUmount(drive);
 
 		const config = await import('balena-config-json');
-		const configJSON = await config.read(drive, options.type);
+		const configJSON = await config.read(drive, '');
 
 		console.info(`Setting ${params.key} to ${params.value}`);
 		ConfigWriteCmd.updateConfigJson(configJSON, params.key, params.value);
 
 		await denyMount(drive, async () => {
 			await safeUmount(drive);
-			await config.write(drive, options.type, configJSON);
+			await config.write(drive, '', configJSON);
 		});
 
 		console.info('Done');

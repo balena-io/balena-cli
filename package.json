@@ -201,7 +201,7 @@
     "@types/update-notifier": "^4.1.1",
     "@zeit/dockerignore": "0.0.3",
     "JSONStream": "^1.0.3",
-    "balena-config-json": "^4.1.1",
+    "balena-config-json": "^4.2.0",
     "balena-device-init": "^6.0.0",
     "balena-errors": "^4.7.1",
     "balena-image-fs": "^7.0.6",

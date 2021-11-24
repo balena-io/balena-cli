@@ -3634,13 +3634,13 @@
       }
     },
     "balena-config-json": {
-      "version": "4.1.1",
-      "resolved": "https://registry.npmjs.org/balena-config-json/-/balena-config-json-4.1.1.tgz",
-      "integrity": "sha512-zpYt3SbXxe1OgmLcA8RVecrBgVH1sThYVAd9irfp/NOjKgk0bRiVjx2rG7yLROB7gcLxYDeivP4pLTTDtpylHQ==",
+      "version": "4.2.0",
+      "resolved": "https://registry.npmjs.org/balena-config-json/-/balena-config-json-4.2.0.tgz",
+      "integrity": "sha512-k0/2y1FmZni2EAVYHfWFme/F1xchAcvHweDA9QCEHm83LU0+j6v/Hk9RZ1IhipRty2jDSEw1BorYVrYmx9+Psg==",
       "requires": {
-        "balena-image-fs": "^7.0.4",
-        "balena-sdk": "^15.2.1",
-        "lodash": "^4.17.19"
+        "balena-image-fs": "^7.0.6",
+        "file-disk": "^8.0.1",
+        "partitioninfo": "^6.0.2"
       }
     },
     "balena-device-init": {

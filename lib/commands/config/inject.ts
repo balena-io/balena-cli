@@ -21,7 +21,7 @@ import * as cf from '../../utils/common-flags';
 import { getVisuals, stripIndent } from '../../utils/lazy';
 
 interface FlagsDef {
-	type: string;
+	type?: string;
 	drive?: string;
 	help: void;
 }
@@ -32,18 +32,18 @@ interface ArgsDef {
 
 export default class ConfigInjectCmd extends Command {
 	public static description = stripIndent`
-		Inject a configuration file into a device or OS image.
+		Inject a config.json file to a balenaOS image or attached media.
 
-		Inject a config.json file to a mounted filesystem, e.g. the SD card of a
-		provisioned device or balenaOS image.
+		Inject a 'config.json' file to a balenaOS image file or attached SD card or
+		USB stick.
 
-		Note: if using a private/custom device type, please ensure you are logged in
-		('balena login' command). Public device types do not require logging in.
+		Documentation for the balenaOS 'config.json' file can be found at:
+		https://www.balena.io/docs/reference/OS/configuration/
 	`;
 
 	public static examples = [
-		'$ balena config inject my/config.json --type raspberrypi3',
-		'$ balena config inject my/config.json --type raspberrypi3 --drive /dev/disk2',
+		'$ balena config inject my/config.json',
+		'$ balena config inject my/config.json --drive /dev/disk2',
 	];
 
 	public static args = [
@@ -57,7 +57,7 @@ export default class ConfigInjectCmd extends Command {
 	public static usage = 'config inject <file>';
 
 	public static flags: flags.Input<FlagsDef> = {
-		type: cf.deviceType,
+		type: cf.deviceTypeIgnored,
 		drive: cf.driveOrImg,
 		help: cf.help,
 	};
@@ -81,7 +81,7 @@ export default class ConfigInjectCmd extends Command {
 		);
 
 		const config = await import('balena-config-json');
-		await config.write(drive, options.type, configJSON);
+		await config.write(drive, '', configJSON);
 
 		console.info('Done');
 	}

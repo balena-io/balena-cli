@@ -2608,16 +2608,16 @@ the wifi key to use (used only if --network is set to wifi)
 
 ## config inject &#60;file&#62;
 
-Inject a config.json file to a mounted filesystem, e.g. the SD card of a
-provisioned device or balenaOS image.
+Inject a 'config.json' file to a balenaOS image file or attached SD card or
+USB stick.
 
-Note: if using a private/custom device type, please ensure you are logged in
-('balena login' command). Public device types do not require logging in.
+Documentation for the balenaOS 'config.json' file can be found at:
+https://www.balena.io/docs/reference/OS/configuration/
 
 Examples:
 
-	$ balena config inject my/config.json --type raspberrypi3
-	$ balena config inject my/config.json --type raspberrypi3 --drive /dev/disk2
+	$ balena config inject my/config.json
+	$ balena config inject my/config.json --drive /dev/disk2
 
 ### Arguments
 
@@ -2629,7 +2629,7 @@ the path to the config.json file to inject
 
 #### -t, --type TYPE
 
-device type (Check available types with `balena devices supported`)
+ignored - no longer required
 
 #### -d, --drive DRIVE
 
@@ -2637,19 +2637,23 @@ path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)
 
 ## config read
 
-Read the config.json file from the mounted filesystem,
-e.g. the SD card of a provisioned device or balenaOS image.
+Read the 'config.json' file of a balenaOS image file or attached SD card or
+USB stick.
+
+Documentation for the balenaOS 'config.json' file can be found at:
+https://www.balena.io/docs/reference/OS/configuration/
 
 Examples:
 
-	$ balena config read --type raspberrypi3
-	$ balena config read --type raspberrypi3 --drive /dev/disk2
+	$ balena config read
+	$ balena config read --drive /dev/disk2
+	$ balena config read --drive balena.img
 
 ### Options
 
 #### -t, --type TYPE
 
-device type (Check available types with `balena devices supported`)
+ignored - no longer required
 
 #### -d, --drive DRIVE
 
@@ -2661,19 +2665,26 @@ produce JSON output instead of tabular output
 
 ## config reconfigure
 
-Interactively reconfigure a provisioned device or OS image.
+Interactively reconfigure a balenaOS image file or attached media.
+
+This command extracts the device UUID from the 'config.json' file of the
+chosen balenaOS image file or attached media, and then passes the UUID as
+the '--device' argument to the 'balena os configure' command.
+
+For finer-grained or scripted control of the operation, use the
+'balena config read' and 'balena os configure' commands separately.
 
 Examples:
 
-	$ balena config reconfigure --type raspberrypi3
-	$ balena config reconfigure --type raspberrypi3 --advanced
-	$ balena config reconfigure --type raspberrypi3 --drive /dev/disk2
+	$ balena config reconfigure
+	$ balena config reconfigure --drive /dev/disk3
+	$ balena config reconfigure --drive balena.img --advanced
 
 ### Options
 
 #### -t, --type TYPE
 
-device type (Check available types with `balena devices supported`)
+ignored - no longer required
 
 #### -d, --drive DRIVE
 
@@ -2683,16 +2694,23 @@ path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)
 
 show advanced commands
 
+#### --version VERSION
+
+balenaOS version, for example "2.32.0" or "2.44.0+rev1"
+
 ## config write &#60;key&#62; &#60;value&#62;
 
-Write a key-value pair to the config.json file on the mounted filesystem,
-e.g. the SD card of a provisioned device or balenaOS image.
+Write a key-value pair to the 'config.json' file of a balenaOS image file or
+attached SD card or USB stick.
+
+Documentation for the balenaOS 'config.json' file can be found at:
+https://www.balena.io/docs/reference/OS/configuration/
 
 Examples:
 
-	$ balena config write --type raspberrypi3 username johndoe
-	$ balena config write --type raspberrypi3 --drive /dev/disk2 username johndoe
-	$ balena config write --type raspberrypi3 files.network/settings "..."
+	$ balena config write ntpServers "0.resinio.pool.ntp.org 1.resinio.pool.ntp.org"
+	$ balena config write --drive /dev/disk2 hostname custom-hostname
+	$ balena config write --drive balena.img os.network.connectivity.interval 300
 
 ### Arguments
 
@@ -2708,7 +2726,7 @@ the value of the config parameter to write
 
 #### -t, --type TYPE
 
-device type (Check available types with `balena devices supported`)
+ignored - no longer required
 
 #### -d, --drive DRIVE
 
