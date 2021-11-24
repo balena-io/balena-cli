@@ -24,6 +24,7 @@ interface FlagsDef {
 	type: string;
 	drive?: string;
 	help: void;
+	json: boolean;
 }
 
 export default class ConfigReadCmd extends Command {
@@ -45,6 +46,7 @@ export default class ConfigReadCmd extends Command {
 		type: cf.deviceType,
 		drive: cf.driveOrImg,
 		help: cf.help,
+		json: cf.json,
 	};
 
 	public static authenticated = true;
@@ -63,7 +65,11 @@ export default class ConfigReadCmd extends Command {
 		const config = await import('balena-config-json');
 		const configJSON = await config.read(drive, options.type);
 
-		const prettyjson = await import('prettyjson');
-		console.info(prettyjson.render(configJSON));
+		if (options.json) {
+			console.log(JSON.stringify(configJSON, null, 4));
+		} else {
+			const prettyjson = await import('prettyjson');
+			console.log(prettyjson.render(configJSON));
+		}
 	}
 }
