@@ -43,18 +43,39 @@ export default class DeviceInitCmd extends Command {
 	public static description = stripIndent`
 		Initialize a device with balenaOS.
 
-		Initialize a device by downloading the OS image of the specified fleet
-		and writing it to an SD Card.
+		Register a new device in the selected fleet, download the OS image for the
+		fleet's default device type, configure the image and write it to an SD card.
+		This command effectively combines several other balena CLI commands in one,
+		namely:
 
-		If the --fleet option is omitted, it will be prompted for interactively.
+		'balena device register'  
+		'balena os download'  
+		'balena os build-config' or 'balena config generate'  
+		'balena os configure'  
+		'balena os local flash'
+
+		Possible arguments for the '--fleet', '--os-version' and '--drive' options can
+		be listed respectively with the commands:
+
+		'balena fleets'  
+		'balena os versions'  
+		'balena util available-drives'
+
+		If the '--fleet' or '--drive' options are omitted, interactive menus will be
+		presented with values to choose from. If the '--os-version' option is omitted,
+		the latest released OS version for the fleet's default device type will be used.
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
+
+		Image configuration questions will be asked interactively unless a pre-configured
+		'config.json' file is provided with the '--config' option.  The file can be
+		generated with the 'balena config generate' or 'balena os build-config' commands.
 	`;
 
 	public static examples = [
 		'$ balena device init',
-		'$ balena device init --fleet MyFleet',
 		'$ balena device init -f myorg/myfleet',
+		'$ balena device init --fleet myFleet --os-version 2.83.21+rev1.prod --drive /dev/disk5 --config config.json --yes',
 	];
 
 	public static usage = 'device init';

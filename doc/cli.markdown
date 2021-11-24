@@ -915,10 +915,27 @@ the uuid of the device to identify
 
 ## device init
 
-Initialize a device by downloading the OS image of the specified fleet
-and writing it to an SD Card.
+Register a new device in the selected fleet, download the OS image for the
+fleet's default device type, configure the image and write it to an SD card.
+This command effectively combines several other balena CLI commands in one,
+namely:
 
-If the --fleet option is omitted, it will be prompted for interactively.
+'balena device register'  
+'balena os download'  
+'balena os build-config' or 'balena config generate'  
+'balena os configure'  
+'balena os local flash'
+
+Possible arguments for the '--fleet', '--os-version' and '--drive' options can
+be listed respectively with the commands:
+
+'balena fleets'  
+'balena os versions'  
+'balena util available-drives'
+
+If the '--fleet' or '--drive' options are omitted, interactive menus will be
+presented with values to choose from. If the '--os-version' option is omitted,
+the latest released OS version for the fleet's default device type will be used.
 
 Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
@@ -932,11 +949,15 @@ environments). Numeric fleet IDs are deprecated because they consist of an
 implementation detail of the balena backend. We intend to remove support for
 numeric IDs at some point in the future.
 
+Image configuration questions will be asked interactively unless a pre-configured
+'config.json' file is provided with the '--config' option.  The file can be
+generated with the 'balena config generate' or 'balena os build-config' commands.
+
 Examples:
 
 	$ balena device init
-	$ balena device init --fleet MyFleet
 	$ balena device init -f myorg/myfleet
+	$ balena device init --fleet myFleet --os-version 2.83.21+rev1.prod --drive /dev/disk5 --config config.json --yes
 
 ### Options
 
