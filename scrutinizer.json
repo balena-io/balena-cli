@@ -5,6 +5,34 @@
     {
       "commits": [
         {
+          "subject": "config read/write/inject: Avoid need for internet access",
+          "hash": "b546e4dd97caf4a3da4c3eea140bc201fb6e59ef",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "config read: Add '--json' option for JSON output",
+          "hash": "e4870916e233e1540bc4b25d5bde13b8e4e3bed7",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.53.0",
+      "date": "2021-11-25T02:11:13.469Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Delete 'doc/automated-init.md' and improve 'balena help device init'",
           "hash": "952d782e905c733f7d98fc4524850d399adbefdc",
           "body": "",
@@ -24142,7 +24170,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 348,
+  "stars": 349,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -24246,36 +24274,44 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-11-24T18:59:10Z",
+  "lastCommitDate": "2021-11-25T02:49:54Z",
   "latestRelease": {
-    "tagName": "v12.52.2",
+    "tagName": "v12.53.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.52.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.2/balena-cli-v12.52.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.53.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.0/balena-cli-v12.53.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.52.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.2/balena-cli-v12.52.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.53.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.0/balena-cli-v12.53.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.52.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.2/balena-cli-v12.52.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.53.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.0/balena-cli-v12.53.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.52.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.2/balena-cli-v12.52.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.53.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.0/balena-cli-v12.53.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.52.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.52.2/balena-cli-v12.52.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.53.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.0/balena-cli-v12.53.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 360,
+    "numberOfIssues": 359,
     "latestIssues": [
+      {
+        "title": "User would like to be able to specify multiple docker-compose files which are combined",
+        "url": "https://github.com/balena-io/balena-cli/issues/2392"
+      },
+      {
+        "title": "Stop creating an extra provisioning API key in each config generation",
+        "url": "https://github.com/balena-io/balena-cli/pull/2391"
+      },
       {
         "title": "Bump 'balena-lint' and fix 'no-floating-promises' warnings",
         "url": "https://github.com/balena-io/balena-cli/pull/2389"
@@ -24337,10 +24373,6 @@
         "url": "https://github.com/balena-io/balena-cli/issues/2370"
       },
       {
-        "title": "config read/write/inject: Avoid need for internet access",
-        "url": "https://github.com/balena-io/balena-cli/pull/2369"
-      },
-      {
         "title": "tunnel: \"500 Internal Server Error\" when connecting to remote port bound to 127.0.0.1",
         "url": "https://github.com/balena-io/balena-cli/issues/2366"
       },
@@ -24351,14 +24383,10 @@
       {
         "title": "preload should retry balena API requests and print clearer BalenaRequestError messages",
         "url": "https://github.com/balena-io/balena-cli/issues/2363"
-      },
-      {
-        "title": "[FEATURE] `balena login` automatically logs in with API Key Environment Variable",
-        "url": "https://github.com/balena-io/balena-cli/issues/2361"
       }
     ]
   },
-  "version": "12.52.2",
+  "version": "12.53.0",
   "screenshot": null,
   "logo": null
 }
