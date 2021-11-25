@@ -35,6 +35,9 @@ export interface ImgConfig {
 	wifiKey?: string;
 	initialDeviceName?: string;
 
+	apiKey?: string;
+	deviceApiKey?: string;
+
 	// props for older OS versions
 	connectivity?: string;
 	files?: {
@@ -51,7 +54,7 @@ export interface ImgConfig {
 	};
 }
 
-export async function generateBaseConfig(
+export async function generateApplicationConfig(
 	application: BalenaSdk.Application,
 	options: {
 		version: string;
@@ -70,9 +73,7 @@ export async function generateBaseConfig(
 	const config = (await getBalenaSdk().models.os.getConfig(
 		application.slug,
 		options,
-	)) as ImgConfig & { apiKey?: string };
-	// os.getConfig always returns a config for an app
-	delete config.apiKey;
+	)) as ImgConfig;
 
 	// merge sshKeys to config, when they have been specified
 	if (options.os && options.os.sshKeys) {
@@ -86,25 +87,6 @@ export async function generateBaseConfig(
 	return config;
 }
 
-export async function generateApplicationConfig(
-	application: BalenaSdk.Application,
-	options: {
-		version: string;
-		deviceType?: string;
-		appUpdatePollInterval?: number;
-	},
-) {
-	const config = await generateBaseConfig(application, options);
-
-	if (semver.satisfies(options.version, '<2.7.8')) {
-		await addApplicationKey(config, application.id);
-	} else {
-		await addProvisioningKey(config, application.id);
-	}
-
-	return config;
-}
-
 export function generateDeviceConfig(
 	device: DeviceWithDeviceType & {
 		belongs_to__application: BalenaSdk.PineDeferred;
@@ -112,19 +94,32 @@ export function generateDeviceConfig(
 	deviceApiKey: string | true | undefined,
 	options: { version: string },
 ) {
-	return getBalenaSdk()
-		.models.application.get(device.belongs_to__application.__id)
+	const sdk = getBalenaSdk();
+	return sdk.models.application
+		.get(device.belongs_to__application.__id)
 		.then(async (application) => {
 			const baseConfigOpts = {
 				...options,
 				deviceType: device.is_of__device_type[0].slug,
 			};
-			const config = await generateBaseConfig(application, baseConfigOpts);
+			// TODO: Generate the correct key beforehand and pass it to os.getConfig() once
+			// the API supports injecting a provided key, to avoid generating an unused one.
+			const config = await generateApplicationConfig(
+				application,
+				baseConfigOpts,
+			);
+			// os.getConfig always returns a config for an app
+			delete config.apiKey;
 
 			if (deviceApiKey == null && semver.satisfies(options.version, '<2.0.3')) {
-				await addApplicationKey(config, application.id);
+				config.apiKey = await sdk.models.application.generateApiKey(
+					application.id,
+				);
 			} else {
-				await addDeviceKey(config, device.uuid, deviceApiKey || true);
+				config.deviceApiKey =
+					typeof deviceApiKey === 'string' && deviceApiKey
+						? deviceApiKey
+						: await sdk.models.device.generateDeviceKey(device.uuid);
 			}
 
 			return config;
@@ -138,36 +133,4 @@ export function generateDeviceConfig(
 
 			return config;
 		});
-}
-
-function addApplicationKey(config: any, applicationNameOrId: string | number) {
-	return getBalenaSdk()
-		.models.application.generateApiKey(applicationNameOrId)
-		.then((apiKey) => {
-			config.apiKey = apiKey;
-			return apiKey;
-		});
-}
-
-function addProvisioningKey(config: any, applicationNameOrId: string | number) {
-	return getBalenaSdk()
-		.models.application.generateProvisioningKey(applicationNameOrId)
-		.then((apiKey) => {
-			config.apiKey = apiKey;
-			return apiKey;
-		});
-}
-
-async function addDeviceKey(
-	config: any,
-	uuid: string,
-	customDeviceApiKey: string | true,
-) {
-	if (customDeviceApiKey === true) {
-		config.deviceApiKey = await getBalenaSdk().models.device.generateDeviceKey(
-			uuid,
-		);
-	} else {
-		config.deviceApiKey = customDeviceApiKey;
-	}
 }
