@@ -16,7 +16,11 @@
  */
 
 import Command from '@oclif/command';
-import { InsufficientPrivilegesError } from './errors';
+import {
+	InsufficientPrivilegesError,
+	NotAvailableInOfflineModeError,
+} from './errors';
+import { stripIndent } from './utils/lazy';
 
 export default abstract class BalenaCommand extends Command {
 	/**
@@ -39,6 +43,13 @@ export default abstract class BalenaCommand extends Command {
 	 * if user is not already logged in.
 	 */
 	public static authenticated = false;
+
+	/**
+	 * Require an internet connection to run.
+	 * When set to true, command will exit with an error
+	 * if user is running in offline mode (BALENARC_OFFLINE_MODE).
+	 */
+	public static offlineCompatible = false;
 
 	/**
 	 * Accept piped input.
@@ -98,6 +109,29 @@ export default abstract class BalenaCommand extends Command {
 	}
 
 	/**
+	 * Throw NotAvailableInOfflineModeError if in offline mode.
+	 *
+	 * Called automatically if `onlineOnly=true`.
+	 * Can be called explicitly by command implementation, if e.g.:
+	 *  - check should only be done conditionally
+	 *  - other code needs to execute before check
+	 *
+	 *  Note, currently public to allow use outside of derived commands
+	 *  (as some command implementations require this. Can be made protected
+	 *  if this changes).
+	 *
+	 * @throws {NotAvailableInOfflineModeError}
+	 */
+	public static checkNotUsingOfflineMode() {
+		if (process.env.BALENARC_OFFLINE_MODE) {
+			throw new NotAvailableInOfflineModeError(stripIndent`
+		This command requires an internet connection, and cannot be used in offline mode.
+		To leave offline mode, unset the BALENARC_OFFLINE_MODE environment variable.
+		`);
+		}
+	}
+
+	/**
 	 * Read stdin contents and make available to command.
 	 *
 	 * This approach could be improved in the future to automatically set argument
@@ -123,6 +157,10 @@ export default abstract class BalenaCommand extends Command {
 
 		if (ctr.authenticated) {
 			await BalenaCommand.checkLoggedIn();
+		}
+
+		if (!ctr.offlineCompatible) {
+			BalenaCommand.checkNotUsingOfflineMode();
 		}
 
 		if (ctr.readStdin) {

@@ -63,7 +63,6 @@ export default class ConfigReconfigureCmd extends Command {
 	};
 
 	public static authenticated = true;
-
 	public static root = true;
 
 	public async run() {

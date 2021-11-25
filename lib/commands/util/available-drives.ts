@@ -38,6 +38,8 @@ export default class UtilAvailableDrivesCmd extends Command {
 		help: cf.help,
 	};
 
+	public static offlineCompatible = true;
+
 	public async run() {
 		this.parse<FlagsDef, {}>(UtilAvailableDrivesCmd);
 

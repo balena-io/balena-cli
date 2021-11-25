@@ -57,6 +57,8 @@ export default class VersionCmd extends Command {
 
 	public static usage = 'version';
 
+	public static offlineCompatible = true;
+
 	public static flags: flags.Input<FlagsDef> = {
 		all: flags.boolean({
 			default: false,

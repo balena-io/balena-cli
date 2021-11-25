@@ -70,6 +70,7 @@ export default class ConfigWriteCmd extends Command {
 	};
 
 	public static root = true;
+	public static offlineCompatible = true;
 
 	public async run() {
 		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(

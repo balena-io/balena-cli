@@ -16,7 +16,7 @@
  */
 
 import * as packageJSON from '../package.json';
-import { getBalenaSdk } from './utils/lazy';
+import { getBalenaSdk, stripIndent } from './utils/lazy';
 
 interface CachedUsername {
 	token: string;
@@ -129,10 +129,20 @@ async function sendEvent(balenaUrl: string, event: string, username?: string) {
 		data: Buffer.from(JSON.stringify(trackData)).toString('base64'),
 	};
 	try {
-		await got(url, { searchParams, retry: 0 });
+		await got(url, { searchParams, retry: 0, timeout: 4000 });
 	} catch (e) {
 		if (process.env.DEBUG) {
 			console.error(`[debug] Event tracking error: ${e.message || e}`);
 		}
+
+		if (e instanceof got.TimeoutError) {
+			console.error(stripIndent`
+				Timeout submitting analytics event to balenaCloud/openBalena.
+				If you are using the balena CLI in an air-gapped environment with a filtered
+				internet connection, set the BALENARC_OFFLINE_MODE=1 environment variable
+				when using CLI commands that do not strictly require access to balenaCloud.
+			`);
+		}
+		// Note: You can simulate a timeout using non-routable address 10.0.0.0
 	}
 }

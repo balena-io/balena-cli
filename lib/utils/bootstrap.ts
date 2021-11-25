@@ -58,11 +58,28 @@ export function normalizeEnvVar(varName: string) {
 	process.env[varName] = parseBoolEnvVar(varName) ? '1' : '';
 }
 
-const bootstrapVars = ['DEBUG', 'BALENARC_NO_SENTRY'];
+const bootstrapVars = [
+	'BALENARC_NO_SENTRY',
+	'BALENARC_NO_ANALYTICS',
+	'BALENARC_OFFLINE_MODE',
+	'BALENARC_UNSUPPORTED',
+	'DEBUG',
+];
 
 export function normalizeEnvVars(varNames: string[] = bootstrapVars) {
 	for (const varName of varNames) {
 		normalizeEnvVar(varName);
+	}
+}
+
+/**
+ * Set the individual env vars implied by BALENARC_OFFLINE_MODE.
+ */
+export function setOfflineModeEnvVars() {
+	if (process.env.BALENARC_OFFLINE_MODE) {
+		process.env.BALENARC_UNSUPPORTED = '1';
+		process.env.BALENARC_NO_SENTRY = '1';
+		process.env.BALENARC_NO_ANALYTICS = '1';
 	}
 }
 
