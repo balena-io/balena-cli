@@ -49,7 +49,6 @@ if (process.platform !== 'win32') {
 			api.expectGetApplication();
 			api.expectGetConfigDeviceTypes();
 			api.expectDownloadConfig();
-			api.expectApplicationProvisioning();
 
 			const command: string[] = [
 				`os configure ${tmpPath}`,
