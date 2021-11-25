@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "Improve UX for offline usage",
+          "hash": "2b6a2142eb1929694e0eb14cf26bac4ae9b6dca1",
+          "body": "",
+          "footer": {
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Resolves": "#2372",
+            "resolves": "#2372",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "12.54.0",
+      "date": "2021-11-25T20:45:24.329Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Avoid creating an extra provisioning API key in os configure & config generate",
           "hash": "58b29bf4bbd96a57804b7be86aaac1d3cd8cc473",
           "body": "",
@@ -24321,35 +24342,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-11-25T18:58:34Z",
+  "lastCommitDate": "2021-11-25T21:47:55Z",
   "latestRelease": {
-    "tagName": "v12.53.2",
+    "tagName": "v12.54.0",
     "asssets": [
       {
-        "name": "balena-cli-v12.53.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.2/balena-cli-v12.53.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.54.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.0/balena-cli-v12.54.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.53.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.2/balena-cli-v12.53.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.54.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.0/balena-cli-v12.54.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.53.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.2/balena-cli-v12.53.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.54.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.0/balena-cli-v12.54.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.53.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.2/balena-cli-v12.53.2-windows-x64-installer.exe"
+        "name": "balena-cli-v12.54.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.0/balena-cli-v12.54.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.53.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.2/balena-cli-v12.53.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.54.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.0/balena-cli-v12.54.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 359,
+    "numberOfIssues": 357,
     "latestIssues": [
       {
         "title": "Set the correct target state when using Compose \"image\" field",
@@ -24396,20 +24417,12 @@
         "url": "https://github.com/balena-io/balena-cli/issues/2381"
       },
       {
-        "title": "Improve UX for offline usage",
-        "url": "https://github.com/balena-io/balena-cli/pull/2378"
-      },
-      {
         "title": "Improve directory scan speed prior to tarballing",
         "url": "https://github.com/balena-io/balena-cli/pull/2376"
       },
       {
         "title": "balena ssh fails with error: \"no mutual signature algorithm\"",
         "url": "https://github.com/balena-io/balena-cli/issues/2373"
-      },
-      {
-        "title": "balena ssh: Remove unneeded communication with the API when using local mode",
-        "url": "https://github.com/balena-io/balena-cli/issues/2372"
       },
       {
         "title": "os download: Prevent image cache from closing the stream early",
@@ -24430,10 +24443,18 @@
       {
         "title": "preload should retry balena API requests and print clearer BalenaRequestError messages",
         "url": "https://github.com/balena-io/balena-cli/issues/2363"
+      },
+      {
+        "title": "[FEATURE] `balena login` automatically logs in with API Key Environment Variable",
+        "url": "https://github.com/balena-io/balena-cli/issues/2361"
+      },
+      {
+        "title": "Update balena-multibuild to 5.1.0",
+        "url": "https://github.com/balena-io/balena-cli/pull/2358"
       }
     ]
   },
-  "version": "12.53.2",
+  "version": "12.54.0",
   "screenshot": null,
   "logo": null
 }
