@@ -1,4 +1,19 @@
 - commits:
+    - subject: Improve UX for offline usage
+      hash: 2b6a2142eb1929694e0eb14cf26bac4ae9b6dca1
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Resolves: '#2372'
+        resolves: '#2372'
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.54.0
+  date: 2021-11-25T20:45:24.329Z
+- commits:
     - subject: >-
         Avoid creating an extra provisioning API key in os configure & config
         generate
