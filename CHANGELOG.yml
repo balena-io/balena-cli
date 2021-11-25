@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix mistake in `config generate` examples
+      hash: b183d884007365d1240fd825e65ed8d95b7ce34e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.54.1
+  date: 2021-11-25T22:58:16.391Z
+- commits:
     - subject: Improve UX for offline usage
       hash: 2b6a2142eb1929694e0eb14cf26bac4ae9b6dca1
       body: ''
@@ -12,7 +25,7 @@
       author: Scott Lowe
       nested: []
   version: 12.54.0
-  date: 2021-11-25T21:46:53.481Z
+  date: 2021-11-25T20:45:24.329Z
 - commits:
     - subject: >-
         Avoid creating an extra provisioning API key in os configure & config
