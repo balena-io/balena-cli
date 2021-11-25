@@ -1,4 +1,29 @@
 - commits:
+    - subject: >-
+        Avoid creating an extra provisioning API key in os configure & config
+        generate
+      hash: 58b29bf4bbd96a57804b7be86aaac1d3cd8cc473
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Changelog-entry: >-
+          Avoid creating an extra provisioning API key in os configure & config
+          generate
+        changelog-entry: >-
+          Avoid creating an extra provisioning API key in os configure & config
+          generate
+        See: >-
+          https://github.com/balena-io/balena-cli/pull/2294#discussion_r756499196
+        see: >-
+          https://github.com/balena-io/balena-cli/pull/2294#discussion_r756499196
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 12.53.2
+  date: 2021-11-25T14:45:34.458Z
+- commits:
     - subject: Transitional changes to doc files for landr implementation
       hash: 5a9b5e3b080eccded0aa7d5dfe9276df9637ef83
       body: ''
