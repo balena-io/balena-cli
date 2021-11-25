@@ -65,7 +65,7 @@ export default class ConfigGenerateCmd extends Command {
 	public static examples = [
 		'$ balena config generate --device 7cf02a6 --version 2.12.7',
 		'$ balena config generate --device 7cf02a6 --version 2.12.7 --generate-device-api-key',
-		'$ balena config generate --device 7cf02a6 --version 2.12.7 --device-api-key <existingDeviceKey>',
+		'$ balena config generate --device 7cf02a6 --version 2.12.7 --deviceApiKey <existingDeviceKey>',
 		'$ balena config generate --device 7cf02a6 --version 2.12.7 --output config.json',
 		'$ balena config generate --fleet MyFleet --version 2.12.7',
 		'$ balena config generate --fleet myorg/myfleet --version 2.12.7',
