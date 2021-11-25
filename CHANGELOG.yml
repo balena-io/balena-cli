@@ -1,4 +1,17 @@
 - commits:
+    - subject: Transitional changes to doc files for landr implementation
+      hash: 5a9b5e3b080eccded0aa7d5dfe9276df9637ef83
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.53.1
+  date: 2021-11-25T10:17:50.773Z
+- commits:
     - subject: 'config read/write/inject: Avoid need for internet access'
       hash: b546e4dd97caf4a3da4c3eea140bc201fb6e59ef
       body: ''
@@ -16,7 +29,7 @@
       author: Paulo Castro
       nested: []
   version: 12.53.0
-  date: 2021-11-25T02:48:57.572Z
+  date: 2021-11-25T02:11:13.469Z
 - commits:
     - subject: Delete 'doc/automated-init.md' and improve 'balena help device init'
       hash: 952d782e905c733f7d98fc4524850d399adbefdc
