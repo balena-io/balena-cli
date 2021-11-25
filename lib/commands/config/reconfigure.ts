@@ -21,34 +21,45 @@ import * as cf from '../../utils/common-flags';
 import { getVisuals, stripIndent } from '../../utils/lazy';
 
 interface FlagsDef {
-	type: string;
+	type?: string;
 	drive?: string;
 	advanced: boolean;
 	help: void;
+	version?: string;
 }
 
 export default class ConfigReconfigureCmd extends Command {
 	public static description = stripIndent`
-		Interactively reconfigure a device or OS image.
+		Interactively reconfigure a balenaOS image file or attached media.
 
-		Interactively reconfigure a provisioned device or OS image.
+		Interactively reconfigure a balenaOS image file or attached media.
+
+		This command extracts the device UUID from the 'config.json' file of the
+		chosen balenaOS image file or attached media, and then passes the UUID as
+		the '--device' argument to the 'balena os configure' command.
+
+		For finer-grained or scripted control of the operation, use the
+		'balena config read' and 'balena os configure' commands separately.
 `;
 	public static examples = [
-		'$ balena config reconfigure --type raspberrypi3',
-		'$ balena config reconfigure --type raspberrypi3 --advanced',
-		'$ balena config reconfigure --type raspberrypi3 --drive /dev/disk2',
+		'$ balena config reconfigure',
+		'$ balena config reconfigure --drive /dev/disk3',
+		'$ balena config reconfigure --drive balena.img --advanced',
 	];
 
 	public static usage = 'config reconfigure';
 
 	public static flags: flags.Input<FlagsDef> = {
-		type: cf.deviceType,
+		type: cf.deviceTypeIgnored,
 		drive: cf.driveOrImg,
 		advanced: flags.boolean({
 			description: 'show advanced commands',
 			char: 'v',
 		}),
 		help: cf.help,
+		version: flags.string({
+			description: 'balenaOS version, for example "2.32.0" or "2.44.0+rev1"',
+		}),
 	};
 
 	public static authenticated = true;
@@ -65,10 +76,20 @@ export default class ConfigReconfigureCmd extends Command {
 		await safeUmount(drive);
 
 		const config = await import('balena-config-json');
-		const { uuid } = await config.read(drive, options.type);
+		const { uuid } = await config.read(drive, '');
 		await safeUmount(drive);
 
+		if (!uuid) {
+			const { ExpectedError } = await import('../../errors');
+			throw new ExpectedError(
+				`Error: UUID not found in 'config.json' file for '${drive}'`,
+			);
+		}
+
 		const configureCommand = ['os', 'configure', drive, '--device', uuid];
+		if (options.version) {
+			configureCommand.push('--version', options.version);
+		}
 		if (options.advanced) {
 			configureCommand.push('--advanced');
 		}
