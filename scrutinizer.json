@@ -5,6 +5,29 @@
     {
       "commits": [
         {
+          "subject": "Avoid creating an extra provisioning API key in os configure & config generate",
+          "hash": "58b29bf4bbd96a57804b7be86aaac1d3cd8cc473",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Changelog-entry": "Avoid creating an extra provisioning API key in os configure & config generate",
+            "changelog-entry": "Avoid creating an extra provisioning API key in os configure & config generate",
+            "See": "https://github.com/balena-io/balena-cli/pull/2294#discussion_r756499196",
+            "see": "https://github.com/balena-io/balena-cli/pull/2294#discussion_r756499196",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis",
+          "nested": []
+        }
+      ],
+      "version": "12.53.2",
+      "date": "2021-11-25T14:45:34.458Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Transitional changes to doc files for landr implementation",
           "hash": "5a9b5e3b080eccded0aa7d5dfe9276df9637ef83",
           "body": "",
@@ -24298,43 +24321,51 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-11-25T10:18:50Z",
+  "lastCommitDate": "2021-11-25T18:58:34Z",
   "latestRelease": {
-    "tagName": "v12.53.1",
+    "tagName": "v12.53.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.53.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.1/balena-cli-v12.53.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.53.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.2/balena-cli-v12.53.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.53.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.1/balena-cli-v12.53.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.53.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.2/balena-cli-v12.53.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.53.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.1/balena-cli-v12.53.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.53.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.2/balena-cli-v12.53.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.53.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.1/balena-cli-v12.53.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.53.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.2/balena-cli-v12.53.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.53.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.1/balena-cli-v12.53.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.53.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.53.2/balena-cli-v12.53.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 358,
+    "numberOfIssues": 359,
     "latestIssues": [
+      {
+        "title": "Set the correct target state when using Compose \"image\" field",
+        "url": "https://github.com/balena-io/balena-cli/pull/2395"
+      },
+      {
+        "title": "balena push fails when \"image\" is used in conjunction with \"build\" in docker-compose",
+        "url": "https://github.com/balena-io/balena-cli/issues/2394"
+      },
+      {
+        "title": "Fix mistake in `config generate` examples",
+        "url": "https://github.com/balena-io/balena-cli/pull/2393"
+      },
       {
         "title": "User would like to be able to specify multiple docker-compose files which are combined",
         "url": "https://github.com/balena-io/balena-cli/issues/2392"
-      },
-      {
-        "title": "Stop creating an extra provisioning API key in each config generation",
-        "url": "https://github.com/balena-io/balena-cli/pull/2391"
       },
       {
         "title": "Bump 'balena-lint' and fix 'no-floating-promises' warnings",
@@ -24363,10 +24394,6 @@
       {
         "title": "Should have the CLI parse any CHANGELOG.md from the build sources and populate the release.note field",
         "url": "https://github.com/balena-io/balena-cli/issues/2381"
-      },
-      {
-        "title": "Add `docs` folder for landrbot integration",
-        "url": "https://github.com/balena-io/balena-cli/pull/2380"
       },
       {
         "title": "Improve UX for offline usage",
@@ -24403,14 +24430,10 @@
       {
         "title": "preload should retry balena API requests and print clearer BalenaRequestError messages",
         "url": "https://github.com/balena-io/balena-cli/issues/2363"
-      },
-      {
-        "title": "[FEATURE] `balena login` automatically logs in with API Key Environment Variable",
-        "url": "https://github.com/balena-io/balena-cli/issues/2361"
       }
     ]
   },
-  "version": "12.53.1",
+  "version": "12.53.2",
   "screenshot": null,
   "logo": null
 }
