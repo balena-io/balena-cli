@@ -34,6 +34,7 @@ import {
 	loadProject,
 	makeBuildTasks,
 	tarDirectory,
+	makeImageName,
 } from '../compose_ts';
 import Logger = require('../logger');
 import { DeviceAPI, DeviceInfo } from './api';
@@ -44,6 +45,7 @@ import { stripIndent } from '../lazy';
 
 const LOCAL_APPNAME = 'localapp';
 const LOCAL_RELEASEHASH = 'localrelease';
+const LOCAL_PROJECT_NAME = 'local_image';
 
 // Define the logger here so the debug output
 // can be used everywhere
@@ -375,7 +377,11 @@ async function performBuilds(
 				// We can be sure that localImage.name is set here, because of the failure code above
 				const image = docker.getImage(localImage.name!);
 				await image.tag({
-					repo: generateImageName(localImage.serviceName),
+					repo: makeImageName(
+						LOCAL_PROJECT_NAME,
+						localImage.serviceName,
+						'latest',
+					),
 					force: true,
 				});
 				imagesToRemove.push(localImage.name!);
@@ -533,7 +539,7 @@ async function assignDockerBuildOpts(
 					'io.resin.local.image': '1',
 					'io.resin.local.service': task.serviceName,
 				},
-				t: generateImageName(task.serviceName),
+				t: getImageNameFromTask(task),
 				nocache: opts.nocache,
 				forcerm: true,
 				pull: opts.pull,
@@ -550,8 +556,10 @@ async function assignDockerBuildOpts(
 	);
 }
 
-function generateImageName(serviceName: string): string {
-	return `local_image_${serviceName}:latest`;
+function getImageNameFromTask(task: BuildTask): string {
+	return !task.external && task.tag
+		? task.tag
+		: makeImageName(LOCAL_PROJECT_NAME, task.serviceName, 'latest');
 }
 
 export function generateTargetState(
@@ -587,6 +595,8 @@ export function generateTargetState(
 			contract = keyedBuildTasks[name].contract;
 		}
 
+		const task = keyedBuildTasks[name];
+
 		services[idx] = {
 			...defaults,
 			...opts,
@@ -595,7 +605,7 @@ export function generateTargetState(
 				imageId: idx,
 				serviceName: name,
 				serviceId: idx,
-				image: generateImageName(name),
+				image: getImageNameFromTask(task),
 				running: true,
 			},
 		};
