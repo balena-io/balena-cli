@@ -1,4 +1,27 @@
 - commits:
+    - subject: Set the correct target state when using Compose "image" field
+      hash: d2a5a9ba8638e712a4b286ce6775158c89615b08
+      body: >
+        Fixes #2394
+
+
+        When pushing to a device in local mode, if a service is not external,
+        and uses
+
+        an `image` field, that value should be used for tags and target state,
+        otherwise
+
+        it won't match the image name generated on the device by balenaEngine.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 12.54.2
+  date: 2021-11-26T10:14:56.289Z
+- commits:
     - subject: Fix mistake in `config generate` examples
       hash: b183d884007365d1240fd825e65ed8d95b7ce34e
       body: ''
