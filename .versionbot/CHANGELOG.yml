@@ -1,4 +1,15 @@
 - commits:
+    - subject: Bump 'balena-lint' and fix 'no-floating-promises' warnings
+      hash: 09d004423cae2bb699aa344e17164ce392e1108b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.54.4
+  date: 2021-11-26T16:03:03.934Z
+- commits:
     - subject: Improve directory scan speed prior to tarballing
       hash: 257dd514ed7c0f6988b8a47219991cc4f61b4529
       body: >
