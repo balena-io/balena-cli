@@ -199,14 +199,17 @@ export async function deployToDevice(opts: DeviceDeployOptions): Promise<void> {
 
 	await checkBuildSecretsRequirements(docker, opts.source);
 	globalLogger.logDebug('Tarring all non-ignored files...');
+	const tarStartTime = Date.now();
 	const tarStream = await tarDirectory(opts.source, {
 		composition: project.composition,
 		convertEol: opts.convertEol,
 		multiDockerignore: opts.multiDockerignore,
 		nogitignore: opts.nogitignore, // v13: delete this line
 	});
+	globalLogger.logDebug(`Tarring complete in ${Date.now() - tarStartTime} ms`);
 
 	// Try to detect the device information
+	globalLogger.logDebug('Fetching device information...');
 	const deviceInfo = await api.getDeviceInformation();
 
 	let buildLogs: Dictionary<string> | undefined;

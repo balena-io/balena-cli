@@ -317,12 +317,18 @@ async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
 			Object.keys(build.opts.registrySecrets).length > 0
 				? preFinalizeCallback
 				: undefined;
-		return await tarDirectory(path.resolve(build.source), {
+		globalLogger.logDebug('Tarring all non-ignored files...');
+		const tarStartTime = Date.now();
+		const tarStream = await tarDirectory(path.resolve(build.source), {
 			preFinalizeCallback: preFinalizeCb,
 			convertEol: build.opts.convertEol,
 			multiDockerignore: build.opts.multiDockerignore,
 			nogitignore: build.nogitignore, // v13: delete this line
 		});
+		globalLogger.logDebug(
+			`Tarring complete in ${Date.now() - tarStartTime} ms`,
+		);
+		return tarStream;
 	} finally {
 		tarSpinner.stop();
 	}
