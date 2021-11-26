@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Set the correct target state when using Compose \"image\" field",
+          "hash": "d2a5a9ba8638e712a4b286ce6775158c89615b08",
+          "body": "Fixes #2394\n\nWhen pushing to a device in local mode, if a service is not external, and uses\nan `image` field, that value should be used for tags and target state, otherwise\nit won't match the image name generated on the device by balenaEngine.\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Lucian Buzzo <lucian.buzzo@gmail.com>",
+            "signed-off-by": "Lucian Buzzo <lucian.buzzo@gmail.com>"
+          },
+          "author": "Lucian Buzzo",
+          "nested": []
+        }
+      ],
+      "version": "12.54.2",
+      "date": "2021-11-26T10:14:56.289Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix mistake in `config generate` examples",
           "hash": "b183d884007365d1240fd825e65ed8d95b7ce34e",
           "body": "",
@@ -24361,44 +24380,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-11-25T22:59:24Z",
+  "lastCommitDate": "2021-11-26T12:01:22Z",
   "latestRelease": {
-    "tagName": "v12.54.1",
+    "tagName": "v12.54.2",
     "asssets": [
       {
-        "name": "balena-cli-v12.54.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.1/balena-cli-v12.54.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.54.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.2/balena-cli-v12.54.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.54.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.1/balena-cli-v12.54.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.54.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.2/balena-cli-v12.54.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.54.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.1/balena-cli-v12.54.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.54.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.2/balena-cli-v12.54.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.54.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.1/balena-cli-v12.54.1-windows-x64-installer.exe"
+        "name": "balena-cli-v12.54.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.2/balena-cli-v12.54.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.54.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.1/balena-cli-v12.54.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.54.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.2/balena-cli-v12.54.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 356,
+    "numberOfIssues": 354,
     "latestIssues": [
-      {
-        "title": "Set the correct target state when using Compose \"image\" field",
-        "url": "https://github.com/balena-io/balena-cli/pull/2395"
-      },
-      {
-        "title": "balena push fails when \"image\" is used in conjunction with \"build\" in docker-compose",
-        "url": "https://github.com/balena-io/balena-cli/issues/2394"
-      },
       {
         "title": "User would like to be able to specify multiple docker-compose files which are combined",
         "url": "https://github.com/balena-io/balena-cli/issues/2392"
@@ -24470,10 +24481,18 @@
       {
         "title": "Make multi-dockerignore the default and/or a configuration option",
         "url": "https://github.com/balena-io/balena-cli/issues/2355"
+      },
+      {
+        "title": "Add ability to delete a release",
+        "url": "https://github.com/balena-io/balena-cli/issues/2352"
+      },
+      {
+        "title": "Add support for --json flag for releases",
+        "url": "https://github.com/balena-io/balena-cli/issues/2351"
       }
     ]
   },
-  "version": "12.54.1",
+  "version": "12.54.2",
   "screenshot": null,
   "logo": null
 }
