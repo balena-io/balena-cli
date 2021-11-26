@@ -1,4 +1,30 @@
 - commits:
+    - subject: Improve directory scan speed prior to tarballing
+      hash: 257dd514ed7c0f6988b8a47219991cc4f61b4529
+      body: >
+        This changes improves the speed that the project is tarballed by
+        switching from
+
+        `klaw` to `recursive-fs` and not running `lstat` on files that are
+        ignored.
+
+        Whilst testing with the Jellyfish repository, which contains a number of
+
+        sub directories, each with their own node_modules folder, I was able to
+
+        reduce the time taken to scan and tarball the project from 70s to 11s,
+
+        which is a massive improvement.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 12.54.3
+  date: 2021-11-26T13:59:56.032Z
+- commits:
     - subject: Set the correct target state when using Compose "image" field
       hash: d2a5a9ba8638e712a4b286ce6775158c89615b08
       body: >
