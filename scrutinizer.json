@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Bump 'balena-lint' and fix 'no-floating-promises' warnings",
+          "hash": "09d004423cae2bb699aa344e17164ce392e1108b",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.54.4",
+      "date": "2021-11-26T16:03:03.934Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Improve directory scan speed prior to tarballing",
           "hash": "257dd514ed7c0f6988b8a47219991cc4f61b4529",
           "body": "This changes improves the speed that the project is tarballed by switching from\n`klaw` to `recursive-fs` and not running `lstat` on files that are ignored.\nWhilst testing with the Jellyfish repository, which contains a number of\nsub directories, each with their own node_modules folder, I was able to\nreduce the time taken to scan and tarball the project from 70s to 11s,\nwhich is a massive improvement.\n",
@@ -24399,35 +24416,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-11-26T15:38:17Z",
+  "lastCommitDate": "2021-11-26T16:39:20Z",
   "latestRelease": {
-    "tagName": "v12.54.3",
+    "tagName": "v12.54.4",
     "asssets": [
       {
-        "name": "balena-cli-v12.54.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.3/balena-cli-v12.54.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.54.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.4/balena-cli-v12.54.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.54.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.3/balena-cli-v12.54.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.54.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.4/balena-cli-v12.54.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.54.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.3/balena-cli-v12.54.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.54.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.4/balena-cli-v12.54.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.54.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.3/balena-cli-v12.54.3-windows-x64-installer.exe"
+        "name": "balena-cli-v12.54.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.4/balena-cli-v12.54.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.54.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.3/balena-cli-v12.54.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.54.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.4/balena-cli-v12.54.4-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 353,
+    "numberOfIssues": 352,
     "latestIssues": [
       {
         "title": "[request] hide download and upload progress when pushing container",
@@ -24436,10 +24453,6 @@
       {
         "title": "User would like to be able to specify multiple docker-compose files which are combined",
         "url": "https://github.com/balena-io/balena-cli/issues/2392"
-      },
-      {
-        "title": "Bump 'balena-lint' and fix 'no-floating-promises' warnings",
-        "url": "https://github.com/balena-io/balena-cli/pull/2389"
       },
       {
         "title": "os download: should not require '.prod' suffix for ESR versions",
@@ -24508,10 +24521,14 @@
       {
         "title": "Add support for --json flag for releases",
         "url": "https://github.com/balena-io/balena-cli/issues/2351"
+      },
+      {
+        "title": "Flash speed is slow using cli compared to Etcher",
+        "url": "https://github.com/balena-io/balena-cli/issues/2350"
       }
     ]
   },
-  "version": "12.54.3",
+  "version": "12.54.4",
   "screenshot": null,
   "logo": null
 }
