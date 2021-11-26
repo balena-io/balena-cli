@@ -302,7 +302,8 @@ export default class OsConfigureCmd extends Command {
 				}),
 			);
 
-			const bootPartition = await helpers.getBootPartition(params.image);
+			const { getBootPartition } = await import('balena-config-json');
+			const bootPartition = await getBootPartition(params.image);
 
 			const imagefs = await import('balena-image-fs');
 
