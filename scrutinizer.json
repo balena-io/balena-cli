@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "os configure, local configure: Reuse disk partition scanning logic",
+          "hash": "fcea91bfb6cbcc32117d7242460f1e58476339ac",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.54.5",
+      "date": "2021-11-27T01:19:18.487Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Bump 'balena-lint' and fix 'no-floating-promises' warnings",
           "hash": "09d004423cae2bb699aa344e17164ce392e1108b",
           "body": "",
@@ -24363,7 +24380,6 @@
     "express",
     "fast-boot2",
     "fast-levenshtein",
-    "file-disk",
     "filenamify",
     "get-stdin",
     "glob",
@@ -24388,7 +24404,6 @@
     "node-unzip-2",
     "oclif",
     "open",
-    "partitioninfo",
     "patch-package",
     "prettyjson",
     "progress-stream",
@@ -24416,36 +24431,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-11-26T16:39:20Z",
+  "lastCommitDate": "2021-11-27T01:45:02Z",
   "latestRelease": {
-    "tagName": "v12.54.4",
+    "tagName": "v12.54.5",
     "asssets": [
       {
-        "name": "balena-cli-v12.54.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.4/balena-cli-v12.54.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.54.5-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.5/balena-cli-v12.54.5-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.54.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.4/balena-cli-v12.54.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.54.5-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.5/balena-cli-v12.54.5-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.54.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.4/balena-cli-v12.54.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.54.5-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.5/balena-cli-v12.54.5-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.54.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.4/balena-cli-v12.54.4-windows-x64-installer.exe"
+        "name": "balena-cli-v12.54.5-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.5/balena-cli-v12.54.5-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.54.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.4/balena-cli-v12.54.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.54.5-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.54.5/balena-cli-v12.54.5-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 352,
+    "numberOfIssues": 353,
     "latestIssues": [
+      {
+        "title": "build: Dockerfile ARG instruction not behaving as expected",
+        "url": "https://github.com/balena-io/balena-cli/issues/2397"
+      },
       {
         "title": "[request] hide download and upload progress when pushing container",
         "url": "https://github.com/balena-io/balena-cli/issues/2396"
@@ -24521,14 +24540,10 @@
       {
         "title": "Add support for --json flag for releases",
         "url": "https://github.com/balena-io/balena-cli/issues/2351"
-      },
-      {
-        "title": "Flash speed is slow using cli compared to Etcher",
-        "url": "https://github.com/balena-io/balena-cli/issues/2350"
       }
     ]
   },
-  "version": "12.54.4",
+  "version": "12.54.5",
   "screenshot": null,
   "logo": null
 }
