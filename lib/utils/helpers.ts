@@ -201,43 +201,6 @@ function getApplication(
 	) as Promise<ApplicationWithDeviceType>;
 }
 
-/**
- * Returns the boot partition number of the given image.
- * @param imagePath Local filesystem path to a balenaOS image file
- */
-export async function getBootPartition(imagePath: string): Promise<number> {
-	const imagefs = await import('balena-image-fs');
-	const filedisk = await import('file-disk');
-	const partitioninfo = await import('partitioninfo');
-
-	const partitionNumber = await filedisk.withOpenFile(
-		imagePath,
-		'r',
-		async (handle) => {
-			const disk = new filedisk.FileDisk(handle, true, false, false);
-			const { partitions } = await partitioninfo.getPartitions(disk, {
-				includeExtended: false,
-				getLogical: true,
-			});
-			for (const { index } of partitions) {
-				try {
-					return await imagefs.interact(disk, index, async (fs) => {
-						const statAsync = promisify(fs.stat);
-						const stats = await statAsync('/device-type.json');
-						if (stats.isFile()) {
-							return index;
-						}
-					});
-				} catch (error) {
-					// noop
-				}
-			}
-		},
-	);
-
-	return partitionNumber ?? 1;
-}
-
 const second = 1000; // 1000 milliseconds
 const minute = 60 * second;
 export const delay = promisify(setTimeout);

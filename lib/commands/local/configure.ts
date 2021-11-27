@@ -97,7 +97,7 @@ export default class LocalConfigureCmd extends Command {
 
 	readonly CONNECTIONS_FOLDER = '/system-connections';
 
-	getConfigurationSchema(bootPartition: number, connectionFileName?: string) {
+	getConfigurationSchema(bootPartition?: number, connectionFileName?: string) {
 		connectionFileName ??= 'resin-wifi';
 		return {
 			mapper: [
@@ -236,9 +236,9 @@ export default class LocalConfigureCmd extends Command {
 	async prepareConnectionFile(target: string) {
 		const _ = await import('lodash');
 		const imagefs = await import('balena-image-fs');
-		const helpers = await import('../../utils/helpers');
+		const { getBootPartition } = await import('balena-config-json');
 
-		const bootPartition = await helpers.getBootPartition(target);
+		const bootPartition = await getBootPartition(target);
 
 		const files = await imagefs.interact(target, bootPartition, async (_fs) => {
 			return await promisify(_fs.readdir)(this.CONNECTIONS_FOLDER);
