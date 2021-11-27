@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'os configure, local configure: Reuse disk partition scanning logic'
+      hash: fcea91bfb6cbcc32117d7242460f1e58476339ac
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.54.5
+  date: 2021-11-27T01:19:18.487Z
+- commits:
     - subject: Bump 'balena-lint' and fix 'no-floating-promises' warnings
       hash: 09d004423cae2bb699aa344e17164ce392e1108b
       body: ''
