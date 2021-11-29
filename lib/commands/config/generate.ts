@@ -42,6 +42,7 @@ interface FlagsDef {
 	wifiSsid?: string;
 	wifiKey?: string;
 	appUpdatePollInterval?: string;
+	'provisioning-key-name'?: string;
 	help: void;
 }
 
@@ -94,7 +95,10 @@ export default class ConfigGenerateCmd extends Command {
 					}),
 			  }),
 		fleet: { ...cf.fleet, exclusive: ['application', 'app', 'device'] },
-		device: { ...cf.device, exclusive: ['application', 'app', 'fleet'] },
+		device: {
+			...cf.device,
+			exclusive: ['application', 'app', 'fleet', 'provisioning-key-name'],
+		},
 		deviceApiKey: flags.string({
 			description:
 				'custom device key - note that this is only supported on balenaOS 2.0.3+',
@@ -127,6 +131,10 @@ export default class ConfigGenerateCmd extends Command {
 		appUpdatePollInterval: flags.string({
 			description:
 				'supervisor cloud polling interval in minutes (e.g. for variable updates)',
+		}),
+		'provisioning-key-name': flags.string({
+			description: 'custom key name assigned to generated provisioning api key',
+			exclusive: ['device'],
 		}),
 		help: cf.help,
 	};
@@ -202,6 +210,7 @@ export default class ConfigGenerateCmd extends Command {
 			override: options,
 		});
 		answers.version = options.version;
+		answers.provisioningKeyName = options['provisioning-key-name'];
 
 		// Generate config
 		const { generateDeviceConfig, generateApplicationConfig } = await import(

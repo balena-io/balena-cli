@@ -999,6 +999,10 @@ Check `balena util available-drives` for available options.
 
 path to the config JSON file, see `balena os build-config`
 
+#### --provisioning-key-name PROVISIONING-KEY-NAME
+
+custom key name assigned to generated provisioning api key
+
 ## device local-mode &#60;uuid&#62;
 
 Output current local mode status, or enable/disable local mode
@@ -2479,6 +2483,10 @@ balenaOS version, for example "2.32.0" or "2.44.0+rev1"
 
 paths to local files to place into the 'system-connections' directory
 
+#### --provisioning-key-name PROVISIONING-KEY-NAME
+
+custom key name assigned to generated provisioning api key
+
 ## os initialize &#60;image&#62;
 
 Initialize an os image for a device with a previously
@@ -2605,6 +2613,10 @@ the wifi ssid to use (used only if --network is set to wifi)
 #### --wifiKey WIFIKEY
 
 the wifi key to use (used only if --network is set to wifi)
+
+#### --provisioning-key-name PROVISIONING-KEY-NAME
+
+custom key name assigned to generated provisioning api key
 
 ## config inject &#60;file&#62;
 
