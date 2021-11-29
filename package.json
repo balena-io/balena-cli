@@ -212,7 +212,7 @@
     "balena-semver": "^2.3.0",
     "balena-settings-client": "^4.0.7",
     "balena-settings-storage": "^7.0.0",
-    "balena-sync": "^11.0.2",
+    "balena-sync": "^11.0.3",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.1",
     "chalk": "^3.0.0",
