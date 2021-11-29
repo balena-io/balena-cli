@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add provisioning key name option to config generate options
+      hash: 6ba67eefdbb47e1aa901be022b497e028260ac0b
+      body: ''
+      footer:
+        Change-Type: minor
+        change-type: minor
+        Signed-off-by: Nitish Agarwal 1592163+nitishagar@users.noreply.github.com
+        signed-off-by: Nitish Agarwal 1592163+nitishagar@users.noreply.github.com
+      author: Nitish Agarwal
+      nested: []
+  version: 12.55.0
+  date: 2021-11-29T22:11:43.454Z
+- commits:
     - subject: 'os configure, local configure: Reuse disk partition scanning logic'
       hash: fcea91bfb6cbcc32117d7242460f1e58476339ac
       body: ''
@@ -8,7 +21,7 @@
       author: Paulo Castro
       nested: []
   version: 12.54.5
-  date: 2021-11-27T01:44:05.915Z
+  date: 2021-11-27T01:19:18.487Z
 - commits:
     - subject: Bump 'balena-lint' and fix 'no-floating-promises' warnings
       hash: 09d004423cae2bb699aa344e17164ce392e1108b
