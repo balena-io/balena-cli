@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add provisioning key name option to config generate options
+      hash: 6ba67eefdbb47e1aa901be022b497e028260ac0b
+      body: ''
+      footer:
+        Change-Type: minor
+        change-type: minor
+        Signed-off-by: Nitish Agarwal 1592163+nitishagar@users.noreply.github.com
+        signed-off-by: Nitish Agarwal 1592163+nitishagar@users.noreply.github.com
+      author: Nitish Agarwal
+      nested: []
+  version: 12.55.0
+  date: 2021-11-29T10:48:16.077Z
+- commits:
     - subject: 'os configure, local configure: Reuse disk partition scanning logic'
       hash: fcea91bfb6cbcc32117d7242460f1e58476339ac
       body: ''
