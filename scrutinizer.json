@@ -5,6 +5,27 @@
     {
       "commits": [
         {
+          "subject": "chore: Bump multicast-dns to rebased commit",
+          "hash": "fdc0d08e963daf9bccdf8150962c365ff4ab32e3",
+          "body": "Otherwise npm install fails due to the missing commit in npm-shrinkwrap.json\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+            "signed-off-by": "Kyle Harding <kyle@balena.io>",
+            "See": "https://github.com/balena-io-modules/multicast-dns/pull/1",
+            "see": "https://github.com/balena-io-modules/multicast-dns/pull/1"
+          },
+          "author": "Kyle Harding",
+          "nested": []
+        }
+      ],
+      "version": "12.55.1",
+      "date": "2021-11-30T16:10:20.410Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Add provisioning key name option to config generate options",
           "hash": "6ba67eefdbb47e1aa901be022b497e028260ac0b",
           "body": "",
@@ -24450,35 +24471,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-11-29T22:12:46Z",
+  "lastCommitDate": "2021-11-30T23:49:43Z",
   "latestRelease": {
-    "tagName": "v12.55.0",
+    "tagName": "v12.55.1",
     "asssets": [
       {
-        "name": "balena-cli-v12.55.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.0/balena-cli-v12.55.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.55.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.1/balena-cli-v12.55.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.55.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.0/balena-cli-v12.55.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.55.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.1/balena-cli-v12.55.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.55.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.0/balena-cli-v12.55.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.55.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.1/balena-cli-v12.55.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.55.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.0/balena-cli-v12.55.0-windows-x64-installer.exe"
+        "name": "balena-cli-v12.55.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.1/balena-cli-v12.55.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.55.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.0/balena-cli-v12.55.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.55.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.1/balena-cli-v12.55.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 354,
+    "numberOfIssues": 340,
     "latestIssues": [
       {
         "title": "WIP: Update to TypeScript version of balena-sync",
@@ -24562,7 +24583,7 @@
       }
     ]
   },
-  "version": "12.55.0",
+  "version": "12.55.1",
   "screenshot": null,
   "logo": null
 }

@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'chore: Bump multicast-dns to rebased commit'
+      hash: fdc0d08e963daf9bccdf8150962c365ff4ab32e3
+      body: >
+        Otherwise npm install fails due to the missing commit in
+        npm-shrinkwrap.json
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+        See: 'https://github.com/balena-io-modules/multicast-dns/pull/1'
+        see: 'https://github.com/balena-io-modules/multicast-dns/pull/1'
+      author: Kyle Harding
+      nested: []
+  version: 12.55.1
+  date: 2021-11-30T23:48:53.254Z
+- commits:
     - subject: Add provisioning key name option to config generate options
       hash: 6ba67eefdbb47e1aa901be022b497e028260ac0b
       body: ''
@@ -10,7 +27,7 @@
       author: Nitish Agarwal
       nested: []
   version: 12.55.0
-  date: 2021-11-29T22:11:43.454Z
+  date: 2021-11-29T10:48:16.077Z
 - commits:
     - subject: 'os configure, local configure: Reuse disk partition scanning logic'
       hash: fcea91bfb6cbcc32117d7242460f1e58476339ac
