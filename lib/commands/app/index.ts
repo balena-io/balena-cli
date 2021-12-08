@@ -28,8 +28,10 @@ import {
 	appToFleetCmdMsg,
 	warnify,
 } from '../../utils/messages';
+import { isV13 } from '../../utils/version';
+import type { DataOutputOptions } from '../../framework';
 
-interface FlagsDef {
+interface FlagsDef extends DataOutputOptions {
 	help: void;
 }
 
@@ -56,13 +58,14 @@ export class FleetCmd extends Command {
 
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
+		...(isV13() ? cf.dataOutputFlags : {}),
 	};
 
 	public static authenticated = true;
 	public static primary = true;
 
 	public async run(parserOutput?: ParserOutput<FlagsDef, ArgsDef>) {
-		const { args: params } =
+		const { args: params, flags: options } =
 			parserOutput || this.parse<FlagsDef, ArgsDef>(FleetCmd);
 
 		const { getApplication } = await import('../../utils/sdk');
@@ -82,16 +85,24 @@ export class FleetCmd extends Command {
 		application.device_type = application.is_for__device_type[0].slug;
 		application.commit = application.should_be_running__release[0]?.commit;
 
-		// Emulate table.vertical title output, but avoid uppercasing and inserting spaces
-		console.log(`== ${application.app_name}`);
-		console.log(
-			getVisuals().table.vertical(application, [
-				'id',
-				'device_type',
-				'slug',
-				'commit',
-			]),
-		);
+		if (isV13()) {
+			await this.outputData(
+				application,
+				['app_name', 'id', 'device_type', 'slug', 'commit'],
+				options,
+			);
+		} else {
+			// Emulate table.vertical title output, but avoid uppercasing and inserting spaces
+			console.log(`== ${application.app_name}`);
+			console.log(
+				getVisuals().table.vertical(application, [
+					'id',
+					'device_type',
+					'slug',
+					'commit',
+				]),
+			);
+		}
 	}
 }
 

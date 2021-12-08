@@ -16,11 +16,12 @@
  */
 
 import { flags } from '@oclif/command';
-
-import type { IBooleanFlag } from '@oclif/parser/lib/flags';
 import { stripIndent } from './lazy';
 import { lowercaseIfSlug } from './normalization';
+
 import { isV13 } from './version';
+import type { IBooleanFlag } from '@oclif/parser/lib/flags';
+import type { DataOutputOptions, DataSetOutputOptions } from '../framework';
 
 export const v13: IBooleanFlag<boolean> = flags.boolean({
 	description: stripIndent`\
@@ -125,3 +126,37 @@ export const json: IBooleanFlag<boolean> = flags.boolean({
 	description: 'produce JSON output instead of tabular output',
 	default: false,
 });
+
+export const dataOutputFlags: flags.Input<DataOutputOptions> = {
+	fields: flags.string({
+		description: 'only show provided fields (comma-separated)',
+	}),
+	json: flags.boolean({
+		char: 'j',
+		exclusive: ['no-truncate'],
+		description: 'output in json format',
+		default: false,
+	}),
+};
+
+export const dataSetOutputFlags: flags.Input<DataOutputOptions> &
+	flags.Input<DataSetOutputOptions> = {
+	...dataOutputFlags,
+	filter: flags.string({
+		description:
+			'filter results by substring matching of a given field, eg: --filter field=foo',
+	}),
+	'no-header': flags.boolean({
+		exclusive: ['json'],
+		description: 'hide table header from output',
+		default: false,
+	}),
+	'no-truncate': flags.boolean({
+		exclusive: ['json'],
+		description: 'do not truncate output to fit screen',
+		default: false,
+	}),
+	sort: flags.string({
+		description: `field to sort by (prepend '-' for descending order)`,
+	}),
+};

@@ -220,6 +220,7 @@
     "chalk": "^3.0.0",
     "chokidar": "^3.4.3",
     "cli-truncate": "^2.1.0",
+    "cli-ux": "^5.5.1",
     "color-hash": "^1.0.3",
     "columnify": "^1.5.2",
     "common-tags": "^1.7.2",

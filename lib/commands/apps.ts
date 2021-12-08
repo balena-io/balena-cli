@@ -17,18 +17,20 @@
 
 import { flags } from '@oclif/command';
 import type { Output as ParserOutput } from '@oclif/parser';
-
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
 import { appToFleetCmdMsg, warnify } from '../utils/messages';
+import { isV13 } from '../utils/version';
+import type { DataSetOutputOptions } from '../framework';
 
 interface ExtendedApplication extends ApplicationWithDeviceType {
-	device_count?: number;
-	online_devices?: number;
+	device_count: number;
+	online_devices: number;
+	device_type?: string;
 }
 
-interface FlagsDef {
+interface FlagsDef extends DataSetOutputOptions {
 	help: void;
 	verbose?: boolean;
 }
@@ -48,12 +50,17 @@ export class FleetsCmd extends Command {
 	public static usage = 'fleets';
 
 	public static flags: flags.Input<FlagsDef> = {
+		...(isV13()
+			? {}
+			: {
+					verbose: flags.boolean({
+						default: false,
+						char: 'v',
+						description: 'No-op since release v12.0.0',
+					}),
+			  }),
+		...(isV13() ? cf.dataSetOutputFlags : {}),
 		help: cf.help,
-		verbose: flags.boolean({
-			default: false,
-			char: 'v',
-			description: 'No-op since release v12.0.0',
-		}),
 	};
 
 	public static authenticated = true;
@@ -75,28 +82,39 @@ export class FleetsCmd extends Command {
 			},
 		})) as ExtendedApplication[];
 
-		const _ = await import('lodash');
 		// Add extended properties
 		applications.forEach((application) => {
 			application.device_count = application.owns__device?.length ?? 0;
-			application.online_devices = _.sumBy(application.owns__device, (d) =>
-				d.is_online === true ? 1 : 0,
-			);
-			// @ts-expect-error
+			application.online_devices =
+				application.owns__device?.filter((d) => d.is_online).length || 0;
 			application.device_type = application.is_for__device_type[0].slug;
 		});
 
-		// Display
-		console.log(
-			getVisuals().table.horizontal(applications, [
-				'id',
-				this.useAppWord ? 'app_name' : 'app_name => NAME',
-				'slug',
-				'device_type',
-				'online_devices',
-				'device_count',
-			]),
-		);
+		if (isV13()) {
+			await this.outputData(
+				applications,
+				[
+					'id',
+					'app_name',
+					'slug',
+					'device_type',
+					'device_count',
+					'online_devices',
+				],
+				_parserOutput.flags,
+			);
+		} else {
+			console.log(
+				getVisuals().table.horizontal(applications, [
+					'id',
+					this.useAppWord ? 'app_name' : 'app_name => NAME',
+					'slug',
+					'device_type',
+					'online_devices',
+					'device_count',
+				]),
+			);
+		}
 	}
 }
 
