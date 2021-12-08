@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'v13 preparations: Standardize command data output'
+      hash: f3fb9b6bdffa1bf65c90f8061bf83663a5ad7b85
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.55.2
+  date: 2021-12-08T12:04:12.131Z
+- commits:
     - subject: 'chore: Bump multicast-dns to rebased commit'
       hash: fdc0d08e963daf9bccdf8150962c365ff4ab32e3
       body: >
@@ -14,7 +27,7 @@
       author: Kyle Harding
       nested: []
   version: 12.55.1
-  date: 2021-11-30T23:48:53.254Z
+  date: 2021-11-30T16:10:20.410Z
 - commits:
     - subject: Add provisioning key name option to config generate options
       hash: 6ba67eefdbb47e1aa901be022b497e028260ac0b
