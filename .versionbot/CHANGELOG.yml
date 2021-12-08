@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'v13 preparations: Standardize command data output'
+      hash: f3fb9b6bdffa1bf65c90f8061bf83663a5ad7b85
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.55.2
+  date: 2021-12-08T11:22:59.156Z
+- commits:
     - subject: 'chore: Bump multicast-dns to rebased commit'
       hash: fdc0d08e963daf9bccdf8150962c365ff4ab32e3
       body: >
