@@ -1,4 +1,27 @@
 - commits:
+    - subject: >-
+        os download: Improve error message when not logged in (balenaOS ESR
+        versions)
+      hash: 6e07db08131a59622d06459ecb62b47adeb52826
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'os download: Assume ''.prod'' suffix by default for all balenaOS versions'
+      hash: 5c40c8d51f16db9f9e28e4286f4c2c277a993f37
+      body: ''
+      footer:
+        Resolves: '#2387'
+        resolves: '#2387'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.55.3
+  date: 2021-12-09T22:00:50.297Z
+- commits:
     - subject: 'v13 preparations: Standardize command data output'
       hash: f3fb9b6bdffa1bf65c90f8061bf83663a5ad7b85
       body: ''
@@ -10,7 +33,7 @@
       author: Scott Lowe
       nested: []
   version: 12.55.2
-  date: 2021-12-08T12:04:12.131Z
+  date: 2021-12-08T11:22:59.156Z
 - commits:
     - subject: 'chore: Bump multicast-dns to rebased commit'
       hash: fdc0d08e963daf9bccdf8150962c365ff4ab32e3
