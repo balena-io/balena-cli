@@ -22,4 +22,6 @@ declare module 'balena-image-manager' {
 		deviceType: string,
 		versionOrRange: string,
 	): Promise<NodeJS.ReadableStream & { mime: string }>;
+
+	export function isESR(version: string): boolean;
 }

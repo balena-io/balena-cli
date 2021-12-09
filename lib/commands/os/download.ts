@@ -56,9 +56,11 @@ export default class OsDownloadCmd extends Command {
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1',
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1.dev',
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^2.60.0',
+		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2021.10.1',
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest',
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default',
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu',
+		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu-esr',
 	];
 
 	public static args = [
@@ -95,6 +97,26 @@ export default class OsDownloadCmd extends Command {
 		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
 			OsDownloadCmd,
 		);
+
+		// balenaOS ESR versions require user authentication
+		if (options.version) {
+			const { isESR } = await import('balena-image-manager');
+			if (options.version === 'menu-esr' || isESR(options.version)) {
+				try {
+					await OsDownloadCmd.checkLoggedIn();
+				} catch (e) {
+					const { ExpectedError, NotLoggedInError } = await import(
+						'../../errors'
+					);
+					if (e instanceof NotLoggedInError) {
+						throw new ExpectedError(stripIndent`
+							${e.message}
+							User authentication is required to download balenaOS ESR versions.`);
+					}
+					throw e;
+				}
+			}
+		}
 
 		const { downloadOSImage } = await import('../../utils/cloud');
 
