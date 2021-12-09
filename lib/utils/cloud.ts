@@ -199,14 +199,27 @@ async function resolveOSVersion(
 	deviceType: string,
 	version: string,
 ): Promise<string> {
-	if (!['menu', 'menu-esr'].includes(version)) {
-		if (version[0] === 'v') {
-			version = version.slice(1);
-		}
-		return version;
+	if (['menu', 'menu-esr'].includes(version)) {
+		return await selectOSVersionFromMenu(deviceType, version === 'menu-esr');
 	}
+	if (version[0] === 'v') {
+		version = version.slice(1);
+	}
+	// The version must end with either '.dev' or '.prod', as expected
+	// by `balena-image-manager` and the balena SDK. Note that something
+	// like '2.88.4.prod' is not valid semver (https://semver.org/),
+	// so we don't even attempt semver parsing here.
+	if (!version.endsWith('.dev') && !version.endsWith('.prod')) {
+		version += '.prod';
+	}
+	return version;
+}
 
-	const vs = await getFormattedOsVersions(deviceType, version === 'menu-esr');
+async function selectOSVersionFromMenu(
+	deviceType: string,
+	esr: boolean,
+): Promise<string> {
+	const vs = await getFormattedOsVersions(deviceType, esr);
 
 	const choices = vs.map((v) => ({
 		value: v.rawVersion,
