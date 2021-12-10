@@ -107,6 +107,16 @@ export const getDeviceAndMaybeAppFromUUID = _.memoize(
 	(_sdk, deviceUUID) => deviceUUID,
 );
 
+/** Given a device type alias like 'nuc', return the actual slug like 'intel-nuc'. */
+export const unaliasDeviceType = _.memoize(async function (
+	sdk: SDK.BalenaSDK,
+	deviceType: string,
+): Promise<string> {
+	return (
+		(await sdk.models.device.getManifestBySlug(deviceType)).slug || deviceType
+	);
+});
+
 /**
  * Download balenaOS image for the specified `deviceType`.
  * `OSVersion` may be one of:
@@ -244,11 +254,19 @@ export async function getFormattedOsVersions(
 	deviceType: string,
 	esr: boolean,
 ): Promise<SDK.OsVersion[]> {
-	const versions: SDK.OsVersion[] = (
-		(await getBalenaSdk().models.hostapp.getAvailableOsVersions([deviceType]))[
-			deviceType
-		] ?? []
-	)
+	const sdk = getBalenaSdk();
+	let slug = deviceType;
+	let versionsByDT: SDK.OsVersionsByDeviceType =
+		await sdk.models.hostapp.getAvailableOsVersions([slug]);
+	// if slug is an alias, fetch the real slug
+	if (!versionsByDT[slug]?.length) {
+		// unaliasDeviceType() produces a nice error msg if slug is invalid
+		slug = await unaliasDeviceType(sdk, slug);
+		if (slug !== deviceType) {
+			versionsByDT = await sdk.models.hostapp.getAvailableOsVersions([slug]);
+		}
+	}
+	const versions: SDK.OsVersion[] = (versionsByDT[slug] || [])
 		.filter((v: SDK.OsVersion) => v.osType === (esr ? 'esr' : 'default'))
 		.map((v: SDK.OsVersion) => {
 			const i = v.formattedVersion.indexOf(' ');
@@ -259,9 +277,10 @@ export async function getFormattedOsVersions(
 			return v;
 		});
 	if (!versions.length) {
-		throw new ExpectedError(stripIndent`
-			Error: No balenaOS versions found for device type '${deviceType}'.
-			Double-check the device type slug with 'balena devices supported'.`);
+		const vType = esr ? 'ESR versions' : 'versions';
+		throw new ExpectedError(
+			`Error: No balenaOS ${vType} found for device type '${deviceType}'.`,
+		);
 	}
 	return versions;
 }
