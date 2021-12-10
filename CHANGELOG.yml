@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'os download, os versions: Accept device type aliases'
+      hash: bfc995e9486024628f3599f52b9c0fb13d815311
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.55.4
+  date: 2021-12-10T01:28:16.183Z
+- commits:
     - subject: >-
         os download: Improve error message when not logged in (balenaOS ESR
         versions)
@@ -20,7 +31,7 @@
       author: Paulo Castro
       nested: []
   version: 12.55.3
-  date: 2021-12-09T22:00:50.297Z
+  date: 2021-12-09T18:51:23.706Z
 - commits:
     - subject: 'v13 preparations: Standardize command data output'
       hash: f3fb9b6bdffa1bf65c90f8061bf83663a5ad7b85

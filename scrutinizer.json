@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "os download, os versions: Accept device type aliases",
+          "hash": "bfc995e9486024628f3599f52b9c0fb13d815311",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "12.55.4",
+      "date": "2021-12-10T00:56:34.562Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "os download: Improve error message when not logged in (balenaOS ESR versions)",
           "hash": "6e07db08131a59622d06459ecb62b47adeb52826",
           "body": "",
@@ -24521,35 +24538,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-12-09T22:01:36Z",
+  "lastCommitDate": "2021-12-10T01:29:22Z",
   "latestRelease": {
-    "tagName": "v12.55.3",
+    "tagName": "v12.55.4",
     "asssets": [
       {
-        "name": "balena-cli-v12.55.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.3/balena-cli-v12.55.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.55.4-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.4/balena-cli-v12.55.4-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.55.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.3/balena-cli-v12.55.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.55.4-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.4/balena-cli-v12.55.4-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.55.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.3/balena-cli-v12.55.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.55.4-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.4/balena-cli-v12.55.4-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.55.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.3/balena-cli-v12.55.3-windows-x64-installer.exe"
+        "name": "balena-cli-v12.55.4-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.4/balena-cli-v12.55.4-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.55.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.3/balena-cli-v12.55.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.55.4-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.4/balena-cli-v12.55.4-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 340,
+    "numberOfIssues": 339,
     "latestIssues": [
       {
         "title": "npm install fails on node v16",
@@ -24578,10 +24595,6 @@
       {
         "title": "User would like to be able to specify multiple docker-compose files which are combined",
         "url": "https://github.com/balena-io/balena-cli/issues/2392"
-      },
-      {
-        "title": "os download, os versions: should support device type aliases",
-        "url": "https://github.com/balena-io/balena-cli/issues/2386"
       },
       {
         "title": "push/build/deploy: socket files should be included in built image",
@@ -24630,10 +24643,14 @@
       {
         "title": "Update balena-multibuild to 5.1.0",
         "url": "https://github.com/balena-io/balena-cli/pull/2358"
+      },
+      {
+        "title": "Make multi-dockerignore the default and/or a configuration option",
+        "url": "https://github.com/balena-io/balena-cli/issues/2355"
       }
     ]
   },
-  "version": "12.55.3",
+  "version": "12.55.4",
   "screenshot": null,
   "logo": null
 }
