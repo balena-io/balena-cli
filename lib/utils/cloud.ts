@@ -202,15 +202,15 @@ async function resolveOSVersion(
 	if (['menu', 'menu-esr'].includes(version)) {
 		return await selectOSVersionFromMenu(deviceType, version === 'menu-esr');
 	}
-	if (version[0] === 'v') {
-		version = version.slice(1);
-	}
-	// The version must end with either '.dev' or '.prod', as expected
-	// by `balena-image-manager` and the balena SDK. Note that something
-	// like '2.88.4.prod' is not valid semver (https://semver.org/),
-	// so we don't even attempt semver parsing here.
-	if (!version.endsWith('.dev') && !version.endsWith('.prod')) {
-		version += '.prod';
+	if (/^v?\d+\.\d+\.\d+/.test(version)) {
+		if (version[0] === 'v') {
+			version = version.slice(1);
+		}
+		// The version must end with either '.dev' or '.prod', as expected
+		// by `balena-image-manager` and the balena SDK.
+		if (!version.endsWith('.dev') && !version.endsWith('.prod')) {
+			version += '.prod';
+		}
 	}
 	return version;
 }
