@@ -206,9 +206,7 @@ export interface FileStats {
  * @param projectDir Source directory (root of subtree to be listed)
  */
 async function listFiles(projectDir: string): Promise<string[]> {
-	const dirs: string[] = [];
 	const files: string[] = [];
-	dirs.push(projectDir);
 	async function walk(currentDirs: string[]): Promise<string[]> {
 		if (!currentDirs.length) {
 			return files;
@@ -229,7 +227,6 @@ async function listFiles(projectDir: string): Promise<string[]> {
 						const fpath = path.join(dir, entry.name);
 						if (entry.isDirectory()) {
 							foundDirs.push(fpath);
-							dirs.push(fpath);
 						} else {
 							files.push(fpath);
 						}
