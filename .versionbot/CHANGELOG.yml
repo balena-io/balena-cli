@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix symbolic link regression in push & deploy
+      hash: 3def4d0e4a712310aaad6d915b2891123ea338b4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 12.55.6
+  date: 2021-12-14T00:33:02.825Z
+- commits:
     - subject: Drop unnecessary directory list created during balena deploy & push
       hash: f2858801350077305a92a6ba32659a46dd3e1e39
       body: ''
