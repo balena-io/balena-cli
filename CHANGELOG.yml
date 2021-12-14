@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'push: Remove hardcoded ''balenaCloud'' in console message'
+      hash: e7ddd07b7b472cf5a46806f698daed6749bed4f5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Pranav Peshwe <pranav@balena.io>
+        signed-off-by: Pranav Peshwe <pranav@balena.io>
+      author: Pranav Peshwe
+      nested: []
+  version: 12.55.7
+  date: 2021-12-14T21:31:06.542Z
+- commits:
     - subject: Fix symbolic link regression in push & deploy
       hash: 3def4d0e4a712310aaad6d915b2891123ea338b4
       body: ''
@@ -10,7 +23,7 @@
       author: Thodoris Greasidis
       nested: []
   version: 12.55.6
-  date: 2021-12-14T01:57:07.436Z
+  date: 2021-12-14T00:33:02.825Z
 - commits:
     - subject: Drop unnecessary directory list created during balena deploy & push
       hash: f2858801350077305a92a6ba32659a46dd3e1e39

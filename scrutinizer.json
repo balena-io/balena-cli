@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "push: Remove hardcoded 'balenaCloud' in console message",
+          "hash": "e7ddd07b7b472cf5a46806f698daed6749bed4f5",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Pranav Peshwe <pranav@balena.io>",
+            "signed-off-by": "Pranav Peshwe <pranav@balena.io>"
+          },
+          "author": "Pranav Peshwe",
+          "nested": []
+        }
+      ],
+      "version": "12.55.7",
+      "date": "2021-12-14T15:06:27.866Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Fix symbolic link regression in push & deploy",
           "hash": "3def4d0e4a712310aaad6d915b2891123ea338b4",
           "body": "",
@@ -24576,29 +24595,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-12-14T01:57:53Z",
+  "lastCommitDate": "2021-12-14T21:32:04Z",
   "latestRelease": {
-    "tagName": "v12.55.6",
+    "tagName": "v12.55.7",
     "asssets": [
       {
-        "name": "balena-cli-v12.55.6-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.6/balena-cli-v12.55.6-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.55.7-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.7/balena-cli-v12.55.7-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.55.6-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.6/balena-cli-v12.55.6-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.55.7-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.7/balena-cli-v12.55.7-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.55.6-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.6/balena-cli-v12.55.6-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.55.7-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.7/balena-cli-v12.55.7-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.55.6-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.6/balena-cli-v12.55.6-windows-x64-installer.exe"
+        "name": "balena-cli-v12.55.7-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.7/balena-cli-v12.55.7-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.55.6-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.6/balena-cli-v12.55.6-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.55.7-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.7/balena-cli-v12.55.7-windows-x64-standalone.zip"
       }
     ]
   },
@@ -24627,7 +24646,7 @@
         "url": "https://github.com/balena-io/balena-cli/issues/2402"
       },
       {
-        "title": "WIP: Update to TypeScript version of balena-sync",
+        "title": "Update to TypeScript version of balena-sync",
         "url": "https://github.com/balena-io/balena-cli/pull/2400"
       },
       {
@@ -24688,7 +24707,7 @@
       }
     ]
   },
-  "version": "12.55.6",
+  "version": "12.55.7",
   "screenshot": null,
   "logo": null
 }
