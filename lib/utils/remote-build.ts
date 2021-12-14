@@ -406,7 +406,7 @@ async function getRemoteBuildStream(
 	if (process.stdout.isTTY) {
 		const visuals = getVisuals();
 		uploadSpinner = new visuals.Spinner(
-			'Uploading source package to balenaCloud',
+			`Uploading source package to ${new URL(builderUrl).origin}`,
 		);
 		(uploadSpinner as any).start();
 	}
