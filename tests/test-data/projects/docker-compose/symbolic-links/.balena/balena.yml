@@ -1,0 +1,7 @@
+build-variables:
+    global:
+        - MY_VAR_1=This is a variable
+        - MY_VAR_2=Also a variable
+    services:
+        service1:
+            - SERVICE1_VAR=This is a service specific variable

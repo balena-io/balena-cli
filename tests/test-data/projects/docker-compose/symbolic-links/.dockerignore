@@ -1,0 +1,3 @@
+service1/test-ignore-from-actual-path.*
+service1-symlink/test-ignore-from-symlink-path.*
+**/.dockerignore

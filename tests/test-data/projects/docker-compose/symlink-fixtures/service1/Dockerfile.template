@@ -1,0 +1,3 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine
+COPY ./file1.sh /
+CMD i=1; while :; do echo "service1 $i $(uname -a)"; sleep 10; i=$((i+1)); done

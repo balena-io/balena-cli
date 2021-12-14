@@ -409,6 +409,59 @@ describe('balena push', function () {
 		});
 	});
 
+	it('should create the expected tar stream (docker-compose, symbolic links in docker-compose, --gitignore)', async () => {
+		const projectPath = path.join(
+			projectsPath,
+			'docker-compose',
+			'symbolic-links',
+		);
+		const expectedFiles: ExpectedTarStreamFiles = {
+			'.balena/balena.yml': { fileSize: 197, type: 'file' },
+			'docker-compose.yml': { fileSize: 340, type: 'file' },
+			'service1/Dockerfile.template': { fileSize: 144, type: 'file' },
+			'service1/file1.sh': { fileSize: 12, type: 'file' },
+			'service1/test-ignore-from-symlink-path.txt': {
+				fileSize: 12,
+				type: 'file',
+			},
+			'service2/Dockerfile-alt': { fileSize: 13, type: 'file' },
+			'service2/src/file1.sh': { fileSize: 12, type: 'file' },
+		};
+		const regSecretsPath = await addRegSecretsEntries(expectedFiles);
+		const responseFilename = 'build-POST-v3.json';
+		const responseBody = await fs.readFile(
+			path.join(builderResponsePath, responseFilename),
+			'utf8',
+		);
+		const expectedResponseLines: string[] = [
+			...commonResponseLines[responseFilename],
+			...getDockerignoreWarn1(
+				[path.join(projectPath, 'service2', '.dockerignore')],
+				'push',
+			),
+		];
+		if (isWindows) {
+			expectedResponseLines.push(
+				`[Info] Converting line endings CRLF -> LF for file: ${path.join(
+					projectPath,
+					'service2',
+					'file2-crlf.sh',
+				)}`,
+			);
+		}
+
+		await testPushBuildStream({
+			builderMock: builder,
+			commandLine: `push testApp -s ${projectPath} -R ${regSecretsPath}`,
+			expectedFiles,
+			expectedQueryParams: commonQueryParams,
+			expectedResponseLines,
+			projectPath,
+			responseBody,
+			responseCode: 200,
+		});
+	});
+
 	it('should create the expected tar stream (single container, --multi-dockerignore)', async () => {
 		const projectPath = path.join(
 			projectsPath,
