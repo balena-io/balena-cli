@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Drop unnecessary directory list created during balena deploy & push",
+          "hash": "f2858801350077305a92a6ba32659a46dd3e1e39",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis",
+          "nested": []
+        }
+      ],
+      "version": "12.55.5",
+      "date": "2021-12-13T23:29:59.103Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "os download, os versions: Accept device type aliases",
           "hash": "bfc995e9486024628f3599f52b9c0fb13d815311",
           "body": "",
@@ -24435,7 +24454,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 353,
+  "stars": 354,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -24538,36 +24557,48 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-12-10T01:29:22Z",
+  "lastCommitDate": "2021-12-13T23:58:31Z",
   "latestRelease": {
-    "tagName": "v12.55.4",
+    "tagName": "v12.55.5",
     "asssets": [
       {
-        "name": "balena-cli-v12.55.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.4/balena-cli-v12.55.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.55.5-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.5/balena-cli-v12.55.5-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.55.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.4/balena-cli-v12.55.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.55.5-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.5/balena-cli-v12.55.5-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.55.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.4/balena-cli-v12.55.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.55.5-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.5/balena-cli-v12.55.5-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.55.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.4/balena-cli-v12.55.4-windows-x64-installer.exe"
+        "name": "balena-cli-v12.55.5-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.5/balena-cli-v12.55.5-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.55.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.4/balena-cli-v12.55.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.55.5-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.5/balena-cli-v12.55.5-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 339,
+    "numberOfIssues": 342,
     "latestIssues": [
+      {
+        "title": "Test balena push with docker-compose using symlinks",
+        "url": "https://github.com/balena-io/balena-cli/pull/2408"
+      },
+      {
+        "title": "local push: Error: EPROTO: write EPROTO 17868:error:1408F10B:SSL routines:ssl3_get_record:wrong version number",
+        "url": "https://github.com/balena-io/balena-cli/issues/2407"
+      },
+      {
+        "title": "Join command changes `developmentMode` to false",
+        "url": "https://github.com/balena-io/balena-cli/issues/2406"
+      },
       {
         "title": "npm install fails on node v16",
         "url": "https://github.com/balena-io/balena-cli/issues/2403"
@@ -24635,22 +24666,10 @@
       {
         "title": "preload should retry balena API requests and print clearer BalenaRequestError messages",
         "url": "https://github.com/balena-io/balena-cli/issues/2363"
-      },
-      {
-        "title": "[FEATURE] `balena login` automatically logs in with API Key Environment Variable",
-        "url": "https://github.com/balena-io/balena-cli/issues/2361"
-      },
-      {
-        "title": "Update balena-multibuild to 5.1.0",
-        "url": "https://github.com/balena-io/balena-cli/pull/2358"
-      },
-      {
-        "title": "Make multi-dockerignore the default and/or a configuration option",
-        "url": "https://github.com/balena-io/balena-cli/issues/2355"
       }
     ]
   },
-  "version": "12.55.4",
+  "version": "12.55.5",
   "screenshot": null,
   "logo": null
 }
