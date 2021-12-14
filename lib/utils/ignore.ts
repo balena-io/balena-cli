@@ -225,7 +225,11 @@ async function listFiles(projectDir: string): Promise<string[]> {
 					const _files = await fs.readdir(dir, { withFileTypes: true });
 					for (const entry of _files) {
 						const fpath = path.join(dir, entry.name);
-						if (entry.isDirectory()) {
+						const isDirectory =
+							entry.isDirectory() ||
+							(entry.isSymbolicLink() && (await fs.stat(fpath)).isDirectory());
+
+						if (isDirectory) {
 							foundDirs.push(fpath);
 						} else {
 							files.push(fpath);
