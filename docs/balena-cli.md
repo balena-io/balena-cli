@@ -2309,7 +2309,7 @@ Examples:
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1.dev
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^2.60.0
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2021.10.1
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2021.10.2.prod
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu
