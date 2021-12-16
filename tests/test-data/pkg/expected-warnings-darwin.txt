@@ -112,6 +112,10 @@
   The addon must be distributed with executable as %2.
   %1: node_modules/xxhash/build/Release/hash.node
   %2: path-to-executable/hash.node
+> Warning Cannot include addon %1 into executable.
+  The addon must be distributed with executable as %2.
+  %1: node_modules/cpu-features/build/Release/cpufeatures.node
+  %2: path-to-executable/cpufeatures.node
 > Warning Cannot include file %1 into executable.
   The file must be distributed with executable as %2.
   %1: node_modules/opn/xdg-open
@@ -120,3 +124,7 @@
   The file must be distributed with executable as %2.
   %1: node_modules/opn/xdg-open
   %2: path-to-executable/xdg-open
+> Warning Cannot include addon %1 into executable.
+  The addon must be distributed with executable as %2.
+  %1: node_modules/docker-modem/node_modules/ssh2/lib/protocol/crypto/build/Release/sshcrypto.node
+  %2: path-to-executable/sshcrypto.node

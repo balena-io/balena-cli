@@ -64,7 +64,7 @@ describe('detectEncoding() function', function () {
 		const sampleBinary = [
 			'drivelist/build/Release/drivelist.node',
 			'@balena.io/usb/build/Release/usb_bindings.node',
-			'xxhash/build/Release/hash.node',
+			'xxhash-addon/build/Release/addon.node',
 			'mountutils/build/Release/MountUtils.node',
 		];
 		const sampleText = [
