@@ -21,7 +21,7 @@ import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
 import { appToFleetCmdMsg, warnify } from '../utils/messages';
-import { isV13 } from '../utils/version';
+import { isV13, isV14 } from '../utils/version';
 import type { DataSetOutputOptions } from '../framework';
 
 interface ExtendedApplication extends ApplicationWithDeviceType {
@@ -59,7 +59,7 @@ export class FleetsCmd extends Command {
 						description: 'No-op since release v12.0.0',
 					}),
 			  }),
-		...(isV13() ? cf.dataSetOutputFlags : {}),
+		...(isV14() ? cf.dataSetOutputFlags : {}),
 		help: cf.help,
 	};
 
@@ -90,7 +90,7 @@ export class FleetsCmd extends Command {
 			application.device_type = application.is_for__device_type[0].slug;
 		});
 
-		if (isV13()) {
+		if (isV14()) {
 			await this.outputData(
 				applications,
 				[
@@ -143,7 +143,7 @@ export default class AppsCmd extends FleetsCmd {
 	public async run() {
 		// call this.parse() before deprecation message to parse '-h'
 		const parserOutput = this.parse<FlagsDef, {}>(AppsCmd);
-		if (process.stderr.isTTY) {
+		if (!isV13() && process.stderr.isTTY) {
 			console.error(warnify(appsToFleetsRenameMsg));
 		}
 		this.useAppWord = true;

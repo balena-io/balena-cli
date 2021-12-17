@@ -28,7 +28,7 @@ import {
 	appToFleetCmdMsg,
 	warnify,
 } from '../../utils/messages';
-import { isV13 } from '../../utils/version';
+import { isV13, isV14 } from '../../utils/version';
 import type { DataOutputOptions } from '../../framework';
 
 interface FlagsDef extends DataOutputOptions {
@@ -58,7 +58,7 @@ export class FleetCmd extends Command {
 
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
-		...(isV13() ? cf.dataOutputFlags : {}),
+		...(isV14() ? cf.dataOutputFlags : {}),
 	};
 
 	public static authenticated = true;
@@ -85,7 +85,7 @@ export class FleetCmd extends Command {
 		application.device_type = application.is_for__device_type[0].slug;
 		application.commit = application.should_be_running__release[0]?.commit;
 
-		if (isV13()) {
+		if (isV14()) {
 			await this.outputData(
 				application,
 				['app_name', 'id', 'device_type', 'slug', 'commit'],
@@ -127,7 +127,7 @@ export default class AppCmd extends FleetCmd {
 	public async run() {
 		// call this.parse() before deprecation message to parse '-h'
 		const parserOutput = this.parse<FlagsDef, ArgsDef>(AppCmd);
-		if (process.stderr.isTTY) {
+		if (!isV13() && process.stderr.isTTY) {
 			console.error(warnify(appToFleetCmdMsg));
 		}
 		await super.run(parserOutput);
