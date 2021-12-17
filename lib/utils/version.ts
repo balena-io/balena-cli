@@ -22,12 +22,16 @@ export function isVersionGTE(v: string): boolean {
 	return semver.gte(process.env.BALENA_CLI_VERSION_OVERRIDE || version, v);
 }
 
-let v13: boolean;
+let v14: boolean;
 
 /** Feature switch for the next major version of the CLI */
 export function isV13(): boolean {
-	if (v13 === undefined) {
-		v13 = isVersionGTE('13.0.0');
+	return true;
+}
+
+export function isV14(): boolean {
+	if (v14 === undefined) {
+		v14 = isVersionGTE('14.0.0');
 	}
-	return v13;
+	return v14;
 }

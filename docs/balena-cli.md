@@ -339,9 +339,29 @@ For command usage, see 'balena help fleets'
 
 ### Options
 
-#### -v, --verbose
+#### --fields FIELDS
 
-No-op since release v12.0.0
+only show provided fields (comma-separated)
+
+#### -j, --json
+
+output in json format
+
+#### --filter FILTER
+
+filter results by substring matching of a given field, eg: --filter field=foo
+
+#### --no-header
+
+hide table header from output
+
+#### --no-truncate
+
+do not truncate output to fit screen
+
+#### --sort SORT
+
+field to sort by (prepend '-' for descending order)
 
 ## fleets
 
@@ -356,9 +376,29 @@ Examples:
 
 ### Options
 
-#### -v, --verbose
+#### --fields FIELDS
 
-No-op since release v12.0.0
+only show provided fields (comma-separated)
+
+#### -j, --json
+
+output in json format
+
+#### --filter FILTER
+
+filter results by substring matching of a given field, eg: --filter field=foo
+
+#### --no-header
+
+hide table header from output
+
+#### --no-truncate
+
+do not truncate output to fit screen
+
+#### --sort SORT
+
+field to sort by (prepend '-' for descending order)
 
 ## app &#60;fleet&#62;
 
@@ -377,6 +417,14 @@ For command usage, see 'balena help fleet'
 fleet name, slug (preferred), or numeric ID (deprecated)
 
 ### Options
+
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
+#### -j, --json
+
+output in json format
 
 ## fleet &#60;fleet&#62;
 
@@ -406,6 +454,14 @@ Examples:
 fleet name, slug (preferred), or numeric ID (deprecated)
 
 ### Options
+
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
+#### -j, --json
+
+output in json format
 
 ## app create &#60;name&#62;
 
@@ -795,17 +851,9 @@ Examples:
 
 ### Options
 
-#### -a, --application APPLICATION
-
-DEPRECATED alias for -f, --fleet
-
-#### --app APP
-
-DEPRECATED alias for -f, --fleet
-
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 #### -j, --json
 
@@ -819,12 +867,6 @@ from "application" to "fleet" in command output
 ## devices supported
 
 List the supported device types (like 'raspberrypi3' or 'intel-nuc').
-
-The --verbose option may add extra columns/fields to the output. Currently
-this includes the "STATE" column which is DEPRECATED and whose values are one
-of 'new', 'released' or 'discontinued'. However, 'discontinued' device types
-are only listed if the '--discontinued' option is also used, and this option
-is also DEPRECATED.
 
 The --json option is recommended when scripting the output of this command,
 because the JSON format is less likely to change and it better represents data
@@ -842,7 +884,7 @@ Examples:
 
 #### --discontinued
 
-include "discontinued" device types (DEPRECATED)
+No effect (DEPRECATED)
 
 #### -j, --json
 
@@ -850,7 +892,7 @@ produce JSON output instead of tabular output
 
 #### -v, --verbose
 
-add extra columns in the tabular output (DEPRECATED)
+No effect (DEPRECATED)
 
 ## device &#60;uuid&#62;
 
@@ -961,17 +1003,9 @@ Examples:
 
 ### Options
 
-#### -a, --application APPLICATION
-
-DEPRECATED alias for -f, --fleet
-
-#### --app APP
-
-DEPRECATED alias for -f, --fleet
-
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 #### -y, --yes
 
@@ -1068,17 +1102,9 @@ comma-separated list (no blank spaces) of device UUIDs to be moved
 
 ### Options
 
-#### --app APP
-
-DEPRECATED alias for -f, --fleet
-
-#### -a, --application APPLICATION
-
-DEPRECATED alias for -f, --fleet
-
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 ## device os-update &#60;uuid&#62;
 
@@ -1466,17 +1492,9 @@ Examples:
 
 ### Options
 
-#### --all
-
-No-op since balena CLI v12.0.0.
-
-#### -a, --application APPLICATION
-
-DEPRECATED alias for -f, --fleet
-
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 #### -c, --config
 
@@ -1631,13 +1649,9 @@ variable value; if omitted, use value from this process' environment
 
 ### Options
 
-#### -a, --application APPLICATION
-
-DEPRECATED alias for -f, --fleet
-
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 #### -d, --device DEVICE
 
@@ -1742,17 +1756,9 @@ Examples:
 
 ### Options
 
-#### -a, --application APPLICATION
-
-DEPRECATED alias for -f, --fleet
-
-#### --app APP
-
-DEPRECATED alias for -f, --fleet
-
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 #### -d, --device DEVICE
 
@@ -1794,17 +1800,9 @@ the key string of the tag
 
 ### Options
 
-#### -a, --application APPLICATION
-
-DEPRECATED alias for -f, --fleet
-
-#### --app APP
-
-DEPRECATED alias for -f, --fleet
-
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 #### -d, --device DEVICE
 
@@ -1857,17 +1855,9 @@ the optional value associated with the tag
 
 ### Options
 
-#### -a, --application APPLICATION
-
-DEPRECATED alias for -f, --fleet
-
-#### --app APP
-
-DEPRECATED alias for -f, --fleet
-
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 #### -d, --device DEVICE
 
@@ -2429,17 +2419,9 @@ path to a balenaOS image file, e.g. "rpi3.img"
 
 ask advanced configuration questions (when in interactive mode)
 
-#### -a, --application APPLICATION
-
-DEPRECATED alias for -f, --fleet
-
-#### --app APP
-
-DEPRECATED alias for -f, --fleet
-
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 #### --config CONFIG
 
@@ -2568,21 +2550,9 @@ Examples:
 
 a balenaOS version
 
-#### -a, --application APPLICATION
-
-DEPRECATED alias for -f, --fleet
-
-#### --app APP
-
-DEPRECATED alias for -f, --fleet
-
-#### --appUpdatePollInterval APPUPDATEPOLLINTERVAL
-
-supervisor cloud polling interval in minutes (e.g. for variable updates)
-
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 #### -d, --device DEVICE
 
@@ -2615,6 +2585,10 @@ the wifi ssid to use (used only if --network is set to wifi)
 #### --wifiKey WIFIKEY
 
 the wifi key to use (used only if --network is set to wifi)
+
+#### --appUpdatePollInterval APPUPDATEPOLLINTERVAL
+
+supervisor cloud polling interval in minutes (e.g. for variable updates)
 
 #### --provisioning-key-name PROVISIONING-KEY-NAME
 
@@ -2796,13 +2770,9 @@ the image file path
 
 ### Options
 
-#### -a, --app APP
-
-DEPRECATED alias for -f, --fleet
-
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 #### -c, --commit COMMIT
 
@@ -2935,15 +2905,12 @@ compatibility with the standard docker-compose tool, while still allowing a
 root .dockerignore file (at the overall project root) to filter files and
 folders that are outside service subdirectories.
 
-balena CLI releases older than v12.0.0 also took .gitignore files into account.
-This behavior is deprecated, but may still be enabled with the --gitignore (-g)
-option if compatibility is required. This option is mutually exclusive with
---multi-dockerignore (-m) and will be removed in the CLI's next major version
-release (v13).
+balena CLI v11 also took .gitignore files into account. This behavior was
+deprecated in CLI v12 and removed in CLI v13. Please use .dockerignore files
+instead.
 
 Default .dockerignore patterns  
-When --gitignore (-g) is NOT used (i.e. when not in v11 compatibility mode), a
-few default/hardcoded dockerignore patterns are "merged" (in memory) with the
+A few default/hardcoded dockerignore patterns are "merged" (in memory) with the
 patterns found in the applicable .dockerignore files, in the following order:
 ```
     **/.git
@@ -2956,7 +2923,7 @@ patterns found in the applicable .dockerignore files, in the following order:
 ```
 These patterns always apply, whether or not .dockerignore files exist in the
 project. If necessary, the effect of the `**/.git` pattern may be modified by
-adding counter patterns to the applicable .dockerignore file(s), for example
+adding exception patterns to the applicable .dockerignore file(s), for example
 `!mysubmodule/.git`. For documentation on pattern format, see:
 - https://docs.docker.com/engine/reference/builder/#dockerignore-file
 - https://www.npmjs.com/package/@balena/dockerignore
@@ -3064,10 +3031,6 @@ separated by a colon, e.g:
 Note that if the service name cannot be found in the composition, the entire
 left hand side of the = character will be treated as the variable name.
 
-#### -l, --convert-eol
-
-No-op and deprecated since balena CLI v12.0.0
-
 #### --noconvert-eol
 
 Don't convert line endings from CRLF (Windows format) to LF (Unix format).
@@ -3075,16 +3038,6 @@ Don't convert line endings from CRLF (Windows format) to LF (Unix format).
 #### -m, --multi-dockerignore
 
 Have each service use its own .dockerignore file. See "balena help push".
-
-#### -g, --gitignore
-
-Consider .gitignore files in addition to the .dockerignore file. This reverts
-to the CLI v11 behavior/implementation (deprecated) if compatibility is
-required until your project can be adapted.
-
-#### -G, --nogitignore
-
-No-op (default behavior) since balena CLI v12.0.0. See "balena help push".
 
 #### --release-tag RELEASE-TAG
 
@@ -3228,15 +3181,12 @@ compatibility with the standard docker-compose tool, while still allowing a
 root .dockerignore file (at the overall project root) to filter files and
 folders that are outside service subdirectories.
 
-balena CLI releases older than v12.0.0 also took .gitignore files into account.
-This behavior is deprecated, but may still be enabled with the --gitignore (-g)
-option if compatibility is required. This option is mutually exclusive with
---multi-dockerignore (-m) and will be removed in the CLI's next major version
-release (v13).
+balena CLI v11 also took .gitignore files into account. This behavior was
+deprecated in CLI v12 and removed in CLI v13. Please use .dockerignore files
+instead.
 
 Default .dockerignore patterns  
-When --gitignore (-g) is NOT used (i.e. when not in v11 compatibility mode), a
-few default/hardcoded dockerignore patterns are "merged" (in memory) with the
+A few default/hardcoded dockerignore patterns are "merged" (in memory) with the
 patterns found in the applicable .dockerignore files, in the following order:
 ```
     **/.git
@@ -3249,7 +3199,7 @@ patterns found in the applicable .dockerignore files, in the following order:
 ```
 These patterns always apply, whether or not .dockerignore files exist in the
 project. If necessary, the effect of the `**/.git` pattern may be modified by
-adding counter patterns to the applicable .dockerignore file(s), for example
+adding exception patterns to the applicable .dockerignore file(s), for example
 `!mysubmodule/.git`. For documentation on pattern format, see:
 - https://docs.docker.com/engine/reference/builder/#dockerignore-file
 - https://www.npmjs.com/package/@balena/dockerignore
@@ -3279,13 +3229,9 @@ the architecture to build for
 
 the type of device this build is for
 
-#### -a, --application APPLICATION
-
-DEPRECATED alias for -f, --fleet
-
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 #### -e, --emulated
 
@@ -3302,16 +3248,6 @@ No-op and deprecated since balena CLI v12.0.0. Build logs are now shown by defau
 #### --nologs
 
 Hide the image build log output (produce less verbose output)
-
-#### -g, --gitignore
-
-Consider .gitignore files in addition to the .dockerignore file. This reverts
-to the CLI v11 behavior/implementation (deprecated) if compatibility is required
-until your project can be adapted.
-
-#### -G, --nogitignore
-
-No-op (default behavior) since balena CLI v12.0.0. See "balena help build".
 
 #### -m, --multi-dockerignore
 
@@ -3458,15 +3394,12 @@ compatibility with the standard docker-compose tool, while still allowing a
 root .dockerignore file (at the overall project root) to filter files and
 folders that are outside service subdirectories.
 
-balena CLI releases older than v12.0.0 also took .gitignore files into account.
-This behavior is deprecated, but may still be enabled with the --gitignore (-g)
-option if compatibility is required. This option is mutually exclusive with
---multi-dockerignore (-m) and will be removed in the CLI's next major version
-release (v13).
+balena CLI v11 also took .gitignore files into account. This behavior was
+deprecated in CLI v12 and removed in CLI v13. Please use .dockerignore files
+instead.
 
 Default .dockerignore patterns  
-When --gitignore (-g) is NOT used (i.e. when not in v11 compatibility mode), a
-few default/hardcoded dockerignore patterns are "merged" (in memory) with the
+A few default/hardcoded dockerignore patterns are "merged" (in memory) with the
 patterns found in the applicable .dockerignore files, in the following order:
 ```
     **/.git
@@ -3479,7 +3412,7 @@ patterns found in the applicable .dockerignore files, in the following order:
 ```
 These patterns always apply, whether or not .dockerignore files exist in the
 project. If necessary, the effect of the `**/.git` pattern may be modified by
-adding counter patterns to the applicable .dockerignore file(s), for example
+adding exception patterns to the applicable .dockerignore file(s), for example
 `!mysubmodule/.git`. For documentation on pattern format, see:
 - https://docs.docker.com/engine/reference/builder/#dockerignore-file
 - https://www.npmjs.com/package/@balena/dockerignore
@@ -3543,16 +3476,6 @@ No-op and deprecated since balena CLI v12.0.0. Build logs are now shown by defau
 #### --nologs
 
 Hide the image build log output (produce less verbose output)
-
-#### -g, --gitignore
-
-Consider .gitignore files in addition to the .dockerignore file. This reverts
-to the CLI v11 behavior/implementation (deprecated) if compatibility is required
-until your project can be adapted.
-
-#### -G, --nogitignore
-
-No-op (default behavior) since balena CLI v12.0.0. See "balena help build".
 
 #### -m, --multi-dockerignore
 
@@ -3676,13 +3599,9 @@ the IP or hostname of device
 
 ### Options
 
-#### -a, --application APPLICATION
-
-DEPRECATED alias for -f, --fleet
-
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID
+fleet name, slug (preferred), or numeric ID (deprecated)
 
 #### -i, --pollInterval POLLINTERVAL
 
@@ -3767,10 +3686,6 @@ enable|disable support access
 #### -d, --device DEVICE
 
 comma-separated list (no spaces) of device UUIDs
-
-#### -a, --application APPLICATION
-
-DEPRECATED alias for -f, --fleet
 
 #### -f, --fleet FLEET
 
