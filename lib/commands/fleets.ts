@@ -20,7 +20,7 @@ import { flags } from '@oclif/command';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
-import { isV13 } from '../utils/version';
+import { isV14 } from '../utils/version';
 import type { DataSetOutputOptions } from '../framework';
 
 interface ExtendedApplication extends ApplicationWithDeviceType {
@@ -49,7 +49,7 @@ export default class FleetsCmd extends Command {
 	public static usage = 'fleets';
 
 	public static flags: flags.Input<FlagsDef> = {
-		...(isV13() ? cf.dataSetOutputFlags : {}),
+		...(isV14() ? cf.dataSetOutputFlags : {}),
 		help: cf.help,
 	};
 
@@ -78,7 +78,7 @@ export default class FleetsCmd extends Command {
 			application.device_type = application.is_for__device_type[0].slug;
 		});
 
-		if (isV13()) {
+		if (isV14()) {
 			await this.outputData(
 				applications,
 				[
