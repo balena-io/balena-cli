@@ -43,7 +43,6 @@ import {
 import type { DeviceInfo } from './device/api';
 import { getBalenaSdk, getChalk, stripIndent } from './lazy';
 import Logger = require('./logger');
-import { isV13 } from './version';
 import { exists } from './which';
 
 const allowedContractTypes = ['sw.application', 'sw.block'];
@@ -105,8 +104,6 @@ export async function applyReleaseTagKeysAndValues(
 
 const LOG_LENGTH_MAX = 512 * 1024; // 512KB
 const compositionFileNames = ['docker-compose.yml', 'docker-compose.yaml'];
-const hr =
-	'----------------------------------------------------------------------';
 
 /**
  * high-level function resolving a project and creating a composition out
@@ -257,7 +254,6 @@ export interface BuildProjectOpts {
 	inlineLogs?: boolean;
 	convertEol: boolean;
 	dockerfilePath?: string;
-	nogitignore: boolean; // v13: delete this line
 	multiDockerignore: boolean;
 }
 
@@ -748,43 +744,19 @@ export function isBuildConfig(
  * Create a tar stream out of the local filesystem at the given directory,
  * while optionally applying file filters such as '.dockerignore' and
  * optionally converting text file line endings (CRLF to LF).
- * @param dir Source directory
- * @param param Options
- * @returns Readable stream
+ * @param dir Project directory (the '--source' command line option)
+ * @param param TarDirectoryOptions
+ * @returns Readable stream (to be sent to the Docker Engine)
  */
 export async function tarDirectory(
-	dir: string,
-	param: TarDirectoryOptions,
-): Promise<import('stream').Readable> {
-	const { nogitignore = false } = param; // v13: delete this line
-	if (isV13() || nogitignore) {
-		return newTarDirectory(dir, param);
-	} else {
-		return (await import('./compose')).originalTarDirectory(dir, param);
-	}
-}
-
-/**
- * Create a tar stream out of the local filesystem at the given directory,
- * while optionally applying file filters such as '.dockerignore' and
- * optionally converting text file line endings (CRLF to LF).
- * @param dir Source directory
- * @param param Options
- * @returns Readable stream
- */
-async function newTarDirectory(
 	dir: string,
 	{
 		composition,
 		convertEol = false,
 		multiDockerignore = false,
-		nogitignore = false, // v13: delete this line
 		preFinalizeCallback,
 	}: TarDirectoryOptions,
 ): Promise<import('stream').Readable> {
-	if (!isV13()) {
-		require('assert').strict.equal(nogitignore, true);
-	}
 	const { filterFilesWithDockerignore } = await import('./ignore');
 	const { toPosixPath } = (await import('resin-multibuild')).PathUtils;
 
@@ -902,48 +874,6 @@ function printDockerignoreWarn(
 	if (msg.length) {
 		const { warnify } = require('./messages') as typeof import('./messages');
 		logFunc.call(logger, ' \n' + warnify(msg.join('\n'), ''));
-	}
-}
-
-/**
- * Print a deprecation warning if any '.gitignore' or '.dockerignore' file is
- * found and the --gitignore (-g) option has been provided (v11 compatibility).
- * @param dockerignoreFile Absolute path to a .dockerignore file
- * @param gitignoreFiles Array of absolute paths to .gitginore files
- *
- * v13: delete this function
- */
-export function printGitignoreWarn(
-	dockerignoreFile: string,
-	gitignoreFiles: string[],
-) {
-	if (isV13()) {
-		return;
-	}
-	const ignoreFiles = [dockerignoreFile, ...gitignoreFiles].filter((e) => e);
-	if (ignoreFiles.length === 0) {
-		return;
-	}
-	const msg = [' ', hr, 'Using file ignore patterns from:'];
-	msg.push(...ignoreFiles.map((e) => `* ${e}`));
-	if (gitignoreFiles.length) {
-		msg.push(stripIndent`
-			.gitignore files are being considered because the --gitignore option was used.
-			This option is deprecated and will be removed in the next major version release.
-			For more information, see 'balena help ${Logger.command}'.
-		`);
-		msg.push(hr);
-		Logger.getLogger().logWarn(msg.join('\n'));
-	} else if (dockerignoreFile && process.platform === 'win32') {
-		msg.push(stripIndent`
-			The --gitignore option was used, but no .gitignore files were found.
-			The --gitignore option is deprecated and will be removed in the next major
-			version release. It prevents the use of a better dockerignore parser and
-			filter library that fixes several issues on Windows and improves compatibility
-			with 'docker build'. For more information, see 'balena help ${Logger.command}'.
-		`);
-		msg.push(hr);
-		Logger.getLogger().logWarn(msg.join('\n'));
 	}
 }
 
@@ -1729,21 +1659,6 @@ export const composeCliFlags: flags.Input<ComposeCliFlags> = {
 		description:
 			'Hide the image build log output (produce less verbose output)',
 	}),
-	...(isV13()
-		? {}
-		: {
-				gitignore: flags.boolean({
-					description: stripIndent`
-					Consider .gitignore files in addition to the .dockerignore file. This reverts
-					to the CLI v11 behavior/implementation (deprecated) if compatibility is required
-					until your project can be adapted.`,
-					char: 'g',
-				}),
-				nogitignore: flags.boolean({
-					description: `No-op (default behavior) since balena CLI v12.0.0. See "balena help build".`,
-					char: 'G',
-				}),
-		  }),
 	'multi-dockerignore': flags.boolean({
 		description:
 			'Have each service use its own .dockerignore file. See "balena help build".',

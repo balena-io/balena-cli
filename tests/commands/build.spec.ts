@@ -22,7 +22,6 @@ import { promises as fs } from 'fs';
 import * as path from 'path';
 
 import { stripIndent } from '../../build/utils/lazy';
-import { isV13 } from '../../build/utils/version';
 import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../nock/docker-mock';
@@ -141,9 +140,7 @@ describe('balena build', function () {
 		docker.expectGetInfo({});
 		docker.expectGetManifestBusybox();
 		await testDockerBuildStream({
-			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 ${
-				isV13() ? '' : '-g'
-			}`,
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64`,
 			dockerMock: docker,
 			expectedFilesByService: { main: expectedFiles },
 			expectedQueryParamsByService: {
@@ -297,9 +294,7 @@ describe('balena build', function () {
 			docker.expectGetInfo({ OperatingSystem: 'balenaOS 2.44.0+rev1' });
 			docker.expectGetManifestBusybox();
 			await testDockerBuildStream({
-				commandLine: `build ${projectPath} --emulated --deviceType ${deviceType} --arch ${arch} ${
-					isV13() ? '' : '--nogitignore'
-				}`,
+				commandLine: `build ${projectPath} --emulated --deviceType ${deviceType} --arch ${arch}`,
 				dockerMock: docker,
 				expectedFilesByService: { main: expectedFiles },
 				expectedQueryParamsByService: {
@@ -448,9 +443,7 @@ describe('balena build', function () {
 		docker.expectGetManifestNucAlpine();
 		docker.expectGetManifestBusybox();
 		await testDockerBuildStream({
-			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol ${
-				isV13() ? '' : '-G'
-			} -B COMPOSE_ARG=A -B barg=b --cache-from my/img1,my/img2`,
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol -B COMPOSE_ARG=A -B barg=b --cache-from my/img1,my/img2`,
 			dockerMock: docker,
 			expectedFilesByService,
 			expectedQueryParamsByService,

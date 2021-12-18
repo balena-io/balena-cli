@@ -51,7 +51,6 @@ export interface ComposeOpts {
 	dockerfilePath?: string;
 	inlineLogs?: boolean;
 	multiDockerignore: boolean;
-	nogitignore: boolean; // v13: delete this line
 	noParentCheck: boolean;
 	projectName: string;
 	projectPath: string;
@@ -63,8 +62,6 @@ export interface ComposeCliFlags {
 	dockerfile?: string;
 	logs: boolean;
 	nologs: boolean;
-	gitignore?: boolean; // v13: delete this line
-	nogitignore?: boolean; // v13: delete this line
 	'multi-dockerignore': boolean;
 	'noparent-check': boolean;
 	'registry-secrets'?: RegistrySecrets;
@@ -102,6 +99,5 @@ interface TarDirectoryOptions {
 	composition?: Composition;
 	convertEol?: boolean;
 	multiDockerignore?: boolean;
-	nogitignore: boolean; // v13: delete this line
 	preFinalizeCallback?: (pack: Pack) => void | Promise<void>;
 }

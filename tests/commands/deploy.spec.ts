@@ -23,7 +23,6 @@ import * as nock from 'nock';
 import * as path from 'path';
 import * as sinon from 'sinon';
 
-import { isV13 } from '../../build/utils/version';
 import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { expectStreamNoCRLF, testDockerBuildStream } from '../docker-build';
 import { DockerMock, dockerResponsePath } from '../nock/docker-mock';
@@ -149,9 +148,7 @@ describe('balena deploy', function () {
 		docker.expectGetManifestBusybox();
 
 		await testDockerBuildStream({
-			commandLine: `deploy testApp --build --source ${projectPath} ${
-				isV13() ? '' : '-G'
-			}`,
+			commandLine: `deploy testApp --build --source ${projectPath}`,
 			dockerMock: docker,
 			expectedFilesByService: { main: expectedFiles },
 			expectedQueryParamsByService: { main: commonQueryParams },
@@ -315,9 +312,7 @@ describe('balena deploy', function () {
 			sinon.stub(process, 'exit');
 
 			await testDockerBuildStream({
-				commandLine: `deploy testApp --build --source ${projectPath} --noconvert-eol ${
-					isV13() ? '' : '-G'
-				}`,
+				commandLine: `deploy testApp --build --source ${projectPath} --noconvert-eol`,
 				dockerMock: docker,
 				expectedFilesByService: { main: expectedFiles },
 				expectedQueryParamsByService: { main: commonQueryParams },
