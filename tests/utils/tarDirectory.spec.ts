@@ -33,8 +33,6 @@ interface TarFiles {
 	};
 }
 
-const itSkipWindows = process.platform === 'win32' ? it.skip : it;
-
 describe('compare new and old tarDirectory implementations', function () {
 	const extraContent = 'extra';
 	const extraEntry: tar.Headers = {
@@ -82,7 +80,6 @@ describe('compare new and old tarDirectory implementations', function () {
 
 		const tarPack = await tarDirectory(dockerignoreProjDir, {
 			preFinalizeCallback,
-			nogitignore: true,
 		});
 		const fileList = await getTarPackFiles(tarPack);
 
@@ -105,67 +102,11 @@ describe('compare new and old tarDirectory implementations', function () {
 			'symlink-a.txt': { fileSize: 5, type: 'file' },
 		};
 
-		const tarPack = await tarDirectory(projectPath, { nogitignore: true });
+		const tarPack = await tarDirectory(projectPath, {});
 		const fileList = await getTarPackFiles(tarPack);
 
 		expect(fileList).to.deep.equal(expectedFiles);
 	});
-
-	// Skip Windows because the old tarDirectory() implementation (still used when
-	// '--gitignore' is provided) uses the old `zeit/dockerignore` npm package
-	// that is broken on Windows (reason why we created `@balena/dockerignore`).
-	itSkipWindows('should produce a compatible tar stream', async function () {
-		const dockerignoreProjDir = path.join(
-			projectsPath,
-			'no-docker-compose',
-			'dockerignore1',
-		);
-		const oldTarPack = await tarDirectory(dockerignoreProjDir, {
-			preFinalizeCallback,
-			nogitignore: false,
-		});
-		const oldFileList = await getTarPackFiles(oldTarPack);
-
-		const newTarPack = await tarDirectory(dockerignoreProjDir, {
-			preFinalizeCallback,
-			nogitignore: true,
-		});
-		const newFileList = await getTarPackFiles(newTarPack);
-
-		const gitIgnored = ['a.txt', 'src/src-a.txt', 'src/src-c.txt'];
-
-		expect({
-			...newFileList,
-			..._.pick(oldFileList, ['.git/bar.txt']),
-		}).to.deep.equal({
-			...oldFileList,
-			..._.pick(newFileList, gitIgnored),
-		});
-	});
-
-	itSkipWindows(
-		'should produce a compatible tar stream (symbolic links)',
-		async function () {
-			const dockerignoreProjDir = path.join(
-				projectsPath,
-				'no-docker-compose',
-				'dockerignore2',
-			);
-			const oldTarPack = await tarDirectory(dockerignoreProjDir, {
-				preFinalizeCallback,
-				nogitignore: false,
-			});
-			const oldFileList = await getTarPackFiles(oldTarPack);
-
-			const newTarPack = await tarDirectory(dockerignoreProjDir, {
-				preFinalizeCallback,
-				nogitignore: true,
-			});
-			const newFileList = await getTarPackFiles(newTarPack);
-
-			expect(newFileList).to.deep.equal(oldFileList);
-		},
-	);
 });
 
 async function getTarPackFiles(

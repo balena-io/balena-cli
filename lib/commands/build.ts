@@ -271,7 +271,6 @@ ${dockerignoreHelp}
 			inlineLogs: composeOpts.inlineLogs,
 			convertEol: composeOpts.convertEol,
 			dockerfilePath: composeOpts.dockerfilePath,
-			nogitignore: composeOpts.nogitignore, // v13: delete this line
 			multiDockerignore: composeOpts.multiDockerignore,
 		});
 	}

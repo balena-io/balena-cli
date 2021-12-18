@@ -50,7 +50,6 @@ export interface RemoteBuild {
 	source: string;
 	auth: string;
 	baseUrl: string;
-	nogitignore: boolean; // v13: delete this line
 	opts: BuildOpts;
 	sdk: BalenaSDK;
 	// For internal use
@@ -323,7 +322,6 @@ async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
 			preFinalizeCallback: preFinalizeCb,
 			convertEol: build.opts.convertEol,
 			multiDockerignore: build.opts.multiDockerignore,
-			nogitignore: build.nogitignore, // v13: delete this line
 		});
 		globalLogger.logDebug(
 			`Tarring complete in ${Date.now() - tarStartTime} ms`,
