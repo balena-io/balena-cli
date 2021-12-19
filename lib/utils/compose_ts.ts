@@ -1673,10 +1673,6 @@ export const composeCliFlags: flags.Input<ComposeCliFlags> = {
 			'Path to a YAML or JSON file with passwords for a private Docker registry',
 		char: 'R',
 	}),
-	'convert-eol': flags.boolean({
-		description: 'No-op and deprecated since balena CLI v12.0.0',
-		char: 'l',
-	}),
 	'noconvert-eol': flags.boolean({
 		description:
 			"Don't convert line endings from CRLF (Windows format) to LF (Unix format).",

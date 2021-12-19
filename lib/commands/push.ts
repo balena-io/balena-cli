@@ -22,7 +22,6 @@ import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { dockerignoreHelp, registrySecretsHelp } from '../utils/messages';
 import type { BalenaSDK } from 'balena-sdk';
 import { ExpectedError, instanceOf } from '../errors';
-import { isV13 } from '../utils/version';
 import { RegistrySecrets } from 'resin-multibuild';
 import { lowercaseIfSlug } from '../utils/normalization';
 import {
@@ -52,7 +51,6 @@ interface FlagsDef {
 	service?: string[];
 	system: boolean;
 	env?: string[];
-	'convert-eol'?: boolean;
 	'noconvert-eol': boolean;
 	'multi-dockerignore': boolean;
 	'release-tag'?: string[];
@@ -216,16 +214,6 @@ export default class PushCmd extends Command {
 			`,
 			multiple: true,
 		}),
-		...(isV13()
-			? {}
-			: {
-					'convert-eol': flags.boolean({
-						description: 'No-op and deprecated since balena CLI v12.0.0',
-						char: 'l',
-						hidden: true,
-						default: false,
-					}),
-			  }),
 		'noconvert-eol': flags.boolean({
 			description: `Don't convert line endings from CRLF (Windows format) to LF (Unix format).`,
 			default: false,

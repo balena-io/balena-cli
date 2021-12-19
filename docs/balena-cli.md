@@ -3028,10 +3028,6 @@ Disable project validation check of 'docker-compose.yml' file in parent folder
 
 Path to a YAML or JSON file with passwords for a private Docker registry
 
-#### -l, --convert-eol
-
-No-op and deprecated since balena CLI v12.0.0
-
 #### --noconvert-eol
 
 Don't convert line endings from CRLF (Windows format) to LF (Unix format).
@@ -3255,10 +3251,6 @@ Disable project validation check of 'docker-compose.yml' file in parent folder
 #### -R, --registry-secrets REGISTRY-SECRETS
 
 Path to a YAML or JSON file with passwords for a private Docker registry
-
-#### -l, --convert-eol
-
-No-op and deprecated since balena CLI v12.0.0
 
 #### --noconvert-eol
 
