@@ -126,16 +126,9 @@ describe('balena build', function () {
 		];
 		if (isWindows) {
 			const fname = path.join(projectPath, 'src', 'windows-crlf.sh');
-			if (isWindows) {
-				expectedResponseLines.push(
-					`[Info] Converting line endings CRLF -> LF for file: ${fname}`,
-				);
-			} else {
-				expectedResponseLines.push(
-					`[Warn] CRLF (Windows) line endings detected in file: ${fname}`,
-					'[Warn] Windows-format line endings were detected in some files. Consider using the `--convert-eol` option.',
-				);
-			}
+			expectedResponseLines.push(
+				`[Info] Converting line endings CRLF -> LF for file: ${fname}`,
+			);
 		}
 		docker.expectGetInfo({});
 		docker.expectGetManifestBusybox();
@@ -189,16 +182,9 @@ describe('balena build', function () {
 		];
 		if (isWindows) {
 			const fname = path.join(projectPath, 'src', 'windows-crlf.sh');
-			if (isWindows) {
-				expectedResponseLines.push(
-					`[Info] Converting line endings CRLF -> LF for file: ${fname}`,
-				);
-			} else {
-				expectedResponseLines.push(
-					`[Warn] CRLF (Windows) line endings detected in file: ${fname}`,
-					'[Warn] Windows-format line endings were detected in some files. Consider using the `--convert-eol` option.',
-				);
-			}
+			expectedResponseLines.push(
+				`[Info] Converting line endings CRLF -> LF for file: ${fname}`,
+			);
 		}
 		docker.expectGetInfo({});
 		docker.expectGetManifestBusybox();
@@ -312,7 +298,7 @@ describe('balena build', function () {
 		}
 	});
 
-	it('should create the expected tar stream (single container, --[no]convert-eol, --multi-dockerignore)', async () => {
+	it('should create the expected tar stream (single container, --noconvert-eol, --multi-dockerignore)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
 		const expectedFiles: ExpectedTarStreamFiles = {
 			'src/.dockerignore': { fileSize: 16, type: 'file' },
@@ -443,7 +429,7 @@ describe('balena build', function () {
 		docker.expectGetManifestNucAlpine();
 		docker.expectGetManifestBusybox();
 		await testDockerBuildStream({
-			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol -B COMPOSE_ARG=A -B barg=b --cache-from my/img1,my/img2`,
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 -B COMPOSE_ARG=A -B barg=b --cache-from my/img1,my/img2`,
 			dockerMock: docker,
 			expectedFilesByService,
 			expectedQueryParamsByService,
@@ -526,7 +512,7 @@ describe('balena build', function () {
 		docker.expectGetManifestNucAlpine();
 
 		await testDockerBuildStream({
-			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol -m`,
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 -m`,
 			dockerMock: docker,
 			expectedFilesByService,
 			expectedQueryParamsByService,
@@ -611,7 +597,7 @@ describe('balena build', function () {
 		docker.expectGetManifestNucAlpine();
 
 		await testDockerBuildStream({
-			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 --convert-eol -m --tag ${tag} --projectName ${projectName}`,
+			commandLine: `build ${projectPath} --deviceType nuc --arch amd64 -m --tag ${tag} --projectName ${projectName}`,
 			dockerMock: docker,
 			expectedFilesByService,
 			expectedQueryParamsByService,

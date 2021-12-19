@@ -65,7 +65,6 @@ export interface ComposeCliFlags {
 	'multi-dockerignore': boolean;
 	'noparent-check': boolean;
 	'registry-secrets'?: RegistrySecrets;
-	'convert-eol': boolean;
 	'noconvert-eol': boolean;
 	projectName?: string;
 }

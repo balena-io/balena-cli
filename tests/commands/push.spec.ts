@@ -190,7 +190,7 @@ describe('balena push', function () {
 		});
 	});
 
-	it('should create the expected tar stream (single container, --[no]convert-eol)', async () => {
+	it('should create the expected tar stream (single container, --noconvert-eol)', async () => {
 		const projectPath = path.join(projectsPath, 'no-docker-compose', 'basic');
 		const expectedFiles: ExpectedTarStreamFiles = {
 			'src/.dockerignore': { fileSize: 16, type: 'file' },
