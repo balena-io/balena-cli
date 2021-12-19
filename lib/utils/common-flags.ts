@@ -23,31 +23,9 @@ import { isV13 } from './version';
 import type { IBooleanFlag } from '@oclif/parser/lib/flags';
 import type { DataOutputOptions, DataSetOutputOptions } from '../framework';
 
-export const v13: IBooleanFlag<boolean> = flags.boolean({
-	description: stripIndent`\
-		enable selected balena CLI v13 pre-release features, like the renaming
-		from "application" to "fleet" in command output`,
-	default: false,
-});
-
-export const application = flags.string({
-	char: 'a',
-	description: 'DEPRECATED alias for -f, --fleet',
-	parse: lowercaseIfSlug,
-});
-// TODO: Consider remove second alias 'app' when we can, to simplify.
-export const app = flags.string({
-	description: 'DEPRECATED alias for -f, --fleet',
-	parse: lowercaseIfSlug,
-});
 export const fleet = flags.string({
 	char: 'f',
-	description: isV13()
-		? 'fleet name, slug (preferred), or numeric ID (deprecated)'
-		: // avoid the '(deprecated)' remark in v12 while cf.application and
-		  // cf.app are also described as deprecated, to avoid the impression
-		  // that cf.fleet is deprecated as well.
-		  'fleet name, slug (preferred), or numeric ID',
+	description: 'fleet name, slug (preferred), or numeric ID (deprecated)',
 	parse: lowercaseIfSlug,
 });
 

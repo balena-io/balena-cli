@@ -684,11 +684,6 @@ fleet name, slug (preferred), or numeric ID (deprecated)
 
 produce JSON output instead of tabular output
 
-#### --v13
-
-enable selected balena CLI v13 pre-release features, like the renaming
-from "application" to "fleet" in command output
-
 ## devices supported
 
 List the supported device types (like 'raspberrypi3' or 'intel-nuc').
@@ -734,11 +729,6 @@ Examples:
 the device uuid
 
 ### Options
-
-#### --v13
-
-enable selected balena CLI v13 pre-release features, like the renaming
-from "application" to "fleet" in command output
 
 ## device deactivate &#60;uuid&#62;
 
@@ -1296,13 +1286,6 @@ environments). Numeric fleet IDs are deprecated because they consist of an
 implementation detail of the balena backend. We intend to remove support for
 numeric IDs at some point in the future.
 
-Renaming notice: The 'app' or 'application' words in table headers
-or in JSON object keys/properties will be replaced with 'fleet' in
-the next major version of the CLI (v13). The --v13 option may be used
-to enable the new names already now, and suppress a warning message.
-(The --v13 option will be silently ignored in CLI v13.)
-Find out more at: https://git.io/JRuZr
-
 Examples:
 
 	$ balena envs --fleet myorg/myfleet
@@ -1333,18 +1316,9 @@ device UUID
 
 produce JSON output instead of tabular output
 
-#### -v, --verbose
-
-produce verbose output
-
 #### -s, --service SERVICE
 
 service name
-
-#### --v13
-
-enable selected balena CLI v13 pre-release features, like the renaming
-from "application" to "fleet" in command output
 
 ## env rm &#60;id&#62;
 
@@ -2413,7 +2387,7 @@ the wifi key to use (used only if --network is set to wifi)
 
 #### --appUpdatePollInterval APPUPDATEPOLLINTERVAL
 
-supervisor cloud polling interval in minutes (e.g. for variable updates)
+supervisor cloud polling interval in minutes (e.g. for device variables)
 
 #### --provisioning-key-name PROVISIONING-KEY-NAME
 

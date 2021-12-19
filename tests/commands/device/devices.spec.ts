@@ -21,9 +21,6 @@ import * as path from 'path';
 import { apiResponsePath, BalenaAPIMock } from '../../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
-import { appToFleetOutputMsg, warnify } from '../../../build/utils/messages';
-import { isV13 } from '../../../build/utils/version';
-
 describe('balena devices', function () {
 	let api: BalenaAPIMock;
 
@@ -38,13 +35,6 @@ describe('balena devices', function () {
 		api.done();
 	});
 
-	const expectedWarn =
-		!isV13() &&
-		process.stderr.isTTY &&
-		process.env.BALENA_CLI_TEST_TYPE !== 'standalone'
-			? warnify(appToFleetOutputMsg) + '\n'
-			: '';
-
 	it('should list devices from own and collaborator apps', async () => {
 		api.scope
 			.get(
@@ -54,14 +44,12 @@ describe('balena devices', function () {
 				'Content-Type': 'application/json',
 			});
 
-		const { out, err } = await runCommand('devices');
+		const { out } = await runCommand('devices');
 
 		const lines = cleanOutput(out);
 
 		expect(lines[0].replace(/  +/g, ' ')).to.equal(
-			isV13()
-				? 'ID UUID DEVICE NAME DEVICE TYPE FLEET STATUS IS ONLINE SUPERVISOR VERSION OS VERSION DASHBOARD URL'
-				: 'ID UUID DEVICE NAME DEVICE TYPE APPLICATION NAME STATUS IS ONLINE SUPERVISOR VERSION OS VERSION DASHBOARD URL',
+			'ID UUID DEVICE NAME DEVICE TYPE FLEET STATUS IS ONLINE SUPERVISOR VERSION OS VERSION DASHBOARD URL',
 		);
 		expect(lines).to.have.lengthOf.at.least(2);
 
@@ -70,7 +58,5 @@ describe('balena devices', function () {
 		// Devices with missing applications will have application name set to `N/a`.
 		// e.g. When user has a device associated with app that user is no longer a collaborator of.
 		expect(lines.some((l) => l.includes('N/a'))).to.be.true;
-
-		expect(err.join('')).to.eql(expectedWarn);
 	});
 });

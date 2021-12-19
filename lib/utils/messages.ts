@@ -175,21 +175,6 @@ If you have a particular use for buildArg, which is not satisfied by build-time
 secrets, please contact us via support or the forums: https://forums.balena.io/
 \n`;
 
-export const appToFleetFlagMsg = `\
-Renaming notice: The '-a', '--app' or '--application' options are now
-aliases for the '-f' or '--fleet' options. THE ALIASES WILL BE REMOVED
-in the next major version of the balena CLI (so that a different '--app'
-option can be implemented in the future). Use '-f' or '--fleet' instead.
-Find out more at: https://git.io/JRuZr`;
-
-export const appToFleetOutputMsg = `\
-Renaming notice: The 'app' or 'application' words in table headers
-or in JSON object keys/properties will be replaced with 'fleet' in
-the next major version of the CLI (v13). The --v13 option may be used
-to enable the new names already now, and suppress a warning message.
-(The --v13 option will be silently ignored in CLI v13.)
-Find out more at: https://git.io/JRuZr`;
-
 export function getNodeEngineVersionWarn(
 	version: string,
 	validVersions: string,
