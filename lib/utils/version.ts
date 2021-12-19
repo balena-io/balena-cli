@@ -25,10 +25,6 @@ export function isVersionGTE(v: string): boolean {
 let v14: boolean;
 
 /** Feature switch for the next major version of the CLI */
-export function isV13(): boolean {
-	return true;
-}
-
 export function isV14(): boolean {
 	if (v14 === undefined) {
 		v14 = isVersionGTE('14.0.0');

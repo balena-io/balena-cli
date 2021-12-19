@@ -13,15 +13,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import type * as BalenaSdk from 'balena-sdk';
+
+import type { Application, BalenaSDK, Device, Organization } from 'balena-sdk';
 import _ = require('lodash');
 
 import { instanceOf, NotLoggedInError, ExpectedError } from '../errors';
 import { getBalenaSdk, getVisuals, stripIndent, getCliForm } from './lazy';
 import validation = require('./validation');
 import { delay } from './helpers';
-import { isV13 } from './version';
-import type { Application, Device, Organization } from 'balena-sdk';
 
 export function authenticate(options: {}): Promise<void> {
 	const balena = getBalenaSdk();
@@ -142,11 +141,7 @@ export async function confirm(
 ) {
 	if (yesOption) {
 		if (yesMessage) {
-			if (isV13()) {
-				console.error(yesMessage);
-			} else {
-				console.log(yesMessage);
-			}
+			console.log(yesMessage);
 		}
 		return;
 	}
@@ -326,7 +321,7 @@ export function inferOrSelectDevice(preferredUuid: string) {
  * 	TODO: Modify this when app IDs dropped.
  */
 export async function getOnlineTargetDeviceUuid(
-	sdk: BalenaSdk.BalenaSDK,
+	sdk: BalenaSDK,
 	applicationOrDevice: string,
 ) {
 	const logger = (await import('../utils/logger')).getLogger();
