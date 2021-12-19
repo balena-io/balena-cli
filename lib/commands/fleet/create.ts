@@ -125,11 +125,8 @@ export default class FleetCreateCmd extends Command {
 		}
 
 		// Output
-		const { isV13 } = await import('../../utils/version');
 		console.log(
-			isV13()
-				? `Fleet created: slug "${application.slug}", device type "${deviceType}"`
-				: `Fleet created: ${application.slug} (${deviceType}, id ${application.id})`,
+			`Fleet created: slug "${application.slug}", device type "${deviceType}"`,
 		);
 	}
 
