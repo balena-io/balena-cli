@@ -665,22 +665,13 @@ list of zero or more values). The 'jq' utility may be helpful in shell scripts
 Examples:
 
 	$ balena devices supported
-	$ balena devices supported --verbose
-	$ balena devices supported -vj
+	$ balena devices supported --json
 
 ### Options
-
-#### --discontinued
-
-No effect (DEPRECATED)
 
 #### -j, --json
 
 produce JSON output instead of tabular output
-
-#### -v, --verbose
-
-No effect (DEPRECATED)
 
 ## device &#60;uuid&#62;
 
