@@ -21,10 +21,8 @@ import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { applicationIdInfo } from '../utils/messages';
 import { parseAsLocalHostnameOrIp } from '../utils/validation';
-import { isV13 } from '../utils/version';
 
 interface FlagsDef {
-	application?: string;
 	fleet?: string;
 	pollInterval?: number;
 	help?: void;
@@ -77,7 +75,6 @@ export default class JoinCmd extends Command {
 	public static usage = 'join [deviceIpOrHostname]';
 
 	public static flags: flags.Input<FlagsDef> = {
-		...(isV13() ? {} : { application: cf.application }),
 		fleet: cf.fleet,
 		pollInterval: flags.integer({
 			description: 'the interval in minutes to check for updates',
@@ -101,7 +98,7 @@ export default class JoinCmd extends Command {
 			logger,
 			sdk,
 			params.deviceIpOrHostname,
-			options.application || options.fleet,
+			options.fleet,
 			options.pollInterval,
 		);
 	}

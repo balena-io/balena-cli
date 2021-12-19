@@ -21,15 +21,9 @@ import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import {
-	applicationIdInfo,
-	appToFleetFlagMsg,
-	warnify,
-} from '../../utils/messages';
-import { isV13 } from '../../utils/version';
+import { applicationIdInfo } from '../../utils/messages';
 
 interface FlagsDef {
-	application?: string;
 	fleet?: string;
 	device?: string; // device UUID
 	help: void;
@@ -101,11 +95,8 @@ export default class EnvAddCmd extends Command {
 	public static usage = 'env add <name> [value]';
 
 	public static flags: flags.Input<FlagsDef> = {
-		...(isV13()
-			? {}
-			: { application: { ...cf.application, exclusive: ['fleet', 'device'] } }),
-		fleet: { ...cf.fleet, exclusive: ['application', 'device'] },
-		device: { ...cf.device, exclusive: ['application', 'fleet'] },
+		fleet: { ...cf.fleet, exclusive: ['device'] },
+		device: { ...cf.device, exclusive: ['fleet'] },
 		help: cf.help,
 		quiet: cf.quiet,
 		service: cf.service,
@@ -117,11 +108,7 @@ export default class EnvAddCmd extends Command {
 		);
 		const cmd = this;
 
-		if (options.application && process.stderr.isTTY) {
-			console.error(warnify(appToFleetFlagMsg));
-		}
-		options.application ||= options.fleet;
-		if (!options.application && !options.device) {
+		if (!options.fleet && !options.device) {
 			throw new ExpectedError(
 				'Either the --fleet or the --device option must be specified',
 			);
@@ -163,8 +150,8 @@ export default class EnvAddCmd extends Command {
 		}
 
 		const varType = isConfigVar ? 'configVar' : 'envVar';
-		if (options.application) {
-			for (const app of options.application.split(',')) {
+		if (options.fleet) {
+			for (const app of options.fleet.split(',')) {
 				try {
 					await balena.models.application[varType].set(
 						app,
@@ -201,8 +188,8 @@ async function setServiceVars(
 	params: ArgsDef,
 	options: FlagsDef,
 ) {
-	if (options.application) {
-		for (const app of options.application.split(',')) {
+	if (options.fleet) {
+		for (const app of options.fleet.split(',')) {
 			for (const service of options.service!.split(',')) {
 				try {
 					const serviceId = await getServiceIdForApp(sdk, app, service);

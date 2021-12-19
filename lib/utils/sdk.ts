@@ -50,6 +50,23 @@ export async function getApplication(
 }
 
 /**
+ * Given a fleet name, slug or numeric ID, return its slug.
+ * This function conditionally makes an async SDK/API call to retrieve the
+ * application object, which can be wasteful is the application object is
+ * required before or after the call to this function. If this is the case,
+ * consider calling `getApplication()` and reusing the application object.
+ */
+export async function getFleetSlug(
+	sdk: BalenaSDK,
+	nameOrSlugOrId: string | number,
+): Promise<string> {
+	if (typeof nameOrSlugOrId === 'string' && nameOrSlugOrId.includes('/')) {
+		return nameOrSlugOrId;
+	}
+	return (await getApplication(sdk, nameOrSlugOrId)).slug;
+}
+
+/**
  * Given an string representation of an application identifier,
  * which could be one of:
  *  - name (including numeric names)

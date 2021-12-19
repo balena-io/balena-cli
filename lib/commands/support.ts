@@ -20,15 +20,9 @@ import Command from '../command';
 import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getCliUx, stripIndent } from '../utils/lazy';
-import {
-	applicationIdInfo,
-	appToFleetFlagMsg,
-	warnify,
-} from '../utils/messages';
-import { isV13 } from '../utils/version';
+import { applicationIdInfo } from '../utils/messages';
 
 interface FlagsDef {
-	application?: string;
 	fleet?: string;
 	device?: string;
 	duration?: string;
@@ -77,7 +71,6 @@ export default class SupportCmd extends Command {
 			description: 'comma-separated list (no spaces) of device UUIDs',
 			char: 'd',
 		}),
-		...(isV13() ? {} : { application: cf.application }),
 		fleet: {
 			...cf.fleet,
 			description:
@@ -98,18 +91,13 @@ export default class SupportCmd extends Command {
 			SupportCmd,
 		);
 
-		if (options.application && process.stderr.isTTY) {
-			console.error(warnify(appToFleetFlagMsg));
-		}
-		options.application ||= options.fleet;
-
 		const balena = getBalenaSdk();
 		const ux = getCliUx();
 
 		const enabling = params.action === 'enable';
 
 		// Validation
-		if (!options.device && !options.application) {
+		if (!options.device && !options.fleet) {
 			throw new ExpectedError('At least one device or fleet must be specified');
 		}
 
@@ -125,7 +113,7 @@ export default class SupportCmd extends Command {
 		const expiryTs = Date.now() + this.parseDuration(duration);
 
 		const deviceUuids = options.device?.split(',') || [];
-		const appNames = options.application?.split(',') || [];
+		const appNames = options.fleet?.split(',') || [];
 
 		const enablingMessage = 'Enabling support access for';
 		const disablingMessage = 'Disabling support access for';

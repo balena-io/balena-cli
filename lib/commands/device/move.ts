@@ -27,12 +27,7 @@ import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { ExpectedError } from '../../errors';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import {
-	applicationIdInfo,
-	appToFleetFlagMsg,
-	warnify,
-} from '../../utils/messages';
-import { isV13 } from '../../utils/version';
+import { applicationIdInfo } from '../../utils/messages';
 
 type ExtendedDevice = PineTypedResult<
 	Device,
@@ -42,8 +37,6 @@ type ExtendedDevice = PineTypedResult<
 };
 
 interface FlagsDef {
-	application?: string;
-	app?: string;
 	fleet?: string;
 	help: void;
 }
@@ -82,7 +75,6 @@ export default class DeviceMoveCmd extends Command {
 	public static usage = 'device move <uuid(s)>';
 
 	public static flags: flags.Input<FlagsDef> = {
-		...(isV13() ? {} : { app: cf.app, application: cf.application }),
 		fleet: cf.fleet,
 		help: cf.help,
 	};
@@ -93,11 +85,6 @@ export default class DeviceMoveCmd extends Command {
 		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
 			DeviceMoveCmd,
 		);
-
-		if ((options.application || options.app) && process.stderr.isTTY) {
-			console.error(warnify(appToFleetFlagMsg));
-		}
-		options.application ||= options.app || options.fleet;
 
 		const balena = getBalenaSdk();
 
@@ -132,8 +119,8 @@ export default class DeviceMoveCmd extends Command {
 		const { getApplication } = await import('../../utils/sdk');
 
 		// Get destination application
-		const application = options.application
-			? await getApplication(balena, options.application)
+		const application = options.fleet
+			? await getApplication(balena, options.fleet)
 			: await this.interactivelySelectApplication(balena, devices);
 
 		// Move each device

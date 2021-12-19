@@ -19,17 +19,10 @@ import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import {
-	applicationIdInfo,
-	appToFleetFlagMsg,
-	warnify,
-} from '../../utils/messages';
+import { applicationIdInfo } from '../../utils/messages';
 import { runCommand } from '../../utils/helpers';
-import { isV13 } from '../../utils/version';
 
 interface FlagsDef {
-	application?: string;
-	app?: string;
 	fleet?: string;
 	yes: boolean;
 	advanced: boolean;
@@ -82,12 +75,6 @@ export default class DeviceInitCmd extends Command {
 	public static usage = 'device init';
 
 	public static flags: flags.Input<FlagsDef> = {
-		...(isV13()
-			? {}
-			: {
-					application: cf.application,
-					app: cf.app,
-			  }),
 		fleet: cf.fleet,
 		yes: cf.yes,
 		advanced: flags.boolean({
@@ -130,17 +117,10 @@ export default class DeviceInitCmd extends Command {
 		const logger = await Command.getLogger();
 		const balena = getBalenaSdk();
 
-		if ((options.application || options.app) && process.stderr.isTTY) {
-			console.error(warnify(appToFleetFlagMsg));
-		}
-		// Consolidate application options
-		options.application ||= options.app || options.fleet;
-		delete options.app;
-
 		// Get application and
 		const application = (await getApplication(
 			balena,
-			options['application'] ||
+			options.fleet ||
 				(
 					await (await import('../../utils/patterns')).selectApplication()
 				).id,

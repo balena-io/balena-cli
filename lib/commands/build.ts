@@ -22,22 +22,18 @@ import * as cf from '../utils/common-flags';
 import * as compose from '../utils/compose';
 import type { Application, ApplicationType, BalenaSDK } from 'balena-sdk';
 import {
-	appToFleetFlagMsg,
 	buildArgDeprecation,
 	dockerignoreHelp,
 	registrySecretsHelp,
-	warnify,
 } from '../utils/messages';
 import type { ComposeCliFlags, ComposeOpts } from '../utils/compose-types';
 import { buildProject, composeCliFlags } from '../utils/compose_ts';
 import type { BuildOpts, DockerCliFlags } from '../utils/docker';
 import { dockerCliFlags } from '../utils/docker';
-import { isV13 } from '../utils/version';
 
 interface FlagsDef extends ComposeCliFlags, DockerCliFlags {
 	arch?: string;
 	deviceType?: string;
-	application?: string;
 	fleet?: string;
 	source?: string; // Not part of command profile - source param copied here.
 	help: void;
@@ -96,7 +92,6 @@ ${dockerignoreHelp}
 			description: 'the type of device this build is for',
 			char: 'd',
 		}),
-		...(isV13() ? {} : { application: cf.application }),
 		fleet: cf.fleet,
 		...composeCliFlags,
 		...dockerCliFlags,
@@ -112,12 +107,7 @@ ${dockerignoreHelp}
 			BuildCmd,
 		);
 
-		if (options.application && process.stderr.isTTY) {
-			console.error(warnify(appToFleetFlagMsg));
-		}
-		options.application ||= options.fleet;
-
-		await Command.checkLoggedInIf(!!options.application);
+		await Command.checkLoggedInIf(!!options.fleet);
 
 		(await import('events')).defaultMaxListeners = 1000;
 
@@ -161,10 +151,8 @@ ${dockerignoreHelp}
 	protected async validateOptions(opts: FlagsDef, sdk: BalenaSDK) {
 		// Validate option combinations
 		if (
-			(opts.application == null &&
-				(opts.arch == null || opts.deviceType == null)) ||
-			(opts.application != null &&
-				(opts.arch != null || opts.deviceType != null))
+			(opts.fleet == null && (opts.arch == null || opts.deviceType == null)) ||
+			(opts.fleet != null && (opts.arch != null || opts.deviceType != null))
 		) {
 			const { ExpectedError } = await import('../errors');
 			throw new ExpectedError(
@@ -189,9 +177,9 @@ ${dockerignoreHelp}
 	}
 
 	protected async getAppAndResolveArch(opts: FlagsDef) {
-		if (opts.application) {
+		if (opts.fleet) {
 			const { getAppWithArch } = await import('../utils/helpers');
-			const app = await getAppWithArch(opts.application);
+			const app = await getAppWithArch(opts.fleet);
 			opts.arch = app.arch;
 			opts.deviceType = app.is_for__device_type[0].slug;
 			return app;
