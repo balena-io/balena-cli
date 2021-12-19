@@ -36,7 +36,6 @@ interface FlagsDef {
 	'config-wifi-key'?: string;
 	'config-wifi-ssid'?: string;
 	device?: string; // device UUID
-	'device-api-key'?: string;
 	'device-type'?: string;
 	help?: void;
 	version?: string;
@@ -58,10 +57,6 @@ interface Answers {
 	wifiKey?: string;
 	provisioningKeyName?: string;
 }
-
-const deviceApiKeyDeprecationMsg = stripIndent`
-	The --device-api-key option is deprecated and will be removed in a future release.
-	A suitable key is automatically generated or fetched if this option is omitted.`;
 
 export default class OsConfigureCmd extends Command {
 	public static description = stripIndent`
@@ -86,8 +81,6 @@ export default class OsConfigureCmd extends Command {
 		https://www.balena.io/docs/reference/OS/network/2.x/
 		https://developer.gnome.org/NetworkManager/stable/ref-settings.html
 
-		${deviceApiKeyDeprecationMsg.split('\n').join('\n\t\t')}
-
 		${applicationIdInfo.split('\n').join('\n\t\t')}
 
 		Note: This command is currently not supported on Windows natively. Windows users
@@ -98,7 +91,6 @@ export default class OsConfigureCmd extends Command {
 
 	public static examples = [
 		'$ balena os configure ../path/rpi3.img --device 7cf02a6',
-		'$ balena os configure ../path/rpi3.img --device 7cf02a6 --device-api-key <existingDeviceKey>',
 		'$ balena os configure ../path/rpi3.img --fleet myorg/myfleet',
 		'$ balena os configure ../path/rpi3.img --fleet MyFleet --version 2.12.7',
 		'$ balena os configure ../path/rpi3.img -f MyFinFleet --device-type raspberrypi3',
@@ -142,11 +134,6 @@ export default class OsConfigureCmd extends Command {
 			description: 'WiFi SSID (network name) (non-interactive configuration)',
 		}),
 		device: { ...cf.device, exclusive: ['fleet', 'provisioning-key-name'] },
-		'device-api-key': flags.string({
-			char: 'k',
-			description:
-				'custom device API key (DEPRECATED and only supported with balenaOS 2.0.3+)',
-		}),
 		'device-type': flags.string({
 			description:
 				'device type slug (e.g. "raspberrypi3") to override the fleet device type',
@@ -241,11 +228,7 @@ export default class OsConfigureCmd extends Command {
 
 		if (_.isEmpty(configJson)) {
 			if (device) {
-				configJson = await generateDeviceConfig(
-					device,
-					options['device-api-key'],
-					answers,
-				);
+				configJson = await generateDeviceConfig(device, undefined, answers);
 			} else {
 				configJson = await generateApplicationConfig(app!, answers);
 			}
@@ -315,13 +298,6 @@ async function validateOptions(options: FlagsDef) {
 		throw new ExpectedError(
 			"The '--device-type' option can only be used in conjunction with the '--fleet' option",
 		);
-	}
-	if (options['device-api-key']) {
-		console.error(stripIndent`
-			-------------------------------------------------------------------------------------------
-			Warning: ${deviceApiKeyDeprecationMsg.split('\n').join('\n\t\t\t')}
-			-------------------------------------------------------------------------------------------
-		`);
 	}
 
 	await Command.checkLoggedIn();

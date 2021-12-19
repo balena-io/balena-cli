@@ -2136,9 +2136,6 @@ are multiple files to inject. See connection profile examples and reference at:
 https://www.balena.io/docs/reference/OS/network/2.x/
 https://developer.gnome.org/NetworkManager/stable/ref-settings.html
 
-The --device-api-key option is deprecated and will be removed in a future release.
-A suitable key is automatically generated or fetched if this option is omitted.
-
 Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
@@ -2159,7 +2156,6 @@ https://docs.microsoft.com/en-us/windows/wsl/about
 Examples:
 
 	$ balena os configure ../path/rpi3.img --device 7cf02a6
-	$ balena os configure ../path/rpi3.img --device 7cf02a6 --device-api-key <existingDeviceKey>
 	$ balena os configure ../path/rpi3.img --fleet myorg/myfleet
 	$ balena os configure ../path/rpi3.img --fleet MyFleet --version 2.12.7
 	$ balena os configure ../path/rpi3.img -f MyFinFleet --device-type raspberrypi3
@@ -2204,10 +2200,6 @@ WiFi SSID (network name) (non-interactive configuration)
 #### -d, --device DEVICE
 
 device UUID
-
-#### -k, --device-api-key DEVICE-API-KEY
-
-custom device API key (DEPRECATED and only supported with balenaOS 2.0.3+)
 
 #### --device-type DEVICE-TYPE
 
