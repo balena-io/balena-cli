@@ -166,19 +166,12 @@ are encouraged to regularly update the balena CLI to the latest version.
 
 - Fleet
 
-	- [apps](#apps)
 	- [fleets](#fleets)
-	- [app &#60;fleet&#62;](#app-fleet)
 	- [fleet &#60;fleet&#62;](#fleet-fleet)
-	- [app create &#60;name&#62;](#app-create-name)
 	- [fleet create &#60;name&#62;](#fleet-create-name)
-	- [app purge &#60;fleet&#62;](#app-purge-fleet)
 	- [fleet purge &#60;fleet&#62;](#fleet-purge-fleet)
-	- [app rename &#60;fleet&#62; [newname]](#app-rename-fleet-newname)
 	- [fleet rename &#60;fleet&#62; [newname]](#fleet-rename-fleet-newname)
-	- [app restart &#60;fleet&#62;](#app-restart-fleet)
 	- [fleet restart &#60;fleet&#62;](#fleet-restart-fleet)
-	- [app rm &#60;fleet&#62;](#app-rm-fleet)
 	- [fleet rm &#60;fleet&#62;](#fleet-rm-fleet)
 
 - Authentication
@@ -327,42 +320,6 @@ the API key name
 
 # Fleet
 
-## apps
-
-Renaming notice: The 'apps' command was renamed to 'fleets', and 'apps'
-is now an alias. THE ALIAS WILL BE REMOVED in the next major version
-of the balena CLI (so that a different 'apps' command can be implemented
-in the future). Use 'fleets' instead of 'apps' to avoid this warning.
-Find out more at: https://git.io/JRuZr
-
-For command usage, see 'balena help fleets'
-
-### Options
-
-#### --fields FIELDS
-
-only show provided fields (comma-separated)
-
-#### -j, --json
-
-output in json format
-
-#### --filter FILTER
-
-filter results by substring matching of a given field, eg: --filter field=foo
-
-#### --no-header
-
-hide table header from output
-
-#### --no-truncate
-
-do not truncate output to fit screen
-
-#### --sort SORT
-
-field to sort by (prepend '-' for descending order)
-
 ## fleets
 
 List all your balena fleets.
@@ -400,32 +357,6 @@ do not truncate output to fit screen
 
 field to sort by (prepend '-' for descending order)
 
-## app &#60;fleet&#62;
-
-Renaming notice: The 'app' command was renamed to 'fleet', and 'app'
-is now an alias. THE ALIAS WILL BE REMOVED in the next major version
-of the balena CLI (so that a different 'app' command can be implemented
-in the future). Use 'fleet' instead of 'app' to avoid this warning.
-Find out more at: https://git.io/JRuZr
-
-For command usage, see 'balena help fleet'
-
-### Arguments
-
-#### FLEET
-
-fleet name, slug (preferred), or numeric ID (deprecated)
-
-### Options
-
-#### --fields FIELDS
-
-only show provided fields (comma-separated)
-
-#### -j, --json
-
-output in json format
-
 ## fleet &#60;fleet&#62;
 
 Display detailed information about a single fleet.
@@ -462,32 +393,6 @@ only show provided fields (comma-separated)
 #### -j, --json
 
 output in json format
-
-## app create &#60;name&#62;
-
-Renaming notice: The 'app' command was renamed to 'fleet', and 'app'
-is now an alias. THE ALIAS WILL BE REMOVED in the next major version
-of the balena CLI (so that a different 'app' command can be implemented
-in the future). Use 'fleet' instead of 'app' to avoid this warning.
-Find out more at: https://git.io/JRuZr
-
-For command usage, see 'balena help fleet create'
-
-### Arguments
-
-#### NAME
-
-fleet name
-
-### Options
-
-#### -o, --organization ORGANIZATION
-
-handle of the organization the fleet should belong to
-
-#### -t, --type TYPE
-
-fleet device type (Check available types with `balena devices supported`)
 
 ## fleet create &#60;name&#62;
 
@@ -530,24 +435,6 @@ handle of the organization the fleet should belong to
 
 fleet device type (Check available types with `balena devices supported`)
 
-## app purge &#60;fleet&#62;
-
-Renaming notice: The 'app' command was renamed to 'fleet', and 'app'
-is now an alias. THE ALIAS WILL BE REMOVED in the next major version
-of the balena CLI (so that a different 'app' command can be implemented
-in the future). Use 'fleet' instead of 'app' to avoid this warning.
-Find out more at: https://git.io/JRuZr
-
-For command usage, see 'balena help fleet purge'
-
-### Arguments
-
-#### FLEET
-
-fleet name, slug (preferred), or numeric ID (deprecated)
-
-### Options
-
 ## fleet purge &#60;fleet&#62;
 
 Purge data from all devices belonging to a fleet.
@@ -575,28 +462,6 @@ Examples:
 #### FLEET
 
 fleet name, slug (preferred), or numeric ID (deprecated)
-
-### Options
-
-## app rename &#60;fleet&#62; [newName]
-
-Renaming notice: The 'app' command was renamed to 'fleet', and 'app'
-is now an alias. THE ALIAS WILL BE REMOVED in the next major version
-of the balena CLI (so that a different 'app' command can be implemented
-in the future). Use 'fleet' instead of 'app' to avoid this warning.
-Find out more at: https://git.io/JRuZr
-
-For command usage, see 'balena help fleet rename'
-
-### Arguments
-
-#### FLEET
-
-fleet name, slug (preferred), or numeric ID (deprecated)
-
-#### NEWNAME
-
-the new name for the fleet
 
 ### Options
 
@@ -637,24 +502,6 @@ the new name for the fleet
 
 ### Options
 
-## app restart &#60;fleet&#62;
-
-Renaming notice: The 'app' command was renamed to 'fleet', and 'app'
-is now an alias. THE ALIAS WILL BE REMOVED in the next major version
-of the balena CLI (so that a different 'app' command can be implemented
-in the future). Use 'fleet' instead of 'app' to avoid this warning.
-Find out more at: https://git.io/JRuZr
-
-For command usage, see 'balena help fleet restart'
-
-### Arguments
-
-#### FLEET
-
-fleet name, slug (preferred), or numeric ID (deprecated)
-
-### Options
-
 ## fleet restart &#60;fleet&#62;
 
 Restart all devices belonging to a fleet.
@@ -683,28 +530,6 @@ Examples:
 fleet name, slug (preferred), or numeric ID (deprecated)
 
 ### Options
-
-## app rm &#60;fleet&#62;
-
-Renaming notice: The 'app' command was renamed to 'fleet', and 'app'
-is now an alias. THE ALIAS WILL BE REMOVED in the next major version
-of the balena CLI (so that a different 'app' command can be implemented
-in the future). Use 'fleet' instead of 'app' to avoid this warning.
-Find out more at: https://git.io/JRuZr
-
-For command usage, see 'balena help fleet rm'
-
-### Arguments
-
-#### FLEET
-
-fleet name, slug (preferred), or numeric ID (deprecated)
-
-### Options
-
-#### -y, --yes
-
-answer "yes" to all questions (non interactive use)
 
 ## fleet rm &#60;fleet&#62;
 

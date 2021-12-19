@@ -175,15 +175,6 @@ If you have a particular use for buildArg, which is not satisfied by build-time
 secrets, please contact us via support or the forums: https://forums.balena.io/
 \n`;
 
-// Note: if you edit this message, check that the regex replace
-// logic in lib/commands/apps.ts still works.
-export const appToFleetCmdMsg = `\
-Renaming notice: The 'app' command was renamed to 'fleet', and 'app'
-is now an alias. THE ALIAS WILL BE REMOVED in the next major version
-of the balena CLI (so that a different 'app' command can be implemented
-in the future). Use 'fleet' instead of 'app' to avoid this warning.
-Find out more at: https://git.io/JRuZr`;
-
 export const appToFleetFlagMsg = `\
 Renaming notice: The '-a', '--app' or '--application' options are now
 aliases for the '-f' or '--fleet' options. THE ALIASES WILL BE REMOVED
