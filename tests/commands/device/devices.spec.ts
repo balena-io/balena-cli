@@ -38,7 +38,7 @@ describe('balena devices', function () {
 	it('should list devices from own and collaborator apps', async () => {
 		api.scope
 			.get(
-				'/v6/device?$orderby=device_name%20asc&$expand=belongs_to__application($select=app_name),is_of__device_type($select=slug),is_running__release($select=commit)',
+				'/v6/device?$orderby=device_name%20asc&$expand=belongs_to__application($select=app_name,slug),is_of__device_type($select=slug),is_running__release($select=commit)',
 			)
 			.replyWithFile(200, path.join(apiResponsePath, 'devices.json'), {
 				'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ describe('balena devices', function () {
 		);
 		expect(lines).to.have.lengthOf.at.least(2);
 
-		expect(lines.some((l) => l.includes('test app'))).to.be.true;
+		expect(lines.some((l) => l.includes('org/test app'))).to.be.true;
 
 		// Devices with missing applications will have application name set to `N/a`.
 		// e.g. When user has a device associated with app that user is no longer a collaborator of.

@@ -26,7 +26,7 @@ import type { Application } from 'balena-sdk';
 
 interface ExtendedDevice extends DeviceWithDeviceType {
 	dashboard_url?: string;
-	application_name?: string | null;
+	fleet?: string | null; // 'org/name' slug
 	device_type?: string | null;
 }
 
@@ -91,7 +91,7 @@ export default class DevicesCmd extends Command {
 
 			const belongsToApplication =
 				device.belongs_to__application as Application[];
-			device.application_name = belongsToApplication?.[0]?.app_name || null;
+			device.fleet = belongsToApplication?.[0]?.slug || null;
 
 			device.uuid = options.json ? device.uuid : device.uuid.slice(0, 7);
 
@@ -104,9 +104,7 @@ export default class DevicesCmd extends Command {
 			'uuid',
 			'device_name',
 			'device_type',
-			options.json
-				? `application_name => fleet_name`
-				: `application_name => FLEET`,
+			'fleet',
 			'status',
 			'is_online',
 			'supervisor_version',

@@ -428,7 +428,7 @@ export function getProxyConfig(): ProxyConfig | undefined {
 
 export const expandForAppName = {
 	$expand: {
-		belongs_to__application: { $select: 'app_name' },
+		belongs_to__application: { $select: ['app_name', 'slug'] as any },
 		is_of__device_type: { $select: 'slug' },
 		is_running__release: { $select: 'commit' },
 	},
