@@ -27,7 +27,7 @@ import type { Application, Release } from 'balena-sdk';
 
 interface ExtendedDevice extends DeviceWithDeviceType {
 	dashboard_url?: string;
-	application_name?: string;
+	fleet: string; // 'org/name' slug
 	device_type?: string;
 	commit?: string;
 	last_seen?: string;
@@ -114,8 +114,8 @@ export default class DeviceCmd extends Command {
 
 		const belongsToApplication =
 			device.belongs_to__application as Application[];
-		device.application_name = belongsToApplication?.[0]
-			? belongsToApplication[0].app_name
+		device.fleet = belongsToApplication?.[0]
+			? belongsToApplication[0].slug
 			: 'N/a';
 
 		device.device_type = device.is_of__device_type[0].slug;
@@ -173,7 +173,7 @@ export default class DeviceCmd extends Command {
 				'ip_address',
 				'public_address',
 				'mac_address',
-				'application_name => FLEET',
+				'fleet',
 				'last_seen',
 				'uuid',
 				'commit',

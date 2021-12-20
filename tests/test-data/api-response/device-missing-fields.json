@@ -4,6 +4,7 @@
 			"belongs_to__application": [
 				{
 					"app_name": "test app",
+					"slug": "org/test app",
 					"__metadata": {}
 				}
 			],
