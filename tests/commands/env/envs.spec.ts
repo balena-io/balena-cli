@@ -84,7 +84,7 @@ describe('balena envs', function () {
 
 		expect(JSON.parse(out.join(''))).to.deep.equal([
 			{
-				fleetName: 'gh_user/testApp',
+				fleet: 'gh_user/testApp',
 				id: 120300,
 				name: 'RESIN_SUPERVISOR_NATIVE_LOGGER',
 				value: 'false',
@@ -177,14 +177,14 @@ describe('balena envs', function () {
 
 		const { out, err } = await runCommand(`envs -jd ${shortUUID}`);
 		const expected = `[
-			{ "id": 120101, "fleetName": "org/test", "deviceUUID": "*", "name": "var1", "value": "var1-val", "serviceName": "*" },
-			{ "id": 120102, "fleetName": "org/test", "deviceUUID": "*", "name": "var2", "value": "22", "serviceName": "*" },
-			{ "id": 120110, "fleetName": "org/test", "deviceUUID": "*", "name": "svar1", "value": "svar1-value", "serviceName": "service1" },
-			{ "id": 120111, "fleetName": "org/test", "deviceUUID": "*", "name": "svar2", "value": "svar2-value", "serviceName": "service2" },
-			{ "id": 120120, "fleetName": "org/test", "deviceUUID": "${fullUUID}", "name": "svar3", "value": "svar3-value", "serviceName": "service1" },
-			{ "id": 120121, "fleetName": "org/test", "deviceUUID": "${fullUUID}", "name": "svar4", "value": "svar4-value", "serviceName": "service2" },
-			{ "id": 120203, "fleetName": "org/test", "deviceUUID": "${fullUUID}", "name": "var3", "value": "var3-val", "serviceName": "*" },
-			{ "id": 120204, "fleetName": "org/test", "deviceUUID": "${fullUUID}", "name": "var4", "value": "44", "serviceName": "*" }
+			{ "id": 120101, "fleet": "org/test", "deviceUUID": "*", "name": "var1", "value": "var1-val", "serviceName": "*" },
+			{ "id": 120102, "fleet": "org/test", "deviceUUID": "*", "name": "var2", "value": "22", "serviceName": "*" },
+			{ "id": 120110, "fleet": "org/test", "deviceUUID": "*", "name": "svar1", "value": "svar1-value", "serviceName": "service1" },
+			{ "id": 120111, "fleet": "org/test", "deviceUUID": "*", "name": "svar2", "value": "svar2-value", "serviceName": "service2" },
+			{ "id": 120120, "fleet": "org/test", "deviceUUID": "${fullUUID}", "name": "svar3", "value": "svar3-value", "serviceName": "service1" },
+			{ "id": 120121, "fleet": "org/test", "deviceUUID": "${fullUUID}", "name": "svar4", "value": "svar4-value", "serviceName": "service2" },
+			{ "id": 120203, "fleet": "org/test", "deviceUUID": "${fullUUID}", "name": "var3", "value": "var3-val", "serviceName": "*" },
+			{ "id": 120204, "fleet": "org/test", "deviceUUID": "${fullUUID}", "name": "var4", "value": "44", "serviceName": "*" }
 		]`;
 
 		expect(JSON.parse(out.join(''))).to.deep.equal(JSON.parse(expected));
@@ -309,12 +309,12 @@ describe('balena envs', function () {
 			`envs -d ${shortUUID} -js ${serviceName}`,
 		);
 		const expected = `[
-			{ "id": 120101, "fleetName": "org/test", "deviceUUID": "*", "name": "var1", "value": "var1-val", "serviceName": "*" },
-			{ "id": 120102, "fleetName": "org/test", "deviceUUID": "*", "name": "var2", "value": "22", "serviceName": "*" },
-			{ "id": 120110, "fleetName": "org/test", "deviceUUID": "*", "name": "svar1", "value": "svar1-value", "serviceName": "${serviceName}" },
-			{ "id": 120120, "fleetName": "org/test", "deviceUUID": "${fullUUID}", "name": "svar3", "value": "svar3-value", "serviceName": "${serviceName}" },
-			{ "id": 120203, "fleetName": "org/test", "deviceUUID": "${fullUUID}", "name": "var3", "value": "var3-val", "serviceName": "*" },
-			{ "id": 120204, "fleetName": "org/test", "deviceUUID": "${fullUUID}", "name": "var4", "value": "44", "serviceName": "*" }
+			{ "id": 120101, "fleet": "org/test", "deviceUUID": "*", "name": "var1", "value": "var1-val", "serviceName": "*" },
+			{ "id": 120102, "fleet": "org/test", "deviceUUID": "*", "name": "var2", "value": "22", "serviceName": "*" },
+			{ "id": 120110, "fleet": "org/test", "deviceUUID": "*", "name": "svar1", "value": "svar1-value", "serviceName": "${serviceName}" },
+			{ "id": 120120, "fleet": "org/test", "deviceUUID": "${fullUUID}", "name": "svar3", "value": "svar3-value", "serviceName": "${serviceName}" },
+			{ "id": 120203, "fleet": "org/test", "deviceUUID": "${fullUUID}", "name": "var3", "value": "var3-val", "serviceName": "*" },
+			{ "id": 120204, "fleet": "org/test", "deviceUUID": "${fullUUID}", "name": "var4", "value": "44", "serviceName": "*" }
 		]`;
 
 		expect(JSON.parse(out.join(''))).to.deep.equal(JSON.parse(expected));

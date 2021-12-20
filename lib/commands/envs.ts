@@ -33,21 +33,21 @@ interface FlagsDef {
 }
 
 interface EnvironmentVariableInfo extends SDK.EnvironmentVariableBase {
-	appName?: string | null; // application name
+	fleet?: string | null; // fleet slug
 	deviceUUID?: string; // device UUID
 	serviceName?: string; // service name
 }
 
 interface DeviceServiceEnvironmentVariableInfo
 	extends SDK.DeviceServiceEnvironmentVariable {
-	appName?: string; // application name
+	fleet?: string; // fleet slug
 	deviceUUID?: string; // device UUID
 	serviceName?: string; // service name
 }
 
 interface ServiceEnvironmentVariableInfo
 	extends SDK.ServiceEnvironmentVariable {
-	appName?: string; // application name
+	fleet?: string; // fleet slug
 	deviceUUID?: string; // device UUID
 	serviceName?: string; // service name
 }
@@ -173,15 +173,14 @@ export default class EnvsCmd extends Command {
 		varArray: EnvironmentVariableInfo[],
 		options: FlagsDef,
 	) {
-		const fields = ['id', 'name', 'value'];
+		const fields = ['id', 'name', 'value', 'fleet'];
 
 		// Replace undefined app names with 'N/A' or null
 		varArray = varArray.map((i: EnvironmentVariableInfo) => {
-			i.appName ||= options.json ? null : 'N/A';
+			i.fleet ||= options.json ? null : 'N/A';
 			return i;
 		});
 
-		fields.push(options.json ? `appName => fleetName` : `appName => FLEET`);
 		if (options.device) {
 			fields.push(options.json ? 'deviceUUID' : 'deviceUUID => DEVICE');
 		}
@@ -336,7 +335,7 @@ function fillInInfoFields(
 					?.installs__service as SDK.Service[]
 			)[0]?.service_name;
 		}
-		envVar.appName = fleetSlug;
+		envVar.fleet = fleetSlug;
 		envVar.serviceName = envVar.serviceName || '*';
 		envVar.deviceUUID = deviceUUID || '*';
 	}
