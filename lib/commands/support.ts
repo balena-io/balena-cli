@@ -74,7 +74,7 @@ export default class SupportCmd extends Command {
 		fleet: {
 			...cf.fleet,
 			description:
-				'comma-separated list (no spaces) of fleet names or org/name slugs',
+				'comma-separated list (no spaces) of fleet names or slugs (preferred)',
 		},
 		duration: flags.string({
 			description:
@@ -130,14 +130,17 @@ export default class SupportCmd extends Command {
 			ux.action.stop();
 		}
 
+		const { getFleetSlug } = await import('../utils/sdk');
+
 		// Process applications
 		for (const appName of appNames) {
+			const slug = await getFleetSlug(balena, appName);
 			if (enabling) {
-				ux.action.start(`${enablingMessage} fleet ${appName}`);
-				await balena.models.application.grantSupportAccess(appName, expiryTs);
+				ux.action.start(`${enablingMessage} fleet ${slug}`);
+				await balena.models.application.grantSupportAccess(slug, expiryTs);
 			} else if (params.action === 'disable') {
-				ux.action.start(`${disablingMessage} fleet ${appName}`);
-				await balena.models.application.revokeSupportAccess(appName);
+				ux.action.start(`${disablingMessage} fleet ${slug}`);
+				await balena.models.application.revokeSupportAccess(slug);
 			}
 			ux.action.stop();
 		}
