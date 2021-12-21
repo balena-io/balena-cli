@@ -89,10 +89,10 @@ export async function sudo(
 	await executeWithPrivileges(command, stderr, isCLIcmd);
 }
 
-export function runCommand<T>(commandArgs: string[]): Promise<T> {
+export async function runCommand<T>(commandArgs: string[]): Promise<T> {
 	const { isSubcommand } =
 		require('../preparser') as typeof import('../preparser');
-	if (isSubcommand(commandArgs)) {
+	if (await isSubcommand(commandArgs)) {
 		commandArgs = [
 			commandArgs[0] + ':' + commandArgs[1],
 			...commandArgs.slice(2),

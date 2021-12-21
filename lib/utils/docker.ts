@@ -193,19 +193,7 @@ export async function createClient(
 	opts: dockerode.DockerOptions,
 ): Promise<dockerode> {
 	const Docker = await import('dockerode');
-	const docker = new Docker(opts);
-	const { modem } = docker;
-	// Workaround for a docker-modem 2.0.x bug where it sets a default
-	// socketPath on Windows even if the input options specify a host/port.
-	if (modem.socketPath && modem.host) {
-		if (opts.socketPath) {
-			modem.host = undefined;
-			modem.port = undefined;
-		} else if (opts.host) {
-			modem.socketPath = undefined;
-		}
-	}
-	return docker;
+	return new Docker(opts);
 }
 
 async function generateConnectOpts(opts: ExtendedDockerOptions) {

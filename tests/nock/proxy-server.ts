@@ -86,19 +86,14 @@ async function createProxyServer(): Promise<[number, number]> {
 	const interceptorPort = await createInterceptorServer();
 
 	const proxy = httpProxy.createProxyServer();
-	proxy.on(
-		'error',
-		function (
-			err: Error,
-			_req: http.IncomingMessage,
-			res: http.ServerResponse,
-		) {
-			res.writeHead(500, { 'Content-Type': 'text/plain' });
-			const msg = `Proxy server error: ${err}`;
-			console.error(msg);
-			res.end(msg);
-		},
-	);
+	proxy.on('error', function (err, _req, res, _target) {
+		(res as http.ServerResponse).writeHead(500, {
+			'Content-Type': 'text/plain',
+		});
+		const msg = `Proxy server error: ${err}`;
+		console.error(msg);
+		res.end(msg);
+	});
 
 	const server = http.createServer(function (
 		req: http.IncomingMessage,

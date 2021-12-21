@@ -6,6 +6,7 @@
 		"outDir": "build",
 		"strict": true,
 		"strictPropertyInitialization": false,
+		"useUnknownInCatchVariables": false,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"preserveConstEnums": true,
