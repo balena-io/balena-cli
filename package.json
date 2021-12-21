@@ -209,7 +209,7 @@
     "balena-image-manager": "^7.1.1",
     "balena-preload": "^11.0.0",
     "balena-release": "^3.2.0",
-    "balena-sdk": "^15.51.1",
+    "balena-sdk": "^16.2.3",
     "balena-semver": "^2.3.0",
     "balena-settings-client": "^4.0.7",
     "balena-settings-storage": "^7.0.0",
