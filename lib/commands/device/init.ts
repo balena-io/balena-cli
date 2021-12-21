@@ -135,7 +135,7 @@ export default class DeviceInitCmd extends Command {
 
 		// Register new device
 		const deviceUuid = balena.models.device.generateUniqueKey();
-		console.info(`Registering to ${application.app_name}: ${deviceUuid}`);
+		console.info(`Registering to ${application.slug}: ${deviceUuid}`);
 		await balena.models.device.register(application.id, deviceUuid);
 		const device = await balena.models.device.get(deviceUuid);
 

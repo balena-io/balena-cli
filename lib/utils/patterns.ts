@@ -169,7 +169,7 @@ export function selectApplication(
 				throw new ExpectedError('No fleets found');
 			}
 
-			const apps = (await balena.models.application.getAll({
+			const apps = (await balena.models.application.getAllDirectlyAccessible({
 				$expand: {
 					is_for__device_type: {
 						$select: 'slug',

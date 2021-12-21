@@ -151,10 +151,11 @@ export default class EnvAddCmd extends Command {
 
 		const varType = isConfigVar ? 'configVar' : 'envVar';
 		if (options.fleet) {
+			const { getFleetSlug } = await import('../../utils/sdk');
 			for (const app of options.fleet.split(',')) {
 				try {
 					await balena.models.application[varType].set(
-						app,
+						await getFleetSlug(balena, app),
 						params.name,
 						params.value,
 					);

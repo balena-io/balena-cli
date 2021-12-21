@@ -343,8 +343,8 @@ Can be repeated to add multiple certificates.\
 		} catch {
 			throw new Error(`Device type "${deviceTypeSlug}" not found in API query`);
 		}
-		return (await balena.models.application.getAll({
-			$select: ['id', 'app_name', 'should_track_latest_release'],
+		return (await balena.models.application.getAllDirectlyAccessible({
+			$select: ['id', 'slug', 'should_track_latest_release'],
 			$expand: this.applicationExpandOptions,
 			$filter: {
 				// get the apps that are of the same arch as the device type of the image
@@ -387,7 +387,7 @@ Can be repeated to add multiple certificates.\
 					},
 				},
 			},
-			$orderby: 'app_name asc',
+			$orderby: 'slug asc',
 		})) as Array<
 			ApplicationWithDeviceType & {
 				should_be_running__release: [Release?];
@@ -416,7 +416,7 @@ Can be repeated to add multiple certificates.\
 			message: 'Select a fleet',
 			type: 'list',
 			choices: applications.map((app) => ({
-				name: app.app_name,
+				name: app.slug,
 				value: app,
 			})),
 		});
@@ -491,7 +491,7 @@ Would you like to disable automatic updates for this fleet now?\
 		});
 	}
 
-	async getAppWithReleases(balenaSdk: BalenaSDK, appId: string | number) {
+	async getAppWithReleases(balenaSdk: BalenaSDK, appId: string) {
 		const { getApplication } = await import('../utils/sdk');
 
 		return (await getApplication(balenaSdk, appId, {
