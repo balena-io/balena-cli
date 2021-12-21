@@ -1148,7 +1148,7 @@ Examples:
 
 #### FLEET
 
-fleet name or slug
+fleet name or slug (preferred)
 
 ### Options
 
@@ -3431,7 +3431,7 @@ comma-separated list (no spaces) of device UUIDs
 
 #### -f, --fleet FLEET
 
-comma-separated list (no spaces) of fleet names or org/name slugs
+comma-separated list (no spaces) of fleet names or slugs (preferred)
 
 #### -t, --duration DURATION
 

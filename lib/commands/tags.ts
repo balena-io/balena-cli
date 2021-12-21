@@ -81,9 +81,9 @@ export default class TagsCmd extends Command {
 		let tags;
 
 		if (options.fleet) {
-			const { getTypedApplicationIdentifier } = await import('../utils/sdk');
+			const { getFleetSlug } = await import('../utils/sdk');
 			tags = await balena.models.application.tags.getAllByApplication(
-				await getTypedApplicationIdentifier(balena, options.fleet),
+				await getFleetSlug(balena, options.fleet),
 			);
 		}
 		if (options.device) {

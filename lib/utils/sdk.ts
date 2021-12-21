@@ -22,22 +22,52 @@ import type {
 	PineOptions,
 } from 'balena-sdk';
 
+// TODO: remove this filter when the following SDK issue is resolved:
+// https://github.com/balena-io/balena-sdk/issues/1163
+const isDirectlyAccessibleByUserFilter = {
+	is_directly_accessible_by__user: {
+		$any: {
+			$alias: 'dau',
+			$expr: {
+				1: 1,
+			},
+		},
+	},
+};
+
 /**
- * Wraps the sdk application.get method,
- * adding disambiguation in cases where the provided
- * identifier could be interpreted in multiple valid ways.
+ * Get a fleet object, disambiguating the fleet identifier which may be a
+ * a fleet slug, name or numeric database ID (as a string).
+ * TODO: add support for fleet UUIDs.
  */
 export async function getApplication(
 	sdk: BalenaSDK,
 	nameOrSlugOrId: string | number,
 	options?: PineOptions<Application>,
 ): Promise<Application> {
-	const { looksLikeInteger } = await import('./validation');
-	if (looksLikeInteger(nameOrSlugOrId as string)) {
+	const { looksLikeFleetSlug, looksLikeInteger } = await import('./validation');
+	if (
+		typeof nameOrSlugOrId === 'string' &&
+		looksLikeFleetSlug(nameOrSlugOrId)
+	) {
+		return await sdk.models.application.get(
+			nameOrSlugOrId,
+			options,
+			'directly_accessible',
+		);
+	}
+	if (typeof nameOrSlugOrId === 'number' || looksLikeInteger(nameOrSlugOrId)) {
 		try {
 			// Test for existence of app with this numerical ID
-			return await sdk.models.application.get(Number(nameOrSlugOrId), options);
+			return await sdk.models.application.get(
+				Number(nameOrSlugOrId),
+				options,
+				'directly_accessible',
+			);
 		} catch (e) {
+			if (typeof nameOrSlugOrId === 'number') {
+				throw e;
+			}
 			const { instanceOf } = await import('../errors');
 			const { BalenaApplicationNotFound } = await import('balena-errors');
 			if (!instanceOf(e, BalenaApplicationNotFound)) {
@@ -46,13 +76,20 @@ export async function getApplication(
 			// App with this numerical ID not found, but there may be an app with this numerical name.
 		}
 	}
-	return sdk.models.application.get(nameOrSlugOrId, options);
+	// Not a slug and not a numeric database ID: must be an app name.
+	// TODO (1): revisit this logic when we add support for fleet UUIDs.
+	// TODO (2): remove `$filter` option when SDK issue 1163 is resolved:
+	//   https://github.com/balena-io/balena-sdk/issues/1163
+	return await sdk.models.application.getAppByName(nameOrSlugOrId, {
+		...options,
+		$filter: isDirectlyAccessibleByUserFilter,
+	});
 }
 
 /**
- * Given a fleet name, slug or numeric ID, return its slug.
+ * Given a fleet name, slug or numeric database ID, return its slug.
  * This function conditionally makes an async SDK/API call to retrieve the
- * application object, which can be wasteful is the application object is
+ * application object, which can be wasteful if the application object is
  * required before or after the call to this function. If this is the case,
  * consider calling `getApplication()` and reusing the application object.
  */
@@ -60,50 +97,14 @@ export async function getFleetSlug(
 	sdk: BalenaSDK,
 	nameOrSlugOrId: string | number,
 ): Promise<string> {
-	if (typeof nameOrSlugOrId === 'string' && nameOrSlugOrId.includes('/')) {
-		return nameOrSlugOrId;
+	const { looksLikeFleetSlug } = await import('./validation');
+	if (
+		typeof nameOrSlugOrId === 'string' &&
+		looksLikeFleetSlug(nameOrSlugOrId)
+	) {
+		return nameOrSlugOrId.toLowerCase();
 	}
 	return (await getApplication(sdk, nameOrSlugOrId)).slug;
-}
-
-/**
- * Given an string representation of an application identifier,
- * which could be one of:
- *  - name (including numeric names)
- *  - slug
- *  - numerical id
- *  disambiguate and return a properly typed identifier.
- *
- *  Attempts to minimise the number of API calls required.
- * TODO: Remove this once support for numeric App IDs is removed.
- */
-export async function getTypedApplicationIdentifier(
-	sdk: BalenaSDK,
-	nameOrSlugOrId: string,
-) {
-	const { looksLikeInteger } = await import('./validation');
-	// If there's no possible ambiguity,
-	// return the passed identifier unchanged
-	if (!looksLikeInteger(nameOrSlugOrId)) {
-		return nameOrSlugOrId;
-	}
-
-	// Resolve ambiguity
-	try {
-		// Test for existence of app with this numerical ID,
-		// and return typed id if found
-		return (await sdk.models.application.get(Number(nameOrSlugOrId))).id;
-	} catch (e) {
-		const { instanceOf } = await import('../errors');
-		const { BalenaApplicationNotFound } = await import('balena-errors');
-		if (!instanceOf(e, BalenaApplicationNotFound)) {
-			throw e;
-		}
-	}
-
-	// App with this numerical id not found
-	// return the passed identifier unchanged
-	return nameOrSlugOrId;
 }
 
 /**

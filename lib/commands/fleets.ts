@@ -62,13 +62,14 @@ export default class FleetsCmd extends Command {
 		const balena = getBalenaSdk();
 
 		// Get applications
-		const applications = (await balena.models.application.getAll({
-			$select: ['id', 'app_name', 'slug'],
-			$expand: {
-				is_for__device_type: { $select: 'slug' },
-				owns__device: { $select: 'is_online' },
-			},
-		})) as ExtendedApplication[];
+		const applications =
+			(await balena.models.application.getAllDirectlyAccessible({
+				$select: ['id', 'app_name', 'slug'],
+				$expand: {
+					is_for__device_type: { $select: 'slug' },
+					owns__device: { $select: 'is_online' },
+				},
+			})) as ExtendedApplication[];
 
 		// Add extended properties
 		applications.forEach((application) => {

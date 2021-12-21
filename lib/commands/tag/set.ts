@@ -108,9 +108,9 @@ export default class TagSetCmd extends Command {
 		const { tryAsInteger } = await import('../../utils/validation');
 
 		if (options.fleet) {
-			const { getTypedApplicationIdentifier } = await import('../../utils/sdk');
+			const { getFleetSlug } = await import('../../utils/sdk');
 			return balena.models.application.tags.set(
-				await getTypedApplicationIdentifier(balena, options.fleet),
+				await getFleetSlug(balena, options.fleet),
 				params.tagKey,
 				params.value,
 			);

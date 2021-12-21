@@ -89,7 +89,7 @@ export default class FleetCmd extends Command {
 			);
 		} else {
 			// Emulate table.vertical title output, but avoid uppercasing and inserting spaces
-			console.log(`== ${application.app_name}`);
+			console.log(`== ${application.slug}`);
 			console.log(
 				getVisuals().table.vertical(application, [
 					'id',

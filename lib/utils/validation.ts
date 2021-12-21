@@ -118,7 +118,6 @@ export function parseAsLocalHostnameOrIp(input: string, paramName?: string) {
 	return input;
 }
 
-export function looksLikeAppSlug(input: string) {
-	// One or more non whitespace chars, /, 4 or more non whitespace chars
-	return /[\S]+\/[\S]{4,}/.test(input);
+export function looksLikeFleetSlug(input: string) {
+	return input.includes('/');
 }

@@ -74,7 +74,7 @@ export default class SupportCmd extends Command {
 		fleet: {
 			...cf.fleet,
 			description:
-				'comma-separated list (no spaces) of fleet names or org/name slugs',
+				'comma-separated list (no spaces) of fleet names or slugs (preferred)',
 		},
 		duration: flags.string({
 			description:
@@ -130,8 +130,11 @@ export default class SupportCmd extends Command {
 			ux.action.stop();
 		}
 
+		const { getFleetSlug } = await import('../utils/sdk');
+
 		// Process applications
-		for (const appName of appNames) {
+		for (let appName of appNames) {
+			appName = await getFleetSlug(balena, appName);
 			if (enabling) {
 				ux.action.start(`${enablingMessage} fleet ${appName}`);
 				await balena.models.application.grantSupportAccess(appName, expiryTs);
