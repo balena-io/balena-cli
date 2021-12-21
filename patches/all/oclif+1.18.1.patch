@@ -11,7 +11,7 @@ index 2a7bcdd..c3df321 100644
      }
  }
 diff --git a/node_modules/oclif/lib/commands/pack/win.js b/node_modules/oclif/lib/commands/pack/win.js
-index 7547ad2..c22cd53 100644
+index 7547ad2..df9e4b5 100644
 --- a/node_modules/oclif/lib/commands/pack/win.js
 +++ b/node_modules/oclif/lib/commands/pack/win.js
 @@ -52,6 +52,13 @@ VIAddVersionKey /LANG=\${LANG_ENGLISH} "ProductVersion" "\${VERSION}.0"
@@ -28,7 +28,16 @@ index 7547ad2..c22cd53 100644
    SetOutPath $INSTDIR
    File /r bin
    File /r client
-@@ -193,7 +200,8 @@ class PackWin extends command_1.Command {
+@@ -61,6 +68,8 @@ Section "${config.name} CLI \${VERSION}"
+   WriteUninstaller "$INSTDIR\\Uninstall.exe"
+   WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${config.dirname}" \\
+                    "DisplayName" "${config.name}"
++  WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${config.dirname}" \\
++                   "DisplayVersion" "\${VERSION}"
+   WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${config.dirname}" \\
+                    "UninstallString" "$\\"$INSTDIR\\uninstall.exe$\\""
+   WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${config.dirname}" \\
+@@ -193,7 +202,8 @@ class PackWin extends command_1.Command {
      async run() {
          await this.checkForNSIS();
          const { flags } = this.parse(PackWin);
@@ -38,7 +47,7 @@ index 7547ad2..c22cd53 100644
          const { config } = buildConfig;
          await Tarballs.build(buildConfig, { platform: 'win32', pack: false });
          const arches = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch);
-@@ -208,7 +216,8 @@ class PackWin extends command_1.Command {
+@@ -208,7 +218,8 @@ class PackWin extends command_1.Command {
              // eslint-disable-next-line no-await-in-loop
              await qq.mv(buildConfig.workspace({ platform: 'win32', arch }), [installerBase, 'client']);
              // eslint-disable-next-line no-await-in-loop
@@ -48,7 +57,7 @@ index 7547ad2..c22cd53 100644
              const templateKey = upload_util_1.templateShortKey('win32', { bin: config.bin, version: buildConfig.version, sha: buildConfig.gitSha, arch });
              const o = buildConfig.dist(`win32/${templateKey}`);
              // eslint-disable-next-line no-await-in-loop
-@@ -255,4 +264,5 @@ PackWin.hidden = true;
+@@ -255,4 +266,5 @@ PackWin.hidden = true;
  PackWin.description = 'create windows installer from oclif CLI';
  PackWin.flags = {
      root: command_1.flags.string({ char: 'r', description: 'path to oclif CLI root', default: '.', required: true }),
