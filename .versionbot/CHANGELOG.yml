@@ -1,4 +1,23 @@
 - commits:
+    - subject: Include version info when installed on windows
+      hash: 8d3a4343cb7e49f29212e4df765ed06c90304b34
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+    - subject: Switch from the deprecated oclif-dev commands to the oclif commands
+      hash: 6eeb16245b619c2bd436395fc5948dc10c84cbf4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 12.55.8
+  date: 2021-12-21T16:26:56.278Z
+- commits:
     - subject: 'push: Remove hardcoded ''balenaCloud'' in console message'
       hash: e7ddd07b7b472cf5a46806f698daed6749bed4f5
       body: ''
