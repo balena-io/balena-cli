@@ -17,7 +17,7 @@
 
 import type { JsonVersions } from '../lib/commands/version';
 
-import { run as oclifRun } from '@oclif/dev-cli';
+import { run as oclifRun } from 'oclif';
 import * as archiver from 'archiver';
 import * as Bluebird from 'bluebird';
 import { execFile } from 'child_process';
@@ -64,7 +64,7 @@ const standaloneZips: PathByPlatform = {
 
 const oclifInstallers: PathByPlatform = {
 	darwin: dPath('macos', `balena-${version}.pkg`),
-	win32: dPath('win', `balena-${version}-${arch}.exe`),
+	win32: dPath('win32', `balena-${version}-${arch}.exe`),
 };
 
 const renamedOclifInstallers: PathByPlatform = {
@@ -456,7 +456,7 @@ async function notarizeMacInstaller(): Promise<void> {
 }
 
 /**
- * Run the `oclif-dev pack:win` or `pack:macos` command (depending on the value
+ * Run the `oclif pack:win` or `pack:macos` command (depending on the value
  * of process.platform) to generate the native installers (which end up under
  * the 'dist' folder). There are some harcoded options such as selecting only
  * 64-bit binaries under Windows.
@@ -486,7 +486,7 @@ export async function buildOclifInstaller() {
 			await signFilesForNotarization();
 		}
 		console.log('=======================================================');
-		console.log(`oclif-dev "${packCmd}" "${packOpts.join('" "')}"`);
+		console.log(`oclif "${packCmd}" "${packOpts.join('" "')}"`);
 		console.log(`cwd="${process.cwd()}" ROOT="${ROOT}"`);
 		console.log('=======================================================');
 		await oclifRun([packCmd].concat(...packOpts));
