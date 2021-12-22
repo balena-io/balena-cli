@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        os download: Future-proof '--version' format for unified dev/prod
+        variants
+      hash: c04e63ab7d9861baf5708d07ff90f02791775715
+      body: |
+        Do not append the '.prod' suffix by default to balenaOS versions.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 12.55.9
+  date: 2021-12-22T16:01:42.276Z
+- commits:
     - subject: Include version info when installed on windows
       hash: 8d3a4343cb7e49f29212e4df765ed06c90304b34
       body: ''
@@ -16,7 +30,7 @@
       author: Pagan Gazzard
       nested: []
   version: 12.55.8
-  date: 2021-12-21T16:58:37.744Z
+  date: 2021-12-21T16:26:56.278Z
 - commits:
     - subject: 'push: Remove hardcoded ''balenaCloud'' in console message'
       hash: e7ddd07b7b472cf5a46806f698daed6749bed4f5
