@@ -108,6 +108,13 @@ export default class FleetRenameCmd extends Command {
 			})) ||
 			'';
 
+		// Check they haven't used slug in new name
+		if (newName.includes('/')) {
+			throw new ExpectedError(
+				`New fleet name cannot include '/', please check that you are not specifying fleet slug.`,
+			);
+		}
+
 		// Rename
 		try {
 			await balena.models.application.rename(application.id, newName);
@@ -115,6 +122,12 @@ export default class FleetRenameCmd extends Command {
 			// BalenaRequestError: Request error: "organization" and "app_name" must be unique.
 			if ((e.message || '').toLowerCase().includes('unique')) {
 				throw new ExpectedError(`Error: fleet ${newName} already exists.`);
+			}
+			// BalenaRequestError: Request error: App name may only contain [a-zA-Z0-9_-].
+			if ((e.message || '').toLowerCase().includes('name may only contain')) {
+				throw new ExpectedError(
+					`Error: new fleet name may only include characters [a-zA-Z0-9_-].`,
+				);
 			}
 			throw e;
 		}

@@ -75,15 +75,15 @@ export default class TagSetCmd extends Command {
 	public static flags: flags.Input<FlagsDef> = {
 		fleet: {
 			...cf.fleet,
-			exclusive: ['app', 'application', 'device', 'release'],
+			exclusive: ['device', 'release'],
 		},
 		device: {
 			...cf.device,
-			exclusive: ['app', 'application', 'fleet', 'release'],
+			exclusive: ['fleet', 'release'],
 		},
 		release: {
 			...cf.release,
-			exclusive: ['app', 'application', 'fleet', 'device'],
+			exclusive: ['fleet', 'device'],
 		},
 		help: cf.help,
 	};
