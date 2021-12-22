@@ -56,7 +56,7 @@ export default class OsDownloadCmd extends Command {
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1',
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1.dev',
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^2.60.0',
-		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2021.10.1',
+		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2021.10.2.prod',
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest',
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default',
 		'$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version menu',
@@ -124,6 +124,22 @@ export default class OsDownloadCmd extends Command {
 			await downloadOSImage(params.type, options.output, options.version);
 		} catch (e) {
 			e.deviceTypeSlug = params.type;
+			e.message ||= '';
+			if (
+				e.code === 'BalenaRequestError' ||
+				e.message.toLowerCase().includes('no such version')
+			) {
+				const version = options.version || '';
+				if (
+					!version.endsWith('.dev') &&
+					!version.endsWith('.prod') &&
+					/^v?\d+\.\d+\.\d+/.test(version)
+				) {
+					e.message += `
+** Hint: some OS releases require specifying the full OS version including
+** the '.prod' or '.dev' suffix, e.g. '--version 2021.10.2.prod'`;
+				}
+			}
 			throw e;
 		}
 	}
