@@ -1,4 +1,15 @@
 - commits:
+    - subject: Update dev dependencies
+      hash: 79be06820c73f5750a27cecb759494ca9ff4c449
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 12.55.10
+  date: 2021-12-23T11:52:23.473Z
+- commits:
     - subject: >-
         os download: Future-proof '--version' format for unified dev/prod
         variants
