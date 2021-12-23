@@ -131,6 +131,13 @@ Please use "balena ${alternative}" instead.`);
 		'local scan': [replaced, 'scan', 'v11.0.0'],
 		'local ssh': [replaced, 'ssh', 'v11.0.0'],
 		'local stop': [removed, stopAlternative, 'v11.0.0'],
+		app: [replaced, 'fleet', 'v13.0.0'],
+		apps: [replaced, 'fleets', 'v13.0.0'],
+		'app create': [replaced, 'fleet create', 'v13.0.0'],
+		'app purge': [replaced, 'fleet purge', 'v13.0.0'],
+		'app rename': [replaced, 'fleet rename', 'v13.0.0'],
+		'app restart': [replaced, 'fleet restart', 'v13.0.0'],
+		'app rm': [replaced, 'fleet rm', 'v13.0.0'],
 	};
 	let cmd: string | undefined;
 	if (argvSlice.length > 1) {
