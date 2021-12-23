@@ -117,7 +117,7 @@
   "devDependencies": {
     "@balena/lint": "^6.2.0",
     "@oclif/config": "^1.17.0",
-    "@oclif/parser": "^3.8.5",
+    "@oclif/parser": "^3.8.6",
     "@octokit/plugin-throttling": "^3.5.1",
     "@octokit/rest": "^18.6.7",
     "@types/archiver": "^5.1.1",
@@ -190,7 +190,7 @@
     "simple-git": "^2.48.0",
     "sinon": "^11.1.2",
     "ts-node": "^10.4.0",
-    "typescript": "^4.4.4"
+    "typescript": "^4.5.4"
   },
   "dependencies": {
     "@balena/dockerignore": "^1.0.2",
