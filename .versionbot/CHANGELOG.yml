@@ -1,4 +1,15 @@
 - commits:
+    - subject: Update to typescript 4.5
+      hash: e01483cd2b94c8165d89c77e0f766ad7c4589c86
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 12.55.11
+  date: 2021-12-23T14:08:10.042Z
+- commits:
     - subject: Update dev dependencies
       hash: 79be06820c73f5750a27cecb759494ca9ff4c449
       body: ''
