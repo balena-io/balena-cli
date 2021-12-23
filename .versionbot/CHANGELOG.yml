@@ -1,4 +1,1094 @@
 - commits:
+    - subject: 'v13 RELEASE NOTES: see https://git.io/JDHxG'
+      hash: c403683edfe34c4ccf1f530c50dad713e92917dd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'balena SDK v16: Ensure all SDK calls use fleet slug rather than name'
+      hash: c86cdc8f842e4076ae55cd4c0e5ea087e81b2635
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Update balena-sdk to v16.8.0
+      hash: 84f02dc063ad7bfd2bf3b295843616c0ae23a335
+      body: |
+        Update balena-sdk from 15.51.1 to 16.8.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested:
+        - commits:
+            - subject: >-
+                os.getConfig: Accept additional developmentMode configuration
+                option
+              hash: 58c5279963f91ecd4eaf5504e4be321408ada431
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.8.0
+          date: 2021-12-22T23:17:15.039Z
+        - commits:
+            - subject: 'os.download: Fix the inferred method typings'
+              hash: 96a726b358629063a9fe859972d782c3ebdb75eb
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: 'os.download: Accept additional configuration options'
+              hash: 4ff5071842223ca260eca5077f445bab5b3ae11f
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.7.0
+          date: 2021-12-22T17:54:04.554Z
+        - commits:
+            - subject: >-
+                models.os: Use the native hostApp OS release version if it is
+                set
+              hash: f93a62a533d9371358ea3176f089b3ad3006193d
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: >-
+                models.os: Deprecate OsVersion.rawVersion in favor or
+                raw_version
+              hash: ccfe1b260ef94651f3775075b929da4a6828871c
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.6.0
+          date: 2021-12-22T14:32:00.087Z
+        - commits:
+            - subject: 'os.getAllOsVersions: Add support for invariant OS releases'
+              hash: cd8e00ea6e259c21655b869f141a7d74da10b96e
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.5.0
+          date: 2021-12-22T13:51:57.337Z
+        - commits:
+            - subject: 'os.getMaxSatisfyingVersion: Add ">" semver range tests'
+              hash: 0a0fd896963d089261cc3608d85e7cd0d0d53185
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.4.1
+          date: 2021-12-21T23:16:23.237Z
+        - commits:
+            - subject: 'os.getMaxSatisfyingVersion: Add support for ESR releases'
+              hash: 4144692232be3f79cfbee1d7359ed4b56b8eabe7
+              body: ''
+              footer:
+                Resolves: '#389'
+                resolves: '#389'
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.4.0
+          date: 2021-12-21T18:13:27.249Z
+        - commits:
+            - subject: >-
+                application.getAppByName: Add 'directly_accessible' convenience
+                filter
+              hash: 70c12e25aa6cbd348e8b78ede695146bd639686d
+              body: ''
+              footer:
+                Resolves: '#1163'
+                resolves: '#1163'
+                See: >-
+                  https://www.flowdock.com/app/rulemotion/i-cli/threads/VnT1qqVb13PkQO_GnPsKZB1l_fZ
+                see: >-
+                  https://www.flowdock.com/app/rulemotion/i-cli/threads/VnT1qqVb13PkQO_GnPsKZB1l_fZ
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.3.0
+          date: 2021-12-21T01:30:54.748Z
+        - commits:
+            - subject: FIx the return type of config.getConfigVarSchema()
+              hash: 7ff41b8b3ef1f1d057bc2e87bd5675e3038dd79c
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.2.3
+          date: 2021-12-17T17:41:36.323Z
+        - commits:
+            - subject: >-
+                os.getAvailableOsVersions: Exclude draft and non-successful
+                releases
+              hash: 51a8b0dfcf82d15d43229c7dd48b39d025ed0705
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: 'os.getAllOsVersions: Deprecate OsVersion.isRecommended'
+              hash: 7516b0870beb4d47b21c0cd35cd3be8d48bef986
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: 'os.getAllOsVersions: Deprecate OsVersion.formattedVersion'
+              hash: 3c08b2f9f98bfe30ab361f64a3e35ab86f90ec46
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.2.2
+          date: 2021-12-17T15:55:18.147Z
+        - commits:
+            - subject: Drop require-npm4-to-publish
+              hash: 048ff951ea5820a2e662fd7568d733a6c76d20a0
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.2.1
+          date: 2021-12-17T13:25:17.053Z
+        - commits:
+            - subject: 'minor: Add Configuration Variables Schema method'
+              hash: e61cf974765b8540fff1416e4ee05edce86b83c8
+              body: ''
+              footer:
+                Signed-off-by: Vipul Gupta (@vipulgupta2048) <vipul@balena.io>
+                signed-off-by: Vipul Gupta (@vipulgupta2048) <vipul@balena.io>
+              author: Vipul Gupta (@vipulgupta2048)
+              nested: []
+          version: balena-sdk-16.2.0
+          date: 2021-12-17T10:59:31.147Z
+        - commits:
+            - subject: Add description field to generateProvisioningKey for apps.
+              hash: 27cbc1f2565a31ca6cbe1a5950b14ae995f04bf7
+              body: ''
+              footer:
+                Change-Type: minor
+                change-type: minor
+                Signed-off-by: Nitish Agarwal <1592163+nitishagar@users.noreply.github.com>
+                signed-off-by: Nitish Agarwal <1592163+nitishagar@users.noreply.github.com>
+              author: Nitish Agarwal
+              nested: []
+          version: balena-sdk-16.1.0
+          date: 2021-12-08T13:43:24.038Z
+        - commits:
+            - subject: '**BREAKING**: Merge the hostApp model into the OS model'
+              hash: fa3ffa3fa24f9d8459e7b03fbce4fdd28efac1ab
+              body: ''
+              footer:
+                Change-type: major
+                change-type: major
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: >-
+                **BREAKING** Drop os.getSupportedVersions() method in favor of
+                hostapp.getAvailableOsVersions()
+              hash: a2f31ed9937aec7e2f3ec637ce8c484c5ea4af7c
+              body: ''
+              footer:
+                Change-type: major
+                change-type: major
+                Changelog-entry: >-
+                  **BREAKING** Drop os.getSupportedVersions() method in favor of
+                  hostapp.getAvailableOsVersions()
+                changelog-entry: >-
+                  **BREAKING** Drop os.getSupportedVersions() method in favor of
+                  hostapp.getAvailableOsVersions()
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: >-
+                os.getMaxSatisfyingVersion: Add optional param to choose OS line
+                type
+              hash: 3efd1abf1d9143b017df7247c6c8cc0c00057139
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: 'os.getMaxSatisfyingVersion: Include ESR versions'
+              hash: cc3e7b2121281ccd0757ad58906e28d001765170
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: 'os.getMaxSatisfyingVersion: Switch to use hostApps'
+              hash: d033ef176eca308a4df0bd03d2246880e430b5d4
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: >-
+                hostapp.getAvailableOsVersions: Add single device type argument
+                overload
+              hash: fdddc72b033724c3248c94e0b49fc3bbf6a47586
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: >-
+                hostapp.getAllOsVersions: Add single device type argument
+                overload
+              hash: 533996307d5486ee56552e0d66ae3095299dde8e
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: >-
+                models.hostapp: Add a getAvailableOsVersions() convenience
+                method
+              hash: 11db481db7e066d625bdcd4d7a899792e4f961a6
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Support optional extra PineOptions in hostapp.getAllOsVersions()
+              hash: 3294ee4a3d9caf5474bfc11dde94541ec72a4190
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: >-
+                **BREAKING** Include invalidated versions in
+                hostapp.getAllOsVersions()
+              hash: fe811497d01c030ac33921c45f54bb0e5fbf58e0
+              body: ''
+              footer:
+                Change-type: major
+                change-type: major
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: >-
+                models/application: Add getDirectlyAccessible &
+                getAllDirectlyAccessible
+              hash: 924d5f7bdbffd8ae9b602b75a38d6a9d5835b70c
+              body: ''
+              footer:
+                Connects-to: '#1068'
+                connects-to: '#1068'
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: >-
+                application.get: Add 'directly_accessible' convenience filter
+                param
+              hash: f5b10be0f30b30a7f0eeb3996ccebfaf8d3577cb
+              body: ''
+              footer:
+                Connects-to: '#1068'
+                connects-to: '#1068'
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: >-
+                application.getAll: Add 'directly_accessible' convenience filter
+                param
+              hash: 89e926e80499ab2445c4855fea8724a63a1f887b
+              body: ''
+              footer:
+                Connects-to: '#1068'
+                connects-to: '#1068'
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: '**BREAKING** Change application.getAll to include public apps'
+              hash: cf57bc2ae5375fa52d03f6722250de0cbbf31222
+              body: ''
+              footer:
+                Resolves: '#1067'
+                resolves: '#1067'
+                Change-type: major
+                change-type: major
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: >-
+                **BREAKING** Drop targeting/retrieving apps by name in favor of
+                slugs
+              hash: 8d32d94b6f494703debfdaf12180bd29c4f6cdcb
+              body: ''
+              footer:
+                Resolves: '#1030'
+                resolves: '#1030'
+                Change-type: major
+                change-type: major
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Bump minimum supported Typescript to v4.5.2
+              hash: 193bd312e6a4010bb6a411c496125aae76c25bad
+              body: ''
+              footer:
+                Change-type: major
+                change-type: major
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: '**BREAKING**: Stop actively supporting node 10'
+              hash: 3a97c6adb6e16b11a4a9aafff05ed01d5fedfe36
+              body: |
+                Node 10 may well still work with the SDK for quite a
+                while, but we'll no longer actively test against them
+                since they are now characterized as EOL, and it's
+                quite possible that it may stop working entirely in any
+                future release.
+              footer:
+                Change-type: major
+                change-type: major
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: '**BREAKING** Drop application.getAllWithDeviceServiceDetails()'
+              hash: 53cea5082a80ea18bda1b9e2793dddd1a809ac4d
+              body: ''
+              footer:
+                Change-type: major
+                change-type: major
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: '**BREAKING** Change apiKey.getAll() to return all key variants'
+              hash: bc9fe542ad788c0793b1035273073298a73a9337
+              body: |
+                The apiKeys.getAllNamedUserApiKeys will be offering
+                the old behavior.
+              footer:
+                Change-type: major
+                change-type: major
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: 'types: Drop is_in_local_mode from the Device model'
+              hash: 50f7f895b8c590d3d7f8be5ec028fab54b331126
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: >-
+                types: Drop user__is_member_of__application in favor of the term
+                form
+              hash: fbfc2d6fea941edd37eaa095616b0c619aec081e
+              body: |
+                Dropping the resource mapping & the properties
+                from the User & Team, in favor of its Term Form,
+                user_application_membership.
+              footer:
+                Change-type: major
+                change-type: major
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: 'typings: Drop Subscription''s discounts__plan_addon property'
+              hash: a6788dc35e223eb8a81955d5dcc34c8ac124382a
+              body: |
+                Dropping the deprecated property in favor of
+                Subscripton's subscription_addon_discount.
+              footer:
+                Change-type: major
+                change-type: major
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: 'typings: Stop extending the JWTUser type in the User model'
+              hash: 947f7f427be6f638bc12c330499a2b223f04d4ec
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                See: 'https://github.com/balena-io/balena-sdk/issues/966'
+                see: 'https://github.com/balena-io/balena-sdk/issues/966'
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: 'models/config: Change the BETA device type state to NEW'
+              hash: 3b06f2bd9b2a8da2da7d7e94f578d89a4ae1598d
+              body: ''
+              footer:
+                Change-type: major
+                change-type: major
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: 'typings: Drop the PineWithSelectOnGet type'
+              hash: 41815b8499bf13fddd60ff91c41332346364a914
+              body: ''
+              footer:
+                Change-type: major
+                change-type: major
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Remove my_application from the supported resources
+              hash: 579052f75d9f6c7f512f320d7c6e66e8b11c80a3
+              body: ''
+              footer:
+                Change-type: major
+                change-type: major
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: 'typings: Properly type some Device properties'
+              hash: 6406f75080eb7e194271792a970d177df7cdbaf3
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: 'typings: Drop the DeviceWithImageInstalls type'
+              hash: a14e6a2f4f212cea70b0cdad5b0b9d5643ca337c
+              body: ''
+              footer:
+                Resolves: '#923'
+                resolves: '#923'
+                Change-type: major
+                change-type: major
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.0.0
+          date: 2021-11-28T18:48:49.341Z
+        - commits:
+            - subject: Update balena-request to 11.5.0
+              hash: cae3aa1f30194beeba40e1398cdaef3dc37ff1e6
+              body: |
+                Update balena-request from 11.4.2 to 11.5.0
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested:
+                - commits:
+                    - subject: Convert tests to JavaScript and drop coffeescript
+                      hash: 0098dcd5be16c1eebbe722fd29d4a7597a8411bb
+                      body: ''
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                    - subject: Fix the jsdoc generation
+                      hash: a8779e0bf665f29493afa16aea41a140b02e133d
+                      body: ''
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                      author: Thodoris Greasidis
+                    - subject: Convert to typescript and publish typings
+                      hash: 44106facfa8b770e786c04bdb01b1071fa737b45
+                      body: ''
+                      footer:
+                        Change-type: minor
+                        change-type: minor
+                        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                      author: Thodoris Greasidis
+                  version: balena-request-11.5.0
+                  date: 2021-11-28T13:07:15.557Z
+          version: balena-sdk-15.59.2
+          date: 2021-11-28T13:22:51.063Z
+        - commits:
+            - subject: Fix the typings of the Image contract field
+              hash: 8ffb7462892a75d0d5b17bd2563634c4321b5291
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Fix the typings for the Release contract field
+              hash: 1caca3e7a1c4a319d0ba2344fc50d7498d1e3353
+              body: ''
+              footer:
+                Resolves: '#1153'
+                resolves: '#1153'
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.59.1
+          date: 2021-11-28T08:56:49.333Z
+        - commits:
+            - subject: Add release setIsInvalidated function
+              hash: 670b0229be2871a3aaa174fcd08fc2eb90e1a7bd
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+                signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+              author: Matthew Yarmolinsky
+              nested: []
+          version: balena-sdk-15.59.0
+          date: 2021-11-24T20:45:35.254Z
+        - commits:
+            - subject: Update typescript to 4.5.2
+              hash: 5f227908d03881df0128db97f3e488977a17be50
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.58.1
+          date: 2021-11-17T22:57:14.101Z
+        - commits:
+            - subject: 'models/release: Add note() method'
+              hash: 65cebcb1376a2b21c3db32a13b272ce5d3bed076
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: 'typings: Add the release.invalidation_reason property'
+              hash: 41e69d929b6863b0dc015608a265ce157cebf9b0
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: 'typings: Add the release.note property'
+              hash: 439d9f5b2287ef8a55a2b5603d4f12de311d2564
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.58.0
+          date: 2021-11-16T10:26:45.167Z
+        - commits:
+            - subject: >-
+                tests/logs: Increase the wait time for retrieving the subscribed
+                logs
+              hash: 7de82b1528354675c54c99bb9df2d88223370966
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: 'tests/logs: Refactor to async-await'
+              hash: b4264957fd69b0950c7d39e9f32ab0e0a346e893
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.57.2
+          date: 2021-11-15T23:37:53.479Z
+        - commits:
+            - subject: 'typings: Fix $filters for resources with non numeric ids'
+              hash: 15e6d9ba017637bae52fbe02b32b7ed067c99c69
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: >-
+                typings: Add application.can_use__application_as_host
+                ReverseNavigation
+              hash: cb08802404bab2d7533b87233046a377877f0c45
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Add missing apiKey.getDeviceApiKeysByDevice docs
+              hash: 65d8ae845671017172b841af8abe009152749909
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.57.1
+          date: 2021-11-11T22:48:29.201Z
+        - commits:
+            - subject: >-
+                models/api-key: Change update() & revoke() to work with all key
+                variants
+              hash: 842c6ce182fbcfc0e75f2a0b7cfd24818ae777b7
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.57.0
+          date: 2021-11-05T13:18:24.149Z
+        - commits:
+            - subject: 'models/apiKey: Add getDeviceApiKeysByDevice() method'
+              hash: da00e1ab4c72da4f48e7aa2ad2c27024bca22b3e
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Depends-on: 'https://github.com/balena-io/balena-api/pull/3399'
+                depends-on: 'https://github.com/balena-io/balena-api/pull/3399'
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.56.0
+          date: 2021-11-04T22:14:22.839Z
+        - commits:
+            - subject: 'typings: Add the release.raw_version property'
+              hash: 368c96284c0687750321135f8e3264c8370dd3e2
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Depends-on: 'https://github.com/balena-io/balena-api/pull/3398'
+                depends-on: 'https://github.com/balena-io/balena-api/pull/3398'
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.55.0
+          date: 2021-11-01T13:03:07.198Z
+        - commits:
+            - subject: >-
+                application/create: Rely on the hostApps for detecting
+                discontinued DTs
+              hash: e06bcd7cba5d3933e3f31d19c9525d238605daf2
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                See: >-
+                  https://www.flowdock.com/app/rulemotion/r-resinos/threads/9HOl8Dk1KV_anW-oMlTzzDDXy3H
+                see: >-
+                  https://www.flowdock.com/app/rulemotion/r-resinos/threads/9HOl8Dk1KV_anW-oMlTzzDDXy3H
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.54.2
+          date: 2021-10-25T14:43:38.402Z
+        - commits:
+            - subject: >-
+                tests/device: Async-await conversions & abstraction on
+                multi-field tests
+              hash: 6f8163fec2162f1f575c26882c84928f9582be56
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.54.1
+          date: 2021-10-22T12:29:19.360Z
+        - commits:
+            - subject: >-
+                tests: Register devices in chunks of 10 to avoid uuid conflicts
+                in node
+              hash: acb6c922176eedda4cc6bef4f28c4bd28a49bcf8
+              body: |
+                The "given 55 registered offline device" was failing
+                on node with "uuid" must be unique.
+              footer:
+                Change-type: patch
+                change-type: patch
+                See: >-
+                  https://ci.appveyor.com/project/resin-io/balena-sdk/build/job/dmjscnj3u43kwyhk
+                see: >-
+                  https://ci.appveyor.com/project/resin-io/balena-sdk/build/job/dmjscnj3u43kwyhk
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Add known issue check on release isReccomanded logic
+              hash: fcd5c5d3d02d03093761499de87a76c33c215c19
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Andrea Rosci <andrear@balena.io>
+                signed-off-by: Andrea Rosci <andrear@balena.io>
+              author: JSReds
+              nested: []
+            - subject: Add known_issue_list to hostApp.getOsVersions()
+              hash: aa38e638d773ba4cb9ef6f4940c00cc4f4e28145
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Andrea Rosci <andrear@balena.io>
+                signed-off-by: Andrea Rosci <andrear@balena.io>
+              author: JSReds
+              nested: []
+          version: balena-sdk-15.54.0
+          date: 2021-10-20T13:09:45.029Z
+        - commits:
+            - subject: Add support for batch device supervisor updates
+              hash: 0275b6311dcada18b9b11a235576d9f32a263e70
+              body: ''
+              footer:
+                Resolves: '#1134'
+                resolves: '#1134'
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.53.0
+          date: 2021-10-07T13:29:08.492Z
+        - commits:
+            - subject: Add support for batch device pinning to release
+              hash: 81610f8308530e1a0b7f118cf2046da45b70e1a3
+              body: ''
+              footer:
+                Resolves: '#1132'
+                resolves: '#1132'
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.52.0
+          date: 2021-10-06T10:37:58.535Z
+        - commits:
+            - subject: >-
+                auth.isLoggedIn: Treat BalenaExpiredToken errors as logged out
+                indicator
+              hash: 1f70db1ae2a31cf33baa444a869261804088c778
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.51.4
+          date: 2021-09-28T22:02:20.287Z
+        - commits:
+            - subject: Convert application spec to TypeScript
+              hash: 14e34850bd9c362dbee2bf992925d1bbf856c4ca
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.51.3
+          date: 2021-09-28T20:52:19.984Z
+        - commits:
+            - subject: >-
+                application.trackLatestRelease: Fix using draft/invalidated
+                releases
+              hash: d069945cd76db0cafbe335f8c0403ce13dd05b24
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: >-
+                application.isTrackingLatestRelease: Exclude draft&invalidated
+                releases
+              hash: 4f3bdd45c88079ac809a5740226a588c6d22f549
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-15.51.2
+          date: 2021-09-28T15:18:49.974Z
+    - subject: 'device, devices: Print the fleet''s slug in ''org/fleetName'' format'
+      hash: 9145f2fb2890cac0cb63b7562a0ca40a6893fbf4
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+      author: Paulo Castro
+      nested: []
+    - subject: 'envs: Print the fleet''s slug in ''org/fleetName'' format'
+      hash: 1164388d78bb413a1f1a5858aac9d1bbd5bb6e6f
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+      author: Paulo Castro
+      nested: []
+    - subject: 'os configure: Remove deprecated ''--device-api-key'' option'
+      hash: 06f60944015751f5dcf236be75a6575895389875
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+      author: Paulo Castro
+      nested: []
+    - subject: Clean up unused v13 feature switch code
+      hash: 67e11467f7fd5b6d4c50067e665b15c12d3fa30b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: >-
+        config read/write/inject/reconfigure: Place '--type' option behind v14
+        switch
+      hash: c8dfd0ca6547d1431e2f18e8726b9cba76bc7147
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: >-
+        fleet create: Don't print fleet's numeric database ID in confirmation
+        msg
+      hash: 8b110a835a71aaa8132a135ec22399de8a4284ef
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+      author: Paulo Castro
+      nested: []
+    - subject: >-
+        devices supported: Remove deprecated '--verbose' and '--discontinued'
+        options
+      hash: 7564d95f82e21b4f6953b7febb7ed9f6677f515c
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+      author: Paulo Castro
+      nested: []
+    - subject: 'build/deploy/push: Remove deprecated ''--convert-eol'' option'
+      hash: f12f2b79efbe6349b68353b86e668a3957926718
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+      author: Paulo Castro
+      nested: []
+    - subject: Move some v13 features behind v14 switch.
+      hash: 176d731f9e576f769b1b41e8d7ef3b89edc9f57c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+    - subject: >-
+        Remove deprecated '--app' and '--application' options (renamed to
+        '--fleet')
+      hash: 1ed39d1d3787e7642492b5ae32997c76fa6e7d38
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+      author: Paulo Castro
+      nested: []
+    - subject: >-
+        Remove deprecated commands 'app' and 'apps' (renamed to 'fleet' and
+        'fleets')
+      hash: 580ca0d584064723467b5c2ff6cb19315710abe6
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+      author: Paulo Castro
+      nested: []
+    - subject: 'build/deploy/push: Remove deprecated ''--[no]gitignore'' option'
+      hash: 73572df7cf4d764d5c89c7289a4fe939f167ab8e
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+      author: Paulo Castro
+      nested: []
+    - subject: 'v13 release: Flip the v13 feature switch'
+      hash: 23b42b1a2bbc77723da18cfb8cfc737a9faca5b7
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+      author: Paulo Castro
+      nested: []
+    - subject: 'v13 release: Drop support for Node.js v10 (package.json engines.node)'
+      hash: 632322e3c2ef1b787f2b183167042b9a015f8f72
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+      author: Paulo Castro
+      nested: []
+  version: 13.0.0
+  date: 2021-12-23T18:52:47.970Z
+- commits:
     - subject: Update to typescript 4.5
       hash: e01483cd2b94c8165d89c77e0f766ad7c4589c86
       body: ''
