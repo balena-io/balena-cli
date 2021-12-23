@@ -90,7 +90,7 @@
   "author": "Balena Inc. (https://balena.io/)",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=10.20.0 <13.0.0",
+    "node": ">=12.0.0 <13.0.0",
     "npm": "<7.0.0"
   },
   "husky": {
@@ -200,7 +200,6 @@
     "@sentry/node": "^6.13.2",
     "@types/fast-levenshtein": "0.0.1",
     "@types/update-notifier": "^4.1.1",
-    "@zeit/dockerignore": "0.0.3",
     "JSONStream": "^1.0.3",
     "balena-config-json": "^4.2.0",
     "balena-device-init": "^6.0.0",
@@ -209,7 +208,7 @@
     "balena-image-manager": "^7.1.1",
     "balena-preload": "^11.0.0",
     "balena-release": "^3.2.0",
-    "balena-sdk": "^15.51.1",
+    "balena-sdk": "^16.8.0",
     "balena-semver": "^2.3.0",
     "balena-settings-client": "^4.0.7",
     "balena-settings-storage": "^7.0.0",
@@ -241,7 +240,6 @@
     "global-tunnel-ng": "^2.1.1",
     "got": "^11.8.2",
     "humanize": "0.0.9",
-    "ignore": "^5.1.8",
     "inquirer": "^7.3.3",
     "is-elevated": "^3.0.0",
     "is-root": "^2.1.0",

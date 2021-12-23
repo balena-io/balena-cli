@@ -22,7 +22,6 @@ import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { dockerignoreHelp, registrySecretsHelp } from '../utils/messages';
 import type { BalenaSDK } from 'balena-sdk';
 import { ExpectedError, instanceOf } from '../errors';
-import { isV13 } from '../utils/version';
 import { RegistrySecrets } from 'resin-multibuild';
 import { lowercaseIfSlug } from '../utils/normalization';
 import {
@@ -47,14 +46,11 @@ interface FlagsDef {
 	pull: boolean;
 	'noparent-check': boolean;
 	'registry-secrets'?: string;
-	gitignore?: boolean; // v13: delete this flag
-	nogitignore?: boolean; // v13: delete this flag
 	nolive: boolean;
 	detached: boolean;
 	service?: string[];
 	system: boolean;
 	env?: string[];
-	'convert-eol'?: boolean;
 	'noconvert-eol': boolean;
 	'multi-dockerignore': boolean;
 	'release-tag'?: string[];
@@ -218,16 +214,6 @@ export default class PushCmd extends Command {
 			`,
 			multiple: true,
 		}),
-		...(isV13()
-			? {}
-			: {
-					'convert-eol': flags.boolean({
-						description: 'No-op and deprecated since balena CLI v12.0.0',
-						char: 'l',
-						hidden: true,
-						default: false,
-					}),
-			  }),
 		'noconvert-eol': flags.boolean({
 			description: `Don't convert line endings from CRLF (Windows format) to LF (Unix format).`,
 			default: false,
@@ -237,28 +223,7 @@ export default class PushCmd extends Command {
 				'Have each service use its own .dockerignore file. See "balena help push".',
 			char: 'm',
 			default: false,
-			exclusive: ['gitignore'], // v13: delete this line
 		}),
-		...(isV13()
-			? {}
-			: {
-					gitignore: flags.boolean({
-						description: stripIndent`
-					Consider .gitignore files in addition to the .dockerignore file. This reverts
-					to the CLI v11 behavior/implementation (deprecated) if compatibility is
-					required until your project can be adapted.`,
-						char: 'g',
-						default: false,
-						exclusive: ['multi-dockerignore'],
-					}),
-					nogitignore: flags.boolean({
-						description:
-							'No-op (default behavior) since balena CLI v12.0.0. See "balena help push".',
-						char: 'G',
-						hidden: true,
-						default: false,
-					}),
-			  }),
 		'release-tag': flags.string({
 			description: stripIndent`
 				Set release tags if the image build is successful (balenaCloud only). Multiple
@@ -378,7 +343,6 @@ export default class PushCmd extends Command {
 			source: options.source,
 			auth: token,
 			baseUrl,
-			nogitignore: !options.gitignore, // v13: delete this line
 			sdk,
 			opts,
 		};
@@ -422,7 +386,6 @@ export default class PushCmd extends Command {
 				multiDockerignore: options['multi-dockerignore'],
 				nocache: options.nocache,
 				pull: options.pull,
-				nogitignore: !options.gitignore, // v13: delete this line
 				noParentCheck: options['noparent-check'],
 				nolive: options.nolive,
 				detached: options.detached,

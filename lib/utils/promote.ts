@@ -235,7 +235,7 @@ async function getOrSelectApplication(
 		name = appName;
 	}
 
-	const applications = (await sdk.models.application.getAll(
+	const applications = (await sdk.models.application.getAllDirectlyAccessible(
 		options,
 	)) as ApplicationWithDeviceType[];
 
@@ -273,7 +273,7 @@ async function createOrSelectApp(
 	deviceType: string,
 ): Promise<ApplicationWithDeviceType> {
 	// No fleet specified, show a list to select one.
-	const applications = (await sdk.models.application.getAll({
+	const applications = (await sdk.models.application.getAllDirectlyAccessible({
 		$expand: { is_for__device_type: { $select: 'slug' } },
 		$filter: {
 			is_for__device_type: {
@@ -322,10 +322,13 @@ async function createApplication(
 				});
 
 				try {
-					await sdk.models.application.get(appName, {
+					await sdk.models.application.getDirectlyAccessible(appName, {
 						$filter: {
 							$or: [
 								{ slug: { $startswith: `${username!.toLowerCase()}/` } },
+								// TODO: do we still need the following filter? Is it for
+								// old openBalena instances where slugs were equal to the
+								// app name and did not contain the slash character?
 								{ $not: { slug: { $contains: '/' } } },
 							],
 						},

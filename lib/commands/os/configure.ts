@@ -23,19 +23,12 @@ import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
-import {
-	applicationIdInfo,
-	appToFleetFlagMsg,
-	warnify,
-} from '../../utils/messages';
-import { isV13 } from '../../utils/version';
+import { applicationIdInfo } from '../../utils/messages';
 
 const CONNECTIONS_FOLDER = '/system-connections';
 
 interface FlagsDef {
 	advanced?: boolean;
-	application?: string;
-	app?: string;
 	fleet?: string;
 	config?: string;
 	'config-app-update-poll-interval'?: number;
@@ -43,7 +36,6 @@ interface FlagsDef {
 	'config-wifi-key'?: string;
 	'config-wifi-ssid'?: string;
 	device?: string; // device UUID
-	'device-api-key'?: string;
 	'device-type'?: string;
 	help?: void;
 	version?: string;
@@ -65,10 +57,6 @@ interface Answers {
 	wifiKey?: string;
 	provisioningKeyName?: string;
 }
-
-const deviceApiKeyDeprecationMsg = stripIndent`
-	The --device-api-key option is deprecated and will be removed in a future release.
-	A suitable key is automatically generated or fetched if this option is omitted.`;
 
 export default class OsConfigureCmd extends Command {
 	public static description = stripIndent`
@@ -93,8 +81,6 @@ export default class OsConfigureCmd extends Command {
 		https://www.balena.io/docs/reference/OS/network/2.x/
 		https://developer.gnome.org/NetworkManager/stable/ref-settings.html
 
-		${deviceApiKeyDeprecationMsg.split('\n').join('\n\t\t')}
-
 		${applicationIdInfo.split('\n').join('\n\t\t')}
 
 		Note: This command is currently not supported on Windows natively. Windows users
@@ -105,7 +91,6 @@ export default class OsConfigureCmd extends Command {
 
 	public static examples = [
 		'$ balena os configure ../path/rpi3.img --device 7cf02a6',
-		'$ balena os configure ../path/rpi3.img --device 7cf02a6 --device-api-key <existingDeviceKey>',
 		'$ balena os configure ../path/rpi3.img --fleet myorg/myfleet',
 		'$ balena os configure ../path/rpi3.img --fleet MyFleet --version 2.12.7',
 		'$ balena os configure ../path/rpi3.img -f MyFinFleet --device-type raspberrypi3',
@@ -128,22 +113,7 @@ export default class OsConfigureCmd extends Command {
 			description:
 				'ask advanced configuration questions (when in interactive mode)',
 		}),
-		...(isV13()
-			? {}
-			: {
-					application: {
-						...cf.application,
-						exclusive: ['app', 'fleet', 'device'],
-					},
-					app: {
-						...cf.app,
-						exclusive: ['application', 'fleet', 'device'],
-					},
-			  }),
-		fleet: {
-			...cf.fleet,
-			exclusive: ['app', 'application', 'device'],
-		},
+		fleet: { ...cf.fleet, exclusive: ['device'] },
 		config: flags.string({
 			description:
 				'path to a pre-generated config.json file to be injected in the OS image',
@@ -163,15 +133,7 @@ export default class OsConfigureCmd extends Command {
 		'config-wifi-ssid': flags.string({
 			description: 'WiFi SSID (network name) (non-interactive configuration)',
 		}),
-		device: {
-			exclusive: ['app', 'application', 'fleet', 'provisioning-key-name'],
-			...cf.device,
-		},
-		'device-api-key': flags.string({
-			char: 'k',
-			description:
-				'custom device API key (DEPRECATED and only supported with balenaOS 2.0.3+)',
-		}),
+		device: { ...cf.device, exclusive: ['fleet', 'provisioning-key-name'] },
 		'device-type': flags.string({
 			description:
 				'device type slug (e.g. "raspberrypi3") to override the fleet device type',
@@ -203,10 +165,6 @@ export default class OsConfigureCmd extends Command {
 		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
 			OsConfigureCmd,
 		);
-		if ((options.application || options.app) && process.stderr.isTTY) {
-			console.error(warnify(appToFleetFlagMsg));
-		}
-		options.application ||= options.app || options.fleet;
 
 		await validateOptions(options);
 
@@ -233,7 +191,7 @@ export default class OsConfigureCmd extends Command {
 			};
 			deviceTypeSlug = device.is_of__device_type[0].slug;
 		} else {
-			app = (await getApplication(balena, options.application!, {
+			app = (await getApplication(balena, options.fleet!, {
 				$expand: {
 					is_for__device_type: { $select: 'slug' },
 				},
@@ -259,7 +217,7 @@ export default class OsConfigureCmd extends Command {
 			options,
 			configJson,
 		);
-		if (options.application) {
+		if (options.fleet) {
 			answers.deviceType = deviceTypeSlug;
 		}
 		answers.version =
@@ -270,11 +228,7 @@ export default class OsConfigureCmd extends Command {
 
 		if (_.isEmpty(configJson)) {
 			if (device) {
-				configJson = await generateDeviceConfig(
-					device,
-					options['device-api-key'],
-					answers,
-				);
+				configJson = await generateDeviceConfig(device, undefined, answers);
 			} else {
 				configJson = await generateApplicationConfig(app!, answers);
 			}
@@ -335,22 +289,15 @@ export default class OsConfigureCmd extends Command {
 async function validateOptions(options: FlagsDef) {
 	// The 'device' and 'application' options are declared "exclusive" in the oclif
 	// flag definitions above, so oclif will enforce that they are not both used together.
-	if (!options.device && !options.application) {
+	if (!options.device && !options.fleet) {
 		throw new ExpectedError(
 			"Either the '--device' or the '--fleet' option must be provided",
 		);
 	}
-	if (!options.application && options['device-type']) {
+	if (!options.fleet && options['device-type']) {
 		throw new ExpectedError(
 			"The '--device-type' option can only be used in conjunction with the '--fleet' option",
 		);
-	}
-	if (options['device-api-key']) {
-		console.error(stripIndent`
-			-------------------------------------------------------------------------------------------
-			Warning: ${deviceApiKeyDeprecationMsg.split('\n').join('\n\t\t\t')}
-			-------------------------------------------------------------------------------------------
-		`);
 	}
 
 	await Command.checkLoggedIn();
@@ -401,7 +348,7 @@ async function checkDeviceTypeCompatibility(
 		const helpers = await import('../../utils/helpers');
 		if (!helpers.areDeviceTypesCompatible(appDeviceType, optionDeviceType)) {
 			throw new ExpectedError(
-				`Device type ${options['device-type']} is incompatible with fleet ${options.application}`,
+				`Device type ${options['device-type']} is incompatible with fleet ${options.fleet}`,
 			);
 		}
 	}
@@ -426,7 +373,13 @@ async function askQuestionsForDeviceType(
 	options: FlagsDef,
 	configJson?: import('../../utils/config').ImgConfig,
 ): Promise<Answers> {
-	const answerSources: any[] = [camelifyConfigOptions(options)];
+	const answerSources: any[] = [
+		{
+			...camelifyConfigOptions(options),
+			app: options.fleet,
+			application: options.fleet,
+		},
+	];
 	const defaultAnswers: Partial<Answers> = {};
 	const questions: any = deviceType.options;
 	let extraOpts: { override: object } | undefined;

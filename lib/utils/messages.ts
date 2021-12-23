@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-import { isV13 } from './version';
-
 export const reachingOut = `\
 For further help or support, visit:
 https://www.balena.io/docs/reference/balena-cli/#support-faq-and-troubleshooting
@@ -88,60 +86,7 @@ If the --registry-secrets option is not specified, and a secrets.yml or
 secrets.json file exists in the balena directory (usually $HOME/.balena),
 this file will be used instead.`;
 
-const dockerignoreHelpV12 =
-	'DOCKERIGNORE AND GITIGNORE FILES  \n' +
-	`By default, the balena CLI will use a single ".dockerignore" file (if any) at
-the project root (--source directory) in order to decide which source files to
-exclude from the "build context" (tar stream) sent to balenaCloud, Docker
-daemon or balenaEngine.  In a microservices (multicontainer) fleet, the
-source directory is the directory that contains the "docker-compose.yml" file.
-
-The --multi-dockerignore (-m) option may be used with microservices
-(multicontainer) fleets that define a docker-compose.yml file. When this
-option is used, each service subdirectory (defined by the \`build\` or
-\`build.context\` service properties in the docker-compose.yml file) is
-filtered separately according to a .dockerignore file defined in the service
-subdirectory. If no .dockerignore file exists in a service subdirectory, then
-only the default .dockerignore patterns (see below) apply for that service
-subdirectory.
-
-When the --multi-dockerignore (-m) option is used, the .dockerignore file (if
-any) defined at the overall project root will be used to filter files and
-subdirectories other than service subdirectories. It will not have any effect
-on service subdirectories, whether or not a service subdirectory defines its
-own .dockerignore file. Multiple .dockerignore files are not merged or added
-together, and cannot override or extend other files. This behavior maximizes
-compatibility with the standard docker-compose tool, while still allowing a
-root .dockerignore file (at the overall project root) to filter files and
-folders that are outside service subdirectories.
-
-balena CLI releases older than v12.0.0 also took .gitignore files into account.
-This behavior is deprecated, but may still be enabled with the --gitignore (-g)
-option if compatibility is required. This option is mutually exclusive with
---multi-dockerignore (-m) and will be removed in the CLI's next major version
-release (v13).
-
-Default .dockerignore patterns  \n` +
-	`When --gitignore (-g) is NOT used (i.e. when not in v11 compatibility mode), a
-few default/hardcoded dockerignore patterns are "merged" (in memory) with the
-patterns found in the applicable .dockerignore files, in the following order:
-\`\`\`
-    **/.git
-    < user's patterns from the applicable '.dockerignore' file, if any >
-    !**/.balena
-    !**/.resin
-    !**/Dockerfile
-    !**/Dockerfile.*
-    !**/docker-compose.yml
-\`\`\`
-These patterns always apply, whether or not .dockerignore files exist in the
-project. If necessary, the effect of the \`**/.git\` pattern may be modified by
-adding counter patterns to the applicable .dockerignore file(s), for example
-\`!mysubmodule/.git\`. For documentation on pattern format, see:
-- https://docs.docker.com/engine/reference/builder/#dockerignore-file
-- https://www.npmjs.com/package/@balena/dockerignore`;
-
-const dockerignoreHelpV13 =
+export const dockerignoreHelp =
 	'DOCKERIGNORE AND GITIGNORE FILES  \n' +
 	`By default, the balena CLI will use a single ".dockerignore" file (if any) at
 the project root (--source directory) in order to decide which source files to
@@ -191,10 +136,6 @@ adding exception patterns to the applicable .dockerignore file(s), for example
 - https://docs.docker.com/engine/reference/builder/#dockerignore-file
 - https://www.npmjs.com/package/@balena/dockerignore`;
 
-export const dockerignoreHelp = isV13()
-	? dockerignoreHelpV13
-	: dockerignoreHelpV12;
-
 export const applicationIdInfo = `\
 Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
@@ -233,30 +174,6 @@ https://www.balena.io/docs/learn/deploy/deployment/#build-time-secrets-and-varia
 If you have a particular use for buildArg, which is not satisfied by build-time
 secrets, please contact us via support or the forums: https://forums.balena.io/
 \n`;
-
-// Note: if you edit this message, check that the regex replace
-// logic in lib/commands/apps.ts still works.
-export const appToFleetCmdMsg = `\
-Renaming notice: The 'app' command was renamed to 'fleet', and 'app'
-is now an alias. THE ALIAS WILL BE REMOVED in the next major version
-of the balena CLI (so that a different 'app' command can be implemented
-in the future). Use 'fleet' instead of 'app' to avoid this warning.
-Find out more at: https://git.io/JRuZr`;
-
-export const appToFleetFlagMsg = `\
-Renaming notice: The '-a', '--app' or '--application' options are now
-aliases for the '-f' or '--fleet' options. THE ALIASES WILL BE REMOVED
-in the next major version of the balena CLI (so that a different '--app'
-option can be implemented in the future). Use '-f' or '--fleet' instead.
-Find out more at: https://git.io/JRuZr`;
-
-export const appToFleetOutputMsg = `\
-Renaming notice: The 'app' or 'application' words in table headers
-or in JSON object keys/properties will be replaced with 'fleet' in
-the next major version of the CLI (v13). The --v13 option may be used
-to enable the new names already now, and suppress a warning message.
-(The --v13 option will be silently ignored in CLI v13.)
-Find out more at: https://git.io/JRuZr`;
 
 export function getNodeEngineVersionWarn(
 	version: string,

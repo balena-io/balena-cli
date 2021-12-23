@@ -151,26 +151,8 @@ export async function osProgressHandler(step: InitializeEmitter) {
 export async function getAppWithArch(
 	applicationName: string,
 ): Promise<ApplicationWithDeviceType & { arch: string }> {
-	const app = await getApplication(applicationName);
-	const { getExpanded } = await import('./pine');
-
-	return {
-		...app,
-		arch: getExpanded(
-			getExpanded(app.is_for__device_type)!.is_of__cpu_architecture,
-		)!.slug,
-	};
-}
-
-// TODO: Drop this. The sdk now has this baked in application.get().
-function getApplication(
-	applicationName: string,
-): Promise<ApplicationWithDeviceType> {
-	// Check for an app of the form `user/application`, and send
-	// that off to a special handler (before importing any modules)
-	const match = applicationName.split('/');
-
-	const extraOptions: BalenaSdk.PineOptions<BalenaSdk.Application> = {
+	const { getApplication } = await import('./sdk');
+	const options: BalenaSdk.PineOptions<BalenaSdk.Application> = {
 		$expand: {
 			application_type: {
 				$select: ['name', 'slug', 'supports_multicontainer', 'is_legacy'],
@@ -185,20 +167,20 @@ function getApplication(
 			},
 		},
 	};
-
 	const balena = getBalenaSdk();
-	if (match.length > 1) {
-		return balena.models.application.getAppByOwner(
-			match[1],
-			match[0],
-			extraOptions,
-		) as Promise<ApplicationWithDeviceType>;
-	}
-
-	return balena.models.application.get(
+	const app = (await getApplication(
+		balena,
 		applicationName,
-		extraOptions,
-	) as Promise<ApplicationWithDeviceType>;
+		options,
+	)) as ApplicationWithDeviceType;
+	const { getExpanded } = await import('./pine');
+
+	return {
+		...app,
+		arch: getExpanded(
+			getExpanded(app.is_for__device_type)!.is_of__cpu_architecture,
+		)!.slug,
+	};
 }
 
 const second = 1000; // 1000 milliseconds
@@ -428,7 +410,7 @@ export function getProxyConfig(): ProxyConfig | undefined {
 
 export const expandForAppName = {
 	$expand: {
-		belongs_to__application: { $select: 'app_name' },
+		belongs_to__application: { $select: ['app_name', 'slug'] as any },
 		is_of__device_type: { $select: 'slug' },
 		is_running__release: { $select: 'commit' },
 	},

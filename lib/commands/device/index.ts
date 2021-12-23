@@ -21,15 +21,13 @@ import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { appToFleetOutputMsg, warnify } from '../../utils/messages';
 import { tryAsInteger } from '../../utils/validation';
-import { isV13 } from '../../utils/version';
 
 import type { Application, Release } from 'balena-sdk';
 
 interface ExtendedDevice extends DeviceWithDeviceType {
 	dashboard_url?: string;
-	application_name?: string;
+	fleet: string; // 'org/name' slug
 	device_type?: string;
 	commit?: string;
 	last_seen?: string;
@@ -46,7 +44,6 @@ interface ExtendedDevice extends DeviceWithDeviceType {
 
 interface FlagsDef {
 	help: void;
-	v13: boolean;
 }
 
 interface ArgsDef {
@@ -74,17 +71,13 @@ export default class DeviceCmd extends Command {
 
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
-		v13: cf.v13,
 	};
 
 	public static authenticated = true;
 	public static primary = true;
 
 	public async run() {
-		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
-			DeviceCmd,
-		);
-		const useAppWord = !options.v13 && !isV13();
+		const { args: params } = this.parse<FlagsDef, ArgsDef>(DeviceCmd);
 
 		const balena = getBalenaSdk();
 
@@ -121,8 +114,8 @@ export default class DeviceCmd extends Command {
 
 		const belongsToApplication =
 			device.belongs_to__application as Application[];
-		device.application_name = belongsToApplication?.[0]
-			? belongsToApplication[0].app_name
+		device.fleet = belongsToApplication?.[0]
+			? belongsToApplication[0].slug
 			: 'N/a';
 
 		device.device_type = device.is_of__device_type[0].slug;
@@ -170,10 +163,6 @@ export default class DeviceCmd extends Command {
 			);
 		}
 
-		if (useAppWord && process.stderr.isTTY) {
-			console.error(warnify(appToFleetOutputMsg));
-		}
-
 		console.log(
 			getVisuals().table.vertical(device, [
 				`$${device.device_name}$`,
@@ -184,7 +173,7 @@ export default class DeviceCmd extends Command {
 				'ip_address',
 				'public_address',
 				'mac_address',
-				useAppWord ? 'application_name' : 'application_name => FLEET',
+				'fleet',
 				'last_seen',
 				'uuid',
 				'commit',

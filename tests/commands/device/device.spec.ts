@@ -21,9 +21,6 @@ import * as path from 'path';
 import { apiResponsePath, BalenaAPIMock } from '../../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
-import { appToFleetOutputMsg, warnify } from '../../../build/utils/messages';
-import { isV13 } from '../../../build/utils/version';
-
 describe('balena device', function () {
 	let api: BalenaAPIMock;
 
@@ -38,13 +35,6 @@ describe('balena device', function () {
 		api.done();
 	});
 
-	const expectedWarn =
-		!isV13() &&
-		process.stderr.isTTY &&
-		process.env.BALENA_CLI_TEST_TYPE !== 'standalone'
-			? warnify(appToFleetOutputMsg) + '\n'
-			: '';
-
 	it('should error if uuid not provided', async () => {
 		const { out, err } = await runCommand('device');
 		const errLines = cleanOutput(err);
@@ -57,27 +47,25 @@ describe('balena device', function () {
 	it('should list device details for provided uuid', async () => {
 		api.scope
 			.get(
-				/^\/v6\/device\?.+&\$expand=belongs_to__application\(\$select=app_name\)/,
+				/^\/v6\/device\?.+&\$expand=belongs_to__application\(\$select=app_name,slug\)/,
 			)
 			.replyWithFile(200, path.join(apiResponsePath, 'device.json'), {
 				'Content-Type': 'application/json',
 			});
 
-		const { out, err } = await runCommand('device 27fda508c');
+		const { out } = await runCommand('device 27fda508c');
 
 		const lines = cleanOutput(out);
 
 		expect(lines).to.have.lengthOf(25);
 		expect(lines[0]).to.equal('== SPARKLING WOOD');
-		expect(lines[6].split(':')[1].trim()).to.equal('test app');
-
-		expect(err.join('')).to.eql(expectedWarn);
+		expect(lines[6].split(':')[1].trim()).to.equal('org/test app');
 	});
 
 	it.skip('correctly handles devices with missing fields', async () => {
 		api.scope
 			.get(
-				/^\/v6\/device\?.+&\$expand=belongs_to__application\(\$select=app_name\)/,
+				/^\/v6\/device\?.+&\$expand=belongs_to__application\(\$select=app_name,slug\)/,
 			)
 			.replyWithFile(
 				200,
@@ -87,15 +75,13 @@ describe('balena device', function () {
 				},
 			);
 
-		const { out, err } = await runCommand('device 27fda508c');
+		const { out } = await runCommand('device 27fda508c');
 
 		const lines = cleanOutput(out);
 
 		expect(lines).to.have.lengthOf(14);
 		expect(lines[0]).to.equal('== SPARKLING WOOD');
-		expect(lines[6].split(':')[1].trim()).to.equal('test app');
-
-		expect(err.join('')).to.eql(expectedWarn);
+		expect(lines[6].split(':')[1].trim()).to.equal('org/test app');
 	});
 
 	it('correctly handles devices with missing application', async () => {
@@ -103,7 +89,7 @@ describe('balena device', function () {
 		// e.g. When user has a device associated with app that user is no longer a collaborator of.
 		api.scope
 			.get(
-				/^\/v6\/device\?.+&\$expand=belongs_to__application\(\$select=app_name\)/,
+				/^\/v6\/device\?.+&\$expand=belongs_to__application\(\$select=app_name,slug\)/,
 			)
 			.replyWithFile(
 				200,
@@ -113,14 +99,12 @@ describe('balena device', function () {
 				},
 			);
 
-		const { out, err } = await runCommand('device 27fda508c');
+		const { out } = await runCommand('device 27fda508c');
 
 		const lines = cleanOutput(out);
 
 		expect(lines).to.have.lengthOf(25);
 		expect(lines[0]).to.equal('== SPARKLING WOOD');
 		expect(lines[6].split(':')[1].trim()).to.equal('N/a');
-
-		expect(err.join('')).to.eql(expectedWarn);
 	});
 });

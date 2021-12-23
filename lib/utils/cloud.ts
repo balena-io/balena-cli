@@ -253,13 +253,13 @@ export async function getFormattedOsVersions(
 	const sdk = getBalenaSdk();
 	let slug = deviceType;
 	let versionsByDT: SDK.OsVersionsByDeviceType =
-		await sdk.models.hostapp.getAvailableOsVersions([slug]);
+		await sdk.models.os.getAvailableOsVersions([slug]);
 	// if slug is an alias, fetch the real slug
 	if (!versionsByDT[slug]?.length) {
 		// unaliasDeviceType() produces a nice error msg if slug is invalid
 		slug = await unaliasDeviceType(sdk, slug);
 		if (slug !== deviceType) {
-			versionsByDT = await sdk.models.hostapp.getAvailableOsVersions([slug]);
+			versionsByDT = await sdk.models.os.getAvailableOsVersions([slug]);
 		}
 	}
 	const versions: SDK.OsVersion[] = (versionsByDT[slug] || [])

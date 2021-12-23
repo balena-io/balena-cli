@@ -21,42 +21,33 @@ import Command from '../command';
 import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
-import {
-	applicationIdInfo,
-	appToFleetFlagMsg,
-	appToFleetOutputMsg,
-	warnify,
-} from '../utils/messages';
-import { isV13 } from '../utils/version';
+import { applicationIdInfo } from '../utils/messages';
 
 interface FlagsDef {
-	application?: string;
 	fleet?: string;
 	config: boolean;
 	device?: string; // device UUID
 	json: boolean;
 	help: void;
 	service?: string; // service name
-	verbose: boolean;
-	v13: boolean;
 }
 
 interface EnvironmentVariableInfo extends SDK.EnvironmentVariableBase {
-	appName?: string | null; // application name
+	fleet?: string | null; // fleet slug
 	deviceUUID?: string; // device UUID
 	serviceName?: string; // service name
 }
 
 interface DeviceServiceEnvironmentVariableInfo
 	extends SDK.DeviceServiceEnvironmentVariable {
-	appName?: string; // application name
+	fleet?: string; // fleet slug
 	deviceUUID?: string; // device UUID
 	serviceName?: string; // service name
 }
 
 interface ServiceEnvironmentVariableInfo
 	extends SDK.ServiceEnvironmentVariable {
-	appName?: string; // application name
+	fleet?: string; // fleet slug
 	deviceUUID?: string; // device UUID
 	serviceName?: string; // service name
 }
@@ -96,8 +87,6 @@ export default class EnvsCmd extends Command {
 		in case the current user was removed from the fleet by the fleet's owner).
 
 		${applicationIdInfo.split('\n').join('\n\t\t')}
-
-		${appToFleetOutputMsg.split('\n').join('\n\t\t')}
 	`;
 
 	public static examples = [
@@ -115,57 +104,35 @@ export default class EnvsCmd extends Command {
 	public static usage = 'envs';
 
 	public static flags: flags.Input<FlagsDef> = {
-		...(isV13()
-			? {}
-			: {
-					all: flags.boolean({
-						default: false,
-						description: 'No-op since balena CLI v12.0.0.',
-						hidden: true,
-					}),
-					application: {
-						exclusive: ['device', 'fleet', 'v13'],
-						...cf.application,
-					},
-			  }),
-		fleet: { exclusive: ['device', 'application'], ...cf.fleet },
+		fleet: { ...cf.fleet, exclusive: ['device'] },
 		config: flags.boolean({
 			default: false,
 			char: 'c',
 			description: 'show configuration variables only',
 			exclusive: ['service'],
 		}),
-		device: { exclusive: ['fleet', 'application'], ...cf.device },
+		device: { ...cf.device, exclusive: ['fleet'] },
 		help: cf.help,
 		json: cf.json,
-		verbose: cf.verbose,
-		service: { exclusive: ['config'], ...cf.service },
-		v13: cf.v13,
+		service: { ...cf.service, exclusive: ['config'] },
 	};
-
-	protected useAppWord = false;
-	protected hasWarned = false;
 
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(EnvsCmd);
-		this.useAppWord = !options.fleet && !options.v13 && !isV13();
 
 		const variables: EnvironmentVariableInfo[] = [];
 
 		await Command.checkLoggedIn();
 
-		if (options.application && !options.json && process.stderr.isTTY) {
-			this.hasWarned = true;
-			console.error(warnify(appToFleetFlagMsg));
-		}
-		options.application ||= options.fleet;
-		if (!options.application && !options.device) {
+		if (!options.fleet && !options.device) {
 			throw new ExpectedError('Missing --fleet or --device option');
 		}
 
 		const balena = getBalenaSdk();
 
-		let appNameOrSlug = options.application;
+		let fleetSlug: string | undefined = options.fleet
+			? await (await import('../utils/sdk')).getFleetSlug(balena, options.fleet)
+			: undefined;
 		let fullUUID: string | undefined; // as oppposed to the short, 7-char UUID
 
 		if (options.device) {
@@ -178,23 +145,23 @@ export default class EnvsCmd extends Command {
 			);
 			fullUUID = device.uuid;
 			if (app) {
-				appNameOrSlug = app.slug;
+				fleetSlug = app.slug;
 			}
 		}
-		if (appNameOrSlug && options.service) {
-			await validateServiceName(balena, options.service, appNameOrSlug);
+		if (fleetSlug && options.service) {
+			await validateServiceName(balena, options.service, fleetSlug);
 		}
-		variables.push(...(await getAppVars(balena, appNameOrSlug, options)));
+		variables.push(...(await getAppVars(balena, fleetSlug, options)));
 		if (fullUUID) {
 			variables.push(
-				...(await getDeviceVars(balena, fullUUID, appNameOrSlug, options)),
+				...(await getDeviceVars(balena, fullUUID, fleetSlug, options)),
 			);
 		}
 		if (!options.json && variables.length === 0) {
 			const target =
 				(options.service ? `service "${options.service}" of ` : '') +
-				(options.application
-					? `fleet "${options.application}"`
+				(options.fleet
+					? `fleet "${options.fleet}"`
 					: `device "${options.device}"`);
 			throw new ExpectedError(`No environment variables found for ${target}`);
 		}
@@ -206,24 +173,14 @@ export default class EnvsCmd extends Command {
 		varArray: EnvironmentVariableInfo[],
 		options: FlagsDef,
 	) {
-		const fields = ['id', 'name', 'value'];
+		const fields = ['id', 'name', 'value', 'fleet'];
 
 		// Replace undefined app names with 'N/A' or null
 		varArray = varArray.map((i: EnvironmentVariableInfo) => {
-			if (i.appName) {
-				// use slug in v13, app name in v12 for compatibility
-				i.appName = isV13()
-					? i.appName
-					: i.appName.substring(i.appName.indexOf('/') + 1);
-			} else {
-				i.appName = options.json ? null : 'N/A';
-			}
+			i.fleet ||= options.json ? null : 'N/A';
 			return i;
 		});
 
-		const jName = this.useAppWord ? 'appName' : 'fleetName';
-		const tName = this.useAppWord ? 'APPLICATION' : 'FLEET';
-		fields.push(options.json ? `appName => ${jName}` : `appName => ${tName}`);
 		if (options.device) {
 			fields.push(options.json ? 'deviceUUID' : 'deviceUUID => DEVICE');
 		}
@@ -236,9 +193,6 @@ export default class EnvsCmd extends Command {
 			const mapped = varArray.map((o) => pickAndRename(o, fields));
 			this.log(JSON.stringify(mapped, null, 4));
 		} else {
-			if (!this.hasWarned && this.useAppWord && process.stderr.isTTY) {
-				console.error(warnify(appToFleetOutputMsg));
-			}
 			this.log(
 				getVisuals().table.horizontal(
 					_.sortBy(varArray, (v: SDK.EnvironmentVariableBase) => v.name),
@@ -252,14 +206,14 @@ export default class EnvsCmd extends Command {
 async function validateServiceName(
 	sdk: SDK.BalenaSDK,
 	serviceName: string,
-	appName: string,
+	fleetSlug: string,
 ) {
-	const services = await sdk.models.service.getAllByApplication(appName, {
+	const services = await sdk.models.service.getAllByApplication(fleetSlug, {
 		$filter: { service_name: serviceName },
 	});
 	if (services.length === 0) {
 		throw new ExpectedError(
-			`Service "${serviceName}" not found for fleet "${appName}"`,
+			`Service "${serviceName}" not found for fleet "${fleetSlug}"`,
 		);
 	}
 }
@@ -273,17 +227,17 @@ async function validateServiceName(
  */
 async function getAppVars(
 	sdk: SDK.BalenaSDK,
-	appNameOrSlug: string | undefined,
+	fleetSlug: string | undefined,
 	options: FlagsDef,
 ): Promise<EnvironmentVariableInfo[]> {
 	const appVars: EnvironmentVariableInfo[] = [];
-	if (!appNameOrSlug) {
+	if (!fleetSlug) {
 		return appVars;
 	}
 	const vars = await sdk.models.application[
 		options.config ? 'configVar' : 'envVar'
-	].getAllByApplication(appNameOrSlug);
-	fillInInfoFields(vars, appNameOrSlug);
+	].getAllByApplication(fleetSlug);
+	fillInInfoFields(vars, fleetSlug);
 	appVars.push(...vars);
 	if (!options.config) {
 		const pineOpts: SDK.PineOptions<SDK.ServiceEnvironmentVariable> = {
@@ -299,10 +253,10 @@ async function getAppVars(
 			};
 		}
 		const serviceVars = await sdk.models.service.var.getAllByApplication(
-			appNameOrSlug,
+			fleetSlug,
 			pineOpts,
 		);
-		fillInInfoFields(serviceVars, appNameOrSlug);
+		fillInInfoFields(serviceVars, fleetSlug);
 		appVars.push(...serviceVars);
 	}
 	return appVars;
@@ -315,7 +269,7 @@ async function getAppVars(
 async function getDeviceVars(
 	sdk: SDK.BalenaSDK,
 	fullUUID: string,
-	appNameOrSlug: string | undefined,
+	fleetSlug: string | undefined,
 	options: FlagsDef,
 ): Promise<EnvironmentVariableInfo[]> {
 	const printedUUID = options.json ? fullUUID : options.device!;
@@ -324,7 +278,7 @@ async function getDeviceVars(
 		const deviceConfigVars = await sdk.models.device.configVar.getAllByDevice(
 			fullUUID,
 		);
-		fillInInfoFields(deviceConfigVars, appNameOrSlug, printedUUID);
+		fillInInfoFields(deviceConfigVars, fleetSlug, printedUUID);
 		deviceVars.push(...deviceConfigVars);
 	} else {
 		const pineOpts: SDK.PineOptions<SDK.DeviceServiceEnvironmentVariable> = {
@@ -345,13 +299,13 @@ async function getDeviceVars(
 			fullUUID,
 			pineOpts,
 		);
-		fillInInfoFields(deviceServiceVars, appNameOrSlug, printedUUID);
+		fillInInfoFields(deviceServiceVars, fleetSlug, printedUUID);
 		deviceVars.push(...deviceServiceVars);
 
 		const deviceEnvVars = await sdk.models.device.envVar.getAllByDevice(
 			fullUUID,
 		);
-		fillInInfoFields(deviceEnvVars, appNameOrSlug, printedUUID);
+		fillInInfoFields(deviceEnvVars, fleetSlug, printedUUID);
 		deviceVars.push(...deviceEnvVars);
 	}
 	return deviceVars;
@@ -367,7 +321,7 @@ function fillInInfoFields(
 		| EnvironmentVariableInfo[]
 		| DeviceServiceEnvironmentVariableInfo[]
 		| ServiceEnvironmentVariableInfo[],
-	appNameOrSlug?: string,
+	fleetSlug?: string,
 	deviceUUID?: string,
 ) {
 	for (const envVar of varArray) {
@@ -381,7 +335,7 @@ function fillInInfoFields(
 					?.installs__service as SDK.Service[]
 			)[0]?.service_name;
 		}
-		envVar.appName = appNameOrSlug;
+		envVar.fleet = fleetSlug;
 		envVar.serviceName = envVar.serviceName || '*';
 		envVar.deviceUUID = deviceUUID || '*';
 	}

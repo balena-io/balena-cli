@@ -19,16 +19,9 @@ import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import {
-	applicationIdInfo,
-	appToFleetFlagMsg,
-	warnify,
-} from '../../utils/messages';
-import { isV13 } from '../../utils/version';
+import { applicationIdInfo } from '../../utils/messages';
 
 interface FlagsDef {
-	app?: string;
-	application?: string;
 	fleet?: string;
 	device?: string;
 	release?: string;
@@ -67,29 +60,17 @@ export default class TagRmCmd extends Command {
 	public static usage = 'tag rm <tagKey>';
 
 	public static flags: flags.Input<FlagsDef> = {
-		...(isV13()
-			? {}
-			: {
-					application: {
-						...cf.application,
-						exclusive: ['app', 'fleet', 'device', 'release'],
-					},
-					app: {
-						...cf.app,
-						exclusive: ['application', 'fleet', 'device', 'release'],
-					},
-			  }),
 		fleet: {
 			...cf.fleet,
-			exclusive: ['app', 'application', 'device', 'release'],
+			exclusive: ['device', 'release'],
 		},
 		device: {
 			...cf.device,
-			exclusive: ['app', 'application', 'fleet', 'release'],
+			exclusive: ['fleet', 'release'],
 		},
 		release: {
 			...cf.release,
-			exclusive: ['app', 'application', 'fleet', 'device'],
+			exclusive: ['fleet', 'device'],
 		},
 		help: cf.help,
 	};
@@ -101,25 +82,20 @@ export default class TagRmCmd extends Command {
 			TagRmCmd,
 		);
 
-		if ((options.application || options.app) && process.stderr.isTTY) {
-			console.error(warnify(appToFleetFlagMsg));
-		}
-		options.application ||= options.app || options.fleet;
-
 		const balena = getBalenaSdk();
 
 		// Check user has specified one of application/device/release
-		if (!options.application && !options.device && !options.release) {
+		if (!options.fleet && !options.device && !options.release) {
 			const { ExpectedError } = await import('../../errors');
 			throw new ExpectedError(TagRmCmd.missingResourceMessage);
 		}
 
 		const { tryAsInteger } = await import('../../utils/validation');
 
-		if (options.application) {
-			const { getTypedApplicationIdentifier } = await import('../../utils/sdk');
+		if (options.fleet) {
+			const { getFleetSlug } = await import('../../utils/sdk');
 			return balena.models.application.tags.remove(
-				await getTypedApplicationIdentifier(balena, options.application),
+				await getFleetSlug(balena, options.fleet),
 				params.tagKey,
 			);
 		}

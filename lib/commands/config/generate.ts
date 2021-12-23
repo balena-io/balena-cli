@@ -19,18 +19,11 @@ import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getCliForm, stripIndent } from '../../utils/lazy';
-import {
-	applicationIdInfo,
-	appToFleetFlagMsg,
-	warnify,
-} from '../../utils/messages';
-import { isV13 } from '../../utils/version';
+import { applicationIdInfo } from '../../utils/messages';
 import type { PineDeferred } from 'balena-sdk';
 
 interface FlagsDef {
 	version: string; // OS version
-	application?: string;
-	app?: string; // application alias
 	fleet?: string;
 	device?: string;
 	deviceApiKey?: string;
@@ -82,22 +75,10 @@ export default class ConfigGenerateCmd extends Command {
 			description: 'a balenaOS version',
 			required: true,
 		}),
-		...(isV13()
-			? {}
-			: {
-					application: {
-						...cf.application,
-						exclusive: ['app', 'fleet', 'device'],
-					},
-					app: { ...cf.app, exclusive: ['application', 'fleet', 'device'] },
-					appUpdatePollInterval: flags.string({
-						description: 'DEPRECATED alias for --updatePollInterval',
-					}),
-			  }),
-		fleet: { ...cf.fleet, exclusive: ['application', 'app', 'device'] },
+		fleet: { ...cf.fleet, exclusive: ['device'] },
 		device: {
 			...cf.device,
-			exclusive: ['application', 'app', 'fleet', 'provisioning-key-name'],
+			exclusive: ['fleet', 'provisioning-key-name'],
 		},
 		deviceApiKey: flags.string({
 			description:
@@ -130,7 +111,7 @@ export default class ConfigGenerateCmd extends Command {
 		}),
 		appUpdatePollInterval: flags.string({
 			description:
-				'supervisor cloud polling interval in minutes (e.g. for variable updates)',
+				'supervisor cloud polling interval in minutes (e.g. for device variables)',
 		}),
 		'provisioning-key-name': flags.string({
 			description: 'custom key name assigned to generated provisioning api key',
@@ -173,7 +154,7 @@ export default class ConfigGenerateCmd extends Command {
 			resourceDeviceType = device.is_of__device_type[0].slug;
 		} else {
 			// Disambiguate application (if is a number, it could either be an ID or a numerical name)
-			application = (await getApplication(balena, options.application!, {
+			application = (await getApplication(balena, options.fleet!, {
 				$expand: {
 					is_for__device_type: { $select: 'slug' },
 				},
@@ -188,7 +169,7 @@ export default class ConfigGenerateCmd extends Command {
 		);
 
 		// Check compatibility if application and deviceType provided
-		if (options.application && options.deviceType) {
+		if (options.fleet && options.deviceType) {
 			const appDeviceManifest = await balena.models.device.getManifestBySlug(
 				resourceDeviceType,
 			);
@@ -198,7 +179,7 @@ export default class ConfigGenerateCmd extends Command {
 				!helpers.areDeviceTypesCompatible(appDeviceManifest, deviceManifest)
 			) {
 				throw new balena.errors.BalenaInvalidDeviceType(
-					`Device type ${options.deviceType} is incompatible with fleet ${options.application}`,
+					`Device type ${options.deviceType} is incompatible with fleet ${options.fleet}`,
 				);
 			}
 		}
@@ -207,7 +188,7 @@ export default class ConfigGenerateCmd extends Command {
 		// Pass params as an override: if there is any param with exactly the same name as a
 		// required option, that value is used (and the corresponding question is not asked)
 		const answers = await getCliForm().run(deviceManifest.options, {
-			override: options,
+			override: { ...options, app: options.fleet, application: options.fleet },
 		});
 		answers.version = options.version;
 		answers.provisioningKeyName = options['provisioning-key-name'];
@@ -253,18 +234,11 @@ export default class ConfigGenerateCmd extends Command {
 	protected async validateOptions(options: FlagsDef) {
 		const { ExpectedError } = await import('../../errors');
 
-		if ((options.application || options.app) && process.stderr.isTTY) {
-			console.error(warnify(appToFleetFlagMsg));
-		}
-		options.application ||= options.app || options.fleet;
-		// Prefer options.application over options.app
-		delete options.app;
-
-		if (options.device == null && options.application == null) {
+		if (options.device == null && options.fleet == null) {
 			throw new ExpectedError(this.missingDeviceOrAppMessage);
 		}
 
-		if (!options.application && options.deviceType) {
+		if (!options.fleet && options.deviceType) {
 			throw new ExpectedError(this.deviceTypeNotAllowedMessage);
 		}
 	}

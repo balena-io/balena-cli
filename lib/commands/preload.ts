@@ -24,15 +24,10 @@ import {
 	getVisuals,
 	stripIndent,
 } from '../utils/lazy';
-import {
-	applicationIdInfo,
-	appToFleetFlagMsg,
-	warnify,
-} from '../utils/messages';
+import { applicationIdInfo } from '../utils/messages';
 import type { DockerConnectionCliFlags } from '../utils/docker';
 import { dockerConnectionCliFlags } from '../utils/docker';
 import { parseAsInteger } from '../utils/validation';
-import { isV13 } from '../utils/version';
 
 import { flags } from '@oclif/command';
 import * as _ from 'lodash';
@@ -40,7 +35,6 @@ import type { Application, BalenaSDK, PineExpand, Release } from 'balena-sdk';
 import type { Preloader } from 'balena-preload';
 
 interface FlagsDef extends DockerConnectionCliFlags {
-	app?: string;
 	fleet?: string;
 	commit?: string;
 	'splash-image'?: string;
@@ -99,7 +93,6 @@ export default class PreloadCmd extends Command {
 	public static usage = 'preload <image>';
 
 	public static flags: flags.Input<FlagsDef> = {
-		...(isV13() ? {} : { app: cf.application }),
 		fleet: cf.fleet,
 		commit: flags.string({
 			description: `\
@@ -163,11 +156,6 @@ Can be repeated to add multiple certificates.\
 			PreloadCmd,
 		);
 
-		if (options.app && process.stderr.isTTY) {
-			console.error(warnify(appToFleetFlagMsg));
-		}
-		options.app ||= options.fleet;
-
 		const balena = getBalenaSdk();
 		const balenaPreload = await import('balena-preload');
 		const visuals = getVisuals();
@@ -194,15 +182,9 @@ Can be repeated to add multiple certificates.\
 
 		// balena-preload currently does not work with numerical app IDs
 		// Load app here, and use app slug from hereon
-		if (options.app && !options.app.includes('/')) {
-			// Disambiguate application (if is a number, it could either be an ID or a numerical name)
-			const { getApplication } = await import('../utils/sdk');
-			const application = await getApplication(balena, options.app);
-			if (!application) {
-				throw new ExpectedError(`Fleet not found: ${options.app}`);
-			}
-			options.app = application.slug;
-		}
+		const fleetSlug: string | undefined = options.fleet
+			? await (await import('../utils/sdk')).getFleetSlug(balena, options.fleet)
+			: undefined;
 
 		const progressBars: {
 			[key: string]: ReturnType<typeof getVisuals>['Progress'];
@@ -238,15 +220,12 @@ Can be repeated to add multiple certificates.\
 			? 'latest'
 			: options.commit;
 		const image = params.image;
-		const appId = options.app;
-
 		const splashImage = options['splash-image'];
 		const additionalSpace = options['additional-space'];
-
 		const dontCheckArch = options['dont-check-arch'] || false;
 		const pinDevice = options['pin-device-to-release'] || false;
 
-		if (dontCheckArch && !appId) {
+		if (dontCheckArch && !fleetSlug) {
 			throw new ExpectedError(
 				'You need to specify a fleet if you disable the architecture check.',
 			);
@@ -265,7 +244,7 @@ Can be repeated to add multiple certificates.\
 		const preloader = new balenaPreload.Preloader(
 			null,
 			docker,
-			appId,
+			fleetSlug,
 			commit,
 			image,
 			splashImage,
@@ -309,7 +288,7 @@ Can be repeated to add multiple certificates.\
 				preloader.on('error', reject);
 				resolve(
 					this.prepareAndPreload(preloader, balena, {
-						appId,
+						appId: fleetSlug,
 						commit,
 						pinDevice,
 					}),
@@ -364,8 +343,8 @@ Can be repeated to add multiple certificates.\
 		} catch {
 			throw new Error(`Device type "${deviceTypeSlug}" not found in API query`);
 		}
-		return (await balena.models.application.getAll({
-			$select: ['id', 'app_name', 'should_track_latest_release'],
+		return (await balena.models.application.getAllDirectlyAccessible({
+			$select: ['id', 'slug', 'should_track_latest_release'],
 			$expand: this.applicationExpandOptions,
 			$filter: {
 				// get the apps that are of the same arch as the device type of the image
@@ -408,7 +387,7 @@ Can be repeated to add multiple certificates.\
 					},
 				},
 			},
-			$orderby: 'app_name asc',
+			$orderby: 'slug asc',
 		})) as Array<
 			ApplicationWithDeviceType & {
 				should_be_running__release: [Release?];
@@ -437,7 +416,7 @@ Can be repeated to add multiple certificates.\
 			message: 'Select a fleet',
 			type: 'list',
 			choices: applications.map((app) => ({
-				name: app.app_name,
+				name: app.slug,
 				value: app,
 			})),
 		});
@@ -512,7 +491,7 @@ Would you like to disable automatic updates for this fleet now?\
 		});
 	}
 
-	async getAppWithReleases(balenaSdk: BalenaSDK, appId: string | number) {
+	async getAppWithReleases(balenaSdk: BalenaSDK, appId: string) {
 		const { getApplication } = await import('../utils/sdk');
 
 		return (await getApplication(balenaSdk, appId, {

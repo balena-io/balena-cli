@@ -49,7 +49,7 @@ export default class ReleasesCmd extends Command {
 	public static args = [
 		{
 			name: 'fleet',
-			description: 'fleet name or slug',
+			description: 'fleet name or slug (preferred)',
 			required: true,
 		},
 	];
@@ -69,9 +69,10 @@ export default class ReleasesCmd extends Command {
 		];
 
 		const balena = getBalenaSdk();
+		const { getFleetSlug } = await import('../utils/sdk');
 
 		const releases = await balena.models.release.getAllByApplication(
-			params.fleet,
+			await getFleetSlug(balena, params.fleet),
 			{ $select: fields },
 		);
 

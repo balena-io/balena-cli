@@ -15,6 +15,94 @@
  * limitations under the License.
  */
 
-import { FleetsCmd } from './apps';
+import { flags } from '@oclif/command';
 
-export default FleetsCmd;
+import Command from '../command';
+import * as cf from '../utils/common-flags';
+import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
+import { isV14 } from '../utils/version';
+import type { DataSetOutputOptions } from '../framework';
+
+interface ExtendedApplication extends ApplicationWithDeviceType {
+	device_count: number;
+	online_devices: number;
+	device_type?: string;
+}
+
+interface FlagsDef extends DataSetOutputOptions {
+	help: void;
+	verbose?: boolean;
+}
+
+export default class FleetsCmd extends Command {
+	public static description = stripIndent`
+		List all fleets.
+
+		List all your balena fleets.
+
+		For detailed information on a particular fleet, use
+		\`balena fleet <fleet>\`
+	`;
+
+	public static examples = ['$ balena fleets'];
+
+	public static usage = 'fleets';
+
+	public static flags: flags.Input<FlagsDef> = {
+		...(isV14() ? cf.dataSetOutputFlags : {}),
+		help: cf.help,
+	};
+
+	public static authenticated = true;
+	public static primary = true;
+
+	public async run() {
+		const { flags: options } = this.parse<FlagsDef, {}>(FleetsCmd);
+
+		const balena = getBalenaSdk();
+
+		// Get applications
+		const applications =
+			(await balena.models.application.getAllDirectlyAccessible({
+				$select: ['id', 'app_name', 'slug'],
+				$expand: {
+					is_for__device_type: { $select: 'slug' },
+					owns__device: { $select: 'is_online' },
+				},
+			})) as ExtendedApplication[];
+
+		// Add extended properties
+		applications.forEach((application) => {
+			application.device_count = application.owns__device?.length ?? 0;
+			application.online_devices =
+				application.owns__device?.filter((d) => d.is_online).length || 0;
+			application.device_type = application.is_for__device_type[0].slug;
+		});
+
+		if (isV14()) {
+			await this.outputData(
+				applications,
+				[
+					'id',
+					'app_name',
+					'slug',
+					'device_type',
+					'device_count',
+					'online_devices',
+				],
+				options,
+			);
+		} else {
+			console.log(
+				getVisuals().table.horizontal(applications, [
+					'id',
+					'app_name => NAME',
+					'slug',
+					'device_type',
+					'online_devices',
+					'device_count',
+				]),
+			);
+		}
+	}
+}

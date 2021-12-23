@@ -20,16 +20,9 @@ import Command from '../command';
 import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
-import {
-	applicationIdInfo,
-	appToFleetFlagMsg,
-	warnify,
-} from '../utils/messages';
-import { isV13 } from '../utils/version';
+import { applicationIdInfo } from '../utils/messages';
 
 interface FlagsDef {
-	app?: string;
-	application?: string;
 	fleet?: string;
 	device?: string;
 	release?: string;
@@ -56,29 +49,17 @@ export default class TagsCmd extends Command {
 	public static usage = 'tags';
 
 	public static flags: flags.Input<FlagsDef> = {
-		...(isV13()
-			? {}
-			: {
-					application: {
-						...cf.application,
-						exclusive: ['app', 'fleet', 'device', 'release'],
-					},
-					app: {
-						...cf.app,
-						exclusive: ['application', 'fleet', 'device', 'release'],
-					},
-			  }),
 		fleet: {
 			...cf.fleet,
-			exclusive: ['app', 'application', 'device', 'release'],
+			exclusive: ['device', 'release'],
 		},
 		device: {
 			...cf.device,
-			exclusive: ['app', 'application', 'fleet', 'release'],
+			exclusive: ['fleet', 'release'],
 		},
 		release: {
 			...cf.release,
-			exclusive: ['app', 'application', 'fleet', 'device'],
+			exclusive: ['fleet', 'device'],
 		},
 		help: cf.help,
 	};
@@ -88,15 +69,10 @@ export default class TagsCmd extends Command {
 	public async run() {
 		const { flags: options } = this.parse<FlagsDef, {}>(TagsCmd);
 
-		if ((options.application || options.app) && process.stderr.isTTY) {
-			console.error(warnify(appToFleetFlagMsg));
-		}
-		options.application ||= options.app || options.fleet;
-
 		const balena = getBalenaSdk();
 
 		// Check user has specified one of application/device/release
-		if (!options.application && !options.device && !options.release) {
+		if (!options.fleet && !options.device && !options.release) {
 			throw new ExpectedError(this.missingResourceMessage);
 		}
 
@@ -104,10 +80,10 @@ export default class TagsCmd extends Command {
 
 		let tags;
 
-		if (options.application) {
-			const { getTypedApplicationIdentifier } = await import('../utils/sdk');
+		if (options.fleet) {
+			const { getFleetSlug } = await import('../utils/sdk');
 			tags = await balena.models.application.tags.getAllByApplication(
-				await getTypedApplicationIdentifier(balena, options.application),
+				await getFleetSlug(balena, options.fleet),
 			);
 		}
 		if (options.device) {
