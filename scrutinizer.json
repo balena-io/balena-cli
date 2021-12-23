@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Update to typescript 4.5",
+          "hash": "e01483cd2b94c8165d89c77e0f766ad7c4589c86",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        }
+      ],
+      "version": "12.55.11",
+      "date": "2021-12-23T14:08:10.042Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update dev dependencies",
           "hash": "79be06820c73f5750a27cecb759494ca9ff4c449",
           "body": "",
@@ -24657,29 +24674,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-12-23T13:04:02Z",
+  "lastCommitDate": "2021-12-23T15:19:56Z",
   "latestRelease": {
-    "tagName": "v12.55.10",
+    "tagName": "v12.55.11",
     "asssets": [
       {
-        "name": "balena-cli-v12.55.10-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.10/balena-cli-v12.55.10-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.55.11-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.11/balena-cli-v12.55.11-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.55.10-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.10/balena-cli-v12.55.10-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.55.11-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.11/balena-cli-v12.55.11-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.55.10-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.10/balena-cli-v12.55.10-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.55.11-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.11/balena-cli-v12.55.11-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.55.10-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.10/balena-cli-v12.55.10-windows-x64-installer.exe"
+        "name": "balena-cli-v12.55.11-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.11/balena-cli-v12.55.11-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.55.10-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.10/balena-cli-v12.55.10-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.55.11-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.11/balena-cli-v12.55.11-windows-x64-standalone.zip"
       }
     ]
   },
@@ -24769,7 +24786,7 @@
       }
     ]
   },
-  "version": "12.55.10",
+  "version": "12.55.11",
   "screenshot": null,
   "logo": null
 }
