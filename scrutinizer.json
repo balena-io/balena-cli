@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Update dev dependencies",
+          "hash": "79be06820c73f5750a27cecb759494ca9ff4c449",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        }
+      ],
+      "version": "12.55.10",
+      "date": "2021-12-23T11:52:23.473Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "os download: Future-proof '--version' format for unified dev/prod variants",
           "hash": "c04e63ab7d9861baf5708d07ff90f02791775715",
           "body": "Do not append the '.prod' suffix by default to balenaOS versions.\n",
@@ -24640,47 +24657,39 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-12-22T16:02:30Z",
+  "lastCommitDate": "2021-12-23T13:04:02Z",
   "latestRelease": {
-    "tagName": "v12.55.9",
+    "tagName": "v12.55.10",
     "asssets": [
       {
-        "name": "balena-cli-v12.55.9-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.9/balena-cli-v12.55.9-linux-x64-standalone.zip"
+        "name": "balena-cli-v12.55.10-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.10/balena-cli-v12.55.10-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.55.9-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.9/balena-cli-v12.55.9-macOS-x64-installer.pkg"
+        "name": "balena-cli-v12.55.10-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.10/balena-cli-v12.55.10-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v12.55.9-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.9/balena-cli-v12.55.9-macOS-x64-standalone.zip"
+        "name": "balena-cli-v12.55.10-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.10/balena-cli-v12.55.10-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v12.55.9-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.9/balena-cli-v12.55.9-windows-x64-installer.exe"
+        "name": "balena-cli-v12.55.10-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.10/balena-cli-v12.55.10-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v12.55.9-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.9/balena-cli-v12.55.9-windows-x64-standalone.zip"
+        "name": "balena-cli-v12.55.10-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v12.55.10/balena-cli-v12.55.10-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 346,
+    "numberOfIssues": 344,
     "latestIssues": [
-      {
-        "title": "Fix some app/fleet terminology issues",
-        "url": "https://github.com/balena-io/balena-cli/pull/2425"
-      },
       {
         "title": "Allow setting local mode without cloud access",
         "url": "https://github.com/balena-io/balena-cli/issues/2424"
-      },
-      {
-        "title": "Update dev dependencies",
-        "url": "https://github.com/balena-io/balena-cli/pull/2423"
       },
       {
         "title": "Release CLI v13",
@@ -24749,10 +24758,18 @@
       {
         "title": "os download: Prevent image cache from closing the stream early",
         "url": "https://github.com/balena-io/balena-cli/pull/2371"
+      },
+      {
+        "title": "Named buiid stages are treated as not supporting multiarch",
+        "url": "https://github.com/balena-io/balena-cli/issues/2370"
+      },
+      {
+        "title": "tunnel: \"500 Internal Server Error\" when connecting to remote port bound to 127.0.0.1",
+        "url": "https://github.com/balena-io/balena-cli/issues/2366"
       }
     ]
   },
-  "version": "12.55.9",
+  "version": "12.55.10",
   "screenshot": null,
   "logo": null
 }

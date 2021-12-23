@@ -1,4 +1,15 @@
 - commits:
+    - subject: Update dev dependencies
+      hash: 79be06820c73f5750a27cecb759494ca9ff4c449
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 12.55.10
+  date: 2021-12-23T13:03:00.257Z
+- commits:
     - subject: >-
         os download: Future-proof '--version' format for unified dev/prod
         variants
@@ -11,7 +22,7 @@
       author: Paulo Castro
       nested: []
   version: 12.55.9
-  date: 2021-12-22T16:01:42.276Z
+  date: 2021-12-22T15:40:41.467Z
 - commits:
     - subject: Include version info when installed on windows
       hash: 8d3a4343cb7e49f29212e4df765ed06c90304b34
