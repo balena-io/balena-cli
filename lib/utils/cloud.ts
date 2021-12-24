@@ -225,53 +225,45 @@ async function selectOSVersionFromMenu(
 	deviceType: string,
 	esr: boolean,
 ): Promise<string> {
-	const vs = await getFormattedOsVersions(deviceType, esr);
+	const vs = await getOsVersions(deviceType, esr);
 
 	const choices = vs.map((v) => ({
-		value: v.rawVersion,
-		name: v.formattedVersion,
+		value: v.raw_version,
+		name: formatOsVersion(v),
 	}));
 
 	return getCliForm().ask({
 		message: 'Select the OS version:',
 		type: 'list',
 		choices,
-		default: (vs.find((v) => v.isRecommended) ?? vs[0])?.rawVersion,
+		default: vs[0]?.raw_version,
 	});
 }
 
 /**
- * Return the output of sdk.models.hostapp.getAvailableOsVersions(), filtered
- * regarding ESR or non-ESR versions, and having the `formattedVersion` field
- * reformatted for compatibility with the pre-existing output format of the
- * `os versions` and `os download` commands.
+ * Return the output of sdk.models.os.getAvailableOsVersions(), resolving
+ * device type aliases and filtering with regard to ESR versions.
  */
-export async function getFormattedOsVersions(
+export async function getOsVersions(
 	deviceType: string,
 	esr: boolean,
 ): Promise<SDK.OsVersion[]> {
 	const sdk = getBalenaSdk();
 	let slug = deviceType;
-	let versionsByDT: SDK.OsVersionsByDeviceType =
-		await sdk.models.os.getAvailableOsVersions([slug]);
+	let versions: SDK.OsVersion[] = await sdk.models.os.getAvailableOsVersions(
+		slug,
+	);
 	// if slug is an alias, fetch the real slug
-	if (!versionsByDT[slug]?.length) {
+	if (!versions.length) {
 		// unaliasDeviceType() produces a nice error msg if slug is invalid
 		slug = await unaliasDeviceType(sdk, slug);
 		if (slug !== deviceType) {
-			versionsByDT = await sdk.models.os.getAvailableOsVersions([slug]);
+			versions = await sdk.models.os.getAvailableOsVersions(slug);
 		}
 	}
-	const versions: SDK.OsVersion[] = (versionsByDT[slug] || [])
-		.filter((v: SDK.OsVersion) => v.osType === (esr ? 'esr' : 'default'))
-		.map((v: SDK.OsVersion) => {
-			const i = v.formattedVersion.indexOf(' ');
-			v.formattedVersion =
-				i < 0
-					? `v${v.rawVersion}`
-					: `v${v.rawVersion}${v.formattedVersion.substring(i)}`;
-			return v;
-		});
+	versions = versions.filter(
+		(v: SDK.OsVersion) => v.osType === (esr ? 'esr' : 'default'),
+	);
 	if (!versions.length) {
 		const vType = esr ? 'ESR versions' : 'versions';
 		throw new ExpectedError(
@@ -279,4 +271,10 @@ export async function getFormattedOsVersions(
 		);
 	}
 	return versions;
+}
+
+export function formatOsVersion(osVersion: SDK.OsVersion): string {
+	return osVersion.line
+		? `v${osVersion.raw_version} (${osVersion.line})`
+		: `v${osVersion.raw_version}`;
 }
