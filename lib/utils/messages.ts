@@ -159,6 +159,18 @@ created public/open fleet, or with fleets from other balena accounts that you
 may be invited to join under any role.  For this reason, fleet names are
 especially discouraged in scripts (e.g. CI environments).`;
 
+export const devModeInfo = `\
+The '--dev' option is used to configure balenaOS to operate in development mode,
+allowing anauthenticated root ssh access and exposing network ports such as
+balenaEngine's 2375 (unencrypted). This option causes \`"developmentMode": true\`
+to be inserted in the 'config.json' file in the image's boot partion. Development
+mode (as a configurable option) is applicable to balenaOS releases from early
+2022. Older releases have separate development and production balenaOS images
+that cannot be reconfigured through 'config.json' or the '--dev' option. Do not
+confuse the balenaOS "development mode" with a device's "local mode", the latter
+being a supervisor feature that allows the "balena push" command to push a user's
+application directly to a device in the local network.`;
+
 export const jsonInfo = `\
 The --json option is recommended when scripting the output of this command,
 because field names are less likely to change in JSON format and because it

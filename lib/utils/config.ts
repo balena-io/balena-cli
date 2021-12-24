@@ -15,7 +15,7 @@ limitations under the License.
 */
 import type * as BalenaSdk from 'balena-sdk';
 import * as semver from 'balena-semver';
-import { getBalenaSdk } from './lazy';
+import { getBalenaSdk, stripIndent } from './lazy';
 
 export interface ImgConfig {
 	applicationName: string;
@@ -133,4 +133,35 @@ export function generateDeviceConfig(
 
 			return config;
 		});
+}
+
+/**
+ * Chech whether the `--dev` option of commands related to OS configuration
+ * such as `os configure` and `config generate` is compatible with a given
+ * balenaOS version, and print a warning regarding the consequences of using
+ * that option.
+ */
+export async function validateDevOptionAndWarn(
+	dev?: boolean,
+	version?: string,
+	logger?: import('./logger'),
+) {
+	if (!dev) {
+		return;
+	}
+	if (version && /\bprod\b/.test(version)) {
+		const { ExpectedError } = await import('../errors');
+		throw new ExpectedError(
+			`Error: The '--dev' option conflicts with production balenaOS version '${version}'`,
+		);
+	}
+	if (!logger) {
+		const Logger = await import('./logger');
+		logger = Logger.getLogger();
+	}
+	logger.logInfo(stripIndent`
+		The '--dev' option is being used to configure a balenaOS image in development mode.
+		Please note that development mode allows unauthenticated, passwordless root ssh access
+		and exposes network ports such as 2375 that allows unencrypted access to balenaEngine.
+		Therefore, development mode should only be used in private, trusted local networks.`);
 }
