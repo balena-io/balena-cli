@@ -5,6 +5,54 @@
     {
       "commits": [
         {
+          "subject": "os versions, os download: Replace deprecated version fields",
+          "hash": "b2d932afabb9c1ca131c0839397d0492f2f1a272",
+          "body": "Replace deprecated `rawVersion` and `formattedVersion` fields and use\nalternative overload of `getAvailableOsVersions`. As a result, the word\n'recommended' is no longer printed next to any OS versions.\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "Update balena-sdk to v16.8.1",
+          "hash": "398175f0b3fa932018624a7362b4204e950eb71a",
+          "body": "Update balena-sdk from 16.8.0 to 16.8.1\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": [
+            {
+              "commits": [
+                {
+                  "subject": "logs: Stop using the querystring module",
+                  "hash": "c850abfea2492d01a1f0292c260c7fdf14db7109",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": []
+                }
+              ],
+              "version": "balena-sdk-16.8.1",
+              "date": "2021-12-23T12:27:51.348Z"
+            }
+          ]
+        }
+      ],
+      "version": "13.0.1",
+      "date": "2021-12-24T16:12:08.229Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "v13 RELEASE NOTES: see https://git.io/JDHxG",
           "hash": "c403683edfe34c4ccf1f530c50dad713e92917dd",
           "body": "",
@@ -26050,36 +26098,44 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-12-23T19:48:02Z",
+  "lastCommitDate": "2021-12-24T16:58:28Z",
   "latestRelease": {
-    "tagName": "v13.0.0",
+    "tagName": "v13.0.1",
     "asssets": [
       {
-        "name": "balena-cli-v13.0.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.0/balena-cli-v13.0.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v13.0.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.1/balena-cli-v13.0.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.0.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.0/balena-cli-v13.0.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v13.0.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.1/balena-cli-v13.0.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v13.0.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.0/balena-cli-v13.0.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v13.0.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.1/balena-cli-v13.0.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.0.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.0/balena-cli-v13.0.0-windows-x64-installer.exe"
+        "name": "balena-cli-v13.0.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.1/balena-cli-v13.0.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v13.0.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.0/balena-cli-v13.0.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v13.0.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.1/balena-cli-v13.0.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 343,
+    "numberOfIssues": 345,
     "latestIssues": [
+      {
+        "title": "Update pkg",
+        "url": "https://github.com/balena-io/balena-cli/pull/2428"
+      },
+      {
+        "title": "Update oclif",
+        "url": "https://github.com/balena-io/balena-cli/pull/2427"
+      },
       {
         "title": "Allow setting local mode without cloud access",
         "url": "https://github.com/balena-io/balena-cli/issues/2424"
@@ -26151,18 +26207,10 @@
       {
         "title": "Named buiid stages are treated as not supporting multiarch",
         "url": "https://github.com/balena-io/balena-cli/issues/2370"
-      },
-      {
-        "title": "tunnel: \"500 Internal Server Error\" when connecting to remote port bound to 127.0.0.1",
-        "url": "https://github.com/balena-io/balena-cli/issues/2366"
-      },
-      {
-        "title": "Update resin-compose-parse version to 2.3.0",
-        "url": "https://github.com/balena-io/balena-cli/issues/2364"
       }
     ]
   },
-  "version": "13.0.0",
+  "version": "13.0.1",
   "screenshot": null,
   "logo": null
 }
