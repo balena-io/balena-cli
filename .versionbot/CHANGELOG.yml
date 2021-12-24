@@ -1,4 +1,40 @@
 - commits:
+    - subject: 'os versions, os download: Replace deprecated version fields'
+      hash: b2d932afabb9c1ca131c0839397d0492f2f1a272
+      body: |
+        Replace deprecated `rawVersion` and `formattedVersion` fields and use
+        alternative overload of `getAvailableOsVersions`. As a result, the word
+        'recommended' is no longer printed next to any OS versions.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Update balena-sdk to v16.8.1
+      hash: 398175f0b3fa932018624a7362b4204e950eb71a
+      body: |
+        Update balena-sdk from 16.8.0 to 16.8.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested:
+        - commits:
+            - subject: 'logs: Stop using the querystring module'
+              hash: c850abfea2492d01a1f0292c260c7fdf14db7109
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.8.1
+          date: 2021-12-23T12:27:51.348Z
+  version: 13.0.1
+  date: 2021-12-24T16:12:08.229Z
+- commits:
     - subject: 'v13 RELEASE NOTES: see https://git.io/JDHxG'
       hash: c403683edfe34c4ccf1f530c50dad713e92917dd
       body: ''
