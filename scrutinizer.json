@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Update oclif",
+          "hash": "acd352cb3c9685612ec0bc274c80a5502c031ed0",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        }
+      ],
+      "version": "13.0.2",
+      "date": "2021-12-24T17:47:32.122Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "os versions, os download: Replace deprecated version fields",
           "hash": "b2d932afabb9c1ca131c0839397d0492f2f1a272",
           "body": "Replace deprecated `rawVersion` and `formattedVersion` fields and use\nalternative overload of `getAvailableOsVersions`. As a result, the word\n'recommended' is no longer printed next to any OS versions.\n",
@@ -26098,29 +26115,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-12-24T16:58:28Z",
+  "lastCommitDate": "2021-12-24T18:12:14Z",
   "latestRelease": {
-    "tagName": "v13.0.1",
+    "tagName": "v13.0.2",
     "asssets": [
       {
-        "name": "balena-cli-v13.0.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.1/balena-cli-v13.0.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v13.0.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.2/balena-cli-v13.0.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.0.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.1/balena-cli-v13.0.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v13.0.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.2/balena-cli-v13.0.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v13.0.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.1/balena-cli-v13.0.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v13.0.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.2/balena-cli-v13.0.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.0.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.1/balena-cli-v13.0.1-windows-x64-installer.exe"
+        "name": "balena-cli-v13.0.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.2/balena-cli-v13.0.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v13.0.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.1/balena-cli-v13.0.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v13.0.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.0.2/balena-cli-v13.0.2-windows-x64-standalone.zip"
       }
     ]
   },
@@ -26129,12 +26146,12 @@
     "numberOfIssues": 345,
     "latestIssues": [
       {
-        "title": "Update pkg",
-        "url": "https://github.com/balena-io/balena-cli/pull/2428"
+        "title": "Update dependencies",
+        "url": "https://github.com/balena-io/balena-cli/pull/2430"
       },
       {
-        "title": "Update oclif",
-        "url": "https://github.com/balena-io/balena-cli/pull/2427"
+        "title": "Update pkg",
+        "url": "https://github.com/balena-io/balena-cli/pull/2428"
       },
       {
         "title": "Allow setting local mode without cloud access",
@@ -26210,7 +26227,7 @@
       }
     ]
   },
-  "version": "13.0.1",
+  "version": "13.0.2",
   "screenshot": null,
   "logo": null
 }

@@ -1,4 +1,15 @@
 - commits:
+    - subject: Update oclif
+      hash: acd352cb3c9685612ec0bc274c80a5502c031ed0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 13.0.2
+  date: 2021-12-24T18:11:22.269Z
+- commits:
     - subject: 'os versions, os download: Replace deprecated version fields'
       hash: b2d932afabb9c1ca131c0839397d0492f2f1a272
       body: |
@@ -33,7 +44,7 @@
           version: balena-sdk-16.8.1
           date: 2021-12-23T12:27:51.348Z
   version: 13.0.1
-  date: 2021-12-24T16:57:37.581Z
+  date: 2021-12-24T16:12:08.229Z
 - commits:
     - subject: 'v13 RELEASE NOTES: see https://git.io/JDHxG'
       hash: c403683edfe34c4ccf1f530c50dad713e92917dd
