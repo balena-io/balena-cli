@@ -1,5 +1,5 @@
 diff --git a/node_modules/oclif/lib/commands/pack/macos.js b/node_modules/oclif/lib/commands/pack/macos.js
-index 2a7bcdd..c3df321 100644
+index 924f092..a69e60b 100644
 --- a/node_modules/oclif/lib/commands/pack/macos.js
 +++ b/node_modules/oclif/lib/commands/pack/macos.js
 @@ -133,6 +133,7 @@ class PackMacos extends command_1.Command {
@@ -11,7 +11,7 @@ index 2a7bcdd..c3df321 100644
      }
  }
 diff --git a/node_modules/oclif/lib/commands/pack/win.js b/node_modules/oclif/lib/commands/pack/win.js
-index 7547ad2..df9e4b5 100644
+index bf4657e..fd58c7d 100644
 --- a/node_modules/oclif/lib/commands/pack/win.js
 +++ b/node_modules/oclif/lib/commands/pack/win.js
 @@ -52,6 +52,13 @@ VIAddVersionKey /LANG=\${LANG_ENGLISH} "ProductVersion" "\${VERSION}.0"
@@ -42,11 +42,11 @@ index 7547ad2..df9e4b5 100644
          await this.checkForNSIS();
          const { flags } = this.parse(PackWin);
 -        const buildConfig = await Tarballs.buildConfig(flags.root);
-+        const targets = flags.targets ? flags.targets.split(',') : undefined;
-+        const buildConfig = await Tarballs.buildConfig(flags.root, { targets });
-         const { config } = buildConfig;
++        const $targets = flags.targets ? flags.targets.split(',') : undefined;
++        const buildConfig = await Tarballs.buildConfig(flags.root, { targets: $targets });
+         const { config, version, gitSha, targets, tmp } = buildConfig;
          await Tarballs.build(buildConfig, { platform: 'win32', pack: false });
-         const arches = buildConfig.targets.filter(t => t.platform === 'win32').map(t => t.arch);
+         const arches = targets.filter(t => t.platform === 'win32').map(t => t.arch);
 @@ -208,7 +218,8 @@ class PackWin extends command_1.Command {
              // eslint-disable-next-line no-await-in-loop
              await qq.mv(buildConfig.workspace({ platform: 'win32', arch }), [installerBase, 'client']);
@@ -54,7 +54,7 @@ index 7547ad2..df9e4b5 100644
 -            await qq.x(`makensis ${installerBase}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`);
 +            const { msysExec, toMsysPath } = require("../../util");
 +            await msysExec(`makensis ${toMsysPath(installerBase)}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`);
-             const templateKey = upload_util_1.templateShortKey('win32', { bin: config.bin, version: buildConfig.version, sha: buildConfig.gitSha, arch });
+             const templateKey = upload_util_1.templateShortKey('win32', { bin: config.bin, version: version, sha: gitSha, arch });
              const o = buildConfig.dist(`win32/${templateKey}`);
              // eslint-disable-next-line no-await-in-loop
 @@ -255,4 +266,5 @@ PackWin.hidden = true;
@@ -64,15 +64,15 @@ index 7547ad2..df9e4b5 100644
 +    targets: command_1.flags.string({char: 't', description: 'comma-separated targets to pack (e.g.: win32-x86,win32-x64)'}),
  };
 diff --git a/node_modules/oclif/lib/tarballs/build.js b/node_modules/oclif/lib/tarballs/build.js
-index 39aae96..6e88b74 100644
+index d3e8e89..a5d29e2 100644
 --- a/node_modules/oclif/lib/tarballs/build.js
 +++ b/node_modules/oclif/lib/tarballs/build.js
 @@ -18,8 +18,9 @@ const pack = async (from, to) => {
      qq.cd(prevCwd);
  };
  async function build(c, options = {}) {
--    const { xz, config } = c;
-+    const { xz, config, tmp } = c;
+-    const { xz, config, version, s3Config, gitSha, nodeVersion, targets, updateConfig } = c;
++    const { xz, config, version, s3Config, gitSha, nodeVersion, targets, updateConfig, tmp } = c;
      const prevCwd = qq.cwd();
 +    console.error(`[debug] oclif cwd="${prevCwd}"\n c.root="${c.root}" c.workspace()="${c.workspace()}"`);
      const packCLI = async () => {
@@ -225,11 +225,11 @@ index 45392cb..3c806c7 100644
      };
      return _.template(templates[type])(Object.assign({}, options));
 diff --git a/node_modules/oclif/lib/util.js b/node_modules/oclif/lib/util.js
-index 910315f..71d7649 100644
+index 17748ad..4928fc9 100644
 --- a/node_modules/oclif/lib/util.js
 +++ b/node_modules/oclif/lib/util.js
 @@ -67,3 +67,47 @@ exports.sortVersionsObjectByKeysDesc = (input) => {
-     });
+     }
      return result;
  };
 +
