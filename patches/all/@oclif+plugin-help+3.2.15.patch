@@ -1,17 +1,17 @@
 diff --git a/node_modules/@oclif/plugin-help/lib/command.js b/node_modules/@oclif/plugin-help/lib/command.js
-index 1caa65b..e205faf 100644
+index b3b9010..788e5c6 100644
 --- a/node_modules/@oclif/plugin-help/lib/command.js
 +++ b/node_modules/@oclif/plugin-help/lib/command.js
-@@ -87,7 +87,7 @@ class CommandHelp {
-         if (args.filter(a => a.description).length === 0)
+@@ -88,7 +88,7 @@ class CommandHelp {
              return;
          const body = list_1.renderList(args.map(a => {
+             var _a;
 -            const name = a.name.toUpperCase();
 +            const name = a.required ? `<${a.name}>` : `[${a.name}]`;
              let description = a.description || '';
-             if (a.default)
-                 description = `[default: ${a.default}] ${description}`;
-@@ -130,9 +130,7 @@ class CommandHelp {
+             // `a.default` is actually not always a string (typing bug), hence `toString()`
+             if (a.default || ((_a = a.default) === null || _a === void 0 ? void 0 : _a.toString()) === '0')
+@@ -133,9 +133,7 @@ class CommandHelp {
                  if (!flag.helpValue && flag.options) {
                      value = flag.options.join('|');
                  }
@@ -21,12 +21,12 @@ index 1caa65b..e205faf 100644
 +                left += ` <${value}>`;
              }
              let right = flag.description || '';
-             if (flag.type === 'option' && flag.default) {
+             // `flag.default` is not always a string (typing bug), hence `toString()`
 diff --git a/node_modules/@oclif/plugin-help/lib/index.js b/node_modules/@oclif/plugin-help/lib/index.js
-index 02646b6..525e19f 100644
+index 04d7861..c2fb591 100644
 --- a/node_modules/@oclif/plugin-help/lib/index.js
 +++ b/node_modules/@oclif/plugin-help/lib/index.js
-@@ -95,11 +95,12 @@ class Help extends HelpBase {
+@@ -98,11 +98,12 @@ class Help extends HelpBase {
              console.log(title + '\n');
          console.log(this.formatCommand(command));
          console.log('');
