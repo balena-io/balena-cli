@@ -35,10 +35,10 @@ interface ArgsDef {
 
 export default class OsBuildConfigCmd extends Command {
 	public static description = stripIndent`
-		Build an OS config and save it to a JSON file.
+		Prepare a configuration file for use by the 'os configure' command.
 
-		Interactively generate an OS config once, so that the generated config
-		file can be used in \`balena os configure\`, skipping the interactive part.
+		Interactively generate a configuration file that can then be used as
+		non-interactive input by the 'balena os configure' command.
 	`;
 
 	public static examples = [

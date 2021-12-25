@@ -2087,8 +2087,8 @@ or 'menu-esr' (interactive menu, ESR versions)
 
 ## os build-config &#60;image&#62; &#60;device-type&#62;
 
-Interactively generate an OS config once, so that the generated config
-file can be used in `balena os configure`, skipping the interactive part.
+Interactively generate a configuration file that can then be used as
+non-interactive input by the 'balena os configure' command.
 
 Examples:
 
