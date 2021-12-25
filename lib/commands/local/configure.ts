@@ -115,6 +115,12 @@ export default class LocalConfigureCmd extends Command {
 				},
 				{
 					template: {
+						developmentMode: '{{developmentMode}}',
+					},
+					domain: [['config_json', 'developmentMode']],
+				},
+				{
+					template: {
 						wifi: {
 							ssid: '{{networkSsid}}',
 						},
@@ -162,6 +168,13 @@ export default class LocalConfigureCmd extends Command {
 			type: 'input',
 			name: 'networkKey',
 			default: data.networkKey,
+		},
+		{
+			message:
+				'Enable development mode? (Open ports and root access - Not for production!)',
+			type: 'confirm',
+			name: 'developmentMode',
+			default: false,
 		},
 		{
 			message: 'Do you want to set advanced settings?',
