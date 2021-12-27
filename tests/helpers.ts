@@ -17,8 +17,8 @@
 
 import * as _ from 'lodash';
 import * as path from 'path';
-
 import * as packageJSON from '../package.json';
+import { getChalk } from '../lib/utils/lazy';
 
 const balenaExe = process.platform === 'win32' ? 'balena.exe' : 'balena';
 const standalonePath = path.resolve(__dirname, '..', 'build-bin', balenaExe);
@@ -352,4 +352,66 @@ export async function switchSentry(
 		sentryOpts.enabled = enabled;
 		return sentryStatus;
 	}
+}
+
+/**
+ * Convert a string to an array of character codes
+ * @param text the text to convert.
+ * @returns an array of character codes representing the text.
+ */
+export function stringToCharCodes(text: string) {
+	return text.split('').map((c) => {
+		return c.charCodeAt(0);
+	});
+}
+
+/**
+ * Remove leaving and trailing whitespace from each lime of a string.
+ * @param text the text to process
+ * @returns a copy of the text with the lines trimmed.
+ */
+export function trimLines(text: string) {
+	let lines = text.split('\n');
+	lines = lines.map((l) => l.trim());
+	return lines.join('\n');
+}
+
+/**
+ * Pad each line with characters at beginning and end.
+ * @param text the text to pad.
+ * @param startPad the string to prepend each line with.
+ * @param endPad the string to append each line with.
+ * @returns a copy of the text with the specified padding.
+ */
+export function padLines(text: string, startPad: string, endPad: string = '') {
+	let lines = text.split('\n');
+	lines = lines.map((l) => {
+		return l === '' ? '' : `${startPad}${l}${endPad}`;
+	});
+	return lines.join('\n');
+}
+
+/**
+ * Format first nLines bold.
+ * @param text the text to format
+ * @param nLines number of liens to format (from top)
+ * @returns a copy of the text with the specified number of top lines formatted bold.
+ */
+export function boldFirstNLines(text: string, nLines: number) {
+	const chalk = getChalk();
+	let lines = text.split('\n');
+	lines = lines.map((l, i) => {
+		return i < nLines ? chalk.bold(l) : l;
+	});
+	return lines.join('\n');
+}
+
+/**
+ * Returns first nLines bold.
+ * @param text the text to format
+ * @param nLines number of liens to format (from top)
+ * @returns a copy of the text with the first nLines removed.
+ */
+export function removeFirstNLines(text: string, nLines: number) {
+	return text.split('\n').slice(nLines).join(`\n`);
 }

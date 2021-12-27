@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2016-2020 Balena Ltd.
+ * Copyright 2016 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,12 @@ import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
 import { applicationIdInfo } from '../utils/messages';
+import type { ApplicationTag, DeviceTag, ReleaseTag } from 'balena-sdk';
+import type { DataSetOutputOptions } from '../framework';
 
-interface FlagsDef {
+import { isV14 } from '../utils/version';
+
+interface FlagsDef extends DataSetOutputOptions {
 	fleet?: string;
 	device?: string;
 	release?: string;
@@ -61,6 +65,7 @@ export default class TagsCmd extends Command {
 			...cf.release,
 			exclusive: ['fleet', 'device'],
 		},
+		...(isV14() ? cf.dataSetOutputFlags : {}),
 		help: cf.help,
 	};
 
@@ -78,7 +83,7 @@ export default class TagsCmd extends Command {
 
 		const { tryAsInteger } = await import('../utils/validation');
 
-		let tags;
+		let tags: ApplicationTag[] | DeviceTag[] | ReleaseTag[] = [];
 
 		if (options.fleet) {
 			const { getFleetSlug } = await import('../utils/sdk');
@@ -103,11 +108,17 @@ export default class TagsCmd extends Command {
 			tags = await balena.models.release.tags.getAllByRelease(releaseParam);
 		}
 
-		if (!tags || tags.length === 0) {
+		if (tags.length === 0 && !options.json) {
+			// TODO: Later change to output message
 			throw new ExpectedError('No tags found');
 		}
 
-		console.log(getVisuals().table.horizontal(tags, ['tag_key', 'value']));
+		if (isV14()) {
+			await this.outputData(tags, ['tag_key', 'value'], options);
+		} else {
+			// Old output implementation
+			console.log(getVisuals().table.horizontal(tags, ['tag_key', 'value']));
+		}
 	}
 
 	protected missingResourceMessage = stripIndent`

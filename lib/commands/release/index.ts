@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2016-2020 Balena Ltd.
+ * Copyright 2016 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,11 @@ import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import type * as BalenaSdk from 'balena-sdk';
 import jsyaml = require('js-yaml');
 import { tryAsInteger } from '../../utils/validation';
+import type { DataOutputOptions } from '../../framework';
 
-interface FlagsDef {
+import { isV14 } from '../../utils/version';
+
+interface FlagsDef extends DataOutputOptions {
 	help: void;
 	composition?: boolean;
 }
@@ -49,7 +52,9 @@ export default class ReleaseCmd extends Command {
 			default: false,
 			char: 'c',
 			description: 'Return the release composition',
+			exclusive: ['json', 'fields'],
 		}),
+		...(isV14() ? cf.dataOutputFlags : {}),
 	};
 
 	public static args = [
@@ -68,29 +73,27 @@ export default class ReleaseCmd extends Command {
 			ReleaseCmd,
 		);
 
-		const balena = getBalenaSdk();
 		if (options.composition) {
-			await this.showComposition(params.commitOrId, balena);
+			await this.showComposition(params.commitOrId);
 		} else {
-			await this.showReleaseInfo(params.commitOrId, balena);
+			await this.showReleaseInfo(params.commitOrId, options);
 		}
 	}
 
-	async showComposition(
-		commitOrId: string | number,
-		balena: BalenaSdk.BalenaSDK,
-	) {
-		const release = await balena.models.release.get(commitOrId, {
+	async showComposition(commitOrId: string | number) {
+		const release = await getBalenaSdk().models.release.get(commitOrId, {
 			$select: 'composition',
 		});
 
-		console.log(jsyaml.dump(release.composition));
+		if (isV14()) {
+			this.outputMessage(jsyaml.dump(release.composition));
+		} else {
+			// Old output implementation
+			console.log(jsyaml.dump(release.composition));
+		}
 	}
 
-	async showReleaseInfo(
-		commitOrId: string | number,
-		balena: BalenaSdk.BalenaSDK,
-	) {
+	async showReleaseInfo(commitOrId: string | number, options: FlagsDef) {
 		const fields: Array<keyof BalenaSdk.Release> = [
 			'id',
 			'commit',
@@ -103,7 +106,7 @@ export default class ReleaseCmd extends Command {
 			'end_timestamp',
 		];
 
-		const release = await balena.models.release.get(commitOrId, {
+		const release = await getBalenaSdk().models.release.get(commitOrId, {
 			$select: fields,
 			$expand: {
 				release_tag: {
@@ -116,13 +119,28 @@ export default class ReleaseCmd extends Command {
 			.release_tag!.map((t) => `${t.tag_key}=${t.value}`)
 			.join('\n');
 
-		const _ = await import('lodash');
-		const values = _.mapValues(
-			release,
-			(val) => val ?? 'N/a',
-		) as Dictionary<string>;
-		values['tags'] = tagStr;
+		if (isV14()) {
+			await this.outputData(
+				{
+					tags: tagStr,
+					...release,
+				},
+				fields,
+				{
+					displayNullValuesAs: 'N/a',
+					...options,
+				},
+			);
+		} else {
+			// Old output implementation
+			const _ = await import('lodash');
+			const values = _.mapValues(
+				release,
+				(val) => val ?? 'N/a',
+			) as Dictionary<string>;
+			values['tags'] = tagStr;
 
-		console.log(getVisuals().table.vertical(values, [...fields, 'tags']));
+			console.log(getVisuals().table.vertical(values, [...fields, 'tags']));
+		}
 	}
 }

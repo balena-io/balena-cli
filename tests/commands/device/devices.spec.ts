@@ -21,6 +21,8 @@ import * as path from 'path';
 import { apiResponsePath, BalenaAPIMock } from '../../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
+import { isV14 } from '../../../lib/utils/version';
+
 describe('balena devices', function () {
 	let api: BalenaAPIMock;
 
@@ -48,15 +50,24 @@ describe('balena devices', function () {
 
 		const lines = cleanOutput(out);
 
-		expect(lines[0].replace(/  +/g, ' ')).to.equal(
-			'ID UUID DEVICE NAME DEVICE TYPE FLEET STATUS IS ONLINE SUPERVISOR VERSION OS VERSION DASHBOARD URL',
-		);
-		expect(lines).to.have.lengthOf.at.least(2);
-
-		expect(lines.some((l) => l.includes('org/test app'))).to.be.true;
-
-		// Devices with missing applications will have application name set to `N/a`.
-		// e.g. When user has a device associated with app that user is no longer a collaborator of.
-		expect(lines.some((l) => l.includes('N/a'))).to.be.true;
+		if (isV14()) {
+			expect(lines[0].replace(/  +/g, ' ')).to.equal(
+				' Id Uuid Device name Device type Fleet Status Is online Supervisor version Os version Dashboard url ',
+			);
+			expect(lines).to.have.lengthOf.at.least(3);
+			expect(lines.some((l) => l.includes('org/test app'))).to.be.true;
+			// Devices with missing applications will have application name set to `N/a`.
+			// e.g. When user has a device associated with app that user is no longer a collaborator of.
+			expect(lines.some((l) => l.includes('N/a'))).to.be.true;
+		} else {
+			expect(lines[0].replace(/  +/g, ' ')).to.equal(
+				'ID UUID DEVICE NAME DEVICE TYPE FLEET STATUS IS ONLINE SUPERVISOR VERSION OS VERSION DASHBOARD URL',
+			);
+			expect(lines).to.have.lengthOf.at.least(2);
+			expect(lines.some((l) => l.includes('org/test app'))).to.be.true;
+			// Devices with missing applications will have application name set to `N/a`.
+			// e.g. When user has a device associated with app that user is no longer a collaborator of.
+			expect(lines.some((l) => l.includes('N/a'))).to.be.true;
+		}
 	});
 });

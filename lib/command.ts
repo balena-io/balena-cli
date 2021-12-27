@@ -171,4 +171,5 @@ export default abstract class BalenaCommand extends Command {
 
 	protected outputMessage = output.outputMessage;
 	protected outputData = output.outputData;
+	protected printTitle = output.printTitle;
 }

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2016-2021 Balena Ltd.
+ * Copyright 2016 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,14 @@
 import { flags } from '@oclif/command';
 import * as _ from 'lodash';
 import Command from '../../command';
-
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { CommandHelp } from '../../utils/oclif-utils';
+import type { DataSetOutputOptions } from '../../framework';
 
-interface FlagsDef {
+import { isV14 } from '../../utils/version';
+
+interface FlagsDef extends DataSetOutputOptions {
 	help: void;
 	json?: boolean;
 }
@@ -51,10 +53,7 @@ export default class DevicesSupportedCmd extends Command {
 
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
-		json: flags.boolean({
-			char: 'j',
-			description: 'produce JSON output instead of tabular output',
-		}),
+		...(isV14() ? cf.dataSetOutputFlags : { json: cf.json }),
 	};
 
 	public async run() {
@@ -70,7 +69,7 @@ export default class DevicesSupportedCmd extends Command {
 		const configDTsBySlug = _.keyBy(configDTs, (dt) => dt.slug);
 		interface DT {
 			slug: string;
-			aliases: string[];
+			aliases: string[] | string;
 			arch: string;
 			name: string;
 		}
@@ -84,19 +83,25 @@ export default class DevicesSupportedCmd extends Command {
 			const dt: Partial<typeof dts[0]> = dtsBySlug[slug] || {};
 			deviceTypes.push({
 				slug,
-				aliases: options.json ? aliases : [aliases.join(', ')],
+				aliases: options.json ? aliases : aliases.join(', '),
 				arch: (dt.is_of__cpu_architecture as any)?.[0]?.slug || 'n/a',
 				name: dt.name || 'N/A',
 			});
 		}
 		const fields = ['slug', 'aliases', 'arch', 'name'];
 		deviceTypes = _.sortBy(deviceTypes, fields);
-		if (options.json) {
-			console.log(JSON.stringify(deviceTypes, null, 4));
+
+		if (isV14()) {
+			await this.outputData(deviceTypes, fields, options);
 		} else {
-			const visuals = getVisuals();
-			const output = await visuals.table.horizontal(deviceTypes, fields);
-			console.log(output);
+			// Old output implementation
+			if (options.json) {
+				console.log(JSON.stringify(deviceTypes, null, 4));
+			} else {
+				const visuals = getVisuals();
+				const output = await visuals.table.horizontal(deviceTypes, fields);
+				console.log(output);
+			}
 		}
 	}
 }

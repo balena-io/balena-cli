@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2016-2020 Balena Ltd.
+ * Copyright 2016 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,11 @@ import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
 import { applicationNameNote } from '../utils/messages';
 import type * as BalenaSdk from 'balena-sdk';
+import type { DataSetOutputOptions } from '../framework';
 
-interface FlagsDef {
+import { isV14 } from '../utils/version';
+
+interface FlagsDef extends DataSetOutputOptions {
 	help: void;
 }
 
@@ -43,6 +46,7 @@ export default class ReleasesCmd extends Command {
 	public static usage = 'releases <fleet>';
 
 	public static flags: flags.Input<FlagsDef> = {
+		...(isV14() ? cf.dataOutputFlags : {}),
 		help: cf.help,
 	};
 
@@ -57,7 +61,9 @@ export default class ReleasesCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(ReleasesCmd);
+		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
+			ReleasesCmd,
+		);
 
 		const fields: Array<keyof BalenaSdk.Release> = [
 			'id',
@@ -76,12 +82,20 @@ export default class ReleasesCmd extends Command {
 			{ $select: fields },
 		);
 
-		const _ = await import('lodash');
-		console.log(
-			getVisuals().table.horizontal(
-				releases.map((rel) => _.mapValues(rel, (val) => val ?? 'N/a')),
-				fields,
-			),
-		);
+		if (isV14()) {
+			await this.outputData(releases, fields, {
+				displayNullValuesAs: 'N/a',
+				...options,
+			});
+		} else {
+			// Old output implementation
+			const _ = await import('lodash');
+			console.log(
+				getVisuals().table.horizontal(
+					releases.map((rel) => _.mapValues(rel, (val) => val ?? 'N/a')),
+					fields,
+				),
+			);
+		}
 	}
 }

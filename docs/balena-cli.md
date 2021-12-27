@@ -333,6 +333,30 @@ Examples:
 
 ### Options
 
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
+#### -j, --json
+
+output in json format
+
+#### --filter FILTER
+
+filter results by substring matching of a given field, eg: --filter field=foo
+
+#### --no-header
+
+hide table header from output
+
+#### --no-truncate
+
+do not truncate output to fit screen
+
+#### --sort SORT
+
+field to sort by (prepend '-' for descending order)
+
 ## fleet &#60;fleet&#62;
 
 Display detailed information about a single fleet.
@@ -361,6 +385,14 @@ Examples:
 fleet name, slug (preferred), or numeric ID (deprecated)
 
 ### Options
+
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
+#### -j, --json
+
+output in json format
 
 ## fleet create &#60;name&#62;
 
@@ -648,9 +680,29 @@ Examples:
 
 fleet name, slug (preferred), or numeric ID (deprecated)
 
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
 #### -j, --json
 
-produce JSON output instead of tabular output
+output in json format
+
+#### --filter FILTER
+
+filter results by substring matching of a given field, eg: --filter field=foo
+
+#### --no-header
+
+hide table header from output
+
+#### --no-truncate
+
+do not truncate output to fit screen
+
+#### --sort SORT
+
+field to sort by (prepend '-' for descending order)
 
 ## devices supported
 
@@ -669,9 +721,29 @@ Examples:
 
 ### Options
 
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
 #### -j, --json
 
-produce JSON output instead of tabular output
+output in json format
+
+#### --filter FILTER
+
+filter results by substring matching of a given field, eg: --filter field=foo
+
+#### --no-header
+
+hide table header from output
+
+#### --no-truncate
+
+do not truncate output to fit screen
+
+#### --sort SORT
+
+field to sort by (prepend '-' for descending order)
 
 ## device &#60;uuid&#62;
 
@@ -688,6 +760,14 @@ Examples:
 the device uuid
 
 ### Options
+
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
+#### -j, --json
+
+output in json format
 
 ## device deactivate &#60;uuid&#62;
 
@@ -1152,6 +1232,14 @@ fleet name or slug (preferred)
 
 ### Options
 
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
+#### -j, --json
+
+output in json format
+
 ## release &#60;commitOrId&#62;
 
 
@@ -1172,6 +1260,14 @@ the commit or ID of the release to get information
 #### -c, --composition
 
 Return the release composition
+
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
+#### -j, --json
+
+output in json format
 
 ## release finalize &#60;commitOrId&#62;
 
@@ -1271,9 +1367,29 @@ show configuration variables only
 
 device UUID
 
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
 #### -j, --json
 
-produce JSON output instead of tabular output
+output in json format
+
+#### --filter FILTER
+
+filter results by substring matching of a given field, eg: --filter field=foo
+
+#### --no-header
+
+hide table header from output
+
+#### --no-truncate
+
+do not truncate output to fit screen
+
+#### --sort SORT
+
+field to sort by (prepend '-' for descending order)
 
 #### -s, --service SERVICE
 
@@ -1526,6 +1642,30 @@ device UUID
 
 release id
 
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
+#### -j, --json
+
+output in json format
+
+#### --filter FILTER
+
+filter results by substring matching of a given field, eg: --filter field=foo
+
+#### --no-header
+
+hide table header from output
+
+#### --no-truncate
+
+do not truncate output to fit screen
+
+#### --sort SORT
+
+field to sort by (prepend '-' for descending order)
+
 ## tag rm &#60;tagKey&#62;
 
 Remove a tag from a fleet, device or release.
@@ -1694,6 +1834,30 @@ Examples:
 
 ### Options
 
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
+#### -j, --json
+
+output in json format
+
+#### --filter FILTER
+
+filter results by substring matching of a given field, eg: --filter field=foo
+
+#### --no-header
+
+hide table header from output
+
+#### --no-truncate
+
+do not truncate output to fit screen
+
+#### --sort SORT
+
+field to sort by (prepend '-' for descending order)
+
 ## key &#60;id&#62;
 
 Display a single SSH key registered in balenaCloud for the logged in user.
@@ -1709,6 +1873,14 @@ Examples:
 balenaCloud ID for the SSH key
 
 ### Options
+
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
+#### -j, --json
+
+output in json format
 
 ## key add &#60;name&#62; [path]
 
@@ -2394,10 +2566,6 @@ the path to the config.json file to inject
 
 ### Options
 
-#### -t, --type TYPE
-
-ignored - no longer required
-
 #### -d, --drive DRIVE
 
 path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)
@@ -2417,10 +2585,6 @@ Examples:
 	$ balena config read --drive balena.img
 
 ### Options
-
-#### -t, --type TYPE
-
-ignored - no longer required
 
 #### -d, --drive DRIVE
 
@@ -2448,10 +2612,6 @@ Examples:
 	$ balena config reconfigure --drive balena.img --advanced
 
 ### Options
-
-#### -t, --type TYPE
-
-ignored - no longer required
 
 #### -d, --drive DRIVE
 
@@ -2490,10 +2650,6 @@ the key of the config parameter to write
 the value of the config parameter to write
 
 ### Options
-
-#### -t, --type TYPE
-
-ignored - no longer required
 
 #### -d, --drive DRIVE
 
@@ -2842,6 +2998,14 @@ Examples:
 	$ balena settings
 
 ### Options
+
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
+#### -j, --json
+
+output in json format
 
 # Local
 

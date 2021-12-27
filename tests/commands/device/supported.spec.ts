@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019-2021 Balena Ltd.
+ * Copyright 2019 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import { expect } from 'chai';
 
 import { BalenaAPIMock } from '../../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
+import { isV14 } from '../../../lib/utils/version';
 
 describe('balena devices supported', function () {
 	let api: BalenaAPIMock;
@@ -50,7 +51,10 @@ describe('balena devices supported', function () {
 
 		const lines = cleanOutput(out, true);
 
-		expect(lines[0]).to.equal('SLUG ALIASES ARCH NAME');
+		expect(lines[0]).to.equal(
+			isV14() ? ' Slug Aliases Arch Name ' : 'SLUG ALIASES ARCH NAME',
+		);
+
 		expect(lines).to.have.lengthOf.at.least(2);
 		expect(lines).to.contain('intel-nuc nuc amd64 Intel NUC');
 		expect(lines).to.contain(

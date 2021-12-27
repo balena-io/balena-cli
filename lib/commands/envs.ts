@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2016-2021 Balena Ltd.
+ * Copyright 2016 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,12 +22,15 @@ import { ExpectedError } from '../errors';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
 import { applicationIdInfo } from '../utils/messages';
+import type { DataSetOutputOptions } from '../framework';
 
-interface FlagsDef {
+import { isV14 } from '../utils/version';
+
+interface FlagsDef extends DataSetOutputOptions {
 	fleet?: string;
 	config: boolean;
 	device?: string; // device UUID
-	json: boolean;
+	json?: boolean;
 	help: void;
 	service?: string; // service name
 }
@@ -113,7 +116,7 @@ export default class EnvsCmd extends Command {
 		}),
 		device: { ...cf.device, exclusive: ['fleet'] },
 		help: cf.help,
-		json: cf.json,
+		...(isV14() ? cf.dataSetOutputFlags : { json: cf.json }),
 		service: { ...cf.service, exclusive: ['config'] },
 	};
 
@@ -181,24 +184,59 @@ export default class EnvsCmd extends Command {
 			return i;
 		});
 
-		if (options.device) {
-			fields.push(options.json ? 'deviceUUID' : 'deviceUUID => DEVICE');
-		}
-		if (!options.config) {
-			fields.push(options.json ? 'serviceName' : 'serviceName => SERVICE');
-		}
+		if (isV14()) {
+			const results = [...varArray] as any;
 
-		if (options.json) {
-			const { pickAndRename } = await import('../utils/helpers');
-			const mapped = varArray.map((o) => pickAndRename(o, fields));
-			this.log(JSON.stringify(mapped, null, 4));
+			// Rename fields
+			if (options.device) {
+				if (options.json) {
+					fields.push('deviceUUID');
+				} else {
+					results.forEach((r: any) => {
+						r.device = r.deviceUUID;
+						delete r.deviceUUID;
+					});
+
+					fields.push('device');
+				}
+			}
+			if (!options.config) {
+				if (options.json) {
+					fields.push('serviceName');
+				} else {
+					results.forEach((r: any) => {
+						r.service = r.serviceName;
+						delete r.serviceName;
+					});
+					fields.push('service');
+				}
+			}
+
+			await this.outputData(results, fields, {
+				...options,
+				sort: options.sort || 'name',
+			});
 		} else {
-			this.log(
-				getVisuals().table.horizontal(
-					_.sortBy(varArray, (v: SDK.EnvironmentVariableBase) => v.name),
-					fields,
-				),
-			);
+			// Old output implementation
+			if (options.device) {
+				fields.push(options.json ? 'deviceUUID' : 'deviceUUID => DEVICE');
+			}
+			if (!options.config) {
+				fields.push(options.json ? 'serviceName' : 'serviceName => SERVICE');
+			}
+
+			if (options.json) {
+				const { pickAndRename } = await import('../utils/helpers');
+				const mapped = varArray.map((o) => pickAndRename(o, fields));
+				this.log(JSON.stringify(mapped, null, 4));
+			} else {
+				this.log(
+					getVisuals().table.horizontal(
+						_.sortBy(varArray, (v: SDK.EnvironmentVariableBase) => v.name),
+						fields,
+					),
+				);
+			}
 		}
 	}
 }

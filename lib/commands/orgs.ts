@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2016-2020 Balena Ltd.
+ * Copyright 2016-2022 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,11 @@ import { flags } from '@oclif/command';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
+import type { DataSetOutputOptions } from '../framework';
 
-interface FlagsDef {
+import { isV14 } from '../utils/version';
+
+interface FlagsDef extends DataSetOutputOptions {
 	help: void;
 }
 
@@ -36,12 +39,13 @@ export default class OrgsCmd extends Command {
 
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
+		...(isV14() ? cf.dataSetOutputFlags : {}),
 	};
 
 	public static authenticated = true;
 
 	public async run() {
-		this.parse<FlagsDef, {}>(OrgsCmd);
+		const { flags: options } = this.parse<FlagsDef, {}>(OrgsCmd);
 
 		const { getOwnOrganizations } = await import('../utils/sdk');
 
@@ -49,8 +53,13 @@ export default class OrgsCmd extends Command {
 		const organizations = await getOwnOrganizations(getBalenaSdk());
 
 		// Display
-		console.log(
-			getVisuals().table.horizontal(organizations, ['name', 'handle']),
-		);
+		if (isV14()) {
+			await this.outputData(organizations, ['name', 'handle'], options);
+		} else {
+			// Old output implementation
+			console.log(
+				getVisuals().table.horizontal(organizations, ['name', 'handle']),
+			);
+		}
 	}
 }

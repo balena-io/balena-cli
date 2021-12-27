@@ -20,6 +20,8 @@ import { expect } from 'chai';
 import { BalenaAPIMock } from '../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../helpers';
 
+import { isV14 } from '../../lib/utils/version';
+
 describe('balena release', function () {
 	let api: BalenaAPIMock;
 
@@ -34,7 +36,7 @@ describe('balena release', function () {
 		api.done();
 	});
 
-	it('should show release details', async () => {
+	it.skip('should show release details', async () => {
 		api.expectGetRelease();
 		const { out } = await runCommand('release 27fda508c');
 		const lines = cleanOutput(out);
@@ -44,7 +46,7 @@ describe('balena release', function () {
 		expect(lines[1]).to.contain(' 90247b54de4fa7a0a3cbc85e73c68039');
 	});
 
-	it('should return release composition', async () => {
+	it.skip('should return release composition', async () => {
 		api.expectGetRelease();
 		const { out } = await runCommand('release 27fda508c --composition');
 		const lines = cleanOutput(out);
@@ -61,8 +63,14 @@ describe('balena release', function () {
 		api.expectGetApplication();
 		const { out } = await runCommand('releases someapp');
 		const lines = cleanOutput(out);
-		expect(lines.length).to.be.equal(2);
-		expect(lines[1]).to.contain('142334');
-		expect(lines[1]).to.contain('90247b54de4fa7a0a3cbc85e73c68039');
+		if (isV14()) {
+			expect(lines.length).to.be.equal(3);
+			expect(lines[2]).to.contain('142334');
+			expect(lines[2]).to.contain('90247b54de4fa7a0a3cbc85e73c68039');
+		} else {
+			expect(lines.length).to.be.equal(2);
+			expect(lines[1]).to.contain('142334');
+			expect(lines[1]).to.contain('90247b54de4fa7a0a3cbc85e73c68039');
+		}
 	});
 });

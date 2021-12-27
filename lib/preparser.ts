@@ -53,6 +53,12 @@ export async function preparseArgs(argv: string[]): Promise<string[]> {
 		if (extractBooleanFlag(cmdSlice, '--debug')) {
 			process.env.DEBUG = '1';
 		}
+		// support global --v-next flag
+		if (extractBooleanFlag(cmdSlice, '--v-next')) {
+			const { version } = await import('../package.json');
+			const { inc } = await import('semver');
+			process.env.BALENA_CLI_VERSION_OVERRIDE = inc(version, 'major') || '';
+		}
 		unsupportedFlag = extractBooleanFlag(cmdSlice, '--unsupported');
 	}
 

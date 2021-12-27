@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2016-2020 Balena Ltd.
+ * Copyright 2016-2022 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,11 @@ import { flags } from '@oclif/command';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
+import type { DataSetOutputOptions } from '../framework';
 
-interface FlagsDef {
+import { isV14 } from '../utils/version';
+
+interface FlagsDef extends DataSetOutputOptions {
 	help: void;
 }
 
@@ -35,13 +38,14 @@ export default class KeysCmd extends Command {
 	public static usage = 'keys';
 
 	public static flags: flags.Input<FlagsDef> = {
+		...(isV14() ? cf.dataSetOutputFlags : {}),
 		help: cf.help,
 	};
 
 	public static authenticated = true;
 
 	public async run() {
-		this.parse<FlagsDef, {}>(KeysCmd);
+		const { flags: options } = this.parse<FlagsDef, {}>(KeysCmd);
 
 		const keys = await getBalenaSdk().models.key.getAll();
 
@@ -50,6 +54,12 @@ export default class KeysCmd extends Command {
 			return { id: k.id, name: k.title };
 		});
 
-		console.log(getVisuals().table.horizontal(displayKeys, ['id', 'name']));
+		// Display
+		if (isV14()) {
+			await this.outputData(displayKeys, ['id', 'name'], options);
+		} else {
+			// Old output implementation
+			console.log(getVisuals().table.horizontal(displayKeys, ['id', 'name']));
+		}
 	}
 }

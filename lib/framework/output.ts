@@ -1,31 +1,48 @@
-/*
-Copyright 2020 Balena
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+/**
+ * @license
+ * Copyright 2020 Balena Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 import { getCliUx, getChalk } from '../utils/lazy';
 
+/**
+ * Used to extend FlagsDef for commands that output single-record data.
+ * Exposed to user in command options.
+ */
 export interface DataOutputOptions {
 	fields?: string;
 	json?: boolean;
 }
 
+/**
+ * Used to extend FlagsDef for commands that output multi-record data.
+ * Exposed to user in command options.
+ */
 export interface DataSetOutputOptions extends DataOutputOptions {
 	filter?: string;
 	'no-header'?: boolean;
 	'no-truncate'?: boolean;
 	sort?: string;
+}
+
+// Not exposed to user
+export interface InternalOutputOptions {
+	displayNullValuesAs?: string;
+	hideNullOrUndefinedValues?: boolean;
+	titleField?: string;
+	noCapitalizeKeys?: boolean;
 }
 
 /**
@@ -49,7 +66,7 @@ export function outputMessage(msg: string) {
 export async function outputData(
 	data: any[] | {},
 	fields: string[],
-	options: DataOutputOptions | DataSetOutputOptions,
+	options: (DataOutputOptions | DataSetOutputOptions) & InternalOutputOptions,
 ) {
 	if (Array.isArray(data)) {
 		await outputDataSet(data, fields, options as DataSetOutputOptions);
@@ -68,7 +85,7 @@ export async function outputData(
 async function outputDataSet(
 	data: any[],
 	fields: string[],
-	options: DataSetOutputOptions,
+	options: DataSetOutputOptions & InternalOutputOptions,
 ) {
 	// Oclif expects fields to be specified in the format used in table headers (though lowercase)
 	// By replacing underscores with spaces here, we can support both header format and actual field name
@@ -76,6 +93,12 @@ async function outputDataSet(
 	options.fields = options.fields?.replace(/_/g, ' ');
 	options.filter = options.filter?.replace(/_/g, ' ');
 	options.sort = options.sort?.replace(/_/g, ' ');
+
+	if (!options.json) {
+		data = data.map((d) => {
+			return processNullValues(d, options);
+		});
+	}
 
 	getCliUx().table(
 		data,
@@ -97,7 +120,7 @@ async function outputDataSet(
 }
 
 /**
- * Outputs a single data object (like `resin-cli-visuals table.vertical`),
+ * Outputs a single data object (similar to `resin-cli-visuals table.vertical`),
  *  but supporting a subset of options from `cli-ux table` (--json and --fields)
  *
  * @param data Array of data objects to output
@@ -107,9 +130,9 @@ async function outputDataSet(
 async function outputDataItem(
 	data: any,
 	fields: string[],
-	options: DataOutputOptions,
+	options: DataOutputOptions & InternalOutputOptions,
 ) {
-	const outData: typeof data = {};
+	let outData: typeof data = {};
 
 	// Convert comma separated list of fields in `options.fields` to array of correct format.
 	// Note, user may have specified the true field name (e.g. `some_field`),
@@ -125,34 +148,99 @@ async function outputDataItem(
 		}
 	});
 
+	if (
+		(options.displayNullValuesAs || options.hideNullOrUndefinedValues) &&
+		!options.json
+	) {
+		outData = processNullValues(outData, options);
+	}
+
 	if (options.json) {
 		printLine(JSON.stringify(outData, undefined, 2));
 	} else {
-		const chalk = getChalk();
-		const { capitalize } = await import('lodash');
-
 		// Find longest key, so we can align results
 		const longestKeyLength = getLongestObjectKeyLength(outData);
 
+		if (options.titleField) {
+			printTitle(data[options.titleField as keyof any[]], options);
+		}
+
 		// Output one field per line
-		for (const [k, v] of Object.entries(outData)) {
+		for (let [k, v] of Object.entries(outData)) {
 			const shim = ' '.repeat(longestKeyLength - k.length);
-			const kDisplay = capitalize(k.replace(/_/g, ' '));
-			printLine(`${chalk.bold(kDisplay) + shim} : ${v}`);
+			let kDisplay = k.replace(/_/g, ' ');
+
+			// Start multiline values on the line below the field name
+			if (typeof v === 'string' && v.includes('\n')) {
+				v = `\n${v}`;
+			}
+
+			if (!options.noCapitalizeKeys) {
+				kDisplay = capitalize(kDisplay);
+			}
+			if (k !== options.titleField) {
+				printLine(` ${bold(kDisplay) + shim} : ${v}`);
+			}
 		}
 	}
 }
 
-function getLongestObjectKeyLength(o: any): number {
-	return Object.keys(o).length >= 1
-		? Object.keys(o).reduce((a, b) => {
-				return a.length > b.length ? a : b;
-		  }).length
-		: 0;
+/**
+ * Amend null/undefined values in data as per options:
+ *  - options.displayNullValuesAs will replace the value with the specified string
+ *  - options.hideNullOrUndefinedValues will remove the property from the data
+ *
+ * @param data The data object to process
+ * @param options Output options
+ *
+ * @returns a copy of the data with amended values.
+ */
+function processNullValues(data: any, options: InternalOutputOptions) {
+	const dataCopy = { ...data };
+
+	Object.entries(dataCopy).forEach(([k, v]) => {
+		if (v == null) {
+			if (options.displayNullValuesAs) {
+				dataCopy[k] = options.displayNullValuesAs;
+			} else if (options.hideNullOrUndefinedValues) {
+				delete dataCopy[k];
+			}
+		}
+	});
+
+	return dataCopy;
+}
+
+/**
+ * Print a title with underscore
+ *
+ * @param title The title string to print
+ * @param options Output options
+ */
+export function printTitle(
+	title: string,
+	options?: InternalOutputOptions & DataSetOutputOptions,
+) {
+	if (!options?.['no-header']) {
+		printLine(` ${capitalize(bold(title))}`);
+		printLine(` ${bold('─'.repeat(title.length))}`);
+	}
 }
 
 function printLine(s: any) {
 	// Duplicating oclif cli-ux's default implementation here,
 	// but using this one explicitly for ease of testing
 	process.stdout.write(s + '\n');
+}
+
+function capitalize(s: string) {
+	return `${s[0].toUpperCase()}${s.slice(1)}`;
+}
+
+function bold(s: string) {
+	return getChalk().bold(s);
+}
+
+function getLongestObjectKeyLength(o: any): number {
+	return Math.max(0, ...Object.keys(o).map((k) => k.length));
 }

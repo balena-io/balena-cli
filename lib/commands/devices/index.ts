@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2016-2020 Balena Ltd.
+ * Copyright 2016 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,10 @@ import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo, jsonInfo } from '../../utils/messages';
-
 import type { Application } from 'balena-sdk';
+import type { DataSetOutputOptions } from '../../framework';
+
+import { isV14 } from '../../utils/version';
 
 interface ExtendedDevice extends DeviceWithDeviceType {
 	dashboard_url?: string;
@@ -30,10 +32,10 @@ interface ExtendedDevice extends DeviceWithDeviceType {
 	device_type?: string | null;
 }
 
-interface FlagsDef {
+interface FlagsDef extends DataSetOutputOptions {
 	fleet?: string;
 	help: void;
-	json: boolean;
+	json?: boolean;
 }
 
 export default class DevicesCmd extends Command {
@@ -58,12 +60,11 @@ export default class DevicesCmd extends Command {
 
 	public static flags: flags.Input<FlagsDef> = {
 		fleet: cf.fleet,
-		json: cf.json,
+		...(isV14() ? cf.dataSetOutputFlags : { json: cf.json }),
 		help: cf.help,
 	};
 
 	public static primary = true;
-
 	public static authenticated = true;
 
 	public async run() {
@@ -99,31 +100,52 @@ export default class DevicesCmd extends Command {
 			return device;
 		});
 
-		const fields = [
-			'id',
-			'uuid',
-			'device_name',
-			'device_type',
-			'fleet',
-			'status',
-			'is_online',
-			'supervisor_version',
-			'os_version',
-			'dashboard_url',
-		];
+		if (isV14()) {
+			const outputFields = [
+				'id',
+				'uuid',
+				'device_name',
+				'device_type',
+				'fleet',
+				'status',
+				'is_online',
+				'supervisor_version',
+				'os_version',
+				'dashboard_url',
+			];
 
-		if (options.json) {
-			const { pickAndRename } = await import('../../utils/helpers');
-			const mapped = devices.map((device) => pickAndRename(device, fields));
-			console.log(JSON.stringify(mapped, null, 4));
+			await this.outputData(devices, outputFields, {
+				...options,
+				displayNullValuesAs: 'N/a',
+			});
 		} else {
-			const _ = await import('lodash');
-			console.log(
-				getVisuals().table.horizontal(
-					devices.map((dev) => _.mapValues(dev, (val) => val ?? 'N/a')),
-					fields,
-				),
-			);
+			// Old output implementation
+			const fields = [
+				'id',
+				'uuid',
+				'device_name',
+				'device_type',
+				'fleet',
+				'status',
+				'is_online',
+				'supervisor_version',
+				'os_version',
+				'dashboard_url',
+			];
+
+			if (options.json) {
+				const { pickAndRename } = await import('../../utils/helpers');
+				const mapped = devices.map((device) => pickAndRename(device, fields));
+				console.log(JSON.stringify(mapped, null, 4));
+			} else {
+				const _ = await import('lodash');
+				console.log(
+					getVisuals().table.horizontal(
+						devices.map((dev) => _.mapValues(dev, (val) => val ?? 'N/a')),
+						fields,
+					),
+				);
+			}
 		}
 	}
 }

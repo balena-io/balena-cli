@@ -106,21 +106,6 @@ describe('outputDataSet', function () {
 		expect(splitHeader[1]).to.include('thing');
 	});
 
-	/*
-	it('should output fields in the order specified in `fields` param', async () => {
-		const fields = ['thing_color', 'id', 'name'];
-		const options = {};
-
-		await outputDataSet(dataSet, fields, options);
-
-		const headerLine = printLineSpy.firstCall.firstArg.toLowerCase();
-		// split header using the `it` column as delimiter
-		const splitHeader = headerLine.split('id');
-		expect(splitHeader[0]).to.include('thing');
-		expect(splitHeader[1]).to.include('name');
-	});
-	 */
-
 	it('should only output fields specified in `options.fields` if present', async () => {
 		const fields = ['name', 'id', 'thing_color', 'thing_shape'];
 		const options = {
@@ -167,13 +152,41 @@ describe('outputDataSet', function () {
 		expect(printLineSpy.getCall(0).firstArg).to.include('red');
 	});
 
+	it(
+		'should output `null` values using the provided value, ' +
+			'if `options.displayNullValuesAs` is present',
+		async () => {
+			const fields = ['name', 'id', 'thing_color', 'thing_shape'];
+			const nullValue = 'N/a';
+			const options = {
+				'no-header': true,
+				displayNullValuesAs: nullValue,
+			};
+
+			const extendedDataSet = [
+				...dataSet,
+				{
+					name: 'item3',
+					id: 3,
+					thing_color: null,
+					thing_shape: 'round',
+				},
+			];
+
+			await outputDataSet(extendedDataSet, fields, options);
+
+			expect(printLineSpy.callCount).to.equal(3);
+			expect(printLineSpy.getCall(2).firstArg).to.include(nullValue);
+		},
+	);
+
 	it('should output data in json format, if `options.json` true', async () => {
 		const fields = ['name', 'thing_color', 'thing_shape'];
 		const options = {
 			json: true,
 		};
 
-		// TODO: I've run into an oclif cli-ux bug, where numbers are output as strings in json
+		// TODO: I've run into an oclif cli-ux bug, where all types (number. bool etc.) are output as strings in json
 		//  (this can be seen by including 'id' in the fields list above).
 		//  Issue opened: https://github.com/oclif/cli-ux/issues/309
 		//  For now removing id for this test.

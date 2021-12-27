@@ -21,6 +21,8 @@ import * as path from 'path';
 import { apiResponsePath, BalenaAPIMock } from '../../nock/balena-api-mock';
 import { cleanOutput, runCommand } from '../../helpers';
 
+import { isV14 } from '../../../lib/utils/version';
+
 describe('balena device', function () {
 	let api: BalenaAPIMock;
 
@@ -57,9 +59,16 @@ describe('balena device', function () {
 
 		const lines = cleanOutput(out);
 
-		expect(lines).to.have.lengthOf(25);
-		expect(lines[0]).to.equal('== SPARKLING WOOD');
-		expect(lines[6].split(':')[1].trim()).to.equal('org/test app');
+		if (isV14()) {
+			expect(lines).to.have.lengthOf(26);
+			expect(lines[0]).to.equal('sparkling-wood');
+			expect(lines[2].split(':')[0].trim()).to.equal('Id');
+			expect(lines[2].split(':')[1].trim()).to.equal('1747415');
+		} else {
+			expect(lines).to.have.lengthOf(25);
+			expect(lines[0]).to.equal('== SPARKLING WOOD');
+			expect(lines[6].split(':')[1].trim()).to.equal('org/test app');
+		}
 	});
 
 	it.skip('correctly handles devices with missing fields', async () => {
@@ -79,14 +88,20 @@ describe('balena device', function () {
 
 		const lines = cleanOutput(out);
 
-		expect(lines).to.have.lengthOf(14);
-		expect(lines[0]).to.equal('== SPARKLING WOOD');
-		expect(lines[6].split(':')[1].trim()).to.equal('org/test app');
+		if (isV14()) {
+			expect(lines).to.have.lengthOf(15);
+			expect(lines[0]).to.equal('sparkling-wood');
+			expect(lines[7].split(':')[1].trim()).to.equal('org/test app');
+		} else {
+			expect(lines).to.have.lengthOf(14);
+			expect(lines[0]).to.equal('== SPARKLING WOOD');
+			expect(lines[6].split(':')[1].trim()).to.equal('org/test app');
+		}
 	});
 
-	it('correctly handles devices with missing application', async () => {
-		// Devices with missing applications will have application name set to `N/a`.
-		// e.g. When user has a device associated with app that user is no longer a collaborator of.
+	it.skip('correctly handles devices with missing fleet', async () => {
+		// Devices with missing fleets will have fleet name set to `N/a`.
+		// e.g. When user has a device associated with fleet that user is no longer a collaborator of.
 		api.scope
 			.get(
 				/^\/v6\/device\?.+&\$expand=belongs_to__application\(\$select=app_name,slug\)/,
@@ -103,8 +118,15 @@ describe('balena device', function () {
 
 		const lines = cleanOutput(out);
 
-		expect(lines).to.have.lengthOf(25);
-		expect(lines[0]).to.equal('== SPARKLING WOOD');
-		expect(lines[6].split(':')[1].trim()).to.equal('N/a');
+		if (isV14()) {
+			expect(lines).to.have.lengthOf(26);
+			expect(lines[0]).to.equal('sparkling-wood');
+			expect(lines[9].split(':')[0].trim()).to.equal('Fleet');
+			expect(lines[9].split(':')[1].trim()).to.equal('N/a');
+		} else {
+			expect(lines).to.have.lengthOf(25);
+			expect(lines[0]).to.equal('== SPARKLING WOOD');
+			expect(lines[6].split(':')[1].trim()).to.equal('N/a');
+		}
 	});
 });

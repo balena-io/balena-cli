@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2016-2020 Balena Ltd.
+ * Copyright 2016 Balena Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,10 @@ import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
 import { tryAsInteger } from '../../utils/validation';
-
 import type { Application, Release } from 'balena-sdk';
+import type { DataOutputOptions } from '../../framework';
+
+import { isV14 } from '../../utils/version';
 
 interface ExtendedDevice extends DeviceWithDeviceType {
 	dashboard_url?: string;
@@ -42,7 +44,7 @@ interface ExtendedDevice extends DeviceWithDeviceType {
 	undervoltage_detected?: boolean;
 }
 
-interface FlagsDef {
+interface FlagsDef extends DataOutputOptions {
 	help: void;
 }
 
@@ -71,13 +73,16 @@ export default class DeviceCmd extends Command {
 
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
+		...(isV14() ? cf.dataOutputFlags : {}),
 	};
 
 	public static authenticated = true;
 	public static primary = true;
 
 	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(DeviceCmd);
+		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
+			DeviceCmd,
+		);
 
 		const balena = getBalenaSdk();
 
@@ -163,37 +168,52 @@ export default class DeviceCmd extends Command {
 			);
 		}
 
-		console.log(
-			getVisuals().table.vertical(device, [
-				`$${device.device_name}$`,
-				'id',
-				'device_type',
-				'status',
-				'is_online',
-				'ip_address',
-				'public_address',
-				'mac_address',
-				'fleet',
-				'last_seen',
-				'uuid',
-				'commit',
-				'supervisor_version',
-				'is_web_accessible',
-				'note',
-				'os_version',
-				'dashboard_url',
-				'cpu_usage_percent',
-				'cpu_temp_c',
-				'cpu_id',
-				'memory_usage_mb',
-				'memory_total_mb',
-				'memory_usage_percent',
-				'storage_block_device',
-				'storage_usage_mb',
-				'storage_total_mb',
-				'storage_usage_percent',
-				'undervoltage_detected',
-			]),
-		);
+		const outputFields = [
+			'device_name',
+			'id',
+			'device_type',
+			'status',
+			'is_online',
+			'ip_address',
+			'public_address',
+			'mac_address',
+			'fleet',
+			'last_seen',
+			'uuid',
+			'commit',
+			'supervisor_version',
+			'is_web_accessible',
+			'note',
+			'os_version',
+			'dashboard_url',
+			'cpu_usage_percent',
+			'cpu_temp_c',
+			'cpu_id',
+			'memory_usage_mb',
+			'memory_total_mb',
+			'memory_usage_percent',
+			'storage_block_device',
+			'storage_usage_mb',
+			'storage_total_mb',
+			'storage_usage_percent',
+			'undervoltage_detected',
+		];
+
+		if (isV14()) {
+			await this.outputData(device, outputFields, {
+				...options,
+				hideNullOrUndefinedValues: true,
+				titleField: 'device_name',
+			});
+		} else {
+			// Old output implementation
+			outputFields.unshift(`$${device.device_name}$`);
+			console.log(
+				getVisuals().table.vertical(
+					device,
+					outputFields.filter((f) => f !== 'device_name'),
+				),
+			);
+		}
 	}
 }
