@@ -19,12 +19,13 @@ import { flags } from '@oclif/command';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, getCliForm, stripIndent } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import { applicationIdInfo, devModeInfo } from '../../utils/messages';
 import type { PineDeferred } from 'balena-sdk';
 
 interface FlagsDef {
 	version: string; // OS version
 	fleet?: string;
+	dev?: boolean; // balenaOS development variant
 	device?: string;
 	deviceApiKey?: string;
 	deviceType?: string;
@@ -47,6 +48,8 @@ export default class ConfigGenerateCmd extends Command {
 
 		The target balenaOS version must be specified with the --version option.
 
+		${devModeInfo.split('\n').join('\n\t\t')}
+
 		To configure an image for a fleet of mixed device types, use the --fleet option
 		alongside the --deviceType option to specify the target device type.
 
@@ -61,11 +64,10 @@ export default class ConfigGenerateCmd extends Command {
 		'$ balena config generate --device 7cf02a6 --version 2.12.7 --generate-device-api-key',
 		'$ balena config generate --device 7cf02a6 --version 2.12.7 --deviceApiKey <existingDeviceKey>',
 		'$ balena config generate --device 7cf02a6 --version 2.12.7 --output config.json',
-		'$ balena config generate --fleet MyFleet --version 2.12.7',
-		'$ balena config generate --fleet myorg/myfleet --version 2.12.7',
-		'$ balena config generate --fleet MyFleet --version 2.12.7 --deviceType fincm3',
-		'$ balena config generate --fleet MyFleet --version 2.12.7 --output config.json',
-		'$ balena config generate --fleet MyFleet --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 15',
+		'$ balena config generate --fleet myorg/fleet --version 2.12.7 --dev',
+		'$ balena config generate --fleet myorg/fleet --version 2.12.7 --deviceType fincm3',
+		'$ balena config generate --fleet myorg/fleet --version 2.12.7 --output config.json',
+		'$ balena config generate --fleet myorg/fleet --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 15',
 	];
 
 	public static usage = 'config generate';
@@ -76,6 +78,7 @@ export default class ConfigGenerateCmd extends Command {
 			required: true,
 		}),
 		fleet: { ...cf.fleet, exclusive: ['device'] },
+		dev: cf.dev,
 		device: {
 			...cf.device,
 			exclusive: ['fleet', 'provisioning-key-name'],
@@ -191,6 +194,7 @@ export default class ConfigGenerateCmd extends Command {
 			override: { ...options, app: options.fleet, application: options.fleet },
 		});
 		answers.version = options.version;
+		answers.developmentMode = options.dev;
 		answers.provisioningKeyName = options['provisioning-key-name'];
 
 		// Generate config
@@ -241,5 +245,7 @@ export default class ConfigGenerateCmd extends Command {
 		if (!options.fleet && options.deviceType) {
 			throw new ExpectedError(this.deviceTypeNotAllowedMessage);
 		}
+		const { validateDevOptionAndWarn } = await import('../../utils/config');
+		await validateDevOptionAndWarn(options.dev, options.version);
 	}
 }

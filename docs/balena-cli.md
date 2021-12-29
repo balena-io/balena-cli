@@ -2087,8 +2087,8 @@ or 'menu-esr' (interactive menu, ESR versions)
 
 ## os build-config &#60;image&#62; &#60;device-type&#62;
 
-Interactively generate an OS config once, so that the generated config
-file can be used in `balena os configure`, skipping the interactive part.
+Interactively generate a configuration file that can then be used as
+non-interactive input by the 'balena os configure' command.
 
 Examples:
 
@@ -2126,10 +2126,21 @@ following sources, in precedence order:
 2. A given `config.json` file specified with the `--config` option.
 3. User input through interactive prompts (text menus).
 
-The --device-type option may be used to override the fleet's default device
-type, in case of a fleet with mixed device types.
+The --device-type option is used to override the fleet's default device type,
+in case of a fleet with mixed device types.
 
-The --system-connection (-c) option can be used to inject NetworkManager connection
+The '--dev' option is used to configure balenaOS to operate in development mode,
+allowing anauthenticated root ssh access and exposing network ports such as
+balenaEngine's 2375 (unencrypted). This option causes `"developmentMode": true`
+to be inserted in the 'config.json' file in the image's boot partion. Development
+mode (as a configurable option) is applicable to balenaOS releases from early
+2022. Older releases have separate development and production balenaOS images
+that cannot be reconfigured through 'config.json' or the '--dev' option. Do not
+confuse the balenaOS "development mode" with a device's "local mode", the latter
+being a supervisor feature that allows the "balena push" command to push a user's
+application directly to a device in the local network.
+
+The --system-connection (-c) option is used to inject NetworkManager connection
 profiles for additional network interfaces, such as cellular/GSM or additional
 WiFi or ethernet connections. This option may be passed multiple times in case there
 are multiple files to inject. See connection profile examples and reference at:
@@ -2196,6 +2207,10 @@ WiFi key (password) (non-interactive configuration)
 #### --config-wifi-ssid CONFIG-WIFI-SSID
 
 WiFi SSID (network name) (non-interactive configuration)
+
+#### --dev
+
+Configure balenaOS to operate in development mode
 
 #### -d, --device DEVICE
 
@@ -2264,6 +2279,17 @@ Generate a config.json file for a device or fleet.
 
 The target balenaOS version must be specified with the --version option.
 
+The '--dev' option is used to configure balenaOS to operate in development mode,
+allowing anauthenticated root ssh access and exposing network ports such as
+balenaEngine's 2375 (unencrypted). This option causes `"developmentMode": true`
+to be inserted in the 'config.json' file in the image's boot partion. Development
+mode (as a configurable option) is applicable to balenaOS releases from early
+2022. Older releases have separate development and production balenaOS images
+that cannot be reconfigured through 'config.json' or the '--dev' option. Do not
+confuse the balenaOS "development mode" with a device's "local mode", the latter
+being a supervisor feature that allows the "balena push" command to push a user's
+application directly to a device in the local network.
+
 To configure an image for a fleet of mixed device types, use the --fleet option
 alongside the --deviceType option to specify the target device type.
 
@@ -2288,11 +2314,10 @@ Examples:
 	$ balena config generate --device 7cf02a6 --version 2.12.7 --generate-device-api-key
 	$ balena config generate --device 7cf02a6 --version 2.12.7 --deviceApiKey <existingDeviceKey>
 	$ balena config generate --device 7cf02a6 --version 2.12.7 --output config.json
-	$ balena config generate --fleet MyFleet --version 2.12.7
-	$ balena config generate --fleet myorg/myfleet --version 2.12.7
-	$ balena config generate --fleet MyFleet --version 2.12.7 --deviceType fincm3
-	$ balena config generate --fleet MyFleet --version 2.12.7 --output config.json
-	$ balena config generate --fleet MyFleet --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 15
+	$ balena config generate --fleet myorg/fleet --version 2.12.7 --dev
+	$ balena config generate --fleet myorg/fleet --version 2.12.7 --deviceType fincm3
+	$ balena config generate --fleet myorg/fleet --version 2.12.7 --output config.json
+	$ balena config generate --fleet myorg/fleet --version 2.12.7 --network wifi --wifiSsid mySsid --wifiKey abcdefgh --appUpdatePollInterval 15
 
 ### Options
 
@@ -2303,6 +2328,10 @@ a balenaOS version
 #### -f, --fleet FLEET
 
 fleet name, slug (preferred), or numeric ID (deprecated)
+
+#### --dev
+
+Configure balenaOS to operate in development mode
 
 #### -d, --device DEVICE
 

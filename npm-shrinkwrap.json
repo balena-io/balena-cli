@@ -4140,9 +4140,9 @@
       }
     },
     "balena-sdk": {
-      "version": "16.8.1",
-      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-16.8.1.tgz",
-      "integrity": "sha512-fSYo/aOGVRj0PhIRla8GRuLhyIecvri8kFFbDu0faUgDDUHfidyfIIUzuTggOc7XKr20WazvjfI4M2uVAqMKww==",
+      "version": "16.9.0",
+      "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-16.9.0.tgz",
+      "integrity": "sha512-iuIiXAEkDXoEtUJzFG5RO+rvudqMsoBppdgQLOrnIdWc14T+mvwWUFKAHHAkvxnA0GLmbxqGp7qo3uVMgS2Ojw==",
       "requires": {
         "@balena/es-version": "^1.0.0",
         "@types/json-schema": "^7.0.9",
@@ -4152,7 +4152,7 @@
         "abortcontroller-polyfill": "^1.7.1",
         "balena-auth": "^4.1.0",
         "balena-errors": "^4.7.1",
-        "balena-hup-action-utils": "~4.0.2",
+        "balena-hup-action-utils": "~4.1.0",
         "balena-pine": "^12.4.0",
         "balena-register-device": "^7.1.0",
         "balena-request": "^11.5.0",
@@ -4165,6 +4165,15 @@
         "tslib": "^2.1.0"
       },
       "dependencies": {
+        "balena-hup-action-utils": {
+          "version": "4.1.0",
+          "resolved": "https://registry.npmjs.org/balena-hup-action-utils/-/balena-hup-action-utils-4.1.0.tgz",
+          "integrity": "sha512-aLVlbdXhJi1rHpTmF9/YbheWtgAmwDUBPk3eKXhJuOZWg4XDnhbP4DUOdPBIM+U+rvXcPeBKOYqsswO0ymd96w==",
+          "requires": {
+            "balena-semver": "^2.0.0",
+            "tslib": "^2.0.0"
+          }
+        },
         "moment": {
           "version": "2.29.1",
           "resolved": "https://registry.npmjs.org/moment/-/moment-2.29.1.tgz",

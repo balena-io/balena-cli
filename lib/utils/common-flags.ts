@@ -70,6 +70,11 @@ export const force: IBooleanFlag<boolean> = flags.boolean({
 	default: false,
 });
 
+export const dev: IBooleanFlag<boolean> = flags.boolean({
+	description: 'Configure balenaOS to operate in development mode',
+	default: false,
+});
+
 export const drive = flags.string({
 	char: 'd',
 	description: stripIndent`

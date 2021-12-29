@@ -23,7 +23,7 @@ import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
-import { applicationIdInfo } from '../../utils/messages';
+import { applicationIdInfo, devModeInfo } from '../../utils/messages';
 
 const CONNECTIONS_FOLDER = '/system-connections';
 
@@ -35,6 +35,7 @@ interface FlagsDef {
 	'config-network'?: string;
 	'config-wifi-key'?: string;
 	'config-wifi-ssid'?: string;
+	dev?: boolean; // balenaOS development variant
 	device?: string; // device UUID
 	'device-type'?: string;
 	help?: void;
@@ -50,6 +51,7 @@ interface ArgsDef {
 
 interface Answers {
 	appUpdatePollInterval: number; // in minutes
+	developmentMode?: boolean; // balenaOS development variant
 	deviceType: string; // e.g. "raspberrypi3"
 	network: 'ethernet' | 'wifi';
 	version: string; // e.g. "2.32.0+rev1"
@@ -71,10 +73,12 @@ export default class OsConfigureCmd extends Command {
 		2. A given \`config.json\` file specified with the \`--config\` option.
 		3. User input through interactive prompts (text menus).
 
-		The --device-type option may be used to override the fleet's default device
-		type, in case of a fleet with mixed device types.
+		The --device-type option is used to override the fleet's default device type,
+		in case of a fleet with mixed device types.
 
-		The --system-connection (-c) option can be used to inject NetworkManager connection
+		${devModeInfo.split('\n').join('\n\t\t')}
+
+		The --system-connection (-c) option is used to inject NetworkManager connection
 		profiles for additional network interfaces, such as cellular/GSM or additional
 		WiFi or ethernet connections. This option may be passed multiple times in case there
 		are multiple files to inject. See connection profile examples and reference at:
@@ -133,6 +137,7 @@ export default class OsConfigureCmd extends Command {
 		'config-wifi-ssid': flags.string({
 			description: 'WiFi SSID (network name) (non-interactive configuration)',
 		}),
+		dev: cf.dev,
 		device: { ...cf.device, exclusive: ['fleet', 'provisioning-key-name'] },
 		'device-type': flags.string({
 			description:
@@ -212,6 +217,13 @@ export default class OsConfigureCmd extends Command {
 			configJson = JSON.parse(rawConfig);
 		}
 
+		const osVersion =
+			options.version ||
+			(await getOsVersionFromImage(params.image, deviceTypeManifest, devInit));
+
+		const { validateDevOptionAndWarn } = await import('../../utils/config');
+		await validateDevOptionAndWarn(options.dev, osVersion);
+
 		const answers: Answers = await askQuestionsForDeviceType(
 			deviceTypeManifest,
 			options,
@@ -220,10 +232,8 @@ export default class OsConfigureCmd extends Command {
 		if (options.fleet) {
 			answers.deviceType = deviceTypeSlug;
 		}
-		answers.version =
-			options.version ||
-			(await getOsVersionFromImage(params.image, deviceTypeManifest, devInit));
-
+		answers.version = osVersion;
+		answers.developmentMode = options.dev;
 		answers.provisioningKeyName = options['provisioning-key-name'];
 
 		if (_.isEmpty(configJson)) {
