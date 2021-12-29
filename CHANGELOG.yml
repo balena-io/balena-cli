@@ -1,4 +1,70 @@
 - commits:
+    - subject: 'os configure, config generate: Add ''--dev'' option for OS developmentMode'
+      hash: 7d58b8c120b574679f8fa591343a3c3134a1b14d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+    - subject: 'local configure: Allow configuring ''developmentMode'' in config.json'
+      hash: 851301a336c82d1ad024527a47fd0960f9060d9c
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+    - subject: 'os build-config: Clarify command purpose in help output'
+      hash: ec6fd050f69dbc237b9c424ffe67276e3f5d951c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'device os-update: Add support for unified dev/prod balenaOS releases'
+      hash: 6f810538828ec737bab31d344a86c6d9e1e62f1c
+      body: |
+        Update balena-sdk from 16.8.1 to 16.9.0
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested:
+        - commits:
+            - subject: Support upgrading .dev to unified OS releases
+              hash: 00aebd0b24837871e0809b9ccbcbe3ebbbfc2692
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+                See: >-
+                  https://github.com/balena-io-modules/balena-hup-action-utils/pull/25
+                see: >-
+                  https://github.com/balena-io-modules/balena-hup-action-utils/pull/25
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.9.0
+          date: 2021-12-24T18:24:20.435Z
+        - commits:
+            - subject: 'tests: Stop using mochainon'
+              hash: dcbf45331d4cd37cc42f26da3fafed32a9ab8df6
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.8.2
+          date: 2021-12-24T17:23:32.282Z
+  version: 13.1.0
+  date: 2021-12-29T14:46:53.449Z
+- commits:
     - subject: Update oclif
       hash: acd352cb3c9685612ec0bc274c80a5502c031ed0
       body: ''
@@ -8,7 +74,7 @@
       author: Pagan Gazzard
       nested: []
   version: 13.0.2
-  date: 2021-12-24T18:11:22.269Z
+  date: 2021-12-24T17:47:32.122Z
 - commits:
     - subject: 'os versions, os download: Replace deprecated version fields'
       hash: b2d932afabb9c1ca131c0839397d0492f2f1a272
