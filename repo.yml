@@ -16,3 +16,5 @@ upstream:
     url: 'https://github.com/balena-io-modules/etcher-sdk/'
   - repo: 'resin-compose-parse'
     url: 'https://github.com/balena-io-modules/resin-compose-parse'
+  - repo: 'docker-progress'
+    url: 'https://github.com/balena-io-modules/docker-progress'
