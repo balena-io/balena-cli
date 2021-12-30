@@ -5,6 +5,42 @@
     {
       "commits": [
         {
+          "subject": "Update dependencies",
+          "hash": "e27a4e2e3173ba7eb27ca5bd94642e93acbd4b8a",
+          "body": "Update docker-progress from 5.0.0 to 5.0.1\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": [
+            {
+              "commits": [
+                {
+                  "subject": "Fix for bad progress values from some registries causing a crash",
+                  "hash": "fa3f44c11a2067e65eea4ab43a382f7bbb5b75ef",
+                  "body": "",
+                  "footer": {
+                    "Signed-off-by": "Paul Jonathan <pj@balena.io>",
+                    "signed-off-by": "Paul Jonathan <pj@balena.io>",
+                    "Change-type": "patch",
+                    "change-type": "patch"
+                  },
+                  "author": "Paul Jonathan Zoulin"
+                }
+              ],
+              "version": "docker-progress-5.0.1",
+              "date": "2021-09-22T18:45:19.157Z"
+            }
+          ]
+        }
+      ],
+      "version": "13.1.1",
+      "date": "2021-12-30T12:39:15.683Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "os configure, config generate: Add '--dev' option for OS developmentMode",
           "hash": "7d58b8c120b574679f8fa591343a3c3134a1b14d",
           "body": "",
@@ -26206,40 +26242,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-12-29T14:47:51Z",
+  "lastCommitDate": "2021-12-30T13:08:14Z",
   "latestRelease": {
-    "tagName": "v13.1.0",
+    "tagName": "v13.1.1",
     "asssets": [
       {
-        "name": "balena-cli-v13.1.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.0/balena-cli-v13.1.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v13.1.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.1/balena-cli-v13.1.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.0/balena-cli-v13.1.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v13.1.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.1/balena-cli-v13.1.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v13.1.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.0/balena-cli-v13.1.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v13.1.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.1/balena-cli-v13.1.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.0/balena-cli-v13.1.0-windows-x64-installer.exe"
+        "name": "balena-cli-v13.1.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.1/balena-cli-v13.1.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v13.1.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.0/balena-cli-v13.1.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v13.1.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.1/balena-cli-v13.1.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 345,
+    "numberOfIssues": 344,
     "latestIssues": [
-      {
-        "title": "Update dependencies",
-        "url": "https://github.com/balena-io/balena-cli/pull/2430"
-      },
       {
         "title": "Update pkg",
         "url": "https://github.com/balena-io/balena-cli/pull/2428"
@@ -26315,10 +26347,14 @@
       {
         "title": "Named buiid stages are treated as not supporting multiarch",
         "url": "https://github.com/balena-io/balena-cli/issues/2370"
+      },
+      {
+        "title": "tunnel: \"500 Internal Server Error\" when connecting to remote port bound to 127.0.0.1",
+        "url": "https://github.com/balena-io/balena-cli/issues/2366"
       }
     ]
   },
-  "version": "13.1.0",
+  "version": "13.1.1",
   "screenshot": null,
   "logo": null
 }
