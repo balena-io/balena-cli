@@ -1,4 +1,28 @@
 - commits:
+    - subject: Update dependencies
+      hash: e27a4e2e3173ba7eb27ca5bd94642e93acbd4b8a
+      body: |
+        Update docker-progress from 5.0.0 to 5.0.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested:
+        - commits:
+            - subject: Fix for bad progress values from some registries causing a crash
+              hash: fa3f44c11a2067e65eea4ab43a382f7bbb5b75ef
+              body: ''
+              footer:
+                Signed-off-by: Paul Jonathan <pj@balena.io>
+                signed-off-by: Paul Jonathan <pj@balena.io>
+                Change-type: patch
+                change-type: patch
+              author: Paul Jonathan Zoulin
+          version: docker-progress-5.0.1
+          date: 2021-09-22T18:45:19.157Z
+  version: 13.1.1
+  date: 2021-12-30T12:39:15.683Z
+- commits:
     - subject: 'os configure, config generate: Add ''--dev'' option for OS developmentMode'
       hash: 7d58b8c120b574679f8fa591343a3c3134a1b14d
       body: ''
