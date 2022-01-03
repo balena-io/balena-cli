@@ -17,15 +17,27 @@
 
 import { getVisuals } from './lazy';
 import { promisify } from 'util';
+import type * as Dockerode from 'dockerode';
+import type Logger = require('./logger');
+import type { Request } from 'request';
 
-const getBuilderPushEndpoint = function (baseUrl, owner, app) {
-	const querystring = require('querystring');
+const getBuilderPushEndpoint = function (
+	baseUrl: string,
+	owner: string,
+	app: string,
+) {
+	const querystring = require('querystring') as typeof import('querystring');
 	const args = querystring.stringify({ owner, app });
 	return `https://builder.${baseUrl}/v1/push?${args}`;
 };
 
-const getBuilderLogPushEndpoint = function (baseUrl, buildId, owner, app) {
-	const querystring = require('querystring');
+const getBuilderLogPushEndpoint = function (
+	baseUrl: string,
+	buildId: number,
+	owner: string,
+	app: string,
+) {
+	const querystring = require('querystring') as typeof import('querystring');
 	const args = querystring.stringify({ owner, app, buildId });
 	return `https://builder.${baseUrl}/v1/pushLogs?${args}`;
 };
@@ -35,32 +47,37 @@ const getBuilderLogPushEndpoint = function (baseUrl, buildId, owner, app) {
  * @param {string} imageId
  * @param {string} bufferFile
  */
-const bufferImage = function (docker, imageId, bufferFile) {
-	const streamUtils = require('./streams');
+const bufferImage = function (
+	docker: Dockerode,
+	imageId: string,
+	bufferFile: string,
+): Promise<NodeJS.ReadableStream & { length: number }> {
+	const streamUtils = require('./streams') as typeof import('./streams');
 
 	const image = docker.getImage(imageId);
 	const sizePromise = image.inspect().then((img) => img.Size);
 
 	return Promise.all([image.get(), sizePromise]).then(
 		([imageStream, imageSize]) =>
-			streamUtils.buffer(imageStream, bufferFile).then((bufferedStream) => {
-				// @ts-ignore adding an extra property
-				bufferedStream.length = imageSize;
-				return bufferedStream;
-			}),
+			streamUtils
+				.buffer(imageStream, bufferFile)
+				.then((bufferedStream: NodeJS.ReadableStream & { length?: number }) => {
+					bufferedStream.length = imageSize;
+					return bufferedStream as NodeJS.ReadableStream & { length: number };
+				}),
 	);
 };
 
-const showPushProgress = function (message) {
+const showPushProgress = function (message: string) {
 	const visuals = getVisuals();
 	const progressBar = new visuals.Progress(message);
 	progressBar.update({ percentage: 0 });
 	return progressBar;
 };
 
-const uploadToPromise = (uploadRequest, logger) =>
-	new Promise(function (resolve, reject) {
-		const handleMessage = function (data) {
+const uploadToPromise = (uploadRequest: Request, logger: Logger) =>
+	new Promise<{ buildId: number }>(function (resolve, reject) {
+		uploadRequest.on('error', reject).on('data', function handleMessage(data) {
 			let obj;
 			data = data.toString();
 			logger.logDebug(`Received data: ${data}`);
@@ -86,25 +103,24 @@ const uploadToPromise = (uploadRequest, logger) =>
 				default:
 					reject(new Error(`Received unexpected reply from remote: ${data}`));
 			}
-		};
-
-		uploadRequest.on('error', reject).on('data', handleMessage);
+		});
 	});
 
 /**
  * @returns {Promise<{ buildId: number }>}
  */
 const uploadImage = function (
-	imageStream,
-	token,
-	username,
-	url,
-	appName,
-	logger,
-) {
-	const request = require('request');
-	const progressStream = require('progress-stream');
-	const zlib = require('zlib');
+	imageStream: NodeJS.ReadableStream & { length: number },
+	token: string,
+	username: string,
+	url: string,
+	appName: string,
+	logger: Logger,
+): Promise<{ buildId: number }> {
+	const request = require('request') as typeof import('request');
+	const progressStream =
+		require('progress-stream') as typeof import('progress-stream');
+	const zlib = require('zlib') as typeof import('zlib');
 
 	// Need to strip off the newline
 	const progressMessage = logger
@@ -143,8 +159,15 @@ const uploadImage = function (
 	return uploadToPromise(uploadRequest, logger);
 };
 
-const uploadLogs = function (logs, token, url, buildId, username, appName) {
-	const request = require('request');
+const uploadLogs = function (
+	logs: string,
+	token: string,
+	url: string,
+	buildId: number,
+	username: string,
+	appName: string,
+) {
+	const request = require('request') as typeof import('request');
 	return request.post({
 		json: true,
 		url: getBuilderLogPushEndpoint(url, buildId, username, appName),
@@ -156,25 +179,24 @@ const uploadLogs = function (logs, token, url, buildId, username, appName) {
 };
 
 /**
- * @param {import('dockerode')} docker
- * @param {import('./logger')} logger
- * @param {string} token
- * @param {string} username
- * @param {string} url
- * @param {{appName: string; imageName: string; buildLogs: string; shouldUploadLogs: boolean}} opts
  * - appName: the name of the app to deploy to
  * - imageName: the name of the image to deploy
  * - buildLogs: a string with build output
  */
 export const deployLegacy = async function (
-	docker,
-	logger,
-	token,
-	username,
-	url,
-	opts,
-) {
-	const tmp = require('tmp');
+	docker: Dockerode,
+	logger: Logger,
+	token: string,
+	username: string,
+	url: string,
+	opts: {
+		appName: string;
+		imageName: string;
+		buildLogs: string;
+		shouldUploadLogs: boolean;
+	},
+): Promise<number> {
+	const tmp = require('tmp') as typeof import('tmp');
 	const tmpNameAsync = promisify(tmp.tmpName);
 
 	// Ensure the tmp files gets deleted
@@ -195,8 +217,8 @@ export const deployLegacy = async function (
 			// has occured before any data was written) this call will throw an
 			// ugly error, just suppress it
 
-			require('fs')
-				.promises.unlink(bufferFile)
+			(require('fs') as typeof import('fs')).promises
+				.unlink(bufferFile)
 				.catch(() => undefined),
 		);
 
