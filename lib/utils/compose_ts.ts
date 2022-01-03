@@ -235,7 +235,7 @@ interface BuildTaskPlus extends MultiBuild.BuildTask {
 	logBuffer?: string[];
 }
 
-interface Renderer {
+export interface Renderer {
 	start: () => void;
 	end: (buildSummaryByService?: Dictionary<string>) => void;
 	streams: Dictionary<NodeJS.ReadWriteStream>;
