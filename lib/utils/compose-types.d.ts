@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import type { ImageModel, ReleaseModel } from 'balena-release/build/models';
 import type { Composition, ImageDescriptor } from 'resin-compose-parse';
 import type { Pack } from 'tar-stream';
 
@@ -52,7 +53,7 @@ export interface ComposeOpts {
 	inlineLogs?: boolean;
 	multiDockerignore: boolean;
 	noParentCheck: boolean;
-	projectName: string;
+	projectName?: string;
 	projectPath: string;
 	isLocal?: boolean;
 }
@@ -79,7 +80,7 @@ export interface ComposeProject {
 export interface Release {
 	client: ReturnType<typeof import('balena-release').createClient>;
 	release: Pick<
-		import('balena-release/build/models').ReleaseModel,
+		ReleaseModel,
 		| 'id'
 		| 'status'
 		| 'commit'
@@ -91,7 +92,9 @@ export interface Release {
 		| 'start_timestamp'
 		| 'end_timestamp'
 	>;
-	serviceImages: Partial<import('balena-release/build/models').ImageModel>;
+	serviceImages: Dictionary<
+		Omit<ImageModel, 'created_at' | 'is_a_build_of__service' | '__metadata'>
+	>;
 }
 
 interface TarDirectoryOptions {
