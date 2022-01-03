@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Convert lib/utils/deploy-legacy to typescript",
+          "hash": "1d4b949cf305a10f8a5225b42591a642d88dd9a4",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        }
+      ],
+      "version": "13.1.3",
+      "date": "2022-01-03T16:25:02.945Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Convert lib/utils/compose to typescript",
           "hash": "bd021c0a2da0f6702b806d928386a7681f889246",
           "body": "",
@@ -26023,12 +26040,12 @@
       "avatar": "https://avatars.githubusercontent.com/u/15091591?v=4"
     },
     {
-      "username": "jviotti",
-      "avatar": "https://avatars.githubusercontent.com/u/2192773?v=4"
-    },
-    {
       "username": "bulldozer-balena[bot]",
       "avatar": "https://avatars.githubusercontent.com/in/58047?v=4"
+    },
+    {
+      "username": "jviotti",
+      "avatar": "https://avatars.githubusercontent.com/u/2192773?v=4"
     },
     {
       "username": "pimterry",
@@ -26259,40 +26276,36 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2022-01-03T16:03:55Z",
+  "lastCommitDate": "2022-01-03T16:52:42Z",
   "latestRelease": {
-    "tagName": "v13.1.2",
+    "tagName": "v13.1.3",
     "asssets": [
       {
-        "name": "balena-cli-v13.1.2-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.2/balena-cli-v13.1.2-linux-x64-standalone.zip"
+        "name": "balena-cli-v13.1.3-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.3/balena-cli-v13.1.3-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.2-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.2/balena-cli-v13.1.2-macOS-x64-installer.pkg"
+        "name": "balena-cli-v13.1.3-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.3/balena-cli-v13.1.3-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v13.1.2-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.2/balena-cli-v13.1.2-macOS-x64-standalone.zip"
+        "name": "balena-cli-v13.1.3-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.3/balena-cli-v13.1.3-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.2-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.2/balena-cli-v13.1.2-windows-x64-installer.exe"
+        "name": "balena-cli-v13.1.3-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.3/balena-cli-v13.1.3-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v13.1.2-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.2/balena-cli-v13.1.2-windows-x64-standalone.zip"
+        "name": "balena-cli-v13.1.3-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.3/balena-cli-v13.1.3-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 345,
+    "numberOfIssues": 344,
     "latestIssues": [
-      {
-        "title": "Convert lib/utils/deploy-legacy to typescript",
-        "url": "https://github.com/balena-io/balena-cli/pull/2433"
-      },
       {
         "title": "Update pkg",
         "url": "https://github.com/balena-io/balena-cli/pull/2428"
@@ -26368,10 +26381,14 @@
       {
         "title": "Named buiid stages are treated as not supporting multiarch",
         "url": "https://github.com/balena-io/balena-cli/issues/2370"
+      },
+      {
+        "title": "tunnel: \"500 Internal Server Error\" when connecting to remote port bound to 127.0.0.1",
+        "url": "https://github.com/balena-io/balena-cli/issues/2366"
       }
     ]
   },
-  "version": "13.1.2",
+  "version": "13.1.3",
   "screenshot": null,
   "logo": null
 }
