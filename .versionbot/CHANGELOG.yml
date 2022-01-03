@@ -1,4 +1,15 @@
 - commits:
+    - subject: Convert lib/utils/compose to typescript
+      hash: bd021c0a2da0f6702b806d928386a7681f889246
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 13.1.2
+  date: 2022-01-03T15:32:11.873Z
+- commits:
     - subject: Update dependencies
       hash: e27a4e2e3173ba7eb27ca5bd94642e93acbd4b8a
       body: |
