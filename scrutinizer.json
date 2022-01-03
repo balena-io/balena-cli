@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Convert lib/utils/compose to typescript",
+          "hash": "bd021c0a2da0f6702b806d928386a7681f889246",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        }
+      ],
+      "version": "13.1.2",
+      "date": "2022-01-03T15:32:11.873Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update dependencies",
           "hash": "e27a4e2e3173ba7eb27ca5bd94642e93acbd4b8a",
           "body": "Update docker-progress from 5.0.0 to 5.0.1\n",
@@ -26141,7 +26158,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 354,
+  "stars": 355,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -26242,36 +26259,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2021-12-30T13:08:14Z",
+  "lastCommitDate": "2022-01-03T16:03:55Z",
   "latestRelease": {
-    "tagName": "v13.1.1",
+    "tagName": "v13.1.2",
     "asssets": [
       {
-        "name": "balena-cli-v13.1.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.1/balena-cli-v13.1.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v13.1.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.2/balena-cli-v13.1.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.1/balena-cli-v13.1.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v13.1.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.2/balena-cli-v13.1.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v13.1.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.1/balena-cli-v13.1.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v13.1.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.2/balena-cli-v13.1.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.1/balena-cli-v13.1.1-windows-x64-installer.exe"
+        "name": "balena-cli-v13.1.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.2/balena-cli-v13.1.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v13.1.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.1/balena-cli-v13.1.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v13.1.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.2/balena-cli-v13.1.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 344,
+    "numberOfIssues": 345,
     "latestIssues": [
+      {
+        "title": "Convert lib/utils/deploy-legacy to typescript",
+        "url": "https://github.com/balena-io/balena-cli/pull/2433"
+      },
       {
         "title": "Update pkg",
         "url": "https://github.com/balena-io/balena-cli/pull/2428"
@@ -26347,14 +26368,10 @@
       {
         "title": "Named buiid stages are treated as not supporting multiarch",
         "url": "https://github.com/balena-io/balena-cli/issues/2370"
-      },
-      {
-        "title": "tunnel: \"500 Internal Server Error\" when connecting to remote port bound to 127.0.0.1",
-        "url": "https://github.com/balena-io/balena-cli/issues/2366"
       }
     ]
   },
-  "version": "13.1.1",
+  "version": "13.1.2",
   "screenshot": null,
   "logo": null
 }
