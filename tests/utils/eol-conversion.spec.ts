@@ -71,7 +71,6 @@ describe('detectEncoding() function', function () {
 			'node_modules/.bin/etcher-image-write',
 			'node_modules/.bin/mocha',
 			'node_modules/.bin/rimraf',
-			'node_modules/.bin/gulp',
 			'node_modules/.bin/tsc',
 			'node_modules/.bin/balena-lint',
 			'node_modules/.bin/catch-uncommitted',

@@ -10,7 +10,6 @@
 		"./lib/**/*",
 		"./patches/*",
 		"./tests/**/*",
-		"./typings/**/*",
-		"gulpfile.js"
+		"./typings/**/*"
 	]
 }
