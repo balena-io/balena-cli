@@ -24,7 +24,10 @@ const { promisify } = require('util');
 const execFileAsync = promisify(execFile);
 const patchesDir = 'patches';
 
-/** Run the patch-package tool in a child process and wait for it to finish */
+/**
+ * Run the patch-package tool in a child process and wait for it to finish
+ * @param {string} patchDir
+ */
 async function patchPackage(patchDir) {
 	// Equivalent to: `npx patch-package --patch-dir $patchDir`
 	const result = await execFileAsync('node', [

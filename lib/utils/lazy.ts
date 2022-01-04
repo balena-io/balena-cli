@@ -21,7 +21,6 @@ import type { Chalk } from 'chalk';
 import type * as visuals from 'resin-cli-visuals';
 import type * as CliForm from 'resin-cli-form';
 import type { ux } from 'cli-ux';
-import type { stripIndent as StripIndent } from 'common-tags';
 
 // Equivalent of _.once but avoiding the need to import lodash for lazy deps
 const once = <T>(fn: () => T) => {
@@ -63,4 +62,4 @@ export const getCliUx = once(() => require('cli-ux').ux as typeof ux);
 // Directly export stripIndent as we always use it immediately, but importing just `stripIndent` reduces startup time
 export const stripIndent =
 	// tslint:disable-next-line:no-var-requires
-	require('common-tags/lib/stripIndent') as typeof StripIndent;
+	require('common-tags/lib/stripIndent') as typeof import('common-tags/lib/stripIndent');
