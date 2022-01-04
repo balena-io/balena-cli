@@ -6,6 +6,8 @@
  *
  * We don't `require('semver')` to allow this script to be run as a npm
  * 'preinstall' hook, at which point no dependencies have been installed.
+ *
+ * @param {string} version
  */
 function parseSemver(version) {
 	const match = /v?(\d+)\.(\d+).(\d+)/.exec(version);
@@ -16,6 +18,10 @@ function parseSemver(version) {
 	return [parseInt(major, 10), parseInt(minor, 10), parseInt(patch, 10)];
 }
 
+/**
+ * @param {string} v1
+ * @param {string} v2
+ */
 function semverGte(v1, v2) {
 	let v1Array = parseSemver(v1);
 	let v2Array = parseSemver(v2);
