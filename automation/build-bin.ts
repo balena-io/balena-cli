@@ -96,6 +96,7 @@ async function diffPkgOutput(pkgOut: string) {
 		'> pkg@',
 		'> Fetching base Node.js binaries',
 		'  fetched-',
+		'prebuild-install WARN install No prebuilt binaries found',
 	];
 	const modulesRE =
 		process.platform === 'win32'
@@ -321,6 +322,10 @@ async function signFilesForNotarization() {
 			.on('data', (item: { path: string; stats: Stats }) => {
 				if (!item.stats.isFile()) {
 					return;
+				}
+				if (path.basename(item.path).endsWith('.node.bak')) {
+					console.log('Removing pkg .node.bak file', item.path);
+					fs.unlinkSync(item.path);
 				}
 				if (
 					path.basename(item.path).endsWith('.zip') &&

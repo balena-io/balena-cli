@@ -24,10 +24,6 @@
   The file must be distributed with executable as %2.
   %1: node_modules/open/xdg-open
   %2: path-to-executable/xdg-open
-> Warning Cannot include addon %1 into executable.
-  The addon must be distributed with executable as %2.
-  %1: node_modules/@ronomon/direct-io/binding.node
-  %2: path-to-executable/binding.node
 > Warning Cannot include file %1 into executable.
   The file must be distributed with executable as %2.
   %1: node_modules/etcher-sdk/node_modules/drivelist/build/Release/drivelist.node
@@ -100,10 +96,6 @@
   The file must be distributed with executable as %2.
   %1: node_modules/drivelist/scripts/win32.bat
   %2: path-to-executable/drivelist/win32.bat
-> Warning Cannot include addon %1 into executable.
-  The addon must be distributed with executable as %2.
-  %1: node_modules/xxhash/build/Release/hash.node
-  %2: path-to-executable/hash.node
 > Warning Cannot include file %1 into executable.
   The file must be distributed with executable as %2.
   %1: node_modules/opn/xdg-open
