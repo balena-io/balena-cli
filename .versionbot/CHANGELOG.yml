@@ -1,4 +1,15 @@
 - commits:
+    - subject: Update pkg
+      hash: 008972b3d3a16e9f201fddc4526b65fa1c5f84e9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 13.1.4
+  date: 2022-01-03T17:37:27.895Z
+- commits:
     - subject: Convert lib/utils/deploy-legacy to typescript
       hash: 1d4b949cf305a10f8a5225b42591a642d88dd9a4
       body: ''
