@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'Build: switch from using inline-source via gulp to using it directly'
+      hash: 33f7fa3829811235034d051e3798d6a53807b2bf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 13.1.5
+  date: 2022-01-04T15:05:39.872Z
+- commits:
     - subject: Update pkg
       hash: 008972b3d3a16e9f201fddc4526b65fa1c5f84e9
       body: ''
