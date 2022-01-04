@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Automation: enforce noImplicitAny for the type-checked javascript",
+          "hash": "c4e317a2908eb9b23ca0355d783540a6f160b06d",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        }
+      ],
+      "version": "13.1.6",
+      "date": "2022-01-04T16:29:29.930Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Build: switch from using inline-source via gulp to using it directly",
           "hash": "33f7fa3829811235034d051e3798d6a53807b2bf",
           "body": "",
@@ -26209,7 +26226,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 355,
+  "stars": 356,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -26310,36 +26327,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2022-01-04T15:34:55Z",
+  "lastCommitDate": "2022-01-04T16:53:40Z",
   "latestRelease": {
-    "tagName": "v13.1.5",
+    "tagName": "v13.1.6",
     "asssets": [
       {
-        "name": "balena-cli-v13.1.5-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.5/balena-cli-v13.1.5-linux-x64-standalone.zip"
+        "name": "balena-cli-v13.1.6-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.6/balena-cli-v13.1.6-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.5-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.5/balena-cli-v13.1.5-macOS-x64-installer.pkg"
+        "name": "balena-cli-v13.1.6-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.6/balena-cli-v13.1.6-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v13.1.5-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.5/balena-cli-v13.1.5-macOS-x64-standalone.zip"
+        "name": "balena-cli-v13.1.6-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.6/balena-cli-v13.1.6-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.5-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.5/balena-cli-v13.1.5-windows-x64-installer.exe"
+        "name": "balena-cli-v13.1.6-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.6/balena-cli-v13.1.6-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v13.1.5-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.5/balena-cli-v13.1.5-windows-x64-standalone.zip"
+        "name": "balena-cli-v13.1.6-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.6/balena-cli-v13.1.6-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 343,
+    "numberOfIssues": 344,
     "latestIssues": [
+      {
+        "title": "Update to pkg 5",
+        "url": "https://github.com/balena-io/balena-cli/pull/2436"
+      },
       {
         "title": "Allow setting local mode without cloud access",
         "url": "https://github.com/balena-io/balena-cli/issues/2424"
@@ -26415,14 +26436,10 @@
       {
         "title": "tunnel: \"500 Internal Server Error\" when connecting to remote port bound to 127.0.0.1",
         "url": "https://github.com/balena-io/balena-cli/issues/2366"
-      },
-      {
-        "title": "Update resin-compose-parse version to 2.3.0",
-        "url": "https://github.com/balena-io/balena-cli/issues/2364"
       }
     ]
   },
-  "version": "13.1.5",
+  "version": "13.1.6",
   "screenshot": null,
   "logo": null
 }
