@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Build: switch from using inline-source via gulp to using it directly",
+          "hash": "33f7fa3829811235034d051e3798d6a53807b2bf",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        }
+      ],
+      "version": "13.1.5",
+      "date": "2022-01-04T15:05:39.872Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update pkg",
           "hash": "008972b3d3a16e9f201fddc4526b65fa1c5f84e9",
           "body": "",
@@ -26293,29 +26310,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2022-01-04T11:25:57Z",
+  "lastCommitDate": "2022-01-04T15:34:55Z",
   "latestRelease": {
-    "tagName": "v13.1.4",
+    "tagName": "v13.1.5",
     "asssets": [
       {
-        "name": "balena-cli-v13.1.4-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.4/balena-cli-v13.1.4-linux-x64-standalone.zip"
+        "name": "balena-cli-v13.1.5-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.5/balena-cli-v13.1.5-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.4-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.4/balena-cli-v13.1.4-macOS-x64-installer.pkg"
+        "name": "balena-cli-v13.1.5-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.5/balena-cli-v13.1.5-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v13.1.4-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.4/balena-cli-v13.1.4-macOS-x64-standalone.zip"
+        "name": "balena-cli-v13.1.5-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.5/balena-cli-v13.1.5-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.4-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.4/balena-cli-v13.1.4-windows-x64-installer.exe"
+        "name": "balena-cli-v13.1.5-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.5/balena-cli-v13.1.5-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v13.1.4-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.4/balena-cli-v13.1.4-windows-x64-standalone.zip"
+        "name": "balena-cli-v13.1.5-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.5/balena-cli-v13.1.5-windows-x64-standalone.zip"
       }
     ]
   },
@@ -26405,7 +26422,7 @@
       }
     ]
   },
-  "version": "13.1.4",
+  "version": "13.1.5",
   "screenshot": null,
   "logo": null
 }
