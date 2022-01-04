@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'Automation: enforce noImplicitAny for the type-checked javascript'
+      hash: c4e317a2908eb9b23ca0355d783540a6f160b06d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 13.1.6
+  date: 2022-01-04T16:29:29.930Z
+- commits:
     - subject: 'Build: switch from using inline-source via gulp to using it directly'
       hash: 33f7fa3829811235034d051e3798d6a53807b2bf
       body: ''
