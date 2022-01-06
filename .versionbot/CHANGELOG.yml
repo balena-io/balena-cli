@@ -1,4 +1,15 @@
 - commits:
+    - subject: Update to pkg 5
+      hash: 879d98ef98de9b252aa4b747cf0c69a17fe556f6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 13.1.7
+  date: 2022-01-06T16:25:49.972Z
+- commits:
     - subject: 'Automation: enforce noImplicitAny for the type-checked javascript'
       hash: c4e317a2908eb9b23ca0355d783540a6f160b06d
       body: ''
