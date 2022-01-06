@@ -5,6 +5,23 @@
     {
       "commits": [
         {
+          "subject": "Update to pkg 5",
+          "hash": "879d98ef98de9b252aa4b747cf0c69a17fe556f6",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        }
+      ],
+      "version": "13.1.7",
+      "date": "2022-01-06T16:25:49.972Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Automation: enforce noImplicitAny for the type-checked javascript",
           "hash": "c4e317a2908eb9b23ca0355d783540a6f160b06d",
           "body": "",
@@ -26327,29 +26344,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2022-01-04T16:53:40Z",
+  "lastCommitDate": "2022-01-06T17:29:35Z",
   "latestRelease": {
-    "tagName": "v13.1.6",
+    "tagName": "v13.1.7",
     "asssets": [
       {
-        "name": "balena-cli-v13.1.6-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.6/balena-cli-v13.1.6-linux-x64-standalone.zip"
+        "name": "balena-cli-v13.1.7-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.7/balena-cli-v13.1.7-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.6-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.6/balena-cli-v13.1.6-macOS-x64-installer.pkg"
+        "name": "balena-cli-v13.1.7-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.7/balena-cli-v13.1.7-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v13.1.6-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.6/balena-cli-v13.1.6-macOS-x64-standalone.zip"
+        "name": "balena-cli-v13.1.7-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.7/balena-cli-v13.1.7-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.6-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.6/balena-cli-v13.1.6-windows-x64-installer.exe"
+        "name": "balena-cli-v13.1.7-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.7/balena-cli-v13.1.7-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v13.1.6-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.6/balena-cli-v13.1.6-windows-x64-standalone.zip"
+        "name": "balena-cli-v13.1.7-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.7/balena-cli-v13.1.7-windows-x64-standalone.zip"
       }
     ]
   },
@@ -26358,8 +26375,8 @@
     "numberOfIssues": 344,
     "latestIssues": [
       {
-        "title": "Update to pkg 5",
-        "url": "https://github.com/balena-io/balena-cli/pull/2436"
+        "title": "Migrate tabular commands to new output framework",
+        "url": "https://github.com/balena-io/balena-cli/pull/2438"
       },
       {
         "title": "Allow setting local mode without cloud access",
@@ -26439,7 +26456,7 @@
       }
     ]
   },
-  "version": "13.1.6",
+  "version": "13.1.7",
   "screenshot": null,
   "logo": null
 }
