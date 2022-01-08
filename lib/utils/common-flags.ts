@@ -97,14 +97,18 @@ export const deviceType = flags.string({
 	required: true,
 });
 
-export const deviceTypeIgnored = isV14()
-	? undefined
-	: flags.string({
-			description: 'ignored - no longer required',
-			char: 't',
-			required: false,
-			hidden: true,
-	  });
+export const deviceTypeIgnored = {
+	...(isV14()
+		? {}
+		: {
+				type: flags.string({
+					description: 'ignored - no longer required',
+					char: 't',
+					required: false,
+					hidden: true,
+				}),
+		  }),
+};
 
 export const json: IBooleanFlag<boolean> = flags.boolean({
 	char: 'j',
