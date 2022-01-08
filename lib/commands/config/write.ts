@@ -64,7 +64,7 @@ export default class ConfigWriteCmd extends Command {
 	public static usage = 'config write <key> <value>';
 
 	public static flags: flags.Input<FlagsDef> = {
-		type: cf.deviceTypeIgnored,
+		...cf.deviceTypeIgnored,
 		drive: cf.driveOrImg,
 		help: cf.help,
 	};

@@ -50,7 +50,7 @@ export default class ConfigReconfigureCmd extends Command {
 	public static usage = 'config reconfigure';
 
 	public static flags: flags.Input<FlagsDef> = {
-		type: cf.deviceTypeIgnored,
+		...cf.deviceTypeIgnored,
 		drive: cf.driveOrImg,
 		advanced: flags.boolean({
 			description: 'show advanced commands',
