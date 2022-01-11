@@ -223,7 +223,7 @@
     "columnify": "^1.5.2",
     "common-tags": "^1.7.2",
     "denymount": "^2.3.0",
-    "docker-modem": "^3.0.2",
+    "docker-modem": "3.0.0",
     "docker-progress": "^5.0.1",
     "docker-qemu-transpose": "^1.1.1",
     "dockerode": "^3.3.1",
