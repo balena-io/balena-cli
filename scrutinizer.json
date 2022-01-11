@@ -5,6 +5,34 @@
     {
       "commits": [
         {
+          "subject": "local push: Fix \"invalid character '/' looking for beginning of value\"",
+          "hash": "6b9a5cd89cf60b91cbb5a6e732f840e8551152d7",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "v14 preparations: Fix TypeError produced by 'npx oclif manifest'",
+          "hash": "d1e66bc1a529892503d29f679676df48b7221451",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "13.1.8",
+      "date": "2022-01-11T00:59:22.886Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update to pkg 5",
           "hash": "879d98ef98de9b252aa4b747cf0c69a17fe556f6",
           "body": "",
@@ -26344,36 +26372,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2022-01-06T17:29:35Z",
+  "lastCommitDate": "2022-01-11T01:28:31Z",
   "latestRelease": {
-    "tagName": "v13.1.7",
+    "tagName": "v13.1.8",
     "asssets": [
       {
-        "name": "balena-cli-v13.1.7-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.7/balena-cli-v13.1.7-linux-x64-standalone.zip"
+        "name": "balena-cli-v13.1.8-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.8/balena-cli-v13.1.8-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.7-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.7/balena-cli-v13.1.7-macOS-x64-installer.pkg"
+        "name": "balena-cli-v13.1.8-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.8/balena-cli-v13.1.8-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v13.1.7-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.7/balena-cli-v13.1.7-macOS-x64-standalone.zip"
+        "name": "balena-cli-v13.1.8-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.8/balena-cli-v13.1.8-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.7-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.7/balena-cli-v13.1.7-windows-x64-installer.exe"
+        "name": "balena-cli-v13.1.8-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.8/balena-cli-v13.1.8-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v13.1.7-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.7/balena-cli-v13.1.7-windows-x64-standalone.zip"
+        "name": "balena-cli-v13.1.8-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.8/balena-cli-v13.1.8-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 344,
+    "numberOfIssues": 345,
     "latestIssues": [
+      {
+        "title": "Bump parse-link-header from 1.0.1 to 2.0.0",
+        "url": "https://github.com/balena-io/balena-cli/pull/2439"
+      },
       {
         "title": "Migrate tabular commands to new output framework",
         "url": "https://github.com/balena-io/balena-cli/pull/2438"
@@ -26449,14 +26481,10 @@
       {
         "title": "Named buiid stages are treated as not supporting multiarch",
         "url": "https://github.com/balena-io/balena-cli/issues/2370"
-      },
-      {
-        "title": "tunnel: \"500 Internal Server Error\" when connecting to remote port bound to 127.0.0.1",
-        "url": "https://github.com/balena-io/balena-cli/issues/2366"
       }
     ]
   },
-  "version": "13.1.7",
+  "version": "13.1.8",
   "screenshot": null,
   "logo": null
 }

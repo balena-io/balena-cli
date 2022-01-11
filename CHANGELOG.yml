@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'local push: Fix "invalid character ''/'' looking for beginning of value"'
+      hash: 6b9a5cd89cf60b91cbb5a6e732f840e8551152d7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'v14 preparations: Fix TypeError produced by ''npx oclif manifest'''
+      hash: d1e66bc1a529892503d29f679676df48b7221451
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 13.1.8
+  date: 2022-01-11T01:27:34.272Z
+- commits:
     - subject: Update to pkg 5
       hash: 879d98ef98de9b252aa4b747cf0c69a17fe556f6
       body: ''
@@ -8,7 +27,7 @@
       author: Pagan Gazzard
       nested: []
   version: 13.1.7
-  date: 2022-01-06T17:28:35.973Z
+  date: 2022-01-06T16:25:49.972Z
 - commits:
     - subject: 'Automation: enforce noImplicitAny for the type-checked javascript'
       hash: c4e317a2908eb9b23ca0355d783540a6f160b06d
