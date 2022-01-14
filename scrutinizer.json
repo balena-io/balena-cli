@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Update packages in response to `colors` package issues",
+          "hash": "f633c0468bcd1eed15713492cc38e3881d28f231",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Scott Lowe <scott@balena.io>",
+            "signed-off-by": "Scott Lowe <scott@balena.io>"
+          },
+          "author": "Scott Lowe",
+          "nested": []
+        }
+      ],
+      "version": "13.1.9",
+      "date": "2022-01-14T00:38:55.363Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "local push: Fix \"invalid character '/' looking for beginning of value\"",
           "hash": "6b9a5cd89cf60b91cbb5a6e732f840e8551152d7",
           "body": "",
@@ -26372,29 +26391,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2022-01-11T01:28:31Z",
+  "lastCommitDate": "2022-01-14T01:00:53Z",
   "latestRelease": {
-    "tagName": "v13.1.8",
+    "tagName": "v13.1.9",
     "asssets": [
       {
-        "name": "balena-cli-v13.1.8-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.8/balena-cli-v13.1.8-linux-x64-standalone.zip"
+        "name": "balena-cli-v13.1.9-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.9/balena-cli-v13.1.9-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.8-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.8/balena-cli-v13.1.8-macOS-x64-installer.pkg"
+        "name": "balena-cli-v13.1.9-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.9/balena-cli-v13.1.9-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v13.1.8-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.8/balena-cli-v13.1.8-macOS-x64-standalone.zip"
+        "name": "balena-cli-v13.1.9-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.9/balena-cli-v13.1.9-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.8-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.8/balena-cli-v13.1.8-windows-x64-installer.exe"
+        "name": "balena-cli-v13.1.9-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.9/balena-cli-v13.1.9-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v13.1.8-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.8/balena-cli-v13.1.8-windows-x64-standalone.zip"
+        "name": "balena-cli-v13.1.9-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.9/balena-cli-v13.1.9-windows-x64-standalone.zip"
       }
     ]
   },
@@ -26484,7 +26503,7 @@
       }
     ]
   },
-  "version": "13.1.8",
+  "version": "13.1.9",
   "screenshot": null,
   "logo": null
 }
