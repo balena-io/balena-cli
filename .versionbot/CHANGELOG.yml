@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update docs and package.json re min Node.js supported version (12.8.0)
+      hash: f5d09a43cd74ef28533c992827f7c93e728668ef
+      body: ''
+      footer:
+        Resolves: '#2445'
+        resolves: '#2445'
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 13.1.10
+  date: 2022-01-16T18:58:25.610Z
+- commits:
     - subject: Update packages in response to `colors` package issues
       hash: f633c0468bcd1eed15713492cc38e3881d28f231
       body: ''
