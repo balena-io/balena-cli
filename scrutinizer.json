@@ -5,6 +5,25 @@
     {
       "commits": [
         {
+          "subject": "Update docs and package.json re min Node.js supported version (12.8.0)",
+          "hash": "f5d09a43cd74ef28533c992827f7c93e728668ef",
+          "body": "",
+          "footer": {
+            "Resolves": "#2445",
+            "resolves": "#2445",
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "13.1.10",
+      "date": "2022-01-16T18:58:25.610Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Update packages in response to `colors` package issues",
           "hash": "f633c0468bcd1eed15713492cc38e3881d28f231",
           "body": "",
@@ -26391,36 +26410,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2022-01-14T01:00:53Z",
+  "lastCommitDate": "2022-01-16T19:29:44Z",
   "latestRelease": {
-    "tagName": "v13.1.9",
+    "tagName": "v13.1.10",
     "asssets": [
       {
-        "name": "balena-cli-v13.1.9-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.9/balena-cli-v13.1.9-linux-x64-standalone.zip"
+        "name": "balena-cli-v13.1.10-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.10/balena-cli-v13.1.10-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.9-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.9/balena-cli-v13.1.9-macOS-x64-installer.pkg"
+        "name": "balena-cli-v13.1.10-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.10/balena-cli-v13.1.10-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v13.1.9-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.9/balena-cli-v13.1.9-macOS-x64-standalone.zip"
+        "name": "balena-cli-v13.1.10-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.10/balena-cli-v13.1.10-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.9-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.9/balena-cli-v13.1.9-windows-x64-installer.exe"
+        "name": "balena-cli-v13.1.10-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.10/balena-cli-v13.1.10-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v13.1.9-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.9/balena-cli-v13.1.9-windows-x64-standalone.zip"
+        "name": "balena-cli-v13.1.10-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.10/balena-cli-v13.1.10-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 345,
+    "numberOfIssues": 346,
     "latestIssues": [
+      {
+        "title": "patch: Tell user that balena leave command does not remove the device…",
+        "url": "https://github.com/balena-io/balena-cli/pull/2444"
+      },
       {
         "title": "Bump parse-link-header from 1.0.1 to 2.0.0",
         "url": "https://github.com/balena-io/balena-cli/pull/2439"
@@ -26496,14 +26519,10 @@
       {
         "title": "os download: Prevent image cache from closing the stream early",
         "url": "https://github.com/balena-io/balena-cli/pull/2371"
-      },
-      {
-        "title": "Named buiid stages are treated as not supporting multiarch",
-        "url": "https://github.com/balena-io/balena-cli/issues/2370"
       }
     ]
   },
-  "version": "13.1.9",
+  "version": "13.1.10",
   "screenshot": null,
   "logo": null
 }
