@@ -113,7 +113,9 @@ async function createProxyServer(): Promise<[number, number]> {
 	let proxyPort = 0; // TCP port number, 0 means automatic allocation
 
 	await new Promise<void>((resolve, reject) => {
-		const listener = server.listen(0, '127.0.0.1', (err: Error) => {
+		// TODO: remove 'as any' below. According to @types/node v12.20.42, the
+		// callback type is `() => void`, but our code assumes `(err: Error) => void`
+		const listener = (server.listen as any)(0, '127.0.0.1', (err: Error) => {
 			if (err) {
 				console.error(`Error starting proxy server:\n${err}`);
 				reject(err);
@@ -195,7 +197,9 @@ async function createInterceptorServer(): Promise<number> {
 	let interceptorPort = 0;
 
 	await new Promise<void>((resolve, reject) => {
-		const listener = server.listen(0, '127.0.0.1', (err: Error) => {
+		// TODO: remove 'as any' below. According to @types/node v12.20.42, the
+		// callback type is `() => void`, but our code assumes `(err: Error) => void`
+		const listener = (server.listen as any)(0, '127.0.0.1', (err: Error) => {
 			if (err) {
 				console.error(`Error starting interceptor server:\n${err}`);
 				reject(err);

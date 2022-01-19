@@ -160,8 +160,9 @@ async function startMockSshServer(): Promise<[Server, number]> {
 	});
 
 	return new Promise<[Server, number]>((resolve, reject) => {
-		// port 0: let the OS allocation any available TCP port number
-		const listener = server.listen(0, '127.0.0.1', (err: Error) => {
+		// TODO: remove 'as any' below. According to @types/node v12.20.42, the
+		// callback type is `() => void`, but our code assumes `(err: Error) => void`
+		const listener = (server.listen as any)(0, '127.0.0.1', (err: Error) => {
 			// this callback is called for the 'listening' event
 			if (err) {
 				console.error(`Error starting mock ssh server:\n${err}`);

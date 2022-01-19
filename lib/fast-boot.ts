@@ -27,14 +27,7 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 
-// `@types/node` does not know about `options: { bigint?: boolean }`
-type statT = (
-	fPath: string,
-	options: { bigint?: boolean },
-) => fs.Stats | Promise<fs.Stats>;
-
-// async stat does not work with pkg's internal `/snapshot` filesystem
-const stat: statT = process.pkg ? fs.statSync : fs.promises.stat;
+const stat = process.pkg ? fs.statSync : fs.promises.stat;
 
 let fastBootStarted = false;
 

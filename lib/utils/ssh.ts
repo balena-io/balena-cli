@@ -77,7 +77,7 @@ export async function exec(
 			.on('error', reject)
 			.on('close', resolve);
 
-		if (stdout) {
+		if (stdout && ps.stdout) {
 			ps.stdout.pipe(stdout);
 		}
 	});
