@@ -117,7 +117,7 @@ export async function which(program: string): Promise<string> {
  */
 export async function whichSpawn(
 	programName: string,
-	args?: string[],
+	args: string[] = [],
 ): Promise<void> {
 	const program = await which(programName);
 	let error: Error | undefined;

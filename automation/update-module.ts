@@ -36,8 +36,8 @@ const run = async (cmd: string) => {
 			}
 			resolve({ stdout, stderr });
 		});
-		p.stdout.pipe(process.stdout);
-		p.stderr.pipe(process.stderr);
+		p.stdout?.pipe(process.stdout);
+		p.stderr?.pipe(process.stderr);
 	});
 };
 

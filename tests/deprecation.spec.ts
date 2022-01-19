@@ -141,10 +141,10 @@ describe('DeprecationChecker', function () {
 
 			getStub.resolves(mockCache);
 
-			// Force isTTY to be false (undefined). It happens to be true when
+			// Force isTTY to be false. It happens to be true when
 			// the tests run on balenaCI on macOS and Linux.
 			const originalIsTTY = process.stderr.isTTY;
-			process.stderr.isTTY = undefined;
+			process.stderr.isTTY = false;
 			let result: TestOutput;
 			try {
 				result = await runCommand('version');

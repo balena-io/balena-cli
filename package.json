@@ -147,7 +147,7 @@
     "@types/ndjson": "^2.0.1",
     "@types/net-keepalive": "^0.4.1",
     "@types/nock": "^11.1.0",
-    "@types/node": "^10.17.60",
+    "@types/node": "^12.20.42",
     "@types/node-cleanup": "^2.1.2",
     "@types/parse-link-header": "^1.0.1",
     "@types/prettyjson": "^0.0.30",

@@ -98,7 +98,7 @@ async function spawnAndPipe(
 				resolve();
 			}
 		});
-		if (stderr) {
+		if (stderr && ps.stderr) {
 			ps.stderr.pipe(stderr);
 		}
 	});

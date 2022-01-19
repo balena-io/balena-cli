@@ -212,7 +212,7 @@ function handleBuilderMetadata(obj: BuilderMessage, build: RemoteBuild) {
 			}
 
 			const value = match[1];
-			const amount = match[2] || 1;
+			const amount = Number(match[2]) || 1;
 
 			switch (value) {
 				case 'erase':
