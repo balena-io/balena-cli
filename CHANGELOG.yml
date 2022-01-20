@@ -1,4 +1,25 @@
 - commits:
+    - subject: >-
+        chore: lib/auth/utils.ts: Replace deprecated url.resolve, use
+        async/await
+      hash: 5464e550e765ca4fc74efe98675cc5dc9189f1be
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: 'chore: Update @types/node to v12.20.42'
+      hash: c0f27a663d296080749c9d2d79751bffc1b63751
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 13.1.11
+  date: 2022-01-19T23:54:52.158Z
+- commits:
     - subject: Update docs and package.json re min Node.js supported version (12.8.0)
       hash: f5d09a43cd74ef28533c992827f7c93e728668ef
       body: ''
@@ -10,7 +31,7 @@
       author: Paulo Castro
       nested: []
   version: 13.1.10
-  date: 2022-01-16T19:28:46.724Z
+  date: 2022-01-16T18:58:25.610Z
 - commits:
     - subject: Update packages in response to `colors` package issues
       hash: f633c0468bcd1eed15713492cc38e3881d28f231
