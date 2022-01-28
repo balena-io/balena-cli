@@ -84,7 +84,7 @@ $ sudo chown -R <user> $HOME/.balena
 Users sometimes come across broken line wrapping or cursor behavior in text terminals, for example
 when long command lines are typed in a `balena ssh` session, or when using text editors like `vim`
 or `nano`. This is not something specific to the balena CLI, being also a commonly reported issue
-with standard remote terminal tools like `ssh` or `telnet`.  It is often a remote shell
+with standard remote terminal tools like `ssh` or `telnet`. It is often a remote shell
 configuration issue (files like `/etc/profile`, `~/.bash_profile`, `~/.bash_login`, `~/.profile`
 and the like on the remote machine), including UTF-8 misconfiguration, the use of unsupported ASCII
 control characters in shell prompt formatting (e.g. the `$PS1` env var) or the output of tools or
@@ -101,16 +101,32 @@ bind 'set horizontal-scroll-mode off'
 Terminal multiplexer tools like GNU `screen` or `tmux` are sometimes reported to fix the issues, though at other times they are reported as the _cause_ of the problem. They have their own configuration files to take into account.
 
 Further reference:
-* https://stackoverflow.com/questions/1133031/shell-prompt-line-wrapping-issue
-* https://superuser.com/questions/46948/any-way-to-fix-screens-mishandling-of-line-wrap-maybe-only-terminal-app
-* https://unix.stackexchange.com/questions/105958/terminal-prompt-not-wrapping-correctly
-* https://unix.stackexchange.com/questions/529377/terminal-long-line-wrapping
-* https://github.com/microsoft/WSL/issues/1436
+
+- https://stackoverflow.com/questions/1133031/shell-prompt-line-wrapping-issue
+- https://superuser.com/questions/46948/any-way-to-fix-screens-mishandling-of-line-wrap-maybe-only-terminal-app
+- https://unix.stackexchange.com/questions/105958/terminal-prompt-not-wrapping-correctly
+- https://unix.stackexchange.com/questions/529377/terminal-long-line-wrapping
+- https://github.com/microsoft/WSL/issues/1436
 
 If nothing seems to help, consider also using a different client-side terminal application:
-* Linux: xterm, KDE Konsole, GNOME Terminal
-* Mac: Terminal, iTerm2
-* Windows: PowerShell, PuTTY, WSL (Windows Subsystem for Linux)
+
+- Linux: xterm, KDE Konsole, GNOME Terminal
+- Mac: Terminal, iTerm2
+- Windows: PowerShell, PuTTY, WSL (Windows Subsystem for Linux)
+
+## "balena ssh" ends with permission denied when using RSA keys
+
+RSA keys generated with this command from github documentation: `ssh-keygen -t rsa -b 4096 -C "your_email@example.com"`
+
+It failed with this error:
+`Offering public key: /Users/<username>/.ssh/id_rsa RSA`
+`send_pubkey_test: no mutual signature algorithm`
+
+Possible Solutions
+
+- Either add PubkeyAcceptedKeyTypes +ssh-rsa to SSH configuration or use a different algorithm for the key (ecdsa or ed25519 should work fine)
+
+- Change `.ssh/config` to refer to the custom named identify file? e.g. id_balena / id_balena.pub
 
 ## "Docker seems to be unavailable" error when using Windows Subsystem for Linux (WSL)
 
@@ -122,8 +138,8 @@ solution is:
 
 - Open the Docker Desktop for Windows settings panel and tick the checkbox _"Expose daemon on tcp://localhost:2375 without TLS"._
 - On the WSL command line, set an env var:  
-`export DOCKER_HOST=tcp://localhost:2375`  
-Alternatively, use the command-line options `-h 127.0.0.1 -p 2375` for commands like `balena build` and `balena deploy`.
+  `export DOCKER_HOST=tcp://localhost:2375`  
+  Alternatively, use the command-line options `-h 127.0.0.1 -p 2375` for commands like `balena build` and `balena deploy`.
 
 Further reference:
 
