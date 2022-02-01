@@ -16,6 +16,7 @@
  */
 import type * as BalenaSdk from 'balena-sdk';
 
+import { discoverLocalBalenaOsDevices } from './discover-devices';
 import { ExpectedError, printErrorMessage } from '../errors';
 import { getVisuals, stripIndent, getCliForm } from './lazy';
 import Logger = require('./logger');
@@ -23,6 +24,57 @@ import { confirm } from './patterns';
 import { exec, execBuffered, getDeviceOsRelease } from './ssh';
 
 const MIN_BALENAOS_VERSION = 'v2.14.0';
+const DOCKER_PORT = 2375;
+const DOCKER_TIMEOUT = 2000;
+
+const selectLocalBalenaOsDevice = async function (timeout: number = 4000) {
+	const { SpinnerPromise } = getVisuals();
+	const { DockerToolbelt } =
+		require('docker-toolbelt') as typeof import('docker-toolbelt');
+	const _ = await import('lodash');
+	return new SpinnerPromise({
+		promise: discoverLocalBalenaOsDevices(timeout),
+		startMessage: 'Discovering local balenaOS devices..',
+		stopMessage: 'Reporting discovered devices',
+	})
+		.filter(async function (
+			param: { address?: string; host?: string; port?: number } = {},
+		) {
+			const { address } = param;
+			if (!address) {
+				return false;
+			}
+
+			try {
+				const docker = new DockerToolbelt({
+					host: address,
+					port: DOCKER_PORT,
+					timeout: DOCKER_TIMEOUT,
+				});
+				await docker.ping();
+				return true;
+			} catch (err) {
+				return false;
+			}
+		})
+		.then(function (
+			devices: Array<{ address: string; host: string; port: number }>,
+		) {
+			if (_.isEmpty(devices)) {
+				throw new Error('Could not find any local balenaOS devices');
+			}
+
+			return getCliForm().ask({
+				message: 'select a device',
+				type: 'list',
+				default: (devices[0] as any).ip,
+				choices: _.map(devices, (device) => ({
+					name: `${device.host || 'untitled'} (${device.address})`,
+					value: device.address,
+				})),
+			});
+		});
+};
 
 export async function join(
 	logger: Logger,
@@ -154,10 +206,9 @@ async function getOsVersion(deviceIp: string): Promise<string> {
 }
 
 async function selectLocalDevice(): Promise<string> {
-	const { forms } = await import('balena-sync');
 	let hostnameOrIp;
 	try {
-		hostnameOrIp = await forms.selectLocalBalenaOsDevice();
+		hostnameOrIp = await selectLocalBalenaOsDevice();
 		console.error(`==> Selected device: ${hostnameOrIp}`);
 	} catch (e) {
 		if (e.message.toLowerCase().includes('could not find any')) {

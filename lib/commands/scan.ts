@@ -16,7 +16,6 @@
  */
 
 import { flags } from '@oclif/command';
-import type { LocalBalenaOsDevice } from 'balena-sync';
 import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getCliUx, stripIndent } from '../utils/lazy';
@@ -72,9 +71,11 @@ export default class ScanCmd extends Command {
 
 	public async run() {
 		const _ = await import('lodash');
-		const { discover } = await import('balena-sync');
 		const prettyjson = await import('prettyjson');
 		const dockerUtils = await import('../utils/docker');
+		const { discoverLocalBalenaOsDevices } = await import(
+			'../utils/discover-devices'
+		);
 
 		const dockerPort = 2375;
 		const dockerTimeout = 2000;
@@ -88,8 +89,7 @@ export default class ScanCmd extends Command {
 		const ux = getCliUx();
 		ux.action.start('Scanning for local balenaOS devices');
 
-		const localDevices: LocalBalenaOsDevice[] =
-			await discover.discoverLocalBalenaOsDevices(discoverTimeout);
+		const localDevices = await discoverLocalBalenaOsDevices(discoverTimeout);
 		const engineReachableDevices: boolean[] = await Promise.all(
 			localDevices.map(async ({ address }: { address: string }) => {
 				const docker = await dockerUtils.createClient({
@@ -106,7 +106,7 @@ export default class ScanCmd extends Command {
 			}),
 		);
 
-		const developmentDevices: LocalBalenaOsDevice[] = localDevices.filter(
+		const developmentDevices = localDevices.filter(
 			(_localDevice, index) => engineReachableDevices[index],
 		);
 
@@ -116,18 +116,15 @@ export default class ScanCmd extends Command {
 			_.isEqual,
 		);
 
-		const productionDevicesInfo = _.map(
-			productionDevices,
-			(device: LocalBalenaOsDevice) => {
-				return {
-					host: device.host,
-					address: device.address,
-					osVariant: 'production',
-					dockerInfo: undefined,
-					dockerVersion: undefined,
-				};
-			},
-		);
+		const productionDevicesInfo = _.map(productionDevices, (device) => {
+			return {
+				host: device.host,
+				address: device.address,
+				osVariant: 'production',
+				dockerInfo: undefined,
+				dockerVersion: undefined,
+			};
+		});
 
 		// Query devices for info
 		const devicesInfo = await Promise.all(
