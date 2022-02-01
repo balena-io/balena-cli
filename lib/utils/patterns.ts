@@ -207,35 +207,6 @@ export async function selectOrganization(organizations?: Organization[]) {
 	});
 }
 
-export async function awaitDevice(uuid: string) {
-	const balena = getBalenaSdk();
-	const deviceName = await balena.models.device.getName(uuid);
-	const visuals = getVisuals();
-	const spinner = new visuals.Spinner(
-		`Waiting for ${deviceName} to come online`,
-	);
-
-	const poll = async (): Promise<void> => {
-		const isOnline = await balena.models.device.isOnline(uuid);
-		if (isOnline) {
-			spinner.stop();
-			console.info(`The device **${deviceName}** is online!`);
-			return;
-		} else {
-			// Spinner implementation is smart enough to
-			// not start again if it was already started
-			spinner.start();
-
-			await delay(3000);
-			await poll();
-		}
-	};
-
-	console.info(`Waiting for ${deviceName} to connect to balena...`);
-	await poll();
-	return uuid;
-}
-
 export async function awaitDeviceOsUpdate(
 	uuid: string,
 	targetOsVersion: string,
