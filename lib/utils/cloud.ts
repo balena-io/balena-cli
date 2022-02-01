@@ -138,6 +138,7 @@ export async function downloadOSImage(
 	OSVersion?: string,
 ) {
 	console.info(`Getting device operating system for ${deviceType}`);
+	const { cli } = await import('cli-ux');
 
 	if (!OSVersion) {
 		console.warn('OS version not specified: using latest released version');
@@ -167,20 +168,20 @@ export async function downloadOSImage(
 	const bar = new visuals.Progress(
 		`Downloading balenaOS version ${displayVersion}`,
 	);
-	const spinner = new visuals.Spinner(
-		`Downloading balenaOS version ${displayVersion} (size unknown)`,
-	);
-
 	stream.on('progress', (state: any) => {
 		if (state != null) {
 			return bar.update(state);
 		} else {
-			return spinner.start();
+			return cli.action.start(
+				`Downloading balenaOS version ${displayVersion} (size unknown)`,
+				'',
+				{ stdout: true },
+			);
 		}
 	});
 
 	stream.on('end', () => {
-		spinner.stop();
+		cli.action.stop();
 	});
 
 	// We completely rely on the `mime` custom property

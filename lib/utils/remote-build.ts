@@ -24,7 +24,7 @@ import type { Pack } from 'tar-stream';
 
 import { ExpectedError, SIGINTError } from '../errors';
 import { tarDirectory } from './compose_ts';
-import { getVisuals, stripIndent } from './lazy';
+import { stripIndent } from './lazy';
 import Logger = require('./logger');
 
 const globalLogger = Logger.getLogger();
@@ -289,18 +289,7 @@ async function cancelBuildIfNecessary(build: RemoteBuild): Promise<void> {
  * the tar stream, and return the stream.
  */
 async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
-	let tarSpinner = {
-		start: () => {
-			/*noop*/
-		},
-		stop: () => {
-			/*noop*/
-		},
-	};
-	if (process.stdout.isTTY) {
-		const visuals = getVisuals();
-		tarSpinner = new visuals.Spinner('Packaging the project source...');
-	}
+	const { cli } = await import('cli-ux');
 
 	const path = await import('path');
 	const preFinalizeCallback = (pack: Pack) => {
@@ -311,7 +300,9 @@ async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
 	};
 
 	try {
-		tarSpinner.start();
+		if (process.stdout.isTTY) {
+			cli.action.start('Packaging the project source...');
+		}
 		const preFinalizeCb =
 			Object.keys(build.opts.registrySecrets).length > 0
 				? preFinalizeCallback
@@ -328,7 +319,9 @@ async function getTarStream(build: RemoteBuild): Promise<Stream.Readable> {
 		);
 		return tarStream;
 	} finally {
-		tarSpinner.stop();
+		if (process.stdout.isTTY) {
+			cli.action.stop();
+		}
 	}
 }
 
@@ -383,30 +376,24 @@ function createRemoteBuildRequest(
 async function getRemoteBuildStream(
 	build: RemoteBuild,
 ): Promise<[request.Request, Stream.Stream]> {
+	const { cli } = require('cli-ux');
 	const builderUrl = await getBuilderEndpoint(
 		build.baseUrl,
 		build.appSlug,
 		build.opts,
 	);
 	let stream: Stream.Stream;
-	let uploadSpinner = {
-		stop: () => {
-			/* noop */
-		},
-	};
 	const onError = (error: Error) => {
-		uploadSpinner.stop();
+		cli.action.stop();
 		if (stream) {
 			stream.emit('error', error);
 		}
 	};
 	// We only show the spinner when outputting to a tty
 	if (process.stdout.isTTY) {
-		const visuals = getVisuals();
-		uploadSpinner = new visuals.Spinner(
+		cli.action.start(
 			`Uploading source package to ${new URL(builderUrl).origin}`,
 		);
-		(uploadSpinner as any).start();
 	}
 
 	const tarStream = await getTarStream(build);
@@ -422,10 +409,10 @@ async function getRemoteBuildStream(
 		stream = buildRequest.pipe(JSONStream.parse('*'));
 	}
 	stream = stream
-		.once('error', () => uploadSpinner.stop())
-		.once('close', () => uploadSpinner.stop())
-		.once('data', () => uploadSpinner.stop())
-		.once('end', () => uploadSpinner.stop())
-		.once('finish', () => uploadSpinner.stop());
+		.once('error', () => cli.action.stop())
+		.once('close', () => cli.action.stop())
+		.once('data', () => cli.action.stop())
+		.once('end', () => cli.action.stop())
+		.once('finish', () => cli.action.stop());
 	return [buildRequest, stream];
 }

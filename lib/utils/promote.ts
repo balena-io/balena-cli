@@ -17,7 +17,7 @@
 import type * as BalenaSdk from 'balena-sdk';
 
 import { ExpectedError, printErrorMessage } from '../errors';
-import { getVisuals, stripIndent, getCliForm } from './lazy';
+import { stripIndent, getCliForm } from './lazy';
 import Logger = require('./logger');
 import { confirm } from './patterns';
 import { exec, execBuffered, getDeviceOsRelease } from './ssh';
@@ -89,19 +89,17 @@ async function execCommand(
 	msg: string,
 ): Promise<void> {
 	const through = await import('through2');
-	const visuals = getVisuals();
+	const { cli } = await import('cli-ux');
 
-	const spinner = new visuals.Spinner(`[${deviceIp}] Connecting...`);
-	const innerSpinner = spinner.spinner;
+	cli.action.start(`[${deviceIp}] Connecting...`);
 
 	const stream = through(function (data, _enc, cb) {
-		innerSpinner.setSpinnerTitle(`%s [${deviceIp}] ${msg}`);
+		cli.action.task!.action = `[${deviceIp}] ${msg}`;
 		cb(null, data);
 	});
 
-	spinner.start();
 	await exec(deviceIp, cmd, stream);
-	spinner.stop();
+	cli.action.stop();
 }
 
 async function configure(deviceIp: string, config: any): Promise<void> {

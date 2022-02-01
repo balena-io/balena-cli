@@ -33,6 +33,7 @@ import { flags } from '@oclif/command';
 import * as _ from 'lodash';
 import type { Application, BalenaSDK, PineExpand, Release } from 'balena-sdk';
 import type { Preloader } from 'balena-preload';
+import { cli } from 'cli-ux';
 
 interface FlagsDef extends DockerConnectionCliFlags {
 	fleet?: string;
@@ -98,9 +99,9 @@ export default class PreloadCmd extends Command {
 			description: `\
 The commit hash of the release to preload. Use "current" to specify the current
 release (ignored if no appId is given). The current release is usually also the
-latest, but can be pinned to a specific release. See:  
-https://www.balena.io/docs/learn/deploy/release-strategy/release-policy/  
-https://www.balena.io/docs/learn/more/masterclasses/fleet-management/#63-pin-using-the-api  
+latest, but can be pinned to a specific release. See:
+https://www.balena.io/docs/learn/deploy/release-strategy/release-policy/
+https://www.balena.io/docs/learn/more/masterclasses/fleet-management/#63-pin-using-the-api
 https://github.com/balena-io-examples/staged-releases\
 `,
 			char: 'c',
@@ -200,19 +201,11 @@ Can be repeated to add multiple certificates.\
 			return progressBar.update({ percentage: event.percentage });
 		};
 
-		const spinners: {
-			[key: string]: ReturnType<typeof getVisuals>['Spinner'];
-		} = {};
-
 		const spinnerHandler = function (event: { name: string; action: string }) {
-			const spinner = (spinners[event.name] ??= new visuals.Spinner(
-				event.name,
-			));
 			if (event.action === 'start') {
-				return spinner.start();
+				return cli.action.start(event.name);
 			} else {
-				console.log();
-				return spinner.stop();
+				return cli.action.stop();
 			}
 		};
 
@@ -396,17 +389,12 @@ Can be repeated to add multiple certificates.\
 	}
 
 	async selectApplication(deviceTypeSlug: string) {
-		const visuals = getVisuals();
-
-		const applicationInfoSpinner = new visuals.Spinner(
-			'Downloading list of applications and releases.',
-		);
-		applicationInfoSpinner.start();
+		cli.action.start('Downloading list of applications and releases.');
 
 		const applications = await this.getApplicationsWithSuccessfulBuilds(
 			deviceTypeSlug,
 		);
-		applicationInfoSpinner.stop();
+		cli.action.stop();
 		if (applications.length === 0) {
 			throw new ExpectedError(
 				`No fleets found with successful releases for device type '${deviceTypeSlug}'`,
