@@ -27,7 +27,6 @@
     "scripts": [
       "build/**/*.js",
       "node_modules/balena-sdk/es2018/index.js",
-      "node_modules/balena-sync/build/**/*.js",
       "node_modules/pinejs-client-request/node_modules/pinejs-client-core/es2018/index.js",
       "node_modules/resin-compose-parse/build/schemas/*.json"
     ],
