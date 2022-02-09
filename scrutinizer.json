@@ -5,6 +5,1363 @@
     {
       "commits": [
         {
+          "subject": "preload: Stop using the deprecated /device-types/v1 API endpoints",
+          "hash": "31eb734af16d805bbd4731a725eb3b826dcd2f42",
+          "body": "Update balena-preload from 11.0.0 to 12.0.0\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Changelog-entry": "preload: Stop using the deprecated /device-types/v1 API endpoints",
+            "changelog-entry": "preload: Stop using the deprecated /device-types/v1 API endpoints",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis",
+          "nested": [
+            {
+              "commits": [
+                {
+                  "subject": "Improve types",
+                  "hash": "fdebfb95ef6f7087c22e77ccedeb418de7655e87",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "patch",
+                    "change-type": "patch",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": []
+                },
+                {
+                  "subject": "Stop relying on the /device-types/v1 endpoints",
+                  "hash": "017d2fdea5b68cb481f3d405f3d20e866a7c24a6",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "minor",
+                    "change-type": "minor",
+                    "See": "https://jel.ly.fish/improvement-stop-relying-device-types-v1-device-type-json-unrelated-things-4fbac3c",
+                    "see": "https://jel.ly.fish/improvement-stop-relying-device-types-v1-device-type-json-unrelated-things-4fbac3c",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": []
+                },
+                {
+                  "subject": "Bump TypeScript to v4.5",
+                  "hash": "99fe71c34ada3664b55aa81994b5861ad66a2db1",
+                  "body": "",
+                  "footer": {
+                    "Change-type": "minor",
+                    "change-type": "minor",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": []
+                },
+                {
+                  "subject": "Bump balena-sdk to v16",
+                  "hash": "c205e41ce6c0c724592923388c35220e0882703b",
+                  "body": "Update balena-sdk from 15.44.0 to 16.0.0\n",
+                  "footer": {
+                    "Change-type": "major",
+                    "change-type": "major",
+                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                  },
+                  "author": "Thodoris Greasidis",
+                  "nested": [
+                    {
+                      "commits": [
+                        {
+                          "subject": "**BREAKING**: Merge the hostApp model into the OS model",
+                          "hash": "fa3ffa3fa24f9d8459e7b03fbce4fdd28efac1ab",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "major",
+                            "change-type": "major",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "**BREAKING** Drop os.getSupportedVersions() method in favor of hostapp.getAvailableOsVersions()",
+                          "hash": "a2f31ed9937aec7e2f3ec637ce8c484c5ea4af7c",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "major",
+                            "change-type": "major",
+                            "Changelog-entry": "**BREAKING** Drop os.getSupportedVersions() method in favor of hostapp.getAvailableOsVersions()",
+                            "changelog-entry": "**BREAKING** Drop os.getSupportedVersions() method in favor of hostapp.getAvailableOsVersions()",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "os.getMaxSatisfyingVersion: Add optional param to choose OS line type",
+                          "hash": "3efd1abf1d9143b017df7247c6c8cc0c00057139",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "os.getMaxSatisfyingVersion: Include ESR versions",
+                          "hash": "cc3e7b2121281ccd0757ad58906e28d001765170",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "os.getMaxSatisfyingVersion: Switch to use hostApps",
+                          "hash": "d033ef176eca308a4df0bd03d2246880e430b5d4",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "hostapp.getAvailableOsVersions: Add single device type argument overload",
+                          "hash": "fdddc72b033724c3248c94e0b49fc3bbf6a47586",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "hostapp.getAllOsVersions: Add single device type argument overload",
+                          "hash": "533996307d5486ee56552e0d66ae3095299dde8e",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "models.hostapp: Add a getAvailableOsVersions() convenience method",
+                          "hash": "11db481db7e066d625bdcd4d7a899792e4f961a6",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "Support optional extra PineOptions in hostapp.getAllOsVersions()",
+                          "hash": "3294ee4a3d9caf5474bfc11dde94541ec72a4190",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "**BREAKING** Include invalidated versions in hostapp.getAllOsVersions()",
+                          "hash": "fe811497d01c030ac33921c45f54bb0e5fbf58e0",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "major",
+                            "change-type": "major",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "models/application: Add getDirectlyAccessible & getAllDirectlyAccessible",
+                          "hash": "924d5f7bdbffd8ae9b602b75a38d6a9d5835b70c",
+                          "body": "",
+                          "footer": {
+                            "Connects-to": "#1068",
+                            "connects-to": "#1068",
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "application.get: Add 'directly_accessible' convenience filter param",
+                          "hash": "f5b10be0f30b30a7f0eeb3996ccebfaf8d3577cb",
+                          "body": "",
+                          "footer": {
+                            "Connects-to": "#1068",
+                            "connects-to": "#1068",
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "application.getAll: Add 'directly_accessible' convenience filter param",
+                          "hash": "89e926e80499ab2445c4855fea8724a63a1f887b",
+                          "body": "",
+                          "footer": {
+                            "Connects-to": "#1068",
+                            "connects-to": "#1068",
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "**BREAKING** Change application.getAll to include public apps",
+                          "hash": "cf57bc2ae5375fa52d03f6722250de0cbbf31222",
+                          "body": "",
+                          "footer": {
+                            "Resolves": "#1067",
+                            "resolves": "#1067",
+                            "Change-type": "major",
+                            "change-type": "major",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "**BREAKING** Drop targeting/retrieving apps by name in favor of slugs",
+                          "hash": "8d32d94b6f494703debfdaf12180bd29c4f6cdcb",
+                          "body": "",
+                          "footer": {
+                            "Resolves": "#1030",
+                            "resolves": "#1030",
+                            "Change-type": "major",
+                            "change-type": "major",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "Bump minimum supported Typescript to v4.5.2",
+                          "hash": "193bd312e6a4010bb6a411c496125aae76c25bad",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "major",
+                            "change-type": "major",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "**BREAKING**: Stop actively supporting node 10",
+                          "hash": "3a97c6adb6e16b11a4a9aafff05ed01d5fedfe36",
+                          "body": "Node 10 may well still work with the SDK for quite a\nwhile, but we'll no longer actively test against them\nsince they are now characterized as EOL, and it's\nquite possible that it may stop working entirely in any\nfuture release.\n",
+                          "footer": {
+                            "Change-type": "major",
+                            "change-type": "major",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "**BREAKING** Drop application.getAllWithDeviceServiceDetails()",
+                          "hash": "53cea5082a80ea18bda1b9e2793dddd1a809ac4d",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "major",
+                            "change-type": "major",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "**BREAKING** Change apiKey.getAll() to return all key variants",
+                          "hash": "bc9fe542ad788c0793b1035273073298a73a9337",
+                          "body": "The apiKeys.getAllNamedUserApiKeys will be offering\nthe old behavior.\n",
+                          "footer": {
+                            "Change-type": "major",
+                            "change-type": "major",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "types: Drop is_in_local_mode from the Device model",
+                          "hash": "50f7f895b8c590d3d7f8be5ec028fab54b331126",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "types: Drop user__is_member_of__application in favor of the term form",
+                          "hash": "fbfc2d6fea941edd37eaa095616b0c619aec081e",
+                          "body": "Dropping the resource mapping & the properties\nfrom the User & Team, in favor of its Term Form,\nuser_application_membership.\n",
+                          "footer": {
+                            "Change-type": "major",
+                            "change-type": "major",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "typings: Drop Subscription's discounts__plan_addon property",
+                          "hash": "a6788dc35e223eb8a81955d5dcc34c8ac124382a",
+                          "body": "Dropping the deprecated property in favor of\nSubscripton's subscription_addon_discount.\n",
+                          "footer": {
+                            "Change-type": "major",
+                            "change-type": "major",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "typings: Stop extending the JWTUser type in the User model",
+                          "hash": "947f7f427be6f638bc12c330499a2b223f04d4ec",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "See": "https://github.com/balena-io/balena-sdk/issues/966",
+                            "see": "https://github.com/balena-io/balena-sdk/issues/966",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "models/config: Change the BETA device type state to NEW",
+                          "hash": "3b06f2bd9b2a8da2da7d7e94f578d89a4ae1598d",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "major",
+                            "change-type": "major",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "typings: Drop the PineWithSelectOnGet type",
+                          "hash": "41815b8499bf13fddd60ff91c41332346364a914",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "major",
+                            "change-type": "major",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "Remove my_application from the supported resources",
+                          "hash": "579052f75d9f6c7f512f320d7c6e66e8b11c80a3",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "major",
+                            "change-type": "major",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "typings: Properly type some Device properties",
+                          "hash": "6406f75080eb7e194271792a970d177df7cdbaf3",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "typings: Drop the DeviceWithImageInstalls type",
+                          "hash": "a14e6a2f4f212cea70b0cdad5b0b9d5643ca337c",
+                          "body": "",
+                          "footer": {
+                            "Resolves": "#923",
+                            "resolves": "#923",
+                            "Change-type": "major",
+                            "change-type": "major"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-16.0.0",
+                      "date": "2021-11-28T18:48:49.341Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "Update balena-request to 11.5.0",
+                          "hash": "cae3aa1f30194beeba40e1398cdaef3dc37ff1e6",
+                          "body": "Update balena-request from 11.4.2 to 11.5.0\n",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": [
+                            {
+                              "commits": [
+                                {
+                                  "subject": "Convert tests to JavaScript and drop coffeescript",
+                                  "hash": "0098dcd5be16c1eebbe722fd29d4a7597a8411bb",
+                                  "body": "",
+                                  "footer": {
+                                    "Change-type": "patch",
+                                    "change-type": "patch"
+                                  },
+                                  "author": "Thodoris Greasidis"
+                                },
+                                {
+                                  "subject": "Fix the jsdoc generation",
+                                  "hash": "a8779e0bf665f29493afa16aea41a140b02e133d",
+                                  "body": "",
+                                  "footer": {
+                                    "Change-type": "patch",
+                                    "change-type": "patch",
+                                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                                  },
+                                  "author": "Thodoris Greasidis"
+                                },
+                                {
+                                  "subject": "Convert to typescript and publish typings",
+                                  "hash": "44106facfa8b770e786c04bdb01b1071fa737b45",
+                                  "body": "",
+                                  "footer": {
+                                    "Change-type": "minor",
+                                    "change-type": "minor",
+                                    "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                                    "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                                  },
+                                  "author": "Thodoris Greasidis"
+                                }
+                              ],
+                              "version": "balena-request-11.5.0",
+                              "date": "2021-11-28T13:07:15.557Z"
+                            }
+                          ]
+                        }
+                      ],
+                      "version": "balena-sdk-15.59.2",
+                      "date": "2021-11-28T13:22:51.063Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "Fix the typings of the Image contract field",
+                          "hash": "8ffb7462892a75d0d5b17bd2563634c4321b5291",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "Fix the typings for the Release contract field",
+                          "hash": "1caca3e7a1c4a319d0ba2344fc50d7498d1e3353",
+                          "body": "",
+                          "footer": {
+                            "Resolves": "#1153",
+                            "resolves": "#1153",
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.59.1",
+                      "date": "2021-11-28T08:56:49.333Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "Add release setIsInvalidated function",
+                          "hash": "670b0229be2871a3aaa174fcd08fc2eb90e1a7bd",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Matthew Yarmolinsky <matthew-timothy@balena.io>",
+                            "signed-off-by": "Matthew Yarmolinsky <matthew-timothy@balena.io>"
+                          },
+                          "author": "Matthew Yarmolinsky",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.59.0",
+                      "date": "2021-11-24T20:45:35.254Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "Update typescript to 4.5.2",
+                          "hash": "5f227908d03881df0128db97f3e488977a17be50",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.58.1",
+                      "date": "2021-11-17T22:57:14.101Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "models/release: Add note() method",
+                          "hash": "65cebcb1376a2b21c3db32a13b272ce5d3bed076",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "typings: Add the release.invalidation_reason property",
+                          "hash": "41e69d929b6863b0dc015608a265ce157cebf9b0",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "typings: Add the release.note property",
+                          "hash": "439d9f5b2287ef8a55a2b5603d4f12de311d2564",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.58.0",
+                      "date": "2021-11-16T10:26:45.167Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "tests/logs: Increase the wait time for retrieving the subscribed logs",
+                          "hash": "7de82b1528354675c54c99bb9df2d88223370966",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "tests/logs: Refactor to async-await",
+                          "hash": "b4264957fd69b0950c7d39e9f32ab0e0a346e893",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.57.2",
+                      "date": "2021-11-15T23:37:53.479Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "typings: Fix $filters for resources with non numeric ids",
+                          "hash": "15e6d9ba017637bae52fbe02b32b7ed067c99c69",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "typings: Add application.can_use__application_as_host ReverseNavigation",
+                          "hash": "cb08802404bab2d7533b87233046a377877f0c45",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "Add missing apiKey.getDeviceApiKeysByDevice docs",
+                          "hash": "65d8ae845671017172b841af8abe009152749909",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.57.1",
+                      "date": "2021-11-11T22:48:29.201Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "models/api-key: Change update() & revoke() to work with all key variants",
+                          "hash": "842c6ce182fbcfc0e75f2a0b7cfd24818ae777b7",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.57.0",
+                      "date": "2021-11-05T13:18:24.149Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "models/apiKey: Add getDeviceApiKeysByDevice() method",
+                          "hash": "da00e1ab4c72da4f48e7aa2ad2c27024bca22b3e",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Depends-on": "https://github.com/balena-io/balena-api/pull/3399",
+                            "depends-on": "https://github.com/balena-io/balena-api/pull/3399",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.56.0",
+                      "date": "2021-11-04T22:14:22.839Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "typings: Add the release.raw_version property",
+                          "hash": "368c96284c0687750321135f8e3264c8370dd3e2",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Depends-on": "https://github.com/balena-io/balena-api/pull/3398",
+                            "depends-on": "https://github.com/balena-io/balena-api/pull/3398",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.55.0",
+                      "date": "2021-11-01T13:03:07.198Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "application/create: Rely on the hostApps for detecting discontinued DTs",
+                          "hash": "e06bcd7cba5d3933e3f31d19c9525d238605daf2",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "See": "https://www.flowdock.com/app/rulemotion/r-resinos/threads/9HOl8Dk1KV_anW-oMlTzzDDXy3H",
+                            "see": "https://www.flowdock.com/app/rulemotion/r-resinos/threads/9HOl8Dk1KV_anW-oMlTzzDDXy3H",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.54.2",
+                      "date": "2021-10-25T14:43:38.402Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "tests/device: Async-await conversions & abstraction on multi-field tests",
+                          "hash": "6f8163fec2162f1f575c26882c84928f9582be56",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.54.1",
+                      "date": "2021-10-22T12:29:19.360Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "tests: Register devices in chunks of 10 to avoid uuid conflicts in node",
+                          "hash": "acb6c922176eedda4cc6bef4f28c4bd28a49bcf8",
+                          "body": "The \"given 55 registered offline device\" was failing\non node with \"uuid\" must be unique.\n",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "See": "https://ci.appveyor.com/project/resin-io/balena-sdk/build/job/dmjscnj3u43kwyhk",
+                            "see": "https://ci.appveyor.com/project/resin-io/balena-sdk/build/job/dmjscnj3u43kwyhk",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "Add known issue check on release isReccomanded logic",
+                          "hash": "fcd5c5d3d02d03093761499de87a76c33c215c19",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Andrea Rosci <andrear@balena.io>",
+                            "signed-off-by": "Andrea Rosci <andrear@balena.io>"
+                          },
+                          "author": "JSReds",
+                          "nested": []
+                        },
+                        {
+                          "subject": "Add known_issue_list to hostApp.getOsVersions()",
+                          "hash": "aa38e638d773ba4cb9ef6f4940c00cc4f4e28145",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Andrea Rosci <andrear@balena.io>",
+                            "signed-off-by": "Andrea Rosci <andrear@balena.io>"
+                          },
+                          "author": "JSReds",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.54.0",
+                      "date": "2021-10-20T13:09:45.029Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "Add support for batch device supervisor updates",
+                          "hash": "0275b6311dcada18b9b11a235576d9f32a263e70",
+                          "body": "",
+                          "footer": {
+                            "Resolves": "#1134",
+                            "resolves": "#1134",
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.53.0",
+                      "date": "2021-10-07T13:29:08.492Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "Add support for batch device pinning to release",
+                          "hash": "81610f8308530e1a0b7f118cf2046da45b70e1a3",
+                          "body": "",
+                          "footer": {
+                            "Resolves": "#1132",
+                            "resolves": "#1132",
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.52.0",
+                      "date": "2021-10-06T10:37:58.535Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "auth.isLoggedIn: Treat BalenaExpiredToken errors as logged out indicator",
+                          "hash": "1f70db1ae2a31cf33baa444a869261804088c778",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.51.4",
+                      "date": "2021-09-28T22:02:20.287Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "Convert application spec to TypeScript",
+                          "hash": "14e34850bd9c362dbee2bf992925d1bbf856c4ca",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.51.3",
+                      "date": "2021-09-28T20:52:19.984Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "application.trackLatestRelease: Fix using draft/invalidated releases",
+                          "hash": "d069945cd76db0cafbe335f8c0403ce13dd05b24",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "application.isTrackingLatestRelease: Exclude draft&invalidated releases",
+                          "hash": "4f3bdd45c88079ac809a5740226a588c6d22f549",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.51.2",
+                      "date": "2021-09-28T15:18:49.974Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "Update balena-request to v11.4.2",
+                          "hash": "09aeebd00e8d4247d9b961275230f384f5729323",
+                          "body": "Update balena-request from 11.4.1 to 11.4.2\n",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+                            "signed-off-by": "Kyle Harding <kyle@balena.io>"
+                          },
+                          "author": "Kyle Harding",
+                          "nested": [
+                            {
+                              "commits": [
+                                {
+                                  "subject": "Allow overriding the default zlib flush setting",
+                                  "hash": "e3bab85ca37f37aac5e3d84caf91c7884655717d",
+                                  "body": "",
+                                  "footer": {
+                                    "Change-type": "patch",
+                                    "change-type": "patch",
+                                    "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+                                    "signed-off-by": "Kyle Harding <kyle@balena.io>"
+                                  },
+                                  "author": "Kyle Harding"
+                                }
+                              ],
+                              "version": "balena-request-11.4.2",
+                              "date": "2021-09-20T16:46:49.698Z"
+                            }
+                          ]
+                        }
+                      ],
+                      "version": "balena-sdk-15.51.1",
+                      "date": "2021-09-20T18:03:51.216Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "os.getConfig: Add typings for the provisioningKeyName option",
+                          "hash": "30374d8f750247f450552e44d34dd75b46df57aa",
+                          "body": "",
+                          "footer": {
+                            "Change-Type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Nitish Agarwal 1592163+nitishagar@users.noreply.github.com",
+                            "signed-off-by": "Nitish Agarwal 1592163+nitishagar@users.noreply.github.com"
+                          },
+                          "author": "Nitish Agarwal",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.51.0",
+                      "date": "2021-09-16T10:09:05.726Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "models/os: Always first normalize the device type slug",
+                          "hash": "72d597c11a9924ce2be18ee6196933551c28c180",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.50.1",
+                      "date": "2021-09-13T22:09:51.957Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "Add release.finalize to promote draft releases to final",
+                          "hash": "3ff1a104bb33c7d864aae872ec385df538a38fe2",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Paul Jonathan <pj@balena.io>",
+                            "signed-off-by": "Paul Jonathan <pj@balena.io>",
+                            "See": "https://github.com/balena-io/balena-sdk/issues/1122",
+                            "see": "https://github.com/balena-io/balena-sdk/issues/1122"
+                          },
+                          "author": "toochevere",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.50.0",
+                      "date": "2021-09-10T17:46:20.553Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "typings: Drop the v5-model-only application_type.is_host_os",
+                          "hash": "b5ff0ec9888450ae800813fff34d4f62716b1e70",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.49.1",
+                      "date": "2021-09-10T14:32:30.889Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "os.getSupportedOsUpdateVersions: Use the hostApp releases",
+                          "hash": "97727ec085d004022fc167ef1eac74b770b0bc49",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "os.download: Use the hostApp for finding the latest release",
+                          "hash": "8d1d85c65e6af04886b8de70f149602212353369",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.49.0",
+                      "date": "2021-09-06T17:35:41.134Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "Update balena-request to 11.4.1",
+                          "hash": "de5c18f7b55d25a23ae3b78fda8ea0ee4494e4ad",
+                          "body": "Update balena-request from 11.4.0 to 11.4.1\n",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+                            "signed-off-by": "Kyle Harding <kyle@balena.io>"
+                          },
+                          "author": "Kyle Harding",
+                          "nested": [
+                            {
+                              "commits": [
+                                {
+                                  "subject": "Allow more lenient gzip decompression",
+                                  "hash": "9c7bc3051b279c9d09ec501a78dbe9f506d65650",
+                                  "body": "Be more lenient with decoding compressed responses, since (very rarely)\nservers send slightly invalid gzip responses that are still accepted\nby common browsers.\n\nAlways using Z_SYNC_FLUSH is what cURL does.\n",
+                                  "footer": {
+                                    "Change-type": "patch",
+                                    "change-type": "patch",
+                                    "Signed-off-by": "Kyle Harding <kyle@balena.io>",
+                                    "signed-off-by": "Kyle Harding <kyle@balena.io>"
+                                  },
+                                  "author": "Kyle Harding"
+                                }
+                              ],
+                              "version": "balena-request-11.4.1",
+                              "date": "2021-08-27T19:10:59.811Z"
+                            }
+                          ]
+                        }
+                      ],
+                      "version": "balena-sdk-15.48.3",
+                      "date": "2021-08-27T19:53:51.776Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "Improve hostapp.getAllOsVersions performance & reduce fetched data",
+                          "hash": "61307d83ebaa03d69197b5140ddcb5c50c9c4159",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.48.2",
+                      "date": "2021-08-27T10:38:18.157Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "Update typescript to 4.4.2",
+                          "hash": "5d6e2b69633d8aca0747a64f121bd4b7e670a3c5",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.48.1",
+                      "date": "2021-08-27T07:07:50.896Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "Deprecate the release.release_version property",
+                          "hash": "ad635d40a3682bd80f50263e560ed3031f27e0a7",
+                          "body": "Setting a 3-digit semver to the release.semver field\nis the suggested approach.\n",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "typings: Add the release versioning properties",
+                          "hash": "777f01fb2db9fed304cd6896f8138bd0838d1f72",
+                          "body": "Setting a 3-digit semver to the release.semver field\nis the suggested approach, instead of setting the\nrelease.release_version field. This fixes the unique\nconstraint issue that release_version was often\ncausing to users, since in case a duplicate semver is\nprovided, the backend will auto-increment the\nrevision field of the release. A composite\nrelease.version field is also added, which has a raw\nfield with the complete unique version of the release.\n",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Depends-on": "https://github.com/balena-io/balena-api/pull/3249",
+                            "depends-on": "https://github.com/balena-io/balena-api/pull/3249",
+                            "See": "https://www.flowdock.com/app/rulemotion/r-supervisor/threads/JN2-gnspQ-v6WaeWCvm9T8NYDY1",
+                            "see": "https://www.flowdock.com/app/rulemotion/r-supervisor/threads/JN2-gnspQ-v6WaeWCvm9T8NYDY1",
+                            "HQ": "https://jel.ly.fish/8ea1c390-9a85-402d-978c-4d31dcb0d235",
+                            "hq": "https://jel.ly.fish/8ea1c390-9a85-402d-978c-4d31dcb0d235",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.48.0",
+                      "date": "2021-08-15T12:42:50.679Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "Run browser tests using the minified browser bundle",
+                          "hash": "bc8c6c67926bf80d41c8f523bc4e5d2a5f1556b0",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        },
+                        {
+                          "subject": "Move to uglify-js to fix const assignment bug in minified build",
+                          "hash": "e03bfe3c4e82ed432917c670e7d5ff2f998299d8",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.47.1",
+                      "date": "2021-08-10T12:00:20.993Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "typings: Add the release.is_final & is_finalized_at__date properties",
+                          "hash": "d84dc17c3a537d79440924a1d4634177ac18939b",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "minor",
+                            "change-type": "minor",
+                            "Depends-on": "https://github.com/balena-io/balena-api/pull/3248",
+                            "depends-on": "https://github.com/balena-io/balena-api/pull/3248",
+                            "See": "https://www.flowdock.com/app/rulemotion/r-supervisor/threads/JN2-gnspQ-v6WaeWCvm9T8NYDY1",
+                            "see": "https://www.flowdock.com/app/rulemotion/r-supervisor/threads/JN2-gnspQ-v6WaeWCvm9T8NYDY1",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.47.0",
+                      "date": "2021-08-09T23:00:51.490Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "apiKey.getAll: Return only NamedUserApiKeys for backwards compatibility",
+                          "hash": "b95666caf36e65bb0d7a2a14f75824be7188cc36",
+                          "body": "",
+                          "footer": {
+                            "Change-type": "patch",
+                            "change-type": "patch",
+                            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+                            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+                          },
+                          "author": "Thodoris Greasidis",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.46.1",
+                      "date": "2021-07-28T10:29:40.795Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "Add email verification & email request methods",
+                          "hash": "a5b30a066e87f5c58cd66ff9b27da8384954b079",
+                          "body": "",
+                          "footer": {
+                            "Change-Type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Nitish Agarwal 1592163+nitishagar@users.noreply.github.com",
+                            "signed-off-by": "Nitish Agarwal 1592163+nitishagar@users.noreply.github.com"
+                          },
+                          "author": "Nitish Agarwal",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.46.0",
+                      "date": "2021-07-27T09:53:47.815Z"
+                    },
+                    {
+                      "commits": [
+                        {
+                          "subject": "Update generateProvisioningKey to include keyName",
+                          "hash": "5b79ee94aa81496640c2481dbc356207790bbecd",
+                          "body": "",
+                          "footer": {
+                            "Change-Type": "minor",
+                            "change-type": "minor",
+                            "Signed-off-by": "Nitish Agarwal 1592163+nitishagar@users.noreply.github.com",
+                            "signed-off-by": "Nitish Agarwal 1592163+nitishagar@users.noreply.github.com"
+                          },
+                          "author": "Nitish Agarwal",
+                          "nested": []
+                        }
+                      ],
+                      "version": "balena-sdk-15.45.0",
+                      "date": "2021-07-26T10:16:42.712Z"
+                    }
+                  ]
+                }
+              ],
+              "version": "balena-preload-12.0.0",
+              "title": "Stop relying on the /device-types/v1 endpoints",
+              "date": "2022-01-27T14:42:25.582Z"
+            }
+          ]
+        }
+      ],
+      "version": "13.1.12",
+      "title": "'Update balena-preload to v12'",
+      "date": "2022-02-09T00:09:30.510Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "chore: lib/auth/utils.ts: Replace deprecated url.resolve, use async/await",
           "hash": "5464e550e765ca4fc74efe98675cc5dc9189f1be",
           "body": "",
@@ -8921,7 +10278,7 @@
                           "subject": "Explicitly add tslib dependency"
                         }
                       ],
-                      "date": "2020-07-03T17:54:56Z",
+                      "date": "2020-07-03T17:54:56.000Z",
                       "version": "balena-auth-4.0.1"
                     },
                     {
@@ -8969,7 +10326,7 @@
                           "subject": "Specify node 10+"
                         }
                       ],
-                      "date": "2020-07-02T15:23:00Z",
+                      "date": "2020-07-02T15:23:00.000Z",
                       "version": "balena-auth-4.0.0"
                     },
                     {
@@ -8984,7 +10341,7 @@
                           "subject": "Switch to @balena/lint for linting"
                         }
                       ],
-                      "date": "2020-07-02T14:58:05Z",
+                      "date": "2020-07-02T14:58:05.000Z",
                       "version": "balena-auth-3.1.1"
                     },
                     {
@@ -9016,7 +10373,7 @@
                           "subject": "Update balena-auth to 4.x and balena-request to 11.x"
                         }
                       ],
-                      "date": "2020-07-06T10:27:12Z",
+                      "date": "2020-07-06T10:27:12.000Z",
                       "version": "balena-pine-12.1.0"
                     },
                     {
@@ -9031,7 +10388,7 @@
                           "subject": "Use typescript import helpers"
                         }
                       ],
-                      "date": "2020-07-03T18:44:27Z",
+                      "date": "2020-07-03T18:44:27.000Z",
                       "version": "balena-pine-12.0.1"
                     },
                     {
@@ -9116,7 +10473,7 @@
                           "subject": "Bump to pinejs-client v6 which requires es2015 & drops Bluebird promises"
                         }
                       ],
-                      "date": "2020-06-26T15:23:48Z",
+                      "date": "2020-06-26T15:23:48.000Z",
                       "version": "balena-pine-12.0.0"
                     },
                     {
@@ -9142,7 +10499,7 @@
                           "subject": "Bump balena-config-karma to v3"
                         }
                       ],
-                      "date": "2020-06-15T13:15:02Z",
+                      "date": "2020-06-15T13:15:02.000Z",
                       "version": "balena-pine-11.2.1"
                     },
                     {
@@ -9246,7 +10603,7 @@
                           "subject": "Use typescript import helpers"
                         }
                       ],
-                      "date": "2020-07-06T18:11:23Z",
+                      "date": "2020-07-06T18:11:23.000Z",
                       "version": "balena-register-device-7.0.0"
                     },
                     {
@@ -9262,7 +10619,7 @@
                           "subject": "Export ApiError"
                         }
                       ],
-                      "date": "2020-05-26T13:07:26Z",
+                      "date": "2020-05-26T13:07:26.000Z",
                       "version": "balena-register-device-6.1.6"
                     },
                     {
@@ -9277,7 +10634,7 @@
                           "subject": "Convert tests to js"
                         }
                       ],
-                      "date": "2020-05-21T14:46:17Z",
+                      "date": "2020-05-21T14:46:17.000Z",
                       "version": "balena-register-device-6.1.5"
                     },
                     {
@@ -9293,7 +10650,7 @@
                           "subject": "Install typed-error v2"
                         }
                       ],
-                      "date": "2020-05-21T11:06:32Z",
+                      "date": "2020-05-21T11:06:32.000Z",
                       "version": "balena-register-device-6.1.4"
                     },
                     {
@@ -9309,7 +10666,7 @@
                           "subject": "Extend API exception to include full response object"
                         }
                       ],
-                      "date": "2020-05-20T12:23:42Z",
+                      "date": "2020-05-20T12:23:42.000Z",
                       "version": "balena-register-device-6.1.3"
                     },
                     {
@@ -9325,7 +10682,7 @@
                           "subject": "Update mocha to fix node v12 deprecation warning"
                         }
                       ],
-                      "date": "2020-05-20T10:59:05Z",
+                      "date": "2020-05-20T10:59:05.000Z",
                       "version": "balena-register-device-6.1.2"
                     },
                     {
@@ -9372,7 +10729,7 @@
                           "subject": "Fix tslib dependency"
                         }
                       ],
-                      "date": "2020-07-06T10:51:52Z",
+                      "date": "2020-07-06T10:51:52.000Z",
                       "version": "balena-request-11.0.2"
                     },
                     {
@@ -9387,7 +10744,7 @@
                           "subject": "Fix passing baseUrl to refreshToken if the request uses an absolute url"
                         }
                       ],
-                      "date": "2020-07-03T21:42:07Z",
+                      "date": "2020-07-03T21:42:07.000Z",
                       "version": "balena-request-11.0.1"
                     },
                     {
@@ -9487,7 +10844,7 @@
                           "subject": "Change the browser request timeout error to be consistent with node"
                         }
                       ],
-                      "date": "2020-07-03T19:12:04Z",
+                      "date": "2020-07-03T19:12:04.000Z",
                       "version": "balena-request-11.0.0"
                     }
                   ]
@@ -9791,7 +11148,7 @@
                                   "subject": "Explicitly add tslib dependency"
                                 }
                               ],
-                              "date": "2020-07-03T17:54:56Z",
+                              "date": "2020-07-03T17:54:56.000Z",
                               "version": "balena-auth-4.0.1"
                             },
                             {
@@ -9839,7 +11196,7 @@
                                   "subject": "Specify node 10+"
                                 }
                               ],
-                              "date": "2020-07-02T15:23:00Z",
+                              "date": "2020-07-02T15:23:00.000Z",
                               "version": "balena-auth-4.0.0"
                             },
                             {
@@ -9854,7 +11211,7 @@
                                   "subject": "Switch to @balena/lint for linting"
                                 }
                               ],
-                              "date": "2020-07-02T14:58:05Z",
+                              "date": "2020-07-02T14:58:05.000Z",
                               "version": "balena-auth-3.1.1"
                             },
                             {
@@ -9886,7 +11243,7 @@
                                   "subject": "Update balena-auth to 4.x and balena-request to 11.x"
                                 }
                               ],
-                              "date": "2020-07-06T10:27:12Z",
+                              "date": "2020-07-06T10:27:12.000Z",
                               "version": "balena-pine-12.1.0"
                             },
                             {
@@ -9901,7 +11258,7 @@
                                   "subject": "Use typescript import helpers"
                                 }
                               ],
-                              "date": "2020-07-03T18:44:27Z",
+                              "date": "2020-07-03T18:44:27.000Z",
                               "version": "balena-pine-12.0.1"
                             },
                             {
@@ -9986,7 +11343,7 @@
                                   "subject": "Bump to pinejs-client v6 which requires es2015 & drops Bluebird promises"
                                 }
                               ],
-                              "date": "2020-06-26T15:23:48Z",
+                              "date": "2020-06-26T15:23:48.000Z",
                               "version": "balena-pine-12.0.0"
                             },
                             {
@@ -10012,7 +11369,7 @@
                                   "subject": "Bump balena-config-karma to v3"
                                 }
                               ],
-                              "date": "2020-06-15T13:15:02Z",
+                              "date": "2020-06-15T13:15:02.000Z",
                               "version": "balena-pine-11.2.1"
                             },
                             {
@@ -10116,7 +11473,7 @@
                                   "subject": "Use typescript import helpers"
                                 }
                               ],
-                              "date": "2020-07-06T18:11:23Z",
+                              "date": "2020-07-06T18:11:23.000Z",
                               "version": "balena-register-device-7.0.0"
                             },
                             {
@@ -10132,7 +11489,7 @@
                                   "subject": "Export ApiError"
                                 }
                               ],
-                              "date": "2020-05-26T13:07:26Z",
+                              "date": "2020-05-26T13:07:26.000Z",
                               "version": "balena-register-device-6.1.6"
                             },
                             {
@@ -10147,7 +11504,7 @@
                                   "subject": "Convert tests to js"
                                 }
                               ],
-                              "date": "2020-05-21T14:46:17Z",
+                              "date": "2020-05-21T14:46:17.000Z",
                               "version": "balena-register-device-6.1.5"
                             },
                             {
@@ -10163,7 +11520,7 @@
                                   "subject": "Install typed-error v2"
                                 }
                               ],
-                              "date": "2020-05-21T11:06:32Z",
+                              "date": "2020-05-21T11:06:32.000Z",
                               "version": "balena-register-device-6.1.4"
                             },
                             {
@@ -10179,7 +11536,7 @@
                                   "subject": "Extend API exception to include full response object"
                                 }
                               ],
-                              "date": "2020-05-20T12:23:42Z",
+                              "date": "2020-05-20T12:23:42.000Z",
                               "version": "balena-register-device-6.1.3"
                             },
                             {
@@ -10195,7 +11552,7 @@
                                   "subject": "Update mocha to fix node v12 deprecation warning"
                                 }
                               ],
-                              "date": "2020-05-20T10:59:05Z",
+                              "date": "2020-05-20T10:59:05.000Z",
                               "version": "balena-register-device-6.1.2"
                             },
                             {
@@ -10242,7 +11599,7 @@
                                   "subject": "Fix tslib dependency"
                                 }
                               ],
-                              "date": "2020-07-06T10:51:52Z",
+                              "date": "2020-07-06T10:51:52.000Z",
                               "version": "balena-request-11.0.2"
                             },
                             {
@@ -10257,7 +11614,7 @@
                                   "subject": "Fix passing baseUrl to refreshToken if the request uses an absolute url"
                                 }
                               ],
-                              "date": "2020-07-03T21:42:07Z",
+                              "date": "2020-07-03T21:42:07.000Z",
                               "version": "balena-request-11.0.1"
                             },
                             {
@@ -10357,7 +11714,7 @@
                                   "subject": "Change the browser request timeout error to be consistent with node"
                                 }
                               ],
-                              "date": "2020-07-03T19:12:04Z",
+                              "date": "2020-07-03T19:12:04.000Z",
                               "version": "balena-request-11.0.0"
                             }
                           ]
@@ -11074,7 +12431,7 @@
                           "subject": "Replace wary with mocha"
                         }
                       ],
-                      "date": "2020-07-30T15:41:13Z",
+                      "date": "2020-07-30T15:41:13.000Z",
                       "version": "balena-image-fs-7.0.0"
                     },
                     {
@@ -11089,7 +12446,7 @@
                           "subject": "Update file-disk to ^7"
                         }
                       ],
-                      "date": "2020-07-24T14:45:35Z",
+                      "date": "2020-07-24T14:45:35.000Z",
                       "version": "balena-image-fs-6.0.0"
                     }
                   ]
@@ -11127,7 +12484,7 @@
                   "subject": "Update balena-sdk to 15.x"
                 }
               ],
-              "date": "2020-08-04T13:35:17Z",
+              "date": "2020-08-04T13:35:17.000Z",
               "version": "balena-image-manager-7.0.2"
             },
             {
@@ -11159,7 +12516,7 @@
                   "subject": "Fix build dir paths"
                 }
               ],
-              "date": "2020-08-04T14:34:09Z",
+              "date": "2020-08-04T14:34:09.000Z",
               "version": "balena-preload-10.2.3"
             },
             {
@@ -11174,7 +12531,7 @@
                   "subject": "Update balena-sdk to 15.x"
                 }
               ],
-              "date": "2020-08-04T14:07:15Z",
+              "date": "2020-08-04T14:07:15.000Z",
               "version": "balena-preload-10.2.2"
             },
             {
@@ -11198,7 +12555,7 @@
                   "subject": "Use @balena/lint for linting"
                 }
               ],
-              "date": "2020-08-04T11:46:29Z",
+              "date": "2020-08-04T11:46:29.000Z",
               "version": "balena-preload-10.2.1"
             },
             {
@@ -11230,7 +12587,7 @@
                   "subject": "Update balena-sdk to 15.x"
                 }
               ],
-              "date": "2020-08-04T13:42:18Z",
+              "date": "2020-08-04T13:42:18.000Z",
               "version": "balena-sync-11.0.1"
             }
           ]
@@ -19989,7 +21346,7 @@
           "subject": "tunnel: Fix incorrect parsing of numeric short UUIDs"
         }
       ],
-      "date": "2019-06-26T11:12:08Z",
+      "date": "2019-06-26T11:12:08.000Z",
       "version": "11.3.4"
     },
     {
@@ -20005,7 +21362,7 @@
           "subject": "Fix using an image more than once in a balena push"
         }
       ],
-      "date": "2019-06-20T16:31:35Z",
+      "date": "2019-06-20T16:31:35.000Z",
       "version": "11.3.3"
     },
     {
@@ -20021,7 +21378,7 @@
           "subject": "Remove the livepush initialisation double printed log"
         }
       ],
-      "date": "2019-06-20T15:40:39Z",
+      "date": "2019-06-20T15:40:39.000Z",
       "version": "11.3.2"
     },
     {
@@ -20037,7 +21394,7 @@
           "subject": "Fix output of seperation newline during livepush"
         }
       ],
-      "date": "2019-06-18T12:00:10Z",
+      "date": "2019-06-18T12:00:10.000Z",
       "version": "11.3.1"
     },
     {
@@ -20054,7 +21411,7 @@
           "subject": "If a secrets file is not specified, read it from the data directory"
         }
       ],
-      "date": "2019-06-18T10:43:04Z",
+      "date": "2019-06-18T10:43:04.000Z",
       "version": "11.3.0"
     },
     {
@@ -20071,7 +21428,7 @@
           "subject": "docs: update GitHub issue template, required Node version and sample Dockerfile"
         }
       ],
-      "date": "2019-06-16T14:18:43Z",
+      "date": "2019-06-16T14:18:43.000Z",
       "version": "11.2.2"
     },
     {
@@ -20087,7 +21444,7 @@
           "subject": "livepush: Ignore the .git directory when performing a livepush"
         }
       ],
-      "date": "2019-06-12T12:58:48Z",
+      "date": "2019-06-12T12:58:48.000Z",
       "version": "11.2.1"
     },
     {
@@ -20105,7 +21462,7 @@
           "subject": "Add device OS update action"
         }
       ],
-      "date": "2019-06-11T12:51:29Z",
+      "date": "2019-06-11T12:51:29.000Z",
       "version": "11.2.0"
     },
     {
@@ -20140,7 +21497,7 @@
           "subject": "Pin prettier and add formatting changes"
         }
       ],
-      "date": "2019-06-10T10:36:52Z",
+      "date": "2019-06-10T10:36:52.000Z",
       "version": "11.1.0"
     },
     {
@@ -20166,7 +21523,7 @@
           "subject": "Fix \"catch-uncommitted\" build failure (npm run prettify)"
         }
       ],
-      "date": "2019-06-07T00:59:26Z",
+      "date": "2019-06-07T00:59:26.000Z",
       "version": "11.0.7"
     },
     {
@@ -20182,7 +21539,7 @@
           "subject": "fix: Add single code path to get full, online-only device UUIDs"
         }
       ],
-      "date": "2019-06-06T16:39:00Z",
+      "date": "2019-06-06T16:39:00.000Z",
       "version": "11.0.6"
     },
     {
@@ -20198,7 +21555,7 @@
           "subject": "Add initial typings for resin-cli-form"
         }
       ],
-      "date": "2019-06-06T13:49:54Z",
+      "date": "2019-06-06T13:49:54.000Z",
       "version": "11.0.5"
     },
     {
@@ -20214,7 +21571,7 @@
           "subject": "Add 'scan' command to the website reference documentation"
         }
       ],
-      "date": "2019-06-06T09:43:16Z",
+      "date": "2019-06-06T09:43:16.000Z",
       "version": "11.0.4"
     },
     {
@@ -20230,7 +21587,7 @@
           "subject": "Fix 'npm help' SyntaxError on Node 8 (invalid 's' regex flag)"
         }
       ],
-      "date": "2019-06-05T15:35:09Z",
+      "date": "2019-06-05T15:35:09.000Z",
       "version": "11.0.3"
     },
     {
@@ -20246,7 +21603,7 @@
           "subject": "Fix \"--production\" installation (missing patch-package dependency)"
         }
       ],
-      "date": "2019-06-05T13:21:28Z",
+      "date": "2019-06-05T13:21:28.000Z",
       "version": "11.0.2"
     },
     {
@@ -20262,7 +21619,7 @@
           "subject": "Fix Travis release"
         }
       ],
-      "date": "2019-06-04T19:30:14Z",
+      "date": "2019-06-04T19:30:14.000Z",
       "version": "11.0.1"
     },
     {
@@ -20507,7 +21864,7 @@
           "subject": "Remove 'signup' command"
         }
       ],
-      "date": "2019-06-04T18:16:17Z",
+      "date": "2019-06-04T18:16:17.000Z",
       "version": "11.0.0"
     },
     {
@@ -20523,7 +21880,7 @@
           "subject": "Pin moment-duration-format package (ReferenceError: window is not defined)"
         }
       ],
-      "date": "2019-06-04T06:08:50Z",
+      "date": "2019-06-04T06:08:50.000Z",
       "version": "10.17.5"
     },
     {
@@ -20539,7 +21896,7 @@
           "subject": ".gitignore: Add fast-boot.json generated by balena-dev command"
         }
       ],
-      "date": "2019-06-03T11:17:31Z",
+      "date": "2019-06-03T11:17:31.000Z",
       "version": "10.17.4"
     },
     {
@@ -20556,7 +21913,7 @@
           "subject": "Use an .npmrc to prevent creating a package-lock on each install"
         }
       ],
-      "date": "2019-05-31T14:21:31Z",
+      "date": "2019-05-31T14:21:31.000Z",
       "version": "10.17.3"
     },
     {
@@ -20572,7 +21929,7 @@
           "subject": "Allow newline characters in build/deploy --buildArg values"
         }
       ],
-      "date": "2019-05-30T15:03:41Z",
+      "date": "2019-05-30T15:03:41.000Z",
       "version": "10.17.2"
     },
     {
@@ -20588,7 +21945,7 @@
           "subject": "Fix CI build error (missing @types/mz)"
         }
       ],
-      "date": "2019-05-30T13:00:06Z",
+      "date": "2019-05-30T13:00:06.000Z",
       "version": "10.17.1"
     },
     {
@@ -20603,7 +21960,7 @@
           "subject": "Add preload --add-certificate option"
         }
       ],
-      "date": "2019-05-29T15:03:29Z",
+      "date": "2019-05-29T15:03:29.000Z",
       "version": "10.17.0"
     },
     {
@@ -20620,7 +21977,7 @@
           "subject": "compose: remove artificial 20 repo limit"
         }
       ],
-      "date": "2019-05-27T14:36:27Z",
+      "date": "2019-05-27T14:36:27.000Z",
       "version": "10.16.0"
     },
     {
@@ -20646,7 +22003,7 @@
           "subject": "Add a much faster container replacement for livepush"
         }
       ],
-      "date": "2019-05-27T14:04:06Z",
+      "date": "2019-05-27T14:04:06.000Z",
       "version": "10.15.0"
     },
     {
@@ -20663,7 +22020,7 @@
           "subject": "Add the ability to specify an environment variable when pushing to local"
         }
       ],
-      "date": "2019-05-27T12:45:41Z",
+      "date": "2019-05-27T12:45:41.000Z",
       "version": "10.14.0"
     },
     {
@@ -20687,7 +22044,7 @@
           "subject": "Improve preload's --commit parameter description"
         }
       ],
-      "date": "2019-05-22T15:50:07Z",
+      "date": "2019-05-22T15:50:07.000Z",
       "version": "10.13.6"
     },
     {
@@ -20711,7 +22068,7 @@
           "subject": "Rename `preload --commit latest` to `preload --commit current`"
         }
       ],
-      "date": "2019-05-22T12:52:46Z",
+      "date": "2019-05-22T12:52:46.000Z",
       "version": "10.13.5"
     },
     {
@@ -20727,7 +22084,7 @@
           "subject": "Fix TypeError when running 'balena apps'"
         }
       ],
-      "date": "2019-05-20T16:51:41Z",
+      "date": "2019-05-20T16:51:41.000Z",
       "version": "10.13.4"
     },
     {
@@ -20744,7 +22101,7 @@
           "subject": "apps: Fix the device count columns being empty"
         }
       ],
-      "date": "2019-05-17T18:14:29Z",
+      "date": "2019-05-17T18:14:29.000Z",
       "version": "10.13.3"
     },
     {
@@ -20761,7 +22118,7 @@
           "subject": "Remove intermediate containers when doing a local push"
         }
       ],
-      "date": "2019-05-17T16:58:33Z",
+      "date": "2019-05-17T16:58:33.000Z",
       "version": "10.13.2"
     },
     {
@@ -20778,7 +22135,7 @@
           "subject": "docs: Fix os configure example in os build-config docs"
         }
       ],
-      "date": "2019-05-16T10:03:24Z",
+      "date": "2019-05-16T10:03:24.000Z",
       "version": "10.13.1"
     },
     {
@@ -20796,7 +22153,7 @@
           "subject": "Use the open-balena-api endpoints for device type & version info"
         }
       ],
-      "date": "2019-05-16T09:31:59Z",
+      "date": "2019-05-16T09:31:59.000Z",
       "version": "10.13.0"
     },
     {
@@ -20812,7 +22169,7 @@
           "subject": "preload: bump version to fix preloading on logstream supervisors"
         }
       ],
-      "date": "2019-05-15T17:16:59Z",
+      "date": "2019-05-15T17:16:59.000Z",
       "version": "10.12.1"
     },
     {
@@ -20828,7 +22185,7 @@
           "subject": "Fix video url"
         }
       ],
-      "date": "2019-05-15T14:38:46Z",
+      "date": "2019-05-15T14:38:46.000Z",
       "version": "10.12.0"
     },
     {
@@ -20844,7 +22201,7 @@
           "subject": "Debounce livepush invocations to collect changes together"
         }
       ],
-      "date": "2019-05-15T13:31:30Z",
+      "date": "2019-05-15T13:31:30.000Z",
       "version": "10.11.1"
     },
     {
@@ -20860,7 +22217,7 @@
           "subject": "Update balena-cli video url"
         }
       ],
-      "date": "2019-05-15T10:40:15Z",
+      "date": "2019-05-15T10:40:15.000Z",
       "version": "10.11.0"
     },
     {
@@ -20875,7 +22232,7 @@
           "subject": "Update instructions for adding folder to path in MacOS"
         }
       ],
-      "date": "2019-05-14T13:19:53Z",
+      "date": "2019-05-14T13:19:53.000Z",
       "version": "10.10.5"
     },
     {
@@ -20902,7 +22259,7 @@
           "subject": "Pin pkg version to avoid node 6 error"
         }
       ],
-      "date": "2019-05-14T12:23:19Z",
+      "date": "2019-05-14T12:23:19.000Z",
       "version": "10.10.4"
     },
     {
@@ -20919,7 +22276,7 @@
           "subject": "Fix 'local configure' on macOS standalone installation"
         }
       ],
-      "date": "2019-05-10T16:12:44Z",
+      "date": "2019-05-10T16:12:44.000Z",
       "version": "10.10.3"
     },
     {
@@ -20934,7 +22291,7 @@
           "subject": "Update dependencies including a balena-preload fix for lots of releases"
         }
       ],
-      "date": "2019-05-10T15:02:09Z",
+      "date": "2019-05-10T15:02:09.000Z",
       "version": "10.10.2"
     },
     {
@@ -20950,7 +22307,7 @@
           "subject": "Replace 'npm' upgrade notifier message with INSTALL.md URL"
         }
       ],
-      "date": "2019-05-04T19:51:38Z",
+      "date": "2019-05-04T19:51:38.000Z",
       "version": "10.10.1"
     },
     {
@@ -20966,7 +22323,7 @@
           "subject": "qemu: use v4.0.0-balena"
         }
       ],
-      "date": "2019-05-03T12:30:25Z",
+      "date": "2019-05-03T12:30:25.000Z",
       "version": "10.10.0"
     },
     {
@@ -20993,7 +22350,7 @@
           "subject": "Improve livepush UX"
         }
       ],
-      "date": "2019-05-02T13:16:45Z",
+      "date": "2019-05-02T13:16:45.000Z",
       "version": "10.9.4"
     },
     {
@@ -21029,7 +22386,7 @@
           "subject": "actions/auth: fix mixed indentation error"
         }
       ],
-      "date": "2019-05-02T12:36:06Z",
+      "date": "2019-05-02T12:36:06.000Z",
       "version": "10.9.3"
     },
     {
@@ -21045,7 +22402,7 @@
           "subject": "Update README and INSTALL docs (review typos and some rewording)"
         }
       ],
-      "date": "2019-05-02T10:51:23Z",
+      "date": "2019-05-02T10:51:23.000Z",
       "version": "10.9.2"
     },
     {
@@ -21061,7 +22418,7 @@
           "subject": "Allow any amount of subdomains when parsing .local addresses"
         }
       ],
-      "date": "2019-05-01T08:14:37Z",
+      "date": "2019-05-01T08:14:37.000Z",
       "version": "10.9.1"
     },
     {
@@ -21077,7 +22434,7 @@
           "subject": "Unify the CLI instructions between capitanodoc.ts and README.md, move"
         }
       ],
-      "date": "2019-04-29T13:48:13Z",
+      "date": "2019-04-29T13:48:13.000Z",
       "version": "10.9.0"
     },
     {
@@ -21093,7 +22450,7 @@
           "subject": "Handle app names that look like a number (eg 1234)"
         }
       ],
-      "date": "2019-04-29T10:11:16Z",
+      "date": "2019-04-29T10:11:16.000Z",
       "version": "10.8.2"
     },
     {
@@ -21109,7 +22466,7 @@
           "subject": "Add better semantics for detached mode + live for push"
         }
       ],
-      "date": "2019-04-26T15:59:49Z",
+      "date": "2019-04-26T15:59:49.000Z",
       "version": "10.8.1"
     },
     {
@@ -21125,7 +22482,7 @@
           "subject": "Allow specifying a .local address for logs and push"
         }
       ],
-      "date": "2019-04-25T10:34:56Z",
+      "date": "2019-04-25T10:34:56.000Z",
       "version": "10.8.0"
     },
     {
@@ -21141,7 +22498,7 @@
           "subject": "Allow filtering of system logs with push and logs commands"
         }
       ],
-      "date": "2019-04-24T16:45:41Z",
+      "date": "2019-04-24T16:45:41.000Z",
       "version": "10.7.0"
     },
     {
@@ -21157,7 +22514,7 @@
           "subject": "Add per-service filtering to logs and push"
         }
       ],
-      "date": "2019-04-24T14:54:42Z",
+      "date": "2019-04-24T14:54:42.000Z",
       "version": "10.6.0"
     },
     {
@@ -21173,7 +22530,7 @@
           "subject": "push: Add detached flag to avoid streaming logs after local push"
         }
       ],
-      "date": "2019-04-24T13:58:13Z",
+      "date": "2019-04-24T13:58:13.000Z",
       "version": "10.5.0"
     },
     {
@@ -21237,7 +22594,7 @@
           "subject": "Fix and update log documentation"
         }
       ],
-      "date": "2019-04-24T13:00:54Z",
+      "date": "2019-04-24T13:00:54.000Z",
       "version": "10.4.1"
     },
     {
@@ -21254,7 +22611,7 @@
           "subject": "tunnel: allow using partial device uuids"
         }
       ],
-      "date": "2019-04-24T10:15:06Z",
+      "date": "2019-04-24T10:15:06.000Z",
       "version": "10.4.0"
     },
     {
@@ -21280,7 +22637,7 @@
           "subject": "Add --dockerfile option to the build, deploy and push commands"
         }
       ],
-      "date": "2019-04-23T16:41:17Z",
+      "date": "2019-04-23T16:41:17.000Z",
       "version": "10.3.0"
     },
     {
@@ -21364,7 +22721,7 @@
           "subject": "Update livepush documentation and required versions"
         }
       ],
-      "date": "2019-04-23T13:27:54Z",
+      "date": "2019-04-23T13:27:54.000Z",
       "version": "10.2.0"
     },
     {
@@ -21381,7 +22738,7 @@
           "subject": "Ensure not marking successful releases as canceled"
         }
       ],
-      "date": "2019-04-22T17:23:14Z",
+      "date": "2019-04-22T17:23:14.000Z",
       "version": "10.1.1"
     },
     {
@@ -21407,7 +22764,7 @@
           "subject": "Updated CLI installation notes on README.md and ran prettier"
         }
       ],
-      "date": "2019-04-18T15:43:00Z",
+      "date": "2019-04-18T15:43:00.000Z",
       "version": "10.1.0"
     },
     {
@@ -21442,7 +22799,7 @@
           "subject": "Remove information about livepush in sync deprecation message"
         }
       ],
-      "date": "2019-04-13T16:12:30Z",
+      "date": "2019-04-13T16:12:30.000Z",
       "version": "10.0.1"
     },
     {
@@ -21458,7 +22815,7 @@
           "subject": "Remove 'quickstart' command and deprecate 'local push'."
         }
       ],
-      "date": "2019-04-03T17:00:16Z",
+      "date": "2019-04-03T17:00:16.000Z",
       "version": "10.0.0"
     },
     {
@@ -21475,7 +22832,7 @@
           "subject": "Support nocache flag in push <ip>"
         }
       ],
-      "date": "2019-03-29T13:56:21Z",
+      "date": "2019-03-29T13:56:21.000Z",
       "version": "9.15.6"
     },
     {
@@ -21491,7 +22848,7 @@
           "subject": "Bump docker-progress (4.0.0) to improve `balena deploy` error"
         }
       ],
-      "date": "2019-03-28T12:23:56Z",
+      "date": "2019-03-28T12:23:56.000Z",
       "version": "9.15.5"
     },
     {
@@ -21517,7 +22874,7 @@
           "subject": "Update resin-compose-parse to v2.0.4"
         }
       ],
-      "date": "2019-03-25T22:58:42Z",
+      "date": "2019-03-25T22:58:42.000Z",
       "version": "9.15.4"
     },
     {
@@ -21533,7 +22890,7 @@
           "subject": "Allow 'balena push <deviceIpAddress>' when not logged in to balenaCloud."
         }
       ],
-      "date": "2019-03-25T18:11:32Z",
+      "date": "2019-03-25T18:11:32.000Z",
       "version": "9.15.3"
     },
     {
@@ -21549,7 +22906,7 @@
           "subject": "Bump resin-multibuild (2.1.4), docker-progress (3.0.5), resin-lint (3.0.1)"
         }
       ],
-      "date": "2019-03-18T14:30:10Z",
+      "date": "2019-03-18T14:30:10.000Z",
       "version": "9.15.2"
     },
     {
@@ -21565,7 +22922,7 @@
           "subject": "Add maintainer, reviewers, and devexp team as code owners"
         }
       ],
-      "date": "2019-03-12T13:52:35Z",
+      "date": "2019-03-12T13:52:35.000Z",
       "version": "9.15.1"
     },
     {
@@ -21581,7 +22938,7 @@
           "subject": "ssh: add `--noninteractive` flag not to suggest devices to connect to"
         }
       ],
-      "date": "2019-03-12T12:11:19Z",
+      "date": "2019-03-12T12:11:19.000Z",
       "version": "9.15.0"
     },
     {
@@ -21597,7 +22954,7 @@
           "subject": "ssh: correct the minimum OS version that allows host OS connection"
         }
       ],
-      "date": "2019-03-11T16:45:02Z",
+      "date": "2019-03-11T16:45:02.000Z",
       "version": "9.14.7"
     },
     {
@@ -21613,7 +22970,7 @@
           "subject": "Fix 'unauthorized' error for additional members of legacy apps"
         }
       ],
-      "date": "2019-03-08T13:47:06Z",
+      "date": "2019-03-08T13:47:06.000Z",
       "version": "9.14.6"
     },
     {
@@ -21639,7 +22996,7 @@
           "subject": "Retry image push a few times (balena deploy, 'unknown blob')"
         }
       ],
-      "date": "2019-03-05T15:17:56Z",
+      "date": "2019-03-05T15:17:56.000Z",
       "version": "9.14.5"
     },
     {
@@ -21655,7 +23012,7 @@
           "subject": "Update resin-multibuild to pick up fixes"
         }
       ],
-      "date": "2019-03-05T09:58:16Z",
+      "date": "2019-03-05T09:58:16.000Z",
       "version": "9.14.4"
     },
     {
@@ -21671,7 +23028,7 @@
           "subject": "Minor doc updates (add DEBUG hint)"
         }
       ],
-      "date": "2019-03-04T20:04:20Z",
+      "date": "2019-03-04T20:04:20.000Z",
       "version": "9.14.3"
     },
     {
@@ -21687,7 +23044,7 @@
           "subject": "Bump resin-multibuild version to fix docker-compose 'context' issue"
         }
       ],
-      "date": "2019-03-01T11:52:46Z",
+      "date": "2019-03-01T11:52:46.000Z",
       "version": "9.14.2"
     },
     {
@@ -21703,7 +23060,7 @@
           "subject": "Add registry-secrets help msg for build and deploy commands"
         }
       ],
-      "date": "2019-02-28T10:19:31Z",
+      "date": "2019-02-28T10:19:31.000Z",
       "version": "9.14.1"
     },
     {
@@ -21720,7 +23077,7 @@
           "subject": "Extend private registry support to balena build and deploy commands"
         }
       ],
-      "date": "2019-02-27T15:21:47Z",
+      "date": "2019-02-27T15:21:47.000Z",
       "version": "9.14.0"
     },
     {
@@ -21737,7 +23094,7 @@
           "subject": "Integrate new resin-multibuild major version (private docker registry"
         }
       ],
-      "date": "2019-02-27T13:13:16Z",
+      "date": "2019-02-27T13:13:16.000Z",
       "version": "9.13.0"
     },
     {
@@ -21753,7 +23110,7 @@
           "subject": "Fix parsing of not-really-numeric device UUID parameters"
         }
       ],
-      "date": "2019-02-27T10:02:55Z",
+      "date": "2019-02-27T10:02:55.000Z",
       "version": "9.12.7"
     },
     {
@@ -21769,7 +23126,7 @@
           "subject": "Fix regression in ee75ff and restore functionality to ToC in docs"
         }
       ],
-      "date": "2019-02-22T17:53:12Z",
+      "date": "2019-02-22T17:53:12.000Z",
       "version": "9.12.6"
     },
     {
@@ -21786,7 +23143,7 @@
           "subject": "Re-run newest prettier on master"
         }
       ],
-      "date": "2019-02-22T09:59:18Z",
+      "date": "2019-02-22T09:59:18.000Z",
       "version": "9.12.5"
     },
     {
@@ -21802,7 +23159,7 @@
           "subject": "tunnel: Refactor to improve log output"
         }
       ],
-      "date": "2019-02-20T21:52:18Z",
+      "date": "2019-02-20T21:52:18.000Z",
       "version": "9.12.4"
     },
     {
@@ -21818,7 +23175,7 @@
           "subject": "tunnel: Add the tunnel command"
         }
       ],
-      "date": "2019-02-19T16:12:25Z",
+      "date": "2019-02-19T16:12:25.000Z",
       "version": "9.12.3"
     },
     {
@@ -21834,7 +23191,7 @@
           "subject": "Remove fetching of Mixpanel token"
         }
       ],
-      "date": "2019-02-07T18:40:39Z",
+      "date": "2019-02-07T18:40:39.000Z",
       "version": "9.12.2"
     },
     {
@@ -21850,7 +23207,7 @@
           "subject": "Rename localcommit to localrelease in target state for local mode"
         }
       ],
-      "date": "2019-02-05T17:07:23Z",
+      "date": "2019-02-05T17:07:23.000Z",
       "version": "9.12.1"
     },
     {
@@ -21865,7 +23222,7 @@
           "subject": "Don't offer to disable automatic application updates when using pinning"
         }
       ],
-      "date": "2019-01-22T14:00:22Z",
+      "date": "2019-01-22T14:00:22.000Z",
       "version": "9.12.0"
     },
     {
@@ -21881,7 +23238,7 @@
           "subject": "Update 'balena help local flash' documentation re zipped images"
         }
       ],
-      "date": "2019-01-18T00:37:48Z",
+      "date": "2019-01-18T00:37:48.000Z",
       "version": "9.11.2"
     },
     {
@@ -21897,7 +23254,7 @@
           "subject": "typescript: Add TypeScript migration notice to README file"
         }
       ],
-      "date": "2019-01-16T19:55:00Z",
+      "date": "2019-01-16T19:55:00.000Z",
       "version": "9.11.1"
     },
     {
@@ -21912,7 +23269,7 @@
           "subject": "Support compressed images in `balena local flash`"
         }
       ],
-      "date": "2019-01-16T14:12:04Z",
+      "date": "2019-01-16T14:12:04.000Z",
       "version": "9.11.0"
     },
     {
@@ -21946,7 +23303,7 @@
           "subject": "Merge branch 'master' into typo"
         }
       ],
-      "date": "2019-01-15T20:36:20Z",
+      "date": "2019-01-15T20:36:20.000Z",
       "version": "9.10.1"
     },
     {
@@ -21962,7 +23319,7 @@
           "subject": "Improve startup time by adding fast-boot"
         }
       ],
-      "date": "2019-01-14T12:57:13Z",
+      "date": "2019-01-14T12:57:13.000Z",
       "version": "9.10.0"
     },
     {
@@ -21977,7 +23334,7 @@
           "subject": "Lazy load the sdk as much as possible"
         }
       ],
-      "date": "2019-01-14T11:19:25Z",
+      "date": "2019-01-14T11:19:25.000Z",
       "version": "9.9.4"
     },
     {
@@ -21992,7 +23349,7 @@
           "subject": "Lazy-load docker-toolbelt"
         }
       ],
-      "date": "2019-01-13T14:15:51Z",
+      "date": "2019-01-13T14:15:51.000Z",
       "version": "9.9.3"
     },
     {
@@ -22022,7 +23379,7 @@
           "subject": "Lazy-load drive list"
         }
       ],
-      "date": "2019-01-11T18:48:05Z",
+      "date": "2019-01-11T18:48:05.000Z",
       "version": "9.9.2"
     },
     {
@@ -22046,7 +23403,7 @@
           "subject": "Update util available-drives action"
         }
       ],
-      "date": "2019-01-11T17:22:05Z",
+      "date": "2019-01-11T17:22:05.000Z",
       "version": "9.9.1"
     },
     {
@@ -22063,7 +23420,7 @@
           "subject": "Request access to previously pushed release via `balena deploy`"
         }
       ],
-      "date": "2019-01-10T13:50:33Z",
+      "date": "2019-01-10T13:50:33.000Z",
       "version": "9.9.0"
     },
     {
@@ -22089,7 +23446,7 @@
           "subject": "Escape backticks in JS template literal"
         }
       ],
-      "date": "2019-01-07T18:43:53Z",
+      "date": "2019-01-07T18:43:53.000Z",
       "version": "9.8.0"
     },
     {
@@ -22105,7 +23462,7 @@
           "subject": "Added documentation about the dependencies required to build balena-cli"
         }
       ],
-      "date": "2018-12-28T22:09:52Z",
+      "date": "2018-12-28T22:09:52.000Z",
       "version": "9.7.0"
     },
     {
@@ -22121,7 +23478,7 @@
           "subject": "Add push --registry-secrets option for private docker registry authentication"
         }
       ],
-      "date": "2018-12-18T21:17:15Z",
+      "date": "2018-12-18T21:17:15.000Z",
       "version": "9.6.0"
     },
     {
@@ -22165,7 +23522,7 @@
           "subject": "Wait for the device type compatibility check before showing the form"
         }
       ],
-      "date": "2018-12-14T15:06:06Z",
+      "date": "2018-12-14T15:06:06.000Z",
       "version": "9.5.0"
     },
     {
@@ -22180,7 +23537,7 @@
           "subject": "Fix deploy action on node 6"
         }
       ],
-      "date": "2018-12-14T10:37:08Z",
+      "date": "2018-12-14T10:37:08.000Z",
       "version": "9.4.1"
     },
     {
@@ -22198,7 +23555,7 @@
           "subject": "actions: Add resource tag operations"
         }
       ],
-      "date": "2018-12-10T21:21:05Z",
+      "date": "2018-12-10T21:21:05.000Z",
       "version": "9.4.0"
     },
     {
@@ -22214,7 +23571,7 @@
           "subject": "Make architecture checking more stringent when installing emulators"
         }
       ],
-      "date": "2018-12-03T13:23:58Z",
+      "date": "2018-12-03T13:23:58.000Z",
       "version": "9.3.6"
     },
     {
@@ -22241,7 +23598,7 @@
           "subject": "Update dependencies"
         }
       ],
-      "date": "2018-11-28T18:28:48Z",
+      "date": "2018-11-28T18:28:48.000Z",
       "version": "9.3.5"
     },
     {
@@ -22258,7 +23615,7 @@
           "subject": "actions/os-initialize: Convert Promise to a Bluebird one"
         }
       ],
-      "date": "2018-11-27T15:30:13Z",
+      "date": "2018-11-27T15:30:13.000Z",
       "version": "9.3.3"
     },
     {
@@ -22276,7 +23633,7 @@
           "subject": "actions/os: Fix os configure using bluebird methods on plain promise"
         }
       ],
-      "date": "2018-11-26T09:02:51Z",
+      "date": "2018-11-26T09:02:51.000Z",
       "version": "9.3.2"
     },
     {
@@ -22293,7 +23650,7 @@
           "subject": "actions/config: Fix examples to include --version as required"
         }
       ],
-      "date": "2018-11-26T07:59:00Z",
+      "date": "2018-11-26T07:59:00.000Z",
       "version": "9.3.1"
     },
     {
@@ -22308,7 +23665,7 @@
           "subject": "Stop pinning ext2fs and update preload to ^8.0.4"
         }
       ],
-      "date": "2018-11-22T14:26:56Z",
+      "date": "2018-11-22T14:26:56.000Z",
       "version": "9.3.0"
     },
     {
@@ -22323,7 +23680,7 @@
           "subject": "Fix missing import in `os configure`"
         }
       ],
-      "date": "2018-11-20T13:36:25Z",
+      "date": "2018-11-20T13:36:25.000Z",
       "version": "9.2.2"
     },
     {
@@ -22339,7 +23696,7 @@
           "subject": "Add case-insensitive checking for application names in balena push"
         }
       ],
-      "date": "2018-11-19T15:13:18Z",
+      "date": "2018-11-19T15:13:18.000Z",
       "version": "9.2.1"
     },
     {
@@ -22354,7 +23711,7 @@
           "subject": "Make specifying the version during configuration optional"
         }
       ],
-      "date": "2018-11-16T18:09:36Z",
+      "date": "2018-11-16T18:09:36.000Z",
       "version": "9.2.0"
     },
     {
@@ -22370,7 +23727,7 @@
           "subject": "Extend the github repository templates"
         }
       ],
-      "date": "2018-11-16T16:32:45Z",
+      "date": "2018-11-16T16:32:45.000Z",
       "version": "9.1.4"
     },
     {
@@ -22385,7 +23742,7 @@
           "subject": "Include `join` and `leave` commands in API documentation"
         }
       ],
-      "date": "2018-11-16T14:58:35Z",
+      "date": "2018-11-16T14:58:35.000Z",
       "version": "9.1.3"
     },
     {
@@ -22400,7 +23757,7 @@
           "subject": "Fix build & deploy commands in standalone build"
         }
       ],
-      "date": "2018-11-13T18:06:02Z",
+      "date": "2018-11-13T18:06:02.000Z",
       "version": "9.1.2"
     },
     {
@@ -22417,7 +23774,7 @@
           "subject": "Fix the architecture string used when downloading qemu versions"
         }
       ],
-      "date": "2018-11-12T16:15:50Z",
+      "date": "2018-11-12T16:15:50.000Z",
       "version": "9.1.1"
     },
     {
@@ -22450,7 +23807,7 @@
           "subject": "Remove unnecessary parentheses"
         }
       ],
-      "date": "2018-11-08T10:25:41Z",
+      "date": "2018-11-08T10:25:41.000Z",
       "version": "9.1.0"
     },
     {
@@ -22465,7 +23822,7 @@
           "subject": "Mark api keys in the CLI as non-experimental"
         }
       ],
-      "date": "2018-11-07T15:45:03Z",
+      "date": "2018-11-07T15:45:03.000Z",
       "version": "9.0.3"
     },
     {
@@ -22480,7 +23837,7 @@
           "subject": "Stop validating device config, now that it's API-generated"
         }
       ],
-      "date": "2018-11-06T12:06:18Z",
+      "date": "2018-11-06T12:06:18.000Z",
       "version": "9.0.2"
     },
     {
@@ -22496,7 +23853,7 @@
           "subject": "Dont ignore balena metadata directories when balena pushing"
         }
       ],
-      "date": "2018-11-01T14:17:27Z",
+      "date": "2018-11-01T14:17:27.000Z",
       "version": "9.0.1"
     },
     {
@@ -22638,7 +23995,7 @@
           "subject": "Add rename notice to resin-cli"
         }
       ],
-      "date": "2018-10-29T21:44:16Z",
+      "date": "2018-10-29T21:44:16.000Z",
       "version": "9.0.0"
     },
     {
@@ -22664,7 +24021,7 @@
           "subject": "README: Add development guidelines section"
         }
       ],
-      "date": "2018-10-24T10:41:22Z",
+      "date": "2018-10-24T10:41:22.000Z",
       "version": "8.1.0"
     },
     {
@@ -22680,7 +24037,7 @@
           "subject": "ssh: Move from resin-sdk-preconfigured to resin-sdk"
         }
       ],
-      "date": "2018-10-22T16:37:21Z",
+      "date": "2018-10-22T16:37:21.000Z",
       "version": "8.0.3"
     },
     {
@@ -22706,7 +24063,7 @@
           "subject": "utils/patterns: Drop resin-sdk-preconfigured"
         }
       ],
-      "date": "2018-10-20T17:07:58Z",
+      "date": "2018-10-20T17:07:58.000Z",
       "version": "8.0.2"
     },
     {
@@ -22721,7 +24078,7 @@
           "subject": "Update dockerignore to fix escSL bug"
         }
       ],
-      "date": "2018-10-20T13:24:29Z",
+      "date": "2018-10-20T13:24:29.000Z",
       "version": "8.0.1"
     },
     {
@@ -22904,7 +24261,7 @@
           "subject": "Merge pull request #981 from resin-io/local-mode-v2"
         }
       ],
-      "date": "2018-10-19T15:29:41Z",
+      "date": "2018-10-19T15:29:41.000Z",
       "version": "8.0.0"
     },
     {
@@ -22919,7 +24276,7 @@
           "subject": "Update sdk references in wizzard.coffee"
         }
       ],
-      "date": "2018-10-18T19:06:38Z",
+      "date": "2018-10-18T19:06:38.000Z",
       "version": "7.10.9"
     },
     {
@@ -22943,7 +24300,7 @@
           "subject": "Update sdk references in notes.coffee"
         }
       ],
-      "date": "2018-10-18T18:12:09Z",
+      "date": "2018-10-18T18:12:09.000Z",
       "version": "7.10.8"
     },
     {
@@ -22958,7 +24315,7 @@
           "subject": "Update sdk sdk references in auth.coffee"
         }
       ],
-      "date": "2018-10-18T15:24:03Z",
+      "date": "2018-10-18T15:24:03.000Z",
       "version": "7.10.7"
     },
     {
@@ -22974,7 +24331,7 @@
           "subject": "Fix formatting of preload examples"
         }
       ],
-      "date": "2018-10-03T13:56:57Z",
+      "date": "2018-10-03T13:56:57.000Z",
       "version": "7.10.6"
     },
     {
@@ -22990,7 +24347,7 @@
           "subject": "README: Fix typo"
         }
       ],
-      "date": "2018-09-25T14:08:02Z",
+      "date": "2018-09-25T14:08:02.000Z",
       "version": "7.10.5"
     },
     {
@@ -23006,7 +24363,7 @@
           "subject": "device: When registering, print the uuid"
         }
       ],
-      "date": "2018-09-24T17:07:16Z",
+      "date": "2018-09-24T17:07:16.000Z",
       "version": "7.10.4"
     },
     {
@@ -23022,7 +24379,7 @@
           "subject": "Include --emulated in the example resin build parameters"
         }
       ],
-      "date": "2018-09-19T16:16:29Z",
+      "date": "2018-09-19T16:16:29.000Z",
       "version": "7.10.3"
     },
     {
@@ -23038,7 +24395,7 @@
           "subject": "dependencies: Update resin-semver version to support Balena OS"
         }
       ],
-      "date": "2018-09-18T16:15:10Z",
+      "date": "2018-09-18T16:15:10.000Z",
       "version": "7.10.2"
     },
     {
@@ -23054,7 +24411,7 @@
           "subject": "Stop Travis deploying to npm (now handled by concourse)"
         }
       ],
-      "date": "2018-09-11T12:28:12Z",
+      "date": "2018-09-11T12:28:12.000Z",
       "version": "7.10.1"
     },
     {
@@ -23070,7 +24427,7 @@
           "subject": "Update resin-cli-form to 2.x"
         }
       ],
-      "date": "2018-09-11T11:17:23Z",
+      "date": "2018-09-11T11:17:23.000Z",
       "version": "7.10.0"
     },
     {
@@ -23086,7 +24443,7 @@
           "subject": "Device api keys are no longer used in the registration process"
         }
       ],
-      "date": "2018-09-10T13:33:38Z",
+      "date": "2018-09-10T13:33:38.000Z",
       "version": "7.9.4"
     },
     {
@@ -23102,7 +24459,7 @@
           "subject": "Fix configuration hangs with some images by expanding the threadpool"
         }
       ],
-      "date": "2018-08-20T15:37:22Z",
+      "date": "2018-08-20T15:37:22.000Z",
       "version": "7.9.3"
     },
     {
@@ -23118,7 +24475,7 @@
           "subject": "Add warning about re-enabling automatic updates"
         }
       ],
-      "date": "2018-08-15T21:39:23Z",
+      "date": "2018-08-15T21:39:23.000Z",
       "version": "7.9.2"
     },
     {
@@ -23134,7 +24491,7 @@
           "subject": "Fix errors in `getRequestStream` not being propogated"
         }
       ],
-      "date": "2018-08-15T18:09:00Z",
+      "date": "2018-08-15T18:09:00.000Z",
       "version": "7.9.1"
     },
     {
@@ -23151,7 +24508,7 @@
           "subject": "Support emulated and nocache options for remote builds"
         }
       ],
-      "date": "2018-08-09T14:52:04Z",
+      "date": "2018-08-09T14:52:04.000Z",
       "version": "7.9.0"
     },
     {
@@ -23167,7 +24524,7 @@
           "subject": "Fix bug where the sudo helper failed in os initialize"
         }
       ],
-      "date": "2018-08-09T10:37:53Z",
+      "date": "2018-08-09T10:37:53.000Z",
       "version": "7.8.6"
     },
     {
@@ -23201,7 +24558,7 @@
           "subject": "Make build trigger hash examples clearer"
         }
       ],
-      "date": "2018-08-09T10:09:37Z",
+      "date": "2018-08-09T10:09:37.000Z",
       "version": "7.8.5"
     },
     {
@@ -23217,7 +24574,7 @@
           "subject": "Update klaw"
         }
       ],
-      "date": "2018-08-02T10:37:41Z",
+      "date": "2018-08-02T10:37:41.000Z",
       "version": "7.8.4"
     },
     {
@@ -23232,7 +24589,7 @@
           "subject": "Follow links found during builds"
         }
       ],
-      "date": "2018-07-25T14:07:20Z",
+      "date": "2018-07-25T14:07:20.000Z",
       "version": "7.8.3"
     },
     {
@@ -23247,7 +24604,7 @@
           "subject": "Update reconfix to fix volume signature errors in local configure"
         }
       ],
-      "date": "2018-07-25T10:23:38Z",
+      "date": "2018-07-25T10:23:38.000Z",
       "version": "7.8.2"
     },
     {
@@ -23262,7 +24619,7 @@
           "subject": "Be explicit about how much initial history log tailing includes"
         }
       ],
-      "date": "2018-07-20T18:07:01Z",
+      "date": "2018-07-20T18:07:01.000Z",
       "version": "7.8.1"
     },
     {
@@ -23295,7 +24652,7 @@
           "subject": "Lazily import `resin-image-fs`"
         }
       ],
-      "date": "2018-07-20T12:36:20Z",
+      "date": "2018-07-20T12:36:20.000Z",
       "version": "7.8.0"
     },
     {
@@ -23343,7 +24700,7 @@
           "subject": "Update TypeScript to 2.8.1"
         }
       ],
-      "date": "2018-07-17T15:43:31Z",
+      "date": "2018-07-17T15:43:31.000Z",
       "version": "7.7.4"
     },
     {
@@ -23358,7 +24715,7 @@
           "subject": "Update the deploy key since npm invalidated the old one"
         }
       ],
-      "date": "2018-07-13T17:21:19Z",
+      "date": "2018-07-13T17:21:19.000Z",
       "version": "7.7.3"
     },
     {
@@ -23373,7 +24730,7 @@
           "subject": "Pin ext2fs to 1.0.7 to avoid temporary deployment issues"
         }
       ],
-      "date": "2018-07-13T11:40:26Z",
+      "date": "2018-07-13T11:40:26.000Z",
       "version": "7.7.2"
     },
     {
@@ -23412,7 +24769,7 @@
           "subject": "Simplify logs promises after review"
         }
       ],
-      "date": "2018-07-12T13:59:29Z",
+      "date": "2018-07-12T13:59:29.000Z",
       "version": "7.7.1"
     },
     {
@@ -23427,7 +24784,7 @@
           "subject": "Add --generate-device-api-key parameter to config generate"
         }
       ],
-      "date": "2018-07-11T04:28:26Z",
+      "date": "2018-07-11T04:28:26.000Z",
       "version": "7.7.0"
     },
     {
@@ -23442,7 +24799,7 @@
           "subject": "Make local commands more resilient to unnamed containers"
         }
       ],
-      "date": "2018-06-28T16:26:12Z",
+      "date": "2018-06-28T16:26:12.000Z",
       "version": "7.6.2"
     },
     {
@@ -23454,7 +24811,7 @@
           "subject": "Make sure 'resin push' is included in the docs"
         }
       ],
-      "date": "2018-06-26T17:22:45Z",
+      "date": "2018-06-26T17:22:45.000Z",
       "version": "7.6.1"
     },
     {
@@ -23471,7 +24828,7 @@
           "subject": "Support pinned release preloading"
         }
       ],
-      "date": "2018-06-20T17:00:13Z",
+      "date": "2018-06-20T17:00:13.000Z",
       "version": "7.6.0"
     },
     {
@@ -23492,7 +24849,7 @@
           "subject": "Includes new prettier changes, and pin prettier to stop more appearing"
         }
       ],
-      "date": "2018-06-12T18:33:48Z",
+      "date": "2018-06-12T18:33:48.000Z",
       "version": "7.5.2"
     },
     {
@@ -23507,7 +24864,7 @@
           "subject": "Add a multicontainer caveat to the env var commands"
         }
       ],
-      "date": "2018-06-01T11:10:33Z",
+      "date": "2018-06-01T11:10:33.000Z",
       "version": "7.5.1"
     },
     {
@@ -23522,7 +24879,7 @@
           "subject": "Update resin-compose-parse dependency version to 1.10.2"
         }
       ],
-      "date": "2018-05-31T16:16:48Z",
+      "date": "2018-05-31T16:16:48.000Z",
       "version": "7.5.0"
     },
     {
@@ -23549,7 +24906,7 @@
           "subject": "Make sure we still show the device commit, despite API changes"
         }
       ],
-      "date": "2018-05-24T14:13:02Z",
+      "date": "2018-05-24T14:13:02.000Z",
       "version": "7.4.1"
     },
     {
@@ -23565,7 +24922,7 @@
           "subject": "Add push command which starts a build on remote resin servers"
         }
       ],
-      "date": "2018-05-10T12:44:44Z",
+      "date": "2018-05-10T12:44:44.000Z",
       "version": "7.4.0"
     },
     {
@@ -23595,7 +24952,7 @@
           "subject": "Style improvements after review"
         }
       ],
-      "date": "2018-05-03T17:56:54Z",
+      "date": "2018-05-03T17:56:54.000Z",
       "version": "7.3.8"
     },
     {
@@ -23611,7 +24968,7 @@
           "subject": "Pin node types to v9.0.0 to avoid build errors with transient dependencies"
         }
       ],
-      "date": "2018-04-30T15:25:24Z",
+      "date": "2018-04-30T15:25:24.000Z",
       "version": "7.3.7"
     },
     {
@@ -23627,7 +24984,7 @@
           "subject": "Update resin-image-fs to stop non-config commands failing in node 10"
         }
       ],
-      "date": "2018-04-30T09:54:10Z",
+      "date": "2018-04-30T09:54:10.000Z",
       "version": "7.3.6"
     },
     {
@@ -23639,7 +24996,7 @@
           "subject": "Don't show Docker container status from devices, as it can be wrong"
         }
       ],
-      "date": "2018-04-18T19:08:17Z",
+      "date": "2018-04-18T19:08:17.000Z",
       "version": "7.3.5"
     },
     {
@@ -23651,7 +25008,7 @@
           "subject": "Include resin compose schemas in the standalone build"
         }
       ],
-      "date": "2018-04-18T16:41:51Z",
+      "date": "2018-04-18T16:41:51.000Z",
       "version": "7.3.4"
     },
     {
@@ -23690,7 +25047,7 @@
           "subject": "Rename expectedError to exitWithExpectedError"
         }
       ],
-      "date": "2018-04-17T14:46:14Z",
+      "date": "2018-04-17T14:46:14.000Z",
       "version": "7.3.3"
     },
     {
@@ -23706,7 +25063,7 @@
           "subject": "Update Dockerode to fix local push issue in standalone builds"
         }
       ],
-      "date": "2018-04-16T16:21:23Z",
+      "date": "2018-04-16T16:21:23.000Z",
       "version": "7.3.2"
     },
     {
@@ -23722,7 +25079,7 @@
           "subject": "Update resin-compose-parse to v1.8.1 to fix a problem parsing ports"
         }
       ],
-      "date": "2018-04-13T19:43:59Z",
+      "date": "2018-04-13T19:43:59.000Z",
       "version": "7.3.1"
     },
     {
@@ -23755,7 +25112,7 @@
           "subject": "Warn user that api keys will not be shown again in future"
         }
       ],
-      "date": "2018-04-12T10:24:40Z",
+      "date": "2018-04-12T10:24:40.000Z",
       "version": "7.3.0"
     },
     {
@@ -23779,7 +25136,7 @@
           "subject": "Explicitly depend on tar-stream"
         }
       ],
-      "date": "2018-04-10T11:10:03Z",
+      "date": "2018-04-10T11:10:03.000Z",
       "version": "7.2.4"
     },
     {
@@ -23795,7 +25152,7 @@
           "subject": "Add a fast build script to package.json"
         }
       ],
-      "date": "2018-04-06T17:11:32Z",
+      "date": "2018-04-06T17:11:32.000Z",
       "version": "7.2.3"
     },
     {
@@ -23810,7 +25167,7 @@
           "subject": "Throw a clear error when logging in with an invalid token"
         }
       ],
-      "date": "2018-04-04T19:34:57Z",
+      "date": "2018-04-04T19:34:57.000Z",
       "version": "7.2.2"
     },
     {
@@ -23825,7 +25182,7 @@
           "subject": "Update docker-qemu-transpose to avoid the broken 0.4.1 release"
         }
       ],
-      "date": "2018-03-29T14:47:31Z",
+      "date": "2018-03-29T14:47:31.000Z",
       "version": "7.2.1"
     },
     {
@@ -23874,7 +25231,7 @@
           "subject": "Clarify isTokenValid logic"
         }
       ],
-      "date": "2018-03-29T10:15:32Z",
+      "date": "2018-03-29T10:15:32.000Z",
       "version": "7.2.0"
     },
     {
@@ -23886,7 +25243,7 @@
           "subject": "Fix build emulation for multi-stage builds"
         }
       ],
-      "date": "2018-03-29T09:03:41Z",
+      "date": "2018-03-29T09:03:41.000Z",
       "version": "7.1.6"
     },
     {
@@ -23901,7 +25258,7 @@
           "subject": "Fix crash when an app is not specified for build command"
         }
       ],
-      "date": "2018-03-28T12:01:11Z",
+      "date": "2018-03-28T12:01:11.000Z",
       "version": "7.1.5"
     },
     {
@@ -23916,7 +25273,7 @@
           "subject": "Upgrade resin-sync to pull in the fix for #824"
         }
       ],
-      "date": "2018-03-26T16:31:47Z",
+      "date": "2018-03-26T16:31:47.000Z",
       "version": "7.1.4"
     },
     {
@@ -23931,7 +25288,7 @@
           "subject": "Prefix all pine options with '$' in preload to avoid pine warnings."
         }
       ],
-      "date": "2018-03-23T15:57:55Z",
+      "date": "2018-03-23T15:57:55.000Z",
       "version": "7.1.3"
     },
     {
@@ -23946,7 +25303,7 @@
           "subject": "Update resin-preload to 6.2.0 and resin-sdk to 9.0.0-beta16"
         }
       ],
-      "date": "2018-03-23T13:56:15Z",
+      "date": "2018-03-23T13:56:15.000Z",
       "version": "7.1.2"
     },
     {
@@ -23967,7 +25324,7 @@
           "subject": "Merge branch 'master' into doc-headings"
         }
       ],
-      "date": "2018-03-22T18:03:08Z",
+      "date": "2018-03-22T18:03:08.000Z",
       "version": "7.1.1"
     },
     {
@@ -24009,7 +25366,7 @@
           "subject": "Address review feedback"
         }
       ],
-      "date": "2018-03-22T11:44:00Z",
+      "date": "2018-03-22T11:44:00.000Z",
       "version": "7.1.0"
     },
     {
@@ -24024,7 +25381,7 @@
           "subject": "Update resin-preload to 6.1.2"
         }
       ],
-      "date": "2018-03-20T15:54:29Z",
+      "date": "2018-03-20T15:54:29.000Z",
       "version": "7.0.7"
     },
     {
@@ -24055,7 +25412,7 @@
           "subject": "Remove redundant import"
         }
       ],
-      "date": "2018-03-20T10:43:32Z",
+      "date": "2018-03-20T10:43:32.000Z",
       "version": "7.0.6"
     },
     {
@@ -24076,7 +25433,7 @@
           "subject": "add blurb about bash completion"
         }
       ],
-      "date": "2018-03-15T20:03:34Z",
+      "date": "2018-03-15T20:03:34.000Z",
       "version": "7.0.5"
     },
     {
@@ -24091,7 +25448,7 @@
           "subject": "Generate consistent working anchors for both our md output & resin docs"
         }
       ],
-      "date": "2018-03-15T12:09:17Z",
+      "date": "2018-03-15T12:09:17.000Z",
       "version": "7.0.4"
     },
     {
@@ -24106,7 +25463,7 @@
           "subject": "Fix getting window size when there’s no TTY attached"
         }
       ],
-      "date": "2018-03-15T08:54:20Z",
+      "date": "2018-03-15T08:54:20.000Z",
       "version": "7.0.3"
     },
     {
@@ -24127,7 +25484,7 @@
           "subject": "Update full CLI docs with recent installation improvements too"
         }
       ],
-      "date": "2018-03-13T12:00:31Z",
+      "date": "2018-03-13T12:00:31.000Z",
       "version": "7.0.2"
     },
     {
@@ -24157,7 +25514,7 @@
           "subject": "Recommend using unsafe-prem to avoid permission issues on install"
         }
       ],
-      "date": "2018-03-12T16:36:29Z",
+      "date": "2018-03-12T16:36:29.000Z",
       "version": "7.0.1"
     },
     {
@@ -24271,7 +25628,7 @@
           "subject": "Update resin-preload to v6.0.0"
         }
       ],
-      "date": "2018-03-09T22:12:01Z",
+      "date": "2018-03-09T22:12:01.000Z",
       "version": "7.0.0"
     },
     {
@@ -24286,7 +25643,7 @@
           "subject": "Fix prettier configuration to avoid linting errors"
         }
       ],
-      "date": "2018-03-07T14:46:09Z",
+      "date": "2018-03-07T14:46:09.000Z",
       "version": "6.13.5"
     },
     {
@@ -24302,7 +25659,7 @@
           "subject": "Fix issue where emulated builds broke Docker `ENV` commands"
         }
       ],
-      "date": "2018-02-22T18:30:14Z",
+      "date": "2018-02-22T18:30:14.000Z",
       "version": "6.13.4"
     },
     {
@@ -24318,7 +25675,7 @@
           "subject": "Tweak TS & add missing deps that may cause build failures in some envs"
         }
       ],
-      "date": "2018-02-20T22:07:21Z",
+      "date": "2018-02-20T22:07:21.000Z",
       "version": "6.13.3"
     },
     {
@@ -24334,7 +25691,7 @@
           "subject": "Ensure login does not wait for the browser process to close"
         }
       ],
-      "date": "2018-02-20T19:00:32Z",
+      "date": "2018-02-20T19:00:32.000Z",
       "version": "6.13.2"
     },
     {
@@ -24358,7 +25715,7 @@
           "subject": "Move to the correct coffeescript (no hyphen) dependency"
         }
       ],
-      "date": "2018-02-07T12:07:02Z",
+      "date": "2018-02-07T12:07:02.000Z",
       "version": "6.13.1"
     },
     {
@@ -24373,7 +25730,7 @@
           "subject": "Add support for Balena in local ssh"
         }
       ],
-      "date": "2018-02-06T11:40:41Z",
+      "date": "2018-02-06T11:40:41.000Z",
       "version": "6.13.0"
     },
     {
@@ -24388,7 +25745,7 @@
           "subject": "Switch back to upstream global-tunnel-ng"
         }
       ],
-      "date": "2018-02-05T19:07:08Z",
+      "date": "2018-02-05T19:07:08.000Z",
       "version": "6.12.9"
     },
     {
@@ -24404,7 +25761,7 @@
           "subject": "Fix uuid params being parsed a numbers"
         }
       ],
-      "date": "2018-02-03T15:58:03Z",
+      "date": "2018-02-03T15:58:03.000Z",
       "version": "6.12.8"
     },
     {
@@ -24419,7 +25776,7 @@
           "subject": "Add 'or mounted resinOS image'"
         }
       ],
-      "date": "2018-01-30T18:10:13Z",
+      "date": "2018-01-30T18:10:13.000Z",
       "version": "6.12.7"
     },
     {
@@ -24434,7 +25791,7 @@
           "subject": "Don't use the deprecated 'os configure' format in internal calls"
         }
       ],
-      "date": "2018-01-29T14:56:00Z",
+      "date": "2018-01-29T14:56:00.000Z",
       "version": "6.12.6"
     },
     {
@@ -24449,7 +25806,7 @@
           "subject": "Fix breakage in deploy command from recent TS conversion"
         }
       ],
-      "date": "2018-01-11T11:32:18Z",
+      "date": "2018-01-11T11:32:18.000Z",
       "version": "6.12.5"
     },
     {
@@ -24470,7 +25827,7 @@
           "subject": "Start using Prettier"
         }
       ],
-      "date": "2018-01-10T10:18:19Z",
+      "date": "2018-01-10T10:18:19.000Z",
       "version": "6.12.4"
     },
     {
@@ -24521,7 +25878,7 @@
           "subject": "Lots of small TypeScript tweaks & clarifications from review"
         }
       ],
-      "date": "2018-01-09T22:37:41Z",
+      "date": "2018-01-09T22:37:41.000Z",
       "version": "6.12.3"
     },
     {
@@ -24545,7 +25902,7 @@
           "subject": "convert windows paths to posix when passing to tar"
         }
       ],
-      "date": "2018-01-09T15:33:29Z",
+      "date": "2018-01-09T15:33:29.000Z",
       "version": "6.12.2"
     },
     {
@@ -24560,7 +25917,7 @@
           "subject": "Fix deprecation warning for os configure, when passing a bare UUID"
         }
       ],
-      "date": "2018-01-02T10:58:30Z",
+      "date": "2018-01-02T10:58:30.000Z",
       "version": "6.12.1"
     },
     {
@@ -24595,7 +25952,7 @@
           "subject": "fixed example"
         }
       ],
-      "date": "2017-12-19T08:45:57Z",
+      "date": "2017-12-19T08:45:57.000Z",
       "version": "6.12.0"
     },
     {
@@ -24673,7 +26030,7 @@
           "subject": "Build standalone zips into a separate folder"
         }
       ],
-      "date": "2017-12-18T15:06:13Z",
+      "date": "2017-12-18T15:06:13.000Z",
       "version": "6.11.0"
     },
     {
@@ -24688,7 +26045,7 @@
           "subject": "Ensure logout works even with invalid credentials, or if not logged in"
         }
       ],
-      "date": "2017-12-15T17:52:39Z",
+      "date": "2017-12-15T17:52:39.000Z",
       "version": "6.10.3"
     },
     {
@@ -26191,7 +27548,7 @@
           "hash": "e9b8c38eebf209eae77b45ac0369dd2fc870366d"
         }
       ],
-      "date": "2017-11-27T17:28:43Z",
+      "date": "2017-11-27T17:28:43.000Z",
       "version": "0.0.0"
     }
   ],
@@ -26337,7 +27694,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 357,
+  "stars": 359,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -26438,36 +27795,56 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2022-01-19T23:55:52Z",
+  "lastCommitDate": "2022-02-09T07:24:17Z",
   "latestRelease": {
-    "tagName": "v13.1.11",
+    "tagName": "v13.1.12",
     "asssets": [
       {
-        "name": "balena-cli-v13.1.11-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.11/balena-cli-v13.1.11-linux-x64-standalone.zip"
+        "name": "balena-cli-v13.1.12-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.12/balena-cli-v13.1.12-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.11-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.11/balena-cli-v13.1.11-macOS-x64-installer.pkg"
+        "name": "balena-cli-v13.1.12-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.12/balena-cli-v13.1.12-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v13.1.11-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.11/balena-cli-v13.1.11-macOS-x64-standalone.zip"
+        "name": "balena-cli-v13.1.12-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.12/balena-cli-v13.1.12-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.11-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.11/balena-cli-v13.1.11-windows-x64-installer.exe"
+        "name": "balena-cli-v13.1.12-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.12/balena-cli-v13.1.12-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v13.1.11-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.11/balena-cli-v13.1.11-windows-x64-standalone.zip"
+        "name": "balena-cli-v13.1.12-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.12/balena-cli-v13.1.12-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 349,
+    "numberOfIssues": 352,
     "latestIssues": [
+      {
+        "title": "Use cli-ux spinner instead of resin-cli-visuals spinner",
+        "url": "https://github.com/balena-io/balena-cli/pull/2456"
+      },
+      {
+        "title": "Drop unused awaitDevice utility function",
+        "url": "https://github.com/balena-io/balena-cli/pull/2455"
+      },
+      {
+        "title": "Inline functions from `balena-sync` module and drop dependency",
+        "url": "https://github.com/balena-io/balena-cli/pull/2454"
+      },
+      {
+        "title": "Should stop using balena-sync",
+        "url": "https://github.com/balena-io/balena-cli/issues/2453"
+      },
+      {
+        "title": "added balena ssh troubleshoot",
+        "url": "https://github.com/balena-io/balena-cli/pull/2452"
+      },
       {
         "title": "WSL2: `balena scan` ,  `sudo configuration` is different but still  ot usable   ",
         "url": "https://github.com/balena-io/balena-cli/issues/2449"
@@ -26527,30 +27904,10 @@
       {
         "title": "build: Dockerfile ARG instruction not behaving as expected",
         "url": "https://github.com/balena-io/balena-cli/issues/2397"
-      },
-      {
-        "title": "[request] hide download and upload progress when pushing container",
-        "url": "https://github.com/balena-io/balena-cli/issues/2396"
-      },
-      {
-        "title": "User would like to be able to specify multiple docker-compose files which are combined",
-        "url": "https://github.com/balena-io/balena-cli/issues/2392"
-      },
-      {
-        "title": "push/build/deploy: socket files should be included in built image",
-        "url": "https://github.com/balena-io/balena-cli/issues/2385"
-      },
-      {
-        "title": "push/build/deploy: .dockerignore patterns should also be matched against symlink targets",
-        "url": "https://github.com/balena-io/balena-cli/issues/2383"
-      },
-      {
-        "title": "Should push & deploy should offer a `--note(s)` argument to allow users to set the `release.note` field.",
-        "url": "https://github.com/balena-io/balena-cli/issues/2382"
       }
     ]
   },
-  "version": "13.1.11",
+  "version": "13.1.12",
   "screenshot": null,
   "logo": null
 }
