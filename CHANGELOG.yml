@@ -1,4 +1,18 @@
 - commits:
+    - subject: Drop unused awaitDevice utility function
+      hash: eccadbdcb9b5340d0e9d42fd9b9063255cad9fb0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 13.1.13
+  title: "'Drop unused awaitDevice utility function'"
+  date: 2022-02-10T12:28:22.683Z
+- commits:
     - subject: "preload: Stop using the deprecated /device-types/v1 API endpoints"
       hash: 31eb734af16d805bbd4731a725eb3b826dcd2f42
       body: |
@@ -1037,7 +1051,7 @@
           date: 2022-01-27T14:42:25.582Z
   version: 13.1.12
   title: "'Update balena-preload to v12'"
-  date: 2022-02-09T07:23:17.473Z
+  date: 2022-02-09T00:09:30.510Z
 - commits:
     - subject: "chore: lib/auth/utils.ts: Replace deprecated url.resolve, use
         async/await"

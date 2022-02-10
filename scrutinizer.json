@@ -5,6 +5,26 @@
     {
       "commits": [
         {
+          "subject": "Drop unused awaitDevice utility function",
+          "hash": "eccadbdcb9b5340d0e9d42fd9b9063255cad9fb0",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch",
+            "Signed-off-by": "Lucian Buzzo <lucian.buzzo@gmail.com>",
+            "signed-off-by": "Lucian Buzzo <lucian.buzzo@gmail.com>"
+          },
+          "author": "Lucian Buzzo",
+          "nested": []
+        }
+      ],
+      "version": "13.1.13",
+      "title": "'Drop unused awaitDevice utility function'",
+      "date": "2022-02-10T11:50:33.741Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "preload: Stop using the deprecated /device-types/v1 API endpoints",
           "hash": "31eb734af16d805bbd4731a725eb3b826dcd2f42",
           "body": "Update balena-preload from 11.0.0 to 12.0.0\n",
@@ -27694,7 +27714,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 359,
+  "stars": 360,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -27795,43 +27815,39 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2022-02-09T07:24:17Z",
+  "lastCommitDate": "2022-02-10T12:29:18Z",
   "latestRelease": {
-    "tagName": "v13.1.12",
+    "tagName": "v13.1.13",
     "asssets": [
       {
-        "name": "balena-cli-v13.1.12-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.12/balena-cli-v13.1.12-linux-x64-standalone.zip"
+        "name": "balena-cli-v13.1.13-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.13/balena-cli-v13.1.13-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.12-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.12/balena-cli-v13.1.12-macOS-x64-installer.pkg"
+        "name": "balena-cli-v13.1.13-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.13/balena-cli-v13.1.13-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v13.1.12-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.12/balena-cli-v13.1.12-macOS-x64-standalone.zip"
+        "name": "balena-cli-v13.1.13-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.13/balena-cli-v13.1.13-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.1.12-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.12/balena-cli-v13.1.12-windows-x64-installer.exe"
+        "name": "balena-cli-v13.1.13-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.13/balena-cli-v13.1.13-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v13.1.12-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.12/balena-cli-v13.1.12-windows-x64-standalone.zip"
+        "name": "balena-cli-v13.1.13-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.1.13/balena-cli-v13.1.13-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 352,
+    "numberOfIssues": 351,
     "latestIssues": [
       {
         "title": "Use cli-ux spinner instead of resin-cli-visuals spinner",
         "url": "https://github.com/balena-io/balena-cli/pull/2456"
-      },
-      {
-        "title": "Drop unused awaitDevice utility function",
-        "url": "https://github.com/balena-io/balena-cli/pull/2455"
       },
       {
         "title": "Inline functions from `balena-sync` module and drop dependency",
@@ -27904,10 +27920,14 @@
       {
         "title": "build: Dockerfile ARG instruction not behaving as expected",
         "url": "https://github.com/balena-io/balena-cli/issues/2397"
+      },
+      {
+        "title": "[request] hide download and upload progress when pushing container",
+        "url": "https://github.com/balena-io/balena-cli/issues/2396"
       }
     ]
   },
-  "version": "13.1.12",
+  "version": "13.1.13",
   "screenshot": null,
   "logo": null
 }
