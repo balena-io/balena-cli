@@ -1,4 +1,18 @@
 - commits:
+    - subject: Drop unused awaitDevice utility function
+      hash: eccadbdcb9b5340d0e9d42fd9b9063255cad9fb0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 13.1.13
+  title: "'Drop unused awaitDevice utility function'"
+  date: 2022-02-10T11:50:33.741Z
+- commits:
     - subject: "preload: Stop using the deprecated /device-types/v1 API endpoints"
       hash: 31eb734af16d805bbd4731a725eb3b826dcd2f42
       body: |
