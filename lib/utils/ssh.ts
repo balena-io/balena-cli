@@ -16,147 +16,309 @@
  */
 import { spawn, StdioOptions } from 'child_process';
 import * as _ from 'lodash';
-import { TypedError } from 'typed-error';
 
 import { ExpectedError } from '../errors';
 
-export class ExecError extends TypedError {
-	public cmd: string;
-	public exitCode: number;
+export class SshPermissionDeniedError extends ExpectedError {}
 
-	constructor(cmd: string, exitCode: number) {
-		super(`Command '${cmd}' failed with error: ${exitCode}`);
+export class RemoteCommandError extends ExpectedError {
+	cmd: string;
+	exitCode?: number;
+	exitSignal?: NodeJS.Signals;
+
+	constructor(cmd: string, exitCode?: number, exitSignal?: NodeJS.Signals) {
+		super(sshErrorMessage(cmd, exitSignal, exitCode));
 		this.cmd = cmd;
 		this.exitCode = exitCode;
+		this.exitSignal = exitSignal;
 	}
 }
 
-export async function exec(
-	deviceIp: string,
-	cmd: string,
-	stdout?: NodeJS.WritableStream,
-): Promise<void> {
+export interface SshRemoteCommandOpts {
+	cmd?: string;
+	hostname: string;
+	ignoreStdin?: boolean;
+	port?: number | 'cloud' | 'local';
+	proxyCommand?: string[];
+	username?: string;
+	verbose?: boolean;
+}
+
+export const stdioIgnore: {
+	stdin: 'ignore';
+	stdout: 'ignore';
+	stderr: 'ignore';
+} = {
+	stdin: 'ignore',
+	stdout: 'ignore',
+	stderr: 'ignore',
+};
+
+export function sshArgsForRemoteCommand({
+	cmd = '',
+	hostname,
+	ignoreStdin = false,
+	port,
+	proxyCommand,
+	username = 'root',
+	verbose = false,
+}: SshRemoteCommandOpts): string[] {
+	port = port === 'local' ? 22222 : port === 'cloud' ? 22 : port;
+	return [
+		...(verbose ? ['-vvv'] : []),
+		...(ignoreStdin ? ['-n'] : []),
+		'-t',
+		...(port ? ['-p', port.toString()] : []),
+		...['-o', 'LogLevel=ERROR'],
+		...['-o', 'StrictHostKeyChecking=no'],
+		...['-o', 'UserKnownHostsFile=/dev/null'],
+		...(proxyCommand && proxyCommand.length
+			? ['-o', `ProxyCommand=${proxyCommand.join(' ')}`]
+			: []),
+		`${username}@${hostname}`,
+		...(cmd ? [cmd] : []),
+	];
+}
+
+/**
+ * Execute the given command on a local balenaOS device over ssh.
+ * @param cmd Shell command to execute on the device
+ * @param hostname Device's hostname or IP address
+ * @param port SSH server TCP port number or 'local' (22222) or 'cloud' (22)
+ * @param stdin Readable stream to pipe to the remote command stdin,
+ * or 'ignore' or 'inherit' as documented in the child_process.spawn function.
+ * @param stdout Writeable stream to pipe from the remote command stdout,
+ * or 'ignore' or 'inherit' as documented in the child_process.spawn function.
+ * @param stderr Writeable stream to pipe from the remote command stdout,
+ * or 'ignore' or 'inherit' as documented in the child_process.spawn function.
+ * @param username SSH username for authorization. With balenaOS 2.44.0 or
+ * later, it can be a balenaCloud username.
+ * @param verbose Produce debugging output
+ */
+export async function runRemoteCommand({
+	cmd = '',
+	hostname,
+	port,
+	proxyCommand,
+	stdin = 'inherit',
+	stdout = 'inherit',
+	stderr = 'inherit',
+	username = 'root',
+	verbose = false,
+}: SshRemoteCommandOpts & {
+	stdin?: 'ignore' | 'inherit' | NodeJS.ReadableStream;
+	stdout?: 'ignore' | 'inherit' | NodeJS.WritableStream;
+	stderr?: 'ignore' | 'inherit' | NodeJS.WritableStream;
+}): Promise<void> {
+	let ignoreStdin: boolean;
+	if (stdin === 'ignore') {
+		// Set ignoreStdin=true in order for the "ssh -n" option to be used to
+		// prevent the ssh client from using the CLI process stdin. In addition,
+		// stdin must be forced to 'inherit' (if it is not a readable stream) in
+		// order to work around a bug in older versions of the built-in Windows
+		// 10 ssh client that otherwise prints the following to stderr and
+		// hangs:  "GetConsoleMode on STD_INPUT_HANDLE failed with 6"
+		// They actually fixed the bug in newer versions of the ssh client:
+		// https://github.com/PowerShell/Win32-OpenSSH/issues/856 but users
+		// have to manually download and install a new client.
+		ignoreStdin = true;
+		stdin = 'inherit';
+	} else {
+		ignoreStdin = false;
+	}
 	const { which } = await import('./which');
 	const program = await which('ssh');
-	const args = [
-		'-n',
-		'-t',
-		'-p',
-		'22222',
-		'-o',
-		'LogLevel=ERROR',
-		'-o',
-		'StrictHostKeyChecking=no',
-		'-o',
-		'UserKnownHostsFile=/dev/null',
-		`root@${deviceIp}`,
+	const args = sshArgsForRemoteCommand({
 		cmd,
-	];
+		hostname,
+		ignoreStdin,
+		port,
+		proxyCommand,
+		username,
+		verbose,
+	});
+
 	if (process.env.DEBUG) {
 		const logger = (await import('./logger')).getLogger();
 		logger.logDebug(`Executing [${program},${args}]`);
 	}
 
-	// Note: stdin must be 'inherit' to workaround a bug in older versions of
-	// the built-in Windows 10 ssh client that otherwise prints the following
-	// to stderr and hangs: "GetConsoleMode on STD_INPUT_HANDLE failed with 6"
-	// They fixed the bug in newer versions of the ssh client:
-	// https://github.com/PowerShell/Win32-OpenSSH/issues/856
-	// but users whould have to manually download and install a new client.
-	// Note that "ssh -n" does not solve the problem, but should in theory
-	// prevent the ssh client from using the CLI process stdin, even if it
-	// is connected with 'inherit'.
 	const stdio: StdioOptions = [
-		'inherit',
-		stdout ? 'pipe' : 'inherit',
-		'inherit',
+		typeof stdin === 'string' ? stdin : 'pipe',
+		typeof stdout === 'string' ? stdout : 'pipe',
+		typeof stderr === 'string' ? stderr : 'pipe',
 	];
+	let exitCode: number | undefined;
+	let exitSignal: NodeJS.Signals | undefined;
+	try {
+		[exitCode, exitSignal] = await new Promise<[number, NodeJS.Signals]>(
+			(resolve, reject) => {
+				const ps = spawn(program, args, { stdio })
+					.on('error', reject)
+					.on('close', (code, signal) => resolve([code, signal]));
 
-	const exitCode = await new Promise<number>((resolve, reject) => {
-		const ps = spawn(program, args, { stdio })
-			.on('error', reject)
-			.on('close', resolve);
-
-		if (stdout && ps.stdout) {
-			ps.stdout.pipe(stdout);
-		}
-	});
-	if (exitCode !== 0) {
-		throw new ExecError(cmd, exitCode);
+				if (ps.stdin && stdin && typeof stdin !== 'string') {
+					stdin.pipe(ps.stdin);
+				}
+				if (ps.stdout && stdout && typeof stdout !== 'string') {
+					ps.stdout.pipe(stdout);
+				}
+				if (ps.stderr && stderr && typeof stderr !== 'string') {
+					ps.stderr.pipe(stderr);
+				}
+			},
+		);
+	} catch (error) {
+		const msg = [
+			`ssh failed with exit code=${exitCode} signal=${exitSignal}:`,
+			`[${program}, ${args.join(', ')}]`,
+			...(error ? [`${error}`] : []),
+		];
+		throw new ExpectedError(msg.join('\n'));
+	}
+	if (exitCode || exitSignal) {
+		throw new RemoteCommandError(cmd, exitCode, exitSignal);
 	}
 }
 
-export async function execBuffered(
-	deviceIp: string,
-	cmd: string,
-	enc?: string,
-): Promise<string> {
-	const through = await import('through2');
-	const buffer: string[] = [];
-	await exec(
-		deviceIp,
+/**
+ * Execute the given command on a local balenaOS device over ssh.
+ * Capture stdout and/or stderr to Buffers and return them.
+ *
+ * @param deviceIp IP address of the local device
+ * @param cmd Shell command to execute on the device
+ * @param opts Options
+ * @param opts.username SSH username for authorization. With balenaOS 2.44.0 or
+ * later, it may be a balenaCloud username. Otherwise, 'root'.
+ * @param opts.stdin Passed through to the runRemoteCommand function
+ * @param opts.stdout If 'capture', capture stdout to a Buffer.
+ * @param opts.stderr If 'capture', capture stdout to a Buffer.
+ */
+export async function getRemoteCommandOutput({
+	cmd,
+	hostname,
+	port,
+	proxyCommand,
+	stdin = 'ignore',
+	stdout = 'capture',
+	stderr = 'capture',
+	username = 'root',
+	verbose = false,
+}: SshRemoteCommandOpts & {
+	stdin?: 'ignore' | 'inherit' | NodeJS.ReadableStream;
+	stdout?: 'capture' | 'ignore' | 'inherit' | NodeJS.WritableStream;
+	stderr?: 'capture' | 'ignore' | 'inherit' | NodeJS.WritableStream;
+}): Promise<{ stdout: Buffer; stderr: Buffer }> {
+	const { Writable } = await import('stream');
+	const stdoutChunks: Buffer[] = [];
+	const stderrChunks: Buffer[] = [];
+	const stdoutStream = new Writable({
+		write(chunk: Buffer, _enc, callback) {
+			stdoutChunks.push(chunk);
+			callback();
+		},
+	});
+	const stderrStream = new Writable({
+		write(chunk: Buffer, _enc, callback) {
+			stderrChunks.push(chunk);
+			callback();
+		},
+	});
+	await runRemoteCommand({
 		cmd,
-		through(function (data, _enc, cb) {
-			buffer.push(data.toString(enc));
-			cb();
-		}),
-	);
-	return buffer.join('');
+		hostname,
+		port,
+		proxyCommand,
+		stdin,
+		stdout: stdout === 'capture' ? stdoutStream : stdout,
+		stderr: stderr === 'capture' ? stderrStream : stderr,
+		username,
+		verbose,
+	});
+	return {
+		stdout: Buffer.concat(stdoutChunks),
+		stderr: Buffer.concat(stderrChunks),
+	};
 }
+
+/** Convenience wrapper for getRemoteCommandOutput */
+export async function getLocalDeviceCmdStdout(
+	hostname: string,
+	cmd: string,
+	stdout: 'capture' | 'ignore' | 'inherit' | NodeJS.WritableStream = 'capture',
+): Promise<Buffer> {
+	return (
+		await getRemoteCommandOutput({
+			cmd,
+			hostname,
+			port: 'local',
+			stdout,
+			stderr: 'inherit',
+			username: await findBestUsernameForDevice(hostname),
+		})
+	).stdout;
+}
+
+/**
+ * Run a trivial 'exit 0' command over ssh on the target hostname (typically the
+ * IP address of a local device) with the 'root' username, in order to determine
+ * whether root authentication suceeds. It should succeed with development
+ * variants of balenaOS and fail with production variants, unless a ssh key was
+ * added to the device's 'config.json' file.
+ * @return True if succesful, false on any errors.
+ */
+export const isRootUserGood = _.memoize(
+	async (hostname: string, port = 'local') => {
+		try {
+			await runRemoteCommand({ cmd: 'exit 0', hostname, port, ...stdioIgnore });
+		} catch (e) {
+			return false;
+		}
+		return true;
+	},
+);
+
+/**
+ * Determine whether the given local device (hostname or IP address) should be
+ * accessed as the 'root' user or as a regular cloud user (balenaCloud or
+ * openBalena). Where possible, the root user is preferable because:
+ * - It allows ssh to be used in air-gapped scenarios (no internet access).
+ *   Logging in as a regular user requires the device to fetch public keys from
+ *   the cloud backend.
+ * - Root authentication is significantly faster for local devices (a fraction
+ *   of a second versus 5+ seconds).
+ * - Non-root authentication requires balenaOS v2.44.0 or later, so not (yet)
+ *   universally possible.
+ */
+export const findBestUsernameForDevice = _.memoize(
+	async (hostname: string, port = 'local'): Promise<string> => {
+		let username: string | undefined;
+		if (await isRootUserGood(hostname, port)) {
+			username = 'root';
+		} else {
+			const { getCachedUsername } = await import('./bootstrap');
+			username = (await getCachedUsername())?.username;
+		}
+		return username || 'root';
+	},
+);
 
 /**
  * Return a device's balenaOS release by executing 'cat /etc/os-release'
  * over ssh to the given deviceIp address.  The result is cached with
  * lodash's memoize.
  */
-export const getDeviceOsRelease = _.memoize(async (deviceIp: string) =>
-	execBuffered(deviceIp, 'cat /etc/os-release'),
+export const getDeviceOsRelease = _.memoize(async (hostname: string) =>
+	(await getLocalDeviceCmdStdout(hostname, 'cat /etc/os-release')).toString(),
 );
 
-// TODO: consolidate the various forms of executing ssh child processes
-// in the CLI, like exec and spawn, starting with the files:
-//   lib/actions/ssh.ts
-//   lib/utils/ssh.ts
-//   lib/utils/device/ssh.ts
-
-/**
- * Obtain the full path for ssh using which, then spawn a child process.
- * - If the child process returns error code 0, return the function normally
- *   (do not throw an error).
- * - If the child process returns a non-zero error code, set process.exitCode
- *   to that error code, and throw ExpectedError with a warning message.
- * - If the child process is terminated by a process signal, set
- *   process.exitCode = 1, and throw ExpectedError with a warning message.
- */
-export async function spawnSshAndThrowOnError(
-	args: string[],
-	options?: import('child_process').SpawnOptions,
-) {
-	const { whichSpawn } = await import('./which');
-	const [exitCode, exitSignal] = await whichSpawn(
-		'ssh',
-		args,
-		options,
-		true, // returnExitCodeOrSignal
-	);
-	if (exitCode || exitSignal) {
-		// ssh returns a wide range of exit codes, including return codes of
-		// interactive shells. For example, if the user types CTRL-C on an
-		// interactive shell and then `exit`, ssh returns error code 130.
-		// Another example, typing "exit 1" on an interactive shell causes ssh
-		// to return exit code 1. In these cases, print a short one-line warning
-		// message, and exits the CLI process with the same error code.
-		process.exitCode = exitCode;
-		throw new ExpectedError(sshErrorMessage(exitSignal, exitCode));
-	}
-}
-
-function sshErrorMessage(exitSignal?: string, exitCode?: number) {
+function sshErrorMessage(cmd: string, exitSignal?: string, exitCode?: number) {
 	const msg: string[] = [];
+	cmd = cmd ? `Remote command "${cmd}"` : 'Process';
 	if (exitSignal) {
-		msg.push(`Warning: ssh process was terminated with signal "${exitSignal}"`);
+		msg.push(`SSH: ${cmd} terminated with signal "${exitSignal}"`);
 	} else {
-		msg.push(`Warning: ssh process exited with non-zero code "${exitCode}"`);
+		msg.push(`SSH: ${cmd} exited with non-zero status code "${exitCode}"`);
 		switch (exitCode) {
 			case 255:
 				msg.push(`

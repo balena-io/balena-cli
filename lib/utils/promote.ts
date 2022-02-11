@@ -20,7 +20,7 @@ import { ExpectedError, printErrorMessage } from '../errors';
 import { getVisuals, stripIndent, getCliForm } from './lazy';
 import Logger = require('./logger');
 import { confirm } from './patterns';
-import { exec, execBuffered, getDeviceOsRelease } from './ssh';
+import { getLocalDeviceCmdStdout, getDeviceOsRelease } from './ssh';
 
 const MIN_BALENAOS_VERSION = 'v2.14.0';
 
@@ -102,8 +102,11 @@ async function execCommand(
 	});
 
 	spinner.start();
-	await exec(deviceIp, cmd, stream);
-	spinner.stop();
+	try {
+		await getLocalDeviceCmdStdout(deviceIp, cmd, stream);
+	} finally {
+		spinner.stop();
+	}
 }
 
 async function configure(deviceIp: string, config: any): Promise<void> {
@@ -123,7 +126,7 @@ async function deconfigure(deviceIp: string): Promise<void> {
 async function assertDeviceIsCompatible(deviceIp: string): Promise<void> {
 	const cmd = 'os-config --version';
 	try {
-		await execBuffered(deviceIp, cmd);
+		await getLocalDeviceCmdStdout(deviceIp, cmd);
 	} catch (err) {
 		if (err instanceof ExpectedError) {
 			throw err;

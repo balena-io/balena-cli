@@ -14,6 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 import type { ContainerInfo } from 'dockerode';
+
+import { ExpectedError } from '../../errors';
 import { stripIndent } from '../lazy';
 
 export interface DeviceSSHOpts {
@@ -26,76 +28,80 @@ export interface DeviceSSHOpts {
 
 export const deviceContainerEngineBinary = `$(if [ -f /usr/bin/balena ]; then echo "balena"; else echo "docker"; fi)`;
 
+/**
+ * List the running containers on the device with dockerode, and return the
+ * container ID that matches the given service name.
+ */
+async function getContainerIdForService(
+	service: string,
+	deviceAddress: string,
+): Promise<string> {
+	const { escapeRegExp, reduce } = await import('lodash');
+	const Docker = await import('dockerode');
+	const docker = new Docker({
+		host: deviceAddress,
+		port: 2375,
+	});
+	const regex = new RegExp(`(^|\\/)${escapeRegExp(service)}_\\d+_\\d+`);
+	const nameRegex = /\/?([a-zA-Z0-9_-]+)_\d+_\d+/;
+	let allContainers: ContainerInfo[];
+	try {
+		allContainers = await docker.listContainers();
+	} catch (_e) {
+		throw new ExpectedError(stripIndent`
+			Could not access docker daemon on device ${deviceAddress}.
+			Please ensure the device is in local mode.`);
+	}
+
+	const serviceNames: string[] = [];
+	const containers: Array<{ id: string; name: string }> = [];
+	for (const container of allContainers) {
+		for (const name of container.Names) {
+			if (regex.test(name)) {
+				containers.push({ id: container.Id, name });
+				break;
+			}
+			const match = name.match(nameRegex);
+			if (match) {
+				serviceNames.push(match[1]);
+			}
+		}
+	}
+	if (containers.length > 1) {
+		throw new ExpectedError(stripIndent`
+			Found more than one container matching service name "${service}":
+			${containers.map((container) => container.name).join(', ')}
+			Use different service names to avoid ambiguity.
+		`);
+	}
+	const containerId = containers.length ? containers[0].id : '';
+	if (!containerId) {
+		throw new ExpectedError(
+			`Could not find a service on device with name ${service}. ${
+				serviceNames.length > 0
+					? `Available services:\n${reduce(
+							serviceNames,
+							(str, name) => `${str}\t${name}\n`,
+							'',
+					  )}`
+					: ''
+			}`,
+		);
+	}
+	return containerId;
+}
+
 export async function performLocalDeviceSSH(
 	opts: DeviceSSHOpts,
 ): Promise<void> {
-	const { escapeRegExp, reduce } = await import('lodash');
-	const { spawnSshAndThrowOnError } = await import('../ssh');
-	const { ExpectedError } = await import('../../errors');
+	let cmd = '';
 
-	let command = '';
+	if (opts.service) {
+		const containerId = await getContainerIdForService(
+			opts.service,
+			opts.address,
+		);
 
-	if (opts.service != null) {
-		// Get the containers which are on-device. Currently we
-		// are single application, which means we can assume any
-		// container which fulfills the form of
-		// $serviceName_$appId_$releaseId is what we want. Once
-		// we have multi-app, we should show a dialog which
-		// allows the user to choose the correct container
-
-		const Docker = await import('dockerode');
-		const docker = new Docker({
-			host: opts.address,
-			port: 2375,
-		});
-
-		const regex = new RegExp(`(^|\\/)${escapeRegExp(opts.service)}_\\d+_\\d+`);
-		const nameRegex = /\/?([a-zA-Z0-9_-]+)_\d+_\d+/;
-		let allContainers: ContainerInfo[];
-		try {
-			allContainers = await docker.listContainers();
-		} catch (_e) {
-			throw new ExpectedError(stripIndent`
-				Could not access docker daemon on device ${opts.address}.
-				Please ensure the device is in local mode.`);
-		}
-
-		const serviceNames: string[] = [];
-		const containers: Array<{ id: string; name: string }> = [];
-		for (const container of allContainers) {
-			for (const name of container.Names) {
-				if (regex.test(name)) {
-					containers.push({ id: container.Id, name });
-					break;
-				}
-				const match = name.match(nameRegex);
-				if (match) {
-					serviceNames.push(match[1]);
-				}
-			}
-		}
-		if (containers.length === 0) {
-			throw new ExpectedError(
-				`Could not find a service on device with name ${opts.service}. ${
-					serviceNames.length > 0
-						? `Available services:\n${reduce(
-								serviceNames,
-								(str, name) => `${str}\t${name}\n`,
-								'',
-						  )}`
-						: ''
-				}`,
-			);
-		}
-		if (containers.length > 1) {
-			throw new ExpectedError(stripIndent`
-				Found more than one container matching service name "${opts.service}":
-				${containers.map((container) => container.name).join(', ')}
-				Use different service names to avoid ambiguity.
-			`);
-		}
-
-		const containerId = containers[0].id;
 		const shellCmd = `/bin/sh -c "if [ -e /bin/bash ]; then exec /bin/bash; else exec /bin/sh; fi"`;
 		// stdin (fd=0) is not a tty when data is piped in, for example
 		// echo 'ls -la; exit;' | balena ssh 192.168.0.20 service1
@@ -103,17 +109,32 @@ export async function performLocalDeviceSSH(
 		//     https://assets.balena.io/newsletter/2020-01/pipe.png
 		const isTTY = !!opts.forceTTY || (await import('tty')).isatty(0);
 		const ttyFlag = isTTY ? '-t' : '';
-		command = `${deviceContainerEngineBinary} exec -i ${ttyFlag} ${containerId} ${shellCmd}`;
+		cmd = `${deviceContainerEngineBinary} exec -i ${ttyFlag} ${containerId} ${shellCmd}`;
 	}
 
-	return spawnSshAndThrowOnError([
-		...(opts.verbose ? ['-vvv'] : []),
-		'-t',
-		...['-p', opts.port ? opts.port.toString() : '22222'],
-		...['-o', 'LogLevel=ERROR'],
-		...['-o', 'StrictHostKeyChecking=no'],
-		...['-o', 'UserKnownHostsFile=/dev/null'],
-		`root@${opts.address}`,
-		...(command ? [command] : []),
-	]);
+	const { findBestUsernameForDevice, runRemoteCommand } = await import(
+		'../ssh'
+	);
+
+	// Before we started using `findBestUsernameForDevice`, we tried the approach
+	// of attempting ssh with the 'root' username first and, if that failed, then
+	// attempting ssh with a regular user (balenaCloud username). The problem with
+	// that approach was that it would print the following message to the console:
+	//     "root@192.168.1.36: Permission denied (publickey)"
+	// ... right before having success as a regular user, which looked broken or
+	// confusing from users' point of view.  Capturing stderr to prevent that
+	// message from being printed is tricky because the messages printed to stderr
+	// may include the stderr output of remote commands that are of interest to
+	// the user.  Workarounds based on delays (timing) are tricky too because a
+	// ssh session length may vary from a fraction of a second (non interactive)
+	// to hours or days.
+	const username = await findBestUsernameForDevice(opts.address);
+
+	await runRemoteCommand({
+		cmd,
+		hostname: opts.address,
+		port: Number(opts.port) || 'local',
+		username,
+		verbose: opts.verbose,
+	});
 }

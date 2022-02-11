@@ -32,33 +32,51 @@ describe('balena ssh', function () {
 	let hasSshExecutable = false;
 	let mockedExitCode = 0;
 
+	async function mockSpawn({ revert = false } = {}) {
+		if (revert) {
+			mock.stopAll();
+			mock.reRequire('../../build/utils/ssh');
+			return;
+		}
+		const { EventEmitter } = await import('stream');
+		const childProcessMod = await import('child_process');
+		const originalSpawn = childProcessMod.spawn;
+		mock('child_process', {
+			...childProcessMod,
+			spawn: (program: string, ...args: any[]) => {
+				if (program.includes('ssh')) {
+					const emitter = new EventEmitter();
+					setTimeout(() => emitter.emit('close', mockedExitCode), 1);
+					return emitter;
+				}
+				return originalSpawn(program, ...args);
+			},
+		});
+	}
+
 	this.beforeAll(async function () {
 		hasSshExecutable = await checkSsh();
-		if (hasSshExecutable) {
-			[sshServer, sshServerPort] = await startMockSshServer();
+		if (!hasSshExecutable) {
+			this.skip();
 		}
-		const modPath = '../../build/utils/which';
-		const mod = await import(modPath);
-		mock(modPath, {
-			...mod,
-			whichSpawn: async () => [mockedExitCode, undefined],
-		});
+		[sshServer, sshServerPort] = await startMockSshServer();
+		await mockSpawn();
 	});
 
-	this.afterAll(function () {
+	this.afterAll(async function () {
 		if (sshServer) {
 			sshServer.close();
 			sshServer = undefined;
 		}
-		mock.stopAll();
+		await mockSpawn({ revert: true });
 	});
 
-	this.beforeEach(() => {
+	this.beforeEach(function () {
 		api = new BalenaAPIMock();
 		api.expectGetMixpanel({ optional: true });
 	});
 
-	this.afterEach(() => {
+	this.afterEach(function () {
 		// Check all expected api calls have been made and clean up.
 		api.done();
 	});
@@ -87,7 +105,7 @@ describe('balena ssh', function () {
 		async () => {
 			const deviceUUID = 'abc1234';
 			const expectedErrLines = [
-				'Warning: ssh process exited with non-zero code "255"',
+				'SSH: Remote command "host abc1234" exited with non-zero status code "255"',
 			];
 			api.expectGetWhoAmI({ optional: true, persist: true });
 			api.expectGetDevice({ fullUUID: deviceUUID, isOnline: true });
@@ -99,21 +117,6 @@ describe('balena ssh', function () {
 		},
 	);
 
-	it('should produce the expected error message (real ssh, device IP address)', async function () {
-		if (!hasSshExecutable) {
-			this.skip();
-		}
-		mock.stop('../../build/utils/helpers');
-		const expectedErrLines = [
-			'Warning: ssh process exited with non-zero code "255"',
-		];
-		const { err, out } = await runCommand(
-			`ssh 127.0.0.1 -p ${sshServerPort} --noproxy`,
-		);
-		expect(cleanOutput(err, true)).to.include.members(expectedErrLines);
-		expect(out).to.be.empty;
-	});
-
 	it('should fail if device not online (mocked, device UUID)', async () => {
 		const deviceUUID = 'abc1234';
 		const expectedErrLines = ['Device with UUID abc1234 is offline'];
@@ -123,6 +126,18 @@ describe('balena ssh', function () {
 
 		const { err, out } = await runCommand(`ssh ${deviceUUID}`);
 
+		expect(cleanOutput(err, true)).to.include.members(expectedErrLines);
+		expect(out).to.be.empty;
+	});
+
+	it('should produce the expected error message (real ssh, device IP address)', async function () {
+		await mockSpawn({ revert: true });
+		const expectedErrLines = [
+			'SSH: Process exited with non-zero status code "255"',
+		];
+		const { err, out } = await runCommand(
+			`ssh 127.0.0.1 -p ${sshServerPort} --noproxy`,
+		);
 		expect(cleanOutput(err, true)).to.include.members(expectedErrLines);
 		expect(out).to.be.empty;
 	});
