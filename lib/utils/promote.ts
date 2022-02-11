@@ -88,15 +88,17 @@ async function execCommand(
 	cmd: string,
 	msg: string,
 ): Promise<void> {
-	const through = await import('through2');
+	const { Writable } = await import('stream');
 	const visuals = getVisuals();
 
 	const spinner = new visuals.Spinner(`[${deviceIp}] Connecting...`);
 	const innerSpinner = spinner.spinner;
 
-	const stream = through(function (data, _enc, cb) {
-		innerSpinner.setSpinnerTitle(`%s [${deviceIp}] ${msg}`);
-		cb(null, data);
+	const stream = new Writable({
+		write(_chunk: Buffer, _enc, callback) {
+			innerSpinner.setSpinnerTitle(`%s [${deviceIp}] ${msg}`);
+			callback();
+		},
 	});
 
 	spinner.start();
