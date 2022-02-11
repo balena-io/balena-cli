@@ -119,3 +119,61 @@ export async function pkgExec(modFunc: string, args: string[]) {
 		console.error(err);
 	}
 }
+
+export interface CachedUsername {
+	token: string;
+	username: string;
+}
+
+let cachedUsername: CachedUsername | undefined;
+
+/**
+ * Return the parsed contents of the `~/.balena/cachedUsername` file. If the file
+ * does not exist, create it with the details from the cloud. If not connected
+ * to the internet, return undefined. This function is used by `lib/events.ts`
+ * (event tracking) and `lib/utils/device/ssh.ts` and needs to gracefully handle
+ * the scenario of not being connected to the internet.
+ */
+export async function getCachedUsername(): Promise<CachedUsername | undefined> {
+	if (cachedUsername) {
+		return cachedUsername;
+	}
+	const [{ getBalenaSdk }, getStorage, settings] = await Promise.all([
+		import('./lazy'),
+		import('balena-settings-storage'),
+		import('balena-settings-client'),
+	]);
+	const dataDirectory = settings.get<string>('dataDirectory');
+	const storage = getStorage({ dataDirectory });
+	let token: string | undefined;
+	try {
+		token = (await storage.get('token')) as string | undefined;
+	} catch {
+		// ignore
+	}
+	if (!token) {
+		// If we can't get a token then we can't get a username
+		return;
+	}
+	try {
+		const result = (await storage.get('cachedUsername')) as
+			| CachedUsername
+			| undefined;
+		if (result && result.token === token && result.username) {
+			cachedUsername = result;
+			return cachedUsername;
+		}
+	} catch {
+		// ignore
+	}
+	try {
+		const username = await getBalenaSdk().auth.whoami();
+		if (username) {
+			cachedUsername = { token, username };
+			await storage.set('cachedUsername', cachedUsername);
+		}
+	} catch {
+		// ignore (not connected to the internet?)
+	}
+	return cachedUsername;
+}
