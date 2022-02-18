@@ -16,12 +16,7 @@
  */
 
 import * as packageJSON from '../package.json';
-import { getBalenaSdk, stripIndent } from './utils/lazy';
-
-interface CachedUsername {
-	token: string;
-	username: string;
-}
+import { stripIndent } from './utils/lazy';
 
 /**
  * Track balena CLI usage events (product improvement analytics).
@@ -49,40 +44,13 @@ export async function trackCommand(commandSignature: string) {
 				scope.setExtra('command', commandSignature);
 			});
 		}
-		const settings = await import('balena-settings-client');
-
-		const username = await (async () => {
-			const getStorage = await import('balena-settings-storage');
-			const dataDirectory = settings.get<string>('dataDirectory');
-			const storage = getStorage({ dataDirectory });
-			let token;
-			try {
-				token = await storage.get('token');
-			} catch {
-				// If we can't get a token then we can't get a username
-				return;
-			}
-			try {
-				const result = (await storage.get('cachedUsername')) as CachedUsername;
-				if (result.token === token) {
-					return result.username;
-				}
-			} catch {
-				// ignore
-			}
-			try {
-				const balena = getBalenaSdk();
-				const $username = await balena.auth.whoami();
-				await storage.set('cachedUsername', {
-					token,
-					username: $username,
-				} as CachedUsername);
-				return $username;
-			} catch {
-				return;
-			}
-		})();
-
+		const { getCachedUsername } = await import('./utils/bootstrap');
+		let username: string | undefined;
+		try {
+			username = (await getCachedUsername())?.username;
+		} catch {
+			// ignore
+		}
 		if (!process.env.BALENARC_NO_SENTRY) {
 			Sentry!.configureScope((scope) => {
 				scope.setUser({
@@ -96,6 +64,7 @@ export async function trackCommand(commandSignature: string) {
 			!process.env.BALENA_CLI_TEST_TYPE &&
 			!process.env.BALENARC_NO_ANALYTICS
 		) {
+			const settings = await import('balena-settings-client');
 			const balenaUrl = settings.get<string>('balenaUrl');
 			await sendEvent(balenaUrl, `[CLI] ${commandSignature}`, username);
 		}

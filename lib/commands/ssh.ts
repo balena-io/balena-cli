@@ -230,19 +230,15 @@ export default class SshCmd extends Command {
 		} else {
 			accessCommand = `host ${deviceUuid}`;
 		}
-
-		const command = this.generateVpnSshCommand({
-			uuid: deviceUuid,
-			command: accessCommand,
-			verbose: options.verbose,
+		const { runRemoteCommand } = await import('../utils/ssh');
+		await runRemoteCommand({
+			cmd: accessCommand,
+			hostname: `ssh.${proxyUrl}`,
 			port: options.port,
 			proxyCommand,
-			proxyUrl: proxyUrl || '',
-			username: username!,
+			username,
+			verbose: options.verbose,
 		});
-
-		const { spawnSshAndThrowOnError } = await import('../utils/ssh');
-		return spawnSshAndThrowOnError(command);
 	}
 
 	async getContainerId(
@@ -295,53 +291,28 @@ export default class SshCmd extends Command {
 			containerId = body.services[serviceName];
 		} else {
 			console.error(stripIndent`
-			Using legacy method to detect container ID. This will be slow.
-			To speed up this process, please update your device to an OS
-			which has a supervisor version of at least v8.6.0.
-		`);
+				Using slow legacy method to determine container IDs. To speed up
+				this process, update the device supervisor to v8.6.0 or later.
+			`);
 			// We need to execute a balena ps command on the device,
 			// and parse the output, looking for a specific
 			// container
-			const childProcess = await import('child_process');
 			const { escapeRegExp } = await import('lodash');
-			const { which } = await import('../utils/which');
 			const { deviceContainerEngineBinary } = await import(
 				'../utils/device/ssh'
 			);
+			const { getRemoteCommandOutput } = await import('../utils/ssh');
 
-			const sshBinary = await which('ssh');
-			const sshArgs = this.generateVpnSshCommand({
-				uuid,
-				verbose: false,
-				port: sshOpts.port,
-				command: `host ${uuid} "${deviceContainerEngineBinary}" ps --format "{{.ID}} {{.Names}}"`,
-				proxyCommand: sshOpts.proxyCommand,
-				proxyUrl: sshOpts.proxyUrl,
-				username: sshOpts.username,
-			});
-
-			if (process.env.DEBUG) {
-				console.error(`[debug] [${sshBinary}, ${sshArgs.join(', ')}]`);
-			}
-			const subProcess = childProcess.spawn(sshBinary, sshArgs, {
-				stdio: [null, 'pipe', null],
-			});
-			const containers = await new Promise<string>((resolve, reject) => {
-				const output: string[] = [];
-				subProcess.stdout.on('data', (chunk) => output.push(chunk.toString()));
-				subProcess.on('close', (code: number) => {
-					if (code !== 0) {
-						reject(
-							new Error(
-								`Non-zero error code when looking for service container: ${code}`,
-							),
-						);
-					} else {
-						resolve(output.join(''));
-					}
-				});
-			});
-
+			const containers: string = (
+				await getRemoteCommandOutput({
+					cmd: `host ${uuid} "${deviceContainerEngineBinary}" ps --format "{{.ID}} {{.Names}}"`,
+					hostname: `ssh.${sshOpts.proxyUrl}`,
+					port: sshOpts.port,
+					proxyCommand: sshOpts.proxyCommand,
+					stderr: 'inherit',
+					username: sshOpts.username,
+				})
+			).stdout.toString();
 			const lines = containers.split('\n');
 			const regex = new RegExp(`\\/?${escapeRegExp(serviceName)}_\\d+_\\d+`);
 			for (const container of lines) {
@@ -359,29 +330,5 @@ export default class SshCmd extends Command {
 			);
 		}
 		return containerId;
-	}
-
-	generateVpnSshCommand(opts: {
-		uuid: string;
-		command: string;
-		verbose: boolean;
-		port?: number;
-		username: string;
-		proxyUrl: string;
-		proxyCommand?: string[];
-	}) {
-		return [
-			...(opts.verbose ? ['-vvv'] : []),
-			'-t',
-			...['-o', 'LogLevel=ERROR'],
-			...['-o', 'StrictHostKeyChecking=no'],
-			...['-o', 'UserKnownHostsFile=/dev/null'],
-			...(opts.proxyCommand && opts.proxyCommand.length
-				? ['-o', `ProxyCommand=${opts.proxyCommand.join(' ')}`]
-				: []),
-			...(opts.port ? ['-p', opts.port.toString()] : []),
-			`${opts.username}@ssh.${opts.proxyUrl}`,
-			opts.command,
-		];
 	}
 }
