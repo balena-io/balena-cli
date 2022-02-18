@@ -1,4 +1,33 @@
 - commits:
+    - subject: "ssh: Attempt cloud username if 'root' authentication fails"
+      hash: eeb2be29120d752df0d902087c06ca1586fe26d4
+      body: |
+        Also refactor several files to avoid code duplication.
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+    - subject: Replace occurrence of through2 dependency with standard stream module
+      hash: 3bf8befb1d99d66ccd258bc64b53cd04f7f91896
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Refactor cached username logic from events.ts to bootstrap.ts for reuse
+      hash: 948095ce4d3a3cf500b426a199cc52124c1f88fd
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 13.2.0
+  title: "'ssh: Attempt cloud username if 'root' authentication fails'"
+  date: 2022-02-12T02:44:44.074Z
+- commits:
     - subject: Drop unused awaitDevice utility function
       hash: eccadbdcb9b5340d0e9d42fd9b9063255cad9fb0
       body: ""
