@@ -299,7 +299,13 @@ export const findBestUsernameForDevice = _.memoize(
 			const { getCachedUsername } = await import('./bootstrap');
 			username = (await getCachedUsername())?.username;
 		}
-		return username || 'root';
+		if (!username) {
+			const { stripIndent } = await import('./lazy');
+			throw new ExpectedError(stripIndent`
+				SSH authentication failed for 'root@${hostname}'.
+				Please login with 'balena login' for alternative authentication.`);
+		}
+		return username;
 	},
 );
 
