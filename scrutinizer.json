@@ -5,6 +5,35 @@
     {
       "commits": [
         {
+          "subject": "Remove unnecessary fetch of device info in `balena tunnel`",
+          "hash": "bd1bf8153d5c58be31a9fef44da4b13c20a3e036",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        },
+        {
+          "subject": "Correctly use the device uuid when logging the tunnel target",
+          "hash": "f2528dcd1827e0529095bac1c346072b237da848",
+          "body": "The \"vpn address\" is only relevant on the device/vpn server themselves\nand makes no sense from a CLI context as it uses the uuid to specify\nthe target\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Pagan Gazzard",
+          "nested": []
+        }
+      ],
+      "version": "13.2.1",
+      "title": "'Correctly use the device uuid when logging the tunnel target'",
+      "date": "2022-02-24T21:05:36.396Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "ssh: Attempt cloud username if 'root' authentication fails",
           "hash": "eeb2be29120d752df0d902087c06ca1586fe26d4",
           "body": "Also refactor several files to avoid code duplication.\n",
@@ -27754,7 +27783,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 361,
+  "stars": 362,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -27855,36 +27884,40 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2022-02-18T21:40:57Z",
+  "lastCommitDate": "2022-02-24T21:45:39Z",
   "latestRelease": {
-    "tagName": "v13.2.0",
+    "tagName": "v13.2.1",
     "asssets": [
       {
-        "name": "balena-cli-v13.2.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.2.0/balena-cli-v13.2.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v13.2.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.2.1/balena-cli-v13.2.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.2.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.2.0/balena-cli-v13.2.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v13.2.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.2.1/balena-cli-v13.2.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v13.2.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.2.0/balena-cli-v13.2.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v13.2.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.2.1/balena-cli-v13.2.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.2.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.2.0/balena-cli-v13.2.0-windows-x64-installer.exe"
+        "name": "balena-cli-v13.2.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.2.1/balena-cli-v13.2.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v13.2.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.2.0/balena-cli-v13.2.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v13.2.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.2.1/balena-cli-v13.2.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 350,
+    "numberOfIssues": 351,
     "latestIssues": [
+      {
+        "title": "`balena ssh <ip-addr> <service>`: Could not access docker daemon on device",
+        "url": "https://github.com/balena-io/balena-cli/issues/2458"
+      },
       {
         "title": "Use cli-ux spinner instead of resin-cli-visuals spinner",
         "url": "https://github.com/balena-io/balena-cli/pull/2456"
@@ -27960,14 +27993,10 @@
       {
         "title": "build: Dockerfile ARG instruction not behaving as expected",
         "url": "https://github.com/balena-io/balena-cli/issues/2397"
-      },
-      {
-        "title": "[request] hide download and upload progress when pushing container",
-        "url": "https://github.com/balena-io/balena-cli/issues/2396"
       }
     ]
   },
-  "version": "13.2.0",
+  "version": "13.2.1",
   "screenshot": null,
   "logo": null
 }
