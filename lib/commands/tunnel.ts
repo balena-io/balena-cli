@@ -136,8 +136,7 @@ export default class TunnelCmd extends Command {
 		// Ascertain device uuid
 		const { getOnlineTargetDeviceUuid } = await import('../utils/patterns');
 		const uuid = await getOnlineTargetDeviceUuid(sdk, params.deviceOrFleet);
-		const device = await sdk.models.device.get(uuid);
-		logger.logInfo(`Opening a tunnel to ${device.uuid}...`);
+		logger.logInfo(`Opening a tunnel to ${uuid}...`);
 
 		const _ = await import('lodash');
 		const localListeners = _.chain(options.port)
@@ -147,11 +146,7 @@ export default class TunnelCmd extends Command {
 			.map(async ({ localPort, localAddress, remotePort }) => {
 				try {
 					const { tunnelConnectionToDevice } = await import('../utils/tunnel');
-					const handler = await tunnelConnectionToDevice(
-						device.uuid,
-						remotePort,
-						sdk,
-					);
+					const handler = await tunnelConnectionToDevice(uuid, remotePort, sdk);
 
 					const { createServer } = await import('net');
 					const server = createServer(async (client: Socket) => {
@@ -162,7 +157,7 @@ export default class TunnelCmd extends Command {
 								client.remotePort || 0,
 								client.localAddress,
 								client.localPort,
-								device.uuid,
+								uuid,
 								remotePort,
 							);
 						} catch (err) {
@@ -171,7 +166,7 @@ export default class TunnelCmd extends Command {
 								client.remotePort || 0,
 								client.localAddress,
 								client.localPort,
-								device.uuid,
+								uuid,
 								remotePort,
 								err,
 							);
@@ -186,15 +181,15 @@ export default class TunnelCmd extends Command {
 					});
 
 					logger.logInfo(
-						` - tunnelling ${localAddress}:${localPort} to ${device.uuid}:${remotePort}`,
+						` - tunnelling ${localAddress}:${localPort} to ${uuid}:${remotePort}`,
 					);
 
 					return true;
 				} catch (err) {
 					logger.logWarn(
-						` - not tunnelling ${localAddress}:${localPort} to ${
-							device.uuid
-						}:${remotePort}, failed ${JSON.stringify(err.message)}`,
+						` - not tunnelling ${localAddress}:${localPort} to ${uuid}:${remotePort}, failed ${JSON.stringify(
+							err.message,
+						)}`,
 					);
 
 					return false;
