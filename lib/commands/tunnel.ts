@@ -162,7 +162,7 @@ export default class TunnelCmd extends Command {
 								client.remotePort || 0,
 								client.localAddress,
 								client.localPort,
-								device.vpn_address || '',
+								device.uuid,
 								remotePort,
 							);
 						} catch (err) {
@@ -171,7 +171,7 @@ export default class TunnelCmd extends Command {
 								client.remotePort || 0,
 								client.localAddress,
 								client.localPort,
-								device.vpn_address || '',
+								device.uuid,
 								remotePort,
 								err,
 							);
