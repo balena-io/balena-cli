@@ -247,14 +247,15 @@ export async function getLocalDeviceCmdStdout(
 	cmd: string,
 	stdout: 'capture' | 'ignore' | 'inherit' | NodeJS.WritableStream = 'capture',
 ): Promise<Buffer> {
+	const port = 'local';
 	return (
 		await getRemoteCommandOutput({
 			cmd,
 			hostname,
-			port: 'local',
+			port,
 			stdout,
 			stderr: 'inherit',
-			username: await findBestUsernameForDevice(hostname),
+			username: await findBestUsernameForDevice(hostname, port),
 		})
 	).stdout;
 }
@@ -267,16 +268,14 @@ export async function getLocalDeviceCmdStdout(
  * added to the device's 'config.json' file.
  * @return True if succesful, false on any errors.
  */
-export const isRootUserGood = _.memoize(
-	async (hostname: string, port = 'local') => {
-		try {
-			await runRemoteCommand({ cmd: 'exit 0', hostname, port, ...stdioIgnore });
-		} catch (e) {
-			return false;
-		}
-		return true;
-	},
-);
+export const isRootUserGood = _.memoize(async (hostname: string, port) => {
+	try {
+		await runRemoteCommand({ cmd: 'exit 0', hostname, port, ...stdioIgnore });
+	} catch (e) {
+		return false;
+	}
+	return true;
+});
 
 /**
  * Determine whether the given local device (hostname or IP address) should be
@@ -291,7 +290,7 @@ export const isRootUserGood = _.memoize(
  *   universally possible.
  */
 export const findBestUsernameForDevice = _.memoize(
-	async (hostname: string, port = 'local'): Promise<string> => {
+	async (hostname: string, port): Promise<string> => {
 		let username: string | undefined;
 		if (await isRootUserGood(hostname, port)) {
 			username = 'root';
@@ -299,7 +298,13 @@ export const findBestUsernameForDevice = _.memoize(
 			const { getCachedUsername } = await import('./bootstrap');
 			username = (await getCachedUsername())?.username;
 		}
-		return username || 'root';
+		if (!username) {
+			const { stripIndent } = await import('./lazy');
+			throw new ExpectedError(stripIndent`
+				SSH authentication failed for 'root@${hostname}'.
+				Please login with 'balena login' for alternative authentication.`);
+		}
+		return username;
 	},
 );
 

@@ -33,15 +33,17 @@ describe('balena ssh', function () {
 	let mockedExitCode = 0;
 
 	async function mockSpawn({ revert = false } = {}) {
+		const childProcessPath = 'child_process';
 		if (revert) {
-			mock.stopAll();
+			mock.stop(childProcessPath);
 			mock.reRequire('../../build/utils/ssh');
+			mock.reRequire('../../build/utils/device/ssh');
 			return;
 		}
 		const { EventEmitter } = await import('stream');
-		const childProcessMod = await import('child_process');
+		const childProcessMod = await import(childProcessPath);
 		const originalSpawn = childProcessMod.spawn;
-		mock('child_process', {
+		mock(childProcessPath, {
 			...childProcessMod,
 			spawn: (program: string, ...args: any[]) => {
 				if (program.includes('ssh')) {
@@ -117,7 +119,7 @@ describe('balena ssh', function () {
 		},
 	);
 
-	it('should fail if device not online (mocked, device UUID)', async () => {
+	itSS('should fail if device not online (mocked, device UUID)', async () => {
 		const deviceUUID = 'abc1234';
 		const expectedErrLines = ['Device with UUID abc1234 is offline'];
 		api.expectGetWhoAmI({ optional: true, persist: true });
@@ -132,6 +134,7 @@ describe('balena ssh', function () {
 
 	it('should produce the expected error message (real ssh, device IP address)', async function () {
 		await mockSpawn({ revert: true });
+		api.expectGetWhoAmI({ optional: true, persist: true });
 		const expectedErrLines = [
 			'SSH: Process exited with non-zero status code "255"',
 		];
@@ -174,7 +177,7 @@ async function startMockSshServer(): Promise<[Server, number]> {
 		console.error(`mock ssh server error:\n${err}`);
 	});
 
-	return new Promise<[Server, number]>((resolve, reject) => {
+	return await new Promise<[Server, number]>((resolve, reject) => {
 		// TODO: remove 'as any' below. According to @types/node v12.20.42, the
 		// callback type is `() => void`, but our code assumes `(err: Error) => void`
 		const listener = (server.listen as any)(0, '127.0.0.1', (err: Error) => {

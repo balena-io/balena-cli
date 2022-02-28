@@ -20,7 +20,6 @@ import Command from '../command';
 import * as cf from '../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { parseAsInteger, validateLocalHostnameOrIp } from '../utils/validation';
-import * as BalenaSdk from 'balena-sdk';
 
 interface FlagsDef {
 	port?: number;
@@ -128,8 +127,8 @@ export default class SshCmd extends Command {
 		if (validateLocalHostnameOrIp(params.fleetOrDevice)) {
 			const { performLocalDeviceSSH } = await import('../utils/device/ssh');
 			return await performLocalDeviceSSH({
-				address: params.fleetOrDevice,
-				port: options.port,
+				hostname: params.fleetOrDevice,
+				port: options.port || 'local',
 				forceTTY: options.tty,
 				verbose: options.verbose,
 				service: params.service,
@@ -152,12 +151,6 @@ export default class SshCmd extends Command {
 			params.fleetOrDevice,
 		);
 
-		const device = await sdk.models.device.get(deviceUuid, {
-			$select: ['id', 'supervisor_version', 'is_online'],
-		});
-
-		const deviceId = device.id;
-		const supervisorVersion = device.supervisor_version;
 		const { which } = await import('../utils/which');
 
 		const [whichProxytunnel, username, proxyUrl] = await Promise.all([
@@ -209,19 +202,15 @@ export default class SshCmd extends Command {
 		// that we know exists and is accessible
 		let containerId: string | undefined;
 		if (params.service != null) {
-			containerId = await this.getContainerId(
-				sdk,
+			const { getContainerIdForService } = await import('../utils/device/ssh');
+			containerId = await getContainerIdForService({
 				deviceUuid,
-				params.service,
-				{
-					port: options.port,
-					proxyCommand,
-					proxyUrl: proxyUrl || '',
-					username: username!,
-				},
-				supervisorVersion,
-				deviceId,
-			);
+				hostname: `ssh.${proxyUrl}`,
+				port: options.port || 'cloud',
+				proxyCommand,
+				service: params.service,
+				username: username!,
+			});
 		}
 
 		let accessCommand: string;
@@ -234,101 +223,10 @@ export default class SshCmd extends Command {
 		await runRemoteCommand({
 			cmd: accessCommand,
 			hostname: `ssh.${proxyUrl}`,
-			port: options.port,
+			port: options.port || 'cloud',
 			proxyCommand,
 			username,
 			verbose: options.verbose,
 		});
-	}
-
-	async getContainerId(
-		sdk: BalenaSdk.BalenaSDK,
-		uuid: string,
-		serviceName: string,
-		sshOpts: {
-			port?: number;
-			proxyCommand?: string[];
-			proxyUrl: string;
-			username: string;
-		},
-		version?: string,
-		id?: number,
-	): Promise<string> {
-		const semver = await import('balena-semver');
-
-		if (version == null || id == null) {
-			const device = await sdk.models.device.get(uuid, {
-				$select: ['id', 'supervisor_version'],
-			});
-			version = device.supervisor_version;
-			id = device.id;
-		}
-
-		let containerId: string | undefined;
-		if (semver.gte(version, '8.6.0')) {
-			const apiUrl = await sdk.settings.get('apiUrl');
-			// TODO: Move this into the SDKs device model
-			const request = await sdk.request.send({
-				method: 'POST',
-				url: '/supervisor/v2/containerId',
-				baseUrl: apiUrl,
-				body: {
-					method: 'GET',
-					deviceId: id,
-				},
-			});
-			if (request.status !== 200) {
-				throw new Error(
-					`There was an error connecting to device ${uuid}, HTTP response code: ${request.status}.`,
-				);
-			}
-			const body = request.body;
-			if (body.status !== 'success') {
-				throw new Error(
-					`There was an error communicating with device ${uuid}.\n\tError: ${body.message}`,
-				);
-			}
-			containerId = body.services[serviceName];
-		} else {
-			console.error(stripIndent`
-				Using slow legacy method to determine container IDs. To speed up
-				this process, update the device supervisor to v8.6.0 or later.
-			`);
-			// We need to execute a balena ps command on the device,
-			// and parse the output, looking for a specific
-			// container
-			const { escapeRegExp } = await import('lodash');
-			const { deviceContainerEngineBinary } = await import(
-				'../utils/device/ssh'
-			);
-			const { getRemoteCommandOutput } = await import('../utils/ssh');
-
-			const containers: string = (
-				await getRemoteCommandOutput({
-					cmd: `host ${uuid} "${deviceContainerEngineBinary}" ps --format "{{.ID}} {{.Names}}"`,
-					hostname: `ssh.${sshOpts.proxyUrl}`,
-					port: sshOpts.port,
-					proxyCommand: sshOpts.proxyCommand,
-					stderr: 'inherit',
-					username: sshOpts.username,
-				})
-			).stdout.toString();
-			const lines = containers.split('\n');
-			const regex = new RegExp(`\\/?${escapeRegExp(serviceName)}_\\d+_\\d+`);
-			for (const container of lines) {
-				const [cId, name] = container.split(' ');
-				if (regex.test(name)) {
-					containerId = cId;
-					break;
-				}
-			}
-		}
-
-		if (containerId == null) {
-			throw new Error(
-				`Could not find a service ${serviceName} on device ${uuid}.`,
-			);
-		}
-		return containerId;
 	}
 }

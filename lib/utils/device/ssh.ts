@@ -13,53 +13,88 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import type { ContainerInfo } from 'dockerode';
 
 import { ExpectedError } from '../../errors';
 import { stripIndent } from '../lazy';
 
-export interface DeviceSSHOpts {
-	address: string;
-	port?: number;
+import {
+	findBestUsernameForDevice,
+	getRemoteCommandOutput,
+	runRemoteCommand,
+	SshRemoteCommandOpts,
+} from '../ssh';
+
+export interface DeviceSSHOpts extends SshRemoteCommandOpts {
 	forceTTY?: boolean;
-	verbose: boolean;
 	service?: string;
 }
 
-export const deviceContainerEngineBinary = `$(if [ -f /usr/bin/balena ]; then echo "balena"; else echo "docker"; fi)`;
+const deviceContainerEngineBinary = `$(if [ -f /usr/bin/balena ]; then echo "balena"; else echo "docker"; fi)`;
 
 /**
- * List the running containers on the device with dockerode, and return the
- * container ID that matches the given service name.
+ * List the running containers on the device over ssh, and return the full
+ * container name that matches the given service name.
+ *
+ * Note: In the past, two other approaches were implemented for this function:
+ *
+ *   - Obtaining container IDs through a supervisor API call:
+ *     '/supervisor/v2/containerId' endpoint, via cloud.
+ *   - Obtaining container IDs using 'dockerode' connected directly to
+ *     balenaEngine on a device, TCP port 2375.
+ *
+ * The problem with using the supervisor API is that it means that 'balena ssh'
+ * becomes dependent on the supervisor being up an running, but sometimes ssh
+ * is needed to investigate devices issues where the supervisor has got into
+ * trouble (e.g. supervisor in restart loop). This is the subject of CLI issue
+ * https://github.com/balena-io/balena-cli/issues/1560 .
+ *
+ * The problem with using dockerode to connect directly to port 2375 (balenaEngine)
+ * is that it only works with development variants of balenaOS. Production variants
+ * block access to port 2375 for security reasons. 'balena ssh' should support
+ * production variants as well, especially after balenaOS v2.44.0 that introduced
+ * support for using the cloud account username for ssh authentication.
+ *
+ * Overall, the most reliable approach is to run 'balena-engine ps' over ssh.
+ * It is OK to depend on balenaEngine because ssh to a container is implemented
+ * through 'balena-engine exec' anyway, and of course it is OK to depend on ssh
+ * itself.
  */
-async function getContainerIdForService(
-	service: string,
-	deviceAddress: string,
+export async function getContainerIdForService(
+	opts: SshRemoteCommandOpts & { service: string; deviceUuid?: string },
 ): Promise<string> {
-	const { escapeRegExp, reduce } = await import('lodash');
-	const Docker = await import('dockerode');
-	const docker = new Docker({
-		host: deviceAddress,
-		port: 2375,
-	});
-	const regex = new RegExp(`(^|\\/)${escapeRegExp(service)}_\\d+_\\d+`);
-	const nameRegex = /\/?([a-zA-Z0-9_-]+)_\d+_\d+/;
-	let allContainers: ContainerInfo[];
-	try {
-		allContainers = await docker.listContainers();
-	} catch (_e) {
-		throw new ExpectedError(stripIndent`
-			Could not access docker daemon on device ${deviceAddress}.
-			Please ensure the device is in local mode.`);
+	opts.cmd = `"${deviceContainerEngineBinary}" ps --format "{{.ID}} {{.Names}}"`;
+	if (opts.deviceUuid) {
+		// If a device UUID is given, perform ssh via cloud proxy 'host' command
+		opts.cmd = `host ${opts.deviceUuid} ${opts.cmd}`;
 	}
 
+	const psLines: string[] = (
+		await getRemoteCommandOutput({ ...opts, stderr: 'inherit' })
+	).stdout
+		.toString()
+		.split('\n')
+		.filter((l) => l);
+
+	const { escapeRegExp } = await import('lodash');
+	const regex = new RegExp(`(?:^|\\/)${escapeRegExp(opts.service)}_\\d+_\\d+`);
+	// Old balenaOS container name pattern:
+	//    main_1234567_2345678
+	// New balenaOS container name patterns:
+	//    main_1234567_2345678_a000b111c222d333e444f555a666b777
+	//    main_1_1_localrelease
+	const nameRegex = /(?:^|\/)([a-zA-Z0-9_-]+)_\d+_\d+(?:_.+)?$/;
+
 	const serviceNames: string[] = [];
-	const containers: Array<{ id: string; name: string }> = [];
-	for (const container of allContainers) {
-		for (const name of container.Names) {
+	const containerNames: string[] = [];
+	let containerId: string | undefined;
+
+	// sample psLine: 'b603c74e951e bar_4587562_2078151_3261c9d4c22f2c53a5267be459c89990'
+	for (const psLine of psLines) {
+		const [cId, name] = psLine.split(' ');
+		if (cId && name) {
 			if (regex.test(name)) {
-				containers.push({ id: container.Id, name });
-				break;
+				containerNames.push(name);
+				containerId = cId;
 			}
 			const match = name.match(nameRegex);
 			if (match) {
@@ -67,23 +102,21 @@ async function getContainerIdForService(
 			}
 		}
 	}
-	if (containers.length > 1) {
+
+	if (containerNames.length > 1) {
+		const [s, d] = [opts.service, opts.deviceUuid || opts.hostname];
 		throw new ExpectedError(stripIndent`
-			Found more than one container matching service name "${service}":
-			${containers.map((container) => container.name).join(', ')}
+			Found more than one container matching service name "${s}" on device "${d}":
+			${containerNames.join(', ')}
 			Use different service names to avoid ambiguity.
 		`);
 	}
-	const containerId = containers.length ? containers[0].id : '';
 	if (!containerId) {
+		const [s, d] = [opts.service, opts.deviceUuid || opts.hostname];
 		throw new ExpectedError(
-			`Could not find a service on device with name ${service}. ${
+			`Could not find a container matching service name "${s}" on device "${d}".${
 				serviceNames.length > 0
-					? `Available services:\n${reduce(
-							serviceNames,
-							(str, name) => `${str}\t${name}\n`,
-							'',
-					  )}`
+					? `\nAvailable services:\n\t${serviceNames.join('\n\t')}`
 					: ''
 			}`,
 		);
@@ -94,13 +127,25 @@ async function getContainerIdForService(
 export async function performLocalDeviceSSH(
 	opts: DeviceSSHOpts,
 ): Promise<void> {
+	// Before we started using `findBestUsernameForDevice`, we tried the approach
+	// of attempting ssh with the 'root' username first and, if that failed, then
+	// attempting ssh with a regular user (balenaCloud username). The problem with
+	// that approach was that it would print the following message to the console:
+	//     "root@192.168.1.36: Permission denied (publickey)"
+	// ... right before having success as a regular user, which looked broken or
+	// confusing from users' point of view.  Capturing stderr to prevent that
+	// message from being printed is tricky because the messages printed to stderr
+	// may include the stderr output of remote commands that are of interest to
+	// the user.
+	const username = await findBestUsernameForDevice(opts.hostname, opts.port);
 	let cmd = '';
 
 	if (opts.service) {
-		const containerId = await getContainerIdForService(
-			opts.service,
-			opts.address,
-		);
+		const containerId = await getContainerIdForService({
+			...opts,
+			service: opts.service,
+			username,
+		});
 
 		const shellCmd = `/bin/sh -c "if [ -e /bin/bash ]; then exec /bin/bash; else exec /bin/sh; fi"`;
 		// stdin (fd=0) is not a tty when data is piped in, for example
@@ -112,29 +157,5 @@ export async function performLocalDeviceSSH(
 		cmd = `${deviceContainerEngineBinary} exec -i ${ttyFlag} ${containerId} ${shellCmd}`;
 	}
 
-	const { findBestUsernameForDevice, runRemoteCommand } = await import(
-		'../ssh'
-	);
-
-	// Before we started using `findBestUsernameForDevice`, we tried the approach
-	// of attempting ssh with the 'root' username first and, if that failed, then
-	// attempting ssh with a regular user (balenaCloud username). The problem with
-	// that approach was that it would print the following message to the console:
-	//     "root@192.168.1.36: Permission denied (publickey)"
-	// ... right before having success as a regular user, which looked broken or
-	// confusing from users' point of view.  Capturing stderr to prevent that
-	// message from being printed is tricky because the messages printed to stderr
-	// may include the stderr output of remote commands that are of interest to
-	// the user.  Workarounds based on delays (timing) are tricky too because a
-	// ssh session length may vary from a fraction of a second (non interactive)
-	// to hours or days.
-	const username = await findBestUsernameForDevice(opts.address);
-
-	await runRemoteCommand({
-		cmd,
-		hostname: opts.address,
-		port: Number(opts.port) || 'local',
-		username,
-		verbose: opts.verbose,
-	});
+	await runRemoteCommand({ ...opts, cmd, username });
 }
