@@ -1,4 +1,29 @@
 - commits:
+    - subject: "ssh: Allow ssh to service with IP address and production balenaOS image"
+      hash: 915f7e3763991700d4746e3581099d5793a58648
+      body: |
+        Also remove 'balena ssh' dependency on the device supervisor (that may
+        be down because of device issues or a supervisor bug) when opening a
+        ssh shell on a container (#1560).
+      footer:
+        Resolves: "#1560"
+        resolves: "#1560"
+        Change-type: minor
+        change-type: minor
+      author: Paulo Castro
+      nested: []
+    - subject: "ssh: Advise use of 'balena login' if root authentication fails"
+      hash: cd17d790673229ca0dfa42666a1800916a987578
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 13.3.0
+  title: "'ssh: Allow ssh to service with IP address and production balenaOS image'"
+  date: 2022-02-28T22:34:04.686Z
+- commits:
     - subject: Remove unnecessary fetch of device info in `balena tunnel`
       hash: bd1bf8153d5c58be31a9fef44da4b13c20a3e036
       body: ""
@@ -20,7 +45,7 @@
       nested: []
   version: 13.2.1
   title: "'Correctly use the device uuid when logging the tunnel target'"
-  date: 2022-02-24T21:44:52.199Z
+  date: 2022-02-24T21:05:36.396Z
 - commits:
     - subject: "ssh: Attempt cloud username if 'root' authentication fails"
       hash: eeb2be29120d752df0d902087c06ca1586fe26d4
