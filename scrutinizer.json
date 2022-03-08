@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "Include link to Wiki release notes in version update notifications",
+          "hash": "e9461789531df561165ea2ca90a00d6fe9a0f9b6",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "13.3.1",
+      "title": "'Include link to Wiki release notes in version update notifications'",
+      "date": "2022-03-08T18:34:21.932Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "ssh: Allow ssh to service with IP address and production balenaOS image",
           "hash": "915f7e3763991700d4746e3581099d5793a58648",
           "body": "Also remove 'balena ssh' dependency on the device supervisor (that may\nbe down because of device issues or a supervisor bug) when opening a\nssh shell on a container (#1560).\n",
@@ -27814,7 +27832,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 365,
+  "stars": 364,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -27915,29 +27933,29 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2022-02-28T22:35:10Z",
+  "lastCommitDate": "2022-03-08T20:33:20Z",
   "latestRelease": {
-    "tagName": "v13.3.0",
+    "tagName": "v13.3.1",
     "asssets": [
       {
-        "name": "balena-cli-v13.3.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.0/balena-cli-v13.3.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v13.3.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.1/balena-cli-v13.3.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.3.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.0/balena-cli-v13.3.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v13.3.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.1/balena-cli-v13.3.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v13.3.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.0/balena-cli-v13.3.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v13.3.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.1/balena-cli-v13.3.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.3.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.0/balena-cli-v13.3.0-windows-x64-installer.exe"
+        "name": "balena-cli-v13.3.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.1/balena-cli-v13.3.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v13.3.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.0/balena-cli-v13.3.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v13.3.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.1/balena-cli-v13.3.1-windows-x64-standalone.zip"
       }
     ]
   },
@@ -28027,7 +28045,7 @@
       }
     ]
   },
-  "version": "13.3.0",
+  "version": "13.3.1",
   "screenshot": null,
   "logo": null
 }

@@ -1,4 +1,16 @@
 - commits:
+    - subject: Include link to Wiki release notes in version update notifications
+      hash: e9461789531df561165ea2ca90a00d6fe9a0f9b6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 13.3.1
+  title: "'Include link to Wiki release notes in version update notifications'"
+  date: 2022-03-08T20:32:33.201Z
+- commits:
     - subject: "ssh: Allow ssh to service with IP address and production balenaOS image"
       hash: 915f7e3763991700d4746e3581099d5793a58648
       body: |
@@ -22,7 +34,7 @@
       nested: []
   version: 13.3.0
   title: "'ssh: Allow ssh to service with IP address and production balenaOS image'"
-  date: 2022-02-28T22:34:04.686Z
+  date: 2022-02-28T21:42:42.420Z
 - commits:
     - subject: Remove unnecessary fetch of device info in `balena tunnel`
       hash: bd1bf8153d5c58be31a9fef44da4b13c20a3e036
