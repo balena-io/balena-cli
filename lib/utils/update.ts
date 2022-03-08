@@ -1,5 +1,5 @@
 /*
-Copyright 2016-2019 Balena
+Copyright 2016-2022 Balena
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -40,14 +40,35 @@ export function notify() {
 		}
 	}
 	const up = notifier.update;
-	if (
-		up &&
-		(require('semver') as typeof import('semver')).lt(up.current, up.latest)
-	) {
-		notifier.notify({
-			defer: false,
-			message: `Update available ${up.current} → ${up.latest}\n
-https://github.com/balena-io/balena-cli/blob/master/INSTALL.md`,
-		});
+	const message = up && getNotifierMessage(up);
+	if (message) {
+		notifier.notify({ defer: false, message });
 	}
+}
+
+export function getNotifierMessage(updateInfo: UpdateNotifier.UpdateInfo) {
+	const semver = require('semver') as typeof import('semver');
+	const message: string[] = [];
+	const [current, latest] = [updateInfo.current, updateInfo.latest];
+
+	if (semver.lt(current, latest)) {
+		message.push(
+			`Update available ${current} → ${latest}`,
+			'https://github.com/balena-io/balena-cli/blob/master/INSTALL.md',
+		);
+		const currentMajor = semver.major(current);
+		const latestMajor = semver.major(latest);
+		if (currentMajor !== latestMajor) {
+			message.push(
+				'',
+				`Check the v${latestMajor} release notes at:`,
+				getReleaseNotesUrl(latestMajor),
+			);
+		}
+	}
+	return message.join('\n');
+}
+
+function getReleaseNotesUrl(majorVersion: number) {
+	return `https://github.com/balena-io/balena-cli/wiki/CLI-v${majorVersion}-Release-Notes`;
 }
