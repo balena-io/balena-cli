@@ -1,4 +1,16 @@
 - commits:
+    - subject: Include link to Wiki release notes in version update notifications
+      hash: e9461789531df561165ea2ca90a00d6fe9a0f9b6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 13.3.1
+  title: "'Include link to Wiki release notes in version update notifications'"
+  date: 2022-03-08T18:34:21.932Z
+- commits:
     - subject: "ssh: Allow ssh to service with IP address and production balenaOS image"
       hash: 915f7e3763991700d4746e3581099d5793a58648
       body: |
