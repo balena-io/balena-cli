@@ -1,4 +1,18 @@
 - commits:
+    - subject: (v14) Migrate tabular commands to new output framework
+      hash: ab1d8aa6ba97650ce94619cfb4c012f0cd2d7e18
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 13.1.14
+  title: "'Migrate tabular commands to new output framework'"
+  date: 2022-03-25T17:17:58.245Z
+- commits:
     - subject: Drop unused awaitDevice utility function
       hash: eccadbdcb9b5340d0e9d42fd9b9063255cad9fb0
       body: ""
