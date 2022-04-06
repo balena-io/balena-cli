@@ -2557,9 +2557,9 @@
       }
     },
     "@types/dockerode": {
-      "version": "3.3.0",
-      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.0.tgz",
-      "integrity": "sha512-3Mc0b2gnypJB8Gwmr+8UVPkwjpf4kg1gVxw8lAI4Y/EzpK50LixU1wBSPN9D+xqiw2Ubb02JO8oM0xpwzvi2mg==",
+      "version": "3.3.8",
+      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.8.tgz",
+      "integrity": "sha512-/Hip29GzPBWfbSS87lyQDVoB7Ja+kr8oOFWXsySxNFa7jlyj3Yws8LaZRmn1xZl7uJH3Xxsg0oI09GHpT1pIBw==",
       "dev": true,
       "requires": {
         "@types/docker-modem": "*",
@@ -2989,9 +2989,9 @@
       }
     },
     "@types/ssh2": {
-      "version": "0.5.49",
-      "resolved": "https://registry.npmjs.org/@types/ssh2/-/ssh2-0.5.49.tgz",
-      "integrity": "sha512-ffxhQhJqgTzrw8NxHTgkaDtAmAj2qxCyoves7ztpRgqvzbHcZTpTcm+ATWuuCbPQzxnnF4F3SGGTLGEWTZpwqA==",
+      "version": "0.5.52",
+      "resolved": "https://registry.npmjs.org/@types/ssh2/-/ssh2-0.5.52.tgz",
+      "integrity": "sha512-lbLLlXxdCZOSJMCInKH2+9V/77ET2J6NPQHpFI0kda61Dd1KglJs+fPQBchizmzYSOJBgdTajhPqBO1xxLywvg==",
       "dev": true,
       "requires": {
         "@types/node": "*",
