@@ -5,6 +5,35 @@
     {
       "commits": [
         {
+          "subject": "Skip Alpine tests until Concourse + Alpine v3.14 issues are resolved",
+          "hash": "a4ab07cd085d84d75bc668390823bf72604730e0",
+          "body": "See:\n* https://github.com/concourse/concourse/issues/7905\n* https://github.com/product-os/balena-concourse/issues/631\n* https://github.com/product-os/ci-images/pull/116/files#r844508619\n",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        },
+        {
+          "subject": "build: Ensure HTTPS is used with dockerPort 2376 or with ca/cert/key",
+          "hash": "9185eaa2b742bb694abe8b300221bf7437e7e93f",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Paulo Castro",
+          "nested": []
+        }
+      ],
+      "version": "13.3.2",
+      "title": "'build: Ensure HTTPS is used with dockerPort 2376 or with ca/cert/key'",
+      "date": "2022-04-07T09:15:48.137Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Include link to Wiki release notes in version update notifications",
           "hash": "e9461789531df561165ea2ca90a00d6fe9a0f9b6",
           "body": "",
@@ -27832,7 +27861,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 364,
+  "stars": 367,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -27933,36 +27962,56 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2022-03-08T20:33:20Z",
+  "lastCommitDate": "2022-04-07T10:25:31Z",
   "latestRelease": {
-    "tagName": "v13.3.1",
+    "tagName": "v13.3.2",
     "asssets": [
       {
-        "name": "balena-cli-v13.3.1-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.1/balena-cli-v13.3.1-linux-x64-standalone.zip"
+        "name": "balena-cli-v13.3.2-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.2/balena-cli-v13.3.2-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.3.1-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.1/balena-cli-v13.3.1-macOS-x64-installer.pkg"
+        "name": "balena-cli-v13.3.2-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.2/balena-cli-v13.3.2-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v13.3.1-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.1/balena-cli-v13.3.1-macOS-x64-standalone.zip"
+        "name": "balena-cli-v13.3.2-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.2/balena-cli-v13.3.2-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.3.1-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.1/balena-cli-v13.3.1-windows-x64-installer.exe"
+        "name": "balena-cli-v13.3.2-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.2/balena-cli-v13.3.2-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v13.3.1-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.1/balena-cli-v13.3.1-windows-x64-standalone.zip"
+        "name": "balena-cli-v13.3.2-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.2/balena-cli-v13.3.2-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 350,
+    "numberOfIssues": 354,
     "latestIssues": [
+      {
+        "title": "command `balena fleet restart <fleet>` gives error `BalenaApplicationNotFound`",
+        "url": "https://github.com/balena-io/balena-cli/issues/2468"
+      },
+      {
+        "title": "balena os download fails if given suffix in latest ESR releases",
+        "url": "https://github.com/balena-io/balena-cli/issues/2467"
+      },
+      {
+        "title": "ssh: Should support Visual Studio Code remote development using SSH",
+        "url": "https://github.com/balena-io/balena-cli/issues/2466"
+      },
+      {
+        "title": "Bump simple-git from 2.48.0 to 3.3.0",
+        "url": "https://github.com/balena-io/balena-cli/pull/2465"
+      },
+      {
+        "title": "[FEATURE] `balena env add --file </path/to/.env>` to read .env file",
+        "url": "https://github.com/balena-io/balena-cli/issues/2464"
+      },
       {
         "title": "balena os download: Tries to download an ESR release even if the user doesn't have access & errors",
         "url": "https://github.com/balena-io/balena-cli/issues/2462"
@@ -28022,30 +28071,10 @@
       {
         "title": "Join command changes `developmentMode` to false",
         "url": "https://github.com/balena-io/balena-cli/issues/2406"
-      },
-      {
-        "title": "npm install fails on node v16",
-        "url": "https://github.com/balena-io/balena-cli/issues/2403"
-      },
-      {
-        "title": "`env rm` should accept standard ids for `device, fleet`, instead of (only) db ids",
-        "url": "https://github.com/balena-io/balena-cli/issues/2402"
-      },
-      {
-        "title": "Update to TypeScript version of balena-sync",
-        "url": "https://github.com/balena-io/balena-cli/pull/2400"
-      },
-      {
-        "title": "[openBalena] device move: No suitable fleets found for selection",
-        "url": "https://github.com/balena-io/balena-cli/issues/2399"
-      },
-      {
-        "title": "build: Dockerfile ARG instruction not behaving as expected",
-        "url": "https://github.com/balena-io/balena-cli/issues/2397"
       }
     ]
   },
-  "version": "13.3.1",
+  "version": "13.3.2",
   "screenshot": null,
   "logo": null
 }
