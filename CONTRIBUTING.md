@@ -125,6 +125,39 @@ The README file is manually edited, but subsections are automatically extracted 
 
 The `INSTALL*.md` and `TROUBLESHOOTING.md` files are also manually edited.
 
+## Patches folder
+
+The `patches` folder contains patch files created with the
+[patch-package](https://www.npmjs.com/package/patch-package) tool. Small code changes to
+third-party modules can be made by directly editing Javascript files under the `node_modules`
+folder and then running `patch-package` to create the patch files. The patch files are then
+applied immediately after `npm install`, through the `postinstall` script defined in
+`package.json`.
+
+The subfolders of the `patches` folder are documented in the
+[apply-patches.js](https://github.com/balena-io/balena-cli/blob/master/patches/apply-patches.js)
+script.
+
+To make changes to the patch files under the `patches` folder, **do not edit them directly,**
+not even for a "single character change" because the hash values in the patch files also need
+to be recomputed by `patch-packages`. Instead, edit the relevant files under `node_modules`
+directly, and then run `patch-packages` with the `--patch-dir` option to specify the subfolder
+where the patch should be saved. For example, edit `node_modules/exit-hook/index.js` and then
+run:
+
+```sh
+$ npx patch-package --patch-dir patches/all exit-hook
+```
+
+That said, these kinds of patches should be avoided in favour of creating pull requests
+upstream. Patch files create additional maintenance work over time as the patches need to be
+updated when the dependencies are updated, and they prevent the compounding community benefit
+that sharing fixes upstream have on open source projects like the balena CLI. The typical
+scenario where these patches are used is when the upstream maintainers are unresponsive or
+unwilling to merge the required fixes, the fixes are very small and specific to the balena CLI,
+and creating a fork of the upstream repo is likely to be more long-term effort than maintaining
+the patches.
+
 ## Windows
 
 Besides the regular npm installation dependencies, the `npm run build:installer` script
