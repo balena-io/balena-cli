@@ -174,14 +174,8 @@ export async function isBalenaEngine(docker: dockerode): Promise<boolean> {
 	);
 }
 
-export interface ExtendedDockerOptions extends dockerode.DockerOptions {
-	docker?: string; // socket path, e.g. /var/run/docker.sock
-	dockerHost?: string; // host name or IP address
-	dockerPort?: number; // TCP port number, e.g. 2375
-}
-
 export async function getDocker(
-	options: ExtendedDockerOptions,
+	options: DockerConnectionCliFlags,
 ): Promise<dockerode> {
 	const connectOpts = await generateConnectOpts(options);
 	const client = await createClient(connectOpts);
@@ -196,14 +190,18 @@ export async function createClient(
 	return new Docker(opts);
 }
 
-async function generateConnectOpts(opts: ExtendedDockerOptions) {
-	let connectOpts: dockerode.DockerOptions = {};
-
-	// Start with docker-modem defaults which take several env vars into account,
-	// including DOCKER_HOST, DOCKER_TLS_VERIFY, DOCKER_CERT_PATH, SSH_AUTH_SOCK
-	// https://github.com/apocas/docker-modem/blob/v3.0.0/lib/modem.js#L15-L70
-	const Modem = require('docker-modem');
-	const defaultOpts = new Modem();
+/**
+ * Initialize Docker connection options with the default values from the
+ * 'docker-modem' package, which takes several env vars into account,
+ * including DOCKER_HOST, DOCKER_TLS_VERIFY, DOCKER_CERT_PATH, SSH_AUTH_SOCK
+ * https://github.com/apocas/docker-modem/blob/v3.0.0/lib/modem.js#L15-L70
+ *
+ * @param opts Command line options like --dockerHost and --dockerPort
+ */
+export function getDefaultDockerModemOpts(
+	opts: DockerConnectionCliFlags,
+): dockerode.DockerOptions {
+	const connectOpts: dockerode.DockerOptions = {};
 	const optsOfInterest: Array<keyof dockerode.DockerOptions> = [
 		'ca',
 		'cert',
@@ -215,9 +213,33 @@ async function generateConnectOpts(opts: ExtendedDockerOptions) {
 		'username',
 		'timeout',
 	];
-	for (const opt of optsOfInterest) {
-		connectOpts[opt] = defaultOpts[opt];
+	const Modem = require('docker-modem');
+	const originalDockerHost = process.env.DOCKER_HOST;
+	try {
+		if (opts.dockerHost) {
+			process.env.DOCKER_HOST ||= opts.dockerPort
+				? `${opts.dockerHost}:${opts.dockerPort}`
+				: opts.dockerHost;
+		}
+		const defaultOpts = new Modem();
+		for (const opt of optsOfInterest) {
+			connectOpts[opt] = defaultOpts[opt];
+		}
+	} finally {
+		// Did you know? Any value assigned to `process.env.XXX` becomes a string.
+		// For example, `process.env.DOCKER_HOST = undefined` results in
+		// value 'undefined' (a 9-character string) being assigned.
+		if (originalDockerHost) {
+			process.env.DOCKER_HOST = originalDockerHost;
+		} else {
+			delete process.env.DOCKER_HOST;
+		}
 	}
+	return connectOpts;
+}
+
+export async function generateConnectOpts(opts: DockerConnectionCliFlags) {
+	let connectOpts = getDefaultDockerModemOpts(opts);
 
 	// Now override the default options with any explicit command line options
 	if (opts.docker != null && opts.dockerHost == null) {
@@ -241,9 +263,9 @@ async function generateConnectOpts(opts: ExtendedDockerOptions) {
 	// These should be file paths (strings)
 	const tlsOpts = [opts.ca, opts.cert, opts.key];
 
-	// If any are set...
+	// If any tlsOpts are set...
 	if (tlsOpts.some((opt) => opt)) {
-		// but not all ()
+		// but not all
 		if (!tlsOpts.every((opt) => opt)) {
 			throw new ExpectedError(
 				'You must provide a CA, certificate and key in order to use TLS',
@@ -258,7 +280,11 @@ async function generateConnectOpts(opts: ExtendedDockerOptions) {
 		const [ca, cert, key] = await Promise.all(
 			tlsOpts.map((opt: string) => fs.readFile(opt, 'utf8')),
 		);
-		connectOpts = { ...connectOpts, ca, cert, key };
+		// Also ensure that the protocol is 'https' like 'docker-modem' does:
+		// https://github.com/apocas/docker-modem/blob/v3.0.0/lib/modem.js#L101-L103
+		// TODO: delete redundant logic from this function now that similar logic
+		// exists in the 'docker-modem' package.
+		connectOpts = { ...connectOpts, ca, cert, key, protocol: 'https' };
 	}
 
 	return connectOpts;
