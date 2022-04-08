@@ -1,4 +1,16 @@
 - commits:
+    - subject: Document the 'patches' folder in CONTRIBUTING.md
+      hash: 88835e63bd0c37b7be99f63214d17a429d937035
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 13.3.3
+  title: "'Document the 'patches' folder in CONTRIBUTING.md'"
+  date: 2022-04-08T10:36:01.636Z
+- commits:
     - subject: Skip Alpine tests until Concourse + Alpine v3.14 issues are resolved
       hash: a4ab07cd085d84d75bc668390823bf72604730e0
       body: |
