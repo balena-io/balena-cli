@@ -1,4 +1,16 @@
 - commits:
+    - subject: Test Concourse / fly tool
+      hash: 112163c54d0f905ef10fd6cd5a6d7c4ef9636f49
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 13.3.4
+  title: "'Test Concourse / fly tool'"
+  date: 2022-04-08T12:53:07.693Z
+- commits:
     - subject: Document the 'patches' folder in CONTRIBUTING.md
       hash: 88835e63bd0c37b7be99f63214d17a429d937035
       body: ""
