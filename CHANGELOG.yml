@@ -1,4 +1,16 @@
 - commits:
+    - subject: Document the 'patches' folder in CONTRIBUTING.md
+      hash: 88835e63bd0c37b7be99f63214d17a429d937035
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 13.3.3
+  title: "'Document the 'patches' folder in CONTRIBUTING.md'"
+  date: 2022-04-08T11:38:23.502Z
+- commits:
     - subject: Skip Alpine tests until Concourse + Alpine v3.14 issues are resolved
       hash: a4ab07cd085d84d75bc668390823bf72604730e0
       body: |
@@ -21,7 +33,7 @@
       nested: []
   version: 13.3.2
   title: "'build: Ensure HTTPS is used with dockerPort 2376 or with ca/cert/key'"
-  date: 2022-04-07T10:24:15.227Z
+  date: 2022-04-07T09:15:48.137Z
 - commits:
     - subject: Include link to Wiki release notes in version update notifications
       hash: e9461789531df561165ea2ca90a00d6fe9a0f9b6
