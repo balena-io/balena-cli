@@ -155,6 +155,7 @@
     "@types/request": "^2.48.7",
     "@types/rewire": "^2.5.28",
     "@types/rimraf": "^3.0.2",
+    "@types/semver": "^7.3.9",
     "@types/shell-escape": "^0.2.0",
     "@types/sinon": "^10.0.6",
     "@types/split": "^1.0.0",

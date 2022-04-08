@@ -28,6 +28,7 @@ import type {
 	ImageDescriptor,
 } from 'resin-compose-parse';
 import type * as MultiBuild from 'resin-multibuild';
+import * as semver from 'semver';
 import type { Duplex, Readable } from 'stream';
 import type { Pack } from 'tar-stream';
 
@@ -1348,9 +1349,6 @@ async function pushServiceImages(
 	);
 }
 
-// TODO: This should be shared between the CLI & the Builder
-const PLAIN_SEMVER_REGEX = /^([0-9]+)\.([0-9]+)\.([0-9]+)$/;
-
 export async function deployProject(
 	docker: Dockerode,
 	logger: Logger,
@@ -1373,10 +1371,10 @@ export async function deployProject(
 
 	const contractPath = path.join(projectPath, 'balena.yml');
 	const contract = await getContractContent(contractPath);
-	if (contract?.version && !PLAIN_SEMVER_REGEX.test(contract?.version)) {
+	if (contract?.version && !semver.valid(contract.version)) {
 		throw new ExpectedError(stripIndent`\
-			Error: expected the version field in "${contractPath}"
-			to be a basic semver in the format '1.2.3'. Got '${contract.version}' instead`);
+			Error: the version field in "${contractPath}"
+			is not a valid semver`);
 	}
 
 	const $release = await runSpinner(
