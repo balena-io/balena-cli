@@ -80,7 +80,12 @@ export async function leave(
 	logger.logDebug('Deconfiguring...');
 	await deconfigure(deviceHostnameOrIp);
 
-	logger.logSuccess('Device successfully left the platform.');
+	logger.logSuccess(stripIndent`
+		Device successfully left the platform. The device will still be listed as part
+		of the fleet, but changes to the fleet will no longer affect the device and its
+		status will eventually be reported as 'Offline'. To irrecoverably delete the
+		device from the fleet, use the 'balena device rm' command or delete it through
+		the balenaCloud web dashboard.`);
 }
 
 async function execCommand(
