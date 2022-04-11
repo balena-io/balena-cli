@@ -1,4 +1,24 @@
 - commits:
+    - subject: "deploy: Support all valid semver versions in balena.yml"
+      hash: d2c77760b3e2001e5d18b48e5abf218d0998a4cd
+      body: ""
+      footer:
+        Resolves: "#2337"
+        resolves: "#2337"
+        Change-type: minor
+        change-type: minor
+        Depends-on: https://github.com/balena-io/balena-api/pull/3584
+        depends-on: https://github.com/balena-io/balena-api/pull/3584
+        See: https://jel.ly.fish/product-improvement-draft-releases-and-release-versioning-d0391f45-c2f9-4f4e-b964-1a7e9023a3f4
+        see: https://jel.ly.fish/product-improvement-draft-releases-and-release-versioning-d0391f45-c2f9-4f4e-b964-1a7e9023a3f4
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 13.4.0
+  title: "'deploy: Support all valid semver versions in balena.yml'"
+  date: 2022-04-11T14:17:19.266Z
+- commits:
     - subject: Document the 'patches' folder in CONTRIBUTING.md
       hash: 88835e63bd0c37b7be99f63214d17a429d937035
       body: ""
@@ -9,7 +29,7 @@
       nested: []
   version: 13.3.3
   title: "'Document the 'patches' folder in CONTRIBUTING.md'"
-  date: 2022-04-08T11:38:23.502Z
+  date: 2022-04-08T10:36:01.636Z
 - commits:
     - subject: Skip Alpine tests until Concourse + Alpine v3.14 issues are resolved
       hash: a4ab07cd085d84d75bc668390823bf72604730e0

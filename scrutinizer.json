@@ -5,6 +5,32 @@
     {
       "commits": [
         {
+          "subject": "deploy: Support all valid semver versions in balena.yml",
+          "hash": "d2c77760b3e2001e5d18b48e5abf218d0998a4cd",
+          "body": "",
+          "footer": {
+            "Resolves": "#2337",
+            "resolves": "#2337",
+            "Change-type": "minor",
+            "change-type": "minor",
+            "Depends-on": "https://github.com/balena-io/balena-api/pull/3584",
+            "depends-on": "https://github.com/balena-io/balena-api/pull/3584",
+            "See": "https://jel.ly.fish/product-improvement-draft-releases-and-release-versioning-d0391f45-c2f9-4f4e-b964-1a7e9023a3f4",
+            "see": "https://jel.ly.fish/product-improvement-draft-releases-and-release-versioning-d0391f45-c2f9-4f4e-b964-1a7e9023a3f4",
+            "Signed-off-by": "Thodoris Greasidis <thodoris@balena.io>",
+            "signed-off-by": "Thodoris Greasidis <thodoris@balena.io>"
+          },
+          "author": "Thodoris Greasidis",
+          "nested": []
+        }
+      ],
+      "version": "13.4.0",
+      "title": "'deploy: Support all valid semver versions in balena.yml'",
+      "date": "2022-04-08T15:19:35.411Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "Document the 'patches' folder in CONTRIBUTING.md",
           "hash": "88835e63bd0c37b7be99f63214d17a429d937035",
           "body": "",
@@ -27879,7 +27905,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 367,
+  "stars": 368,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -27980,35 +28006,35 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2022-04-08T11:39:33Z",
+  "lastCommitDate": "2022-04-11T14:18:27Z",
   "latestRelease": {
-    "tagName": "v13.3.3",
+    "tagName": "v13.4.0",
     "asssets": [
       {
-        "name": "balena-cli-v13.3.3-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.3/balena-cli-v13.3.3-linux-x64-standalone.zip"
+        "name": "balena-cli-v13.4.0-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.4.0/balena-cli-v13.4.0-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.3.3-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.3/balena-cli-v13.3.3-macOS-x64-installer.pkg"
+        "name": "balena-cli-v13.4.0-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.4.0/balena-cli-v13.4.0-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v13.3.3-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.3/balena-cli-v13.3.3-macOS-x64-standalone.zip"
+        "name": "balena-cli-v13.4.0-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.4.0/balena-cli-v13.4.0-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.3.3-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.3/balena-cli-v13.3.3-windows-x64-installer.exe"
+        "name": "balena-cli-v13.4.0-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.4.0/balena-cli-v13.4.0-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v13.3.3-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.3.3/balena-cli-v13.3.3-windows-x64-standalone.zip"
+        "name": "balena-cli-v13.4.0-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.4.0/balena-cli-v13.4.0-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 353,
+    "numberOfIssues": 348,
     "latestIssues": [
       {
         "title": "command `balena fleet restart <fleet>` gives error `BalenaApplicationNotFound`",
@@ -28092,7 +28118,7 @@
       }
     ]
   },
-  "version": "13.3.3",
+  "version": "13.4.0",
   "screenshot": null,
   "logo": null
 }
