@@ -5,6 +5,24 @@
     {
       "commits": [
         {
+          "subject": "leave: Update log message to advise that device still needs deleting",
+          "hash": "c667ffa8eb60e321308bcf0cf474781cdb70e29c",
+          "body": "",
+          "footer": {
+            "Change-type": "patch",
+            "change-type": "patch"
+          },
+          "author": "Taro Murao",
+          "nested": []
+        }
+      ],
+      "version": "13.4.1",
+      "title": "'patch: Tell user that balena leave command does not remove the device…'",
+      "date": "2022-04-11T16:10:46.871Z"
+    },
+    {
+      "commits": [
+        {
           "subject": "deploy: Support all valid semver versions in balena.yml",
           "hash": "d2c77760b3e2001e5d18b48e5abf218d0998a4cd",
           "body": "",
@@ -27905,7 +27923,7 @@
   "public": true,
   "fork": false,
   "description": "The official balena CLI tool.",
-  "stars": 368,
+  "stars": 369,
   "homepage": "",
   "repositoryUrl": "https://github.com/balena-io/balena-cli.git",
   "active": true,
@@ -28006,39 +28024,43 @@
     "which",
     "window-size"
   ],
-  "lastCommitDate": "2022-04-11T14:18:27Z",
+  "lastCommitDate": "2022-04-29T01:45:30Z",
   "latestRelease": {
-    "tagName": "v13.4.0",
+    "tagName": "v13.4.1",
     "asssets": [
       {
-        "name": "balena-cli-v13.4.0-linux-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.4.0/balena-cli-v13.4.0-linux-x64-standalone.zip"
+        "name": "balena-cli-v13.4.1-linux-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.4.1/balena-cli-v13.4.1-linux-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.4.0-macOS-x64-installer.pkg",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.4.0/balena-cli-v13.4.0-macOS-x64-installer.pkg"
+        "name": "balena-cli-v13.4.1-macOS-x64-installer.pkg",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.4.1/balena-cli-v13.4.1-macOS-x64-installer.pkg"
       },
       {
-        "name": "balena-cli-v13.4.0-macOS-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.4.0/balena-cli-v13.4.0-macOS-x64-standalone.zip"
+        "name": "balena-cli-v13.4.1-macOS-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.4.1/balena-cli-v13.4.1-macOS-x64-standalone.zip"
       },
       {
-        "name": "balena-cli-v13.4.0-windows-x64-installer.exe",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.4.0/balena-cli-v13.4.0-windows-x64-installer.exe"
+        "name": "balena-cli-v13.4.1-windows-x64-installer.exe",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.4.1/balena-cli-v13.4.1-windows-x64-installer.exe"
       },
       {
-        "name": "balena-cli-v13.4.0-windows-x64-standalone.zip",
-        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.4.0/balena-cli-v13.4.0-windows-x64-standalone.zip"
+        "name": "balena-cli-v13.4.1-windows-x64-standalone.zip",
+        "downloadUrl": "https://github.com/balena-io/balena-cli/releases/download/v13.4.1/balena-cli-v13.4.1-windows-x64-standalone.zip"
       }
     ]
   },
   "latestPreRelease": null,
   "openIssues": {
-    "numberOfIssues": 348,
+    "numberOfIssues": 344,
     "latestIssues": [
       {
-        "title": "command `balena fleet restart <fleet>` gives error `BalenaApplicationNotFound`",
-        "url": "https://github.com/balena-io/balena-cli/issues/2468"
+        "title": "Setting PATH in Dockerfile.template causes emulated build to fail",
+        "url": "https://github.com/balena-io/balena-cli/issues/2475"
+      },
+      {
+        "title": "Bump simple-git from 2.48.0 to 3.5.0",
+        "url": "https://github.com/balena-io/balena-cli/pull/2474"
       },
       {
         "title": "balena os download fails if given suffix in latest ESR releases",
@@ -28047,10 +28069,6 @@
       {
         "title": "ssh: Should support Visual Studio Code remote development using SSH",
         "url": "https://github.com/balena-io/balena-cli/issues/2466"
-      },
-      {
-        "title": "Bump simple-git from 2.48.0 to 3.3.0",
-        "url": "https://github.com/balena-io/balena-cli/pull/2465"
       },
       {
         "title": "[FEATURE] `balena env add --file </path/to/.env>` to read .env file",
@@ -28089,10 +28107,6 @@
         "url": "https://github.com/balena-io/balena-cli/issues/2447"
       },
       {
-        "title": "patch: Tell user that balena leave command does not remove the device…",
-        "url": "https://github.com/balena-io/balena-cli/pull/2444"
-      },
-      {
         "title": "Bump parse-link-header from 1.0.1 to 2.0.0",
         "url": "https://github.com/balena-io/balena-cli/pull/2439"
       },
@@ -28115,10 +28129,14 @@
       {
         "title": "Join command changes `developmentMode` to false",
         "url": "https://github.com/balena-io/balena-cli/issues/2406"
+      },
+      {
+        "title": "npm install fails on node v16",
+        "url": "https://github.com/balena-io/balena-cli/issues/2403"
       }
     ]
   },
-  "version": "13.4.0",
+  "version": "13.4.1",
   "screenshot": null,
   "logo": null
 }

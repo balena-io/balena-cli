@@ -1,4 +1,16 @@
 - commits:
+    - subject: "leave: Update log message to advise that device still needs deleting"
+      hash: c667ffa8eb60e321308bcf0cf474781cdb70e29c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Taro Murao
+      nested: []
+  version: 13.4.1
+  title: "'patch: Tell user that balena leave command does not remove the device…'"
+  date: 2022-04-29T01:44:23.718Z
+- commits:
     - subject: "deploy: Support all valid semver versions in balena.yml"
       hash: d2c77760b3e2001e5d18b48e5abf218d0998a4cd
       body: ""
@@ -17,7 +29,7 @@
       nested: []
   version: 13.4.0
   title: "'deploy: Support all valid semver versions in balena.yml'"
-  date: 2022-04-11T14:17:19.266Z
+  date: 2022-04-08T15:19:35.411Z
 - commits:
     - subject: Document the 'patches' folder in CONTRIBUTING.md
       hash: 88835e63bd0c37b7be99f63214d17a429d937035
