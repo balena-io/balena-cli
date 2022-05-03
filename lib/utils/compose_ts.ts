@@ -1639,6 +1639,7 @@ function truncateString(str: string, len: number): string {
 	return str.slice(0, str.lastIndexOf('\n'));
 }
 
+// TODO:  docker-compose naming
 export const composeCliFlags: flags.Input<ComposeCliFlags> = {
 	emulated: flags.boolean({
 		description:
@@ -1648,6 +1649,10 @@ export const composeCliFlags: flags.Input<ComposeCliFlags> = {
 	dockerfile: flags.string({
 		description:
 			'Alternative Dockerfile name/path, relative to the source folder',
+	}),
+	dockercompose: flags.string({
+		description:
+			'Alternative docker-compose.yml name in the source root folder',
 	}),
 	logs: flags.boolean({
 		description:

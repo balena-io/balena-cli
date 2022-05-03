@@ -3020,6 +3020,10 @@ Use QEMU for ARM architecture emulation during the image build
 
 Alternative Dockerfile name/path, relative to the source folder
 
+#### --dockercompose DOCKERCOMPOSE
+
+Alternative docker-compose.yml name in the source root folder
+
 #### --logs
 
 No-op and deprecated since balena CLI v12.0.0. Build logs are now shown by default.
@@ -3243,6 +3247,10 @@ Use QEMU for ARM architecture emulation during the image build
 #### --dockerfile DOCKERFILE
 
 Alternative Dockerfile name/path, relative to the source folder
+
+#### --dockercompose DOCKERCOMPOSE
+
+Alternative docker-compose.yml name in the source root folder
 
 #### --logs
 

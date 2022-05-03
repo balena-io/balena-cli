@@ -114,7 +114,7 @@ ${dockerignoreHelp}
 	];
 
 	public static usage = 'deploy <fleet> [image]';
-
+	// TODO:  docker-compose naming
 	public static flags: flags.Input<FlagsDef> = {
 		source: flags.string({
 			description:

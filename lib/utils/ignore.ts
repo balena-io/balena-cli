@@ -92,6 +92,7 @@ async function readDockerIgnoreFile(projectDir: string): Promise<string> {
 	return dockerIgnoreStr;
 }
 
+// TODO:  docker-compose naming
 /**
  * Create an instance of '@balena/dockerignore', initialized with the contents
  * of a .dockerignore file (if any) found at the given directory argument, plus

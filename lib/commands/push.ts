@@ -138,6 +138,7 @@ export default class PushCmd extends Command {
 			char: 'e',
 			default: false,
 		}),
+		// TODO:  docker-compose naming
 		dockerfile: flags.string({
 			description:
 				'Alternative Dockerfile name/path, relative to the source folder',

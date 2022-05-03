@@ -86,6 +86,7 @@ If the --registry-secrets option is not specified, and a secrets.yml or
 secrets.json file exists in the balena directory (usually $HOME/.balena),
 this file will be used instead.`;
 
+// TODO:  docker-compose naming
 export const dockerignoreHelp =
 	'DOCKERIGNORE AND GITIGNORE FILES  \n' +
 	`By default, the balena CLI will use a single ".dockerignore" file (if any) at
