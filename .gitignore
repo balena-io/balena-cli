@@ -1,0 +1,36 @@
+# Reminders:
+# * A pattern without '/' matches in subdirectories as well (files and directories)
+# * A leading '/' anchors matching to the directory where `.gitignore` is defined
+# * A trailing '/' makes the pattern match against directories only
+# More details: https://git-scm.com/docs/gitignore
+
+# development and testing tools or IDEs
+*.log
+*.pid
+*.seed
+/.idea/
+/.lock-wscript
+/.nvmrc
+/.nyc_output/
+/.vscode/
+/coverage/
+/lib-cov/
+/logs
+/pids
+
+# OS cache files
+.DS_Store
+
+# balena CLI config and build files
+.balenaconf
+.fast-boot.json
+.resinconf
+/balenarc.yml
+/build/
+/build-bin/
+/dist/
+/node_modules
+/oclif.manifest.json
+/package-lock.json
+/resinrc.yml
+/tmp/

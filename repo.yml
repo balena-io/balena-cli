@@ -1,0 +1,20 @@
+type: node-cli
+release: github
+publishMetadata: true
+upstream:
+  - repo: 'balena-sdk'
+    url: 'https://github.com/balena-io/balena-sdk'
+  - repo: 'balena-config-json'
+    url: 'https://github.com/balena-io-modules/balena-config-json'
+  - repo: 'balena-image-manager'
+    url: 'https://github.com/balena-io-modules/balena-image-manager'
+  - repo: 'balena-preload'
+    url: 'https://github.com/balena-io-modules/balena-preload'
+  - repo: 'balena-sync'
+    url: 'https://github.com/balena-io-modules/balena-sync'
+  - repo: 'etcher-sdk'
+    url: 'https://github.com/balena-io-modules/etcher-sdk/'
+  - repo: 'resin-compose-parse'
+    url: 'https://github.com/balena-io-modules/resin-compose-parse'
+  - repo: 'docker-progress'
+    url: 'https://github.com/balena-io-modules/docker-progress'

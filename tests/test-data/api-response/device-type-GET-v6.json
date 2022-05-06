@@ -1,0 +1,1634 @@
+{
+	"d": [
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 162,
+			"slug": "n310-tx2",
+			"name": "Aetina N310 TX2",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=162"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 39,
+			"slug": "n510-tx2",
+			"name": "Aetina N510 TX2",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=39"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 148,
+			"slug": "aio-3288c",
+			"name": "AIO 3288C",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=148"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 1,
+			"slug": "am571x-evm",
+			"name": "AM571X EVM",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=1"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 2,
+			"slug": "apalis-imx6q",
+			"name": "Apalis iMX6q",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=2"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 8,
+			"slug": "asus-tinker-board",
+			"name": "Asus Tinker Board",
+			"is_private": false,
+			"belongs_to__device_family": {
+				"__id": 1,
+				"__deferred": {
+					"uri": "/resin/device_family(@id)?@id=1"
+				}
+			},
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=8"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 9,
+			"slug": "asus-tinker-board-s",
+			"name": "Asus Tinker Board S",
+			"is_private": false,
+			"belongs_to__device_family": {
+				"__id": 1,
+				"__deferred": {
+					"uri": "/resin/device_family(@id)?@id=1"
+				}
+			},
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=9"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 141,
+			"slug": "jn30b-nano",
+			"name": "Auvidea JN30B Nano",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=141"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 21,
+			"slug": "fincm3",
+			"name": "Balena Fin (CM3)",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=21"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 10,
+			"slug": "bananapi-m1-plus",
+			"name": "BananaPi-M1+",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=10"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 11,
+			"slug": "beagleboard-xm",
+			"name": "BeagleBoard-XM",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=11"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 12,
+			"slug": "beaglebone-black",
+			"name": "BeagleBone Black",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=12"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 13,
+			"slug": "beaglebone-green",
+			"name": "BeagleBone Green",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=13"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 184,
+			"slug": "beaglebone-green-gateway",
+			"name": "BeagleBone Green Gateway",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=184"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 14,
+			"slug": "beaglebone-green-wifi",
+			"name": "BeagleBone Green Wireless",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=14"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 18,
+			"slug": "colibri-imx6dl",
+			"name": "Colibri iMX6dl",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=18"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 190,
+			"slug": "iot-gate-imx8",
+			"name": "Compulab IOT-gate-imx8",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=190"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 17,
+			"slug": "cl-som-imx8",
+			"name": "Compulab MX8M",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=17"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 142,
+			"slug": "coral-dev",
+			"name": "Coral Dev Board",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=142"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 161,
+			"slug": "astro-tx2",
+			"name": "CTI Astro TX2 G+",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=161"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 52,
+			"slug": "orbitty-tx2",
+			"name": "CTI Orbitty TX2",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=52"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 146,
+			"slug": "photon-nano",
+			"name": "CTI Photon Nano",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=146"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 176,
+			"slug": "photon-xavier-nx",
+			"name": "CTI Photon Xavier NX",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=176"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 64,
+			"slug": "spacely-tx2",
+			"name": "CTI Spacely TX2",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=64"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "i386-nlp",
+					"__metadata": {}
+				}
+			],
+			"id": 19,
+			"slug": "cybertan-ze250",
+			"name": "Cybertan ZE250",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=19"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 185,
+			"slug": "ccimx8x-sbc-pro",
+			"name": "Digi ConnectCore 8X SBC Pro",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=185"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "amd64",
+					"__metadata": {}
+				}
+			],
+			"id": 20,
+			"slug": "edge",
+			"name": "Edge Device Builder",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=20"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 144,
+			"slug": "etcher-pro",
+			"name": "Etcher Pro",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=144"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 147,
+			"slug": "firefly-rk3288",
+			"name": "FireFly rk3288",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=147"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 192,
+			"slug": "floyd-nano",
+			"name": "Floyd Nano BB02A eMMC",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=192"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "amd64",
+					"__metadata": {}
+				}
+			],
+			"id": 22,
+			"slug": "generic",
+			"name": "Generic",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=22"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 23,
+			"slug": "generic-aarch64",
+			"name": "Generic AARCH64",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=23"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 24,
+			"slug": "generic-amd64",
+			"name": "generic-amd64",
+			"is_private": true,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=24"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 178,
+			"slug": "generic-armv7ahf",
+			"name": "Generic ARMv7-a HF",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=178"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "amd64",
+					"__metadata": {}
+				}
+			],
+			"id": 145,
+			"slug": "genericx86-64-ext",
+			"name": "Generic x86_64",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=145"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 25,
+			"slug": "hummingboard",
+			"name": "Hummingboard",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=25"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 151,
+			"slug": "imx8mm-var-dart ",
+			"name": "imx8mm-var-dart ",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=151"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "i386",
+					"__metadata": {}
+				}
+			],
+			"id": 29,
+			"slug": "intel-edison",
+			"name": "Intel Edison",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=29"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "amd64",
+					"__metadata": {}
+				}
+			],
+			"id": 30,
+			"slug": "intel-nuc",
+			"name": "Intel NUC",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=30"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 186,
+			"slug": "smarc-px30",
+			"name": "I-Pi SMARC PX30 SD-CARD",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=186"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "amd64",
+					"__metadata": {}
+				}
+			],
+			"id": 67,
+			"slug": "surface-pro-6",
+			"name": "Microsoft Surface 6",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=67"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "amd64",
+					"__metadata": {}
+				}
+			],
+			"id": 140,
+			"slug": "surface-go",
+			"name": "Microsoft Surface Go",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=140"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 40,
+			"slug": "nanopc-t4",
+			"name": "NanoPC-T4",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=40"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 41,
+			"slug": "nanopi-neo-air",
+			"name": "Nanopi Neo Air",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=41"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 42,
+			"slug": "nitrogen6x",
+			"name": "Nitrogen 6x",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=42"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 43,
+			"slug": "nitrogen6xq2g",
+			"name": "Nitrogen 6X Quad 2GB",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=43"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 44,
+			"slug": "nitrogen8mm",
+			"name": "Nitrogen8M Mini SBC",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=44"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 45,
+			"slug": "npe-x500-m3",
+			"name": "NPE X500 M3",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=45"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 16,
+			"slug": "blackboard-tx2",
+			"name": "Nvidia blackboard TX2",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=16"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 188,
+			"slug": "jetson-nano-2gb-devkit",
+			"name": "Nvidia Jetson Nano 2GB Devkit SD",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=188"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 158,
+			"slug": "jetson-nano-emmc",
+			"name": "Nvidia Jetson Nano eMMC",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=158"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 32,
+			"slug": "jetson-nano",
+			"name": "Nvidia Jetson Nano SD-CARD",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=32"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 33,
+			"slug": "jetson-tx1",
+			"name": "Nvidia Jetson TX1",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=33"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 34,
+			"slug": "jetson-tx2",
+			"name": "Nvidia Jetson TX2",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=34"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 35,
+			"slug": "jetson-tx2-skycatch",
+			"name": "Nvidia Jetson TX2 Skycatch (EXPERIMENTAL)",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=35"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 36,
+			"slug": "jetson-xavier",
+			"name": "Nvidia Jetson Xavier",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=36"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 159,
+			"slug": "jetson-xavier-nx-devkit-emmc",
+			"name": "Nvidia Jetson Xavier NX Devkit eMMC",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=159"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 181,
+			"slug": "jetson-xavier-nx-devkit",
+			"name": "Nvidia Jetson Xavier NX Devkit SD-CARD",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=181"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 46,
+			"slug": "odroid-c1",
+			"name": "ODROID-C1+",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=46"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 47,
+			"slug": "odroid-xu4",
+			"name": "ODROID-XU4",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=47"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 48,
+			"slug": "orange-pi-lite",
+			"name": "Orange Pi Lite",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=48"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 49,
+			"slug": "orange-pi-one",
+			"name": "Orange Pi One",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=49"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 50,
+			"slug": "orangepi-plus2",
+			"name": "Orange Pi Plus2",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=50"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 51,
+			"slug": "orange-pi-zero",
+			"name": "Orange Pi Zero",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=51"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 53,
+			"slug": "parallella",
+			"name": "Parallella",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=53"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 15,
+			"slug": "beaglebone-pocket",
+			"name": "PocketBeagle",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=15"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "i386",
+					"__metadata": {}
+				}
+			],
+			"id": 54,
+			"slug": "qemux86",
+			"name": "QEMU X86 32bit",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=54"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "amd64",
+					"__metadata": {}
+				}
+			],
+			"id": 55,
+			"slug": "qemux86-64",
+			"name": "QEMU X86 64bit",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=55"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 57,
+			"slug": "raspberry-pi2",
+			"name": "Raspberry Pi 2",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=57"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 58,
+			"slug": "raspberrypi3",
+			"name": "Raspberry Pi 3",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=58"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 59,
+			"slug": "raspberrypi3-64",
+			"name": "Raspberry Pi 3 (using 64bit OS)",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=59"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 183,
+			"slug": "raspberrypi400-64",
+			"name": "Raspberry Pi 400",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=183"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 60,
+			"slug": "raspberrypi4-64",
+			"name": "Raspberry Pi 4 (using 64bit OS)",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=60"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 191,
+			"slug": "raspberrypicm4-ioboard",
+			"name": "Raspberry Pi CM4 IO Board",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=191"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "rpi",
+					"__metadata": {}
+				}
+			],
+			"id": 56,
+			"slug": "raspberry-pi",
+			"name": "Raspberry Pi (v1 / Zero / Zero W)",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=56"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 163,
+			"slug": "revpi-connect",
+			"name": "Revolution Pi Connect",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=163"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 61,
+			"slug": "revpi-core-3",
+			"name": "Revolution Pi Core 3",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=61"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 37,
+			"slug": "kitra520",
+			"name": "RushUp Kitra 520",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=37"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 38,
+			"slug": "kitra710",
+			"name": "RushUp Kitra 710",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=38"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 3,
+			"slug": "artik10",
+			"name": "Samsung Artik 10",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=3"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 4,
+			"slug": "artik5",
+			"name": "Samsung Artik 520",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=4"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 5,
+			"slug": "artik530",
+			"name": "Samsung Artik 530",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=5"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 6,
+			"slug": "artik533s",
+			"name": "Samsung Artik 530s 1G",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=6"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 7,
+			"slug": "artik710",
+			"name": "Samsung Artik 710",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=7"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "i386-nlp",
+					"__metadata": {}
+				}
+			],
+			"id": 31,
+			"slug": "iot2000",
+			"name": "Siemens IOT2000",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=31"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 62,
+			"slug": "skx2",
+			"name": "SKX2",
+			"is_private": true,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=62"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 68,
+			"slug": "ts4900",
+			"name": "Technologic TS-4900",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=68"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 69,
+			"slug": "ts7700",
+			"name": "Technologic TS-7700",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=69"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "amd64",
+					"__metadata": {}
+				}
+			],
+			"id": 70,
+			"slug": "up-board",
+			"name": "UP Board",
+			"is_private": false,
+			"belongs_to__device_family": {
+				"__id": 2,
+				"__deferred": {
+					"uri": "/resin/device_family(@id)?@id=2"
+				}
+			},
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=70"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "amd64",
+					"__metadata": {}
+				}
+			],
+			"id": 71,
+			"slug": "up-core",
+			"name": "UP Core",
+			"is_private": false,
+			"belongs_to__device_family": {
+				"__id": 2,
+				"__deferred": {
+					"uri": "/resin/device_family(@id)?@id=2"
+				}
+			},
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=71"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "amd64",
+					"__metadata": {}
+				}
+			],
+			"id": 72,
+			"slug": "up-core-plus",
+			"name": "UP Core Plus",
+			"is_private": false,
+			"belongs_to__device_family": {
+				"__id": 2,
+				"__deferred": {
+					"uri": "/resin/device_family(@id)?@id=2"
+				}
+			},
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=72"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "amd64",
+					"__metadata": {}
+				}
+			],
+			"id": 73,
+			"slug": "up-squared",
+			"name": "UP Squared",
+			"is_private": false,
+			"belongs_to__device_family": {
+				"__id": 2,
+				"__deferred": {
+					"uri": "/resin/device_family(@id)?@id=2"
+				}
+			},
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=73"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 26,
+			"slug": "imx6ul-var-dart",
+			"name": "Variscite DART-6UL",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=26"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 28,
+			"slug": "imx8m-var-dart",
+			"name": "Variscite DART-MX8M",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=28"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 150,
+			"slug": "imx8mm-var-dart",
+			"name": "Variscite DART-MX8M Mini",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=150"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 74,
+			"slug": "var-som-mx6",
+			"name": "Variscite VAR-SOM-MX6",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=74"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 27,
+			"slug": "imx7-var-som",
+			"name": "Variscite VAR-SOM-MX7",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=27"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 75,
+			"slug": "via-vab820-quad",
+			"name": "VIA VAB 820-quad",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=75"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "armv7hf",
+					"__metadata": {}
+				}
+			],
+			"id": 169,
+			"slug": "zc702-zynq7",
+			"name": "Zynq ZC702",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=169"
+			}
+		},
+		{
+			"is_of__cpu_architecture": [
+				{
+					"slug": "aarch64",
+					"__metadata": {}
+				}
+			],
+			"id": 76,
+			"slug": "zynq-xz702",
+			"name": "Zynq ZC702 (DISCONTINUED)",
+			"is_private": false,
+			"belongs_to__device_family": null,
+			"__metadata": {
+				"uri": "/resin/device_type(@id)?@id=76"
+			}
+		}
+	]
+}

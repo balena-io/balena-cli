@@ -1,0 +1,53 @@
+{
+	"Descriptor": {
+	  "mediaType": "application/vnd.docker.distribution.manifest.list.v2+json",
+	  "digest": "sha256:52f73a0a43a16cf37cd0720c90887ce972fe60ee06a687ee71fb93a7ca601df7",
+	  "size": 2295
+	},
+	"Platforms": [
+	  {
+		"architecture": "amd64",
+		"os": "linux"
+	  },
+	  {
+		"architecture": "arm",
+		"os": "linux",
+		"variant": "v5"
+	  },
+	  {
+		"architecture": "arm",
+		"os": "linux",
+		"variant": "v6"
+	  },
+	  {
+		"architecture": "arm",
+		"os": "linux",
+		"variant": "v7"
+	  },
+	  {
+		"architecture": "arm64",
+		"os": "linux",
+		"variant": "v8"
+	  },
+	  {
+		"architecture": "386",
+		"os": "linux"
+	  },
+	  {
+		"architecture": "mips64le",
+		"os": "linux"
+	  },
+	  {
+		"architecture": "ppc64le",
+		"os": "linux"
+	  },
+	  {
+		"architecture": "riscv64",
+		"os": "linux"
+	  },
+	  {
+		"architecture": "s390x",
+		"os": "linux"
+	  }
+	]
+  }

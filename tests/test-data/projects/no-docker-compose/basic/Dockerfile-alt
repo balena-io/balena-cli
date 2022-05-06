@@ -1,0 +1,1 @@
+alternative Dockerfile (basic)

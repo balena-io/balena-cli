@@ -1,0 +1,35 @@
+#compdef balena
+#autoload
+
+#TEMPLATE FILE FOR ZSH COMPLETION#
+
+_balena() {
+  typeset -A opt_args
+  local context state line curcontext="$curcontext"
+
+  # Valid top-level completions
+  $main_commands$
+  # Sub-completions
+$sub_cmds$
+
+  _arguments -C \
+    '(- 1 *)--version[show version and exit]' \
+    '(- 1 *)'{-h,--help}'[show help options and exit]' \
+    '1:first command:_balena_main_cmds' \
+    '2:second command:_balena_sec_cmds' \
+  && ret=0
+}
+
+(( $+functions[_balena_main_cmds] )) ||
+_balena_main_cmds() {
+  _describe -t main_commands 'command' main_commands "$@" && ret=0
+}
+
+(( $+functions[_balena_sec_cmds] )) ||
+_balena_sec_cmds() {
+  case $line[1] in
+$sub_cmds_prev$
+  esac
+}
+
+_balena "$@"

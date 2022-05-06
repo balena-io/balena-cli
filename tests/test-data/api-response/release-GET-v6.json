@@ -1,0 +1,95 @@
+{
+	"d": [
+	  {
+		"id": 142334,
+		"commit": "90247b54de4fa7a0a3cbc85e73c68039",
+		"created_at": "2021-08-25T22:18:34.014Z",
+		"status": "success",
+		"semver": "0.0.0",
+		"is_final": false,
+		"build_log": null,
+		"start_timestamp": "2021-08-25T22:18:33.624Z",
+		"end_timestamp": "2021-08-25T22:18:48.820Z",
+		"__metadata": {
+		  "uri": "/resin/release(@id)?@id=142334"
+		},
+		"contains__image": [
+		  {
+			"image": [
+			  {
+				"id": 1820810,
+				"created_at": "2020-01-04T01:13:08.805Z",
+				"start_timestamp": "2020-01-04T01:13:08.583Z",
+				"end_timestamp": "2020-01-04T01:13:11.920Z",
+				"dockerfile": "# FROM busybox\n# FROM arm32v7/busybox\n# FROM arm32v7/alpine\n# FROM eu.gcr.io/buoyant-idea-226013/arm32v7/busybox\n# FROM eu.gcr.io/buoyant-idea-226013/amd64/busybox\n# FROM balenalib/raspberrypi3-debian:jessie-build\nFROM balenalib/raspberrypi3:stretch\nENV UDEV=1\n\n# FROM sander85/rpi-busybox # armv6\n# FROM balenalib/raspberrypi3-alpine\n\n# COPY start.sh /\n# COPY /src/start.sh /src/start.sh\n# COPY /src/hello.txt /\n# COPY src/hi.txt /\n\n# RUN cat /hello.txt\n# RUN cat /hi.txt\n# RUN cat /run/secrets/my-secret.txt\n# EXPOSE 80\nRUN uname -a\n\n# FROM alpine\n# RUN apk update && apk add bash\n# SHELL [\"/bin/bash\", \"-c\"]\n# CMD for ((i=1; i > 0; i++)); do echo \"(Plain Dockerfile 34-$i) $(uname -a)\"; sleep ${INTERVAL=5}; done\n\n# CMD i=1; while :; do echo \"Plain Dockerfile 36 ($i) $(uname -a)\"; sleep 10; i=$((i+1)); done\n# ENTRYPOINT [\"/usr/bin/entry.sh\"]\nCMD [\"/bin/bash\"]\n",
+				"is_a_build_of__service": {
+				  "__deferred": {
+					"uri": "/resin/service(233455)"
+				  },
+				  "__id": 233455
+				},
+				"image_size": 134320410,
+				"is_stored_at__image_location": "registry2.balena-cloud.com/v2/9c00c9413942cd15cfc9189c5dac359d",
+				"project_type": "Standard Dockerfile",
+				"error_message": null,
+				"build_log": "Step 1/4 : FROM balenalib/raspberrypi3:stretch\n ---> 8a75ea61d9c0\nStep 2/4 : ENV UDEV=1\n\u001b[42m\u001b[30mUsing cache\u001b[39m\u001b[49m\n ---> 159206067c8a\nStep 3/4 : RUN uname -a\n\u001b[42m\u001b[30mUsing cache\u001b[39m\u001b[49m\n ---> dd1b3d9c334b\nStep 4/4 : CMD [\"/bin/bash\"]\n\u001b[42m\u001b[30mUsing cache\u001b[39m\u001b[49m\n ---> 5211b6f4bb72\nSuccessfully built 5211b6f4bb72\n",
+				"push_timestamp": "2020-01-04T01:13:14.415Z",
+				"status": "success",
+				"content_hash": "sha256:6b5471aae43ae81e8f69e10d1a516cb412569a6d5020a57eae311f8fa16d688a",
+				"contract": null,
+				"__metadata": {
+				  "uri": "/resin/image(@id)?@id=1820810"
+				}
+			  }
+			],
+			"id": 1738663,
+			"created_at": "2020-01-04T01:13:14.646Z",
+			"is_part_of__release": {
+			  "__deferred": {
+				"uri": "/resin/release(1203844)"
+			  },
+			  "__id": 1203844
+			},
+			"__metadata": {
+			  "uri": "/resin/image__is_part_of__release(@id)?@id=1738663"
+			}
+		  }
+		],
+		"release_tag": [
+		  {
+			"tag_key": "testtag1",
+			"value": "val1",
+			"__metadata": {}
+		  }
+		],
+		"composition": {
+		  "version": "2.1",
+		  "networks": {},
+		  "volumes": {
+			"resin-data": {}
+		  },
+		  "services": {
+			"main": {
+			  "build": {
+				"context": "."
+			  },
+			  "privileged": true,
+			  "tty": true,
+			  "restart": "always",
+			  "network_mode": "host",
+			  "volumes": [
+				"resin-data:/data"
+			  ],
+			  "labels": {
+				"io.resin.features.kernel-modules": "1",
+				"io.resin.features.firmware": "1",
+				"io.resin.features.dbus": "1",
+				"io.resin.features.supervisor-api": "1",
+				"io.resin.features.resin-api": "1"
+			  }
+			}
+		  }
+		}
+	  }
+	]
+  }

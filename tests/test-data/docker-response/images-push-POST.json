@@ -1,0 +1,19 @@
+{"status":"The push refers to repository [registry2.balena-cloud.com/v2/c089c421fb2336d0475166fbf3d0f9fa]"}
+{"status":"Preparing","progressDetail":{},"id":"a5b1f6c006f8"}
+{"status":"Preparing","progressDetail":{},"id":"2b74be40c29e"}
+{"status":"Preparing","progressDetail":{},"id":"d1156b98822d"}
+{"status":"Pushing","progressDetail":{"current":512,"total":89},"progress":"[==================================================\u003e]     512B","id":"a5b1f6c006f8"}
+{"status":"Pushing","progressDetail":{"current":2048,"total":89},"progress":"[==================================================\u003e]  2.048kB","id":"a5b1f6c006f8"}
+{"status":"Pushing","progressDetail":{"current":512,"total":89},"progress":"[==================================================\u003e]     512B","id":"2b74be40c29e"}
+{"status":"Pushing","progressDetail":{"current":33792,"total":1199418},"progress":"[=\u003e                                                 ]  33.79kB/1.199MB","id":"d1156b98822d"}
+{"status":"Pushing","progressDetail":{"current":2048,"total":89},"progress":"[==================================================\u003e]  2.048kB","id":"2b74be40c29e"}
+{"status":"Pushing","progressDetail":{"current":99328,"total":1199418},"progress":"[====\u003e                                              ]  99.33kB/1.199MB","id":"d1156b98822d"}
+{"status":"Pushing","progressDetail":{"current":787456,"total":1199418},"progress":"[================================\u003e                  ]  787.5kB/1.199MB","id":"d1156b98822d"}
+{"status":"Pushing","progressDetail":{"current":852992,"total":1199418},"progress":"[===================================\u003e               ]    853kB/1.199MB","id":"d1156b98822d"}
+{"status":"Pushing","progressDetail":{"current":951296,"total":1199418},"progress":"[=======================================\u003e           ]  951.3kB/1.199MB","id":"d1156b98822d"}
+{"status":"Pushing","progressDetail":{"current":1415680,"total":1199418},"progress":"[==================================================\u003e]  1.416MB","id":"d1156b98822d"}
+{"status":"Pushed","progressDetail":{},"id":"a5b1f6c006f8"}
+{"status":"Pushed","progressDetail":{},"id":"2b74be40c29e"}
+{"status":"Pushed","progressDetail":{},"id":"d1156b98822d"}
+{"status":"latest: digest: sha256:444a5e0c57eed51f5e752b908cb95188c25a0476fc6e5f43e5113edfc4d07199 size: 941"}
+{"progressDetail":{},"aux":{"Tag":"latest","Digest":"sha256:444a5e0c57eed51f5e752b908cb95188c25a0476fc6e5f43e5113edfc4d07199","Size":941}}

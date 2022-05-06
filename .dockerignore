@@ -1,0 +1,37 @@
+# Reminders:
+# * Matching rules are different to `.gitignore`
+# * A pattern without '**' matches in the project's root directory only
+# * Leading and trailing '/' are discarded (it is not possible to
+#   distinguish between files and directories)
+# * More details: https://github.com/balena-io-modules/dockerignore
+
+# development and testing tools or IDEs
+**/*.log
+**/*.pid
+**/*.seed
+.idea
+.lock-wscript
+.nvmrc
+.nyc_output
+.vscode
+coverage
+lib-cov
+logs
+pids
+
+# OS cache files
+**/.DS_Store
+
+# balena CLI config and build files
+**/.balenaconf
+**/.fast-boot.json
+**/.resinconf
+balenarc.yml
+build
+build-bin
+dist
+node_modules
+oclif.manifest.json
+package-lock.json
+resinrc.yml
+tmp

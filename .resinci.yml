@@ -1,0 +1,20 @@
+---
+npm:
+  platforms:
+    - name: linux
+      os: ubuntu
+      architecture: x86_64
+      node_versions:
+        - "12"
+        - "14"
+    ##
+    ## Temporarily skip Alpine tests until the following issues are resolved:
+    ##   * https://github.com/concourse/concourse/issues/7905
+    ##   * https://github.com/product-os/balena-concourse/issues/631
+    ##
+    # - name: linux
+    #   os: alpine
+    #   architecture: x86_64
+    #   node_versions:
+    #     - "12"
+    #     - "14"

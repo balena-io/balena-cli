@@ -1,0 +1,19 @@
+# Note that the CLI "hardcodes" some dockerignore patterns in its source code,
+# which get "merged" with the user's patterns in their .dockerginore file as follows:
+#
+#   **/.git
+#   <user's patterns from their .dockerignore file go here>
+#   !**/.balena
+#   !**/.resin
+#   !**/Dockerfile
+#   !**/Dockerfile.*
+#   !**/docker-compose.yml
+#
+b.txt
+Dockerfile
+registry-secrets.json
+src/*b.txt
+**/.balena
+**/dot.git
+!.git/foo.txt
+!vendor/.git

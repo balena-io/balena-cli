@@ -1,0 +1,12 @@
+# Set all files to use line feed endings (since we can't match only ones without an extension)
+* eol=lf
+# And then reset all the files with extensions back to default
+*.* -eol
+
+*.sh text eol=lf
+
+# lf for the docs as it's auto-generated and will otherwise trigger an uncommited error on windows
+docs/balena-cli.md text eol=lf
+# crlf for the eol conversion test files
+tests/test-data/projects/docker-compose/basic/service2/file2-crlf.sh eol=crlf
+tests/test-data/projects/no-docker-compose/basic/src/windows-crlf.sh eol=crlf

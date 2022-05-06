@@ -1,0 +1,18 @@
+{"stream":"Step 1/4 : FROM busybox"}
+{"stream":"\n"}
+{"stream":" ---\u003e 64f5d945efcc\n"}
+{"stream":"Step 2/4 : COPY ./src/start.sh /start.sh"}
+{"stream":"\n"}
+{"stream":" ---\u003e Using cache\n"}
+{"stream":" ---\u003e 97098fc9d757\n"}
+{"stream":"Step 3/4 : RUN chmod a+x /start.sh"}
+{"stream":"\n"}
+{"stream":" ---\u003e Using cache\n"}
+{"stream":" ---\u003e 33728e2e3f7e\n"}
+{"stream":"Step 4/4 : CMD [\"/start.sh\"]"}
+{"stream":"\n"}
+{"stream":" ---\u003e Using cache\n"}
+{"stream":" ---\u003e 2590e3b11eaf\n"}
+{"aux":{"ID":"sha256:2590e3b11eaf739491235016b53fec5d209c81837160abdd267c8fe5005ff1bd"}}
+{"stream":"Successfully built 2590e3b11eaf\n"}
+{"stream":"Successfully tagged basic_main:latest\n"}

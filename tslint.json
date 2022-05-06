@@ -1,0 +1,7 @@
+{
+    "extends": "./node_modules/@balena/lint/config/tslint-prettier.json",
+    "rules": {
+        "ignoreDefinitionFiles": false,
+        "import-blacklist": [true, "resin-cli-visuals", "chalk", "common-tags", "resin-cli-form"]
+    }
+}

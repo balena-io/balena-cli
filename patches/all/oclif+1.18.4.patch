@@ -1,0 +1,278 @@
+diff --git a/node_modules/oclif/lib/commands/pack/macos.js b/node_modules/oclif/lib/commands/pack/macos.js
+index 924f092..a69e60b 100644
+--- a/node_modules/oclif/lib/commands/pack/macos.js
++++ b/node_modules/oclif/lib/commands/pack/macos.js
+@@ -133,6 +133,7 @@ class PackMacos extends command_1.Command {
+         if (process.env.OSX_KEYCHAIN)
+             args.push('--keychain', process.env.OSX_KEYCHAIN);
+         args.push(dist);
++        console.error(`[debug] oclif pkgbuild "${args.join('" "')}"`);
+         await qq.x('pkgbuild', args);
+     }
+ }
+diff --git a/node_modules/oclif/lib/commands/pack/win.js b/node_modules/oclif/lib/commands/pack/win.js
+index bf4657e..fd58c7d 100644
+--- a/node_modules/oclif/lib/commands/pack/win.js
++++ b/node_modules/oclif/lib/commands/pack/win.js
+@@ -52,6 +52,13 @@ VIAddVersionKey /LANG=\${LANG_ENGLISH} "ProductVersion" "\${VERSION}.0"
+ InstallDir "\$PROGRAMFILES${arch === 'x64' ? '64' : ''}\\${config.dirname}"
+ 
+ Section "${config.name} CLI \${VERSION}"
++  ; First remove any old client files.
++  ; (Remnants of old versions were causing CLI errors)
++  ; Initially tried running the Uninstall.exe, but was
++  ; unable to make script wait for completion (despite using _?)
++  DetailPrint "Removing files from previous version."
++  RMDir /r "$INSTDIR\\client"
++
+   SetOutPath $INSTDIR
+   File /r bin
+   File /r client
+@@ -61,6 +68,8 @@ Section "${config.name} CLI \${VERSION}"
+   WriteUninstaller "$INSTDIR\\Uninstall.exe"
+   WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${config.dirname}" \\
+                    "DisplayName" "${config.name}"
++  WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${config.dirname}" \\
++                   "DisplayVersion" "\${VERSION}"
+   WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${config.dirname}" \\
+                    "UninstallString" "$\\"$INSTDIR\\uninstall.exe$\\""
+   WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\${config.dirname}" \\
+@@ -193,7 +202,8 @@ class PackWin extends command_1.Command {
+     async run() {
+         await this.checkForNSIS();
+         const { flags } = this.parse(PackWin);
+-        const buildConfig = await Tarballs.buildConfig(flags.root);
++        const $targets = flags.targets ? flags.targets.split(',') : undefined;
++        const buildConfig = await Tarballs.buildConfig(flags.root, { targets: $targets });
+         const { config, version, gitSha, targets, tmp } = buildConfig;
+         await Tarballs.build(buildConfig, { platform: 'win32', pack: false });
+         const arches = targets.filter(t => t.platform === 'win32').map(t => t.arch);
+@@ -208,7 +218,8 @@ class PackWin extends command_1.Command {
+             // eslint-disable-next-line no-await-in-loop
+             await qq.mv(buildConfig.workspace({ platform: 'win32', arch }), [installerBase, 'client']);
+             // eslint-disable-next-line no-await-in-loop
+-            await qq.x(`makensis ${installerBase}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`);
++            const { msysExec, toMsysPath } = require("../../util");
++            await msysExec(`makensis ${toMsysPath(installerBase)}/${config.bin}.nsi | grep -v "\\[compress\\]" | grep -v "^File: Descending to"`);
+             const templateKey = upload_util_1.templateShortKey('win32', { bin: config.bin, version: version, sha: gitSha, arch });
+             const o = buildConfig.dist(`win32/${templateKey}`);
+             // eslint-disable-next-line no-await-in-loop
+@@ -255,4 +266,5 @@ PackWin.hidden = true;
+ PackWin.description = 'create windows installer from oclif CLI';
+ PackWin.flags = {
+     root: command_1.flags.string({ char: 'r', description: 'path to oclif CLI root', default: '.', required: true }),
++    targets: command_1.flags.string({char: 't', description: 'comma-separated targets to pack (e.g.: win32-x86,win32-x64)'}),
+ };
+diff --git a/node_modules/oclif/lib/tarballs/build.js b/node_modules/oclif/lib/tarballs/build.js
+index d3e8e89..a5d29e2 100644
+--- a/node_modules/oclif/lib/tarballs/build.js
++++ b/node_modules/oclif/lib/tarballs/build.js
+@@ -18,8 +18,9 @@ const pack = async (from, to) => {
+     qq.cd(prevCwd);
+ };
+ async function build(c, options = {}) {
+-    const { xz, config, version, s3Config, gitSha, nodeVersion, targets, updateConfig } = c;
++    const { xz, config, version, s3Config, gitSha, nodeVersion, targets, updateConfig, tmp } = c;
+     const prevCwd = qq.cwd();
++    console.error(`[debug] oclif cwd="${prevCwd}"\n c.root="${c.root}" c.workspace()="${c.workspace()}"`);
+     const packCLI = async () => {
+         const stdout = await qq.x.stdout('npm', ['pack', '--unsafe-perm'], { cwd: c.root });
+         return path.join(c.root, stdout.split('\n').pop());
+@@ -30,11 +31,19 @@ async function build(c, options = {}) {
+         tarball = path.basename(tarball);
+         tarball = qq.join([c.workspace(), tarball]);
+         qq.cd(c.workspace());
+-        await qq.x(`tar -xzf ${tarball}`);
++        const { msysExec, toMsysPath } = require("../util");
++        await msysExec(`tar -xzf ${toMsysPath(tarball)}`);
+         // eslint-disable-next-line no-await-in-loop
+         for (const f of await qq.ls('package', { fullpath: true }))
+             await qq.mv(f, '.');
+         await qq.rm('package', tarball, 'bin/run.cmd');
++        // rename the original balena-cli ./bin/balena entry point for oclif compatibility
++        await qq.mv('bin/balena', 'bin/run');
++        // The oclif installers are a production installation, while the source
++        // `bin` folder may contain a `.fast-boot.json` file of a dev installation.
++        // This has previously led to issues preventing the CLI from starting, so
++        // delete `.fast-boot.json` (if any) from the destination folder.
++        await qq.rm('bin/.fast-boot.json');
+     };
+     const updatePJSON = async () => {
+         qq.cd(c.workspace());
+@@ -46,21 +55,21 @@ async function build(c, options = {}) {
+         await qq.writeJSON('package.json', pjson);
+     };
+     const addDependencies = async () => {
+-        qq.cd(c.workspace());
+-        const yarnRoot = findYarnWorkspaceRoot(c.root) || c.root;
+-        const yarn = await qq.exists([yarnRoot, 'yarn.lock']);
+-        if (yarn) {
+-            await qq.cp([yarnRoot, 'yarn.lock'], '.');
+-            await qq.x('yarn --no-progress --production --non-interactive');
+-        }
+-        else {
+-            let lockpath = qq.join(c.root, 'package-lock.json');
+-            if (!await qq.exists(lockpath)) {
+-                lockpath = qq.join(c.root, 'npm-shrinkwrap.json');
+-            }
+-            await qq.cp(lockpath, '.');
+-            await qq.x('npm install --production');
++        const ws = c.workspace();
++        qq.cd(ws);
++        console.error(`[debug] oclif copying node_modules to "${ws}"`)
++        const source = path.join(c.root, 'node_modules');
++        if (process.platform === 'win32') {
++            // xcopy is much faster than `qq.cp(source, ws)`
++            await qq.x(`xcopy "${source}" "${ws}\\node_modules" /S /E /B /I /K /Q /Y`);
++        } else {
++            // use the shell's `cp` on macOS in order to preserve extended
++            // file attributes containing `codesign` digital signatures
++            await qq.x(`cp -pR "${source}" "${ws}"`);
+         }
++        console.error(`[debug] oclif running "npm prune --production" in "${ws}"`);
++        await qq.x('npm prune --production');
++        console.error(`[debug] oclif done`);
+     };
+     const pretarball = async () => {
+         qq.cd(c.workspace());
+@@ -99,7 +108,8 @@ async function build(c, options = {}) {
+             output: path.join(workspace, 'bin', 'node'),
+             platform: target.platform,
+             arch: target.arch,
+-            tmp: qq.join(config.root, 'tmp'),
++            tmp,
++            projectRootPath: c.root,
+         });
+         if (options.pack === false)
+             return;
+diff --git a/node_modules/oclif/lib/tarballs/config.js b/node_modules/oclif/lib/tarballs/config.js
+index 0dc3cd7..1336219 100644
+--- a/node_modules/oclif/lib/tarballs/config.js
++++ b/node_modules/oclif/lib/tarballs/config.js
+@@ -18,7 +18,10 @@ function gitSha(cwd, options = {}) {
+ }
+ exports.gitSha = gitSha;
+ async function Tmp(config) {
+-    const tmp = path.join(config.root, 'tmp');
++    const tmp = process.env.BUILD_TMP
++        ? path.join(process.env.BUILD_TMP, 'oclif')
++        : path.join(config.root, 'tmp');
++    console.error(`[debug] oclif tmp="${tmp}"`);
+     await qq.mkdirp(tmp);
+     return tmp;
+ }
+@@ -43,7 +46,7 @@ async function buildConfig(root, options = {}) {
+         s3Config: updateConfig.s3,
+         nodeVersion: updateConfig.node.version || process.versions.node,
+         workspace(target) {
+-            const base = qq.join(config.root, 'tmp');
++            const base = tmp;
+             if (target && target.platform)
+                 return qq.join(base, [target.platform, target.arch].join('-'), upload_util_1.templateShortKey('baseDir', { bin: config.bin }));
+             return qq.join(base, upload_util_1.templateShortKey('baseDir', { bin: config.bin }));
+diff --git a/node_modules/oclif/lib/tarballs/node.js b/node_modules/oclif/lib/tarballs/node.js
+index fabe5c4..e32dd76 100644
+--- a/node_modules/oclif/lib/tarballs/node.js
++++ b/node_modules/oclif/lib/tarballs/node.js
+@@ -4,9 +4,10 @@ const errors_1 = require("@oclif/errors");
+ const path = require("path");
+ const qq = require("qqjs");
+ const log_1 = require("../log");
++const { isMSYS2, msysExec, toMsysPath } = require("../util");
+ async function checkFor7Zip() {
+     try {
+-        await qq.x('7z', { stdio: [0, null, 2] });
++        await msysExec('7z', { stdio: [0, null, 2] });
+     }
+     catch (error) {
+         if (error.code === 127)
+@@ -41,7 +42,8 @@ async function fetchNodeBinary({ nodeVersion, output, platform, arch, tmp }) {
+         const basedir = path.dirname(tarball);
+         await qq.mkdirp(basedir);
+         await qq.download(url, tarball);
+-        await qq.x(`grep ${path.basename(tarball)} ${shasums} | shasum -a 256 -c -`, { cwd: basedir });
++        const shaCmd = isMSYS2 ? 'sha256sum -c -' : 'shasum -a 256 -c -';
++        await msysExec(`grep ${path.basename(tarball)} ${toMsysPath(shasums)} | ${shaCmd}`, { cwd: basedir });
+     };
+     const extract = async () => {
+         log_1.log(`extracting ${nodeBase}`);
+@@ -51,7 +53,7 @@ async function fetchNodeBinary({ nodeVersion, output, platform, arch, tmp }) {
+         await qq.mkdirp(path.dirname(cache));
+         if (platform === 'win32') {
+             qq.pushd(nodeTmp);
+-            await qq.x(`7z x -bd -y ${tarball} > /dev/null`);
++            await msysExec(`7z x -bd -y ${toMsysPath(tarball)} > /dev/null`);
+             await qq.mv([nodeBase, 'node.exe'], cache);
+             qq.popd();
+         }
+diff --git a/node_modules/oclif/lib/upload-util.js b/node_modules/oclif/lib/upload-util.js
+index 45392cb..3c806c7 100644
+--- a/node_modules/oclif/lib/upload-util.js
++++ b/node_modules/oclif/lib/upload-util.js
+@@ -28,10 +28,10 @@ function templateShortKey(type, ext, options = { root: '.' }) {
+     const templates = {
+         baseDir: '<%- bin %>',
+         unversioned: '<%- bin %>-<%- platform %>-<%- arch %><%- ext %>',
+-        versioned: '<%- bin %>-v<%- version %>-<%- sha %>-<%- platform %>-<%- arch %><%- ext %>',
+-        manifest: '<%- bin %>-v<%- version %>-<%- sha %>-<%- platform %>-<%- arch %>-buildmanifest',
+-        macos: '<%- bin %>-v<%- version %>-<%- sha %>.pkg',
+-        win32: '<%- bin %>-v<%- version %>-<%- sha %>-<%- arch %>.exe',
++        versioned: '<%- bin %>-v<%- version %>-<%- platform %>-<%- arch %><%- ext %>',
++        manifest: '<%- bin %>-v<%- version %>-<%- platform %>-<%- arch %>-buildmanifest',
++        macos: '<%- bin %>-v<%- version %>.pkg',
++        win32: '<%- bin %>-v<%- version %>-<%- arch %>.exe',
+         deb: '<%- bin %>_<%- versionShaRevision %>_<%- arch %>.deb',
+     };
+     return _.template(templates[type])(Object.assign({}, options));
+diff --git a/node_modules/oclif/lib/util.js b/node_modules/oclif/lib/util.js
+index 17748ad..4928fc9 100644
+--- a/node_modules/oclif/lib/util.js
++++ b/node_modules/oclif/lib/util.js
+@@ -67,3 +67,47 @@ exports.sortVersionsObjectByKeysDesc = (input) => {
+     }
+     return result;
+ };
++
++// OSTYPE is 'msys' for MSYS 1.0 and for MSYS2, or 'cygwin' for Cygwin
++// but note that OSTYPE is not "exported" by default, so run: export OSTYPE=$OSTYPE
++// MSYSTEM is 'MINGW32' for MSYS 1.0, 'MSYS' for MSYS2, and undefined for Cygwin
++const isCygwin = process.env.OSTYPE === 'cygwin';
++const isMinGW = process.env.MSYSTEM && process.env.MSYSTEM.startsWith('MINGW');
++const isMSYS2 = process.env.MSYSTEM && process.env.MSYSTEM.startsWith('MSYS');
++const MSYSSHELLPATH = process.env.MSYSSHELLPATH ||
++    (isMSYS2 ? 'C:\\msys64\\usr\\bin\\bash.exe' :
++        (isMinGW ? 'C:\\MinGW\\msys\\1.0\\bin\\bash.exe' :
++            (isCygwin ? 'C:\\cygwin64\\bin\\bash.exe' : '/bin/sh')));
++
++exports.isCygwin = isCygwin;
++exports.isMinGW = isMinGW;
++exports.isMSYS2 = isMSYS2;
++console.error(`[debug] oclif MSYSSHELLPATH=${MSYSSHELLPATH} MSYSTEM=${process.env.MSYSTEM} OSTYPE=${process.env.OSTYPE} isMSYS2=${isMSYS2} isMingGW=${isMinGW} isCygwin=${isCygwin}`);
++
++const qq = require("qqjs");
++
++/* Convert a Windows path like 'C:\tmp' to a MSYS path like '/c/tmp' */
++function toMsysPath(windowsPath) {
++    // 'c:\myfolder' -> '/c/myfolder' or '/cygdrive/c/myfolder'
++    let msysPath = windowsPath.replace(/\\/g, '/');
++    if (isMSYS2 || isMinGW) {
++        msysPath = msysPath.replace(/^([a-zA-Z]):/, '/$1');
++    } else if (isCygwin) {
++        msysPath = msysPath.replace(/^([a-zA-Z]):/, '/cygdrive/$1');
++    }
++    console.error(`[debug] oclif toMsysPath before="${windowsPath}" after="${msysPath}"`);
++    return msysPath;
++}
++exports.toMsysPath = toMsysPath;
++
++/* Like qqjs qq.x(), but using MSYS bash on Windows instead of cmd.exe */
++async function msysExec(cmd, options = {}) {
++    if (process.platform !== 'win32') {
++        return qq.x(cmd, options);
++    }
++    const sh = MSYSSHELLPATH;
++    const args = ['-c', cmd];
++    console.error(`[debug] oclif msysExec sh="${sh}" args=${JSON.stringify(args)} options=${JSON.stringify(options)}`);
++    return qq.x(sh, args, options);
++}
++exports.msysExec = msysExec;

@@ -1,0 +1,14 @@
+diff --git a/node_modules/node-gyp-build/index.js b/node_modules/node-gyp-build/index.js
+index b5096ed..7cd451a 100644
+--- a/node_modules/node-gyp-build/index.js
++++ b/node_modules/node-gyp-build/index.js
+@@ -29,6 +29,9 @@ load.path = function (dir) {
+     if (process.env[name + '_PREBUILD']) dir = process.env[name + '_PREBUILD']
+   } catch (err) {}
+ 
++  // pkg fix: native node modules are located externally to the pkg executable
++  dir = dir.replace(/^\/snapshot\/.+?\/node_modules\//, path.dirname(process.execPath) + path.sep)
++
+   if (!prebuildsOnly) {
+     var release = getFirst(path.join(dir, 'build/Release'), matchBuild)
+     if (release) return release

@@ -1,0 +1,15 @@
+diff --git a/node_modules/@oclif/config/lib/config.js b/node_modules/@oclif/config/lib/config.js
+index aba1da9..830f800 100644
+--- a/node_modules/@oclif/config/lib/config.js
++++ b/node_modules/@oclif/config/lib/config.js
+@@ -165,7 +165,9 @@ class Config {
+         debug('runCommand %s %o', id, argv);
+         const c = this.findCommand(id);
+         if (!c) {
+-            await this.runHook('command_not_found', { id });
++            // argv added to command_not_found hook
++            // We should try to upstream this change
++            await this.runHook('command_not_found', { id, argv });
+             throw new errors_1.CLIError(`command ${id} not found`);
+         }
+         const command = c.load();

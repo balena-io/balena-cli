@@ -1,0 +1,15 @@
+{
+	"id": 99699617,
+	"created_at": "2020-01-16T17:08:57.443Z",
+	"release_image": {
+		"__deferred": {
+			"uri": "/resin/image__is_part_of__release(1774668)"
+		},
+		"__id": 1774668
+	},
+	"label_name": "io.resin.features.firmware",
+	"value": "1",
+	"__metadata": {
+		"uri": "/resin/image_label(@id)?@id=99699617"
+	}
+}
