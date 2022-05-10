@@ -1,4 +1,36 @@
 - commits:
+    - subject: "preload: Fix detection of supervisor version for balenaOS v2.93.0"
+      hash: 2b2c40c22d15d765f19b421976113939ec4fc455
+      body: |
+        Update balena-preload from 12.0.0 to 12.0.1
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested:
+        - commits:
+            - subject: Update supervisor image regex to include tagged images
+              hash: b1e291198125783410581442bc8adf4cee41a73d
+              body: >
+                Starting in balenaOS v2.93.0 the supervisor images are tagged
+
+                as balena_supervisor after being pulled from the balena registry.
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Kyle Harding <kyle@balena.io>
+                signed-off-by: Kyle Harding <kyle@balena.io>
+              author: Kyle Harding
+              nested: []
+          version: balena-preload-12.0.1
+          title: "'Update supervisor image regex to include tagged images'"
+          date: 2022-05-10T15:07:37.661Z
+  version: 13.4.2
+  title: "'preload: Fix detection of supervisor version for balenaOS v2.93.0'"
+  date: 2022-05-10T16:16:30.490Z
+- commits:
     - subject: "leave: Update log message to advise that device still needs deleting"
       hash: c667ffa8eb60e321308bcf0cf474781cdb70e29c
       body: ""
