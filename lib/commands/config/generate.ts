@@ -37,6 +37,7 @@ interface FlagsDef {
 	wifiKey?: string;
 	appUpdatePollInterval?: string;
 	'provisioning-key-name'?: string;
+	'provisioning-key-expiry-date'?: string;
 	help: void;
 }
 
@@ -81,7 +82,11 @@ export default class ConfigGenerateCmd extends Command {
 		dev: cf.dev,
 		device: {
 			...cf.device,
-			exclusive: ['fleet', 'provisioning-key-name'],
+			exclusive: [
+				'fleet',
+				'provisioning-key-name',
+				'provisioning-key-expiry-date',
+			],
 		},
 		deviceApiKey: flags.string({
 			description:
@@ -118,6 +123,11 @@ export default class ConfigGenerateCmd extends Command {
 		}),
 		'provisioning-key-name': flags.string({
 			description: 'custom key name assigned to generated provisioning api key',
+			exclusive: ['device'],
+		}),
+		'provisioning-key-expiry-date': flags.string({
+			description:
+				'expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)',
 			exclusive: ['device'],
 		}),
 		help: cf.help,
@@ -196,6 +206,7 @@ export default class ConfigGenerateCmd extends Command {
 		answers.version = options.version;
 		answers.developmentMode = options.dev;
 		answers.provisioningKeyName = options['provisioning-key-name'];
+		answers.provisioningKeyExpiryDate = options['provisioning-key-expiry-date'];
 
 		// Generate config
 		const { generateDeviceConfig, generateApplicationConfig } = await import(

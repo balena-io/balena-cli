@@ -59,6 +59,7 @@ if (process.platform !== 'win32') {
 				'--config-network ethernet',
 				'--initial-device-name testDeviceName',
 				'--provisioning-key-name testKey',
+				'--provisioning-key-expiry-date 2050-12-12',
 			];
 
 			const { err } = await runCommand(command.join(' '));
