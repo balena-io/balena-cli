@@ -2550,17 +2550,15 @@
       "version": "3.0.2",
       "resolved": "https://registry.npmjs.org/@types/docker-modem/-/docker-modem-3.0.2.tgz",
       "integrity": "sha512-qC7prjoEYR2QEe6SmCVfB1x3rfcQtUr1n4x89+3e0wSTMQ/KYCyf+/RAA9n2tllkkNc6//JMUZePdFRiGIWfaQ==",
-      "dev": true,
       "requires": {
         "@types/node": "*",
         "@types/ssh2": "*"
       }
     },
     "@types/dockerode": {
-      "version": "3.3.8",
-      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.8.tgz",
-      "integrity": "sha512-/Hip29GzPBWfbSS87lyQDVoB7Ja+kr8oOFWXsySxNFa7jlyj3Yws8LaZRmn1xZl7uJH3Xxsg0oI09GHpT1pIBw==",
-      "dev": true,
+      "version": "3.3.9",
+      "resolved": "https://registry.npmjs.org/@types/dockerode/-/dockerode-3.3.9.tgz",
+      "integrity": "sha512-SYRN5FF/qmwpxUT6snJP5D8k0wgoUKOGVs625XvpRJOOUi6s//UYI4F0tbyE3OmzpI70Fo1+aqpzX27zCrInww==",
       "requires": {
         "@types/docker-modem": "*",
         "@types/node": "*"
@@ -2989,7 +2987,6 @@
       "version": "0.5.52",
       "resolved": "https://registry.npmjs.org/@types/ssh2/-/ssh2-0.5.52.tgz",
       "integrity": "sha512-lbLLlXxdCZOSJMCInKH2+9V/77ET2J6NPQHpFI0kda61Dd1KglJs+fPQBchizmzYSOJBgdTajhPqBO1xxLywvg==",
-      "dev": true,
       "requires": {
         "@types/node": "*",
         "@types/ssh2-streams": "*"
@@ -2999,7 +2996,6 @@
       "version": "0.1.9",
       "resolved": "https://registry.npmjs.org/@types/ssh2-streams/-/ssh2-streams-0.1.9.tgz",
       "integrity": "sha512-I2J9jKqfmvXLR5GomDiCoHrEJ58hAOmFrekfFqmCFd+A6gaEStvWnPykoWUwld1PNg4G5ag1LwdA+Lz1doRJqg==",
-      "dev": true,
       "requires": {
         "@types/node": "*"
       }
@@ -6170,12 +6166,13 @@
       }
     },
     "docker-progress": {
-      "version": "5.0.1",
-      "resolved": "https://registry.npmjs.org/docker-progress/-/docker-progress-5.0.1.tgz",
-      "integrity": "sha512-xVkMZNe48A6jxINzz8X/0jAy5YzAZy8u9QRK8nNSlVp1XHEhYfN0QlFZKOFzq1TO99if+c+yBpn4YZuGcZHG3Q==",
+      "version": "5.1.3",
+      "resolved": "https://registry.npmjs.org/docker-progress/-/docker-progress-5.1.3.tgz",
+      "integrity": "sha512-Ou+o4ISCxMvuoeG09S/irjgleLdG4ZhNiqo31p8vOzDfZm5+JaS2ouHo4lc4kXKqTN6c5eCm+62oRGoaPLDY1A==",
       "requires": {
+        "@types/dockerode": "^3.3.9",
         "JSONStream": "^1.3.5",
-        "lodash": "^4.17.15"
+        "lodash": "^4.17.21"
       }
     },
     "docker-qemu-transpose": {
@@ -17224,9 +17221,9 @@
       }
     },
     "typescript": {
-      "version": "4.5.4",
-      "resolved": "https://registry.npmjs.org/typescript/-/typescript-4.5.4.tgz",
-      "integrity": "sha512-VgYs2A2QIRuGphtzFV7aQJduJ2gyfTljngLzjpfW9FoYZF6xuw1W0vW9ghCKLfcWrCFxK81CSGRAvS1pn4fIUg==",
+      "version": "4.6.4",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-4.6.4.tgz",
+      "integrity": "sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==",
       "dev": true
     },
     "unbox-primitive": {
