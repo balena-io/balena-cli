@@ -1,4 +1,71 @@
 - commits:
+    - subject: Update docker-progress to 5.1.3
+      hash: ee668a4c5c952a1e8b4bb10502ea212ce1721f82
+      body: |
+        Update docker-progress from 5.0.1 to 5.1.3
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested:
+        - commits:
+            - subject: Reject on the stream closing if it has not already ended successfully
+              hash: e46ad706cdb32c20a9ef9358eed4567aef3d1b62
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+          version: docker-progress-5.1.3
+          title: "'Reject on the stream closing if it has not already ended successfully'"
+          date: 2022-05-11T16:47:41.323Z
+        - commits:
+            - subject: Update dependencies
+              hash: 0ef9c38ccdb048d849a216a3ad52a047a5194073
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+          version: docker-progress-5.1.2
+          title: "'Update dependencies'"
+          date: 2022-05-10T16:11:14.032Z
+        - commits:
+            - subject: Avoid breaking changes to PushPullOptions required properties
+              hash: dba7348ba87ca9d6299ebeab393fb8f6b5aa6ce5
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Kyle Harding <kyle@balena.io>
+                signed-off-by: Kyle Harding <kyle@balena.io>
+              author: Kyle Harding
+          version: docker-progress-5.1.1
+          title: "'Avoid breaking changes to PushPullOptions required properties'"
+          date: 2022-05-10T14:44:11.701Z
+        - commits:
+            - subject: Add support for building images with progress
+              hash: e072408ee951d3caf46af5050d0b71991d114614
+              body: >
+                Using build instead of pull allows to add metadata (e.g. labels)
+                to pulled images in an
+
+                atomic way. This commit adds the `DockerProgres.build()` method to
+
+                build an image from a remote (or local) source and track the progress of
+
+                the build.
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Felipe Lalanne
+          version: docker-progress-5.1.0
+          title: "'Add support for building images with progress'"
+          date: 2022-03-10T13:49:23.048Z
+  version: 13.4.3
+  title: "'Update docker-progress to 5.1.3'"
+  date: 2022-05-19T17:32:59.232Z
+- commits:
     - subject: "preload: Fix detection of supervisor version for balenaOS v2.93.0"
       hash: 2b2c40c22d15d765f19b421976113939ec4fc455
       body: |
