@@ -1,4 +1,844 @@
 - commits:
+    - subject: Update balena-sdk to 16.20.4
+      hash: c4990f3a26d23d0e9fbffa4058e3f7f09cf0c69c
+      body: |
+        Update balena-sdk from 16.9.0 to 16.20.4
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Nitish Agarwal
+      nested:
+        - commits:
+            - subject: bump @types/node from 10.17.60 to 12.20.500
+              hash: 141d825a0f2cea35fe1c592b37fea360975e719e
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.20.4
+          title: "'bump @types/node from 10.17.60 to 12.20.500'"
+          date: 2022-05-09T13:11:39.565Z
+        - commits:
+            - subject: "patch: bump browserify from 14.5.0 to 17.0.0"
+              hash: 2ee532e8dcc3eda0c54296f468f7f9a9e637071a
+              body: >
+                Bumps [browserify](https://github.com/browserify/browserify)
+                from 14.5.0 to 17.0.0.
+
+                - [Release notes](https://github.com/browserify/browserify/releases)
+
+                - [Changelog](https://github.com/browserify/browserify/blob/master/changelog.markdown)
+
+                - [Commits](https://github.com/browserify/browserify/compare/14.5.0...v17.0.0)
+
+
+                ---
+
+                updated-dependencies:
+
+                - dependency-name: browserify
+                  dependency-type: direct:development
+                  update-type: version-update:semver-major
+                ...
+              footer:
+                Signed-off-by: dependabot[bot] <support@github.com>
+                signed-off-by: dependabot[bot] <support@github.com>
+              author: dependabot[bot]
+              nested: []
+          version: balena-sdk-16.20.3
+          title: "'patch: bump browserify from 14.5.0 to 17.0.0'"
+          date: 2022-05-06T12:31:14.908Z
+        - commits:
+            - subject: "patch: bump tmp from 0.0.31 to 0.2.1"
+              hash: e905a6a8054297c89e75447e5ff48ca92e13bd49
+              body: >
+                Bumps [tmp](https://github.com/raszi/node-tmp) from 0.0.31 to
+                0.2.1.
+
+                - [Release notes](https://github.com/raszi/node-tmp/releases)
+
+                - [Changelog](https://github.com/raszi/node-tmp/blob/master/CHANGELOG.md)
+
+                - [Commits](https://github.com/raszi/node-tmp/compare/v0.0.31...v0.2.1)
+
+
+                ---
+
+                updated-dependencies:
+
+                - dependency-name: tmp
+                  dependency-type: direct:development
+                  update-type: version-update:semver-minor
+                ...
+              footer:
+                Signed-off-by: dependabot[bot] <support@github.com>
+                signed-off-by: dependabot[bot] <support@github.com>
+              author: dependabot[bot]
+              nested: []
+          version: balena-sdk-16.20.2
+          title: "'patch: bump tmp from 0.0.31 to 0.2.1'"
+          date: 2022-05-05T10:28:10.551Z
+        - commits:
+            - subject: Drop the non-populated apiUrl & actionsUrl properties from Config type
+              hash: 77d10a4546c8e0265fa176fc3be4d63db5e55ff5
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.20.1
+          title: "'Drop the non-populated apiUrl & actionsUrl properties from Config
+            type'"
+          date: 2022-05-05T06:40:56.261Z
+        - commits:
+            - subject: "models.apiKey: Update apiKeyInfo with expiryDate option"
+              hash: 58765109d8a165f93f94fe069cc4e879949f23fe
+              body: ""
+              footer:
+                Change-Type: minor
+                change-type: minor
+                Signed-off-by: Nitish Agarwal <1592163+nitishagar@users.noreply.github.com>
+                signed-off-by: Nitish Agarwal <1592163+nitishagar@users.noreply.github.com>
+              author: Nitish Agarwal
+              nested: []
+            - subject: "os.getConfig: Add typings for the provisioningKeyExpiryDate option"
+              hash: fd6299eb1d5cdf54727af23bea7fb6d746bc92b2
+              body: ""
+              footer:
+                Change-Type: minor
+                change-type: minor
+                Signed-off-by: Nitish Agarwal <1592163+nitishagar@users.noreply.github.com>
+                signed-off-by: Nitish Agarwal <1592163+nitishagar@users.noreply.github.com>
+              author: Balena CI
+              nested: []
+          version: balena-sdk-16.20.0
+          title: "'Add typings for provisioningKeyExpiryDate to os.getConfig and
+            expiryDate to model.apiKey'"
+          date: 2022-05-04T17:26:27.299Z
+        - commits:
+            - subject: "config.getAll: Mark the deviceTypes property as optional"
+              hash: 5ad014924e9497a49754384c4d1fd0924e4c0583
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.19.14
+          title: "'config.getAll: Mark the deviceTypes property as optional'"
+          date: 2022-05-04T11:03:37.354Z
+        - commits:
+            - subject: "patch: bump mocha from 3.5.3 to 10.0.0"
+              hash: 548996665b7e6159e5e209aa4a10987e071da024
+              body: >
+                Bumps [mocha](https://github.com/mochajs/mocha) from 3.5.3 to
+                10.0.0.
+
+                - [Release notes](https://github.com/mochajs/mocha/releases)
+
+                - [Changelog](https://github.com/mochajs/mocha/blob/master/CHANGELOG.md)
+
+                - [Commits](https://github.com/mochajs/mocha/compare/v3.5.3...v10.0.0)
+
+
+                ---
+
+                updated-dependencies:
+
+                - dependency-name: mocha
+                  dependency-type: direct:development
+                  update-type: version-update:semver-major
+                ...
+              footer:
+                Signed-off-by: dependabot[bot] <support@github.com>
+                signed-off-by: dependabot[bot] <support@github.com>
+              author: dependabot[bot]
+              nested: []
+          version: balena-sdk-16.19.13
+          title: "'patch: bump mocha from 3.5.3 to 10.0.0'"
+          date: 2022-05-03T21:51:32.488Z
+        - commits:
+            - subject: "config.getAll: Deprecate the pubnub property and mark as optional"
+              hash: c36325efa798653685c6b7595d653eacee634830
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.19.12
+          title: "'config.getAll: Deprecate the pubnub property and mark as optional'"
+          date: 2022-05-03T13:38:03.596Z
+        - commits:
+            - subject: "patch: bump mockttp from 0.9.1 to 2.7.0"
+              hash: fa44187e4e510171666f046d6a3a658f59956fd4
+              body: >-
+                Bumps [mockttp](https://github.com/httptoolkit/mockttp) from
+                0.9.1 to 2.7.0.
+
+                - [Release notes](https://github.com/httptoolkit/mockttp/releases)
+
+                - [Commits](https://github.com/httptoolkit/mockttp/compare/v0.9.1...v2.7.0)
+
+
+                ---
+
+                updated-dependencies:
+
+                - dependency-name: mockttp
+                  dependency-type: direct:development
+                  update-type: version-update:semver-major
+                ...
+              footer: {}
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.19.11
+          title: "'patch: bump mockttp from 0.9.1 to 2.0.0'"
+          date: 2022-05-03T11:57:12.390Z
+        - commits:
+            - subject: Reduce the prod typing dependencies
+              hash: 47bd9a204d82d465874ef3a6765eb93f16880b16
+              body: ""
+              footer:
+                Connects-to: "#1220"
+                connects-to: "#1220"
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.19.10
+          title: "'Reduce the prod typing dependencies'"
+          date: 2022-04-27T10:18:12.766Z
+        - commits:
+            - subject: "patch: Remove documentation.md from the NPM package"
+              hash: 1e4e33bfbb0e07fa89e5213d81e41dfbd36447ce
+              body: ""
+              footer: {}
+              author: Vipul Gupta
+              nested: []
+          version: balena-sdk-16.19.9
+          title: "'patch: Remove documentation.md from the NPM package'"
+          date: 2022-04-26T20:21:31.993Z
+        - commits:
+            - subject: "patch: Remove additional quotes"
+              hash: a6d3d4ea6f4e194efad51330008c0d67c2745837
+              body: ""
+              footer:
+                Signed-off-by: Vipul Gupta (@vipulgupta2048) <vipul@balena.io>
+                signed-off-by: Vipul Gupta (@vipulgupta2048) <vipul@balena.io>
+              author: Vipul Gupta (@vipulgupta2048)
+              nested: []
+          version: balena-sdk-16.19.8
+          title: "'patch: Remove additional quotes'"
+          date: 2022-04-20T18:19:59.893Z
+        - commits:
+            - subject: "tests: Update to work with latest major of superagent"
+              hash: f141912cfc09c930aa31f88afed006c8210c70d5
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "patch: bump superagent from 3.8.3 to 7.1.2"
+              hash: ae3974af1965386bf236b7ae295e4a9ecc285f0c
+              body: >
+                Bumps [superagent](https://github.com/visionmedia/superagent)
+                from 3.8.3 to 7.1.2.
+
+                - [Release notes](https://github.com/visionmedia/superagent/releases)
+
+                - [Changelog](https://github.com/visionmedia/superagent/blob/master/HISTORY.md)
+
+                - [Commits](https://github.com/visionmedia/superagent/commits)
+
+
+                ---
+
+                updated-dependencies:
+
+                - dependency-name: superagent
+                  dependency-type: direct:development
+                  update-type: version-update:semver-major
+                ...
+              footer:
+                Signed-off-by: dependabot[bot] <support@github.com>
+                signed-off-by: dependabot[bot] <support@github.com>
+              author: dependabot[bot]
+              nested: []
+          version: balena-sdk-16.19.7
+          title: "'patch: bump superagent from 3.8.3 to 7.1.2'"
+          date: 2022-04-12T18:01:18.368Z
+        - commits:
+            - subject: "patch: bump dotenv from 4.0.0 to 16.0.0"
+              hash: b2ddda64df84d5a109b2adc1ee847ff5aef17000
+              body: >
+                Bumps [dotenv](https://github.com/motdotla/dotenv) from 4.0.0 to
+                16.0.0.
+
+                - [Release notes](https://github.com/motdotla/dotenv/releases)
+
+                - [Changelog](https://github.com/motdotla/dotenv/blob/master/CHANGELOG.md)
+
+                - [Commits](https://github.com/motdotla/dotenv/compare/v4.0.0...v16.0.0)
+
+
+                ---
+
+                updated-dependencies:
+
+                - dependency-name: dotenv
+                  dependency-type: direct:development
+                  update-type: version-update:semver-major
+                ...
+              footer:
+                Signed-off-by: dependabot[bot] <support@github.com>
+                signed-off-by: dependabot[bot] <support@github.com>
+              author: dependabot[bot]
+              nested: []
+          version: balena-sdk-16.19.6
+          title: "'patch: bump dotenv from 4.0.0 to 16.0.0'"
+          date: 2022-04-11T17:42:33.529Z
+        - commits:
+            - subject: Bump karma to v6
+              hash: cae5254525ab7b1381d43f79fbd1ff4d63ae546d
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.19.5
+          title: "'Bump karma to v6'"
+          date: 2022-04-09T20:15:54.812Z
+        - commits:
+            - subject: Add dependabot configuration
+              hash: 8877acf9b8504b65feb689a57099599b4c95b228
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.19.4
+          title: "'Add dependabot configuration'"
+          date: 2022-04-09T06:45:20.416Z
+        - commits:
+            - subject: "tests: Update v5 model endpoint prefix references"
+              hash: 8cab46ad7b8c3c5bf825824749547e59092a9590
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.19.3
+          title: "'tests: Update v5 model endpoint prefix references'"
+          date: 2022-04-06T17:42:22.564Z
+        - commits:
+            - subject: Fix extracting a meaningful error message instead of "[object Object]"
+              hash: e768dc51607d156a99312578e46bc2d95770ce56
+              body: |
+                Update balena-request from 11.5.3 to 11.5.5
+              footer:
+                Change-type: patch
+                change-type: patch
+                See: https://github.com/balena-io-modules/balena-request/pull/164
+                see: https://github.com/balena-io-modules/balena-request/pull/164
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested:
+                - commits:
+                    - subject: Fix extracting the response error from object response bodies
+                      hash: 78dff444e207df7d6838f0e8bdf25b8673c065d6
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                  version: balena-request-11.5.5
+                  title: "'Fix extracting the response error from object response bodies'"
+                  date: 2022-04-06T15:35:57.195Z
+                - commits:
+                    - subject: Drop explicit karma-chrome-launcher devDependency
+                      hash: db032a369a48b9707665189e2a42497105f1c596
+                      body: ""
+                      footer:
+                        Change-type: patch
+                        change-type: patch
+                      author: Thodoris Greasidis
+                  version: balena-request-11.5.4
+                  title: "'Drop explicit karma-chrome-launcher devDependency'"
+                  date: 2022-04-06T12:08:34.148Z
+          version: balena-sdk-16.19.2
+          title: "'Fix extracting a meaningful error message instead of \"[object
+            Object]\"'"
+          date: 2022-04-06T16:27:21.352Z
+        - commits:
+            - subject: Update balena-request dependency to v11.5.3
+              hash: 914cf832c4ece2e010784d0d7e33b1a7f2c22437
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+                signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+              author: Matthew Yarmolinsky
+              nested: []
+          version: balena-sdk-16.19.1
+          title: "'Update balena-request dependency to v11.5.3'"
+          date: 2022-04-05T17:08:39.357Z
+        - commits:
+            - subject: Add release.setKnownIssueList function for setting a release's known
+                issue list
+              hash: 474d84e71b6614a5e4610eee92addc607efca5b3
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+                signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+              author: Matthew Yarmolinsky
+              nested: []
+          version: balena-sdk-16.19.0
+          title: "'Add release.setKnownIssueList function for setting a release's known
+            issue list'"
+          date: 2022-03-16T17:09:05.209Z
+        - commits:
+            - subject: "minor: Add trying SDK in the browser"
+              hash: 50a6ca1844869eaccaf3275361a4016f7a284c05
+              body: >
+                Add information about using SDK in the browser as a partial.
+                Solving: https://github.com/balena-io/docs/issues/2205
+              footer:
+                Signed-off-by: Vipul Gupta (@vipulgupta2048) <vipul@balena.io>
+                signed-off-by: Vipul Gupta (@vipulgupta2048) <vipul@balena.io>
+              author: Vipul Gupta (@vipulgupta2048)
+              nested: []
+          version: balena-sdk-16.18.0
+          title: "'patch: Add trying SDK in the browser'"
+          date: 2022-03-14T19:40:22.550Z
+        - commits:
+            - subject: "device.getWithServiceDetails: Add the release id in the service info"
+              hash: fd01e59371d7691401eef605598bc50b5e62a0fb
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+                signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+              author: Matthew Yarmolinsky
+              nested: []
+          version: balena-sdk-16.17.0
+          title: "'device.getWithServiceDetails: Add the release id in the service info'"
+          date: 2022-03-11T12:50:59.901Z
+        - commits:
+            - subject: Replace internal use of deprecated OsVersion.rawVersion with
+                raw_version
+              hash: f29ac61bb82fe7008b92180864fd1e3f3d752445
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.16.1
+          title: "'Replace internal use of deprecated OsVersion.rawVersion with
+            raw_version'"
+          date: 2022-03-08T14:58:30.031Z
+        - commits:
+            - subject: Add support for named imports from .mjs files
+              hash: 9c41612f46495f8629785657bc20588e8e68e487
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Update npx command to fix ts-compatibility tests
+              hash: 9251199e0ff6db1aaefa1f3fab826cd5d1a09112
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Regenerate Documentation
+              hash: c317c03b3907896d54c8ac85348c24e9bb6f44cb
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Update typescript to 4.6.2
+              hash: 66509d9263259db1d336fabf03e0294ff139ea3c
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.16.0
+          title: "'Add support for named imports from .mjs files'"
+          date: 2022-03-03T07:03:25.588Z
+        - commits:
+            - subject: Remove unnecessary vpn address filtering when fetching local addresses
+              hash: 12266a3c9349e5d944ba203e56f2fe80b5e97970
+              body: >
+                This has been handled by the supervisor since v2.2.0 / balenaOS
+                v1.14
+
+                from 2016-09-23 and is not relevant for any supported devices
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+              nested: []
+          version: balena-sdk-16.15.1
+          title: "'Remove unnecessary vpn address filtering when fetching local
+            addresses'"
+          date: 2022-02-24T20:47:13.290Z
+        - commits:
+            - subject: Add applicationClass parameter to application create function for
+                setting is_of__class property
+              hash: 03572ea47e5a8533baf2e583982850b38555ff84
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+                signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+              author: Matthew Yarmolinsky
+              nested: []
+          version: balena-sdk-16.15.0
+          title: "'Add applicationClass parameter to application create function for
+            setting is_of__class property'"
+          date: 2022-02-16T13:35:17.994Z
+        - commits:
+            - subject: Add name and description field to generateDeviceKey for device.
+              hash: acdbdd5164af283240270c7fe36075f4f5dc0b87
+              body: ""
+              footer:
+                Change-Type: minor
+                change-type: minor
+                Signed-off-by: Nitish Agarwal <1592163+nitishagar@users.noreply.github.com>
+                signed-off-by: Nitish Agarwal <1592163+nitishagar@users.noreply.github.com>
+              author: Nitish Agarwal
+              nested: []
+          version: balena-sdk-16.14.0
+          title: "'Add name and description field to generateDeviceKey for device.'"
+          date: 2022-02-15T09:27:49.508Z
+        - commits:
+            - subject: "typings: Fix conditional $or/$and/$not $filters"
+              hash: 66154499284b87164cc566f883d6f7e76ccde6a3
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                See: https://www.flowdock.com/app/rulemotion/balenalabs/threads/A9tGPitlQxoqMTpiPg6u-CsLltk
+                see: https://www.flowdock.com/app/rulemotion/balenalabs/threads/A9tGPitlQxoqMTpiPg6u-CsLltk
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.13.4
+          title: "typings: Fix conditional $or/$and/$not $filters"
+          date: 2022-01-27T22:28:10.937Z
+        - commits:
+            - subject: Deprecate the supportsBlink field of the DeviceTypeJson.DeviceType type
+              hash: 4345664e0a7cae107be549fc786bc5cd57bdec78
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                See: https://www.flowdock.com/app/rulemotion/resin-devices/threads/mIiQILpWO_W_GtNgKf0CKoQkL-z
+                see: https://www.flowdock.com/app/rulemotion/resin-devices/threads/mIiQILpWO_W_GtNgKf0CKoQkL-z
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.13.3
+          title: Deprecate the supportsBlink field of the DeviceTypeJson.DeviceType type
+          date: 2022-01-27T19:14:13.168Z
+        - commits:
+            - subject: Deprecate the logoUrl field of the DeviceTypeJson.DeviceType type
+              hash: 8f7b4dff641da965837fcd704853f2c5e09610e3
+              body: ""
+              footer:
+                Resolves: "#1188"
+                resolves: "#1188"
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.13.2
+          date: 2022-01-25T23:36:08.348Z
+        - commits:
+            - subject: Replace internal use of release.contains__image with release_image
+              hash: dfa5e737be01efbf54476d05536524ca8d7b1cf8
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.13.1
+          date: 2022-01-21T13:19:50.991Z
+        - commits:
+            - subject: "models: Deprecate the release.contains__image in favor of the term
+                form"
+              hash: f3eae5575eb5fe46b41d1cebfd852be98b310ab2
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "models: Add the release_image term form property in the Release
+                typings"
+              hash: c8fe417933df0402bd00be1918de990ae10646f6
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                See: https://www.flowdock.com/app/rulemotion/r-beginners/threads/TDQW8r5EnnQSygJhsPNO9k8moDi
+                see: https://www.flowdock.com/app/rulemotion/r-beginners/threads/TDQW8r5EnnQSygJhsPNO9k8moDi
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.13.0
+          date: 2022-01-21T12:36:08.037Z
+        - commits:
+            - subject: "config.getConfigVarSchema: Send the token only when using a device
+                type"
+              hash: 3a844dcf2f877e428dbc907db79809fed3c8a8bc
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.12.1
+          date: 2022-01-17T14:37:28.414Z
+        - commits:
+            - subject: Replace DeviceTypeJson usage for alias resolution with model queries
+              hash: 2d049ed50c4e845c8ecf2c27caacd7534a5de704
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "models/device-type: Support aliases as argument of the get() method"
+              hash: 436011248b2877ef032b0d79baff6d96fcdde0c7
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                Depends-on: https://github.com/balena-io/balena-api/pull/3493
+                depends-on: https://github.com/balena-io/balena-api/pull/3493
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.12.0
+          date: 2022-01-10T13:18:58.746Z
+        - commits:
+            - subject: Fix jsdoc example for balena.errors
+              hash: d08f5dbf27ea012ba08195250a476d6562acea2d
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Ken Bannister <kb2ma@runbox.com>
+                signed-off-by: Ken Bannister <kb2ma@runbox.com>
+              author: Ken Bannister
+              nested: []
+          version: balena-sdk-16.11.3
+          date: 2022-01-09T15:48:59.741Z
+        - commits:
+            - subject: "tests: Convert auth spec to async await"
+              hash: d78a82337a8c2948084f4fc77382d38475885411
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.11.2
+          date: 2021-12-30T19:00:54.994Z
+        - commits:
+            - subject: Fix buggy tests causing flakiness on node 16
+              hash: 2486c98537ad06c1a63b39157712a5ca81d5d6ea
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.11.1
+          date: 2021-12-30T18:30:27.077Z
+        - commits:
+            - subject: Alias device.getManifestBySlug as config.getDeviceTypeManifestBySlug
+              hash: 45fee8a702af732ae1a1e5c3be889d0d41d05481
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: Deprecate device.getManifestByApplication
+              hash: ff429ffc3c17444c8f0160a6608ba220489be10e
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.11.0
+          date: 2021-12-30T14:45:59.694Z
+        - commits:
+            - subject: "application.get: Add support for retrieving applications by uuid"
+              hash: 3374abeed77a93fd05a2363eac125bdf55b246b8
+              body: ""
+              footer:
+                Resolves: "#1016"
+                resolves: "#1016"
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "package.json: Rename the lint-fix npm script to lint:fix"
+              hash: 4acbde69c5c1d35727aaff1b825a8f9e011b4372
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.10.0
+          date: 2021-12-30T13:29:33.515Z
+        - commits:
+            - subject: "os: Avoid mutating the args in getAvailableOsVersions &
+                getAllOsVersion"
+              hash: 398f0b75da0a6d12fbee5ca0cfa92559cf2364aa
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.9.4
+          date: 2021-12-29T13:02:23.738Z
+        - commits:
+            - subject: "os: Replace semver normalization with balena-semver"
+              hash: 718a6c13b7a2a405aeb356be70e48c07ddf6b636
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.9.3
+          date: 2021-12-28T20:59:18.723Z
+        - commits:
+            - subject: Stop relying on the balena-pine module
+              hash: d1c9a6568e0c5bf4770fd8046bc6f32439583f02
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.9.2
+          date: 2021-12-28T15:37:02.735Z
+        - commits:
+            - subject: Enable nested changelogs for balena-hup-action-utils
+              hash: e9d988c8eaab222a1123279f88e1b89bd4200a25
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.9.1
+          date: 2021-12-28T13:51:06.330Z
+    - subject: Add provisioning key expiry date option to config generate options
+      hash: 0195a3b18c0dfb749d933aabc83ee63aa280faf6
+      body: ""
+      footer:
+        Change-Type: minor
+        change-type: minor
+        Signed-off-by: Nitish Agarwal <1592163+nitishagar@users.noreply.github.com>
+        signed-off-by: Nitish Agarwal <1592163+nitishagar@users.noreply.github.com>
+      author: Balena CI
+      nested: []
+  version: 13.5.0
+  title: "'Add provisioning key expiry date option to config generate options'"
+  date: 2022-05-24T17:06:08.810Z
+- commits:
     - subject: Update docker-progress to 5.1.3
       hash: ee668a4c5c952a1e8b4bb10502ea212ce1721f82
       body: |
