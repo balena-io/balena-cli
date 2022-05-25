@@ -43,6 +43,7 @@ interface FlagsDef {
 	'system-connection': string[];
 	'initial-device-name'?: string;
 	'provisioning-key-name'?: string;
+	'provisioning-key-expiry-date'?: string;
 }
 
 interface ArgsDef {
@@ -58,6 +59,7 @@ interface Answers {
 	wifiSsid?: string;
 	wifiKey?: string;
 	provisioningKeyName?: string;
+	provisioningKeyExpiryDate?: string;
 }
 
 export default class OsConfigureCmd extends Command {
@@ -121,7 +123,7 @@ export default class OsConfigureCmd extends Command {
 		config: flags.string({
 			description:
 				'path to a pre-generated config.json file to be injected in the OS image',
-			exclusive: ['provisioning-key-name'],
+			exclusive: ['provisioning-key-name', 'provisioning-key-expiry-date'],
 		}),
 		'config-app-update-poll-interval': flags.integer({
 			description:
@@ -138,7 +140,14 @@ export default class OsConfigureCmd extends Command {
 			description: 'WiFi SSID (network name) (non-interactive configuration)',
 		}),
 		dev: cf.dev,
-		device: { ...cf.device, exclusive: ['fleet', 'provisioning-key-name'] },
+		device: {
+			...cf.device,
+			exclusive: [
+				'fleet',
+				'provisioning-key-name',
+				'provisioning-key-expiry-date',
+			],
+		},
 		'device-type': flags.string({
 			description:
 				'device type slug (e.g. "raspberrypi3") to override the fleet device type',
@@ -159,6 +168,11 @@ export default class OsConfigureCmd extends Command {
 		}),
 		'provisioning-key-name': flags.string({
 			description: 'custom key name assigned to generated provisioning api key',
+			exclusive: ['config', 'device'],
+		}),
+		'provisioning-key-expiry-date': flags.string({
+			description:
+				'expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)',
 			exclusive: ['config', 'device'],
 		}),
 		help: cf.help,
@@ -235,6 +249,7 @@ export default class OsConfigureCmd extends Command {
 		answers.version = osVersion;
 		answers.developmentMode = options.dev;
 		answers.provisioningKeyName = options['provisioning-key-name'];
+		answers.provisioningKeyExpiryDate = options['provisioning-key-expiry-date'];
 
 		if (_.isEmpty(configJson)) {
 			if (device) {

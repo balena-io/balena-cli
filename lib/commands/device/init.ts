@@ -31,6 +31,7 @@ interface FlagsDef {
 	config?: string;
 	help: void;
 	'provisioning-key-name'?: string;
+	'provisioning-key-expiry-date'?: string;
 }
 
 export default class DeviceInitCmd extends Command {
@@ -96,6 +97,10 @@ export default class DeviceInitCmd extends Command {
 		}),
 		'provisioning-key-name': flags.string({
 			description: 'custom key name assigned to generated provisioning api key',
+		}),
+		'provisioning-key-expiry-date': flags.string({
+			description:
+				'expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)',
 		}),
 		help: cf.help,
 	};
@@ -185,6 +190,14 @@ export default class DeviceInitCmd extends Command {
 				options['provisioning-key-name'],
 			);
 		}
+
+		if (options['provisioning-key-expiry-date']) {
+			configureCommand.push(
+				'--provisioning-key-expiry-date',
+				options['provisioning-key-expiry-date'],
+			);
+		}
+
 		await runCommand(configureCommand);
 	}
 

@@ -811,6 +811,10 @@ path to the config JSON file, see `balena os build-config`
 
 custom key name assigned to generated provisioning api key
 
+#### --provisioning-key-expiry-date PROVISIONING-KEY-EXPIRY-DATE
+
+expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
+
 ## device local-mode &#60;uuid&#62;
 
 Output current local mode status, or enable/disable local mode
@@ -2236,6 +2240,10 @@ paths to local files to place into the 'system-connections' directory
 
 custom key name assigned to generated provisioning api key
 
+#### --provisioning-key-expiry-date PROVISIONING-KEY-EXPIRY-DATE
+
+expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
+
 ## os initialize &#60;image&#62;
 
 Initialize an os image for a device with a previously
@@ -2372,6 +2380,10 @@ supervisor cloud polling interval in minutes (e.g. for device variables)
 #### --provisioning-key-name PROVISIONING-KEY-NAME
 
 custom key name assigned to generated provisioning api key
+
+#### --provisioning-key-expiry-date PROVISIONING-KEY-EXPIRY-DATE
+
+expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
 
 ## config inject &#60;file&#62;
 
