@@ -836,8 +836,8 @@
       author: Balena CI
       nested: []
   version: 13.5.0
-  title: "'Add provisioning key expiry date option to config generate options'"
-  date: 2022-05-24T17:06:08.810Z
+  title: "'Bump parse-link-header from 1.0.1 to 2.0.0'"
+  date: 2022-05-25T12:02:31.713Z
 - commits:
     - subject: Update docker-progress to 5.1.3
       hash: ee668a4c5c952a1e8b4bb10502ea212ce1721f82
