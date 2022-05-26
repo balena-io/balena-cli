@@ -1,4 +1,23 @@
 - commits:
+    - subject: "preload: Fix issue where balenaOS v2.98.3+ required an Internet
+        connection to start apps"
+      hash: eb45ae2a30a0a892813347372f69fb280a46cfb3
+      body: |
+        Devices with a v13+ supervisor will fail to start preloaded apps with a
+        v2 target state format if connectivity is not available since migration
+        of apps.json is not possible without API access.
+
+        This enables support for preloading v3 target state format in
+        images with supervisor v13 or above.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: pipex
+      nested: []
+  version: 13.5.1
+  title: "'Bump balena-preload to 12.1.0'"
+  date: 2022-05-26T22:42:55.482Z
+- commits:
     - subject: Update balena-sdk to 16.20.4
       hash: c4990f3a26d23d0e9fbffa4058e3f7f09cf0c69c
       body: |
