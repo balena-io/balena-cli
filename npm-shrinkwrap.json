@@ -3808,9 +3808,9 @@
       }
     },
     "balena-preload": {
-      "version": "12.0.1",
-      "resolved": "https://registry.npmjs.org/balena-preload/-/balena-preload-12.0.1.tgz",
-      "integrity": "sha512-KnpJtIpL3cwmTRjwRQq3V4i4Y8VBPPESpRW8bM6WUHUc70OGPzcYmDIuDphAG+xqOM4zx0VdkERiZbEEfosw6Q==",
+      "version": "12.1.0",
+      "resolved": "https://registry.npmjs.org/balena-preload/-/balena-preload-12.1.0.tgz",
+      "integrity": "sha512-nsvsbYYbfkJ4kQ7Hmvq4RDw6yZp36rScNJEoZwY2xIB7Jn+OxIC5EP+XRj6tMkzvKMJYZsdCS/nbSlABxKK6ZQ==",
       "requires": {
         "archiver": "^3.1.1",
         "balena-sdk": "^16.0.0",
@@ -4576,7 +4576,7 @@
     "buffer-shims": {
       "version": "1.0.0",
       "resolved": "https://registry.npmjs.org/buffer-shims/-/buffer-shims-1.0.0.tgz",
-      "integrity": "sha1-mXjOMXOIxkmth5MCjDR37wRKi1E="
+      "integrity": "sha512-Zy8ZXMyxIT6RMTeY7OP/bDndfj6bwCan7SS98CEndS6deHwWPpseeHlwarNcBim+etXnF9HBc1non5JgDaJU1g=="
     },
     "buffers": {
       "version": "0.1.1",
@@ -17396,7 +17396,7 @@
         "bluebird": {
           "version": "3.4.7",
           "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-3.4.7.tgz",
-          "integrity": "sha1-9y12C+Cbf3bQjtj66Ysomo0F+rM="
+          "integrity": "sha512-iD3898SR7sWVRHbiQv+sHUtHnMvC1o3nW5rAcqnq3uOn07DSAppZYUkIGslDz6gXC7HfunPe7YVBgoEJASPcHA=="
         },
         "process-nextick-args": {
           "version": "1.0.7",
