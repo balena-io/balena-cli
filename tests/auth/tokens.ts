@@ -6,7 +6,6 @@ const johnDoe = {
 	gitlab_id: 1325,
 	social_service_account: null,
 	hasPasswordSet: true,
-	needsPasswordReset: false,
 	public_key: false,
 	features: [],
 	id: 1344,
@@ -21,7 +20,6 @@ const janeDoe = {
 	social_service_account: null,
 	has_disabled_newsletter: true,
 	hasPasswordSet: true,
-	needsPasswordReset: false,
 	public_key: false,
 	features: [],
 	intercomUserHash:
