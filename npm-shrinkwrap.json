@@ -10566,7 +10566,7 @@
     "macmount": {
       "version": "1.0.0",
       "resolved": "https://registry.npmjs.org/macmount/-/macmount-1.0.0.tgz",
-      "integrity": "sha1-qsz7nv62fdbpRkm5HMErNtAtLPE=",
+      "integrity": "sha512-kaz5wkgk4lQSAZ+Ch+TJHJHQqjmqM9TOjoLMrOp1mdLlrQBPa2qC/5Hj6OEjklVpMZn6GC2EeBibmSVeyRpXuA==",
       "optional": true
     },
     "magic-string": {
