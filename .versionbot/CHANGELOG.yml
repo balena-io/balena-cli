@@ -1,4 +1,18 @@
 - commits:
+    - subject: Drop the needsPasswordReset property from the tests
+      hash: 8235cead07717bb427caaf5b6d55b9aab579c6a7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: https://github.com/balena-io/balena-api/pull/3665
+        see: https://github.com/balena-io/balena-api/pull/3665
+      author: Thodoris Greasidis
+      nested: []
+  version: 13.5.3
+  title: "'Drop the needsPasswordReset property from the tests'"
+  date: 2022-05-31T09:56:16.525Z
+- commits:
     - subject: Deduplicate npm-shrinkwrap.json
       hash: aab3af21535e67c90c6baca0778a11153fd145b0
       body: ""
