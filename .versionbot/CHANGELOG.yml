@@ -1,4 +1,18 @@
 - commits:
+    - subject: Deduplicate npm-shrinkwrap.json
+      hash: aab3af21535e67c90c6baca0778a11153fd145b0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 13.5.2
+  title: "'Deduplicate npm-shrinkwrap.json'"
+  date: 2022-05-31T08:55:24.934Z
+- commits:
     - subject: "preload: Fix issue where balenaOS v2.98.3+ required an Internet
         connection to start apps"
       hash: eb45ae2a30a0a892813347372f69fb280a46cfb3
