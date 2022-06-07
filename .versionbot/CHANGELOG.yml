@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update QEMU to v7.0.0
+      hash: 3d88f0144a34fa1b6326fdea8b030794ee83fc49
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Kyle Harding <kyle@balena.io>
+        signed-off-by: Kyle Harding <kyle@balena.io>
+      author: Kyle Harding
+      nested: []
+  version: 13.6.0
+  title: "'Update QEMU to v7.0.0'"
+  date: 2022-06-06T18:59:16.089Z
+- commits:
     - subject: Drop the needsPasswordReset property from the tests
       hash: 8235cead07717bb427caaf5b6d55b9aab579c6a7
       body: ""
