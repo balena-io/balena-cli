@@ -1,4 +1,97 @@
 - commits:
+    - subject: Update balena-sdk to use the native OS release phase & variant fields
+      hash: 6a8dfcc664708ad3f81ebdb4e6f03db60cd66b09
+      body: |
+        Update balena-sdk from 16.20.4 to 16.22.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+      nested:
+        - commits:
+            - subject: "os: Start using the release.phase field in the available versions"
+              hash: 40c9a29b88914a839c77afb496eccd177e9a81eb
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                Depends-on: https://github.com/balena-io/open-balena-api/pull/1031
+                depends-on: https://github.com/balena-io/open-balena-api/pull/1031
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.22.0
+          title: "'os: Start using the release.phase field in the available versions'"
+          date: 2022-06-06T20:58:03.303Z
+        - commits:
+            - subject: Add provisioning key expiry date to generateDeviceProvisioningKey
+              hash: 795411ca32e56de1caffa8f6a1baf070361cc3e3
+              body: ""
+              footer:
+                Change-Type: patch
+                change-type: patch
+                Signed-off-by: Nitish Agarwal <1592163+nitishagar@users.noreply.github.com>
+                signed-off-by: Nitish Agarwal <1592163+nitishagar@users.noreply.github.com>
+              author: Nitish Agarwal
+              nested: []
+          version: balena-sdk-16.21.1
+          title: "'Add provisioning key expiry date to generateDeviceProvisioningKey'"
+          date: 2022-06-02T15:46:00.955Z
+        - commits:
+            - subject: "os: Refactor the computation of OS releases"
+              hash: 79f8c2708b0cf03278c674310a3d831c8ff92e7d
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+            - subject: "os: Use the model's release variant when the native fields are used"
+              hash: 5cf2963dd513c80d8572fe5b3d3bb552a4ef5a37
+              body: ""
+              footer:
+                Change-type: minor
+                change-type: minor
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.21.0
+          title: "'os: Start using the model's release variant'"
+          date: 2022-06-01T08:15:00.004Z
+        - commits:
+            - subject: Deprecate the needsPasswordReset field of the JWTUser
+              hash: e715cd1a69b0047d4855c80e65946e79bab9a05f
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.20.6
+          title: "'Deprecate the needsPasswordReset field of the JWTUser'"
+          date: 2022-05-31T07:09:56.714Z
+        - commits:
+            - subject: Update TypeScript to v4.7
+              hash: b1c46a7801602ff894a4e3ce47673c15a8330359
+              body: ""
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+                signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+              author: Thodoris Greasidis
+              nested: []
+          version: balena-sdk-16.20.5
+          title: "'Update TypeScript to v4.7'"
+          date: 2022-05-25T07:42:26.693Z
+  version: 13.6.1
+  title: "'Update balena-sdk to use the native OS release phase & variant fields'"
+  date: 2022-06-09T23:07:43.547Z
+- commits:
     - subject: Update QEMU to v7.0.0
       hash: 3d88f0144a34fa1b6326fdea8b030794ee83fc49
       body: ""
