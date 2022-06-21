@@ -910,6 +910,7 @@ export async function getRegistrySecrets(
 	sdk: BalenaSDK,
 	inputFilename?: string,
 ): Promise<MultiBuild.RegistrySecrets> {
+	const logger = await Logger.getLogger();
 	if (inputFilename != null) {
 		return await parseRegistrySecrets(inputFilename);
 	}
@@ -923,6 +924,7 @@ export async function getRegistrySecrets(
 
 	for (const potentialPath of potentialPaths) {
 		if (await exists(potentialPath)) {
+			logger.logDebug(`Found registry secrets file: ${potentialPath}`);
 			return await parseRegistrySecrets(potentialPath);
 		}
 	}

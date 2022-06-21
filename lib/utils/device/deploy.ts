@@ -530,6 +530,13 @@ async function assignDockerBuildOpts(
 
 	globalLogger.logDebug(`Using ${images.length} on-device images for cache...`);
 
+	if (opts.registrySecrets && Object.keys(opts.registrySecrets).length > 0) {
+		globalLogger.logDebug('Using secrets for the following registries:');
+		for (const registry of Object.keys(opts.registrySecrets)) {
+			globalLogger.logDebug(`    ${registry}`);
+		}
+	}
+
 	await Promise.all(
 		buildTasks.map(async (task: BuildTask) => {
 			task.dockerOpts = {
