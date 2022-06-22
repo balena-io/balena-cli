@@ -14,7 +14,7 @@ _balena_complete()
   device_cmds="deactivate identify init local-mode move os-update public-url purge reboot register rename restart rm shutdown"
   devices_cmds="supported"
   env_cmds="add rename rm"
-  fleet_cmds="create purge rename restart rm"
+  fleet_cmds="create purge releases rename restart rm"
   internal_cmds="osinit"
   key_cmds="add rm"
   local_cmds="configure flash"
