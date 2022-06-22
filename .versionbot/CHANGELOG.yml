@@ -1,4 +1,27 @@
 - commits:
+    - subject: Add debug logs when registry secrets are being used
+      hash: edc7195126079bfaa9e7e85094f426ccff321519
+      body: |
+        If you unknowingly have a `secrets.json` file that has incorrect
+        credentials, it can be really hard to debug why you're builds will start
+        failing with the error:
+        ```
+        unauthorized: incorrect username or password
+        ```
+
+        This change adds extra logging that will make it more obvious what's
+        going on when you use `--debug`.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 13.6.2
+  title: "'Add debug logs when registry secrets are being used'"
+  date: 2022-06-22T12:44:19.046Z
+- commits:
     - subject: Update balena-sdk to use the native OS release phase & variant fields
       hash: 6a8dfcc664708ad3f81ebdb4e6f03db60cd66b09
       body: |
