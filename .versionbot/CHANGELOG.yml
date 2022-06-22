@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add `fleet releases` command for seeing releases on a fleet
+      hash: 7e896e82d604303e6eeeb59ecd2343963acc551d
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 13.7.0
+  title: "'Add  command for seeing releases on a fleet'"
+  date: 2022-06-22T23:23:41.394Z
+- commits:
     - subject: Update balena-sdk to use the native OS release phase & variant fields
       hash: 6a8dfcc664708ad3f81ebdb4e6f03db60cd66b09
       body: |
