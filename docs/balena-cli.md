@@ -353,6 +353,7 @@ Examples:
 
 	$ balena fleet MyFleet
 	$ balena fleet myorg/myfleet
+	$ balena fleet myorg/myfleet --view
 
 ### Arguments
 
@@ -361,6 +362,10 @@ Examples:
 fleet name, slug (preferred), or numeric ID (deprecated)
 
 ### Options
+
+#### --view
+
+open fleet dashboard page
 
 ## fleet create &#60;name&#62;
 
