@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import type { Request as ReleaseRequest } from 'balena-release';
+import type { Request as ReleaseRequest } from '@balena/compose/dist/release';
 import { expect } from 'chai';
 import { promises as fs } from 'fs';
 import * as _ from 'lodash';
@@ -291,7 +291,7 @@ describe('balena deploy', function () {
 			statusCode: 500,
 			inspectRequest: (_uri, requestBody) => {
 				const imageBody = requestBody as Partial<
-					import('balena-release/build/models').ImageModel
+					import('@balena/compose/dist/release/models').ImageModel
 				>;
 				expect(imageBody.status).to.equal('success');
 			},
@@ -300,7 +300,7 @@ describe('balena deploy', function () {
 		api.expectPatchRelease({
 			inspectRequest: (_uri, requestBody) => {
 				const releaseBody = requestBody as Partial<
-					import('balena-release/build/models').ReleaseModel
+					import('@balena/compose/dist/release/models').ReleaseModel
 				>;
 				expect(releaseBody.status).to.equal('failed');
 			},

@@ -15,8 +15,11 @@
  * limitations under the License.
  */
 
-import type { ImageModel, ReleaseModel } from 'balena-release/build/models';
-import type { Composition, ImageDescriptor } from 'resin-compose-parse';
+import type {
+	ImageModel,
+	ReleaseModel,
+} from '@balena/compose/dist/release/models';
+import type { Composition, ImageDescriptor } from '@balena/compose/dist/parse';
 import type { Pack } from 'tar-stream';
 
 interface Image {
@@ -39,7 +42,7 @@ export interface BuiltImage {
 
 export interface TaggedImage {
 	localImage: import('dockerode').Image;
-	serviceImage: import('balena-release/build/models').ImageModel;
+	serviceImage: import('@balena/compose/dist/release/models').ImageModel;
 	serviceName: string;
 	logs: string;
 	props: BuiltImage.props;
@@ -78,7 +81,9 @@ export interface ComposeProject {
 }
 
 export interface Release {
-	client: ReturnType<typeof import('balena-release').createClient>;
+	client: ReturnType<
+		typeof import('@balena/compose/dist/release').createClient
+	>;
 	release: Pick<
 		ReleaseModel,
 		| 'id'
