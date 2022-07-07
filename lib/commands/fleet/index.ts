@@ -15,7 +15,8 @@
  * limitations under the License.
  */
 
-import type { flags } from '@oclif/command';
+import type { flags as flagsType } from '@oclif/command';
+import { flags } from '@oclif/command';
 import type { Release } from 'balena-sdk';
 
 import Command from '../../command';
@@ -28,6 +29,7 @@ import type { DataOutputOptions } from '../../framework';
 
 interface FlagsDef extends DataOutputOptions {
 	help: void;
+	view: boolean;
 }
 
 interface ArgsDef {
@@ -45,14 +47,19 @@ export default class FleetCmd extends Command {
 	public static examples = [
 		'$ balena fleet MyFleet',
 		'$ balena fleet myorg/myfleet',
+		'$ balena fleet myorg/myfleet --view',
 	];
 
 	public static args = [ca.fleetRequired];
 
 	public static usage = 'fleet <fleet>';
 
-	public static flags: flags.Input<FlagsDef> = {
+	public static flags: flagsType.Input<FlagsDef> = {
 		help: cf.help,
+		view: flags.boolean({
+			default: false,
+			description: 'open fleet dashboard page',
+		}),
 		...(isV14() ? cf.dataOutputFlags : {}),
 	};
 
@@ -66,7 +73,9 @@ export default class FleetCmd extends Command {
 
 		const { getApplication } = await import('../../utils/sdk');
 
-		const application = (await getApplication(getBalenaSdk(), params.fleet, {
+		const balena = getBalenaSdk();
+
+		const application = (await getApplication(balena, params.fleet, {
 			$expand: {
 				is_for__device_type: { $select: 'slug' },
 				should_be_running__release: { $select: 'commit' },
@@ -77,6 +86,15 @@ export default class FleetCmd extends Command {
 			device_type: string;
 			commit?: string;
 		};
+
+		if (options.view) {
+			const open = await import('open');
+			const dashboardUrl = balena.models.application.getDashboardUrl(
+				application.id,
+			);
+			await open(dashboardUrl, { wait: false });
+			return;
+		}
 
 		application.device_type = application.is_for__device_type[0].slug;
 		application.commit = application.should_be_running__release[0]?.commit;
