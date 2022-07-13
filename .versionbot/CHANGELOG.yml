@@ -1,4 +1,20 @@
 - commits:
+    - subject: "os download: Fix resolving to draft releases"
+      hash: 88f4a3d88e6303ef59ae632c9f8c5cfd08e9e96e
+      body: ""
+      footer:
+        Resolves: "#2462"
+        resolves: "#2462"
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 13.7.1
+  title: "'os download: Fix resolving to draft releases'"
+  date: 2022-07-13T07:18:15.733Z
+- commits:
     - subject: Add `--view` flag to `fleet` command for opening a fleet's dashboard page
       hash: 566b7f97e07787a809d8dd4f52a63870e9b176ee
       body: ""
