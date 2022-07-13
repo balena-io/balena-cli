@@ -206,7 +206,7 @@
     "balena-device-init": "^6.0.0",
     "balena-errors": "^4.7.1",
     "balena-image-fs": "^7.0.6",
-    "balena-image-manager": "^7.1.1",
+    "balena-image-manager": "^8.0.0",
     "balena-preload": "^12.1.0",
     "balena-release": "^3.2.0",
     "balena-sdk": "^16.22.0",
