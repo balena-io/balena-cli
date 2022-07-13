@@ -3748,52 +3748,14 @@
       }
     },
     "balena-image-manager": {
-      "version": "7.1.1",
-      "resolved": "https://registry.npmjs.org/balena-image-manager/-/balena-image-manager-7.1.1.tgz",
-      "integrity": "sha512-ny0BrjdK23RFKG0VDk6PceYMtiekyqJEoh91Q/JxjWwayoV+CUajQJYN9YE95i2Qp/iqI97Hlm1V5N4E1YHLEg==",
+      "version": "8.0.1",
+      "resolved": "https://registry.npmjs.org/balena-image-manager/-/balena-image-manager-8.0.1.tgz",
+      "integrity": "sha512-ShvuspPRO36J+ACQ6bE8t+RC7WstWnPvk6B5c9oTV2qzzegIZAMWvdqBG3tpCng+tBBeYjQ0IdwTDG/THQjVaA==",
       "requires": {
-        "balena-sdk": "^15.2.1",
+        "balena-sdk": "^16.8.0",
         "mime": "^2.4.6",
         "mkdirp": "^1.0.4",
         "rimraf": "^3.0.2"
-      },
-      "dependencies": {
-        "@types/node": {
-          "version": "10.17.60",
-          "resolved": "https://registry.npmjs.org/@types/node/-/node-10.17.60.tgz",
-          "integrity": "sha512-F0KIgDJfy2nA3zMLmWGKxcH2ZVEtCZXHHdOQs2gSaQ27+lNeEfGxzkIw90aXswATX7AZ33tahPbzy6KAfUreVw=="
-        },
-        "balena-sdk": {
-          "version": "15.59.2",
-          "resolved": "https://registry.npmjs.org/balena-sdk/-/balena-sdk-15.59.2.tgz",
-          "integrity": "sha512-pMNwqqnqtets6PoYxRQhOHBnk7Say4gNhInAvS69UlEhraCR0Xau8rJk9G2IthWDA4tpR2In3u4SQJMIHYj84w==",
-          "requires": {
-            "@balena/es-version": "^1.0.0",
-            "@types/lodash": "^4.14.168",
-            "@types/memoizee": "^0.4.5",
-            "@types/node": "^10.17.55",
-            "abortcontroller-polyfill": "^1.7.1",
-            "balena-auth": "^4.1.0",
-            "balena-errors": "^4.7.1",
-            "balena-hup-action-utils": "~4.0.2",
-            "balena-pine": "^12.4.0",
-            "balena-register-device": "^7.1.0",
-            "balena-request": "^11.5.0",
-            "balena-semver": "^2.3.0",
-            "balena-settings-client": "^4.0.6",
-            "lodash": "^4.17.21",
-            "memoizee": "^0.4.15",
-            "moment": "^2.29.1",
-            "ndjson": "^2.0.0",
-            "semver": "^7.3.4",
-            "tslib": "^2.1.0"
-          }
-        },
-        "tslib": {
-          "version": "2.3.1",
-          "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.3.1.tgz",
-          "integrity": "sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw=="
-        }
       }
     },
     "balena-pine": {
