@@ -685,6 +685,7 @@ Show information about a single device.
 Examples:
 
 	$ balena device 7cf02a6
+	$ balena device 7cf02a6 --view
 
 ### Arguments
 
@@ -693,6 +694,10 @@ Examples:
 the device uuid
 
 ### Options
+
+#### --view
+
+open device dashboard page
 
 ## device deactivate &#60;uuid&#62;
 
