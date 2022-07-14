@@ -60,6 +60,7 @@ interface FlagsDef extends ComposeCliFlags, DockerCliFlags {
 	nologupload: boolean;
 	'release-tag'?: string[];
 	draft: boolean;
+	note?: string;
 	help: void;
 }
 
@@ -101,6 +102,7 @@ ${dockerignoreHelp}
 	public static examples = [
 		'$ balena deploy myFleet',
 		'$ balena deploy myorg/myfleet --build --source myBuildDir/',
+		'$ balena deploy myorg/myfleet --build --source myBuildDir/ --note "this is the note for this release"',
 		'$ balena deploy myorg/myfleet myRepo/myImage',
 		'$ balena deploy myFleet myRepo/myImage --release-tag key1 "" key2 "value2 with spaces"',
 	];
@@ -145,6 +147,7 @@ ${dockerignoreHelp}
 				as final by default unless this option is given.`,
 			default: false,
 		}),
+		note: flags.string({ description: 'The notes for this release' }),
 		...composeCliFlags,
 		...dockerCliFlags,
 		// NOTE: Not supporting -h for help, because of clash with -h in DockerCliFlags
@@ -231,6 +234,9 @@ ${dockerignoreHelp}
 			releaseTagKeys,
 			releaseTagValues,
 		);
+		if (options.note) {
+			await sdk.models.release.note(release.id, options.note);
+		}
 	}
 
 	async deployProject(
