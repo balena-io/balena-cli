@@ -1653,10 +1653,6 @@ export const composeCliFlags: flags.Input<ComposeCliFlags> = {
 		description:
 			'Alternative Dockerfile name/path, relative to the source folder',
 	}),
-	logs: flags.boolean({
-		description:
-			'No-op and deprecated since balena CLI v12.0.0. Build logs are now shown by default.',
-	}),
 	nologs: flags.boolean({
 		description:
 			'Hide the image build log output (produce less verbose output)',

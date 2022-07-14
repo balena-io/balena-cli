@@ -3047,10 +3047,6 @@ Use QEMU for ARM architecture emulation during the image build
 
 Alternative Dockerfile name/path, relative to the source folder
 
-#### --logs
-
-No-op and deprecated since balena CLI v12.0.0. Build logs are now shown by default.
-
 #### --nologs
 
 Hide the image build log output (produce less verbose output)
@@ -3275,10 +3271,6 @@ Use QEMU for ARM architecture emulation during the image build
 #### --dockerfile DOCKERFILE
 
 Alternative Dockerfile name/path, relative to the source folder
-
-#### --logs
-
-No-op and deprecated since balena CLI v12.0.0. Build logs are now shown by default.
 
 #### --nologs
 
