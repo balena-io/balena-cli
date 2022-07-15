@@ -288,7 +288,7 @@ Can be repeated to add multiple certificates.\
 				preloader.on('error', reject);
 				resolve(
 					this.prepareAndPreload(preloader, balena, {
-						appId: fleetSlug,
+						slug: fleetSlug,
 						commit,
 						pinDevice,
 					}),
@@ -491,10 +491,10 @@ Would you like to disable automatic updates for this fleet now?\
 		});
 	}
 
-	async getAppWithReleases(balenaSdk: BalenaSDK, appId: string) {
+	async getAppWithReleases(balenaSdk: BalenaSDK, slug: string) {
 		const { getApplication } = await import('../utils/sdk');
 
-		return (await getApplication(balenaSdk, appId, {
+		return (await getApplication(balenaSdk, slug, {
 			$expand: this.applicationExpandOptions,
 		})) as Application & { should_be_running__release: [Release?] };
 	}
@@ -503,15 +503,15 @@ Would you like to disable automatic updates for this fleet now?\
 		preloader: Preloader,
 		balenaSdk: BalenaSDK,
 		options: {
-			appId?: string;
+			slug?: string;
 			commit?: string;
 			pinDevice: boolean;
 		},
 	) {
 		await preloader.prepare();
 
-		const application = options.appId
-			? await this.getAppWithReleases(balenaSdk, options.appId)
+		const application = options.slug
+			? await this.getAppWithReleases(balenaSdk, options.slug)
 			: await this.selectApplication(preloader.config.deviceType);
 
 		let commit: string; // commit hash or the strings 'latest' or 'current'
@@ -523,7 +523,7 @@ Would you like to disable automatic updates for this fleet now?\
 			if (this.isCurrentCommit(options.commit)) {
 				if (!appCommit) {
 					throw new Error(
-						`Unexpected empty commit hash for fleet ID "${application.id}"`,
+						`Unexpected empty commit hash for fleet slug "${application.slug}"`,
 					);
 				}
 				// handle `--commit current` (and its `--commit latest` synonym)
