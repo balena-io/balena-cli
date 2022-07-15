@@ -946,9 +946,6 @@ This command will output the current public URL for the
 specified device.  It can also enable or disable the URL,
 or output the enabled status, using the respective options.
 
-The old command style 'balena device public-url enable <uuid>'
-is deprecated, but still supported.
-
 Examples:
 
 	$ balena device public-url 23c73a1
@@ -961,10 +958,6 @@ Examples:
 #### UUID
 
 the uuid of the device to manage
-
-#### LEGACYUUID
-
-
 
 ### Options
 
