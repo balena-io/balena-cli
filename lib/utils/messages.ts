@@ -137,7 +137,7 @@ adding exception patterns to the applicable .dockerignore file(s), for example
 - https://www.npmjs.com/package/@balena/dockerignore`;
 
 export const applicationIdInfo = `\
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the \`balena fleets\` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -145,9 +145,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.`;
+environments).`;
 
 export const applicationNameNote = `\
 Fleets may be specified by fleet name or slug. Slugs are recommended because

@@ -280,45 +280,42 @@ export function inferOrSelectDevice(preferredUuid: string) {
 }
 
 /*
- * Given applicationOrDevice, which may be
- *  - an application name
- *  - an application slug
- *  - an application id (integer)
+ * Given fleetOrDevice, which may be
+ *  - an fleet name
+ *  - an fleet slug
  *  - a device uuid
  * Either:
  *  - in case of device uuid, return uuid of device after verifying that it exists and is online.
- *  - in case of application, return uuid of device user selects from list of online devices.
+ *  - in case of fleet, return uuid of device user selects from list of online devices.
  *
  * 	TODO: Modify this when app IDs dropped.
  */
 export async function getOnlineTargetDeviceUuid(
 	sdk: BalenaSDK,
-	applicationOrDevice: string,
+	fleetOrDevice: string,
 ) {
 	const logger = (await import('../utils/logger')).getLogger();
 
 	// If looks like UUID, probably device
-	if (validation.validateUuid(applicationOrDevice)) {
+	if (validation.validateUuid(fleetOrDevice)) {
 		let device: Device;
 		try {
 			logger.logDebug(
-				`Trying to fetch device by UUID ${applicationOrDevice} (${typeof applicationOrDevice})`,
+				`Trying to fetch device by UUID ${fleetOrDevice} (${typeof fleetOrDevice})`,
 			);
-			device = await sdk.models.device.get(applicationOrDevice, {
+			device = await sdk.models.device.get(fleetOrDevice, {
 				$select: ['uuid', 'is_online'],
 			});
 
 			if (!device.is_online) {
-				throw new ExpectedError(
-					`Device with UUID ${applicationOrDevice} is offline`,
-				);
+				throw new ExpectedError(`Device with UUID ${fleetOrDevice} is offline`);
 			}
 
 			return device.uuid;
 		} catch (err) {
 			const { BalenaDeviceNotFound } = await import('balena-errors');
 			if (instanceOf(err, BalenaDeviceNotFound)) {
-				logger.logDebug(`Device with UUID ${applicationOrDevice} not found`);
+				logger.logDebug(`Device with UUID ${fleetOrDevice} not found`);
 				// Now try app
 			} else {
 				throw err;
@@ -329,15 +326,13 @@ export async function getOnlineTargetDeviceUuid(
 	// Not a device UUID, try app
 	let app: Application;
 	try {
-		logger.logDebug(`Fetching fleet ${applicationOrDevice}`);
+		logger.logDebug(`Fetching fleet ${fleetOrDevice}`);
 		const { getApplication } = await import('./sdk');
-		app = await getApplication(sdk, applicationOrDevice);
+		app = await getApplication(sdk, fleetOrDevice);
 	} catch (err) {
 		const { BalenaApplicationNotFound } = await import('balena-errors');
 		if (instanceOf(err, BalenaApplicationNotFound)) {
-			throw new ExpectedError(
-				`Fleet or Device not found: ${applicationOrDevice}`,
-			);
+			throw new ExpectedError(`Fleet or Device not found: ${fleetOrDevice}`);
 		} else {
 			throw err;
 		}
@@ -356,7 +351,7 @@ export async function getOnlineTargetDeviceUuid(
 		);
 	}
 
-	// Ask user to select from online devices for application
+	// Ask user to select from online devices for fleet
 	return getCliForm().ask({
 		message: `Select a device on fleet ${app.slug}`,
 		type: 'list',
