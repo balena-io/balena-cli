@@ -115,7 +115,7 @@ export default class DeviceMoveCmd extends Command {
 				: 'N/a';
 		}
 
-		// Disambiguate application (if is a number, it could either be an ID or a numerical name)
+		// Disambiguate application
 		const { getApplication } = await import('../../utils/sdk');
 
 		// Get destination application

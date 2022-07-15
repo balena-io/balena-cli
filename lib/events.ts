@@ -24,7 +24,7 @@ import { stripIndent } from './utils/lazy';
  * @param commandSignature A string like, for example:
  *      "push <fleetOrDevice>"
  * That's literally so: "fleetOrDevice" is NOT replaced with the actual
- * fleet ID or device ID. The purpose is to find out the most / least
+ * fleet slug or device uui. The purpose is to find out the most / least
  * used command verbs, so we can focus our development effort where it is most
  * beneficial to end users.
  *

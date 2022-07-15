@@ -24,54 +24,32 @@ import type {
 
 /**
  * Get a fleet object, disambiguating the fleet identifier which may be a
- * a fleet slug, name or numeric database ID (as a string).
+ * a fleet slug or name.
  * TODO: add support for fleet UUIDs.
  */
 export async function getApplication(
 	sdk: BalenaSDK,
-	nameOrSlugOrId: string | number,
+	nameOrSlug: string,
 	options?: PineOptions<Application>,
 ): Promise<Application> {
-	const { looksLikeFleetSlug, looksLikeInteger } = await import('./validation');
-	if (
-		typeof nameOrSlugOrId === 'string' &&
-		looksLikeFleetSlug(nameOrSlugOrId)
-	) {
-		return await sdk.models.application.getDirectlyAccessible(
-			nameOrSlugOrId,
+	const { looksLikeFleetSlug } = await import('./validation');
+	if (!looksLikeFleetSlug(nameOrSlug)) {
+		// Not a slug: must be an app name.
+		// TODO: revisit this logic when we add support for fleet UUIDs.
+		return await sdk.models.application.getAppByName(
+			nameOrSlug,
 			options,
+			'directly_accessible',
 		);
 	}
-	if (typeof nameOrSlugOrId === 'number' || looksLikeInteger(nameOrSlugOrId)) {
-		try {
-			// Test for existence of app with this numerical ID
-			return await sdk.models.application.getDirectlyAccessible(
-				Number(nameOrSlugOrId),
-				options,
-			);
-		} catch (e) {
-			if (typeof nameOrSlugOrId === 'number') {
-				throw e;
-			}
-			const { instanceOf } = await import('../errors');
-			const { BalenaApplicationNotFound } = await import('balena-errors');
-			if (!instanceOf(e, BalenaApplicationNotFound)) {
-				throw e;
-			}
-			// App with this numerical ID not found, but there may be an app with this numerical name.
-		}
-	}
-	// Not a slug and not a numeric database ID: must be an app name.
-	// TODO: revisit this logic when we add support for fleet UUIDs.
-	return await sdk.models.application.getAppByName(
-		nameOrSlugOrId,
+	return await sdk.models.application.getDirectlyAccessible(
+		nameOrSlug,
 		options,
-		'directly_accessible',
 	);
 }
 
 /**
- * Given a fleet name, slug or numeric database ID, return its slug.
+ * Given a fleet name or slug, return its slug.
  * This function conditionally makes an async SDK/API call to retrieve the
  * application object, which can be wasteful if the application object is
  * required before or after the call to this function. If this is the case,
@@ -79,16 +57,15 @@ export async function getApplication(
  */
 export async function getFleetSlug(
 	sdk: BalenaSDK,
-	nameOrSlugOrId: string | number,
+	nameOrSlug: string,
 ): Promise<string> {
 	const { looksLikeFleetSlug } = await import('./validation');
-	if (
-		typeof nameOrSlugOrId === 'string' &&
-		looksLikeFleetSlug(nameOrSlugOrId)
-	) {
-		return nameOrSlugOrId.toLowerCase();
+	if (!looksLikeFleetSlug(nameOrSlug)) {
+		// Not a slug: must be an app name.
+		// TODO: revisit this logic when we add support for fleet UUIDs.
+		return (await getApplication(sdk, nameOrSlug)).slug;
 	}
-	return (await getApplication(sdk, nameOrSlugOrId)).slug;
+	return nameOrSlug.toLowerCase();
 }
 
 /**

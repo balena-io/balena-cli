@@ -128,7 +128,7 @@ export default class DeviceInitCmd extends Command {
 			options.fleet ||
 				(
 					await (await import('../../utils/patterns')).selectApplication()
-				).id,
+				).slug,
 			{
 				$expand: {
 					is_for__device_type: {
