@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add `--note` option for `push` and `deploy`
+      hash: 18eedfec7fef5f2cb9410cc2d8f1f583ef2142c9
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 13.8.0
+  title: "'Add  option for  and '"
+  date: 2022-07-18T11:40:29.806Z
+- commits:
     - subject: "os download: Fix resolving to draft releases"
       hash: 88f4a3d88e6303ef59ae632c9f8c5cfd08e9e96e
       body: ""
