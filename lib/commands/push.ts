@@ -55,6 +55,7 @@ interface FlagsDef {
 	'multi-dockerignore': boolean;
 	'release-tag'?: string[];
 	draft: boolean;
+	note?: string;
 	help: void;
 }
 
@@ -97,6 +98,7 @@ export default class PushCmd extends Command {
 		'$ balena push myFleet',
 		'$ balena push myFleet --source <source directory>',
 		'$ balena push myFleet -s <source directory>',
+		'$ balena push myFleet --source <source directory> --note "this is the note for this release"',
 		'$ balena push myFleet --release-tag key1 "" key2 "value2 with spaces"',
 		'$ balena push myorg/myfleet',
 		'',
@@ -241,6 +243,7 @@ export default class PushCmd extends Command {
 				as final by default unless this option is given.`,
 			default: false,
 		}),
+		note: flags.string({ description: 'The notes for this release' }),
 		help: cf.help,
 	};
 
@@ -354,6 +357,9 @@ export default class PushCmd extends Command {
 				releaseTagKeys,
 				releaseTagValues,
 			);
+			if (options.note) {
+				await sdk.models.release.note(releaseId, options.note);
+			}
 		} else if (releaseTagKeys.length > 0) {
 			throw new Error(stripIndent`
 				A release ID could not be parsed out of the builder's output.
