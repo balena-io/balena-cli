@@ -1,4 +1,19 @@
 - commits:
+    - subject: Switch to balena-compose
+      hash: c7f56d92ddded57f1197edecf7e8e8d5f985e88e
+      body: >
+        Removes a bunch of individual dependencies by switching to
+        `@balena/compose` which (currently) groups and manages those
+        dependencies together in one package.
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Akis Kesoglou
+      nested: []
+  version: 13.9.0
+  title: "'Switch to balena-compose'"
+  date: 2022-07-19T08:31:08.632Z
+- commits:
     - subject: Add `--note` option for `push` and `deploy`
       hash: 18eedfec7fef5f2cb9410cc2d8f1f583ef2142c9
       body: ""
