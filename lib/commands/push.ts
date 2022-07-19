@@ -22,7 +22,7 @@ import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { dockerignoreHelp, registrySecretsHelp } from '../utils/messages';
 import type { BalenaSDK } from 'balena-sdk';
 import { ExpectedError, instanceOf } from '../errors';
-import { RegistrySecrets } from 'resin-multibuild';
+import { RegistrySecrets } from '@balena/compose/dist/multibuild';
 import { lowercaseIfSlug } from '../utils/normalization';
 import {
 	applyReleaseTagKeysAndValues,

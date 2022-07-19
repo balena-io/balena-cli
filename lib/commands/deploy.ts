@@ -16,7 +16,7 @@
  */
 
 import { flags } from '@oclif/command';
-import type { ImageDescriptor } from 'resin-compose-parse';
+import type { ImageDescriptor } from '@balena/compose/dist/parse';
 
 import Command from '../command';
 import { ExpectedError } from '../errors';

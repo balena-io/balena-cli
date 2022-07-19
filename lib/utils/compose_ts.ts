@@ -16,7 +16,7 @@
  */
 import { flags } from '@oclif/command';
 import { BalenaSDK } from 'balena-sdk';
-import type { TransposeOptions } from 'docker-qemu-transpose';
+import type { TransposeOptions } from '@balena/compose/dist/emulate';
 import type * as Dockerode from 'dockerode';
 import { promises as fs } from 'fs';
 import jsyaml = require('js-yaml');
@@ -26,8 +26,8 @@ import type {
 	BuildConfig,
 	Composition,
 	ImageDescriptor,
-} from 'resin-compose-parse';
-import type * as MultiBuild from 'resin-multibuild';
+} from '@balena/compose/dist/parse';
+import type * as MultiBuild from '@balena/compose/dist/multibuild';
 import * as semver from 'semver';
 import type { Duplex, Readable } from 'stream';
 import type { Pack } from 'tar-stream';
@@ -118,7 +118,7 @@ export async function loadProject(
 	image?: string,
 	imageTag?: string,
 ): Promise<ComposeProject> {
-	const compose = await import('resin-compose-parse');
+	const compose = await import('@balena/compose/dist/parse');
 	const { createProject } = await import('./compose');
 	let composeName: string;
 	let composeStr: string;
@@ -262,7 +262,7 @@ export async function buildProject(
 	opts: BuildProjectOpts,
 ): Promise<BuiltImage[]> {
 	await checkBuildSecretsRequirements(opts.docker, opts.projectPath);
-	const compose = await import('resin-compose-parse');
+	const compose = await import('@balena/compose/dist/parse');
 	const imageDescriptors = compose.parse(opts.composition);
 	const renderer = await startRenderer({ imageDescriptors, ...opts });
 	let buildSummaryByService: Dictionary<string> | undefined;
@@ -333,7 +333,7 @@ async function $buildProject(
 	logger.logDebug('Prepared tasks; building...');
 
 	const { BALENA_ENGINE_TMP_PATH } = await import('../config');
-	const builder = await import('resin-multibuild');
+	const builder = await import('@balena/compose/dist/multibuild');
 
 	const builtImages = await builder.performBuilds(
 		tasks,
@@ -481,8 +481,9 @@ async function qemuTransposeBuildStream({
 		throw new Error(`No buildStream for task '${task.tag}'`);
 	}
 
-	const transpose = await import('docker-qemu-transpose');
-	const { toPosixPath } = (await import('resin-multibuild')).PathUtils;
+	const transpose = await import('@balena/compose/dist/emulate');
+	const { toPosixPath } = (await import('@balena/compose/dist/multibuild'))
+		.PathUtils;
 
 	const transposeOptions: TransposeOptions = {
 		hostQemuPath: toPosixPath(binPath),
@@ -508,9 +509,9 @@ async function setTaskProgressHooks({
 	inlineLogs?: boolean;
 	renderer: Renderer;
 	task: BuildTaskPlus;
-	transposeOptions?: import('docker-qemu-transpose').TransposeOptions;
+	transposeOptions?: import('@balena/compose/dist/emulate').TransposeOptions;
 }) {
-	const transpose = await import('docker-qemu-transpose');
+	const transpose = await import('@balena/compose/dist/emulate');
 	// Get the service-specific log stream
 	const logStream = renderer.streams[task.serviceName];
 	task.logBuffer = [];
@@ -724,16 +725,16 @@ export async function getServiceDirsFromComposition(
  *
  * The `image` argument may therefore refer to either a `build` or `image` property
  * of a service in a docker-compose.yml file, which is a bit confusing but it matches
- * the `ImageDescriptor.image` property as defined by `resin-compose-parse`.
+ * the `ImageDescriptor.image` property as defined by `@balena/compose/parse`.
  *
- * Note that `resin-compose-parse` "normalizes" the docker-compose.yml file such
+ * Note that `@balena/compose/parse` "normalizes" the docker-compose.yml file such
  * that, if `services.service.build` is a string, it is converted to a BuildConfig
  * object with the string value assigned to `services.service.build.context`:
- * https://github.com/balena-io-modules/resin-compose-parse/blob/v2.1.3/src/compose.ts#L166-L167
+ * https://github.com/balena-io-modules/balena-compose/blob/v0.1.0/lib/parse/compose.ts#L166-L167
  * This is why this implementation works when `services.service.build` is defined
  * as a string in the docker-compose.yml file.
  *
- * @param image The `ImageDescriptor.image` attribute parsed with `resin-compose-parse`
+ * @param image The `ImageDescriptor.image` attribute parsed with `@balena/compose/parse`
  */
 export function isBuildConfig(
 	image: string | BuildConfig,
@@ -759,7 +760,8 @@ export async function tarDirectory(
 	}: TarDirectoryOptions,
 ): Promise<import('stream').Readable> {
 	const { filterFilesWithDockerignore } = await import('./ignore');
-	const { toPosixPath } = (await import('resin-multibuild')).PathUtils;
+	const { toPosixPath } = (await import('@balena/compose/dist/multibuild'))
+		.PathUtils;
 
 	let readFile: (file: string) => Promise<Buffer>;
 	if (process.platform === 'win32') {
@@ -941,7 +943,7 @@ async function parseRegistrySecrets(
 			throw new ExpectedError('Filename must end with .json, .yml or .yaml');
 		}
 		const raw = (await fs.readFile(secretsFilename)).toString();
-		const multiBuild = await import('resin-multibuild');
+		const multiBuild = await import('@balena/compose/dist/multibuild');
 		const registrySecrets =
 			new multiBuild.RegistrySecretValidator().validateRegistrySecrets(
 				isYaml ? require('js-yaml').load(raw) : JSON.parse(raw),
@@ -970,7 +972,7 @@ export async function makeBuildTasks(
 	releaseHash: string = 'unavailable',
 	preprocessHook?: (dockerfile: string) => string,
 ): Promise<MultiBuild.BuildTask[]> {
-	const multiBuild = await import('resin-multibuild');
+	const multiBuild = await import('@balena/compose/dist/multibuild');
 	const buildTasks = await multiBuild.splitBuildStream(composition, tarStream);
 
 	logger.logDebug('Found build tasks:');
@@ -1016,7 +1018,7 @@ async function performResolution(
 	releaseHash: string,
 	preprocessHook?: (dockerfile: string) => string,
 ): Promise<MultiBuild.BuildTask[]> {
-	const multiBuild = await import('resin-multibuild');
+	const multiBuild = await import('@balena/compose/dist/multibuild');
 	const resolveListeners: MultiBuild.ResolveListeners = {};
 	const resolvePromise = new Promise<never>((_resolve, reject) => {
 		resolveListeners.error = [reject];
@@ -1081,7 +1083,7 @@ async function validateSpecifiedDockerfile(
 	dockerfilePath: string,
 ): Promise<string> {
 	const { contains, toNativePath, toPosixPath } = (
-		await import('resin-multibuild')
+		await import('@balena/compose/dist/multibuild')
 	).PathUtils;
 
 	const nativeProjectPath = path.normalize(projectPath);
@@ -1241,7 +1243,7 @@ async function pushAndUpdateServiceImages(
 	token: string,
 	images: TaggedImage[],
 	afterEach: (
-		serviceImage: import('balena-release/build/models').ImageModel,
+		serviceImage: import('@balena/compose/dist/release/models').ImageModel,
 		props: object,
 	) => void,
 ) {
@@ -1326,12 +1328,14 @@ async function pushAndUpdateServiceImages(
 async function pushServiceImages(
 	docker: Dockerode,
 	logger: Logger,
-	pineClient: ReturnType<typeof import('balena-release').createClient>,
+	pineClient: ReturnType<
+		typeof import('@balena/compose/dist/release').createClient
+	>,
 	taggedImages: TaggedImage[],
 	token: string,
 	skipLogUpload: boolean,
 ): Promise<void> {
-	const releaseMod = await import('balena-release');
+	const releaseMod = await import('@balena/compose/dist/release');
 	logger.logInfo('Pushing images to registry...');
 	await pushAndUpdateServiceImages(
 		docker,
@@ -1361,8 +1365,8 @@ export async function deployProject(
 	skipLogUpload: boolean,
 	projectPath: string,
 	isDraft: boolean,
-): Promise<import('balena-release/build/models').ReleaseModel> {
-	const releaseMod = await import('balena-release');
+): Promise<import('@balena/compose/dist/release/models').ReleaseModel> {
+	const releaseMod = await import('@balena/compose/dist/release');
 	const { createRelease, tagServiceImages } = await import('./compose');
 	const tty = (await import('./tty'))(process.stdout);
 
