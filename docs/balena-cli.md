@@ -333,6 +333,30 @@ Examples:
 
 ### Options
 
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
+#### -j, --json
+
+output in json format
+
+#### --filter FILTER
+
+filter results by substring matching of a given field, eg: --filter field=foo
+
+#### --no-header
+
+hide table header from output
+
+#### --no-truncate
+
+do not truncate output to fit screen
+
+#### --sort SORT
+
+field to sort by (prepend '-' for descending order)
+
 ## fleet &#60;fleet&#62;
 
 Display detailed information about a single fleet.
