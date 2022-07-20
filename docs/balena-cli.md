@@ -2416,10 +2416,6 @@ the path to the config.json file to inject
 
 ### Options
 
-#### -t, --type TYPE
-
-ignored - no longer required
-
 #### -d, --drive DRIVE
 
 path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)
@@ -2439,10 +2435,6 @@ Examples:
 	$ balena config read --drive balena.img
 
 ### Options
-
-#### -t, --type TYPE
-
-ignored - no longer required
 
 #### -d, --drive DRIVE
 
@@ -2470,10 +2462,6 @@ Examples:
 	$ balena config reconfigure --drive balena.img --advanced
 
 ### Options
-
-#### -t, --type TYPE
-
-ignored - no longer required
 
 #### -d, --drive DRIVE
 
@@ -2512,10 +2500,6 @@ the key of the config parameter to write
 the value of the config parameter to write
 
 ### Options
-
-#### -t, --type TYPE
-
-ignored - no longer required
 
 #### -d, --drive DRIVE
 
