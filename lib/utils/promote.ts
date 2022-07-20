@@ -334,13 +334,7 @@ async function createApplication(
 				try {
 					await sdk.models.application.getDirectlyAccessible(appName, {
 						$filter: {
-							$or: [
-								{ slug: { $startswith: `${username!.toLowerCase()}/` } },
-								// TODO: do we still need the following filter? Is it for
-								// old openBalena instances where slugs were equal to the
-								// app name and did not contain the slash character?
-								{ $not: { slug: { $contains: '/' } } },
-							],
+							slug: { $startswith: `${username!.toLowerCase()}/` },
 						},
 					});
 					// TODO: This is the only example in the codebase where `printErrorMessage()`
