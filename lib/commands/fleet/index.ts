@@ -24,7 +24,6 @@ import * as cf from '../../utils/common-flags';
 import * as ca from '../../utils/common-args';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
-import { isV14 } from '../../utils/version';
 import type { DataOutputOptions } from '../../framework';
 
 interface FlagsDef extends DataOutputOptions {
@@ -60,7 +59,7 @@ export default class FleetCmd extends Command {
 			default: false,
 			description: 'open fleet dashboard page',
 		}),
-		...(isV14() ? cf.dataOutputFlags : {}),
+		...cf.dataOutputFlags,
 	};
 
 	public static authenticated = true;
