@@ -367,6 +367,14 @@ fleet name, slug (preferred), or numeric ID (deprecated)
 
 open fleet dashboard page
 
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
+#### -j, --json
+
+output in json format
+
 ## fleet create &#60;name&#62;
 
 Create a new balena fleet.
