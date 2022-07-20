@@ -19,7 +19,7 @@ import { flags } from '@oclif/command';
 
 import Command from '../command';
 import * as cf from '../utils/common-flags';
-import { getBalenaSdk, getVisuals, stripIndent } from '../utils/lazy';
+import { getBalenaSdk, stripIndent } from '../utils/lazy';
 import { isV14 } from '../utils/version';
 import type { DataSetOutputOptions } from '../framework';
 
@@ -79,30 +79,17 @@ export default class FleetsCmd extends Command {
 			application.device_type = application.is_for__device_type[0].slug;
 		});
 
-		if (isV14()) {
-			await this.outputData(
-				applications,
-				[
-					'id',
-					'app_name',
-					'slug',
-					'device_type',
-					'device_count',
-					'online_devices',
-				],
-				options,
-			);
-		} else {
-			console.log(
-				getVisuals().table.horizontal(applications, [
-					'id',
-					'app_name => NAME',
-					'slug',
-					'device_type',
-					'online_devices',
-					'device_count',
-				]),
-			);
-		}
+		await this.outputData(
+			applications,
+			[
+				'id',
+				'app_name',
+				'slug',
+				'device_type',
+				'device_count',
+				'online_devices',
+			],
+			options,
+		);
 	}
 }
