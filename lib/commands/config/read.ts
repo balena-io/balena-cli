@@ -47,7 +47,6 @@ export default class ConfigReadCmd extends Command {
 	public static usage = 'config read';
 
 	public static flags: flags.Input<FlagsDef> = {
-		...cf.deviceTypeIgnored,
 		drive: cf.driveOrImg,
 		help: cf.help,
 		json: cf.json,
