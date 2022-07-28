@@ -24,7 +24,7 @@ import type { DataOutputOptions, DataSetOutputOptions } from '../framework';
 
 export const fleet = flags.string({
 	char: 'f',
-	description: 'fleet name, slug (preferred), or numeric ID (deprecated)',
+	description: 'fleet name or slug (preferred)',
 	parse: lowercaseIfSlug,
 });
 

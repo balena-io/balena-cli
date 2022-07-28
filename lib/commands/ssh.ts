@@ -76,8 +76,7 @@ export default class SshCmd extends Command {
 	public static args = [
 		{
 			name: 'fleetOrDevice',
-			description:
-				'fleet name/slug/id, device uuid, or address of local device',
+			description: 'fleet name/slug, device uuid, or address of local device',
 			required: true,
 		},
 		{

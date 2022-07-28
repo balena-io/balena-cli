@@ -79,6 +79,6 @@ export default class FleetRmCmd extends Command {
 		const application = await getApplication(balena, params.fleet);
 
 		// Remove
-		await balena.models.application.remove(application.id);
+		await balena.models.application.remove(application.slug);
 	}
 }

@@ -18,7 +18,7 @@ import { lowercaseIfSlug } from './normalization';
 
 export const fleetRequired = {
 	name: 'fleet',
-	description: 'fleet name, slug (preferred), or numeric ID (deprecated)',
+	description: 'fleet name or slug (preferred)',
 	required: true,
 	parse: lowercaseIfSlug,
 };
