@@ -20,7 +20,6 @@ import type { IArg } from '@oclif/parser/lib/args';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { tryAsInteger } from '../../utils/validation';
 import { ExpectedError } from '../../errors';
 
 interface FlagsDef {
@@ -44,7 +43,6 @@ export default class DeviceShutdownCmd extends Command {
 		{
 			name: 'uuid',
 			description: 'the uuid of the device to shutdown',
-			parse: (dev) => tryAsInteger(dev),
 			required: true,
 		},
 	];

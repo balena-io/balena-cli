@@ -90,8 +90,6 @@ export default class TagRmCmd extends Command {
 			throw new ExpectedError(TagRmCmd.missingResourceMessage);
 		}
 
-		const { tryAsInteger } = await import('../../utils/validation');
-
 		if (options.fleet) {
 			const { getFleetSlug } = await import('../../utils/sdk');
 			return balena.models.application.tags.remove(
@@ -100,10 +98,7 @@ export default class TagRmCmd extends Command {
 			);
 		}
 		if (options.device) {
-			return balena.models.device.tags.remove(
-				tryAsInteger(options.device),
-				params.tagKey,
-			);
+			return balena.models.device.tags.remove(options.device, params.tagKey);
 		}
 		if (options.release) {
 			const { disambiguateReleaseParam } = await import(

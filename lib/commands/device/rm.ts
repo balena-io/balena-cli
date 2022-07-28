@@ -20,7 +20,6 @@ import type { IArg } from '@oclif/parser/lib/args';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { tryAsInteger } from '../../utils/validation';
 
 interface FlagsDef {
 	yes: boolean;
@@ -84,7 +83,7 @@ export default class DeviceRmCmd extends Command {
 		// Remove
 		for (const uuid of uuids) {
 			try {
-				await balena.models.device.remove(tryAsInteger(uuid));
+				await balena.models.device.remove(uuid);
 			} catch (err) {
 				console.info(`${err.message}, uuid: ${uuid}`);
 				process.exitCode = 1;
