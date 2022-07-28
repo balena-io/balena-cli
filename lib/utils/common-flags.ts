@@ -19,7 +19,6 @@ import { flags } from '@oclif/command';
 import { stripIndent } from './lazy';
 import { lowercaseIfSlug } from './normalization';
 
-import { isV14 } from './version';
 import type { IBooleanFlag } from '@oclif/parser/lib/flags';
 import type { DataOutputOptions, DataSetOutputOptions } from '../framework';
 
@@ -96,19 +95,6 @@ export const deviceType = flags.string({
 	char: 't',
 	required: true,
 });
-
-export const deviceTypeIgnored = {
-	...(isV14()
-		? {}
-		: {
-				type: flags.string({
-					description: 'ignored - no longer required',
-					char: 't',
-					required: false,
-					hidden: true,
-				}),
-		  }),
-};
 
 export const json: IBooleanFlag<boolean> = flags.boolean({
 	char: 'j',

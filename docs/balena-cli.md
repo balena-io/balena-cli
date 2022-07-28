@@ -333,6 +333,30 @@ Examples:
 
 ### Options
 
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
+#### -j, --json
+
+output in json format
+
+#### --filter FILTER
+
+filter results by substring matching of a given field, eg: --filter field=foo
+
+#### --no-header
+
+hide table header from output
+
+#### --no-truncate
+
+do not truncate output to fit screen
+
+#### --sort SORT
+
+field to sort by (prepend '-' for descending order)
+
 ## fleet &#60;fleet&#62;
 
 Display detailed information about a single fleet.
@@ -366,6 +390,14 @@ fleet name, slug (preferred), or numeric ID (deprecated)
 #### --view
 
 open fleet dashboard page
+
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
+#### -j, --json
+
+output in json format
 
 ## fleet create &#60;name&#62;
 
@@ -2411,10 +2443,6 @@ the path to the config.json file to inject
 
 ### Options
 
-#### -t, --type TYPE
-
-ignored - no longer required
-
 #### -d, --drive DRIVE
 
 path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)
@@ -2434,10 +2462,6 @@ Examples:
 	$ balena config read --drive balena.img
 
 ### Options
-
-#### -t, --type TYPE
-
-ignored - no longer required
 
 #### -d, --drive DRIVE
 
@@ -2465,10 +2489,6 @@ Examples:
 	$ balena config reconfigure --drive balena.img --advanced
 
 ### Options
-
-#### -t, --type TYPE
-
-ignored - no longer required
 
 #### -d, --drive DRIVE
 
@@ -2507,10 +2527,6 @@ the key of the config parameter to write
 the value of the config parameter to write
 
 ### Options
-
-#### -t, --type TYPE
-
-ignored - no longer required
 
 #### -d, --drive DRIVE
 
