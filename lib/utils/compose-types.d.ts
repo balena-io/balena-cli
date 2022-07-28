@@ -64,7 +64,6 @@ export interface ComposeOpts {
 export interface ComposeCliFlags {
 	emulated: boolean;
 	dockerfile?: string;
-	logs: boolean;
 	nologs: boolean;
 	'multi-dockerignore': boolean;
 	'noparent-check': boolean;
