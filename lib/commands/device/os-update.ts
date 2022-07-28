@@ -20,7 +20,6 @@ import type { IArg } from '@oclif/parser/lib/args';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent, getCliForm } from '../../utils/lazy';
-import { tryAsInteger } from '../../utils/validation';
 import type { Device } from 'balena-sdk';
 import { ExpectedError } from '../../errors';
 
@@ -54,7 +53,6 @@ export default class DeviceOsUpdateCmd extends Command {
 		{
 			name: 'uuid',
 			description: 'the uuid of the device to update',
-			parse: (dev) => tryAsInteger(dev),
 			required: true,
 		},
 	];

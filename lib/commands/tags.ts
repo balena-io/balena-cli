@@ -76,8 +76,6 @@ export default class TagsCmd extends Command {
 			throw new ExpectedError(this.missingResourceMessage);
 		}
 
-		const { tryAsInteger } = await import('../utils/validation');
-
 		let tags;
 
 		if (options.fleet) {
@@ -87,9 +85,7 @@ export default class TagsCmd extends Command {
 			);
 		}
 		if (options.device) {
-			tags = await balena.models.device.tags.getAllByDevice(
-				tryAsInteger(options.device),
-			);
+			tags = await balena.models.device.tags.getAllByDevice(options.device);
 		}
 		if (options.release) {
 			const { disambiguateReleaseParam } = await import(

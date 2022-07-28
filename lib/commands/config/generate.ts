@@ -150,11 +150,9 @@ export default class ConfigGenerateCmd extends Command {
 			| (DeviceWithDeviceType & { belongs_to__application: PineDeferred })
 			| null = null;
 		if (options.device != null) {
-			const { tryAsInteger } = await import('../../utils/validation');
-			const rawDevice = await balena.models.device.get(
-				tryAsInteger(options.device),
-				{ $expand: { is_of__device_type: { $select: 'slug' } } },
-			);
+			const rawDevice = await balena.models.device.get(options.device, {
+				$expand: { is_of__device_type: { $select: 'slug' } },
+			});
 			if (!rawDevice.belongs_to__application) {
 				const { ExpectedError } = await import('../../errors');
 				throw new ExpectedError(stripIndent`

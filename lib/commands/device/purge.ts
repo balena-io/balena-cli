@@ -63,17 +63,14 @@ export default class DevicePurgeCmd extends Command {
 	public async run() {
 		const { args: params } = this.parse<FlagsDef, ArgsDef>(DevicePurgeCmd);
 
-		const { tryAsInteger } = await import('../../utils/validation');
 		const balena = getBalenaSdk();
 		const ux = getCliUx();
 
-		const deviceIds = params.uuid.split(',').map((id) => {
-			return tryAsInteger(id);
-		});
+		const deviceUuids = params.uuid.split(',');
 
-		for (const deviceId of deviceIds) {
-			ux.action.start(`Purging data from device ${deviceId}`);
-			await balena.models.device.purge(deviceId);
+		for (const uuid of deviceUuids) {
+			ux.action.start(`Purging data from device ${uuid}`);
+			await balena.models.device.purge(uuid);
 			ux.action.stop();
 		}
 	}
