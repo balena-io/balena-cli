@@ -1,4 +1,20 @@
 - commits:
+    - subject: Fix balena deploy missing dependency error
+      hash: 73c487c2f5e67c92cd378c348405ad0d541aa6c8
+      body: ""
+      footer:
+        Resolves: "#2515"
+        resolves: "#2515"
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 13.10.1
+  title: "'Fix balena deploy missing dependency error'"
+  date: 2022-08-01T16:39:16.790Z
+- commits:
     - subject: Add `--view` flag to `device` command for opening a device's dashboard
         page
       hash: 1fe0480a8a95d9d62492a0552cea7131fa520da1
