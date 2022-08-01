@@ -79,7 +79,7 @@ describeSS('LivepushManager::setupFilesystemWatcher', function () {
 
 	async function createMonitors(
 		projectPath: string,
-		composition: import('resin-compose-parse').Composition,
+		composition: import('@balena/compose/dist/parse').Composition,
 		multiDockerignore: boolean,
 		changedPathHandler: (serviceName: string, changedPath: string) => void,
 	): Promise<ByService<chokidar.FSWatcher>> {

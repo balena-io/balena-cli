@@ -18,13 +18,13 @@
 import * as semver from 'balena-semver';
 import * as Docker from 'dockerode';
 import * as _ from 'lodash';
-import { Composition } from 'resin-compose-parse';
+import { Composition } from '@balena/compose/dist/parse';
 import {
 	BuildTask,
 	getAuthConfigObj,
 	LocalImage,
 	RegistrySecrets,
-} from 'resin-multibuild';
+} from '@balena/compose/dist/multibuild';
 import type { Readable } from 'stream';
 
 import { BALENA_ENGINE_TMP_PATH } from '../../config';
@@ -321,7 +321,7 @@ async function performBuilds(
 	opts: DeviceDeployOptions,
 	buildLogs?: Dictionary<string>,
 ): Promise<BuildTask[]> {
-	const multibuild = await import('resin-multibuild');
+	const multibuild = await import('@balena/compose/dist/multibuild');
 
 	const buildTasks = await makeBuildTasks(
 		composition,
@@ -370,7 +370,7 @@ async function performBuilds(
 	const imagesToRemove: string[] = [];
 
 	// Now tag any external images with the correct name that they should be,
-	// as this won't be done by resin-multibuild
+	// as this won't be done by @balena/compose/multibuild
 	await Promise.all(
 		localImages.map(async (localImage) => {
 			if (localImage.external) {
@@ -414,7 +414,7 @@ export async function rebuildSingleTask(
 	// this should provide the following callback
 	containerIdCb?: (id: string) => void,
 ): Promise<string> {
-	const multibuild = await import('resin-multibuild');
+	const multibuild = await import('@balena/compose/dist/multibuild');
 	// First we run the build task, to get the new image id
 	let buildLogs = '';
 	const logHandler = (_s: string, line: string) => {
@@ -533,10 +533,17 @@ async function assignDockerBuildOpts(
 	await Promise.all(
 		buildTasks.map(async (task: BuildTask) => {
 			task.dockerOpts = {
-				cachefrom: images,
-				labels: {
-					'io.resin.local.image': '1',
-					'io.resin.local.service': task.serviceName,
+				...(task.dockerOpts || {}),
+				...{
+					cachefrom: images,
+					labels: {
+						'io.resin.local.image': '1',
+						'io.resin.local.service': task.serviceName,
+					},
+					t: getImageNameFromTask(task),
+					nocache: opts.nocache,
+					forcerm: true,
+					pull: opts.pull,
 				},
 				t: getImageNameFromTask(task),
 				nocache: opts.nocache,

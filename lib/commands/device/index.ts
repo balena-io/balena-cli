@@ -44,6 +44,7 @@ interface ExtendedDevice extends DeviceWithDeviceType {
 
 interface FlagsDef {
 	help: void;
+	view: boolean;
 }
 
 interface ArgsDef {
@@ -56,7 +57,10 @@ export default class DeviceCmd extends Command {
 
 		Show information about a single device.
 		`;
-	public static examples = ['$ balena device 7cf02a6'];
+	public static examples = [
+		'$ balena device 7cf02a6',
+		'$ balena device 7cf02a6 --view',
+	];
 
 	public static args: Array<IArg<any>> = [
 		{
@@ -71,13 +75,19 @@ export default class DeviceCmd extends Command {
 
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
+		view: flags.boolean({
+			default: false,
+			description: 'open device dashboard page',
+		}),
 	};
 
 	public static authenticated = true;
 	public static primary = true;
 
 	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(DeviceCmd);
+		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
+			DeviceCmd,
+		);
 
 		const balena = getBalenaSdk();
 
@@ -108,6 +118,14 @@ export default class DeviceCmd extends Command {
 			],
 			...expandForAppName,
 		})) as ExtendedDevice;
+
+		if (options.view) {
+			const open = await import('open');
+			const dashboardUrl = balena.models.device.getDashboardUrl(device.uuid);
+			await open(dashboardUrl, { wait: false });
+			return;
+		}
+
 		device.status = device.overall_status;
 
 		device.dashboard_url = balena.models.device.getDashboardUrl(device.uuid);
