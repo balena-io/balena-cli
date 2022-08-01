@@ -1,4 +1,80 @@
 - commits:
+    - subject: Fix balena deploy missing dependency error
+      hash: 73c487c2f5e67c92cd378c348405ad0d541aa6c8
+      body: ""
+      footer:
+        Resolves: "#2515"
+        resolves: "#2515"
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 13.10.1
+  title: "'Fix balena deploy missing dependency error'"
+  date: 2022-08-01T16:39:16.790Z
+- commits:
+    - subject: Add `--view` flag to `device` command for opening a device's dashboard
+        page
+      hash: 1fe0480a8a95d9d62492a0552cea7131fa520da1
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 13.10.0
+  title: "'Add  flag to  command for opening a device's dashboard page'"
+  date: 2022-07-20T11:54:31.568Z
+- commits:
+    - subject: Switch to balena-compose
+      hash: c7f56d92ddded57f1197edecf7e8e8d5f985e88e
+      body: >
+        Removes a bunch of individual dependencies by switching to
+        `@balena/compose` which (currently) groups and manages those
+        dependencies together in one package.
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Akis Kesoglou
+      nested: []
+  version: 13.9.0
+  title: "'Switch to balena-compose'"
+  date: 2022-07-19T08:31:08.632Z
+- commits:
+    - subject: Add `--note` option for `push` and `deploy`
+      hash: 18eedfec7fef5f2cb9410cc2d8f1f583ef2142c9
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 13.8.0
+  title: "'Add  option for  and '"
+  date: 2022-07-18T11:40:29.806Z
+- commits:
+    - subject: "os download: Fix resolving to draft releases"
+      hash: 88f4a3d88e6303ef59ae632c9f8c5cfd08e9e96e
+      body: ""
+      footer:
+        Resolves: "#2462"
+        resolves: "#2462"
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 13.7.1
+  title: "'os download: Fix resolving to draft releases'"
+  date: 2022-07-13T07:18:15.733Z
+- commits:
     - subject: Add `--view` flag to `fleet` command for opening a fleet's dashboard page
       hash: 566b7f97e07787a809d8dd4f52a63870e9b176ee
       body: ""

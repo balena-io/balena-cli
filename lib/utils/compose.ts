@@ -19,7 +19,7 @@ import type { Renderer } from './compose_ts';
 import type * as SDK from 'balena-sdk';
 import type Dockerode = require('dockerode');
 import * as path from 'path';
-import type { Composition, ImageDescriptor } from 'resin-compose-parse';
+import type { Composition, ImageDescriptor } from '@balena/compose/dist/parse';
 import type {
 	BuiltImage,
 	ComposeOpts,
@@ -64,7 +64,7 @@ export function createProject(
 ): ComposeProject {
 	const yml = require('js-yaml') as typeof import('js-yaml');
 	const compose =
-		require('resin-compose-parse') as typeof import('resin-compose-parse');
+		require('@balena/compose/dist/parse') as typeof import('@balena/compose/dist/parse');
 
 	// both methods below may throw.
 	const rawComposition = yml.load(composeStr);
@@ -107,7 +107,7 @@ export const createRelease = async function (
 	const _ = require('lodash') as typeof import('lodash');
 	const crypto = require('crypto') as typeof import('crypto');
 	const releaseMod =
-		require('balena-release') as typeof import('balena-release');
+		require('@balena/compose/dist/release') as typeof import('@balena/compose/dist/release');
 
 	const client = releaseMod.createClient({ apiEndpoint, auth });
 
@@ -214,7 +214,7 @@ export const getPreviousRepos = (
 					image: [SDK.Image];
 				}>;
 				const { getRegistryAndName } =
-					require('resin-multibuild') as typeof import('resin-multibuild');
+					require('@balena/compose/dist/multibuild') as typeof import('@balena/compose/dist/multibuild');
 				return Promise.all(
 					images.map(function (d) {
 						const imageName = d.image[0].is_stored_at__image_location || '';
