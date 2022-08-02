@@ -82,7 +82,7 @@ export default class TunnelCmd extends Command {
 	public static args = [
 		{
 			name: 'deviceOrFleet',
-			description: 'device UUID or fleet name/slug/ID',
+			description: 'device UUID or fleet name/slug',
 			required: true,
 			parse: lowercaseIfSlug,
 		},

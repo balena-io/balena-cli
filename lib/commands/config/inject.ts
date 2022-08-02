@@ -57,7 +57,6 @@ export default class ConfigInjectCmd extends Command {
 	public static usage = 'config inject <file>';
 
 	public static flags: flags.Input<FlagsDef> = {
-		...cf.deviceTypeIgnored,
 		drive: cf.driveOrImg,
 		help: cf.help,
 	};

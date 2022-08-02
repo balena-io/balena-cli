@@ -21,7 +21,6 @@ import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import { expandForAppName } from '../../utils/helpers';
 import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
-import { tryAsInteger } from '../../utils/validation';
 
 import type { Application, Release } from 'balena-sdk';
 
@@ -66,7 +65,6 @@ export default class DeviceCmd extends Command {
 		{
 			name: 'uuid',
 			description: 'the device uuid',
-			parse: (dev) => tryAsInteger(dev),
 			required: true,
 		},
 	];

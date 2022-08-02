@@ -82,24 +82,21 @@ export default class DeviceRestartCmd extends Command {
 			DeviceRestartCmd,
 		);
 
-		const { tryAsInteger } = await import('../../utils/validation');
 		const balena = getBalenaSdk();
 		const ux = getCliUx();
 
-		const deviceIds = params.uuid.split(',').map((id) => {
-			return tryAsInteger(id);
-		});
+		const deviceUuids = params.uuid.split(',');
 		const serviceNames = options.service?.split(',');
 
-		// Iterate sequentially through deviceIds.
+		// Iterate sequentially through deviceUuids.
 		// We may later want to add a batching feature,
 		// so that n devices are processed in parallel
-		for (const deviceId of deviceIds) {
-			ux.action.start(`Restarting services on device ${deviceId}`);
+		for (const uuid of deviceUuids) {
+			ux.action.start(`Restarting services on device ${uuid}`);
 			if (serviceNames) {
-				await this.restartServices(balena, deviceId, serviceNames);
+				await this.restartServices(balena, uuid, serviceNames);
 			} else {
-				await this.restartAllServices(balena, deviceId);
+				await this.restartAllServices(balena, uuid);
 			}
 			ux.action.stop();
 		}
@@ -107,7 +104,7 @@ export default class DeviceRestartCmd extends Command {
 
 	async restartServices(
 		balena: BalenaSDK,
-		deviceId: number | string,
+		deviceUuid: string,
 		serviceNames: string[],
 	) {
 		const { ExpectedError, instanceOf } = await import('../../errors');
@@ -116,7 +113,7 @@ export default class DeviceRestartCmd extends Command {
 		// Get device
 		let device: DeviceWithServiceDetails<CurrentServiceWithCommit>;
 		try {
-			device = await balena.models.device.getWithServiceDetails(deviceId, {
+			device = await balena.models.device.getWithServiceDetails(deviceUuid, {
 				$expand: {
 					is_running__release: { $select: 'commit' },
 				},
@@ -124,7 +121,7 @@ export default class DeviceRestartCmd extends Command {
 		} catch (e) {
 			const { BalenaDeviceNotFound } = await import('balena-errors');
 			if (instanceOf(e, BalenaDeviceNotFound)) {
-				throw new ExpectedError(`Device ${deviceId} not found.`);
+				throw new ExpectedError(`Device ${deviceUuid} not found.`);
 			} else {
 				throw e;
 			}
@@ -136,7 +133,7 @@ export default class DeviceRestartCmd extends Command {
 		serviceNames.forEach((service) => {
 			if (!device.current_services[service]) {
 				throw new ExpectedError(
-					`Service ${service} not found on device ${deviceId}.`,
+					`Service ${service} not found on device ${deviceUuid}.`,
 				);
 			}
 		});
@@ -155,7 +152,7 @@ export default class DeviceRestartCmd extends Command {
 			if (serviceContainer) {
 				restartPromises.push(
 					balena.models.device.restartService(
-						deviceId,
+						deviceUuid,
 						serviceContainer.image_id,
 					),
 				);
@@ -166,32 +163,32 @@ export default class DeviceRestartCmd extends Command {
 			await Promise.all(restartPromises);
 		} catch (e) {
 			if (e.message.toLowerCase().includes('no online device')) {
-				throw new ExpectedError(`Device ${deviceId} is not online.`);
+				throw new ExpectedError(`Device ${deviceUuid} is not online.`);
 			} else {
 				throw e;
 			}
 		}
 	}
 
-	async restartAllServices(balena: BalenaSDK, deviceId: number | string) {
+	async restartAllServices(balena: BalenaSDK, deviceUuid: string) {
 		// Note: device.restartApplication throws `BalenaDeviceNotFound: Device not found` if device not online.
 		// Need to use device.get first to distinguish between non-existant and offline devices.
 		// Remove this workaround when SDK issue resolved: https://github.com/balena-io/balena-sdk/issues/649
 		const { instanceOf, ExpectedError } = await import('../../errors');
 		try {
-			const device = await balena.models.device.get(deviceId);
+			const device = await balena.models.device.get(deviceUuid);
 			if (!device.is_online) {
-				throw new ExpectedError(`Device ${deviceId} is not online.`);
+				throw new ExpectedError(`Device ${deviceUuid} is not online.`);
 			}
 		} catch (e) {
 			const { BalenaDeviceNotFound } = await import('balena-errors');
 			if (instanceOf(e, BalenaDeviceNotFound)) {
-				throw new ExpectedError(`Device ${deviceId} not found.`);
+				throw new ExpectedError(`Device ${deviceUuid} not found.`);
 			} else {
 				throw e;
 			}
 		}
 
-		await balena.models.device.restartApplication(deviceId);
+		await balena.models.device.restartApplication(deviceUuid);
 	}
 }

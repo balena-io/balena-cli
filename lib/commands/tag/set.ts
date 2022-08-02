@@ -105,8 +105,6 @@ export default class TagSetCmd extends Command {
 
 		params.value ??= '';
 
-		const { tryAsInteger } = await import('../../utils/validation');
-
 		if (options.fleet) {
 			const { getFleetSlug } = await import('../../utils/sdk');
 			return balena.models.application.tags.set(
@@ -117,7 +115,7 @@ export default class TagSetCmd extends Command {
 		}
 		if (options.device) {
 			return balena.models.device.tags.set(
-				tryAsInteger(options.device),
+				options.device,
 				params.tagKey,
 				params.value,
 			);

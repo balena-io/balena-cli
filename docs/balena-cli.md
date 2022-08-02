@@ -333,11 +333,35 @@ Examples:
 
 ### Options
 
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
+#### -j, --json
+
+output in json format
+
+#### --filter FILTER
+
+filter results by substring matching of a given field, eg: --filter field=foo
+
+#### --no-header
+
+hide table header from output
+
+#### --no-truncate
+
+do not truncate output to fit screen
+
+#### --sort SORT
+
+field to sort by (prepend '-' for descending order)
+
 ## fleet &#60;fleet&#62;
 
 Display detailed information about a single fleet.
 
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -345,9 +369,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.
+environments).
 
 Examples:
 
@@ -359,13 +381,21 @@ Examples:
 
 #### FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 ### Options
 
 #### --view
 
 open fleet dashboard page
+
+#### --fields FIELDS
+
+only show provided fields (comma-separated)
+
+#### -j, --json
+
+output in json format
 
 ## fleet create &#60;name&#62;
 
@@ -413,7 +443,7 @@ fleet device type (Check available types with `balena devices supported`)
 Purge data from all devices belonging to a fleet.
 This will clear the fleet's '/data' directory.
 
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -421,9 +451,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.
+environments).
 
 Examples:
 
@@ -434,7 +462,7 @@ Examples:
 
 #### FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 ### Options
 
@@ -445,7 +473,7 @@ Rename a fleet.
 Note, if the `newName` parameter is omitted, it will be
 prompted for interactively.
 
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -453,9 +481,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.
+environments).
 
 Examples:
 
@@ -467,7 +493,7 @@ Examples:
 
 #### FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 #### NEWNAME
 
@@ -479,7 +505,7 @@ the new name for the fleet
 
 Restart all devices belonging to a fleet.
 
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -487,9 +513,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.
+environments).
 
 Examples:
 
@@ -500,7 +524,7 @@ Examples:
 
 #### FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 ### Options
 
@@ -510,7 +534,7 @@ Permanently remove a fleet.
 
 The --yes option may be used to avoid interactive confirmation.
 
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -518,9 +542,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.
+environments).
 
 Examples:
 
@@ -532,7 +554,7 @@ Examples:
 
 #### FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 ### Options
 
@@ -623,7 +645,7 @@ List all of your devices.
 
 Devices can be filtered by fleet with the `--fleet` option.
 
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -631,9 +653,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.
+environments).
 
 The --json option is recommended when scripting the output of this command,
 because field names are less likely to change in JSON format and because it
@@ -651,7 +671,7 @@ Examples:
 
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 #### -j, --json
 
@@ -763,7 +783,7 @@ If the '--fleet' or '--drive' options are omitted, interactive menus will be
 presented with values to choose from. If the '--os-version' option is omitted,
 the latest released OS version for the fleet's default device type will be used.
 
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -771,9 +791,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.
+environments).
 
 Image configuration questions will be asked interactively unless a pre-configured
 'config.json' file is provided with the '--config' option.  The file can be
@@ -789,7 +807,7 @@ Examples:
 
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 #### -y, --yes
 
@@ -863,7 +881,7 @@ Move one or more devices to another fleet.
 
 If --fleet is omitted, the fleet will be prompted for interactively.
 
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -871,9 +889,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.
+environments).
 
 Examples:
 
@@ -892,7 +908,7 @@ comma-separated list (no blank spaces) of device UUIDs to be moved
 
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 ## device os-update &#60;uuid&#62;
 
@@ -930,9 +946,6 @@ This command will output the current public URL for the
 specified device.  It can also enable or disable the URL,
 or output the enabled status, using the respective options.
 
-The old command style 'balena device public-url enable <uuid>'
-is deprecated, but still supported.
-
 Examples:
 
 	$ balena device public-url 23c73a1
@@ -945,10 +958,6 @@ Examples:
 #### UUID
 
 the uuid of the device to manage
-
-#### LEGACYUUID
-
-
 
 ### Options
 
@@ -1011,7 +1020,7 @@ Register a new device with a balena fleet.
 
 If --uuid is not provided, a new UUID will be automatically assigned.
 
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -1019,9 +1028,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.
+environments).
 
 Examples:
 
@@ -1033,7 +1040,7 @@ Examples:
 
 #### FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 ### Options
 
@@ -1247,7 +1254,7 @@ name may be null in JSON output (or 'N/A' in tabular output) if the fleet that
 the device belonged to is no longer accessible by the current user (for example,
 in case the current user was removed from the fleet by the fleet's owner).
 
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -1255,9 +1262,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.
+environments).
 
 Examples:
 
@@ -1275,7 +1280,7 @@ Examples:
 
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 #### -c, --config
 
@@ -1385,7 +1390,7 @@ therefore the --service option cannot be used when the variable name starts
 with a reserved prefix. When defining custom fleet variables, please avoid
 these reserved prefixes.
 
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -1393,9 +1398,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.
+environments).
 
 Examples:
 
@@ -1423,7 +1426,7 @@ variable value; if omitted, use value from this process' environment
 
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 #### -d, --device DEVICE
 
@@ -1506,7 +1509,7 @@ select a service variable (may be used together with the --device option)
 
 List all tags and their values for the specified fleet, device or release.
 
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -1514,9 +1517,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.
+environments).
 
 Examples:
 
@@ -1530,7 +1531,7 @@ Examples:
 
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 #### -d, --device DEVICE
 
@@ -1544,7 +1545,7 @@ release id
 
 Remove a tag from a fleet, device or release.
 
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -1552,9 +1553,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.
+environments).
 
 Examples:
 
@@ -1574,7 +1573,7 @@ the key string of the tag
 
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 #### -d, --device DEVICE
 
@@ -1592,7 +1591,7 @@ You can optionally provide a value to be associated with the created
 tag, as an extra argument after the tag key. If a value isn't
 provided, a tag with an empty value is created.
 
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -1600,9 +1599,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.
+environments).
 
 Examples:
 
@@ -1629,7 +1626,7 @@ the optional value associated with the tag
 
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 #### -d, --device DEVICE
 
@@ -1914,7 +1911,7 @@ Examples:
 
 #### FLEETORDEVICE
 
-fleet name/slug/id, device uuid, or address of local device
+fleet name/slug, device uuid, or address of local device
 
 #### SERVICE
 
@@ -1982,7 +1979,7 @@ Examples:
 
 #### DEVICEORFLEET
 
-device UUID or fleet name/slug/ID
+device UUID or fleet name/slug
 
 ### Options
 
@@ -2161,7 +2158,7 @@ are multiple files to inject. See connection profile examples and reference at:
 https://www.balena.io/docs/reference/OS/network/2.x/
 https://developer.gnome.org/NetworkManager/stable/ref-settings.html
 
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -2169,9 +2166,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.
+environments).
 
 Note: This command is currently not supported on Windows natively. Windows users
 are advised to install the Windows Subsystem for Linux (WSL) with Ubuntu, and use
@@ -2200,7 +2195,7 @@ ask advanced configuration questions (when in interactive mode)
 
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 #### --config CONFIG
 
@@ -2314,7 +2309,7 @@ alongside the --deviceType option to specify the target device type.
 To avoid interactive questions, specify a command line option for each question that
 would otherwise be asked.
 
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -2322,9 +2317,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.
+environments).
 
 Examples:
 
@@ -2345,7 +2338,7 @@ a balenaOS version
 
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 #### --dev
 
@@ -2416,10 +2409,6 @@ the path to the config.json file to inject
 
 ### Options
 
-#### -t, --type TYPE
-
-ignored - no longer required
-
 #### -d, --drive DRIVE
 
 path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)
@@ -2439,10 +2428,6 @@ Examples:
 	$ balena config read --drive balena.img
 
 ### Options
-
-#### -t, --type TYPE
-
-ignored - no longer required
 
 #### -d, --drive DRIVE
 
@@ -2470,10 +2455,6 @@ Examples:
 	$ balena config reconfigure --drive balena.img --advanced
 
 ### Options
-
-#### -t, --type TYPE
-
-ignored - no longer required
 
 #### -d, --drive DRIVE
 
@@ -2513,10 +2494,6 @@ the value of the config parameter to write
 
 ### Options
 
-#### -t, --type TYPE
-
-ignored - no longer required
-
 #### -d, --drive DRIVE
 
 path to OS image file (e.g. balena.img) or block device (e.g. /dev/disk2)
@@ -2537,7 +2514,7 @@ Check also the Preloading and Preregistering section of the balena CLI's advance
 masterclass document:
 https://www.balena.io/docs/learn/more/masterclasses/advanced-cli/#5-preloading-and-preregistering
 
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -2545,9 +2522,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.
+environments).
 
 Note that the this command requires Docker to be installed, as further detailed
 in the balena CLI's installation instructions:
@@ -2573,7 +2548,7 @@ the image file path
 
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 #### -c, --commit COMMIT
 
@@ -3037,7 +3012,7 @@ the type of device this build is for
 
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 #### -e, --emulated
 
@@ -3046,10 +3021,6 @@ Use QEMU for ARM architecture emulation during the image build
 #### --dockerfile DOCKERFILE
 
 Alternative Dockerfile name/path, relative to the source folder
-
-#### --logs
-
-No-op and deprecated since balena CLI v12.0.0. Build logs are now shown by default.
 
 #### --nologs
 
@@ -3231,7 +3202,7 @@ Examples:
 
 #### FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 #### IMAGE
 
@@ -3275,10 +3246,6 @@ Use QEMU for ARM architecture emulation during the image build
 #### --dockerfile DOCKERFILE
 
 Alternative Dockerfile name/path, relative to the source folder
-
-#### --logs
-
-No-op and deprecated since balena CLI v12.0.0. Build logs are now shown by default.
 
 #### --nologs
 
@@ -3373,7 +3340,7 @@ scan the local network for balenaOS devices and prompt you to select one
 from an interactive picker. This may require administrator/root privileges.
 Likewise, if the fleet option is not provided then a picker will be shown.
 
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -3381,9 +3348,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.
+environments).
 
 Examples:
 
@@ -3404,7 +3369,7 @@ the IP or hostname of device
 
 #### -f, --fleet FLEET
 
-fleet name, slug (preferred), or numeric ID (deprecated)
+fleet name or slug (preferred)
 
 #### -i, --pollInterval POLLINTERVAL
 
@@ -3460,7 +3425,7 @@ or hours, e.g. '12h', '2d'.
 Both --device and --fleet flags accept multiple values, specified as
 a comma-separated list (with no spaces).
 
-Fleets may be specified by fleet name, slug, or numeric ID. Fleet slugs are
+Fleets may be specified by fleet name or slug. Fleet slugs are
 the recommended option, as they are unique and unambiguous. Slugs can be
 listed with the `balena fleets` command. Note that slugs may change if the
 fleet is renamed. Fleet names are not unique and may result in  "Fleet is
@@ -3468,9 +3433,7 @@ ambiguous" errors at any time (even if it "used to work in the past"), for
 example if the name clashes with a newly created public fleet, or with fleets
 from other balena accounts that you may be invited to join under any role.
 For this reason, fleet names are especially discouraged in scripts (e.g. CI
-environments). Numeric fleet IDs are deprecated because they consist of an
-implementation detail of the balena backend. We intend to remove support for
-numeric IDs at some point in the future.
+environments).
 
 Examples:
 

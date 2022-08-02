@@ -62,9 +62,9 @@ export default class FleetRestartCmd extends Command {
 
 		const balena = getBalenaSdk();
 
-		// Disambiguate application (if is a number, it could either be an ID or a numerical name)
+		// Disambiguate application
 		const application = await getApplication(balena, params.fleet);
 
-		await balena.models.application.restart(application.id);
+		await balena.models.application.restart(application.slug);
 	}
 }

@@ -21,7 +21,6 @@ import Command from '../../command';
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
 import { getBalenaSdk, stripIndent } from '../../utils/lazy';
-import { tryAsInteger } from '../../utils/validation';
 
 interface FlagsDef {
 	enable: boolean;
@@ -32,8 +31,6 @@ interface FlagsDef {
 
 interface ArgsDef {
 	uuid: string;
-	// Optional hidden arg to support old command format
-	legacyUuid?: string;
 }
 
 export default class DevicePublicUrlCmd extends Command {
@@ -43,9 +40,6 @@ export default class DevicePublicUrlCmd extends Command {
 		This command will output the current public URL for the
 		specified device.  It can also enable or disable the URL,
 		or output the enabled status, using the respective options.
-
-		The old command style 'balena device public-url enable <uuid>'
-		is deprecated, but still supported.
 	`;
 
 	public static examples = [
@@ -59,14 +53,7 @@ export default class DevicePublicUrlCmd extends Command {
 		{
 			name: 'uuid',
 			description: 'the uuid of the device to manage',
-			parse: (dev) => tryAsInteger(dev),
 			required: true,
-		},
-		{
-			// Optional hidden arg to support old command format
-			name: 'legacyUuid',
-			parse: (dev) => tryAsInteger(dev),
-			hidden: true,
 		},
 	];
 
@@ -94,25 +81,6 @@ export default class DevicePublicUrlCmd extends Command {
 		const { args: params, flags: options } = this.parse<FlagsDef, ArgsDef>(
 			DevicePublicUrlCmd,
 		);
-
-		// Legacy command format support.
-		// Previously this command used the following format
-		// (changed due to oclif technicalities):
-		//   `balena device public-url enable|disable|status <uuid>`
-		if (params.legacyUuid) {
-			const action = params.uuid;
-			if (!['enable', 'disable', 'status'].includes(action)) {
-				throw new ExpectedError(
-					`Unexpected arguments: ${params.uuid} ${params.legacyUuid}`,
-				);
-			}
-
-			options.enable = action === 'enable';
-			options.disable = action === 'disable';
-			options.status = action === 'status';
-			params.uuid = params.legacyUuid;
-			delete params.legacyUuid;
-		}
 
 		const balena = getBalenaSdk();
 

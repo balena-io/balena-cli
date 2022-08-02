@@ -22,9 +22,8 @@ import type { Release } from 'balena-sdk';
 import Command from '../../command';
 import * as cf from '../../utils/common-flags';
 import * as ca from '../../utils/common-args';
-import { getBalenaSdk, getVisuals, stripIndent } from '../../utils/lazy';
+import { getBalenaSdk, stripIndent } from '../../utils/lazy';
 import { applicationIdInfo } from '../../utils/messages';
-import { isV14 } from '../../utils/version';
 import type { DataOutputOptions } from '../../framework';
 
 interface FlagsDef extends DataOutputOptions {
@@ -60,7 +59,7 @@ export default class FleetCmd extends Command {
 			default: false,
 			description: 'open fleet dashboard page',
 		}),
-		...(isV14() ? cf.dataOutputFlags : {}),
+		...cf.dataOutputFlags,
 	};
 
 	public static authenticated = true;
@@ -99,23 +98,10 @@ export default class FleetCmd extends Command {
 		application.device_type = application.is_for__device_type[0].slug;
 		application.commit = application.should_be_running__release[0]?.commit;
 
-		if (isV14()) {
-			await this.outputData(
-				application,
-				['app_name', 'id', 'device_type', 'slug', 'commit'],
-				options,
-			);
-		} else {
-			// Emulate table.vertical title output, but avoid uppercasing and inserting spaces
-			console.log(`== ${application.slug}`);
-			console.log(
-				getVisuals().table.vertical(application, [
-					'id',
-					'device_type',
-					'slug',
-					'commit',
-				]),
-			);
-		}
+		await this.outputData(
+			application,
+			['app_name', 'id', 'device_type', 'slug', 'commit'],
+			options,
+		);
 	}
 }

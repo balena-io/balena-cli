@@ -88,17 +88,14 @@ export default class DeviceMoveCmd extends Command {
 
 		const balena = getBalenaSdk();
 
-		const { tryAsInteger } = await import('../../utils/validation');
 		const { expandForAppNameAndCpuArch } = await import('../../utils/helpers');
 
-		// Parse ids string into array of correct types
-		const deviceIds: Array<string | number> = params.uuid
-			.split(',')
-			.map((id) => tryAsInteger(id));
+		// Split uuids string into array of uuids
+		const deviceUuids = params.uuid.split(',');
 
 		// Get devices
 		const devices = await Promise.all(
-			deviceIds.map(
+			deviceUuids.map(
 				(uuid) =>
 					balena.models.device.get(
 						uuid,
@@ -115,7 +112,7 @@ export default class DeviceMoveCmd extends Command {
 				: 'N/a';
 		}
 
-		// Disambiguate application (if is a number, it could either be an ID or a numerical name)
+		// Disambiguate application
 		const { getApplication } = await import('../../utils/sdk');
 
 		// Get destination application
@@ -124,7 +121,7 @@ export default class DeviceMoveCmd extends Command {
 			: await this.interactivelySelectApplication(balena, devices);
 
 		// Move each device
-		for (const uuid of deviceIds) {
+		for (const uuid of deviceUuids) {
 			try {
 				await balena.models.device.move(uuid, application.id);
 				console.info(`Device ${uuid} was moved to fleet ${application.slug}`);
