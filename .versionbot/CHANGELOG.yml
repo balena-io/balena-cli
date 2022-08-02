@@ -1,4 +1,110 @@
 - commits:
+    - subject: Drop undocumented support for numeric ids in balena device commands
+      hash: 8a7fbdb55dc669727dc97561b3e7ef1e7f20efb0
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Drop support for the deprecated `balena device public-url
+        <enable|disable|status> <uuid>` and related format
+      hash: b260f80bcce49bc39c69117d9f61728313541683
+      body: ""
+      footer:
+        Resolves: "#2501"
+        resolves: "#2501"
+        Change-type: major
+        change-type: major
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Drop support for numeric fleet id parameters from all commands
+      hash: 9ec37975f3a5f42ebb4e8c5eb8517a045e26e07a
+      body: ""
+      footer:
+        Resolves: "#2500"
+        resolves: "#2500"
+        Change-type: major
+        change-type: major
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: "fleet: Add `--filter`, `--no-header`, `--no-truncate`, and `--sort`
+        options"
+      hash: 3cb35ea3183643dd364a82bf485133013747d83a
+      body: ""
+      footer:
+        Resolves: "#2503"
+        resolves: "#2503"
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: "fleet: Add `--fields` and `--json` options"
+      hash: efe6fd22ce0495710dcac8b5b29c346f1d6bc5ef
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: "fleet: Use the oclif output formatter"
+      hash: 6ee8d8a8999e745f480f5fe6a99a41d0a68ea025
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: "config: Drop optional and ignored `--type` flag"
+      hash: c735f13636a10fc3f340787ce8cb2c9651eecad2
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Drop deprecated `--logs` flag
+      hash: edb0fdc3c1a7aec17e876dbac4ad9e86cff30917
+      body: ""
+      footer:
+        Resolves: "#2499"
+        resolves: "#2499"
+        Change-type: major
+        change-type: major
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: Drop support for open-balena-api < v0.131.0
+      hash: 14a07ac7f7e1a931691eff6cd3bcf03c34be230b
+      body: ""
+      footer:
+        Resolves: "#2502"
+        resolves: "#2502"
+        Change-type: major
+        change-type: major
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 14.0.0
+  title: "'Release v14'"
+  date: 2022-08-01T22:20:07.907Z
+- commits:
     - subject: Fix balena deploy missing dependency error
       hash: 73c487c2f5e67c92cd378c348405ad0d541aa6c8
       body: ""
