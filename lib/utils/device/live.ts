@@ -250,16 +250,15 @@ export class LivepushManager {
 			cwd: serviceContext,
 			followSymlinks: true,
 			ignoreInitial: true,
-			ignored: (filePath: string, stats: fs.Stats | undefined) => {
-				if (!stats) {
-					try {
-						// sync because chokidar defines a sync interface
-						stats = fs.lstatSync(filePath);
-					} catch (err) {
-						// OK: the file may have been deleted. See also:
-						// https://github.com/paulmillr/chokidar/blob/3.4.3/lib/fsevents-handler.js#L326-L328
-						// https://github.com/paulmillr/chokidar/blob/3.4.3/lib/nodefs-handler.js#L364
-					}
+			ignored: (filePath: string) => {
+				let stats: fs.Stats | undefined;
+				try {
+					// sync because chokidar defines a sync interface
+					stats = fs.lstatSync(filePath);
+				} catch (err) {
+					// OK: the file may have been deleted. See also:
+					// https://github.com/paulmillr/chokidar/blob/3.4.3/lib/fsevents-handler.js#L326-L328
+					// https://github.com/paulmillr/chokidar/blob/3.4.3/lib/nodefs-handler.js#L364
 				}
 				if (stats && !stats.isFile() && !stats.isSymbolicLink()) {
 					// never ignore directories for compatibility with

@@ -90,8 +90,8 @@
   "author": "Balena Inc. (https://balena.io/)",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=12.8.0 <13.0.0",
-    "npm": "<7.0.0"
+    "node": ">=14.0.0",
+    "npm": ">=8.0.0"
   },
   "husky": {
     "hooks": {
@@ -134,6 +134,7 @@
     "@types/global-agent": "^2.1.1",
     "@types/global-tunnel-ng": "^2.1.1",
     "@types/http-proxy": "^1.17.8",
+    "@types/inquirer": "^8.2.1",
     "@types/intercept-stdout": "^0.1.0",
     "@types/is-root": "^2.1.2",
     "@types/js-yaml": "^4.0.5",
@@ -197,12 +198,12 @@
     "@balena/compose": "^2.1.1",
     "@balena/dockerignore": "^1.0.2",
     "@balena/es-version": "^1.0.1",
+    "@oclif/color": "^1.0.1",
     "@oclif/command": "^1.8.16",
     "@resin.io/valid-email": "^0.1.0",
     "@sentry/node": "^6.16.1",
     "@types/fast-levenshtein": "0.0.1",
     "@types/update-notifier": "^4.1.1",
-    "JSONStream": "^1.0.3",
     "balena-config-json": "^4.2.0",
     "balena-device-init": "^6.0.0",
     "balena-errors": "^4.7.1",
@@ -244,6 +245,7 @@
     "is-elevated": "^3.0.0",
     "is-root": "^2.1.0",
     "js-yaml": "^4.1.0",
+    "JSONStream": "^1.0.3",
     "klaw": "^3.0.0",
     "livepush": "^3.5.1",
     "lodash": "^4.17.21",
