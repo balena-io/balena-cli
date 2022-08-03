@@ -1,4 +1,18 @@
 - commits:
+    - subject: fix support for Node > v12
+      hash: cd7dfbaaf4e452c70aad6f9b02959539532ffd48
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Joseph Kogut <joseph@balena.io>
+        signed-off-by: Joseph Kogut <joseph@balena.io>
+      author: Joseph Kogut
+      nested: []
+  version: 14.0.1
+  title: "'fix support for Node > v12'"
+  date: 2022-08-03T19:49:48.292Z
+- commits:
     - subject: Drop undocumented support for numeric ids in balena device commands
       hash: 8a7fbdb55dc669727dc97561b3e7ef1e7f20efb0
       body: ""
