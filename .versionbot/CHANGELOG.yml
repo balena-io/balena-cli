@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add device track command for pinning a device to the latest release or
+        a specific release
+      hash: cb26a736fc77da7f3571b998277f49956b961785
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 14.1.0
+  title: "'Add device track command'"
+  date: 2022-08-03T18:45:07.351Z
+- commits:
     - subject: Drop undocumented support for numeric ids in balena device commands
       hash: 8a7fbdb55dc669727dc97561b3e7ef1e7f20efb0
       body: ""
