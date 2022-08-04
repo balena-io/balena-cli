@@ -4595,7 +4595,7 @@
     "buffer-shims": {
       "version": "1.0.0",
       "resolved": "https://registry.npmjs.org/buffer-shims/-/buffer-shims-1.0.0.tgz",
-      "integrity": "sha512-Zy8ZXMyxIT6RMTeY7OP/bDndfj6bwCan7SS98CEndS6deHwWPpseeHlwarNcBim+etXnF9HBc1non5JgDaJU1g=="
+      "integrity": "sha1-mXjOMXOIxkmth5MCjDR37wRKi1E="
     },
     "buffers": {
       "version": "0.1.1",
@@ -11433,7 +11433,7 @@
       "integrity": "sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w=="
     },
     "multicast-dns": {
-      "version": "git+https://github.com/resin-io-modules/multicast-dns.git#db98d68b79bbefc936b6799de9de1038ba49f85d",
+      "version": "git+https://github.com/resin-io-modules/multicast-dns.git#a15c63464eb43e8925b187ed5cb9de6892e8aacc",
       "from": "git+https://github.com/resin-io-modules/multicast-dns.git#listen-on-all-interfaces",
       "requires": {
         "dns-packet": "^1.0.1",
@@ -16888,7 +16888,7 @@
         "bluebird": {
           "version": "3.4.7",
           "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-3.4.7.tgz",
-          "integrity": "sha512-iD3898SR7sWVRHbiQv+sHUtHnMvC1o3nW5rAcqnq3uOn07DSAppZYUkIGslDz6gXC7HfunPe7YVBgoEJASPcHA=="
+          "integrity": "sha1-9y12C+Cbf3bQjtj66Ysomo0F+rM="
         },
         "process-nextick-args": {
           "version": "1.0.7",
