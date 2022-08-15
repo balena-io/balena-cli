@@ -26,26 +26,29 @@ interface FlagsDef {
 }
 
 interface ArgsDef {
-	uuid: string;
+	slug: string;
 }
 
-export default class DeviceTrackFleetCmd extends Command {
+export default class FleetTrackLatestCmd extends Command {
 	public static description = stripIndent`
-		Make a device track the fleet's pinned release.
+		Make this fleet track the latest release.
 
-		Make a device track the fleet's pinned release.
+		Make this fleet track the latest release.
 		`;
-	public static examples = ['$ balena device track-fleet 7cf02a6'];
+	public static examples = [
+		'$ balena fleet track-latest myorg/myfleet',
+		'$ balena fleet track-latest myfleet',
+	];
 
 	public static args: Array<IArg<any>> = [
 		{
-			name: 'uuid',
-			description: "the uuid of the device to make track the fleet's release",
+			name: 'slug',
+			description: 'the slug of the fleet to make track the latest release',
 			required: true,
 		},
 	];
 
-	public static usage = 'device track-fleet <uuid>';
+	public static usage = 'fleet track-latest <slug>';
 
 	public static flags: flags.Input<FlagsDef> = {
 		help: cf.help,
@@ -54,10 +57,10 @@ export default class DeviceTrackFleetCmd extends Command {
 	public static authenticated = true;
 
 	public async run() {
-		const { args: params } = this.parse<FlagsDef, ArgsDef>(DeviceTrackFleetCmd);
+		const { args: params } = this.parse<FlagsDef, ArgsDef>(FleetTrackLatestCmd);
 
 		const balena = getBalenaSdk();
 
-		await balena.models.device.trackApplicationRelease(params.uuid);
+		await balena.models.application.trackLatestRelease(params.slug);
 	}
 }
