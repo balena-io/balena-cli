@@ -15,7 +15,7 @@ _balena() {
   device_cmds=( deactivate identify init local-mode move os-update pin public-url purge reboot register rename restart rm shutdown track-fleet )
   devices_cmds=( supported )
   env_cmds=( add rename rm )
-  fleet_cmds=( create purge rename restart rm )
+  fleet_cmds=( create pin purge rename restart rm )
   internal_cmds=( osinit )
   key_cmds=( add rm )
   local_cmds=( configure flash )
