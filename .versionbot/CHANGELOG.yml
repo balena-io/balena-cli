@@ -1,4 +1,28 @@
 - commits:
+    - subject: "fleet: Add `track-latest` command for tracking the latest release"
+      hash: 97eb107de46056ec30bd39827bdea65dd1ba8d02
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: "fleet: Add `pin` command for pinning fleets to a specific release"
+      hash: def205f1fbd214e9bff091822adc30a8e9f50033
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 14.2.0
+  title: "'Add fleet  and  commands'"
+  date: 2022-08-16T19:41:49.915Z
+- commits:
     - subject: Add device track command for pinning a device to the latest release or
         a specific release
       hash: cb26a736fc77da7f3571b998277f49956b961785
