@@ -1,4 +1,29 @@
 - commits:
+    - subject: "release: Add `validate` command for validating releases"
+      hash: 934c3ddf3886f0456be7c17bc3e131a2a06c60b1
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+    - subject: "release: Add `invalidate` command for invalidating releases"
+      hash: 66e6daf78c5e85a9af518aeec553640fbc1830f7
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 14.3.0
+  title: "'release: Add  and  commands for invalidating and validating releases
+    (respectively)'"
+  date: 2022-08-17T11:37:12.623Z
+- commits:
     - subject: "fleet: Add `track-latest` command for tracking the latest release"
       hash: 97eb107de46056ec30bd39827bdea65dd1ba8d02
       body: ""
