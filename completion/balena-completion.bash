@@ -19,7 +19,7 @@ _balena_complete()
   key_cmds="add rm"
   local_cmds="configure flash"
   os_cmds="build-config configure download initialize versions"
-  release_cmds="finalize"
+  release_cmds="finalize invalidate validate"
   tag_cmds="rm set"
 
 
