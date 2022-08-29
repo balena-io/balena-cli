@@ -11,7 +11,7 @@ _balena_complete()
   # Sub-completions
   api_key_cmds="generate"
   config_cmds="generate inject read reconfigure write"
-  device_cmds="deactivate identify init local-mode move os-update pin public-url purge reboot register rename restart rm shutdown track-fleet"
+  device_cmds="deactivate identify init local-mode move os-update pin public-url purge reboot register rename restart rm services shutdown track-fleet"
   devices_cmds="supported"
   env_cmds="add rename rm"
   fleet_cmds="create pin purge rename restart rm track-latest"
