@@ -1,4 +1,19 @@
 - commits:
+    - subject: "device: Add `services` command for seeing info about services running
+        on a device"
+      hash: 70d64ac7bf8de894bb6534d8a84822b5af17ee48
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 14.4.0
+  title: "'device: Add  command for seeing info about services running on a device'"
+  date: 2022-08-29T19:56:56.289Z
+- commits:
     - subject: "release: Add `validate` command for validating releases"
       hash: 934c3ddf3886f0456be7c17bc3e131a2a06c60b1
       body: ""
