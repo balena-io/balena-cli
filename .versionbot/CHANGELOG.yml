@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add unified OS versions in the examples of the device & os commands
+      hash: a117dc0382c7644b23b00940229e0794d7249b59
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 14.3.1
+  title: "'Add unified OS versions in the examples of the device & os commands'"
+  date: 2022-09-06T10:29:09.912Z
+- commits:
     - subject: "release: Add `validate` command for validating releases"
       hash: 934c3ddf3886f0456be7c17bc3e131a2a06c60b1
       body: ""
