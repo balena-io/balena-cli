@@ -801,6 +801,7 @@ Examples:
 
 	$ balena device init
 	$ balena device init -f myorg/myfleet
+	$ balena device init --fleet myFleet --os-version 2.101.7 --drive /dev/disk5 --config config.json --yes
 	$ balena device init --fleet myFleet --os-version 2.83.21+rev1.prod --drive /dev/disk5 --config config.json --yes
 
 ### Options
@@ -922,6 +923,7 @@ Requires balenaCloud; will not work with openBalena or standalone balenaOS.
 Examples:
 
 	$ balena device os-update 23c73a1
+	$ balena device os-update 23c73a1 --version 2.101.7
 	$ balena device os-update 23c73a1 --version 2.31.0+rev1.prod
 
 ### Arguments
@@ -2065,9 +2067,11 @@ Development images can be selected by appending `.dev` to the version.
 Examples:
 
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.101.7
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2022.7.0
+	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^2.90.0
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2.60.1+rev1.dev
-	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version ^2.60.0
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version 2021.10.2.prod
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version latest
 	$ balena os download raspberrypi3 -o ../foo/bar/raspberry-pi.img --version default
