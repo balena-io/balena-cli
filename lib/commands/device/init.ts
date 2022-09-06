@@ -70,6 +70,7 @@ export default class DeviceInitCmd extends Command {
 	public static examples = [
 		'$ balena device init',
 		'$ balena device init -f myorg/myfleet',
+		'$ balena device init --fleet myFleet --os-version 2.101.7 --drive /dev/disk5 --config config.json --yes',
 		'$ balena device init --fleet myFleet --os-version 2.83.21+rev1.prod --drive /dev/disk5 --config config.json --yes',
 	];
 

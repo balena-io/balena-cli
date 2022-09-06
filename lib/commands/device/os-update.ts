@@ -46,6 +46,7 @@ export default class DeviceOsUpdateCmd extends Command {
 		`;
 	public static examples = [
 		'$ balena device os-update 23c73a1',
+		'$ balena device os-update 23c73a1 --version 2.101.7',
 		'$ balena device os-update 23c73a1 --version 2.31.0+rev1.prod',
 	];
 
