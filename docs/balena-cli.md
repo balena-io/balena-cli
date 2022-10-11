@@ -1037,6 +1037,7 @@ Examples:
 	$ balena device register MyFleet
 	$ balena device register MyFleet --uuid <uuid>
 	$ balena device register myorg/myfleet --uuid <uuid>
+	$ balena device register myorg/myfleet --uuid <uuid> --deviceType <deviceTypeSlug>
 
 ### Arguments
 
@@ -1049,6 +1050,10 @@ fleet name or slug (preferred)
 #### -u, --uuid UUID
 
 custom uuid
+
+#### --deviceType DEVICETYPE
+
+device type slug (run 'balena devices supported' for possible values)
 
 ## device rename &#60;uuid&#62; [newName]
 
