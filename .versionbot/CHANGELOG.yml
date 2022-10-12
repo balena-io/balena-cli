@@ -1,4 +1,17 @@
 - commits:
+    - subject: Adding .nvmrc so we can use nvm use instead of hunting for version. We
+        should move this repo to node v16 at least!
+      hash: fd5bacf19bea6dd21dd90b224d47f63eeeb7c567
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: zoobot
+      nested: []
+  version: 14.4.2
+  title: "'Adding .nvmrc so we can use nvm use instead of hunting for version'"
+  date: 2022-10-12T15:53:58.518Z
+- commits:
     - subject: "balena os initialize: Clarify that the process includes flashing"
       hash: e46902e6839eeb2f59f445aeef94500bd34b8c14
       body: ""
