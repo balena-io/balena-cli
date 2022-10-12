@@ -2261,7 +2261,9 @@ expiry date assigned to generated provisioning api key (format: YYYY-MM-DD)
 ## os initialize &#60;image&#62;
 
 Initialize an os image for a device with a previously
-		configured operating system image.
+		configured operating system image and flash the
+		an external storage drive or the device's storage
+		medium depending on the device type.
 		
 
 Note: Initializing the device may ask for administrative permissions
