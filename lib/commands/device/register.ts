@@ -25,6 +25,7 @@ import { applicationIdInfo } from '../../utils/messages';
 
 interface FlagsDef {
 	uuid?: string;
+	deviceType?: string;
 	help: void;
 }
 
@@ -47,6 +48,7 @@ export default class DeviceRegisterCmd extends Command {
 		'$ balena device register MyFleet',
 		'$ balena device register MyFleet --uuid <uuid>',
 		'$ balena device register myorg/myfleet --uuid <uuid>',
+		'$ balena device register myorg/myfleet --uuid <uuid> --deviceType <deviceTypeSlug>',
 	];
 
 	public static args: Array<IArg<any>> = [ca.fleetRequired];
@@ -57,6 +59,10 @@ export default class DeviceRegisterCmd extends Command {
 		uuid: flags.string({
 			description: 'custom uuid',
 			char: 'u',
+		}),
+		deviceType: flags.string({
+			description:
+				"device type slug (run 'balena devices supported' for possible values)",
 		}),
 		help: cf.help,
 	};
@@ -77,7 +83,11 @@ export default class DeviceRegisterCmd extends Command {
 
 		console.info(`Registering to ${application.slug}: ${uuid}`);
 
-		const result = await balena.models.device.register(application.id, uuid);
+		const result = await balena.models.device.register(
+			application.id,
+			uuid,
+			options.deviceType,
+		);
 
 		return result && result.uuid;
 	}
